@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 #import <tkobjc/global.h>
-#import <Tk.h>
+#import <TkInterp.h>
 #import <tkobjc/Frame.h>
 
 @implementation Frame

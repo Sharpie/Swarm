@@ -3,12 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-// TkExtra: add more initializations to Tk.h
+// TkExtra: add more initializations to TkInterp.h
 
-#import <Tk.h>
+#import <TkInterp.h>
 #import <tk.h>
 
-@interface TkExtra : Tk {
+@interface TkExtra : Tk
+{
 }
 - (const char *)getBltVersion;
 - (BOOL)newBLTp;

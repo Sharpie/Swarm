@@ -5,7 +5,7 @@
 
 #import <tkobjc/global.h>
 #import <tkobjc/XColormap.h>
-#import <Tk.h>
+#import <TkInterp.h>
 
 @implementation XColormap
 // create a new colourmap. Right now we use the Tk widget name

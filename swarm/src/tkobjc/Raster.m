@@ -17,7 +17,7 @@
 
 #import <tkobjc/global.h>
 #import <tclObjc.h>
-#import <Tk.h>
+#import <TkInterp.h>
 #import <tkobjc/Raster.h>
 
 @implementation Raster

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #import <tkobjc/global.h>
-#import <Tk.h>
+#import <TkInterp.h>
 #import <tkobjc/Form.h>
 #import <tkobjc/Label.h>
 #import <tkobjc/Entry.h>

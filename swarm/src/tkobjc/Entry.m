@@ -10,7 +10,7 @@
 
 #import <tkobjc/global.h>
 #import <tclObjc.h>
-#import <Tk.h>
+#import <TkInterp.h>
 #import <tkobjc/Entry.h>
 
 @implementation Entry
