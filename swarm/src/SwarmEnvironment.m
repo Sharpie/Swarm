@@ -106,8 +106,8 @@ PHASE(Creating)
         swarm_directory_java_associate_objects (nextPhase);
         (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);
       }
-#endif
   }
+#endif
   return self;
 }
 
