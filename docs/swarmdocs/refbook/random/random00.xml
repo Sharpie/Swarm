@@ -1,10 +1,8 @@
-<PARTINTRO>
-  <title>Random Introduction</title>
+<partintro>  <title>Random Introduction</title>
 
-  <SIDEBAR>
-    <TITLE>Overview</TITLE>
+  <sidebar>    <title>Overview</title>
  
-    <PARA>First, a few thoughts on random number generation. It's hard
+    <para>First, a few thoughts on random number generation. It's hard
       to do right! The root cause, of course, is that computer
       algorithms themselves are not truly random. (Hence this library
       contains pseudo-random generators only.)
@@ -22,29 +20,29 @@
       this realm, but too old to describe most of the particular
       generators used here, many of which are drawn from recent
       literature.
-    </PARA>
+    </para>
 
-  </SIDEBAR>
+  </sidebar>
 
-  <SECT1 xreflabel="Random Dependencies" ID="SWARM.RANDOM.SGML.SECT1.DEPEND">
-        <TITLE>Dependencies</TITLE> 
+  <sect1 xreflabel="Random Dependencies" id="SWARM.RANDOM.SGML.SECT1.DEPEND">        <title>Dependencies</title> 
 
-    <PARA>Following are the other header files imported by
-    &lt;random.h&gt;:</PARA>
+    <para>Following are the other header files imported by
+    random.h:</para>
 
-<PROGRAMLISTING>
+<programlisting>
 #import &lt;objectbase.h&gt;
 #import &lt;random/generators.h&gt;
 #import &lt;random/distributions.h&gt;
 #import &lt;random/randomdefs.h&gt;
-#import &lt;random/randomvars.h&gt;</PROGRAMLISTING>
+#import &lt;random/randomvars.h&gt;</programlisting>
 
-    <PARA>The <EMPHASIS>objectbase</EMPHASIS> library interface is
+
+    <para>The <emphasis>objectbase</emphasis> library interface is
       included to provide the basic object
-      support. <FILENAME>randomdefs.h</FILENAME> contains some C
-      preprocessor macros and typedefs used in the library.</PARA>
+      support. <filename>randomdefs.h</filename> contains some C
+      preprocessor macros and typedefs used in the library.</para>
 
-    <PARA>This reference guide contains the object definitions
+    <para>This reference guide contains the object definitions
       for generators and distributions (see the list above) 
       and also encodes the
       inheritance structure through the "Protocols that this protocol
@@ -54,7 +52,7 @@
       implements. (You may want to review the section on Protocols in
       the Objective-C book here!)
 
-    </PARA>
+    </para>
 
     <para>In the protocols described, any protocol that ultimately
       inherits from CREATABLE defines an object that you can use in
@@ -68,113 +66,99 @@
     <para>All generators and distributions ultimately inherit from
       SwarmObject.</para>
       
-  </SECT1>
+  </sect1>
 
-  <SECT1 xreflabel="Random Compatibility" ID="SWARM.RANDOM.SGML.SECT1.COMPAT">
-        <TITLE>Compatibility</TITLE>
+  <sect1 xreflabel="Random Compatibility" id="SWARM.RANDOM.SGML.SECT1.COMPAT">        <title>Compatibility</title>
 
-    <ITEMIZEDLIST>
-      <LISTITEM>
-        
-        <FORMALPARA>
-          <TITLE>1.0.2 -&gt; 1.0.3</TITLE>
+    <itemizedlist>      <listitem>        
+        <formalpara>          <title>1.0.2 - 1.0.3</title>
           
-          <PARA><EMPHASIS>Note:</EMPHASIS> The new random library does
+          <para><emphasis>Note:</emphasis> The new random library does
             not work in the same way as the old one. This means that
             some applications that used the random library provided
             with the 1.0.2 release will be
-            <EMPHASIS>broken</EMPHASIS>.  However, porting these
+            <emphasis>broken</emphasis>.  However, porting these
             applications to the new random library will be fairly easy
             since large efforts were made to adhere to the standard
             set with the last version and some backwards compatibility
             hooks were incorporated.
-          </PARA>
-        </FORMALPARA>
-      </LISTITEM>
-      <LISTITEM>
-        
-        <FORMALPARA>
-          <TITLE>1.0, 1.1, 1.2, 1.3, 1.3.1, 1.4</TITLE>
+          </para>
+        </formalpara>
+      </listitem>
+      <listitem>        
+        <formalpara>          <title>1.0, 1.1, 1.2, 1.3, 1.3.1, 1.4</title>
           
-          <PARA>There were no major compatibility issues in these
+          <para>There were no major compatibility issues in these
             releases.
 
-          </PARA>
-        </FORMALPARA>
-      </LISTITEM>
-    </ITEMIZEDLIST>
+          </para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
     
-  </SECT1>
+  </sect1>
 
-  <SECT1 xreflabel="Random Usage Guide" ID="SWARM.RANDOM.SGML.SECT1.USAGE">
-        <TITLE>Usage Guide</TITLE>
+  <sect1 xreflabel="Random Usage Guide" id="SWARM.RANDOM.SGML.SECT1.USAGE">        <title>Usage Guide</title>
     
-    <SECT2>
-      <TITLE>Overview</TITLE>
+    <sect2>      <title>Overview</title>
 
-      <PARA>The <EMPHASIS>random</EMPHASIS> library contains two kinds
-        of objects, the <EMPHASIS>generators</EMPHASIS> which implement
+      <para>The <emphasis>random</emphasis> library contains two kinds
+        of objects, the <emphasis>generators</emphasis> which implement
         different pseudo-random-number algorithms, and the 
-        <EMPHASIS>distributions</EMPHASIS> which transform the (uniform)
+        <emphasis>distributions</emphasis> which transform the (uniform)
         output from the generators into the desired simulated statistical
         distributions. (The Swarm random library does not 
-        implement any <EMPHASIS>true</EMPHASIS> random number generators 
+        implement any <emphasis>true</emphasis> random number generators 
         at this time.)
-      </PARA>
+      </para>
 
-    </SECT2>
+    </sect2>
 
-    <SECT2>
-      <TITLE>Usage Guide for Beginners, Advanced Usage Guide and
-        Guide to Generators and Distributions</TITLE>
+    <sect2>      <title>Usage Guide for Beginners, Advanced Usage Guide and
+        Guide to Generators and Distributions</title>
        
       <para>All these sections have been relocated to the
-        &userbook-randomapp; in the new &userbook;</para>
+         in the new </para>
 
-    </SECT2>
+    </sect2>
 
-  </SECT1>
+  </sect1>
 
-  <SECT1 xreflabel="Random Subclassing Reference" ID="SWARM.RANDOM.SGML.SECT1.SUBCLASS">
-        <TITLE>Subclassing Reference</TITLE>
+  <sect1 xreflabel="Random Subclassing Reference" id="SWARM.RANDOM.SGML.SECT1.SUBCLASS">        <title>Subclassing Reference</title>
 
-    <PARA>Random library objects do not do anything exotic during the
+    <para>Random library objects do not do anything exotic during the
       create phase. The competent programmer may subclass these objects
       in the normal manner.
-    </PARA>
+    </para>
 
-  </SECT1>
+  </sect1>
 
-  <SECT1 xreflabel="Random Implementation Notes" ID="SWARM.RANDOM.SGML.SECT1.IMPL">
-        <TITLE>Implementation Notes</TITLE>
+  <sect1 xreflabel="Random Implementation Notes" id="SWARM.RANDOM.SGML.SECT1.IMPL">        <title>Implementation Notes</title>
 
     <para>This section provides implementation details for the current
       version of the random library.
     </para>
 
-     &README.Random-0.8.sgml;
-     &README.Generators-0.8.sgml;
-     &README.Distributions-0.8.sgml;
+     &README.Random-0.8.xml;
+     &README.Generators-0.8.xml;
+     &README.Distributions-0.8.xml;
 
-    <sect2>
-      <title>Programming yet to do</title>
+    <sect2>      <title>Programming yet to do</title>
 
       <para>Like many Open Source projects, this random-number library
         is a work in process. Further developments still on the to-do
         list are detailed below.
       </para>
       
-      &Whats-Left-ToDo-0.8.sgml;
+            &Whats-Left-ToDo-0.8.xml;
 
     </sect2>
 
-  </SECT1>
+  </sect1>
 
-
-</PARTINTRO>
-
+</partintro>
 <!--
 Local Variables:
-sgml-parent-document:("randomcont.sgml" "PARTINTRO")
-End:
+sgml-parent-document:("randomcont.xml" "partintro")
+end:
 -->

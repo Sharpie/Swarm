@@ -1,0 +1,19 @@
+<reference id="SWARM.RANDOM.SGML.REFERENCE">
+  &randommeta.xml;
+  
+  <title>Random Library</title>
+  <titleabbrev>Random</titleabbrev>
+  
+  <!-- partintro -->
+  &random00.xml;
+  
+  <!-- actual reference content -->
+  &randompages.xml;
+
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+end:
+-->

@@ -1,19 +1,17 @@
 <referenceinfo>
+  <title>Random Library</title>
 
-  <TITLE>Random Library</TITLE>
+  <abstract>    <title>Documentation and Implementation Status</title>
 
-  <ABSTRACT>
-    <TITLE>Documentation and Implementation Status</TITLE>
-
-    <PARA>This is version 0.8 of Random. It was donated by Sven
+    <para>This is version 0.8 of Random. It was donated by Sven
       Thommesen.  Version 0.6 was a reimplementation of most of Nelson
       Minar's original random with many changes and a new
       interface. Versions 0.7 and 0.75 added many more generators and
       distributions and changed the interface somewhat. This version
       cleaned up the protocol interface definitions and fixed a few
-      small bugs. The documentation was also improved a bit.</PARA>
+      small bugs. The documentation was also improved a bit.</para>
 
-    <PARA>We are reasonably sure that the generators and distributions
+    <para>We are reasonably sure that the generators and distributions
       included here have been correctly implemented. The generators
       have been subjected to a battery of statistical tests, and the
       results are described in the documentation. The distributions
@@ -21,21 +19,15 @@
       pseudo-random number generation library, the results obtained
       should be examined closely. A set of test programs which 
       exercises the objects is available on the Swarm web site, and
-      the statistical tests are also available on the web.</PARA>
+      the statistical tests are also available on the web.</para>
     
-  </ABSTRACT>
+  </abstract>
 
-&randomrevhistory.sgml;
-  
-</referenceinfo>
+&randomrevhistory.xml;
 
+  </referenceinfo>
 <!--
 Local Variables:
-sgml-parent-document:("randomcont.sgml" "REFERENCEINFO")
+sgml-parent-document:("randomcont.xml" "referenceinfo")
 End:
 -->
-
-
-
-
-
