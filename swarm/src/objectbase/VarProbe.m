@@ -158,18 +158,23 @@ PHASE(Creating)
           
           if (objcArraySubtype == _C_UNION_B 
               || objcArraySubtype == _C_STRUCT_B)
-            raiseEvent (NotImplemented,
-                        "Probing of unions and structs not supported.\n"
-                        "[class: `%s', variable: `%s']\n",
-                        probedClass->name, probedVariable);
-
-          objc_process_array (probedType,
-                              setup_array,
-                              NULL, NULL,
-                              NULL, NULL,
-                              NULL,
-                              NULL,
-                              NULL);
+            {
+              rank = 0;
+              dims = NULL;
+              baseType = fcall_type_void;
+              raiseEvent (WarningMessage,
+                          "Probing of unions and structs not supported.\n"
+                          "[class: `%s', variable: `%s']\n",
+                          probedClass->name, probedVariable);
+            }
+          else
+            objc_process_array (probedType,
+                                setup_array,
+                                NULL, NULL,
+                                NULL, NULL,
+                                NULL,
+                                NULL,
+                                NULL);
         }
       return self;
     }

@@ -2,7 +2,7 @@
 
 	* Makefile.am (REVISION): Bump.  Version 2.1.
 
-	* VarProbe.m ([VarProbe -createEnd]): Throw an exception if
+	* VarProbe.m ([VarProbe -createEnd]): Print a warning if
 	probe attempted on array of structs or unions.
 
 2000-01-23    <mgd@nest.swarm.org>
