@@ -1,5 +1,7 @@
 2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* Raster.[mh]: Sync up void returns with ZoomRaster.
+
 	* Graph.[hm] ([Graph -setTitle:], [Graph -setAxisLabelsX:Y:]): 
 	Make return type be an object.
 

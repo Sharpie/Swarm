@@ -122,67 +122,52 @@ PHASE(Using)
 
 // new methods
 
-- erase
+- (void)erase
 {
   tkobjc_raster_erase (self);
-  return self;
 }
 
 // draw a point on the window.
-- drawPointX: (int)x Y: (int)y Color: (Color)c
+- (void)drawPointX: (int)x Y: (int)y Color: (Color)c
 {
   tkobjc_raster_drawPoint (self, x, y, c);
-
-  return self;
 }
 
 // draw an arbitrary object: we just call the "drawOn" method in
 // the object we're given.
-- draw: (id <Drawer>)drawer X: (int)x Y: (int)y
+- (void)draw: (id <Drawer>)drawer X: (int)x Y: (int)y
 {
   [drawer drawX: x Y: y];
-
-  return self;
 }
 
 // draw a rectangle.
-- fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
+- (void)fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
 {
   tkobjc_raster_fillRectangle (self, x0, y0, x1 - x0, y1 - y0, c);
-
-  return self;
 }
 
-- ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-      Width: (unsigned)penWidth Color: (Color)c
+- (void)ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+            Width: (unsigned)penWidth Color: (Color)c
 {
   tkobjc_raster_ellipse (self, x0, y0, x1 - x0, y1 - y0, penWidth, c);
-
-  return self;
 }
 
-- lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-   Width: (unsigned)penWidth Color: (Color)c
+- (void)lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+         Width: (unsigned)penWidth Color: (Color)c
 {
   tkobjc_raster_line (self, x0, y0, x1, y1, penWidth, c);
-
-  return self;
 }
 
-- rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-        Width: (unsigned)penWidth Color: (Color)c
+- (void)rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+              Width: (unsigned)penWidth Color: (Color)c
 {
   tkobjc_raster_rectangle (self, x0, y0, x1 - x0, y1 - y0, penWidth, c);
-  
-  return self;
 }
 
 // copy the pixmap onto the X window.
-- drawSelf
+- (void)drawSelf
 {
   tkobjc_raster_flush (self);
-
-  return self;
 }
 
 // if a client is registered, then the specified selector is called with
