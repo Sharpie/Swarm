@@ -33,6 +33,14 @@ Boston, MA 02111-1307, USA.  */
 #include <stdio.h>
 #include <stdarg.h>
 
+#ifndef externobjcvar
+#ifdef __CYGWIN__
+#define externobjcvar extern __attribute__ ((dllimport))
+#else
+#define externobjcvar extern
+#endif
+#endif
+
 /* For functions which return Method_t */
 #define METHOD_NULL	(Method_t)0
                                                 /* Boolean typedefs */
@@ -96,10 +104,10 @@ struct objc_method_description
 ** The third parameter is a format string in the printf style.
 ** The fourth parameter is a variable list of arguments.
 */
-extern void objc_error(id object, int code, const char* fmt, ...);
-extern void objc_verror(id object, int code, const char* fmt, va_list ap);
-typedef BOOL (*objc_error_handler)(id, int code, const char *fmt, va_list ap);
-objc_error_handler objc_set_error_handler(objc_error_handler func);
+extern void objc_error (id object, int code, const char* fmt, ...);
+extern void objc_verror (id object, int code, const char* fmt, va_list ap);
+typedef BOOL (*objc_error_handler) (id, int code, const char *fmt, va_list ap);
+objc_error_handler objc_set_error_handler (objc_error_handler func);
 
 /*
 ** Error codes
@@ -263,12 +271,12 @@ struct objc_protocol_list {
 ** classes
 */
 #ifndef HOST_BITS_PER_LONG
-#define HOST_BITS_PER_LONG  (sizeof(long)*8)
+#define HOST_BITS_PER_LONG  (sizeof (long) * 8)
 #endif 
 
 #define __CLS_INFO(cls) ((cls)->info)
-#define __CLS_ISINFO(cls, mask) ((__CLS_INFO(cls)&mask)==mask)
-#define __CLS_SETINFO(cls, mask) (__CLS_INFO(cls) |= mask)
+#define __CLS_ISINFO(cls, mask) ((__CLS_INFO (cls) & mask) == mask)
+#define __CLS_SETINFO(cls, mask) (__CLS_INFO (cls) |= mask)
 
 /* The structure is of type MetaClass */
 #define _CLS_META 0x2L

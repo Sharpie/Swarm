@@ -1,6 +1,7 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* objc-api.h: Use `externobjcvar' for external variables.
+	* objc-api.h: Use `externobjcvar' for external variables, 
+	providing a default import if not set.
 	Reformatting throughout.
 	Remove objc_trace variable (not used).
 
