@@ -23,7 +23,9 @@
 #import <tkobjc/Widget.h>
 #import <tkobjc/Colormap.h>
 #import <tkobjc/XDrawer.h>
+#ifndef _WIN32
 #import <tkobjc/XPixmap.h>
+#endif
 #import <tkobjc/ZoomRaster.h>
 #import <tkobjc/Canvas.h>
 #import <tkobjc/ProbeCanvas.h>
