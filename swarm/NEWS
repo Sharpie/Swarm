@@ -138,6 +138,14 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 **** C[24]LCGXgen
 ***** +create:setA:setv:setw: renamed to +create:setA:setV:setW:.
 
+*** gui / tkobjc
+**** Histogram
+***** -setNumBins: renamed to setBinCount:.
+
+*** analysis
+**** EZBin
+***** -setBinNum: renamed to setBinCount:.
+
 *** simtools
 **** AppendFile, InFile, OutFile
 ***** +create:withName: renamed to +create:setName:.
