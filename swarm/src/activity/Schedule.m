@@ -14,6 +14,11 @@ Library:      activity
 #import <defobj/defalloc.h>
 #import <activity/classes.h>
 #include <misc.h> // abort
+
+#import <defobj/macros.h>
+#import <collections/macros.h>
+#import <activity/macros.h>
+
 #define FAST
 
 @implementation Schedule_c
@@ -179,7 +184,7 @@ PHASE(Using)
   // create merge action for use by swarm in merging schedule subactivities
 
   newIndex = newActivity->currentIndex;
-  mergeAction = [swarmZone allocIVarsComponent: id_ActionMerge_c];
+  mergeAction = ALLOCIVARSCOMPONENT (swarmZone, id_ActionMerge_c);
   setMappedAlloc (mergeAction);
   mergeAction->subactivity = newActivity;
   mergeAction->collectionOfActions = self;
@@ -222,7 +227,7 @@ createGroup (Schedule_c *self)
   ((Collection_any *) newGroup)->bits |= getBit (self->bits, BitRandomized);
   ((Collection_any *) newGroup)->bits |= getBit (self->bits, BitConcurrent);
 
-  newAction = [zone allocIVarsComponent: id_ActionConcurrent_c];
+  newAction = ALLOCIVARSCOMPONENT (zone, id_ActionConcurrent_c);
   setMappedAlloc (newAction);
   newAction->owner = (id) self;
   newAction->concurrentGroup = (id) newGroup;
@@ -283,7 +288,7 @@ _update_mergeSchedules (Schedule_c *self,
 		  break;
 		}
 	    }
-          [index drop];
+          DROP (index);
 	} 
       else 
         mergeAction = [mergeSchedule removeKey: (id) oldTime];     
@@ -294,13 +299,13 @@ _update_mergeSchedules (Schedule_c *self,
 static void
 ensureLeadingMerge (Schedule_c *self, id <Index> index, timeval_t tVal)
 {
-  if (![index prev])
+  if (!MAP_INDEX_PREV (index))
     {
       id indexrefs;
       ScheduleActivity_c *activity;
 
-      indexrefs = [self->activityRefs begin: scratchZone];
-      [indexrefs setLoc: Start];
+      indexrefs = MLINK_BEGIN (self->activityRefs, scratchZone);
+      MLINK_INDEX_SETLOC (indexrefs, Start);
       activity = [indexrefs next];
       
       while (activity)
@@ -310,7 +315,7 @@ ensureLeadingMerge (Schedule_c *self, id <Index> index, timeval_t tVal)
           Activity_c *swarmActivity;
           
           scheduleIndex = activity->currentIndex;
-          [scheduleIndex setLoc: Start];
+          MAP_INDEX_SETLOC (scheduleIndex, Start);
           scheduleIndex->currentAction = 0; 
           scheduleIndex->currentTime = tVal;
           if (scheduleIndex->startTime > tVal)
@@ -327,7 +332,7 @@ ensureLeadingMerge (Schedule_c *self, id <Index> index, timeval_t tVal)
             }
           activity = [indexrefs next];
         }
-      [indexrefs drop];
+      DROP (indexrefs);
     }
 }
   
@@ -353,7 +358,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   
   anAction->owner = (id) self;
   memptr = &anAction;
-  newKey = [self at: (id) tVal memberSlot: &memptr];
+  newKey = MAP_AT_MEMBERSLOT (self, (id) tVal, &memptr);
   
   // if no previous action at key, then return unless singleton group required 
   if (newKey) 
@@ -361,10 +366,10 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
       if (self->activityRefs
           && _activity_current && getCurrentTime () <= tVal) 
 	{
-          id index = [self createIndex: scratchZone fromMember: anAction];
+          id index = MAP_CREATEINDEX_FROMMEMBER (self, getCZone (getZone (self)), anAction);
           id successor_action;
-          
-          successor_action = [index next];
+
+          successor_action = MAP_INDEX_NEXT (index);
           // Successor action is used for "adjacency test": this
           // action is the successor of action that was just added to
           // the schedule.  If successor action is equal to the action
@@ -383,8 +388,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
               ScheduleActivity_c *activity;
               
               oldTime = (timeval_t) [index getKey];		   
-              indexrefs = [self->activityRefs begin: scratchZone];
-              [indexrefs setLoc: Start];
+              indexrefs = MLINK_BEGIN (self->activityRefs, scratchZone);
+              MLINK_INDEX_SETLOC (indexrefs, Start);
               activity = [indexrefs next];
               
               while (activity)
@@ -405,10 +410,11 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
                       // faster way to deal with this would be:
                       // scheduleIndex->position++;
                       
-                      [scheduleIndex setLoc: Start];
+                      MAP_INDEX_SETLOC (scheduleIndex, Start);
                       [scheduleIndex findNext: successor_action];
                       
-                      scheduleIndex->currentAction = [scheduleIndex prev];
+                      scheduleIndex->currentAction =
+			MAP_INDEX_PREV (scheduleIndex);
                       scheduleIndex->currentTime = tVal;
                       _update_mergeSchedules (self,
                                               activity->swarmActivity,
@@ -416,14 +422,14 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
                     }
                   activity = [indexrefs next];
                 }
-              [indexrefs drop];
+              DROP (indexrefs);
             }
           else
             {
-              [index prev];
+              MAP_INDEX_PREV (index);
               ensureLeadingMerge (self, index, tVal);
             }
-          [index drop];
+          DROP (index);
 	}
       if (!(self->bits & BitSingletonGroups))
 	return;
@@ -438,7 +444,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 	  existingGroup =
 	    (id) ((ActionConcurrent_c *) existingAction)->concurrentGroup;
 	  anAction->owner = (id) existingGroup;
-	  [existingGroup addLast: anAction];
+	  GENERIC_ADD_LAST (existingGroup, anAction);
 	  return;
 	}
     }
@@ -449,10 +455,10 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   if (!newKey) 
     {
       existingAction->owner = (ActionType_c *) newAction->concurrentGroup;
-      [(id) newAction->concurrentGroup addLast: existingAction];
+      GENERIC_ADD_LAST ((id) newAction->concurrentGroup, existingAction);
     }
   anAction->owner = (id) newAction->concurrentGroup;
-  [(id) newAction->concurrentGroup addLast: anAction];
+  GENERIC_ADD_LAST ((id) newAction->concurrentGroup, anAction);
 }
 
 //
@@ -480,7 +486,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   // if existing action at key then insert into new group and return group
 
   existingAction->owner = (ActionType_c *) newAction->concurrentGroup;
-  [(id) newAction->concurrentGroup addLast: existingAction];
+  GENERIC_ADD_LAST ((id) newAction->concurrentGroup, existingAction);
   *memptr = newAction;
   return newAction->concurrentGroup;
 }
@@ -837,14 +843,14 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
               nextMember = [groupIndex next];
               mapObject (mapalloc, groupMember);
             }
-          [groupIndex drop];
+          DROP (groupIndex);
         }
       
       // map the action contained in the schedule itself
       
       mapObject (mapalloc, member);
     }
-  [index drop];
+  DROP (index);
   [super mapAllocations: mapalloc];
 }
 
@@ -867,7 +873,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
       [outputCharStream catC: buffer];
       [actionAtTime describe: outputCharStream];
     }
-  [index drop]; 
+  DROP (index);
 }
 
 - (void)describeForEachID: outputCharStream
@@ -883,7 +889,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
       sprintf (buffer, "at time: %lu action is: ", timeOfAction);
       [actionAtTime describeID: outputCharStream];
     }
-  [index drop]; 
+  DROP (index);
 }
 
 @end
@@ -1008,8 +1014,9 @@ PHASE(Using)
 //
 - (void)addLast: mergeAction
 {
-  [self at: (id) ((ActionMerge_c *) mergeAction)->subactivity->activationNumber
-        insert: mergeAction];
+  MAP_AT_INSERT (self, 
+		 (id) ((ActionMerge_c *) mergeAction)->subactivity->activationNumber,
+		 mergeAction);
 }
 
 //
@@ -1159,7 +1166,7 @@ PHASE(Using)
   // Get next action from index, adjust times, and return.
   //
   
-  currentAction = [self next: (id *) &currentTime];
+  currentAction = MAP_INDEX_NEXTKEY (self, (id *) &currentTime);
   
   if (currentAction)
     { 
@@ -1183,7 +1190,7 @@ PHASE(Using)
             raiseEvent (SourceMessage,
                         "> schedule did not complete soon enough for its scheduled repeat\n");
           
-          [self setLoc: Start];
+          MAP_INDEX_SETLOC (self, Start);
           currentAction = [self next: (id *) &currentTime];
           currentTime += startTime;
         }
@@ -1209,7 +1216,7 @@ PHASE(Using)
       if (currentAction) 
         *status = Holding;
       else
-        [self setLoc: Start];
+        MAP_INDEX_SETLOC (self, Start);
       
       // if empty schedule just added to new swarm activity, then set to
       // reprocess schedule (should generalize to any empty schedule)
@@ -1328,7 +1335,10 @@ PHASE(Using)
 //
 - (void)dropAllocations: (BOOL)componentAlloc
 {
-  [((Schedule_c *) collection)->activityRefs remove: activity];
+  extern id _i_OrderedSet_c__remove_ (id, SEL, id);
+#define REMOVE(l, obj) _i_OrderedSet_c__remove_ (l, M(remove:), obj)
+  REMOVE (((Schedule_c *) collection)->activityRefs, activity);
+#undef REMOVE
   [super dropAllocations: YES];
 }
 

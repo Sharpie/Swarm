@@ -16,6 +16,9 @@ Library:      defobj
 #import <swarmconfig.h>
 #import <defobj/directory.h>
 
+#import <defobj/macros.h>
+#import <collections/macros.h>
+
 #include <misc.h> // memset, xmalloc, XFREE, MAX_ALIGNMENT
 #include "internal.h"
 
@@ -171,7 +174,7 @@ PHASE(Using)
 
   if (population)
     {
-      [population addLast: newObject];
+      MLINK_ADD (population, newObject);
       populationTotal += size;
     }
 
@@ -224,10 +227,9 @@ PHASE(Using)
   swarm_directory_objc_remove (anObject);
 
   size = getClass (anObject)->instance_size;
-  index = [population createIndex: getCZone (scratchZone)
-                      fromMember: anObject];
-  [index remove];
-  [index drop];
+  index = MLINK_CREATEINDEX_FROMMEMBER (population, getCZone (scratchZone), anObject);
+  MLINK_INDEX_REMOVE (index);
+  DROP (index);
   populationTotal -= size;
 
 
@@ -490,7 +492,7 @@ PHASE(Using)
   index = [population begin: scratchZone];
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     [member describe: outputCharStream];
-  [index drop];
+  DROP (index);
 }
 
 //
@@ -504,7 +506,7 @@ PHASE(Using)
   index = [population begin: scratchZone];
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     [member describeID: outputCharStream];
-  [index drop];
+  DROP (index);
 }
 
 //
@@ -526,7 +528,7 @@ PHASE(Using)
       [index prev];
       mapAlloc (mapalloc, member);
     }
-   [index drop];
+  DROP (index);
 
   // map components of the zone itself
   mapObject (mapalloc, componentZone);
@@ -545,7 +547,7 @@ PHASE(Using)
 
 - allocIVars: (Class)aClass
 {
-  return [baseZone allocIVarsComponent: aClass];
+  return ALLOCIVARSCOMPONENT (baseZone, aClass);
 }
 
 - copyIVars: anObject
@@ -555,6 +557,7 @@ PHASE(Using)
 
 - getComponentZone
 {
+  abort ();
   return componentZone;
 }
 

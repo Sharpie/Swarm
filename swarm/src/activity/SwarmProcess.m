@@ -14,6 +14,9 @@ Library:      activity
 #import <defobj/defalloc.h>
 #include <misc.h> // abort
 
+#import <defobj/macros.h>
+#import <activity/macros.h>
+
 externvar id _activity_swarmSyncType;
 
 @implementation CSwarmProcess
@@ -192,7 +195,7 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
   
   // get zone in which activities to be created
   
-  activityZone = swarmContext ?: _activity_zone;
+  activityZone = swarmContext ? [swarmContext getZone] : _activity_zone;
   
   // create a special schedule to merge subschedule activities
   
@@ -258,7 +261,11 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
 - allocIVarsComponent: aClass        ZMSG_R(allocIVarsComponent: aClass)
 - copyIVarsComponent: anObject       ZMSG_R(copyIVarsComponent: anObject)
 - (void)freeIVarsComponent: anObject ZMSG_V(freeIVarsComponent: anObject)
+#if 0
 - getComponentZone                   ZMSG_R(getComponentZone)
+#else
+- getComponentZone                   { abort (); return nil; }
+#endif
 - (void *)alloc: (size_t)size        ZMSG_R(alloc: size)
 - (void) free: (void *) aBlock       ZMSG_V(free: aBlock)
 - (void *)allocBlock: (size_t)size   ZMSG_R(allocBlock: size)
@@ -300,10 +307,10 @@ PHASE(Using)
                              begin: scratchZone];
           while ((groupAction = [groupIndex next]))
             [groupAction->subactivity terminate];
-          [groupIndex drop];
+          DROP (groupIndex);
         }
     }
-  [index drop];
+  DROP (index);
   
   // terminate running subactivities also (not in merge schedule when active)
   
@@ -366,7 +373,7 @@ PHASE(Using)
   // Remove merge action from whatever activity is performing it (either a
   // swarm activity or a concurrent group activity within a swarm).
   //
-  [((Activity_c *) _activity_current)->currentIndex remove];
+  SCHEDULE_INDEX_REMOVE (((Activity_c *) _activity_current)->currentIndex);
 
   //
   // Return next pending subschedule activity to be run under current owner

@@ -16,6 +16,9 @@ Library:      activity
 #import <activity.h>
 #import <defobj/defalloc.h>
 
+#import <defobj/macros.h>
+#import <activity/macros.h>
+
 // define standard activity variables
 
 externvardef id <Activity> _activity_current;
@@ -86,9 +89,10 @@ auditRunRequest (Activity_c *self, const char *request)
   return status;
 }
 
-- (BOOL)removeObsoleteMerges
+static BOOL
+removeObsoleteMerges (id <ActivityIndex> currentIndex)
 {
-  CAction *action = [currentIndex get];
+  CAction *action = GENERIC_GET (currentIndex);
 
   BOOL obsoletep ()
     {
@@ -111,7 +115,7 @@ auditRunRequest (Activity_c *self, const char *request)
                 [index remove];
             }
         }
-      [index drop];
+      DROP (index);
       return NO;
     }
   else if (getClass (action) == id_ActionMerge_c)
@@ -157,14 +161,14 @@ auditRunRequest (Activity_c *self, const char *request)
     {
       if (RELEASEDP (initStatus))
         {
-          if ((nextAction = [currentIndex get]))
+          if ((nextAction = GENERIC_GET (currentIndex)))
             goto performBreak;
           status = Completed;
           goto actionsDone;
         }
       else if (STOPPEDP (initStatus) && !currentSubactivity)
         {
-          if ((nextAction = [currentIndex get]))
+          if ((nextAction = GENERIC_GET (currentIndex)))
             goto performBreak;
           status = Completed;
           goto actionsDone;
@@ -215,11 +219,11 @@ auditRunRequest (Activity_c *self, const char *request)
       // obtain next action, call break function, and test if stop requested
 
       do {
-        nextAction = [currentIndex nextAction: &status];
+        nextAction = GENERIC_NEXTACTION (currentIndex, &status);
         
         if (nextAction)
           {
-            if (![self removeObsoleteMerges])
+            if (!removeObsoleteMerges (currentIndex))
               break;
           }
         else
@@ -484,7 +488,7 @@ installStep (Activity_c *activity)
 //
 - _getSubactivityAction_
 {
-  return [currentIndex get];
+  return GENERIC_GET (currentIndex);
 }
 
 //
@@ -655,12 +659,11 @@ installStep (Activity_c *activity)
           while ([index getLoc] == Member)
             {
               Activity_c *activity = [index remove];
-
               [index prev];
               [index next];
               [activity dropAllocations: components];
             }
-          [index drop];
+          DROP (index);
         }
       [activitySet dropAllocations: YES];
     }

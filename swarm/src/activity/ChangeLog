@@ -1,3 +1,10 @@
+2001-07-06  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
+
+	* Makefile.am, macros.h: New file.
+
+	* ActionGroup.m, CompoundAction.m, Schedule.m, SwarmProcess.m,
+	XActivity.m: Utilize defobj, collections, and activity macros.h.
+
 2001-06-30  Marcus G. Daniels  <mgd@maya.santafe.edu>
  
 	* Schedule.m: Define FAST.

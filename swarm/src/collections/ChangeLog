@@ -1,3 +1,15 @@
+2001-07-06  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
+
+	* Makefile.am, macros.h: New file.
+
+	* List_GEN.m: Add TINDEXCLASS* that uses "id_" to get class
+	instead of self. 
+
+	* List_GEN.m, Map.m, OrderedSet.m: Utilize macros.h and defobj
+	macros.h. (Many changes.)
+
+	* Map.m (beginLinkedList): New static function.
+
 2001-04-12    <mgd@coyote.santafe.edu>
 
 	* collections.h: Remove Index safety info from Index, Array, and List.

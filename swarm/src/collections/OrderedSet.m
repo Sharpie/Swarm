@@ -10,7 +10,10 @@ Library:      collections
 */
 
 #import <collections/OrderedSet.h>
+#import <defobj/defalloc.h>
 
+#import <defobj/macros.h>
+#import <collections/macros.h>
 
 @implementation OrderedSet_c
 
@@ -38,20 +41,20 @@ PHASE(Using)
   id index, member;
   BOOL ret = NO;
 
-  index = [self begin: scratchZone];
+  index = [self begin: getCZone (getZone (self))];
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     if (member == anObject)
       {
         ret = YES;
         break;
       }
-  [index drop];
+  DROP (index);
   return ret;
 }
 
 - (BOOL)add: anObject
 {
-  [self addLast: anObject];
+  MLINK_ADD (self, anObject);
   return NO;
 }
 
@@ -59,9 +62,9 @@ PHASE(Using)
 {
   id index;
 
-  index = [self createIndex: scratchZone fromMember: aMember];
-  [index remove];
-  [index drop];
+  index = MLINK_CREATEINDEX_FROMMEMBER (self, getCZone (getZone (self)), aMember);
+  MLINK_INDEX_REMOVE (index);
+  DROP (index);
   return aMember;
 }
 

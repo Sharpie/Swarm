@@ -14,6 +14,9 @@ Library:      activity
 #import <defobj/defalloc.h>
 #include <misc.h> // abort
 
+#import <defobj/macros.h>
+#import <collections/macros.h>
+
 @implementation ActionGroup_c
 
 PHASE(Creating)
@@ -298,7 +301,7 @@ PHASE(Using)
       nextMember = [index next];
       mapObject (mapalloc, member);
     }
-  [index drop];
+  DROP (index);
   // no [super mapAllocations: mapalloc] because all links are internal
 }
 
@@ -319,7 +322,7 @@ PHASE(Using)
       [outputCharStream catC: buffer];
       [action describe: outputCharStream];
     }
-  [index drop]; 
+  DROP (index);
 }
 
 @end
@@ -519,8 +522,8 @@ PHASE(Creating)
   
   owner = anActivity;
   ownerZone = getZone (owner);
-  newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];
-  newIndex = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
+  newActivity = ALLOCIVARSCOMPONENT (ownerZone, id_ForEachActivity_c);
+  newIndex = ALLOCIVARSCOMPONENT (ownerZone, id_ForEachIndex_c);
 
   setMappedAlloc (newActivity);
   setMappedAlloc (newIndex);
@@ -555,8 +558,8 @@ PHASE(Creating)
 
   owner = anActivity;
   ownerZone = getZone (owner);
-  newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];
-  newIndex = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
+  newActivity = ALLOCIVARSCOMPONENT (ownerZone, id_ForEachActivity_c);
+  newIndex = ALLOCIVARSCOMPONENT (ownerZone, id_ForEachIndex_c);
 
   setMappedAlloc (newActivity);
   setMappedAlloc (newIndex);

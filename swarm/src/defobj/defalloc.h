@@ -10,6 +10,8 @@ Library:      defobj
 */
 
 #include <swarmconfig.h> // PTRUINT
+#import <defobj/classes.h> // id_Zone_c
+
 //
 // getZone() --
 //   macro to obtain zone in which object allocated
@@ -25,8 +27,13 @@ Library:      defobj
 //   macro to obtain version of zone qualified for allocation of object
 //   components
 //
+
+#if 0
 #define getCZone(aZone) \
 ( _obj_debug ? [(aZone) getComponentZone] : ((id *)(aZone))[2] )
+#else
+#define getCZone(aZone) (getClass (aZone) == id_Zone_c ? (((id *)(aZone))[2]) : aZone)
+#endif
 
 //
 // setMappedAlloc(), unsetMappedAlloc(), getMappedAlloc() --

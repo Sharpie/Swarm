@@ -19,6 +19,8 @@ Library:      defobj
 #import "internal.h" // process_array, map_object_ivars
                      // lisp_output_type, lisp_process_array
 
+#import <defobj/macros.h>
+
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
@@ -303,7 +305,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   // free the local instance variables for the object
   
   if (getBit (zbits, BitComponentAlloc))
-    [zone freeIVarsComponent: self];
+    FREEIVARSCOMPONENT (zone, self);
   else
     [zone freeIVars: self];
 }

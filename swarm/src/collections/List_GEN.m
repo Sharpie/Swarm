@@ -13,12 +13,18 @@ Library:      collections
 #import <collections/Set.h>
 #import <defobj/defalloc.h>
 
+#import <defobj/macros.h>
+
 #include <misc.h> // INT_MAX
 #define UNKNOWN_POS  (INT_MAX/2)
 
 #define COUNT(l) ((TARGET *) l)->count
 #define FIRST(l) ((TARGET *) l)->firstLink
 #define FIRSTPREV(l) FIRST (l)->prevLink
+
+#define TINDEXCLASS__(class) id_##class
+#define TINDEXCLASS_(val) TINDEXCLASS__(val)
+#define TINDEXCLASS TINDEXCLASS_(TINDEX)
 
 #if MLINKS
 
@@ -63,7 +69,7 @@ PHASE(UsingOnly)
   index = [self begin: scratchZone];
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     [newList addLast: member];
-  [index drop];
+  DROP (index);
   return newList;
 }
 
@@ -72,7 +78,7 @@ PHASE(UsingOnly)
   link_t newLink;
 
 #if LINKED
-  newLink = [getZone (self) allocBlock: sizeof *firstLink];
+  newLink = ALLOCBLOCK (getZone (self), sizeof *firstLink);
 #elif MLINKS
   newLink = getLinkFromMember (anObject, bits);
 #endif
@@ -84,7 +90,7 @@ PHASE(UsingOnly)
           id ind = [self begin: getCZone (getZone (self))];
           BOOL found = ([ind findNext: anObject] != nil);
 
-          [ind drop];
+          DROP (ind);
           if (found)
             return;
         }
@@ -111,7 +117,7 @@ PHASE(UsingOnly)
   link_t newLink;
 
 #if LINKED
-  newLink = [getZone (self) allocBlock: sizeof *firstLink];
+  newLink = ALLOCBLOCK (getZone (self), sizeof *firstLink);
 #elif MLINKS
   newLink = getLinkFromMember (anObject, bits);
 #endif
@@ -123,7 +129,7 @@ PHASE(UsingOnly)
           id ind = [self begin: getCZone (getZone (self))];
           BOOL found = ([ind findNext: anObject] != nil);
 
-          [ind drop];
+          DROP (ind);
           if (found)
             return;
         }
@@ -162,7 +168,7 @@ PHASE(UsingOnly)
         firstLink = NULL;
 #if LINKED
       member = link->refObject;
-      [getZone (self) freeBlock: link blockSize: sizeof *link];
+      FREEBLOCK_SIZE (getZone (self), link, sizeof *link);
 #elif MLINKS
       member = getMemberFromLink (link, bits);
 #endif
@@ -193,7 +199,7 @@ PHASE(UsingOnly)
         firstLink = NULL;
 #if LINKED
       member = link->refObject;
-      [getZone (self) freeBlock: link blockSize: sizeof *link];
+      FREEBLOCK_SIZE (getZone (self), link, sizeof *link);
 #elif MLINKS
       member = getMemberFromLink (link, bits);
 #endif
@@ -211,7 +217,7 @@ PHASE(UsingOnly)
 {
   TINDEX *newIndex;
 
-  newIndex = [aZone allocIVars: [TINDEX self]];
+  newIndex = [aZone allocIVars: TINDEXCLASS];
   newIndex->collection = self;
   newIndex->link = (link_t) Start;
   newIndex->position = 0;
@@ -262,8 +268,8 @@ PHASE(UsingOnly)
 {
 #if MLINKS
   TINDEX  *newIndex;
-  
-  newIndex = [aZone allocIVars: [TINDEX self]];
+ 
+  newIndex = [aZone allocIVars: TINDEXCLASS];
   newIndex->collection = self;
   newIndex->link = getLinkFromMember (anObject, bits);
   newIndex->position = UNKNOWN_POS;
@@ -562,7 +568,7 @@ PHASE(Using)
     }
   collection->count--;
 #if LINKED
-  [getZone (collection) freeBlock: oldLink blockSize: sizeof *link];
+  FREEBLOCK_SIZE (getZone (collection), oldLink, sizeof *link);
 #endif
   return oldMem;
 }
@@ -622,7 +628,7 @@ PHASE(Using)
   if (position < 0 || (position == 0 && !INDEXSTARTP (link)))
     raiseEvent (InvalidIndexLoc, nil);
 #if LINKED
-  newLink = [getZone (collection) allocBlock: sizeof *link];
+  newLink = ALLOCBLOCK (getZone (collection), sizeof *link);
   newLink->refObject = anObject;
 #elif MLINKS
   newLink = getLinkFromMember (anObject, collection->bits);
@@ -660,7 +666,7 @@ PHASE(Using)
   if (position < 0 || (position == 0 && !INDEXENDP (link)))
     raiseEvent (InvalidIndexLoc, nil);
 #if LINKED
-  newLink = [getZone (collection) allocBlock: sizeof *link];
+  newLink = ALLOCBLOCK (getZone (collection), sizeof *link);
   newLink->refObject = anObject;
 #elif MLINKS
   newLink = getLinkFromMember (anObject, collection->bits);

@@ -1,3 +1,11 @@
+2001-07-06  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
+
+	* Zone.m, DefObject.m: Utilize macros.h. (Many changes.)
+
+	* defalloc.h: Provide a faster getCZone.
+
+	* Makefile.am, macros.h: New file.
+	
 2001-06-27  Marcus G. Daniels  <mgd@dhcp144.santafe.edu>
 
 	* Zone.m ([Zone_c -alloc:], [Zone_c -free:]): Don't alloc

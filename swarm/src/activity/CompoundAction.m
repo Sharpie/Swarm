@@ -17,6 +17,9 @@ Library:      activity
 #import <activity/CompoundAction.h>
 #import <activity/XActivity.h>
 
+#import <defobj/macros.h>
+#import <collections/macros.h>
+
 void 
 setDefaultOrder (unsigned *bits, id <Symbol> aSymbol)
 {  
@@ -170,7 +173,7 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
   if (!owner->activitySet)
     owner->activitySet = 
       [_activity_activitySetRefsType create: getCZone (zone)];
-  [owner->activitySet add: newActivity];
+  MLINK_ADD (owner->activitySet, newActivity);
   newActivity->ownerActivity  = owner;
   newActivity->registeredOwnerActivity = owner;
 }
@@ -184,13 +187,12 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
 
   // allocate and initialize a new activity
 
-  newActivity = [swarmZone allocIVarsComponent: activityClass];
+  newActivity = ALLOCIVARSCOMPONENT (swarmZone, activityClass);
   if (ownerActivity)
     registerSubactivity (swarmZone, ownerActivity, newActivity);
   else
     {
-      newActivity->topLevelAction =
-	[swarmZone allocIVarsComponent: id_CAction];
+      newActivity->topLevelAction = ALLOCIVARSCOMPONENT (swarmZone, id_CAction);
       ((CAction *) newActivity->topLevelAction)->owner = (ActionType_c *) self;
     }
   setMappedAlloc (newActivity);
@@ -199,7 +201,7 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
 
   if (!activityRefs)
     activityRefs = [_activity_activityRefsType create: getCZone (swarmZone)];
-  [activityRefs add: newActivity];
+  MLINK_ADD (activityRefs, newActivity);
   
   // initialize status and set break function from owner
 
@@ -209,13 +211,12 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
      ((Activity_c *) _activity_current)->breakFunction;
   else
     newActivity->breakFunction = _activity_trace;
-  
+
   // create index on the plan actions for traversal by the activity
   if ([self getDefaultOrder] == Randomized
       && [self conformsTo: @protocol (ActionGroup)])
     newActivity->currentIndex =
-      [(ActionGroup_c *) self _createPermutedIndex_: 
-                           getCZone (swarmZone)
+      [(ActionGroup_c *) self _createPermutedIndex_: getCZone (swarmZone)
                          activity: newActivity];
   else
     newActivity->currentIndex =
