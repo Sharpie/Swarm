@@ -1,12 +1,13 @@
 2001-11-07    <timothyrhowe@hotmail.com>
 
-	* HeatbugModelSwarm.java, HeatbugObserverSwarm.java: Clarified 
-	documentation of need for SCM vars and (after Swarm 2.1.1) ProbeMap vars 
-	to be public.
+	* HeatbugModelSwarm.java, HeatbugObserverSwarm.java: Clarified
+	documentation of need for SCM vars and (after Swarm 2.1.1)
+	ProbeMap vars to be public.
 
-	* HeatbugBatchSwarm.java: Made unhappyGraph private (now _unhappyGraph) to 
-	conform to standard of as much privacy as possible, and convention of 
-	underscore prefix for private variables.
+	* HeatbugBatchSwarm.java: Made unhappyGraph private (now
+	_unhappyGraph) to conform to standard of as much privacy as
+	possible, and convention of underscore prefix for private
+	variables.
 
 	* HeatSpace.java: Clarified discussion of calculation of unhappiness. 
 
