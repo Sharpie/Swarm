@@ -2,9 +2,16 @@
 
 cd $BUILT_PRODUCTS_DIR/
 
+# This must the path to GNU sed.  Will be done by autoconf shortly.
+export SED=/usr/bin/gsed
+export MACOSX_DEPLOYMENT_TARGET=10.2
+
 ../../../configure \
-CC='cc -fgnu-runtime -no-cpp-precomp' \
---prefix=/Users/billn/Public/Swarm/swarm/macosx/swarmx/build/dst/usr \
---with-tcldir=/usr/local/lib \
+CC=/usr/local/gcc3.3/bin/gcc \
+--prefix=/usr/local/swarm2.1 \
+--with-tcldir=/usr/local/tcl8.4.1 \
+--with-tkdir=/usr/local/tk8.4.1 \
+--with-bltdir=/usr/local/blt2.4z \
 --without-jdkdir \
---with-hdf5dir=/usr/local
+--disable-static \
+--without-hdf5dir
