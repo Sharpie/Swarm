@@ -1,3 +1,8 @@
+1999-09-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acpath.m4: Use cygwin -w instead of slash substitution for
+	PATHEXPR.
+
 1999-09-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Remove pizza.jar from classpath for Kaffe.
