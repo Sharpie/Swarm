@@ -526,7 +526,7 @@ USING
                                                                 arg1:arg2:arg3;
 
 //M: Remove action from either schedule or concurrent group.
-- remove: anAction  
+- remove: anAction;
 @end
 
 @deftype SynchronizationType
