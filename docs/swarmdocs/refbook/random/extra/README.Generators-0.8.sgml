@@ -146,7 +146,7 @@ release.</para></listitem>
 <para> Since v. 0.6 we have done some rudimentary statistical testing
 of the implemented generators, using Marsaglia's Diehard tests and the
 ENT tests.  The results of these tests are summarized in <link
-linkend="SWARM.RANDOM.APPENDIX.GENERATOR.QUALITY.TABLE">Generator
+linkend="SWARM.RANDOM.SGML.APPENDIX.TABLE.GENERATOR.QUALITY">Generator
 quality table</link>, where test results as well as period length,
 state size and execution times are listed. You can use these data to
 select a generator that suits your simulation. Some brief comments:

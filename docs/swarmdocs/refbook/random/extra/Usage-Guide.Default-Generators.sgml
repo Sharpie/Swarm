@@ -19,7 +19,7 @@ RANDOMSEED, if you started the program with the
 
 <para>The generators used are as follows:</para>
 
-<table id="SWARM.RANDOM.APPENDIX.GENERATOR.DEFAULT.TABLE">
+<table id="SWARM.RANDOM.SGML.APPENDIX.TABLE.GENERATOR.DEFAULT">
 <title>Random Library: Default Generators</title>
 <tgroup cols="3" colsep="1" rowsep="1">
 <thead>

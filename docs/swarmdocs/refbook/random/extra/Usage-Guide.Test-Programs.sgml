@@ -70,7 +70,7 @@ tested statistically yet.</para></listitem>
      and run through some simple tests. Some generators, included here
      for historical reasons only, are known to have bad statistical
      properties, and their use is deprecated. See <link
-     linkend="swarm.random.sgml.appendix.adv-usage.sect1">Advanced
+     linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
      Usage Guide</link>for information on the quality of the included
      generators.
 </PARA>
@@ -87,7 +87,7 @@ tested statistically yet.</para></listitem>
   statistical testing using George Marsaglia's
   <EMPHASIS>Diehard</EMPHASIS> tests as well as John Walker's entropy
   tests (ENT). The results of these tests are summarized in <link
-  linkend="SWARM.RANDOM.APPENDIX.GENERATOR.QUALITY.TABLE"> Generator
+  linkend="SWARM.RANDOM.SGML.APPENDIX.TABLE.GENERATOR.QUALITY">Generator
   quality table</link>. Other data on the properties of the generators
   are found there as well. These data support a discussion of how to
   choose one or more generators for your simulation.

@@ -1,4 +1,4 @@
-<SECT1 id="swarm.random.sgml.appendix.usage-beginners.sect1">
+<SECT1 id="swarm.random.sgml.appendix.sect1.usage-beginners">
 <!--
 // Random v. 0.81 (Swarm 1.4)
 // 
@@ -77,7 +77,7 @@ old ones included mostly for historical interest, and newer better
 ones drawn from recent literature. These generators have been
 subjected to various statistical tests, and the results of these tests
 are described in <link
-linkend="swarm.random.sgml.appendix.adv-usage.sect1">Advanced Usage
+linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced Usage
 Guide</link>.</PARA>
 
 <SECT2>
@@ -237,7 +237,7 @@ read more about zones.)</PARA>
 <PARA>
 For a more detailed description of methods available from generator
 objects, see <link linkend=
-"swarm.random.sgml.appendix.generator-usage.sect2">Generator Usage
+"swarm.random.sgml.appendix.sect2.generator-usage">Generator Usage
 Guide</link>.</PARA>
 
 </sect2>
@@ -305,7 +305,7 @@ that they end up drawing output from the generator in an interleaved fashion.
 <PARA>
 If you create distribution objects using the +createWithDefaults
 method <link
-linkend="swarm.random.sgml.appendix.distrib-usage.sect2">Distribution
+linkend="swarm.random.sgml.appendix.sect2.distrib-usage">Distribution
 Usage Guide</link>, each distribution object is assigned its own,
 newly created, private random generator. Each distribution class uses
 a different class of default random generator, just to keep things as
@@ -433,7 +433,7 @@ settings, in this case a sample from N[0.0,2.1].
 
 <PARA>For a more detailed description of the methods available from
 distribution objects, see the <link
-linkend="swarm.random.sgml.appendix.distrib-usage.sect2">Distribution
+linkend="swarm.random.sgml.appendix.sect2.distrib-usage">Distribution
 Usage Guide</link>.</PARA>
 </sect2>
 
@@ -445,7 +445,7 @@ Usage Guide</link>.</PARA>
         <PARA>
           DO NOT use generators with bad statistical properties. See
            <link
-          linkend="swarm.random.sgml.appendix.adv-usage.sect1">Advanced
+          linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
           Usage Guide</link> for a discussion of the generators
           implemented in this library.</PARA>
       </listitem>
@@ -457,7 +457,7 @@ Usage Guide</link>.</PARA>
           aware of this if you use the PMMLCG class of generator;
           these have good properties but a fairly short cycle. See
           <link
-          linkend="swarm.random.sgml.appendix.adv-usage.sect1">Advanced
+          linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
           Usage Guide</link> to read more about how to select a
           generator.</PARA>
       </listitem>

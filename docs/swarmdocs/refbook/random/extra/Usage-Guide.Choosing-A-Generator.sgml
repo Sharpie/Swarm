@@ -25,7 +25,7 @@ properties as possible. We measure this by subjecting the generators
 to various tests. I have subjected the implemented generators to two
 sets of tests, Diehard and ENT. (Look in directory /testR6 of the test
 package.) (The <LINK
-linkend="SWARM.RANDOM.APPENDIX.GENERATOR.QUALITY.TABLE">
+linkend="SWARM.RANDOM.SGML.APPENDIX.TABLE.GENERATOR.QUALITY">
 Generators quality table</LINK> summarizes the test results. The
 highlights are:
 
@@ -64,13 +64,13 @@ applications.</para></listitem>
 
 <listitem><para>We want a generator to execute efficiently, the faster
 the better.  The <link
-linkend="SWARM.RANDOM.APPENDIX.GENERATOR.DATA.TABLE">Generators data
+linkend="SWARM.RANDOM.SGML.APPENDIX.TABLE.GENERATOR.DATA">Generators data
 table</link> indicates the execution times for the generators as
 implemented.</para></listitem>
 
 <listitem><para>We want a generator to take as little resources
 (memory) as possible.  The <link
-linkend="SWARM.RANDOM.APPENDIX.GENERATOR.DATA.TABLE">Generators data
+linkend="SWARM.RANDOM.SGML.APPENDIX.TABLE.GENERATOR.DATA">Generators data
 table</link> indicates the size of each generator's state in
 bits.</para></listitem>
 
