@@ -10,81 +10,91 @@
 #import <tkobjc.h>
 #import <simtools.h>
 #import <analysis.h>
+#import <tkobjc/control.h>
+
 @implementation EZDistribution
 
--createEnd {
+- createEnd
+{
+  [super createEnd];
 
-  [super createEnd] ;
-
-  probabilities = (double *) malloc(binNum * sizeof(double)) ;
-  maximumEntropy = log( 1.0 / ((double) binNum)) ;
+  probabilities = (double *) malloc (binNum * sizeof (double));
+  maximumEntropy = log ( 1.0 / ((double) binNum));
    
-  return self ;
+  return self;
 }
 
--update {
-  int i ;
+- update
+{
+  int i;
 
-  [super update] ;
+  [super update];
 
-  for(i = 0 ; i < binNum ; i++){
-    probabilities[i] = ((double)distribution[i]) / ((double)count) ;
-    if(probabilities[i] > 0.0)
-      entropy += probabilities[i] * log(probabilities[i]) ;
-  }
-
-  entropy /= maximumEntropy ;
-
-  return self ;
-}
-
--output {
-  int i ;
-
-  if(graphics){
-    [globalTkInterp eval: 
-      "%s marker configure active_outlier_marker \
-          -text \"outliers: %d (%lg)\" ",
-      [aHisto getWidgetName], 
-      outliers, 
-      ((double)outliers) / (((double)outliers) + ((double)count))] ;
-  
-    [aHisto drawHistoWithDouble: probabilities atLocations: locations] ;
-  }
-
-  if(fileOutput){
-    [anOutFile putInt: probabilities[0]] ;
-    for(i = 1 ; i < binNum ; i++){
-      [anOutFile putTab] ;
-      [anOutFile putInt: probabilities[i]] ;
+  for (i = 0; i < binNum; i++)
+    {
+      probabilities[i] = ((double)distribution[i]) / ((double)count);
+      if (probabilities[i] > 0.0)
+        entropy += probabilities[i] * log (probabilities[i]);
     }
-    [anOutFile putNewLine] ;
-  }
 
-  return self ;
+  entropy /= maximumEntropy;
+
+  return self;
 }
 
--(double *)getProbabilities {
-  if(clean){
-    [InvalidOperation raiseEvent: "Attempted to getProbabilities from a reset EZDistribution (no data available).\n"];
-  }
+- output
+{
+  int i;
 
-  return probabilities ;
-}
+  if (graphics)
+    {
+      tkobjc_setHistogramActiveOutlierText (aHisto, outliers, count);
+      [aHisto drawHistoWithDouble: probabilities atLocations: locations];
+    }
 
--(double) getEntropy {
-  if(clean){
-    [InvalidOperation raiseEvent:
-			"Attempted to getEntropy from a reset EZDistribution (no data available).\n"] ;
-  }
+  if (fileOutput)
+    {
+      [anOutFile putInt: probabilities[0]];
+      for (i = 1; i < binNum; i++)
+        {
+          [anOutFile putTab];
+          [anOutFile putInt: probabilities[i]];
+        }
+      [anOutFile putNewLine];
+    }
   
-  return entropy ;
+  return self;
+}
+
+- (double *)getProbabilities
+{
+  if (clean)
+    {
+      [InvalidOperation 
+        raiseEvent: 
+          "Attempted to getProbabilities from a reset EZDistribution (no data available).\n"];
+    }
+  
+  return probabilities;
+}
+
+- (double)getEntropy
+{
+  if (clean)
+    {
+      [InvalidOperation
+        raiseEvent:
+          "Attempted to getEntropy from a reset EZDistribution (no data available).\n"];
+    }
+  
+  return entropy;
 }
 
 
--(void) drop {
-  free(probabilities) ;
-  [super drop] ;
+- (void)drop
+{
+  free (probabilities);
+  [super drop];
 }
 
 @end

@@ -7,13 +7,14 @@
 
 // EZDistribution object: used to generate distributions.
 
-@interface EZDistribution : EZBin {
-  double *probabilities ;
-  double entropy, maximumEntropy ;
+@interface EZDistribution : EZBin
+{
+  double *probabilities;
+  double entropy, maximumEntropy;
 }
 
--(double *)getProbabilities ;
--(double) getEntropy ;
+- (double *)getProbabilities;
+- (double) getEntropy;
 
 @end
 

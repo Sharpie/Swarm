@@ -11,65 +11,77 @@
 #import <simtools.h>
 #import <analysis.h>
 
+#import <tkobjc/control.h>
+
 @implementation EZBin
 
-+createBegin: aZone {
-  EZBin * anObj ;
-
-  anObj = [super createBegin: aZone] ;
-  anObj->fileOutput = 0 ;
++ createBegin: aZone
+{
+  EZBin *anObj;
+  
+  anObj = [super createBegin: aZone];
+  anObj->fileOutput = 0;
   anObj->graphics = 1;
-  anObj->theTitle = NULL ;
-  anObj->xLabel = NULL ;
-  anObj->yLabel = NULL ;
-  return anObj ;
+  anObj->theTitle = NULL;
+  anObj->xLabel = NULL;
+  anObj->yLabel = NULL;
+  return anObj;
 }
 
--setGraphics: (int) state {
-  graphics = state ;
-  return self ;
+- setGraphics: (int)state
+{
+  graphics = state;
+  return self;
 }
 
--setFileOutput: (int) state {
-  fileOutput = state ;
-  return self ;
+- setFileOutput: (int)state
+{
+  fileOutput = state;
+  return self;
 }
 
--setTitle: (char *) aTitle {
-  theTitle = aTitle ;
-  return self ;
+- setTitle: (const char *)aTitle
+{
+  theTitle = aTitle;
+  return self;
 }
 
--setAxisLabelsX: (char *) xl Y: (char *) yl {
-  xLabel = xl ;
-  yLabel = yl ;
-  return self ;
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl
+{
+  xLabel = xl;
+  yLabel = yl;
+  return self;
 }
 
--setBinNum: (int) theBinNum {
-  binNum = theBinNum ;
-  return self ;
+- setBinNum: (int)theBinNum
+{
+  binNum = theBinNum;
+  return self;
 }
 
--setLowerBound: (double) theMin {
-  min = theMin ;
-  return self ;
+- setLowerBound: (double)theMin
+{
+  min = theMin;
+  return self;
 }
 
--setUpperBound: (double) theMax {
-  max = theMax ;
-  return self ;
+- setUpperBound: (double) theMax
+{
+  max = theMax;
+  return self;
 }
 
--setCollection: aCollection {
+- setCollection: aCollection
+{
   collection = aCollection;
   return self;
 }
 
--createEnd {
-  int i ;
-  double step ;
-
+- createEnd
+{
+  int i;
+  double step;
+  
   if (collection == nil)
     [InvalidCombination raiseEvent: "EZBin created without a collection\n"];
 
@@ -82,219 +94,232 @@
   if(min >= max)
     [InvalidCombination raiseEvent: "EZBin with invalid min-max range!!!\n"]; 
 
-  [super createEnd] ;
+  [super createEnd];
 
-  distribution = (int *) malloc(binNum * sizeof(int)) ;
-  cachedLimits = (double *) malloc(binNum * sizeof(double)) ;
-  locations = (double *) malloc(binNum * sizeof(double)) ;
-  step = (max - min) / ((double) binNum) ;
+  distribution = (int *) malloc (binNum * sizeof(int));
+  cachedLimits = (double *) malloc (binNum * sizeof(double));
+  locations = (double *) malloc (binNum * sizeof(double));
+  step = (max - min) / ((double) binNum);
 
-  for(i = 0 ; i < binNum ; i++){
-    cachedLimits[i] = min + (((double) i) * step) ;
-    locations[i] = min + 0.5*step + ((double)i)*step ;
-  }
-  [self reset] ;
+  for (i = 0; i < binNum; i++)
+    {
+      cachedLimits[i] = min + (((double) i) * step);
+      locations[i] = min + 0.5*step + ((double)i)*step;
+    }
+  [self reset];
 
-  if(graphics){
-    aHisto = [Histo create: [self getZone]] ;
-    [aHisto title: theTitle] ;
-    if(xLabel && yLabel) 
-      [aHisto axisLabelsX: xLabel Y: yLabel] ;
-    [aHisto setNumPoints: binNum Labels: NULL Colors: NULL] ;
-    [aHisto pack] ;
-
-    [globalTkInterp eval: 
-       "%s configure -barwidth %g",[aHisto getWidgetName],step] ;
-
-    [globalTkInterp eval: 
-       "%s xaxis configure -min %g -max %g -stepsize %g",
-        [aHisto getWidgetName],
-        min, max, (binNum > 2)?(max - min)/(binNum-1):(max-min)/binNum] ;
-				// stepsize cannot be same size than range
-
-    [globalTkInterp eval: 
-       "Blt_ZoomStack %s",[aHisto getWidgetName]] ;
-
-    [globalTkInterp eval: 
-       "%s legend configure -mapped 0",[aHisto getWidgetName]] ;
-
-    [globalTkInterp eval: 
-       "%s marker create text -coords { -Inf +Inf } \
-          -name active_outlier_marker \
-          -anchor nw -justify right \
-          -bg {} -mapped 0",[aHisto getWidgetName]] ;
-
-    [globalTkInterp eval: 
-       "active_item_info %s",[aHisto getWidgetName]] ;
-  }
-
-  if(fileOutput)
-    anOutFile = [OutFile create: [self getZone] withName: theTitle] ;
-   
-  return self ;
-}
-
--reset {
-  int i ;
-
-  count = 0 ;
-  outliers = 0 ;
-  clean = 1 ;
-
-  for(i = 0 ; i < binNum ; i++)
-    distribution[i] = 0 ;
+  if (graphics)
+    {
+      aHisto = [Histo create: [self getZone]];
+      [aHisto title: theTitle];
+      if(xLabel && yLabel) 
+        [aHisto axisLabelsX: xLabel Y: yLabel];
+      [aHisto setNumPoints: binNum Labels: NULL Colors: NULL];
+      [aHisto pack];
+      
+      tkobjc_setHistogramBarWidth (aHisto, step);
+      tkobjc_setHistogramXaxisRange (aHisto, min, max, 
+                                     // stepsize cannot be same size than range
+                                     ((binNum > 2)
+                                      ? (max - min) / (binNum-1)
+                                      : (max-min) / binNum));
+      tkobjc_setupZoomStack (aHisto);
+      tkobjc_setupHistogramLegend (aHisto);
+      
+      // mgd: This appears to be run again in active_item_info.
+      // tkobjc_setupHistogramMisc (aHisto);
+      
+      tkobjc_histogramActiveItemInfo (aHisto);      
+    }
   
-  return self ;
-}
-
--update {
-  id iter, obj;
-
-  iter = [collection begin: [self getZone]];
-  while( (obj = [iter next]) ){
-    int i ;
-    double v = [self doubleDynamicCallOn: obj];
-    
-    if( (v > max) || (v < min) ){
-      outliers++ ;
-      continue ;
-    }
-
-    if(clean){
-      maxval = v ;
-      minval = v ;
-      average = v ;
-      average2 = v*v ;
-      std = 0.0 ;
-      clean = 0 ;
-    } else {
-
-      if(v < minval)
-        minval = v ;
-
-      if(v > maxval)
-        maxval = v ;
-
-      average = ((average * ((double)count)) + v ) / ((double) (count + 1)) ;
-
-      average2 = ((average2 * ((double)count)) + v*v ) / 
-                                                     ((double) (count + 1)) ;
-
-      std = sqrt(average2 - average*average) ;
-    }
-
-    for(i = 0 ; i < binNum - 1 ; i++)
-      if( (v >= cachedLimits[i]) && (v < cachedLimits[i + 1]) ){
-        distribution[i] += 1 ;
-        break ;
-      }
-
-    if(i == binNum - 1)
-      distribution[i] += 1 ;
-
-    count++;
-  }
-
-  [iter drop] ;
-
+  if (fileOutput)
+    anOutFile = [OutFile create: [self getZone] withName: theTitle];
+  
   return self;
 }
 
--output {
-  int i ;
-
-  if(graphics){
-    [globalTkInterp eval: 
-      "%s marker configure active_outlier_marker \
-          -text \"outliers: %d (%g)\" ",
-      [aHisto getWidgetName], 
-      outliers, 
-      ((double)outliers) / (((double)outliers) + ((double)count))] ;
+- reset
+{
+  int i;
   
-    [aHisto drawHistoWithInt: distribution atLocations: locations] ;
-  }
+  count = 0;
+  outliers = 0;
+  clean = 1;
 
-  if(fileOutput){
-    [anOutFile putInt: distribution[0]] ;
-    for(i = 1 ; i < binNum ; i++){
-      [anOutFile putTab] ;
-      [anOutFile putInt: distribution[i]] ;
+  for (i = 0; i < binNum; i++)
+    distribution[i] = 0;
+  
+  return self;
+}
+
+- update
+{
+  id iter, obj;
+  
+  iter = [collection begin: [self getZone]];
+  while ((obj = [iter next]))
+    {
+      int i;
+      double v = [self doubleDynamicCallOn: obj];
+      
+      if (v > max || v < min)
+        {
+          outliers++;
+          continue;
+        }
+      
+      if (clean) 
+        {
+          maxval = v;
+          minval = v;
+          average = v;
+          average2 = v*v;
+          std = 0.0;
+          clean = 0;
+        }
+      else
+        {
+          if (v < minval)
+            minval = v;
+          
+          if (v > maxval)
+            maxval = v;
+          
+          average = ((average * ((double)count)) + v)
+            / ((double) (count + 1));
+          
+          average2 = ((average2 * ((double)count)) + v*v)
+            / ((double) (count + 1));
+          
+          std = sqrt(average2 - average*average);
+        }
+      
+      for (i = 0; i < binNum - 1; i++)
+        if ((v >= cachedLimits[i]) && (v < cachedLimits[i + 1]))
+          {
+            distribution[i]++;
+            break;
+          }
+      
+      if (i == binNum - 1)
+        distribution[i]++;
+      
+      count++;
     }
-    [anOutFile putNewLine] ;
-  }
-
-  return self ;
+  
+  [iter drop];
+  return self;
 }
 
--(int *)getDistribution {
-
-  return distribution ;
+- output
+{
+  int i;
+  
+  if (graphics)
+    {
+      tkobjc_setHistogramActiveOutlierText (aHisto, outliers, count);
+      [aHisto drawHistoWithInt: distribution atLocations: locations];
+    }
+  
+  if (fileOutput)
+    {
+      [anOutFile putInt: distribution[0]];
+      for(i = 1; i < binNum; i++){
+        [anOutFile putTab];
+        [anOutFile putInt: distribution[i]];
+      }
+      [anOutFile putNewLine];
+    }
+  
+  return self;
 }
 
--(int) getCount{
-  return count ;
+- (int *)getDistribution
+{
+  return distribution;
 }
 
--(int) getOutliers {
-  return outliers ;
+- (int)getCount
+{
+  return count;
 }
 
--(int) getBinNum {
-  return binNum ;
+- (int)getOutliers
+{
+  return outliers;
 }
 
--(double) getLowerBound {
-  return min ;
+- (int)getBinNum
+{
+  return binNum;
 }
 
--(double) getUpperBound {
-  return max ;
+- (double)getLowerBound
+{
+  return min;
 }
 
--(double) getMin {
-  if(clean){
-    [InvalidOperation raiseEvent:
-            "Attempted to getMin from a reset EZBin (no data available).\n"] ;
-  }
-
-  return minval ;
+- (double)getUpperBound
+{
+  return max;
 }
 
--(double) getMax {
-  if(clean){
-    [InvalidOperation raiseEvent:
-            "Attempted to getMax from a reset EZBin (no data available).\n"] ;
-  }
-
-  return maxval ;
+- (double)getMin
+{
+  if (clean)
+    {
+      [InvalidOperation 
+        raiseEvent:
+          "Attempted to getMin from a reset EZBin (no data available).\n"];
+    }
+  return minval;
 }
 
--(double) getAverage {
-  if(clean){
-    [InvalidOperation raiseEvent:
-      "Attempted to getAverage from a reset EZBin (no data available).\n"] ;
-  }
-  return average ;
+- (double)getMax
+{
+  if (clean)
+    {
+      [InvalidOperation
+        raiseEvent:
+          "Attempted to getMax from a reset EZBin (no data available).\n"];
+    }
+  
+  return maxval;
 }
 
--(double) getStd {
-  if(clean){
-    [InvalidOperation raiseEvent:
-      "Attempted to getStd from a reset EZBin (no data available).\n"];
-  }
-
-  return std ;
+- (double)getAverage
+{
+  if (clean)
+    {
+      [InvalidOperation
+        raiseEvent:
+          "Attempted to getAverage from a reset EZBin (no data available).\n"];
+    }
+  return average;
 }
 
--(void) drop {
-  free(distribution) ;
-  free(cachedLimits) ;
-  if(graphics)
-    [aHisto drop] ;
-  if(fileOutput)
-    [anOutFile drop] ;
+- (double)getStd
+{
+  if (clean)
+    {
+      [InvalidOperation
+        raiseEvent:
+          "Attempted to getStd from a reset EZBin (no data available).\n"];
+    }
+  
+  return std;
+}
 
-  [super drop] ;
+- (void)drop 
+{
+  free (distribution);
+  free (cachedLimits);
+  if (graphics)
+    [aHisto drop];
+  if (fileOutput)
+    [anOutFile drop];
+  
+  [super drop];
 }
 
 @end

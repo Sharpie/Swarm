@@ -7,55 +7,56 @@
 
 // EZBin object: used to generate histograms.
 
-@interface EZBin : MessageProbe {
-  int graphics ;
-  id aHisto ;
+@interface EZBin : MessageProbe
+{
+  int graphics;
+  id aHisto;
 
-  int fileOutput ;
-  id anOutFile ;
+  int fileOutput;
+  id anOutFile;
 
-  char *theTitle ;
-  char *xLabel ;
-  char *yLabel ;
+  char *theTitle;
+  char *xLabel;
+  char *yLabel;
 
-  int *distribution ;
-  double *locations ;
-  double *cachedLimits ;
-  double min, max ;
-  int clean ;
-  int binNum ;
-  int count ;
-  int outliers ;
+  int *distribution;
+  double *locations;
+  double *cachedLimits;
+  double min, max;
+  int clean;
+  int binNum;
+  int count;
+  int outliers;
   id collection;
 
-  double minval,maxval,average,average2,std ;
+  double minval, maxval, average, average2, std;
 }
 
--setTitle: (char *) aTitle ; 
--setAxisLabelsX: (char *) xl Y: (char *) yl ;
+- setTitle: (const char *)aTitle; 
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
--setGraphics: (int) state ;
--setFileOutput: (int) state ;
+- setGraphics: (int)state;
+- setFileOutput: (int)state;
 
--setBinNum: (int) theBinNum ;
--setLowerBound: (double) theMin ;
--setUpperBound: (double) theMax ;
--setCollection: (id) aCollection;
+- setBinNum: (int)theBinNum;
+- setLowerBound: (double)theMin;
+- setUpperBound: (double)theMax;
+- setCollection: (id)aCollection;
 
--reset;
--update;
--output ;
+- reset;
+- update;
+- output;
 
--(int *)getDistribution ;
+- (int *)getDistribution;
 
--(int) getCount;
--(int) getOutliers ;
--(int) getBinNum ;
--(double) getUpperBound ;
--(double) getLowerBound ;
+- (int)getCount;
+- (int)getOutliers;
+- (int)getBinNum;
+- (double)getUpperBound;
+- (double) getLowerBound;
 
--(double) getMin ;
--(double) getMax ;
--(double) getAverage ;
--(double) getStd ;
+- (double)getMin;
+- (double)getMax;
+- (double)getAverage;
+- (double)getStd;
 @end

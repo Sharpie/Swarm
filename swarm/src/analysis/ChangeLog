@@ -1,3 +1,28 @@
+1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZDistribution.m ([EZDistribution -output]): Use new wrapper
+	function tkobjc_setHistogramActiveOutlierText.
+	Reformatting throughout.
+
+	* EZDistribution.h: Reformatting throughout.
+
+	* EZBin.m: Include tkobjc/control.h.
+	([EZBin -createEnd]): Use new wrapper functions
+	tkobjc_setHistogramBarWidth, tkobjc_setHistogramXaxisRange,
+	tkobjc_setupZoomStack, tkobjc_setupHistogramLegend,
+	tkobjc_histogramActiveItemInfo.  Include
+	tkobjc_setupHistogramMisc, but don't use it, since the
+	functionality appears to be repeated in active_item_info.
+	([EZBin -output]): Use new wrapper function
+	tkobjc_setHistogramActiveOutlierText.
+	Reformatting throughout.
+	([EZBin -setTitle:]): Constify argument.
+	([EZBin -setAxisLabelsX:Y:]): Constify arguments.
+
+	* EZBin.h: Constify argument to setTitle.  Constify arguments
+	to setAxisLabelsX:Y:.
+	Reformatting throughout.
+
 Mon Dec  8 22:28:28 1997  glen e. p. ropella  <gepr@swarm.com>
 
 	* Averager.h: changed swarmobject to objectbase
