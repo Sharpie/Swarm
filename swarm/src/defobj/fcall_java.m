@@ -2,7 +2,9 @@
 #ifdef USE_AVCALL
 
 #ifdef __CYGWIN__
+#ifndef HAVE_KAFFE
 #define MSVC
+#endif
 #endif
 
 #import "fcall_java.h"

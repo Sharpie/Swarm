@@ -1,3 +1,7 @@
+1999-08-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* fcall_java.m: Don't define MSVC when HAVE_KAFFE is set.
+
 1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m: Remove swarmEnvironment static variable and globalref
