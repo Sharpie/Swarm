@@ -1,3 +1,7 @@
+2000-07-17  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* interface.el (print-makefile.common): Don't exclude swarm module.
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* interface.el (*removed-protocols*): Remove Arguments.

@@ -395,7 +395,6 @@
   (with-temp-file (concat (get-builddir) "Makefile.common")
     (loop for module-sym being each hash-key of *module-hash-table* 
           using (hash-value protocol-list)
-          unless (eq module-sym 'swarm)
           do
           (insert (symbol-name module-sym))
           (insert "_noncreatable_PROTOCOLS =")
