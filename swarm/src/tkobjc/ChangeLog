@@ -1,3 +1,11 @@
+1998-04-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* TkExtra.m (ensureBltSupportFiles): Cope with the inability
+	to find the Swarm source tree; use the current directory.
+	([TkExtra -preInitWithArgc:argv:]): Load bltGraph.tcl instead
+	of setting up the autoload path.  Look for word.tcl in the
+	current directory if there is not value for [info library].
+
 1998-03-31  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ZoomRaster.m ([ZoomRaster -handleConfigureWidth:Height:]): Don't

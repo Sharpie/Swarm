@@ -40,15 +40,24 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
         if (!retry)
           {
             const char *swarmHome = [arguments getSwarmHome];
-            const char *libdir = "/lib";
-            char libPath[strlen (swarmHome) + strlen (libdir) + 1];
-            char *p;
-            
-            p = stpcpy (libPath, swarmHome);
-            stpcpy (p, libdir);
-            
-            basePath = strdup (libPath); 
-            [globalTkInterp globalEval: "set blt_library %s", libPath];
+
+            if (swarmHome)
+              {
+                const char *libdir = "/lib";
+                char libPath[strlen (swarmHome) + strlen (libdir) + 1];
+                char *p;
+                
+                p = stpcpy (libPath, swarmHome);
+                stpcpy (p, libdir);
+                
+                basePath = strdup (libPath); 
+                [globalTkInterp globalEval: "set blt_library %s", libPath];
+              }
+            else
+              {
+                basePath = ".";
+                [globalTkInterp globalEval: "set blt_library %s", basePath];
+              }
             retry = 1;
             continue;
           }
@@ -84,9 +93,9 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
 
   ensureBltSupportFiles (arguments, self);
 
-  // (nelson) I think this is ok: lets us load cool graph code.
-  // presumably, $blt_library is always set right.
-  [self eval: "lappend auto_path $blt_library"];
+  // This avoids the need for consultation of tclIndex, which is useful
+  // when distributing just the minimum set of Tcl support files.
+  [self eval: "source $blt_library/bltGraph.tcl"];
 
   [self eval: "wm withdraw ."];			  // don't map "."
   
@@ -111,7 +120,11 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
       // Without the load below, on VarProbeEntry double-clicks, this occured:
       //   Original error: no value given for parameter "start" to "tcl_wordBreakBefore"
       // -mgd
-      [self eval: "source [info library]/word.tcl"];
+      [self eval: "if {[info library] == \"\"} { "
+            "source ./word.tcl "
+            "} else { "
+            "source [info library]/word.tcl "
+            "}"];
     }
 
   return filename;
