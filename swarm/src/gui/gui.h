@@ -182,6 +182,7 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - drawSelf;
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 - setButton: (int)n Client: c Message: (SEL)sel;
+- fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)color;
 - erase;
 @end
 
@@ -199,6 +200,7 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - setMoveSel: (SEL)sel;
 - setPostMoveSel: (SEL)sel; 
 - initiateMoveX: (long)deltaX Y: (long)deltaY;
+- moveX: (long)delta_x Y: (long)delta_y;
 @end
 
 @protocol NodeItem <CompositeItem>
