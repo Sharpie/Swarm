@@ -1,3 +1,7 @@
+1998-08-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am: Don't install m2h or make-h2x.
+
 1998-08-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Zone.m ([Zone_c -mapAllocations:]): Drop index.
