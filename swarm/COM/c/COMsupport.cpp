@@ -278,17 +278,25 @@ normalize (COMobject cObj)
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
   swarmITyping *typing;
 
-  if (!NS_SUCCEEDED (obj->QueryInterface (NS_GET_IID (swarmITyping), (void **) &typing)))
-    abort ();
-  
-  return typing;
+  if (NS_SUCCEEDED (obj->QueryInterface (NS_GET_IID (swarmITyping), (void **) &typing)))
+    return typing;
+  else
+    // e.g. JavaScript objects
+    {
+      nsISupports *baseInterface;
+     
+      if (NS_SUCCEEDED (obj->QueryInterface (NS_GET_IID (nsISupports), (void **) &baseInterface)))
+        return baseInterface;
+      else
+        abort ();
+    }
 }
 
 COMselector
 selectorQuery (COMobject cObj)
 {
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
-  swarmITyping *selector;
+  swarmISelector *selector;
 
   if (!NS_SUCCEEDED (obj->QueryInterface (NS_GET_IID (swarmISelector), (void **) &selector)))
     abort ();
