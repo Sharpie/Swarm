@@ -1,5 +1,9 @@
 <!-- General boilerplate -->
 
+<!ENTITY corpauthor 'Swarm Development Group'> 
+<!ENTITY orgname 'Santa Fe Institute'>
+<!ENTITY program-name "Swarm Project">
+
 <!ENTITY swarm-webpage 
   '<ulink url="http://www.santafe.edu/projects/swarm/">Swarm home page</ulink>'>
 
@@ -7,13 +11,30 @@
   '<ulink url="http://www.santafe.edu/projects/swarm/mailing-lists.html">Swarm
 mailing lists page</ulink>'>
 
-<!ENTITY permission 
- "Permission to use, copy, modify and distribute Swarm must be in
- accordance with the GNU Library Public Licence.">
+<!ENTITY doc-legalnotice
 
-<!ENTITY corpauthor 'Swarm Development Group'> 
-<!ENTITY orgname 'Santa Fe Institute'>
-<!ENTITY program-name "Swarm Project">
+ '<LEGALNOTICE> <TITLE>Licence terms for Swarm documentation</TITLE>
+    <PARA>Permission to use, copy, modify and distribute this
+    documentation must be in accordance with the <ULINK
+    url="http://www.gnu.org/copyleft/gpl.html">GNU Public
+    Licence</ULINK> (GPL).  Permission is also hereby given to copy
+    and redistribute this documentation <EMPHASIS>without</EMPHASIS>
+    written permission from the copyright owner (the &orgname;).  The
+    SGML source and associated utilites needed to generate this
+    documentation can be found in the package: <ULINK
+    url="ftp.santafe.edu/pub/swarm/swarmdocs-&swarm-doc-release-number;.tar.gz">swarmdocs-&swarm-doc-release-number;.tar.gz</ULINK></PARA>
+    </LEGALNOTICE>'>
+
+<!ENTITY swarm-legalnotice 
+
+ '<LEGALNOTICE> <TITLE>Licence terms for Swarm software</TITLE>
+  <PARA>The copyright holders make no representation about the
+  suitability of Swarm for any purpose. It is provided <QUOTE>as
+  is</QUOTE> without expressed or implied warranty. Please refer to
+  the <ULINK url="http://www.gnu.org/copyleft/lgpl.html">GNU Library Public
+  Licence</ULINK> (LGPL). Permission to use, copy, modify and
+  distribute Swarm must be in accordance with the LGPL.</PARA>
+  </LEGALNOTICE>'>
 
 <!ENTITY address 
 "<ADDRESS>
@@ -28,8 +49,8 @@ mailing lists page</ulink>'>
 <!ENTITY alex '<literallayout>Alex Lancaster <EMAIL>alex@santafe.edu</EMAIL></literallayout>'>
 
 <!ENTITY swarm-program 
- '<LITERALLAYOUT>&orgname;
-&program-name; </LITERALLAYOUT>&address;'>
+ '<LITERALLAYOUT>&program-name;
+&orgname; </LITERALLAYOUT>&address;'>
 
 <!ENTITY bibliodata  "<RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
     <PUBDATE>&pubdate;</PUBDATE>
@@ -38,3 +59,8 @@ mailing lists page</ulink>'>
       <HOLDER>&orgname;</HOLDER></COPYRIGHT>"
 >
 
+<!--
+Local variables: 
+mode: text
+End:
+-->

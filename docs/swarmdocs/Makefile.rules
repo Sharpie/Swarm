@@ -8,7 +8,7 @@ top_dossrcdir = @top_dossrcdir@
 HTML = $(top_dossrcdir)/html.dsl
 PRINT = $(top_dossrcdir)/print.dsl
 
-RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE)
+RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE) $(JADEFLAGS)
 CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/catalog
 
 FIGS = figs/swarm.eps # for the timestamp

@@ -521,6 +521,8 @@
        (normalize "legalnotice")
        (normalize "pubdate")         
        (normalize "releaseinfo")
+       (normalize "authorgroup")
+       (normalize "bibliomisc")
        (normalize "biblioset")
        (normalize "bookbiblio")
        (normalize "revhistory") 
@@ -563,7 +565,8 @@
       (element (revision date) ($revdate$))
       (element (revision authorinitials) ($authorinitials$))
       (element (revision revremark) ($revremark$))
-      (element releaseinfo (releaseinfo)))
+      (element releaseinfo (releaseinfo))
+      (element (set book bookinfo legalnotice) (empty-sosofo)))
 (mode reference-titlepage-verso-mode
       (element revhistory (revhistory))
       (element (revhistory revision) ($revision$))
@@ -581,6 +584,7 @@
       (element (revision revremark) ($revremark$))
       (element copyright (copyright))
       (element releaseinfo (releaseinfo)))
+
 
 (element revhistory (empty-sosofo))
 

@@ -1,3 +1,16 @@
+1999-01-13  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.rules (RUNJADE): Add new $(JADEFLAGS) that can be set
+	at the command line or by an extracted variable.
+
+	* common.dsl (book-titlepage-verso-mode): Make LEGALNOTICE empty
+	in the context of BOOKs within SETs to avoid repetition
+
+	* global.ent (doc-legalnotice, swarm-legalnotice): Define two new
+	LEGALNOTICE entities which refer to the licence arrangements for
+	the Swarm documentation and Swarm itself, respectively.
+	(permission): Remove old entity.
+
 1999-01-11  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in: Bump version to 1.4Beta.
