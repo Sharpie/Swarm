@@ -311,7 +311,7 @@ USING
 @end
 
 //G: values for DefaultOrder
-extern id <Symbol>  Concurrent, Sequential, Randomized;
+externvar id <Symbol> Concurrent, Sequential, Randomized;
 
 #ifndef DEFINED_timeval_t
 #define DEFINED_timeval_t
@@ -336,7 +336,7 @@ typedef unsigned long timeval_t;
 #endif
 
 //G: Maximum value of a value of type timeval_t.
-extern const timeval_t TimebaseMax;
+externvar const timeval_t TimebaseMax;
 
 
 @protocol RelativeTime
@@ -753,11 +753,11 @@ USING
 @end
 
 //G: Values returned by getStatus.
-extern id <Symbol> Initialized, Running, Holding, Released, Stopped,
+externvar id <Symbol> Initialized, Running, Holding, Released, Stopped,
   Terminated, Completed;
 
 //G: Values returned by getHoldType.
-extern id <Symbol> HoldStart, HoldEnd;
+externvar id <Symbol> HoldStart, HoldEnd;
 
 
 @protocol ForEachActivity <Activity>
@@ -852,11 +852,11 @@ USING
 ( _activity_current ? [_activity_current getCurrentSubactivity] : nil )
 
 //G: Internal variable used by current context macros.
-extern id _activity_current;
+externvar id _activity_current;
 
 //G: Internal error message issued when a current activity is
 //G: missing.
-extern id _activity_context_error (const char *macroName);
+externvar id _activity_context_error (const char *macroName);
 
 
 @protocol ConcurrentGroup <ActionGroup, CREATABLE>
@@ -881,11 +881,11 @@ USING
 @end
 
 //G: Error issued when an internal zone is expected, but absent.
-extern id <Error> InvalidSwarmZone;
+externvar id <Error> InvalidSwarmZone;
 
 
 //G: _activity_zone -- zone in which activity objects created
-extern id _activity_zone;
+externvar id _activity_zone;
 
 //G: trace function for activity execution
 //G: global variable for function to be called on every change in the
@@ -896,7 +896,7 @@ extern id _activity_zone;
 //G: Some form of trace facility will remain for debug purposes, 
 //G: however, at least until a full form of event history logging 
 //G: has been implemented as an integral part of the Activity type.
-extern BOOL (*_activity_trace)(id);  
+externvar BOOL (*_activity_trace) (id);  
 
 #define COMPLETEDP(status) ((id)(status) == (id)Completed)
 #define HOLDINGP(status) ((id)(status) == (id)Holding)

@@ -1,3 +1,7 @@
+1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* activity.h: Use `externvar' for external variable declarations.
+
 1999-05-26  Alex Lancaster  <alex@santafe.edu>
 
 	* activity.h, XActivity.[hm] ([Activity_c -run]): Cast return to
