@@ -73,7 +73,15 @@ int Blt_Init(Tcl_Interp *);			  // wish this were declared..
         "bind Text <Delete> [bind Text <BackSpace>]"];
   
   if (strcmp ([self getBltFullVersion], "8.0-unoff") == 0)
-    [self eval: "namespace import blt::*"];
+    {
+      [self eval: "namespace import blt::barchart"];
+      [self eval: "namespace import blt::bitmap"];
+      [self eval: "namespace import blt::busy"];
+      [self eval: "namespace import blt::drag&drop"];
+      [self eval: "namespace import blt::graph"];
+      [self eval: "namespace import blt::BLT_ZoomStack"];
+      [self eval: "namespace import blt::vector"];
+    }
 
   return filename;
 }
