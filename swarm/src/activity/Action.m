@@ -239,7 +239,6 @@ PHASE(Using)
 {
   id <FArguments> arguments =
     [FArguments createBegin: getCZone (getZone (self))];
-  id <FCall> fc = [FCall createBegin: getCZone (getZone (self))];
   
 #ifdef HAVE_JDK
   if ([theTarget respondsTo: M(isJavaProxy)])
@@ -247,7 +246,7 @@ PHASE(Using)
       jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
       const char *sig =
         swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
-      
+
       [arguments setJavaSignature: sig];
     }
 #endif
@@ -255,15 +254,10 @@ PHASE(Using)
   [self _addArguments_: arguments];
   arguments = [arguments createEnd];
 
-  [fc setArguments: arguments];
-#ifdef HAVE_JDK
-  if ([theTarget respondsTo: M(isJavaProxy)])
-    [fc setJavaMethod: sel_get_name (selector)
-        inObject: SD_FINDJAVA (jniEnv, theTarget)];
-  else
-#endif
-    [fc setMethod: selector inObject: theTarget];
-  return [fc createEnd];
+  return [FCall create: getCZone (getZone (self))
+                withTarget: theTarget
+                withSelector: selector
+                withArguments: arguments];
 }
 
 - (void)_performAction_: (id <Activity>)anActivity

@@ -1,3 +1,9 @@
+1999-12-15    <mgd@nest.swarm.org>
+
+	* Action.m ([ActionTo_c -_createCall_:]): Use new FCall
+	+create:withTarget:withSelector:withArguments: method instead of
+	conditional on respondsTo: M(isJavaProxy).
+
 1999-12-13    <mgd@nest.swarm.org>
 
 	* ActionGroup.[hm], activity.h ([ActionGroup_c
