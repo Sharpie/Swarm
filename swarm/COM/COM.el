@@ -805,6 +805,8 @@
           do
           (com-impl-print-interface-include argument-protocol :using))
     (insert "\n")
+    (insert "#include \"COMsupport.h\"\n")
+    (insert "#include \"componentIDs.h\"\n")
     (when (inclusive-phase-p phase :using)
       (insert "\n")
       (loop for argument-protocol being each hash-value of
@@ -817,8 +819,6 @@
     (insert "#include <objc/objc-api.h>\n")
     (insert "}\n")
     (insert "#include <defobj/COM.h>\n")
-    (insert "#include \"COMsupport.h\"\n")
-    (insert "#include \"componentIDs.h\"\n")
 
     (insert "\n")
     (com-impl-generate-supports protocol phase)
