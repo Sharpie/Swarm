@@ -1,3 +1,9 @@
+2001-01-17  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* NEWS: Note -forEach:: fix for Java collections.
+
+	* VERSION: Bump.
+
 2001-01-13  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VERSION: Bump.
