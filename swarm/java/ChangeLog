@@ -1,5 +1,7 @@
 1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* javaswarm: Use \012 instead of \n to avoid problems with ucb tr.
+
 	* java-stub.el (java-print-native-class): Use method-list instead
 	of protocol-method-list.
 

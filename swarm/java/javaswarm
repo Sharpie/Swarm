@@ -1,7 +1,7 @@
 #!/bin/sh
 . $SWARMHOME/etc/swarm/config.swarm
 
-LD_LIBRARY_PATH=`sort 2>/dev/null | uniq | tr '\n' ':' <<EOF
+LD_LIBRARY_PATH=`sort 2>/dev/null | uniq | tr '\012' ':' <<EOF
 $swarm_libdir
 $xpmlibdir
 $tcllibdir
