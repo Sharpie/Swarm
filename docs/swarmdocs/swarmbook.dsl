@@ -249,29 +249,6 @@
                                            (id-to-indexitem id)))))
                             (loop (cdr linkends)))))))))
 
-(define ($img$ #!optional (nd (current-node)) (alt #f))
-  (let* ((fileref (attribute-string (normalize "fileref") nd))
-	 (entattr (attribute-string (normalize "entityref") nd))
-	 (entityref (if entattr
-			(entity-system-id entattr)
-			#f))
-	 (format  (attribute-string (normalize "format")))
-	 (align   (attribute-string (normalize "align")))
-	 (attr    (append 
-		   (if align 
-		       (list (list "ALIGN" align)) 
-		       '())
-		   (if entityref
-		       (list (list "SRC" (graphic-file entityref)))
-		       (list (list "SRC" (graphic-file fileref))))
-		   (if alt
-		       (list (list "ALT" alt))
-		       '()))))
-    (if (or fileref entityref) 
-	(make empty-element gi: "IMG"
-	      attributes: attr)
-	(empty-sosofo))))
-
 (mode book-titlepage-recto-mode
 
   (element graphic
