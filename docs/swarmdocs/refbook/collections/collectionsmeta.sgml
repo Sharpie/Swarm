@@ -1,4 +1,4 @@
-<DOCINFO>
+<referenceinfo>
 
   <TITLE>Collections Library</TITLE>
 
@@ -85,10 +85,10 @@
 
   &collectionsrevhistory.sgml;
 
-</DOCINFO>
+</referenceinfo>
 
 <!--
 Local Variables:
-sgml-parent-document:("collectionscont.sgml" "DOCINFO")
+sgml-parent-document:("collectionscont.sgml" "REFERENCEINFO")
 End:
 -->
