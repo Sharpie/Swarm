@@ -1,3 +1,7 @@
+2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* DiGraphLink.[hm]: Change return type of -update to void.
+
 2000-02-27    <mgd@nest.swarm.org>
 
 	* Makefile (SWARMHOME): Update for 2.1.

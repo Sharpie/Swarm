@@ -58,11 +58,10 @@
   return linkItem;
 }
 
-- update
+- (void)update
 {
   if (linkItem)
     [linkItem update];
-  return self;
 }
 
 - hideLink

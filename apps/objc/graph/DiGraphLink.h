@@ -17,7 +17,7 @@
 - getFrom;
 - getTo;
 - getLinkItem;
-- update;
+- (void)update;
 - hideLink;
 - (void)drop;
 @end
