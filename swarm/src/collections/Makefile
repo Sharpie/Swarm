@@ -1,5 +1,4 @@
 SWARMHOME=../..
-SWARMHOME=../..
 include $(SWARMHOME)/Makefile.conf
 INCLIB=$(INCDIR)/collections
 
