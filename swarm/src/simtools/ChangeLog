@@ -1,3 +1,9 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* simtools.h: Add inhibitExecutableSearchFlag argument.
+
+	* initSwarm.h (_initSwarm_): Likewise.
+
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ObjectLoader.m (loadAborted, ABORT, [ObjectLoader

@@ -375,7 +375,7 @@ USING
               APPNAME_STRING, \
               APPVERSION_STRING, \
               BUGADDRESS_STRING, \
-              Nil, NULL, NULL, NO)
+              Nil, NULL, NULL, NO, NO)
 
 //#: Initializes the Swarm libraries for batch mode
 //#: without version or bug report address information.
@@ -384,31 +384,31 @@ USING
               APPNAME_STRING, \
               APPVERSION_STRING, \
               BUGADDRESS_STRING, \
-              Nil, NULL, NULL, YES)
+              Nil, NULL, NULL, YES, NO)
 
 //#: Initializes the Swarm libraries for an application.  
 #define initSwarmApp(argc, argv, version, bugAddress) \
  _initSwarm_ (argc, argv, \
               APPNAME_STRING, \
-              version, bugAddress, Nil, NULL, NULL, NO)
+              version, bugAddress, Nil, NULL, NULL, NO, NO)
 
 //#: Like initSwarmApp, but initializes in batch-mode only
 #define initSwarmAppBatch(argc, argv, version, bugaddress) \
  _initSwarm_ (argc, argv, \
               APPNAME_STRING, \
-              version, bugAddress, Nil, NULL, NULL, YES)
+              version, bugAddress, Nil, NULL, NULL, YES, NO)
 
 //#: Like initSwarmApp, but specifies a parsing function .
 #define initSwarmAppOptions(argc, argv, version, bugAddress, options, optionFunc) \
  _initSwarm_ (argc, argv, \
               APPNAME_STRING, \
-              version, bugAddress, Nil, options, optionFunc, NO)
+              version, bugAddress, Nil, options, optionFunc, NO, NO)
 
 //#: Like initSwarmAppOptions, but initializes in batch-mode only
 #define initSwarmAppOptionsBatch(argc, argv, version, bugAddress, options, optionFunc) \
  _initSwarm_ (argc, argv, \
               APPNAME_STRING, \
-              version, bugAddress, Nil, options, optionFunc, YES)
+              version, bugAddress, Nil, options, optionFunc, YES, NO)
 
 //#: Like initSwarm, but specifies what class to use for argument
 //#: parsing, typically this will be a subclass of Arguments.
@@ -418,14 +418,14 @@ USING
               APPVERSION_STRING, \
               BUGADDRESS_STRING, \
               argumentsClass, \
-              NULL, NULL, NO)
+              NULL, NULL, NO, NO)
 
 //#: Like initSwarmApp, but specifies what class to use for argument
 //#: parsing, typically this will be a subclass of Arguments.
 #define initSwarmAppArguments(argc, argv, version, bugAddress, argumentsClass) \
  _initSwarm_ (argc, argv, \
               APPNAME_STRING, \
-              version, bugAddress, argumentsClass, NULL, NULL, NO)
+              version, bugAddress, argumentsClass, NULL, NULL, NO, NO)
 
 //G: Flag for whether we're in graphics mode or not.  Default is NO.
 externvar BOOL swarmGUIMode;

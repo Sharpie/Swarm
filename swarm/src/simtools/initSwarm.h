@@ -5,7 +5,8 @@ extern void _initSwarm_ (int argc, const char **argv, const char *appName,
                          Class argumentsClass,
                          struct argp_option *options,
                          int (*optionFunc) (int key, const char *arg),
-                         BOOL forceBatchMode);
+                         BOOL forceBatchMode,
+                         BOOL inhibitExecutableSearchFlag);
 
 #define STRINGIFY(sym) #sym
 #define STRINGIFYSYM(sym) STRINGIFY(sym)

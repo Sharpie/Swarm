@@ -57,7 +57,8 @@ _initSwarm_ (int argc, const char **argv, const char *appName,
       Class argumentsClass,
       struct argp_option *options,
       int (*optionFunc) (int key, const char *arg),
-      BOOL forceBatchMode)
+      BOOL forceBatchMode,
+      BOOL inhibitExecutableSearchFlag)
 {
 #ifdef hpux
   run_constructors ();
@@ -67,7 +68,8 @@ _initSwarm_ (int argc, const char **argv, const char *appName,
   initDefobj (argc, argv, 
               appName, version, bugAddress,
               argumentsClass,
-              options, optionFunc);
+              options, optionFunc,
+              inhibitExecutableSearchFlag);
 
   initProbing ();
 
