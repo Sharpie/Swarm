@@ -180,7 +180,7 @@ extern int compareIntegers( id, id );
 //
 // KeyedCollection -- member identity definition shared by Set and Map types 
 //
-@deftype KeyedCollection
+@deftype KeyedCollection <Collection>
 CREATING
 - (void)	setDupOption: dupOption;
 - (void)	setDupMembersType: aCollectionType;
@@ -297,12 +297,24 @@ USING
 - (void)	catC: (char *)cstring;
 @end
 
+@deftype InputStream <Create, Drop, CREATABLE>
+CREATING
++ create: aZone setFileStream: (FILE *)file;
+-               setFileStream: (FILE *)fileStream;
+USING
+- (FILE *)      getFileStream;
+-               getExpr;
+@end
+
+id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
+
 //
 // String -- character string object (later to support collection behavior)
 //
 @deftype String <Create, Drop, Copy, CREATABLE>
 CREATING
 +		create: aZone setC: (char *)cstring;
+-               setLiteralFlag: (BOOL)literalFlag;
 SETTING
 - (void)	setC: (char *)cstring;
 USING
@@ -311,7 +323,10 @@ USING
 
 - (int)		getCount;
 - (int)		compare: aString;
+- (BOOL)        getLiteralFlag;
 @end
+
+id LiteralString;
 
 //
 // appendC: -- previous name for catC on OutputStream and String, now obsolete

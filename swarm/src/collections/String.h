@@ -17,12 +17,14 @@ Library:      collections
 @public
   char  *string;
   int   count;
+  BOOL literalFlag;
 }
 /*** methods in String_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - createEnd;
 + create: aZone;
 + create: aZone setC: (char *)cstring;
+- setLiteralFlag : (BOOL)literalFlag;
 - (void) setC: (char *)cstring;
 - copy: aZone;
 - (char *) getC;
@@ -32,6 +34,7 @@ Library:      collections
 - (int) count;
 - (int) length;
 - (int) compare: aString;
+- (BOOL)getLiteralFlag;
 - (void) describe: outputCharStream;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end

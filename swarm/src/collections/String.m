@@ -18,7 +18,7 @@ Library:      collections
 @implementation String_c
 
 PHASE(Creating)
-
+     
 + createBegin: aZone
 {
   String_c *newString;
@@ -28,6 +28,7 @@ PHASE(Creating)
   // create initial string of length zero
 
   newString->count  = 0;
+  newString->literalFlag = 0;
   newString->string = "";
   return newString;
 }
@@ -49,6 +50,12 @@ PHASE(Creating)
   newString->count  = 0;
   newString->string = "";
   return newString;
+}
+
+- setLiteralFlag : (BOOL)theLiteralFlag
+{
+  literalFlag = theLiteralFlag;
+  return self;
 }
 
 + create: aZone setC: (char *)cstring
@@ -156,6 +163,11 @@ PHASE(Using)
   return strcmp( string, ((String_c *)aString)->string );
 }
 
+- (BOOL)getLiteralFlag
+{
+  return literalFlag;
+}
+
 //
 // describe: -- standard method to generate debug description
 //
@@ -174,6 +186,19 @@ PHASE(Using)
              string );
     [outputCharStream catC: buffer];
   }
+}
+
+- out : outputCharStream
+{
+  if (literalFlag)
+    {
+      [outputCharStream catC: "\""];
+      [outputCharStream catC: [self getC]];
+      [outputCharStream catC: "\""];
+    }
+  else
+    [outputCharStream catC: [self getC]];
+  return self;
 }
 
 //

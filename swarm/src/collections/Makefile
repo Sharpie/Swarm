@@ -6,8 +6,8 @@ INCLIB=$(INCDIR)/collections
 LISTOBJECTS = List_linked.o List_mlinks.o
 
 OBJECTS= collections.o Collection.o Array.o List.o $(LISTOBJECTS) \
-         Map.o Set.o OrderedSet.o String.o OutputStream.o
-
+         Map.o Set.o OrderedSet.o String.o InputStream.o OutputStream.o \
+         predicates.o
 
 all: install-headers install-lib
 
@@ -40,7 +40,9 @@ install-headers: \
          $(INCLIB)/OrderedSet.h \
          $(INCLIB)/Set.h \
          $(INCLIB)/String.h \
-         $(INCLIB)/OutputStream.h
+	 $(INCLIB)/InputStream.h \
+         $(INCLIB)/OutputStream.h \
+         $(INCLIB)/predicates.h
 
 $(INCDIR)/collections.h: collections.h
 	cp $? $@
@@ -71,4 +73,8 @@ $(INCLIB)/Set.h: Set.h
 $(INCLIB)/String.h: String.h
 	cp $? $@
 $(INCLIB)/OutputStream.h: OutputStream.h
+	cp $? $@
+$(INCLIB)/InputStream.h: InputStream.h
+	cp $? $@
+$(INCLIB)/predicates.h: predicates.h
 	cp $? $@

@@ -10,7 +10,7 @@ Library:      collections
 */
 
 #include "collections.xm"
-#import  <collections/Collection.h>
+#import <collections/Collection.h>
 
 //
 // _collections_implement() -- generate implementations for defobj module
@@ -25,6 +25,7 @@ void _collections_implement( void )
   [id_Set_c          setTypeImplemented: Set         ];
   [id_OrderedSet_c   setTypeImplemented: OrderedSet  ];
   [id_String_c       setTypeImplemented: String      ];
+  [id_InputStream_c  setTypeImplemented: InputStream ];
   [id_OutputStream_c setTypeImplemented: OutputStream];
 }
 
@@ -33,4 +34,12 @@ void _collections_implement( void )
 //
 void _collections_initialize( void )
 {
+  LiteralString = [String customizeBegin: globalZone];
+  [LiteralString setLiteralFlag: 1];
+  LiteralString = [LiteralString customizeEnd];
+
+  defsymbol(ArchiverLiteral);
+  defsymbol(ArchiverQuote);
+  defsymbol(ArchiverEOL);
+  defsymbol(ArchiverDot);
 }
