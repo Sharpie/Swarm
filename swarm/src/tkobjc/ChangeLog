@@ -1,7 +1,7 @@
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Histogram.[hm] ([Histogram -setBinCount:]): Replaces -setNumBins:.
-	([Histogram -setActiveOutlierText:count:]): Change count argument
+	([Histogram -setActiveOutlierText:count:]): Change arguments
 	to be unsigned.
 
 	* Histogram.m: Adjust throughout for numBins -> binCount.
