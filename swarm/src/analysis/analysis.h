@@ -361,6 +361,7 @@ USING
 //D: returns FALSE then that x value is skipped, otherwise it is assummed
 //D: that y = f(x) and that value is plotted.
 
+CREATING
 + createBegin: aZone;
 - createEnd;
 
@@ -390,6 +391,7 @@ USING
 //M: Set the frequency at which to clear the graph element.
 - setResetFrequency: (unsigned)freq;
 
+USING
 //M: Draw the graph with the current contents of the graph element.
 - graph;
 @end
