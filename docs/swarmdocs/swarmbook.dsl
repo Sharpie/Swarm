@@ -160,10 +160,22 @@
 
 (define (revhistory)
     (sosofo-append
-     ($lowtitlewithsosofo$ 3 (literal "Revision History"))
-     (make display-group
-           start-indent: 1.0in
-           (process-children))))
+     (let* ((tlevel 2)
+            (hs (HSIZE (- 3 tlevel))))
+       (make paragraph
+             font-family-name: %title-font-family%
+             font-weight: 'bold
+             font-size: hs
+             line-spacing: (* hs %line-spacing-factor%)
+             space-before: (* hs %head-before-factor%)
+             space-after: (* hs %head-after-factor%)
+             quadding: 'start
+             keep-with-next?: #t
+             heading-level: (if %generate-heading-level% (+ tlevel 2) 0)
+             (literal "Revision History")))
+     (process-children)))
+
+(element abstract (make sequence (process-children)))
 
 </style-specification-body>
 </style-specification>

@@ -219,34 +219,9 @@
           (string=? (car (cdr (cdr (cdr id-split-list)))) type))
         #f))
 
-(define (char-change-case ch upcase)
-    (let loop ((lc-pos
-                '(#\a #\b #\c #\d #\e #\f #\g #\h #\i #\j #\k #\l #\m
-                  #\n #\o #\p #\q #\r #\s #\t #\u #\v #\w #\x #\y #\z))
-               (uc-pos 
-                '(#\A #\B #\C #\D #\E #\F #\G #\H #\I #\J #\K #\L #\M
-                  #\N #\O #\P #\Q #\R #\S #\T #\U #\V #\W #\X #\Y #\Z)))
-         (if (null? lc-pos)
-             ch
-             (if upcase
-                 (if (char=? (car lc-pos) ch)
-                     (car uc-pos)
-                     (loop (cdr lc-pos) (cdr uc-pos)))
-                 (if (char=? (car uc-pos) ch)
-                     (car lc-pos)
-                     (loop (cdr lc-pos) (cdr uc-pos)))))))
-
-(define (string-change-case str upcase)
-    (let loop ((l (string->list str)))
-         (if (null? l)
-             ""
-             (string-append 
-              (string (char-change-case (car l) upcase))
-              (loop (cdr l))))))
-         
 (define (module-for-id id)
     (let* ((id-elements (split-string id #\.)))
-      (string-change-case (car (cdr id-elements)) #f)))
+      (case-fold-down (car (cdr id-elements)))))
 
 (define (title-for-refentry refentry)
     (data
@@ -307,7 +282,7 @@
 (define (revhistory-title-for-id id)
     (let ((id-elements (split-string id #\.)))
       (string-append "Revision History (" 
-                     (string-change-case (car (cdr id-elements)) #f)
+                     (case-fold-down (car (cdr id-elements)))
                      ")")))
 
 (define (id-to-indexitem id)
@@ -514,7 +489,7 @@
        (normalize "pubdate")         
        (normalize "releaseinfo")
        (normalize "biblioset")
-       (normalize "abstract")
+       ;(normalize "abstract")
        (normalize "revhistory")))
 
 (define article-titlepage-recto-elements common-titlepage-recto-elements)
