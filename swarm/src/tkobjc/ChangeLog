@@ -2,9 +2,15 @@
 
 	* win32dib.c (dib_snapshot): Select depth from device context
 	depth (BITSPIXEL).
+	(dib_snapshot): Move plp to function scope; don't free it until
+	the end, and only if set.  Make colors by a LPBYTE, not a pointer
+	to RGBQUAD.  Get rgb values from logical palette (plp).
+	(dib_augmentPalette): Don't use getcolor to set dibInfo->rgb,
+	use colormap.
 
 	* internal.m (keep_inside_screen): For Windows, use GetDeviceCaps
 	instead of GetWindowRect for determining desktop pixel size.
+	(tkobjc_pixmap_save): ncolors <= 256, not < 256.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -144,6 +144,7 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   LPBYTE bits;
   WORD depth;
   LPBITMAPINFOHEADER pbmp = &dib->dibInfo->bmiHead;
+  LOGPALETTE *plp = NULL;
 
   depth = (GetDeviceCaps (hdc, BITSPIXEL) <= 8) ? 8 : 24;
   GetWindowRect (dib->window, &rect);
@@ -159,7 +160,6 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
     {
       UINT cnt;
       HPALETTE hpal;
-      LOGPALETTE *plp;
       
       cnt = GetDeviceCaps (hdc, SIZEPALETTE);
       plp = xmalloc (sizeof (LOGPALETTE) + sizeof (PALETTEENTRY) * cnt);
@@ -169,7 +169,6 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
       if (cnt == 0)
 	abort ();
       hpal = CreatePalette (plp);
-      XFREE (plp);
       SelectPalette (hmemdc, hpal, FALSE);
       holdPal = SelectPalette (hdc, hpal, FALSE);
     }
@@ -197,7 +196,7 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
       {
 	unsigned i;
 	BYTE max = 0;
-	RGBQUAD *colors = (PVOID) pbmp + sizeof (BITMAPINFOHEADER);
+	LPBYTE colors = (PVOID) pbmp + sizeof (BITMAPINFOHEADER);
 	LPBYTE pixels = bits;
 	
 	for (i = 0; i < pixelCount; i++)
@@ -207,11 +206,13 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
 	{
 	  unsigned colorCount = max + 1;
 	  unsigned long map[colorCount];
-	  
+        
 	  for (i = 0; i < colorCount; i++)
-	    map[i] = colors[i].rgbRed
-	      | (colors[i].rgbGreen << 8)
-	      | (colors[i].rgbBlue << 16);
+            {
+              PALETTEENTRY *pe = &plp->palPalEntry[i];
+              
+              map[i] = (pe->peRed) | (pe->peGreen << 8) | (pe->peBlue << 16);
+            }
 	  dib_augmentPalette (dib, SNAPSHOTPALETTE, colorCount, map);
 	}
       }
@@ -230,6 +231,8 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   dib->bits = bits;
   if (holdPal)
     SelectObject (hdc, holdPal);
+  if (plp)
+    XFREE (plp);
   ReleaseDC (dib->window, hdc);
   DeleteDC (hmemdc);
 }
@@ -289,7 +292,11 @@ dib_augmentPalette (dib_t *dib,
       RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
       
       for (i = 0; i < colormapSize; i++)
-        get_color (dib, i, &rgb[i].rgbRed, &rgb[i].rgbGreen, &rgb[i].rgbBlue);
+        {
+          rgb[i].rgbRed = colormap[i] & 0xff;
+          rgb[i].rgbGreen = (colormap[i] & 0xff00) >> 8;
+          rgb[i].rgbBlue = (colormap[i] & 0xff0000) >> 16;
+        }  
 
       if (dib->bitmap)
 	{
