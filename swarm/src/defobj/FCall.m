@@ -186,10 +186,12 @@ static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
   &ffi_type_uint64, &ffi_type_sint64, 
   // Note that some compilers may want to use double here
   &ffi_type_float, 
-  &ffi_type_double, 
+  &ffi_type_double,
+  &ffi_type_long_double,
   &ffi_type_pointer,
   &ffi_type_pointer, 
   &ffi_type_pointer, 
+  &ffi_type_pointer,
   &ffi_type_pointer,
   &ffi_type_pointer};
 #endif
