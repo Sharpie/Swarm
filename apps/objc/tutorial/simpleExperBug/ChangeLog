@@ -1,5 +1,7 @@
 2000-04-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* README: Updates for archivers.
+
 	* ModelSwarm.[hm]: Make world{X,Y}Size and time unsigned
 	and getter/setters.
 
