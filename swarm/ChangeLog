@@ -1,9 +1,12 @@
 1998-05-29  Alex Lancaster  <alex@santafe.edu>
 
+	* INSTALL: Added the generic INSTALL instructions for building
+	packages with 'configure'.  Required by GNU automake.
+
 	* COPYING: Created from LICENCE.
 
 	* AUTHORS: Created from Acknowledgements.  Changed to reflect
-	current affliations.
+ 	current affliations.
 
 	* NEWS: Created from Release-Notes.
 
