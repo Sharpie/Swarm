@@ -1,3 +1,7 @@
+2001-10-24  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* probing.m: Include misc.h.
+
 2001-09-23  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m ([VarProbe -_setupObjcVarProbe_]): Copy probedType

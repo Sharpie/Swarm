@@ -7,6 +7,7 @@
 
 #import "probing.h"
 #import "local.h"
+#include <misc.h> // abort
 
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
