@@ -119,30 +119,29 @@ List* tclList;
       size_t path_len = strlen (path);
       size_t subdir_len = subdir ? strlen (subdir) + 1 : 0;
       size_t len = path_len + 1 + subdir_len + strlen (file) + 1;
-      char buf[len];
-      
-      strcpy (buf, path);
+      char *dirbuf = malloc (len);
+      char filebuf[len + strlen (file) + 1];
+
+      if (dirbuf == NULL)
+        abort ();
+      strcpy (dirbuf, path);
       if (path[path_len - 1] != '/')
-        strcat (buf, "/");
+        strcat (dirbuf, "/");
       if (subdir)
         {
-          strcat (buf, subdir);
-          strcat (buf, "/");
+          strcat (dirbuf, subdir);
+          strcat (dirbuf, "/");
         }
-      strcat (buf, file);
-      
-      if (access (buf, R_OK) != -1)
-        {
-          const char *ptr = dropdir (buf);
-          const char *ret = malloc (strlen (ptr) + 1);
-           
-          if (ret == NULL)
-            abort ();
-          strcpy (ret, ptr);
-          return ret;
-        }
+      strcpy (filebuf, dirbuf);
+      strcat (filebuf, file);
+
+      if (access (filebuf, R_OK) != -1)
+        return dirbuf;
       else 
-        return NULL;
+        {
+          free (dirbuf);
+          return NULL;
+        }
     }
 }
 

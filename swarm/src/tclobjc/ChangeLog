@@ -1,9 +1,10 @@
 1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* TclInterp.m ([TclInterp -checkPath:subdirectory:file:]): 
-	Add subdirectory argument.
+	* TclInterp.m ([TclInterp -checkPath:subdirectory:file:]): Add
+	subdirectory argument.
 	([TclInterp -checkPath:subdirectory:file:]): Don't append / if
-	there already is one, and filename in case of success.
+	there already is one, and return path (sans filename) in case of
+	success.
 
 	* T{cl,k}Interp.m ([T{cl,k}Interp -checkT{cl,k}Library]): Use above
 	and secondaryPath as base for t{cl,k}8.0 instead of as an explicit
