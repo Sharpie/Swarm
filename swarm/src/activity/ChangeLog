@@ -1,3 +1,7 @@
+1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (module_headers): Add activity.xm.
+
 1998-12-11  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Action.h (CAction): Add new field bits to allow setting 

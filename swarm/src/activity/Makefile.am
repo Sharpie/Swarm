@@ -10,7 +10,7 @@ INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I.. -I$(srcdir)/..
 
 lib_LTLIBRARIES = libactivity.la
 
-module_headers = classes.h types.h
+module_headers = classes.h types.h activity.xm
 
 BUILT_SOURCES = $(module_headers)
 
