@@ -1,6 +1,6 @@
 If you are reading this, you got the code already.    
 
-Source tarballs from the Sarm 2.2 release should build on the Mac.
+Source tarballs from the Swarm 2.2 release should build on the Mac.
 
 In your BLT install, ensure you have a symlink bltGraph.tcl linked to graph.tcl.
 i.e. do this
