@@ -18,5 +18,5 @@ function test () {
 
   env.xprint (obj);
 
-  sel.create (obj, "myMethod", false);
+  sel.create (obj, "getZone", false);
 }

@@ -8,8 +8,12 @@
 (defconst *com-impl-prefix* "swarm")
 
 (defconst *com-objc-to-idl-type-alist*
-    '(("id .*" . "nsISupports")
-      ("TYPING" . "swarmITyping")
+    '(("id.*" . "nsISupports")
+
+      ;; can't use nsCIDRef because that would result in pointer to a reference
+      ;; on return
+      ("Class" . "nsCIDPtr") 
+
       ("SEL" . "swarmISelector")
       
       ("void" . "void")
@@ -32,8 +36,6 @@
       ("unsigned long" . "unsigned long")
       ("timeval_t" . "unsigned long")
       ("size_t" . "unsigned long")
-
-      ("Class" . "nsISupports"); XXX
 
       ("long long" . "long long")
       ("unsigned long long" . "unsigned long long")
@@ -97,6 +99,7 @@
     ("wchar" . "PRUnichar")
     ("string" . "const char*")
     ("wstring" . "PRUnichar*")
+    ("nsCIDPtr" . "const nsCID*")
     ))
 
 (defvar *com-uuid-hash-table* (make-hash-table :test #'equal))
@@ -301,8 +304,6 @@
     
     ;; this won't get picked up by collecting protocols, as SEL isn't one.
     (insert "#include \"swarmISelector.idl\"\n") 
-    ;; likewise (from "TYPING")
-    (insert "#include \"swarmITyping.idl\"\n")
     
     (loop for objc-type being each hash-key of ht
           do
@@ -437,7 +438,7 @@
                  (make-method
                   :phase :creating
                   :factory-flag t
-                  :arguments (list (list "create" "TYPING" "obj")
+                  :arguments (list (list "create" "id" "obj")
                                    (list nil "const char *" "methodName")
                                    (list nil "BOOL" "objcFlag"))
                   :return-type "id <Selector>"))))
