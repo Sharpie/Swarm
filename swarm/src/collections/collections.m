@@ -31,6 +31,7 @@ _collections_implement (void)
   [id_ArchiverKeyword_c setTypeImplemented: ArchiverKeyword];
   [id_ArchiverValue_c setTypeImplemented: ArchiverValue];
   [id_ArchiverArray_c setTypeImplemented: ArchiverArray];
+  [id_ArchiverPair_c setTypeImplemented: ArchiverPair];
 }
 
 //

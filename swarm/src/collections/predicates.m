@@ -20,6 +20,12 @@ literal_string_p (id obj)
 }
 
 BOOL
+symbolp (id obj)
+{
+  return [obj isKindOfClassNamed: "Symbol_c"];
+}
+
+BOOL
 listp (id obj)
 {
   // conformsTo @protocol(List) core dumps. isKindOf doesn't work either!
@@ -42,4 +48,10 @@ BOOL
 arrayp (id obj)
 {
   return [obj isKindOfClassNamed: "ArchiverArray_c"];
+}
+
+BOOL
+pairp (id obj)
+{
+  return [obj isKindOfClassNamed: "ArchiverPair_c"];
 }

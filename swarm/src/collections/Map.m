@@ -334,17 +334,29 @@ PHASE(Using)
 
 - lispIn: expr
 {
-#if 0
-  id index, member, key;
+  id index, member;
+  id aZone = [self getZone];
 
   index = [(id) expr begin: scratchZone];
-  while ((member = [index next: &key]))
-    if (keywordp (member))
-      [index next];
-    else
-      [(id) self at: (id)key insert: lispIn ([self getZone], member)];
+  while ((member = [index next]) != nil)
+    if (pairp (member))
+      {
+        id keyExpr = [member getCar];
+        id valueExpr = [member getCdr];
+        id key, value;
+        
+        if (valuep (keyExpr))
+          {
+            if ([keyExpr getValueType] != _C_INT)
+              raiseEvent (InvalidArgument, "ArchiverValue not integer");
+            key = (id) [keyExpr getInteger];
+          }
+        else
+          key = lispIn (aZone, keyExpr);
+        value = lispIn (aZone, valueExpr);
+        [(id) self at: key insert: value];
+      }
   [index drop];
-#endif
   return self;
 }
 

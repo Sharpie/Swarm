@@ -72,3 +72,14 @@ Library:     collections
 - (BOOL)getBoolean;
 - (char)getValueType;
 @end
+
+@interface ArchiverPair_c: CreateDrop_s
+{
+  id car;
+  id cdr;
+}
+- setCar: car;
+- setCdr: cdr;
+- getCar;
+- getCdr;
+@end

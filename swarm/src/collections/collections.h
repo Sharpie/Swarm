@@ -999,7 +999,16 @@ USING
 - (void)drop;
 @end
 
-#define ARCHIVERLITERALP(obj) ((id) (obj) == (id)ArchiverLiteral)
+@protocol ArchiverPair <Create, Drop, CREATABLE>
+CREATING
+- setCar: car;
+- setCdr: cdr;
+USING
+- getCar;
+- getCdr;
+@end
+
+#define ARCHIVERLITERALP(obj) ((id) (obj) == (id) ArchiverLiteral)
 
 @protocol String <Create, Drop, Copy, CREATABLE>
 //S: Character string object (later to support collection behavior).

@@ -191,9 +191,21 @@ readString (id inStream, BOOL literalFlag)
 
           if (newObj == nil)
             [self _unexpectedEOF_];
-          if (newObj == (id)ArchiverEOL)
+          if (newObj == (id) ArchiverEOL)
             break;
           [list addLast: newObj];
+        }
+      
+      if (symbolp ([list atOffset: 1]) && [list getCount] == 3)
+        {
+          id pair = [ArchiverPair createBegin: [self getZone]];
+
+          [pair setCar: [list getFirst]];
+          [pair setCdr: [list getLast]];
+
+          pair = [pair createEnd];
+          [list drop];
+          return pair;
         }
       return list;
     }
@@ -522,4 +534,31 @@ PHASE(Using)
   return number.ch;
 }
 
+@end
+
+@implementation ArchiverPair_c
+PHASE(Creating)
+
+- setCar: val;
+{
+  car = val;
+  return self;
+}
+
+- setCdr: val
+{
+  cdr = val;
+  return self;
+}
+
+PHASE(Using)
+- getCar
+{
+  return car;
+}
+
+- getCdr
+{
+  return cdr;
+}
 @end
