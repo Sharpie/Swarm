@@ -1,3 +1,9 @@
+1999-04-24  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* Makefile.am (ARGP_SRC): New variable.
+	(EXTRA_DIST): Use it.
+	(SRC): Move argp stuff to ARGP_SRC.
+
 1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* avl.c: Include misc.h and remove xmalloc #ifdef logic.

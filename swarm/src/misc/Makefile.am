@@ -10,15 +10,16 @@ INCLUDES = -I$(srcdir)/..
 
 lib_LTLIBRARIES = libmisc.la
 
+ARGP_SRC = argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
+	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c getopt1.c \
+	getopt.c
+
 EXTRA_DIST = memchr.c memcpy.c memset.c \
 	realpath.c \
 	stpcpy.c strchr.c strcmp.c strdup.c strlen.c strncmp.c \
-	strndup.c strnlen.c strpbrk.c strsep.c 
+	strndup.c strnlen.c strpbrk.c strsep.c $(ARGP_SRC)
 
-SRC = getopt.c getopt1.c xmalloc.c find_executable.c \
-	argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
-	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c \
-	dropdir.c avl.c 
+SRC = xmalloc.c find_executable.c dropdir.c avl.c 
 
 noinst_HEADERS = argp-fmtstream.h argp-namefrob.h mem.h
 
