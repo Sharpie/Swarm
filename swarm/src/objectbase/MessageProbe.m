@@ -376,7 +376,7 @@ dynamicCallOn (const char *probedType,
   if (val.type == _C_ID)
     return val.val.object;
   else if (val.type == _C_SEL)
-    return val.val.selector;
+    return (id) val.val.selector;
   else
     abort ();
 }
