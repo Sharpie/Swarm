@@ -14,9 +14,9 @@
       generating random numbers, as well as documenting how things
       work and what shortcomings there are. If you want to learn more
       about random number generation, the bibliography [See:
-      <FILENAME>$(SWARMHOME)/src/random/docs/SOURCES.for.0.7]</FILENAME> has
-      useful notes. Knuth is the main reference in this realm, but too
-      old to describe most of the particular generators used here.
+      <FILENAME>$(SWARMHOME)/src/random/docs/SOURCES.for.0.7]</FILENAME>
+      has useful notes. Knuth is the main reference in this realm, but
+      too old to describe most of the particular generators used here.
     </PARA>
 
   </SIDEBAR>
@@ -173,11 +173,12 @@ Generators now remember what seed values they were started with. They also
 count how many variates they have delivered (i.e., how many calls to
 -getUnsignedSample they have serviced.)
 
-There are a few arbitrary seed values, DEFAULTSEED, DEFAULTSEED1, DEFAULTSEED2,
-DEFAULTSEED3, DEFAULTSEED4 defined. There is the value RANDOMSEED, which will
-be different every time it is invoked. And there is value STARTSEED, which will
-by default equal DEFAULTSEED, but will instead be equal to RANDOMSEED if you 
-start your program with the '-varySeed' command line parameter.
+There are a few arbitrary seed values, DEFAULTSEED, DEFAULTSEED1,
+DEFAULTSEED2, DEFAULTSEED3, DEFAULTSEED4 defined. There is the value
+RANDOMSEED, which will be different every time it is invoked. And
+there is value STARTSEED, which will by default equal DEFAULTSEED, but
+will instead be equal to RANDOMSEED if you start your program with the
+'--varyseed' command line parameter.
 
 The generators have gained a new creation method, '+createWithDefaults: aZone',
 which creates the generator and initializes it with STARTSEED. Split 
@@ -606,13 +607,13 @@ One new distribution class, BernoulliDist, has been added. It returns
 binary values (yes/true/1) with a given probability (while the old
 RandomBitDist has a fixed 50% probability, a fair coin toss.)
 
-Distributions now have a new create method, '+createWithDefaults: aZone'.
-This method creates the distribution object, and also a new generator
-object for its exclusive use. Each distribution class has a different
-default generator class assigned. These generators are initialized with
-STARTSEED, which by default equals the fixed value DEFAULTSEED, but will
-be equal to the varying RANDOMSEED if you start your program with the
-command line parameter '-varySeed'.
+Distributions now have a new create method, '+createWithDefaults:
+aZone'.  This method creates the distribution object, and also a new
+generator object for its exclusive use. Each distribution class has a
+different default generator class assigned. These generators are
+initialized with STARTSEED, which by default equals the fixed value
+DEFAULTSEED, but will be equal to the varying RANDOMSEED if you start
+your program with the command line parameter '--varyseed'.
 
 All distributions have code to interact with the new 'split' generators.
 

@@ -1,3 +1,8 @@
+1999-01-26  Alex Lancaster  <alex@santafe.edu>
+
+	* random00.sgml: Change outdated references of the command line
+	`-varySeed' to `--varyseed'.
+
 1999-01-07  Alex Lancaster  <alex@santafe.edu>
 
 	* random00.sgml ({Generator,Distribution} Usage Notes): Made
