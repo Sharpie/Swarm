@@ -61,7 +61,7 @@
     {
       resultMessageProbeEntry = [MessageProbeEntry createBegin: [self getZone]];
       [resultMessageProbeEntry setParent: self];
-      [resultMessageProbeEntry setResultIdFlag: [myProbe isResultId]];
+      [resultMessageProbeEntry setIdFlag: [myProbe isResultId]];
       resultMessageProbeEntry = [resultMessageProbeEntry createEnd];
       if (maxReturnWidth)
         [resultMessageProbeEntry setWidth: maxReturnWidth];
@@ -94,7 +94,7 @@
           objWindows[which_arg] = [myProbe isArgumentId: which_arg];
           myWidgets[i] = [MessageProbeEntry createBegin: [self getZone]];
           [myWidgets[i] setParent: self];
-          [myWidgets[i] setResultIdFlag: [myProbe isArgumentId: which_arg]];
+          [myWidgets[i] setIdFlag: [myProbe isArgumentId: which_arg]];
           [myWidgets[i] setArg: which_arg];
           myWidgets[i] = [myWidgets[i] createEnd];
         } 

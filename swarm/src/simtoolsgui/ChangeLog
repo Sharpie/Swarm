@@ -1,6 +1,8 @@
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* CommonProbeDisplay.h:  Include objectbase/SwarmObject.h, not
+	* MessageProbeWidget.m: Use renamed setIdFlag and isIdFlag.
+
+	* CommonProbeDisplay.h: Include objectbase/SwarmObject.h, not
 	objectbase.h.
 
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
