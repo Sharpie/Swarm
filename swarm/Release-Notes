@@ -43,7 +43,7 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     must explicitly import a class header file if you want to subclass
     from it.  You are also restricted from use of class-based typing, since
     details of classes inside a library remain open to change.  See the
-    instructions on porting apps to the nwe swarmobject interface (in the
+    instructions on porting apps to the new swarmobject interface (in the
     swarmobject library documentation) for more information.
 
 4.  A new version of the collections library has *not* been included in this
