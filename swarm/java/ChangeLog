@@ -1,3 +1,8 @@
+2000-07-25  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java-stub.el (java-print-method-name): Convert initSwarmUsing
+	into initSwarm.
+
 2000-07-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java-stub.el (java-print-method-name, java-argument-print-conversion,

@@ -168,7 +168,7 @@
 
 (defun java-print-method-name (arguments native-flag)
   (let ((nameKey (argument-key (first arguments))))
-    (cond ((string= nameKey "initSwarm")
+    (cond ((string= nameKey "initSwarmUsing")
            (insert
             (if native-flag
                 "_initSwarm_"
