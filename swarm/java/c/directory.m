@@ -554,3 +554,16 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
     XFREE (name);
   return sel;
 }
+
+const char *
+java_copy_string (JNIEnv *env, jstring javaString)
+{
+  return NULL;
+}
+
+
+void
+java_cleanup_strings (JNIEnv *env, const char **stringArray)
+{
+  
+}
