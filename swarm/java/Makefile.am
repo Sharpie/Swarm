@@ -35,9 +35,14 @@ all: stubs
 	$(MAKE) -C c all
 	$(MAKE) -C swarm all
 
+install: all
+	$(MAKE) -C c install
+	$(MAKE) -C swarm install
+
 # although this excludes all the Java and C stubs, it is useful
 # because it makes makefile regeneration automatic.
 stubs: Makefile.common $(SUBMAKEFILES)
 
 Makefile.common $(SUBMAKEFILES): java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
 	$(EMACS) -batch -l ./java-stub.elc -f java-run-all
+
