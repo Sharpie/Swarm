@@ -1,6 +1,9 @@
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javaswarm: Use JAVACLASSES instead of hardcoded classes.zip.
+	(LD_LIBRARY_PATH): Add JAVALIBS.  Pre-split :-delimited values.
+	Print shell instructions, instead of just value of LD_LIBRARY_PATH
+	in non-argument case.
 
 1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 . $SWARMHOME/etc/swarm/config.swarm
 
-LD_LIBRARY_PATH=`sort <<EOF 2>/dev/null | uniq | tr '\012' ':'
+LD_LIBRARY_PATH=`tr ':' '\012' << EOF | sort 2>/dev/null | uniq | tr '\012' ':'
 $swarm_libdir
 $xpmlibdir
 $tcllibdir
@@ -10,13 +10,16 @@ $bltlibdir
 $ffilibdir
 $pnglibdir
 $zliblibdir
-$jdkdir/lib
+$JAVALIBS
 EOF`$LD_LIBRARY_PATH
+classpath=".:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH"
 
 if test -z "$1" ; then
-  echo $LD_LIBRARY_PATH
+  echo "LD_LIBRARY_PATH=\"$LD_LIBRARY_PATH\""
+  echo "CLASSPATH=\"$classpath\""
+  echo "export LD_LIBRARY_PATH CLASSPATH"
 else
   export LD_LIBRARY_PATH
-  JAVA_HOME=$jdkdir $jdkdir/bin/java -classpath .:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH $*
+  JAVA_HOME=$jdkdir $jdkdir/bin/java -classpath "$classpath" $*
 fi
 
