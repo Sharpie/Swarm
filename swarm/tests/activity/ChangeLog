@@ -1,6 +1,6 @@
 1999-05-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am ($(OBJECTS)): Depend on headers.
+	* Makefile.am ($(OBJECTS)): Depend on $(TYPEINFO).
 
 1999-05-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
