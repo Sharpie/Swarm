@@ -3,6 +3,8 @@
 	* Map.m, collection.h (compareCStrings): New function.
 	([Map_c -lispOut:deep:], [Map_c -lispInCreate:]): Add support
 	for c-strings.
+	(LISP_COMPARE_{FUNCTION,INT,UNSIGNED,CSTRING,ID}: New macros.
+	([Map_c -lispInCreate:], [Map_c -lispOut:deep:]): Use them.
 
 	* Map.h (compareIDs, compareIntegers, compareUnsignedIntegers,
 	compareCStrings): Declare.

@@ -16,6 +16,12 @@ Library:      collections
 #include <collections/predicates.h> // keywordp, stringp
 
 #include <swarmconfig.h> // HAVE_HDF5
+
+#define LISP_COMPARE_FUNCTION "compare-function"
+#define LISP_COMPARE_INT "compare-integers"
+#define LISP_COMPARE_UNSIGNED "compare-unsigned-integers"
+#define LISP_COMPARE_CSTRING "compare-c-strings"
+#define LISP_COMPARE_ID "compare-ids"
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
@@ -116,17 +122,17 @@ PHASE(Creating)
         {
           const char *name = [member getKeywordName];
 
-          if (strcmp (name, "compare-function") == 0)
+          if (strcmp (name, LISP_COMPARE_FUNCTION) == 0)
             {
               const char *funcName = [lispInKeyword (index) getKeywordName];
 
-              if (strcmp (funcName, "compare-integers") == 0)
+              if (strcmp (funcName, LISP_COMPARE_INT) == 0)
                 [self setCompareFunction: compareIntegers];
-              else if (strcmp (funcName, "compare-unsigned-integers") == 0)
+              else if (strcmp (funcName, LISP_COMPARE_UNSIGNED) == 0)
                 [self setCompareFunction: compareUnsignedIntegers];
-              else if (strcmp (funcName, "compare-c-strings") == 0)
+              else if (strcmp (funcName, LISP_COMPARE_CSTRING) == 0)
                 [self setCompareFunction: compareCStrings];
-              else if (strcmp (funcName, "compare-IDs") == 0)
+              else if (strcmp (funcName, LISP_COMPARE_ID) == 0)
                 [self setCompareFunction: compareIDs];
               else
                 raiseEvent (InvalidArgument, "Unknown compare function: %s",
@@ -508,16 +514,18 @@ PHASE(Using)
   
   [self _lispOutAttr_: outputCharStream];
   
-  [outputCharStream catC: " #:compare-function "];
+  [outputCharStream catC: " #:"];
+  [outputCharStream catC: LISP_COMPARE_FUNCTION];
 
+  [outputCharStream catC: "#:"];
   if (compareFunc == compareIntegers)
-    [outputCharStream catC: "#:compare-integers"];
+    [outputCharStream catC: LISP_COMPARE_INT];
   else if (compareFunc == compareUnsignedIntegers)
-    [outputCharStream catC: "#:compare-unsigned-integers"];
+    [outputCharStream catC: LISP_COMPARE_UNSIGNED];
   else if (compareFunc == compareCStrings)
-    [outputCharStream catC: "#:compare-c-strings"];
+    [outputCharStream catC: LISP_COMPARE_CSTRING];
   else if (compareFunc == compareIDs)
-    [outputCharStream catC: "#:compare-IDs"];
+    [outputCharStream catC: LISP_COMPARE_ID];
   else
     raiseEvent (InvalidArgument, "Unknown compare function");
 
