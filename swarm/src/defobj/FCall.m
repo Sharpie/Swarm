@@ -230,15 +230,18 @@ add_ffi_types (FCall_c *fc)
 
   if (fc->callType == COMcall)
     {
-      fa->COM_args = COM_create_arg_vector (fa->assignedArgumentCount + 1);
+      fc->COM_args = COM_create_arg_vector (fa->assignedArgumentCount + 1);
       
       for (i = 0; i < fa->assignedArgumentCount; i++)
         {
           unsigned pos = i + MAX_HIDDEN;
           
-          COM_add_arg (fa->argTypes[pos], fa->argValues[pos]);
+          COM_set_arg (fc->COM_args, i, fa->argTypes[pos], fa->argValues[pos]);
         }
-      COM_set_return (fa->returnType, &fa->resultVal);
+      COM_set_arg (fc->COM_args,
+                   fa->assignedArgumentCount,
+                   fa->returnType,
+                   &fa->resultVal);
     }
   else
     {
@@ -305,16 +308,26 @@ PHASE(Creating)
   return self;
 }
 
-- setMethod: (SEL)mtd inObject: obj
+- setMethod: (SEL)sel inObject: obj
 {
-  Class cl;
+  COMobject cSel;
 
-  callType = objccall;
-  fobject = obj;
-  (SEL) fmethod = mtd;
-  cl = getClass (obj);
-  fclass = cl;
-  ffunction = FUNCPTR (get_imp ((Class) fclass, (SEL) fmethod));
+  if ((cSel = SD_COM_FIND_SELECTOR_COM (sel)))
+    {
+      callType = COMcall;
+      (COMselector) fmethod = cSel;
+    }
+  else
+    {
+      Class class;
+  
+      callType = objccall;
+      fobject = obj;
+      (SEL) fmethod = sel;
+      class = getClass (obj);
+      fclass = class;
+      ffunction = FUNCPTR (get_imp ((Class) fclass, (SEL) fmethod));
+    }
   return self;
 }
 
@@ -366,15 +379,6 @@ PHASE(Creating)
   return self;
 }
 
-- setCOMMethod: (const char *)theMethodName  inObject: (COMOBJECT)cObj
-{
-  callType = COMcall;
-
-  methodName = STRDUP (theMethodName);
-
-  return self;
-}  
-
 - createEnd
 {
   if (_obj_debug && (callType == ccall || callType == objccall) && !ffunction)
@@ -411,19 +415,20 @@ PHASE(Creating)
 #endif
   add_ffi_types (self);
 #ifndef USE_AVCALL
-  {
-    unsigned res;
-    
-    res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
-                        (fargs->hiddenArgumentCount +
-                         fargs->assignedArgumentCount),
-                        (ffi_type *) fargs->ffiReturnType, 
-                        (ffi_type **) fargs->ffiArgTypes + MAX_HIDDEN - 
-                        fargs->hiddenArgumentCount);
-    if (_obj_debug && res != FFI_OK)
-      raiseEvent (SourceMessage,
-                  "Failed while preparing foreign function call closure!\n"); 
-  }
+  if (callType != COMcall)
+    {
+      unsigned res;
+      
+      res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
+                          (fargs->hiddenArgumentCount +
+                           fargs->assignedArgumentCount),
+                          (ffi_type *) fargs->ffiReturnType, 
+                          (ffi_type **) fargs->ffiArgTypes + MAX_HIDDEN - 
+                          fargs->hiddenArgumentCount);
+      if (_obj_debug && res != FFI_OK)
+        raiseEvent (SourceMessage,
+                    "Failed while preparing foreign function call\n"); 
+    }
 #endif
   setMappedAlloc (self);
   setNextPhase (self);
@@ -508,97 +513,102 @@ PHASE(Using)
       fargs->pendingGlobalRefFlag = NO;
     }
 #endif
+  if (callType == COMcall)
+    {
+      COM_selector_invoke ((COMselector) fmethod, COM_args);
+    }
 #ifndef USE_AVCALL
-  {
-    types_t ret;
-    
-    ffi_call (&cif, ffunction, &ret, fargs->argValues + 
-              MAX_HIDDEN - fargs->hiddenArgumentCount);  
+  else
+    {
+      types_t ret;
+      
+      ffi_call (&cif, ffunction, &ret, fargs->argValues + 
+                MAX_HIDDEN - fargs->hiddenArgumentCount);  
 #ifdef __mips64
 #define VAL(type, var) (*((type *)(((void *)&var)+(sizeof(var)-sizeof(type)))))
 #else
 #define VAL(type, var) (*((type *)&var))
 #endif
-
-  switch (fargs->returnType)
-      {
-      case fcall_type_void:
-        break;
-      case fcall_type_boolean:
-        fargs->resultVal.boolean = VAL (BOOL, ret);
-        break;
-      case fcall_type_schar:
-        // character return is broken in libffi-1.18
-        fargs->resultVal.schar = VAL (int, ret);
-        break;
-      case fcall_type_uchar:
-        // character return is broken in libffi-1.18
-        fargs->resultVal.uchar = VAL (unsigned, ret);
-        break;
-      case fcall_type_sint:
-        fargs->resultVal.sint = VAL (int, ret);
-        break;
-      case fcall_type_uint:
-        fargs->resultVal.uint = VAL (unsigned, ret);
-        break;
-      case fcall_type_sshort:
-        // short return is broken in libffi-1.18
-        fargs->resultVal.sshort = VAL (int, ret);
-        break;
-      case fcall_type_ushort:
-        // short return is broken in libffi-1.18
-        fargs->resultVal.ushort = VAL (unsigned, ret);
-        break;
-      case fcall_type_slong:
-        fargs->resultVal.slong = VAL (long, ret);
-        break;
-      case fcall_type_ulong:
-        fargs->resultVal.ulong = VAL (unsigned long, ret);
-        break;
-      case fcall_type_slonglong:
-        fargs->resultVal.slonglong = VAL (long long, ret);
-        break;
-      case fcall_type_ulonglong:
-        fargs->resultVal.ulonglong = VAL (unsigned long long, ret);
-        break;
-      case fcall_type_float:
-        fargs->resultVal._float = ret._float;
-        break;
-      case fcall_type_double:
-        fargs->resultVal._double = ret._double;
-        break;
-      case fcall_type_long_double:
-        fargs->resultVal._long_double = ret._long_double;
-        break;
-      case fcall_type_object:
-        fargs->resultVal.object = VAL (id, ret);
-        break;
-      case fcall_type_class:
-        fargs->resultVal.class = VAL (Class, ret);
-        break;
-      case fcall_type_selector:
-        fargs->resultVal.selector = VAL (SEL, ret);
-        break;
-      case fcall_type_string:
-        fargs->resultVal.string = VAL (const char *, ret);
-        break;
+      
+      switch (fargs->returnType)
+        {
+        case fcall_type_void:
+          break;
+        case fcall_type_boolean:
+          fargs->resultVal.boolean = VAL (BOOL, ret);
+          break;
+        case fcall_type_schar:
+          // character return is broken in libffi-1.18
+          fargs->resultVal.schar = VAL (int, ret);
+          break;
+        case fcall_type_uchar:
+          // character return is broken in libffi-1.18
+          fargs->resultVal.uchar = VAL (unsigned, ret);
+          break;
+        case fcall_type_sint:
+          fargs->resultVal.sint = VAL (int, ret);
+          break;
+        case fcall_type_uint:
+          fargs->resultVal.uint = VAL (unsigned, ret);
+          break;
+        case fcall_type_sshort:
+          // short return is broken in libffi-1.18
+          fargs->resultVal.sshort = VAL (int, ret);
+          break;
+        case fcall_type_ushort:
+          // short return is broken in libffi-1.18
+          fargs->resultVal.ushort = VAL (unsigned, ret);
+          break;
+        case fcall_type_slong:
+          fargs->resultVal.slong = VAL (long, ret);
+          break;
+        case fcall_type_ulong:
+          fargs->resultVal.ulong = VAL (unsigned long, ret);
+          break;
+        case fcall_type_slonglong:
+          fargs->resultVal.slonglong = VAL (long long, ret);
+          break;
+        case fcall_type_ulonglong:
+          fargs->resultVal.ulonglong = VAL (unsigned long long, ret);
+          break;
+        case fcall_type_float:
+          fargs->resultVal._float = ret._float;
+          break;
+        case fcall_type_double:
+          fargs->resultVal._double = ret._double;
+          break;
+        case fcall_type_long_double:
+          fargs->resultVal._long_double = ret._long_double;
+          break;
+        case fcall_type_object:
+          fargs->resultVal.object = VAL (id, ret);
+          break;
+        case fcall_type_class:
+          fargs->resultVal.class = VAL (Class, ret);
+          break;
+        case fcall_type_selector:
+          fargs->resultVal.selector = VAL (SEL, ret);
+          break;
+        case fcall_type_string:
+          fargs->resultVal.string = VAL (const char *, ret);
+          break;
 #ifdef HAVE_JDK
-      case fcall_type_jobject:
-	fargs->resultVal.object = (id) VAL (jobject, ret);
-	break;
-      case fcall_type_jstring:
-	fargs->resultVal.object = (id) VAL (jstring, ret);
-	break;
+        case fcall_type_jobject:
+          fargs->resultVal.object = (id) VAL (jobject, ret);
+          break;
+        case fcall_type_jstring:
+          fargs->resultVal.object = (id) VAL (jstring, ret);
+          break;
 #endif
-      default:
-        abort ();
-      }
-  }
+        default:
+          abort ();
+        }
+    }
 #else
 #ifdef HAVE_JDK
-  if (callType == javacall || callType == javastaticcall)
+  else if (callType == javacall || callType == javastaticcall)
     java_call (fargs);
-  else
+  else 
 #endif
     objc_call (fargs);
 #endif
@@ -863,8 +873,10 @@ PHASE(Using)
 
 - (void)dropAllocations: (BOOL)componentAlloc
 {
+  if (callType == COMcall)
+    COM_free_arg_vector (COM_args);
 #ifdef HAVE_JDK
-  if (callType == javacall)
+  else if (callType == javacall)
     {
       if (fobjectPendingGlobalRefFlag)
         (*jniEnv)->DeleteGlobalRef (jniEnv, fobject);

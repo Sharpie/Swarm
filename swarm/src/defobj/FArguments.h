@@ -42,7 +42,6 @@ Library:      defobj
    av_alist java_avalist;
    av_alist objc_avalist;
 #endif
-   void *COM_args;
    void *result;
    const char *javaSignature; 
    unsigned javaSignatureLength;

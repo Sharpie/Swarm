@@ -1,3 +1,29 @@
+2000-09-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.h: Add COMselector type.  Change typing of all selector
+	functions.  Aggregate C++-only functions.
+	(SD_COM_UPDATE_PHASE_RETURN): New macro.
+	(COMInterface): Add normalize, selectorQuery, selectorInvoke,
+
+	* COM.[hm] (swarm_directory_COM_ensure[_object]_{COM,objc)):
+	Add "_object_".
+	(swarm_directory_update_phase, COM_free_arg_vector): New function.
+	(swarm_directory_COM_find, swarm_directory_objc_ensure_object_COM,
+	swarm_directory_COM_ensure_object_objc): Use normalize.
+
+	* FArguments.h, FCall.h: Move COM_args to FCall.h.  In FArguments,
+	the others are not heap-allocated.
+
+	* FCall.m ([FCall_c -setMethod:inObject:]): Handle COM selectors.
+	([FCall_c -createEnd]): Don't call ffi_prep_cif if this is a COM call.
+	([FCall_c -performCall]): Likewise.
+
+	* defobj.h (fcall_type_t): Swap fcall_type_ulonglong and
+	fcall_type_slonglong.
+	(FCALL_TYPE_COUNT): Add.
+
+	* internal.h (FCALL_TYPE_COUNT): Remove.
+
 2000-09-23  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* _fcall.m, fcall_{objc,java}.h: Remove FArgument argument from
@@ -7,7 +33,7 @@
 	to C++.
 
 	* FCall.m: Import COM.h. 
-	(add_ffi_types): Add check for COM, create COM_args, call COM_add_arg
+	(add_ffi_types): Add check for COM, create COM_args, call COM_set_arg
 	for each argument and then COM_set_return.
 
 	* FArguments.h (FArguments_c): Rename XPTCparams to COM_args.
@@ -15,14 +41,14 @@
 	* COM.h: Include defobj.h for fcall_type_t.  (Not import, COM.h
 	need to be includable by C++.)
 	(COMInterface): Replace selectorArgObjcType with
-	selectorArgFcallType.  Add createArgVector, addArg, and setReturn.
+	selectorArgFcallType.  Add createArgVector, and addArg.
 	(COM_SELECTOR_ENTRY): Create a SelectorEntry, not an ObjectEntry.
 
 	* COM.m: Include internal.h.
 	(swarm_directory_COM_ensure_selector): Updates for
 	selectorArgFcallType from selectorArgObjcType.
 
-	* COM.[hm] (COM_create_arg_vector, COM_add_arg, COM_set_return):
+	* COM.[hm] (COM_create_arg_vector, COM_set_arg, COM_set_return):
 	New functions.
 
 2000-09-22  Marcus G. Daniels  <mgd@forager.swarm.org>
@@ -62,10 +88,6 @@
 	* FArguments.m: Include COM.h.
 	([FArguments_c setSelector:]): Add COM support.  Use language tag
 	in directory as evidence of language.
-
-2000-09-14  Marcus G. Daniels  <mgd@forager.swarm.org>
-
-	* FCall.[hm], defobj.h ([FCall_c -setCOMMethod:inObject:]): New method.
 
 2000-09-13  Marcus G. Daniels  <mgd@forager.swarm.org>
 

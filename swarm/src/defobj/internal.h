@@ -7,8 +7,6 @@
 #include <misc.h> // size_t
 #include <objc/objc-api.h>
 
-#define FCALL_TYPE_COUNT 21
-
 extern size_t alignsizeto (size_t pos, size_t alignment);
 extern void *alignptrto (void *ptr, size_t alignment);
 

@@ -39,6 +39,7 @@ void updateJavaTarget (id self, JOBJECT target);
 #ifndef USE_AVCALL
    ffi_cif cif;
 #endif
+   void *COM_args;
    func_t ffunction;
    void *fobject;
    void *fclass;
@@ -56,7 +57,6 @@ void updateJavaTarget (id self, JOBJECT target);
 - setMethod: (SEL)method inObject: object;
 - setJavaMethod: (const char *)methodName inObject: (JOBJECT)jObj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
-- setCOMMethod: (const char *)methodName inObject: (COMOBJECT)cObj;
 - createEnd;
 - (void)performCall;
 - (void *)getResult;

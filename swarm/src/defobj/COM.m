@@ -31,9 +31,15 @@ COM_class_name (COMobject cObj)
 }
 
 BOOL
-COM_selector_is_boolean_return (COMobject cSel)
+COM_selector_is_boolean_return (COMselector cSel)
 {
   return comEnv->selectorIsBooleanReturn (cSel);
+}
+
+void
+COM_selector_invoke (COMselector cSel, void *args)
+{
+  comEnv->selectorInvoke (cSel, args);
 }
 
 void *
@@ -43,15 +49,15 @@ COM_create_arg_vector (unsigned size)
 }
 
 void
-COM_add_arg (fcall_type_t type, void *value)
+COM_set_arg (void *args, unsigned pos, fcall_type_t type, void *value)
 {
-  comEnv->addArg (type, value);
+  comEnv->setArg (args, pos, type, value);
 }
 
 void
-COM_set_return (fcall_type_t type, void *value)
+COM_free_arg_vector (void *args)
 {
-  comEnv->setReturn (type, value);
+  comEnv->freeArgVector (args);
 }
 
 COMobject 
@@ -67,7 +73,7 @@ swarm_directory_objc_find_object_COM (id oObject)
   return NULL;
 }
 
-COMobject
+COMselector
 swarm_directory_objc_find_selector_COM (SEL sel)
 {
   SelectorEntry *entry = swarm_directory_objc_find_selector (sel);
@@ -75,7 +81,7 @@ swarm_directory_objc_find_selector_COM (SEL sel)
   if (entry)
     {
       if (entry->type == foreign_COM)
-        return entry->foreignObject.COM;
+        return comEnv->selectorQuery (entry->foreignObject.COM);
     }
   return NULL;
 }
@@ -105,27 +111,48 @@ swarm_directory_objc_find_COM_class (Class oClass)
 }
 
 COMobject
-swarm_directory_objc_ensure_COM (id oObject)
+swarm_directory_objc_ensure_object_COM (id oObject)
 {
   COMobject cObject;
 
   if (!oObject)
     return 0;
   
-  cObject = SD_COM_FIND_OBJECT_COM (oObject);
-  if (!cObject)
+  if (!(cObject = SD_COM_FIND_OBJECT_COM (oObject)))
     {
       Class oClass = getClass (oObject);
       COMclass cClass = SD_COM_FIND_CLASS_COM (oClass);
       
-      cObject = SD_COM_ADD_OBJECT_COM (comEnv->createComponent (cClass), oObject);
+      cObject = comEnv->normalize (comEnv->createComponent (cClass));
+      return SD_COM_ADD_OBJECT_COM (cObject, oObject);
     }
   return cObject;
+}
+
+COMobject
+swarm_directory_update_phase_COM (id oObject)
+{
+  Class oClass = getClass (oObject);
+  COMclass cClass = SD_COM_FIND_CLASS_COM (oClass);
+  COMobject cLastObj = SD_COM_FIND_OBJECT_COM (oObject);
+  COMobject cNewObj = comEnv->createComponent (cClass);
+  COMobject cDirObj = cDirObj = comEnv->normalize (cNewObj);
+  ObjectEntry *entry;
+
+  avl_delete (swarmDirectory->COM_tree, COM_FIND_OBJECT_ENTRY (cLastObj));
+  avl_probe (swarmDirectory->COM_tree, COM_OBJECT_ENTRY (cDirObj, oObject));
+
+  entry = avl_find (swarmDirectory->object_tree,
+                    OBJC_FIND_OBJECT_ENTRY (oObject));
+
+  entry->foreignObject.COM = (COMOBJECT) cDirObj;
+  return cNewObj;
 }
 
 static ObjectEntry *
 swarm_directory_COM_find (COMobject cObject)
 {
+  cObject = comEnv->normalize (cObject);
   return (cObject
           ? avl_find (swarmDirectory->COM_tree,
                       COM_FIND_OBJECT_ENTRY (cObject))
@@ -148,23 +175,25 @@ swarm_directory_COM_find_object_objc (COMobject cObject)
 }
 
 id
-swarm_directory_COM_ensure_objc (COMobject cObject)
+swarm_directory_COM_ensure_object_objc (COMobject cObject)
 {
   if (!cObject)
     return nil;
   else
     {
-      ObjectEntry *result = swarm_directory_COM_find (cObject);
+      ObjectEntry *result;
+
+      result = swarm_directory_COM_find (cObject);
 
       return (result
               ? result->object
-              : SD_COM_ADD_OBJECT_OBJC (cObject,
+              : SD_COM_ADD_OBJECT_OBJC (comEnv->normalize (cObject),
                                         [COMProxy create: globalZone]));
     }
 }
 
 SEL
-swarm_directory_COM_ensure_selector (COMobject cSel)
+swarm_directory_COM_ensure_selector (COMselector cSel)
 {
   SEL sel = NULL;
 
@@ -266,7 +295,7 @@ swarm_directory_COM_add_object_objc (COMobject cObject, id oObject)
 }
 
 void
-swarm_directory_COM_add_selector (COMobject cSel, SEL oSel)
+swarm_directory_COM_add_selector (COMselector cSel, SEL oSel)
 {
   SelectorEntry *entry = COM_SELECTOR_ENTRY (cSel, oSel);
 

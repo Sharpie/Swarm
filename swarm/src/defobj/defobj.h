@@ -18,15 +18,18 @@ extern "C" {
 typedef enum {fcall_type_void = 0,
               fcall_type_boolean,
               fcall_type_uchar, fcall_type_schar,
-              fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
-              fcall_type_sint, fcall_type_ulong, fcall_type_slong,
-              fcall_type_slonglong, fcall_type_ulonglong,
-              fcall_type_float, fcall_type_double, 
-              fcall_type_long_double,
+              fcall_type_ushort, fcall_type_sshort,
+              fcall_type_uint, fcall_type_sint,
+              fcall_type_ulong, fcall_type_slong,
+              fcall_type_ulonglong, fcall_type_slonglong, 
+              fcall_type_float, fcall_type_double, fcall_type_long_double,
               fcall_type_object, fcall_type_class,
               fcall_type_string, fcall_type_selector, 
               fcall_type_jobject, fcall_type_jstring
               } fcall_type_t;
+
+#define FCALL_TYPE_COUNT 21
+
 #ifdef __cplusplus
 }
 #else
@@ -1106,7 +1109,6 @@ CREATING
 - setMethod: (SEL)method inObject: object;
 - setJavaMethod: (const char *)methodName inObject: (JOBJECT)jObj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
-- setCOMMethod: (const char *)methodName inObject: (COMOBJECT)cObj;
 USING
 - (call_t)getCallType;
 - getArguments;

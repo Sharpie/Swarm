@@ -24,7 +24,7 @@ typedef enum {
   foreign_t type;
   union {
     JOBJECT java;
-    COMOBJECT *COM;
+    COMOBJECT COM;
   } foreignObject;
 }
 - setCOMObject: (COMOBJECT)COMObject;
