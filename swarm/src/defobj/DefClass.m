@@ -317,7 +317,7 @@ createType (id aZone, const char *typeName)
       [stream catSeparator];
       [stream catType: ivars->ivar_list[i].ivar_type];
     }
-  [stream catEndExpr];
+  [stream catEndMakeClass];
   return self;
 }
 

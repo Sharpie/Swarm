@@ -15,18 +15,6 @@ const char *defaultPath (const char *swarmArchiver);
 const char *defaultAppPath (const char *appDataPath, const char *appName,
                             const char *suffix);
 
-@interface Application: CreateDrop
-{
-  const char *name;
-  id <Map> deepMap;
-  id <Map> shallowMap;
-}
-+ createBegin: aZone;
-- setName: (const char *)name;
-- getDeepMap;
-- getShallowMap;
-@end
-
 @interface Archiver_c: CreateDrop_s <Archiver>
 {
   id currentApplicationKey;
@@ -49,14 +37,12 @@ const char *defaultAppPath (const char *appDataPath, const char *appName,
 - setDefaultAppPath;
 
 - createAppKey: (const char *)appName mode: (const char *)modeName;
-- ensureApp: appKey;
 
 - getApplication;
 
 - (void)registerClient: client;
 - (void)unregisterClient: client;
 
-- (unsigned)countObjects: (BOOL)deepFlag;
 - (void)updateArchiver;
 - (void)sync;
 
@@ -68,3 +54,4 @@ const char *defaultAppPath (const char *appDataPath, const char *appName,
 - (void)drop;
 
 @end
+

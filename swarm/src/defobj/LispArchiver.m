@@ -6,52 +6,43 @@
 #import <defobj/LispArchiver.h>
 #import <collections/predicates.h>
 #import <defobj/defalloc.h>
+#import <collections.h> // Map
 
-@implementation LispArchiverObject
-+ create: aZone setExpr: valexpr
+@implementation Application
++ createBegin: aZone
 {
-  id obj = [self createBegin: aZone];
-  [obj setExpr: valexpr];
-  [obj setObject: nil];
-  return [obj createEnd];
+  Application *obj = [super createBegin: aZone];
+
+  obj->streamMap = [Map create: aZone];
+  obj->name = "EMPTY";
+
+  return obj;
 }
 
-+ create: aZone setObject: theObj
+- setName: (const char *)theName
 {
-  id obj = [self createBegin: aZone];
-  [obj setExpr: nil];
-  [obj setObject: theObj];
-  return [obj createEnd];
-}
-
-- setExpr: valexpr
-{
-  expr = valexpr;
+  name = STRDUP (theName);
   return self;
 }
 
-- getExpr
+- getStreamMap
 {
-  return expr;
+  return streamMap;
 }
 
-- setObject: obj
+- (void)drop
 {
-  object = obj;
-  return self;
-}
-
-- getObject
-{
-  return object;
+  [streamMap drop];
+  [super drop];
 }
 @end
 
 static void
 lispProcessPairs (id aZone, 
-                  id obj,
-                  void (*mapUpdateFunc) (id, id))
+                  id stream,
+                  void (*mapUpdateFunc) (id <String>, id <InputStream> stream))
 {
+  id obj = [stream getExpr];
   if (!archiver_list_p (obj))
     raiseEvent (InvalidArgument, "argument to processPairs not a list");
   {
@@ -97,7 +88,9 @@ lispProcessPairs (id aZone,
             
             if (!stringp (key))
               raiseEvent (InvalidArgument, "key not a string");
-            mapUpdateFunc (key, [consObject getCdr]);
+            mapUpdateFunc (key,
+                           [InputStream create: aZone
+                                        setExpr: [consObject getCdr]]);
           }
         }
     }
@@ -106,16 +99,15 @@ lispProcessPairs (id aZone,
 }
 
 static void
-lispProcessMakeObjcPairs (id aZone, id expr, id app)
+lispProcessMakeObjcPairs (id aZone, id stream, id app)
 {
-  void mapUpdate (id key, id valexpr)
+  void mapUpdate (id <String> key, id <InputStream> stream)
     {
       id objectMap;
       
-      objectMap = [app getDeepMap];
+      objectMap = [app getStreamMap];
       if ([objectMap at: key] == nil)
-	[objectMap at: key insert: 
-		     [LispArchiverObject create: aZone setExpr: valexpr]];
+        [objectMap at: key insert: stream];
       else
 	{
 	  raiseEvent (WarningMessage, "Duplicate object key `%s'",
@@ -123,13 +115,15 @@ lispProcessMakeObjcPairs (id aZone, id expr, id app)
             [key drop];
 	}
     }
-  lispProcessPairs (aZone, expr, mapUpdate);
+  lispProcessPairs (aZone, stream, mapUpdate);
 }
 
 static void
-lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
+lispProcessApplicationPairs (id aZone,
+                             id <InputStream> stream,
+                             id <Map> applicationMap)
 {
-  void mapUpdate (id key, id value)
+  void mapUpdate (id key, id substream)
     {
       Application *app = [applicationMap at: key];
 
@@ -142,9 +136,9 @@ lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
         }
       else
         [key drop];
-      lispProcessMakeObjcPairs (aZone, value, app);
+      lispProcessMakeObjcPairs (aZone, substream, app);
     }
-  lispProcessPairs (aZone, expr, mapUpdate);
+  lispProcessPairs (aZone, stream, mapUpdate);
 }
 
 @implementation LispArchiver_c
@@ -196,13 +190,29 @@ PHASE(Creating)
 
 PHASE(Setting)
 
-- (void)lispLoadArchiver: expr
+- ensureApp: appKey
+{
+  id app;
+  
+  if ((app = [applicationMap at: appKey]) == nil)
+    {
+      app = [[[Application createBegin: getZone (self)]
+               setName: [appKey getC]]
+              createEnd];
+      
+      [applicationMap at: appKey insert: app];
+    }
+  return app;
+}
+
+- (void)lispLoadArchiver: (id <InputStream>)stream
 {
   id aZone = getZone (self);
 
   if (systemArchiverFlag)
     {
       id archiverCallExprIndex, archiverCallName;
+      id expr = [stream getExpr];
       
       if (!archiver_list_p (expr))
         raiseEvent (InvalidArgument, "argument to Archiver lispIn not a list");
@@ -219,12 +229,15 @@ PHASE(Setting)
                     [archiverCallName getC]);
       
       lispProcessApplicationPairs (aZone,
-                                   [archiverCallExprIndex next],
+                                   [[[InputStream createBegin: aZone]
+                                      setExpr: [archiverCallExprIndex next]]
+                                     createEnd],
                                    applicationMap);
       [archiverCallExprIndex drop];
     }
   else 
-    lispProcessMakeObjcPairs (aZone, expr,
+    lispProcessMakeObjcPairs (aZone,
+                              stream,
                               [self ensureApp: currentApplicationKey]);
 }
 
@@ -239,7 +252,7 @@ PHASE(Using)
     return NO;
 
   inStream = [InputStream create: inStreamZone setFileStream: fp];  
-  [self lispLoadArchiver: [inStream getExpr]];
+  [self lispLoadArchiver: inStream];
   fclose (fp);
   return YES;
 }
@@ -269,72 +282,39 @@ lisp_print_appkey (const char *appKey, id <OutputStream> outputCharStream)
 }
 
 static void
-lisp_output_objects (id <Map> objectMap, id outputCharStream,
+lisp_output_objects (id app, id outputCharStream,
                      BOOL deepFlag, BOOL systemArchiverFlag)
 {
+  id <Map> streamMap = [app getStreamMap];
 
-  if ([objectMap getCount] > 0)
+  if ([streamMap getCount] > 0)
     {
-      id index = [objectMap begin: scratchZone];
+      id index = [streamMap begin: scratchZone];
       id key, member;
       
-      member = [index next: &key];
-      for (;;)
+      for (member = [index next: &key];
+           [index getLoc] == (id) Member;
+           member = [index next: &key])
         {
+          id expr = [member getExpr];
+          [outputCharStream catC: "\n"];
           if (systemArchiverFlag)
             [outputCharStream catC: "      "];
-          [outputCharStream catC: " "];
+          [outputCharStream catSeparator];
           [outputCharStream catStartCons];
           [outputCharStream catSeparator];
           [outputCharStream catSymbol: [key getC]];
           [outputCharStream catC: "\n"];
-          
           if (systemArchiverFlag)
             [outputCharStream catC: "      "];
           [outputCharStream catC: "    "];
+          [outputCharStream catSeparator];
           
-          if (member == nil)
-            [outputCharStream catBoolean: NO];
-          else
-            {
-              id obj;
-              if ((obj = [member getObject]))
-                {
-                  if ([obj isInstance])
-                    {
-                      if (deepFlag)
-                        [obj lispOutDeep: outputCharStream];
-                      else
-                        [obj lispOutShallow: outputCharStream];
-                    }
-                  else
-                    {
-                      SEL sel = M(lispOutShallow:);
-                      IMP func = get_imp (id_CreatedClass_s, sel);
-                      
-                      func (obj, sel, outputCharStream);
-                    }
-                }
-              else
-                {
-                  // if we're not storing an object, we must be
-                  // serialize the unchanged contents of the parsed
-                  // ArchiverList instance
-                  id listexpr = [member getExpr];
-
-                  if (archiver_list_p (listexpr))
-                    [listexpr lispOutDeep: outputCharStream];
-                  else
+          if (!archiver_list_p (expr))
                     raiseEvent(InvalidOperation,
                                "parsed ArchiverList instance expected");
-                }
-            }
-          [outputCharStream catEndExpr];
-          member = [index next: &key];
-          if ([index getLoc] == (id) Member)
-            [outputCharStream catC: "\n"];
-          else
-            break;
+          [expr lispOutDeep: outputCharStream];
+          [outputCharStream catEndCons];
         }
     }
 }
@@ -342,12 +322,9 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream,
 static void
 lisp_output_app_objects (id app, id outputCharStream, BOOL systemArchiverFlag)
 {
-  [outputCharStream catC: "(list\n"];
-  lisp_output_objects ([app getShallowMap], outputCharStream,
-                       NO, systemArchiverFlag);
-  lisp_output_objects ([app getDeepMap], outputCharStream,
-                       YES, systemArchiverFlag);
-  [outputCharStream catC: ")"];
+  [outputCharStream catStartList];
+  lisp_output_objects (app, outputCharStream, YES, systemArchiverFlag);
+  [outputCharStream catEndList];
 }
 
 
@@ -359,7 +336,9 @@ lisp_output_app_objects (id app, id outputCharStream, BOOL systemArchiverFlag)
       id app;
       id <String> appKey;
       
-      [outputCharStream catC: "(" ARCHIVER_FUNCTION_NAME "\n  "];
+      [outputCharStream catStartFunction: ARCHIVER_FUNCTION_NAME];
+      [outputCharStream catC: "\n "];
+      [outputCharStream catSeparator];
       [outputCharStream catStartList];
       
       while ((app = [appMapIndex next: &appKey]))
@@ -371,10 +350,11 @@ lisp_output_app_objects (id app, id outputCharStream, BOOL systemArchiverFlag)
           lisp_print_appkey ([appKey getC], outputCharStream);
           [outputCharStream catC: "\n      "];
           lisp_output_app_objects (app, outputCharStream, YES);
-          [outputCharStream catEndExpr];
+          [outputCharStream catEndCons];
         }
-      [outputCharStream catEndExpr];
-      [outputCharStream catC: ")\n"];
+      [outputCharStream catEndList];
+      [outputCharStream catEndFunction];
+      [outputCharStream catC: "\n"];
       [appMapIndex drop];
     }
   else
@@ -384,62 +364,42 @@ lisp_output_app_objects (id app, id outputCharStream, BOOL systemArchiverFlag)
 }
 
 static void
-archiverLispPut (id aZone, const char *keyStr, id value, id addMap, 
-                 id removeMap)
+archiverLispPut (id app, const char *keyStr, id value, BOOL deepFlag)
 {
-  id key = [String create: [addMap getZone] setC: keyStr];
+  id <Map> addMap = [app getStreamMap];
+  id <Zone> aZone = [addMap getZone];
+  id <String> key = [String create: aZone setC: keyStr];
+  id stream = [[[OutputStream createBegin: aZone] setExprFlag: YES] createEnd];
   
-  {
-    id item;
-    if ((item = [addMap at: key]))
-      {
-        [item setObject: value];
-        [addMap at: key replace: item];        
-      }
+  if (deepFlag)
+    [value lispOutDeep: stream];
     else
-      {
-        item = [LispArchiverObject create: aZone setObject: value];
-        [addMap at: key insert: item];
-      }
-  }
-  if ([removeMap at: key])
-    [removeMap removeKey: key];
+    [value lispOutShallow: stream];
+
+  if ([addMap at: key])
+    [addMap at: key replace: stream];
+  else
+    [addMap at: key insert: stream];
 }
 
 - (void)putDeep: (const char *)key object: object
 {
-  id app = [self getApplication];
-
-  archiverLispPut (getZone (self), key, object, [app getDeepMap], 
-               [app getShallowMap]);
+  archiverLispPut ([self getApplication], key, object, YES);
 }
 
 - (void)putShallow: (const char *)key object: object
 {
-  id app = [self getApplication];
-
-  archiverLispPut (getZone (self), key, object, [app getShallowMap], 
-               [app getDeepMap]);
+  archiverLispPut ([self getApplication], key, object, NO);
 }
 
 static id
 archiverLispGet (id aZone, id string, id app)
 {
-  id archiverObject =
-    [[app getDeepMap] at: string] ?: [[app getShallowMap] at: string];
+  id stream = [[app getStreamMap] at: string];
   id obj = nil;
 
-  if (archiverObject)
-    {
-      obj = [archiverObject getObject];
-      if (!obj)
-	{
-	  id expr = [archiverObject getExpr];
-
-	  if (expr)
-	    obj = lispIn (aZone, expr);
-	}
-    }
+  if (stream)
+    obj = lispIn (aZone, [stream getExpr]);
   return obj;
 }
 

@@ -12,17 +12,14 @@
 
 extern id lispArchiver;
 
-@interface LispArchiverObject: CreateDrop
+@interface Application: CreateDrop
 {
-  id expr;
-  id object;
+  const char *name;
+  id <Map> streamMap;
 }
-+ create: aZone setExpr: valexpr;
-+ create: aZone setObject: theObj;
-- setExpr: valexpr;
-- getExpr;
-- setObject: theObj;
-- getObject;
++ createBegin: aZone;
+- setName: (const char *)name;
+- getStreamMap;
 @end
 
 @interface LispArchiver_c: Archiver_c <LispArchiver>
@@ -35,6 +32,7 @@ extern id lispArchiver;
 - setDefaultAppPath;
 
 - createEnd;
+- ensureApp: appKey;
 
 - (BOOL)_load_;
 - (void)lispLoadArchiver: expr;

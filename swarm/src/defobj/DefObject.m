@@ -1089,7 +1089,7 @@ initDescribeStream (void)
   [stream catStartMakeInstance: [self getTypeName]];
   [stream catSeparator];
   [self lispOutVars: stream deep: deepFlag];
-  [stream catEndExpr];
+  [stream catEndMakeInstance];
   return self;
 }
 

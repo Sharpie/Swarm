@@ -416,7 +416,7 @@ lisp_output_type (const char *type,
         break;
       }
     case _C_CLASS:
-      [stream catClass: (*(Class *) ptr)->name];
+      [stream catClass: *(Class *) ptr];
       break;
     case _C_SEL:
       raiseEvent (NotImplemented, "Selectors not supported");

@@ -1,3 +1,38 @@
+2000-01-03 Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* LispArchiver.m (LispArchiverObject): Remove.
+	(lispProcessPairs): Take stream instead of expr as argument.
+	Create an InputStream to pass to mapUpdateFunc.
+	(lispProcessMakeObjcPairs): Take stream instead of expr as argument.
+	(lispProcessApplicationPairs): Likewise.
+	([LispArchiver_c -lispLoadArchiver:]): Likewise.
+	([LispArchiver_c -lispLoadArchiver:]): Create an InputStream
+	to pass to lispProcessApplicationPairs.  Pass stream
+	to lispProcessMakeObjcPairs.
+	(lisp_output_objects): Use catEndCons.  Take app as argument
+	instead of objectMap.
+	(lisp_output_app_objects): Use cat{Start,End}List.
+	([LispArchiver_c -_lispOut_:]): Use cat{Start,End}Function
+	and catEndList.
+	(archiverLispPut): Remove add/remove map arguments.  Don't
+	use LispArchiverObject, just record stream.
+	([LispArchiver_c -put{Deep,Shallow}:object:]): Accomodate.
+	(archiverLispGet): Don't use deep/shallow map.
+
+	* LispArchiver.[hm], Archiver.[hm]: Move Application to LispArchiver.
+	
+	* DefObject.m ([Object_s -_lispOut_:deep:]): Use catEndMakeInstance
+	instead of catEndExpr.
+
+	* DefClass.m ([CreatedClass_s -lispOutShallow:]): Use
+	catEndMakeClass instead of catEndExpr.
+
+	* Archiver.[hm] (Application, [Application +createBegin:],
+	[Archiver_c -countObjects:]): Replace deepMap, shallowMap,
+	initialization, and accessors with streamMap.
+
+	* internal.m (lisp_output_type): Use Class argument to catClass.
+
 1999-12-31  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* DefObject.m ([Object_s -lispOutVars:deep:],

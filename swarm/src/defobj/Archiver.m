@@ -48,43 +48,6 @@ defaultAppPath (const char *appDataPath, const char *appName,
   return buf;
 }
 
-@implementation Application
-+ createBegin: aZone
-{
-  Application *obj = [super createBegin: aZone];
-
-  obj->deepMap = [Map create: aZone];
-  obj->shallowMap = [Map create: aZone];
-  obj->name = "EMPTY";
-
-  return obj;
-}
-
-- setName: (const char *)theName
-{
-  name = STRDUP (theName);
-  return self;
-}
-
-- getDeepMap
-{
-  return deepMap;
-}
-
-- getShallowMap
-{
-  return shallowMap;
-}
-
-- (void)drop
-{
-  [shallowMap drop];
-  [deepMap drop];
-  [super drop];
-}
-
-@end
-
 @implementation Archiver_c
 PHASE(Creating)
 
@@ -160,21 +123,6 @@ PHASE(Using)
   return appKey;
 }
 
-- ensureApp: appKey
-{
-  id app;
-  
-  if ((app = [applicationMap at: appKey]) == nil)
-    {
-      app = [[[Application createBegin: getZone (self)]
-               setName: [appKey getC]]
-              createEnd];
-      
-      [applicationMap at: appKey insert: app];
-    }
-  return app;
-}
-    
 - getApplication
 {
   return [applicationMap at: currentApplicationKey];
@@ -219,20 +167,6 @@ PHASE(Using)
 {
   raiseEvent (SubclassMustImplement, "");
   return self;
-}
-
-- (unsigned)countObjects: (BOOL)deepFlag
-{
-  id <MapIndex> index = [applicationMap begin: scratchZone];
-  id app;
-  id <String> appKey;
-  unsigned count = 0;
-  
-  while ((app = [index next: &appKey]))
-    count += [(deepFlag ? [app getDeepMap] : [app getShallowMap])
-               getCount];
-  [index drop];
-  return count;
 }
 
 - (void)updateArchiver
