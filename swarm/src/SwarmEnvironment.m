@@ -227,6 +227,13 @@ PHASE(Using)
 #endif
 }
 
+- (const char *)typeModule: (const char *)typeName
+{
+  extern const char *swarm_lookup_module (const char *typeName);
+
+  return swarm_lookup_module (typeName);
+}
+
 void
 _initSwarm_ (int argc, const char **argv, const char *appName,
              const char *version, const char *bugAddress,

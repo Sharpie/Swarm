@@ -32,6 +32,7 @@ USING
 - (void)xprint: obj;
 - (void)xfprint: obj;
 - (void)dumpDirectory;
+- (const char *)typeModule: (const char *)typeName;
 GETTERS
 - (id <Arguments>)getArguments;
 - (id <Symbol>)getStart;
