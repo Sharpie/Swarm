@@ -20,18 +20,30 @@ Library:      defobj
 //D: support.
 
 @protocol Serialization
-//M: Process an archived Lisp representation of object state from a
-//M: list of instance variable name / value pairs.
-- lispin: expr;
-
-//M: Output a Lisp representation of object state to a stream.
-- lispout: stream;
+CREATING
+//M: Process keyword parameters in expression in order to get 
+//M: create-time parameters.
+- lispInCreate: expr;
 
 //F: Load an object of the form (make-objc :arg1 x :arg 2)
-extern id lispin (id aZone, id expr);
+extern id lispIn (id aZone, id expr);
+
+USING
+//M: Process an archived Lisp representation of object state from a
+//M: list of instance variable name / value pairs.
+- lispIn: expr;
+
+//M: Output a Lisp representation of object state to a stream.
+- lispOut: stream;
 
 //F: Get value component of quoted expression.
-extern id lispinQuotedExpr (id expr);
+extern id lispInQuotedExpr (id expr);
+
+//F: Expect and convert a boolean from next index item.
+extern BOOL lispInBoolean (id index);
+
+//F: Expect and convert an integer from next index item.
+extern int lispInInteger (id index);
 
 //F: Save objects registered with archiver.
 extern void archiverSave (void);
@@ -960,8 +972,11 @@ extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 extern void _obj_formatIDString (char *buffer, id anObject);
 
 //F: Declaration to enable use of @class declaration for message
-//F: receiver without compile error.
-extern Class objc_get_class (const char *name);  // for class id lookup
+//F: receiver without compile error.  For class id lookup.
+extern Class objc_get_class (const char *name);
+
+//F: Lookup a defobj type object by name.
+extern id defobj_lookup_type (const char *name);
 
 //
 // type objects generated for module

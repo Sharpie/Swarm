@@ -52,6 +52,8 @@ extern void  _obj_setTypeImplemented( id, id );
 - getClasses;
 @end
 
+id defobj_lookup_type (const char *typename);
+
 @interface Module_super_
 /*** methods in Module_super_ (inserted from .m file by m2h) ***/
 + self;

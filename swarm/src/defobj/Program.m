@@ -350,6 +350,34 @@ _obj_initModule (void *module)
   (*initFunction) ();
 }
 
+id
+defobj_lookup_type (const char *typename)
+{
+  unsigned i;
+  
+  for (i = 0; i < _obj_nmodules; i++)
+    {
+      id *types = (id *)[_obj_modules[i] getTypes];
+      unsigned len, pos;
+      
+      for (len = 0; types[len]; len++);
+
+      for (pos = 0; pos < len; pos++)
+        {
+          Protocol *protocol = types[pos + len + 1];
+          // -name doesn't work and protocol_name is protected
+          const char *name = ((const char **)protocol)[1];
+          
+          if (strcmp (name, typename) == 0)
+            return *(id *)types[pos];
+        }
+      types++;
+      
+    }
+  return nil;
+}
+
+
 //
 // Type_c -- type object generated for @protocol definition in header
 //
@@ -359,7 +387,7 @@ _obj_initModule (void *module)
 //
 // getImplementation: -- return create-phase implementation of a creatable type
 //
-- (BOOL) getCreatable
+- (BOOL)getCreatable
 {
   return implementation != nil;
 }
@@ -369,7 +397,7 @@ _obj_initModule (void *module)
   return implementation;
 }
 
-- (const char *) getName
+- (const char *)getName
 {
   return name;
 }

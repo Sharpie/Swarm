@@ -73,7 +73,7 @@ processPairs (id aZone, id obj, id (*func)(id, id), id map)
             raiseEvent (InvalidArgument,
                         "first string in cons expression not \"cons\"");
           {
-            id key = [lispinQuotedExpr ([consIndex next]) copy: aZone];
+            id key = [lispInQuotedExpr ([consIndex next]) copy: aZone];
             
             if (listp (key))
               {
@@ -115,7 +115,7 @@ processMakeObjcPairs (id aZone, id expr)
   [objectMap setCompareFunction: &compareStrings];
   objectMap = [objectMap createEnd];
   
-  processPairs (aZone, expr, lispin, objectMap);
+  processPairs (aZone, expr, lispIn, objectMap);
           
   return objectMap;
 }
@@ -132,7 +132,7 @@ loadArchiverExpr (id applicationMap, id expr)
   id archiverCallExprIndex, archiverCallName;
   
   if (!listp (expr))
-    raiseEvent (InvalidArgument, "argument to Archiver lispin not a list");
+    raiseEvent (InvalidArgument, "argument to Archiver lispIn not a list");
   
   archiverCallExprIndex = [expr begin: scratchZone];
   archiverCallName = [archiverCallExprIndex next];
@@ -301,7 +301,7 @@ PHASE(Using)
   return objectMap;
 }
 
-- lispout: outputCharStream
+- lispOut: outputCharStream
 {
   id appMapIndex = [applicationMap begin: scratchZone];
   id objectMap, appKey;
@@ -341,7 +341,7 @@ PHASE(Using)
           [outputCharStream catC: "\n        (cons '"];
           [outputCharStream catC: [key getC]];
           [outputCharStream catC: "\n          "];
-          [member lispout: outputCharStream];
+          [member lispOut: outputCharStream];
           [outputCharStream catC: ")"];
         }
       [outputCharStream catC: "))"];
@@ -362,7 +362,7 @@ PHASE(Using)
         return nil;
       outStream = [OutputStream create: scratchZone setFileStream: fp];
       [clients forEach: @selector(updateArchiver)];
-      [self lispout: outStream];
+      [self lispOut: outStream];
       fclose (fp);
       [outStream drop];
     }

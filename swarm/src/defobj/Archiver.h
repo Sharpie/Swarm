@@ -37,7 +37,7 @@ extern id archiver;
 - save;
 - getMap;
 
-- lispout: outputCharStream;
+- lispOut: outputCharStream;
 
 void archiverRegister (id client);
 void archiverUnregister (id client);

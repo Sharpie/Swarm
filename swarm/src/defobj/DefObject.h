@@ -67,11 +67,16 @@ Library:      defobj
 - (void)xprintid;
 - (void)xfprint;
 - (void)xfprintid;
-- lispin: expr;
-- lispout: stream;
+- lispInCreate: expr;
+- lispIn: expr;
+- lispOut: stream;
 @end
 
-id lispin (id aZone, id expr);
+extern id lispIn (id aZone, id expr);
+
+extern id lispInQuotedExpr (id expr);
+extern BOOL lispInBoolean (id index);
+extern int lispInInteger (id index);
 
 //
 // macros for accessing bits at defined locations inside instance variables
@@ -137,4 +142,3 @@ struct mapalloc {
   int size;               // size of allocated block, as used by descriptor
 };
 
-extern id lispinQuotedExpr (id expr);

@@ -1,7 +1,25 @@
 1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* defobj.h (Serialization): New protocol.  Put lispin,
-	lispinQuotedExpr, and archvierSave here.
+	* Program.[hm] (defobj_lookup_type): New function.
+
+	* DefObject.m (lispInQuotedExpr): Renamed from lispinQuotedExpr.
+	(lispInBoolean, lispInInteger): New functions.
+	(lispIn): First try type object, then look for a class of the
+	desired name.
+	([Object_s -lispInCreate:]): New stub.
+	Handle renames of lispIn: and lispOut: throughout.
+	
+	* DefObject.h (Object_s): Rename lisp{in,out} to lisp{In,Out}.
+	Declare lispIn, lispInQuotedExpr, lispInBoolean, and lispInInteger
+	here. 
+
+	* Archiver.h: Rename lispout to lispOut. Use
+	renamed lispInQuotedExpr and lispIn.
+
+	* defobj.h (Serialization): New protocol.  Put lispIn,
+	lispInQuotedExpr, and archvierSave here.
+	Put lispInCreate: in creating phase.
+	Rename lisp{in,out}: to lisp{In,Out}:. Declare defobj_lookup_type.
 
 1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

@@ -68,7 +68,7 @@ collectRemaining (id makeExprIndex)
 }
 
 id
-lispinQuotedExpr (id expr)
+lispInQuotedExpr (id expr)
 {
   id value;
 
@@ -81,8 +81,36 @@ lispinQuotedExpr (id expr)
   return value;
 }
 
+BOOL
+lispInBoolean (id index)
+{
+  id val = [index next];
+  
+  if (!valuep (val))
+    raiseEvent (InvalidArgument, "expected ArchiverValue");
+  
+  if ([val getValueType] != _C_UCHR)
+    raiseEvent (InvalidArgument, "expected boolean ArchiverValue");
+  
+  return [val getBoolean];
+}
+
+int
+lispInInteger (id index)
+{
+  id val = [index next];
+  
+  if (!valuep (val))
+    raiseEvent (InvalidArgument, "expected ArchiverValue");
+  
+  if ([val getValueType] != _C_INT)
+    raiseEvent (InvalidArgument, "expected integer ArchiverValue");
+  
+  return [val getInteger];
+}
+
 id
-lispin (id aZone, id expr)
+lispIn (id aZone, id expr)
 {
   if (!listp (expr))
     raiseEvent (InvalidArgument, "> expr not a list");
@@ -100,29 +128,39 @@ lispin (id aZone, id expr)
     }
     
     {
-      id classNameString;
-      Class classObject;
+      id typeNameString;
+      id typeObject;
       id obj;
       
-      classNameString = lispinQuotedExpr ([makeExprIndex next]);
-      if (!stringp (classNameString))
+      typeNameString = lispInQuotedExpr ([makeExprIndex next]);
+      if (!stringp (typeNameString))
         raiseEvent (InvalidArgument, "> classNameString not a string");
-      classObject = objc_lookup_class ([classNameString getC]);
-      if (!classObject)
-        raiseEvent (InvalidArgument, "> class %s not found", classNameString);
+      {
+        const char *typeName = [typeNameString getC];
+
+        if ((typeObject = defobj_lookup_type (typeName)) == nil)
+          if ((typeObject = objc_lookup_class (typeName)) == nil)
+            raiseEvent (InvalidArgument, "> type `%s' not found", typeName);
+      }
 
       {
         id argexpr = collectRemaining (makeExprIndex);
 
-        obj = [classObject create: aZone];
-
-        obj = [obj lispin: argexpr];
+        obj = [[[typeObject createBegin: aZone] lispInCreate: argexpr]
+                createEnd];
+        [obj lispIn: argexpr];
         [argexpr drop];
       }
       [makeExprIndex drop];
       return obj;
     }
   }
+}
+
+
+- lispInCreate: expr
+{
+  return self;
 }
 
 PHASE(Using)
@@ -901,7 +939,7 @@ output_type (const char *type,
   switch (*type)
     {
     case _C_ID:
-      [((id *)ptr)[offset] lispout: stream];
+      [((id *)ptr)[offset] lispOut: stream];
       break;
     case _C_CLASS:
       raiseEvent (NotImplemented, "Classes not supported [%s]", type);
@@ -1085,7 +1123,7 @@ output_type (const char *type,
   return type + 1;
 }
 
-- lispout: stream
+- lispOut: stream
 {
   struct objc_ivar_list *ivars = getClass (self)->ivars;
 
@@ -1135,7 +1173,7 @@ find_ivar (id obj, const char *name)
   return NULL;
 }
 
-- lispin: expr
+- lispIn: expr
 {
   id <Index> li = [expr begin: [expr getZone]];
   id key, val;
@@ -1194,7 +1232,7 @@ find_ivar (id obj, const char *name)
           if (stringp (first))
             {
               if (strcmp ([first getC], MAKE_OBJC_FUNCTION_NAME) == 0)
-                *((id *) ptr) = lispin ([self getZone], val);
+                *((id *) ptr) = lispIn ([self getZone], val);
             }
           else
             raiseEvent (InvalidArgument, "function not %s",
