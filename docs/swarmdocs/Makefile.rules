@@ -3,19 +3,21 @@ JADETEX = jadetex
 DVIPS = dvips
 EMACS = emacs
 
+.PHONY: fot tex dvi ps rtf html
+
 $(addsuffix $(NAME),.fot .htm .tex .dvi .ps .rtf): $(SGML_FILES)
 
-fot: $(NAME).fot
+fot: all $(NAME).fot
 
-tex: _$(NAME).tex
+tex: all _$(NAME).tex
 
-dvi: $(NAME).dvi
+dvi: all $(NAME).dvi
 
-ps: $(NAME).ps
+ps: all $(NAME).ps
 
-rtf: $(NAME).rtf
+rtf: all $(NAME).rtf
 
-html: $(NAME).htm
+html: all $(NAME).htm
 
 %.fot: %.sgml
 	 $(JADE) -t fot -d $(top_srcdir)/swarmbook.dsl\#print -o $@ $< 

@@ -837,7 +837,7 @@
   (insert "</INDEX>\n"))
 
 (defun sgml-generate-indices ()
-  (with-temp-file (concat (get-swarmdocs) "src/refindex.sgml")
+  (with-temp-file (concat (get-swarmdocs-build-area) "src/refindex.sgml")
     (sgml-generate-protocol-index)
     (sgml-generate-method-signature-index)))
 

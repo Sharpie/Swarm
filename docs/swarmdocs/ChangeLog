@@ -1,5 +1,11 @@
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile.rules: Make phony fot, tex, dvi, ps, rtf, and html
+	depend on all.
+
+	* protocol.el (sgml-generate-indices): Use get-swarmdocs-build-rea
+	instead of get-swarmdocs.
+
 	* history.el: Require gnus for time encoding function.
 	Load common.el from swarmdocs path derived from SWARMHOME.
 	(process-changelog): Rename from parse-changelogs.
