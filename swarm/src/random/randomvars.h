@@ -23,8 +23,9 @@ Date:		 1998-10-08 (v. 0.8)
 
 // Make utility objects globally accessible:
 
-// externvar id <MT19937gen> randomGenerator;
-externvar id <SimpleRandomGenerator> randomGenerator;
+externvar id <MT19937gen> randomGenerator;
+// externvar id <SimpleRandomGenerator> randomGenerator;
+
 externvar id <UniformIntegerDist> uniformIntRand;
 externvar id <UniformUnsignedDist> uniformUnsRand;
 externvar id <UniformDoubleDist> uniformDblRand;

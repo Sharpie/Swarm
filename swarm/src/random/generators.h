@@ -231,7 +231,7 @@ USING
 //D: This protocol covers methods common to simple and split generators.
 @end
 
-@protocol SimpleRandomGenerator <BasicRandomGenerator, SimpleGenerator, RETURNABLE>
+@protocol SimpleRandomGenerator <BasicRandomGenerator, SimpleGenerator>
 // <SwarmObject, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
 //S: A Simple (non-split) generator.
 
@@ -711,4 +711,3 @@ USING
 // <CombinedLongSplitGenerator>
 
 //   (none)
-

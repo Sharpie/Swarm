@@ -1,6 +1,7 @@
-2000-07-15  Marcus G. Daniels  <mgd@nest.swarm.org>
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
-	* generators.h (SimpleRandomGenerator): Adopt RETURNABLE.
+	* randomvars.h (randomGenerator): Conform to MT19937gen not
+	SimpleRandomGenerator.
 
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
