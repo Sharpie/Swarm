@@ -1,3 +1,7 @@
+1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* set.sgml: Use refbook.ent instead of src.ent.
+
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: Include $(top_srcdir)/Makefile.common.
