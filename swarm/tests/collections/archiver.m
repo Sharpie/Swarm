@@ -306,14 +306,9 @@
                     setInhibitLoadFlag: inhibitLoadFlag]
                    createEnd];
   if (mapFlag)
-    {
-      if (deepFlag)
-        coll = [Map create: aZone];
-      else
-        coll = [[[Map createBegin: aZone]
-                  setCompareFunction: compareCStrings]
-                 createEnd];
-    }
+    coll = (deepFlag
+            ? [Map create: aZone];
+            : [[[Map createBegin: aZone] setCompareCStrings] createEnd]);
   else
     coll = [List create: aZone];
   [myArchiver registerClient: self];
