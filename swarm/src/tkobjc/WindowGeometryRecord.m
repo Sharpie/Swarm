@@ -7,6 +7,7 @@
 #import <collections.h>
 
 #import <collections/predicates.h> // for stringp
+#import "global.h"
 
 @implementation WindowGeometryRecord
 

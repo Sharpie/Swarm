@@ -1,5 +1,7 @@
 1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* WindowGeometryRecord.m: Include global.h.
+
 	* Pixmap.h: Don't declare PixmapError here.
 
 	* WindowGeometryRecord.h: Don't declare WindowGeometryRecordError here.
