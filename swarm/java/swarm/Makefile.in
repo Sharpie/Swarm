@@ -1,11 +1,13 @@
 prefix=@prefix@
 datadir=@datadir@
 INSTALL=@INSTALL@
+JAR=@JAR@
+
 include ../Makefile.common
 
 all:
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
-	cd .. ; jar cf swarm/swarm.jar $(foreach module,$(MODULES),$(foreach protocol,$($(module)PROTOCOLS),swarm/$(module)/$(protocol).class))
+	cd .. ; $(JAR) cf swarm/swarm.jar $(foreach module,$(MODULES),$(foreach protocol,$($(module)PROTOCOLS),swarm/$(module)/$(protocol).class))
 
 install: all
 	test -d $(datadir)/swarm || mkdir $(datadir)/swarm

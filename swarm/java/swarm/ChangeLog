@@ -1,5 +1,8 @@
 1999-03-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (JAR): Substitute.
+	(all): Use it instead of literal jar.
+
 	* Makefile.rules.in (jdkdir): Substitute jdkdir instead of javaprefix.
 
 1999-03-03  Alex Lancaster  <alex@santafe.edu>
