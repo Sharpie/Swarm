@@ -19,10 +19,10 @@ changequote([,])dnl
 
 AC_ARG_WITH(catalog,dnl
 changequote(<,>)dnl
-  --with-catalog=FILE     Use catalog at FILE [${CATALOGFILE:-/CATALOGFILE}],dnl
+  --with-catalog=FILE     Use catalog at FILE,dnl
 changequote([,])dnl
   catalog_file=$withval,dnl
-  catalog_file=${CATALOGFILE:-/CATALOGFILE})
+  catalog_file="")
 
 AC_ARG_WITH(dtd,dnl
 changequote(<,>)dnl
@@ -87,7 +87,7 @@ changequote([,])dnl
 AC_SUBST(top_dossrcdir)
 AC_SUBST(swarm_dossrcdir)
 
-if test -z $catalog_file ; then
+if test -z "$catalog_file" ; then
   catopts="-c $docbookdtd_srcdir/docbook.cat -c $docbookstyle_srcdir/catalog"
 else
   catopts="-c $catalog_file"
