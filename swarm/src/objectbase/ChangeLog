@@ -1,5 +1,8 @@
 2001-11-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* probing.m (string_convert): Add a break after fcall_type_jstring
+	code.
+
 	* CompleteVarMap.m: Use SD_JAVA_FIND_CLASS_JAVA instead of 
 	SD_JAVA_FIND_OBJECT_JAVA.
 

@@ -182,6 +182,7 @@ string_convert (fcall_type_t type, const types_t *p,
         strcpy (buf, utf);
         if (copyFlag)
           (*jniEnv)->ReleaseStringUTFChars (jniEnv, (jstring) p->string, utf);
+        break;
       }
 #endif
     case fcall_type_iid:
