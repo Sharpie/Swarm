@@ -13,7 +13,7 @@
 {
   // Initialize the parameterManager from the "experiment.setup" file
 
-  [ObjectLoader load: self fromFileNamed: "experiment.setup"];
+  [ObjectLoader load: self fromAppDataFileNamed: "experiment.setup"];
 
   // Now, build a custom probemap to display parameterManager variables
 
