@@ -1,5 +1,4 @@
-
-SUBDIRS = src @JAVA_MODULE_DIR@ m4 etc tests
+SUBDIRS = src java m4 etc tests
 
 EXTRA_DIST = VERSION
 

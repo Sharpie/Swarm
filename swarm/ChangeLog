@@ -1,3 +1,11 @@
+1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (SUBDIRS): Don't do substitutions; always include java.
+
+	* configure.in: Remove call to vj_DISABLE_JAVA and enable_java
+	conditional.  vj_FIND_JDK will substitute JAVASTUBS for use in
+	java/Makefile.am.
+
 1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* Makefile.am (SUBDIRS): Instead of java list JAVA_MODULE_DIR variable

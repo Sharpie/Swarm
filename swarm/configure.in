@@ -19,7 +19,6 @@ OBJCFLAGS="$OBJCFLAGS -Wall -Wno-import -Wno-protocol -Werror"
 AC_SUBST(OBJCFLAGS)
 
 AM_PROG_LIBTOOL
-vj_DISABLE_JAVA
 
 AC_PATH_XTRA
 md_CHECK_GUILIBS
@@ -172,21 +171,9 @@ AC_ARG_WITH(hdf5dir,
 
 md_FIND_HDF5
 
-JAVA_ENABLED=$enable_java
-AC_SUBST(JAVA_ENABLED)
-
 AC_ARG_WITH(jdkdir,
 [  --with-jdkdir=DIR                Use DIR for Java Development Kit],
   jdkdir=$withval)
-
-if test $enable_java = yes ; then
-   vj_FIND_JDK
-   JAVA_MODULE_DIR="java"
-   AC_SUBST(JAVA_MODULE_DIR)
-else
-   JAVA_MODULE_DIR=""
-   AC_SUBST(JAVA_MODULE_DIR)
-fi
 
 md_CHECK_INLINING
 md_CHECK_OBJC_LIBS
@@ -243,5 +230,8 @@ AC_DEFINE_UNQUOTED(INCLUDEDIR,"$includedir")
 if test -n "$includesubdir"; then
 AC_DEFINE_UNQUOTED(INCLUDESUBDIR,"$includesubdir")
 fi
+
+vj_FIND_JDK
+AC_PATH_PROG(EMACS, emacs, missing)
 
 AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile tests/collections/Makefile tests/defobj/Makefile tests/objectbase/Makefile tests/simtools/Makefile java/Makefile java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules])
