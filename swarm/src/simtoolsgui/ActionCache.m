@@ -202,8 +202,8 @@ PHASE(Using)
           // if "Save", "Start", "Step", or "Quit" send a message directly
           // to activitycontroller
           else if (strcmp (actionName, "Step") == 0
-                   || (strcmp (actionName, "Next") == 0)
-                   || (strcmp (actionName, "Start") == 0)
+                   || strcmp (actionName, "Next") == 0
+                   || strcmp (actionName, "Start") == 0
                    // Save is here because otherwise archiving won't run
                    // until execution resumes.  I (mgd) think this is bad: if
                    // you push on a button it should do something.  
@@ -246,7 +246,6 @@ PHASE(Using)
 - sendActionOfType: (id <Symbol>) type toExecute: (const char *)cmd
 {
   id anAction;
-  
   // if in waitForControlEvent, then reset the control panel
   // state and insert the start action onto the cache
   // when control finally gets back to controlpanel, it will
@@ -254,12 +253,12 @@ PHASE(Using)
   // from which waitForControlEvnt was called.
   if ([ctrlPanel getState] == ControlStateStopped)
     {
-      if (strcmp (cmd, "Quit") == 0) 
-        [ctrlPanel setState: ControlStateQuit];
-      else if (!(strcmp (cmd, "Stop") == 0
-                 || strcmp (cmd, "Save") == 0))
+      if (!(strcmp (cmd, "Stop") == 0
+            || strcmp (cmd, "Save") == 0
+            || strcmp (cmd, "Quit") == 0))
         [ctrlPanel setState: ControlStateRunning];
     }
+
   // create a 'cmd' action
   anAction = [ActionHolder createBegin: [self getZone]];
   [anAction setActionName: cmd];
@@ -267,7 +266,12 @@ PHASE(Using)
   anAction = [anAction createEnd];
   
   // insert the action
-  return [self insertAction: anAction];
+  [self insertAction: anAction];
+
+  if (strcmp (cmd, "Save") == 0 || strcmp (cmd, "Quit") == 0)
+    [self deliverActions];
+  
+  return self;
 }
 
 - sendStartAction

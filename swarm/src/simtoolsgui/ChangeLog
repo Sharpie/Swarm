@@ -1,3 +1,8 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionCache.m ([ActionCache -sendActionOfType:type:]): Handle
+	Quit and Save by sending a deliverActions straight away.
+
 1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtoolsgui.m (buildWindowGeometryRecordName): Do alloc:
