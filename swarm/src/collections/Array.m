@@ -366,13 +366,13 @@ PHASE(Using)
   [super describe: outputCharStream];
   if (getBit (bits, Bit_MemberAlloc))
     {
-      sprintf (buffer, "> external member allocation at: " PTRFMT "\n",
+      sprintf (buffer, "> external member allocation at: " PTRHEXFMT "\n",
                block);
       [outputCharStream catC: buffer];
     }
   else if (getBit (bits, Bit_DefaultMember))
     {
-      sprintf( buffer, "> default member value: " PTRFMT "\n",
+      sprintf( buffer, "> default member value: " PTRHEXFMT "\n",
                block[count] );
       [outputCharStream catC: buffer];
     }

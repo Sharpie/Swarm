@@ -1,3 +1,7 @@
+2000-03-25    <mgd@HELEN>
+
+	* Array.m ([Array_c -describe:]): Use PTRHEXFMT instead of PTRFMT.
+
 2000-02-18    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT): Bump.  Version 2.1.
