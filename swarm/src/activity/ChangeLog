@@ -1,3 +1,22 @@
+2000-05-23  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Action.[hm] (ActionForEachHomogeneous_c): New class.
+
+	* ActionHomogeneous.[hm]: Split out homogeneous set up
+	code into a included file.
+
+	* ActionGroup.[hm], Schedule.[hm], activity.h: Add
+	createActionForEachHomogeneous:message:.
+
+	* Schedule.[hm], activity.h: Add
+	at:createActionForEachHomogeneous:message:.
+
+	* activity.h (ActionSelector): Split out of ActionTo.
+	(ActionForEachHomogeneous): New protocol.
+
+	* activity.m: Associate ActionForEachHomogeneous_c and
+	ActionForEachHomogeneous type.
+
 2000-05-20  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* SwarmProcess.m ([CSwarmProcess -activateIn:]): Set status

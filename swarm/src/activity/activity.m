@@ -26,6 +26,8 @@ _activity_implement (void)
   [id_ActionCall_c setTypeImplemented: ActionCall];
   [id_ActionTo_c setTypeImplemented: ActionTo];
   [id_ActionForEach_c setTypeImplemented: ActionForEach];
+  [id_ActionForEachHomogeneous_c setTypeImplemented: ActionForEachHomogeneous];
+
   [id_FActionForEachHeterogeneous_c setTypeImplemented: FActionForEachHeterogeneous];
   [id_FActionForEachHomogeneous_c setTypeImplemented: FActionForEachHomogeneous];
   [id_ActionChanged_c setTypeImplemented: ActionChanged];

@@ -65,6 +65,7 @@ Library:      activity
 - (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel : arg1;
 - (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel : arg1 : arg2;
 - (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;;
+- (id <ActionForEachHomogeneous>)at: (timeval_t)tVal createActionForEachHomogeneous: target message: (SEL)aSel;
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1;
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
@@ -83,6 +84,7 @@ aSel:arg1:arg2:arg3;
 - (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1;
 - (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2;
 - (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (id <ActionForEachHomogeneous>)createActionForEachHomogeneous: target message: (SEL)aSel;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2;

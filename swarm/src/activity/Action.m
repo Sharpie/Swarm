@@ -389,12 +389,25 @@ PHASE(Using)
 
 @end
 
+@implementation ActionForEachHomogeneous_c
+#define ACTION_HOMOGENEOUS_TYPE ActionForEachHomogeneous_c
+#define SETUPCALL imp = objc_msg_lookup ([target getFirst], selector)
+#define UPDATEOBJCTARGET(target)
+#define PERFORMOBJCCALL(target) imp (target, selector)
+#undef UPDATEJAVATARGET
+#undef PERFORMJAVACALL
+#include "ActionHomogeneous.m"
+#undef PERFORMOBJCCALL
+#undef UPDATEOBJCTARGET
+#undef SETUPCALL
+#undef ACTION_HOMOGENEOUS_TYPE
+@end
+
 @implementation FActionForEachHeterogeneous_c
 PHASE(Creating)
-- setTarget: theTarget
+- (void)setTarget: theTarget
 {
   target = theTarget;
-  return self;
 }
 
 PHASE(Setting)
@@ -442,170 +455,16 @@ PHASE(Using)
 @end
 
 @implementation FActionForEachHomogeneous_c
-PHASE(Creating)
-+ createBegin: aZone
-{
-  FActionForEachHomogeneous_c *obj = [super createBegin: aZone];
-
-  obj->targetCount = 0;
+#define ACTION_HOMOGENEOUS_TYPE FActionForEachHomogeneous_c
+#undef SETUPCALL
+#define UPDATEOBJCTARGET(target) updateTarget (call, target)
+#define PERFORMOBJCCALL(target) [call performCall]
 #ifdef HAVE_JDK
-  obj->javaTargets = NULL;
+#define UPDATEJAVATARGET(jtarget) updateJavaTarget (call, jtarget)
+#define PERFORMJAVACALL(target) [call performCall]
 #endif
-  obj->objcTargets = NULL;
-  return obj;
-}
-
-- setTarget: theTarget
-{
-  target = theTarget;
-  return self;
-}
-
-- createEnd
-{
-  BOOL allSameFlag = [target allSameClass];
-
-  [super createEnd];
-  
-  if (allSameFlag)
-    {
-      id <Index> index = [target begin: getZone (self)];
-      id proto = [target getFirst];
-      
-      targetCount = [target getCount];
-      if ([proto respondsTo: M(isJavaProxy)])
-        {
-#ifdef HAVE_JDK
-          size_t i;
-          id obj;
-          
-          javaTargets =
-            [scratchZone alloc: sizeof (jobject) * targetCount];
-          for (i = 0, obj = [index next];
-               [index getLoc] == Member;
-               obj = [index next], i++)
-            javaTargets[i] = SD_JAVA_FIND_OBJECT_JAVA (obj);
-#endif
-        }
-      else
-        {
-          size_t i;
-          id obj;
-          
-          objcTargets =
-            [scratchZone alloc: sizeof (id) * targetCount];
-          for (i = 0, obj = [index next];
-               [index getLoc] == Member;
-               obj = [index next], i++)
-            objcTargets[i] = obj;
-        }
-    }
-  else
-    raiseEvent (InvalidArgument, "Collection not homogeneous");
-  return self;
-}
-
-PHASE(Setting)
-- setDefaultOrder: (id <Symbol>)aSymbol
-{
-  setDefaultOrder (&bits, aSymbol);
-  return self;
-}
-
-PHASE(Using)
-
-- (void)_performAction_: (id <Activity>)anActivity
-{
-#ifdef HAVE_JDK
-  if (javaTargets)
-    {
-      if (getDefaultOrder (bits) == Randomized)
-        {
-          size_t j = targetCount, k;
-
-          while (j > 1)
-            {
-              jobject kobj;
-
-              j--;
-              k = [uniformUnsRand getUnsignedWithMin: 0 withMax: j];
-              kobj = javaTargets[k];
-              javaTargets[k] = javaTargets[j];
-              javaTargets[j] = kobj;
-            }
-        }
-      {
-        size_t i;
-        
-        for (i = 0; i < targetCount; i++)
-          {
-            updateJavaTarget (call, javaTargets[i]);
-            [call performCall];
-          }
-      }
-    }
-  else
-#endif
-  if (objcTargets)
-    {
-      if (getDefaultOrder (bits) == Randomized)
-        {
-          size_t j = targetCount, k;
-
-          while (j > 1)
-            {
-              id kobj;
-
-              j--;
-              k = [uniformUnsRand getUnsignedWithMin: 0 withMax: j];
-              kobj = objcTargets[k];
-              objcTargets[k] = objcTargets[j];
-              objcTargets[j] = kobj;
-            }
-        }
-      {
-        size_t i;
-        
-        for (i = 0; i < targetCount; i++)
-          {
-            updateTarget (call, objcTargets[i]);
-            [call performCall];
-          }
-      }
-    }
-  else
-    abort ();
-}
-
-- (id <Symbol>)getDefaultOrder
-{
-  return getDefaultOrder (bits);
-}
-
-- getTarget
-{
-  return target;
-}
-
-- (void)describe: stream
-{
-  char buffer[100];
-
-  [stream catC: "[[faction foreach fixed: "];
-  _obj_formatIDString (buffer, target);
-  [stream catC: buffer];
-  [stream catC: "]"];
-}
-
-- (void)drop
-{
-#ifdef HAVE_JDK
-  if (javaTargets)
-    [scratchZone free: (void *) javaTargets];
-  else
-#endif
-   if (objcTargets)
-    [scratchZone free: (void *) objcTargets];
-  [super drop];
-}
+#include "ActionHomogeneous.m"
+#undef UPDATEJAVACALL
+#undef UPDATECALL
+#undef ACTION_HOMOGENEOUS_TYPE
 @end

@@ -281,18 +281,28 @@ USING
 - getTarget;
 @end
 
-@protocol ActionTo <Action, ActionTarget, ActionArgs, RETURNABLE>
-//S: An action defined by sending an Objective C message.
-//D: An action defined by sending an Objective C message.
+@protocol ActionSelector
+//S: Messages for actions involving a selector.
+//D: Messages for actions involving a selector.
 CREATING
 - (void)setMessageSelector: (SEL)aSel;
 USING
 - (SEL)getMessageSelector;
 @end
 
+@protocol ActionTo <Action, ActionTarget, ActionSelector, ActionArgs, RETURNABLE>
+//S: An action defined by sending an Objective C message.
+//D: An action defined by sending an Objective C message.
+@end
+
 @protocol ActionForEach <ActionTo, DefaultOrder, RETURNABLE>
 //S: An action defined by sending a message to every member of a collection.
 //D: An action defined by sending a message to every member of a collection.
+@end
+
+@protocol ActionForEachHomogeneous <Action, ActionTarget, ActionSelector, DefaultOrder, RETURNABLE>
+//S: Like ActionForEach, except that the collection must be homogeneous.
+//D: Like ActionForEach, except that the collection must be homogeneous.
 @end
 
 @protocol FActionForEach  <FAction, ActionTarget, DefaultOrder>
@@ -390,6 +400,8 @@ USING
 //D: is to receive the specified message.
 
 USING
+- (id <ActionForEachHomogeneous>)createActionForEachHomogeneous: target message: (SEL)aSel;
+
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2;
@@ -761,6 +773,8 @@ USING
 - (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1;
 - (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2;
 - (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
+
+- (id <ActionForEachHomogeneous>)at: (timeval_t)tVal createActionForEachHomogeneous: target message: (SEL)aSel;
 
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1;

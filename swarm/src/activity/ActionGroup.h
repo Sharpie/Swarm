@@ -48,6 +48,7 @@ Library:      activity
 - (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1;
 - (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2;
 - (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (id <ActionForEachHomogeneous>)createActionForEachHomogeneous: target message: (SEL)aSel;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2;

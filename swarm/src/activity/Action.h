@@ -97,10 +97,28 @@ Library:      activity
 - (void)_performAction_: (id <Activity>)activity;
 @end
 
+@interface ActionForEachHomogeneous_c: CAction <ActionForEachHomogeneous>
+{
+  SEL selector;
+  id target;
+  IMP imp;
+  size_t targetCount;
+  id *objcTargets;
+}
+- createEnd;
+- (void)setTarget: aTarget;
+- (void)setMessageSelector: (SEL)aSel;
+- setDefaultOrder: (id <Symbol>)aSymbol;
+- (SEL)getMessageSelector;
+- getTarget;
+- (void)describe: outputCharStream;
+- (void)_performAction_: (id <Activity>)activity;
+@end
+
 @interface FActionForEachHeterogeneous_c: FAction_c <FActionForEachHeterogeneous>
 {
 }
-- setTarget: target;
+- (void)setTarget: target;
 - setDefaultOrder: (id <Symbol>)aSymbol;
 - (void)_performAction_: (id <Activity>)anActivity;
 - (id <Symbol>)getDefaultOrder;
@@ -115,7 +133,7 @@ Library:      activity
 #endif
   id *objcTargets;
 }
-- setTarget: target;
+- (void)setTarget: target;
 - createEnd;
 - setDefaultOrder: (id <Symbol>)aSymbol;
 - (void)_performAction_: (id <Activity>)anActivity;

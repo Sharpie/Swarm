@@ -189,6 +189,17 @@ PHASE(Using)
   return newAction;
 }
 
+- (id <ActionForEachHomogeneous>)createActionForEachHomogeneous: target message: (SEL)aSel
+{
+  id <ActionForEachHomogeneous> newAction =
+    [ActionForEachHomogeneous createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  newAction = [newAction createEnd];
+  [self addLast: newAction];
+  return newAction;
+}
+
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel
 {
   id <ActionForEach> newAction =

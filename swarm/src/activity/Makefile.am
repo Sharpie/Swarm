@@ -15,6 +15,8 @@ EXTRA_LTLIBRARIES = libactivity.la
 
 BUILT_SOURCES = $(TYPEINFO)
 
+EXTRA_DIST = ActionHomogeneous.m
+
 SRC = Action.m ActionGroup.m CompoundAction.m Schedule.m SwarmProcess.m XActivity.m activity.m
 
 libactivity_la_SOURCES = $(SRC)

@@ -631,6 +631,18 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
+- (id <ActionForEachHomogeneous>)at: (timeval_t)tVal createActionForEachHomogeneous: target message: (SEL)aSel
+{
+  id <ActionForEachHomogeneous> newAction =
+    [ActionForEachHomogeneous createBegin:
+                                getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  newAction = [newAction createEnd];
+  _activity_insertAction (self, tVal, newAction);
+  return newAction;
+}
+
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel
 {
   id <ActionForEach> newAction = [ActionForEach createBegin:
@@ -756,6 +768,11 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 - (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
   return [self at: 0 createActionTo: target message: aSel : arg1:arg2:arg3];
+}
+
+- (id <ActionForEachHomogeneous>)createActionForEachHomogeneous: target message: (SEL)aSel
+{
+  return [self at: 0 createActionForEachHomogeneous: target message: aSel];
 }
 
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel
