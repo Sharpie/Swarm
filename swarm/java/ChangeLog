@@ -1,3 +1,10 @@
+1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el: Rewrite.  Stubs mostly compile now.  Two
+	significant conceptual change: interfaces are generated
+	for all phases of classes (prefixed with i_), and abstract
+	classes are generated for when a protocol is not tagged CREATABLE.
+
 1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el: Use eval-and-compile to set load-path from

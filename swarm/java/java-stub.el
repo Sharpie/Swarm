@@ -63,18 +63,6 @@
       ("ProbeMap \\*" . freaky)
       ))
 
-(defun java-print (str)
-  (insert str))
-
-(defun java-protocol-creatable-p (protocol)
-  (find "CREATABLE" 
-        (protocol-included-protocol-list protocol)
-        :test #'string=
-        :key #'protocol-name))
-
-(defun java-print-protocol-name (protocol)
-  (java-print (protocol-name protocol)))
-
 (defun java-type-for-objc-type (objc-type)
   (if objc-type
       (let ((ret
@@ -95,7 +83,8 @@
     (unless java-type
       (error "No Java type for `%s'" objc-type))
     (if (freakyp java-type)
-        (java-print "FreakyType")
+        ;(java-print "FreakyType")
+        (java-print "Object")
         (java-print java-type))))
 
 (defun java-print-argument (argument)
@@ -120,192 +109,130 @@
               (java-print-argument argument))
     (java-print ");\n")))
 
-
-(defun java-print-methods-in-protocol (protocol)
-  (setq *last-protocol* protocol)
-  (mapcar #'java-print-method (protocol-method-list protocol)))
-
-(defun java-print-methods-in-phase (protocol prefix phase)
+(defun java-print-methods-in-phase (protocol phase native)
   (loop for method in (protocol-method-list protocol) 
 	do
         (when (eq (method-phase method) phase)
-          (java-print prefix)
+          (when native
+            (java-print "native"))
+          (java-print " ")
           (java-print-method method))))
 
-(defun java-print-all-methods (protocol)
-  (loop for iprotocol in (protocol-included-protocol-list protocol)
-        do
-        (java-print-all-methods iprotocol)
-        (java-print-methods-in-phase protocol " " :creating)
-        (java-print-methods-in-phase protocol " " :setting)
-        (java-print-methods-in-phase protocol " " :using)))
+(defun java-print-class-methods-in-phase (protocol phase)
+  (java-print-methods-in-phase protocol phase t))
 
-(defun java-print-methods (protocol is-class)
-  (loop for iprotocol in (protocol-included-protocol-list protocol)
-        do (java-print-methods iprotocol is-class))
-  (java-print-methods-in-protocol protocol is-class))
+(defun java-print-interface-methods-in-phase (protocol phase)
+  (java-print-methods-in-phase protocol phase nil))
 
-(defun java-print-implemented-protocols (protocol phase separator)
-  (when (protocol-included-protocol-list protocol)
-    (if (or (java-protocol-creatable-p protocol) 
-            (eq phase :creating)
-            (eq phase :using))
-        (java-print "implements ")
-        (java-print "extends "))
-    (java-print-implemented-protocols-list protocol phase separator "")))
+(defun java-suffix-for-phase (phase)
+  (case phase
+    (:setting "_s")
+    (:using "_u")
+    (:creating "")))
 
-(defun java-print-implemented-protocols-list (protocol phase separator suffix)
-  (let ((first t)
-        (included-protocols (protocol-included-protocol-list protocol)))
-    (flet ((protocol-loop (func)
-             (loop for iprotocol in included-protocols
-                   do
-                   (if first
-                       (setq first nil)
-                       (java-print separator))
-                   (java-print (protocol-name iprotocol))
-                   (funcall func iprotocol)
-                   (java-print suffix))))
-      (if phase
-          (case phase
-            (:setting 
-             (protocol-loop #'(lambda (iprotocol)
-                              (when (java-protocol-creatable-p iprotocol)
-                                (java-print "-s")))))
-            (:creating
-             (protocol-loop #'(lambda (iprotocol)
-                              (when (java-protocol-creatable-p iprotocol)
-                                (java-print "-s")
-                                (java-print suffix)
-                                (java-print separator)
-                                (java-print (protocol-name iprotocol))))))
-            (:using
-             (protocol-loop #'(lambda (iprotocol)
-                              (when (java-protocol-creatable-p iprotocol)
-                                (java-print "-s")
-                                (java-print suffix)
-                                (java-print separator)
-                                (java-print (protocol-name iprotocol))
-                                (java-print "-u"))))))
-          (protocol-loop #'(lambda (iprotocol)))))))
+(defun java-print-interface-name (protocol phase)
+  (java-print "i_")
+  (java-print (protocol-name protocol))
+  (java-print (java-suffix-for-phase phase)))
 
-(defun stub-protocol-path (protocol &optional suffix)
-  (let ((path (concat *stub-directory* (protocol-name protocol))))
-    (when suffix
-      (setq path (concat path suffix)))
-    (setq path (concat path ".java"))
-    path))
+(defun java-print-implemented-interfaces-list (protocol phase separator)
+  (let ((first t))
+    (loop for iprotocol in (included-protocol-list protocol)
+          do
+          (if first
+              (setq first nil)
+              (java-print separator))
+          (java-print-interface-name iprotocol :setting)
+          (unless (eq phase :setting)
+            (java-print separator)
+            (java-print-interface-name iprotocol phase)))
+    (not first)))
+
+(defun CREATABLE-p (protocol)
+  (string= (protocol-name protocol) "CREATABLE"))
+
+(defun included-protocol-list (protocol)
+  (remove-if #'CREATABLE-p (protocol-included-protocol-list protocol)))
+
+(defun java-print-import (protocol phase)
+  (java-print "import ")
+  (java-print-interface-name protocol phase)
+  (java-print ";\n"))
+
+(defun java-print-imports (protocol phase)
+  (loop for iprotocol in (included-protocol-list protocol)
+        do (java-print-import iprotocol phase)))
+
+(defun java-print-implemented-protocols (protocol phase separator interface)
+  (if interface
+      (when (included-protocol-list protocol)
+        (java-print "extends")
+        (java-print " ")
+        (java-print-implemented-interfaces-list protocol phase separator))
+      (progn
+        (java-print "implements")
+        (java-print " ")
+        (java-print-implemented-interfaces-list protocol phase separator))))
+
+(defun java-print-class-phase (protocol phase)
+  (unless (CREATABLE-p protocol)
+    (java-print "abstract "))
+  (java-print "class ")
+  (java-print (protocol-name protocol))
+  (java-print (java-suffix-for-phase phase))
+  (java-print " ")
+  (when (java-print-implemented-protocols protocol phase ", " nil)
+    (java-print ", "))
+  (java-print-interface-name protocol :setting)
+  (java-print " {\n")
+  (java-print-class-methods-in-phase protocol phase)
+  (java-print-class-methods-in-phase protocol :setting)
+  (java-print "}\n"))
+
+(defun java-print-interface-phase (protocol phase)
+  (java-print "interface ")
+  (java-print-interface-name protocol phase)
+  (java-print " ")
+  (java-print-implemented-protocols protocol phase ", " t)
+  (java-print " {\n")
+  (java-print-interface-methods-in-phase protocol phase)
+  (java-print "}\n"))
+
+(defun stub-protocol-path (protocol phase interface)
+  (concat *stub-directory* 
+          (if interface "i_" "")
+          (protocol-name protocol)
+          (java-suffix-for-phase phase)
+          ".java"))
+
+(defun java-print-class-phase-to-file (protocol phase)
+  (with-temp-file (stub-protocol-path protocol phase nil)
+    (java-print-imports protocol phase)
+    (java-print-imports protocol :setting)
+    (java-print-class-phase protocol phase)))
+
+(defun java-print-class (protocol)
+  (loop for phase in '(:creating :using)
+        do (java-print-class-phase-to-file protocol phase)))
+
+(defun java-print-interface-phase-to-file (protocol phase)
+  (with-temp-file (stub-protocol-path protocol phase t)
+    (java-print-imports protocol phase)
+    (unless (eq phase :setting)
+      (java-print-imports protocol :setting))
+    (java-print-interface-phase protocol phase)))
 
 (defun java-print-interface (protocol)
-  (with-temp-file (stub-protocol-path protocol)
-    (java-print "interface ")
-    (java-print-protocol-name protocol)
-    (java-print " ")
-    (java-print-implemented-protocols protocol nil ", ")
-    (java-print "\n{\n")
-    (java-print-methods-in-protocol protocol)
-    (java-print "}\n")))
-
-(defun java-print-interface-setting (protocol)
-  (with-temp-file (stub-protocol-path protocol "-s")
-    (java-print "interface ")
-    (java-print-protocol-name protocol)
-    (java-print "-s ")
-    (java-print-implemented-protocols protocol :setting ", ")
-    (java-print "\n{\n")
-    (java-print-methods-in-phase protocol " " :setting)
-    (java-print "}\n")))
-
-(defun java-print-class-creating (protocol)
-   (with-temp-file (stub-protocol-path protocol)
-     (java-print "class ")
-     (java-print-protocol-name protocol)
-     (java-print " ")
-     (java-print-implemented-protocols protocol :creating ", ")
-     (java-print ", ")
-     (java-print (protocol-name protocol))
-     (java-print "-s ")
-     (java-print "\n{\n")
-     (java-print-methods-in-phase protocol "native " :creating)
-     (java-print-methods-in-phase protocol "native " :setting)
-     (java-print "}\n")))
-
-(defun java-print-class-using (protocol)
-  (with-temp-file (stub-protocol-path protocol "-u")
-    (java-print "class ")
-    (java-print-protocol-name protocol)
-    (java-print "-u ")
-    (java-print-implemented-protocols protocol :using ", ")
-    (java-print ", ")
-    (java-print (protocol-name protocol))
-    (java-print "-s ")
-    (java-print "\n{\n")
-    (java-print-methods-in-phase protocol "native " :setting)
-    (java-print-methods-in-phase protocol "native " :using)
-    (java-print "\n}\n")))
-
-(defun java-print-makefile (protocol)
-  (java-print "\n")
-  (if (java-protocol-creatable-p protocol)
-      (progn
-        (java-print-protocol-name protocol)
-        (java-print ".class: ")
-        (java-print-protocol-name protocol)
-        (java-print ".java ")
-        (java-print-protocol-name protocol)
-        (java-print "-s.class ")
-        (java-print-implemented-protocols-list protocol :creating " " ".class")
-        (java-print "\n\t javac ")
-        (java-print (protocol-name protocol))
-        (java-print ".java\n")
-        
-        (java-print-protocol-name protocol)
-        (java-print "-u.class: ")
-        (java-print-protocol-name protocol)
-        (java-print "-u.java ")
-        (java-print-protocol-name protocol)
-        (java-print "-s.class ")
-        (java-print-implemented-protocols-list protocol :using " " ".class")
-        (java-print "\n\t javac ")
-        (java-print (protocol-name protocol))
-        (java-print ".java\n")
-        
-        (java-print-protocol-name protocol)
-        (java-print "-s.class: ")
-        (java-print-protocol-name protocol)
-        (java-print "-s.java ")
-        (java-print-implemented-protocols-list
-         protocol :setting " " ".class")
-        (java-print "\n\t javac ")
-        (java-print (protocol-name protocol))
-        (java-print ".java\n"))
-      (progn 
-        (java-print-protocol-name protocol)
-        (java-print ".class: ")
-        (java-print-implemented-protocols-list protocol nil " " ".class")
-        (java-print "\n\t javac ")
-        (java-print (protocol-name protocol))
-        (java-print ".java\n"))))
-
-(defun java-print-class (protocol makefile-buffer)
-  (if (java-protocol-creatable-p protocol)
-      (progn
-	(java-print-interface-setting protocol)
-	(java-print-class-using protocol)
-	(java-print-class-creating protocol))
-      (java-print-interface protocol))
-  (with-current-buffer makefile-buffer
-    (java-print-makefile protocol)))
-
+  (loop for phase in '(:creating :setting :using)
+        do (java-print-interface-phase-to-file protocol phase)))
+  
 (defun java-print-classes ()
   (interactive)
-  (let* ((makefile-name (concat *stub-directory* "Makefile"))
-         (makefile-buffer (generate-new-buffer makefile-name)))
-    (loop for protocol being each hash-value of *protocol-hash-table* 
-	  do (java-print-class protocol makefile-buffer))
-    (set-buffer makefile-buffer)
-    (write-file makefile-name)
-    (kill-buffer makefile-buffer)))
+  (loop for protocol being each hash-value of *protocol-hash-table* 
+        do
+        (setq *last-protocol* protocol)
+        (java-print-interface protocol)
+        (java-print-class protocol)))
 
 (defun java-run-all ()
   (load-and-process-modules)
