@@ -16,6 +16,7 @@ struct COMInterface {
   void *(*findComponent) (const char *componentName);
   const char *(*copyString) (const char *str);
   const char *(*getName) (COMobject cObj);
+  void (*addRef) (COMobject cObj);
 };
 
 extern void initCOM (COMEnv *env);
@@ -45,12 +46,18 @@ extern const char *COM_class_name (COMobject cobj);
 #define SD_COM_ENSURE_OBJECT_COM_CAST(type,oObject) NS_STATIC_CAST(type,SD_COM_ENSURE_OBJECT_COM (oObject))
 
 #define SD_COM_ENSURE_OBJECT_OBJC(cObject) swarm_directory_COM_ensure_objc (cObject)
+#define SD_COM_ENSURE_THIS_OBJECT_OBJC() SD_COM_ENSURE_OBJECT_OBJC(NS_STATIC_CAST(swarmITyping*,this))
+
 #define SD_COM_ENSURE_SELECTOR_OBJC(cSelector) swarm_directory_COM_ensure_selector (cSelector)
+
 #define SD_COM_ENSURE_CLASS_OBJC(cClass) swarm_directory_COM_ensure_class (cClass)
+
 #define SD_COM_ADD_OBJECT_COM(cObject, oObject) swarm_directory_COM_add_object_COM (cObject, oObject)
+#define SD_COM_ADD_THIS_OBJECT_COM(oObject) SD_COM_ADD_OBJECT_COM (NS_STATIC_CAST(swarmITyping*,this),oObject)
+
 #define SD_COM_ADD_OBJECT_OBJC(cObject, oObject) swarm_directory_COM_add_object_objc (cObject, oObject)
 
-#define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_object_COM ((COMobject) cClass, (id) cClass)
+#define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_object_COM (cClass, (id) cClass)
 #define SD_COM_COPY_STRING(str) COM_copy_string (str)
 
 #define COM_FIND_OBJECT_ENTRY(theCOMObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.COM = theCOMObject; _findEntry; })

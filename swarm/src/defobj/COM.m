@@ -127,6 +127,7 @@ add (COMobject cObject, id oObject)
 {
   ObjectEntry *entry = COM_OBJECT_ENTRY (cObject, oObject);
 
+  comEnv->addRef (cObject);
   avl_probe (swarmDirectory->object_tree, entry);
   avl_probe (swarmDirectory->COM_tree, entry);
   return entry;
