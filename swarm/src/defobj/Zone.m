@@ -11,42 +11,46 @@ Library:      defobj
 
 #import <defobj/Zone.h>
 #import <defobj/defalloc.h>
-#import <collections.h>
 
-#include <stdlib.h>
-#include <memory.h>
+#import <collections/List_linked.h>
+
+#include <misc.h>
 
 //
 // temporary hack to guarantee double word alignment of allocations
 //
-static inline void *dalloc( size_t blockSize )
+static inline
+void *dalloc (size_t blockSize)
 {
   static BOOL  notAligned = 0;
   void         *block;
 
-  block = malloc( blockSize );
-  if ( ! block ) raiseEvent( OutOfMemory, nil );
+  block = xmalloc (blockSize);
 
 // if flag is set at compile time (-DPTR_MALLOC_DALIGN), then runtime check
 // for double-word alignment check can be suppressed from this code.
 
 #ifdef PTR_MALLOC_DALIGN
-  if ( PTR_MALLOC_DALIGN ) return block;
+  if (PTR_MALLOC_DALIGN)
+    return block;
 #endif
 
-  if ( ( (unsigned long)block & ~0x7 ) == (unsigned long)block ) return block;
-
-  if ( ! notAligned ) {
-    notAligned = 1;
-    fprintf( stderr,
-      "Double word alignment of malloc allocations not guaranteed on local\n"
-      "machine architecture.  Please report to swarm@santafe.edu.\n"
-      "Standard fixup taken, execution continuing...\n" );
-  }
-
-  free( block );
-  block = malloc( blockSize + 7 );
-  return ( (void *)( ( (unsigned long)block + 7 ) & ~0x7 ) );
+  if (((unsigned long)block & ~0x7) == (unsigned long)block)
+    return block;
+  
+  if (! notAligned)
+    {
+      notAligned = 1;
+      fprintf (stderr,
+               "Double word alignment of malloc allocations not guaranteed\n"
+               "on local machine architecture.\n"
+               "Please report to swarm@santafe.edu.\n"
+               "Standard fixup taken, execution continuing...\n" );
+    }
+  
+  xfree (block);
+  block = xmalloc (blockSize + 7);
+  return ((void *)(((unsigned long)block + 7) & ~0x7));
 }
 
 //
@@ -81,10 +85,11 @@ PHASE(Creating)
 
 - createEnd
 {
-  if ( createByMessageToCopy( self, createEnd ) ) return self;
+  if (createByMessageToCopy (self, createEnd))
+    return self;
 
-  setMappedAlloc( self );
-  setNextPhase( self );
+  setMappedAlloc (self);
+  setNextPhase (self);
 
   // create internal support objects for zone
 
@@ -92,16 +97,17 @@ PHASE(Creating)
   ((ComponentZone_c *)componentZone)->baseZone = self;
   ((ComponentZone_c *)componentZone)->componentZone = componentZone;
 
-  population = [List createBegin: componentZone];
+  population = [List_linked createBegin: componentZone];
   [population setIndexFromMemberLoc: - (2 * sizeof(id))];
   population = [(id)population createEnd];
 
   // zero internal allocation statistics to remove zone overhead
 
-  if ( _obj_debug ) {
-    objectCount = 0;
-    objectTotal = 0;
-  }
+  if (_obj_debug)
+    {
+      objectCount = 0;
+      objectTotal = 0;
+    }
   return self;
 }
 
@@ -117,25 +123,26 @@ PHASE(Using)
 //
 - allocIVars: aClass
 {
-  Object_s  *newObject;
+  Object_s *newObject;
 
   //!! need to guarantee that class inherits from Object_s, to define slot
   //!! for zbits
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *)dalloc(
-                ((Class)aClass)->instance_size + 2 * sizeof (id) );
-
+  newObject = (Object_s *)dalloc (((Class)aClass)->instance_size
+                                  + 2 * sizeof (id));
+  
   // add object to the population list, skipping over links in object header
 
   newObject = (Object_s *)((id *)newObject + 2);
-  if ( population ) [population addLast: newObject];
+  if (population)
+    [population addLast: newObject];
 
   // initialize and return the newly allocated object
 
-  memset( newObject, 0, ((Class)aClass)->instance_size );
-  setClass( newObject, aClass );   
+  memset (newObject, 0, ((Class)aClass)->instance_size);
+  setClass (newObject, aClass);   
   newObject->zbits = (unsigned long)self;   
   return (id)newObject;
 }
@@ -151,7 +158,7 @@ PHASE(Using)
   // allocate object of required size, including links in object header
 
   instanceSize = getClass(anObject)->instance_size;
-  newObject = (Object_s *)dalloc( instanceSize + 2 * sizeof(id) );
+  newObject = (Object_s *)dalloc (instanceSize + 2 * sizeof (id));
 
   // add object to the population list, skipping over links in object header
 
@@ -160,9 +167,10 @@ PHASE(Using)
 
   // initialize and return the newly allocated object
 
-  memcpy( newObject, anObject, instanceSize );
+  memcpy (newObject, anObject, instanceSize);
   newObject->zbits = (unsigned long)self;
-  if ( getMappedAlloc( (Object_s *)anObject ) ) setMappedAlloc( newObject );  
+  if (getMappedAlloc ((Object_s *)anObject))
+    setMappedAlloc (newObject);  
   return newObject;
 }
 
@@ -177,18 +185,20 @@ PHASE(Using)
   [index remove];
   [index drop];
 
-  if ( _obj_debug ) {
-     if ( getBit( ((Object_s *)anObject)->zbits, BitComponentAlloc ) )
-       raiseEvent( InvalidOperation,
- "> object being freed by freeIVars: (%0#8x: %s)\n"
- "> was allocated for restricted internal use by allocIVarsComponent: or\n"
- "> copyIVarsComponent:, and may only be freed by freeIVarsComponent:\n",
-       anObject, getClass( anObject )->name );
-
-     memset( (id *)anObject - 2, _obj_fillfree,
-             getClass(anObject)->instance_size + ( 2 * sizeof (id) ) );
-  }
-  free( (id *)anObject - 2 );
+  if (_obj_debug)
+    {
+      if (getBit (((Object_s *)anObject)->zbits, BitComponentAlloc))
+        raiseEvent (InvalidOperation,
+                    "> object being freed by freeIVars: (%0#8x: %s)\n"
+                    "> was allocated for restricted internal use by\n"
+                    "> allocIVarsComponent: or copyIVarsComponent:,\n"
+                    "> and may only be freed by freeIVarsComponent:\n",
+                    anObject, getClass (anObject)->name);
+      
+      memset ((id *)anObject - 2, _obj_fillfree,
+              getClass (anObject)->instance_size + (2 * sizeof (id)));
+    }
+  xfree ((id *)anObject - 2);
 }
 
 //
@@ -200,19 +210,20 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *)dalloc( ((Class)aClass)->instance_size );
+  newObject = (Object_s *)dalloc (((Class)aClass)->instance_size);
 
-  if ( _obj_debug ) {
-    objectCount++;
-    objectTotal += ((Class)aClass)->instance_size;
-  }
-
+  if (_obj_debug)
+    {
+      objectCount++;
+      objectTotal += ((Class)aClass)->instance_size;
+    }
+  
   // initialize and return the new object, without adding to population list
 
-  memset( newObject, 0, ((Class)aClass)->instance_size );
-  setClass( newObject, aClass );   
+  memset (newObject, 0, ((Class)aClass)->instance_size);
+  setClass (newObject, aClass);   
   newObject->zbits = (unsigned long)self;
-  setBit( newObject->zbits, BitComponentAlloc, 1 ); 
+  setBit (newObject->zbits, BitComponentAlloc, 1); 
   return newObject;
 }
 
@@ -227,17 +238,19 @@ PHASE(Using)
 
   newObject = (Object_s *)dalloc( getClass(anObject)->instance_size );
 
-  if ( _obj_debug ) {
-    objectCount++;
-    objectTotal += getClass(anObject)->instance_size;
-  }
-
+  if (_obj_debug)
+    {
+      objectCount++;
+      objectTotal += getClass(anObject)->instance_size;
+    }
+  
   // initialize and return the new object, without adding to population list
-
-  memcpy( newObject, anObject, getClass(anObject)->instance_size );
+  
+  memcpy (newObject, anObject, getClass(anObject)->instance_size);
   newObject->zbits = (unsigned long)self;
-  if ( getMappedAlloc( (Object_s *)anObject ) ) setMappedAlloc( newObject );  
-  setBit( newObject->zbits, BitComponentAlloc, 1 ); 
+  if (getMappedAlloc ((Object_s *)anObject))
+    setMappedAlloc (newObject);  
+  setBit (newObject->zbits, BitComponentAlloc, 1); 
   return newObject;
 }
 
@@ -247,19 +260,22 @@ PHASE(Using)
 //
 - (void) freeIVarsComponent: anObject
 {
-  if ( _obj_debug ) {
-    if ( ! getBit( ((Object_s *)anObject)->zbits, BitComponentAlloc ) )
-      raiseEvent( InvalidOperation,
-        "> object being freed by freeIVarsComponent: (%0#8x: %s)\n"
-        "> was not allocated by allocIVarsComponent: or copyIVarsComponent:\n",
-        anObject, getClass( anObject )->name );
-
-    objectCount--;
-    objectTotal -= getClass(anObject)->instance_size;
-
-    memset( (id *)anObject, _obj_fillfree, getClass(anObject)->instance_size );
-  }
-  free( anObject );
+  if (_obj_debug)
+    {
+      if (!getBit (((Object_s *)anObject)->zbits, BitComponentAlloc))
+        raiseEvent( InvalidOperation,
+                    "> object being freed by freeIVarsComponent: (%0#8x: %s)\n"
+                    "> was not allocated by allocIVarsComponent:\n"
+                    "> or copyIVarsComponent:\n",
+                    anObject, getClass (anObject)->name);
+      
+      objectCount--;
+      objectTotal -= getClass(anObject)->instance_size;
+      
+      memset ((id *)anObject, _obj_fillfree,
+              getClass (anObject)->instance_size);
+    }
+  xfree (anObject);
 }
 
 //
@@ -274,26 +290,29 @@ PHASE(Using)
 //
 // alloc: -- alloc block of requested size, without initialization of contents
 //
-- (void *) alloc: (size_t)size
+- (void *)alloc: (size_t)size
 {
   void  *newBlock;
-
-  if ( _obj_debug && size == 0 ) raiseEvent( InvalidAllocSize, nil );
-  newBlock = dalloc( size );
-  if ( _obj_debug ) {
-    allocCount++;
-    memset( newBlock, _obj_fillalloc, size );
-  }
+  
+  if (_obj_debug && size == 0)
+    raiseEvent (InvalidAllocSize, nil);
+  newBlock = dalloc (size);
+  if (_obj_debug)
+    {
+      allocCount++;
+      memset (newBlock, _obj_fillalloc, size);
+    }
   return newBlock;
 }
 
 //
 // free: -- free block allocated by alloc:
 //
-- (void) free: (void *) aBlock
+- (void)free: (void *)aBlock
 {
-  if ( _obj_debug ) allocCount--;
-  free(aBlock);
+  if (_obj_debug)
+    allocCount--;
+  xfree (aBlock);
 }
 
 //
@@ -302,14 +321,16 @@ PHASE(Using)
 - (void *) allocBlock: (size_t)size
 {
   void  *newBlock;
-
-  if ( _obj_debug && size == 0 ) raiseEvent( InvalidAllocSize, nil );
+  
+  if (_obj_debug && size == 0)
+    raiseEvent (InvalidAllocSize, nil);
   newBlock = dalloc( size );
-  if ( _obj_debug ) {
-    blockCount++;
-    blockTotal += size;
-    memset( newBlock, _obj_fillalloc, size );
-  }
+  if (_obj_debug)
+    {
+      blockCount++;
+      blockTotal += size;
+      memset (newBlock, _obj_fillalloc, size);
+    }
   return newBlock;
 }
 
@@ -318,12 +339,13 @@ PHASE(Using)
 //
 - (void) freeBlock: (void *)aBlock blockSize: (size_t)size
 {
-  if ( _obj_debug ) {
-    blockCount--;
-    blockTotal -= size;
-    memset( aBlock, _obj_fillfree, size );
-  }
-  free(aBlock);
+  if (_obj_debug)
+    {
+      blockCount--;
+      blockTotal -= size;
+      memset (aBlock, _obj_fillfree, size);
+    }
+  xfree (aBlock);
 }
 
 //
@@ -343,18 +365,19 @@ PHASE(Using)
   char  buffer[200];
 
   [super describe: outputCharStream];
-  sprintf( buffer, "> number of objects in population: %d\n",
+  sprintf (buffer, "> number of objects in population: %d\n",
            [population getCount] );
   [outputCharStream catC: buffer];
-
-  if ( _obj_debug ) {
-    sprintf( buffer,
-      "> number of internal objects: %3d  total size: %d\n"
-      "> number of internal blocks:  %3d  total size: %d\n"
-      "> number of alloc: blocks:  %5d  (total size not available)\n",
-             objectCount, objectTotal, blockCount, blockTotal, allocCount );
-    [outputCharStream catC: buffer];
-  }
+  
+  if (_obj_debug)
+    {
+      sprintf (buffer,
+               "> number of internal objects: %3d  total size: %d\n"
+               "> number of internal blocks:  %3d  total size: %d\n"
+               "> number of alloc: blocks:  %5d  (total size not available)\n",
+               objectCount, objectTotal, blockCount, blockTotal, allocCount );
+      [outputCharStream catC: buffer];
+    }
 }
 
 //
@@ -366,7 +389,8 @@ PHASE(Using)
   id  index, member;
 
   index = [population begin: scratchZone];
-  while ( (member = [index next]) ) [member describe: outputCharStream];
+  while ((member = [index next]))
+    [member describe: outputCharStream];
   [index drop];
 }
 
@@ -376,10 +400,11 @@ PHASE(Using)
 //
 - (void) describeForEachID: outputCharStream
 {
-  id  index, member;
+  id index, member;
 
   index = [population begin: scratchZone];
-  while ( (member = [index next]) ) [member describeID: outputCharStream];
+  while ((member = [index next]))
+    [member describeID: outputCharStream];
   [index drop];
 }
 
@@ -397,15 +422,16 @@ PHASE(Using)
   mapalloc->descriptor = t_PopulationObject;
 
   index = [population begin: scratchZone];
-  while ( (member = [index next]) ) {
-    [index prev];
-    mapAlloc( mapalloc, member );
-  }
+  while ((member = [index next]))
+    {
+      [index prev];
+      mapAlloc (mapalloc, member);
+    }
 
   // map components of the zone itself
 
-  mapObject( mapalloc, componentZone );
-  mapObject( mapalloc, population );
+  mapObject (mapalloc, componentZone);
+  mapObject (mapalloc, population);
 }
 
 @end

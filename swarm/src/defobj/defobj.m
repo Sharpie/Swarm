@@ -13,7 +13,6 @@ Library:      defobj
 #import <defobj/Zone.h>
 #import <collections.h>
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #include <stdio.h>
 
 id  t_Object, t_ByteArray;
@@ -26,7 +25,8 @@ FILE *_obj_xerror, *_obj_xdebug;
 //
 // _defobj_implement() -- generate implementations for defobj module
 //
-void _defobj_implement( void )
+void
+_defobj_implement( void )
 {
   [id_Zone_c          setTypeImplemented: Zone];
   [id_Symbol_c        setTypeImplemented: Symbol];
@@ -37,7 +37,8 @@ void _defobj_implement( void )
 //
 // _defobj_initialize() -- initialize global data for defobj module
 //
-void _defobj_initialize( void )
+void
+_defobj_initialize( void )
 {
   // initialize error messages
 
@@ -95,3 +96,11 @@ nameToObject (const char *name)
   abort ();
 }
 
+id
+nil_method (id receiver, SEL op, ...)
+{
+  [NotImplemented raiseEvent:  "The message `%s' was sent to nil.\n",
+                  sel_get_name (op)];
+
+  return nil;
+}

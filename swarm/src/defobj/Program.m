@@ -13,15 +13,15 @@ Library:      defobj
 #import <defobj/Zone.h>
 #import <defobj/Symbol.h>
 #import <defobj/DefClass.h>
-#import <collections.h>
+
+#import <collections.h> // _collections_
 
 #import <objc/objc-api.h>
 #import <objc/Protocol.h>
 
-#define __USE_FIXED_PROTOTYPES__ // for gcc headers
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <misc.h> // xmalloc
+#include <string.h> // strcmp
 
 // program-wide storage zones
 
@@ -67,7 +67,7 @@ void *_obj_initAlloc( size_t size )
   if ( _obj_initZone )
     newAlloc = [_obj_initZone allocBlock: size];
   else
-    newAlloc = malloc( size );
+    newAlloc = xmalloc (size);
 
   memset( newAlloc, 0, size );
   return newAlloc;
@@ -89,36 +89,39 @@ static void initModules( void )
 
   // loop through classes to count their number and to chain module objects
 
-  for ( modules = NULL, enumState = NULL;
-        (class = objc_next_class( &enumState ));
-        _obj_nclasses++ ) {
-    if ( class->super_class == moduleSuper ) {
-      _obj_nmodules++;
-      module = (void **)[class initialize];  // get uninitialized module object
-      module[0] = (void *)modules;
-      modules = module;
+  for (modules = NULL, enumState = NULL;
+        (class = objc_next_class (&enumState));
+       _obj_nclasses++)
+    {
+      if (class->super_class == moduleSuper)
+        {
+          _obj_nmodules++;
+          // get uninitialized module object
+          module = (void **)[class initialize]; 
+          module[0] = (void *)modules;
+          modules = module;
+        }
     }
-  }
-
+  
   // allocate global array of class variable extensions by class number
-
-  _obj_classes = _obj_initAlloc( _obj_nclasses * sizeof (id) );
-
+  
+  _obj_classes = _obj_initAlloc (_obj_nclasses * sizeof (id));
+  
   // allocate and initialize global array of defined modules
-
-  nextmod = _obj_modules = _obj_initAlloc( _obj_nmodules * sizeof (id) );
+  
+  nextmod = _obj_modules = _obj_initAlloc (_obj_nmodules * sizeof (id));
   do {
     *nextmod++ = (id)modules;
     module     = modules[0];
     modules[0] = nil;
     modules    = module;
-  } while ( modules );
+  } while (modules);
 
   // initialize _obj_initZone for use by _obj_initModule()
 
-  _obj_initZone = _obj_initAlloc( ((Class)id_Zone_c)->instance_size );
+  _obj_initZone = _obj_initAlloc (((Class)id_Zone_c)->instance_size);
   *(id *)_obj_initZone = id_Zone_c;
-
+  
   // initialize interface identifier constants
 
   Creating     = [_obj_initZone allocIVars: id_Symbol_c];
@@ -164,15 +167,14 @@ static void initModules( void )
   _obj_scratchZone = [[Zone create: _obj_initZone] getComponentZone];
 
   // initialize collections at the end (so that it can use Zones)
-  _obj_initModule( _collections_ );
-
+  _obj_initModule (_collections_); 
 }
 
 
 //
 // _obj_initModule() -- initialize a generated module object
 //
-void _obj_initModule( void *module )
+void _obj_initModule (void *module)
 {
   ProgramModule_c  *moduleObject;
   func_t           implFunction, initFunction;
@@ -187,18 +189,20 @@ void _obj_initModule( void *module )
 
   // initialize array of all loaded modules
 
-  if ( ! _obj_modules ) initModules();
-
+  if (! _obj_modules)
+    initModules();
+  
   // return if already initialized
 
-  if ( getClass( module ) ) return;
-
+  if (getClass (module))
+    return;
+  
   // establish module defs as an instance of ProgramModule_c
-
+  
   moduleObject = module;
-  setClass( moduleObject, id_ProgramModule_c );
-  implFunction        = (func_t)moduleObject->owner;    // save impl function
-  initFunction        = (func_t)moduleObject->modules;  // save init function
+  setClass (moduleObject, id_ProgramModule_c);
+  implFunction = (func_t)moduleObject->owner;    // save impl function
+  initFunction = (func_t)moduleObject->modules;  // save init function
   moduleObject->owner = (id)_obj_programModule;
 
   //
@@ -213,28 +217,31 @@ void _obj_initModule( void *module )
 
   // initialize the global id constant for each symbol
 
-  for ( ; *symbol; symbol++, symbolName++ ) {
-    if ( (*symbolName)[0] == '0' ) {
-      symbolType = (*symbolName)[1];
-      symbolName++;
+  for ( ; *symbol; symbol++, symbolName++)
+    {
+      if ((*symbolName)[0] == '0')
+        {
+          symbolType = (*symbolName)[1];
+          symbolName++;
+        }
+      switch (symbolType)
+        {
+        case 'S':
+          *(id *)*symbol = [Symbol create: _obj_initZone setName: *symbolName];
+          break;
+        case 'W':
+          *(id *)*symbol = [Warning create: _obj_initZone setName: *symbolName];
+          break;
+        case 'E':
+          *(id *)*symbol = [Error create: _obj_initZone setName: *symbolName];
+          break;
+        default:
+          fprintf (stderr, "error in generated symbols for module: %s\n",
+                   moduleObject->name);
+          abort();
+        }
     }
-    switch ( symbolType ) {
-    case 'S':
-      *(id *)*symbol = [Symbol create: _obj_initZone setName: *symbolName];
-      break;
-    case 'W':
-      *(id *)*symbol = [Warning create: _obj_initZone setName: *symbolName];
-      break;
-    case 'E':
-      *(id *)*symbol = [Error create: _obj_initZone setName: *symbolName];
-      break;
-    default:
-      fprintf( stderr, "error in generated symbols for module: %s\n",
-               moduleObject->name );
-      abort();
-    }
-  }
-
+  
   //
   // create type objects for all defined types
   //
@@ -242,48 +249,54 @@ void _obj_initModule( void *module )
   // advance a pointer to start of protocols for types
 
   protocol = (id *)moduleObject->types;
-  for ( ; *protocol; protocol++ );
+  for ( ; *protocol; protocol++);
   protocol++;
-
+  
   // initialize the global id constant for each type
 
   typeID = (Type_c ***)moduleObject->types;
-  for ( ; *typeID; typeID++, protocol++ ) {
-
-    // for now, just create type object with protocol saved in supertypes slot
-
-    **typeID = [_obj_initZone allocIVars: id_Type_c];
-    type                 = **typeID;
-    type->owner          = moduleObject;
-    type->name           = (*(proto_t *)protocol)->name;
-    type->typeID         = *typeID;
-    type->supertypes     = *protocol;
-
-    // also mark whether type is creatable based on protocol declaration
-
-    for ( protoList = (*(proto_t *)protocol)->protoList;
-          protoList; protoList = protoList->next ) {
-      for ( proto = (proto_t *)protoList->list;
-            proto < (proto_t *)( protoList->list + protoList->count );
-            proto++ ) {
-        if ( strcmp( (*proto)->name, "CREATABLE" ) == 0 )
-          type->implementation = Creating;
-      }
+  for ( ; *typeID; typeID++, protocol++ )
+    {
+      
+      // for now, just create type object with protocol saved in
+      // supertypes slot
+      
+      **typeID = [_obj_initZone allocIVars: id_Type_c];
+      type                 = **typeID;
+      type->owner          = moduleObject;
+      type->name           = (*(proto_t *)protocol)->name;
+      type->typeID         = *typeID;
+      type->supertypes     = *protocol;
+      
+      // also mark whether type is creatable based on protocol declaration
+      
+      for (protoList = (*(proto_t *)protocol)->protoList;
+           protoList; protoList = protoList->next)
+        {
+          for (proto = (proto_t *)protoList->list;
+               proto < (proto_t *)(protoList->list + protoList->count);
+               proto++)
+            {
+              if (strcmp ((*proto)->name, "CREATABLE") == 0)
+                type->implementation = Creating;
+            }
+        }
     }
-  }
-
+  
   // loop on classes to initialize owner module and class id
-
-  for ( class = (Class **)moduleObject->classes; *class; class++ ) {
-    classData = _obj_getClassData( (Class_s *)**class );
-    if ( classData->owner ) raiseEvent( InternalError, nil );
-
-    classData->owner   = moduleObject;
-    classData->classID = *class;
-  }
-
+  
+  for (class = (Class **)moduleObject->classes; *class; class++)
+    {
+      classData = _obj_getClassData ((Class_s *)**class);
+      if (classData->owner)
+        raiseEvent (InternalError, nil);
+      
+      classData->owner   = moduleObject;
+      classData->classID = *class;
+    }
+  
   // later -- initialize collections of types, symbols, and classes
-
+  
   // call function to declare implementations for implemented module types
 
   callerModule = _obj_implModule;
@@ -293,44 +306,50 @@ void _obj_initModule( void *module )
 
   // loop on classes to set external id's of creatable types
 
-  for ( class = (Class **)moduleObject->classes; *class; class++ ) {
-    classData = _obj_getClassData( (Class_s *)**class );
-
-    type = classData->typeImplemented;
-    if ( type && type->implementation ) {
-      if ( type->implementation == Creating ) {
-        if ( classData->initialPhase &&
-             classData->initialPhase->nextPhase != UsingOnly ) {
-	  type->implementation = classData->initialPhase;
-	  *type->typeID = type->implementation;
-	  //!! later -- use customizeBeginEnd if no extra class messages
+  for (class = (Class **)moduleObject->classes; *class; class++)
+    {
+      classData = _obj_getClassData( (Class_s *)**class );
+      
+      type = classData->typeImplemented;
+      if (type && type->implementation)
+        {
+        if (type->implementation == Creating)
+          {
+            if (classData->initialPhase &&
+                classData->initialPhase->nextPhase != UsingOnly)
+              {
+                type->implementation = classData->initialPhase;
+                *type->typeID = type->implementation;
+                //!! later -- use customizeBeginEnd if no extra class messages
+              }
+          }
+        else if (classData->initialPhase->nextPhase != UsingOnly)
+          {
+            raiseEvent (SourceMessage,
+                        "initModule(): more than one class specified as implementation\n"
+                        "for Creating phase of type %s\n"
+                        "(classes include %s and %s)\n",
+                        [type getName], [type->implementation getName],
+                        [**class getName] );
+          }
         }
-      } else if ( classData->initialPhase->nextPhase != UsingOnly ) {
-	raiseEvent( SourceMessage,
-	  "initModule(): more than one class specified as implementation\n"
-	  "for Creating phase of type %s\n"
-	  "(classes include %s and %s)\n",
-	  [type getName], [type->implementation getName],
-	  [**class getName] );
-      }
     }
-  }
-
+  
   // audit that implementation provided for each creatable type interface
-
-  for ( typeID = (Type_c ***)moduleObject->types; *typeID; typeID++ )
-    if ( (**typeID)->implementation == Creating ) {
-      raiseEvent( WarningMessage,
-	"no implementation declared for creatable type %s\n",
-	[(id)**typeID getName] );
-      type->implementation = nil;
-    }
-
+  
+  for (typeID = (Type_c ***)moduleObject->types; *typeID; typeID++)
+    if ((**typeID)->implementation == Creating)
+      {
+        raiseEvent (WarningMessage,
+                    "no implementation declared for creatable type %s\n",
+                    [(id)**typeID getName]);
+        type->implementation = nil;
+      }
+  
   // call initialize function to complete initialization of module
-
-  (*initFunction)();
+  
+  (*initFunction) ();
 }
-
 
 //
 // Type_c -- type object generated for @deftype definition in header
@@ -377,7 +396,7 @@ void _obj_initModule( void *module )
 
 - getModules  // accessor method
 {
-  if ( ! modules ) ;  // initialize modules collection
+  if (!modules);  // initialize modules collection
   return modules;
 }
 
