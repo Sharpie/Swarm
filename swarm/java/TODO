@@ -38,3 +38,10 @@ Support hdf5-1.2.0
 
 For windows distribution, check that X11 headers dependent on tk.h are
 available.
+
+Why does `Next' button abort?
+
+Why do JDK 1.1 and JDK 1.2 abort after about 100 steps in Mousetrap?
+
+Identify performance bottlenecks
+
