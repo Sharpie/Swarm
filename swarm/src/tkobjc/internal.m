@@ -1370,8 +1370,12 @@ tkobjc_pixmap_create (Pixmap *pixmap,
     dib_t *dib = dib_create ();
     unsigned long map[palette_size];
     unsigned ci;
+    unsigned width = pixmap->width;
 
-    dib_createBitmap (dib, NULL, pixmap->width, pixmap->height);
+    if (width & 3)
+      width += 4 - (width & 3);
+    
+    dib_createBitmap (dib, NULL, width, pixmap->height);
     
     for (ci = 0; ci < palette_size; ci++)
       map[ci] = palette[ci].red
@@ -1383,15 +1387,21 @@ tkobjc_pixmap_create (Pixmap *pixmap,
       LPBYTE out_pos = dib_lock (dib);
       WORD depth = dib->dibInfo->bmiHead.biBitCount;
       unsigned drop_shift = (8 - bit_depth) & 7;
-      
+      unsigned row_width;
       unsigned ri;
+
+      row_width = width * ((depth == 24) ? 3 : 1);
       
+      if (row_width & 3)
+	row_width += 4 - (row_width & 3);
+
       for (ri = 0; ri < pixmap->height; ri++)
 	{
 	  unsigned ci;
 	  png_bytep in_row = row_pointers[ri];
+	  LPBYTE row_pos = &out_pos[row_width * ri];
 	  
-	  for (ci = 0; ci < pixmap->width; ci++)
+	  for (ci = 0; ci < width; ci++)
 	    {
 	      unsigned bit_pos = bit_depth * ci;
 	      unsigned byte_offset = bit_pos >> 3;
@@ -1402,12 +1412,12 @@ tkobjc_pixmap_create (Pixmap *pixmap,
 	      val >>= drop_shift;
 
 	      if (depth == 8)
-		*out_pos++ = val;
+		*row_pos++ = val;
 	      else
 		{
-		  *out_pos++ = palette[val].blue;
-		  *out_pos++ = palette[val].green;
-		  *out_pos++ = palette[val].red;
+		  *row_pos++ = palette[val].blue;
+		  *row_pos++ = palette[val].green;
+		  *row_pos++ = palette[val].red;
 		}
 	    }
 	}

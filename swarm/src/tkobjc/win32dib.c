@@ -379,14 +379,18 @@ dib_fill (dib_t *dib,
     {
       LPBYTE base = ((LPBYTE) dib->bits + (clipy * frameWidth * 3));
       BYTE red, green, blue;
+      unsigned fsize = frameWidth * 3;
+
+      if (fsize & 3)
+	fsize += (4 - (fsize & 3));
 
       get_color (dib, color, &red, &green, &blue);
       for (yoff = 0; yoff < height; yoff++)
 	{
 	  unsigned xoff;
 	  BYTE (*ybase)[1][3] =
-	    (void *)(base + ((yoff * frameWidth + clipx) * 3));
-	  
+	    (void *)(base + ((yoff * fsize) + (clipx * 3)));
+
 	  for (xoff = 0; xoff < width; xoff++)
 	    {
 	      LPBYTE xbase = (LPBYTE) &ybase[xoff][0];

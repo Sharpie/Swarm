@@ -1,3 +1,10 @@
+1999-02-18    <mgd@HELEN>
+
+	* internal.m (tkobjc_pixmap_create): Round width and row_width
+	(new variable) up to a four byte boundary.  row_width adjusts
+	adjusts for 8/24 bit width.  Set new variable row_pos from
+	row_width * ri and assign color indexes / color values to it.
+
 1999-02-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* win32dib.c (dib_rectangle): Compute ending y using height, not
