@@ -1,3 +1,9 @@
+1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Arguments.m ([Arguments_c -_getSwarmHome_:]): Don't verify
+	swarmHome if there wasn't one found.  Move findSwarm to the
+	end, for when all else fails.
+
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (CURRENT): Bump.

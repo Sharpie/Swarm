@@ -549,7 +549,7 @@ prefix (const char *prefixstring)
               const char *expanded_prefix = prefix (PREFIX);
               
               if (access (expanded_prefix, F_OK) == -1)
-                swarmHome = findSwarm (self);
+                swarmHome = NULL;
               else
                 swarmHome = expanded_prefix;
             }
@@ -566,18 +566,21 @@ prefix (const char *prefixstring)
                   swarmHome = home;
                 }
             }
-          {
-            char sigPathBuf[(strlen (swarmHome) +
-                             strlen (SIGNATURE_PATH) + 1)];
-            char *p;
-            
-            p = stpcpy (sigPathBuf, swarmHome);
-            p = stpcpy (p, SIGNATURE_PATH);
-            
-            if (access (sigPathBuf, F_OK) == -1)
-              swarmHome = findSwarm (self);
-          }
-        }
+          if (swarmHome)
+            {
+              char sigPathBuf[(strlen (swarmHome) +
+                               strlen (SIGNATURE_PATH) + 1)];
+              char *p;
+              
+              p = stpcpy (sigPathBuf, swarmHome);
+              p = stpcpy (p, SIGNATURE_PATH);
+              
+              if (access (sigPathBuf, F_OK) == -1)
+                swarmHome = NULL;
+            }
+          if (swarmHome == NULL)
+            swarmHome = findSwarm (self);
+        }  
       return swarmHome;
     }
 }
