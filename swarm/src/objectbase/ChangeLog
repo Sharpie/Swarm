@@ -1,3 +1,34 @@
+1997-12-08  Alex Lancaster  <alex@wijiji.santafe.edu>
+
+	* Makefile: Removed references to obsolete test program (main.m) and
+	also removed main.m from the repository. Modified test program
+	now called (ProbeTest.m) is located in subdirectory (tests/)
+
+	* swarmobject.h: Changed protocols for Probe, VarProbe and 
+	ProbeLibrary to support the changes to the interface introduced
+	below.
+
+	* ProbeLibrary.[hm] Added a number of user-level methods:
+	([ProbeLibrary get/setDisplayPrecision:): sets and gets
+	integers for the number of significant figures for floats and doubles
+	displayed on a widget for any probes checked out of the ProbeLibrary.
+	Can be overrwritten by an individual probe.
+	([ProbeLibrary get/setSavedPrecision:): sets and gets the number 
+	of significant figures for floats and doubles when saving any objects 
+	through ObjectSaver. This is global for all probes checked and cannot
+	be overriden by an individual probe.
+
+	* Probe.[hm]: Added ([Probe -setFloatFormat]) and ([Probe 
+	probeAsString: .. withFullPrecision:]) to give superclass Probe 
+	these method. Currently only VarProbe implements them.
+
+	* VarProbe.[hm]: Added ([VarProbe -setFloatFormat]) to support
+	custom formatting of floats and doubles.
+	Added ([VarProbe probeAsString: .. withFullPrecision:]) to support
+	probing for different precision for floats and doubles in object 
+	saving rather than the displayed precision. 
+	
+
 Mon Dec  8 14:32:50 1997  glen e. p. ropella  <gepr@seamus.trail.com>
 
 	* swarmobject.h: Added the ProbeConfig protocol to handle
