@@ -1,29 +1,30 @@
 Contents of this README ================================================
 
-This is the start of build for MacOSX/Darwin.
+This is nearly a build for MacOSX/Darwin.
 
 The contents of this directory are not expected to be meaningful on any
 other platform.
 
-This readme is current as at 2 Jan 2003 for MacOS X 10.2.3 with the
+This readme is current as at 21 Jan 2003 for MacOS X 10.2.3 with the
 December 2002 Developer Tools.  Do not waste your time with any MacOS setup
 older than this.  Apple are rapidly improving the *NIX compatability and
 functionality of the bsd subsystem.
 
-This work was being done with Xfree86 4.2.1.1.  Libraries Tcl/Tk 8.4.1,
+This work was being done with Apple X11 beta  Libraries Tcl/Tk 8.4.1,
 HDF5 1.5-42, and BLT2.4z are all installed in /usr/local.
 
 Sources or compiled code can be obtained as
-Xfree86 (binary and source)  http://sourceforge.net/projects/xonx
+Apple X11 (binary, sdk and source)  http://www.apple.com/macosx/x11/
 OroborosX (binary and source)  http://oroborosx.sourceforge.net/
 Tcl/Tk  (source and Aqua binaries)   http://sourceforge.net/projects/tcl
 HDF5    (source)   http://hdf.ncsa.uiuc.edu/
 BLT     (source)   http://sourceforge.net/projects/blt
 BLT (patches and binary)  http://savannah.nongnu.org/patch/?group=swarm
 
-As of 2 Jan 03 you proably need also
-A recent fsf version of gcc any time after October 2002 should do.  The bugs in the Apple build have been reported.  So they may be fixed. http://gcc.gnu.org/
-An updated version of sed from http://ftp.gnu.org/pub/gnu/sed/ (the MacOS X one is from 1997!).  Hopefully Apple will fix this
+As of 21 Jan 03 you proably need also
+A recent fsf version of gcc3.3 any time after October 2002 should do.  The bugs in the Apple build have been reported.  So they may be fixed. http://gcc.gnu.org/
+also gnu libtool1.4.3 from the same site.
+A GNU version of sed from http://ftp.gnu.org/pub/gnu/sed/ (the MacOS X one is from 1997!).  At the moment you have to insatll this as /usr/bin/sed yuchh.  Hopefully Apple will fix this.
 A recent version of gperf from http://ftp.gnu.org/pub/gnu/gperf/.  Maybe Apple will fix this?
 
 Documentation on MacOS X porting issues can be found at

@@ -5,8 +5,10 @@ If you have the cvs sources, you will need to
 
 Edit $SRCROOT/configure.in:26 and $SRCROOT/libobjc/configure.in:18
 to change the OBJCFLAGS thus
-Remove -Werror
+Remove -Werror -Wno-long-long
 Add -Wno-protocol -Wno-long-double
+
+and copy the ltmain.sh from gnu libtool1.4.3 into the top source directory and libobjc.
 
 Then (if you are brave jump to **Bleeding edge build)
 
@@ -14,10 +16,12 @@ Other wise try:
 
 cd $SRCROOT/macosx/swarmx/build
 
+setenv SED /yourgnused
+
 ../../../autogen.sh
 
 ../../../configure \
-CC='cc -no-cpp-precomp' \
+CC='your GNU gcc' \
 --prefix=$SRCROOT/macosx/swarmx/build/dst/usr \
 --with-tcldir='your tcl path' \
 --without-jdkdir \
@@ -28,7 +32,7 @@ make
 That's it.
 
 (**Bleeding edge build
-Edit $SRCROOT/macosx/swarmx/configure.sh to reflect appropriate paths on your system
+Edit $SRCROOT/macosx/swarmx/configure.sh and $SRCROOT/macosx/swarmx/buildlibs.shto reflect appropriate paths on your system
 Open the PB project and build the targets autogen, config and swarmlibmake in that order.)
 
 To start over delete everything in $SRCROOT/macosx/swarmx/build
@@ -41,4 +45,4 @@ NB. If you need to compile any GNU utilities ensure you have -no-cpp-precomp as 
 
 Bill Northcott
 w.northcott@unsw.edu.au
-2 Jan 2003
+21 Jan 2003
