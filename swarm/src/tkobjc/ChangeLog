@@ -2,9 +2,10 @@
 
 	* internal.m (overlap_p, check_for_overlaps): New functions.
 	(tkobjc_pixmap_create_from_widget): Save override_redirect flag,
-	check for visible windows with overlapping areas, then for each
-	set override_redirect, and unmap.  Then flush, take a snapshot, and
-	for each remap and restore its override_redirect.
+	check for visible, depth > 0 windows with overlapping areas,
+	then for each set override_redirect, and unmap.
+	Then flush, take a snapshot, and for each remap and restore
+	its override_redirect.
 
 1998-09-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

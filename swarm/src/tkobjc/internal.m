@@ -714,7 +714,7 @@ overlap_p (Display *display, Window child, int l, int r, int t, int b)
 
   if (!XGetWindowAttributes (display, child, &attr))
     abort ();
-  if (attr.map_state == IsViewable)
+  if (attr.map_state == IsViewable && attr.depth > 0)
     {
       if (!XGetGeometry (display, child, &root,
                          &cl, &ct, &cw, &ch, 
