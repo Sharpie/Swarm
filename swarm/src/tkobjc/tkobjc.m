@@ -53,8 +53,8 @@ initTkObjc (id arguments)
       else
         [globalTkInterp eval: "uplevel #0 {"
                         "set hideOption -mapped\n"
-                        "set hideYes 1\n"
-                        "set hideNo 0\n"
+                        "set hideYes 0\n"
+                        "set hideNo 1\n"
                       "}\n"];
 
       [globalTkInterp eval: analysis_tcl];
