@@ -1,3 +1,8 @@
+1999-07-12  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* SwarmEnvironment.m: Implementations of getCurrent... methods
+	that correspond to getCurrent... macros from activity.h
+
 1999-07-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmEnvironment.m: Include jni.h.

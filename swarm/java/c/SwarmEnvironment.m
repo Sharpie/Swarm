@@ -5,6 +5,59 @@
 #import "directory.h" // java_directory_init
 #include <jni.h>
 
+JNIEXPORT jobject JNICALL
+Java_swarm_SwarmEnvironment_getCurrentSwarm (JNIEnv *env, jobject obj)
+{
+  return JENSUREJAVA (env, getCurrentSwarm());
+}
+
+JNIEXPORT jobject JNICALL
+Java_swarm_SwarmEnvironment_getCurrentSchedule (JNIEnv *env, jobject obj)
+{
+  return JENSUREJAVA (env, getCurrentSchedule());
+}
+
+JNIEXPORT jobject JNICALL
+Java_swarm_SwarmEnvironment_getCurrentSwarmActivity (JNIEnv *env, jobject obj)
+{
+  return JENSUREJAVA (env, getCurrentSwarmActivity ());
+}
+
+JNIEXPORT jobject JNICALL
+Java_swarm_SwarmEnvironment_getCurrentScheduleActivity (JNIEnv *env, 
+							jobject obj)
+{
+  return JENSUREJAVA (env, getCurrentScheduleActivity());
+}
+
+
+JNIEXPORT jobject JNICALL
+Java_swarm_SwarmEnvironment_getCurrentOwnerActivity (JNIEnv *env, jobject obj)
+{
+  return JENSUREJAVA (env, getCurrentOwnerActivity ());
+}
+
+JNIEXPORT jobject JNICALL
+Java_swarm_SwarmEnvironment_getCurrentAction (JNIEnv *env, jobject obj)
+{
+  return JENSUREJAVA (env, getCurrentAction());
+}
+
+
+JNIEXPORT jobject JNICALL
+Java_swarm_SwarmEnvironment_getCurrentActivity (JNIEnv *env, jobject obj)
+{
+  return JENSUREJAVA (env, getCurrentActivity());
+}
+
+
+JNIEXPORT int JNICALL
+Java_swarm_SwarmEnvironment_getCurrentTime (JNIEnv *env, jobject obj)
+{
+  return getCurrentTime();
+}
+
+
 JNIEXPORT void JNICALL
 Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
                                        jobject obj,
