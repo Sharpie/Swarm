@@ -4,6 +4,7 @@
 	(javaswarmstubs.dll, javaswarm.dll): New targets.
 	(all): Use substitution targets.
 	(libjavaswarm_.la, libjavaswarmstubs_.la): New intermediate targets.
+	(DLLWRAP): Substitute.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
