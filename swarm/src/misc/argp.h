@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 #include <misc.h> // for fake ctype macros
-#if 0
+#if HAVE_ARGP_H
 #include <getopt.h>
 #else
 #include "getopt.h"

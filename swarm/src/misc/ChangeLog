@@ -1,5 +1,9 @@
 2004-01-21  Bill Northcott <W.Northcott@unsw.edu.au>
 
+	* argp.h: MacOS X 10.3.x has getopt.h but no argp.
+
+2004-01-21  Bill Northcott <W.Northcott@unsw.edu.au>
+
 	* makefile.am: use @LTLIBOBJS@ for consistency with
 	   AM_DEPENDENCIES.
 	* getopt.h: renamed getopt functions to prevent clashes
