@@ -1,3 +1,7 @@
+1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* defobj.ent.in: Make defobjrevhistory be a build-directory path.
+
 1998-05-26  Alex Lancaster  <alex@santafe.edu>
 
 	* defobj.ent.in: Added entity (defobjrevhistory) for the

@@ -1,5 +1,5 @@
 <!entity defobjcont.sgml system "@srcdir@/defobjcont.sgml">
-<!entity defobjrevhistory.sgml system "@srcdir@/defobjrevhistory.sgml">
+<!entity defobjrevhistory.sgml system "defobjrevhistory.sgml">
 <!entity defobjmeta.sgml system "@srcdir@/defobjmeta.sgml">
 <!entity defobj00.sgml system "@srcdir@/defobj00.sgml">
 <!entity defobjpages.sgml system "defobjpages.sgml">
