@@ -469,6 +469,7 @@
   (or (match-signature signature "+createParent:") ; gui
       (match-signature signature "+createWithDefaults:"); random
       (match-signature signature "+create:")
+      (match-signature signature "+createFromMethod:"); COM Selector
       (match-signature signature "+initSwarm:version:bugAddress:argCount:args:")))
 
 (defun convenience-create-method-p (protocol method)

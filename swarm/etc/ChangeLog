@@ -1,3 +1,7 @@
+2001-01-27  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (create-signature-p): Match +createMethod:.
+
 2001-01-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el (*removed-protocols*): Add FunctionGraph.
