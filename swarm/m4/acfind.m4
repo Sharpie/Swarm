@@ -22,9 +22,9 @@ else
 fi
 if test -n "$$1libdir" ; then
   if test "$suffix" = .so; then
-    _ldflags="-L\$($1libdir) $RPATH\$($1libdir)"
+    _ldflags="-L\${$1libdir} $RPATH\${$1libdir}"
   else
-    _ldflags='-L$($1libdir)'
+    _ldflags='-L${$1libdir}'
   fi
 else
   _ldflags=''

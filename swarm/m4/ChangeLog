@@ -1,3 +1,13 @@
+1998-07-18  Alex Lancaster  <alex@santafe.edu>
+
+	* acffi.m4: Make FFI{LIBS, LDFLAGS} variables use curly-braces rather
+	than round-braces to ensure that shell scripts variables can be
+	assigned these extracted variables.
+
+	* actcltk.m4 : Likewise for {TK,TCL,TCLOBJ}LDFLAGS.
+
+	* acfind.m4: Likewise for _ldflags.
+
 1998-07-13  Alex Lancaster  <alex@santafe.edu>
 
 	* acswarm.m4: Add file.  Add two new m4 macros al_{SWARM_LOAD,

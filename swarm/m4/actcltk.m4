@@ -118,9 +118,9 @@ if test -n "$tcllibdir" ; then
     TCLLIB="-l$tcllibname"
   else
     if test $suffix = .so ; then
-      TCLLDFLAGS="-L\$(tcllibdir) $RPATH\$(tcllibdir)"
+      TCLLDFLAGS="-L\${tcllibdir} $RPATH\${tcllibdir}"
     else
-      TCLLDFLAGS='-L$(tcllibdir)'
+      TCLLDFLAGS='-L${tcllibdir}'
     fi
     TCLLIB=-l$tcllibname
   fi
@@ -204,9 +204,9 @@ if test -n "$tklibdir" ; then
     TKLIB=-l$tklibname
   else
     if test $suffix = .so ; then
-      TKLDFLAGS="-L\$(tklibdir) $RPATH\$(tklibdir)"
+      TKLDFLAGS="-L\${tklibdir} $RPATH\${tklibdir}"
     else
-      TKLDFLAGS='-L$(tklibdir)'
+      TKLDFLAGS='-L${tklibdir}'
     fi
     TKLIB=-l$tklibname
   fi
@@ -250,7 +250,7 @@ else
   AC_MSG_RESULT(no)
   AC_MSG_ERROR(Please use --with-tclobjcdir to specify location of tclobjc package)
 fi
-TCLOBJCLDFLAGS='-L$(tclobjcdir)/lib'
+TCLOBJCLDFLAGS='-L${tclobjcdir}/lib'
 TCLOBJCLIB=-l$tclobjclibname
 AC_SUBST(TCLOBJCLDFLAGS)
 AC_SUBST(TCLOBJCLIB)

@@ -15,13 +15,13 @@ if test $USE_FFCALL = 0 ; then
   fi
   AC_MSG_CHECKING(directory of libffi.so)
   if test -f $ffidir/lib/libffi.so ; then
-    FFILDFLAGS="-L\$(ffidir)/lib $RPATH\$(ffidir)/lib"
+    FFILDFLAGS="-L\${ffidir}/lib $RPATH\${ffidir}/lib"
     AC_MSG_RESULT($ffidir/lib)
   else
     AC_MSG_RESULT(no)
     AC_MSG_CHECKING(directory of libffi.a)
     if test -f $ffidir/lib/libffi.a ; then
-      FFILDFLAGS='-L$(ffidir)/lib'
+      FFILDFLAGS='-L${ffidir}/lib'
       AC_MSG_RESULT($ffidir/lib)
     else
       AC_MSG_RESULT(no)    
@@ -44,7 +44,7 @@ else
   fi
   AC_MSG_CHECKING(directory of libavcall.a)
   if test -f $ffidir/lib/libavcall.a ; then
-    FFILDFLAGS='-L$(ffidir)/lib'
+    FFILDFLAGS='-L${ffidir}/lib'
     AC_MSG_RESULT($ffidir/lib)
   else
     AC_MSG_RESULT(no)    
