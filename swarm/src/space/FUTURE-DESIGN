@@ -1,0 +1,145 @@
+Here's my summary of what I think we agreed upon for space libraries..
+There's a lot left to work on, but I feel good about what we've got so
+far: a policy for Cartesian spaces. Thanks a lot for your help.
+
+------------------------Needed functionality------------------------
+
+The general problem of "space library" seems to encompass a lot of
+things, maybe too much to put into one unified library.  The basic
+function of "space" seems to be providing a database-like facility of
+associating coordinates to variables. The variables are stored over
+some geometry, the coordinates are keys into that geometry. That's
+pretty abstract, some examples:
+
+Heat over a 2d grid: this is a two dimensional discrete spatial
+variable. The object responds to queries like "tell me the heat at
+3,23", or "what's the coldest spot within radius 2 of 5,12". The
+object also can have it's own agent-like behaviour, something like a
+"diffuse step" message.
+
+Agents living on an arbitrary graph. The spatial structure is a graph,
+which means you have a metric, albeit no meaningful coordinate scheme.
+The graph could be directed or not, weighted or not, etc. Agent
+queries could be "move me to a neighbouring vertex" or "how many
+agents are on the spot I'm on?", or..
+
+Those are two extreme examples. The general breakdown of functionality
+seems to be along the lines of geometry:
+  soup, graph, cartesian (discretized lattice or continuous locations)
+and basic type of data stored:
+  agent positions (sparse), spatial variables (dense)
+
+(I've left out at least one other type, vector spaces. Say an agent is
+characterized by to variables: aggressiveness and size. That agent can
+be thought of as being located in a 2d space of agent parameters.
+What, if any support for this our space library can provide is an open
+question.)
+
+-------------Simplification: Cartesian space, coordinates-------------
+
+This general space library thing is pretty big. One possible retreat
+is to work out Cartesian spaces for now, worry about other types of
+geometries afterwards.
+
+The big question we talked about is how to allow different space
+objects with different coordinate systems to communicate. For
+instance, I might want a simulation where the agents are living in 2d
+continuous space, and they're interacting with heat (a 2d square
+lattice) and a lattice gas (2d hex lattice). Three different types of
+coordinates that all refer to one world.
+
+The solution for this is to have all space objects be able to
+translate their local coordinate system into and out of a global
+coordinate scheme. All space objects that can interact must be able to
+answer queries posed in terms of global coordinates, as well as 
+return information in global coordinate terms.
+
+Global coordinates are stored in an object of type "Coordinate": all
+references to coordinates are done with these objects. It's basically
+a data type, in the simplest case just the representation of the
+position in global coordinates.
+
+Space library objects take Coordinates as input and output and perform
+the necessary transformations to local coordinate schemes. The
+information needed to make that transformation is provided to the
+space object when it is created.
+
+This scheme can be awfully inefficient: lots of transformations. As
+such, the Coordinate objects (and the space library use of them) will
+need to be more intelligent, for optimization. One idea is to use the
+creation framework to choose, at runtime, which class we use to
+implement Coordinate. For instance, if we know at runtime that we
+don't need doubles ever, then Coordinate could just be a struct of two
+doubles.
+
+The other idea is a bit more complicated: leave room in the Coordinate
+object for individual space objects to cache their space-object-specific
+local coordinate transfomrations. For instance, the Coordinate object
+could include global coordinates for the agent world, but also contain
+a cached copy of the heat-object-transformed version of those
+coordinates so that when the heat object examines the data, it doesn't
+have to do the conversion again. This gets into space/time tradeoffs,
+efficient cache implementations, and general complicatedness. But it
+might be necessary for efficiency.
+
+At the minimum, we should efficiently support the common case where
+people never need transformations: they have one coordinate system and
+no conversions are necessary. This should be easy to support. If
+people want to transform coordinate systems, it's going to cost.
+
+-----------------------Implementing Physics----------------------------
+
+Another thing that space seems to do in the real world is implement
+"physics", or more generally properties about the space. Ie, it seems
+that the choice of whether a 2d grid is wraparound or fixed boundaries
+is a property of that grid - the space object that implements that
+grid should enforce the boundary conditions. How do we do this? Things
+get harder when you consider having a space that implements gravity or
+diffusion: there, objects are being forced by the space.
+
+The only consensus I think we reached was that Agents alone should not
+be responsible for maintaining their Coordinate objects. In
+particular, an agent would not move east by adding one to it's
+coordinate object: instead, it tells the space something like
+  [mySpace moveEast: self];
+the space object then reaches into the agent, grabs the coordinate
+object, and performs the necessary update. This lets spaces enforce
+their own rules about movement.
+
+The net effect is to give the space objects more explicit control over
+the coordinates of agents. Agents, in most cases, will never update
+their positions (their coordinate objects) themselves. Agents do store
+the Coordinate object, though, and should provide them to spaces on
+request: this is an implementation detail.
+
+Making all this play together, in particular with space objects that
+are mutually affecting each other, could be complicated. Especially in
+the presence of optimizations. But at least I know how to do heatbugs :-)
+
+----------------------------To discuss--------------------------------------
+
+We're not done. We've got a proposal for basic policy for 2d cartesian
+spaces: global coordinate frame with transformations, spaces are
+responsible for updating agent position. Other issues are:
+
+Efficiency. I think the Coordinate-as-Object idea will allow us to do
+neat tricks, but they aren't clear yet.
+
+Non-comparable Cartesian spaces. All of this assumes that all
+coordinates are translatable to each other. What if someone wants a
+separate space? (Say, a 2d agent parameter space in contrast to the 2d
+grid world the agents live in). I don't think this is so bad: just
+have two Coordinate objects and make sure no one tries to translate
+them into each other.
+
+Non-Cartesian spaces. Can graphs be made to fit in this paradigm?
+Soup spaces?
+
+Vehicles. What role, if any, do they play now?
+
+Those are issues having to do with the design so far. We've also got
+to further specify the Cartesian space library: in particular, what
+kind of spaces we expect to have, and what their interfaces should be.
+Particular concerns include making it easy to set policy for things
+like wraparound, and defining a mechanism to get information about
+neighbourhoods.

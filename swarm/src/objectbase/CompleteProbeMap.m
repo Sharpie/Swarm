@@ -1,0 +1,87 @@
+// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// This library is distributed without any warranty; without even the
+// implied warranty of merchantability or fitness for a particular purpose.
+// See file LICENSE for details and terms of copying.
+
+#define __USE_FIXED_PROTOTYPES__  // for gcc headers
+#include <stdio.h>
+
+#import <swarmobject/CompleteProbeMap.h>
+#import <collections.h>
+#import <objc/objc-api.h>
+
+// SAFEPROBES enables lots of error checking here.
+#define SAFEPROBES 1
+
+@implementation CompleteProbeMap
+
+-createEnd {
+  IvarList_t ivarList;
+  MethodList_t methodList;
+  int i;
+  id a_probe ;
+  Class a_class ;
+	
+  if (SAFEPROBES) {
+    if (probedClass == 0) {
+      fprintf(stderr, "CompleteProbeMap object was not properly initialized\n");
+      return nil;
+    }
+  }
+
+  probes = [Map create: [self getZone]] ;
+	
+  if (probes == nil)
+    return nil;
+
+  a_class = probedClass ;
+
+  numEntries = 0 ;
+	
+  do{
+    if( (ivarList = a_class->ivars) ){
+			
+      numEntries += ivarList->ivar_count;
+	
+      for (i = 0; i < ivarList->ivar_count; i++) {
+        char *name;
+
+        name = (char *) ivarList->ivar_list[i].ivar_name;
+
+        a_probe = [VarProbe createBegin: [self getZone]];
+        [a_probe setProbedClass: a_class];
+        [a_probe setProbedVariable: name];
+        a_probe = [a_probe createEnd];
+
+        [probes at: [String create: [self getZone] setC: name]
+        insert: a_probe] ;
+      }
+    }
+
+    if((methodList = a_class->methods)){
+      numEntries += methodList->method_count;
+
+      for (i = 0; i < methodList->method_count; i++) {
+        a_probe = [MessageProbe createBegin: [self getZone]];
+        [a_probe setProbedClass: probedClass];
+        [a_probe setProbedSelector: methodList->method_list[i].method_name];
+        a_probe = [a_probe createEnd];
+
+        if(a_probe)
+          [probes 
+           at: 
+              [String 
+                create: [self getZone] 
+                setC: (char *) 
+                      sel_get_name(methodList->method_list[i].method_name)] 
+           insert: a_probe] ;
+      }
+    }
+
+    a_class = a_class->super_class ;
+  }while(a_class) ;
+
+  return self;
+}
+
+@end

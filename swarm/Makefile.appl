@@ -1,0 +1,26 @@
+# generic Swarm application makefile.
+# to use this, set
+#   SWARMHOME to the Swarm root
+#   APPLICATION to you program name
+#   OBJECTS to the .o files for the application.
+#   APPLIBS to any extra libraries beyond the default Swarm libs.
+#     (extra libraries in Swarm are currently -lspace and any contributed
+#     libraries you may have installed)
+#   OTHERCLEAN for any extra files you might want thrown away
+# then include this makefile. "make" will build your application. Note,
+#   it will force all libraries to rebuild if necessary, although it
+#   will force a relink if an installed library has changed.
+
+include $(SWARMHOME)/Makefile.conf
+vpath lib%.a $(LIBDIR)
+
+all: $(APPLICATION)
+
+clean:
+	-rm -f $(OBJECTS) $(APPLICATION) $(OTHERCLEAN) core gmon.out
+
+$(APPLICATION): $(OBJECTS) $(APPLIBS) $(SWARMLIBS)
+	$(LINKER) $(LDFLAGS) -o $(APPLICATION) $(OBJECTS) $(LIBS)
+
+# We're using two GNU make specific features, the "vpath" directive and
+# the special "-lfoo" dependency, to ensure a relink when used libs change.

@@ -1,0 +1,11 @@
+Welcome to the Swarm distribution. Full documentation should be found
+in "swarmdocs-xxxxxx.tar.gz", in the same place as this distribution.
+Documentation is also available on the Web at
+  http://www.santafe.edu/projects/swarm/release/swarmdocs/
+
+Full installation instructions are in the Swarm documentation. Very
+briefly, you should edit Makefile.conf to point to the right
+directories and run "make".
+
+Questions about this release should be directed to <swarm-support@santafe.edu>
+This is a mailing list shared by all beta developers.

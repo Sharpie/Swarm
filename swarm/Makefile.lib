@@ -1,0 +1,53 @@
+# generic Swarm library makefile.
+# to use this to install a library named "foo", set these things:
+#   SWARMHOME to the Swarm root
+#   LIBNAME to your library name (not libfoo.a, just foo),
+#   OBJECTS to the objects that go in your library,
+#   HEADERS to the headers that should be installed (in addition to foo.h)
+# and then include this makefile.
+# you can also define OTHERCLEAN to specify other files that should
+#   be removed upon clean other than just core, the .os, and the .a.
+#
+# make install-headers copies foo.h in include/, $(HEADERS) in include/foo
+# make install-lib just makes lib/libfoo.a
+# "make", "make all", and "make install" all just make install-headers and
+#   then install-lib
+# foo.h should be the header file users of your libraries need:
+#   the other header files are there to allow subclassing. For normal
+#   Objective C programming, foo.h might just be #include <foo/*.h>
+
+include $(SWARMHOME)/Makefile.conf
+
+LIBRARY=$(LIBDIR)/lib$(LIBNAME).a
+INCFILE=$(INCDIR)/$(LIBNAME).h
+INCLIB=$(INCDIR)/$(LIBNAME)
+INCINSTALLED=$(INCLIB)/.headers-install
+
+.PHONY: install-headers install-lib
+
+all: install-headers install-lib
+install: install-headers install-lib
+install-headers: $(INCINSTALLED) $(INCFILE)
+install-lib: $(LIBRARY)
+
+realclean: clean	
+	-rm -f $(LIBRARY) $(INCDIR)/$(LIBNAME).h 
+	-rm -rf $(INCLIB)
+clean:
+	-rm -f core $(OBJECTS) $(OTHERCLEAN)
+
+$(INCFILE): $(LIBNAME).h
+	$(INSTALLHEADERS) $(LIBNAME).h $(INCFILE)
+
+# INCINSTALLED is a rule that touches a magic file to make sure that
+# installed headers are up to date. Unsubtle (if one .h file is changed,
+# it installs them all) but it seems to work.
+$(INCINSTALLED): $(HEADERS)
+	if [ ! -d $(INCLIB) ]; then mkdir $(INCLIB); fi
+	$(INSTALLHEADERS) $(HEADERS) $(INCLIB)
+	touch $(INCINSTALLED)
+
+$(LIBRARY): $(OBJECTS)
+	-rm -f $@
+	ar q $@ $(OBJECTS)
+	$(RANLIB) $(LIBRARY)

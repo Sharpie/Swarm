@@ -1,0 +1,79 @@
+// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// This library is distributed without any warranty; without even the
+// implied warranty of merchantability or fitness for a particular purpose.
+// See file LICENSE for details and terms of copying.
+
+#define __USE_FIXED_PROTOTYPES__  // for gcc headers
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#import <tkobjc/global.h>
+#import <tkobjc/Widget.h>
+#import <tkobjc/LinkItem.h>
+
+@implementation LinkItem
+
+-setFrom: the_from {
+  from = the_from ;
+  return self ;
+}
+
+-setTo: the_to {
+  to = the_to ;
+  return self ;
+}
+
+-update{
+  int fx,fy,tx,ty,mx,my ;
+ 
+  fx = [from getX] ;
+  fy = [from getY] ;
+
+  tx = [to getX] ;  
+  ty = [to getY] ;
+
+  mx = fx + (tx - fx) / 2 ;
+  my = fy + (ty - fy) / 2 ;
+
+  [globalTkInterp eval: "%s coords %s %d %d %d %d",
+    [canvas getWidgetName],line1,fx,fy,mx,my] ;
+
+  [globalTkInterp eval: "%s coords %s %d %d %d %d",
+    [canvas getWidgetName],line2,mx,my,tx,ty] ;
+
+  return self ;
+}
+
+-createItem {
+
+  int fx,fy,tx,ty,mx,my ;
+ 
+  fx = [from getX] ;
+  fy = [from getY] ;
+
+  tx = [to getX] ;  
+  ty = [to getY] ;
+
+  mx = fx + (tx - fx) / 2 ;
+  my = fy + (ty - fy) / 2 ;
+
+  line1 = strdup([[globalTkInterp eval: 
+   "%s create line %d %d %d %d -arrow last", 
+   [canvas getWidgetName],fx,fy,mx,my] 
+   result]) ;
+
+  line2 = strdup([[globalTkInterp eval: 
+   "%s create line %d %d %d %d", 
+   [canvas getWidgetName],mx,my,tx,ty] 
+   result]) ;
+
+  [globalTkInterp eval: "%s lower %s ; %s lower %s",
+    [canvas getWidgetName],line1,[canvas getWidgetName], line2] ;
+
+  return self;
+}
+
+@end
+

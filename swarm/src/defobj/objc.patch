@@ -1,0 +1,54 @@
+diff -r objc.dist/Makefile objc/Makefile
+0a1,3
+> # Special modified version of Makefile to make new libobjc.a under swarm/lib.
+> # This version modified from gcc-2.7.2/objc/Makefile.
+> 
+29a33,39
+> 
+> SWARMDIR=$(HOME)/swarm
+> include $(SWARMDIR)/Makefile.conf
+> LIBDIR=$(SWARMDIR)/lib
+> GCC_FOR_TARGET=$(CC)
+> GCC_FLAGS=
+> 
+34c44
+< OPTIMIZE= -O
+---
+> OPTIMIZE= -g -O2
+42c52,53
+< SUBDIR_INCLUDES = -I. -I.. -I$(srcdir) -I$(srcdir)/config
+---
+> # SUBDIR_INCLUDES = -I. -I.. -I$(srcdir) -I$(srcdir)/config
+> SUBDIR_INCLUDES = -I.
+55,56d65
+< all:
+< 	cd ..; $(MAKE) sublibobjc.a
+57a67,68
+> all: $(LIBDIR)/libobjc.a
+> 
+61c72
+< libobjc.a: $(OBJC_O)
+---
+> $(LIBDIR)/libobjc.a: $(OBJC_O)
+64c75
+< # ranlib is run in the parent directory's makefile.
+---
+> 	$(RANLIB) $(LIBDIR)/libobjc.a
+Only in objc: Makefile.orig
+diff -r objc.dist/objects.c objc/objects.c
+27c27
+< #include "../tconfig.h"         /* include defs of bzero for target */
+---
+> //#include "../tconfig.h"         /* include defs of bzero for target */
+Only in objc: objects.c.orig
+diff -r objc.dist/sendmsg.c objc/sendmsg.c
+27c27
+< #include "../tconfig.h"
+---
+> //#include "../tconfig.h"
+126,127c126,127
+<   else
+<     return nil_method;
+---
+>   fprintf( stderr, "nil receiver for message\n" );
+>   abort();
