@@ -14,6 +14,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
      can be cached across a collection.
 **** Java Collections can be passed to createActionForEach.
 
+** Performance
+*** Java <-> Objective C object lookups have been optimized.
+
 ** Bug fixes
 *** Raster snapshots under Windows had memory alignment problems that
     killed malloc.  

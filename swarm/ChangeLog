@@ -1,3 +1,9 @@
+1999-12-16    <mgd@nest.swarm.org>
+
+	* VERSION: Bump.
+
+	* NEWS: Note Java <-> Objective C lookup optimizations.
+
 1999-12-15    <mgd@nest.swarm.org>
 
 	* VERSION: Bump.
