@@ -19,6 +19,8 @@
 #import <objectbase/DefaultProbeMap.h>
 #import <simtoolsgui/CommonProbeDisplay.h>
 
+#import <simtoolsgui.h> // ProbeDisplay, CompleteProbeDisplay
+
 @implementation ProbeDisplayManager
 
 - createEnd

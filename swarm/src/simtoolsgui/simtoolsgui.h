@@ -134,7 +134,7 @@ USING
 //M: system.
 - update;
 
-- getMarkedForDropFlag;
+- (BOOL)getMarkedForDropFlag;
 @end
 
 

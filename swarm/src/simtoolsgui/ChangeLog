@@ -1,6 +1,7 @@
 1998-05-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* ProbeDisplayManager.m ([ProbeDisplayManager
+	* ProbeDisplayManager.m: Include simtoolsgui.h.
+	([ProbeDisplayManager
 	-_createDefaultProbeDisplayFor_:setWindowGeometryRecordName:],
 	[ProbeDisplayManager
 	-_createProbeDisplayFor_:setWindowGeometryRecordName:],
@@ -32,6 +33,7 @@
 	-createArchivedDefaultProbeDisplayFor:variableName:):
 	Declare.  Return an object conforming to the CompleteProbeDisplay
 	protocol.
+	(-getMarkedForDrop): Return BOOL.
 	
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
