@@ -34,7 +34,6 @@ Library:      activity
 {
 @public
   id <FCall> call;
-  // so that ActionGroup can dereferences into FActionForEach and ActionForEach
   id target; 
 }
 @end
@@ -99,13 +98,8 @@ Library:      activity
 - (void)_performAction_: (id <Activity>)activity;
 @end
 
-@interface FActionForEachHeterogeneous_c: FAction_c <FActionForEach>
+@interface FActionForEachHeterogeneous_c: FAction_c <FActionForEachHeterogeneous>
 {
-#ifdef HAVE_JDK
-  jarray javaAry;
-  jsize javaAryLen;
-#endif
-  BOOL finalizationFlag;
 }
 - setTarget: target;
 - createEnd;
@@ -115,13 +109,13 @@ Library:      activity
 - (void)describe: stream;
 @end
 
-@interface FActionForEachHomogeneous_c: FAction_c <FActionForEach>
+@interface FActionForEachHomogeneous_c: FAction_c <FActionForEachHomogeneous>
 {
+  size_t targetCount;
 #ifdef HAVE_JDK
-  jarray javaAry;
-  jsize javaAryLen;
+  jobject *javaTargets;
 #endif
-  BOOL finalizationFlag;
+  id *objcTargets;
 }
 - setTarget: target;
 - createEnd;

@@ -1,3 +1,26 @@
+1999-12-13    <mgd@nest.swarm.org>
+
+	* ActionGroup.[hm], activity.h ([ActionGroup_c
+	-createFActionForEachHomogeneous:call:],
+	[ActionGroup_c -createFActionForEachHeterogeneous:call:]): Return
+	respective protocol, not FActionForEach.
+
+	* Action.m ([FActionForEachHeterogeneous_c -createEnd]): 
+	Just check that the call type is objc.
+	([FActionForEachHomogeneous_c +createBegin:]): Initialize
+	targetCount, javaTargets, and objcTargets.
+	([FActionForEachHomogeneous_c -createEnd]): Fill javaTargets,
+	objcTargets as appropriate.
+	([FActionForEachHomogeneous_c -_performAction_:]): Handle
+	objc targets too.
+	([FActionForEachHomogeneous_c -drop]): Use free: to drop;
+	there's no extra globaref for javaTargets.  (The components
+	are already global in the directory.)
+
+	* Action.h (FActionForEach{Homogeneous,Heterogeneous}_c): 
+	Conform to respective protocol.  In former, use C arrays
+	for java and objc targets.  Rename javaAryLen to targetCount.
+
 1999-12-10    <mgd@nest.swarm.org>
 
 	* Action.[hm] (ActionTarget): New protocol.

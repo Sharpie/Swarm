@@ -239,9 +239,9 @@ PHASE(Using)
   return newAction;
 }
 
-- (id <FActionForEach>)createFActionForEachHomogeneous: target call: (id <FCall>)call
+- (id <FActionForEachHomogeneous>)createFActionForEachHomogeneous: target call: (id <FCall>)call
 {
-  id <FActionForEach> newAction =
+  id <FActionForEachHomogeneous> newAction =
     [FActionForEachHomogeneous createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
   [newAction setCall: call];
@@ -250,9 +250,9 @@ PHASE(Using)
   return newAction;
 }
 
-- (id <FActionForEach>)createFActionForEachHeterogeneous: target call: (id <FCall>)call
+- (id <FActionForEachHeterogeneous>)createFActionForEachHeterogeneous: target call: (id <FCall>)call
 {
-  id <FActionForEach> newAction =
+  id <FActionForEachHeterogeneous> newAction =
     [FActionForEachHeterogeneous createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
   [newAction setCall: call];

@@ -293,9 +293,9 @@ USING
 //D: An action defined by sending a message to every member of a collection.
 @end
 
-@protocol FActionForEach <FAction, ActionTarget, DefaultOrder, RETURNABLE>
-//S: An action defined by applying a FAction to every member of a collection.
-//D: An action defined by applying a FAction to every member of a collection.
+@protocol FActionForEach  <FAction, ActionTarget, DefaultOrder>
+//S: Base protocol for FActionForEach{Homogeneous,Heterogeneous}.
+//D: Base protocol for FActionForEach{Homogeneous,Heterogeneous}.
 @end
 
 @protocol FActionForEachHeterogeneous <FActionForEach, RETURNABLE>

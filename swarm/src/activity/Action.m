@@ -19,6 +19,7 @@ Library:      activity
 #import <defobj/FCall.h>
 #import <defobj/javavars.h>
 #endif
+#import <defobj/defalloc.h> // getZone
 
 @implementation CAction
 PHASE(Creating)
@@ -386,11 +387,9 @@ PHASE(Creating)
 
 - createEnd
 {
-  BOOL allSameFlag = [target allSameClass];
-
   [super createEnd];
 
-  if (!allSameFlag && [call getCallType] != objccall)
+  if ([call getCallType] != objccall)
     raiseEvent (InvalidArgument,
                 "Heterogeneous collections must be Objective C calls");
   return self;
@@ -446,9 +445,11 @@ PHASE(Creating)
 {
   FActionForEachHomogeneous_c *obj = [super createBegin: aZone];
 
+  obj->targetCount = 0;
 #ifdef HAVE_JDK
-  obj->javaAryLen = 0;
+  obj->javaTargets = NULL;
 #endif
+  obj->objcTargets = NULL;
   return obj;
 }
 
@@ -463,60 +464,45 @@ PHASE(Creating)
   BOOL allSameFlag = [target allSameClass];
 
   [super createEnd];
-
+  
   if (allSameFlag)
     {
-#ifdef HAVE_JDK
-      if ([target respondsTo: M(isJavaCollection)]
-          && getDefaultOrder (bits) == Sequential)
+      if (getDefaultOrder (bits) == Sequential)
         {
-          jobject coll = SD_FINDJAVA (jniEnv, (id) target);
-          jarray lref;
-          jclass class = (*jniEnv)->GetObjectClass (jniEnv, coll);
-          jmethodID method;
-          jsize i;
+          id <Index> index = [target begin: getZone (self)];
+          id proto = [target getFirst];
           
-          if (!(method =
-                (*jniEnv)->GetMethodID (jniEnv,
-                                        class,
-                                        "size",
-                                        "()I")))
-            abort ();
-          javaAryLen = (*jniEnv)->CallIntMethod (jniEnv, coll, method);
-          if (!(method =
-                (*jniEnv)->GetMethodID (jniEnv,
-                                        class,
-                                        "get",
-                                        "(I)Ljava/lang/Object;")))
-            abort ();
-          (*jniEnv)->DeleteLocalRef (jniEnv, class);
-          if (!(lref =
-                (*jniEnv)->NewObjectArray (jniEnv, javaAryLen, c_Object,
-                                           NULL)))
-            abort ();
-          javaAry = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-          (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-          {
-            jobject javaProtoTarget =
-              (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
-            
-            (*jniEnv)->SetObjectArrayElement (jniEnv, javaAry, 0,
-                                              javaProtoTarget);
-            (*jniEnv)->DeleteLocalRef (jniEnv, javaProtoTarget);
-          }
-          for (i = 1; i < javaAryLen; i++)
+          targetCount = [target getCount];
+          if ([proto respondsTo: M(isJavaProxy)])
             {
-              jobject obj =
-                (*jniEnv)->CallObjectMethod (jniEnv, coll, method, i);
-              (*jniEnv)->SetObjectArrayElement (jniEnv, javaAry, i, obj);
-              (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+#ifdef HAVE_JDK
+              size_t i;
+              id obj;
+              
+              javaTargets =
+                [scratchZone alloc: sizeof (jobject) * targetCount];
+              for (i = 0, obj = [index next];
+                   [index getLoc] == Member;
+                   obj = [index next], i++)
+                javaTargets[i] = SD_FINDJAVA (jniEnv, obj);
+#endif
+            }
+          else
+            {
+              size_t i;
+              id obj;
+              
+              objcTargets =
+                [scratchZone alloc: sizeof (id) * targetCount];
+              for (i = 0, obj = [index next];
+                   [index getLoc] == Member;
+                   obj = [index next], i++)
+                objcTargets[i] = obj;
             }
         }
-#endif
     }
   else
-    raiseEvent (InvalidArgument,
-                "Collection not homogeneous, finalization cannot be used");
+    raiseEvent (InvalidArgument, "Collection not homogeneous");
   return self;
 }
 
@@ -532,21 +518,29 @@ PHASE(Using)
 - (void)_performAction_: (id <Activity>)anActivity
 {
 #ifdef HAVE_JDK
-  if (javaAryLen)
+  if (javaTargets)
     {
-      jsize i;
-
-      for (i = 0; i < javaAryLen; i++)
-	{
-	  jobject obj = (*jniEnv)->GetObjectArrayElement (jniEnv, javaAry, i);
-	  
-	  updateJavaTarget (call, obj);
-	  [call performCall];
-	  (*jniEnv)->DeleteLocalRef (jniEnv, obj);
-	}
+      size_t i;
+      
+      for (i = 0; i < targetCount; i++)
+        {
+          updateJavaTarget (call, javaTargets[i]);
+          [call performCall];
+        }
     }
   else
 #endif
+  if (objcTargets)
+    {
+      size_t i;
+      
+      for (i = 0; i < targetCount; i++)
+        {
+          updateTarget (call, objcTargets[i]);
+          [call performCall];
+        }
+    }
+  else
     {
       id memberAction;
       
@@ -558,6 +552,7 @@ PHASE(Using)
       
       setClass (memberAction, id_FAction_c);
     }
+    
 }
 
 - (id <Symbol>)getDefaultOrder
@@ -583,9 +578,12 @@ PHASE(Using)
 - (void)drop
 {
 #ifdef HAVE_JDK
-  if (javaAryLen)
-    (*jniEnv)->DeleteGlobalRef (jniEnv, javaAry);
+  if (javaTargets)
+    [scratchZone free: (void *) javaTargets];
+  else
 #endif
+   if (objcTargets)
+    [scratchZone free: (void *) objcTargets];
   [super drop];
 }
 @end
