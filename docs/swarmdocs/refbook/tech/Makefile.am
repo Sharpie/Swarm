@@ -1,8 +1,8 @@
-noinst_DATA = techrevhistory.sgml
+MODULE = tech
 
-swarm_Changelog =
+include $(top_srcdir)/src/Makefile.rules
 
-include $(top_srcdir)/Makefile.rules
+swarm_ChangeLog = 
 
-techrevhistory.sgml: ChangeLog $(top_srcdir)/history.el $(top_srcdir)/common.el
-	SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/history.el -f process-changelog tech
+EXTRA_DIST = debug.sgml emacs.sgml objc.sgml swarmobjc.sgml tech.ent techcont.sgml techmeta.sgml  
+

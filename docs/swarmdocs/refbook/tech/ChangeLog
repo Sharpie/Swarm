@@ -1,3 +1,8 @@
+1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (MODULE): New variable.  Clear swarm_ChangeLog.
+	(EXTRA_DIST): Enumerate sgml files.
+
 1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* debug.sgml, objc.sgml, swarmobjc.sgml: Update IDs to
