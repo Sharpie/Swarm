@@ -13,10 +13,9 @@ Library:      collections
 #import <defobj/defalloc.h>
 #import <collections.h> // INDEX{START,END}P
 
-#include <memory.h>
+#include <misc.h> // memcpy
 
 static void initArray (Array_c *self);
-
 
 @implementation Array_c
 
@@ -24,10 +23,7 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  Array_c  *newArray;
-
-  newArray = [aZone allocIVars: self];
-  return newArray;
+  return [aZone allocIVars: self];
 }
 
 - (void)setInitialValue: initialValue
@@ -62,7 +58,7 @@ PHASE(Creating)
 
 + create: aZone setCount: (int)memberCount;
 {
-  Array_c  *newArray;
+  Array_c *newArray;
 
   if (memberCount < 0)
     raiseEvent (InvalidArgument, nil);
