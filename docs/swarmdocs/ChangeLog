@@ -2,9 +2,12 @@
 
 	* configure.in: For Cygwin hosted builds, use cygpath -w instead
 	of sed expression for path conversion.  Substitute
-	DOSIFYEXPR for this conversion.
+	DOSIFYEXPR for this conversion.  Add --with-dtd-common option, add
+	to (substituted) catopts when present.
 
 	* Makefile.rules: Use DOSIFYEXPR instead of sed expressions.
+	Don't pass SGML_CATALOG_FILES to jade via environment variable.
+	Remove STANDARD_CATALOG_OPT in CATOPTS.
 
 2000-02-15  Alex Lancaster  <alex@santafe.edu>
 
