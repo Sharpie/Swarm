@@ -321,7 +321,7 @@ readString (id inStream, BOOL literalFlag)
                 errno = 0;
                 val = strtol (str, NULL, 10);
                 if (errno != 0)
-                  raiseEvent (InvalidArgument, "Could not convert to long");
+                  raiseEvent (WarningMessage, "Could not convert to long");
                 [number setLong: val];
               }
             else
