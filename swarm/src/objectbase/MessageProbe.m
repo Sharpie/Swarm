@@ -273,12 +273,10 @@ dynamicCallOn (const char *probedType,
   unsigned i;
   const char *type = probedType;
   id aZone = [target getZone];
-  BOOL javaFlag;
   id fa = [FArguments createBegin: aZone];
   id <FCall> fc;
 
-#ifdef HAVE_JDK
-  
+#ifdef HAVE_JDK  
   if (SD_FINDJAVA (jniEnv, target) != NULL)
     {
       jobject jsel = SD_FINDJAVA (jniEnv, (id) probedSelector);
