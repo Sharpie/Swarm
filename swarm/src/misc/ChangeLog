@@ -1,5 +1,7 @@
 1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* misc.h (XFREE): Add.
+
 	* realpath.c (realpath): MAXPATHLEN includes the null.
 	Thanks to Kim Shrier.
 
