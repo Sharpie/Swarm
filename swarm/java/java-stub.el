@@ -762,12 +762,12 @@
                         (if (or strings (create-method-p method))
                             (insert "ret = ")
                           (insert "return "))))
-            (let* ((objc-type (method-return-type method))
+            (let* ((objc-return (method-return-type method))
                    (java-type-category
-                    (java-objc-to-java-type-category objc-type))
+                    (java-objc-to-java-type-category objc-return))
                    (java-return
                     (java-type-category-to-java-type module
-                                                     objc-type
+                                                     objc-return
                                                        java-type-category))
                    (wrapped-flag 
                     (cond ((or (string= "+createBegin:" signature)
@@ -782,6 +782,9 @@
                            t)
                           ((string= java-return "Class")
                            (insert "(jclass) SD_JAVA_FIND_CLASS_JAVA (")
+                           t)
+                          ((string= objc-return "SEL")
+                           (insert "(jclass) SD_JAVA_FIND_SELECTOR_JAVA (")
                            t)
                           ((string= java-return "java.lang.String")
                            (insert "(*env)->NewStringUTF (env, ")
