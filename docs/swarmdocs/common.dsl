@@ -460,8 +460,8 @@
                          (process-node-list revnumber)
                          (literal " ")))
                     (process-node-list revauthor)
-                    (make paragraph
-                          (process-node-list revremark))
+                    (make-linebreak)
+                    (process-node-list revremark)
                     (make-linebreak)))))
   (element (revision revnumber) 
            ($bold-seq$ (process-children))) 
