@@ -20,6 +20,8 @@ SUBMAKEFILES = $(foreach module,$(MODULES),swarm/$(module)/Makefile)
 
 .PHONY: all stubs
 
+bin_SCRIPTS = javaswarm
+
 %.elc: $(top_srcdir)/etc/%.el
 	$(elcrule)
 

@@ -1,5 +1,9 @@
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* javaswarm: New file.
+
+	* Makefile.am (bin_SCRIPTS): Install it.
+
 	* java-stub.el (java-print-method-invocation): New function.
 	(java-print-native-method): Use it.  Handle +createBegin: and
 	-createEnd.
