@@ -1069,14 +1069,20 @@ USING
 @end
 
 @protocol PermutationItem <CREATABLE, Create>
+//S: An element of a Permutation
+
+//D: An element of a Permutation
+CREATING
 - setItem: item;
 - setPosition: (int)position;
+
+USING
 - getItem;
 - (int)getPosition;
 @end
 
 @protocol Permutation <Collection, CREATABLE, Create, Array>
-//S: A class that reprents a permutation of elements of a collection
+//S: A class that represents a permutation of elements of a collection
 
 //D: Permutation is used to generate a permutation of elements of a
 //D: a collection and store them in an array for fast access. 
