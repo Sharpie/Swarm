@@ -3,6 +3,7 @@
 	* Makefile.conf: Rename mgd-SFI-NT SFI-NT.  Use /Swarm/packages instead
 	of /packages/swarm for $(P).
 	(EXTRACFLAGS): Add -Werror and -Wno-sign-compare.
+	(BLTLIB): Define a default of -lBLT and in SFI-NT specify -lBLT80.
 
 1998-03-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
