@@ -1,3 +1,13 @@
+1998-08-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* comm.tcl: Trap errors from lookup of application port, and
+	try non-namespace qualified lookup (shouldn't come up, since 
+	this script is only used on Windows, and we'll always use the
+	latest version of BLT there).
+
+	* Makefile.am (tkobjc.lo): Make this the only thing depending on
+	TCLFILES.
+
 1998-08-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Pixmap.m ([Pixmap -createEnd]): Move row_columns to block with

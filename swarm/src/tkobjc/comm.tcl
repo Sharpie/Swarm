@@ -1,5 +1,5 @@
 #
-# $Id: comm.tcl,v 1.1 1998-03-09 19:48:54 mgd Exp $
+# $Id: comm.tcl,v 1.2 1998-08-05 22:31:55 mgd Exp $
 # %%_OSF_COPYRIGHT_%%
 #
 
@@ -463,7 +463,11 @@ proc commConnect {id} {
     } else {
 	set host 127.0.0.1
     }
-    set port [lindex $id 0]
+    if [catch {set port [subst "\$::[lindex $id 0]"]}] {
+      [set port [lindex $id 0]]
+    }
+
+    commDebug {puts stderr "host: $host port: $port"}
     set fid [socket $host $port]
     commNewConn $id $fid
 

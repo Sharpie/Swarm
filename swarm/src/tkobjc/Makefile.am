@@ -47,7 +47,7 @@ tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	VarProbeEntry.h VarProbeLabel.h Widget.h WindowGeometryRecord.h \
 	ZoomRaster.h common.h global.h internal.h win32dib.h
 
-$(libtkobjc_la_OBJECTS): $(foreach f, $(TCLFILES), $(basename $(f))_tcl.x)
+tkobjc.lo: $(foreach f, $(TCLFILES), $(basename $(f))_tcl.x)
 
 %_tcl.x: %.tcl
 	(echo 'const char *$(notdir $(basename $<))_tcl = "' ; cat $< | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' ; echo '";' ) > $@ 
