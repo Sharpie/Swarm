@@ -434,11 +434,14 @@ if test "$enable_gui" = no; then
    AM_CONDITIONAL(DISABLE_GUI, true)
 fi
 if test "$enable_gnustep" = yes; then
+   AM_CONDITIONAL(ENABLE_GNUSTEP, true)
    TCLTKGUIDIR=
    SIMTOOLSGUI=
    SIMTOOLSGUIINCLUDE=
    GUIDIR=
    GUIDIRINCLUDE=
+else
+   AM_CONDITIONAL(ENABLE_GNUSTEP, false)
 fi
 AC_SUBST(TCLTKGUIDIR)
 AC_SUBST(SIMTOOLSGUI)
