@@ -1045,18 +1045,9 @@ hdf5_store_attribute (hid_t did,
   return self;
 }
 
-- loadDatasetToIvar: obj
+- loadDataset: (void *)ptr
 {
   hid_t sid, tid;
-  struct objc_ivar *ivar;
-  void *ptr;
-  const char *componentName = [self getName];
-
-  if ((ivar = find_ivar (obj, componentName)) == NULL)
-    raiseEvent (LoadError, "could not find ivar `%s' in class `%s'",
-                componentName, [obj name]);
-
-  ptr = (void *) obj + ivar->ivar_offset;
 
   if ((sid = H5Dget_space (loc_id)) < 0)
     raiseEvent (LoadError, "cannot get dataset space");

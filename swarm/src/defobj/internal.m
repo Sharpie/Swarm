@@ -246,6 +246,16 @@ find_ivar (id obj, const char *name)
   return NULL;
 }
 
+void *
+ivar_ptr (id obj, const char *name)
+{
+  struct objc_ivar *ivar = find_ivar (obj, name);
+
+  if (ivar)
+    return (void *) obj + ivar->ivar_offset;
+  return NULL;
+}
+
 #if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)
 id
 nil_method (id receiver, SEL op, ...)

@@ -87,7 +87,7 @@
 - shallowLoadObject: obj;
 - shallowStoreObject: obj;
 
-- loadDatasetToIvar: obj;
+- loadDataset: (void *)ptr;
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 
 - iterate: (int (*) (id hdf5Obj))iterateFunc;

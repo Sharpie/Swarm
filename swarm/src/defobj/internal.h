@@ -12,6 +12,7 @@ extern size_t alignment_for_objc_type (const char *varType);
 extern void map_ivars (struct objc_ivar_list *ivars,
                        void (*process_object) (struct objc_ivar *ivar));
 extern struct objc_ivar *find_ivar (id obj, const char *name);
+extern void *ivar_ptr (id obj, const char *name);
 
 extern void
 process_array (const char *type,
