@@ -292,17 +292,27 @@
 (define (global-title-for-id id)
     (data (node-list-last (select-elements (children (element-with-id id)) "TERM"))))
 
+(define (revhistory-title-for-id id)
+    (let ((id-elements (split-string id #\.)))
+      (string-append "Revision History (" 
+                     (string-change-case (car (cdr id-elements)) #f)
+                     ")")))
+
 (define (id-to-indexitem id)
     (let ((id-split-list (split-string id #\.)))
       (if (string=? (car (cdr id-split-list)) "SRC")
-          (data (select-elements (children (element-with-id id)) "TITLE"))
+          (if (string=? (car (cdr (cdr (cdr id-split-list)))) "REVHISTORY")
+              (revhistory-title-for-id id)
+              (data (select-elements (children (element-with-id id))
+                                     "TITLE")))
           (cond ((type-id-p id "METHOD") (method-signature-title-for-id id))
                 ((type-id-p id "PROTOCOL") (refentry-title-for-description id))
                 ((type-id-p id "MODULE") (refentry-title-for-description id))
                 ((type-id-p id "TYPEDEF") (typedef-title-for-id id))
                 ((type-id-p id "FUNCTION") (function-title-for-id id))
                 ((type-id-p id "MACRO") (macro-title-for-id id))
-                ((type-id-p id "GLOBAL") (global-title-for-id id))))))
+                ((type-id-p id "GLOBAL") (global-title-for-id id))
+                ((type-id-p id "REVHISTORY") (revhistory-title-for-id id))))))
 
 (define (block-element-list)
   (list (normalize "example")
@@ -462,7 +472,7 @@
 
 (define ($revhistory$)
     (make sequence
-          ($lowtitlewithsosofo$ 1 (literal "Revision History"))
+          ($lowtitlewithsosofo$ 2 (literal "Revision History"))
           (process-children)))
 
 (mode reference-titlepage-verso-mode
@@ -481,7 +491,6 @@
       ) 
 
 (element (revhistory revision) ($revision$))
-(element revhistory ($revhistory$))
 (element (revision revnumber) 
          ($bold-seq$ (process-children))) 
 (element (revision date) 
@@ -492,7 +501,6 @@
          (make sequence
                font-posture: 'upright
                (process-children)))
-
 
 </style-specification-body>
 </style-specification>

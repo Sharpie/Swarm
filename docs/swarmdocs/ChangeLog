@@ -1,5 +1,16 @@
 1998-06-09  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* swarmbook.dsl (bookinfo): Only define revhistory element in
+	bookinfo context.
+	(chunk-element-list, book-element-list): New functions: add
+	revhistory to definition.
+	(revhistory): Put default/top-level expansion (not
+	reference-titlepage-verso-mode) on a separate page and link to it.
+
+	* common.dsl (id-to-indexitem): Handle REVHISTORY.
+	(revhistory-title-for-id): New function.
+	($revhistory$): Use size 2.
+
 	* history.el (process-changelog): Add an ID to REVHISTORY.
 
 	* common.dsl (%gentext-usen-by%): Remove "by" in copyright message.

@@ -276,6 +276,8 @@
                   (process-node-list paramdefs))
                 (empty-sosofo)))))
 
+(element (bookinfo revhistory) ($revhistory$))
+
 </style-specification-body>
 </style-specification>
 
@@ -485,7 +487,39 @@
 (element type
          (make element gi: "PRE"
                (process-children)))
-      
+
+(define (chunk-element-list)
+  (list (normalize "preface")
+        (normalize "chapter")
+        (normalize "appendix")
+        (normalize "article")
+        (normalize "glossary")
+        (normalize "bibliography")
+        (normalize "index")
+        (normalize "reference")
+        (normalize "refentry")
+        (normalize "part")
+        (normalize "sect1")
+        (normalize "book") ;; just in case nothing else matches...
+        (normalize "set")  ;; sets are definitely chunks...
+        (normalize "revhistory")
+        ))  
+
+(define (book-element-list)
+    (list (normalize "book")
+          (normalize "revhistory")))
+
+(element revhistory
+         (let ((title (id-to-indexitem (id (current-node)))))
+           (sosofo-append
+            (html-document 
+             (literal title)
+             ($revhistory$))
+            (make element gi: "A"
+                  attributes: (list
+                               (list "HREF" (href-to (current-node))))
+                  (literal title)))))
+
 </style-specification-body>
 </style-specification>
 
