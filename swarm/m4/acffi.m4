@@ -14,18 +14,16 @@ if test $USE_FFCALL = 0 ; then
     ffidir=$defaultdir
   fi
   FFILDFLAGS=''
+  AC_MSG_CHECKING(directory of libffi)
   for dir in /usr $ffidir ; do
-    AC_MSG_CHECKING(directory of libffi.so)
     if test -f $dir/lib/libffi.so ; then
       FFILDFLAGS="-L\${dir}/lib $RPATH\${dir}/lib"
-      AC_MSG_RESULT($dir/lib)
+      AC_MSG_RESULT($dir/lib/libffi.so)
       break
     else
-      AC_MSG_RESULT(no)
-      AC_MSG_CHECKING(directory of libffi.a)
       if test -f $dir/lib/libffi.a ; then
         FFILDFLAGS='-L${dir}/lib'
-        AC_MSG_RESULT($dir/lib)
+        AC_MSG_RESULT($dir/lib/libffi.a)
         break
       fi
     fi
