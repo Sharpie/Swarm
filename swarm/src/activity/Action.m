@@ -14,9 +14,9 @@ Library:      activity
 #import <activity/Schedule.h>
 
 #include <swarmconfig.h>
+#import <defobj/FCall.h>
 #ifdef HAVE_JDK
 #import "java.h" // SD_JAVA_FIND_OBJECT_JAVA
-#import <defobj/FCall.h>
 #endif
 #import <defobj/defalloc.h> // getZone
 #include <misc.h> // abort in ActionForEachHomogeneous

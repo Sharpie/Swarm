@@ -1,3 +1,7 @@
+2001-07-29  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Action.m: Always include FCall.h.
+
 2001-07-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* SwarmProcess.m ([ActionMerge_c -_performAction_:]): Do need
