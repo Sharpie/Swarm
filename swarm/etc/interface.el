@@ -565,43 +565,6 @@
     (cond ((string= "id <Symbol>" ret-type) name)
           (t (concat (downcase (substring name 0 1))
                      (substring name 1))))))
-
-(defun protocol-implementation-class-name (protocol)
-  (let ((name (protocol-name protocol)))
-    (cond ((string= name "Index") "Index_any")
-          ((string= name "List") "List_linked")
-          ((string= name "ListIndex") "ListIndex_linked")
-          ((member (module-sym (protocol-module protocol))
-                   '(defobj collections activity))
-           (concat name "_c"))
-          (t name))))
-
-(defun create-method-implementation-hash-table (protocol phase)
-  (let ((ht (make-hash-table :test #'equal))
-        (method-signatures (mapcar #'get-method-signature
-                                   (expanded-method-list protocol phase))))
-    (with-temp-buffer
-      (let ((ret (apply
-                  #'call-process
-                  (concat (get-builddir) "findImp")
-                  nil t nil
-                  (protocol-implementation-class-name protocol)
-                  method-signatures)))
-        (if (and (numberp ret) (zerop ret))
-            (progn
-              (goto-char (point-min))
-              (loop for method-sig in method-signatures
-                    do
-                    (let ((start (point)))
-                      (forward-line)
-                      (let ((str (buffer-substring start (- (point) 1))))
-                        (setf (gethash method-sig ht) str))))
-              ht)
-          (progn
-            (message "Could not convert protocol %s %s"
-                     (protocol-name protocol)
-                     method-signatures)
-            nil))))))
                           
 (defun impl-print-get-imp-pointer (method
                                    print-return-type
@@ -621,37 +584,81 @@
       (progn
         (insert "  MetaClass mClass = class_get_meta_class (swarm_target);\n")
         (insert "  (IMP) swarm_imp = class_get_class_method (mClass, swarm_sel)->method_imp;\n"))
-    (insert "  (IMP) swarm_imp = objc_msg_lookup_objc (swarm_target, swarm_sel);\n")))
+    (insert "  (IMP) swarm_imp = objc_msg_lookup (swarm_target, swarm_sel);\n")))
 
 (defun impl-print-get-sel (method)
   (insert "  SEL swarm_sel = sel_get_uid (\"")
   (insert (substring (get-method-signature method) 1))
   (insert "\");\n"))
 
-(defun create-dispatch-hash-table (protocol)
-  (let ((ht (make-hash-table :test #'equal)))
+(defun create-dispatch-hash-table (protocol phase)
+  (let ((ht (make-hash-table))
+        (ml (expanded-method-list protocol phase)))
+    (set-verbosity nil)
     (with-temp-buffer 
-      (apply #'call-process
-             "/build/swarm-kaffe/COM/findImp"
-             nil t nil
-             (protocol-name protocol)
-             (mapcar #'get-method-signature
-                     (protocol-method-list protocol)))
-      (beginning-of-buffer)
-      (modify-syntax-entry ?: "w")
-      (skip-whitespace)
-      (while (< (point) (point-max))
-        (let* ((signature
-                (let ((beg (point)))
-                  (forward-sexp)
-                  (buffer-substring beg (point))))
-               (funcsym 
-                (let ((beg (progn
-                             (skip-whitespace)
-                             (point))))
-                  (forward-sexp)
-                  (buffer-substring beg (point)))))
-          (setf (gethash signature ht) funcsym))
-        (skip-whitespace)))
+      (if (eql 0 (apply #'call-process
+                        (concat (get-top-builddir) "tools/findImp")
+                        nil t nil
+                        (protocol-name protocol)
+                        (mapcar #'get-method-signature ml)))
+          (progn
+            (beginning-of-buffer)
+            (modify-syntax-entry ?: "w")
+            (skip-whitespace)
+            (while (< (point) (point-max))
+              (let* ((signature
+                      (let ((beg (point)))
+                        (forward-sexp)
+                        (buffer-substring beg (point))))
+                     (funcsym 
+                      (let ((beg (progn
+                                   (skip-whitespace)
+                                   (point))))
+                        (forward-sexp)
+                        (buffer-substring beg (point))))
+                     (method (find signature ml :key #'get-method-signature :test #'string=)))
+                (if method
+                    (setf (gethash method ht) funcsym)
+                  (message (progn
+                             (beginning-of-line)
+                             (let ((beg (point)))
+                               (end-of-line)
+                               (buffer-substring beg (point)))))))
+              (skip-whitespace)))
+        (message (concat (protocol-name protocol) " failed"))))
+    (set-verbosity t)
     ht))
   
+(defun c-objc-type (type)
+  (if type type "id"))
+
+(defun impl-print-method-declaration (method funcsym convert-func)
+  (insert "  extern ")
+  (insert (funcall convert-func (method-return-type method)))
+  (insert " ")
+  (insert funcsym)
+  (if (method-factory-flag method)
+      (insert " (Class objcTarget, SEL objcSel")
+    (insert " (id objcTarget, SEL objcSel"))
+  (when (has-arguments-p method)
+    (loop for argument in (method-arguments method)
+          do
+          (insert ", ")
+          (print-argument argument convert-func #'identity)))
+  (insert ");\n"))
+
+(defun impl-print-method-setup (method dht convert-func sel-flag decl-flag)
+  (let ((funcsym (gethash method dht)))
+    (when (or (not funcsym) sel-flag)
+      (impl-print-get-sel method))
+    (if funcsym
+        (when decl-flag
+          (impl-print-method-declaration method funcsym convert-func))
+      (progn
+        (impl-print-get-imp-pointer
+         method
+         #'(lambda (method)
+             (insert (funcall convert-func (method-return-type method))))
+         #'(lambda (argument)
+             (print-argument argument convert-func #'identity)))))))
+

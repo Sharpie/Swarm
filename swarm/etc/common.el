@@ -106,3 +106,14 @@
 (defun cook-id (id)
   (strip-regexp id "_"))
 
+(defvar *old-push-mark* (symbol-function 'push-mark))
+
+(defun set-verbosity (verbose)
+  (if verbose
+      (setf (symbol-function 'push-mark) *old-push-mark*)
+    (progn
+      (setq *old-push-mark* (symbol-function 'push-mark))
+      
+      (setf (symbol-function 'push-mark)
+            #'(lambda () 
+                (funcall *old-push-mark* nil t))))))

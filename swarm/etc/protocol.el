@@ -1029,40 +1029,34 @@
 
 (defun load-all-modules ()
   (interactive)
+  
+  (set-verbosity nil)
 
-  (let ((old-push-mark (symbol-function 'push-mark)))
-    
-    (when noninteractive
-      (setf (symbol-function 'push-mark)
-            #'(lambda () 
-                (funcall old-push-mark nil t))))
-
-    (clrhash *protocol-hash-table*)
-    (clrhash *module-hash-table*)
-    (loop for module-spec in *swarm-modules*
-          for module-sym = (module-sym-from-spec module-spec)
-          do
-          (if (consp module-spec)
-              (find-file-read-only 
-               (pathname-for-module-sym module-sym (cdr module-spec)))
-              (find-file-read-only (pathname-for-module-sym module-sym)))
-          (let ((module (ensure-module module-sym)))
-            (loop for protocol in (load-protocols module)
-                  for name = (protocol-name protocol)
-                  for exist = (gethash name *protocol-hash-table*)
-                  when exist do (error "Protocol %s already exists" name)
-                  do (add-protocol module-sym protocol)))
-          (kill-buffer (current-buffer)))
-    (add-protocol 'defobj (CREATABLE-protocol))
-    (add-protocol 'defobj (RETURNABLE-protocol))
-    
-    (when noninteractive
-      (setf (symbol-function 'push-mark) old-push-mark))
-    
-    (loop for protocol being each hash-value of *protocol-hash-table*
-          do
-          (setf (protocol-included-protocol-list protocol)
-                (create-included-protocol-list protocol)))))
+  (clrhash *protocol-hash-table*)
+  (clrhash *module-hash-table*)
+  (loop for module-spec in *swarm-modules*
+        for module-sym = (module-sym-from-spec module-spec)
+        do
+        (if (consp module-spec)
+            (find-file-read-only 
+             (pathname-for-module-sym module-sym (cdr module-spec)))
+          (find-file-read-only (pathname-for-module-sym module-sym)))
+        (let ((module (ensure-module module-sym)))
+          (loop for protocol in (load-protocols module)
+                for name = (protocol-name protocol)
+                for exist = (gethash name *protocol-hash-table*)
+                when exist do (error "Protocol %s already exists" name)
+                do (add-protocol module-sym protocol)))
+        (kill-buffer (current-buffer)))
+  (add-protocol 'defobj (CREATABLE-protocol))
+  (add-protocol 'defobj (RETURNABLE-protocol))
+  
+  (set-verbosity t)
+  
+  (loop for protocol being each hash-value of *protocol-hash-table*
+        do
+        (setf (protocol-included-protocol-list protocol)
+              (create-included-protocol-list protocol))))
 
 (defun compare-string-lists (a b)
   (let ((diff

@@ -1,6 +1,13 @@
-2000-12-08  Marcus G. Daniels  <mgd@forager.swarm.org>
+2000-12-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
-	* interface.el (create-dispatch-hash-table): New function.
+	* common.el (*old-push-mark*, set-verbosity): Add.
+
+	* interface.el (create-dispatch-hash-table): Use tools/findImp,
+	better error handling.
+	(c-objc-type, impl-print-method-declaration, impl-print-method-setup):
+	Add.
+
+	* protocol.el (load-all-modules): Use set-verbosity.
 
 2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
