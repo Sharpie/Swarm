@@ -18,7 +18,7 @@ override CPPFLAGS += -DAPPNAME=$(APPLICATION) $(_APPVERSION) $(_BUGADDRESS)
 all: $(APPEXE)
 
 clean:
-	-rm -f $(OBJECTS) $(APPEXE) .libs/$(APPEXE) $(OTHERCLEAN) core gmon.out
+	-rm -f $(OBJECTS) $(APPEXE) .libs/$(APPEXE) .libs/lt-$(APPEXE) $(OTHERCLEAN) core gmon.out
 
 install: $(APPEXE) install-config install-data
 	$(SHELL) $(bindir)/libtool-swarm --mode install	$(INSTALL_PROGRAM) $(APPEXE) $(bindir)
