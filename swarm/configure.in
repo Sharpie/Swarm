@@ -54,7 +54,7 @@ AC_ARG_WITH(xpmdir,
   xpmlibdir=$withval/lib)
 
 AC_ARG_WITH(xpmlibdir,
-[  --with-xpmlibdir=DIR         Use DIR for XPM header files],
+[  --with-xpmlibdir=DIR             Use DIR for XPM library files],
   xpmlibdir=$withval)
 
 AC_ARG_WITH(xpmincludedir,
