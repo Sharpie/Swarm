@@ -1,3 +1,9 @@
+1999-09-04    <mgd@HELEN>
+
+	* java-stub.el (inheritance-cases): Split out and disable handling of
+	implementation handling.  It's not needed now that things are
+	interface-based.
+
 1999-09-03    <mgd@HELEN>
 
 	* javaswarm.in: Loop over elements of JAVALIBS and JAVACLASSES 
