@@ -12,7 +12,7 @@ RANLIB = @RANLIB@
 CC = @CC@
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
-INCLUDES = -I$(includedir)
+INCLUDES = -I. -I.. -I$(includedir)
 
 .PHONY: install-headers install-lib
 

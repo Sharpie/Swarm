@@ -2,6 +2,7 @@
 
 	* Makefile.lib.in, Makefile.appl.in: Substitute CPPFLAGS and
 	add to compilation rule.
+	(INCLUDES): Add current and parent directory.
 
 	* Makefile.appl.in (datadir): Substitute.
 	(swarmdatadir, swarmsysconfdir): Appends /swarm.
