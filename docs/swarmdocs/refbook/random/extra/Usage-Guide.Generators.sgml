@@ -155,7 +155,7 @@ calling
 </para>
 
 <para>(In the current version of the library, the largest valid seed value
-is 2^32-1 for all the generators. The seed may not be 0.) 
+is 2<superscript>32</superscript>-1 for all the generators. The seed may not be 0.) 
 </para>
 
 <para>You may reset the generator's state at any time using this
@@ -365,7 +365,7 @@ generated:
 ]]>
 </programlisting>
 
-(currentCount is an unsigned long long int, which counts up to 2^64.)</para>
+(currentCount is an unsigned long long int, which counts up to 2<superscript>64</superscript>.)</para>
 </sect4>
 </sect3>
 
@@ -378,12 +378,12 @@ access directly and easily. Such segments are statistically independent
 streams of (pseudo)random numbers.</para>
 
 <para>We configure a split generator as consisting of a number (A) of
-"virtual generators", each of which has access to a number (2^v) of
-segments of length 2^w. The parameters A,v,w are specified when the
+"virtual generators", each of which has access to a number (2<superscript>v</superscript>) of
+segments of length 2<superscript>w</superscript>. The parameters A,v,w are specified when the
 generator is created. For example, for the C4LCGXgen generator, the
 default creation values are A=128, v=31, w=41. The only limitation is
-that A*(2^v)*(2^w) must not exceed the generator's cycle length, which
-is 2^60 for C2LCGXgen and 2^120 for C4LCGXgen.</para>
+that A*(2<superscript>v</superscript>)*(2<superscript>w</superscript>) must not exceed the generator's cycle length, which
+is 2<superscript>60</superscript> for C2LCGXgen and 2<superscript>120</superscript> for C4LCGXgen.</para>
 
 <para>We specify the configuration (A,v,w) at create time this way:
 
@@ -405,9 +405,10 @@ is 2^60 for C2LCGXgen and 2^120 for C4LCGXgen.</para>
 ]]>
 </programlisting>
 
-(In both cases, the only limitation is that A * 2^v * 2^w must be less
-than the generator's period, 2^60 for C2LCGX and 2^120 for
-C4LCGX.)</para>
+(In both cases, the only limitation is that A *
+2<superscript>v</superscript> * 2<superscript>w</superscript> must be
+less than the generator's period, 2<superscript>60</superscript> for
+C2LCGX and 2<superscript>120</superscript> for C4LCGX.)</para>
 
 <para>For obtaining output, we need to specify which of the A
 'virtual' generators we want to draw from:

@@ -1,3 +1,10 @@
+1999-05-14  Alex Lancaster  <alex@santafe.edu>
+
+	* Usage-Guide.For-Beginners.sgml: Reformatted all exponents to use
+	the SUPERSCRIPT SGML tag for consistency throughout all sections.
+
+	* Usage-Guide.Generators.sgml: Likewise.
+
 1999-04-09  Alex Lancaster  <alex@santafe.edu>
 
 	* Usage-Guide.For-Beginners.sgml (Ferrenberg et al 1992, Nature

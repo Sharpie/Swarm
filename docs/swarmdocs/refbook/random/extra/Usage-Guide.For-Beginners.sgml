@@ -48,7 +48,7 @@ initializing them with a given starting `seed' (an integer
 value).</PARA>
 
 <PARA>Such a generator provides output from a set of possible
-integers, e.g. all integers between 0 and 2^32-1. It delivers a stream
+integers, e.g. all integers between 0 and 2<superscript>32</superscript>-1. It delivers a stream
 of output which visits all possible integers before it starts
 repeating itself. The length of the cycle depends, among other things,
 on the number of bits used to hold the internal state of the generator
@@ -91,12 +91,15 @@ can be accessed from anywhere (any object or agent) in your simulation; its
 name is a global variable. </PARA>
 
 <PARA>
-You can draw random numbers from this generator to your heart's content and 
-not worry about any statistical problems. The generator has a period close to 
-2^19937 (1E6001), so there is no danger of running a simulation long enough 
-for the generator to repeat itself. [At one microsecond per call, it would 
-take about 3.2E5987 years to exhaust this generator. For comparison, the age 
-of the Universe is `only' 2E10 years!]</PARA>
+You can draw random numbers from this generator to your heart's
+content and not worry about any statistical problems. The generator
+has a period close to 2<superscript>19937</superscript> (1 x
+10<superscript>6001</superscript>), so there is no danger of running a
+simulation long enough for the generator to repeat itself. [At one
+microsecond per call, it would take about 3.2 x
+10<superscript>5987</superscript> years to exhaust this generator. For
+comparison, the age of the Universe is `only' 2 x
+10<superscript>10</superscript> years!]</PARA>
  
 <PARA> 
 You obtain `random' numbers of type unsigned integer this way:</PARA>
@@ -109,7 +112,7 @@ You obtain `random' numbers of type unsigned integer this way:</PARA>
 
 <PARA>
 The values returned will be uniformly distributed in the range 
-[0,4294967295] = [0,2^32-1].</PARA>
+[0,4294967295] = [0,2<superscript>32</superscript>-1].</PARA>
 
 <PARA>
 Or, if you need floating-point values instead, you can say</PARA>
@@ -129,13 +132,14 @@ i.e. they may be equal to 0.0 but never 1.0.</PARA>
 <TITLE>A note on starting seeds</TITLE>
 
 <PARA>
-Whenever a random generator is created, its state has to be initialized. 
-What the state is initialized to determines where in its cycle the generator
-will start. To make life easy for the user, the Swarm generators can be
-initialized to a predictable and repeatable state using a starting `seed',
-an integer between 1 and 2^32-1 (0 is not allowed.) Every time you initialize 
-a given generator with a particular seed, you should get the same sequence of 
-numbers from it.</PARA>
+Whenever a random generator is created, its state has to be
+initialized.  What the state is initialized to determines where in its
+cycle the generator will start. To make life easy for the user, the
+Swarm generators can be initialized to a predictable and repeatable
+state using a starting `seed', an integer between 1 and
+2<superscript>32</superscript>-1 (0 is not allowed.) Every time you
+initialize a given generator with a particular seed, you should get
+the same sequence of numbers from it.</PARA>
 
 <PARA>
 You initialize a generator with a specific seed this way:</PARA>
