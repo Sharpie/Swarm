@@ -6,7 +6,7 @@
 	(java-print-class-phase-to-file,
 	java-print-interface-phase-to-file): Don't call
 	java-print-imports.
-	(java-print-native-method): Put two underlines after class name,
+	(java-print-native-method): Put two underlines after method name,
 	not one.
 
 	* Makefile.am (SWARM_EXTRA_DIST): Add

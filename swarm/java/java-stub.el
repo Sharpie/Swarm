@@ -575,7 +575,7 @@
       (insert (module-name (protocol-module protocol)))
       (insert "_")
       (insert (java-class-name protocol phase))
-      (insert "__")
+      (insert "_")
       (insert (car first-argument))
       (loop for argument in (cdr arguments)
             for nameKey = (car argument)
@@ -584,7 +584,7 @@
             (insert "$")
             (insert nameKey))
       (unless (java-argument-empty-p first-argument)
-        (insert "_")
+        (insert "__")
         (insert (java-argument-convert first-argument
                                        #'java-type-to-signature))
         (loop for argument in (cdr arguments)
