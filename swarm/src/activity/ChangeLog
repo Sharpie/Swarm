@@ -1,3 +1,10 @@
+1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (module_headers): Rename from class_headers.
+	(libactivity_la_SOURCES, lib_LIBRARIES):  Remove.
+	(install-data-local): New target for modules_headers.
+	(activity_HEADERS): Remove $(module_headers).
+
 1998-06-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (lib_LTLIBRARIES, libactivity_la_SOURCES,
