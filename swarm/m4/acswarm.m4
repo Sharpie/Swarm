@@ -30,6 +30,11 @@ changequote([,])dnl
 
 al_SWARM_LOAD
 
+OBJC="$CC"
+AC_SUBST(OBJC)
+OBJCFLAGS="$CFLAGS -Wall -Wno-import -Wno-protocol -Werror"
+AC_SUBST(OBJCFLAGS)
+
 AC_SUBST(swarm_prefix)
 AC_SUBST(swarm_execprefix)
 AC_SUBST(swarm_includedir)
