@@ -19,7 +19,7 @@ public class Mousetrap
     public UniformDoubleDistImpl uniform0to1;
     public UniformIntegerDistImpl uniformRadius;
     public UniformUnsignedDistImpl uniformTrigTime;
-    public SwarmEnvironment se;
+    //public SwarmEnvironment se;
 
     public void nag (String s)
     {
@@ -90,7 +90,8 @@ public class Mousetrap
                 yTrigger = 
                     (yCoord + size + uniformRadius.getIntegerSample()) % size;
                 
-                triggerTick = se.getCurrentTime() + 
+                triggerTick = Globals.env.getCurrentTime() + 
+                    // triggerTick = se.getCurrentTime() + 
                     uniformTrigTime.getUnsignedSample();
                 trap = modelSwarm.getMousetrapAtX$Y (xTrigger, yTrigger);
                 
@@ -113,22 +114,27 @@ class StartMousetrap
     }
     public static void main (String[] args)
     {
-        SwarmEnvironment se = new SwarmEnvironment (args);
+      //SwarmEnvironment se = new SwarmEnvironment (args);
+        
+      Globals.env.initSwarm(args);
+
         MousetrapObserverSwarmImpl topLevelSwarm = 
             new MousetrapObserverSwarmImpl();
         MousetrapObserverSwarmCImpl cswarm = 
             new MousetrapObserverSwarmCImpl (topLevelSwarm);
    
         //    nag ("main");
-        cswarm.se = se;
+        //cswarm.se = se;
         //    nag ("createBegin");
-        cswarm.createBegin (se.globalZone);
+        //cswarm.createBegin (se.globalZone);
+        cswarm.createBegin (Globals.env.globalZone);
         //    nag ("setWindowGeometryRecordName");
-        se.setWindowGeometryRecordName (cswarm);
+        //se.setWindowGeometryRecordName (cswarm);
+        Globals.env.setWindowGeometryRecordName (cswarm);
         //    nag ("createEnd");
         topLevelSwarm = (MousetrapObserverSwarmImpl) cswarm.createEnd ();
         //    nag("done createEnd");
-        topLevelSwarm.se = se;
+        //topLevelSwarm.se = se;
         //    nag ("build Objects");
         topLevelSwarm.buildObjects ();
         //    nag ("build actions");

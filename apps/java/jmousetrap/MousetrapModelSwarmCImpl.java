@@ -10,7 +10,7 @@ import swarm.space.*;
 import swarm.random.*;
 public class MousetrapModelSwarmCImpl extends SwarmCImpl
 {
-   public SwarmEnvironment se;
+    //public SwarmEnvironment se;
    public int gridSize;
    public double triggerLikelihood;
    public int numberOutputTriggers;
@@ -68,18 +68,18 @@ public class MousetrapModelSwarmCImpl extends SwarmCImpl
            nag ("Model: Create End");
       fepm = (EmptyProbeMapImpl) iepm.createEnd();
            nag ("add probe");
-      fepm.addProbe (se.probeLibrary.getProbeForVariable$inClass ("gridSize", nextPhase.getClass()));
+      fepm.addProbe (Globals.env.probeLibrary.getProbeForVariable$inClass ("gridSize", nextPhase.getClass()));
       //      nag ("probe trigger likelihod");
-      fepm.addProbe (se.probeLibrary.getProbeForVariable$inClass ("triggerLikelihood", nextPhase.getClass()));
+      fepm.addProbe (Globals.env.probeLibrary.getProbeForVariable$inClass ("triggerLikelihood", nextPhase.getClass()));
       //      nag ("probe numberoutpur");
-      fepm.addProbe (se.probeLibrary.getProbeForVariable$inClass ("numberOutputTriggers", nextPhase.getClass()));
+      fepm.addProbe (Globals.env.probeLibrary.getProbeForVariable$inClass ("numberOutputTriggers", nextPhase.getClass()));
       //      nag ("probe max trigger");
-      fepm.addProbe (se.probeLibrary.getProbeForVariable$inClass ("maxTriggerDistance", nextPhase.getClass()));
+      fepm.addProbe (Globals.env.probeLibrary.getProbeForVariable$inClass ("maxTriggerDistance", nextPhase.getClass()));
       //      nag ("probe ma triffer");
-      fepm.addProbe (se.probeLibrary.getProbeForVariable$inClass ("maxTriggerTime", nextPhase.getClass()));
+      fepm.addProbe (Globals.env.probeLibrary.getProbeForVariable$inClass ("maxTriggerTime", nextPhase.getClass()));
       //      nag ("probe mac trigger");
-      fepm.addProbe (se.probeLibrary.getProbeForVariable$inClass ("trapDensity", nextPhase.getClass()));
-      se.probeLibrary.setProbeMap$For (fepm, nextPhase.getClass());
+      fepm.addProbe (Globals.env.probeLibrary.getProbeForVariable$inClass ("trapDensity", nextPhase.getClass()));
+      Globals.env.probeLibrary.setProbeMap$For (fepm, nextPhase.getClass());
       //      nag ("done with begin");
       return this;
     

@@ -11,7 +11,7 @@ import swarm.random.*;
 
 public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 {
-    public SwarmEnvironment se;
+    //public SwarmEnvironment se;
     public int displayFrequency;
     public ScheduleImpl displaySchedule;
     public MousetrapModelSwarmImpl mousetrapModelSwarm;
@@ -74,22 +74,22 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 
         mousetrapModelSwarm = new MousetrapModelSwarmImpl ();
         immswarm = new MousetrapModelSwarmCImpl(mousetrapModelSwarm);
-        immswarm.se = se;
+        //immswarm.se = se;
         //    nag ("create");
         mousetrapModelSwarm = 
             (MousetrapModelSwarmImpl) immswarm.create (this.getZone());
-        mousetrapModelSwarm.se = se;
+        //mousetrapModelSwarm.se = se;
         //    nag ("createArchivedProbeDisplay (mousetrapModelSwarm)");
-        se.createArchivedProbeDisplay (mousetrapModelSwarm);
+        Globals.env.createArchivedProbeDisplay (mousetrapModelSwarm);
         //    nag ("createArchivedProbeDisplay (this)");
-        se.createArchivedProbeDisplay (this);
+        Globals.env.createArchivedProbeDisplay (this);
         //    nag ("Action cache");
 
         ((ActionCacheImpl)getActionCache()).waitForControlEvent();
         //    nag ("control panel");
 
         if (((ControlPanelImpl)this.getControlPanel()).getState() 
-            == se.ControlStateQuit)
+            == Globals.env.ControlStateQuit)
             return this;
 
         //    nag ("mousetrapModel swarm buildObjects");
@@ -104,7 +104,7 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
             new EZGraphImpl ((ZoneImpl)this.getZone(), "Trigger data vs. time",
                              "time", "number triggered");
 
-        se.setWindowGeometryRecordName (triggerGraph);
+        Globals.env.setWindowGeometryRecordName (triggerGraph);
 
         try {
             Selector slct1, slct2;
@@ -130,8 +130,8 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         //izr = new ZoomRasterCImpl (displayWindow);
         //izr.createBegin (se.globalZone);
         //    nag (" izr");
-        se.setWindowGeometryRecordName (displayWindow);
-        //    nag (" se.setWindowGeometryRecordName (izr);");
+        Globals.env.setWindowGeometryRecordName (displayWindow);
+        //    nag (" Globals.env.setWindowGeometryRecordName (izr);");
         // displayWindow = (ZoomRasterImpl) izr.createEnd ();
         //    nag ("done display Window createEnd");
         try {
@@ -208,9 +208,9 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
             
             slct = new Selector (triggerGraph.getClass(), "step", true);
             displayActions.createActionTo$message (triggerGraph, slct);
-            slct = new Selector (se.probeDisplayManager.getClass(), "update", 
+            slct = new Selector (Globals.env.probeDisplayManager.getClass(), "update", 
                                  true);
-            displayActions.createActionTo$message (se.probeDisplayManager, 
+            displayActions.createActionTo$message (Globals.env.probeDisplayManager, 
                                                    slct);
             
             slct = new Selector (this.getClass (), "checkToStop", true);
@@ -253,7 +253,7 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         observerActCont.setDisplayName ("Observer Swarm Controller");
 
         nag ("archived probe display");
-        se.createArchivedProbeDisplay (observerActCont);
+        Globals.env.createArchivedProbeDisplay (observerActCont);
         nag ("probe display");
         return this.getActivity();
     

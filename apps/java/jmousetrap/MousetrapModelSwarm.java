@@ -10,7 +10,7 @@ import swarm.space.*;
 import swarm.random.*;
 public class MousetrapModelSwarmImpl extends SwarmImpl
 {
-  public SwarmEnvironment se;
+    //public SwarmEnvironment se;
   public int gridSize;
   public double triggerLikelihood;
   public int numberOutputTriggers;
@@ -86,7 +86,7 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     super.buildObjects();
     
     stats = new MousetrapStatistics();
-    stats.se = se;
+    //stats.se = se;
     grid = new Grid2dImpl((ZoneImpl)this.getZone(), gridSize, gridSize);
 
     //    nag ((new Integer(gridSize).toString()));
@@ -105,7 +105,7 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
 	    
 	    aMousetrap = new Mousetrap (this, x, y, randomGenerator);
 	    grid.putObject$atX$Y (aMousetrap, x, y);
-	    aMousetrap.se = se;
+	    // aMousetrap.se = se;
 	  }
     return this;
   }

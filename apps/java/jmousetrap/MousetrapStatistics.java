@@ -11,7 +11,7 @@ import swarm.random.*;
 
 public class MousetrapStatistics
 {
-    public SwarmEnvironment se;
+    //public SwarmEnvironment se;
     public int numTriggered = 0;
     public int numBalls = 0;
     public void nag (String s)

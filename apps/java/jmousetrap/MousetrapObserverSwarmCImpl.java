@@ -10,7 +10,7 @@ import swarm.space.*;
 import swarm.random.*;
 public class MousetrapObserverSwarmCImpl extends GUISwarmCImpl
 {
-   public SwarmEnvironment se;
+    //public SwarmEnvironment se;
    public int displayFrequency;
    public ScheduleImpl displaySchedule;
    public MousetrapModelSwarmImpl mousetrapModelSwarm;
@@ -63,12 +63,12 @@ public class MousetrapObserverSwarmCImpl extends GUISwarmCImpl
     iprobeMap.createEnd();
     
     nag("Observer: probeMap addProbe\n");
-    probeMap.addProbe (se.probeLibrary.getProbeForVariable$inClass("displayFrequency", nextPhase.getClass()));
+    probeMap.addProbe (Globals.env.probeLibrary.getProbeForVariable$inClass("displayFrequency", nextPhase.getClass()));
 
     nag("Observer: probeLibrary.setProbeMap$For");
     
     //    nag("setProbeMapFor");
-    se.probeLibrary.setProbeMap$For (probeMap, nextPhase.getClass());
+    Globals.env.probeLibrary.setProbeMap$For (probeMap, nextPhase.getClass());
     //    nag ("done!!!!!!!");
     return this;
   }
