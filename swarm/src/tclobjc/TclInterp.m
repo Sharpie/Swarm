@@ -132,7 +132,15 @@ List* tclList;
       strcat (buf, file);
       
       if (access (buf, R_OK) != -1)
-        return dropdir (strdup (buf));
+        {
+          const char *ptr = dropdir (buf);
+          const char *ret = malloc (strlen (ptr) + 1);
+           
+          if (ret == NULL)
+            abort ();
+          strcpy (ret, ptr);
+          return ret;
+        }
       else 
         return NULL;
     }
