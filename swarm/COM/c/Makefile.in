@@ -1,11 +1,12 @@
-DEPTH = $(B)/mozilla
+mozilla_build = $(B)/mozilla
+DEPTH = $(mozilla_build)
 topsrcdir = $(S)/mozilla
 srcdir = @srcdir@
 swarm_srcdir = @top_srcdir@
 top_builddir = ../..
 
 include ../Makefile.common
-include $(DEPTH)/config/autoconf.mk
+include $(mozilla_build)/config/autoconf.mk
 
 VPATH = .:$(srcdir)
 
@@ -17,7 +18,7 @@ MODULE = swarm
 LIBRARY_NAME = xpcomswarm
 IS_COMPONENT = 1
 
-REQUIRES = xpcom
+REQUIRES = xpcom string xpconnect js
 
 CPPSRCS = swarmBase.cpp swarmSelectorImpl.cpp COMsupport.cpp module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) $(NULL)
 
