@@ -1,5 +1,8 @@
 1998-06-11  Alex Lancaster  <alex@santafe.edu>
 
+	* install.ent: Made all SYSTEM identifiers PUBLIC (listed in
+	catalog now).
+
 	* Makefile.am (GENERATED_SGML): Added for revhistory.
 	(noinst_DATA): Added.
 	(SGML, SGML_FILES): Separated out generated/non-gen files.
