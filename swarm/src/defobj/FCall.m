@@ -142,7 +142,7 @@ defobj_init_java_call_tables (void *jEnv)
   (SEL) fmethod = mtd;
   cl = getClass (obj);
   (Class) fclass = cl;
-#ifndef HAVE_AVCALL
+#ifndef USE_AVCALL
   ffunction = FFI_FN (get_imp ((Class) fclass, (SEL) fmethod));
 #else
   abort ();
@@ -237,7 +237,7 @@ fillHiddenArguments (FCall_c * self)
           raiseEvent (SourceMessage, "Could not find Java method!\n");
       }
 #endif
-#ifndef HAVE_AVCALL
+#ifndef USE_AVCALL
   fillHiddenArguments (self);
   switch_to_ffi_types ((FArguments *) args);
   res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
@@ -256,7 +256,7 @@ fillHiddenArguments (FCall_c * self)
 
 - (void)performCall
 {
-#ifndef HAVE_AVCALL
+#ifndef USE_AVCALL
   ffi_call(&cif, ffunction, args->result, args->argValues + 
 	   MAX_HIDDEN - args->hiddenArguments);  
 #else
