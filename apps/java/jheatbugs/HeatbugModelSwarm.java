@@ -15,14 +15,14 @@ import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
 import swarm.activity.ActionForEach;
 
-import swarm.collections.List;
-import swarm.collections.ListImpl;
-
 import swarm.objectbase.Swarm;
 import swarm.objectbase.SwarmImpl;
 import swarm.objectbase.VarProbe;
 import swarm.objectbase.MessageProbe;
 import swarm.objectbase.EmptyProbeMapImpl;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import swarm.space.Grid2d;
 import swarm.space.Grid2dImpl;
@@ -86,7 +86,7 @@ public class HeatbugModelSwarm extends SwarmImpl
      * probes: it lets you easily clone a heatbug and drag it into the
      * model. */
   public Object addHeatbug (Heatbug bug) {
-    heatbugList.addLast(bug);
+    heatbugList.add (bug);
     return this;
   }
 
@@ -177,7 +177,7 @@ public class HeatbugModelSwarm extends SwarmImpl
 
     // Create a list to keep track of the heatbugs in the model.
 
-    heatbugList = new ListImpl (getZone ());
+    heatbugList = new LinkedList ();
             
     // Create heatbugs themselves. This is a fairly complex
     // step, as is appropriate: the heatbugs are essential
@@ -211,7 +211,7 @@ public class HeatbugModelSwarm extends SwarmImpl
       hbug =  new Heatbug (world, heat);
             
       // Add the bug to the end of the list.
-      heatbugList.addLast (hbug);
+      heatbugList.add (hbug);
       
       // Now initialize the rest of the heatbug's state.
                 
@@ -262,9 +262,9 @@ public class HeatbugModelSwarm extends SwarmImpl
     // order of iteration through the `heatbugList' will be
     // identical (assuming the list order is not changed
     // indirectly by some other process).
-        
+    
     modelActions = new ActionGroupImpl (getZone ());
-        
+
     try {
       modelActions.createActionTo$message 
         (heat, new Selector (heat.getClass (), "stepRule", false));

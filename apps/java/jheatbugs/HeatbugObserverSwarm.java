@@ -13,8 +13,6 @@ import swarm.activity.ActionGroupImpl;
 import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
 
-import swarm.collections.List;
-
 import swarm.objectbase.Swarm;
 import swarm.objectbase.VarProbe;
 import swarm.objectbase.MessageProbe;
@@ -35,6 +33,8 @@ import swarm.space.Value2dDisplay;
 import swarm.space.Value2dDisplayImpl;
 import swarm.space.Object2dDisplay;
 import swarm.space.Object2dDisplayImpl;
+
+import java.util.List;
 
 /**
  The HeatbugObserverSwarm is a swarm of objects set up to observe a
@@ -180,10 +180,10 @@ public class HeatbugObserverSwarm extends GUISwarmImpl {
         
     // Now go in to the heatbugs in the model and set their
     // colours to green (64)
-    List heatbugList = (List) heatbugModelSwarm.getHeatbugList ();
+    List heatbugList = heatbugModelSwarm.getHeatbugList ();
         
-    for (int i = 0; i < heatbugList.getCount (); i++) {
-      Heatbug bug = (Heatbug) heatbugList.atOffset (i);
+    for (int i = 0; i < heatbugList.size (); i++) {
+      Heatbug bug = (Heatbug) heatbugList.get (i);
       bug.setBugColor ((byte) 64);
     } 
         

@@ -1,3 +1,15 @@
+1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugObserverSwarm.java: Import java.util.List instead of
+	swarm.collections.List.
+	(buildObjects): Use size instead of getCount.
+
+	* HeatbugModelSwarm.java: Import java.util.LinkedList and
+	java.util.List instead of swarm.collections.ListImpl and
+	swarm.collections.List.
+	(addHeatbug, buildObjects): Use add instead of addLast.
+	(buildObjects): Use LinkedList constructor instead of ListImpl.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Initial release.
