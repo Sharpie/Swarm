@@ -29,13 +29,13 @@ extern id _obj_initZone;  // currently receives generated classes
 static inline void
 setWrapperCreateBy (Class wrapper, CreateBy_c *createBy)
 {
-  wrapper->version = (long)createBy;
+  wrapper->version = (long) createBy;
 }
 
 static inline CreateBy_c *
 getWrapperCreateBy (Class wrapper)
 {
-  return (CreateBy_c *)wrapper->version;
+  return (CreateBy_c *) wrapper->version;
 }
 
 //
@@ -49,18 +49,18 @@ initCustomizeWrapper (id aZone, id anObject)
 
   // allocate wrapper class (copy of self class) for instance being customized
 
-  wrapper = (Class)[aZone copyIVars: getClass (anObject)];
+  wrapper = (Class) [aZone copyIVars: getClass (anObject)];
   wrapper->info |= _CLS_CUSTOMIZEWRAPPER;
 
   // allocate a new CreateBy instance and store id in wrapper
 
-  createBy = (CreateBy_c *)[aZone allocIVars: [CreateBy_c self]];
+  createBy = (CreateBy_c *) [aZone allocIVars: [CreateBy_c self]];
   setMappedAlloc (createBy);
   setWrapperCreateBy (wrapper, createBy);
 
   // save original self class in CreateBy object until customizeEnd
 
-  createBy->createReceiver = (id)getClass (anObject);  // save original class
+  createBy->createReceiver = (id) getClass (anObject);  // save original class
 
   // save zone in CreateBy object until customizeEnd
 
@@ -120,7 +120,7 @@ PHASE(Creating)
   
   // execute createEnd to set subclass to handle future create
   
-  [(id)self createEnd];  // rely on createEnd to set createBy action
+  [(id) self createEnd];  // rely on createEnd to set createBy action
   
   // check that a create selection was made 
   
@@ -146,7 +146,7 @@ PHASE(Creating)
       // else keep self but reset class pointer if still pointing to wrapper
       
     }
-  else if (getClass( self ) == wrapper)
+  else if (getClass (self) == wrapper)
     setClass (self, selfClass);
   
   // check for valid message selector and cache method for receiver
@@ -156,7 +156,7 @@ PHASE(Creating)
       createBy->createMethod =
         getMethodFor (getClass (createBy->createReceiver),
                       createBy->createMessage);
-      if (!respondsTo( createBy->createReceiver, createBy->createMessage))
+      if (!respondsTo (createBy->createReceiver, createBy->createMessage))
         raiseEvent (CreateSubclassing,
                     "> class %s, setCreateByMessage: or setCreateByMessage:to:\n"
                     "> receiver object: %0#8x: %.64s\n"
@@ -184,8 +184,8 @@ PHASE(Creating)
 //
 - customizeCopy: aZone
 {
-  CreateBy_c  *createBy;
-  id          newObject;
+  CreateBy_c *createBy;
+  id newObject;
 
   // check that customization in progress
 
@@ -213,11 +213,11 @@ PHASE(Creating)
 //
 + customizeBeginEnd: aZone
 {
-  id          newObject;
-  CreateBy_c  *createBy;
+  id newObject;
+  CreateBy_c *createBy;
 
   newObject = [self customizeBegin: aZone];
-  createBy = (CreateBy_c *)[newObject customizeEnd];
+  createBy = (CreateBy_c *) [newObject customizeEnd];
   createBy->recustomize = self;
   return createBy;
 }
@@ -227,12 +227,12 @@ PHASE(Creating)
 //
 - _setCreateBy_: (Class)subclass message: (SEL)messageSelector to: anObject
 {
-  Class       wrapper;
-  CreateBy_c  *createBy;
+  Class wrapper;
+  CreateBy_c *createBy;
 
   // check that customization in progress
 
-  if (! _obj_customize (self))
+  if (!_obj_customize (self))
     raiseEvent (CreateUsage,
                 "> class %s: customizeEnd must follow customizeBegin\n"
                 "> (If classes coded properly, error raised by a createBy... macro\n"
@@ -250,7 +250,7 @@ PHASE(Creating)
   if (messageSelector)
     {
       createBy->createReceiver = anObject;
-      createBy->createMessage  = messageSelector;
+      createBy->createMessage = messageSelector;
     }
   return createBy; 
 }
@@ -260,7 +260,7 @@ PHASE(Creating)
 //
 - (void)_setCreateByCopy_
 {
-  CreateBy_c  *createBy;
+  CreateBy_c *createBy;
 
   // start with standard checks 
 
@@ -282,12 +282,13 @@ PHASE(Creating)
   
   // install wrapper class
   
-  createBy = (CreateBy_c *)[self _setCreateBy_: [Create_bysend self]
-                                 message: messageSelector to: anObject];
+  createBy = (CreateBy_c *) [self _setCreateBy_: [Create_bysend self]
+                                  message: messageSelector
+                                  to: anObject];
   
   // confirm valid message selector and return customization wrapper class
   
-  messageName = (const char *)sel_get_name( messageSelector );
+  messageName = (const char *) sel_get_name (messageSelector);
   if (!messageName
       || !strchr (messageName, ':')
       || ((unsigned)(strchr (messageName, ':') - messageName)
@@ -308,13 +309,14 @@ PHASE(Creating)
 
   // install subclass as wrapper
 
-  createBy = (CreateBy_c *)[self _setCreateBy_: [Create_byboth self]
-               message: (SEL)messageSelector to: anObject];
+  createBy = (CreateBy_c *) [self _setCreateBy_: [Create_byboth self]
+                                  message: (SEL)messageSelector
+                                  to: anObject];
 
   // confirm valid message selector and return customization wrapper class
 
-  messageName = (const char *)sel_get_name( messageSelector );
-  if (! messageName ||
+  messageName = (const char *) sel_get_name( messageSelector );
+  if (!messageName ||
       (strchr (messageName, ':')
        && ((unsigned)(strchr (messageName, ':') - messageName)
 	   != strlen (messageName) - 1)))
@@ -329,12 +331,12 @@ PHASE(Creating)
 //
 - (void)_setRecustomize_: anObject
 {
-  Class       wrapper;
-  CreateBy_c  *createBy;
+  Class wrapper;
+  CreateBy_c *createBy;
 
   if (!respondsTo (anObject, M(createBegin:)))
-    raiseEvent( InvalidArgument,
-                "> setRecustomize receiver argument does not respond to createBegin:\n" );
+    raiseEvent (InvalidArgument,
+                "> setRecustomize receiver argument does not respond to createBegin:\n");
   
   // install subclass as class of CreateBy instance
   
@@ -349,7 +351,7 @@ PHASE(Creating)
 + (void)setTypeImplemented: aType
 {
   [super setTypeImplemented: aType];
-  _obj_splitPhases ((Class_s *)self);
+  _obj_splitPhases ((Class_s *) self);
 }
 
 //
@@ -372,11 +374,11 @@ _obj_splitPhases (Class_s *class)
   
   // split classes for superclass if not done already
   
-  if ((id)class != id_Customize_s)
+  if ((id) class != id_Customize_s)
     {
-      superclassData = _obj_getClassData( class->superclass );
+      superclassData = _obj_getClassData (class->superclass);
       if (!superclassData->initialPhase)
-        _obj_splitPhases( class->superclass );
+        _obj_splitPhases (class->superclass);
     }
   
   // generate chain of contiguous methods by interface
@@ -388,16 +390,16 @@ _obj_splitPhases (Class_s *class)
   
   classCreating = nil;
   if (!(classData->metaobjects
-        && ((methodDefs_t)classData->metaobjects)->interfaceID == UsingOnly))
+        && ((methodDefs_t) classData->metaobjects)->interfaceID == UsingOnly))
     {
       classCreating = [id_BehaviorPhase_s createBegin: _obj_initZone];
       
       classNameBuf = _obj_initAlloc (strlen (class->name) + 10);
       stpcpy (stpcpy (classNameBuf, class->name), ".Creating");
       
-      [(id)classCreating setName: classNameBuf];
-      [(id)classCreating setClass: getClass (class)];
-      [(id)classCreating setDefiningClass: class];
+      [(id) classCreating setName: classNameBuf];
+      [(id) classCreating setClass: getClass (class)];
+      [(id) classCreating setDefiningClass: class];
     }
   
   // create class for methods in Using phase
@@ -408,17 +410,17 @@ _obj_splitPhases (Class_s *class)
     {
       classUsing = [id_BehaviorPhase_s createBegin: _obj_initZone];
       
-      [(id)classUsing setName: class->name];
-      [(id)classUsing setClass: getClass( id_Object_s )];
-      [(id)classUsing setDefiningClass: class];
+      [(id) classUsing setName: class->name];
+      [(id) classUsing setClass: getClass( id_Object_s )];
+      [(id) classUsing setDefiningClass: class];
     }
   
   if (class == id_Customize_s)
     {
       if (classCreating)
-        [(id)classCreating setSuperclass: id_Object_s];
+        [(id) classCreating setSuperclass: id_Object_s];
       if (classUsing)
-        [(id)classUsing    setSuperclass: id_Object_s];
+        [(id) classUsing    setSuperclass: id_Object_s];
       
     }
   else
@@ -433,12 +435,11 @@ _obj_splitPhases (Class_s *class)
               }
               while (superclassData->initialPhase->nextPhase == UsingOnly);
               
-              [(id)classCreating setSuperclass: superclassData->initialPhase];
-              superclassData = _obj_getClassData( class->superclass );
-              
+              [(id) classCreating setSuperclass: superclassData->initialPhase];
+              superclassData = _obj_getClassData (class->superclass);
             }
           else
-            [(id)classCreating setSuperclass: superclassData->initialPhase];
+            [(id) classCreating setSuperclass: superclassData->initialPhase];
         }
       if (classUsing)
         {
@@ -450,33 +451,33 @@ _obj_splitPhases (Class_s *class)
             while (superclassData->initialPhase->nextPhase == CreatingOnly);
           
       if (superclassData->initialPhase->nextPhase == UsingOnly)
-	[(id)classUsing setSuperclass: superclassData->initialPhase];
+	[(id) classUsing setSuperclass: superclassData->initialPhase];
       else
-        [(id)classUsing setSuperclass: superclassData->initialPhase->nextPhase];
+        [(id) classUsing setSuperclass: superclassData->initialPhase->nextPhase];
         }
     }
   
   // install methods in whichever phase each method belongs
   
-  for (mdefs = (methodDefs_t)classData->metaobjects; mdefs; 
-       mdefs = mdefs->next )
+  for (mdefs = (methodDefs_t) classData->metaobjects; mdefs; 
+       mdefs = mdefs->next)
     {
       if ( mdefs->interfaceID == Creating
            || (mdefs->interfaceID == CreatingOnly &&
-               mdefs == (methodDefs_t)classData->metaobjects ))
+               mdefs == (methodDefs_t) classData->metaobjects))
         {
           for (mnext = mdefs->firstEntry;
                mnext < mdefs->firstEntry + mdefs->count; mnext++)
-            [(id)classCreating at: mnext->method_name addMethod: mnext->method_imp];
+            [(id) classCreating at: mnext->method_name addMethod: mnext->method_imp];
           
         }
       else if (mdefs->interfaceID == Using
                || (mdefs->interfaceID == UsingOnly &&
-                   mdefs == (methodDefs_t)classData->metaobjects))
+                   mdefs == (methodDefs_t) classData->metaobjects))
         {
           for (mnext = mdefs->firstEntry;
                mnext < mdefs->firstEntry + mdefs->count; mnext++)
-            [(id)classUsing at: mnext->method_name addMethod: mnext->method_imp];
+            [(id) classUsing at: mnext->method_name addMethod: mnext->method_imp];
           
         }
       else if (mdefs->interfaceID == CreatingOnly ||
@@ -492,8 +493,8 @@ _obj_splitPhases (Class_s *class)
           for (mnext = mdefs->firstEntry;
                mnext < mdefs->firstEntry + mdefs->count; mnext++)
             {
-              [(id)classCreating at: mnext->method_name addMethod: mnext->method_imp];
-              [(id)classUsing    at: mnext->method_name addMethod: mnext->method_imp];
+              [(id) classCreating at: mnext->method_name addMethod: mnext->method_imp];
+              [(id) classUsing    at: mnext->method_name addMethod: mnext->method_imp];
             }
           
         }
@@ -509,7 +510,7 @@ _obj_splitPhases (Class_s *class)
   
   if (classCreating)
     {
-      classCreating = [(id)classCreating createEnd];
+      classCreating = [(id) classCreating createEnd];
       classCreating->nextPhase = classUsing ? classUsing : CreatingOnly;
       classData->initialPhase  = classCreating;
     }
@@ -520,7 +521,7 @@ _obj_splitPhases (Class_s *class)
     }
   if (classUsing)
     {
-      classUsing = [(id)classUsing createEnd];
+      classUsing = [(id) classUsing createEnd];
       if (classData->classID)
         *classData->classID = classUsing;
     }
@@ -600,7 +601,7 @@ _obj_splitPhases (Class_s *class)
   // Create new instance by sending message to receiver.
 
   return [createReceiver perform: createMessage with: aZone];
-  // return createMethod( createReceiver, createMessage, aZone );
+  // return createMethod (createReceiver, createMessage, aZone);
 }
 
 @end
@@ -646,7 +647,7 @@ _obj_customize( id anObject )
 Class
 getNextPhase(id aClass)
 {
-  return ((Class *)aClass)[_obj_NEXTCLASS];
+  return ((Class *) aClass)[_obj_NEXTCLASS];
 }
 
 //
@@ -655,5 +656,5 @@ getNextPhase(id aClass)
 void
 setNextPhase( id anObject )
 {
-  *(Class *)anObject = (*(Class **)anObject)[_obj_NEXTCLASS];
+  *(Class *) anObject = (*(Class **) anObject)[_obj_NEXTCLASS];
 }
