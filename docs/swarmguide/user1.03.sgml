@@ -102,8 +102,8 @@
       <graphic entityref="objc-basics"></graphic>
     </figure>
 
-    <para>As illustrated in the figure <link
-      linkend="objc-basics.figure">Objective-C basics</link>, the
+
+    <para>As illustrated in <xref linkend="objc-basics.figure">, the
       interface declares the name of the class and the name of its
       superclass.  Then it gives a list of variable types and names
       enclosed by braces ({}), and then the names of the methods that
@@ -119,39 +119,21 @@
             <area coords="1 1" id="decl">
             <area coords="1 12" id="subclass">
             <area coords="1 18" id="superclass">
-            <area coords="3" id="instance">
-            <area coords="6 15" id="method1">          
-            <area coords="7 15" id="method2">
+            <area coords="3 30" id="instance">
+            <area coords="6 29" id="method1">          
+            <area coords="7 8" id="method2">
           </areaspec>
 
 <programlisting role="ObjC">
-@interface <classname>Bug</classname> : <classname>SwarmObject</classname> {
+@interface Bug : SwarmObject {
   int xPos, yPos;
   int worldXSize, worldYSize;
   id foodSpace;
 }
-
-<funcsynopsis>
-  <funcprototype>
-    <funcdef><function>-set:Y:</function></funcdef>
-    <paramdef>int<parameter>x</parameter></paramdef>
-    <paramdef>int<parameter>y</parameter></paramdef>
-  </funcprototype>
-</funcsynopsis>;
-
-<funcsynopsis>
-  <funcprototype>
-    <funcdef><function>-step</function></funcdef>
-                <paramdef></paramdef>
-  </funcprototype>
-</funcsynopsis>;
-<!-- 
 - setX: (int) x Y: (int) y;
 - step;
--->
-@end
 
-          </programlisting>
+@end</programlisting>
           
           <calloutlist>
             <callout arearefs="decl">

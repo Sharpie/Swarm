@@ -115,16 +115,15 @@
  <title>The Variety of Objects</title>
 
     <para>In a Swarm model, there can be many types of agents (see
-      figure <link linkend="modeling.figure">Bottom Up
-      Modeling</link>) Obviously, if a model is going to describe
-      honey bees, it has to have honey bee agents. It will also have
-      objects that represent other actors in the model, and not all
-      other actors are animate.  There might be other insects and
-      bears, but there will also be objects that represent the
-      environment (trees, rainstorms, etc).  The model will typically
-      also have objects that facilitate the modeling process and
-      collect information about the simulation and relay it to the
-      researcher. </para> <para></para>
+      <xref linkend="modeling.figure">) Obviously, if a model
+      is going to describe honey bees, it has to have honey bee
+      agents. It will also have objects that represent other actors in
+      the model, and not all other actors are animate.  There might be
+      other insects and bears, but there will also be objects that
+      represent the environment (trees, rainstorms, etc).  The model
+      will typically also have objects that facilitate the modeling
+      process and collect information about the simulation and relay
+      it to the researcher. </para>
 
   </sect1>
 
@@ -253,40 +252,38 @@
 
     <procedure>
       <title>Procedural language pseudo-code</title>
-      <calloutlist>
-        <callout arearefs="init.proc">
-          <para>Generally sets up data structures and support for
-            output.</para>
-        </callout>
-        <callout arearefs="impl.proc">
-          <para>Here must provide data structure to save agent's state
-            and implement behavior </para> 
-        </callout>
-        <callout arearefs="out.proc">
-          <para>Implementation of output often left to the programmer
-          </para>
-        </callout>
-      </calloutlist>
       <step>
         <para><command>get parameters</command></para>
       </step>
-      <step id="init.proc">
-        <para><command>initialize</command></para>
+      <step>
+        <para><command>initialize</command><footnote><para>Generally
+              sets up data structures and support for output.</para>
+          </footnote>
+        </para>
       </step>
-
+      
       <step>
         <para><command>for 1 to timesteps do:</command></para>
         <substeps>
           <step>
             <para><command>for 1 to num_agents do:</command></para>
             <substeps>
-              <step id="impl.proc">
-                <para><command>agent-i-do-something</command></para>
+              <step>
+                <para><command>agent-i-do-something</command>
+                  <footnote> <para>Here must provide data structure to save
+                      agent's state and implement behavior </para>
+                  </footnote>
+                </para>
               </step>
             </substeps>
           </step>
-          <step id="out.proc">
-            <para><command>show state</command></para>
+          <step>
+            <para><command>show state</command>          
+              <footnote>
+                <para>Implementation of output often left to the programmer
+                </para>
+              </footnote>
+            </para>
           </step>
         </substeps>
       </step>
@@ -294,7 +291,7 @@
         <para><command>quit</command></para>
       </step>
     </procedure>
-   
+
   </sect1>
 
 </chapter>

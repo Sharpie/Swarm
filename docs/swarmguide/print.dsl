@@ -6,6 +6,22 @@
 <style-specification id="print" use="common docbook">
 <style-specification-body> 
 
+(define %callout-fancy-bug% #f)
+
+
+(define ($paragraph$)
+  (make paragraph
+    first-line-start-indent: (if (is-first-para)
+				 %para-indent-firstpara%
+				 %para-indent%)
+    space-before: %para-sep%
+    space-after: %para-sep%
+    quadding: %default-quadding%
+    hyphenate?: %hyphenation%
+    language: (dsssl-language-code)
+    ;;country: (dsssl-country-code)
+    (process-children)))
+
 (define %indent-programlisting-lines%
   ;; Indent lines in a 'ProgramListing'?
   " ")
