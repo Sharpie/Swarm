@@ -3,21 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <swarmobject/SwarmObject.h>
+// A map containing all the variables of a given class but none of the 
+// messages!
 
-#import <tkobjc/NodeItem.h>
-#import <tkobjc/CanvasItem.h>
+#import <swarmobject/ProbeMap.h>
 
-@interface LinkItem: CanvasItem {
-  id from, to ;
-  char *line1,*line2 ;
+@interface CompleteVarMap : ProbeMap {
 }
 
--setFrom: from ;
--setTo: to ;
--createItem ;
-
--setColor: (char *) aColor ;
--update ;
-
+-createEnd;
 @end

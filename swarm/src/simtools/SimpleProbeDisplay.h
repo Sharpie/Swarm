@@ -12,7 +12,7 @@
   id probedObject;  
   ProbeMap * probeMap;
   Frame *topFrame, *leftFrame, *rightFrame,
-        *middleFrame, *bottomFrame ;
+        *middleFrame, *bottomFrame, *topLevel;
   Label *myTitle ;
   int numberOfProbes;
   id *widgets;

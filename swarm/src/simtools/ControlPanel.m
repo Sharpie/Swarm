@@ -87,9 +87,18 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 // Stop: set state to stop, also stop activities.
 -setStateStopped {
-  if (getTopLevelActivity())
-    [getTopLevelActivity() stop];
-  return [self setState: ControlStateStopped];
+     if (getTopLevelActivity()){
+     [getTopLevelActivity() stop];
+     return [self setState: ControlStateStopped];
+     } else {
+     [self setState: ControlStateStopped] ;
+     [self waitForControlEvent];
+     // Check now if the user hit the quit button: if so, abort.
+     if ([self getState] == ControlStateQuit)
+       exit(0) ;
+     else
+       return self ;
+   }
 }
 
 // Step: first, stop the running activity (we're probably already stopped,

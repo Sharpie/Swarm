@@ -15,7 +15,6 @@
 
   obj = [super createBegin: aZone] ;
   [obj setMaxLabelWidth: 0] ;
-//  [obj setInteractive: 1] ;
 
   return obj ;
 }
@@ -24,12 +23,7 @@
 	myObject = obj ;
 	return self ;
 }
-/*
--setInteractive: (int) val {
-  interactive = val ;
-  return self ;
-}
-*/
+
 -setProbe: (Probe *) the_probe {
   myProbe = (VarProbe *) the_probe ;
   return self;
@@ -67,14 +61,7 @@
   myEntry  = [Entry  createParent: myRight] ;
   theType = ([myProbe getProbedType])[0] ;
   
-  if((  (theType == _C_CHARPTR)  || 
-        (theType == _C_CHR)  || 
-        (theType == _C_UCHR) || 
-        (theType == _C_INT)  || 
-        (theType == _C_UINT) || 
-        (theType == _C_FLT)  || 
-        (theType == _C_DBL) )){
-
+  if([myProbe isInteractive]){
     [globalTkInterp eval:
      "bind %s <Return> {%s configure -highlightcolor red ;
                         update ;
@@ -149,8 +136,14 @@
 
 -Spawn {
   id target ;
+
   target = ( *(id *)[myProbe probeRaw: myObject] ) ;
-  [probeDisplayManager createProbeDisplayFor: target];   
+
+  if(target)
+    [probeDisplayManager createProbeDisplayFor: target] ;   
+  else
+    [globalTkInterp eval: "bell ; update ;"] ;
+
   return self ;
 }
 
@@ -163,19 +156,6 @@
 }
 
 -setValue {
-/*  if(interactive){
-    [myProbe setData: myObject ToString: [myEntry getValue]] ;
-  }else{
-    [globalTkInterp eval:
-      "%s configure -highlightcolor red ;
-       %s update ;
-       bell ; update ; 
-       %s configure -highlightcolor black ; update ;",
-      [myEntry getWidgetName],
-      tclObjc_objectToName(self),      
-      [myEntry getWidgetName]] ;
-  }
-*/
 
   [myProbe setData: myObject ToString: [myEntry getValue]] ;
 

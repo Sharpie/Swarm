@@ -3,21 +3,17 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <swarmobject/SwarmObject.h>
+#import <swarmobject/MessageProbe.h>
+#import <tkobjc.h>
 
-#import <tkobjc/NodeItem.h>
-#import <tkobjc/CanvasItem.h>
+// An object that fetches its data, and writes it into a file
 
-@interface LinkItem: CanvasItem {
-  id from, to ;
-  char *line1,*line2 ;
+@interface ActiveOutFile : MessageProbe {
+  id theFile ;
+  id dataFeed;
 }
 
--setFrom: from ;
--setTo: to ;
--createItem ;
-
--setColor: (char *) aColor ;
--update ;
-
+-setFileObject: aFileObj ;
+-setDataFeed: d;
+-step;
 @end

@@ -5,20 +5,18 @@
 
 #import <swarmobject/MessageProbe.h>
 
-// Average object: some day, will be developed into a generalized data
-// collection facility. This currently works in limited circumstances:
-// if the list is homogeneous, and if the selector returns an int or
-// a double.
+// Average object: calculates a few basic statistics given a collection of 
+// objects to poll and a selector with which to poll them.
 
 @interface Averager : MessageProbe {
-  double total;					  // total
-  double max, min;				  // maximum, minimum
-  int count;					  // total number
-  id list;					  // list to average over
+  double total;				    // total
+  double max, min;			    // maximum, minimum
+  int count;				    // total number
+  id collection;  		            // collection to average over
 }
 
--setList: (id) list;
--createEnd;					  // set only one type.
+-setCollection: (id) aCollection;
+-createEnd;		
 
 -update;					  // update the average.
 -(double) getAverage;

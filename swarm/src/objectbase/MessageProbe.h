@@ -7,13 +7,15 @@
 
 // two special types of IMP: take no arguments, pass back either int or double
 typedef int (*IntImp)(id, SEL, ...);
+typedef float (*FloatImp)(id, SEL, ...);
 typedef double (*DoubleImp)(id, SEL, ...);
 
 @interface MessageProbe: Probe {
   SEL probedSelector ;
-  int returnsDouble ;
+  int returnCategory ;
 
   IntImp intImp ; 
+  FloatImp floatImp ;
   DoubleImp doubleImp ; 
   int caching ;
 
@@ -45,6 +47,7 @@ typedef double (*DoubleImp)(id, SEL, ...);
 -dynamicCallOn: target resultStorage: (char **) result;
 -dynamicCallOn: target ;
 -(int)intDynamicCallOn: target ;
+-(float)floatDynamicCallOn: target ;
 -(double)doubleDynamicCallOn: target ;
 
 -(int) isResultId ;

@@ -3,6 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <stdlib.h>
 #import <objc/objc.h>
 #import <string.h>
 #import <tkobjc.h>
@@ -71,6 +72,7 @@
   int i ;
   id index ;
   id probe ;
+  char *ownerName ; //uses because tclObjc_objectToName is non-reentrant
 
   [super createEnd];
 
@@ -82,16 +84,18 @@
     }
   }
 
+  ownerName = strdup(tclObjc_objectToName(owner)) ;
+
+  [globalTkInterp eval:
+    "%s configure -borderwidth 3 -relief ridge",
+    [self getWidgetName]] ;
+
   probeMap = [[[ProbeMap createBegin: [self getZone]] 
                        setProbedClass: theClass]
                        createEnd] ;
 
   numberOfProbes = [probeMap getNumEntries] ;
 	
-  [globalTkInterp eval:
-    "%s configure -borderwidth 3 -relief ridge",
-    [self getWidgetName]] ;
-
   topRow = [Frame createParent: self] ;
 
   myTitle  = [Label createParent: topRow] ;
@@ -105,22 +109,22 @@
         tclObjc_objectToName(self)] ;
   [globalTkInterp
         eval: "drag&drop source %s handler id send_id", 
-        [myTitle getWidgetName],
-        tclObjc_objectToName(self)] ;
+        [myTitle getWidgetName]] ;
 
   hideB = [Button createParent: topRow] ;
   if(mySubClass != nil){
     [globalTkInterp 
-      eval: "%s configure -command {pack forget %s ; %s armSuperButton}",
+      eval: "%s configure -command {pack forget %s ; \
+             %s armSuperButton ; %s do_resize}",
       [hideB getWidgetName],[self getWidgetName],
-      tclObjc_objectToName(mySubClass)] ;
+      tclObjc_objectToName(mySubClass),ownerName] ;
     [globalTkInterp
       eval: "%s configure -bitmap hide -activeforeground red -foreground red", 
       [hideB getWidgetName]] ;
   } else {
     [globalTkInterp 
       eval: "%s configure -command {%s drop}",
-      [hideB getWidgetName],tclObjc_objectToName(owner)] ;
+      [hideB getWidgetName],ownerName] ;
     [globalTkInterp
   eval: "%s configure -bitmap special -activeforeground red -foreground red", 
       [hideB getWidgetName]] ;
@@ -132,9 +136,10 @@
     [superB getWidgetName]] ;
 
   if (mySuperClass != nil) {
-    [globalTkInterp eval: "%s configure -command { pack %s -before %s -fill both -expand 1 ; %s configure -state disabled}",
+    [globalTkInterp eval: "%s configure -command { pack %s -before %s -fill both -expand 1 ; %s configure -state disabled ; %s do_resize}",
 		    [superB getWidgetName],[mySuperClass getWidgetName],
-		    [self getWidgetName],[superB getWidgetName]];
+		    [self getWidgetName],[superB getWidgetName],
+                    ownerName];
   } else {
     [globalTkInterp eval: "%s configure -command { bell }; %s configure -state disabled",
 		    [superB getWidgetName], [superB getWidgetName]];
@@ -212,7 +217,6 @@
 		  [rightFrame getWidgetName]] ;
 
   [middleFrame pack] ;
-
   [bottomFrame pack] ;
 
   return self;

@@ -53,15 +53,42 @@ int max_class_var_length(Class class){
   id classList ;
   id index ;
   id previous ;
+  id c_Frame ;
 
-  topFrame = [Frame create: [self getZone]];
-
-  [globalTkInterp eval: "wm withdraw %s", [topFrame getWidgetName]] ;
+  topLevel = [Frame create: [self getZone]] ;
+  [globalTkInterp eval: "wm withdraw %s",
+     [topLevel getWidgetName]] ;
 
   if([probedObject respondsTo: @selector(getInstanceName)])
-    [topFrame setWindowTitle: (char *) [probedObject getInstanceName]];
+    [topLevel setWindowTitle: (char *) [probedObject getInstanceName]];
   else
-    [topFrame setWindowTitle: (char *) [probedObject name]];
+    [topLevel setWindowTitle: (char *) [probedObject name]];
+
+  c_Frame = [Frame  createParent: topLevel] ;  
+  the_canvas = [Canvas createParent: c_Frame] ;
+
+  [globalTkInterp eval: 
+   "%s configure -width 10 -height 10 -yscrollcommand {%s.yscroll set} ; \
+    scrollbar %s.yscroll -orient vertical -command {%s yview} ; \
+    pack %s.yscroll -side right -fill y ; \
+    pack %s -side left -fill both  -expand true",
+    [the_canvas getWidgetName],
+    [c_Frame getWidgetName],
+    [c_Frame getWidgetName],
+    [the_canvas getWidgetName],
+    [c_Frame getWidgetName],
+    [the_canvas getWidgetName]] ;
+
+  [c_Frame pack] ;
+
+  topFrame = [Frame createParent: the_canvas] ;
+
+  [globalTkInterp eval: "%s configure -bd 0", [topFrame getWidgetName]] ;
+
+  [globalTkInterp eval: "%s create window 0 0 -anchor nw -window %s",
+     [the_canvas getWidgetName],
+     [topFrame getWidgetName]] ;
+  
 
   maxwidth = 0 ;
 
@@ -81,6 +108,7 @@ int max_class_var_length(Class class){
     classWidget = 
      [
       [
+      [
        [
         [
          [
@@ -89,7 +117,8 @@ int max_class_var_length(Class class){
         setMaxLabelWidth: maxwidth]
        setProbedObject: probedObject]
       setClassToDisplay: class]
-      setMySuperClass: previous] ;
+     setOwner: self]
+    setMySuperClass: previous] ;
 
     if(previous != nil){
       [previous setMySubClass: classWidget] ;
@@ -111,10 +140,56 @@ int max_class_var_length(Class class){
 
   [classList drop] ;
 
+  [globalTkInterp eval: "wm deiconify %s",[topLevel getWidgetName]] ;
+
+  [globalTkInterp eval:
+     "tkwait visibility %s ; \
+      set width [winfo width %s] ; \
+      set height [winfo height %s] ; \
+      %s configure -scrollregion [list 0 0 $width $height] ; \
+      if {$height > 500} {set height 500} ; \
+      %s configure -width $width -height $height",
+      [topFrame getWidgetName],
+      [topFrame getWidgetName],
+      [topFrame getWidgetName],
+      [the_canvas getWidgetName],
+      [the_canvas getWidgetName]] ;
+
   [probeDisplayManager addProbeDisplay: self];
 
-  [globalTkInterp eval: "wm deiconify %s", [topFrame getWidgetName]] ;
   return self;
+}
+
+-do_resize {
+  [globalTkInterp eval:
+     "pack forget %s ; \
+      pack %s -expand true -fill both ; \
+      tkwait visibility %s ;
+      set width [winfo width %s] ; \
+      set height [winfo height %s] ; \
+      %s configure -scrollregion [list 0 0 $width $height] ; \
+      if {$height > 500} {set height 500} ; \
+      %s configure -width $width -height $height",
+      [the_canvas getWidgetName],      
+      [the_canvas getWidgetName],      
+      [the_canvas getWidgetName],      
+      [topFrame getWidgetName],
+      [topFrame getWidgetName],
+      [the_canvas getWidgetName],
+      [the_canvas getWidgetName]] ;
+  return self ;
+}
+
+-(int) getStepHeight{
+  id index, aWidget ;
+  int s_height ;
+
+  index = [widgets begin: [self getZone]] ;
+  while( (aWidget = [index next]) )
+    if( (s_height = [aWidget getStepHeight] ) )
+      return s_height ;
+
+  return 20 ; // If all else fails, here is a default value...    
 }
 
 -update {
@@ -142,6 +217,11 @@ int max_class_var_length(Class class){
 
   [globalTkInterp eval: "destroy %s",[topFrame getWidgetName]] ;
   [topFrame drop] ;
+
+ 
+  //drop for toplevels should automatically do a self-destroy!!!
+  [globalTkInterp eval: "destroy %s",[topLevel getWidgetName]] ;
+  [topLevel drop] ;
 
   [probeDisplayManager removeProbeDisplay: self];
   

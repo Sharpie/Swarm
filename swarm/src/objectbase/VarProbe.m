@@ -62,8 +62,29 @@
   } else {
     probedType = (char *) ivarList->ivar_list[i].ivar_type;
     dataOffset = ivarList->ivar_list[i].ivar_offset;
+
+    if( (probedType[0] == _C_CHARPTR)  || 
+        (probedType[0] == _C_CHR)      || 
+        (probedType[0] == _C_UCHR)     || 
+        (probedType[0] == _C_INT)      || 
+        (probedType[0] == _C_UINT)     || 
+        (probedType[0] == _C_FLT)      || 
+        (probedType[0] == _C_DBL) )
+      interactive = 1 ;
+    else
+      interactive = 0 ;
+
     return self;
   }
+}
+
+-setNonInteractive {
+  interactive = 0 ;
+  return self ;
+}
+
+-(int) isInteractive {
+  return interactive ;
 }
 
 -(int) getDataOffset {
@@ -207,13 +228,19 @@
 
   switch(probedType[0]) {
 	  case _C_ID:
-                        if([*(id *)p respondsTo: @selector(getInstanceName)])
-			  sprintf(buf, "%s", [*(id *)p getInstanceName]);
-                        else
-			  sprintf(buf, "%s", [*(id *)p name]);
+                        if(!(*(id *)p))
+       			  sprintf(buf, "nil");
+                        else 
+                          if([*(id *)p respondsTo: @selector(getInstanceName)])
+			    sprintf(buf, "%s", [*(id *)p getInstanceName]);
+                          else
+			    sprintf(buf, "%s", [*(id *)p name]);
 			break;
 	  case _C_CLASS:
-			sprintf(buf, "%s", (*(Class *)p)->name );
+                        if(!(*(Class *)p))
+       			  sprintf(buf, "nil");
+                        else
+  			  sprintf(buf, "%s", (*(Class *)p)->name );
 			break;
 	  case _C_PTR:
 			sprintf(buf, "0x%x", (unsigned) *(void **)p);
@@ -303,7 +330,7 @@
 // setData:To:, but it's not too bad. Note we don't allow setting
 // pointers here, because textual representations of pointers are
 // strange. That's probably not a good idea.
--setData: (id) anObject ToString: (const char *) s {
+-(int) setData: (id) anObject ToString: (const char *) s {
   union {
     char c;
     int i;
@@ -374,10 +401,12 @@
       break;
   }
 
-  if (rc != 1 && SAFEPROBES)
+  if (rc != 1 && SAFEPROBES){
     fprintf(stderr, "Error scanning for value in string %s\n", s);
+    return 0 ;
+  }
 
-  return self;
+  return 1 ;
 }
 
 @end

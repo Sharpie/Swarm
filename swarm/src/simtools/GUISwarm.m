@@ -53,7 +53,7 @@
 	[swarmActivity step];
 	[controlPanel setStateStopped];
       } else if (controlState == ControlStateNextTime) {
-	[swarmActivity stepUntil: getCurrentTime()+1];
+	[swarmActivity stepUntil: [[self getSwarmActivity] getCurrentTime]+1 ];
 	[controlPanel setStateStopped];
       } else {
 	[controlPanel setStateStopped];

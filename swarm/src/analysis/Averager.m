@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <collections.h>
-#import <swarmobject/Averager.h>
+#import <analysis/Averager.h>
 
 // Implemenation of data collection facilities. Code like this
 // eventually belongs in the Swarm libraries.
@@ -12,19 +12,19 @@
 // Averager: averages together data, gives the data to whomever asks.
 @implementation Averager
 
--setList: (id) l {
-  list = l;
+-setCollection: (id) l {
+  collection = l;
   return self;
 }
 
 -createEnd {
-  if (list == nil)
-    [InvalidCombination raiseEvent: "Averager created without a list\n"];
+  if (collection == nil)
+    [InvalidCombination raiseEvent: "Averager created without a collection\n"];
 
   return [super createEnd];
 }
 
-// Update: run through the list calling the selector on each object,
+// Update: run through the collection calling the selector on each object,
 // average the results. Could easily be extended to collect other
 // statistics: variance, max, min, etc.
 -update {
@@ -33,14 +33,14 @@
   total = 0.0;
   count = 0;
 
-  // special case empty list.
-  if ([list getCount] == 0) {
+  // special case empty collection.
+  if ([collection getCount] == 0) {
     min = 0;
     max = 0;
     return self;
   }
   
-  obj = [list first];
+  obj = [collection getFirst];
   [self updateMethodCache: obj];
 
   max = [self doubleDynamicCallOn: obj];
@@ -48,8 +48,8 @@
   
   // Ok, we have cached our function to call on each object - do it.
   // note that we don't do lookup for each step: this code only works
-  // if the list is homogeneous.
-  iter = [list begin: zone];
+  // if the collection is homogeneous.
+  iter = [collection begin: zone];
   while ((obj = [iter next]) != nil) {
     double v = [self doubleDynamicCallOn: obj];
     
@@ -60,11 +60,17 @@
       min = v;
     count++;
   }
+
+  [iter drop] ;
+
   return self;
 }
 
 -(double) getAverage {
-  return total/count;
+  if(count)
+    return total/count;
+  else 
+    return 0 ;
 } 
 
 -(double) getTotal {

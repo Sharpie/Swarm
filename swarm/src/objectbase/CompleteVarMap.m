@@ -6,7 +6,7 @@
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #include <stdio.h>
 
-#import <swarmobject/CompleteProbeMap.h>
+#import <swarmobject/CompleteVarMap.h>
 #import <collections.h>
 #import <objc/objc-api.h>
 
@@ -23,11 +23,10 @@ static int p_compare(id a, id b){
     return -1 ;
 }
 
-@implementation CompleteProbeMap
+@implementation CompleteVarMap
 
 -createEnd {
   IvarList_t ivarList;
-  MethodList_t methodList;
   int i;
   id a_probe ;
   Class a_class ;
@@ -37,7 +36,7 @@ static int p_compare(id a, id b){
 	
   if (SAFEPROBES) {
     if (probedClass == 0) {
-      fprintf(stderr, "CompleteProbeMap object was not properly initialized\n");
+      fprintf(stderr, "CompleteVarMap object was not properly initialized\n");
       return nil;
     }
   }
@@ -79,26 +78,6 @@ static int p_compare(id a, id b){
 
         [probes at: [String create: [self getZone] setC: name]
         insert: a_probe] ;
-      }
-    }
-
-    if((methodList = a_class->methods)){
-      numEntries += methodList->method_count;
-
-      for (i = 0; i < methodList->method_count; i++) {
-        a_probe = [MessageProbe createBegin: [self getZone]];
-        [a_probe setProbedClass: probedClass];
-        [a_probe setProbedSelector: methodList->method_list[i].method_name];
-        a_probe = [a_probe createEnd];
-
-        if(a_probe)
-          [probes 
-           at: 
-              [String 
-                create: [self getZone] 
-                setC: (char *) 
-                      sel_get_name(methodList->method_list[i].method_name)] 
-           insert: a_probe] ;
       }
     }
   } ;

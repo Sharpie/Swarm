@@ -14,6 +14,7 @@
 
 -getProbeMapFor: (Class) aClass ;
 -getCompleteProbeMapFor: (Class) aClass ;
+-getCompleteVarMapFor: (Class) aClass ;
 -getProbeForVariable: (char *) aVariable inClass: (Class) aClass ;
 -getProbeForMessage: (char *) aVariable inClass: (Class) aClass ;
 -setProbeMap: aMap For: (Class) aClass ;

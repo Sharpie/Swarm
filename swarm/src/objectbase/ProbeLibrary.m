@@ -6,6 +6,7 @@
 #import <swarmobject/ProbeMap.h>
 #import <swarmobject/EmptyProbeMap.h>
 #import <swarmobject/CompleteProbeMap.h>
+#import <swarmobject/CompleteVarMap.h>
 #import <swarmobject/ProbeLibrary.h>
 #import <collections.h>
 
@@ -37,6 +38,14 @@
 
   return
 		[[[CompleteProbeMap createBegin: [self getZone]]
+			 setProbedClass: aClass]
+			 createEnd] ;
+}
+
+-getCompleteVarMapFor: (Class) aClass {
+
+  return
+		[[[CompleteVarMap createBegin: [self getZone]]
 			 setProbedClass: aClass]
 			 createEnd] ;
 }

@@ -3,21 +3,19 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <swarmobject/SwarmObject.h>
+#import <analysis.h>
 
-#import <tkobjc/NodeItem.h>
-#import <tkobjc/CanvasItem.h>
+// EZDistribution object: used to generate distributions.
 
-@interface LinkItem: CanvasItem {
-  id from, to ;
-  char *line1,*line2 ;
+@interface EZDistribution : EZBin {
+  double *probabilities ;
+  double entropy, maximumEntropy ;
 }
 
--setFrom: from ;
--setTo: to ;
--createItem ;
-
--setColor: (char *) aColor ;
--update ;
+-(double *)getProbabilities ;
+-(double) getEntropy ;
 
 @end
+
+
+

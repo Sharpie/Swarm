@@ -33,6 +33,12 @@
 -putObject: anObject atX: (int) x Y: (int) y;
 -putValue: (int) v atX: (int) x Y: (int) y;
 
+-fastFillWithValue: (int) aValue ;
+-fastFillWithObject: anObj ;
+
+-fillWithValue: (int) aValue ;
+-fillWithObject: anObj ;
+
 -(id *) getLattice;
 -(int *) getOffsets;
 @end

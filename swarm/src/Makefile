@@ -1,4 +1,5 @@
-DIRS=defobj collections activity random tkobjc swarmobject simtools space
+DIRS=defobj collections activity random tkobjc swarmobject simtools analysis \
+     space
 
 all:    headers libs
 clean:

@@ -4,19 +4,21 @@
 // See file LICENSE for details and terms of copying.
 
 #import <swarmobject.h>
-#import <tkobjc.h>
-#import <simtools/ClassDisplayWidget.h>
 
-@interface CompleteProbeDisplay : SwarmObject {
-  id probedObject;
-  id the_canvas ;
-  Frame *topFrame ;
-  id widgets, topLevel;
+@interface OutFile : SwarmObject {
+  FILE *theFile ;
 }
 
--setProbedObject: anObject;
--createEnd;
++create: aZone withName: (char *) theName ;
 
--getProbedObject;
--update;
+-_setFile_: (FILE *) aFile ;
+
+-putString: (char *) aString ;
+-putInt: (int) anInt ;
+-putDouble: (double) aDouble ;
+-putFloat: (float) aFloat ;
+-putChar: (char) aChar ;
+-putTab ;
+-putNewLine ;
+
 @end

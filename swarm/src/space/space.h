@@ -11,3 +11,4 @@
 #import <space/Diffuse2d.h>
 #import <space/Grid2d.h>
 #import <space/Object2dDisplay.h>
+#import <space/Int2dFiler.h>

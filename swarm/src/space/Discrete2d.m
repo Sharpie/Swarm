@@ -2,7 +2,9 @@
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
+#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 
+#import <stdlib.h>
 #import <space/Discrete2d.h>
 #import <string.h>
 
@@ -72,6 +74,48 @@
 
 -putValue: (int) v atX: (int) x Y: (int) y {
   *discrete2dSiteAt(lattice, offsets, x, y) = (id) v;
+  return self;
+}
+
+-fastFillWithValue: (int) aValue {
+  int i, lcount ;
+  
+  lcount = xsize * ysize ;
+
+  for(i = 0 ; i < lcount ; i++)
+    lattice[i] = (id) aValue ;
+
+  return self ;
+}
+
+-fastFillWithObject: anObj {
+  int i, lcount ;
+  
+  lcount = xsize * ysize ;
+
+  for(i = 0 ; i < lcount ; i++)
+    lattice[i] = anObj ;
+
+  return self ;
+}
+
+-fillWithValue: (int) aValue {
+  unsigned x, y;
+
+  for (y = 0; y < ysize; y++)
+    for (x = 0; x < xsize; x++)
+      [self putValue: aValue atX: x Y: y];
+
+  return self;
+}
+
+-fillWithObject: anObj {
+  unsigned x, y;
+
+  for (y = 0; y < ysize; y++)
+    for (x = 0; x < xsize; x++)
+      [self putObject: anObj atX: x Y: y];
+
   return self;
 }
 

@@ -13,6 +13,16 @@
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
 
+//Used in order to ensure that probemaps do not reorder their contents 
+//alphabetically...
+
+static int p_compare(id a, id b){
+  if(!([a compare: b]))
+    return 0 ;
+  else
+    return -1 ;
+}
+
 @implementation ProbeMap
 
 -setProbedClass: (Class) aClass {
@@ -40,7 +50,10 @@
   }
   
   numEntries = 0 ;
-  probes = [Map create: [self getZone]] ;
+
+  probes = [Map createBegin: [self getZone]] ;
+  [probes setCompareFunction: &p_compare] ;
+  probes = [probes createEnd] ;
 	
   if (probes == nil)
     return nil;
@@ -51,6 +64,11 @@
 -createEnd {
   IvarList_t ivarList;
   MethodList_t methodList;
+                      //The compiler seems to put the methods in the 
+  id inversionList ;  //opposite order than the one in which they were
+                      //declared, so we need to manually invert them.
+  id index ;
+
   int i;
   id a_probe ;
 
@@ -61,7 +79,10 @@
     }
   }
 
-  probes = [Map create: [self getZone]] ;
+  probes = [Map createBegin: [self getZone]] ;
+  [probes setCompareFunction: &p_compare] ;
+  probes = [probes createEnd] ;
+
   if (probes == nil)
     return nil;
 
@@ -74,7 +95,7 @@
       char *name;
 
       name = (char *) ivarList->ivar_list[i].ivar_name;
-
+      
       a_probe = [VarProbe createBegin: [self getZone]];
       [a_probe setProbedClass: probedClass];
       [a_probe setProbedVariable: name];
@@ -87,6 +108,8 @@
   if((methodList = probedClass->methods)){
     numEntries += methodList->method_count;
 
+    inversionList = [List create: [self getZone]] ;
+
     for (i = 0; i < methodList->method_count; i++) {
       a_probe = [MessageProbe createBegin: [self getZone]];
       [a_probe setProbedClass: probedClass];
@@ -94,16 +117,24 @@
       a_probe = [a_probe createEnd];
 
       if(a_probe)
-        [probes 
-         at: 
-            [String 
-              create: [self getZone] 
-              setC: (char *) 
-                    sel_get_name(methodList->method_list[i].method_name)] 
-         insert: a_probe] ;
+        [inversionList addFirst: a_probe] ;
       else
         numEntries-- ;
     }
+    
+    index = [inversionList begin: [self getZone]] ;
+    while( (a_probe = [index next]) ){
+      [probes 
+         at: 
+             [String 
+                create: [self getZone] 
+                setC: (char *) [a_probe getProbedMessage]] 
+         insert: 
+             a_probe] ;
+      [index remove] ;
+    }	
+    [index drop] ;
+    [inversionList drop] ;
   }
 
   return self;
@@ -264,7 +295,7 @@
 
   if (res == nil) {			  // if not found
     if (SAFEPROBES)
-      fprintf(stderr, "Warning: variable not found\n");
+      fprintf(stderr, "Warning: the variable %s was not found\n",aVariable);
     return nil;					  // return nil
   } else
     return res ;
@@ -292,7 +323,7 @@
 
   if (res == nil) {			  // if not found
     if (SAFEPROBES)
-      fprintf(stderr, "Warning: variable not found\n");
+      fprintf(stderr, "Warning: the message %s was not found\n",aMessage);
     return nil;					  // return nil
   } else
     return res ;

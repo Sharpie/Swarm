@@ -8,6 +8,7 @@
 @interface VarProbe: Probe {
   char * probedVariable;
   int dataOffset;
+  int interactive;
 }
 
 -setProbedVariable: (char *) aVariable;
@@ -16,6 +17,13 @@
 -(char *) getProbedVariable;
 -(int)    getDataOffset;
 
--setData: anObject To: (void *) newValue;	  // pass by reference.
--setData: anObject ToString: (const char *) s;	  // gives us the string.
+-setNonInteractive ;
+-(int) isInteractive ;
+
+-setData: anObject To: (void *) newValue;	     // pass by reference.
+-(int) setData: anObject ToString: (const char *) s; // gives us the string.
+
 @end
+
+
+

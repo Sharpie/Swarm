@@ -21,7 +21,6 @@
 -setObject: obj ;
 -setProbe: (Probe *) the_probe;
 -setMyLeft: aFrame ;
-//-setInteractive: (int) val ;
 -setMyRight: aFrame ;
 -setMaxLabelWidth: (int) width ;
 -createEnd ;

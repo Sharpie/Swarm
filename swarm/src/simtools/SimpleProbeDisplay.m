@@ -26,7 +26,7 @@
   return self;
 }
 
--getProbeMap {
+-getProbeMap {  
   return probeMap;
 }
 
@@ -36,14 +36,41 @@
   id index ;
   id probe ;
   id hideB ;
-  id top_top_Frame, raisedFrame ;
+  id top_top_Frame, raisedFrame, c_Frame, the_canvas ;
 
   numberOfProbes = [probeMap getNumEntries] ;
 	
-  topFrame = [Frame create: [self getZone]];
+  topLevel = [Frame create: [self getZone]];
+  
+  [topLevel setWindowTitle: (char *) [probedObject name]] ;
+  [globalTkInterp eval: "wm withdraw %s",
+     [topLevel getWidgetName]] ;
 
-  [topFrame setWindowTitle: (char *) [probedObject name]] ;
+  c_Frame =  [Frame  createParent: topLevel] ;  
+  the_canvas = [Canvas createParent: c_Frame] ;
 
+  [globalTkInterp eval: 
+   "%s configure -width 10 -height 10 -yscrollcommand {%s.yscroll set} ; \
+    scrollbar %s.yscroll -orient vertical -command {%s yview} ; \
+    pack %s.yscroll -side right -fill y ; \
+    pack %s -side left -fill both  -expand true",
+    [the_canvas getWidgetName],
+    [c_Frame getWidgetName],
+    [c_Frame getWidgetName],
+    [the_canvas getWidgetName],
+    [c_Frame getWidgetName],
+    [the_canvas getWidgetName]] ;
+
+  [c_Frame pack] ;
+
+  topFrame =  [Frame createParent: the_canvas] ;
+  
+  [globalTkInterp eval: "%s configure -bd 0", [topFrame getWidgetName]] ;
+
+  [globalTkInterp eval: "%s create window 0 0 -anchor nw -window %s",
+     [the_canvas getWidgetName],
+     [topFrame getWidgetName]] ;
+  
   top_top_Frame =  [Frame  createParent: topFrame] ;  
 
   raisedFrame =  [Frame  createParent: top_top_Frame] ;  
@@ -95,8 +122,8 @@
   hideB = [Button createParent: top_top_Frame] ;
 
   [globalTkInterp 
-    eval: "%s configure -command {wm withdraw %s}",
-    [hideB getWidgetName],[topFrame getWidgetName]] ;
+    eval: "%s configure -command {%s drop}",
+    [hideB getWidgetName],tclObjc_objectToName(self)] ;
   [globalTkInterp
     eval: "%s configure -bitmap special -activeforeground red -foreground red", 
     [hideB getWidgetName]] ;
@@ -179,11 +206,24 @@
   [middleFrame pack] ;
   [bottomFrame pack] ;
 
-  [globalTkInterp eval: "pack %s -side bottom -fill both -expand 1",
-		  [bottomFrame getWidgetName]] ;
+//  [globalTkInterp eval: "update idletasks"] ;
+  [globalTkInterp eval: "wm deiconify %s",[topLevel getWidgetName]] ;
+
+  [globalTkInterp eval:
+     "tkwait visibility %s ; \
+      set width [winfo width %s] ; \
+      set height [winfo height %s] ; \
+      %s configure -scrollregion [list 0 0 $width $height] ; \
+      if {$height > 500} {set height 500} ; \
+      %s configure -width $width -height $height",
+      [topFrame getWidgetName],
+//      [topFrame getWidgetName],
+      [topFrame getWidgetName],
+      [topFrame getWidgetName],
+      [the_canvas getWidgetName],
+      [the_canvas getWidgetName]] ;
 
   [probeDisplayManager addProbeDisplay: self];
-
   return self;
 }
 
@@ -212,8 +252,9 @@
     [[self getZone] free: widgets] ;
 
 
-  [globalTkInterp eval: "destroy %s",[topFrame getWidgetName]] ;
-  [topFrame drop] ;
+  [globalTkInterp eval: "destroy %s",[topLevel getWidgetName]] ;
+  [topLevel drop] ;
+
 
   [probeDisplayManager removeProbeDisplay: self];
   
@@ -232,3 +273,8 @@
 }
 
 @end
+
+
+
+
+

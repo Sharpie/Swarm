@@ -28,6 +28,17 @@
   return self;
 }
 
+-removeProbeDisplayFor: anObject {
+  id index, aProbeDisplay ;
+  
+  index = [probeList begin: [self getZone]] ;
+  while ( (aProbeDisplay = [index next]) )
+    if([aProbeDisplay getProbedObject] == anObject)
+      [aProbeDisplay drop] ;
+
+  return self ;
+}
+
 -removeProbeDisplay: pd {
   [probeList remove: pd];
   return self;

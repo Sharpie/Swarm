@@ -75,5 +75,22 @@
   return self;
 }
 
+-setColor: (char *) aColor {
+
+  [globalTkInterp eval: "%s itemconfigure %s -fill %s",
+    [canvas getWidgetName],line1,aColor] ;  
+
+  [globalTkInterp eval: "%s itemconfigure %s -fill %s",
+    [canvas getWidgetName],line2,aColor] ;  
+ 
+  return self ;
+}
+
+-(void) drop {
+  [globalTkInterp eval: "%s delete %s %s",
+    [canvas getWidgetName],line1,line2] ;  
+  [super drop] ;
+}
+
 @end
 

@@ -22,6 +22,8 @@ int swarmGUIMode;
 
 void
 initSwarm(int argc, char ** argv) {
+  int i ;
+
   initModule(activity);
 
   initProbing() ;
@@ -29,11 +31,11 @@ initSwarm(int argc, char ** argv) {
   randomGenerator = [[PMMLCG1 alloc] init];	  // seeds from clock
   uniformRandom = [[[Uniform alloc] init] setGenerator: randomGenerator];
 
-  if (getenv("DISPLAY")) {
-    swarmGUIMode = 1;
-  } else {
-    swarmGUIMode = 0;
-  }
+  swarmGUIMode = 1;
+
+  for(i = 1 ; i < argc ; i++)
+    if( !strcmp(argv[i],"-batchmode") )
+      swarmGUIMode = 0 ;
   
   if (swarmGUIMode) {
     initTkObjc(argc, argv);

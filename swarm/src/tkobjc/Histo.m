@@ -69,9 +69,26 @@
   return self;
 }
 
+-drawHistoWithInt: (int *) points atLocations: (double *) locations {
+  int i;
+  for (i = 0; i < numPoints; i++)
+    [globalTkInterp eval: "%s element configure %s -data { %lg %d }",
+		    widgetName, elements[i], locations[i], points[i]];
+  return self;
+}
+
+-drawHistoWithDouble: (double *) points atLocations: (double *) locations {
+  int i;
+  for (i = 0; i < numPoints; i++)
+    [globalTkInterp eval: "%s element configure %s -data { %lg %lg }",
+		    widgetName, elements[i], locations[i], points[i]];
+  return self;
+}
+
 // this code is in common with BLTGraph
 -title: (char *) t {
   [globalTkInterp eval: "%s configure -title \"%s\";", widgetName, t];
+  [self setWindowTitle: t];
   return self;
 }
 

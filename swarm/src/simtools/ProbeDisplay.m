@@ -55,6 +55,9 @@
     }
   }
 
+  [globalTkInterp eval: 
+     "update idletasks ; foreach w [winfo children .] {busy hold $w} ; update"] ;
+
   if(probeMap == nil){
     probeDisplay = [CompleteProbeDisplay createBegin: [self getZone]] ;
     [probeDisplay setProbedObject: probedObject] ;
@@ -66,6 +69,9 @@
     probeDisplay = [probeDisplay createEnd] ;
   }
 
+  [globalTkInterp eval: 
+    "foreach w [busy isbusy] {busy release $w} ; update"] ;
+  
   [self drop] ;
   return probeDisplay;
 }

@@ -15,6 +15,7 @@
 -createProbeDisplayFor: (id) anObject;
 -createCompleteProbeDisplayFor: (id) anObject;
 -addProbeDisplay: pd;
+-removeProbeDisplayFor: anObject ;
 -removeProbeDisplay: pd;
 -update;
 

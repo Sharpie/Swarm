@@ -96,10 +96,13 @@
 
   argNum = [myProbe getArgNum] ;
 
-  objWindows = (int *) malloc(sizeof(int)*argNum) ;
-  argNum *= 2 ; 
-  myWidgets = (Widget **) malloc(sizeof(Widget *)*argNum) ;
-
+  if(argNum){
+    objWindows = (int *) malloc(sizeof(int)*argNum) ;
+    argNum *= 2 ; 
+    myWidgets = (Widget **) malloc(sizeof(Widget *)*argNum) ;
+  } else {
+    myWidgets = (Widget **) malloc(sizeof(Widget *)) ;
+  }
 
   myWidgets[0] = [Button createParent: self] ;
 

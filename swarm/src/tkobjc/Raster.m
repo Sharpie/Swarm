@@ -49,7 +49,8 @@
   [globalTkInterp eval: "bind %s <Expose> {%s drawSelf}",
 		  widgetName, [self getObjcName]];
   // and our own callback for button clicks
-  [globalTkInterp eval: "bind %s <ButtonPress> { %s handleButton: %s X: %s Y: %s }",
+  [globalTkInterp eval: 
+    "bind %s <ButtonPress> { %s handleButton: %s X: %s Y: %s }",
 		  widgetName, [self getObjcName], "%b", "%x", "%y"];
 
   // now create a GC

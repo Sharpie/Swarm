@@ -17,6 +17,10 @@
 -drawHistoWithDouble: (double *) points;	  // data format hack
 -drawHistoWithInt: (int *) points;
 
+// This is used by EZBin to avoid the usual integer tagging of elements...
+-drawHistoWithInt: (int *) points atLocations: (double *) locations ;
+-drawHistoWithDouble: (double *) points atLocations: (double *) locations ;
+
 -title: (char *) t;                               // title the graph
 -axisLabelsX: (char *) xl Y: (char *) yl;	  // change labels here.
 @end

@@ -11,3 +11,10 @@
 #import <simtools/CompleteProbeDisplay.h>
 #import <simtools/ProbeDisplayManager.h>
 #import <simtools/GUISwarm.h>
+#import <simtools/UName.h>
+#import <simtools/InFile.h>
+#import <simtools/OutFile.h>
+#import <simtools/ObjectLoader.h>
+#import <simtools/ObjectSaver.h>
+#import <simtools/ActiveGraph.h>
+#import <simtools/ActiveOutFile.h>
