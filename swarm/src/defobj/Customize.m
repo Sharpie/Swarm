@@ -353,7 +353,7 @@ _obj_splitPhases (Class_s *class)
 {
   classData_t classData, superclassData = 0;
   BehaviorPhase_s *classCreating, *classUsing;
-  const char *className;
+  char *className;
   methodDefs_t mdefs;
   Method_t mnext;
 

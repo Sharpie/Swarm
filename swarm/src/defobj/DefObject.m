@@ -680,9 +680,10 @@ _obj_formatIDString (char *buffer, id anObject)
 //
 - (void) describeID: outputCharStream
 {
-  char  buffer[100], *displayName;
+  char  buffer[100];
+  const char *displayName;
 
-  _obj_formatIDString( buffer, self );
+  _obj_formatIDString (buffer, self);
   [outputCharStream catC: buffer];
 
   displayName = [self getDisplayName];
