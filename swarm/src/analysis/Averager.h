@@ -22,10 +22,10 @@
   double maTotalSquared;
   double *maData;
 
-  IMP nextImp;
-  IMP getLocImp;
-  IMP callImp;
-  IMP addImp;
+  id (*nextImp) (id, SEL);
+  id (*getLocImp) (id, SEL);
+  double (*callImp) (id, SEL, id);
+  void (*addImp) (id, SEL, double);
 }
 
 - setCollection: aCollection;
