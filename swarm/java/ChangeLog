@@ -1,3 +1,18 @@
+1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*objc-to-java-type-alist*): Convert timeval_t and
+	size_t to long and Color to byte.
+	(*removed-protocols*, *removed-methods*): New lists.
+	(method-ellipsis-p): New function.
+	(removed-method-p): Use it and *removed-methods*.
+	(removed-protocol-p): New function.
+	(included-protocol-list): Use it instead of just
+	the-CREATABLE-protocol-p.
+	(java-type-to-native-type): Handle java.lang.reflect.Method.
+	(java-argument-print-conversion): Handle jmethodID.
+	(java-print-makefiles, java-print-classes): Use removed-protocol-p
+	instead of the-CREATABLE-protocol-p.
+
 1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (C_EXTRA_DIST, SWARM_EXTRA_DIST): New variables.

@@ -27,6 +27,9 @@
       ("unsigned long" . "int")
       ("BOOL" . "boolean")
       ("SEL" . "java.lang.reflect.Method")
+      ("timeval_t" . "long")
+      ("size_t" . "long")
+      ("Color" . "byte")
 
       ("void \\*" . freaky)
       ("ref_t" . freaky)
@@ -43,17 +46,14 @@
       ("Class" . freaky)
       ("FILE \\*" . freaky)
       ("compare_t" . freaky)
-      ("timeval_t" . freaky)
       ("func_t" . freaky)
       ("unsigned \\*" . freaky)
-      ("size_t" . freaky)
       ("IMP" . freaky)
       ("const char \\*\\*" . freaky)
       ("int (\\*) (int, const char \\*)" . freaky)
       ("struct argp_option \\*" . freaky)
-      ("PixelValue \\*" . freaky)
       ("PixelValue" . freaky)
-      ("Color" . freaky)
+      ("PixelValue \\*" . freaky)
       ("long \\*" . freaky)
       ("const void \\*" . freaky)
       ("int(\\*)(const void\\*,const void\\*)" . freaky)
@@ -66,6 +66,225 @@
       ("void (\\*) (unsigned rank, unsigned \\*vec, int val)" . freaky)
       ("ProbeMap \\*" . freaky) 
       ))
+
+(defconst *removed-protocols* '("CREATABLE"
+                                "InputStream"
+                                "ArchiverKeyword"
+                                "ArchiverArray"
+                                "ArchiverValue"
+                                "ArchiverPair"
+                                "OutputStream"
+                                "VarProbe"
+                                "HDF5"
+                                "HDF5CompoundType"
+                                "InFile"
+                                "Arguments"
+                                ))
+
+(defconst *removed-methods* 
+    '("-getClass" ; conflict with Java
+      "-getDisplayName" ; conflict with Java
+      "-getTypeName" ; conflict with Java
+      "-setDisplayName:" ; conflict with Java
+      "-copy:" ; conflict with Java
+      "-remove:" ; conflict with Java
+
+      ;; DefinedClass
+      "+getMethodFor:" ; IMP return
+
+      ;; CreatedClass
+      "-at:addMethod:" ; IMP parameter
+      
+      ;; Object_s
+      "-addRef:withArgument:" ; void* parameter, ref_t return
+      "-removeRef:" ; ref_t parameter
+      "+conformsTo:" ; Protocol* parameter
+      "-respondsTo:" ; SEL parameter
+      "-perform:" ; SEL parameter
+      "-perform:with:" ; SEL parameter
+      "-perform:with:with:" ; SEL parameter
+      "-perform:with:with:with:" ; SEL parameter
+
+      ;; Zone
+      "-alloc:" ; void* return
+      "-free:" ; void* parameter
+      "-freeBlock:blockSize:"; void* parameter
+      "-containsAlloc:" ; void* parameter
+      "-getMemberBlock" ; void* return
+      "-getData" ; void* return
+      
+      ;; Array
+      "-getData"; void* return
+      "+create:setMemberBlock:setCount:" ; id* parameter
+      "-setMemberBlock:setCount:" ; id* parameter
+      "-getMemberBlock" ; void* return
+
+      ;; ForEach (SEL parameters)
+      "-forEach:"
+      "-forEach::"
+      "-forEach:::"
+      "-forEach::::"
+
+      ;; Map, passthru in MultiVarProbeWidget
+      "-setCompareFunction:"; compare_t parameter
+      "-getCompareFunction"; compare_t return
+      "-next:" ; id* parameter
+      "-prev:" ; id* parameter
+      "-get:" ; id* parameter
+
+      ;; Schedule
+      ;;  (func_t parameter)
+      "-at:createActionCall:"
+      "-at:createActionCall::"
+      "-at:createActionCall:::"
+      "-at:createActionCall::::"
+      ;;  (SEL parameter)
+      "-at:createActionTo:message:"
+      "-at:createActionTo:message::"
+      "-at:createActionTo:message:::"
+      "-at:createActionTo:message::::"
+      "-at:createActionForEach:message:"
+      "-at:createActionForEach:message::"
+      "-at:createActionForEach:message:::"
+      "-at:createActionForEach:message::::"
+
+      ;; ActionCreatingTo (SEL parameters)
+      "-createActionTo:message:"
+      "-createActionTo:message::"
+      "-createActionTo:message:::"
+      "-createActionTo:message::::"
+      
+      ;; ActionCreatingForEach (SEL parameters)
+      "-createActionForEach:message:"
+      "-createActionForEach:message::"
+      "-createActionForEach:message:::"
+      "-createActionForEach:message::::"
+      
+      ;; ActionCreatingCall (func_t parameters)
+      "-createActionCall:"
+      "-createActionCall::"
+      "-createActionCall:::"
+      "-createActionCall::::"
+
+      ;; ActionCall
+      "-setFunctionPointer:" ; func_t parameter
+      "-getFunctionPointer" ; func_t return
+
+      ;; ActionTo_0
+      "-setMessageSelector:" ; SEL parameter
+      "-getMessageSelector" ; SEL return
+
+      ;; Probe
+      "-probeRaw:" ; void* return
+      "-probeAsPointer:" ; void* return
+      "-setData:To:" ; void* parameter
+
+      ;; MessageProbe
+      "-getArg:" ; val_t return
+      "-dynamicCallOn:" ; val_t return
+
+      ;; ProbeMap
+      "-getProbedClass" ; Class return
+
+      ;; random
+      "-putStateInto:" ; void* parameter
+      "-setStateFrom:" ; void* parameter
+      "+create:setStateFromSeeds:"; unsigned* parameter
+      "+create:setA:setv:setw:setStateFromSeeds:" ; unsigned * parameter
+      "-setStateFromSeeds:" ; unsigned* parameter
+      "-getMaxSeedValues" ; unsigned* return
+      "-getLongDoubleSample" ; long double return
+      "-getLongDoubleSample:" ; long double return
+      "-jumpGenerator:toSegment:" ; unsigned long long parameter
+      "-jumpAllToSegment:" ; unsigned long long parameter
+      "-getCurrentCount" ; unsigned long long return
+      "-getCurrentSegment" ; unsigned long long return
+      "-getCurrentCount:" ; unsigned long long return
+      "-getCurrentSegment:" ; unsigned long long return
+      "-getInitialSeeds" ; unsigned* return
+
+      ;; InputWidget
+      "-linkVariableBoolean:" ; BOOL* parameter
+      "-linkVariableInt:" ; int* parameter
+      "-linkVariableDouble:" ; double* parameter
+
+      ;; Form
+      "-addLineName:Boolean:" ; BOOL* parameter
+      "-addLineName:Int:" ; int* parameter
+      "-addLineName:Double:" ; double* parameter
+
+      ;; Histogram
+      "-setLabels:count:" ; const char * const * parameter
+      "-setColors:count:" ; const char * const * parameter
+      "-drawHistogramWithInt:" ; int * parameter
+      "-drawHistogramWithInt:atLocations:" ; int*, double* parameters
+      "-drawHistogramWithDouble:" ; double * parameter
+      "-drawHistogramWithDouble:atLocations:" ; double * parameter
+
+      ;; Button
+      "-setButtonTarget:method:" ; SEL parameter
+
+      ;; ButtonPanel
+      "-addButtonName:target:method:" ; SEL parameter
+      "-addButtonName:method:" ; SEL parameter
+
+      ;; MultiVarProbeWidget, MultiVarProbeDisplay
+      "-setObjectNameSelector:" ; SEL parameter
+
+      ;; Widget
+      "-enableDestroyNotification:notificationMethod:" ; SEL parameter
+
+      ;; Colormap
+      "-map" ; PixelValue * return
+      "-black" ; PixelValue return
+      "-white" ; PixelValue return
+
+      ;; CanvasAbstractItem (SEL parameter)
+      "-setClickSel:"
+      "-setMoveSel:"
+      "-setPostMoveSel:"
+
+      ;; Raster
+      "-setButton:Client:Message:" ; SEL parameter
+      
+      ;; EZBin
+      "-getDistribution" ; int* return
+      "-setProbedSelector:" ; SEL parameter
+
+      ;; EZDistribution
+      "-getProbabilities"; double* return
+
+      ;; EZGraph
+      "-createSequence:withFeedFrom:andSelector:" ; SEL parameter
+      "-createAverageSequence:withFeedFrom:andSelector:" ; SEL parameter
+      "-createTotalSequence:withFeedFrom:andSelector:" ; SEL parameter
+      "-createMinSequence:withFeedFrom:andSelector:" ; SEL parameter
+      "-createMaxSequence:withFeedFrom:andSelector:" ; SEL parameter
+      "-createCountSequence:withFeedFrom:andSelector:" ; SEL parameter
+
+      ;; FunctionGraph
+      "-setElement:setDataFeed:setFunctionSelector:" ; SEL parameter
+      "-setFunctionSelector:" ; SEL parameter
+      
+      ;; Int2dFiler
+      "-setValueMessage:" ; SEL parameter
+
+      ;; Discrete2d
+      "-getOffsets" ; long* return
+      "-allocLattice" ; id* return
+      "-setLattice:" ; id* parameter
+      "-getLattice"; id* return
+
+      ;; Object2dDisplay
+      "-setDisplayMessage:" ; SEL parameter
+
+      ;; DblBuffer2d
+      "-getNewLattice" ; id* return
+
+      ;; QSort
+      "+sortNumbersIn:using:" ; function pointer parameter
+      "+sortObjectsIn:using:" ; SEL parameter
+     ))
 
 (defun freaky-message- (objc-type)
   (message "Objective C type `%s' in protocol `%s' is freaky!"
@@ -130,18 +349,17 @@
     (insert ");\n")))
 
 (defun removed-method-p (method)
+  (or (find (get-method-signature method) *removed-methods* :test #'string=)
+      (method-ellipsis-p method)))
+
+(defun method-ellipsis-p (method)
   (let ((arguments (method-arguments method)))
-    (or (and (not (cdr arguments))
-             (let ((name (caar arguments)))
-               (find name '("getClass" "getDisplayName" "setDisplayName"
-                            "getTypeName" "copy" "remove")
-                     :test #'string=)))
-        (loop for argument in arguments
-              when (and (null (first argument))
-                        (null (second argument))
-                        (string= (third argument) "..."))
-              return t
-              finally return nil))))
+    (loop for argument in arguments
+          when (and (null (first argument))
+                    (null (second argument))
+                    (string= (third argument) "..."))
+          return t
+          finally return nil)))
 
 (defun included-method-p (method phase)
   (and (not (removed-method-p method))
@@ -188,12 +406,15 @@
             (insert (java-interface-name iprotocol phase))))
     (not first)))
 
-(defun the-CREATABLE-protocol-p (protocol)
-  (string= (protocol-name protocol) "CREATABLE"))
+(defun removed-protocol-p (protocol)
+  (find (protocol-name protocol) *removed-protocols* :test #'string=))
 
 (defun included-protocol-list (protocol)
-  (remove-if #'the-CREATABLE-protocol-p 
+  (remove-if #'removed-protocol-p 
              (protocol-included-protocol-list protocol)))
+
+(defun the-CREATABLE-protocol-p (protocol)
+  (string= (protocol-name protocol) "CREATABLE"))
 
 (defun CREATABLE-p (protocol)
   (member-if #'the-CREATABLE-protocol-p
@@ -337,6 +558,7 @@
         ((string= "double" type) "jdouble")
         ((string= "String" type) "jstring")
         ((string= "void" type) "void")
+        ((string= "java.lang.reflect.Method" type) "jmethodID")
         (t "jobject")))
 
 (defun java-argument-convert (argument convert)
@@ -360,6 +582,14 @@
                (insert "JFINDOBJC (")
                (insert (third argument))
                (insert ")"))
+              ((string= type "jmethodID")
+               (insert "JFINDOBJCMETHOD (")
+               (insert (third argument))
+               (insert ")"))
+              ((string= type "jstring")
+               (insert "((*jniEnv)->GetStringUTFChars) (env, ")
+               (insert argname)
+               (insert ", JNI_FALSE)"))
               ((or (string= type "jint")
                    (string= type "jdouble")
                    (string= type "jfloat")
@@ -368,11 +598,7 @@
                    (string= type "jchar")
                    (string= type "jboolean")
                    (string= type "jshort"))
-           (insert argname))
-              ((string= type "jstring")
-               (insert "((*jniEnv)->GetStringUTFChars) (env, ")
-               (insert argname)
-               (insert ", JNI_FALSE)"))
+               (insert argname))
               (t (error "unkown type %s" type)))
         (error "unknown type for argument `%s'" argument))))
 
@@ -474,7 +700,7 @@
           (insert "PROTOCOLS =")
           (loop for obj in protocol-list
                 when (and (protocol-p obj)
-                          (not (the-CREATABLE-protocol-p obj)))
+                          (not (removed-protocol-p obj)))
                 do
                 (insert " ")
                 (insert (protocol-name obj)))
@@ -503,7 +729,7 @@
   (ensure-directory *java-path*)
   (java-print-makefiles)
   (loop for protocol being each hash-value of *protocol-hash-table* 
-        unless (the-CREATABLE-protocol-p protocol)
+        unless (removed-protocol-p protocol)
         do
         (setq *last-protocol* protocol)
         (java-print-interface protocol)
