@@ -167,7 +167,7 @@ swarm_directory_objc_ensure_object_COM (id oObject)
       COMclass cClass = SD_COM_FIND_CLASS_COM (oClass);
       
       cObject = comEnv->normalize (comEnv->createComponent (cClass));
-      return SD_COM_ADD_OBJECT_COM (cObject, oObject);
+      return swarm_directory_COM_add_object_COM (cObject, oObject);
     }
   return cObject;
 }

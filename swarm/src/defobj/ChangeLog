@@ -1,3 +1,8 @@
+2001-01-09  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.m (swarm_directory_objc_ensure_object_COM): Use
+	swarm_directory_COM_add_object instead of SD_COM_ADD_OBJECT_COM.
+
 2001-01-09  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* COM.h: Move SD_COM_{ADD,ENSURE}_OBJECT_COM and C++ specific
