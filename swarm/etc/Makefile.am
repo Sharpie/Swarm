@@ -1,4 +1,4 @@
-EXTRA_DIST = config.swarm.in Makefile.common.in Makefile.appl.in Makefile.lib.in Makefile.rules Makefile.tests.in common.el protocol.el
+EXTRA_DIST = config.swarm.in Makefile.common.in Makefile.appl.in Makefile.lib.in Makefile.rules Makefile.tests.in common.el protocol.el java-stub.el
 
 install-data-local:
 	$(mkinstalldirs) $(sysconfdir)/swarm
