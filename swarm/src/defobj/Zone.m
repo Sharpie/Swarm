@@ -139,6 +139,7 @@ PHASE(Using)
 
   newObject = (Object_s *) dalloc (size + 2 * sizeof (id));
 
+  // clears mlinks of population entry
   memset (newObject, 0, size + 2 * sizeof (id));
   
   // add object to the population list, skipping over links in object header
@@ -170,6 +171,8 @@ PHASE(Using)
 
   instanceSize = getClass (anObject)->instance_size;
   newObject = (Object_s *) dalloc (instanceSize + 2 * sizeof (id));
+
+  // clears mlinks of population entry
   memset (newObject, 0, instanceSize + 2 * sizeof (id));
 
   // add object to the population list, skipping over links in object header
