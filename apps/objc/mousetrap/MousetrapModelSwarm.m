@@ -110,7 +110,7 @@
 + createBegin: aZone
 {
   MousetrapModelSwarm * obj;
-  id <ProbeMap> probeMap;
+  id <CustomProbeMap> probeMap;
   
   // First, call our superclass createBegin - the return value is the
   // allocated MousetrapModelSwarm object.
@@ -126,28 +126,17 @@
   obj->maxTriggerTime = 16;
   obj->trapDensity = 1.0;
 
-  // And build a customized probe map. Without a probe map, the default
-  // is to show all variables and messages. Here we choose to
+  // And build a customized probe map. Without a probe map, the
+  // default is to show all variables and messages. Here we choose to
   // customize the appearance of the probe, give a nicer interface.
+  // Use the convenience method to create the CustomProbeMap by
+  // specifiying the simulation parameter list
 
-  probeMap = [EmptyProbeMap createBegin: aZone];
-  [probeMap setProbedClass: [self class]];
-  probeMap = [probeMap createEnd];
-
-  // Add in a bunch of variables, one per simulation parameter
-
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "gridSize"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "triggerLikelihood"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "numberOutputTriggers"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "maxTriggerDistance"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "maxTriggerTime"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "trapDensity"
-				    inClass: [self class]]];
+  probeMap = [CustomProbeMap create: aZone
+                             forClass: [self class]
+                             withIdentifiers: "gridSize", "triggerLikelihood",
+                             "numberOutputTriggers", "maxTriggerDistance",
+                             "maxTriggerTime", "trapDensity", ":", NULL];
 
   // Now install our custom probeMap into the probeLibrary.
   

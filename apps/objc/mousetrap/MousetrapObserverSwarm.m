@@ -29,7 +29,7 @@
 + createBegin: aZone
 {
   MousetrapObserverSwarm *obj;
-  id <ProbeMap> probeMap;
+  id <CustomProbeMap> probeMap;
   
   // invoke our superClass createBegin to allocate ourselves.
   // obj is the allocated ObserverSwarm
@@ -44,15 +44,11 @@
   // is to show all variables and messages. Here we choose to
   // customize the appearance of the probe, give a nicer interface.
 
-  probeMap = [EmptyProbeMap createBegin: aZone];
-  [probeMap setProbedClass: [self class]];
-  probeMap = [probeMap createEnd];
+  probeMap = [CustomProbeMap create: aZone
+                             forClass: [self class]
+                             withIdentifiers:  "displayFrequency", ":", NULL];
 
-  // Add in a bunch of variables, one per simulation parameter
   // and install our custom probeMap into the probeLibrary.
-
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "displayFrequency"
-				    inClass: [self class]]];
   [probeLibrary setProbeMap: probeMap For: [self class]];
 
   return obj;		// We return the newly created ObserverSwarm

@@ -1,5 +1,12 @@
 1999-07-28  Alex Lancaster  <alex@santafe.edu>
 
+	* MousetrapModelSwarm.m ([MousetrapModelSwarm +createBegin:]): Use
+	convenience CustomProbeMap creation using identifier lists, rather
+	than the verbose manual creation method.
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	+createBegin:]): Likewise.
+
 	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
 	-buildActions]): Use +create:setRepeatInterval: convenience method
 	to setup Schedule.
