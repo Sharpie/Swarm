@@ -1,6 +1,10 @@
-SUBDIRS = libobjc @AVCALLDIR@ src java m4 etc tests
+if USEBUILTINAVCALL
+SUBDIRS = libobjc avcall src java m4 etc tests
+else
+SUBDIRS = libobjc src java m4 etc tests
+endif
 
-EXTRA_DIST = VERSION avcall
+EXTRA_DIST = VERSION
 
 SWARM_INSTALL = @SWARM_INSTALL@
 

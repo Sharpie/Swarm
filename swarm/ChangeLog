@@ -1,3 +1,8 @@
+1999-06-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Remove avcall.
+	(SUBDIRS): Set using automake conditional, not substitution.
+
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Use AM_CONFIG_HEADER instead of AC_OUTPUT
