@@ -1,5 +1,8 @@
 1999-03-01  Alex Lancaster  <alex@santafe.edu>
 
+	* user2.02.sgml: Update with Paul Johnson's text.  Add some extra
+	markup for some text elements - FILENAME, APPLICATION, FUNCTION.
+
 	* user1.01.sgml: Minor text modifications.
 
 	* catalog.in: Add PUBLIC ENTITY for genindex.sgml - the
