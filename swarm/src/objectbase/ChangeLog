@@ -1,3 +1,7 @@
+1998-01-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* CustomProbeMap.m: Add @end.
+
 1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* VarProbe.m ([VarProbe -createEnd]): Remove cast for assignment
