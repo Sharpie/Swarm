@@ -1,3 +1,8 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputStream.m ([ArchiverList_c -lispOutDeep:]): Call lispOutDeep:
+	in default case, don't raise error.
+
 1999-09-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* predicates.[hm] (quote_literal_p): New function.

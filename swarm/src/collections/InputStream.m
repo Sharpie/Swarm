@@ -858,8 +858,8 @@ PHASE(Using)
                     PARSE_FUNCTION_NAME);
     }
   else
-    raiseEvent(InvalidArgument, "first argument must be a string!\n");
-    
+    [member lispOutDeep: stream];
+  
   for (member = [index next]; [index getLoc] == Member; member = [index next])
     {
       [stream catC: " "];
