@@ -1,3 +1,9 @@
+2000-08-17  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* SwarmEnvironment.m ([SwarmEnvironment
+	+initSwarm:version:bugAddress:argCount:args:]):
+	Create swarmDirectory if COM is initialized.
+
 2000-08-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* SwarmEnvironment.m ([SwarmEnvironment

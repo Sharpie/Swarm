@@ -18,6 +18,9 @@
 #import <defobj/java.h>
 #endif
 
+#import <defobj/COM.h>
+#import <defobj/directory.h>
+
 externvardef BOOL swarmGUIMode = NO;
 
 #ifdef hpux
@@ -97,6 +100,9 @@ PHASE(Creating)
 + initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)count args: (const char **)args
 {
   id obj = [SwarmEnvironment createBegin];
+
+  if (COM_init_p ())
+    swarmDirectory = [Directory create: globalZone];
   [obj _init_: appName version: version bugAddress: bugAddress argCount: count args: args];
   return [obj createEnd];
 }
