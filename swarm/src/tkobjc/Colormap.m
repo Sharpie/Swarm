@@ -47,7 +47,7 @@
   else
     {
       [InvalidArgument raiseEvent: "attempted to access unset color %d\n", c];
-      return (PixelValue)white;
+      return white;
     }
 }
 
@@ -78,7 +78,7 @@
           map[c] = white;
           return NO;
         }
-      map[c] = (Color)xc.pixel;
+      map[c] = xc.pixel;
       return YES;
     }
 }
@@ -96,7 +96,7 @@
   ru = r * 0xffU;
   gu = g * 0xffU;
   bu = b * 0xffU;
-  
+
   sprintf (colorName, "#%02x%02x%02x", ru, gu, bu);
   return [self setColor: c ToName: colorName];
 }
