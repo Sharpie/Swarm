@@ -1,3 +1,7 @@
+1998-05-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* defobj.h: Add CREATING and USING tags where absent.
+
 1998-04-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* defobj.h: Add documentation tags.

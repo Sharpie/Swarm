@@ -12,6 +12,7 @@ Library:      defobj
 #import <defobj/deftype.h>
 
 @deftype DefinedObject
+USING
 //S: Object with defined type and implementation.
 
 //D: DefinedObject is the top-level supertype for all objects that follow
@@ -129,6 +130,7 @@ Library:      defobj
 //D: relied on to support more than one cycle of customization unless it is
 //D: specifically documented to do so.<p>
 
+CREATING
 //E: newArrayType = [Array customizeBegin: aZone];
 //E: [newArrayType setCount: 100];
 //E: newArrayType = [newArrayType customizeEnd];
@@ -316,6 +318,7 @@ CREATING
 //M: type independently inherits Create or Drop types, or both, to indicate
 //M: its support of these standard interfaces to define the endpoints of an
 //M: object lifecycle.
+USING
 - (void)drop;
 @end
 
@@ -344,6 +347,7 @@ CREATING
 //M: changes to one object do not affect the other.  The zone argument
 //M: specifies the source of storage for the new object.  The message
 //M: returns the id of the new object created.
+USING
 - copy: aZone;
 @end
 
@@ -359,6 +363,7 @@ CREATING
 //M: part of a program or library are examples.  This message is intended
 //M: only for returning a name associated with an object throughout its
 //M: lifetime.  It does not return any data that ever changes.
+USING
 + (const char *)getName;
 @end
 
@@ -381,6 +386,7 @@ CREATING
 //M: the local object.  The principal constraint established by an
 //M: ownership structure is that a given object can have only a single
 //M: other object as its unambiguous owner.
+USING
 - getOwner;
 @end
 
