@@ -1,5 +1,9 @@
 1999-11-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FArguments.m ([FArguments_c -setJavaSignature:]): Set
+	javaSignatureLength here.
+	([FArguments_c -createEnd]): Not here.
+
 	* FCall.m ([FCall_c -setJavaMethod:inObject:], 
 	[FCall_c -setJavaMethod:inClass:]): Copy value for methodName.
 	([FCall_c -drop]): Free methodName if set.

@@ -149,7 +149,10 @@ PHASE(Creating)
 
 - setJavaSignature: (const char *)theJavaSignature
 {
-  char *buf = ALLOCBLOCK (strlen (theJavaSignature) + 1);
+  char *buf;
+
+  javaSignatureLength = strlen (theJavaSignature);
+  buf = ALLOCBLOCK (javaSignatureLength + 1);
 
   strcpy (buf, theJavaSignature);
   javaSignature = buf;
@@ -443,8 +446,6 @@ createJavaSignature (FArguments_c *self)
   setMappedAlloc (self);
   if (!javaSignature)
     javaSignature = createJavaSignature ((FArguments_c *) self);
-  else
-    javaSignatureLength = strlen (javaSignature);
   return self;
 }
 
