@@ -1,3 +1,8 @@
+1998-12-16  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* ActionGroup.m ([GroupPermutedIndex_c -createEnd]): Use component 
+	zone for internal objects of GroupPermutedIndex.
+
 1998-12-15  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* CompoundAction.m ([CompoundAction_c -_createActivity_:::]): 
