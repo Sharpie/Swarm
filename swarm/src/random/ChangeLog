@@ -1,3 +1,11 @@
+1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* random.m: Include objectbase.h instead of objectbase/Arguments.h.
+	Include misc.h instead of sys/time.h.  Move cygwin32 gettimeofday 
+	declaration to misc.h.
+
+	* RandomDefs.h: Include misc.h instead of unistd.h and time.h.  
+
 1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ACGgen.h, BernoulliDist.m, C2LCGXgen.h, C2MRG3gen.h,

@@ -13,14 +13,11 @@ Changed by:	 Sven Thommesen
 Date:		 1997-12-08 (v. 0.75)
 */
 
-#import <sys/time.h>
-#ifdef __CYGWIN32__
-int gettimeofday (struct timeval *p, struct timezone *z);
-#endif
-
 #import <defobj.h>
 #import <random.h>
-#import <objectbase/Arguments.h>
+#import <objectbase.h>
+
+#include <misc.h> // gettimeofday
 
 // Utility random objects:
 
