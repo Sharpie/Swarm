@@ -1,3 +1,11 @@
+2001-08-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.m (java_object_setVariable): Drop localref when setting
+	string.
+	(java_object_ivar_type): Drop localref of class.
+	(swarm_directory_objc_find_class_java): Ensure that the
+	class returned is a global ref.
+
 2001-08-01  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
 	* HDF5Object.m ([HDF5_c -flushVector]): Use H5Sselect_elements
@@ -20,6 +28,7 @@
 
 	* Makefile.am: Install macros.h.
 
+>>>>>>> 1.706
 2001-07-24    <mgd@HELEN>
 
 	* FCall.m ([FCall_c -getRetVal:buf:]): Define BUGGY_BUILTIN_APPLY

@@ -614,7 +614,6 @@ class_java_find_field (jclass javaClass, const char *fieldName,
       
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
-
       fid = (*jniEnv)->GetFieldID (jniEnv, javaClass, namestr, sig);
       if (!fid)
         abort ();
@@ -937,7 +936,12 @@ java_object_setVariable (jobject javaObject, const char *ivarName,
                 SETVALUE (Object, SD_JAVA_FIND_CLASS_JAVA (buf->_class));
                 break;
               case fcall_type_string:
-                SETVALUE (Object, (*jniEnv)->NewStringUTF (jniEnv, buf->string));
+                {
+                  jobject lref = (*jniEnv)->NewStringUTF (jniEnv, buf->string);
+                  
+                  SETVALUE (Object, lref);
+                  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+                }
                 break;
               case fcall_type_long_double:
                 abort ();
@@ -998,6 +1002,7 @@ java_object_ivar_type (jobject javaObject, const char *ivarName, BOOL *isArrayPt
   javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
   if (!class_java_find_field (javaClass, ivarName, &type, isArrayPtr))
     abort ();
+  (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
   return type;
 }
 
@@ -2000,9 +2005,21 @@ swarm_directory_java_ensure_selector (jobject jsel)
 jclass
 swarm_directory_objc_find_class_java (Class class)
 {
-  return (class == id_JavaClassProxy
-          ? (jclass) SD_JAVA_FIND_OBJECT_JAVA ((id) class)
-          : find_java_wrapper_class (class));
+  jclass javaClass = (jclass) SD_JAVA_FIND_OBJECT_JAVA ((id) class);
+
+  if (!javaClass)
+    {
+      if (![class respondsTo: M(isJavaProxy)])
+        {
+          jclass lref;
+
+          lref = find_java_wrapper_class (class);
+
+          javaClass = (jclass) SD_JAVA_ADD_OBJECT_JAVA (lref, class);
+          (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+        }
+    } 
+  return javaClass;
 }
 
 Class
