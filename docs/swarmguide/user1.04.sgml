@@ -1,27 +1,66 @@
-<sect1 id="swarm.user.user1.04.sect1">
+<sect1>
   <title>The notion of a Swarm</title>
 
   <para>As explained in an earlier section, Swarm is designed for
     hierarchical creation of computer objects.  The observer swarm
     object is created first, and it creates a user interface and it
     also instantiates the model swarm, and the model swarm then
-    creates levels below and schedules their activities.  </para>
+    creates levels below and schedules their activities.</para>
 
-  <para>These objects are created by programs that create their
-    objects as subclasses of entities in the Swarm library.</para>
+    <para>One of the original intentions of the Swarm project was to
+    give users the ability to create high quality code with a minimum
+    of fuss. The Swarm library creates a sequence of classes that
+    accumulate and refine the ability to create simulation objects,
+    manage memory for them, and schedule their activities.
+
+<sect2>
+<title>Primary and Auxiliary Agents</title>
+
+     <para>Terminology can cause confusion because computer
+     programmers may use the term "agent" in a way that befuddles
+     scientists. To the scientist, the term agent refers to a
+     theoretically important entity that is modeled by a simulation.
+     To a programmer, the term agent is usually broader, something
+     like object.  As a result, there is sometimes slippage in a
+     discussion of "agent-based modeling" because an understanding of
+     the term agent is not shared.
+
+     <para>We intend to finesse this (big surprise!) by creating
+     terminology for two kinds of agents.  This separation of agents
+     into primary and auxiliary groups is created solely for
+     discussion in this manual.  The idea is that primary agents are
+     the ones that the research sets out to model in the first
+     place. They are described in a theory, they have substantive
+     importance.  Usually in this sense we have representations of
+     important "actors" and one or more objects to represent the world
+     in which they interact.</para>
+
+     <para>To the surprise of most new users, it is often also necessary to
+     create auxiliary agents that facilitate the work of the primary
+     agents. For example, in a model of majority rule voting, one can
+     have primary agents like voters and candidates. There may be a
+     need for an auxiliary class called "Counter", a class that can
+     spawn objects that can be used to tally the votes that are
+     cast.</para>
+
+     <para>In most cases, when we talk about multi-agent systems, we
+     are referring to the primary agents.</para>
+
 
 <sect2>
  <title>The (Swarm) OOP way</title> 
 
     <para>Swarm models follow a common syntax that helps users to
-      understand the way their parts interact. Methods that will appear
-      in many classess, for example, include:
+    understand the way their parts interact. The observer swarm and
+    the model swarm are typically designed in a similar way.  Methods
+    that will appear in many classess, for example, include:
 
 <programlisting>
 -createBegin;
 -createEnd;
 -buildObjects;
 -buildActions;
+-activateIn
 </programlisting>
 
       There are also methods that allow the input and output of
@@ -42,48 +81,29 @@
       specialized actions dictated by the substance of the research
       problem.</para>
 
-</sect2>
-
-<sect2>
-<title> The Swarm Hierarchy </title>
-
-    <para>In the simulation model, each agent saves his own behavior
-      and state and acts when called upon by the scheduler or other
-      agents. While the model thus allows a "bottom-up" development,
-      it is still managed from the top-down.  The Swarm library
-      creates a sequence of classes that accumulate and refine the
-      ability to create simulation objects, manage memory for them,
-      and schedule their activities.</para>
-
-    <para>A basic Swarm simulation consists of:
-      
-      <itemizedlist>
-          <listitem><para>Observer Swarm</para></listitem>
-          <listitem><para>Model Swarm</para></listitem>
-          <listitem><para>Agents</para></listitem>
-    </itemizedlist>
-
-    </para>
+     <para>The model swarm object is usually subclassed from Swarm and
+     it is the primary object that is responsible for telling
+     subclasses to build their agents. The model swarm also give those
+     agents a place in memory, and schedules their activities.</para>
 
 </sect2>
 
 <sect2>
  <title>Managing memory in Swarms</title> 
 
-    <para>The allocation and deallocation of memory is a necessary 
-        feature in an OO system</para>
-    
-    <para>Swarm provides libraries for this purpose which 
-        make the process transparent to user. </para>
+    <para>The allocation and deallocation of memory is a necessary
+    feature in any simulation project. Allocating and deallocating
+    memory is one of the most troublesome elements of designing
+    software and Swarm is well equipt to deal with that problem.
+    Swarm provides libraries for this purpose which make the process
+    transparent to user.
 
     <para>In Swarm, objects are created and dropped using a notion of
-        memory zones, and the "dirty work" of allocating memory is
-        handled inside the libraries.
-      </para>
-    
-    <para>By extension of same principle, programs can also drop
-        entire collections or sub Swarms, thus freeing memory for
-        other uses.</para>
+    memory zones, and the "dirty work" of allocating memory is handled
+    inside the libraries. In the next sections, we discuss the way
+    objects are created and given a place in memory.  When those
+    objects are no longer needed, the program can send that object the
+    "drop" message, which removes it from memory.</para>
     
 
 </sect2>
@@ -97,7 +117,7 @@
       this stage. In the buildObjects method, one typically finds
       commands that not only create the objects being used in the
       current class, but there will also be a command which instructs
-      the next-lower level of agent to be created.</para>
+      the next-lower level of agent to create its objects.</para>
 
     <para>Consider the rich example provided by the code from the
       Arborgames model. In the buildObjects method of the observer
@@ -107,10 +127,21 @@
       control panel, which will appear on the screen and offer the
       user the ability to start and stop the simulation.</para>
 
-    <para>It is vital to note also that the buildObjects method
-      triggers the creation of the next lower level of agents.  It
-      creates a memory zone and creates a model swarm in that memory
-      zone.
+    <para>It is vital to note also that the buildObjects method in the
+    observer swarm file triggers the creation of the next lower level
+    of agents.  It creates a memory zone and creates a model swarm in
+    that memory zone. Using the current style, the code would
+    look like so:</para>
+
+<programlisting>
+  forestModelSwarm = [ForestModelSwarm create: self ];  
+  [forestModelSwarm buildObjects];
+</programlisting>
+
+   <para>Users may find older versions of this code which accomplish
+   the same purpose, but are slightly more verbose and do not take
+   into account the fact that the observer swarm object is iself a
+   memory zone.</para>
 
 <programlisting>
   modelZone = [Zone create: [self getZone]];
@@ -118,13 +149,14 @@
   [forestModelSwarm buildObjects];
 </programlisting>
 
-      Note the importance of the third line of this excerpt. The first
-      two lines create the model swarm object (in this case, it is
-      called forestModelSwarm), but the third tells that object to
-      create its own objects by telling the forestModelSwarm to
-      execute its own buildObjects method.  To find out what that
-      implies, one must go look in the implementation file for the
-      ForestModelSwarm to see what objects it creates. </para>
+      Note the importance of the last line in either of these
+      excerpts. The first line of the code creates the model swarm
+      object (in this case, it is called forestModelSwarm), but the
+      last line tells that object to create its own objects by telling
+      the forestModelSwarm to execute its own buildObjects method.  To
+      find out what that implies, one must go look in the
+      implementation file for the ForestModelSwarm to see what objects
+      it creates.</para>
 
 </sect2>
 
@@ -208,7 +240,7 @@
 <para>As mentioned above, there can be "buildActions" methods in many different classes.  Since each one can create action groups and schedules, it is important that all of these activities are coordinated in a logical way.  One of the sstrengths of the Swarm toolkit is that it maintains a coherent, master schedule. The schedules of each sub Swarm are merged into the schedule of next higher level. Finally all schedules are merged in the top level Swarm</para>
 
     <para>This multi-level integration of swarm schedules means that the model can indeed be thought of as a nested hierarchy of models.</para>
-</sect2>
+</sect2></sect2>
 
 
 </sect1>

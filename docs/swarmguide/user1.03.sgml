@@ -112,13 +112,17 @@
 }
 </programlisting>
 
+ 
     <para>This example shows a number of important features.  First,
-      note that the method "eatfood" specifies a return type,
-      (vartype).  When that method is called, the receiving code must
-      be able to accept a return of that type.  In contrast, the
-      method "playOutside" does not specify a return type.  That means
-      the default type, "id", is returned.  The code that calls this
-      method must be consistent with that return type.</para>
+    note that the method "eatfood" specifies a return type,
+    (vartype). In this example, "vartype" would have to be replaced by
+    a variable type, such as int, float, or whatever, and returnval
+    would have to be a variable of that type. When that method is
+    called, the receiving code must be able to accept a return of that
+    type.  In contrast, the method "playOutside" does not specify a
+    return type.  That means the default type, "id", is returned.  The
+    code that calls this method must be consistent with that return
+    type.</para>
 
     <para>The "return self" command is used for two types of
       situations.  Suppose the method is not intended to create any
@@ -134,12 +138,20 @@
       return type, as one might in C, one can simply include "return
       self".</para>
 
-    <para>In another case, one might actually intend to return the
+      <para>In another case, one might actually intend to return the
       object to a list or another object. In such a case, return self
       will also be appropriate. If one is making a list of puppies
       that have indeed played in the yard, for example, then the usage
       of "return self" in that method will give back spot's id to the
-      calling program.</para>
+      calling program. To be perfectly concrete about it, suppose the
+      calling code has a list called "dogsPlayed."  Then using the
+      "addLast" notation from the Swarm collections library, the
+      command to add spot to the list after playing outside miht look
+      like this:
+
+ <programlisting>[dogsPlayed addLast: [spot playOutside: theYard]];
+</programlisting>
+ </para> 
 </sect2>
 
 <sect2>
@@ -185,132 +197,19 @@
       the Objective-C literature, it is worth some special
       attention.</para>
 
-    <para>Object creation is often handeled in the model swarm, where
-      specialized memory management and object creation code in the
-      Swarm library is taken advantage of. The objects that represent
-      the actors in a simulation--the substantively important
-      entities--are usually subclassed from the Swarm class.  Because
-      objects are subclassed from Swarm, that means they have access
-      to all the methods that are defined for Swarm objects in the
-      library.  The "inheritance hierarchy" that leads to the Swarm
-      object starts with the superclass of all superclasses, Object,
-      and subclasses from that through classes called
-      "Object_s","Customize_s","CreateDrop_s","CSwarmProcess", and
-      finally "Swarm".  Here is a list of all of these objects and
-      their methods:
+    <para>The creation of the substantively important objects is often
+    handeled in the model swarm.  This process uses the specialized
+    memory management and object creation code in the Swarm
+    library.</para>
 
-      <itemizedlist>
-        <listitem><formalpara>
-            <title>Object_s</title>
-            <para></para>
-          </formalpara></listitem>
-
-	<listitem><para> - addRef:withArgument:</para></listitem>
-        <listitem><para>+ alloc</para></listitem>
-        <listitem><para>- compare:</para></listitem>
-        <listitem><para>- copy</para></listitem>
-        <listitem><para> - describe:</para></listitem>
-        <listitem><para> - describeID:</para></listitem>
-        <listitem><para> - drop</para></listitem>
-        <listitem><para> - dropAllocations:</para></listitem>
-        <listitem><para> - free</para></listitem>
-        <listitem><para> - getClass</para></listitem>
-        <listitem><para> + getClass</para></listitem>
-        <listitem><para>+ getDefiningClass</para></listitem>
-        <listitem><para> - getDisplayName</para></listitem>
-        <listitem><para> - getIdName</para></listitem>
-        <listitem><para> + getMethodFor:</para></listitem>
-        <listitem><para>+ getName</para></listitem>
-        <listitem><para>+ getNextPhase</para></listitem>
-        <listitem><para> - getObjectName</para></listitem>
-        <listitem><para> + getOwner</para></listitem>
-        <listitem><para>+ getSuperclass</para></listitem>
-        <listitem><para> - getType</para></listitem>
-        <listitem><para> + getTypeImplemented</para></listitem>
-        <listitem><para> - getZone</para></listitem>
-        <listitem><para> + isSubclass:</para></listitem>
-        <listitem><para> - perform:</para></listitem>
-        <listitem><para> - perform:with:</para></listitem>
-        <listitem><para> - perform:with:with:</para></listitem>
-        <listitem><para> - perform:with:with:with:</para></listitem>
-        <listitem><para> - removeRef:</para></listitem>
-        <listitem><para> - respondsTo:</para></listitem>
-        <listitem><para> + respondsTo:</para></listitem>
-        <listitem><para> + self</para></listitem>
-        <listitem><para> - setDisplayName:</para></listitem>
-        <listitem><para> + setTypeImplemented:</para></listitem>
-        <listitem><para> - shallowCopy</para></listitem>
-        <listitem><para> - xfprint</para></listitem>
-        <listitem><para>- xfprintid</para></listitem>
-        <listitem><para>- xprint</para></listitem>
-        <listitem><para> - xprintid</para></listitem>
-        <listitem>
-          <itemizedlist>
-            <listitem><formalpara><title>Customize_s</title>
-                <para></para>
-              </formalpara></listitem>
-            <listitem><para>- _setCreateByCopy_</para></listitem>
-            <listitem><para>- _setCreateByMessage_:to:</para></listitem>
-            <listitem><para>- _setCreateByMessage_:toCopy:</para></listitem>
-            <listitem><para>- _setCreateBy_:message:to:</para></listitem>
-            <listitem><para>- _setRecustomize_:</para></listitem>
-            <listitem><para>+ customizeBegin:</para></listitem>
-            <listitem><para>+ customizeBeginEnd:</para></listitem>
-            <listitem><para>- customizeCopy:</para></listitem>
-            <listitem><para>- customizeEnd</para></listitem>
-            <listitem><para>+ setTypeImplemented:</para></listitem>
-            <listitem>
-              <itemizedlist>      
-                <listitem><formalpara><title>CreateDrop_s</title><para></para></formalpara></listitem>
-                <listitem><para>+ create:</para></listitem>
-                <listitem><para>+ createBegin</para></listitem>
-                <listitem><para>- createEnd</para></listitem>
-                <listitem>
-                  <itemizedlist> 
-                    <listitem><formalpara><title>CSwarmProcess</title><para></para></formalpara></listitem>
-                    <listitem><para>- _performPlan_</para></listitem>
-                    <listitem><para>- activate</para></listitem>
-                    <listitem><para>- activate:</para></listitem>
-                    <listitem><para> - activateIn:</para></listitem>
-                    <listitem><para>- at::activate:</para></listitem>
-                    <listitem><para>- at:activate:</para></listitem>
-                    <listitem><para>+ createBegin:</para></listitem>
-                    <listitem><para>- createEnd</para></listitem>
-                    <listitem><para>- getActivity</para></listitem>
-                    <listitem><para>- getInternalTimeMultiplier</para></listitem>
-                    <listitem><para>- getInternalZone</para></listitem>
-                    <listitem><para>- getSwarmActivity</para></listitem>
-                    <listitem><para>- mapAllocations:</para></listitem>
-                    <listitem><para>- setInternalTimeMultiplier:</para></listitem>
-                    <listitem><para>- setInternalZoneType:</para></listitem>
-                    <listitem><para>- setSynchronizationType:</para></listitem>
-                    <listitem><itemizedlist>
-                        <listitem><formalpara><title>Swarm</title><para></para></formalpara></listitem>
-                        <listitem><para>- activateIn:</para></listitem>
-                        <listitem><para>- buildActions</para></listitem>
-                        <listitem><para>- buildObjects</para></listitem>
-                        <listitem><para> - getCompleteProbeMap</para></listitem>
-                        <listitem><para>- getProbeForVariable:</para></listitem>
-                        <listitem><para> - getProbeMap</para></listitem>
-                      </itemizedlist>
-                    </listitem>
-                  </itemizedlist>
-                </listitem>
-              </itemizedlist>
-            </listitem>
-          </itemizedlist>
-        </listitem>
-      </itemizedlist>
-</para>
-
-    <para>The long list of features here is included to emphasize the
-    point that programs that subclass from Swarm inherit a great deal
-    of power.</para>
-
-    <para>In Swarm models, objects are often created by a pair of
-      "bookend" commands, createBegin and createEnd. This is not part
-      of the Objective-C syntax.  Rather, it is unique to
-      Swarm. </para> 
+    <para> The objects that represent the actors in a simulation--the
+    substantively important entities--are usually subclassed from the
+    SwarmObject class. The "inheritance hierarchy" that leads to the
+    class SwarmObject passes through classes that allow the creation
+    and deletion of objects from a simulation.  Objects are often
+    created by a pair of "bookend" commands, createBegin and
+    createEnd. This is not part of the Objective-C syntax.  Rather, it
+    is unique to Swarm. </para>
 
     <para>Suppose the Puppy.h and Puppy.m files exist, and one wants
       to create an instance of that class.  In a file ModelSwarm.m,
@@ -324,7 +223,7 @@
      {other imports and code that defines agents, schedules, etc}
 -buildObjects {    
        Puppy * puppy;
-       puppy = [Puppy createBegin: [self getZone]];
+       puppy = [Puppy createBegin: self ];
        {commands that set permanent features of the puppy can apppear here}
        puppy = [puppy createEnd];
 }
@@ -332,7 +231,7 @@
 
       The class's "factory object", Puppy, is told to create an object
       in a memory zone that is provided by ModelSwarm (ModelSwarm is
-      the "self" in [self getZone]). Then the object "puppy" is
+      the "self."). Then the object "puppy" is
       instructed to finish the creation process, after optional
       commands are added to define the features of the object
       (typically, to set values of the object's instance
@@ -348,33 +247,57 @@
 
 <programlisting>
 id listOfPuppies;
-listOfPuppies=[List create: [self getZone]];
+listOfPuppies=[List create: self];
 
 </programlisting>
+</para>
+
+     <para>In code written for older versions of the Swarm toolkit, one will often see a slightly different syntax in ModelSwarm.m:
+<programlisting>
+id listOfPuppies;
+listOfPuppies=[List create: [self getZone]];
+</programlisting>
+
+     This usage is still valid, although it is deprecated.  Since now
+     the objects of type Swarm, like the model swarm itself, are
+     memory zones, there is no need to get a zone in which to put the
+     list.  Rather, the list can be put in the zone that is provided
+     by the model swarm itself.
     </para>
 
 </sect2>
 
-<sect2><title>A brief clarification: Classes versus Protocols</title>
+<sect2><title>A brief clarification: Classes and Protocols</title>
 
     <para>There is one additional complication that readers should be
-      aware of.  Objective-C allows the creation of objects by
-      subclassing from protocols as well as classes.  A protocol, as
-      readers will recall from their study of Objective-C, is a set of
-      methods that an object can execute when it is subclassed from
-      that protocol. </para>
+    aware of.  Objective-C allows the creation of entities called
+    protocols.  A protocol, as readers will recall from their study of
+    Objective-C, is a set of methods that an object can execute when
+    it adopts the that protocol. </para>
 
-    <para>To the user, it often makes little difference whether
-      <filename>Swarm.h</filename> refers to a class or a protocol
-      because the methods are available, just the same. In version 1
-      of Swarm, many of the library entities were written as classes.
-      More recent versions have been redesigned so that the major
-      libraries are written as protocols.  This changeover has some
-      implications for notation and terminology, but at the user-level
-      these are easily accommodated.  Here is one example of the
-      difference. When the ability to create lists was offered by a
-      class, then the notation to create an instance of such a list
-      would have been:
+    <para>To the Swarm user, the distinction between class and
+    protocol is not vital most of the time.  The most important Swarm
+    objects, such as the type Swarm (from objectbase/Swarm.h) or
+    SwarmObject (from objectbase/SwarmObject.h), are classes from
+    which users subclass to make model swarms or individual agents. It
+    should not matter to the user that these classes have adopted
+    protocols (taken on methods from protocol files inside the
+    library).  The class SwarmObject, for example, adopts protocols
+    Create and Drop. These protocols give SwarmObjects the ability to
+    execute methods like createBegin, createEnd, or drop.  Users who
+    create classes using SwarmObject inherit these methods and there
+    is no reason to be concerned whether SwarmObject got those methods
+    by inheriting them from some other class or adoopting them from a
+    protocol. </para>
+
+    The fact that many of the important components of the Swarm
+    library are written as protocols can, however, be important in
+    some notation. Early versions of Swarm, for example, had a class
+    List from which users could subclass lists.  More recent versions
+    have a List protocol.  This change causes a wrinkle that alters
+    the syntax in user programs.  For example, when the ability to
+    create lists was offered by a class, then the notation to create
+    an instance of such a list would have been:
 
 <programlisting>
 List * listOfPuppies;
@@ -391,9 +314,10 @@ listOfPuppies=[List create: [self getZone]];
       </programlisting>
     </para>
 
-    <para>Since the Swarm library is now written in the protocol
-      format, these slight wrinkles arise, but they do not
-      significantly change the way applications are designed.</para>
+    <para>Since many of the important pieces of functionality in the
+    Swarm library is now written in the protocol format, these details
+    may be important. However, these details do not significantly
+    change the way applications are designed.</para>
 
 </sect2>
 </sect1>
