@@ -1,3 +1,29 @@
+1999-02-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HDF5Object.m (LEVELSPREFIX): New macro.
+	(get_attribute_string_list): New function.
+	(get_attribute_levels_string_list, get_attribute): Use it.
+	(create_class_from_compound_type): Returns boolean to indicate
+	if class is aligned with compound type.  Return class by reference.
+	Don't compute alignment based on compound type offsets; accumulate
+	offsets using size and component alignment.
+	([HDF5CompoundType_c -createEnd]): Add string lists to stringMap
+	if any ivar attributes are found.
+	([HDF5_c -createEnd]): Set dataset as a part of compoundType 
+	creation.
+	([HDF5_c -iterateAttributes:]): Skip attributes
+	with the names `row.names', `names', and `levels.*'.
+	([HDF5_c -shallowLoadObject:]): Load to scratch buffer and
+	then call pack:to: to install in object.
+
+	* HDF5Object.[hm] ([HDF5CompoundType_c -setDataset:]): New method.
+
+	* HDF5Object.[hm], defobj.h ([HDF5CompoundType_c -pack:to:]): New
+	method.
+
+	* HDF5Object.h (HDF5CompoundType_c): Add ivar did.
+	Declare setDataset: setter for above. 
+
 1999-01-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Arguments.m ([Arguments_c -_runningFromInstall_]): If using Cygwin,

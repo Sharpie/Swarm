@@ -18,6 +18,7 @@
 #define REF2STRING_CONV "ref->string"
 #define STRING2REF_CONV "string->ref"
 #define ROWNAMES "row.names"
+#define LEVELSPREFIX "levels."
 
 static unsigned hdf5InstanceCount = 0;
 
@@ -75,16 +76,18 @@ make_string_ref_type (void)
     raiseEvent (LoadError, "unable to set size of reference type");
   return memtid;
 }    
-
-static const char *
-get_attribute (hid_t oid, const char *attrName)
+  
+static unsigned
+get_attribute_string_list (hid_t oid,
+                           const char *attrName,
+                           const char ***strings)
 {
   hid_t aid, sid, tid;
   H5T_class_t class;
-  const char *ret = NULL;
   hid_t str_ref_tid;
   H5E_auto_t errfunc;
   void *client_data;
+  unsigned retcount = 0;
 
   H5Eset_auto (NULL, NULL);
   aid = H5Aopen_name (oid, attrName);
@@ -92,7 +95,7 @@ get_attribute (hid_t oid, const char *attrName)
   H5Eset_auto (errfunc, client_data);  
 
   if (aid < 0)
-    return NULL;
+    return 0;
 
   str_ref_tid = make_string_ref_type ();
   
@@ -123,12 +126,22 @@ get_attribute (hid_t oid, const char *attrName)
                     "could not get extent of attribute space `%s'",
                     attrName);
       
-      if (rank == 1 && dims[0] == 1 && class == H5T_STRING)
+      if (rank == 1 && class == H5T_STRING)
         {
-          if (H5Aread (aid, str_ref_tid, &ret) < 0)
-            raiseEvent (LoadError,
-                        "unable to read attribute `%s'",
+          void *ptr;
+
+          retcount = dims[0];
+
+          if (strings)
+            {
+              ptr = xmalloc (sizeof (const char *) * retcount);
+              
+              if (H5Aread (aid, str_ref_tid, ptr) < 0)
+                raiseEvent (LoadError,
+                            "unable to read attribute `%s'",
                         attrName);
+              *strings = ptr;
+            }
         }
     }
   }
@@ -144,7 +157,36 @@ get_attribute (hid_t oid, const char *attrName)
     raiseEvent (LoadError,
                 "unable to close string reference type");
 
-  return ret;
+  return retcount;
+}
+
+static unsigned
+get_attribute_levels_string_list (hid_t oid,
+                                  const char *ivarName,
+                                  const char ***levelStrings)
+{
+  char buf[strlen (LEVELSPREFIX) + strlen (ivarName) + 1];
+  char *p;
+  
+  p = stpcpy (buf, LEVELSPREFIX);
+  p = stpcpy (p, ivarName);
+  
+  return get_attribute_string_list (oid, buf, levelStrings);
+}
+
+static const char *
+get_attribute (hid_t oid, const char *attrName)
+{
+  const char **ret;
+  unsigned retcount = get_attribute_string_list (oid, attrName, &ret);
+
+  if (retcount == 1)
+    return ret[0];
+  else if (retcount > 1)
+    raiseEvent (LoadError,
+                "attribute `%s' string list should be of length 1 (%u)",
+                attrName, retcount);
+  return NULL;
 }
 
 static const char *
@@ -304,6 +346,12 @@ PHASE(Creating)
   return self;
 }
 
+- setDataset: (hid_t)loc_id
+{
+  did = loc_id;
+  return self;
+}
+
 static hid_t
 create_compound_type_from_class (Class class)
 {
@@ -337,12 +385,17 @@ create_compound_type_from_class (Class class)
   return tid;
 }
 
-static Class
-create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
+static BOOL
+create_class_from_compound_type (id aZone,
+                                 hid_t tid,
+                                 hid_t did,
+                                 const char *typeName,
+                                 Class *classPtr)
 {
   unsigned i, count;
-  Class class;
   size_t tid_size;
+  Class class;
+  BOOL alignedFlag = YES;
   
   if (H5Tget_class (tid) != H5T_COMPOUND)
     abort ();
@@ -373,11 +426,14 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
         raiseEvent (LoadError,
                     "differing ivar count in compound type and class `%s'",
                     [class name]);
-      
-      if (tid_size != size)
+
+      // tolerate padding at the end of an instance
+      if (tid_size > size)
         raiseEvent (LoadError,
-                    "differing compound type and instance size `%s'",
-                    [class name]);
+                    "differing compound type and instance size `%s' (%u > %u)",
+                    [class name],
+                    tid_size,
+                    size);
 
       for (i = 0; i < count; i++)
         {
@@ -401,8 +457,15 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
                           i);
             
             type = objc_type_for_tid (mtid);
-            
-            if (strcmp (type, ivar_list[i].ivar_type) != 0)
+
+            if (*type == _C_INT && *ivar_list[i].ivar_type == _C_CHARPTR)
+              {
+                if (get_attribute_levels_string_list (did,
+                                                      ivar_list[i].ivar_name,
+                                                      NULL) == 0)
+                  raiseEvent (LoadError, "int / char * mismatch");
+              }
+            else if (strcmp (type, ivar_list[i].ivar_type) != 0)
               raiseEvent (LoadError,
                           "compound type member type != ivar type `%s' != `%s'",
                           type, ivar_list[i].ivar_type);
@@ -415,12 +478,11 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
                           "unable to get compound type offset #%u",
                           i);
             if (offset != ivar_list[i].ivar_offset - min_offset)
-              raiseEvent (LoadError,
-                          "compound type member pos != ivar pos `%u' != `%u'",
-                          offset, ivar_list[i].ivar_offset - min_offset);
+              alignedFlag = NO;
           }
         }
-      return class;
+      *classPtr = class;
+      return alignedFlag;
     }
   else
     {
@@ -430,11 +492,11 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
         xmalloc (sizeof (struct objc_ivar_list) +
                  (count - 1) * sizeof (struct objc_ivar));
       struct objc_ivar *ivar_list = ivars->ivar_list;
-      size_t min_offset;
+      size_t next_offset, min_offset;
 
-      size_t set_ivar (size_t base, unsigned i)
+      size_t set_ivar (size_t offset, unsigned i)
         {
-          size_t offset;
+          size_t hoffset, noffset;
           hid_t mtid;
           const char *type, *name;
           
@@ -447,28 +509,40 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
                         "unable to get compound type member type #%u",
                         i);
           type = objc_type_for_tid (mtid);
-          if ((offset = H5Tget_member_offset (tid, i)) < 0)
+
+          if (get_attribute_levels_string_list (did,
+                                                name,
+                                                NULL) > 0)
+            {
+              if (*type != _C_INT)
+                raiseEvent (LoadError, "expecting int string index");
+
+              type = @encode (const char *);
+            }
+
+          if ((hoffset = H5Tget_member_offset (tid, i)) < 0)
             raiseEvent (LoadError,
                         "unable to get compound type offset #%u",
                         i);
+
           if (H5Tclose (mtid) < 0)
             raiseEvent (LoadError, "unable to close member type");
+
+          noffset = alignto (offset,
+                             alignment_for_objc_type (type));
           
-          if (base == 0)
+          if (min_offset > 0)
             {
-              size_t new_offset = alignto (offset,
-                                           alignment_for_objc_type (type));
+              hoffset += min_offset;
               
-              if (new_offset != offset)
-                raiseEvent (InternalError, "alignment deviation (%x vs %x)",
-                            new_offset, offset);
-              
-              ivar_list[i].ivar_type = strdup (type);
-              ivar_list[i].ivar_name = name;
-              return new_offset;
+              if (noffset != hoffset)
+                alignedFlag = NO;
             }
-          else
-            return alignto (base + offset, alignment_for_objc_type (type));
+          
+          ivar_list[i].ivar_type = strdup (type);
+          ivar_list[i].ivar_name = name;
+          ivar_list[i].ivar_offset = noffset;
+          return noffset + size_for_objc_type (type);
         }
       
       [classObj setName: strdup (typeName)];
@@ -476,10 +550,12 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
       [classObj setDefiningClass: newClass];
       [classObj setSuperclass: newClass];
       
+      min_offset = 0;
       min_offset = set_ivar (([Object_s class])->instance_size, 0);
+      next_offset = min_offset;
       
       for (i = 0; i < count; i++)
-        ivar_list[i].ivar_offset = set_ivar (0, i) + min_offset;
+        next_offset = set_ivar (next_offset, i);
       
       ivars->ivar_count = count;
       ((Class) classObj)->ivars = ivars;
@@ -489,7 +565,8 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
         
         ((Class) classObj)->instance_size = size;
       }
-      return classObj;
+      *classPtr = [classObj createEnd];
+      return alignedFlag;
     }
 }
 #endif
@@ -498,10 +575,42 @@ create_class_from_compound_type (id aZone, hid_t tid, const char *typeName)
 {
 #ifdef HAVE_HDF5
   [super createEnd];
+  
+  stringMap = [[[Map createBegin: [self getZone]]
+                 setCompareFunction: compareCStrings]
+                createEnd];
+
   if (class != Nil)
     tid = create_compound_type_from_class (class);
   else if (tid)
-    class = create_class_from_compound_type ([self getZone], tid, name);
+    {
+      create_class_from_compound_type ([self getZone],
+                                       tid, did,
+                                       name, &class);
+      
+      if (did)
+        {
+          void process_ivar (struct objc_ivar *ivar)
+            {
+              const char **strings;
+              unsigned count =
+                get_attribute_levels_string_list (did,
+                                                  ivar->ivar_name,
+                                                  &strings);
+              
+              if (count > 0)
+                {
+                  if (*ivar->ivar_type != _C_CHARPTR)
+                    raiseEvent (LoadError,
+                                "ivar `%s' has %u strings, but not a char *",
+                                ivar->ivar_name, count);
+                  
+                  [stringMap at: (id) ivar->ivar_name insert: (id) strings];
+                }
+            }
+          map_ivars (class->ivars, process_ivar);
+        }
+    }
   else
     abort();
 #else
@@ -517,11 +626,67 @@ PHASE(Using)
 {
   return tid;
 }
+
 #endif
 
 - getClass
 {
   return class;
+}
+
+- pack: (void *)buf to: obj
+{
+  unsigned inum = 0;
+
+  void process_ivar (struct objc_ivar *ivar)
+    {
+      hid_t mtid;
+      const char *type;
+      size_t size, hoffset;
+      
+      if ((mtid = H5Tget_member_type (tid, inum)) < 0)
+        raiseEvent (LoadError,
+                    "unable to get compound type member type #%u",
+                    inum);
+      type = objc_type_for_tid (mtid);
+      size = size_for_objc_type (type);
+
+      if ((hoffset = H5Tget_member_offset (tid, inum)) < 0)
+        raiseEvent (LoadError,
+                    "unable to get compound type offset #%u",
+                    inum);
+      
+      if (*type == _C_INT && 
+          *ivar->ivar_type == _C_CHARPTR)
+        {
+          const char **strings =
+            (const char **) [stringMap at: (id) ivar->ivar_name];
+          
+          if (strings == NULL)
+            raiseEvent (LoadError,
+                        "expecting string table for int -> char * conversion");
+          {
+            void *ptr = obj;
+            void *ivarptr = ptr + ivar->ivar_offset;
+            int offset = *(int *) (buf + hoffset);
+
+            *(const char **) ivarptr = (offset > 0
+                                        ? strings[offset - 1]
+                                        : NULL);
+          }
+        }
+      else
+        {
+          if (*type != *ivar->ivar_type)
+            raiseEvent (LoadError, "differing source and target types");
+          
+          memcpy ((void *) obj + ivar->ivar_offset, buf + hoffset, size);
+        }
+      inum++;
+    }
+  
+  map_ivars (getClass (obj)->ivars, process_ivar);
+  return self;
 }
 
 - (void)drop
@@ -736,8 +901,9 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                   const char *componentTypeName =
                     get_attribute (loc_id, ATTRIB_COMPONENT_TYPE_NAME);
                   
-                  compoundType = [[HDF5CompoundType createBegin: aZone]
-                                   setTid: tid];
+                  compoundType = [[[HDF5CompoundType createBegin: aZone]
+                                    setTid: tid]
+                                   setDataset: loc_id];
 
                   if (componentTypeName)
                     {
@@ -899,11 +1065,15 @@ PHASE(Using)
 
   herr_t process_attribute (hid_t oid, const char *attrName, void *client)
     {
-      const char *value = get_attribute (oid, attrName);
-
-      if (value)
-        return iterateFunc (attrName, value);
-
+      if (!(strcmp (attrName, ROWNAMES) == 0
+            || strcmp (attrName, "names") == 0
+            || strncmp (attrName, LEVELSPREFIX, strlen (LEVELSPREFIX)) == 0))
+        {
+          const char *value = get_attribute (oid, attrName);
+          
+          if (value)
+            return iterateFunc (attrName, value);
+        } 
       return 0;
     }
   
@@ -1241,7 +1411,7 @@ check_alignment (id obj, id compoundType)
   offset = class->ivars->ivar_list[0].ivar_offset;
   if ((tid_size = H5Tget_size (ctid)) < 0)
     raiseEvent (SaveError, "cannot get size of compound type");
-  
+
   if (tid_size + offset != class->instance_size)
     raiseEvent (InternalError,
                 "%s/%s tid_size + offset != instance_size (%x + %x != %x)",
@@ -1254,17 +1424,28 @@ check_alignment (id obj, id compoundType)
 - shallowLoadObject: obj
 {
 #ifdef HAVE_HDF5
-  void *ptr;
-
   if (compoundType == nil)
     raiseEvent (LoadError,
                 "shallow datasets are expected to have compound type");
 
-  ptr = check_alignment (obj, compoundType);
-  
-  if (H5Dread (loc_id, [compoundType getTid],
-               psid, c_sid, H5P_DEFAULT, ptr) < 0)
-    raiseEvent (LoadError, "unable to load record");
+  {
+    hid_t tid = [compoundType getTid];
+    size_t tid_size;
+    
+    if ((tid_size = H5Tget_size (tid)) < 0)
+    raiseEvent (LoadError,
+                "unable to get compound type size");
+
+    {
+      unsigned char buf[tid_size];
+      
+      if (H5Dread (loc_id, tid,
+                   psid, c_sid, H5P_DEFAULT, buf) < 0)
+        raiseEvent (LoadError, "unable to load record");
+      
+      [compoundType pack: buf to: obj];
+    }
+  }
 #else
   hdf5_not_available ();
 #endif

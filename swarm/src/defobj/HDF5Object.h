@@ -25,14 +25,18 @@
   const char *name;
 #ifdef HAVE_HDF5
   hid_t tid;
+  hid_t did;
 #endif
+  id <Map> stringMap;
 }
 - setClass: class;
 - setName: (const char *)name;
 - createEnd;
 #ifdef HAVE_HDF5
 - (hid_t)getTid;
+- setDataset: (hid_t)did;
 #endif
+- pack: (void *)buf to: obj;
 - getClass;
 - (void)drop;
 @end

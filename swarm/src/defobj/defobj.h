@@ -1023,6 +1023,7 @@ CREATING
 - createEnd;
 USING
 - getClass;
+- pack: (void *)buf to: obj;
 @end
 
 //G: The singleton Arguments object.
