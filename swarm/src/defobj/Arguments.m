@@ -651,20 +651,37 @@ prefix (const char *prefixstring)
 - (BOOL)_runningFromInstall_
 {
   char *executablePath = strdup ([self getExecutablePath]);
-  const char *possibleHome = dropdir (dropdir (executablePath));
-  const char *home;
+  const char *possibleHomeSrc = dropdir (dropdir (executablePath));
+  const char *homeSrc;
   BOOL ret = NO;
 
   ignoringEnvFlag = NO;
  retry:
-  home = [self _getSwarmHome_: ignoringEnvFlag];
-  if (home && possibleHome)
+  homeSrc = [self _getSwarmHome_: ignoringEnvFlag];
+  if (homeSrc && possibleHomeSrc)
     {
       struct stat possibleHomeStatBuf, homeStatBuf;
-      
+      size_t possibleHomeLen = strlen (possibleHomeSrc);
+      size_t homeLen = strlen (homeSrc);
+      char possibleHome[possibleHomeLen + 1];
+      char home[homeLen + 1];
+      unsigned i;
+
+#ifdef __CYGWIN__
+      // Inodes are computed from a pathname hash, so normalize to lowercase.
+      for (i = 0; i < possibleHomeLen; i++)
+	possibleHome[i] = tolower (possibleHomeSrc[i]);
+      possibleHome[i] = '\0';
+      for (i = 0; i < homeLen; i++)
+	home[i] = tolower (homeSrc[i]);
+      home[i] = '\0';
+#else
+      strcpy (possibleHome, possibleHomeSrc);
+      strcpy (home, homeSrc);
+#endif
       if (stat (possibleHome, &possibleHomeStatBuf) != -1
           && stat (home, &homeStatBuf) != -1)
-        ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
+	ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
       if (ret == NO && !ignoringEnvFlag)
 	{
 	  ignoringEnvFlag = YES;

@@ -1,3 +1,9 @@
+1999-01-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Arguments.m ([Arguments_c -_runningFromInstall_]): If using Cygwin,
+	normalize possibleHome and home to lower case before inode
+	test.
+
 1999-01-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.m (registerLocalClass): Fix thinko increment bug.
