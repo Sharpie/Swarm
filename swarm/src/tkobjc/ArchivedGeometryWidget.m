@@ -40,7 +40,7 @@ PHASE(Creating)
   id windowGeometryRecord = nil;
 
   if (windowGeometryRecordName)
-    windowGeometryRecord = [archiver lispGet: windowGeometryRecordName];
+    windowGeometryRecord = [lispArchiver getObject: windowGeometryRecordName];
   return windowGeometryRecord;
 }
 
@@ -48,7 +48,7 @@ PHASE(Creating)
 {
   id windowGeometryRecord;
 
-  [archiver registerClient: self];
+  [lispArchiver registerClient: self];
   windowGeometryRecord = [self loadWindowGeometryRecord];
   tkobjc_setName (self, windowGeometryRecordName);
   if (windowGeometryRecord)
@@ -78,7 +78,8 @@ PHASE(Using)
 {
   if (windowGeometryRecordName)
     {
-      id windowGeometryRecord = [archiver lispGet: windowGeometryRecordName];
+      id windowGeometryRecord =
+        [lispArchiver getObject: windowGeometryRecordName];
       
       if (windowGeometryRecord == nil)
         windowGeometryRecord = [WindowGeometryRecord create: [self getZone]];
@@ -87,15 +88,15 @@ PHASE(Using)
         [windowGeometryRecord setWidth: [self getWidth]
                               Height: [self getHeight]];
       [windowGeometryRecord setX: [self getX] Y: [self getY]];
-      [archiver lispPutShallow: windowGeometryRecordName
-                object: windowGeometryRecord];
+      [lispArchiver putShallow: windowGeometryRecordName
+                    object: windowGeometryRecord];
     }
   return self;
 }
 
 - (void)drop
 { 
-  [archiver unregisterClient: self];
+  [lispArchiver unregisterClient: self];
 
   [super drop];
 }

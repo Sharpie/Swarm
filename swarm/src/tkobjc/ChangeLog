@@ -1,5 +1,10 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-loadWindowGeometryRecord], [ArchivedGeometryWidget
+	-updateArchiver], [ArchivedGeometryWidget -drop]): 
+	Use lispArchiver instead of archiver.
+
 	* internal.m (x_set_private_colormap, tkobjc_raster_setColormap):
 	Use WarningMessage instead of Warning.
 	(xpmerrcheck): Use WarningMessage instead of Warning and
