@@ -10,6 +10,8 @@ Authors:         Manor Askenazi
 Date:            1996-12-12
 */
 
+//S: Support for Swarm objects and probing
+
 //D: The objectbase library contains the most basic objects users need to
 //D: design their agents and swarms. It also serves, at present, as a
 //D: repository for the probe machinery, which is provided for every
@@ -205,6 +207,8 @@ USING
 
 @end
 
+//T: This type is used in MessageProbes to return an object of arbitrary
+//T: type.
 typedef struct val {
   char type;
   union {
@@ -483,7 +487,8 @@ USING
 
 @end
 
-extern id  <ProbeLibrary> probeLibrary;
+//G: The global librarian for ProbeMaps.
+extern id <ProbeLibrary> probeLibrary;
 
 @protocol ActivityControl <SwarmObject>
 //S: A class that provides an object interface to an activity.
@@ -572,4 +577,5 @@ USING
 @class ProbeLibrary;
 @class ActivityControl;
 
+//G: The version of Swarm being used.
 extern const char *swarm_version;
