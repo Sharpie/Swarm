@@ -10,12 +10,30 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       fact the default behavior.  (Internally, the system archivers,
       hdf5Archiver and lispArchiver, use the new method setSystemArchiverFlag: 
       to continue to read and write this metadata.)
-
+***** In the Lisp backend, `lazy' creation (instantiation) and saving of 
+      objects is now the default behavior.  Objects are now only 
+      instantiated upon request, and unchanged objects are written out
+      from the parsed Lisp expression, not from the object itself.  
+***** Objects can be created in specified Zones, using the new method:
+      -getWithZone: aZone object: keyStr, rather than in the Archiver's Zone.
+***** Each Swarm application now has two application-specific 
+      archivers, these are singletons: lispAppArchiver and hdf5Archiver,
+      and expect files of the form `appName.scm' and `appName.hdf',
+      respectively.  The archiver will first look for a file with this name
+      in a directory $SWARMHOME/swarm/appName/, thence in the current 
+      directory.  This feature is intended to replace Object{Loader,Saver}.
+      
 *** collections
 **** InputStream
 ***** InputStream now parses Lisp comments, Archiver instances will 
       correctly ignore hand or machine-generated comments starting
       with a semi-colon `;' in input text files.
+
+**** Archiver{Keyword,Value,Array,Pair}
+***** These classes respond to serialization.
+
+**** OutputStream
+***** OutputStream can now serialize parsed Lisp-like expressions directly.
 
 **** KeyedCollection, Map, Set
 ***** Implemented the [KeyedCollection -containsKey:] method for 
