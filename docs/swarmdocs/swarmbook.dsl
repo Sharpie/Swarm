@@ -23,10 +23,6 @@
 ;; CUSTOMIZE THE PRINT STYLESHEET
 ;;
 
-(define %graphic-extensions% 
-  ;; List of graphic filename extensions
-  '("gif" "jpg" "jpeg"  "ps" ))
-
 (define (make-divider)
     (make rule 
           orientation: 'horizontal
@@ -210,14 +206,6 @@
                             (loop (cdr linkends)))))))))
 
          
-(mode book-titlepage-recto-mode
-      (element graphic (empty-sosofo)))
-
-(mode set-titlepage-recto-mode
-      (element graphic (empty-sosofo)))
-
-(element graphic (empty-sosofo))
-
 (mode formal-object-title-mode
       (element (example title)
                (let ((example-node (parent (current-node))))
@@ -309,10 +297,6 @@
         (normalize "example")
         (normalize "equation")))
 
-(define %graphic-extensions% 
-  ;; List of graphic filename extensions
-  '("gif" "jpg" "jpeg"  "ps" ))
-
 (define %shade-verbatim%  
   ;; Should verbatim environments be shaded?
   #t)
@@ -349,10 +333,34 @@
   #t)
 
 (mode set-titlepage-recto-mode
-      (element graphic
-               (make element gi: "P"
-                     ($img$)))
-)
+        (element graphic
+                 (make element gi: "P"
+                       ($img$))))
+
+(define ($img$ #!optional (nd (current-node)) (alt #f))
+  (let* ((fileref (attribute-string (normalize "fileref") nd))
+         (entattr (attribute-string (normalize "entityref") nd))
+         (gensysid (entity-generated-system-id entattr))
+         (entityref (if entattr
+                        (string-append "../figs/"
+                                       (car (reverse (split-string gensysid #\/))))
+                        #f))
+         (format  (attribute-string (normalize "format")))
+         (align   (attribute-string (normalize "align")))
+         (attr    (append
+                   (if align
+                       (list (list "ALIGN" align))
+                       '())
+                   (if entityref
+                       (list (list "SRC" (graphic-file entityref)))
+                       (list (list "SRC" (graphic-file fileref))))
+                   (if alt
+                       (list (list "ALT" alt))
+                       '()))))
+    (if (or fileref entityref)
+        (make empty-element gi: "IMG"
+              attributes: attr)
+        (empty-sosofo))))
 
 (define (set-titlepage-verso-elements)
   ;; by default style sheet doesn't include the "verso" elements on the 

@@ -1,3 +1,12 @@
+1998-06-07  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* swarmbook.dsl ($img$): New definition for HTML: handle public
+	identifiers and look for figures in ../figures.
+	(%graphic-extensions%): Remove both.
+	Remove NOPs for graphics. 
+
+	* catalog.in: Add public identifiers for graphics.
+
 1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* configure.in: Don't extract module.ent files.
