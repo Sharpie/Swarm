@@ -1,3 +1,8 @@
+1999-03-19  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
+
+	* java-stub.el (java-print-class-phase): Make all classes
+	public.
+
 1999-03-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (expanded-method-list): Renamed from method-list.

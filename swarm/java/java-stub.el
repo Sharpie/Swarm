@@ -371,6 +371,7 @@
         (java-print-implemented-interfaces-list protocol phase separator))))
 
 (defun java-print-class-phase (protocol phase)
+  (insert "public ")
   (unless (CREATABLE-p protocol)
     (insert "abstract "))
   (insert "class ")
