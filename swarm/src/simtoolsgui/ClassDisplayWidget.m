@@ -6,6 +6,8 @@
 #import <simtoolsgui/ClassDisplayWidget.h>
 #import <gui.h>
 
+#include <swarmconfig.h>
+
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
 
@@ -112,8 +114,10 @@ PHASE(Creating)
     
   if (([probedObject getClass] == theClass))
     [myTitle setText: [probedObject getName]];
+#ifdef HAVE_JDK
   else if ([theClass respondsTo: M(isJavaProxy)])
     [myTitle setText: java_get_class_name (SD_JAVA_FINDJAVACLASS (theClass))];
+#endif
   else
     [myTitle setText: theClass->name];
 

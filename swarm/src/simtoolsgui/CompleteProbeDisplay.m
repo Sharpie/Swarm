@@ -9,6 +9,8 @@
 #import <collections.h> // List
 #import "../defobj/internal.h" // map_objc_class_ivars
 
+#import <defobj/directory.h>
+
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
 #import "../defobj/java.h" // map_java_class_ivars
