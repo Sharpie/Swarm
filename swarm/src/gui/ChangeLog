@@ -1,3 +1,7 @@
+1998-09-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h (_ScheduleItem): Add at:owner:widget:x:y:.
+
 1998-09-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h (Circle): Make argument to setRadius: unsigned.

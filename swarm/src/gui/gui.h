@@ -851,6 +851,9 @@ USING
 
 //M: Method to be implemented by subclass.
 - initiateMoveX: (long)delta_x Y: (long)delta_y; 
+
+//M: Return the canvas.
+- getCanvas;
 @end
 
 @protocol CanvasAbstractItem <_CanvasAbstractItem, SwarmObject>
@@ -984,6 +987,9 @@ CREATING
 USING
 //M: Redraw widget with current values from Schedule.
 - update;
+
+//M: Record the screen coordinates associated with a scheduling event.
+- at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY;
 
 //M: Remove the schedule inspector from the canvas.
 - (void)drop;
