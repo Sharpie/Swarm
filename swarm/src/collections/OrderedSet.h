@@ -12,7 +12,7 @@ Library:      collections
 #import <collections/List_mlinks.h>
 
 @interface OrderedSet_c : List_mlinks
-/*** methods in OrderedSet_c (inserted from .m file) ***/
+/*** methods in OrderedSet_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - createEnd;
 - (BOOL) contains: anObject;
@@ -21,5 +21,5 @@ Library:      collections
 @end
 
 @interface OrderedSetIndex_c : ListIndex_mlinks
-/*** methods in OrderedSetIndex_c (inserted from .m file) ***/
+/*** methods in OrderedSetIndex_c (inserted from .m file by m2h) ***/
 @end

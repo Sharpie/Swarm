@@ -20,8 +20,8 @@ Library:      collections
 //
 int compareIDs( id val1, id val2 )
 {
-  if ( (unsigned long)val1 < (unsigned long)val2 ) return -1;
-  return ( (unsigned long)val1 > (unsigned long)val2 );
+  if ( (unsigned)val1 < (unsigned)val2 ) return -1;
+  return ( (unsigned)val1 > (unsigned)val2 );
 }
 
 //
@@ -30,8 +30,8 @@ int compareIDs( id val1, id val2 )
 //
 int compareIntegers( id val1, id val2 )
 {
-  if ( (long)val1 < (long)val2 ) return -1;
-  return ( (long)val1 > (long)val2 );
+  if ( (int)val1 < (int)val2 ) return -1;
+  return ( (int)val1 > (int)val2 );
 }
 
 //
@@ -71,7 +71,7 @@ PHASE(Creating)
 }
 
 PHASE(Using)
-#import <string.h>
+
 //
 // copy: -- standard method to copy internal state of object
 //

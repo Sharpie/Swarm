@@ -15,12 +15,9 @@
 #import <activity.h>
 #import <tkobjc.h>
 
-id <PMMLCG1> randomGenerator;
-id <UniformInteger> uniformIntRand;
-id <UniformUnsigned> uniformUnsRand;
-id <UniformDouble> uniformDblRand;
 ProbeDisplayManager * probeDisplayManager;
 int swarmGUIMode;
+void printHelp();
 
 void
 initSwarm(int argc, char ** argv) {
@@ -30,27 +27,16 @@ initSwarm(int argc, char ** argv) {
 
   initProbing() ;
 
-  randomGenerator = [PMMLCG1 createBegin: globalZone];
-  [randomGenerator setStateFromSeed: 1234567890L ];
-  randomGenerator = [randomGenerator createEnd];
-
-  // Explicitly leave out the interval so that get{Type}WithMin:withMax:
-  // can be used.
-  uniformIntRand = [UniformInteger createBegin: globalZone];
-  [uniformIntRand setGenerator: randomGenerator];
-  uniformIntRand = [uniformIntRand createEnd];
-  uniformUnsRand = [UniformUnsigned createBegin: globalZone];
-  [uniformUnsRand setGenerator: randomGenerator];
-  uniformUnsRand = [uniformUnsRand createEnd];
-  uniformDblRand = [UniformDouble createBegin: globalZone];
-  [uniformDblRand setGenerator: randomGenerator];
-  uniformDblRand = [uniformDblRand createEnd];
-
   swarmGUIMode = 1;
 
-  for(i = 1 ; i < argc ; i++)
-    if( !strcmp(argv[i],"-batchmode") )
+  for(i = 1 ; i < argc ; i++) {
+    if ( !strcmp(argv[i],"-help") )
+      printHelp();
+    if ( !strcmp(argv[i],"-batchmode") )
       swarmGUIMode = 0 ;
+  }
+
+  initRandom(argc, argv);
   
   if (swarmGUIMode) {
     initTkObjc(argc, argv);
@@ -118,6 +104,16 @@ initSwarm(int argc, char ** argv) {
   defsymbol(ControlStateStepping);
   defsymbol(ControlStateQuit);
   defsymbol(ControlStateNextTime);
+}
+
+void printHelp() {
+  (void) fprintf(stdout, "Swarm.  Copyright (C) 1997 Santa Fe Institute\n");
+  (void) fprintf(stdout, "For more info, see:\n"
+		 "http://www.santafe.edu/projects/swarm\n\n");
+  (void) fprintf(stdout, "Supported command line flags are:\n\n");
+  (void) fprintf(stdout, "\t-batchmode:  Run without a GUI\n");
+  (void) fprintf(stdout, "\t -varySeed:  Change RandomSeed for each run\n");
+  exit(-1);
 }
 
 

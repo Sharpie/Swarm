@@ -39,15 +39,16 @@ struct link {
 };
 
 @interface TARGET : List_any
-/*** methods in TARGET (inserted from .m file) ***/
+/*** methods in TARGET (inserted from .m file by m2h) ***/
+- copy: aZone;
 - (void) addFirst: anObject;
 - (void) addLast: anObject;
 - removeFirst;
 - removeLast;
 - begin: aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
+- (void) describe: outputCharStream;
 - createIndex: aZone fromMember: anObject;
-- copy: aZone;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
@@ -58,7 +59,7 @@ struct link {
   int        baseOffset;   // base offset of block contained as current link
 }
 #endif
-/*** methods in TINDEX (inserted from .m file) ***/
+/*** methods in TINDEX (inserted from .m file by m2h) ***/
 - next;
 - prev;
 - get;

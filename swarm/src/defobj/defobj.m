@@ -16,11 +16,6 @@ Library:      defobj
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #include <stdio.h>
 
-id  _obj_globalZone;
-id  _obj_scratchZone;
-id  _obj_initZone;
-id  _obj_sessionZone;
-
 id  t_Object, t_ByteArray;
 
 BOOL  _warning_dropFrom = 1;
@@ -44,12 +39,6 @@ void _defobj_implement( void )
 //
 void _defobj_initialize( void )
 {
-  // initialize standard allocation zones
-
-  _obj_globalZone  = [Zone create: _obj_initZone];
-  _obj_scratchZone = [Zone create: _obj_initZone];
-  _obj_sessionZone = [Zone create: _obj_initZone];
-
   // initialize error messages
 
   [InvalidCombination setMessageString:

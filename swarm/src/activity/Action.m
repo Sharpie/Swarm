@@ -13,6 +13,8 @@ Library:      activity
 #import <activity/ActionGroup.h>
 #import <activity/Schedule.h>
 
+#import <objc/objc-api.h>
+
 
 @implementation CAction
 
@@ -54,6 +56,33 @@ Library:      activity
   funcPtr();
 }
 
+static void describeFunctionCall(
+  id stream, func_t fptr, int nargs, id arg1, id arg2, id arg3 ) 
+{
+  char  buffer[100];
+
+  sprintf( buffer, "(function at " PTRFMT ")(", (unsigned long)fptr );
+  [stream catC: buffer];
+  if ( nargs > 0 ) {
+    sprintf( buffer, PTRFMT, (unsigned long)arg1 );
+    [stream catC: buffer];
+    if ( nargs > 1 ) {
+      sprintf( buffer, ", " PTRFMT, (unsigned long)arg2 );
+      [stream catC: buffer];
+      if ( nargs > 2 ) {
+        sprintf( buffer, ", " PTRFMT, (unsigned long)arg3 );
+        [stream catC: buffer];
+      }
+    }
+  }
+  [stream catC: ")\n"];
+}
+
+- (void) describe: outputCharStream
+{
+  describeFunctionCall( outputCharStream, funcPtr, 0, 0, 0, 0 );
+}
+
 @end
 
 
@@ -77,6 +106,11 @@ Library:      activity
 - (void) _performAction_: anActivity
 {
   ((void(*)(id))funcPtr)( arg1 );
+}
+
+- (void) describe: outputCharStream
+{
+  describeFunctionCall( outputCharStream, funcPtr, 1, arg1, 0, 0 );
 }
 
 @end
@@ -104,6 +138,11 @@ Library:      activity
   ((void(*)(id, id))funcPtr)( arg1, arg2 );
 }
 
+- (void) describe: outputCharStream
+{
+  describeFunctionCall( outputCharStream, funcPtr, 2, arg1, arg2, 0 );
+}
+
 @end
 
 
@@ -127,6 +166,11 @@ Library:      activity
 - (void) _performAction_: anActivity
 {
   ((void(*)(id, id, id))funcPtr)( arg1, arg2, arg3 );
+}
+
+- (void) describe: outputCharStream
+{
+  describeFunctionCall( outputCharStream, funcPtr, 3, arg1, arg2, arg3 );
 }
 
 @end
@@ -164,6 +208,44 @@ Library:      activity
   [target perform: selector];
 }
 
+static void describeMessageArgs(
+  id stream, SEL msg, int nargs, id arg1, id arg2, id arg3 ) 
+{
+  char  buffer[100];
+
+  sprintf( buffer, " %s", sel_get_name( msg ) );
+  [stream catC: buffer];
+  if ( nargs > 0 ) {
+    sprintf( buffer, " " PTRFMT, (unsigned long)arg1 );
+    [stream catC: buffer];
+    if ( nargs > 1 ) {
+      sprintf( buffer, " " PTRFMT, (unsigned long)arg2 );
+      [stream catC: buffer];
+      if ( nargs > 2 ) {
+        sprintf( buffer, " " PTRFMT, (unsigned long)arg3 );
+        [stream catC: buffer];
+      }
+    }
+  }
+  [stream catC: "]\n"];
+}
+
+static void describeMessage(
+  id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3 ) 
+{
+  char  buffer[100];
+
+  [stream catC: "["];
+  _obj_formatIDString( buffer, target );
+  [stream catC: buffer];
+  describeMessageArgs( stream, msg, nargs, arg1, arg2, arg3 );
+}
+
+- (void) describe: outputCharStream
+{
+  describeMessage( outputCharStream, target, selector, 0, 0, 0, 0 );
+}
+
 @end
 
 
@@ -187,6 +269,11 @@ Library:      activity
 - (void) _performAction_: anActivity
 {
   [target perform: selector with: arg1];
+}
+
+- (void) describe: outputCharStream
+{
+  describeMessage( outputCharStream, target, selector, 1, arg1, 0, 0 );
 }
 
 @end
@@ -214,6 +301,11 @@ Library:      activity
   [target perform: selector with: arg1 with: arg2];
 }
 
+- (void) describe: outputCharStream
+{
+  describeMessage( outputCharStream, target, selector, 2, arg1, arg2, 0 );
+}
+
 @end
 
 
@@ -239,6 +331,11 @@ Library:      activity
   [target perform: selector with: arg1 with: arg2 with: arg3];
 }
 
+- (void) describe: outputCharStream
+{
+  describeMessage( outputCharStream, target, selector, 3, arg1, arg2, arg3 );
+}
+
 @end
 
 
@@ -250,6 +347,23 @@ Library:      activity
 
   memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
   setClass( memberAction, id_ActionTo_0 );
+}
+
+static void describeForEachMessage(
+  id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3 ) 
+{
+  char  buffer[100];
+
+  [stream catC: "[[foreach: "];
+  _obj_formatIDString( buffer, target );
+  [stream catC: buffer];
+  [stream catC: "]"];
+  describeMessageArgs( stream, msg, nargs, arg1, arg2, arg3 );
+}
+
+- (void) describe: outputCharStream
+{
+  describeForEachMessage( outputCharStream, target, selector, 0, 0, 0, 0 );
 }
 
 @end
@@ -265,6 +379,11 @@ Library:      activity
   setClass( memberAction, id_ActionTo_1 );
 }
 
+- (void) describe: outputCharStream
+{
+  describeForEachMessage( outputCharStream, target, selector, 1, arg1, 0, 0 );
+}
+
 @end
 
 
@@ -278,6 +397,12 @@ Library:      activity
   setClass( memberAction, id_ActionTo_2 );
 }
 
+- (void) describe: outputCharStream
+{
+  describeForEachMessage(
+    outputCharStream, target, selector, 2, arg1, arg2, 0 );
+}
+
 @end
 
 @implementation ActionForEach_3
@@ -288,6 +413,12 @@ Library:      activity
 
   memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
   setClass( memberAction, id_ActionTo_3 );
+}
+
+- (void) describe: outputCharStream
+{
+  describeForEachMessage(
+    outputCharStream, target, selector, 3, arg1, arg2, arg3 );
 }
 
 @end

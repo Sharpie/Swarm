@@ -26,7 +26,7 @@ typedef struct link *link_t;
 #define  CountPerBlock_Shift  20
 #define  CountPerBlock_Mask   (0xfff << CountPerBlock_Shift)
 
-/*** methods in List_any (inserted from .m file) ***/
+/*** methods in List_any (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - (void) setInitialValue: initialValue;
 - (void) setDequeOnly: (BOOL)dequeOnly;
@@ -45,6 +45,6 @@ typedef struct link *link_t;
                            // if negative, -(offset + 1) of last removed member
                            // if zero, link contains Start, End, or Unset
 }
-/*** methods in ListIndex_any (inserted from .m file) ***/
+/*** methods in ListIndex_any (inserted from .m file by m2h) ***/
 @end
 

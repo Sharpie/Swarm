@@ -33,6 +33,7 @@ Library:      defobj
 - (char *)	getDisplayName;
 
 - (void)	describe: outputCharStream;
+- (void)	describeID: outputCharStream;
 - (void)	xprint;
 - (void)	xprintid;
 @end
@@ -179,6 +180,8 @@ USING
 - (void)	reclaimStorage;
 - (void)	releaseStorage;
 
+- (void)	describeForEach: outputCharStream;
+- (void)	describeForEachID: outputCharStream;
 - (void)	xfprint;
 - (void)	xfprintid;
 @end
@@ -267,6 +270,21 @@ extern id <Symbol>  t_ByteArray, t_LeafObject, t_PopulationObject;
 // M() -- macro to abbreviate @selector()
 //
 #define M( messageName ) @selector( messageName )
+
+//
+// PTR_... -- macro settings for machine-dependent pointer options
+//
+#ifndef PTRSIZE
+#define PTRSIZE 4
+#endif
+
+#ifndef PTRFMT
+#if PTRSIZE == 4
+#define PTRFMT "%0#8lx"
+#else
+#define PTRFMT "%0#16lx"
+#endif
+#endif
 
 //
 // _obj_formatIDString() --

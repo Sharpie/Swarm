@@ -61,11 +61,16 @@ restriction to run only at top level, must also add check for Holding.
 {
   auditRunRequest( self, "run" );
   ownerActivity = _activity_current;
-  // ownerActivity = [_activity_current getCurrentSubactivity];
-  //!! (when have leaf activity implemented)
   _activity_current = self;
   [self _run_];
-  _activity_current = [ownerActivity getOwnerActivity];
+  _activity_current = ownerActivity;
+
+  //!! When have activity for leaf action implemented, code will change to:
+  // ownerActivity = [_activity_current getCurrentSubactivity];
+  // _activity_current = self;
+  // [self _run_];
+  // _activity_current = [ownerActivity getOwnerActivity];
+
   ownerActivity = nil;
   return status;
 }

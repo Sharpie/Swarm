@@ -16,7 +16,7 @@ Library:      collections
 @public
   Collection_any  *list;         // list of member entries
 }
-/*** methods in Set_c (inserted from .m file) ***/
+/*** methods in Set_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - createEnd;
 - copy: aZone;
@@ -37,7 +37,7 @@ Library:      collections
 @public
   id     listIndex;     // index into list of entries
 }
-/*** methods in SetIndex_c (inserted from .m file) ***/
+/*** methods in SetIndex_c (inserted from .m file by m2h) ***/
 - next;
 - prev;
 - get;

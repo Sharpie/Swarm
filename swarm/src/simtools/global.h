@@ -7,12 +7,6 @@
 #import <swarmobject/SwarmObject.h>
 #import <random.h>
 
-// global random number generators (defaults)
-extern id <PMMLCG1> randomGenerator;
-extern id <UniformInteger> uniformIntRand;
-extern id <UniformUnsigned> uniformUnsRand;
-extern id <UniformDouble> uniformDblRand;
-
 // Manager that keeps track of active probes to be updated
 extern ProbeDisplayManager * probeDisplayManager;
 

@@ -18,12 +18,13 @@ Library:      collections
 CREATING
 - (void)        setMemberType: aDataType;
 - (void)        setIndexSafety: indexSafety;
-- (void)        setIndexUpdateHandler: (func_t)handler : (void *)arg;
+- (void)        setIndexHandler: (fixup_t)fixupHandler
+                  withArgument: (void *)arg;
 - (void)        setReplaceOnly: (BOOL)replaceOnly;
 USING
 -               getMemberType;
 -               getIndexSafety;
-- (func_t)      getIndexUpdateHandler: (void *)arg;
+- (fixup_t)     getIndexHandler: (void **)arg;
 - (BOOL)        getReplaceOnly;
 
 - (int)		getCount;
@@ -47,6 +48,8 @@ USING
 - (void)	forEach: (SEL)aSelector : arg1 : arg2;
 - (void)	forEach: (SEL)aSelector : arg1 : arg2 : arg3;
 
+- (void)	describeForEach: outputCharStream;
+- (void)	describeForEachID: outputCharStream;
 - (void)	xfprint;
 - (void)	xfprintid;
 @end
@@ -188,7 +191,7 @@ CREATING
 
 - (void)	setPartiallyOrdered: (BOOL)partiallyOrdered;
 - (void)	setPartialOrderContext: aKeyedCollection;
-- (void)	setIndexFromMember: (long)byteOffset;
+- (void)	setIndexFromMember: (int)byteOffset;
 USING
 -		getDupOption;
 -		getDupMembersType;
@@ -326,7 +329,7 @@ USING
 -		first;  // now getFirst
 -		last;   // now getLast
 -		atOffset: (int)offset replace: anObject;
-- (void)	setIndexFromMemberLoc: (long)offset;
+- (void)	setIndexFromMemberLoc: (int)offset;
 -		createIndex: aZone fromMember: aMember;
 - (int)		length;
 @end

@@ -41,6 +41,7 @@ void _activity_initialize( void )
 
   _activity_swarmSyncType = [Schedule customizeBegin: globalZone];
   [_activity_swarmSyncType setConcurrentGroupType: ActivationOrder];
+  [_activity_swarmSyncType setAutoDrop: 1];
   _activity_swarmSyncType = [_activity_swarmSyncType customizeEnd];
 
   [InvalidSwarmZone setMessageString:

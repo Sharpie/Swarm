@@ -21,12 +21,21 @@ Library:      defobj
 //
 static inline void *dalloc( size_t blockSize )
 {
-  static BOOL  notAligned;
+  static BOOL  notAligned = 0;
   void         *block;
 
   block = malloc( blockSize );
   if ( ! block ) raiseEvent( OutOfMemory, nil );
+
+// if flag is set at compile time (-DPTR_MALLOC_DALIGN), then runtime check
+// for double-word alignment check can be suppressed from this code.
+
+#ifdef PTR_MALLOC_DALIGN
+  if ( PTR_MALLOC_DALIGN ) return block;
+#endif
+
   if ( ( (unsigned long)block & ~0x7 ) == (unsigned long)block ) return block;
+
   if ( ! notAligned ) {
     notAligned = 1;
     fprintf( stderr,
@@ -34,9 +43,10 @@ static inline void *dalloc( size_t blockSize )
       "machine architecture.  Please report to swarm@santafe.edu.\n"
       "Standard fixup taken, execution continuing...\n" );
   }
+
   free( block );
   block = malloc( blockSize + 7 );
-  return ( (void *)( (unsigned long)block & ~0x7 ) );
+  return ( (void *)( ( (unsigned long)block + 7 ) & ~0x7 ) );
 }
 
 //
@@ -120,7 +130,7 @@ PHASE(Using)
   // add object to the population list, skipping over links in object header
 
   newObject = (Object_s *)((id *)newObject + 2);
-  [population addLast: newObject];
+  if ( population ) [population addLast: newObject];
 
   // initialize and return the newly allocated object
 
@@ -348,26 +358,28 @@ PHASE(Using)
 }
 
 //
-// xfprint -- execute xprint on each member of the zone population
+// describeForEach: --
+//   generate debug description for each member of the zone population
 //
-- (void) xfprint
+- (void) describeForEach: outputCharStream
 {
   id  index, member;
 
   index = [population begin: scratchZone];
-  while ( (member = [index next]) ) [member xprint];
+  while ( (member = [index next]) ) [member describe: outputCharStream];
   [index drop];
 }
 
 //
-// xfprintid -- execute xprintid on each member of the zone population
+// describeForEachID: --
+//   generate debug id description for each member of the zone population
 //
-- (void) xfprintid
+- (void) describeForEachID: outputCharStream
 {
   id  index, member;
 
   index = [population begin: scratchZone];
-  while ( (member = [index next]) ) [member xprintid];
+  while ( (member = [index next]) ) [member describeID: outputCharStream];
   [index drop];
 }
 

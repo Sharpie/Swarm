@@ -29,7 +29,7 @@ Library:      defobj
                     // additional bits about the object
 }
 #endif
-/*** methods in Object_s (inserted from .m file) ***/
+/*** methods in Object_s (inserted from .m file by m2h) ***/
 + (char *) getName;
 + (BOOL) respondsTo: (SEL)aSel;
 - (BOOL) respondsTo: (SEL)aSel;
@@ -58,8 +58,11 @@ Library:      defobj
 - (void) setDisplayName: (char *)aName;
 - (char *) getDisplayName;
 - (void) describe: outputCharStream;
+- (void) describeID: outputCharStream;
 - (void) xprint;
 - (void) xprintid;
+- (void) xfprint;
+- (void) xfprintid;
 @end
 
 //

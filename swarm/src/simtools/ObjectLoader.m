@@ -139,7 +139,16 @@
 
     if(![theFileObject getWord: aString])
       [self _crash_: anObject] ;
-   
+       
+    // Check for single quotes that surround the alphanumeric representation
+    // of unsigned char variables.
+    if (aString[0] == '\'') {
+      [theFileObject skipLine];
+      if(![theFileObject getWord: aString])
+	[self _crash_: anObject];
+    }
+
+
     if( (aString[0] == '@') && 
         (aString[1] == 'e') &&
         (aString[2] == 'n') &&

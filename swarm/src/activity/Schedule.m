@@ -39,7 +39,6 @@ PHASE(Creating)
 - (void) setConcurrentGroupType: groupType
 {
   concurrentGroupType = groupType;
-  setBit( bits, BitConcrntGroupSet, 1 );
 }
 
 - (void) setSingletonGroups: (BOOL)singletonGroups
@@ -175,6 +174,8 @@ static ActionConcurrent_c *createGroup( Schedule_c *self )
 
   newGroup = [self->concurrentGroupType create: getCZone( zone )];
   setBit( ((Collection_any *)newGroup)->bits, BitConcurrentGroup, 1 );
+  setBit( ((Collection_any *)newGroup)->bits, BitAutoDrop,
+          getBit( self->bits, BitAutoDrop ) );
 
   newAction = [zone allocIVarsComponent: id_ActionConcurrent_c];
   setMappedAlloc( newAction );
@@ -275,32 +276,33 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 //
 - remove: anAction
 {
-  id  emptyAction;
+  id  removedAction, emptyAction;
 
   if ( _obj_debug && ! respondsTo( anAction, M(_performAction_:) ) )
     raiseEvent( InvalidArgument,
       "> object to be removed from schedule is not an action\n" );
 
-  if ( ! respondsTo( ((CAction *)anAction)->owner,
-                      M(_getEmptyActionConcurrent_) ) ) {
-    if ( _obj_debug && ((CAction *)anAction)->owner != (id)self )
-      raiseEvent( InvalidArgument,
-        "> action to be removed from schedule does not belong to schedule\n" );
+  if ( _obj_debug && ((CAction *)anAction)->owner == (id)self ) {
 
-    [super remove: anAction];
+    removedAction = [super remove: anAction];
 
   } else {  // concurrent group
 
-    [(id)((CAction *)anAction)->owner remove: anAction];
+    if ( _obj_debug && ! respondsTo( ((CAction *)anAction)->owner,
+                                     M(_getEmptyActionConcurrent_) ) )
+      raiseEvent( InvalidArgument,
+        "> action to be removed from schedule does not belong to schedule\n" );
+
+    removedAction = [(id)((CAction *)anAction)->owner remove: anAction];
 
     emptyAction =
       [(id)((CAction *)anAction)->owner _getEmptyActionConcurrent_];
     if ( emptyAction ) {
-      [super remove: emptyAction];
+      [(id)((CAction *)emptyAction)->owner remove: emptyAction];
       [emptyAction dropAllocations: 1];
     }
   }
-  return anAction;
+  return removedAction;
 }
 
 //
@@ -564,6 +566,44 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   [super mapAllocations: mapalloc];
 }
 
+- (void) describe: outputCharStream
+{
+  [super describe: outputCharStream];
+}
+
+- (void) describeForEach: outputCharStream
+{
+  char       buffer[100];
+  id         index, actionAtTime;
+  timeval_t  timeOfAction;
+
+  index = [self begin: scratchZone];
+  while ( (actionAtTime = [index next]) ) 
+  {
+    timeOfAction = (timeval_t) [index getKey];
+    sprintf( buffer, "at time: %lu action is: ", timeOfAction );
+    [outputCharStream catC: buffer];
+    [actionAtTime describe: outputCharStream];
+  }
+  [index drop]; 
+}
+
+- (void) describeForEachID: outputCharStream
+{
+  char       buffer[100];
+  id         index, actionAtTime;
+  timeval_t  timeOfAction;
+
+  index = [self begin: scratchZone];
+  while ( (actionAtTime = [index next]) ) 
+  {
+    timeOfAction = (timeval_t) [index getKey];
+    sprintf( buffer, "at time: %lu action is: ", timeOfAction );
+    [actionAtTime describeID: outputCharStream];
+  }
+  [index drop]; 
+}
+
 @end
 
 //
@@ -582,6 +622,16 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   // identify the action group that held the concurrent actions
 
   mapObject( mapalloc, concurrentGroup );
+}
+
+- (void) describe: outputCharStream
+{
+  char  buffer[100];
+
+  [outputCharStream catC: "["];
+  _obj_formatIDString( buffer, concurrentGroup );
+  [outputCharStream catC: buffer];
+  [outputCharStream catC: " (concurrent group)]\n"];
 }
 
 @end
@@ -604,19 +654,6 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 "> A concurrent schedule requires either that a subclass override the method\n"
 "> that adds a new action, or that all actions be added to the group by\n"
 "> explicit operations rather than by automatic addition at a key value.\n" );
-  exit(0);
-}
-
-//
-// remove: --
-//  method to make a schedule usable in the special role as a concurrent group
-//
-- remove: anAction
-{
-  raiseEvent( SourceMessage,
-"> A concurrent schedule requires either that a subclass override the method\n"
-"> that removes an action, or that all actions be removed from the group by\n"
-"> an explicit operation using the key of an action in the schedule.\n" );
   exit(0);
 }
 
@@ -963,6 +1000,15 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   [((Activity_c *)anActivity)->currentSubactivity->currentIndex
     nextAction: &unusedStatus];
   [self drop];
+}
+
+- (void) describe: outputCharStream
+{
+  char buffer[100];
+
+  _obj_formatIDString( buffer, actionAtIndex );
+  [outputCharStream catC: buffer];
+  [outputCharStream catC: " "];
 }
 
 @end

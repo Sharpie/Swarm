@@ -50,7 +50,7 @@ Library:      defobj
 typedef void  (*notify_t)( id object, id reallocAddress, void *arg );
 
 //
-// ref_t -- typedef for external reference to object
+// ref_t -- typedef for a registered reference to an object
 //
 // (struct tag _obj_ref left undefined to leave ref_t as opaque type)
 //
@@ -60,3 +60,10 @@ typedef void  *ref_t;
 // func_t -- function pointer type
 //
 typedef void (*func_t)( void );
+
+//
+// fixup_t -- type of handler function to provide fixup action on an object
+//
+typedef id    (*fixupRoutine_t)( void *fixupContext, id fixupObject );
+typedef void  (*fixup_t)( fixupRoutine_t fixupRoutine, void *fixupContext,
+                          id fixupArgument );

@@ -25,7 +25,7 @@ typedef struct mapentry {
   id  list;                   // list of key-member entries in key sequence
   int (*compareFunc)(id,id);  // function to compare keys, if any
 }
-/*** methods in Map_c (inserted from .m file) ***/
+/*** methods in Map_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - (void) setCompareFunction: (int(*)(id,id))compareFunction;
 - createEnd;
@@ -48,7 +48,7 @@ typedef struct mapentry {
 @public
   id     listIndex;     // index into list of entries
 }
-/*** methods in MapIndex_c (inserted from .m file) ***/
+/*** methods in MapIndex_c (inserted from .m file by m2h) ***/
 - next;
 - next: (id *)key;
 - prev;

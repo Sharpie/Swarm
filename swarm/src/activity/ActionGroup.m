@@ -241,6 +241,26 @@ PHASE(Using)
   // no [super mapAllocations: mapalloc] because all links are internal
 }
 
+- (void) describe: outputCharStream
+{
+  [super describe: outputCharStream];
+}
+
+- (void) describeForEach: outputCharStream
+{
+  char       buffer[100];
+  id         index, action;
+
+  index = [self begin: scratchZone];
+  while ( (action = [index next]) ) 
+  {
+    sprintf( buffer, "action is: " );
+    [outputCharStream catC: buffer];
+    [action describe: outputCharStream];
+  }
+  [index drop]; 
+}
+
 @end
 
 //

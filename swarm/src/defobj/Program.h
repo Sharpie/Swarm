@@ -27,7 +27,7 @@ extern void  _obj_setTypeImplemented( id, id );
   id    implementation;   // class that implements create phase, if any
   id    supertypes;       // other types from which type inherits
 }
-/*** methods in Type_c (inserted from .m file) ***/
+/*** methods in Type_c (inserted from .m file by m2h) ***/
 - (BOOL) getCreatable;
 - getImplementation;
 - (char *) getName;
@@ -43,7 +43,7 @@ extern void  _obj_setTypeImplemented( id, id );
   id    symbols;   // symbols (global id constants) defined within module
   id    classes;   // classes defined within module
 }
-/*** methods in ProgramModule_c (inserted from .m file) ***/
+/*** methods in ProgramModule_c (inserted from .m file by m2h) ***/
 - (char *) getName;
 - getOwner;
 - getModules;
@@ -53,6 +53,6 @@ extern void  _obj_setTypeImplemented( id, id );
 @end
 
 @interface Module_super_
-/*** methods in Module_super_ (inserted from .m file) ***/
+/*** methods in Module_super_ (inserted from .m file by m2h) ***/
 + self;
 @end

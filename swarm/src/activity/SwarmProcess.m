@@ -135,7 +135,25 @@ PHASE(Using)
 //
 static void notifySwarm( id anObject, id realloc, CSwarmProcess *swarm )
 {
-  swarm->activity = nil;
+  if ( ! realloc ) {
+    swarm->activity    = nil;
+    swarm->activityRef = nil;
+  } else {
+    // (no reallocation implemented yet)
+  }
+}
+
+//
+// dropSwarmActivity() -- function to drop swarm activity on drop of swarm
+//
+static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
+                               id unusedArg )
+{
+  if ( ! realloc ) {
+    if ( swarm->activity ) [swarm->activity drop];
+  } else {
+    // (no reallocation implemented yet)
+  }
 }
 
 //
@@ -167,9 +185,13 @@ static void notifySwarm( id anObject, id realloc, CSwarmProcess *swarm )
                : id_SwarmActivity_c : id_ScheduleIndex_c];
   activity->swarm = self;
 
-  // arrange for update of local reference on completion of activity
+  // arrange to remove local activity reference on completion of activity
 
   activityRef = [activity addRef: (notify_t)notifySwarm withArgument: self];
+
+  // arrange to drop activity on drop of swarm object
+
+  [self addRef: (notify_t)dropSwarmActivity withArgument: nil];
   return activity;
 }
 
@@ -178,7 +200,6 @@ static void notifySwarm( id anObject, id realloc, CSwarmProcess *swarm )
 //
 - (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  if ( activityRef ) mapObject( mapalloc, activity );
   if ( internalZone ) mapObject( mapalloc, internalZone );
 }
 
@@ -337,6 +358,17 @@ static void notifySwarm( id anObject, id realloc, CSwarmProcess *swarm )
   //
   subactivity->mergeAction = nil;
   mapObject( mapalloc, subactivity );
+}
+
+- (void) describe: outputCharStream
+{
+  char  buffer[100];
+
+  [outputCharStream catC: "["];
+  _obj_formatIDString( buffer,
+                       ((Index_any *)subactivity->currentIndex)->collection );
+  [outputCharStream catC: buffer];
+  [outputCharStream catC: " (merge into swarm)]\n"];
 }
 
 @end

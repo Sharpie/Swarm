@@ -112,7 +112,7 @@ s/ *$//
 s/@implementation *\([a-zA-z0-9_]*\).*/\1/
 s%\(.*\)%/^ *[\\\/]*[ *]*methods in \\\<\1\\\>/,/@end/ {\
 /^ *[\\\/]*[ *]*methods in \1/ {\
-s@.*@/*** methods in \1 (inserted from .m file) ***/@\
+s@.*@/*** methods in \1 (inserted from .m file by m2h) ***/@\
 a\\%
 p
 n
@@ -155,4 +155,10 @@ p
 '
 
 sed -f ,m2h/$file.sed <,m2h/$file.h >$file.h
-# rm $file,sed
+if [ $? != 0 ]; then
+  echo "m2h: non-zero status from sed, most likely due to source error"
+  echo "restoring $file.h to original version"
+  echo "check ,m2h/$file.sed for possible clues to location of source error,"
+  echo "such as a missing @end or @end not in column 1"
+  mv ,m2h/$file.h $file.h
+fi

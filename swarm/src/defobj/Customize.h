@@ -26,7 +26,7 @@ extern id Creating, Setting, Using, CreatingOnly, UsingOnly;
 // Customize_s -- superclass impleemntation of create-phase customization
 //
 @interface Customize_s : Object_s // <Create>
-/*** methods in Customize_s (inserted from .m file) ***/
+/*** methods in Customize_s (inserted from .m file by m2h) ***/
 + customizeBegin: aZone;
 - customizeEnd;
 - customizeCopy: aZone;
@@ -86,23 +86,24 @@ if ( _obj_customize( self ) ) [self _setRecustomize_: recustomizeReceiver]
   IMP  createMethod;    // cached method for createMessage selector
   id   recustomize;     // object to handle further create, if any
 }
-/*** methods in CreateBy_c (inserted from .m file) ***/
+/*** methods in CreateBy_c (inserted from .m file by m2h) ***/
 - createBegin: aZone;
 - customizeBegin: aZone;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface Create_bycopy : CreateBy_c
-/*** methods in Create_bycopy (inserted from .m file) ***/
+/*** methods in Create_bycopy (inserted from .m file by m2h) ***/
 - create: aZone;
 @end
 
 @interface Create_bysend : CreateBy_c
-/*** methods in Create_bysend (inserted from .m file) ***/
+/*** methods in Create_bysend (inserted from .m file by m2h) ***/
 - create: aZone;
 @end
 
 @interface Create_byboth : CreateBy_c
-/*** methods in Create_byboth (inserted from .m file) ***/
+/*** methods in Create_byboth (inserted from .m file by m2h) ***/
 - create: aZone;
 @end
 

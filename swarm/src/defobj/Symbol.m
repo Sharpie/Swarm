@@ -17,6 +17,13 @@ Library:      defobj
 #include <string.h>
 #include <stdarg.h>
 
+// standard program-wide allocation zones
+
+id  _obj_globalZone;
+id  _obj_scratchZone;
+id  _obj_initZone;
+id  _obj_sessionZone;
+
 
 @implementation Symbol_c
 

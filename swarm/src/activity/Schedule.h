@@ -34,7 +34,7 @@ Library:      activity
 - (void) _performPlan_;
 - _createActivity_: ownerActivity : activityClass : indexClass;
 - (void) drop;
-/*** methods in Schedule_c (inserted from .m file) ***/
+/*** methods in Schedule_c (inserted from .m file by m2h) ***/
 + create: aZone setRepeatInterval: (timeval_t)rptInterval;
 - (void) setConcurrentGroupType: groupType;
 - (void) setSingletonGroups: (BOOL)singletonGroups;
@@ -75,6 +75,9 @@ Library:      activity
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2;
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void) describe: outputCharStream;
+- (void) describeForEach: outputCharStream;
+- (void) describeForEachID: outputCharStream;
 @end
 
 extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
@@ -84,25 +87,28 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 @public
   CompoundAction_c  *concurrentGroup;  // concurrent group to be executed
 }
-/*** methods in ActionConcurrent_c (inserted from .m file) ***/
+/*** methods in ActionConcurrent_c (inserted from .m file by m2h) ***/
 - (void) _performAction_: anActivity;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void) describe: outputCharStream;
 @end
 
 @interface ConcurrentSchedule_c : Schedule_c
 {
   CAction  *actionConcurrent;  // action that includes group in schedule
 }
-/*** methods in ConcurrentSchedule_c (inserted from .m file) ***/
-- (void) addLast: mergeAction;
+/*** methods in ConcurrentSchedule_c (inserted from .m file by m2h) ***/
+- (void) addLast: anAction;
 - (void) _setActionConcurrent_: action;
 - _getEmptyActionConcurrent_;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ActivationOrder_c : ConcurrentSchedule_c
-/*** methods in ActivationOrder_c (inserted from .m file) ***/
+/*** methods in ActivationOrder_c (inserted from .m file by m2h) ***/
 - (void) addLast: mergeAction;
+- remove: mergeAction;
+- _getEmptyActionConcurrent_;
 @end
 
 @interface ScheduleActivity_c : Activity_c
@@ -112,7 +118,7 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
   id          mergeAction;       // merge action of swarm activity, if any
   long         activationNumber;  // sequential id of activation within swarm
 }
-/*** methods in ScheduleActivity_c (inserted from .m file) ***/
+/*** methods in ScheduleActivity_c (inserted from .m file by m2h) ***/
 - (timeval_t) getCurrentTime;
 - stepUntil: (timeval_t)tVal;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
@@ -129,7 +135,7 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 }
 /*** methods implemented in CompoundAction.m file ***/
 - getHoldType;
-/*** methods in ScheduleIndex_c (inserted from .m file) ***/
+/*** methods in ScheduleIndex_c (inserted from .m file by m2h) ***/
 - nextAction: (id *)status;
 - remove;
 - get;
@@ -143,8 +149,9 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 @public
   ActionConcurrent_c  *actionAtIndex;   // action for new concurrent group
 }
-/*** methods in ActionChanged_c (inserted from .m file) ***/
+/*** methods in ActionChanged_c (inserted from .m file by m2h) ***/
 - (void) _performAction_: anActivity;
+- (void) describe: outputCharStream;
 @end
 
 //

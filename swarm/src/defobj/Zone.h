@@ -23,7 +23,7 @@ Library:      defobj
   int  allocCount;           // count of blocks allocated by alloc:
   id   internalAllocations;  // collection of all internal allocations
 }
-/*** methods in Zone_c (inserted from .m file) ***/
+/*** methods in Zone_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - (void) setPageSize: (int)pageSize;
 - createEnd;
@@ -41,8 +41,7 @@ Library:      defobj
 - (void) freeBlock: (void *)aBlock blockSize: (size_t)size;
 - getPopulation;
 - (void) describe: outputCharStream;
-- (void) xfprint;
-- (void) xfprintid;
+- (void) describeForEach: outputCharStream;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
@@ -52,7 +51,7 @@ Library:      defobj
   id  baseZone;       // zone from which component objects to be allocated
   id  componentZone;  // reference to self for support of getComponentZone
 }
-/*** methods in ComponentZone_c (inserted from .m file) ***/
+/*** methods in ComponentZone_c (inserted from .m file by m2h) ***/
 - allocIVars: (Class)aClass;
 - copyIVars: anObject;
 - getComponentZone;

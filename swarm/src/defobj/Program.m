@@ -23,9 +23,14 @@ Library:      defobj
 #include <stdlib.h>
 #include <string.h>
 
-extern void _obj_splitPhases( Class_s  *class );
+// program-wide storage zones
 
-extern id _obj_initZone;  // currently receives modules and classes
+id  _obj_initZone;
+id  _obj_globalZone;
+id  _obj_sessionZone;
+id  _obj_scratchZone;
+
+extern void _obj_splitPhases( Class_s  *class );
 
 id   Creating, Setting, Using, CreatingOnly, UsingOnly;
 
@@ -151,6 +156,13 @@ static void initModules( void )
   // initialize 
 
   _obj_initModule( _defobj_ );
+  _obj_initModule( _collections_ );
+
+  // initialize standard allocation zones
+
+  _obj_globalZone  = [Zone create: _obj_initZone];
+  _obj_sessionZone = [Zone create: _obj_initZone];
+  _obj_scratchZone = [[Zone create: _obj_initZone] getComponentZone];
 }
 
 

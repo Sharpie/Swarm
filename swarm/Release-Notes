@@ -1,3 +1,85 @@
+		Release Notes for Swarm Version 1.0.3
+
+ 1. In the activity library, a bug in the internal scheduling of a swarm
+    has been fixed, so that internally created concurrent actions are
+    correctly freed when they have completed.  (These actions are
+    automaticallly created whenever multiple schedules running happen
+    to be scheduled at the same time within a swarm.)
+
+ 2. Logic for the "remove" method in schedules has been revised to work
+    correctly for two-level schedules, in which a concurrent schedule at
+    the second level is created externally to hold times at a finer
+    granularity than the times in a containing schedule.
+
+ 3. The AutoDrop action is automatically passed through from a containing
+    schedule to any concurrent group it contains.  Previously, the AutoDrop
+    option had to be specified explicitly on a special concurrent group
+    type initialized with the schedule.  Now the AutoDrop option for any
+    concurrent groups is automatically set to the same as the schedule in
+    which it is contained.  (Any existing setting of the option on the
+    concurrent group type is ignored.)
+
+ 4. A bug that returned an incorrect value from "getAutoDrop" on an
+    ActionGroup or Schedule has been fixed.
+
+ 5. The defobj, collections, and activity libraries have been fixed to
+    avoid sending messages to a nil receiver during library initialization.
+    Other swarm libraries remain free of this.  Good practice in debugging
+    is to always run with a gdb breakpoint, or with a patched version of the
+    gcc Objective C library (libobjc.a), to intercept any call to a nil
+    message receiver.  (See swarm debugging hints in the Swarm documentation
+    for more information.)
+
+ 6. Debugging print messages have been restructured internally.  The
+    functions xprint, xprintid, xfprint, and xfprintid remain callable
+    from the debugger.  The internal methods that these functions call have
+    been changed to be consistent in the way in which they direct output.
+
+ 7. Additional "describe" methods have been coded for schedule-related
+    objects in the activity library.  These methods (callable from gdb
+    via "xprint") provide an initial, rudimentary form of schedule
+    "browse" capability.  To use the capability, simply call the function
+    xfprint from the gdb command line: "call xfprint(aSchedule)" where the
+    argument can be any valid schedule or action group.
+
+ 8. A macro named PTRFMT is defined in defobj.h to print only the number
+    of significant hexadecimal digits in a pointer-sized word.  This macro is
+    used by debugging print messages to avoid printing double the number of
+    required digits on a machine with 32-bit words.  (The precision had been
+    expanded in swarm-1.0.2 to run on 64-bit pointer architectures.)
+
+ 9. Internal changes have been to some methods to use appropriate integer
+    argument types.
+
+10. Added Nelson Minar's Discrete2d changes that save and load a Discrete2d
+    space in PGM format.
+
+11. Incorporated Jason Jay's fix to ObjectLoader in reading single
+    quoted strings.
+
+12. Added Manor Askenazi's bug fix and enhancements to QSort. (Ref.
+    http://www.santafe.edu/projects/swarm/archive/list-archive.9708/0149.html)
+
+13. This release includes Random v0.7, written by Sven Thommesen.  This 
+    version adds several new bit generators and distributions and
+    rearranges the library.  (Ref.
+    $SWARMHOME/src/random/docs/WHATS.CHANGED.in.0.7 and WHATS.NEW.in.0.7)
+
+14. Another command line option has been added so that a user can run
+    in one of two modes with respect to the random number generation.
+    By default, two separate runs of a model will use the same seed for
+    the default random number generators.  This facilitates debugging
+    applications without forcing the user to create their own generator.
+    By invoking the applications with the "-varySeed" command line option,
+    the seed for any given run will be different from another run for
+    the default generators.
+
+15. Another command line option has been added to initSwarm to provide
+    quick&dirty help on the available command line options.  If a user
+    invokes an application with the "-help" command line flag, this 
+    help text will appear.
+
+	      =========================================
 		Release Notes for Swarm Version 1.0.2
 
   1. Kernel was made compatible with DEC Unix on the Alpha.

@@ -19,7 +19,7 @@ FORCE:
 ###
 ### "distributions" are tarballs that contain source/binary distributions
 ### for swarm, set up with their standard configuration
-SWARMDIST=swarm-1.0.1
+SWARMDIST=swarm-1.0.3
 
 TMPDIR=/tmp
 TMPDIST=$(TMPDIR)/$(SWARMDIST)

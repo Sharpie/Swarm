@@ -45,6 +45,11 @@ extern id _obj_sessionZone;
 //
 static id suballocPrototype;
 
+//
+// describeStream --
+//   output file stream on which describe messages to be printed
+//
+static id describeStream;
 
 @implementation Object_s
 
@@ -122,13 +127,13 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 }
 
 //
-// dropAllocations: --
-//   internal method to drop all storage allocated for an object
+// drop --
+//   standard method to drop all storage allocated for an object
 //
-// This is the default superclass implementation of the standard internal
-// method used to drop allallocations made for an object.  It recursively
-// drops all component objects and any internal storage blocks within them,
-// as identified by the mapAllocations: method for the object.
+// This is the default superclass implementation of the standard method used
+// to drop all allocations made for an object.  It recursively drops all
+// component objects and any internal storage blocks within them, as
+// identified by the mapAllocations: method for the object.
 //
 // A subclass must always execute this superclass method to complete the
 // drop process.  A subclass should not override this method except to to
@@ -142,7 +147,7 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 // subclass should make sure the MappedAlloc bit is set on the object, which
 // will result in the mapAllocations: method being called for the object.
 //
-- (void) dropAllocations: (BOOL)componentAlloc
+- (void) drop
 {
   id               zone, suballocList, index = /*-O*/nil;
   suballocEntry_t  suballocEntry;
@@ -205,22 +210,38 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 
   // free the local instance variables for the object
 
-  if ( componentAlloc )
+  if ( getBit( zbits, BitComponentAlloc ) )
     [zone freeIVarsComponent: self];
   else
     [zone freeIVars: self];
 }
 
 //
-// drop -- default superclass method to drop a free-standing created object
+// dropAllocations: --
+//   obsolete method formerly used as an internal drop method
+//   (Should use the simple, generic drop instead, which uses BitComponentAlloc
+//   to free using the correct method.)
 //
-- (void) drop
+- (void) dropAllocations: (BOOL)componentAlloc
 {
-  [self dropAllocations: 0];
+  if ( getBit( zbits, BitComponentAlloc ) && ! componentAlloc )
+    raiseEvent( InvalidOperation,
+      "object was allocated as a component allocation but dropAllocations: "
+      "requested drop as a free-standing object\n" );
+
+  else if ( ! getBit( zbits, BitComponentAlloc ) && componentAlloc )
+    raiseEvent( InvalidOperation,
+      "object was allocated as a free-standing object but dropAllocations: "
+      "requested drop as a component allocation\n" );
+
+  // execute internal drop method directly, to avoid any version of drop
+  // method in subclasses (temporary hack until this whole method eliminated)
+
+  _i_Object_s__drop( self, M(drop) );
 }
 
 //
-// addRef: -- 
+// addRef:withArgument: -- 
 //   register a dependent reference to the object (or other suballoation if
 //   notifyFunction is nil) that will be notified on any reallocation or
 //   deallocation of the object
@@ -605,7 +626,7 @@ static void notifyDisplayName( id object, id reallocAddress, void *arg )
   // set display name to the default if no name string given
 
   if ( ! aName ) {
-    sprintf( buffer, "%0#16lx: %.64s",
+    sprintf( buffer, PTRFMT ": %.64s",
              (unsigned long)self, getClass( self )->name );
     aName = buffer;
   }
@@ -646,14 +667,17 @@ static void notifyDisplayName( id object, id reallocAddress, void *arg )
 //
 extern void _obj_formatIDString( char *buffer, id anObject )
 {
-  sprintf( buffer, "%0#16lx: %.64s",
+  sprintf( buffer, PTRFMT ": %.64s",
            (unsigned long)anObject, ((Class)[anObject getClass])->name );
 }
 
 //
-// describe: -- concatenate a string describing an object to an output stream
+// describeID: -- concatenate a standard object ID string to an output stream
 //
-- (void) describe: outputCharStream
+// This method should not be overridden in subclasses, so that the basic
+// describeID: method remains available for use in describe: methods.
+//
+- (void) describeID: outputCharStream
 {
   char  buffer[100], *displayName;
 
@@ -669,16 +693,35 @@ extern void _obj_formatIDString( char *buffer, id anObject )
 }
 
 //
+// describe: -- concatenate a description of an object to an output stream
+//
+// This method can overridden as desired in subclasses, to provide as
+// specific a description of the object as desired for debug purposes.
+//
+- (void) describe: outputCharStream
+{
+  [self describeID: outputCharStream];
+}
+
+//
+// initDescribeStream() --
+//   internal function to initialize output file stream on which debug
+//   descriptions to be printed
+//
+static void initDescribeStream()
+{
+  describeStream = [OutputStream createBegin: _obj_sessionZone];
+  [describeStream setFileStream: _obj_xdebug];
+  describeStream = [describeStream createEnd];
+}
+
+//
 // xprint -- print description of object on debug output stream
 //
 - (void) xprint
 {
-  id  describeString;
-
-  describeString = [String create: scratchZone];
-  [self describe: describeString];
-  fprintf( _obj_xdebug, [describeString getC] );
-  [describeString drop];
+  if ( ! describeStream ) initDescribeStream();
+  [self describe: describeStream];
 }
 
 //
@@ -686,12 +729,41 @@ extern void _obj_formatIDString( char *buffer, id anObject )
 //
 - (void) xprintid
 {
-  id  describeString;
+  if ( ! describeStream ) initDescribeStream();
+  [self describeID: describeStream];
+}
 
-  describeString = [String create: scratchZone];
-  callMethodInClass( id_Object_s, M(describe:), describeString );
-  fprintf( _obj_xdebug, [describeString getC] );
-  [describeString drop];
+//
+// xfprint --
+//   print description for each member of a collection on debug output stream
+//
+- (void) xfprint
+{
+  if ( ! describeStream ) initDescribeStream();
+  if ( ! respondsTo( self, M(describeForEach:) ) ) {
+    [describeStream catC:
+      "xfprint: object does not respond to describeForEach:\n"
+      "> object is: "];
+    [self describeID: describeStream];
+    return;
+  }
+  [(id)self describeForEach: describeStream];
+}
+
+//
+// xprintid -- print id for each member of a collection on debug output stream
+//
+- (void) xfprintid
+{
+  if ( ! describeStream ) initDescribeStream();
+  if ( ! respondsTo( self, M(describeForEachID:) ) ) {
+    [describeStream catC:
+      "xfprintid: object does not respond to describeForEachID:\n"
+      "> object is: "];
+    [self describeID: describeStream];
+    return;
+  }
+  [(id)self describeForEachID: describeStream];
 }
 
 @end
@@ -722,9 +794,11 @@ void xsetname( id anObject, char *displayName )
     if ( respondsTo( anObject, M(setDisplayName:) ) )
       [anObject setDisplayName: displayName];
     else
-      fprintf( _obj_xdebug, "object does not respond to setDisplayName:\n" );
+      fprintf( _obj_xdebug,
+        "xsetname: object " PTRFMT "does not respond to setDisplayName:\n",
+        (unsigned long)anObject );
   else
-    fprintf( _obj_xdebug, "object is nil\n" );
+    fprintf( _obj_xdebug, "xsetname: object is nil\n" );
 }
 
 //
@@ -735,7 +809,7 @@ void xprint( id anObject )
   if ( anObject ) {
     [anObject xprint];
   } else {
-    fprintf( _obj_xdebug, "object is nil\n" );
+    fprintf( _obj_xdebug, "xprint: object is nil\n" );
   }
 }
 
@@ -747,7 +821,7 @@ void xprintid( id anObject )
   if ( anObject ) {
     [anObject xprintid];
   } else {
-    fprintf( _obj_xdebug, "object is nil\n" );
+    fprintf( _obj_xdebug, "xprintid: object is nil\n" );
   }
 }
 
@@ -759,11 +833,9 @@ void xprintid( id anObject )
 void xfprint( id anObject )
 {
   if ( anObject ) {
-    if ( ! respondsTo( anObject, M(xfprint) ) )
-      fprintf( _obj_xdebug, "object does not respond to xfprint\n" );
     [anObject xfprint];
   } else {
-    fprintf( _obj_xdebug, "object is nil\n" );
+    fprintf( _obj_xdebug, "xfprint: object is nil\n" );
   }
 }
 
@@ -774,11 +846,9 @@ void xfprint( id anObject )
 void xfprintid( id anObject )
 {
   if ( anObject ) {
-    if ( ! respondsTo( anObject, M(xfprint) ) )
-      fprintf( _obj_xdebug, "object does not respond to xfprintid\n" );
     [anObject xfprintid];
   } else {
-    fprintf( _obj_xdebug, "object is nil\n" );
+    fprintf( _obj_xdebug, "xfprintid: object is nil\n" );
   }
 }
 
@@ -796,8 +866,8 @@ void xexec( id anObject, char *msgName )
 	[anObject perform: sel];
       } else {
         fprintf( _obj_xdebug,
-                "Object %0#16lx: %.64s does not respond to message %s\n",
-              (unsigned long)anObject, [[anObject getClass] getName], msgName );
+          "Object " PTRFMT ": %.64s does not respond to message %s\n",
+          (unsigned long)anObject, [[anObject getClass] getName], msgName );
       }
     } else {
       fprintf( _obj_xdebug, "message \"%s\" is not defined\n", msgName );
@@ -817,7 +887,7 @@ void xfexec( id anObject, char *msgName )
   if ( anObject ) {
     if ( ! respondsTo( anObject, M(begin:) ) ) {
       fprintf( _obj_xdebug,
-"object %0#16lx: %s does not respond to begin:\n"
+"object " PTRFMT ": %s does not respond to begin:\n"
 "(begin: is required by xfexec to enumerate the members of a collection)\n",
         (unsigned long)anObject, getClass( anObject )->name );
     } else {

@@ -36,7 +36,7 @@ Library:      activity
 - (void) freeBlock: (void *) aBlock blockSize: (size_t)size;
 - getPopulation;
 
-/*** methods in CSwarmProcess (inserted from .m file) ***/
+/*** methods in CSwarmProcess (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - (void) setSynchronizationType: aScheduleType;
 - (void) setInternalZoneType: internalZoneType;

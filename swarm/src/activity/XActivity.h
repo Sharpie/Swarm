@@ -26,7 +26,7 @@ Library:      activity
   Activity_c  *currentSubactivity;   // subactivity for current action
   BOOL        (*breakFunction)(id);  // function to call on each step
 }
-/*** methods in Activity_c (inserted from .m file) ***/
+/*** methods in Activity_c (inserted from .m file by m2h) ***/
 - run;
 - _run_;
 - (void) terminate;

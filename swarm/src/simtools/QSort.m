@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -17,6 +17,7 @@ Library:      simtools
 
 static id *flat ;
 static int size ;
+static SEL comp_selector ;
 
 +(void) _flatten_: aCollection {
   id index ;  //atOffset would cause repetitive traversal in lists etc.
@@ -41,36 +42,40 @@ static int size ;
 
   index = [aCollection begin: scratchZone] ;
   for(i = 0 ; i < size ; i++){
-    [index put: flat[i]] ;
     [index next] ;
+    [index put: flat[i]] ;
   }
 
   [index drop] ;
   free(flat) ;
 }
 
-int cmpObjs(id a,id b){
-  return [a compare: b] ;
+int defaultCmpObjs(id *a,id *b){
+  return [*a compare: *b] ;
 }
 
-int cmpInts(int a,int b){
+int cmpInts(int *a,int *b){
 
-  if (a > b)
+  if (*a > *b)
     return 1 ;
 
-  if (a == b)
+  if (*a == *b)
     return 0 ;
 
   return -1 ;
+}
+
+int cmpObjs(id *a,id *b){
+  return (int) [*a perform: comp_selector with: *b] ;
 }
 
 +(void) sortObjectsIn: aCollection {
 
   [self _flatten_: aCollection] ;
 
-  if(size){  
-    qsort(flat,size,sizeof(id), 
-          (int (*)(const void *, const void *)) cmpObjs) ;
+  if(size){
+    qsort(flat,size,sizeof(id),
+          (int (*)(const void *, const void *)) defaultCmpObjs) ;
     [self _unFlatten_: aCollection] ;
   }
 }
@@ -78,12 +83,38 @@ int cmpInts(int a,int b){
 +(void) sortNumbersIn: aCollection {
 
   [self _flatten_: aCollection] ;
-  
+
   if(size){
-    qsort(flat,size,sizeof(int), 
+    qsort(flat,size,sizeof(int),
           (int (*)(const void *, const void *)) cmpInts) ;
     [self _unFlatten_: aCollection] ;
   }
+}
+
++(void) sortObjectsIn: aCollection using: (SEL) aSelector {
+
+  [self _flatten_: aCollection] ;
+
+  if(size){
+    comp_selector = aSelector ;
+    qsort(flat,size,sizeof(id),
+          (int (*)(const void *, const void *)) cmpObjs) ;
+    [self _unFlatten_: aCollection] ;
+  }
+
+}
+
++(void) sortNumbersIn: aCollection
+                using: (int(*)(const void*,const void*)) comp_fun {
+
+  [self _flatten_: aCollection] ;
+
+  if(size){
+    qsort(flat,size,sizeof(int),
+          (int (*)(const void *, const void *)) comp_fun) ;
+    [self _unFlatten_: aCollection] ;
+  }
+
 }
 
 @end

@@ -34,7 +34,7 @@ typedef struct methodDefs  *methodDefs_t;
   void           *methodList;    // compiler-generated list of local methods
   struct sarray  *dtable;        // dispatch table
 }
-/*** methods in Class_s (inserted from .m file) ***/
+/*** methods in Class_s (inserted from .m file by m2h) ***/
 @end
 
 //
@@ -57,7 +57,7 @@ void _obj_initMethodInterfaces( Class_s *class );
   Class_s  *definingClass;  // compiled class defining ivar structure
   id       metaobjects;     // metaobject collections
 }
-/*** methods in CreatedClass_s (inserted from .m file) ***/
+/*** methods in CreatedClass_s (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - (void) setName: (char *)className;
 - (void) setClass: aClass;
@@ -73,7 +73,7 @@ void _obj_initMethodInterfaces( Class_s *class );
   Class_s  *nextPhase;   // class which implements next interface
   id       filler;       //  pad to size of standard class (for customize)
 }
-/*** methods in BehaviorPhase_s (inserted from .m file) ***/
+/*** methods in BehaviorPhase_s (inserted from .m file by m2h) ***/
 - (void) setNextPhase: aBehaviorPhase;
 @end
 

@@ -18,7 +18,7 @@ Library:      collections
   char  *string;
   int   count;
 }
-/*** methods in String_c (inserted from .m file) ***/
+/*** methods in String_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - createEnd;
 + create: aZone;
@@ -32,5 +32,6 @@ Library:      collections
 - (int) count;
 - (int) length;
 - (int) compare: aString;
+- (void) describe: outputCharStream;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end

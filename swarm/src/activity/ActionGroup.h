@@ -30,7 +30,7 @@ Library:      activity
 - (void) _performPlan_;
 - _createActivity_: ownerActivity : activityClass : indexClass;
 - (void) drop;
-/*** methods in ActionGroup_c (inserted from .m file) ***/
+/*** methods in ActionGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext;
 - createAction: anActionType;
@@ -47,20 +47,23 @@ Library:      activity
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2;
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void) describe: outputCharStream;
+- (void) describeForEach: outputCharStream;
 @end
 
 @interface ConcurrentGroup_c : ActionGroup_c
 {
   CAction  *actionConcurrent;  // action that includes group in schedule
 }
-/*** methods in ConcurrentGroup_c (inserted from .m file) ***/
+/*** methods in ConcurrentGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
 - (void) _setActionConcurrent_: action;
 - _getEmptyActionConcurrent_;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface GroupActivity_c : Activity_c
-/*** methods in GroupActivity_c (inserted from .m file) ***/
+/*** methods in GroupActivity_c (inserted from .m file by m2h) ***/
 @end
 
 @interface GroupIndex_c : ListIndex_mlinks
@@ -70,13 +73,13 @@ Library:      activity
 }
 /*** methods implemented in CompoundAction.m file ***/
 - getHoldType;
-/*** methods in GroupIndex_c (inserted from .m file) ***/
+/*** methods in GroupIndex_c (inserted from .m file by m2h) ***/
 - nextAction: (id *)status;
 - (void) dropAllocations: (BOOL)componentAlloc;
 @end
 
 @interface ForEachActivity_c : Activity_c
-/*** methods in ForEachActivity_c (inserted from .m file) ***/
+/*** methods in ForEachActivity_c (inserted from .m file by m2h) ***/
 + _create_: forEachAction : anActivity;
 - getCurrentMember;
 @end
@@ -88,7 +91,7 @@ Library:      activity
   id <Index>       memberIndex;    // index into target collection
   ActionForEach_0  *memberAction;  // local copy of original ForEach action
 }
-/*** methods in ForEachIndex_c (inserted from .m file) ***/
+/*** methods in ForEachIndex_c (inserted from .m file by m2h) ***/
 - nextAction: (id *)status;
 - get;
 - getLoc;

@@ -16,7 +16,7 @@ Library:      defobj
 @public
   char *name;
 }
-/*** methods in Symbol_c (inserted from .m file) ***/
+/*** methods in Symbol_c (inserted from .m file by m2h) ***/
 - createEnd;
 + create: aZone setName: (char *)symbolName;
 - (char *) getName;
@@ -24,7 +24,7 @@ Library:      defobj
 @end
 
 @interface EventType_c : Symbol_c
-/*** methods in EventType_c (inserted from .m file) ***/
+/*** methods in EventType_c (inserted from .m file by m2h) ***/
 - (void) raiseEvent;
 - (void) raiseEvent: (void *)msgString, ...;
 @end
@@ -34,7 +34,7 @@ Library:      defobj
 @public
   char *messageString;
 }
-/*** methods in Warning_c (inserted from .m file) ***/
+/*** methods in Warning_c (inserted from .m file by m2h) ***/
 - (void) setMessageString: (char *)messageStr;
 - (char *) getMessageString;
 - (void) raiseEvent;
@@ -43,7 +43,7 @@ Library:      defobj
 @end
 
 @interface Error_c : Warning_c
-/*** methods in Error_c (inserted from .m file) ***/
+/*** methods in Error_c (inserted from .m file by m2h) ***/
 - (void) raiseEvent;
 - (void) raiseEvent: (void *)eventData, ...;
 @end

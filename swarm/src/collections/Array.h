@@ -16,7 +16,7 @@ Library:      collections
 @public
   id   *block;    // block of id values
 }
-/*** methods in Array_c (inserted from .m file) ***/
+/*** methods in Array_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - (void) setInitialValue: initialValue;
 - createEnd;
@@ -38,6 +38,7 @@ Library:      collections
 - getLast;
 - begin: aZone;
 - copy: aZone;
+- (void) describe: outputCharStream;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
@@ -46,7 +47,7 @@ Library:      collections
 @public
   id   *memPtr;         // pointer to current member, or Start or End
 }
-/*** methods in ArrayIndex_c (inserted from .m file) ***/
+/*** methods in ArrayIndex_c (inserted from .m file by m2h) ***/
 - next;
 - prev;
 - get;

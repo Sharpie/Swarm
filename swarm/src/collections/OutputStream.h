@@ -17,7 +17,7 @@ Library:     collections
 @public
   FILE  *fileStream;
 }
-/*** methods in OutputStream_c (inserted from .m file) ***/
+/*** methods in OutputStream_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - (void) setFileStream: (FILE *)file;
 - createEnd;

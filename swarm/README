@@ -1,42 +1,221 @@
 Welcome to the Swarm distribution. Full documentation should be found
 in "swarmdocs-xxxxxx.tar.gz", in the same place as this distribution.
 Documentation is also available on the Web at
-  http://www.santafe.edu/projects/swarm/swarmdocs/
+  http://www.santafe.edu/projects/swarm/
 
-Full installation instructions are in the Swarm documentation. Very
-briefly, you should edit Makefile.conf to point to the right
-directories and run "make".
+   I. Installation Process
+      A. Full source compilation and installation
+      B. Binary installation with accompanying source
+  II. Installation Options and Settings
+
+Questions about this release should be directed to
+<swarm-support@santafe.edu> This is a mailing list for discussion of
+Swarm and its usage.  For subscription info, send an email message to:
+<majordomo@santafe.edu> with the word "help" in the body of the message.
+
+Please take a look at the Release Notes for changes made to this
+release.
+------------------------------------------------------------------------
+
+   I. Installation Process
+
+      Full installation instructions are in the Swarm documentation.
+Basically, there are two options for the installation of Swarm: the
+full source compilation and installation, and the binary installation
+accompanied by a copy of the full source.
+
+      A. Full source compilation and installation (a.k.a. the
+"archive" installation):
+
+         The full source (a.k.a. "archive") compilation and
+installation consists of 1) ensuring that you have available to you,
+all the system/environment prerequisite software you need to use
+Swarm, 2) getting Swarm, itself, and 3) getting the sample
+applications that use Swarm.
+
+         1. Prerequisite software:
+
+All of the prerequisite software you will need is available on the
+Swarm ftp site (ftp://ftp.santafe.edu/pub/swarm/needed-software).
+These can be horrendously difficult to install; so your best bet is to
+use your systems administrator.
+
+         2. Compiling and installing Swarm, itself:
+
+This consists mainly of unpacking it in an accessible place, editing
+the file "Makefile.conf" in the newly created Swarm directory, and
+then running the "make" program.  There is no explicit "installation"
+step to installing Swarm.  You should unpack and compile Swarm and
+then leave the libraries there for access from the applications.
+
+It is often desirable to clone one of the "setup" branches in the
+Makefile.conf file to reflect the settings for your system.  The
+setups provided now are SFI, umich, nelson, glen, and OZ, which 
+reflect the basic systems we test Swarm on before distributing
+it (SFI => Sun/Solaris, umich => HP/HPUX, nelson => Linux/Redhat,
+glen => Linux/Slackware, OZ => DEC/Alpha).  If you set things up
+this way, be sure to tell all the users compiling against this
+Swarm installation what the name of your setup is.  Then when
+you are ready to run the "make" program, you will type:
+
+   % make SETUP=<your setup name>
+
+where <your setup name> is replaced by whatever your setup 
+name is.  E.g. "% make SETUP=SFI".
+
+         3. Compiling and running the example applications:
+
+Retrieve the swarmapps-xx.yy.zz.tar.gz from the Swarm web page
+or ftp site.  Untar this file somewhere appropriate (usually a
+user's home directory, since each user will likely want to make
+code changes to a given app and recompile).  Then change directory
+(cd) to one of the example apps, like heatbugs and edit the Makefile,
+changing the following line from:
+
+SWARMHOME=../swarm
+
+to the following format:
+
+SWARMHOME=<path to where Swarm is installed>
+
+For example, on my system the line looks like this:
+
+SWARMHOME=/net/user/gepr/Swarm/swarm-1.0.3
+
+This points the "make" program to the Makefile.conf file in the 
+Swarm directory and allows each application's own Makefile to 
+access all the parameters set there.  Then all you need do is
+run "make" (or "make SETUP=xyz").
+
+Now, all you need do is type the name of the executable you
+just compiled.
+
+      B. Binary installation with accompanying source
+
+         The binary installation is somewhat different from the
+archive installation.  It consists of a big fat object file
+compiled on some platform that is hopefully compatible with other
+platforms of that type, the initialization and header files for
+the prerequisite software needed to use Swarm, and a copy of the
+Swarm source code for reference.  These distributions are intended
+to sidestep the difficulties associated with installing Tcl/Tk,
+BLT, libtclobjc, etc. while preserving the users' ability to 
+*compile* and run applications.
+
+          Some people have objected to our use of the word 
+"binary" for this distribution, thinking that the association
+between "binary" and "executable" has been so strong in the 
+PC world.  Well, this IS a binary distribution, but it is NOT
+an executable distribution.  You still need the GCC/ObjC compiler
+to use these binary distributions.  And you will still need to 
+learn to program in C to write applications to work with Swarm.
+
+          1. Prerequisite software:
+
+The first step is to install GCC/ObjC, if you don't have it.
+This can be very difficult, so it's best to use your systems
+administrator.  That's what they get paid for. [grin]
+
+          2. Swarm, itself:
+
+Go to the Swarm ftp site (ftp://ftp.santafe.edu/pub/swarm/)
+and download the binary distribution that matches the cpu and
+operating system for your computer.  For instance, if you use
+HPs, then you want:
+
+   swarm-xx.yy.zz-parisc-hpux.tar.gz
+
+If you use a Pentium running linux, then you'll want:
+
+   swarm-xx.yy.zz-i586-linux-ELF.tar.gz
+
+Move this file to some accessible place in your directory 
+structure.  If more than one user is going to be using it, 
+then you can put it somewhere that's seen system wide, like
+/usr/local/swarm.  Untar the file and cd into the newly 
+created directory.
+
+Now, edit the Makefile.conf file so that it is compatible with
+your system.  This should only involve pointing the include and
+library file setups to point to your system includes and libraries.
+For example, on Solaris, the "/usr/openwin/lib" directory is
+included in the solaris section.  See section II in this README.
+
+After you are finished editing the Makefile.conf for your system,
+DO NOT run the "make" program.  It is not necessary.  There is
+nothing to "make," so to speak.
+
+         3. Compiling and running the example applications:
+
+Retrieve the swarmapps-xx.yy.zz.tar.gz from the Swarm web page
+or ftp site.  Untar this file somewhere appropriate (usually a
+user's home directory, since each user will likely want to make
+code changes to a given app and recompile).  Then change directory
+(cd) to one of the example apps, like heatbugs and edit the Makefile,
+changing the following line from:
+
+SWARMHOME=../swarm
+
+to the following format:
+
+SWARMHOME=<path to where Swarm is installed>
+
+For example, on my system the line looks like this:
+
+SWARMHOME=/net/user/gepr/Swarm/swarm-1.0.3
+
+This points the "make" program to the Makefile.conf file in the 
+Swarm directory and allows each application's own Makefile to 
+access all the parameters set there.  Then all you need do is
+run "make".
+
+The next step is to provide some information to the Tcl/Tk
+programs.  This involves setting two environment variables in 
+your system: TCL_LIBRARY and TK_LIBRARY.  The syntax for setting
+these variables depends on the shell you are using.  (You can
+probably find out what shell you're using by typing: 
+"% echo $SHELL".)  In C-Shell, the syntax is as follows:
+
+   % setenv TCL_LIBRARY <path to where Swarm is>/lib
+   % setenv TK_LIBRARY <path to where Swarm is>/lib
+
+where, again, "<path to where Swarm is>" is replaced by
+the path to where you installed the Swarm package.
+In Bourne and Korn shell, the syntax is:
+
+   % export TCL_LIBRARY=<path to where Swarm is>/lib   
+   % export TK_LIBRARY=<path to where Swarm is>/lib   
+
+Now, all you need do is type the name of the executable you
+just compiled.
+
+
+  II. Installation Options and Settings
 
 Setting the SYS makefile variable to one of {solaris,linux,hpux,sgi}
 will pick up any standard system-dependent components or compilation
 environment settings for those systems.  Other selections for those
 settings may be made by modifying the Makefile.
 
-For binary distributions, you will also need to set OTHERINCDIRS to include
-X11 and Objective C include files; you will need to set OTHERLIBDIRS
-to include X11 and Objective C libraries.
-
-To run the output of a compile from the binary distribution, the user
-must set the environment variables "BLT_LIBRARY", "TK_LIBRARY", and
-"TCL_LIBRARY" to the value "$(SWARMHOME)/lib" so the canned tk/tcl
-routines can find required library functions.
+For binary distributions, you will also need to set OTHERINCDIRS to
+include X11 and Objective C include files; you will need to set
+OTHERLIBDIRS to include X11 and Objective C libraries.
 
 For source distributions, you will need to set OTHERINCDIRS to include
-tcl, tk, tclobjc, BLT, X11, and Objective C include directories; 
-you will need to set OTHERLIBDIRS to include libraries for those subsystems
-as well.
+tcl, tk, tclobjc, BLT, X11, and Objective C include directories; you
+will need to set OTHERLIBDIRS to include libraries for those
+subsystems as well.
 
-If you are using a binary distribution, you will have a make variable
-"LDCONFIG" whose value is set to "bin".  This will cause your
-applications link with "swarm.x"; "swarm.x" is an object module that
-has all necessary swarm and system-specific libraries compiled into it
-(with the exception of the X11 and Objective C runtimes, which must
-still be provided as directed).
+If you are using a binary distribution, "LDCONFIG" will be set to
+"bin".  This will cause your applications link with "swarm.x";
+"swarm.x" is an object module that has all necessary swarm and
+system-specific libraries compiled into it (with the exception of the
+X11 and Objective C runtimes, which must still be provided as
+directed).
 
 If you are using a source distribution, "LDCONFIG" will be set to
 "archive", and it will be necessary to compile all swarm libraries, and
 provide versions of tk, tcl, tclobjc, and blt runtime libraries.
 
-Questions about this release should be directed to
-<swarm-support@santafe.edu> This is a mailing list shared by all beta
-developers.
+
+

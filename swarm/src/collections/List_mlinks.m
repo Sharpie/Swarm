@@ -12,6 +12,6 @@ Library:      collections
 #import <collections/List_mlinks.h>
 #import "List_GEN.m"
 #define _CLASSDEFS_ \
-@implementation List_mlinks \
-@implementation ListIndex_mlinks
+ @implementation List_mlinks \
+ @implementation ListIndex_mlinks
 #undef _CLASSDEFS_

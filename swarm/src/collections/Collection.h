@@ -28,9 +28,9 @@ Library:      collections
 #define  IndexFromMemberLoc_Mask   (0xfff << IndexFromMemberLoc_Shift)
 #define  IndexFromMemberLoc_Min    -2044
 }
-/*** methods in Collection_any (inserted from .m file) ***/
+/*** methods in Collection_any (inserted from .m file by m2h) ***/
 - (void) setReplaceOnly: (BOOL)replaceOnly;
-- (void) setIndexFromMemberLoc: (long)byteOffset;
+- (void) setIndexFromMemberLoc: (int)byteOffset;
 - (BOOL) getReadOnly;
 - (BOOL) getReplaceOnly;
 - (int) getIndexFromMemberLoc;
@@ -51,8 +51,8 @@ Library:      collections
 - (void) forEach: (SEL)aSelector : arg1 : arg2;
 - (void) forEach: (SEL)aSelector : arg1 : arg2 : arg3;
 - (void) describe: outputCharStream;
-- (void) xfprint;
-- (void) xfprintid;
+- (void) describeForEach: outputCharStream;
+- (void) describeForEachID: outputCharStream;
 @end
 
 @interface Index_any : Object_s
@@ -60,7 +60,7 @@ Library:      collections
 @public
   Collection_any  *collection;  // base collection on which index created
 }
-/*** methods in Index_any (inserted from .m file) ***/
+/*** methods in Index_any (inserted from .m file by m2h) ***/
 - getCollection;
 - findNext: anObject;
 - findPrev: anObject;
