@@ -293,6 +293,40 @@ java_expandArray (jobject fullary, void *inbuf)
   permute (fullary);
 }
 
+static BOOL
+java_modifier_usable_p (int modifier)
+{
+  return (((*jniEnv)->CallStaticBooleanMethod (jniEnv,
+					       c_Modifier,
+					       m_ModifierIsPublic,
+					       modifier)
+	   == JNI_TRUE)
+	  &&
+	  ((*jniEnv)->CallStaticBooleanMethod (jniEnv,
+					       c_Modifier,
+					       m_ModifierIsStatic,
+					       modifier))
+	  == JNI_FALSE);
+}
+
+BOOL
+java_field_usable_p (jobject field)
+{
+  return
+    java_modifier_usable_p ((*jniEnv)->CallIntMethod (jniEnv,
+						      field,
+						      m_FieldGetModifiers));
+}
+
+BOOL
+java_method_usable_p (jobject method)
+{
+  return
+    java_modifier_usable_p ((*jniEnv)->CallIntMethod (jniEnv,
+						    method,
+						    m_MethodGetModifiers));
+}
+
 #define _GETVALUE(uptype) \
     (*jniEnv)->Get##uptype##Field (jniEnv, \
                                    javaObject, \
@@ -314,7 +348,7 @@ map_java_ivars (jobject javaObject,
       
   if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
                                               class,
-                                              m_ClassGetFields)))
+                                              m_ClassGetDeclaredFields)))
     abort();
       
   count = (*jniEnv)->GetArrayLength (jniEnv, fields);
@@ -328,115 +362,118 @@ map_java_ivars (jobject javaObject,
       field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, fi);
       if (!field)
         raiseEvent (SourceMessage, "field %u unavailable", fi);
-      name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
-      namestr = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
-      {
-        jobject lref =
-          (*jniEnv)->CallObjectMethod (jniEnv,
-                                       field,
-                                       m_FieldGetType);
-        fcall_type_t type = fcall_type_for_java_class (lref);
-        const char *sig = java_signature_for_class (lref);
-        jboolean isArray = 
-          (*jniEnv)->CallBooleanMethod (jniEnv, lref, m_ClassIsArray);
-        jfieldID fid =
-          (*jniEnv)->GetFieldID (jniEnv, class, namestr, sig);
+      if (java_field_usable_p (field))
+	{
+	  name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+	  namestr = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+	  {
+	    jobject lref =
+	      (*jniEnv)->CallObjectMethod (jniEnv,
+					   field,
+					   m_FieldGetType);
+	    fcall_type_t type = fcall_type_for_java_class (lref);
+	    const char *sig = java_signature_for_class (lref);
+	    jboolean isArray = 
+	      (*jniEnv)->CallBooleanMethod (jniEnv, lref, m_ClassIsArray);
+	    jfieldID fid =
+	      (*jniEnv)->GetFieldID (jniEnv, class, namestr, sig);
             
-        (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-        if (!fid)
-          abort ();
+	    (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+	    if (!fid)
+	      abort ();
             
-        SFREEBLOCK (sig);
-        if (isArray)
-          {
-            jobject obj = GETVALUE (Object);
-            fcall_type_t type;
-            unsigned rank;
+	    SFREEBLOCK (sig);
+	    if (isArray)
+	      {
+		jobject obj = GETVALUE (Object);
+		fcall_type_t type;
+		unsigned rank;
                 
-            java_getTypeInfo (obj, &rank, NULL);
-            {
-              unsigned dims[rank], i;
-              unsigned count = 1;
+		java_getTypeInfo (obj, &rank, NULL);
+		{
+		  unsigned dims[rank], i;
+		  unsigned count = 1;
                   
-              type = java_getTypeInfo (obj, &rank, dims);
+		  type = java_getTypeInfo (obj, &rank, dims);
                   
-              for (i = 0; i < rank; i++)
-                count *= dims[i];
-              {
-                unsigned buf[fcall_type_size (type) * count];
+		  for (i = 0; i < rank; i++)
+		    count *= dims[i];
+		  {
+		    unsigned buf[fcall_type_size (type) * count];
                     
-                java_expandArray (obj, buf);
-                process_object (namestr, type, buf, rank, dims);
-              }
-            }
-            (*jniEnv)->DeleteLocalRef (jniEnv, obj);
-          }
-        else
-          {
-            types_t val;
+		    java_expandArray (obj, buf);
+		    process_object (namestr, type, buf, rank, dims);
+		  }
+		}
+		(*jniEnv)->DeleteLocalRef (jniEnv, obj);
+	      }
+	    else
+	      {
+		types_t val;
                 
-            switch (type)
-              {
-              case fcall_type_boolean:
-                val.boolean = GETVALUE (Boolean);
-                break;
-              case fcall_type_schar:
-                val.schar = GETVALUE (Char);
-                break;
-              case fcall_type_sshort:
-                val.sshort = GETVALUE (Short);
-                break;
-              case fcall_type_sint:
-                val.sint = GETVALUE (Int);
-                break;
-              case fcall_type_slonglong:
-                val.slonglong = GETVALUE (Long);
-                break;
-              case fcall_type_float:
-                val._float = GETVALUE (Float);
-                break;
-              case fcall_type_double:
-                val._double = GETVALUE (Double);
-                break;
-              case fcall_type_object:
-                {
-                  jobject obj = GETVALUE (Object);
+		switch (type)
+		  {
+		  case fcall_type_boolean:
+		    val.boolean = GETVALUE (Boolean);
+		    break;
+		  case fcall_type_schar:
+		    val.schar = GETVALUE (Char);
+		    break;
+		  case fcall_type_sshort:
+		    val.sshort = GETVALUE (Short);
+		    break;
+		  case fcall_type_sint:
+		    val.sint = GETVALUE (Int);
+		    break;
+		  case fcall_type_slonglong:
+		    val.slonglong = GETVALUE (Long);
+		    break;
+		  case fcall_type_float:
+		    val._float = GETVALUE (Float);
+		    break;
+		  case fcall_type_double:
+		    val._double = GETVALUE (Double);
+		    break;
+		  case fcall_type_object:
+		    {
+		      jobject obj = GETVALUE (Object);
                       
-                  val.object = SD_JAVA_ENSUREOBJC (obj);
-                  (*jniEnv)->DeleteLocalRef (jniEnv, obj);
-                }
-                break;
-              case fcall_type_string:
-                {
-                  BOOL isCopy;
-                  jobject string = GETVALUE (Object);
-                  const char *utf =
-                    (*jniEnv)->GetStringUTFChars (jniEnv, string, &isCopy);
+		      val.object = SD_JAVA_ENSUREOBJC (obj);
+		      (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+		    }
+		    break;
+		  case fcall_type_string:
+		    {
+		      BOOL isCopy;
+		      jobject string = GETVALUE (Object);
+		      const char *utf =
+			(*jniEnv)->GetStringUTFChars (jniEnv, string, &isCopy);
                       
-                  val.string = SSTRDUP (utf);
-                  if (isCopy)
-                    (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, utf);
-                  (*jniEnv)->DeleteLocalRef (jniEnv, string);
-                }
-                break;
-              case fcall_type_selector:
-                {
-                  jobject sel = GETVALUE (Object);
+		      val.string = SSTRDUP (utf);
+		      if (isCopy)
+			(*jniEnv)->ReleaseStringUTFChars (jniEnv, string, utf);
+		      (*jniEnv)->DeleteLocalRef (jniEnv, string);
+		    }
+		    break;
+		  case fcall_type_selector:
+		    {
+		      jobject sel = GETVALUE (Object);
                       
-                  val.object = SD_JAVA_FINDOBJC (sel);
-                  (*jniEnv)->DeleteLocalRef (jniEnv, sel);
-                }
-                break;
-              default:
-                abort ();
-              }
-            process_object (namestr, type, &val, 0, NULL);
-          }
-        (*jniEnv)->DeleteLocalRef (jniEnv, field);
-        if (isCopy)
-          (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
-        (*jniEnv)->DeleteLocalRef (jniEnv, name);
-      }
+		      val.object = SD_JAVA_FINDOBJC (sel);
+		      (*jniEnv)->DeleteLocalRef (jniEnv, sel);
+		    }
+		    break;
+		  default:
+		    abort ();
+		  }
+		process_object (namestr, type, &val, 0, NULL);
+	      }
+	    if (isCopy)
+	      (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
+	    (*jniEnv)->DeleteLocalRef (jniEnv, name);
+	  }
+	}
+      (*jniEnv)->DeleteLocalRef (jniEnv, field);
     }
   (*jniEnv)->DeleteLocalRef (jniEnv, fields);
   (*jniEnv)->DeleteLocalRef (jniEnv, class);

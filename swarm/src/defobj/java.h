@@ -52,6 +52,8 @@ extern SEL swarm_directory_java_ensure_selector (jobject jsel);
 extern const char *java_copy_string (jstring javaString);
 extern void java_cleanup_strings (const char **stringArray, size_t count);
 extern const char *java_class_name (jobject obj);
+extern BOOL java_field_usable_p (jobject field);
+extern BOOL java_method_usable_p (jobject method);
 extern void java_drop (jobject jobj);
 
 
