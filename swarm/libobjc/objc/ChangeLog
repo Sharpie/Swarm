@@ -5,7 +5,8 @@
 	* runtime.h (_objc_class_links_resolved, __objc_selector_max_index,
 	__objc_runtime_mutex, __objc_runtime_threads_alive): Likewise.
 
-	* sarray.h (nbuckets, nindices, narrays, idxsize): Likewise.
+	* sarray.h (nbuckets, nindices, narrays, idxsize,
+	__objc_sparse2_id, __objc_sparse3_id): Likewise.
 
 	* thr.h (__objc_thread_exit_status): Likewise.
 

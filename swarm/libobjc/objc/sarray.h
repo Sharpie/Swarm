@@ -32,11 +32,11 @@ Boston, MA 02111-1307, USA.  */
 /* #define OBJC_SPARSE3 */      /* 3-level sparse array */
 
 #ifdef OBJC_SPARSE2
-extern const char* __objc_sparse2_id;
+externobjcvar const char* __objc_sparse2_id;
 #endif
 
 #ifdef OBJC_SPARSE3
-extern const char* __objc_sparse3_id;
+externobjcvar const char* __objc_sparse3_id;
 #endif
 
 #include <stddef.h>
