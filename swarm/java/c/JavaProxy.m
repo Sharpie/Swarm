@@ -39,6 +39,9 @@
   type = mframe_next_arg (type, &info);
   mframe_get_arg (argFrame, &info, &val);
   [fa setObjCReturnType: *info.type];
+  /* skip object and selector */
+  type = mframe_next_arg (type, &info);
+  type = mframe_next_arg (type, &info);
   while ((type = mframe_next_arg (type, &info)))
     {
       mframe_get_arg (argFrame, &info, &val);

@@ -1,5 +1,8 @@
 1999-03-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* JavaProxy.m ([JavaProxy -forward::]): Skip object and selector;
+	they are provided in FCall setMethod:inObject.
+
 	* directory.m (create_class_refs): New internal function
 	find_primitive.  Rename find to do non-primitive lookup.
 
