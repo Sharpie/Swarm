@@ -356,7 +356,7 @@
       "-iterate:drop:"
       "-iterateAttributes:"
       "-loadDataset:"
-      "-storeAsDataset:typeName:type:ptr:"
+      "-storeAsDataset:typeName:type:rank:dims:ptr:"
       "-readRowNames"
       ))
 

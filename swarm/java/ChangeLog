@@ -1,3 +1,9 @@
+2000-01-11    <mgd@nest.swarm.org>
+
+	* java-stub.el (*removed-methods*): Change
+	-storeAsDataset:typeName:type:ptr: to
+	-storeAsDataset:typeName:type:rank:dims:ptr:.
+
 1999-12-29  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* java-stub.el (*removed-methods*): Add -iterate:drop:.
