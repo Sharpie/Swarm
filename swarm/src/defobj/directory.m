@@ -268,7 +268,7 @@ get_base_class_name (JNIEnv *env, jobject jobj)
   if (!(methodID = (*env)->GetMethodID (env,
                                         clazz,
                                         "substring",
-                                        "(Ljava/lang/String;)II")))
+                                        "(II)Ljava/lang/String;")))
     abort ();
 
   if (!(baseClassNameObj = (*env)->CallObjectMethod (env,
