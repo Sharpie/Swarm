@@ -186,6 +186,11 @@ PHASE(Setting)
 
 PHASE(Using)
 
++ (const char *)getName
+{
+  return ((Class) self)->name;
+}
+
 //
 // getName -- return name of class
 //

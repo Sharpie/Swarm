@@ -1,3 +1,8 @@
+1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefObject.m ([Object_s +getName]): Keep this method.  Some
+	apps depend on it.
+
 1999-05-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (JAVAINCLUDES): Remove java/c include.
