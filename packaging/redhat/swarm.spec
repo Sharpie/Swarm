@@ -1,7 +1,7 @@
 Summary: Toolkit for agent-based simulation.
 Name: swarm
-Version: 2.1.141.20021019
-Release: 2RH8.0 
+Version: 2.1.147.20030812
+Release: 2RH9.0	 
 Copyright: LGPL
 Group: Development/Libraries
 Source: ftp://ftp.swarm.org/pub/swarm/swarm-%version.tar.gz
@@ -20,7 +20,7 @@ Packager: Red Hat Contrib|Net <rhcn-bugs@redhat.com>
 Distribution: Red Hat Contrib|Net
 Vendor: Swarm Development Group
 URL: http://www.swarm.org
-Requires: gcc >= 3.2, gcc-objc, hdf5 = 1.4.4, XFree86-devel, glibc-devel, libpng, libpng-devel, zlib, zlib-devel, blt, tcl >= 8.3.0, tk >= 8.3.0
+Requires: gcc >= 3.2.2, gcc-objc, hdf5 = 1.4.5post2, XFree86-devel, glibc-devel, libpng, libpng-devel, zlib, zlib-devel, blt, tcl >= 8.3.0, tk >= 8.3.0
 %ifarch ppc
 Requires: libffi >= 1.20
 %endif
@@ -36,15 +36,22 @@ or better, and the blt library package.
 #%define gcc_path PATH=/usr/local/bin:$PATH
 %define gcc_path PATH=$PATH
 
-%define baseconfigure CC=gcc JAVAC=jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix=/usr --enable-subdirs --with-jdkdir=/usr/java/j2sdk1.4.1_01
+%define baseconfigure CC=gcc JAVAC=jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix=/usr --enable-onelib --enable-subdirs --with-jdkdir=/usr/java/j2sdk1.4.1_03
 
 %define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-%{version} 
 
 %define makebuilddir() test -d %1 || mkdir %1 && cd %1 
 
-%define swarm_shared_libs() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%verify (not size md5 mtime) %{1}/lib/swarm/lib$i.la" >> %2 ; echo "%{1}/lib/swarm/lib$i.so*" >> %2 ; done 
+#%define swarm_shared_libs() for i in activity analysis collections defobj misc swarmobjc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%verify (not size md5 mtime) %{1}/lib/swarm/lib$i.la" >> %2 ; echo "%{1}/lib/swarm/lib$i.so*" >> %2 ; done 
 
-%define swarm_static_libs() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.a" >> %2 ; done 
+%define swarm_shared_libs() for i in swarm ; do echo "%verify (not size md5 mtime) %{1}/lib/swarm/lib$i.la" >> %2 ; echo "%{1}/lib/swarm/lib$i.so*" >> %2 ; done
+
+
+#%define swarm_static_libs() for i in activity analysis collections defobj misc swarmobjc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.a" >> %2 ; done 
+
+%define swarm_static_libs() for i in  swarm; do echo "%{1}/lib/swarm/lib$i.a" >> %2 ; done
+
+
 
 %define gen_shared_filelist() echo "%{1}/bin/libtool-swarm" > %2; echo "%{1}/bin/m2h" >> %2; echo "%{1}/bin/make-h2x" >> %2 ; echo "%verify (not size md5 mtime) %{1}/etc/*" >> %2 ; echo "%{1}/include" >> %2 ; echo "%{1}/info/*" >> %2 ;  %{swarm_shared_libs: %1 %2}; echo '%dir %{1}/share' >> %2 ; echo '%doc README AUTHORS COPYING ChangeLog INSTALL NEWS THANKS' >> %2 
 
@@ -55,7 +62,8 @@ or better, and the blt library package.
 %changelog
 * Thu Nov 8 2001 Paul Johnson <pauljohn@ukans.edu>
 
-- trying to use gcc3 from Redhat 7.2
+- trying to use Redhat 7.2's gcc3 compiler
+
 
 * Fri Sep 7 2001 Paul Johnson <pauljohn@ukans.edu>
 
@@ -211,7 +219,7 @@ the normal binary distribuion
 %package jdk
 Summary: Adds Java support to swarm-base package.
 Group: Development/Libraries
-Requires: swarm-base, jikes, j2sdk = 1.4.1_01
+Requires: swarm-base, jikes, j2sdk = 1.4.1_03
 
 
 %description jdk
@@ -250,7 +258,7 @@ CFLAGS="-g $RPM_OPT_FLAGS" %configure
 CFLAGS="-g $RPM_OPT_FLAGS" %configure
 %endif
 
-%{gcc_path} make EXTRACPPFLAGS=-DMETHOD_FUNCTIONS EXTRALDFLAGS=-static-libgcc JAVAC=/usr/bin/jikes
+%{gcc_path} make EXTRAOBJCFLAGS=-Wno-error EXTRALDFLAGS=-static-libgcc JAVAC=/usr/bin/jikes
 
 # cd java
 # make gcjswarm.so

@@ -1,3 +1,11 @@
+2003-08-12  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* swarm.spec (Summary): (swarm-jdk-2.1.147-2RH9.spec on my system)
+	which builds the swarm snapshot from 2003-08-12 against
+	hdf5-1.4.5post2 and Sun Java rpm j2sdk-1.4.1_03. This uses the
+	"onelib" configure option, so fewer shared libraries are
+	built. The commands for the other way are commented out.
+
 2003-02-17  Alex Lancaster  <alex@swarm.org>
 
 	* swarmdemos.spec.in: Remove, obsolete.
