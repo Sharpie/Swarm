@@ -1,3 +1,12 @@
+1999-07-09  Alex Lancaster  <alex@santafe.edu>
+
+	* VarProbe.m (setFieldFromString): Protect Java-only static
+	function with #ifdef HAVE_JDK.
+
+	* CompleteProbeMap.m ([CompleteProbeMap -createEnd]): Move
+	declaration of index and inversionList inside the #ifdef HAVE_JDK
+	block, since they are only used in the Java case.
+
 1999-07-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* CompleteProbeMap.m: Import directory.h and declare as extern global

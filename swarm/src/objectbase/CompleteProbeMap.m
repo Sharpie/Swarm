@@ -30,8 +30,6 @@ extern jmethodID  m_ClassGetDeclaredFields,
 
   id classList;  //added to ensure the vars are added from Object downwards
   id anIndex;    //as required by the ObjectSaver (for example).
-  id inversionList;
-  id index;
 
   if (SAFEPROBES)
     if (probedClass == 0)
@@ -51,6 +49,8 @@ extern jmethodID  m_ClassGetDeclaredFields,
 #ifdef HAVE_JDK
   if (isJavaProxy)
     { 
+      id inversionList;
+      id index;
       jarray fields;
       jsize fieldslength;
       jarray methods;

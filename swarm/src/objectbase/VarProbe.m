@@ -721,7 +721,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   return self;
 }
 
-
+#ifdef HAVE_JDK
 void
 setFieldFromString (id anObject, jobject field, 
 		    jclass fieldType, const char * value)
@@ -849,6 +849,7 @@ setFieldFromString (id anObject, jobject field,
 				 javaString);      
     }
 }
+#endif
 
 // sets data to the string passed in. Some duplicated code with
 // setData:To:, but it's not too bad. Note we don't allow setting
