@@ -1,6 +1,10 @@
-1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+1998-12-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* NEWS: Note addition of initSwarmAppFunc.  
+	* VERSION: Bump.
+
+1998-12-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* NEWS: Note addition of initSwarmAppOptions.
 
 	* VERSION: Bump.
 
