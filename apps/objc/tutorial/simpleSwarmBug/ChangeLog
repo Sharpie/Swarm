@@ -1,3 +1,7 @@
+1998-04-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* FoodSpace.h: Include space/Discrete2d.h instead of space.h.
+
 1998-03-18  Alex Lancaster  <alex@santafe.edu>
 
 	* *.[hm]: Reformatting throughout.
