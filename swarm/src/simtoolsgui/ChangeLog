@@ -1,0 +1,11 @@
+1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile:  New file.
+
+	* ActionCache.[hm], ActionHolder.[hm], ActiveGraph.[hm],
+	ClassDisplayWidget.[hm], CommonProbeDisplay.[hm],
+	CompleteProbeDisplay.[hm], ControlPanel.[hm], GUIComposite.[hm],
+	GUISwarm.[hm], MessageProbeWidget.[hm], ProbeDisplay.[hm],
+	ProbeDisplayManager.[hm], SimpleProbeDisplay.[hm],
+	VarProbeWidget.[hm], simtools.[hm], global.h: Moved from simtools.
+
