@@ -1,5 +1,3 @@
-1997-11-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
-
 1997-11-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): Use
@@ -37,4 +35,3 @@
 	"ActionCache.h" to prevent possibility of multiple inclusion.
 
 
-	
