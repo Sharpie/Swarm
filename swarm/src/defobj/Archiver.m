@@ -235,7 +235,7 @@ lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
 }
 
 static void
-lispLoadArchiverExpr (id applicationMap, id expr)
+lispLoadArchiver (id applicationMap, id expr)
 {
   id archiverCallExprIndex, archiverCallName;
   
@@ -257,6 +257,47 @@ lispLoadArchiverExpr (id applicationMap, id expr)
                                [archiverCallExprIndex next],
                                applicationMap);
   [archiverCallExprIndex drop];
+}
+
+static void
+hdf5LoadArchiver (id applicationMap, id hdf5file)
+{
+  void appIterateFunc (id appHDF5Obj)
+    {
+      void modeIterateFunc (id modeHDF5Obj)
+        {
+          void objIterateFunc (id hdf5Obj)
+            {
+              void attrIterateFunc (const char *key,
+                                    const char *value)
+                {
+                  printf ("[%s][%s]\n", key, value);
+                }
+              [hdf5Obj iterateAttributes: attrIterateFunc];
+              printf ("    <%s> (%s)\n",
+                      [hdf5Obj getName],
+                      ([hdf5Obj getDatasetFlag]
+                       ? "Dataset"
+                       : "Group"));
+            }
+          id appKey, app;
+          id aZone = [hdf5file getZone];
+
+          appKey = [String create: aZone setC: [appHDF5Obj getName]];
+          [appKey catC: "/"];
+          [appKey catC: [modeHDF5Obj getName]];
+          
+          app = [[[Application createBegin: aZone]
+                   setName: [appKey getC]]
+                    createEnd];
+          
+          [applicationMap at: appKey insert: app];
+          
+          [modeHDF5Obj iterate: objIterateFunc];
+        }
+      [appHDF5Obj iterate: modeIterateFunc];
+    }
+  [hdf5file iterate: appIterateFunc];
 }
 
 void
@@ -422,8 +463,7 @@ PHASE(Creating)
               id inStream =
                 [InputStream create: inStreamZone setFileStream: fp];
               
-              lispLoadArchiverExpr (applicationMap,
-                                    [inStream getExpr]);
+              lispLoadArchiver (applicationMap, [inStream getExpr]);
               [inStreamZone drop]; 
               fclose (fp);
             }
@@ -436,43 +476,8 @@ PHASE(Creating)
                         setParent: nil]
                        setName: hdf5Path]
                       createEnd];
-          {
-            void appIterateFunc (id appHDF5Obj)
-              {
-                void modeIterateFunc (id modeHDF5Obj)
-                  {
-                    id appKey, app;
-                    
-                    void objIterateFunc (id hdf5Obj)
-                      {
-                        void attrIterateFunc (const char *key,
-                                              const char *value)
-                          {
-                            printf ("[%s][%s]\n", key, value);
-                          }
-                        [hdf5Obj iterateAttributes: attrIterateFunc];
-                        printf ("    <%s> (%s)\n",
-                                [hdf5Obj getName],
-                                ([hdf5Obj getDatasetFlag]
-                                 ? "Dataset"
-                                 : "Group"));
-                      }
-                    appKey = [String create: aZone setC: [appHDF5Obj getName]];
-                    [appKey catC: "/"];
-                    [appKey catC: [modeHDF5Obj getName]];
-
-                    app = [[[Application createBegin: aZone]
-                             setName: [appKey getC]]
-                            createEnd];
-                    
-                    [applicationMap at: appKey insert: app];
-                    
-                    [modeHDF5Obj iterate: objIterateFunc];
-                  }
-                [appHDF5Obj iterate: modeIterateFunc];
-              }
-            [file iterate: appIterateFunc];
-          }
+          
+          hdf5LoadArchiver (applicationMap, file);
           [file drop];
         }
 #endif
