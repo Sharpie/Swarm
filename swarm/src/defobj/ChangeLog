@@ -1,5 +1,10 @@
 2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* modulemap.el (print-keywords): Skip entry if there is no
+	module association (e.g. SwarmEnvironment).
+
+	* Makefile.am ($(srcdir)/modulemap.c): Depend on modulemap.elc.
+
 	* Arguments.[hm], defobj.h ([Arguments_c
 	-addOption:key:arg:flags:doc:group:]): Add.
 	([Arguments_c -addOptions:]) Remove return.

@@ -44,12 +44,13 @@
                collect protocol)
          #'(lambda (a b) (string< (protocol-name a)
                                   (protocol-name b))))
+        for pos = (position (module-sym (protocol-module protocol))
+                            module-list)
+        when pos
         do
         (insert (protocol-name protocol))
         (insert ",")
-        (insert (format "%d" (position (module-sym
-                                        (protocol-module protocol))
-                                       module-list)))
+        (insert (format "%d" pos))
         (terpri (current-buffer))))
 
 (defun generate-module-map ()
