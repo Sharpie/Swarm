@@ -49,18 +49,19 @@ tkobjc_bindButton3ForCompleteProbeDisplay (id widget,
 - createEnd
 {
   [super createEnd];
-
-  [self anchorWest];
-  [self colorBlue];
-
+  
   tkobjc_dragAndDrop (self, probeDisplay);
   tkobjc_bindButton3ForCompleteProbeDisplay (self,
                                              probedObject,
                                              probeDisplayManager);
-  [self setupWindowEntryColor];
-  [self setupWindowExitColor];
+  
+  [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",
+                  widgetName, widgetName];
+  [globalTkInterp eval: "bind %s <Leave> {%s configure -fg blue}",
+                  widgetName, widgetName];
+  
   [self pack];
-
+  
   return self;
 }
 

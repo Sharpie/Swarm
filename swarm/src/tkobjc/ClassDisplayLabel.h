@@ -3,12 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/Widget.h>
+#import <tkobjc/Label.h>
 
-@interface Label: Widget
+@interface ClassDisplayLabel: Label
 {
 }
 
 - createEnd;
-- setText: (const char *)t;			  // initialize the entry
 @end

@@ -3,12 +3,19 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/Widget.h>
+#import <tkobjc/global.h>
+#import <tkobjc/VarProbeLabel.h>
 
-@interface Label: Widget
+@implementation VarProbeLabel
+
+- createEnd
 {
+  [super createEnd];
+
+  [globalTkInterp eval: "%s configure -anchor e", widgetName];
+
+  return self;
 }
 
-- createEnd;
-- setText: (const char *)t;			  // initialize the entry
 @end
+

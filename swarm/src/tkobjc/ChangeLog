@@ -1,5 +1,35 @@
 1998-01-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ClassDisplayLabel.[hm], VarProbeLabel.[hm]: New files.
+	
+	* Widget.[hm]: Remove enableRelif, setBorderWidth:,
+	setupWindowExitColor setupWindowExitColor, and focus.
+
+	* Makefile (OBJECTS,HEADERS): Add ClassDisplayLabel and VarProbeLabel.
+	(ClassDisplayLabel.o, VarProbeLabel.o): Add.
+
+	* Label.m: Remove anchorEast, anchorWest, and colorBlue.
+
+	* Label.h: Likewise.  Declare createEnd.
+
+	* Frame.m ([Frame -setBorderWidth:], [Frame -setReliefFlag:]): New
+	methods.
+	([Frame -createEnd]): Create relief if reliefFlag is set.
+	Set borderwidth if non-zero.
+
+	* Frame.h (Frame):  Add borderWidth and reliefFlag.  Declare
+	setters.
+
+	* CompleteProbeDisplayLabel.m ([CompleteProbeDisplayLabel
+	-createEnd]): Remove calls to anchorWest and colorBlue, they are
+	now inherited.  Replace calls to setupWindow{Entry,Exit}Color with
+	direct calls to globalTkInterp; those methods were only used
+	here, and therefore have been removed.
+
+	* CompleteProbeDisplayLabel.h: Include ClassDisplayLabel.h instead
+	of Label.h. (CompleteProbeDisplayLabel): Inherit from
+	ClassDisplayLabel.
+
 	* tkobjc.m: Don't include unistd.h or string.h.
 	(ensureBltSupportFiles): Remove.
 	(initTkObjc): Don't append $blt_library to auto_path.

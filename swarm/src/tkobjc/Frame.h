@@ -9,6 +9,8 @@
 
 @interface Frame: ArchivedGeometryWidget
 {
+  int borderWidth;
+  BOOL reliefFlag;
 }
 
 - createEnd; // we override this.
@@ -17,4 +19,6 @@
 - assertPosition;
 - withdraw;
 - deiconify;
+- setBorderWidth: (int)borderWidth;
+- setReliefFlag: (BOOL)reliefFlag;
 @end

@@ -51,12 +51,6 @@
 
 - setActiveFlag: (BOOL)activeFlag;
 
-- enableRelief;
-- setBorderWidth: (int)width;
-- setupWindowEntryColor;
-- setupWindowExitColor;
-- focus;
-
 - setWidgetNameFromParent: parent;
 - setWidgetNameFromParentName: (const char *)parentWidgetName;
 - (const char *)makeWidgetNameFor: widget;

@@ -231,45 +231,6 @@
   return self;
 }
 
-- enableRelief
-{
-  [globalTkInterp eval: "%s configure -relief ridge -borderwidth 3",
-    [self getWidgetName]] ;
-  return self;
-}
-
-- setBorderWidth: (int)width
-{
-  [globalTkInterp eval: "%s configure -bd %d", 
-                  [self getWidgetName],
-                  width];
-  return self;
-}
-
-- setupWindowEntryColor
-{
-  const char *name = [self getWidgetName];
-
-  [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",
-                  name, name];
-  return self;
-}
-
-- setupWindowExitColor
-{
-  const char *name = [self getWidgetName];
-
-  [globalTkInterp eval: "bind %s <Leave> {%s configure -fg blue}",
-                  name, name];
-  return self;
-}
-
-- focus
-{
-  tkobjc_focus (self);
-  return self;
-}
-
 // fill in the "parent" and "name" fields for a widget, based on algorithm.
 // "name" is parent.w<objectName>, where <objectName> is the tclObjc name
 // for self (long version) or just the pointer (short version)

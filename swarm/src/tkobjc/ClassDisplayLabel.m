@@ -3,18 +3,20 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <tkobjc/global.h>
 #import <tkobjc/ClassDisplayLabel.h>
 
-@interface CompleteProbeDisplayLabel: ClassDisplayLabel
+@implementation ClassDisplayLabel
+
+- createEnd
 {
-  id probeDisplay;
-  id probedObject;
-  id probeDisplayManager;
+  [super createEnd];
+
+  [globalTkInterp eval: "%s configure -anchor w", widgetName];
+  [globalTkInterp eval: "%s configure -foreground blue", widgetName];
+
+  return self;
 }
 
-- setProbeDisplay: probeDisplay;
-- setProbedObject: probedObject;
-- setProbeDisplayManager: probeDisplayManager;
-- createEnd;
-
 @end
+

@@ -11,6 +11,18 @@
 
 @implementation Frame
 
+- setBorderWidth: (int)theBorderWidth
+{
+  borderWidth = borderWidth;
+  return self;
+}
+
+- setReliefFlag: (BOOL)theReliefFlag
+{
+  reliefFlag = theReliefFlag;
+  return self;
+}
+
 // make a new top level frame. Can't use Widget default createEnd, because
 // this is where the toplevel is actually built.
 - createEnd
@@ -27,6 +39,15 @@
       [super createEnd];
       tkobjc_makeFrame (self);
     }
+
+  if (reliefFlag)
+    [globalTkInterp eval: "%s configure -relief ridge -borderwidth 3",
+                    widgetName];
+
+  if (borderWidth > 0)
+    [globalTkInterp eval: "%s configure -bd %d",
+                    widgetName, borderWidth];
+
   return self;
 }
 
