@@ -1,4 +1,4 @@
-<CHAPTER ID="SWARM.OVERVIEW.CHAP4">
+<CHAPTER ID="SWARM.OVERVIEW.MAG4.CHAPTER">
   <TITLE>Mag 4x:Sketch of Code </TITLE>
 
   <PARA>Now that we have multiple Swarms and an experimental
@@ -8,7 +8,7 @@
   applications and the library documentation. These examples come from
   the Heatbugs application.</PARA>
 
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG4.MODEL-SWARM.SECT1">
     <TITLE>Building a Model Swarm</TITLE> 
 
     <PARA>The key component of a simulation is the model Swarm. Here
@@ -73,7 +73,7 @@
 
   </SECT1>
 
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG4.DEFINE-AGENT.SECT1">
     <TITLE>Defining an Agent</TITLE>
 
     <PARA>The agents are typically the real focus of a modeling
@@ -151,7 +151,7 @@
 
     </SECT1>
 
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG4.BUILD-AGENTS.SECT1">
 
     <TITLE>Building Agents</TITLE>
 
@@ -202,7 +202,7 @@ for (i = 0; i &lt; numBugs; i++)
 
     </SECT1>
   
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG4.BUILD-SPACE.SECT1">
     <TITLE>Building Space objects</TITLE>
 
     <PARA> In Swarm, spaces are really just another kind of agent. In
@@ -227,7 +227,7 @@ heat = [heat createEnd];
 
     </SECT1>
   
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG4.SCHEDULE-SWARM.SECT1">
     <TITLE>Scheduling a Model Swarm</TITLE>
 
     <PARA>Once all of the simulated objects are created in
@@ -270,7 +270,7 @@ modelSchedule = [modelSchedule createEnd];
 
     </SECT1>
 
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG4.BUILD-OBSERVER.SECT1">
     <TITLE>Building a Graphical Observer Swarm</TITLE> 
 
     <PARA>With the model swarm defined, arranging for a graphical
@@ -309,7 +309,7 @@ modelSchedule = [modelSchedule createEnd];
 
     </SECT1>
 
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG4.BUILD-GRAPH.SECT1">
     <TITLE>Building a Data Graph</TITLE>
 
     
@@ -345,7 +345,7 @@ unhappyGraph = [unhappyGraph createEnd] ;
 
     </SECT1>
 
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG4.MAIN-FUNC.SECT1">
       <TITLE>The main() function</TITLE>
 
     <PARA>The last main type of code needed for an application is the

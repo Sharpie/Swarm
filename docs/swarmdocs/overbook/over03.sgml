@@ -1,4 +1,4 @@
-<CHAPTER ID="SWARM.OVERVIEW.CHAP3">
+<CHAPTER ID="SWARM.OVERVIEW.MAG3.CHAPTER">
   <TITLE>Mag 3x: Swarm Structures</TITLE>
 
   <PARA>Swarm applications are structured around the concept of the
@@ -8,7 +8,7 @@
   the Swarm and the schedule is like the arrow of time moving the
   objects forward.</PARA>
 
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG3.MODEL-SWARM.SECT1">
     <TITLE>Model Swarms</TITLE> 
 
     <PARA>In our current demos, Swarm applications contain two
@@ -37,7 +37,7 @@
 
     </SECT1>
 
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG3.OBSERVER-SWARM.SECT1">
     <TITLE>Observer Swarms</TITLE> <PARA>The model swarm alone defines
     the simulated world. But an experiment does not just consist of
     the objects being experimented upon, it also includes the
@@ -85,7 +85,7 @@
 
   </SECT1>
   
-  <SECT1>
+  <SECT1 ID="SWARM.OVERVIEW.MAG3.SUMMARY.SECT1">
     <TITLE>Summary</TITLE> 
   
     <PARA>Multiple Swarms are used to create an experimental apparatus
