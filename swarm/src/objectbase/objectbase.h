@@ -668,6 +668,18 @@ USING
 //E: }
 //E: 
 //E: @end
+//E:
+//E: To actually invoke this in the main.m program, you do the following:
+//E:
+//E: int 
+//E: main(int argc, const char ** argv) 
+//E: {
+//E:   initSwarmArguments (argc, argv, [MySwarmAppArguments class]);
+//E:   
+//E:   // the usual - buildObjects:, - buildActions:, - activateIn: calls
+//E:   
+//E:   return 0;					  
+//E: }
 
 CREATING
 + createArgc: (int)argc Argv: (const char **)argv;
