@@ -5,12 +5,12 @@ EXAMPLES=GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
 	grid6.m grid7.m grid8.m grid9.m mousetraps.m mousetraps2.m \
 	strtest.m
 
-all: html tex dvi ps
+all: html tex dvi ps rtf
 html: refbook.html
 tex: refbook.tex
 dvi: refbook.dvi
 ps: refbook.ps
-
+rtf: refbook.rtf
 
 include ../Makefile.conf
 

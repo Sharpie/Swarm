@@ -1,4 +1,5 @@
 <!DOCTYPE style-sheet PUBLIC "-//James Clark//DTD DSSSL Style Sheet//EN" [
+<!ENTITY common.dsl SYSTEM "common.dsl" CDATA DSSSL>
 <!ENTITY % html "IGNORE">
 <![%html;[
 <!ENTITY % print "IGNORE">
@@ -10,8 +11,7 @@
 ]]>
 ]>
 
-<style-sheet>
-<style-specification id="print" use="docbook">
+<style-specification id="print" use="common docbook">
 <style-specification-body>
 
 ;; customize the print stylesheet
@@ -24,10 +24,19 @@
   ;; List of graphic filename extensions
   '("gif" "jpg" "jpeg"  "ps" ))
 
+(define (make-divider)
+    (make rule 
+          orientation: 'horizontal
+          line-thickness: 1pt))
+
+(define (make-paragraph nl)
+    (make paragraph
+          (process-node-list nl)))
+
 </style-specification-body>
 </style-specification>
 
-<style-specification id="html" use="docbook">
+<style-specification id="html" use="common docbook">
 <style-specification-body> 
 
 ;; customize the html stylesheet
@@ -55,71 +64,20 @@
   ;; Use ID attributes as name for component HTML files?
   #t)
 
-(define (expand-method signature paramdefs)
-    (let ((signature-length (string-length signature)))
-      (let next-pos ((start-pos 0) (pos 0) (paramdefs paramdefs))
-           (if (< pos signature-length)
-               (if (char=? (string-ref signature pos) #\:)
-                   (sosofo-append
-                    (literal (substring signature start-pos (+ pos 1)))
-                    (process-node-list (node-list-first paramdefs))
-                    (next-pos (+ 1 pos) (+ 1 pos) (node-list-rest paramdefs)))
-                   (next-pos start-pos (+ 1 pos) paramdefs))
-               (if (= start-pos 0)
-                   (literal (substring signature 0 signature-length))
-                   (empty-sosofo))))))
+(define (make-divider)
+    (make empty-element gi: "HR"
+          attributes: (list (list "SIZE" "1"))))
 
-(define (chars-p nl)
-    (let loop ((kl nl))
-         (if (node-list-empty? kl)
-             #f
-             (let ((c (node-list-first kl)))
-               (if (char? (node-property 'char c default: #f))
-                   #t
-                   (loop (node-list-rest kl)))))))
-
-(define (type-expand nl)
-         (if (chars-p nl)
-             (sosofo-append
-              (literal "(")
-              (let loop ((kl nl))
-                   (if (node-list-empty? kl)
-                       (empty-sosofo)
-                       (let ((c (node-list-first kl)))
-                         (sosofo-append
-                          (if (char? (node-property 'char c default: #f))
-                              (process-node-list c)
-                              (empty-sosofo))
-                          (loop (node-list-rest kl))))))
-              (literal ")"))
-             (empty-sosofo)))
-
-(element FUNCDEF (type-expand (children (current-node))))
-         
-;(element FUNCTION (empty-sosofo))
-
-(element PARAMDEF
-         (sosofo-append
-          (literal " ")
-          (type-expand (children (current-node)))
-          (process-matching-children "PARAMETER")
-          (literal " ")))
-
-(element FUNCPROTOTYPE
-         (let* ((funcdef (select-elements (children (current-node)) "FUNCDEF"))
-                (function (select-elements (children funcdef) "FUNCTION"))
-                (function-data (data function)))
-           (sosofo-append
-            (literal (substring function-data 0 1))
-            (literal " ")
-            (process-node-list funcdef)
-            (expand-method
-             (substring function-data 1 (string-length function-data))
-             (select-elements (children (current-node)) "PARAMDEF")))))
-         
+(define (make-paragraph nl)
+    (sosofo-append
+     (make empty-element gi: "P")
+     (process-node-list nl)))
+  
 
 </style-specification-body>
 </style-specification>
+
+<external-specification id="common" document="common.dsl">
 <external-specification id="docbook" document="docbook.dsl">
 </style-sheet>
 

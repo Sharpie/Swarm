@@ -6,6 +6,16 @@
 
 (defconst *phases* '(:creating :setting :using))
 
+(defvar *protocol-list*)
+
+(defvar *method-signature-hash-table* (make-hash-table :test #'equal))
+
+(defvar *method-signature-list*)
+
+(defvar *general-example-counter-hash-table* (make-hash-table :test #'eq))
+
+(defvar *method-example-counter-hash-table* (make-hash-table :test #'equal))
+
 (defconst *swarm-modules* '(activity
                             analysis
                             collections
@@ -137,6 +147,27 @@
 (defun line-text ()
   (buffer-substring (point) (end-of-line-position)))
 
+(defun general-example-counter (protocol)
+  (let ((val (gethash protocol *general-example-counter-hash-table*)))
+    (if val
+        (progn
+          (incf (gethash protocol *general-example-counter-hash-table*))
+          val)
+        (progn
+          (setf (gethash protocol *general-example-counter-hash-table*) 1)
+          0))))
+
+(defun method-example-counter (protocol method)
+  (let* ((key (cons protocol method))
+         (val (gethash key *general-example-counter-hash-table*)))
+    (if val
+        (progn
+          (incf (gethash key *general-example-counter-hash-table*))
+          val)
+        (progn
+          (setf (gethash key *general-example-counter-hash-table*) 1)
+          0))))
+
 (defun load-protocol (module)
   (interactive)
 
@@ -189,32 +220,34 @@
                       (buffer-substring (point) (end-of-line-position)))))
       (let ((line (line-text))
             (is-doc-type (and (member tag *doc-types*)
-                              (not 
-                               (looking-at "^#")))))
-        (flet ((extract-doc-string (str)
-                 (substring str 5)))
+                              (not (looking-at "^#")))))
+        (flet ((extract-doc-string (str) (substring str 5)))
           (if (eq tag last-tag)
-              (when is-doc-type
-                (setq buf (concat 
-                           (if (string-match " $" buf) 
-                               buf
-                             (concat buf " "))
-                           (extract-doc-string line))))
-            (progn
-              (case last-tag
-                (:example-doc
-                 (push buf example-list)
-                 (unless (or method-list method-doc-list)
-                   (setq global-example-list example-list)
-                   (setq example-list nil)))
-                (:method-doc
-                 (push buf method-doc-list))
-                (:summary-doc (if summary-doc
-                                  (error "summary already set")
-                                (setq summary-doc buf)))
-                (:description-doc (push buf description-doc-list)))
-              (when is-doc-type
-                (setq buf (extract-doc-string line)))))))
+              (if is-doc-type
+                  (setq buf (concat 
+                             (if (string-match " $" buf) 
+                                 buf
+                                 (concat buf " "))
+                             (extract-doc-string line)))
+                  (when (eq tag :example-doc)
+                    (setq buf
+                          (concat buf "\n" (extract-doc-string line)))))
+              (progn
+                (case last-tag
+                  (:example-doc
+                   (push buf example-list)
+                   (unless (or method-list method-doc-list)
+                     (setq global-example-list example-list)
+                     (setq example-list nil)))
+                  (:method-doc
+                   (push buf method-doc-list))
+                  (:summary-doc (if summary-doc
+                                    (error "summary already set")
+                                    (setq summary-doc buf)))
+                  (:description-doc (push buf description-doc-list)))
+                (when (or is-doc-type (eq tag :example-doc))
+                  (setq buf (extract-doc-string line)))))))
+      
       (when (member tag '(:method :factory-method))
         (push (parse-method name
                             phase
@@ -366,17 +399,32 @@
         (setf (protocol-expanded-methodinfo-list protocol)
               (expand-protocol protocol))))
 
+(defun external-protocol-name (protocol)
+  (let ((raw-protocol-name (protocol-name protocol)))
+    (if (string= (substring raw-protocol-name 0 1)
+                 "_")
+        (substring raw-protocol-name 1)
+        raw-protocol-name)))
+
+(defun sgml-protocol-id (protocol)
+  (let* ((cooked-protocol-name (external-protocol-name protocol)))
+    (insert "\"SWARM.")
+    (insert (upcase (symbol-name (protocol-module protocol))))
+    (insert ".")
+    (insert (upcase cooked-protocol-name))
+    (insert "\"")))
+
 (defun sgml-refentry-start (protocol)
-  (insert "<REFENTRY ID=\"SWARM.")
-  (insert (upcase (symbol-name (protocol-module protocol))))
-  (insert ".")
-  (insert (protocol-name protocol))
-  (insert "\">\n"))
+  (insert "<REFENTRY ID=")
+  (sgml-protocol-id protocol)
+  (insert ">\n"))
 
 (defun sgml-refmeta (protocol)
   (insert "<REFMETA>\n")
   (insert "<REFENTRYTITLE>")
+
   (insert (protocol-name protocol))
+  
   (insert "</REFENTRYTITLE>\n")
   (insert "<REFMISCINFO>")
   (insert (symbol-name (protocol-module protocol)))
@@ -456,57 +504,115 @@
         (when (third arguments)
           (princ ":" stream))))
 
-(defun sgml-method-definitions (protocol)
-  (insert "<ITEMIZEDLIST>\n")
+(defun sgml-method-funcsynopsis (owner-protocol method)
+  (insert "<FUNCSYNOPSIS>\n")
+  (insert "<FUNCPROTOTYPE>\n")
+  (insert "<FUNCDEF>")
+  (let ((return-type (method-return-type method)))
+    (when return-type
+      (insert-text return-type)))
+  (insert "<FUNCTION>")
+  (print-method-signature method (current-buffer))
+  (insert "</FUNCTION>")
+  (insert "</FUNCDEF>\n")
+  (let ((arguments (method-arguments method)))
+    (if (and (eql (length arguments) 1)
+             (null (third (first arguments))))
+        (insert "<VOID>\n")
+        (loop for arg in arguments
+              do
+              (let ((argname (third arg)))
+                ;; In the no-argument case, argname will be nil.
+                (when argname
+                  (insert "<PARAMDEF>")
+                  (insert-text (second arg))
+                  (insert "<PARAMETER>")
+                  (insert argname)
+                  (insert "</PARAMETER>")
+                  (insert "</PARAMDEF>\n"))))))
+  (insert "</FUNCPROTOTYPE>\n")
+  (sgml-method-description owner-protocol method)
+  (insert "</FUNCSYNOPSIS>\n"))
+
+(defun sgml-link-to-protocol (protocol)
+  (insert "<LINK LINKEND=")
+  (sgml-protocol-id protocol)
+  (insert ">")
+  (insert (external-protocol-name protocol))
+  (insert "</LINK>"))
+
+(defun methodinfo-list-for-phase (protocol phase)
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
-        for level = (first methodinfo)
-        for owner-protocol = (second methodinfo)
-        for method = (third methodinfo)
-        do
-        (insert "<LISTITEM>\n")
-        (insert "<FUNCSYNOPSIS>\n")
-        (insert "<FUNCPROTOTYPE>\n")
-        (insert "<FUNCDEF>")
-        (let ((return-type (method-return-type method)))
-          (when return-type
-            (insert-text return-type)))
-        (insert "<FUNCTION>")
-        (print-method-signature method (current-buffer))
-        (insert "</FUNCTION>")
-        (insert "</FUNCDEF>\n")
-        (let ((arguments (method-arguments method)))
-          (if (and (eql (length arguments) 1)
-                   (null (third (first arguments))))
-              (insert "<VOID>\n")
-              (loop for arg in arguments
-                    do
-                    (let ((argname (third arg)))
-                      ;; In the no-argument case, argname will be nil.
-                      (when argname
-                        (insert "<PARAMDEF>")
-                        (insert-text (second arg))
-                        (insert "<PARAMETER>")
-                        (insert argname)
-                        (insert "</PARAMETER>")
-                        (insert "</PARAMDEF>\n"))))))
-        (insert "</FUNCPROTOTYPE>\n")
-        (sgml-method-description owner-protocol method)
-        (insert "</FUNCSYNOPSIS>\n")
+        when (eq (method-phase (third methodinfo)) phase)
+        collect methodinfo))
+
+(defun sgml-method-definitions (protocol phase)
+  (let ((methodinfo-list (methodinfo-list-for-phase protocol phase))
+        have-list have-item)
+    (when methodinfo-list
+      (insert "<ITEMIZEDLIST>\n")
+      (loop with last-protocol = nil
+            for methodinfo in methodinfo-list
+            for level = (first methodinfo)
+            for owner-protocol = (second methodinfo)
+            for method = (third methodinfo)
+            for new-group-flag = (not (eq owner-protocol last-protocol))
+            
+            when new-group-flag do
+            (when have-list
+              (insert "</ITEMIZEDLIST>\n")
+              (setq have-list nil))
+            (when have-item
+              (insert "</LISTITEM>\n")
+              (setq have-item nil))
+            (insert "<LISTITEM>\n")
+            (setq have-item t)
+            (insert "<PARA>")
+            (if (= level 0)
+                (insert (external-protocol-name owner-protocol))
+                (sgml-link-to-protocol owner-protocol))
+            (insert "</PARA>\n")
+            (when (= level 0)
+              (setq have-list t)
+              (insert "<ITEMIZEDLIST>\n"))
+            
+            do
+            (when (= level 0)
+              (insert "<LISTITEM>\n")
+              (sgml-method-funcsynopsis owner-protocol method)
+              (sgml-method-examples owner-protocol method)
+              (insert "</LISTITEM>\n"))
+            
+            for last-protocol = owner-protocol)
+      (when have-list
+        (insert "</ITEMIZEDLIST>\n"))
+      (when have-item
         (insert "</LISTITEM>\n"))
-  (insert "</ITEMIZEDLIST>\n"))
-  
+      (insert "</ITEMIZEDLIST>\n"))))
+
+(defun protocol-index (protocol)
+  (position protocol *protocol-list*))
+
 (defun sgml-examples (protocol)
   (let ((example-list (protocol-example-list protocol)))
     (when example-list
-      (insert "<PARA>General examples:</PARA>")
+      (insert "<EXAMPLE LABEL=\"")
+      (insert (symbol-name (protocol-module protocol)))
+      (insert " / ")
+      (insert (external-protocol-name protocol))
+      (insert (format " / %d" (general-example-counter protocol)))
+      (insert "\">")
+      (insert "<TITLE>\n")
+      (insert "</TITLE>")
       (loop for example in example-list
             do
             (insert "<PROGRAMLISTING>\n")
             (insert example)
-            (insert "</PROGRAMLISTING>\n")))))
+            (insert "</PROGRAMLISTING>\n"))
+      (insert "</EXAMPLE>\n"))))
 
-(defun count-method-examples (protocol)
-  (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
+(defun count-method-examples (protocol phase)
+  (loop for methodinfo in (methodinfo-list-for-phase protocol phase)
         for method = (third methodinfo)
         count (method-example-list method)))
 
@@ -524,39 +630,41 @@
         (compare-method-signatures (third a) (third b))
         (string< protocol-name-a protocol-name-b))))
 
-(defun sgml-method-examples (protocol)
-  (when (> (count-method-examples protocol) 0)
-    (insert "<ITEMIZEDLIST>\n")
-    (loop for methodinfo in 
-          (sort (protocol-expanded-methodinfo-list protocol)
-                #'compare-methodinfo)
-          for level = (first methodinfo)
-          for owner-protocol = (second methodinfo)
-          for method = (third methodinfo)
+(defun method-signature-index (method-signature)
+  (let ((method-signature 
+         (with-output-to-string (print-method-signature method))))
+    (position method-signature *method-signature-list* :test #'string=)))
+
+(defun sgml-method-examples (protocol method)
+  (when (method-example-list method)
+    (insert "<EXAMPLE LABEL=\"")
+    (insert (symbol-name (protocol-module protocol)))
+    (insert " / [")
+    (insert (external-protocol-name protocol))
+    (insert " ")
+    (print-method-signature method (current-buffer))
+    (insert "]")
+    (insert (format " / %d" (method-example-counter protocol method)))
+    (insert "\">")
+    (insert "<TITLE>")
+    (insert "</TITLE>\n")
+
+    (insert "<PROGRAMLISTING>\n")
+
+    (loop for example in (method-example-list method)
           do
-          (when (method-example-list method)
-            (insert "<LISTITEM>")
-            (insert "<PARA>")
-            (insert "Example for method: ")
-            (print-method-signature method (current-buffer))
-            (insert "</PARA>\n")
-            (insert "<PROGRAMLISTING>\n")
-            (loop for example in (method-example-list method)
-                  do
-                  (insert example)
-                  (insert "\n"))
-            (insert "</PROGRAMLISTING>\n")
-            (insert "</LISTITEM>\n")))
-    (insert "</ITEMIZEDLIST>\n")))
-  
+          (insert example)
+          (insert "\n"))
+    (insert "</PROGRAMLISTING>\n")
+    (insert "</EXAMPLE>\n")))
+
 (defun sgml-methods-for-phase (protocol phase)
   (insert "<REFSECT3>\n")
   (insert "<TITLE>Phase: ")
   (insert (capitalize (substring (prin1-to-string phase) 1)))
   (insert "</TITLE>\n")
-  (sgml-method-definitions protocol)
+  (sgml-method-definitions protocol phase)
   (sgml-examples protocol)
-  (sgml-method-examples protocol)
   (insert "</REFSECT3>\n"))
 
 (defun sgml-refsect2-method-list (protocol)
@@ -602,8 +710,37 @@
         do
         (generate-refentries-for-module module)))
 
+(defun build-method-signature-hash-table ()
+  (loop for protocol being each hash-value of *protocol-hash-table*
+        do
+        (loop for method in (protocol-method-list protocol)
+              do
+              (setf (gethash 
+                     (with-output-to-string (print-method-signature method))
+                     *method-signature-hash-table*) method))))
+
+(defun build-protocol-vector ()
+  (setq *protocol-list*
+        (sort
+         (loop for protocol being each hash-value of *protocol-hash-table*
+               collect protocol)
+         #'(lambda (protocol-a protocol-b)
+             (string< (protocol-name protocol-a)
+                      (protocol-name protocol-b))))))
+
+(defun build-method-vector ()
+  (setq *method-signature-list*
+        (sort
+         (loop for method-signature being each hash-key of
+               *method-signature-hash-table*
+               collect method-signature)
+         #'string<)))
+
 (defun run-all ()
   (load-protocols-for-all-modules)
   (expand-protocols)
+  (build-method-signature-hash-table)
+  (build-protocol-vector)
+  (build-method-vector)
   (generate-modules))
 
