@@ -1,3 +1,8 @@
+1999-07-25  Alex Lancaster  <alex@santafe.edu>
+
+	* acjdk.m4: Add explicit check for green and native threads in
+	sparc-solaris case.
+
 1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acffi.m4: Don't look for defaults if no --with-{ffidir,ffcalldir}.

@@ -26,7 +26,13 @@ else
     JAVAINCLUDES="-I$jdkincludedir"
     if test -f $jdkincludedir/solaris/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
-      threads=green
+      if test -d ${jdkdir}/bin/sparc/native_threads; then
+	threads=native
+      elif test -d ${jdkdir}/bin/sparc/green_threads; then
+        threads=green
+      else
+        AC_MSG_ERROR([Can't find threads])
+      fi
       proc=sparc
     elif test -f $jdkincludedir/alpha/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
