@@ -437,18 +437,26 @@ while ((element = [pplIndex next]) != nil)
       particular element from the list. In this case, that object is
       asked to give us its number of friends.</para>
 
-    <para> The while statement in the previous example will begin with
-      the first element of the list, and one-by-one it will move
-      through the <varname>pplList</varname>. What happens when it
-      gets to the end?  When it is positioned at the last element of
-      the list, then the <literal>[pplIndex next]</literal> command
-      will return <varname>nil</varname>.  The logical condition is
-      set so that the program exits the while loop at that point.
+    <para>
+      The index object, <varname>pplIndex</varname> plays a vital role
+      in this example.  The index index is accessed inside the
+      <function>while</function> statement so that we can cycle
+      through the elements in a list. The while statement in the
+      previous example will begin with the first element of the list,
+      and one-by-one it will move through the
+      <varname>pplList</varname>. What happens when it gets to the
+      end?  When it is positioned at the last element of the list,
+      then the <literal>[pplIndex next]</literal> command will return
+      <varname>nil</varname>.  The logical condition is set so that
+      the program exits the while loop at that point.
     </para>
+
+
+
 
     <para>
       If one inspects a number of Swarm examples, one will find the
-      while loop constructed in slightly different ways, but the
+      while loop is constructed in slightly different ways, but the
       effect is the same. For example, the logical condition is
       sometimes written simply as (<literal>[pplIndex
       next]</literal>).  This is allowed because of the convention
@@ -473,17 +481,26 @@ while ((element = [pplIndex next]) != nil )
 ]]>
       </programlisting>
 
-      What can the <varname>pplIndex</varname> do? What is it good
-      for?  One common usage is to use the index in a
-      <function>while</function> statement that can cycle through the
-      elements in a list.
-    </para>
 
-    <para>This last change would cause a performance penalty because
+      This last change would cause a performance penalty because
       the <varname>pplIndex</varname> object is asked to evaluate and
       return on object three times.
     </para>
     
+    <para>
+     It is hard to overstate the value of the index object in working
+     with Swarm lists. One especially important feature of the index
+     is that it can be used to manage items in the list itself. That
+     is, the index can do more than just point to objects. If an index
+     is positioned at an object, and one wants to cut that object from
+     the list, then the command <literal>[pplIndex remove]</literal>
+     will get the job done. The index will automatically reorient
+     itself, so that the next time the index receives the "next"
+     instruction, it will point to the next valid member of the
+     list.
+</para>
+
+
     <para>One final note: it is important to drop the index object
       when its use is completed.  That's accomplished by the
       <literal>[index drop];</literal> command in the last example.

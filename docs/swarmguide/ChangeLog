@@ -1,3 +1,14 @@
+1999-09-10  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user2.05.sgml (pplIndex): Added some stuff on list indexes.
+
+	* user2.04.sgml: Wrote more on ActivateIn.
+	Added section on dynamic scheduling.
+
+1999-05-28  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user2.04.sgml: worked on meaning of "activateIn:"
+
 1999-06-29  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am: Remove include of Makefile.common, not needed.
@@ -22,6 +33,7 @@
 	new Archiver convenience methods.
 
 1999-05-28  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+>>>>>>> 1.39
 
 	* user2.07.sgml: Added CustomProbeMap treatment, as well as a
  	pathetic cry for help from Alex to revise/delete some stuff on

@@ -273,7 +273,7 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       ObserverSwarm, this method from
       <filename>Object2dDisplay.m</filename> is called:
 
-      <programlisting>
+      <programlisting role="ObjC">
 - display
 {
   [...some irrelevant lines omitted...]
@@ -426,10 +426,7 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
       intervals.
     </para>
 
-    <comment>
-      We will have to find some more words to put here, but I've not
-      got them today -- PJ.
-    </comment>
+
 
   </sect2>
 
@@ -437,38 +434,173 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
     
     <title>Activating Swarms</title> 
 
-    <comment>This section is copied directly from the former user2.07.sgml
-    section and is a placeholder for a section on Swarm activation --
-    AKL </comment>
+    <para>The buildActions method is intended to be the place in which
+    one creates Swarm schedules, but that does not make the simulation
+    carry out the scheduled actions.  In order to put the object's
+    schedule into the "grander scheme of things" in Swarm, it is
+    necessary to activate it.  Through the activation mechanism, the
+    Swarm library integrates the many diverse actions of the different
+    objects that exist in the simulation.  It is done through a
+    hierarchical series of "activateIn:" methods. The
+    <filename>main.m</filename> tells the top level swarm to activate
+    itself (after it has been told to create its objects and
+    schedules, of course).  Then the top level swarm activates any
+    schedules it might have created and (here's where the hierarchy
+    comes into play) it tells the next lower level to activate itself.
+    That next level activates its schedules and tells the level below
+    to activate itself.  This is how the activities of many different
+    levels are synchronized.
+</para>
 
-    <programlisting>
-- activateIn: swarmContext 
-{
- [super activateIn: swarmContext];
- [modelSchedule activateIn: self];
+   <para>Virtually any Swarm program will offer a sufficient example
+   of the progression of <function>activateIn</function> methods from top to bottom. The
+   main.m in <application>Heatbugs</application> has this: </para>
 
- return [self getActivity];
-}</programlisting>
+   <programlisting role="ObjC">
+   [theTopLevelSwarm activateIn: nil];
+   </programlisting>
 
-    <para>In <filename>main.m</filename>: <literal>[modelSwarm activateIn: nil];</literal>
-    calls the following method:
+    <para>The top level swarm is told to activate itself in "nil",
+    which is a way of telling the top level that it is in fact at the
+    top of the hierarchy.  It is not told to activate itself within
+    the zone of any other swarm, in other words.  When the time comes,
+    the lower levels are told to activate themselves in the zone of
+    the swarm that is one step above it (as we shall see). </para>
 
-      <programlisting>
-- activateIn: swarmContext
-{
- [modelSchedule activateIn: self]
- returns self;
-}</programlisting>
-
-      There is only one Swarm so we activate it in
-      <varname>nil</varname>. This one line could set in motion
-      complex scheme of merging and activation
+    <para>Assuming we are doing a graphical model, the <function>activateIn:</function>
+    method of the top level is found in
+    <filename>HeatbugObserverSwarm.m</filename>.  In the <filename>HeatbugObserverSwarm.m</filename>'s <function>activateIn:</function> method, we find commands that both activate schedules within the observer swarm and also activate schedules in the next lower level of the simulation:
     </para>
 
-    <comment>End of placeholder section -- AKL</comment>
 
+<programlisting role="ObjC" >
+- activateIn:  swarmContext
+{
+  [super activateIn: swarmContext];
+
+  [heatbugModelSwarm activateIn: self];
+
+  [displaySchedule activateIn: self];
+  
+  return [self getActivity];
+}
+ </programlisting>
+
+<para>
+It is important to recognize that the <function>activateIn</function> methods of each class within the hierarchy fulfill a vital role in synchronizing the schedules of the levels.  These are typically written so that, first, the activateIn method of the superclass is executed.  Then the schedules of the current class are told to activate themselves in the current context, and then the activateIn: method of the next lower level swarm is told to activate itself. 
+</para>
+<para>
+The <function>activateIn:</function> method returns an object of class Activity, which is a sufficiently important concept that it is treated on its own in the next section.
+</para>
   </sect2>
 
+  <sect2>
+    
+    <title>What is an Activity?</title>
+
+    <para>
+    The Activity class is a vital element of the Swarm approach. 
+It's fundamental purpose is to merge all the subjective points of view
+of agents at different levels into a single objective time sequence.
+Somehow, the name Activity does not seem powerful enough.  Perhaps
+perhaps it would be better called an ActivityManagerAndIntegrator, or
+something grand. Of course, on a practical level, it responds to
+messages like run, stop, next, terminate, and so forth.
+</para>
+
+    <para>
+    If you have an object subclassed from Activity, you can tell it to
+    make the simulation run, stop, terminate, or respond to a number
+    of other commands.  Swarm programs are designed hierarchically, so
+    that if you tell an activity from one level to stop, you stop all
+    lower levels of the simulation as well.  Many Swarm programmers do
+    not come face-to-face with the Activity class because it sits
+    behind the scenes. The control panel, in particular, allows users
+    to start and stop their simulations, and all the while the
+    Activity class objects are behind the scenes, doing the actual
+    work.
+</para>
+
+    <para>
+    It is easy to "grab" the activity object of a given Swarm. The
+    method which returns the activity of a Swarm is
+    <function>getActivity</function>.  If one needs to tell the object
+    modelSwarm to stop, for example, then the command
+</para>
+    <programlisting>
+[[modelSwarm getActivity] stop]; 
+</programlisting>
+    <para>
+    will get the job done. This first grabs that object's activity,
+    and tells that activity to stop. To make that object start up
+    again, it can be sent the <function>run</function> message. 
+</para>
+<para>
+    The ability to start, stop, and terminate an activity is particularly
+    handy when designing a program that repeats a Swarm experiment.  These
+    methods are used in the Swarm tutorial's "SimpleExperBug2" model as well
+    as the "RepeatingHeatbugs" application that is available in the Swarm ftp
+    site.
+  </para>
+
+  </sect2>
+  <sect2>
+    
+    <title>Dynamic Scheduling</title>
+<para>
+The schedules described so far are of a particular static sort.  Each agent, or each agent in a list, is told to execute some action at some particular time.  What if the simulation is designed so that the activation of a certain agent is conditional on events within the model?  The need to create a flexible schedule gives rise to an important feature of Swarm that is referred to as a <emphasis>dynamic schedule</emphasis>. The Mousetrap application is a fully worked out example that shows the power of dynamic scheduling.  
+</para>
+<para>
+The idea behind dynamic scheduling is so simple that one can be in danger of confusing it by explaining it too much.  Simply put, the strategy is as follows.  First, create an object from the Swarm Schedule class.  Don't put any actions in the schedule, just let it sit there in the buildActions method, doing nothing (yet).  Second, write a method that tells that schedule to add things that are to be executed at particular times.  It is as simple as that. 
+</para>
+<para>
+The concept is quite simple, but, as the Mousetrap application
+illustrates, it can be quite complicated in the implementation.  The
+simplest possible dynamic scheduling project of which we are aware was
+made available in the package Swarmfest99-demos (in the swarm ftp
+site, it should be available in the users-contrib/anarchy section).  The application is called simpleObserverBug-growth.  It begins with the familiar exercise from the Swarm tutorial and then models the regeneration of the food supply.
+</para>
+
+<para>
+In the simpleObserverBug-growth example, the <filename>ModelSwarm.m</filename> file has all of the usual ingredients. The dynamic schedule is created in the <function>buildActions</function> method, like so:
+<programlisting>
+  growthSchedule = [Schedule createBegin: [self getZone]];
+  [growthSchedule setAutoDrop: 1];
+  growthSchedule = [growthSchedule createEnd];
+</programlisting>
+The growthSchedule is created and the setAutoDrop feature is set, so that actions are executed one time and then dropped from the schedule.  Otherwise, once we add an action into the schedule, it will repeat itself forever.
+</para>
+<para>
+In the <filename>ModelSwarm.m</filename>, one also finds the method that has the power to add items to the schedule.  It is called <function>scheduleGrowthAtX:Y:</function>.  When this method is called, it grows more food at a particular spot.  
+</para>
+<programlisting>
+-scheduleGrowthAtX: (int) x Y: (int) y {
+  long time;
+  time=[[self getActivity] getCurrentTime];
+  [growthSchedule at: time+growthInterval
+      createActionTo: foodSpace
+             message: M(putValue:atX:Y:):1:x:y];
+  return self;
+}
+</programlisting>
+<para>
+As you can see, this method retrieves the current time, and then it tells the growth schedule to create an action to the foodspace at a time in the future.  And the ungainly M() notation appears, which we described in greater detail in a previous section of this chapter.
+</para>
+<para>
+The preceeding steps are the essence of creating the dynamic schedule. The empty schedule is created, and a method is created that can tell that schedule to add an item.  The only remaining step is to design the simulation so that this method actually gets executed during the course of the program.  That means that some class has to have a method that can tell the modelSwarm to execute its scheduleGrowthAtX:Y: method.  In this example, it is done by making the foodSpace object aware of the modelSwarm and the, when a piece of food is consumed, the dynamic scheduling process is put to use.  From the FoodSpace.m class, here is the relevant method:
+</para>
+
+<programlisting>
+-eatX: (int) x Y: (int) y {
+  [self putValue: 0 atX: x Y: y];
+  [model scheduleGrowthAtX: x Y: y];
+  return self;
+}
+</programlisting>
+
+</sect2>
+
+ 
 </sect1>
 <!--
 Local Variables:
