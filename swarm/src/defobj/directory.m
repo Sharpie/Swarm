@@ -305,8 +305,8 @@ swarm_directory_switch_phase (JNIEnv *env,
                               id nextPhase,
                               jobject currentJavaPhase)
 {
-  jobject nextJavaPhase = SD_NEXTJAVAPHASE (env, currentJavaPhase);
-  id currentPhase = SD_FINDOBJC (env, currentJavaPhase);
+  jobject nextJavaPhase = SD_JAVA_NEXTJAVAPHASE (env, currentJavaPhase);
+  id currentPhase = SD_JAVA_FINDOBJC (env, currentJavaPhase);
   DirectoryEntry *retEntry;
   avl_tree *objc_tree = swarmDirectory->objc_tree;
   
@@ -404,18 +404,18 @@ swarm_directory_java_ensure_objc (JNIEnv *env, jobject javaObject)
             {
               const char *last = (const char *) result->object;
 
-              result = SD_SWITCHOBJC (env, javaObject, (id) str);
+              result = SD_JAVA_SWITCHOBJC (env, javaObject, (id) str);
 	      ZFREEBLOCK (getZone (swarmDirectory), (void *) last);
             }
           else
-            result = SD_ADD (env, javaObject, (id) str);
+            result = SD_JAVA_ADD (env, javaObject, (id) str);
         }
       else if (!result)
         result =
-          SD_ADD (env, javaObject, 
-                  ((*env)->IsInstanceOf (env, javaObject, c_Collection)
-                   ? [JavaCollection create: globalZone]
-                   : [JavaProxy create: globalZone]));
+          SD_JAVA_ADD (env, javaObject, 
+                       ((*env)->IsInstanceOf (env, javaObject, c_Collection)
+                        ? [JavaCollection create: globalZone]
+                        : [JavaProxy create: globalZone]));
 
       return result->object;
     }
@@ -1036,9 +1036,9 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
       jobject lref = get_swarmEnvironment_field (env,
                                                  swarmEnvironment,
                                                  fieldName);
-      SD_ADD (env,
-              lref,
-	      objcObject);
+      SD_JAVA_ADD (env,
+                   lref,
+                   objcObject);
       (*env)->DeleteLocalRef (env, lref);
     }
 #define ASSOCIATE(fieldName) associate (#fieldName, fieldName)
@@ -1119,7 +1119,7 @@ swarm_directory_objc_ensure_java (JNIEnv *env, id object)
       jclass javaClass = swarm_directory_objc_find_java_class (env, class);
       jobject lref = swarm_directory_java_instantiate (env, javaClass);
       
-      result = SD_ADD (env, lref, object);
+      result = SD_JAVA_ADD (env, lref, object);
       (*env)->DeleteLocalRef (env, lref);
       (*env)->DeleteLocalRef (env, javaClass);
     }
@@ -1133,7 +1133,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
 
   if (!jsel)
     sel = NULL;
-  else if (!(sel = (SEL) SD_FINDOBJC (env, jsel)))
+  else if (!(sel = (SEL) SD_JAVA_FINDOBJC (env, jsel)))
     {
       char *name, *p;
       unsigned i;
@@ -1237,7 +1237,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
           }
       }
       
-      SD_ADD (env, jsel, (id) sel);
+      SD_JAVA_ADD (env, jsel, (id) sel);
 
       (*env)->DeleteLocalRef (env, argTypes);
       SFREEBLOCK (name);
@@ -1250,7 +1250,7 @@ swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass)
 {
   Class objcClass;
 
-  if (!(objcClass = SD_FINDOBJC (env, javaClass)))
+  if (!(objcClass = SD_JAVA_FINDOBJC (env, javaClass)))
     {
       const char *className = java_get_class_name (env, javaClass);
 
@@ -1261,7 +1261,7 @@ swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass)
       
       if (objcClass == nil)
         objcClass = [JavaProxy create: globalZone];
-      SD_ADD (env, (jobject) javaClass, (id) objcClass);
+      SD_JAVA_ADD (env, (jobject) javaClass, (id) objcClass);
     }
   return objcClass;
 }
@@ -1326,7 +1326,7 @@ swarm_directory_swarm_class (id object)
       jobject jobj;
       JNIEnv *env = jniEnv;
       
-      if ((jobj = SD_FINDJAVA (env, object)))
+      if ((jobj = SD_JAVA_FINDJAVA (env, object)))
         {
           jclass jcls;
           const char *className;
@@ -1337,7 +1337,7 @@ swarm_directory_swarm_class (id object)
           result = objc_class_for_class_name (className);
           FREECLASSNAME (className);
           if (!result)
-            if (!(result = SD_FINDOBJC (env, jcls)))
+            if (!(result = SD_JAVA_FINDOBJC (env, jcls)))
               result = swarm_directory_java_ensure_class (env, jcls);
           (*env)->DeleteLocalRef (env, jcls);
           return result;
@@ -1357,7 +1357,7 @@ swarm_directory_language_independent_class_name  (id object)
       JNIEnv *env = jniEnv;
       jobject jobj;
       
-      if ((jobj = SD_FINDJAVA (env, object)))
+      if ((jobj = SD_JAVA_FINDJAVA (env, object)))
         return swarm_directory_java_class_name (env, jobj);
     }
   return (const char *) (getClass (object))->name;      

@@ -494,7 +494,7 @@ java_expandArray (jobject fullary, void *inbuf)
         }
       else if (sig[1] == 'L')
         {
-          *((id *) &buf[offset]) = SD_ENSUREOBJC (jniEnv, obj);
+          *((id *) &buf[offset]) = SD_JAVA_ENSUREOBJC (jniEnv, obj);
           offset += sizeof (id);
         }
       else
@@ -681,7 +681,7 @@ map_java_ivars (jobject javaObject,
                 {
                   jobject obj = GETVALUE (Object);
                       
-                  val.object = SD_ENSUREOBJC (jniEnv, obj);
+                  val.object = SD_JAVA_ENSUREOBJC (jniEnv, obj);
                   (*jniEnv)->DeleteLocalRef (jniEnv, obj);
                 }
                 break;
@@ -702,7 +702,7 @@ map_java_ivars (jobject javaObject,
                 {
                   jobject sel = GETVALUE (Object);
                       
-                  val.object = SD_FINDOBJC (jniEnv, sel);
+                  val.object = SD_JAVA_FINDOBJC (jniEnv, sel);
                   (*jniEnv)->DeleteLocalRef (jniEnv, sel);
                 }
                 break;
@@ -1042,7 +1042,7 @@ map_object_ivars (id object,
 {
 #ifdef HAVE_JDK
   if ([object respondsTo: M(isJavaProxy)])
-    map_java_ivars (SD_FINDJAVA (jniEnv, object), process_object);
+    map_java_ivars (SD_JAVA_FINDJAVA (jniEnv, object), process_object);
   else
 #endif
     map_objc_ivars (object, process_object);
@@ -1543,7 +1543,7 @@ object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
     {
-      jobject javaObject = SD_FINDJAVA (jniEnv, obj);
+      jobject javaObject = SD_JAVA_FINDJAVA (jniEnv, obj);
       jclass javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
       fcall_type_t type;
       
@@ -1582,7 +1582,7 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
     {
-      jobject javaObject = SD_FINDJAVA (jniEnv, obj);
+      jobject javaObject = SD_JAVA_FINDJAVA (jniEnv, obj);
 
       if (!javaObject)
         abort ();
@@ -1624,10 +1624,10 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
             switch (type)
               {
               case fcall_type_object:
-                SETVALUE (Object, SD_FINDJAVA (jniEnv, buf->object));
+                SETVALUE (Object, SD_JAVA_FINDJAVA (jniEnv, buf->object));
                 break;
               case fcall_type_class:
-                SETVALUE (Object, SD_FINDJAVACLASS (jniEnv, buf->class));
+                SETVALUE (Object, SD_JAVA_FINDJAVACLASS (jniEnv, buf->class));
                 break;
               case fcall_type_string:
                 SETVALUE (Object, (*jniEnv)->NewStringUTF (jniEnv, buf->string));
@@ -1709,7 +1709,7 @@ object_getVariableElementCount (id obj,
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
     {
-      jobject javaObject = SD_FINDJAVA (jniEnv, obj);
+      jobject javaObject = SD_JAVA_FINDJAVA (jniEnv, obj);
       unsigned count = 1;
   
       if (!javaObject)

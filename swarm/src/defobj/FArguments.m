@@ -71,7 +71,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (swarmDirectory && javaFlag)
     {
-      jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
+      jobject jsel = SD_JAVA_FINDJAVA (jniEnv, (id) selector);
       
       if (jsel)
         {
@@ -301,7 +301,7 @@ PHASE(Creating)
 {
 #ifdef HAVE_JDK
   if (javaFlag)
-    [self addJavaObject: SD_FINDJAVA (jniEnv, value)];
+    [self addJavaObject: SD_JAVA_FINDJAVA (jniEnv, value)];
   else
 #endif
     ADD_PRIMITIVE (fcall_type_object, id, value);

@@ -390,8 +390,8 @@ PHASE(Creating)
       jstring string;
       const char *javaMethodName;
       jboolean copy;
-      jobject jsel = SD_FINDJAVA (jniEnv, (id) aSel);
-      jobject jobj = SD_FINDJAVA (jniEnv, target);
+      jobject jsel = SD_JAVA_FINDJAVA (jniEnv, (id) aSel);
+      jobject jobj = SD_JAVA_FINDJAVA (jniEnv, target);
       
       string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
       javaMethodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copy);
@@ -413,7 +413,7 @@ updateTarget (FCall_c *self, id target)
 {
 #ifdef HAVE_JDK
   if ([target respondsTo: M(isJavaProxy)])
-    updateJavaTarget (self, SD_FINDJAVA (jniEnv, target));
+    updateJavaTarget (self, SD_JAVA_FINDJAVA (jniEnv, target));
   else
 #endif
     self->fobject = target;
@@ -576,14 +576,16 @@ PHASE(Using)
 #ifdef HAVE_JDK
   id return_jobject (void)
     {
-      return SD_ENSUREOBJC (jniEnv, (jobject) buf->object);
+      return SD_JAVA_ENSUREOBJC (jniEnv, (jobject) buf->object);
     }
   const char *return_jstring (void)
     {
       const char *newString =
         swarm_directory_copy_java_string (jniEnv, (jstring) buf->object);
       
-      (void) SD_SWITCHOBJC (jniEnv, (jstring) buf->object, (id) newString);
+      (void) SD_JAVA_SWITCHOBJC (jniEnv,
+                                 (jstring) buf->object,
+                                 (id) newString);
       return newString;
     }
 #endif

@@ -77,31 +77,31 @@ extern id swarmDirectory;
 
 extern void swarm_directory_dump ();
 
-#define SD_FINDOBJC(env, jobj)  swarm_directory_java_find_objc (env, jobj)
-#define SD_ENSUREOBJC(env, jobj) swarm_directory_java_ensure_objc (env, jobj)
-#define SD_FINDJAVA(env, objc) swarm_directory_objc_find_java (env, objc)
-#define SD_ENSUREJAVA(env, objc) swarm_directory_objc_ensure_java (env, objc)
-#define SD_FINDJAVACLASS(env, objcClass) swarm_directory_objc_find_java_class (env, objcClass)
-#define SD_ADD(env, jobj, objc) swarm_directory_add (env, objc, jobj)
-#define SD_ADDJAVA(env, jobj, objc) swarm_directory_add (env, objc, jobj)->javaObject
-#define SD_NEXTPHASE(env, jobj, objc) swarm_directory_switch_phase (env, objc, jobj)->javaObject
-#define SD_SWITCHOBJC(env, jobj, newobjc) swarm_directory_switch_objc (env, newobjc, jobj)
-#define SD_INSTANTIATE(env, clazz) swarm_directory_java_instantiate (env, clazz)
-#define SD_NEXTJAVAPHASE(env, jobj) swarm_directory_next_phase (env, jobj)
+#define SD_JAVA_FINDOBJC(env, jobj)  swarm_directory_java_find_objc (env, jobj)
+#define SD_JAVA_ENSUREOBJC(env, jobj) swarm_directory_java_ensure_objc (env, jobj)
+#define SD_JAVA_FINDJAVA(env, objc) swarm_directory_objc_find_java (env, objc)
+#define SD_JAVA_ENSUREJAVA(env, objc) swarm_directory_objc_ensure_java (env, objc)
+#define SD_JAVA_FINDJAVACLASS(env, objcClass) swarm_directory_objc_find_java_class (env, objcClass)
+#define SD_JAVA_ADD(env, jobj, objc) swarm_directory_add (env, objc, jobj)
+#define SD_JAVA_ADDJAVA(env, jobj, objc) swarm_directory_add (env, objc, jobj)->javaObject
+#define SD_JAVA_NEXTPHASE(env, jobj, objc) swarm_directory_switch_phase (env, objc, jobj)->javaObject
+#define SD_JAVA_SWITCHOBJC(env, jobj, newobjc) swarm_directory_switch_objc (env, newobjc, jobj)
+#define SD_JAVA_INSTANTIATE(env, clazz) swarm_directory_java_instantiate (env, clazz)
+#define SD_JAVA_NEXTJAVAPHASE(env, jobj) swarm_directory_next_phase (env, jobj)
 
 SEL swarm_directory_ensure_selector (JNIEnv *env, jobject jsel);
-#define SD_ENSUREOBJCMETHOD(env, jobj) (swarm_directory_ensure_selector (env, jobj))
+#define SD_JAVA_ENSUREOBJCMETHOD(env, jobj) (swarm_directory_ensure_selector (env, jobj))
 
 Class swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass);
 
-#define SD_ENSUREOBJCCLASS(env, jclass) (swarm_directory_java_ensure_class (env, jclass))
+#define SD_JAVA_ENSUREOBJCCLASS(env, jclass) (swarm_directory_java_ensure_class (env, jclass))
 
 const char *swarm_directory_copy_java_string (JNIEnv *env, jstring javaString);
 void swarm_directory_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);
 
 
-#define SD_COPYSTRING(env, javaString) swarm_directory_copy_java_string (env, javaString)
-#define SD_CLEANUPSTRINGS(env, stringArray) swarm_directory_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))
+#define SD_JAVA_COPYSTRING(env, javaString) swarm_directory_copy_java_string (env, javaString)
+#define SD_JAVA_CLEANUPSTRINGS(env, stringArray) swarm_directory_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))
 #endif
 
 #define SD_GETCLASS(obj) swarm_directory_swarm_class (obj)

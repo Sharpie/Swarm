@@ -30,7 +30,7 @@
 
 - next
 {
-  jobject iterator = SD_FINDJAVA (jniEnv, self);
+  jobject iterator = SD_JAVA_FINDJAVA (jniEnv, self);
   jobject item;
   id proxy;
   jclass class;
@@ -46,7 +46,7 @@
     abort ();
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   item = (*jniEnv)->CallObjectMethod (jniEnv, iterator, method);
-  proxy = SD_ENSUREOBJC (jniEnv, item);
+  proxy = SD_JAVA_ENSUREOBJC (jniEnv, item);
   (*jniEnv)->DeleteLocalRef (jniEnv, item);
   pos++;
   return proxy;

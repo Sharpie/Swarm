@@ -1,3 +1,22 @@
+2000-04-28    <mgd@nest.swarm.org>
+
+	* DefObject.m, FArguments.m, FCall.m, JavaCollection.m,
+	JavaCollectionIndex.m: Change SD_FINDJAVA to SD_JAVA_FINDJAVA.
+
+	* FCall.m: Change SD_{ENSUREOBJC,SWITCHOBJC} to
+	SD_JAVA_{ENSUREOBJC,SWITCHOBJC}.
+
+	* JavaCollection.m, JavaProxy.m: Change SD_ADD to SD_JAVA_ADD.
+
+	* JavaCollection.m, JavaCollectionIndex.m: Change SD_ENSUREOBJC to
+	SD_JAVA_ENSUREOBJC.
+
+	* JavaProxy.m: Change SD_ENSUREJAVA to SD_JAVA_ENSUREJAVA.
+
+	* directory.h: Change all java-related SD_* macros to SD_JAVA_*.
+
+	* directory.m, internal.m: Accomodate.
+
 2000-04-27    <mgd@nest.swarm.org>
 
 	* defobj.h ([Arguments +createBegin, -createEnd]): Remove.
