@@ -13,23 +13,13 @@
 
 @implementation ActivityControl
 PHASE(Creating)
-+ createBegin: aZone
-{
-  return [super createBegin: aZone];
-}
-
-- createEnd
-{
-  return [super createEnd];
-}
-
 PHASE(Using)
 // functional methods
 
 //
 //  run -- Executes run on the activity
 //
-- run 
+- (id <Symbol>)run 
 {
   [self updateStateVar];
   if ((isTopLevelActivity) &&
@@ -44,7 +34,7 @@ PHASE(Using)
 //
 //  stop -- Stops the execution of the activity
 //
-- stop
+- (id <Symbol>)stop
 {
   [self updateStateVar];
   // stop returns the activity, not the status
@@ -59,7 +49,7 @@ PHASE(Using)
 //
 // next -- Causes the activity to execute an entire cycle of the activity's
 //         schedule
-- next
+- (id <Symbol>)next
 {
   [self updateStateVar];
   // next returns what "run" returns, i.e. status
@@ -74,7 +64,7 @@ PHASE(Using)
 //
 //  step -- Causes the activity to execute the next action on the 
 //          schedule
-- step
+- (id <Symbol>)step
 {
   [self updateStateVar];
   // step returns what run returns, i.e. status
@@ -89,7 +79,7 @@ PHASE(Using)
 //
 //  stepUntil -- Causes the activity to continue execution until
 //               (current time +1 == stopTime)
-- stepUntil: (timeval_t)stopTime
+- (id <Symbol>)stepUntil: (timeval_t)stopTime
 {
   [self updateStateVar];
   // stepUntil returns the status
@@ -117,7 +107,7 @@ PHASE(Using)
 //  attachToActivity -- Sets up the pointer to the controlled activity
 //                      and builds and activates the schedule that 
 //                      updates the state variables
-- attachToActivity: anActivity
+- (void)attachToActivity: (id <ScheduleActivity>)anActivity
 {
   // A schedule must be merged with (activated in) the Swarm rather
   //    than simply adding a single action to the Swarm activity schedule
@@ -143,14 +133,12 @@ PHASE(Using)
 
   // Put the update action on the schedule.
   [updateSchedule at: 0 createActionTo: self message: M(updateStateVar)];
-
-  return self;
 }
 
 //
 // updateStateVar -- Sets all the relevant variables
 //
-- updateStateVar
+- (void)updateStateVar
 {
   // if there isn't an activity to be controlled, this method should 
   //    never be called.
@@ -170,22 +158,25 @@ PHASE(Using)
   // This might be more useful as a relative time, depending on 
   //    what run level the activity is that is being controlled.
   currentTime = [activity getCurrentTime];
-  
-  return self;
 }
 
 //
 // getStatus -- Simply returns the status
 //
-- getStatus
+- (id <Symbol>)getStatus
 {
   return status;
+}
+
+- (id <Activity>)getActivity
+{
+  return activity;
 }
 
 //
 // _setup_ProbeMap -- Designs a probe map that dictates the default
 //                    probe for this class.
-- _setup_ProbeMap
+- (void)_setup_ProbeMap
 {
   id <ProbeMap> probeMap;
   
@@ -223,7 +214,5 @@ PHASE(Using)
                         setHideResult: 0]];
 
   [probeLibrary setProbeMap: probeMap For: [self class]];
-
-  return self;
 }
 @end

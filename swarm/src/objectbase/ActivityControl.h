@@ -19,22 +19,18 @@
   id <Symbol> status;  // my state
   BOOL isTopLevelActivity;  // 1 = top-level; 0=not
 @private
-  id activity;    // my pointer
+  id <ScheduleActivity> activity;  // my pointer
   //  id currentAction;   // what I'm doing right now
-  id updateSchedule; // schedule to merge with the activity 
+  id <Schedule> updateSchedule; // schedule to merge with the activity 
 }
 
-// instantiation methods
-+ createBegin: aZone;
-- createEnd;
-
 // functional methods
-- run;
-- stop;
-- next;
-- step;
-- stepUntil: (timeval_t) stopTime;
-- (void) terminate;
+- (id <Symbol>)run;
+- (id <Symbol>)stop;
+- (id <Symbol>)next;
+- (id <Symbol>)step;
+- (id <Symbol>)stepUntil: (timeval_t) stopTime;
+- (void)terminate;
 
 //  At some point, we may add -stepIntoSubActivity and
 //  -finishThisActivity  or somesuch to provide activation graph
@@ -42,12 +38,12 @@
 
 // state manipulation methods
 //    attach will set all the state variables
-- attachToActivity: (id) anActivity;
-- updateStateVar;
-- getStatus;
-- _setup_ProbeMap;
+- (void)attachToActivity: (id <ScheduleActivity>)anActivity;
+- (void)updateStateVar;
+- (id <Symbol>)getStatus;
+- (void)_setup_ProbeMap;
+- (id <ScheduleActivity>)getActivity;
 @end
-
 
 
 

@@ -1,3 +1,15 @@
+2000-03-28    <mgd@nest.swarm.org>
+
+	* ActivityControl.[hm]: Remove +createBegin:/-createEnd.
+	Add (id <Symbol>) return to run, stop, next, step, stepUntil.
+	Make void return for attachToActivity, updateStateVar, and
+	_setup_ProbeMap.  Use <ScheduleActivity> for argument
+	to attachToActvity. 
+	([ActivityControl -getActivity]): New method.
+
+	* objectbase.h: Declare terminate and getActivity.  Accomodate
+	changes above.
+
 2000-03-27    <mgd@nest.swarm.org>
 
 	* Swarm.m ([Swarm -getProbeMap], [Swarm -getCompleteProbeMap],

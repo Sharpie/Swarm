@@ -581,7 +581,7 @@ USING
 //M: ActivityControl object that points to the Activity to be controlled. 
 //M: It then creates a Schedule upon which it places a message to itself to
 //M: update its own variables.
-- attachToActivity: anActivity;
+- (void)attachToActivity: (id <ScheduleActivity>)anActivity;
 
 //M: The run method sends a run message to the activity if the conditions are
 //M: appropriate.  This message causes the activity to continue executing the
@@ -589,14 +589,14 @@ USING
 //M: until the execution of actions is stopped by a subactivity or stopped by
 //M: a stop message to the activity.  If the activity completes executing all 
 //M: the actions on its schedule, the run method returns Completed.
-- run;
+- (id <Symbol>)run;
 
 //M: The stop method sends a stop message to the activity if the conditions 
 //M: are appropriate. This message causes the control to move back up the 
 //M: run-stack and resume at the place in the code where the run was first 
 //M: executed. The next action on the super-activity will begin without  
 //M: finishing the rest of the current activity's actions. 
-- stop;
+- (id <Symbol>)stop;
 
 //M: The next method sends a next message to the activity if the conditions 
 //M: are appropriate. It runs an activity forward through as many actions as 
@@ -604,27 +604,32 @@ USING
 //M: the tree of activities and returns Stopped. In most cases, this means
 //M: that an entire action or action group on the activity under control 
 //M: will be executed, including completion of all subactivities. 
-- next;
+- (id <Symbol>)next;
 
 //M: The step method sends a step message to the activity if the conditions
 //M: are appropriate. It causes the execution of a single action. 
-- step;
+- (id <Symbol>)step;
 
 //M: The stepUntil: method sends a stepUntil: message to the activity if 
 //M: conditions are appropriate. This causes all actions on the activity's 
 //M: schedule, including any actions on subactivities' schedules, to be 
 //M: executed until the activity's relative time is equal to stopTime - 1. 
-- stepUntil: (timeval_t)stopTime;
+- (id <Symbol>)stepUntil: (timeval_t)stopTime;
 
 //M: The updateStateVar method updates the ActivityControl instance variables
 //M: and tests for the continued existence of the activity that is being 
 //M: controlled. This message is sent on each cycle of the schedule for the 
 //M: activity being controlled.
-- updateStateVar;
+- (void)updateStateVar;
 
 //M: The getStatus method returns the status of the activity.
-- getStatus;
+- (id <Symbol>)getStatus;
 
+//M: Recursively removes all subactivities.
+- (void)terminate;
+
+//M: Return the controlled activity.
+- (id <ScheduleActivity>)getActivity;
 @end
 
 @class Probe;
