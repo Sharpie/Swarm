@@ -1,3 +1,10 @@
+1999-04-07  Alex Lancaster  <alex@santafe.edu>
+
+	* objectbase00.sgml: Fixed erroneous example code that referred to
+	the global probeLibrary instance rather than the intended
+	CustomProbeMap instance.  Thanks to Albert-Jan Brouwer
+	<ajbrouw@casema.net> for reporting this.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: Include from refbook/ instead of src/.

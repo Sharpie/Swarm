@@ -507,7 +507,7 @@ probeMap = [probeMap createEnd];
         the custom probe creation above can be shortened to:
 
 <PROGRAMLISTING>
-[probeLibrary create: [self getZone] forClass: [person class]
+probeMap = [CustomProbeMap create: [self getZone] forClass: [person class]
       withIdentifiers: "room", "party", "name", "stillhere",
                        "listOfFriends", "myColor", NULL];
 </PROGRAMLISTING>
