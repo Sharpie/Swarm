@@ -1,3 +1,9 @@
+1999-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.appl.in (install): Run `libtool-swarm --mode install'
+	on `install' command to get a finalized executable in the install
+	area.  Don't install the .libs subdirectory.
+
 1999-06-10  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* Makefile.tests.in (JAVASWARMLIBS, javaswarmdir): Remove.

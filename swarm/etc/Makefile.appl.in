@@ -21,9 +21,7 @@ clean:
 	-rm -f $(OBJECTS) $(APPEXE) .libs/$(APPEXE) $(OTHERCLEAN) core gmon.out
 
 install: $(APPEXE) install-config install-data
-	$(INSTALL_PROGRAM) $(APPEXE) $(bindir) ; \
-	test -d $(bindir)/.libs || mkdir $(bindir)/.libs ; \
-	$(INSTALL_PROGRAM) .libs/$(APPEXE) $(bindir)/.libs
+	$(SHELL) $(bindir)/libtool-swarm --mode install	$(INSTALL_PROGRAM) $(APPEXE) $(bindir)
 
 install-config:
 	if test -n "$(CONFIGFILES)" ; then \
