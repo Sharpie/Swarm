@@ -121,7 +121,7 @@ init_javacall_tables (void * jEnv)
   return args;
 }
 
-- setFunction: (void (*)())fn
+- setFunctionPointer: (func_t)fn
 {
   callType = ccall;
   ffunction = fn;

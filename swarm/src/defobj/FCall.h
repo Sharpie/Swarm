@@ -35,7 +35,7 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 + createBegin: aZone;
 - setArguments: args;
 - getArguments;
-- setFunction: (void (*)())fn;
+- setFunctionPointer: (func_t)fn;
 - setMethod: (SEL)method inObject: object;
 - setJavaMethod: (const char *)methodName inObject: (void *)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;

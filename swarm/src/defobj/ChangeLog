@@ -1,3 +1,8 @@
+1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* defobj.h, FCall.[hm]: Use setFunctionPointer: with func_t 
+	argument instead of setFunction: with (void (*)()) argument.
+
 1999-03-17  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* FCall.m (FCall_c): Rename FCall to FCall_c to avoid name clash
