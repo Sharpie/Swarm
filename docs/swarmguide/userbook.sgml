@@ -29,6 +29,16 @@
   <!ENTITY user3.06.sgml system "user3.06.sgml">
   <!ENTITY user3.07.sgml system "user3.07.sgml">
 
+
+  <!ENTITY userapp-tech.sgml system "userapp-tech.sgml">
+  <!ENTITY userapp-swarmobjc.sgml system "userapp-swarmobjc.sgml">
+
+  <!ENTITY userapp-rand.sgml system "userapp-rand.sgml">
+  <!ENTITY userapp-rand1.sgml system "userapp-rand1.sgml">
+  <!ENTITY userapp-rand2.sgml system "userapp-rand2.sgml">
+  <!ENTITY userapp-rand3.sgml system "userapp-rand3.sgml">
+  <!ENTITY userapp-rand4.sgml system "userapp-rand4.sgml">
+
 <!entity usermeta.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN">
 <!entity userbiblio.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Bibliography//EN">
 <!entity genindex.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Index//EN">
@@ -68,25 +78,29 @@
   </part>
   
   <part label="Part III" id="swarm.user.user3.part">
-
+    
     <title>Advanced Topics</title>
-        
+    
       &user3.01.sgml; 
       &user3.02.sgml;
     
     <!--
     &user3.03.sgml;
     -->
-
-     &user3.04.sgml;
-     &user3.05.sgml;
+    
+    &user3.04.sgml;
+    &user3.05.sgml;
     
     <!--
     &user3.06.sgml;
     &user3.07.sgml;
     -->
-
+    
   </part>
+    
+  &userapp-tech.sgml;
+  &userapp-swarmobjc.sgml;
+  &userapp-rand.sgml;
   &userbiblio.sgml;
   &genindex.sgml; 
   

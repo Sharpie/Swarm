@@ -4,7 +4,6 @@
 <style-specification-body>
 
 ;; bibliographic entry stuff....
-(define %biblioentry-in-entry-order% #f)
 (define bibltable #t)
 
 (define %show-comments%

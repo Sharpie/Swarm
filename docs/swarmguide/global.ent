@@ -7,6 +7,9 @@
 <!ENTITY swarm-webpage 
   '<ulink url="http://www.swarm.org">Swarm home page</ulink>'>
 
+<!ENTITY refbook 
+  '<ulink url="http://www.santafe.edu/projects/swarm/swarmdocs/refbook/refbook.html"><citetitle>Reference Guide to Swarm</citetitle></ulink>'>
+
 <!ENTITY swarm-mailing-lists 
   '<ulink url="http://www.santafe.edu/projects/swarm/mailing-lists.html">Swarm
 mailing lists page</ulink>'>

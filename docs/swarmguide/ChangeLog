@@ -1,3 +1,26 @@
+2000-02-15  Alex Lancaster  <alex@santafe.edu>
+
+	* catalog.in: New switcheroo EPS and JPEG figure entities.
+
+	* user1.05.sgml: Remove ITEMIZEDLIST container for FIGUREs.  Scale
+	graphy, histogram by 80%.
+
+	* userapp-rand.sgml, userapp-rand1.sgml, userapp-rand2.sgml,
+	userapp-rand3.sgml, userapp-rand4.sgml, userapp-swarmobjc.sgml,
+	userapp-tech.sgml: New files, containing contents migrated
+	appendices from Reference Guide and updated text where
+	appropriate.
+
+	* Makefile.am (SGML): New references to above SGML sources.
+
+	* userbook.sgml: Add entities for above new SGML files
+	accordingly, and put references in the content.
+	
+	* common.dsl (%biblioentry-in-entry-order%): Remove.
+
+	* global.ent (refbook): New entity which is a ULINK to the
+	Reference Guide.
+
 2000-02-11  Alex Lancaster  <alex@santafe.edu>
 
 	* userbook.sgml: Give COLOPHON an ID.

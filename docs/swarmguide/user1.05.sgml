@@ -8,38 +8,29 @@
       generate a graphical user interface (GUI) to the user running a
       Swarm simulation, including:
 
-      <itemizedlist>
-        <listitem>
-            <figure id="gui-graph.figure">
-              <title>Line graphs (in this case, a time series)</title> 
-              <graphic entityref="gui-graph" align="center"></graphic>
-            </figure>
-          </listitem>
-        <listitem>
-          <figure id="gui-histogram.figure">
-            <title>Histograms</title>
-            <graphic entityref="gui-histogram" align="center"></graphic>
-          </figure>
-        </listitem>
-        <listitem>
-          <figure id="gui-raster.figure">
-            <title>Rasters of discrete two-dimensional data</title>
-            <graphic entityref="gui-raster" align="center" scale="80"></graphic>
-          </figure>
-        </listitem>
-        <listitem>
-
-          <figure id="simplebug-probes1">
-            <title>Example <classname>ProbeMaps</classname> for the
-              <application>tutorial</application>
-              <classname>ModelSwarm</classname> and <classname>ObserverSwarm
-              </classname></title> 
-            <graphic entityref="simplebug-probes1" scale="80"></graphic>
-          </figure>
-          
-        </listitem>
-      </itemizedlist>
-
+      <figure id="gui-graph.figure">
+        <title>Line graphs (in this case, a time series)</title> 
+        <graphic entityref="gui-graph" align="center" scale="80"></graphic>
+      </figure>
+      
+      <figure id="gui-histogram.figure">
+        <title>Histograms</title>
+        <graphic entityref="gui-histogram" align="center" scale="80"></graphic>
+      </figure>
+      
+      <figure id="gui-raster.figure">
+        <title>Rasters of discrete two-dimensional data</title>
+        <graphic entityref="gui-raster" align="center" scale="80"></graphic>
+      </figure>
+      
+      <figure id="simplebug-probes1">
+        <title>Example <classname>ProbeMaps</classname> for the
+          <application>tutorial</application>
+          <classname>ModelSwarm</classname> and <classname>ObserverSwarm
+          </classname></title> 
+        <graphic entityref="simplebug-probes1" scale="80"></graphic>
+      </figure>
+      
       All except the last (probes) are fairly self-explanatory and
       will be dealt with in subsequent chapters.  This section
       describes how probes appear to the user running a Swarm

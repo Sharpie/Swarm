@@ -1,0 +1,15 @@
+<appendix id="SWARM.RANDOM.SGML.APPENDIX">
+  <title>Random Library Appendix</title>
+
+  &userapp-rand1.sgml;
+  &userapp-rand2.sgml;
+  &userapp-rand3.sgml;
+  &userapp-rand4.sgml;
+
+</appendix>
+
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "APPENDIX")
+End:
+-->
