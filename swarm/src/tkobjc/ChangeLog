@@ -1,5 +1,12 @@
 1998-04-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* win32dib.[ch] (dib_fill): Make width and height arguments unsigned.
+	(dib_ellipse): New function.
+
+	* internal.[hm]: New function tkobjc_raster_ellipse.
+
+	* Raster.[hm]: New method ellipseX0:Y0:X1:Y1:Width:Color:.
+
 	* TkExtra.m (ensureBltSupportFiles): Cope with the inability
 	to find the Swarm source tree; use the current directory.
 	([TkExtra -preInitWithArgc:argv:]): Load bltGraph.tcl instead

@@ -178,7 +178,7 @@ dib_blit (dib_t *dib,
 void
 dib_fill (dib_t *dib,
 	  int x, int y,
-	  int width, int height,
+	  unsigned width, unsigned height,
 	  unsigned char color)
 {
   int frameWidth = dib->dibInfo->bmiHead.biWidth;
@@ -202,6 +202,35 @@ dib_fill (dib_t *dib,
 	ybase[xoff] = color;
     }
 }
+
+void
+dib_ellipse (dib_t *dib,
+	     int x, int y,
+	     unsigned width, unsigned height,
+	     unsigned pixels,
+	     unsigned char color)
+{
+  HPEN oldPen, pen;
+  HBRUSH oldBrush;
+  RGBQUAD *rgb = &dib->dibInfo->rgb[color];
+
+  pen = CreatePen (PS_SOLID,
+		   pixels,
+		   RGB (rgb->rgbRed, rgb->rgbGreen, rgb->rgbBlue));
+
+  dib_lock (dib);
+  
+  oldPen = SelectObject (dib->sourceDC, pen);
+  oldBrush = SelectObject (dib->sourceDC, GetStockObject (NULL_BRUSH));
+
+  Ellipse (dib->sourceDC, x, y, x + width, y + height);
+  
+  DeleteObject (SelectObject (dib->sourceDC, oldPen));
+  SelectObject (dib->sourceDC, oldBrush);
+
+  dib_unlock (dib);
+}
+
 
 BOOL
 dib_paintBlit (dib_t *dib,

@@ -134,6 +134,13 @@
   return self;
 }
 
+- ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+      Width: (unsigned)penWidth Color: (Color)c
+{
+  tkobjc_raster_ellipse (self, x0, y0, x1 - x0, y1 - y0, penWidth, c);
+  return self;
+}
+
 // copy the pixmap onto the X window.
 - drawSelf
 {

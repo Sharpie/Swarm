@@ -169,6 +169,25 @@ tkobjc_raster_fillRectangle (Raster *raster,
 }
 
 void
+tkobjc_raster_ellipse (Raster *raster,
+		       int x, int y,
+		       unsigned width, unsigned height,
+		       unsigned pixels,
+		       Color color)
+{
+#ifndef _WIN32
+  PixelValue *map = ((Colormap *)raster->colormap)->map;
+  Display *display = Tk_Display (raster->tkwin);
+  GC gc = raster->gc;
+
+  XSetForeground (display, gc, map[color]);
+  XDrawArc (display, raster->pm, gc, x, y, width, height, 0, 23040);
+#else
+  dib_ellipse ((dib_t *)raster->pm, x, y, width, height, pixels, color);
+#endif
+}
+
+void
 tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 {
   Pixmap pm = raster->pm;

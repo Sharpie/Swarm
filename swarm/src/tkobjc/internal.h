@@ -37,6 +37,11 @@ void tkobjc_raster_fillRectangle (Raster *raster,
                                   int x, int y, 
                                   unsigned width, unsigned height, 
 				  Color color);
+void tkobjc_raster_ellipse (Raster *raster,
+			    int x, int y,
+			    unsigned width, unsigned height,
+			    unsigned pixels,
+			    Color color);
 
 void tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color color);
 void tkobjc_raster_createContext (Raster *raster);

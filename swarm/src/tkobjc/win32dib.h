@@ -66,7 +66,8 @@ BOOL dib_paintBlit (dib_t *dib,
 		    int sourceX, int sourceY,
 		    int sourceWidth, int sourceHeight);
 
-void dib_fill (dib_t *dib, int x, int y, int width, int height, unsigned char color);
+void dib_fill (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned char color);
+void dib_ellipse (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, unsigned char color);
 
 BOOL dib_copy (dib_t *source, dib_t *dest, int width, int height);
 
