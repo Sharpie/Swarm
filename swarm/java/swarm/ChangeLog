@@ -1,5 +1,7 @@
 1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (all): Set JAVA_HOME in the context of jar.
+
 	* Makefile.rules.in (CLASSFILES, %.class): Set JAVA_HOME in context
 	of javac compile.
 

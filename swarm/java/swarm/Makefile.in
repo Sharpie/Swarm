@@ -15,7 +15,7 @@ CLASSFILES = $(addsuffix .class,$(CLASSES))
 
 all: $(CLASSFILES)
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
-	cd .. ; $(JAR) cf swarm/swarm.jar $(addprefix swarm/,$(CLASSFILES)) $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$($(module)PROTOCOLS))))
+	cd .. ; JAVA_HOME=$(jdkdir) $(JAR) cf swarm/swarm.jar $(addprefix swarm/,$(CLASSFILES)) $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$($(module)PROTOCOLS))))
 
 install: all
 	test -d $(datadir) || mkdir $(datadir)
