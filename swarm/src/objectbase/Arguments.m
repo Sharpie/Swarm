@@ -335,7 +335,7 @@ findDirectory (id arguments, const char *directoryName)
       stpcpy (stpcpy (swarmPathBuf, pathBuf), directoryName);
       if (access (swarmPathBuf, F_OK) != -1)
         return swarmPathBuf;
-      xfree (swarmPathBuf);
+      XFREE (swarmPathBuf);
     }
   return NULL;
 }
@@ -348,7 +348,7 @@ countSlashes (const char *path)
   char *scratchPath = newPath;
 
   while ((scratchPath = dropDirectory (scratchPath))) count++;
-  xfree (newPath);
+  XFREE (newPath);
   return count;
 }
 
@@ -423,7 +423,7 @@ findSwarm (id arguments)
             
           p = stpcpy (buf, newHome);
           stpcpy (p, subpath);
-          xfree ((char *)newHome);
+          XFREE (newHome);
           return buf;
         }
     }
@@ -455,7 +455,7 @@ findSwarm (id arguments)
           && stat (home, &homeStatBuf) != -1)
         ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
     }
-  xfree (executablePath);
+  XFREE (executablePath);
   return ret;
 }
 

@@ -2,6 +2,8 @@
 
 	* Arguments.m ([Arguments -getAppConfigPath], [Arguments
 	-getAppDataPath]): Copy default value to heap.
+	(findDirectory, countSlashes, [Arguments -_getPath_:subpath:],
+	[Arguments -_runningFromInstall_]): Use XFREE instead of xfree.
 
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
