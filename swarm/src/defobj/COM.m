@@ -282,7 +282,7 @@ swarm_directory_objc_ensure_object_COM (id oObject)
 }
 
 COMobject
-swarm_directory_update_phase_COM (id oObject)
+swarm_directory_update_phase_COM (Object_s *oObject)
 {
   Class oClass = getClass (oObject);
   COMclass cClass = SD_COM_FIND_CLASS_COM (oClass);
@@ -294,9 +294,7 @@ swarm_directory_update_phase_COM (id oObject)
   avl_delete (swarmDirectory->COM_tree, COM_FIND_OBJECT_ENTRY (cLastObj));
   avl_probe (swarmDirectory->COM_tree, COM_OBJECT_ENTRY (cDirObj, oObject));
 
-  entry = avl_find (swarmDirectory->object_tree,
-                    OBJC_FIND_OBJECT_ENTRY (oObject));
-
+  entry = oObject->foreignEntry;
   entry->foreignObject.COM = (COMOBJECT) cDirObj;
   return cNewObj;
 }
@@ -463,11 +461,12 @@ swarm_directory_COM_ensure_class_objc (COMclass cClass)
 }
 
 static ObjectEntry *
-add (COMobject cObject, id oObject)
+add (COMobject cObject, Object_s *oObject)
 {
   ObjectEntry *entry = COM_OBJECT_ENTRY (cObject, oObject);
 
-  avl_probe (swarmDirectory->object_tree, entry);
+  oObject->foreignEntry = entry;
+
   avl_probe (swarmDirectory->COM_tree, entry);
   return entry;
 }
@@ -475,7 +474,12 @@ add (COMobject cObject, id oObject)
 COMclass
 swarm_directory_COM_add_class_COM (COMclass cClass, Class oClass)
 {
-  return add (comEnv->COMcopyComponentID (cClass), oClass)->foreignObject.COM;
+  ObjectEntry *entry = COM_OBJECT_ENTRY (cClass, oClass);
+  
+  avl_probe (swarmDirectory->class_tree, entry);
+  avl_probe (swarmDirectory->COM_tree, entry);
+
+  return cClass;
 }
 
 COMobject

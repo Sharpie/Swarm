@@ -51,6 +51,7 @@ extern jobject swarm_directory_java_next_phase (jobject jobj);
 extern ObjectEntry *swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase);
 extern ObjectEntry *swarm_directory_java_switch_objc (id object, jobject javaObject);
 extern ObjectEntry *swarm_directory_java_add_object (jobject lref, id object);
+extern ObjectEntry *swarm_directory_java_add_class (jobject lref, Class class);
 extern SelectorEntry *swarm_directory_java_add_selector (jobject lref, SEL sel);
 extern Class swarm_directory_java_ensure_class (jclass javaClass);
 extern Class swarm_directory_java_find_class_named_objc (const char *className);
@@ -86,7 +87,7 @@ extern void java_drop (jobject jobj);
 #define SD_JAVA_ADD_STRING(jObj, str) swarm_directory_java_add_object (jObj, (id) str)
 
 #define SD_JAVA_ADD_OBJECT_JAVA(jObj, oObj) swarm_directory_java_add_object (jObj, oObj)->foreignObject.java
-#define SD_JAVA_ADD_CLASS_JAVA(jObj, oObj) ((jclass) swarm_directory_java_add_object (jObj, oObj)->foreignObject.java)
+#define SD_JAVA_ADD_CLASS_JAVA(jClass, oClass) ((jclass) swarm_directory_java_add_class (jClass, oClass)->foreignObject.java)
 
 #define SD_JAVA_SWITCHPHASE(jobj, objc) swarm_directory_java_switch_phase (objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHOBJC(jobj, newobjc) swarm_directory_java_switch_objc (newobjc, jobj)

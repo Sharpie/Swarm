@@ -1,3 +1,29 @@
+2001-08-04  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.[hm] (swarm_directory_java_add_class): New function.
+
+	* java.h (SD_JAVA_ADD_CLASS_JAVA): Use it.
+
+	* java.m (swarm_directory_objc_find_class_java): Use
+	swarm_directory_objc_find_class.
+	(swarm_directory_java_ensure_class): Use SD_JAVA_ADD_CLASS_JAVA
+	not SD_JAVA_ADD_OBJECT_JAVA.
+	(add): New static function.
+	(swarm_directory_java_add_object, swarm_directory_java_add_class):
+	Use it.
+	
+	* directory.h (Directory): Drop object_tree for class_tree.
+
+	* directory.[hm] (swarm_directory_objc_find_class): New function.
+
+	* directory.m (compare_objc_classes): Add.
+	([Directory +createBegin:]): Initialize class_tree.
+
+	* COM.m (swarm_directory_update_phase_COM): Update for
+	foreignEntry slot.
+	(add): Likewise.
+	(swarm_directory_COM_add_class_COM): Update for use of class_tree.
+
 2001-08-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.m (java_object_setVariable): Drop localref when setting

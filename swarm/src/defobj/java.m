@@ -2005,21 +2005,24 @@ swarm_directory_java_ensure_selector (jobject jsel)
 jclass
 swarm_directory_objc_find_class_java (Class class)
 {
-  jclass javaClass = (jclass) SD_JAVA_FIND_OBJECT_JAVA ((id) class);
+  ObjectEntry *entry = swarm_directory_objc_find_class (class);
 
-  if (!javaClass)
+  if (!entry)
     {
       if (![class respondsTo: M(isJavaProxy)])
         {
-          jclass lref;
+          jclass lref, javaClass;
 
           lref = find_java_wrapper_class (class);
-
-          javaClass = (jclass) SD_JAVA_ADD_OBJECT_JAVA (lref, class);
+          javaClass = (jclass) SD_JAVA_ADD_CLASS_JAVA (lref, class);
           (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+          return javaClass;
         }
+      else
+        abort ();
     } 
-  return javaClass;
+  else
+    return entry->foreignObject.java;
 }
 
 Class
@@ -2039,7 +2042,7 @@ swarm_directory_java_ensure_class (jclass javaClass)
         {
           objcClass = [JavaClassProxy create: globalZone];
           
-          (void) SD_JAVA_ADD_OBJECT_JAVA (javaClass, objcClass);
+          (void) SD_JAVA_ADD_CLASS_JAVA (javaClass, objcClass);
         }
       FREECLASSNAME (className);
     }
@@ -2104,6 +2107,24 @@ swarm_directory_objc_ensure_selector_java (jclass jClass, SEL sel)
     }
 }
 
+static void
+add (ObjectEntry *entry)
+{
+  unsigned index;
+  id <Map> m;
+  id *javaTable = swarmDirectory->javaTable;
+  
+  index = swarm_directory_java_hash_code (entry->foreignObject.java);
+  m = javaTable[index];
+  
+  if (m == nil)
+    {
+      m = createDirectoryEntryMap ();
+      javaTable[index] = m;
+    }
+  [m at: entry insert: entry];
+}
+
 ObjectEntry *
 swarm_directory_java_add_object (jobject lref, Object_s *object)
 {
@@ -2116,23 +2137,22 @@ swarm_directory_java_add_object (jobject lref, Object_s *object)
   if (classp (class, c_Base))
     (*jniEnv)->SetIntField (jniEnv, lref, f_objcPtrFid, (jint) object);
   else
-    {
-      unsigned index;
-      id <Map> m;
-      id *javaTable = swarmDirectory->javaTable;
-      
-      index = swarm_directory_java_hash_code (javaObject);
-      m = javaTable[index];
-      
-      if (m == nil)
-        {
-          m = createDirectoryEntryMap ();
-          javaTable[index] = m;
-        }
-      [m at: entry insert: entry];
-    }
+    add (entry);
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   object->foreignEntry = entry;
+  return entry;
+}
+
+ObjectEntry *
+swarm_directory_java_add_class (jobject lref, Class oClass)
+{
+  ObjectEntry *entry;
+  jclass jClass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+
+  entry = JAVA_OBJECT_ENTRY (jClass, (id) oClass);
+
+  add (entry);
+  avl_probe (swarmDirectory->class_tree, entry);
   return entry;
 }
 

@@ -154,6 +154,18 @@ compare_COM_objects (const void *A, const void *B, void *PARAM)
   return a->foreignObject.COM > b->foreignObject.COM;
 }
 
+static int
+compare_objc_classes (const void *A, const void *B, void *PARAM)
+{
+  ObjectEntry *a = (ObjectEntry *) A;
+  ObjectEntry *b = (ObjectEntry *) B;
+
+  if (a->object < b->object)
+    return -1;
+  
+  return a->object > b->object;
+}
+
 @implementation Directory
 + createBegin: aZone
 {
@@ -164,6 +176,7 @@ compare_COM_objects (const void *A, const void *B, void *PARAM)
   memset (obj->javaTable, 0, size);
   obj->selector_tree = avl_create (compare_objc_selectors, NULL);
   obj->COM_tree = avl_create (compare_COM_objects, NULL);
+  obj->class_tree = avl_create (compare_objc_classes, NULL);
 
   return obj;
 }
@@ -172,6 +185,20 @@ ObjectEntry *
 swarm_directory_objc_find_object (Object_s *object)
 {
   return object->foreignEntry;
+}
+
+ObjectEntry *
+swarm_directory_objc_find_class (Class class)
+{
+  if (swarmDirectory)
+    {
+      ObjectEntry *ret;
+      
+      ret = avl_find (swarmDirectory->class_tree,
+                      OBJC_FIND_OBJECT_ENTRY ((id) class));
+      return ret;
+    }
+  return nil;
 }
 
 SelectorEntry *

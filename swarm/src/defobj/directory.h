@@ -53,11 +53,12 @@ void swarm_directory_entry_drop (DirectoryEntry *entry);
 @public
   id *javaTable;
   avl_tree *COM_tree;
-  avl_tree *object_tree;
+  avl_tree *class_tree;
   avl_tree *selector_tree;
 }
 + createBegin: aZone;
 ObjectEntry *swarm_directory_objc_find_object (id object);
+ObjectEntry *swarm_directory_objc_find_class (Class class);
 SelectorEntry *swarm_directory_objc_find_selector (SEL sel);
 BOOL swarm_directory_objc_remove (id obj);
 - (void)describe: outputCharStream;
