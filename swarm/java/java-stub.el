@@ -338,8 +338,8 @@
           for nameKey = (car argument)
           when nameKey
           do
-          (insert (upcase (substring nameKey 0 1)))
-          (insert (substring nameKey 1)))
+          (insert "$")
+          (insert nameKey))
     (insert " (")
     (java-print-argument first-argument)
     (loop for argument in (cdr arguments)
@@ -621,8 +621,8 @@
             for nameKey = (car argument)
             when nameKey
             do
-            (insert (upcase (substring nameKey 0 1)))
-            (insert (substring nameKey 1)))
+            (insert "$")
+            (insert nameKey))
       (unless (java-argument-empty-p first-argument)
         (insert "_")
         (insert (java-argument-convert first-argument

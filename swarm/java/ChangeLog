@@ -1,3 +1,10 @@
+1999-03-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-method, java-print-native-method):
+	Print "$" between method keys (instead of mixing case).
+
+	* Makefile.am (SWARM_EXTRA_DIST): Add swarm/Selector.java.
+
 1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*objc-to-java-type-alist*): Convert timeval_t and
