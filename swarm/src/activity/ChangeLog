@@ -1,5 +1,8 @@
 1998-09-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* activity.h (COMPLETEDP, HOLDINGP, INITIALIZEDP, RELEASEDP,
+	RUNNINGP, STOPPEDP, TERMINATEDP): New macros.
+
 	* XActivity.m: Reformatting throughout. 
 	Use YES/NO instead of 1/0 throughout.
 	(auditRunRequest): Use RUNNINGP and COMPLETEDP.
