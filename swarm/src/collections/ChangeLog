@@ -1,6 +1,9 @@
 1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Array.m: Include misc.h instead of memory.h.
+	* StringObject.m: Don't include assert.h.
+	([String_c +create:setC:]): Don't use assert on argument.
+
+	* Array.m, OutputStream.m: Include misc.h instead of memory.h.
 
 1998-12-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

@@ -10,7 +10,7 @@ Library:      collections
 */
 
 #import <collections/OutputStream.h>
-#include <stdio.h>
+#include <misc.h> // FILE, fputs
 
 @implementation OutputStream_c
 

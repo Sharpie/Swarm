@@ -12,7 +12,6 @@ Library:      collections
 #import <collections/StringObject.h>
 #import <defobj/defalloc.h>
 
-#include <assert.h>
 #include <misc.h> // memcpy
 
 @implementation String_c
@@ -56,7 +55,6 @@ PHASE(Creating)
 {
   String_c *newString;
 
-  assert (cstring);
   newString = [aZone allocIVars: getNextPhase (self)];
   setMappedAlloc (newString);
   newString->count = strlen (cstring);
