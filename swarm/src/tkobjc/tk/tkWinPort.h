@@ -106,12 +106,12 @@
  * Define timezone for gettimeofday.
  */
 
+#if 0
 struct timezone {
     int tz_minuteswest;
     int tz_dsttime;
 };
 
-#if 0
 extern int gettimeofday(struct timeval *, struct timezone *);
 #endif
 EXTERN void		panic _ANSI_ARGS_(TCL_VARARGS(char *,format));

@@ -1,3 +1,7 @@
+1999-04-29  Marcus G. Daniels  <mgd@chimayo.santafe.edu>
+
+	* tkWinPort.h: Comment out timezone struct definition.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* tkWinPort.h: Go ahead and include string.h, now that String has
