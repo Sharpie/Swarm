@@ -1,3 +1,27 @@
+1999-05-20  Alex Lancaster  <alex@santafe.edu>
+
+	* batch.setup, model.setup, LICENSE: Remove files, rename LICENSE
+	to COPYING.
+
+	* COPYING, batch.scm: Add files.
+
+	* README: Note replacement of {batch, model}.setup files with
+	single `batch.scm' file.
+
+	* main.m (main): Use Lisp Archiver instance to create the instance
+	of MousetrapBatchSwarm from file `batch.scm' using `batchSwarm' a
+	key.
+
+	* MousetrapBatchSwarm.m ([MousetrapBatchSwarm -go]): Fixed printf
+	to refer to `--batch or -b' options.
+	([MousetrapBatchSwarm -buildObjects]): Use Lisp Archiver instance
+	(created from `batch.scm' file) in place of using ObjectLoader to
+	create the MousetrapModelSwarm instance with `modelSwarm' as key.
+	Updated all comments accordingly.  
+	Don't load `self' from `model.setup' file, which is now redundant,
+	the creation of `self' from the batch.scm file parameters has now
+	moved to main.m.
+
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* main.m (main): Use initSwarmApp instead of initSwarm; add

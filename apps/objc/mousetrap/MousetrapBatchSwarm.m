@@ -28,27 +28,35 @@
 
 - buildObjects
 {
-  id modelZone;					       // zone for model.
-  
+  id archiver;      // Archiver instance
   [super buildObjects];
-  
-  // create a zone for the model, create the model there.
 
-  modelZone = [Zone create: [self getZone]];
-  mousetrapModelSwarm = [MousetrapModelSwarm create: modelZone];
-  
+
+  // create an instance of the Archiver to retrieve the file
+  // set the path to `batch.scm'
+  archiver =  [[[[Archiver createBegin: globalZone]
+                  setHDF5Flag: NO]
+                 setPath: "batch.scm"]
+                createEnd];  
+
   // In MousetrapObserverSwarm, we'd build some probes and wait for a
-  // user control event (this allows the user to fiddle with the 
-  // parameters of the experiment). But since we don't have any graphics, 
-  // we load the batch.setup parameter file (which should contain values
-  // for such variables as experimentDuration and loggingFrequency) and 
-  // the model.setup parameter file (which contains values for the model
-  // specific variables such as gridSize, etc.).
-  
-  [ObjectLoader load: self
-                fromAppDataFileNamed: "batch.setup"];
-  [ObjectLoader load: mousetrapModelSwarm
-                fromAppDataFileNamed: "model.setup"];
+  // user control event (this allows the user to fiddle with the
+  // parameters of the experiment). But since we don't have any
+  // graphics, we load the batch.scm archiver file:
+  //
+  // * `batchSwarm is the key for the instance of the MousetrapBatchSwarm
+  //   with one parameter: loggingFrequency
+  // * `modelSwarm' is the key for the instance of the MousetrapModelSwarm
+  //   with parameter values for the model instance variables: gridSize
+  //   triggerLikelihood, numberOutputTriggers, maxTriggerDistance, 
+  //   maxTriggerTime, trapDensity  
+
+  // if we can't find the right key from the Archiver, create the
+  // default MousetrapModelSwarm instance
+  if ((mousetrapModelSwarm = 
+       [archiver getObject: "modelSwarm"]) == nil)
+    mousetrapModelSwarm = [MousetrapModelSwarm create: self];
+
   // Now, let the model swarm build its objects.
 
   [mousetrapModelSwarm buildObjects];
@@ -162,7 +170,7 @@
 
 - go
 {
-  printf("You typed 'mousetrap -batchmode', so we're running without graphics.\n");
+  printf("You typed `mousetrap --batchmode' or `mousetrap -b', so we're running without graphics.\n");
   
   printf("mousetrap is running to completion.\n");
  

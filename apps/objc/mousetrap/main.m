@@ -32,10 +32,23 @@ main (int argc, const char **argv)
       theTopLevelSwarm = [theTopLevelSwarm createEnd];
     }
   else
-
     // No graphics - make a batchmode swarm and run it.
+    {
+      // create an instance of the Archiver to retrieve the file
+      // set the path to `batch.scm'
+      id archiver =  [[[[Archiver createBegin: globalZone]
+                         setHDF5Flag: NO]
+                        setPath: "batch.scm"]
+                       createEnd];  
 
-    theTopLevelSwarm = [MousetrapBatchSwarm create: globalZone];
+      // retrieve the object from the archiver, if it can't be found
+      // just create the default object; note that the call to the
+      // archiver will actually *instantiate* the object if the
+      // parameters are found in the Lisp file
+      if ((theTopLevelSwarm = 
+           [archiver getObject: "batchSwarm"]) == nil)
+        theTopLevelSwarm = [MousetrapBatchSwarm create: globalZone];
+    }
 
   // either way, build objects, actions, activate, and run
 

@@ -9,9 +9,24 @@
 	c) has full batchmode capability, and
 	d) it allows probes on the traps under the GUI interface. 
 
-To invoke batchmode (no-graphics) type "mousetrap -batchmode". 
-The files batch.setup and model.setup allow setting parameters for 
-the runs, ala the parameter and probe windows in the GUI version.
+To invoke batchmode (no-graphics) type `mousetrap --batchmode' or
+`mousetrap -b'.  
+
+IMPORTANT NOTE:
+===============
+
+The old `batch.setup' and `model.setup' files have been replaced by a
+*single* parameter file: `batch.scm".  This file allows setting
+parameters for the runs, ala the parameter and probe windows in the
+GUI version.
+
+Things to note in the `batch.scm' Lisp Archiver file:
+
+* The `key' for the parameters relevant to the MousetrapBatchSwarm is
+  `batchSwarm' (this takes the place of the old batch.setup file)
+
+* The `key' for the parameters relevant to the MousetrapModelSwarm is
+  `modelSwarm'  (this takes the place of the old model.setup file)
 
 -------------------------------------------------------------------------
 
