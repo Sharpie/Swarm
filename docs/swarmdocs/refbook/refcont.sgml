@@ -9,6 +9,8 @@
 
 <!-- list of REFERENCES -->
 &defobjcont.sgml;
+&collectionscont.sgml;
+&activitycont.sgml;
 &spacecont.sgml;
 
 <!-- appendices -->
