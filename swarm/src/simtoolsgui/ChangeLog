@@ -1,3 +1,7 @@
+1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* MessageProbeWidget.m: Don't include ctype.h.
+
 1998-12-18  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* MultiVarProbeWidget.m ([MultiProbe -setCompareFunction:]): 

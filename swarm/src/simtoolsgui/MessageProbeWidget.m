@@ -10,8 +10,7 @@
 #import <objectbase.h> // val_t
 #import <objc/objc-api.h>
 
-#include <misc.h> // strlen, strdup
-#include <ctype.h>
+#include <misc.h> // strlen, strdup, isspace
 
 // Avoid using chars as an index to ctype table.
 #define isSpace(ch) isspace((int)ch)
