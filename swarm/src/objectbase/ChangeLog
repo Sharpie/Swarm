@@ -1,3 +1,11 @@
+1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VarProbe.m ([VarProbe -createEnd], probe_as_int,
+	probe_as_double, [VarProbe
+	-probeAsString:Buffer:withFullPrecision:], [VarProbe
+	-setData:To:], [VarProbe -setData:ToString:]): Add support
+	for [unsigned] long long and long double.
+
 1999-08-08  Alex Lancaster  <alex@santafe.edu>
 
 	* objectbase.h (ActivityControl): Move -attachToActivity: to USING

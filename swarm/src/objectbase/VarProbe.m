@@ -177,15 +177,18 @@ PHASE(Creating)
           || type == _C_UINT
           || type == _C_LNG
           || type == _C_ULNG
+          || type == _C_LNG_LNG
+          || type == _C_ULNG_LNG
           || type == _C_FLT
-          || type == _C_DBL)
+          || type == _C_DBL
+          || type == _C_LNG_DBL)
         interactiveFlag = YES;
       else
         interactiveFlag = NO;
 
       // set up default formatting string for floating point and 
       // double types - defaults are set in the probeLibrary instance
-      if  (type == _C_FLT || type == _C_DBL)
+      if  (type == _C_FLT || type == _C_DBL || type == _C_LNG_DBL)
         {
           char *buf = [aZone alloc: 16];
 
@@ -234,7 +237,9 @@ PHASE(Setting)
 
 - setFloatFormat: (const char *)format
 {
-  if (probedType[0] == _C_FLT || probedType[0] == _C_DBL) 
+  if (probedType[0] == _C_FLT
+      || probedType[0] == _C_DBL
+      || probedType[0] == _C_LNG_DBL) 
     floatFormat = STRDUP (format);
   else
     raiseEvent (WarningMessage, 
@@ -330,18 +335,18 @@ PHASE(Using)
 
   switch (probedType[0])
     {
-    case _C_ID:      q = (void *) *(id *) p; break;
-    case _C_CLASS:   q = (void *) *(Class *) p; break;
+    case _C_ID:       q = (void *) *(id *) p; break;
+    case _C_CLASS:    q = (void *) *(Class *) p; break;
     case _C_CHARPTR:
-    case _C_PTR:     q = (void *) *(void **) p; break;
-    case _C_CHR:     q = (void *) (PTRUINT) *(char *) p; break;
-    case _C_UCHR:    q = (void *) (PTRUINT) *(unsigned char *) p; break;
-    case _C_SHT:     q = (void *) (PTRUINT) *(short *) p; break;
-    case _C_USHT:    q = (void *) (PTRUINT) *(unsigned short *) p; break;
-    case _C_INT:     q = (void *) (PTRUINT) *(int *) p; break;
-    case _C_UINT:    q = (void *) (PTRUINT) *(unsigned int *) p; break;
-    case _C_LNG:     q = (void *) (PTRUINT) *(long *) p; break;
-    case _C_ULNG:    q = (void *) (PTRUINT) *(unsigned long *) p; break;
+    case _C_PTR:      q = (void *) *(void **) p; break;
+    case _C_CHR:      q = (void *) (PTRUINT) *(char *) p; break;
+    case _C_UCHR:     q = (void *) (PTRUINT) *(unsigned char *) p; break;
+    case _C_SHT:      q = (void *) (PTRUINT) *(short *) p; break;
+    case _C_USHT:     q = (void *) (PTRUINT) *(unsigned short *) p; break;
+    case _C_INT:      q = (void *) (PTRUINT) *(int *) p; break;
+    case _C_UINT:     q = (void *) (PTRUINT) *(unsigned int *) p; break;
+    case _C_LNG:      q = (void *) (PTRUINT) *(long *) p; break;
+    case _C_ULNG:     q = (void *) (PTRUINT) *(unsigned long *) p; break;
    default:
       if (SAFEPROBES)
         raiseEvent (WarningMessage,
@@ -370,21 +375,28 @@ probe_as_int (const char *probedType, const void *p)
   
   switch (probedType[0])
     {
-    case _C_ID:   i = (long)*(id *)p; break;
+    case _C_ID:   i = (long) *(id *) p; break;
     case _C_CHARPTR:
-    case _C_PTR:  i = (long)*(void **)p; break;
+    case _C_PTR:  i = (long) *(void **) p; break;
       
-    case _C_UCHR: i = (int)*(unsigned char *)p; break;
-    case _C_CHR:  i = (int)*(char *)p; break;
+    case _C_UCHR: i = (int) *(unsigned char *) p; break;
+    case _C_CHR:  i = (int) *(char *) p; break;
 
-    case _C_SHT:  i = (int)*(short *)p; break;
-    case _C_USHT: i = (unsigned)*(unsigned short *)p; break;
+    case _C_SHT:  i = (int) *(short *) p; break;
+    case _C_USHT: i = (unsigned) *(unsigned short *) p; break;
       
-    case _C_INT:  i = (int)*(int *)p; break;
-    case _C_UINT: i = (unsigned)*(unsigned int *)p; break;
+    case _C_INT:  i = *(int *) p; break;
+    case _C_UINT: i = *(unsigned *) p; break;
 
-    case _C_LNG:  i = (long)*(long *)p; break;
-    case _C_ULNG: i = (unsigned long)*(unsigned long *)p; break;
+    case _C_LNG:  i = (int) *(long *) p; break;
+    case _C_ULNG: i = (unsigned) *(unsigned long *) p; break;
+
+    case _C_LNG_LNG:  i = (int) *(long long *) p; break;
+    case _C_ULNG_LNG: i = (unsigned) *(unsigned long long *) p; break;
+
+    case _C_FLT:     i = (int) *(float *) p; break;
+    case _C_DBL:     i = (int) *(double *) p; break;
+    case _C_LNG_DBL: i = (int) *(long double *) p; break;
       
     default:
       if (SAFEPROBES)
@@ -443,9 +455,13 @@ probe_as_double (const char *probedType, const void *p)
       
     case _C_LNG:  d = (double) *(long *) p; break;
     case _C_ULNG: d = (double) *(unsigned long *) p; break;
+
+    case _C_LNG_LNG:  d = (double) *(long long *) p; break;
+    case _C_ULNG_LNG: d = (double) *(unsigned long long *) p; break;
       
     case _C_FLT:  d = (double) *(float *) p; break;
     case _C_DBL:  d = (double) *(double *) p; break;
+    case _C_LNG_DBL:  d = (double) *(long double *) p; break;
       
     default:
       if (SAFEPROBES)
@@ -589,6 +605,14 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     case _C_ULNG:
       sprintf (buf, "%lu", *(unsigned long *) p);
       break;
+#ifdef LLFMT
+    case _C_LNG_LNG:
+      sprintf (buf, "%" LLFMT "d", *(long long *)p);
+      break;
+    case _C_ULNG_LNG:
+      sprintf (buf, "%" LLFMT "u", *(unsigned long long *) p);
+      break;
+#endif
     case _C_FLT:
       if (precision)
         sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
@@ -602,6 +626,13 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
                 *(double *) p);
       else
         sprintf (buf, floatFormat, *(double *) p);
+      break;
+    case _C_LNG_DBL:
+      if (precision)
+        sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
+                 (double) *(long double *) p);
+      else
+        sprintf (buf, floatFormat, (double) *(long double *) p);
       break;
     case _C_CHARPTR:
       sprintf (buf, "%s", *(char **) p ? *(char **) p : "<NULL>");
@@ -715,8 +746,11 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     case _C_UINT: *(unsigned int *)p = *(unsigned int *)newValue; break;
     case _C_LNG:  *(long *)p = *(long *)newValue; break;
     case _C_ULNG: *(unsigned long *)p = *(unsigned long *)newValue; break;
+    case _C_LNG_LNG:  *(long long *)p = *(long long *)newValue; break;
+    case _C_ULNG_LNG: *(unsigned long long *)p = *(unsigned long long *)newValue; break;
     case _C_FLT:  *(float *)p = *(float *)newValue; break;
     case _C_DBL:  *(double *)p = *(double *)newValue; break;
+    case _C_LNG_DBL:  *(long double *)p = *(long double *)newValue; break;
       
     default:
       if (SAFEPROBES)
@@ -897,8 +931,11 @@ setFieldFromString (id anObject, jobject field,
     unsigned int ui;
     float f;
     double d;
+    long double ld;
     long l;
     unsigned long ul;
+    long long ll;
+    unsigned long long ull;
   } value;
   int rc = 0;
   void *p;
@@ -983,6 +1020,18 @@ setFieldFromString (id anObject, jobject field,
       if ((rc = sscanf (s, "%lu", &value.ul)) == 1) 
         *(unsigned long *) p = value.ul; 
       break;
+
+#ifdef LLFMT
+    case _C_LNG_LNG:
+      if ((rc = sscanf (s, "%" LLFMT "d", &value.ll)) == 1) 
+        *(long *) p = value.ll; 
+      break;
+      
+    case _C_ULNG_LNG:
+      if ((rc = sscanf (s, "%" LLFMT "u", &value.ull)) == 1) 
+        *(unsigned long *) p = value.ull; 
+      break;
+#endif
       
     case _C_FLT:
       if ((rc = sscanf (s, "%f", &value.f)) == 1) 
@@ -993,7 +1042,18 @@ setFieldFromString (id anObject, jobject field,
       if ((rc = sscanf (s, "%lf", &value.d)) == 1) 
         *(double *) p = value.d; 
       break;
-      
+
+    case _C_LNG_DBL:
+      {
+        double val;
+        
+        if ((rc = sscanf (s, "%lf", &val)) == 1)
+          {
+            value.ld = val;
+            *(double *) p = value.ld; 
+          }
+        break;
+      }
     default:
       if (SAFEPROBES)
         raiseEvent (WarningMessage, "Invalid type %s to set\n", probedType);
