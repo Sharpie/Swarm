@@ -9,7 +9,7 @@
 id <Error> WindowCreation, WindowUsage;
 
 void
-initJavaObjc (id arguments)
+initAWTObjc (id arguments)
 {
   deferror (WindowCreation, NULL);
   deferror (WindowUsage, NULL);

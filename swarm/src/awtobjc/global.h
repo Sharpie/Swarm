@@ -5,7 +5,7 @@
 
 #import <defobj.h>
 
-void initJavaObjc (id arguments);
+void initAWTObjc (id arguments);
 
 extern id javaEnv;
 
