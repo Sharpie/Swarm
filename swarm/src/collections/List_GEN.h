@@ -45,7 +45,8 @@ struct link {
 - (void)addLast: anObject;
 - removeFirst;
 - removeLast;
-- begin: aZone;
+- (id <ListIndex>)begin: aZone;
+- (id <ListIndex>)listBegin: (id <Zone>)aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
 - _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass;
 - (void)describe: outputCharStream;
@@ -53,7 +54,7 @@ struct link {
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface TINDEX: ListIndex_any <Index>
+@interface TINDEX: ListIndex_any <ListIndex>
 #if CONTIG
 {
 @public

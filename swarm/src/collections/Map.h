@@ -45,7 +45,8 @@ typedef struct mapentry {
 - (void)forEachKey: (SEL)aSelector : arg1;
 - (void)forEachKey: (SEL)aSelector : arg1 : arg2;
 - (void)forEachKey: (SEL)aSelector : arg1 : arg2 : arg3;
-- begin: aZone;
+- (id <MapIndex>)begin: aZone;
+- (id <MapIndex>)mapBegin: (id <Zone>)aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
 - _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass;
 - createIndex: aZone fromMember: anObject;

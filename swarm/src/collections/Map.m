@@ -614,7 +614,7 @@ PHASE(Using)
   [index drop];
 }
 
-- begin: aZone
+- (id <MapIndex>)begin: aZone
 {
   MapIndex_c *newIndex;
   
@@ -623,6 +623,11 @@ PHASE(Using)
   newIndex->collection = self;
   newIndex->listIndex = [list begin: getCZone (aZone)];
   return newIndex;
+}
+
+- (id <MapIndex>)mapBegin: (id <Zone>)aZone
+{
+  return [self begin: aZone];
 }
 
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass

@@ -99,130 +99,7 @@ USING
 - (void)forEachKey: (SEL)aSelector : arg1 : arg2 : arg3;
 @end
 
-@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
-//S: A generic collection interface.
-
-//D: A collection is a grouping of object references or other data values which
-//D: are assigned explicitly as members of the collection.  Depending on the
-//D: subtype, collection members may also be maintained in various associations
-//D: with each other, such as an ordering of members or an association of
-//D: members with identifying key values.  Major Collection subtypes include
-//D: Array, List, Set and Map.  The Collection supertype establishes common
-//D: conventions (and associated messages) supported by all types of
-//D: collections.
-
-//D: All collections support traversal over their members using a separate
-//D: object called an Index.  All collections also follow common rules
-//D: regarding the types of data values which may be added as members.  The
-//D: next two subsections summarize these basic features of all collections.
-
-//D: An index is a special type of object that references a current
-//D: position in an enumeration sequence over a collection.  An enumeration
-//D: sequence contains every member of a collection exactly once.  Every
-//D: collection defines an associated type of object for its index.  The
-//D: index type of a collection defines additional ways in which the
-//D: members of a collection may be processed beyond any messages available
-//D: directly on the collection.  Often the operations of an index provide
-//D: the most basic and flexible means for manipulating individual members
-//D: of a collection.
-
-//D: An index object into a collection may be created at any time.  An
-//D: index is the basic means to traverse through all members of a
-//D: collection.  Multiple indexes on the same collection may all exist at
-//D: the same time and may reference the same or different positions.
-//D: Depending on the collection type, it may be possible to modify a
-//D: collection through its indexes.
-
-//D: Once an index is created, the sequence of members in its enumeration
-//D: sequence is guaranteed to remain the same, provided that no new
-//D: members are added to the underlying collection, or existing members
-//D: removed.  If a member is located once at a particular position, it is
-//D: guaranteed to remain at that position as long as the index itself
-//D: remains.
-
-//D: Many collection types define an explicit ordering over their members.
-//D: For such collections, the sequence of members referred to by an index
-//D: will always be consistent with this ordering.  An explicit, total
-//D: ordering also guarantees that all indexes of the same collection have
-//D: the same member sequence.
-
-//D: If no such ordering is defined, however, some particular sequence of
-//D: all the collection still becomes associated with each created index.
-//D: All collection members are guaranteed to be contained somewhere in the
-//D: enumeration sequence for any particular index, but two indexes on the
-//D: same collection are not guaranteed to have the same sequence.
-
-//D: The Index type corresponds to the iterator types defined as part of
-//D: many other object-oriented libraries.  The name Index is shorter and
-//D: emphasizes the more abstract and multi-function role of these basic
-//D: support objects for any collection.  For more background on design of
-//D: indexes and iterators, see the Interface Design Notes for the
-//D: collections library.
-
-CREATING
-//M: This boolean-valued option restricts valid usage of a collection by
-//M: excluding all operations which add or remove members.  For some
-//M: collection subtypes, a replace-only restriction can obtain many of the
-//M: same performance advantages as a read-only collection, but without
-//M: disabling replace operations as well.  Just like the ReadOnly option,
-//M: the ReplaceOnly option may be reset after a collection is created,
-//M: provided it was not originally set to true.
-- (void)setReplaceOnly: (BOOL)replaceOnly;
-
-- (void)setIndexFromMemberLoc: (int)byteOffset;
-
-USING
-//M: Note: copies are shallow; members inside the collection are not copied.
-- copy: (id <Zone>)aZone;
-
-- (BOOL)getReplaceOnly;
-
-//M: getCount returns the integer number of members currently contained in
-//M: the collection.  All collections maintain their count internally so
-//M: that no traversal of collection members is required simply to return
-//M: this value.
-- (unsigned)getCount;
-
-//M: The contains: message returns true if the collection contains any
-//M: member value which matches the value passed as its argument.
-//M: Depending on the collection subtype, this may require traversing
-//M: sequentially through all members of the collection until a matching
-//M: member is found.  For other subtypes, some form of direct indexing
-//M: from the member value may be supported.  The message is supported
-//M: regardless of its speed.
-- (BOOL)contains: aMember;
-
-//M: The remove: message removes the first member in the collection with a
-//M: value matching the value passed as its argument.  If there is no such
-//M: member, a nil value is returned.  As with the contains: message, the
-//M: speed of this operation may vary from very low to linear in the number
-//M: of members, depending on the collection subtype.
-- remove: aMember;
-
-//M: The removeAll message removes all existing members of a collection and
-//M: sets its member count to zero.  The collection then remains valid for
-//M: further members to be added.  This message has no effect on the
-//M: objects which might be referenced by any removed member values.  If
-//M: resources consumed by these objects also need to be released, such
-//M: release operations (such as drop messages) can be performed prior to
-//M: removing the member values.
-- (void)removeAll;
-
-//M: Like removeAll:, but drops the member(s) as well.
-- (void)deleteAll;
-
-//M: Returns YES if all members are of the same class.
-- (BOOL)allSameClass;
-
-//M: The begin: message is the standard method for creating a new index for
-//M: traversing the elements of a collection.  All further information
-//M: about indexes is documented under the Index type.
-- begin: (id <Zone>)aZone;
-
-- beginPermuted: (id <Zone>)aZone;
-@end
-
-@protocol Index <DefinedObject, Drop>
+@protocol Index <DefinedObject, Drop, RETURNABLE>
 //S: Reference into the enumeration sequence for a collection.
 
 //D: An index is a reference into an enumeration sequence of a collection.
@@ -455,7 +332,155 @@ externvar id <Error> OffsetOutOfRange, NoMembers,
   AlreadyAtEnd, AlreadyAtStart, InvalidIndexLoc, InvalidLocSymbol;
 
 @end
+
+@protocol PermutedIndex <Index, RETURNABLE>
+//S: General PermutedIndex class. 
+
+//D: PermutedIndex class may be used for randomized traversals of a 
+//D: collection.  Methods implemented offer the same functionality as 
+//D: Index class does, except that traversal is randomized. 
+CREATING
++ createBegin: (id <Zone>)aZone;
+- setCollection: aCollection;
+- setUniformRandom: rnd;
+- createEnd;
+USING
+- reshuffle;
+- next;
+- prev;
+- findNext: anObject;
+- findPrev: anObject;
+- get;
+- (id <Symbol>)getLoc;
+- (void)setLoc: (id <Symbol>)locSymbol;
+- (int)getOffset;
+- setOffset: (unsigned)offset;
+@end;
 
+@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
+//S: A generic collection interface.
+
+//D: A collection is a grouping of object references or other data values which
+//D: are assigned explicitly as members of the collection.  Depending on the
+//D: subtype, collection members may also be maintained in various associations
+//D: with each other, such as an ordering of members or an association of
+//D: members with identifying key values.  Major Collection subtypes include
+//D: Array, List, Set and Map.  The Collection supertype establishes common
+//D: conventions (and associated messages) supported by all types of
+//D: collections.
+
+//D: All collections support traversal over their members using a separate
+//D: object called an Index.  All collections also follow common rules
+//D: regarding the types of data values which may be added as members.  The
+//D: next two subsections summarize these basic features of all collections.
+
+//D: An index is a special type of object that references a current
+//D: position in an enumeration sequence over a collection.  An enumeration
+//D: sequence contains every member of a collection exactly once.  Every
+//D: collection defines an associated type of object for its index.  The
+//D: index type of a collection defines additional ways in which the
+//D: members of a collection may be processed beyond any messages available
+//D: directly on the collection.  Often the operations of an index provide
+//D: the most basic and flexible means for manipulating individual members
+//D: of a collection.
+
+//D: An index object into a collection may be created at any time.  An
+//D: index is the basic means to traverse through all members of a
+//D: collection.  Multiple indexes on the same collection may all exist at
+//D: the same time and may reference the same or different positions.
+//D: Depending on the collection type, it may be possible to modify a
+//D: collection through its indexes.
+
+//D: Once an index is created, the sequence of members in its enumeration
+//D: sequence is guaranteed to remain the same, provided that no new
+//D: members are added to the underlying collection, or existing members
+//D: removed.  If a member is located once at a particular position, it is
+//D: guaranteed to remain at that position as long as the index itself
+//D: remains.
+
+//D: Many collection types define an explicit ordering over their members.
+//D: For such collections, the sequence of members referred to by an index
+//D: will always be consistent with this ordering.  An explicit, total
+//D: ordering also guarantees that all indexes of the same collection have
+//D: the same member sequence.
+
+//D: If no such ordering is defined, however, some particular sequence of
+//D: all the collection still becomes associated with each created index.
+//D: All collection members are guaranteed to be contained somewhere in the
+//D: enumeration sequence for any particular index, but two indexes on the
+//D: same collection are not guaranteed to have the same sequence.
+
+//D: The Index type corresponds to the iterator types defined as part of
+//D: many other object-oriented libraries.  The name Index is shorter and
+//D: emphasizes the more abstract and multi-function role of these basic
+//D: support objects for any collection.  For more background on design of
+//D: indexes and iterators, see the Interface Design Notes for the
+//D: collections library.
+
+CREATING
+//M: This boolean-valued option restricts valid usage of a collection by
+//M: excluding all operations which add or remove members.  For some
+//M: collection subtypes, a replace-only restriction can obtain many of the
+//M: same performance advantages as a read-only collection, but without
+//M: disabling replace operations as well.  Just like the ReadOnly option,
+//M: the ReplaceOnly option may be reset after a collection is created,
+//M: provided it was not originally set to true.
+- (void)setReplaceOnly: (BOOL)replaceOnly;
+
+- (void)setIndexFromMemberLoc: (int)byteOffset;
+
+USING
+//M: Note: copies are shallow; members inside the collection are not copied.
+- copy: (id <Zone>)aZone;
+
+- (BOOL)getReplaceOnly;
+
+//M: getCount returns the integer number of members currently contained in
+//M: the collection.  All collections maintain their count internally so
+//M: that no traversal of collection members is required simply to return
+//M: this value.
+- (unsigned)getCount;
+
+//M: The contains: message returns true if the collection contains any
+//M: member value which matches the value passed as its argument.
+//M: Depending on the collection subtype, this may require traversing
+//M: sequentially through all members of the collection until a matching
+//M: member is found.  For other subtypes, some form of direct indexing
+//M: from the member value may be supported.  The message is supported
+//M: regardless of its speed.
+- (BOOL)contains: aMember;
+
+//M: The remove: message removes the first member in the collection with a
+//M: value matching the value passed as its argument.  If there is no such
+//M: member, a nil value is returned.  As with the contains: message, the
+//M: speed of this operation may vary from very low to linear in the number
+//M: of members, depending on the collection subtype.
+- remove: aMember;
+
+//M: The removeAll message removes all existing members of a collection and
+//M: sets its member count to zero.  The collection then remains valid for
+//M: further members to be added.  This message has no effect on the
+//M: objects which might be referenced by any removed member values.  If
+//M: resources consumed by these objects also need to be released, such
+//M: release operations (such as drop messages) can be performed prior to
+//M: removing the member values.
+- (void)removeAll;
+
+//M: Like removeAll:, but drops the member(s) as well.
+- (void)deleteAll;
+
+//M: Returns YES if all members are of the same class.
+- (BOOL)allSameClass;
+
+//M: The begin: message is the standard method for creating a new index for
+//M: traversing the elements of a collection.  All further information
+//M: about indexes is documented under the Index type.
+- (id <Index>)begin: (id <Zone>)aZone;
+
+- (id <PermutedIndex>)beginPermuted: (id <Zone>)aZone;
+@end
+
+
 
 @protocol DefaultMember
 //S: Methods for setting and getting the default member in a collection.
@@ -607,6 +632,47 @@ SETTING
 - setCount: (unsigned)count;
 @end
 
+@protocol ListIndex <Index, RETURNABLE>
+//S: Index with insertion capability at any point in list.
+
+//D: The addAfter: and addBefore: messages add members at a particular
+//D: point in the sequence of members maintained by a list.  The current
+//D: location of an index determines the point at which a new member will
+//D: be added.  The addAfter: message adds a member at the list position
+//D: immediately following the current index location.  addBefore: adds a
+//D: member to the immediately preceding location.  Neither message changes
+//D: the current location of the index, except that an index can change
+//D: from a Start or End location to a location of Between.
+
+//D: Since an index may be positioned to any location in a list, these
+//D: messages enable the construction of any desired sequence of members.
+//D: Since the current index location remains unchanged, multiple members
+//D: may all be inserted successively at some point in a list; previously
+//D: added members are just pushed out one-by-one as new members are added.
+
+//D: An index with a location of Start, End, or Between is just as valid a
+//D: location for addAfter: or addBefore: as an index positioned at a
+//D: member.  In these cases, there is no member at the current location of
+//D: the index, so the new member is just inserted directly at the current
+//D: index location, and the index is left positioned between the new
+//D: member and the member that was previously adjacent in the opposite
+//D: direction.  If the previous location was Start and the message
+//D: addAfter:, or the location was End and the message addBefore:, the
+//D: index location remains Start or End.
+
+//D: If either the addAfter: or addBefore: message is requested with the
+//D: EndsOnly option, and the index location is not Start or End, or
+//D: if remove is requested on an index that is not positioned at either the
+//D: first or last member, an invalid operation error is raised.
+
+USING
+//M: Add a member after the index.
+- (void)addAfter: anObject;
+
+//M: Add a member before the index.
+- (void)addBefore: anObject;
+@end
+
 
 @protocol List <Collection, CREATABLE>
 //S:  Collection of members in an externally assigned linear sequence.
@@ -649,49 +715,10 @@ USING
 
 //M: Removes the last member from the list and returns it.
 - removeLast;
+
+//M: Returns a ListIndex, the special index for the List type
+- (id <ListIndex>)listBegin: (id <Zone>)aZone; 
 @end
-
-@protocol ListIndex <Index>
-//S: Index with insertion capability at any point in list.
-
-//D: The addAfter: and addBefore: messages add members at a particular
-//D: point in the sequence of members maintained by a list.  The current
-//D: location of an index determines the point at which a new member will
-//D: be added.  The addAfter: message adds a member at the list position
-//D: immediately following the current index location.  addBefore: adds a
-//D: member to the immediately preceding location.  Neither message changes
-//D: the current location of the index, except that an index can change
-//D: from a Start or End location to a location of Between.
-
-//D: Since an index may be positioned to any location in a list, these
-//D: messages enable the construction of any desired sequence of members.
-//D: Since the current index location remains unchanged, multiple members
-//D: may all be inserted successively at some point in a list; previously
-//D: added members are just pushed out one-by-one as new members are added.
-
-//D: An index with a location of Start, End, or Between is just as valid a
-//D: location for addAfter: or addBefore: as an index positioned at a
-//D: member.  In these cases, there is no member at the current location of
-//D: the index, so the new member is just inserted directly at the current
-//D: index location, and the index is left positioned between the new
-//D: member and the member that was previously adjacent in the opposite
-//D: direction.  If the previous location was Start and the message
-//D: addAfter:, or the location was End and the message addBefore:, the
-//D: index location remains Start or End.
-
-//D: If either the addAfter: or addBefore: message is requested with the
-//D: EndsOnly option, and the index location is not Start or End, or
-//D: if remove is requested on an index that is not positioned at either the
-//D: first or last member, an invalid operation error is raised.
-
-USING
-//M: Add a member after the index.
-- (void)addAfter: anObject;
-
-//M: Add a member before the index.
-- (void)addBefore: anObject;
-@end
-
 
 //F: A routine for comparing objects.
 //F: Only useful for equality (EQ) discrimination.
@@ -897,35 +924,7 @@ USING
 //D: unique position within the member sequence
 @end
 
-@protocol Map <KeyedCollection, CompareFunction, CREATABLE>
-//S: Collection of associations from key objects to member objects.
-
-//D: Map is a subtype of KeyedCollection in which the key value associated
-//D: with each member is independent of the member itself.  Whenever a new
-//D: member is added to the collection, a key value to be associated with
-//D: the member must be supplied also.  A Map defines a mapping from key
-//D: values to member values.
-
-//D: For the Map type, key values are independent of the member values with
-//D: which they are associated.  Map defines two additional options to
-//D: document information about its key values.  Map also defines its own
-//D: messages to distinguish the key value from member value in any
-//D: operation which involves both.
-
-USING
-//M: at:insert: inserts an entry into a Map containing the key and member
-//M: values given as its arguments.  It returns true if the key was not
-//M: previously contained in the collection.  An attempt to insert a
-//M: duplicate key is simply rejected and false is returned.
-- (BOOL)at: aKey insert: anObject;
-
-//M: Replaces an existing member value associated with a key
-//M: value by a new value given as its final argument.  The message returns
-//M: the member value which was formerly associated with the key value.
-- at: aKey replace: anObject;
-@end
-
-@protocol MapIndex <KeyedCollectionIndex>
+@protocol MapIndex <KeyedCollectionIndex, RETURNABLE>
 //S: The index behavior for a Map.
 
 //D: The index behavior for a Map.
@@ -952,6 +951,38 @@ USING
 - get:  (id *)key;
 @end
 
+
+@protocol Map <KeyedCollection, CompareFunction, CREATABLE>
+//S: Collection of associations from key objects to member objects.
+
+//D: Map is a subtype of KeyedCollection in which the key value associated
+//D: with each member is independent of the member itself.  Whenever a new
+//D: member is added to the collection, a key value to be associated with
+//D: the member must be supplied also.  A Map defines a mapping from key
+//D: values to member values.
+
+//D: For the Map type, key values are independent of the member values with
+//D: which they are associated.  Map defines two additional options to
+//D: document information about its key values.  Map also defines its own
+//D: messages to distinguish the key value from member value in any
+//D: operation which involves both.
+
+USING
+//M: at:insert: inserts an entry into a Map containing the key and member
+//M: values given as its arguments.  It returns true if the key was not
+//M: previously contained in the collection.  An attempt to insert a
+//M: duplicate key is simply rejected and false is returned.
+- (BOOL)at: aKey insert: anObject;
+
+//M: Replaces an existing member value associated with a key
+//M: value by a new value given as its final argument.  The message returns
+//M: the member value which was formerly associated with the key value.
+- at: aKey replace: anObject;
+
+//M: Returns a MapIndex, the special index for the Map type
+- (id <MapIndex>)mapBegin: (id <Zone>)aZone; 
+@end
+
 
 @protocol OutputStream <Create, Drop, CREATABLE>
 //S: Stream of output bytes.
@@ -1180,28 +1211,5 @@ USING
 - generatePermutation;
 @end
 
-@protocol PermutedIndex <Index>
-//S: General PermutedIndex class. 
-
-//D: PermutedIndex class may be used for randomized traversals of a 
-//D: collection.  Methods implemented offer the same functionality as 
-//D: Index class does, except that traversal is randomized. 
-CREATING
-+ createBegin: (id <Zone>)aZone;
-- setCollection: aCollection;
-- setUniformRandom: rnd;
-- createEnd;
-USING
-- reshuffle;
-- next;
-- prev;
-- findNext: anObject;
-- findPrev: anObject;
-- get;
-- (id <Symbol>)getLoc;
-- (void)setLoc: (id <Symbol>)locSymbol;
-- (int)getOffset;
-- setOffset: (unsigned)offset;
-@end;
 
 #import <collections/types.h>

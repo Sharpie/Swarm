@@ -185,7 +185,7 @@ PHASE(UsingOnly)
     }
 }
 
-- begin: aZone
+- (id <ListIndex>)begin: aZone
 {
   TINDEX *newIndex;
 
@@ -194,6 +194,11 @@ PHASE(UsingOnly)
   newIndex->link = (link_t) Start;
   newIndex->position = 0;
   return newIndex;
+}
+
+- (id <ListIndex>)listBegin: (id <Zone>)aZone
+{
+  return [self begin: aZone];
 }
 
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass
