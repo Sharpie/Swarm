@@ -14,7 +14,7 @@ Library:      defobj
 #include "defobj.xm"
 #import <defobj/Archiver.h>
 #import <defobj/HDF5Object.h>
-#import <defobj/FCall.h> //init_javacall_tables
+
 
 #include <objc/objc-api.h> // objc_lookup_class
 #include <misc.h> // strcmp, sscanf
