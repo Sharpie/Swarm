@@ -287,15 +287,15 @@ PHASE(Creating)
   Class cl;
 
   callType = objccall;
-  (id) fobject = obj;
+  fobject = obj;
   (SEL) fmethod = mtd;
   cl = getClass (obj);
-  (Class) fclass = cl;
+  fclass = cl;
   ffunction = FUNCPTR (get_imp ((Class) fclass, (SEL) fmethod));
   return self;
 }
 
-- setJavaMethod: (const char *)mtdName inObject: (JOBJECT)obj
+- _setJavaMethod_: (const char *)mtdName inObject: (JOBJECT)obj
 {
 #ifdef HAVE_JDK
   jclass lref;
@@ -306,13 +306,21 @@ PHASE(Creating)
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   methodName = STRDUP (mtdName);
-  (jobject) fobject = (*jniEnv)->NewGlobalRef (jniEnv, (jobject) obj);
-  fobjectPendingGlobalRefFlag = YES;
+  fobject = obj;
 #else
   java_not_available ();
 #endif
   return self;
 }    
+
+- setJavaMethod: (const char *)mtdName inObject: (JOBJECT)obj
+{
+  [self _setJavaMethod_: mtdName
+        inObject: (*jniEnv)->NewGlobalRef (jniEnv, obj)];
+  fobjectPendingGlobalRefFlag = YES;
+  return self;
+}
+  
    
 - setJavaMethod: (const char *)mtdName inClass: (const char *)className
 { 
@@ -340,23 +348,31 @@ PHASE(Creating)
     raiseEvent (SourceMessage, "Arguments and return type not specified!\n");
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
-      {
-        ffunction = (callType == javacall ? 
-                     java_call_functions[fargs->returnType] :
-                     java_static_call_functions[fargs->returnType]);
-        
-        (jmethodID) fmethod =
-          (callType == javacall ?
-           (*jniEnv)->GetMethodID (jniEnv, fclass, 
-                                   methodName, 
-                                   fargs->javaSignature) :
-           (*jniEnv)->GetStaticMethodID (jniEnv, fclass, 
-                                         methodName, 
-                                         fargs->javaSignature)); 
-        if (!fmethod)
-          raiseEvent (SourceMessage, "Could not find Java method: `%s' (%s)\n",
-                      methodName, fargs->javaSignature);
-      }
+    {      
+      (*jniEnv)->ExceptionClear (jniEnv);
+
+      if (callType == javacall)
+        {
+          fmethod =
+            (*jniEnv)->GetMethodID (jniEnv,
+                                    fclass,
+                                    methodName, 
+                                    fargs->javaSignature);
+          ffunction = java_call_functions[fargs->returnType];
+        }
+      else
+        {
+          fmethod = (*jniEnv)->GetStaticMethodID (jniEnv,
+                                                  fclass,
+                                                  methodName, 
+                                                  fargs->javaSignature);
+          ffunction = java_static_call_functions[fargs->returnType];
+        }
+      if (!fmethod)
+        raiseEvent (SourceMessage,
+                    "Could not find Java method: `%s' (%s)\n",
+                    methodName, fargs->javaSignature);
+    }
 #endif
   add_ffi_types (self);
 #ifndef USE_AVCALL
@@ -391,13 +407,13 @@ PHASE(Creating)
       jstring string;
       const char *javaMethodName;
       jboolean copy;
-      jobject jsel = SD_JAVA_FINDJAVA ((id) aSel);
-      jobject jobj = SD_JAVA_FINDJAVA (target);
+      jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (aSel);
+      jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (target);
       
       string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
       javaMethodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copy);
 
-      [fc setJavaMethod: javaMethodName inObject: jobj];
+      [(id) fc _setJavaMethod_: javaMethodName inObject: jobj];
       if (copy)
         (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, javaMethodName);
       (*jniEnv)->DeleteLocalRef (jniEnv, string);
@@ -414,7 +430,7 @@ updateTarget (FCall_c *self, id target)
 {
 #ifdef HAVE_JDK
   if ([target respondsTo: M(isJavaProxy)])
-    updateJavaTarget (self, SD_JAVA_FINDJAVA (target));
+    updateJavaTarget (self, SD_JAVA_FIND_OBJECT_JAVA (target));
   else
 #endif
     self->fobject = target;
@@ -560,7 +576,7 @@ PHASE(Using)
 	  
 	  fargs->resultVal.object =
 	    (id) (*jniEnv)->NewGlobalRef (jniEnv, lref);
-	  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+          (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 	  fargs->pendingGlobalRefFlag = YES;
 	}
     }

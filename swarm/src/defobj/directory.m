@@ -28,22 +28,6 @@
 
 Directory *swarmDirectory;
 
-static const char *
-getObjcName (DirectoryEntry *entry)
-{
-  if ((entry->type == foreign_java
-       && java_selector_p (entry->foreignObject.java))
-#if 0
-      ||
-      (entry->type == foreign_COM
-       && COM_selector_p (entry->foreignObject.COM))
-#endif
-      )
-    return entry->object ? sel_get_name ((SEL) entry->object) : "M(<nil>)";
-  else
-    return entry->object ? [entry->object name] : "nil";
-}
-
 @internalimplementation DirectoryEntry
 - setCOMObject: (void *)theCOMObject
 {
@@ -59,12 +43,6 @@ getObjcName (DirectoryEntry *entry)
   return self;
 }
 
-- setObject: theObject
-{
-  object = theObject;
-  return self;
-}
-
 void
 swarm_directory_entry_drop (DirectoryEntry *entry)
 {
@@ -75,12 +53,6 @@ swarm_directory_entry_drop (DirectoryEntry *entry)
 
 - (void)describe: outputCharStream
 {
-  [outputCharStream catPointer: self];
-  [outputCharStream catC: " objc: "];
-  [outputCharStream catC: getObjcName (self)];
-  [outputCharStream catC: " "];
-  [outputCharStream catPointer: object];
-
   if (type == foreign_java)
     {
       const char *className =
@@ -97,15 +69,62 @@ swarm_directory_entry_drop (DirectoryEntry *entry)
 
 @end
 
+@implementation ObjectEntry
+- setObject: theObject
+{
+  object = theObject;
+  return self;
+}
+
+- (void)describe: stream
+{
+  [stream catPointer: self];
+  [stream catC: " object: "];
+  [stream catC: object ? [object name] : "nil"];
+  [stream catC: " "];
+  [stream catPointer: object];
+  [super describe: stream];
+}
+@end
+
+@implementation SelectorEntry
+- setSelector: (SEL)theSelector;
+{
+  selector = theSelector;
+  return self;
+}
+
+- (void)describe: stream
+{
+  [stream catPointer: self];
+  [stream catC: " selector: "];
+  [stream catC: selector ? sel_get_name (selector) : "M(<nil>)"];
+  [super describe: stream];
+}
+@end
+
+static int
+compare_objc_selectors (const void *A, const void *B, void *PARAM)
+{
+  SelectorEntry *a = (SelectorEntry *) A;
+  SelectorEntry *b = (SelectorEntry *) B;
+
+  const char *aname = sel_get_name (a->selector);
+  const char *bname = sel_get_name (b->selector);
+  
+  return strcmp (aname, bname);
+}
+
 static int
 compare_objc_objects (const void *A, const void *B, void *PARAM)
 {
-  if (((DirectoryEntry *) A)->object <
-      ((DirectoryEntry *) B)->object)
-    return -1;
+  ObjectEntry *a = (ObjectEntry *) A;
+  ObjectEntry *b = (ObjectEntry *) B;
 
-  return (((DirectoryEntry *) A)->object >
-	  ((DirectoryEntry *) B)->object);
+  if (a->object < b->object)
+    return -1;
+  
+  return a->object > b->object;
 }
 
 @internalimplementation Directory
@@ -116,27 +135,39 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
   obj->table = [aZone alloc: size];
   memset (obj->table, 0, size);
-  obj->objc_tree = avl_create (compare_objc_objects, NULL);
+  obj->object_tree = avl_create (compare_objc_objects, NULL);
+  obj->selector_tree = avl_create (compare_objc_selectors, NULL);
   return obj;
 }
 
-DirectoryEntry *
-swarm_directory_objc_find (id object)
+ObjectEntry *
+swarm_directory_objc_find_object (id object)
 {
   if (object)
     {
-      DirectoryEntry *ret;
+      ObjectEntry *ret;
       
-      ret = avl_find (swarmDirectory->objc_tree, OBJC_FINDENTRY (object));
+      ret = avl_find (swarmDirectory->object_tree,
+                      OBJC_FIND_OBJECT_ENTRY (object));
       return ret;
     }
   return nil;
 }
 
+SelectorEntry *
+swarm_directory_objc_find_selector (SEL sel)
+{
+  SelectorEntry *ret;
+  
+  ret = avl_find (swarmDirectory->selector_tree,
+                  OBJC_FIND_SELECTOR_ENTRY (sel));
+  return ret;
+}
+
 BOOL
 swarm_directory_objc_remove (id object)
 {
-  DirectoryEntry *entry = swarm_directory_objc_find (object);
+  ObjectEntry *entry = swarm_directory_objc_find_object (object);
 
   if (entry)
     {
@@ -150,14 +181,14 @@ swarm_directory_objc_remove (id object)
           if (!m)
             abort ();
           {
-            DirectoryEntry *ret;
+            ObjectEntry *ret;
             
             ret = [m remove: entry];
             
             if (ret != entry)
               raiseEvent (WarningMessage, "remove (%p) != %p\n", entry, ret);
             
-            ret = avl_delete (swarmDirectory->objc_tree, entry);
+            ret = avl_delete (swarmDirectory->object_tree, entry);
             
             if (ret != entry)
               abort ();
@@ -242,7 +273,7 @@ swarm_directory_swarm_class (id object)
 {
   if (swarmDirectory)
     {
-      DirectoryEntry *entry = swarm_directory_objc_find (object);
+      ObjectEntry *entry = swarm_directory_objc_find_object (object);
 
       if (!entry)
         abort ();
@@ -252,7 +283,7 @@ swarm_directory_swarm_class (id object)
         {
           jobject jobj;
 
-          if ((jobj = SD_JAVA_FINDJAVA (object)))
+          if ((jobj = SD_JAVA_FIND_OBJECT_JAVA (object)))
             return swarm_directory_java_class_for_object (jobj);
         }
       else
@@ -267,7 +298,7 @@ swarm_directory_language_independent_class_name  (id object)
 {
   if (swarmDirectory)
     {
-      DirectoryEntry *entry = swarm_directory_objc_find (object);
+      ObjectEntry *entry = swarm_directory_objc_find_object (object);
 
       if (entry)
         {
@@ -276,7 +307,7 @@ swarm_directory_language_independent_class_name  (id object)
             {
               jobject jobj;
               
-              if ((jobj = SD_JAVA_FINDJAVA (object)))
+              if ((jobj = SD_JAVA_FIND_OBJECT_JAVA (object)))
                 return java_class_name (jobj);
             }
           else

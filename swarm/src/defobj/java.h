@@ -1,4 +1,4 @@
-#import <defobj/directory.h> // DIRECTORY_SIZE, DirectoryEntry
+#import <defobj/directory.h> // DIRECTORY_SIZE, ObjectEntry, SelectorEntry
 
 #include <swarmconfig.h>
 #ifdef JNI_H_NEEDS_INT64
@@ -36,30 +36,33 @@ extern unsigned swarm_directory_java_hash_code (jobject javaObject);
 extern id swarm_directory_java_ensure_objc (jobject javaObject);
 extern id swarm_directory_java_find_objc (jobject javaObject);
 extern jobject swarm_directory_java_next_phase (jobject jobj);
-extern DirectoryEntry *swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase);
-extern DirectoryEntry *swarm_directory_java_switch_objc (id object, jobject javaObject);
-extern DirectoryEntry *swarm_directory_java_add (id object, jobject lref);
+extern ObjectEntry *swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase);
+extern ObjectEntry *swarm_directory_java_switch_objc (id object, jobject javaObject);
+extern ObjectEntry *swarm_directory_java_add (id object, jobject lref);
+extern SelectorEntry *swarm_directory_java_add_selector (SEL sel, jobject lref);
 extern Class swarm_directory_java_ensure_class (jclass javaClass);
 extern Class swarm_directory_java_find_class_named (const char *className);
 extern Class swarm_directory_java_class_for_object (jobject jobj);
 extern jobject swarm_directory_objc_ensure_java (id object);
-extern jobject swarm_directory_objc_find_java (id object);
+extern jobject swarm_directory_objc_find_object_java (id object);
+extern jobject swarm_directory_objc_find_selector_java (SEL sel);
 extern jclass swarm_directory_objc_find_java_class (Class class);
 extern SEL swarm_directory_java_ensure_selector (jobject jsel);
 
 extern const char *java_copy_string (jstring javaString);
 extern void java_cleanup_strings (const char **stringArray, size_t count);
-extern BOOL java_selector_p (jobject javaObject);
 extern const char *java_class_name (jobject obj);
 extern void java_drop (jobject jobj);
 
 
 #define SD_JAVA_FINDOBJC(jobj)  swarm_directory_java_find_objc (jobj)
 #define SD_JAVA_ENSUREOBJC(jobj) swarm_directory_java_ensure_objc (jobj)
-#define SD_JAVA_FINDJAVA(objc) swarm_directory_objc_find_java (objc)
+#define SD_JAVA_FIND_OBJECT_JAVA(objc) swarm_directory_objc_find_object_java (objc)
+#define SD_JAVA_FIND_SELECTOR_JAVA(sel) swarm_directory_objc_find_selector_java (sel)
 #define SD_JAVA_ENSUREJAVA(objc) swarm_directory_objc_ensure_java (objc)
 #define SD_JAVA_FINDJAVACLASS(objcClass) swarm_directory_objc_find_java_class (objcClass)
 #define SD_JAVA_ADD(jobj, objc) swarm_directory_java_add (objc, jobj)
+#define SD_JAVA_ADD_SELECTOR(jsel, sel) swarm_directory_java_add_selector (sel, jsel)
 #define SD_JAVA_ADDJAVA(jobj, objc) swarm_directory_java_add (objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHPHASE(jobj, objc) swarm_directory_java_switch_phase (objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHOBJC(jobj, newobjc) swarm_directory_java_switch_objc (newobjc, jobj)
@@ -70,8 +73,10 @@ extern void java_drop (jobject jobj);
 #define JAVA_COPY_STRING(javaString) java_copy_string (javaString)
 #define JAVA_CLEANUP_STRINGS(stringArray) java_cleanup_strings (stringArray, sizeof (stringArray) / sizeof (const char *))
 
-#define JAVA_ENTRY(theObject,theJavaObject) [[[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
+#define JAVA_OBJECT_ENTRY(theObject,theJavaObject) [[[[ObjectEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
+#define JAVA_SELECTOR_ENTRY(theSel,theJavaObject) [[[[SelectorEntry createBegin: globalZone] setJavaObject: theJavaObject] setSelector: theSel] createEnd]
 #define JAVA_OBJCENTRY(theObject) JAVA_ENTRY(theObject,0)
 #define JAVA_JAVAENTRY(theJavaObject) JAVA_ENTRY(0,theJavaObject)
-#define JAVA_FINDENTRY(theJavaObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->foreignObject.java = theJavaObject; _findEntry; })
+#define JAVA_FIND_OBJECT_ENTRY(theJavaObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.java = theJavaObject; _findEntry; })
+
 

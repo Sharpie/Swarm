@@ -71,7 +71,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (swarmDirectory && javaFlag)
     {
-      jobject jsel = SD_JAVA_FINDJAVA ((id) selector);
+      jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (selector);
       
       if (jsel)
         {
@@ -301,7 +301,7 @@ PHASE(Creating)
 {
 #ifdef HAVE_JDK
   if (javaFlag)
-    [self addJavaObject: SD_JAVA_FINDJAVA (value)];
+    [self addJavaObject: SD_JAVA_FIND_OBJECT_JAVA (value)];
   else
 #endif
     ADD_PRIMITIVE (fcall_type_object, id, value);
@@ -446,7 +446,6 @@ PHASE(Using)
 - (void)dropAllocations: (BOOL)componentAlloc
 {
 #ifdef HAVE_JDK  
-  unsigned i;
 
   if (pendingGlobalRefFlag)
     {
@@ -454,14 +453,18 @@ PHASE(Using)
 				  (jobject) ((types_t *) result)->object);
       pendingGlobalRefFlag = NO;
     }
-  for (i = 0; i < assignedArgumentCount; i++)
-    {
-      unsigned offset = i + MAX_HIDDEN;
-      fcall_type_t type = argTypes[offset];
-
-      if (type == fcall_type_jstring || type == fcall_type_jobject)
-        (*jniEnv)->DeleteGlobalRef (jniEnv, *(jobject *) argValues[offset]);
-    }
+  {
+    unsigned i;
+    
+    for (i = 0; i < assignedArgumentCount; i++)
+      {
+        unsigned offset = i + MAX_HIDDEN;
+        fcall_type_t type = argTypes[offset];
+        
+        if (type == fcall_type_jstring || type == fcall_type_jobject)
+          (*jniEnv)->DeleteGlobalRef (jniEnv, *(jobject *) argValues[offset]);
+      }
+  }
 #endif
   [super dropAllocations: componentAlloc];
 }

@@ -31,7 +31,7 @@
 
 - next
 {
-  jobject iterator = SD_JAVA_FINDJAVA (self);
+  jobject iterator = SD_JAVA_FIND_OBJECT_JAVA (self);
   jobject item;
   id proxy;
   jclass class;

@@ -772,7 +772,7 @@ java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
         switch (type)
           {
           case fcall_type_object:
-            SETVALUE (Object, SD_JAVA_FINDJAVA (buf->object));
+            SETVALUE (Object, SD_JAVA_FIND_OBJECT_JAVA (buf->object));
             break;
           case fcall_type_class:
             SETVALUE (Object, SD_JAVA_FINDJAVACLASS (buf->class));
@@ -1346,7 +1346,7 @@ swarm_directory_java_hash_code (jobject javaObject)
 }
 
 
-static DirectoryEntry *
+static ObjectEntry *
 swarm_directory_java_find (jobject javaObject)
 {
   if (javaObject)
@@ -1354,7 +1354,7 @@ swarm_directory_java_find (jobject javaObject)
       id ret;
       unsigned index = swarm_directory_java_hash_code (javaObject);
       id <Map> m = swarmDirectory->table[index];
-      DirectoryEntry *findEntry = JAVA_FINDENTRY (javaObject);
+      ObjectEntry *findEntry = JAVA_FIND_OBJECT_ENTRY (javaObject);
       ret = m ? [m at: findEntry] : nil;
       return ret;
     }
@@ -1368,7 +1368,7 @@ swarm_directory_java_ensure_objc (jobject javaObject)
     return nil;
   else
     {
-      DirectoryEntry *result; 
+      ObjectEntry *result; 
       
       if (!javaObject)
         return nil;
@@ -1419,12 +1419,12 @@ java_instantiate (jclass clazz)
 jobject
 swarm_directory_objc_ensure_java (id object)
 {
-  DirectoryEntry *result; 
+  ObjectEntry *result; 
 
   if (!object)
     return 0;
 
-  result = swarm_directory_objc_find (object);
+  result = swarm_directory_objc_find_object (object);
   
   if (!result)
     {
@@ -1444,7 +1444,7 @@ swarm_directory_objc_ensure_java (id object)
 id
 swarm_directory_java_find_objc (jobject javaObject)
 {
-  DirectoryEntry *entry = swarm_directory_java_find (javaObject);
+  ObjectEntry *entry = swarm_directory_java_find (javaObject);
 
   return entry ? entry->object : nil;
 }
@@ -1481,7 +1481,7 @@ createDirectoryEntryMap (void)
 }
 
 static void
-swarm_directory_switch_java_entry (DirectoryEntry *entry, jobject javaObject)
+swarm_directory_switch_java_entry (ObjectEntry *entry, jobject javaObject)
 {
   unsigned index;
   id <Map> m;
@@ -1501,20 +1501,20 @@ swarm_directory_switch_java_entry (DirectoryEntry *entry, jobject javaObject)
   [table[index] at: entry insert: entry];
 }
 
-DirectoryEntry *
+ObjectEntry *
 swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
 {
   jobject nextJavaPhase = SD_JAVA_NEXTPHASE (currentJavaPhase);
   id currentPhase = SD_JAVA_FINDOBJC (currentJavaPhase);
-  DirectoryEntry *retEntry;
-  avl_tree *objc_tree = swarmDirectory->objc_tree;
+  ObjectEntry *retEntry;
+  avl_tree *objc_tree = swarmDirectory->object_tree;
   
   if (currentPhase != nextPhase)
     {
-      id entry = JAVA_ENTRY (nextPhase, currentJavaPhase);
+      id entry = JAVA_OBJECT_ENTRY (nextPhase, currentJavaPhase);
 
-      DirectoryEntry **entryptr = 
-        (DirectoryEntry **) avl_probe (objc_tree, entry);
+      ObjectEntry **entryptr = 
+        (ObjectEntry **) avl_probe (objc_tree, entry);
 
       if (*entryptr != entry)
         abort ();
@@ -1523,7 +1523,7 @@ swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
       {
         id ret;
         
-        ret = avl_delete (objc_tree, OBJC_FINDENTRY (currentPhase));
+        ret = avl_delete (objc_tree, OBJC_FIND_OBJECT_ENTRY (currentPhase));
         if (!ret)
           abort ();
         swarm_directory_entry_drop (ret);
@@ -1532,7 +1532,7 @@ swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
     }
   else
     {
-      DirectoryEntry *entry = avl_find (objc_tree, OBJC_FINDENTRY (nextPhase));
+      ObjectEntry *entry = avl_find (objc_tree, OBJC_FIND_OBJECT_ENTRY (nextPhase));
       
       if (!entry)
         abort ();
@@ -1639,24 +1639,37 @@ swarm_directory_java_ensure_selector (jobject jsel)
           }
       
         sel = sel_get_any_typed_uid (name);
-        if (sel)
-          {
-            if (!sel_get_typed_uid (name, signatureBuf))
-              raiseEvent (WarningMessage,
-                          "Method `%s' type (%s) differs from Swarm "
-                          "method's type (%s)\n",
-                          name, signatureBuf, sel->sel_types);
-          }
-        else
-          {
-            const char *type =
-              mframe_build_signature (signatureBuf, NULL, NULL, NULL);
-
-            sel = sel_register_typed_name (name, type);
-          }
+        {
+          BOOL needSelector = NO;
+          
+          if (sel)
+            {
+              if (!sel_get_typed_uid (name, signatureBuf))
+                {
+#if 1
+                  raiseEvent (WarningMessage,
+                              "Method `%s' type (%s) differs from Swarm "
+                              "method's type (%s)\n",
+                            name, signatureBuf, sel->sel_types);
+#endif
+                  needSelector = YES;
+                }
+              
+            }
+          else
+            needSelector = YES;
+          
+          if (needSelector)
+            {
+              const char *type =
+                mframe_build_signature (signatureBuf, NULL, NULL, NULL);
+              
+              sel = sel_register_typed_name (name, type);
+            }
+        }
       }
       
-      SD_JAVA_ADD (jsel, (id) sel);
+      SD_JAVA_ADD_SELECTOR (jsel, sel);
 
       (*jniEnv)->DeleteLocalRef (jniEnv, argTypes);
       SFREEBLOCK (name);
@@ -1686,9 +1699,24 @@ swarm_directory_java_ensure_class (jclass javaClass)
 }
 
 jobject
-swarm_directory_objc_find_java (id object)
+swarm_directory_objc_find_object_java (id object)
 {
-  DirectoryEntry *entry = swarm_directory_objc_find (object);
+  ObjectEntry *entry = swarm_directory_objc_find_object (object);
+
+  if (entry)
+    {
+      if (entry->type != foreign_java)
+        abort ();
+      return entry->foreignObject.java;
+    }
+  else
+    return NULL;
+}
+
+jobject
+swarm_directory_objc_find_selector_java (SEL sel)
+{
+  SelectorEntry *entry = swarm_directory_objc_find_selector (sel);
 
   if (entry)
     {
@@ -1701,16 +1729,16 @@ swarm_directory_objc_find_java (id object)
 }
 
 
-DirectoryEntry *
+ObjectEntry *
 swarm_directory_java_add (id object, jobject lref)
 {
   unsigned index;
   id <Map> m;
-  DirectoryEntry *entry;
+  ObjectEntry *entry;
   jobject javaObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   id *table = swarmDirectory->table;
   
-  entry = JAVA_ENTRY (object, javaObject);
+  entry = JAVA_OBJECT_ENTRY (object, javaObject);
   index = swarm_directory_java_hash_code (javaObject);
   m = table[index];
 
@@ -1720,22 +1748,45 @@ swarm_directory_java_add (id object, jobject lref)
       table[index] = m;
     }
   [m at: entry insert: entry];
-  avl_probe (swarmDirectory->objc_tree, entry);
+  avl_probe (swarmDirectory->object_tree, entry);
   return entry;
 }
 
-DirectoryEntry *
+SelectorEntry *
+swarm_directory_java_add_selector (SEL sel, jobject lref)
+{
+  unsigned index;
+  id <Map> m;
+  SelectorEntry *entry;
+  jobject javaObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  id *table = swarmDirectory->table;
+  
+  entry = JAVA_SELECTOR_ENTRY (sel, javaObject);
+  index = swarm_directory_java_hash_code (javaObject);
+  m = table[index];
+
+  if (m == nil)
+    {
+      m = createDirectoryEntryMap ();
+      table[index] = m;
+    }
+  [m at: entry insert: entry];
+  avl_probe (swarmDirectory->selector_tree, entry);
+  return entry;
+}
+
+ObjectEntry *
 swarm_directory_java_switch_objc (id object, jobject javaObject)
 {
-  DirectoryEntry *entry;
+  ObjectEntry *entry;
   unsigned index;
   id <Map> m;
   id *table = swarmDirectory->table;
-  avl_tree *objc_tree = swarmDirectory->objc_tree;
+  avl_tree *objc_tree = swarmDirectory->object_tree;
   
   index = swarm_directory_java_hash_code (javaObject);
   m = table[index];
-  entry = [table[index] at: JAVA_FINDENTRY (javaObject)];
+  entry = [table[index] at: JAVA_FIND_OBJECT_ENTRY (javaObject)];
   if (!entry)
     abort ();
   
@@ -1912,12 +1963,6 @@ void
 java_drop (jobject jobj)
 {
   (*jniEnv)->DeleteGlobalRef (jniEnv, jobj);
-}
-
-BOOL
-java_selector_p (jobject javaObject)
-{
-  return (*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Selector);
 }
 
 #endif

@@ -602,7 +602,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   id <FCall> fc;
   types_t val;
   const char *type = sel_get_type (aSel);
-  jobject jobj = SD_JAVA_FINDJAVA (self);
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (self);
   jobject jsel;
 
   if (jobj == NULL)
@@ -615,7 +615,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       if (!type)
         abort ();
     }
-  jsel = SD_JAVA_FINDJAVA ((id) aSel);
+  jsel = SD_JAVA_FIND_SELECTOR_JAVA (aSel);
   if (!jsel)
     raiseEvent (InvalidArgument,
                 "unable to find Java selector `%s' in objc:`%s' %p java: %p hash: %d\n",

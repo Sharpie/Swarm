@@ -25,7 +25,7 @@
 
 - (unsigned)getCount
 {
-  jobject coll = SD_JAVA_FINDJAVA (self);
+  jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
   jclass class;
   jmethodID method;
 
@@ -44,11 +44,11 @@
 
 - begin: aZone
 {
-  jobject coll = SD_JAVA_FINDJAVA (self);
+  jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
   jclass class;
   jmethodID method;
   jobject iterator;
-  DirectoryEntry *entry;
+  ObjectEntry *entry;
 
   if (!(class = (*jniEnv)->GetObjectClass (jniEnv, coll)))
     abort ();
@@ -76,7 +76,7 @@
 
 - getFirst
 {
-  jobject coll = SD_JAVA_FINDJAVA (self);
+  jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
   jclass class = (*jniEnv)->GetObjectClass (jniEnv, coll);
   jobject first;
   jmethodID method;
@@ -100,8 +100,8 @@
   id <FCall> call;
   id <FArguments> arguments =
     [FArguments createBegin: getZone (self)];
-  jobject jsel = SD_JAVA_FINDJAVA ((id) sel);
-  jobject coll = SD_JAVA_FINDJAVA (self);
+  jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
+  jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
   const char *sig = java_ensure_selector_type_signature (jsel);
   jobject javaTarget;
   jsize i, size;
@@ -166,7 +166,7 @@
   
   if (member)
     {
-      jobject firstJavaObject = SD_JAVA_FINDJAVA (member);
+      jobject firstJavaObject = SD_JAVA_FIND_OBJECT_JAVA (member);
       
       firstJavaClass = (*jniEnv)->GetObjectClass (jniEnv, firstJavaObject);
     }
@@ -186,7 +186,7 @@
       }
     else
       {
-        jobject javaObject = SD_JAVA_FINDJAVA (member);
+        jobject javaObject = SD_JAVA_FIND_OBJECT_JAVA (member);
         jclass javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
 
         ret = (((*jniEnv)->IsSameObject (jniEnv, javaClass, firstJavaClass)

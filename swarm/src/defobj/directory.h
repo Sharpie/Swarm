@@ -20,28 +20,43 @@ typedef enum {
 {
 @public
   foreign_t type;
-  id object;
   union {
     JOBJECT java;
     void *COM;
   } foreignObject;
 }
-- setObject: object;
-- setJavaObject: (JOBJECT)javaObject;
 - setCOMObject: (void *)COMObject;
-
+- setJavaObject: (JOBJECT)javaObject;
 void swarm_directory_entry_drop (DirectoryEntry *entry);
 - (void)describe: outputCharStream;
+@end
+
+@interface ObjectEntry: DirectoryEntry
+{
+@public
+  id object;
+}
+- setObject: object;
+@end
+
+@interface SelectorEntry: DirectoryEntry
+{
+@public
+  SEL selector;
+}
+- setSelector: (SEL)sel;
 @end
 
 @interface Directory: CreateDrop
 {
 @public
   id *table;
-  avl_tree *objc_tree;
+  avl_tree *object_tree;
+  avl_tree *selector_tree;
 }
 + createBegin: aZone;
-DirectoryEntry *swarm_directory_objc_find (id object);
+ObjectEntry *swarm_directory_objc_find_object (id object);
+SelectorEntry *swarm_directory_objc_find_selector (SEL sel);
 BOOL swarm_directory_objc_remove (id obj);
 - (void)describe: outputCharStream;
 @end
@@ -60,7 +75,9 @@ extern void swarm_directory_dump ();
 
 extern void *alloca (size_t);
 
-#define OBJC_FINDENTRY(theObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->object = theObject; _findEntry; })
+#define OBJC_FIND_OBJECT_ENTRY(theObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->object = theObject; _findEntry->foreignObject.java = 0; _findEntry; })
+
+#define OBJC_FIND_SELECTOR_ENTRY(theSel) ({ SelectorEntry *_findEntry  = alloca (sizeof (SelectorEntry)); _findEntry->selector = theSel; _findEntry->foreignObject.java = 0; _findEntry; })
 
 Class objc_class_for_class_name (const char *classname);
 

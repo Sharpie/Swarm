@@ -1,3 +1,30 @@
+2000-05-10  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* internal.m (fcall_type_for_objc_type): Coerce C_PTR to
+	uint.  (This is expressly for the last argument
+	of eventOccuredOn:via:withProbeType:on:ofType:withData:.)
+
+	* FCall.m ([FCall_c -_setJavaMethod_:inObject:]): 
+	Clear exceptions before attempting to get method id.
+
+	* java.h (SD_JAVA_FIND_OBJECT_JAVA): Renamed from SD_JAVAFINDJAVA.
+	(SD_JAVA_FIND_SELECTOR_JAVA): New macro.
+
+	* directory.h (ObjectEntry, SelectorEntry): New classes.
+	(OBJC_FIND_OBJECT_ENTRY, OBJC_FIND_SELECTOR_ENTRY):
+	New macros replace OBJC_FINDENTRY.
+	(object_tree, selector_tree): Replaces objc_tree.
+	
+	* directory.[hm] (swarm_directory_objc_{object,selector}):
+	Replaces swarm_directory_objc_find.
+
+	* directory.m, java.[hm], internal.m, DefObject.m, FArguments.m,
+	FCall.m, JavaCollection.m, JavaCollectionIndex.m: Update all
+	functions per ObjectEntry, SelectorEntry changes.
+
+	* directory.m (getObjcName): Remove.
+	(compare_objc_{objects,selectors}): Replaces compare_objc_objects.
+
 2000-05-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.h (SD_JAVA_SWITCHPHASE): Renamed from SD_JAVA_NEXTPHASE.

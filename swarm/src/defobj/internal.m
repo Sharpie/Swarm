@@ -14,7 +14,7 @@
 
 #import <swarmconfig.h>
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // SD_JAVA_FINDJAVA, SD_JAVA_FINDJAVACLASS
+#import <defobj/directory.h> // SD_JAVA_FIND_OBJECT_JAVA, SD_JAVA_FINDJAVACLASS
 #import "java.h" // map_java_ivars, GETVALUE
 #endif
 
@@ -300,7 +300,7 @@ map_object_ivars (id object,
 {
 #ifdef HAVE_JDK
   if ([object respondsTo: M(isJavaProxy)])
-    map_java_ivars (SD_JAVA_FINDJAVA (object), process_object);
+    map_java_ivars (SD_JAVA_FIND_OBJECT_JAVA (object), process_object);
   else
 #endif
     map_objc_ivars (object, process_object);
@@ -705,6 +705,11 @@ fcall_type_for_objc_type (char objcType)
   for (i = 0; i < FCALL_TYPE_COUNT; i++)
     if (objcType == objc_types[i])
       return (fcall_type_t) i;
+
+  // This is only for eventOccuredOn:via:withProbeType:on:ofType:withData:
+  if (objcType == _C_PTR)
+    return fcall_type_uint;
+
   raiseEvent (InvalidArgument, "Could not find objc type `%c'\n", objcType);
   return (fcall_type_t) 0;
 }
@@ -800,7 +805,7 @@ object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
 {
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
-    return java_object_ivar_type (SD_JAVA_FINDJAVA (obj), ivarName, isArrayPtr);
+    return java_object_ivar_type (SD_JAVA_FIND_OBJECT_JAVA (obj), ivarName, isArrayPtr);
   else
 #endif
     {
@@ -831,7 +836,7 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
 {
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
-    java_object_setVariable (SD_JAVA_FINDJAVA (obj), ivarName, inbuf);
+    java_object_setVariable (SD_JAVA_FIND_OBJECT_JAVA (obj), ivarName, inbuf);
   else
 #endif
     {
@@ -872,7 +877,7 @@ object_getVariableElementCount (id obj,
 {
 #ifdef HAVE_JDK
   if ([obj respondsTo: M(isJavaProxy)])
-    return java_object_getVariableElementCount (SD_JAVA_FINDJAVA (obj),
+    return java_object_getVariableElementCount (SD_JAVA_FIND_OBJECT_JAVA (obj),
                                                 ivarName,
                                                 itype,
                                                 irank,
