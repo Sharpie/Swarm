@@ -22,6 +22,7 @@ zliblibdir="@zliblibdir@"
 pnglibdir="@pnglibdir@"
 
 jdkdir="@jdkdir@"
+JAVAC="@JAVAC@"
 JAVACLASSES="@JAVACLASSES@"
 JAVALIBS="@JAVALIBS@"
 JAVACMD="@JAVACMD@"
