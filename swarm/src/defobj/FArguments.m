@@ -23,18 +23,18 @@ Library:      defobj
 #undef VERSION
 
 // swarm_types table is modified in such way that 
-// swarm_types[swarm_type_float] == &ffi_type_double
+// swarm_types[fcall_type_float] == &ffi_type_double
 // due to ffi bug
 
-ffi_type *swarm_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar, 
-                                           &ffi_type_schar, &ffi_type_ushort, 
-                                           &ffi_type_sshort, &ffi_type_uint,
-                                           &ffi_type_sint, &ffi_type_ulong, 
-                                           &ffi_type_slong, &ffi_type_double, 
-                                           &ffi_type_double,
-                                           &ffi_type_pointer,
-                                           &ffi_type_pointer, 
-                                           &ffi_type_pointer };
+ffi_type *ffi_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar, 
+                                         &ffi_type_schar, &ffi_type_ushort, 
+                                         &ffi_type_sshort, &ffi_type_uint,
+                                         &ffi_type_sint, &ffi_type_ulong, 
+                                         &ffi_type_slong, &ffi_type_double, 
+                                         &ffi_type_double,
+                                         &ffi_type_pointer,
+                                         &ffi_type_pointer, 
+                                         &ffi_type_pointer };
 #endif
 
 
@@ -74,38 +74,39 @@ unsigned java_type_signature_length[number_of_types] = { 1, 1, 1, 1, 1, 1,
   newArguments->assignedArguments = 0;
   newArguments->hiddenArguments = 0;
 #ifndef USE_AVCALL
-  newArguments->argTypes = [aZone allocBlock: (sizeof (ffi_type *) * 
+  newArguments->ffiArgTypes = [aZone allocBlock: (sizeof (ffi_type *) * 
 				       (MAX_ARGS + MAX_HIDDEN))];
-  newArguments->argSwarmTypes = [aZone allocBlock: (sizeof (int) * 
-				       (MAX_ARGS + MAX_HIDDEN))];
+  newArguments->argTypes = [aZone allocBlock:
+                                    (sizeof (fcall_type_t) * 
+                                     (MAX_ARGS + MAX_HIDDEN))];
 #else
   abort ();
 #endif
   newArguments->argValues = [aZone allocBlock: (sizeof (void *) * 
-					(MAX_ARGS + MAX_HIDDEN))];
-  newArguments->returnSwarmType = 0;
-  newArguments->returnType = &ffi_type_void;
+                                                (MAX_ARGS + MAX_HIDDEN))];
+  newArguments->returnType = 0;
+  newArguments->ffiReturnType = &ffi_type_void;
   newArguments->result = NULL;
   newArguments->javaSignatureLength = 0;
   return newArguments;
 }
 
 
-- _addArgument_: (void *)value ofType: (unsigned)type
+- _addArgument_: (void *)value ofType: (fcall_type_t)type
 {
   if (assignedArguments == MAX_ARGS)
     raiseEvent (SourceMessage, "Types already assigned to maximum number
 arguments in the call!\n");
 
-  if (type <= swarm_type_double && type != swarm_type_float)
+  if (type != fcall_type_jobject)
     {
-      argSwarmTypes[MAX_HIDDEN + assignedArguments] = type;
+      argTypes[MAX_HIDDEN + assignedArguments] = type;
 #ifndef USE_AVCALL
       argValues[MAX_HIDDEN + assignedArguments] = 
-	[[self getZone] allocBlock: swarm_types[type]->size];
+	[[self getZone] allocBlock: ffi_types[type]->size];
       memcpy (argValues[MAX_HIDDEN + assignedArguments], 
-	      value, swarm_types[argSwarmTypes[MAX_HIDDEN + 
-					       assignedArguments]]->size);
+	      value, ffi_types[argTypes[MAX_HIDDEN + 
+                                       assignedArguments]]->size);
 #else
       abort ();
 #endif
@@ -116,7 +117,7 @@ arguments in the call!\n");
     {
       switch  (type)
 	{ 
-	case swarm_type_float:
+	case fcall_type_float:
 	  [self addFloat: *(float *) value];
 	  break;
 	default:
@@ -128,7 +129,7 @@ arguments in the call!\n");
 }
 
 static unsigned
-get_swarm_type_for_objc_type (char objcType)
+get_fcall_type_for_objc_type (char objcType)
 {
   unsigned i;
   
@@ -141,7 +142,8 @@ get_swarm_type_for_objc_type (char objcType)
 
 - addArgument: (void *)value ofObjCType: (char)objcType
 {
-  return [self _addArgument_: value ofType: get_swarm_type_for_objc_type (objcType)];
+  return [self _addArgument_: value
+               ofType: get_fcall_type_for_objc_type (objcType)];
 }
 
 #define ADD_COMMON_TEST if (assignedArguments == MAX_ARGS) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
@@ -149,89 +151,89 @@ get_swarm_type_for_objc_type (char objcType)
 
 
 #ifndef USE_AVCALL
-#define ADD_COMMON(swarm_type, type)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: swarm_types[(swarm_type)]->size]; argSwarmTypes[MAX_HIDDEN + assignedArguments] = swarm_type; *(type *) argValues[MAX_HIDDEN + assignedArguments++] = value; }
+#define ADD_COMMON(fcall_type, type, value)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: ffi_types[(fcall_type)]->size]; argTypes[MAX_HIDDEN + assignedArguments] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArguments++] = value; }
 #else
 #define ADD_COMMON(type) abort ()
 #endif
 
 - addChar: (char)value
 {
-  ADD_COMMON (swarm_type_schar, char);
+  ADD_COMMON (fcall_type_schar, char, value);
   return self;
 }
 
 - addUnsignedChar: (unsigned char)value
 {
-  ADD_COMMON (swarm_type_uchar, unsigned char);
+  ADD_COMMON (fcall_type_uchar, unsigned char, value);
   return self;
 }
 
 - addShort: (short)value 
 {
-  ADD_COMMON (swarm_type_sshort, short);
+  ADD_COMMON (fcall_type_sshort, short, value);
   return self;
 }
 
 - addUnsignedShort: (unsigned short)value 
 {
-  ADD_COMMON (swarm_type_ushort, unsigned short);
+  ADD_COMMON (fcall_type_ushort, unsigned short, value);
   return self;
 }
 
 - addInt: (int)value
 {
-  ADD_COMMON (swarm_type_sint, int);
+  ADD_COMMON (fcall_type_sint, int, value);
   return self;
 }
 
 - addUnsigned: (unsigned)value
 {
-  ADD_COMMON (swarm_type_uint, unsigned);
+  ADD_COMMON (fcall_type_uint, unsigned, value);
   return self;
 }
 
 - addLong: (long)value
 {
-  ADD_COMMON (swarm_type_slong, long);
+  ADD_COMMON (fcall_type_slong, long, value);
   return self;
 }
 
 - addUnsignedLong: (unsigned long)value
 {
-  ADD_COMMON (swarm_type_ulong, unsigned long);
+  ADD_COMMON (fcall_type_ulong, unsigned long, value);
   return self;
 }
 
 - addFloat: (float)value
 {
-  ADD_COMMON (swarm_type_float, float); 
+  ADD_COMMON (fcall_type_float, float, value); 
   return self;
 }
 
 - addDouble: (double)value
 {
-  ADD_COMMON (swarm_type_double, double);
+  ADD_COMMON (fcall_type_double, double, value);
   return self;
 }
 
-- _setReturnType_: (unsigned)type
+- _setReturnType_: (fcall_type_t)type
 {
   if (type > number_of_types)
       raiseEvent(SourceMessage,
                  "Unkown return type for foerign function call!\n"); 
   switch (type)
     {
-    case swarm_type_void:
-    case swarm_type_uchar:
-    case swarm_type_schar:
-    case swarm_type_ushort:
-    case swarm_type_sshort:
-    case swarm_type_uint:
-    case swarm_type_sint:
-    case swarm_type_ulong:
-    case swarm_type_slong:
-    case swarm_type_float:
-    case swarm_type_double: javaSignatureLength++; break;
+    case fcall_type_void:
+    case fcall_type_uchar:
+    case fcall_type_schar:
+    case fcall_type_ushort:
+    case fcall_type_sshort:
+    case fcall_type_uint:
+    case fcall_type_sint:
+    case fcall_type_ulong:
+    case fcall_type_slong:
+    case fcall_type_float:
+    case fcall_type_double: javaSignatureLength++; break;
     default:
       fprintf(stderr, "Unknown type %d!\n", type);
       fflush(stderr);
@@ -239,17 +241,17 @@ get_swarm_type_for_objc_type (char objcType)
                       "Java methods can not return pointers or structures - specify strings and arrays directly!\n");
     }
 #ifndef USE_AVCALL
-  result = (void *) [[self getZone] allocBlock: swarm_types[type]->size];
+  result = (void *) [[self getZone] allocBlock: ffi_types[type]->size];
 #else
   abort ();
 #endif
-  returnSwarmType = type;
+  returnType = type;
   return self;
 }
 
 - setObjCReturnType: (char)objcType
 {
-  return [self _setReturnType_: get_swarm_type_for_objc_type (objcType)];
+  return [self _setReturnType_: get_fcall_type_for_objc_type (objcType)];
 }
 
 void
@@ -261,8 +263,8 @@ switch_to_ffi_types (FArguments * self)
        i < MAX_HIDDEN + self->assignedArguments; 
        i++)
 #ifndef USE_AVCALL
-      *(self->argTypes + i) = swarm_types [self->argSwarmTypes[i]];
-  self->returnType = swarm_types [self->returnSwarmType];
+    *(self->ffiArgTypes + i) = ffi_types [self->argTypes[i]];
+  self->ffiReturnType = ffi_types [self->returnType];
 #else
   abort ();
 #endif
@@ -281,14 +283,13 @@ createJavaSignature (FArguments * self)
        i < MAX_HIDDEN + self->assignedArguments; 
        i++)
     {
-       strcpy (str + offset, 
-	       java_type_signature [self->argSwarmTypes[i]]);
-       offset += java_type_signature_length [self->argSwarmTypes[i]];
+       strcpy (str + offset, java_type_signature [self->argTypes[i]]);
+       offset += java_type_signature_length [self->argTypes[i]];
     }
 
   str[offset++] = ')';
-  strcpy (str + offset, java_type_signature [self->returnSwarmType]);
-  offset += strlen (java_type_signature [self->returnSwarmType]);
+  strcpy (str + offset, java_type_signature [self->returnType]);
+  offset += strlen (java_type_signature [self->returnType]);
   str[offset++]='\0';
   printf("\n%s\n", str);
   return str;
@@ -311,11 +312,11 @@ createJavaSignature (FArguments * self)
   unsigned i;
 
   for (i = 0; i< assignedArguments; i++)
-      mapAlloc (mapalloc, argValues[MAX_HIDDEN + i]);
-  mapAlloc (mapalloc, (char *) javaSignature);
-  mapAlloc (mapalloc, argSwarmTypes);
+    mapAlloc (mapalloc, argValues[MAX_HIDDEN + i]);
   mapAlloc (mapalloc, argTypes);
+  mapAlloc (mapalloc, ffiArgTypes);
   mapAlloc (mapalloc, argValues);
+  mapAlloc (mapalloc, (char *) javaSignature);
   if (result)
       mapAlloc (mapalloc,  result);
 }

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996-1998 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1999 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -50,60 +50,60 @@ java_not_available (void)
 void 
 defobj_init_java_call_tables (void *jEnv)
 {
-  java_static_call_functions[swarm_type_void] = 
+  java_static_call_functions[fcall_type_void] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticVoidMethod);
-  java_static_call_functions[swarm_type_uchar] = 
+  java_static_call_functions[fcall_type_uchar] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticCharMethod);
-  java_static_call_functions[swarm_type_schar] = 
+  java_static_call_functions[fcall_type_schar] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticCharMethod);
-  java_static_call_functions[swarm_type_ushort] = 
+  java_static_call_functions[fcall_type_ushort] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticShortMethod);
-  java_static_call_functions[swarm_type_sshort] = 
+  java_static_call_functions[fcall_type_sshort] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticShortMethod);
-  java_static_call_functions[swarm_type_uint] = 
+  java_static_call_functions[fcall_type_uint] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticIntMethod);
-  java_static_call_functions[swarm_type_sint] =
+  java_static_call_functions[fcall_type_sint] =
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticIntMethod);
-  java_static_call_functions[swarm_type_ulong] =
+  java_static_call_functions[fcall_type_ulong] =
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticLongMethod);
-  java_static_call_functions[swarm_type_slong] = 
+  java_static_call_functions[fcall_type_slong] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticLongMethod);
-  java_static_call_functions[swarm_type_float] =
+  java_static_call_functions[fcall_type_float] =
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticFloatMethod);
-  java_static_call_functions[swarm_type_double] = 
+  java_static_call_functions[fcall_type_double] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticDoubleMethod);
-  java_static_call_functions[swarm_type_object] = NULL;
-  java_static_call_functions[swarm_type_string] = 
+  java_static_call_functions[fcall_type_object] = NULL;
+  java_static_call_functions[fcall_type_string] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
-  java_static_call_functions[swarm_type_jobject] = 
+  java_static_call_functions[fcall_type_jobject] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
 
-  java_call_functions[swarm_type_void] = 
+  java_call_functions[fcall_type_void] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallVoidMethod);
-  java_call_functions[swarm_type_uchar] = 
+  java_call_functions[fcall_type_uchar] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallCharMethod);
-  java_call_functions[swarm_type_schar] = 
+  java_call_functions[fcall_type_schar] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallCharMethod);
-  java_call_functions[swarm_type_ushort] = 
+  java_call_functions[fcall_type_ushort] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallShortMethod);
-  java_call_functions[swarm_type_sshort] = 
+  java_call_functions[fcall_type_sshort] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallShortMethod);
-  java_call_functions[swarm_type_uint] = 
+  java_call_functions[fcall_type_uint] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallIntMethod);
-  java_call_functions[swarm_type_sint] =
+  java_call_functions[fcall_type_sint] =
       FFI_FN ((*(JNIEnv *)jEnv)->CallIntMethod);
-  java_call_functions[swarm_type_ulong] =
+  java_call_functions[fcall_type_ulong] =
       FFI_FN ((*(JNIEnv *)jEnv)->CallLongMethod);
-  java_call_functions[swarm_type_slong] = 
+  java_call_functions[fcall_type_slong] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallLongMethod);
-  java_call_functions[swarm_type_float] =
+  java_call_functions[fcall_type_float] =
       FFI_FN ((*(JNIEnv *)jEnv)->CallFloatMethod);
-  java_call_functions[swarm_type_double] = 
+  java_call_functions[fcall_type_double] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallDoubleMethod);
-  java_call_functions[swarm_type_object] = NULL;
-  java_call_functions[swarm_type_string] = 
+  java_call_functions[fcall_type_object] = NULL;
+  java_call_functions[fcall_type_string] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
-  java_call_functions[swarm_type_jobject] = 
+  java_call_functions[fcall_type_jobject] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
 }
 #endif
@@ -116,28 +116,28 @@ fillHiddenArguments (FCall_c * self)
     {
     case objccall: 
       ((FArguments *)self->fargs)->hiddenArguments = 2;	
-      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
       ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fobject;
-      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
 #ifdef HAVE_JDK
     case javacall:
       ((FArguments *)self->fargs)->hiddenArguments = 3;
-      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 3] = &jniEnv;
-      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
       ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fobject;
-      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
     case javastaticcall:
       ((FArguments *)self->fargs)->hiddenArguments = 3;
-      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 3] = &jniEnv;
-      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
       ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fclass;
-      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
 #endif
@@ -152,8 +152,7 @@ fillHiddenArguments (FCall_c * self)
 PHASE(Creating)
 + createBegin: aZone
 {
-  FCall_c *newCall;
-  newCall = [aZone allocIVars: self];
+  FCall_c *newCall = [aZone allocIVars: self];
   newCall->fargs = NULL;
   return newCall;
 }
@@ -169,8 +168,8 @@ PHASE(Creating)
   if (callType == javacall || callType == javastaticcall)
       {
         ffunction = (callType == javacall ? 
-                     java_call_functions[(unsigned) fargs->returnSwarmType] :
-                     java_static_call_functions[(unsigned) fargs->returnSwarmType]);
+                     java_call_functions[(unsigned) fargs->returnType] :
+                     java_static_call_functions[(unsigned) fargs->returnType]);
         
         (jmethodID) fmethod = (callType == javacall ?
                                (*jniEnv)->GetMethodID (jniEnv, fclass, 
@@ -300,33 +299,43 @@ PHASE(Using)
 
   retval_t apply_uchar (void)
     {
-      void* args = __builtin_apply_args ();
+      void *args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_uchar, args, sizeof (void *));
     }
   retval_t apply_ushort (void)
     {
-      void* args = __builtin_apply_args ();
+      void *args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_ushort, args, sizeof (void *));
     }
   retval_t apply_unsigned (void)
     {
-      void* args = __builtin_apply_args ();
+      void *args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_unsigned, args, sizeof (void *));
+    }
+  retval_t apply_ulong (void)
+    {
+      void *args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_ulong, args, sizeof (void *));
     }
   retval_t apply_float (void)
     {
-      void* args = __builtin_apply_args ();
+      void *args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_float, args, sizeof (void *));
     }
   retval_t apply_double (void)
     {
-      void* args = __builtin_apply_args ();
+      void *args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_double, args, sizeof (void *));
     }
   retval_t apply_object (void)
     {
-      void* args = __builtin_apply_args ();
+      void *args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_object, args, sizeof (void *));
+    }
+  retval_t apply_string (void)
+    {
+      void *args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_string, args, sizeof (void *));
     }
   retval_t apply_void (void)
     {
@@ -334,37 +343,33 @@ PHASE(Using)
       return __builtin_apply ((apply_t) return_void, args, sizeof (void *));
     }
 
-#if 0
-  switch (returnSwarmType)
+  switch (fargs->returnType)
     {
-    case swarm_type_void:
+    case fcall_type_void:
       return apply_void ();
-    case swarm_type_uchar: 
-    case swarm_type_char:
+    case fcall_type_uchar: 
+    case fcall_type_schar:
       return apply_uchar ();
-    case swarm_type_ushort:
-    swarm_type_short: 
+    case fcall_type_ushort:
+    case fcall_type_sshort: 
       return apply_ushort ();
-    case swarm_type_uint:
-    case swarm_type_int:
+    case fcall_type_uint:
+    case fcall_type_sint:
       return apply_unsigned ();
-    case swarm_type_ulong: 
-    case swarm_type_long:
+    case fcall_type_ulong: 
+    case fcall_type_slong:
       return apply_ulong ();
-    case swarm_type_float: 
+    case fcall_type_float: 
       return apply_float ();
-    case swarm_type_double:
+    case fcall_type_double:
       return apply_double ();
-    case swarm_type_string:
+    case fcall_type_string:
       return apply_string ();
-    case swarm_type_object:
+    case fcall_type_object:
       return apply_object ();
     default:
       abort ();
     }
-#else
-  return NULL;
-#endif
 }
 
 @end

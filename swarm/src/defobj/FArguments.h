@@ -16,11 +16,11 @@ Library:      defobj
 
 #define number_of_types 14 
 
-enum {swarm_type_void = 0, swarm_type_uchar, swarm_type_schar,
-      swarm_type_ushort, swarm_type_sshort, swarm_type_uint,
-      swarm_type_sint, swarm_type_ulong, swarm_type_slong,
-      swarm_type_float, swarm_type_double, swarm_type_object,
-      swarm_type_string, swarm_type_jobject} swarm_type_enum;
+typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
+              fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
+              fcall_type_sint, fcall_type_ulong, fcall_type_slong,
+              fcall_type_float, fcall_type_double, fcall_type_object,
+              fcall_type_string, fcall_type_jobject} fcall_type_t;
 
 #define MAX_ARGS        5
 #define MAX_HIDDEN      3
@@ -30,11 +30,11 @@ enum {swarm_type_void = 0, swarm_type_uchar, swarm_type_schar,
 @public
    unsigned assignedArguments;
    unsigned hiddenArguments;
-   void **argTypes;
-   int *argSwarmTypes;
+   fcall_type_t *argTypes;
+   void **ffiArgTypes;
+   fcall_type_t returnType;
+   void *ffiReturnType;
    void **argValues;
-   void *returnType;
-   int returnSwarmType;
    void *result;
    const char *javaSignature; 
    unsigned javaSignatureLength;
