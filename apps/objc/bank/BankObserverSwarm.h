@@ -1,9 +1,6 @@
-#import <objectbase.h>
-#import <activity.h>
-#import <collections.h>
-#import <simtools.h>
 #import <analysis.h>
-#import <gui.h>
+#import <simtoolsgui.h> // ActiveGraph
+#import <simtoolsgui/GUISwarm.h>
 #import "BankModelSwarm.h"
 
 @interface BankObserverSwarm: GUISwarm

@@ -1,7 +1,6 @@
 #import "BankObserverSwarm.h"
 #import "BankModelSwarm.h"
-#import <collections.h>
-#import <objectbase.h>
+#import <simtoolsgui.h> // ActiveGraph
 
 @implementation BankObserverSwarm
 

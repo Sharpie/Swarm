@@ -1,21 +1,23 @@
-#import <stdlib.h>
-#import <simtools.h>
 #import "BankModelSwarm.h"
+#import <random.h>
+
+#include <misc.h> // xmalloc
 
 @implementation BankModelSwarm
 
-+createBegin: (id) aZone {
++ createBegin: aZone
+{
   BankModelSwarm * obj;
   id <ProbeMap> probeMap;
 
   obj = [super createBegin: aZone];
 
   obj->population = 20;
-  obj->averageIncome = 100 ;
-  obj->probIOP = 0.7 ;
-  obj->probIOPSuccess = 0.5 ;
-  obj->IOPmultiplier = 2.0 ;
-  obj->probEncounter = 1.0 ;
+  obj->averageIncome = 100;
+  obj->probIOP = 0.7;
+  obj->probIOPSuccess = 0.5;
+  obj->IOPmultiplier = 2.0;
+  obj->probEncounter = 1.0;
 
   probeMap = [EmptyProbeMap createBegin: aZone];
   [probeMap setProbedClass: [self class]];
@@ -36,7 +38,7 @@
 
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "Randomize"
 			     inClass: [self class]]
-			setHideResult: 1]];
+			setHideResult: YES]];
 
   [probeLibrary setProbeMap: probeMap For: [self class]];
 
@@ -72,77 +74,88 @@
 }
 
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
--getTheFNet {
-  return theFNet ;
+- getTheFNet
+{
+  return theFNet;
 }
 
--getEntityList {
-  return entityList ;
+- getEntityList
+{
+  return entityList;
 }
 
--(double) getProbEncounter {
-  return probEncounter ;
+- (double)getProbEncounter
+{
+  return probEncounter;
 }
 
--(double) getProbIOP {
-  return probIOP ;
+- (double)getProbIOP
+{
+  return probIOP;
 }
 
--(double) getProbIOPSuccess {
-  return probIOPSuccess ;
+- (double)getProbIOPSuccess
+{
+  return probIOPSuccess;
 }
 	
--(double) getIOPmultiplier {
-  return IOPmultiplier ;
+- (double)getIOPmultiplier
+{
+  return IOPmultiplier;
 }
 
--getRandomFEntity {
-  return [entityList atOffset: [uniformIntRand getIntegerWithMin: 0
-                      withMax: ([entityList getCount] - 1)]
-  ] ;
+- getRandomFEntity
+{
+  return [entityList atOffset:
+                       [uniformIntRand getIntegerWithMin: 0
+                                       withMax: ([entityList getCount] - 1)]];
 }
 
 - setGraphCanvas: aCanvas
 {
-  graphCanvas = aCanvas ;
+  graphCanvas = aCanvas;
   if (theFNet)
     [theFNet setCanvas: aCanvas];
-  return self ;
+  return self;
 }
 
--buildObjects {
+- buildObjects
+{
   int i;
-  char *aName ;
-
+  char *aName;
+  
   [super buildObjects];
+  
+  theFNet = [FNet createBegin: [self getZone]];
+  [theFNet setCanvas: graphCanvas];
+  [theFNet createEnd];
 
-  theFNet = [FNet createBegin: [self getZone]] ;
-  [theFNet setCanvas: graphCanvas] ;
-  [theFNet createEnd] ;
-
-  for(i = 0 ; i < population ; i++){
-    aName = malloc(10) ;
-    sprintf(aName,"FE%d",i) ;
-    [theFNet addNode: [[[[[[FEntity createBegin: [self getZone]]
-                       setModel: self]
-                       setFixedIncome: averageIncome]
-                       setTotalAgentNum: population]
-                       setEntityName: aName]
-                       createEnd]] ;
-  }
-
-  entityList = [theFNet getNodeList] ;
+  for (i = 0; i < population; i++)
+    {
+      aName = xmalloc (10);
+      sprintf(aName,"FE%d",i);
+      [theFNet addNode: [[[[[[FEntity createBegin: [self getZone]]
+                              setModel: self]
+                             setFixedIncome: averageIncome]
+                            setTotalAgentNum: population]
+                           setEntityName: aName]
+                          createEnd]];
+    }
+  
+  entityList = [theFNet getNodeList];
   
   return self;
 }
 
--buildActions {
+- buildActions
+{
   [super buildActions];
-
+  
   modelActions = [ActionGroup create: [self getZone]];
   [modelActions createActionForEach: entityList message: M(encounter)];
   [modelActions createActionForEach: entityList message: M(invest)];
@@ -157,8 +170,8 @@
   return self;
 }
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   [super activateIn: swarmContext];
 
   [modelSchedule activateIn: self];
@@ -166,28 +179,29 @@
   return [self getSwarmActivity];
 }
 
--Randomize {
+- Randomize
+{
+  int list_length;
+  id index, entity;
   
-  int list_length ;
-  id index, entity ;
-
-  list_length = [entityList getCount] ;
-  index = [entityList begin: [self getZone]] ;
-
-  while( (entity = [index next]) ){
-    [entity transferInvestLinkTo: 
-       [entityList atOffset: [uniformIntRand getIntegerWithMin: 0
-                                                       withMax: list_length-1]]
-    ] ;
-    [entity transferBorrowLinkTo: 
-       [entityList atOffset: [uniformIntRand getIntegerWithMin: 0
-                                                       withMax: list_length-1]]
-    ] ;
-  }
-
-  [index drop] ;
-
-  return self ;
+  list_length = [entityList getCount];
+  index = [entityList begin: [self getZone]];
+  
+  while ((entity = [index next]))
+    {
+      [entity transferInvestLinkTo: 
+                [entityList atOffset: 
+                              [uniformIntRand getIntegerWithMin: 0
+                                              withMax: list_length-1]]];
+      [entity transferBorrowLinkTo: 
+                [entityList atOffset:
+                              [uniformIntRand getIntegerWithMin: 0
+                                              withMax: list_length-1]]];
+    }
+  
+  [index drop];
+  
+  return self;
 }
 
 @end

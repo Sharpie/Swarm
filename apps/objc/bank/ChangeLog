@@ -1,3 +1,27 @@
+1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* FEntity.[hm]: (investingIn:borrowingFrom:,incident) now return BOOL.
+	Constify argument to setEntityName:.
+
+	* FEntity.m: Don't include string.h, stdio.h, stdlib.h,
+	tkobjc.h, or simtools.h.
+
+	* BankObserverSwarm.m: Don't include collections.h or objectbase.h.
+	Include simtoolsgui.h.
+
+	* BankObserverSwarm.h: Don't include objectbase.h, activity.h,
+	collections.h, simtools.h, or gui.h.  Include simtoolsgui.h
+	and simtools/GUISwarm.h.
+
+	* BankModelSwarm.m: Don't include stdlib.h or simtools.h.  Include
+	random.h and misc.h.
+	([BankModelSwarm +createBegin:]): Use YES instead of 1 for
+	setHideResult.
+	Reformatting throughout.
+
+	* BankModelSwarm.h: Don't include activity.h or collections.h.
+	Reformatting throughout.
+
 1998-02-25  Alex Lancaster  <alex@santafe.edu>
 
 	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Removed

@@ -1,47 +1,51 @@
 #import <graph.h>
 
-@interface FEntity: DiGraphNode {
-  int prevROI ;
-  int prevCapital ;
-  int capital ;
-  int investCount ;
-  int loanCount ;
-  int IOPbool ;
-  int fixedIncome ;
-  int totalAgentNum ;
-  id investLink ;
-  id borrowLink ;
-  id model ;
+@interface FEntity: DiGraphNode
+{
+  int prevROI;
+  int prevCapital;
+  int capital;
+  int investCount;
+  int loanCount;
+  int IOPbool;
+  int fixedIncome;
+  int totalAgentNum;
+  id investLink;
+  id borrowLink;
+  id model;
 }
 
 - setCanvas : aCanvas;
--(int) getPrevROI ;
--(int) getPrevCapital ;
--setEntityName: (char *) the_name ;
--setFixedIncome: (int) aVal ;
--setModel: aModelSwarm ;
--setTotalAgentNum: (int) total ;
--(int)investingIn: anFEntity ;
--(int)borrowingFrom: anFEntity ;
+- (int) getPrevROI;
+- (int) getPrevCapital;
+- setEntityName: (const char *) the_name;
+- setFixedIncome: (int)aVal;
+- setModel: aModelSwarm;
+- setTotalAgentNum: (int) total;
 
--makeInvestLinkTo: aFEntity ;
--makeBorrowLinkTo: aFEntity ;
--transferInvestLinkTo: aFEntity ;
--transferBorrowLinkTo: aFEntity ;
+- (BOOL)investingIn: anFEntity;
+- (BOOL)borrowingFrom: anFEntity;
 
--encounter ;
--invest ;
--generateIOP ;
--lend ;
--(double) generateROI: (double) investment ;
+- makeInvestLinkTo: aFEntity;
+- makeBorrowLinkTo: aFEntity;
+- transferInvestLinkTo: aFEntity;
+- transferBorrowLinkTo: aFEntity;
 
--(int) incident ;
--(int) countInvestors ;
--(int) countBorrowers ; // Note: we are only concerned with the links
-                        // (whether or not the node actually borrowed 
-                        // on a given turn)...
+- encounter;
+- invest;
+- generateIOP;
+- lend;
+- (double)generateROI: (double) investment;
 
--(double) getInvestorLinkProbability ;
--(double) getBorrowLinkProbability ;
+- (BOOL)incident;
+- (int)countInvestors;
+
+// Note: we are only concerned with the links
+// (whether or not the node actually borrowed 
+// on a given turn)...
+- (int)countBorrowers; 
+
+- (double)getInvestorLinkProbability;
+- (double)getBorrowLinkProbability;
 
 @end
