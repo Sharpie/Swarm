@@ -9,12 +9,10 @@
   <SECT1>
     <TITLE>Overview</TITLE>
     
-    <PARA></PARA>
-      
-    <!--
-    put graphics here
-  <IMG SRC="complete.jpg" HSPACE=10 BORDER=2 HEIGHT=516 WIDTH=390>
-    -->
+    <FIGURE>
+      <TITLE>Complete probe map</TITLE>
+      <GRAPHIC ENTITYREF="complete-probe-map" ALIGN="CENTER"></GRAPHIC>
+    </FIGURE>
     
   </SECT1>
   
@@ -192,7 +190,7 @@
         </PARA>
 
         <EXAMPLE>
-          <TITLE>Here's how it's done in
+          <TITLE>Global setting precision in
           <LITERAL>HeatbugObserverSwarm.m</LITERAL></TITLE> 
 
 <PROGRAMLISTING>
@@ -238,8 +236,7 @@
           string. Typically, <LITERAL>customProbeMaps</LITERAL> are
           created in the <LITERAL>+ createBegin</LITERAL> factory
           method for a Swarm or a SwarmObject. To set the formatting
-          for a floating point probe, the method from <LITERAL><LINK
-          LINKEND="SWARM.OBJECTBASE.VARPROBE">VarProbe</LINK></LITERAL>
+          for a floating point probe, the method from <LITERAL><LINK LINKEND="SWARM.OBJECTBASE.VARPROBE">VarProbe</LINK></LITERAL>
           is used:
         </PARA>
 
@@ -270,7 +267,7 @@
         </PARA>
 
         <EXAMPLE>
-          <TITLE>Here's how it's done in
+          <TITLE>Setting precision for individual probes in
           <LITERAL>HeatbugModelSwarm.m</LITERAL>:</TITLE>
 
 <PROGRAMLISTING>
@@ -329,8 +326,7 @@
       out" the appropriate references from the probeLibrary.
     
     <LINK LINKEND="SWARM.OBJECTBASE.SWARMOBJECT">Interface
-        definition</LINK> from <LINK
-        LINKEND="OBJECTBASE.REF">objectbase</LINK> library.
+        definition</LINK> from <LINK LINKEND="OBJECTBASE.REF">objectbase</LINK> library.
     </PARA>
 
     <ITEMIZEDLIST>
@@ -402,11 +398,14 @@
       <TITLE>ProbeDisplay</TITLE>
 
       <PARA>The <LITERAL>ProbeDisplay</LITERAL> class is meant to
-        serve a dual role, represented by the two example windows on
-        this page:
-<!--
-<CENTER><IMG SRC="customized.jpg" HSPACE=10 BORDER=2 HEIGHT=288 WIDTH=264></CENTER>
--->
+        serve a dual role, represented by this figure and the previous
+        figure:
+
+        <FIGURE>
+          <TITLE>Customized probe map</TITLE>
+          <GRAPHIC ENTITYREF="customized-probe-map" ALIGN="CENTER"></GRAPHIC>
+        </FIGURE>
+
       </PARA>
 
       <PARA>On the one hand if an object to be probed is specified
@@ -495,8 +494,7 @@
 
       <PARA>
         <LINK LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAY">Interface
-          definition</LINK> from <LINK
-          LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> library.
+          definition</LINK> from <LINK LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> library.
       </PARA>
       
     </SECT2>
@@ -522,8 +520,7 @@
     
     <PARA>
       <LINK LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAYMANAGER">Interface
-        definition</LINK> from <LINK
-        LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> library.</PARA>
+        definition</LINK> from <LINK LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> library.</PARA>
 
   </SECT1>
 
