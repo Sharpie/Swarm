@@ -1,5 +1,7 @@
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Makefile.am: New file.
+
 	* overbook.tex.in: New file.
 
 	* overbook.sgml: Set ID of book to "overbook".

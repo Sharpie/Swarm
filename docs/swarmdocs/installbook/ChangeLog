@@ -1,5 +1,7 @@
 1998-05-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am: New file.
+
 	* installbook.sgml: Make ID of book be "installbook".
 
 1998-05-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
