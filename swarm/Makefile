@@ -65,8 +65,7 @@ bininc: FORCE
 	for d in $(TKTCLDIRS); do \
 	  cp $$d/*.tcl $(TMPDIST)/lib/; \
 	done
-	cp -r $(BLTLIBDIR)/* $(TMPDIST)/lib
-	test -d $(BLTLIBRARYDIR) && cp -r $(BLTLIBRARYDIR) $(TMPDIST)
+	if test -d $(BLTLIBRARYDIR) ; then cp -r $(BLTLIBRARYDIR) $(TMPDIST) ; else cp -r $(BLTLIBDIR)/* $(TMPDIST)/lib ; fi
 
 ### make a binary, some libs, get rid of the .o's, copy
 ### system header files, then make a tar file with the
