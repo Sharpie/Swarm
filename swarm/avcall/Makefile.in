@@ -44,7 +44,7 @@ OBJECTS = avcall.o structcpy.o
 all : $(OBJECTS) libavcall.a avcall.h $(srcdir)/avcall.3 $(srcdir)/avcall.html
 
 avcall.o : avcall-$(CPU).o
-	$(RM) avcall.o
+	$(RM) avcall.o avcall.lo
 	$(LN) avcall-$(CPU).o avcall.o
 	$(LN) avcall-$(CPU).o avcall.lo
 

@@ -1,3 +1,7 @@
+1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (avcall.o): Remove avcall.lo as well.
+
 1999-06-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (distdir): Copy the toplevel files and the files
