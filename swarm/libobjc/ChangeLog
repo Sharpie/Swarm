@@ -4,6 +4,8 @@
 	(CPPFLAGS): Don't define for DLL import/export.  (Use PIC to
 	select in externvar.h.in).
 
+	* ltconfig: Updated with -DDLL as PIC flag for DLL builds.
+
 1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* class.c (__objc_class_links_resolved): Use externobjcvardef.

@@ -633,6 +633,7 @@ if test "$with_gcc" = yes; then
     link_static_flag="$link_static_flag ${wl}-lC"
     ;;
   cygwin* | mingw* | os2*)
+    pic_flag='-DDLL'  
     # We can build DLLs from non-PIC.
     ;;
   amigaos*)
