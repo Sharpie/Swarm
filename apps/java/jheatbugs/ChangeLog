@@ -1,17 +1,18 @@
-2001-11-09    <timothyrhowe@hotmail.com>
+2001-11-09  Timothy Howe  <timothyrhowe@hotmail.com>
 
-	* Makefile: rule for HeatbugModelSwarm.class changed to dynamically edit
-	HeatbugModelSwarm.java depending on value of $SWARMHOME -- to support
-	FArgumentsImpl's constructor on both Swarm 2.1.1 and Swarm 2.2.
+	* Makefile: rule for HeatbugModelSwarm.class changed to
+	dynamically edit HeatbugModelSwarm.java depending on value of
+	$SWARMHOME -- to support FArgumentsImpl's constructor on both
+	Swarm 2.1.1 and Swarm 2.2.
 
 2001-11-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Heatbug.java, HeatbugModelSwarm.java: Make both
-	setRandomMoveProbability methods return void.  Methods exposed
-	to Swarm should not have multiple forms, as Objective C has no
+	setRandomMoveProbability methods return void.  Methods exposed to
+	Swarm should not have multiple forms, as Objective C has no
 	facility for this in signatures.
 
-2001-11-07    <timothyrhowe@hotmail.com>
+2001-11-07  Timothy Howe  <timothyrhowe@hotmail.com>
 
 	* HeatbugModelSwarm.java, HeatbugObserverSwarm.java: Clarified
 	documentation of need for SCM vars and (after Swarm 2.1.1)
@@ -22,10 +23,11 @@
 	possible, and convention of underscore prefix for private
 	variables.
 
-	* HeatSpace.java: Clarified discussion of calculation of unhappiness. 
+	* HeatSpace.java: Clarified discussion of calculation of
+	unhappiness.
 
-	* Removed my copyright, having clarified the terms of distribution with
-	Marcus. 
+	* Removed my copyright, having clarified the terms of distribution
+	with Marcus.
 
 2001-11-04  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
@@ -45,29 +47,24 @@
 
 	* Remove ^M from all files.
 
-2001-10-29    <timothyrhowe@hotmail.com>
+2001-10-29  Timothy Howe  <timothyrhowe@hotmail.com>
 
-	* I added an overview documentation file (readme.txt) and an HTML
-	version
-	(readme.gen.htm, generated from readme.txt).
+	* readme.txt, readme.gen.html: Added files: an overview
+	documentation file and an HTML version.
 
-	* I rearranged the logic of the Heatbug so that it doesn't
-	calculate its ideal cell unless it is actually going to try to
-	move to that cell.
-
-	* I rearranged the logic of a Heatbug so that it doesn't calculate
-	its arbitrary random move if it is perfectly happy where it is.
-
-	* I color-coded the Heatbugs according to their temperature
+	* Heatbug.java (heatbugStep): Rearranged the logic of the Heatbug
+	so that it doesn't calculate its ideal cell unless it is actually
+	going to try to move to that cell.  
+	Rearranged the logic of a Heatbug so that it doesn't calculate its
+	arbitrary random move if it is perfectly happy where it is.
+	Color-coded the Heatbugs according to their temperature
 	preferences (from green to yellow). You can now see the more
 	heat-loving bugs tending toward the center of each cluster, with
-	the less heat-loving ones around the periphery.
-
-	* I altered the logic for calculating xm1 and ym1 in
-	Heatbug.java. The logic had been based on an assumption about how
-	modulo works, which is a correct assumption for some programming
-	languages but not for Java.  Here's proof of the need for the
-	change:
+	the less heat-loving ones around the periphery.  Altered the logic
+	for calculating xm1 and ym1 in Heatbug.java. The logic had been
+	based on an assumption about how modulo works, which is a correct
+	assumption for some programming languages but not for Java.
+	Here's proof of the need for the change:
 
     	int x = 0;
     	int size = 10;
@@ -78,77 +75,71 @@
     	System.out.println ("(" + x + " - 1 + size) % size is " + (x - 1 + size) % size);
         	// that prints 9 (correct answer)
 
-	* By the way, Perl, for example, gives different answers from Java
+	(By the way, Perl, for example, gives different answers from Java
 	for modulo of a negative number. In Perl, the graph of modulo is
 	continuous across zero; in Java, the graph is bilaterally
-	symmetric about zero.
+	symmetric about zero.)
 
-	* I replaced HeatCell with java.awt.Point, which has the same
-	functionality, is more familiar to Java developers, and will decrement
-	the number of custom classes that a student of jheatbugs needs to 
-	understand.
+	* HeatCell.java: Removed file.  Replaced HeatCell with
+	java.awt.Point, which has the same functionality, is more familiar
+	to Java developers, and will decrement the number of custom
+	classes that a student of jheatbugs needs to understand.
 
-	* I simplified the use of List, LinkedList, and ArrayList (by changing
-	them all to ArrayList).
-
-	* I revamped the documentation almost entirely. I formatted the
+	* *.java: Simplified the use of List, LinkedList, and ArrayList
+	(by changing them all to ArrayList).
+	Revamped the documentation almost entirely.  Formatted the
 	documentation to produce nice javadoc output.
-
-	* I removed all inner classes by flattening them into plain Java
-	code.  I did that because I felt that the code was easier to
-	understand without the complexity of inner classes -- even for
-	readers familiar with inner classes in general. The inner classes
-	I removed were not adapters; they added no methods except a few
-	initialization-time convenience methods whose logic, in my
-	opinion, was simpler to implement in plain private methods
+	Removed all inner classes by flattening them into plain Java code.
+	Done to make code easier to understand without the complexity of
+	inner classes -- even for readers familiar with inner classes in
+	general. The inner classes removed were not adapters; they added
+	no methods except a few initialization-time convenience methods
+	logic was simpler to implement in plain private methods
 	(probeMessage () and (probeVariable ()).
 
-	* I arranged the makefile for more straightforward and automatic
-	dependencies. I added a "run" target as the default target, to let
-	the developer invoke the application by typing "make" or "make
-	runbatch", with the guarantee that the latest code will run, not
-	some possibly obsolete code.
+	* Makefile: Arranged the Makefile for more straightforward and
+	automatic dependencies.  Added a "run" target as the default
+	target, to let the developer invoke the application by typing
+	"make" or "make runbatch", with the guarantee that the latest code
+	will run, not some possibly obsolete code.
 
-	* I added an application-invoking wrapper, current.pl, and a shell
-	wrapper for that, current.ksh. And a DOS wrapper, current.bat,
-	which does not yet work, but shouldn't be too hard to fix since
-	it's only one line.
+	* current.pl, current.ksh, current.bat: Added files: an
+	application-invoking wrapper, current.pl, and a shell wrapper for
+	that, current.ksh.  A DOS wrapper, current.bat, which does not yet
+	work, but shouldn't be too hard to fix since it's only one line.
 
-	* I added command-line options; see StartHeatbugs.java and
-	current.pl for details, or invoke "current --help".
+	* StartHeatbugs.java: Added command-line options; see
+	StartHeatbugs.java and current.pl for details, or invoke "current
+	--help".
+	Factored common code from both branches of the "if
+	(Globals.env.guiFlag) ... else ..." logic into the methods build()
+	and unbuild().
 
-	* I defined heatbugStep() as synchronized, because, given the
-	existing algorithm, the decision of which cell to move to cannot
-	be multi-threaded.
-
-	* I changed addHeatbug (Heatbug bug) to addHeatbugs (int numNewBugs),
-	because so far as I can tell, a user can't enter a Heatbut in the probe
-	display. 
-
-	* In HeatbugModelSwarm.java, I simplified the logic controlling
-	the update order (random or sequential), mostly by eliminating
-	local copies of FActionForEach.defaultOrder. I did that for
-	simplicity and to remove the need to synchronize; performance will
-	improve slightly, since getters and setters in Java are just as
-	fast as public access to variables.
-
-	* In StartHeatbugs.java, I factored common code from both branches
-	of the "if (Globals.env.guiFlag) ... else ..." logic into the
-	methods build() and unbuild().
-
-	* I added a few methods for diagnostic purposes, such as
-	Heatbug.toString() and HeatbugModelSwarm.modelStep().
-
-	* I started to alter the calculation of Heatbug unhappiness. You
+	* Heatbug.java (heatbugStep): Defined as synchronized, because,
+	given the existing algorithm, the decision of which cell to move
+	to cannot be multi-threaded.
+	(addHeatbug): Changed to addHeatbugs (int numNewBugs), because so
+	far as I can tell, a user can't enter a Heatbug in the probe
+	display.
+	(toString): Added for diagnostic purposes
+	Started to alter the calculation of Heatbug unhappiness. You
 	probably don't get happier just by existing through time -- why
-	should a Heatbug?  So I'm trying to neutralize the effect of
-	increasing heat. Without undergoing a significant performance
-	penalty.
+	should a Heatbug?  Trying to neutralize the effect of increasing
+	heat. Without undergoing a significant performance penalty.
+	
+	* HeatbugModelSwarm.java: Simplified the logic controlling the
+	update order (random or sequential), mostly by eliminating local
+	copies of FActionForEach.defaultOrder. Done for simplicity and to
+	remove the need to synchronize; performance will improve slightly,
+	since getters and setters in Java are just as fast as public
+	access to variables.
+	(modelStep): Added for diagnostic purposes.
 
-	* I made a number of other, small changes, which would be easier to 
-	understand by comparing the code than by reading descriptions of them. 
+	* A number of other, small changes, which would be easier to
+	understand by comparing the code than by reading descriptions of
+	them.
 
-2000-09-19  Alex Lancaster  <alex@allele2.biol.berkeley.edu>
+2000-09-19  Alex Lancaster  <alex@swarm.org>
 
 	* HeatbugModelSwarm.java: Removed language argument to
 	FArgumentsImpl.
@@ -163,14 +154,14 @@
 	* Heatbug.java (Heatbug): Remove `public' from world, heat, and
 	scratchHeatCell.
 	
-2000-02-27    <mgd@nest.swarm.org>
+2000-02-27  Marcus Daniels  <mgd@nest.swarm.org>
 
 	* StartHeatbugs.java (main): Update for 2.1 and SDG.
 
 	* HeatbugModelSwarm.java (buildActions): Store prototype in 
 	a variable.
 
-2000-01-24    <mgd@nest.swarm.org>
+2000-01-24  Marcus Daniels  <mgd@nest.swarm.org>
 
 	* jheatbugs.scm: New file.
 
@@ -179,7 +170,7 @@
 
 	* StartHeatbugs.java: Use lispAppArchiver to create HeatbugBatchSwarm.
 
-1999-12-27    <mgd@DRONE>
+1999-12-27  Marcus Daniels <mgd@DRONE>
 
 	* Heatbug.java (Heatbug): Change x, y, idealTemperature,
 	outputHeat from long to int.
@@ -189,14 +180,14 @@
 	* HeatSpace.java (maxHeat, addHeat$X$Y, findExtremeHeat$X$Y):
 	Use int instead of long.
 
-1999-12-22    <mgd@nest.swarm.org>
+1999-12-22  Marcus Daniels  <mgd@nest.swarm.org>
 
 	* HeatbugModelSwarm.java: Don't include FArguments, FCall creating
 	implementation and interface.
 	(buildActions): Use FCall and FArguments constructors to condense
 	things somewhat.
 
-1999-12-21    <mgd@nest.swarm.org>
+1999-12-21  Marcus Daniels  <mgd@nest.swarm.org>
 
 	* HeatbugModelSwarm.java (actionForEach): New ivar.
 	(syncUpdateOrder): New method.
@@ -205,7 +196,7 @@
 
 	* Heatbug.java: Rename step to heatbugStep.
 
-1999-12-10    <mgd@nest.swarm.org>
+1999-12-10  Marcus Daniels  <mgd@nest.swarm.org>
 
 	* HeatbugModelSwarm.java: Use createActionForEachHomogeneous$call
 	instead of createActionForEach$call$setFinalizationFlag.
@@ -254,7 +245,7 @@
 	* HeatbugModelSwarm.java (buildActions): Add Randomized ForEach
 	ordering.
 
-1999-09-16    <mgd@HELEN>
+1999-09-16  Marcus Daniels <mgd@HELEN>
 
 	* HeatbugObserverSwarm.java: Add drop method to disable
 	destroy notification for unhappyGraph and worldRaster.
