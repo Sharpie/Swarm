@@ -1,3 +1,14 @@
+2000-07-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Permutation.[hm] ([Permutation_c -createTree]): New method.
+	([Permutation_c -getLastDirectionFor:]): Remove.
+
+	* Permutation.m: Include misc/avl.h
+	(comparePermutationItems): New function.
+	([Permutation_c -createEnd]): Create tree
+	using directed lastPermutation items and use avl_find to find
+	them quickly.  Destroy tree when done.
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* List_HDF5out.m ([-..hdf5OutShallow]): Don't call writeRowNames.

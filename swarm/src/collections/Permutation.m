@@ -13,6 +13,8 @@ Library:      collections
 #import <collections.h> // PermutationItem
 #import <defobj/defalloc.h>
 
+#include <misc/avl.h>
+
 @implementation PermutationItem_c
 PHASE(Creating)
 - setItem: theItem
@@ -93,29 +95,44 @@ PHASE(Creating)
 
   if (count > 0)
     {
+      void *tree = NULL;
+
       index = [collection begin: scratchZone];  
       touchedFlag = NO;
       untouchedFlag = NO;
+
+      if (lastPermutation)
+        tree = [lastPermutation createTree];
+      
       for (elem = [index next], i = 0;
            [index getLoc] == Member;
            elem = [index next], i++)
         {
           int direction = 0;
-
+          
+          PermutationItem_c *pi =
+            [[[[PermutationItem createBegin: getCZone (getZone (self))]
+                setPosition: i]
+               setItem: elem]
+              createEnd];
+          
           if (lastPermutation)
-            direction = [lastPermutation getLastDirectionFor: elem];
+            {
+              PermutationItem_c *old = avl_find (tree, pi);
+              
+              if (old && old->position >= 0)
+                direction = old->lastDirection;
+            }
           if (direction == 1)
             touchedFlag = YES;
           else if (direction == 0)
             untouchedFlag = YES;
-          [self atOffset: i
-                put:
-                  [[[[[PermutationItem createBegin: getCZone (getZone (self))]
-                       setPosition: i]
-                      setItem: elem]
-                     setLastDirection: direction]
-                    createEnd]];
+          pi->lastDirection = direction;
+          [self atOffset: i put: pi];
         }
+      if (lastPermutation)
+        avl_destroy (tree, NULL);
+
       [index drop];
       [shuffler shuffleWholeList: self];
     }
@@ -124,20 +141,28 @@ PHASE(Creating)
 
 PHASE(Setting)
 PHASE(Using)
-- (int)getLastDirectionFor: item
-{
-  int direction = 0;
-  id index = [self begin: scratchZone];
-  PermutationItem_c *pi;
 
-  for (pi = [index next]; [index getLoc] == Member; pi = [index next])
-    if (pi->position >= 0 && pi->item == item)
-      {
-        direction = pi->lastDirection;
-        break;
-      }
-  [index drop];
-  return direction;
+static int
+comparePermutationItems (const void *a, const void *b, void *param)
+{
+  return (PTRUINT) a - (PTRUINT) b;
+}
+
+- (void *)createTree
+{
+  unsigned i;
+  void *tree;
+
+  tree = avl_create (comparePermutationItems, NULL);
+
+  for (i = 0; i < count; i++)
+    {
+      PermutationItem_c *pi = block[i];
+
+      if (pi->lastDirection)
+        avl_probe (tree, pi);
+    }
+  return tree;
 }
 
 - (BOOL)getTouchedFlag

@@ -29,13 +29,13 @@ Library:      collections
 @interface Permutation_c: Array_c <Permutation>
 {
 @public
-   id <Collection> collection;
-   id <ListShuffler> shuffler;
-   id rnd;
+  id <Collection> collection;
+  id <ListShuffler> shuffler;
+  id rnd;
 @protected
-   Permutation_c *lastPermutation; 
-   BOOL touchedFlag;
-   BOOL untouchedFlag;
+  Permutation_c *lastPermutation; 
+  BOOL touchedFlag;
+  BOOL untouchedFlag;
 }
 - setCollection: (id <Collection>)collection;
 - setUniformRandom: rnd;
@@ -45,7 +45,6 @@ Library:      collections
 - (BOOL)getTouchedFlag;
 - (BOOL)getUntouchedFlag;
 - (id <Collection>)getCollection;
+- (void *)createTree;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
-
-
