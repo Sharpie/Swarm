@@ -721,7 +721,7 @@ void
 _obj_formatIDString (char *buffer, id anObject)
 {
   sprintf (buffer, PTRFMT ": %.64s",
-           anObject, ((Class)[anObject getClass])->name);
+           anObject, getClass (anObject)->name);
 }
 
 //

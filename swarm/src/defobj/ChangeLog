@@ -1,6 +1,8 @@
 1998-11-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefObject.m (_obj_dropAlloc): Use YES and NO instead of 1 and 0.
+	(_obj_formatIDString): Use getClass macro instead of sending method
+	and casting to Class.
 
 1998-10-09  Alex Lancaster  <alex@santafe.edu>
 
