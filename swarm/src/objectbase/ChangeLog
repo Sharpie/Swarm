@@ -1,3 +1,10 @@
+1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* VarProbe.m ([VarProbe -createEnd]): Setup probedType
+	for a variable in a Java obejct.
+
+	* ProbeMap.m: Reformating.
+
 1999-07-15  Alex Lancaster  <alex@santafe.edu>
 
 	* CustomProbeMap.h (@interface): Make class conform to

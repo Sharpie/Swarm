@@ -104,6 +104,39 @@ PHASE(Creating)
 	raiseEvent (SourceMessage,
 		    "Unknown type of probed field!\n");
       fieldType = (*jniEnv)->NewGlobalRef (jniEnv, fieldType);
+      {
+	//ugly!
+          jboolean classp (jclass matchClass)
+            {
+              return (*jniEnv)->IsSameObject (jniEnv, fieldType, matchClass);
+            }
+          (char *) probedType = malloc (1);
+          if (classp (c_object))
+            ((char *) probedType)[0] = _C_ID;
+          else if (classp (c_string))
+            ((char *) probedType)[0] = _C_CHARPTR;
+          else if (classp (c_int))
+            ((char *) probedType)[0] = _C_INT;
+          else if (classp (c_short))
+            ((char *) probedType)[0] = _C_SHT;
+          else if (classp (c_long))
+            ((char *) probedType)[0] = _C_LNG;
+          else if (classp (c_boolean))
+            ((char *) probedType)[0] = _C_UCHR;
+          else if (classp (c_byte))
+            ((char *) probedType)[0] = _C_UCHR;
+          else if (classp (c_char))
+            ((char *) probedType)[0] = _C_CHR;
+          else if (classp (c_float))
+            ((char *) probedType)[0] = _C_FLT;
+          else if (classp (c_double))
+            ((char *) probedType)[0] = _C_DBL;
+          else if (classp (c_void))
+            ((char *) probedType)[0] = _C_VOID;
+          else
+            ((char *) probedType)[0] = _C_ID;
+      }
+    
 
 
       interactiveFlag = YES;

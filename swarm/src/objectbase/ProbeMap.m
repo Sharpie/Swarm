@@ -205,8 +205,8 @@ extern jmethodID  m_ClassGetDeclaredFields,
   
   probes = [Map createBegin: [self getZone]];
   [probes setCompareFunction: &p_compare];
-  probes = [probes createEnd];
-  
+  probes = [probes createEnd];  
+
   if (probes == nil)
     return nil;
 
@@ -217,27 +217,24 @@ extern jmethodID  m_ClassGetDeclaredFields,
       jsize fieldslength;
       jarray methods;
       jsize methodslength;
-      unsigned i;
 
+      unsigned i;
       numEntries = 0;
       classObject = JFINDJAVA(jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
-
-      if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
-						  m_ClassGetDeclaredFields)))
-	abort(); 
-      fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
       
+      if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
+      					  m_ClassGetDeclaredFields)))
+	abort(); 
+
+      fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
       if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
 						  m_ClassGetDeclaredMethods)))
 	abort();
-      
       methodslength = (*jniEnv)->GetArrayLength (jniEnv, methods);
-
       numEntries = fieldslength;
-
       for (i=0; i<numEntries; i++)
 	{
 	  jobject field;
@@ -250,7 +247,6 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	  name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
 	  
 	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
-
 	  a_probe = [VarProbe createBegin: [self getZone]];
           [a_probe setProbedClass: probedClass];
           [a_probe setProbedVariable: buf];
@@ -258,7 +254,6 @@ extern jmethodID  m_ClassGetDeclaredFields,
           if (objectToNotify != nil) 
             [a_probe setObjectToNotify: objectToNotify];
           a_probe = [a_probe createEnd];
-          
           [probes at: [String create: [self getZone] setC: buf]
                   insert: a_probe];
 	  
@@ -273,7 +268,6 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	  numEntries += methodslength;
 	  
 	  inversionList = [List create: [self getZone]];
-	  
 	  for (i=0; i<methodslength; i++)
 	    {
 	      jobject method;
