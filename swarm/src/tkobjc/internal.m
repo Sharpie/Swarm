@@ -1284,11 +1284,13 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
             XFreePixmap (pixmap->display, pixmap->mask);
             pixmap->mask = 0;
           }
+#ifdef HAVE_XPM_ALLOCPIXELS
         XFreeColors (pixmap->display,
                      pixmap->xpmattrs.colormap,
                      pixmap->xpmattrs.alloc_pixels,
                      pixmap->xpmattrs.nalloc_pixels,
                      0);
+#endif
         XpmFreeAttributes (&pixmap->xpmattrs);
         pixmap->display = NULL;
       }
@@ -1297,7 +1299,11 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
       {
         int err;
         
+#ifdef HAVE_XPM_ALLOCPIXELS
         pixmap->xpmattrs.valuemask = XpmColormap | XpmReturnAllocPixels;
+#else
+        pixmap->xpmattrs.valuemask = XpmColormap;
+#endif
         pixmap->xpmattrs.colormap = colormap->cmap;
 
         if ((err = XpmCreatePixmapFromXpmImage (display,

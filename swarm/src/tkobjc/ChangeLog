@@ -1,3 +1,11 @@
+1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (tkobjc_pixmap_update_raster): Don't call XFreeColors
+	with alloc_pixels if alloc_pixels doesn't exist (e.g. Irix 6.5).
+	(tkobjc_pixmap_update_raster): Likewise don't request
+	XpmReturnAllocPixels.  [Note: this is untested as to whether a memory
+	leak occurs on XpmFreeAttributes or not.]
+
 1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord -lispIn:]): Move 
