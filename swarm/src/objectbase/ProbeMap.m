@@ -10,11 +10,8 @@
 #import "local.h"
 
 #ifdef HAVE_JDK
-#import "../defobj/directory.h" // swarm_directory_ensure_selector
-extern jclass c_Selector;
-extern jmethodID  m_ClassGetDeclaredFields,
-  m_ClassGetDeclaredMethods, m_MethodGetName,
-  m_SelectorConstructor, m_FieldGetName;
+#import <defobj/directory.h> // swarm_directory_ensure_selector, JNI
+#import <defobj/javavars.h>
 #endif
 
 @implementation ProbeMap
@@ -177,15 +174,122 @@ extern jmethodID  m_ClassGetDeclaredFields,
   return self;
 }
 
+- (void)addJavaFields: (jclass)javaClass
+{
+  jarray fields;
+  jsize fieldCount;
+  unsigned i;
+
+  if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
+                                              javaClass,
+                                              m_ClassGetDeclaredFields)))
+    abort();
+
+  fieldCount = (*jniEnv)->GetArrayLength (jniEnv, fields);
+  for (i = 0; i < fieldCount; i++)
+    {
+      jobject field;
+      jstring name;
+      const char *buf;
+      jboolean isCopy;
+      id aProbe;
+      
+      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
+      name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+      buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+      
+      aProbe = [VarProbe createBegin: [self getZone]];
+      [aProbe setProbedClass: probedClass];
+      [aProbe setProbedVariable: buf];
+      
+      if (objectToNotify != nil) 
+        [aProbe setObjectToNotify: objectToNotify];
+      aProbe = [aProbe createEnd];
+      
+      [probes at: [String create: [self getZone] setC: buf] insert: aProbe];
+      
+      if (isCopy)
+        (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
+    }
+  numEntries += fieldCount;
+}
+
+- (void)addJavaMethods: (jclass)javaClass
+{
+  jarray methods;
+  jsize methodCount;
+
+  if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv,
+                                               javaClass,
+                                               m_ClassGetDeclaredMethods)))
+    abort();
+  
+  methodCount = (*jniEnv)->GetArrayLength (jniEnv, methods);
+  
+  if (methodCount)
+    {
+      id inversionList = inversionList = [List create: [self getZone]];
+      unsigned i;
+      id aProbe;
+      
+      for (i = 0; i < methodCount; i++)
+        {
+          jobject method;
+          jstring name;
+          jobject selector;
+          SEL sel;
+          
+          method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, i);
+          name = (*jniEnv)->CallObjectMethod (jniEnv,
+                                              method, 
+                                              m_MethodGetName);
+          selector = (*jniEnv)->NewObject (jniEnv,
+                                           c_Selector, 
+                                           m_SelectorConstructor, 
+                                           javaClass,
+                                           name,
+                                           JNI_FALSE);
+          sel = swarm_directory_ensure_selector (jniEnv, selector);
+          
+          aProbe = [MessageProbe createBegin: [self getZone]];
+          [aProbe setProbedClass: probedClass];
+          [aProbe setProbedSelector: sel];
+          if (objectToNotify != nil) 
+            [aProbe setObjectToNotify: objectToNotify];
+          
+          aProbe = [aProbe createEnd];
+          
+          if (!aProbe)
+            abort ();
+          [inversionList addFirst: aProbe];
+        }
+      
+      {
+        id index = [inversionList begin: [self getZone]];
+        
+        while ((aProbe = [index next]))
+          {
+            [probes at: [String create: [self getZone] 
+                                setC: [aProbe getProbedMessage]]
+                    insert: aProbe];
+            [index remove];
+          }	
+        [index drop];
+      }
+      [inversionList drop];
+    }
+  numEntries += methodCount;
+}
+  
 - createEnd
 {
   IvarList_t ivarList;
   MethodList_t methodList;
+  id inversionList, index;
+
   //The compiler seems to put the methods in the 
   //opposite order than the one in which they were
   //declared, so we need to manually invert them.
-  id inversionList; 
-  id index;
   
   int i;
   id aProbe;
@@ -212,110 +316,15 @@ extern jmethodID  m_ClassGetDeclaredFields,
 #ifdef HAVE_JDK
   if (isJavaProxy)
     { 
-      jarray fields;
-      jsize fieldslength;
-      jarray methods;
-      jsize methodslength;
-
-      unsigned i;
-      numEntries = 0;
       classObject = SD_FINDJAVA (jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
-      
-      if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
-                                                  m_ClassGetDeclaredFields)))
-	abort(); 
-      
-      fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
-      if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv,
-                                                   classObject, 
-                                                   m_ClassGetDeclaredMethods)))
-	abort();
-      methodslength = (*jniEnv)->GetArrayLength (jniEnv, methods);
-      numEntries = fieldslength;
-      for (i = 0; i < numEntries; i++)
-	{
-	  jobject field;
-	  jstring name;
-	  const char * buf;
-	  jboolean isCopy;
-
-	  field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
-	
-	  name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
-	  
-	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
-	  aProbe = [VarProbe createBegin: [self getZone]];
-          [aProbe setProbedClass: probedClass];
-          [aProbe setProbedVariable: buf];
-	  
-          if (objectToNotify != nil) 
-            [aProbe setObjectToNotify: objectToNotify];
-          aProbe = [aProbe createEnd];
-          [probes at: [String create: [self getZone] setC: buf]
-                  insert: aProbe];
-	  
-	  if (isCopy)
-	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
-	}
-
-      if (methodslength)
-	{
-	  numEntries += methodslength;
-	  
-	  inversionList = [List create: [self getZone]];
-	  for (i = 0; i < methodslength; i++)
-	    {
-	      jobject method;
-	      jstring name;
-	      jobject selector;
-	      SEL sel;
-
-	      method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, i);
-	      name = (*jniEnv)->CallObjectMethod (jniEnv,
-                                                  method, 
-						  m_MethodGetName);
-	      selector = (*jniEnv)->NewObject (jniEnv,
-                                               c_Selector, 
-					       m_SelectorConstructor, 
-					       classObject,
-					       name,
-                                               JNI_FALSE);
-	      sel = swarm_directory_ensure_selector (jniEnv, selector);
-	      	      
-	      aProbe = [MessageProbe createBegin: [self getZone]];
-	      [aProbe setProbedClass: probedClass];
-	      [aProbe setProbedSelector: sel];
-	      if (objectToNotify != nil) 
-		[aProbe setObjectToNotify: objectToNotify];
-	      
-	      aProbe = [aProbe createEnd];
-	      
-	      if (aProbe)
-		[inversionList addFirst: aProbe];
-	      else
-		numEntries--;
-	    }
-      
-	  index = [inversionList begin: [self getZone]];
-	  while ((aProbe = [index next]))
-	    {
-	      [probes at: 
-			[String 
-			  create: [self getZone] 
-			  setC: [aProbe getProbedMessage]] 
-		      insert: 
-			aProbe];
-	      [index remove];
-	    }	
-	  [index drop];
-	  [inversionList drop];
-	}
+      numEntries = 0;
+      [self addJavaFields: classObject];
+      [self addJavaMethods: classObject];
       return self;
     }
-  
 #endif
       
   if (!(ivarList = probedClass->ivars))

@@ -11,6 +11,9 @@
 #import <objectbase/Probe.h>
 #import <objectbase/VarProbe.h>
 #import <objectbase/MessageProbe.h>
+#ifdef HAVE_JDK
+#import <defobj/directory.h> // jclass
+#endif
 
 @interface ProbeMap : SwarmObject
 {
@@ -66,5 +69,7 @@
 - (VarProbe *)getProbeForVariable: (const char *)aVariable;
 - (MessageProbe *)getProbeForMessage: (const char *)aMessage;
 - begin: aZone;
+- (void)addJavaFields: (jclass)javaClass;
+- (void)addJavaMethods: (jclass)javaClass;
 @end
 

@@ -1,3 +1,24 @@
+1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ProbeMap.m ([ProbeMap -addJavaFields:], [ProbeMap
+	-addJavaMethods:]): New methods.
+	([ProbeMap -createEnd]): Rewrite to use them.
+
+	* ProbeMap.h: Include defobj/directory.h.  Declare
+	-addJava{Fields,Methods}:.
+
+	* CompleteVarMap.m ([CompleteVarMap -createEnd]): Rewrite to use
+	addJavaFields.
+
+	* DefaultProbeMap.m ([DefaultProbeMap -createEnd]): Likewise.
+
+	* CompleteProbeMap.m, CompleteVarMap.m, DefaultProbeMap.m,
+	ProbeMap.m: Include javavars.h instead of using local
+	declarations.  Include <defobj/directory.h> instead of
+	"../defobj/directory.h".
+	([CompleteProbeMap -createEnd]): Rewrite to use
+	addJava{Fields,Methods}:.
+
 1999-08-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Probe.h: Don't include local.h.
