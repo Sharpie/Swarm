@@ -1,3 +1,7 @@
+1999-02-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* configure.in: Bump version to 1.4.1.
+
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 
 	* catalog.in: Add new text-file entities README.Generators.v075,
