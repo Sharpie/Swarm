@@ -1,3 +1,7 @@
+2003-09-10  Alex Lancaster  <alex@swarm.org>
+
+	* Makefile.am (gridturtle_srcdir): Remove.
+
 2003-09-08  Alex Lancaster  <alex@swarm.org>
 
 	* refbook.xml: Use 4.2 version of DocBook XML DTD.

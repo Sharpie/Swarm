@@ -3,7 +3,6 @@ MODULES = activity analysis collections defobj gui objectbase random simtools si
 SUBDIRS = $(MODULES)
 
 swarm_srcdir = @swarm_srcdir@
-gridturtle_srcdir = @gridturtle_srcdir@
 
 include $(top_srcdir)/Makefile.rules
 include $(top_srcdir)/Makefile.common
