@@ -1,8 +1,8 @@
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
-	* HDF5Object.m ([HDF5_c -createEnd]): Always open RDWR -- it insists
-	the file is still read-only after closin and reopening -- looks
-	like a bug in 1.4.0.
+	* HDF5Object.m ([HDF5_c -createEnd]): Always open RDWR -- 1.4.0 insists
+	the file is still read-only after closing and reopening -- looks
+	like a bug.
 	([HDF5CompoundType_c -createEnd]): Use the createJavaCounterpart 
 	approach instead of calling JAVA_INSTANTIATE for the prototype.
 
