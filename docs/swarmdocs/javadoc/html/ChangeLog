@@ -1,5 +1,9 @@
 1999-09-08  Alex Lancaster  <alex@santafe.edu>
 
+	* HelpWriter.java (printHelpFileContents): Customize the contents
+	with additional text clarifying API changes which result from the
+	run of this doclet.
+
 	* swarm-doclet.jar: Regenerated.
 
 	* Makefile.am (ORIG_DOCLET): Set to Java source that was included
@@ -19,6 +23,8 @@
 
 	* PackageWriter.java (generateClassKindListing): Emulate
 	deprecated tag supression, but for the @hide tag.
+
+	* PackageFrameWriter.java (generateClassKindListing): Likewise.
 
 	* Standard.java (generateClassCycle): Likewise.
 

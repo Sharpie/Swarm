@@ -106,6 +106,10 @@ public class PackageFrameWriter extends AbstractPackageWriter {
                 if (!isCoreClass(arr[i])) {
                     continue;
                 }
+                if (Standard.configuration().hide &&
+                    arr[i].tags("hide").length > 0) {
+                    continue;
+                }
                 br();
                 printTargetClassLink(arr[i], "classFrame");
             }
