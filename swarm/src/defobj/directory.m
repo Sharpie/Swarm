@@ -425,23 +425,28 @@ swarm_directory_java_ensure_objc (JNIEnv *env, jobject javaObject)
 static const char *
 java_classname_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
 {
-  extern const char *swarm_lookup_module (const char *name);
-  const char *module = swarm_lookup_module (typeName);
-  size_t modulelen = module ? strlen (module) + 1 : 0;
-  char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
-  char *p;
-
-  p = stpcpy (javaClassName, "swarm/");
-  if (module)
+  if (strcmp (typeName, "Create_byboth") == 0)
+    return DUPCLASSNAME ("swarm/CustomizedType");
+  else
     {
-      p = stpcpy (p, module);
-      p = stpcpy (p, "/");
+      extern const char *swarm_lookup_module (const char *name);
+      const char *module = swarm_lookup_module (typeName);
+      size_t modulelen = module ? strlen (module) + 1 : 0;
+      char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
+      char *p;
+      
+      p = stpcpy (javaClassName, "swarm/");
+      if (module)
+        {
+          p = stpcpy (p, module);
+          p = stpcpy (p, "/");
+        }
+      p = stpcpy (p, typeName);
+      if (!usingFlag)
+        p = stpcpy (p, "C");
+      p = stpcpy (p, "Impl");
+      return DUPCLASSNAME (javaClassName);
     }
-  p = stpcpy (p, typeName);
-  if (!usingFlag)
-    p = stpcpy (p, "C");
-  p = stpcpy (p, "Impl");
-  return DUPCLASSNAME (javaClassName);
 }
 
 static const char *

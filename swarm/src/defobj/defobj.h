@@ -1067,7 +1067,7 @@ CREATING
 - setJavaFlag: (BOOL)javaFlag;
 - setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
-+ create: aZone setSelector: (SEL)aSel setJavaFlag: (BOOL)javaFlag;
++ create: (id <Zone>)aZone setSelector: (SEL)aSel setJavaFlag: (BOOL)javaFlag;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addBoolean: (BOOL)value;
@@ -1102,9 +1102,9 @@ typedef enum callTypes { ccall, objccall, javacall, javastaticcall} call_t;
 CREATING
 + createBegin: (id <Zone>)aZone;
 - createEnd;
-+ create: aZone target: obj
-                selector: (SEL)aSel
-                arguments: (id <FArguments>)fa;
++ create: (id <Zone>)aZone target: obj
+                         selector: (SEL)aSel
+                        arguments: (id <FArguments>)fa;
 - setArguments: args;
 - setFunctionPointer: (func_t)fn;
 - setMethod: (SEL)method inObject: object;
