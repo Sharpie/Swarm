@@ -10,13 +10,21 @@
 #import <tkobjc/global.h>
 #import <tclObjc.h>
 #import <Tk.h>
+#import <collections/String.h>
 #import <tkobjc/ButtonPanel.h>
 #import <tkobjc/Button.h>
 
 @implementation ButtonPanel
 
+- setTargetName : (const char *)theTargetName
+{
+  defaultTargetName = theTargetName;
+  return self;
+}
+
 // this is atrocious - we should maintain a collection of the buttons.
--addButtonName: (char *) n Command: (char *) c {
+- addButtonName: (const char *)n Command: (const char *)c
+{
   Button * b;
 
   b = [Button createParent: self];
@@ -30,4 +38,13 @@
   return self;
 }
 
+- addButtonName: (const char *)n
+     actionName: (const char *)action
+{
+  id string = [String create: [self getZone] setC: defaultTargetName];
+  
+  [string catC: " "];
+  [string catC: action];
+  return [self addButtonName: n Command: [string getC]];
+}
 @end

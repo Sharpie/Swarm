@@ -9,8 +9,12 @@
 
 @interface ButtonPanel : Frame
 {
+  const char *defaultTargetName;
 }
 
--addButtonName: (char *) n Command: (char *) c;
+- setTargetName: (const char *)target;
+- addButtonName: (char *)n Command: (const char *) c;
+- addButtonName: (const char *)n
+     actionName: (const char *)action;
 
 @end

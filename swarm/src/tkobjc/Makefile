@@ -1,8 +1,8 @@
 SWARMHOME=../..
 LIBNAME=tkobjc
-OBJECTS=BLTGraph.o DragDrop.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o XColormap.o XPixmap.o Entry.o Label.o Form.o Histo.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o WindowGeometryRecord.o ArchivedGeometryWidget.o
+OBJECTS=BLTGraph.o DragDrop.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o XColormap.o XPixmap.o Entry.o Label.o Form.o Histo.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o WindowGeometryRecord.o ArchivedGeometryWidget.o control.o
 
-HEADERS=BLTGraph.h Button.h ButtonPanel.h DragDrop.h Entry.h Form.h Frame.h Histo.h Label.h Raster.h TkExtra.h Widget.h XColormap.h XDrawer.h XPixmap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h
+HEADERS=BLTGraph.h Button.h ButtonPanel.h DragDrop.h Entry.h Form.h Frame.h Histo.h Label.h Raster.h TkExtra.h Widget.h XColormap.h XDrawer.h XPixmap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h control.h
 
 OTHERCLEAN=testFrame testGraph testHisto testRaster testFrame.o testGraph.o testHisto.o testRaster.o
 include $(SWARMHOME)/Makefile.lib
@@ -46,3 +46,4 @@ LinkItem.o: LinkItem.m LinkItem.h CanvasItem.h NodeItem.h
 TextItem.o: TextItem.m TextItem.h CanvasItem.h
 WindowGeometryRecord.o: WindowGeometryRecord.m WindowGeometryRecord.h
 ArchivedGeometryWidget.o: ArchivedGeometryWidget.m ArchivedGeometryWidget.h WindowGeometryRecord.h
+control.o: control.m control.h

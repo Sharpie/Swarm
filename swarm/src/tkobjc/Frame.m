@@ -17,7 +17,7 @@
 
 // make a new top level frame. Can't use Widget default createEnd, because
 // this is where the toplevel is actually built.
--createEnd
+- createEnd
 {
   if (parent == nil) {
     [self makeNameFromParentName: "."];
@@ -34,10 +34,7 @@
 - (void)drop
 {
   if (parent == nil)
-    {
-      printf ("dropping frame\n");
-      [globalTkInterp eval: "destroy %s",[self getWidgetName]];
-    }
+    [globalTkInterp eval: "destroy %s",[self getWidgetName]];
 }
 
 @end
