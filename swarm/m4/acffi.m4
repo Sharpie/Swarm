@@ -87,6 +87,9 @@ else
   FFIINCLUDES='-I$(top_builddir)/avcall'
   FFILDFLAGS=
   FFILIB="\$(top_builddir)/avcall/avcall.lo"
+  if test "$host_os" = cygwin; then
+    FFILIB="\$(top_builddir)/avcall/avcall-i386-msvc.lo ${FFILIB}"
+  fi
   AM_CONDITIONAL(USEBUILTINAVCALL, true)
 fi
 AC_SUBST(ffidir)

@@ -1,3 +1,7 @@
+1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acffi.m4: Add avcall-i386-msvc.lo in the case of cygwin.
+
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acdll.m4: Use AC_DEFINE, not AC_SUBST, since AC_CONFIG_HEADER
