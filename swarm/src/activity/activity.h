@@ -585,12 +585,6 @@ USING
 //D: These capabilities will remain, but different messages will
 //D: eventually be supported.  This documentation will be completed once
 //D: the messages supported on Action types are finalized.
-
-USING
-#if 0
-//M: Get action type of action being performed by activity.
-- getActionType;
-#endif
 @end
 
 @protocol ActionArgs <Action>
