@@ -52,10 +52,11 @@
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
   [probeDisplayManager createProbeDisplayFor: bankModelSwarm
-                       setWindowGeometryRecordName: "bankModelSwarm"];
+                       setWindowGeometryRecordName: 
+                         "probeDisplayBankModelSwarm"];
   [probeDisplayManager createProbeDisplayFor: self
-                       setWindowGeometryRecordName: "bankObserverSwarm"];
-  
+                       setWindowGeometryRecordName: 
+                         "probeDisplayBankObserverSwarm"];
   
   [controlPanel waitForControlEvent];
   if ([controlPanel getState] == ControlStateQuit)
