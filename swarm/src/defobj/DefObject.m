@@ -64,11 +64,11 @@ PHASE(Creating)
 
 - hdf5InCreate: expr
 {
-#ifdef HAVE_HDF5
-  return self;
-#else
+#ifndef HAVE_HDF5
   hdf5_not_available ();
-#endif
+#else
+
+  return self;
 }
 
 PHASE(Using)
@@ -1071,10 +1071,10 @@ lisp_output_type (const char *type,
     }
   else
     [hdf5Obj storeObject: self];
-  return self;
 #else
   hdf5_not_available ();
 #endif
+  return self;
 }
 
 - updateArchiver
@@ -1186,11 +1186,10 @@ find_ivar (id obj, const char *name)
 
 - hdf5In: expr
 {
-#ifdef HAVE_HDF5
-  return self;
-#else
+#ifndef HAVE_HDF5
   hdf5_not_available ();
 #endif
+  return self;
 }
 
 //
