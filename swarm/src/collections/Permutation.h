@@ -28,15 +28,22 @@ Library:      collections
 
 @interface Permutation_c: Array_c <Permutation>
 {
-  @public
+@public
    id <Collection> collection;
-   id <Permutation> lastPermutation; 
    id <ListShuffler> shuffler;
+   id rnd;
+@protected
+   Permutation_c *lastPermutation; 
+   BOOL touchedFlag;
+   BOOL untouchedFlag;
 }
 - setCollection: (id <Collection>)collection;
 - setUniformRandom: rnd;
 - setLastPermutation: (id <Permutation>)permutation;
 - createEnd;
+- (int)getLastDirectionFor: item;
+- (BOOL)getTouchedFlag;
+- (BOOL)getUntouchedFlag;
 - (id <Collection>)getCollection;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)describe: outputCharStream;

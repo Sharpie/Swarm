@@ -1,3 +1,18 @@
+2000-06-25  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Permutation.[hm] (Permutation): Add touchedFlag and untouchedFlag
+	and getters.
+	([Permutation_c -getLastDirectionFor:]): New method.
+
+	* Collection.m ([PermutedIndex_c +createBegin:]): Clear nextFlag.
+	([PermutedIndex_c -_updatePermutation_]): Don't use count as 
+	condition for regenerating permutation. 
+	([PermutedIndex_c -next]): Set nextFlag on a sucessful advance.
+	([PermutedIndex_c -getLoc]): Use Permutation's getTouchedFlag
+	and getUntouchedFlag and nextFlag to determine status.
+
+	* Collection.h (PermutedIndex_c): Add nextFlag.
+
 2000-06-23  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* collections.h (Permutation): Declare setLastPermutation:.
@@ -9,15 +24,7 @@
 	([Permutation_c -createEnd]): Handle the case of merging
 	a collection with a previous permutation.
 
-	* Permutation.m ([Permutation_c -setUniformRandom:]): Setup
-	shufflerhere.
-
-	* Collection.m ([PermutedIndex_c -setUniformRandom:]): Cache rnd
-	until createEnd.
-	([PermutedIndex_c -createEnd]): If rnd is unset, pass
-	uniformUnsRand.  Call setUniformRandom on Permutation (in order to
-	set up shuffler).
-	([PermutedIndex_c -_updatePermutation_]): New method.
+	* Collection.m ([PermutedIndex_c -_updatePermutation_]): New method.
 	([PermutedIndex_c
 	-{next,prev,findNext:findPrev,get,put:remove,getLoc,setLoc:,
 	getOffset,setOffset:]): Call it first thing.
@@ -25,7 +32,7 @@
 	tagged with lastDirection = 1.
 	([PermutedIndex_c -_clearDirection_]): New method.
 	([PermutedIndex_c
-	-{findNext:,findPrev:,put:,remove,setLoc:,setOffset:]): Call it.
+	-{findNext:,findPrev:,setLoc:,setOffset:]): Call it.
 
 	* Collection.h (PermutedIndex_c): Add ivar rnd.
 

@@ -86,7 +86,7 @@ Library:      collections
 {
 @public
   id index;
-  id rnd;
+  BOOL nextFlag;
 }
 + createBegin: aZone;
 - setCollection: collection;

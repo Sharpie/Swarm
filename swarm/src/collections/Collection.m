@@ -434,6 +434,7 @@ PHASE(Creating)
 {
   PermutedIndex_c *obj = [aZone allocIVars: self];
   obj->collection = [Permutation createBegin: getCZone (aZone)];
+  obj->nextFlag = NO;
   return obj;
 }
 
@@ -443,18 +444,14 @@ PHASE(Creating)
   return self;
 }
 
-- setUniformRandom: theRnd
+- setUniformRandom: rnd
 {
-  rnd = theRnd;
+  [(id <Permutation>) collection setUniformRandom: rnd];
   return self;
 }
 
 - createEnd
 {
-  extern id uniformUnsRand;
-  if (!rnd)
-    rnd = uniformUnsRand;
-  [(id <Permutation>) collection setUniformRandom: rnd];
   collection = [collection createEnd];
   index = [collection begin: getCZone (getZone (self))];
   setMappedAlloc (self);  
@@ -475,16 +472,16 @@ PHASE(Using)
 {
   Permutation_c *perm = (Permutation_c *) collection;
   Collection_any *original = (Collection_any *) perm->collection;
-  
-  if (original->count > perm->count)
-    {
-      collection = [[[[Permutation createBegin: getCZone (getZone (self))]
-                       setCollection: original]
-                      setLastPermutation: perm]
-                     createEnd];
-      [self reshuffle];
-      [getZone (perm) freeIVarsComponent: perm];
-    }
+
+  collection = [[[[[Permutation createBegin: getCZone (getZone (self))]
+                    setCollection: original]
+                   setLastPermutation: perm]
+                  setUniformRandom: perm->rnd]
+                 createEnd];
+  [self reshuffle];
+  [index next]; // for the case of a get, put, or remove
+  [index prev];
+  [perm drop];
 }
 
 - (void)_clearDirection_
@@ -495,15 +492,17 @@ PHASE(Using)
 - next
 {
   [self _updatePermutation_];
+  nextFlag = NO;
   while (1)
     {
       PermutationItem_c *pi = [index next];
-      
+
       if (pi)
 	{
 	  if (pi->position >= 0 && pi->lastDirection != 1)
             {
               pi->lastDirection = 1;
+              nextFlag = YES;
               return pi->item;
             }
 	}
@@ -568,7 +567,6 @@ PHASE(Using)
   PermutationItem_c *pi;
 
   [self _updatePermutation_];
-  [self _clearDirection_];
   pi = [index get];
   if (pi != nil)
     {
@@ -588,7 +586,6 @@ PHASE(Using)
   PermutationItem_c *pi;
 
   [self _updatePermutation_];
-  [self _clearDirection_];
   pi = [index get];
   if (pi != nil)
     {
@@ -609,19 +606,14 @@ PHASE(Using)
 
 - (id <Symbol>)getLoc
 {
-  PermutationItem_c *pi;
-  id <Symbol> loc;
-
   [self _updatePermutation_];
-  pi = [index get];
-  loc = [index getLoc];
 
-  if (pi)
-    {
-      if (pi->position < 0)
-	return Removed;
-    }
-  return loc;
+  if (![(Permutation_c *) collection getTouchedFlag])
+    return Start;
+  else if (![(Permutation_c *) collection getUntouchedFlag])
+    return nextFlag ? Member : End; 
+  else
+    return Member;
 }
 
 - (void)setLoc: (id <Symbol>)locSymbol

@@ -65,15 +65,12 @@ PHASE(Creating)
 - setLastPermutation: (id <Permutation>)aPermutation
 {
   lastPermutation = aPermutation;
-  shuffler = ((Permutation_c *) aPermutation)->shuffler;
   return self;
 }
 
-- setUniformRandom: rnd
+- setUniformRandom: theRnd
 {
-  shuffler = [[[ListShuffler createBegin: getCZone (getZone (self))]
-                setUniformRandom: rnd]
-               createEnd];
+  rnd = theRnd;
   return self;
 }
 
@@ -81,7 +78,6 @@ PHASE(Creating)
 {
   id elem, index;
   unsigned i;
-  unsigned permutationCount = lastPermutation ? [lastPermutation getCount] : 0;
 
   count = [collection getCount];
 
@@ -90,25 +86,30 @@ PHASE(Creating)
   if (collection == nil)
     raiseEvent (InvalidArgument, "Source collection required for Permutation");
 
+  shuffler = [ListShuffler createBegin: getCZone (getZone (self))];
+  if (rnd)
+    [shuffler setUniformRandom: rnd];
+  shuffler = [shuffler createEnd];
+
   index = [collection begin: scratchZone];  
+  touchedFlag = NO;
+  untouchedFlag = NO;
   for (elem = [index next], i = 0; i < count; elem = [index next], i++)
     {
-      PermutationItem_c *pi = nil;
-
-      if (i < permutationCount)
-        {
-          pi = [lastPermutation atOffset: i];
-          if (pi->position < 0)
-            pi = nil;
-          else
-            pi->position = i;
-        }
-      if (pi == nil)
-        pi = [[[[PermutationItem createBegin: getCZone (getZone (self))]
-                 setPosition: i]
-                setItem: elem]
-               createEnd];
-      [self atOffset: i put: pi];
+      int direction = (lastPermutation
+                       ? [lastPermutation getLastDirectionFor: elem]
+                       : 0);
+      if (direction == 1)
+        touchedFlag = YES;
+      else if (direction == 0)
+        untouchedFlag = YES;
+      [self atOffset: i
+            put:
+              [[[[[PermutationItem createBegin: getCZone (getZone (self))]
+                   setPosition: i]
+                  setItem: elem]
+                 setLastDirection: direction]
+                createEnd]];
     }
   [index drop];
   [shuffler shuffleWholeList: self];
@@ -117,6 +118,31 @@ PHASE(Creating)
 
 PHASE(Setting)
 PHASE(Using)
+- (int)getLastDirectionFor: item
+{
+  int direction = 0;
+  id index = [self begin: scratchZone];
+  PermutationItem_c *pi;
+  
+  for (pi = [index next]; [index getLoc] == Member; pi = [index next])
+    if (pi->position >= 0 && pi->item == item)
+      {
+        direction = pi->lastDirection;
+        break;
+      }
+  [index drop];
+  return direction;
+}
+
+- (BOOL)getTouchedFlag
+{
+  return touchedFlag;
+}
+
+- (BOOL)getUntouchedFlag
+{
+  return untouchedFlag;
+}
 
 - (id <Collection>)getCollection
 {
