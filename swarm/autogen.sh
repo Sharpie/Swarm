@@ -19,9 +19,9 @@ ACDIR=
 AMDIR=
 
 # Update whenever version dependencies of developer tools change
-REQUIRED_AUTOCONF_VERSION="2.57"
-#REQUIRED_LIBTOOL_VERSION="1.5a"
-REQUIRED_AUTOMAKE_VERSION="1.6.3"
+REQUIRED_AUTOCONF_VERSION="2.59"
+#REQUIRED_LIBTOOL_VERSION="1.5.10"
+REQUIRED_AUTOMAKE_VERSION="1.9.2"
 
 ("$ACDIR"autoconf --version) < /dev/null > /dev/null 2>&1 || {
   echo
