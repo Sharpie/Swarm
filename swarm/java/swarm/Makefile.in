@@ -29,7 +29,7 @@ endef
 
 GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-class-files)))
 
-GENINTERFACEFILES := $(addsuffix .class,$(addprefix $(foreach module,$(MODULES),$(module-interface-files))))
+GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-interface-files)))
 
 GENFILES = $(addprefix swarm/,$(GENCLASSFILES) $(GENINTERFACEFILES))
 
