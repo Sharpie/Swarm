@@ -3,7 +3,7 @@ package swarm;
 class Selector {
   public Selector (String nameVal, Class retTypeVal, Class[] argTypeVals) {
     name = nameVal;
-    retTypes = retTypeVal;
+    retType = retTypeVal;
     argTypes = argTypeVals;
   }
   String name;
