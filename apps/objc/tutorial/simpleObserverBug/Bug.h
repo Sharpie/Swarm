@@ -2,7 +2,6 @@
 
 #import <objectbase/SwarmObject.h>
 #import <space.h>
-#import <gui.h>
 #import "FoodSpace.h"
 
 @interface Bug: SwarmObject
