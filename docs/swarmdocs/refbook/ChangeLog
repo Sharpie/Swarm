@@ -3,7 +3,7 @@
 	* Makefile.am (refindex.sgml $(PAGES)): Add $(top_srcdir)/protocol.el
 	and $(top_srcdir)/common.el as dependents.
 	(refindex.sgml $(PAGES)): Set SWARMDOCS environment variable to
-	top_srcdir.
+	the fully-resolved top_srcdir.
 
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 

@@ -2,7 +2,7 @@
 
 	* Makefile.rules: Add $(top_srcdir)/history.el and
 	$(top_srcdir)/common.el as a dependents of %revhistory.sgml.  Set
-	SWARMDOCS environment variable to top_srcdir.
+	SWARMDOCS environment variable to the fully-resolved top_srcdir.
 
 	* history.el (process-changelog): Always print REVNUMBER pair,
 	even when empty.  
