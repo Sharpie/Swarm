@@ -7,6 +7,7 @@
   <TITLE>GridTurtle Test Programs</TITLE>
   
   <important id="SWARM.GRID.SGML.IMPORTANT">
+    <title>GridTurtle source has moved</title>
     <para>To prevent the guide from getting overbulky, the actual
       program listings of the Grid Turtle test programs, that were
       formerly contained here, can now be found in a separate archive

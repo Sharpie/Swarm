@@ -1,3 +1,12 @@
+2000-07-04  Alex Lancaster  <alex@santafe.edu>
+
+	* license-app.sgml: Give IMPORTANT box a TITLE.
+
+	* grid-app.sgml: Likewise.
+
+	* refbook.sgml: Declare lt and gt entities in the prolog for
+	down-conversion to XML compatibility.
+
 2000-06-13  Alex Lancaster  <alex@santafe.edu>
 
 	* refmeta.sgml: Add link directly to Random Appendix in User

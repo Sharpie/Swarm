@@ -11,6 +11,9 @@
 <!entity % figs.ent PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
 %figs.ent;
 
+<!ENTITY lt     "&#38;#60;">
+<!ENTITY gt     "&#62;"> 
+
 ]>
 
 <BOOK ID="refbook">
