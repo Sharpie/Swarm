@@ -1,5 +1,7 @@
 1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* VERSION: Bump.
+
 	* NEWS: Note memory leak fix to Permutation and alignment fix
 	to CompoundAction.
 
