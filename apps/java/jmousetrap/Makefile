@@ -6,4 +6,4 @@ all: $(JAVA_SRC)
 	$(SWARMHOME)/bin/javacswarm $(JAVA_SRC)
 
 clean: 
-	- rm $(wildcard *.class)
+	- rm '$(wildcard *.class)'
