@@ -1249,3 +1249,35 @@ if test $ac_cv_prog_gcc = no; then
 fi
 ])dnl
 dnl
+
+AC_DEFUN([CL_PROG_LN],
+[AC_REQUIRE([CL_PROG_CP])dnl
+AC_CACHE_CHECK(how to make hard links, cl_cv_prog_LN, [
+rm -f conftestdata conftestfile
+echo data > conftestfile
+if ln conftestfile conftestdata 2>/dev/null; then
+  cl_cv_prog_LN=ln
+else
+  cl_cv_prog_LN="$cl_cv_prog_cp"
+fi
+rm -f conftestdata conftestfile
+])
+LN="$cl_cv_prog_LN"
+AC_SUBST(LN)dnl
+])
+
+AC_DEFUN([CL_PROG_CP],
+[AC_CACHE_CHECK(how to copy files, cl_cv_prog_cp, [
+echo "blabla" > conftest.x
+err=`/bin/sh -c "cp -p conftest.x conftest.y 2>&1"`
+if test -z "$err"; then
+  cl_cv_prog_cp='cp -p'
+else
+  cl_cv_prog_cp='cp'
+fi
+rm -f conftest*
+])
+CP="$cl_cv_prog_cp"
+AC_SUBST(CP)dnl
+])
+
