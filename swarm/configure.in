@@ -1,7 +1,9 @@
 AC_INIT(etc/Makefile.appl.in)
+AC_CANONICAL_SYSTEM
 
 VERSION=`head -1 $srcdir/VERSION`
 AM_INIT_AUTOMAKE(swarm, $VERSION)
+
 md_SWARM_INSTALLER
 
 if test "x$ACLOCAL" = xaclocal; then
@@ -251,6 +253,13 @@ fi
 
 vj_FIND_JDK
 md_CHECK_JNI_H
+
+if test "$host_os" = cygwin; then
+  PATHSEP=";"
+else
+  PATHSEP=":"
+fi
+AC_SUBST(PATHSEP)
 
 AC_PATH_PROG(EMACS, emacs, missing)
 
