@@ -16,6 +16,16 @@
 
 @implementation FEntity
 
+- setCanvas: aCanvas
+{
+  [super setCanvas: aCanvas];
+  if (investLink)
+    [investLink setCanvas: aCanvas];
+  if (borrowLink)
+    [borrowLink setCanvas: aCanvas];
+  return self;
+}
+
 -setFixedIncome: (int) aVal {
   fixedIncome = aVal ;
   return self ;

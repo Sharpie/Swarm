@@ -14,6 +14,7 @@
   id model ;
 }
 
+- setCanvas : aCanvas;
 -(int) getPrevROI ;
 -(int) getPrevCapital ;
 -setEntityName: (char *) the_name ;

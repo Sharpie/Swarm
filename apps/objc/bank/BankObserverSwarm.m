@@ -40,6 +40,15 @@
   return [super createEnd];
 }
 
+- _graphCanvasDeath_: caller
+{
+  [graphCanvas drop];
+  graphCanvas = nil;
+  [bankModelSwarm setGraphCanvas: nil];
+
+  return self;
+}
+
 - buildObjects
 {
   id modelZone;	
@@ -63,6 +72,9 @@
       graphCanvas = [Canvas createBegin: [self getZone]];
       [graphCanvas setWindowGeometryRecordName: "graphCanvas"];
       graphCanvas = [graphCanvas createEnd];
+
+      [graphCanvas enableDestroyNotification: self
+                   notificationMethod: @selector(_graphCanvasDeath_:)];
 
       [[graphCanvas setHeight: 500] setWidth: 500];
       [graphCanvas setWindowTitle: "The Emergence Of Banking"];

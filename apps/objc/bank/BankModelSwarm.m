@@ -106,8 +106,11 @@
   ] ;
 }
 
--setGraphCanvas: aCanvas {
+- setGraphCanvas: aCanvas
+{
   graphCanvas = aCanvas ;
+  if (theFNet)
+    [theFNet setCanvas: aCanvas];
   return self ;
 }
 
