@@ -1,3 +1,9 @@
+1999-02-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Raster.h ([Raster -setWidth:Height:]): Declare.
+
+	* Raster.[hm] ([Raster -setWidth:], [Raster -setHeight:]): New methods.
+
 1999-02-20    <mgd@DELLXPS1>
 
 	* win32dib.c (dib_fill): Adjust frameWidth to four byte boundary

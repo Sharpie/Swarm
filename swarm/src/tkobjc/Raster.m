@@ -81,6 +81,16 @@ PHASE(Using)
   return colormap;
 }
 
+- setWidth: (unsigned)newWidth
+{
+  return [self setWidth: newWidth Height: height];
+}
+
+- setHeight: (unsigned)newWidth
+{
+  return [self setWidth: width Height: newHeight];
+}
+
 // Set the width for the widget. We maintain our own values of this, to
 // avoid problems with Tk's caching.
 // For pixmap handling, we create a new pixmap, erase it, copy the old
