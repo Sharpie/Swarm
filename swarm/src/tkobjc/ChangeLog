@@ -1,5 +1,9 @@
 1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* CompleteProbeDisplayLabel.m ([CompleteProbeDisplayLabel
+	-createEnd]): Don't set up drag and drop or class browsing if
+	there is no probe object.
+
 	* common.m (tkobjc_dragAndDropTarget, dragAndDropTargetArg): Pass
 	window name (%%W) to idReceive:.
 

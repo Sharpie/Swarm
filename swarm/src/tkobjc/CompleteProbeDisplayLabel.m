@@ -52,10 +52,13 @@ PHASE(Creating)
 {
   [super createEnd];
   
-  tkobjc_dragAndDrop (self, probeDisplay);
-  tkobjc_bindButton3ForCompleteProbeDisplay (self,
-                                             probedObject,
-                                             probeDisplayManager);
+  if (probedObject != nil)
+    {
+      tkobjc_dragAndDrop (self, probeDisplay);
+      tkobjc_bindButton3ForCompleteProbeDisplay (self,
+                                                 probedObject,
+                                                 probeDisplayManager);
+    }
   
   [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",
                   widgetName, widgetName];
