@@ -1,3 +1,9 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.java (initSwarm): Add appName, version, bugAddress
+	arguments.  Add window geometry record name arguments to all
+	ArchivedProbeDisplay creation and setter methods.
+
 1999-09-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Selector.java (typeSignature): Add.

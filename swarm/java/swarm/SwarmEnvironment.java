@@ -29,7 +29,7 @@ public class SwarmEnvironment {
     ControlStateQuit = new SymbolImpl ();
     ControlStateNextTime = new SymbolImpl ();
   }
-  public native void initSwarm (String args[]);
+  public native void initSwarm (String appName, String version, String bugAddress, String args[]);
   public native int getCurrentTime ();
   public native Swarm getCurrentSwarm ();
   public native Schedule getCurrentSchedule ();
@@ -41,11 +41,11 @@ public class SwarmEnvironment {
   
   public native Object createProbeDisplay (Object anOjbect);
   public native Object createCompleteProbeDisplay (Object anObject);
-  public native Object createArchivedProbeDisplay (Object anObject);
-  public native Object createArchivedCompleteProbeDisplay (Object anObject);
-  public native Object setWindowGeometryRecordName (Object theWidget);
-  public native Object setComponentWindowGeometryRecordNameFor (Object obj, Object widget);
-  public native Object setComponentWindowGeometryRecordName (Object widget);
+  public native Object createArchivedProbeDisplay (Object anObject, String objectName);
+  public native Object createArchivedCompleteProbeDisplay (Object anObject, String objectName);
+  public native Object setWindowGeometryRecordName (Object theWidget, String widgetName);
+  public native Object setComponentWindowGeometryRecordNameFor (Object obj, Object widget, String widgetName);
+  public native Object setComponentWindowGeometryRecordName (Object widget, String widgetName);
 }
 
 
