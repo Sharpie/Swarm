@@ -9,8 +9,8 @@
 
 	* configure.in: Use md_CHECK_DLLEXTERN.
 
-	* Makefile.am (CPPFLAGS): Add -Dexternvar=@IMPORT_EXTERN@ and
-	-Dexternvardef=@EXPORT_EXTERNDEF@.
+	* Makefile.am (CPPFLAGS): Add -Dexternobjcvar=$(EXPORT_EXTERN),
+	and -Dexternvardef=$(EXPORT_EXTERNDEF).
 
 1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
