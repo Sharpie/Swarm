@@ -20,6 +20,9 @@
 
 <!-- appendices -->
 
+<!-- grid turtle examples -->
+&grid-app.sgml;
+
 <!-- probes -->
 &probes-app.sgml;
 
