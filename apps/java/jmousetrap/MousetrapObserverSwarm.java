@@ -182,17 +182,15 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
             System.out.println ("Exception no method:" + e.getMessage());
         }
 
-        /*
-          try
-          {
-          Selector slct = new Selector (mousetrapDisplay.getClass(),
-          "makeProbeAtX$Y$", true);
-          displayWindow.setButton$Client$Message (3, mousetrapDisplay,
-          slct);
-          } catch (Exception e)
-          {
-	  System.out.println ("Exception make probe: " + e.getMessage());
-	  }*/
+        try  {
+            Selector slct = new Selector (mousetrapDisplay.getClass(),
+                                          "makeProbeAtX$Y", true);
+            displayWindow.setButton$Client$Message (3, mousetrapDisplay,
+                                                slct);
+        } catch (Exception e)  {
+            System.out.println ("Exception makeProbeAtX$Y$ on ZoomRasterImpl: " 
+                                + e.getMessage());
+        }
         return this;
     }
   
