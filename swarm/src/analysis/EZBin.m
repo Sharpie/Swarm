@@ -125,10 +125,7 @@
                                       : (max-min) / binNum));
       tkobjc_setupZoomStack (aHisto);
       tkobjc_setupHistogramLegend (aHisto);
-      
-      // mgd: This appears to be run again in active_item_info.
-      // tkobjc_setupHistogramMisc (aHisto);
-      
+      tkobjc_setupHistogramActiveOutlierMarker (aHisto);
       tkobjc_histogramActiveItemInfo (aHisto);      
     }
   
