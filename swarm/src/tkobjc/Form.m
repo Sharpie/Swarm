@@ -27,8 +27,7 @@
   return self;
 }
 
-// this is atrocious - we should maintain a collection of the entries
-- addLineName: (const char *)n Variable: (void *)p Type: (int)type
+- _addLineName_: (const char *)n Variable: (void *)p Type: (int)type
 {
   Label *l;
   InputWidget *w;
@@ -41,18 +40,24 @@
     [parent getWidgetName],
     [l getWidgetName],
     numEntries];
-  
-  switch (type)
+
+  if (type == TCL_LINK_BOOLEAN)
     {
-    case TCL_LINK_BOOLEAN:
       w = [CheckButton createParent: parent];
-      break;
-    default:
+      [w linkVariableBoolean: p];
+    }
+  else 
+    {
       w = [Entry createParent: parent];
       [w setWidth: entryWidth Height: 1];
-      break;
+
+      if (type == TCL_LINK_INT)
+        [w linkVariableInt: p];
+      else if (type == TCL_LINK_DOUBLE)
+        [w linkVariableDouble: p];
+      else 
+        abort ();
     }
-  [w linkVariable: p Type: type];
   [globalTkInterp eval: "table %s %s %d,1 -anchor w -fill x",
 		  [parent getWidgetName],
                   [w getWidgetName],
@@ -63,6 +68,22 @@
 		  [parent getWidgetName]];
   numEntries++;
   return self;
+}
+
+// this is atrocious - we should maintain a collection of the entries
+- addLineName: (const char *)n Boolean: (BOOL *)p
+{
+  return [self _addLineName_: n Variable: p Type: TCL_LINK_BOOLEAN];
+}
+
+- addLineName: (const char *)n Int: (int *)p
+{
+  return [self _addLineName_: n Variable: p Type: TCL_LINK_INT];
+}
+
+- addLineName: (const char *)n Double: (double *)p
+{
+  return [self _addLineName_: n Variable: p Type: TCL_LINK_DOUBLE];
 }
 
 @end

@@ -1,3 +1,11 @@
+1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* InputWidget.[hm]: linkVariable{Int,Double,Boolean}: now take
+	a pointer to the accompanying type as an argument, not void *.
+
+	* Form.[hm]: Rename -addLineName:Variable:Type: to be internal.
+	New methods: -addLineName:{Boolean,Int,Double}:.
+
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ZoomRaster.m: ([ZoomRaster _setConfigureInfo_:]): Use getObjectName

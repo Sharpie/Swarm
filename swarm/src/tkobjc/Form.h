@@ -15,6 +15,7 @@
 }
 
 - setEntryWidth: (int) ew;
-- addLineName: (const char *)n Variable: (void *)p Type: (int)type;
-
+- addLineName: (const char *)n Boolean: (BOOL *)p;
+- addLineName: (const char *)n Int: (int *)p;
+- addLineName: (const char *)n Double: (double *)p;
 @end

@@ -32,21 +32,21 @@ relink (const char *variableName, void *p, int type)
   tkobjc_linkVar (variableName, p, type);
 }
 
-- linkVariableInt: (void *)p
+- linkVariableInt: (int *)p
 {
   relink (variableName, p, TCL_LINK_INT);
 
   return self;
 }
 
-- linkVariableDouble: (void *)p
+- linkVariableDouble: (double *)p
 {
   relink (variableName, p, TCL_LINK_DOUBLE);
 
   return self;
 }
 
-- linkVariableBoolean: (void *)p
+- linkVariableBoolean: (BOOL *)p
 {
   relink (variableName, p, TCL_LINK_BOOLEAN);
 
