@@ -57,6 +57,7 @@ BOOL APIENTRY DllMain (HINSTANCE hInst, DWORD reason,
  *
  *----------------------------------------------------------------------
  */
+
 BOOL APIENTRY
 DllMain (
 	 HINSTANCE hInst /* Library instance handle. */ ,
@@ -80,3 +81,5 @@ DllMain (
   return TRUE;
 }
 
+#include <cygwin/cygwin_dll.h>
+DECLARE_CYGWIN_DLL (DllMain);
