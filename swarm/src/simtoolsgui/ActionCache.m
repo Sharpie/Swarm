@@ -286,12 +286,12 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   SET_WINDOW_GEOMETRY_RECORD_NAME (panelWidget);
   [panelWidget setButtonTarget: self];
   panelWidget = [panelWidget createEnd];
-  [panelWidget addButtonName: "Start" actionName: "sendStartAction"];
-  [panelWidget addButtonName: "Stop" actionName: "sendStopAction"];
-  [panelWidget addButtonName: "Step" actionName: "sendStepAction"];
-  [panelWidget addButtonName: "Next" actionName: "sendNextAction"];
-  [panelWidget addButtonName: "Save" actionName: "sendSaveAction"];
-  [panelWidget addButtonName: "Quit" actionName: "sendQuitAction"];
+  [panelWidget addButtonName: "Start" method: @selector (sendStartAction)];
+  [panelWidget addButtonName: "Stop"  method: @selector (sendStopAction)];
+  [panelWidget addButtonName: "Step"  method: @selector (sendStepAction)];
+  [panelWidget addButtonName: "Next"  method: @selector (sendNextAction)];
+  [panelWidget addButtonName: "Save"  method: @selector (sendSaveAction)];
+  [panelWidget addButtonName: "Quit"  method: @selector (sendQuitAction)];
   [panelWidget setWindowTitle: "ProcCtrl"];
 
   return panelWidget;

@@ -1,3 +1,8 @@
+1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ActionCache.m ([ActionCache -createProcCtrl]): Use
+	addButtonName:method: instead of addButtonName:actionName:.
+
 1998-04-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* simtoolsgui.h: Add comment tags with documentation.

@@ -165,7 +165,6 @@
     }
   [index drop];
   
-  //Will 'rewind' index when I find out how...
   index = [probeMap begin: globalZone];
 
   while ((probe = [index next]))
@@ -178,7 +177,7 @@
         
         [widgets[i] setProbe: probe];
         [widgets[i] setObject: probedObject];
-        [widgets[i] setMaxReturnWidth: maxLabelWidth ];
+        [widgets[i] setMaxReturnWidth: maxLabelWidth];
         widgets[i] = [widgets[i] createEnd];
         [widgets[i] pack];
         i++;
