@@ -1,4 +1,4 @@
-]#import <defobj/directory.h>
+#import <defobj/directory.h>
 
 #import <defobj/DefObject.h>
 #import <defobj/defalloc.h>
