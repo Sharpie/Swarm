@@ -9,9 +9,9 @@
 
 #import <objectbase/CustomProbeMap.h>
 
-@interface EmptyProbeMap: CustomProbeMap
+@interface EmptyProbeMap: CustomProbeMap <EmptyProbeMap>
 {
 }
-
++ create: aZone forClass: (Class)aClass;
 @end
 

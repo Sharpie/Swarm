@@ -465,6 +465,11 @@ USING
 //S: A CustomProbeMap to be used for building up ProbeMaps from scratch.
 
 //D: A CustomProbeMap to be used for building up ProbeMaps from scratch.
+
+CREATING
+
+//M: Convenience method for creating an EmptyProbeMap 
++ create: aZone forClass: (Class)aClass;
 @end
 
 @protocol CompleteProbeMap <ProbeMap, CREATABLE>

@@ -6,6 +6,23 @@
 #import <objectbase/EmptyProbeMap.h>
 
 @implementation EmptyProbeMap
+ 
+PHASE(Creating)
+
++ create: aZone forClass: (Class)aClass
+{
+  EmptyProbeMap *newEPM;
+
+  newEPM = [super createBegin: aZone];
+  [newEPM setProbedClass: aClass];
+  newEPM = [newEPM createEnd];
+
+  return newEPM;  
+}
+
+PHASE(Setting)
+
+PHASE(Using)
 
 @end
 
