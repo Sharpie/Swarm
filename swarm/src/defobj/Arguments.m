@@ -492,6 +492,27 @@ findSwarm (id arguments)
     return NULL;
 }
 
+static const char *expandvars (const char *path);
+
+static const char *
+getSwarmPrefix (void)
+{
+  const char *swarmPrefix;
+
+  if ((swarmPrefix = expandvars (getenv ("SWARMHOME"))) == NULL)
+    {
+      const char *expanded_path;
+
+      expanded_path = expandvars (PREFIX);
+      
+      if (access (expanded_path, F_OK) == -1)
+        swarmPrefix = NULL;
+      else
+        swarmPrefix = expanded_path;
+    }
+  return swarmPrefix;
+}
+
 static const char *
 getnenv (const char *strptr, size_t len)
 {
@@ -499,16 +520,22 @@ getnenv (const char *strptr, size_t len)
 
   strncpy (buf, strptr, len);
   buf[len] = '\0';
-  return getenv (buf);
+  if (strcmp (buf, "prefix") == 0)
+    {
+      printf ("prefix\n");
+      return getSwarmPrefix ();
+    }
+  else
+    return getenv (buf);
 }
 
 static const char *
-prefix (const char *prefixstring)
+expandvars (const char *path)
 {
-  const char *p = prefixstring;
+  const char *p = path;
   size_t len = 0;
   
-  if (prefixstring == NULL)
+  if (path == NULL)
     return NULL;
 
   while (*p)
@@ -543,11 +570,11 @@ prefix (const char *prefixstring)
           p++;
         }
     } 
-  p = prefixstring;
+  p = path;
   {
-    char *ep, *expanded_prefix;
+    char *ep, *expanded_path;
 
-    ep = expanded_prefix = xmalloc (len + 1);
+    ep = expanded_path = xmalloc (len + 1);
     while (*p)
       {
         if (*p == '$')
@@ -578,7 +605,7 @@ prefix (const char *prefixstring)
           *ep++ = *p++;
       }
     *ep = '\0';
-    return expanded_prefix;
+    return expanded_path;
   }
 }
 
@@ -590,16 +617,7 @@ prefix (const char *prefixstring)
     {
       if (swarmHome == NULL)
 	{
-          if ((swarmHome = prefix (getenv ("SWARMHOME"))) == NULL)
-            {
-              const char *expanded_prefix = prefix (PREFIX);
-              
-              if (access (expanded_prefix, F_OK) == -1)
-                swarmHome = NULL;
-              else
-                swarmHome = expanded_prefix;
-            }
-          else
+          if ((swarmHome = getSwarmPrefix ()) == NULL)
             { 
               unsigned len = strlen (swarmHome);
               
@@ -614,7 +632,7 @@ prefix (const char *prefixstring)
             }
           if (swarmHome)
             {
-              char sigPathBuf[(strlen (swarmHome) +
+              char sigPathBuf[(strlen (swarmHome) + 1 +
                                strlen (SIGNATURE_PATH) + 1)];
               char *p;
               
@@ -642,6 +660,7 @@ prefix (const char *prefixstring)
 {
   struct stat buf;
   
+  fixed = expandvars (fixed);
   if (stat (fixed, &buf) != -1)
     {
       if (buf.st_mode & S_IFDIR)
@@ -666,22 +685,21 @@ prefix (const char *prefixstring)
 
 - (const char *)getConfigPath
 {
-  return [self _getPath_: SYSCONFDIR subpath: SIGNATURE_SUBPATH];
+  return [self _getPath_: SYSCONFDIR "swarm/" subpath: "etc/swarm/"];
 }
 
 - (const char *)getDataPath
 {
-  return [self _getPath_: DATADIR subpath: "share/swarm/"];
+  return [self _getPath_: DATADIR "swarm/" subpath: "share/swarm/"];
 }
 
 - (BOOL)_runningFromInstall_
 {
   char *executablePath =  strdup ([self getExecutablePath]);
-  const char *possibleHomeSrc = 
-    dropdir (dropdir (dropdir (executablePath)));
+  const char *possibleHomeSrc = dropdir (dropdir (executablePath));
   const char *homeSrc;
   BOOL ret = NO;
-
+    
   ignoringEnvFlag = NO;
  retry:
   homeSrc = [self _getSwarmHome_: ignoringEnvFlag];
@@ -691,30 +709,32 @@ prefix (const char *prefixstring)
       struct stat possibleHomeStatBuf, homeStatBuf;
       size_t possibleHomeLen = strlen (possibleHomeSrc);
       size_t homeLen = strlen (homeSrc);
-      char possibleHome[possibleHomeLen + 1];
-      char home[homeLen + 1];
-
+      {
+        char possibleHome[possibleHomeLen + 1];
+        char home[homeLen + 1];
+        
 #ifdef __CYGWIN__
-      unsigned i;
-      // Inodes are computed from a pathname hash, so normalize to lowercase.
-      for (i = 0; i < possibleHomeLen; i++)
-	possibleHome[i] = tolower (possibleHomeSrc[i]);
-      possibleHome[i] = '\0';
-      for (i = 0; i < homeLen; i++)
-	home[i] = tolower (homeSrc[i]);
-      home[i] = '\0';
+        unsigned i;
+        // Inodes are computed from a pathname hash, so normalize to lowercase.
+        for (i = 0; i < possibleHomeLen; i++)
+          possibleHome[i] = tolower (possibleHomeSrc[i]);
+        possibleHome[i] = '\0';
+        for (i = 0; i < homeLen; i++)
+          home[i] = tolower (homeSrc[i]);
+        home[i] = '\0';
 #else
-      strcpy (possibleHome, possibleHomeSrc);
-      strcpy (home, homeSrc);
+        strcpy (possibleHome, possibleHomeSrc);
+        strcpy (home, homeSrc);
 #endif
-      if (stat (possibleHome, &possibleHomeStatBuf) != -1
-          && stat (home, &homeStatBuf) != -1)
-	ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
-      if (ret == NO && !ignoringEnvFlag)
-	{
-	  ignoringEnvFlag = YES;
-	  goto retry;
-	}
+        if (stat (possibleHome, &possibleHomeStatBuf) != -1
+            && stat (home, &homeStatBuf) != -1)
+          ret = (possibleHomeStatBuf.st_ino == homeStatBuf.st_ino);
+        if (ret == NO && !ignoringEnvFlag)
+          {
+            ignoringEnvFlag = YES;
+            goto retry;
+          }
+      }
     }
   XFREE (executablePath);
   return ret;

@@ -1,3 +1,17 @@
+1999-06-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Arguments.m (getSwarmPrefix): New function.
+	(getSwarmPrefix, getnenv): Use it.  Handle special case
+	of ${prefix}.
+	(expandvars): Renamed from `prefix'.
+	([Arguments_c -_getSwarmHome_:]): Offbyone in sigPathBuf size.
+	([Arguments_c -_getPath_:subpath:]): Expand fixed path (for ${prefix}).
+	([Arguments_c -_runningFromInstall_]): Revert last change.
+	([Arguments_c -getConfigPath], [Arguments_c -getDataPath]): 
+	Add swarm/ to fixed path.
+	([Arguments_c -getConfigPath]): Use etc/swarm/ for subpath, not
+	SIGNATURE_SUBPATH.
+
 1999-06-11  Alex Lancaster  <alex@santafe.edu>
 
 	* Arguments.m ([Arguments_c -_getSwarmHome_:]): Add missing '/'
