@@ -193,6 +193,27 @@ USING
 @end
 
 //
+// AppendFile --
+//   a class which was intended to support (appended) file output. There have been 
+//   justified requests from our userbase to re-design this interface.
+//
+@protocol AppendFile <SwarmObject>
+CREATING
++		create: aZone withName: (char *) theName ;
+USING
+-		putString: (char *) aString ;
+-		putInt: (int) anInt ;
+-               putUnsigned: (unsigned) anUnsigned;
+-               putLong: (long) aLong ;
+-               putUnsignedLong: (unsigned long) anUnsLong ;
+-		putDouble: (double) aDouble ;
+-		putFloat: (float) aFloat ;
+-		putChar: (char) aChar ;
+-		putTab ;
+-		putNewLine ;
+@end
+
+//
 // ObjectLoader --
 //   a particularly bad attempt to design some form of standard for object
 //   loading 
@@ -229,7 +250,7 @@ USING
 
 //
 // QSort --
-//   a class (not to be instanciated) wrapper around the C sort routine.
+//   a class (not to be instantiated) wrapper around the C sort routine.
 //
 @protocol QSort <SwarmObject>
 USING
@@ -238,11 +259,12 @@ USING
 + (void)	sortNumbersIn: aCollection ;
 + (void)        sortNumbersIn: aCollection
 			using: (int(*)(const void*,const void*)) comp_fun ;
++ (void)        reverseOrderOf: aCollection;
 @end
 
 //
 // NSelect --
-//   a class (not to be instanciated) wrapper around a Knuth algorithm
+//   a class (not to be instantiated) wrapper around a Knuth algorithm
 //   for the selection of exactly N elements form a collection without
 //   repetition.
 //
@@ -291,6 +313,7 @@ extern int swarmGUIMode;
 @class UName;
 @class InFile;
 @class OutFile;
+@class AppendFile;
 @class ObjectLoader;
 @class ObjectSaver;
 @class QSort;
