@@ -31,6 +31,7 @@
  \ifGroupMode\endgroup\fi
 } 
 
+% new routine
 \def\resetHeadersAndFooters{%
  \Sethead[L]{ }{}
  \Setfoot[L]{ }{}
@@ -52,6 +53,7 @@
  \Sethead[RO]{ }{}
 }
 
+% hacked to call \resetHeadersAndFooters
 \def\endSpS{%
  \DoFOBSetfalse
  \ifnum\col@number>1 
@@ -64,3 +66,5 @@
  \resetHeadersAndFooters
 }
 
+% hacked to call \cleardoublepage instead of \newpage
+\def\Break@page{\cleardoublepage}

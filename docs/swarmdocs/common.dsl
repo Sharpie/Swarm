@@ -530,8 +530,6 @@
 (define article-titlepage-verso-elements common-titlepage-verso-elements)
 (define book-titlepage-recto-elements common-titlepage-recto-elements)
 (define book-titlepage-verso-elements common-titlepage-verso-elements)
-(define reference-titlepage-recto-elements common-titlepage-recto-elements)
-(define reference-titlepage-verso-elements common-titlepage-verso-elements)
 (define set-titlepage-recto-elements common-titlepage-recto-elements)
 (define set-titlepage-verso-elements common-titlepage-verso-elements)
 

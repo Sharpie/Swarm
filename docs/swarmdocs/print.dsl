@@ -291,6 +291,29 @@
                   title
                   contents))))
 
+;; identical title expansion, except for wrap of display-group with
+;; break-before: 'page which in modified TeX backend (\Break@page)
+;; means a \cleardoublepage.
+(mode reference-titlepage-recto-mode
+  (element title
+    (make display-group
+          break-before: 'page
+          (let ((division (ancestor-member (current-node) (division-element-list))))
+            (make paragraph
+                  font-family-name: %title-font-family%
+                  font-weight: 'bold
+                  font-size: (HSIZE 5)
+                  line-spacing: (* (HSIZE 5) %line-spacing-factor%)
+                  space-before: (* (HSIZE 5) %head-before-factor%)
+                  quadding: %division-title-quadding%
+                  keep-with-next?: #t
+                  (if (string=? (element-label division) "")
+                      (empty-sosofo)
+                      (literal (element-label division)
+                               (gentext-label-title-sep (gi division))))
+                  (process-children)))))
+  )
+
 </style-specification-body>
 </style-specification>
 
