@@ -85,7 +85,8 @@ PHASE(UsingOnly)
   if (firstLink)
     {
 #if !LINKED
-      if (newLink->nextLink) 
+      if (newLink->nextLink)
+#if 1
         {
           id ind = [self begin: getCZone (getZone (self))];
           BOOL found = ([ind findNext: anObject] != nil);
@@ -94,6 +95,9 @@ PHASE(UsingOnly)
           if (found)
             return;
         }
+#else
+      abort ();
+#endif
 #endif
       newLink->prevLink = firstLink->prevLink;
       newLink->nextLink = firstLink;
@@ -125,6 +129,7 @@ PHASE(UsingOnly)
     {
 #if !LINKED
       if (newLink->nextLink) 
+#if 1
         {
           id ind = [self begin: getCZone (getZone (self))];
           BOOL found = ([ind findNext: anObject] != nil);
@@ -133,6 +138,9 @@ PHASE(UsingOnly)
           if (found)
             return;
         }
+#else
+      abort ();
+#endif
 #endif
       newLink->prevLink = firstLink->prevLink;
       newLink->nextLink = firstLink;

@@ -1,3 +1,13 @@
+2001-10-26  Marcus G. Daniels  <mgd@condor>
+
+	* List_mlinks.[hm] (beginMlinksList, getFirstMlinksLink): Add.
+
+	* List_HDF5out.m, Map.m, StringObject.m: Change getName to getHDF5Name 
+
+	* OrderedSet.m: Change MLINK to MLIST.
+
+	* macros.h: Add more mlinks List equivalents.  Cleanup.
+
 2001-08-17  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
 	* macros.h (LIST_GETFIRST): New macro.

@@ -11,3 +11,6 @@ Library:      collections
 
 #define MLINKS 1
 #import <collections/List_GEN.h>
+
+id <ListIndex> beginMlinksList (id list, id <Zone> aZone);
+id getFirstMlinksList (id list);

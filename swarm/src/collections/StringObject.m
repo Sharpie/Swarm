@@ -212,7 +212,7 @@ PHASE(Using)
 
 - (void)hdf5OutShallow: hdf5Obj
 {
-  [hdf5Obj storeAsDataset: [hdf5Obj getName]
+  [hdf5Obj storeAsDataset: [hdf5Obj getHDF5Name]
            typeName: [self getTypeName]
            type: fcall_type_string
            rank: 0

@@ -15,3 +15,22 @@ Library:      collections
  @implementation List_mlinks \
  @implementation ListIndex_mlinks
 #undef _CLASSDEFS_
+
+id <ListIndex>
+beginMlinksList (id list, id <Zone> aZone)
+{
+  ListIndex_mlinks *newIndex;
+
+  newIndex = COMPONENT_ALLOCIVARS (getCZone (aZone), id_ListIndex_mlinks);
+  newIndex->collection = list;
+  newIndex->link = (link_t) Start;
+  newIndex->position = 0;
+  return newIndex;
+}
+
+id
+getFirstMlinksList (id list)
+{
+  return getMemberFromLink (((struct List_mlinks *) list)->firstLink,
+                            ((struct List_mlinks *) list)->bits);
+}

@@ -308,7 +308,7 @@ PHASE(Setting)
               {
                 id valueComponent = [[[[HDF5 createBegin: aZone]
                                         setParent: valueGroup]
-                                       setName: [keyComponent getName]]
+                                       setName: [keyComponent getHDF5Name]]
                                       createEnd];
                 id key = hdf5In (aZone, keyComponent);
                 id value = hdf5In (aZone, valueComponent);
@@ -329,7 +329,7 @@ PHASE(Setting)
           
           int process_object (id keyComponent)
             {
-              const char *keyStr = [keyComponent getName];
+              const char *keyStr = [keyComponent getHDF5Name];
               PTRINT key;
               id value = hdf5In (aZone, keyComponent);
               
@@ -345,7 +345,7 @@ PHASE(Setting)
         {
           int process_object (id keyComponent)
             {
-              const char *key = STRDUP ([keyComponent getName]);
+              const char *key = STRDUP ([keyComponent getHDF5Name]);
               id value =  hdf5In (aZone, keyComponent);
 
               [self at: (id) key insert: value];
@@ -357,7 +357,7 @@ PHASE(Setting)
         {
           int process_object (id keyComponent)
             {
-              const char *key = STRDUP ([keyComponent getName]);
+              const char *key = STRDUP ([keyComponent getHDF5Name]);
               id value =  hdf5In (aZone, keyComponent);
 
               [self at: [String create: aZone setC: key] insert: value];
@@ -993,7 +993,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
                           createEnd];
       id dataset =
         [[[[[[[HDF5 createBegin: aZone]
-               setName: [hdf5Obj getName]]
+               setName: [hdf5Obj getHDF5Name]]
               setWriteFlag: YES]
              setParent: hdf5Obj]
             setCompoundType: compoundType]
@@ -1033,7 +1033,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
             }
           else
             raiseEvent (SaveError, "cannot shallow-serialize Map %s",
-                        [hdf5Obj getName]);
+                        [hdf5Obj getHDF5Name]);
           
           [dataset selectRecord: rn];
           [member hdf5OutShallow: dataset];

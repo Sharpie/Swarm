@@ -40,7 +40,7 @@
       
       id hdf5ObjDataset =
         [[[[[[[HDF5 createBegin: getCZone (getZone (self))]
-               setName: [hdf5Obj getName]]
+               setName: [hdf5Obj getHDF5Name]]
               setParent: hdf5Obj]
              setWriteFlag: YES]
             setCompoundType: hdf5CompoundType]

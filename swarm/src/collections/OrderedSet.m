@@ -54,7 +54,7 @@ PHASE(Using)
 
 - (BOOL)add: anObject
 {
-  MLINK_ADD (self, anObject);
+  MLIST_ADDLAST (self, anObject);
   return NO;
 }
 
@@ -62,8 +62,8 @@ PHASE(Using)
 {
   id index;
 
-  index = MLINK_CREATEINDEX_FROMMEMBER (self, getCZone (getZone (self)), aMember);
-  MLINK_INDEX_REMOVE (index);
+  index = MLIST_CREATEINDEX_FROMMEMBER (self, getCZone (getZone (self)), aMember);
+  MLIST_INDEX_REMOVE (index);
   DROP (index);
   return aMember;
 }
