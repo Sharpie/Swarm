@@ -275,10 +275,32 @@ dib_copy (dib_t *source, dib_t *dest,
 {
   BOOL result;
 
+  dest->colorMapBlocks = source->colorMapBlocks;
+  dest->colorMapSize = source->colorMapSize;
+  memcpy (dest->colorMapOffsets,
+	  source->colorMapOffsets,
+	  sizeof (source->colorMapOffsets));
+  memcpy (dest->colorMapObjects,
+	  source->colorMapObjects,
+	  sizeof (source->colorMapObjects));
+  memcpy (dest->dibInfo->rgb,
+	  source->dibInfo->rgb,
+	  sizeof (RGBQUAD) * source->colorMapSize);
+  {
+    HDC shdc = CreateCompatibleDC (NULL);
+    
+    dest->oldBitmap = SelectObject (shdc, dest->bitmap);
+    SetDIBColorTable (shdc, 0, dest->colorMapSize, dest->dibInfo->rgb);
+    SelectObject (shdc, dest->oldBitmap);
+    DeleteDC (shdc);
+  }
+
   if (dib_lock (dest) == NULL)
     return FALSE;
   if (dib_lock (source) == NULL)
     return FALSE;
+
+
   result = BitBlt (dest->sourceDC, destx, desty,
 		   width, height,
 		   source->sourceDC, 0, 0,

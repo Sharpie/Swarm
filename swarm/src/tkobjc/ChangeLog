@@ -1,3 +1,7 @@
+1998-04-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* win32dib.c (dib_copy): Copy the colormap information.
+
 1998-04-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* tk/tkInt.h (TkpClipMask, TkpCreateNativePixmap,
