@@ -12,7 +12,6 @@ noinst_DATA = versions.ent
 .PHONY: FORCE
 
 include $(top_srcdir)/Makefile.rules
-include $(top_srcdir)/Makefile.common
 
 ## ensure citations are links
 JADEFLAGS = -V biblio-citation-check 

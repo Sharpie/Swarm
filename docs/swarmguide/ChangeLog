@@ -1,3 +1,7 @@
+1999-06-29  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am: Remove include of Makefile.common, not needed.
+
 1999-06-28  Alex Lancaster  <alex@santafe.edu>
 
 	* user3.05.sgml: Made all references to `Archiver' in code to
