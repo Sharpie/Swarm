@@ -48,17 +48,6 @@ getVal (id obj)
   return [obj getInteger];
 }
 
-static id
-getValueList (id index)
-{
-  id l = [index next];
-  
-  if (!ARCHIVERLITERALP ([l getFirst]))
-    [WindowGeometryRecordError raiseEvent: "ArchiverLiteral expected"];
-
-  return [l getLast];
-}
-
 - lispIn: expr
 {
   id index = [expr begin: scratchZone];
@@ -72,7 +61,7 @@ getValueList (id index)
 
           if (strcmp (str, "position") == 0)
             {
-              id l = getValueList (index);
+              id l = [index next];
               
               positionFlag = YES;
               x = getVal ([l getFirst]);
@@ -80,7 +69,7 @@ getValueList (id index)
             }
           else if (strcmp (str, "size") == 0)
             {
-              id l = getValueList (index);
+              id l = [index next];
               
               sizeFlag = YES;
               width = getVal ([l getFirst]);
