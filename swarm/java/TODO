@@ -34,3 +34,4 @@ Function pointers
 
 Ensure that javaswarm and javacswarm get installed with execute permissions
 
+Handle tcl8.1 subpath in tclobjc
