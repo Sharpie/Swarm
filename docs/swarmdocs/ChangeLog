@@ -1,4 +1,7 @@
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
+	
+	* docbook.dcl: New file (increase limits on NAMELEN, TAGLEN,
+	and ATTSPLEN).
 
 	* configure.in: Add option to specify DocBook DTD location.
 	Substitute docbookdtd_srcdir and docbookstyle_srcdir (was
