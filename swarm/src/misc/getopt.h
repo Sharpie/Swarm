@@ -20,6 +20,12 @@
 #ifndef _GETOPT_H
 #define _GETOPT_H 1
 
+/* Redefine these internally, to avoid link time warnings vs. libc versions. */
+#define opterr misc_opterr
+#define optind misc_optind
+#define optarg misc_optarg
+#define optopt misc_optopt
+
 #ifdef	__cplusplus
 extern "C" {
 #endif

@@ -1,3 +1,10 @@
+1998-04-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* getopt1.c: Don't redefine getopt and optarg around stdio.h.
+
+	* getopt.h (opterr, optind, optarg, optopt): Prefix with "misc_"
+	to avoid linker warnings vs. libc versions.
+
 1998-03-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* find_executable.c (maybe_executable): Add fd argument
