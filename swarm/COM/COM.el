@@ -381,13 +381,17 @@
       (insert "  ")
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
+      (insert "NS_IMETHOD Init();\n")
       (when (eq phase :using)
-        (loop for method in (collect-convenience-create-methods protocol)
-              do
-              (insert "  ")
-              (com-impl-print-class-constructor-method-declaration protocol
-                                                                   method)
-              (insert ";\n")))
+        (let ((create-methods (collect-convenience-create-methods protocol)))
+          (when (>= (length create-methods) 2)
+            (insert "  unsigned constructorNumber;\n"))
+          (loop for method in create-methods
+                do
+                (insert "  ")
+                (com-impl-print-class-constructor-method-declaration protocol
+                                                                     method)
+                (insert ";\n"))))
       (insert "  virtual ~")
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
@@ -436,7 +440,9 @@
 (defun com-static-cid (protocol)
   (concat (com-impl-name protocol :creating) "CID"))
 
-(defun com-impl-print-class-constructor-method (protocol method)
+(defun com-impl-print-class-constructor-method (protocol
+                                                method
+                                                constructor-number)
   (let ((name (com-impl-name protocol :using))
         (name.arguments
          (collect-convenience-constructor-name.arguments method)))
@@ -445,6 +451,10 @@
     (com-impl-print-class-constructor-method-declaration protocol method)
     (insert " :\n")
     (insert "  aZone(_aZone)")
+    (when (>= constructor-number 0)
+      (insert ",\n  constructorNumber (")
+      (insert (prin1-to-string constructor-number))
+      (insert ")"))
     (loop for name.argument in name.arguments
           for argname = (caddr (cdr name.argument))
           do
@@ -458,12 +468,30 @@
     (insert "}\n")
     (insert "\n")))
 
+(defun com-impl-print-create-method-invocation (method)
+  (let ((name.arguments
+         (collect-convenience-constructor-name.arguments method)))
+    (insert "create_obj->Create")
+    (loop for name.argument in name.arguments
+          do
+          (insert "_")
+          (insert (car (cdr name.argument))))
+    (insert " (")
+    (insert "aZone")
+    (loop for name.argument in name.arguments
+          do
+          (insert ", ")
+          (insert (caddr (cdr name.argument))))
+    (insert ", &ret);\n")))
+
+
 (defun com-impl-print-class-init-method (protocol)
   (let ((name (com-impl-name protocol :using))
         (cname (com-impl-name protocol :creating)))
+    (insert "NS_IMETHODIMP\n")
     (insert name)
     (insert "::Init()\n")
-    (insert "{")
+    (insert "{\n")
     (insert "  nsCOMPtr <")
     (insert cname)
     (insert "> ")
@@ -479,24 +507,36 @@
     (insert "getter_AddRefs (create_obj));\n"))
   (insert "  if (rv != NS_OK)\n")
   (insert "    return rv;\n") 
-  (insert "  create_obj->Create")
-  (loop for name.argument in name.arguments
-        do
-        (insert "_")
-        (insert (car (cdr name.argument))))
-  (insert " (")
-  (insert "aZone")
-  (loop for name.argument in name.arguments
-        do
-        (insert ", ")
-        (insert (caddr (cdr name.argument))))
-  (insert ", &ret);\n")
-  (insert "}\n"))
+  (let* ((create-methods (collect-convenience-create-methods protocol))
+         (len (length create-methods)))
+    (cond ((> len 1)
+           (insert "  if (constructorNumber == 0)\n")
+           (insert "    ")
+           (com-impl-print-create-method-invocation (first create-methods))
+           (loop for method in (cdr create-methods)
+                 for constructorNumber from 1
+                 do
+                 (insert "  else if (constructorNumber == ")
+                 (insert (prin1-to-string constructorNumber))
+                 (insert ")\n")
+                 (insert "    ")
+                 (com-impl-print-create-method-invocation method)))
+          ((= len 1)
+           (insert "  ")
+           (com-impl-print-create-method-invocation (first create-methods)))))
+  (insert "  return NS_OK;\n")
+  (insert "}\n\n"))
   
 (defun com-impl-print-convenience-constructors (protocol)
-  (loop for method in (collect-convenience-create-methods protocol)
-        do
-        (com-impl-print-class-constructor-method protocol method)))
+  (let* ((create-methods (collect-convenience-create-methods protocol))
+         (start (if (> (length create-methods) 1) 0 -1)))
+    (loop for method in create-methods
+          for constructor-number from start
+          do
+          (com-impl-print-class-constructor-method protocol
+                                                   method
+                                                   constructor-number))))
+
 
 (defun com-impl-print-destructor (protocol phase)
   (let ((name (com-impl-name protocol phase)))
@@ -609,7 +649,7 @@
       (com-impl-print-convenience-constructors protocol))
     (com-impl-print-destructor protocol phase)
     (when (eq phase :using)
-      (com-impl-print-class-init-method protocol 
+      (com-impl-print-class-init-method protocol ))
     (com-impl-print-method-definitions protocol phase)))
 
 (defun com-protocol-sym (protocol phase suffix)
