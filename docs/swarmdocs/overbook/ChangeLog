@@ -1,4 +1,8 @@
-2001-11-26  Alex Lancaster  <alexl@users.sourceforge.net>
+2003-09-08  Alex Lancaster  <alex@swarm.org>
+
+	* overbook.xml: Use 4.2 version of DocBook XML DTD.
+
+2001-11-26  Alex Lancaster  <alex@swarm.org>
 
 	* Makefile.am (GENERATED_XML): .sgml -> .xml suffix.
 
