@@ -8,7 +8,7 @@
 #import <defobj.h> // hdf5Archiver, lispArchiver
 
 #import <simtoolsgui/ControlPanel.h>
-#import <simtoolsgui/global.h>
+#import <simtoolsgui.h> // probeDisplayManager
 
 #import <gui.h>
 

@@ -5,7 +5,7 @@
 
 #import <simtoolsgui/CompleteProbeDisplay.h>
 #import <simtoolsgui/ClassDisplayWidget.h>
-#import <simtoolsgui/global.h> // probeDisplayManager
+#import <simtoolsgui.h> // probeDisplayManager
 #import <objc/objc-api.h> // IvarList_t
 #import <collections.h> // List
 

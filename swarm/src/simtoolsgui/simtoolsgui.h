@@ -210,12 +210,6 @@ USING
 - (void)drop;
 @end
 
-extern id <ProbeDisplay> _createProbeDisplay (id obj);
-extern id <CompleteProbeDisplay> _createCompleteProbeDisplay (id obj);
-
-extern id <ProbeDisplay> createArchivedProbeDisplayNamed (id obj, const char *name);
-extern id <CompleteProbeDisplay> createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
-
 
 @protocol ProbeDisplayManager <SwarmObject>
 //S: The ProbeDisplay manager.
@@ -224,6 +218,8 @@ extern id <CompleteProbeDisplay> createArchivedCompleteProbeDisplayNamed (id obj
 //D: ProbeDisplays created by the user during a GUI run of the 
 //D: simulation.
 USING
+- (BOOL)getDropImmediatelyFlag;
+
 - (id <ProbeDisplay>)createProbeDisplayFor: anObject;
 
 - (id <ProbeDisplay>)createArchivedProbeDisplayFor: anObject variableName: (const char *)variableName;
@@ -274,6 +270,14 @@ USING
 #define CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(anObject) \
   createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
 
+extern id <ProbeDisplay> _createProbeDisplay (id obj);
+extern id <CompleteProbeDisplay> _createCompleteProbeDisplay (id obj);
+
+extern id <ProbeDisplay> createArchivedProbeDisplayNamed (id obj, const char *name);
+extern id <CompleteProbeDisplay> createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
+
+extern const char *buildWindowGeometryRecordName (const char *baseName,
+                                                  const char *componentName);
 @end
 
 @protocol GUIComposite <CompositeWindowGeometryRecordName>

@@ -5,10 +5,8 @@
 
 #import <objectbase.h>
 #import <simtoolsgui/SimpleProbeDisplay.h>
+#import <simtoolsgui.h>
 #import <simtoolsgui/VarProbeWidget.h>
-#import <simtoolsgui/MessageProbeWidget.h>
-#import <simtoolsgui/global.h>
-
 #import <gui.h>
 
 @implementation SimpleProbeDisplay

@@ -4,8 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtoolsgui/GUIComposite.h>
-#import <simtoolsgui.h>
-#import <simtoolsgui/global.h> // buildWindowGeometryRecordName
+#import <simtoolsgui.h> // buildWindowGeometryRecordName
 #import <collections.h>
 
 static int

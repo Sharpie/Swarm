@@ -27,4 +27,4 @@ simtoolsgui_HEADERS = ActionCache.h ActionHolder.h \
 	MultiVarProbeDisplay.h MultiVarProbeWidget.h \
 	ProbeDisplay.h ProbeDisplayManager.h SimpleProbeDisplay.h \
 	SingleProbeDisplay.h \
-	VarProbeWidget.h global.h
+	VarProbeWidget.h

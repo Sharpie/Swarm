@@ -5,7 +5,6 @@
 
 #import <simtoolsgui/GUISwarm.h>
 #import <simtoolsgui.h>
-#import <simtoolsgui/global.h> // buildWindowGeometryRecordName
 
 @implementation GUISwarm
 

@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtoolsgui/CommonProbeDisplay.h>
-#import <simtoolsgui/global.h> // probeDisplayManager
+#import <simtoolsgui.h> // probeDisplayManager
 #import <gui.h>
 
 @implementation CommonProbeDisplay

@@ -1,3 +1,17 @@
+1999-01-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (simtoolsgui_HEADERS): Remove global.h.
+
+	* global.h: Removed.
+	
+	* SimpleProbeDisplay.m: Include simtoolgui.h.  Don't include 
+	simtoolsgui/MessageProbeWidget.h or simtoolsgui/global.h.
+
+	* simtoolsgui.h (ProbeDisplayManager): Declare -getDropImmediateFlag.
+
+	* ControlPanel.m, CompleteProbeDisplay.m: Include simtoolgui.h
+	instead of simtoolsgui/global.h.
+
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ActionCache.m, ClassDisplayWidget.m, ProbeDisplay.m: Use
