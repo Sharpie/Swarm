@@ -2,7 +2,7 @@
   <TITLE>Swarm Changes and Compatibility</TITLE>
 
   <SIDEBAR>
-    <TITLE>Porting Notes</TITLE>
+    <TITLE>Notes on Porting</TITLE>
     
     <PARA>New versions provide new features, but may have the
       unfortunate side-effect of breaking many existing
@@ -75,6 +75,11 @@
           <PARA>Library header files no longer include any of their
             individual class header files.</PARA></LISTITEM>
 
+        <LISTITEM>
+          <PARA>The XPixmap protocol has now been changed to Pixmap to
+            divorce itself from it's association with
+            X-Windows.</PARA></LISTITEM>
+
       </ITEMIZEDLIST>
 
     </SECT2>
@@ -89,10 +94,13 @@
           particularly affects Swarm and SwarmObject.  If you define
           something like:
 
-<PROGRAMLISTING> @interface MyObject: SwarmObject
+<PROGRAMLISTING>
+  @interface MyObject: SwarmObject
+</PROGRAMLISTING>
 
   then you need to include:
 
+<PROGRAMLISTING>
   #import &lt;objectbase/SwarmObject.h&gt;
 </PROGRAMLISTING>
  
@@ -108,9 +116,11 @@
 <PROGRAMLISTING> 
    id &lt;Grid2d&gt; world;  OR
    id world;
+</PROGRAMLISTING>
 
     but NOT
 
+<PROGRAMLISTING>
    Grid2d *world;
 </PROGRAMLISTING>
  
@@ -130,7 +140,8 @@
 
       <ITEMIZEDLIST>
         <LISTITEM>
-          <PARA>Include header file for Diffuse2d (x)</PARA>
+          <PARA>Include header file for
+          <LITERAL>space/Diffuse2d</LITERAL> (x)</PARA>
         </LISTITEM>
       </ITEMIZEDLIST>
 
@@ -138,7 +149,9 @@
 
       <ITEMIZEDLIST>
         <LISTITEM>
-          <PARA>id &lt;Grid2d&gt; world NOT id Grid2d *; (x)</PARA>
+          <PARA>Make instance variable world conform to protocol:
+              <LITERAL>id &lt;Grid2d&gt; world</LITERAL> NOT
+              <LITERAL>id Grid2d *;</LITERAL> (x)</PARA>
         </LISTITEM>
       </ITEMIZEDLIST>
 
@@ -146,7 +159,8 @@
 
       <ITEMIZEDLIST>
         <LISTITEM>
-          <PARA>in setWorld method: make cast to protocol not static (x)</PARA>
+          <PARA>In <LITERAL>[Heatbug -setWorld:]</LITERAL> method:
+          make cast to protocol not static (x)</PARA>
         </LISTITEM>
       </ITEMIZEDLIST>
 
@@ -156,17 +170,26 @@
         <LISTITEM>
           <PARA>HeatbugObserverSwarm.h</PARA>
         </LISTITEM>
+        
         <LISTITEM>
 
-          <PARA>make instance variable id &lt;Grid2d&gt; world NOT
-            Grid2d *world (x)</PARA>
+          <PARA>Make instance variable <LITERAL>id &lt;Grid2d&gt;
+              world</LITERAL> NOT <LITERAL>Grid2d *world</LITERAL> (x)</PARA>
 
-          <PARA>change static cast of -getWorld method to protocol
-            version (x)</PARA>
+        </LISTITEM>
 
-          <PARA>change all the below to protocol (x)
+        <LISTITEM>
+          
+          <PARA>Change static cast of <LITERAL>[HeatbugObserverSwarm
+-getWorld:]</LITERAL> method to protocol version (x)</PARA>
 
-            <PROGRAMLISTING>
+        </LISTITEM>
+
+        <LISTITEM>
+          <PARA>Change all the below to conform to their respective
+          protocols (x)
+
+<PROGRAMLISTING>
  EZGraph *unhappyGraph;
  Value2dDisplay *heatDisplay;
  Object2dDisplay *heatbugDisplay;
@@ -186,8 +209,8 @@
       <ITEMIZEDLIST>
         <LISTITEM>
 
-          <PARA>Import &lt;objectbase/Swarm.h&gt; for subclassing from
-          Swarm (*)</PARA>
+          <PARA>Import <LITERAL>&lt;objectbase/Swarm.h&gt;</LITERAL>
+          for subclassing from Swarm (*)</PARA>
         </LISTITEM>
 
         <LISTITEM>
@@ -199,7 +222,8 @@
         </LISTITEM>
 
         <LISTITEM>
-          <PARA>make Grid2d conform to protocol, not static typed. (x)</PARA>
+          <PARA>Make instance of <LITERAL>Grid2d</LITERAL> conform to
+          protocol, not static typed. (x)</PARA>
         </LISTITEM>
       </ITEMIZEDLIST>
 
@@ -207,8 +231,9 @@
 
       <ITEMIZEDLIST>
         <LISTITEM>
-          <PARA>Make instances of EZGraph, Object2dDisplay conform
-            to protocol, rather than be statically typed. (x)
+          <PARA>Make instances of <LITERAL>EZGraph,
+            Object2dDisplay</LITERAL> conform to protocol, rather than
+            be statically typed. (x)
           </PARA>
         </LISTITEM>
       </ITEMIZEDLIST>
@@ -217,7 +242,8 @@
 
       <ITEMIZEDLIST>
         <LISTITEM>
-          <PARA>Remove import of &lt;objectbase.h&gt; (x)</PARA>
+          <PARA>Remove import of
+          <LITERAL>&lt;objectbase.h&gt;</LITERAL> (x)</PARA>
         </LISTITEM>
       </ITEMIZEDLIST>
 

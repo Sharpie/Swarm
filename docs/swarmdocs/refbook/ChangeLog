@@ -1,3 +1,13 @@
+1998-06-25  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (refindex.sgml $(PAGES)): Set temporary environment
+	variable SWARMSRCDIR before invocation of batch-mode e-lisp
+	program `protocol.el'.
+
+1998-06-24  Alex Lancaster  <alex@santafe.edu>
+
+	* ref00a.sgml: Tidied 1.1 => 1.2 porting notes.
+
 1998-06-23  Alex Lancaster  <alex@santafe.edu>
 
 	* ref00a.sgml: Added porting notes for Swarm 1.1 => 1.2.  Expanded
