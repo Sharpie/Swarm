@@ -1,5 +1,7 @@
 1998-05-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* installbook.tex.in: New file.
+
 	* Makefile.am: New file.
 
 	* installbook.sgml: Make ID of book be "installbook".
