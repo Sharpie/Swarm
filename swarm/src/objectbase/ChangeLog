@@ -1,5 +1,11 @@
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* swarm_rts_routines.m (skip_typespec): Add case for long double.
+
+	* MessageProbe.m ([MessageProbe -setArg:ToString:], [MessageProbe
+	-doubleDynamicCallOn:], [MessageProbe -longDynamicCallOn:]): Add
+	support for [unsigned] long long and long double.
+
 	* VarProbe.m ([VarProbe -createEnd], probe_as_int,
 	probe_as_double, [VarProbe
 	-probeAsString:Buffer:withFullPrecision:], [VarProbe

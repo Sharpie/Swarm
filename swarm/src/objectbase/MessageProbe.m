@@ -173,6 +173,14 @@ nth_type (const char *type, unsigned which)
       arguments[which].type = _C_ULNG;
       arguments[which].val.ulong = strtoul (what, NULL, 10);
       break;
+    case _C_LNG_LNG:
+      arguments[which].type = _C_LNG_LNG;
+      arguments[which].val.slonglong = (long long) strtol (what, NULL, 10);
+      break;
+    case _C_ULNG_LNG:
+      arguments[which].type = _C_ULNG_LNG;
+      arguments[which].val.ulonglong = (unsigned long long) strtoul (what, NULL, 10);
+      break;
     case _C_FLT:
       arguments[which].type = _C_FLT;
       arguments[which].val._float = strtod (what, NULL);
@@ -180,6 +188,10 @@ nth_type (const char *type, unsigned which)
     case _C_DBL:
       arguments[which].type = _C_DBL;
       arguments[which].val._double = strtod (what, NULL);
+      break;
+    case _C_LNG_DBL:
+      arguments[which].type = _C_LNG_DBL;
+      arguments[which].val._long_double = (long double) strtod (what, NULL);
       break;
     case _C_CHARPTR:
       arguments[which].type = _C_CHARPTR;
@@ -343,6 +355,10 @@ dynamicCallOn (const char *probedType,
     return (double) val.val.slong;
   else if (val.type == _C_ULNG)
     return (double) val.val.ulong;
+  else if (val.type == _C_LNG_LNG)
+    return (double) val.val.slonglong;
+  else if (val.type == _C_ULNG_LNG)
+    return (double) val.val.ulonglong;
   else if (val.type == _C_CHR)
     return (double) val.val.schar;
   else if (val.type == _C_UCHR)
@@ -351,6 +367,8 @@ dynamicCallOn (const char *probedType,
     return (double) val.val._float;
   else if (val.type == _C_DBL)
     return val.val._double;
+  else if (val.type == _C_LNG_DBL)
+    return (double) val.val._long_double;
   abort ();
 }
 
@@ -374,10 +392,16 @@ dynamicCallOn (const char *probedType,
     return val.val.slong;
   else if (val.type == _C_ULNG)
     return (long) val.val.ulong;
+  else if (val.type == _C_LNG_LNG)
+    return val.val.slonglong;
+  else if (val.type == _C_ULNG_LNG)
+    return (long) val.val.ulonglong;
   else if (val.type == _C_FLT)
     return (long) val.val._float;
   else if (val.type == _C_DBL)
     return (long) val.val._double;
+  else if (val.type == _C_LNG_DBL)
+    return (long) val.val._long_double;
   abort ();
 }
 
