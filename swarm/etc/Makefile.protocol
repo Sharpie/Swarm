@@ -10,7 +10,7 @@ ifeq ($(host_triplet),i686-pc-cygwin)
   dos_swarm_srcdir = $(shell cygpath -w $(swarm_srcdir))
 define elcrule
 cp -f $< $(dir $@)_$(notdir $<)
-$(ENVEMACS) -batch -f batch-byte-compile $(shell cd $(dir $@); pwd)/_$(notdir $<)
+$(ENVEMACS) -batch -f batch-byte-compile '$(shell cd $(dir $@); cygpath -w `pwd`)\_$(notdir $<)'
 mv $(dir $@)_$(notdir $@) $@
 $(RM) $(dir $@)_$(notdir $<)
 endef
@@ -20,7 +20,7 @@ else
   dos_swarm_srcdir := $(swarm_srcdir)
 define elcrule
 cp -f $< $(dir $@)_$(notdir $<)
-$(ENVEMACS) -batch -f batch-byte-compile $(shell cd $(dir $@); cygpath -w `pwd`)\_$(notdir $<)
+$(ENVEMACS) -batch -f batch-byte-compile $(shell cd $(dir $@); pwd)/_$(notdir $<)
 mv $(dir $@)_$(notdir $@) $@
 $(RM) $(dir $@)_$(notdir $<)
 endef
