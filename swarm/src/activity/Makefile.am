@@ -6,7 +6,7 @@ activitydir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-INCLUDES = -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I.. -I$(srcdir)/.. $(JAVAINCLUDES)
+INCLUDES = -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I.. -I$(srcdir)/..
 
 lib_LTLIBRARIES = libactivity.la
 

@@ -10,7 +10,7 @@ include $(top_srcdir)/src/Makefile.rules
 
 lib_LTLIBRARIES = libobjectbase.la
 
-INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc $(FFIINCLUDES) $(JAVAINCLUDES)
+INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc $(FFIINCLUDES)
 
 SRC = ActivityControl.m \
 	CompleteVarMap.m CompleteProbeMap.m \
@@ -28,6 +28,3 @@ objectbase_HEADERS = ActivityControl.h \
 	CustomProbeMap.h DefaultProbeMap.h EmptyProbeMap.h \
 	MessageProbe.h Probe.h ProbeLibrary.h ProbeMap.h Swarm.h \
 	SwarmObject.h VarProbe.h probing.h swarm_rts_routines.h
-
-version.h: blah
-
