@@ -1,3 +1,8 @@
+1999-02-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (removed-method-p): Avoid all methods with an
+	ellipsis argument.
+
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el: Use insert throughout instead of java-print wrapper.
@@ -19,7 +24,6 @@
 	(java-print-argument): Avoid use of "class" as a variable name.
 	(freaky-message): New function.
 	(java-type-for-objc-type): Use it.
-	(removed-method-p): Avoid raiseEvent: msg :...
 	(java-print-classes): Don't print stubs for CREATABLE protocol.
 
 1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

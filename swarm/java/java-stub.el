@@ -133,9 +133,12 @@
                (find name '("getClass" "getDisplayName" "setDisplayName"
                             "getTypeName" "copy" "remove")
                      :test #'string=)))
-        (and (cdr arguments)
-             (null (caadr arguments)) ; raiseEvent: msg : ...
-             (string= (caar arguments) "raiseEvent")))))
+        (loop for argument in arguments
+              when (and (null (first argument))
+                        (null (second argument))
+                        (string= (third argument) "..."))
+              return t
+              finally return nil))))
 
 (defun method-list (protocol phase)
   (remove-if #'removed-method-p
