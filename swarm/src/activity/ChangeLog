@@ -1,3 +1,7 @@
+1999-09-07  Alex Lancaster  <alex@santafe.edu>
+
+	* activity.h (Schedule): Re-enable conformance to Map.
+
 1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0 released.

@@ -727,7 +727,7 @@ USING
 - (BOOL)getSingletonGroups;
 @end
 
-@protocol Schedule <CompoundAction, ActionCreating,RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups, CREATABLE>
+@protocol Schedule <Map, CompoundAction, ActionCreating, RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups, CREATABLE>
 //S: A collection of actions ordered by time values.
 
 //D: A schedule is compound action whose basic representation is a sorted
