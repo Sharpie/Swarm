@@ -62,8 +62,8 @@ ensureBltSupportFiles (id arguments, id interp)
 
             if (swarmHome)
               {
-#ifdef __MINGW32__
-                const char *libdir = "lib/blt3.0";
+#if defined(__MINGW32__) || defined(__CYGWIN__)
+                const char *libdir = "lib/blt2.4";
 #else
                 const char *libdir = "share/blt2.4";
 #endif

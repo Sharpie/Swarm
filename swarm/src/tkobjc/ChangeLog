@@ -1,3 +1,8 @@
+2005-01-12  Marcus G. Daniels <mgd@santafe.edu>
+
+	* TkExtra.m (ensureBltSupportFiles): Use lib/blt2.4 for both
+	Cygwin and Mingw32.
+
 2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
 
 	* TkExtra.m: Add an ifdef for what BLT we expect for __MINGW32__.
