@@ -1,3 +1,8 @@
+1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules.in (all-classes): Strip \015 instead of \r.
+	(HPUX tr doesn't handle \r).
+
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in ($(POSTCLASSESFILES)): Depend on modules instead

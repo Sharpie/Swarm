@@ -30,5 +30,5 @@ all: all-classes
 all-classes: $(CLASSES)
 
 .deps: $(JAVAFILES)
-	$(JAVA) -classpath '$(JAVADEPS)@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) | tr -d '\r' > .deps
+	$(JAVA) -classpath '$(JAVADEPS)@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) | tr -d '\015' .deps
 
