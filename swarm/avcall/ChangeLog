@@ -1,6 +1,7 @@
 2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.in (install): Renamed from install-.
+	(LN): Use literal "ln", not @LN@.
 
 2001-02-05  Ralf Stephan  <ralf@ark.in-berlin.de>
 
