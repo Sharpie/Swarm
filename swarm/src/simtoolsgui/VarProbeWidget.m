@@ -107,7 +107,7 @@
 
 - update
 {
-  char buffer[512];
+  char buffer[5120];
   
   if (interactiveFlag)
     [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];

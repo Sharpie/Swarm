@@ -1,6 +1,8 @@
-2000-02-12    <mgd@nest.swarm.org>
+2000-02-22    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT, AGE): Bump.  Version 2.1.
+
+	* VarProbeWidget.m ([VarProbeWidget -update]): Increase buffer size.
 
 1999-12-29  Marcus G. Daniels  <mgd@drone.swarm.org>
 
