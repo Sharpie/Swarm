@@ -52,7 +52,7 @@ $(addprefix $(module)/,$(interface-protocols))
 endef
 
 define module-interfaces
-$(module-creating-interface) $(module-setting-interface) $(module-using-interface)
+$(module-creating-interfaces) $(module-setting-interfaces) $(module-using-interfaces)
 endef
 
 GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-classes)))
