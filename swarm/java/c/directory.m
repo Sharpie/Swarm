@@ -29,7 +29,7 @@ create_class_refs (JNIEnv *env)
       char class_name_buf[10 + strlen (name) + 1];
       char *p;
       jclass ret;
-
+      
       p = stpcpy (class_name_buf, "java/lang/");
       p = stpcpy (p, name);
       ret = (*env)->FindClass (env, class_name_buf);
@@ -47,11 +47,22 @@ create_class_refs (JNIEnv *env)
       c_float = find ("Float");
       c_double = find ("Double");
       c_object = find ("Object");
-
-      c_globalZone = (*env)->FindClass (env, "swarm/defobj/globalZone");
-      if (c_globalZone == NULL)
-        abort ();
       
+      {
+        jclass clazz;
+        jfieldID field;
+
+        if (!(clazz = (*env)->FindClass (env, "swarm/SwarmEnvironment")))
+          abort ();
+        if (!(field = (*env)->GetStaticFieldID (env,
+                                                clazz,
+                                                "globalZone",
+                                                "Ljava/lang/Class;")))
+          abort ();
+
+        if (!(c_globalZone = (*env)->GetStaticObjectField (env, clazz, field)))
+          abort ();
+      }
       initFlag = YES;
     }
 }
