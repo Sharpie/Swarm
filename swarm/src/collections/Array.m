@@ -101,10 +101,18 @@ static void initArray( Array_c  *self )
     }
   }    
 
-  newBlock = [getZone( self ) allocBlock:
-    ( ( self->bits & Bit_DefaultMember ) ? self->count + 1 : self->count ) *
-    sizeof (id)];
+  {
+    int allocCount = self->count;
 
+    if (allocCount == 0)
+      allocCount++;
+    
+    newBlock = [getZone (self) allocBlock:
+                          ((self->bits & Bit_DefaultMember)
+                           ? allocCount + 1 
+                           :  allocCount) *
+                        sizeof (id)];
+  }
   // if DefaultMember, save current value of default member at end of block
 
   if ( self->bits & Bit_DefaultMember )

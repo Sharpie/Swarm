@@ -1,3 +1,7 @@
+1998-07-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Array.m (initArray): Avoid allocating a block of size zero.
+
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* collections.h: Replace @deftype with @protocol throughout.
