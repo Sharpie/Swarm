@@ -910,12 +910,13 @@ _activity_context_error( "getCurrentOwnerActivity" ) )
 ( _activity_current ? [_activity_current _getSubactivityAction_] : \
 _activity_context_error( "getCurrentAction" ) )
 
-#if 0
 @deftype GetSubactivityAction
+//S: Declare an internal method for getCurrentAction().
+//D: Declare an internal method for getCurrentAction().
+
 USING
--	_getSubactivityAction_;  // internal method for getCurrentAction()
+-	_getSubactivityAction_;  
 @end
-#endif
 
 #define getCurrentActivity() \
 ( _activity_current ? [_activity_current getCurrentSubactivity] : nil )
