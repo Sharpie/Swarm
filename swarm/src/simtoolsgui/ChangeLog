@@ -1,6 +1,7 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* MessageProbeWidget.m (isSpace): Avoid using ctype macro.
+	* MessageProbeWidget.m: Include defobj/internal.h.
+	(empty): Avoid using ctype macro.
 
 	* SingleProbeDisplay.m ([SingleProbeDisplay -getId:]): Use
 	getDisplayName instead of getIdName.

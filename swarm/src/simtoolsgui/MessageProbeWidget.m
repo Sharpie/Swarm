@@ -11,8 +11,7 @@
 #import <objc/objc-api.h>
 
 #include <misc.h> // strlen
-
-#define isSpace(ch) ((ch) == ' ')
+#import "../defobj/internal.h" // isSpace
 
 static BOOL
 empty (const char *str)
