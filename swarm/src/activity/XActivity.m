@@ -104,7 +104,7 @@ auditRunRequest (Activity_c *self, const char *request)
 {
   id <Symbol> initStatus, subStatus;
   id <Action> nextAction;
-  
+
   // status is Running whenever actions being processed by run loop
 
   initStatus = status;
@@ -148,9 +148,9 @@ auditRunRequest (Activity_c *self, const char *request)
           subStatus = [(id) currentSubactivity _run_];  // try to run to completion
           _activity_current = self;
           
+          // if sub is holding just continue
           if (!HOLDINGP (subStatus))
             {
-              // if sub is holding just continue
               if (COMPLETEDP (subStatus))
                 {
                   if (!currentSubactivity->keepEmptyFlag)
@@ -172,10 +172,21 @@ auditRunRequest (Activity_c *self, const char *request)
         }
       
       // obtain next action, call break function, and test if stop requested
-      
-      nextAction = [currentIndex nextAction: &status];
-      if (! nextAction)
-        goto actionsDone;
+
+      do {
+        nextAction = [currentIndex nextAction: &status];
+        
+        if (nextAction)
+          {
+            if (getClass (nextAction) == id_ActionMerge_c
+                && COMPLETEDP ((((ActionMerge_c *) nextAction)->subactivity)->status))
+              [currentIndex remove];
+            else
+              break;
+          }
+        else
+          goto actionsDone;
+      } while (1);
       
     performBreak:
       if (breakFunction && breakFunction (self))
@@ -200,10 +211,9 @@ auditRunRequest (Activity_c *self, const char *request)
  actionsDone:  // status is Holding, Completed, or Terminated
   
   // give break function its chance to stop activity before final return
-  
   if (!(breakFunction && breakFunction (self) && TERMINATEDP (status)))
     return status;
-  
+
  activityTerminated:  // activity terminated since last _run_
   
   // set index to end to release any holds before final completion

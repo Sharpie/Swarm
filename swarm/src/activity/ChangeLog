@@ -1,3 +1,8 @@
+2000-05-15  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* XActivity.m ([Activity_c -_run_]): Remove (subactivity) 
+	completed ActionMerges.
+
 2000-05-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Action.m: Update macro usage per directory changes in defobj.
