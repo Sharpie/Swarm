@@ -12,6 +12,7 @@ SUFFIXES = .m
 INCLUDES = $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES)
 
 override CFLAGS += $(X_CFLAGS)
+override CPPFLAGS += -DList=TclObjcList
 
 lib_LTLIBRARIES = libtclobjc.la
 
