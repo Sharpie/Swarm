@@ -1,0 +1,34 @@
+<DOCINFO>
+
+  <TITLE>Gui Library</TITLE>
+
+  <ABSTRACT>
+    <TITLE>Documentation and Implementation Status</TITLE>
+    
+    <PARA>Meta-information on the state of the documentation with
+      respect to the low-level documentation is included in this
+      DOCINFO section.</PARA>
+    
+  </ABSTRACT>
+  
+  <REVHISTORY>
+
+    <REVISION>
+      <REVNUMBER>1.1</REVNUMBER>
+      <DATE>1998-05-05</DATE>
+      <AUTHORINITIALS>AKL</AUTHORINITIALS>
+
+      <REVREMARK>First creation of documentation version of the Swarm
+       library "Gui".  Replaces the old "tkobjc" Library</REVREMARK>
+
+    </REVISION>
+
+  </REVHISTORY>
+  
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("guicont.sgml" "DOCINFO")
+End:
+-->

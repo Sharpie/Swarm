@@ -1,0 +1,19 @@
+<REFERENCE ID="SIMTOOLSGUI.REF">
+  &simtoolsguimeta.sgml;
+  
+  <TITLE>Simtoolsgui Library</TITLE>
+  <TITLEABBREV>Simtoolsgui</TITLEABBREV>
+  
+  <!-- partintro -->
+  &simtoolsgui00.sgml;
+  
+  <!-- actual reference content -->
+  &simtoolsguipages.sgml;
+
+</REFERENCE>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
+End:
+-->

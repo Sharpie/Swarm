@@ -1,0 +1,37 @@
+<DOCINFO>
+
+  <TITLE>Simtools Library</TITLE>
+
+  <ABSTRACT>
+    <TITLE>Documentation and Implementation Status</TITLE>
+    
+    <para>The simtools library has undergone an upgrade to the status
+      of a library as of 1.0.4. This means the interface now conforms
+      to the library interfaces specifications, the format of the
+      documentation now reflects this. Other than new features, there
+      should be no affect on the user.
+   </para>
+ 
+  </ABSTRACT>
+  
+  <REVHISTORY>
+
+    <REVISION>
+      <REVNUMBER>1.1</REVNUMBER>
+      <DATE>1998-05-06</DATE>
+      <AUTHORINITIALS>AKL</AUTHORINITIALS>
+
+      <REVREMARK>Created the updated SGML documentation version of the 
+       Swarm library "Simtools".</REVREMARK>
+
+    </REVISION>
+
+  </REVHISTORY>
+  
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("simtoolscont.sgml" "DOCINFO")
+End:
+-->

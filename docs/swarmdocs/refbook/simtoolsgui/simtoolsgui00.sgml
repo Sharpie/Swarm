@@ -1,0 +1,90 @@
+<PARTINTRO>
+
+  <SIDEBAR>
+    <TITLE>Overview</TITLE>
+
+    <PARA> Simtoolsgui contains all miscellaneous
+      <EMPHASIS>GUI</EMPHASIS> classes.  It depends on a GUI toolkit
+      being present at link-time, see the documentation for the <LINK
+      LINKEND="SIMTOOLSGUI.REF">simtools</LINK> library for non-GUI
+      classes.
+    </PARA>
+
+  </SIDEBAR>
+
+  <SECT1 ID="SIMTOOLSGUI.DEPEND">
+    <TITLE>Dependencies</TITLE> 
+
+    <PARA>Following are the other header files imported by
+    &lt;simtoolsgui.h&gt;:
+
+<PROGRAMLISTING>
+#import &lt;objectbase.h&gt;
+</PROGRAMLISTING>
+
+      </PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLSGUI.COMPAT">
+    <TITLE>Compatibility</TITLE>
+
+    <ITEMIZEDLIST>
+      <LISTITEM>
+        <FORMALPARA>
+          <TITLE>1.0.5 -&gt; 1.1</TITLE> <PARA>This new library has
+          been created it contains all the classes which were
+          GUI-related, so that users can compile and link pure-batch
+          mode simulations (i.e. simulations that don't require
+          Tk/Tcl/BLT, Java AWT or any GUI toolkit).</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+    </ITEMIZEDLIST>
+
+  </SECT1>
+
+<!--
+
+  <SECT1 ID="SIMTOOLSGUI.USAGE">
+    <TITLE>Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLSGUI.ADVUSAGE">
+    <TITLE>Advanced Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLSGUI.SUBCLASS">
+    <TITLE>Subclassing Reference</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLSGUI.DESIGN">
+    <TITLE>Interface Design Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLSGUI.IMPL">
+    <TITLE>Implementation Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+  </SECT1>
+
+-->
+
+</PARTINTRO>
+
+<!--
+Local Variables:
+sgml-parent-document:("simtoolsguicont.sgml" "PARTINTRO")
+End:
+-->

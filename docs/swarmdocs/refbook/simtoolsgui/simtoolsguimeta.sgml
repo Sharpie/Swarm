@@ -1,0 +1,32 @@
+<DOCINFO>
+
+  <TITLE>Simtoolsgui Library</TITLE>
+
+  <ABSTRACT>
+    <TITLE>Documentation and Implementation Status</TITLE>
+    
+    <PARA>First creation of simtoolsgui documentation.</PARA>
+    
+  </ABSTRACT>
+  
+  <REVHISTORY>
+
+    <REVISION>
+      <REVNUMBER>1.1</REVNUMBER>
+      <DATE>1998-05-06</DATE>
+      <AUTHORINITIALS>AKL</AUTHORINITIALS>
+
+      <REVREMARK>First creation of documentation for the Swarm library
+       "Simtoolsgui".</REVREMARK>
+
+    </REVISION>
+
+  </REVHISTORY>
+  
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("simtoolsguicont.sgml" "DOCINFO")
+End:
+-->

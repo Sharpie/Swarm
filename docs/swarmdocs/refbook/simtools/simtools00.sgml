@@ -1,0 +1,132 @@
+<PARTINTRO>
+
+  <SIDEBAR>
+    <TITLE>Overview</TITLE>
+
+    <PARA>Simtools is the stdlib of Swarm. In other words, it is the
+      library where we have parked many miscellaneous classes which,
+      while very useful, are not specific enough to be placed in any
+      other library. So, for example, simtools contains InFile,
+      ObjectLoader and other I/O classes.  Simtools contains all
+      <emphasis>non-GUI</emphasis> classes - for the miscellaneous
+      classes that do depend on a GUI toolkit being present at
+      link-time, see the documentation for the <LINK
+      LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> library.
+
+    </PARA>
+
+  </SIDEBAR>
+
+  <SECT1 ID="SIMTOOLS.DEPEND">
+    <TITLE>Dependencies</TITLE> 
+
+    <PARA>Following are the other header files imported by
+    &lt;simtools.h&gt;:
+
+<PROGRAMLISTING>
+#import &lt;objectbase.h&gt;
+</PROGRAMLISTING>
+
+      The <EMPHASIS>objectbase</EMPHASIS> library interface is
+      included to provide the basic object support. The
+      <EMPHASIS>random </EMPHASIS>library is <EMPHASIS>no longer
+      included</EMPHASIS> by default.  You will need to explicitly
+      include it to use the default random number generators.
+    </PARA>
+
+    <PARA>Special global functions - global.h. Users need to include
+      simtools.h in their code in order to call
+      <LITERAL>initSwarm()</LITERAL> but also in order to get access
+      to a set of important pre-initialized objects which are
+      generated in every simulation (e.g. <LITERAL>
+      probeDisplayManager</LITERAL>).
+    </PARA>
+
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLS.COMPAT">
+    <TITLE>Compatibility</TITLE>
+
+    <ITEMIZEDLIST>
+
+      <LISTITEM>
+        <FORMALPARA>
+          <TITLE>1.0.5 -&gt; 1.1</TITLE> <PARA>simtools has been split
+          into two: simtools and <LINK
+          LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK>.  The latter
+          now contains all the classes which were GUI-related, so that
+          users can compile and link pure-batch mode simulations
+          (i.e. simulations that don't require Tk/Tcl/BLT, Java AWT or
+          any GUI toolkit).</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+
+      <LISTITEM>
+        <FORMALPARA><TITLE> 1.0.4 -&gt; 1.0.5</TITLE>
+
+          <PARA>GUISwarm now inherits from GUIComposite.  Because
+            GUIComposite handles the passthru of archiving keys to
+            tkobjc primitives, the method
+            setControlPanelGeometryRecordName is no longer needed;
+            instead, the macro SET_WINDOW_GEOMETRY_RECORD_NAME is
+            provided.</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+
+      <LISTITEM>
+        <FORMALPARA> <TITLE>1.0.3 -&gt; 1.0.4</TITLE>
+          <PARA>All functions maintain backward compatibility.  There
+            are additional features, however, and features previously
+            undocumented.</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+    </ITEMIZEDLIST>
+      
+  </SECT1>
+
+<!-- 
+
+  <SECT1 ID="SIMTOOLS.USAGE">
+    <TITLE>Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLS.ADVUSAGE">
+    <TITLE>Advanced Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLS.SUBCLASS">
+    <TITLE>Subclassing Reference</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLS.DESIGN">
+    <TITLE>Interface Design Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="SIMTOOLS.IMPL">
+    <TITLE>Implementation Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+  </SECT1>
+
+-->
+
+</PARTINTRO>
+
+<!--
+Local Variables:
+sgml-parent-document:("simtoolscont.sgml" "PARTINTRO")
+End:
+-->

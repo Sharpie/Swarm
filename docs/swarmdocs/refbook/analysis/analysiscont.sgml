@@ -1,0 +1,19 @@
+<REFERENCE ID="ANALYSIS.REF">
+  &analysismeta.sgml;
+  
+  <TITLE>Analysis Library</TITLE>
+  <TITLEABBREV>Analysis</TITLEABBREV>
+  
+  <!-- partintro -->
+  &analysis00.sgml;
+  
+  <!-- actual reference content -->
+  &analysispages.sgml;
+
+</REFERENCE>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
+End:
+-->

@@ -1,0 +1,84 @@
+<PARTINTRO>
+
+  <SIDEBAR>
+    <TITLE>Overview</TITLE>
+
+    <PARA>The GUI library is intended to be a toolkit-independent
+    description Swarm-specific GUI widgets. The user specifies a
+    specific back-end (such as Tk or Java AWT) at link time.</PARA>
+
+  </SIDEBAR>
+
+<!--
+
+  <SECT1 ID="GUI.DEPEND">
+    <TITLE>Dependencies</TITLE> 
+    <PARA>No other library dependences</PARA>
+  </SECT1>
+-->
+
+  <SECT1 ID="GUI.COMPAT">
+    <TITLE>Compatibility</TITLE>
+
+    <ITEMIZEDLIST>
+
+      <LISTITEM>
+        <FORMALPARA>
+          <TITLE>1.0.5 -&gt; 1.1</TITLE> 
+
+          <PARA>This library was created with the Swarm 1.1 release,
+          earlier version of Swarm used the tkobjc functions
+          directly.</PARA>
+
+        </FORMALPARA>
+      </LISTITEM>
+
+    </itemizedlist>
+    
+  </SECT1>
+
+<!--
+
+  <SECT1 ID="GUI.USAGE">
+    <TITLE>Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="GUI.ADVUSAGE">
+    <TITLE>Advanced Usage Guide</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="GUI.SUBCLASS">
+    <TITLE>Subclassing Reference</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="GUI.DESIGN">
+    <TITLE>Interface Design Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+
+  </SECT1>
+
+  <SECT1 ID="GUI.IMPL">
+    <TITLE>Implementation Notes</TITLE>
+
+    <PARA>Unavailable</PARA>
+  </SECT1>
+
+-->
+
+</PARTINTRO>
+
+<!--
+Local Variables:
+sgml-parent-document:("guicont.sgml" "PARTINTRO")
+End:
+-->

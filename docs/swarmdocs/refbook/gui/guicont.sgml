@@ -1,0 +1,19 @@
+<REFERENCE ID="GUI.REF">
+  &guimeta.sgml;
+  
+  <TITLE>Gui Library</TITLE>
+  <TITLEABBREV>Gui</TITLEABBREV>
+  
+  <!-- partintro -->
+  &gui00.sgml;
+  
+  <!-- actual reference content -->
+  &guipages.sgml;
+
+</REFERENCE>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
+End:
+-->
