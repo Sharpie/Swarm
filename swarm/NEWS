@@ -19,9 +19,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** New methods -getBugAddress and -getVersion for specifying what
       bug reporting address and version number to display.
 **** MessageProbe:
-***** Support for unsigned int, long, and unsigned long types.
+***** Support for unsigned int, char, long, and unsigned long types.
 **** VarProbe
-***** Support for long and unsigned long types.
+***** Support for short, unsigned short, long, and unsigned long types.
 
 ** Autoconfiguration
 *** Improved detection of link option for documenting shared libraries
