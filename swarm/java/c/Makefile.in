@@ -3,6 +3,7 @@ REVISION = 0
 AGE = 0
 include ../Makefile.common
 OBJC=@OBJC@
+CC=@CC@
 RANLIB=@RANLIB@
 INSTALL=@INSTALL@
 top_builddir=../..
@@ -21,6 +22,7 @@ JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)
 
 CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(includedir)
 # Solaris JNI headers have some pragmas
+CFLAGS=@CFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 OBJCFLAGS=@OBJCFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 LDFLAGS=@LDFLAGS@
 
@@ -42,4 +44,7 @@ libjavaswarm.la: $(libjavaswarm_la_OBJECTS)
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
+
+%.lo: %.c
+	$(LIBTOOL) --mode=compile $(CC) $(CPPFLAGS) $(CFLAGS) -c $<
 

@@ -2,6 +2,7 @@
 #include <misc.h>
 #include <misc/avl.h>
 #include <jni.h>
+#include <objc/objc.h>
 
 static avl_tree *directory_tree;
 

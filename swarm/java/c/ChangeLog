@@ -1,5 +1,9 @@
 1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (CFLAGS, CC): Substitute.  
+	(directory.c): Formerly directory.m.
+	(%.lo): Add rule from %.c.
+
 	* directory.[hm] (java_directory_init): Formerly initDirectoryTree.
 	(java_directory_drop): Formerly removeDirectoryTree.
 	(java_directory_find): Formerly _directory_findEntry.
