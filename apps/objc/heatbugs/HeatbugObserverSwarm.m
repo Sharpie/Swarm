@@ -203,7 +203,7 @@
         char filename[40];
 
         sprintf (filename, "heatbugs%07d.png", getCurrentTime ());
-        [[[Pixmap create: [self getZone] widget: nil] save: filename] drop];
+        [[[[[Pixmap createBegin: [self getZone]] setWidget: nil] createEnd] save: filename] drop];
       }
 #endif
     }

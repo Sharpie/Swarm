@@ -1,3 +1,8 @@
+1998-08-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -_update_]): 
+	Use setWidget: instead of create:widget:.
+
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -_update_]): 
