@@ -552,7 +552,7 @@
          :macro)
         ((looking-at "@class")
          :class)
-        ((looking-at "extern\\s-+\\(Class\\s-+\\|int\\s-+\\|void\\s-\\|id\\s-+<.*\\s-\\|id\\s-\\|const\\s-+char\\s-*\\*\\|BOOL\\)\\s-*\\([^ (]+\\)\\s-*(")
+        ((looking-at "extern\\s-+\\(Class\\s-+\\|int\\s-+\\|void\\s-\\|id\\s-+<.*\\s-\\|id\\s-\\|char\\s-*\\*\\|const\\s-+char\\s-*\\*\\|BOOL\\)\\s-*\\([^ (]+\\)\\s-*(")
          (let ((return-type (match-string 1))
                (function-name (match-string 2)))
            (setf (parse-state-function-return-type parse-state)
