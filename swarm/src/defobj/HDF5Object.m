@@ -6,13 +6,14 @@
 #include <swarmconfig.h> // HAVE_HDF5, PTRINT
 
 #import <defobj/HDF5Object.h>
+#import <defobj.h> // STRDUP, ZSTRDUP, SSTRDUP, FREEBLOCK, SFREEBLOCK
 
 #import <defobj/internal.h> // map_ivars, ivar_ptr
 
 #ifdef HAVE_HDF5
 
 #include <hdf5.h>
-#include <misc.h> // strncpy, XFREE, log10, INT_MIN
+#include <misc.h> // strncpy, log10, INT_MIN
 
 #define REF2STRING_CONV "ref->string"
 #define STRING2REF_CONV "string->ref"
@@ -150,7 +151,7 @@ get_attribute_string_list (hid_t oid,
 
           if (strings)
             {
-              ptr = xmalloc (sizeof (const char *) * retcount);
+              ptr = [scratchZone alloc: sizeof (const char *) * retcount];
               
               if (H5Aread (aid, str_ref_tid, ptr) < 0)
                 raiseEvent (LoadError,
@@ -552,13 +553,13 @@ create_class_from_compound_type (id aZone,
                 alignedFlag = NO;
             }
           
-          ivar_list[i].ivar_type = strdup (type);
+          ivar_list[i].ivar_type = ZSTRDUP (aZone, type);
           ivar_list[i].ivar_name = name;
           ivar_list[i].ivar_offset = noffset;
           return noffset + size_for_objc_type (type);
         }
       
-      [classObj setName: strdup (typeName)];
+      [classObj setName: ZSTRDUP (aZone, typeName)];
       [classObj setClass: getClass (newClass)];
       [classObj setDefiningClass: newClass];
       [classObj setSuperclass: newClass];
@@ -1017,7 +1018,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
       memcpy (srcbuf, buf, sizeof (srcbuf));
       for (i = 0; i < count;i ++)
         {
-          ((const char **) buf)[i] = strdup (srcptr);
+          ((const char **) buf)[i] = SSTRDUP (srcptr);
           srcptr += size;
         }
     }
@@ -1056,7 +1057,12 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                                        H5P_DEFAULT)) < 0)
                 raiseEvent (SaveError, "unable to create (compound) dataset");
               
-              c_rnbuf = xcalloc (c_count, sizeof (const char *));
+              {
+                size_t size = c_count * sizeof (const char *);
+
+                c_rnbuf = [[self getZone] alloc: size];
+                memset (c_rnbuf, 0, size);
+              }
             }
           else
             {
@@ -1419,7 +1425,7 @@ PHASE(Using)
       const char *typeName;
 
       if (baseTypeObject)
-        typeName = strdup ((const char *) ((void **) baseTypeObject)[2]);
+        typeName = SSTRDUP ((const char *) ((void **) baseTypeObject)[2]);
       else
         typeName = get_attribute (loc_id, ATTRIB_TYPE_NAME);
       
@@ -1427,7 +1433,7 @@ PHASE(Using)
         {
           Class class = objc_lookup_class (typeName);
  
-          XFREE (typeName);
+          SFREEBLOCK (typeName);
 
           if (class != Nil)
             return class;
@@ -1704,7 +1710,7 @@ hdf5_store_attribute (hid_t did,
 
   if (len > c_rnmlen)
     c_rnmlen = len;
-  c_rnbuf[recordNumber] = strdup (recordName);
+  c_rnbuf[recordNumber] = STRDUP (recordName);
 #else
   hdf5_not_available ();
 #endif
@@ -1720,7 +1726,7 @@ hdf5_store_attribute (hid_t did,
   sprintf (fmt, "%%0%uu", (unsigned) c_rnnlen);
   sprintf (buf, fmt, recordNumber);
   
-  c_rnbuf[recordNumber] = strdup (buf);
+  c_rnbuf[recordNumber] = STRDUP (buf);
 #else
   hdf5_not_available ();
 #endif
@@ -1914,8 +1920,8 @@ hdf5_store_attribute (hid_t did,
 
               for (ri = 0; ri < c_count; ri++)
                 if (c_rnbuf[ri])
-                  XFREE (c_rnbuf[ri]);
-              XFREE (c_rnbuf);
+                  FREEBLOCK (c_rnbuf[ri]);
+              FREEBLOCK (c_rnbuf);
             }
         }
       else

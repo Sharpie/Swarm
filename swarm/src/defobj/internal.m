@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj/internal.h>
-#import <defobj.h> // raiseEvent, DSIZE
+#import <defobj.h> // raiseEvent, DSIZE, SSTRDUP
 
 #include <misc.h> // strtoul
 #include <objc/objc-api.h>
@@ -312,7 +312,7 @@ objc_type_for_array (const char *baseType, unsigned rank, unsigned *dims)
   for (i = 0; i < rank ; i++)
     *p++ = ']';
   *p = '\0';
-  return strdup (buf);
+  return SSTRDUP (buf);
 }
 
 void
@@ -479,3 +479,13 @@ nil_method (id receiver, SEL op, ...)
   return nil;
 }
 #endif
+
+char *
+zstrdup (id aZone, const char *str)
+{
+  size_t len = strlen (str); 
+  char *ptr = [(aZone) alloc: len + 1];
+
+  strcpy (ptr, str); 
+  return ptr;
+}

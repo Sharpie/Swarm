@@ -319,7 +319,7 @@ generate_class_name (void)
   sprintf (buf, "Class%u", generatedClassNameCount);
   generatedClassNameCount++;
 
-  return strdup (buf);
+  return SSTRDUP (buf);
 }
 
 id

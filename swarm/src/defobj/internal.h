@@ -45,3 +45,5 @@ lisp_process_array (const char *type,
                     const void *ptr, void *data,
                     id <OutputStream> stream,
                     BOOL deepFlag);
+
+extern char *zstrdup (id aZone, const char *str);

@@ -4,8 +4,8 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj/Arguments.h>
-#import <defobj.h> // arguments
-#include <misc.h> // strdup, getenv, access, stpcpy, stat, dropdir
+#import <defobj.h> // STRDUP, SSTRDUP, ZSTRDUP, arguments
+#include <misc.h> // getenv, access, stpcpy, stat, dropdir
 
 #include <swarmconfig.h> // SYSCONFDIR, HAVE_ARGP_H
 #ifdef HAVE_ARGP_H
@@ -71,7 +71,7 @@ getApplicationValue (const char *val)
       }
   }
   {
-    char *newStr = strdup (appStr);
+    char *newStr = SSTRDUP (appStr);
     char *ptr = newStr;
     
     ptr = newStr;
@@ -145,7 +145,7 @@ strip_quotes (const char *argv0)
 {
   if (*argv0 == '"')
     {
-      char *ptr = strdup (argv0 + 1);
+      char *ptr = SSTRDUP (argv0 + 1);
       size_t len = strlen (ptr);
       
       if (ptr[len - 1] == '"')
@@ -153,7 +153,7 @@ strip_quotes (const char *argv0)
       return ptr;
     }
   else
-    return strdup (argv0);
+    return SSTRDUP (argv0);
 }
 
 - createEnd
@@ -365,7 +365,7 @@ ensureEndingSlash (const char *path)
       stpcpy (p, "/");
       return buf;
     }
-  return strdup (path);
+  return SSTRDUP (path);
 }
 
 - setDefaultAppConfigPath: (const char *)path
@@ -436,21 +436,23 @@ findDirectory (id arguments, const char *directoryName)
 
   if (exePath)
     {
-      char *pathBuf = strdup (exePath);
+      id aZone = [arguments getZone];
+      char *pathBuf = ZSTRDUP (aZone, exePath);
 
       while (dropdir (pathBuf))
 	{
-	  char *swarmPathBuf = xmalloc (strlen (pathBuf) + strlen (directoryName) + 1);
+	  char *swarmPathBuf =
+            [aZone alloc: strlen (pathBuf) + strlen (directoryName) + 1];
 	  
 	  stpcpy (stpcpy (swarmPathBuf, pathBuf), directoryName);
 	  if (access (swarmPathBuf, F_OK) != -1)
 	    {
-	      XFREE (pathBuf);
+	      ZFREEBLOCK (aZone, pathBuf);
 	      return swarmPathBuf;
 	    }
-	  XFREE (swarmPathBuf);
+	  ZFREEBLOCK (aZone, swarmPathBuf);
 	}
-      XFREE (pathBuf);
+      ZFREEBLOCK (aZone, pathBuf);
       return NULL;
     }
   else
@@ -461,11 +463,11 @@ static unsigned
 countSlashes (const char *path)
 {
   unsigned count = 0;
-  char *newPath = strdup (path);
+  char *newPath = SSTRDUP (path);
   char *scratchPath = newPath;
 
   while ((scratchPath = dropdir (scratchPath))) count++;
-  XFREE (newPath);
+  SFREEBLOCK (newPath);
   return count;
 }
 
@@ -679,7 +681,7 @@ expandvars (const char *path)
             
           p = stpcpy (buf, newHome);
           stpcpy (p, subpath);
-          XFREE (newHome);
+          SFREEBLOCK (newHome);
           return buf;
         }
     }
@@ -738,7 +740,7 @@ convertToLongPath (const char *path)
 	  abort ();
 	if (buf[3] == '\0')
 	  break;
-	components[i] = strdup (findData.cFileName);
+	components[i] = SSTRDUP (findData.cFileName);
       }
     while (dropdir (buf));
 
@@ -752,7 +754,7 @@ convertToLongPath (const char *path)
       }
     *p = '\0';
   }
-  return strdup (newPath);
+  return SSTRDUP (newPath);
 }
 #endif
 
@@ -765,7 +767,7 @@ convertToLongPath (const char *path)
       const char *possibleHomeSrc;
       const char *homeSrc;
       BOOL ret = NO;
-      char *executableBuf = strdup (executablePath);
+      char *executableBuf = STRDUP (executablePath);
       possibleHomeSrc = dropdir (dropdir (executableBuf));
 
       ignoringEnvFlag = NO;
@@ -797,7 +799,7 @@ convertToLongPath (const char *path)
 	      goto retry;
 	    }
 	}
-      XFREE (executableBuf);
+      FREEBLOCK (executableBuf);
       return ret;
     }
 }
@@ -816,7 +818,7 @@ convertToLongPath (const char *path)
 
 - (const char *)getAppConfigPath
 {
-  char *appConfigPath = strdup (defaultAppConfigPath);
+  char *appConfigPath = STRDUP (defaultAppConfigPath);
 
   if ([self _runningFromInstall_])
     {
@@ -830,7 +832,7 @@ convertToLongPath (const char *path)
 
 - (const char *)getAppDataPath
 {
-  char *appDataPath = strdup (defaultAppDataPath);
+  char *appDataPath = STRDUP (defaultAppDataPath);
 
   if ([self _runningFromInstall_])
     {

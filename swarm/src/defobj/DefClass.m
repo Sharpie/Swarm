@@ -174,8 +174,8 @@ addVariable (Class class, const char *varName, const char *varType)
   
   il->ivar_offset = alignsizeto (class->instance_size,
                                  alignment_for_objc_type (varType));
-  il->ivar_type = strdup (varType);
-  il->ivar_name = strdup (varName);
+  il->ivar_type = SSTRDUP (varType);
+  il->ivar_name = SSTRDUP (varName);
   class->instance_size = il->ivar_offset + size_for_objc_type (varType);
   class->ivars->ivar_count++; 
 }
@@ -225,7 +225,7 @@ createType (id aZone, const char *typeName)
   Class newClass = [CreateDrop class];
   id typeObject = [id_BehaviorPhase_s createBegin: aZone];
 
-  [typeObject setName: strdup (typeName)];
+  [typeObject setName: ZSTRDUP (aZone, typeName)];
   [typeObject setClass: getClass (newClass)];
   [typeObject setDefiningClass: newClass]; 
   [typeObject setSuperclass: newClass];
@@ -278,7 +278,7 @@ objc_type_for_lisp_type (const char *lispTypeString)
       if ((val = [li next]) == nil)
         raiseEvent (InvalidArgument, "missing value");
       
-      varName = strdup ([key getKeywordName]);
+      varName = ZSTRDUP (aZone, [key getKeywordName]);
       
       if (stringp (val))
         addVariable (newClass, varName, objc_type_for_lisp_type ([val getC]));
@@ -323,7 +323,7 @@ objc_type_for_lisp_type (const char *lispTypeString)
             p = stpcpy (p, baseType);
             for (i = 0; i < rank; i++)
               p = stpcpy (p, "]");
-            addVariable (newClass, varName, strdup (typebuf));
+            addVariable (newClass, varName, ZSTRDUP (aZone, typebuf));
           }
           [index drop];
         }

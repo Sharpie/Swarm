@@ -1312,3 +1312,21 @@ extern const char *generate_class_name (void);
 //#: object of a given type, not including terminator. 
 //#: signchar + roundup (log (10)/log(2) = 3.3219).
 #define DSIZE(type) (1 + sizeof (type) * 8 / 3 + 1)
+
+extern char *zstrdup (id aZone, const char *str);
+
+#define ZSTRDUP(aZone, str) zstrdup (aZone, str)
+
+#define SSTRDUP(str) ZSTRDUP(scratchZone, str)
+
+#define OSTRDUP(obj, str) ZSTRDUP([obj getZone], str)
+
+#define STRDUP(str) OSTRDUP(self, str)
+
+#define ZFREEBLOCK(aZone, block) [aZone free: (void *) (block)]
+
+#define SFREEBLOCK(block) ZFREEBLOCK (scratchZone, block)
+
+#define OFREEBLOCK(obj, block) ZFREEBLOCK ([obj getZone], block)
+
+#define FREEBLOCK(block) OFREEBLOCK(self, block)

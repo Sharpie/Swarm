@@ -5,7 +5,8 @@
 
 #import <defobj/HDF5Archiver.h>
 #import <defobj/HDF5Object.h>
-#import <misc.h>
+#import <defobj.h> // OSTRDUP
+#import <misc.h> // access
 
 #include <collections/predicates.h>
 
@@ -128,7 +129,7 @@ hdf5_create_app_group (const char *appKey, id hdf5Obj, id *hdf5AppObjPtr)
   id hdf5AppObj = hdf5Obj;
   char *newAppKey, *modeKey;
 
-  newAppKey = strdup (appKey);
+  newAppKey = OSTRDUP (hdf5Obj, appKey);
   modeKey = newAppKey;
   
   while (*modeKey && *modeKey != '/')

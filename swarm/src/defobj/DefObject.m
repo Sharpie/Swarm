@@ -148,7 +148,7 @@ PHASE(Setting)
             }
           }
       else if (stringp (val))
-        *((const char **) ptr) = strdup ([val getC]);
+        *((const char **) ptr) = STRDUP ([val getC]);
       else if (listp (val))
         {
           id first = [val getFirst];

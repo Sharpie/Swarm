@@ -1,5 +1,46 @@
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* internal.[hm], defobj.h (zstrdup): New function.
+
+	* internal.m (objc_type_for_array): Use SSTRDUP instead of strdup.
+
+	* directory.m ([-javaEnsureObjc:]): Use STRDUP instead of strdup.
+	(create_signature_from_class_name,
+	swarm_directory_ensure_selector,
+	swarm_directory_copy_java_string): Use SSTRDUP inst of strdup.
+
+	* defobj.m (generate_class_name): use SSTRDUP instead of strdup.
+
+	* HDF5Object.m (create_class_from_compound_type): Use ZSTRDUP
+	instead of strdup.
+	(string_ref): Use SSTRDUP instead of strdup.
+	([HDF5_c -getClass], [HDF5_c -nameRecord:name:], [HDF5_c
+	-numberRecord:]): Use STRDUP instead of strdup.
+
+	* HDF5Archiver.m (hdf5_create_app_group): Use OSTRDUP instead
+	of strdup.
+
+	* DefObject.m ([Object_s -lispIn:]): Use STRDUP instead of strdup.
+
+	* DefClass.m (addVariable): Use SSTRDUP instead of strdup.
+	(createType, [CreatedClass_s -lispInCreate:]): Use ZSTRDUP instead
+	of strdup.
+
+	* Arguments.m (getApplicationValue, strip_quotes, countSlashes,
+	ensureEndingSlash) Use SSTRDUP instead of strdup.
+	(findDirectory): Use ZSTRDUP instead of strdup.
+	(convertToLongPath): Use SSTRDUP instead of strdup.
+	([Arguments_c -_runningFromInstall_], [Arguments_c
+	-getAppConfigPath], [Arguments_c -getAppDataPath]): Use STRDUP
+	instead of strdup.
+
+	* Archiver.m ([Application -setName:]): Use STRDUP instead of strdup.
+
+	* internal.m (zstrdup): New function.
+
+	* defobj.h (ZSTRDUP, SSTRDUP, OSTRDUP, STRDUP, OFREEBLOCK,
+	ZFREEBLOCK): New macros.
+
 	* Zone.m ([Zone_c -alloc:]): Store offset after alignment and size
 	in allocation. 
 	([Zone_c -free:]): And free it.

@@ -382,13 +382,13 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
       const char *utf, *str;
       
       utf = (*jniEnv)->GetStringUTFChars (jniEnv, javaObject, &isCopy);
-      str = strdup (utf);
+      str = STRDUP (utf);
       if (isCopy)
         (*jniEnv)->ReleaseStringUTFChars (jniEnv, javaObject, utf);
       
       if (result)
         {
-          XFREE (result->object);
+          FREEBLOCK (result->object);
           result = SD_SWITCHOBJC (jniEnv, javaObject, (id) str);
         }
       else
@@ -735,7 +735,7 @@ create_signature_from_class_name (JNIEnv *env, const char *className)
   char buf[1 + strlen (className) + 1 + 1];
 
   fill_signature (buf, className);
-  return strdup (buf);
+  return SSTRDUP (buf);
 }
 
 static const char *
@@ -745,8 +745,8 @@ create_signature_from_object (JNIEnv *env, jobject jobj)
     swarm_directory_copy_java_string (env, 
                                       get_class_name_from_object (env, jobj));
   const char *ret = create_signature_from_class_name (env, className);
-
-  XFREE (className);
+  
+  SFREEBLOCK (className);
   return ret;
 }
 
@@ -869,7 +869,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
         
       if (objcFlag)
         {
-          p = name = (copyFlag ? (char *) utf : strdup (utf));
+          p = name = SSTRDUP (utf);
           while (*p)
             {
               if (*p == '$')
@@ -954,8 +954,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
 
       if (copyFlag)
         (*env)->ReleaseStringUTFChars (env, string, utf);
-      else
-        XFREE (name);
+      SFREEBLOCK (name);
     }
   return sel;
 }
@@ -992,7 +991,7 @@ swarm_directory_copy_java_string (JNIEnv *env, jstring javaString)
 {
   jboolean isCopy;
   const char *str = (*env)->GetStringUTFChars (env, javaString, &isCopy);
-  const char *ret = strdup (str);
+  const char *ret = SSTRDUP (str);
 
   if (isCopy)
     (*env)->ReleaseStringUTFChars (env, javaString, str);
@@ -1008,7 +1007,7 @@ swarm_directory_cleanup_strings (JNIEnv *env,
   size_t i;
 
   for (i = 0; i < count; i++)
-    XFREE (stringArray[i]);
+    SFREEBLOCK (stringArray[i]);
 }
 
 Class

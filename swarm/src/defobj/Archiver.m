@@ -7,8 +7,8 @@
 
 #import <collections.h>
 #import <collections/predicates.h> // list_literal_p, listp, pairp, stringp
-#import <defobj.h> // arguments
-#include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
+#import <defobj.h> // arguments, STRDUP
+#include <misc.h> // access, getenv, xmalloc, stpcpy
 
 
 const char *
@@ -99,7 +99,7 @@ defaultAppPath (const char *appDataPath, const char *appName,
 
 - setName: (const char *)theName
 {
-  name = strdup (theName);
+  name = STRDUP (theName);
   return self;
 }
 
