@@ -989,7 +989,9 @@ PHASE(Creating)
 #ifdef HAVE_HDF5
 static herr_t
 ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
-            size_t count, void *buf, void *bkg)
+            size_t count, size_t stride, 
+            void *buf, void *bkg,
+            hid_t dset_xfer_plid)
 {
   if (cdata->command == H5T_CONV_CONV)
     {
@@ -1013,7 +1015,8 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 
 static herr_t
 string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
-            size_t count, void *buf, void *bkg)
+            size_t count, size_t stride, 
+            void *buf, void *bkg, hid_t xfer_plid)
 {
   if (cdata->command == H5T_CONV_CONV)
     {
@@ -1173,13 +1176,15 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
   
   if (hdf5InstanceCount == 0)
     {
-      if (H5Tregister_soft (REF2STRING_CONV,
-                            H5T_REFERENCE,
-                            H5T_STRING, ref_string) == -1)
+      if (H5Tregister (H5T_PERS_SOFT,
+                       REF2STRING_CONV,
+                       H5T_STD_REF_OBJ,
+                       H5T_C_S1, ref_string) < 0)
         raiseEvent (SaveError, "unable to register ref->string converter");
-      if (H5Tregister_soft (STRING2REF_CONV,
-                            H5T_STRING,
-                            H5T_REFERENCE, string_ref) == -1)
+      if (H5Tregister (H5T_PERS_SOFT,
+                       STRING2REF_CONV,
+                       H5T_C_S1,
+                       H5T_STD_REF_OBJ, string_ref) < 0)
         raiseEvent (LoadError, "unable to register string->ref converter");
     }
   hdf5InstanceCount++;
@@ -1330,7 +1335,7 @@ PHASE(Using)
       int ret = 0;
       H5G_stat_t statbuf;
       
-      if (H5Gget_objinfo (oid, memberName, 1, &statbuf) == -1)
+      if (H5Gget_objinfo (oid, memberName, 1, &statbuf) < 0)
         raiseEvent (LoadError, "Cannot query object `%s'", memberName);  
       
       if (statbuf.type == H5G_GROUP)
@@ -1942,9 +1947,9 @@ hdf5_store_attribute (hid_t did,
   hdf5InstanceCount--;
   if (hdf5InstanceCount == 0)
     {
-      if (H5Tunregister (ref_string) == -1)
+      if (H5Tunregister (H5T_PERS_SOFT, REF2STRING, -1, -1,  ref_string) < 0)
         raiseEvent (SaveError, "unable to unregister ref->string converter");
-      if (H5Tunregister (string_ref) == -1)
+      if (H5Tunregister (H5T_PERS_SOFT, STRING2REF, -1, -1, string_ref) < 0)
         raiseEvent (LoadError, "unable to unregister string->ref converter");
     }
   [super drop];

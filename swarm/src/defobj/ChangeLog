@@ -1,5 +1,13 @@
-1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HDF5Object.m (ref_string, string_ref): Add `stride' and 
+	`dataset_xfer_plid' options per 1.2 H5T_conv_t.
+	([HDF5_c -checkName:]): Check for negative number, not just
+	-1 from H5Gget_objinfo.
+	([HDF5_c -createEnd]): Update H5Tregister API to 1.2.
+	([HDF5_c -drop]): Update H5Tunregister API to 1.2.
+
+1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 	* directory.m (DIRECTORY_SIZE): Set to 21599.  Add an alternate
 	larger size.
 
