@@ -44,10 +44,10 @@ PHASE(Using)
   return NO;
 }
 
-- (id *)add: anObject
+- (BOOL)add: anObject
 {
   [self addLast: anObject];
-  return (id *)nil;
+  return NO;
 }
 
 - remove: aMember

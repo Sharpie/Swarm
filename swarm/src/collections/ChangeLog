@@ -3,6 +3,8 @@
 	* Set.[hm], collections.h ([Set_c -add:]): Return NO instead of
 	nil.  Make return type boolean.
 
+	* OrderedSet.[hm]: Likewise.
+
 1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Permutation.m ([Permutation_c +createBegin:]): Revert last change.

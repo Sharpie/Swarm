@@ -16,7 +16,7 @@ Library:      collections
 + createBegin: aZone;
 - createEnd;
 - (BOOL)contains: anObject;
-- (id *)add: anObject;
+- (BOOL)add: anObject;
 - remove: aMember;
 @end
 
