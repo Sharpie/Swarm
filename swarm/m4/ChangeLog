@@ -1,6 +1,8 @@
 1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4 (vj_FIND_JDK): New substitution jdkdosdir.
+	Set JAVACLASSES to use jdkdosdir and backslashes in cygwin case,
+	and jdkdir and slashes, otherwise.
 
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

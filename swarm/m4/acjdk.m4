@@ -31,9 +31,13 @@ else
     else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/genunix"
     fi
-    JAVACLASSES='${jdkdosdir}/lib/classes.zip'
+    if test "$host_os" = cygwin; then
+      JAVACLASSES='${jdkdosdir}\lib\classes.zip'
+    else
+      JAVACLASSES='${jdkdir}/lib/classes.zip'
+    fi
     JAVACMD='${jdkdir}/bin/java'
-    JAVAENV='JAVA_HOME=${jdkdir}'
+    JAVAENV='JAVA_HOME=${jdkdosdir}'
     JAVA='${JAVAENV} ${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
