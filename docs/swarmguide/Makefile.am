@@ -7,8 +7,6 @@ SGML_FILES = $(SGML) $(GENERATED_SGML)
 
 all-recursive-am: versions.ent
 
-nodist_data_DATA = versions.ent
-
 .PHONY: FORCE
 
 include $(top_srcdir)/Makefile.rules

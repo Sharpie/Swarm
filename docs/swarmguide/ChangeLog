@@ -12,8 +12,8 @@
 
 	* Makefile.am (EXTRA_DIST): New variable, enumerate independent of
 	other variables.
-	(nodist_data_DATA): Make a nodist_ variable rather than a noinst_
-	variable.
+	(noinst_DATA): Remove variable entirely, since we neither install
+	nor distribute this file.
 	(versions.ent): Create an entity for the name of the swarm guide
 	packag.e
 
