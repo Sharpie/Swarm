@@ -1,3 +1,9 @@
+1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (_SWARMLIBS): New variable for just the
+	module libraries.
+	(SWARMLIBS): Use it, adding $(JAVASWARMLIBS).
+
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config.swarm.in (swarm_JAVASWARMLIBS): Substitute JAVASWARMLIBS.

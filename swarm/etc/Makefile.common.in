@@ -74,7 +74,9 @@ SWARMMODULES = space analysis simtools simtoolsgui tkobjc tclobjc activity rando
 
 JAVASWARMLIBS = @JAVASWARMLIBS@
 
-SWARMLIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(JAVASWARMLIBS)
+_SWARMLIBS = $(foreach module,$(SWARMMODULES),-l$(module))
+
+SWARMLIBS = $(JAVASWARMLIBS) $(_SWARMLIBS)
 
 # Local variables:
 # mode: makefile
