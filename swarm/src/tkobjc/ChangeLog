@@ -1,3 +1,11 @@
+1999-09-14  Alex Lancaster  <alex@santafe.edu>
+
+	* Raster.[hm] ([Raster +create:setWindowGeometryRecordName:]): New
+	factory method.
+
+	* ZoomRaster.m ([ZoomRaster
+	+create:setWindowGeometryRecordName:]): New factory method.
+
 1999-09-13    <mgd@HELEN>
 
 	* Raster.m ([Raster -setWidth:Height:]): Don't copy more

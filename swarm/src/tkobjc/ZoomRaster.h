@@ -14,7 +14,8 @@
   unsigned zoomFactor;
   unsigned logicalWidth, logicalHeight;
 }
-
++ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createEnd;
 - increaseZoom;
 - decreaseZoom;
 - (unsigned)getZoomFactor;

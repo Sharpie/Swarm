@@ -15,6 +15,13 @@
 
 PHASE(Creating)
 
++ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)theWindowGeometryRecordName
+{
+  Raster *obj = [super createBegin: aZone];
+  [obj setWindowGeometryRecordName: theWindowGeometryRecordName];
+  return [obj createEnd];
+}
+
 - _setConfigureInfo_: (const char *)eventName
 {
   [globalTkInterp 
