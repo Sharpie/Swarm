@@ -47,7 +47,7 @@ DLLOBJS = $(addsuffix .o,$(basename $(libobjc__la_SOURCES)))
 empty.c:
 	echo > empty.c
 
-objc.dll libobjc.a: libobjc_.la
+objc.dll: libobjc_.la
 	$(CC) -c $(srcdir)/dllinit.c
 	$(srcdir)/genctors $(DLLOBJS) > $(CTOR).c
 	$(CC) -c $(CTOR).c
