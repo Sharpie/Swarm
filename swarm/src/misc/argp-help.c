@@ -126,11 +126,14 @@ fill_in_uparams (const struct argp_state *state)
 {
   const char *var = getenv ("ARGP_HELP_FMT");
 
-#define IsAlpha(ch) isalpha((int)ch)
-#define IsAlnum(ch) isalnum((int)ch)
-#define IsDigit(ch) isdigit((int)ch)
-#define IsSpace(ch) isspace((int)ch)
-#define SKIPWS(p) do { while (IsSpace (*p)) p++; } while (0);
+#define isUpper(ch) ((ch) >= 'A' && (ch) <= 'Z')
+#define isLower(ch) ((ch) >= 'a' && (ch) <= 'z')
+#define isAlpha(ch) (isUpper(ch) || isLower(ch))
+#define isAlnum(ch) (isAlpha(ch) || isDigit(ch))
+#define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
+#define isSpace(ch) ((ch) == ' ' || (ch) == '\t' || (ch) == '\n' || (ch) == '\r' || (ch) == '\f')
+
+#define SKIPWS(p) do { while (isSpace (*p)) p++; } while (0);
 
   if (var)
     /* Parse var. */
@@ -138,7 +141,7 @@ fill_in_uparams (const struct argp_state *state)
       {
 	SKIPWS (var);
 
-	if (IsAlpha (*var))
+	if (isAlpha (*var))
 	  {
 	    size_t var_len;
 	    const struct uparam_name *un;
@@ -170,10 +173,10 @@ fill_in_uparams (const struct argp_state *state)
                 else
                   val = 1;
               }
-	    else if (IsDigit (*arg))
+	    else if (isDigit (*arg))
 	      {
 		val = atoi (arg);
-		while (IsDigit (*arg))
+		while (isDigit (*arg))
 		  arg++;
 		SKIPWS (arg);
 	      }
@@ -661,7 +664,7 @@ canon_doc_option (const char **name)
 {
   int non_opt;
   /* Skip initial whitespace.  */
-  while (IsSpace (**name))
+  while (isSpace (**name))
     (*name)++;
   /* Decide whether this looks like an option (leading `-') or not.  */
   non_opt = (**name != '-');
