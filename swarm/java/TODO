@@ -45,3 +45,7 @@ a solution for profiling.
 How about making all ArchiverValues long long?  Need long long support.
 
 Check funny VarProbe behavior on HPUX9
+
+Too much casting!
+  How about having stubbing logic to convert id <Zone> into ZoneImpl?
+  Or, as a short-term solution, perhaps a table of common-cases like getZone?
