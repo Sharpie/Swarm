@@ -54,10 +54,9 @@ PHASE(Creating)
 
   archiverRegister (self);
   windowGeometryRecord = [self loadWindowGeometryRecord];
+  tkobjc_setName (self, windowGeometryRecordName);
   if (windowGeometryRecord)
     {
-      tkobjc_setName (self, windowGeometryRecordName);
-
       if ([windowGeometryRecord getSizeFlag])
         [self setWidth: [windowGeometryRecord getWidth]
               Height: [windowGeometryRecord getHeight]];
@@ -65,8 +64,6 @@ PHASE(Creating)
         [self setX: [windowGeometryRecord getX]
               Y: [windowGeometryRecord getY]];
     }
-  else
-    tkobjc_setName (self, NULL);
 
   return self;
 }
@@ -75,6 +72,7 @@ PHASE(Creating)
 {
   [super createEnd];
   [self registerAndLoad];
+
   return self;
 }
 
