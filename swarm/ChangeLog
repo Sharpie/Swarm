@@ -1,11 +1,16 @@
-2000-02-21    <mgd@nest.swarm.org>
+2000-03-20  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Make major heading be `Release Notes for Swarm 2.1',
+	rather than `Notes since Swarm 2.0.1'.
+
+2000-02-21 Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* VERSION: Bump.  Swarm 2.1 frozen.
 
 	* configure.in: Add an automake conditional to disable
 	optimization in selected cases.
 
-2000-02-14    <mgd@nest.swarm.org>
+2000-02-14 Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* NEWS: Note addition of jdkswarm and jdkcswarm.
 
