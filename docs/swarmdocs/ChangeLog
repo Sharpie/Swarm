@@ -1,3 +1,25 @@
+1998-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* common.el (pathname-for-swarmdocs): Created a conditional to
+	create the appropriate pathnames for {set,install,over} modules.
+	(pathname-for-swarmdocs-revision-output): Create the
+	{set,install,over}revhistory.sgml filenames for parsed ChangeLog
+	output.
+
+	* history.el (process-changelog): Added (set over install) to the
+	list of modules to be excluded from .h header file parsing.
+
+	* catalog.in: Added PUBLIC identifiers for all SGML in over and
+	install and set.  Created PUBLIC identifiers for the
+	{over,install,set}.ent lists.
+
+	* configure.in (AC_OUTPUT): Fix pathnames in output files
+	generated to be consistent with name change of modules
+	{over,install}.
+
+	* Makefile.am (SUBDIRS): Changed overview -> over; installing ->
+	install.
+
 1998-06-11  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (SUBDIRS):  Add figs.
