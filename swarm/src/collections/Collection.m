@@ -470,7 +470,9 @@ PHASE(Using)
 
 - (id <Symbol>)_getLoc_
 {
-  if (![(Permutation_c *) collection getTouchedFlag])
+  if (((Permutation_c *) collection)->count == 0)
+    return End;
+  else if (![(Permutation_c *) collection getTouchedFlag])
     return Start;
   else if (![(Permutation_c *) collection getUntouchedFlag])
     return nextFlag ? Member : End; 
@@ -490,7 +492,7 @@ PHASE(Using)
   {
     id <Symbol> loc = [self _getLoc_];
     id current = loc == Member ? [self get] : nil;
-    
+
     [self reshuffle];
     if (loc == Member)
       {
@@ -513,9 +515,11 @@ PHASE(Using)
 {
   [self _updatePermutation_];
   nextFlag = NO;
-  while (1)
+  while ([self _getLoc_] != End)
     {
-      PermutationItem_c *pi = [index next];
+      PermutationItem_c *pi;
+
+      pi = [index next];
 
       if (pi)
 	{
@@ -526,8 +530,8 @@ PHASE(Using)
               return pi->item;
             }
 	}
-     else
-	break;
+      else
+        [index setLoc: Start];
     }
   return nil;
 }
@@ -535,7 +539,7 @@ PHASE(Using)
 - prev
 {
   [self _updatePermutation_];
-  while (1)
+  while ([self getLoc] != Start)
     {
       PermutationItem_c *pi = [index prev];
 
@@ -548,7 +552,7 @@ PHASE(Using)
             }
 	}
       else
-	break;
+        [index setLoc: End];
     }
   return nil;
 }

@@ -1,5 +1,11 @@
 2000-07-26  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* Collection.m ([PermutedIndex_c -_getLoc_]): Return End when 
+	collection is empty.
+	([PermutedIndex_c -next]): Make while loop condition
+	on _getLoc_ not returning End.
+	([PermutedIndex_c -prev]): Likewise per Start.
+
 	* Permutation.m ([PermutationItem_c -describe:]): Print out
 	lastDirection and position.
 
