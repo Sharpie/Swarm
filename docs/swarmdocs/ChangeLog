@@ -1,6 +1,12 @@
-2000-03-01  Alex Lancaster  <alex@santafe.edu>
+2000-03-01    <mgd@nest.swarm.org>
 
 	* Swarmdocs 2.1 frozen.
+
+	* global.ent: Simplify copyright info.
+
+	* configure.in: Fix typo in cygwin host_os check.
+
+2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* catalog.in: Remove LGPL, GPL entities, create new PUBLIC entity
 	"-//SFI Hive//ENTITIES License//EN".

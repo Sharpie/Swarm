@@ -82,7 +82,7 @@ AM_CONFIG_HEADER(config.h)
 AC_SUBST(swarm_srcdir)
 
 dnl Change to the directory, since the text may be symbolic or a relative path
-if "$host_os" = cygwin; then
+if test "$host_os" = cygwin; then
   top_dossrcdir=`cygpath -w $srcdir`
   dnl Eval command, since default is symbolic SWARMSRCDIR
   swarm_dossrcdir=`eval cygpath -w $swarm_srcdir`

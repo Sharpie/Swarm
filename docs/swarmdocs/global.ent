@@ -61,14 +61,9 @@ mailing lists page</ulink>'>
 <!ENTITY bibliodata  "<RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
     <PUBDATE>&pubdate;</PUBDATE>
     <COPYRIGHT>
-      <YEAR>2000</YEAR>
+      <YEAR>1996-2000</YEAR>
       <HOLDER>&orgname;</HOLDER>
-    </COPYRIGHT>
-    <COPYRIGHT>
-      <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR><YEAR>1999</YEAR>
-      <YEAR>2000</YEAR>
-      <HOLDER>Swarm Development Group</HOLDER></COPYRIGHT>"
->
+    </COPYRIGHT>">
 
 <!--
 Local variables: 
