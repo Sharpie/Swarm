@@ -41,7 +41,7 @@ all: modules $(addsuffix .class,$(POSTCLASSES))
 deps: 
 	for module in $(MODULES); do $(MAKE) -C $$module .deps; done
 
-modules: deps $(addsuffix $(PRECLASSES),.class)
+modules: deps $(addsuffix .class,$(PRECLASSES))
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
 
 jar: all
