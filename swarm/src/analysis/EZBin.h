@@ -11,6 +11,7 @@
 {
   int graphics;
   id aHisto;
+  const char *graphWindowGeometryRecordName;
 
   int fileOutput;
   id anOutFile;
@@ -32,6 +33,7 @@
   double minval, maxval, average, average2, std;
 }
 
+- setWindowGeometryRecordName: (const char *)name;
 - setTitle: (const char *)aTitle; 
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 

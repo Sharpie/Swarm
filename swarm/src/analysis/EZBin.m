@@ -28,6 +28,12 @@
   return anObj;
 }
 
+- setWindowGeometryRecordName : (const char *)windowGeometryRecordName
+{
+  graphWindowGeometryRecordName = windowGeometryRecordName;
+  return self;
+} 
+
 - setGraphics: (int)state
 {
   graphics = state;
@@ -110,7 +116,9 @@
 
   if (graphics)
     {
-      aHisto = [Histo create: [self getZone]];
+      aHisto = [Histo createBegin: [self getZone]];
+      [aHisto setWindowGeometryRecordName: graphWindowGeometryRecordName];
+      aHisto = [aHisto createEnd];
       [aHisto title: theTitle];
       if(xLabel && yLabel) 
         [aHisto axisLabelsX: xLabel Y: yLabel];

@@ -1,5 +1,11 @@
 1998-01-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* EZBin.m ([EZBin -setWindowGeometryRecordName:]): Add.
+	([EZBin -createEnd]): pass on windowGeometryRecordName to Histo.
+
+	* EZBin.h (EZBin): New instance variable graphWindowGeometryRecordName.
+	 Declare setWindowGeometryRecordName setter.
+	
 	* EZGraph.h: Rename setGraphWindowGeometryRecordName to
 	setWindowGeometryRecordName.
 
