@@ -1,3 +1,24 @@
+1998-06-25  Alex Lancaster  <alexl@bigfoot.com>
+
+	* Makefile.conf:  Remove.
+
+	* configure.in (--with-swarm): Changed $(SWARMHOME) to
+	$(SWARMSRCDIR) as the default environment variable for Swarm
+	source.
+
+	* protocol.el (sgml-examples): Wrap the text of the PROGRAMLISTING
+	with the "<![ CDATA [ ]]>" directive to prevent erroneous
+	interpretation by jade of text of example.
+
+	* history.el (process-changelog): Change all references of
+	(swarmhome-changelog-list) to (swarmsrcdir-changelog-list).
+
+	* common.el (get-swarmsrcdir): Changed from (get-swarmhome). Accept
+	$(SWARMSRCDIR) as new environment variable.
+	(get-swarmdocs): Make all references to get-swarmsrcdir, not
+	get-swarmhome.
+	(pathname-for-module-sym): Likewise.
+
 1998-06-23  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.rules (DISTNAME): Append @VERSION@ to $(NAME) for the

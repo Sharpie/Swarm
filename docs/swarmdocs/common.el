@@ -16,28 +16,28 @@
         unless (consp module-sym)
         collect module-sym))
 
-(defun get-swarmhome ()
+(defun get-swarmsrcdir ()
   (concat
-   (let ((swarmhome-env (getenv "SWARMHOME")))
-     (if swarmhome-env
-         swarmhome-env
+   (let ((swarmsrcdir-env (getenv "SWARMSRCDIR")))
+     (if swarmsrcdir-env
+         swarmsrcdir-env
          (if (> (length command-line-args 1))
              (car (last command-line-args))
-             (error "Can't find SWARMHOME"))))
+             (error "Can't find SWARMSRCDIR"))))
    "/"))
 
 (defun get-swarmdocs ()
   (let ((swarmdocs-env (getenv "SWARMDOCS")))
     (if swarmdocs-env
         swarmdocs-env
-        (concat (get-swarmhome) "../swarmdocs"))))
+        (concat (get-swarmsrcdir) "../swarmdocs"))))
 
 (defun header-filename-for-module-sym (module-sym)
   (concat (symbol-name module-sym) ".h"))
 
 (defun pathname-for-module-sym (module-sym &optional filename)
   (let ((module-name (symbol-name module-sym)))
-    (concat (get-swarmhome) "src/" module-name "/" 
+    (concat (get-swarmsrcdir) "src/" module-name "/" 
             (if filename
                 filename
                 (header-filename-for-module-sym module-sym)))))

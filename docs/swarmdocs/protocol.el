@@ -1490,9 +1490,9 @@
       (insert "</TITLE>\n")
       (loop for example in example-list
             do
-            (insert "<PROGRAMLISTING>\n")
+            (insert "<PROGRAMLISTING>\n<![ CDATA [\n")
             (insert example)
-            (insert "</PROGRAMLISTING>\n"))
+            (insert "]]>\n</PROGRAMLISTING>\n"))
       (insert "</EXAMPLE>\n"))))
 
 (defun count-method-examples (protocol phase)

@@ -4,10 +4,10 @@ AM_INIT_AUTOMAKE(Swarmdocs, 0.0)
 
 AC_ARG_WITH(swarm,dnl
 changequote(<,>)dnl
-  --with-swarm=DIR        Swarm in DIR [$(SWARMHOME)],dnl
+  --with-swarm=DIR        Swarm in DIR [$(SWARMSRCDIR)],dnl
 changequote([,])dnl
   swarm_srcdir=$withval,dnl
-  swarm_srcdir='$(SWARMHOME)')
+  swarm_srcdir='$(SWARMSRCDIR)')
 
 AC_ARG_WITH(dtd,dnl
 changequote(<,>)dnl

@@ -137,7 +137,7 @@
   (let* ((module-sym (if module-arg
                          module-arg
                          (intern (car (last command-line-args)))))
-         (swarmhome-changelog-list
+         (swarmsrcdir-changelog-list
           (if (member module-sym '(src tech set over install))
               nil
               (parse-changelog (pathname-for-module-sym module-sym "ChangeLog")
@@ -146,7 +146,7 @@
           (parse-changelog (pathname-for-swarmdocs module-sym "ChangeLog")))
          (combined-changelog-list (append
                                    swarmdocs-changelog-list
-                                   swarmhome-changelog-list)))
+                                   swarmsrcdir-changelog-list)))
     (with-temp-file (pathname-for-swarmdocs-revision-output module-sym)
       (sgml-mode)
       (insert "<REVHISTORY ID=\"SWARM.")
