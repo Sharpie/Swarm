@@ -1,3 +1,8 @@
+2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (impl-print-get-imp-pointer, impl-print-get-sel):
+	New functions.
+
 2000-11-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el (*removed-methods*): Remove -getMessageSelector.

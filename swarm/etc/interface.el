@@ -603,5 +603,27 @@
                      method-signatures)
             nil))))))
                           
+(defun impl-print-get-imp-pointer (method
+                                   print-return-type
+                                   print-argument)
+  (insert "  ")
+  (funcall print-return-type method)
+  (if (method-factory-flag method)
+      (insert " (*swarm_imp) (Class objcTarget, SEL objcSel")
+    (insert " (*swarm_imp) (id objcTarget, SEL objcSel"))
+  (when (has-arguments-p method)
+    (loop for argument in (method-arguments method)
+          do
+          (insert ", ")
+          (funcall print-argument argument)))
+  (insert ");\n")
+  (if (method-factory-flag method)
+      (progn
+        (insert "  MetaClass mClass = class_get_meta_class (swarm_target);\n")
+        (insert "  (IMP) swarm_imp = class_get_class_method (mClass, swarm_sel)->method_imp;\n"))
+    (insert "  (IMP) swarm_imp = objc_msg_lookup_objc (swarm_target, swarm_sel);\n")))
 
-
+(defun impl-print-get-sel (method)
+  (insert "  SEL swarm_sel = sel_get_uid (\"")
+  (insert (substring (get-method-signature method) 1))
+  (insert "\");\n"))
