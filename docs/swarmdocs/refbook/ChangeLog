@@ -1,3 +1,7 @@
+1999-01-15  Alex Lancaster  <alex@santafe.edu>
+
+	* ref00a.sgml: Add porting note on Histogram protocol change.
+
 1999-01-13  Alex Lancaster  <alex@santafe.edu>
 
 	* refmeta.sgml: Remove old LEGALNOTICE text.  Refer the

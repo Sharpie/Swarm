@@ -88,6 +88,28 @@
           of the <classname>ListShuffler</classname> protocol.
         </para>
       </listitem>
+      <listitem>
+
+        <para>The <literal>-setLabels::</literal> and
+        <literal>-setColors::</literal> methods in the <link
+        linkend="SWARM.GUI.HISTOGRAM.PROTOCOL"><classname>Histogram</classname></link>
+        protocol now each must be given a new <literal>count:
+        (unsigned)labelCount</literal> and <literal>count:
+        (unsigned)colorCount</literal> argument, respectively.  So,
+        for example, the code formerly in
+        <filename>MarketObserverSwarm.m</filename> in the
+        <application>market</application> application was:
+<programlisting role="ObjC">
+[useHisto setLabels: pred];
+[useHisto setColors: predictorColors];
+</programlisting>
+        is now changed to:
+<programlisting role="ObjC">
+[useHisto setLabels: pred count: numPredictorsToShow];
+[useHisto setColors: predictorColors count: numPredictorsToShow];
+</programlisting>
+        </para>
+      </listitem>
     </itemizedlist>
   </sect1>
 
