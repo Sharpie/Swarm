@@ -76,7 +76,7 @@ SUPPORTLDFLAGS = $(HDF5LDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(BLT
 
 SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(GUILIBS) -lm $(DLLIB)
 
-SWARMMODULES = $(shell cat $(top_srcdir)/etc/modules)
+SWARMMODULES = $(shell cat $(top_builddir)/etc/modules)
 
 USEDLL=@USEDLL@
 ONELIB=@ONELIB@

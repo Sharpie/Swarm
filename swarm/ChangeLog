@@ -1,3 +1,8 @@
+2004-07-19  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* COM/c/Makefile.in, etc/Makefile.common.in: etc/modules
+	now in build directory not source.
+	
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (SUBDIRS): Use libobjc definition.  Move etc before

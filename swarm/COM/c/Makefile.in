@@ -29,7 +29,7 @@ include $(topsrcdir)/config/rules.mk
 override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swarm_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(swarm_srcdir)/src $(foreach module,defobj,-I$(swarm_srcdir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(swarm_srcdir) -I$(swarm_srcdir)/COM/c -I.
 
 
-SWARMMODULES = $(shell cat $(swarm_srcdir)/etc/modules)
+SWARMMODULES = $(shell cat $(top_builddir)/etc/modules)
 
 EXTRA_DSO_LDOPTS += $(MOZ_COMPONENT_LIBS) -L$(top_builddir)/libobjc/.libs -L$(top_builddir)/src/.libs -lswarm $(foreach module,$(SWARMMODULES), -L$(top_builddir)/src/$(module)/.libs -l$(module)) -lobjc -lmozjs
 
