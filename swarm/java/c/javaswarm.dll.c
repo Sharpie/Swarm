@@ -81,5 +81,7 @@ DllMain (
   return TRUE;
 }
 
+#if 0
 #include <cygwin/cygwin_dll.h>
 DECLARE_CYGWIN_DLL (DllMain);
+#endif
