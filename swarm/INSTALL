@@ -11,6 +11,7 @@ To build Swarm, there are four basic steps:
 Generic instructions for configuring and compiling GNU distributions
 are included after the following section.
 
+*****For MacOS X see macosx/INSTALL.MacOSX******
 
 Required and Optional Flags for Configuring Swarm =========================
 
