@@ -403,7 +403,8 @@ copy_to_nth_colon (const char *str, int n)
 - (void)drop
 {
   FREEBLOCK (probedMethodName);
-  [getZone (self) free: arguments];
+  if (arguments)
+    [getZone (self) free: arguments];
   [super drop];
 }
 @end

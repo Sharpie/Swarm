@@ -1,3 +1,8 @@
+2001-02-14  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* MessageProbe.m ([MessageProbe -drop]): Don't free arguments
+	unless set.
+
 2001-02-10  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m ([VarProbe -_typeSetup_]): Structs are
