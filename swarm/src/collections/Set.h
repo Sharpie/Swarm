@@ -30,6 +30,10 @@ Library:      collections
 - (BOOL)at: aKey memberSlot: (id **)memptr;
 - remove: aKey;
 - removeKey: aKey;
+- (void)forEachKey: (SEL)aSelector;
+- (void)forEachKey: (SEL)aSelector : arg1;
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2;
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2 : arg3;
 - begin: aZone;
 - createIndex: aZone fromMember: anObject;
 - (void)mapAllocations: (mapalloc_t)mapalloc;

@@ -86,6 +86,18 @@ USING
 
 @end
 
+@protocol ForEachKey
+//S: Exactly the same as the ForEach protocol, but only for KeyedCollections.
+
+//D: Works identically to the ForEach protocol, but loops through the keys
+//D: in a KeyedCollection, rather than the members.
+
+USING
+- (void)forEachKey: (SEL)aSelector;
+- (void)forEachKey: (SEL)aSelector : arg1;
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2;
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2 : arg3;
+@end
 
 @protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
 //S: A generic collection interface.
@@ -728,7 +740,7 @@ USING
 - (compare_t)getCompareFunction;
 @end
 
-@protocol KeyedCollection <Collection>
+@protocol KeyedCollection <Collection, ForEachKey>
 //S: Member identity definition shared by Set and Map types.
 
 //D: A keyed collection is a collection in which each member can be

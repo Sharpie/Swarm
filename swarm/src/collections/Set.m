@@ -117,6 +117,26 @@ PHASE(Using)
   return [self remove: aKey];
 }
 
+- (void)forEachKey: (SEL)aSelector
+{
+  [self forEach: (SEL)aSelector];
+}
+
+- (void)forEachKey: (SEL)aSelector : arg1
+{
+  [self forEach: (SEL)aSelector: arg1];
+}
+
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2
+{ 
+  [self forEach: (SEL)aSelector: arg1 : arg2];
+}
+
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2 : arg3
+{ 
+  [self forEach: (SEL)aSelector: arg1 : arg2];
+}
+
 - begin: aZone
 {
   SetIndex_c *newIndex;

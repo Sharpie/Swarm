@@ -41,6 +41,10 @@ typedef struct mapentry {
 - (BOOL)at: aKey keySlot: (id **)keyPtr memberSlot: (id **)memPtr;
 - (BOOL)containsKey: aKey;
 - removeKey: aKey;
+- (void)forEachKey: (SEL)aSelector;
+- (void)forEachKey: (SEL)aSelector : arg1;
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2;
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2 : arg3;
 - begin: aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
 - _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass;

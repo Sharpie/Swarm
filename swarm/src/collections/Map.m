@@ -555,6 +555,50 @@ PHASE(Using)
   return oldMem;
 }
 
+- (void)forEachKey: (SEL)aSelector
+{
+  id index, key;
+
+  index = [(id) self begin: scratchZone];
+  for ([index setLoc: Start], [index next: &key]; 
+       [index getLoc] != End; [index next: &key]) 
+    [key perform: aSelector];
+  [index drop];
+}
+
+- (void)forEachKey: (SEL)aSelector : arg1
+{
+  id index, key;
+
+  index = [(id) self begin: scratchZone];
+  for ([index setLoc: Start], [index next: &key];
+       [index getLoc] != End; [index next: &key])
+    [key perform: aSelector with: arg1];
+  [index drop];
+}
+
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2
+{ 
+  id index, key;
+  
+  index = [(id) self begin: scratchZone];
+  for ([index setLoc: Start], [index next: &key]; 
+       [index getLoc] != End; [index next: &key])
+    [key perform: aSelector with: arg1 with: arg2];
+  [index drop];
+}
+
+- (void)forEachKey: (SEL)aSelector : arg1 : arg2 : arg3
+{ 
+  id index, key;
+  
+  index = [(id) self begin: scratchZone];
+  for ([index setLoc: Start], [index next: &key]; 
+       [index getLoc] != End; [index next: &key])
+    [key perform: aSelector with: arg1 with: arg2 with: arg3];
+  [index drop];
+}
+
 - begin: aZone
 {
   MapIndex_c *newIndex;

@@ -1,3 +1,15 @@
+1999-08-01  Alex Lancaster  <alex@santafe.edu>
+
+	* collections.h (ForEachKey): New protocol.
+	(KeyedCollection):  Adopt it.
+
+	* Map.[hm] ([Map_c -{forEachKey:, forEachKey::, forEachKey:::,
+	forEachKey::::}]): New methods to implement the `ForEachKey'
+	protocol for Map.  Thanks to Alan Liu <alanl@santafe.edu> for the
+	implementation.
+
+	* Set.[hm]: Identical method functionality implemented for `Set'.
+	
 1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* OutputStream.m ([OutputStream_c -catLongLong:],
