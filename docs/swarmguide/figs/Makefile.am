@@ -15,7 +15,7 @@ EXTRA_DIST = $(EPS) $(PNG)
 GENERATED_FIGS = $(GENERATED_EPS) $(GENERATED_JPEG)
 
 figsdir = $(prefix)/figs
-figs_DATA = $(GENERATED_FIGS) $(EPS)
+nodist_figs_DATA = $(GENERATED_FIGS) $(EPS)
 
 CLEANFILES = $(GENERATED_FIGS)
 

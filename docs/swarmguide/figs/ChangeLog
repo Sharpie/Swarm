@@ -1,4 +1,10 @@
-2000-02-29    <mgd@nest.swarm.org>
+2000-03-01  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (nodist_figs_DATA): Append `nodist_' prefix, to
+	ensure that generated files don't get packaged in the
+	distribution.
+
+2000-02-29  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.am (%.jpeg, %.png): Add a "-c showpage".
 
