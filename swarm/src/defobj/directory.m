@@ -301,12 +301,22 @@ swarm_directory_swarm_class (id object)
 Class
 swarm_directory_superclass (Class class)
 {
-  if ([class respondsTo: M(isJavaProxy)])
+  jclass clazz = SD_JAVA_FINDJAVACLASS (class);
+  
+  if (clazz)
     {
-      jclass clazz = SD_JAVA_FIND_OBJECT_JAVA (class);
-      
-      return SD_JAVA_ENSUREOBJCCLASS ((*jniEnv)->GetSuperclass (jniEnv,
-								clazz));
+      jclass javaSuperclass;
+
+      javaSuperclass = (*jniEnv)->GetSuperclass (jniEnv, clazz);
+      if (javaSuperclass)
+        {
+          Class superclass = SD_JAVA_ENSUREOBJCCLASS (javaSuperclass);
+
+          (*jniEnv)->DeleteLocalRef (jniEnv, javaSuperclass);
+          return superclass;
+        }
+      else
+        return Nil;
     }
   else
     return class_get_super_class (class);
