@@ -13,6 +13,7 @@ extern id archiver;
   id currentApplicationKey;
   id applicationMap;
   const char *path;
+@public
   id clients;
 }
 
@@ -36,15 +37,13 @@ extern id archiver;
 - save;
 - getMap;
 
+- lispout: outputCharStream;
+
 void archiverRegister (id client);
 void archiverUnregister (id client);
 void archiverPut (const char *key, id object);
 id archiverGet (const char *key);
 void archiverSave (void);
-
-- lispin: expr;
-+ lispin: aZone expr: expr;
-- lispout: outputCharStream;
 
 @end
 

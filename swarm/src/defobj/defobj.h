@@ -34,6 +34,10 @@ Library:      defobj
 //D: The DefinedObject type defines a minimum of standard messages, and
 //D: leaves to other types the definition of message that might or might
 //D: not apply in any general way to particular objects.
+CREATING
+//M: Process an expression to create an instance of some class
+//M: (either implicitly or explicitly specified).
++ lispin: aZone expr: expr;
 
 USING
 //M: The getZone message returns the zone in which the object was created.
@@ -108,8 +112,14 @@ USING
 - (void)xfprint;
 
 //M: print id for each member of a collection on debug output stream
-- (void) xfprintid;
+- (void)xfprintid;
 
+//M: Process an archived Lisp representation of object state from a
+//M: list of instance variable name / value pairs.
+- lispin: expr;
+
+//M: Output a Lisp representation of object state to a stream.
+- lispout: stream;
 @end
 
 @protocol Customize
@@ -546,6 +556,7 @@ extern id <Error>
   BlockedObjectAlloc,   //G: method from Object with invalid allocation
   BlockedObjectUsage,   //G: method inherited from Object superclass
   ProtocolViolation;    //G: object does not comply with expected protocol
+
 
 @end
 
@@ -1010,6 +1021,9 @@ extern void xfexec (id anObject, const char *name);
 //F: Get an object from textual pointer description.
 extern id nameToObject (const char *name);
 
+//F: Get value component of quoted expression.
+extern id lispinQuotedExpr (id expr);
+
 //
 // macros used to create and initialize warning and error symbols
 // (obsolete once module system in use)
@@ -1027,3 +1041,6 @@ extern id nameToObject (const char *name);
 #define deferror(name, message) \
   [(name = [Error create: globalZone setName: #name]) \
     setMessageString: message]
+
+//#: Name to use for Lisp archiving object-creation function
+#define MAKE_OBJC_FUNCTION_NAME "make-objc"

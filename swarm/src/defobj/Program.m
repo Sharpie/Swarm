@@ -147,7 +147,7 @@ initModules (void)
   _obj_getClassData (id_Customize_s)->classID = &id_Customize_s;
   _obj_getClassData (id_EventType_c)->classID = &id_EventType_c;
   _obj_getClassData (id_Symbol_c)->classID = &id_Symbol_c;
-  _obj_getClassData (id_Warning_)->classID = &id_Warning_c;
+  _obj_getClassData (id_Warning_c)->classID = &id_Warning_c;
   _obj_getClassData (id_Error_c)->classID = &id_Error_c;
 
   _obj_splitPhases (id_Error_c);

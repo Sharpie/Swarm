@@ -52,6 +52,63 @@ static id describeStream;
 
 @implementation Object_s
 
+PHASE(Creating)
+
+static id
+collectRemaining (id makeExprIndex)
+{
+  id obj;
+  id newList = [List create: [makeExprIndex getZone]];
+
+  while ((obj = [makeExprIndex next]))
+      [newList addLast: obj];
+
+  return newList;
+}
+
++ lispin: aZone expr: expr
+{
+  if (!listp (expr))
+    raiseEvent (InvalidArgument, "> expr not a list");
+  {    
+    id makeExprIndex = [expr begin: scratchZone];
+    
+    {
+      id makeExprObj = [makeExprIndex next];
+      
+      if (!stringp (makeExprObj))
+        raiseEvent (InvalidArgument, "> makeExprObj not a string");
+      if (strcmp ([makeExprObj getC], MAKE_OBJC_FUNCTION_NAME) != 0)
+        raiseEvent (InvalidArgument, "> makeExprObj not \""
+                    MAKE_OBJC_FUNCTION_NAME "\"");
+    }
+    
+    {
+      id classNameString;
+      Class classObject;
+      id obj;
+      
+      classNameString = lispinQuotedExpr ([makeExprIndex next]);
+      if (!stringp (classNameString))
+        raiseEvent (InvalidArgument, "> classNameString not a string");
+      classObject = objc_lookup_class ([classNameString getC]);
+      if (!classObject)
+        raiseEvent (InvalidArgument, "> class %s not found", classNameString);
+
+      {
+        id argexpr = collectRemaining (makeExprIndex);
+
+        obj = [classObject create: aZone];
+
+        obj = [obj lispin: argexpr];
+        [argexpr drop];
+      }
+      [makeExprIndex drop];
+      return obj;
+    }
+  }
+}
+
 PHASE(Using)
 
 //
@@ -810,48 +867,250 @@ initDescribeStream (void)
   [(id) self describeForEach: describeStream];
 }
 
+
+struct array_element {
+  unsigned count;
+  struct array_element *prev;
+};
+
+static void
+output_type (const char *type,
+             const void *ptr,
+             unsigned offset,
+             void *data,
+             id <OutputStream> stream)
+{
+  char buf[22];  // 2^64
+
+  switch (*type)
+    {
+    case _C_ID:
+      [((id *)ptr)[offset] lispout: stream];
+      break;
+    case _C_CLASS:
+      raiseEvent (NotImplemented, "Classes not supported");
+      break;
+    case _C_SEL:
+      raiseEvent (NotImplemented, "Selectors not supported");
+      break;
+    case _C_CHR: 
+      buf[0] = ((char *) ptr)[offset];
+      buf[1] = '\0';
+          
+      [stream catC: "#\\"];
+      [stream catC: buf];
+      break;
+    case _C_UCHR: 
+      [stream catC: "#\\0"];
+      sprintf (buf, "%o",
+               (unsigned) ((unsigned char *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_SHT: 
+      sprintf (buf, "%hd", ((short *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_USHT: 
+      sprintf (buf, "%hu", ((unsigned short *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_INT:
+      sprintf (buf, "%d", ((int *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_UINT:
+      sprintf (buf, "%u", ((unsigned *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_LNG:
+      sprintf (buf, "%ld", ((long *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_ULNG:
+      sprintf (buf, "%lu", ((unsigned long *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_FLT:
+      sprintf (buf, "%lu", ((float *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_DBL:
+      sprintf (buf, "%lu", ((double *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_BFLD:
+      raiseEvent (NotImplemented, "Bit fields not supported");
+      break;
+    case _C_VOID:
+      abort ();
+      break;
+    case _C_UNDEF: 
+      abort ();
+      break;
+    case _C_PTR:
+      raiseEvent (NotImplemented, "Pointers not supported");
+      break;
+    case _C_CHARPTR:
+      [stream catC: "\""];
+      [stream catC: ((const char **) ptr)[offset]];
+      [stream catC: "\""];
+      break;
+    case _C_ATOM:
+      raiseEvent (NotImplemented, "Atoms not supported");
+      break;
+    case _C_ARY_B:
+      {
+        char *tail;
+        struct array_element array_element;
+
+        errno = 0;
+        array_element.count = strtoul (type + 1, &tail, 10);
+        if (errno != 0)
+          raiseEvent (InvalidArgument, "Value out of range [%s]", type + 1);
+        
+        array_element.prev = data;
+        
+        if (*tail != _C_ARY_B)
+          {
+            struct array_element *aeptr;
+            unsigned rank = 0;
+            
+            aeptr = &array_element;
+            while (aeptr)
+              {
+                rank++;
+                aeptr = aeptr->prev;
+              }
+            aeptr = &array_element;
+            {
+              unsigned dims[rank];
+              unsigned i;
+
+              i = rank;
+              while (aeptr)
+                {
+                  i--;
+                  dims[i] = aeptr->count;
+                  aeptr = aeptr->prev;
+                }
+              {
+                char buf[1 + rank + 1]; // always big enough
+                
+                sprintf (buf, "#%u", rank);
+                [stream catC: buf];
+              }
+              {
+                unsigned coord[rank];
+                const char *space;
+
+                void permute (unsigned dim)
+                  {
+                    unsigned i;
+
+                    if (dim < rank)
+                      {
+                        [stream catC: "("];
+                        space = "";
+                        for (i = 0; i < dims[dim]; i++)
+                          {
+                            coord[dim] = i;
+                            permute (dim + 1);
+                          }
+                        [stream catC: ")"];
+                      }
+                    else
+                      {
+                        unsigned offset = 0;
+                        unsigned mult = 1;
+
+                        offset = coord[rank - 1];
+                        for (i = rank - 1; i > 0; i--)
+                          {
+                            mult *= dims[i];
+                            offset += coord[i - 1] * mult;
+                          }
+                        [stream catC: space];
+                        output_type (tail, ptr, offset, NULL, stream);
+                        space = " ";
+                      }
+                  }
+                permute (0);
+              }
+            }
+          }
+        else
+          output_type (tail, ptr, 0, &array_element, stream);
+      }
+      break;
+    case _C_ARY_E:
+      abort ();
+      break;
+    case _C_UNION_B:
+      raiseEvent (NotImplemented, "Unions not supported");
+      break;
+    case _C_UNION_E:
+      abort ();
+      break;
+    case _C_STRUCT_B:
+      raiseEvent (NotImplemented, "Structures not supported");
+      break;
+    case _C_STRUCT_E:
+      abort ();
+      break;
+    default:
+      abort ();
+      break;
+    }
+}
+
 - lispout: stream
 {
   struct objc_ivar_list *ivars = getClass (self)->ivars;
-  unsigned i, ivar_count = ivars->ivar_count;
-  struct objc_ivar *ivar_list = ivars->ivar_list;
 
-  for (i = 0; i < ivar_count; i++)
+  [stream catC: "(" MAKE_OBJC_FUNCTION_NAME " '"];
+  [stream catC: [self name]];
+  [stream catC: " "];
+
+  if (ivars)
     {
-      char type = ivar_list[i].ivar_type[0];
-
-      if (type == '@')
+      unsigned i, ivar_count = ivars->ivar_count;
+      struct objc_ivar *ivar_list = ivars->ivar_list;
+      
+      for (i = 0; i < ivar_count; i++)
         {
-          id ivarobj = *(id *) ((void *) self + ivar_list[i].ivar_offset);
-
-          [ivarobj lispout: stream];
+          [stream catC: " #:"];
+          [stream catC: ivar_list[i].ivar_name];
+          [stream catC: " "];
+          output_type (ivar_list[i].ivar_type,
+                       (void *) self + ivar_list[i].ivar_offset,
+                       0,
+                       NULL,
+                       stream);
         }
-      else if (type == '[')
-        {
-          printf ("name:[%s] type:[%s] (array)\n",
-                  ivar_list[i].ivar_name,
-                  ivar_list[i].ivar_type);
-        }
-      else if (type == _C_CLASS)
-        raiseEvent (NotImplemented, "Classes not supported");
-      else if (type == _C_SEL)
-        raiseEvent (NotImplemented, "Selectors not supported");
-      else if (type == _C_UNION_B)
-        raiseEvent (NotImplemented, "Unions not supported");
-      else if (type == _C_STRUCT_B)
-        raiseEvent (NotImplemented, "Structures not supported");
-      else
-        abort ();
     }
-
+  
+  [stream catC: ")"];
   return self;
+}
+
+id
+lispinQuotedExpr (id expr)
+{
+  id value;
+
+  if (!listp (expr))
+    raiseEvent (InvalidArgument, "expr not a list");
+  value = [expr getFirst];
+  if (!ARCHIVERLITERALP (value))
+    raiseEvent (InvalidArgument, "value not archiver literal");
+  value = [expr getLast];
+  return value;
 }
 
 - lispin: expr
 {
   return self;
 }
-
 //
 // xfprintid -- print id for each member of a collection on debug output stream
 //

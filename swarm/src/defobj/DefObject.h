@@ -68,6 +68,7 @@ Library:      defobj
 - (void)xfprint;
 - (void)xfprintid;
 - lispin: expr;
++ lispin: aZone expr: expr;
 - lispout: stream;
 @end
 
@@ -134,3 +135,5 @@ struct mapalloc {
   id zone;                // zone of allocated block, as used by descriptor
   int size;               // size of allocated block, as used by descriptor
 };
+
+extern id lispinQuotedExpr (id expr);

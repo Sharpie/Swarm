@@ -14,13 +14,10 @@
 #include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
 
 #define ARCHIVER_FUNCTION_NAME "archiver"
-#define MAKE_OBJC_FUNCTION_NAME "make-objc"
 
 #define SWARMARCHIVER ".swarmArchiver"
 
-id archiver;
-
-@implementation Archiver
+Archiver *archiver;
 
 static const char *
 defaultPath (void)
@@ -45,6 +42,169 @@ compareStrings (id val1, id val2)
 {
   return [val1 compare: val2];
 }
+
+static void
+processPairs (id aZone, id obj, id (*func)(id, id), id map)
+{
+  if (!listp (obj))
+    raiseEvent (InvalidArgument, "argument to processPairs not a list");
+  {
+    id listExprIndex = [obj begin: scratchZone];
+    id listExpr = [listExprIndex next];
+    
+    if (!stringp (listExpr))
+      raiseEvent (InvalidArgument,
+                  "first item in processPairs list not a string");
+    if (strcmp ([listExpr getC], "list") != 0)
+      raiseEvent (InvalidArgument,
+                  "first string in processPairs not \"list\"");
+    {
+      id keyValue;
+
+      while ((keyValue = [listExprIndex next]))
+        {
+          id consIndex = [keyValue begin: scratchZone];
+          id consFuncString = [consIndex next];
+          
+          if (!stringp (consFuncString))
+            raiseEvent (InvalidArgument,
+                        "first item in cons expression not a string");
+          if (strcmp ([consFuncString getC], "cons") != 0)
+            raiseEvent (InvalidArgument,
+                        "first string in cons expression not \"cons\"");
+          {
+            id key = [lispinQuotedExpr ([consIndex next]) copy: aZone];
+            
+            if (listp (key))
+              {
+                id first = [key getFirst];
+                id last = [key getLast];
+                
+                if (!stringp (first))
+                  raiseEvent (InvalidArgument,
+                              "first pair item not a string");
+                if (!stringp (last))
+                  raiseEvent (InvalidArgument,
+                              "second pair item not a string");
+                [first catC: "/"];
+                [first catC: [last getC]];
+                key = [first copy: aZone];
+              }
+            
+            if (!stringp (key))
+              raiseEvent (InvalidArgument, "key not a string");
+            {
+              id value = func (aZone, [consIndex next]);
+              
+              if ([map at: key])
+                [map at: key replace: value];
+              else
+                [map at: key insert: value];
+            }
+          }
+        }
+    }
+    [listExprIndex drop];
+  }
+}
+
+static id
+callLispIn (id aZone, id expr)
+{
+  return [Archiver lispin: aZone expr: expr];
+}
+
+static id
+processMakeObjcPairs (id aZone, id expr)
+{
+  id objectMap = [Map createBegin: aZone];
+  [objectMap setCompareFunction: &compareStrings];
+  objectMap = [objectMap createEnd];
+  
+  processPairs (aZone, expr, callLispIn, objectMap);
+          
+  return objectMap;
+}
+
+static void
+processApplicationPairs (id aZone, id expr, id applicationMap)
+{
+  processPairs (aZone, expr, processMakeObjcPairs, applicationMap);
+}
+  
+static void
+loadArchiverExpr (id applicationMap, id expr)
+{
+  id archiverCallExprIndex, archiverCallName;
+  
+  if (!listp (expr))
+    raiseEvent (InvalidArgument, "argument to Archiver lispin not a list");
+  
+  archiverCallExprIndex = [expr begin: scratchZone];
+  archiverCallName = [archiverCallExprIndex next];
+
+  if (!stringp (archiverCallName))
+    raiseEvent (InvalidArgument, "Archiver function not a string");
+  
+  if (strcmp ([archiverCallName getC], ARCHIVER_FUNCTION_NAME) != 0)
+    raiseEvent (InvalidArgument,
+                "Archiver function name incorrect: [%s]",
+                [archiverCallName getC]);
+
+  processApplicationPairs ([applicationMap getZone],
+                           [archiverCallExprIndex next],
+                           applicationMap);
+  [archiverCallExprIndex drop];
+}
+
+void
+archiverRegister (id client)
+{
+  id clients = archiver->clients;
+
+  if (![clients contains: client])
+    [clients addLast: client];
+}
+
+void
+archiverUnregister (id client)
+{
+  id clients = archiver->clients;
+  
+  [clients remove: client];
+}
+
+void
+archiverPut (const char *key, id object)
+{
+  id map = [archiver getMap];
+  id keyObj = [String create: [archiver getZone] setC: key];
+  
+  if ([map at: keyObj])
+    [map at: keyObj replace: object];
+  else
+    [map at: keyObj insert: object];
+}
+
+id
+archiverGet (const char *key)
+{
+  id string = [String create: [archiver getZone] setC: key];
+  id result = [[archiver getMap] at: string];
+  
+  [string drop];
+  return result;
+}
+
+void
+archiverSave (void)
+{
+  [archiver save];
+}
+
+@implementation Archiver
+
+PHASE(Creating)
 
 + createBegin: aZone
 {
@@ -71,199 +231,6 @@ compareStrings (id val1, id val2)
   return self;
 }
 
-- setPath: (const char *)thePath
-{
-  path = strdup (thePath);
-
-  return self;
-}
-
-- _badValue_: obj
-{
-  abort ();
-}
-
-- _badType_: obj
-{
-  id oStream = [OutputStream create: scratchZone setFileStream: stdout];
-
-  [obj describe: oStream];
-  [oStream drop];
-  abort ();
-}
-
-- processQuotedExpr: expr
-{
-  id value;
-
-  if (!listp (expr))
-    [self _badType_: expr];
-  value = [expr getFirst];
-  if (!ARCHIVERLITERALP (value))
-    [self _badValue_: value];
-  value = [expr getLast];
-  return value;
-}
-
-- _collectRemaining_: makeExprIndex
-{
-  id obj;
-  id newList = [List create: [self getZone]];
-
-  while ((obj = [makeExprIndex next]))
-      [newList addLast: obj];
-
-  return newList;
-}
-
-- processMakeExpr: expr
-{
-  if (!listp (expr))
-    [self _badType_: expr];
-
-  {    
-    id aZone = [self getZone];
-    id makeExprIndex = [expr begin: scratchZone];
-    
-    {
-      id makeExprObj = [makeExprIndex next];
-      
-      if (!stringp (makeExprObj))
-        [self _badType_: makeExprObj];
-      if (strcmp ([makeExprObj getC], MAKE_OBJC_FUNCTION_NAME) != 0)
-        [self _badValue_: makeExprObj];
-    }
-    
-    {
-      id classNameString;
-      Class classObject;
-      id result;
-      
-      classNameString = [self processQuotedExpr: [makeExprIndex next]];
-      if (!stringp (classNameString))
-        [self _badValue_: classNameString];
-      classObject = objc_lookup_class ([classNameString getC]);
-      if (!classObject)
-        [self _badValue_: classNameString];
-      result = [classObject lispin: aZone
-                            expr: [self _collectRemaining_: makeExprIndex]];
-      
-      [makeExprIndex drop];
-      return result;
-    }
-  }
-}
-  
-- processPairs: obj method: (SEL)method map: map
-{
-  if (!listp (obj))
-    [self _badType_: obj];
-  {
-    id aZone = [self getZone];
-    id listExprIndex = [obj begin: scratchZone];
-    id listExpr = [listExprIndex next];
-    
-    if (!stringp (listExpr))
-      [self _badType_: listExpr];
-    if (strcmp ([listExpr getC], "list") != 0)
-      [self _badValue_: listExpr];
-    
-    {
-      id keyValue;
-
-      while ((keyValue = [listExprIndex next]))
-        {
-          id consIndex = [keyValue begin: scratchZone];
-          id consFuncString = [consIndex next];
-          
-          if (!stringp (consFuncString))
-            [self _badType_: consFuncString];
-          if (strcmp ([consFuncString getC], "cons") != 0)
-            [self _badValue_: consFuncString];
-
-          {
-            id key = [[self processQuotedExpr: [consIndex next]] copy: aZone];
-
-            if (listp (key))
-              {
-                id first = [key getFirst];
-                id last = [key getLast];
-                
-                if (!stringp (first))
-                  [self _badType_: first];
-                if (!stringp (last))
-                  [self _badType_: last];
-                [first catC: "/"];
-                [first catC: [last getC]];
-                key = [first copy: aZone];
-              }
-            
-            if (!stringp (key))
-              [self _badType_: key];
-
-            {
-              id value = [self perform: method with: [consIndex next]];
-              
-              if ([map at: key])
-                [map at: key replace: value];
-              else
-                [map at: key insert: value];
-            }
-          }
-        }
-    }
-    [listExprIndex drop];
-  }
-  return self;
-}
-
-- processMakeObjcPairs: obj
-{
-  id objectMap = [Map createBegin: [self getZone]];
-  [objectMap setCompareFunction: &compareStrings];
-  objectMap = [objectMap createEnd];
-  
-  [self processPairs: obj
-        method: @selector(processMakeExpr:)
-        map: objectMap];
-          
-  return objectMap;
-}
-
-- processApplicationPairs: obj
-{
-  return 
-    [self processPairs: obj
-          method: @selector(processMakeObjcPairs:)
-          map: applicationMap];
-}
-  
-- lispin: expr
-{
-  id archiverCallExprIndex, archiverCallName;
-  
-  if (!listp (expr))
-    [self _badType_: expr];
-  
-  archiverCallExprIndex = [expr begin: scratchZone];
-  archiverCallName = [archiverCallExprIndex next];
-
-  if (!stringp (archiverCallName))
-    [self _badType_: archiverCallName];
-  
-  if (strcmp ([archiverCallName getC], ARCHIVER_FUNCTION_NAME) != 0)
-    [self _badValue_: archiverCallName];
-
-  [self processApplicationPairs: [archiverCallExprIndex next]];
-  [archiverCallExprIndex drop];
-  return self;
-}
-
-+ lispin: aZone expr: expr
-{
-  return [[Archiver create: aZone] lispin: expr];
-}
-
 + load: aZone fromPath: (const char *)archivePath
 {
   if (archivePath && access (archivePath, R_OK) != -1)
@@ -273,12 +240,14 @@ compareStrings (id val1, id val2)
       // Create a temporary zone to simplify destruction of expression
       id inStreamZone = [Zone create: scratchZone];
       id inStream = [InputStream create: inStreamZone setFileStream: fp];
-      id newArchiver = [Archiver lispin: aZone expr: [inStream getExpr]];
-
-      [newArchiver setPath: archivePath];
+      Archiver *archiver = [[[Archiver createBegin: aZone]
+                              setPath: archivePath]
+                             createEnd];
+      
+      loadArchiverExpr (archiver->applicationMap, [inStream getExpr]);
       [inStreamZone drop]; 
       fclose (fp);
-      return newArchiver;
+      return archiver;
     }
   return nil;
 }
@@ -309,6 +278,17 @@ compareStrings (id val1, id val2)
     newArchiver = [Archiver create: aZone];
   return newArchiver;
 }
+
+PHASE(Setting)
+
+- setPath: (const char *)thePath
+{
+  path = strdup (thePath);
+
+  return self;
+}
+
+PHASE(Using)
 
 - getMap
 {
@@ -366,11 +346,9 @@ compareStrings (id val1, id val2)
         {
           [outputCharStream catC: "\n        (cons '"];
           [outputCharStream catC: [key getC]];
-          [outputCharStream catC: "\n          (" MAKE_OBJC_FUNCTION_NAME " '"];
-          [outputCharStream catC: [member name]];
-          [outputCharStream catC: " "];
+          [outputCharStream catC: "\n          "];
           [member lispout: outputCharStream];
-          [outputCharStream catC: "))"];
+          [outputCharStream catC: ")"];
         }
       [outputCharStream catC: "))"];
     }
@@ -404,59 +382,6 @@ compareStrings (id val1, id val2)
     XFREE (path);
   [clients drop];
   [super drop];
-}
-
-- _register_: client
-{
-  if (![clients contains: client])
-    [clients addLast: client];
-  return self;
-}
-
-- _unregister_: client
-{
-  [clients remove: client];
-  return self;
-}
-
-void
-archiverRegister (id client)
-{
-  [archiver _register_: client];
-}
-
-void
-archiverUnregister (id client)
-{
-  [archiver _unregister_: client];
-}
-
-void
-archiverPut (const char *key, id object)
-{
-  id map = [archiver getMap];
-  id keyObj = [String create: [archiver getZone] setC: key];
-  
-  if ([map at: keyObj])
-    [map at: keyObj replace: object];
-  else
-    [map at: keyObj insert: object];
-}
-
-id
-archiverGet (const char *key)
-{
-  id string = [String create: [archiver getZone] setC: key];
-  id result = [[archiver getMap] at: string];
-  
-  [string drop];
-  return result;
-}
-
-void
-archiverSave (void)
-{
-  [archiver save];
 }
 
 @end
