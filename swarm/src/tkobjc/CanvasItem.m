@@ -34,14 +34,14 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- initiateMoveX: (long)delta_x Y: (long)delta_y
+- initiateMoveX: (long)deltaX Y: (long)deltaY
 {
   if (moveSel && target)
-    if ([target perform: moveSel with: (id)delta_x with: (id)delta_y])
+    if ([target perform: moveSel with: (id)deltaX with: (id)deltaY])
       [globalTkInterp eval: "%s move %s %ld %ld; set curX %s; set curY %s",
                       [canvas getWidgetName],
                       item,
-                      delta_x, delta_y,
+                      deltaX, deltaY,
                       "%x", "%y"];
   
   if (postMoveSel && target)

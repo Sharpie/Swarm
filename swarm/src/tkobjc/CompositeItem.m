@@ -11,19 +11,19 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- moveX: (long)delta_x Y: (long)delta_y
+- moveX: (long)deltaX Y: (long)deltaY
 {
   [self subclassResponsibility: @selector (moveX:Y:)];
 
   return self;
 }
 
-- initiateMoveX: (long)delta_x Y: (long)delta_y
+- initiateMoveX: (long)deltaX Y: (long)deltaY
 {
   if (moveSel && target)
     {
-      if ([target perform: moveSel with: (id)delta_x with: (id)delta_y])
-        [self moveX: delta_x Y: delta_y];
+      if ([target perform: moveSel with: (id) deltaX with: (id) deltaY])
+        [self moveX: deltaX Y: deltaY];
     }
   
   if (postMoveSel && target)
