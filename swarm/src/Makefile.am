@@ -27,12 +27,15 @@ AGE = 0
 
 lib_LTLIBRARIES = libswarm.la
 libswarm_la_SOURCES = empty.m
-LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) # $(SYSLIBS)
+LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lgcc # $(SYSLIBS)
 
 empty.m:
 	echo > empty.m
 
-libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) # -L../libobjc
+libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) # -L../libobjc
+
+
+
 
 
 

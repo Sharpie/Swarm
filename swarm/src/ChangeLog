@@ -6,11 +6,6 @@
 	(SWARMMODULES): New variable.
 	(SUBDIRS): Use it.
 
-1999-05-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* Makefile.rules (LDFLAGS): Add directory for -lgcc.
-	(LIBS): Add -lgcc.
-
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules ($(TYPEINFO):): Note that $(SOURCES) is a dependency,
