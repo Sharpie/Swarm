@@ -4,9 +4,6 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtoolsgui/GUISwarm.h>
-#import <simtoolsgui/ControlPanel.h>
-
-#import <simtools.h>
 #import <simtoolsgui.h>
 
 @implementation GUISwarm

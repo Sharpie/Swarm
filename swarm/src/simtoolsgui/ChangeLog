@@ -1,3 +1,12 @@
+1998-04-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtoolsgui.h: Add comment tags with documentation.
+
+1998-04-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* GUISwarm.m: Don't include simtoolsgui/ControlPanel.h
+	or simtools.h.
+
 1998-04-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ProbeDisplay.m (notifyObjectDropped): Call markForDrop instead

@@ -3,19 +3,32 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.    
 
-/*
-Name:            simtoolsgui.h
-Description:     miscellaneous widgetry
-Library:         simtoolsgui
-*/
+//D: GUI-related features for simulation.
 
 #import <objectbase.h>
 
+//S: Protocol for archiving window geometry.
+
+//D: Classes that allow for window geometry archiving must conform
+//D: this protocol.
+@protocol WindowGeometryRecordName <SwarmObject>
+//M: This method is used to give an
+//M: instance ProbeDisplay a name, which will used by the Archiver
+//M: when recording its geometry information.
+- setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+@end
+
 #define SET_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
   [theWidget setWindowGeometryRecordName: #theWidget]
+
+//S: Protocol for archiving objects with several GUI components.
 
-@protocol WindowGeometryRecordName <SwarmObject>
-- setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+//D: Protocol for assigning archiving names to components of an object
+//D: with several GUI components.
+@protocol CompositeWindowGeometryRecordName <WindowGeometryRecordName>
+//M: Update the list of components, and compute the derived archiving name.
+- setWindowGeometryRecordNameForComponent: (const char *)componentName
+                                   widget: widget;
 @end
 
 #define SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(obj, theWidget) \
@@ -23,43 +36,53 @@ Library:         simtoolsgui
 
 #define SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
   SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR (self,theWidget)
+
+//S: Class to control the top level SwarmProcess
 
-@protocol CompositeWindowGeometryRecordName <WindowGeometryRecordName>
-- setWindowGeometryRecordNameForComponent: (const char *)componentName
-                                   widget: widget;
-@end
-
-//
-// ControlPanel --
-//   an class used to control the top-level SwarmProcess.  It 
-//   accepts manipulations both by the Swarm it's controlling and
-//   the ActionCache.
-//
+//D: ControlPanel keeps track of the users requests to run, stop, quit, or
+//D: time step the simulation. It cooperates with the GUISwarm to control
+//D: the execution of activities in Swarm.
 @protocol ControlPanel <SwarmObject>
 CREATING
 - createEnd;
 USING
+//M: Get the current button state of the controlpanel.  Is one of
+//M: ControlStateRunning, ControlStateStopped, ControlStateStepping,
+//M: ControlStateNextTime, or ControlStateQuit.
 - getState;
+
 - setState: s;
 
 - startInActivity: activityID;
+
+//M: Sets the state to `running'.
 - setStateRunning;
+
+//M: The -setStateStopped message is particularly useful since it will
+//M: cause the simulation to stop until the user interactively
+//M: sets it back in motion (in other words, this method is useful
+//M: in generating a software-triggered pause).
 - setStateStopped;
+
+//M: Stop the running activity, and then set state to `ControlStateStepping'.
 - setStateStepping;
+
+//M: Terminate activities, and set state to `ControlStateQuit'.
 - setStateQuit;
+
+//M: Stop the running activity, and then set state to `ControlStateNextTime'.
 - setStateNextTime;
 
-@end
-// State Symbols for the ControlPanel.
-extern id ControlStateRunning, ControlStateStopped;
-extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
+//M: Saves the objects that are registered for archiving.
+- setStateSave;
 
-//
-// ActionCache --
-//   a class that provides a smart bag into which actions can be
-//   thrown by other threads and Swarms intended for insertion on
-//   it's Swarm's schedule.
-//
+@end
+
+//S: A class to manage threads and Swarms.
+
+//D: A class that provides a smart bag into which actions can be
+//D: thrown by other threads and Swarms intended for insertion on
+//D: it's Swarm's schedule.
 @protocol ActionCache <CompositeWindowGeometryRecordName>
 CREATING
 - setControlPanel: cp;
@@ -86,43 +109,58 @@ extern id <Symbol> Control, Probing, Spatial;
 // Error Symbols for ActionCache
 extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
-
-//
-// ProbeDisplay --
-//   a class which generates a GUI to a ProbeMap of probes applied to a 
-//   given target object...
-//
-@protocol ProbeDisplay <WindowGeometryRecordName>
+
+//S: A protocol underlying ProbeDisplay and CompleteProbeDisplay
+//D: This protocol provides the common interface to all kinds of ProbeDisplays.
+@protocol CommonProbeDisplay <WindowGeometryRecordName>
 CREATING
+//M: This method must be called.
 - setProbedObject: anObject;
-- setProbeMap: (ProbeMap *)probeMap;
-USING
-- getProbedObject;
-- getProbeMap;
-- update;  // implemented in SimpleProbeDisplay...
-@end
 
-//
-// CompleteProbeDisplay --
-//   a class which generates a GUI to a complete ProbeMap of probes applied 
-//   to a given target object (by complete we mean that all the probes for
-//   the target object's class and its superclasses are included)...
-//
-@protocol CompleteProbeDisplay <WindowGeometryRecordName>
-CREATING
-- setProbedObject: anObject;
 USING
+//M: Gets the probed object.
 - getProbedObject;
+
+//M: This method maintains consistency between the values of the
+//M: probedObject's variables and the values which are displayed in
+//M: the ProbeDisplay. Ideally, this method should be called every
+//M: time the object is modified by the simulation. In practice, the
+//M: user schedules an update on the probeDisplayManager which in
+//M: turn communicates to all the active ProbeDisplays in the
+//M: system.
 - update;
+
 - getMarkedForDropFlag;
 @end
 
-//
-// ProbeDisplayManager --
-//   a (Singleton) class whose instance is used to manage all the 
-//   ProbeDisplays created by the user during a GUI run of the 
-//   simulation.
-//
+
+//S: A class to display ProbeMaps
+
+//D: A class which generates a GUI to a ProbeMap of probes applied to a 
+//D: given target object.
+@protocol ProbeDisplay <CommonProbeDisplay>
+CREATING
+//M: This is an optional create phase method - if no probeMap is specified
+//M: the ProbeDisplay will ask the probedObject for a ProbeMap using the
+//M: getProbeMap method described below... The default behaviour of this
+//M: method will be to return the probeLibrary's copy of the probeMap for
+//M: the class of the target object.
+- setProbeMap: (ProbeMap *)probeMap;
+
+USING
+//M: Gets the probedMap.
+- getProbeMap;
+
+@end
+
+//S: A class that generates a complete ProbeMap for an object.
+
+//D: A class which generates a GUI to a complete ProbeMap of probes applied 
+//D: to a given target object (by complete we mean that all the probes for
+//D: the target object's class and its superclasses are included)...
+@protocol CompleteProbeDisplay <CommonProbeDisplay>
+@end
+
 void _createProbeDisplay (id obj);
 void _createCompleteProbeDisplay (id obj);
 
@@ -140,55 +178,112 @@ void createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
 
 #define CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(anObject) \
   createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
+
+//S: The ProbeDisplay manager.
 
-
+//D: A (singleton) class whose instance is used to manage all the 
+//D: ProbeDisplays created by the user during a GUI run of the 
+//D: simulation.
 @protocol ProbeDisplayManager <SwarmObject>
 USING
 - createProbeDisplayFor: anObject;
+
 - createArchivedProbeDisplayFor: anObject variableName: (const char *)variableName;
+
 - createCompleteProbeDisplayFor: anObject;
+
 - createArchivedCompleteProbeDisplayFor: anObject variableName: (const char *)variableName;
 
+//M: Add a probe display to be managed by the ProbeDisplayManager.
 - addProbeDisplay: probeDisplay;
-- removeProbeDisplayFor: anObject;
-- removeProbeDisplay: probeDisplay;
-- dropProbeDisplaysFor: anObject;
-- setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
-- update;
-@end
 
+//M: Remove a probe display from management by the ProbeDisplayManager.
+- removeProbeDisplay: probeDisplay;
+
+//M: Remove a probe display associated with an object 
+//M: from management by the ProbeDisplayManager.
+- removeProbeDisplayFor: anObject;
+
+//M: Remove and drop probe displays associated with a given object.
+- dropProbeDisplaysFor: anObject;
+
+//M: This method will recursively send an update message to all the
+//M: Probe Displays managed by the ProbeDisplayManager. 
+- update;
+
+- setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
+@end
+
+//S: Base class for objects that use several GUI components.
+
+//D: Base class for objects that use several GUI components.
 @protocol GUIComposite <CompositeWindowGeometryRecordName>
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)notificationMethod;
 - disableDestroyNotification;
 @end
+
+//S: A version of the Swarm class which is graphics aware. 
 
-//
-// GUISwarm --
-//   a version of the Swarm class which is graphics aware. This is 
-//   known to be somewhat awkwardly designed...
-//
-@protocol GUISwarm <SwarmProcess, WindowGeometryRecordName> @end
+//D: GUISwarm is a subclass of Swarm that is used as a toplevel Swarm for
+//D: simulations running with a graphical user interface. The GUISwarm
+//D: creates a ControlPanel automatically for you and defines a "go" method
+//D: that interprets the state of the ControlPanel to keep things running
+//D: in response to user input. Users subclass GUISwarm much like they
+//D: subclass a normal Swarm, implementing the same kind of buildObjects,
+//D: buildActions, and activateIn methods. When you are done building your
+//D: Observer Swarm, start it as a toplevel via [myGUISwarm go].
 
-//
-// ActiveGraph --
-//   provides the continuous data feed between Swarm and the GUI
-//
+//D: The control panel places a few responsibilities on the GUISwarm
+//D: subclass author. In particular, a message to [controlPanel doTkEvents]
+//D: should be scheduled fairly frequently - only when that method is
+//D: executed will the user interface update (and the stop button be
+//D: checked). Also, it is often useful to use [controlPanel
+//D: setStateStopped] to wait for the user to indicate they're ready for
+//D: execution to proceed.
+@protocol GUISwarm <SwarmProcess, WindowGeometryRecordName>
+//M: Start the activity running, and also handle user requests via the
+//M: control panel. Returns either Completed (the model ran until
+//M: requested to terminate) or ControlStateQuit (the user pressed
+//M: the quit button).
+- go;
+@end
+
+//S: Provides a continuous data feed between Swarm and the GUI.
+
+//D: An active graph object is the glue between a MessageProbe (for reading
+//D: data) and a BLTGraph GraphElement. ActiveGraphs are created and told
+//D: where to get data from and send it to, and then are scheduled to
+//D: actually do graphic functions. This class is used by EZGraph, and we
+//D: expect to see less direct usage of it by end-users as more analysis
+//D: tools (such as EZGraph) internalize its functionality.
 @protocol ActiveGraph <MessageProbe>
 USING
+//M: Sets the graph element used to draw on.
 - setElement: ge;
+
+//M: Sets the object that will be probed for data.
 - setDataFeed: d;
+
+//M: Fires the probe, reads the value from the object, and draws it
+//M: on the graph element. The X value is implicitly the current
+//M: simulation time. Y is the value read. 
 - step;
 @end
-
+
 // Manager that keeps track of active probes to be updated
 extern id <ProbeDisplayManager> probeDisplayManager;
 
+// State Symbols for the ControlPanel.
+extern id ControlStateRunning, ControlStateStopped;
+extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
+
 void initSimtoolsGUI (void);
 
 const char *buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
                                            const char *componentName);
 
+
 @class ControlPanel;
 @class ActionCache;
 @class ProbeDisplay;
@@ -196,13 +291,3 @@ const char *buildWindowGeometryRecordName (const char *baseWindowGeometryRecordN
 @class ProbeDisplayManager;
 @class GUISwarm;
 @class ActiveGraph;
-
-#if 0
-// These are the base classes for some of the Simtools objects.  They
-// have been put in the library header file so as not to break any user
-// apps that relied upon the old simtools.h, which simply included
-// all the simtools/*.h files.  The general rule is that you must
-// #import the header file of any class you intend to subclass from.
-//
-#import <simtools/GUISwarm.h>
-#endif

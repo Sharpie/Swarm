@@ -139,6 +139,7 @@
       [widgets[i] update];
     else
       break;
+
   return self;
 }
 
