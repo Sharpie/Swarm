@@ -1,3 +1,8 @@
+2003-01-22  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Makefile.am: Replace $(FFILIB) into libdefobj_la_LIBADD duplication 
+	was a libtool issue.  fixed by libtool 1.4.3.
+	
 2003-01-15  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* macros.h: Backed out previous change - needed for METHOD_FUNCTIONS.
