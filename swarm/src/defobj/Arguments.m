@@ -129,11 +129,28 @@ PHASE(Creating)
   return self;
 }
 
+static const char *
+stripQuotes (const char *argv0)
+{
+  if (*argv0 == '"')
+    {
+      char *ptr = strdup (argv0 + 1);
+      size_t len = strlen (ptr);
+      
+      if (ptr[len - 1] == '"')
+	ptr[len - 1] = '\0';
+      return ptr;
+    }
+  else
+    return argv0;
+}
+
 - createEnd
 {
-  program_invocation_name = (char *)find_executable (argv[0]);
+  const char *argv0 = stripQuotes (argv[0]);
+  program_invocation_name = (char *)find_executable (argv0);
 #ifndef __GLIBC__
-  program_invocation_short_name = getApplicationValue (argv[0]);
+  program_invocation_short_name = getApplicationValue (argv0);
 #endif  
   [self setAppName: program_invocation_short_name];
   if (version == NULL)
