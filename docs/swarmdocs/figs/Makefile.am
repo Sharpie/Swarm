@@ -23,17 +23,17 @@ CLEANFILES = $(GENERATED_FIGS)
 
 %.jpeg: $(srcdir)/%.eps
 	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm - < $< -c quit
-	CYGWIN=binmode $(PNMCROP) $*.ppm > $*-crop.ppm
-	CYGWIN=binmode $(CJPEG) $*-crop.ppm > $@
+	CYGWIN=binmode; export CYGWIN; $(PNMCROP) $*.ppm | tee $*-crop.ppm > /dev/null
+	CYGWIN=binmode; export CYGWIN; $(CJPEG) $*-crop.ppm | tee $@ > /dev/null
 	$(RM) $*.ppm $*-crop.ppm
 
 %.eps: $(srcdir)/%.png
-	CYGWIN=binmode $(PNGTOPNM) $< > $*.pnm
-	CYGWIN=binmode $(PNMTOPS) $*.pnm > $@
+	CYGWIN=binmode; export CYGWIN; $(PNGTOPNM) $<  | tee $*.pnm > /dev/null
+	CYGWIN=binmode; export CYGWIN; $(PNMTOPS) $*.pnm | tee $@ > /dev/null
 	$(RM) $*.pnm
 
 %.jpeg: $(srcdir)/%.png
-	CYGWIN=binmode $(PNGTOPNM) $< > $*.pnm
-	CYGWIN=binmode $(CJPEG) $*.pnm > $@
+	CYGWIN=binmode; export CYGWIN; $(PNGTOPNM) $< | tee $*.pnm > /dev/null
+	CYGWIN=binmode; export CYGWIN; $(CJPEG) $*.pnm | tee $@ > /dev/null
 	$(RM) $*.pnm
 
