@@ -7,6 +7,10 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #ifdef __CYGWIN32__
 int gettimeofday (struct timeval *p, struct timezone *z);
 #endif

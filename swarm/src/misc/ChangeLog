@@ -1,3 +1,7 @@
+1998-08-19  Marcus G. Daniels  <mgd@helen.santafe.edu>
+	
+	* misc.h: Include sys/types.h and sys/stat.h.
+
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* misc.h, getopt.c, getopt1.c, argp-fmtstream.c, argp-help.c,
