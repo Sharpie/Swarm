@@ -125,10 +125,11 @@ extern IMP getMethodFor( id anObject, SEL aSel );
 // allocations, still requires an explicit #import of <defobj/defalloc.h>.
 //
 typedef struct mapalloc *mapalloc_t;
+
 struct mapalloc {
-  void  (*mappingFunction)( mapalloc_t mapalloc, BOOL objectAllocation );
-  void  *alloc;         // allocated object or block
-  id    descriptor;     // descriptor for contents of allocated block, if any
-  id    zone;           // zone of allocated block, as used by descriptor
-  int   size;           // size of allocated block, as used by descriptor
+  void (*mappingFunction) (mapalloc_t mapalloc, BOOL objectAllocation);
+  void *alloc;           // allocated object or block
+  id <Symbol> descriptor; // descriptor for contents of allocated block, if any
+  id zone;             // zone of allocated block, as used by descriptor
+  int size;             // size of allocated block, as used by descriptor
 };
