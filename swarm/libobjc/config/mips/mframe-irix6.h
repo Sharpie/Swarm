@@ -16,7 +16,7 @@ mframe_get_struct_addr_ptr (arglist_t args, const char *types)
 {
   return refstructp (types)
     ? *(void **) args + 1
-    : NULL);
+    : NULL;
 }
     
 #define MFRAME_GET_STRUCT_ADDR(ARGS, TYPES) \
@@ -29,24 +29,25 @@ mframe_get_struct_addr_ptr (arglist_t args, const char *types)
      
 #define MFRAME_ARGS int
 
-#define MFRAME_INIT_ARGS(CUM, RTYPE)  (CUM) = 20; 
+#define MFRAME_INIT_ARGS(CUM, RTYPE)  (CUM) = 20
 
 #define MFRAME_ARG_ENCODING(CUM, TYPE, STACK, DEST) \
 ({  \
   const char* type = (TYPE); \
   unsigned align = objc_alignof_type (type); \
   unsigned size = objc_sizeof_type (type); \
-  BOOL structref = refstructp (type);
+  BOOL structref = refstructp (type); \
   unsigned offset = structref ? 4 : (CUM); \
   \
   offset = ROUND (offset, align); \
   (TYPE) = objc_skip_typespec (type); \
   \
-  sprintf ((DEST), "%.*s%d", (int) ((TYPE)-type), type, offset); \
+  printf ("{%s}\n", type); \
   if (*(TYPE) == '+') \
     { \
       (TYPE)++; \
     } \
+  sprintf ((DEST), "%.*s%d", (int) ((TYPE)-type), type, offset); \
   while (isdigit ((int) *(TYPE))) \
     { \
       (TYPE)++; \
