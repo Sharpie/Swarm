@@ -1,6 +1,7 @@
 // Bug.m					SimpleBug
 
 #import "Bug.h"
+#import "FoodSpace.h"
 #import <random.h>
 
 @implementation Bug
