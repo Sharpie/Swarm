@@ -1,3 +1,27 @@
+1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefClass.m ([CreatedClass_s -updateArchiver]): Use lispArchiver,
+	instead of archiver.
+
+	* defobj.m (initDefobj): Initialize hdf5Archiver and lispArchiver
+	instead of single archiver.
+
+	* Archiver.m (Application): Remove Lisp and HDF5 deep/shallow
+	variants and accessors.
+	(lisp_output_objects, hdf5_output_objects): Don't stop on nil
+	Map members, but ignore them.
+
+	* Archiver.h (Archiver_c): Remove lispPath and hdf5Path.  Add path and
+	hdf5Flag.  
+
+	* Archiver.[hm], defobj.h (hdf5Archiver, lispArchiver): New
+	globals.
+	(archiver): Removed.
+	([Archiver_c -putDeep:object:], [Archiver_c -putShallow:object:], 
+	[Archiver_c -getObject:], [Archiver_c -setDefaultLispPath], 
+	[Archiver_c -setDefaultHDF5Path]): New methods.
+	Remove Lisp and HDF5 variants.
+
 1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefObject.m (lisp_output_type): Don't print #:skipped, just

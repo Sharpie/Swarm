@@ -575,8 +575,8 @@ extern id <Error>
   BlockedObjectAlloc,   //G: method from Object with invalid allocation
   BlockedObjectUsage,   //G: method inherited from Object superclass
   ProtocolViolation,    //G: object does not comply with expected protocol
-  LoadError,           //G: unable to access a resource
-  SaveError;           //G: unable to save a resource
+  LoadError,            //G: unable to access a resource
+  SaveError;            //G: unable to save a resource
 
 @end
 
@@ -957,19 +957,17 @@ USING
 CREATING
 + createBegin: aZone;
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
+- setHDF5Flag: (BOOL)hdf5Flag;
+- setPath: (const char *)path;
+- setDefaultLispPath;
+- setDefaultHDF5Path;
 - createEnd;
-SETTING
-- setLispPath: (const char *)lispPath;
-- setHDF5Path: (const char *)HDF5Path;
 USING
 - registerClient: client;
 - unregisterClient: client;
-- lispGet: (const char *)key;
-- lispPutDeep: (const char *)key object: object;
-- lispPutShallow: (const char *)key object: object;
-- hdf5Get: (const char *)key;
-- hdf5PutDeep: (const char *)key object: object;
-- hdf5PutShallow: (const char *)key object: object;
+- putDeep: (const char *)key object: object;
+- putShallow: (const char *)key object: object;
+- getObject: (const char *)key;
 - save;
 @end
 
@@ -1030,8 +1028,11 @@ USING
 //G: The singleton Arguments object.
 extern id arguments;
 
-//G: The singleton Archiver object.
-extern id archiver;
+//G: The singleton HDF5 Archiver object.
+extern id hdf5Archiver;
+
+//G: The singleton Lisp Archiver object.
+extern id lispArchiver;
 
 //G: Predefined type descriptors for allocated blocks.
 extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;

@@ -142,10 +142,18 @@ initDefobj (int argc, const char **argv,
                               options: options
                               optionFunc: optionFunc];
   _objc_lookup_class = findTypeOrLocalClass;
-  archiver = [[[Archiver createBegin: globalZone]
-                setInhibitLoadFlag:
-                  [arguments getInhibitArchiverLoadFlag]]
-               createEnd];
+  {
+    BOOL inhibitLoadFlag = [arguments getInhibitArchiverLoadFlag];
+
+    hdf5Archiver = [[[[Archiver createBegin: globalZone]
+                       setDefaultHDF5Path]
+                      setInhibitLoadFlag: inhibitLoadFlag]
+                     createEnd];
+    lispArchiver = [[[[Archiver createBegin: globalZone]
+                       setDefaultLispPath]
+                      setInhibitLoadFlag: inhibitLoadFlag]
+                     createEnd];
+  }
 }
 
 static id

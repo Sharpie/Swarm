@@ -9,15 +9,16 @@
 
 #include <swarmconfig.h>
 
-extern id archiver;
+extern id hdf5Archiver;
+extern id lispArchiver;
 
 @interface Archiver_c: CreateDrop_s
 {
   id currentApplicationKey;
   id <Map> applicationMap;
+  BOOL hdf5Flag;
   BOOL inhibitLoadFlag;
-  const char *lispPath;
-  const char *hdf5Path;
+  const char *path;
 @public
   id <List> classes;
   id <List> instances;
@@ -25,20 +26,21 @@ extern id archiver;
 
 + createBegin: aZone;
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
+- setPath: (const char *)lispPath;
+- setHDF5Flag: (BOOL)hdf5Flag;
+- setDefaultLispPath;
+- setDefaultHDF5Path;
+
 - getApplication;
-- setLispPath: (const char *)lispPath;
-- setHDF5Path: (const char *)HDF5Path;
-- save;
 
 - registerClient: client;
 - unregisterClient: client;
 
-- lispGet: (const char *)key;
-- lispPutDeep: (const char *)key object: object;
-- lispPutShallow: (const char *)key object: object;
+- save;
 
-- hdf5Get: (const char *)key;
-- hdf5PutDeep: (const char *)key object: object;
-- hdf5PutShallow: (const char *)key object: object;
+- getObject: (const char *)key;
+- putDeep: (const char *)key object: object;
+- putShallow: (const char *)key object: object;
+
 @end
 
