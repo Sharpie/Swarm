@@ -29,10 +29,9 @@ const char *program_invocation_short_name;
 #undef interface
 #import <defobj/directory.h> // JAVA_APPNAME
 
-#define VARCHAR(ch) (((ch) >= 'a' && (ch) <= 'z') \
-                     || ((ch) >= 'A' && (ch) <= 'Z') \
-                     || ((ch) >= '0' && (ch) <= '9') \
-                     || ((ch) == '_'))
+#import "../defobj/internal.h"
+
+#define VARCHAR(ch) (isAlnum (ch) || ((ch) == '_'))
 
 #define SIGNATURE_FILE "swarmconfig.h"
 

@@ -1,6 +1,7 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* internal.h (isDigit, isSpace, isPrint): New macros.
+	* internal.h (isDigit, isSpace, isPunc, isAlnum, isUpper, isLower,
+	isAlpha, isPrint): New macros.
 
 	* DefObject.m ([Object_s -lispIn:]): Use isDigit instead of isdigit.
 
