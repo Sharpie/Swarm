@@ -105,7 +105,7 @@
     (loop for argument in arguments
           for nameKey = (car argument)
           when nameKey
-          do (insert nameKey))
+          do (insert (capitalize nameKey)))
     (insert " (")
     (java-print-argument first-argument)
     (loop for argument in (cdr arguments)
