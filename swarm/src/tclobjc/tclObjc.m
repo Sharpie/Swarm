@@ -566,6 +566,11 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 #else
 #ifndef USE_AVCALL
       typedef struct alist *av_alist;
+      struct alist
+        {
+          ffi_type **type_pos;
+          void **value_pos;
+        };
       struct alist alist_buf;
       av_alist alist = &alist_buf;   
       int acnt = method_get_number_of_arguments (method);
@@ -573,11 +578,6 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
       void *values_buf[acnt];
       ffi_cif cif;
       ffi_type *fret; 
-      struct alist
-        {
-          ffi_type **type_pos;
-          void **value_pos;
-        };
 
       void push_argument (const char *typespec, void *obj)
         {
