@@ -60,10 +60,10 @@ collectRemaining (id makeExprIndex)
 {
   id obj;
   id newList = [List create: [makeExprIndex getZone]];
-
+  
   while ((obj = [makeExprIndex next]))
-      [newList addLast: obj];
-
+    [newList addLast: obj];
+  
   return newList;
 }
 
@@ -1138,6 +1138,9 @@ output_type (const char *type,
       
       for (i = 0; i < ivar_count; i++)
         {
+          // Special case to allow member_t for setIndexFromMemberLoc: lists.
+          if (strcmp (ivar_list[i].ivar_type, "{?=\"memberData\"[2^v]}") == 0)
+            continue;
           [stream catC: " #:"];
           [stream catC: ivar_list[i].ivar_name];
           [stream catC: " "];
@@ -1186,7 +1189,7 @@ find_ivar (id obj, const char *name)
 
       if (!keywordp (key))
         raiseEvent (InvalidArgument, "expecting keyword [%s]", [key name]);
-      
+
       if ((val = [li next]) == nil)
         raiseEvent (InvalidArgument, "missing value");
       

@@ -1,3 +1,9 @@
+1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* DefObject.m ([Object_s -lispOut:]): Add a (very fragile) special
+	case to allow member_t, so that Lists with setIndexFromMemberLoc:
+	can be serialized.
+
 1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Program.[hm] (defobj_lookup_type): New function.
