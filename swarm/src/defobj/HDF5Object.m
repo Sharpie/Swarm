@@ -14,7 +14,6 @@
 #include <hdf5.h>
 #include <misc.h> // strncpy
 #include <math.h> // log10
-#define ATTRIB_TYPE_NAME "type"
 
 #define REF2STRING_CONV "ref->string"
 #define STRING2REF_CONV "string->ref"
@@ -249,12 +248,11 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
           if ((c_msid = H5Screate_simple (1, mdims, NULL)) < 0)
             raiseEvent (SaveError, "unable to create (compound) point space");
           
-          loc_id = ((HDF5_c *) parent)->loc_id;
-          if ((c_did = H5Dcreate (loc_id,
-                                  name,
-                                  ((HDF5CompoundType_c *) c_type)->tid,
-                                  c_sid,
-                                  H5P_DEFAULT)) < 0)
+          if ((loc_id = H5Dcreate (((HDF5_c *) parent)->loc_id,
+                                   name,
+                                   ((HDF5CompoundType_c *) c_type)->tid,
+                                   c_sid,
+                                   H5P_DEFAULT)) < 0)
             raiseEvent (SaveError, "unable to create (compound) dataset");
           
           {
@@ -268,7 +266,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
             if ((c_rnsid = H5Screate_simple (1, dims, NULL)) < 0)
               raiseEvent (SaveError, "unable to create row names data space");
             
-            if ((c_rnaid = H5Acreate (c_did, ROWNAMES,
+            if ((c_rnaid = H5Acreate (loc_id, ROWNAMES,
                                       c_rntid, c_rnsid, H5P_DEFAULT)) < 0)
               raiseEvent (SaveError, 
                           "unable to create row names attribute dataset");
@@ -356,6 +354,7 @@ PHASE(Using)
       hid_t aid, sid, tid;
       H5T_class_t class;
 
+      printf ("attrName:[%s] in `%s'\n", attrName, [self getName]);
       if ((aid = H5Aopen_name (oid, attrName)) < 0)
         raiseEvent (LoadError, "could not open attribute `%s'", attrName);
       
@@ -453,13 +452,18 @@ PHASE(Using)
         }
       else if (statbuf.type == H5G_DATASET)
         {
-          id dataset = [[[[[[[HDF5 createBegin: [self getZone]]
-                              setParent: self]
-                             setCreateFlag: NO]
-                            setDatasetFlag: YES]
-                           setName: memberName]
-                          setId: oid]
-                         createEnd];
+          id dataset;
+          hid_t did;
+
+          if ((did = H5Dopen (oid, memberName)) < 0)
+            raiseEvent (LoadError, "cannot open dataset `%s'", memberName);
+          dataset = [[[[[[[HDF5 createBegin: [self getZone]]
+                           setParent: self]
+                          setCreateFlag: NO]
+                         setDatasetFlag: YES]
+                        setName: memberName]
+                       setId: did]
+                      createEnd];
           iterateFunc (dataset);
           [dataset drop];
         }
@@ -526,9 +530,7 @@ hdf5_store_attribute (hid_t did,
 - storeAttribute: (const char *)attributeName value: (const char *)valueString
 {
 #ifdef HAVE_HDF5
-  hdf5_store_attribute (c_type ? c_did : loc_id,
-                        attributeName,
-                        valueString);
+  hdf5_store_attribute (loc_id, attributeName, valueString);
 #else
   hdf5_not_available ();
 #endif
@@ -574,7 +576,7 @@ hdf5_store_attribute (hid_t did,
     }
   void store_string (hid_t sid)
     {
-      const char *str = *(const char **)ptr;
+      const char *str = *(const char **) ptr;
       hid_t memtid, tid;
       
       if ((memtid = H5Tcopy (H5T_STD_REF_OBJ)) < 0)
@@ -686,7 +688,7 @@ hdf5_store_attribute (hid_t did,
 - storeObject: obj
 {
 #ifdef HAVE_HDF5
-  if (H5Dwrite (c_did, ((HDF5CompoundType_c *) c_type)->tid,
+  if (H5Dwrite (loc_id, ((HDF5CompoundType_c *) c_type)->tid,
                 c_msid, c_sid, H5P_DEFAULT, obj) < 0)
     raiseEvent (SaveError, "unable to store object");
 #else
@@ -733,7 +735,7 @@ hdf5_store_attribute (hid_t did,
         raiseEvent (SaveError, "Failed to close (compound) space");
       if (H5Sclose (c_msid) < 0)
         raiseEvent (SaveError, "Failed to close (compound) point space");
-      if (H5Dclose (c_did) < 0)
+      if (H5Dclose (loc_id) < 0)
         raiseEvent (SaveError, "Failed to close (compound) dataset");
       
     }

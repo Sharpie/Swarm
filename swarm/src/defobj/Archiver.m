@@ -266,22 +266,28 @@ hdf5LoadArchiver (id applicationMap, id hdf5file)
     {
       void modeIterateFunc (id modeHDF5Obj)
         {
+          id appKey, app;
+          id aZone = [hdf5file getZone];
+
           void objIterateFunc (id hdf5Obj)
             {
-              void attrIterateFunc (const char *key,
-                                    const char *value)
-                {
-                  printf ("[%s][%s]\n", key, value);
-                }
-              [hdf5Obj iterateAttributes: attrIterateFunc];
+              id key = [String create: aZone setC: [hdf5Obj getName]];
+              id value = hdf5In (aZone, hdf5Obj);
+              id objectMap = ([hdf5Obj getDatasetFlag]
+                              ? [app getHDF5ShallowMap]
+                              : [app getHDF5DeepMap]);
+
+              if ([objectMap at: key])
+                [objectMap at: key replace: value];
+              else
+                [objectMap at: key insert: value];
+          
               printf ("    <%s> (%s)\n",
-                      [hdf5Obj getName],
+                  [hdf5Obj getName],
                       ([hdf5Obj getDatasetFlag]
                        ? "Dataset"
                        : "Group"));
             }
-          id appKey, app;
-          id aZone = [hdf5file getZone];
 
           appKey = [String create: aZone setC: [appHDF5Obj getName]];
           [appKey catC: "/"];

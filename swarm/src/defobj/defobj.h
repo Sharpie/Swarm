@@ -30,8 +30,12 @@ CREATING
 
 - hdf5InCreate: expr;
 
-//F: Load an object of the form (make-objc :arg1 x :arg 2)
+//F: Load an object from a lisp expression of the form
+//F: (make-{class,instance} :arg1 x :arg y). 
 extern id lispIn (id aZone, id expr);
+
+//F: Load an object from a HDF5 object.
+extern id hdf5In (id aZone, id hdf5Obj);
 
 USING
 //M: Process an archived Lisp representation of object state from a

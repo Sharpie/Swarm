@@ -1,5 +1,13 @@
 1999-01-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.[hm] (hdf5In): New function.
+
+	* HDF5Object.[hm] (HDF5_c): Remove c_did; use loc_id (and thus
+	parent->loc_id) throughout.
+
+	* HDF5Object.m ([HDF5_c iterate:]): Open/close dataset around
+	iterateFunc as with group.
+
 	* Archiver.m (lispLoadArchiver): Renamed from
 	lispLoadArchiverExpr.
 	(hdf5LoadArchiver): New function.

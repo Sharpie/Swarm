@@ -13,6 +13,7 @@ Library:      defobj
 
 #include "defobj.xm"
 #import <defobj/Archiver.h>
+#import <defobj/HDF5Object.h>
 
 #include <objc/objc-api.h> // objc_lookup_class
 #include <misc.h> // strcmp, sscanf
@@ -271,6 +272,42 @@ lispIn (id aZone, id expr)
       return obj;
     }
   }
+}
+
+id
+hdf5In (id aZone, id hdf5Obj)
+{
+  id obj;
+  id typeObject = nil;
+
+  void attrIterateFunc (const char *key,
+                        const char *value)
+    {
+      if (strcmp (key, ATTRIB_TYPE_NAME) == 0)
+        {
+          if ((typeObject = defobj_lookup_type (value)) == nil)
+            {
+              printf ("unknown type: [%s]\n", value);
+            }
+        }
+
+      printf ("[%s][%s]\n", key, value);
+    }
+
+  [hdf5Obj iterateAttributes: attrIterateFunc];
+
+  if (typeObject == nil)
+    raiseEvent (LoadError,
+                "No type attribute on HDF5 object `%s'",
+                [hdf5Obj getName]);
+
+  obj = [typeObject createBegin: aZone];
+  obj = [obj hdf5InCreate: hdf5Obj];
+  obj = [obj createEnd];
+  
+  [obj hdf5In: hdf5Obj];
+
+  return nil;
 }
 
 id

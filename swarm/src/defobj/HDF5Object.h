@@ -14,6 +14,8 @@
 #import <defobj/Create.h>
 #import <collections.h> // Map
 
+#define ATTRIB_TYPE_NAME "type"
+
 @interface HDF5CompoundType_c: CreateDrop_s
 {
   Class class;
@@ -43,7 +45,6 @@
 #ifdef HAVE_HDF5
   hid_t c_sid;
   hid_t c_msid;
-  hid_t c_did;
   
   hsize_t c_rnlen;
   hid_t c_rntid;
