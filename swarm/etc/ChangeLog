@@ -1,3 +1,7 @@
+1999-12-25    <mgd@DRONE>
+
+	* protocol.el (fixup-method): Add conversion for getPopulation.
+
 1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* protocol.el (fixup-method): Add conversions for

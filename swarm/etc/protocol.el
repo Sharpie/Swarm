@@ -247,6 +247,8 @@
     ;; these fixups are because of problems with protocol self-reference
     (cond ((string= sig "-getZone")
            (setf (method-return-type method) "id <Zone>"))
+	  ((string= sig "-getPopulation")
+	   (setf (method-return-type method) "id <List>"))
           ((or (string= sig "+create:") (string= sig "+createBegin:"))
            (let ((first-argument (first (method-arguments method))))
              (setf (nth 1 first-argument) "id <Zone>")))
