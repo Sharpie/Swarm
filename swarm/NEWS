@@ -3,7 +3,8 @@ Copyright © 1996-2000 Swarm Development Group
 
 * Notes since Swarm 2.1.1
 ** New features
-*** Averager and EZGraph can now report variance and standard deviation.
+*** Averager and EZGraph now report variance and standard deviation, and
+    can track moving averages.
     Thanks to Paul Johnson.
 *** In the multilanguage interface, Selectors are organized by name,
     not by pointer.  This means it is possible to update the typing

@@ -1,3 +1,9 @@
+2000-05-17  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* NEWS: Note support for moving averages.
+
+	* VERSION: Bump.
+
 2000-05-15  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* NEWS: Note that subactivities can be dropped.
