@@ -398,8 +398,8 @@
     (loop for phase in '(:creating :using)
           do
           (loop for method in (protocol-method-list protocol)
-                unless (and (removed-method-p method)
-                            (eq phase (method-phase method)))
+                when (and (not (removed-method-p method))
+                          (eq phase (method-phase method)))
                 do
                 (java-print-native-method method protocol phase)
                 (insert "\n")))))
