@@ -33,6 +33,8 @@
 
 #include <misc.h>
 
+#include "message.xpm"
+
 typedef struct raster_private {
   GC gc;
   Tk_Window tkwin;
@@ -147,6 +149,83 @@ tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
   Tk_DeleteEventHandler (tkwin, StructureNotifyMask, proc, widget);
 }
 
+XImage *image = NULL;
+GC gc;
+
+void
+tkobjc_animate_message (id srcWidget,
+                        id destWidget,
+                        int sx, int sy,
+                        int dx, int dy)
+{
+  Tk_Window src_tkwin = tkobjc_nameToWindow ([srcWidget getWidgetName]);
+  Tk_Window dest_tkwin = tkobjc_nameToWindow ([destWidget getWidgetName]);
+  Display *display = Tk_Display (src_tkwin);
+  Window rootWindow = RootWindowOfScreen (Tk_Screen (src_tkwin));
+  Window window;
+  int nsx, nsy, ndx, ndy;
+  unsigned width, height;
+
+  XFlush (display);
+
+  {
+    Window child;
+    XTranslateCoordinates (display, 
+                           Tk_WindowId (src_tkwin), rootWindow,
+                           sx, sy, &nsx, &nsy, &child);
+    XTranslateCoordinates (display,
+                           Tk_WindowId (dest_tkwin), rootWindow,
+                           dx, dy, &ndx, &ndy, &child);
+  }
+  
+  if (image == NULL)
+    {
+      XImage *shapemask;
+      Screen *screen = Tk_Screen (src_tkwin);
+      XpmCreateImageFromData (display, message_xpm, &image, &shapemask, NULL);
+      gc = XCreateGC (display, RootWindowOfScreen (screen), 0, NULL);
+    }
+  width = image->width;
+  height = image->height;
+  {
+    XSetWindowAttributes attr;
+
+    attr.override_redirect = True;
+    window = XCreateWindow (display, rootWindow, nsx, nsy, width, height, 0,
+                       image->depth,
+                       InputOutput, CopyFromParent,
+                       CWOverrideRedirect, &attr);
+    XMapWindow (display, window);
+    XPutImage (display, window, gc, image, 0, 0, 0, 0, width, height);
+  }
+  {
+    int xstep = width * 3;
+    int ystep = height * 3;
+    int xdiff = ndx - nsx;
+    int ydiff = ndy - nsy;
+    unsigned xdist = xdiff < 0 ? -xdiff : xdiff;
+    unsigned ydist = ydiff < 0 ? -ydiff : ydiff;
+    unsigned xsteps =  xdist / xstep;
+    unsigned ysteps = ydist / ystep;
+    unsigned steps = ((xsteps > ysteps) ? xsteps : ysteps);
+    int x = nsx;
+    int y = nsy;
+    int i;
+
+    xstep = xdiff / (int)steps;
+    ystep = ydiff / (int)steps;
+    
+    for (i = 0; i < steps; i++)
+      {
+        XMoveWindow (display, window, x, y);
+        while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+        XFlush (display);
+        x += xstep;
+        y += ystep;
+      }
+  }
+  XDestroyWindow (display, window);
+}
 
 void
 tkobjc_move (id widget, int x, int y)

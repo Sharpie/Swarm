@@ -12,7 +12,9 @@
   id <Schedule> schedule;
   unsigned step;
   id <Zone> zone;
-  int x, y;
+  id <List> pendingEvents;
+  int xoffset, yoffset;
+  timeval_t min;
 }
 
 - _createItem_;
@@ -20,7 +22,10 @@
 - setSchedule: schedule;
 - setStep: (unsigned)step;
 - setX: (int)x Y: (int)y;
+- at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY;
 - createItem;
 - update;
+- (int)getXForBar;
+- (int)getYForTime: (timeval_t)tval;
 - (void)drop;
 @end

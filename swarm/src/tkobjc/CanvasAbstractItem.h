@@ -23,6 +23,7 @@
 - createEnd;
 - clicked;
 - initiateMoveX: (long)delta_x Y: (long)delta_y;
+- getCanvas;
 @end
 
 

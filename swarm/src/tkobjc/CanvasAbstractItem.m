@@ -76,5 +76,10 @@ PHASE(Using)
   return self;
 }
 
+- getCanvas
+{
+  return canvas;
+}
+
 @end
 

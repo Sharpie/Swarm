@@ -14,6 +14,82 @@ destroyNotify (id obj, id reallocAddress, void *arg)
   [obj drop];
 }
 
+@interface PendingEvent: SwarmObject
+{
+  id scheduleItem;
+  timeval_t t;
+  id owner; 
+  id widget;
+  int x, y;
+}
+- setScheduleItem: scheduleItem;
+- setTime: (timeval_t)tval;
+- setOwner: owner;
+- setWidget: widget;
+- setX: (int)x;
+- setY: (int)y;
+- showEvent;
+@end
+
+@implementation PendingEvent
+- setScheduleItem: theScheduleItem
+{
+  scheduleItem = theScheduleItem;
+  return self;
+}
+
+- setTime: (timeval_t)tval
+{
+  t = tval;
+  return self;
+}
+
+- setOwner: theOwner
+{
+  owner = theOwner;
+  return self;
+}
+
+- setWidget: theWidget
+{
+  widget = theWidget;
+  return self;
+}
+
+- setX: (int)theX
+{
+  x = theX;
+  return self;
+}
+
+- setY: (int)theY
+{
+  y = theY;
+  return self;
+}
+
+- showEvent
+{
+  int wx, wy, bx, by;
+  unsigned zoomFactor;
+  id <Canvas> canvas = [scheduleItem getCanvas];
+
+  zoomFactor = ([widget respondsTo: @selector(getZoomFactor)]
+                ? [widget getZoomFactor]
+                : 1);
+
+  wx = x * zoomFactor;
+  wy = y * zoomFactor;
+
+  bx = [scheduleItem getXForBar];
+  by = [scheduleItem getYForTime: t];
+
+  tkobjc_animate_message (widget, canvas, wx, wy, bx, by);
+  return self;
+}
+
+@end
+
 @implementation ScheduleItem
 
 PHASE(Creating)
@@ -23,8 +99,10 @@ PHASE(Creating)
   ScheduleItem *obj = [super createBegin: aZone];
 
   obj->step = 20;
-  obj->x = 0;
-  obj->y = 0;
+  obj->xoffset = 0;
+  obj->yoffset = 0;
+  obj->pendingEvents = [List create: aZone];  
+
   return obj;
 }
 
@@ -46,8 +124,8 @@ PHASE(Creating)
 
 - setX: (int)theX Y: (int)theY
 {
-  x = theX;
-  y = theY;
+  xoffset = theX;
+  yoffset = theY;
 
   return self;
 }
@@ -67,16 +145,32 @@ PHASE(Using)
 {
   if (zone)
     [zone drop];
-  
-  return [self _createItem_];
+
+  [self _createItem_];
+  while (GUI_EVENT_ASYNC ()) {}  
+  [pendingEvents forEach: M(showEvent)];
+  [pendingEvents deleteAll];
+
+  return self;
+}
+
+- (int)getXForBar
+{
+  return xoffset + BAROFFSET;
+}
+
+- (int)getYForTime: (timeval_t)tval
+{
+  return yoffset + step * (tval - min);
 }
 
 - _createItem_
 {
-  int key, min, max;
+  int key;
   id <MapIndex> mi;
-  int ymaxpos;
+  int xbarpos, ymaxpos;
   id <Line> line;
+  timeval_t max;
 
   if (schedule == nil)
     return self;
@@ -97,8 +191,9 @@ PHASE(Using)
   [mi drop];
   line = [Line createBegin: zone];
   [line setCanvas: canvas];
-  ymaxpos = y + step * (max - min);
-  [line setTX: x + BAROFFSET TY: y LX: x + BAROFFSET LY: ymaxpos];
+  ymaxpos = [self getYForTime: max];
+  xbarpos = [self getXForBar];
+  [line setTX: xbarpos TY: yoffset LX: xbarpos LY: ymaxpos];
   line = [line createEnd];
   [line addRef: destroyNotify withArgument: NULL];
   
@@ -109,7 +204,7 @@ PHASE(Using)
     text = [TextItem createBegin: zone];
     [text setCanvas: canvas];
     [text setCenterFlag: NO];
-    [text setX: x Y: y];
+    [text setX: xoffset Y: yoffset];
     sprintf (buf, "%d", min);
     [text setText: buf];
     text = [text createEnd];
@@ -118,7 +213,7 @@ PHASE(Using)
     text = [TextItem createBegin: zone];
     [text setCanvas: canvas];
     [text setCenterFlag: NO];
-    [text setX: x Y: ymaxpos];
+    [text setX: xoffset Y: ymaxpos];
     sprintf (buf, "%d", max);
     [text setText: buf];
     text = [text createEnd];
@@ -126,7 +221,7 @@ PHASE(Using)
   }
 
   {
-    int key;
+    timeval_t key;
     id <MapIndex> mi;
     id action;
     
@@ -134,14 +229,15 @@ PHASE(Using)
     
     while ((action = [mi next: (id *)&key]))
       {
-        int ypos = y + step * (key - min);
+        int ypos = [self getYForTime: key];
 
         {
           id <Line> bar;
           
           bar = [Line createBegin: zone];
           [bar setCanvas: canvas];
-          [bar setTX: x + BAROFFSET - BARSIZE/2 TY: ypos LX: x + BAROFFSET + BARSIZE/2 LY: ypos];
+          [bar setTX: xbarpos - BARSIZE/2 TY: ypos
+               LX: xbarpos + BARSIZE/2 LY: ypos];
           bar = [bar createEnd];
           [bar addRef: destroyNotify withArgument: NULL];
         }
@@ -151,7 +247,7 @@ PHASE(Using)
           text = [TextItem createBegin: zone];
           [text setCanvas: canvas];
           [text setCenterFlag: NO];
-          [text setX: x + TEXTOFFSET Y: ypos];
+          [text setX: xoffset + TEXTOFFSET Y: ypos];
           [text setText: [action name]];
           text = [text createEnd];
           [text addRef: destroyNotify withArgument: NULL];
@@ -162,9 +258,26 @@ PHASE(Using)
   return self;
 }
 
+- at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY
+{
+  id pendingEvent = [PendingEvent createBegin: [self getZone]];
+
+  [pendingEvent setScheduleItem: self];
+  [pendingEvent setTime: tval];
+  [pendingEvent setOwner: owner];
+  [pendingEvent setWidget: widget];
+  [pendingEvent setX: sourceX];
+  [pendingEvent setY: sourceY];
+
+  [pendingEvents addLast: [pendingEvent createEnd]];
+  return self;
+}
+
 - (void)drop
 {
   [zone drop];
+  [pendingEvents deleteAll];
+  [pendingEvents drop];
   [super drop];
 }
 @end
