@@ -1,5 +1,13 @@
 1998-06-01  Alex Lancaster  <alex@santafe.edu>
 
+	* collections.h (Collection): Added method -setIndexFromMemberLoc:
+	to protocol.
+	(Index): Added doc string (//G) to Symbol and Error global
+	variables - made these inside the @end protocol declaration for
+	Index.
+	(KeyedCollection): Added method -createIndex:fromMember: to
+	protocol.
+	
 	* collections.m (LiteralString): Redefine LiteralString as
 	LiteralString_ between the imports of collections.xm and
 	Collection.h to avoid redeclaration error.

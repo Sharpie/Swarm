@@ -280,6 +280,8 @@ CREATING
 //M: provided it was not originally set to true.
 - (void)setReplaceOnly: (BOOL)replaceOnly;
 
+- (void)setIndexFromMemberLoc: (int)byteOffset;
+
 USING
 - (BOOL)getReplaceOnly;
 
@@ -533,11 +535,8 @@ USING
 //M: End or an immediately adjacent member, compare: returns the
 //M: UnknownOffset integer value.
 - (int)compare: anIndex;
-@end
 
-//
-// values for index location
-//
+//G: values for index location
 extern id <Symbol>  Start, End, Between, Removed, Member;
 
 //
@@ -545,12 +544,12 @@ extern id <Symbol>  Start, End, Between, Removed, Member;
 //
 #define UndefinedOffset -0x80000000;
 
-//
-// error types for collections
-//
+//G: error types for collections
 extern id <Error>
   OffsetOutOfRange, NoMembers, 
   AlreadyAtEnd, AlreadyAtStart, InvalidIndexLoc, InvalidLocSymbol;
+
+@end
 
 
 @deftype DefaultMember
@@ -1095,6 +1094,8 @@ USING
 //M: argument.  This message is valid only if an internal member slot was
 //M: defined for the collection with the MemberSlot option.
 - createIndex: aZone setMember: aMember;
+
+- createIndex: aZone fromMember: anObject;
 
 //M: The at: message returns the existing member of the collection which
 //M: matches the key value passed as its argument, or nil if there is no
