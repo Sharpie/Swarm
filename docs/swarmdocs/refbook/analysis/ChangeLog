@@ -1,3 +1,11 @@
+1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am: New file.
+
+	* analysis.ent.in: New file:
+
+	* analysis.ent: Removed.
+
 1998-05-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Begin revision log.
