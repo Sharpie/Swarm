@@ -11,13 +11,13 @@
 
 <!--
 
-  <SECT1 ID="SWARM.SRC.GUI.DEPEND">
+  <SECT1 ID="SWARM.GUI.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
     <PARA>No other library dependences</PARA>
   </SECT1>
 -->
 
-  <SECT1 ID="SWARM.SRC.GUI.COMPAT">
+  <SECT1 ID="SWARM.GUI.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <ITEMIZEDLIST>
@@ -39,35 +39,35 @@
 
 <!--
 
-  <SECT1 ID="SWARM.SRC.GUI.USAGE">
+  <SECT1 ID="SWARM.GUI.SGML.SECT1.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.GUI.ADVUSAGE">
+  <SECT1 ID="SWARM.GUI.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.GUI.SUBCLASS">
+  <SECT1 ID="SWARM.GUI.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.GUI.DESIGN">
+  <SECT1 ID="SWARM.GUI.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.GUI.IMPL">
+  <SECT1 ID="SWARM.GUI.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>

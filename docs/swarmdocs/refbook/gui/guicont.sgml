@@ -1,4 +1,4 @@
-<REFERENCE ID="SWARM.SRC.GUI.REF">
+<REFERENCE ID="SWARM.GUI.SGML.REFERENCE">
   &guimeta.sgml;
   
   <TITLE>Gui Library</TITLE>
