@@ -397,20 +397,35 @@ PHASE(Using)
 #endif
 }
 
-- (void)describe: outputCharStream
+- (void)describe: stream
 {
   char buffer[100];
 
-  [outputCharStream catC: "["];
+  [stream catC: "["];
   _obj_formatIDString (buffer, self);
-  [outputCharStream catC: buffer];
-  [outputCharStream catC: " in schedule: "];
+  [stream catC: buffer];
+  [stream catC: " in schedule: "];
   _obj_formatIDString (buffer, collectionOfActions);
-  [outputCharStream catC: buffer];
-  [outputCharStream catC: " subactivity: "];
+  [stream catC: buffer];
+  [stream catC: " subactivity: "];
   _obj_formatIDString (buffer, subactivity);
-  [outputCharStream catC: buffer];
-  [outputCharStream catC: "]\n"];
+  [stream catC: buffer];
+  if ([subactivity conformsTo: @protocol (SwarmActivity)])
+    {
+      id swarm = [(id) subactivity getSwarm];
+
+      [stream catC: " in Swarm "];
+      [stream catPointer: swarm];
+      if (swarm)
+        {        
+          [stream catC: " ("];
+          [stream catC: [swarm getName]];
+          [stream catC: ")\n"];
+        }
+    }
+  else
+    [stream catC: " non-Swarm ScheduleActivity\n"];
+  [stream catC: "]\n"];
 }
 
 @end
