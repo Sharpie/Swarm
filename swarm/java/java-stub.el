@@ -167,7 +167,7 @@
            varname)))))
 
 (defun java-print-method-name (arguments native-flag)
-  (let ((nameKey (car (first arguments))))
+  (let ((nameKey (argument-key (first arguments))))
     (cond ((string= nameKey "initSwarm")
            (insert
             (if native-flag
@@ -522,7 +522,7 @@
       (funcall convert (java-objc-to-java-type t (car type-and-varname))))))
 
 (defun java-argument-print-conversion (current-module argument string-pos)
-  (let ((type (second argument))
+  (let ((type (argument-type argument))
         (jni-type (java-argument-convert argument
                                          #'java-type-to-native-type))
         (argname (third argument)))
@@ -578,26 +578,25 @@
   (let ((arguments (method-arguments method))
         (string-pos 0)
         (module (protocol-module protocol)))
-    (loop for argument in arguments
-          for arg-pos from 0
-          for arg-name = (third argument)
-          for type = (second argument)
-          when (and (not (argument-empty-p argument))
-                    (local-ref-p argument)
-                    (not (java-argument-string-p argument)))
-          do
-          (insert "  ")
-          (insert (if type type "id"))
-          (insert " ")
-          (insert (argname-number arg-pos))
-          (insert " = ")
-          (java-argument-print-conversion module argument string-pos)
-          (insert ";\n")
-          (when (java-argument-string-p argument)
-            (incf string-pos)))))
+    (when (has-arguments-p method)
+      (loop for argument in arguments
+            for arg-pos from 0
+            for arg-type = (argument-type argument)
+            when (and (local-ref-p argument)
+                      (not (java-argument-string-p argument)))
+            do
+            (insert "  ")
+            (insert (if arg-type arg-type "id"))
+            (insert " ")
+            (insert (argname-number arg-pos))
+            (insert " = ")
+            (java-argument-print-conversion module argument string-pos)
+            (insert ";\n")
+            (when (java-argument-string-p argument)
+              (incf string-pos))))))
 
 (defun local-ref-p (argument)
-  (let ((type (second argument))
+  (let ((type (argument-type argument))
         (jni-type (java-argument-convert argument #'java-type-to-native-type)))
     (or (string= type "SEL")
         (string= jni-type "jobjectArray")
@@ -607,15 +606,14 @@
 
 (defun java-print-method-invocation-arguments-lref-deletion (protocol method)
   (insert "  (*env)->DeleteLocalRef (env, jobj);\n")
-  (let ((arguments (method-arguments method)))
-    (loop for argument in arguments
-          for argname = (third argument)
-          when (and (not (argument-empty-p argument))
-                    (local-ref-p argument))
-          do
-          (insert "  (*env)->DeleteLocalRef (env, ")
-          (insert argname)
-          (insert ");\n"))))
+  (when (has-arguments-p method)
+    (let ((arguments (method-arguments method)))
+      (loop for argument in arguments
+            when (local-ref-p argument)
+            do
+            (insert "  (*env)->DeleteLocalRef (env, ")
+            (insert (argument-name argument))
+            (insert ");\n")))))
 
 (defun java-argument-ref (argument arg-pos string-pos)
   (cond ((java-argument-string-p argument)
@@ -623,7 +621,7 @@
                  (prin1-to-string string-pos)
                  "]"))
         ((local-ref-p argument) (argname-number arg-pos))
-        (t (third argument))))
+        (t (argument-name argument))))
 
 (defun java-print-method-invocation (protocol method)
   (insert "[")
@@ -634,14 +632,14 @@
   (let ((arguments (method-arguments method))
         (string-pos 0)
         (module (protocol-module protocol)))
-    (insert (first (car arguments)))
-    (unless (argument-empty-p (car arguments))
+    (insert (argument-key (car arguments)))
+    (when (has-arguments-p method)
       (insert ": ")
       (insert (java-argument-ref (car arguments) 0 string-pos))
       (when (java-argument-string-p (car arguments))
         (incf string-pos))
       (loop for argument in (cdr arguments)
-            for key = (first argument)
+            for key = (argument-key argument)
             for arg-pos from 1
             when key do 
             (insert " ")
@@ -687,7 +685,7 @@
       (insert (java-class-name protocol phase))
       (insert "_")
       (java-print-method-name arguments t)
-      (unless (argument-empty-p first-argument)
+      (when (has-arguments-p method)
         (insert "__")
         (insert (java-argument-convert first-argument
                                        #'java-type-to-signature))
@@ -697,7 +695,7 @@
                                              #'java-type-to-signature))))
       (insert " (JNIEnv *env, ")
       (insert "jobject jobj")
-      (unless (argument-empty-p (car arguments))
+      (when (has-arguments-p method)
         (loop for argument in arguments
               for arg-pos from 0
               do
@@ -705,7 +703,7 @@
               (let ((native-type
                      (java-argument-convert argument
                                             #'java-type-to-native-type))
-                    (name (third argument)))
+                    (name (argument-name argument)))
                 (insert-arg native-type)
                 (when (string= native-type "jstring")
                   (push name strings))
