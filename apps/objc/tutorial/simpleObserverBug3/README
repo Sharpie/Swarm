@@ -94,7 +94,7 @@ To find out what command line arguments a program accepts, you type
 or
    ./bugs --help
 
-In this example, we create input structs for simulation variables like
+In this example, we create input values for simulation variables like
 the seedProb and bugDensity, as well as a randomSeed value to
 initialize random generators, the run number (in a series of repeated
 runs, possibly), the input file name, and the experiment duration.
@@ -105,7 +105,7 @@ the command line.
 
 You may notice that some of the arguments that we prepare for parsing
 are not used for anything at all.  The "input file" is one example.
-These are included with foresight that this progrma might be used with
+These are included with foresight that this program might be used with
 Drone, and Drone expects every program to be able to take at least
 three command line parameters, the run number, the random seed, and
 the name of the input file.
@@ -127,10 +127,10 @@ anything else.
 ObserverSwarm
 
 We have made a few changes here.  No doubt, the most conceptually
-siginifican change is the re-sequencing of the way in which the
+siginificant change is the re-sequencing of the way in which the
 modelSwarm is created.  As in the previous tutorial exercises, the
 values in "bug.scm" are used to initialize the model. However, we want
-the command line parameters to override those values.  So, before the
+the command line parameters to override those values.  So, the
 modelSwarm is told to get the new parameters:
 
 [modelSwarm resetParameters];
