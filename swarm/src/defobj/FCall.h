@@ -27,6 +27,9 @@ void defobj_init_java_call_tables (void *jEnv);
 #define JOBJECT void *
 
 void updateTarget (id self, id target);
+#ifdef HAVE_JDK
+void updateJavaTarget (id self, JOBJECT target);
+#endif
 
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 

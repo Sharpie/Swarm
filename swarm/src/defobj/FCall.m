@@ -285,8 +285,13 @@ PHASE(Creating)
 - setJavaMethod: (const char *)mtdName inObject: (JOBJECT)obj
 {
 #ifdef HAVE_JDK
+  jclass lref;
   callType = javacall;
-  (jclass) fclass = (*jniEnv)->GetObjectClass (jniEnv, obj);
+  if (fclass)
+    (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
+  lref = (*jniEnv)->GetObjectClass (jniEnv, obj);
+  fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   methodName = (char *) mtdName;
   (jobject) fobject = obj;
 #else
@@ -298,8 +303,14 @@ PHASE(Creating)
 - setJavaMethod: (const char *)mtdName inClass: (const char *)className
 { 
 #ifdef HAVE_JDK
+  jclass lref;
+
   callType = javastaticcall;
-  (jclass) fclass = (*jniEnv)->FindClass (jniEnv, className);
+  if (fclass)
+    (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
+  lref = (*jniEnv)->FindClass (jniEnv, className);
+  fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   methodName = (char *) mtdName;
 #else
   java_not_available();
@@ -360,6 +371,13 @@ updateTarget (FCall_c *self, id target)
     self->fobject = SD_FINDJAVA (jniEnv, target);
   else
     self->fobject = target;
+  add_ffi_types (self);
+}
+
+void
+updateJavaTarget (FCall_c *self, JOBJECT target)
+{
+  self->fobject = target;
   add_ffi_types (self);
 }
 
@@ -701,7 +719,7 @@ PHASE(Using)
 {
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
-    (*jniEnv)->DeleteLocalRef (jniEnv, self->fclass);
+    (*jniEnv)->DeleteGlobalRef (jniEnv, self->fclass);
 #endif
   [super drop];
 }
