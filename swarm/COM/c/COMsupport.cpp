@@ -343,3 +343,8 @@ void
 addArg (fcall_type_t type, void *value)
 {
 }
+
+void
+setReturn (fcall_type_t type, void *value)
+{
+}
