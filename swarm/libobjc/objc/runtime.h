@@ -42,6 +42,8 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include "objc/hash.h"		/* hash structures */
 #include "objc/objc-list.h"	/* linear lists */
 
+#include "objc/externvar.h"
+
 extern void __objc_add_class_to_hash(Class);   /* (objc-class.c) */
 extern void __objc_init_selector_tables(void); /* (objc-sel.c) */
 extern void __objc_init_class_tables(void);    /* (objc-class.c) */

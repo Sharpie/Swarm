@@ -1,3 +1,14 @@
+1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* runtime.h: Include objc/externvar.h (to get export attribute).
+
+	* objc-api.h: Include objc/externvar.h (to get import attribute).
+
+	* externvar.h.in: New file.
+	
+	* Makefile.am (EXTRA_DIST): Add externvar.h.in.
+	(install-data-local): Install externvar.h.
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* objc-api.h: Use `externobjcvar' for external variables, 

@@ -7,7 +7,7 @@ objc_HEADERS = NXConstStr.h Object.h Protocol.h encoding.h hash.h \
 	objc-api.h objc-list.h objc.h \
 	runtime.h sarray.h thr.h typedstream.h
 
-EXTRA_DIST = mframe.head mframe.foot mframe-preface.h
+EXTRA_DIST = mframe.head mframe.foot mframe-preface.h externvar.h.in
 
 MFRAMEHEADER = @MFRAMEHEADER@
 
@@ -23,4 +23,5 @@ all-local: mframe.h
 
 install-data-local:
 	$(INSTALL) mframe.h $(includedir)/objc
+	$(INSTALL) externvar.h $(includedir)/objc
 

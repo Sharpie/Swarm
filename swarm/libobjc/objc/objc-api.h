@@ -33,13 +33,7 @@ Boston, MA 02111-1307, USA.  */
 #include <stdio.h>
 #include <stdarg.h>
 
-#ifndef externobjcvar
-#ifdef __CYGWIN__
-#define externobjcvar extern __attribute__ ((dllimport))
-#else
-#define externobjcvar extern
-#endif
-#endif
+#include "objc/externvar.h"
 
 /* For functions which return Method_t */
 #define METHOD_NULL	(Method_t)0

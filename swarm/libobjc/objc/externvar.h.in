@@ -1,0 +1,10 @@
+#ifndef _OBJC_EXTERNVAR_H
+#define _OBJC_EXTERNVAR_H
+
+#ifndef externobjcvar
+#define externobjcvar @IMPORT_EXTERN@
+#endif
+
+#define externobjcvardef @EXPORT_EXTERNDEF@
+
+#endif
