@@ -1,3 +1,9 @@
+1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-argument-print-conversion): Use
+	JENSUREOBJC{METHOD,CLASS} instead of JFINDOBJC{METHOD,CLASS},
+	(java-print-native-method): Use JENSUREJAVA instead of JFINDJAVA.
+
 1999-06-21  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (java-print-deprecated-doc): New function, common
