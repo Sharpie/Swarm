@@ -1,3 +1,8 @@
+1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* archiver.m: Include swarmconfig.h to conditionally run 
+	HDF5 tests.  Make deep serialization test a subclass with a component.
+
 1999-02-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am, archiver.m: New files.

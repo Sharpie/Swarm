@@ -3,6 +3,7 @@
 #import <defobj/Create.h>
 #include <misc.h>
 #include <argp.h>
+#include <swarmconfig.h>
 
 #define OBJNAME "myObj"
 id archiver;
@@ -16,6 +17,31 @@ id archiver;
 #define ULONGVAL 10000
 #define FLOATVAL 500.0
 #define DOUBLEVAL 500000.0
+
+#define COMPONENT_STRVAL "Foo Bar"
+
+@interface MyObj: CreateDrop
+{
+  const char *name;
+}
++ createBegin: aZone;
+- (const char *)getName;
+@end
+
+@implementation MyObj
++ createBegin: aZone
+{
+  MyObj *obj = [super createBegin: aZone];
+
+  obj->name = COMPONENT_STRVAL;
+  return obj;
+}
+
+- (const char *)getName
+{
+  return name;
+}
+@end
 
 @interface MyClass: CreateDrop
 {
@@ -32,6 +58,7 @@ id archiver;
 }
 - setDeepFlag: (BOOL)deepFlag;
 - updateArchiver;
+- (BOOL)checkObject;
 @end
 
 @implementation MyClass
@@ -90,11 +117,40 @@ id archiver;
 }
 @end
 
+@interface MyClassDeep: MyClass
+{
+  id objVal;
+}
++ createBegin: aZone;
+- (BOOL)checkObject;
+@end
+
+@implementation MyClassDeep
++ createBegin: aZone
+{
+  MyClassDeep *obj = [super createBegin: aZone];
+
+  obj->objVal = [MyObj create: aZone];
+  return obj;
+}
+
+- (BOOL)checkObject
+{
+  if (![super checkObject])
+    return NO;
+  
+  return strcmp ([objVal getName], COMPONENT_STRVAL) == 0;
+
+}
+@end
+
 static id
-createArchiver (id aZone, BOOL hdf5Flag, BOOL inhibitLoadFlag)
+createArchiver (id aZone, BOOL hdf5Flag, BOOL inhibitLoadFlag, BOOL deepFlag)
 {
   return [[[[[Archiver createBegin: aZone]
-              setPath: hdf5Flag ? "archive.hdf" : "archive.scm"]
+              setPath: (hdf5Flag
+                        ? (deepFlag ? "deep.hdf" : "shallow.hdf")
+                        : (deepFlag ? "deep.scm" : "shallow.scm"))]
              setHDF5Flag: hdf5Flag]
             setInhibitLoadFlag: inhibitLoadFlag]
            createEnd];
@@ -106,20 +162,25 @@ checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag)
   id obj;
   BOOL ret;
 
-  archiver = createArchiver (aZone, hdf5Flag, YES);
-  obj = [[[MyClass createBegin: aZone]
-           setDeepFlag: deepFlag]
-          createEnd];
+  archiver = createArchiver (aZone, hdf5Flag, YES, deepFlag);
+  if (deepFlag)
+    obj = [[[MyClassDeep createBegin: aZone]
+             setDeepFlag: YES]
+            createEnd];
+  else
+    obj = [[[MyClass createBegin: aZone]
+             setDeepFlag: NO]
+            createEnd];
   [archiver registerClient: obj];
   [archiver save];
   [obj drop];
   [archiver drop];
   
-  archiver = createArchiver (aZone, hdf5Flag, NO);
+  archiver = createArchiver (aZone, hdf5Flag, NO, deepFlag);
   obj = [archiver getObject: OBJNAME];
   [archiver drop];
   
-  ret= [obj checkObject];
+  ret = [obj checkObject];
   [obj drop];
   
   return ret;
@@ -135,8 +196,10 @@ main (int argc, const char **argv)
   if (checkArchiver (globalZone, NO, YES) == NO)
     raiseEvent (InternalError, "Deep Lisp serialization failed");
   if (checkArchiver (globalZone, YES, NO) == NO)
+#ifdef HAVE_HDF5
     raiseEvent (InternalError, "Shallow HDF5 serialization failed");
   if (checkArchiver (globalZone, YES, YES) == NO)
     raiseEvent (InternalError, "Deep HDF5 serialization failed");
+#endif
   return 0;
 }
