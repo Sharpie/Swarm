@@ -463,7 +463,7 @@
       (insert "</title>\n")
       (loop for example in example-list
             do
-            (insert "<programlisting>\n<![ CDATA [\n")
+            (insert "<programlisting>\n<![CDATA[\n")
             (insert example)
             (insert "]]>\n</programlisting>\n"))
       (insert "</example>\n"))))
@@ -492,7 +492,7 @@
 
     (loop for example in (method-example-list method)
           do
-          (insert "<programlisting>\n<![ CDATA [\n")
+          (insert "<programlisting>\n<![CDATA[\n")
           (insert example)
           (insert "]]>\n</programlisting>\n"))
     (insert "</example>\n")))
