@@ -5,7 +5,7 @@
 
 #import <objectbase/Arguments.h>
 #import <objectbase.h> // arguments
-#include <misc.h> // strdup, getenv, access, stpcpy, stat
+#include <misc.h> // strdup, getenv, access, stpcpy, stat, dropdir
 #include <misc/argp.h>
 #include <swarmconfig.h> // CONFPATH
 
@@ -335,33 +335,11 @@ PHASE(Using)
 }
 
 static char *
-dropDirectory (char *path)
-{
-  int start_len = strlen (path), len;
-
-  if (path[start_len - 1] == '/')
-    start_len--;
-
-  for (len = start_len; len > 0; len--)
-    {
-      char *ptr = &path[len - 1];
-
-      if (*ptr == '/' && start_len > 1)
-        {
-          ptr++;
-          *ptr = '\0';
-          return path;
-        }
-    }
-  return NULL;
-}
-
-static char *
 findDirectory (id arguments, const char *directoryName)
 {
   char *pathBuf = strdup ([arguments getExecutablePath]);
 
-  while (dropDirectory (pathBuf))
+  while (dropdir (pathBuf))
     {
       char *swarmPathBuf = xmalloc (strlen (pathBuf) + strlen (directoryName) + 1);
       
@@ -380,7 +358,7 @@ countSlashes (const char *path)
   char *newPath = strdup (path);
   char *scratchPath = newPath;
 
-  while ((scratchPath = dropDirectory (scratchPath))) count++;
+  while ((scratchPath = dropdir (scratchPath))) count++;
   XFREE (newPath);
   return count;
 }
@@ -407,7 +385,7 @@ findSwarm (id arguments)
       unsigned i, dropCount = countSlashes (SIGNATURE_PATH) + 1;
       
       for (i = 0; i < dropCount; i++)
-        swarmPath = dropDirectory (swarmPath);
+        swarmPath = dropdir (swarmPath);
       return swarmPath;
     }
   else
@@ -486,7 +464,7 @@ findSwarm (id arguments)
 - (BOOL)_runningFromInstall_
 {
   char *executablePath = strdup ([self getExecutablePath]);
-  const char *possibleHome = dropDirectory (dropDirectory (executablePath));
+  const char *possibleHome = dropdir (dropdir (executablePath));
   const char *home;
   BOOL ret = NO;
 
