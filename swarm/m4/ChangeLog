@@ -1,3 +1,7 @@
+1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Define HAVE_JDK if jdkdir is found to be valid.
+
 1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Don't abort if JDK not found.

@@ -21,6 +21,7 @@ else
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
+  AC_DEFINE(HAVE_JDK)
   JAVASTUBS=stubs
   test $JAR = missing && JAR=$jdkdir/bin/jar
   test $JAVAC = missing && JAVAC=$jdkdir/bin/javac
