@@ -1,3 +1,8 @@
+1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (install-data-local): Create $(prefix)/etc if it
+	doesn't exist.
+
 1998-07-18  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (install-data-local): Install to
