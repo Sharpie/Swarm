@@ -267,7 +267,7 @@
 (defmacro with-protocol-c-file (protocol &rest body)
   `(progn
     (ensure-directory *c-path*)
-    (with-temp-file (concat *c-path* (protocol-name ,protocol) ".c")
+    (with-temp-file (concat *c-path* (protocol-name ,protocol) ".m")
       ,@body)))
 
 (defun java-print-package (protocol)
