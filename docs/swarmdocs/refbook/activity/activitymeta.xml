@@ -1,46 +1,42 @@
 <referenceinfo>
+  <title>Activity Library</title>
 
-  <TITLE>Activity Library</TITLE>
-
-  <ABSTRACT>
-    <TITLE>Documentation and Implementation Status</TITLE>
+  <abstract>    <title>Documentation and Implementation Status</title>
     
     
-    <PARA>The activity library is in process of being converted to draw even
+    <para>The activity library is in process of being converted to draw even
       more of its support from underlying types and classes in the defobj
       and collections libraries.  The basic interface has already been
       changed to reflect this consolidation, so the progrmming interface
       for currently available function is expected to remain stable.
-    </PARA>
+    </para>
 
-    <PARA>The activity library follows the documentation structure of
-      the Swarm <LINK LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">library
-      interface conventions</LINK>.  There are placeholders for each
+    <para>The activity library follows the documentation structure of
+      the Swarm <link linkend="SWARM.DEFOBJ.SGML.REFERENCE">library
+      interface conventions</link>.  There are placeholders for each
       section of documentation so that all links should at least link
       up with something, whether or not there's anything there.  The
       Interface Reference section is already fairly complete, and
       there is a start toward a more complete Usage Guide section.
       The Advanced Usage Guide and other sections will come at a later
       time.
-    </PARA>
+    </para>
 
-    <PARA>
-      An attempt has been made to remove all discussion of future
+    <para>      An attempt has been made to remove all discussion of future
       capabilities and to document instead only the capability that is
       already there.
-    </PARA>
+    </para>
 
-    <PARA>Source for code examples in the Usage Guide is included in the
+    <para>Source for code examples in the Usage Guide is included in the
       text where it occurs.  Source consists of fragments taken from example
       programs.  The example programs themselves may be downloaded from the
       web pages and compiled on your own system, using links provided for that
       purpose.  (.. currently there are no code examples in the Usage Guide,
       which so far is only a general overview of the activity library ..)
-    </PARA>
+    </para>
 
-    <PARA>There is also a directory of test programs (<LINK
-        LINKEND="SWARM.GRID.SGML.APPENDIX">GridTurtle test
-        programs</LINK>, contained within the documentation release
+    <para>There is also a directory of test programs (<link linkend="SWARM.GRID.SGML.APPENDIX">GridTurtle test
+        programs</link>, contained within the documentation release
         directory) that provides additional code examples of many
         basic features of the defobj, collections, and activity
         libraries.  These code examples are very rough and subject to
@@ -49,16 +45,15 @@
         They are sometimes the only source, however, for examples of
         some library features that have not yet been used anywhere
         else.
-    </PARA>
+    </para>
 
-  </ABSTRACT>
+  </abstract>
 
-  &activityrevhistory.sgml;
+  &activityrevhistory.xml;
   
-</referenceinfo>
-
+  </referenceinfo>
 <!--
 Local Variables:
-sgml-parent-document:("activitycont.sgml" "REFERENCEINFO")
+sgml-parent-document:("activitycont.xml" "referenceinfo")
 End:
 -->

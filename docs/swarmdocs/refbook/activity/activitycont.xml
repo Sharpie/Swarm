@@ -1,0 +1,27 @@
+<reference id="SWARM.ACTIVITY.SGML.REFERENCE">
+  &activitymeta.xml;
+  
+<title>Activity Library</title>
+  <titleabbrev>Activity</titleabbrev>
+  
+  <!-- partintro -->
+  &activity00.xml;
+  
+  <!-- actual reference content -->
+  &activitypages.xml;
+
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+end:
+-->
+
+
+
+
+
+
+
+
