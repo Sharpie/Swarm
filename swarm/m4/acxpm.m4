@@ -29,6 +29,7 @@ AC_SUBST(xpmlibdir)
 AC_SUBST(xpmincludedir)
 AC_SUBST(XPMLDFLAGS)
 AC_SUBST(XPMLIB)
+
 test -z "$xpmincludedir" && xpmincludedir="$x_includes"
 if test "$xpmincludedir" = "$x_includes"; then
   XPMINCLUDES=''
@@ -36,6 +37,8 @@ else
   XPMINCLUDES='-I${xpmincludedir}'
 fi
 AC_SUBST(XPMINCLUDES)
+
+if test "$gnuwin32" = no; then
 
 last_cppflags=$CPPFLAGS
 test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir $CPPFLAGS"
@@ -56,6 +59,8 @@ else
   fi
 fi
 CPPFLAGS=$last_cppflags
+
+fi
 ])
 
 AC_DEFUN(md_STRUCT_XPM_ALLOCPIXELS,
