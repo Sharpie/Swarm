@@ -90,7 +90,7 @@ createComponentByName (const char *progID, const char *interfaceName)
   nsISupports *obj;
   nsresult rv;
   nsIID iid;
-  char buf[6 + strlen (interfaceName) + 1];
+  char buf[6 + PL_strlen (interfaceName) + 1];
 
   PL_strcpy (buf, "swarmI");
   PL_strcat (buf, interfaceName);
@@ -159,5 +159,17 @@ createComponent (COMclass cClass)
 
   return (void *) obj;
 }
+
+const char *
+copyString (const char *str)
+{
+  const char *ret = (const char *)
+    nsMemory::Clone (str, sizeof (char) * (PL_strlen (str) + 1));
+
+  if (!ret)
+    abort ();
+  return ret;
+}
+
 
 }
