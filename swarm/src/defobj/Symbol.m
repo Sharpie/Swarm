@@ -88,9 +88,9 @@ printMessage (const char *eventClass,
   fprintf (_obj_xerror, "*** event raised for %s: %s\n",
            eventClass, eventName);
 
-  if (((char *)eventData)[0] == '\r')
+  if (((char *) eventData)[0] == '\r')
     {
-      function = eventData + 1;
+      function = va_arg (argptr, char *);
       file = va_arg (argptr, char *);
       line = va_arg (argptr, int);
       fprintf (_obj_xerror,

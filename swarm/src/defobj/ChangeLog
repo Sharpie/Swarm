@@ -1,3 +1,9 @@
+2002-01-02  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* defobj.h (raiseEvent): Avoid concatenation to __FUNCTION__.
+
+	* Symbol.m (printMessage): Handle above change.
+
 2001-12-17  Marcus G. Daniels  <mgd@condor>
 
 	* defobj.h: Remove const from COMOBJECT.

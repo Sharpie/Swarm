@@ -729,7 +729,7 @@ USING
 //#: macro to raise Warning or Error with source location strings
 #define raiseEvent( eventType, formatString, args... ) \
 [eventType raiseEvent: \
-"\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
+"\r", __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
 @end
 
 
