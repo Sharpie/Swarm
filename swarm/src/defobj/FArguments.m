@@ -355,14 +355,34 @@ createJavaSignature (FArguments *self)
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
   unsigned i;
+#define MAX_TOTAL (MAX_HIDDEN + MAX_ARGS)
 
-  printf ("mapping..\n");
+  if (!includeBlocks (mapalloc))
+    return;
+
   for (i = 0; i < assignedArgumentCount; i++)
-    mapAlloc (mapalloc, argValues[MAX_HIDDEN + i]);
-  mapAlloc (mapalloc, argValues);
-  mapAlloc (mapalloc, argTypes);
+    {
+      unsigned offset = i + MAX_HIDDEN;
+      fcall_type_t type = argTypes[offset];
+      
+      if (javaFlag && type == fcall_type_string)
+        mapalloc->size = sizeof (jstring);
+      else
+        mapalloc->size = fcall_type_size (type);
+      
+      mapAlloc (mapalloc, argValues[offset]);
+    }
 
+  mapalloc->size = sizeof (void *) * MAX_TOTAL;
+  mapAlloc (mapalloc, argValues);
+  
+  mapalloc->size = sizeof (fcall_type_t) * MAX_TOTAL;
+  mapAlloc (mapalloc, argTypes);
+  
+  mapalloc->size = sizeof (ffi_type *) * MAX_TOTAL;
   mapAlloc (mapalloc, ffiArgTypes);
+  
+  mapalloc->size = javaSignatureLength + 3;
   mapAlloc (mapalloc, (char *) javaSignature);
 }
 @end

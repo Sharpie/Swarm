@@ -3,11 +3,10 @@
 	* FArguments.m: Include swarmconfig.h.
 	([FArguments -_addArgument_:ofType:]): Initialize size to avoid
 	warning.
+	([FArguments -mapAllocations:]): Set mapalloc->size before
+	each mapAlloc on a block.
 
 1999-04-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* DefObject.m ([Object_s -forward::]): Disable [fa drop]
-	(it's crashing for some reason).
 
 	* FCall.m ([FCall_c -getRetVal:buf:]): Handle jobject in both cases.
 

@@ -614,7 +614,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     retval_t retval = [fc getRetVal: argFrame buf: &typebuf];
 
     [fc drop];
-    // [fa drop];
+    [fa drop];
     return retval;
   }
 #else
