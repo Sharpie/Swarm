@@ -75,6 +75,9 @@ avcall-i386-msvc.s: $(srcdir)/avcall-i386-msvc.c
 avcall-i386.s : $(srcdir)/avcall-i386.S
 	$(CPP) $(ASPFLAGS) $(srcdir)/avcall-i386.S | grep -v '^ *#line' | grep -v '^#ident' | grep -v '^#' | sed -e 's,% ,%,g' -e 's,% ,%,g' -e 's,\. ,.,g' > avcall-i386.s
 
+avcall-x86_64.lo : $(srcdir)/avcall-x86_64.s
+	$(LIBTOOL_COMPILE) $(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-x86_64.s
+
 avcall-sparc.lo : avcall-sparc.s
 	$(LIBTOOL_COMPILE) $(CC) @GCC_X_NONE@ -c avcall-sparc.s
 

@@ -1,3 +1,11 @@
+2004-08-03  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.in: Add x86-64.lo rule.
+
+	* avcall.h.in: Update from ffcall-1.10.
+
+	* avcall-x86_64.s: New file.
+
 2003-02-02  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* avcall.m4: add missing CL_PROG_LD and CL_PROG_CP 
