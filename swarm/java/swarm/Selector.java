@@ -18,7 +18,7 @@ public class Selector {
   public Selector (Class theClass, String methodName, boolean theObjcFlag) throws NonUniqueMethodSignatureException, SignatureNotFoundException {
     
     super ();
-    
+
     {
       Method[] methods = theClass.getMethods ();
       int matchCount = 0;
@@ -68,5 +68,9 @@ public class Selector {
       return ((Selector) obj).signature.equals (signature);
     else
       return false;
+  }
+
+  public String getSignature () {
+    return signature;
   }
 }
