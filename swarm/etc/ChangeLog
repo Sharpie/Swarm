@@ -5,6 +5,8 @@
 	* protocol.el (find-protocol, *protocol-regexp*, check-common-tags):
 	Handle DISABLE_GUI.
 
+	* common.el (*swarm-modules*): Conditional on *disable-gui*.
+
 2004-07-29  Marcus G. Daniels <mgd@santafe.edu>
 
 	* interface.el (unwanted-create-method-p): Added BinomialDist.

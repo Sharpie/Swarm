@@ -150,7 +150,11 @@
                         :function-doc :macro-doc :typedef-doc
                         :global-doc :global-begin :global-end :global-break
                         :example-doc :deprecated-doc))
-(defconst *protocol-regexp* "^\\(@protocol\\|#ifndef DISABLE_GUI\\)")
+
+(defconst *protocol-regexp*
+   (if *disable-gui* 
+       "^\\(@protocol\\|#ifndef DISABLE_GUI\\)"
+       "^@protocol"))
 
 (defconst *funcptr-regexp* "\\([^;()]*(\\s-*[*]*\\s-*\\([^*);]+\\))[^;]*\\);")
 

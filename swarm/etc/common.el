@@ -20,19 +20,35 @@
 (require 'cl)
 (provide 'common)
 
-(defconst *swarm-modules* '(activity
-                            analysis
-                            collections
-                            defobj
-                            gui
-                            objectbase
-                            random
-                            (random . "generators.h")
-                            (random . "distributions.h")
-                            simtools
-                            simtoolsgui
-                            space
-                            swarm))
+(defvar *disable-gui* nil)
+
+(defconst *swarm-modules* 
+    (if (not *disable-gui*)
+       '(activity
+         analysis
+         collections
+         defobj
+         gui
+         objectbase
+         random
+         (random . "generators.h")
+         (random . "distributions.h")
+         simtools
+         simtoolsgui
+         space
+         swarm)
+       '(activity
+         analysis
+         collections
+         defobj
+         objectbase
+         random
+         (random . "generators.h")
+         (random . "distributions.h")
+         simtools
+         space
+         swarm)))
+        
 
 (defun swarm-modules ()
   (loop for module-sym in *swarm-modules*
