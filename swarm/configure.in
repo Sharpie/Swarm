@@ -72,6 +72,10 @@ AC_ARG_WITH(tcllibname,
 [  --with-tcllibname=NAME           Use -lNAME for Tcl],
   tcllibname=$withval)
 
+AC_ARG_WITH(tclscriptdir,
+[  --with-tclscriptdir=DIR          Use DIR for Tcl scripts],
+  tclscriptdir=$withval)
+
 md_FIND_TCL
 md_FIND_TCL_HEADERS
 if test -z "$tclincludedir" ; then
@@ -83,6 +87,10 @@ if test -z "$tcllibdir" ; then
   AC_MSG_ERROR(Please specify Tcl library path using --with-tcldir)
 fi
 
+md_FIND_TCL_SCRIPTS
+
+AC_SUBST(tclscriptdir)
+
 AC_ARG_WITH(tkdir,
 [  --with-tkdir=TKDIR               Use DIR/include and DIR/lib for Tk],
   tkincludedir=$withval/include
@@ -91,6 +99,10 @@ AC_ARG_WITH(tkdir,
 AC_ARG_WITH(tkincludedir,
 [  --with-tkincludedir=DIR          Use DIR for Tk header files],
   tkincludedir=$withval)
+
+AC_ARG_WITH(tkscriptdir,
+[  --with-tkscriptdir=DIR           Use DIR for Tk scripts],
+  tkscriptdir=$withval)
 
 AC_ARG_WITH(tklibname,
 [  --with-tklibname=NAME            Use -lNAME for Tk],
@@ -105,6 +117,10 @@ md_FIND_TK_LIBRARIES
 if test -z "$tklibdir" ; then
   AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
 fi
+
+md_FIND_TK_SCRIPTS
+
+AC_SUBST(tkscriptdir)
 
 AC_ARG_WITH(bltdir,
 [  --with-bltdir=DIR                Use DIR/include and DIR/lib for BLT],
