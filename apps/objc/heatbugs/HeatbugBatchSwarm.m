@@ -5,7 +5,6 @@
 
 #import "HeatbugBatchSwarm.h"
 #import "HeatbugModelSwarm.h"
-#import <collections.h>
 
 @implementation HeatbugBatchSwarm
 
