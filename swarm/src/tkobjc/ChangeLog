@@ -1,5 +1,7 @@
 1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Pixmap.m ([Pixmap -setRaster:]): Move to Setting phase.
+
 	* win32dib.c (dib_copy): Don't update DIB color table.
 
 	* internal.m (tkobjc_pixmap_update_raster): Remove raster palette
