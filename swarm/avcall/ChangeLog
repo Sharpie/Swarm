@@ -1,3 +1,22 @@
+2001-02-05  Ralf Stephan  <ralf@ark.in-berlin.de>
+
+	* avcall-ia64.c, avcall-ia64.s, uniq-u.c: 
+	Added from ffcall-1.8.
+
+	* Makefile.devel, Makefile.mingw32, Makefile.msvc,
+	* PLATFORMS, asmarm.sh, asmi386.sh, asmm68k.sh, asmmips.sh,
+	* asmsparc.sh, asmsparc64.sh, avcall-i386-msvc.c, avcall-m68k-amiga.c,
+	* avcall-m68k-amiga.s,  avcall-m68k.c, avcall-m68k.mit.S,
+	* avcall-m68k.mot.s,  avcall-m88k.s,  avcall-mips.S, avcall-mips64.S,
+	* avcall-mipsn32.S, avcall-rs6000-aix.new.s, avcall-rs6000-aix.old.s,
+	* avcall-rs6000-sysv4.s, avcall-rs6000.c, avcall-sparc.S,
+	* avcall-sparc64.S, avcall.3, avcall.h.msvc, avcall.html, avcall.man,
+	* minitests.c, reg-struct-return, tests.c:
+	Adapted from ffcall-1.8.
+
+	* configure.in, avcall.h.in, Makefile.in: 
+	Added previously existing Swarm specifics.
+
 2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* avcall-rs6000-linux.s, avcall.h.in, Makefile.in, configure.in:
