@@ -424,9 +424,15 @@
             "."
             (upcase cooked-protocol-name))))
 
-(defun sgml-method-signature-id (protocol method-signature)
+(defun sgml-method-signature-id (protocol phase method-signature)
   (concat (sgml-protocol-id protocol)
-          (format ".M%d" (method-signature-index method-signature))))
+          (format ".P%s.M%d" 
+                  (case phase
+                    (:creating "C")
+                    (:setting "S")
+                    (:using "U")
+                    (otherwise (error "bad phase")))
+                  (method-signature-index method-signature))))
 
 (defun sgml-refentry-start (protocol)
   (insert "<REFENTRY ID=\"")
@@ -521,6 +527,7 @@
 (defun sgml-method-funcsynopsis (owner-protocol method)
   (insert "<FUNCSYNOPSIS ID=\"")
   (insert (sgml-method-signature-id owner-protocol
+                                    (method-phase method)
                                     (get-method-signature method)))
   (insert "\">\n")
   (insert "<FUNCPROTOTYPE>\n")
@@ -778,8 +785,10 @@
     (loop for protocol.method in protocol.method-list
           do
           (insert space)
-          (insert (sgml-method-signature-id (car protocol.method)
-                                            method-signature))
+          (insert (sgml-method-signature-id
+                   (car protocol.method)
+                   (method-phase (cdr protocol.method))
+                   method-signature))
           (setq space " ")))
   (insert "\">")
   (insert method-signature)

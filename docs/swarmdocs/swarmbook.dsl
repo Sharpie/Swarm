@@ -171,7 +171,24 @@
      (make empty-element gi: "P")
      (process-node-list nl)))
   
-
+(element PRIMARYIE
+         (sosofo-append
+          (let* ((linkends-string (attribute-string "LINKENDS")))
+            (let loop ((linkends (split linkends-string)))
+                 (if (null? linkends)
+                     (empty-sosofo)
+                     (sosofo-append
+                      (make element gi: "A"
+                            attributes: (list
+                                         (list "HREF"
+                                               (href-to
+                                                (element-with-id
+                                                 (car linkends)))))
+                            (process-children))
+                      (literal " ")
+                      (loop (cdr linkends))))))
+          (make element gi: "BR" (empty-sosofo))))
+                                             
 </style-specification-body>
 </style-specification>
 

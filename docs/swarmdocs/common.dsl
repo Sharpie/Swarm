@@ -153,22 +153,6 @@
                       (flatten-arg (cdr l) '()))
                      (flatten-arg (cdr l) (cons item out-l))))))))
   
-(element PRIMARYIE
-         (let* ((linkends-string (attribute-string "LINKENDS")))
-           (let loop ((linkends (split linkends-string)))
-                (if (null? linkends)
-                    (empty-sosofo)
-                    (sosofo-append
-                     (make element gi: "A"
-                           attributes: (list
-                                        (list "HREF"
-                                              (href-to
-                                               (element-with-id
-                                                (car linkends)))))
-                           (process-children))
-                     (make element gi: "BR" (empty-sosofo))
-                     (loop (cdr linkends)))))))
-                                             
 </style-specification-body>
 </style-specification>
 </style-sheet>
