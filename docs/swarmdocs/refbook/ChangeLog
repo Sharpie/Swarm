@@ -1,3 +1,14 @@
+1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* refmeta.sgml: Scale graphic to 80%.
+
+	* Makefile.am (gridexamples.sgml): Update IDs to
+	SWARM.module.SGML.type.
+
+	* conventions-app.sgml, gpl-app.sgml, grid-app.sgml,
+	lgpl-app.sgml, probes-app.sgml, ref00.sgml, ref00a.sgml,
+	refmeta.sgml: Likewise.
+
 1998-06-11  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* refbook.sgml: Use jpeg instead of jpg for notation and

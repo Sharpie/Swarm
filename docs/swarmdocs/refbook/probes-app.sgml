@@ -1,4 +1,4 @@
-<APPENDIX ID="SWARM.SRC.PROBING.APP">
+<APPENDIX ID="SWARM.PROBING.SGML.APPENDIX">
   
 <DOCINFO>
  <TITLE>Probes, ProbeMaps and ProbeDisplays</TITLE>
@@ -130,7 +130,7 @@
       
       <PARA>
 
-        Probe support resident in the <EMPHASIS><LINK LINKEND="SWARM.SRC.OBJECTBASE.REF">objectbase</LINK></EMPHASIS> library
+        Probe support resident in the <EMPHASIS><LINK LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</LINK></EMPHASIS> library
         is documented with that library. Extra description, above and
         beyond the bare interface description for precision probing
         and SwarmObject is below:</PARA>
@@ -327,7 +327,7 @@
       out" the appropriate references from the probeLibrary.
     
     <LINK LINKEND="SWARM.OBJECTBASE.SWARMOBJECT.PROTOCOL">Interface
-        definition</LINK> from <LINK LINKEND="SWARM.SRC.OBJECTBASE.REF">objectbase</LINK> library.
+        definition</LINK> from <LINK LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</LINK> library.
     </PARA>
 
     <ITEMIZEDLIST>
@@ -392,7 +392,7 @@
 
   <SECT1>
 
-    <TITLE>Probe support resident in the <EMPHASIS><LINK LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK></EMPHASIS>
+    <TITLE>Probe support resident in the <EMPHASIS><LINK LINKEND="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</LINK></EMPHASIS>
     library:</TITLE>
 
     <SECT2>
@@ -494,8 +494,11 @@
       </ITEMIZEDLIST>
 
       <PARA>
-        <LINK LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAY.PROTOCOL">Interface
-          definition</LINK> from <LINK LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK> library.
+        <LINK
+          LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAY.PROTOCOL">Interface
+          definition</LINK> from <LINK
+          LINKEND="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</LINK>
+          library.
       </PARA>
       
     </SECT2>
@@ -523,7 +526,7 @@
       <LINK
         LINKEND="SWARM.SIMTOOLSGUI.PROBEDISPLAYMANAGER.PROTOCOL">Interface
         definition</LINK> from <LINK
-        LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtoolsgui</LINK>
+        LINKEND="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</LINK>
         library.</PARA>
 
   </SECT1>

@@ -1,4 +1,4 @@
-<APPENDIX ID="SWARM.SRC.LIBRARY.APP">
+<APPENDIX ID="SWARM.LIBRARY.SGML.APPENDIX">
 
 <DOCINFO>
 <TITLE>Library Interface Conventions</TITLE>
@@ -9,7 +9,7 @@
 <SECT1>
 <TITLE>Overview</TITLE> <PARA>Some of the basic Swarm libraries are
 implemented using object definition conventions established by the
-<LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj library</LINK>. This document
+<LINK LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj library</LINK>. This document
 explains how to read and interpret the header files and interface
 definitions published by such libraries. It also explains the typical
 structure of documentation provided for libraries that follow these
@@ -31,14 +31,15 @@ libraries, such as objectbase and random, don't undergo this special
 processing and yet still follow all the library interface conventions
 described in this document.)</PARA>
 
-<PARA>The <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj</LINK> library documents
-the full details of special processing performed on a package. For
-simply using a library, the key fact to keep in mind is that the
-entire public interface to a library is declared in the one header
-file having the same name as the package itself, plus a trailing .h
-suffix. Additionally, the header file of a library normally documents
-only its public interface, in a way that is completely separated from
-the implementation of the objects it specifies.</PARA>
+<PARA>The <LINK LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj</LINK>
+library documents the full details of special processing performed on
+a package. For simply using a library, the key fact to keep in mind is
+that the entire public interface to a library is declared in the one
+header file having the same name as the package itself, plus a
+trailing .h suffix. Additionally, the header file of a library
+normally documents only its public interface, in a way that is
+completely separated from the implementation of the objects it
+specifies.</PARA>
 
 <PARA>The separation of implementation means that a library publishes its
 interface entirely without reference to any Objective C classes which
@@ -103,7 +104,7 @@ and the declarations appearing in a library header file are a minor
 adaptation of Objective C protocol syntax. A key difference from
 protocols is that object types are published as real external objects
 that may be used at runtime to create instances of a type.  A further
-difference is that the object types of the <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj library</LINK> are divided into separate
+difference is that the object types of the <LINK LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj library</LINK> are divided into separate
 interfaces that define distinct phases of an object's life
 cycle.</PARA>
 
@@ -181,9 +182,9 @@ language compiler are involved.</PARA>
 a make file), an external object id with the name GridTurtle is
 automatically published. The name of a defined type becomes an
 ordinary object that accepts specific messages defined by the defobj
-library. The <LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj library</LINK> explains
-the details of such messages; the only purpose here is to explain the
-basic sections of a deftype declaration.</PARA>
+library. The <LINK LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj
+library</LINK> explains the details of such messages; the only purpose
+here is to explain the basic sections of a deftype declaration.</PARA>
 
 <PARA>deftype declarations follow the syntax as Objective C protocols
 for inheriting messages from each other: a list of names enclosed in
