@@ -1,3 +1,7 @@
+1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.common.in (.m.o): Add -Wno-protocol.
+
 1998-10-15  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.lib.in, Makefile.appl.in: Make extraction of pathname

@@ -71,7 +71,7 @@ LIBS = @LIBS@
 .SUFFIXES: .m .xm
 
 .m.o:
-	$(CC) -c -Wno-import $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $<   
+	$(CC) -c -Wno-import -Wno-protocol $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $<   
 
 # Local variables:
 # mode: makefile
