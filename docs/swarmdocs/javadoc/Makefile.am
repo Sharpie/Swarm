@@ -48,7 +48,7 @@ dvidist: dvi
 psdist: ps
 	$(GZIP) < $(NAME).ps > ../$(DISTNAME).ps.gz
 
-java-stub.elc: $(swarm_dossrcdir)/java/java-stub.el $(abs_top_builddir)/protocol.elc
+java-stub.elc: $(swarm_dossrcdir)/java/java-stub.el $(abs_top_builddir)/protocol.elc $(abs_top_builddir)/interface.elc
 	$(elcrule)
 
 STUBS = $(foreach module, $(MODULES),swarm/$(module)/package.html swarm/$(module))
@@ -71,7 +71,7 @@ $(NAME).dvi: $(NAME).tex
 $(NAME).ps: $(NAME).dvi
 	@DVIPS@ -o $@ $<
 
-MOSTLYCLEANFILES = $(NAME)/index.html protocol.elc java-stub.elc $(addprefix $(NAME)., idx aux dvi log tex toc) 
+MOSTLYCLEANFILES = $(NAME)/index.html protocol.elc interface.elc java-stub.elc $(addprefix $(NAME)., idx aux dvi log tex toc) 
 
 clean-local:
 	- rm -rf $(NAME) swarm 
