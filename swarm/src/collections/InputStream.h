@@ -114,3 +114,12 @@ Library:     collections
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 @end
+
+@interface ArchiverQuoted_c: CreateDrop_s <ArchiverQuoted>
+{
+  id value;
+}
+- setQuotedObject: value;
+- getQuotedObject;
+- lispOutDeep: stream;
+@end

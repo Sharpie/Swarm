@@ -1,5 +1,17 @@
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* predicates.[hm] (quotedp): New predicate.
+
+	* InputStream.m ([InputStream_c -getExpr]): Create ArchiverQuoted
+	instance on 'x or (quote x).
+	([ArchiverList_c -lispOutDeep:]): Call lispOutDeep: on argument
+	to make-{class,instance}. 
+	([ArchiverList_c -lispOutDeep:]): Handle all types with lispOutDeep:,
+	adding quotedp check.
+
+	* InputStream.[hm], collections.[hm] (ArchiverQuoted_c,
+	ArchiverQuoted): Implement new protocol.
+
 	* InputStream.m ([ArchiverList_c -lispOutDeep:]): Call lispOutDeep:
 	in default case, don't raise error.
 

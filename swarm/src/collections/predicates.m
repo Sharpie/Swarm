@@ -55,6 +55,12 @@ pairp (id obj)
 }
 
 BOOL
+quotedp (id obj)
+{
+  return [obj conformsTo: @protocol (ArchiverQuoted)];
+}
+
+BOOL
 cons_literal_p (id obj)
 {
   if (stringp (obj))

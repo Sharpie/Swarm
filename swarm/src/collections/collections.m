@@ -33,6 +33,7 @@ _collections_implement (void)
   [id_ArchiverArray_c setTypeImplemented: ArchiverArray];
   [id_ArchiverPair_c setTypeImplemented: ArchiverPair];
   [id_ArchiverList_c setTypeImplemented: ArchiverList];
+  [id_ArchiverQuoted_c setTypeImplemented: ArchiverQuoted];
   [id_Permutation_c setTypeImplemented: Permutation];
   [id_PermutationItem_c setTypeImplemented: PermutationItem];
   [id_PermutedIndex_c setTypeImplemented: PermutedIndex];

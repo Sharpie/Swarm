@@ -1126,6 +1126,16 @@ USING
 - lispOutDeep: (id <OutputStream>)stream;
 @end
 
+@protocol ArchiverQuoted <RETURNABLE>
+//S: Archiver serialization object for (quote x) or 'x
+//D: Archiver serialization object for (quote x) or 'x
+CREATING
+- setQuotedObject: value;
+USING
+- getQuotedObject;
+- lispOutDeep: (id <OutputStream>)stream;
+@end
+
 #define ARCHIVERDOTP(obj) ((id) (obj) == (id) ArchiverDot)
 
 @protocol String <Create, Drop, Copy, CREATABLE>

@@ -108,7 +108,9 @@ readString (id inStream, BOOL literalFlag)
   if (c == EOF)
     return nil;
   else if (c == '\'')
-    return [self getExpr];
+    return [[[ArchiverQuoted createBegin: aZone]
+              setQuotedObject: [self getExpr]]
+             createEnd];
   else if (c == ':')
     {
       id newObj = readString (self, 0);
@@ -214,7 +216,13 @@ readString (id inStream, BOOL literalFlag)
           return pair;
         }
       else if (quote_literal_p ([list getFirst]))
-        return [list atOffset: 1];
+        {
+          id quotedObject = [ArchiverQuoted createBegin: aZone];
+
+          [quotedObject setQuotedObject: [list atOffset: 1]];
+          [list drop];
+          return [quotedObject createEnd];
+        }
       else if (cons_literal_p ([list getFirst]))
         {
           id pair;
@@ -818,34 +826,20 @@ PHASE(Using)
   member = [index next];
 
   if (list_literal_p (member))
-    {
-      [stream catC: [member getC]];
-    }
+    [stream catC: [member getC]];
   else if (cons_literal_p (member))
-    {
-      [stream catC: [member getC]];
-    }
+    [stream catC: [member getC]];
   else if (stringp (member))
     {
       const char *funcName = [member getC];
+
       if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
           || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
          {
            [stream catC: [member getC]];
-
-           // we expect a class name here advance to the next element
-           // in list, make literal with single quote '
            member = [index next];
-           if (stringp (member))
-             {
-               [stream catC: " '"];
-               [stream catC: [member getC]];
-             }
-           else
-             raiseEvent(InvalidArgument, 
-                        "second argument after " MAKE_INSTANCE_FUNCTION_NAME
-                        " or " MAKE_CLASS_FUNCTION_NAME  
-                        " must be a string!\n");
+           [stream catC: " "];
+           [member lispOutDeep: stream];
          }
       else if (strcmp (funcName, PARSE_FUNCTION_NAME) == 0)
         [stream catC: [member getC]];        
@@ -865,22 +859,44 @@ PHASE(Using)
       [stream catC: " "];
       if (member == (id) ArchiverEOL)
         break;
-      else if (stringp (member))
-        {
-          [stream catC: "\""];
-          [stream catC: [member getC]];
-          [stream catC: "\""];
-        }
-      else if (listp (member))
-        [member lispOutDeep: stream];
-      else if (keywordp (member) || valuep(member) || 
-               arrayp(member) || pairp(member))
+      else if (keywordp (member)
+               || valuep (member)
+               || arrayp (member)
+               || pairp (member)
+               || quotedp (member)
+               || stringp (member)
+               || listp (member))
         [member lispOutDeep: stream];
       else
-        raiseEvent(InvalidArgument, "expression type not supported");
+        raiseEvent (InvalidArgument, "expression type not supported");
     }
   [stream catC: ")"];
   [index drop];
+  return self;
+}
+@end
+
+@implementation ArchiverQuoted_c
+PHASE(Creating)
+- setQuotedObject: aValue
+{
+  value = aValue;
+  return self;
+}
+
+PHASE(Using)
+- getQuotedObject
+{
+  return value;
+}
+
+- lispOutDeep: (id <OutputStream>)stream
+{
+  [stream catC: "'"];
+  if (stringp (value))
+    [stream catC: [value getC]];
+  else
+    [value lispOutDeep: stream];
   return self;
 }
 @end
