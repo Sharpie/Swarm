@@ -1,5 +1,8 @@
 1999-05-20  Alex Lancaster  <alex@santafe.edu>
 
+	* user3.05.sgml: Use `mousetrap' as EXAMPLE, rather than
+	`alchemy', since it is more widely distributed.
+
 	* user2.04.sgml: Reformatting throughout.
 
 	* user3.05.sgml: Removed entirely old section on probes (material

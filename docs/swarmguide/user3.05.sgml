@@ -68,132 +68,90 @@
       <title>Creating a list parameter file</title>
 
       <para>Here is a sample Lisp input parameter for the
-        <application>AlChemy</application> simulation,
-        <filename>alchemy.scm</filename>
+        <application>Mousetrap</application> simulation,
+        <filename>batch.scm</filename>
         <footnote><para><filename>.scm</filename> is the standard
         suffix for Scheme (a dialect of Lisp) files</para></footnote>:
 
         <programlisting>
 (list
-(cons 'observerSwarmParams
-(make-instance 'AlChemyObserverSwarm 
-#:displayFrequency 1))
-(cons 'modelSwarmParams
-(make-instance 'AlChemyModelSwarm
-#:objectsPerSite 50
-#:latticeFile "test.scm" ; this is a string
-#:collisions 100000
-#:reactPerDiffusion 10
-#:probOneReactThreshold 1000
-#:diffusionON #\001  ; these are Boolean variables
-#:reactionsON #\001  
-#:randomExprON #\000
-#:snapshot 5000    
-#:seed 80800       
-#:worldXSize 20
-#:worldYSize 20
-#:minDiffusion 1  
-#:diffusionConstant 0.25 ; this is a double
-#:diffusionSeed 532535
-))))</programlisting>
+ (cons 'batchSwarm
+       (make-instance 'MousetrapBatchSwarm  ; parameters for the batchSwarm
+                      #:loggingFrequency 1))
+ (cons 'modelSwarm
+       (make-instance 'MousetrapModelSwarm  ; parameters for the modelSwarm
+                      #:gridSize 40
+                      #:triggerLikelihood 1.0
+                      #:numberOutputTriggers 4
+                      #:maxTriggerDistance 4
+                      #:maxTriggerTime 16
+                      #:trapDensity 1.0)))</programlisting>
 
         The Lisp file consists of two `keys' or `serial' numbers
-        <literal>observerSwarmParams</literal> and
-        <literal>modelSwarmParams</literal> for the parameters for two
+        <literal>batchSwarm</literal> and
+        <literal>modelSwarm</literal> for the parameters for two
         different objects.  These keys are completely at the discretion of the
         user to choose.  (Note also that the file syntax allows Lisp-style
         comments: a `;' colon followed by any text).
       </para>
 
-      <para>This input file would correspond with the following interface
-        files, for the <classname>AlchemyObserverSwarm</classname> class we have:
+      <para>This input file would correspond with the following
+        interface files, for the
+        <classname>MousetrapBatchSwarm</classname> class we have:
 
         <programlisting>
 <![ CDATA [
-// AlChemyObserverSwarm.h
+[...]
+#import "MousetrapModelSwarm.h"
 
-#import <simtoolsgui/GUISwarm.h>
-#import <analysis.h>
-#import "AlChemyModelSwarm.h"
-
-@interface AlChemyObserverSwarm: GUISwarm
+@interface MousetrapBatchSwarm: Swarm
 {
-  int displayFrequency; // one parameter: update freq
-  
-  id <ActionGroup> displayActions;      // schedule data structs
-  id <Schedule> displaySchedule;
-  
-  AlChemyModelSwarm *alchemyModelSwarm; // the Swarm we're observing
-  // Lots of display objects. First, widgets
-  id <ZoomRaster> worldRaster;			// 2d display widget
-  id <ZoomRaster> shadowRaster;			// 2d display widget
-  id <Colormap> colormap;			// allocate colours
-  
-  id <EZGraph> diversityGraph;	  
-  id <EZGraph> reductionsGraph;	
-  id <EZBin> lambdaHistogram;	
-  
-  // Now, higher order display and data objects
-  id <Object2dDisplay> lambdaDisplay;	        // display the lambda expr
-  id <FunctionGraph> lengthVsPosGraph;
-  id <FunctionGraph> concVsPosGraph;
+  int loggingFrequency;		       		 // Frequency of fileI/O
+
+  id displayActions;				 // schedule data structs
+  id displaySchedule;
+
+  MousetrapModelSwarm * mousetrapModelSwarm;	 // the Swarm we're observing
+
+                                                 // The EZGraph will be used 
+  id triggerGraph;                               // in FileI/O mode rather 
+                                                 // than the usual Graphics 
+                                                 // mode...
+}
+// methods not shown
+@end]]></programlisting>
+
+        For the <classname>MousetrapModelSwarm</classname> class:
+
+        <programlisting>
+<![ CDATA [
+[...]
+#import "Mousetrap.h"
+@interface MousetrapModelSwarm: Swarm
+{
+  int gridSize;					  // simulation parameters
+  double triggerLikelihood;
+  int numberOutputTriggers;
+  int maxTriggerDistance;
+  int maxTriggerTime;
+  double trapDensity;
+
+  id modelActions;				  // scheduling data structures
+  id modelSchedule;
+
+  MousetrapStatistics *stats;			  // statistics object
+  id <Grid2d> grid;				  // world
+
+  // Declare the ActivityControl, which will serve as an interface to
+  //   the model swarm activity.
+  id <ActivityControl> modelActCont;
+
+@private
+  id <PMMLCG1> randomGenerator;
+  id <UniformDouble> uniform0to1;
 }
 
 // Methods not shown
-[...]
-@end]]></programlisting>
-
-        For the <classname>AlchemyModelSwarm</classname> class:
-
-        <programlisting>
-<![ CDATA [
-#import <objectbase/Swarm.h>
-#import "LambdaWrapper.h"
-#import "AgentDiffuse2d.h"
-#import "Reactor.h"
-
-@interface AlChemyModelSwarm: Swarm
-{
-  // model parameters
-  unsigned objectsPerSite;	  // max number of objects in reactor 
-  unsigned collisions;	          // number of collisions to perform 
-  unsigned probOneReactThreshold; // number of expressions at which
-  // the probability of a reaction at each 
-  // timestep becomes 1.0
-  unsigned reactPerDiffusion;     // number of possible reaction events for 
-  // each diffusion step
-
-  BOOL diffusionON;           // when set, diffusion is ON
-  BOOL reactionsON;           // when set, reactions are ON
-
-  BOOL randomExprON;          // flag for whether expr are read from
-  // file or generated randomly 
-
-  unsigned snapshot;	      // interval between reactor dumps 
-  int Reaction;		      // specifies reaction type  
-  int seed;	              // random seed 
-  
-  // input filename for expressions
-  const char *latticeFile;
-
-  // diffusion lattice parameters
-  unsigned worldXSize, worldYSize;
-  unsigned diffusionSeed;
-  unsigned minDiffusion;
-  double diffusionConstant;
-  
-  // elements of model
-  LambdaWrapper *lambdaInterpreter; // Lambda interpreter - wraps WF's code
-
-  Reactor *reactor;               // Reactor of lambda expressions
-  AgentDiffuse2d *lambdaLattice;  // Lattice for lambda expressions
-
-  // Swarm scheduling data structures
-  id <Schedule>reactionSchedule;
-  id <Schedule>diffusionSchedule;
-  id <Schedule>checkSchedule;
-}
-// Methods not shown...
 @end]]></programlisting>
       </para>
 
@@ -206,9 +164,8 @@
         instance variables are either unimportant as parameters
         (i.e. they can be regenerated by other parameters), or they
         are instance variables that pertain to the running model
-        itself (such as <varname>reactionSchedule</varname>, which is
-        a <classname>Schedule</classname> instance).</para>
-
+        itself (such as <varname>modelSchedule</varname>, which is a
+        <classname>Schedule</classname> instance).</para>
     </example>
 
   </sect2>
