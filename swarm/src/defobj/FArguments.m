@@ -362,10 +362,12 @@ createJavaSignature (FArguments_c *self)
     {
       unsigned offset = i + MAX_HIDDEN;
       fcall_type_t type = argTypes[offset];
-      
+
+#ifdef HAVE_JDK      
       if (javaFlag && type == fcall_type_string)
         mapalloc->size = sizeof (jstring);
       else
+#endif
         mapalloc->size = fcall_type_size (type);
       
       mapAlloc (mapalloc, argValues[offset]);

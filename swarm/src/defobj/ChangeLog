@@ -1,5 +1,8 @@
 1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FArguments.m ([FArguments_c -mapAllocations:]): Protect use
+	of jstring.
+
 	* defobj.m (_defobj_implement): Set FArguments implemented type.
 
 	* Makefile.am (JAVAINCLUDES): New variable.
