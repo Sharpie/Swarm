@@ -396,12 +396,14 @@ dynamicCallOn (const char *probedType,
   unsigned i;
   const char *type = probedType;
   id aZone = [target getZone];
-  BOOL javaFlag = [target isKindOfClassNamed: "JavaProxy"];
+  BOOL javaFlag;
   id fa = [FArguments createBegin: aZone];
   id <FCall> fc;
 
-  [fa setJavaFlag: javaFlag];
+  javaFlag = ([target isKindOfClassNamed: "JavaProxy"] || 
+              ![target respondsTo: probedSelector]);
 
+  [fa setJavaFlag: javaFlag];
   retVal->type = *type;
   [fa setObjCReturnType: retVal->type];
   type = skip_argspec (type);
@@ -413,17 +415,33 @@ dynamicCallOn (const char *probedType,
   fa = [fa createEnd];
   
   fc = [[FCall createBegin: aZone] setArguments: fa];
-
+  
 #ifdef HAVE_JDK
   if (javaFlag)
-    [fc setJavaMethod: sel_get_name (probedSelector) 
-        inObject: JFINDJAVA (target)];
+    {
+      char *selname = strdup (sel_get_name (probedSelector));
+      char *p;
+
+      p = strchr (selname, ':');
+      *p = '\0';
+
+      [fc setJavaMethod: selname inObject: JFINDJAVA (target)];
+    }
   else
 #endif
     [fc setMethod: probedSelector inObject: target];
   fc = [fc createEnd];
   [fc performCall];
   retVal->val = *(types_t *) [fc getResult];
+#ifdef HAVE_JDK
+  if (javaFlag)
+    {
+      if (retVal->type == _C_CHARPTR)
+        retVal->val.string = java_copy_string (jniEnv, retVal->val.object);
+      else if (retVal->type == _C_ID)
+        retVal->val.object = JFINDOBJC (jniEnv, retVal->val.object);
+    }
+#endif
   [fc drop];
   [fa drop];
 }

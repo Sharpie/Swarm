@@ -1,3 +1,10 @@
+1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbe.m (dynamicCallOn): Add respondsTo: as a sufficient
+	condition for trying Java (in additon to target being a JavaProxy).
+	Strip off `:' from method signature for Java.
+	Handle string and object return conversions.
+
 1999-04-23  Alex Lancaster  <alex@santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Use #ifdef HAVE_JDK to protect
