@@ -1,3 +1,10 @@
+1999-08-01    <mgd@HELEN>
+
+	* win32dib.c (dib_augmentPalette): Check colormap entries
+	to see if they are the same -- in that case do nothing.
+	(dib_copy): Copy dibInfo and colormap.
+	(dib_destroy): Free colormap if set.
+
 1999-08-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (tkobjc_raster_erase): Assume colormap
@@ -15,6 +22,35 @@
 	manager.
 	([ZoomRaster -setWidth:Height:]): Include call to "wm grid" only
 	if USE_GRID is set.
+
+1999-07-31    <mgd@HELEN>
+
+	* win32dib.c (dib_get_color): In 24 bit case, lookup colorValue
+	via dib_paletteIndexForObject.
+	(dib_augmentPalette): Re-use palette position if client object
+	already present.
+
+	* win32dib.[hc] (dib_fill, dib_ellipse, dib_line, dib_rectangle):
+	Add client object argument.  Use dib_get_color instead of
+	get_color.
+	(dib_get_color): Renamed and from private get_color.
+
+	* internal.m: Undef BOOL before avoidance set.
+	(tkobjc_raster_fillRectangle): Add raster argument to
+	dib_fill.
+	(tkobjc_raster_ellipse): Add raster argument to dib_ellipse.
+	(tkobjc_raster_line): Add raster argument to dib_line.
+	(tkobjc_raster_rectangle): Add raster argument to dib_rectangle.
+	(tkobjc_raster_drawPoint): Use dib_get_color to set rgb
+	components.
+	(tkobjc_raster_setColormap): Always set eraseColor.
+
+	* Raster.m ([Raster +createBegin:]): Don't initialize 
+	eraseColor.
+	([Raster -setColormap:]): Do a save/create/copy/drop sequence
+	to update the colo
+
+	* Raster.h (Raster) Use `Color' as type of eraseColor.
 
 1999-07-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

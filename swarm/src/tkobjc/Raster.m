@@ -26,7 +26,6 @@ PHASE(Creating)
   
   obj->width = 100U;
   obj->height = 100U;
-  obj->eraseColor = -1;
   obj->colormap = nil;
   
   return obj;
@@ -66,7 +65,6 @@ PHASE(Using)
 - setColormap: (id <Colormap>)c
 {
   colormap = c;
-  
   map = [colormap map];				  // cache this, fast access.
   tkobjc_raster_setColormap (self);
 
@@ -105,7 +103,8 @@ PHASE(Using)
   [self erase];
   tkobjc_raster_copy (self, oldWidth, oldHeight);
   tkobjc_raster_dropOldPixmap (self);
-  [self drawSelf];
+
+   [self drawSelf];
 
   return self;
 }

@@ -17,7 +17,7 @@
 @public
   id <Colormap> colormap;
   void *private;
-  int eraseColor;
+  Color eraseColor;
   unsigned width, height;
 }
 

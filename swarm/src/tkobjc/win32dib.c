@@ -38,6 +38,8 @@ dib_destroy (dib_t *dib)
 {
   XFREE (dib->dibInfo);
   dib->dibInfo = NULL;
+  if (dib->colormap)
+    XFREE (dib->colormap);
   if (dib->bitmap)
     {
       if (dib->window)
@@ -248,8 +250,8 @@ dib_paletteIndexForObject (dib_t *dib, void *object)
   return -1;
 }
 
-static void
-get_color (dib_t *dib, unsigned color, BYTE *red, BYTE *green, BYTE *blue)
+void
+dib_get_color (dib_t *dib, void *object, unsigned color, BYTE *red, BYTE *green, BYTE *blue)
 {
   WORD depth = dib->dibInfo->bmiHead.biBitCount;
   
@@ -263,7 +265,9 @@ get_color (dib_t *dib, unsigned color, BYTE *red, BYTE *green, BYTE *blue)
     }
   else if (depth == 24)
     {
-      unsigned colorValue = dib->colormap[color];
+      int index = dib_paletteIndexForObject (dib, object);
+      unsigned colorOffset = (index == -1) ? 0 : dib->colormapOffsets[index];
+      unsigned colorValue = dib->colormap[colorOffset + color];
 
       *blue = colorValue >> 16;
       *green = (colorValue >> 8) & 0xff;
@@ -276,15 +280,41 @@ get_color (dib_t *dib, unsigned color, BYTE *red, BYTE *green, BYTE *blue)
 void
 dib_augmentPalette (dib_t *dib,
 		    void *object,
-		    unsigned colormapSize, unsigned long *colormap)
+		    unsigned colormapSize,
+		    unsigned long *colormap)
 {
   unsigned lastSize = dib->colormapSize;
   WORD depth = dib->dibInfo->bmiHead.biBitCount;
+  unsigned bi;
+
+  for (bi = 0; bi < dib->colormapBlocks; bi++)
+    if (object == dib->colormapObjects[bi])
+      break;
+  if (bi < dib->colormapBlocks)
+    {
+      unsigned offset = dib->colormapOffsets[bi];
+      unsigned next = ((bi == dib->colormapBlocks - 1)
+		       ? dib->colormapSize
+		       : dib->colormapOffsets[bi + 1]);
+      unsigned size = next - offset;
+
+      if (size == dib->colormapSize)
+	{
+	  unsigned i;
+
+	  for (i = 0; i < size; i++)
+	    if (dib->colormap[i + offset] != colormap[i])
+	      break;
+	  if (i == size)
+	    return;
+	}
+    }
   
-  dib->colormapObjects[dib->colormapBlocks] = object;
-  dib->colormapOffsets[dib->colormapBlocks] = lastSize;
+  dib->colormapObjects[bi] = object;
+  dib->colormapOffsets[bi] = lastSize;
   dib->colormapSize += colormapSize;
   dib->colormapBlocks++;
+  
 
   if (depth == 8)
     {
@@ -330,6 +360,7 @@ void
 dib_fill (dib_t *dib,
 	  int x, int y,
 	  unsigned width, unsigned height,
+	  void *object,
 	  unsigned color)
 {
   unsigned frameWidth = dib->dibInfo->bmiHead.biWidth;
@@ -404,7 +435,7 @@ dib_fill (dib_t *dib,
       if (fsize & 3)
 	fsize += (4 - (fsize & 3));
 
-      get_color (dib, color, &red, &green, &blue);
+      dib_get_color (dib, object, color, &red, &green, &blue);
       for (yoff = 0; yoff < height; yoff++)
 	{
 	  unsigned xoff;
@@ -429,13 +460,14 @@ dib_ellipse (dib_t *dib,
 	     int x, int y,
 	     unsigned width, unsigned height,
 	     unsigned pixels,
+	     void *object,
 	     unsigned color)
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
   BYTE red, green, blue;
 
-  get_color (dib, color, &red, &green, &blue);
+  dib_get_color (dib, object, color, &red, &green, &blue);
   pen = CreatePen (PS_SOLID, pixels, RGB (red, green, blue));
 
   dib_lock (dib);
@@ -456,13 +488,14 @@ dib_line (dib_t *dib,
           int x0, int y0,
           int x1, int y1,
           unsigned pixels,
+	  void *object,
           unsigned color)
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
   BYTE red, green, blue;
 
-  get_color (dib, color, &red, &green, &blue);
+  dib_get_color (dib, object, color, &red, &green, &blue);
   pen = CreatePen (PS_SOLID, pixels, RGB (red, green, blue));
 
   dib_lock (dib);
@@ -484,13 +517,14 @@ dib_rectangle (dib_t *dib,
                int x, int y,
                unsigned width, unsigned height,
                unsigned pixels,
+	       void *object,
                unsigned color)
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
   BYTE red, green, blue;
 
-  get_color (dib, color, &red, &green, &blue);
+  dib_get_color (dib, object, color, &red, &green, &blue);
   pen = CreatePen (PS_SOLID, pixels, RGB (red, green, blue));
 
   dib_lock (dib);
@@ -561,8 +595,18 @@ dib_copy (dib_t *source, dib_t *dest,
 {
   BOOL result;
 
+  memcpy (dest->dibInfo, source->dibInfo, sizeof (CDIB_BITMAP));
   dest->colormapBlocks = source->colormapBlocks;
   dest->colormapSize = source->colormapSize;
+  if (source->colormap)
+    {
+      size_t size = source->colormapSize * sizeof (unsigned long);
+
+      dest->colormap = xmalloc (size);
+      memcpy (dest->colormap, source->colormap, size);
+    }
+  else
+    dest->colormap = NULL;
   memcpy (dest->colormapOffsets,
 	  source->colormapOffsets,
 	  sizeof (source->colormapOffsets));

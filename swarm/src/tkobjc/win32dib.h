@@ -49,6 +49,7 @@ void dib_deleteBitmap (dib_t *dib);
 
 /* Palette Manipulation */
 int dib_paletteIndexForObject (dib_t *dib, void *object);
+void dib_get_color (dib_t *dib, void *object, unsigned color, BYTE *red, BYTE *green, BYTE *blue);
 
 void dib_augmentPalette (dib_t *dib, void *object,
 			 unsigned mapSize, unsigned long *map);
@@ -60,10 +61,10 @@ BOOL dib_paintBlit (dib_t *dib,
 		    int sourceX, int sourceY,
 		    unsigned sourceWidth, unsigned sourceHeight);
 
-void dib_fill (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned color);
-void dib_ellipse (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, unsigned color);
-void dib_line (dib_t *dib, int x0, int y0, int x1, int y1, unsigned pixels, unsigned color);
-void dib_rectangle (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, unsigned color);
+void dib_fill (dib_t *dib, int x, int y, unsigned width, unsigned height, void *object, unsigned color);
+void dib_ellipse (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, void *object, unsigned color);
+void dib_line (dib_t *dib, int x0, int y0, int x1, int y1, unsigned pixels, void *object, unsigned color);
+void dib_rectangle (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, void *object, unsigned color);
 
 BOOL dib_copy (dib_t *source, dib_t *dest, int destx, int desty, unsigned width, unsigned height);
 

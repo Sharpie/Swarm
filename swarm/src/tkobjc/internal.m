@@ -17,6 +17,7 @@
 #undef Status
 #define Rectangle Win32Rectangle
 #include "win32dib.h"
+#undef BOOL
 #define BOOL BOOL_
 #include "tk/tkInt.h"
 #undef BOOL
@@ -481,7 +482,9 @@ tkobjc_raster_fillRectangle (Raster *raster,
          x, y, width, height,
          map[color]);
 #else
-  dib_fill (private->pm, x, y, width, height, color);
+  dib_t *dib = private->pm;
+  
+  dib_fill (dib, x, y, width, height, raster, color);
 #endif
 }
 
@@ -501,7 +504,7 @@ tkobjc_raster_ellipse (Raster *raster,
   XSetForeground (display, gc, map[color]);
   XDrawArc (display, private->pm, gc, x, y, width, height, 0, 23040);
 #else
-  dib_ellipse (private->pm, x, y, width, height, pixels, color);
+  dib_ellipse (private->pm, x, y, width, height, pixels, raster, color);
 #endif
 }
 
@@ -522,7 +525,7 @@ tkobjc_raster_line (Raster *raster,
   XSetLineAttributes (display, gc, pixels, LineSolid, CapButt, JoinRound);
   XDrawLine (display, private->pm, gc, x0, y0, x1, y1);
 #else
-  dib_line (private->pm, x0, y0, x1, y1, pixels, color);
+  dib_line (private->pm, x0, y0, x1, y1, pixels, raster, color);
 #endif
 }
 
@@ -543,7 +546,7 @@ tkobjc_raster_rectangle (Raster *raster,
   XSetLineAttributes (display, gc, pixels, LineSolid, CapButt, JoinRound);
   XDrawRectangle (display, private->pm, gc, x, y, width, height);
 #else
-  dib_rectangle (private->pm, x, y, width, height, pixels, color);
+  dib_rectangle (private->pm, x, y, width, height, pixels, raster, color);
 #endif
 }
 
@@ -577,11 +580,8 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
       else if (depth == 24)
 	{
 	  LPBYTE rgb = (LPBYTE) dib->bits + (x + y * frameWidth * 3);
-	  unsigned long colorValue = dib->colormap[c];
 
-	  rgb[2] = colorValue >> 16;
-	  rgb[1] = (colorValue >> 8) && 0xff;
-	  rgb[0] = colorValue & 0xff;
+	  dib_get_color (dib, raster, c, &rgb[0], &rgb[1], &rgb[2]);
 	}
     }
 #endif
@@ -722,12 +722,8 @@ tkobjc_raster_setColormap (Raster *raster)
     raiseEvent (WarningMessage, "colormap is nil");
   else
     {
-      if (raster->eraseColor == -1)
-	{
-	  raster->eraseColor = [colormap nextFreeColor];
-	  
-	  [colormap setColor: raster->eraseColor ToName: "black"];
-	}
+      raster->eraseColor = [colormap nextFreeColor];
+      [colormap setColor: raster->eraseColor ToName: "black"];
       {
 	raster_private_t *private = raster->private;
 #ifdef _WIN32
