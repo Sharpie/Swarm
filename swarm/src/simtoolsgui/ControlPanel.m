@@ -64,6 +64,11 @@ PHASE(Using)
 {
   state = theState;
 
+  if (state == ControlStateStopped)
+    [probeDisplayManager setDropImmediatelyFlag: YES];
+  else if (state == ControlStateRunning)
+    [probeDisplayManager setDropImmediatelyFlag: NO];
+
   return self;
 }
 #else
@@ -130,7 +135,6 @@ PHASE(Using)
 - setStateStopped
 {
   //  if (getTopLevelActivity()){
-  [probeDisplayManager setDropImmediatelyFlag: YES];
   if (_activity_current)
     {
       [getTopLevelActivity() stop];

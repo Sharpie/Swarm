@@ -1,3 +1,11 @@
+2004-12-02  Marcus G. Daniels <mgd@santafe.edu>
+
+	* ControlPanel.m (-setState:):  For Stopped mode, set 
+	immediate drop mode to true.  For Running mode, set immediate drop
+	mode to false.
+	(-setStateStopped): Don't set immediate mode here, have -setState:
+	do it.
+
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Use libobjc definition.  Add GNUstep
