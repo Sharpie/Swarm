@@ -1,3 +1,7 @@
+1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Swarm 2.0 released.
+
 1999-06-28  Alex Lancaster  <alex@santafe.edu>
 
 	* Discrete2d.m (createArchiver): Conditionally create instances of

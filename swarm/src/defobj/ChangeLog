@@ -1,5 +1,7 @@
 1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Swarm 2.0 released.
+
 	* Makefile.am ($(srcdir)/modulemap.c): Build modulemap.elc in
 	a submake; don't make it a dependency.
 

@@ -1,3 +1,7 @@
+1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Swarm 2.0 released.
+
 1999-08-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (JAVADEPS): Switch to JavaDeps.jar and handle
