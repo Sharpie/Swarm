@@ -1,5 +1,7 @@
 1999-08-17    <mgd@HELEN>
 
+	* Makefile: Add StartMousetrap.java.
+
 	* StartMousetrap.java, Mousetrap.java: Move StartMousetrap class
 	to be public in StartMousetrap.java.
 
