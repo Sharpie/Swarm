@@ -1,3 +1,13 @@
+1999-07-09  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (java-print-javadoc-default-contructor): New
+	function.  Print out a default constructor message for javadoc.
+	(java-print-class-constructor-method): Use it there are no
+	arguments to the constructor (i.e. not a convenience constructor).
+	(java-print-class-phase): If a `USING' phase class, also append
+	the name of the using phase protocol to the list of `implemented'
+	protocols.
+
 1999-07-06  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (java-run-all-javadoc): Only call java-print-class

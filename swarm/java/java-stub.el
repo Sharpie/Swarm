@@ -256,6 +256,9 @@
         do
         (insert text)))
 
+(defun java-print-javadoc-default-contructor ()
+  (insert "\n/**\n * Default constructor for Impl class\n */\n"))
+
 (defun java-print-javadoc-method (method protocol)
   (insert "\n/**\n * ")
   (loop for text in (method-description-list method)
@@ -454,7 +457,7 @@
           do
           (if first
               (setq first nil)
-              (insert separator))
+            (insert separator))
           (insert (java-qualified-interface-name module iprotocol :setting))
           (unless (eq phase :setting)
             (insert separator)
@@ -508,6 +511,13 @@
          (zone-class-name (java-class-name zone-protocol :using))
          (creating-class-name (java-class-name protocol :creating))
          (using-class-name (java-class-name protocol :using)))
+
+    ;; if constructor accepts more than one argument, then print it's
+    ;; method documentation, otherwise default to boilerplate
+    ;; documentation
+    (if name.arguments
+        (java-print-javadoc-method method protocol)
+      (java-print-javadoc-default-contructor))
     (insert "public ")
     (insert using-class-name)
     (insert " (")
@@ -563,6 +573,10 @@
   (when (java-print-implemented-protocols protocol phase ", " nil)
     (insert ", "))
   (insert (java-interface-name protocol :setting))
+  (when (eq phase :using)
+    (progn
+      (insert ", ")
+      (insert (java-interface-name protocol :using))))
   (insert " {\n")
   (java-print-class-methods-in-phase protocol phase)
   (java-print-class-methods-in-phase protocol :setting)
