@@ -128,14 +128,42 @@ jobject_id *
 java_directory_update (jobject java_object, id objc_object)
 {
   jobject_id *data;
+  jobject_id **foundptr;
   
   data = xmalloc (sizeof (jobject_id));
-  data->objc_object = objc_object;
   data->java_object = java_object;
+  data->objc_object = objc_object;
   
-  avl_probe (java_tree, data);
-  avl_probe (objc_tree, data);
-  return data;
+  foundptr = (jobject_id **) avl_probe (java_tree, data);
+  (*foundptr)->objc_object = objc_object;
+
+  foundptr = (jobject_id **) avl_probe (objc_tree, data);
+  (*foundptr)->java_object = java_object;
+
+  if (*foundptr != data)
+    XFREE (data);
+    
+  return *foundptr;
+}
+
+jobject_id * 
+java_directory_switchupdate (jobject old_java_object,
+                             jobject new_java_object,
+                             id objc_object)
+{
+  jobject_id old;
+  jobject_id *data;
+  
+  old.java_object = old_java_object;
+  old.objc_object = objc_object;
+  avl_delete (java_tree, &old);
+  avl_delete (objc_tree, &old);
+
+  data = xmalloc (sizeof (jobject_id));
+  data->objc_object = objc_object;
+  data->java_object = new_java_object;
+
+  return java_directory_update (new_java_object, objc_object);
 }
 
 jobject
@@ -143,6 +171,17 @@ java_directory_update_java (jobject java_object, id objc_object)
 {
   return java_directory_update (java_object, objc_object)->java_object;
 }
+
+jobject
+java_directory_switchupdate_java (jobject old_java_object,
+                                  jobject new_java_object,
+                                  id objc_object)
+{
+  return java_directory_switchupdate (old_java_object,
+                                      new_java_object,
+                                      objc_object)->java_object;
+}
+
 
 void
 java_directory_init (JNIEnv *env)
