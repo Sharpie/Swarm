@@ -21,17 +21,17 @@ Date:		 1998-10-08 (v. 0.8)
 
 // Make utility objects globally accessible:
 
-// extern id <MT19937gen>          randomGenerator;
-extern id <SimpleRandomGenerator>  randomGenerator;
-extern id <UniformIntegerDist>     uniformIntRand;
-extern id <UniformUnsignedDist>    uniformUnsRand;
-extern id <UniformDoubleDist>      uniformDblRand;
+// externvar id <MT19937gen> randomGenerator;
+externvar id <SimpleRandomGenerator> randomGenerator;
+externvar id <UniformIntegerDist> uniformIntRand;
+externvar id <UniformUnsignedDist> uniformUnsRand;
+externvar id <UniformDoubleDist> uniformDblRand;
 
 // Make variables in random.m globally accessible:
 // (Code to initialize these variables is in random.m)
 
-extern BOOL                      _useFixedSeed;
-extern unsigned int		 _firstSeed;
+externvar BOOL _useFixedSeed;
+externvar unsigned int _firstSeed;
 
   // extern unsigned int		 _randomSeed;
   // extern unsigned int		 _timeThen;
