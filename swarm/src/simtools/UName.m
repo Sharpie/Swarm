@@ -4,9 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 /*
-Name:         String.m
-Description:  character string object   
-Library:      collections
+Name:         Uname.m
+Description:  Unique Name Generator
+Library:      simtools
 */
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers

@@ -18,3 +18,5 @@
 #import <simtools/ObjectSaver.h>
 #import <simtools/ActiveGraph.h>
 #import <simtools/ActiveOutFile.h>
+#import <simtools/QSort.h>
+#import <simtools/NSelect.h>
