@@ -1452,7 +1452,7 @@ convert_from_string (fcall_type_t type,
   if (floatFormat) 
      FREEBLOCK (floatFormat);
   if (baseType)
-     ZFREEBLOCK(globalZone, baseType);
+     [globalZone free: baseType];
   [super drop];
 }
 

@@ -1,3 +1,8 @@
+2003-06-18    <pauljohn@localhost.localdomain>
+
+	* VarProbe.m ([VarProbe -drop]): realized ZFREEBLOCK(globalZone,
+	basetype) is not the same as [globalZone free: basetype].
+	
 2003-06-17  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
 
 	* VarProbe.m ([VarProbe -drop]): free baseType and floatFormat
