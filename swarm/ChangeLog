@@ -1,5 +1,13 @@
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* configure.in: Use AC_CONFIG_HEADER instead of AC_OUTPUT
+	entry for externvar.h.in.  This prevents header file touch
+	dates from changing. 
+
+	* externvar.h.in: Remove disable_externvar in favor of explicit
+	redef in make-h2x.  undef isn't ignored when AC_CONFIG_HEADER
+	is used.
+
 	* ltmain.sh: In the case of static linking, add container library
 	after component libraries, in case the container has required
 	symbols for the components.
