@@ -1,3 +1,4 @@
+#!/bin/sh
 if test -z "$1" ; then
   echo Usage: mk-pkg package-name 1>&2
   exit 1
@@ -20,7 +21,7 @@ CATEGORY="application"
 VENDOR="$vendor"
 VERSION="$version"
 PSTAMP="`date +%Y-%m-%d`"
-EMAIL=bug-swarm@santafe.edu
+EMAIL=bug-swarm@swarm.org
 ISTATES="S s 1 2 3"
 RSTATES="S s 1 2 3"
 PREFIX="$targetprefix"
