@@ -48,8 +48,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** simtoolsgui
 **** ActionCache and GUISwarm now have drop methods.
 
-** Autoconfiguration
+** Autoconfiguration / Portability
 *** Support for Cygwin B20.
+*** Support for Tk >= 8.0.3 and recent versions of Tk 8.1.
 *** Build with -Wall -Werror.
 *** Protocol compliance is inherited in subclasses (Swarm is compiled
     with -Wno-protocol).

@@ -1,3 +1,12 @@
+1999-01-07  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* configure.in (OBJCFLAGS, OBJC): Default to {CC,CFLAGS} only
+	when {OBJC,OBJCFLAGS} not set.
+
+	* NEWS: Note support for Tk >= 8.0.3.
+
+	* VERSION: Bump.
+
 1998-12-31  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* NEWS: Note added drop support in ActionCache, GUISwarm, and Widget.

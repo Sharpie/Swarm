@@ -12,9 +12,10 @@ AM_CONFIG_HEADER(swarmconfig.h)
 
 AC_PROG_CC
 
-OBJC="$CC"
+test -n "$OBJC" || OBJC="$CC"
 AC_SUBST(OBJC)
-OBJCFLAGS="$CFLAGS -Wall -Wno-import -Wno-protocol -Werror"
+test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
+OBJCFLAGS="$OBJCFLAGS -Wall -Wno-import -Wno-protocol -Werror"
 AC_SUBST(OBJCFLAGS)
 
 AM_PROG_LIBTOOL
