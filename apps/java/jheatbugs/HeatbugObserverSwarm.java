@@ -113,8 +113,7 @@ public class HeatbugObserverSwarm extends GUISwarmImpl {
       (new HeatbugObserverProbeMap (aZone, getClass ()), getClass ());
   }
     
-  public Object _worldRasterDeath_ (Object caller)
-  {
+  public Object _worldRasterDeath_ (Object caller) {
     worldRaster.drop ();
     worldRaster = null;
     return this;
