@@ -48,7 +48,8 @@ $(abs_top_builddir)/interface.elc: $(abs_top_builddir)/protocol.elc
 $(srcdir)/SwarmEnvironment_getters.m: swarm.h getters.elc
 	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@getters.elc' -f generate-SwarmEnvironment-getters
 
-libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) $(LIBOBJCLDFLAGS) $(FFILDFLAGS) $(SUPPORTLDFLAGS) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
+EXPORTALL=-Wl,--export-all
+libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) $(LIBOBJCLDFLAGS) $(FFILDFLAGS) $(SUPPORTLDFLAGS) -no-undefined $(if $(filter yes,$(USEDLL)),$(EXPORTALL) -shrext .dll) # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
 libswarm_la_LIBADD = $(SWFFILIB)
 
 LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(libswarm_la_LIBADD) $(LIBOBJCLIB) $(SYSLIBS)

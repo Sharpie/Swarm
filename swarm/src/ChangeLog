@@ -1,3 +1,9 @@
+2004-07-20  Marcus G. Daniels  <mgd@baby>
+
+	* Makefile.am (libswarm_la_LDFLAGS): Add -Wl,--export-all and
+	-shrext .dll for the case of USEDLL.  Current libtool behavior is
+	to make .exe's instead of .dlls if latter is absent.
+
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (SUBDIRS): Use tcl/tk gui definition.  Add GNUstep
