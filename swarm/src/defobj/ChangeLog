@@ -1,5 +1,8 @@
 1999-08-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m ([-setJavaObject:]): Make globalref here so
+	that drop can assume the javaObject, if any, is a globalref.
+
 	* directory.[mh] ([-getHashCode], swarm_directory_java_hash_code):
 	Make return unsigned.
 
