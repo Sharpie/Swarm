@@ -55,15 +55,18 @@ initRandom (id arguments)
    i = clock();
  
 // Default mode is that starting seeds are fixed (as in 0.6):
-
-  _useFixedSeed = YES;
-  _firstSeed = DEFAULTSEED;
+   _useFixedSeed = YES;
 
   if ([arguments getVarySeedFlag])
     {
       _useFixedSeed = NO;
       _firstSeed = PIDTIMESEED;
     }
+  else if ([arguments getFixedSeedFlag])
+    _firstSeed = [arguments getFixedSeed];
+  else
+    _firstSeed = DEFAULTSEED;
+    
 
 // Initialize the inline RNG:
 
