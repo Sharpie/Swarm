@@ -1,3 +1,18 @@
+1998-03-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* win32dib.h: Declare new function dib_copy. 
+	Uncomment dib_{un}lock.
+
+	* win32dib.c (dib_fill): Make frameWidth even if it isn't.
+	Include starting y offset in base.  
+	(dib_{un}lock): Uncomment.
+	(dib_copy): New function.
+
+	* internal.m (tkobjc_raster_erase): Reserve 255/black for erasing
+	rather than using temporary colormap.
+	(tkobjc_raster_copy): Use new function dib_copy to copy
+	old pixmap.
+
 1998-03-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* tkobjc.h: Don't include XPixmap when _WIN32.

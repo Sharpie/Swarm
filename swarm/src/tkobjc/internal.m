@@ -117,12 +117,12 @@ tkobjc_raster_erase (Raster *raster)
          BlackPixel (display, DefaultScreen (display)));
 #else
   id colorMap = raster->colormap;
-  
-  [raster setColormap: [Colormap create: [raster getZone]]];
+
+  if (![colorMap colorIsSet: 255])
+    [colorMap setColor: 255 ToName: "black"];
   tkobjc_raster_fillRectangle (raster, 0, 0, 
                                raster->width, raster->height,
-                               0);
-  [raster setColormap: colorMap];
+                               255);
 #endif
 }
 
@@ -258,14 +258,17 @@ void
 tkobjc_raster_copy (Raster *raster, Pixmap oldpm,
                     unsigned oldWidth, unsigned oldHeight)
 {
-#ifndef _WIN32
-  Display *display = Tk_Display (raster->tkwin);
   unsigned minWidth = raster->width < oldWidth ? raster->width : oldWidth;
   unsigned minHeight = raster->height < oldHeight ? raster->height : oldHeight;
+#ifndef _WIN32
+  Display *display = Tk_Display (raster->tkwin);
 
   XCopyArea (display, oldpm, raster->pm, raster->gc,
              0, 0, minWidth, minHeight, 0, 0);
   XFreePixmap (display, oldpm);
+#else
+  if (!dib_copy ((dib_t *)oldpm, (dib_t *)raster->pm, minWidth, minHeight))
+    abort ();
 #endif
 }
 

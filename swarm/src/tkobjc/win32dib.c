@@ -175,14 +175,19 @@ dib_fill (dib_t *dib,
 	  unsigned char color)
 {
   int frameWidth = dib->dibInfo->bmiHead.biWidth;
-  BYTE *base = dib->bits;
+  BYTE *base;
   int yoff;
 
+  /* GDI raster lines are even length. */
+  if (frameWidth & 1)
+    frameWidth++;
+
+  base = (BYTE *)dib->bits + (y * frameWidth);
   for (yoff = 0; yoff < height; yoff++)
     {
       int xoff;
-      BYTE *ybase = &base[(y + yoff) * frameWidth] + x;
-
+      BYTE *ybase = &base[yoff * frameWidth + x];
+      
       for (xoff = 0; xoff < width; xoff++)
 	ybase[xoff] = color;
     }
@@ -229,7 +234,24 @@ dib_paintBlit (dib_t *dib,
   }
 }
 
-#if 0
+BOOL
+dib_copy (dib_t *source, dib_t *dest, int width, int height)
+{
+  BOOL result;
+
+  if (dib_lock (dest) == NULL)
+    return FALSE;
+  if (dib_lock (source) == NULL)
+    return FALSE;
+  result = BitBlt (dest->sourceDC, 0, 0,
+		   width, height,
+		   source->sourceDC, 0, 0,
+		   SRCCOPY);
+  dib_unlock (source);
+  dib_unlock (dest);
+  return result;
+}
+
 BYTE *
 dib_lock (dib_t *dib)
 {
@@ -263,6 +285,7 @@ dib_unlock (dib_t *dib)
     }
 }
 
+#if 0
 void
 dib_setPaintOffset (dib_t *dib, int xOffset, int yOffset)
 {

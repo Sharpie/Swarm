@@ -68,10 +68,12 @@ BOOL dib_paintBlit (dib_t *dib,
 
 void dib_fill (dib_t *dib, int x, int y, int width, int height, unsigned char color);
 
-#if 0
+BOOL dib_copy (dib_t *source, dib_t *dest, int width, int height);
+
 BYTE* dib_lock (dib_t *dib);
 void dib_unlock (dib_t *dib);
 
+#if 0
 /* Used to control what part of the bitmap gets shown to the screen */
 /* Helps with scrolling / oversized senarios */
 void dib_setPaintOffset (dib_t *dib, int xOffset, int yOffset);
