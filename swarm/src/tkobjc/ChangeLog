@@ -2,6 +2,10 @@
 
 	* internal.m (tkobjc_pixmap_save): palbuf needs same scope as 
 	row_pointers.
+	(keep_inside_screen): Change usage from widget to tkwin and window
+	arguments (latter serves to distinguish parent from non-parent 
+	snapshots).  Compute relocation to ensure enough is visible for
+	parent case.
 
 	* internal.[hm] (tkobjc_pixmap_create_from_widget): New argument
 	parentFlag.  When set, request the window's parent window, which

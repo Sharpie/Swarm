@@ -621,15 +621,14 @@ pixmap_create_from_root_window (Pixmap *pixmap)
 }
 
 static void
-keep_inside_screen (id topLevel)
+keep_inside_screen (Tk_Window tkwin, Window window)
 {
-  Tk_Window tkwin = tkobjc_nameToWindow ([topLevel getWidgetName]);
   int x, rx, y, ry;
   int nx, ny;
   unsigned w, rw, h, rh;
+  unsigned dx, dy;
 
 #ifndef _WIN32
-  Window window = Tk_WindowId (tkwin);
   Display *display = Tk_Display (tkwin);
   Window root;
   unsigned bw, rbw, depth, rdepth;
@@ -646,7 +645,7 @@ keep_inside_screen (id topLevel)
 #else
   RECT rect, rootrect;
   
-  if (GetWindowRect (TkWinGetHWND (Tk_WindowId (tkwin)), &rect) == FALSE)
+  if (GetWindowRect (TkWinGetHWND (window), &rect) == FALSE)
     [PixmapError raiseEvent: "Cannot get geometry for window"];
   h = rect.bottom - rect.top;
   w = rect.right - rect.left;
@@ -659,11 +658,19 @@ keep_inside_screen (id topLevel)
   rh = rootrect.bottom - rootrect.top;
   rw = rootrect.right - rootrect.left;
 #endif
-
-  x = Tk_X (tkwin);
-  y = Tk_Y (tkwin);
-
   
+  if (Tk_WindowId (tkwin) == window)
+    {
+      x = Tk_X (tkwin);
+      y = Tk_Y (tkwin);
+      dx = 0;
+      dy = 0;
+    }
+  else
+    {
+      dx = Tk_X (tkwin) - x;
+      dy = Tk_Y (tkwin) - y;
+    }
   if (x + w > rw)
     nx = rw - w;
   else if (x < 0)
@@ -679,7 +686,7 @@ keep_inside_screen (id topLevel)
     ny = y;
 
   if (nx != x || ny != y)
-    Tk_MoveToplevelWindow (tkwin, nx, ny);
+    Tk_MoveToplevelWindow (tkwin, nx + dx, ny + dy);
 }
 
 void
@@ -696,11 +703,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       Tk_Window tkwin = tkobjc_nameToWindow (widgetName);
       Window window;
 
-      [globalTkInterp eval: "wm deiconify %s", widgetName];
-      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
-      keep_inside_screen (topLevel);
-      Tk_RestackWindow (tkwin, Above, NULL);
-      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
       if (parentFlag)
         {
           [globalTkInterp eval: "wm frame %s", widgetName];
@@ -708,6 +710,11 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         }
       else
         window = Tk_WindowId (tkwin);
+      [globalTkInterp eval: "wm deiconify %s", widgetName];
+      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+      keep_inside_screen (tkwin, window);
+      Tk_RestackWindow (tkwin, Above, NULL);
+      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
 #ifndef _WIN32
       pixmap->display = Tk_Display (tkwin);
       x_pixmap_create_from_window (pixmap, window);
