@@ -568,7 +568,7 @@ x_pixmap_create_from_window (Pixmap *pixmap, Window window)
     [PixmapError raiseEvent: "Cannot get geometry for root window"];
   pixmap->height = h;
   pixmap->width = w;
-  ximage = XGetImage (pixmap->display, window, x, y, w, h, AllPlanes, ZPixmap);
+  ximage = XGetImage (pixmap->display, window, 0, 0, w, h, AllPlanes, ZPixmap);
   if (ximage == NULL)
     [PixmapError raiseEvent: "Cannot get XImage of window"];
   
@@ -620,6 +620,68 @@ pixmap_create_from_root_window (Pixmap *pixmap)
 #endif
 }
 
+static void
+keep_inside_screen (id topLevel)
+{
+  Tk_Window tkwin = tkobjc_nameToWindow ([topLevel getWidgetName]);
+  int x, rx, y, ry;
+  int nx, ny;
+  unsigned w, rw, h, rh;
+
+#ifndef _WIN32
+  Window window = Tk_WindowId (tkwin);
+  Display *display = Tk_Display (tkwin);
+  Window root;
+  unsigned bw, rbw, depth, rdepth;
+
+  if (!XGetGeometry (display, window, &root,
+                     &x, &y, &w, &h,
+                     &bw, &depth))
+    [PixmapError raiseEvent: "Cannot get geometry for window"];
+
+  if (!XGetGeometry (display, root, &root,
+                     &rx, &ry, &rw, &rh,
+                     &rbw, &rdepth))
+    [PixmapError raiseEvent: "Cannot get geometry for root window"];
+#else
+  RECT rect, rootrect;
+  
+  if (GetWindowRect (TkWinGetHWND (Tk_WindowId (tkwin)), &rect) == FALSE)
+    [PixmapError raiseEvent: "Cannot get geometry for window"];
+  h = rect.bottom - rect.top;
+  w = rect.right - rect.left;
+
+  if (GetWindowRect (GetDesktopWindow (), &rootrect) == FALSE)
+    [PixmapError raiseEvent: "Cannot get geometry for desktop"];
+
+  rx = rootrect.left;
+  ry = rootrect.top;
+  rh = rootrect.bottom - rootrect.top;
+  rw = rootrect.right - rootrect.left;
+#endif
+
+  x = Tk_X (tkwin);
+  y = Tk_Y (tkwin);
+
+  
+  if (x + w > rw)
+    nx = rw - w;
+  else if (x < 0)
+    nx = 0;
+  else
+    nx = x;
+  
+  if (y + h > rh)
+    ny = rh - h;
+  else if (y < 0)
+    ny = 0;
+  else
+    ny = y;
+
+  if (nx != x || ny != y)
+    Tk_MoveToplevelWindow (tkwin, nx, ny);
+}
+
 void
 tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
 {
@@ -628,9 +690,12 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
     pixmap_create_from_root_window (pixmap);
   else
     {
-      Tk_Window tkwin = tkobjc_nameToWindow ([widget getWidgetName]);
+      Tk_Window tkwin = tkobjc_nameToWindow ([[widget getTopLevel] getWidgetName]);
       Window window = Tk_WindowId (tkwin);
 
+      keep_inside_screen ([widget getTopLevel]);
+      // emulated in Tk for Win32
+      XRaiseWindow (Tk_Display (tkwin), window);
 #ifndef _WIN32
       pixmap->display = Tk_Display (tkwin);
       x_pixmap_create_from_window (pixmap, window);
