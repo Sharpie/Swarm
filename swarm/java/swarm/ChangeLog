@@ -1,7 +1,7 @@
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.rules.in (JAVACOMPILE, JAVA_HOM): Substitute JAVA_HOME
-	and use it in JAVACOMPILE.
+	* Makefile.rules.in (JAVACOMPILE): Set JAVA_HOME to $(jdkdir)
+	for compile.
 
 	* Makefile.in (jar): New target, depend on modules and
 	Unset CLASSPATH before running jar to force use of JAR_HOME.
