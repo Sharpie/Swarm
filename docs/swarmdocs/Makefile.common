@@ -7,8 +7,10 @@ swarm_dossrcdir = @swarm_dossrcdir@
 $(abs_top_builddir)/history.elc: $(abs_top_builddir)/common.elc
 
 define elcrule
-test $(dir $@) = $(dir $<) || ln -fs $< $(dir $@)$(notdir $<)
-$(EMACS) -batch -f batch-byte-compile $(dir $@)$(notdir $<)
+cp -f $< $(dir $@)_$(notdir $<)
+$(EMACS) -batch -f batch-byte-compile $(dir $@)_$(notdir $<)
+mv $(dir $@)_$(notdir $@) $@
+$(RM) $(dir $@)_$(notdir $<)
 endef
 
 $(abs_top_builddir)/%.elc: $(top_srcdir)/%.el

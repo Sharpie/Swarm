@@ -1,3 +1,9 @@
+1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common (elcrule): Update to use intermediate files.
+	This avoids potential problems from local copies hiding timestamp
+	changes in originals.
+
 1999-02-24  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in (AC_INIT): Check for history.el, rather than
