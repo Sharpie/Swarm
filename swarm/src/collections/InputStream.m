@@ -131,7 +131,7 @@ readString (id inStream, char terminator)
 	[self _unexpectedEOF_];
       
       value = [[[ArchiverValue createBegin: aZone]
-		 setClass: objc_lookup_class ([newObj getName])]
+		 setClass: objc_lookup_class ([newObj getC])]
 		createEnd];
       [newObj drop];
       return value;
