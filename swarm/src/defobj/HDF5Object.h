@@ -55,6 +55,7 @@
   hid_t loc_id;
   hid_t psid;
   hid_t bsid;
+  hid_t plist;
 #endif
   fcall_type_t vector_type;
   void *vector_buf;

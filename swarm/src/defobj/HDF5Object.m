@@ -29,7 +29,8 @@
 
 static unsigned hdf5InstanceCount = 0;
 
-#define VECTOR_BLOCK_SIZE 1024
+#define VECTOR_BLOCK_SIZE 16384
+#define CHUNK_RATIO 10
 
 static hid_t
 get_boolean_tid ()
@@ -917,6 +918,7 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
 
 @implementation HDF5_c
 PHASE(Creating)
+
 + createBegin: aZone
 {
   HDF5_c *obj = [super createBegin: aZone];
@@ -932,6 +934,7 @@ PHASE(Creating)
   obj->vector_type = fcall_type_void;
   obj->c_count = 0;
   obj->c_sid = -1;
+  obj->plist = 0;
 #endif
   return obj;
 }
@@ -1087,7 +1090,8 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid,
 }
 
 static hid_t
-hdf5_reopen_point_dataset (id parent, const char *name, hid_t tid, hid_t sid)
+hdf5_reopen_dataset (id parent, const char *name, hid_t tid, hid_t sid,
+                     hid_t plist)
 {
   hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
   hid_t loc_id;
@@ -1101,12 +1105,37 @@ hdf5_reopen_point_dataset (id parent, const char *name, hid_t tid, hid_t sid)
                                name,
                                tid,
                                sid,
-                               H5P_DEFAULT)) < 0)
-        raiseEvent (SaveError, "unable to create point dataset");
+                               plist)) < 0)
+        raiseEvent (SaveError, "unable to create reopened dataset");
     }
   return loc_id;
 }
 
+#endif
+
+
+#ifdef HAVE_HDF5
+static hid_t
+chunk_deflate_plist (hsize_t chunkSize)
+{
+  hid_t plist;
+  hsize_t chunk_size[1] = { chunkSize };
+
+  if ((plist = H5Pcreate (H5P_DATASET_CREATE)) < 0)
+    raiseEvent (SaveError,
+                "unable to create (vector) property list");
+  
+  if (H5Pset_layout (plist, H5D_CHUNKED) < 0)
+    raiseEvent (SaveError, "unable to set chunking");
+  
+  if (H5Pset_chunk (plist, 1, chunk_size) < 0)
+    raiseEvent (SaveError, "unable to set chunk sizes");
+  
+  if (H5Pset_deflate (plist, 6) < 0)
+    raiseEvent (SaveError, "unable to set deflate value");
+  
+  return plist;
+}
 #endif
 
 - createEnd
@@ -1169,8 +1198,6 @@ hdf5_reopen_point_dataset (id parent, const char *name, hid_t tid, hid_t sid)
                     {
                       hsize_t dims[1];
                       hsize_t maxdims[1];
-                      hid_t plist;
-                      hsize_t chunk_size[1] = { VECTOR_BLOCK_SIZE };
                       hid_t vector_tid = tid_for_fcall_type (vector_type);
 
                       vector_buf = [getZone (self) alloc: fcall_type_size (vector_type) * VECTOR_BLOCK_SIZE];
@@ -1179,20 +1206,8 @@ hdf5_reopen_point_dataset (id parent, const char *name, hid_t tid, hid_t sid)
                       if ((c_sid = H5Screate_simple (1, dims, maxdims)) < 0)
                         raiseEvent (SaveError,
                                     "unable to create (vector) space");
-                      
-                      if ((plist = H5Pcreate (H5P_DATASET_CREATE)) < 0)
-                        raiseEvent (SaveError,
-                                    "unable to create (vector) property list");
 
-                      if (H5Pset_layout (plist, H5D_CHUNKED) < 0)
-                        raiseEvent (SaveError, "unable to set chunking");
-
-                      if (H5Pset_chunk (plist, 1, chunk_size) < 0)
-                        raiseEvent (SaveError, "unable to set chunk sizes");
-
-                      if (H5Pset_deflate (plist, 6) < 0)
-                        raiseEvent (SaveError, "unable to set deflate value");
-                      
+                      plist = chunk_deflate_plist (VECTOR_BLOCK_SIZE);
                       loc_id = hdf5_open_dataset (parent,
                                                   name,
                                                   vector_tid,
@@ -1833,11 +1848,10 @@ hdf5_store_attribute (hid_t did,
                    ptr: (void *)ptr
 {
 #ifdef HAVE_HDF5
-  void store (hid_t sid, hid_t memtid, hid_t tid)
+  void store (hid_t sid, hid_t memtid, hid_t tid, hid_t _plist)
     {
       hid_t did;
-      
-      did = hdf5_reopen_point_dataset (self, datasetName, tid, sid);
+      did = hdf5_reopen_dataset (self, datasetName, tid, sid, _plist);
       
       if (H5Dwrite (did, memtid, H5S_ALL, sid, H5P_DEFAULT, ptr) < 0)
         raiseEvent (SaveError, "unable to write to dataset `%s'",
@@ -1866,7 +1880,7 @@ hdf5_store_attribute (hid_t did,
       if ((H5Tset_size (tid, strlen (str) + 1)) < 0)
         raiseEvent (SaveError, "unable to set size of string type");
 
-      store (sid, memtid, tid);
+      store (sid, memtid, tid, H5P_DEFAULT);
       
       if (H5Tclose (memtid) < 0)
         raiseEvent (SaveError, "unable to close reference type");
@@ -1892,8 +1906,25 @@ hdf5_store_attribute (hid_t did,
       else
         {
           hid_t tid = tid_for_fcall_type (type);
+          hid_t _plist;
+
+          unsigned maxDim = 0, i, chunkSize;
           
-          store (sid, tid, tid);
+          for (i = 0; i < rank; i++)
+            if (dims[i] > maxDim)
+              maxDim = dims[i];
+          chunkSize = maxDim / CHUNK_RATIO;
+          if (chunkSize < VECTOR_BLOCK_SIZE)
+            chunkSize = VECTOR_BLOCK_SIZE;
+          if (chunkSize > maxDim)
+            chunkSize = maxDim;
+          
+          _plist = chunk_deflate_plist (chunkSize);
+          
+          store (sid, tid, tid, _plist);
+
+          if (H5Pclose (plist) < 0)
+            raiseEvent (SaveError, "unable to close plist\n");
         }
       if (H5Sclose (sid) < 0)
         raiseEvent (SaveError, "unable to close array dataspace");
@@ -1904,7 +1935,7 @@ hdf5_store_attribute (hid_t did,
     {
       hid_t tid = tid_for_fcall_type (type);
 
-      store (psid, tid, tid);
+      store (psid, tid, tid, H5P_DEFAULT);
     }
 #else
   hdf5_not_available ();
@@ -2307,6 +2338,11 @@ hdf5_store_attribute (hid_t did,
     FREEBLOCK (vector_buf);
   if (name)
     FREEBLOCK (name);
+  if (plist)
+    {
+      if (H5Pclose (plist) < 0)
+        raiseEvent (SaveError, "unable to dispose of chunk/deflate property");
+    }
   [super drop];
 #else
   hdf5_not_available ();
