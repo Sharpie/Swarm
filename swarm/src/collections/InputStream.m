@@ -117,6 +117,17 @@ readString (id inStream, BOOL literalFlag)
       return [[[ArchiverValue createBegin: [self getZone]]
                 setNil] createEnd];
     }
+  else if (c == ':')
+    {
+      id newObj = [self getExpr];
+      
+      if (newObj == nil)
+        [self _unexpectedEOF_];
+      
+      return [[[ArchiverKeyword createBegin: [self getZone]]
+                setKeywordName: [newObj getC]]
+               createEnd];
+    }
   else if (c == '#')
     {
       int c2 = fgetc (fileStream);
@@ -319,7 +330,8 @@ readString (id inStream, BOOL literalFlag)
       else
         [self _badType_ : string];
     }
-  abort ();
+  raiseEvent (LoadError, "Unexpected character `%c'\n");
+  return nil;
 }
 
 @end

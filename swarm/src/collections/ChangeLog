@@ -1,5 +1,8 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* InputStream.m ([InputStream_c -getExpr]): Raise an event
+	instead of aborting.  Treat :keyword like #:keyword.
+
 	* ListShuffler.m: Use raiseEvent() instead of raiseEvent:.
 
 1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
