@@ -527,7 +527,7 @@ CREATING
 - hdf5InCreate: hdf5Obj;
 - (void)lispOutShallow: stream;
 - (void)hdf5OutShallow: hdf5Obj;
-- updateArchiver: archiver;
+- (void)updateArchiver: archiver;
 USING
 - getDefiningClass;
 @end
