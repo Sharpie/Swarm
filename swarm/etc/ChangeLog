@@ -1,3 +1,7 @@
+1999-02-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (HDF5LDFLAGS): Substitute.
+
 1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.rules: New file.
