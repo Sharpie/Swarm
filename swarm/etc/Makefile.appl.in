@@ -1,5 +1,4 @@
-prefix = @prefix@
-include @sysconfdir@/swarm/Makefile.common
+include @swarm_prefix@/etc/swarm/Makefile.common
 
 APPEXE = $(APPLICATION)@EXESUFFIX@
 

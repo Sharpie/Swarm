@@ -1,3 +1,8 @@
+1998-10-15  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.lib.in, Makefile.appl.in: Make extraction of pathname
+	to Makefile.common absolute using swarm_prefix rather than prefix.
+
 1998-10-09  Alex Lancaster  <alex@santafe.edu>
 
 	* config.swarm.in (swarm_includedir): Add to list of extracted
