@@ -714,7 +714,9 @@ overlap_p (Display *display, Window child, int l, int r, int t, int b)
 
   if (!XGetWindowAttributes (display, child, &attr))
     abort ();
-  if (attr.map_state == IsViewable && attr.depth > 0)
+  if (attr.map_state == IsViewable
+      && attr.depth > 0
+      && attr.override_redirect == False)
     {
       if (!XGetGeometry (display, child, &root,
                          &cl, &ct, &cw, &ch, 
@@ -812,24 +814,16 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         Window *overlapWindows;
         Display *display = pixmap->display;
         XSetWindowAttributes attr;
-        XWindowAttributes orig_attr;
-        
-        if (!XGetWindowAttributes (display, window, &orig_attr))
-          abort ();
         
         check_for_overlaps (display, window,
                             &overlapWindows, &overlapCount);
         
         attr.override_redirect = True;
-        
         for (i = 0; i < overlapCount; i++)
-          {
-            if (!XChangeWindowAttributes (display, overlapWindows[i],
-                                          CWOverrideRedirect,
-                                          &attr))
-              abort ();
-            // XUnmapWindow (display, overlapWindows[i]);
-          }
+          if (!XChangeWindowAttributes (display, overlapWindows[i],
+                                        CWOverrideRedirect,
+                                        &attr))
+            abort ();
         Tk_RestackWindow (tkwin, Above, NULL);
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         
@@ -837,15 +831,12 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         
         x_pixmap_create_from_window (pixmap, window);
         
-        attr.override_redirect = orig_attr.override_redirect;
+        attr.override_redirect = False;
         for (i = 0; i < overlapCount; i++)
-          {
-            if (!XChangeWindowAttributes (display, overlapWindows[i],
-                                          CWOverrideRedirect,
-                                          &attr))
-              abort ();
-            // XMapWindow (display, overlapWindows[i]);
-          }
+          if (!XChangeWindowAttributes (display, overlapWindows[i],
+                                        CWOverrideRedirect,
+                                        &attr))
+            abort ();
         xfree (overlapWindows);
       }
 #else

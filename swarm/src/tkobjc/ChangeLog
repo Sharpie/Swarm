@@ -1,3 +1,13 @@
+1998-09-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (overlap_p): Don't check windows that already
+	are in override_redirect state.
+	(check_for_overlaps): Rename unmappedWindows and unmappedCount
+	to overlapWindows, and overlapCount.
+	(tkobjc_pixmap_create_from_widget): Don't unmap and remap, just
+	set override_redirect state.  Do Tk_RestackWindow while
+	in override_redirect mode, followed by snapshot.
+
 1998-09-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (overlap_p, check_for_overlaps): New functions.
