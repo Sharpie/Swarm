@@ -3,7 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <tkobjc.h>
+
+#import <tkobjc.h>
 
 #import "FNet.h"
 

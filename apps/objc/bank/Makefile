@@ -1,4 +1,6 @@
+ifeq ($(SWARMHOME),)
 SWARMHOME=../swarm-1.0.4
+endif
 APPLICATION=bank
 OBJECTS=FEntity.o FLink.o ILink.o BLink.o FNet.o main.o BankModelSwarm.o \
 	BankObserverSwarm.o BankBatchSwarm.o
