@@ -26,7 +26,7 @@ typedef struct methodDefs  *methodDefs_t;
 {
 @public
   Class_s        *superclass;    // object for [super ...] dispatch
-  char           *name;          // character string name for class
+  const char     *name;          // character string name for class
   long           version;        // for archiving (unused)
   unsigned long  info;           // class number + info bits
   long           instanceSize;   // size of instance in bytes

@@ -794,12 +794,16 @@ void
 xsetname (id anObject, const char *displayName)
 {
   if (anObject)
-    if (respondsTo (anObject, M(setDisplayName:)))
-      [anObject setDisplayName: displayName];
-    else
-      fprintf ( _obj_xdebug,
-        "xsetname: object " PTRFMT "does not respond to setDisplayName:\n",
-        (unsigned long)anObject);
+    {
+      if (respondsTo (anObject, M(setDisplayName:)))
+        [anObject setDisplayName: displayName];
+      else
+        fprintf (_obj_xdebug,
+                 "xsetname: object "
+                 PTRFMT 
+                 "does not respond to setDisplayName:\n",
+                 (unsigned long)anObject);
+    }
   else
     fprintf ( _obj_xdebug, "xsetname: object is nil\n" );
 }
