@@ -4,7 +4,6 @@
 // See file LICENSE for details and terms of copying.
 
 #import <stdlib.h> // atoi, strtod
-#import <misc.h>  // xmalloc, strdup
 
 #ifdef USE_AVCALL
 #include <avcall.h>
@@ -15,6 +14,7 @@
 #import "MessageProbe.h"
 #import "swarm_rts_routines.h"
 #import <objectbase.h> // val_t
+#import <misc.h>  // xmalloc, strdup
 
 @implementation MessageProbe
 

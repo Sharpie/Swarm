@@ -1,6 +1,6 @@
 1998-07-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Arguments.m: Include misc things after other includes.
+	* Arguments.m, MessageProbe.m: Include misc things last.
 
 1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
