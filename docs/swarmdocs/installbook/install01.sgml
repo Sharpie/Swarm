@@ -106,7 +106,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
             <PARA>gcc is the FSF's C, C++, and Objective C
               compiler. You need gcc 2.7.2 or greater installed on
               your system, including the Objective C support,
-              libobjc.a.  The latest version is available from <ULINK URL="ftp://prep.ai.mit.edu/pub/gnu">ftp://ftp.gnu.org/pub/gnu/</ULINK>. Note:
+              libobjc.a.  The latest version is available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu">ftp://ftp.gnu.org/pub/gnu/</ULINK>. Note:
               Swarm will not work with versions of gcc before
               2.7.2.</PARA>
 
@@ -123,8 +123,8 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
               currently use features that are not supported by all
               makes: GNU make is the only one guaranteed to
               work. Linux systems probably use GNU make
-              already. The latest version of GNU make should be
-              available on <ULINK URL="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK></PARA>
+              already. The latest version of GNU make is
+              available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu/">GNU</ULINK>.</PARA>
           </FORMALPARA></LISTITEM>
 
         <LISTITEM>
@@ -136,7 +136,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
 
               <!-- <LINK LINKEND="SWARM.TECH.SGML.SECT1.DEBUG"></LINK> -->
 
-              debug programs.  gdb is available on <ULINK URL="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>.</PARA>
+              debug programs.  gdb is available on <ULINK URL="ftp://ftp.gnu.org/pub/gnu/">GNU</ULINK>.</PARA>
             
           </FORMALPARA>
         </LISTITEM>
@@ -160,10 +160,10 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
     <ITEMIZEDLIST>
       <LISTITEM>
         
-        <FORMALPARA><TITLE>libXpm</TITLE> 
+        <FORMALPARA><TITLE><ULINK URL="http://www.inria.fr/koala/lehors/xpm.html">XPM Library</ULINK></TITLE> 
 
-          <PARA>libXpm adds pixmap (coloured bitmap) support to
-            X11. libXpm is a common X library, many systems already have
+          <PARA>The XPM library adds pixmap (coloured bitmap) support to
+            X11. XPM is a common X library, many systems already have
             it installed. A reasonably modern version is needed: we've
             used version 3.4f. If you get complaints about "Object"
             being multiply defined, your version of libXpm is too
@@ -172,39 +172,31 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
       </LISTITEM>
 
       <LISTITEM>
-        <FORMALPARA><TITLE>Tcl/Tk</TITLE> 
+        <FORMALPARA>
+          <TITLE><ULINK URL="http://www.scriptics.com">Tcl/Tk</ULINK></TITLE> 
 
-          <PARA>More common libraries: a scripting language and a GUI
-            toolkit. These libraries are available from <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/">ftp://ftp.scriptics.com/pub/tcl/</ULINK>
-            or from <ULINK URL="http://www.scriptics.com">http://www.scriptics.com</ULINK>.
-            Swarm works with Tcl/Tk versions 7.4/4.0, 7.5/4.1, 7.6/4.2,
-            and 8.0/8.0.  It may work with later versions, but it hasn't
+          <PARA>Swarm works with Tcl/Tk versions 7.4/4.0, 7.5/4.1, 7.6/4.2,
+            and 
+            <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tcl8.0.3.tar.gz">8.0.3</ULINK>/<ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tk8.0.3.tar.gz">8.0.3</ULINK>.  It may work with later versions, but it hasn't
             been tested.</PARA>
         </FORMALPARA>
       </LISTITEM>
 
       <LISTITEM>
           <FORMALPARA>
-            <TITLE>BLT</TITLE>
+            <TITLE><ULINK URL="http://www.tcltk.com/blt/index.html">BLT</ULINK></TITLE>
 
-            <PARA>BLT is an add-on to Tk that provides more
-              widgets. BLT is available from <ULINK
-                URL="ftp://ftp.tcltk.com/pub/blt/">ftp://ftp.tcltk.com/pub/blt</ULINK>.
-              Note that BLT 2.3 works with either Tcl/Tk 7.5/4.1 or
-              7.6/4.2, whereas BLT 2.1 only works with versions up to
-              and including Tcl/Tk 7.5/4.1. Swarm works with <ULINK
-                URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/BLT2.4f.tar.gz">BLT-2.4f.tar.gz</ULINK>,
-              or <ULINK
-                URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/blt8.0-unoff-swarm-0.tar.gz">blt8.0-unoff-swarm-0.tar.gz</ULINK>,
-              available from the SFI ftp site. BLT 8.0 is preferred
-              for use with Windows.
-            </PARA>
+            <PARA>BLT is an add-on to Tk that provides more widgets.  
+<ULINK URL="http://ftp.tcltk.com/pub/blt/BLT2.4f.tar.gz">BLT 2.4f</ULINK>
+is the current version.  Another version,
+<ULINK URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/blt8.0-unoff-swarm-0.tar.gz">BLT 8.0-unoff (SFI)</ULINK> is needed for use with Windows.
+          </PARA>
           </FORMALPARA>
         </LISTITEM>
         
       <LISTITEM>
         <FORMALPARA>
-            <TITLE>ffcall / libffi </TITLE> 
+            <TITLE><ULINK URL="http://clisp.cons.org/~haible/packages-ffcall.html">ffcall</ULINK> / <ULINK URL="http://www.cygnus.com/~green/libffi.html">libffi</ULINK></TITLE> 
             
             <PARA>Either ffcall or libffi can be used in Swarm to
               provide the underlying support for message probing.
@@ -223,32 +215,30 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
             <ULINK URL="ftp://ftp.santafe.edu/pub/gnu/ffcall-1.3.1.tar.gz">1.3.1</ULINK>
           </PARA>
           <PARA>The latest version of libffi is:
-            <ULINK URL=
-              "ftp://ftp.santafe.edu/pub/swarm/needed-software/libffi-1.18.tar.gz">1.18</ULINK>      
+            <ULINK URL="ftp://ftp.cygnus.com:/pub/green/libffi-1.20.tar.gz">1.20</ULINK>
           </PARA>
         </LISTITEM>
         
         <LISTITEM>
           <FORMALPARA>
-            <TITLE>libpng</TITLE> 
+            <TITLE><ULINK URL="http://www.cdrom.com/pub/png">libpng</ULINK></TITLE> 
             <PARA>
               Swarm requires support for pixmap images - `png' 
               provides that support.
             </PARA>
           </FORMALPARA>
           <PARA>The current version is 
-            <ULINK URL="ftp://swrinde.nde.swri.edu/pub/png/src/libpng-1.0.2.tar.gz">1.0.2</ULINK>.
+            <ULINK URL="ftp://swrinde.nde.swri.edu/pub/png/src/libpng-1.0.2.tar.gz">1.0.2</ULINK>
           </PARA>
           <FORMALPARA>
-            <TITLE>zlib</TITLE>
+            <TITLE><ULINK URL="http://www.cdrom.com/pub/infozip/zlib">zlib</ULINK></TITLE>
             <PARA>
               png requires data compression which zlib, a general data
               compression library, provides.
             </PARA>
           </FORMALPARA>
           <PARA>
-            The current version is
-            <ULINK URL="http://www.cdrom.com/pub/infozip/zlib">1.1.3</ULINK>
+            The current version is <ULINK URL="ftp://ftp.cdrom.com/pub/infozip/zlib/zlib.tar.gz">1.1.3</ULINK>.
           </PARA>
         </LISTITEM>
       </ITEMIZEDLIST>
