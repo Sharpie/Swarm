@@ -1,8 +1,1 @@
-Fix enableDestroyNotification on the unhappyGraph [currently commented
-out], currently not working, possibly a problem with how EZGraph is
-exposed to Java.
-
-No data appearing on EZGraph: fix createAverageSequence on the
-unhappyGraph [currently commented out].
-
 Implement HeatbugBatchSwarm.
