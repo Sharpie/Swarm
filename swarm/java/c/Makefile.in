@@ -2,18 +2,19 @@ CURRENT = 0
 REVISION = 0
 AGE = 0
 include ../Makefile.common
-include $(top_builddir)/etc/Makefile.common
 
+top_srcdir=@top_srcdir@
 top_builddir=../..
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
+srcdir=@srcdir@
+
+include $(top_builddir)/etc/Makefile.common
 
 SHELL=@SHELL@
 RANLIB=@RANLIB@
 INSTALL=@INSTALL@
 LIBTOOL=@LIBTOOL@
 
-top_srcdir=@top_srcdir@
-srcdir=@srcdir@
 VPATH=$(srcdir)
 
 jdkdir=@jdkdir@
