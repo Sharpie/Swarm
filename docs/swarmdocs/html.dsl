@@ -133,11 +133,10 @@
    (else #f)))
 
 ;; override (component-element-list) only locally in the list of
-;; ancestor-members by removing 'refentry' from the list - this
-;; ensures that that 'reference' is correctly intepreted as the
-;; ancestor of 'refentry' and correctly generates reference title as
+;; ancestor-members by removing `refentry' from the list - this
+;; ensures that that `reference' is correctly intepreted as the
+;; ancestor of `refentry' and correctly generates reference title as
 ;; the navigation subtitle
-
 (define (nav-context elemnode)
   (let* ((component 
           (ancestor-member 
@@ -180,7 +179,7 @@
 
 (element pubdate
          (make element gi: "DIV"
-               (literal "Publication Date ")
+               (literal "Published ")
                (process-children)))
 
 (define ($img$ #!optional (nd (current-node)) (alt #f))
@@ -213,6 +212,45 @@
 (define (graphic) (make element gi: "P" ($img$)))
 (mode book-titlepage-recto-mode (element graphic (graphic)))
 (mode set-titlepage-recto-mode (element graphic (graphic)))
+
+(define (copyright)
+    (let ((years (select-elements (descendants (current-node))
+                                  (normalize "year")))
+          (holders (select-elements (descendants (current-node))
+                                    (normalize "holder")))
+          (legalnotice (select-elements (children (parent (current-node)))
+                                        (normalize "legalnotice"))))
+      (make element gi: "P"
+            attributes: (list
+                         (list "CLASS" (gi)))
+            (if (and %generate-legalnotice-link%
+                     (not (node-list-empty? legalnotice)))
+                (make sequence
+                      (make element gi: "A"
+                            attributes: (list
+                                         (list "HREF"
+                                               ($legalnotice-link-file$
+                                                (node-list-first legalnotice))))
+                            (literal (gentext-element-name (gi (current-node)))))
+                      (literal " ")
+                      (literal (dingbat "copyright"))
+                      (literal " ")
+                      (process-node-list years)
+                      (literal (string-append " " (gentext-by) " "))
+                      (process-node-list holders))
+                (make sequence
+                      (literal (gentext-element-name (gi (current-node))))
+                      (literal " ")
+                      (literal (dingbat "copyright"))
+                      (literal " ")
+                      (process-node-list years)
+                      (literal (string-append " " (gentext-by) " "))
+                      (process-node-list holders))))))
+
+(define (set-titlepage-separator side)
+  (if (equal? side 'recto)
+      (make empty-element gi: "HR")
+      (empty-sosofo)))
 
 </style-specification-body>
 </style-specification>

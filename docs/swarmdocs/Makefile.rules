@@ -6,6 +6,7 @@ EMACS = emacs
 HTML = $(top_srcdir)/html.dsl
 PRINT = $(top_srcdir)/print.dsl
 CATOPTS = -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/CATALOG
+GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl
 
 .PHONY: fot tex dvi ps rtf html
 
@@ -13,9 +14,9 @@ COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_b
 
 CLEANFILES = *.html $(NAME).tex _$(NAME).tex $(NAME).rtf
 
-_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl $(PRINT)
+_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT)
 
-$(NAME).html: $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl $(HTML)
+$(NAME).html: $(GENERAL) $(HTML)
 
 $(NAME).dvi: $(top_srcdir)/macros.tex
 

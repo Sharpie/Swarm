@@ -213,15 +213,9 @@
                       (flatten-arg (cdr l) '()))
                      (flatten-arg (cdr l) (cons item out-l))))))))
 
-(define (reference-id-p id)
-    (let* ((id-split-list (split-string id #\.)))
-      (not (string=? (car (cdr id-split-list)) "SRC"))))
-
 (define (type-id-p id type)
-    (if (reference-id-p id)
-        (let* ((id-split-list (split-string id #\.)))
-          (string=? (car (cdr (cdr (cdr id-split-list)))) type))
-        #f))
+    (let* ((id-split-list (split-string id #\.)))
+      (string=? (car (cdr (cdr (cdr id-split-list)))) type)))
 
 (define (module-for-id id)
     (let* ((id-elements (split-string id #\.)))
@@ -291,19 +285,22 @@
 
 (define (id-to-indexitem id)
     (let ((id-split-list (split-string id #\.)))
-      (if (string=? (car (cdr id-split-list)) "SRC")
-          (if (string=? (car (cdr (cdr (cdr id-split-list)))) "REVHISTORY")
-              (revhistory-title-for-id id)
-              (data (select-elements (children (element-with-id id))
-                                     "TITLE")))
-          (cond ((type-id-p id "METHOD") (method-signature-title-for-id id))
-                ((type-id-p id "PROTOCOL") (refentry-title-for-description id))
-                ((type-id-p id "MODULE") (refentry-title-for-description id))
-                ((type-id-p id "TYPEDEF") (typedef-title-for-id id))
-                ((type-id-p id "FUNCTION") (function-title-for-id id))
-                ((type-id-p id "MACRO") (macro-title-for-id id))
-                ((type-id-p id "GLOBAL") (global-title-for-id id))
-                ((type-id-p id "REVHISTORY") (revhistory-title-for-id id))))))
+      (cond ((type-id-p id "METHOD") (method-signature-title-for-id id))
+            ((type-id-p id "PROTOCOL") (refentry-title-for-description id))
+            ((type-id-p id "MODULE") (refentry-title-for-description id))
+            ((type-id-p id "TYPEDEF") (typedef-title-for-id id))
+            ((type-id-p id "FUNCTION") (function-title-for-id id))
+            ((type-id-p id "MACRO") (macro-title-for-id id))
+            ((type-id-p id "GLOBAL") (global-title-for-id id))
+            ((type-id-p id "REVHISTORY") (revhistory-title-for-id id))
+            ((or (type-id-p id "SECT1")
+                 (type-id-p id "REFERENCE")
+                 (type-id-p id "EXAMPLE")
+                 (type-id-p id "APPENDIX"))
+             (data (select-elements (children (element-with-id id))
+                                    "TITLE")))
+            ((type-id-p id "SET") "This is a set")
+            (#t (let ((msg (debug id))) "unknown")))))
 
 (define (block-element-list)
   (list (normalize "example")
@@ -506,21 +503,39 @@
 (define set-titlepage-recto-elements common-titlepage-recto-elements)
 (define set-titlepage-verso-elements common-titlepage-verso-elements)
 
+(define (releaseinfo)
+    (sosofo-append
+     (literal "Release ")
+     (process-children)
+     (make-linebreak)))
+
 (mode article-titlepage-recto-mode (element revhistory (empty-sosofo)))
-(mode reference-titlepage-recto-mode (element revhistory (empty-sosofo)))
-(mode set-titlepage-recto-mode (element revhistory (empty-sosofo)))
 (mode book-titlepage-recto-mode (element revhistory (empty-sosofo)))
+(mode reference-titlepage-recto-mode
+      (element revhistory (empty-sosofo))
+      (element abstract (empty-sosofo)))
+(mode set-titlepage-recto-mode (element revhistory (empty-sosofo)))
 
-(mode reference-titlepage-recto-mode (element abstract (empty-sosofo)))
-
-(mode article-titlepage-verso-mode (element revhistory (revhistory)))
-(mode book-titlepage-verso-mode (element revhistory (revhistory)))
-(mode reference-titlepage-verso-mode (element revhistory (revhistory)))
-(mode set-titlepage-verso-mode (element revhistory (revhistory)))
-
-(mode reference-titlepage-verso-mode (element abstract (process-children)))
+(mode article-titlepage-verso-mode
+      (element revhistory (revhistory))
+      (element abstract (process-children))
+      (element releaseinfo (releaseinfo)))
+(mode book-titlepage-verso-mode
+      (element revhistory (revhistory))
+      (element abstract (process-children))
+      (element releaseinfo (releaseinfo)))
+(mode reference-titlepage-verso-mode
+      (element revhistory (revhistory))
+      (element abstract (process-children))
+      (element releaseinfo (releaseinfo)))
+(mode set-titlepage-verso-mode
+      (element revhistory (revhistory))
+      (element copyright (copyright))
+      (element abstract (process-children))
+      (element releaseinfo (releaseinfo)))
 
 (element revhistory (empty-sosofo))
+(element abstract (empty-sosofo))
 
 </style-specification-body>
 </style-specification>

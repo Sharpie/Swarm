@@ -167,22 +167,26 @@
          (entattr (attribute-string (normalize "entityref") nd))
          (gensysid (entity-generated-system-id entattr))
          (entityfilename (if entattr
-                             (string-append "../figs/"
-                                            (car (reverse (split-string gensysid #\/))))
+                             (car (cdr (split-string gensysid #\>)))
                              #f))
          (format (attribute-string (normalize "format") nd))
          (align (attribute-string (normalize "align") nd))
          (scale (attribute-string (normalize "scale") nd)))
     (if (or fileref entityfilename)
-        (make external-graphic
-              notation-system-id: (if format format "")
-              entity-system-id: (if fileref
-                                    (graphic-file fileref)
-                                    (if entityfilename
-                                        (graphic-file entityfilename)
-                                        ""))
-              display?: #t
-              display-alignment: 'center)
+        (let ((scale-val (if scale (/ (string->number scale) 100) 1.0)))
+          (make external-graphic
+                notation-system-id: (if format format "")
+                entity-system-id: (if fileref
+                                      (graphic-file fileref)
+                                      (if entityfilename
+                                          (graphic-file entityfilename)
+                                          ""))
+                space-before: 36pt
+                display?: #t
+                ;; The [scale=\ScaleX] as an argument to \includegraphics
+                ;; errors in TeX.  This forces a preceding \scalebox.
+                scale: (list scale-val (+ .01 scale-val))
+                display-alignment: 'center))
         (empty-sosofo))))
 
 (mode article-titlepage-recto-mode (element graphic ($img$)))
@@ -193,6 +197,49 @@
 (mode reference-titlepage-verso-mode (element graphic ($img$)))
 (mode set-titlepage-recto-mode (element graphic ($img$)))
 (mode set-titlepage-verso-mode (element graphic ($img$)))
+
+(define (copyright)
+    (make paragraph
+          use: para-style
+          (make sequence
+                (literal (gentext-element-name (current-node)))
+                (literal " ")
+                (literal (dingbat "copyright"))
+                (literal " ")
+                (process-children-trim))))
+
+(define (corpauthor)
+    (make paragraph
+          font-family-name: %title-font-family%
+          font-weight: 'bold
+          font-size: (HSIZE 3)
+          space-before: 1pt
+          space-after: 1pt
+          quadding: 'center
+          keep-with-previous?: #t
+          (process-children)))
+
+(define (infotitle)
+    (make paragraph
+          font-family-name: %title-font-family%
+          font-weight: 'bold
+          font-size: (HSIZE 5)
+          space-before: 1pt
+          space-after: 1pt
+          quadding: 'center
+          break-before: 'page
+          keep-with-next?: #t
+          (process-children-trim)))
+
+(mode book-titlepage-recto-mode 
+      (element corpauthor (corpauthor))
+      (element title (infotitle)))
+(mode set-titlepage-recto-mode
+      (element corpauthor (corpauthor))
+      (element title (infotitle)))
+(mode article-titlepage-recto-mode
+      (element corpauthor (corpauthor))
+      (element title (infotitle)))
 
 </style-specification-body>
 </style-specification>
