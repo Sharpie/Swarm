@@ -1,3 +1,7 @@
+1999-05-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (swarm.dll): Handle constructors.
+
 1999-05-25  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (install-data-local): To avoid returning a non-true

@@ -37,20 +37,23 @@ empty.m:
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc
 
 CTOR = swarm_constructors
-OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.o)
+OBJS = $(foreach module,$(SWARMMODULES),.dll/$(module)/*.o)
 
 swarm.dll: libswarm.la
 	$(RM) -r .dll swarm.def swarm.dll libswarm.a
 	mkdir .dll
 	cd .dll; for module in $(SWARMMODULES); do mkdir $$module; (cd $$module; ar x ../../$$module/.libs/lib$$module.al; for i in *.lo; do mv $$i `basename $$i .lo`.o; done); done
 	$(CC) -c $(srcdir)/dllinit.c
-	nm $(OBJS) | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(_GLOBAL_\$I\$.*\)/extern void $(CTOR)_sym\1 (void) __asm__ (\"\4\");/p" > $(CTOR).c; echo >> $(CTOR).c; echo "void $(CTOR) (void) {" >> $(CTOR).c; nm $libobjs | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(_GLOBAL_\$I\$.*\)/$(CTOR)_sym\1 ();/p" >> $(CTOR).c
+	nm $(OBJS) | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(__GLOBAL_\$$I\$$.*\)/extern void $(CTOR)_sym\1 (void) __asm__ (\"\4\");/p" > $(CTOR).c
+	echo >> $(CTOR).c
+	echo "void $(CTOR) (void) {" >> $(CTOR).c
+	nm $(OBJS) | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(__GLOBAL_\$$I\$$.*\)/$(CTOR)_sym\1 ();/p" >> $(CTOR).c
 	echo "}" >> $(CTOR).c
 	$(CC) -c $(CTOR).c
 	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(CTOR).o $(OBJS) $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
 install-data-local: 
 	if test -n "$(SWARMDLL)" ; then \
-	  $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a ;\
+	  $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a ; \
 	fi
 
