@@ -15,7 +15,7 @@ Library:      defobj
 #import <defobj/Archiver.h>
 #import <defobj/HDF5Object.h>
 
-#include <objc/objc-api.h> // objc_lookup_class
+#include <objc/objc-api.h> // objc_lookup_class, _objc_lookup_class
 #include <misc.h> // strcmp, sscanf
 #include <collections/predicates.h> // keywordp, listp, stringp
 
