@@ -308,3 +308,15 @@ AC_SUBST(bltdir)
 AC_SUBST(BLTLDFLAGS)
 AC_SUBST(BLTLIB)
 ])
+
+AC_DEFUN(md_CHECK_TCLTK_LIBINC_VERSION_MATCH,
+[_configfile=`eval echo "$$1libdir/$1Config.sh"`
+_upper=translit($1,a-z,A-Z)
+_version=`sed -n "s/^${_upper}_VERSION='\(.*\)'/\1/p" $_configfile 2>/dev/null`
+_patchlevel=`sed -n "s/^${_upper}_PATCH_LEVEL='\(.*\)'/\1/p" $_configfile 2>/dev/null`
+_lversionpl=${_version}${_patchlevel}
+_iversionpl=`sed -n "s/#define ${_upper}_PATCH_LEVEL.*\"\(.*\)\"/\1/p" < $$1includedir/$1.h`
+if test "$_lversionpl" != "$_iversionpl" || test -z "$_lversionpl" || test -z "$_iversionpl"; then
+  AC_MSG_ERROR($1 include and $1Config.sh file version mismatch \"$_lversionpl\" != \"$_iversionpl\")
+fi
+])

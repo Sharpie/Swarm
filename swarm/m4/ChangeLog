@@ -1,5 +1,7 @@
 1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* actcltk.m4 (md_CHECK_TCLTK_LIBINC_VERSION_MATCH): New macro.
+
 	* Makefile.am (EXTRA_DIST): Add aclonglong.m4.
 
 	* aclonglong.m4: New file.
