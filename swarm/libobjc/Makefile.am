@@ -16,7 +16,6 @@ EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c \
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
 lib_LTLIBRARIES = @LIBOBJC_LA@
-noinst_LTLIBRARIES = libobjc_.la
 EXTRA_LTLIBRARIES = libobjc.la
 bin_PROGRAMS = @OBJC_DLL@
 EXTRA_PROGRAMS = objc.dll
@@ -40,7 +39,7 @@ compiler-info.h: $(COMPILERINFOHEADER)
 if USEDLL
 DLLOBJS = $(addsuffix .lo,$(basename $(libobjc_la_SOURCES)))
 
-objc.dll: libobjc_.la objc.dll.c
+objc.dll: libobjc.la objc.dll.c
 	$(CC) -c $(srcdir)/objc.dll.c -o objc.dll.o
 	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll objc.dll.o $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
