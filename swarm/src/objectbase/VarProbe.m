@@ -85,14 +85,7 @@ PHASE(Creating)
 
       fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-      {
-        char *buf = [getZone (self) alloc: 2];
-        
-        buf[0] = swarm_directory_objc_type_for_java_class (jniEnv, fieldType);
-        buf[1] = '\0';
-        
-        probedType = (const char *) buf;
-      }
+      probedType = objc_type_for_fcall_type (swarm_directory_fcall_type_for_java_class (jniEnv, fieldType));
       interactiveFlag = YES;
       return self;
     }
@@ -684,11 +677,12 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
 id
 java_probe_as_object (jclass fieldType, jobject field, jobject object)
 {
-  char type = swarm_directory_objc_type_for_java_class (jniEnv, fieldType);
+  fcall_type_t type =
+    swarm_directory_fcall_type_for_java_class (jniEnv, fieldType);
   jobject jobj;
   id ret;
 
-  if (type != _C_ID)
+  if (type != fcall_type_object)
     raiseEvent (WarningMessage,
                 "Invalid type `%c' to retrieve object from a Java object",
                 type);

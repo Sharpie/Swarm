@@ -1,3 +1,8 @@
+2000-01-20    <mgd@nest.swarm.org>
+
+	* VarProbe.m ([VarProbe -createEnd], java_probe_as_object): Use
+	swarm_directory_fcall_type_for_java_class.
+
 2000-01-11    <mgd@nest.swarm.org>
 
 	* VarProbe.m ([VarProbe -createEnd], [VarProbe
