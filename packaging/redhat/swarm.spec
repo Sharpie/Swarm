@@ -55,8 +55,7 @@ or better, and the blt library package.
 %changelog
 * Thu Nov 8 2001 Paul Johnson <pauljohn@ukans.edu>
 
-- trying to use Redhat 7.2's gcc3 compiler
-
+- trying to use gcc3 from Redhat 7.2
 
 * Fri Sep 7 2001 Paul Johnson <pauljohn@ukans.edu>
 
