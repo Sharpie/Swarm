@@ -8,7 +8,7 @@ SUBDIRS = misc collections defobj activity \
 SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
 	objectbase activity defobj collections misc
 
-EXTRA_DIST = Makefile.rules
+EXTRA_DIST = Makefile.rules genctors
 
 .PHONY: headers
 

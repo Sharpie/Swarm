@@ -39,7 +39,7 @@ libobjc.dll:
 	$(CC) -c $(srcdir)/dllinit.c
 	$(srcdir)/../etc/genctors $(DLLOBJS) > $(CTOR).c
 	$(CC) -c $(CTOR).c
-	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o libobjc.dll dllinit.o $(CTOR).o $(DLLOBJS)
+	dllwrap --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o libobjc.dll dllinit.o $(CTOR).o $(DLLOBJS)
 
 
 #CC1OBJ = @gccdir@/cc1obj
