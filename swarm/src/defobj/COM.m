@@ -91,6 +91,12 @@ COM_free_params (void *params)
   comEnv->COMfreeParams (params);
 }
 
+BOOL
+COM_is_javascript (COMobject cObj)
+{
+  return comEnv->isJavaScript (cObj);
+}
+
 void *
 JS_create_params (unsigned size)
 {

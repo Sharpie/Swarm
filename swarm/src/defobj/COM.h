@@ -46,6 +46,7 @@ struct COMInterface {
   void (*COMsetReturn) (void *params, unsigned pos, fcall_type_t type, types_t *value);
   void (*COMfreeParams) (void *params);
 
+  BOOL (*isJavaScript) (COMobject cObj);
   void *(*JScreateParams) (unsigned size);
   void (*JSsetArg) (void *params, unsigned pos, fcall_type_t type, types_t *value);
   void (*JSsetReturn) (void *params, unsigned pos, fcall_type_t type, types_t *value);
@@ -88,6 +89,8 @@ extern void *COM_create_params (unsigned size);
 extern void COM_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *value);
 extern void COM_set_return (void *params, unsigned pos, fcall_type_t type, types_t *value);
 extern void COM_free_params (void *params);
+
+extern BOOL COM_is_javascript (COMobject cObj);
 
 extern void *JS_create_params (unsigned size);
 extern void JS_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *value);
