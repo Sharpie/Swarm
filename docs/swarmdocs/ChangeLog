@@ -1,3 +1,8 @@
+1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common: Include $(swarm_srcdir)/etc/Makefile.protocol.
+	Remove elisp protocol compilation rules.
+
 1999-06-17  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note javadoc support.

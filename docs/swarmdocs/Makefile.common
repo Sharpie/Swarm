@@ -1,29 +1,11 @@
-abs_top_builddir := $(shell cd $(top_builddir); pwd)
-abs_builddir := $(shell pwd)
 EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
+
+ include $(swarm_srcdir)/etc/Makefile.protocol
+
 top_dossrcdir = @top_dossrcdir@
 swarm_dossrcdir = @swarm_dossrcdir@
 
 $(abs_top_builddir)/history.elc: $(abs_top_builddir)/common.elc
-
-define elcrule
-cp -f $< $(dir $@)_$(notdir $<)
-$(EMACS) -batch -f batch-byte-compile $(dir $@)_$(notdir $<)
-mv $(dir $@)_$(notdir $@) $@
-$(RM) $(dir $@)_$(notdir $<)
-endef
-
-$(abs_top_builddir)/%.elc: $(top_srcdir)/%.el
-	$(elcrule)
-
-$(abs_top_builddir)/%.elc: $(swarm_srcdir)/etc/%.el
-	$(elcrule)
-
-%.elc: $(swarm_srcdir)/etc/%.el
-	$(elcrule)
-
-%.elc: %.el
-	$(elcrule)
 
 %revhistory.sgml: ChangeLog $(swarm_ChangeLog) $(abs_top_builddir)/history.elc
 	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l $(abs_top_builddir)/history.elc -f process-changelog $*
