@@ -35,7 +35,7 @@ if test $USEDLL = yes; then
   LIBJAVASWARMSTUBS_LA=
   JAVASWARM_DLL=javaswarm.dll
   noinst_LIBS='lib$(MODULE).la'
-  inst_LDFLAGS=
+  inst_LDFLAGS=-static
 else
   LIBSWARM_LA=libswarm.la
   SWARM_DLL=
