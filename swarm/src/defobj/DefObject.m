@@ -619,6 +619,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   jobject jObj;
 #endif
   COMobject cObj;
+  id <Zone> aZone = getCZone (getZone (self));
 
   if (!type)
     {
@@ -628,7 +629,8 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
         abort ();
     }
 
-  fa = [FArguments createBegin: getCZone (getZone (self))];
+
+  fa = [FArguments createBegin: aZone];
 
   if ((cObj = SD_COM_FIND_OBJECT_COM (self)))
     {
@@ -644,25 +646,31 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 #ifdef HAVE_JDK
   else if ((jObj = SD_JAVA_FIND_OBJECT_JAVA (self)))
     {
-      {
-        jobject jSel = SD_JAVA_FIND_SELECTOR_JAVA (aSel);
-        
-        if (!jSel)
-          raiseEvent (InvalidArgument,
-                      "unable to find Java selector `%s' in objc:`%s' %p java: %p hash: %d\n",
-                      sel_get_name (aSel),
-                      [self name],
-                      self,
-                      jObj,
-                      swarm_directory_java_hash_code (jObj));
-        
+      jobject jSel;
+      jclass jClass = (*jniEnv)->GetObjectClass (jniEnv, jObj);
+
+      jSel = SD_JAVA_ENSURE_SELECTOR_JAVA (jClass, aSel);
+      (*jniEnv)->DeleteLocalRef (jniEnv, jClass);
+      
+
+#if 0      
+      if (!jSel)
+        raiseEvent (InvalidArgument,
+                    "unable to find Java selector `%s' in objc:`%s' %p java: %p hash: %d\n",
+                    sel_get_name (aSel),
+                    [self name],
+                    self,
+                    jObj,
+                    swarm_directory_java_hash_code (jObj));
+#endif
+      
+      if (jSel)
         {
           const char *sig = java_ensure_selector_type_signature (jSel);
           
           [fa setJavaSignature: sig];
           [scratchZone free: (void *) sig];
         }
-      }
     }
 #endif
   else
@@ -685,7 +693,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     }
   fa = [fa createEnd];
   
-  fc = [FCall create: getCZone (getZone (self))
+  fc = [FCall create: aZone
               target: self
               selector: aSel
               arguments: fa];

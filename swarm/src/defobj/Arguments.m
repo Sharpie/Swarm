@@ -354,7 +354,6 @@ PHASE(Setting)
 - setAppModeString: (const char *)theAppModeString
 {
   appModeString = STRDUP (theAppModeString);
-
   return self;
 }
 

@@ -1,3 +1,23 @@
+2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.m (java_signature_for_class): Convert . to / in an array
+	class name.  Fix leak.
+	(swarm_directory_java_switch_objc): Add if not found.
+	(java_copy_string): Handle null string.
+	(java_cleanup_strings): Likewise.
+
+	* java.[hm] (swarm_directory_objc_ensure_selector,
+	SD_JAVA_ENSURE_SELECTOR_JAVA): Add.
+
+	* directory.m: New global allocSel:
+	([Directory +createBegin:]): Set it.
+
+	* FArguments.m ([FArguments_c -addString:]): Allow null string.
+
+	* DefObject.m ([Object_s -forward::]): Put zone in local variable.
+	Attempt to ensure that Java-side selector is created, but
+	don't abort if it isn't.  
+
 2000-11-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.h (SD_COM_FIND_SELECTOR_COM_RETURN): New macro.

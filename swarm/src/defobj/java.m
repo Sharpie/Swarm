@@ -132,13 +132,22 @@ java_signature_for_class (jclass class)
   else if (exactclassp (class, c_void))
     type = "V";
   else if ((*jniEnv)->CallBooleanMethod (jniEnv, class, m_ClassIsArray))
-    type = java_get_class_name (class);
+    {
+      char *cp;
+      type = java_get_class_name (class);
+      
+      for (cp = (char *) type; *cp; cp++)
+        if (*cp == '.')
+          *cp = '/';
+      return type;
+    }
   else
     {
       const char *name = java_get_class_name (class);
       char *buf = [scratchZone alloc: 1 + strlen (name) + 1 + 1];
 
       fill_signature (buf, name);
+      FREECLASSNAME (name);
       return buf;
     }
   return SSTRDUP (type);
@@ -1968,6 +1977,39 @@ swarm_directory_objc_find_selector_java (SEL sel)
   return NULL;
 }
 
+jobject
+swarm_directory_objc_ensure_selector_java (jclass jClass, SEL sel)
+{
+  SelectorEntry *entry = swarm_directory_objc_find_selector (sel);
+
+  if (entry && entry->type == foreign_java)
+    return entry->foreignObject.java;
+  else
+    {
+      jobject jSelName = (*jniEnv)->NewStringUTF (jniEnv, sel_get_name (sel));
+      jobject jSel, ret;
+
+      jSel =
+        (*jniEnv)->NewObject (jniEnv, c_Selector, m_SelectorConstructor,
+                              jClass,
+                              jSelName, 
+                              JNI_TRUE);
+      if (jSel)
+        {
+          ret = SD_JAVA_ADD_SELECTOR (jSel, sel)->foreignObject.java;
+          (*jniEnv)->DeleteLocalRef (jniEnv, jSelName);
+          (*jniEnv)->DeleteLocalRef (jniEnv, jSel);
+        }
+      else
+        {
+          (*jniEnv)->ExceptionClear (jniEnv);
+          ret = 0;
+        }
+      return ret;
+    }
+}
+
+
 ObjectEntry *
 swarm_directory_java_add_object (jobject lref, id object)
 {
@@ -2026,20 +2068,22 @@ swarm_directory_java_switch_objc (id object, jobject javaObject)
   index = swarm_directory_java_hash_code (javaObject);
   m = javaTable[index];
   entry = [javaTable[index] at: JAVA_FIND_OBJECT_ENTRY (javaObject)];
-  if (!entry)
-    abort ();
-  
-  if (!avl_delete (objc_tree, entry))
-    abort ();
-  entry->object = object;
-
-  {
-    void **foundEntry;
-    
-    foundEntry = avl_probe (objc_tree, entry);
-    if (*foundEntry != entry)
-      abort ();
-  }
+  if (entry)
+    {
+      if (!avl_delete (objc_tree, entry))
+        abort ();
+      entry->object = object;
+      
+      {
+        void **foundEntry;
+        
+        foundEntry = avl_probe (objc_tree, entry);
+        if (*foundEntry != entry)
+          abort ();
+      }
+    }
+  else
+    SD_JAVA_ADD_STRING (javaObject, object);
   return entry;
 }
 
@@ -2093,13 +2137,18 @@ java_class_name (jobject obj)
 const char *
 java_copy_string (jstring javaString)
 {
-  jboolean isCopy;
-  const char *str = (*jniEnv)->GetStringUTFChars (jniEnv, javaString, &isCopy);
-  const char *ret = SSTRDUP (str);
-
-  if (isCopy)
-    (*jniEnv)->ReleaseStringUTFChars (jniEnv, javaString, str);
-  return ret;
+  if (javaString)
+    {
+      jboolean isCopy;
+      const char *str =
+        (*jniEnv)->GetStringUTFChars (jniEnv, javaString, &isCopy);
+      const char *ret = SSTRDUP (str);
+      
+      if (isCopy)
+        (*jniEnv)->ReleaseStringUTFChars (jniEnv, javaString, str);
+      return ret;
+    }
+  return 0;
 }
 
 void
@@ -2108,7 +2157,8 @@ java_cleanup_strings (const char **stringArray, size_t count)
   size_t i;
 
   for (i = 0; i < count; i++)
-    SFREEBLOCK (stringArray[i]);
+    if (stringArray[i])
+      SFREEBLOCK (stringArray[i]);
 }
 
 const char **

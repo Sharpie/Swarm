@@ -277,12 +277,15 @@ PHASE(Creating)
       jstring string;
       size_t size;
       void *ptr;
-      jobject lref;
       
-      lref = (*jniEnv)->NewStringUTF (jniEnv, str);
-      string = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-
+      if (str)
+        {
+          jobject lref = (*jniEnv)->NewStringUTF (jniEnv, str);
+          string = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+          (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+        }
+      else
+        string = 0;
       size = sizeof (jstring);
       ptr = &string;
       argTypes[offset] = fcall_type_jstring;

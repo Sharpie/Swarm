@@ -409,7 +409,7 @@ PHASE(Creating)
         }
       if (!fmethod)
         raiseEvent (SourceMessage,
-                    "Could not find Java method: `%s' (%s)\n",
+                    "Could not find Java method: `%s' `%s'\n",
                     methodName, fargs->javaSignature);
     }
 #endif

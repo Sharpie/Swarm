@@ -57,6 +57,7 @@ extern Class swarm_directory_java_class_for_java_object (jobject jobj);
 extern jobject swarm_directory_objc_ensure_java (id object);
 extern jobject swarm_directory_objc_find_object_java (id object);
 extern jobject swarm_directory_objc_find_selector_java (SEL sel);
+extern jobject swarm_directory_objc_ensure_selector_java (jclass jClass, SEL sel);
 extern jclass swarm_directory_objc_find_java_class (Class class);
 extern SEL swarm_directory_java_ensure_selector (jobject jsel);
 
@@ -76,6 +77,7 @@ extern void java_drop (jobject jobj);
 #define SD_JAVA_ENSURE_OBJECT_JAVA(objc) swarm_directory_objc_ensure_java (objc)
 #define SD_JAVA_FIND_OBJECT_JAVA(objc) swarm_directory_objc_find_object_java (objc)
 #define SD_JAVA_FIND_SELECTOR_JAVA(sel) swarm_directory_objc_find_selector_java (sel)
+#define SD_JAVA_ENSURE_SELECTOR_JAVA(jClass, sel) swarm_directory_objc_ensure_selector_java (jClass, sel)
 #define SD_JAVA_FIND_CLASS_JAVA(objcClass) swarm_directory_objc_find_java_class (objcClass)
 #define SD_JAVA_ADD_OBJECT(jObj, oObj) swarm_directory_java_add_object (jObj, oObj)
 #define SD_JAVA_ADD_SELECTOR(jsel, sel) swarm_directory_java_add_selector (jsel, sel)
