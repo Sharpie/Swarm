@@ -187,11 +187,21 @@ PHASE(Using)
   return self;
 }
 
-// drawing is just like before, only magnified.
+// The point's coordinates are (x,y), but when the zoomFactor is 1, it
+// is drawn from (x,y) to (x+1,y+1).  Such a point is not really
+// centered at (x,y), but we have no alternative.  If the zoomFactor
+// is increased, the coordinates over which the point is stretched
+// will expand.  This method uses a centering algorthm so that
+// zoomFactor*(x,y) is at the "center" of the rectangle that
+// represents the points. For example, a point at (10,10) in a
+// zoomFactor 1 window will be centered at (100,100) in a zoomFactor
+// 10 window, and the width of the point will be represented by 10x10
+// square.  The new square stretches from (95,95) (on the top left) to
+// (105,105) (on the bottom left).
 - (void)drawPointX: (int)x Y: (int)y Color: (Color)c
 {
-  [super fillRectangleX0: x * zoomFactor Y0: y * zoomFactor
-         X1: (x + 1) * zoomFactor Y1: (y + 1) * zoomFactor
+  [self fillCenteredRectangleX0: x  Y0: y 
+         X1: (x + 1)  Y1: (y + 1) 
 	 Color: c];
 }
 
@@ -201,6 +211,30 @@ PHASE(Using)
          X1: x1 * zoomFactor Y1: y1 * zoomFactor
 	 Color: c];
 }
+
+
+// When the zoom factor is increased, the previous method
+// "fillRectangle" stretches all pixels down and to the right.  On the
+// other hand, when X resizes lines, it expands the line in both
+// directions.  Thus, zooming can make a line that is originally
+// inside a rectangle "walk" out of it.  Suppose instead we want to be
+// sure that, if a point located at (x0,y0) is fully inside the
+// rectangle, then when the raster is zoomed up or down, the point is
+// still inside the rectangle.  Then use this to draw your rectangle!
+// We can't tweak "fillRectangle" to do the same thing because that
+// method fills other roles, like drawing the background, and so the
+// whole class breaks if we fiddle with that. Note this method is
+// used by draw point because we want centered points.
+
+- (void)fillCenteredRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
+{
+  int newX0 = x0 * zoomFactor - floor(0.5 * zoomFactor);
+  int newY0 = y0 * zoomFactor - floor(0.5 * zoomFactor);
+  int diffX = zoomFactor * (x1 - x0);
+  int diffY = zoomFactor * (y1 - y0);
+  tkobjc_raster_fillRectangle (self, newX0, newY0, diffX, diffY, c);
+}
+
 
 - (void)ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
             Width: (unsigned)penWidth Color: (Color)c
@@ -220,12 +254,23 @@ PHASE(Using)
                       penWidth * zoomFactor, c);
 }
 
+// This is a rectangle with position designed so that zoom resizing
+// does not alter its logical positions. It is intended to be invariant,
+// so that a point zoomFactor*(x0,y0) should either be in or out of
+// the rectangle for all zoomFactors. 
+// It should overlap on the edges of a "fillCenteredRectangle" drawing 
+
 - (void)rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
               Width: (unsigned)penWidth Color: (Color)c
 {
+  int diffX = zoomFactor * (x1 - x0);
+  int diffY = zoomFactor * (y1 - y0);
+  int newX0 = x0 * zoomFactor - floor (0.5 * zoomFactor);
+  int newY0 = y0 * zoomFactor - floor (0.5 * zoomFactor);
+
   tkobjc_raster_rectangle (self,
-                           x0 * zoomFactor, y0 * zoomFactor,
-                           (x1 - x0) * zoomFactor, (y1 - y0) * zoomFactor,
+                           newX0, newY0,
+			   diffX, diffY,
                            penWidth * zoomFactor, c);
 }
 

@@ -1,3 +1,20 @@
+2003-06-23  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* ZoomRaster.m: new method 
+	-(void)fillCenteredRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1:
+	(int)y1 Color: (Color)c. Assures "stable positioning" of points
+	and rectangles.  A point at a given position, say
+	zoomFactor*(x0,y0), will stay in the same position relative to
+	lines and elipses that are on or near it.
+	
+	([ZoomRaster -drawPointX:Y:Color:]): use fillCenteredRectangle to
+	draw points.
+	
+	
+	- (void)rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+              Width: (unsigned)penWidth Color: (Color)c
+	Modified to assure stable positioning (like fillCenteredRectangle).
+	
 2003-06-11  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
 
 	* Pixmap.m ([Pixmap -drawX:Y:]): cast (Raster *)raster

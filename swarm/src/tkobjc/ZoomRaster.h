@@ -41,6 +41,7 @@
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 - (void)drawPointX: (int)x Y: (int)y Color: (Color)c;
 - (void)fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c;
+- (void)fillCenteredRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c;
 - (void)ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
             Width: (unsigned)penWidth Color: (Color)c;
 - (void)lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
