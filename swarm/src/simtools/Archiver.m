@@ -11,7 +11,7 @@
 
 #import <objc/objc-api.h>
 
-#include <unistd.h> // access
+#include <misc.h> // access, getenv
 
 #define ARCHIVER_FUNCTION_NAME "archiver"
 #define MAKE_OBJC_FUNCTION_NAME "make-objc"
