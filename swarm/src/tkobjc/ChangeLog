@@ -1,3 +1,7 @@
+1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m: Hide Rectangle during Win32 header file includes.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Revert last change.

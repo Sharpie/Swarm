@@ -15,16 +15,18 @@
 #undef timezone
 // Undo X11 definition
 #undef Status
+#define Rectangle Win32Rectangle
 #include "win32dib.h"
 #define BOOL BOOL_
 #include "tk/tkInt.h"
 #undef BOOL
 
 #define Arguments Win32Arguments
-#define Colormap X11Colormap
+#define Colormap Win32Colormap
 #include "tk/tkWinInt.h"
 #undef Colormap
 #undef Arguments
+#undef Rectangle
 #endif
 
 #import <tkobjc/TkExtra.h>
