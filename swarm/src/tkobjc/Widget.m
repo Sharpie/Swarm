@@ -9,6 +9,7 @@
 #import <tkobjc/Frame.h>
 #import <tkobjc/common.h>
 
+#include <swarmconfig.h> // PTRUINT
 #include <misc.h> // atoi
 
 @implementation Widget
@@ -60,7 +61,7 @@ makeWidgetName (const char *parentWidgetName, id newWidget)
   n = [newWidget getObjectName];  // my object name in Tclland
 #else
   char n[33];
-  sprintf (n, "%p", newWidget); // my pointer (use %p?)
+  sprintf (n, PTRUINTFMT, (PTRUINT) newWidget); // my pointer (use %p?)
 #endif			
   
   buf = [[newWidget getZone] alloc: strlen (parentWidgetName) + strlen (n) + 3];

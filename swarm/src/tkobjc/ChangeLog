@@ -1,5 +1,7 @@
 1999-07-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Widget.m (makeWidgetName): Use PTRUINTFMT with PTRUINT instead of %p.
+
 	* InputWidget.m ([InputWidget -getValue]): Raise a
 	SubclassMustImplement event.
 
