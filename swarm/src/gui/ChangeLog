@@ -1,3 +1,7 @@
+1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h (Widget): Declare -getParent and -getTopLevel.
+
 1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h (Pixmap): Add setDirectory:.

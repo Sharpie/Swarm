@@ -56,9 +56,6 @@ USING
 - packToRight : widget;
 - packForgetAndExpand;
 
-//M: Get the containing window of the widget.
-- getParent;
-
 //M: Enable or disable the widget.
 - setActiveFlag: (BOOL)activeFlag;
 
@@ -76,6 +73,12 @@ USING
 
 //M: Set the title on the widget.
 - setWindowTitle: (const char *)title;
+
+//M: Get the containing window of the widget.
+- getParent;
+
+//M: Get top level frame
+- getTopLevel;
 
 //M: Get the widget name.
 - (const char *)getWidgetName;
@@ -103,6 +106,7 @@ USING
 //D: used when running Tcl code, an Objective C name when sending messages
 //D: from Tcl to those objects, and a parent.
 @end
+
 
 @protocol _WindowGeometryRecord
 CREATING
