@@ -1,4 +1,4 @@
-<!entity % reference.entities system "config.ent">
+<!entity % config.entities system "config.ent">
 %config.entities;
 
 <!entity % tech.entities system "tech/tech.ent">
