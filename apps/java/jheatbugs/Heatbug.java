@@ -3,6 +3,8 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
+// Tim Howe is testing CVS access. 
+
 import swarm.Globals;
 import swarm.space.Grid2d;
 import swarm.space.Grid2dImpl;
