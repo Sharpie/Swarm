@@ -1,0 +1,5 @@
+<!entity simtoolscont.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Content//EN">
+<!entity simtoolsrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Revision History//EN">
+<!entity simtoolsmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Metadata//EN">
+<!entity simtools00.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Introduction//EN">
+<!entity simtoolspages.sgml PUBLIC "-//SFI Hive//ENTITIES Simtools Generated Content//EN">
