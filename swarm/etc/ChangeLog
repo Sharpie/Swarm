@@ -1,3 +1,8 @@
+2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.appl.in (APPEXE): Change suffix from @EXESUFFIX@ to
+	@EXEEXT@.  Thanks to Bill Northcott.
+
 2004-11-07  Marcus G. Daniels <mgd@santafe.edu>
 
 	* interface.el (impl-print-get-imp-pointer):

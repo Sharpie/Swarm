@@ -32,7 +32,6 @@ fi
 AC_SUBST(XINCLUDES)
 
 md_CHECK_GUILIBS
-md_CHECK_EXESUFFIX
 
 AC_ARG_WITH(defaultdir,
 [  --with-defaultdir=DIR            Use DIR instead of prefix as default path],

@@ -1,3 +1,8 @@
+2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
+
+	* configure.in (md_CHECK_EXESUFFIX): Remove.
+	Thanks to Bill Northcott.
+
 2004-11-25  Marcus G. Daniels <mgd@santafe.edu>
 
 	* VERSION: Bump.

@@ -1,7 +1,7 @@
 include @swarm_prefix@/etc/swarm/Makefile.common
 include @swarm_prefix@/etc/swarm/Makefile.rules
 
-APPEXE = $(APPLICATION)@EXESUFFIX@
+APPEXE = $(APPLICATION)@EXEEXT@
 LDFLAGS = $(SWARMLDFLAGS) $(EXTRALDFLAGS)
 
 ifneq ($(APPVERSION),)
