@@ -11,10 +11,6 @@ Library:      defobj
 
 #import <defobj.h>
 #import <defobj/Create.h>
-#include <ffi.h>
-#undef PACKAGE
-#undef VERSION
-#import <swarmconfig.h>
 
 #define number_of_types 14
 

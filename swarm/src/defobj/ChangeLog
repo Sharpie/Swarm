@@ -1,3 +1,8 @@
+1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FArguments.[hm]: Remove include of ffi.h in header file, put
+	it in implementation file.
+
 1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* FCall.m (fillHiddenArguments): Hide java dependent code.

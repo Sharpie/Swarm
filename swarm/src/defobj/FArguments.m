@@ -12,6 +12,7 @@ Library:      defobj
 #import "FArguments.h"
 #import <objc/objc-api.h>
 #import <defalloc.h>
+#include <ffi.h>
 
 ffi_type *swarm_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar, 
                                            &ffi_type_schar, &ffi_type_ushort, 
