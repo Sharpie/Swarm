@@ -1,3 +1,20 @@
+1999-06-05  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile (DATAFILES): Add heatbugs.scm, remove
+	{experiment,batch}.setup
+
+	* heatbugs.scm: Replace .setup files with single .scm file,
+	contains contents of old .setup files.
+
+	* batch.setup, experiment.setup: Remove files.
+
+	* HeatbugBatchSwarm.m ([HeatbugBatchSwarm -buildObjects]): Use
+	lispAppArchiver to create HeatbugModelSwarm instance from the
+	`modelSwarm' key, not ObjectLoader.
+
+	* main.m (main): Likewise for the HeatbugBatchSwarm instance using
+	the `batchSwarm' key.
+
 1999-02-17  Alex Lancaster  <alex@santafe.edu>
 
 	* main.m (main): Fixed comment to refer to correct option

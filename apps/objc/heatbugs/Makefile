@@ -4,7 +4,7 @@ endif
 APPLICATION=heatbugs
 OBJECTS=Heatbug.o HeatSpace.o main.o HeatbugModelSwarm.o \
 	HeatbugObserverSwarm.o HeatbugBatchSwarm.o
-DATAFILES = ant.png batch.setup experiment.setup
+DATAFILES = ant.png heatbugs.scm
 
 include $(SWARMHOME)/etc/swarm/Makefile.appl
 

@@ -33,24 +33,23 @@
   [super buildObjects];
 
   // IMPORTANT!!
+
   // Create the model inside us - no longer create `Zone's explicitly.
   // The Zone is now created implicitly through the call to create the
   // `Swarm' inside `self'.
 
-  heatbugModelSwarm = [HeatbugModelSwarm create: self];
+  // But since we don't have any graphics, we load the object from the
+  // global `lispAppArchiver' instance which is created automatically
+  // from the file called `heatbugs.scm'
 
-  // In HeatbugObserverSwarm, we'd build some probes and wait for a
-  // user control event (this allows the user to fiddle with the 
-  // parameters of the experiment). But since we don't have any graphics, 
-  // we load the batch.setup parameter file (which should contain values
-  // for such variables as experimentDuration and loggingFrequency) and 
-  // the model.setup parameter file (which contains values for the model
-  // specific variables such as numBugs etc.).
-  
-  [ObjectLoader load: self 
-                fromAppDataFileNamed: "batch.setup"];
-  [ObjectLoader load: heatbugModelSwarm
-                fromAppDataFileNamed: "experiment.setup"];
+  // `modelSwarm' is the key in `heatbugs.scm' which contains the
+  // instance variables for the HeatbugModelSwarm class, such as
+  // numBugs etc.
+
+  if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self 
+                                            object: "modelSwarm"]) == nil)
+    raiseEvent(InvalidOperation, 
+               "Can't find the parameters to create modelSwarm");
 
   // Now, let the model swarm build its objects.
   [heatbugModelSwarm buildObjects];
