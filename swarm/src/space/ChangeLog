@@ -1,6 +1,12 @@
+1999-04-26  Alex Lancaster  <alex@santafe.edu>
+
+	* Discrete2d.m ([Discrete2d -setUseObjects]): Make option
+	exclusive with `useValues'.
+	([Discrete2d -setUseValues]): Likewise with `useObjects'.
+
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Discrete2d.m ([Discrete -lispOutDeep:]): Remove strdup of buf.
+	* Discrete2d.m ([Discrete2d -lispOutDeep:]): Remove strdup of buf.
 
 1999-04-25  Alex Lancaster  <alex@santafe.edu>
 
@@ -34,7 +40,7 @@
 
 1999-03-19  Alex Lancaster  <alex@santafe.edu>
 
-	* DblBuffer2d.m ([DblBuffer -drop]): Add method.  Free extra
+	* DblBuffer2d.m ([DblBuffer2d -drop]): Add method.  Free extra
 	memory used by the `newLattice' pointer, like Discrete2d.
 
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
@@ -73,7 +79,8 @@
 
 1999-02-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Discrete2d.[hm], space.h ([Discrete -setLattice:]): New method.
+	* Discrete2d.[hm], space.h ([Discrete2d -setLattice:]): New
+	method.
 
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

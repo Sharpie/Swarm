@@ -84,12 +84,14 @@ PHASE(Setting)
 
 - setUseObjects
 {
+  useValues = NO;
   useObjects = YES;
   return self;
 }
 
 - setUseValues
 {
+  useObjects = NO;
   useValues = YES;
   return self;
 }
