@@ -98,8 +98,8 @@ fi
 md_CHECK_DLL
 
 if test $USEDLL = yes; then
-  inst_LIBS=libswarmobjc.la
-  inst_LDFLAGS='-version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) -no-undefined -shrext .dll # -L$(dir $(shell $(CC) -print-libgcc-file-name))'
+  noinst_LIBS=libswarmobjc.la
+  inst_LDFLAGS=
 else
 	if test  x$ONELIB = xyes; then
 	  noinst_LIBS=libswarmobjc.la
