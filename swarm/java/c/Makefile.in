@@ -12,13 +12,14 @@ LIBTOOL=@LIBTOOL@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 libdir=@libdir@
+includedir=@includedir@
 LIBS=@LIBS@
 
 javaprefix=@javaprefix@
 javaincludedir=$(javaprefix)/include
 JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
-CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES)
+CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(includedir)
 # Solaris JNI headers have some pragmas
 OBJCFLAGS=@OBJCFLAGS@  -Wno-unknown-pragmas
 LDFLAGS=@LDFLAGS@

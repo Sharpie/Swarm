@@ -1,3 +1,8 @@
+1999-03-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (includedir): Substitute.
+	(CPPFLAGS): Add -I$(includedir).
+
 1999-03-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (libjavaswarm.la): Missing object list.
