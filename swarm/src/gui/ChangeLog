@@ -1,3 +1,8 @@
+2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* gui.h (Graph, Histogram): Make setTitle have object return
+	because there is an analysis method in creating phase.
+
 2001-03-13  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* gui.h: Add setSymbolSize: to GraphElement.

@@ -267,7 +267,7 @@ USING
 CREATING
 USING
 //M: Set the title for the graph.
-- (void)setTitle: (const char *)title;
+- setTitle: (const char *)title; // other modules are creating-phase
 //M: Set the axis labels for the graph.
 - (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 //M: Builds a new GraphElement to plot data with.
@@ -304,7 +304,7 @@ USING
 - (void)setLabels: (const char * const *)l count: (unsigned)labelCount;
 
 //M: Set the title of the histogram.
-- (void)setTitle: (const char *)title;
+- setTitle: (const char *)title; // other modules are creating-phase
 
 //M: Set the width of the bars.
 - (void)setBarWidth: (double)step;
