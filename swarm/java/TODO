@@ -3,3 +3,5 @@ Call cleanup (e.g. String conversions)
   - do something with Java allocated things in FArguments (string conversions)
 
 Java-side (return) proxies
+
+Using constructors
