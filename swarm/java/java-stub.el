@@ -554,7 +554,7 @@
 (defun java-argument-empty-p (argument)
   (null (third argument)))
 
-(defun java-argument-print-conversion (argument)
+(defun java-argument-print-conversion (argument pos)
   (let ((type (cadr argument))
         (jni-type (java-argument-convert argument #'java-type-to-native-type))
         (argname (third argument)))
@@ -564,9 +564,9 @@
                (insert argname)
                (insert ")"))
               ((string= jni-type "jstring")
-               (insert "((*env)->GetStringUTFChars) (env, ")
-               (insert argname)
-               (insert ", JNI_FALSE)"))
+               (insert "strings[")
+               (insert (format "%u" pos))
+               (insert "]"))
               ((string= jni-type "jobject")
                (insert "JFINDOBJC (env, ")
                (insert argname)
@@ -593,15 +593,16 @@
     (insert (first (car arguments)))
     (unless (java-argument-empty-p (car arguments))
       (insert ": ")
-      (java-argument-print-conversion (car arguments))
+      (java-argument-print-conversion (car arguments) 0)
       (loop for argument in (cdr arguments)
             for key = (first argument)
+            for pos from 1
             when key do 
             (insert " ")
             (insert key)
             end
             do (insert ": ")
-            (java-argument-print-conversion argument))))
+            (java-argument-print-conversion argument pos))))
   (insert "]"))
 
 (defun java-print-native-method-name (arguments)
@@ -618,9 +619,12 @@
            (insert-char ?\  30)
            (insert arg)))
     (let* ((arguments (method-arguments method))
-           (first-argument (car arguments)))
-      (insert (java-type-to-native-type (java-objc-to-java-type 
-                                         (method-return-type method))))
+           (first-argument (car arguments))
+           (strings nil)
+           (ret-type 
+            (java-type-to-native-type (java-objc-to-java-type 
+                                       (method-return-type method)))))
+      (insert ret-type)
       (insert "\n")
       (insert "Java_swarm_")
       (insert (module-name (protocol-module protocol)))
@@ -642,14 +646,32 @@
         (loop for argument in arguments
               do
               (insert ",\n")
-              (insert-arg
-               (java-argument-convert argument #'java-type-to-native-type))
+              (let ((native-type (java-argument-convert argument #'java-type-to-native-type)))
+                (insert-arg native-type)
+                (when (string= native-type "jstring")
+                  (push (third argument) strings)))
               (insert " ")
               (insert (third argument))))
       (insert ")\n")
       (insert "{\n")
-      (insert "  return ")
-      
+      (if strings
+          (progn
+            (insert "  jstring strings[] = { COPYSTRING (env, ")
+            (insert (first strings))
+            (insert ")")
+            (loop for string in (cdr strings)
+                  do
+                  (insert ",\n")
+                  (insert "                        COPYSTRING (env, ")
+                  (insert string)
+              (insert ")"))
+            (if (cdr strings) (insert "\n  ") (insert " "))
+            (insert "};\n")
+            (insert "  ")
+            (unless (string= ret-type "void")
+              (insert ret-type)
+              (insert " ret = ")))
+          (insert "  return "))
       (let* ((signature (get-method-signature method))
              (java-return (java-objc-to-java-type (method-return-type method)))
              (wrapped-flag 
@@ -673,6 +695,10 @@
         (java-print-method-invocation protocol method)
         (when wrapped-flag (insert ")")))
       (insert ";\n")
+      (when strings
+        (insert "  CLEANUPSTRINGS (env, strings);\n")
+        (unless (string= ret-type "void")
+          (insert "  return ret;\n")))
       (insert "}\n"))))
 
 (defun java-print-native-class (protocol)

@@ -1,3 +1,16 @@
+1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-argument-print-conversion): Add position
+	argument and use it to offset new C variable strings.
+	(java-print-method-invocation): Increment position in sync with
+	arguments, pass to java-argument-print-conversion.
+	(java-print-native-method): Accumulate arguments that are jstrings
+	to strings.  If there are any, do a more complex call that
+	initializes the C `strings' array and fills it with copies of the
+	jstring arguments.  If there is a non-void return type, set a
+	return variable, and then cleans up returning the return variable.
+	If there are no jstring arguments, the call remains as it was.
+
 1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-methods*): -getRetVal:buf: instead of
