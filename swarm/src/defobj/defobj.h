@@ -1245,23 +1245,22 @@ USING
 //M: pre-existing interited values of variables are not obliterated 
 //M: by bogus saved values.
 
-//M:- (void)lispOutDeep: stream
-//M:{
-//M:  [stream catStartMakeInstance: "BFagent"];
-//M:  [self lispSaveStream: stream Double: "demand" Value: demand];
-//M:  [self lispSaveStream: stream Double: "profit" Value: profit];
-//M:  [self lispSaveStream: stream Double: "wealth" Value: wealth];
-//M:  [self lispSaveStream: stream Double: "position" Value: position];
-//M:  [self lispSaveStream: stream Double: "cash" Value: cash];
-//M:  [self lispSaveStream: stream Double: "price" Value: price];
-//M:  [self lispSaveStream: stream Double: "dividend" Value: dividend];
-//M:  [self lispSaveStream: stream Integer: "myID" Value: myID];
-//M:  [stream catEndMakeInstance];
-//M:
-//M:}
-//M: An example of such a usage can be found in version 2.4 of the
-//M: Artificial Stock Market (http://ArtStkMkt.sourceforge.net). 
-
+//E: - (void)lispOutDeep: stream
+//E: {
+//E:  [stream catStartMakeInstance: "BFagent"];
+//E:  [self lispSaveStream: stream Double: "demand" Value: demand];
+//E:  [self lispSaveStream: stream Double: "profit" Value: profit];
+//E:  [self lispSaveStream: stream Double: "wealth" Value: wealth];
+//E:  [self lispSaveStream: stream Double: "position" Value: position];
+//E:  [self lispSaveStream: stream Double: "cash" Value: cash];
+//E:  [self lispSaveStream: stream Double: "price" Value: price];
+//E:  [self lispSaveStream: stream Double: "dividend" Value: dividend];
+//E:  [self lispSaveStream: stream Integer: "myID" Value: myID];
+//E:  [stream catEndMakeInstance];
+//E:
+//E: }
+//E: An example of such a usage can be found in version 2.4 of the
+//E: Artificial Stock Market (http://ArtStkMkt.sourceforge.net). 
 - (void)lispSaveStream: stream Boolean: (const char *)aName Value: (int)val;
 
 //M: On the given stream, save a character variable called "aName"
@@ -1320,17 +1319,17 @@ USING
 //M: dynamically allocated array of numDims integers, so rank is 1 and
 //M: a pointer to numDims is passed through for the length of that row.
 
-//M: - (void)lispOutDeep: stream
-//M: {
-//M:  [stream catStartMakeInstance: "Attribute"];
-//M:  [super lispOutVars: stream deep: NO]; //saves all ints, doubles, BOOLs, and static arrays. Saves the values of all other objects as nil
-//M:  // Note one can use the previous "lispSaveStream:..." methods to
-//M:  // customize the choice of variables to be saved.
-//M:  // Now save an array called "culture", which has 1 row 
-//M:  // and "numDims" columns, onto the stream.
-//M:  [super lispStoreIntegerArray: culture Keyword: "culture" Rank: 1 Dims: &numDims Stream: stream];
-//M:  [stream catEndMakeInstance];
-//M: }
+//E: - (void)lispOutDeep: stream
+//E: {
+//E:  [stream catStartMakeInstance: "Attribute"];
+//E:  [super lispOutVars: stream deep: NO]; //saves all ints, doubles, BOOLs, and static arrays. Saves the values of all other objects as nil
+//E:  // Note one can use the previous "lispSaveStream:..." methods to
+//E:  // customize the choice of variables to be saved.
+//E:  // Now save an array called "culture", which has 1 row 
+//E:  // and "numDims" columns, onto the stream.
+//E:  [super lispStoreIntegerArray: culture Keyword: "culture" Rank: 1 Dims: &numDims Stream: stream];
+//E:  [stream catEndMakeInstance];
+//E: }
 - (void)lispStoreIntegerArray: (int *)ptr Keyword: (const char *)keyword Rank: (unsigned)rank Dims: (unsigned *)dims Stream: stream;
 
 //M: Lisp save array of Booleans, see lispStoreIntegerArray:Keyword:Rank:Dims.

@@ -1,10 +1,17 @@
+2003-09-03  Alex Lancaster  <alex@swarm.org>
+
+	* defobj.h: Use '//E:' syntax instead of '//M:' to tag examples
+	which are intended to be inline elements of code.  In this way
+	ampersands which cause problems for the XML DocBook backend are
+	escaped properly.
+
 2003-08-11  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
 
 	* HDF5Object.m (suppress_messages): adjust this function to
 	use macros as per advice in HDF5's header file H5Epublic.h.
 	This applies for HDF5-1.4.5 and 1.6.0 and after (AFAIK).
 
-2003-05-10    <pauljohn@localhost.localdomain>
+2003-05-10  Paul E. Johnson  <pauljohn@ku.edu>
 
 	* defobj.h: inserted headers and explanation for all methods listed 
 	in next entries.
