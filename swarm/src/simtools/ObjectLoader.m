@@ -34,7 +34,8 @@
   return self ;
 }
 
-+load: anObject fromFileNamed: (char *) aFileName {
++load: anObject fromFileNamed: (const char *)aFileName
+{
   id anObj ;
   id aFileObject ;
 

@@ -44,7 +44,8 @@
   return self ;
 }
 
-+save: anObject toFileNamed: (char *) aFileName {
++save: anObject toFileNamed: (const char *)aFileName
+ {
   id anObj ;
   id aFileObject ;
 
@@ -62,7 +63,8 @@
   return self ;
 }
 
-+save: anObject toFileNamed: (char *) aFileName withTemplate: aProbeMap {
++save: anObject toFileNamed: (const char *)aFileName withTemplate: aProbeMap
+{
   id anObj ;
   id aFileObject ;
 

@@ -146,7 +146,7 @@ empty (const char *str)
 - dynamic
 {
   int i;
-  char *test, *result_string;
+  const char *test, *result_string;
   
   for (i = 0; i < (argNum / 2); i++)
     {
@@ -188,7 +188,7 @@ empty (const char *str)
       tkobjc_disabledState (result);
     }
   
-  free (result_string);  
+  free ((void *)result_string);  
   [probeDisplayManager update];
   return self;
 }
@@ -206,7 +206,7 @@ empty (const char *str)
 - argSpawn: (int) which
 {
   id arg_obj;
-  char *id_name;
+  const char *id_name;
   
   id_name = [myProbe getArg: which];
   

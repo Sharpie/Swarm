@@ -109,7 +109,7 @@
   topRow = [Frame createParent: self];
 
   myTitle  = [Label createParent: topRow];
-  [myTitle setText: (char *)theClass->name];
+  [myTitle setText: theClass->name];
 
   tkobjc_setAnchorWest (myTitle);
   tkobjc_setColorBlue (myTitle);
