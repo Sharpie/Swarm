@@ -2,26 +2,919 @@
 
   <SIDEBAR>
     <TITLE>Overview</TITLE>
-    <PARA>Description of purpose of library</PARA>
+ 
+    <PARA>First, a few thoughts on pseudorandom number
+      generation. It's hard to do right. There are many problems: the
+      root cause, of course, is that computer algorithms themselves
+      are not random. But there are also problems with defining
+      "random", coming up with good tests for generators, and
+      implementing algorithms correctly and efficiently. The history
+      of pseudorandom number generation in simulation work is mostly
+      embarassing. This library attempts to do a decent job of
+      generating random numbers, as well as documenting how things
+      work and what shortcomings there are. If you want to learn more
+      about random number generation, the bibliography [See:
+      <LITERAL>$(SWARMHOME)/src/random/docs/SOURCES.for.0.7]</LITERAL> has
+      useful notes. Knuth is the main reference in this realm, but too
+      old to describe most of the particular generators used here.
+    </PARA>
+
   </SIDEBAR>
 
   <SECT1 ID="SWARM.SRC.RANDOM.DEPEND">
     <TITLE>Dependencies</TITLE> 
-    <PARA>No other library dependences</PARA>
+
+    <PARA>Following are the other header files imported by
+    &lt;random.h&gt;:</PARA>
+
+<PROGRAMLISTING>
+#import &lt;defobj.h&gt;
+#import &lt;random/generators.h&gt;
+#import &lt;random/distributions.h&gt;
+#import &lt;random/RandomDefs.h&gt;
+#import &lt;random/RandomVars.h&gt;</PROGRAMLISTING>
+
+    <PARA>The <EMPHASIS>defobj</EMPHASIS> library interface is
+      included to provide the basic object
+      support. <LITERAL>RandomDefs.h</LITERAL> contains some C
+      preprocessor macros and typedefs used in the library.</PARA>
+
+    <PARA>This reference guide shows contains the object definitions
+      for generators and distributions and also encodes the
+      inheritance structure through the "Protocols that this protocol
+      uses" section of each protocol. 
+
+      <!-- The complete set of methods implemented by these objects
+      have been subdivided into sub-protocols of methods that belong
+      together logically. -->
+
+      Just click on a (sub-)protocol name to see what methods it
+      implements. (You may want to review the section on Protocols in
+      the Objective-C book here!)
+
+    </PARA>
+
+    <para>In the protocol described , any protocol that ultimately
+      inherits from CREATABLE defines an object that you can use in
+      your program. (This is part of the Swarm DefObj machinery.) In
+      other words, while 'InternalState' is a normal protocol (a list
+      of method definitions), the name 'ACGgen' refers to both a
+      protocol and a class that implements that protocol. (You create
+      an ACG generator by saying myGen = [ACGgen create:
+      ....]). Similarly, 'GammaDist' defines both a protocol and a
+      class that implements that protocol.</para>
+
+    <para>All generators and distributions ultimately inherit from
+      SwarmObject.</para>
+      
+      <PARA>The two files 'methods.SimpleGenerators.h' and
+      'methods.SplitGenerators.h' in directory /random/docs show
+      the complete sets of methods implemented for the two most
+      common types of generator.
+    </PARA>
+    
   </SECT1>
 
   <SECT1 ID="SWARM.SRC.RANDOM.COMPAT">
     <TITLE>Compatibility</TITLE>
 
-    <PARA>No explicit compatibility issues for particular versions of
-    Swarm</PARA>
-
+    <ITEMIZEDLIST>
+      <LISTITEM>
+        
+        <FORMALPARA>
+          <TITLE>1.0.2 -&gt; 1.0.3</TITLE>
+          
+          <PARA><EMPHASIS>Note:</EMPHASIS> The new random library does
+            not work in the same way as the old one. This means that
+            some applications that used the random library provided
+            with the 1.0.2 release will be
+            <EMPHASIS>broken</EMPHASIS>.  However, porting these
+            applications to the new random library will be fairly easy
+            since large efforts were made to adhere to the standard
+            set with the last version and some backwards compatibility
+            hooks were incorporated.
+          </PARA>
+        </FORMALPARA>
+      </LISTITEM>
+    </ITEMIZEDLIST>
+    
   </SECT1>
 
   <SECT1 ID="SWARM.SRC.RANDOM.USAGE">
     <TITLE>Usage Guide</TITLE>
+    
+    <SECT2>
+      <TITLE>Overview</TITLE>
 
-    <PARA>Unavailable</PARA>
+      <PARA>The <EMPHASIS>random</EMPHASIS> library basically consists
+        of two parts, the actual pseudorandom number algorithms and
+        the transformations that change the output of the pseudorandom
+        number algorithms into the simulated distributions.  The
+        pseudorandom number algorithms are called
+        <EMPHASIS>generators</EMPHASIS> throughout these documents and
+        many times the "pseudo" is dropped from pseudorandom, even
+        though there is no true random number generator implemented in
+        Swarm.
+      </PARA>
+
+    </SECT2>
+
+    <SECT2>
+
+      <TITLE>Generator Usage Notes</TITLE>
+      
+      <SIMPLELIST>
+        <MEMBER>Primary Author: Sven Thommsen</MEMBER>
+        <MEMBER><EMAIL>sthomme@humsci.auburn.edu</EMAIL></MEMBER>
+        <MEMBER>Notes on the use of the random number generator</MEMBER>
+        <MEMBER>Swarm 1.0.3 (random 0.75)</MEMBER>
+        <MEMBER>1997-09-01</MEMBER>
+      </SIMPLELIST>
+
+      <SIDEBAR>
+
+<LITERALLAYOUT>
+IMPROVEMENTS over v. 0.6:
+
+A host of new generators, located on the web or in the literature, have
+been added since the last version of Random. There is now a total of 36
+different generators defined! Some of these have immense periods, some
+are very fast, and some have much better statistical properties than 
+the old generators.
+
+A new *type* of generator, the 'split' generator, has been introduced
+in the form of L'Ecuyer's C2LCGXgen and C4LCGXgen generators.
+
+A 'split' generator is a long-period generator for which we are able to
+split the period into arbitrary sub-periods, which we can access quickly.
+We then configure the generator as having a number (A) of 'virtual generators',
+each of which can address a number (2^v) of sub-segments of length 2^w.
+These parameters (A,v,w) are user selectable when the generator is created.
+(As an example, for C4LCGXgen the default values are A=128, v=31, w=41.)
+The advantage is that the subsegments act as statistically independent
+streams of random numbers.
+
+In addition to the -getUnsignedSample method, generators now also supply
+floating point output in the range [0.0,1.0), in the form of these methods:
+
+   -(float)       getFloatSample;		// using 1 unsigned value
+   -(double)      getThinDoubleSample;		// using 1 unsigned value
+   -(double)      getDoubleSample;		// using 2 unsigned values
+   -(long double) getLongDoubleSample;		// using 2 unsigned values
+
+The last method is not portable across architectures, since the length of a
+long double varies between machines.
+
+Generators may now be started with a single seed, *or* with a vector of seeds
+whose length is generator dependent. (PMMLCG requires 1 integer for a
+seed, while MT19937 needs 624 of them.)
+
+Generators now remember what seed values they were started with. They also
+count how many variates they have delivered (i.e., how many calls to
+-getUnsignedSample they have serviced.)
+
+There are a few arbitrary seed values, DEFAULTSEED, DEFAULTSEED1, DEFAULTSEED2,
+DEFAULTSEED3, DEFAULTSEED4 defined. There is the value RANDOMSEED, which will
+be different every time it is invoked. And there is value STARTSEED, which will
+by default equal DEFAULTSEED, but will instead be equal to RANDOMSEED if you 
+start your program with the '-varySeed' command line parameter.
+
+The generators have gained a new creation method, '+createWithDefaults: aZone',
+which creates the generator and initializes it with STARTSEED. Split 
+generators get default values for A,v,w.
+
+
+CHANGES since v. 0.6:
+
+The generator classes have changed names to where they all end in '-gen'.
+A simple search-and-replace in your code will get you up and running again.
+
+(Or perhaps you'll want to try one of the new generators?)
+
+A bug in SWBgen was corrected. Code for ACG and SCG was also changed.
+
+The -verifySelf method is gone. Instead see the test program located in
+/random/testR0.
+
+The 'getState:' method has been named 'putStateInto: (void *) buffer',
+and the 'setState:' method is now 'setStateFrom: (void *) buffer'.
+A quick search-and-replace fixes things in your code.
+
+Note: these methods have also changed somewhat, as has the size of the
+data being saved. As a result, v. 0.7 generators will refuse to
+'setStateFrom' data saved by v. 0.6 objects.
+
+There should be fewer changes like this in the next release.
+
+
+USAGE notes:
+------------
+
+I shall first discuss 'simple' generators, and then discuss how 'split'
+generators differ from 'simple' ones.
+
+In the following text, wherever I use PSWBgen as an example you may
+substitute any other generator.
+
+Note: any name that starts with 'my' is meant to designate a variable
+which you have defined in your own program.
+
+
+SIMPLE generators:
+------------------
+
+You create a generator in one of 3 ways:
+
+(a) the lazy way:
+
+   myGenerator = [ PSWBgen createWithDefaults: [self getZone] ];
+
+This allocates the object and initializes it with STARTSEED.
+
+
+(b) using a single seed value:
+
+   myGenerator = [ PSWBgen create: [self getZone] 
+			setStateFromSeed: mySeed ];
+
+This allocates the object and initializes it with your seed value. If the 
+object actually requires a vector of seed values to fill the state, this 
+method generates the rest of the values needed using an inline PMMLCG 
+generator.
+
+You can find out later what seed value was used to initialize the generator:
+
+   myUnsigned = [ myGenerator getInitialSeed ];
+
+And you can find out what the largest valid seed value is by calling
+
+   myUnsigned = [ myGenerator getMaxSeedValue ];
+
+(For the generators defined in v. 0.7, this value is 2^32-1 for all of them.
+The seed may not be 0.)
+
+You may reset the generator's state at any time using this method:
+
+   [ myGenerator setStateFromSeed: mySeedValue ];
+
+
+(c) using a vector of seed values:
+
+Assume we have defined a fixed array at compile time:
+   unsigned int mySeedVector [vectorLength];
+
+Then we can do this:
+
+   myGenerator = [ PSWBgen create: [self getZone]
+			setStateFromSeeds: mySeedVector ];
+
+You can find out how many seed values are required by asking
+
+   myUnsigned = [ myGenerator lengthOfSeedVector ];
+
+(Obviously, you must first successfully have created the object to do this,
+for example using createWithDefaults!)
+
+And we allocate the seed vector dynamically this way:
+
+   unsigned int *mySeedVector;
+   mySeedVector = [[self getZone] alloc: [ myGenerator lengthOfSeedVector]];
+
+You can find out what vector of seed values was used to initialize the object:
+
+   unsigned int *myVector;
+   myVector = [ myGenerator getInitialSeeds ];
+
+And you can find out the largest seed values that are allowed for the
+particular generator:
+
+   myVector = [ myGenerator getMaxSeedValues ];
+
+(These values vary from generator to generator, and they may not be the same
+for all elements of the vector for a given generator. Seeds may not be 0.)
+
+NOTE: in the above two calls, the variable myVector is set to point to an 
+array internal to the generator. If you want to preserve the values, you 
+need to allocate space in your program either statically or dynamically, 
+and use a for-loop to copy data from myVector[i] to myAllocatedVector[i].
+
+You may reset the generator's state at any time by using the method
+
+   [ myGenerator setStateFromSeeds: (unsigned *) mySeedVector ];
+
+This will also reset to 0 the currentCount variable.
+
+
+NOTE: if you set a generator's state from a vector of seeds, the call
+
+   myUnsignedValue = [ myGenerator getInitialSeed ];
+
+will return a value of 0 (an invalid seed). On the other hand, if you
+initialize the generator with a single seed value, the call
+
+   mySeedVector = [ myGenerator getInitialSeeds ];
+
+will return the seed vector that would produce identical output to what
+you obtained using the single seed.
+
+
+(d) antithetic values:
+
+You can make the generator serve up antithetic values by setting:
+
+   [ myGenerator setAntithetic: myBooleanValue ];
+
+If set, this makes -getUnsignedSample return (unsignedMax-x) instead of x,
+and the floating point methods return (1.0 - y) instead of y.
+
+You can ascertain if this flag is set by calling
+
+   myBooleanValue = [ myGenerator getAntithetic ];
+
+
+(e) generator output:
+
+You obtain successive pseudorandom numbers from a generator by calling
+
+   myUnsignedValue = [ myGenerator getUnsignedSample ];
+
+The largest value thus returned can be found by asking
+
+   myUnsignedValue = [ myGenerator getUnsignedMax ];
+
+(The smallest value returned is always 0.)
+
+If you would rather have floating point output in the range [0.0,1.0),
+you call one of these:
+
+// Using 1 unsigned value to fill the mantissa:
+
+   myFloatValue  = [ myGenerator getFloatSample ];
+   myDoubleValue = [ myGenerator getThinDoubleSample ];
+
+// Using 2 unsigned values to fill the mantissa:
+
+   myDoubleValue     = [ myGenerator getDoubleSample ];
+   myLongDoubleValue = [ myGenerator getLongDoubleSample ];
+
+NOTE that the last method is not portable, because the size of a long double
+varies and hence the precision varies between architectures.
+
+Finally, you can obtain a count of how many variates have been generated:
+
+   myLongLongInt = [ myGenerator getCurrentCount ];
+
+(currentCount is an unsigned long long int, which counts up to 2^64.)
+
+
+SPLIT generators:
+-----------------
+
+A 'split' generator requires us to specify the configuration (A,v,w)
+at create time:
+
+   myGenerator = [ C4LCGXgen create: [self getZone]
+			setA: 64 setv: 20 setw: 76 
+			setStateFromSeed: mySeedValue ];
+
+   myGenerator = [ C4LCGXgen create: [self getZone]
+			setA: 32 setv: 25 setw: 60
+			setStateFromSeeds: (unsigned *) mySeedVector ];
+
+(In both cases, the only limitation is that A * 2^v * 2^w must be less than
+the generator's period, 2^60 for C2LCGX and 2^120 for C4LCGX.)
+
+For obtaining output, we need to specify which of the A 'virtual' generators
+we want to draw from:
+
+   myUnsignedValue = [ myGenerator getUnsignedSample: 12 ];
+   myFloatValue    = [ myGenerator getFloatSample: myVirtualGenerator ];
+   myDoubleValue   = [ myGenerator getThinDoubleSample: someUnsignedValue ];
+   myDoubleValue   = [ myGenerator getDoubleSample: 32 ];
+   myLongDoubleValue = [ myGenerator getLongDoubleSample: 0 ];
+
+Note: virtual generators are numbered from 0 to A-1.
+
+Obtaining the current count of variates generated likewise:
+
+   myLongLongInt = [ myGenerator getCurrentCount: myVirtualGenerator ];
+   myLongLongInt = [ myGenerator getCurrentSegment: myVirtualGenerator ];
+
+The latter call indicates what segment number the virtual generator is
+currently drawing numbers from.
+
+Other than these methods, the other methods discussed above under 'simple'
+generators are the same for 'split' generators.
+
+In *addition* to this, 'split' generators have the following methods to 
+manage the virtual generators:
+
+   // Place all virtual generators at the start of the first segment:
+   [ myGenerator initAll ];	// done automatically at creation
+
+   // Place all virtual generators back to the start of the current segment:
+   [ myGenerator restartAll ];
+
+   // Place all virtual generators at the start of the next segment:
+   [ myGenerator advanceAll ];
+
+   // Place all virtual generators at the start of the indicated segment:
+   [ myGenerator jumpAllToSegment: myLongLongIntValue ];
+
+You may also address individual virtual generators:
+
+   [ myGenerator initGenerator:    myVgen ];
+   [ myGenerator restartGenerator: myVgen ];
+   [ myGenerator advanceGenerator: myVgen ];
+   [ myGenerator jumpGenerator:    myVgen    toSegment: myLongLongIntValue ];
+
+
+
+InternalState methods common to simple and split generators:
+
+
+   // Print (most of) the object's state data to a stream:
+   [ myNormalDist describe: myStream ];
+
+The stream myStream may be created thus:
+id myStream = [ OutStream create: [self getZone] setFileStream: stdout ]; or
+id myStream = [ OutStream create: [self getZone] setFileStream: stderr ];
+
+   // Get the (class) name of the object:
+   myString = [ myNormalDist getName ];
+
+   // Get the object's 'magic number', used by putStateInto / setStateFrom:
+   myUnsigned = [ myNormalDist getMagic ];
+
+
+SAVING AND RESETTING STATE:
+
+You may save, and later restore, the internal state of a generator 
+using these methods:
+
+   // Get the size of the memory buffer needed by putStateInto / setStateFrom:
+   myUnsigned = [ myGenerator getStateSize ];
+
+   // Extract the generator's state data into your memory buffer:
+   [ myGenerator putStateInto: myBuffer ];
+
+   // Set the generator's state from data in a memory buffer:
+   [ myGenerator setStateFrom: myBuffer ];
+
+
+To illustrate, assume the following data definitions:
+
+   FILE *myFile;
+   const char *myFileName = "MyGenFile.bin"; // or whatever
+   int stateSizeG;
+   id stateBufG;
+   int status;
+
+The following code shows how to save an object's state to disk:
+(You should add your own code to deal with disk file errors,
+either aborting or printing out error messages.)
+
+   // Ask how big a buffer we need:
+   stateSizeG = [ myGenerator getStateSize ];
+
+   // Allocate memory for the buffer:
+   stateBufG  = [[self getZone] alloc: stateSizeG];
+
+   // Ask the generator to put state data into the buffer:
+   [ myGenerator putStateInto: (void *) stateBufG ];
+
+   // Open a disk file for output:
+   myFile = fopen(myFileName, "w");
+   if (myFile == NULL) { };	// error on open: disk full, or no permissions
+
+   // Write the state buffer to disk in binary form:
+   status = fwrite(stateBufG, stateSizeG, 1, myFile);
+   if (status < 1) { };		// error on write: disk full?
+
+   // Close the file
+   status = fclose(myFile);
+   if (status) { };		// error on close ?
+
+   // Free the memory allocated to the buffer:
+   [[self getZone] free: stateBufG];
+
+   // Or, for test purposes, just zero the buffer data instead:
+   // memset(stateBufG, 0, stateSizeG);
+
+
+This code shows how to set an object's state from a disk file:
+
+   // Ask how big a buffer we need:
+   stateSizeG = [ myGenerator getStateSize ];
+
+   // Allocate memory for the buffer:
+   stateBufG  = [[self getZone] alloc: stateSizeG];
+
+   // Open a disk file for input:
+   myFile = fopen(myFileName, "r");
+   if (myFile == NULL) { };	// error on open: file not found
+
+   // Read state data into the memory buffer:
+   status = fread(stateBufG, stateSizeG, 1, myFile);
+   if (status < 1) { };		// error on read
+
+   // Close the file:
+   status = fclose(myFile);
+   if (status) { };		// error on close
+
+   // Ask the generator set its state from the buffer data:
+   [ myGenerator setStateFrom: (void *) stateBufG ];
+
+   // Free the memory allocated to the buffer:
+   [[self getZone] free: stateBufG];
+
+
+TESTING GENERATORS:
+
+Since v. 0.6 we have done some rudimentary statistical testing of the 
+implemented generators, using Marsaglia's Diehard tests and the ENT tests.
+
+The results of these tests are summarized in document 
+/random/docs/doc.quality.generators, where test results as well as period 
+length, state size and execution times are listed. You can use these data to 
+select a generator that suits your simulation.
+
+Some brief comments: 
+
+a) the tests show that old generators SCG and LCG are of poor quality and 
+should be avoided.
+
+b) the lagged-Fibonacci based generators (ACG, SWB, PSWB) all fail Diehard's
+'Birthday spacings test', for reasons having to do with their lattice structure.
+These generators are only conditionally recommended.
+
+c) The rest of the 32-bit generators (i.e. generators that fill all 32 bits
+of an unsigned int) pass all tests, and are recommended at this time.
+
+(Note that while a test may show that a generator is bad, passing a number of
+tests does not prove that a generator is good!)
+
+d) The 31-bit generators all fail the same set of tests. Some of 
+these cannot be passed by a generator whose output has a 'stuck' bit. 
+Until I clear up with Prof. Marsaglia how to interpret these results, I
+believe all the 31-bit generators are in the 'recommended' category.
+
+However, a cautionary note: while the PMMLCG generators pass the tests,
+they have a very short period ( less than 2^31 ) and should only be used
+for 'toy' simulations. You don't want your generator(s) to 'go around' 
+and start repeating themselves !
+
+For what it's worth, Professor L'Ecuyer recommends his own C4LCGX and C2MRG3 
+generators as well as Matsumoto's TT800 (the monster MT19937 hadn't been
+released yet), and Prof. Marsaglia recommends his own Multiply-With-Carry
+generators (MWCA, MWCB, C3MWC, RWC2, RWC8="Mother").
+
+
+UTILITY OBJECTS PROVIDED:
+
+The following objects have been defined in &lt;random/random.m&gt;, and are
+immediately accessible from anywhere in your program:
+
+id &lt;MT19937&gt;             randomGenerator;
+id &lt;UniformIntegerDist&gt;   uniformIntRand;
+id &lt;UniformUnsignedDist&gt;  uniformUnsRand;
+id &lt;UniformDoubleDist&gt;    uniformDblRand;
+
+The 3 distribution objects all draw their random numbers from the MT19937
+generator, which has a period of 2^19937 (10^6001) and is quite fast.
+
+</LITERALLAYOUT>
+      </SIDEBAR>
+
+    </SECT2>
+
+    <SECT2>
+      <TITLE>Distribution Usage Note</TITLE>     
+
+      <SIMPLELIST>
+        <MEMBER>Primary Author: Sven Thommsen</MEMBER>
+        <MEMBER><EMAIL>sthomme@humsci.auburn.edu</EMAIL></MEMBER>
+        <MEMBER>Notes on the use of the distribution objects</MEMBER>
+        <MEMBER>Swarm 1.0 (random 0.6)</MEMBER>
+        <MEMBER>1997-09-01</MEMBER>
+      </SIMPLELIST>
+      <SIDEBAR>
+<LITERALLAYOUT>
+IMPROVEMENTS over v. 0.6:
+
+One new distribution class, BernoulliDist, has been added. It returns 
+binary values (yes/true/1) with a given probability (while the old
+RandomBitDist has a fixed 50% probability, a fair coin toss.)
+
+Distributions now have a new create method, '+createWithDefaults: aZone'.
+This method creates the distribution object, and also a new generator
+object for its exclusive use. Each distribution class has a different
+default generator class assigned. These generators are initialized with
+STARTSEED, which by default equals the fixed value DEFAULTSEED, but will
+be equal to the varying RANDOMSEED if you start your program with the
+command line parameter '-varySeed'.
+
+All distributions have code to interact with the new 'split' generators.
+
+UniformIntegerDist and UniformUnsignedDist now allow you to set parameter
+minValue equal to maxValue. In this case that value is returned every time.
+
+UniformDoubleDist also allows this, even if the set [x,x) is mathematically
+suspect ...
+
+NormalDist and LogNormalDist now allow you to specify zero Variance, in
+which case the values returned are the Mean and exp(Mean) respectively.
+
+
+CHANGES since v. 0.6:
+
+The distribution classes have changed names to where they all end
+in 'Dist'. A simple search-and-replace in your code will get you
+back up and running.
+
+The strong distinction between 'frozen' and 'un-frozen' distribution
+objects in v. 0.6 has been softened considerably. You may now set and
+reset the default parameters as often as you wish, and you may make
+calls for variates with given parameters even if different default
+parameters have been set.
+
+The generation of uniform(0,1) floating point values has been
+moved from the distribution objects into the generator objects.
+Thus, if all you need is a uniform(0,1) double, you have no need
+of a distribution but can get what you desire from a generator.
+
+Note that the generators fill the mantissa of a double from two
+32-bit unsigned values in a different manner from v. 0.6 distributions,
+so output will be a bit different in the new version.
+
+A bug in LogNormalDist has been fixed.
+
+The 'getState:' method has been named 'putStateInto: (void *) buffer',
+and the 'setState:' method is now 'setStateFrom: (void *) buffer. A quick
+search-and-replace fixes things in your code.
+
+But note: these methods have also changed somewhat, as has the size of
+the data being saved. As a result, v. 0.7 distributions will refuse to
+'setStateFrom' data saved by v. 0.6 objects.
+
+There should be fewer changes like this in the next release.
+
+
+USAGE notes:
+------------
+
+Each distribution object must be assigned a random generator
+on creation. You may not re-assign generators to a distribution after it
+has been created. You may, however, connect more than one distribution
+object to one generator, so that they end up drawing output from the
+generator in an interleaved fashion. Or you may create a new generator
+for each distribution object.
+
+Each distribution has its own set of (1-2) parameters. You may deal with 
+these parameters in two different ways: (1) you assign a set of default 
+parameter values to the object on creation, and draw from the distribution
+using those parameters. Or (2), you may refrain from assigning default 
+parameters, in which case you must specify the (possibly different) desired 
+parameters on each call. You can (re-)set the default parameters any time, 
+and you may call for a variate with specified parameter values even if 
+different default parameters have been set.
+
+Just like the generator objects, the distribution objects allow you to 
+save and later restore their internal state.
+
+
+Where I use NormalDistribution in examples below, substitute any other
+distribution and its parameters as needed.
+
+NOTE: any name that starts with 'my' is meant to designate a variable
+which you have defined in your own program.
+
+
+You create a distribution in one of several ways:
+
+(a) the lazy way:
+
+   myNormalDist = [ NormalDist createWithDefaults: [self getZone]];
+
+This method will create a distribution object with no default
+parameters set, as well as a fresh generator object connected to it. The
+generator object is initialized with STARTSEED (see the discussion above).
+Different distribution classes use different generators for this purpose.
+
+(b) Without default parameters, using a simple generator:
+
+   myNormalDist = [ NormalDist create: [self getZone]
+			setGenerator: mySimpleGenerator ];
+
+'myGenerator' must of course first have been set to point to a random
+generator of the 'simple' type. Note that you cannot assign a different 
+generator to a distribution after it has been created.
+
+You can create the generator at the same time as the distribution:
+
+   myNormalDist = [ NormalDist create: [self getZone]
+		setGenerator: [TT800gen create: [self getZone] 
+				setStateFromSeed: 34453]         ];
+
+(c) Without default parameters, using a split generator:
+
+   myNormalDist = [ NormalDist create: [self getZone]
+			setGenerator: mySplitGenerator
+			setVirtualGenerator: 7 ];
+
+or perhaps
+
+   myNormalDist = [ NormalDist create: [self getZone]
+		setGenerator: [C4LCGXgen createWithDefaults: [self getZone]]
+			setVirtualGenerator: 99 ];
+
+A split generator can be thought of as comprising a set of virtual 
+generators (streams of random numbers), and a distribution object must be
+'connected' to one of these streams. You cannot re-assign the generator
+or the virtual generator after a distribution object has been created.
+
+In all these cases (a) - (c), when we want to obtain a random variate from
+this distribution object we need to specify the parameters:
+
+   myDouble = [ myNormalDist getSampleWithMean: 3.3 withVariance: 1.7];
+
+You can use different parameters for every call. (And you can use this call
+even if default parameters have been set.)
+
+
+(d) With default parameters, using a simple generator:
+
+   myNormalDist = [ NormalDist create: [self getZone]
+			setGenerator: mySimpleGenerator
+			setMean: 7.6 setVariance: 1.2 ];
+
+(e) With default parameters, using a split generator:
+
+   myNormalDist = [ NormalDist create: [self getZone]
+			setGenerator: mySplitGenerator
+			setVirtualGenerator: 33
+			setMean: 3.2 setVariance: 2.1 ];
+
+In these cases, we do not need to specify parameters to get a random number:
+
+   myDouble = [ myNormalDist getDoubleSample ];
+
+However, you *are* allowed to specify parameters even if default parameters
+have been set.
+
+( Of course, different distributions have different parameters: RandomBitDist
+has none, the Uniform objects have minimum and maximum limit values, NormalDist
+and LogNormalDist use Mean and Variance, ExponentialDist only Mean, and
+GammaDist used alpha and beta. See the file random/distributions.h for the
+specific methods available. )
+
+
+(f) You may reset the default parameters this way, as often as you like:
+
+   [ myNormalDist setMean: 3.3 setVariance: 2.2 ];
+
+
+(g) You can obtain the current values of parameters:
+
+   // Default parameters:
+   myDouble1 = [ myNormalDist getMean ];
+   myDouble2 = [ myNormalDist getVariance ];
+   myDouble3 = [ myNormalDist getStdDev ];
+
+   // Get a pointer to the generator object:
+   myOtherGenerator = [ myNormalDist getGenerator ];
+
+   // Get the number of the virtual generator (if a split generator is used):
+   myUnsignedValue  = [ myNormalDist getVirtualGenerator];
+
+   // Find out if default parameters have been set:
+   myBoolean        = [ myNormalDist getOptionsInitialized ];
+
+   // Find out how many variates the object has delivered so far:
+   // (The counter is an unsigned long long int, which goes up to 2^64.)
+   myLongLongInt    = [ myNormalDist getCurrentCount ];
+
+
+(h) You can reset the variate counter and other state variables this way:
+   [ myNormalDist reset ];
+
+   This is most likely done in conjunction with resetting the connected
+   generator, using [ myGenerator setStateFromSeed: mySeedValue ];
+
+
+(i) Finally, we have the InternalState protocol methods:
+
+   // Print (most of) the object's state data to a stream:
+   [ myNormalDist describe: myStream ];
+
+The stream myStream may be created thus:
+id myStream = [ OutStream create: [self getZone] setFileStream: stdout ]; or
+id myStream = [ OutStream create: [self getZone] setFileStream: stderr ];
+
+   // Get the (class) name of the object:
+   myString = [ myNormalDist getName ];
+
+   // Get the object's 'magic number', used by putStateInto / setStateFrom:
+   myUnsigned = [ myNormalDist getMagic ];
+
+You may save, and later restore, the internal state of a distribution object
+using these methods:
+
+   // Get the size of the memory buffer needed by putStateInto / setStateFrom:
+   myUnsigned = [ myNormalDist getStateSize ];
+
+   // Extract the distribution's state data into your memory buffer:
+   [ myNormalDist putStateInto: myBuffer ];
+
+   // Set the distribution's state from data in a memory buffer:
+   [ myNormalDist setStateFrom: myBuffer ];
+
+
+To illustrate, assume the following data definitions:
+
+   FILE *myFile;
+   const char *myFileName = "MyDistFile.bin"; // or whatever
+   int stateSizeD;
+   id stateBufD;
+   int status;
+
+The following code shows how to save an object's state to disk:
+(You should add your own code to deal with disk file errors,
+either aborting or printing out error messages.)
+
+   // Ask how big a buffer we need:
+   stateSizeD = [ myNormalDist getStateSize ];
+
+   // Allocate memory for the buffer:
+   stateBufD  = [[self getZone] alloc: stateSizeD];
+
+   // Ask the distribution object to put state data into the buffer:
+   [ myNormalDist putStateInto: (void *) stateBufD ];
+
+   // Open a disk file for output:
+   myFile = fopen(myFileName, "w");
+   if (myFile == NULL) { };	// error on open: disk full, or no permissions
+
+   // Write the state buffer to disk in binary form:
+   status = fwrite(stateBufD, stateSizeD, 1, myFile);
+   if (status < 1) { };		// error on write: disk full?
+
+   // Close the file
+   status = fclose(myFile);
+   if (status) { };		// error on close ?
+
+   // Free the memory allocated to the buffer:
+   [[self getZone] free: stateBufD];
+
+   // Or, for test purposes, just zero the buffer data instead:
+   // memset(stateBufD, 0, stateSizeD);
+
+
+This code shows how to set an object's state from a disk file:
+
+   // Ask how big a buffer we need:
+   stateSizeD = [ myNormalDist getStateSize ];
+
+   // Allocate memory for the buffer:
+   stateBufD  = [[self getZone] alloc: stateSizeD];
+
+   // Open a disk file for input:
+   myFile = fopen(myFileName, "r");
+   if (myFile == NULL) { };	// error on open: file not found
+
+   // Read state data into the memory buffer:
+   status = fread(stateBufD, stateSizeD, 1, myFile);
+   if (status < 1) { };		// error on read
+
+   // Close the file:
+   status = fclose(myFile);
+   if (status) { };		// error on close
+
+   // Ask the distribution object to set its state from the buffer data:
+   [ myNormalDist setStateFrom: (void *) stateBufD ];
+
+   // Free the memory allocated to the buffer:
+   [[self getZone] free: stateBufD];
+
+
+
+UTILITY OBJECTS PROVIDED:
+
+The following objects have been defined in &lt;random/random.m&gt;, and are
+immediately accessible from anywhere in your program:
+
+id &lt;MT19937&gt;             randomGenerator;
+id &lt;UniformIntegerDist&gt;   uniformIntRand;
+id &lt;UniformUnsignedDist&gt;  uniformUnsRand;
+id &lt;UniformDoubleDist&gt;    uniformDblRand;
+
+The 3 distribution objects all draw their random numbers from the MT19937
+generator, which has a period of 2^19937 (10^6001) and is quite fast.
+
+</LITERALLAYOUT>
+
+      </SIDEBAR>
+    </SECT2>
 
   </SECT1>
 
@@ -42,20 +935,152 @@
   <SECT1 ID="SWARM.SRC.RANDOM.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
-    <PARA>Unavailable</PARA>
+    <PARA>Never has a Swarm library interface been debated as this one
+      was (and still is).  This document will attempt to provide some
+      of the rational for the decisions made by echoing some of the
+      controversial issues covered in the debates on the interface.
+      (These discussions overlapped into implementation.  But, the
+      point, here, is to give people an idea of the complexity of the
+      issues involved in useful pseudo-random number use in
+      simulation.)</PARA>
+
+    <FORMALPARA><TITLE>Issues:</TITLE>
+
+      <PARA><ITEMIZEDLIST> 
+
+          <LISTITEM><PARA>Different classes for generators or
+          variants?  Ref: 
+              
+              <ULINK URL="http://www.sela.co.il:8080/swtrain/new/shai/tgp.ps">
+                http://www.sela.co.il:8080/swtrain/new/shai/tgp.ps
+              </ULINK>.
+          
+            </PARA>
+
+          </LISTITEM>
+          
+          <LISTITEM><PARA>Include non-recommended
+              generators?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Seed vs. State for generators?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>What is "state" and how do we handle
+          it?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Larger issue of debugging support via an object
+            reporting its own configuration via a special method and
+            how this relates to object state reporting and object
+            saving.</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Separate classes for separate distribution
+            types (e.g.  double, integer, unsigned ::
+            continuous/discrete)?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Problems with the transformation from
+            generator output to distribution output.</PARA></LISTITEM>
+
+          <LISTITEM><PARA>What precision should be
+              supported?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Should the generator underlying a
+              distribution be visible through the
+              distribution?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Efficiency!</PARA></LISTITEM>
+
+          <LISTITEM><PARA>What distributions to provide?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>What generators to provide?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Open vs. Closed intervals?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Programmed default generators, seeds, and
+              states?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Programming by committee?  (a.k.a. Software
+              process!)</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Shorthand create methods?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Potential phase optimizations?</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Random number streams, syncing limit cycles, and
+            proper simulation vs. code debugging.  (This is a
+            <EMPHASIS>HOT ONE</EMPHASIS>.)</PARA></LISTITEM>
+
+          <LISTITEM><PARA>Library interchangeability.</PARA></LISTITEM>
+
+        </ITEMIZEDLIST>
+      </PARA>
+    </FORMALPARA>
+
+    <PARA>These are just the questions and issues.  Some addition
+      should follow (when there's time) addressing each issue and
+      giving rationale for what we chose.  But, that's a big
+      job.</PARA>
 
   </SECT1>
 
   <SECT1 ID="SWARM.SRC.RANDOM.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
-    <PARA>Unavailable</PARA>
+    <PARA>The code here represents an effort to implement several
+      efficient, reasonably safe generators. The algorithms come from
+      reading the literature [See:
+      <LITERAL>$(SWARMHOME)/src/random/docs/SOURCES.for.0.7]</LITERAL>:
+      these algorithms have been implemented as accurately as possible
+      and run through some simple tests.  There is always a chance
+      that some algorithm here is no good - there's also the chance
+      that it is implemented incorrectly.
+    </PARA>
+
+    <PARA>For best results, library users should test these generators
+      themselves in some domain-specific way. One easy way to do this
+      is to run an experiment twice: once with one class of generator
+      (say, PMMLCG), and once with another (say, SWB). If the results
+      differ radically, then you can suspect the generator.  If they
+      don't, well, the generator still might be faulty.</PARA>  <PARA></PARA>
+
+    <PARA>
+      There is also a tarball of test programs for the random number
+      library on the Swarm ftp site: 
+      
+      <ULINK URL="ftp://ftp2.santafe.edu/pub/swarm/RandomTests-0.7.tar.gz">
+        SwarmTests-0.7.tar.gz
+      </ULINK>
+
+    </PARA>
+
+    <PARA>The generators supplied with this release have been
+      subjected to statistical testing using George Marsaglia's
+      Diehard tests as well as John Walker's entropy tests (ENT).  The
+      results of these tests are summarized in the document
+      <LITERAL>$(SWARMHOME)/src/random/docs/doc.quality.generators</LITERAL>.
+      Other properties of the generators are summarized in
+      <LITERAL>$(SWARMHOME)/src/random/docs/generators.table</LITERAL>.
+      Some notes on how to choose a generator for your simulation are
+      found in
+      <LITERAL>$(SWARMHOME)/src/random/docs/CHOOSING.A.GENERATOR</LITERAL>.
+    </PARA>
+    
+    <PARA>The ENT test is included in the tarball of test programs
+      found at the Swarm web site. The Diehard tests are copyright and
+      hence are not, but they can be downloaded from the web at 
+
+      <ULINK URL="http://www.hku.hk/internet/randomCD.html">
+        http://www.hku.hk/internet/randomCD.html
+      </ULINK>.
+
+    </PARA>
+
+    <PARA>The distribution objects have not been statistically tested.</PARA>
+
   </SECT1>
 
 </PARTINTRO>
 
 <!--
 Local Variables:
-sgml-parent-document:("randcont.sgml" "PARTINTRO")
+sgml-parent-document:("randomcont.sgml" "PARTINTRO")
 End:
 -->
