@@ -90,17 +90,16 @@ PHASE(Using)
   int oldHeight = height;
 
   tkobjc_raster_savePixmap (self);
-
   width = newWidth;
   height = newHeight;
   tkobjc_raster_createPixmap (self);
-
   [super setWidth: width Height: height];
   [self erase];
-
   tkobjc_raster_copy (self, oldWidth, oldHeight);
+  tkobjc_raster_dropOldPixmap (self);
+  [self drawSelf];
 
-  return [self drawSelf];
+  return self;
 }
 
 // new methods

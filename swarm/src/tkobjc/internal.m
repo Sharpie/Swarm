@@ -819,16 +819,27 @@ tkobjc_raster_copy (Raster *raster, unsigned oldWidth, unsigned oldHeight)
   unsigned minHeight = raster->height < oldHeight ? raster->height : oldHeight;
 
 #ifndef _WIN32
-  Display *display = Tk_Display (private->tkwin);
-
-  XCopyArea (display, private->oldpm, private->pm, private->gc,
+  XCopyArea (Tk_Display (private->tkwin),
+             private->oldpm, private->pm, private->gc,
              0, 0, minWidth, minHeight, 0, 0);
-  XFreePixmap (display, private->oldpm);
 #else
   if (!dib_copy (private->oldpm, private->pm,
                  0, 0,
                  minWidth, minHeight))
     abort ();
+#endif
+}
+
+void
+tkobjc_raster_dropOldPixmap (Raster *raster)
+{
+  raster_private_t *private = raster->private;
+#ifndef _WIN32
+  Display *display = Tk_Display (private->tkwin);
+
+  XFreePixmap (display, private->oldpm);
+#else
+  dib_destroy (private->oldpm);
 #endif
 }
 

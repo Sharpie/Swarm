@@ -78,6 +78,7 @@ void tkobjc_raster_createContext (Raster *raster);
 void tkobjc_raster_setBackground (Raster *raster, PixelValue c);
 void tkobjc_raster_createPixmap (Raster *raster);
 void tkobjc_raster_savePixmap (Raster *raster);
+void tkobjc_raster_dropOldPixmap (Raster *raster);
 void tkobjc_raster_copy (Raster *raster, unsigned ow, unsigned oh);
 void tkobjc_raster_flush (Raster *raster);
 void tkobjc_pixmap_create (Pixmap *pixmap, png_bytep *row_pointers, 

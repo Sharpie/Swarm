@@ -1,5 +1,11 @@
 1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* internal.m (tkobjc_raster_copy): Don't free old pixmap (X11 case).
+
+	* internal.[hm] (tkobjc_raster_dropOldPixmap): New function.
+
+	* Raster.m ([Raster -setWidth:Height:]): Use it.
+
 	* internal.m (setSecondaryPath): Use share/ instead of ../library.
 	Swarm 1.4 Win32 layout will follow GNU conventions.
 
