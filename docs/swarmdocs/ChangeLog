@@ -1,7 +1,7 @@
 1998-06-13  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* print.dsl (example-title, example-entry-text, make-list, 
-	make-listitem): Ne wfunctions.
+	make-listitem): New functions.
 
 	* html.dsl (book): Redefine to run the lot generation
 	code (that is disabled in DocBook itself).
