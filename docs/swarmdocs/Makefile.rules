@@ -11,7 +11,7 @@ RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE)
 CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/catalog
 GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl
 
-.PHONY: fot tex dvi ps rtf html figs htmldist dvidist psdist rtfdist
+.PHONY: fot tex dvi ps rtf html htmldist dvidist psdist rtfdist
 
 COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
 
@@ -20,7 +20,9 @@ DISTNAME=$(NAME)-@VERSION@
 htmldir = $(prefix)/html/$(NAME)
 html_DATA = $(NAME).html
 
-dvi html ps rtf all: figs
+FIGS = figs/swarm.eps # for the timestamp
+
+$(DATA): $(FIGS)
 
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
@@ -48,7 +50,7 @@ rtfdist: rtf
 
 CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(ps_DATA) $(rtf_DATA) $(NAME).dvi
 
-figs:
+$(FIGS):
 	make -C $(top_builddir)/figs install figsdir=`pwd`/figs
 
 _$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT)

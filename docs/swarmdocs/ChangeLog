@@ -1,8 +1,13 @@
+1998-10-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.rules ($(DATA)): 
+
 1998-10-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.rules (_$(NAME).tex $(addprefix $(NAME),.fot .rtf), 
 	$(NAME).html, $(NAME).dvi): Don't depend on figs.
-	(dvi, html ps, rtf, all): Depend on figs.
+	($(DATA)): Depend on $(FIGS), which is figs/swarm.eps (for the 
+	timestamp).
 
 	* Makefile.am (html dvi rtf fot ps htmldist dvidist rtfdist
 	psdist): Don't depend on all. 
