@@ -1020,17 +1020,11 @@ PHASE(Using)
 //
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  printf ("currentSubactivity: %p [%s] topLevelAction: %p [%s]\n",
-          currentSubactivity,
-          currentSubactivity ? [currentSubactivity name] : "<nil>",
-          topLevelAction,
-          topLevelAction ? [topLevelAction name] : "<nil>");
   if (mergeAction)
     {
       mapalloc->descriptor = t_LeafObject;
       mapAlloc (mapalloc, mergeAction);
     }
-
   [super mapAllocations: mapalloc];
 }
 
