@@ -1,3 +1,7 @@
+2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
+
+	* avcall.m4:  Generated via aclocal from ffcall-1.10 sources.
+
 2004-08-03  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.in: Add x86-64.lo rule.

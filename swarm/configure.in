@@ -351,12 +351,12 @@ AC_SUBST(swarm_libdir)
 AC_SUBST(swarm_includedir)
 AC_SUBST(swarm_datadir)
 
-AC_DEFINE_UNQUOTED(PREFIX,"$prefix")
-AC_DEFINE_UNQUOTED(DATADIR,"$datadir")
-AC_DEFINE_UNQUOTED(SYSCONFDIR,"$sysconfdir")
-AC_DEFINE_UNQUOTED(INCLUDEDIR,"$includedir")
+AC_DEFINE_UNQUOTED(PREFIX,"$prefix",[toplevel directory for Swarm installation])
+AC_DEFINE_UNQUOTED(DATADIR,"$datadir",[directory for architecutre independent files])
+AC_DEFINE_UNQUOTED(SYSCONFDIR,"$sysconfdir",[directory for Swarm Makefile templates])
+AC_DEFINE_UNQUOTED(INCLUDEDIR,"$includedir",[directory for Swarm include files])
 if test -n "$includesubdir"; then
-AC_DEFINE_UNQUOTED(INCLUDESUBDIR,"$includesubdir")
+AC_DEFINE_UNQUOTED(INCLUDESUBDIR,"$includesubdir", [subdirectory for includes, if any])
 fi
 
 md_CHECK_PATH_SYNTAX

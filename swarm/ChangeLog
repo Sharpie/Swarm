@@ -1,3 +1,8 @@
+2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
+	
+	* configure.in (PREFIX, DATADIR, SYSCONFDIR, INCLUDEDIR, INCLUDESUBDIR):
+	Add documenting third argument to these AC_DEFINEs.
+
 2004-11-30  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* configure.in: autoconfiscate assembler wrapper on
