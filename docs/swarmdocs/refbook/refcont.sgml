@@ -11,6 +11,11 @@
 &defobjcont.sgml;
 &collectionscont.sgml;
 &activitycont.sgml;
+&objectbasecont.sgml;
+&simtoolscont.sgml;
+&simtoolsguicont.sgml;
+&guicont.sgml;
+&analysiscont.sgml;
 &spacecont.sgml;
 
 <!-- appendices -->

@@ -13,6 +13,21 @@
 <!entity % activity.entities system "activity/activity.ent">
 %activity.entities;
 
+<!entity % objectbase.entities system "objectbase/objectbase.ent">
+%objectbase.entities;
+
+<!entity % simtools.entities system "simtools/simtools.ent">
+%simtools.entities;
+
+<!entity % simtoolsgui.entities system "simtoolsgui/simtoolsgui.ent">
+%simtoolsgui.entities;
+
+<!entity % gui.entities system "gui/gui.ent">
+%gui.entities;
+
+<!entity % analysis.entities system "analysis/analysis.ent">
+%analysis.entities;
+
 <!entity % space.entities system "space/space.ent">
 %space.entities;
 
