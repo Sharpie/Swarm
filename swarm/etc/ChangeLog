@@ -1,3 +1,9 @@
+1999-10-14  Alex Lancaster  <alex@santafe.edu>
+
+	* config.swarm.in (SWARM_LDADD): Remove swarm_JAVASWARMLIBS, don't
+	JAVASWARMLIBS no longer extracted [Java information now encoded
+	libswarm.la file].
+
 1999-09-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.appl.in (clean): Remove $(APPEXE).core.
