@@ -1,3 +1,9 @@
+2000-07-13  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* print-table.scm (print-record-using-probemap): Renamed
+	from print-record. 
+	(print-record-for-key): Do one-time lookup of probemap.
+
 2000-07-05  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.am, print-hdf5.in, print-table.scm, swarm.scm:

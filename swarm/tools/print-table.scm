@@ -1,12 +1,8 @@
 (define (init)
   (initSwarmBatch "print-table" "0.0" "bug-swarm@swarm.org" #t))
 
-(define (print-record obj)
-  (let* ((class (invoke obj 'getClass))
-         (probeLibrary :: <swarm.objectbase.ProbeLibrary> *probeLibrary*)
-         (probeMap :: <swarm.objectbase.ProbeMap>
-                   (invoke probeLibrary 'getCompleteVarMapFor class))
-         (index :: <swarm.collections.Index>
+(define (print-record-using-probemap probeMap :: <swarm.objectbase.ProbeMap> obj)
+  (let* ((index :: <swarm.collections.Index>
                 (invoke probeMap 'begin *scratchZone*)))
     (let loop ((varprobe :: <swarm.objectbase.VarProbe> (invoke index 'next)))
       (if (eq? (invoke index 'getLoc) *Member*)
@@ -26,11 +22,16 @@
     (let* ((list :: <swarm.collections.Collection>
                  (invoke archiver 'getObject string))
            (index :: <swarm.collections.Index>
-                  (invoke list 'begin *scratchZone*)))
-      (let loop ((obj (invoke index 'next)))
+                  (invoke list 'begin *scratchZone*))
+           (probeLibrary :: <swarm.objectbase.ProbeLibrary> *probeLibrary*)
+           (start-obj (invoke index 'next))
+           (class (invoke start-obj 'getClass))
+           (probeMap :: <swarm.objectbase.ProbeMap>
+                     (invoke probeLibrary 'getCompleteVarMapFor class)))
+      (let loop ((obj start-obj))
         (if (eq? (invoke index 'getLoc) *Member*)
             (begin
-              (print-record obj)
+              (print-record-using-probemap probeMap obj)
               (newline)
               (loop (invoke index 'next))))))))
 
