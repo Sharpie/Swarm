@@ -10,8 +10,8 @@
   int xPos, yPos;
   float seedProb;
 
-  FoodSpace * foodSpace;
-  Bug * aBug;
+  FoodSpace *foodSpace;
+  Bug *aBug;
   id modelSchedule;
 }
 

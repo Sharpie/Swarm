@@ -7,7 +7,7 @@
 
 + createBegin: aZone 
 {
-  ModelSwarm * obj;
+  ModelSwarm *obj;
 
   // First, call our superclass createBegin - the return value is the
   // allocated ModelSwarm object.

@@ -2,10 +2,11 @@
 
 #import <space.h>
 
-@interface FoodSpace : Discrete2d {
+@interface FoodSpace : Discrete2d 
+{
 }
 
--seedFoodWithProb: (float) s;
+-seedFoodWithProb: (float)s;
 
 @end
 
