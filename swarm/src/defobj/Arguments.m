@@ -71,8 +71,6 @@ getApplicationValue (const char *val)
   }
 }
 
-static struct argp *argp;
-
 static error_t
 parse_opt (int key, const char *arg, struct argp_state *state)
 {
@@ -89,17 +87,19 @@ PHASE(Creating)
 {
   Arguments_c *obj = [super createBegin: aZone];
   
-  argp = xmalloc (sizeof (struct argp));
-  argp->options = NULL;
-  argp->options = [obj addOptions: base_options];
-  argp->parser = parse_opt;
-  argp->args_doc = NULL;
-  argp->doc = NULL;
-  argp->children = NULL;
-  argp->help_filter = NULL;
+  obj->argp = xmalloc (sizeof (struct argp));
+  obj->argp->options = NULL;
+  [obj addOptions: base_options];
+  obj->argp->parser = parse_opt;
+  obj->argp->args_doc = NULL;
+  obj->argp->doc = NULL;
+  obj->argp->children = NULL;
+  obj->argp->help_filter = NULL;
 
   obj->defaultAppConfigPath = "./";
   obj->defaultAppDataPath = "./";
+
+  obj->parseFunc = NULL;
 
   return obj;
 }
@@ -108,6 +108,8 @@ PHASE(Creating)
         Argv: (const char **)theArgv
      version: (const char *)version
   bugAddress: (const char *)bugAddress
+     options: (struct argp_option *)options
+   parseFunc: (int (*) (int key, const char *arg))aParseFunc
 {
   Arguments_c *arguments = [self createBegin: globalZone];
   
@@ -116,6 +118,9 @@ PHASE(Creating)
 #ifndef __GLIBC__
   program_invocation_short_name = getApplicationValue (theArgv[0]);
 #endif  
+  if (options)
+    [arguments addOptions: options];
+  [arguments setParseFunc: aParseFunc];
   [arguments setAppName: program_invocation_short_name];
   [arguments setAppModeString: "default"];
   if (version == NULL)
@@ -153,12 +158,12 @@ PHASE(Creating)
   else
     argp_program_bug_address = bugAddress;
 
-  argp_parse (argp, theArgc, theArgv, 0, 0, arguments);
+  argp_parse (arguments->argp, theArgc, theArgv, 0, 0, arguments);
   
   return [arguments createEnd];
 }
 
-- (struct argp_option *)addOptions: (struct argp_option *)newoptions
+- addOptions: (struct argp_option *)newoptions
 {
   unsigned exist_count = 0, total_count = 0, new_count = 0;
   struct argp_option *options = (struct argp_option *)argp->options;
@@ -196,11 +201,17 @@ PHASE(Creating)
     end->doc = NULL;
     end->group = 0;
   }
-  return options;
+  argp->options = options;
+  return self;
 }
 
 - (int)parseKey: (int)key arg: (const char *)arg
 {
+  if (parseFunc)
+    {
+      if (parseFunc (key, arg) != ARGP_ERR_UNKNOWN)
+        return 0;
+    }
   switch (key)
     {
     case 's':
@@ -242,6 +253,12 @@ PHASE(Setting)
 {
   appModeString = theAppModeString;
 
+  return self;
+}
+
+- setParseFunc: (int (*) (int key, const char *arg))aParseFunc
+{
+  parseFunc = aParseFunc;
   return self;
 }
 

@@ -1,5 +1,21 @@
 1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.[hm] (initDefobj): Simplify usage to just argc and argv.
+	(initDefobjApp, initDefobjAppFunc, initDefobjAppArguments): New
+	functions.
+
+	* Arguments.m ([Arguments_c +createBegin:]): Initialize parseFunc
+	to NULL.
+	([Arguments_c -parseKey:arg:]): Call parseFunc if set.
+	(+createArgc:Argv:version:bugAddress:options:parseFunc): Call
+	addOptions if options is set.
+
+	* Arguments.[hm], defobj.h: Add options:parseFunc: to
+	+createArgc:Argv:version:bugAddress:options:parseFunc.
+	Return self from addOptions:.
+	(argp): Make instance variable.
+	New method setParseFunc:.
+
 	* defobj.m: Include misc.h instead of stdio.h.  Use YES instead
 	of 1 for initialization of _warning_dropFrom and _obj_debug.
 

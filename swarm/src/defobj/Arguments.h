@@ -19,14 +19,17 @@
   const char *defaultAppConfigPath;
   const char *defaultAppDataPath;
   BOOL ignoringEnvFlag;
+  int (*parseFunc) (int key, const char *arg);
+  struct argp *argp;
 }
-+ createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress;
-- (struct argp_option *)addOptions: (struct argp_option *)options;
++ createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options parseFunc: (int (*) (int, const char *))parseFunc;
+- addOptions: (struct argp_option *)options;
 - (int)parseKey: (int)key arg: (const char *)arg;
 
 - setArgc: (int)theArgc Argv: (const char **)theArgv;
 - setAppName: (const char *)appName;
 - setAppModeString: (const char *)appModeString;
+- setParseFunc: (int (*) (int key, const char *arg))parseFunc;
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setShowCurrentTimeFlag: (BOOL)timeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;

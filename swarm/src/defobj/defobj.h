@@ -886,7 +886,7 @@ USING
 CREATING
 + createArgc: (int)argc Argv: (const char **)argv;
 
-+ createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress;
++ createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options parseFunc: (int (*) (int, const char *))parseFunc;
 
 //M: Takes an option specification that includes the following information:
 
@@ -906,7 +906,7 @@ CREATING
 
 //M: - A sorting integer; relative placement of the option in the help
 //M:   screen.
-- (struct argp_option *)addOptions: (struct argp_option *)options;
+- addOptions: (struct argp_option *)options;
 
 //M: This method is called for each option that occurs.
 - (int)parseKey: (int)key arg: (const char *)arg;
@@ -987,11 +987,28 @@ extern id defobj_lookup_type (const char *name);
 #import <defobj/types.h>
 
 //F: initialize defobj
-extern void initDefobj (int argc,
-                        const char **argv, 
-                        const char *version,
-                        const char *bugAddress,
-                        Class argumentsClass);
+extern void initDefobj (int argc, const char **argv);
+
+//F: initialize defobj with application info
+extern void initDefobjApp (int argc,
+                           const char **argv, 
+                           const char *version,
+                           const char *bugAddress);
+
+//F: initialize defobj with application info
+extern void initDefobjAppFunc (int argc,
+                               const char **argv, 
+                               const char *version,
+                               const char *bugAddress,
+                               struct argp_option *options,
+                               int (*parseFunc) (int key, const char *arg));
+
+//F: initialize defobj with application info and custom Arguments class.
+extern void initDefobjAppArguments (int argc,
+                                    const char **argv, 
+                                    const char *version,
+                                    const char *bugAddress,
+                                    Class argumentsClass);
 
 //F: internal module initialization function
 extern void _obj_initModule (void *module);
