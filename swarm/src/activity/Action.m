@@ -141,7 +141,7 @@ PHASE(Using)
 
 - (void)describe: outputCharStream
 {
-  [outputCharStream catC: "FAction"];
+  [outputCharStream catC: "FAction\n"];
 }
 @end
 
