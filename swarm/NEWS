@@ -12,10 +12,15 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       to continue to read and write this metadata.)
 
 *** collections
-***** InputStream
-****** InputStream now parses Lisp comments, Archiver instances will 
-       correctly ignore hand or machine-generated comments starting
-       with a semi-colon `;' in input text files.
+**** InputStream
+***** InputStream now parses Lisp comments, Archiver instances will 
+      correctly ignore hand or machine-generated comments starting
+      with a semi-colon `;' in input text files.
+
+*** analysis
+**** EZGraph, EZBin
+***** New method setColors:count: for customizing the colors used for
+      lines and bars.  Thanks to Sven Thommesen.
 
 ** Autoconfiguration
 *** Swarm can now be compiled with Checker.

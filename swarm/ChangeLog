@@ -1,5 +1,7 @@
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* NEWS: Note addition of setColors:count: in EZGraph and EZBin.
+
 	* VERSION: Bump.
 	
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
