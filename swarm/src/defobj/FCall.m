@@ -647,10 +647,10 @@ PHASE(Using)
         ptr -= 8;
 #endif
         break;
-      case fcall_type_double:
+      case fcall_type_long_double:
         ptr = &buf->_long_double;
 #ifdef __sparc__
-        ptr -= 8;
+        ptr -= 8; /* untested */
 #endif
         break;
       case fcall_type_object:
