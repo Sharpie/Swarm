@@ -18,28 +18,9 @@ changequote([,])dnl
   swarm_srcdir='${SWARMSRCDIR}')
 
 AC_ARG_WITH(catalog,dnl
-  --with-catalog=FILE     Use catalog at FILE,dnl
+  --with-catalog=FILE     Use XML catalog at FILE,dnl
   catalog_file=$withval,dnl
   catalog_file="")
-
-AC_ARG_WITH(dtd-common,dnl
-  --with-dtd-common=DIR   Common Declarations DTD in DIR,dnl
-  commondtd_srcdir=$withval,dnl
-  commondtd_srcdir="")
-
-AC_ARG_WITH(dtd,dnl
-changequote(<,>)dnl
-  --with-dtd=DIR          DocBook DTD in DIR [${DOCBOOKDTDDIR:-/DocBookDTD}],dnl
-changequote([,])dnl
-  docbookdtd_srcdir=$withval,dnl
-  docbookdtd_srcdir=${DOCBOOKDTDDIR:-/DocBookDTD})
-
-AC_ARG_WITH(stylesheet,dnl
-changequote(<,>)dnl
-  --with-stylesheet=DIR   DocBook DSSSL in DIR [${DOCBOOKSTYLEDIR:-/DocBookStyleSheets}],dnl
-changequote([,])dnl
-  docbookstyle_srcdir=$withval,dnl
-  docbookstyle_srcdir=${DOCBOOKSTYLEDIR:-/DocBookStyleSheets})
 
 AC_ARG_WITH(gridturtle,dnl
 changequote(<,>)dnl
@@ -97,32 +78,22 @@ AC_SUBST(DOSIFYEXPR)
 AC_SUBST(top_dossrcdir)
 AC_SUBST(swarm_dossrcdir)
 
-if test -z "$catalog_file" ; then
-  test -n "$commondtd_srcdir" && catopts="-c $commondtd_srcdir/catalog"
-  catopts="$catopts -c $docbookdtd_srcdir/docbook.cat -c $docbookstyle_srcdir/catalog"
-  CATALOG_DTD_DELEGATE="DELEGATE \"-//OASIS//\" $docbookdtd_srcdir/docbook.cat"
-else
-  catopts="-c $catalog_file"
-  CATALOG_DTD_DELEGATE="DELEGATE \"-//OASIS//\" $catalog_file"
-fi
-AC_SUBST(catopts)
 AC_SUBST(catalog_file)
-AC_SUBST(CATALOG_DTD_DELEGATE)
 
 AC_SUBST(gridturtle_srcdir)
 
 AC_PATH_PROG(EMACS, emacs, missing)
 #AC_PATH_PROG(JADE, jade, missing)
 AC_PATH_PROG(XSLTPROC, xsltproc, missing)
-AC_PATH_PROG(SX, sx, missing)
+#AC_PATH_PROG(SX, sx, missing)
 AC_PATH_PROG(PNGTOPNM, pngtopnm, missing)
 AC_PATH_PROG(PNMTOPS, pnmtops, missing)
 AC_PATH_PROG(PNMCROP, pnmcrop, missing)
 AC_PATH_PROG(CJPEG, cjpeg, missing)
 
 dnl Don't use path here since TeX can't deal with Cygwin UNC paths.
-AC_CHECK_PROG(JADETEX, jadetex, jadetex, missing)
-AC_CHECK_PROG(DVIPS, dvips, dvips, missing)
+#AC_CHECK_PROG(JADETEX, jadetex, jadetex, missing)
+#AC_CHECK_PROG(DVIPS, dvips, dvips, missing)
 
 for i in EMACS XSLTPROC PNGTOPNM PNMTOPS PNMCROP CJPEG; do
 if eval test '$ac_cv_path_'$i = missing ; then

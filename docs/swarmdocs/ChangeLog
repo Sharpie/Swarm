@@ -1,3 +1,49 @@
+2003-09-10  Alex Lancaster  <alex@swarm.org>
+
+	* catalog.xml.in: Extract a default location for stylesheets,
+	based on most GNU/Linux distros (put before the system override
+	system catalog).
+
+	* README: Updates related to new toolchain support, note new
+	dependencies, remove obsolete ones (some rationalization still
+	required).
+
+	* NEWS: Note conversion to XSL, 4.2 DocBook DTD and other changes.
+
+	* html.xsl: Generate HTML.manifest.
+
+	* xml.dcl, docbook.dcl: Remove files.
+
+	* Makefile.am (html fo infodist htmldist): Remove unused targets:
+	rtf*, fot*, ps*, dvi*, rtf*.
+	(alldist): Likewise.
+	(.PHONY): Likewise.
+	(EXTRA_DIST): Remove docbook.dcl, xml.dcl, common.dsl, html.dsl,
+	print.dsl, legacy from DSSSL/SGML days.
+
+	* Makefile.rules (JADE, SX, SGML_CATALOG_FILES, JADETEX, DVIPS,
+	HTML, PRINT, JADEFLAGS, XML_DECL, RUNJADE, CATOPTS): Remove
+	obsolete variables.
+	(dvidir, nodist_dvi_DATA, dvidist): Remove, don't generate .dvi
+	(psdir, nodist_ps_DATA, psdist): Remove, don't generate ps,
+	generate PDF.
+	(rtfdir, nodist_rtf_DATA, rtfdist): Remove, don't generate RTF.
+	(fodir, nodist_fo_DATA): Generate .fo (XSL-FO) files.
+	(CLEANFILES): Remove .tex and all unused generated formats,
+	describe above.  Use HTML.manifest to remove generated HTML files.
+	($(NAME).dvi): Remove
+	(fot, tex, dvi, ps, rtf, %.fot, _%.tex, %.rtf, %.dvi, %.ps,
+	%.xml): Remove obsolete targets and rules.
+	(%.html): Use the the current target as basename for root element.
+	(%.fo): New rule to generate XSL-FO.
+
+
+	* configure.in (dtd-common, dtd, stylesheet): Remove these --with*
+	options, obsoleted by XML catalog support for XSL, all locations
+	should be specified by system catalogs, or local user catalogs.
+	(catopts, CATALOG_DTD_DELEGATE): Remove extraction.
+
+
 2003-09-10  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* configure.in : get absolute paths for srcdirs

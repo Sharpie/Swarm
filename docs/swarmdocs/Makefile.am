@@ -1,14 +1,14 @@
 BOOKS = refbook installbook overbook set @JAVADOCDIR@
 SUBDIRS = figs $(BOOKS) m4 tex
-EXTRA_DIST = Makefile.common Makefile.rules history.el common.dsl html.dsl print.dsl global.ent docbook.dcl docbook2texi COPYING.FDL gfdl.xml xml.dcl
+EXTRA_DIST = Makefile.common Makefile.rules history.el global.ent docbook2texi COPYING.FDL gfdl.xml
 
 all-recursive: versions.ent
 
-.PHONY: FORCE html dvi rtf fot ps info htmldist dvidist rtfdist psdist infodist alldist
+.PHONY: FORCE html fo info htmldist infodist alldist
 
-alldist: htmldist dvidist rtfdist psdist
+alldist: htmldist
 
-html dvi rtf fot ps info htmldist dvidist rtfdist psdist infodist: versions.ent
+html fo infodist htmldist: versions.ent
 	for dir in $(BOOKS) ; do \
 	  $(MAKE) -C $$dir $@; done		
 

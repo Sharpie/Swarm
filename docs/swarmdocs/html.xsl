@@ -6,6 +6,8 @@
 
  <xsl:param name="use.id.as.filename" select="'1'"/>
 
+ <xsl:param name="generate.manifest" select="1"/>
+
 </xsl:stylesheet>
 
 <!--

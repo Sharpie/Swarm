@@ -1,8 +1,8 @@
-JADE = @JADE@
-SX = @SX@
-SGML_CATALOG_FILES = @SGML_CATALOG_FILES@
-JADETEX = @JADETEX@
-DVIPS = @DVIPS@
+#JADE = @JADE@
+#SX = @SX@
+#SGML_CATALOG_FILES = @SGML_CATALOG_FILES@
+#JADETEX = @JADETEX@
+#DVIPS = @DVIPS@
 GZIP = gzip --best
 top_dossrcdir = @top_dossrcdir@
 
@@ -10,21 +10,22 @@ top_dossrcdir = @top_dossrcdir@
 HTML_XSL = $(top_dossrcdir)/html.xsl
 PRINT_XSL = $(top_dossrcdir)/fo.xsl
 # obsolete variables
-HTML = $(top_dossrcdir)/html.dsl
-PRINT = $(top_dossrcdir)/print.dsl
-JADEFLAGS = -V biblio-citation-check
-XML_DECL = $(top_srcdir)/xml.dcl
+#HTML = $(top_dossrcdir)/html.dsl
+#PRINT = $(top_dossrcdir)/print.dsl
+#JADEFLAGS = -V biblio-citation-check
+#XML_DECL = $(top_srcdir)/xml.dcl
 
-RUNJADE = $(JADE) $(JADEFLAGS)
-CATOPTS = -c $(top_builddir)/catalog @catopts@
+#RUNJADE = $(JADE) $(JADEFLAGS)
+#CATOPTS = -c $(top_builddir)/catalog @catopts@
 
-RUNXSLTPROC = XML_CATALOG_FILES="$(top_builddir)/catalog.xml @catalog_file@" $(XSLTPROC) --nonet # --catalogs
+RUNXSLTPROC = XML_CATALOG_FILES="$(top_builddir)/catalog.xml" $(XSLTPROC) --nonet # --catalogs
 
 FIGS = figs/swarm.eps # for the timestamp
 
-GENERAL = $(XML_FILES) $(COMMON_XML_FILES) $(top_srcdir)/common.dsl $(FIGS)
+GENERAL = $(XML_FILES) $(COMMON_XML_FILES) $(FIGS)
 
-.PHONY: fot tex dvi ps rtf html info htmldist dvidist psdist rtfdist infodist
+#.PHONY: fot tex dvi ps rtf html info htmldist dvidist psdist rtfdist infodist
+.PHONY: html fo info htmldist infodist
 
 COMMON_XML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent $(top_srcdir)/gfdl.xml
 
@@ -42,88 +43,43 @@ uninstall-local:
 	- (cd $(htmldir); rm -rf *)	
 
 htmldist: html
-	cd .. ; tar cf - $(addprefix $(NAME)/,$(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(DISTNAME)-html.tar.gz
+	tar cf - -T HTML.manifest figs | $(GZIP) > $(DISTNAME)-html.tar.gz
 
-dvidir = $(prefix)/dvi
-nodist_dvi_DATA = $(NAME).dvi
-
-dvidist: dvi
-	cd .. ; tar cf - $(NAME)/$(NAME).dvi $(NAME)/figs | $(GZIP) > $(DISTNAME)-dvi.tar.gz
-
-psdir = $(prefix)/ps
-nodist_ps_DATA = $(NAME).ps
-
-psdist: ps
-	$(GZIP) < $(NAME).ps > ../$(DISTNAME).ps.gz
-
-rtfdir = $(prefix)/rtf
-nodist_rtf_DATA = $(NAME).rtf
-
-rtfdist: rtf
-	cd .. ; tar cf - $(NAME)/$(NAME).rtf $(NAME)/figs | $(GZIP) > $(DISTNAME)-rtf.tar.gz 
+fodir = $(prefix)/fo/$(NAME)
+nodist_fo_DATA = $(NAME).fo
 
 infodir = $(prefix)/$(NAME)/info
-nodist_info_DATA = $(wildcard *.info*)
+#nodist_info_DATA = $(wildcard *.info*)
 
 infodist: info
 	cd ..; tar cf - $(addprefix $(NAME)/, $(wildcard *.info*)) | $(GZIP) > $(DISTNAME)-info.tar.gz
 
-CLEANFILES = $(NAME).tex _$(NAME).tex $(nodist_html_DATA) $(nodist_dvi_DATA) $(nodist_ps_DATA) $(nodist_rtf_DATA) $(NAME).texi $(nodist_info_DATA) 
+CLEANFILES = $(nodist_html_DATA) $(nodist_fo_DATA) $(NAME).texi $(nodist_info_DATA) $(shell cat HTML.manifest)
 
 $(FIGS):
 	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs
 
-_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) # $(PRINT)
+#_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) # $(PRINT)
 
 $(NAME).html: $(GENERAL) # $(HTML)
 
-$(NAME).dvi: $(top_srcdir)/tex/macros.tex
-
 $(NAME).info: $(GENERAL)
-
 $(NAME).texi: $(GENERAL) $(top_srcdir)/docbook2texi
 
 all-recursive: # when no SUBDIRS
 
-fot: all-recursive $(NAME).fot
-
-tex: all-recursive _$(NAME).tex
-
-dvi: all-recursive $(NAME).dvi
-
-ps: all-recursive $(NAME).ps 
-
-rtf: all-recursive $(NAME).rtf
-
 html: all-recursive $(NAME).html
+
+fo: all-recursive $(NAME).fo
 
 info: all-recursive $(NAME).info
 
-%.fot: %.xml
-	$(RUNJADE) $(CATOPTS) -t fot -iprint -d '$(PRINT)' -o $@ $(XML_DECL) @DOSIFYEXPR@
-
-_%.tex: %.xml
-	$(RUNJADE) $(CATOPTS) -V tex-backend -t tex -iprint -d '$(PRINT)' -o $@ $(XML_DECL) @DOSIFYEXPR@
-
-%.rtf: %.xml
-	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d '$(PRINT)' -o $@ $(XML_DECL) @DOSIFYEXPR@
 
 %.html: %.xml
-	$(RUNXSLTPROC) -o $@ $(HTML_XSL) @DOSIFYEXPR@
-#%.html: %.xml
-#	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d '$(HTML)' $(XML_DECL) @DOSIFYEXPR@
+	$(RUNXSLTPROC) --param root.filename $@ -o $@ $(HTML_XSL) @DOSIFYEXPR@
 
 %.fo: %.xml
 	$(RUNXSLTPROC) -o $@ $(PRINT_XSL) @DOSIFYEXPR@
-
-%.dvi: %.tex _%.tex
-	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
-
-%.ps: %.dvi
-	- $(DVIPS) -o $@ $<
-
-##%.xml: %.sgml
-##	- $(SX) $(CATOPTS) -x lower $< > $@
 
 %.texi: %.xml
 	- perl $(top_srcdir)/docbook2texi $< > $@

@@ -4,11 +4,11 @@
 
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
 
- <nextCatalog catalog="file:///etc/xml/catalog"/>
+ <!-- fallback if system catalog can't find DocBook stylesheets -->
+ <!-- should work for many Linux distros etc. -->
+ <rewriteURI uriStartString="http://docbook.sourceforge.net/release/xsl/current//" rewritePrefix="/usr/share/sgml/docbook/xsl-stylesheets/"/> 
 
- <group xml:base="file://@top_dossrcdir@">
-  <rewriteURI uriStartString="http://docbook.sourceforge.net/release/website/1.6/xsl/" rewritePrefix="xsl/website/"/> 
- </group>
+ <nextCatalog catalog="file://@catalog_file@"/>
 
  <group prefer="public" xml:base="file://@top_dossrcdir@/">
   <public publicId="-//SFI Hive//ENTITIES Reference//EN" uri="refbook/refcont.xml"/>
