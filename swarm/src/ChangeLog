@@ -1,6 +1,8 @@
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.rules (headers): Depend only on the first BUILT_SOURCES.
+	* Makefile.rules (xm_file): Set to be the first BUILT_SOURCES.
+	Have the rest of the BUILT_SOURCES depend on the xm_file.
+	(headers): Depend only on xm_file.
 
 1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -10,7 +10,10 @@ MAKEH2X = $(top_srcdir)/src/defobj/make-h2x
 
 TYPEINFO = $(MODULE).xm types.h classes.h
 
-headers: $(firstword $(BUILT_SOURCES))
+xm_file = $(firstword $(BUILT_SOURCES))
+$(filter-out $(xmfile),$(BUILT_SOURCES)): $(xm_file)
+
+headers: $(xm_file)
 
 $(firstword $(TYPEINFO)): $(MODULE).h $(MAKEH2X) # $(SOURCES)
 	OBJC="$(OBJC)" OBJCFLAGS='$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)' OBJECTS="$(lib$(MODULE)_la_OBJECTS)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
