@@ -1,5 +1,11 @@
 1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.h: Add (id <Zone>) argument and return types.  Reorganize.
+	Add (id <HDF5>) argument types.
+	
+	* HDF5Object.h (HDF5CompoundType_c): Implement HDF5CompoundType.
+	(HDF5_c): Implement HDF5.
+
 	* deftype.h (RETURNABLE): New protocol.
 
 	* Program.m (_obj_initModule): Check for "RETURNABLE" as synonym

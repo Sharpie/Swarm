@@ -18,7 +18,7 @@
 #define ATTRIB_COMPONENT_TYPE_NAME "component-type"
 
 
-@interface HDF5CompoundType_c: CreateDrop_s
+@interface HDF5CompoundType_c: CreateDrop_s <HDF5CompoundType>
 {
   Class class;
 @public
@@ -44,7 +44,7 @@
 - (void)drop;
 @end
 
-@interface HDF5_c: CreateDrop_s
+@interface HDF5_c: CreateDrop_s <HDF5>
 {
   id parent;
   const char *name;

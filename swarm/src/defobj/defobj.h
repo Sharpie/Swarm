@@ -20,66 +20,6 @@ Library:      defobj
 //D: creating objects and for storage allocation, error handling, and debugging
 //D: support.
 
-@protocol Serialization
-//S: Object serialization protocol.
-//D: Object serialization protocol.
-
-CREATING
-//M: Process keyword parameters in expression in order to get 
-//M: create-time parameters.
-- lispInCreate: expr;
-
-//M: Process HDF5 object to set create-time parameters.
-- hdf5InCreate: hdf5Obj;
-
-//F: Load an object from a lisp expression of the form
-//F: (make-{class,instance} #:arg1 x #:arg y). 
-extern id lispIn (id aZone, id expr);
-
-//F: Load an object from a HDF5 object.
-extern id hdf5In (id aZone, id hdf5Obj);
-
-SETTING
-//M: Process an archived Lisp representation of object state from a
-//M: list of instance variable name / value pairs.
-- lispIn: expr;
-
-//M: Load instance variables from an HDF5 object.
-- hdf5In: hdf5Obj;
-
-USING
-//M: Output a shallow Lisp representation of object state to a stream.
-- lispOutShallow: stream;
-
-//M: Output a deep Lisp representation of object state to a stream.
-- lispOutDeep: stream;
-
-//M: Output just key/variable pairs, where variables are serialized 
-//M: deep or shallow per deepFlag.
-- lispOutVars: stream deep: (BOOL)deepFlag;
-
-//M: Output a shallow HDF5 representation of object state to a stream.
-- hdf5OutShallow: hdf5obj;
-
-//M: Output a deep HDF5 representation of object state to a stream.
-- hdf5OutDeep: hdf5obj;
-
-- updateArchiver: archiver;
-
-//F: Expect and convert a boolean from next index item.
-extern BOOL lispInBoolean (id index);
-
-//F: Expect and convert an integer from next index item.
-extern int lispInInteger (id index);
-
-//F: Expect and convert a string from next index item.
-extern const char *lispInString (id index);
-
-//F: Expect and convert a keyword from next index item.
-extern id lispInKeyword (id index);
-
-@end
-
 @protocol DefinedObject
 //S: Object with defined type and implementation.
 
@@ -96,9 +36,6 @@ extern id lispInKeyword (id index);
 //D: leaves to other types the definition of message that might or might
 //D: not apply in any general way to particular objects.
 USING
-//M: The getZone message returns the zone in which the object was created.
-- getZone;
-
 //M: The respondsTo: message returns true if the object implements the
 //M: message identified by the selector argument.  To implement a message
 //M: means only that some method will receive control if the message is
@@ -174,6 +111,9 @@ USING
 
 //M: print id for each member of a collection on debug output stream
 - (void)xfprintid;
+
+//M: The getZone message returns the zone in which the object was created.
+- getZone;
 @end
 
 @protocol Customize
@@ -254,7 +194,6 @@ CREATING
 - customizeCopy: aZone;
 @end
 
-
 @protocol Create <DefinedObject, Customize>
 //S: Create an instance of a type with optional customization.
 
@@ -306,7 +245,6 @@ CREATING
 //E: [newArray setDefaultMember: UnsetMember];
 //E: [newArray setCount: [aList getCount] * 2 );
 //E: newArray = [newArray createEnd];   // ! note reassignment of newArray
-
 CREATING
 //M: The create: message creates a new instance of a type with default
 //M: options.  The zone argument specifies the source of storage for the
@@ -360,7 +298,6 @@ CREATING
 //M: id can be reassigned the new id returned by createEnd, so that the
 //M: same variable holds successive versions of the object being created.
 - createEnd;
-
 @end
 
 @protocol Drop
@@ -393,207 +330,6 @@ CREATING
 USING
 - (void)drop;
 @end
-
-
-// @protocol CreateDrop <Create, Drop>
-// @end
-
-//
-// Miscellaneous operations for mixing into other types.
-//
-
-@protocol Copy
-//S: Copy all state defined as part of object.
-
-//D: An object type that supplies the copy operation defines what it
-//D: includes as the contents of an object copied.  There is no global rule
-//D: for what is considered "inside" a copied object vs. merely referenced
-//D: by it.  (There is no fixed notion of "shallow" vs. "deep" copy found
-//D: in some object libraries.)  After copying, the new object may still
-//D: contain some references to other elements also referenced by the
-//D: starting object, but in general the new object minimizes any
-//D: dependencies shared with the starting object.  Any object type
-//D: supplying the copy message should also supply documentation on its
-//D: rules for copied objects.
-
-//M: The copy message creates a new object that has the same contents and
-//M: resulting behavior as a starting object, except that an independent
-//M: copy of the contents of the starting object is created so that further
-//M: changes to one object do not affect the other.  The zone argument
-//M: specifies the source of storage for the new object.  The message
-//M: returns the id of the new object created.
-USING
-- copy: aZone;
-@end
-
-@protocol GetName
-//S: Get name which identifies object in its context of use.
-
-//D: Get name which identifies object in its context of use.
-
-//M: The getName message returns a null-terminated character string that
-//M: identifies an object in some context of use.  This message is commonly
-//M: used for objects that are created once in some fixed context where
-//M: they are also assigned a unique name.  Constant objects defined as
-//M: part of a program or library are examples.  This message is intended
-//M: only for returning a name associated with an object throughout its
-//M: lifetime.  It does not return any data that ever changes.
-USING
-- (const char *)getName;
-@end
-
-@protocol GetOwner
-//S: Get object on which existence of object depends.
-
-//D: Ownership hierarchies arrange themselves in a strict, single-rooted
-//D: tree.  The top-level node of an ownership hierarchy typically returns
-//D: nil as its owner.  If an object is regarded merely as one part of
-//D: another object defined as its owner, then copying or dropping the
-//D: owner object should copy or drop the member object as well.  Owner and
-//D: member are neutral terms for a generic relationship sometimes called
-//D: parent vs.  child, but it is up to a particular object type to define
-//D: specifically what it means by a getOwner relationship.
-
-//M: The getOwner message returns another object which is considered as the
-//M: owner of an initial object.  What is considered as an owner depends on
-//M: its specific object type, but might be a larger object of which the
-//M: local object is a part, or an object that has exclusive control over
-//M: the local object.  The principal constraint established by an
-//M: ownership structure is that a given object can have only a single
-//M: other object as its unambiguous owner.
-USING
-- getOwner;
-@end
-
-@protocol SetInitialValue
-//S: Create using initial value from an existing object.
-
-//D: The SetInitialValue type defines a variety of messages relating to an
-//D: initial or unmodifiable value established as part of an object.  This
-//D: message is typically provided when creation of a new object might be
-//D: more easily accomplished by copying the value of an existing object
-//D: rather than establishing a new value from scratch.  As with the copy
-//D: message, precisely what is considered the value of an existing object
-//D: to copy is defined only by the particular object type that supplies
-//D: these messages.
-
-//D: If an object has a value which can be established at create time, it
-//D: is often useful (and can also enable significant optimization) to
-//D: declare that no further modification will occur to this value during
-//D: further use of the object.  A restriction against modifying a value is
-//D: referred to as a "read-only" restriction.  This type supplies messages
-//D: to declare a read-only restriction along with any initial value.  For
-//D: some object types, a read-only restriction can also be added or
-//D: removed after an object has already been created.
-
-CREATING
-//M: The setInitialValue: message requires another object as its argument,
-//M: from which the value of a newly created object is to be taken.  Unlike
-//M: a copy message, the object used as the source of the new value need
-//M: not have the identical type as the new object to be created.  A
-//M: particular object type defines the types of initial value objects
-//M: which it can accept, along with any special conversion or
-//M: interpretation it might apply to such a value.
-- (void)setInitialValue: initialValue;
-@end
-
-
-@protocol Symbol <Create, GetName, CREATABLE>
-//S: Object defined as a distinct global id constant.
-
-//D: A Symbol is an object created with a fixed name.  It has no behavior
-//D: except to get the name with which it was created.  A Symbol is
-//D: typically used to define unique id values which are assigned to global
-//D: constant names.  These names, capitalized according to the recommended
-//D: convention for global object constants, are used by some libraries as
-//D: flags or enumerated value codes in arguments or return values of
-//D: messages.
-
-//D: Ordinarily, a symbol is created with its character string name
-//D: matching the global id constant to which it is assigned.  These global
-//D: program constants can then provide a minimal level of self
-//D: documentation as objects.  Subtypes of Symbol can extend the base of a
-//D: named, global id constant to establish further components of a global,
-//D: constant definition.
-
-//D: A symbol is fully creatable using standard Create messages.  A
-//D: character string name must be supplied for any new symbol; there is no
-//D: default.  Symbol inherits the getName message, which returns the
-//D: symbol name.
-
-CREATING
-//M: create:setName: is a combination message defined as a caller
-//M: convenience.  See combination messages for a summary of conventions
-//M: on combination messages.
-+ create: aZone setName: (const char *)name;
-@end
-
-@protocol EventType <Symbol>
-//S: A report of some condition detected during program execution.
-
-//D: A report of some condition detected during program execution.
-
-USING
-//M: Raise an event noting the event symbol type.
-- (void)raiseEvent;
-
-//M: Raise an event noting the event symbol type using a format string
-//M: and arguments.
-- (void)raiseEvent: (const void *)eventData, ...;
-@end
-
-@protocol Warning <EventType, CREATABLE>
-//S: A condition of possible concern to a program developer.
-
-//D: A condition of possible concern to a program developer.
-
-USING
-//M: Associate a message string with this warning.
-- (void)setMessageString: (const char *)messageString;
-
-//M: Return the message associated with this warning.
-- (const char *)getMessageString;
-
-externvar id <Warning>
-  WarningMessage,         //G: message in the source defines warning
-  ResourceAvailability,   //G: resource from runtime environment not available
-  LibraryUsage,           //G: invalid usage of library interface
-  DefaultAssumed,         //G: non-silent use of default
-  ObsoleteFeature,        //G: using feature which could be removed in future
-  ObsoleteMessage;        //G: using message which could be removed in future
-
-@end
-
-@protocol Error <Warning, CREATABLE>
-//S: A condition which prevents further execution.
-
-//D: A condition which prevents further execution.
-
-externvar id <Error> 
-  SourceMessage,        //G: message in the source defines error
-  NotImplemented,       //G: requested behavior not implemented by object
-  SubclassMustImplement,//G: requested behavior must be implemented by subclass
-  InvalidCombination,   //G: invalid combination of set messages for create
-  InvalidOperation,     //G: invalid operation for current state of receiver
-  InvalidArgument,      //G: argument value not valid
-  CreateSubclassing,    //G: improper use of Create subclassing framework
-  CreateUsage,          //G: incorrect sequence of Create protocol messages
-  OutOfMemory,          //G: no more memory available for allocation
-  InvalidAllocSize,     //G: no more memory available for allocation
-  InternalError,        //G: unexpected condition encountered in program
-  BlockedObjectAlloc,   //G: method from Object with invalid allocation
-  BlockedObjectUsage,   //G: method inherited from Object superclass
-  ProtocolViolation,    //G: object does not comply with expected protocol
-  LoadError,            //G: unable to access a resource
-  SaveError;            //G: unable to save a resource
-
-@end
-
-
-//#: macro to raise Warning or Error with source location strings
-#define raiseEvent( eventType, formatString, args... ) \
-[eventType raiseEvent: \
-"\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
 
 @protocol Zone <Create, Drop, CREATABLE>
 //S: Modular unit of storage allocation.
@@ -751,11 +487,22 @@ USING
 
 //M: Generate debug id description for each member of the zone population.
 - (void)describeForEachID: outputCharStream;
+@end
 
-//G: symbol values for ReclaimPolicy option
-externvar id <Symbol>  ReclaimImmediate, ReclaimDeferred,
-                    ReclaimFrontierInternal, ReclaimInternal, ReclaimFrontier;
+@protocol GetName
+//S: Get name which identifies object in its context of use.
 
+//D: Get name which identifies object in its context of use.
+
+//M: The getName message returns a null-terminated character string that
+//M: identifies an object in some context of use.  This message is commonly
+//M: used for objects that are created once in some fixed context where
+//M: they are also assigned a unique name.  Constant objects defined as
+//M: part of a program or library are examples.  This message is intended
+//M: only for returning a name associated with an object throughout its
+//M: lifetime.  It does not return any data that ever changes.
+USING
+- (const char *)getName;
 @end
 
 @protocol DefinedClass <DefinedObject, GetName>
@@ -788,7 +535,7 @@ CREATING
 - lispOutShallow: stream;
 - hdf5OutShallow: hdf5Obj;
 - updateArchiver: archiver;
-extern id createType (id aZone, const char *name);
+extern id createType (id <Zone> aZone, const char *name);
 extern Class copyClass (Class class);
 extern void addVariable (Class class, const char *name, const char *type);
 USING
@@ -805,6 +552,197 @@ CREATING
 
 USING
 - getNextPhase;
+@end
+
+@protocol Copy
+//S: Copy all state defined as part of object.
+
+//D: An object type that supplies the copy operation defines what it
+//D: includes as the contents of an object copied.  There is no global rule
+//D: for what is considered "inside" a copied object vs. merely referenced
+//D: by it.  (There is no fixed notion of "shallow" vs. "deep" copy found
+//D: in some object libraries.)  After copying, the new object may still
+//D: contain some references to other elements also referenced by the
+//D: starting object, but in general the new object minimizes any
+//D: dependencies shared with the starting object.  Any object type
+//D: supplying the copy message should also supply documentation on its
+//D: rules for copied objects.
+
+//M: The copy message creates a new object that has the same contents and
+//M: resulting behavior as a starting object, except that an independent
+//M: copy of the contents of the starting object is created so that further
+//M: changes to one object do not affect the other.  The zone argument
+//M: specifies the source of storage for the new object.  The message
+//M: returns the id of the new object created.
+USING
+- copy: (id <Zone>)aZone;
+@end
+
+//
+// Miscellaneous operations for mixing into other types.
+//
+
+@protocol GetOwner
+//S: Get object on which existence of object depends.
+
+//D: Ownership hierarchies arrange themselves in a strict, single-rooted
+//D: tree.  The top-level node of an ownership hierarchy typically returns
+//D: nil as its owner.  If an object is regarded merely as one part of
+//D: another object defined as its owner, then copying or dropping the
+//D: owner object should copy or drop the member object as well.  Owner and
+//D: member are neutral terms for a generic relationship sometimes called
+//D: parent vs.  child, but it is up to a particular object type to define
+//D: specifically what it means by a getOwner relationship.
+
+//M: The getOwner message returns another object which is considered as the
+//M: owner of an initial object.  What is considered as an owner depends on
+//M: its specific object type, but might be a larger object of which the
+//M: local object is a part, or an object that has exclusive control over
+//M: the local object.  The principal constraint established by an
+//M: ownership structure is that a given object can have only a single
+//M: other object as its unambiguous owner.
+USING
+- getOwner;
+@end
+
+@protocol SetInitialValue
+//S: Create using initial value from an existing object.
+
+//D: The SetInitialValue type defines a variety of messages relating to an
+//D: initial or unmodifiable value established as part of an object.  This
+//D: message is typically provided when creation of a new object might be
+//D: more easily accomplished by copying the value of an existing object
+//D: rather than establishing a new value from scratch.  As with the copy
+//D: message, precisely what is considered the value of an existing object
+//D: to copy is defined only by the particular object type that supplies
+//D: these messages.
+
+//D: If an object has a value which can be established at create time, it
+//D: is often useful (and can also enable significant optimization) to
+//D: declare that no further modification will occur to this value during
+//D: further use of the object.  A restriction against modifying a value is
+//D: referred to as a "read-only" restriction.  This type supplies messages
+//D: to declare a read-only restriction along with any initial value.  For
+//D: some object types, a read-only restriction can also be added or
+//D: removed after an object has already been created.
+
+CREATING
+//M: The setInitialValue: message requires another object as its argument,
+//M: from which the value of a newly created object is to be taken.  Unlike
+//M: a copy message, the object used as the source of the new value need
+//M: not have the identical type as the new object to be created.  A
+//M: particular object type defines the types of initial value objects
+//M: which it can accept, along with any special conversion or
+//M: interpretation it might apply to such a value.
+- (void)setInitialValue: initialValue;
+@end
+
+@protocol Symbol <Create, GetName, CREATABLE>
+//S: Object defined as a distinct global id constant.
+
+//D: A Symbol is an object created with a fixed name.  It has no behavior
+//D: except to get the name with which it was created.  A Symbol is
+//D: typically used to define unique id values which are assigned to global
+//D: constant names.  These names, capitalized according to the recommended
+//D: convention for global object constants, are used by some libraries as
+//D: flags or enumerated value codes in arguments or return values of
+//D: messages.
+
+//D: Ordinarily, a symbol is created with its character string name
+//D: matching the global id constant to which it is assigned.  These global
+//D: program constants can then provide a minimal level of self
+//D: documentation as objects.  Subtypes of Symbol can extend the base of a
+//D: named, global id constant to establish further components of a global,
+//D: constant definition.
+
+//D: A symbol is fully creatable using standard Create messages.  A
+//D: character string name must be supplied for any new symbol; there is no
+//D: default.  Symbol inherits the getName message, which returns the
+//D: symbol name.
+
+CREATING
+//M: create:setName: is a combination message defined as a caller
+//M: convenience.  See combination messages for a summary of conventions
+//M: on combination messages.
++ create: (id <Zone>)aZone setName: (const char *)name;
+
+//#: macro used to create and initialize a symbol
+#define defsymbol(name) name = [Symbol create: globalZone setName: #name]
+@end
+
+@protocol EventType <Symbol>
+//S: A report of some condition detected during program execution.
+
+//D: A report of some condition detected during program execution.
+
+USING
+//M: Raise an event noting the event symbol type.
+- (void)raiseEvent;
+
+//M: Raise an event noting the event symbol type using a format string
+//M: and arguments.
+- (void)raiseEvent: (const void *)eventData, ...;
+
+//#: macro to raise Warning or Error with source location strings
+#define raiseEvent( eventType, formatString, args... ) \
+[eventType raiseEvent: \
+"\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
+@end
+
+
+@protocol Warning <EventType, CREATABLE>
+//S: A condition of possible concern to a program developer.
+
+//D: A condition of possible concern to a program developer.
+
+USING
+//M: Associate a message string with this warning.
+- (void)setMessageString: (const char *)messageString;
+
+//M: Return the message associated with this warning.
+- (const char *)getMessageString;
+
+externvar id <Warning>
+  WarningMessage,         //G: message in the source defines warning
+  ResourceAvailability,   //G: resource from runtime environment not available
+  LibraryUsage,           //G: invalid usage of library interface
+  DefaultAssumed,         //G: non-silent use of default
+  ObsoleteFeature,        //G: using feature which could be removed in future
+  ObsoleteMessage;        //G: using message which could be removed in future
+
+//#: macro used to create and initialize an Error symbol
+#define defwarning(name, message) \
+  [(name = [Warning create: globalZone setName: #name]) \
+    setMessageString: message]
+@end
+
+@protocol Error <Warning, CREATABLE>
+//S: A condition which prevents further execution.
+
+//D: A condition which prevents further execution.
+
+externvar id <Error> 
+  SourceMessage,        //G: message in the source defines error
+  NotImplemented,       //G: requested behavior not implemented by object
+  SubclassMustImplement,//G: requested behavior must be implemented by subclass
+  InvalidCombination,   //G: invalid combination of set messages for create
+  InvalidOperation,     //G: invalid operation for current state of receiver
+  InvalidArgument,      //G: argument value not valid
+  CreateSubclassing,    //G: improper use of Create subclassing framework
+  CreateUsage,          //G: incorrect sequence of Create protocol messages
+  OutOfMemory,          //G: no more memory available for allocation
+  InvalidAllocSize,     //G: no more memory available for allocation
+  InternalError,        //G: unexpected condition encountered in program
+  BlockedObjectAlloc,   //G: method from Object with invalid allocation
+  BlockedObjectUsage,   //G: method inherited from Object superclass
+  ProtocolViolation,    //G: object does not comply with expected protocol
+  LoadError,            //G: unable to access a resource
+  SaveError;            //G: unable to save a resource
+
+//#: macro used to create and initialize a Warning symbol
+#define deferror(name, message) \
+  [(name = [Error create: globalZone setName: #name]) \
+    setMessageString: message]
 @end
 
 @protocol Arguments <Create, Drop, CREATABLE>
@@ -847,7 +785,7 @@ USING
 //E: 
 //E: @implementation MySwarmAppArguments
 //E: 
-//E: + createBegin: aZone
+//E: + createBegin: (id <Zone>)aZone
 //E: {
 //E:   static struct argp_option options[] = {
 //E:     {"protocol", 'p', "PROTOCOL", 0, "Set protocol", 3},
@@ -891,7 +829,7 @@ USING
 //E: }
 
 CREATING
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - createEnd;
 - setArgc: (int)theArgc Argv: (const char **)theArgv;
 - setAppName: (const char *)appName;
@@ -992,7 +930,7 @@ USING
 - getObject: (const char *)key;
 
 //M: Create the object with `key' in the specified Zone
-- getWithZone: aZone object: (const char *)key;
+- getWithZone: (id <Zone>)aZone object: (const char *)key;
 
 //M: Execute all the requested -putShallow: and -putDeep: requests using
 //M: the requested backend
@@ -1008,7 +946,7 @@ USING
 CREATING
 
 //M: Convenience method to create LispArchiver from a specified path
-+ create: aZone setPath: (const char *)path;
++ create: (id <Zone>)aZone setPath: (const char *)path;
 
 SETTING
 USING
@@ -1023,18 +961,17 @@ USING
 CREATING
 
 //M: Convenience method to create an HDF5Archiver from a specified path
-+ create: aZone setPath: (const char *)path;
++ create: (id <Zone>)aZone setPath: (const char *)path;
 
 SETTING
 USING
 @end
 
-
 @protocol HDF5 <Create, Drop, CREATABLE>
 //S: HDF5 interface
 //D: HDF5 interface
 CREATING
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - setCreateFlag: (BOOL)createFlag;
 - setDatasetFlag: (BOOL)datasetFlag;
 - setParent: parent;
@@ -1048,7 +985,7 @@ SETTING
 - setName: (const char *)name; 
 - setBaseTypeObject: baseTypeObject;
 USING
-- iterate: (int (*) (id hdf5Obj))iterateFunc;
+- iterate: (int (*) (id <HDF5>hdf5Obj))iterateFunc;
 - (BOOL)getDatasetFlag;
 - (size_t)getDatasetRank;
 - (size_t)getDatasetDimension: (unsigned)dimNumber;
@@ -1086,13 +1023,12 @@ USING
 //S: HDF5 composite type interface
 //D: HDF5 composite type interface
 CREATING
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - setClass: class;
 - createEnd;
 USING
 - getClass;
 @end
-
 
 typedef union {
   id object;
@@ -1118,7 +1054,7 @@ typedef union {
 //S: A language independent interface to dynamic call argument construction.
 //D: A language independent interface to dynamic call argument construction.
 CREATING
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - setJavaFlag: (BOOL)javaFlag;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
@@ -1146,7 +1082,7 @@ USING
 //S: A language independent interface to dynamic calls.
 //D: A language independent interface to dynamic calls.
 CREATING
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - createEnd;
 SETTING
 - setArguments: args;
@@ -1161,6 +1097,66 @@ USING
 - (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
 
 extern void defobj_init_java_call_tables (void *jniEnv);
+@end
+
+@protocol Serialization
+//S: Object serialization protocol.
+//D: Object serialization protocol.
+
+CREATING
+//M: Process keyword parameters in expression in order to get 
+//M: create-time parameters.
+- lispInCreate: expr;
+
+//M: Process HDF5 object to set create-time parameters.
+- hdf5InCreate: (id <HDF5>)hdf5Obj;
+
+//F: Load an object from a lisp expression of the form
+//F: (make-{class,instance} #:arg1 x #:arg y). 
+extern id lispIn (id <Zone> aZone, id expr);
+
+//F: Load an object from a HDF5 object.
+extern id hdf5In (id <Zone> aZone, id <HDF5> hdf5Obj);
+
+SETTING
+//M: Process an archived Lisp representation of object state from a
+//M: list of instance variable name / value pairs.
+- lispIn: expr;
+
+//M: Load instance variables from an HDF5 object.
+- hdf5In: (id <HDF5>)hdf5Obj;
+
+USING
+//M: Output a shallow Lisp representation of object state to a stream.
+- lispOutShallow: stream;
+
+//M: Output a deep Lisp representation of object state to a stream.
+- lispOutDeep: stream;
+
+//M: Output just key/variable pairs, where variables are serialized 
+//M: deep or shallow per deepFlag.
+- lispOutVars: stream deep: (BOOL)deepFlag;
+
+//M: Output a shallow HDF5 representation of object state to a stream.
+- hdf5OutShallow: (id <HDF5>)hdf5obj;
+
+//M: Output a deep HDF5 representation of object state to a stream.
+- hdf5OutDeep: (id <HDF5>)hdf5obj;
+
+- updateArchiver: archiver;
+
+//F: Expect and convert a boolean from next index item.
+extern BOOL lispInBoolean (id index);
+
+//F: Expect and convert an integer from next index item.
+extern int lispInInteger (id index);
+
+//F: Expect and convert a string from next index item.
+extern const char *lispInString (id index);
+
+//F: Expect and convert a keyword from next index item.
+extern id lispInKeyword (id index);
+
 @end
 
 //G: The singleton Arguments object.
@@ -1284,24 +1280,6 @@ extern id nameToObject (const char *name);
 //F: Create a class name.
 extern const char *generate_class_name (void);
 
-//
-// macros used to create and initialize warning and error symbols
-// (obsolete once module system in use)
-//
-
-//#: macro used to create and initialize a symbol
-#define defsymbol(name) name = [Symbol create: globalZone setName: #name]
-
-//#: macro used to create and initialize an Error symbol
-#define defwarning(name, message) \
-  [(name = [Warning create: globalZone setName: #name]) \
-    setMessageString: message]
-
-//#: macro used to create and initialize a Warning symbol
-#define deferror(name, message) \
-  [(name = [Error create: globalZone setName: #name]) \
-    setMessageString: message]
-
 //#: Name to use for Lisp archiving class-creation function
 #define MAKE_CLASS_FUNCTION_NAME "make-class"
 
@@ -1316,7 +1294,7 @@ extern const char *generate_class_name (void);
 //#: signchar + roundup (log (10)/log(2) = 3.3219).
 #define DSIZE(type) (1 + sizeof (type) * 8 / 3 + 1)
 
-extern char *zstrdup (id aZone, const char *str);
+extern char *zstrdup (id <Zone> aZone, const char *str);
 
 #define ZSTRDUP(aZone, str) zstrdup (aZone, str)
 
