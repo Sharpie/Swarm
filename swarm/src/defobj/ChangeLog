@@ -1,3 +1,9 @@
+1998-06-15  Alex Lancaster  <alex@santafe.edu>
+
+	* DefObject.m ([Object_s -setDisplayName:]): Removed cast of
+	pointer to unsigned long.
+	(_obj_formatIDString),(xsetname), (xexec), (xfexec): Likewise.
+
 1998-06-14  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* defobj.h: Remove mention of what might happen with other

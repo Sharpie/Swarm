@@ -632,7 +632,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 
   if ( ! aName ) {
     sprintf( buffer, PTRFMT ": %.64s",
-             (unsigned long)self, getClass( self )->name );
+             self, getClass( self )->name );
     aName = buffer;
   }
 
@@ -674,7 +674,7 @@ void
 _obj_formatIDString (char *buffer, id anObject)
 {
   sprintf( buffer, PTRFMT ": %.64s",
-           (unsigned long)anObject, ((Class)[anObject getClass])->name );
+           anObject, ((Class)[anObject getClass])->name );
 }
 
 //
@@ -807,7 +807,7 @@ xsetname (id anObject, const char *displayName)
                  "xsetname: object "
                  PTRFMT 
                  "does not respond to setDisplayName:\n",
-                 (unsigned long)anObject);
+                 anObject);
     }
   else
     fprintf ( _obj_xdebug, "xsetname: object is nil\n" );
@@ -880,7 +880,7 @@ xexec (id anObject, const char *msgName)
       } else {
         fprintf( _obj_xdebug,
           "Object " PTRFMT ": %.64s does not respond to message %s\n",
-          (unsigned long)anObject, [[anObject getClass] getName], msgName );
+          anObject, [[anObject getClass] getName], msgName );
       }
     } else {
       fprintf( _obj_xdebug, "message \"%s\" is not defined\n", msgName );
@@ -903,7 +903,7 @@ xfexec (id anObject, const char *msgName)
       fprintf( _obj_xdebug,
 "object " PTRFMT ": %s does not respond to begin:\n"
 "(begin: is required by xfexec to enumerate the members of a collection)\n",
-        (unsigned long)anObject, getClass( anObject )->name );
+        anObject, getClass( anObject )->name );
     } else {
       index = [anObject begin: scratchZone];
       while ( (member = [index next]) ) {
