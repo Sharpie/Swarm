@@ -59,7 +59,7 @@ PHASE(Using)
 //
 + (const char *)getName
 {
-  return (const char *)((Class)self)->name;
+  return (const char *) ((Class)self)->name;
 }
 
 //
@@ -69,6 +69,7 @@ PHASE(Using)
 {
   return respondsTo (self, aSel);
 }
+
 - (BOOL)respondsTo: (SEL)aSel
 {
   return respondsTo (self, aSel);
@@ -120,16 +121,14 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 
   else if (mapalloc->descriptor == t_LeafObject)
     {
-      unsetMappedAlloc ((Object_s *)mapalloc->alloc);
+      unsetMappedAlloc ((Object_s *) mapalloc->alloc);
       [(id)mapalloc->alloc dropAllocations: 1];
       
     }
   else
-    {
-      raiseEvent (InvalidArgument,
-                  "> unrecognized descriptor of allocated block\n"
-                  "> in mapAlloc() call\n");
-    }
+    raiseEvent (InvalidArgument,
+                "> unrecognized descriptor of allocated block\n"
+                "> in mapAlloc() call\n");
 }
 
 //
@@ -168,7 +167,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     {
       index = [suballocList begin: scratchZone];
       [index setLoc: End];
-      while ((suballocEntry = (suballocEntry_t)[index prev])
+      while ((suballocEntry = (suballocEntry_t) [index prev])
              && suballocEntry->notifyFunction)
         {
           suballocEntry->notifyFunction (self, nil, suballocEntry->argument);
@@ -208,10 +207,10 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   if (suballocList)
     {
       [index setLoc: Start];
-      while ((suballocEntry = (suballocEntry_t)[index next]))
+      while ((suballocEntry = (suballocEntry_t) [index next]))
         {
           [zone freeBlock: suballocEntry->argument
-                blockSize: ((suballocHeader_t)suballocEntry->argument)->suballocSize];
+                blockSize: ((suballocHeader_t) suballocEntry->argument)->suballocSize];
           [index remove];
           [zone freeBlock: suballocEntry blockSize: sizeof *suballocEntry];
         }
@@ -234,7 +233,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //   (Should use the simple, generic drop instead, which uses BitComponentAlloc
 //   to free using the correct method.)
 //
-- (void) dropAllocations: (BOOL)componentAlloc
+- (void)dropAllocations: (BOOL)componentAlloc
 {
   if (getBit (zbits, BitComponentAlloc) && !componentAlloc)
     raiseEvent (InvalidOperation,
@@ -283,15 +282,15 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       memcpy (suballocList,
               suballocPrototype,
               getClass (suballocPrototype)->instance_size);
-      ((Object_s *)suballocList)->zbits = (unsigned long)zone;
+      ((Object_s *) suballocList)->zbits = (unsigned long) zone;
       self->zbits =
-        (unsigned long)suballocList | (self->zbits & 0x7) | BitSuballocList;
+        (unsigned long) suballocList | (self->zbits & 0x7) | BitSuballocList;
       zone = getZone (self);
     }
   else
     {
       suballocList = getSuballocList (self);
-      zone = getZone ((Object_s *)suballocList);
+      zone = getZone ((Object_s *) suballocList);
     }
 
   // initialize new entry for suballocations list
@@ -304,7 +303,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 
   if (notifyFunction)
     {
-      [suballocList addLast: (id)suballocEntry];
+      [suballocList addLast: (id) suballocEntry];
       
       // else insert at point in sort order defined by key
       
@@ -314,19 +313,19 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       index = [suballocList begin: scratchZone];
       while ((nextEntry = (suballocEntry_t)[index next])
              && !nextEntry->notifyFunction
-             && ((suballocHeader_t)arg)->suballocKey <
-             ((suballocHeader_t)nextEntry->argument)->suballocKey);
-      [index addBefore: (id)suballocEntry];
+             && ((suballocHeader_t) arg)->suballocKey <
+             ((suballocHeader_t) nextEntry->argument)->suballocKey);
+      [index addBefore: (id) suballocEntry];
       [index drop];
     }
-  return (ref_t)suballocEntry;
+  return (ref_t) suballocEntry;
 }
 
 //
 // removeRef: -- 
 //   remove a dependent reference previously added by addRef:
 //
-- (void) removeRef: (ref_t)refVal
+- (void)removeRef: (ref_t)refVal
 {
   id index, suballocList;
   
@@ -336,7 +335,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     raiseEvent(InvalidOperation,
                "> object from which reference to be removed does not have any references");
   
-  index = [suballocList createIndex: scratchZone fromMember: (id)refVal];
+  index = [suballocList createIndex: scratchZone fromMember: (id) refVal];
   [index remove];
   [index drop];
 }
@@ -346,7 +345,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 + getSuperclass
 {
-  return ((Class)self)->super_class;
+  return ((Class) self)->super_class;
 }
 
 //
@@ -356,10 +355,10 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 {
   Class  superclass;
 
-  superclass = (Class)self;
+  superclass = (Class) self;
   while (YES)
     {
-      if (superclass == (Class)aClass)
+      if (superclass == (Class) aClass)
         return YES;
       if (!superclass->super_class)
         return NO;
@@ -396,15 +395,16 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     raiseEvent (SourceMessage,
                 "> setTypeImplemented: class %s in module %s does not belong to module\n"
                 "> currently being initialized (%s)\n",
-                ((Class)self)->name, [classData->owner getName],
+                ((Class) self)->name,
+                [classData->owner getName],
                 [_obj_implModule getName]);
   
   if (classData->typeImplemented
-      && *(id *)classData->typeImplemented != self)
+      && *(id *) classData->typeImplemented != self)
     raiseEvent (SourceMessage,
                 "> setTypeImplemented: class %s, requested to implement the type %s,\n"
                 "> has already been specified as the implementation of type %s\n",
-                ((Class)self)->name, [aType getName],
+                ((Class) self)->name, [aType getName],
                 [classData->typeImplemented getName] );
   
   classData->typeImplemented = aType;
@@ -431,7 +431,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 + (IMP)getMethodFor: (SEL)aSel
 {
-  return sarray_get (((Class)self)->dtable, (size_t)aSel->sel_id);
+  return sarray_get (((Class)self)->dtable, (size_t) aSel->sel_id);
 }  
 
 //
@@ -463,7 +463,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 - getType
 {
-  return _obj_getClassData (*(Class_s **)self)->typeImplemented;
+  return _obj_getClassData (*(Class_s **) self)->typeImplemented;
 }
 
 //
@@ -622,12 +622,12 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 {
   const char *displayName;
   
-  displayName = (const char *)[_obj_displayNameMap removeKey: object];
+  displayName = (const char *) [_obj_displayNameMap removeKey: object];
   if (reallocAddress)
     [_obj_displayNameMap at: object insert: (id)displayName];
   else
     [_obj_sessionZone
-      freeBlock: (void *)displayName blockSize: strlen (displayName) + 1];
+      freeBlock: (void *) displayName blockSize: strlen (displayName) + 1];
 }
 
 //
@@ -664,7 +664,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 
   // insert display name into the global display name map, if not already there
 
-  memPtr = (id *)&displayName;
+  memPtr = (id *) &displayName;
   if (![_obj_displayNameMap at: self memberSlot: &memPtr])
     {
       [_obj_sessionZone freeBlock: displayName blockSize: strlen (aName) + 1];
@@ -687,7 +687,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   if (!_obj_displayNameMap)
     return NULL;
   
-  return (const char *)[_obj_displayNameMap at: self];
+  return (const char *) [_obj_displayNameMap at: self];
 }
 
 - (const char *)getIdName
@@ -730,7 +730,7 @@ _obj_formatIDString (char *buffer, id anObject)
 // This method should not be overridden in subclasses, so that the basic
 // describeID: method remains available for use in describe: methods.
 //
-- (void) describeID: outputCharStream
+- (void)describeID: outputCharStream
 {
   char  buffer[100];
   const char *displayName;
@@ -753,7 +753,7 @@ _obj_formatIDString (char *buffer, id anObject)
 // This method can overridden as desired in subclasses, to provide as
 // specific a description of the object as desired for debug purposes.
 //
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   [self describeID: outputCharStream];
 }
@@ -814,7 +814,7 @@ initDescribeStream (void)
 //
 // xfprintid -- print id for each member of a collection on debug output stream
 //
-- (void) xfprintid
+- (void)xfprintid
 {
   if (!describeStream)
     initDescribeStream ();
@@ -838,7 +838,7 @@ initDescribeStream (void)
 BOOL
 respondsTo (id anObject, SEL aSel)
 {
-  return sarray_get (getClass (anObject)->dtable, (size_t)aSel->sel_id) != 0;
+  return sarray_get (getClass (anObject)->dtable, (size_t) aSel->sel_id) != 0;
 }
 
 //
@@ -848,7 +848,7 @@ respondsTo (id anObject, SEL aSel)
 IMP
 getMethodFor (Class aClass, SEL aSel)
 {
-  return sarray_get (aClass->dtable, (size_t)aSel->sel_id);
+  return sarray_get (aClass->dtable, (size_t) aSel->sel_id);
 }
 
 //
