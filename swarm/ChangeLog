@@ -1,3 +1,7 @@
+2002-01-14  Marcus G. Daniels  <mgd@condor>
+
+	* VERSION: Bump.
+
 2002-01-13  Marcus G. Daniels  <mgd@condor>
 
 	* NEWS: Note EZSequence's new getCurrentValue method.
