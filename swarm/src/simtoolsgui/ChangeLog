@@ -1,7 +1,9 @@
 1998-09-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbeWidget.m (printVal): Add support for unsigned int,
-	long, and unsigned long.
+	long, and unsigned long.  Don't return in each case, return buf at
+	the end.  Abort in default case.
+	(printVal): Add char, unsigned char, short, and unsigned short.
 
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

@@ -43,26 +43,44 @@ printVal (val_t val)
       return [val.val.object getIdName];
     case _C_SEL:
       return sel_get_name (val.val.selector);
+    case _C_CHR:
+      // character return is broken in libffi-1.18
+      sprintf (buf, "%c", (char)val.val._int);
+      break;
+    case _C_UCHR:
+      // character return is broken in libffi-1.18
+      sprintf (buf, "%c", (unsigned char)val.val._uint);
+      break;
+    case _C_SHT:
+      // short return is broken in libffi-1.18
+      sprintf (buf, "%hd", (short)val.val._int);
+      break;
+    case _C_USHT:
+      // short return is broken in libffi-1.18
+      sprintf (buf, "%hu", (unsigned short)val.val._uint);
+      break;
     case _C_INT:
       sprintf (buf, "%d", val.val._int);
-      return buf;
+      break;
     case _C_UINT:
       sprintf (buf, "%u", val.val._int);
-      return buf;
+      break;
     case _C_LNG:
       sprintf (buf, "%ld", val.val._long);
-      return buf;
+      break;
     case _C_ULNG:
       sprintf (buf, "%lu", val.val._long);
-      return buf;
+      break;
     case _C_FLT:
       sprintf (buf, "%f", val.val._float);
-      return buf;
+      break;
     case _C_DBL:
       sprintf (buf, "%f", val.val._double);
-      return buf;
+      break;
+    default:
+      abort ();
     }
-  abort ();
+  return buf;
 }
 
 @implementation MessageProbeWidget
