@@ -8,6 +8,9 @@
 
 (define %callout-fancy-bug% #f)
 
+(define bop-footnotes
+  ;; Make "bottom-of-page" footnotes?
+  #t)
 
 (define ($paragraph$)
   (make paragraph

@@ -2,23 +2,27 @@
   <title>Introduction</title>
 
   <para>The Swarm project was started in 1994 by Chris Langton at
-  Santa Fe Institute (<acronym>SFI</acronym>)in New Mexico. The aim
-  was to develop both a vocabulary and a set of standard computer
-  tools for the development of multi-agent simulation models
-  (so-called <acronym>ABM</acronym>s, short for Agent-Based Models).
-  Armed with this framework, researchers are able to focus on the
-  substance of the modeling task, avoiding some of the complicated
-  (and uninteresting) details of computer coding.</para>
+    <ulink url="http://www.santafe.edu">Santa Fe Institute</ulink>
+    (<acronym>SFI</acronym>)in New Mexico.  It is currently based at
+    the non-for-profit organization, <ulink
+    url="http://www.swarm.org">Swarm Development Group</ulink> also
+    based in Santa Fe, New Mexico.  The aim was to develop both a
+    vocabulary and a set of standard computer tools for the
+    development of multi-agent simulation models (so-called
+    <acronym>ABM</acronym>s, short for Agent-Based Models).  Armed
+    with this framework, researchers are able to focus on the
+    substance of the modeling task, avoiding some of the complicated
+    (and uninteresting) details of computer coding.</para>
 
   <para>The Swarm project has benefitted from the contributions of
     many programmers, including Roger Burkhart, Nelson Minar, Manor
     Askenazi, Glen Ropella, Sven Thommesen, Marcus Daniels, Alex
-    Lancaster, and Irene Lee. </para>
+    Lancaster, Vladimir Jojic, and Irene Lee. </para>
 
-  <sect1><title>Basic facts about Swarm</title> <para>Swarm is a
-    collection of software libraries which provide support for
-    simulation programming. Among the most prominent features are the
-    following.
+  <sect1 id="swarm.user.user1.01-facts.sect1"><title>Basic Facts About
+    Swarm</title> <para>Swarm is a collection of software libraries
+    which provide support for simulation programming. Among the most
+    prominent features are the following.
 
     <itemizedlist>
 
@@ -72,14 +76,19 @@
 
 </sect1>
 
-<sect1><title>Swarm is a moving target</title>
+<sect1 id="swarm.user.user1.01-target.sect1"><title>Swarm is a Moving Target</title>
 
-    <para>Swarm is an "open source" project. <comment>need some licensing frob
-      here</comment> </para>
+    <para>Swarm is <ulink
+        url="http://www.gnu.org/philosophy/free-sw.html">free
+        software</ulink> <footnote> <para>sometimes referred to as
+        "open source" source software, see: <ulink
+        url="http://www.opensource.org/osd.html">http://www.opensource.org/osd.html</ulink>
+        </para>
+      </footnote>.</para>
 
     <para>Most of the development work has been done by the Swarm
       Development Group at the SFI.  Their results are periodically
-      released on the internet and users can edit the source code.
+      released on the Internet and users can edit the source code.
       The creators fully intended for users to take the code,
       experiment with it, and propose changes and enhancements.  This
       open source strategy is designed to capture the contributions of
@@ -111,12 +120,12 @@
 
   </sect1>
 
-<sect1>
-<title>Prerequisites for success with Swarm.</title>
+<sect1 id="swarm.user.user1.01-prereq.sect1">
+<title>Prerequisites for Success with Swarm.</title>
 
     <para>Swarm was originally conceived as a set of standardized
       methods for the design of multi-agent simulation models. One
-      need not be a highly-accomplished computer program to user the
+      need not be a highly accomplished computer program to user the
       Swarm libraries.  In fact, as the installation process for Swarm
       becomes increasingly streamlined, it is quite easy for anyone
       with suitable hardware to test some of the sample
@@ -134,28 +143,29 @@
       understanding of computer programming, the C computer language,
       and Objective C. </para>
     
-    <para>Fortunately, C is a highly-useful language and it is
+    <para>Fortunately, C is a highly useful language and it is
       relatively easy to learn.  Objective-C is, well, truly elegant
       and fun to use and people who know C say it is fairly easy to
       learn. </para> <para> People who have not done computer
       programming will thus need to do some background preparation
       before they try to make a serious effort at building a Swarm
       model.  We suggest that the first step is to find one of the
-      many elementary guides to computing with C, such as <comment>XXX
-      or XXX</comment>. A manual with examples and exercises is vital.
-      These will teach the basics about writing code and compiling it
-      into programs.
+      many elementary guides to computing with C, such as <citetitle
+      pubwork="book">The C Programming Language</citetitle>,
+      <citation>Kernighan & Ritchie, 1988</citation>.  Written by the
+      authors of C, <author> <firstname>Brian</firstname>
+      <surname>Kernighan</surname> </author> and <author>
+      <firstname>Dennis</firstname> <surname> Ritchie</surname>
+      </author>, it is a truly readable and informative manual that
+      all users ought to investigate.</para>
 
-      The book <citetitle pubwork="book">The C Programming
-      Language</citetitle>, <citation>Kernighan & Ritchie, 1988</citation> 
-      by the authors of C, <author>
-      <firstname>Brian</firstname> <surname>Kernighan</surname>
-      </author> and <author> <firstname>Dennis</firstname> <surname>
-      Ritchie</surname> </author>, is a truly readable and informative
-      manual that all users ought to investigate.  The Objective-C
-      language is best learned from the online book
-      <citetitle>Object Oriented Programming and the Objective C
-        Language</citetitle> <citation>NeXT, 1993</citation>.</para></sect1>
+    <para>A manual with examples and exercises is vital.  These will
+      teach the basics about writing code and compiling it into
+      programs.</para>
+
+    <para>The Objective-C language is best learned from the online
+      book <citetitle>Object Oriented Programming and the Objective C
+      Language</citetitle> <citation>NeXT, 1993</citation>.</para></sect1>
 
 <sect1>
 

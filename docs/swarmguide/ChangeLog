@@ -1,3 +1,16 @@
+2000-02-09  Alex Lancaster  <alex@santafe.edu>
+
+	* user1.01.sgml: Slight wording changes/updates.  Reword free/open
+	source software info.  Start adding IDs to all SECT1 elements, so
+	that html pages have meaningful names and they can be
+	LINKed/XREFed.
+
+	* print.dsl (bop-footnotes): Set to true to enable bottom of page
+	footnotes in tex backend.
+
+	* Makefile.rules (_%.tex): Explicitly pass `-V tex-backend' to
+	jade, since some features of the print stylesheets rely on this.
+
 2000-01-29  Alex Lancaster  <alex@santafe.edu>
 
 	* print.dsl ($paragraph$): Commented out the troublesome
