@@ -1,7 +1,9 @@
 #!/bin/sh
-CTOR=swarm_constructors
-nm $* | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(__GLOBAL_\$I\$.*\)/extern void ${CTOR}_sym\1 (void) __asm__ (\"\4\");/p"
+CTOR=$1
+shift
+(nm $* | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(__GLOBAL_\$I\$.*\)/extern void ${CTOR}_sym\1 (void) __asm__ (\"\4\");/p" 
 echo
 echo "void ${CTOR} (void) {"
 nm $* | nl -s" " | sed -n "s/^ *\([0-9][0-9]*\)  *\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(__GLOBAL_\$I\$.*\)/${CTOR}_sym\1 ();/p"
 echo "}"
+) > ${CTOR}.c

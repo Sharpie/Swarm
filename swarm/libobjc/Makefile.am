@@ -49,7 +49,7 @@ empty.c:
 
 objc.dll: libobjc_.la
 	$(CC) -c $(srcdir)/dllinit.c
-	$(srcdir)/genctors $(DLLOBJS) > $(CTOR).c
+	$(srcdir)/genctors $(CTOR) $(DLLOBJS)
 	$(CC) -c $(CTOR).c
 	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o objc.dll dllinit.o $(CTOR).o $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
