@@ -1,3 +1,8 @@
+1999-04-25  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.tests.in (INCLUDES): Add include for src/gui directory,
+	for gui.h header file (needed by space library).
+
 1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config.swarm.in (JAVACMD, JAVAENV): New substitutions.

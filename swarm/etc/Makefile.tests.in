@@ -1,6 +1,6 @@
 include $(top_builddir)/etc/Makefile.common
 
-INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(top_builddir)/src/$(module))
+INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(top_builddir)/src/$(module)) -I$(top_srcdir)/src/gui/
 
 builddir = $(shell cd ../../src; pwd)
 
