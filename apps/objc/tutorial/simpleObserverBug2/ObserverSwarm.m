@@ -2,6 +2,7 @@
 
 #import "ObserverSwarm.h"
 #import "ModelSwarm.h"
+#import <activity.h>
 #import <simtoolsgui.h>
 
 @implementation ObserverSwarm
