@@ -2,6 +2,11 @@
 
 SUFFIXES = .m
 
+# Solaris JNI headers have some pragmas
+override CFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
+override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
+
+# We are building Swarm 
 override CPPFLAGS += -DBUILDING_SWARM
 
 CLEANFILES = $(TYPEINFO)
@@ -21,3 +26,7 @@ $(firstword $(TYPEINFO)): $(MODULE).h $(MAKEH2X) # $(SOURCES)
 	mv $(MODULE).xc classes.h
 
 include_HEADERS = $(MODULE).h
+
+# Local variables:
+# mode: makefile
+# End:

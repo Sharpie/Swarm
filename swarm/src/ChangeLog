@@ -1,3 +1,8 @@
+1999-07-09  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.rules (CFLAGS, OBJCFLAGS): Override with configure-time
+	options to ignore pragmas in jni headers under Solaris.
+
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules (xm_file): Set to be the first BUILT_SOURCES.
