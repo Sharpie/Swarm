@@ -1,3 +1,7 @@
+1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* headers.m4: Convert hppa2.0 into hppa.
+
 1999-05-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* headers.m4: Convert hpux10.20 into hpux10.
