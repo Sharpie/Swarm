@@ -1,5 +1,7 @@
 include ../Makefile.common
 
+MOZILLA = $(B)/mozilla/dist
+
 _creatable_PROTOCOLS = $(foreach module,$(MODULES),$($(module)_creatable_PROTOCOLS))
 _noncreatable_PROTOCOLS = $(foreach module,$(MODULES),$($(module)_noncreatable_PROTOCOLS))
 
@@ -17,10 +19,10 @@ SOURCES = $(addsuffix Impl.cpp,$(addprefix swarm,$(creatable_PROTOCOLS)))
 OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
 
 CXX = c++
-CPPFLAGS = -I. -I/build/mozilla/dist/include
+CPPFLAGS = -I. -I$(MOZILLA)/include
 
 swarmI%.h: swarmI%.idl
-	/build/mozilla/dist/bin/xpidl -I/build/mozilla/dist/idl -m header $<
+	$(MOZILLA)/bin/xpidl -I$(MOZILLA)/idl -m header $<
 
 all: $(OBJECTS)
 
