@@ -46,6 +46,15 @@ printVal (val_t val)
     case _C_INT:
       sprintf (buf, "%d", val.val._int);
       return buf;
+    case _C_UINT:
+      sprintf (buf, "%u", val.val._int);
+      return buf;
+    case _C_LNG:
+      sprintf (buf, "%ld", val.val._long);
+      return buf;
+    case _C_ULNG:
+      sprintf (buf, "%lu", val.val._long);
+      return buf;
     case _C_FLT:
       sprintf (buf, "%f", val.val._float);
       return buf;
