@@ -7,6 +7,7 @@
 #import <objectbase.h>
 #import <activity.h> // getCurrentTime
 #import <gui.h>
+#import <defobj/DefObject.h> // getClass
 
 // ActiveGraph: a graph that actively updates its own element when stepped.
 @implementation ActiveGraph
@@ -28,7 +29,7 @@ PHASE(Creating)
 {
   if (element == nil || dataFeed == nil)
     [InvalidCombination raiseEvent: "ActiveGraph not initialized properly"];
-  [self setProbedClass: [dataFeed class]] ;
+  [self setProbedClass: getClass (dataFeed)];
   [super createEnd];
   return self;
 }
