@@ -5,8 +5,8 @@ public class Marcus extends Agent {
     super ("Marcus");
   }
   public void step () {
-    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-5, 5),
-               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-5, 5),
-               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-5, 5));
+    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-2, 2),
+               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-2, 2),
+               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-2, 2));
   }
 }
