@@ -2,6 +2,8 @@
 
 	* Makefile.in (PRECLASSES): Add Primitives.
 
+	* Makefile.rules.in (top_srcdir): Add substitution.
+
 	* Primitives.java: New class.
 
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

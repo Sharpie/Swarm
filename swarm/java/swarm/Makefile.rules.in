@@ -8,6 +8,7 @@ JAVA=@JAVA@
 JAVACLASSESARG=@JAVACLASSESARG@
 JAVAC=@JAVAC@
 JAVACOMPILE=$(JAVAC) -classpath '..@PATHDELIM@..@PATHSEP@$(JAVACLASSESARG)'
+top_srcdir=@top_srcdir@
 top_dossrcdir=@top_dossrcdir@
 ifneq ($(top_dossrcdir),.)
 JAVADEPS = $(top_dossrcdir)@PATHDELIM@java@PATHDELIM@JavaDeps.jar
