@@ -1,3 +1,11 @@
+1999-07-30  Alex Lancaster  <alex@santafe.edu>
+
+	* config.swarm.in (SWARM_LDFLAGS): Remove swarm_BLTLDFLAGS,
+	TCLLDFLAGS, TKLDFLAGS, FFILDFLAGS, XPMLDFLAGS, PNGLDFLAGS,
+	ZLIBLDFLAGS, X_LIBS} variables, libtool will extract appropriate
+	information from `-lswarm' and `-lobjc'.
+	(SWARM_LDADD): Remove swarm_{SYSLIBS,LIBS}, libtool handles this.
+
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.tests.in (LDFLAGS): Add $(EXTRALDFLAGS).
