@@ -1,0 +1,10 @@
+<!entity % html "IGNORE">
+<![%html;[
+<!entity % print "IGNORE">
+<!entity modeling PUBLIC "-//SFI Hive//ENTITIES Modeling JPEG//EN" ndata jpeg>
+]]>
+
+<!entity % print "INCLUDE">
+<![%print;[
+<!entity modeling PUBLIC "-//SFI Hive//ENTITIES Modeling EPS//EN" ndata eps>
+]]>
