@@ -85,4 +85,10 @@ PHASE(Using)
   return self;
 }
 
+- (void)drop
+{
+  [[self getZone] free: newLattice];
+  [super drop];
+}
+
 @end
