@@ -867,13 +867,6 @@ java_object_setVariable (jobject javaObject, const char *ivarName,
                   java_get_class_name (javaClass));
     else
       {
-        // dataType of void means unspecified (e.g. from object_setVariable)
-        if (dataType != fcall_type_void && type != dataType)
-          raiseEvent (InvalidArgument,
-                      "Type mismatch setting `%s' data type %u ivar type %u",
-                      ivarName,
-                      (unsigned) dataType, (unsigned) type);
-
         if (isArray)
           {
             jobject ary = 0;
@@ -881,7 +874,7 @@ java_object_setVariable (jobject javaObject, const char *ivarName,
             if (rank > 1)
               abort ();
 
-            switch (type)
+            switch (dataType)
               {
               case fcall_type_boolean:
                 ary = (*jniEnv)->NewBooleanArray (jniEnv, dims[0]);
@@ -910,7 +903,7 @@ java_object_setVariable (jobject javaObject, const char *ivarName,
               default:
                 abort ();
               }
-            java_storeArray (ary, type, rank, dims, inbuf);
+            java_storeArray (ary, dataType, rank, dims, inbuf);
             (*jniEnv)->SetObjectField (jniEnv, javaObject, fid, ary);
             (*jniEnv)->DeleteLocalRef (jniEnv, ary);
           }
@@ -921,6 +914,15 @@ java_object_setVariable (jobject javaObject, const char *ivarName,
 #define SETVALUE(uptype, value) _SETVALUE(uptype, value)
         
             types_t *buf = inbuf;
+
+            // dataType of void means unspecified
+            // (e.g. from object_setVariable)
+            if (dataType != fcall_type_void && type != dataType)
+              raiseEvent (InvalidArgument,
+                          "Type mismatch setting `%s' data %u ivar %u",
+                          ivarName,
+                          (unsigned) dataType, (unsigned) type);
+
             switch (type)
               {
               case fcall_type_object:
