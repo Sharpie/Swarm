@@ -5,25 +5,27 @@ top_builddir=../..
 SHELL=@SHELL@
 LIBTOOL=@LIBTOOL@
 
-CPPFLAGS=-I/opt/SUNWjava/usr/java1.2/include -I/opt/SUNWjava/usr/java1.2/include/solaris
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+LIBS=@LIBS@
 
-modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS)))
+javaprefix=/opt/SUNWjava/usr/java1.2
+javaincludedir=$(javaprefix)/include
+JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris 
 
-libjavaswarm_a_OBJECTS = $(addsuffix .o,$(modulePROTOCOLS))
+CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES)
+CFLAGS=@CFLAGS@
+LDFLAGS=@LDFLAGS@
+
+modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
+
 libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
 
-all: libjavaswarm.la libjavaswarm.a
+all: libjavaswarm.la
 
 libjavaswarm.la: $(libjavaswarm_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@
-
-libjavaswarm.a: $(libjavaswarm_a_OBJECTS)
-	-$(RM) libjavaswarm.a
-	$(AR) cru libjavaswarm.a $(libjavaswarm_a_OBJECTS)
-	$(RANLIB) libdefobj.a
-
-%.o: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ -rpath $(libdir) $(LIBS)
 
 %.lo: %.c
 	$(LIBTOOL) --mode=compile $(CC) $(CPPFLAGS) $(CFLAGS) -c $<
