@@ -1,6 +1,7 @@
 2001-01-17  Marcus G. Daniels  <mgd@forager.swarm.org>
 
-	* NEWS: Note -forEach:: fix for Java collections.
+	* NEWS: Note -forEach:: fix for Java collections.  Note support
+	for -setUnsignedArg: in EZ{Average}Sequence.
 
 	* VERSION: Bump.
 
