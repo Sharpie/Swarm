@@ -379,8 +379,9 @@ PHASE(Using)
 
   [super describe: outputCharStream];
   sprintf (buffer, "> number of objects in population: %u\n"
-           "> total size of objects in population: %u\n",
-           [population getCount], populationTotal);
+           "> total size of objects in population: %lu\n",
+           [population getCount],
+           (unsigned long) populationTotal);
   [outputCharStream catC: buffer];
   
   if (_obj_debug)
