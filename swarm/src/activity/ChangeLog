@@ -1,3 +1,9 @@
+1999-03-04  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* ActionGroup.m ([GroupPermutedIndex_c +createBegin:]):
+	Call allocIVars: with [self getClass] as an arguments instead of 
+	self and setClass to self.
+
 1999-03-03  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* ActionGroup.m ([GroupPermutedIndex_c +createBegin:]): Use getCZone

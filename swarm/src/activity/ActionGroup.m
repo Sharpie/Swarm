@@ -406,7 +406,8 @@ PHASE(Using)
 {
   GroupPermutedIndex_c *newIndex;
 
-  newIndex = [aZone allocIVars: self];
+  newIndex = [aZone allocIVars: [self getClass]];
+  setClass (newIndex, self);
   newIndex->collection = [Permutation createBegin: getCZone (aZone)];
   return newIndex;
 }
