@@ -272,7 +272,7 @@ changequote(,)dnl
   alphaev[4-7] | alphaev56 | alphapca5[67] )
     host_cpu=alpha
     ;;
-  hppa1.0 | hppa1.1 | hppa2.0 )
+  hppa1.0 | hppa1.1 | hppa2.0 | hppa2.0w )
     host_cpu=hppa
     ;;
   powerpc )

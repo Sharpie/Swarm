@@ -110,11 +110,11 @@ avcall-mips64.lo : $(srcdir)/avcall-mips64.s
 avcall-mips64.s : $(srcdir)/avcall-mips64.S
 	$(CPP) $(ASPFLAGS) $(srcdir)/avcall-mips64.S | grep -v '^ *#line' | grep -v '^#' | sed -e 's,% ,%,g' -e 's,//.*$$,,' > avcall-mips64.s
 
-avcall-alphaev56.lo avcall-alpha.lo : $(srcdir)/avcall-alpha.s
-	$(LIBTOOL_COMPILE) $(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-alpha.s -o $@
+avcall-alpha.lo : $(srcdir)/avcall-alpha.s
+	$(LIBTOOL_COMPILE) $(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-alpha.s
 
-avcall-hppa.lo avcall-hppa2.0w.lo: $(srcdir)/avcall-hppa.s
-	$(LIBTOOL_COMPILE) $(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-hppa.s -o $@
+avcall-hppa.lo: $(srcdir)/avcall-hppa.s
+	$(LIBTOOL_COMPILE) $(CC) @GCC_X_NONE@ -c $(srcdir)/avcall-hppa.s
 
 avcall-arm.lo : avcall-arm.s
 	$(LIBTOOL_COMPILE) $(CC) @GCC_X_NONE@ -c avcall-arm.s
