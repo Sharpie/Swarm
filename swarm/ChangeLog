@@ -1,3 +1,14 @@
+1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf: Add SWARMBACKEND variable in my config with
+	Java paths.
+	(SWARMLIBS): Add misc.
+
+1998-01-31  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf (.m.i): New rule.
+	(.SUFFIXES): Add .i.
+
 1998-02-06  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.conf: Updated alex-SFI-Solaris configuration. Added
