@@ -2,6 +2,8 @@
 
 	* configure.in: Make an (explicit) call to AC_CANONICAL_SYSTEM.
 	Call md_CHECK_PATH_SYNTAX.
+	Get absolute path of $srcdir and use that for running libobjc's
+	configure (for the case srcdir=.).
 
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
