@@ -10,7 +10,7 @@
   id toList;
   id <Canvas> canvas;
   id <NodeItem> nodeItem;
-  id nodeType;
+  id <Symbol> nodeType;
   const char *label;
   id uRandPosition;
 }

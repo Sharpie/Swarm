@@ -1,3 +1,7 @@
+1999-04-07  Alex Lancaster  <alex@santafe.edu>
+
+	* DiGraphNode.h (@interface): Cast nodeType to id <Symbol>.
+
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (SWARMHOME): Default to 1998-08-20.
