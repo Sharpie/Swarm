@@ -19,7 +19,7 @@ FORCE:
 ###
 ### "distributions" are tarballs that contain source/binary distributions
 ### for swarm, set up with their standard configuration
-SWARMDIST=swarm-1998-03-04
+SWARMDIST=swarm-1998-03-05
 
 ifeq ($(SWARMTMPDIR),)
 TMPDIR=/tmp
