@@ -1,0 +1,312 @@
+// simpleBatchSwarm2
+
+
+      SAVING DATA IN FILES AND RUNNING IN BATCH MODE
+
+
+
+There's something to be said for simplicity.  If you want to use
+regular, old-fashioned C fprintf() to write numbers into files, you
+can write that into ModelSwarm or into a special Output class.  
+There are many data formats, however. Swarm can use the HDF5 format, 
+a data storage framework from the National Center for Supercomputer
+Applications.  HDF5 data can be loaded directly into statistical 
+programs that have HDF5 support, such as R. 
+
+In the ideal case, one should not need to massively rewrite a model
+in order to make the transition from a single, interactive GUI run
+to a huge flock of batch runs.  The design of this exercise is 
+intended to focus your attention on the fact that you probably
+want data collection to occur WHETHER OR NOT you are in the GUI, 
+and if you are in the batch mode, you want data output for sure.
+
+
+The approach recommended here departs from previous Swarm models. It
+uses methods that are included only in Swarm-2.2 and will not run with
+Swarm-2.1.1 or earlier Swarm editions.  Many previous models have used
+the ObserverSwarm to orchestrate the simulation as well as present
+graphs to the user.  That does not work well when we make the
+transition to batch mode, because a parallel BatchSwarm class must be
+maintained.  The proposed solution is to create a new class called
+Output, and design that class so that it can do the work of GUI work
+of drawing graphs on the screen as well as saving graphed data into
+files.
+
+If you pour through the code here, or perhaps run the "diff" program
+to get an exhaustive list of changes against simpleBatchBug1, you will
+see not only the new Output class, but also a set of changes that
+wrinkle throughout the other classes in order to make everything work
+together.  The ModelSwarm has to create the "output" object, and the
+output object is told to "step" at every time.  Also, in order to
+make sure that the output data set is written when the model
+shuts down, the "drop" method of the Output class is called. 
+
+
+
+Makefile
+
+The Output class is introduced.
+
+
+main.m
+
+There are only minor changes in main.m The commands to make the Swarm
+model stop and save its data show up toward the end, where the main
+activities and the topLevelSwarm are told to drop. The importance of this
+change is discussed in the treatment of the Output class.
+
+
+
+Output
+
+The Output class uses a Swarm EZGraph to serve the dual purposes of
+plotting a numerical sequence on the screen during GUI runs and
+writing the numerical values into a file in all runs.  
+
+If the "run" argument is set in the Parameter object, then the run
+number will be used in the file name.  In that case, then one will end
+up with a directory full of files with names like this:
+
+hdfGraph0068.hdf
+output0068.data
+
+(That resulted from this command line: 
+
+./bug -b -R68 -e100
+
+Note that the run number becomes part of the file name.
+)
+
+The output file "outputXX.data" is a tab delimited output file that can
+easily be imported into just about any statistical or spread sheet program.
+It is created by the "prepareCOutputFile" method and then any time we want
+to write data into that file, the "writeCData" method is called.
+
+The writeCData method uses a new feature in Swarm-2.2.  Sequences that are
+being plotted in graphs can give their current value back for other elements
+of a program.  So when writeCData is called, it outputs the simulation time
+step and then it asks the eatenSequence for its current value.  The data
+saved in this output file should be (is) identical to the data saved in the
+hdf5 format. 
+
+The output file hdfGraph0068.hdf is an HDF5 data set.  That data set
+contains plots of any sequences that have been created in a given
+graph.  The contents of an HDF5 data set cannot be viewed inside a
+text editor, but there are many other ways.  For example, the HDF5
+libraries are distributed with a simple program that writes the
+contents of the file onto the screen.  Here is some sample output:
+
+
+$ h5dump hdfGraph0067.hdf 
+HDF5 "hdfGraph0067.hdf" {
+GROUP "/" {
+   GROUP "bugs" {
+      DATASET "eaten" {
+         DATATYPE  H5T_IEEE_F64LE  
+         DATASPACE  SIMPLE { ( 101 ) / ( H5S_UNLIMITED ) } 
+         DATA {
+            0.513138, 0.400309, 0.313756, 0.27357, 0.258114, 0.196291, 0.211747,
+            0.188563, 0.166924, 0.145286, 0.131376, 0.122102, 0.114374,
+            0.0973725, 0.0958269, 0.0927357, 0.0942813, 0.0942813, 0.0803709,
+            0.0618238, 0.0741886, 0.0479134, 0.0633694, 0.0618238, 0.0587326,
+            0.0540958, 0.049459, 0.0479134, 0.0479134, 0.0448223, 0.0309119,
+            0.0463679, 0.0448223, 0.0324575, 0.0324575, 0.0278207, 0.0231839,
+            0.015456, 0.0216383, 0.0185471, 0.015456, 0.0278207, 0.0170015,
+            0.015456, 0.0139104, 0.0170015, 0.0170015, 0.0185471, 0.0185471,
+            0.00927357, 0.0123648, 0.0139104, 0.00772798, 0.00772798, 0.0139104,
+            0.00927357, 0.00927357, 0.00309119, 0.0108192, 0.00772798,
+            0.0015456, 0.00618238, 0.00927357, 0.00618238, 0.00618238,
+            0.00927357, 0.00463679, 0.00309119, 0.0015456, 0.00463679,
+            0.00463679, 0.00463679, 0.0015456, 0.00618238, 0.0015456,
+            0.00309119, 0.00309119, 0.00463679, 0.00309119, 0.00463679,
+            0.00618238, 0.0015456, 0, 0.00463679, 0.0015456, 0.00618238, 0, 0,
+            0, 0.00309119, 0.0015456, 0, 0, 0.0015456, 0.0015456, 0, 0.00309119,
+            0, 0, 0, 0
+         } 
+      } 
+   } 
+} 
+} 
+
+If that hdf5 data is loaded into a statistical program, then "eaten"
+will appear as a vector.
+
+
+Please take note that we have confronted a special problem in the
+design of this simulation.  The problem is this.  When the simulation
+ends, either because there has been a mouse click on the STOP button
+or the BatchSwarm decides it is time to stop, then the Output class
+has to be told that everything is finished and the output datasets
+should be written and closed up.  If Output is never told to do so,
+then the output datasets may be empty or corrupted.  In order to make
+sure that happens, we have added explicit drop instructions that link
+together the top level swarm in main.m, the ObserverSwarm and
+BatchSwarm, the ModelSwarm, and Output.  When the main activity stops,
+the drop message will be triggered and the Output object will be told
+it is time to drop, and that means it is time to write the data.  The
+Output class's drop method just tells the graph to drop, and the Swarm
+library is designed to write its output when it is told to drop.
+
+
+
+Parameters
+
+The "arguments" object is a global object.  That means one can use it
+to store values that are likely to be needed by many different
+classes.  Perhaps it was not intended for that usage by the original
+Swarm authors, but sometimes it comes in handy.
+
+In this case, it becomes tedious to keep track of the current time
+step of the simulation because several different classes need to know
+what time it is.  That value is needed to create file names for screen
+shots and also for text file output.  So we have created an instance
+variable "currentTime" in Parameters which keeps the time, and we added
+setCurrentTime: and getCurrentTime methods, so that other classes can
+always find out what the current time step is by asking arguments for
+the time:
+
+[ (Parameters*)arguments getCurrentTime]; 
+
+There are other places where the time could be kept, for example, in
+the ModelSwarm.  However, the Parameters class is convenient because
+it is globally accessible.  Now, anybody that needs to know the 
+current time can ask the arguments object.
+
+
+ObserverSwarm
+
+No substantial change is needed in Observer swarm, except for
+the addition of the drop method at the end.
+
+ 
+BatchSwarm
+
+Like the ObserverSwarm, BatchSwarm needs to add a drop method.
+
+We added a "checkToStop" method, and it runs every time step.  It
+decides if the simulation should be finished.  Every time it runs, it
+stores the value of "currentTime" into the Parameters object.
+
+In the checkToStop method, there are two conditions that are examined.
+First, it checks to see if the experiment has run up to the limit
+set by the parameter "experimentDuration".  Second, it checks
+with the modelSwarm to find out if there is some other reason to quit.
+In this case, the modelSwarm asks the output object if it has not seen
+significant eating within the last 10 periods.  If only trivial amounts
+of food have been eaten for 10 periods in a row, then the checkToStop
+method in Output returns a YES, so that the ModelSwarm's checkToStop
+method also returns a YES. Then BatchSwarm gets the message, and it 
+stops.
+
+ModelSwarm
+
+In build objects, we created an Output object. The name of the
+instance variable is "output". The output is scheduled to take
+a time step in the main schedule of the model (see buildActions).
+
+We added "checkToStop" method, which returns a yes or no. This one
+checks with the output class to see if it is time to stop.
+
+
+Bug
+
+The new method "getHaveEaten" returns the value of the Bug's
+haveEaten variable. We use that information to find out if the 
+bugs are getting something to eat or not, so that we can
+collect the data and make the graph and output files in Output.
+
+
+Running This Over and Over
+
+
+Now the model has all the features you need in order to do some
+big runs.  You can run the model over and over again with various
+random seeds and you can run with various parameters.  The results
+can be saved happily into files.
+
+In this package, the simple script "batchBug.sh" now is replaced by a
+more elaborate Perl script called "replicator2.pl". That script can be
+used to run a Swarm model over and over. That script sometimes gets
+updated, (but not much lately). In case you worry that there
+is a newer version of replicator, you can check here:
+
+http://lark.cc.ku.edu/~pauljohn/Swarm/MySwarmCode
+
+The replicator script has extensive documentation in it, but here is a
+quick sketch. Suppose you make a directory where your experimental
+data is to be stored.  Change into that directory.  Suppose you want
+to do 100 runs of the model for each combination of parameters.
+  Suppose you want bugDensity and seedProb to take on a variety of
+values. replicator will handle the random seeds for you. If your
+program is called "bug" and it is stored in the directory
+/home/username/coolSwarm, then you can generate a set of runs with
+this command:
+
+perl replicator.pl --program=bug --directory=/home/username/coolSwarm --NRUNS=100 --sweep numPPL=100 --sweep bugDensity=0.1,0.2,0.3,0.4  --sweep seedProb=0.2,0.3,0.4
+
+That will create directories and fill them up with output files. 
+
+Every time you run replicator, it uses a given series of initial
+random seed values.  The i'th run of the model under one set of
+parameters will have exactly the same random number seed as the i'th
+run of another set of parameters. That means any differences that are
+observed cannot be attributed to simple random variation.  It is
+rather like assigning clones of a person to a series of medical
+experiments. There is no chance that the genes of the clones differ,
+so any differences observed at the end must be due to experimental
+conditions.
+
+
+Conclusion
+
+As far as I know, we have convered all of the ground that is essential
+to carry out a simulation exercise.  The changes from simpleObserverBug2 to
+simpleObserverBug3, and then simpleBatchBug1 and SimpleBatchBug2, may seem
+like small steps. But the cumulative impact is great.  Now it is possible
+to start models and let them run without user intervention, and records
+can be saved, either in the form of snapshots or data files.
+
+In my opinion, this is the best way to manage the task of running
+a model over and over.  There are some special cases, such as the one
+discussed in simpleExperBug, in which it is possible to write a single
+program that will handle all the work of running models over and over.
+I have found that approach to be less robust and less replicable than
+the approach described here.
+
+There is one interesting task that remains: serialization. That will
+appear in simpleBatchBug3.  But, to whet your appetite, here is the
+idea.  Suppose you could run a simulation for a while. Then, when it
+is stopped, save the agents and all other relevant simulation
+parameters.  I mean save the agents down to every detail--their
+location, their health, everything.  Doing so could produce a
+Lisp/scheme formated file, similar to bug.scm, the one we have been
+using to load objects in this tutorial.  Suppose then you could take
+your new *.scm file and use it to start the model over. You could
+bring the agents "back to life," possibly changing some parameters or
+adding new elements.
+
+If you could do that, then you could conduct some really interesting
+experiments.  When a simulated society reaches a "stable state", then
+save it, and bring it back over and over again to see if small random
+shocks have an impact.  Or find out if the situation changes when some
+structural parameters are changed. That is the topic of the next
+tutorial.
+
+
+
+Paul Johnson pauljohn@ukans.edu May 16, 2003.
+
+NEXT ->  simpleBatchBug3
+
+
+
+
+
+
+
+
+
+
+
+
+
