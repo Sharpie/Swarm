@@ -42,9 +42,11 @@ PHASE(Creating)
   if (probes == nil)
     return nil;
 
-  classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
 
 #ifdef HAVE_JDK
+  if (swarmDirectory)
+    classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+
   if (classObject)
     { 
       jclass currentClass, nextClass;

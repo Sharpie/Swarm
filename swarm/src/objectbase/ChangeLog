@@ -1,5 +1,8 @@
 2000-06-27  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* CompleteProbeMap.m ([CompleteProbeMap -createEnd]): 
+	Don't do classObject lookup unless swarmDirectory exists.
+
 	* MessageProbe.m (dynamicCallOn): Put FArguments and FCall
 	in component zone.
 
