@@ -632,6 +632,9 @@ USING
 //D: double buffered - the pixels you draw are not actually put on the screen
 //D: until drawSelf is called. In addition, Rasters handle mouse clicks.
 CREATING
+
++ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+
 + createBegin: aZone;
 - createEnd;
 
@@ -679,6 +682,9 @@ USING
 //D: ZoomRaster is a subclass of Raster that implements a zoomable image. It
 //D: handles translation between logical coordinates and screen coordinates.
 CREATING
+
++ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+
 - createEnd;
 
 USING
