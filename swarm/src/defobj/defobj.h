@@ -32,25 +32,26 @@ CREATING
 - hdf5InCreate: hdf5Obj;
 
 //F: Load an object from a lisp expression of the form
-//F: (make-{class,instance} :arg1 x :arg y). 
+//F: (make-{class,instance} #:arg1 x #:arg y). 
 extern id lispIn (id aZone, id expr);
 
 //F: Load an object from a HDF5 object.
 extern id hdf5In (id aZone, id hdf5Obj);
 
-USING
+SETTING
 //M: Process an archived Lisp representation of object state from a
 //M: list of instance variable name / value pairs.
 - lispIn: expr;
 
+//M: Load instance variables from an HDF5 object.
+- hdf5In: hdf5Obj;
+
+USING
 //M: Output a shallow Lisp representation of object state to a stream.
 - lispOutShallow: stream;
 
 //M: Output a deep Lisp representation of object state to a stream.
 - lispOutDeep: stream;
-
-//M: Load instance variables from an HDF5 object.
-- hdf5In: hdf5Obj;
 
 //M: Output a shallow HDF5 representation of object state to a stream.
 - hdf5OutShallow: hdf5obj;
@@ -1043,6 +1044,28 @@ typedef union {
   float _float;
   double _double;
 } types_t;
+
+@protocol FArguments <Create, Drop, CREATABLE>
+//S: A language independent interface to dynamic call argument construction.
+//D: A language independent interface to dynamic call argument construction.
+CREATING
++ createBegin: aZone;
+- setJavaFlag: (BOOL)javaFlag;
+- addArgument: (void *)value ofObjCType: (char)type;
+- addChar: (char)value;
+- addUnsignedChar: (unsigned char)value;
+- addShort: (short)value;
+- addUnsignedShort: (unsigned short)value;
+- addInt: (int)value;
+- addUnsigned: (unsigned)value;
+- addLong: (long)value;
+- addUnsignedLong: (unsigned long)value;
+- addFloat: (float)value;
+- addDouble: (double)value;
+- setObjCReturnType: (char)type; 
+- createEnd;
+- (void *)getResult;
+@end
 
 @protocol FCall <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic calls.

@@ -27,8 +27,7 @@ Library:      defobj
 #ifdef HAVE_JDK
 #include <objc/mframe.h>
 
-#import <defobj/FArguments.h>
-#import <defobj.h> // FCall
+#import <defobj.h> // FCall, FArguments
 #import "directory.h"
 
 #include <jni.h>
@@ -73,6 +72,126 @@ PHASE(Creating)
 
 - hdf5InCreate: expr
 {
+  return self;
+}
+
+PHASE(Setting)
+- lispIn: expr
+{
+  id <Index> li = [expr begin: [expr getZone]];
+  id key, val;
+
+  while ((key = [li next]) != nil)
+    {
+      const char *ivarname;
+      struct objc_ivar *ivar;
+      void *ptr;
+
+      if (!keywordp (key))
+        raiseEvent (InvalidArgument, "expecting keyword [%s]", [key name]);
+
+      if ((val = [li next]) == nil)
+        raiseEvent (InvalidArgument, "missing value");
+      
+      ivarname = [key getKeywordName];
+      ivar = find_ivar (getClass (self), ivarname);
+      
+      if (ivar == NULL)
+        raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarname);
+      
+      ptr = (void *) self + ivar->ivar_offset;
+
+      if (arrayp (val))
+        memcpy (ptr, [val getData], 
+                [val getElementCount] * [val getElementSize]);
+      else if (valuep (val))
+        {
+          char ntype = [val getValueType];
+
+          switch (ntype)
+            {
+            case _C_ID:
+              *((id *) ptr) = [val getObject];
+              break;
+            case _C_DBL:
+              *((double *) ptr) = [val getDouble];
+              break;
+            case _C_FLT:
+              *((float *) ptr) = [val getFloat];
+              break;
+            case _C_INT:
+              {
+                char itype = *ivar->ivar_type;
+                int ival = [val getInteger];
+
+                if (itype == _C_INT || itype == _C_UINT)
+                  *((int *) ptr) = ival;
+                else if (itype == _C_SHT || itype == _C_USHT)
+                  *((short *) ptr) = ival;
+                else if (itype == _C_LNG || itype == _C_ULNG)
+                  *((long *) ptr) = ival;
+                else
+                  abort ();
+              }
+            case _C_UCHR:
+              *((unsigned char *) ptr) = [val getChar];
+              break;
+            default:
+              raiseEvent (InvalidArgument, "Unknown value type `%c'", ntype);
+              break;
+            }
+          }
+      else if (stringp (val))
+        *((const char **) ptr) = strdup ([val getC]);
+      else if (listp (val))
+        {
+          id first = [val getFirst];
+
+          if (stringp (first))
+            {
+              const char *funcName = [first getC];
+
+              if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
+                  || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
+                *((id *) ptr) = lispIn ([self getZone], val);
+              else
+                raiseEvent (InvalidArgument, "function not %s",
+                            MAKE_INSTANCE_FUNCTION_NAME
+                            " or "
+                            MAKE_CLASS_FUNCTION_NAME);
+            }
+          else
+            raiseEvent (InvalidArgument, "argument not a string");
+        }
+      else
+        raiseEvent (InvalidArgument, "Unknown type `%s'", [val name]);
+    }
+  return self;
+}
+
+- hdf5In: hdf5Obj
+{
+  if ([hdf5Obj getDatasetFlag])
+    [hdf5Obj shallowLoadObject: self];
+  else
+    {
+      int process_object (id component)
+        {
+          const char *ivarName = [component getName];
+          void *ptr = ivar_ptr (self, ivarName);
+
+          if (ptr == NULL)
+            raiseEvent (InvalidArgument,
+                        "could not find ivar `%s'", ivarName);
+
+          if ([component getDatasetFlag])
+            [component loadDataset: ptr];
+          else
+            *(id *) ptr = hdf5In ([self getZone], component);
+          return 0;
+        }
+      [hdf5Obj iterate: process_object];
+    }
   return self;
 }
 
@@ -555,7 +674,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 {
 #ifdef HAVE_JDK
   NSArgumentInfo info;
-  FArguments *fa;
+  id <FArguments> fa;
   id <FCall> fc;
   types_t val;
   id aZone = [self getZone];
@@ -1201,125 +1320,6 @@ lisp_output_type (const char *type,
 - updateArchiver: archiver
 {
   raiseEvent (SubclassMustImplement, "updateArchiver:");
-  return self;
-}
-
-- lispIn: expr
-{
-  id <Index> li = [expr begin: [expr getZone]];
-  id key, val;
-
-  while ((key = [li next]) != nil)
-    {
-      const char *ivarname;
-      struct objc_ivar *ivar;
-      void *ptr;
-
-      if (!keywordp (key))
-        raiseEvent (InvalidArgument, "expecting keyword [%s]", [key name]);
-
-      if ((val = [li next]) == nil)
-        raiseEvent (InvalidArgument, "missing value");
-      
-      ivarname = [key getKeywordName];
-      ivar = find_ivar (getClass (self), ivarname);
-      
-      if (ivar == NULL)
-        raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarname);
-      
-      ptr = (void *) self + ivar->ivar_offset;
-
-      if (arrayp (val))
-        memcpy (ptr, [val getData], 
-                [val getElementCount] * [val getElementSize]);
-      else if (valuep (val))
-        {
-          char ntype = [val getValueType];
-
-          switch (ntype)
-            {
-            case _C_ID:
-              *((id *) ptr) = [val getObject];
-              break;
-            case _C_DBL:
-              *((double *) ptr) = [val getDouble];
-              break;
-            case _C_FLT:
-              *((float *) ptr) = [val getFloat];
-              break;
-            case _C_INT:
-              {
-                char itype = *ivar->ivar_type;
-                int ival = [val getInteger];
-
-                if (itype == _C_INT || itype == _C_UINT)
-                  *((int *) ptr) = ival;
-                else if (itype == _C_SHT || itype == _C_USHT)
-                  *((short *) ptr) = ival;
-                else if (itype == _C_LNG || itype == _C_ULNG)
-                  *((long *) ptr) = ival;
-                else
-                  abort ();
-              }
-            case _C_UCHR:
-              *((unsigned char *) ptr) = [val getChar];
-              break;
-            default:
-              raiseEvent (InvalidArgument, "Unknown value type `%c'", ntype);
-              break;
-            }
-          }
-      else if (stringp (val))
-        *((const char **) ptr) = strdup ([val getC]);
-      else if (listp (val))
-        {
-          id first = [val getFirst];
-
-          if (stringp (first))
-            {
-              const char *funcName = [first getC];
-
-              if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
-                  || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
-                *((id *) ptr) = lispIn ([self getZone], val);
-              else
-                raiseEvent (InvalidArgument, "function not %s",
-                            MAKE_INSTANCE_FUNCTION_NAME
-                            " or "
-                            MAKE_CLASS_FUNCTION_NAME);
-            }
-          else
-            raiseEvent (InvalidArgument, "argument not a string");
-        }
-      else
-        raiseEvent (InvalidArgument, "Unknown type `%s'", [val name]);
-    }
-  return self;
-}
-
-- hdf5In: hdf5Obj
-{
-  if ([hdf5Obj getDatasetFlag])
-    [hdf5Obj shallowLoadObject: self];
-  else
-    {
-      int process_object (id component)
-        {
-          const char *ivarName = [component getName];
-          void *ptr = ivar_ptr (self, ivarName);
-
-          if (ptr == NULL)
-            raiseEvent (InvalidArgument,
-                        "could not find ivar `%s'", ivarName);
-
-          if ([component getDatasetFlag])
-            [component loadDataset: ptr];
-          else
-            *(id *) ptr = hdf5In ([self getZone], component);
-          return 0;
-        }
-      [hdf5Obj iterate: process_object];
-    }
   return self;
 }
 

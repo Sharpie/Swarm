@@ -1,3 +1,13 @@
+1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefObject.m: Don't include FArguments.h.
+
+	* defobj.h (Serialization): Move -lispIn: and -hdf5In:
+	to setting phase.
+	(FArguments): Add.
+
+	* DefObject.m ([Object_s -{lisp,hdf5}In:]): Likewise.
+
 1999-04-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m: Make jniEnv be global.  This is to avoid unresolved
