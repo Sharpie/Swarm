@@ -570,7 +570,7 @@
 
 (defun run-all ()
   (interactive)
-  (load-and-process-modules)
+  (load-and-process-modules :uniquify-method-lists nil)
   (sgml-create-refentries-for-all-modules)  (sgml-generate-indices)
   nil)
 

@@ -1,3 +1,9 @@
+1999-02-28  Alex Lancaster  <alex@santafe.edu>
+
+	* sgml.el (run-all): Set uniquify-method-lists to `nil' when
+	calling load-and-process-modules.  Ensures all method
+	documentation called correctly.
+
 1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am
