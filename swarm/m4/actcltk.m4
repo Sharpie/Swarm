@@ -178,8 +178,11 @@ AC_DEFUN(md_FIND_TK_HEADERS,
 [POTENTIALINCDIR=`dirname $tclincludedir`
 POTENTIALINCDIR=`dirname $POTENTIALINCDIR`
 INCPLACES="$INCPLACES \
-	$tclincludedir \ 
-        $POTENTIALINCDIR/tk8.1/include \
+	$tclincludedir \
+    $POTENTIALINCDIR/tk8.4/include \
+    $POTENTIALINCDIR/tk8.3/include \
+    $POTENTIALINCDIR/tk8.2/include \
+    $POTENTIALINCDIR/tk8.1/include \
 	$POTENTIALINCDIR/tk8.0/include \
 	$POTENTIALINCDIR/tk4.2/include \
 	$POTENTIALINCDIR/tk4.1/include \
