@@ -1,4 +1,4 @@
-<DOCINFO>
+<REFERENCEINFO>
 
   <TITLE>Gui Library</TITLE>
 
@@ -11,10 +11,10 @@
 
 &guirevhistory.sgml;  
   
-</DOCINFO>
+</REFERENCEINFO>
 
 <!--
 Local Variables:
-sgml-parent-document:("guicont.sgml" "DOCINFO")
+sgml-parent-document:("guicont.sgml" "REFERENCEINFO")
 End:
 -->
