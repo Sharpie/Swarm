@@ -18,7 +18,8 @@ static jclass c_boolean,
   c_int, 
   c_short, c_long,
   c_float, c_double,
-  c_object, c_void;
+  c_object, c_string, 
+  c_void;
 
 static jobject o_globalZone;
 
@@ -38,39 +39,37 @@ create_class_refs (JNIEnv *env)
       if (!(clazz = (*env)->FindClass (env, class_name_buf)))
         abort ();
 
-#if 0
       ret = (*env)->NewGlobalRef (env, clazz);
-#else
-      {
-        jfieldID field;
-
-        if (!(field = (*env)->GetStaticFieldID (env,
-                                                clazz,
-                                                "TYPE",
-                                                "Ljava/lang/Class;")))
-          abort ();
-        if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
-          abort ();
-        printf ("%s %x %x ", name, (unsigned) clazz, (unsigned) ret);
-        printf ("%x ", (unsigned) (*env)->NewGlobalRef (env, ret));
-        printf ("%x\n", (unsigned) (*env)->NewGlobalRef (env, ret));
-        ret = (*env)->NewGlobalRef (env, ret);
-      }
-#endif
+      return ret;
+    }
+  jclass find_primitive (const char *name)
+    {
+      jfieldID field;
+      jclass clazz = find (name);
+      jclass ret;
+      
+      if (!(field = (*env)->GetStaticFieldID (env,
+                                              clazz,
+                                              "TYPE",
+                                              "Ljava/lang/Class;")))
+        abort ();
+      if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
+        abort ();
+      ret = (*env)->NewGlobalRef (env, ret);
       return ret;
     }
   if (!initFlag)
     {
-      c_char = find ("Character");
-      c_byte= find ("Byte");
-      c_int = find ("Integer");
-      c_short = find ("Short");
-      c_long = find ("Long");
-      c_float = find ("Float");
-      c_double = find ("Double");
-      c_void = find ("Void");
-      
-      c_object = (*env)->FindClass (env, "java/lang/Object");
+      c_char = find_primitive ("Character");
+      c_byte= find_primitive ("Byte");
+      c_int = find_primitive ("Integer");
+      c_short = find_primitive ("Short");
+      c_long = find_primitive ("Long");
+      c_float = find_primitive ("Float");
+      c_double = find_primitive ("Double");
+      c_void = find_primitive ("Void");
+      c_string = find ("String");
+      c_object = find ("Object");
       
       if (c_object == NULL)
         abort ();
@@ -376,26 +375,21 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
       void add (jobject class, BOOL regFlag)
         {
           char type;
-          jclass globalClass = (*env)->NewGlobalRef (env, class);
-              
+
           jboolean classp (jclass matchClass)
             {
-              jboolean ret;
-              
-              ret = (*env)->IsSameObject (env, globalClass, matchClass);
-
-              printf ("classp(match: %x) vs %x (%x): %x\n",
-                      (unsigned) matchClass,
-                      (unsigned) globalClass, (unsigned) class,
-                      (unsigned) ret);
-              
-              return ret;
+              return (*env)->IsSameObject (env, class, matchClass);
             }
           
           if (classp (c_object))
             {
               type = _C_ID;
               pos = alignto (pos, __alignof__ (id));
+            }
+          else if (classp (c_string))
+            {
+              type = _C_CHARPTR;
+              pos = alignto (pos, __alignof__ (const char *));
             }
           else if (classp (c_int))
             {
@@ -448,7 +442,6 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
             sprintf (posbuf, "%u", pos);
             p = stpcpy (p, posbuf);
           }
-          (*env)->DeleteGlobalRef (env, globalClass);
         }
       
       add (retType, NO);
