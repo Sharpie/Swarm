@@ -187,12 +187,6 @@ else
 fi
 AC_SUBST(JAVA_CLASSES_INSTALLED_AS)
 
-AC_ARG_WITH(javaswarm-dll-name,
-[  --with-javaswarm-dll-name=name   Use a different name for the Java DLL],
-  JAVASWARM_DLL_NAME=$withval)
-test -n "$JAVASWARM_DLL_NAME" || JAVASWARM_DLL_NAME=javaswarm
-AC_SUBST(JAVASWARM_DLL_NAME)
-
 md_CHECK_DLL
 if test $USEDLL = yes; then
   LIBSWARM_LA=libswarm.la
