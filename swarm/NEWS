@@ -2,6 +2,50 @@ Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
 Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 * Release Notes for Swarm 1.4
+** New features
+*** activity
+**** Schedule
+***** Support for insertion of actions leading earliest pending action.
+
+*** collections
+**** New classes Archiver{Array,Keyword,Pair,Value} to simplify
+     InputStream expressions.
+**** Map, List, Collection
+***** Implement serialization methods lispInCreate:, lispIn:, and lispOut:
+      using create-time option handling (_lispInAttr_:, _lispOutAttr_:)
+      in Collection.
+
+*** defobj
+**** New functions lispIn{Boolean,Integer,String,Keyword} for reading
+     expected types from a list index.
+**** New function defobj_lookup_type for accessing types (protocols) by name.
+**** Arguments
+***** Support for variable expansion in environment variables 
+      (e.g. SWARMROOT in SWARMHOME).
+**** Object_s
+***** New function lispIn for instantiating and loading an object.
+***** New methods lispInCreate:, lispIn:, lispOut:, implementing
+      the default serialization protocol.
+
+** Autoconfiguration
+*** Support for Cygwin B20.
+*** Build with -Wall -Werror.
+*** Protocol compliance is inherited in subclasses (Swarm is compiled
+    with -Wno-protocol).
+
+** Bug fixes
+*** `make clean' cleans up after make-h2x.
+
+*** objectbase / simtoolsgui
+**** MessageProbe / MessageProbeWidget
+***** Support for void return type.
+
+*** gui (tkobjc)
+**** Pixmap
+***** Support for bitmaps of depth less than 8.
+**** ScheduleItem
+***** Handle self-destruct during an update.
+
 ** Other changes
 *** defobj, objectbase, simtools
 **** Arguments and Archiver are now a part of defobj.  This is to facilitate
