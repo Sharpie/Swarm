@@ -1,5 +1,8 @@
 2001-01-27  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* ProbeMap.m ([ProbeMap -addCOMMethods:]): Create Selector
+	and add Objective C counterpart.
+
 	* MessageProbe.m: Include defobj/internal.h
 	([MessageProbe -setArg:ToUnsigned:],
 	[MessageProbe -setArg:ToString:], dynamicCallOn

@@ -387,8 +387,9 @@ PHASE(Creating)
 
   void collect_method (COMmethod method)
     {
-      // [self _addMessageProbe_: aClass selector: ??
-      printf ("method: `%s'\n", COM_method_name (method));
+      COMselector cSel = COM_selector_create (method);
+         
+      [self _addMessageProbe_: aClass selector: SD_COM_ENSURE_SELECTOR_OBJC (cSel)];
     }
 
   if (!cClass)
