@@ -1,8 +1,5 @@
 1999-07-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.in (javaswarm.dll): Filter out avcall.lo, replacing it
-	with avcall-i386-msvc.o.
-
 	* SwarmEnvironment.m: Include jni.h.
 	(Java_swarm_SwarmEnvironment_initSwarm): Add JNI{EXPORT,CALL}.  
 
