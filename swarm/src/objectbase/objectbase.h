@@ -728,6 +728,8 @@ SETTING
 - setAppModeString: (const char *)appModeString;
 - setBatchModeFlag: (BOOL)batchModeFlag;
 - setVarySeedFlag: (BOOL)varySeedFlag;
+//M: Specify a default path to use when installed location of Swarm cannot
+//M: be determined.  Defaults to current directory.
 - setDefaultSwarmAppConfigPath: (const char *)path;
 
 USING
@@ -740,6 +742,8 @@ USING
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;
 - (const char *)getSwarmConfigPath;
+//M: A path where application-specific data or configuration files can
+//M: be expected to be found.
 - (const char *)getSwarmAppConfigPath;
 @end
 
