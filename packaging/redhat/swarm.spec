@@ -13,7 +13,7 @@ BuildPrereq: kaffe = %kaffe_version
 BuildPrereq: jikes = %jikes_version
 %define hdf5_version 1.2
 BuildPrereq: hdf5 > %hdf5_version
-BuildPrereq: gperf > 2.7
+BuildPrereq: gperf >= 2.7
 Icon: swarm.xpm
 Packager: Paul Johnson <pauljohn@ukans.edu>
 Distribution: Swarm Internal Distribution
