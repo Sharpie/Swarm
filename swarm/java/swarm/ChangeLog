@@ -3,6 +3,7 @@
 	* Makefile.in (modules): New target.
 	(PRECLASSES, POSTCLASSES): Split CLASSES into two parts (before
 	and after compilation of modules).
+	Run deps pass before compilation.
 
 	* Makefile.rules.in (all): Use JavaDeps to create compilation rules
 	and dependencies.

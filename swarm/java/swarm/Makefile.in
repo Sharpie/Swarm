@@ -27,7 +27,10 @@ GENINTERFACEFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix 
 
 all: modules $(POSTCLASSFILES)
 
-modules: $(PRECLASSFILES) 
+deps: 
+	for module in $(MODULES); do $(MAKE) -C $$module .deps; done
+
+modules: deps $(PRECLASSFILES)
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
 	cd .. ; JAVA_HOME=$(jdkdir) $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
