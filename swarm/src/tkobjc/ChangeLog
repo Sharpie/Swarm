@@ -1,3 +1,7 @@
+2002-01-14    <mgd@condor>
+
+	* Graph.m (getName): Return a new value in scratchZone.
+
 2001-11-04    <mgd@HELEN>
 
 	* Makefile.am: Don't use multi-line values as they confuse Cygwin.

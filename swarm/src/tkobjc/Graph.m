@@ -293,7 +293,7 @@ PHASE(Using)
 
 - (const char *)getName
 {
-  return name;
+  return SSTRDUP (name);
 }
 
 - (unsigned)getLength
