@@ -10,12 +10,12 @@
 
 @implementation AppendFile
 
-+create: aZone withName: (const char *) theName
++ create: aZone withName: (const char *) theName
 {
   FILE *aFile;
   id anObj;
   
-  aFile = fopen (theName,"a");	// opens in "a" - append mode				
+  aFile = fopen (theName, "a");	// opens in "a" - append mode				
   if (aFile == NULL)
     {
       fprintf (stderr,
@@ -28,3 +28,5 @@
   
   return anObj;
 }
+
+@end

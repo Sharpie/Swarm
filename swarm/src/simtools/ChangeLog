@@ -1,5 +1,9 @@
 1998-01-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* AppendFile.m: Add @end.
+
+	* simtools.h: Add copyright header.
+
 	* CompleteProbeDisplay.m ([CompleteProbeDisplay -update]): Break out
 	of loop if markedForDrop.
 
