@@ -66,6 +66,17 @@ if [[[ x$enable_objc_gc = xyes ]]]; then
 fi)
 
 md_CREATE_LIBOBJC_HEADERS
+
 md_CHECK_DLL
+if test $USEDLL = yes; then
+  LIBOBJC_LA=
+  OBJC_DLL=objc.dll
+else
+  LIBOBJC_LA=libobjc.la
+  OBJC_DLL=
+fi
+AC_SUBST(LIBOBJC_LA)
+AC_SUBST(OBJC_DLL)
+
 AC_CHECK_HEADERS(sys/sigevent.h)
 AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile objc/externvar.h])

@@ -15,7 +15,8 @@ EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c \
 
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
-lib_LTLIBRARIES = libobjc.la
+lib_LTLIBRARIES = @LIBOBJC_LA@
+bin_PROGS = @OBJC_DLL@
 
 libobjc_la_SOURCES = $(CSRC) $(MSRC)
 
@@ -37,12 +38,16 @@ compiler-info.h: $(COMPILERINFOHEADER)
 CTOR = libobjc_constructors
 DLLOBJS = $(addsuffix .o,$(basename $(libobjc_la_SOURCES)))
 
-libobjc.dll: 
+libobjc.a objc.dll: 
 	$(CC) -c $(srcdir)/dllinit.c
 	$(srcdir)/genctors $(DLLOBJS) > $(CTOR).c
 	$(CC) -c $(CTOR).c
-	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o libobjc.dll dllinit.o $(CTOR).o $(DLLOBJS) $(basename $(objc_thread_lo)).o
+	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o objc.dll dllinit.o $(CTOR).o $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
+install-data-local: 
+	if test $(USEDLL) = yes; then \
+	  $(INSTALL) libobjc.a $(libdir) && ranlib $(libdir)/libobjc.a ; \
+	fi
 
 #CC1OBJ = @gccdir@/cc1obj
 
