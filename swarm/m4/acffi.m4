@@ -37,7 +37,7 @@ if test $USE_FFCALL = 0 ; then
   fi
   FFILIB=-lffi
 else
-  AC_DEFINE(USE_FFCALL)
+  AC_DEFINE(USE_AVCALL)
   FFILIB=-lavcall
   if test -z "$ffidir" ; then 
     ffidir=$defaultdir
