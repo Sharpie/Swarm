@@ -10,6 +10,7 @@ Library:      defobj
 */
 
 #import <defobj/deftype.h>
+#include <externvar.h>
 
 //S: Standard objects for GNU Objective C extensions
 
