@@ -8,7 +8,7 @@ include $(top_srcdir)/src/Makefile.rules
 
 lib_LTLIBRARIES = libobjectbase.la
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc -I$(ffidir)/include
+INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc @FFIINCLUDES@
 
 SRC = ActivityControl.m Arguments.m \
 	CompleteVarMap.m CompleteProbeMap.m \
