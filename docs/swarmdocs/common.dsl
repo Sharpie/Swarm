@@ -47,41 +47,6 @@
          (literal ")"))
         (empty-sosofo)))
 
-(element FUNCDEF (type-expand (children (current-node))))
-         
-(element PARAMDEF
-         (sosofo-append
-          (literal " ")
-          (type-expand (children (current-node)))
-          (process-matching-children "PARAMETER")
-          (literal " ")))
-
-(element FUNCPROTOTYPE
-         (let* ((funcdef (select-elements (children (current-node)) "FUNCDEF"))
-                (function (select-elements (children funcdef) "FUNCTION"))
-                (function-data (data function)))
-           (sosofo-append
-            (literal (substring function-data 0 1))
-            (literal " ")
-            (process-node-list funcdef)
-            (expand-method
-             (substring function-data 1 (string-length function-data))
-             (select-elements (children (current-node)) "PARAMDEF")))))
-
-(element CLASSNAME (empty-sosofo))
-
-(define (get-classname funcsynopsisinfo-node)
-    (data (select-elements (children funcsynopsisinfo-node)
-                           "CLASSNAME")))
-
-(define (previous-nl last-nl end-node)
-  (let loop ((nl last-nl))
-        (let ((node (node-list-first nl)))
-          (if (node-list=? node end-node)
-              (empty-node-list)
-              (node-list node
-                         (loop (node-list-rest nl)))))))
-
 (define (expand-paragraphs text-nl)
     (let loop ((last-nl text-nl)
                (nl text-nl))
@@ -113,11 +78,42 @@
                     (empty-node-list)))
               (loop (node-list-rest nl))))))
 
+(element FUNCDEF (type-expand (children (current-node))))
+         
+(element PARAMDEF
+         (sosofo-append
+          (literal " ")
+          (type-expand (children (current-node)))
+          (process-matching-children "PARAMETER")
+          (literal " ")))
+
+(element FUNCPROTOTYPE
+         (let* ((funcdef (select-elements (children (current-node)) "FUNCDEF"))
+                (function (select-elements (children funcdef) "FUNCTION"))
+                (function-data (data function)))
+           (sosofo-append
+            (literal (substring function-data 0 1))
+            (literal " ")
+            (process-node-list funcdef)
+            (expand-method
+             (substring function-data 1 (string-length function-data))
+             (select-elements (children (current-node)) "PARAMDEF")))))
+
 (element FUNCSYNOPSISINFO
-     (sosofo-append
-	(make-linebreak)
-        (expand-paragraphs (skip-nonchars
-                            (children (current-node))))))
+         (make paragraph
+               first-line-start-indent: 0pt
+               (expand-paragraphs (skip-nonchars
+                                   (children (current-node))))))
+
+(element CLASSNAME (empty-sosofo))
+
+(define (previous-nl last-nl end-node)
+  (let loop ((nl last-nl))
+        (let ((node (node-list-first nl)))
+          (if (node-list=? node end-node)
+              (empty-node-list)
+              (node-list node
+                         (loop (node-list-rest nl)))))))
 
 (define (embed-split string delimiter)
     (let loop ((last-ch #\U-0000) (l (string->list string)))
