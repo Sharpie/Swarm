@@ -554,7 +554,7 @@
 (defun java-argument-empty-p (argument)
   (null (third argument)))
 
-(defun java-argument-print-conversion (argument pos)
+(defun java-argument-print-conversion (argument string-pos)
   (let ((type (cadr argument))
         (jni-type (java-argument-convert argument #'java-type-to-native-type))
         (argname (third argument)))
@@ -565,7 +565,7 @@
                (insert ")"))
               ((string= jni-type "jstring")
                (insert "strings[")
-               (insert (format "%u" pos))
+               (insert (format "%u" string-pos))
                (insert "]"))
               ((string= jni-type "jobject")
                (insert "JFINDOBJC (env, ")
@@ -583,26 +583,35 @@
               (t (error "unkown type %s/%s" type jni-type)))
         (error "unknown type for argument `%s'" argument))))
 
+(defun java-argument-string-p (argument)
+  (string= (java-argument-convert argument #'java-type-to-native-type)
+           "jstring"))
+
 (defun java-print-method-invocation (protocol method)
   (insert "[")
   (if (method-factory-flag method)
       (insert (protocol-name protocol))
       (insert "JFINDOBJC (env, jobj)"))
   (insert " ")
-  (let ((arguments (method-arguments method)))
+  (let ((arguments (method-arguments method))
+        (string-pos 0))
     (insert (first (car arguments)))
     (unless (java-argument-empty-p (car arguments))
       (insert ": ")
-      (java-argument-print-conversion (car arguments) 0)
+      (java-argument-print-conversion (car arguments) string-pos)
+      (when (java-argument-string-p (car arguments))
+        (incf string-pos))
       (loop for argument in (cdr arguments)
             for key = (first argument)
-            for pos from 1
             when key do 
             (insert " ")
             (insert key)
             end
-            do (insert ": ")
-            (java-argument-print-conversion argument pos))))
+            do
+            (insert ": ")
+            (java-argument-print-conversion argument string-pos)
+            (when (java-argument-string-p argument)
+              (incf string-pos)))))
   (insert "]"))
 
 (defun java-print-native-method-name (arguments)
@@ -656,7 +665,7 @@
       (insert "{\n")
       (if strings
           (progn
-            (insert "  jstring strings[] = { COPYSTRING (env, ")
+            (insert "  const char *strings[] = { COPYSTRING (env, ")
             (insert (first strings))
             (insert ")")
             (loop for string in (cdr strings)
