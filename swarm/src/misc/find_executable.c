@@ -13,6 +13,8 @@ maybe_executable (const char *filename, int fd)
 
   if (access (filename, R_OK|X_OK) < 0)
     return FALSE;
+  /* This loses with a script wrapper to Java things */
+#if 0
   /* Should check that inodes match up, but only know how 
      do that on Linux. */
   if (fd != -1)
@@ -27,6 +29,7 @@ maybe_executable (const char *filename, int fd)
         return TRUE; 
       return FALSE;
     }
+#endif
   return TRUE;
 }
 
