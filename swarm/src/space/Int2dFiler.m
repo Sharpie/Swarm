@@ -13,6 +13,8 @@
 
 @implementation Int2dFiler
 
+PHASE(Creating)
+
 + createBegin: aZone
 {
   Int2dFiler *obj;
@@ -22,6 +24,8 @@
   obj->background = 0;
   return obj;
 }
+
+PHASE(Using)
 
 - setDiscrete2dToFile: aSpace 
 {

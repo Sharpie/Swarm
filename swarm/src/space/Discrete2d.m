@@ -14,6 +14,8 @@
 
 @implementation Discrete2d
 
+PHASE(Creating)
+
 - setSizeX: (int)x Y: (int)y
 {
   if (lattice)
@@ -21,6 +23,30 @@
       raiseEvent: "You cannot reset the grid size after creation.\n"];
   xsize = x;
   ysize = y;
+  return self;
+}
+
+- (id *)allocLattice
+{
+  void *p;
+
+  p = [[self getZone] alloc: xsize * ysize * sizeof (id)];
+  memset (p, 0, xsize * ysize * sizeof (id));
+
+  return p;
+}
+
+// Part of createEnd, really, but separated out for ease of inheritance.
+- makeOffsets
+{
+  int i;
+  
+  // precalculate offsets based on the y coordinate. This lets
+  // us avoid arbitrary multiplication in array lookup.
+  offsets = [[self getZone] alloc: ysize * sizeof(*offsets)];
+
+  for (i = 0; i < ysize; i++)
+    offsets[i] = xsize * i; // cache this multiplaction
   return self;
 }
 
@@ -35,28 +61,7 @@
   return self;
 }
 
-- (id *)allocLattice
-{
-  void *p;
-
-  p = [[self getZone] alloc: xsize * ysize * sizeof (id)];
-  memset(p, 0, xsize * ysize * sizeof (id));
-  return p;
-}
-
-// Part of createEnd, really, but separated out for ease of inheritance.
-- makeOffsets
-{
-  int i;
-  
-  // precalculate offsets based on the y coordinate. This lets
-  // us avoid arbitrary multiplication in array lookup.
-  offsets = [[self getZone] alloc: ysize * sizeof(*offsets)];
-
-  for (i = 0; i < ysize; i++)
-    offsets[i] = xsize * i;                       // cache this multiplaction
-  return self;
-}
+PHASE(Using)
 
 - (int)getSizeX
 {

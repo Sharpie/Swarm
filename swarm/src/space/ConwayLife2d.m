@@ -8,6 +8,8 @@
 
 @implementation ConwayLife2d
 
+PHASE(Creating)
+
 + createBegin: aZone
 {
   id r;
@@ -32,6 +34,8 @@
   [self updateLattice];
   return self;
 }
+
+PHASE(Using)
 
 - stepRule
 {

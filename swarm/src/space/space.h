@@ -29,11 +29,9 @@
 //D: Currently Discrete2d grids are accessed by integer pairs
 //D: of X and Y coordinates. 
 
+CREATING
 //M: Set the world size.
 - setSizeX: (int)x Y: (int)y;
-
-//M: Create the lattice, precompute the offsets based on Y coordinate.
-- createEnd;
 
 //M: Allocate memory for the lattice. 
 - (id *)allocLattice;
@@ -42,6 +40,10 @@
 //M: caches the multiplication by ysize. See the discrete2dSiteAt macro. 
 - makeOffsets;
 
+//M: Create the lattice, precompute the offsets based on Y coordinate.
+- createEnd;
+
+USING
 //M: Get the size of the lattice in the X dimension.
 - (int)getSizeX;
 
@@ -98,10 +100,12 @@
 //D: you're using low-level macro access to the world, in particular be
 //D: sure that you preserve the write semantics on the newLattice.
 
+CREATING
 //M: Rewrites the method from Discrete2d. Allocate two lattices,
 //M: makes the offsets.
 - createEnd;
 
+USING
 //M: Return a pointer to the newLattice buffer.
 - (id *)getNewLattice;
 
@@ -121,16 +125,18 @@
 //D: Inherits from DblBuffer2d, defines abstract protocol
 //D: for cellular automata. 
 
+CREATING
 //M: Record the number of states the CA understands.
 - setNumStates: (int)n;
-
-//M: Check that numStates has been set.
-- createEnd;
 
 //M: Use this to set up your CA to a default initial state.
 //M: Unimplemented in Ca2d; subclass this to set up initial state of lattice.
 - initializeLattice;
 
+//M: Check that numStates has been set.
+- createEnd;
+
+USING
 //M: One iteration of the CA rule.
 //M: Unimplemented in Ca2d; subclass this to implement your CA rule.
 - stepRule;
@@ -143,12 +149,16 @@
 //D: Value2dDisplay goes through a given Discrete2d array,
 //D: turn states into colours, and draws them into a Raster widget. 
 
+CREATING
 //M: Set the display widget and the colourmap to use to draw the value array. 
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
 
 //M: Set which array to draw. 
 - setDiscrete2dToDisplay: c;
 
+- createEnd;
+
+USING
 //M: Linear transform of states to colours for drawing. 
 //M: color = state / m + c 
 //M: If not set, assume m == 1 and c == 0. 
@@ -167,6 +177,7 @@
 //S: Classic 2d Conway's Life CA.
 
 //D: Classic 2d Conway's Life CA.
+CREATING
 
 //M: Set number of states to 2.
 + createBegin: aZone;
@@ -174,6 +185,7 @@
 //M: Initialize lattice to random 1/3 in state 1. 
 - initializeLattice;
 
+USING
 //M: Run Conway's Life rule (simpleminded version). 
 - stepRule;
 @end
@@ -184,6 +196,7 @@
 //D: Discrete 2nd order approximation to 2d diffusion with evaporation. 
 //D: Math is done in integers on the range [0,0x7fff]. 
 
+CREATING
 //M: Set diffusion constant and evaporation rate to 1.0, numStates to 0x7fff.
 + createBegin: aZone;
 
@@ -196,6 +209,7 @@
 //M: Initialize world to 0.
 - initializeLattice;
 
+USING
 //M: Run discrete approximation to diffusion. Roughly, it's 
 //M: newHeat = evapRate * (self + diffuseConstant*(nbdavg - self)) 
 //M: where nbdavg is the weighted average of the 8 neighbours. 
@@ -212,6 +226,10 @@
 //D: only one object can be stored at a site, no boundary conditions are
 //D: implied, etc.
 
+CREATING
++ createBegin: aZone;
+
+USING
 //M: Replaces the Discrete2d method.
 //M: First check to see if it should do overwrite warnings, and if so
 //M: if you're going to overwrite: if both conditions are true,
@@ -234,6 +252,7 @@
 //D: objects with the Raster widget as an argument. In addition,
 //D: Object2dDisplay can help you make probees. 
 
+CREATING
 //M: Set the display widget to use for drawing.
 - setDisplayWidget: (id <Raster>)r;
 
@@ -244,6 +263,7 @@
 //M: draw itself. 
 - setDisplayMessage: (SEL)s;
 
+USING
 //M: Set a collection of objects to be displayed. 
 //M: If this is not given, then Object2dDisplay loops through the 2d
 //M: grid sending draw messages to all objects it finds there. 
@@ -265,6 +285,10 @@
 //D: The Int2dFiler class is used to save the state of any Discrete2d
 //D: object (or a subclass thereof) to a specified file.
 
+CREATING
++ createBegin: aZone;
+
+USING
 //M: Set the target space to be filled.
 //M: This message can be used more than once, but often it is useful
 //M: to keep one Int2dFiler per space

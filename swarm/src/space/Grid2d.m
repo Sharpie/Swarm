@@ -9,15 +9,19 @@
 
 @implementation Grid2d
 
+PHASE(Creating)
+
 //M: Make overwrite warnings be on by default.
 + createBegin: aZone
 {
-  id r = [super createBegin: aZone];
+  Grid2d *r = [super createBegin: aZone];
 
-  [r setOverwriteWarnings: 1];
+  r->overwriteWarnings = YES:
 
   return r;
 }
+
+PHASE(Using)
 
 // Note - we don't use the superclass method, we write our own.
 - putObject: anObject atX: (int)x Y: (int)y
@@ -36,12 +40,14 @@
       objectThere, x, y, anObject];
   
   *discrete2dSiteAt(lattice, offsets, x, y) = anObject;
+
   return self;
 }
 
 - setOverwriteWarnings: (BOOL)b
 {
   overwriteWarnings = b;
+
   return self;
 }
 

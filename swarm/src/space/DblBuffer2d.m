@@ -15,8 +15,9 @@
 //
 // Summary: only *read* from lattice, only *write* to newLattice.
 
-
 @implementation DblBuffer2d
+
+PHASE(Creating)
 
 // allocate buffers.
 - createEnd
@@ -34,6 +35,8 @@
   [self makeOffsets];
   return self;
 }
+
+PHASE(Using)
 
 - (id *)getNewLattice
 {

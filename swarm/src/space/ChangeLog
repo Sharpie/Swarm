@@ -1,3 +1,24 @@
+1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* space.h (Discrete2d, Ca2d): Add phase tags, reorder in sync.
+	(DblBuffer2d, Value2dDisplay, ConwayLife2d, Diffuse2d, Grid2d,
+	Object2dDisplay, Int2dFiler): Add phase tags.
+	(Value2dDisplay): Declare -createEnd.
+	(Grid2d, Int2dFiler): Declare +createBegin.
+
+	* Grid2d.m ([Grid2d +createBegin:]): Directly initialize
+	overwriteWarnings to YES (not 1).
+	
+	* Diffuse2d.m ([Diffuse +createBegin:]): Directly initialize
+	diffusionConstant, evaporationRate, and numStates; don't use
+	accessor methods.
+
+	* Ca2d.m, ConwayLife2d.m, DblBuffer2d.m, Diffuse2d.m,
+	Discrete2d.m, Grid2d.m, Int2dFiler.m, Object2dDisplay.m,
+	Value2dDisplay.m: Add phase tags, reorder definitions in sync.
+
+	* Diffused2d.h: Add +createBegin and -initializeLattice.
+
 1998-04-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Discrete2d.m, Object2dDisplay, Value2dDisplay.m: Include defobj.h.

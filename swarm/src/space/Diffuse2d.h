@@ -13,8 +13,10 @@
   double evaporationRate;
 }
 
++ createBegin: aZone;
+- initializeLattice;
 - setDiffusionConstant: (double)d;
 - setEvaporationRate: (double)e;
-
+- stepRule;
 @end
 

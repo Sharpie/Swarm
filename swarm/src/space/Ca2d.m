@@ -7,10 +7,18 @@
 
 @implementation Ca2d
 
+PHASE(Creating)
+
 - setNumStates: (int)n
 {
   numStates = n;
   return self;
+}
+
+- initializeLattice
+{
+  [SubclassMustImplement raiseEvent];
+  return nil;
 }
 
 - createEnd
@@ -26,11 +34,7 @@
   return self;
 }
 
-- initializeLattice
-{
-  [SubclassMustImplement raiseEvent];
-  return nil;
-}
+PHASE(Using)
 
 - stepRule
 {

@@ -17,13 +17,15 @@
 
 const unsigned maxStates = 0x7fff;
 
+PHASE(Creating)
+
 + createBegin: aZone
 {
-  id r = [super createBegin: aZone];
+  Diffused2d *r = [super createBegin: aZone];
 
-  [r setDiffusionConstant: 1.0];
-  [r setEvaporationRate: 1.0];
-  [r setNumStates: maxStates];
+  r->diffusionConstant = 1.0;
+  r->evaporationRate = 1.0;
+  r->numStates = maxStates;
 
   return r;
 }

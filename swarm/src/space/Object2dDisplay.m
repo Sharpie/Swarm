@@ -15,14 +15,7 @@
 
 @implementation Object2dDisplay
 
-- createEnd
-{
-  [super createEnd];
-  if (displayWidget == nil || discrete2d == nil || displayMessage == (SEL)nil)
-    [InvalidCombination raiseEvent: "Object display improperly initialized\n"];
-
-  return self;
-}
+PHASE(Creating)
 
 - setDisplayWidget: (id <Raster>)r
 {
@@ -51,6 +44,17 @@
 
   return self;
 }
+
+- createEnd
+{
+  [super createEnd];
+  if (displayWidget == nil || discrete2d == nil || displayMessage == (SEL)nil)
+    [InvalidCombination raiseEvent: "Object display improperly initialized\n"];
+
+  return self;
+}
+
+PHASE(Using)
 
 // An optional collection of objects to display. If you give us one, then
 // on display we'll just forEach through the objects. Otherwise we have to

@@ -13,18 +13,7 @@
 
 @implementation Value2dDisplay
 
-- createEnd
-{
-  [super createEnd];
-
-  if (displayWidget == nil || discrete2d == nil)
-    [InvalidCombination raiseEvent: "Value display improperly initialized\n"];
-  
-  if (modFactor == 0)
-    modFactor = 1;
-
-  return self;
-}
+PHASE(Creating)
 
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c
 {
@@ -51,6 +40,21 @@
   discrete2d = c;
   return self;
 }
+
+- createEnd
+{
+  [super createEnd];
+
+  if (displayWidget == nil || discrete2d == nil)
+    [InvalidCombination raiseEvent: "Value display improperly initialized\n"];
+  
+  if (modFactor == 0)
+    modFactor = 1;
+
+  return self;
+}
+
+PHASE(Using)
 
 // linear transform between values and colours. Good enough?
 - setDisplayMappingM: (int)m C: (int)c
