@@ -1,9 +1,11 @@
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (EXTRACFLAGS): Add -Werror to mgd-SFI-Solaris.
-	Use -Wno-implicit-int instead of -Wno-implicit under gcc28.
-	Use -Wno-implicit for egcs (-Wno-implicit-int apparently not supported).
-	Use neither for old gcc.
+	Use -Wno-implicit-int instead of -Wno-implicit under gcc28.  Use
+	-Wno-implicit for egcs (-Wno-implicit-int apparently not
+	supported).  Use neither for old gcc.
+	Add -Werror and switch to -Wno-implicit-int for glibc2 config
+	(now using gcc28).
 
 1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
