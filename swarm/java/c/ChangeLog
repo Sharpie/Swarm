@@ -1,3 +1,7 @@
+2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.in:  Add -Wl,--kill-at. 
+
 2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.in (%_stubs.m): Handle empty source list.
