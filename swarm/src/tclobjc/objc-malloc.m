@@ -20,17 +20,14 @@
    License along with this library; if not, write to the Free
    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */ 
+#include <misc.h>
 
-#ifdef NeXT
-#include <stdio.h>
-
-volatile void objc_fatal(const char *msg)
+volatile void
+objc_fatal(const char *msg)
 {
-  write(stderr, msg, (size_t)strlen((char*)msg));
+  write (2, msg, (size_t) strlen ((char*)msg));
   abort();
 }
-
-#endif
 
 #ifdef __STDC__
 #include <stddef.h>
