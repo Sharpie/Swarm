@@ -13,6 +13,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** Histogram
 ***** New method -setXaxisMin:max:step:precision: for specifying the number
      of significant digits shown for labels on major ticks.
+**** Pixmap
+***** Support for RGB PNG files 
+      (for writing PNG files with more than 256 colors)
 
 *** objectbase
 **** Arguments

@@ -2,6 +2,8 @@
 
 	* VERSION: Bump.
 
+	* NEWS: Note addition of support for RGB PNG files.
+
 	* configure.in (SWARMLDFLAGS): Escape $(libdir) in -L and rpath
 	options.
 
