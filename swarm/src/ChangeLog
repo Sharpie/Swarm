@@ -1,5 +1,8 @@
 2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* SwarmEnvironment.m ([SwarmEnvironment -createEnd]): Remove 
+	swarmDirectory check.
+
 	* Makefile.am (OBJCFLAGS): Append @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@.
 
 2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>

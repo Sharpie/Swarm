@@ -96,20 +96,18 @@ PHASE(Creating)
     initSimtoolsGUI ();
 
 #ifdef HAVE_JDK
-  if (swarmDirectory)
-    {
-      jobject jself = SD_JAVA_FIND_OBJECT_JAVA (self);
-
-      if (jself)
-        {
-          jobject nextPhase = SD_JAVA_NEXTPHASE (jself);
-          
-          swarm_directory_java_associate_objects (nextPhase);
-          (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);
-        }
-    }
+  {
+    jobject jself = SD_JAVA_FIND_OBJECT_JAVA (self);
+    
+    if (jself)
+      {
+        jobject nextPhase = SD_JAVA_NEXTPHASE (jself);
+        
+        swarm_directory_java_associate_objects (nextPhase);
+        (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);
+      }
 #endif
-
+  }
   return self;
 }
 
