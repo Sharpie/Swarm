@@ -1,3 +1,11 @@
+1999-05-28  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user2.07.sgml: Added CustomProbeMap treatment, as well as a
+ 	pathetic cry for help from Alex to revise/delete some stuff on
+ 	"Direct Generation" and "ObjectGeneration" and
+ 	"LibraryGeneration".  I left the sections on precision alone. This
+ 	section nears completion!
+
 1999-05-27  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user2.07.sgml: Tried to clear up jargon, make presentation more
