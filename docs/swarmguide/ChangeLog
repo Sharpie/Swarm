@@ -1,3 +1,12 @@
+1999-05-05  Alex Lancaster  <alex@santafe.edu>
+
+	* user2.06.sgml: Fix markup for ITEMIZEDLISTs, make last
+	ITEMIZEDLIST an ORDEREDLIST.  Add detailed markup for all
+	variables (VARNAME), classes and protocols (CLASSNAME), files
+	(FILENAME), methods and functions (FUNCTION), GUI button names
+	(GUIBUTTON), application names (APPLICATION).  Use COMMENT to tag
+	all internal editorial comments.
+ 
 1999-04-06  Alex Lancaster  <alex@santafe.edu>
 
 	* userbook.sgml: Update PUBLIC identifier for DTD to
