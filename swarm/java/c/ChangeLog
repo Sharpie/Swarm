@@ -1,3 +1,10 @@
+1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.[hm] (java_instantiate_name): Rename from java_instantiate.
+	(java_instantiate): Now takes jclass as argument.
+
+	* directory.h (JINSTANTIATENAME, JINSTANTIATE): Likewise.
+
 1999-03-19  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
 
 	* directory.m (create_class_refs): Create class reference
