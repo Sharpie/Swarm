@@ -64,6 +64,11 @@
 #undef __ia64__
 #endif
 
+/* Darwin uses same ABI as AIX */
+#ifdef __APPLE__
+#define _AIX
+#endif
+
 #ifdef _MSC_VER
 #define MSVC
 #endif

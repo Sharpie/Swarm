@@ -64,6 +64,11 @@
 #undef __ia64__
 #endif
 
+/* Darwin uses same ABI as AIX */
+#ifdef __APPLE__
+#define _AIX
+#endif
+
 /* Calling convention */
 /* Define if using pcc non-reentrant struct return convention */
 #undef __PCC_STRUCT_RETURN__
