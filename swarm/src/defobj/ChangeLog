@@ -1,5 +1,7 @@
 2000-08-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* java.m (map_java_ivars): Handle bytes.
+
 	* COM.m (swarm_directory_objc_ensure_COM): Implement.
 
 	* COM.h (COMInterface): Add createComponent.

@@ -463,6 +463,9 @@ map_java_ivars (jobject javaObject,
         case fcall_type_schar:
           val.schar = GETVALUE (Char);
           break;
+        case fcall_type_uchar:
+          val.uchar = GETVALUE (Byte);
+          break;
         case fcall_type_sshort:
           val.sshort = GETVALUE (Short);
           break;
