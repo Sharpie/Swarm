@@ -5,37 +5,17 @@
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 
-#import <string.h>
-#import <ctype.h>
-#import <stdio.h>
-#import <stdlib.h>
 #import <simtools/MessageProbeWidget.h>
-#import <simtools/global.h>
 #import <simtools.h>
+#import <defobj.h> // nameToObject
 #import <gui.h>
-#include <objc/objc-api.h>
+
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 // Avoid using chars as an index to ctype table.
 #define isSpace(ch) isspace((int)ch)
-
-static id
-_nameToObject (const char *name)
-{
-  id object;
-  void *val;
-  const char *p = name;
-  
-  while (*p != '@' && *p != '\0') p++;
-  if ((*p) && (sscanf (p + 3, "%p", &val) == 1))
-    return (id)val;
-  else if ((!strcmp (name, "nil"))
-           || (!strcmp (name, "Nil"))
-           || (!strcmp (name, "0x0")))
-    return nil;
-  else if ((object = (id)objc_lookup_class (name)))
-    return object;
-  abort ();
-}
 
 @implementation MessageProbeWidget
 
@@ -180,7 +160,7 @@ empty (const char *str)
       [result setActiveFlag: YES];
       if ([myProbe isResultId])
         {
-          if ((resultObject = _nameToObject (result_string)) != nil)
+          if ((resultObject = nameToObject (result_string)) != nil)
             [result setValue: [resultObject getIdName]];
           else    
             [result setValue: result_string];
@@ -213,7 +193,7 @@ empty (const char *str)
   
   if (id_name != NULL)
     {
-      arg_obj = _nameToObject (id_name);
+      arg_obj = nameToObject (id_name);
       CREATE_PROBE_DISPLAY (arg_obj);
     }
   else
