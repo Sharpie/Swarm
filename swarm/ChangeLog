@@ -1,4 +1,21 @@
-2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
+2003-01-08  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* depcomp: Update depcomp from automake 1.6.1
+
+2003-01-02  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* README, INSTALL: Add hook to MacOS X info
+
+2002-12-31  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* autogen.sh: Conditonalise libtool test which fails on
+	Darwin/MacOS X
+
+	* config.guess: Update config.guess to July 02 version for Darwin
+
+	* config.sub: Update config.sub to July 02 version for Darwin
+
+2002-10-19  Paul Johnson  <pauljohn@ukans.edu>
 
 	* VERSION: Bump
 
