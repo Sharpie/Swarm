@@ -158,9 +158,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
     
     try {
       mousetrapDisplay = new Object2dDisplayImpl
-        (getZone (), 
-         (Object) displayWindow, 
-         (Object) mousetrapModelSwarm.getWorld (),
+        (getZone (), displayWindow,  mousetrapModelSwarm.getWorld (),
          new Selector (Class.forName ("Mousetrap"), "noMethod", false));
     }
     catch (Exception e) {

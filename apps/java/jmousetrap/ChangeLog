@@ -1,3 +1,8 @@
+1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MousetrapObserverSwarm.java (buildObjects): Remove casting passing
+	displayWindow and world Grid2d to Object2dDisplay.
+
 1999-08-24    <mgd@HELEN>
 
 	* StartMousetrap.java: Drop topLevelSwarm at the end.
