@@ -5,6 +5,8 @@
 	* acjdk.m4 (vj_FIND_JDK): Add jdkswarm and jdkcswarm 
 	to JAVASWARMSCRIPTS in Cygwin case.
 
+	* acjdk.m4: Break out computation of (potentially symbolic) jdkdatadir.
+
 1999-11-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* actcltk.m4: Make t{cl,k}Config.sh / t{cl,k}.h version mismatch
