@@ -1,3 +1,8 @@
+1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.h: Include swarmconfig.h and use HAVE_XPM_H and
+	HAVE_X11_XPM_H to decide where to include xpm.h from.
+
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Pixmap.m ([Pixmap -_loadPNG_]): Use PTRUINT as cast intermediary.

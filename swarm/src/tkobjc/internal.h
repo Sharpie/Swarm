@@ -14,9 +14,18 @@
 #include <tk.h>
 #include <X11/Xlib.h>    // XColormap
 #include <X11/Xutil.h>  // ZoomRaster
+
 #ifndef _WIN32
+#include <swarmconfig.h>
+#ifdef HAVE_XPM_H
+#include <xpm.h>
+#elif defined(HAVE_X11_XPM_H)
 #include <X11/xpm.h>
+#else
+#error Need xpm.h or X11/xpm.h.
 #endif
+#endif
+
 #undef Pixmap
 #undef Colormap
 #undef String
