@@ -1,5 +1,8 @@
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HDF5Object.m (tid_for_objc_type): Add support for [unsigned] 
+	long long.
+
 	* internal.[hm], defobj.h (zstrdup): New function.
 
 	* internal.m (objc_type_for_array): Use SSTRDUP instead of strdup.

@@ -59,6 +59,12 @@ tid_for_objc_type (const char *type)
     case _C_DBL:
       tid = H5T_NATIVE_DOUBLE;
       break;
+    case _C_LNG_LNG:
+      tid = H5T_NATIVE_LLONG;
+      break;
+    case _C_ULNG_LNG:
+      tid = H5T_NATIVE_ULLONG;
+      break;
     default:
       abort ();
     }
