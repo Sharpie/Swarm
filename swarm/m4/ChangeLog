@@ -1,3 +1,8 @@
+1999-06-02    <mgd@HELEN>
+
+	* acjdk.m4: For Kaffe, get DOS-style path of ${jdkdir}/lib/kaffe,
+	since that is needed to find the .la files.
+
 1999-06-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Remove jdkdosdir; will use cygpath -w.

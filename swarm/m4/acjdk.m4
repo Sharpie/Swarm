@@ -71,7 +71,8 @@ else
     if test "$host_os" = cygwin; then
       jdkdatadir=`cygpath -w $jdkdatadir`
       USEDOSCLASSPATH=yes
-      JAVALIBS=`cygpath -w ${jdkdir}/bin`
+      # ${jdkdir}/lib/kaffe is included so that .la file can be found
+      JAVALIBS="`cygpath -w ${jdkdir}/bin`;`cygpath -w ${jdkdir}/lib/kaffe`"
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
     fi

@@ -1,3 +1,7 @@
+1999-06-02    <mgd@HELEN>
+
+	* javaswarm.in (JAVALIBPATH_VAR): Include JAVALIBS.
+
 1999-06-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javaswarm.in (JAVALIBPATH_VAR): If @USEDOSCLASSPATH@ is true,
