@@ -321,6 +321,7 @@ PHASE(Using)
   float return_float (void) { return res->_float; }
   double return_double (void) { return res->_double; }
   id return_object (void) { return res->object; }
+#ifdef HAVE_JDK
   id return_jobject (void)
     {
       return JFINDOBJC (jniEnv, (jobject) res->object);
@@ -329,7 +330,7 @@ PHASE(Using)
     {
       return java_copy_string (jniEnv, (jstring) res->object);
     }
-
+#endif
   void return_void (void) { return; }
 
   retval_t apply_uchar (void)
@@ -377,6 +378,7 @@ PHASE(Using)
       void* args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_void, args, sizeof (void *));
     }
+#ifdef HAVE_JDK
   retval_t apply_jobject (void)
     {
       void *args = __builtin_apply_args ();
@@ -387,7 +389,7 @@ PHASE(Using)
       void *args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_jstring, args, sizeof (void *));
     }
-  
+#endif
   switch (fargs->returnType)
     {
     case fcall_type_void:
@@ -412,10 +414,12 @@ PHASE(Using)
       return apply_string ();
     case fcall_type_object:
       return apply_object ();
+#ifdef HAVE_JDK
     case fcall_type_jobject:
       return apply_jobject ();
     case fcall_type_jstring:
       return apply_jobject ();
+#endif
     default:
       abort ();
     }

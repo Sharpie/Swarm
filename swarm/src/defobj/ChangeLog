@@ -1,3 +1,8 @@
+1999-04-25  Alex Lancaster  <alex@santafe.edu>
+
+	* FCall.m ([FCall_c -getRetVal:]): Protect Java-specific function
+	calls: (return_jobject, return_jstring) with #ifdef HAVE_JDK.
+
 1999-04-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m ([FCall_c -getRetVal:]): Decrement float and double
