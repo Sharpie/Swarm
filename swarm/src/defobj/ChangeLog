@@ -1,3 +1,8 @@
+2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
+
+	* HDF5Object.m: Fix packing and unpacking of compound types across
+	architectures.
+
 2004-07-21  Scott Christley  <schristley@mac.com>
 
 	* java.m (swarm_directory_java_associate_objects): Exclude
