@@ -1,3 +1,15 @@
+2000-02-29  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Start noting user-visible changes.
+
+	* README: Updates with SDG web address and other details.
+
+	* Makefile.am (EXTRA_DIST): Include all SGML files and support
+	files so that `make dist' works correctly.
+
+	* configure.in (AM_INIT_AUTOMAKE): Change name to `swarmguide' and
+	bump version to 0.9.
+
 2000-02-29  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user2.02.sgml: indexterms, header file inclusion explanation. 

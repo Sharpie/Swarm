@@ -1,6 +1,6 @@
 AC_INIT(userbook.sgml)
 
-AM_INIT_AUTOMAKE(swarm-userguide, 0.0)
+AM_INIT_AUTOMAKE(swarmguide, 0.9)
 
 if test "x$ACLOCAL" = xaclocal; then
   ACLOCAL="aclocal -I m4"

@@ -13,6 +13,8 @@ noinst_DATA = versions.ent
 
 include $(top_srcdir)/Makefile.rules
 
+EXTRA_DIST= $(SGML) $(HTML) $(PRINT) common.dsl global.ent collateindex.pl docbook.dcl Makefile.rules
+
 ## ensure citations are links
 JADEFLAGS = -V biblio-citation-check 
 
