@@ -1,6 +1,7 @@
 #include "nsISupports.h"
 #include "nsIInterfaceInfo.h"
 #include "nsIInterfaceInfoManager.h"
+#include "nsIComponentManager.h"
 #include "nsIEnumerator.h"
 #include "nsMemory.h"
 #include "xptinfo.h"
@@ -10,8 +11,8 @@
 
 extern "C" {
 
-void *
-findInterface (COMEnv *env, const char *name)
+static PRBool
+findIID (const char *interfaceName, nsIID &iid)
 {
   nsIInterfaceInfoManager *iim = nsnull;
   nsIEnumerator *Interfaces = nsnull;
@@ -54,12 +55,14 @@ findInterface (COMEnv *env, const char *name)
       
       if (!NS_FAILED (rv))
         {
-          char *interface_name;
+          char *name;
 
-          Interface->GetName (&interface_name);
+          Interface->GetName (&name);
 
-          matched = (PL_strcmp (name, interface_name) == 0);
-          nsMemory::Free (interface_name);
+          printf ("%s/%s\n", interfaceName, name);
+          matched = (PL_strcmp (interfaceName, name) == 0);
+          iid = Interface->GetIID ();
+          nsMemory::Free (name);
           NS_RELEASE (Interface);
         }
       else
@@ -76,8 +79,85 @@ findInterface (COMEnv *env, const char *name)
  done:
   NS_IF_RELEASE (Interfaces);
   NS_IF_RELEASE (iim);
+  NS_IF_RELEASE (is_Interface);
 
-  return matched ? is_Interface : NULL;
+  return matched;
+}
+
+static nsISupports *
+createComponentByName (const char *progID, const char *interfaceName)
+{
+  nsISupports *obj;
+  nsresult rv;
+  nsIID iid;
+  char buf[6 + strlen (interfaceName) + 1];
+
+  PL_strcpy (buf, "swarmI");
+  PL_strcat (buf, interfaceName);
+
+  printf ("progID: `%s' interfaceName: `%s'\n", progID, buf);
+  if (findIID (buf, iid) != PR_TRUE)
+    abort ();
+  printf ("ok\n");
+
+  rv = nsComponentManager::CreateInstance (progID, NULL, iid, (void **) &obj);
+  if (NS_FAILED (rv))
+    abort ();
+  return obj;
+}
+
+void *
+findComponent (const char *className)
+{
+  nsCID *cClass = new nsCID ();
+  const char *prefix = "component://";
+  char buf[12 + strlen (className) + 1];
+  nsresult rv;
+
+  PL_strcpy (buf, prefix);
+  PL_strcat (buf, className);
+  rv = nsComponentManager::ProgIDToClassID (buf, cClass);
+
+  if (NS_FAILED (rv))
+    abort ();
+  return (void *) cClass;
+}
+
+void *
+createComponent (COMclass cClass)
+{
+  nsCID *cid = (nsCID *) cClass;
+  char *className;
+  char *progID;
+  char *interfaceName = NULL;
+  nsresult rv = nsComponentManager::CLSIDToProgID (cid, &className, &progID);
+  size_t len;
+  nsISupports *obj;
+
+  if (NS_FAILED (rv))
+    abort ();
+  
+  len = PL_strlen (className);
+
+  if (len > 10) /* swarm + name + Impl */
+    {
+      if (PL_strcmp (className + len - 4, "Impl") == 0)
+        {
+          interfaceName = PL_strdup (className + 5);
+          interfaceName[len - 4 - 5] = '\0';
+        }
+      else
+        abort ();
+    }
+  else
+    abort ();
+
+  obj = createComponentByName (progID, interfaceName);
+  
+  if (interfaceName)
+    PL_strfree (interfaceName);
+
+  return (void *) obj;
 }
 
 }
