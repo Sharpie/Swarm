@@ -96,23 +96,22 @@
 (element PRIMARYIE
          (sosofo-append
           (process-children)
-          (let* ((linkends-string (attribute-string "LINKENDS")))
-            (let loop ((linkends (split-string linkends-string #\space)))
-                 (if (null? linkends)
-                     (empty-sosofo)
-                     (sosofo-append
-                      (make paragraph
-                            (let* ((id (car linkends))
-                                   (nl (element-with-id id)))
-                              (sosofo-append
-                               (make link
-                                     destination:
-                                     (node-list-address nl)
-                                     (literal (id-to-indexitem id)))
-                               (literal " -- ")
-                               (element-page-number-sosofo nl))))
-                      (loop (cdr linkends))))))))
+          (make sequence
+                (let* ((linkends-string (attribute-string "LINKENDS")))
+                  (let loop ((linkends (split-string linkends-string #\space)))
+                       (if (null? linkends)
+                           (empty-sosofo)
+                           (sosofo-append
+                            (make paragraph
+                                  (let* ((id (car linkends))
+                                         (nl (element-with-id id)))
+                                    (sosofo-append
+                                     (literal (id-to-indexitem id))
+                                     (literal " -- ")
+                                     (element-page-number-sosofo nl))))
+                            (loop (cdr linkends)))))))))
 
+         
 (mode book-titlepage-recto-mode
       (element graphic (empty-sosofo)))
 
