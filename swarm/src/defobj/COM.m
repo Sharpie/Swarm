@@ -99,8 +99,8 @@ swarm_directory_COM_ensure_objc (COMobject cObject)
 
       return (result
               ? result->object
-              : SD_COM_ADD_OBJECT_COM (cObject,
-                                       [COMProxy create: globalZone]));
+              : SD_COM_ADD_OBJECT_OBJC (cObject,
+                                        [COMProxy create: globalZone]));
     }
 }
 
@@ -116,13 +116,26 @@ swarm_directory_COM_ensure_class (COMclass cClass)
   abort ();
 }
 
-COMobject
-swarm_directory_COM_add_object_COM (COMobject cObject, id oObject)
+static ObjectEntry *
+add (COMobject cObject, id oObject)
 {
   ObjectEntry *entry = COM_OBJECT_ENTRY (cObject, oObject);
 
   avl_probe (swarmDirectory->object_tree, entry);
-  return entry->foreignObject.COM;
+  avl_probe (swarmDirectory->COM_tree, entry);
+  return entry;
+}
+
+COMobject
+swarm_directory_COM_add_object_COM (COMobject cObject, id oObject)
+{
+  return add (cObject, oObject)->foreignObject.COM;
+}
+
+id
+swarm_directory_COM_add_object_objc (COMobject cObject, id oObject)
+{
+  return add (cObject, oObject)->object;
 }
 
 SelectorEntry *

@@ -28,6 +28,7 @@ extern id swarm_directory_COM_ensure_objc (COMobject cObject);
 extern SEL swarm_directory_COM_ensure_selector (COMobject cSelector);
 extern Class swarm_directory_COM_ensure_class (COMclass cClass);
 extern COMobject swarm_directory_COM_add_object_COM (COMobject cObject, id oObject);
+extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
 extern const char *swarm_COM_copy_string (const char *str);
 #ifdef __cplusplus
 }
@@ -42,6 +43,8 @@ extern const char *swarm_COM_copy_string (const char *str);
 #define SD_COM_ENSURE_SELECTOR_OBJC(cSelector) swarm_directory_COM_ensure_selector (cSelector)
 #define SD_COM_ENSURE_CLASS_OBJC(cClass) swarm_directory_COM_ensure_class (cClass)
 #define SD_COM_ADD_OBJECT_COM(cObject, oObject) swarm_directory_COM_add_object_COM (cObject, oObject)
+#define SD_COM_ADD_OBJECT_OBJC(cObject, oObject) swarm_directory_COM_add_object_objc (cObject, oObject)
+
 #define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_object_COM ((COMobject) cClass, (id) cClass)
 #define SD_COM_COPY_STRING(str) swarm_COM_copy_string (str)
 

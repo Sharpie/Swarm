@@ -1,3 +1,12 @@
+2000-08-25  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.h: New function.
+	(SD_COM_ADD_OBJECT_OBJC): New macro.
+
+	* COM.m (add): New static function.
+	(swarm_directory_COM_add_object_COM): Use it.
+	(swarm_directory_COM_add_object_objc): New function.
+
 2000-08-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.m (swarm_directory_objc_find_object_java,
