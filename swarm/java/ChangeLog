@@ -1,5 +1,8 @@
 1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (C_EXTRA_DIST, SWARM_EXTRA_DIST): New variables.
+	(EXTRA_DIST): Include them.
+
 	* java-stub.el (java-type-to-native-type): Add boolean and void.
 	(java-argument-print-conversion): New function.
 	(java-print-native-method): Make the call. Handle argument and
