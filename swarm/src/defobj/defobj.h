@@ -1138,7 +1138,7 @@ extern void xfexec (id anObject, const char *name);
 extern id nameToObject (const char *name);
 
 //F: Create a class name.
-const char *generate_class_name (void);
+extern const char *generate_class_name (void);
 
 //
 // macros used to create and initialize warning and error symbols

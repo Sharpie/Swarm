@@ -1,3 +1,7 @@
+1999-02-16  Alex Lancaster  <alex@santafe.edu>
+
+	* defobj.h (generate_class_name):  Prefix with `extern'.
+
 1999-02-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.m (hdf5In): Use getAttribute: instead of iterateAttributes:
