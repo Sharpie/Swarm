@@ -6,11 +6,18 @@
 	(exactclassp, classp): Make them toplevel static functions.
 	(swarm_directory_signature_for_class): New function.  Use them.
 	(swarm_directory_objc_type_for_java_class): Modify usage of
-	exactclassp, classp.  * FArguments.m ([FArguments_c -createEnd]):
+	exactclassp, classp. 
+	(swarm_directory_ensure_selector_type_signature): New function.
+
+	* directory.h (swarm_directory_signature_for_class,
+	swarm_directory_objc_type_for_java_class): Declare new functions.
+
+	* FArguments.m ([FArguments_c -createEnd]):
 	Don't call createJavaSignature if one has been set.
 
-	* DefObject.m (ensureJavaTypeSignature): New function.
-	([Object_s -forward::]): Use it.  Call setJavaSignature:.
+	* DefObject.m ([Object_s -forward::]): Call new function
+	swarm_directory_ensure_selector_type_signature and give that to
+	setJavaSignature:.
 
 	* FArguments.[hm], defobj.h ([FArguments_c -setJavaSignature:]): 
 	New method.  Replaces -setJavaFlag:.

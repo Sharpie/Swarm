@@ -1177,6 +1177,7 @@ swarm_directory_get_language_independent_class_name  (id object)
 #endif
 }
 
+#ifdef HAVE_JDK
 static void
 fill_signature (char *buf, const char *className)
 {
@@ -1233,3 +1234,71 @@ swarm_directory_signature_for_class (JNIEnv *env, jclass class)
     }
   return type;
 }
+
+const char *
+swarm_directory_ensure_selector_type_signature (id aZone, jobject jsel)
+{
+  unsigned argCount, typeSigLen = 0;
+
+  jobject typeSignature =
+    (*jniEnv)->GetObjectField (jniEnv, jsel, f_typeSignatureFid);
+
+  if (!typeSignature)
+    {
+      jobject argTypes = 
+        (*jniEnv)->GetObjectField (jniEnv, jsel, f_argTypesFid);
+
+      jobject retType =
+        (*jniEnv)->GetObjectField (jniEnv, jsel, f_retTypeFid);
+
+      argCount = (*jniEnv)->GetArrayLength (jniEnv, argTypes);
+      {
+        const char *argSigs[argCount];
+        const char *retSig;
+        char *sig, *p;
+        unsigned ai;
+        
+        typeSigLen = 1;
+        for (ai = 0; ai < argCount; ai++)
+          {
+            jclass member =
+              (*jniEnv)->GetObjectArrayElement (jniEnv, argTypes, ai);
+            
+            argSigs[ai] = swarm_directory_signature_for_class (jniEnv, member);
+            typeSigLen += strlen (argSigs[ai]);
+          }
+        typeSigLen++;
+        retSig = swarm_directory_signature_for_class (jniEnv, retType);
+        typeSigLen += strlen (retSig);
+        
+        sig = [aZone alloc: typeSigLen + 1];
+        
+        p = sig;
+        *p++ = '(';
+        for (ai = 0; ai < argCount; ai++)
+          p = stpcpy (p, argSigs[ai]);
+        *p++ = ')';
+        p = stpcpy (p, retSig);
+        
+        (*jniEnv)->SetObjectField (jniEnv,
+                                   jsel,
+                                   f_typeSignatureFid,
+                                   (*jniEnv)->NewStringUTF (jniEnv, sig));
+        return sig;
+      }
+    }
+  else
+    {
+      jboolean copyFlag;
+      const char *sig;
+
+      const char *utf =
+        (*jniEnv)->GetStringUTFChars (jniEnv, typeSignature, &copyFlag);
+
+      sig = ZSTRDUP (aZone, utf);
+      if (copyFlag)
+        (*jniEnv)->ReleaseStringUTFChars (jniEnv, typeSignature, utf);
+      return sig;
+    }
+}
+#endif
