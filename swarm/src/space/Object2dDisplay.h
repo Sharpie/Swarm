@@ -3,26 +3,27 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc.h>
 #import <objectbase.h>
 #import <space.h>
+#import <gui.h>
 
 // generic object to handle display 2d objects
 // hand it a 2d raster widget, tell it what message to send, and it sends it.
 // also knows how to construct probes.
 
-@interface Object2dDisplay: SwarmObject {
-  Raster * displayWidget;
-  Discrete2d * discrete2d;
+@interface Object2dDisplay: SwarmObject
+{
+  id <Raster> displayWidget;
+  Discrete2d *discrete2d;
   SEL displayMessage;
   id objectCollection;
 }
 
--setDisplayWidget: (Raster *) r;
--setDiscrete2dToDisplay: (Discrete2d *) c;
--setDisplayMessage: (SEL) s;
--setObjectCollection: objects;			  // optional collection
--createEnd;
--display;
--makeProbeAtX: (int) x Y: (int) y;
+- setDisplayWidget: (id <Raster>)r;
+- setDiscrete2dToDisplay: (Discrete2d *)c;
+- setDisplayMessage: (SEL)s;
+- setObjectCollection: objects;			  // optional collection
+- createEnd;
+- display;
+- makeProbeAtX: (int)x Y: (int)y;
 @end

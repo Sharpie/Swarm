@@ -9,7 +9,8 @@
 
 @implementation Value2dDisplay
 
--createEnd {
+- createEnd
+{
   [super createEnd];
 
   if (displayWidget == nil || discrete2d == nil)
@@ -21,29 +22,33 @@
   return self;
 }
 
--setDisplayWidget: (Raster *) r Colormap: (XColormap *) c {
+- setDisplayWidget: (id <Raster>)r Colormap: (id <Colormap>)c
+{
   displayWidget = r;
   colormap = c;
-  drawPointImp = [r methodFor: @selector(drawPointX:Y:Color:)];
+  drawPointImp = getMethodFor ([r getClass], @selector (drawPointX:Y:Color:));
   return self;
 }
 
--setDiscrete2dToDisplay: (Discrete2d *) c {
+- setDiscrete2dToDisplay: (Discrete2d *)c
+{
   discrete2d = c;
   return self;
 }
 
 // linear transform between values and colours. Good enough?
--setDisplayMappingM: (int) m C: (int) c {
+- setDisplayMappingM: (int)m C: (int)c
+{
   modFactor = m;
   colorConstant = c;
   return self;
 }
 
--display {
+- display
+{
   int x, y;
-  id * lattice;
-  long * offsets;
+  id *lattice;
+  long *offsets;
   int xsize, ysize;
 
   lattice = [discrete2d getLattice];
@@ -52,21 +57,27 @@
   ysize = [discrete2d getSizeY];
 
   for (y = 0; y < ysize; y++)
-    for (x = 0; x < xsize; x++) {
-      long color;
-      color = (long) *(discrete2dSiteAt(lattice, offsets, x, y));
-      color = color/modFactor + colorConstant;
-      if (color < 0 || color > 255) {
-	[WarningMessage raiseEvent: "Value2dDisplay: found colour %d not in [0,255].\n", color];
-      }
-
+    for (x = 0; x < xsize; x++)
+      {
+        long color;
+        color = (long) *(discrete2dSiteAt(lattice, offsets, x, y));
+        color = color / modFactor + colorConstant;
+        if (color < 0 || color > 255)
+          {
+            [WarningMessage 
+              raiseEvent: 
+                "Value2dDisplay: found colour %d not in [0,255].\n", color];
+          }
+        
 #ifdef METHODS
-      [displayWidget drawPointX: x Y: y Color: (unsigned char)color];
+        [displayWidget drawPointX: x Y: y Color: (unsigned char)color];
 #else
-      // cache method lookup.
-      (void) *drawPointImp(displayWidget, @selector(drawPointX:Y:Color:),x,y,color);
+        // cache method lookup.
+        (void) *drawPointImp (displayWidget,
+                              @selector(drawPointX:Y:Color:),
+                              x, y, color);
 #endif
-    }
+      }
   return self;
 }
 

@@ -1,3 +1,26 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Value2dDisplay.m ([Value -setDisplayWidget:Colormap:]): 
+	First argument is now id <Raster> instead of Raster*, second
+	is id <Colormap> instead of XColormap*.
+	Reformatting throughout.
+
+	* Value2dDisplay.h (Value2dDisplay): Make displayWidget conform
+	to the Raster protocol instead of being statically typed. 
+	Make colormap conform to the Colormap protocol instead of being
+	statically typed to XColormap.  setDisplayWidget now takes an
+	id <Raster> instead of a Raster*.
+
+	* Object2dDisplay.m: Include gui.h instead of tkobjc/control.h.
+	([Object -setDisplayWidget:]): Takes an id <Raster> instead of Raster*.
+	([Object -makeProbeAtX:Y:]): Use GUI_BEEP instead of tkobjc_ringBell.
+
+	* Object2dDisplay.h: Include gui.h instead of tkobjc.h.
+	(Object2dDisplay): Declare displayWidget as id <Raster>.
+	Make setDisplayWidget take an id <Raster> instead of Raster*.
+
+	* Int2dFiler.h: Don't include tkobjc.h.
+
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Object2dDisplay.m ([Object -makeProbeAtX:Y:]): Use

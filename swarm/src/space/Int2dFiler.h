@@ -3,7 +3,6 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc.h>
 #import <objectbase.h>
 #import <space.h>
 

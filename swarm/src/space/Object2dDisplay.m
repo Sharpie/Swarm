@@ -9,8 +9,7 @@
 
 #import <space/Object2dDisplay.h>
 #import <simtools.h>
-
-#import <tkobjc/control.h>
+#import <gui.h>
 
 @implementation Object2dDisplay
 
@@ -22,7 +21,7 @@
   return self;
 }
 
-- setDisplayWidget: (Raster *)r
+- setDisplayWidget: (id <Raster>)r
 {
   displayWidget = r;
   return self;
@@ -92,7 +91,7 @@
       if (obj)
         CREATE_PROBE_DISPLAY (obj);
       else
-        tkobjc_ringBell();
+        GUI_BEEP();
     }
     else
       [WarningMessage
