@@ -18,11 +18,13 @@ CREATING
 //M: instance ProbeDisplay a name, which will used by the Archiver
 //M: when recording its geometry information.
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-@end
 
+//#: This macro uses the instance name of theWidget to set its name
+//#: in the window geometry record.
 #define SET_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
   [theWidget setWindowGeometryRecordName: #theWidget]
-
+@end
+
 @protocol CompositeWindowGeometryRecordName <WindowGeometryRecordName>
 //S: Protocol for archiving objects with several GUI components.
 
@@ -32,14 +34,16 @@ CREATING
 //M: Update the list of components, and compute the derived archiving name.
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: widget;
-@end
 
 #define SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(obj, theWidget) \
   [(obj) setWindowGeometryRecordNameForComponent: #theWidget widget: theWidget]
 
 #define SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
   SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR (self,theWidget)
-
+
+@end
+
+
 @protocol ControlPanel <SwarmObject>
 //S: Class to control the top level SwarmProcess
 
@@ -108,9 +112,10 @@ USING
 - doTkEvents;  // should change to pollGUI or something
 - waitForControlEvent;
 @end
-// Type Symbols for ActionCache
+
+//G: Type Symbols for ActionCache
 extern id <Symbol> Control, Probing, Spatial;
-// Error Symbols for ActionCache
+//G: Error Symbols for ActionCache
 extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 
@@ -173,17 +178,6 @@ id <CompleteProbeDisplay> _createCompleteProbeDisplay (id obj);
 id <ProbeDisplay> createArchivedProbeDisplayNamed (id obj, const char *name);
 id <CompleteProbeDisplay> createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
 
-#define CREATE_PROBE_DISPLAY(anObject) \
-  _createProbeDisplay(anObject)
-
-#define CREATE_COMPLETE_PROBE_DISPLAY(anObject) \
-  _createCompleteProbeDisplay(anObject)
-
-#define CREATE_ARCHIVED_PROBE_DISPLAY(anObject) \
-  createArchivedProbeDisplayNamed(anObject,#anObject)
-
-#define CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(anObject) \
-  createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
 
 @protocol ProbeDisplayManager <SwarmObject>
 //S: The ProbeDisplay manager.
@@ -223,6 +217,25 @@ USING
 - update;
 
 - setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
+
+//#: This macro creates a probe display for the given object
+#define CREATE_PROBE_DISPLAY(anObject) \
+  _createProbeDisplay(anObject)
+
+//#: This macro creates a "complete" probe display for the given object
+#define CREATE_COMPLETE_PROBE_DISPLAY(anObject) \
+  _createCompleteProbeDisplay(anObject)
+
+//#: This macro creates the probe display for the given object, to be saved
+//#: by the window archiver
+#define CREATE_ARCHIVED_PROBE_DISPLAY(anObject) \
+  createArchivedProbeDisplayNamed(anObject,#anObject)
+
+//#: This macro creates a "complete" probe display for the given
+//#: object, to be saved  by the window archiver
+#define CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(anObject) \
+  createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
+
 @end
 
 @protocol GUIComposite <CompositeWindowGeometryRecordName>
@@ -285,13 +298,14 @@ USING
 - step;
 @end
 
-// Manager that keeps track of active probes to be updated
+//G: Manager that keeps track of active probes to be updated
 extern id <ProbeDisplayManager> probeDisplayManager;
 
-// State Symbols for the ControlPanel.
+//G: State Symbols for the ControlPanel.
 extern id ControlStateRunning, ControlStateStopped;
 extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
-
+
+//G: Initialize the library and create a ProbeDisplayManager
 void initSimtoolsGUI (void);
 
 const char *buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
