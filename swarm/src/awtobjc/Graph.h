@@ -24,6 +24,7 @@
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;	  // change labels here.
 - setScaleModeX: (int)xs Y: (int)ys;		  // 0 smooth, 1 jump
 - setRangesXMin: (double)minX Max: (double)maxX YMin: (double)minY Max: (double)maxY;  // Graph will autoscale, but you can also fix scale.
+- setRangesYMin: (double)minY Max: (double)maxY;
 - createJavaElement: (const char *)name;
 - addElem: (const char *)name X: (double)x Y: (double)y;
 - setElem: (const char *)name Len: (int)n;

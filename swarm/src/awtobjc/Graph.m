@@ -39,6 +39,11 @@
   return self;
 }
 
+- setRangesYMin: (double)miny Max: maxy
+{
+  abort ();
+}
+
 - setScaleModeX: (int)xs Y: (int)ys 
 {
   if (_setScaleMode == 0)
