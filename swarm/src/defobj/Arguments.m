@@ -170,8 +170,8 @@ strip_quotes (const char *argv0)
     [self setAppName: getApplicationValue (argv0)];
   else
     {
-      program_invocation_short_name = applicationName;
-      program_invocation_name = applicationName;
+      program_invocation_short_name = (char *) applicationName;
+      program_invocation_name = (char *) applicationName;
     }
 #endif
 
