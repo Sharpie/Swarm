@@ -1,3 +1,12 @@
+1998-03-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (mkversion): New rule to create version.h.  
+	Arguments.o depends on it.
+
+	* Arguments.m: Include computed file version.h (from
+	Makefile.conf's VERSION).
+	Use VERSION to define argp_program_version.
+
 1998-03-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Arguments.m:  Include misc.h for strdup.

@@ -12,9 +12,11 @@ const char *program_invocation_name;
 const char *program_invocation_short_name;
 #endif
 
+#include "version.h"
+
 @implementation Arguments
 
-const char *argp_program_version = "Swarm 1.0.5";
+const char *argp_program_version = "Swarm " VERSION;
 const char *argp_program_bug_address = "bug-swarm@santafe.edu";
 
 static struct argp_option options[] = {
