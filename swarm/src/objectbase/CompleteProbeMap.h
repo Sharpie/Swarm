@@ -9,7 +9,8 @@
 
 #import <objectbase/ProbeMap.h>
 
-@interface CompleteProbeMap : ProbeMap {
+@interface CompleteProbeMap: ProbeMap
+{
 }
 
 -createEnd;

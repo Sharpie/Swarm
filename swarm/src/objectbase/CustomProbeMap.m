@@ -3,10 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <stdarg.h>
-#import <stdio.h>
 #import <objectbase/CustomProbeMap.h>
-
+#import <stdarg.h>
+#import <defobj.h> // Warning
 #import "local.h"
 
 @implementation CustomProbeMap
@@ -59,20 +58,20 @@ PHASE(Creating)
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        fprintf (stderr, "ProbeMap object was not properly initialized\n");
+        [Warning raiseEvent: "ProbeMap object was not properly initialized\n"];
         return nil;
       }
   
-  probes = [Map createBegin: [self getZone]] ;
-  [probes setCompareFunction: &p_compare] ;
-  probes = [probes createEnd] ;
+  probes = [Map createBegin: [self getZone]];
+  [probes setCompareFunction: &p_compare];
+  probes = [probes createEnd];
   
   if (probes == nil)
     return nil;
 
   numEntries = 0;
   
-  return self ;
+  return self;
 }
 
 @end

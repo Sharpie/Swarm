@@ -3,17 +3,15 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h> // sprintf
 #import <string.h>
 
 #import <objc/objc.h>
 #import <objc/objc-api.h>
 #import <objectbase/VarProbe.h>
-
-// SAFEPROBES enables lots of error checking here.
-#define SAFEPROBES 1
+#import <defobj.h> // Warning
+#import "local.h"
 
 @implementation VarProbe
 
@@ -23,7 +21,7 @@
     {
       if (SAFEPROBES)
         {
-          fprintf (stderr, "It is an error to reset the variable\n");
+          [Warning raiseEvent: "It is an error to reset the variable\n"];
           return nil;
         }
       else 
@@ -46,13 +44,12 @@
   [super createEnd];
 
   if (SAFEPROBES)
-    {
-      if (probedVariable == 0 || probedClass == 0)
-        {
-          fprintf (stderr, "VarProbe object was not properly initialized\n");
-          return nil;
-        }
-    }
+    if (probedVariable == 0 || probedClass == 0)
+      {
+        [Warning raiseEvent: 
+                   "VarProbe object was not properly initialized\n"];
+        return nil;
+      }
   
   ivarList = probedClass->ivars;
   
@@ -66,7 +63,7 @@
     { 
       // if not found
       if (SAFEPROBES)
-        fprintf (stderr, "Warning: variable not found\n");
+        [Warning raiseEvent: "Warning: variable not found\n"];
       return nil;
     }
   else
@@ -143,8 +140,8 @@
 {
   if (safety)
     if (![anObject isKindOf: probedClass])
-      fprintf (stderr, "VarProbe for class %s tried on class %s\n",
-	      [probedClass name], [anObject name]);
+      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
+               [probedClass name], [anObject name]];
   return (char *)anObject+dataOffset;
 }
 
@@ -155,10 +152,10 @@
   
   if (safety)
     if (![anObject isKindOf: probedClass])
-      fprintf (stderr, "VarProbe for class %s tried on class %s\n",
-	      [probedClass name],
-               [anObject name]);
-
+      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
+               [probedClass name],
+               [anObject name]];
+  
   p = ((char *)anObject) + dataOffset;
   
   switch (probedType[0])
@@ -172,7 +169,8 @@
       
     default:
       if (SAFEPROBES)
-	fprintf (stderr, "Invalid type %s to retrieve as a pointer...\n", probedType);
+        [Warning raiseEvent: "Invalid type %s to retrieve as a pointer...\n",
+                 probedType];
       break;
     }
   return q;
@@ -185,8 +183,8 @@
   
   if (safety)
     if (![anObject isKindOf: probedClass])
-      fprintf (stderr, "VarProbe for class %s tried on class %s\n",
-               [probedClass name], [anObject name]);
+      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
+               [probedClass name], [anObject name]];
   
   p = ((const char *)anObject) + dataOffset;
   
@@ -204,8 +202,8 @@
       
     default:
       if (SAFEPROBES)
-	fprintf (stderr, "Invalid type %s to retrieve as an int...\n",
-                 probedType);
+        [Warning raiseEvent: "Invalid type %s to retrieve as an int...\n",
+                 probedType];
       break;
     }
   return i;
@@ -218,12 +216,12 @@
   
   if (safety)
     if (![anObject isKindOf: probedClass])
-      fprintf (stderr, "VarProbe for class %s tried on class %s\n",
+      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
                [probedClass name],
-               [anObject name]);
+               [anObject name]];
   
   p = ((const char *)anObject) + dataOffset;
-
+  
   switch (probedType[0])
     {
     case _C_UCHR: d = (double)*(unsigned char *)p; break;
@@ -237,7 +235,8 @@
       
     default:
       if (SAFEPROBES)
-	fprintf (stderr, "Invalid type %s to retrieve as a double...\n", probedType);
+        [Warning raiseEvent: "Invalid type %s to retrieve as a double...\n",
+                 probedType];
       break;
     }
   return d;
@@ -254,7 +253,8 @@
   if (probedType[0] == _C_FLT || probedType[0] == _C_DBL) 
     floatFormat = strdup (format);
   else
-    fprintf (stderr, "%s is not a float or double\n", probedVariable);
+    [Warning raiseEvent: "%s is not a float or double\n", probedVariable];
+
   return self;
 }
 
@@ -363,8 +363,8 @@
 
   if (safety)
     if (![anObject isKindOf: probedClass])
-      fprintf (stderr, "VarProbe for class %s tried on class %s\n",
-               [probedClass name], [anObject name]);
+      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
+               [probedClass name], [anObject name]];
   
   p = (const char *)anObject + dataOffset;		  // probeData
   
@@ -384,7 +384,7 @@
       
     default:
       if (SAFEPROBES)
-	fprintf (stderr, "Invalid type %s to set\n", probedType);
+        [Warning raiseEvent: "Invalid type %s to set\n", probedType];
       break;
     }
   
@@ -433,8 +433,8 @@
   
   if (safety)
     if (![anObject isKindOf: probedClass])
-      fprintf (stderr, "VarProbe for class %s tried on class %s\n",
-	      [probedClass name], [anObject name]);
+      [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
+               [probedClass name], [anObject name]];
 
   p = (char *)anObject + dataOffset;		  // probeData
 
@@ -493,14 +493,14 @@
       
     default:
       if (SAFEPROBES)
-	fprintf (stderr, "Invalid type %s to set\n", probedType);
+        [Warning raiseEvent: "Invalid type %s to set\n", probedType];
       break;
   }
 
   if (rc != 1 && SAFEPROBES)
     {
-      fprintf (stderr, "Error scanning for value in string %s\n", s);
-      return 0 ;
+      [Warning raiseEvent: "Error scanning for value in string %s\n", s];
+      return 0;
     }
   
   if (objectToNotify != nil)

@@ -3,11 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <stdio.h>
-
 #import <objectbase/CompleteProbeMap.h>
 #import <collections.h>
 #import <objc/objc-api.h>
+#import <defobj.h> // Warning
 
 #import "local.h"
 
@@ -23,13 +22,12 @@
 
   id classList;  //added to ensure the vars are added from Object downwards
   id anIndex;    //as required by the ObjectSaver (for example).
-	
 
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        fprintf (stderr,
-                 "CompleteProbeMap object was not properly initialized\n");
+        [Warning raiseEvent:
+                   "CompleteProbeMap object was not properly initialized\n"];
         return nil;
       }
   

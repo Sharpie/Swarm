@@ -3,11 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <stdio.h>
-
 #import <objectbase/DefaultProbeMap.h>
 #import <collections.h>
 #import <objc/objc-api.h>
+#import <defobj.h> // Warning
 
 #import "local.h"
 
@@ -21,13 +20,12 @@
   
   
   if (SAFEPROBES)
-    {
-      if (probedClass == 0)
-        {
-          (void) fprintf(stderr, "DefaultProbeMap object was not properly initialized\n");
-          return nil;
-        }
-    }
+    if (probedClass == 0)
+      {
+        [Warning raiseEvent:
+                   "DefaultProbeMap object was not properly initialized\n"];
+        return nil;
+      }
   
   probes = [Map createBegin: [self getZone]];
   [probes setCompareFunction: &p_compare];

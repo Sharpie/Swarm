@@ -5,11 +5,8 @@
 
 #import <objectbase/Probe.h>
 #import <collections.h>
-
-#include <stdio.h>
-
-// SAFEPROBES enables lots of error checking here.
-#define SAFEPROBES 1
+#import <defobj.h> // Warning
+#import "local.h"
 
 @implementation Probe
 +  createBegin: aZone 
@@ -87,13 +84,11 @@
 - setProbedClass: (Class)aClass
 {
   if (SAFEPROBES)
-    {
-      if (probedClass != 0)
-        {
-          fprintf(stderr, "It is an error to reset the class\n");
-          return nil;
-        }
-    }
+    if (probedClass != 0)
+      {
+        [Warning raiseEvent: "It is an error to reset the class\n"];
+        return nil;
+      }
   probedClass = aClass;
   return self;
 }

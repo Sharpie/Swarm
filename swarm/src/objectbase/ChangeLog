@@ -1,5 +1,9 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* CompleteProbeMap.m, CompleteVarMap.m, CustomProbeMap.m,
+	DefaultProbeMap.m, Probe.m, ProbeMap.m, VarProbe.m:  Use
+	[Warning raiseEvent: ..] instead of fprintf.
+
 	* Makefile.am (lib_LIBRARIES, libobjectbase_a_SOURCES): Remove.
 	(noinst_HEADERS): Include local.h.
 

@@ -3,11 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <stdio.h>
 #include <string.h>
-
 #import <objectbase/ProbeMap.h>
 #import <objc/objc-api.h>
+#import <defobj.h> // Warning
 
 #import "local.h"
 
@@ -130,13 +129,11 @@
 - setProbedClass: (Class)aClass
 {
   if (SAFEPROBES)
-    {
-      if (probedClass != 0)
-        {
-          fprintf (stderr, "It is an error to reset the class\n");
-          return nil;
-        }
-    }
+    if (probedClass != 0)
+      {
+        [Warning raiseEvent: "It is an error to reset the class\n"];
+        return nil;
+      }
   probedClass = aClass;
   return self;
 }
@@ -149,14 +146,11 @@
 - _copyCreateEnd_
 {
   if (SAFEPROBES)
-    {
-      if (probedClass == 0)
-        {
-          fprintf(stderr, "ProbeMap object was not properly initialized\n");
-          return nil;
-        }
-    }
-  
+    if (probedClass == 0)
+      {
+        [Warning raiseEvent: "ProbeMap object was not properly initialized\n"];
+        return nil;
+      }
   numEntries = 0;
   
   probes = [Map createBegin: [self getZone]];
@@ -183,13 +177,11 @@
   id a_probe;
   
   if (SAFEPROBES)
-    {
-      if (probedClass == 0)
-        {
-          fprintf(stderr, "ProbeMap object was not properly initialized\n");
-          return nil;
-        }
-    }
+    if (probedClass == 0)
+      {
+        [Warning raiseEvent: "ProbeMap object was not properly initialized\n"];
+        return nil;
+      }
   
   if (objectToNotify == nil)
     [self setObjectToNotify: 
@@ -307,9 +299,11 @@
         [index drop];
         return self;
       }
-  
-  fprintf(stderr,"ProbeMap not added because %s is not a superclass of %s\n",
-          aClass->name, probedClass->name);
+
+  [Warning raiseEvent:
+             "ProbeMap not added because %s is not a superclass of %s\n",
+           aClass->name, probedClass->name];
+
   return self;
 }
 
@@ -327,8 +321,9 @@
                            setC: strdup ([aProbe getProbedMessage])];
   
   if ([probes at: string] != nil)
-    fprintf (stderr,"addProbe: There was already a probe for %s!!!\n",
-             [string getC]);
+    [Warning raiseEvent:
+               "addProbe: There was already a probe for %s!!!\n",
+             [string getC]];
   
   aClass = [aProbe getProbedClass];
   
@@ -344,7 +339,10 @@
         return self;
       }
   
-  fprintf (stderr, "Probe not added to ProbeMap because %s is not a superclass of %s\n", aClass->name, probedClass->name);
+  [Warning
+    raiseEvent:
+      "Probe not added to ProbeMap because %s is not a superclass of %s\n",
+    aClass->name, probedClass->name];
   
   return self;
 }
@@ -370,8 +368,8 @@
                      setC: strdup([aProbe getProbedMessage])];
 
   if ([probes at: string] != nil)
-    fprintf (stderr,"addProbe: There was already a probe for %s!!!\n",
-            [string getC]);
+    [Warning raiseEvent: "addProbe: There was already a probe for %s!!!\n",
+             [string getC]];
 
   [probes at: string insert: aProbe];
   numEntries++;
@@ -434,7 +432,8 @@
     { 
       // if not found
       if (SAFEPROBES)
-        fprintf (stderr, "Warning: the variable %s was not found\n",aVariable);
+        [Warning raiseEvent:
+                   "The variable %s was not found\n",aVariable];
       return nil;
     }
   else
@@ -466,7 +465,7 @@
   if (res == nil)
     {
       if (SAFEPROBES)
-        fprintf(stderr, "Warning: the message %s was not found\n",aMessage);
+        [Warning raiseEvent: "The message %s was not found\n", aMessage];
       return nil;
     }
   else

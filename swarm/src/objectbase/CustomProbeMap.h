@@ -9,7 +9,7 @@
 
 #import <objectbase/ProbeMap.h>
 
-@interface CustomProbeMap : ProbeMap
+@interface CustomProbeMap: ProbeMap
 {
 }
 
