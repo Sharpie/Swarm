@@ -18,7 +18,7 @@ if test $jdkdir = no; then
   JAVASWARMSCRIPTS=
 else
   if test "$host_os" = cygwin; then
-    jdkdosdir=`echo $jdkdir | sed -e 's,//\(.\)/,\1:/,g' -e 's,/,\\\\,g'`"
+    jdkdosdir="`echo $jdkdir | sed -e 's,//\(.\)/,\1:/,g' -e 's,/,\\\\,g'`"
   else
     jdkdosdir=$jdkdir
   fi
