@@ -19,13 +19,13 @@ IS_COMPONENT = 1
 
 REQUIRES = xpcom
 
-CPPSRCS = module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) $(NULL)
+CPPSRCS = COMsupport.cpp module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) $(NULL)
 
 XPIDLSRCS = $(foreach module,$(MODULES) swarm,$(call moduleidlfiles,$(module)))
 
 include $(topsrcdir)/config/rules.mk
 
-override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swarm_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(swarm_srcdir)/src $(foreach module,defobj,-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(swarm_srcdir)
+override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swarm_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(swarm_srcdir)/src $(foreach module,defobj,-I$(swarm_srcdir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(swarm_srcdir) -I$(swarm_srcdir)/COM/c
 
 
 SWARMMODULES = $(shell cat $(swarm_srcdir)/etc/modules)
