@@ -7,4 +7,8 @@
 
 #define externvardef @EXPORT_EXTERNDEF@
 
+#ifdef disable_externvar
+#undef externvar
+#endif
+
 #endif
