@@ -37,7 +37,7 @@ LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(SYSLIBS)
 
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc -rpath $(libdir)
 
-OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.o)
+OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
 
 swarm.dll: dllinit.c
 	$(CC) -c $(srcdir)/dllinit.c
