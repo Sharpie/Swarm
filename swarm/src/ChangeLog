@@ -1,6 +1,8 @@
 1999-05-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (swarm.dll): New rule.
+	(install-data-local): If SWARMDLL is set, install libswarm.a and
+	run ranlib on installed version.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

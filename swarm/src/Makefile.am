@@ -14,6 +14,8 @@ EXTRA_DIST = Makefile.rules
 
 all-recursive: headers
 
+bin_PROGRAMS = @SWARMDLL@
+
 headers:
 	for i in $(SUBDIRS) ; do $(MAKE) -C $$i headers ; done
 
@@ -33,6 +35,10 @@ empty.m:
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc
 
 swarm.dll: libswarm.la
-	dllwrap --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll $(foreach module,$(SWARMMODULES),$(module)/.libs/lib$(module).al $(SUPPORTLDFLAGS) $(SYSLIBS)
+	$(RM) -r .dll
+	mkdir .dll
+	cd .dll; for module in $(SWARMMODULES); do mkdir $$module; (cd $$module; ar x ../../$$module/.libs/lib$$module.al); done
+	dllwrap --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll $(foreach module,$(SWARMMODULES),`ls .dll/$(module)/*.lo`) $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
-
+install-data-local: 
+	test -n "$SWARMDLL" && $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a
