@@ -114,9 +114,10 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 @interface ScheduleActivity_c : Activity_c
 {
 @public
-  Activity_c  *swarmActivity;    // controlling swarm activity, if any
-  id          mergeAction;       // merge action of swarm activity, if any
-  long         activationNumber;  // sequential id of activation within swarm
+  Activity_c  *swarmActivity;      // controlling swarm activity, if any
+  id          mergeAction;         // merge action of swarm activity, if any
+  id          mergeExternalAction; // merge action for external swarms
+  long         activationNumber;   // sequential id of activation within swarm
 }
 /*** methods in ScheduleActivity_c (inserted from .m file by m2h) ***/
 - (timeval_t) getCurrentTime;
@@ -140,6 +141,7 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 - remove;
 - get;
 - (timeval_t) getCurrentTime;
+- setCurrentTime : (timeval_t)timeval;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 - (void) dropAllocations: (BOOL)componentAlloc;
 @end
@@ -178,6 +180,7 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 {
 @public
   ScheduleActivity_c  *subactivity;  // activity holding for merge 
+  BOOL immediateReturnRequestFlag;   // tell merged activity immediately return
 }
 /*** methods in ActionMerge_c (manually inserted) ***/
 - (void) _performAction_: callerActivity;

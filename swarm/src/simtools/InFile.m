@@ -42,9 +42,10 @@
       return 1 ;
 }
 
--(int) getLine: (char *) aLine {
+- (int)getLine: (char *)aLine 
+{
   int c, pos = 0;
-
+  
   while ((c = fgetc (theFile)) != EOF && (c == ' ' || c == '\t'));
   while (c != EOF && c != '\n')
     {

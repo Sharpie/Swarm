@@ -5,21 +5,22 @@
 
 #import <swarmobject/SwarmObject.h>
 
-@interface ObjectLoader : SwarmObject {
-  id probeMapCache ;  
-  id theFileObject ;    
+@interface ObjectLoader : SwarmObject
+{
+  id probeMapCache;
+  id theFileObject; 
 }
 
-+load: anObject from: aFileObject ;
-+load: anObject fromFileNamed: (char *) aFileName ;
++ load: anObject from: aFileObject;
++ load: anObject fromFileNamed: (char *) aFileName;
 
--setFileObject: aFileObject ;
--loadObject: anObject ;
+- setFileObject: aFileObject;
+- loadObject: anObject;
 
--setTemplateProbeMap : probeMap;
--updateCache: exampleTarget ;
+- setTemplateProbeMap : probeMap;
+- updateCache: exampleTarget;
 
--(void) _crash_: anObject ;
+- (void)_crash_: anObject;
 
 @end
 

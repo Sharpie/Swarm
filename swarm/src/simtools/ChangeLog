@@ -1,0 +1,40 @@
+1997-11-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+1997-11-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): Use
+	isKindOf instead of isMemberOf so that use of subclasses of
+	VarProbe and MessageProbe are possible.
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): Same.
+	
+	* ObjectSaver.m ([ObjectSaver -saveObject:]): Same (only VarProbe).
+
+	* ObjectLoader.m ([ObjectLoader -loadObject:]): Use new getline
+	method (so that objects with spaces can be read).
+
+	* ObjectLoader.[hm] ([ObjectLoader -setTemplateProbeMap:]): Add
+	setTemplateProbeMap method to ObjectLoader.
+
+	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): Replace
+	call to globalTkInterp for drag&drop with new tkobjc dragAndDrop
+	function.
+
+	* MessageProbeWidget.m ([MessageProbeWidget -createEnd]): Same.
+	
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): Same.
+
+	* VarProbeWidget.m ([VarProbeWidget -createEnd]): Same.
+
+	* ObjectSaver.m ([ObjectSaver -saveObject:]): Make the save buffer
+	bigger.
+
+	* InFile.[hm] ([InFile -getLine:]): Add method.
+
+	* ActionCache.[hm]: Fix identifying header comment.
+
+	* ActionCache.m: Include <simtools/ActionCache.h> instead of
+	"ActionCache.h" to prevent possibility of multiple inclusion.
+
+
+	

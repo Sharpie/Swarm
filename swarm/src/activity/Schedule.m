@@ -128,7 +128,7 @@ PHASE(Using)
   SwarmActivity_c     *swarmActivity;
   ScheduleActivity_c  *newActivity;
   ScheduleIndex_c     *newIndex, *swarmIndex;
-  ActionMerge_c       *mergeAction;
+  ActionMerge_c       *mergeAction, *mergeExternalAction;
 
   // initialize new activity to run underneath swarm
 
@@ -146,7 +146,16 @@ PHASE(Using)
     [getZone( swarmActivity ) allocIVarsComponent: id_ActionMerge_c];
   setMappedAlloc( mergeAction );
   mergeAction->subactivity = newActivity;
+  mergeAction->immediateReturnRequestFlag = 0;
   newActivity->mergeAction = mergeAction;
+
+  mergeExternalAction =
+    [getZone( swarmActivity ) allocIVarsComponent: id_ActionMerge_c];
+  setMappedAlloc( mergeExternalAction );
+  newActivity->mergeExternalAction = mergeExternalAction;
+  mergeExternalAction->subactivity = newActivity;
+  mergeExternalAction->immediateReturnRequestFlag = 0;
+  newActivity->mergeExternalAction = mergeExternalAction;
 
   // set the starting and current times of the new activity
 
@@ -185,6 +194,48 @@ static ActionConcurrent_c *createGroup( Schedule_c *self )
   return newAction;
 }
 
+static void _schedule_external_activity (ScheduleActivity_c *externalActivity,
+                                         timeval_t tVal,
+                                         SwarmActivity_c *swarmActivity)
+{
+  ActionMerge_c *mergeExternalAction = externalActivity->mergeExternalAction;
+  ScheduleIndex_c *swarmIndex = swarmActivity->currentIndex;
+  id collection = (id)swarmIndex->collection;
+  id currentItem = [collection at: (id)tVal];
+  
+  mergeExternalAction->subactivity = externalActivity;
+  mergeExternalAction->immediateReturnRequestFlag = 1;
+  mergeExternalAction->owner = (id)swarmActivity;
+  
+  if ([currentItem class] != [ActionMerge_c class])
+    _activity_insertAction (collection,
+                            tVal,
+                            mergeExternalAction);
+}
+
+static void _check_external_activity (ScheduleActivity_c *sActivity,
+                                      timeval_t tVal)
+{
+  SwarmActivity_c *sSwarmActivity = sActivity->swarmActivity;
+  SwarmActivity_c *swarmActivity = [_activity_current getSwarmActivity];
+  id cSwarm = (SwarmActivity_c *)swarmActivity->swarm;
+  id sSwarm = (SwarmActivity_c *)sSwarmActivity->swarm;
+  
+  if (sSwarm && cSwarm != sSwarm)
+    {
+      timeval_t sTime =
+        ((ScheduleIndex_c *)sActivity->currentIndex)->currentTime;
+      timeval_t cTime =
+        ((ScheduleIndex_c *)
+         ((Activity_c *)_activity_current)->currentIndex)->currentTime;
+      
+      _schedule_external_activity (sActivity, tVal, swarmActivity);
+      
+      if (tVal >= cTime && tVal < sTime)
+        [sActivity->currentIndex setCurrentTime : tVal];
+    }
+}
+
 //
 // _activity_insertAction: routine to create concurrent action group if needed
 //
@@ -206,6 +257,18 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   anAction->owner = (id)self;
   memptr = &anAction;
   newKey = [self at: (id)tVal memberSlot: &memptr];
+
+  if (_activity_current
+      && self->activityRefs
+      &&  !([(id)anAction class] == [ActionMerge_c class]))
+    {
+      id index = [self->activityRefs begin: scratchZone];
+      ScheduleActivity_c *sActivity;
+      
+      while ((sActivity = [index next]))
+        _check_external_activity (sActivity, tVal);
+      [index drop];
+    }
 
   // if no previous action at key, then return unless singleton group required 
 
@@ -908,6 +971,17 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 
   if ( ! currentAction ) *status = Completed;
   return currentAction;
+}
+
+- setCurrentTime : (timeval_t) tVal
+{
+  id member = [self setKey : (id)tVal];
+  
+  if (member == nil)
+    abort ();
+  currentTime = tVal;
+  currentAction = member;
+  return self;
 }
 
 //

@@ -78,7 +78,8 @@
   return self ;
 }
 
--loadObject: anObject {
+- loadObject: anObject
+{
   id aProbeMap, aProbe ;
   char aString[200], aChar ;
 
@@ -177,7 +178,7 @@
   return self ;  
 }
 
--setTemplateProbeMap: probeMap
+- setTemplateProbeMap: probeMap
 {
   probeMapCache = probeMap;
   return self;

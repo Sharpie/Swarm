@@ -1,0 +1,7 @@
+1997-11-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ProbeMap.m ([ProbeMap -addProbe:], [ProbeMap
+	-dropProbeMap:aProbeMap],[ProbeMap -_fastAddProbe_:]): Use
+	isKindOf instead of isMemberOf so that it is possible to use
+	subclasses of VarProbe.
+

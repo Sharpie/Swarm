@@ -154,6 +154,11 @@ restriction to run only at top level, must also add check for Holding.
 
     [nextAction _performAction_: self];
 
+    if (((Activity_c*)_activity_current)->immediateReturnFlag)
+      {
+        ((Activity_c *)_activity_current)->immediateReturnFlag = 0;
+        return Holding;
+      }  
     //
     // The performed action, if it contains a ForEach or "perform" request,
     // may set currentSubactivity to a new subactivity.  The next iteration

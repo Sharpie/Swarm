@@ -106,7 +106,8 @@
   return self ;
 }
 
--saveObject: anObject {
+- saveObject: anObject
+{
   id aProbeMap, aProbe, anIndex ;
   char aBuffer[2000] ;
 

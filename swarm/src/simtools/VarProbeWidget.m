@@ -44,7 +44,8 @@
   return self ;
 }
 
--createEnd {
+- createEnd
+{
   char theType ;
 
   [super createEnd];

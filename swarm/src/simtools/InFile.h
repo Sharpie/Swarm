@@ -5,24 +5,25 @@
 
 #import <swarmobject/SwarmObject.h>
 
-@interface InFile : SwarmObject {
-  FILE *theFile ;
+@interface InFile : SwarmObject
+{
+  FILE *theFile;
 }
 
-+create: aZone withName: (char *) theName ;
++ create: aZone withName: (char *)theName;
 
--_setFile_: (FILE *) aFile ;
+- _setFile_: (FILE *)aFile;
 
--(int) getWord: (char *) aWord ;
--(int) getLine: (char *) aLine ;
--(int) getInt: (int *) anInt ;
--(int) getUnsigned: (unsigned *) anUnsigned;
--(int) getLong: (long *) aLong ;
--(int) getUnsignedLong: (unsigned long *) anUnsLong ;
--(int) getDouble: (double *) aDouble ;
--(int) getFloat: (float *) aFloat ;
--(int) getChar: (char *) aChar ;
--(int) unGetChar: (char) aChar ;
--(int) skipLine ;
+- (int)getWord: (char *)aWord;
+- (int)getLine: (char *)aLine;
+- (int)getInt: (int *)anInt;
+- (int)getUnsigned: (unsigned *)anUnsigned;
+- (int)getLong: (long *)aLong;
+- (int)getUnsignedLong: (unsigned long *)anUnsLong;
+- (int)getDouble: (double *)aDouble;
+- (int)getFloat: (float *)aFloat;
+- (int)getChar: (char *)aChar;
+- (int)unGetChar: (char)aChar;
+- (int)skipLine;
 
 @end

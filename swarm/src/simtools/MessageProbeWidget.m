@@ -40,8 +40,8 @@
   return self ;
 }
 
--createEnd {
-
+- createEnd
+{
   int i, which_arg ;
   char bcmd[1024] ;
   

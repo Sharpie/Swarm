@@ -159,6 +159,7 @@ Library:      activity
   // initialize status and set break function from owner
 
   newActivity->status = Initialized;
+  newActivity->immediateReturnFlag = 0;
   if ( _activity_current )
     newActivity->breakFunction =
      ((Activity_c *)_activity_current)->breakFunction;

@@ -175,7 +175,8 @@
   return self ;
 }
 
--addProbe: aProbe {
+- addProbe: aProbe
+{
 
   id roger_string ;
   Class aClass ;
@@ -214,7 +215,8 @@
 // Note: In practice, it is probably unnecessary to check for duplicate
 //       inclusion...
 
--_fastAddProbe_: aProbe {
+- _fastAddProbe_: aProbe
+{
 
   id roger_string ;
 
@@ -244,7 +246,8 @@
 // user may want to subtract commonly named methods from unrelated
 // classes!!!]
 
--dropProbeMap: (ProbeMap *) aProbeMap {
+- dropProbeMap: (ProbeMap *) aProbeMap
+{
 
   id index ;
   id a_probe ;

@@ -24,6 +24,7 @@ Library:      activity
   member_t    activityRefs;          // internal links in references to plan
   id          currentIndex;          // index to current action in plan
   Activity_c  *currentSubactivity;   // subactivity for current action
+  BOOL        immediateReturnFlag;   // return after first _performAction_
   BOOL        (*breakFunction)(id);  // function to call on each step
 }
 /*** methods in Activity_c (inserted from .m file by m2h) ***/

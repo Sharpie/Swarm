@@ -98,7 +98,8 @@
 }
 
 // create ourselves and two vectors.
--createEnd {
+- createEnd
+{
   if (ownerGraph == nil)
     [InvalidCombination raiseEvent: "This element has no owner graph!\n"];
   name = strdup(tclObjc_objectToName(self));

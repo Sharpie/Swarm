@@ -68,7 +68,8 @@
 }
 
 // finalize creation: create widgets, set them up.
--createEnd {
+- createEnd
+{
   int i ;
   id index ;
   id probe ;
