@@ -1,3 +1,14 @@
+1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/mips/mframe-irix6.h (MFRAME_{G,S}ET_STRUCT_ADDR): 
+	Use an offset of 1 into the argframe for struct return address.
+	Note that this only occurs for structures larger than 16 bytes,
+	(_MFRAME_GET_STRUCT_ADDR): New macro.
+	(MFRAME_GET_STRUCT_ADDR, MFRAME_SET_STRUCT_ADDR): Use it.
+
+	* config/mips/compiler-info-irix6.h, config/mips/mframe-irix6.h:
+	Renamed from *irix6.5.h.
+
 1999-05-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config/unknown/compiler-info-generic.h,
