@@ -37,7 +37,7 @@ max_class_varname_length (Class class)
         {
           notelen (name);
         }
-      map_java_class_ivars (SD_JAVA_FIND_OBJECT_JAVA (class),
+      map_java_class_ivars (SD_JAVA_FIND_CLASS_JAVA (class),
                             process_java_ivar);
     }
   else
