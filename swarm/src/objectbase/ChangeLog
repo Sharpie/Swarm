@@ -2,6 +2,8 @@
 
 	* Makefile.am (version.h): Quote SWARM_VERSION value.
 	($(libobjectbase_la_OBJECTS)): Depend on version.h.
+	(objectbase_HEADERS): Remove version.h.
+	(install-data-local): New rule.
 
 1998-06-24  Alex Lancaster  <alex@santafe.edu>
 

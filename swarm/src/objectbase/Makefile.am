@@ -25,7 +25,7 @@ objectbase_HEADERS = ActivityControl.h Arguments.h \
 	CompleteProbeMap.h CompleteVarMap.h \
 	CustomProbeMap.h DefaultProbeMap.h EmptyProbeMap.h \
 	MessageProbe.h Probe.h ProbeLibrary.h ProbeMap.h Swarm.h \
-	SwarmObject.h VarProbe.h probing.h swarm_rts_routines.h version.h
+	SwarmObject.h VarProbe.h probing.h swarm_rts_routines.h
 
 $(libobjectbase_la_OBJECTS): version.h
 
@@ -37,3 +37,5 @@ version.h: $(top_srcdir)/VERSION
 	tail -1 $(top_srcdir)/VERSION | sed 's/^[0-9][0-9]*\.\([0-9][0-9]*\)\..*/#define SWARM_MINOR \1/' >> version.h
 	tail -1 $(top_srcdir)/VERSION | sed 's/^[0-9][0-9]*\.[0-9][0-9]*\.\([0-9][0-9]*\)/#define SWARM_SUBMINOR \1/' >> version.h 
 
+install-data-local:
+	$(INSTALL_DATA) version.h $(objectbasedir)
