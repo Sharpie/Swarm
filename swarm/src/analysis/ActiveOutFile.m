@@ -11,7 +11,13 @@ PHASE(Creating)
 
 - setFileObject: aFileObj
 {
-  theFile = aFileObj;
+  file = aFileObj;
+  return self;
+}
+
+- setHDF5Dataset: (id <HDF5>)hdf5Obj
+{
+  hdf5Dataset = hdf5Obj;
   return self;
 }
 
@@ -23,9 +29,9 @@ PHASE(Creating)
 
 - createEnd
 {
-  if (theFile == nil || dataFeed == nil)
+  if (!(file || hdf5Dataset) || !dataFeed)
     [InvalidCombination raiseEvent: "ActiveOutFile not initialized properly"];
-  [self setProbedClass: [dataFeed class]];
+  [self setProbedClass: getClass (dataFeed)];
   [super createEnd];
   return self;
 }
@@ -35,14 +41,20 @@ PHASE(Using)
 
 - step
 {
-  [theFile putDouble: [self doubleDynamicCallOn: dataFeed]];
-  [theFile putNewLine];
+  if (file)
+    {
+      [file putDouble: [self doubleDynamicCallOn: dataFeed]];
+      [file putNewLine];
+    }
+  else
+    [hdf5Dataset addDoubleToVector: [self doubleDynamicCallOn: dataFeed]];
   return self;
 }
 
 - (void)drop
 {
-  [theFile drop];
+  if (file)
+    [file drop];
   [super drop];
 }
 

@@ -19,14 +19,17 @@
   int graphics;
   id <Graph> graph;
 
-  int fileOutput;
+  BOOL fileOutput;
+  id <HDF5> hdf5Container;
+  id <HDF5> hdf5Group;
+  id <HDF5> hdf5Dataset;
 
   id sequenceList;
 
   const char *xLabel;
   const char *yLabel;
   const char *title;
-  const char *fileName;
+  const char *baseName;
 
   const char * const *graphColors;
   unsigned colorCount;
@@ -35,6 +38,7 @@
 }
 + create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 + create: aZone setFileOutput: (BOOL)fileOutputFlag;
++ create: aZone setHDF5Container: (id <HDF5>)hdf5Container setPrefix: (const char *)prefix;
 + create: aZone setFileName: (const char *)aFileName;
 
 - setGraphics: (BOOL)state;

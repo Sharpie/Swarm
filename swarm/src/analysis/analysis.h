@@ -331,7 +331,11 @@ CREATING
 
 //M: Convenience method for creating a non-graphical EZGraph, in this case, the
 //M: filename is explicitly set by the user
-+ create: (id <Zone>)aZone setFileName: (const char *)aFileName;
++ create: (id <Zone>)aZone setFileName: (const char *)filename;
+
+//M: Convenience method for creating a non-graphical EZGraph, inside of
+//M: a HDF5 container.
++ create: (id <Zone>)aZone setHDF5Container: (id <HDF5>)hdf5Container setPrefix: (const char *)prefix;
 
 //M: The setGraphics method sets the state of the display. Set the state to 0 
 //M: if a graphical display of the graph is not required.
@@ -343,6 +347,10 @@ CREATING
 //M: if data for the sequences is to be sent to a file.  The default state is 0
 //M: meaning that by default no file I/O is carried out by the EZGraph class.
 - setFileOutput: (BOOL)state;
+
+//M: The setHDF5Container: method allows one to combine multiple graphs
+//M: with multiple sequences in a single HDF5 file.
+- setHDF5Container: (id <HDF5>)hdf5Container;
 
 //M: The setFileName method sets the name used for disk file data output.
 //M: (Only relevant if the state of setFileOutput is set to 1.)
@@ -539,6 +547,9 @@ USING
 //M: The setFileObject: method sets the file object to which the data will be
 //M: sent.
 - setFileObject: aFileObj;
+
+//M: Sets an extensible HDF5 dataset that data will be appended.
+- setHDF5Dataset: (id <HDF5>)hdf5Dataset;
 
 //M: The setDataFeed: method sets the object that will be probed for data.
 - setDataFeed: d;

@@ -26,10 +26,10 @@ PHASE(Creating)
 {
   EZGraph *obj = [super createBegin: aZone];
 
-  obj->graphics = 1;
-  obj->fileOutput = 0;
+  obj->graphics = YES;
+  obj->fileOutput = NO;
   obj->title = aTitle;
-  obj->fileName = NULL;
+  obj->baseName = NULL;
   obj->xLabel = xl;
   obj->yLabel = yl;
   obj->graphColors = defaultGraphColors;
@@ -43,10 +43,10 @@ PHASE(Creating)
 + create: aZone setFileOutput: (BOOL)fileOutputFlag
 {
     EZGraph *obj = [super createBegin: aZone];    
-    obj->graphics = 0;
-    obj->fileOutput = 1;
+    obj->graphics = NO;
+    obj->fileOutput = YES;
     obj->title = NULL;
-    obj->fileName = NULL;
+    obj->baseName = NULL;
     obj->xLabel = NULL;
     obj->yLabel = NULL;
     obj->graphColors = defaultGraphColors;
@@ -60,10 +60,28 @@ PHASE(Creating)
 + create: aZone setFileName: (const char *)aFileName
 {
     EZGraph *obj = [super createBegin: aZone];    
-    obj->graphics = 0;
-    obj->fileOutput = 1;
+    obj->graphics = NO;
+    obj->fileOutput = YES;
     obj->title = NULL;
-    obj->fileName = ZSTRDUP (aZone, aFileName);
+    obj->baseName = ZSTRDUP (aZone, aFileName);
+    obj->xLabel = NULL;
+    obj->yLabel = NULL;
+    obj->graphColors = defaultGraphColors;
+    obj->colorCount = NUMCOLORS;
+    obj->colorIdx = 0;
+
+    return [obj createEnd];
+}
+
++ create: aZone setHDF5Container: (id <HDF5>)hdf5Obj
+                       setPrefix: (const char *)keyPrefix
+{
+    EZGraph *obj = [super createBegin: aZone];    
+    obj->graphics = NO;
+    obj->fileOutput = NO;
+    obj->hdf5Container = hdf5Obj;
+    obj->title = NULL;
+    obj->baseName = ZSTRDUP (aZone, keyPrefix);
     obj->xLabel = NULL;
     obj->yLabel = NULL;
     obj->graphColors = defaultGraphColors;
@@ -77,10 +95,10 @@ PHASE(Creating)
 {
   EZGraph *obj = [super createBegin: aZone];
 
-  obj->graphics = 1;
-  obj->fileOutput = 0;
+  obj->graphics = YES;
+  obj->fileOutput = NO;
   obj->title = NULL;
-  obj->fileName = NULL;
+  obj->baseName = NULL;
   obj->xLabel = NULL;
   obj->yLabel = NULL;
   obj->graphColors = defaultGraphColors;
@@ -112,6 +130,12 @@ PHASE(Creating)
   return self;
 }
 
+- setHDF5Container: (id <HDF5>)hdf5Obj
+{
+  hdf5Container = hdf5Obj;
+  return self;
+}
+
 - setTitle: (const char *)aTitle
 {
   title = STRDUP (aTitle);
@@ -123,7 +147,7 @@ PHASE(Creating)
 // In case of file output, this file name is 
 // prepended to the name of each data sequence
 {
-  fileName = STRDUP (aFileName);
+  baseName = STRDUP (aFileName);
 
   return self;
 }
@@ -203,13 +227,13 @@ PHASE(Using)
 
 - (const char *)getFileName
 {
-  return fileName;
+  return baseName;
 }
 
 static const char *
-sequence_graph_filename (id aZone, const char *fileName, const char *aName)
+sequence_graph_filename (id aZone, const char *baseName, const char *aName)
 { 
-  if (fileName == NULL)
+  if (baseName == NULL)
     {
       char *buf = [aZone alloc: strlen (aName) + 1], *p;
       p = stpcpy (buf, aName);            
@@ -219,10 +243,10 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
     {      
       const char *delim = ".";
       char *buf =
-        [aZone alloc: strlen (fileName) + strlen (delim) + strlen (aName) + 1];
+        [aZone alloc: strlen (baseName) + strlen (delim) + strlen (aName) + 1];
       char *p = buf;
       
-      p = stpcpy (buf, fileName);
+      p = stpcpy (buf, baseName);
       p = stpcpy (p, delim);
       p = stpcpy (p, aName);  
       return (buf);
@@ -255,13 +279,36 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
       
       [aSeq setActiveGrapher: aGrapher];    
     }
- 
-  if (fileOutput)
+
+  if (hdf5Container)
+    {
+      hdf5Group = [[[[[HDF5 createBegin: aZone]
+                       setParent: hdf5Container]
+                      setName: baseName]
+                     setWriteFlag: YES]
+                    createEnd];
+      hdf5Dataset = [[[[[[[HDF5 createBegin: aZone]
+                           setParent: hdf5Group]
+                          setName: aName]
+                         setWriteFlag: YES]
+                        setDatasetFlag: YES]
+                       setExtensibleDoubleVector]
+                      createEnd];
+
+      aGrapher = [ActiveOutFile createBegin: aZone];
+      [aGrapher setHDF5Dataset: hdf5Dataset];
+      [aGrapher setDataFeed: anObj];
+      [aGrapher setProbedSelector: aSel];
+      aGrapher = [aGrapher createEnd];
+
+      [aSeq setActiveOutFile: aGrapher];
+    }
+  else if (fileOutput)
     {
       id aFileObj;
       const char *fName;
 
-      fName = sequence_graph_filename (aZone, fileName, aName);
+      fName = sequence_graph_filename (aZone, baseName, aName);
       aFileObj = [OutFile create: aZone setName: fName];
       
       aGrapher = [ActiveOutFile createBegin: aZone];
@@ -458,11 +505,17 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
 {
   id index, aSequence;
   
-  if (fileName)
-    FREEBLOCK (fileName);
+  if (baseName)
+    FREEBLOCK (baseName);
 
   if (graphics)
     [graph drop];
+
+  if (hdf5Group)
+    {
+      [hdf5Dataset drop];
+      [hdf5Group drop];
+    }
 
   index = [sequenceList begin: getZone (self)];
   while ((aSequence = [index next]))

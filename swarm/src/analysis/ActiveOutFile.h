@@ -4,17 +4,18 @@
 // See file LICENSE for details and terms of copying.
 
 #import <analysis.h> // ActiveOutFile
+#import <defobj.h> // HDF5
 #import <objectbase/MessageProbe.h>
-
-// An object that fetches its data, and writes it into a file
 
 @interface ActiveOutFile: MessageProbe <ActiveOutFile>
 {
-  id theFile;
+  id file;
+  id <HDF5> hdf5Dataset;
   id dataFeed;
 }
 
 - setFileObject: aFileObj;
+- setHDF5Dataset: (id <HDF5>)hdf5Obj;
 - setDataFeed: d;
 - step;
 @end

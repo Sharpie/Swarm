@@ -1,5 +1,20 @@
 2001-03-19  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* EZGraph.h (EZGraph): New ivars hdf5{Container,Group,Dataset}.
+	Rename fileName to baseName.
+
+	* EZGraph.[hm], analysis.h:
+	New method +create:setHDF5Container:setPrefix:, and setHDF5Container:.
+
+	* EZGraph.m: Replace 0/1 with NO/YES, as appropriate.
+	(-createGraphSequence:forSequence:withFeedFrom:andSelector:):
+	Add support for HDF5 group/datasets.
+
+	* ActiveOutFile.[hm], analysis.h: Add setHDF5Dataset:.
+
+	* ActiveOutFile.h: Include defobj.h.
+	(ActiveOutFile): Add hdf5Dataset.  Rename theFile to file.
+
 	* EZGraph.m ([EZGraph -drop], [EZGraph +create:setFileName:]): 
 	The filename must be copied.
 
