@@ -14,7 +14,7 @@ Library:      defobj
 #import <objc/objc-api.h>
 #include <stdlib.h>
 
-extern JNIEnv *jniEnv;
+JNIEnv *jniEnv;
 extern void switch_to_ffi_types (FArguments * self);
 void * java_static_call_functions[number_of_types];
 void * java_call_functions[number_of_types];

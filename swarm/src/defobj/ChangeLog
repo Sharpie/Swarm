@@ -1,5 +1,7 @@
 1999-03-15  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* FCall.m: Remove extern from declaration of jniEnv.
+
 	* FArguments.m: New file. FArguments is used for describing
 	arguments passed to a foreign call and return value type
 
