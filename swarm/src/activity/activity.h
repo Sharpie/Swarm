@@ -24,6 +24,7 @@ Library:      activity
 //D: clock.
 
 #import <collections.h>
+#include <externvar.h>
 
 @protocol ProcessType
 //S: ProcessType -- specification of a process
@@ -45,92 +46,7 @@ Library:      activity
 //D: objects will eventually record the specification of any process, to the
 //D: extent that this specification is defined.
 @end
-
-@protocol ActionType
-//S: Specification of an executable process.
-
-//D: An action type is a type of process that may be initiated as a unit of
-//D: execution by an external request.  A typical action has a well-defined
-//D: duration determined by a fixed set of actions that execute within it.
-//D: Externally initiated interaction typically occurs only at the start or
-//D: end of the overall process.  A typical action is executed in its
-//D: entirety once an external request that initiates it has occurred.
-//D: Some actions may also have internal events that cannot begin or
-//D: complete until other actions from a containing environment have also
-//D: begun or completed their execution.  Such ordering constraints can be
-//D: defined either within an action type or as part of a dynamic context
-//D: of execution.
-
-//D: Executable actions include both actions compiled in a host language
-//D: (such as C functions or Objective C messages) and compound actions
-//D: built at runtime for interpretation by the Swarm abstract machine.
-  
-//D: (.. For now, the only subtype of ActionType is CompoundAction.  Types
-//D: for compiled actions such as functions and messages have not been
-//D: defined yet. ..)
-
-USING
-//M: The activateIn: message is used to initialize a process for executing
-//M: the actions of an ActionType.  This process is controlled by an object
-//M: called an Activity.  The activateIn message initializes an activity to
-//M: run under the execution context passed as the swarmContext argument,
-//M: and return the activity object just created.  If the execution context
-//M: is nil, an activity is returned that allows complete execution control
-//M: by the caller.  Otherwise, the execution context must be either an
-//M: instance of SwarmProcess or SwarmActivity.  (These objects are always
-//M: maintained in one-to-one association with each other, either one of
-//M: the pair is equivalent to the other as a swarmContext argument.)
-
-//M: If a top-level activity is created (swarmContext is nil), the created
-//M: activity may be processed using activity processing commands such as
-//M: run, step, etc.  If an activity is created to run under a swarm
-//M: context, the swarm itself has responsibility for advancing the
-//M: subactivity according to its requirements for synchronization and
-//M: control among all its activities.  Activating a plan for execution
-//M: under a swarm turns over control to the swarm to execute the
-//M: subactivity as a more-or-less autonomous activity.
-- activateIn: swarmContext;
-@end
 
-
-@protocol AutoDrop
-//S: Specify that an action is dropped after being processed.
-
-//D: The AutoDrop option specifies that as soon as any action been
-//D: processed by a running activity, the action is removed from the plan
-//D: and dropped so that it will never appear again.  This option is useful
-//D: for plans that are created for a one-time use, never to be used again.
-//D: This option is especially useful for a dynamic schedule that
-//D: continually receives new actions to be executed at future times, but
-//D: will never repeat actions that were previously scheduled.  Depending
-//D: on the underlying implementation of the schedule, making sure the old
-//D: actions get dropped using AutoDrop can considerably improve the
-//D: performance of the schedule.
-
-//D: When an option like AutoDrop is used, or whenever the contents of an
-//D: action plan undergo a significant amount of dynamic update, the action
-//D: plan would ordinarily be intended only for a single point of use.  If
-//D: AutoDrop is specified, a restriction against multiple active
-//D: references is enforced.  An error will be raised if two activities
-//D: ever attempt to process a plan with AutoDrop enabled at the same time.
-CREATING
-- (void)setAutoDrop: (BOOL)autoDrop;
-USING
-- (BOOL)getAutoDrop;
-@end
-
-@protocol CompoundAction <ActionType, Collection, AutoDrop>
-//S: A collection of actions to be performed in any order consistent with a
-//S: set of ordering constraints.
-
-//D: An compound action is the supertype of ActionGroup and Schedule.  A
-//D: compound action defines an executable process that is composed from the
-//D: execution of a set of actions in some defined order.
-
-//D: CompoundAction is not directly creatable.  One of its subtypes must be
-//D: created instead.  ActionPlan inherits the basic ability to be
-//D: activated for execution from ActionType.
-@end
 
 @protocol ActionCreatingCall
 //S: An action that calls a C function.
@@ -234,82 +150,6 @@ USING
 
 @end
 
-@protocol ActionGroup <CompoundAction, ActionCreating, CREATABLE>
-//S: A collection of actions under total or partial order constraints.
-
-//D: An action group is an action plan whose basic representation is a
-//D: sequence of actions that have been created within it. 
-
-//D: An action group inherits its underlying representation from the
-//D: OrderedSet type of the collections library.  All the members of the
-//D: ordered set must consist only of actions that are created by one of
-//D: the createAction messages defined on ActionGroup itself.  Once the
-//D: actions are created, they may be accessed or traversed using standard
-//D: messages of the OrderedSet type. 
-
-//D: The action objects are an integral, controlled component of the action
-//D: plan in which they are created.  If they are removed from the action
-//D: plan collection using a remove message, the only collection in which
-//D: they may be reinserted is the same collection from which they came.
-//D: It is permissible, however, to modify the base representation sequence
-//D: by removing from one position and reinserting at another.
-@end
-
-
-@deftype DefaultOrder
-
-//S: The DefaultOrder option indicates the ordering to be assumed among
-//S: actions of the plan when no other explicit ordering has been assigned.
-
-//D: The DefaultOrder option indicates the ordering to be assumed among
-//D: actions of the plan when no other explicit ordering has been assigned.
-//D: Beyond this initial ordering, additional ordering constraints can be
-//D: added selectively using partial order specifications on individual
-//D: actions.  (.. Partial order order constraints are not yet
-//D: implemented.)
-
-//D: The value for DefaultOrder is a symbol that may have one of the
-//D: following values: Concurrent, Sequential, Randomized;
-
-//D: The Concurrent value of the DefaultOrder option indicates that can
-//D: actions be run in any order (including at the same time, if hardware
-//D: and software to do this is available) without no impact on the net
-//D: outcome of the actions.  The claim that action results are independent
-//D: of their execution order gives the processing machinery explicit
-//D: leeway to execute them in any order it chooses.  In the current
-//D: implementation on a single, serial processor, actions are always
-//D: processed sequentially even if marked concurrent, because that is the
-//D: only way they can be.  In future versions, however, special runtime
-//D: processing modes may be defined even for a serial processor, which
-//D: would mix up execution order just to confirm the independence of model
-//D: results.
-
-//D: The Sequential value for the DefaultOrder option is the default.  It
-//D: specifies that the actions must always be executed in the same order
-//D: as they occur in the plan.  This order is ordinarily the same order in
-//D: which actions are first created in the plan, unless actions are
-//D: explicitly added elsewhere the collection that underlies a plan.  This
-//D: option is always the safest to assure predictability of results, but
-//D: it excludes the ability to run the actions in parallel.  To better
-//D: understand and document a model design, it is worth annotating action
-//D: plans with an explicit indication as to whether they do or do not
-//D: depend on a Sequential order.
-
-//D: The Randomized value for the DefaultOrder option specifies that the
-//D: model results do depend on execution order, but that the order in
-//D: which the actions were created or added has no special significance.
-//D: Instead, the method of dealing with order dependence is to generate a
-//D: random order each time a collection of same-time actions is processed.
-//D: The random order will be generated from an random number generator
-//D: internal to the processing machinery.
-
-CREATING
-- (void)setDefaultOrder: aSymbol;
-USING
-- getDefaultOrder;
-
-@end
-
 //G: values for DefaultOrder
 externvar id <Symbol> Concurrent, Sequential, Randomized;
 
@@ -336,218 +176,6 @@ typedef unsigned long timeval_t;
 #endif
 
 
-
-@protocol RelativeTime
-//S: Specifies that time is relative to when the schedule started.
-
-//D: The RelativeTime option specifies that all the times in the schedule
-//D: are relative to the time when processing of the entire schedule
-//D: begins.  Otherwise, the times are assumed to be absolute times, with
-//D: their base in the starting time of the entire model.
-SETTING
-- (void)setRelativeTime: (BOOL)relativeTime;
-USING
-- (BOOL)getRelativeTime;
-@end
-
-@protocol RepeatInterval
-//S: Reschedule actions after a period of time.
-
-//D: The RepeatInterval option specifies that as soon as all actions in the
-//D: schedule have completed, it is to be rescheduled at a time computed as
-//D: the time at which the schedule was last started, plus the value
-//D: specified as the RepeatInterval argument.  This option overrides the
-//D: normal default that times are considered absolute, as if the
-//D: RelativeTime option had also been specified at the same time.  All
-//D: scheduled times must be less than the specified repeat interval, or an
-//D: error will be raised.  The RepeatInterval option can continue to be
-//D: reassigned to different values after a schedule has been created, but
-//D: the interval value must always be greater than the scheduled times of
-//D: any actions which it contains.
-//D: (.. This option is currently supported only on schedule, not swarms.)
-SETTING
-- (void)setRepeatInterval: (timeval_t)repeatInterval;
-USING
-- (timeval_t)getRepeatInterval;
-@end
-
-@protocol ConcurrentGroupType
-//S: Handle actions schedule at same time value.
-
-//D: The ConcurrentGroupType option is used to control handling of multiple
-//D: actions which end up being scheduled at the same time value.  As far
-//D: the schedule representation is concerned, these actions are assumed by
-//D: default to be concurrently executable, and the processing machinery is
-//D: free to process them as such if no ConcurrentGroupType option is
-//D: specified.
-
-//D: If a different interpretation of actions at the same time step is
-//D: needed, the ConcurrentGroupType option may be specified.  The argument
-//D: of this option must be an object that when given a standard create:
-//D: message will return an object having all the structure of a standard
-//D: ActionGroup object.
-
-//D: In addition to overriding the standard ActionGroup type, the
-//D: concurrent group type may be implemented by a custom subclass of the
-//D: ActionGroup implementation which you supply yourself.  A custom
-//D: subclass is free to implement custom rules for how to combine all the
-//D: actions which happen to arrive at the same time value.  For example,
-//D: it could decide that some actions are not to be executed at all, or it
-//D: could create entirely new actions to be executed instead of or in
-//D: addition to those which were originally scheduled.
-
-//D: (.. Specific rules for writing a custom ActionGroup subclass will be
-//D: documented at a future time, but all the apparatus to do so is present
-//D: today.  A concurrent action group is currently used to maintain the
-//D: proper order of execution among subswarms of an owner swarm.)
-SETTING
-- (void)setConcurrentGroupType: groupType;
-USING
-- getConcurrentGroupType;
-@end
-
-@protocol SingletonGroups
-//S: Indicates that an action group should be created for every time
-//S: value which is present.
-
-//D: The SingletonGroups option indicates that an action group should be
-//D: created for every time value which is present, even when only a single
-//D: action is present at the time value.
-
-//D: Ordinarily, a concurrent action group is created to process actions at
-//D: the same timestep only if more than one action is scheduled at that
-//D: timestep.  The overhead of these action groups is relatively low,
-//D: because it just creates a single new object to which actions are
-//D: directly linked, but it is still faster to avoid creating them if only
-//D: one action is present at a timestep.  If a custom subclass is being
-//D: provided however, it may need to examine the actions at a timestep
-//D: even if there is only one.
-SETTING
-- (void)setSingletonGroups: (BOOL)singletonGroups;
-USING
-- (BOOL)getSingletonGroups;
-@end
-
-@protocol Schedule <CompoundAction, ActionCreating, CREATABLE, RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups>
-//S: A collection of actions ordered by time values.
-
-//D: A schedule is compound action whose basic representation is a sorted
-//D: Map of actions that have been created within it.  The key value
-//D: associated with each of these actions is an unsigned integer value for
-//D: which the typedef timeval_t is supplied.
-
-//D: A schedule inherits its underlying representation from the Map type of
-//D: the collections library.  All the members of the ordered set must
-//D: consist only of actions that are created by one of the createAction
-//D: messages defined on Schedule itself.  Once the actions are created,
-//D: they may be accessed or traversed using standard messages of the Map
-//D: type.  The key values of this collection, however, must be cast to and
-//D: from the id type defined for key values by the Map type. 
-
-//D: The messages to create actions within a schedule are essentially the
-//D: same as those for ActionGroup, except for the presence of an initial
-//D: at: argument indicating the time at which an action is to be
-//D: performed.  Except for the time associated with each action, meaning
-//D: of the createAction messages is the same as for ActionGroup.
-
-//D: When multiple actions are all scheduled at the same time, they are all
-//D: inserted into a concurrent action group created for that time value.
-//D: The ConcurrentGroupType option may be used to override the default
-//D: action group for these concurrent actions by a custom user-defined
-//D: subclass.  (.. Details of doing this are not yet documented, but there
-//D: are examples.)
-
-USING
-- at: (timeval_t)tVal createAction: anActionType;
-
-- at: (timeval_t)tVal createActionCall: (func_t)fptr;
-- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1;
-- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2;
-- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2:arg3;
-
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel;
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1;
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2;
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
-
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1;
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:
-                                                                arg1:arg2:arg3;
-
-//M: Remove action from either schedule or concurrent group.
-- remove: anAction;
-
-- insertGroup: aKey; 
-
-//M: Indicate whether an empty schedule should be dropped and ignored or
-//M: or kept and attended to (default is YES).
-- setKeepEmptyFlag: (BOOL)keepEmptyFlag;
-@end
-
-@protocol SynchronizationType
-//S: Synchronization type sets the type of schedule which is used
-//S: internally by the swarm to synchronize subschedules. 
-
-//D: Synchronization type sets the type of schedule which is used
-//D: internally by the swarm to synchronize subschedules.  Its default is a
-//D: schedule with a concurrent group of ActivationOrder.
-
-//D: The default value for the SynchronizationType option is not a generic
-//D: action group, but a special predefined subtype of ActionGroup called
-//D: ActivationOrder.  This concurrent group type guarantees that actions
-//D: scheduled to occur at the same time from different action plans
-//D: running in the same swarm are executed in the same order in which the
-//D: action plans were first activated.
-
-CREATING
-- (void)setSynchronizationType: aScheduleType;
-
-USING
-- getSynchronizationType;
-@end
-
-@protocol SwarmProcess <ActionType, Zone, SynchronizationType, CREATABLE>
-//S: An object that holds a collection of concurrent subprocesses.
-
-//D: SwarmProcess inherits the messages of both ActionType and Zone.
-//D: Inheritance of zone behavior means that a swarm can be used as the
-//D: argument of a create: or createBegin: message, for creation of an
-//D: object within the internal zone of a swarm.
-
-//D: Unlike other action types, swarms and swarm activities always exist in
-//D: a one-to-one relationship, provided that the swarm has been activated.
-//D: This restriction to a single activity enables the swarm to do
-//D: double-duty as a custom object that provides its own interface to the
-//D: activities running within the swarm.
-
-CREATING
-//M: The InternalZoneType option sets the type of zone which is created by
-//M: the swarm to hold objects created within the swarm.  If set to nil, no
-//M: internal zone is created within the swarm, and all use of the swarm as
-//M: if it were a zone raises an error.  The default of this option is
-//M: standard Zone type.  (.. Since there is no other Zone type yet,
-//M: there's no reason to set this option yet except to turn off the
-//M: internal zone. ..)
-- setInternalZoneType: aZoneType;
-
-USING
-//M: getInternalZone returns a Zone object that is used by the swarm to
-//M: hold its internal objects.  Even though the swarm itself inherits from
-//M: Zone and can be used as a Zone for nearly all purposes, this message
-//M: is also provided so that the zone itself can be obtained independent
-//M: of all zone behavior.
-- getInternalZone;
-
-//M: getActivity returns the activity which is currently running of
-//M: subactivities within the swarm.  This activity is the same as the
-//M: value returned by activateIn: when the swarm was first activated.  It
-//M: returns nil if the swarm has not yet been activated.
-- getActivity;
-@end
-
-
 @protocol Action <GetOwner>
 //S: An action type that has been customized for direct execution by an
 //S: action interpreter.
@@ -621,7 +249,59 @@ USING
 - (SEL)getMessageSelector;
 @end
 
-@protocol ActionForEach <ActionTo>
+@protocol DefaultOrder
+//S: The DefaultOrder option indicates the ordering to be assumed among
+//S: actions of the plan when no other explicit ordering has been assigned.
+
+//D: The DefaultOrder option indicates the ordering to be assumed among
+//D: actions of the plan when no other explicit ordering has been assigned.
+//D: Beyond this initial ordering, additional ordering constraints can be
+//D: added selectively using partial order specifications on individual
+//D: actions.  (.. Partial order order constraints are not yet
+//D: implemented.)
+
+//D: The value for DefaultOrder is a symbol that may have one of the
+//D: following values: Concurrent, Sequential, Randomized;
+
+//D: The Concurrent value of the DefaultOrder option indicates that can
+//D: actions be run in any order (including at the same time, if hardware
+//D: and software to do this is available) without no impact on the net
+//D: outcome of the actions.  The claim that action results are independent
+//D: of their execution order gives the processing machinery explicit
+//D: leeway to execute them in any order it chooses.  In the current
+//D: implementation on a single, serial processor, actions are always
+//D: processed sequentially even if marked concurrent, because that is the
+//D: only way they can be.  In future versions, however, special runtime
+//D: processing modes may be defined even for a serial processor, which
+//D: would mix up execution order just to confirm the independence of model
+//D: results.
+
+//D: The Sequential value for the DefaultOrder option is the default.  It
+//D: specifies that the actions must always be executed in the same order
+//D: as they occur in the plan.  This order is ordinarily the same order in
+//D: which actions are first created in the plan, unless actions are
+//D: explicitly added elsewhere the collection that underlies a plan.  This
+//D: option is always the safest to assure predictability of results, but
+//D: it excludes the ability to run the actions in parallel.  To better
+//D: understand and document a model design, it is worth annotating action
+//D: plans with an explicit indication as to whether they do or do not
+//D: depend on a Sequential order.
+
+//D: The Randomized value for the DefaultOrder option specifies that the
+//D: model results do depend on execution order, but that the order in
+//D: which the actions were created or added has no special significance.
+//D: Instead, the method of dealing with order dependence is to generate a
+//D: random order each time a collection of same-time actions is processed.
+//D: The random order will be generated from an random number generator
+//D: internal to the processing machinery.
+
+CREATING
+- (void)setDefaultOrder: aSymbol;
+USING
+- getDefaultOrder;
+@end
+
+@protocol ActionForEach <ActionTo, DefaultOrder>
 //S: An action defined by sending a message to every member of a collection.
 //D: An action defined by sending a message to every member of a collection.
 @end
@@ -758,14 +438,6 @@ externvar id <Symbol> Initialized, Running, Holding, Released, Stopped,
 externvar id <Symbol> HoldStart, HoldEnd;
 
 
-@protocol ForEachActivity <Activity>
-//S: State of execution within a ForEach action.
-//D: State of execution within a ForEach action.
-
-USING
-- getCurrentMember;
-@end
-
 @protocol ScheduleActivity <Activity>
 //S: State of execution within a Schedule.
 //D: State of execution within a Schedule.
@@ -787,6 +459,330 @@ USING
 - getSwarm;
 
 - getSynchronizationSchedule;
+@end
+
+@protocol ForEachActivity <Activity>
+//S: State of execution within a ForEach action.
+//D: State of execution within a ForEach action.
+
+USING
+- getCurrentMember;
+@end
+
+@protocol ActionType
+//S: Specification of an executable process.
+
+//D: An action type is a type of process that may be initiated as a unit of
+//D: execution by an external request.  A typical action has a well-defined
+//D: duration determined by a fixed set of actions that execute within it.
+//D: Externally initiated interaction typically occurs only at the start or
+//D: end of the overall process.  A typical action is executed in its
+//D: entirety once an external request that initiates it has occurred.
+//D: Some actions may also have internal events that cannot begin or
+//D: complete until other actions from a containing environment have also
+//D: begun or completed their execution.  Such ordering constraints can be
+//D: defined either within an action type or as part of a dynamic context
+//D: of execution.
+
+//D: Executable actions include both actions compiled in a host language
+//D: (such as C functions or Objective C messages) and compound actions
+//D: built at runtime for interpretation by the Swarm abstract machine.
+  
+//D: (.. For now, the only subtype of ActionType is CompoundAction.  Types
+//D: for compiled actions such as functions and messages have not been
+//D: defined yet. ..)
+
+USING
+//M: The activateIn: message is used to initialize a process for executing
+//M: the actions of an ActionType.  This process is controlled by an object
+//M: called an Activity.  The activateIn message initializes an activity to
+//M: run under the execution context passed as the swarmContext argument,
+//M: and return the activity object just created.  If the execution context
+//M: is nil, an activity is returned that allows complete execution control
+//M: by the caller.  Otherwise, the execution context must be either an
+//M: instance of SwarmProcess or SwarmActivity.  (These objects are always
+//M: maintained in one-to-one association with each other, either one of
+//M: the pair is equivalent to the other as a swarmContext argument.)
+
+//M: If a top-level activity is created (swarmContext is nil), the created
+//M: activity may be processed using activity processing commands such as
+//M: run, step, etc.  If an activity is created to run under a swarm
+//M: context, the swarm itself has responsibility for advancing the
+//M: subactivity according to its requirements for synchronization and
+//M: control among all its activities.  Activating a plan for execution
+//M: under a swarm turns over control to the swarm to execute the
+//M: subactivity as a more-or-less autonomous activity.
+- (id <Activity>)activateIn: swarmContext;
+@end
+
+@protocol SynchronizationType
+//S: Synchronization type sets the type of schedule which is used
+//S: internally by the swarm to synchronize subschedules. 
+
+//D: Synchronization type sets the type of schedule which is used
+//D: internally by the swarm to synchronize subschedules.  Its default is a
+//D: schedule with a concurrent group of ActivationOrder.
+
+//D: The default value for the SynchronizationType option is not a generic
+//D: action group, but a special predefined subtype of ActionGroup called
+//D: ActivationOrder.  This concurrent group type guarantees that actions
+//D: scheduled to occur at the same time from different action plans
+//D: running in the same swarm are executed in the same order in which the
+//D: action plans were first activated.
+
+CREATING
+- (void)setSynchronizationType: aScheduleType;
+
+USING
+- getSynchronizationType;
+@end
+
+@protocol SwarmProcess <ActionType, Zone, SynchronizationType, CREATABLE>
+//S: An object that holds a collection of concurrent subprocesses.
+
+//D: SwarmProcess inherits the messages of both ActionType and Zone.
+//D: Inheritance of zone behavior means that a swarm can be used as the
+//D: argument of a create: or createBegin: message, for creation of an
+//D: object within the internal zone of a swarm.
+
+//D: Unlike other action types, swarms and swarm activities always exist in
+//D: a one-to-one relationship, provided that the swarm has been activated.
+//D: This restriction to a single activity enables the swarm to do
+//D: double-duty as a custom object that provides its own interface to the
+//D: activities running within the swarm.
+
+CREATING
+//M: The InternalZoneType option sets the type of zone which is created by
+//M: the swarm to hold objects created within the swarm.  If set to nil, no
+//M: internal zone is created within the swarm, and all use of the swarm as
+//M: if it were a zone raises an error.  The default of this option is
+//M: standard Zone type.  (.. Since there is no other Zone type yet,
+//M: there's no reason to set this option yet except to turn off the
+//M: internal zone. ..)
+- setInternalZoneType: aZoneType;
+
+USING
+//M: getInternalZone returns a Zone object that is used by the swarm to
+//M: hold its internal objects.  Even though the swarm itself inherits from
+//M: Zone and can be used as a Zone for nearly all purposes, this message
+//M: is also provided so that the zone itself can be obtained independent
+//M: of all zone behavior.
+- getInternalZone;
+
+//M: getActivity returns the activity which is currently running of
+//M: subactivities within the swarm.  This activity is the same as the
+//M: value returned by activateIn: when the swarm was first activated.  It
+//M: returns nil if the swarm has not yet been activated.
+- getActivity;
+@end
+
+@protocol AutoDrop
+//S: Specify that an action is dropped after being processed.
+
+//D: The AutoDrop option specifies that as soon as any action been
+//D: processed by a running activity, the action is removed from the plan
+//D: and dropped so that it will never appear again.  This option is useful
+//D: for plans that are created for a one-time use, never to be used again.
+//D: This option is especially useful for a dynamic schedule that
+//D: continually receives new actions to be executed at future times, but
+//D: will never repeat actions that were previously scheduled.  Depending
+//D: on the underlying implementation of the schedule, making sure the old
+//D: actions get dropped using AutoDrop can considerably improve the
+//D: performance of the schedule.
+
+//D: When an option like AutoDrop is used, or whenever the contents of an
+//D: action plan undergo a significant amount of dynamic update, the action
+//D: plan would ordinarily be intended only for a single point of use.  If
+//D: AutoDrop is specified, a restriction against multiple active
+//D: references is enforced.  An error will be raised if two activities
+//D: ever attempt to process a plan with AutoDrop enabled at the same time.
+CREATING
+- (void)setAutoDrop: (BOOL)autoDrop;
+USING
+- (BOOL)getAutoDrop;
+@end
+
+@protocol CompoundAction <ActionType, Collection, AutoDrop, DefaultOrder>
+//S: A collection of actions to be performed in any order consistent with a
+//S: set of ordering constraints.
+
+//D: An compound action is the supertype of ActionGroup and Schedule.  A
+//D: compound action defines an executable process that is composed from the
+//D: execution of a set of actions in some defined order.
+
+//D: CompoundAction is not directly creatable.  One of its subtypes must be
+//D: created instead.  ActionPlan inherits the basic ability to be
+//D: activated for execution from ActionType.
+@end
+
+@protocol ActionGroup <CompoundAction, ActionCreating, DefaultOrder, CREATABLE>
+//S: A collection of actions under total or partial order constraints.
+
+//D: An action group is an action plan whose basic representation is a
+//D: sequence of actions that have been created within it. 
+
+//D: An action group inherits its underlying representation from the
+//D: OrderedSet type of the collections library.  All the members of the
+//D: ordered set must consist only of actions that are created by one of
+//D: the createAction messages defined on ActionGroup itself.  Once the
+//D: actions are created, they may be accessed or traversed using standard
+//D: messages of the OrderedSet type. 
+
+//D: The action objects are an integral, controlled component of the action
+//D: plan in which they are created.  If they are removed from the action
+//D: plan collection using a remove message, the only collection in which
+//D: they may be reinserted is the same collection from which they came.
+//D: It is permissible, however, to modify the base representation sequence
+//D: by removing from one position and reinserting at another.
+@end
+
+@protocol RelativeTime
+//S: Specifies that time is relative to when the schedule started.
+
+//D: The RelativeTime option specifies that all the times in the schedule
+//D: are relative to the time when processing of the entire schedule
+//D: begins.  Otherwise, the times are assumed to be absolute times, with
+//D: their base in the starting time of the entire model.
+SETTING
+- (void)setRelativeTime: (BOOL)relativeTime;
+USING
+- (BOOL)getRelativeTime;
+@end
+
+@protocol RepeatInterval
+//S: Reschedule actions after a period of time.
+
+//D: The RepeatInterval option specifies that as soon as all actions in the
+//D: schedule have completed, it is to be rescheduled at a time computed as
+//D: the time at which the schedule was last started, plus the value
+//D: specified as the RepeatInterval argument.  This option overrides the
+//D: normal default that times are considered absolute, as if the
+//D: RelativeTime option had also been specified at the same time.  All
+//D: scheduled times must be less than the specified repeat interval, or an
+//D: error will be raised.  The RepeatInterval option can continue to be
+//D: reassigned to different values after a schedule has been created, but
+//D: the interval value must always be greater than the scheduled times of
+//D: any actions which it contains.
+//D: (.. This option is currently supported only on schedule, not swarms.)
+SETTING
+- (void)setRepeatInterval: (timeval_t)repeatInterval;
+USING
+- (timeval_t)getRepeatInterval;
+@end
+
+@protocol ConcurrentGroupType
+//S: Handle actions scheduled at same time value.
+
+//D: The ConcurrentGroupType option is used to control handling of multiple
+//D: actions which end up being scheduled at the same time value.  As far
+//D: the schedule representation is concerned, these actions are assumed by
+//D: default to be concurrently executable, and the processing machinery is
+//D: free to process them as such if no ConcurrentGroupType option is
+//D: specified.
+
+//D: If a different interpretation of actions at the same time step is
+//D: needed, the ConcurrentGroupType option may be specified.  The argument
+//D: of this option must be an object that when given a standard create:
+//D: message will return an object having all the structure of a standard
+//D: ActionGroup object.
+
+//D: In addition to overriding the standard ActionGroup type, the
+//D: concurrent group type may be implemented by a custom subclass of the
+//D: ActionGroup implementation which you supply yourself.  A custom
+//D: subclass is free to implement custom rules for how to combine all the
+//D: actions which happen to arrive at the same time value.  For example,
+//D: it could decide that some actions are not to be executed at all, or it
+//D: could create entirely new actions to be executed instead of or in
+//D: addition to those which were originally scheduled.
+
+//D: (.. Specific rules for writing a custom ActionGroup subclass will be
+//D: documented at a future time, but all the apparatus to do so is present
+//D: today.  A concurrent action group is currently used to maintain the
+//D: proper order of execution among subswarms of an owner swarm.)
+SETTING
+- (void)setConcurrentGroupType: groupType;
+USING
+- getConcurrentGroupType;
+@end
+
+@protocol SingletonGroups
+//S: Indicates that an action group should be created for every time
+//S: value which is present.
+
+//D: The SingletonGroups option indicates that an action group should be
+//D: created for every time value which is present, even when only a single
+//D: action is present at the time value.
+
+//D: Ordinarily, a concurrent action group is created to process actions at
+//D: the same timestep only if more than one action is scheduled at that
+//D: timestep.  The overhead of these action groups is relatively low,
+//D: because it just creates a single new object to which actions are
+//D: directly linked, but it is still faster to avoid creating them if only
+//D: one action is present at a timestep.  If a custom subclass is being
+//D: provided however, it may need to examine the actions at a timestep
+//D: even if there is only one.
+SETTING
+- (void)setSingletonGroups: (BOOL)singletonGroups;
+USING
+- (BOOL)getSingletonGroups;
+@end
+
+@protocol Schedule <CompoundAction, ActionCreating, CREATABLE, RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups>
+//S: A collection of actions ordered by time values.
+
+//D: A schedule is compound action whose basic representation is a sorted
+//D: Map of actions that have been created within it.  The key value
+//D: associated with each of these actions is an unsigned integer value for
+//D: which the typedef timeval_t is supplied.
+
+//D: A schedule inherits its underlying representation from the Map type of
+//D: the collections library.  All the members of the ordered set must
+//D: consist only of actions that are created by one of the createAction
+//D: messages defined on Schedule itself.  Once the actions are created,
+//D: they may be accessed or traversed using standard messages of the Map
+//D: type.  The key values of this collection, however, must be cast to and
+//D: from the id type defined for key values by the Map type. 
+
+//D: The messages to create actions within a schedule are essentially the
+//D: same as those for ActionGroup, except for the presence of an initial
+//D: at: argument indicating the time at which an action is to be
+//D: performed.  Except for the time associated with each action, meaning
+//D: of the createAction messages is the same as for ActionGroup.
+
+//D: When multiple actions are all scheduled at the same time, they are all
+//D: inserted into a concurrent action group created for that time value.
+//D: The ConcurrentGroupType option may be used to override the default
+//D: action group for these concurrent actions by a custom user-defined
+//D: subclass.  (.. Details of doing this are not yet documented, but there
+//D: are examples.)
+
+USING
+- at: (timeval_t)tVal createAction: anActionType;
+
+- at: (timeval_t)tVal createActionCall: (func_t)fptr;
+- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1;
+- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2;
+- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2:arg3;
+
+- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel;
+- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1;
+- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2;
+- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
+
+- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
+- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1;
+- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
+- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:
+                                                                arg1:arg2:arg3;
+
+//M: Remove action from either schedule or concurrent group.
+- remove: anAction;
+
+- insertGroup: aKey; 
+
+//M: Indicate whether an empty schedule should be dropped and ignored or
+//M: or kept and attended to (default is YES).
+- setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 @end
 
 //

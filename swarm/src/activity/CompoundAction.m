@@ -92,7 +92,7 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 //
 // activate -- activate to run as a top-level, externally controllable process
 //
-- activate
+- (id <Activity>)activate
 {
   return [self activateIn: nil];
 }
@@ -100,7 +100,7 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 //
 // activateIn: -- create an activity to run plan under a swarm
 //
-- activateIn: swarmContext
+- (id <Activity>)activateIn: swarmContext
 {
   return
     [self _activateIn_: swarmContext : ACTIVITY_CLASS_ID : INDEX_CLASS_ID];
@@ -109,7 +109,7 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 //
 // _activateIn_::: -- create an activity to run plan under swarm or top level
 //
-- _activateIn_: swarmContext : activityClass : indexClass
+- (id <Activity>)_activateIn_: swarmContext : activityClass : indexClass
 {
 
   // if top-level activation requested then just create new activity

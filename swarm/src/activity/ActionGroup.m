@@ -51,7 +51,7 @@ PHASE(Using)
 //
 // _activateUnderSwarm_::: -- start new activity to run under swarm
 //
-- _activateUnderSwarm_: activityClass : indexClass : swarmContext
+- (id <Activity>)_activateUnderSwarm_: activityClass : indexClass : swarmContext
 {
   id newSchedule;
 

@@ -1,7 +1,28 @@
+1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Action.m: Don't include objc/objc-api.h.
+
+	* ActionGroup.m ([ActionGroup_c -_activateUnderSwarm_:::]):
+	Declare return type as (id <Activity>).
+
+	* CompoundAction.m ([CompoundAction_c -activate],
+	[CompoundAction_c -activateIn:], [CompoundAction_c
+	-_activateIn_:::]): Likewise.
+
+	* SwarmProcess.m ([CSwarmProcess -activate], [CSwarmProcess
+	-activate:], [CSwarmProcess -activateIn:]): Likewise.
+
+	* activity.h: Include externvar.h.
+	(ActionForEach, CompoundAction, ActionGroup): Add
+	DefaultOrder compliance.
+	(ActionType): Add (id <Activity>) return types to activate*
+	methods.  Rearrange protocols so that the Activity protocol will
+	be declared for (id <Activity>).
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* XActivity.m (_activity_current, _activity_zone, _activity_trace):
-	Add externvardef.
+	* XActivity.m (_activity_current, _activity_zone,
+	_activity_trace): Add externvardef.
 
 	* activity.h: Use `externvar' for external variable declarations.
 	(TimebaseMax): Remove; it's unused.

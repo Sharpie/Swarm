@@ -109,7 +109,7 @@ PHASE(Using)
 //
 // activate -- activate to run as a top-level, externally controllable process
 //
-- activate
+- (id <Activity>)activate
 {
   return [self activateIn: nil];
 }
@@ -118,7 +118,7 @@ PHASE(Using)
 // activate: --
 //   activate an action type to run as a subprocess controlled by the swarm
 //
-- activate: anActionType
+- (id <Activity>)activate: anActionType
 {
   [anActionType activateIn: self->activity];
   return nil;  //!! later -- a special action for the whole activity
@@ -177,7 +177,7 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 // activateIn: -- create an activity to run plan under swarm or top level
 //
-- activateIn: swarmContext
+- (id <Activity>)activateIn: swarmContext
 {
   id activityZone, mergeSchedule;
 
