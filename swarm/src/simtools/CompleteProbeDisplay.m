@@ -204,6 +204,14 @@ int max_class_var_length(Class class){
   return self;
 }
 
+-(void) setRemoveRef: (BOOL) torf {
+  removeRef = torf;
+}
+
+-(void) setObjectRef: (ref_t) or {
+  objectRef = or;
+}
+
 -(void)drop {
  
   id index ;
@@ -225,6 +233,8 @@ int max_class_var_length(Class class){
 
   [probeDisplayManager removeProbeDisplay: self];
   
+  if (removeRef) [probedObject removeRef: objectRef];
+
   [super drop] ; 
 }
 @end

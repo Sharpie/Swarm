@@ -9,7 +9,6 @@
 @interface ProbeDisplay : SwarmObject {
   id probedObject;
   ProbeMap * probeMap;
-  ref_t objectRef;
 }
 
 -setProbedObject: anObject;

@@ -18,6 +18,7 @@
   int numberOfProbes;
   id *widgets;
   ref_t objectRef;
+  BOOL removeRef;
 }
 
 -setProbedObject: anObject;
@@ -30,6 +31,10 @@
 
 -(char *) package ;
 -(const char *) getId ;
+
+-(void) setRemoveRef: (BOOL) torf;
+-(void) setObjectRef: (ref_t) or;
+-(void) drop;
 
 @end
 

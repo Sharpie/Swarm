@@ -237,6 +237,14 @@
   return self;
 }
 
+-(void) setRemoveRef: (BOOL) torf {
+  removeRef = torf;
+}
+
+-(void) setObjectRef: (ref_t) or {
+  objectRef = or;
+}
+
 -(void)drop{
 
   int i ;
@@ -259,6 +267,8 @@
 
   [probeDisplayManager removeProbeDisplay: self];
   
+  if (removeRef) [probedObject removeRef: objectRef];
+
   [super drop] ;
 }
 

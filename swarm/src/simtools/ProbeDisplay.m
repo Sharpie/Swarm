@@ -51,6 +51,9 @@
 //
 static void notifyObjectDropped ( id anObject, id realloc, id pd)
 {
+  // Put a hook here so that the drop method knows whether the drop
+  // was called from here.
+  [pd setRemoveRef: 0];  // false => don't remove the reference in "drop"
   [pd drop];
   // There might be an issue of recursivity if a user decided
   // to probe a probe display.  I ignored that. --gepr
@@ -84,10 +87,10 @@ static void notifyObjectDropped ( id anObject, id realloc, id pd)
 
   // Probe notification mechanism added to handle automatic removal
   // of probe displays when an probed object is dropped.  --gepr
-  objectRef = [probedObject addRef: (notify_t) notifyObjectDropped 
-			    withArgument: (void *)probeDisplay ];
-
-
+  [probeDisplay setObjectRef: [probedObject 
+				addRef: (notify_t) notifyObjectDropped 
+			  withArgument: (void *)probeDisplay ]];
+  [probeDisplay setRemoveRef: 1];  // set this every time a reference is added
   [globalTkInterp eval: 
     "foreach w [busy isbusy] {busy release $w} ; update"] ;
   
@@ -95,7 +98,6 @@ static void notifyObjectDropped ( id anObject, id realloc, id pd)
 
   return probeDisplay;
 }
-
 @end
 
 

@@ -16,6 +16,7 @@
   Frame *topFrame ;
   id widgets, topLevel;
   ref_t objectRef;
+  BOOL removeRef;
 }
 
 -setProbedObject: anObject;
@@ -23,4 +24,9 @@
 
 -getProbedObject;
 -update;
+
+-(void) setRemoveRef: (BOOL) torf;
+-(void) setObjectRef: (ref_t) or;
+-(void) drop;
+
 @end
