@@ -56,11 +56,11 @@ overriding the Java properties mechanism herein, which
 itself overrides the Java initializers and constructors. 
 
 <p>
-See current.ksh for a way to convert command-line options into Java properties.
+See current.ksh and current.pl for a way to convert command-line options into 
+Java properties.
 
 <p>
-To modify this application to accept an 
-additional boolean command-line option:
+To modify this application to accept an additional boolean command-line option:
 
  <dir>
  Add to this documentation section a line analogous to the line
@@ -118,8 +118,8 @@ additional integer command-line option:
 
 <p>
 The documentation in the Swarm Reference Guide for the Arguments protocol
-describes a different mechanism for managing 
-command-line options (with an example in Objective-C). 
+describes a different mechanism for managing command-line options (with an 
+example in Objective-C). 
 
 */
 public class StartHeatbugs

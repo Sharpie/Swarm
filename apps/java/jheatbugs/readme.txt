@@ -56,7 +56,7 @@ for batch mode, or
 for help.
 
 (On Cygwin you will probably need to type <tt>sh current.ksh</tt> rather than
-<tt>ksh current.ksh</tt>).
+<tt>ksh current.ksh</tt>.)
 
 
   		Section 3. Goals of jheatbugs
@@ -78,18 +78,18 @@ cluster. Invoke
 
 and watch what happens when the Heatbugs are immobile. Invoke
 
-	ksh current.ksh -p 10
+    ksh current.ksh -p 10
 
 and observe the history of an arbitrary cell. Invoke
 
-	ksh current.ksh -cip10
+    ksh current.ksh -cip10
 
 and guess how long it will take the heat to diffuse to the arbitrary cell for
 which the history is reported.
 
-Here's another interesting simulation:
+Here's another interesting simulation: invoke
 
-	ksh current.ksh -r0 -e1 -c
+    ksh current.ksh -r0 -e1 -c
 
 and explain why you see momentum first emerge (at about step 350) and then
 disappear (by step 900). 
@@ -131,11 +131,13 @@ combinations of options, to understand its black-box behavior.
   		Section 5. Naming and typographic conventions
 
 
-On all private variable names, I use an underscore as a prefix.
+On all private variable names, I use an underscore as a prefix. This convention
+I borrowed from Sriram Srinivasan of Perl fame and Martin Fowler of UML fame. 
 
-To make programming structures obvious, I put almost every matching symbol --
-that is, every symbol among ( ) { } [ ] < > /* */ -- either on the same line or
-in the same column as its mate.
+To make programming structures obvious, I put each matching symbol (that is,
+every symbol among ( ) { } [ ] < >) either on the same line or
+in the same column as its mate. Similarly for compound matching symbols, such
+as /* */ <!-- --> <tag> </tag>. 
 
 In documentation, I use the form "m()", with no space before the parentheses,
 to mean "the method m, however many arguments it takes"; I use "m ()" to mean
@@ -146,7 +148,9 @@ At the close of some of the longer methods, I put a comment so you can know
 what method you're reading when the screen shows only the tail; for example, "}
 /// buildObjects()". For constructors, the comment is "} /// constructor". For
 the same reason, I sometimes put a comment at the end of a long loop; for
-example, "} /// if _unhappiness != 0".
+example, "} /// if _unhappiness != 0". There's no special reason for the triple
+slashes, except that after a while your brain may help itself by learning to 
+recognize them as the sign of such orientation comments. 
 
 I generally begin a comment with "..." if it explains the preceding code; I end
 it with ":" if it explains the subsequent code.
@@ -157,15 +161,22 @@ indicate, respectively, whether the parameter is only read or is only written
 or is read and written by the method. Thus, if I pass an array to a method, and
 the method or a delegate of the method might ever write an element of the array
 and might ever also read an element of the array, I indicate "(inout)".
+These conventions I borrowed from Corba IDL. 
 
 I define nearly every accessor (getter or setter) immediately after, and
-indented from, its variable.
+indented one tab stop in from, its variable. This convention prevents accessors
+from cluttering up the more interesting methods, and keeps you from having
+to wonder about accessibility when you're examining the data members. 
 
 The fundamental idea of exception handling is to remove unusual conditions from
 the normal flow of processing. Applying that concept to the typography, I do
-not indent try-blocks.
+not indent try-blocks. But I do indent catch-blocks. 
 
-Because most Java files contain exactly one top-level class, which all the
-methods belong to, it is generally uninformative to indent each variable or
-method definition. Rather than squander one tab stop on a not very informative
-typographic convention, I do not indent variable and method definitions.
+In the top-level class of each Java file, which typically contains most of the
+code, I save one tab stop by not indenting method and variable definitions
+(in other words, methods and variables begin at the left margin). For other
+classes in the file, only the class definition begins at the left margin; 
+methods and variables start one tab stop in. The goal of this convention is
+to avoid wasting a rather uninformative tab stop through the bulk of the code,
+while giving a visual clue as to whether the displayed code is in the eponymous
+class or some other class. 

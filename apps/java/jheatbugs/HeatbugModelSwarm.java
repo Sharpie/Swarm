@@ -628,9 +628,9 @@ public Object buildActions ()
     _actionForEach = modelActions.createFActionForEachHomogeneous$call
      (_heatbugList,
       new FCallImpl (this, proto, sel, new FArgumentsImpl (this, sel, true))
-      // ... Until Swarm 2.1, FArgumentsImpl() takes 3 arguments (of which the
-      // last argument should be the boolean value true). After Swarm 2.1, it 
-      // takes 2 arguments.
+      // ... Through Swarm 2.1, FArgumentsImpl() takes 3 arguments (of which
+      // the last argument should be the boolean value true). After Swarm 2.1, 
+      // it takes 2 arguments.
      );
     } catch (Exception e)
     { e.printStackTrace (System.err); }
