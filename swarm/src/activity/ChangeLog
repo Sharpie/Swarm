@@ -1,5 +1,11 @@
 1999-09-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* CompoundAction.m (registerSubactivity): New function.
+	([CompoundAction_c -_createActivity_::::]): Use it.
+
+	* ActionGroup.m ([ForEachActivity_c +_create_::],
+	[ForEachActivity_c +_createRandom_::]): Use it.
+	
 	* SwarmProcess.m ([CSwarmProcess -activateIn:]): Take swarmContext
 	as Zone or _activity_zone when context is nil.
 

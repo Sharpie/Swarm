@@ -166,6 +166,18 @@ notifyActivityDrop (id anObject, id realloc, id activitySet)
   [activitySet remove: anObject];
 }
 
+static void
+registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
+{
+  if (!owner->activitySet)
+    owner->activitySet = 
+      [_activity_activitySetRefsType create: getCZone (zone)];
+  [owner->activitySet add: newActivity];
+  [newActivity addRef: (notify_t) notifyActivityDrop 
+               withArgument: owner->activitySet];
+  newActivity->ownerActivity  = owner;
+}
+
 //
 // _createActivity_:: -- create activity to perform a plan
 //
@@ -178,13 +190,7 @@ notifyActivityDrop (id anObject, id realloc, id activitySet)
   if (ownerActivity)
     {
       newActivity = [swarmZone allocIVarsComponent: activityClass];
-      newActivity->ownerActivity = ownerActivity;
-      if (!ownerActivity->activitySet)
-        ownerActivity->activitySet = 
-          [_activity_activitySetRefsType create: getCZone (swarmZone)];
-      [ownerActivity->activitySet add: newActivity];
-      [newActivity addRef: (notify_t) notifyActivityDrop
-                   withArgument: ownerActivity->activitySet];
+      registerSubactivity (swarmZone, ownerActivity, newActivity);
     }
   else
     {

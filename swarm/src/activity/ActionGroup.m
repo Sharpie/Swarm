@@ -277,7 +277,7 @@ PHASE(Using)
   index = [self begin: scratchZone];
   while ((action = [index next])) 
     {
-      sprintf( buffer, "action is: " );
+      sprintf (buffer, "action is: ");
       [outputCharStream catC: buffer];
       [action describe: outputCharStream];
     }
@@ -481,7 +481,8 @@ PHASE(Creating)
   setMappedAlloc (newActivity);
   setMappedAlloc (newIndex);
 
-  newActivity->ownerActivity  = anActivity;
+  registerSubactivity (ownerZone, owner, newActivity);
+  
   newActivity->status = Initialized;
   newActivity->breakFunction = owner->breakFunction;
   newActivity->currentIndex = newIndex;
@@ -517,6 +518,9 @@ PHASE(Creating)
   setMappedAlloc (newIndex);
 
   newActivity->ownerActivity  = anActivity;
+
+  registerSubactivity (ownerZone, owner, newActivity);
+
   newActivity->status = Initialized;
   newActivity->breakFunction = owner->breakFunction;
   newActivity->currentIndex = newIndex;
