@@ -11,6 +11,8 @@
 
 @implementation Entropy
 
+//* The setCollection method sets the collection of objects that will be 
+//* probed.
 - setCollection: aCollection
 {
   collection = aCollection;
@@ -25,6 +27,8 @@
   return [super createEnd];
 }
 
+//* The update method polls the collection and updates the entropy. This method
+//* should be scheduled prior to collecting the data using getEntropy.
 - update
 {
   id iter, obj;
@@ -61,6 +65,8 @@
   return self;
 }
 
+//* The getEntropy method returns the calculated Entropy. The entropy value
+//* is read out of the object, not computed everytime it is requested.
 - (double)getEntropy
 {
   return entropy;

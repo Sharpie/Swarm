@@ -24,6 +24,9 @@
   return self;
 }
 
+//* The update method polls the bins and updates the entropy of the 
+//* distribution as well as the probabilities associated with the individual 
+//* bins.
 - update
 {
   int i;
@@ -41,7 +44,12 @@
 
   return self;
 }
-
+//* The output method causes the graphical display to be updated with the 
+//* information extracted by the previous call to update.  When file I/O is 
+//* enabled (the state of setFileOutput is set to 1), the probability
+//* associated with each bin is sent to the output file. When the graphical 
+//* display is enabled (the state of setGraphics is set to 1), the histogram 
+//* will be drawn.
 - output
 {
   int i;
@@ -66,6 +74,8 @@
   return self;
 }
 
+//* The getProbabilities method returns an array of doubles representing
+//* the probability of every bin in the distribution.
 - (double *)getProbabilities
 {
   if (clean)
@@ -78,6 +88,8 @@
   return probabilities;
 }
 
+//* The getEntropy method returns the entropy of the distribution as calculated
+//* in the previous call to update.
 - (double)getEntropy
 {
   if (clean)
