@@ -25,25 +25,34 @@
         </listitem>
         <listitem>
           <figure id="gui-raster.figure">
-            <title>Raster</title>
+            <title>Rasters of discrete two-dimensional data</title>
             <graphic entityref="gui-raster" align="center"></graphic>
           </figure>
         </listitem>
-        <listitem><para>Probes</para></listitem>
+        <listitem>
+          <figure id="gui-probemap-example.figure">
+            <title>Probes of agent state</title>
+            <graphic entityref="gui-probemap-example" align="center"></graphic>
+          </figure>
+        </listitem>
       </itemizedlist>
 
-      All except the last (probes) are fairly self-explanatory and will
-      be dealt with in subsequent chapters.  This section describes how
-      probes appear to the user running a Swarm simulation, and how the
-      user can manipulate them.  The construction of the probes using
-      the Swarm libraries is also left to a subsequent chapter.
+      All except the last (probes) are fairly self-explanatory and
+      will be dealt with in subsequent chapters.  This section
+      describes how probes appear to the user running a Swarm
+      simulation, and how the user can manipulate them.  Probes also
+      serve purposes <emphasis>other</emphasis> than assisting
+      graphical widgets that the user can manipulate, however in this
+      section we will focus only on their role in the context of the
+      GUI of a running simulation.  The construction of the probes
+      using the Swarm libraries is also left to a subsequent chapter.
 
     </para>
 
   </sect2>
 
   <sect2>
-    <title>Probes</title>
+    <title>GUI Probe Displays</title>
 
     <para>Graphical `probes' allow a user to view a snapshot of any
       object in a Swarm simulation in a graphical form.  There are two
@@ -58,6 +67,12 @@
           ProbeDisplay generated will provide a window of class
           DefaultProbeDisplay, which displays all the variables
           resident in that class structure.
+
+            <figure>
+              <title>Default ProbeMap (also showing the superclass)</title>
+              <graphic entityref="gui-probemap-complete"></graphic>
+            </figure>
+
           </para>
         </formalpara>
       </listitem>
@@ -67,11 +82,16 @@
           <classname>ProbeMap</classname> <emphasis>is</emphasis>
           specified then the <classname>ProbeDisplay</classname>
           follows exactly the specification as represented by the
-          contents of the ProbeMap (above). When used in this manner,
+          contents of a `ProbeMap'. When used in this manner,
           ProbeDisplays can generate tailored interfaces to objects
           (so for example, we have purposefully hidden certain
-          instance variables in the HeatbugModelSwarm class, and have
+          instance variables in the
+          <classname>MousetrapModelSwarm</classname> class, and have
           shown only one of the methods which the class understands).
+            <figure>
+              <title>Custom ProbeMap</title>
+              <graphic entityref="gui-probemap-customized"></graphic>
+            </figure>
           </para>
         </formalpara>
       </listitem>
@@ -81,7 +101,7 @@
   </sect2>
 
   <sect2>
-    <title>Probe Usage</title>
+    <title>Using the GUI Probe Display</title>
 
     <para>Common to both the standard ProbeDisplay and the
       CompleteProbeDisplay:</para>
@@ -111,7 +131,7 @@
           generated).</para></listitem>
     </itemizedlist>
 
-    <para>Available only on the standard ProbeDisplay:</para>
+    <para>Available only on the customized ProbeDisplay:</para>
     
     <itemizedlist>
       <listitem><para> Note that the sunken label at the top of the
@@ -126,7 +146,7 @@
 
     </itemizedlist>
 
-    <para>Available only on the ProbeDisplay:</para>
+    <para>Available only on the CompleteProbeDisplay:</para>
     
     <itemizedlist>
       <listitem><para> The green "superclass" button can be used to

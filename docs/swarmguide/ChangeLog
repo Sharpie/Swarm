@@ -1,10 +1,19 @@
 1999-05-17  Alex Lancaster  <alex@santafe.edu>
 
+	* user1.04.sgml: Remove `Activity Framework' section.  Re-order
+	sections slightly, add recursive-swarm FIGURE.  Use SGML tagging
+	consistently throughout.
+ 
+	* user1.05.sgml: Add FIGURES and updated text.
+
+	* catalog.in: Add catalog entries for gui-probemap-{complete,
+	customized, example} entities.
+
 	* user1.05.sgml: Replaced text on using ProbeMap with text snarfed
 	from relevant section in Reference Manual (pending deletion in
 	that manual).  Updated some of these sections.
 
-	* catalog.in: Add catalog entries for graph-{graph, histogram,
+	* catalog.in: Add catalog entries for gui-{graph, histogram,
 	raster}.
 
 1999-05-05  Alex Lancaster  <alex@santafe.edu>

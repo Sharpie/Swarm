@@ -67,7 +67,7 @@
     <para>Swarm models follow a common syntax that helps users to
     understand the way their parts interact. The observer swarm and
     the model swarm are typically designed in a similar way.  Methods
-    that will appear in many classess, for example, include:
+    that will appear in many classes, for example, include:
 
 <programlisting>
 -createBegin;
@@ -86,10 +86,10 @@
 -(int) getParameterValue;
 </programlisting>
 
-      These methods can be written to so that setParameterValue causes
-      an object to set some internal parameter equal to a value, and
-      getParameterValue will cause the agent to report back the
-      value. </para>
+      These methods can be written to so that
+      <function>setParameterValue</function> causes an object to set
+      some internal parameter equal to a value, and <function>getParameterValue</function>
+      will cause the agent to report back the value. </para>
  
     <para>In addition,there will be methods that carry out the
       specialized actions dictated by the substance of the research
@@ -117,35 +117,37 @@
     inside the libraries. In the next sections, we discuss the way
     objects are created and given a place in memory.  When those
     objects are no longer needed, the program can send that object the
-    "drop" message, which removes it from memory.</para>
+    <function>drop</function> message, which removes it from
+    memory.</para>
     
 
 </sect2>
 
 <sect2>
-<title>What goes on in the "buildObjects" method?</title>
+<title>What goes on in the <function>buildObjects</function> method?</title>
 
     <para>If the reader inspects just a few of the sample Swarm
       programs, the importance of the building objects should become
       apparent.  Objects are named and memory is set aside for them in
-      this stage. In the buildObjects method, one typically finds
+      this stage. In the <function>buildObjects</function> method, one typically finds
       commands that not only create the objects being used in the
       current class, but there will also be a command which instructs
       the next-lower level of agent to create its objects.</para>
 
     <para>Consider the rich example provided by the code from the
-      Arborgames model. In the buildObjects method of the observer
+      Arborgames model. In the <function>buildObjects</function> method of the observer
       swarm, one finds a large number of commands that create
       graphical display objects (objects subclassed from the graph
       library).  One also finds commands that create the simulation
       control panel, which will appear on the screen and offer the
       user the ability to start and stop the simulation.</para>
 
-    <para>It is vital to note also that the buildObjects method in the
-      observer swarm file triggers the creation of the next lower
-      level of agents.  It creates a memory zone and creates a model
-      swarm in that memory zone. Using the current style, the code
-      would look like so:</para>
+    <para>It is vital to note also that the
+      <function>buildObjects</function> method in the observer swarm
+      file triggers the creation of the next lower level of agents.
+      It creates a memory zone and creates a model swarm in that
+      memory zone. Using the current style, the code would look like
+      so:</para>
 
 <programlisting>
   forestModelSwarm = [ForestModelSwarm create: self ];  
@@ -165,56 +167,85 @@
 
     <para>Note the importance of the last line in either of these
       excerpts. The first line of the code creates the model swarm
-      object (in this case, it is called forestModelSwarm), but the
-      last line tells that object to create its own objects by telling
-      the forestModelSwarm to execute its own buildObjects method.  To
-      find out what that implies, one must go look in the
-      implementation file for the ForestModelSwarm to see what objects
-      it creates.</para>
+      object (in this case, it is called
+      <varname>forestModelSwarm</varname>), but the last line tells
+      that object to create its own objects by telling the
+      <varname>forestModelSwarm</varname> to execute its own
+      <function>buildObjects</function> method.  To find out what that
+      implies, one must go look in the implementation file for the
+      <classname>ForestModelSwarm</classname> to see what objects it
+      creates.</para>
 
 </sect2>
 
 <sect2>
 
-    <title>What goes on in the "buildActions" method?</title>
+    <title>What goes on in the <function>buildActions</function> method?</title>
 
-    <para> In the standard case, the buildActions method has two
+    <para> In the standard case, the <function>buildActions</function> method has two
       important components.  It creates objects of these two classes.
 
       <itemizedlist>
-        <listitem><para>ActionGroup: an unordered set of
-            "simultaneous" events and </para></listitem>
+        <listitem><para><classname>ActionGroup</classname>: an ordered
+            set of "simultaneous" events and </para></listitem>
 
-      <listitem><para>Schedule: controls how often the elements in the
-          action group are executed</para></listitem>
+      <listitem><para><classname>Schedule</classname>: controls how
+          often the elements in the action group are
+          executed</para></listitem>
 
       </itemizedlist>
 
     </para>
 
-    <para>In the buildActions methods of the Arborgames model, there
+    <para>In the <function>buildActions</function> methods of the Arborgames model, there
       are plenty of interesting examples.  In the observer swarm, for
       example, there are commands that schedule the updating of the
       graphical display and also there are commands that instruct the
-      lower level classes to execute their own buildActions
+      lower level classes to execute their own <function>buildActions</function>
       methods.</para>
 
-    <para> In the model swarm's buildActions method, one typically
-      finds the heart of the substantive action of the simulation.
-      Commands tell agents, or lists of agents, that they should carry
-      out their methods.  These commands are placed into instances of
-      the ActionGroup class, which means that they will all be
-      repeated whenever the group is repeated. The repetition is
-      controlled by commands that create schedules and indicate how
-      often those schedules will be repeated.</para>
+    <para> In the <classname>ModelSwarm</classname>'s
+      <function>buildActions</function> method, one typically finds
+      the heart of the substantive action of the simulation.  Commands
+      tell agents, or lists of agents, that they should carry out
+      their methods.  These commands are placed into instances of the
+      ActionGroup class, which means that they will all be repeated
+      whenever the group is repeated. The repetition is controlled by
+      commands that create schedules and indicate how often those
+      schedules will be repeated.</para>
 
 </sect2>
 
 <sect2>
+ <title>Merging schedules in Swarms</title> 
+
+    <para>As mentioned above, there can be
+      <function>buildActions</function> methods in many different
+      classes.  Since each one can create action groups and schedules,
+      it is important that all of these activities are coordinated in
+      a logical way.  One of the strengths of the Swarm toolkit is
+      that it maintains a coherent, master schedule. The schedules of
+      each sub Swarm are merged into the schedule of next higher
+      level. Finally all schedules are merged in the top level
+      Swarm</para>
+
+    <para>This multi-level integration of swarm schedules means that
+      the model can indeed be thought of as a nested hierarchy of
+    models.</para>
+
+    <figure>
+      <title>Nested hierarchy of Swarms</title>
+      <graphic entityref="recursive-swarm"></graphic>
+    </figure>
+
+</sect2>
+
+
+<sect2>
  <title>A Swarm as a virtual computer</title> 
 
-    <para>At an abstract level, the Swarm libraries cam be thought of
-      as a layer on top of the operating system's kernel.
+    <para>At an even more abstract level, the Swarm libraries cam be
+      thought of as a layer on top of the operating system's kernel.
 
       <figure id="system-diagram.figure">
         <title>Swarm virtual computer</title>
@@ -222,51 +253,7 @@
       </figure>
     </para>
 
-    <para>A computer's CPU executes program instructions  </para>
-
-    <para>Swarm</para>
-      
-
-    <formalpara><title>Nested Swarms merge schedules into one</title><para>
-        CPU</para></formalpara>
-
 </sect2>
-
-<sect2>
-<title>The Activity framework</title> 
-
-    <para>Provides abstractions that allow programmer to treat event
-      scheduling in the artificial world as objects, separate from
-      elements of model
-    </para>
-
-    <para>Provide some useful shorthands to group actions and sort
-      according to the desired order of events</para>
-
-    <para>Since schedules are objects, all agents in simulation can
-      communicate with them, to schedule future events or cause
-      actions to be dropped based on specified contingencies </para>
-
-</sect2>
-
-<sect2>
- <title>Merging schedules in Swarms</title> 
-
-    <para>As mentioned above, there can be "buildActions" methods in
-      many different classes.  Since each one can create action groups
-      and schedules, it is important that all of these activities are
-      coordinated in a logical way.  One of the sstrengths of the
-      Swarm toolkit is that it maintains a coherent, master
-      schedule. The schedules of each sub Swarm are merged into the
-      schedule of next higher level. Finally all schedules are merged
-      in the top level Swarm</para>
-
-    <para>This multi-level integration of swarm schedules means that
-      the model can indeed be thought of as a nested hierarchy of
-    models.</para>
-
-</sect2>
-
 
 </sect1>
 <!--

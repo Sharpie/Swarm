@@ -43,6 +43,9 @@ PUBLIC "-//SFI Hive//ENTITIES system-diagram JPEG//EN" figs/system-diagram.jpeg
 PUBLIC "-//SFI Hive//ENTITIES gui-graph JPEG//EN" figs/gui-graph.jpeg
 PUBLIC "-//SFI Hive//ENTITIES gui-histogram JPEG//EN" figs/gui-histogram.jpeg
 PUBLIC "-//SFI Hive//ENTITIES gui-raster JPEG//EN" figs/gui-raster.jpeg
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-customized JPEG//EN" figs/gui-probemap-customized.jpeg
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-complete JPEG//EN" figs/gui-probemap-complete.jpeg
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-example JPEG//EN" figs/gui-probemap-example.jpeg
 
 PUBLIC "-//SFI Hive//ENTITIES discrete-event-sim EPS//EN" @top_dossrcdir@/figs/discrete-event-sim.eps
 PUBLIC "-//SFI Hive//ENTITIES interface-vs-implementation EPS//EN" @top_dossrcdir@/figs/interface-vs-implementation.eps
@@ -76,5 +79,8 @@ PUBLIC "-//SFI Hive//ENTITIES system-diagram EPS//EN" @top_dossrcdir@/figs/syste
 PUBLIC "-//SFI Hive//ENTITIES gui-graph EPS//EN" figs/gui-graph.eps
 PUBLIC "-//SFI Hive//ENTITIES gui-histogram EPS//EN" figs/gui-histogram.eps
 PUBLIC "-//SFI Hive//ENTITIES gui-raster EPS//EN" figs/gui-raster.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-customized EPS//EN" figs/gui-probemap-customized.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-complete EPS//EN" figs/gui-probemap-complete.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-probemap-example EPS//EN" figs/gui-probemap-example.eps
 
 SGMLDECL "@top_dossrcdir@/docbook.dcl"
