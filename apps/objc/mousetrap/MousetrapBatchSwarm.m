@@ -31,13 +31,10 @@
   id archiver;      // Archiver instance
   [super buildObjects];
 
-
   // create an instance of the Archiver to retrieve the file
   // set the path to `batch.scm'
-  archiver =  [[[[Archiver createBegin: globalZone]
-                  setHDF5Flag: NO]
-                 setPath: "batch.scm"]
-                createEnd];  
+
+  archiver =  [Archiver create: globalZone fromLispPath: "batch.scm"];
 
   // In MousetrapObserverSwarm, we'd build some probes and wait for a
   // user control event (this allows the user to fiddle with the
@@ -53,7 +50,7 @@
 
   // if we can't find the right key from the Archiver, raise an event
   if ((mousetrapModelSwarm = 
-       [archiver getObject: "modelSwarm"]) == nil)
+       [archiver getWithZone: self object: "modelSwarm"]) == nil)
     raiseEvent(InvalidOperation, 
                "Can't find archiver file or appropriate key");
   

@@ -36,17 +36,14 @@ main (int argc, const char **argv)
     {
       // create an instance of the Archiver to retrieve the file
       // set the path to `batch.scm'
-      id archiver =  [[[[Archiver createBegin: globalZone]
-                         setHDF5Flag: NO]
-                        setPath: "batch.scm"]
-                       createEnd];  
+      id archiver = [Archiver create: globalZone fromLispPath: "batch.scm"];
 
       // retrieve the object from the archiver, if it can't be found
       // just raise an event; note that the call to the
       // archiver will actually *instantiate* the object if the
       // parameters are found in the Lisp file
       if ((theTopLevelSwarm = 
-           [archiver getObject: "batchSwarm"]) == nil)
+           [archiver getWithZone: globalZone object: "batchSwarm"]) == nil)
         raiseEvent(InvalidOperation, 
                    "Can't find archiver file or appropriate key");
           
