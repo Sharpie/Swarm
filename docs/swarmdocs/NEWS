@@ -1,0 +1,27 @@
+swarmdocs NEWS --- history of major changes to swarmdocs.  -*- text -*-
+Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
+
+* Release Notes for swarmdocs 1.2
+
+** The old HTML for swarmdocs has been reformatted into SGML using the
+Davenport DocBook DTD V3.0.
+
+** Most reference information is now generated directly from Swarm source code
+and comments embedded in source code.
+
+** GNU automake and autoconf support has been added to enable documentation 
+'builds' from source code and SGML markup.
+
+** Build procedure can create 'html', 'dvi', 'ps' and 'rtf' output.
+
+* Release Notes for swarmdocs 1.1
+
+** Never generated.
+
+* Release Notes for versions earlier than 1.1
+
+** No official Release Notes.
+
+Local variables: 
+mode: outline 
+end:
