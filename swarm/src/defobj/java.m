@@ -1504,7 +1504,7 @@ swarm_directory_switch_java_entry (DirectoryEntry *entry, jobject javaObject)
 DirectoryEntry *
 swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
 {
-  jobject nextJavaPhase = SD_JAVA_NEXTJAVAPHASE (currentJavaPhase);
+  jobject nextJavaPhase = SD_JAVA_NEXTPHASE (currentJavaPhase);
   id currentPhase = SD_JAVA_FINDOBJC (currentJavaPhase);
   DirectoryEntry *retEntry;
   avl_tree *objc_tree = swarmDirectory->objc_tree;

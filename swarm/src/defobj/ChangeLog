@@ -1,5 +1,11 @@
 2000-05-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* java.h (SD_JAVA_SWITCHPHASE): Renamed from SD_JAVA_NEXTPHASE.
+	(SD_JAVA_NEXTPHASE): Renamed from SD_JAVA_NEXTJAVAPHASE.
+
+	* java.m (swarm_directory_java_switch_phase): Accomodate
+	rename of SD_JAVA_NEXTPHASE.
+
 	* java.[hm] (swarm_directory_java_class_for_object): Take
 	a jobject as argument.
 	java.h: Don't declare swarm_directory_find_java_class.

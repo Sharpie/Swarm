@@ -61,9 +61,9 @@ extern void java_drop (jobject jobj);
 #define SD_JAVA_FINDJAVACLASS(objcClass) swarm_directory_objc_find_java_class (objcClass)
 #define SD_JAVA_ADD(jobj, objc) swarm_directory_java_add (objc, jobj)
 #define SD_JAVA_ADDJAVA(jobj, objc) swarm_directory_java_add (objc, jobj)->foreignObject.java
-#define SD_JAVA_NEXTPHASE(jobj, objc) swarm_directory_java_switch_phase (objc, jobj)->foreignObject.java
+#define SD_JAVA_SWITCHPHASE(jobj, objc) swarm_directory_java_switch_phase (objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHOBJC(jobj, newobjc) swarm_directory_java_switch_objc (newobjc, jobj)
-#define SD_JAVA_NEXTJAVAPHASE(jobj) swarm_directory_java_next_phase (jobj)
+#define SD_JAVA_NEXTPHASE(jobj) swarm_directory_java_next_phase (jobj)
 #define SD_JAVA_ENSUREOBJCMETHOD(jobj) swarm_directory_java_ensure_selector (jobj)
 #define SD_JAVA_ENSUREOBJCCLASS(jclazz) swarm_directory_java_ensure_class (jclazz)
 
