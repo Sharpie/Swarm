@@ -26,7 +26,7 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env, jobject obj, jobjectArray ar
       argv[i + 1] = isCopy ? (const char *) utf : strdup (utf);
     }
   initSwarmApp (argc, argv, VERSION, "bug-swarm@santafe.edu");
-  java_directory_init (env);
+  java_directory_init (env, obj);
   defobj_init_java_call_tables ((void *) env);
  
 }

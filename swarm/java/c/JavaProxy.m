@@ -3,12 +3,27 @@
 #include <objc/mframe.h>
 
 #import <defobj/FArguments.h>
+#import <defobj.h> // FCall
 
 @implementation JavaProxy
+
 - (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
 {
   NSArgumentInfo info;
   FArguments *fa;
+  id <FCall> fc;
+
+  union {
+    char charVal;
+    short shortVal;
+    int intVal;
+    long longVal;
+    float floatVal;
+    double doubleVal;
+    const char *str;
+    id obj;
+  } val;
+  id aZone = [self getZone];
 
   const char *type = sel_get_type (aSel);
   
@@ -19,62 +34,27 @@
       if (!type)
         abort ();
     }
-  fa = [FArguments createBegin: [self getZone]];
-  
+  printf ("sel `%s' type: `%s'\n", sel_get_name (aSel), type);
+  fa = [FArguments createBegin: aZone];
+  type = mframe_next_arg (type, &info);
+  mframe_get_arg (argFrame, &info, &val);
+  [fa setObjCReturnType: *info.type];
   while ((type = mframe_next_arg (type, &info)))
     {
-      printf ("type: %s\n", type);
-      if (*info.type == _C_SHT)
-        {
-          short val;
-
-          mframe_get_arg (argFrame, &info, &val);
-          [fa addInt: val];
-        }
-      else if (*info.type == _C_USHT)
-        {
-          unsigned short val;
-
-          mframe_get_arg (argFrame, &info, &val);
-          [fa addUnsigned: val];
-        }
-      else if (*info.type == _C_UINT)
-        {
-          unsigned val;
-
-          mframe_get_arg (argFrame, &info, &val);
-          [fa addUnsigned: val];
-        }
-      else if (*info.type == _C_LNG)
-        {
-          long val;
-
-          mframe_get_arg (argFrame, &info, &val);
-          [fa addLong: val];
-        }
-      else if (*info.type == _C_ULNG)
-        {
-          unsigned val;
-          
-          mframe_get_arg (argFrame, &info, &val);
-          [fa addUnsignedLong: val];
-        }
-      else if (*info.type == _C_FLT)
-        {
-          float val;
-          
-          mframe_get_arg (argFrame, &info, &val);
-          [fa addFloat: val];
-        }
-      else if (*info.type == _C_DBL)
-        {
-          double val;
-          
-          mframe_get_arg (argFrame, &info, &val);
-          [fa addDouble: val];
-        }
-      
+      mframe_get_arg (argFrame, &info, &val);
+      [fa addArgument: &val ofObjCType: *type];
     }
-  return 0;
+  fa = [fa createEnd];
+  
+  fc = [[[[FCall createBegin: aZone] setArguments: fa]
+          setMethod: aSel inObject: self] createEnd];
+  [fc performCall];
+  {
+    retval_t ret = [fc getReturnVal];
+    [fc drop];
+    [fa drop];
+    
+    return ret;
+  }
 }
 @end

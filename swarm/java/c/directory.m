@@ -25,7 +25,7 @@ static jobject o_globalZone;
 JNIEnv *jenv;
 
 static void
-create_class_refs (JNIEnv *env)
+create_class_refs (JNIEnv *env, jobject swarmEnvironment)
 {
   jclass find (const char *name)
     {
@@ -40,12 +40,12 @@ create_class_refs (JNIEnv *env)
       if (clazz == NULL)
         abort ();
       if (!(field = (*env)->GetStaticFieldID (env,
-                                                clazz,
-                                                "TYPE",
-                                                "Ljava/lang/Class;")))
-          abort ();
+                                              clazz,
+                                              "TYPE",
+                                              "Ljava/lang/Class;")))
+        abort ();
       if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
-          abort ();  
+        abort ();  
       ret = (*env)->NewGlobalRef (env, ret);
       return ret;
     }
@@ -64,14 +64,14 @@ create_class_refs (JNIEnv *env)
       
       if (c_object == NULL)
         abort ();
-
+      
       c_object = (*env)->NewGlobalRef (env, c_object);
-
+      
       {
         jclass clazz;
         jfieldID field;
 
-        if (!(clazz = (*env)->FindClass (env, "swarm/SwarmEnvironment")))
+        if (!(clazz = (*env)->GetObjectClass (env, swarmEnvironment)))
           abort ();
         if (!(field = (*env)->GetFieldID (env,
                                           clazz,
@@ -79,8 +79,11 @@ create_class_refs (JNIEnv *env)
                                           "Lswarm/GlobalZone;")))
           abort ();
 
-        if (!(o_globalZone = (*env)->GetObjectField (env, clazz, field)))
+        if (!(o_globalZone = (*env)->GetObjectField (env,
+                                                     swarmEnvironment,
+                                                     field)))
           abort ();
+
 	o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
       }
       initFlag = YES;
@@ -285,13 +288,13 @@ int compare_objc_objects (const void *A, const void *B, void *PARAM)
 }
 
 void
-java_directory_init (JNIEnv *env)
+java_directory_init (JNIEnv *env, jobject swarmEnvironment)
 {
   jenv = env;
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
   
-  create_class_refs (env);
+  create_class_refs (env, swarmEnvironment);
   java_directory_update (env, o_globalZone, globalZone);
 }
 

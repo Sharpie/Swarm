@@ -1,5 +1,17 @@
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (create_class_refs): Look in swarmEnvironment
+	object, not class for globalZone instance variable.
+
+	* directory.[hm] (java_directory_init): Add swarmEnvironment arg.
+
+	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): 
+	Accomodate.
+
+	* JavaProxy.m ([JavaProxy -forward::]): Use
+	addArgument:ofObjCType: instead of switch.  Create and perform the
+	FCall.
+
 	* directory.[hm] (java_instantiate_using_from_object,
 	java_instantiate_using_from_class): New functions.
 	(java_instantiate_name): Remove.
