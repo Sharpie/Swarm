@@ -44,10 +44,10 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
             char libPath[strlen (swarmHome) + strlen (libdir) + 1];
             char *p;
             
-            p = stpcpy (libPath, [arguments getSwarmHome]);
+            p = stpcpy (libPath, swarmHome);
             stpcpy (p, libdir);
             
-            basePath = libPath;
+            basePath = strdup (libPath); 
             [globalTkInterp globalEval: "set blt_library %s", libPath];
             retry = 1;
             continue;

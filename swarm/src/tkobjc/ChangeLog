@@ -1,3 +1,9 @@
+1998-03-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* TkExtra.m (ensureBltSupportFiles): Don't call getSwarmHome
+	twice; use the local variable.  Duplicate basePath so that it
+	may be printed later in a diagnostic message.
+
 1998-03-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m: Don't include stdlib.h.
