@@ -1,3 +1,8 @@
+1999-02-17  Alex Lancaster  <alex@santafe.edu>
+
+	* main.m (main): Fixed comment to refer to correct option
+	`--batchmode' and `-b' specifications.
+
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* main.m (main): Bump version to 1.4.1.
