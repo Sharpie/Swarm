@@ -1,3 +1,14 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* Array.h, Array.m, Collection.h, Collection.m, InputStream.h,
+	InputStream.m, List.h, List.m, List_GEN.h, List_GEN.m,
+	List_linked.h, List_linked.m, List_mlinks.h, List_mlinks.m,
+	Makefile.in, Map.h, Map.m, OrderedSet.h, OrderedSet.m,
+	OutputStream.h, OutputStream.m, Permutation.h, Permutation.m,
+	Set.h, Set.m, StringObject.h, StringObject.m, collections.h,
+	collections.m, predicates.h, predicates.m: Change copyright
+	statement to canonical version as suggested by GNU GPL.
+
 2002-03-09  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* Map.m ([Map_c -lispIn:]): Fix integer key handling.  
