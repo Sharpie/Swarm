@@ -777,8 +777,8 @@ tkobjc_raster_setColormap (Raster *raster)
               {
                 while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
                 x_set_private_colormap (display, window, colormap->cmap);
+                private->privateColormapFlag = YES;
               }
-            private->privateColormapFlag = YES;
           }
 #endif
       }
