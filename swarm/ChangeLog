@@ -1,5 +1,7 @@
 1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* VERSION: Bump.
+
 	* NEWS: Note addition of multicolored bars to EZBin, and
 	related changes to Histogram.
 
