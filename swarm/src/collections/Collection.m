@@ -259,9 +259,9 @@ indexAtOffset (Collection_any *self, int offset)
 
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag
 {
+#ifdef HAVE_HDF5
   id aZone = [self getZone];
 
-#ifdef HAVE_HDF5
   if (deepFlag)
     {
       id <Index> li = [self begin: scratchZone];
