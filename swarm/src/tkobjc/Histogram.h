@@ -11,17 +11,17 @@
 @interface Histogram: ArchivedGeometryWidget <Histogram>
 {
   const char **elements;
-  unsigned numBins;  			// should be dynamic
+  unsigned binCount; // should be dynamic
 }
 + createBegin: aZone;
-- setNumBins: (unsigned)n;		// how many bins to use (bars to draw)
+- setBinCount: (unsigned)n; // how many bins to use (bars to draw)
 - createEnd;
 
 - setLabels: (const char * const *)l count: (unsigned)labelCount;
 - setColors: (const char * const *)c count: (unsigned)colorCount;
 
-- drawHistogramWithDouble: (double *) points;	  // data format hack
-- drawHistogramWithInt: (int *) points;
+- drawHistogramWithDouble: (double *)points;	  // data format hack
+- drawHistogramWithInt: (int *)points;
 
 // This is used by EZBin to avoid the usual integer tagging of elements...
 - drawHistogramWithInt: (int *)points atLocations: (double *)locations;

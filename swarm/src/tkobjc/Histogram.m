@@ -20,15 +20,15 @@ PHASE(Creating)
   Histogram *histo;
 
   histo = [super createBegin: aZone];
-  histo->numBins = 0;
+  histo->binCount = 0;
 
   return histo;
 }
 
 // This method can only be called once!
-- setNumBins: (unsigned)n 
+- setBinCount: (unsigned)n 
 {
-  numBins = n;
+  binCount = n;
   elements = [[self getZone] alloc: (sizeof (*elements) * n)];
 
   return self;
@@ -40,7 +40,7 @@ PHASE(Creating)
 
   [super createEnd];
 
-  if (numBins < 1)
+  if (binCount < 1)
     raiseEvent (InvalidCombination, 
                 "Histogram: creation error: number of bins not specified\n");
 
@@ -49,7 +49,7 @@ PHASE(Creating)
   [self setWidth: 400 Height: 247];		  // golden ratio
 
   // configure the elements
-  for (i = 0; i < numBins; i++)
+  for (i = 0; i < binCount; i++)
     {
       char strBuffer[256];
 
@@ -72,12 +72,12 @@ PHASE(Using)
   if (l == NULL)
     return self;	// nothing to be done
 
-  if (numBins < 1)
+  if (binCount < 1)
     raiseEvent (InvalidCombination,
                 "Histogram: cannot set labels -- number of bins not set\n");
 
   if (l)
-    for (i = 0; i < numBins; i++)
+    for (i = 0; i < binCount; i++)
       [globalTkInterp eval: "%s element configure %s -label \"%s\"",
 		      widgetName, elements[i], l[i % labelCount]];
   
@@ -91,12 +91,12 @@ PHASE(Using)
   if (c == NULL)
     return self;	// nothing to be done
 
-  if (numBins < 1)
+  if (binCount < 1)
     raiseEvent (InvalidCombination,
                 "Histogram: cannot set colors -- number of bins not set\n");
 
   if (c)
-    for (i = 0; i < numBins; i++)
+    for (i = 0; i < binCount; i++)
       [globalTkInterp eval: "%s element configure %s -foreground \"%s\"",
                       widgetName, elements[i], c[i % colorCount]];
   
@@ -110,7 +110,7 @@ PHASE(Using)
 {
   unsigned i;
 
-  for (i = 0; i < numBins; i++)
+  for (i = 0; i < binCount; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %f }",
 		    widgetName, elements[i], i, points[i]];
   return self;
@@ -121,7 +121,7 @@ PHASE(Using)
 {
   unsigned i;
 
-  for (i = 0; i < numBins; i++)
+  for (i = 0; i < binCount; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %d }",
 		    widgetName, elements[i], i, points[i]];
   return self;
@@ -131,7 +131,7 @@ PHASE(Using)
 {
   unsigned i;
 
-  for (i = 0; i < numBins; i++)
+  for (i = 0; i < binCount; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %d }",
 		    widgetName, elements[i], locations[i], points[i]];
   return self;
@@ -141,7 +141,7 @@ PHASE(Using)
 {
   unsigned i;
 
-  for (i = 0; i < numBins; i++)
+  for (i = 0; i < binCount; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %g }",
 		    widgetName, elements[i], locations[i], points[i]];
   return self;
@@ -197,7 +197,7 @@ PHASE(Using)
   return self;
 }
 
-- setActiveOutlierText: (int)outliers count: (int)count
+- setActiveOutlierText: (int)outliers count: (unsigned)count
 {
   [globalTkInterp
     eval: 

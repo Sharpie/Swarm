@@ -1,3 +1,10 @@
+1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Histogram.m ([Histogram -setBinCount:]): Replaces -setNumBins:.
+	Adjust throughout for numBins -> binCount.
+
+	* Histogram.h (Histogram): Change numBins to binCount.
+
 1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.h: Include swarmconfig.h and use HAVE_XPM_H and
