@@ -1,5 +1,8 @@
 1998-08-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* comm.tcl (commConnect): Remove extra brackets around
+	non-namespace assignment to port.
+
 	* internal.m (tkobjc_pixmap_save): Add support for writing PNG
 	files (only from a XpmImage so far).
 
@@ -29,10 +32,10 @@
 
 1998-08-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* comm.tcl: Trap errors from lookup of application port, and
-	try non-namespace qualified lookup (shouldn't come up, since 
-	this script is only used on Windows, and we'll always use the
-	latest version of BLT there).
+	* comm.tcl (commConnect): Trap errors from lookup of application
+	port, and try non-namespace qualified lookup (shouldn't come up,
+	since this script is only used on Windows, and we'll always use
+	the latest version of BLT there).
 
 	* Makefile.am (tkobjc.lo): Make this the only thing depending on
 	TCLFILES.
