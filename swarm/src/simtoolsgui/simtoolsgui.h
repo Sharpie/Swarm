@@ -273,7 +273,7 @@ extern const char *buildWindowGeometryRecordName (const char *baseName,
                                                   const char *componentName);
 @end
 
-@protocol GUIComposite <SwarmObject, CompositeWindowGeometryRecordName>
+@protocol GUIComposite <CompositeWindowGeometryRecordName>
 //S: Base class for objects that use several GUI components.
 
 //D: Base class for objects that use several GUI components.

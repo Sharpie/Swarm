@@ -1,7 +1,9 @@
 1999-04-26  Alex Lancaster  <alex@santafe.edu>
 
 	* simtoolsgui.h (GUIComposite): Add compliance to SwarmObject
-	protocol.
+	protocol.  
+	Revert this change, since protocol is abstract, confirmation
+	added to instantiatable protocols.
 
 1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
