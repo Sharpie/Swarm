@@ -1,3 +1,9 @@
+1999-03-31  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* SwarmEnvironment.java: Remove globalZone, uniformIntRand, 
+	uniformDblRand from arguments list in initSwarm method.
+	Type globalZone field as ZoneU instead of GlobalZone.
+
 1999-03-24  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.java: Facilitate uniformDblRand field and directory
