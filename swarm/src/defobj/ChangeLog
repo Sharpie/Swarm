@@ -1,3 +1,10 @@
+2001-04-02  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* HDF5Object.m (hdf5_open_dataset): Add plist argument.  Modify
+	callers to add H5P_DEFAULT.
+	([HDF5_c -createEnd]): Use this for extensible vector dataset, but
+	pass properties for chunked datasets.
+
 2001-04-01  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* internal.m (object_setVariable): Update usage of

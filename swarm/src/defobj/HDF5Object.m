@@ -1032,7 +1032,8 @@ hdf5_open_file (const char *name, unsigned flags)
 }
 
 static hid_t
-hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
+hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid, 
+                   hid_t plist)
 {
   hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
   hid_t loc_id;
@@ -1044,7 +1045,7 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
                            name,
                            tid,
                            sid,
-                           H5P_DEFAULT)) < 0)
+                           plist)) < 0)
     raiseEvent (SaveError, "unable to create (compound) dataset");
   return loc_id;
 }
@@ -1080,7 +1081,8 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
               loc_id = hdf5_open_dataset (parent,
                                           name,
                                           [compoundType getTid],
-                                          c_sid);
+                                          c_sid,
+                                          H5P_DEFAULT);
               {
                 size_t size = c_count * sizeof (const char *);
                 
@@ -1129,11 +1131,11 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
                       if (H5Pset_chunk (plist, 1, chunk_size) < 0)
                         raiseEvent (SaveError, "unable to set chunk sizes");
                       
-                      if ((loc_id = H5Dcreate (parent_loc_id,
-                                               name,
-                                               vector_tid,
-                                               c_sid,
-                                               plist)) < 0)
+                      if ((loc_id = hdf5_open_dataset (parent,
+                                                       name,
+                                                       vector_tid,
+                                                       c_sid,
+                                                       plist)) < 0)
                         raiseEvent (SaveError,
                                     "unable to create (vector) dataset");
                     }
@@ -1747,7 +1749,7 @@ hdf5_store_attribute (hid_t did,
     {
       hid_t did;
       
-      did = hdf5_open_dataset (self, datasetName, tid, sid);
+      did = hdf5_open_dataset (self, datasetName, tid, sid, H5P_DEFAULT);
       
       if (H5Dwrite (did, memtid, H5S_ALL, sid, H5P_DEFAULT, ptr) < 0)
         raiseEvent (SaveError, "unable to write to dataset `%s'",
