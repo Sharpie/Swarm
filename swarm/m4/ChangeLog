@@ -1,6 +1,8 @@
 1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Don't force JAVAC if set.
+	New substituion JAVALIBPREFIX.  Japhar expects to see libraries
+	prefixed like libjaphar_LIBNAME.
 
 1999-05-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
