@@ -1,5 +1,11 @@
 1999-05-19  Alex Lancaster  <alex@santafe.edu>
 
+	* user2.05.sgml: Make tags and PROGRAMLISTINGs consistent.
+
+	* common.dsl (classname): Make Mono type.
+	(function): Make Bold Mono type in print and html backend.
+	(varname):  Make Italic Mono type in print and html backend.
+
 	* user2.05.sgml: Normalize SGML tags.
 
 	* print.dsl (%indent-programlisting-lines%): Set to a space " ".

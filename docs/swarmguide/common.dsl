@@ -13,6 +13,10 @@
   ;; Are sections enumerated?
   #t)
 
+(element classname ($mono-seq$))
+(element function ($bold-mono-seq$))
+(element varname ($italic-mono-seq$))
+
 </style-specification-body>
 </style-specification>
 </style-sheet>
