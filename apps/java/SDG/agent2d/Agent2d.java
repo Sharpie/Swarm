@@ -144,10 +144,10 @@ public class Agent2d extends SwarmImpl {
 
   public void remove () {
     world.putObject$atX$Y (null, x, y);
-    getActivity ().terminate ();
     reaper.at$createActionTo$message (Globals.env.getCurrentTime () + 1,
                                       this,
                                       dropSelector);
+    getActivity ().terminate ();
   }
 }
 
