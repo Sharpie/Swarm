@@ -304,7 +304,20 @@ objc_class_for_class_name (const char *classname)
         }
       strncpy (typename, &(classname[beg]), len);
       typename[len] = 0;
-      return objc_lookup_class (typename);
+      {
+        id ret = objc_lookup_class (typename);
+        
+        // If non-CREATABLE then implementation will be set to Creating
+        // and class will not be a real one, retry by appending "_c"
+        if ([ret isInstance] && [ret getImplementation] == Creating)
+          {
+            char buf[len + 2];
+
+            stpcpy (stpcpy (buf, typename), "_c");
+            ret = objc_lookup_class (buf);
+          }
+        return (Class) ret;
+      }
     }
   return objc_lookup_class (classname);
 }

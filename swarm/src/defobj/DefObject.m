@@ -1121,7 +1121,31 @@ initDescribeStream (void)
 
 - (void)updateArchiver: archiver
 {
-  raiseEvent (SubclassMustImplement, "updateArchiver:");
+#ifdef HAVE_JDK
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (self);
+
+  if (jobj)
+    {
+      id fa = [FArguments createBegin: getCZone (scratchZone)];
+      id fc;
+
+      [fa setLanguage: LanguageJava];
+      
+      [fa addObject: archiver];
+      [fa setObjCReturnType: _C_VOID];
+      fa = [fa createEnd];
+      
+      fc = [FCall createBegin: getCZone (scratchZone)];
+      [fc setArguments: fa];
+      [fc setJavaMethodFromName: "updateArchiver" inObject: jobj];
+      fc = [fc createEnd];
+      [fc performCall];
+      [fc drop];
+      [fa drop];
+    }
+#else
+  raiseEvent (SubclassMustImplement, "updateArchiver");
+#endif
 }
 
 //

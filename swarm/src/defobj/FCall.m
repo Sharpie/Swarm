@@ -368,23 +368,24 @@ PHASE(Creating)
           return self;
         }
     }
-#ifdef HAVE_JDK
   else 
     {
-      jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (obj);
-      
-      if (jObj)
+      SEL sel = sel_get_any_typed_uid (theMethodName);
+
+#ifdef HAVE_JDK
+      if (!sel)
         {
-          [self setJavaMethodFromName: theMethodName inObject: jObj];
-          return self;
+          jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+          
+          if (jObj)
+            {
+              [self setJavaMethodFromName: theMethodName inObject: jObj];
+              return self;
+            }
         }
-    }
 #endif
-  {
-    SEL sel = sel_get_any_typed_uid (theMethodName);
-    
-    [self setMethodFromSelector: sel inObject: obj];
-  }
+      [self setMethodFromSelector: sel inObject: obj];
+    }
   return self;
 }
 

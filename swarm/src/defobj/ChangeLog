@@ -1,3 +1,17 @@
+2001-03-28  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* FCall.m ([FCall_c -setMethodFromName:inObject:]): If there is a 
+	selector, use it before doing Java-specific thing, even if there
+	is Java counterpart.
+
+	* directory.m (objc_class_for_class_name): Try _c suffixed type
+	name for class lookup (when a type is not creatable).
+
+	* DefObject.m ([Object_s -updateArchiver:]): Add Java callout
+	code.  This will be issued by Objective C and the method exists
+	so forwarding won't be sufficient.  In this default method,
+	reissue the call to Java, if appropriate.
+
 2001-03-27  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* FArguments.m, FCall.m, JavaProxy.m, _fcall.m, internal.m:
