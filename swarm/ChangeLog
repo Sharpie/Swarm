@@ -1,3 +1,13 @@
+2001-12-02  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VERSION: Bump.
+
+2001-11-24  Marcus G. Daniels  <mgd@condor>
+
+	* Makefile.am: Make install-recursive depend on install-data-local.
+
+	* VERSION: Bump.
+
 2001-11-15 Marcus G. Daniels  <mgd@condor>
 
 	* VERSION: Bump.

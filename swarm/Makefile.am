@@ -15,3 +15,4 @@ install-data-local:
 	$(INSTALL_PROGRAM) $(top_builddir)/libtool $(bindir)/libtool-swarm
 	if test $(SWARM_INSTALL) = install-sh; then $(INSTALL_PROGRAM) $(srcdir)/install-sh $(bindir); fi
 
+install-recursive: install-data-local
