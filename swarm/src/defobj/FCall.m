@@ -12,7 +12,8 @@ Library:      defobj
 #import "FCall.h"
 #import <defobj.h>
 #import <objc/objc-api.h>
-#include <stdlib.h>
+#include <misc.h>
+#include <ffi.h>
 
 #ifdef HAVE_JDK
 #include <jni.h>
