@@ -224,6 +224,29 @@
         c++-type
       (concat idl-type "*"))))
 
+(defun com-remove-const (type)
+  (with-temp-buffer
+    (let ((start (point)))
+      (insert type)
+      (save-excursion
+        (let ((end (point)))
+          (goto-char start)
+          (when (search-forward "const " end t)
+            (replace-match "")))))
+    (buffer-string)))
+
+(defun com-idl-return-type (protocol phase method)
+  (if (convenience-create-method-p protocol method)
+      (com-interface-name protocol phase)
+    (com-idl-type (method-return-type method))))
+
+(defun com-impl-return-type (protocol phase method)
+  (if (convenience-create-method-p protocol method)
+    (let* ((methodinfo-list (protocol-expanded-methodinfo-list protocol))
+           (methodinfo (find method methodinfo-list :key #'methodinfo-method)))
+      (concat (com-interface-name (methodinfo-protocol methodinfo) phase) "*"))
+    (com-remove-const (com-impl-type (method-return-type method)))))
+
 (defun com-impl-argument-name (name)
   (concat "_" name))
 
@@ -237,11 +260,11 @@
   (when (stringp type)
     (string-match (concat "^" *com-interface-prefix*) type)))
 
-(defun com-idl-print-method-declaration (method)
+(defun com-idl-print-method-declaration (protocol phase method)
   (let* ((arguments (method-arguments method))
          (first-argument (car arguments)))
     (insert "  ")
-    (insert (com-idl-type (method-return-type method)))
+    (insert (com-idl-return-type protocol phase method))
     (insert " ")
     (insert (com-idl-method-name arguments))
     (insert " (")
@@ -252,9 +275,9 @@
           (com-idl-print-argument argument))
     (insert ");\n")))
 
-(defun com-idl-print-getter-as-attribute (method)
+(defun com-idl-print-getter-as-attribute (protocol phase method)
   (insert "  readonly attribute ")
-  (insert (com-idl-type (method-return-type method)))
+  (insert (com-idl-return-type protocol phase method))
   (insert " ")
   (insert (get-variable-name-for-getter-method method))
   (insert ";\n"))
@@ -274,7 +297,7 @@
           (insert ";\n"))
     (insert "\n")
     (when (inclusive-phase-p phase :using)
-      (let ((cht (create-type-hash-table-for-convenience-create-methods protocol)))
+      (let ((cht (create-type-hash-table-for-immediate-convenience-create-methods protocol)))
         (loop for objc-type being each hash-key of cht
               unless (gethash objc-type ht)
               do
@@ -292,7 +315,7 @@
 (defun com-idl-print-attributes (protocol)
   (loop for method in (method-list-for-phase protocol :getters)
         do
-        (com-idl-print-getter-as-attribute method)))
+        (com-idl-print-getter-as-attribute protocol :getters method)))
 
 (defun com-idl-print-methods-in-phase (protocol phase)
   (loop for method in (method-list-for-phase protocol phase)
@@ -300,13 +323,13 @@
         when (and (not (eq (method-phase method) :getters))
                   (creating-phase-method-p method))
 	do
-        (com-idl-print-method-declaration method)))
+        (com-idl-print-method-declaration protocol phase method)))
 
 (defun com-idl-print-create-methods (protocol)
   (loop for method in (method-list-for-phase protocol :creating)
         when (convenience-create-method-p protocol method)
 	do
-        (com-idl-print-method-declaration method)))
+        (com-idl-print-method-declaration protocol :using method)))
 
 (defun com-start-idl (protocol phase)
   (let* ((interface-name (com-interface-name protocol phase))
@@ -503,15 +526,7 @@
         (t "id")))
 
 (defun com-simplify-return-type (ret-type)
-  (with-temp-buffer
-    (let ((start (point)))
-      (insert (com-simplify-type ret-type))
-      (save-excursion
-        (let ((end (point)))
-          (goto-char start)
-          (when (search-forward "const " end t)
-            (replace-match "")))))
-    (buffer-string)))
+    (com-remove-const (com-simplify-type ret-type)))
 
 (defun com-impl-print-get-imp-pointer (method)
   (insert "  ")
@@ -558,7 +573,7 @@
                 (t (insert name)))))
   (insert ")"))
 
-(defun com-impl-print-call-imp-pointer (method)
+(defun com-impl-print-call-imp-pointer (protocol phase method)
   (let ((ret-type (com-simplify-return-type (method-return-type method))))
     (insert "  ")
     (if (method-factory-flag method)
@@ -568,14 +583,14 @@
           (insert "*ret = "))
         (cond ((string= ret-type "id")
                (insert "(")
-               (insert (com-impl-type (method-return-type method)))
+               (insert (com-impl-return-type protocol phase method))
                (insert ") ")
                (insert "SD_COM_ENSURE_OBJECT_COM (")
                (com-impl-print-call-imp-pointer-body method)
                (insert ")"))
               ((string= ret-type "Class")
                (insert "(")
-               (insert (com-impl-type (method-return-type method)))
+               (insert (com-impl-return-type protocol phase method))
                (insert ") ")
                (insert "SD_COM_FIND_CLASS_COM (")
                (com-impl-print-call-imp-pointer-body method)
@@ -595,12 +610,12 @@
     (insert "::")
     (insert (com-c++-method-name arguments))
     (insert " (")
-    (let ((ret (com-impl-type (method-return-type method))))
+    (let ((ret (com-impl-return-type protocol phase method)))
       (flet ((print-return-argument (preceding-arguments-flag)
                                     (unless (string= ret "void")
                                       (when preceding-arguments-flag
                                         (insert ", "))
-                                      (insert (com-simplify-return-type ret))
+                                      (insert ret)
                                       (insert "* ret"))))
         (if (com-impl-print-argument first-argument)
             (progn
@@ -623,7 +638,7 @@
     (insert (substring (get-method-signature method) 1))
     (insert "\");\n")
     (com-impl-print-get-imp-pointer method)
-    (com-impl-print-call-imp-pointer method)
+    (com-impl-print-call-imp-pointer protocol phase method)
     ;(when ht (com-impl-print-objc-method-declaration ht method))
     (insert "  return rv;\n")
     (insert "}\n")
