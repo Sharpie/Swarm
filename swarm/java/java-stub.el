@@ -380,7 +380,7 @@
     (java-print-deprecated-doc method))
   (insert "\n */\n"))
 
-(defun java-print-javadoc-protocol (protocol)
+(defun java-print-javadoc-protocol (protocol &optional is-class)
   (insert "\n/**\n * ")
   (insert "<strong>")
   (insert (protocol-summary protocol))
@@ -390,6 +390,8 @@
         (insert text))
   (if (deprecated-p protocol)
       (java-print-deprecated-doc protocol))
+  (if (and is-class (returnable-p protocol))
+      (insert "\n * @hide"))
   (insert "\n */\n"))
 
 (defun freaky-message (objc-type)
@@ -725,7 +727,7 @@
 (defun inheritance-cases (pname))
 
 (defun java-print-class-phase (protocol phase)
-  (java-print-javadoc-protocol protocol)
+  (java-print-javadoc-protocol protocol t)
   (insert "public ")
   (unless (real-class-p protocol)
     (insert "abstract "))

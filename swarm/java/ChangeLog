@@ -1,3 +1,11 @@
+1999-09-08  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (java-print-javadoc-protocol): Add optional
+	is-class flag.  When both a class and returnable (i.e. not
+	directly creatable by a user), generate a `@hide' Javadoc
+	directive.
+	(java-print-class-phase): Set the optional is-class to `t'.
+
 1999-09-07  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (*removed-protocols*): Remove GUIComposite from
