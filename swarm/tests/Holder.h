@@ -12,9 +12,9 @@ Test suite:   activity
    ConcurrentGroup, Schedule etc.).
 */
 
-+ createBegin: (id) aZone numberOfObjects: (int) num;
-- addObject: (id) obj;
++ createBegin: aZone numberOfObjects: (int)num;
+- addObject: obj;
 - createEnd;
-- getObjectAt: (int) offset;
+- getObjectAt: (int)offset;
 
 

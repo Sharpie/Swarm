@@ -20,6 +20,6 @@ extern int ok;
 }
 
 - schedulePrintOkOnFirstSchedule;
-- printTime;
+- empty;
 - printOk;
 @end

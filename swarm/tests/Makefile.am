@@ -1,9 +1,6 @@
 include ../../../etc/Makefile.tests.in
 
-SCRIPTING_TOOL = $(PERL_PATH)/perl
-SCRIPT_EXTENSION = pl
-
-bin_PROGRAMS = ForEachRandomized ForEach ActionGroupRandomized ActionGroup ConcurrentGroupRandomized ConcurrentGroup Schedule DynamicSchedule DynamicScheduleRepeat
+noinst_PROGRAMS = ForEachRandomized ForEach ActionGroupRandomized ActionGroup ConcurrentGroupRandomized ConcurrentGroup Schedule DynamicSchedule DynamicScheduleRepeat
 
 Responder_SOURCES = Responder.m Responder.h
 ActionGroup_test_SOURCES = ActionGroup_test.m ActionGroup_test.h
@@ -18,7 +15,7 @@ Schedule_SOURCES = Schedule.m $(Responder_SOURCES)
 DynamicSchedule_SOURCES = DynamicSchedule.m DSSwarm.m DSSwarm.h 
 DynamicScheduleRepeat_SOURCES = DynamicScheduleRepeat.m DSRSwarm.m DSRSwarm.h 
 
-TESTS = $(bin_PROGRAMS)
+TESTS = $(noinst_PROGRAMS)
 
 
 

@@ -9,18 +9,18 @@ Test suite:   activity
 #import <activity/Schedule.h>
 #import <defobj/defalloc.h>
 
-int stimes[10] = { 0,0,0,0,0,
-		   0,0,0,0,0 };
+int stimes[10] = { 0, 0, 0, 0, 0,
+		   0, 0, 0, 0, 0 };
 int timer = 0;
 
 @implementation DSRSwarm
 - buildActions
 {
-  firstSchedule = [Schedule createBegin: getZone(self)];
+  firstSchedule = [Schedule createBegin: getZone (self)];
   [firstSchedule setRepeatInterval: 10];
   firstSchedule = [firstSchedule createEnd];
   
-  secondSchedule = [Schedule createBegin: getZone(self)];
+  secondSchedule = [Schedule createBegin: getZone (self)];
   secondSchedule = [secondSchedule createEnd];
   
   [firstSchedule at: 3 createActionTo: self message: M(empty)];
@@ -43,14 +43,14 @@ int timer = 0;
 
 - schedulePrintOkOnFirstScheduleAfterCurrentTime
 {
-  [firstSchedule at: (timeval_t) getCurrentTime() + 1 createActionTo: self 
+  [firstSchedule at: (timeval_t) getCurrentTime () + 1 createActionTo: self 
 		 message: M(printOk)];
   return self;
 }
 
 - schedulePrintOkOnFirstScheduleBeforeCurrentTime
 {
-  [firstSchedule at: (timeval_t) getCurrentTime() - 1 createActionTo: self 
+  [firstSchedule at: (timeval_t) getCurrentTime () - 1 createActionTo: self 
 		 message: M(printOk)];
   return self;
 }
@@ -61,15 +61,15 @@ int timer = 0;
 
 - printOk
 {
-  printf("%d: Ok!\n", (int) getCurrentTime());
-  fflush(stdout);
-  stimes[timer++] = (int) getCurrentTime();
+  printf ("%d: Ok!\n", (int) getCurrentTime ());
+  fflush (stdout);
+  stimes[timer++] = (int) getCurrentTime ();
   return self;
 }
 
 - stopRunning
 {
-  [getTopLevelActivity() terminate];
+  [getTopLevelActivity () terminate];
   return self;
 }
 

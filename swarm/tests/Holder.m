@@ -14,19 +14,19 @@ Library:      activity
 
 #ifdef CLASS_NAME
 
-+ createBegin: (id) aZone numberOfObjects: (int) num
++ createBegin: aZone numberOfObjects: (int)num
 {
   CLASS_NAME *obj = [aZone allocIVars: self];
   obj->numberOfObjects = num;
-  obj->objects = [aZone alloc: num * sizeof(id)];
+  obj->objects = [aZone alloc: num * sizeof (id)];
   obj->counter = 0;
   return obj;
 }
 
-- addObject: (id) obj
+- addObject: obj
 {
   if (counter < numberOfObjects)
-    *(objects+counter++)=obj;
+    *(objects + counter++) = obj;
   return self;
 }
 
@@ -35,10 +35,10 @@ Library:      activity
   return self;
 }
 
-- getObjectAt: (int) offset
+- getObjectAt: (int)offset
 {
   if (offset < counter)
-    return *(objects+offset);
+    return *(objects + offset);
   else
     return NULL;
 }

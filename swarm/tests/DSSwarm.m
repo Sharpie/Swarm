@@ -9,23 +9,23 @@ Test suite:   activity
 #import <activity/Schedule.h>
 #import <defobj/defalloc.h>
 
-int ok=0;
+int ok = 0;
 
 @implementation DSSwarm
 
 - buildActions
 {
-  firstSchedule = [Schedule createBegin: getZone(self)];
+  firstSchedule = [Schedule createBegin: getZone (self)];
   [firstSchedule setAutoDrop: 1];
   firstSchedule = [firstSchedule createEnd];
   
-  secondSchedule = [Schedule createBegin: getZone(self)];
+  secondSchedule = [Schedule createBegin: getZone (self)];
   [secondSchedule setAutoDrop: 1];
   secondSchedule = [secondSchedule createEnd];
   
   [firstSchedule at: 10 createActionTo: self message: M(empty)];
-  [secondSchedule at: 0 createActionTo: self message: 
-		    M(schedulePrintOkOnFirstSchedule)];  
+  [secondSchedule at: 0 createActionTo: self 
+		  message: M(schedulePrintOkOnFirstSchedule)];  
   return self;
 }
 
@@ -51,9 +51,9 @@ int ok=0;
 
 - printOk
 {
-  printf("Ok!\n");
+  printf ("Ok!\n");
   ok = 1;
-  fflush(stdout);
+  fflush (stdout);
   return self;
 }
 

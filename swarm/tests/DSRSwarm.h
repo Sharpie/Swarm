@@ -16,7 +16,6 @@ extern int stimes[10];
   id secondSchedule;
 }
 
-- printTime;
 - printOk;
 - stopRunning;
 - schedulePrintOkOnFirstScheduleAfterCurrentTime;

@@ -37,12 +37,13 @@ int rtimes[10];
 
 int morder,idorder, timer;
 
-void init_tables(void)
+void 
+init_tables (void)
 {
   int i;
-  for (i=0;i<10;i++)
+  for (i = 0; i < 10; i++)
     {
-      messages[i]=0;
+      messages[i] = 0;
       ids[i] = 0;
       rtimes[i] = 0;
     }
@@ -53,73 +54,74 @@ void init_tables(void)
 
 @implementation Responder
 
-+ create: aZone withId: (int) id
++ create: aZone withId: (int)id
 {
   Responder *resp = [aZone allocIVars: self];
   resp->Id = id;
   return resp; 
 }
 
-- setId: (int) id
+- setId: (int)id
 {
   Id = id;
   return self;
 }
 
-- (int) getId
+- (int)getId
 {
   return Id;
 }
 
 - m1 
 {
-  printf("m1\n");
-  fflush(stdout);
+  printf ("m1\n");
+  fflush (stdout);
   messages[0] = morder++;
   return self;
 }
+
 - m2 
 {
-  printf("m2\n");
-  fflush(stdout);
+  printf ("m2\n");
+  fflush (stdout);
   messages[1] = morder++;
   return self;
 }
 - m3
 {
-  printf("m3\n");
-  fflush(stdout);
+  printf ("m3\n");
+  fflush (stdout);
   messages[2] = morder++;
     return self;
 }
 - m4 
 {
-  printf("m4\n");
-  fflush(stdout);
+  printf ("m4\n");
+  fflush (stdout);
   messages[3] = morder++;
   return self;
 }
 - m5 
 {
-  printf("m5\n");
-  fflush(stdout);
+  printf ("m5\n");
+  fflush (stdout);
   messages[4] = morder++;
   return self;
 }
 
 - mId 
 {
-  printf("%d\n", Id);
-  fflush(stdout);
+  printf ("%d\n", Id);
+  fflush (stdout);
   ids[Id - 1] = idorder++;
   return self;
 }
 
--mTimeId
+- mTimeId
 {
-  printf("%d: %d\n", (int)getCurrentTime(), Id);
+  printf ("%d: %d\n", (int) getCurrentTime (), Id);
   ids[timer] = Id;
-  rtimes[timer++] = getCurrentTime();
+  rtimes[timer++] = getCurrentTime ();
   return self;
 }
 

@@ -20,8 +20,8 @@ Test suite:   activity
 
 #include "Holder.h"
 
-- (void) describe: (id) outputCharStream;
-- (void) describeForEach: outputCharStream;
+- (void)describe: outputCharStream;
+- (void)describeForEach: outputCharStream;
 
 @end
 

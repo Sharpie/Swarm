@@ -12,11 +12,12 @@ Test suite:   activity
 #import <simtools.h>
 #import "DSSwarm.h"
 
-int main(int argc, const char ** argv) 
+int 
+main (int argc, const char ** argv) 
 {
   id theSwarm;
 
-  initSwarm(argc, argv);
+  initSwarm (argc, argv);
   theSwarm = [DSSwarm create: globalZone];
   [theSwarm buildActions];
   [theSwarm activateIn: nil];
@@ -24,7 +25,7 @@ int main(int argc, const char ** argv)
   
   if (!ok)
     {
-      fprintf(stderr, "Error in Schedule, dynamic update failed, action added after the current time, but before first pending action in the Schedule not performed!\n");
+      fprintf (stderr, "Error in Schedule, dynamic update failed, action added after the current time, but before first pending action in the Schedule not performed!\n");
       return 1;
     }
   return 0;

@@ -10,16 +10,16 @@ Test suite:     activity
 extern int messages[10];
 extern int ids[10];
 extern int rtimes[10];
-extern void init_tables(void);
+extern void init_tables (void);
 
 @interface Responder: SwarmObject
 {
   int Id;
 }
 
-+ create: aZone withId: (int) id;
-- setId: (int) id;
-- (int) getId;
++ create: aZone withId: (int)id;
+- setId: (int)id;
+- (int)getId;
 - m1;
 - m2;
 - m3;
