@@ -39,7 +39,7 @@ libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLA
 
 OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
 
-swarm.dll: dllinit.c
+swarm.dll: dllinit.c $(OBJS)
 	$(CC) -c $(srcdir)/dllinit.c
 	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
 

@@ -2,6 +2,7 @@
 
 	* Makefile.am, dllinit.c: Remove constructor stuff.
 	(OBJS): Use .lo files. 
+	(swarm.dll): Add $(OBJS) as a dependency.
 
 	* Makefile.rules (CPPFLAGS): Define BUILDING_SWARM.  The DLL
 	import/export specifics will be set in externvar.h.
