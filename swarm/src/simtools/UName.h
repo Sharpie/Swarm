@@ -27,4 +27,3 @@
 
 @end
 
-extern id <Error> UNameError;
