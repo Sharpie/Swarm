@@ -23,6 +23,7 @@ headers: SwarmEnvironment_getters.m
  include $(top_builddir)/etc/Makefile.common
 
 override CPPFLAGS += -DBUILDING_SWARM
+override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 CURRENT = 0
 REVISION = 0
