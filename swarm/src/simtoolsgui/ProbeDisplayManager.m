@@ -25,12 +25,14 @@
 {
   probeList = [List create: [self getZone]];
   dropImmediatelyFlag = YES;
+
   return self;
 }
 
 - addProbeDisplay: pd
 {
   [probeList addLast: pd];
+
   return self;
 }
 
@@ -100,8 +102,8 @@
   return [key getC];
 }
 
-- _createDefaultProbeDisplayFor_     : anObject 
-          setWindowGeometryRecordName: (const char *)windowGeometryRecordName
+- (id <ProbeDisplay>)_createDefaultProbeDisplayFor_     : anObject 
+                             setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   id tempPD, tempPM;
   
@@ -124,8 +126,8 @@
   //	   createEnd];
 }
 
-- _createProbeDisplayFor_      : anObject
-    setWindowGeometryRecordName: (const char *)windowGeometryRecordName
+- (id <ProbeDisplay>)_createProbeDisplayFor_      : anObject
+                       setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   //  if ([anObject respondsTo: @selector(getProbeMap)]) {
   if (([anObject respondsTo: @selector(getProbeMap)]) &&
@@ -140,32 +142,49 @@
                  setWindowGeometryRecordName: windowGeometryRecordName];
 }
   
-- createArchivedProbeDisplayFor: anObject
-                   variableName: (const char *)variableName
+- (id <ProbeDisplay>)createArchivedProbeDisplayFor: anObject
+                                      variableName: (const char *)variableName
 {
   return [self _createProbeDisplayFor_: anObject
                setWindowGeometryRecordName:
                  [self _computeProbeDisplayKeyFor_: variableName]];
 }
 
-- createProbeDisplayFor: anObject
+- (id <ProbeDisplay>)createProbeDisplayFor: anObject
 {
   return [self _createProbeDisplayFor_: anObject
                setWindowGeometryRecordName: NULL];
 }
 
-- createDefaultProbeDisplayFor: anObject 
+- (id <ProbeDisplay>)createDefaultProbeDisplayFor: anObject 
 {
   return [self _createDefaultProbeDisplayFor_: anObject
                setWindowGeometryRecordName: NULL];
 }
 
-- createArchivedDefaultProbeDisplayFor: anObject 
-                          variableName: (const char *)variableName
+- (id <ProbeDisplay>)createArchivedDefaultProbeDisplayFor: anObject 
+                                             variableName: (const char *)variableName
 {
   return [self _createDefaultProbeDisplayFor_: anObject
                setWindowGeometryRecordName: 
                  [self _computeProbeDisplayKeyFor_: variableName]];
+}
+
+- (id <CompleteProbeDisplay>)createArchivedCompleteProbeDisplayFor: anObject
+                                                      variableName: (const char *)variableName
+{
+  return [[[[ProbeDisplay createBegin: [self getZone]]
+             setProbedObject: anObject]
+            setWindowGeometryRecordName: 
+              [self _computeProbeDisplayKeyFor_: variableName]]
+           createEnd];
+}
+
+- (id <CompleteProbeDisplay>)createCompleteProbeDisplayFor: anObject
+{
+  return [[[ProbeDisplay createBegin: [self getZone]]
+            setProbedObject: anObject]
+           createEnd];
 }
 
 - (void)setDropImmediatelyFlag: (BOOL)theDropImmediatelyFlag
@@ -178,25 +197,4 @@
   return dropImmediatelyFlag;
 }
 
-
-- createArchivedCompleteProbeDisplayFor: anObject
-                           variableName: (const char *)variableName
-{
-  return [[[[ProbeDisplay createBegin: [self getZone]]
-             setProbedObject: anObject]
-            setWindowGeometryRecordName: 
-              [self _computeProbeDisplayKeyFor_: variableName]]
-           createEnd];
-}
-
-- createCompleteProbeDisplayFor: anObject
-{
-  return [[[ProbeDisplay createBegin: [self getZone]]
-            setProbedObject: anObject]
-           createEnd];
-}
-
 @end
-
-
-

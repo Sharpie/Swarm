@@ -35,14 +35,16 @@ buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
     return NULL;
 }
 
-void _createProbeDisplay (id obj)
+id <ProbeDisplay>
+_createProbeDisplay (id obj)
 {
-  [probeDisplayManager createProbeDisplayFor: obj];
+  return [probeDisplayManager createProbeDisplayFor: obj];
 }
 
-void _createCompleteProbeDisplay (id obj)
+id <ProbeDisplay>
+_createCompleteProbeDisplay (id obj)
 {
-  [probeDisplayManager createCompleteProbeDisplayFor: obj];
+  return [probeDisplayManager createCompleteProbeDisplayFor: obj];
 }
 
 static const char *
@@ -51,14 +53,16 @@ getKeyForName (id obj, const char *name)
   return strcmp (name, "self") == 0 ? [obj name] : name;
 }
 
-void createArchivedProbeDisplayNamed (id obj, const char *name)
+id <ProbeDisplay>
+createArchivedProbeDisplayNamed (id obj, const char *name)
 {
-  [probeDisplayManager createArchivedProbeDisplayFor: obj
-                       variableName: getKeyForName (obj, name)];
+  return [probeDisplayManager createArchivedProbeDisplayFor: obj
+                              variableName: getKeyForName (obj, name)];
 }
 
-void createArchivedCompleteProbeDisplayNamed (id obj, const char *name)
+id <ProbeDisplay>
+createArchivedCompleteProbeDisplayNamed (id obj, const char *name)
 {
-  [probeDisplayManager createArchivedCompleteProbeDisplayFor: obj
+  return [probeDisplayManager createArchivedCompleteProbeDisplayFor: obj
                        variableName: getKeyForName (obj, name)];
 }

@@ -167,11 +167,11 @@ USING
 //D: the target object's class and its superclasses are included)...
 @end
 
-void _createProbeDisplay (id obj);
-void _createCompleteProbeDisplay (id obj);
+id <ProbeDisplay> _createProbeDisplay (id obj);
+id <CompleteProbeDisplay> _createCompleteProbeDisplay (id obj);
 
-void createArchivedProbeDisplayNamed (id obj, const char *name);
-void createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
+id <ProbeDisplay> createArchivedProbeDisplayNamed (id obj, const char *name);
+id <CompleteProbeDisplay> createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
 
 #define CREATE_PROBE_DISPLAY(anObject) \
   _createProbeDisplay(anObject)
@@ -192,13 +192,18 @@ void createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
 //D: ProbeDisplays created by the user during a GUI run of the 
 //D: simulation.
 USING
-- createProbeDisplayFor: anObject;
+- (id <ProbeDisplay>)createProbeDisplayFor: anObject;
 
-- createArchivedProbeDisplayFor: anObject variableName: (const char *)variableName;
+- (id <ProbeDisplay>)createArchivedProbeDisplayFor: anObject variableName: (const char *)variableName;
 
-- createCompleteProbeDisplayFor: anObject;
+- (id <ProbeDisplay>)createDefaultProbeDisplayFor: anObject;
 
-- createArchivedCompleteProbeDisplayFor: anObject variableName: (const char *)variableName;
+- (id <ProbeDisplay>)createArchivedDefaultProbeDisplayFor: anObject 
+                                             variableName: (const char *)variableName;
+
+- (id <CompleteProbeDisplay>)createCompleteProbeDisplayFor: anObject;
+
+- (id <CompleteProbeDisplay>)createArchivedCompleteProbeDisplayFor: anObject variableName: (const char *)variableName;
 
 //M: Add a probe display to be managed by the ProbeDisplayManager.
 - addProbeDisplay: probeDisplay;

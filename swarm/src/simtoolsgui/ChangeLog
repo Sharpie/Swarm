@@ -1,3 +1,38 @@
+1998-05-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ProbeDisplayManager.m ([ProbeDisplayManager
+	-_createDefaultProbeDisplayFor_:setWindowGeometryRecordName:],
+	[ProbeDisplayManager
+	-_createProbeDisplayFor_:setWindowGeometryRecordName:],
+	[ProbeDisplayManager
+	-createArchivedProbeDisplayFor:variableName:],
+	[ProbeDisplayManager -createProbeDisplayFor:],
+	[ProbeDisplayManager -createDefaultProbeDisplayFor:],
+	[ProbeDisplayManager
+	-createArchivedDefaultProbeDisplayFor:variableName:]): Return an
+	object conforming to the ProbeDisplay protocol.
+	([ProbeDisplayManager
+	-createArchivedCompleteProbeDisplayFor:variableName:],
+	[ProbeDisplayManager -createCompleteProbeDisplayFor:]): Return an
+	object conforming to the CompleteProbeDisplay protocol.
+
+	* simtoolsgui.h (_createProbeDisplay,
+	createArchivedProbeDisplayNamed): Return id conforming to
+	ProbeDisplay protocol.
+	(_createCompleteProbeDisplay,
+	createArchivedCompleteProbeDisplayNamed): Return an object
+	conforming to CompleteProbeDisplay protocol.
+	(-createProbeDisplayFor:,
+	-createArchivedProbeDisplayFor:variableName:): Return an object
+	conforming to ProbeDisplay protocol.
+	(-createCompleteProbeDisplayFor:,
+	-createArchivedCompleteProbeDisplayFor:variableName:): Return an
+	object conforming to the CompleteProbeDisplay protocol.
+	(-createDefaultProbeDisplayFor:,
+	-createArchivedDefaultProbeDisplayFor:variableName:):
+	Declare.  Return an object conforming to the CompleteProbeDisplay
+	protocol.
+	
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* simtoolsgui.h (WindowGeometryRecordName,
