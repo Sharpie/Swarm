@@ -27,5 +27,3 @@
 - (int)skipLine;
 
 @end
-
-extern id <Warning> CannotOpenInFile;

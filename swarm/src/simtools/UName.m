@@ -9,8 +9,6 @@
 #include <swarmconfig.h>
 #include <misc.h>
 
-id <Error> UNameError;
-
 @implementation UName
 
 + create: aZone setBaseName: (const char *)aString
@@ -63,9 +61,8 @@ id <Error> UNameError;
 - createEnd
 {
   if (!baseString)
-    [UNameError
-      raiseEvent:
-        "No Base Name was given when creating a UName object...\n"];
+    raiseEvent (InvalidArgument,
+                "No Base Name was given when creating a UName object...\n");
   
   [super createEnd];
   [self resetCounter];

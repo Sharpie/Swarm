@@ -27,5 +27,3 @@
 - putNewLine;
 
 @end
-
-extern id <Warning> CannotOpenOutFile; 

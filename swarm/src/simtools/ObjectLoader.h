@@ -25,5 +25,3 @@
 - (void)_crash_: anObject;
 
 @end
-
-id <Error> CouldNotInitializeObjectLoader;

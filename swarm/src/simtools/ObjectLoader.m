@@ -5,6 +5,7 @@
 
 #import <simtools/ObjectLoader.h>
 #import <simtools/InFile.h>
+#import <defobj.h>
 #import <objectbase.h> // probeLibrary, arguments
 
 #include <misc.h> // stpcpy
@@ -75,16 +76,16 @@
 
 + (void)_crash_: anObject
 {
-  [CouldNotInitializeObjectLoader
-    raiseEvent: "Could not initialize class loader for %s (factory)\n",
-    [anObject name]];
+  raiseEvent (LoadError, 
+              "Could not initialize class loader for %s (factory)\n",
+              [anObject name]);
 }
 
 - (void)_crash_: anObject
 {
-  [CouldNotInitializeObjectLoader
-    raiseEvent: "Could not initialize class loader for %s (instance)\n",
-    [anObject name]];
+  raiseEvent (LoadError,
+              "Could not initialize class loader for %s (instance)\n",
+              [anObject name]);
 }
 
 - setFileObject: aFileObject

@@ -6,6 +6,7 @@
 #import <simtools.h>
 #import <simtools/NSelect.h>
 #import <collections.h> // getCount, addLast
+#import <defobj.h> // InvalidArgument
 #import <random.h>
 
 @implementation NSelect
@@ -27,13 +28,9 @@
 
   if (N < n)
     {
-      id <Error> NSelectTooMany;
-
-      deferror (NSelectTooMany, NULL);
-
-      [NSelectTooMany
-        raiseEvent: 
-          "NSelect: attempted to select %d elements from a collection containing only %d elements.\n", n, N];
+      raiseEvent (InvalidArgument,
+                  "NSelect: attempted to select %d elements from a collection containing only %d elements.\n",
+                  n, N);
     }
   
   a = [aCollection begin: scratchZone];

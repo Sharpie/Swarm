@@ -14,12 +14,7 @@
   FILE *aFile = fopen (theName, "a");	// opens in "a" - append mode
 
   if (aFile == NULL)
-    {
-      [CannotOpenOutFile raiseEvent:
-                           "Unable to open %s as an AppendFile object!\n",
-                         theName];	
-      return nil;
-    }
+    return nil;
   
   return [[self create: aZone] _setFile_: aFile];
 }

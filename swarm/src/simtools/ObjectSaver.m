@@ -5,8 +5,7 @@
 
 #import <simtools/ObjectSaver.h>
 #import <simtools/OutFile.h>
-
-id <Error> CouldNotSave;
+#import <defobj.h> // SaveError
 
 @implementation ObjectSaver
 
@@ -82,16 +81,16 @@ id <Error> CouldNotSave;
 
 + (void)_crash_: anObject
 {
-  [CouldNotSave raiseEvent:
-                  "Could not save %s properly (factory)\n",
-                [anObject name]];
+  raiseEvent (SaveError, 
+              "Could not save %s properly (factory)\n",
+                [anObject name]);
 }
 
 - (void)_crash_: anObject
 {
-  [CouldNotSave raiseEvent:
-                  "Could not save %s properly (instance)\n",
-                [anObject name]];
+  raiseEvent (SaveError,
+              "Could not save %s properly (instance)\n",
+              [anObject name]);
 }
 
 - setFileObject: aFileObject

@@ -13,12 +13,6 @@
 
 #import <random.h>
 
-#import "InFile.h" // CannotOpenInFile
-#import "ObjectLoader.h" // CouldNotInitializeObjectLoader
-#import "ObjectSaver.h" // CouldNotSave
-#import "OutFile.h" // CannotOpenOutFile
-#import "UName.h" // NoBaseNameForUName
-
 BOOL swarmGUIMode;
 
 static void
@@ -43,12 +37,6 @@ init (int argc, const char **argv,
 
   if (swarmGUIMode)
     initSimtoolsGUI ();
-  
-  defwarning (CannotOpenOutFile, NULL);
-  defwarning (CannotOpenInFile, NULL);
-  deferror (UNameError, NULL);
-  deferror (CouldNotInitializeObjectLoader, NULL);
-  deferror (CouldNotSave, NULL);
 }
 
 void

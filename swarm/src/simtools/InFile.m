@@ -8,8 +8,6 @@
 
 #include <misc.h> // fopen, fgetc, fscanf, fclose, ungetc
 
-id <Warning> CannotOpenInFile;
-
 @implementation InFile
 
 + create: aZone withName: (const char *)theName
@@ -18,12 +16,7 @@ id <Warning> CannotOpenInFile;
 
   aFile = fopen (theName,"r");
   if (aFile == NULL)
-    {
-      [CannotOpenInFile raiseEvent: 
-                          "Unable to open %s as an InFile object!\n",
-                        theName];
-      return nil;
-    }
+    return nil;
   
   return [[self create: aZone] _setFile_: aFile];
 }

@@ -25,4 +25,3 @@
 
 @end
 
-extern id <Error> CouldNotSave;

@@ -6,8 +6,6 @@
 #import <simtools/OutFile.h>
 #include <misc.h> // fopen, fprintf, fclose
 
-id <Warning> CannotOpenOutFile;
-
 @implementation OutFile
 
 + create: aZone withName: (const char *)theName
@@ -15,12 +13,7 @@ id <Warning> CannotOpenOutFile;
   FILE *aFile = fopen (theName, "w");
 
   if (aFile == NULL)
-    {
-      [CannotOpenOutFile
-        raiseEvent: "Unable to open %s as an OutFile object!\n",
-        theName];
-      return nil;
-    }
+    return nil;
   
   return [[self create: aZone] _setFile_: aFile];
 }

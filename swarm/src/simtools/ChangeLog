@@ -1,3 +1,31 @@
+1999-01-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* simtools.m (init): Don't setup any error or warning types.
+
+	* UName.m ([UName -createEnd]): Use InvalidArgument instead of
+	UNameError.
+	
+	* UName.[hm]: Remove UNameError.
+
+	* NSelect.m ([NSelect +select:from:into:]): Use InvalidArgument
+	instead of creating NSelectTooMany.
+
+	* NSelect.[hm]: Remove NSelectTooMany.
+
+	* AppendFile.m ([AppendFile +create:withName:]): Don't
+	raise an event if file fails to open, just return nil.
+
+	* OutFile.m, InFile.m: Likewise.
+
+	* InFile.[hm]: Remove CannotOpenInFile.
+
+	* OutFile.[hm]: Remove CouldOpenOut
+
+	* ObjectLoader.[hm]: Remove CouldNotInitializeObjectLoader.
+
+	* ObjectLoader.m ([ObjectLoader +_crash_:]): Use LoadError
+	from defobj.  
+
 1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* ObjectLoader.m, ObjectSaver.m: Don't include stdio.h.
