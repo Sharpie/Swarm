@@ -37,16 +37,15 @@ Library:      collections
 //D: particular collection type.
 
 //D: atOffset: and atOffset:put: raise the error OffsetOutOfRange if the
-//D: offset is less than zero or greater than or equal to the count of
-//D: members in the collection.
+//D: offset is greater than or equal to the count of members in the collection.
 
 USING
 //M: Returns the member at a particular member offset.
-- atOffset: (int)offset;
+- atOffset: (unsigned)offset;
 
 //M: The atOffset: put: message replaces the member at a particular offset
 //M: with a new value, and returns the previous member value at this offset.
-- atOffset: (int)offset put: anObject;
+- atOffset: (unsigned)offset put: anObject;
 
 //M: Equivalent to [aCollection atOffset: 0].
 - getFirst;
@@ -409,7 +408,7 @@ USING
 //M: collection, just as noted for the atOffset: message on Collection.  In
 //M: the worst case, this operation is linear in the magnitude of the
 //M: offset.
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 
 //M: The compare: message compares the current location of one index with
 //M: the current location of another index passed as its argument.  If the
@@ -1126,11 +1125,11 @@ USING
 //D: An element of a Permutation
 CREATING
 - setItem: item;
-- setPosition: (int)position;
+- setPosition: (unsigned)position;
 
 USING
 - getItem;
-- (int)getPosition;
+- (unsigned)getPosition;
 @end
 
 @protocol Permutation <Collection, CREATABLE, Create, Array>
@@ -1171,7 +1170,7 @@ USING
 - (id <Symbol>)getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 @end;
 
 #import <collections/types.h>

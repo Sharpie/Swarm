@@ -57,7 +57,7 @@ struct link {
 #if CONTIG
 {
 @public
-  int        baseOffset;   // base offset of block contained as current link
+  int baseOffset;   // base offset of block contained as current link
 }
 #endif
 /*** methods in TINDEX (inserted from .m file by m2h) ***/
@@ -70,7 +70,7 @@ struct link {
 - (id <Symbol>)getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 - (void)addAfter: anObject;
 - (void)addBefore: anObject;
 @end

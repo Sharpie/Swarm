@@ -48,6 +48,6 @@ Library:      collections
 - (id <Symbol>)getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

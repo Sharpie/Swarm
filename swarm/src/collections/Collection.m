@@ -38,7 +38,7 @@ PHASE(Creating)
   if (byteOffset > -2044 && byteOffset <= 2048)
     {
       setField (bits, IndexFromMemberLoc_Shift,
-                byteOffset - IndexFromMemberLoc_Min );
+                byteOffset - IndexFromMemberLoc_Min);
       bits |= Bit_IndexFromMemberLoc;
     }
   else
@@ -102,18 +102,18 @@ PHASE(Using)
 }
 
 static id
-indexAtOffset (Collection_any *self, int offset)
+indexAtOffset (Collection_any *self, unsigned offset)
 {
   id index;
 
-  if (offset < 0 || offset >= (int) self->count)
+  if (offset >= self->count)
     raiseEvent (OffsetOutOfRange, nil);
   for (index = [(id) self begin: scratchZone]; offset >= 0; offset--)
     [index next];
   return index;
 }
 
-- atOffset: (int)offset
+- atOffset: (unsigned)offset
 {
   id index, member;
 
@@ -123,7 +123,7 @@ indexAtOffset (Collection_any *self, int offset)
   return member;
 }
 
-- atOffset: (int)offset put: anObject
+- atOffset: (unsigned)offset put: anObject
 {
   id index, member;
 
@@ -347,7 +347,7 @@ PHASE(Using)
   return NULL;
 }
 
-- setOffset: (int)offset
+- setOffset: (unsigned)offset
 {
   raiseEvent (SubclassMustImplement, "setOffset: not implemented");
   return nil;
@@ -556,7 +556,7 @@ PHASE(Using)
   return [index getOffset];
 }
 
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 {
   return [index setOffset: offset];
 }

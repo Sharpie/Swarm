@@ -29,8 +29,8 @@ Library:      collections
 - getDefaultMember;
 - (unsigned)getCount;
 - (unsigned)count;
-- atOffset: (int)offset;
-- atOffset: (int)offset put: anObject;
+- atOffset: (unsigned)offset;
+- atOffset: (unsigned)offset put: anObject;
 - getFirst;
 - getLast;
 - begin: aZone;
@@ -53,7 +53,7 @@ Library:      collections
 - (id <Symbol>)getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 - (int)compare: anIndex;
 @end
 

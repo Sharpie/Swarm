@@ -1,3 +1,20 @@
+1999-06-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Permutation.[hm] ([PermutationItem_c -setPosition:],
+	[PermutationItem_c -getPosition]): Make position unsigned.
+
+	* Collection.m (indexAtOffset): Make offset unsigned.
+
+	* Array.[hm], Collection.[hm] ([Array_c -atOffset:], [Array_c
+	-atOffset:put:]): Make offset unsigned.
+	([ArrayIndex_c -setOffset:]): Likewise.
+
+	* List_GEN.m ([TINDEX -setOffset:]): Likewise.
+
+	* Set.m ([SetIndex_c -setOffset:]): Likewise.
+
+	* collections.h: Reflect these changes.
+
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* List.m (setListClass): Don't use string manipulation to

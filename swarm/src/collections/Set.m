@@ -47,7 +47,7 @@ PHASE(Using)
   return newSet;
 }
 
-- (int) count
+- (int)count
 {
   return [list count];
 }
@@ -181,7 +181,7 @@ PHASE(Using)
   return [listIndex getOffset];
 }
 
-- setOffset: (int)offset
+- setOffset: (unsigned)offset
 {
   return [listIndex setOffset: offset];
 }

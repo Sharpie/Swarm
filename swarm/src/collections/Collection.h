@@ -38,8 +38,8 @@ Library:      collections
 - beginPermuted: aZone;
 - (unsigned)getCount;
 - (unsigned)count;
-- atOffset: (int)offset;
-- atOffset: (int)offset put: anObject;
+- atOffset: (unsigned)offset;
+- atOffset: (unsigned)offset put: anObject;
 - getFirst;
 - first;
 - getLast;
@@ -73,7 +73,7 @@ Library:      collections
 - findPrev: anObject;
 
 // Stubs for protocol compliance
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 - (int)getOffset;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - put: anObject;
@@ -102,5 +102,5 @@ Library:      collections
 - (id <Symbol>)getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
-- setOffset: (int)offset;
+- setOffset: (unsigned)offset;
 @end

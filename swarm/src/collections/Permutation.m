@@ -21,18 +21,19 @@ PHASE(Creating)
   return self;
 }
 
-- setPosition: (int)thePosition
+- setPosition: (unsigned)thePosition
 {
   position = thePosition;
   return self;
 }
+
 PHASE(Using)
 - getItem
 {
   return item;
 }
 
-- (int)getPosition
+- (unsigned)getPosition
 {
   return position;
 }

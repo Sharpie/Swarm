@@ -300,18 +300,18 @@ PHASE(Using)
   return count;
 }
 
-- atOffset: (int)offset
+- atOffset: (unsigned)offset
 {
-  if (offset < 0 || offset >= (int) count)
+  if (offset >= count)
     raiseEvent (OffsetOutOfRange, nil);
   return block[offset];
 }
 
-- atOffset: (int)offset put: anObject
+- atOffset: (unsigned)offset put: anObject
 {
   id oldMember;
   
-  if (offset < 0 || offset >= (int) count)
+  if (offset >= count)
     raiseEvent (OffsetOutOfRange, nil);
   oldMember = block[offset];
   block[offset] = anObject;
@@ -485,9 +485,9 @@ PHASE(Using)
   return memPtr - ((Array_c *) collection)->block;
 }
 
-- setOffset: (int)offset
+- setOffset: (unsigned)offset
 {
-  if (offset < 0 || offset >= (int) ((Array_c *) collection)->count)
+  if (offset >= ((Array_c *) collection)->count)
     raiseEvent (OffsetOutOfRange, nil);
   memPtr = ((Array_c *) collection)->block + offset;
   return *memPtr; 

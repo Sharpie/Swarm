@@ -18,9 +18,9 @@ Library:      collections
   int position; // negative is to indicate removed
 }
 - setItem: item;
-- setPosition: (int)position;
+- setPosition: (unsigned)position;
 - getItem;
-- (int)getPosition;
+- (unsigned)getPosition;
 - (void)describe: outputCharStream;
 @end
 
