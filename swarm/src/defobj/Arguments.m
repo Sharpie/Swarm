@@ -435,7 +435,7 @@ findDirectory (id arguments, const char *directoryName)
 
   if (exePath)
     {
-      char *pathBuf = strdup (pathBuf);
+      char *pathBuf = strdup (exePath);
 
       while (dropdir (pathBuf))
 	{
