@@ -541,8 +541,8 @@
                               (substring key 1))))
       (loop for name.argument in name.arguments
             do
-            (insert "$set")
-            (insert (fix (car name.argument)))))
+            (insert "$")
+            (insert (car (cdr name.argument)))))
     (insert " (")
     (insert "aZone")
     (loop for name.argument in name.arguments

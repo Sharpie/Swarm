@@ -1,3 +1,10 @@
+1999-08-03  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (java-print-class-constructor-method): Don't
+	manually print `$set' concatenated with the variable name, use the
+	parsed method component name directly, so they match the native
+	Objective C factory method names.
+
 1999-08-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (collect-convenience-constructor-name.arguments):
