@@ -1,3 +1,9 @@
+1999-06-29  Alex Lancaster  <alex@santafe.edu>
+
+	* ListShuffler.m ([ListShuffler_c +create:setUniformRandom:]):
+	Call createBegin on `self' rather than `ListShuffler_c', since
+	this does not exist for a phase-split class.
+
 1999-06-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Set.[hm] ([Set_c -getCount]): New method.

@@ -47,9 +47,7 @@ PHASE(Creating)
 
 + create: aZone setUniformRandom: dist
 {
-  ListShuffler_c *shuffler;
-  
-  shuffler = [ListShuffler_c createBegin: aZone];
+  ListShuffler_c *shuffler = [self createBegin: aZone];
   [shuffler setUniformRandom: dist];
   shuffler = [shuffler createEnd];
   
