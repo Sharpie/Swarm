@@ -819,8 +819,6 @@ externvar id <Error>
 //E: }
 
 CREATING
-+ createBegin: (id <Zone>)aZone;
-- createEnd;
 - setArgc: (int)theArgc Argv: (const char **)theArgv;
 - setAppName: (const char *)appName;
 - setAppModeString: (const char *)appModeString;
@@ -975,13 +973,11 @@ typedef enum {fcall_type_void = 0,
 //S: HDF5 interface
 //D: HDF5 interface
 CREATING
-+ createBegin: (id <Zone>)aZone;
 - setWriteFlag: (BOOL)writeFlag;
 - setDatasetFlag: (BOOL)datasetFlag;
 - setParent: parent;
 - setCompoundType: compoundType;
 - setCount: (unsigned)count;
-- createEnd;
 SETTING
 //M: Create-time use is to name the file or group.
 //M: Setting-time use is to rename component datasets that don't
@@ -1021,17 +1017,13 @@ USING
 - (void)storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - (void)iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 - (const char *)getAttribute: (const char *)attributeName;
-
-- (void)drop;
 @end
 
 @protocol HDF5CompoundType <Create, Drop, CREATABLE>
 //S: HDF5 composite type interface
 //D: HDF5 composite type interface
 CREATING
-+ createBegin: (id <Zone>)aZone;
 - setPrototype: prototype;
-- createEnd;
 USING
 - getPrototype;
 @end
@@ -1063,7 +1055,6 @@ typedef void *JOBJECT;
 //S: A language independent interface to dynamic call argument construction.
 //D: A language independent interface to dynamic call argument construction.
 CREATING
-+ createBegin: (id <Zone>)aZone;
 - setJavaFlag: (BOOL)javaFlag;
 - setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
@@ -1088,7 +1079,6 @@ CREATING
 - addJavaObject: (JOBJECT)obj;
 - setObjCReturnType: (char)type;
 - setBooleanReturnType;
-- createEnd;
 USING
 - (BOOL)getJavaFlag;
 - (void *)getResult;
@@ -1100,8 +1090,6 @@ typedef enum callTypes { ccall, objccall, javacall, javastaticcall} call_t;
 //S: A language independent interface to dynamic calls.
 //D: A language independent interface to dynamic calls.
 CREATING
-+ createBegin: (id <Zone>)aZone;
-- createEnd;
 + create: (id <Zone>)aZone target: obj
                          selector: (SEL)aSel
                         arguments: (id <FArguments>)fa;

@@ -1,3 +1,10 @@
+2000-04-27    <mgd@nest.swarm.org>
+
+	* defobj.h ([Arguments +createBegin, -createEnd]): Remove.
+	([HDF5 +createBegin:, -creatEnd, -drop]): Remove.
+	([{HDF5CompoundType,FArguments,FCall} +createBegin: -createEnd]):
+	Remove.
+
 2000-04-20    <mgd@nest.swarm.org>
 
 	* directory.m (swarm_directory_init): Add associations for
