@@ -1,3 +1,8 @@
+1999-08-17    <mgd@HELEN>
+
+	* Makefile.am (swarm.dll): Add (disabled) swarm.dll link command
+	using new linker.
+
 1999-08-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (DLLWRAP): Move substitution outside of automake
