@@ -1,0 +1,4 @@
+<!entity collectionscont.sgml system "@srcdir@/collectionscont.sgml">
+<!entity collectionsmeta.sgml system "@srcdir@/collectionsmeta.sgml">
+<!entity collections00.sgml system "@srcdir@/collections00.sgml">
+<!entity collectionspages.sgml system "collectionspages.sgml">
