@@ -25,5 +25,6 @@
 - setBorderWidth: (int)aVal;
 - createBindings;
 - createText;
+- createPaddedText;
 @end
 

@@ -12,12 +12,8 @@
 
 - createItem
  {
-  // font and size independence means I have to make a fake label first...
-  text = strdup ([[globalTkInterp
-                    eval: 
-                      "%s create text %d %d -text \"%sxx\" -anchor c", 
-                    [canvas getWidgetName],x,y,string] result]);
-  
+   [self createPaddedText];
+   
   item =
     strdup ([[globalTkInterp
                eval: 

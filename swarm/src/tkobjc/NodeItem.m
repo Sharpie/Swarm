@@ -7,6 +7,7 @@
 #import <tkobjc/Widget.h>
 #import <tkobjc/global.h>
 #import <tkobjc/common.h>
+#include <misc.h> // stpcpy
 
 @implementation NodeItem
 
@@ -122,6 +123,19 @@
 - createText
 {
   text = tkobjc_createText (canvas, x, y, string, font);
+
+  return self;
+}
+
+- createPaddedText
+{
+  char stringpad[strlen (string) + 2], *ptr;
+  
+  ptr = stpcpy (stringpad, string);
+  stpcpy (ptr, "xx");
+  
+  // font and size independence means I have to make a fake label first...
+  text = tkobjc_createText (canvas, x, y, stringpad, font);
 
   return self;
 }

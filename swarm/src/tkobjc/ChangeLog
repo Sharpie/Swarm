@@ -1,5 +1,11 @@
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* NodeItem.[hm] ([NodeItem -createPaddedText]): New method.
+
+	* OvalNodeItem.m ([OvalNodeItem -createItem]): Use it.
+
+	* RectangeNodeItem.m ([RectangleNodeItem -createEnd]): Use it.
+
 	* NodeItem.[hm], TextItem.[hm]: Remove gratuitous usingFont
 	convenience setter methods.
 
