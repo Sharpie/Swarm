@@ -1,3 +1,8 @@
+1999-08-24    <mgd@HELEN>
+
+	* tclObjc.h: Undef Windows definition of "interface" that gets
+	defined via tcl.h.
+
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* tclObjc.m (tclObjc_msgSendToClientData): Use PTRHEXFMT

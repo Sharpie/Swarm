@@ -51,6 +51,7 @@ tclObjc_msgSendToArgv1(ClientData clientData, Tcl_Interp *interp,
 
 extern int (*tclObjc_eventHook)();
 
+#undef interface
 #ifdef NeXT
 @interface TclObject:Object
 #else
