@@ -9,6 +9,7 @@
 #undef SYSCONFDIR
 #undef PREFIX
 #undef HAVE_HDF5
+#undef HAVE_PNG
 #undef HAVE_JDK
 #undef HAVE_KAFFE
 #undef HAVE_XPM_H

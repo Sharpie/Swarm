@@ -1,6 +1,10 @@
 1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* NEWS: Note QSort fix.
+	* NEWS: Note QSort fix.  Note that PNG is optional.
+
+	* VERSION: Bump.
+
+	* acconfig.h:  Add HAVE_PNG.
 
 1999-10-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

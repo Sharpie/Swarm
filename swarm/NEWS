@@ -26,15 +26,18 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** EZBin failed to handle empty datafeed collections.
     Thanks to Steve Railsback for the report.
 *** Subclasses of Discrete2d didn't get their +createBegin:
-    used in use of convenience constructor.  
+    used in convenience constructor.  
     Thanks to Arend Ligtenberg for the report.
 *** Fixed another memory leak in the activity library.
-    Thanks to Jason Alexander.
+    Thanks to Jason Alexander for the report.
 *** Avoid bug in qsort on Solaris.
 
 ** Autoconfiguration / Portability
 *** Support for LinuxPPC
 *** Support for IBM JDK on Linux
+*** PNG support can be disabled with --without-pngdir
+    (thus zlib and png are not required packages)
+    
 
 * Release Notes for Swarm 2.0.1
 ** Bug fixes
