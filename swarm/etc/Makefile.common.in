@@ -70,9 +70,7 @@ SUPPORTLDFLAGS = $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(HDF5LDFLAGS) $(BLT
 
 SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
 
-SWARMMODULES = space analysis simtools simtoolsgui tkobjc tclobjc activity random objectbase collections defobj misc
-
-SWARMLIBS = $(foreach module,$(SWARMMODULES),-l$(module))
+SWARMLIBS = -lswarm
 
 # Local variables:
 # mode: makefile

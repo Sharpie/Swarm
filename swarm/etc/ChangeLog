@@ -1,3 +1,8 @@
+1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (SWARMMODULES): Remove.
+	(SWARMLIBS): Use simply -lswarm.
+
 1999-05-20  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.appl.in (install): Install actual executable to
