@@ -3,6 +3,7 @@
 	* Makefile.in (libjavaswarm_la_OBJECTS): Remove JavaProxy and
 	directory.
 	($(libjavaswarmstubs_la_OBJECTS)): Don't depend on directory.
+	(libjavaswarm.la): Use SWARMLIBS instead of _SWARMLIBS.
 
 1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

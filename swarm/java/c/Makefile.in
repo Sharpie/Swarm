@@ -52,7 +52,7 @@ libjavaswarmstubs.la: $(libjavaswarmstubs_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs_la_LDFLAGS) $(libjavaswarmstubs_la_OBJECTS)
 
 libjavaswarm.la: $(libjavaswarm_la_OBJECTS) libjavaswarmstubs.la
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) -ljavaswarmstubs $(_SWARMLIBS) $(SYSLIBS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) -ljavaswarmstubs $(SWARMLIBS) $(SYSLIBS)
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
