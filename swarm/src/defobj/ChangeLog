@@ -1,3 +1,15 @@
+2001-01-30  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.[hm] ({COM,JS}set{Arg,Return}): Use val_t instead of
+	fcall_type_t + types_t.
+	({COM,JS}_set_{arg,return}): Likewise.
+	(JS_set_variable): New function.
+
+	* COM.h	(COMInterface): Add it.
+
+	* FArguments.[hm], _fcall.m: Switch from fcall_type_t/types_t
+	to val_t for changes above and for return values.
+
 2001-01-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* defobj.h (val_t): Moved from objectbase.h.

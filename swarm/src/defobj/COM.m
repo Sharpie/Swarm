@@ -74,15 +74,15 @@ COM_create_params (unsigned size)
 }
 
 void
-COM_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *value)
+COM_set_arg (void *params, unsigned pos, val_t *val)
 {
-  comEnv->COMsetArg (params, pos, type, value);
+  comEnv->COMsetArg (params, pos, val);
 }
 
 void
-COM_set_return (void *params, unsigned pos, fcall_type_t type, types_t *value)
+COM_set_return (void *params, unsigned pos, val_t *val)
 {
-  comEnv->COMsetReturn (params, pos, type, value);
+  comEnv->COMsetReturn (params, pos, val);
 }
 
 void
@@ -104,15 +104,15 @@ JS_create_params (unsigned size)
 }
 
 void
-JS_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *value)
+JS_set_arg (void *params, unsigned pos, val_t *val)
 {
-  comEnv->JSsetArg (params, pos, type, value);
+  comEnv->JSsetArg (params, pos, val);
 }
 
 void
-JS_set_return (void *params, unsigned pos, fcall_type_t type, types_t *value)
+JS_set_return (void *params, unsigned pos, val_t *val)
 {
-  comEnv->JSsetReturn (params, pos, type, value);
+  comEnv->JSsetReturn (params, pos, val);
 }
 
 void
@@ -149,6 +149,12 @@ BOOL
 JS_probe_variable (COMobject cObj, const char *variableName, val_t *ret)
 {
   return comEnv->JSprobeVariable (cObj, variableName, ret);
+}
+
+void
+JS_set_variable (COMobject cObj, const char *variableName, val_t *val)
+{
+  comEnv->JSsetVariable (cObj, variableName, val);
 }
 
 const char *

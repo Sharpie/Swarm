@@ -43,17 +43,18 @@ struct COMInterface {
   void (*selectorJSInvoke) (COMselector cSel, COMobject cObj, void *params);
 
   void *(*COMcreateParams) (unsigned size);
-  void (*COMsetArg) (void *params, unsigned pos, fcall_type_t type, types_t *value);
-  void (*COMsetReturn) (void *params, unsigned pos, fcall_type_t type, types_t *value);
+  void (*COMsetArg) (void *params, unsigned pos, val_t *val);
+  void (*COMsetReturn) (void *params, unsigned pos, val_t *val);
   void (*COMfreeParams) (void *params);
 
   BOOL (*isJavaScript) (COMobject cObj);
   void *(*JScreateParams) (unsigned size);
-  void (*JSsetArg) (void *params, unsigned pos, fcall_type_t type, types_t *value);
-  void (*JSsetReturn) (void *params, unsigned pos, fcall_type_t type, types_t *value);
+  void (*JSsetArg) (void *params, unsigned pos, val_t *val);
+  void (*JSsetReturn) (void *params, unsigned pos, val_t *val);
   void (*JSfreeParams) (void *params);
   
   BOOL (*JSprobeVariable) (COMobject cObj, const char *variableName, val_t *ret);
+  void (*JSsetVariable) (COMobject cObj, const char *variableName, val_t *ret);
 
   void (*collectMethods) (COMclass cClass, COM_collect_variable_func_t variableFunc, COM_collect_method_func_t methodFunc);
 
@@ -93,18 +94,19 @@ extern void JS_selector_invoke (COMselector cSel, COMobject cObj, void *params);
 extern COMselector COM_selector_create (COMmethod cMethod);
 
 extern void *COM_create_params (unsigned size);
-extern void COM_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *value);
-extern void COM_set_return (void *params, unsigned pos, fcall_type_t type, types_t *value);
+extern void COM_set_arg (void *params, unsigned pos, val_t *val);
+extern void COM_set_return (void *params, unsigned pos, val_t *val);
 extern void COM_free_params (void *params);
 
 extern BOOL COM_is_javascript (COMobject cObj);
 
 extern void *JS_create_params (unsigned size);
-extern void JS_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *value);
-extern void JS_set_return (void *params, unsigned pos, fcall_type_t type, types_t *value);
+extern void JS_set_arg (void *params, unsigned pos, val_t *val);
+extern void JS_set_return (void *params, unsigned pos, val_t *val);
 extern void JS_free_params (void *params);
 
 extern BOOL JS_probe_variable (COMobject cObj, const char *variableName, val_t *ret);
+extern void JS_set_variable (COMobject cObj, const char *variableName, val_t *val);
 
 
 extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);

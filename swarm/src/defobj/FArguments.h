@@ -28,8 +28,7 @@ Library:      defobj
 @public
    unsigned assignedArgumentCount;
    unsigned hiddenArgumentCount;
-   fcall_type_t returnType;
-   types_t resultVal;
+   val_t retVal;
 #ifdef HAVE_JDK
    BOOL pendingGlobalRefFlag;
 #endif

@@ -51,7 +51,7 @@ PHASE(Creating)
 #ifndef USE_AVCALL
   newArguments->ffiReturnType = &ffi_type_void;
 #endif
-  newArguments->returnType = 0;
+  newArguments->retVal.type = 0;
   newArguments->result = NULL;
   newArguments->javaSignatureLength = 2; // "()"
 #ifdef HAVE_JDK
@@ -345,72 +345,72 @@ PHASE(Creating)
   switch (type)
     {
     case fcall_type_boolean:
-      result = &resultVal.boolean;
+      result = &retVal.val.boolean;
       break;
     case fcall_type_uchar:
-      result = &resultVal.uchar;
+      result = &retVal.val.uchar;
       break;
     case fcall_type_schar:
-      result = &resultVal.schar;
+      result = &retVal.val.schar;
       break;
     case fcall_type_ushort:
-      result = &resultVal.ushort;
+      result = &retVal.val.ushort;
       break;
     case fcall_type_sshort:
-      result = &resultVal.sshort;
+      result = &retVal.val.sshort;
       break;
     case fcall_type_uint:
-      result = &resultVal.uint;
+      result = &retVal.val.uint;
       break;
     case fcall_type_sint:
-      result = &resultVal.sint;
+      result = &retVal.val.sint;
       break;
     case fcall_type_ulong:
-      result = &resultVal.ulong;
+      result = &retVal.val.ulong;
       break;
     case fcall_type_slong:
-      result = &resultVal.slong;
+      result = &retVal.val.slong;
       break;
     case fcall_type_ulonglong:
-      result = &resultVal.ulonglong;
+      result = &retVal.val.ulonglong;
       break;
     case fcall_type_slonglong:
-      result = &resultVal.slonglong;
+      result = &retVal.val.slonglong;
       break;
     case fcall_type_float:
-      result = &resultVal._float;
+      result = &retVal.val._float;
       break;
     case fcall_type_double:
-      result = &resultVal._double;
+      result = &retVal.val._double;
       break;
     case fcall_type_long_double:
-      result = &resultVal._long_double;
+      result = &retVal.val._long_double;
       break;
     case fcall_type_object:
-      result = &resultVal.object;
+      result = &retVal.val.object;
       break;
     case fcall_type_class:
-      result = &resultVal._class;
+      result = &retVal.val._class;
       break;
     case fcall_type_string:
-      result = &resultVal.string;
+      result = &retVal.val.string;
       break;
     case fcall_type_selector:
-      result = &resultVal.selector;
+      result = &retVal.val.selector;
       break;
     case fcall_type_void:
       result = NULL;
       break;
     case fcall_type_jobject:
-      result = &resultVal.object;
+      result = &retVal.val.object;
       break;
     case fcall_type_jstring:
-      result = &resultVal.object;
+      result = &retVal.val.object;
       break;
     default:
       abort ();
     }
-  returnType = type;
+  retVal.type = type;
   return self;
 }
 
@@ -437,7 +437,7 @@ createJavaSignature (FArguments_c *self)
     p = stpcpy (p, java_signature_for_fcall_type (self->argTypes[i + MAX_HIDDEN]));
   
   p = stpcpy (p, ")");
-  p = stpcpy (p, java_signature_for_fcall_type (self->returnType));
+  p = stpcpy (p, java_signature_for_fcall_type (self->retVal.type));
   return str;
 }
 #endif

@@ -236,13 +236,13 @@ add_ffi_types (FCall_c *fc)
       for (i = 0; i < fa->assignedArgumentCount; i++)
         {
           unsigned pos = i + MAX_HIDDEN;
+          val_t val = { fa->argTypes[pos], *(types_t *) fa->argValues[pos] };
           
-          COM_set_arg (fc->COM_params, i, fa->argTypes[pos], fa->argValues[pos]);
+          COM_set_arg (fc->COM_params, i, &val);
         }
       COM_set_return (fc->COM_params,
                       fa->assignedArgumentCount,
-                      fa->returnType,
-                      &fa->resultVal);
+                      &fa->retVal);
     }
   else if (fc->callType == JScall)
     {
@@ -251,13 +251,13 @@ add_ffi_types (FCall_c *fc)
       for (i = 0; i < fa->assignedArgumentCount; i++)
         {
           unsigned pos = i + MAX_HIDDEN;
+          val_t val = { fa->argTypes[pos], *(types_t *) fa->argValues[pos] };
           
-          JS_set_arg (fc->COM_params, i, fa->argTypes[pos], fa->argValues[pos]);
+          JS_set_arg (fc->COM_params, i, &val);
         }
       JS_set_return (fc->COM_params,
                      fa->assignedArgumentCount,
-                     fa->returnType,
-                     &fa->resultVal);
+                     &fa->retVal);
     }
   else
     {
@@ -414,7 +414,7 @@ PHASE(Creating)
                                     fclass,
                                     methodName, 
                                     fargs->javaSignature);
-          ffunction = java_call_functions[fargs->returnType];
+          ffunction = java_call_functions[fargs->retVal.type];
         }
       else
         {
@@ -422,7 +422,7 @@ PHASE(Creating)
                                                   fclass,
                                                   methodName, 
                                                   fargs->javaSignature);
-          ffunction = java_static_call_functions[fargs->returnType];
+          ffunction = java_static_call_functions[fargs->retVal.type];
         }
       if (!fmethod)
         raiseEvent (SourceMessage,
@@ -526,7 +526,8 @@ PHASE(Using)
 #ifdef HAVE_JDK
   if (fargs->pendingGlobalRefFlag)
     {
-      (*jniEnv)->DeleteGlobalRef (jniEnv, (jobject) fargs->resultVal.object);
+      (*jniEnv)->DeleteGlobalRef (jniEnv,
+                                  (jobject) fargs->retVal.val.object);
       fargs->pendingGlobalRefFlag = NO;
     }
 #endif
@@ -556,69 +557,69 @@ PHASE(Using)
         case fcall_type_void:
           break;
         case fcall_type_boolean:
-          fargs->resultVal.boolean = VAL (BOOL, ret);
+          fargs->retVal.val.boolean = VAL (BOOL, ret);
           break;
         case fcall_type_schar:
           // character return is broken in libffi-1.18
-          fargs->resultVal.schar = VAL (int, ret);
+          fargs->retVal.val.schar = VAL (int, ret);
           break;
         case fcall_type_uchar:
           // character return is broken in libffi-1.18
-          fargs->resultVal.uchar = VAL (unsigned, ret);
+          fargs->retVal.val.uchar = VAL (unsigned, ret);
           break;
         case fcall_type_sint:
-          fargs->resultVal.sint = VAL (int, ret);
+          fargs->retVal.val.sint = VAL (int, ret);
           break;
         case fcall_type_uint:
-          fargs->resultVal.uint = VAL (unsigned, ret);
+          fargs->retVal.val.uint = VAL (unsigned, ret);
           break;
         case fcall_type_sshort:
           // short return is broken in libffi-1.18
-          fargs->resultVal.sshort = VAL (int, ret);
+          fargs->retVal.val.sshort = VAL (int, ret);
           break;
         case fcall_type_ushort:
           // short return is broken in libffi-1.18
-          fargs->resultVal.ushort = VAL (unsigned, ret);
+          fargs->retVal.val.ushort = VAL (unsigned, ret);
           break;
         case fcall_type_slong:
-          fargs->resultVal.slong = VAL (long, ret);
+          fargs->retVal.val.slong = VAL (long, ret);
           break;
         case fcall_type_ulong:
-          fargs->resultVal.ulong = VAL (unsigned long, ret);
+          fargs->retVal.val.ulong = VAL (unsigned long, ret);
           break;
         case fcall_type_slonglong:
-          fargs->resultVal.slonglong = VAL (long long, ret);
+          fargs->retVal.val.slonglong = VAL (long long, ret);
           break;
         case fcall_type_ulonglong:
-          fargs->resultVal.ulonglong = VAL (unsigned long long, ret);
+          fargs->retVal.val.ulonglong = VAL (unsigned long long, ret);
           break;
         case fcall_type_float:
-          fargs->resultVal._float = ret._float;
+          fargs->retVal.val._float = ret._float;
           break;
         case fcall_type_double:
-          fargs->resultVal._double = ret._double;
+          fargs->retVal.val._double = ret._double;
           break;
         case fcall_type_long_double:
-          fargs->resultVal._long_double = ret._long_double;
+          fargs->retVal.val._long_double = ret._long_double;
           break;
         case fcall_type_object:
-          fargs->resultVal.object = VAL (id, ret);
+          fargs->retVal.val.object = VAL (id, ret);
           break;
         case fcall_type_class:
-          fargs->resultVal._class = VAL (Class, ret);
+          fargs->retVal.val._class = VAL (Class, ret);
           break;
         case fcall_type_selector:
-          fargs->resultVal.selector = VAL (SEL, ret);
+          fargs->retVal.val.selector = VAL (SEL, ret);
           break;
         case fcall_type_string:
-          fargs->resultVal.string = VAL (const char *, ret);
+          fargs->retVal.val.string = VAL (const char *, ret);
           break;
 #ifdef HAVE_JDK
         case fcall_type_jobject:
-          fargs->resultVal.object = (id) VAL (jobject, ret);
+          fargs->retVal.val.object = (id) VAL (jobject, ret);
           break;
         case fcall_type_jstring:
-          fargs->resultVal.object = (id) VAL (jstring, ret);
+          fargs->retVal.val.object = (id) VAL (jstring, ret);
           break;
 #endif
         default:
@@ -647,12 +648,12 @@ PHASE(Using)
           raiseEvent (InvalidOperation,
                       "Exception occurred in Java method `%s'\n", methodName);
         }
-      if (fargs->returnType == fcall_type_jobject
-	  || fargs->returnType == fcall_type_jstring)
+      if (fargs->retVal.type == fcall_type_jobject
+	  || fargs->retVal.type == fcall_type_jstring)
 	{
-	  jobject lref = (jobject) fargs->resultVal.object;
+	  jobject lref = (jobject) fargs->retVal.val.object;
 	  
-	  fargs->resultVal.object =
+	  fargs->retVal.val.object =
 	    (id) (*jniEnv)->NewGlobalRef (jniEnv, lref);
           (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 	  fargs->pendingGlobalRefFlag = YES;
@@ -687,7 +688,7 @@ PHASE(Using)
 #define BUGGY_BUILTIN_APPLY
 #endif
 
-  *buf = ((FArguments_c *) fargs)->resultVal;
+  *buf = ((FArguments_c *) fargs)->retVal.val;
 
 #ifndef BUGGY_BUILTIN_APPLY
   {
@@ -717,7 +718,7 @@ PHASE(Using)
       }
 #define APPLY(func) apply ((apply_t) func)
     
-    switch (fargs->returnType)
+    switch (fargs->retVal.type)
       {
       case fcall_type_void:
         APPLY (return_void);

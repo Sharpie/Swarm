@@ -101,68 +101,68 @@ SET_RETURN_TYPE (FCall_c *fc)
   FArguments_c *fa = fc->fargs;
   void (*func) (void) = fc->ffunction;
 
-  switch (fa->returnType)
+  switch (fa->retVal.type)
     {
     case fcall_type_void:
       av_start_void (AVALIST (fa), func);
       break;
     case fcall_type_boolean:
     case fcall_type_uchar:
-      av_start_uchar (AVALIST (fa), func, &fa->resultVal.uchar);
+      av_start_uchar (AVALIST (fa), func, &fa->retVal.val.uchar);
       break;
     case fcall_type_schar:
-      av_start_char (AVALIST (fa), func, &fa->resultVal.schar);
+      av_start_char (AVALIST (fa), func, &fa->retVal.val.schar);
       break;
     case fcall_type_ushort:
-      av_start_ushort (AVALIST (fa), func, &fa->resultVal.ushort);
+      av_start_ushort (AVALIST (fa), func, &fa->retVal.val.ushort);
       break;
     case fcall_type_sshort:
-      av_start_short (AVALIST (fa), func, &fa->resultVal.sshort);
+      av_start_short (AVALIST (fa), func, &fa->retVal.val.sshort);
       break;
     case fcall_type_uint:
-      av_start_uint (AVALIST (fa), func, &fa->resultVal.uint);
+      av_start_uint (AVALIST (fa), func, &fa->retVal.val.uint);
       break;
     case fcall_type_sint:
-      av_start_int (AVALIST (fa), func, &fa->resultVal.sint);
+      av_start_int (AVALIST (fa), func, &fa->retVal.val.sint);
       break;
     case fcall_type_ulong:
-      av_start_ulong (AVALIST (fa), func, &fa->resultVal.ulong);
+      av_start_ulong (AVALIST (fa), func, &fa->retVal.val.ulong);
       break;
     case fcall_type_slong:
-      av_start_long (AVALIST (fa), func, &fa->resultVal.slong);
+      av_start_long (AVALIST (fa), func, &fa->retVal.val.slong);
       break;
     case fcall_type_slonglong:
-      av_start_long (AVALIST (fa), func, &fa->resultVal.slonglong);
+      av_start_long (AVALIST (fa), func, &fa->retVal.val.slonglong);
       break;
     case fcall_type_ulonglong:
-      av_start_ulong (AVALIST (fa), func, &fa->resultVal.ulonglong);
+      av_start_ulong (AVALIST (fa), func, &fa->retVal.val.ulonglong);
       break;
     case fcall_type_float:
-      av_start_float (AVALIST (fa), func, &fa->resultVal._float);
+      av_start_float (AVALIST (fa), func, &fa->retVal.val._float);
       break;
     case fcall_type_double:
-      av_start_double (AVALIST (fa), func, &fa->resultVal._double);
+      av_start_double (AVALIST (fa), func, &fa->retVal.val._double);
       break;
     case fcall_type_long_double:
       abort ();
       break;
     case fcall_type_object:
-      av_start_ptr (AVALIST (fa), func, id, &fa->resultVal.object);
+      av_start_ptr (AVALIST (fa), func, id, &fa->retVal.val.object);
       break;
     case fcall_type_string:
-      av_start_ptr (AVALIST (fa), func, const char *, &fa->resultVal.string);
+      av_start_ptr (AVALIST (fa), func, const char *, &fa->retVal.val.string);
       break;
     case fcall_type_selector:
-      av_start_ptr (AVALIST (fa), func, SEL, &fa->resultVal.selector);
+      av_start_ptr (AVALIST (fa), func, SEL, &fa->retVal.val.selector);
       break;
     case fcall_type_class:
-      av_start_ptr (AVALIST (fa), func, Class, &fa->resultVal._class);
+      av_start_ptr (AVALIST (fa), func, Class, &fa->retVal.val._class);
       break;
     case fcall_type_jobject:
-      av_start_ptr (AVALIST (fa), func, jobject, &fa->resultVal.object);
+      av_start_ptr (AVALIST (fa), func, jobject, &fa->retVal.val.object);
       break;
     case fcall_type_jstring:
-      av_start_ptr (AVALIST (fa), func, jstring, &fa->resultVal.object);
+      av_start_ptr (AVALIST (fa), func, jstring, &fa->retVal.val.object);
       break;
     default:
       abort ();
