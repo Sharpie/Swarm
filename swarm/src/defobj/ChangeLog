@@ -1,5 +1,16 @@
 1999-03-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* Makefile.am (SRC): Add FCall.m to SRC variable.
+	(defobj_HEADERS): Add FCall.h to defobj_HEADERS.
+
+	* defobj.m: Include FCall.h for init_javacall_tables definition.
+	(_defobj_initialize): If Java is enabled call init_javacall_tables.
+
+	* FCall.m (init_javacall_tables): Rename init_java to 
+	init_javacall_tables.
+
+	* FCall.h: Rename init_java to init_javacall_tables.
+
 	* FCall.m (init_java): Remove JNI initialization from init_java.
 	([FCall -setCallType:cType]): Use switch instead of if else.
 	([FCall -setNumberOfArguments:number]): Likewise.

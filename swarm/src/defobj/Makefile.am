@@ -21,7 +21,7 @@ BUILT_SOURCES = $(module_headers)
 
 SRC = Archiver.m Arguments.m Create.m Customize.m \
 	DefClass.m DefObject.m HDF5Object.m Program.m Symbol.m Zone.m \
-	defobj.m internal.m
+	FCall.m defobj.m internal.m
 
 libdefobj_a_SOURCES = $(SRC)
 libdefobj_la_SOURCES = $(SRC)
@@ -31,7 +31,7 @@ bin_SCRIPTS = m2h make-h2x
 
 defobj_HEADERS = Archiver.h Arguments.h Create.h Customize.h \
 	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h \
-	defalloc.h deftype.h
+	FCall.h defalloc.h deftype.h
 
 $(OBJECTS): version.h
 

@@ -13,9 +13,13 @@ Library:      defobj
 #import <objc/objc-api.h>
 #include <stdlib.h>
 
+ffi_type * swarm_types[number_of_types];
+char * java_type_signatures[number_of_types];
+void * java_static_call_functions[number_of_types];
+void * java_call_functions[number_of_types];
 
 void 
-init_java (void)
+init_javacall_tables (void)
 {
   java_static_call_functions[swarm_type_void] = 
       FFI_FN ((*jniEnv)->CallStaticVoidMethod);

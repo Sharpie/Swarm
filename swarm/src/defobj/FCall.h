@@ -31,12 +31,7 @@ Library:      defobj
 #define swarm_type_string  12
 #define swarm_type_jobject 13
 
-extern ffi_type * swarm_types[number_of_types];
-extern char * java_type_signatures[number_of_types];
-extern void * java_static_call_functions[number_of_types];
-extern void * java_call_functions[number_of_types];
-
-void init_java (void);
+void init_javacall_tables (void);
 
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 
