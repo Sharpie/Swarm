@@ -37,7 +37,7 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
 
             if (swarmHome)
               {
-                const char *libdir = "/lib";
+                const char *libdir = "../BLT/library";
                 char libPath[strlen (swarmHome) + strlen (libdir) + 1];
                 char *p;
                 
@@ -45,12 +45,14 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
                 stpcpy (p, libdir);
                 
                 basePath = strdup (libPath); 
-                [globalTkInterp globalEval: "set blt_library %s", libPath];
+                [globalTkInterp globalEval: "set blt_library \"%s\"",
+				libPath];
               }
             else
               {
                 basePath = ".";
-                [globalTkInterp globalEval: "set blt_library %s", basePath];
+                [globalTkInterp globalEval: "set blt_library \"%s\"",
+				basePath];
               }
             retry = 1;
             continue;
