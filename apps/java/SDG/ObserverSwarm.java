@@ -37,7 +37,7 @@ public class ObserverSwarm extends GUISwarmImpl {
 
   public ObserverSwarm (Zone aZone) {
     super (aZone);
-    model = new SDG (aZone);
+    model = new SDG (aZone, 100, 100);
   }
 
   public Object buildObjects () {

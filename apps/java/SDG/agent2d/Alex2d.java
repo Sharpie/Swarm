@@ -15,6 +15,7 @@ import java.util.Iterator;
 import swarm.Selector;
 import swarm.Globals;
 
+import Organization;
 import ObserverSwarm;
 
 public class Alex2d extends SocialAgent2d {
@@ -33,8 +34,8 @@ public class Alex2d extends SocialAgent2d {
     }
   }
 
-  public Alex2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, 2, 4, .2, .1, 40, 20);
+  public Alex2d (Zone aZone, Organization org, int x, int y) {
+    super (aZone, org, x, y, 2, 4, .2, .1, 40, 20);
 
     people = new Hashtable (10);
   }

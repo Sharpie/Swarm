@@ -3,16 +3,18 @@ import swarm.defobj.Zone;
 import swarm.space.Grid2d;
 import swarm.gui.Raster;
 
+import Organization;
+
 abstract class DirectedAgent2d extends Agent2d {
   int xoffset, yoffset;
 
   DirectedAgent2d (Zone aZone,
-                   Grid2d world,
+                   Organization org,
                    int x, int y,
                    int scatter, int size,
                    double resistProbabilityMean, double resistProbabilityDeviation,
                    int energyMean, int energyDeviation) {
-    super (aZone, world, x, y, scatter, size,
+    super (aZone, org, x, y, scatter, size,
            resistProbabilityMean, resistProbabilityDeviation,
            energyMean, energyDeviation);
   }

@@ -7,7 +7,6 @@ import swarm.activity.ScheduleImpl;
 import swarm.activity.Activity;
 import swarm.activity.Action;
 import swarm.defobj.Zone;
-import swarm.space.Grid2d;
 import swarm.gui.Raster;
 import swarm.Selector;
 import swarm.defobj.FArgumentsC;
@@ -19,6 +18,7 @@ import swarm.defobj.FCallImpl;
 import swarm.Globals;
 
 import ObserverSwarm;
+import Organization;
 
 public class Marcus2d extends DirectedAgent2d {
   Schedule schedule;
@@ -30,8 +30,8 @@ public class Marcus2d extends DirectedAgent2d {
   int incubationTime, incubationRemaining;
   boolean working;
 
-  public Marcus2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, 5, 4, .25, .5, 60, 10);
+  public Marcus2d (Zone aZone, Organization org, int x, int y) {
+    super (aZone, org, x, y, 5, 4, .25, .5, 60, 10);
     
     this.incubationTime = 40;
     schedule = new ScheduleImpl (aZone, true);

@@ -13,6 +13,7 @@ import swarm.Selector;
 import swarm.Globals;
 
 import ObserverSwarm;
+import Organization;
 
 public class User2d extends DirectedAgent2d {
   Schedule schedule;
@@ -22,14 +23,14 @@ public class User2d extends DirectedAgent2d {
     energy = sampleEnergy ();
   }
 
-  public User2d (Zone aZone, Grid2d world,
+  public User2d (Zone aZone, Organization org,
                  int x, int y,
                  int scatter,
                  double resistanceProbabilityMean,
                  double resistanceProbabilityDeviation,
                  int energyMean, int energyDeviation) {
 
-    super (aZone, world, x, y, scatter, 2,
+    super (aZone, org, x, y, scatter, 2,
            resistanceProbabilityMean, resistanceProbabilityDeviation,
            energyMean, energyDeviation);
 

@@ -11,15 +11,17 @@ import swarm.gui.Raster;
 
 import swarm.Selector;
 
+import Organization;
+
 public abstract class SocialAgent2d extends Agent2d {
   Schedule schedule;
   
-  public SocialAgent2d (Zone aZone, Grid2d world,
+  public SocialAgent2d (Zone aZone, Organization org,
                         int x, int y,
                         int scatter, int size,
                         double resistProbabilityMean, double resistProbabilityDeviation,
                         int energyMean, int energyDeviation) {
-    super (aZone, world, x, y, scatter, size,
+    super (aZone, org, x, y, scatter, size,
            resistProbabilityMean, resistProbabilityDeviation,
            energyMean, energyDeviation);
 

@@ -10,6 +10,8 @@ import swarm.random.NormalDistImpl;
 import swarm.random.BernoulliDist;
 import swarm.random.BernoulliDistImpl;
 
+import Organization;
+
 import swarm.Globals;
 
 public class Agent2d extends SwarmImpl {
@@ -30,7 +32,7 @@ public class Agent2d extends SwarmImpl {
 
   public Agent2d () { }
   public Agent2d (Zone aZone,
-                  Grid2d world,
+                  Organization org,
                   int x, int y,
                   int scatter, int size,
                   double resistProbabilityMean, double resistProbabilityDeviation,
@@ -38,7 +40,7 @@ public class Agent2d extends SwarmImpl {
     super (aZone);
     this.x = x;
     this.y = y;
-    this.world = world;
+    this.world = org.getWorld ();
     this.scatter = scatter;
     this.size = size;
     this.resistProbabilityDistribution =

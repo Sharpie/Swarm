@@ -11,26 +11,27 @@ import agent2d.Glen2d;
 import agent2d.Alex2d;
 import agent2d.User2d;
 
+import Organization;
+
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
 
 public class SDG extends Organization {
   final static int userCount = 10;
-  Grid2d world;
   Agent2d mgd, gepr, alex;
   Agent2d user1, user2, user3;
   List userList;
 
-  public SDG (Zone aZone) {
-    super (aZone);
+  public SDG (Zone aZone, int xsize, int ysize) {
+    super (aZone, xsize, ysize);
   }
 
   public Object buildObjects () {
-    world = new Grid2dImpl (getZone (), 100, 100);
-    alex = new Alex2d (getZone (), world, 20, 20);
-    gepr = new Glen2d (getZone (), world, 10, 10);
-    mgd = new Marcus2d (getZone (), world, 0, 0);
+    super.buildObjects ();
+    alex = new Alex2d (getZone (), this, 20, 20);
+    gepr = new Glen2d (getZone (), this, 10, 10);
+    mgd = new Marcus2d (getZone (), this, 0, 0);
 
     userList = new LinkedList ();
 
@@ -45,7 +46,7 @@ public class SDG extends Organization {
       int energyMean = Globals.env.uniformIntRand.getIntegerWithMin$withMax (1, 50);
       int energyDeviation = Globals.env.uniformIntRand.getIntegerWithMin$withMax (1, 50);
       
-      userList.add (new User2d (getZone (), world, x, y,
+      userList.add (new User2d (getZone (), this, x, y,
                                 scatter,
                                 resistProbabilityMean,
                                 resistProbabilityDeviation,
@@ -53,10 +54,6 @@ public class SDG extends Organization {
                                 energyDeviation));
     }
     return this;
-  }
-
-  public Grid2d getWorld () {
-    return world;
   }
 
   public Activity activateIn (Swarm swarmContext) {
