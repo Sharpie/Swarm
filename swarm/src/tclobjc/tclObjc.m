@@ -112,8 +112,6 @@ char *tclObjc_objectToName(id obj)
   return "nil";
 }
 
-extern char *strchr();
-
 /* Return TCLOBJC_NO_OBJ if name is no good */
 id tclObjc_nameToObject(const char *name)
 {
