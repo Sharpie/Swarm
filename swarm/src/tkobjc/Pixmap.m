@@ -222,15 +222,26 @@ PHASE(Creating)
 
 - setDirectory: (const char *)theDirectory
 {
-  if (theDirectory)
+  if (directory)
+    FREEBLOCK (directory);
+ 
+ if (theDirectory)
     directory = STRDUP (theDirectory);
+  else
+    directory = NULL;
   
   return self;
 }
 
 - setFile: (const char *)theFilename
 {
-  filename = STRDUP (theFilename);
+  if (filename)
+    FREEBLOCK (filename);
+
+  if (theFilename)
+    filename = STRDUP (theFilename);
+  else
+    filename = NULL;
   
   return self;
 }
@@ -254,7 +265,7 @@ PHASE(Creating)
   Pixmap *obj = [super createBegin: aZone];
 
   obj->widget = nil;
-  obj->directory = "./";
+  obj->directory = STRDUP ("./");
   obj->filename = NULL;
   obj->decorationsFlag = NO;
 #ifndef _WIN32

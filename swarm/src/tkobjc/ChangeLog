@@ -1,3 +1,8 @@
+2001-05-13  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* Pixmap.m ([Pixmap -set{Directory,File}:]): Handle NULL arguments.
+	([Pixmap +createBegin:]): Copy constant for the sake of the -drop.
+
 2001-04-18  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* NodeItem.[hm] ([NodeItem -resetString:]): New method.
