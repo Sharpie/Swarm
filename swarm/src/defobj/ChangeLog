@@ -1,3 +1,11 @@
+2003-05-01    <mgd@arrow.santafe.edu>
+
+	* DefObject.m ([Object_s -dropAllocations:]): Use DROP again;
+	remove baseDrop lookup.
+	
+	* macros.h: Enable method functions by default, but use the new
+	computed swarm_* function pointers instead of compiler symbols.
+
 2003-03-05  Scott Christley <schristley@mac.com>
 
 	* DefObject.m ([Object_s -dropAllocations:]): Replace asm code
