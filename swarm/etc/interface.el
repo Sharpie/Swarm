@@ -4,7 +4,11 @@
 (require 'protocol)
 (provide 'interface)
 
-(defvar *last-protocol*)
+(defvar *last-protocol* nil)
+
+(defvar *extra-removed-methods* nil)
+
+(defvar *extra-unwanted-create-method-signatures* nil)
 
 (defconst *removed-protocols* 
     '(

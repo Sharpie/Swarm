@@ -1,3 +1,8 @@
+2000-05-06  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (*extra-removed-methods*,
+	*extra-unwanted-create-method-signatures*): Declare here.
+
 2000-05-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el (*removed-protocols*): Enable GraphElement, Drawer,
