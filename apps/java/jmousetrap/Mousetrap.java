@@ -134,7 +134,7 @@ class StartMousetrap
       topLevelSwarm.buildObjects ();
       topLevelSwarm.buildActions ();
       topLevelSwarm.activateIn (null);
-      ((SwarmActivityImpl)topLevelSwarm.getActivity()).run();
+      topLevelSwarm.go ();
     }
 }
 
