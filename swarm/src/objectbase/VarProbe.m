@@ -567,10 +567,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
       else if (stringReturnType == IntString)
         sprintf (buf, "%d",(int) *(char *) p);
       else
-        {
-          printf ("stringReturnType set incorrectly!!!\n");
-          exit (-1);
-        }
+       raiseEvent (InvalidArgument, "stringReturnType set incorrectly!\n");
       break;
     case _C_SHT:
       sprintf (buf, "%hd", *(short *) p);
