@@ -219,43 +219,6 @@ AC_SUBST(TKLIB)
 AC_SUBST(tklibdir)
 ])
 
-AC_DEFUN(md_FIND_TCLOBJC_HEADERS,
-[if test -z "$tclobjcdir" ; then 
-  tclobjcdir=$defaultdir
-fi
-
-if test -z "$tclobjcincludedir" ; then
-  tclobjcincludedir=$tclobjcdir/include
-fi
-
-AC_MSG_CHECKING(directory of tclObjc.h)
-if test -f $tclobjcincludedir/tclObjc.h ; then
-  AC_MSG_RESULT($tclobjcincludedir)
-else
-  AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Please use --with-tclobjcincludedir or --with-tclobjcdir to specify location of tclobjc header files)
-fi
-AC_SUBST(tclobjcdir)
-AC_SUBST(tclobjcincludedir)
-])
-
-AC_DEFUN(md_FIND_TCLOBJC_LIBRARIES,
-[if test -z "$tclobjclibname" ; then
-  tclobjclibname=tclobjc
-fi
-AC_MSG_CHECKING(directory of lib${tclobjclibname}.a)
-if test -f $tclobjcdir/lib/lib${tclobjclibname}.a ; then
-  AC_MSG_RESULT($tclobjcdir/lib)
-else
-  AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Please use --with-tclobjcdir to specify location of tclobjc package)
-fi
-TCLOBJCLDFLAGS='-L${tclobjcdir}/lib'
-TCLOBJCLIB=-l$tclobjclibname
-AC_SUBST(TCLOBJCLDFLAGS)
-AC_SUBST(TCLOBJCLIB)
-])
-
 AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
 if test -z "$bltlibname"; then

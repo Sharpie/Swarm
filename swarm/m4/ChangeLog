@@ -1,3 +1,12 @@
+1998-08-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* actcltk.m4: Remove md_FIND_TCLOBJC_{HEADERS,LIBRARIES}.
+
+	* acnextstep.m4: New file.
+
+	* acobjclibs.m4: Check for objc_malloc and substitute
+	OBJC_MALLOC_OBJ.
+
 1998-07-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* acffi.m4: Rename AC_DEFINE of USE_FFCALL to USE_AVCALL.
