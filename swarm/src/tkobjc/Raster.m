@@ -92,8 +92,18 @@ PHASE(Using)
 // one to it and redraw ourselves.
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
-  int oldWidth = width;
-  int oldHeight = height;
+  int oldWidth = (newWidth < width) ? newWidth : width;
+  int oldHeight = (newHeight < height) ? newHeight : height;
+
+  // This hack is for Windows.  Without it Configure events of the
+  // last known size are sent after the new size has been set.
+  if (newWidth < width || newHeight < height)
+    {
+      Tk_Window tkwin =
+	tkobjc_nameToWindow ([[self getTopLevel] getWidgetName]);
+
+      Tk_GeometryRequest (tkwin, newWidth, newHeight);
+    }
 
   tkobjc_raster_savePixmap (self);
   width = newWidth;

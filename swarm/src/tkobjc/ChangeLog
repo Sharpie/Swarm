@@ -1,5 +1,9 @@
 1999-09-13    <mgd@HELEN>
 
+	* Raster.m ([Raster -setWidth:Height:]): Don't copy more
+	than new size.  When geometry shrinks, make an geometry request to
+	shrink the toplevel window.
+
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
 	-setWindowGeometryRecordName:]): Only duplicate if non-NULL.
 
