@@ -1,6 +1,7 @@
 1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* javaswarm.in: Use @PATHSEP@ instead of : throughout.
+	* javaswarm.in: Use @PATHSEP@ instead for classpath.
+	Use @PATHDELIM@ instead for classpath.
 
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
