@@ -79,21 +79,19 @@ PHASE(UsingOnly)
   if (firstLink)
     {
 #if !LINKED
-      BOOL newFlag = (newLink->nextLink == (void *) 0);
+      id ind = [self begin: getCZone (getZone (self))];
+      BOOL found = ([ind findNext: anObject] != nil);
 
-      if (newFlag || newLink->nextLink != firstLink)
-        {
-#endif
-          newLink->prevLink = firstLink->prevLink;
-          newLink->nextLink = firstLink;
-          firstLink->prevLink->nextLink = newLink;
-          firstLink->prevLink = newLink;
-          firstLink = newLink;
-#if !LINKED
-        }
-      if (!newFlag)
+      [ind drop];
+
+      if (found)
         return;
 #endif
+      newLink->prevLink = firstLink->prevLink;
+      newLink->nextLink = firstLink;
+      firstLink->prevLink->nextLink = newLink;
+      firstLink->prevLink = newLink;
+      firstLink = newLink;
     }
   else
     {
@@ -118,20 +116,18 @@ PHASE(UsingOnly)
   if (firstLink)
     {
 #if !LINKED
-      BOOL newFlag = (newLink->nextLink == (void *) 0);
+      id ind = [self begin: getCZone (getZone (self))];
+      BOOL found = ([ind findNext: anObject] != nil);
 
-      if (newFlag || newLink->nextLink != firstLink)
-        {
-#endif
-          newLink->prevLink = firstLink->prevLink;
-          newLink->nextLink = firstLink;
-          firstLink->prevLink->nextLink = newLink;
-          firstLink->prevLink = newLink;
-#if !LINKED
-        }
-      if (!newFlag)
+      [ind drop];
+
+      if (found)
         return;
 #endif
+      newLink->prevLink = firstLink->prevLink;
+      newLink->nextLink = firstLink;
+      firstLink->prevLink->nextLink = newLink;
+      firstLink->prevLink = newLink;
     }
   else
     {

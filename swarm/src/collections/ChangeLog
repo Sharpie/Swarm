@@ -1,8 +1,7 @@
 2000-06-26  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* List_GEN.m ([TARGET -addFirst:,-addLast:]): In the case
-	of mlinks, check to see if link is new, or if it is
-	not the only member.  Only then adjust links.
+	of mlinks, check to see if link is new.  Only then adjust links.
 
 	* Permutation.[hm] ([Permutation_c describe:]): Remove.
 
