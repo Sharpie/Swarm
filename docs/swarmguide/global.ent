@@ -68,6 +68,28 @@ mailing lists page</ulink>'>
       <HOLDER>&orgname;</HOLDER></COPYRIGHT>"
 >
 
+<!ENTITY startlisting-objc
+    '<informaltable frame="none" role="proglist-objc-java">
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry>Objective C example</entry>
+            <entry>Java example</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry><programlisting>'>
+
+<!ENTITY java '</programlisting></entry>
+                <entry><programlisting>'>
+
+<!ENTITY endlisting '</programlisting></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>'>
+
 <!--
 Local variables: 
 mode: text

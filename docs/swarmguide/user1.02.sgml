@@ -91,41 +91,33 @@
       the object, then "method variables" can be created to hold that
       information.</para>
  
-    <para>In Objective-C, the term <firstterm>message</firstterm> is
-      used to refer to an instruction that tells an object to carry
-      out one of its methods. In Java, the term <firstterm>member
-      function</firstterm> refers to the same thing.  Here is an
-      example of a message that tells an object known as
-      <varname>bobDole</varname> to execute its method
+    <para>In both Objective-C and Java, the term
+      <firstterm>message</firstterm> is often used to refer to an
+      instruction that tells an object to carry out one of its
+      methods. (For readers more familiar to C++, the term
+      <firstterm>member function</firstterm>, refers to the same
+      thing).  Here is an example of a message that tells an object
+      known as <varname>bobDole</varname> to execute its method
       <function>runForPresident</function>.</para>
-   
-    <programlisting> [bobDole runForPresident];</programlisting>
+    
+    &startlisting-objc;[bobDole runForPresident];&java;bobDole.runForPresident();&endlisting;
+    
+    <para>In Objective C, some methods have parameters that specify
+      details and they are added with colons (<literal>:</literal>)
+      after the name of the method to be executed.  In Java, the
+      entire method name is listed <emphasis>before</emphasis> the
+      parameters are given <footnote> <para>In our Java example we use
+      a dollar sign (<literal>$</literal>) inline between the parts of
+      the method that are separated in the Objective C case.  This is
+      purely a convention introduced to stay as close to conventions
+      adopted by the Java Swarm libraries.  This is in no way enforced
+      by the Java language itself.</para>
+      </footnote>.
+      For example, if the method <function>runForPresident</function>
+      required additional parameters, such as the year and the name of
+      the runningmate, then the message might look like so:</para>
 
-    <para>Some methods have parameters that specify details and they
-      are added with colons after the name of the method to be
-      executed.  For example, if the method
-      <function>runForPresident</function> required additional
-      parameters, such as the year and the name of the runningmate,
-      then the message might look like so:</para>
-
-
-    <informaltable>
-      <tgroup cols="2">
-        <tbody>
-          <row>
-            <entry><programlisting>[bobDole runForPresident:2000 with: RossPerot];</programlisting></entry>
-            <entry><programlisting>bobDole.runForPresident$with (2000, RossPerot);</programlisting></entry>
-          </row>
-        </tbody>
-      </tgroup>
-    </informaltable>
-
-<!--
-    <simplelist columns="2" type="vert">
-      <member>[bobDole runForPresident:2000 with: RossPerot];</member>
-      <member>bobDole.runForPresident$with (2000, RossPerot);</member>
-    </simplelist>
--->
+    &startlisting-objc;[bobDole runForPresident:2000 with: RossPerot];&java;bobDole.runForPresident$with (2000, RossPerot);&endlisting;
 
     <para>We will have plenty of additional examples in the rest of
       the Guide.</para>

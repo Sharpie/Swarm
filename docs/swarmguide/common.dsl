@@ -48,6 +48,22 @@
         (literal (gentext-end-quote))))
      (else ($italic-seq$)))))
 
+(element informaltable
+  (let ((role (attribute-string (normalize "role"))))
+    (if (equal? role "proglist-objc-java")
+        (with-mode proglist-objc-java-mode
+          (process-children))
+        (process-children))))
+
+(mode proglist-objc-java-mode
+  ;; don't indent in this mode!!
+  (element programlisting ($verbatim-display$
+                    #f
+                    %number-programlisting-lines%))
+  )
+
+
+
 </style-specification-body>
 </style-specification>
 </style-sheet>

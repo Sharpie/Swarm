@@ -39,6 +39,23 @@
     ;; Should verbatim environments be shaded?
     #t) 
 
+(define ($verbatim-display$ indent line-numbers?)
+  (let ((content (make element gi: "PRE"
+		       attributes: (list
+				    (list "CLASS" (gi)))
+		       (if (or indent line-numbers?)
+			   ($verbatim-line-by-line$ indent line-numbers?)
+			   (process-children)))))
+    (if %shade-verbatim%
+        (make element gi: "TABLE"
+              attributes: ($shade-verbatim-attr$)
+              (make element gi: "TR"
+                    (make element gi: "TD"
+                          (make element gi: "FONT"
+                                attributes: (list (list "SIZE" "-1"))
+                                content))))
+	content)))
+
 (define (toc-depth nd)
   ;; make table of contents:
   ;; 2-level deep for each book

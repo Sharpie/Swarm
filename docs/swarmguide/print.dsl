@@ -29,6 +29,10 @@
   ;; Indent lines in a 'ProgramListing'?
   " ")
 
+(define %verbatim-size-factor% 
+  ;; Verbatim font scaling factor
+  0.8)
+
 (define ($bold-sanserif-seq$ #!optional (sosofo (process-children)))
   (make sequence
     font-family-name: %admon-font-family%
@@ -48,6 +52,7 @@
         ((equal? (gi nd) (normalize "warning"))
          (string-append %admon-graphics-path% "warning.eps"))
         (else (error (string-append (gi nd) " is not an admonition.")))))
+
 
 </style-specification-body>
 </style-specification>

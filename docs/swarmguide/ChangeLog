@@ -1,3 +1,21 @@
+2000-02-21  Alex Lancaster  <alex@santafe.edu>
+
+	* global.ent (startlisting-objc, java, endlisting): General ENTITY
+	boilerplate for side-by-side ObjC and Java PROGRAMLISTINGs.
+ 
+	* common.dsl (informaltable): Subclass role for proglist-objc-java
+	mode.
+	(proglist-objc-java-mode): Implement mode.  Redefine indentation
+	to remove indentation.
+
+	* html.dsl ($verbatim-display$): Override function to set reduce
+	FONT size of verbatim environment by `-1'.
+
+	* print.dsl (%verbatim-size-factor%): Set to 0.8.
+
+	* user1.02.sgml: Add ObjC-Java side-by-side examples and other
+	text.
+
 2000-02-20  Alex Lancaster  <alex@santafe.edu>
 
 	* html.dsl (%always-format-variablelist-as-table%): Set to true.
