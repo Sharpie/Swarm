@@ -42,6 +42,25 @@
       return 1 ;
 }
 
+-(int) getLine: (char *) aLine {
+  int c, pos = 0;
+
+  while ((c = fgetc (theFile)) != EOF && (c == ' ' || c == '\t'));
+  while (c != EOF && c != '\n')
+    {
+      aLine[pos++] = c;
+      c = fgetc (theFile);
+    }
+  aLine[pos] = '\0';
+  if (c == EOF)
+    return 0 ;
+  else
+    {
+      ungetc ('\n', theFile);
+      return 1 ;
+    }
+}
+
 -(int) getInt: (int *) anInt {
   int retVal ;
 

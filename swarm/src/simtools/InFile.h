@@ -14,6 +14,7 @@
 -_setFile_: (FILE *) aFile ;
 
 -(int) getWord: (char *) aWord ;
+-(int) getLine: (char *) aLine ;
 -(int) getInt: (int *) anInt ;
 -(int) getUnsigned: (unsigned *) anUnsigned;
 -(int) getLong: (long *) aLong ;
