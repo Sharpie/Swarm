@@ -1,8 +1,8 @@
 JAVAC=@JAVAC@
-javaprefix=@javaprefix@
+jdkdir=@jdkdir@
 
 %.class: %.java
-	$(JAVAC) -classpath ../..:$(javaprefix)/lib/classes.zip $<
+	$(JAVAC) -classpath ../..:$(jdkdir)/lib/classes.zip $<
 
 CLASSPHASES := __c _u
 PHASES := $(CLASSPHASES) _s
