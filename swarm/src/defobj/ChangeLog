@@ -1,4 +1,15 @@
-2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
+2003-01-14  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* DefObject.m, macros.h: Remove junk left over from obsolete
+	method function.
+
+2003-01-08  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Makefile.am: Remove $(FFILIB) from libdefobj_la_LIBADD to
+	prevent dupication on link line.  Needed on MacOS X, may need
+	testing on other platforms.
+	
+2002-10-19  Paul Johnson  <pauljohn@dv253s74.lawrence.ks.us>
 
 	* Makefile.am (MODULE): $(DESTDIR) added.
 

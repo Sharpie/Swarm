@@ -1,9 +1,17 @@
-2002-09-13    <pjohnson@localhost.localdomain>
+2003-01-08  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* depcomp: Update depcomp from automake 1.6.1
+
+2003-01-02  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* init.c: Should be something better, but only a debug message!
+
+2002-09-13  Paul Johnson <pjohnson@localhost.localdomain>
 
 	* mframe.m (mframe_next_arg): max_size and max_align should be unsigned.
 	(mframe_build_return_opts): retsize is now unsigned
 
-2001-11-05    <mgd@forager.swarm.org>
+2001-11-05  Marcus Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.am: Don't use libgcc -L. 
 
@@ -11,7 +19,7 @@
 
 	* ltconfig: Remove.
 
-2001-11-04    <mgd@HELEN>
+2001-11-04  Marcus Daniels  <mgd@helen.swarm.org>
 
 	* Makefile.am: Avoid multi-line values.
 	(objc.dll): Disable because of EXEEXT problems with new automake.
@@ -22,11 +30,11 @@
 
 	* missing: Update.	
 
-2001-08-24    <mgd@HELEN>
+2001-08-24  Marcus Daniels  <mgd@helen.swarm.org>
 
 	* misc.c: Change comparision from _WIN23 to __CYGWIN__.
 
-2001-07-24    <mgd@HELEN>
+2001-07-24  Marcus Daniels  <mgd@helen.swarm.org>
 
 	* configure.in: Call AC_LIBTOOL_WIN32_DLL before AC_PROG_LIBTOOL.
 
@@ -43,7 +51,7 @@
 
 	* config.guess, config.sub, ltmain.sh: Updated to current libtool.
 
-2001-06-24    <mgd@marcus.swarm.org>
+2001-06-24  Marcus G. Daniels  <mgd@marcus.swarm.org>
 
 	* sendmsg.c (RETVAL_FLOAT_IS_POINTER): GCC 2.96 too.
 
@@ -206,7 +214,7 @@
 	* selector.c (__sel_register_typed_name,
 	__objc_uninstalled_dtable): Likewise.
 
-1999-05-31    <mgd@HELEN>
+1999-05-31  Marcus Daniels  <mgd@helen.swarm.org>
 
 	* Makefile.am (objc.dll): Depend on dllinit.  Define constructor_func
 	for dllinit.c.

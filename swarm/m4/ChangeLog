@@ -1,4 +1,16 @@
-2002-01-14    <mgd@SFI-984289>
+2003-01-04  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* actcltk.m4: Added more recent versions of tcl to include dir
+	list
+
+2002-12-31  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* actcltk.m4: Add .dylib to library suffixes for Darwin/MacOS X and
+	allow for tcl/tk 8.4
+
+	* acfind.m4: Add .dylib to library suffixes for Darwin/MacOS X
+
+2002-01-14  Marcus G. Daniels  <mgd@SFI-984289>
 
 	* acxpm.m4: Add x_includes before xpmincludedir in test programs.
 
@@ -11,7 +23,7 @@
 	* acjdk.m4 (vj_FIND_JDK): Add check for jre/lib/sparc/native_threads,
 	setting JAVACMD to jre/bin/java for 1.4.
 
-2001-11-04    <mgd@HELEN>
+2001-11-04  Marcus Daniels  <mgd@HELEN>
 
 	* acdll.m4 (SWARMLIBS): New substitution variable.
 
@@ -23,7 +35,7 @@
 	* acffi.m4: Use curly-braces instead of round braces for
 	expansions of ${top_builddir} in FFILIB and FFIINCLUDES.
 
-2001-08-24    <mgd@HELEN>
+2001-08-24  Marcus Daniels  <mgd@HELEN>
 
 	* acjdk.m4: Change from INT64 to SWARM_INT64.
 
@@ -62,22 +74,22 @@
 	* acjdk.m4: Check for hotspot before classic VM.
 	Pass APPHOME to vm -- 1.3 needs it.
 
-2000-03-28    <mgd@nest.swarm.org>
+2000-03-28  Marcus Daniels  <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.
 
-2000-03-17    <mgd@nest.swarm.org>
+2000-03-17  Marcus Daniels  <mgd@nest.swarm.org>
 
 	* actcltk.m4: Recognize Tcl/Tk 8.3.
 
-2000-02-23    <mgd@nest.swarm.org>
+2000-02-23  Marcus Daniels  <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.
 
 	* acjdk.m4 (vj_FIND_JDK): Handle Debian 2.2 Java installation
 	structure.
 
-2000-02-14    <mgd@HELEN>
+2000-02-14  Marcus Daniels  <mgd@HELEN>
 
 	* acjdk.m4 (vj_FIND_JDK): Add jdkswarm and jdkcswarm 
 	to JAVASWARMSCRIPTS in Cygwin case.
@@ -192,7 +204,7 @@
 
 	* acpointerfmt.m4: Set PTRHEXFMT to 0x-prefixed %p equivalent.
 
-1999-07-30    <mgd@HELEN>
+1999-07-30  Marcus Daniels  <mgd@HELEN>
 
 	* acjdk.m4: Use jre/lib/rt.jar instead of classes.zip, if available.
 	Convert that with cygpath -w if on cygwin.
@@ -288,7 +300,7 @@
 
 	* acjdk.m4: Quote JAVALIBS for Kaffe setting of KAFFELIBRARYPATH.
 
-1999-06-02    <mgd@HELEN>
+1999-06-02  Marcus Daniels  <mgd@HELEN>
 
 	* acjdk.m4: For Kaffe, get DOS-style path of ${jdkdir}/lib/kaffe,
 	since that is needed to find the .la files.
@@ -304,7 +316,7 @@
 	In Kaffe case, look in ${jdkdir}/bin/kaffe for KAFFE_CLASSDIR.
 	Convert it to windows path if host_os is cygwin.
 
-1999-05-31    <mgd@HELEN>
+1999-05-31  Marcus Daniels  <mgd@HELEN>
 
 	* acjdk.m4 (JAVALIBS): Different settings for Solaris, Digital Unix,
 	HPUX, and WebObjects.

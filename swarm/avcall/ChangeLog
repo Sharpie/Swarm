@@ -1,10 +1,15 @@
-2002-01-16    <mgd@marcus.santafe.edu>
+2002-12-31  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Makefile.in, avcall.m4: AS_...  is assumed to be a macro by
+	current autoconf
+
+2002-01-16  Marcus G. Daniels  <mgd@marcus.santafe.edu>
 
 	* Makefile.in: Add rule for darwin.
 
 	* avcall-rs6000-darwin.s: New file.
 
-2001-07-24    <mgd@HELEN>
+2001-07-24  Marcus G. Daniels  <mgd@HELEN>
 
 	* Makefile.in (OBJECTS): Merge avcall-i386-msvc.lo into OBJECTS
 	for Cygwin. 
@@ -49,11 +54,11 @@
 	* avcall-rs6000-linux.s, avcall.h.in, Makefile.in, configure.in:
 	Adapted from ffcall-1.8.  Thanks to Ralf Stephan.
 
-2000-03-28    <mgd@nest.swarm.org>
+2000-03-28  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.
 
-2000-02-12    <mgd@nest.swarm.org>
+2000-02-12  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.
 
@@ -101,7 +106,7 @@
 	(__msvc_builtin_avcall): Declare instead of __builtin_avcall when
 	MSVC.
 
-1999-07-05    <mgd@HELEN>
+1999-07-05  Marcus G. Daniels  <mgd@HELEN>
 
 	* avcall.h.in (MSVC): Set on _MSC_VER.
 	Replace use of _MSC_VER with MSVC throughout.

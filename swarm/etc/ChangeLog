@@ -1,4 +1,9 @@
-2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
+2003-01-08  northcob  <northcob@allele2>
+
+	* Makefile.common.in: Remove FFILIB from SYSLIBS - not needed and
+	causes link errors
+
+2002-10-19  Paul Johnson  <pauljohn@dv253s74.lawrence.ks.us>
 
 	* Makefile.am: $(DESTDIR) added
 
@@ -21,7 +26,7 @@
 
 	* interface.el (*removed-methods*): Add -getDatasetType.
 
-2001-08-24    <mgd@HELEN>
+2001-08-24  Marcus G. Daniels  <mgd@HELEN>
 
 	* Makefile.protocol: Change OSTYPE comparision from cygwin32 to
 	cygwin.
@@ -221,7 +226,7 @@
 	* interface.el (*removed-methods*): Add _setActionConcurrent_:
 	and _getEmptyActionConcurrent_.
 
-2000-07-06    <mgd@DRONE>
+2000-07-06  Marcus G. Daniels  <mgd@DRONE>
 
 	* Makefile.protocol: Use OSTYPE instead of host_triplet
 	to select DOS pathname transformations (remove
@@ -267,7 +272,7 @@
 	(unwanted-create-method-p): Check
 	*extra-unwanted-create-method-signatures* for more methods.
 
-2000-04-27    <mgd@nest.swarm.org>
+2000-04-27  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* protocol.el (*idl-flag*): Add variable.
 	(check-common-tags): Handle it together with "#ifndef IDL".
@@ -276,24 +281,24 @@
 
 	* interface.el: New file.
 
-2000-03-28    <mgd@nest.swarm.org>
+2000-03-28  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.
 
-2000-02-18    <mgd@nest.swarm.org>
+2000-02-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.
 
 	* Makefile.tests.in: Change bug-swarm@santafe.edu -> swarm.org.
 
-2000-02-12    <mgd@HELEN>
+2000-02-12  Marcus G. Daniels  <mgd@HELEN>
 
 	* Makefile.protocol (dos_abs_builddir, dos_abs_top_builddir,
 	dos_swarm_srcdir): New variables.  Set thse and elcrule per
 	$(host_triplet)/i686-pc-cygwin.
 	(ENVEMACS): Pass them here.
 
-2000-02-12    <mgd@nest.swarm.org>
+2000-02-12  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.common.in (DLLCPPFLAGS): Change from EXTRACPPFLAGS.
 
@@ -304,7 +309,7 @@
 	* Makefile.common.in (SUPPORTLDFLAGS): Move HDF5LDFLAGS to the
 	front.
 
-1999-12-25    <mgd@DRONE>
+1999-12-25  Marcus G. Daniels  <mgd@DRONE>
 
 	* protocol.el (fixup-method): Add conversion for getPopulation.
 
