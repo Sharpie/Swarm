@@ -58,6 +58,10 @@ else
         AC_MSG_ERROR([Can't find threads])
       fi
       proc=sparc
+    elif test -f $expand_jdkincludedir/freebsd/jni_md.h; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/freebsd"
+      threads=green
+      proc=i386
     elif test -f $expand_jdkincludedir/alpha/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
       JAVALIBS='${jdkdir}/shlib'
