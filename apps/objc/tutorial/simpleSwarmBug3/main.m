@@ -23,7 +23,7 @@ main (int argc, const char **argv)
   // change something
   
   if ((modelSwarm = 
-       [lispAppArchiver getWithZone: globalZone object: "modelSwarm"]) == nil)
+       [lispAppArchiver getWithZone: globalZone key: "modelSwarm"]) == nil)
     raiseEvent(InvalidOperation,
                "Can't find the modelSwarm parameters");
 
