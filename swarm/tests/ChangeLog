@@ -1,3 +1,7 @@
+2002-10-30  Marcus G. Daniels  <mgd@condor>
+
+	* Makefile.rules (headers): Use type_SRCS instead of type_SOURCES.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

@@ -11,7 +11,7 @@ CLEANFILES = $(TYPEINFO)
 headers: $(TYPEINFO)
 
 $(TYPEINFO): $(MODULE).h $(MAKEH2X) # $(SOURCES)
-	OBJC="$(OBJC)" OBJCFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)" OBJECTS="$(patsubst %.m,%.o,$(filter-out %.h,$(type_SOURCES)))" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
+	OBJC="$(OBJC)" OBJCFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)" OBJECTS="$(patsubst %.m,%.o,$(filter-out %.h,$(type_SRCS)))" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
 	test -d $(MODULE) || mkdir $(MODULE)
 	mv $(MODULE).xt $(MODULE)/types.h
 	mv $(MODULE).xc $(MODULE)/classes.h
