@@ -1,5 +1,8 @@
 1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* CompleteProbeDisplay.m, MessageProbeWidget.m: Include misc.h
+	instead of string.h.
+
 	* Makefile.am (SRC, simtoolsgui_HEADERS): Remove mention of
 	ActiveGraph.
 

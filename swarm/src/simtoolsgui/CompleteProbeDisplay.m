@@ -3,12 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <string.h>
 #import <simtoolsgui/CompleteProbeDisplay.h>
 #import <simtoolsgui/ClassDisplayWidget.h>
 #import <simtoolsgui/global.h> // probeDisplayManager
 #import <objc/objc-api.h> // IvarList_t
 #import <collections.h> // List
+
+#include <misc.h> // strlen
 
 static int
 max (int a, int b)

@@ -10,8 +10,8 @@
 #import <objectbase.h> // val_t
 #import <objc/objc-api.h>
 
+#include <misc.h> // strlen, strdup
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
 
 // Avoid using chars as an index to ctype table.
