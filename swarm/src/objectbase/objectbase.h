@@ -217,6 +217,8 @@ USING
 //M: the string is always "%i" unless CharString was chosen
 //M: (in which case the format should be "'%c'").
 - (BOOL)setData: anObject ToString: (const char *)s; 
+
+externvar id <Symbol> DefaultString, CharString, IntString;
 @end
 
 typedef struct val {

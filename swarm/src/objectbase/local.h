@@ -12,7 +12,4 @@
 
 //Used in order to ensure that probemaps do not reorder their contents 
 //alphabetically...
-extern int p_compare(id, id);
-
-// Symbols for this library
-externvar id <Symbol> DefaultString, CharString, IntString;
+extern int p_compare (id, id);

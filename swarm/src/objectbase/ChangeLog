@@ -1,3 +1,10 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* objectbase.h (VarProbe): Declare DefaultString, CharString,
+	IntString.
+
+	* local.h: Remove declarations above.
+
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* objectbase.h: Add VarProbe, MessageProbe, and ProbeMap typing.
