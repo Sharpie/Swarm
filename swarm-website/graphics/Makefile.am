@@ -12,14 +12,13 @@ graphicsdir = $(prefix)/graphics
 graphics_DATA = sdg-small.png sdg.jpeg $(heatbugsPNG) $(mousetrapPNG)
 
 %.png: %.eps
-	gs -sDEVICE=png256 -dNOPAUSE -q -sOutputFile=$@ $< -c quit
+	convert -quality 100% $^ $@
 
 %.jpeg: %.png
 	convert -crop 0x0 -geometry 50% -quality 100% $^ $@
 
 sdg-small.png: sdg-small-source.png
-	convert -geometry 55% -crop 180x80+20+90 -quality 100% $^ $@
-
+	convert -geometry 55% -quality 100% $^ $@
 
 ## icons
 

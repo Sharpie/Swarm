@@ -1,3 +1,10 @@
+2003-06-05  Alex Lancaster  <alex@swarm.org>
+
+	* Makefile.am (%.png): Use `convert' from ImageMagick, older
+	installations of GS don't support png256, whereas most
+	installations of `convert' do.
+	(sdg-small.png): Remove -crop argument to `convert'.
+
 2003-05-16  Marcus G. Daniels <mgd@santafe.edu>
 	
 	* Makefile.am (*GIF): Change all of these variables to PNG.
