@@ -29,7 +29,6 @@ Library:      collections
 - copy: aZone;
 - (const char *)getC;
 - (void)catC: (const char *)cstring;
-- (void)appendC: (const char *)cstring;
 - (int)getCount;
 - (int)count;
 - (int)length;

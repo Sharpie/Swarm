@@ -1,7 +1,18 @@
 1998-04-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* collections.h: New protocols: MemberType, IndexSafety, Offsets, 
+	ForEach.  (Collection): Include them.
+	New protocols: DefaultMember, MemberBlock.
+	(Array): Include them.
+	New protocol: EndsOnly.
+	(List): Include it.
+	New protocols: DupOption, Sorted, CompareFunction, BucketFunction,
+	PartiallyOrdered, PartialOrderContext, PartialOrderRelations.
+	(KeyedCollection): Include them.
+
 	* String.m: Reformatting throughout.
-	([String_c -appendC:]): Remove.
+	
+	* String.[hm]: ([String_c -appendC:]): Remove.
 
 	* InputStream.m (readString): Use catC: instead of appendC:.
 
