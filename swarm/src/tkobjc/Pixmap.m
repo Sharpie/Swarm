@@ -46,10 +46,7 @@ PHASE(Creating)
 {
   Pixmap *obj = [self createBegin: aZone];
 
-  if (widget == nil)
-    tkobjc_pixmap_create_from_root_window (obj);
-  else
-    tkobjc_pixmap_create_from_widget (obj, widget);
+  tkobjc_pixmap_create_from_widget (obj, widget);
 
   return obj;
 }

@@ -94,6 +94,7 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
   if (width & 3)
     width += 4 - (width & 3);
 
+#if 0
   if (dib->bitmap)
     {
       xfree (dib->dibInfo);
@@ -107,6 +108,7 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
       dib->oldBitmap = NULL;
       dib->bits = NULL;
     }
+#endif
 
   dib->dibInfo->bmiHead.biSize = sizeof (BITMAPINFOHEADER);
   dib->dibInfo->bmiHead.biWidth = width;
@@ -130,6 +132,98 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
     ReleaseDC (window, hdc);
   else
     DeleteDC (hdc);
+}
+
+#define SNAPSHOTPALETTE ((void *)0xdeaf)
+
+void
+dib_snapshot (dib_t *dib)
+{
+  PALETTEENTRY palette[256];
+  int i;
+  unsigned long newColorMap[256];
+  HDC hdc = GetDC (dib->window);
+  HDC hmemdc = CreateCompatibleDC (hdc);
+  HDC hbmmem;
+  RECT rect;
+  unsigned width, height;
+  int caps;
+  HGDIOBJ hb1;
+  unsigned offs;
+  HPALETTE holdPal;
+  LPBITMAPINFOHEADER pbmp;
+  PBYTE pbits;
+  unsigned bufsize;
+
+  GetWindowRect (dib->window, &rect);
+
+  height = rect.bottom - rect.top;
+  width = rect.right - rect.left;
+  hbmmem = CreateCompatibleBitmap (hdc, width, height);
+  hb1 = SelectObject (hmemdc, hbmmem);
+
+  caps = GetDeviceCaps (hdc, RASTERCAPS);
+  if (caps & RC_PALETTE)
+    {
+      UINT cnt;
+      HPALETTE hpal;
+      LOGPALETTE *plp;
+      
+      cnt = GetDeviceCaps (hdc, SIZEPALETTE);
+      plp = xmalloc (sizeof (LOGPALETTE) + sizeof (PALETTEENTRY) * cnt);
+      plp->palVersion = 0x0300;
+      plp->palNumEntries = cnt;
+      cnt = GetSystemPaletteEntries (hdc, 0, cnt, plp->palPalEntry);
+      if (cnt == 0)
+	abort ();
+      hpal = CreatePalette (plp);
+      xfree (plp);
+      SelectPalette (hmemdc, hpal, FALSE);
+      holdPal = SelectPalette (hdc, hpal, FALSE);
+    }
+  if (BitBlt (hmemdc, 0, 0, width, height, hdc, 0, 0, SRCCOPY) == FALSE)
+    abort ();
+  offs = sizeof(BITMAPINFOHEADER) + sizeof (RGBQUAD) * 256;
+  bufsize = width * height;
+  pbmp = (LPBITMAPINFOHEADER) xmalloc (offs + bufsize);
+  pbmp->biSize = sizeof (BITMAPINFOHEADER);
+  pbmp->biWidth = width;
+  pbmp->biHeight = -height;
+  pbmp->biPlanes = 1;
+  pbmp->biBitCount = 8;
+  pbmp->biCompression = BI_RGB;
+  pbits = (PVOID)((PBYTE)pbmp + offs);
+  hbmmem = SelectObject (hmemdc, hb1);
+
+  if (GetDIBits (hmemdc, hbmmem, 0, height,
+		 pbits, (LPBITMAPINFO)pbmp, DIB_RGB_COLORS) != height)
+    abort ();
+      
+  {
+    int i;
+    BYTE max = 0;
+    RGBQUAD *colors = (PVOID)pbmp + sizeof (BITMAPINFOHEADER);
+
+    for (i = 0; i < bufsize; i++)
+      if (pbits[i] > max)
+	max = pbits[i];
+    
+    {
+      unsigned colorCount = max + 1;
+      unsigned long map[colorCount];
+
+      for (i = 0; i < colorCount; i++)
+	map[i] = colors[i].rgbRed
+	  | (colors[i].rgbGreen << 8)
+	  | (colors[i].rgbBlue << 16);
+      dib_augmentPalette (dib, SNAPSHOTPALETTE, colorCount, map);
+    }
+  }
+  DeleteObject (hbmmem);
+  dib->bits = pbits;
+  SelectObject (hdc, holdPal);
+  ReleaseDC (dib->window, hdc);
+  DeleteDC (hmemdc);
 }
 
 void
@@ -156,14 +250,15 @@ dib_augmentPalette (dib_t *dib,
       }
   }
   
-  {
-    HDC shdc = CreateCompatibleDC (NULL);
-    
-    dib->oldBitmap = SelectObject (shdc, dib->bitmap);
-    SetDIBColorTable (shdc, 0, dib->colorMapSize, dib->dibInfo->rgb);
-    SelectObject (shdc, dib->oldBitmap);
-    DeleteDC (shdc);
-  }
+  if (dib->bitmap)
+    {
+      HDC shdc = CreateCompatibleDC (NULL);
+      
+      dib->oldBitmap = SelectObject (shdc, dib->bitmap);
+      SetDIBColorTable (shdc, 0, dib->colorMapSize, dib->dibInfo->rgb);
+      SelectObject (shdc, dib->oldBitmap);
+      DeleteDC (shdc);
+    }
 }
 
 void
@@ -405,11 +500,8 @@ dib_lock (dib_t *dib)
 {
   GdiFlush ();
   
-  if (!dib->destDC)
-    dib->destDC = GetDC (dib->window);
-  
-  if (!dib->sourceDC)
-    dib->sourceDC = CreateCompatibleDC (dib->destDC);
+  dib->destDC = GetDC (dib->window);
+  dib->sourceDC = CreateCompatibleDC (dib->destDC);
 
   dib->oldBitmap = SelectObject (dib->sourceDC, dib->bitmap);
   

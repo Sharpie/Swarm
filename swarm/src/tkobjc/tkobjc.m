@@ -14,8 +14,10 @@ id <TkExtra> globalTkInterp;
 
 #import "simtools_tcl.x"
 #import "analysis_tcl.x"
+#ifdef _WIN32
 #import "comm_tcl.x"
 #import "tkbusy_tcl.x"
+#endif
 
 id <Error> WindowCreation, WindowUsage, MissingFiles, PaletteError, PixmapError;
 
@@ -39,7 +41,7 @@ initTkObjc (id arguments)
 #ifdef _WIN32
       {
         const char *appName = [arguments getAppName];
-        
+
         [globalTkInterp eval: comm_tcl];
         [globalTkInterp eval: "set %s [comm new %s]", appName, appName];
         [globalTkInterp eval: tkbusy_tcl];

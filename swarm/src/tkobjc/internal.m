@@ -33,7 +33,6 @@
 
 #include <misc.h>
 
-
 typedef struct raster_private {
   GC gc;
   Tk_Window tkwin;
@@ -532,10 +531,10 @@ xpmerrcheck (int xpmerr, const char *what)
 }
 #endif
 
-static void
-tkobjc_pixmap_create_from_window (Pixmap *pixmap, Window window)
-{
 #ifndef _WIN32
+static void
+x_pixmap_create_from_window (Pixmap *pixmap, Window window)
+{
   int x, y;
   unsigned w, h, bw, depth;
   XImage *ximage;
@@ -552,7 +551,7 @@ tkobjc_pixmap_create_from_window (Pixmap *pixmap, Window window)
   xpmerrcheck (XpmCreateXpmImageFromImage (pixmap->display, ximage, NULL,
                                            &pixmap->xpmimage, 
                                            NULL),
-               "tkobjc_pixmap_create_from_window / XpmImage");
+               "x_pixmap_create_from_window / XpmImage");
   
   xpmerrcheck (XpmCreatePixmapFromXpmImage (pixmap->display,
                                             window,
@@ -560,25 +559,30 @@ tkobjc_pixmap_create_from_window (Pixmap *pixmap, Window window)
                                             &pixmap->pixmap,
                                             &pixmap->mask,
                                             NULL),
-               "tkobjc_pixmap_create_from_window / Pixmap");
+               "x_pixmap_create_from_window / Pixmap");
   XDestroyImage (ximage);
-#endif
 }
-
-void
-tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id widget)
+#else
+static void
+win32_pixmap_create_from_window (Pixmap *pixmap, HWND window)
 {
-#ifndef _WIN32
-  Tk_Window tkwin = tkobjc_nameToWindow ([widget getWidgetName]);
-  Window window = Tk_WindowId (tkwin);
+  dib_t *dib = dib_create ();
+  dib->window = window;
+  pixmap->pixmap = dib;
 
-  pixmap->display = Tk_Display (tkwin);
-  tkobjc_pixmap_create_from_window (pixmap, window);
-#endif  
+  {
+    RECT rect;
+
+    GetWindowRect (dib->window, &rect);
+    pixmap->height = rect.bottom - rect.top;
+    pixmap->width = rect.right - rect.left;
+  }
+  dib_snapshot (dib);
 }
+#endif
 
-void
-tkobjc_pixmap_create_from_root_window (Pixmap *pixmap)
+static void
+pixmap_create_from_root_window (Pixmap *pixmap)
 {
 #ifndef _WIN32
   Tk_Window tkwin = tkobjc_nameToWindow (".");
@@ -586,8 +590,30 @@ tkobjc_pixmap_create_from_root_window (Pixmap *pixmap)
   
   pixmap->display = Tk_Display (tkwin);
   root = RootWindow (pixmap->display, DefaultScreen (pixmap->display));
-  tkobjc_pixmap_create_from_window (pixmap, root);
+  x_pixmap_create_from_window (pixmap, root);
+#else
+  win32_pixmap_create_from_window (pixmap, GetDesktopWindow ());
 #endif
+}
+
+void
+tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id widget)
+{
+
+  if (widget == nil)
+    pixmap_create_from_root_window (pixmap);
+  else
+    {
+      Tk_Window tkwin = tkobjc_nameToWindow ([widget getWidgetName]);
+      Window window = Tk_WindowId (tkwin);
+
+#ifndef _WIN32
+      pixmap->display = Tk_Display (tkwin);
+      x_pixmap_create_from_window (pixmap, window);
+#else
+      win32_pixmap_create_from_window (pixmap, Tk_GetHWND (window));
+#endif
+    }
 }
 
 void
@@ -631,7 +657,6 @@ tkobjc_pixmap_create (Pixmap *pixmap,
                               * pixmap->xpmimage.height);
     unsigned *out_pos = data;
     unsigned ri;
-    
     
     for (ri = 0; ri < pixmap->xpmimage.height; ri++)
       {
@@ -750,10 +775,17 @@ tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster)
 void
 tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 {
-#ifndef _WIN32
   FILE *fp = fopen (filename, "wb");
   png_structp png_ptr;
   png_infop info_ptr;
+  unsigned width = pixmap->width;
+  unsigned height = pixmap->height;
+#ifndef _WIN32
+  unsigned ncolors = pixmap->xpmimage.ncolors
+#else
+  dib_t *dib = pixmap->pixmap;
+  unsigned ncolors = dib->colorMapSize;
+#endif
 
   if (fp == NULL)
     [PixmapError raiseEvent: "Cannot open output pixmap file: %s\n", filename];
@@ -783,18 +815,18 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
   png_init_io (png_ptr, fp);
 
   png_set_IHDR (png_ptr, info_ptr,
-                pixmap->xpmimage.width, pixmap->xpmimage.height,
+		width, height,
                 8, PNG_COLOR_TYPE_PALETTE,
                 PNG_INTERLACE_NONE,
                 PNG_COMPRESSION_TYPE_DEFAULT,
                 PNG_FILTER_TYPE_DEFAULT);
-
   {
-    png_color palette[pixmap->xpmimage.ncolors]; 
+    png_color palette[ncolors];
     int i;
     
-    for (i = 0; i < pixmap->xpmimage.ncolors; i++)
+    for (i = 0; i < ncolors; i++)
       {
+#ifndef _WIN32
         unsigned red, green, blue;
 
         sscanf (pixmap->xpmimage.colorTable[i].c_color, "#%4x%4x%4x", 
@@ -802,17 +834,23 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
         palette[i].red = red >> 8;
         palette[i].green = green >> 8;
         palette[i].blue = blue >> 8;
-        
+#else
+	palette[i].red = dib->dibInfo->rgb[i].rgbRed;
+	palette[i].green = dib->dibInfo->rgb[i].rgbGreen;
+	palette[i].blue = dib->dibInfo->rgb[i].rgbBlue;
+#endif
       }
-    png_set_PLTE (png_ptr, info_ptr, palette, pixmap->xpmimage.ncolors);
+    png_set_PLTE (png_ptr, info_ptr, palette, ncolors);
     png_write_info (png_ptr, info_ptr);
   }
   {
-    unsigned height = pixmap->xpmimage.height;
-    unsigned width = pixmap->xpmimage.width;
     png_byte buf[height][width];
     png_bytep row_pointers[height];
+#ifndef _WIN32
     unsigned *data = pixmap->xpmimage.data;
+#else
+    BYTE *data = dib->bits;
+#endif
     int yi, xi;
     
     for (yi = 0; yi < height; yi++)
@@ -826,7 +864,6 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
   png_write_end (png_ptr, info_ptr);
   png_destroy_write_struct (&png_ptr, &info_ptr);
   fclose (fp);
-#endif
 }
 
 
@@ -838,5 +875,7 @@ tkobjc_pixmap_drop (Pixmap *pixmap)
   if (pixmap->mask)
     XFreePixmap (pixmap->display, pixmap->mask);
   XpmFreeXpmImage (&pixmap->xpmimage);
+#else
+  dib_destroy (pixmap->pixmap);
 #endif
 }

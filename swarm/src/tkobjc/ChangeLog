@@ -1,3 +1,28 @@
+1998-08-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* win32dib.c (SNAPSHOTPALETTE): Placeholder for colormap
+	entry for palette generated on the fly for snapshot.
+	(dib_augmentPalette): Don't create DIB color table if there
+	isn't actually a bitmap (the case of a snapshot).
+	
+	* win32dib.[ch] (dib_snapshot): New function.
+
+	* tkobjc.m: Only include comm_tcl.x and tkbusy_tcl.x when _WIN32.
+
+	* internal.m (x_pixmap_create_from_window): Renamed from
+	tkobjc_pixmap_create_from_window.  (Only defined when not _WIN32.)
+	(win32_pixmap_create_from_window): New function. (Only defined
+	when _WIN32).
+	(pixmap_create_from_root_window): Renamed from
+	tkobjc_pixmap_create_from_root_window and made static.
+	(tkobjc_pixmap_create_from_widget): Handle case above.  Add support
+	for Win32.
+	(tkobjc_pixmap_save): Reorganize to handle both X11 and Win32.
+	(tkobjc_pixmap_drop): Drop dib for Win32.
+
+	* Pixmap.m ([Pixmap +create:widget:]): Use only
+	tkobjc_pixmap_create_from_widget.
+
 1998-08-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* comm.tcl (commConnect): Remove extra brackets around
