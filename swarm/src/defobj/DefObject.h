@@ -71,6 +71,7 @@ Library:      defobj
 - (void)xfprintid;
 - lispInCreate: expr;
 - lispIn: expr;
+- lispOutVars: stream deep: (BOOL)deepFlag;
 - lispOutDeep: stream;
 - lispOutShallow: stream;
 - hdf5InCreate: expr;

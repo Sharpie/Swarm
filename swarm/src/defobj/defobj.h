@@ -53,6 +53,10 @@ USING
 //M: Output a deep Lisp representation of object state to a stream.
 - lispOutDeep: stream;
 
+//M: Output just key/variable pairs, where variables are serialized 
+//M: deep or shallow per deepFlag.
+- lispOutVars: stream deep: (BOOL)deepFlag;
+
 //M: Output a shallow HDF5 representation of object state to a stream.
 - hdf5OutShallow: hdf5obj;
 

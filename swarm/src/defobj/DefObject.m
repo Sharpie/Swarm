@@ -1041,25 +1041,29 @@ initDescribeStream (void)
 }
 
 
+- lispOutVars: stream deep: (BOOL)deepFlag
+{
+  void store_object (struct objc_ivar *ivar)
+    {
+      [stream catC: " #:"];
+      [stream catC: ivar->ivar_name];
+      [stream catC: " "];
+      lisp_output_type (ivar->ivar_type,
+                        (void *) self + ivar->ivar_offset,
+                        0,
+                        NULL,
+                        stream,
+                        deepFlag);
+    }
+  map_ivars (getClass (self), store_object);
+  return self;
+}
+
 - _lispOut_: stream deep: (BOOL)deepFlag
 {
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self getTypeName]];
-  {
-    void store_object (struct objc_ivar *ivar)
-      {
-        [stream catC: " #:"];
-        [stream catC: ivar->ivar_name];
-        [stream catC: " "];
-        lisp_output_type (ivar->ivar_type,
-                          (void *) self + ivar->ivar_offset,
-                          0,
-                          NULL,
-                          stream,
-                          deepFlag);
-      }
-    map_ivars (getClass (self), store_object);
-  }
+  [self lispOutVars: stream deep: deepFlag];
   [stream catC: ")"];
   return self;
 }
@@ -1071,7 +1075,8 @@ initDescribeStream (void)
 
 - lispOutDeep: stream
 {
-  return [self _lispOut_: stream deep: YES];
+  [self _lispOut_: stream deep: YES];
+  return self;
 }
 
 - hdf5OutDeep: hdf5Obj

@@ -1,3 +1,10 @@
+1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefObject.[hm], defobj.h ([Object_s -lispOutVars:deep:]):
+	New method.
+
+	* DefObject.m ([Object_s -_lispOut_:deep:]): Use it.
+
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m: Include directory.h instead of jni.h.
