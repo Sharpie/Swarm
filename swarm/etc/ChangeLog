@@ -1,3 +1,12 @@
+2000-07-25  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* protocol.el (argument-name): Append rather than
+	prepend slash so that this function can be used
+	for IDL declarations.
+
+	* interface.el (print-argument): Use argument-name 
+	instead of raw use of name.
+
 2000-07-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el (create-method-implementation-hash-table,

@@ -1257,7 +1257,7 @@
   (let* ((type-and-varname (cdr argument))
          (name (cadr type-and-varname)))
     (when name
-      (if (string= name "class") "_class" name))))
+      (if (string= name "class") "class_" name))))
 
 (defun has-arguments-p (method)
   (argument-name (first (method-arguments method))))

@@ -545,11 +545,10 @@
 (defun print-argument (argument
                        convert-type-func
                        convert-name-func)
-  (let* ((type-and-varname (cdr argument))
-         (varname (cadr type-and-varname)))
+  (let* ((varname (argument-name argument)))
     ;; the case of method with no arguments
     (when varname
-      (insert (funcall convert-type-func (car type-and-varname)))
+      (insert (funcall convert-type-func (argument-type argument)))
       (insert " ")
       (insert (funcall convert-name-func varname))
       t)))
