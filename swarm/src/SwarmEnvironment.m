@@ -145,6 +145,11 @@ PHASE(Using)
   [self _init_: appName version: version bugAddress: bugAddress argCount: argc args: args];
 }
 
+- (id <Arguments>)getArguments
+{
+  return arguments;
+}
+
 - (timeval_t)getCurrentTime
 {
   return getCurrentTime ();
