@@ -1,3 +1,11 @@
+2000-04-20    <mgd@nest.swarm.org>
+
+	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_createProbeDisplay,
+	Java_swarm_SwarmEnvironment_createCompleteProbeDisplay,
+	Java_swarm_SwarmEnvironment_createArchivedProbeDisplay,
+	Java_swarm_SwarmEnvironment_createArchivedCompleteProbeDisplay): 
+	Use SD_ENSUREOBJC instead of SD_FINDOBJC.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

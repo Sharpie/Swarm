@@ -66,7 +66,7 @@ Java_swarm_SwarmEnvironment_createProbeDisplay (JNIEnv *env,
                                                 jobject obj, 
 						jobject anObject)
 {
-  return SD_ENSUREJAVA (env, CREATE_PROBE_DISPLAY (SD_FINDOBJC (env, anObject)));
+  return SD_ENSUREJAVA (env, CREATE_PROBE_DISPLAY (SD_ENSUREOBJC (env, anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -74,7 +74,7 @@ Java_swarm_SwarmEnvironment_createCompleteProbeDisplay (JNIEnv *env,
 							jobject obj, 
 							jobject anObject)
 {
-  return SD_ENSUREJAVA (env, CREATE_COMPLETE_PROBE_DISPLAY (SD_FINDOBJC (env, anObject)));
+  return SD_ENSUREJAVA (env, CREATE_COMPLETE_PROBE_DISPLAY (SD_ENSUREOBJC (env, anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -91,7 +91,7 @@ Java_swarm_SwarmEnvironment_createArchivedProbeDisplay (JNIEnv * env,
   probeDisplay =
     SD_ENSUREJAVA (env,
                    createArchivedProbeDisplayNamed
-                   (SD_FINDOBJC (env, anObject), name));
+                   (SD_ENSUREOBJC (env, anObject), name));
   (*env)->ReleaseStringUTFChars (env, objectName, name);
   return probeDisplay;
 }
@@ -111,7 +111,7 @@ Java_swarm_SwarmEnvironment_createArchivedCompleteProbeDisplay (JNIEnv * env,
   probeDisplay =
     SD_ENSUREJAVA (env,
                    createArchivedCompleteProbeDisplayNamed
-                   (SD_FINDOBJC (env, anObject), name));
+                   (SD_ENSUREOBJC (env, anObject), name));
   
   (*env)->ReleaseStringUTFChars (env, objectName, name);
   return probeDisplay;
