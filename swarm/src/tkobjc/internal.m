@@ -576,7 +576,11 @@ tkobjc_setColor (Colormap *colormap, const char *colorName, PixelValue *pvptr)
   Display *display = Tk_Display (colormap->tkwin);
   int screen = DefaultScreen (display);
 
+#ifndef _WIN32
   rc = XLookupColor (display, colormap->cmap, colorName, &exc, &sxc);
+#else
+  rc = XParseColor (display, colormap->cmap, colorName, &sxc);
+#endif
   if (!rc)
     {
       [ResourceAvailability

@@ -3,7 +3,8 @@
 	* Colormap.m ([Colormap -setColor:ToRed:Green:Blue:]): Revert
 	back to #RRGGBB format (for Cygwin Tk).
 
-	* internal.[hm] (tkobjc_setColor): New function. 
+	* internal.[hm] (tkobjc_setColor): New function.  Use XParseColor
+	for Win32.
 
 	* Colormap.m ([Colormap -createEnd]): Remove reference to xwin.
 	Display and screen are local.
