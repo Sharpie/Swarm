@@ -146,14 +146,14 @@ void debugabort (const char *filename, unsigned lineno, const char *function) __
 
 #define abort() debugabort(__FILE__,__LINE__, __PRETTY_FUNCTION__)
 
-#define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
-#define isSpace(ch) ((ch) == ' ' || (ch) == '\t' || (ch) == '\n' || (ch) == '\r' || (ch) == '\f')
-#define isUpper(ch) ((ch) >= 'A' && (ch) <= 'Z')
-#define isLower(ch) ((ch) >= 'a' && (ch) <= 'z')
-#define isAlpha(ch) (isUpper(ch) || isLower(ch))
-#define isAlnum(ch) (isAlpha(ch) || isDigit(ch))
-#define isPunct(ch) ((((ch) > ' ') && ((ch) < '0')) || (((ch) > '9') && ((ch) < 'A')) || (((ch) > 'Z') && ((ch) < 'a')) || (((ch) > 'z') && ((ch) <= '~')))
-#define isPrint(ch) (isPunct(ch) || isAlnum(ch) || ((ch) == ' '))
+#define isDigit(ch) ({ char _ch = ch; (_ch >= '0' && _ch <= '9'); })
+#define isSpace(ch) ({ char _ch = ch; (_ch == ' ' || _ch == '\t' || _ch == '\n' || _ch == '\r' || _ch == '\f'); })
+#define isUpper(ch) ({ char _ch = ch; (_ch >= 'A' && _ch <= 'Z'); })
+#define isLower(ch) ({ char _ch = ch; (_ch >= 'a' && _ch <= 'z'); })
+#define isAlpha(ch) ({ char _ch = ch; (isUpper (_ch) || isLower (_ch)); })
+#define isAlnum(ch) ({ char _ch = ch; (isAlpha (_ch) || isDigit (_ch)); })
+#define isPunct(ch) ({ char _ch = ch; (((_ch > ' ') && (_ch < '0')) || ((_ch > '9') && (_ch < 'A')) || ((_ch > 'Z') && (_ch < 'a')) || ((_ch > 'z') && (_ch <= '~'))); })
+#define isPrint(ch) ({ char _ch = ch; (isPunct (_ch) || isAlnum (_ch) || (_ch == ' ')); })
 
 #endif
 
