@@ -1,4 +1,4 @@
-// Copyright (C) 1996-1998 Santa Fe Institute.
+// Copyright (C) 1996-1999 Santa Fe Institute.
 #import "BLink.h"
 
 @implementation BLink
