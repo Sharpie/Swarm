@@ -310,6 +310,8 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     Tcl_CmdInfo cmdInfo;
 #endif
 
+    extern void *alloca (size_t);
+
 //
 // We attempt to avoid the __builtin dynamic call entirely
 // in a few common cases. For example, when all the arguments 
