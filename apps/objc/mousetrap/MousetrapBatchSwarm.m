@@ -45,9 +45,15 @@
   // the model.setup parameter file (which contains values for the model
   // specific variables such as gridSize, etc.).
   
-  [ObjectLoader load: self fromFileNamed: "batch.setup"];
-  [ObjectLoader load: mousetrapModelSwarm fromFileNamed: "model.setup"];
+  {
+    const char *configPath = [arguments getAppConfigPath];
+    char buf[strlen (configPath) + 12];
 
+    sprintf (buf, "%sbatch.setup", configPath);
+    [ObjectLoader load: self fromFileNamed: buf];
+    sprintf (buf, "%smodel.setup", configPath);
+    [ObjectLoader load: mousetrapModelSwarm fromFileNamed: buf];
+  }
   // Now, let the model swarm build its objects.
 
   [mousetrapModelSwarm buildObjects];

@@ -1,9 +1,9 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-1998-08-17
+SWARMHOME=../swarm-1998-08-19
 endif
 APPLICATION=mousetrap
 OBJECTS=main.o Mousetrap.o MousetrapModelSwarm.o MousetrapObserverSwarm.o MousetrapBatchSwarm.o
-APPLIBS=-lspace
+DATAFILES = model.setup batch.setup
 
 include $(SWARMHOME)/etc/swarm/Makefile.appl
 
