@@ -20,8 +20,8 @@ main (int argc, const char **argv)
   // Swarm initialization: all Swarm apps must call this first.
   initSwarm (argc, argv);
 
-  // swarmGUIMode is set in initSwarm(). It's set to be 1 if you
-  // typed heatbugs -batchmode. Otherwise, it's set to 0.
+  // swarmGUIMode is set in initSwarm(). It's set to be 0 if you
+  // typed heatbugs -batchmode. Otherwise, it's set to 1.
   
   if (swarmGUIMode == 1)
     {

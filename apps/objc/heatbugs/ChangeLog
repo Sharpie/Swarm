@@ -1,3 +1,9 @@
+1998-04-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Change comment that says batchmode is
+	indicated by swarmGUIMode being 1; batchmode is indicated
+	by swarmGUIMode being 0.
+
 1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Heatbug.m (bugPixmap): Static variable included in USE_PIXMAP case.
