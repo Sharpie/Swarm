@@ -1,3 +1,9 @@
+2000-02-15  Alex Lancaster  <alex@santafe.edu>
+
+	* refcont.sgml: Comment-out random-app.sgml, probes-app.sgml,
+	techcont.sgml APPENDIXes.  All material either outdated or
+	relocated to the Swarm User Guide.
+
 1999-09-22  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* graph.el: Use TOP_BUILDDIR, rather than BUILDDIR to load protocol.

@@ -25,13 +25,13 @@
 &grid-app.sgml;
 
 <!-- random library appendix -->
-&random-app.sgml;
+<!-- &random-app.sgml; -->
 
 <!-- probes -->
-&probes-app.sgml;
+<!-- &probes-app.sgml; -->
 
 <!-- technical tips appendix -->
-&techcont.sgml;
+<!-- &techcont.sgml; -->
 
 <!-- library interface conventions -->
 &conventions-app.sgml;
