@@ -104,13 +104,13 @@
     [aHisto pack] ;
 
     [globalTkInterp eval: 
-       "%s configure -barwidth %lg",[aHisto getWidgetName],step] ;
+       "%s configure -barwidth %g",[aHisto getWidgetName],step] ;
 
     [globalTkInterp eval: 
-       "%s xaxis configure -min %lg -max %lg",
+       "%s xaxis configure -min %g -max %g -stepsize %g",
         [aHisto getWidgetName],
-        min,
-        max] ;
+        min, max, (binNum > 2)?(max - min)/(binNum-1):(max-min)/binNum] ;
+				// stepsize cannot be same size than range
 
     [globalTkInterp eval: 
        "Blt_ZoomStack %s",[aHisto getWidgetName]] ;
@@ -206,7 +206,7 @@
   if(graphics){
     [globalTkInterp eval: 
       "%s marker configure active_outlier_marker \
-          -text \"outliers: %d (%lg)\" ",
+          -text \"outliers: %d (%g)\" ",
       [aHisto getWidgetName], 
       outliers, 
       ((double)outliers) / (((double)outliers) + ((double)count))] ;
@@ -253,9 +253,8 @@
 
 -(double) getMin {
   if(clean){
-    fprintf(stderr,
-            "Attempted to getMin from a reset EZBin (no data available).\n") ;
-    exit(-1) ;
+    [InvalidOperation raiseEvent:
+            "Attempted to getMin from a reset EZBin (no data available).\n"] ;
   }
 
   return minval ;
@@ -263,9 +262,8 @@
 
 -(double) getMax {
   if(clean){
-    fprintf(stderr,
-            "Attempted to getMax from a reset EZBin (no data available).\n") ;
-    exit(-1) ;
+    [InvalidOperation raiseEvent:
+            "Attempted to getMax from a reset EZBin (no data available).\n"] ;
   }
 
   return maxval ;
@@ -273,19 +271,16 @@
 
 -(double) getAverage {
   if(clean){
-    fprintf(stderr,
-      "Attempted to getAverage from a reset EZBin (no data available).\n") ;
-    exit(-1) ;
+    [InvalidOperation raiseEvent:
+      "Attempted to getAverage from a reset EZBin (no data available).\n"] ;
   }
-
   return average ;
 }
 
 -(double) getStd {
   if(clean){
-    fprintf(stderr,
-      "Attempted to getStd from a reset EZBin (no data available).\n") ;
-    exit(-1) ;
+    [InvalidOperation raiseEvent:
+      "Attempted to getStd from a reset EZBin (no data available).\n"];
   }
 
   return std ;

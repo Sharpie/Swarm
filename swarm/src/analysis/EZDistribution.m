@@ -66,8 +66,7 @@
 
 -(double *)getProbabilities {
   if(clean){
-    fprintf(stderr,"Attempted to getProbabilities from a reset EZDistribution (no data available).\n") ;
-    exit(-1) ;
+    [InvalidOperation raiseEvent: "Attempted to getProbabilities from a reset EZDistribution (no data available).\n"];
   }
 
   return probabilities ;
@@ -75,9 +74,8 @@
 
 -(double) getEntropy {
   if(clean){
-    fprintf(stderr,
- "Attempted to getEntropy from a reset EZDistribution (no data available).\n") ;
-    exit(-1) ;
+    [InvalidOperation raiseEvent:
+			"Attempted to getEntropy from a reset EZDistribution (no data available).\n"] ;
   }
   
   return entropy ;

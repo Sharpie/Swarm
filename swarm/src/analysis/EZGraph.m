@@ -9,7 +9,7 @@
 #import <analysis.h>
 
 #define NUMCOLORS 10
-char graphColors[NUMCOLORS][12] ={"Red", "Green", "Blue", 
+char graphColors[NUMCOLORS][16] ={"Red", "Green", "Blue", 
 				  "Pink", "SeaGreen", "LightBlue", 
 				  "Purple", "DarkGreen", "DarkBlue", 
 				  "Black"};

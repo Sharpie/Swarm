@@ -37,9 +37,9 @@
 -getGraph ;
 
 -createGraphSequence: (char *) aName 
-       forSequence: aSeq
-      withFeedFrom: anObj 
-       andSelector: (SEL) aSel ;
+	 forSequence: aSeq
+	withFeedFrom: anObj 
+	 andSelector: (SEL) aSel ;
 
 -createSequence: (char *) aName  
    withFeedFrom:          anObj 
