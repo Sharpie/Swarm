@@ -1,7 +1,10 @@
 AC_DEFUN(md_PROG_GS,
 [AC_CHECK_PROG(GS, gs, gs, missing)
 if test "$GS" = missing ; then
-  AC_MSG_ERROR(Could not find GhostScript)
+  AC_CHECK_PROG(GS, gswin32, gswin32, missing)
+  if test "$GS" = missing ; then
+    AC_MSG_ERROR(Could not find GhostScript)
+  fi
 fi
 for device in png256 ppm ; do
   AC_MSG_CHECKING(that GhostScript can convert eps to $device)

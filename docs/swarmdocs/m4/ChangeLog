@@ -2,3 +2,5 @@
 
 	* Makefile.am (EXTRA_DIST): Add acprogs.m4.
 
+	* acprogs.m4: Check for gswin32 as well as gs.
+
