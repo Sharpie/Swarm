@@ -4,16 +4,17 @@
     
   </ARTHEADER>
   
-  <SIDEBAR><PARA>Unless you are using a system with pre-built package
-manager support (Debian GNU/Linux 2.0, Redhat 5.1, Solaris 2.5),
-Windows 95 or Windows NT), installing Swarm will take some time:
-various external libraries need to be acquired, compiled, and
-installed, and then Swarm itself needs to be compiled.  Please report
-any problems during installation back so that we can try to fix them
-in the future. </PARA>
-<PARA>If you are using a system with binary package manager support,
-please read the manual appropriate to the manager.  Respectively, these
-are `dpkg', `rpm', and `pkgadd', and 
+  <SIDEBAR><PARA>Unless you are using a Windows or a Unix system with
+pre-built package manager support (Debian GNU/Linux 2.0, Redhat 5.1,
+Solaris 2.5), installing Swarm will take some time: various external
+libraries need to be acquired, compiled, and installed, and then Swarm
+itself needs to be compiled.  Please report any problems during
+installation back so that we can try to fix them in the
+future. </PARA>
+
+<PARA>If you are using a Unix system with binary package manager support,
+please read the manual appropriate to the manager.  Respectively,
+these are `dpkg', `rpm', and `pkgadd'.</PARA>
 
 
     <PARA>Swarm uses quite a few libraries and is intended to run

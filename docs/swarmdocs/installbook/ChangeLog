@@ -1,5 +1,8 @@
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* installmeta.sgml: Make more conservative.  Remove statements
+	of intent.
+
 	* install01.sgml: Update library version facts, compatibility, etc.
 
 1998-07-17  Alex Lancaster  <alex@santafe.edu>

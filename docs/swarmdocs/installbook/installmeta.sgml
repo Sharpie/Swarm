@@ -13,25 +13,27 @@
   </BOOKBIBLIO>
 
   <ABSTRACT><TITLE>Overview</TITLE> 
-
-    <PARA> A full-fledged "User Guide" is forthcoming, but incomplete
-    as of writing.  Learning to program with Swarm will require
-    reading example applications, studying the (fairly) technical
+    <PARA>
+<!--
+    A full-fledged "User Guide" is forthcoming, but incomplete
+    as of writing. 
+-->
+    Learning to program with Swarm will require
+    reading example applications, studying the technical
     reference material and sometimes even getting down to the level of
     reviewing the header files in libraries.  It does currently
     require a good hands-on knowledge of object-oriented programming
     and software development processes in general.</PARA>
 
-    <PARA>Swarm is not intended to be a "shrink-wrapped" simulation
-    toolkit "in-a-box".  There are many of those kind of products on
-    the market.  However, the ease of use comes at a price - you are
+    <PARA>Swarm is not yet a `shrink-wrapped' simulation toolkit.
+    There are many of those kind of products on the market.  However,
+    with these packages, the ease of use comes at a price - you are
     locked into the that vendor's particular modelling paradigm.
     Swarm was intended to embrace many different types of modelling -
     consequently, it can be more difficult for a novice user - but
-    much more powerful in the long-run.
+    more powerful in the long-run.
     </PARA>
   </ABSTRACT>
-  
   &installbookrevhistory.sgml;
   
 </BOOKINFO>
