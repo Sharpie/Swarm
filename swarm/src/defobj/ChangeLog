@@ -1,5 +1,8 @@
 1999-02-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* internal.m (alignment_for_objc_type, size_for_objc_type): 
+	Support char and unsigned char.
+
 	* HDF5Object.m (compare_objc_types): New function.  Allow
 	long/int mismatch iff size of two types is the same.
 	(create_class_from_compound_type, [HDF5CompoundType_c

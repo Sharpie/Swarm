@@ -42,6 +42,9 @@ alignment_for_objc_type (const char *varType)
     case _C_DBL:
       alignment = __alignof__ (double);
       break;
+    case _C_CHR: case _C_UCHR:
+      alignment = __alignof__ (char);
+      break;
     case _C_CHARPTR:
       alignment = __alignof__ (const char *);
       break;
@@ -55,6 +58,7 @@ alignment_for_objc_type (const char *varType)
       
       alignment = alignment_for_objc_type (varType);
       break;
+
     default:
       abort ();
     }
@@ -76,6 +80,9 @@ size_for_objc_type (const char *varType)
       break;
     case _C_INT: case _C_UINT:
       size = sizeof (int);
+      break;
+    case _C_CHR: case _C_UCHR:
+      size = sizeof (char);
       break;
     case _C_FLT:
       size = sizeof (float);
