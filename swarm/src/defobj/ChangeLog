@@ -1,3 +1,39 @@
+1999-06-05  Alex Lancaster  <alex@santafe.edu>
+
+	* defobj.h (Archiver): Add method [Archiver_c getWithZone:object:]
+	to protocol.  Document all existing methods.
+
+	* defobj.m (initDefobj): Don't make {lisp,hdf5}AppArchiver expect
+	application metadata.
+
+	* Archiver.m (ArchiverObject): New class, a wrapper object to
+	store either a parsed expression or a changed object instance for
+	output serialization at the Application map, to support lazy
+	archiving.  Sets the changed state of an archiver object
+	implicitly.
+	(lispProcessMakeObjcPairs): Implement lazy instantiation: the
+	Application map stores only the parsed expression from
+	InputStream, rather than an instantiated object.
+	([Archiver_c -createEnd]): Don't make Zone for storage of parsed
+	expressions temporary, use the new instance variable
+	`inStreamZone'.
+	([Archiver_c -drop]): Drop the `inStreamZone' ivar.
+	(lisp_output_objects): If ArchiverObject instance contains a
+	changed object, serialize it in the conventional way, if it
+	contains an unchanged parsed expression, write it back out to the
+	OutputStream.
+	(archiverPut): Accept Zone and hdf5Flag arguments, Lisp instances
+	in the Application map are now stored differently.
+	([Archiver_c -putDeep:object:]): Use new archiverPut call.
+	([Archiver_c -putShallow:object:]): Likewise.
+	(archiverGet): New function.
+	([Archiver_c -_getWithZone_:_object_:]): Internal method, use
+	archiverGet.
+	([Archiver_c -getObject:]): Use -_getWithZone_:_object_:.
+	([Archiver_c -getWithZone:object:]): New method, creates the new
+	object in the specified Zone, rather than inside the Archiver's
+	Zone.
+
 1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Arguments.[hm]: Include swarmconfig.h.  Include argp.h or

@@ -24,6 +24,58 @@ externvardef Archiver_c *lispArchiver;
 externvardef Archiver_c *hdf5AppArchiver;
 externvardef Archiver_c *lispAppArchiver;
 
+@interface ArchiverObject: CreateDrop
+{
+  id expr;
+  id object;
+}
++ create: aZone withExpr: valexpr;
++ create: aZone withObject: theObj;
+- setExpr: valexpr;
+- getExpr;
+- setObject: theObj;
+- getObject;
+@end
+
+@implementation ArchiverObject
++ create: aZone withExpr: valexpr
+{
+  id obj = [self createBegin: aZone];
+  [obj setExpr: valexpr];
+  [obj setObject: nil];
+  return [obj createEnd];
+}
+
++ create: aZone withObject: theObj
+{
+  id obj = [self createBegin: aZone];
+  [obj setExpr: nil];
+  [obj setObject: theObj];
+  return [obj createEnd];
+}
+
+- setExpr: valexpr
+{
+  expr = valexpr;
+  return self;
+}
+- getExpr
+{
+  return expr;
+}
+
+- setObject: obj
+{
+  object = obj;
+  return self;
+}
+
+- getObject
+{
+  return object;
+}
+@end
+
 @interface Application: CreateDrop
 {
   const char *name;
@@ -169,18 +221,17 @@ lispProcessMakeObjcPairs (id aZone, id expr, id app)
   {
     void mapUpdate (id key, id valexpr)
       {
-        id value = lispIn (aZone, valexpr);
         id objectMap;
-        
+
         objectMap = [app getDeepMap];
         if ([objectMap at: key] == nil)
-          [objectMap at: key insert: value];
+          [objectMap at: key insert: 
+                       [ArchiverObject create: aZone withExpr: valexpr]];
         else
           {
             raiseEvent (WarningMessage, "Duplicate object key `%s'",
                         [key getC]);
             [key drop];
-            [value drop];
           }
       }
     lispProcessPairs (aZone, expr, mapUpdate);
@@ -312,13 +363,14 @@ PHASE(Creating)
           
           if (fp != NULL)
             {
-              // Create a temporary zone to simplify destruction of expression
-              id inStreamZone = [Zone create: scratchZone];
-              id inStream = 
-                [InputStream create: inStreamZone setFileStream: fp];
-              
+              // Create zone for easy destruction of expressions,
+              // but don't drop it yet, since we will be doing
+              // lazy evaluation on the saved pairs
+              id inStream;
+              inStreamZone = [Zone create: [self getZone]];
+              inStream = 
+                [InputStream create: inStreamZone setFileStream: fp];  
               [self lispLoadArchiver: [inStream getExpr]];
-              [inStreamZone drop]; 
               fclose (fp);
             }
         }
@@ -408,7 +460,7 @@ PHASE(Setting)
                                    applicationMap);
       [archiverCallExprIndex drop];
     }
-  else
+  else 
     lispProcessMakeObjcPairs (aZone, expr,
                               [self ensureApp: currentApplicationKey]);
   return self;
@@ -504,19 +556,35 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream,
             [outputCharStream catC: "#f"];
           else
             {
-              if ([member isInstance])
+              id obj;
+              if ((obj = [member getObject]))
                 {
-                  if (deepFlag)
-                    [member lispOutDeep: outputCharStream];
+                  if ([obj isInstance])
+                    {
+                      if (deepFlag)
+                        [obj lispOutDeep: outputCharStream];
+                      else
+                        [obj lispOutShallow: outputCharStream];
+                    }
                   else
-                    [member lispOutShallow: outputCharStream];
+                    {
+                      SEL sel = M(lispOutShallow:);
+                      IMP func = get_imp (id_CreatedClass_s, sel);
+                      
+                      func (obj, sel, outputCharStream);
+                    }
                 }
               else
                 {
-                  SEL sel = M(lispOutShallow:);
-                  IMP func = get_imp (id_CreatedClass_s, sel);
-                  
-                  func (member, sel, outputCharStream);
+                  // if we're not storing an object, we must be
+                  // writing out the unchanged contents of the
+                  // expression
+                  id valexpr = [member getExpr];
+                  if (valexpr)
+                    [outputCharStream catExpr: valexpr];
+                  else
+                    raiseEvent(InvalidOperation,
+                               "parsed Lisp expression expected");
                 }
             }
           [outputCharStream catC: ")"];
@@ -660,14 +728,32 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
 }
 
 static void
-archiverPut (const char *keyStr, id value, id addMap, id removeMap)
+archiverPut (id aZone, const char *keyStr, id value, id addMap, id removeMap, 
+             BOOL hdf5Flag)
 {
   id key = [String create: [addMap getZone] setC: keyStr];
   
-  if ([addMap at: key])
-    [addMap at: key replace: value];
+  if (hdf5Flag)
+    {
+      if ([addMap at: key])
+        [addMap at: key replace: value];
+      else
+        [addMap at: key insert: value];
+    }
   else
-    [addMap at: key insert: value];
+    {
+      id item;
+      if ((item = [addMap at: key]))
+        {
+          [item setObject: value];
+          [addMap at: key replace: item];        
+        }
+      else
+        {
+          item = [ArchiverObject create: aZone withObject: value];
+          [addMap at: key insert: item];
+        }
+    }
   if ([removeMap at: key])
     [removeMap removeKey: key];
 }
@@ -676,7 +762,8 @@ archiverPut (const char *keyStr, id value, id addMap, id removeMap)
 {
   id app = [self getApplication];
 
-  archiverPut (key, object, [app getDeepMap], [app getShallowMap]);
+  archiverPut ([self getZone], key, object, [app getDeepMap], 
+               [app getShallowMap], hdf5Flag);
   return self;
 }
 
@@ -684,22 +771,56 @@ archiverPut (const char *keyStr, id value, id addMap, id removeMap)
 {
   id app = [self getApplication];
 
-  archiverPut (key, object, [app getShallowMap], [app getDeepMap]);
+  archiverPut ([self getZone], key, object, [app getShallowMap], 
+               [app getDeepMap], hdf5Flag);
   return self;
+}
+
+static id
+archiverGet (id aZone, id string, id app, BOOL hdf5Flag)
+{
+  id result;
+
+  if (hdf5Flag)
+    {
+      result = [[app getDeepMap] at: string];
+      if (result == nil)
+        result = [[app getShallowMap] at: string];
+    }
+  else
+    {
+      id valexpr = [[[app getDeepMap] at: string] getExpr];
+      if (valexpr == nil)
+        valexpr = [[[app getShallowMap] at: string] getExpr];
+      
+      if (valexpr != nil)
+        result = lispIn (aZone, valexpr);
+      else
+        return nil;
+    }
+  return result;
+}
+
+- _getWithZone_: aZone _object_: (const char *)key 
+{
+  id string = [String create: [self getZone] setC: key];
+  id app = [self getApplication];
+  id result; 
+  
+  result = archiverGet (aZone, string, app, hdf5Flag);
+
+  [string drop];
+  return result;
 }
 
 - getObject: (const char *)key
 {
-  id string = [String create: [self getZone] setC: key];
-  id app = [self getApplication];
-  id result;
-  
-  result = [[app getDeepMap] at: string];
-  if (result == nil)
-    result = [[app getShallowMap] at: string];
-  
-  [string drop];
-  return result;
+  return ([self _getWithZone_: [self getZone] _object_: key]);
+}
+
+- getWithZone: aZone object: (const char *)key
+{
+  return ([self _getWithZone_: aZone _object_: key]);
 }
 
 - (unsigned)countObjects: (BOOL)deepFlag
@@ -798,6 +919,8 @@ archiverPut (const char *keyStr, id value, id addMap, id removeMap)
   [applicationMap drop];
   [classes drop];
   [instances drop];
+  [inStreamZone drop];
+
   [super drop];
 }
 

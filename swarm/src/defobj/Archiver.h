@@ -16,6 +16,7 @@ extern id lispArchiver;
 {
   id currentApplicationKey;
   id <Map> applicationMap;
+  id inStreamZone;
   BOOL hdf5Flag;
   BOOL inhibitLoadFlag;
   BOOL systemArchiverFlag;
@@ -50,6 +51,7 @@ extern id lispArchiver;
 - save;
 
 - getObject: (const char *)key;
+- getWithZone: aZone object: (const char *)key;
 - putDeep: (const char *)key object: object;
 - putShallow: (const char *)key object: object;
 

@@ -154,9 +154,8 @@ initDefobj (int argc, const char **argv,
                        setSystemArchiverFlag: YES]
                       setInhibitLoadFlag: inhibitLoadFlag]
                      createEnd];
-    hdf5AppArchiver = [[[[[Archiver createBegin: globalZone]
+    hdf5AppArchiver = [[[[Archiver createBegin: globalZone]
                         setDefaultAppHDF5Path]
-                       setSystemArchiverFlag: YES]
                       setInhibitLoadFlag: inhibitLoadFlag]
                      createEnd];
 #else
@@ -168,9 +167,8 @@ initDefobj (int argc, const char **argv,
                        setSystemArchiverFlag: YES]
                       setInhibitLoadFlag: inhibitLoadFlag]
                      createEnd];
-    lispAppArchiver = [[[[[Archiver createBegin: globalZone]
+    lispAppArchiver = [[[[Archiver createBegin: globalZone]
                         setDefaultAppLispPath]
-                       setSystemArchiverFlag: YES]
                       setInhibitLoadFlag: inhibitLoadFlag]
                      createEnd];
   }

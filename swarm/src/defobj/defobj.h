@@ -962,21 +962,57 @@ USING
 //D: High level serialization interface.
 CREATING
 + createBegin: aZone;
+
+//M: Make the Archiver ignore any file found in the specified path
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
+
+//M: Set the Archiver to use HDF5 serialization
 - setHDF5Flag: (BOOL)hdf5Flag;
+
+//M: Set the physical path for the Archiver to read/write
 - setPath: (const char *)path;
+
+//M: Make the Archiver expect application metadata, such as `mode'
+//M: information 
 - setSystemArchiverFlag: (BOOL)systemArchiverFlag;
+
+//M: Specify that the Archiver instance use the default system Lisp path:
+//M: ~/.swarmArchiver.scm
 - setDefaultLispPath;
+
+//M: Specify that the Archiver instance use the default system Lisp path:
+//M: ~/swarmArchiver.hdf
 - setDefaultHDF5Path;
+
+//M: Specify that the Archiver to use the default application Lisp path:
+//M: <swarmdatadir>/<application>/<application>.scm or the current 
+//M: directory
 - setDefaultAppLispPath;
+
+//M: Specify that the Archiver to use the default application Lisp path:
+//M: <swarmdatadir>/<application>/<application>.hdf or the current 
+//M: directory
 - setDefaultAppHDF5Path;
 - createEnd;
 USING
 - registerClient: client;
 - unregisterClient: client;
+
+//M: Register with the Archiver a deep serialization of the object
+//M: (serialization only occurs when Archiver is saved)
 - putDeep: (const char *)key object: object;
+
+//M: As per -putDeep, but only make a shallow version
 - putShallow: (const char *)key object: object;
+
+//M: Create the object with `key' using the Archiver's own Zone
 - getObject: (const char *)key;
+
+//M: Create the object with `key' in the specified Zone
+- getWithZone: aZone object: (const char *)key;
+
+//M: Execute all the requested -putShallow: and -putDeep: requests using
+//M: the requested backend
 - save;
 @end
 
