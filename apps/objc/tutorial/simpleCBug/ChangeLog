@@ -1,3 +1,8 @@
+2000-02-27    <mgd@nest.swarm.org>
+
+	* Makefile (SWARMHOME, APPVERSION): Update for 2.1.
+	(BUGADDRESS): Update to SDG.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (APPVERSION, BUGADDRESS): Add.
