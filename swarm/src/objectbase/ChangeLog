@@ -1,3 +1,7 @@
+2001-03-14  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ActivityControl.m ([ActivityControl -_setup_ProbeMap]): Here too.
+
 2001-03-12  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ActivityControl.[hm], objectbase.h: Switch from next/step to

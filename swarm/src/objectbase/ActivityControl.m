@@ -200,10 +200,10 @@ PHASE(Using)
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "stop"
                              inClass: [self class]]
                         setHideResult: 0]];
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "next"
+  [probeMap addProbe: [[probeLibrary getProbeForMessage: "nextAction"
                              inClass: [self class]]
                         setHideResult: 0]];
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "step"
+  [probeMap addProbe: [[probeLibrary getProbeForMessage: "stepAction"
                              inClass: [self class]]
                         setHideResult: 0]];
   [probeMap addProbe: [[probeLibrary getProbeForMessage: "stepUntil:"
