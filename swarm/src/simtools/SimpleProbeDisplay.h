@@ -3,44 +3,22 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <swarmobject/SwarmObject.h>
-#import <tkobjc.h>
-#import <swarmobject/ProbeMap.h>
-#import <simtools/VarProbeWidget.h>
-#import <simtools/MessageProbeWidget.h>
+#import <simtools/CommonProbeDisplay.h>
 
-@interface SimpleProbeDisplay : SwarmObject
+@interface SimpleProbeDisplay : CommonProbeDisplay
 {
-  id probedObject;  
-  ProbeMap * probeMap;
-  Frame *topFrame, *leftFrame, *rightFrame,
-    *middleFrame, *bottomFrame;
-  Label *myTitle ;
+  id probeMap;
+  id leftFrame, rightFrame, middleFrame, bottomFrame;
+  id myTitle;
   int numberOfProbes;
   id *widgets;
-  ref_t objectRef;
-  BOOL removeRef;
-  BOOL markedForDropFlag;
-  
-  Frame *topLevel;
-  const char *windowGeometryRecordName;
 }
 
-- setWindowGeometryRecordName: (const char *)theName;
-- setProbedObject: anObject;
-- setProbeMap: (ProbeMap *) probeMap;
+- setProbeMap: probeMap;
 - createEnd;
-
-- getProbedObject;
 - getProbeMap;
 - update;
-
 - (const char *)package;
 - (const char *)getId;
-
-- (void)setRemoveRef: (BOOL) torf;
-- (void)setObjectRef: (ref_t) or;
 - (void)drop;
-- (BOOL)getMarkedForDropFlag;
-
 @end

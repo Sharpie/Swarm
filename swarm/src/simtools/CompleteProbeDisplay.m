@@ -5,30 +5,13 @@
 
 #import <string.h>
 #import <tkobjc/control.h>
-#import <objc/objc.h>
-#import <objc/objc-api.h>
 #import <simtools/CompleteProbeDisplay.h>
-#import <simtools/Archiver.h>
-#import <simtools/global.h>
+#import <simtools/ClassDisplayWidget.h>
+#import <simtools/global.h> // probeDisplayManager
+#import <objc/objc-api.h> // IvarList_t
+#import <collections.h> // List
 
 @implementation CompleteProbeDisplay
-
-- setWindowGeometryRecordName : (const char *)theName
-{
-  windowGeometryRecordName = theName;
-  return self;
-}
-
-- setProbedObject: (id) anObject
-{
-  probedObject = anObject;
-  return self;
-}
-
-- getProbedObject
-{
-  return probedObject;
-}
 
 static int
 max (int a, int b)
@@ -67,25 +50,8 @@ max_class_var_length (Class class)
   id classList;
   id index;
   id previous;
-  id c_Frame;
 
-  topLevel = [Frame createBegin: [self getZone]];
-  [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
-  topLevel = [topLevel createEnd];
-  withdrawWindow (topLevel);
-  [topLevel setWindowTitle: getId (probedObject)];
-
-  c_Frame = [Frame  createParent: topLevel];  
-
-  the_canvas = [Canvas createParent: c_Frame];
-  configureProbeCanvas (the_canvas);
-  
-  [c_Frame pack];
-
-  topFrame = [Frame createParent: the_canvas];
-  setBorderWidth (topFrame, 0);
-
-  createWindow (topFrame);
+  [super createEnd];
 
   maxwidth = 0;
 
@@ -130,16 +96,13 @@ max_class_var_length (Class class)
 
   [classList drop];
 
-  deiconify (topLevel);
-  assertGeometry (topFrame);
-
-  [probeDisplayManager addProbeDisplay: self];
+  [self install];
   return self;
 }
 
 - do_resize
 {
-  packForget (the_canvas);
+  packForget (canvas);
   assertGeometry (topFrame);
   return self;
 }
@@ -168,16 +131,6 @@ max_class_var_length (Class class)
   [index drop];
   
   return self;
-}
-
-- (void)setRemoveRef: (BOOL) theRemoveRef
-{
-  removeRef = theRemoveRef;
-}
-
-- (void)setObjectRef: (ref_t)theObjectRef
-{
-  objectRef = theObjectRef;
 }
 
 - (void)drop

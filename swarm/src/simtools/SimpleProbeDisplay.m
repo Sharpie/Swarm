@@ -4,34 +4,20 @@
 // See file LICENSE for details and terms of copying.
 
 #import <string.h>
-#import <tkobjc/control.h>
+
 #import <simtools/SimpleProbeDisplay.h>
+#import <swarmobject.h>
+#import <simtools/VarProbeWidget.h>
+#import <simtools/MessageProbeWidget.h>
 #import <simtools/global.h>
-#import <simtools/Archiver.h>
+
+#import <tkobjc/control.h>
 
 @implementation SimpleProbeDisplay
 
-- setWindowGeometryRecordName: (const char *)theName
+- setProbeMap: theProbeMap
 {
-  windowGeometryRecordName = theName;
-  return self;
-}
-
-- setProbedObject: (id)anObject
-{
-
-  probedObject = anObject;
-  return self;
-}
-
-- getProbedObject
-{
-  return probedObject;
-}
-
-- setProbeMap: (ProbeMap *)p
-{
-  probeMap = p;
+  probeMap = theProbeMap;
   return self;
 }
 
@@ -43,32 +29,16 @@
 // finalize creation: create widgets, set them up.
 - createEnd
 {
-  int i ;
-  id index ;
-  id probe ;
-  id hideB ;
-  id top_top_Frame, raisedFrame, c_Frame, the_canvas ;
+  int i;
+  id index;
+  id probe;
+  id hideB;
+  id top_top_Frame, raisedFrame;
 
-  numberOfProbes = [probeMap getNumEntries] ;
-	
-  topLevel = [Frame createBegin: [self getZone]];
-  [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
-  topLevel= [topLevel createEnd]; 
-  [topLevel setWindowTitle: (char *) [probedObject name]] ;
-  withdrawWindow (topLevel);
+  numberOfProbes = [probeMap getNumEntries];
 
-  c_Frame =  [Frame createParent: topLevel]; 
+  [super createEnd];
 
-  the_canvas = [Canvas createParent: c_Frame];
-  configureProbeCanvas (the_canvas);
-
-  [c_Frame pack];
-
-  topFrame =  [Frame createParent: the_canvas];
-  setBorderWidth (topFrame, 0);
-
-  createWindow (topFrame);
-  
   top_top_Frame =  [Frame createParent: topFrame];  
 
   raisedFrame =  [Frame createParent: top_top_Frame];  
@@ -108,7 +78,7 @@
   i = 0 ;
   while ((probe = [index next]) != nil)
     {      
-      if([probe isKindOf: [VarProbe class]])
+      if ([probe isKindOf: [VarProbe class]])
         {
           widgets[i] =	
             [[VarProbeWidget createBegin: [self getZone]]
@@ -127,10 +97,10 @@
 
   index = [probeMap begin: globalZone] ;
 
-  //When I figure out how to 'rewind' I'll do just that...
+  // When I figure out how to 'rewind' I'll do just that...
   while ((probe = [index next]) != nil)
     {
-      if([probe isKindOf: [MessageProbe class]])
+      if ([probe isKindOf: [MessageProbe class]])
         {
           widgets[i] =	
             [[MessageProbeWidget createBegin: [self getZone]] 
@@ -160,13 +130,7 @@
   [middleFrame pack];
   [bottomFrame pack];
 
-  deiconify (topLevel);
-  assertGeometry (topFrame);
-
-  markedForDropFlag = NO;
-
-  [probeDisplayManager addProbeDisplay: self];
-  
+  [self install];
   return self;
 }
 
@@ -178,29 +142,6 @@
     [widgets[i] update] ;
   
   return self;
-}
-
-- (void)setRemoveRef: (BOOL) theRemoveRef
-{
-  removeRef = theRemoveRef;
-}
-
-- (void)setObjectRef: (ref_t)theObjectRef
-{
-  objectRef = theObjectRef;
-}
-
-- (void)markForDrop
-{
-  if ([probeDisplayManager getDropImmediatelyFlag])
-    [self drop];
-  else
-    markedForDropFlag = YES;
-}
-
-- (BOOL)getMarkedForDropFlag
-{
-  return markedForDropFlag;
 }
 
 - (void)drop

@@ -1,5 +1,23 @@
 1997-12-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ProbeDisplayManager.m ([ProbeDisplayManager -createEnd]):
+	Include CommonProbeDisplay instead of SimpleProbeDisplay (for 
+	getMarkedForDropFlag).
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -createEnd]):
+	Modified to call CommonProbeDisplay's createEnd and install.
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]):
+	Likewise.
+
+	* CompleteProbeDisplay.[hm] (CompleteProbeDisplay): Removed things
+	now found in CommonProbeDisplay.
+
+	* SimpleProbeDisplay.[hm] (SimpleProbeDisplay): Likewise.
+
+	* CommonProbeDisplay.h: New abstract class for things common
+	to SimpleProbeDisplay and CompleteProbeDisplay.h.
+
 	* ControlPanel.m: Include simtools/global.h instead of locally
 	declaring probeDisplayManager.
 

@@ -17,7 +17,7 @@
 #import <collections.h>
 
 #import <swarmobject/DefaultProbeMap.h>
-#import <simtools/SimpleProbeDisplay.h>  // for getMarkedForDropFlag
+#import <simtools/CommonProbeDisplay.h>
 
 @implementation ProbeDisplayManager
 
@@ -73,23 +73,22 @@
 {
   id index;
   id member;
-  
+
   [probeList forEach: @selector(update)];
 
   // remove marked probeDisplay
 
   index = [probeList begin: scratchZone];
-  member = [index next];
-
-  while (member)
-    {
-      id nextMember = [index next];
-      
-      if ([member getMarkedForDropFlag])
+  
+  while ((member = [index next]))
+    if ([member getMarkedForDropFlag])
+      {
         [member drop];
-      member = nextMember;
-    }
-
+        [self removeProbeDisplay: member];
+        break;
+      }
+  [index drop];
+  
   return self;
 }
 
