@@ -4,13 +4,14 @@
 (require 'protocol)
 (require 'interface)
 
+(setq debug-on-error t)
+
 (defconst *com-interface-prefix* "swarmI")
 (defconst *com-impl-prefix* "swarm")
 
 (defconst *com-objc-to-idl-type-alist*
     '(("id .*" . "nsISupports")
-      ;("SEL" . "swarmISelector")
-      ("SEL" . "nsISupports")
+      ("SEL" . "swarmISelector")
       ("void" . "void")
       ("const char \\*" . "string")
       ("char \\*" . "string")
@@ -171,16 +172,20 @@
 
 (defun com-idl-method-name (arguments)
   (with-output-to-string
-    (princ (car (first arguments)))
-    (loop for argument in (cdr arguments)
-          for nameKey = (car argument)
-          do
-          (if nameKey
-              (progn
-                (princ "_")
-                (princ nameKey))
-            (princ "X")))))
-
+    (let ((firstKey (car (first arguments))))
+      (princ firstKey)
+      (loop for argument in (cdr arguments)
+            for nameKey = (car argument)
+            do
+            (if nameKey
+                (progn
+                  (princ "_")
+                  (princ nameKey))
+              ;; the idea here is that constructors won't have non-keyed
+              ;; variant names, but features like forEach may
+              (unless (string= firstKey "create")
+                (princ "X")))))))
+    
 (defun com-c++-method-name (arguments)
   (let ((idl-name (com-idl-method-name arguments)))
     (concat (upcase (substring idl-name 0 1))
@@ -293,6 +298,8 @@
 (defun com-idl-print-includes (protocol phase)
   (let ((ht (create-type-hash-table protocol phase)))
     (insert "\n")
+    ;; this won't get picked up by collecting protocols, as SEL isn't one.
+    (insert "#include \"swarmISelector.idl\"\n") 
     (loop for objc-type being each hash-key of ht
           do
           (insert "interface ")
@@ -354,15 +361,29 @@
 (defun com-idl-pathname (protocol phase)
   (c-path (concat (com-interface-name protocol phase) ".idl")))
 
+(defun interface-phases-for-protocol (protocol)
+  (if (string= (protocol-name protocol) "Selector")
+    '(:using)
+    '(:creating :setting :using)))
+
+(defun impl-phases-for-protocol (protocol)
+  (if (string= (protocol-name protocol) "Selector")
+      '(:using)
+    '(:creating :using)))
+
+(defun com-wrapped-protocols ()
+  (loop for protocol being each hash-value of *protocol-hash-table*
+        unless (removed-protocol-p protocol)
+        collect protocol))
+
 (defun com-idl-generate ()
   (when (file-exists-p (com-uuid-table-pathname))
     (load (com-uuid-table-pathname)))
 
   (ensure-directory (c-path))
-  (loop for protocol being each hash-value of *protocol-hash-table*
-        unless (removed-protocol-p protocol)
+  (loop for protocol in (com-complete-protocols)
         do
-        (loop for phase in '(:creating :setting :using)
+        (loop for phase in (interface-phases-for-protocol protocol)
               for interface-name = (com-interface-name protocol phase)
               for uuid = (com-ensure-uuid interface-name)
               do
@@ -392,19 +413,38 @@
   (insert (com-interface-name iprotocol phase))
   (insert ".h>\n"))
 
-(defun com-impl-map-protocols (protocol-func)
+(defun com-impl-map-protocol-list (protocol-list protocol-func)
   (loop for protocol in
         (sort
-         (loop for protocol being each hash-value of *protocol-hash-table*
-               when (and (real-class-p protocol)
-                         (not (removed-protocol-p protocol)))
-               collect protocol)
+         protocol-list
          #'(lambda (a b)
              (string< (protocol-name a)
                       (protocol-name b))))
         do
-        (loop for phase in '(:creating :using)
+        (loop for phase in (impl-phases-for-protocol protocol)
               do (funcall protocol-func protocol phase))))
+
+(defun selector-protocol ()
+  (make-protocol
+   :name "Selector"
+   :module (lookup-module 'swarm)
+   :method-list (list
+                 (make-method
+                  :phase :creating
+                  :factory-flag t
+                  :arguments (list (list "create" "Class" "class")
+                                   (list nil "const char *" "methodName")
+                                   (list nil "BOOL" "objcFlag"))
+                  :return-type "id <Selector>"))))
+                 
+(defun com-complete-protocols ()
+  (cons (selector-protocol) (com-wrapped-protocols)))
+
+(defun com-impl-map-wrapped-protocols (protocol-func)
+  (com-impl-map-protocol-list (com-wrapped-protocols) protocol-func))
+
+(defun com-impl-map-complete-protocols (protocol-func)
+  (com-impl-map-protocol-list (com-complete-protocols) protocol-func))
 
 (defun com-impl-generate-headers (protocol phase)
   (let ((iprotocols (generate-complete-protocol-list protocol)))
@@ -835,18 +875,18 @@
 
 (defun com-impl-generate-component-ids ()
   (with-temp-file (c-path "componentIDs.h")
-    (com-impl-map-protocols #'com-print-cid-define)
+    (com-impl-map-complete-protocols #'com-print-cid-define)
     (insert "\n")
-    (com-impl-map-protocols #'com-print-progid-define)
+    (com-impl-map-complete-protocols #'com-print-progid-define)
     (insert "\n")))
 
 (defun com-impl-generate-module ()
   (with-temp-file (c-path "module.cpp")
     (insert "#include \"nsIModule.h\"\n")
     (insert "#include \"nsIGenericFactory.h\"\n")
-    (com-impl-map-protocols #'com-impl-print-impl-include)
+    (com-impl-map-complete-protocols #'com-impl-print-impl-include)
     (insert "\n")
-    (com-impl-map-protocols
+    (com-impl-map-complete-protocols
      #'(lambda (protocol phase)
          (if (and (string= (protocol-name protocol) "SwarmEnvironment")
                   (inclusive-phase-p phase :using))
@@ -861,7 +901,7 @@
     (insert "#include \"componentIDs.h\"\n")
     (insert "static nsModuleComponentInfo components[] = {\n")
     (let ((first t))
-      (com-impl-map-protocols
+      (com-impl-map-complete-protocols
        #'(lambda (protocol phase)
            (if first
                (progn
@@ -896,9 +936,10 @@
     (load-and-process-modules :uniquify-method-lists t))
   (print-makefile.common)
   (com-idl-generate)
-  (com-impl-map-protocols #'com-impl-generate-headers)
-  (com-impl-map-protocols #'com-impl-generate-c++)
+  (com-impl-map-wrapped-protocols #'com-impl-generate-headers)
+  (com-impl-map-wrapped-protocols #'com-impl-generate-c++)
   (com-impl-generate-component-ids)
   (com-impl-generate-module)
   (com-save-uuid-table))
+
 
