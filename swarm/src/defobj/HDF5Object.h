@@ -57,7 +57,9 @@
 - setName: (const char *)name;
 - setCreateFlag: (BOOL)createFlag;
 - setDatasetFlag: (BOOL)datasetFlag;
+#ifdef HAVE_HDF5
 - setId: (hid_t)locId;
+#endif
 
 - setRecordType: compoundType count: (unsigned)count;
 - setRowNameLength: (size_t)len;

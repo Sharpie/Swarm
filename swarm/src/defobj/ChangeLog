@@ -1,5 +1,7 @@
 1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.[hm]: Only define setId: if HAVE_HDF5 is defined.
+
 	* Archiver.m ([Archiver_c -save]): Set createFlag to YES.
 	([Archiver_c -createEnd]): Add applicationMap processing support
 	for HDF5.

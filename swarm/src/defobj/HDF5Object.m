@@ -132,11 +132,13 @@ PHASE(Creating)
   return self;
 }
 
+#ifdef HAVE_HDF5
 - setId: (hid_t)theLocId
 {
   loc_id = theLocId;
   return self;
 }
+#endif
 
 - setCreateFlag: (BOOL)theCreateFlag
 {
