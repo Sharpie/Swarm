@@ -21,10 +21,14 @@ FORCE:
 ### for swarm, set up with their standard configuration
 SWARMDIST=swarm-1.0.4
 
+ifeq ($(SWARMTMPDIR),)
 TMPDIR=/tmp
+else
+TMPDIR=$(SWARMTMPDIR)
+endif
 TMPDIST=$(TMPDIR)/$(SWARMDIST)
-SRCDIST=/tmp/swarmsrc.tar
-BINDIST=/tmp/swarmbin.tar
+SRCDIST=$(TMPDIR)/swarmsrc.tar
+BINDIST=$(TMPDIR)/swarmbin.tar
 
 distrib: realclean
 	- rm -rf $(TMPDIST)
