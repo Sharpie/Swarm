@@ -9,6 +9,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
      except that it supports language-specific calls and argument and
      return typing via FCall/FArguments. 
      The method for scheduling FActions is -at:createFAction.
+**** New FActionForEach{Creating}{Homogeneous,Heterogeneous} interfaces
+     for controlling whether or not language-specific method implementations
+     can be cached across a collection.
 **** Java Collections can be passed to createActionForEach.
 
 ** Bug fixes
