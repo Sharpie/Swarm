@@ -528,7 +528,6 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 // the defined model of zone-based allocation
 //
 #ifdef INHERIT_OBJECT
-// (suppress automatic declaration of methods by indenting from column 1)
 - copy         { raiseEvent (BlockedObjectAlloc, nil); return nil; }
 + alloc        { raiseEvent (BlockedObjectAlloc, nil); return nil; }
 - free         { raiseEvent (BlockedObjectAlloc, nil); return nil; }
