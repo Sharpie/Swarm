@@ -149,12 +149,12 @@
 
   // set up the EZGraph object
   
-  triggerGraph = [EZGraph createBegin: [self getZone]];
-  SET_WINDOW_GEOMETRY_RECORD_NAME (triggerGraph);
-  [triggerGraph setTitle: "Trigger data vs. time"];
-  [triggerGraph setAxisLabelsX: "time" Y: "number triggered"];
-  triggerGraph = [triggerGraph createEnd] ;
+  triggerGraph = [EZGraph create: [self getZone] 
+                          setTitle: "Trigger data vs. time"
+                          setAxisLabelsX: "time" Y: "number triggered"];
 
+  SET_WINDOW_GEOMETRY_RECORD_NAME (triggerGraph);
+  
   // Now, we create two observations to plot on mousetraps with time:
   //    1) The total number of traps triggered so far
   //    2) The current pending trigger events (number of ping-pong

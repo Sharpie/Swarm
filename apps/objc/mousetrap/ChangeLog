@@ -1,3 +1,8 @@
+1999-08-07  Alex Lancaster  <alex@santafe.edu>
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	-buildObjects]): Use EZGraph convenience factory creation method.
+
 1999-08-01  Alex Lancaster  <alex@santafe.edu>
 
 	* MousetrapModelSwarm.m ([MousetrapModelSwarm -buildObjects]): Use
