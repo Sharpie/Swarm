@@ -1,3 +1,10 @@
+2000-07-16  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (STANDARD_JAVADOC_OPTIONS): Add `swarm' as module to
+	generate documentation for, because some of the former top-level
+	classes are now generated from the stubbing routines and are no
+	longer hard-coded Java classes.
+
 2000-05-31  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (java-stub.elc): Depend on interface.elc.
