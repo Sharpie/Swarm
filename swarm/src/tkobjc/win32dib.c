@@ -1,3 +1,4 @@
+#ifdef _WIN32
 #include "win32dib.h"
 #include <misc.h>
 #include <windows.h>
@@ -487,4 +488,5 @@ dib_blit (dib_t *dib,
                  SRCCOPY);
 }
 
+#endif
 #endif

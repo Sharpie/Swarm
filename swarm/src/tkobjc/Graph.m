@@ -7,8 +7,9 @@
 // gracefully. Bindings to mouse (see BLT demos), autoscrolling, etc.
 // should be added.
 
-#import <tkobjc/global.h>
 #import <tkobjc/Graph.h>
+#import <tkobjc/global.h>
+#import <collections.h> // List
 
 #include <misc.h> // strdup
 #include <stdlib.h> // atoi

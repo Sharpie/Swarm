@@ -1,3 +1,9 @@
+1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* win32dib.[ch]: Include contents only if _WIN32.
+
+	* Graph.m: Include collections.h.
+
 1998-05-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* ArchivedGeometryWidget.m: Add phase tags.

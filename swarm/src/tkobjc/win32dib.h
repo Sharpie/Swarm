@@ -1,5 +1,6 @@
 #ifndef _DIB_H
 #define _DIB_H
+#ifdef _WIN32
 #include <windows.h>
 #include <windowsx.h>
 
@@ -92,5 +93,6 @@ BOOL dib_blit (dib_t *dib,
 	       unsigned sourceWidth, unsigned sourceHeight);
 
 
+#endif
 #endif
 #endif
