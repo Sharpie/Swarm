@@ -46,7 +46,7 @@ $(INCFILE): $(LIBNAME).h
 $(INCINSTALLED): $(HEADERS)
 	if [ ! -d $(INCLIB) ]; then mkdir $(INCLIB); fi
 	cd $(INCLIB); rm -f $(HEADERS)
-	cp -p $(HEADERS) $(INCLIB)
+	if test -n "$(HEADERS)" ; then cp -p $(HEADERS) $(INCLIB) ; fi
 	touch $(INCINSTALLED)
 
 $(LIBRARY): $(OBJECTS)
