@@ -1,3 +1,8 @@
+1998-03-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf (TKLIBDIR): In mgd-SFI-NT, change lib/tk8.0
+	to /tk8.0.
+
 1998-03-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 	
 	* Makefile.conf: Change JAVALIB and JAVAINC definitions to
