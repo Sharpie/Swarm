@@ -71,7 +71,7 @@ USING
 CREATING
 //M: This is the create method for InFiles, where theName is, of course the
 //M: name of the file to open.
-+ create: aZone withName: (const char *)theName;
++ create: aZone setName: (const char *)theName;
 
 USING
 //M: The getWord: method returns a string that does not contain spaces, tabs,
@@ -140,9 +140,9 @@ USING
 //D: thus alleviating the need for C file I/O procedure calls. 
 
 CREATING
-//M: The create:withName: method opens a file named theName and creates an 
+//M: The create:setName: method opens a file named theName and creates an 
 //M: Outfile object.
-+ create: aZone withName: (const char *)theName;
++ create: aZone setName: (const char *)theName;
 
 USING
 //M: The putString: method takes an instance of type string and writes it
@@ -200,9 +200,9 @@ USING
 //D: that it opens a given file in Append Mode rather than in Overwrite mode.
 
 CREATING
-//M: The create:withName: method is the create method for AppendFiles, where 
+//M: The create:setName: method is the create method for AppendFiles, where 
 //M: theName is the name of the file to open.
-+ create: aZone withName: (const char *)theName;
++ create: aZone setName: (const char *)theName;
 @end
 
 @protocol ObjectLoader <SwarmObject, CREATABLE>

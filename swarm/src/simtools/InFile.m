@@ -11,7 +11,7 @@
 @implementation InFile
 PHASE(Creating)
 
-+ create: aZone withName: (const char *)theName
++ create: aZone setName: (const char *)theName
 {
   FILE *aFile;
 

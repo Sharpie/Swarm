@@ -11,7 +11,7 @@
   FILE *theFile;
 }
 
-+ create: aZone withName: (const char *)theName;
++ create: aZone setName: (const char *)theName;
 
 - _setFile_: (FILE *)aFile;
 - (FILE *)_getFile_;

@@ -10,7 +10,7 @@
 @implementation AppendFile
 PHASE(Creating)
 
-+ create: aZone withName: (const char *)theName
++ create: aZone setName: (const char *)theName
 {
   FILE *aFile = fopen (theName, "a");	// opens in "a" - append mode
 
