@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="svg.css" type="text/css"?>
+<!DOCTYPE svg SYSTEM "SVG-20000802.dtd" > 
+<!--<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 10 January 2000//EN" --> 
+<!--  "http://www.w3.org/Graphics/SVG/SVG-19991203.dtd"> --> 
+<svg xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.svg"
+     xmlns:html="http://www.w3.org/1999/xhtml">
+
+<html:script>
+<![CDATA[
+var env;
+var modelSwarm;
+
+function init ()
+{
+
+  netscape.security.PrivilegeManager.enablePrivilege ("UniversalXPConnect");
+
+  env = Components.classes["urn:swarm:SwarmEnvironmentImpl"].
+      createInstance (Components.interfaces.swarmISwarmEnvironment);
+
+  env.initSwarm_version_bugAddress_argCount_args ("svg",
+                                                  "0.0",
+                                                  "bug-swarm@swarm.org",
+                                                   0, []);
+
+  modelSwarm = new ModelSwarm ();
+  modelSwarm.buildActions ();
+
+  dump ("Activating\n");
+  var activity = modelSwarm.activateIn (null).QueryInterface (Components.interfaces.swarmIActivity);
+  dump ("Activated\n");
+  activity.run ();
+  dump ("finished\n");
+}
+
+function createSwarm ()
+{
+  var swarm = Components.classes["urn:swarm:objectbase.SwarmImpl"].
+                createInstance (Components.interfaces.swarmICreate);
+  swarm.create (env.globalZone);
+  return swarm.QueryInterface (Components.interfaces.swarmISwarm);
+}
+
+function Agent (name)
+{
+  this.swarm = createSwarm ();  
+  this.name = name;
+  this.node = findNode (document.documentElement, name);
+}
+
+function ModelSwarm ()
+{
+  this.swarm = createSwarm ();
+
+  this.agentA = new Agent ("A");
+  this.agentA.x = 0;
+  this.agentA.y = 0;
+  this.agentA.length = 100;
+  this.agentA.yposition = 20;
+  this.agentA.repeatInterval = 1;
+
+  this.agentB = new Agent ("B");
+  this.agentB.x = 0;
+  this.agentB.y = 0;
+  this.agentB.length = 100;
+  this.agentB.yposition = 60;
+  this.agentB.repeatInterval = 2;
+
+  this.agentC = new Agent ("C");
+  this.agentC.x = 0;
+  this.agentC.y = 0;
+  this.agentC.length = 100;
+  this.agentC.yposition = 140;
+  this.agentC.repeatInterval = 3;
+}
+
+ModelSwarm.prototype.buildActions =
+function ()
+{
+  this.agentA.buildActions ();
+  this.agentB.buildActions ();
+  this.agentC.buildActions ();
+}
+
+ModelSwarm.prototype.activateIn =
+function (swarmContext)
+{
+  this.swarm.QueryInterface (Components.interfaces.swarmIActionType).activateIn (swarmContext);
+
+  this.agentA.activateIn (this.swarm);
+  this.agentB.activateIn (this.swarm);
+  this.agentC.activateIn (this.swarm);
+  return this.swarm.QueryInterface (Components.interfaces.swarmISwarmProcess).getActivity ();
+}
+
+Agent.prototype.QueryInterface = 
+function (iid)
+{
+   if (!iid.equals (Components.interfaces.nsISupports)
+    && !iid.equals (Components.interfaces.swarmIAgent))
+     throw Components.results.NS_ERROR_NO_INTERFACE;
+
+   return this;
+}
+
+Agent.prototype.stepAgent =
+function ()
+{
+  this.offset = Math.random () * 10 - 5;
+  updateAgent (this);
+}
+
+Agent.prototype.buildActions =
+function ()
+{
+  var sel =
+    Components.classes["urn:swarm:SelectorImpl"].
+     createInstance (Components.interfaces.swarmISelector);
+
+  sel.create (this, "stepAgent");
+
+  this.schedule = 
+    Components.classes["urn:swarm:activity.ScheduleImpl"]. 
+      createInstance (Components.interfaces.swarmISchedule);
+
+  this.schedule.create_setRepeatInterval (env.globalZone, this.repeatInterval);
+
+  this.schedule.at_createActionTo_message (0, this, sel);
+}
+
+Agent.prototype.activateIn =
+function (swarmContext)
+{
+  this.swarm.QueryInterface (Components.interfaces.swarmIActionType).activateIn (swarmContext);
+
+  this.schedule.QueryInterface (Components.interfaces.swarmIActionType).activateIn (this.swarm);
+  return this.swarm.QueryInterface (Components.interfaces.swarmISwarmProcess).getActivity ();
+}
+]]>
+</html:script>
+
+<g>
+  <polygon id="A" x="10" y="20" points="0 0 0 50 100 50 100 0"/>
+  <polygon id="B" x="10" y="80" points="0 60 0 110 100 110 100 60"/>
+  <polygon id="C" x="10" y="140" points="0 120 0 170 100 170 100 120"/>
+</g>
+
+<html:input type="button" onclick="init();" value="Start"/>
+
+<html:script>
+<![CDATA[
+function findNode (node, nodename)
+{
+  var fndNode, child, att, attributes;
+  var type = node.nodeType;
+  if (type == Node.ELEMENT_NODE) {
+
+      // open tag
+      //dump("\<" + node.tagName);
+
+      // dump the attributes if any
+      attributes = node.attributes;
+      if (null != attributes) {
+        var countAttrs = attributes.length;
+        var index = 0;
+        while(index < countAttrs) {
+          att = attributes[index];
+          if (null != att) {
+            //dump(" " + att.name + "=" + att.value+" ["+nodename+"]\n");
+            if (att.name == "id" && att.value == nodename) {
+              //dump("Found it!\n");
+              return node;
+            }
+          }
+          index++;
+        }
+      }
+
+      // recursively dump the children
+      if (node.hasChildNodes()) {
+	      // close tag
+        //dump(">");
+
+        // get the children
+        var children = node.childNodes;
+        var length = children.length;
+        var count = 0;
+        while(count < length) {
+          child = children[count];
+          fndNode = findNode(child, nodename);
+          if (fndNode != null) {
+            return fndNode;
+          }
+          count++;
+        }
+        //dump("</" + node.tagName + ">");
+      } else {
+	      // close tag
+        //dump("/>");
+      }
+
+      
+  }
+  // if it's a piece of text just dump the text
+  else if (type == Node.TEXT_NODE) {
+      //dump(node.data);
+  }
+  return null;
+}
+
+var pattr = document.createAttribute ("points");
+
+function updateAgent (agent)
+{
+  var top = agent.yposition - 20;
+  var bottom = top + 50;
+
+  agent.length = Math.abs (agent.length + agent.offset);
+  pattr.value = "0 " + top + " 0 " + bottom + " " + agent.length + " " + bottom + " " + agent.length + " " + top;
+  agent.node.attributes.setNamedItem (pattr);
+}
+
+]]>
+</html:script>	
+</svg> 
+
