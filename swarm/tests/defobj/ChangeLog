@@ -1,3 +1,8 @@
+1999-05-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* forwarding.m ([DelegateObject [csilfd]m1i:]): New methods.
+	(main): Call them, check against expected results.
+
 1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (check_PROGRAMS): Add forwarding test.

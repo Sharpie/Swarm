@@ -11,6 +11,11 @@
 - (const char *)m4: (double)val float: (float)val2 int: (int)num;
 - (const char *)m5: (float)val double: (double)val2 int: (int)num int2: (int)num2; 
 - (const char *)m6: (float)fval float2: (float)fval2 double: (double)dval int: (int)num int2: (int)num2; 
+
+- (int)im1i: (int)val1;
+- (float)fm1i: (int)val1;
+- (double)dm1i: (int)val1;
+
 @end
 
 @implementation DelegateObject
@@ -68,6 +73,54 @@
   return buf;
 }
 
+- (char)cm1i: (int)val1
+{
+  char result = 'A' + (char)val1;
+
+  printf ("cm1i: `%c'\n", result);
+  return result;
+}
+
+- (short)sm1i: (int)val1
+{
+  short result = val1 + 1;
+
+  printf ("sm1i: %hd\n", result);
+  return result;
+}
+
+- (int)im1i: (int)val1
+{
+  int result = val1 + 2;
+  
+  printf ("im1i: %d\n", result);
+  return result;
+}
+
+- (long)lm1i: (int)val1
+{
+  long result = val1 + 3;
+
+  printf ("lm1i: %ld\n", result);
+  return result;
+}
+
+- (float)fm1i: (int)val1
+{
+  float result = val1 + 4;
+
+  printf ("fm1i: %f\n", result);
+  return result;
+}
+
+- (double)dm1i: (int)val1
+{
+  double result = val1 + 5;
+
+  printf ("dm1i: %f\n", result);
+  return result;
+}
+
 @end
 
 @interface BaseObject: CreateDrop
@@ -105,6 +158,7 @@
   {
     const char *sig = mframe_build_signature (type, NULL, NULL, NULL);
 
+    printf ("{%s}{%s}\n", type, sig);
     sig = mframe_next_arg (sig, &info);
     mframe_get_arg (argFrame, &info, &val);
     [fa setObjCReturnType: *info.type];
@@ -163,5 +217,38 @@ main (int argc, const char **argv)
     return 1;
   if (strcmp ([obj m6: 17.0 float2: 18.0 double: 19.0 int: 20 int2: 21], "20 21 17.00 18.00 19.00") != 0)
     return 1;
+
+  {
+    char ret = [obj cm1i: 1];
+    
+    if (ret != 'B')
+      {
+        fprintf (stderr, "got: `%c' (%d)\n", ret, (int) ret);
+        return 1;
+      }
+  }
+
+  {
+    short ret = [obj sm1i: 2];
+
+    if (ret != 3)
+      {
+        fprintf (stderr, "got: %hd\n", ret);
+        return 1;
+      }
+  }
+
+  if ([obj im1i: 3] != 5)
+    return 1;
+
+  if ([obj lm1i: 4] != 7)
+    return 1;
+
+  if ([obj fm1i: 5] != 9)
+    return 1;
+
+  if ([obj dm1i: 6] != 11)
+    return 1;
+
   return 0;
 }
