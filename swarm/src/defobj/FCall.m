@@ -791,7 +791,7 @@ PHASE(Using)
   {
     void *ptr;
     
-    switch (fargs->returnType)
+    switch (fargs->retVal.type)
       {
       case fcall_type_void:
         ptr = NULL;
