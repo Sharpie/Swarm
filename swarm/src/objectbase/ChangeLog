@@ -1,15 +1,21 @@
-2000-06-18    <mgd@DRONE>
+2000-06-19  Marcus G. Daniels  <mgd@nest.swarm.org>
 
-	* ProbeMap.m ([ProbeMap -addProbeMap:], [ProbeMap -addProbe:]): 
-	Use SD_SUPERCLASS instead of class_get_super_class.
+	* ProbeMap.m ([ProbeMap -addJavaMethods:]): Handle failed
+	selector creation (as occurs with polymorphic methods).
+	([ProbeMap -createEnd]): Use SD_JAVA_FINDJAVACLASS instead
+	of SD_JAVA_FIND_OBJECT_JAVA.
+
+2000-06-18    <mgd@DRONE>
 
 	* CompleteProbeMap.m ([CompleteProbeMap -createEnd]): Use
 	classObject instead of isJavaProxy.
 
-	* ProbeMap.m [ProbeMap -addJavaFields:]): Use
+	* ProbeMap.m ([ProbeMap -addJavaFields:]): Use
 	m_ClassGetDeclaredFields with java_field_usable_p to get the
 	public fields, but not the inherited -- still need to add proper
 	super class support.
+	([ProbeMap -addProbeMap:], [ProbeMap -addProbe:]): 
+	Use SD_SUPERCLASS instead of class_get_super_class.
 
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 

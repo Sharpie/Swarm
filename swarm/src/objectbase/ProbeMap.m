@@ -199,12 +199,12 @@ PHASE(Creating)
       field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, count);
       if (java_field_usable_p (field))
 	{
-	  jstring name =
-	    (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+	  jstring name;
 	  const char *buf;
 	  jboolean isCopy;
 	  id aProbe;
 
+          name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
 	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
 	  aProbe = [VarProbe createBegin: getZone (self)];
 	  [aProbe setProbedClass: probedClass];
@@ -264,23 +264,27 @@ PHASE(Creating)
                                                name,
                                                JNI_FALSE);
               (*jniEnv)->DeleteLocalRef (jniEnv, name);
-              sel = SD_JAVA_ENSUREOBJCMETHOD (selector);
-              (*jniEnv)->DeleteLocalRef (jniEnv, selector);
+              // selector construction can fail on polymorphic methods
+              if (selector)
+                {
+                  sel = SD_JAVA_ENSUREOBJCMETHOD (selector);
+                  (*jniEnv)->DeleteLocalRef (jniEnv, selector);
+                  
+                  aProbe = [MessageProbe createBegin: getZone (self)];
+                  [aProbe setProbedClass: probedClass];
+                  [aProbe setProbedSelector: sel];
+                  if (objectToNotify != nil) 
+                    [aProbe setObjectToNotify: objectToNotify];
+                  
+                  aProbe = [aProbe createEnd];
               
-              aProbe = [MessageProbe createBegin: getZone (self)];
-              [aProbe setProbedClass: probedClass];
-              [aProbe setProbedSelector: sel];
-              if (objectToNotify != nil) 
-                [aProbe setObjectToNotify: objectToNotify];
-              
-              aProbe = [aProbe createEnd];
-              
-              if (!aProbe)
-                abort ();
-              
-              [probes at: [String create: getZone (self)
-                                  setC: [aProbe getProbedMessage]]
-                      insert: aProbe];
+                  if (!aProbe)
+                    abort ();
+                  
+                  [probes at: [String create: getZone (self)
+                                      setC: [aProbe getProbedMessage]]
+                          insert: aProbe];
+                }
             }
 	  (*jniEnv)->DeleteLocalRef (jniEnv, method);
         }
@@ -324,7 +328,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (isJavaProxy)
     { 
-      classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+      classObject = SD_JAVA_FINDJAVACLASS (probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
