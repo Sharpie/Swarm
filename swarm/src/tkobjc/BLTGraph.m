@@ -105,7 +105,7 @@
   xData = [BLTVector create: [self getZone]];
   yData = [BLTVector create: [self getZone]];
 
-  [globalTkInterp eval: "%s element create %s -xdata %s -ydata %s",
+  [globalTkInterp eval: "%s element create %s -xdata %s -ydata %s -symbol none",
 		  [ownerGraph getWidgetName], [self getName],
 		  [xData getName], [yData getName]];
 
