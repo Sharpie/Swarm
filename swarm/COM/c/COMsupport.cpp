@@ -706,7 +706,6 @@ methodParamFcallType (const nsXPTMethodInfo *methodInfo, PRUint16 paramIndex)
       break;
       
     case nsXPTType::T_WCHAR:
-    case nsXPTType::T_BSTR:
     case nsXPTType::T_WCHAR_STR:
     case nsXPTType::T_ARRAY:
     case nsXPTType::T_PSTRING_SIZE_IS:
