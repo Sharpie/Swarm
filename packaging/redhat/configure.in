@@ -1,4 +1,4 @@
-AC_INIT(swarm.spec)
+AC_INIT(swarm.macros)
 
 AM_INIT_AUTOMAKE(swarmspecs, 2.0.1)
 
