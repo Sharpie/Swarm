@@ -1,6 +1,7 @@
 1999-08-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Define HAVE_KAFFE when using Kaffe.
+	Set JAVASWARM_DLL_{NAME,ENTRY} per JDK/Kaffe.
 
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

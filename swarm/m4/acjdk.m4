@@ -78,6 +78,8 @@ else
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
       USEDOSCLASSPATH=yes
+      JAVASWARM_DLL_NAME=javaswarm
+      JAVASWARM_DLL_ENTRY='__cygwin_noncygwin_dll_entry@12'
     else
       test -n "$LD_LIBRARY_PATH_VARNAME" || LD_LIBRARY_PATH_VARNAME=LD_LIBRARY_PATH
       JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\${$LD_LIBRARY_PATH_VARNAME}"
@@ -108,6 +110,8 @@ else
       USEDOSCLASSPATH=yes
       # ${jdkdir}/lib/kaffe is included so that .la file can be found
       JAVALIBS="`cygpath -w ${jdkdir}/bin`;`cygpath -w ${jdkdir}/lib/kaffe`"
+      JAVASWARM_DLL_NAME=libkaffeswarm
+      JAVASWARM_DLL_ENTRY=''
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
     fi
@@ -129,6 +133,8 @@ else
   JAVASTUBS=stubs
   JAVASWARMLIBS=-ljavaswarm
   JAVASWARMSCRIPTS="javaswarm javacswarm"
+  AC_SUBST(JAVASWARM_DLL_ENTRY)
+  AC_SUBST(JAVASWARM_DLL_NAME)
   JAVAC=${JAVAC-$javac_default}
 fi 
 
