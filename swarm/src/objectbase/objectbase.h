@@ -375,6 +375,9 @@ CREATING
 @end
 
 @protocol EmptyProbeMap <CustomProbeMap, CREATABLE>
+//S: A CustomProbeMap to be used for building up ProbeMaps from scratch.
+
+//D: A CustomProbeMap to be used for building up ProbeMaps from scratch.
 @end
 
 @protocol CompleteProbeMap <ProbeMap>
@@ -388,9 +391,11 @@ CREATING
 @end
 
 @protocol CompleteVarMap <ProbeMap>
-//S: A subclass of ProbeMap, whose initial state contains no MessageProbes,
-//S: but does contain all the VarProbes of the requested target class and 
-//S: those of all its superclasses.
+//S: A subclass of ProbeMap, whose initial state contains no MessageProbes.
+
+//D: A subclass of ProbeMap, whose initial state contains no MessageProbes,
+//D: but does contain all the VarProbes of the requested target class and 
+//D: those of all its superclasses.
 @end
 
 @protocol ProbeLibrary <Create, Drop, ProbeConfig> 

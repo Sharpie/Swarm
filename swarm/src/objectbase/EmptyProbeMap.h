@@ -9,8 +9,9 @@
 
 #import <objectbase/CustomProbeMap.h>
 
-@interface EmptyProbeMap : CustomProbeMap {
+@interface EmptyProbeMap: CustomProbeMap
+{
 }
--createEnd;
+
 @end
 

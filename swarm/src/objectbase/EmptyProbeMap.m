@@ -6,9 +6,7 @@
 #import <objectbase/EmptyProbeMap.h>
 
 @implementation EmptyProbeMap
--createEnd {
-  return [super createEnd];
-}
+
 @end
 
 

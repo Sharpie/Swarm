@@ -1,8 +1,12 @@
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* EmptyProbeMap.[hm]: Remove do-nothing -createEnd.
+
 	* objectbase.h: Spacing changes in method declarations throughout.
 	(ProbeConfig, DefaultProbeMap): Add description string.
 	(CompleteProbeMap): Add phase tags.
+	(EmptyProbeMap): Remove -createEnd.
+	(CompleteVarMap): Add //S.
 
 	* CustomProbeMap.m: Add phase tags.
 	
