@@ -1,3 +1,8 @@
+2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
+
+	* analysis.h (EZAverageSequence, EZSequence): Also exclude in
+	--disable-gui case, as they won't be implemented.
+
 2004-07-21  Scott Christley  <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Parameterize simtoolsgui and gui.

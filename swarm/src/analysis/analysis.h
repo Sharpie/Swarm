@@ -282,7 +282,6 @@ USING
 //M: calculated in the previous call to update.
 - (double)getEntropy;
 @end
-#endif
 
 @protocol EZSequence <SwarmObject, RETURNABLE>
 //S: Protocol for an EZSequence
@@ -335,7 +334,6 @@ USING
 
 @end
 
-#ifndef DISABLE_GUI
 @protocol EZGraph <SwarmObject, GUIComposite, CREATABLE>
 //S: A class for easily create graphs.
 
