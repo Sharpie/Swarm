@@ -1,3 +1,9 @@
+2004-07-22  Marcus G. Daniels <mgd@santafe.edu>
+
+	* configure.in: Don't have multiple AC_OUTPUTs for disable-gui,
+	just extract everything. 
+	(If these extra Makefiles aren't invoked, so what.)
+
 2004-07-21  Scott Christley  <schristley@mac.com>
 
 	* Makefile.am (super-clean): Remove all stamp files.

@@ -451,7 +451,7 @@ fi
 AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile
 src/analysis/Makefile src/collections/Makefile src/defobj/Makefile
 src/misc/Makefile src/objectbase/Makefile
-src/random/Makefile src/simtools/Makefile
+src/random/Makefile src/simtools/Makefile 
 src/space/Makefile etc/modules etc/config.swarm etc/Makefile.appl
 etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile
 tests/Makefile tests/activity/Makefile tests/collections/Makefile
@@ -459,15 +459,8 @@ tests/defobj/Makefile tests/objectbase/Makefile
 tests/simtools/Makefile tests/space/Makefile tools/Makefile
 tools/print-hdf5 java/Makefile java/javaswarm java/javacswarm
 java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules
-COM/Makefile COM/c/Makefile])
-
-if test "$enable_gui" = yes; then
-   if test "$enable_gnustep" = no; then
-      AC_OUTPUT([src/gui/Makefile src/simtoolsgui/Makefile])
-      AC_OUTPUT([src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile])
-   else
-      AC_OUTPUT([src/swarmgstep/Makefile])
-   fi
-fi
+COM/Makefile COM/c/Makefile
+src/gui/Makefile src/simtoolsgui/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile src/swarmgstep/Makefile
+])
 
 # abs_srcdir=`cd $srcdir; pwd`
