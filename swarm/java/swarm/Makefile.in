@@ -11,8 +11,8 @@ VPATH=$(srcdir)
 
 include ../Makefile.common
 
-CLASSPHASES := __c _u
-INTERFACEPHASES := $(CLASSPHASES) _s
+CLASSPHASES := __c U
+INTERFACEPHASES := $(CLASSPHASES) S
 
 CLASSES = GlobalZone SwarmEnvironment NonUniqueMethodSignatureException SignatureNotFoundException Selector
 CLASSFILES = $(addsuffix .class,$(CLASSES))

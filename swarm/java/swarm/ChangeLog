@@ -1,5 +1,8 @@
 1999-03-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in, Makefile.rules.in (CLASSPHASES): Use U and S
+	instead of _u and _s.
+
 	* SwarmEnvironment.java: Add globalZone instance variable.  Initialize
 	it in the constructor.
 

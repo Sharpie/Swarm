@@ -2,8 +2,8 @@ jdkdir=@jdkdir@
 jdkbindir=$(jdkdir)/bin
 JAVAC=$(jdkbindir)/javac
 
-CLASSPHASES := __c _u
-PHASES := $(CLASSPHASES) _s
+CLASSPHASES := __c U
+PHASES := $(CLASSPHASES) S
 
 INTERFACES := $(subst __c,,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS)))))
 
