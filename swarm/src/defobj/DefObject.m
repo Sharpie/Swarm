@@ -332,6 +332,8 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 - (void)dropAllocations: (BOOL)componentAlloc
 {
+   extern id baseDrop (id, SEL) asm ("-[Object_s drop]");
+
   if (getBit (zbits, BitComponentAlloc) && !componentAlloc)
     raiseEvent (InvalidOperation,
                 "object was allocated as a component allocation but dropAllocations: "
@@ -342,7 +344,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
                 "object was allocated as a free-standing object but dropAllocations: "
                 "requested drop as a component allocation\n");
   
-  DROP(self);
+   baseDrop (self, M(drop)) ;
 }
 
 //
