@@ -44,7 +44,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 - getPanel
 {
   [self _actionCacheWarning_: 
-          "getPanel in ControlPanel is now DOES NOTHING!\n"];
+          "getPanel in ControlPanel is now does NOTHING!\n"];
   return self;
 }
 
