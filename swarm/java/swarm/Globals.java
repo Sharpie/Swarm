@@ -9,6 +9,7 @@ import swarm.SwarmEnvironmentC;
 import swarm.SwarmEnvironmentImpl;
 
 final public class Globals {
+  public static SwarmEnvironmentCImpl envC;
   public static SwarmEnvironmentImpl env;
 
   static {
@@ -20,7 +21,8 @@ final public class Globals {
       System.err.println ("Exception caught: " + e.getMessage ());
     } 
     env = new SwarmEnvironmentImpl ();
-    new SwarmEnvironmentCImpl (env).createBegin ();
+    envC = new SwarmEnvironmentCImpl (env);
+    envC.createBegin ();
   }
   
   private Globals () { /* not instantiatiable by user */ 

@@ -1,3 +1,7 @@
+2000-08-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Globals.java: Add envC.
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Globals.java: Set up for a phase switch to SwarmEnvironmentImpl.
