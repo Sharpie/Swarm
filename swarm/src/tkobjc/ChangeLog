@@ -1,3 +1,13 @@
+1998-02-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tkobjc.m: Include global.h.
+
+	* TkExtra.m ([TkExtra -preInitWithArgc:argv:]): 
+	For Tcl 8, preload word.tcl to avoid inexplicable error
+	about second argument to tcl_wordBreak{Before,After} with
+	first use of a double-click on a VarProbeEntry. 
+	Thanks to Paul Johnson for reporting this.
+
 1998-02-01  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Colormap.m ([Colormap -setColor:ToName:]): Remove cast

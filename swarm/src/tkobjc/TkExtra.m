@@ -81,6 +81,10 @@ int Blt_Init(Tcl_Interp *);			  // wish this were declared..
       [self eval: "namespace import blt::graph"];
       [self eval: "namespace import blt::BLT_ZoomStack"];
       [self eval: "namespace import blt::vector"];
+      // Without the load below, on VarProbeEntry double-clicks, this occured:
+      //   Original error: no value given for parameter "start" to "tcl_wordBreakBefore"
+      // -mgd
+      [self eval: "source [info library]/word.tcl"];
     }
 
   return filename;

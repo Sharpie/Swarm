@@ -7,6 +7,7 @@
 
 #import "internal.h"
 #import <gui.h>
+#import <tkobjc/global.h>
 
 id <TkExtra> globalTkInterp;
 
