@@ -13,6 +13,7 @@ Library:      defobj
 #import <objc/objc-api.h>
 #import <defalloc.h>
 #include <misc.h> // stpcpy
+#include <swarmconfig.h> // HAVE_JDK
 
 #include <swarmconfig.h>
 
@@ -113,7 +114,7 @@ fcall_type_size (fcall_type_t type)
 
 - _addArgument_: (void *)value ofType: (fcall_type_t)type
 {
-  size_t size;
+  size_t size = 0;
   unsigned offset = MAX_HIDDEN + assignedArgumentCount;
 #ifdef HAVE_JDK
   jstring string;
