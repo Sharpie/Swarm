@@ -1,3 +1,11 @@
+2001-11-04    <mgd@HELEN>
+
+	* Makefile.am: Don't use multi-line values in variable assignments.
+	It confuses automake on Cygwin.
+	(INCLUDES): Add top_builddir.
+	(CLEAN_FILES): Assign.  Don't use included value since that will
+	confuse new automake.
+
 2001-10-26  Marcus G. Daniels  <mgd@condor>
 
 	* CompoundAction.m, Schedule.m: Change from MLINK to MLIST.

@@ -1,3 +1,10 @@
+2001-11-04    <mgd@HELEN>
+
+	* Makefile.am: Don't use multi-line values in variable assignments.
+	(CLEAN_FILES): Set, don't expect included value which
+	confuses new automake.
+	(INCLUDES):Add top_builddir.
+
 2001-10-26  Marcus G. Daniels  <mgd@condor>
 
 	* List_mlinks.[hm] (beginMlinksList, getFirstMlinksLink): Add.
