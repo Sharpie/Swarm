@@ -5,4 +5,34 @@ Java-side (return) proxies
 
 Using constructors
 
-EZBin uses methodFor:
+Non-cygwin DLLs -> test on IDE
+
+Colormap crash
+
+U -> C suffix
+
+Implement heatbugs, mousetrap
+
+Formalize Kaffe patches (Windows, HPUX)
+
+Deprecated methods (and replacements for create:withPath:)
+
+Should we encourage using interface-conformance typing or class typing?
+
+Installshield
+  - add new BLT
+  - add Swarm DLL  
+ 
+libffi / Bank
+
+wite forwarding type signatures in forwarding without register info
+
+make check
+  - Alpha serialization
+  - hppa avcall
+
+make --with-package flags should reject bad arguments
+
+Formalize GCC patches
+
+Probes on Java objects (by serialization)
