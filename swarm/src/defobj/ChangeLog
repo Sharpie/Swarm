@@ -1,5 +1,11 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* internal.h (isDigit, isSpace, isPrint): New macros.
+
+	* DefObject.m ([Object_s -lispIn:]): Use isDigit instead of isdigit.
+
+	* internal.m (alignment_for_objc_type): Likewise.
+
 	* Arguments.m (VARCHAR): Avoid using ctype macros.
 
 	* DefObject.m ([Object_s -getDisplayName]): Return [self getName]

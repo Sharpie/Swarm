@@ -17,12 +17,12 @@ Library:      defobj
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
 #import <defobj/HDF5Object.h>
 #import <defobj/internal.h> // process_array, map_ivars
-                            // lisp_output_type, lisp_process_array
+                            // lisp_output_type, lisp_process_array, isDigit
 
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
-#include <misc.h> // strcpy, strlen, isprint, sprintf
+#include <misc.h> // strcpy, strlen, sprintf
 #include <collections/predicates.h> // arrayp, keywordp, listp, stringp
 
 #ifdef HAVE_JDK
@@ -110,7 +110,7 @@ PHASE(Setting)
         {
           const char *atype = ivar->ivar_type;
 
-          while (isdigit ((int) *atype) || *atype == _C_ARY_B)
+          while (isDigit (*atype) || *atype == _C_ARY_B)
             atype++;
           [val convertToType: *atype dest: ptr];
         }

@@ -71,7 +71,7 @@ alignment_for_objc_type (const char *varType)
       break;
     case _C_ARY_B:
       varType++;
-      while (isdigit ((int) *varType))
+      while (isDigit (*varType))
         varType++;
       
       alignment = alignment_for_objc_type (varType);
