@@ -1,8 +1,11 @@
 1999-02-10  Alex Lancaster  <alex@santafe.edu>
 
+	* random-app.sgml: Brought all idrefs into line with naming
+	convention.
+
 	* random00.sgml: Removed `Implementation Design Notes' - no longer
-	relevant.
-	Make link to User-Guide.For-Beginners section.
+	relevant.  Make link to User-Guide.For-Beginners section.  Brought
+	all idrefs into line with naming convention.
 
 1999-02-09  Alex Lancaster  <alex@santafe.edu>
 

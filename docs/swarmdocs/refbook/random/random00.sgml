@@ -145,7 +145,7 @@
       <TITLE>User Guide for Beginners</TITLE>
        
       <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.usage-beginners.sect1">Random
+     linkend="swarm.random.sgml.appendix.sect1.usage-beginners">Random
      Appendix</link>.  This section may go away in the future to be
      relocated in the Swarm User Guide.</para>
 
@@ -156,7 +156,7 @@
       <TITLE>Usage Guide for Generators</TITLE>
       
      <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.generator-usage.sect2">Random
+     linkend="swarm.random.sgml.appendix.sect2.generator-usage">Random
      Appendix</link>.</para>
 
     </SECT2>
@@ -164,7 +164,7 @@
       <TITLE>Usage Guide for Distributions</TITLE>     
 
      <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.distrib-usage.sect2">Random
+     linkend="swarm.random.sgml.appendix.sect2.distrib-usage">Random
      Appendix</link>.</para>
 
     </SECT2>
@@ -175,7 +175,7 @@
     <TITLE>Advanced Usage Guide</TITLE>
 
      <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.adv-usage.sect1">Random
+     linkend="swarm.random.sgml.appendix.sect1.adv-usage">Random
      Appendix</link>.</para>
 
   </SECT1>
@@ -194,7 +194,7 @@
     <TITLE>Implementation Notes</TITLE>
 
      <para>Please see the <link
-     linkend="swarm.random.sgml.appendix.implementation.sect1">Random
+     linkend="swarm.random.sgml.appendix.sect1.implementation">Random
      Appendix</link>.</para>
 
   </SECT1>

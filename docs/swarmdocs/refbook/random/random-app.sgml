@@ -3,11 +3,11 @@
 
   &Usage-Guide.For-Beginners.sgml;
 
-  <sect1 id="swarm.random.sgml.appendix.usage.sect1">
+  <sect1 id="swarm.random.sgml.appendix.sect1.usage">
 
     <title>Usage Guide</title>
 
-    <SECT2 id="swarm.random.sgml.appendix.generator-usage.sect2">
+    <SECT2 id="swarm.random.sgml.appendix.sect2.generator-usage">
 
       <TITLE>Usage Guide for Generators</TITLE>
       
@@ -15,7 +15,7 @@
 
     </SECT2>
 
-    <SECT2 id="swarm.random.sgml.appendix.distrib-usage.sect2">
+    <SECT2 id="swarm.random.sgml.appendix.sect2.distrib-usage">
       <TITLE>Usage Guide for Distributions</TITLE>     
 
       &Usage-Guide.Distributions.sgml;
@@ -25,7 +25,7 @@
   </SECT1>
 
 
-  <sect1 id="swarm.random.sgml.appendix.adv-usage.sect1">
+  <sect1 id="swarm.random.sgml.appendix.sect1.adv-usage">
     <title>Advanced Usage Guide</title>
 
     <para>This section amplifies the Usage Guide with material on how to 
@@ -59,7 +59,7 @@
 
   </sect1>
 
-  <sect1 id="swarm.random.sgml.appendix.implementation.sect1">
+  <sect1 id="swarm.random.sgml.appendix.sect1.implementation">
     <title>Implementation details</title>
 
     <para>This section provides implementation details for the current
@@ -87,7 +87,7 @@
 
   </sect1>
 
-  <sect1 id="swarm.random.sgml.appendix.reference.sect1">
+  <sect1 id="swarm.random.sgml.appendix.sect1.reference">
     <title>Resources for random number generation</title>
 
     <para>This section lists some of the source reference material
