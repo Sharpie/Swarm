@@ -1,5 +1,7 @@
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* misc.h: Declare xstrdup, remove conditional strdup declaration.
+
 	* Makefile.am (SRC): Move strdup from EXTRA_DIST to SRC.
 
 1999-08-06  Marcus G. Daniels  <mgd@helen.santafe.edu>
