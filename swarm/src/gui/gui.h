@@ -119,7 +119,7 @@ USING
 @end
 
 
-@protocol WindowGeometryRecord <Serialization, Create, Drop, CREATABLE>
+@protocol WindowGeometryRecord <Serialization, Create, Drop>
 //S: A container for window geometry information.
 
 //D: A container for window geometry information that implements
@@ -1039,10 +1039,12 @@ extern void initTkObjc (id arguments);
 
 @class Button;
 @class ButtonPanel;
+@class CheckButton;
 @class ClassDisplayHideButton;
 @class ClassDisplayLabel;
 @class ClassDisplayWidget;
 @class CompleteProbeDisplayLabel;
+@class Form;
 @class Frame;
 @class Label;
 @class MessageProbeEntry;
@@ -1057,6 +1059,7 @@ extern void initTkObjc (id arguments);
 @class Entry;
 @class Graph;
 @class Canvas;
+@class CanvasItem;
 @class Histogram;
 @class LinkItem;
 @class OvalNodeItem;
@@ -1067,10 +1070,11 @@ extern void initTkObjc (id arguments);
 
 @class Circle;
 @class Line;
+@class NodeItem;
+@class Rectangle;
 @class ScheduleItem;
 @class TextItem;
 
 #define ButtonLeft 1
 #define ButtonMiddle 2
 #define ButtonRight 3
-

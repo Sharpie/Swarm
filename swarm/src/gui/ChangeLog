@@ -1,3 +1,9 @@
+1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* gui.h (WindowGeometryRecord): Don't tag as CREATABLE.
+	Add @class for CheckButton, Form, CanvasIteim, NodeItem, and
+	Rectangle.
+
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* gui.h: Add CREATABLE tags for all non-abstract protocols.
