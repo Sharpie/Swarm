@@ -47,8 +47,8 @@
   jobject coll = SD_JAVA_FIND_OBJECT_JAVA (self);
   jclass class;
   jmethodID method;
-  jobject iterator;
-  ObjectEntry *entry;
+  jobject lref;
+  id iteratorProxy;
   
   if (!(class = (*jniEnv)->GetObjectClass (jniEnv, coll)))
     abort ();
@@ -60,11 +60,12 @@
 				"()Ljava/util/Iterator;")))
     abort ();
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
-  iterator = (*jniEnv)->CallObjectMethod (jniEnv, coll, method);
-  entry = SD_JAVA_ADD (iterator,
-                       [JavaCollectionIndex create: aZone]);
-  (*jniEnv)->DeleteLocalRef (jniEnv, iterator);
-  return entry->object;
+  lref = (*jniEnv)->CallObjectMethod (jniEnv, coll, method);
+  iteratorProxy = [JavaCollectionIndex create: aZone
+                                       setIterator: lref
+                                       setCount: [self getCount]];
+  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+  return iteratorProxy;
 }
 
 - beginPermuted: aZone

@@ -1277,22 +1277,6 @@ create_method_refs (void)
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "getModifiers", "()I")))
     abort ();
 
-  {
-    jobject lref;
-
-    if (!(lref = (*jniEnv)->FindClass (jniEnv, "java/util/Iterator")))
-      abort ();
-    
-    if (!(m_IteratorNext =
-          (*jniEnv)->GetMethodID (jniEnv, lref, "next", "()Ljava/lang/Object;")))
-      abort ();
-
-    if (!(m_IteratorHasNext =
-          (*jniEnv)->GetMethodID (jniEnv, lref, "hasNext", "()Z")))
-      abort ();
-    (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-  }
-  
   if (!(m_MethodGetName =
 	(*jniEnv)->GetMethodID (jniEnv, c_Method, "getName",
                                 "()Ljava/lang/String;")))

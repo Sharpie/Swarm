@@ -16,10 +16,21 @@
 
 #ifdef HAVE_JDK
 
-+ create: aZone
++ create: aZone setIterator: (jobject)lref setCount: (unsigned)theCount
 {
   JavaCollectionIndex *obj = [super create: aZone];
+  jclass clazz = (*jniEnv)->GetObjectClass (jniEnv, lref);
+  
   obj->status = Start;
+  
+  if (!(obj->m_next =
+        (*jniEnv)->GetMethodID (jniEnv, clazz, "next", "()Ljava/lang/Object;")))
+    abort ();
+  if (!(obj->m_hasNext =
+        (*jniEnv)->GetMethodID (jniEnv, clazz, "hasNext", "()Z")))
+    abort ();
+  
+  obj->iterator = SD_JAVA_ADDJAVA (lref, obj);
   return obj;
 }
 
@@ -30,14 +41,11 @@
 
 - next
 {
-  jobject iterator = SD_JAVA_FIND_OBJECT_JAVA (self);
-  jobject item;
-  id proxy;
-
-  if ((*jniEnv)->CallBooleanMethod (jniEnv, SD_JAVA_FIND_OBJECT_JAVA (self), m_IteratorHasNext))
+  if ((*jniEnv)->CallBooleanMethod (jniEnv, iterator, m_hasNext))
     {
-      item = (*jniEnv)->CallObjectMethod (jniEnv, iterator, m_IteratorNext);
-      proxy = SD_JAVA_ENSUREOBJC (item);
+      jobject item = (*jniEnv)->CallObjectMethod (jniEnv, iterator, m_next);
+      id proxy = SD_JAVA_ENSUREOBJC (item);
+
       if (item)
         (*jniEnv)->DeleteLocalRef (jniEnv, item);
       status = Member;

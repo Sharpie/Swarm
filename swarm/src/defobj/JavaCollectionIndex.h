@@ -5,13 +5,19 @@
 
 #import <defobj.h>
 #import <defobj/Create.h>
+#import <swarmconfig.h>
+#import "java.h"
 
 @interface JavaCollectionIndex: CreateDrop
 {
+#ifdef HAVE_JDK
+  jobject iterator;
+  jmethodID m_next, m_hasNext;
+#endif
   id <Symbol> status;
 }
 #ifdef HAVE_JDK
-+ create: aZone;
++ create: aZone setIterator: (jobject)lref setCount: (unsigned)count;
 - (id <Symbol>)getLoc;
 - next;
 #endif
