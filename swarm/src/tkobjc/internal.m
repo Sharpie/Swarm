@@ -124,7 +124,11 @@ setSecondaryPath (id arguments)
   
   if (swarmHome)
     {
+#ifdef __WIN32__
+      const char *secondarySubpath = "lib/";
+#else
       const char *secondarySubpath = "share/";
+#endif
       char *libraryPath = xmalloc (strlen (swarmHome) +
                                    strlen (secondarySubpath) + 1);
       char *p;
