@@ -201,13 +201,10 @@ fi
 swarm_libdir="`echo $libdir | sed 's/{/{swarm_/'`"
 swarm_includedir="`echo $includedir | sed 's/{/{swarm_/'`"
 
-builddir=`pwd`
-
 AC_SUBST(swarm_prefix)
 AC_SUBST(swarm_exec_prefix)
 AC_SUBST(swarm_libdir)
 AC_SUBST(swarm_includedir)
-AC_SUBST(builddir)
 
 AC_DEFINE_UNQUOTED(PREFIX,"$prefix")
 AC_DEFINE_UNQUOTED(DATADIR,"$datadir")
