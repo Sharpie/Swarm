@@ -275,8 +275,9 @@ indexAtOffset (Collection_any *self, int offset)
 
           sprintf (buf, "%u", [li getOffset]);
           
-          itemGroup = [[[[HDF5 createBegin: aZone]
-                          setParent: hdf5Obj]
+          itemGroup = [[[[[HDF5 createBegin: aZone]
+                           setParent: hdf5Obj]
+                          setCreateFlag: YES]
                          setName: buf]
                         createEnd];
           
@@ -297,9 +298,10 @@ indexAtOffset (Collection_any *self, int offset)
                                   createEnd];
           
           id hdf5ObjDataset =
-            [[[[[HDF5 createBegin: aZone]
-                 setName: [hdf5Obj getName]]
-                setParent: hdf5Obj]
+            [[[[[[HDF5 createBegin: aZone]
+                  setName: [hdf5Obj getName]]
+                 setParent: hdf5Obj]
+                setCreateFlag: YES]
                setRecordType: hdf5CompoundType count: [self getCount]]
               createEnd];
           

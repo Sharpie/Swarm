@@ -1,3 +1,7 @@
+1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Collection.m, Map.m ([HDF5_c hdf5Out:deep:]): Set createFlag.
+	
 1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* collections.h (String): Remove setLiteralFlag: and getLiteralFlag.

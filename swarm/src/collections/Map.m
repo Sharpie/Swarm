@@ -546,12 +546,14 @@ PHASE(Using)
       [hdf5Obj storeTypeName: [self name]];
       if (compareFunc == NULL || compareFunc == compareIDs)
         {
-          id keyGroup = [[[[HDF5 createBegin: aZone]
+          id keyGroup = [[[[[HDF5 createBegin: aZone]
+                             setCreateFlag: YES]
                             setParent: hdf5Obj]
                            setName: "keys"]
                           createEnd];
-          id valueGroup = [[[[HDF5 createBegin: aZone]
-                              setParent: hdf5Obj]
+          id valueGroup = [[[[[HDF5 createBegin: aZone]
+                               setParent: hdf5Obj]
+                              setCreateFlag: YES]
                              setName: "values"]
                             createEnd];
           
@@ -564,14 +566,16 @@ PHASE(Using)
               unsigned offset = [mi getOffset];
               
               sprintf (buf, "%u", offset);
-              keyInstanceGroup = [[[[HDF5 createBegin: aZone]
+              keyInstanceGroup = [[[[[HDF5 createBegin: aZone]
+                                      setCreateFlag: YES]
                                      setParent: keyGroup]
                                     setName: buf]
                                    createEnd];
               [key hdf5Out: keyInstanceGroup deep: YES];
               [keyInstanceGroup drop];
               
-              valueInstanceGroup = [[[[HDF5 createBegin: aZone]
+              valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
+                                        setCreateFlag: YES]
                                        setParent: valueGroup]
                                       setName: buf]
                                      createEnd];
@@ -593,7 +597,8 @@ PHASE(Using)
               
               while ((value = [mi next: &key]))
                 {
-                  id valueInstanceGroup = [[[[HDF5 createBegin: aZone]
+                  id valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
+                                               setCreateFlag: YES]
                                               setParent: hdf5Obj]
                                              setName: getKeyStr (key)]
                                             createEnd];
@@ -679,8 +684,9 @@ PHASE(Using)
             maxlen = DSIZE (unsigned);
           {
             id hdf5ObjDataset =
-              [[[[[[HDF5 createBegin: aZone]
-                    setName: [hdf5Obj getName]]
+              [[[[[[[HDF5 createBegin: aZone]
+                     setName: [hdf5Obj getName]]
+                    setCreateFlag: YES]
                    setParent: hdf5Obj]
                   setRecordType: hdf5CompoundType count: [self getCount]]
                  setRowNameLength: maxlen]
