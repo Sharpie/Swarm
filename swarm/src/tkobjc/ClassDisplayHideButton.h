@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Button.h>
+#import <gui.h>
 
-@interface ClassDisplayHideButton: Button
+@interface ClassDisplayHideButton: Button <_ClassDisplayHideButton>
 {
   id owner;
   id user;

@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Label.h>
+#import <gui.h>
 
-@interface VarProbeLabel: Label
+@interface VarProbeLabel: Label <_VarProbeLabel>
 {
 }
 

@@ -1,5 +1,18 @@
 1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Form.m, Histogram.m: Include internal.h not TkExtra.h.
+
+	* ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h
+	CanvasItem.h CheckButton.h Circle.h ClassDisplayHideButton.h
+	ClassDisplayLabel.h Colormap.h CompleteProbeDisplayLabel.h
+	CompositeItem.h Entry.h Form.h Frame.h Graph.h Histogram.h
+	InputWidget.h Label.h Line.h LinkItem.h MessageProbeEntry.h
+	NodeItem.h OvalNodeItem.h Pixmap.h ProbeCanvas.h Raster.h
+	Rectangle.h RectangleNodeItem.h SimpleProbeDisplayHideButton.h
+	SuperButton.h TextItem.h VarProbeEntry.h VarProbeLabel.h Widget.h
+	WindowGeometryRecord.h ZoomRaster.h: Include gui.h and add
+	<_protocol> enforcement.
+
 	* win32dib.[hc] (dib_line, dib_rectangle): New functions.
 
 	* internal.[hm] (tkobjc_raster_line, tkobjc_raster_rectangle): New

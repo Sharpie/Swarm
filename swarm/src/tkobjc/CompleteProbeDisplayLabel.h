@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/ClassDisplayLabel.h>
+#import <gui.h>
 
-@interface CompleteProbeDisplayLabel: ClassDisplayLabel
+@interface CompleteProbeDisplayLabel: ClassDisplayLabel <_CompleteProbeDisplayLabel>
 {
   id probeDisplay;
   id probedObject;

@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/CanvasItem.h>
+#import <gui.h>
 
-@interface Circle: CanvasItem
+@interface Circle: CanvasItem <_Circle>
 {
   int x, y, r;
 }

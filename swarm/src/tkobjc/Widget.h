@@ -7,8 +7,9 @@
 
 #import <defobj.h>
 #import <defobj/Create.h>
+#import <gui.h>
 
-@interface Widget: CreateDrop
+@interface Widget: CreateDrop <_Widget>
 {
   Widget *parent;
   const char *widgetName;

@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Widget.h>
+#import <gui.h>
 
-@interface ArchivedGeometryWidget: Widget
+@interface ArchivedGeometryWidget: Widget <_ArchivedGeometryWidget>
 {
   const char *windowGeometryRecordName;
   id destroyNotificationTarget;

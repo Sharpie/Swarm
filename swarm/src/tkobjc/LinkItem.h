@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/CompositeItem.h>
+#import <gui.h>
 
-@interface LinkItem: CompositeItem
+@interface LinkItem: CompositeItem <_LinkItem>
 {
   id from, to;
   const char *line1, *line2;

@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/CanvasItem.h>
+#import <gui.h>
 
-@interface Rectangle: CanvasItem
+@interface Rectangle: CanvasItem <_Rectangle>
 {
   int tx, ty, lx, ly;
 }

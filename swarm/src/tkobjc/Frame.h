@@ -6,8 +6,9 @@
 // Objective C encapsulation of toplevels and frames, for use with libtclobjc
 
 #import <tkobjc/ArchivedGeometryWidget.h>
+#import <gui.h>
 
-@interface Frame: ArchivedGeometryWidget
+@interface Frame: ArchivedGeometryWidget <_Frame>
 {
   int borderWidth;
   BOOL reliefFlag;

@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Button.h>
+#import <gui.h>
 
-@interface SuperButton: Button
+@interface SuperButton: Button <_SuperButton>
 {
   id owner;
   id user;

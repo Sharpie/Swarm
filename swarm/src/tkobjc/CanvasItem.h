@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/SwarmObject.h>
+#import <gui.h>
 
-@interface CanvasItem: SwarmObject 
+@interface CanvasItem: SwarmObject <_CanvasItem>
 {
   id  canvas;
   const char *item;

@@ -4,7 +4,6 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/global.h>
-#import <TkInterp.h>
 #import <tkobjc/CheckButton.h>
 
 inline int

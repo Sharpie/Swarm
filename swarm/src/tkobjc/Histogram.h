@@ -5,10 +5,10 @@
 
 // Objective C interface to BltGraph, for use with libtclobjc
 
-#import <objc/Object.h>
 #import <tkobjc/ArchivedGeometryWidget.h>
+#import <gui.h>
 
-@interface Histogram: ArchivedGeometryWidget
+@interface Histogram: ArchivedGeometryWidget <_Histogram>
 {
   const char **elements;
   int numPoints;  // should be dynamic

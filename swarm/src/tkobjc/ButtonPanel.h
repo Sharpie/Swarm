@@ -6,8 +6,9 @@
 // new widget: collects a bunch of buttons into a frame, displays it.
 
 #import <tkobjc/Frame.h>
+#import <gui.h>
 
-@interface ButtonPanel: Frame
+@interface ButtonPanel: Frame <_ButtonPanel>
 {
   const char *targetName;
 }

@@ -20,7 +20,7 @@
 
 #define MAXCOLORS 256
 
-@interface Colormap: CreateDrop <Colormap>
+@interface Colormap: CreateDrop <_Colormap>
 {
   // state for the Object
   PixelValue white, black;

@@ -9,7 +9,7 @@
 #import <tkobjc/Frame.h>
 #import <gui.h>
 
-@interface ZoomRaster: Raster
+@interface ZoomRaster: Raster <_ZoomRaster>
 {
   unsigned zoomFactor;
   unsigned logicalWidth, logicalHeight;

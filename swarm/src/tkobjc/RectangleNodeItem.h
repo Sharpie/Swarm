@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/NodeItem.h>
+#import <gui.h>
 
-@interface RectangleNodeItem: NodeItem
+@interface RectangleNodeItem: NodeItem <_RectangleNodeItem>
 {
 }
 @end

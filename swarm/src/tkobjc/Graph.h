@@ -11,7 +11,7 @@
 @class GraphElement;
 @class BLTVector;
 
-@interface Graph: ArchivedGeometryWidget
+@interface Graph: ArchivedGeometryWidget <_Graph>
 {
   id elementList;
 }
@@ -33,7 +33,7 @@
 @end
 
 // object to describe one element (dataset) in a graph.
-@interface GraphElement: CreateDrop
+@interface GraphElement: CreateDrop <_GraphElement>
 {
   const char *name;
   Graph *ownerGraph;

@@ -5,9 +5,10 @@
 
 // new widget: collects a bunch of label/entry pairs into a frame
 
-#import <tkobjc/Frame.h>
+#import <tkobjc/Widget.h>
+#import <gui.h>
 
-@interface Form : Widget
+@interface Form: Widget <_Form>
 {
   int numEntries;
   int entryWidth;

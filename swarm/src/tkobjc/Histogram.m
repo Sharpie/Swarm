@@ -8,7 +8,6 @@
 // etc should be added.
 
 #import <tkobjc/global.h>
-#import <TkInterp.h>
 #import <tkobjc/Histogram.h>
 #include <misc.h> // strdup
 

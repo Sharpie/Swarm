@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Label.h>
+#import <gui.h>
 
-@interface ClassDisplayLabel: Label
+@interface ClassDisplayLabel: Label <_ClassDisplayLabel>
 {
 }
 

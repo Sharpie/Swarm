@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/SwarmObject.h>
+#import <gui.h>
 
-@interface CompositeItem: SwarmObject
+@interface CompositeItem: SwarmObject <_CompositeItem>
 {
   id canvas;
   id target;

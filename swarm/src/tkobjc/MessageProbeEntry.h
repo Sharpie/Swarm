@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Entry.h>
+#import <gui.h>
 
-@interface MessageProbeEntry: Entry
+@interface MessageProbeEntry: Entry <_MessageProbeEntry>
 {
   int arg;
   BOOL resultIdFlag;

@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Entry.h>
+#import <gui.h>
 
-@interface VarProbeEntry: Entry
+@interface VarProbeEntry: Entry <_VarProbeEntry>
 {
   id owner;
   char probeType;

@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/NodeItem.h>
+#import <gui.h>
 
-@interface OvalNodeItem: NodeItem
+@interface OvalNodeItem: NodeItem <_OvalNodeItem>
 {
 }
 @end

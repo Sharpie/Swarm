@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/InputWidget.h>
+#import <gui.h>
 
-@interface Entry: InputWidget
+@interface Entry: InputWidget <_Entry>
 {
 }
 

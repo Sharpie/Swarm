@@ -6,8 +6,9 @@
 // Many thanks to JJ Merelo for helping with this widget.
 
 #import <tkobjc/InputWidget.h>
+#import <gui.h>
 
-@interface CheckButton : InputWidget
+@interface CheckButton: InputWidget <_CheckButton>
 {
 }
 

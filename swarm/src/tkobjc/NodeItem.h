@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/CompositeItem.h>
+#import <gui.h>
 
-@interface NodeItem: CompositeItem
+@interface NodeItem: CompositeItem <_NodeItem>
 {
   int x,y;
   const char *text;

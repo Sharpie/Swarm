@@ -10,8 +10,9 @@
 //   TCL_LINK_INT, TCL_LINK_DOUBLE, TCL_LINK_BOOLEAN, TCL_LINK_STRING
 
 #import <tkobjc/Widget.h>
+#import <gui.h>
 
-@interface InputWidget: Widget 
+@interface InputWidget: Widget <_InputWidget>
 {
   const char *variableName;
 }

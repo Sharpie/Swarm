@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Button.h>
+#import <gui.h>
 
-@interface SimpleProbeDisplayHideButton: Button
+@interface SimpleProbeDisplayHideButton: Button <_SimpleProbeDisplayHideButton>
 {
   id frame;
   id probeDisplay;

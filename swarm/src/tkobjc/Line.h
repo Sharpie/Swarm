@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/CanvasItem.h>
+#import <gui.h>
 
-@interface Line: CanvasItem
+@interface Line: CanvasItem <_Line>
 {
   int tx, ty, lx, ly;
 }

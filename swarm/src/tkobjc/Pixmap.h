@@ -7,7 +7,7 @@
 #import <defobj/Create.h>
 #import <gui.h>
 
-@interface Pixmap: CreateDrop <Drawer>
+@interface Pixmap: CreateDrop <_Pixmap, Drawer>
 {
   const char *filename;
   id <Raster> raster;

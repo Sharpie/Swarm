@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/CanvasItem.h>
+#import <gui.h>
 
-@interface TextItem: CanvasItem
+@interface TextItem: CanvasItem <_TextItem>
 {
   const char *text;
   const char *font;

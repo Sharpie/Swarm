@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/ArchivedGeometryWidget.h>
+#import <gui.h>
 
-@interface Canvas: ArchivedGeometryWidget
+@interface Canvas: ArchivedGeometryWidget <_Canvas>
 {
 }
 

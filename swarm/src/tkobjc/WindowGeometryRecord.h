@@ -4,8 +4,9 @@
 // purpose.  See file LICENSE for details and terms of copying.
 
 #import <objectbase/SwarmObject.h>
+#import <gui.h>
 
-@interface WindowGeometryRecord: SwarmObject
+@interface WindowGeometryRecord: SwarmObject <_WindowGeometryRecord>
 {
   id windowGeometryString;
 }
