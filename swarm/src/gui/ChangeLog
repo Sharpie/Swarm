@@ -1,3 +1,8 @@
+2001-05-13  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* gui.h (Histogram): Name count: argument to setColors:count: and
+	setLabels:count: "count".
+
 2001-04-18  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* gui.h (NodeItem): New method -resetString:.

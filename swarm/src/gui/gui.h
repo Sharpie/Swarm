@@ -297,11 +297,11 @@ CREATING
 USING
 //M: Set colors for the histogram bars. If not set, all are blue.
 //M: Colors are arrays of strings (one per bin/bar) of color names.
-- (void)setColors: (const char * const *)c count: (unsigned)colorCount;
+- (void)setColors: (const char * const *)c count: (unsigned)count;
 
 //M: Set labels for the histogram bars. If not set, they remain blank.
 //M: Labels are arrays of strings, one per bin/bar.
-- (void)setLabels: (const char * const *)l count: (unsigned)labelCount;
+- (void)setLabels: (const char * const *)l count: (unsigned)count;
 
 //M: Set the title of the histogram.
 - setTitle: (const char *)title; // other modules are creating-phase
