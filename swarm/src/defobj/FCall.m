@@ -288,7 +288,9 @@ add_ffi_types (FCall_c *fc)
             {
               unsigned pos = i + MAX_HIDDEN;
               
+              printf ("adding %u type: %u\n", pos, fa->argTypes[pos]);
               java_add_primitive (fa, fa->argTypes[pos], fa->argValues[pos]);
+              printf ("done\n");
             }
         }
       else
@@ -317,7 +319,12 @@ PHASE(Creating)
   FCall_c *newCall = [aZone allocIVars: self];
   newCall->fargs = NULL;
 #ifdef HAVE_JDK
-  newCall->javaInfo = [_obj_GCFixedRootZone allocBlock: JAVAINFO_SIZE];
+  {
+    JOBJECT *ptr = [_obj_GCFixedRootZone allocBlock: JAVAINFO_SIZE];
+    
+    memset (ptr, 0, JAVAINFO_SIZE);
+    newCall->javaInfo = ptr;
+  }
 #endif
   return newCall;
 }
