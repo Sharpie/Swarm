@@ -6,6 +6,7 @@
 	appropriate information.
 	(SWARM_LDADD): Remove swarm_{SYSLIBS,LIBS}, libtool-swarm handles
 	this.
+	(swarm_bindir): Extract variable.
 
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
