@@ -12,10 +12,10 @@ import swarm.Globals;
 
 import swarm.defobj.Zone;
 
-import swarm.collections.List;
-import swarm.collections.ListImpl;
-
 import swarm.space.Diffuse2dImpl;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /** The HeatSpace is a simple object to represent the heat in the
  * world: a spatial variable. HeatSpace inherits most of its
@@ -68,8 +68,8 @@ public class HeatSpace extends Diffuse2dImpl {
         List heatList;
         HeatCell cell, bestCell;
         int offset;
-        int px = hc.getX();
-        int py = hc.getY();
+        int px = hc.getX ();
+        int py = hc.getY ();
         
         // prime loop: assume extreme is right where we're standing
         bestHeat = getValueAtX$Y (px, py);
@@ -78,14 +78,15 @@ public class HeatSpace extends Diffuse2dImpl {
         // cell nbd.  To remove the bias from the choice of location,
         // we keep a list of all best ones and then choose a random
         // location if there are points of equal best heat.
-        heatList = new ListImpl (getZone());
+        heatList = new ArrayList ();
         
         for (y = py - 1; y <= py + 1; y++) {  
             for (x = px - 1; x <= px + 1; x++) {
                 long heatHere;
                 boolean hereIsBetter, hereIsEqual;
 
-                heatHere = getValueAtX$Y ((x+getSizeX())%getSizeX(), (y+getSizeY())%getSizeY());
+                heatHere = getValueAtX$Y ((x + getSizeX ()) % getSizeX (),
+                                          (y + getSizeY ()) % getSizeY ());
         
                 hereIsBetter = (type == cold) ? (heatHere < bestHeat)
                     : (heatHere > bestHeat);
@@ -98,8 +99,8 @@ public class HeatSpace extends Diffuse2dImpl {
                     
                     // this heat must be the best so far, so delete all the
                     // other cells we have accumulated
-                    heatList.deleteAll();
-                    heatList.addLast (cell); 
+                    heatList.clear ();
+                    heatList.add (cell); 
                     
                     // now list only has the one new cell
 
@@ -110,17 +111,17 @@ public class HeatSpace extends Diffuse2dImpl {
                 // list from which we can choose randomly later
                 if (hereIsEqual) {
                     cell = new HeatCell (x, y);
-                    heatList.addLast(cell); // add to the end of the list
+                    heatList.add (cell); // add to the end of the list
                 }
             }
          
         }
         // choose a random position from the list
         offset = Globals.env.uniformIntRand.getIntegerWithMin$withMax 
-            (0, (heatList.getCount() - 1));
+            (0, (heatList.size () - 1));
         
         // choose a point at random from the heat list
-        bestCell = (HeatCell)heatList.atOffset (offset);
+        bestCell = (HeatCell) heatList.get (offset);
         
         // Now we've found the requested extreme. Arrange to return the
         // information (normalize coordinates), and return the heat we found.
@@ -129,9 +130,8 @@ public class HeatSpace extends Diffuse2dImpl {
         hc.setY ((bestCell.getY() + getSizeY()) % getSizeY());
         
         // clean up the temporary list of (x,y) points
-        heatList.deleteAll();
-        heatList.drop();
+        heatList.clear ();
         
-        return (getValueAtX$Y (hc.getX(), hc.getY()));
+        return getValueAtX$Y (hc.getX(), hc.getY());
     }
 }

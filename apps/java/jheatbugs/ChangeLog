@@ -1,0 +1,4 @@
+1999-09-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatSpace.java: Use ArrayList instead of Swarm List.
+
