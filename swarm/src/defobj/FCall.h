@@ -11,6 +11,7 @@ Library:      defobj
 
 
 #import "FArguments.h"
+#include <ffi.h>
 
 #ifdef HAVE_JDK
 void init_javacall_tables (void * jEnv);

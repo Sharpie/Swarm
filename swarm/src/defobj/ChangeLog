@@ -1,5 +1,7 @@
 1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FCall.h: Include ffi.h.
+
 	* FCall.m: Include misc.h instead of stdlib.h.  Include ffi.h.
 
 	* FArguments.[hm]: Remove include of ffi.h in header file, put
