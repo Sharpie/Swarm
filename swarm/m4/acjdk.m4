@@ -62,7 +62,7 @@ else
     else
       JAVACLASSES="${jdkdir}/lib/classes.zip"
       test -n "$LD_LIBRARY_PATH_VARNAME" || LD_LIBRARY_PATH_VARNAME=LD_LIBRARY_PATH
-      JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\$LD_LIBRARY_PATH"
+      JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\$$LD_LIBRARY_PATH_VARNAME"
       javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
     JAVA='${JAVAENV} ${JAVACMD}'
