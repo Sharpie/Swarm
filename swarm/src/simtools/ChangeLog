@@ -1,5 +1,11 @@
 1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* MessageProbeWidget.m ([MessageProbeWidget -dynamic]): Remove
+	cast to char* for setValue.
+	([MessageProbeWidget -idReceive:which]): Likewise.
+
+	* VarProbeWidget.m: Reformatting throughout.
+
 	* simtools.m (initSwarm): Remove TkInterp evals for bitmaps
 	hide, super, and special.  Remove Tcl routines send_id, gimmie,
 	sitecmd, and do_package.  (These are now in tkobjc's simtools.tcl.)

@@ -13,70 +13,70 @@
 
 + createBegin: aZone
 {
-  id obj ;
+  id obj;
   
-  obj = [super createBegin: aZone] ;
-  [obj setMaxLabelWidth: 0] ;
+  obj = [super createBegin: aZone];
+  [obj setMaxLabelWidth: 0];
   
-  return obj ;
+  return obj;
 }
 
 - setObject: obj
 {
-  myObject = obj ;
-  return self ;
+  myObject = obj;
+  return self;
 }
 
 - setProbe: (Probe *) the_probe
 {
-  myProbe = (VarProbe *) the_probe ;
+  myProbe = (VarProbe *) the_probe;
   return self;
 }
 
 - setMyLeft: obj
 {
-  myLeft = obj ;
-  return self ;
+  myLeft = obj;
+  return self;
 }
 
 - setMyRight: obj
 {
-  myRight = obj ;
-  return self ;
+  myRight = obj;
+  return self;
 }
 
 - setMaxLabelWidth: (int) width
 {
-  maxLabelWidth = width ;
-  return self ;
+  maxLabelWidth = width;
+  return self;
 }
 
 - createEnd
 {
-  char theType ;
+  char theType;
   
   [super createEnd];
 
-  myLabel  = [Label  createParent: myLeft] ;
+  myLabel  = [Label  createParent: myLeft];
   [myLabel setText: [myProbe getProbedVariable]];
   
   setAnchorEast (myLabel);
   if (maxLabelWidth)
     setWidth (myLabel, maxLabelWidth);
     
-  myEntry  = [Entry  createParent: myRight] ;
-  theType = ([myProbe getProbedType])[0] ;
+  myEntry  = [Entry  createParent: myRight];
+  theType = ([myProbe getProbedType])[0];
   
   if ([myProbe isInteractive])
     {
       [globalTkInterp
         eval:
-          "bind %s <Return> {%s configure -highlightcolor red ;"
-        "update ;"
-        "%s setValue} ;"
-        "bind %s <KeyRelease-Return> {%s configure -highlightcolor black ;"
-        "update} ;"
-        "bind %s <FocusIn> {%s selection range 0 end} ;"
+          "bind %s <Return> {%s configure -highlightcolor red;"
+        "update;"
+        "%s setValue};"
+        "bind %s <KeyRelease-Return> {%s configure -highlightcolor black;"
+        "update};"
+        "bind %s <FocusIn> {%s selection range 0 end};"
         "bind %s <FocusOut> {%s selection clear}",
         [myEntry getWidgetName],
         [myEntry getWidgetName],
@@ -87,7 +87,7 @@
         [myEntry getWidgetName],
         [myEntry getWidgetName],
         [myEntry getWidgetName]];
-      interactive = 1 ;
+      interactive = 1;
     }
   else
     disabledState (myEntry);
@@ -96,11 +96,11 @@
     {
       [globalTkInterp
         eval:
-          "bind %s <Button-3> {focus %s ; %s configure -highlightcolor red ;"
-        "update ;"
-        "%s Spawn ;"
-        "%s configure -highlightcolor black ;"
-        "update} ;",
+          "bind %s <Button-3> {focus %s; %s configure -highlightcolor red;"
+        "update;"
+        "%s Spawn;"
+        "%s configure -highlightcolor black;"
+        "update};",
         [myEntry getWidgetName],
         [myEntry getWidgetName],
         [myEntry getWidgetName], 
@@ -113,17 +113,17 @@
   else
     [globalTkInterp
       eval:
-        "bind %s <Button-3> {focus %s; %s configure -highlightcolor red ;"
-      "update ;"
-      "bell ; update ; "
-      "%s configure -highlightcolor black ;"
-      "update} ;",
+        "bind %s <Button-3> {focus %s; %s configure -highlightcolor red;"
+      "update;"
+      "bell; update; "
+      "%s configure -highlightcolor black;"
+      "update};",
       [myEntry getWidgetName],
       [myEntry getWidgetName],
       [myEntry getWidgetName], 
       [myEntry getWidgetName]];
   
-  [self update] ;
+  [self update];
   
   return self;
 }
@@ -135,13 +135,13 @@
   target = (*(id *)[myProbe probeRaw: myObject]);
   
   if (target)
-    [probeDisplayManager createProbeDisplayFor: target] ;   
+    [probeDisplayManager createProbeDisplayFor: target];   
   else
     {
       ringBell ();
       update ();
     }
-  return self ;
+  return self;
 }
 
 - pack
@@ -166,11 +166,11 @@
   if (!interactive)
     {
       normalState (myEntry);
-      [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]] ;
+      [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
       disabledState (myEntry);
     }
   else
-    [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]] ;
+    [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
   
   update ();
   
@@ -179,10 +179,10 @@
 
 - (void)drop
 {
-  [myLabel drop] ;
-  [myEntry drop] ;
+  [myLabel drop];
+  [myEntry drop];
   
-  [super drop] ;
+  [super drop];
 }
 
 - idReceive
@@ -192,9 +192,9 @@
   resObj = tclObjc_nameToObject ([[globalTkInterp
                                     eval: 
                                       "gimme $DDOBJ"] result]);
-  [myProbe setData: myObject To: &resObj ] ; 
+  [myProbe setData: myObject To: &resObj ]; 
   focus (myEntry);
-  [self update] ;
+  [self update];
   return self;
 }
 

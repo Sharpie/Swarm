@@ -224,9 +224,9 @@ empty (const char *str)
           if ((resultObject = tclObjc_nameToObject(result_string)) != nil)
             {
               if ([resultObject respondsTo: @selector(getInstanceName)])
-                [result setValue: (char *)[resultObject getInstanceName]];
+                [result setValue: [resultObject getInstanceName]];
               else
-                [result setValue: (char *)[resultObject name]];
+                [result setValue: [resultObject name]];
             }
           else    
             [result setValue: result_string];
@@ -336,12 +336,11 @@ empty (const char *str)
   which += 1 ;
 
   normalState (myWidgets[which]);
+
   if ([resObj respondsTo: @selector(getInstanceName)])
-    [((Entry *)myWidgets[which]) 
-      setValue: (char *)[resObj getInstanceName]];
+    [((Entry *)myWidgets[which]) setValue: [resObj getInstanceName]];
   else
-    [((Entry *)myWidgets[which]) 
-       setValue: (char *)[resObj name]];
+    [((Entry *)myWidgets[which]) setValue: [resObj name]];
   
   disabledState (myWidgets[which]);
   update ();
