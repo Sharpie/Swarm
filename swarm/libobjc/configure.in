@@ -74,10 +74,10 @@ md_CREATE_LIBOBJC_HEADERS
 
 md_CHECK_DLL
 if test $USEDLL = yes; then
-  LIBOBJC_LA=libobjc.la
+  LIBOBJC_LA=libswarmobjc.la
   OBJC_DLL=objc.dll
 else
-  LIBOBJC_LA=libobjc.la
+  LIBOBJC_LA=libswarmobjc.la
   OBJC_DLL=
 fi
 AC_SUBST(LIBOBJC_LA)
