@@ -1,4 +1,4 @@
-<DOCINFO>
+<referenceinfo>
 
 <TITLE>Defobj Library</TITLE>
 
@@ -39,10 +39,10 @@ implementation or documentation.
 
 &defobjrevhistory.sgml;
 
-</DOCINFO>
+</referenceinfo>
 
 <!--
 Local Variables:
-sgml-parent-document:("defobjcont.sgml" "DOCINFO")
+sgml-parent-document:("defobjcont.sgml" "REFERENCEINFO")
 End:
 -->
