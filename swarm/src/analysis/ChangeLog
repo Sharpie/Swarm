@@ -1,3 +1,8 @@
+2001-03-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* EZGraph.m ([EZSequence -setUnsignedArg:]): Check for activeOutFile
+	if no activeGrapher.
+
 2001-03-19  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* EZGraph.h (EZGraph): New ivars hdf5{Container,Group,Dataset}.

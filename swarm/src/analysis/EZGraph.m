@@ -552,7 +552,12 @@ PHASE(Using)
 
 - setUnsignedArg: (unsigned)val
 {
-  [activeGrapher setArg: 0 ToUnsigned: val];
+  if (activeGrapher)
+    [activeGrapher setArg: 0 ToUnsigned: val];
+  else if (activeOutFile)
+    [activeOutFile setArg: 0 ToUnsigned: val];
+  else
+    abort ();
   return self;
 }
 
