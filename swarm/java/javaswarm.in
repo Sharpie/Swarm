@@ -5,7 +5,7 @@ swarm_exec_prefix=@swarm_exec_prefix@
 swarm_datadir=@swarm_datadir@
 jdkdir=@jdkdir@
 
-@SHLIBPATH_VAR@=`tr ':' '\012' << EOF | sort 2>/dev/null | uniq | tr '\012' ':'
+@SHLIBPATH_VAR@=`cat << EOF | sort 2>/dev/null | uniq | tr '\012' '@PATHSEP@'
 @swarm_libdir@
 @xpmlibdir@
 @tcllibdir@
@@ -28,9 +28,9 @@ export @SHLIBPATH_VAR@ @JAVALIBPATH_VAR@
 JAVA_CLASSES_INSTALLED_AS=@JAVA_CLASSES_INSTALLED_AS@
 
 if test x$JAVA_CLASSES_INSTALLED_AS = xjar; then
-  classpath=".:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH"
+  classpath=".@PATHSEP@${swarm_datadir}/swarm/swarm.jar@PATHSEP@${JAVACLASSES}@PATHSEP@$CLASSPATH"
 else
-  classpath=".:${swarm_datadir}:${JAVACLASSES}:$CLASSPATH"
+  classpath=".@PATHSEP@${swarm_datadir}@PATHSEP@${JAVACLASSES}@PATHSEP@$CLASSPATH"
 fi
 
 if test -z "$*"; then

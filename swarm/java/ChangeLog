@@ -1,3 +1,7 @@
+1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javaswarm.in: Use @PATHSEP@ instead of : throughout.
+
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javaswarm.in: New file.  Do this to get substitutions for
