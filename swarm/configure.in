@@ -137,7 +137,14 @@ md_CHECK_NEXTSTEP
 md_CHECK_POINTER_FMT
 
 AC_CHECK_LIB(dl,main)
-md_REPLACE_FUNCS(memchr memcpy memset realpath stpcpy strchr strcmp strdup strlen strncmp strndup strnlen strpbrk strsep)
+
+OLD_CFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -fno-builtin"
+md_REPLACE_FUNCS(memcpy memset strcmp strlen)
+CFLAGS=$OLD_FLAGS
+
+md_REPLACE_FUNCS(memchr realpath stpcpy strchr strdup  strncmp strndup strnlen strpbrk strsep)
+
 if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_cv_func_strnlen = yes; then
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 fi

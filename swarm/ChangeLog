@@ -1,3 +1,8 @@
+1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* configure.in: Test for memcpy, memset, strcmp, and strlen
+	while -fno-builtin is set.
+
 1998-08-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* acconfig.h: Add HAVE_OBJC_MALLOC.
