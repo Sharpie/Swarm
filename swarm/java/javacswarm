@@ -4,7 +4,7 @@
 if test $JAVA_CLASSES_INSTALLED_AS = jar; then
   classpath=".:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH"
 else
-  classpath=".:${swarm_datadir}/swarm:${JAVACLASSES}:$CLASSPATH"
+  classpath=".:${swarm_datadir}:${JAVACLASSES}:$CLASSPATH"
 fi
 
 eval "$JAVA -classpath $classpath pizza.compiler.Main $*"
