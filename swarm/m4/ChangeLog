@@ -1,3 +1,7 @@
+1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Use libexec/Kaffe instead of bin/Kaffe.
+
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Add JAR substitution (include set of JAVA_HOME).
