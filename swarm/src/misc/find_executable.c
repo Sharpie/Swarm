@@ -132,8 +132,14 @@ find_executable (const char *program_name)
       char *dupbuf;
 
       memset (buf, 0, MAXPATHLEN);
+      /* Cygwin ends up converting /Swarm-2.1/bin to /bin, which 
+         screws up the search for SWARMHOME */
+#ifndef __CYGWIN__
       if (realpath ((char *) program_name, buf) == NULL)
         goto notfound;
+#else
+      strcpy (buf, program_name);
+#endif
       
       dupbuf = xmalloc (strlen (buf) + 1);
       strcpy (dupbuf, buf);
