@@ -1,3 +1,11 @@
+2002-01-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* EZDistribution.m ([EZDistribution -output]): Use putDouble 
+	instead of putInt.
+
+	* EZBin.m ([EZBin -setAxisLabelsX:Y:], 
+	[EZBin -setPrecision:]): Put these messages in Creating phase.
+
 2001-11-04    <mgd@HELEN>
 
 	* Makefile.am: Avoid multi-line values as they confuse Cygwin

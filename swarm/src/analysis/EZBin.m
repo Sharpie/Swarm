@@ -190,8 +190,6 @@ PHASE(Creating)
   return self;
 }
 
-PHASE(Using)
-
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
   xLabel = STRDUP (xl);
@@ -203,6 +201,8 @@ PHASE(Using)
 {
   precision = thePrecision;
 }
+
+PHASE(Using)
 
 - (void)reset
 {

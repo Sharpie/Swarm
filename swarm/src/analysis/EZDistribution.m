@@ -55,11 +55,11 @@ PHASE(Using)
 
   if (fileOutput)
     {
-      [anOutFile putInt: probabilities[0]];
+      [anOutFile putDouble: probabilities[0]];
       for (i = 1; i < binCount; i++)
         {
           [anOutFile putTab];
-          [anOutFile putInt: probabilities[i]];
+          [anOutFile putDouble: probabilities[i]];
         }
       [anOutFile putNewLine];
     }
