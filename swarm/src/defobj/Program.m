@@ -28,18 +28,18 @@ id  _obj_globalZone;
 id  _obj_sessionZone;
 id  _obj_scratchZone;
 
-extern void _obj_splitPhases( Class_s  *class );
+extern void _obj_splitPhases (Class_s  *class);
 
-id   Creating, Setting, Using, CreatingOnly, UsingOnly;
+id Creating, Setting, Using, CreatingOnly, UsingOnly;
 
-id   *_obj_modules, *_obj_classes, _obj_programModule[7];
-int  _obj_nclasses, _obj_nmodules;
+id *_obj_modules, *_obj_classes, _obj_programModule[7];
+unsigned  _obj_nclasses, _obj_nmodules;
 
 id  _obj_implModule;
 
-typedef struct objc_protocol_list  *protoList_t;
-typedef struct proto               *proto_t;
-typedef struct message             *message_t;
+typedef struct objc_protocol_list *protoList_t;
+typedef struct proto *proto_t;
+typedef struct message *message_t;
 
 struct proto {
   id           class;
@@ -58,11 +58,11 @@ struct message {
 //
 // _obj_initAlloc() -- allocate memory during initial module definition
 //
-void *_obj_initAlloc( size_t size )
+void *_obj_initAlloc (size_t size)
 {
   void  *newAlloc;
 
-  if ( _obj_initZone )
+  if (_obj_initZone)
     newAlloc = [_obj_initZone allocBlock: size];
   else
     newAlloc = xmalloc (size);
@@ -78,9 +78,9 @@ void *_obj_initAlloc( size_t size )
 static void
 initModules (void)
 {
-  Class  moduleSuper, class;
-  void   *enumState, **modules, **module;
-  id     *nextmod;
+  Class moduleSuper, class;
+  void *enumState, **modules, **module;
+  id *nextmod;
 
   // trigger initialization of superclass links and get module superclass
 
@@ -112,9 +112,9 @@ initModules (void)
   do
     {
       *nextmod++ = (id)modules;
-      module     = modules[0];
+      module = modules[0];
       modules[0] = nil;
-      modules    = module;
+      modules = module;
     } while (modules);
 
   // initialize _obj_initZone for use by _obj_initModule()
@@ -124,11 +124,11 @@ initModules (void)
   
   // initialize interface identifier constants
 
-  Creating     = [_obj_initZone allocIVars: id_Symbol_c];
-  Setting      = [_obj_initZone allocIVars: id_Symbol_c];
-  Using        = [_obj_initZone allocIVars: id_Symbol_c];
+  Creating = [_obj_initZone allocIVars: id_Symbol_c];
+  Setting = [_obj_initZone allocIVars: id_Symbol_c];
+  Using = [_obj_initZone allocIVars: id_Symbol_c];
   CreatingOnly = [_obj_initZone allocIVars: id_Symbol_c];
-  UsingOnly    = [_obj_initZone allocIVars: id_Symbol_c];
+  UsingOnly = [_obj_initZone allocIVars: id_Symbol_c];
 
   ((Symbol_c *) Creating)->name = "Creating";
   ((Symbol_c *) Setting)->name = "Setting";
@@ -178,15 +178,15 @@ void
 _obj_initModule (void *module)
 {
   ProgramModule_c  *moduleObject;
-  func_t           implFunction, initFunction;
-  id               *protocol;
-  protoList_t      protoList;
-  proto_t          *proto;
-  Type_c           ***typeID, *type = nil;
-  char             **symbol, **symbolName, symbolType = 0;
-  Class            **class;
-  classData_t      classData;
-  id               callerModule;
+  func_t implFunction, initFunction;
+  id *protocol;
+  protoList_t protoList;
+  proto_t *proto;
+  Type_c ***typeID, *type = nil;
+  char **symbol, **symbolName, symbolType = 0;
+  Class **class;
+  classData_t classData;
+  id callerModule;
 
   // initialize array of all loaded modules
 
@@ -213,12 +213,12 @@ _obj_initModule (void *module)
   // advance a pointer to the start of symbol names
 
   symbol = symbolName = (char **)moduleObject->symbols;
-  for ( ; *symbolName; symbolName++ );
+  for (; *symbolName; symbolName++);
   symbolName++;
 
   // initialize the global id constant for each symbol
 
-  for ( ; *symbol; symbol++, symbolName++)
+  for (; *symbol; symbol++, symbolName++)
     {
       if ((*symbolName)[0] == '0')
         {
