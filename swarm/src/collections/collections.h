@@ -545,8 +545,7 @@ extern id <Symbol>  Start, End, Between, Removed, Member;
 #define UndefinedOffset -0x80000000;
 
 //G: error types for collections
-extern id <Error>
-  OffsetOutOfRange, NoMembers, 
+extern id <Error> OffsetOutOfRange, NoMembers, 
   AlreadyAtEnd, AlreadyAtStart, InvalidIndexLoc, InvalidLocSymbol;
 
 @end
