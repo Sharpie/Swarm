@@ -2,6 +2,8 @@ ifeq ($(SWARMHOME),)
 SWARMHOME=../swarm-1998-08-20
 endif
 APPLICATION=heatbugs
+BUGADDRESS=alex@santafe.edu
+APPVERSION=2.0
 OBJECTS=Heatbug.o HeatSpace.o main.o HeatbugModelSwarm.o \
 	HeatbugObserverSwarm.o HeatbugBatchSwarm.o
 DATAFILES = ant.png heatbugs.scm

@@ -1,3 +1,11 @@
+1999-06-09  Alex Lancaster  <alex@santafe.edu>
+
+	* main.m (main): Make initSwarmApp -> initSwarm, the additional
+	BUGADDRESS and APPVERSION is now set from the Makefile.
+
+	* Makefile (BUGADDRESS): Define to be bug-swarm@santafe.edu.
+	(APPVERSION): Define to `2.0'.
+
 1999-06-05  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile (DATAFILES): Add heatbugs.scm, remove
