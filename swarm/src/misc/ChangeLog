@@ -1,3 +1,10 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* misc.h (abort): #define to debugabort with file, line, and
+	function name arguments.
+
+	* debugabort.c: New file.
+
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (EXTRA_HEADERS): Set to argp.h.

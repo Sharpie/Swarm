@@ -113,4 +113,6 @@ const char *realpath (const char *path, char *resolved_path);
 
 const char *find_executable (const char *program_name);
 
+#define abort() debugabort(__FILE__,__LINE__, __PRETTY_FUNCTION__)
+
 #endif
