@@ -5,13 +5,23 @@
 
 #import <defobj/Create.h>
 
+#define SIGFIGS_DISPLAYED 6
+#define SIGFIGS_SAVED 6
+
 @interface ProbeLibrary : CreateDrop {
-        id objectToNotify;
-	id myZone ;
-	id classMap ;
+  id objectToNotify;
+  id myZone ;
+  id classMap ;
+  int sigFigsDisplay;
+  int sigFigsSaved;
 }
 
 -createEnd ;
+
+-setDisplayPrecision: (int) nSigDisplay;
+-(int) getDisplayPrecision;
+-setSavedPrecision: (int) nSigSaved;
+-(int) getSavedPrecision;
 
 // This sets every member of every ProbeMap up so that it will
 // send this message to the designated object every time it's activated.
