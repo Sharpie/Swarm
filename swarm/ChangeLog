@@ -7,6 +7,8 @@
 
 	* autogen.sh: Bump automake from 1.9.2 to 1.9.3.
 
+	* VERSION: Bump.
+
 2004-11-30  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* configure.in: autoconfiscate assembler wrapper on
