@@ -1,4 +1,5 @@
 jdkdir=@jdkdir@
+jdkdosdir=@jdkdosdir@
 jdkbindir=$(jdkdir)/bin
 JAVALIBS=@JAVALIBS@
 JAVACMD=@JAVACMD@

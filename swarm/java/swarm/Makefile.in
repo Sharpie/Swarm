@@ -1,6 +1,7 @@
 prefix=@prefix@
 datadir=@datadir@
 jdkdir=@jdkdir@
+jdkdosdir=@jdkdosdir@
 INSTALL=@INSTALL@
 jdkdir=@jdkdir@
 jdkbindir=$(jdkdir)/bin
@@ -16,7 +17,7 @@ CLASSPHASES := __c U
 INTERFACEPHASES := $(CLASSPHASES) S
 
 PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector
-POSTCLASSES = SwarmEnvironment 
+POSTCLASSES = SwarmEnvironment
 PRECLASSFILES = $(addsuffix .class,$(PRECLASSES))
 POSTCLASSFILES = $(addsuffix .class,$(POSTCLASSES))
 SWARMCLASSFILES = $(addprefix swarm/,$(PRECLASSFILES) $(POSTCLASSFILES))
