@@ -1,3 +1,8 @@
+2003-06-11  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* Pixmap.m ([Pixmap -drawX:Y:]): cast (Raster *)raster
+	([Pixmap -setRaster:]):  cast (Raster *)raster
+
 2003-04-22    <pauljohn@localhost.localdomain>
 
 	* Makefile.am (%_tcl.x): Fix the %_tcl.x sed script to delete
