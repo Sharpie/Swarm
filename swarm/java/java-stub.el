@@ -14,9 +14,10 @@
       ("SEL" . "swarm.Selector")
       ("void" . "void")
       ("const char \\*" . "java.lang.String")
+      ("char \\*" . "java.lang.String")
+
       ("const char \\*\\*" . "java.lang.String[]")
       
-      ("char \\*" . "java.lang.String")
       ("char" . "char")
       ("unsigned char" . "byte")
       ("int" . "int")
@@ -166,15 +167,25 @@
            varname)))))
 
 (defun java-print-method-name (arguments native-flag)
-  (insert (car (first arguments)))
-  (loop for argument in (cdr arguments)
-        for nameKey = (car argument)
-        when nameKey
-        do
-        (if native-flag
-            (insert *dollar-sign*)
-            (insert "$"))
-        (insert nameKey)))
+  (let ((nameKey (car (first arguments))))
+    (cond ((string= nameKey "initSwarm")
+           (insert
+            (if native-flag
+                "_initSwarm_"
+              "initSwarm")))
+          ((or (string= nameKey "createArchivedProbeDisplay")
+               (string= nameKey "setWindowGeometryRecordName"))
+           (insert nameKey))
+          (t
+           (insert nameKey)
+           (loop for argument in (cdr arguments)
+                 for nameKey = (car argument)
+                 when nameKey
+                 do
+                 (if native-flag
+                     (insert *dollar-sign*)
+                   (insert "$"))
+                 (insert nameKey))))))
 
 (defun java-print-method (protocol method)
   (let* ((arguments (method-arguments method))
@@ -302,7 +313,18 @@
 (defun java-print-basic-constructor (protocol)
   (insert "public ")
   (insert (java-class-name protocol :using))
-  (insert " () { super (); }\n"))
+  (insert " () {\n")
+  (insert "  super ();\n")
+
+  (loop for method in (expanded-method-list protocol :getters)
+        do
+        (let ((ret-type (method-return-type method)))
+          (when (eq (java-objc-to-java-type-category ret-type) 'protocol)
+            (insert (get-variable-name-for-getter-method method))
+            (insert " = new ")
+            (insert (java-objc-to-java-type t ret-type))
+            (insert "Impl ();\n"))))
+  (insert "}\n"))
 
 (defun java-print-convenience-constructors (protocol)
   (loop for method in (collect-convenience-create-methods protocol)
@@ -336,6 +358,20 @@
 
 (defun inheritance-cases (pname))
 
+(defun java-print-class-getter-variables (protocol)
+  (loop for method in (expanded-method-list protocol :getters)
+        do
+        (insert "public ") 
+        (insert (java-objc-to-java-type t (method-return-type method)))
+        (insert " ")
+        (insert
+         (let ((name (get-variable-name-for-getter-method method)))
+           (if (string= name "swarmGUIMode")
+               "guiFlag"
+             name)))
+        (insert ";\n"))
+  (insert "\n"))
+
 (defun java-print-class-phase (protocol phase)
   (java-print-javadoc-protocol protocol t)
   (insert "public ")
@@ -360,6 +396,9 @@
         (insert (java-qualified-interface-name (protocol-module protocol)
                                                protocol interface-phase)))
   (insert " {\n")
+  (when (inclusive-phase-p phase :using)
+    (java-print-class-getter-variables protocol))
+    
   (java-print-class-methods-in-phase protocol phase)
   (java-print-class-methods-in-phase protocol :setting)
   (cond ((inclusive-phase-p phase :using)
@@ -403,8 +442,11 @@
       ,@body)))
 
 (defun java-print-package (protocol)
-  (insert "package swarm.")
-  (insert (module-name (protocol-module protocol)))
+  (insert "package swarm")
+  (let ((module (protocol-module protocol)))
+    (unless (eq (module-sym module) 'swarm)
+      (insert ".")
+      (insert (module-name module))))
   (insert ";\n"))
 
 (defun java-print-imports (protocol)
@@ -455,7 +497,8 @@
         ((string= "long" type) "J")
         ((string= "float" type) "F")
         ((string= "double" type) "D")
-        ((string= "String" type) "Ljava_lang_String_2")
+        ((string= "java.lang.String" type) "Ljava_lang_String_2")
+        ((string= "java.lang.String[]" type) "_3Ljava_lang_String_2")
         ((string= "Class" type) "Ljava_lang_Class_2")
         ((string= "Object" type) "Ljava_lang_Object_2")
         (t (mangle-signature (concat "L" type "_2")))))
@@ -470,6 +513,7 @@
         ((string= "float" type) "jfloat")
         ((string= "double" type) "jdouble")
         ((string= "java.lang.String" type) "jstring")
+        ((string= "java.lang.String[]" type) "jobjectArray")
         ((string= "Class" type) "jclass")
         ((string= "void" type) "void")
         (t "jobject")))
@@ -503,6 +547,10 @@
                (insert argname))
               ((string= jni-type "jobject")
                (insert "SD_JAVA_ENSUREOBJC (")
+               (insert argname)
+               (insert ")"))
+              ((string= jni-type "jobjectArray")
+               (insert "JAVA_CONVERT_STRING_ARRAY (")
                (insert argname)
                (insert ")"))
               ((or (string= jni-type "jint")
@@ -556,6 +604,7 @@
   (let ((type (second argument))
         (jni-type (java-argument-convert argument #'java-type-to-native-type)))
     (or (string= type "SEL")
+        (string= jni-type "jobjectArray")
         (string= jni-type "jstring")
         (string= jni-type "jclass")
         (string= jni-type "jobject"))))
@@ -625,6 +674,7 @@
     (let* ((arguments (method-arguments method))
            (first-argument (car arguments))
            (strings nil)
+           (string-arrays nil)
            (module (protocol-module protocol))
            (ret-type 
             (java-type-to-native-type (java-objc-to-java-type 
@@ -635,8 +685,9 @@
       (insert " JNICALL")
       (insert "\n")
       (insert "Java_swarm_")
-      (insert (module-name module))
-      (insert "_")
+      (unless (eq (module-sym module) 'swarm)
+        (insert (module-name module))
+        (insert "_"))
       (insert (java-class-name protocol phase))
       (insert "_")
       (java-print-method-name arguments t)
@@ -652,14 +703,18 @@
       (insert "jobject jobj")
       (unless (argument-empty-p (car arguments))
         (loop for argument in arguments
+              for arg-pos from 0
               do
               (insert ",\n")
               (let ((native-type
                      (java-argument-convert argument
-                                            #'java-type-to-native-type)))
+                                            #'java-type-to-native-type))
+                    (name (third argument)))
                 (insert-arg native-type)
                 (when (string= native-type "jstring")
-                  (push (third argument) strings)))
+                  (push name strings))
+                (when (string= native-type "jobjectArray")
+                  (push (cons arg-pos name) string-arrays)))
               (insert " ")
               (insert (third argument))))
       (insert ")\n")
@@ -688,49 +743,70 @@
       ;; (java-print-method-invocation-arguments-lref-deletion protocol method)
 
       (insert "  ")
-      (unless (string= ret-type "void")
-        (if (or strings (create-method-p method))
-            (insert "ret = ")
-            (insert "return ")))
-      
-      (let* ((signature (get-method-signature method))
-             (objc-type (method-return-type method))
-             (java-type-category (java-objc-to-java-type-category objc-type))
-             (java-return (java-type-category-to-java-type module
-                                                           objc-type
-                                                           java-type-category))
-             (wrapped-flag 
-              (cond ((or (string= "+createBegin:" signature)
-                         (string= "+customizeBegin:" signature))
-                     (insert "SD_JAVA_ADDJAVA (jobj, ")
-                     t)
-                    ((create-method-p method)
-                     (insert "SD_JAVA_ADDJAVA (nextPhase, ")
-                     t)
-                    ((or (string= "-createEnd" signature))
-                     (insert "SD_JAVA_SWITCHPHASE (jobj, ")
-                     t)
-                    ((string= java-return "Class")
-                     (insert "(jclass) SD_JAVA_FINDJAVACLASS (")
-                     t)
-                    ((string= java-return "java.lang.String")
-                     (insert "(*env)->NewStringUTF (env, ")
-                     t)
-                    ((or (string= java-return "Object")
-                         (eq java-type-category 'protocol))
-                     (insert "SD_JAVA_ENSUREJAVA (")
-                     t)
-                    (t nil))))
-        (java-print-method-invocation protocol method )
-        (when wrapped-flag (insert ")")))
-      (insert ";\n")
-      (when strings
-        (insert "  JAVA_CLEANUP_STRINGS (strings);\n"))
-      (when (convenience-create-method-p protocol method)
-        (insert "  (*env)->DeleteLocalRef (env, nextPhase);\n"))
-      (unless (string= ret-type "void")
-        (when (or strings (create-method-p method))
-          (insert "  return ret;\n")))
+      (let ((signature (get-method-signature method)))
+        (if (string= signature "+createBegin")
+          (progn
+            (insert "id obj;\n")
+            (insert "  jobject nextPhase;\n\n")
+            (insert "  jniEnv = env;\n")
+            (insert "  obj = [SwarmEnvironment createBegin];\n")
+            (insert "  java_create_refs ();\n")
+            (insert "  swarmDirectory = [Directory create: globalZone];\n")
+            (insert "  nextPhase = SD_JAVA_NEXTPHASE (jobj);\n")
+            (insert "  ret = SD_JAVA_ADDJAVA (nextPhase, obj);\n")
+            (insert "  (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);\n")
+            (insert "  return ret;\n"))
+          (progn
+            (unless (or (string= ret-type "void")
+                        (if (or strings (create-method-p method))
+                            (insert "ret = ")
+                          (insert "return "))))
+            (let* ((objc-type (method-return-type method))
+                   (java-type-category
+                    (java-objc-to-java-type-category objc-type))
+                   (java-return
+                    (java-type-category-to-java-type module
+                                                     objc-type
+                                                       java-type-category))
+                   (wrapped-flag 
+                    (cond ((or (string= "+createBegin:" signature)
+                               (string= "+customizeBegin:" signature))
+                           (insert "SD_JAVA_ADDJAVA (jobj, ")
+                           t)
+                          ((create-method-p method)
+                           (insert "SD_JAVA_ADDJAVA (nextPhase, ")
+                           t)
+                          ((or (string= "-createEnd" signature))
+                           (insert "SD_JAVA_SWITCHPHASE (jobj, ")
+                           t)
+                          ((string= java-return "Class")
+                           (insert "(jclass) SD_JAVA_FINDJAVACLASS (")
+                           t)
+                          ((string= java-return "java.lang.String")
+                           (insert "(*env)->NewStringUTF (env, ")
+                           t)
+                          ((or (string= java-return "Object")
+                               (eq java-type-category 'protocol))
+                           (insert "SD_JAVA_ENSUREJAVA (")
+                           t)
+                          (t nil))))
+              (java-print-method-invocation protocol method )
+              (when wrapped-flag (insert ")")))
+            (insert ";\n")
+            (when strings
+              (insert "  JAVA_CLEANUP_STRINGS (strings);\n"))
+            (loop for arg-pair in string-arrays
+                  do
+                  (insert "  JAVA_CLEANUP_STRING_ARRAY (")
+                  (insert (argname-number (car arg-pair)))
+                  (insert ", ")
+                  (insert (cdr arg-pair))
+                  (insert ");\n"))
+            (when (convenience-create-method-p protocol method)
+              (insert "  (*env)->DeleteLocalRef (env, nextPhase);\n"))
+            (unless (string= ret-type "void")
+              (when (or strings (create-method-p method))
+                (insert "  return ret;\n"))))))
       (insert "}\n"))))
 
 (defun java-print-native-class (protocol)

@@ -1,3 +1,25 @@
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* java-stub.el (*objc-to-java-type-alist*): Add const char **
+	conversion.
+	(java-print-method-name): Simplify initSwarm,
+	createArchivedProbeDisplay, and setWindowGeometryRecordName to
+	use names of previous SwarmEnvironment implementation.
+	(java-print-basic-constructor): Print out constructors
+	for the getter objects.
+	(java-print-class-getter-variables): New function.
+	(java-print-class-phase): Call it.
+	(java-print-package, java-print-native-method): Handle swarm package.
+	(java-type-to-signature, java-argument-print-conversion): Handle
+	String arrays.
+	(java-print-native-method): Push usages of string arrays onto
+	string-arrays, noting position (to recover scratch variable name
+	in stub).
+	(java-print-native-method): Add complex start-up stub for createBegin.
+
+	* Makefile.am (C_EXTRA_DIST): Change SwarmEnvironment.m to
+	SwarmEnvironmentExtra.m.
+
 2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* java-stub.el (java-print-method-invocation-arguments,

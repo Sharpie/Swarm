@@ -1,4 +1,4 @@
-C_EXTRA_DIST = c/Makefile.in c/SwarmEnvironment.m c/ChangeLog c/javaswarm.dll.c
+C_EXTRA_DIST = c/Makefile.in c/SwarmEnvironmentExtra.m c/ChangeLog c/javaswarm.dll.c
 KAWAJAR=@KAWAJAR@
 SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog swarm/Selector.java swarm/NonUniqueMethodSignatureException.java swarm/SignatureNotFoundException.java swarm/PhaseCImpl.java swarm/Primitives.java swarm/SwarmEnvironment.java swarm/Globals.java swarm/CustomizedType.java swarm/ObjCProxy.java swarm/ProxyClassLoader.java $(KAWAJAR) JavaDeps.jar
 JAVASWARMSCRIPTS=@JAVASWARMSCRIPTS@
