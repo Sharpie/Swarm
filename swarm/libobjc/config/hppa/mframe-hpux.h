@@ -14,39 +14,49 @@
 ({if (*(TYPES)==_C_STRUCT_B || *(TYPES)==_C_UNION_B || *(TYPES)==_C_ARY_B) \
       **(void***)(ARGS) = (ADDR);})
 
-#define MFRAME_ARGS int
+struct hppa_args {
+  unsigned reg_offset;
+  int stack_offset;
+  unsigned count;
+};
 
-#define MFRAME_INIT_ARGS(CUM, RTYPE) (CUM) = 0 \
+#define MFRAME_ARGS struct hppa_args
+
+#define MFRAME_INIT_ARGS(CUM, RTYPE) \
+({ \
+ (CUM).reg_offset = 20; \
+ (CUM).stack_offset = -20; \
+ (CUM).count = 0; \
+})
 
 #define MFRAME_ARG_ENCODING(CUM, TYPE, STACK, DEST) \
-({ \
+({  \
   const char* type = (TYPE); \
-  size_t size = objc_sizeof_type (type); \
-  int typelen; \
-  int offset; \
+  BOOL double_flag = *type == _C_DBL; \
+  unsigned offset; \
+  BOOL register_flag; \
   \
   (TYPE) = objc_skip_typespec (type); \
-  typelen = (TYPE) - type; \
-  offset = atoi (TYPE); \
-  if (*(TYPE) == '+' && !(*type == _C_DBL || *type == _C_FLT)) \
-    { \
-      sprintf ((DEST), "%.*s+%d", typelen, type, offset); \
-      (TYPE)++; \
-      (CUM) += size; \
-    } \
-  else \
-    { \
-      if (offset <= 40 && offset >= 0) \
-        offset += 12; \
-      sprintf ((DEST), "%.*s%d", typelen, type, offset); \
-      (STACK) += size; \
-      if (*(TYPE) == '+' || *(TYPE) == '-') \
-        (TYPE)++; \
-    } \
+  \
+  register_flag = ((CUM).count < (double_flag ? 3 : 4)); \
+  offset = register_flag ? (CUM).reg_offset : (CUM).stack_offset; \
+  if (double_flag && (offset & 7)) \
+    offset -= 4; \
+  sprintf ((DEST), "%.*s%s%d", ((TYPE) - type), type, \
+    register_flag ? "+" : "", offset); \
+  if (*(TYPE) == '+') \
+    (TYPE)++; \
   while (isdigit ((int) *(TYPE))) \
     { \
       (TYPE)++; \
     } \
-  (DEST) = &(DEST)[strlen(DEST)]; \
+  (DEST)=&(DEST)[strlen (DEST)]; \
+  if (double_flag) \
+    (CUM).count++; \
+  if (register_flag) \
+    (CUM).reg_offset = offset - 4; \
+  else \
+    (CUM).stack_offset = offset - 4; \
+  (CUM).count++; \
 })
 

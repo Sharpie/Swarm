@@ -1,3 +1,7 @@
+1999-06-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/hppa/mframe-hpux.h (MFRAME_ARG_ENCODING): Likewise.
+
 1999-06-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config/mips/mframe-irix6.h (MFRAME_ARG_ENCODING): Synthesize
