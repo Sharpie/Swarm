@@ -1,5 +1,7 @@
 1998-07-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am: Add override to append of CFLAGS with X_CFLAGS.
+
 	* TkExtra.m: Don't include unistd.h.
 
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>

@@ -18,7 +18,7 @@ PNGINCLUDES = @PNGINCLUDES@
 
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../objectbase -I.. -I$(srcdir)/.. -I$(srcdir)/../gui -I$(srcdir)/../misc -I$(srcdir)/../activity -I$(tclobjcincludedir) $(TKINCLUDES) $(TCLINCLUDES) $(PNGINCLUDES) $(ZLIBINCLUDES)
 
-CFLAGS += $(X_CFLAGS)
+override CFLAGS += $(X_CFLAGS)
 
 lib_LTLIBRARIES = libtkobjc.la
 
