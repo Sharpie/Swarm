@@ -38,8 +38,8 @@ Library:      activity
 - (id <Symbol>)_run_;
 - (void)terminate;
 - stop;
-- (id <Symbol>)next;
-- (id <Symbol>)step;
+- (id <Symbol>)nextAction;
+- (id <Symbol>)stepAction;
 - (id <Symbol>)getStatus;
 - (id <Symbol>)getHoldType;
 - getActionType;

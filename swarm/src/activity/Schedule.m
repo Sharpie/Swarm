@@ -1045,7 +1045,7 @@ PHASE(Using)
   id <Symbol> nextStatus = nil;
 
   while ([self getCurrentTime] < tVal
-         && !COMPLETEDP (nextStatus = [self next]));
+         && !COMPLETEDP (nextStatus = [self nextAction]));
   return nextStatus ? nextStatus : [self getStatus];
 }
 

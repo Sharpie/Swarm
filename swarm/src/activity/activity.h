@@ -146,10 +146,10 @@ USING
 //M: The next executes actions within a single compound action while
 //M: skipping over all processing of any complete action plans executed by
 //M: those actions.
-- (id <Symbol>)next;
+- (id <Symbol>)nextAction;
 
 //M: The step message executes a single action within a tree of activities. 
-- (id <Symbol>)step;
+- (id <Symbol>)stepAction;
 
 //M: The getStatus message returns one of the following codes for the current
 //M: run status of a particular activity:

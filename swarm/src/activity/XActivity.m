@@ -378,7 +378,7 @@ installNext (Activity_c *activity)
 //
 // next -- advance activity to the next action within activity
 //
-- (id <Symbol>)next
+- (id <Symbol>)nextAction
 {
   Activity_c *subactivity;
 
@@ -423,7 +423,7 @@ installStep (Activity_c *activity)
 //
 // step -- advance activity by a single action
 //
-- (id <Symbol>)step
+- (id <Symbol>)stepAction
 {
   Activity_c *subactivity;
 

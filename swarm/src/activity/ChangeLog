@@ -1,3 +1,11 @@
+2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Schedule.m ([ScheduleActivity_c -stepUntil:]): Change next to
+	nextAction change.
+
+	* XActivity.[hm], activity.h: Change next to nextAction and step to
+	stepAction.
+
 2000-12-03  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* Schedule.h (ActionConcurrent_c): Implement ActionConcurrent.
