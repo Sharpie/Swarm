@@ -431,7 +431,7 @@ USING
 #define REMOVEDP(obj) ((id) (obj) == (id)Removed)
 
 //G: values for index location
-extern id <Symbol>  Start, End, Between, Removed, Member;
+externvar id <Symbol>  Start, End, Between, Removed, Member;
 
 //
 // return value for index offset if not defined
@@ -439,7 +439,7 @@ extern id <Symbol>  Start, End, Between, Removed, Member;
 #define UndefinedOffset -0x80000000;
 
 //G: error types for collections
-extern id <Error> OffsetOutOfRange, NoMembers, 
+externvar id <Error> OffsetOutOfRange, NoMembers, 
   AlreadyAtEnd, AlreadyAtStart, InvalidIndexLoc, InvalidLocSymbol;
 
 @end
@@ -968,7 +968,7 @@ USING
 @end
 
 //G: Tokens used by the archiving parser.
-extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
+externvar id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 
 @protocol ArchiverKeyword <Create, Drop, CREATABLE>
 //S: Keyword encapsulation for serialization.
