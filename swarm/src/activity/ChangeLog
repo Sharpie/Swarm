@@ -1,3 +1,10 @@
+2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Action.m ([CAction -createEnd]): Include java.h instead of
+	directory.h and javavars.h.
+	([FActionForEachHomogeneous_c -createEnd]): Drop jniEnv argument
+	to SD_JAVA_FINDJAVA.
+
 2000-04-28    <mgd@nest.swarm.org>
 
 	* Action.m ([FActionForEachHomogeneous_c -createEnd]): 
