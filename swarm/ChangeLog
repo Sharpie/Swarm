@@ -1,3 +1,9 @@
+1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acconfig.h: Add LLFMT.
+
+	* configure.in: Call md_CHECK_long_long_printf.
+
 1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in (abs_srcdir): Remove PICFLAG, and pass --enable-shared

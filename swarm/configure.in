@@ -223,6 +223,7 @@ md_CHECK_NEXTSTEP
 md_CHECK_POINTER_FMT
 md_CHECK_BUILTIN_APPLY
 md_CHECK_SIZES
+md_CHECK_long_long_printf
 
 AC_OBJEXT
 if test $ac_objext = o ; then 
