@@ -244,17 +244,17 @@
 <sect2>
  <title>A Swarm as a virtual computer</title> 
 
-    <Para>At An Even More Abstract Level, The Swarm Libraries Can Be
-    Thought Of As A Layer On Top Of The Operating System's
-    Kernel. This notion Is Especially Relevant When The User Can Pause
-    A Simulation And Individually Interact With Agents, Reviewing And
-    Changing Their Internal Values.
+    <para>At an even more abstract level, the Swarm libraries can be
+    thought of as a layer on top of the operating system's
+    kernel. This notion is especially relevant when the user can pause
+    a simulation and individually interact with agents, reviewing and
+    changing their internal values.
 
-      <Figure Id="System-Diagram.Figure">
-        <Title>Swarm Virtual Computer</Title>
-        <Graphic Entityref="System-Diagram" Scale="80"></Graphic>
-      </Figure>
-    </Para>
+      <figure id="system-diagram.figure">
+        <title>Swarm virtual computer</title>
+        <graphic entityref="system-diagram" scale="80"></graphic>
+      </figure>
+    </para>
 
 </sect2>
 
