@@ -73,7 +73,7 @@ Library:      activity
 - (void)describe: outputCharStream;
 @end
 
-@interface ActionTo_c: PFAction <ActionArgs>
+@interface ActionTo_c: PFAction <ActionArgs, ActionTo>
 {
 @public
   SEL selector;
