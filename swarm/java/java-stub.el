@@ -562,13 +562,12 @@
     (insert ", "))
   (insert (java-interface-name protocol :setting))
   (insert " {\n")
-  (when (creatable-p protocol)
-    (java-print-class-methods-in-phase protocol phase)
-    (java-print-class-methods-in-phase protocol :setting)
-    (cond ((eq phase :using)
-           (java-print-class-constructors protocol))
-          ((eq phase :creating)
-           (java-print-nextphase-class-constructor protocol))))
+  (java-print-class-methods-in-phase protocol phase)
+  (java-print-class-methods-in-phase protocol :setting)
+  (cond ((eq phase :using)
+         (java-print-class-constructors protocol))
+        ((eq phase :creating)
+         (java-print-nextphase-class-constructor protocol)))
   (insert "}\n"))
 
 (defun java-print-interface-phase (protocol phase)
@@ -865,13 +864,13 @@
         (insert "#import <")
         (insert module-name)
         (insert ".h>\n")
-        (insert "\n")))
-    (loop for phase in '(:creating :using)
-          do
-          (loop for method in (expanded-method-list protocol phase)
-                do
-                (java-print-native-method method protocol phase)
-                (insert "\n")))))
+        (insert "\n"))
+      (loop for phase in '(:creating :using)
+            do
+            (loop for method in (expanded-method-list protocol phase)
+                  do
+                  (java-print-native-method method protocol phase)
+                  (insert "\n"))))))
 
 (defun java-print-makefiles ()
   (ensure-directory (c-path))
@@ -881,9 +880,20 @@
           for dir = (module-path module-sym)
           do
           (insert (symbol-name module-sym))
-          (insert "PROTOCOLS =")
+          (insert "_noncreatable_PROTOCOLS =")
           (loop for obj in protocol-list
                 when (and (protocol-p obj)
+                          (not (creatable-p obj))
+                          (not (removed-protocol-p obj)))
+                do
+                (insert " ")
+                (insert (protocol-name obj)))
+          (insert "\n\n")
+          (insert (symbol-name module-sym))
+          (insert "_creatable_PROTOCOLS =")
+          (loop for obj in protocol-list
+                when (and (protocol-p obj)
+                          (creatable-p obj)
                           (not (removed-protocol-p obj)))
                 do
                 (insert " ")
@@ -928,15 +938,15 @@
 (defun java-print-classes ()
   (interactive)
   (ensure-directory (java-path))
-  (java-print-makefiles)
   (java-print-javadoc-module-summary)  
   (loop for protocol being each hash-value of *protocol-hash-table* 
         unless (removed-protocol-p protocol)
         do
         (setq *last-protocol* protocol)
         (java-print-interface protocol)
-        (java-print-class protocol)
-        (java-print-native-class protocol)))
+        (when (creatable-p protocol)
+          (java-print-class protocol)
+          (java-print-native-class protocol))))
 
 (defun set-dollar-sign (unicode-flag)
   (setq *dollar-sign* (if unicode-flag "_00024" "$")))
@@ -944,6 +954,7 @@
 (defun java-run-all (&key unicode)
   (set-dollar-sign unicode)
   (load-and-process-modules :uniquify-method-lists t)
+  (java-print-makefiles)
   (java-print-classes))
 
 (defun java-run-all-javadoc ()

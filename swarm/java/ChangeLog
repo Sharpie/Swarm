@@ -1,3 +1,12 @@
+1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-class-phase): Remove conditional
+	on creatable-p.
+	(java-print-classes): Put it here.
+	Move java-print-makefiles to java-run-all.
+	(java-print-makefiles): Split protocols into creatable
+	and noncreatable variables.
+
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-class-phase): Don't print Impl classes
