@@ -1,5 +1,11 @@
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.m (ref_string): Handler for const char * -> HDF5 string
+	conversion.
+	([HDF -createEnd]): Ensure that ref_string is installed.
+	([HDF -drop]): Drop ref_string if converters installed.
+	Call super drop.
+
 	* defobj.m (_defobj_implement): Call setTypeImplemented for HDF5.
 
 	* defobj.h (HDF5): New protocol.

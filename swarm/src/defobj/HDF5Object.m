@@ -11,7 +11,11 @@
 #import <defobj/internal.h>
 
 #include <hdf5.h>
+#include <misc.h> // strncpy
 
+#define REF2STRING_CONV "ref->string"
+
+static BOOL typeConvertersInstalled = NO;
 
 @implementation HDF5_c
 PHASE(Creating)
@@ -27,6 +31,30 @@ PHASE(Creating)
   return self;
 }
 
+static herr_t
+ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
+            size_t count, void *buf, void *bkg)
+{
+  if (cdata->command == H5T_CONV_CONV)
+    {
+      const char *srcbuf[count];
+      char *destbuf = buf;
+      const char **recptr = srcbuf;
+      size_t i;
+      size_t maxlen = H5Tget_size (did);
+
+      memcpy (srcbuf, buf, sizeof (srcbuf));
+
+      for (i = 0; i < count; i++)
+        {
+          strncpy (destbuf, *recptr, maxlen);
+          recptr++;
+          destbuf += maxlen;
+        }
+    }
+  return 0;
+}     
+
 - createEnd
 {
   [super createEnd];
@@ -41,6 +69,15 @@ PHASE(Creating)
       if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0)) < 0)
         raiseEvent (SaveError, "Failed to create HDF5 group `%s'", name);
     }
+  if (!typeConvertersInstalled)
+    {
+      if (H5Tregister_soft (REF2STRING_CONV,
+                            H5T_REFERENCE,
+                            H5T_STRING, ref_string) == -1)
+        raiseEvent (SaveError, "unable to register ref->string converter");
+      typeConvertersInstalled = YES;
+    }
+      
   return self;
 }
 
@@ -102,7 +139,7 @@ hdf5_tid_for_objc_type (const char *type)
       return space;
     }
 
-  void store (hid_t sid, hid_t tid)
+  void store (hid_t sid, hid_t memtid, hid_t tid)
     {
       hid_t did;
       
@@ -110,7 +147,7 @@ hdf5_tid_for_objc_type (const char *type)
                             tid, sid, H5P_DEFAULT)) < 0)
         raiseEvent (SaveError, "unable to store %s as char", datasetName);
       
-      if (H5Dwrite (did, tid, sid, sid, H5P_DEFAULT, ptr) < 0)
+      if (H5Dwrite (did, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
         raiseEvent (SaveError, "unable to write %s as char", datasetName);
       if (H5Dclose (did) < 0)
         raiseEvent (SaveError, "unable to close dataset %s", datasetName);
@@ -120,10 +157,23 @@ hdf5_tid_for_objc_type (const char *type)
   void store_string (hid_t sid)
     {
       const char *str = *(const char **)ptr;
-      hid_t tid = H5Tcopy (H5T_C_S1);
-      H5Tset_size (tid, strlen (str) + 1);
+      hid_t memtid, tid;
       
-      store (sid, tid);
+      if ((memtid = H5Tcopy (H5T_STD_REF_OBJ)) < 0)
+        raiseEvent (SaveError, "unable to copy reference type");
+      if ((H5Tset_size (memtid, sizeof (const char *))) < 0)
+        raiseEvent (SaveError, "unable to set size of reference type");
+
+      if ((tid = H5Tcopy (H5T_C_S1)) < 0)
+        raiseEvent (SaveError, "unable to copy string type");
+      if ((H5Tset_size (tid, strlen (str) + 1)) < 0)
+        raiseEvent (SaveError, "unable to set size of string type");
+
+      store (sid, memtid, tid);
+      
+      if (H5Tclose (memtid) < 0)
+        raiseEvent (SaveError, "unable to close reference type");
+
       if (H5Tclose (tid) < 0)
         raiseEvent (SaveError, "unable to close string type");
     }
@@ -146,7 +196,11 @@ hdf5_tid_for_objc_type (const char *type)
           if (*baseType == _C_CHARPTR)
             store_string (sid);
           else
-            store (sid, hdf5_tid_for_objc_type (baseType));
+            {
+              hid_t tid = hdf5_tid_for_objc_type (baseType);
+
+              store (sid, tid, tid);
+            }
         }
       
       process_array (type,
@@ -160,7 +214,11 @@ hdf5_tid_for_objc_type (const char *type)
   else if (*type == _C_CHARPTR)
     store_string (scalar_space ());
   else
-    store (scalar_space (), hdf5_tid_for_objc_type (type));
+    {
+      hid_t tid = hdf5_tid_for_objc_type (type);
+
+      store (scalar_space (), tid, tid);
+    }
   return self;
 }
 
@@ -176,6 +234,11 @@ hdf5_tid_for_objc_type (const char *type)
       if (H5Gclose (loc_id) < 0)
         raiseEvent (SaveError, "Failed to close HDF5 group");
     }
+  if (typeConvertersInstalled)
+    if (H5Tunregister (ref_string) == -1)
+      raiseEvent (SaveError, "unable to unregister ref->string converter");
+  [super drop];
+
 }  
 
 @end
