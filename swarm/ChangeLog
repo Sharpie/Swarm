@@ -1,3 +1,8 @@
+1999-05-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ltmain.sh: Use $ladir/$objdir instead of $dir for access
+	to libtool convenience libraries.
+
 1999-05-22  Marcus Daniels  <mgd@pajarito.libarts.wsu.edu>
 
 	* ltconfig: Add support for hpux9; generate and compile function

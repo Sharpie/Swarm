@@ -1657,11 +1657,10 @@ compiler."
 	fi
 
 	if test -z "$libdir"; then
-	  # It is a libtool convenience library, so add in its objects.
-	  convenience="$convenience $dir/$old_library"
-	  old_convenience="$old_convenience $dir/$old_library"
-	  deplibs="$deplibs $dir/$old_library"
-	  continue
+          # It is a libtool convenience library, so add in its objects.
+          convenience="$convenience $ladir/$objdir/$old_library"
+          old_convenience="$old_convenience $ladir/$objdir/$old_library"
+          deplibs="$deplibs $ladir/$objdir/$old_library"
 	fi
 
 	# Find the relevant object directory and library name.
