@@ -1,3 +1,11 @@
+2000-02-15  Alex Lancaster  <alex@santafe.edu>
+
+	* switcheroo.png: Add file.
+
+	* figs.ent: Add references to switcheroo.{jpeg,eps}.
+
+	* Makefile.am (PNG): Add switcheroo.png.
+
 1999-05-21  Alex Lancaster  <alex@santafe.edu>
 
 	* warning.png, tip.png, note.png, caution.png, important.png: Add

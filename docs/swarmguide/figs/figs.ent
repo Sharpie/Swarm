@@ -104,6 +104,8 @@ JPEG//EN" ndata jpeg>
 
 <!entity gui-probemap-example PUBLIC "-//SFI Hive//ENTITIES gui-probemap-example
 JPEG//EN" ndata jpeg>
+
+<!entity switcheroo PUBLIC "-//SFI Hive//ENTITIES switcheroo JPEG//EN" ndata jpeg>
                               
 ]]>                           
                               
@@ -213,6 +215,8 @@ EPS//EN" ndata eps>
 
 <!entity gui-probemap-example PUBLIC "-//SFI Hive//ENTITIES gui-probemap-example
 EPS//EN" ndata eps>
+
+<!entity switcheroo PUBLIC "-//SFI Hive//ENTITIES switcheroo EPS//EN" ndata eps>
                               
 ]]>                           
                               
