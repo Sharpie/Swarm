@@ -186,6 +186,12 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - (BOOL)setColor: (Color)c ToGrey: (double)g;
 @end
 
+@class Raster;
+
+@protocol Drawer
+- drawX: (int)x Y: (int)y;
+@end
+
 @protocol Raster <ArchivedGeometryWidget>
 - drawPointX: (int)x Y: (int)y Color: (Color)c;
 - setColormap: (id <Colormap>)c;
@@ -193,6 +199,7 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 - setButton: (int)n Client: c Message: (SEL)sel;
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)color;
+- draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
 - erase;
 @end
 
@@ -202,6 +209,13 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - (unsigned)getZoomFactor;
 - setZoomFactor: (unsigned)z;
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
+@end
+
+@protocol Pixmap <Drawer>
+- setFile: (const char *)filename;
+- createEnd;
+- setRaster: raster;
+- drawX: (int)x Y: (int)y;
 @end
 
 @protocol CompositeItem <SwarmObject>
@@ -301,6 +315,7 @@ void initTkObjc (id arguments);
 @class Histogram;
 @class LinkItem;
 @class OvalNodeItem;
+@class Pixmap;
 @class RectangleNodeItem;
 @class ZoomRaster;
 
