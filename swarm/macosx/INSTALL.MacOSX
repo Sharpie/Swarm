@@ -5,37 +5,49 @@ If you have the cvs sources, you will need to
 
 Edit $SRCROOT/configure.in:26 and $SRCROOT/libobjc/configure.in:18
 to change the OBJCFLAGS thus
-Remove -Werror -Wno-long-long
-Add -Wno-protocol -Wno-long-double
+Remove -Werror
 
-and copy the ltmain.sh from gnu libtool1.4.3 into the top source directory and libobjc.
+In your BLT install, ensure you have a symlink bltGraph.tcl linked to graph.tcl.
+i.e. do this
+cd 'your BLT library directory'/lib/blt2.4
+ln -s graph.tcl bltGraph.tcl
 
-Then (if you are brave jump to **Bleeding edge build)
+Finally your build may fail trying to link findImp in the tools subdirectory.
+Find the link i
 
-Other wise try:
+
+Project Builder build
+Edit $SRCROOT/macosx/swarmx/configure.sh and $SRCROOT/macosx/swarmx/buildlibs.shto reflect appropriate paths on your system.
+Open the PB project and build the targets autogen, config and swarmlibmake in that order.  The target Swarm builds all three subtargets
+
+To start over delete everything in $SRCROOT/macosx/swarmx/build
+
+To install do make install in the build directory.
+
+If you think IDEs are for wimps, try:
 
 cd $SRCROOT/macosx/swarmx/build
 
 setenv SED /yourgnused
+setenv MACOSX_DEPLOYMENT_TARGET 10.2
+ /yourgnused
 
 ../../../autogen.sh
 
 ../../../configure \
 CC='your GNU gcc' \
---prefix=$SRCROOT/macosx/swarmx/build/dst/usr \
+--prefix=$SRCROOT/macosx/swarmx/build/dst/usr \  (or some other install path
 --with-tcldir='your tcl path' \
+--with-tkdir='your tk path \
+--with-bltdir='your BLT path' \
 --without-jdkdir \
---with-hdf5dir='your hdf5 path'
+--without-hdf5dir   
 
 make
 
+make install    (sudo may be needed if installing outside your home directory)
+
 That's it.
-
-(**Bleeding edge build
-Edit $SRCROOT/macosx/swarmx/configure.sh and $SRCROOT/macosx/swarmx/buildlibs.shto reflect appropriate paths on your system
-Open the PB project and build the targets autogen, config and swarmlibmake in that order.)
-
-To start over delete everything in $SRCROOT/macosx/swarmx/build
 
 Start fixing bugs where it crashes.
 
@@ -45,4 +57,4 @@ NB. If you need to compile any GNU utilities ensure you have -no-cpp-precomp as 
 
 Bill Northcott
 w.northcott@unsw.edu.au
-21 Jan 2003
+14 Feb 2003
