@@ -36,11 +36,19 @@
   hid_t c_sid;
   hid_t c_msid;
   hid_t c_did;
+  
+  hsize_t c_rnlen;
+  hid_t c_rntid;
+  hid_t c_rnsid;
+  hid_t c_rnaid;
+  const char **c_rnbuf;
 }
 - setParent: parent;
 - setName: (const char *)name;
 - setType: compoundType count: (unsigned)count;
 - createEnd;
+- nameRecord: (unsigned)recordNumber name: (const char *)recordName;
+- numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
 - storeObject: obj;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;

@@ -1,17 +1,30 @@
+1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* HDF5Object.[hm], defobj.h ([HDF5_c -nameRecord:name:], [HDF5_c
+	-numberRecord:], [HDF5_c -setRowNameLength:]: New methods.
+
+	* HDF5Object.m ([HDF5_c -setType:count:]): Set c_rnlen from decimal
+	size of recordCount.
+	([HDF5_c -createEnd]): Create HDF5 attribute for row names.
+	([HDF5_c -drop]): Close c_rn* HDF5 objects.
+
+	* HDF5Object.h (HDF5_c): New ivars c_rnlen, c_rntid, c_rnsid,
+	c_rnaid, and c_rnbuf.
+
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefObject.m ([Object_s hdf5Out:deep:]): Call -storeObject: when
 	not deep.
 
-	* HDF5Object.m ([HDF -createEnd]): Handle compound type case.
+	* HDF5Object.m ([HDF5_c -createEnd]): Handle compound type case.
 	(hdf5InstanceCount): Use this to register and unregister 
 	type converters in -createEnd and -drop.
-	([HDF -createEnd]): Setup point space.
-	([HDF -drop]): Close point space when c_type is set.
+	([HDF5_c -createEnd]): Setup point space.
+	([HDF5_c -drop]): Close point space when c_type is set.
 
-	* HDF5Object.[hm], defobj.h ([HDF -setType:count:]): New method.
+	* HDF5Object.[hm], defobj.h ([HDF5_c -setType:count:]): New method.
 	(HDF5CompoundType): New type.
-	([HDF -selectRecord:], [HDF -storeObject:]): New methods.
+	([HDF5_c -selectRecord:], [HDF5_c -storeObject:]): New methods.
 
 	* defobj.m (_defobj_implement): Call setTypeImplemented for HDF5
 	and HDF5CompoundType.
@@ -27,8 +40,8 @@
 
 	* HDF5Object.m (ref_string): Handler for const char * -> HDF5 string
 	conversion.
-	([HDF -createEnd]): Ensure that ref_string is installed.
-	([HDF -drop]): Drop ref_string if converters installed.
+	([HDF5_c -createEnd]): Ensure that ref_string is installed.
+	([HDF5_c -drop]): Drop ref_string if converters installed.
 	Call super drop.
 
 	* defobj.h (HDF5): New protocol.
@@ -49,7 +62,8 @@
 
 	* Archiver.m: Include internal.h.
 	(hdf5_tid_for_objc_type): New function.
-	([HDF -storeAsDataset:type:ptr:]): Add support for strings and arrays.
+	([HDF5_c -storeAsDataset:type:ptr:]): Add support for strings and
+	arrays.
 
 	* Makefile.am (SRC): Add internal.m.
 	(EXTRA_DIST): Add internal.h.
@@ -68,10 +82,11 @@
 	([Object_s -lispOut:deep:]): Use it.
 	([Object_s -hdf5Out:deep:]): New method (also use map_ivars).
 
-	* Archiver.m ([HDF -setName:], [HDF -storeAsDataset:type:ptr:],
-	[HDF -drop]): New methods.
-	([HDF -createEnd]): Create groups if parent exists, other create
-	file.
+	* Archiver.m ([HDF5_c -setName:], [HDF5_c
+	-storeAsDataset:type:ptr:],
+	[HDF5_c -drop]): New methods.
+	([HDF5_c -createEnd]): Create groups if parent exists, other
+	create file.
 	(defaultPath): New function.
 	(lispDefaultPath, hdf5DefaultPath): Use it.
 	(hdf5ArchiverPut, hdf5ArchiverGet): New functions.

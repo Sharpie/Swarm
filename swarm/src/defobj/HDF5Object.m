@@ -12,8 +12,10 @@
 
 #include <hdf5.h>
 #include <misc.h> // strncpy
+#include <math.h> // log10
 
 #define REF2STRING_CONV "ref->string"
+#define ROWNAMES "row.names"
 
 static unsigned hdf5InstanceCount = 0;
 
@@ -113,7 +115,13 @@ PHASE(Creating)
 {
   c_type = theCompoundType;
   c_count = theRecordCount;
+  c_rnlen = 1 + (unsigned) log10 ((double) c_count);
+  return self;
+}
 
+- setRowNameLength: (unsigned)rnlen
+{
+  c_rnlen = rnlen;
   return self;
 }
 
@@ -171,6 +179,24 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                               c_sid,
                               H5P_DEFAULT)) < 0)
         raiseEvent (SaveError, "unable to create (compound) dataset");
+
+      {
+        hsize_t dims[1];
+        
+        if ((c_rntid = H5Tcopy (H5T_C_S1)) < 0)
+          raiseEvent (SaveError, "unable to copy string type");
+        if ((H5Tset_size (c_rntid, c_rnlen + 1)) < 0)
+          raiseEvent (SaveError, "unable to set string size");
+        dims[0] = c_count;
+        if ((c_rnsid = H5Screate_simple (1, dims, NULL)) < 0)
+          raiseEvent (SaveError, "unable to create row names data space");
+        
+        if ((c_rnaid = H5Acreate (c_did, ROWNAMES,
+                                  c_rntid, c_rnsid, H5P_DEFAULT)) < 0)
+          raiseEvent (SaveError, 
+                      "unable to create row names attribute dataset");
+        c_rnbuf = xcalloc (c_count, sizeof (const char *));
+      }
     }
   else
     {
@@ -300,6 +326,26 @@ PHASE(Using)
   return self;
 }
 
+- nameRecord: (unsigned)recordNumber name: (const char *)recordName
+{
+  c_rnbuf[recordNumber] = strdup (recordName);
+
+  return self;
+}
+
+- numberRecord: (unsigned)recordNumber
+{
+  char fmt[2 + c_rnlen + 1 + 1];
+  char buf[c_rnlen + 1];
+
+  sprintf (fmt, "%%0%uu", (unsigned) c_rnlen);
+  sprintf (buf, fmt, recordNumber);
+  
+  c_rnbuf[recordNumber] = strdup (buf);
+
+  return self;
+}
+
 - storeObject: obj
 {
   if (H5Dwrite (c_did, ((HDF5CompoundType_c *) c_type)->tid,
@@ -317,12 +363,37 @@ PHASE(Using)
     }
   else if (c_type)
     {
+      hid_t rnmemtid;
+
+      if ((rnmemtid = H5Tcopy (H5T_STD_REF_OBJ)) < 0)
+        raiseEvent (SaveError, "unable to copy reference type");
+      if ((H5Tset_size (rnmemtid, sizeof (const char *))) < 0)
+        raiseEvent (SaveError, "unable to set size of reference type");
+
+      if (H5Awrite (c_rnaid, rnmemtid, c_rnbuf) < 0)
+        raiseEvent (SaveError, "unable to write row names dataset");
+      if (H5Aclose (c_rnaid) < 0)
+        raiseEvent (SaveError, "unable to close row names dataset");
+      if (H5Sclose (c_rnsid) < 0)
+        raiseEvent (SaveError, "unable to close row names dataspace");
+      if (H5Tclose (c_rntid) < 0)
+        raiseEvent (SaveError, "unable to close row names string type");
+      {
+        unsigned ri;
+
+        for (ri = 0; ri < c_count; ri++)
+          if (c_rnbuf[ri])
+            XFREE (c_rnbuf[ri]);
+        XFREE (c_rnbuf);
+      }
+
       if (H5Sclose (c_sid) < 0)
         raiseEvent (SaveError, "Failed to close (compound) space");
       if (H5Sclose (c_msid) < 0)
         raiseEvent (SaveError, "Failed to close (compound) point space");
       if (H5Dclose (c_did) < 0)
         raiseEvent (SaveError, "Failed to close (compound) dataset");
+      
     }
   else
 

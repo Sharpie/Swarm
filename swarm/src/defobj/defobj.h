@@ -981,6 +981,8 @@ CREATING
 USING
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - storeObject: obj;
+- nameRecord: (unsigned)recordNumber name: (const char *)recordName;
+- numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
 - (void)drop;
 @end
