@@ -1243,8 +1243,24 @@
     (protocol (protocol-global-list object))
     (module (module-global-list object))))
 
-(defun argument-empty-p (argument)
-  (null (third argument)))
+(defun argument-key (argument)
+  (first argument))
+
+(defun argument-type (argument)
+  (let* ((type-and-varname (cdr argument))
+         (varname (cadr type-and-varname)))
+    ;; the case of method with no arguments
+    (when varname
+      (car type-and-varname))))
+
+(defun argument-name (argument)
+  (let* ((type-and-varname (cdr argument))
+         (name (cadr type-and-varname)))
+    (when name
+      (if (string= name "class") "_class" name))))
+
+(defun has-arguments-p (method)
+  (argument-name (first (method-arguments method))))
 
 (defun print-method-signature (method &optional stream nocolon)
   (if (method-factory-flag method)
@@ -1253,7 +1269,7 @@
   (loop for argument in (method-arguments method)
         for key = (first argument)
         when key do (princ key stream)
-        unless (argument-empty-p argument) do 
+        when (has-arguments-p method) do
         (unless nocolon
             (princ ":" stream))
         ))

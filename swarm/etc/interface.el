@@ -504,17 +504,6 @@
                  (mapcar #'methodinfo-method
                          (protocol-expanded-methodinfo-list protocol))))
 
-(defun argument-type (argument)
-  (let* ((type-and-varname (cdr argument))
-         (varname (cadr type-and-varname)))
-    ;; the case of method with no arguments
-    (when varname
-      (car type-and-varname))))
-
-(defun argument-name (argument)
-  (let ((type-and-varname (cdr argument)))
-    (cadr type-and-varname)))
-
 (defun augment-type-hash-table (ht method)
   (let* ((return-type (method-return-type method))
          (mprotocol (objc-protocol-for-type return-type)))
@@ -545,13 +534,12 @@
   (let ((ht (make-hash-table :test #'equal)))
     (loop for method in (collect-convenience-create-methods protocol)
           do
-          (loop for argument in (method-arguments method)
-                for pos from 0
-                for argument-name = (argument-name argument)
-                when argument-name
-                do
-                (setf (gethash argument-name ht)
-                      (cons pos (argument-type argument)))))
+          (when (has-arguments-p method)
+            (loop for argument in (method-arguments method)
+                  for pos from 0
+                  do
+                  (setf (gethash (argument-name argument) ht)
+                        (cons pos (argument-type argument))))))
     ht))
 
 (defun print-argument (argument
@@ -573,4 +561,43 @@
     (cond ((string= "id <Symbol>" ret-type) name)
           (t (concat (downcase (substring name 0 1))
                      (substring name 1))))))
+
+(defun protocol-implementation-class-name (protocol)
+  (let ((name (protocol-name protocol)))
+    (cond ((string= name "Index") "Index_any")
+          ((string= name "List") "List_linked")
+          ((string= name "ListIndex") "ListIndex_linked")
+          ((member (module-sym (protocol-module protocol))
+                   '(defobj collections activity))
+           (concat name "_c"))
+          (t name))))
+
+(defun create-method-implementation-hash-table (protocol phase)
+  (let ((ht (make-hash-table :test #'equal))
+        (method-signatures (mapcar #'get-method-signature
+                                   (expanded-method-list protocol phase))))
+    (with-temp-buffer
+      (let ((ret (apply
+                  #'call-process
+                  (concat (get-builddir) "findImp")
+                  nil t nil
+                  (protocol-implementation-class-name protocol)
+                  method-signatures)))
+        (if (and (numberp ret) (zerop ret))
+            (progn
+              (goto-char (point-min))
+              (loop for method-sig in method-signatures
+                    do
+                    (let ((start (point)))
+                      (forward-line)
+                      (let ((str (buffer-substring start (- (point) 1))))
+                        (setf (gethash method-sig ht) str))))
+              ht)
+          (progn
+            (message "Could not convert protocol %s %s"
+                     (protocol-name protocol)
+                     method-signatures)
+            nil))))))
+                          
+
 

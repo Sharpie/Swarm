@@ -1,3 +1,15 @@
+2000-07-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (create-method-implementation-hash-table,
+	protocol-implementation-class-name): New functions.
+	(create-hash-table-for-initialization-parameters): Rewrite
+	to use has-arguments-p.
+	(argument-{type,name}): Remove.
+
+	* protocol.el (argument-empty-p): Remove.
+	(argument-{key,type,name}): Add.
+	(has-arguments-p): Add.
+
 2000-07-21  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* interface.el (get-variable-name-for-getter-method): Don't handle
