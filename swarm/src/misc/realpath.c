@@ -53,7 +53,7 @@ realpath (const char *path, char *resolved_path)
     /* evtl. Working-Directory benutzen: */
     if (!(path[0]=='/')) /* kein absoluter Pathname ? */
       { 
-        if (getcwd (resolved_path, MAXPATHLEN + 1) == NULL)
+        if (getcwd (resolved_path, MAXPATHLEN) == NULL)
           return NULL;
         resolved_ptr = resolved_path;
         while (*resolved_ptr) { resolved_ptr++; }
