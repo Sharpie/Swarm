@@ -16,10 +16,10 @@ For binary distributions, you will also need to set OTHERINCDIRS to include
 X11 and Objective C include files; you will need to set OTHERLIBDIRS
 to include X11 and Objective C libraries.
 
-To run the output of a compile from the binary distribution, the user must
-set the environment variable "TK_LIBRARY" and "TCL_LIBRARY" to the value
-"$(SWARMHOME)/lib" so the canned tk/tcl routines can find required 
-library functions.
+To run the output of a compile from the binary distribution, the user
+must set the environment variables "BLT_LIBRARY", "TK_LIBRARY", and
+"TCL_LIBRARY" to the value "$(SWARMHOME)/lib" so the canned tk/tcl
+routines can find required library functions.
 
 For source distributions, you will need to set OTHERINCDIRS to include
 tcl, tk, tclobjc, BLT, X11, and Objective C include directories; 
