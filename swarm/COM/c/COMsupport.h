@@ -24,7 +24,8 @@ fcall_type_t selectorArgFcallType (COMselector cSel, unsigned argIndex);
 void selectorInvoke (COMselector cSel, void *args);
 
 void *createArgVector (unsigned size);
-void setArg (void *args, unsigned pos, fcall_type_t type, void *value);
+void setArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
+void setReturn (void *args, unsigned pos, fcall_type_t type, void *value);
 void freeArgVector (void *args);
 
 }

@@ -414,13 +414,92 @@ static nsXPTType types[FCALL_TYPE_COUNT] = {
 };
 
 void
-setArg (void *args, unsigned pos, fcall_type_t type, void *value)
+setArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
 {
-  nsXPTCVariant *argVec = (nsXPTCVariant *) args;
+  nsXPTCVariant *arg = &((nsXPTCVariant *) args)[pos];
 
-  argVec[pos].ptr = value;
-  argVec[pos].type = types[type];
-  argVec[pos].flags = nsXPTCVariant::PTR_IS_DATA;
+  switch (type)
+    {
+    case fcall_type_void:
+      abort ();
+    case fcall_type_boolean:
+      arg->type = nsXPTType::T_BOOL;
+      arg->val.b = value->boolean;
+      break;
+    case fcall_type_uchar:
+      arg->type = nsXPTType::T_U8;
+      arg->val.u8 = value->uchar;
+      break;
+    case fcall_type_schar:
+      arg->type = nsXPTType::T_I8;
+      arg->val.i8 = value->schar;
+      break;
+    case fcall_type_ushort:
+      arg->type = nsXPTType::T_U16;
+      arg->val.u16 = value->ushort;
+      break;
+    case fcall_type_sshort:
+      arg->type = nsXPTType::T_I16;
+      arg->val.i16 = value->sshort;
+      break;
+    case fcall_type_uint:
+      arg->type = nsXPTType::T_U32;
+      arg->val.u32 = value->uint;
+      break;
+    case fcall_type_sint:
+      arg->type = nsXPTType::T_I32;
+      arg->val.i32 = value->sint;
+      break;
+    case fcall_type_ulong:
+      arg->type = nsXPTType::T_U32;
+      arg->val.u32 = value->ulong;
+      break;
+    case fcall_type_slong:
+      arg->type = nsXPTType::T_I32;
+      arg->val.i32 = value->slong;
+      break;
+    case fcall_type_ulonglong:
+      arg->type = nsXPTType::T_U64;
+      arg->val.u64 = value->ulonglong;
+      break;
+    case fcall_type_slonglong:
+      arg->type = nsXPTType::T_I64;
+      arg->val.i64 = value->slonglong;
+      break;
+    case fcall_type_float:
+      arg->type = nsXPTType::T_FLOAT;
+      arg->val.f = value->_float;
+      break;
+    case fcall_type_double:
+      arg->type = nsXPTType::T_DOUBLE;
+      arg->val.d = value->_double;
+      break;
+    case fcall_type_long_double:
+      abort ();
+    case fcall_type_object:
+      arg->type = nsXPTType::T_INTERFACE;
+      arg->val.p = SD_COM_ENSURE_OBJECT_COM (value->object);
+      break;
+    case fcall_type_string:
+      arg->type = nsXPTType::T_CHAR_STR;
+      arg->val.p = (void *) value->string;
+      break;
+    case fcall_type_selector:
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+    default:
+      abort ();
+    }
+}
+
+void
+setReturn (void *args, unsigned pos, fcall_type_t type, void *value)
+{
+  nsXPTCVariant *retArg = &((nsXPTCVariant *) args)[pos];
+
+  retArg->ptr = value;
+  retArg->type = types[type];
+  retArg->flags = nsXPTCVariant::PTR_IS_DATA;
 }
 
 void
