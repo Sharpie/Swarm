@@ -72,7 +72,7 @@
 -drawHistoWithInt: (int *) points atLocations: (double *) locations {
   int i;
   for (i = 0; i < numPoints; i++)
-    [globalTkInterp eval: "%s element configure %s -data { %lg %d }",
+    [globalTkInterp eval: "%s element configure %s -data { %g %d }",
 		    widgetName, elements[i], locations[i], points[i]];
   return self;
 }
@@ -80,7 +80,7 @@
 -drawHistoWithDouble: (double *) points atLocations: (double *) locations {
   int i;
   for (i = 0; i < numPoints; i++)
-    [globalTkInterp eval: "%s element configure %s -data { %lg %lg }",
+    [globalTkInterp eval: "%s element configure %s -data { %g %g }",
 		    widgetName, elements[i], locations[i], points[i]];
   return self;
 }

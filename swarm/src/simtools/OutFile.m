@@ -64,13 +64,13 @@
 
 -putDouble: (double) aDouble {
 
-  fprintf(theFile,"%lg",aDouble) ;
+  fprintf(theFile,"%+23.15e",aDouble) ;
   return self ;
 }
 
 -putFloat: (float) aFloat {
 
-  fprintf(theFile,"%g",aFloat) ;
+  fprintf(theFile,"%+14.6e",aFloat) ;
   return self ;
 }
 
