@@ -2,6 +2,8 @@
 
 	* archiver.m: Include swarmconfig.h to conditionally run 
 	HDF5 tests.  Make deep serialization test a subclass with a component.
+	(checkArchiver): Use new argument to updateArchiver:.  Don't use
+	a global archiver variable.
 
 1999-02-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -4,7 +4,6 @@
 #include <swarmconfig.h>
 
 #define OBJNAME "myObj"
-id archiver;
 
 #define STRVAL "Hello World"
 #define INTVAL -100
@@ -55,7 +54,7 @@ id archiver;
   BOOL deepFlag;
 }
 - setDeepFlag: (BOOL)deepFlag;
-- updateArchiver;
+- updateArchiver: archiver;
 - (BOOL)checkObject;
 @end
 
@@ -82,7 +81,7 @@ id archiver;
   return self;
 }
 
-- updateArchiver
+- updateArchiver: archiver
 {
   if (deepFlag)
     [archiver putDeep: OBJNAME object: self];
@@ -159,6 +158,7 @@ checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag)
 {
   id obj;
   BOOL ret;
+  id archiver;
 
   archiver = createArchiver (aZone, hdf5Flag, YES, deepFlag);
   if (deepFlag)
