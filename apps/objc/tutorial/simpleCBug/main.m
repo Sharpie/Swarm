@@ -1,5 +1,5 @@
 // SimpleCbug
-
+#import <random.h>
 #import <simtools.h>
 
 int
@@ -17,20 +17,19 @@ main (int argc, const char **argv)
 
   printf("I started at X = %d Y = %d \n\n", xPos, yPos);
 
-  for(i = 0; i < 100; i++) {
-
-    // Random movement in X and Y (possibly 0)
-
-    xPos = xPos + [uniformIntRand getIntegerWithMin: -1 withMax: 1];
-    yPos = yPos + [uniformIntRand getIntegerWithMin: -1 withMax: 1];
-
-    // Take move modulo maximum coordinate values
-
-    xPos = (xPos+ worldXSize) % worldXSize;
-    yPos = (yPos + worldYSize) % worldYSize;
-
-    printf( "I moved to X = %d Y = %d \n", xPos, yPos);
-
+  for (i = 0; i < 100; i++)
+    {
+      // Random movement in X and Y (possibly 0)
+      
+      xPos = xPos + [uniformIntRand getIntegerWithMin: -1 withMax: 1];
+      yPos = yPos + [uniformIntRand getIntegerWithMin: -1 withMax: 1];
+      
+      // Take move modulo maximum coordinate values
+      
+      xPos = (xPos+ worldXSize) % worldXSize;
+      yPos = (yPos + worldYSize) % worldYSize;
+      
+      printf( "I moved to X = %d Y = %d \n", xPos, yPos);
   }
 
   return 0;
