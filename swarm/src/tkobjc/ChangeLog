@@ -1,3 +1,29 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* ArchivedGeometryWidget.h, ArchivedGeometryWidget.m, Button.h,
+	Button.m, ButtonPanel.h, ButtonPanel.m, Canvas.h, Canvas.m,
+	CanvasAbstractItem.h, CanvasAbstractItem.m, CanvasItem.h,
+	CanvasItem.m, CheckButton.h, CheckButton.m, Circle.h, Circle.m,
+	ClassDisplayHideButton.h, ClassDisplayHideButton.m,
+	ClassDisplayLabel.h, ClassDisplayLabel.m, Colormap.h, Colormap.m,
+	CompleteProbeDisplayLabel.h, CompleteProbeDisplayLabel.m,
+	CompositeItem.h, CompositeItem.m, Entry.h, Entry.m, Form.h,
+	Form.m, Frame.h, Frame.m, Graph.h, Graph.m, Histogram.h,
+	Histogram.m, InputWidget.h, InputWidget.m, Label.h, Label.m,
+	Line.h, Line.m, LinkItem.h, LinkItem.m, MessageProbeEntry.h,
+	MessageProbeEntry.m, NodeItem.h, NodeItem.m, OvalNodeItem.h,
+	OvalNodeItem.m, Pixmap.h, Pixmap.m, ProbeCanvas.h, ProbeCanvas.m,
+	Raster.h, Raster.m, Rectangle.h, Rectangle.m, RectangleNodeItem.h,
+	RectangleNodeItem.m, ScheduleItem.h, ScheduleItem.m,
+	SimpleProbeDisplayHideButton.h, SimpleProbeDisplayHideButton.m,
+	SuperButton.h, SuperButton.m, TextItem.h, TextItem.m, TkExtra.h,
+	TkExtra.m, VarProbeEntry.h, VarProbeEntry.m, VarProbeLabel.h,
+	VarProbeLabel.m, Widget.h, Widget.m, ZoomRaster.h, ZoomRaster.m,
+	analysis.tcl, common.h, common.m, global.h, internal.h,
+	internal.m, simtools.tcl, testFrame.m, testGraph.m,
+	testHistogram.m, testRaster.m, tkobjc.m: Change copyright
+	statement to canonical version as suggested by GNU GPL.
+
 2002-01-31  Marcus G. Daniels  <mgd@condor>
 
 	* Colormap.m ([Colormap -nextFreeColor]): Ise integer for search.
