@@ -13,6 +13,7 @@ Library:      defobj
 #import <defobj.h>
 #import <defobj/FArguments.h>
 #import <objc/objc-api.h>
+#import <defobj/defalloc.h>
 
 #include <swarmconfig.h>
 #ifndef USE_AVCALL
@@ -396,6 +397,7 @@ PHASE(Creating)
                   "Failed while preparing foreign function call closure!\n"); 
   }
 #endif
+  setMappedAlloc (self);
   setNextPhase (self);
   return self;
 }
@@ -825,6 +827,10 @@ PHASE(Using)
     return ffunction;
   else
     abort ();
+}
+
+- (void)mapAllocations: (mapalloc_t)mapalloc
+{
 }
 
 - (void)dropAllocations: (BOOL)componentAlloc

@@ -634,7 +634,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
                 jobj,
                 swarm_directory_java_hash_code (jobj));
   
-  fa = [FArguments createBegin: getZone (self)];
+  fa = [FArguments createBegin: getCZone (getZone (self))];
   {
     const char *sig = java_ensure_selector_type_signature (jsel);
 
@@ -654,7 +654,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     }
   fa = [fa createEnd];
 
-  fc = [FCall create: getZone (self)
+  fc = [FCall create: getCZone (getZone (self))
               target: self
               selector: aSel
               arguments: fa];
@@ -667,8 +667,8 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     retval_t retVal;
                       
     retVal = [fc getRetVal: retValBuf buf: &typebuf];
-    [fc drop];
-    [fa drop];
+    [(id) fc dropAllocations: YES];
+    [(id) fa dropAllocations: YES];
     return retVal;
   }
 #else

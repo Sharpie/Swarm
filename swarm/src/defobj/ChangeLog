@@ -1,5 +1,11 @@
 2000-06-21  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* DefObject.m ([Object_s -forward::]): Use dropAllocations: for
+	explicit drop of one-shot FCall/FArguments.
+
+	* FCall.m ([FCall_c -mapAllocations:]): New method.
+	([FCall_c -createEnd]): Call setMappedAlloc.
+
 	* JavaCollectionIndex.m ([JavaCollectionIndex
 	+create:setIterator:setCount:]): New method replaces create:setCount:.
 	([JavaCollectionIndex -next]): Use method ids created above.
