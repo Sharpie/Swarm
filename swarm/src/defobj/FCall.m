@@ -512,10 +512,10 @@ PHASE(Using)
         break;
 #ifdef HAVE_JDK
       case fcall_type_jobject:
-        fargs->resultVal.object = VAL(jobject, ret);
+        fargs->resultVal.object = (id) VAL(jobject, ret);
         break;
       case fcall_type_jstring:
-        fargs->resultVal.object = VAL(jstring, ret);
+        fargs->resultVal.object = (id) VAL(jstring, ret);
         break;
 #endif
       default:

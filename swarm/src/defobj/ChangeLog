@@ -1,3 +1,8 @@
+1999-05-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m ([FCall_c -performCall]): Add casts for jobject and jstring
+	return assignment.
+
 1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HDF5Object.m ([HDF5_c -checkDatasetName:]): New method.
