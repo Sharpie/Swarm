@@ -1,8 +1,3 @@
-1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* acdll.m4 (md_CHECK_DLL): Add --add-stdcall-alias and --entry
-	__cygwin_noncygwin_dll_entry@12 to dllwrap.
-
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acdll.m4: Use AC_DEFINE, not AC_SUBST, since AC_CONFIG_HEADER
