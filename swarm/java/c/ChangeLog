@@ -1,3 +1,14 @@
+1999-03-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.c 
+	(c_char, c_byte, c_int, c_short, c_long, c_float, c_double, c_object):
+	New statics.
+	(ensure_classes): Set them if initFlag is NO.
+
+	* directory.[ch] (java_ensure_selector): New function.
+
+	* setup.c (initialize, shutdown): Remove JNI stuff.
+
 1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (CPPFLAGS): Add -I$(top_srcdir)/src/misc, and
