@@ -23,7 +23,7 @@
 #import <objectbase.h>
 #import <gui.h> // Raster, Colormap
 
-@protocol Discrete2d <SwarmObject>
+@protocol _Discrete2d
 //S: Root class of all 2d discrete spaces.
 
 //D: A Discrete2d is basically a 2d array of ids.  
@@ -88,6 +88,9 @@ USING
 - copyDiscrete2d: a toDiscrete2d: b;
 
 - (long *)getOffsets;
+@end
+
+@protocol Discrete2d <_Discrete2d, SwarmObject>
 @end
 
 @protocol DblBuffer2d <Discrete2d>

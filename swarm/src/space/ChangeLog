@@ -1,3 +1,22 @@
+1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* space.h (_Discrete2d): Split Discrete2d into new and
+	presentation interface.
+
+	* Discrete2d.m ([Discrete2d -setDiscrete2d:toFile:], [Discrete2d
+	-copyDiscrete2d:toDiscrete2d:, [Discrete2d
+	-setDiscrete2dToDisplay:]): Confirm conformance to _Discrete2d
+	(not Discrete2d).
+
+	* Object2dDisplay.m ([Object2dDisplay -setDiscrete2dToDisplay:]):
+	Likewise.
+	
+	* Value2dDisplay.m ([Value2dDisplay -setDiscrete2dToDisplay:]):
+	Likewise.
+	
+	* Discrete2d.h: Include space.h
+	(Discrete2d): Conform to _Discrete2d.
+
 1998-07-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add misc.

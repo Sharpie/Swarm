@@ -26,7 +26,7 @@ PHASE(Creating)
 
 - setDiscrete2dToDisplay: c
 {
-  if ([c conformsTo: @protocol (Discrete2d)])
+  if (![c conformsTo: @protocol (_Discrete2d)])
     [ProtocolViolation
       raiseEvent:
         "Argument `%s' to Object2dDisplay setDiscrete2dDisplay: does not\n"
