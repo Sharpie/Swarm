@@ -38,6 +38,7 @@ else
       elif test -d ${expand_jdkdir}/bin/ppc/green_threads; then
         threads=green
         proc=ppc
+        extra_JAVAENV="_JVM_THREADS_TYPE=green_threads"
       elif test -d ${expand_jdkdir}/bin/i386/green_threads; then
         threads=green
         proc=i386
@@ -118,6 +119,7 @@ else
       JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\${$LD_LIBRARY_PATH_VARNAME}"
       javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
+    JAVAENV="$extra_JAVAENV $JAVAENV"
     JAVA='${JAVAENV} ${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBPREFIX=''
