@@ -358,11 +358,11 @@ PHASE(Using)
       {
         long tempArray[xsize][ysize];
         unsigned x, y;        
-        char buf[2*DSIZE(unsigned) + 5];
+        char buf[2 * DSIZE(unsigned) + 5];
         
         // generate compiler encoding for 2D array
         sprintf (buf, "%c%u%c%u%c%c%c", 
-                 _C_ARY_B,xsize,_C_ARY_B, ysize,_C_LNG,_C_ARY_E,_C_ARY_E);
+                 _C_ARY_B, xsize, _C_ARY_B, ysize, _C_LNG, _C_ARY_E, _C_ARY_E);
         
         [stream catC: " #:lattice \n (parse "];
 
@@ -370,8 +370,8 @@ PHASE(Using)
         for (x = 0; x < xsize; x++) 
           for (y = 0; y < ysize; y++)
             tempArray[x][y] = (long) *discrete2dSiteAt (lattice, offsets, x, y);
-       
-        lisp_output_type (strdup (buf),
+
+        lisp_output_type (buf,
                           (void *) tempArray,
                           0,
                           NULL,
