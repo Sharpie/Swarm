@@ -1,3 +1,8 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* encoding.h: Don't include ctype.h.
+	(isDigit): New macro.
+
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* objc-api.h (_C_LNG_DBL): New encoding.
