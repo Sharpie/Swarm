@@ -1,3 +1,9 @@
+1999-08-02  Alex Lancaster  <alex@santafe.edu>
+
+	* Diffuse2d.m ([Diffuse2d
+	+create:setSizeX:Y:setDiffusionConstant:setEvaporationRate:]): Fix
+	object initialization; createEnd was being called too early.
+ 
 1999-08-01  Alex Lancaster  <alex@santafe.edu>
 
 	* space.h (Object2dDisplay, Value2Display, Discrete2d, Diffuse2d,

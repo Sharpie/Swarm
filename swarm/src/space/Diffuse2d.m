@@ -21,13 +21,15 @@ PHASE(Creating)
 
 + create: aZone setSizeX: (unsigned)x Y: (unsigned)y setDiffusionConstant: (double)d setEvaporationRate: (double)e
 {
-  Diffuse2d *obj = [self create: aZone setSizeX: x Y: y];
-
+  Diffuse2d *obj = [self createBegin: aZone];
+  
+  obj->xsize = x;
+  obj->ysize = y;
   obj->diffusionConstant = d;
   obj->evaporationRate = e;
   obj->numStates = MAXSTATES;
 
-  return obj;
+  return [obj createEnd];
 }
 
 + createBegin: aZone
