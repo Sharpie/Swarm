@@ -3,24 +3,37 @@ See the README.MacOSX for how to get it.
 
 If you have the cvs sources, you will need to
 
-cd $SRCROOT
-autogen.sh
+Edit $SRCROOT/configure.in:26 and $SRCROOT/libobjc/configure.in:18
+to change the OBJCFLAGS thus
+Remove -Werror
+Add -Wno-protocol -Wno-long-double
 
-This wll create the configure files.
+Then (if you are brave jump to **Bleeding edge build)
 
-Then 
+Other wise try:
 
 cd $SRCROOT/macosx/swarmx/build
 
-edit configure.sh to reflect appropriate paths on your system
-the invoke it.
+../../../autogen.sh
 
-Finally type
+../../../configure \
+CC='cc -fgnu-runtime -no-cpp-precomp' \
+--prefix=$SRCROOT/macosx/swarmx/build/dst/usr \
+--with-tcldir='your tcl path' \
+--without-jdkdir \
+--with-hdf5dir='your hdf5 path'
 
 make
 
-and start fixing bugs where it crashes.
-If you do any fixes please let me know, and regularly update from the cvs so that you get other developers fixes.  There is no kudos reinventing the wheel.
+That's it.
+
+(**Bleeding edge build
+Edit $SRCROOT/macosx/swarmx/configure.sh to reflect appropriate paths on your system
+Open the PB project and build the targets autogen, config and swarmlibmake in that order.)
+
+Start fixing bugs where it crashes.
+
+If you have any fixes please let me know, and regularly update from the cvs so that you get other developers fixes.  There is no kudos reinventing the wheel.
 
 Bill Northcott
 w.northcott@unsw.edu.au
