@@ -17,9 +17,9 @@ Date:		 1998-10-08   (v. 0.8)
 123456789|123456789|123456789|123456789|123456789|123456789|123456789|123456789|
 */
 
-#import <limits.h>		// for setA:setv:setw: (LONG_MAX)
+#import <misc.h> // for setA:setv:setw: (LONG_MAX)
 
-#import <collections.h>		// for outStream in -describe
+#import <collections.h>	// for outStream in -describe
 
 #import <random/C4LCGXgen.h>
 
