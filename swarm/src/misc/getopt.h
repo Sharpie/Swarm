@@ -25,6 +25,9 @@
 #define optind misc_optind
 #define optarg misc_optarg
 #define optopt misc_optopt
+#define getopt misc_getopt
+#define getopt_long misc_getopt_long
+#define getopt_long_only misc_getopt_long_only
 
 #ifdef	__cplusplus
 extern "C" {
