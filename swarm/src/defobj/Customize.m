@@ -16,10 +16,9 @@ Library:      defobj
 #import <collections.h>
 #import <objc/objc-api.h>
 
-#include <string.h>
-#include <memory.h>
+#include <misc.h>
 
-extern void _obj_splitPhases( Class_s  *class );
+extern void _obj_splitPhases (Class_s  *class);
 
 extern id _obj_initZone;  // currently receives generated classes
 
@@ -27,12 +26,14 @@ extern id _obj_initZone;  // currently receives generated classes
 // inline functions to save field in copy of class structure used as wrapper
 //
 
-static inline void setWrapperCreateBy( Class wrapper, CreateBy_c *createBy )
+static inline void
+setWrapperCreateBy (Class wrapper, CreateBy_c *createBy)
 {
   wrapper->version = (long)createBy;
 }
 
-static inline CreateBy_c *getWrapperCreateBy( Class wrapper )
+static inline CreateBy_c *
+getWrapperCreateBy (Class wrapper)
 {
   return (CreateBy_c *)wrapper->version;
 }
@@ -40,7 +41,8 @@ static inline CreateBy_c *getWrapperCreateBy( Class wrapper )
 //
 // initCustomizeWrapper -- common routine to set up customize wrapper
 //
-static void initCustomizeWrapper( id aZone, id anObject )
+static void
+initCustomizeWrapper( id aZone, id anObject )
 {
   Class       wrapper;
   CreateBy_c  *createBy;
@@ -281,14 +283,13 @@ PHASE(Creating)
   // confirm valid message selector and return customization wrapper class
 
   messageName = (const char *)sel_get_name( messageSelector );
-  if ( ! messageName ||
-       ! strchr(messageName, ':') ||
-       strchr(messageName, ':') - messageName != strlen(messageName) - 1 ) {
-    raiseEvent( CreateSubclassing,
-      "> class %s: setCreateByMessage:to: message selector name: \"%s\"\n"
-      "> message selector must accept one argument (for create zone)\n",
-      [[self getClass] getName] );
-  }
+  if (!messageName
+      || !strchr (messageName, ':')
+      || strchr(messageName, ':') - messageName != strlen(messageName) - 1)
+    raiseEvent (CreateSubclassing,
+                "> class %s: setCreateByMessage:to: message selector name: \"%s\"\n"
+                "> message selector must accept one argument (for create zone)\n",
+                [[self getClass] getName]);
 }
 
 //

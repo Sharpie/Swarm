@@ -1,5 +1,7 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* Customize.m, Program.m, Zone.m: Don't include string.h.
+
 	* make-h2x: Handle .lo files.
 
 	* Makefile.am (defobj_HEADERS): Remove module_headers.

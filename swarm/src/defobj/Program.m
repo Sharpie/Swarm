@@ -19,9 +19,7 @@ Library:      defobj
 #import <objc/objc-api.h>
 #import <objc/Protocol.h>
 
-#include <stdio.h>
-#include <misc.h> // xmalloc
-#include <string.h> // strcmp
+#include <misc.h> // xmalloc, strcmp, memset
 
 // program-wide storage zones
 
@@ -69,7 +67,7 @@ void *_obj_initAlloc( size_t size )
   else
     newAlloc = xmalloc (size);
 
-  memset( newAlloc, 0, size );
+  memset (newAlloc, 0, size);
   return newAlloc;
 }
 
@@ -236,8 +234,6 @@ void _obj_initModule (void *module)
           *(id *)*symbol = [Error create: _obj_initZone setName: *symbolName];
           break;
         default:
-          fprintf (stderr, "error in generated symbols for module: %s\n",
-                   moduleObject->name);
           abort();
         }
     }
