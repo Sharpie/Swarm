@@ -1,5 +1,7 @@
 1998-08-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* acconfig.h: Add HAVE_OBJC_MALLOC.
+
 	* configure.in: Call md_CHECK_NEXTSTEP.
 	(AC_OUTPUT): Extract src/tclobjc/Makefile.
 
