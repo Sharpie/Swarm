@@ -1,5 +1,13 @@
 1998-09-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Widget.m ([Widget -setWidth:], [Widget -setHeight:], 
+	[Widget -setWidth:Height:]): Use tkobjc_resize.
+
+	* internal.m (tkobjc_resize): New function.
+
+	* ButtonPanel.m ([ButtonPanel -addButtonName:target:method:]): 
+	Disabled the "unfortunate" code; it seems that way to me, too.
+
 	* Canvas.[hm], Frame.[hm]: Move assertGeometry to Canvas and
 	call it checkGeometry:.
 

@@ -359,6 +359,18 @@ tkobjc_move (id widget, int x, int y)
                          x, y);
 }
 
+void
+tkobjc_resize (id widget, unsigned w, unsigned h)
+{
+  char buf[128];
+
+  // Bypass Tk Geometry manager; e.g.,  packer may intervene
+  sprintf (buf, "wm geometry %s %ux%u", 
+           [[widget getTopLevel] getWidgetName],
+           w, h);
+  [globalTkInterp eval: buf];
+}
+
 static void
 Xfill (Display *display, GC gc, X11Pixmap pm,
        int x, int y,

@@ -5,7 +5,6 @@
 
 #import <tkobjc/global.h>
 #import <tkobjc/ButtonPanel.h>
-#import <tkobjc/Button.h>
 #import <tkobjc/global.h>
 #include <misc.h> // strdup
 
@@ -22,13 +21,15 @@ PHASE(Using)
 // this is atrocious - we should maintain a collection of the buttons.
 - addButtonName: (const char *)name target: theTarget method: (SEL)sel
 {
-  Button *b;
+  id <Button> b;
 
   b = [Button createParent: self];
   [b setText: name];
   [b setButtonTarget: theTarget method: sel];
+#if 0
   // this command is unfortunate.
   [globalTkInterp eval: "%s configure -width 12", [b getWidgetName]];
+#endif
   [b pack];
   // now save b away in a list. (unimplemented)
 

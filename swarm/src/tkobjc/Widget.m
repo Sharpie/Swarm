@@ -165,21 +165,23 @@ get_geometry_element (id widget, unsigned offset)
 
 - setWidth: (unsigned)w
 {
-  [globalTkInterp eval: "%s configure -width %u", widgetName, w];
+  tkobjc_resize (self, w, [self getHeight]);
 
   return self;
 }
 
 - setHeight: (unsigned)h
 {
-  [globalTkInterp eval: "%s configure -height %u", widgetName, h];
+  tkobjc_resize (self, [self getWidth], h);
 
   return self;
 }
 
 - setWidth: (unsigned)w Height: (unsigned)h
 {
-  return [[self setWidth: w] setHeight: h];
+  tkobjc_resize (self, w, h);
+
+  return self;
 }
 
 - setX: (int)x Y: (int)y
