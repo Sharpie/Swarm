@@ -1,3 +1,11 @@
+2000-05-20  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* SwarmProcess.m ([CSwarmProcess -activateIn:]): Set status
+	to Initialized.
+
+	* XActivity.m ([Activity_c -removeObsoleteMerges]): New method.
+	([Activity_c -_run_]): Use it.
+
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* activity.h ([{ActivationOrder,Schedule} remove:]): Hide in

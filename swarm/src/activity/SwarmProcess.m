@@ -204,6 +204,7 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
                             : id_ScheduleIndex_c
                             : activityZone];
   activity->swarm = self;
+  activity->status = Initialized;
   
   // arrange to remove local activity reference on completion of activity
   

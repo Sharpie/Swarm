@@ -86,6 +86,40 @@ auditRunRequest (Activity_c *self, const char *request)
   return status;
 }
 
+- (BOOL)removeObsoleteMerges
+{
+  CAction *action = [currentIndex get];
+
+  if (getClass (action) == id_ActionConcurrent_c)
+    {
+      id <Index> index =
+        [((ActionConcurrent_c *) action)->concurrentGroup begin: scratchZone];
+      ActionMerge_c *mergeAction;
+      
+      while ((mergeAction = [index next]))
+        {
+          if (getClass (mergeAction) != id_ActionMerge_c)
+            abort ();
+
+          if (COMPLETEDP (mergeAction->subactivity->status))
+            [index remove];
+        }
+      [index drop];
+      return NO;
+    }
+  else if (getClass (action) == id_ActionMerge_c)
+    {
+      if (COMPLETEDP ((((ActionMerge_c *)action)->subactivity)->status))
+        {
+          [currentIndex remove];
+
+          return YES;
+        }
+    }
+  return NO;
+}
+
+
 //
 // _run_ -- internal method to execute pending actions of the activity
 //
@@ -178,10 +212,7 @@ auditRunRequest (Activity_c *self, const char *request)
         
         if (nextAction)
           {
-            if (getClass (nextAction) == id_ActionMerge_c
-                && COMPLETEDP ((((ActionMerge_c *) nextAction)->subactivity)->status))
-              [currentIndex remove];
-            else
+            if (![self removeObsoleteMerges])
               break;
           }
         else
