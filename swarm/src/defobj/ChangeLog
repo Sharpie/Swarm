@@ -2,6 +2,8 @@
 
 	* directory.m ([Directory -switchJavaEntry:javaObject:]): 
 	Ensure map exists in new entry.
+	([Directory -javaEnsureObjc:], [Directory -objcEnsureJava:]): 
+	Allow nil objects.
 
 	* directory.[hm]: Add swarm_directory_java_hash_code and companion
 	method in DirectoryEntry.

@@ -367,7 +367,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   DirectoryEntry *result; 
 
   if (!javaObject)
-    abort ();
+    return nil;
   
   result = [swarmDirectory javaFind: javaObject];
 
@@ -449,14 +449,17 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
 - (jobject)objcEnsureJava: object
 {
   DirectoryEntry *result; 
-  
+
+  if (!object)
+    return 0;
+
   result = [swarmDirectory objcFind: object];
   
   if (!result)
     {
       Class class = getClass (object);
       jclass javaClass = [self objcFindJavaClass: class];
-
+      
       result = SD_ADD (jniEnv, 
                        swarm_directory_java_instantiate (jniEnv, javaClass),
                        object);
