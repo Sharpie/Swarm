@@ -51,7 +51,7 @@ the way that we sweep through parameter space over a set of experimental
 runs of the modelSwarm. It is responsible for initializing the model
 each time we create a new one, for incrementing one or more parameters
 each time we run a model, and for printing the current values of 
-the parameters out to a log-file when we ask it to. 
+the parameters out to an archiver when we ask it to.
 
 
 -initializeParameters: 
@@ -82,12 +82,11 @@ the parameters out to a log-file when we ask it to.
    and dropping a sequence of models. 
 
 
--printParameters:
-
-   The printParameters method is passed a pointer to an OutFile, 
-   a Swarm Library object that manages file I/O. The ParameterManager
-   simply saves itself to that file-object using the ObjectSaver capability. 
-
+-printParameters:number:time:
+  
+   Stores the time passed in the time: argument in the parameter object
+   and then stores the whole parameter object in the archiver using
+   the model number as a database key.
 
 2)  ExperSwarm 
 
@@ -104,7 +103,7 @@ Swarm, other than a probeDisplay.
 of ModelSwarm.
 
   It simply builds its own objects: an instance of ParameterManager, a 
-probeDisplay on itself, an EZGraph to display run results, and a "log.file" 
+probeDisplay on itself, an EZGraph to display run results, and an archiver
 to record run results. We will be building and dropping a series of instances
 of ModelSwarm during the course of the experiment, so we package-up the code 
 to build a modelSwarm in its own method, which we can call over and over 
@@ -225,11 +224,7 @@ will get the necessary data form a succession of modelSwarm instances.
 
 -logResults:
 
-  This makes use of an OutFile object to archive the parameter settings and 
-results for each run of the model. It asks the ParameterManager to print
-out its state into the file as well, so the specific parameters for
-each run will be recorded together with the results of the run.
-
+  Passes the archiver to the parameter manager to store itself.
 
 -showStats:
 
@@ -267,7 +262,7 @@ tried to drop the activities.
 of model runs making up the experiment run. We first step the
 parameters. If any parameter goes out of bounds as a result of this
 step, the parameterManager will return "nil", and we know that we are
-done. If we're done, we report it and close the logFile by dropping
+done. If we're done, we report it and close the archiver by dropping
 it. We also halt the ExperSwarm activity, which returns control to the
 controlPanel, where we'll probably just push the quit button, since
 the experimental run is done. If we're not done, we simply return,
@@ -307,12 +302,16 @@ when it eats some food, via the -bugAte method on FoodSpace.
 
 ----------------------------------------------------------------
 
-log.file
+After the experiment has run to completion, the file output.hdf
+will have been created which contains the parameter settings and
+results from each run of the model.  This file can be loaded in to R
+like so: 
 
-After the experiment has run to completion, this file will have been
-created which contains the parameter settings and results from each
-run of the model.
+  library(hdf5)
+  hdf5load ("output.hdf")
 
+the variables "model000", "model001", etc. will have the parameter
+values for each run.
 
 NEXT ->  from here, you should go and look at some of the other
          apps that are up on the web-site (heatbugs, mousetraps,

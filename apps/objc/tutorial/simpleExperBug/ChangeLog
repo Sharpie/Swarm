@@ -7,7 +7,7 @@
 
 	* ExperSwarm.m ([ParameterManager -initializeParameters]): Don't
 	set up pmProbeMap.
-	([ParameterManager -initializeModel:]): Remove typign from
+	([ParameterManager -initializeModel:]): Remove typing from
 	argument.
 	([ParameterManager -printParameters:number:time:]): Replaces
 	-printParameters:.
