@@ -47,7 +47,8 @@
   return [super createEnd];
 }
 
--buildObjects {
+- buildObjects
+{
   id modelZone;                                   // zone for model.
 
   [super buildObjects];
@@ -62,13 +63,13 @@
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
 
-  [probeDisplayManager createProbeDisplayFor: modelSwarm];
-  [probeDisplayManager createProbeDisplayFor: self];
+  createProbeDisplay (modelSwarm);
+  createProbeDisplay (self);
 
   // Instruct the control panel to wait for a button event.
   // We halt here until someone hits a control panel button.
 
-  // Now that we`re using Probes, the user can set the parameters
+  // Now that we're using Probes, the user can set the parameters
   // in the ModelSwarm probe window - we halt here to allow
   // the user to change parameters.
 
