@@ -12,10 +12,16 @@ test -z "$jdkdir" && jdkdir=no
 if test $jdkdir = no; then
   AC_MSG_RESULT(no)
   jdkdir=
+  jdkdosdir=
   JAVASTUBS=
   JAVASWARMLIBS=
   JAVASWARMSCRIPTS=
 else
+  if test "$host_os" = cygwin; then
+    jdkdosdir="`echo $jdkdir | sed 's,//\(.\)/,\1:\\,g' -e 's,/,\\,g'"
+  else
+    jdkdosdir=$jdkdir
+  fi
   if test -f $jdkdir/include/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include"
     if test -f $jdkdir/include/solaris/jni_md.h; then
@@ -25,7 +31,7 @@ else
     else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/genunix"
     fi
-    JAVACLASSES='${jdkdir}/lib/classes.zip'
+    JAVACLASSES='${jdkdosdir}/lib/classes.zip'
     JAVACMD='${jdkdir}/bin/java'
     JAVAENV='JAVA_HOME=${jdkdir}'
     JAVA='${JAVAENV} ${JAVACMD}'
@@ -81,6 +87,7 @@ if test -n "$JAR_CLASSPATH" ; then
 fi
 AC_SUBST(JAR)
 AC_SUBST(jdkdir)
+AC_SUBST(jdkdosdir)
 ])
 
 AC_DEFUN(md_CHECK_JNI_H,

@@ -1,3 +1,7 @@
+1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (vj_FIND_JDK): New substitution jdkdosdir.
+
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4 (vj_FIND_JDK): Add check for $jdkdir/include/winnt.
