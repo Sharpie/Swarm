@@ -15,6 +15,9 @@
 #import <simtools/global.h>
 #import <tkobjc/control.h>
 
+// Avoid using chars as an index to ctype table.
+#define isSpace(ch) isspace((int)ch)
+
 @implementation MessageProbeWidget
 
 + createBegin: aZone
@@ -127,14 +130,14 @@
 int
 empty (const char *str)
 {
-  int i, length ;
+  int i, length;
   
   if (str == NULL)
     return 1;
   
   length = strlen (str);
   for (i = 0; i < length; i++)
-    if (!isspace (str[i]))
+    if (!isSpace (str[i]))
       break;
   
   return (i >= length);
