@@ -170,12 +170,15 @@
 #define REPZ repz ;
 #endif
 #define REP rep ;
-#if defined(BSD_SYNTAX) && !(defined(__CYGWIN32__) || defined(__MINGW32__))
+#if !(defined(__CYGWIN__) || defined(__MINGW32__))
+#ifdef BSD_SYNTAX
 #define ALIGN(log) .align log,0x90
 #endif
-#if defined(ELF_SYNTAX) || defined(__CYGWIN32__) || defined(__MINGW32__)
+#ifdef ELF_SYNTAX
 #define ALIGN(log) .align 1<<(log)
 #endif
+#else
+#define ALIGN(log) .align log
 #endif
 #ifdef INTEL_SYNTAX
 #define R(r) r

@@ -1,3 +1,11 @@
+1999-07-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (avcall-i386-msvc.[so]): New rules.
+	(OS): New substitution.
+	(OBJECTS): Adding avcall-msvc.o in cygwin case.
+
+	* asmi386.h (ALIGN): Add special case for Cygwin/Mingw32.
+
 1999-07-04  Alex Lancaster  <alex@santafe.edu>
 
 	* aclocal.m4 (host_cpu, host_vendor, host_os): Use sed regexps
