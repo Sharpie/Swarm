@@ -325,7 +325,7 @@ USING
 
 // values for index safety
 
-id <Symbol>  Unsafe, UnsafeAtMember, SafeAlways;
+extern id <Symbol>  Unsafe, UnsafeAtMember, SafeAlways;
 
 
 @deftype Index <DefinedObject, Copy, Drop>
@@ -859,7 +859,7 @@ extern int compareIDs (id, id);
 extern int compareIntegers (id, id);
 
 // values for DupOption
-id <Symbol> DupIsError, DupRejected, KeepAllDups, KeepCountOnly;
+extern id <Symbol> DupIsError, DupRejected, KeepAllDups, KeepCountOnly;
 
 @deftype DupOption
 //S: An interface for defining how duplicates should be handled.
@@ -1391,7 +1391,7 @@ USING
 - (BOOL)getLiteralFlag;
 @end
 
-id LiteralString;
+extern id LiteralString;
 
 
 #import <collections/types.h>
