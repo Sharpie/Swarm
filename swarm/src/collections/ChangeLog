@@ -1,3 +1,14 @@
+1999-01-09  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* InputStream.m ([InputStream_c -getExpr]): Handle nil and Nil
+	as an ArchiverValue.
+	([ArchiverArray_c -setArray:]): Handle arrays of type id.
+
+	* InputStream.[hm], defobj.h ([ArchiverValue_c -setNil],
+	([ArchiverValue_c -getObject]): New methods.
+
+	* InputStream.[hm] (ArchiverValue_c): Rename number to value.
+
 1999-01-08  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* List.m ([List_any -lispOut:]): Use MAKE_INSTANCE_FUNCTION_NAME

@@ -58,18 +58,21 @@ Library:     collections
     float f;
     int i;
     unsigned char ch;
-  } number;
+    id obj;
+  } value;
 }
 - setDouble: (double)val;
 - setFloat: (float)val;
 - setInteger: (int)val;
 - setChar: (unsigned char)val;
 - setBoolean: (BOOL)val;
+- setNil;
 - (double)getDouble;
 - (float)getFloat;
 - (int)getInteger;
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
+- getObject;
 - (char)getValueType;
 @end
 

@@ -104,6 +104,18 @@ readString (id inStream, BOOL literalFlag)
     return nil;
   else if (c == '\'')
     return [self getExpr];
+  else if (c == 'n' || c == 'N')
+    {
+      id string;
+
+      string = readString (self, 0);
+
+      if (strcmp ([string getC], "il") != 0)
+        raiseEvent (InvalidArgument, "expecting nil or Nil");
+
+      return [[[ArchiverValue createBegin: [self getZone]]
+                setNil] createEnd];
+    }
   else if (c == '#')
     {
       int c2 = fgetc (fileStream);
@@ -362,6 +374,9 @@ PHASE(Creating)
   
   switch ([proto getValueType])
     {
+    case _C_ID:
+      elementSize = sizeof (id);
+      break;
     case _C_INT:
       elementSize = sizeof (int);
       break;
@@ -416,6 +431,9 @@ PHASE(Creating)
               }
             switch ([val getValueType])
               {
+              case _C_ID:
+                ((id *) data)[offset] = [val getObject];
+                break;
               case _C_INT:
                 ((int *) data)[offset] = [val getInteger];
                 break;
@@ -474,35 +492,42 @@ PHASE(Creating)
 - setDouble: (double)val
 {
   type = _C_DBL;
-  number.d = val;
+  value.d = val;
   return self;
 }
 
 - setFloat: (float)val
 {
   type = _C_FLT;
-  number.f = val;
+  value.f = val;
   return self;
 }
 
 - setInteger: (int)val
 {
   type = _C_INT;
-  number.i = val;
+  value.i = val;
   return self;
 }
 
 - setChar: (unsigned char)val
 {
   type = _C_UCHR;
-  number.ch = val;
+  value.ch = val;
   return self;
 }  
 
 - setBoolean: (BOOL)val
 {
   type = _C_UCHR;
-  number.ch = (unsigned char)val;
+  value.ch = (unsigned char)val;
+  return self;
+}
+
+- setNil
+{
+  type = _C_ID;
+  value.obj = nil;
   return self;
 }
 
@@ -515,27 +540,32 @@ PHASE(Using)
 
 - (double)getDouble
 {
-  return number.d;
+  return value.d;
 }
 
 - (float)getFloat
 {
-  return number.f;
+  return value.f;
 }
 
 - (int)getInteger
 {
-  return number.i;
+  return value.i;
 }
 
 - (unsigned char)getChar
 {
-  return number.ch;
+  return value.ch;
 }
 
 - (BOOL)getBoolean
 {
-  return number.ch;
+  return value.ch;
+}
+
+- getObject
+{
+  return value.obj;
 }
 
 @end

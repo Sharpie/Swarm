@@ -990,6 +990,7 @@ CREATING
 - setInteger: (int)val;
 - setChar: (unsigned char)val;
 - setBoolean: (BOOL)val;
+- setNil;
 USING
 - (char)getValueType;
 - (double)getDouble;
@@ -997,6 +998,7 @@ USING
 - (int)getInteger;
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
+- getObject;
 - (void)drop;
 @end
 
