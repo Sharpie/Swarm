@@ -1,7 +1,7 @@
 MODULE = misc
-CURRENT = 1
+CURRENT = 2
 REVISION = 0
-AGE = 0
+AGE = 1
 miscdir = $(includedir)/misc
 
 include $(top_srcdir)/src/Makefile.rules
@@ -17,7 +17,8 @@ EXTRA_DIST = memchr.c memcpy.c memset.c \
 
 SRC = getopt.c getopt1.c xmalloc.c find_executable.c \
 	argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
-	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c
+	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c \
+	dropdir.c
 
 noinst_HEADERS = argp-fmtstream.h argp-namefrob.h mem.h
 

@@ -34,6 +34,8 @@ void *xrealloc (void *buf, size_t size);
 void xfree (void *buf);
 #define XFREE(buf) xfree((void *)(buf))
 
+char *dropdir (char *path);
+
 #ifndef HAVE_STRDUP
 char *strdup (const char *string);
 #endif
