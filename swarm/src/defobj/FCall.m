@@ -30,7 +30,7 @@ Library:      defobj
 #include <objc/mframe.h>
 
 #ifdef HAVE_JDK
-#include <directory.h>
+#include <defobj/directory.h>
 JNIEnv *jniEnv;
 #endif
 

@@ -15,7 +15,7 @@ Library:      defobj
 #import <collections/List_linked.h>
 #import <swarmconfig.h>
 #ifdef HAVE_JDK
-#import "directory.h"
+#import <defobj/directory.h>
 #endif
 
 #include <misc.h> // memset, xmalloc, XFREE, MAX_ALIGNMENT
