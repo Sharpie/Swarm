@@ -142,7 +142,7 @@ if test -n "$tcllibdir" ; then
     TCLLIB="-l$tcllibname"
   else
     if test $suffix = .so ; then
-      TCLLDFLAGS="-L\${tcllibdir} $RPATH\${tcllibdir}"
+      TCLLDFLAGS="-L\${tcllibdir} -rpath \${tcllibdir}"
     else
       TCLLDFLAGS='-L${tcllibdir}'
     fi
@@ -238,7 +238,7 @@ if test -n "$tklibdir" ; then
     TKLIB=-l$tklibname
   else
     if test $suffix = .so ; then
-      TKLDFLAGS="-L\${tklibdir} $RPATH\${tklibdir}"
+      TKLDFLAGS="-L\${tklibdir} -rpath \${tklibdir}"
     else
       TKLDFLAGS='-L${tklibdir}'
     fi

@@ -18,7 +18,7 @@ if test $USE_FFCALL = 0 ; then
   for dir in /usr $ffidir ; do
     ffidir_expand=`eval echo $dir`
     if test -f $ffidir_expand/lib/libffi.so ; then
-      FFILDFLAGS="-L\${ffidir}/lib $RPATH\${ffidir}/lib"
+      FFILDFLAGS="-L\${ffidir}/lib -rpath \${ffidir}/lib"
       AC_MSG_RESULT($dir/lib/libffi.so)
       break
     else

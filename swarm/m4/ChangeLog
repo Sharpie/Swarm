@@ -1,3 +1,15 @@
+1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* acffi.m4 (FFILDFLAGS): Use -rpath instead of $RPATH.
+
+	* acfind.m4 (_ldflags): Likewise.
+
+	* actcltk.m4 (TCLLDFLAGS, TKLDFLAGS): Likewise.
+
+	* acrpath.m4: Removed.
+
+	* Makefile.am (EXTRADIST): Remove acrpath.m4.
+
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* actcltk.m4 (INCPLACES): Add /Cygnus/cygwin-b20/include.
