@@ -1,6 +1,6 @@
 MODULE = simtoolsgui
-CURRENT = 2
-REVISION = 1
+CURRENT = 3
+REVISION = 0
 AGE = 2
 simtoolsguidir = $(includedir)/$(MODULE)
 

@@ -1,5 +1,5 @@
-CURRENT = 0
-REVISION = 2
+CURRENT = 1
+REVISION = 0
 AGE = 1
 tclobjcdir = $(includedir)/tclobjc
 

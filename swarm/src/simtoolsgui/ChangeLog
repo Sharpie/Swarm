@@ -1,6 +1,6 @@
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Makefile.am (AGE, REVISION): Bump.
+	* Makefile.am (CURRENT, AGE): Bump.  Clear revision.
 
 	* ControlPanel.m ([ControlPanel -setStateSave]): Use [archiver save]
 	instead of archiverSave().

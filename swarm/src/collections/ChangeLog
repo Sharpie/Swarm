@@ -1,5 +1,7 @@
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Makefile.am (CURRENT): Bump.
+
 	* Map.m (GROUP_KEYS, GROUP_VALUES): New macros for string reuse.
 	([Map_c -allSameKeyClass]): New method.
 	([Map_c -allSameClass]): Use it.
