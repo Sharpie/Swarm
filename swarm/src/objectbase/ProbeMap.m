@@ -189,7 +189,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
   id index;
   
   int i;
-  id a_probe;
+  id aProbe;
   
   if (SAFEPROBES)
     if (probedClass == 0)
@@ -230,7 +230,8 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	abort(); 
       
       fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
-      if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
+      if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv,
+                                                   classObject, 
                                                    m_ClassGetDeclaredMethods)))
 	abort();
       methodslength = (*jniEnv)->GetArrayLength (jniEnv, methods);
@@ -247,15 +248,15 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	  name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
 	  
 	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
-	  a_probe = [VarProbe createBegin: [self getZone]];
-          [a_probe setProbedClass: probedClass];
-          [a_probe setProbedVariable: buf];
+	  aProbe = [VarProbe createBegin: [self getZone]];
+          [aProbe setProbedClass: probedClass];
+          [aProbe setProbedVariable: buf];
 	  
           if (objectToNotify != nil) 
-            [a_probe setObjectToNotify: objectToNotify];
-          a_probe = [a_probe createEnd];
+            [aProbe setObjectToNotify: objectToNotify];
+          aProbe = [aProbe createEnd];
           [probes at: [String create: [self getZone] setC: buf]
-                  insert: a_probe];
+                  insert: aProbe];
 	  
 	  if (isCopy)
 	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
@@ -274,7 +275,8 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	      SEL sel;
 
 	      method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, i);
-	      name = (*jniEnv)->CallObjectMethod (jniEnv, method, 
+	      name = (*jniEnv)->CallObjectMethod (jniEnv,
+                                                  method, 
 						  m_MethodGetName);
 	      selector = (*jniEnv)->NewObject (jniEnv,
                                                c_Selector, 
@@ -284,29 +286,29 @@ extern jmethodID  m_ClassGetDeclaredFields,
                                                JNI_FALSE);
 	      sel = swarm_directory_ensure_selector (jniEnv, selector);
 	      	      
-	      a_probe = [MessageProbe createBegin: [self getZone]];
-	      [a_probe setProbedClass: probedClass];
-	      [a_probe setProbedSelector: sel];
+	      aProbe = [MessageProbe createBegin: [self getZone]];
+	      [aProbe setProbedClass: probedClass];
+	      [aProbe setProbedSelector: sel];
 	      if (objectToNotify != nil) 
-		[a_probe setObjectToNotify: objectToNotify];
+		[aProbe setObjectToNotify: objectToNotify];
 	      
-	      a_probe = [a_probe createEnd];
+	      aProbe = [aProbe createEnd];
 	      
-	      if (a_probe)
-		[inversionList addFirst: a_probe];
+	      if (aProbe)
+		[inversionList addFirst: aProbe];
 	      else
 		numEntries--;
 	    }
       
 	  index = [inversionList begin: [self getZone]];
-	  while ((a_probe = [index next]))
+	  while ((aProbe = [index next]))
 	    {
 	      [probes at: 
 			[String 
 			  create: [self getZone] 
-			  setC: [a_probe getProbedMessage]] 
+			  setC: [aProbe getProbedMessage]] 
 		      insert: 
-			a_probe];
+			aProbe];
 	      [index remove];
 	    }	
 	  [index drop];
@@ -329,15 +331,15 @@ extern jmethodID  m_ClassGetDeclaredFields,
           
           name = ivarList->ivar_list[i].ivar_name;
           
-          a_probe = [VarProbe createBegin: [self getZone]];
-          [a_probe setProbedClass: probedClass];
-          [a_probe setProbedVariable: name];
+          aProbe = [VarProbe createBegin: [self getZone]];
+          [aProbe setProbedClass: probedClass];
+          [aProbe setProbedVariable: name];
           if (objectToNotify != nil) 
-            [a_probe setObjectToNotify: objectToNotify];
-          a_probe = [a_probe createEnd];
+            [aProbe setObjectToNotify: objectToNotify];
+          aProbe = [aProbe createEnd];
           
           [probes at: [String create: [self getZone] setC: name]
-                  insert: a_probe];
+                  insert: aProbe];
         }
     }
   
@@ -349,28 +351,28 @@ extern jmethodID  m_ClassGetDeclaredFields,
       
       for (i = 0; i < methodList->method_count; i++)
         {
-          a_probe = [MessageProbe createBegin: [self getZone]];
-          [a_probe setProbedClass: probedClass];
-          [a_probe setProbedSelector: methodList->method_list[i].method_name];
+          aProbe = [MessageProbe createBegin: [self getZone]];
+          [aProbe setProbedClass: probedClass];
+          [aProbe setProbedSelector: methodList->method_list[i].method_name];
           if (objectToNotify != nil) 
-            [a_probe setObjectToNotify: objectToNotify];
-          a_probe = [a_probe createEnd];
+            [aProbe setObjectToNotify: objectToNotify];
+          aProbe = [aProbe createEnd];
           
-          if(a_probe)
-            [inversionList addFirst: a_probe];
+          if(aProbe)
+            [inversionList addFirst: aProbe];
           else
             numEntries--;
         }
       
       index = [inversionList begin: [self getZone]];
-      while ((a_probe = [index next]))
+      while ((aProbe = [index next]))
         {
           [probes at: 
                     [String 
                       create: [self getZone] 
-                      setC: [a_probe getProbedMessage]] 
+                      setC: [aProbe getProbedMessage]] 
                   insert: 
-                    a_probe];
+                    aProbe];
           [index remove];
         }	
       [index drop];
@@ -384,7 +386,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
 {
   ProbeMap *npm;
   id index;
-  id a_probe;
+  id aProbe;
   
   npm = [ProbeMap createBegin: aZone];
   [npm setProbedClass: probedClass];
@@ -392,8 +394,8 @@ extern jmethodID  m_ClassGetDeclaredFields,
   
   index = [self begin: aZone];
   
-  while ((a_probe = [index next]) != nil)
-    [npm _fastAddProbe_: [a_probe clone: aZone]];
+  while ((aProbe = [index next]) != nil)
+    [npm _fastAddProbe_: [aProbe clone: aZone]];
   
   [index drop];
   
@@ -410,7 +412,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
   Class aClass;
   Class class;
   id index;
-  id a_probe;
+  id aProbe;
 	
   aClass = [aProbeMap getProbedClass];
 
@@ -418,8 +420,8 @@ extern jmethodID  m_ClassGetDeclaredFields,
     if (class==aClass)
       {
         index = [aProbeMap begin: globalZone];
-        while ((a_probe = [index next]) != nil)
-	  [self _fastAddProbe_: a_probe];
+        while ((aProbe = [index next]) != nil)
+	  [self _fastAddProbe_: aProbe];
         [index drop];
         return self;
       }
@@ -515,15 +517,15 @@ extern jmethodID  m_ClassGetDeclaredFields,
 - dropProbeMap: (ProbeMap *) aProbeMap
 {
   id index;
-  id a_probe;
+  id aProbe;
 			
   index = [aProbeMap begin: globalZone];
 
-  while ((a_probe = [index next]) != nil)
-    if ([a_probe isKindOf: [VarProbe class]])
-      [self dropProbeForVariable: [a_probe getProbedVariable]];
+  while ((aProbe = [index next]) != nil)
+    if ([aProbe isKindOf: [VarProbe class]])
+      [self dropProbeForVariable: [aProbe getProbedVariable]];
     else
-      [self dropProbeForMessage: strdup([a_probe getProbedMessage])];
+      [self dropProbeForMessage: strdup ([aProbe getProbedMessage])];
   
   [index drop];
 	

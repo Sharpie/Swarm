@@ -35,6 +35,8 @@ jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
 - setJavaObject: (jobject)javaObject;
 - setObject: object;
 - (int)compare: obj;
+- (const char *)getObjCName;
+- (void)drop;
 @end
 
 @interface Directory: CreateDrop

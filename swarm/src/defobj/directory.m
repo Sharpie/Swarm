@@ -103,6 +103,12 @@ getIndex (jobject javaObject)
                                          javaObject);
 }
 
+- (void)drop
+{
+  (*jniEnv)->DeleteGlobalRef (jniEnv, javaObject);
+  [super drop];
+}
+
 @end
 
 static int
@@ -178,7 +184,6 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   id <Map> m = table[index];
   id entry;
 
-  theJavaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
   entry = ENTRY (theObject, theJavaObject);
 
   if (m == nil)
@@ -196,19 +201,19 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   unsigned index;
   id <Map> m;
   id entry;
-  DirectoryEntry **ret;
+  DirectoryEntry *ret;
 
   entry = OBJCENTRY (theObject);
 
   if (!(ret = avl_find (objc_tree, entry)))
     abort ();
-  index = getIndex ((*ret)->javaObject);
+  index = getIndex (ret->javaObject);
   m = table[index];
 
   {
-    id lastEntry = JAVAENTRY ((*ret)->javaObject);
+    id lastEntry = JAVAENTRY (ret->javaObject);
     [m remove: lastEntry];
-    (*jniEnv)->DeleteGlobalRef (jniEnv, (*ret)->javaObject);
+    (*jniEnv)->DeleteGlobalRef (jniEnv, ret->javaObject);
     [lastEntry drop];
   }
   
