@@ -419,11 +419,12 @@ PHASE(Using)
     }
 #endif
 #ifndef USE_AVCALL
-  types_t ret;
-
-  ffi_call (&cif, ffunction, &ret, fargs->argValues + 
-            MAX_HIDDEN - fargs->hiddenArgumentCount);  
-
+  {
+    types_t ret;
+    
+    ffi_call (&cif, ffunction, &ret, fargs->argValues + 
+              MAX_HIDDEN - fargs->hiddenArgumentCount);  
+  }
 #ifdef __mips64
 #define VAL(type, var) (*((type *)(((void *)&var)+(sizeof(var)-sizeof(type)))))
 #else
