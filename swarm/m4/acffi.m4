@@ -4,7 +4,7 @@ if test -n "$with_ffidir" ; then
   ffidir=$with_ffidir
 else
   if test -n "$with_ffcalldir" ; then
-    ffcalldir=$with_ffcalldir
+    ffidir=$with_ffcalldir
     USE_FFCALL=1
   fi
 fi

@@ -1,5 +1,7 @@
 1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* acffi.m4: Assign to ffidir even when ffcall is specified.
+
 	* acbuiltinapply.m4, acobjcmalloc.m4: New files.
 
 	* Makefile.am (EXTRA_DIST): Add acbuiltinapply.m4, acfind.m4,
