@@ -897,7 +897,7 @@
 (defun com-impl-print-get-iid (protocol phase)
     (insert "NS_IMETHODIMP\n")
     (insert (com-impl-name protocol phase))
-    (insert "::GetPrimaryiid (nsIID **aiid)\n")
+    (insert "::GetPrimaryIID (nsIID **aiid)\n")
     (insert "{\n")
     ;; NS_STATIC_CAST doesn't work here
     (insert "  *aiid = (nsIID *) &NS_GET_IID (")
@@ -909,7 +909,7 @@
 (defun com-impl-print-get-cid (protocol phase)
     (insert "NS_IMETHODIMP\n")
     (insert (com-impl-name protocol phase))
-    (insert "::GetCid (nsCID **acid)\n")
+    (insert "::GetCID (nsCID **acid)\n")
     (insert "{\n")
     (insert "  static NS_DEFINE_CID (cid, ")
     (insert (com-protocol-sym protocol phase "CID"))

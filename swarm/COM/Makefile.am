@@ -1,4 +1,4 @@
-EXTRA_DIST = COM.el move-if-change c/Makefile.in c/COMsupport.h c/COMsupport.cpp
+EXTRA_DIST = COM.el move-if-change c/Makefile.in c/COMsupport.h c/COMsupport.cpp c/swarmITyping.idl c/swarmIBase.idl c/swarmBase.h c/swarmBase.cpp c/swarmSelectorImpl.h c/swarmSelectorImpl.cpp
 EMACS = @EMACS@
 
  include $(top_srcdir)/etc/Makefile.protocol
