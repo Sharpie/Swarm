@@ -166,7 +166,7 @@ CREATING
 - loadWindowGeometryRecord;
 - registerAndLoad;
 USING
-- updateArchiver;
+- updateArchiver: archiver;
 - (void)drop;
 @end
 
