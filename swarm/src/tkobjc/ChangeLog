@@ -1,3 +1,11 @@
+1998-12-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* ArchivedGeometryWidget.m: Include defobj.h instead of declaring
+	archiver interface functions.  Use 
+	([ArchivedGeometryWidget -loadWindowGeometryRecord], 
+	[ArchivedGeometryWidget -updateArchiver]): Use lispArchiver{Get,Put}
+	instead of archiver{Get,Put}.
+
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Colormap.m ([Colormap -setColor:ToRed:Green:Blue:]): Revert

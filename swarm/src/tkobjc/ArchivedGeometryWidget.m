@@ -7,11 +7,7 @@
 #import <tkobjc/ArchivedGeometryWidget.h>
 #import <tkobjc/WindowGeometryRecord.h>
 #import <tkobjc/global.h>
-
-void archiverUnregister (id client);
-void archiverRegister (id client);
-void archiverPut (const char *key, id object);
-id archiverGet (const char *key);
+#import <defobj.h> // archiver{Register,Unregister}, lispArchvier{Get,Put}
 
 @implementation ArchivedGeometryWidget
 
@@ -44,7 +40,7 @@ PHASE(Creating)
   id windowGeometryRecord = nil;
 
   if (windowGeometryRecordName)
-    windowGeometryRecord = archiverGet (windowGeometryRecordName);
+    windowGeometryRecord = lispArchiverGet (windowGeometryRecordName);
   return windowGeometryRecord;
 }
 
@@ -82,7 +78,7 @@ PHASE(Using)
 {
   if (windowGeometryRecordName)
     {
-      id windowGeometryRecord = archiverGet (windowGeometryRecordName);
+      id windowGeometryRecord = lispArchiverGet (windowGeometryRecordName);
       
       if (windowGeometryRecord == nil)
         windowGeometryRecord = [WindowGeometryRecord create: [self getZone]];
@@ -91,7 +87,7 @@ PHASE(Using)
         [windowGeometryRecord setWidth: [self getWidth]
                               Height: [self getHeight]];
       [windowGeometryRecord setX: [self getX] Y: [self getY]];
-      archiverPut (windowGeometryRecordName, windowGeometryRecord);
+      lispArchiverPut (windowGeometryRecordName, windowGeometryRecord);
     }
   return self;
 }
