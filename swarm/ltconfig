@@ -1762,6 +1762,7 @@ hpux9* | hpux10* | hpux11*)
   soname_spec='${libname}${release}.sl$major'
   # HP-UX runs *really* slowly unless shared libraries are mode 555.
   postinstall_cmds='chmod 555 $lib'
+  deplibs_check_method=pass_all
   ;;
 
 irix5* | irix6*)
