@@ -1016,7 +1016,12 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
         if (sel)
           {
             if (!sel_get_typed_uid (name, signatureBuf))
-              raiseEvent (SourceMessage, "Method '%s' has different type from the Swarm library method with the same \n  name! Adjust type to match Swarm method's type or use different method name!\n", name);
+              raiseEvent (SourceMessage,
+                          "Method `%s' type (%s) from the Swarm library\n"
+                          "method with the same name!\n"
+                          "Adjust type to match Swarm method's type (%s)\n"
+                          "use different method name!\n",
+                          name, signatureBuf, sel->sel_types);
           }
         else
           sel = sel_register_typed_name (name, signatureBuf);
