@@ -9,6 +9,8 @@ Description:  processing control over all levels of swarm execution
 Library:      activity
 */
 
+//S: Processing control over all levels of Swarm execution
+
 //D: The activity library is responsible for scheduling actions to occur
 //D: within a simulated world, and for making these actions actually happen
 //D: at the right time in the right order.  It provides the foundation of
@@ -331,32 +333,30 @@ USING
 //D: implemented.)
 @end
 
-//
-// timeval_t, TimebaseMax --
-//   type of a time value, and maximum value of a value of type timeval_t
-//
 #ifndef DEFINED_timeval_t
 #define DEFINED_timeval_t
 
-//D: Values of this type are used as keys when inserting actions into a
-//D: schedule at a particular time, or for querying the current time value
-//D: of a swarm or schedule during its execution.  (The shorter name time_t
-//D: has already been taken by one the standard C libraries.)
+//T: Values of this type are used as keys when inserting actions into a
+//T: schedule at a particular time, or for querying the current time value
+//T: of a swarm or schedule during its execution.  (The shorter name time_t
+//T: has already been taken by one the standard C libraries.)
 
-//D: For very long running models using finely divided units of time, it is
-//D: quite possible that a 32-bit unsigned time value could overflow.
-//D: Special messages are provided in the execution machinery to reset all
-//D: times to a different base value if a danger of overflow exists.  If
-//D: this machinery is exercised, all times of all referenced action plans
-//D: are reset to a different base value in unison, which makes the shift
-//D: as transparent as possible.  Separate support is also available to
-//D: declare time values that are subunits of the discrete clock values in
-//D: a containing schedule or swarm.  (.. Currently, all this extended time
-//D: unit support is unsupported, though there is an example of scheduling
-//D: at subunit times in a GridTurtle test program.)
+//T: For very long running models using finely divided units of time, it is
+//T: quite possible that a 32-bit unsigned time value could overflow.
+//T: Special messages are provided in the execution machinery to reset all
+//T: times to a different base value if a danger of overflow exists.  If
+//T: this machinery is exercised, all times of all referenced action plans
+//T: are reset to a different base value in unison, which makes the shift
+//T: as transparent as possible.  Separate support is also available to
+//T: declare time values that are subunits of the discrete clock values in
+//T: a containing schedule or swarm.  (.. Currently, all this extended time
+//T: unit support is unsupported, though there is an example of scheduling
+//T: at subunit times in a GridTurtle test program.)
 typedef unsigned long timeval_t;
 #endif
-extern const timeval_t  TimebaseMax;
+
+//G: Maximum value of a value of type timeval_t.
+extern const timeval_t TimebaseMax;
 
 
 @deftype RelativeTime
@@ -829,11 +829,12 @@ USING
 - getCurrentSubactivity;  // serial mode only
 @end
 
-// values returned by getStatus and getHoldType
+//G: Values returned by getStatus.
+extern id <Symbol> Initialized, Running, Holding, Released, Stopped,
+  Terminated, Completed;
 
-extern id <Symbol>  Initialized, Running, Holding, Released,
-                    Stopped, Terminated, Completed;
-extern id <Symbol>  HoldStart, HoldEnd;
+//G: Values returned by getHoldType.
+extern id <Symbol> HoldStart, HoldEnd;
 
 
 @deftype ForEachActivity <Activity>
@@ -936,12 +937,12 @@ USING
 #define getCurrentActivity() \
 ( _activity_current ? [_activity_current getCurrentSubactivity] : nil )
 
-//
-// _activity_current, _activity_context_error() --
-//   internal definitions used by current context macros
-//
-extern id  _activity_current;
-extern id  _activity_context_error (const char *macroName);
+//G: Internal variable used by current context macros.
+extern id _activity_current;
+
+//G: Internal error message issued when a current activity is
+//G: missing.
+extern id _activity_context_error (const char *macroName);
 
 
 @deftype ConcurrentGroup <ActionGroup, CREATABLE>
@@ -959,15 +960,12 @@ extern id  _activity_context_error (const char *macroName);
 //D: Default type used as concurrent group of a swarm.
 @end
 
-//
-// error symbols
-//
-extern id <Error>  InvalidSwarmZone;
+//G: Error issued when an internal zone is expected, but absent.
+extern id <Error> InvalidSwarmZone;
 
 
-//G: _activity_zone -- global variable for zone in which activity
-//G: objects created
-extern id  _activity_zone;
+//G: _activity_zone -- zone in which activity objects created
+extern id _activity_zone;
 
 //G: trace function for activity execution
 //G: global variable for function to be called on every change in the
@@ -984,8 +982,3 @@ extern BOOL (*_activity_trace)(id);
 // include automatically generated definitions for activity package
 //
 #import <activity/types.h>
-
-
-
-
-
