@@ -69,6 +69,10 @@
 /* Expected to be declared by sys/time.h. is timeval. */
 
 #ifdef __WIN32__
+struct timezone {
+  int tz_minuteswest;
+  int tz_dsttime;
+};
 int gettimeofday (struct timeval *tv, struct timezone *tz);
 #endif
 

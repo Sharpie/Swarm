@@ -2,6 +2,8 @@
 
 	* acguilibs.m4: Look for __WIN32__ as well as __CYGWIN__.
 
+	* acfind.m4: Look for .dll.a.
+
 2004-11-07  Marcus G. Daniels <mgd@santafe.edu>
 
 	* acfind.m4: Don't put /usr/lib into LDFLAGS.

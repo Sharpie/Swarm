@@ -1,6 +1,7 @@
+#include <misc.h>
 #include <sys/timeb.h>
 
-#ifndef __WIN32__
+#ifdef __WIN32__
 int
 gettimeofday (struct timeval *tv, struct timezone *tz)
 {
