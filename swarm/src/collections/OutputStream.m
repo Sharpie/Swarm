@@ -135,7 +135,7 @@ PHASE(Using)
 {
   char buf[DSIZE (long long) + 1];
 
-  sprintf (buf, "%lld", lnglng);
+  sprintf (buf, "%ld", (long) lnglng);
   [self catC: buf];
 }
 
@@ -143,7 +143,7 @@ PHASE(Using)
 {
   char buf[DSIZE (unsigned long long) + 1];
 
-  sprintf (buf, "%llu", ulnglng);
+  sprintf (buf, "%lu", (unsigned long) ulnglng);
   [self catC: buf];
 }
 
