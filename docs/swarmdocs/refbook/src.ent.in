@@ -1,6 +1,3 @@
-<!entity % config.entities system "@srcdir@/config.ent">
-%config.entities;
-
 <!entity % tech.entities system "@srcdir@/tech/tech.ent">
 %tech.entities;
 

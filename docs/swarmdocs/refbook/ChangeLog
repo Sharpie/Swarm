@@ -2,6 +2,8 @@
 
 	* config.ent: Removed.
 
+	* src.ent:  Removed reference to config.ent.
+
 1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* src.ent.in: Don't use extracted locations, as module entities
