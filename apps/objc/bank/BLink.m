@@ -1,5 +1,4 @@
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
+// Copyright (C) 1996-1998 Santa Fe Institute.
 #import "BLink.h"
 
 @implementation BLink

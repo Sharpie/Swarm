@@ -1,3 +1,4 @@
+// Copyright (C) 1996-1998 Santa Fe Institute.
 #import <objectbase.h>
 #import <activity.h>
 #import <collections.h>
@@ -5,7 +6,8 @@
 #import <stdio.h>
 #import "BankModelSwarm.h"
 
-@interface BankBatchSwarm : Swarm {
+@interface BankBatchSwarm: Swarm
+{
   int displayFrequency;
 
   id displayActions;	
@@ -19,16 +21,16 @@
   FILE * outputFile;			
 }
 
-+createBegin: (id) aZone;
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
--go;
++ createBegin: aZone;
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;
+- go;
 
 // special message on ourselves to stop running.
--stopRunning;
+- stopRunning;
 
 // special data write method
--writeData;
+- writeData;
 
 @end

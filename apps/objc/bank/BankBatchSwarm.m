@@ -1,5 +1,4 @@
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
+// Copyright (C) 1996-1998 Santa Fe Institute.
 #import "BankBatchSwarm.h"
 #import "BankModelSwarm.h"
 #import <collections.h>
@@ -7,7 +6,8 @@
 @implementation BankBatchSwarm
 
 // createBegin: here we set up the default observation parameters.
-+createBegin: (id) aZone {
++ createBegin: aZone
+{
   BankBatchSwarm * obj;
 
   obj = [super createBegin: aZone];
@@ -16,7 +16,8 @@
   return obj;
 }
 
--buildObjects {
+- buildObjects
+{
   id modelZone;
 
   [super buildObjects];
@@ -38,7 +39,8 @@
   return self;
 }  
 
--buildActions {
+- buildActions
+{
   [super buildActions];
   
   [bankModelSwarm buildActions];
@@ -62,8 +64,8 @@
   return self;
 }  
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   [super activateIn: swarmContext];
 
 
@@ -77,7 +79,8 @@
   return [self getSwarmActivity];
 }
 
--go {
+- go
+{
   printf("No DISPLAY environment variable was set, so we're running without graphics.\n");
   printf("Bank is running for 250 time steps and writing data to banks.data.\n");
 
@@ -87,7 +90,8 @@
   return [[self getActivity] getStatus];
 }
 
--writeData {
+- writeData
+{
 /*
   fprintf(outputFile, "%d %g\n", getCurrentTime(),
 	  [unhappinessAverager getAverage]);
@@ -95,7 +99,8 @@
   return self;
 }
 
--stopRunning {
+- stopRunning
+{
   [getTopLevelActivity() terminate];
   fclose(outputFile);
   return self;

@@ -1,3 +1,4 @@
+// Copyright (C) 1996-1998 Santa Fe Institute.
 #import <analysis.h>
 #import <simtoolsgui.h> // ActiveGraph
 #import <simtoolsgui/GUISwarm.h>

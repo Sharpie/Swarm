@@ -1,3 +1,4 @@
+// Copyright (C) 1996-1998 Santa Fe Institute.
 #import <objectbase.h>
 #import "FEntity.h"
 #import "FNet.h"
