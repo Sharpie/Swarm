@@ -1271,6 +1271,11 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
     Window window = Tk_WindowId (tkwin);
     Colormap *colormap = raster->colormap;
     BOOL retryFlag = NO;
+
+    if (pixmap->pixmap)
+      XFreePixmap (pixmap->display, pixmap->pixmap);
+    if (pixmap->mask)
+      XFreePixmap (pixmap->display, pixmap->mask);
     
     while (1)
       {
@@ -1279,6 +1284,7 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
         
         xpmattrs.valuemask = XpmColormap;
         xpmattrs.colormap = colormap->cmap;
+
         if ((err = XpmCreatePixmapFromXpmImage (display,
                                                 window,
                                                 &pixmap->xpmimage,
@@ -1300,6 +1306,7 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
         else
           break;
       }
+    pixmap->display = display;
   }
 #endif
 }

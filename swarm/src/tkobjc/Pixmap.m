@@ -248,6 +248,10 @@ PHASE(Creating)
   obj->directory = "./";
   obj->filename = NULL;
   obj->decorationsFlag = NO;
+#ifndef _WIN32
+  obj->pixmap = 0;
+  obj->mask = 0;
+#endif
 
   return obj;
 }

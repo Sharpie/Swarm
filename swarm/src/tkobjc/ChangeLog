@@ -1,3 +1,12 @@
+1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (tkobjc_pixmap_update_raster): If pixmap or
+	mask are set, free them.  Set pixmap->display to current display
+	(for use with free).
+
+	* Pixmap.m ([Pixmap +createBegin:]): Initialize pixmap and mask to
+	zero in non-_WIN32 case.
+
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m: Hide Rectangle during Win32 header file includes.
