@@ -84,14 +84,14 @@ readString (id inStream, BOOL literalFlag)
   return string;
 }
 
-- _unexpectedEOF_
+- (void)_unexpectedEOF_
 {
-  abort ();
+  raiseEvent (InvalidArgument, "unexpected EOF");
 }
 
-- _badType_ : obj
+- (void)_badType_ : obj
 {
-  abort ();
+  raiseEvent (InvalidArgument, "wrong type");
 }
   
 - getExpr
@@ -113,10 +113,54 @@ readString (id inStream, BOOL literalFlag)
       [list addLast: obj];
       return list;
     }
+  else if (c == '#')
+    {
+      int c2 = fgetc (fileStream);
+      id list = [List create: [self getZone]];
+
+      if (c2 == ':')
+        {
+          id newObj = [self getExpr];
+          
+          if (newObj == nil)
+            [self _unexpectedEOF_];
+          
+          [list addLast: ArchiverSymbol];
+          [list addLast: newObj];
+        }
+      else if (c2 >= '0' && c2 <= '9')
+        {
+          unsigned rank;
+
+          ungetc (c2, fileStream);
+          {
+            int ret = fscanf (fileStream, "%u", &rank);
+            
+            if (ret != 1)
+              raiseEvent (InvalidArgument,
+                          "Unable to scan array dimensions [ret = %d]", ret);
+          }
+          
+          {
+            id newObj = [self getExpr];
+            
+            if (newObj == nil)
+              [self _unexpectedEOF_];
+            
+            [list addLast: ArchiverArray];
+            [list addLast: (id)rank];
+            [list addLast: newObj];
+            xfprint (newObj);
+          }
+        }
+      else
+        raiseEvent (InvalidArgument, "Unknown `#' form");
+      return list;
+    }
   else if (c == '(')
     {
-      id list = [List create : [self getZone]];
-
+      id list = [List create: [self getZone]];
+      
       while (1)
         {
           id newObj = [self getExpr];

@@ -963,7 +963,7 @@ USING
 @end
 
 //G: Tokens used by the archiving parser.
-extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
+extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot, ArchiverSymbol, ArchiverArray;
 
 #define ARCHIVERLITERALP(obj) ((id)(obj) == (id)ArchiverLiteral)
 

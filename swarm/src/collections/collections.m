@@ -38,6 +38,8 @@ void _collections_initialize (void)
   defsymbol (ArchiverQuote);
   defsymbol (ArchiverEOL);
   defsymbol (ArchiverDot);
+  defsymbol (ArchiverSymbol);
+  defsymbol (ArchiverArray);
 }
 
 
