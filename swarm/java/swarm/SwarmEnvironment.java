@@ -7,7 +7,7 @@ import swarm.objectbase.*;
 
 public class SwarmEnvironment {
   public Symbol ControlStateRunning, ControlStateStopped,
-    ControlStateStepping, ControlStateQuit, ControlStateNextTime;
+    ControlStateStepping, ControlStateQuit, ControlStateNextTime, Randomized;
   public Zone globalZone;
   public UniformIntegerDist uniformIntRand;
   public UniformDoubleDist uniformDblRand;
@@ -28,6 +28,7 @@ public class SwarmEnvironment {
     ControlStateStepping = new SymbolImpl ();
     ControlStateQuit = new SymbolImpl ();
     ControlStateNextTime = new SymbolImpl ();
+    Randomized = new SymbolImpl ();
   }
   public native void initSwarm (String appName, String version, String bugAddress, String args[]);
   public native int getCurrentTime ();
