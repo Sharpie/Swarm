@@ -3,12 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <stdio.h>
-#import <stdlib.h>
 #import <objectbase.h>
 #import <simtools.h>
 #import <simtools/AppendFile.h>
 #import <simtools/OutFile.h>
+
+#include <misc.h>
 
 int
 main(int argc, const char ** argv) 

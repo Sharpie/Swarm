@@ -3,11 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <stdio.h>
-#import <stdlib.h>
-#import <objectbase.h>
 #import <simtools.h>
+#import <objectbase.h>
 #import <collections.h>
+
+#include <misc.h>
 
 int
 main(int argc, const char ** argv) 
