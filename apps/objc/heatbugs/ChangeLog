@@ -1,3 +1,10 @@
+1999-02-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugBatchSwarm.m: Include simtools.h, analysis.h, and misc.h. 
+
+	* HeatbugBatchSwarm.h: Don't include stdio.h, simtools.h, analysis.h,
+	space.h, activity.h, or collections.h.
+
 1999-01-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* main.m (main): Update version string (argument to initSwarmApp)

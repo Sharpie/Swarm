@@ -5,6 +5,10 @@
 
 #import "HeatbugBatchSwarm.h"
 #import "HeatbugModelSwarm.h"
+#import <simtools.h> // ObjectLoader
+#import <analysis.h> // EZGraph
+
+#include <misc.h> // printf
 
 @implementation HeatbugBatchSwarm
 
@@ -12,7 +16,7 @@
 
 + createBegin:  aZone 
 {
-  HeatbugBatchSwarm * obj;
+  HeatbugBatchSwarm *obj;
 
   // Superclass createBegin to allocate ourselves.
   obj = [super createBegin: aZone];
@@ -62,16 +66,17 @@
   // switch is useful when the Sim could potentially log many different
   // aspects of the model...
 
-  if(loggingFrequency){
-    unhappyGraph = [EZGraph createBegin: self];
-    [unhappyGraph setGraphics: 0] ;
-    [unhappyGraph setFileOutput: 1] ;
-    unhappyGraph = [unhappyGraph createEnd] ;
-
-    [unhappyGraph createAverageSequence: "unhappiness.output"
-                           withFeedFrom: [heatbugModelSwarm getHeatbugList] 
-                            andSelector: M(getUnhappiness)] ;
-  }
+  if(loggingFrequency)
+    {
+      unhappyGraph = [EZGraph createBegin: self];
+      [unhappyGraph setGraphics: 0] ;
+      [unhappyGraph setFileOutput: 1] ;
+      unhappyGraph = [unhappyGraph createEnd] ;
+      
+      [unhappyGraph createAverageSequence: "unhappiness.output"
+                    withFeedFrom: [heatbugModelSwarm getHeatbugList] 
+                    andSelector: M(getUnhappiness)] ;
+    }
   // All done - we're ready to build a schedule and go.
   return self;
 }  
@@ -87,33 +92,34 @@
 
   [heatbugModelSwarm buildActions];
   
-  if(loggingFrequency){
+  if(loggingFrequency)
+    {
+      
+      // Create an ActionGroup for display. This is pretty minimal in this
+      // case. Note, there's no doTkEvents message - no control panel!
+      
+      displayActions = [ActionGroup create: self];
+      
+      // Now schedule the update of the unhappyGraph, which will in turn 
+      // cause the fileI/O to occur...
+      
+      [displayActions createActionTo: unhappyGraph message: M(step)];
+      
+      // the displaySchedule controls how often we write data out.
+      displaySchedule = [Schedule createBegin: self];
+      [displaySchedule setRepeatInterval: loggingFrequency];
+      displaySchedule = [displaySchedule createEnd];
+      
+      [displaySchedule at: 0 createAction: displayActions];
+    }
   
-    // Create an ActionGroup for display. This is pretty minimal in this
-    // case. Note, there's no doTkEvents message - no control panel!
-
-    displayActions = [ActionGroup create: self];
-
-    // Now schedule the update of the unhappyGraph, which will in turn 
-    // cause the fileI/O to occur...
-
-    [displayActions createActionTo: unhappyGraph message: M(step)];
-
-    // the displaySchedule controls how often we write data out.
-    displaySchedule = [Schedule createBegin: self];
-    [displaySchedule setRepeatInterval: loggingFrequency];
-    displaySchedule = [displaySchedule createEnd];
-
-    [displaySchedule at: 0 createAction: displayActions];
-  }
-
   // We also add in a "stopSchedule", another schedule with an absolute
   // time event - stop the system at time . 
-
+  
   stopSchedule = [Schedule create: self];
   [stopSchedule at: experimentDuration 
-    createActionTo: self 
-         message: M(stopRunning)];
+                createActionTo: self 
+                message: M(stopRunning)];
   
   return self;
 }  
@@ -123,16 +129,16 @@
 {
   // First, activate ourselves (just pass along the context).
   [super activateIn: swarmContext];
-
+  
   // We need to activate the model swarm.
   [heatbugModelSwarm activateIn: self];
-
+  
   // Now activate our schedules in ourselves. Note that we just activate
   // both schedules: the activity library will merge them properly.
   [stopSchedule activateIn: self];
-  if(loggingFrequency)
+  if (loggingFrequency)
     [displaySchedule activateIn: self];
-
+  
   // Activate returns the swarm activity - the thing that's ready to run.
   return [self getActivity];
 }
@@ -144,15 +150,14 @@
 
 - go 
 {
-  printf(
-    "You typed `heatbugs -b' or `heatbugs --batch', so we're running without graphics.\n");
+  printf ("You typed `heatbugs -b' or `heatbugs --batch', so we're running without graphics.\n");
 
-  printf("Heatbugs is running for %d timesteps.\n",experimentDuration) ;
+  printf ("Heatbugs is running for %d timesteps.\n",experimentDuration) ;
  
-  if(loggingFrequency)
-    printf("It is logging data every %d timesteps to: unhappiness.output.\n",
+  if (loggingFrequency)
+    printf ("It is logging data every %d timesteps to: unhappiness.output.\n",
             loggingFrequency);
-
+  
   [[self getActivity] run];
   return [[self getActivity] getStatus];
 }

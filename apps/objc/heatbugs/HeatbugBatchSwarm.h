@@ -7,41 +7,34 @@
 // It's also a toplevel swarm that directs execution of a model, but it
 // operates without any graphics - just does file I/O to store data.
 
-#import <stdio.h>
 #import <objectbase.h>
-#import <simtools.h>
-#import <analysis.h>
-#import <space.h>
-#import <activity.h>
-#import <collections.h>
-
 #import "HeatbugModelSwarm.h"
 
-@interface HeatbugBatchSwarm : Swarm {
+@interface HeatbugBatchSwarm: Swarm
+{
+  int loggingFrequency;	       		  // Frequency of fileI/O
 
-  int loggingFrequency ;	       		  // Frequency of fileI/O
+  int experimentDuration;                 // When to Stop the Sim
 
-  int experimentDuration ;                        // When to Stop the Sim
-
-  id displayActions;				  // schedule data structs
+  id displayActions;			  // schedule data structs
   id displaySchedule;
   id stopSchedule;
 
-  HeatbugModelSwarm * heatbugModelSwarm;	  // the Swarm we're observing
+  HeatbugModelSwarm *heatbugModelSwarm;	  // the Swarm we're observing
 
-                                                  // The EZGraph will be used 
-  id unhappyGraph ;                               // in FileI/O mode rather 
-                                                  // than the usual Graphics 
-                                                  // mode...
+                                          // The EZGraph will be used 
+  id unhappyGraph;                        // in FileI/O mode rather 
+                                          // than the usual Graphics 
+                                          // mode...
 }
 
-+createBegin: (id) aZone;
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
--go;
++ createBegin: aZone;
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;
+- go;
 
 // special message on ourselves to stop running.
--stopRunning;
+- stopRunning;
 
 @end
