@@ -1,5 +1,7 @@
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.common (SWARMLIBS): Use -lobjcdll with -lswarmdll.
+
 	* Makefile.appl.in (LDFLAGS): Move EXTRALDFLAGS here (from
 	SUPPORTLDFLAGS).
 

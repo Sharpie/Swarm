@@ -82,7 +82,7 @@ ifeq ($(USESTATIC),yes)
 SWARMLIBS = -lswarm
 OBJCLIBS = -lobjc
 else
-SWARMLIBS = -lswarmdll
+SWARMLIBS = -lswarmdll -lobjcdll
 OBJCLIBS = 
 EXTRACPPFLAGS = -DDLL
 endif
