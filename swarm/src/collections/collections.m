@@ -12,7 +12,7 @@ Library:      collections
 #include "collections.xm"
 #import <collections/Collection.h>
 
-extern id <String> LiteralString;
+id <String> LiteralString;
 
 //
 // _collections_implement() -- generate implementations for defobj module
