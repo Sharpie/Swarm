@@ -96,7 +96,9 @@ else
     JAVALIBPATH_VAR=
   elif test -f $jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
-    jdkdatadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $jdkdir/bin/kaffe`
+    kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $jdkdir/bin/kaffe`
+    kaffe_datadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $jdkdir/bin/kaffe`
+    jdkdatadir=`eval echo \`echo $kaffe_datadir | sed  's/\${prefix}/$kaffe_prefix/'\`` 
     if test "$host_os" = cygwin; then
       jdkdatadir=`cygpath -w $jdkdatadir`
       USEDOSCLASSPATH=yes

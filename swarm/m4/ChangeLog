@@ -1,3 +1,9 @@
+1999-07-28  Alex Lancaster  <alex@santafe.edu>
+
+	* acjdk.m4: For kaffe, extract prefix from kaffe shell script and
+	expand any inline ${prefix} references to ensure that jdkdatadir
+	is an absolute path.
+
 1999-07-27  Alex Lancaster  <alex@santafe.edu>
 
 	* acjdk.m4: Only set $jdkincludedir to $jdkincludedir/include/java
