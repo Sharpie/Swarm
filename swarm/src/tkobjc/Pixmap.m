@@ -7,7 +7,7 @@
 #import "internal.h"
 #import <tkobjc/global.h>
 #include <png.h>
-#include <misc.h> // xmalloc
+#include <misc.h> // xmalloc, XFREE
 
 static int
 compareRGB (id aobj, id bobj)
@@ -201,7 +201,7 @@ PHASE(Creating)
               }
             [cMap drop];
             for (ri = 0; ri < height; ri++)
-              xfree (row_pointers[ri]);
+              XFREE (row_pointers[ri]);
             row_pointers = new_row_pointers_buffer;
           }
         }

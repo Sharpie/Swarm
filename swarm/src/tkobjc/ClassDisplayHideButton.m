@@ -6,7 +6,7 @@
 #import <tkobjc/ClassDisplayHideButton.h>
 #include <tkobjc/global.h>
 #include <tkobjc/common.h>
-#include <misc.h> // xfree
+#include <misc.h> // XFREE
 
 @implementation ClassDisplayHideButton
 
@@ -24,7 +24,7 @@ tkobjc_packForgetArmSuperAndResize (id hideB, id user, id subWidget, id owner)
     subWidgetName,
     ownerName];
 
-  xfree ((void *)subWidgetName);
+  XFREE (subWidgetName);
 }
 
 static void

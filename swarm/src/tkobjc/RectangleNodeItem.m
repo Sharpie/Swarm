@@ -6,7 +6,7 @@
 #import <tkobjc/RectangleNodeItem.h>
 #import <tkobjc/Widget.h>
 #include <tkobjc/global.h>
-#include <misc.h> // strdup, xfree
+#include <misc.h> // strdup, XFREE
 
 @implementation RectangleNodeItem
 
@@ -32,7 +32,7 @@ PHASE(Creating)
                   [canvas getWidgetName],
                   text];
 
-  xfree ((void *)text);
+  XFREE (text);
 
   [self createText];
   [self createBindings];

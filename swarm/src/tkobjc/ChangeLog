@@ -1,3 +1,14 @@
+1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ClassDisplayHideButton.m (tkobjc_packForgetArmSuperAndResize): 
+	Use XFREE instead of xfree.
+
+	* RectangleNodeItem.m ([RectangleNodeItem -createItem]): Likewise.
+
+	* Pixmap.m ([Pixmap -_loadPNG_]): Likewise.
+
+	* OvalNodeItem.m ([OvalNodeItem -createItem]): Likewise.
+
 1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Pixmap.m ([Pixmap +createBegin:]): Default directory to ./.

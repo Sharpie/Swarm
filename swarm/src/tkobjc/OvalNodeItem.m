@@ -6,7 +6,7 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/OvalNodeItem.h>
-#include <misc.h> // strdup, xfree
+#include <misc.h> // strdup, XFREE
 
 @implementation OvalNodeItem
 
@@ -30,7 +30,7 @@ PHASE(Creating)
   [globalTkInterp eval: "%s delete %s",
                   [canvas getWidgetName], text];
   
-  xfree ((void *)text);
+  XFREE (text);
 
   [self createText];
   [self createBindings];
