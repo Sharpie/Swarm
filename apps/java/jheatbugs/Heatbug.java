@@ -133,7 +133,7 @@ public class Heatbug {
      implemented here. The notion of a "step" method is a nice
      simplification for basic simulations.
   */
-  public void step () {
+  public void heatbugStep () {
     long heatHere;
     int newX, newY;
     int tries;

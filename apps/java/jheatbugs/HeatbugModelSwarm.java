@@ -66,6 +66,8 @@ public class HeatbugModelSwarm extends SwarmImpl
   /** the 2d heat space */
   public HeatSpace heat;				  
 
+  FActionForEach actionForEach;
+
   // These methods provide access to the objects inside the
   // ModelSwarm.  These objects are the ones visible to other
   // classes via message call.  In theory we could just let other
@@ -85,9 +87,17 @@ public class HeatbugModelSwarm extends SwarmImpl
   }
   
   public boolean toggleRandomizedOrder () {
-    randomizeHeatbugUpdateOrder = 
-      ((randomizeHeatbugUpdateOrder == false) ? true : false);
-    return (randomizeHeatbugUpdateOrder);
+    randomizeHeatbugUpdateOrder = !randomizeHeatbugUpdateOrder;
+    syncUpdateOrder ();
+    return randomizeHeatbugUpdateOrder;
+  }
+
+  public void syncUpdateOrder () {
+    if (actionForEach != null)
+      actionForEach.setDefaultOrder
+        (randomizeHeatbugUpdateOrder
+         ? Globals.env.Randomized
+         : Globals.env.Sequential);
   }
   
   /** 
@@ -275,35 +285,33 @@ public class HeatbugModelSwarm extends SwarmImpl
     modelActions = new ActionGroupImpl (getZone ());
 
     try {
-      modelActions.createActionTo$message 
+      modelActions.createActionTo$message
         (heat, new Selector (heat.getClass (), "stepRule", false));
     } catch (Exception e) {
       System.err.println ("Exception stepRule: " + e.getMessage ());
     }
-        
-    {
-      FActionForEach actionForEach;
-      
-      FArgumentsC argumentsCreating =
-        new FArgumentsCImpl (new FArgumentsImpl ());
-      argumentsCreating.createBegin (getZone ());
-      argumentsCreating.setJavaSignature ("()V");
-      argumentsCreating.setObjCReturnType ('v');
-      FArguments arguments = (FArguments) argumentsCreating.createEnd ();
 
-      FCallC callCreating = new FCallCImpl (new FCallImpl ());
-      callCreating.createBegin (getZone ());
-      callCreating.setJavaMethod$inObject ("step", heatbugList.get (0));
-      callCreating.setArguments (arguments);
-      FCall call = (FCall) callCreating.createEnd ();
-      
-      actionForEach =
-        modelActions.createFActionForEachHomogeneous$call (heatbugList, call);
-      
-      if (randomizeHeatbugUpdateOrder == true)
-        actionForEach.setDefaultOrder (Globals.env.Randomized);
+    FArgumentsC argumentsCreating =
+      new FArgumentsCImpl (new FArgumentsImpl ());
+    argumentsCreating.createBegin (getZone ());
+    try {
+      argumentsCreating.setSelector$setJavaFlag
+        (new Selector (heatbugList.get (0).getClass (), "heatbugStep", false),
+         true);
+    } catch (Exception e) {
+      e.printStackTrace (System.err);
     }
+    FArguments arguments = (FArguments) argumentsCreating.createEnd ();
+    FCallC callCreating = new FCallCImpl (new FCallImpl ());
+    callCreating.createBegin (getZone ());
+    callCreating.setJavaMethod$inObject ("heatbugStep", heatbugList.get (0));
+    callCreating.setArguments (arguments);
+    FCall call = (FCall) callCreating.createEnd ();
     
+    actionForEach =
+      modelActions.createFActionForEachHomogeneous$call (heatbugList, call);
+    syncUpdateOrder ();
+
     try {
       modelActions.createActionTo$message 
         (heat, new Selector (heat.getClass (), "updateLattice", false));
