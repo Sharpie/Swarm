@@ -467,7 +467,7 @@ PHASE(Using)
       [outputCharStream catC: " (cons "];
       if (compareFunc == compareIDs)
         [key lispOut: outputCharStream deep: deepFlag];
-      else if (compareFunc == compareUnsigned)
+      else if (compareFunc == compareUnsignedIntegers)
         {
           char buf[sizeof (unsigned) * 8 + 1];
           

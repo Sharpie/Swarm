@@ -1,3 +1,8 @@
+1999-01-14  Alex Lancaster  <alex@santafe.edu>
+
+	* Map.m ([Map_c -lispOut:deep:]): compareUnsigned ->
+	compareUnsignedIntegers
+
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Map.m, collections.h (compareUnsignedIntegers): New function.
