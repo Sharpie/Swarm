@@ -100,7 +100,7 @@ Relative speed:	| Speed 0.339 (time 2.951) relative to MT19937 getUnsignedSample
 
 #import <string.h>
 #import <random.h>
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 
 // NOTE: 
 // we allocate static vectors of length 7 even though

@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <swarmobject/MessageProbe.h>
+#import <objectbase/MessageProbe.h>
 
 // Entropy object: calculates the entropy based on the probabilities returned
 // by a collection of objects responding to a specified selector.

@@ -132,7 +132,7 @@ output quality:	|
 
 #import <string.h>
 #import <random.h>
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 
 
 #define COMPONENTS 2
