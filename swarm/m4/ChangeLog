@@ -1,3 +1,7 @@
+2001-11-09  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* acjdk.m4 (vj_FIND_JDK): Likewise for i386 Linux-based systems.
+
 2001-11-08  Marcus G. Daniels  <mgd@condor>
 
 	* acjdk.m4 (vj_FIND_JDK): Add check for jre/lib/sparc/native_threads,
