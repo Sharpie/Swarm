@@ -55,56 +55,56 @@ void init_tables(void)
 
 + create: aZone withId: (int) id
 {
-   Responder *resp = [aZone allocIVars: self];
-   resp->Id = id;
-   return resp; 
+  Responder *resp = [aZone allocIVars: self];
+  resp->Id = id;
+  return resp; 
 }
 
 - setId: (int) id
 {
-   Id = id;
-   return self;
+  Id = id;
+  return self;
 }
 
 - (int) getId
 {
-   return Id;
+  return Id;
 }
 
 - m1 
 {
-    printf("m1\n");
-    fflush(stdout);
-    messages[0] = morder++;
-    return self;
+  printf("m1\n");
+  fflush(stdout);
+  messages[0] = morder++;
+  return self;
 }
 - m2 
 {
-    printf("m2\n");
-    fflush(stdout);
-    messages[1] = morder++;
-    return self;
+  printf("m2\n");
+  fflush(stdout);
+  messages[1] = morder++;
+  return self;
 }
 - m3
 {
-    printf("m3\n");
-    fflush(stdout);
-    messages[2] = morder++;
+  printf("m3\n");
+  fflush(stdout);
+  messages[2] = morder++;
     return self;
 }
 - m4 
 {
-    printf("m4\n");
-    fflush(stdout);
-    messages[3] = morder++;
-    return self;
+  printf("m4\n");
+  fflush(stdout);
+  messages[3] = morder++;
+  return self;
 }
 - m5 
 {
-    printf("m5\n");
-    fflush(stdout);
-    messages[4] = morder++;
-    return self;
+  printf("m5\n");
+  fflush(stdout);
+  messages[4] = morder++;
+  return self;
 }
 
 - mId 

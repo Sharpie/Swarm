@@ -8,13 +8,14 @@ Test suite:   activity
 #import <simtools.h>
 #import "DSRSwarm.h"
 
-int main(int argc, const char ** argv) {
+int main(int argc, const char ** argv) 
+{
   id theSwarm;
-
+  
   initSwarm(argc, argv);
-
+  
   theSwarm = [DSRSwarm create: globalZone];
-
+  
   [theSwarm buildActions];
   [theSwarm activateIn: nil];
   [[theSwarm getActivity] run];
@@ -44,6 +45,5 @@ int main(int argc, const char ** argv) {
       fprintf(stderr,  "Error dynamic update failed, action added before current time two repeat cycles ago, that was performed in previous cycle never performed in last repeat cycle\n ");
       return 1;
     }
-
   return 0;
 }

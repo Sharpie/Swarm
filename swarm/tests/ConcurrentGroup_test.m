@@ -16,7 +16,7 @@ Test suite:   activity
 - (void) describe: (id) outputCharStream
 {
   char description[100];
-
+  
   sprintf(description, "ConcurrentGroup test. 1 \n");
   sprintf(description, "Randomized:        %d\n", getBit(bits,BitRandomized));
   sprintf(description, "Number of objects: %d\n", numberOfObjects); 
@@ -36,9 +36,10 @@ Test suite:   activity
 	}    
       else
 	{
-	   _obj_formatIDString( buffer, obj);
-	   [outputCharStream catC: buffer];
+	  _obj_formatIDString( buffer, obj);
+	  [outputCharStream catC: buffer];
 	}
     }
 }
+
 @end

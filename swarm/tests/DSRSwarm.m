@@ -10,7 +10,7 @@ Test suite:   activity
 #import <defobj/defalloc.h>
 
 int stimes[10] = { 0,0,0,0,0,
-		  0,0,0,0,0 };
+		   0,0,0,0,0 };
 int timer = 0;
 
 @implementation DSRSwarm
@@ -22,14 +22,14 @@ int timer = 0;
   
   secondSchedule = [Schedule createBegin: getZone(self)];
   secondSchedule = [secondSchedule createEnd];
-
+  
   [firstSchedule at: 3 createActionTo: self message: M(empty)];
-  [secondSchedule at: 0 createActionTo: self message: 
-		    M(schedulePrintOkOnFirstScheduleAfterCurrentTime)];
-  [secondSchedule at: 6 createActionTo: self message: 
-		    M(schedulePrintOkOnFirstScheduleBeforeCurrentTime)];
-  [secondSchedule at: 30 createActionTo: self message:
-		    M(stopRunning)];
+  [secondSchedule at: 0 createActionTo: self 
+		  message: M(schedulePrintOkOnFirstScheduleAfterCurrentTime)];
+  [secondSchedule at: 6 createActionTo: self 
+		  message: M(schedulePrintOkOnFirstScheduleBeforeCurrentTime)];
+  [secondSchedule at: 30 createActionTo: self 
+		  message: M(stopRunning)];
   return self;
 }
 
@@ -61,7 +61,7 @@ int timer = 0;
 
 - printOk
 {
-  printf("%d: Ok!\n", (int) getCurrentTime() );
+  printf("%d: Ok!\n", (int) getCurrentTime());
   fflush(stdout);
   stimes[timer++] = (int) getCurrentTime();
   return self;
@@ -73,3 +73,4 @@ int timer = 0;
   return self;
 }
 
+@end

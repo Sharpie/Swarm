@@ -22,7 +22,7 @@ int ok=0;
   secondSchedule = [Schedule createBegin: getZone(self)];
   [secondSchedule setAutoDrop: 1];
   secondSchedule = [secondSchedule createEnd];
-
+  
   [firstSchedule at: 10 createActionTo: self message: M(empty)];
   [secondSchedule at: 0 createActionTo: self message: 
 		    M(schedulePrintOkOnFirstSchedule)];  
@@ -56,3 +56,5 @@ int ok=0;
   fflush(stdout);
   return self;
 }
+
+@end

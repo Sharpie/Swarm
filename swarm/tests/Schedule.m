@@ -16,9 +16,9 @@ int main(int argc, const char ** argv)
   id obj;
   int i;
   id schedule;
-
+  
   initSwarm(argc, argv);
-
+  
   array = [Array create: globalZone setCount: 5];
   for (i=0;i<5;i++)
     {
@@ -26,26 +26,27 @@ int main(int argc, const char ** argv)
       [obj setId: i+1];
       [array atOffset:i put: obj];
     }
+
   schedule = [Schedule createBegin: globalZone];
   [schedule setAutoDrop:1 ];
   schedule = [schedule createEnd];
-
+  
   [schedule at: 0 createActionTo: [array atOffset: 0]
-		message: M(mTimeId)];
+	    message: M(mTimeId)];
   [schedule at: 1 createActionTo: [array atOffset: 0]
-		 message: M(mTimeId)];
+	    message: M(mTimeId)];
   [schedule at: 1 createActionTo: [array atOffset: 1]
-		 message: M(mTimeId)];
+	    message: M(mTimeId)];
   [schedule at: 10 createActionTo: [array atOffset: 2]
-		 message: M(mTimeId)];	
+	    message: M(mTimeId)];	
   [schedule at: 10 createActionTo: [array atOffset: 3]
-		 message: M(mTimeId)]; 
+	    message: M(mTimeId)]; 
   [schedule at: 100 createActionTo: [array atOffset: 4]
-		 message: M(mTimeId)];
+	    message: M(mTimeId)];
   [schedule at: 100 createActionTo: [array atOffset: 4]
-		 message: M(mTimeId)];
+	    message: M(mTimeId)];
   [[schedule activateIn: nil] run];
-
+  
   if (ids[0]!=1)
     {
       fprintf(stderr, "Error in Schedule, action scheduled for time: 0 not performed! \n");

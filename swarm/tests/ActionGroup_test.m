@@ -30,14 +30,13 @@ Test suite:   activity
     {
       id obj = *(objects+i);
       if (respondsTo(obj, M(describe:)))
-	{
-	  [obj describe: outputCharStream];
-	}    
+	[obj describe: outputCharStream];
       else
 	{
-	   _obj_formatIDString( buffer, obj);
-	   [outputCharStream catC: buffer];
+	  _obj_formatIDString( buffer, obj);
+	  [outputCharStream catC: buffer];
 	}
     }
 }
+
 @end

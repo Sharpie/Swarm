@@ -21,14 +21,12 @@ Library:      activity
   obj->objects = [aZone alloc: num * sizeof(id)];
   obj->counter = 0;
   return obj;
- }
+}
 
 - addObject: (id) obj
 {
   if (counter < numberOfObjects)
-    {
-      *(objects+counter++)=obj;
-    }
+    *(objects+counter++)=obj;
   return self;
 }
 
@@ -40,13 +38,9 @@ Library:      activity
 - getObjectAt: (int) offset
 {
   if (offset < counter)
-    {
-      return *(objects+offset);
-    }
+    return *(objects+offset);
   else
-    {
-      return NULL;
-    }
+    return NULL;
 }
 
 #endif

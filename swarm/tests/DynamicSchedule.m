@@ -1,5 +1,5 @@
 /*
-Name:         DSSwarm.h
+Name:         DynamicSchedule.h
 Description:  DynamicSchedule tests for presence of dynamic scheduling bug, 
               which used to occur when an action is added to a Schedule 
 	      from another Schedule, to be performed after the current time, 
@@ -17,9 +17,7 @@ int main(int argc, const char ** argv)
   id theSwarm;
 
   initSwarm(argc, argv);
-
   theSwarm = [DSSwarm create: globalZone];
-
   [theSwarm buildActions];
   [theSwarm activateIn: nil];
   [[theSwarm getActivity] run];

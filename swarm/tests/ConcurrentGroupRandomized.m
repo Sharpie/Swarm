@@ -15,10 +15,10 @@ int main(int argc, const char ** argv)
   id concGroupTest;
   id obj;
   int i, ok;
-
+  
   initSwarm(argc, argv);
   init_tables();
-
+  
   concGroupTest = [ConcurrentGroup_test createBegin: globalZone 
 					numberOfObjects: 5];
   for (i=0;i<5;i++)
@@ -28,7 +28,7 @@ int main(int argc, const char ** argv)
     }
   [concGroupTest setDefaultOrder: Randomized];
   concGroupTest = [concGroupTest createEnd];
-   
+  
   [concGroupTest createActionTo: [concGroupTest getObjectAt: 0]
                  message: M(m1)];
   [concGroupTest createActionTo: [concGroupTest getObjectAt: 1]
@@ -40,7 +40,7 @@ int main(int argc, const char ** argv)
   [concGroupTest createActionTo: [concGroupTest getObjectAt: 3]
 		 message: M(m5)]; 
   [[concGroupTest activateIn: nil] run];
-
+  
   ok = 0;
   for (i=0;i<5;i++) 
     {
@@ -52,7 +52,7 @@ int main(int argc, const char ** argv)
       if (messages[i]!=i+1) 
 	ok = 1;
     }
-
+  
   if (ok)
     return 0;
   else 
