@@ -26,6 +26,7 @@ public class SwarmEnvironment {
   public native ActionImpl getCurrentAction ();
   public native ActivityImpl getCurrentActivity();
 
+  public ProbeLibraryImpl probeLibrary;
   public ZoneImpl globalZone;
   public UniformIntegerDistImpl uniformIntRand;
   public UniformDoubleDistImpl uniformDblRand;

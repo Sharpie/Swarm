@@ -2,6 +2,7 @@
 
 	* SwarmEnvironment.java: New getCurrent... methods that correspond
 	to calls of getCurrent... macros from activity.h
+	(probeLibrary): New field.	
 
 1999-07-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
