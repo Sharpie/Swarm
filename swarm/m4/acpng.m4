@@ -14,7 +14,7 @@ if test -f $zlibdir/include/zlib.h ; then
   AC_MSG_RESULT($zlibdir/include)
 else
   AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Please use --with-zlib to specify locatin of libffi header file.) 
+  AC_MSG_ERROR(Please use --with-zlib to specify location of zlib header file.) 
 fi
 AC_SUBST(zlibdir)
 ])dnl
@@ -35,7 +35,7 @@ if test -f $pngdir/include/png.h ; then
   AC_MSG_RESULT($pngdir/include)
 else
   AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Please use --with-png to specify locatin of libffi header file.) 
+  AC_MSG_ERROR(Please use --with-png to specify location of png header file.) 
 fi
 AC_SUBST(pngdir)
 ])dnl
