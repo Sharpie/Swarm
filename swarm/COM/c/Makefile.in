@@ -21,7 +21,7 @@ REQUIRES = xpcom
 
 CPPSRCS = COMsupport.cpp module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) $(NULL)
 
-XPIDLSRCS = $(foreach module,$(MODULES) swarm,$(call moduleidlfiles,$(module)))
+XPIDLSRCS = swarmITyping.idl $(foreach module,$(MODULES) swarm,$(call moduleidlfiles,$(module)))
 
 include $(topsrcdir)/config/rules.mk
 
