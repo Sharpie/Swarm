@@ -90,6 +90,11 @@ ADD_PRIMITIVE (FArguments_c *fa, fcall_type_t type, void *val)
     case fcall_type_jstring:
       av_ptr (AVALIST (fa), jstring, *(jstring *) val);
       break;
+#else
+    case fcall_type_jobject:
+    case fcall_type_jselector:
+    case fcall_type_jstring:
+      abort ();
 #endif
     case fcall_type_iid:
       av_ptr (AVALIST (fa), void *, * (void **) val);

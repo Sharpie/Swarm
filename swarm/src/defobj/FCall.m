@@ -368,6 +368,7 @@ PHASE(Creating)
           return self;
         }
     }
+#ifdef HAVE_JDK
   else 
     {
       jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (obj);
@@ -378,6 +379,7 @@ PHASE(Creating)
           return self;
         }
     }
+#endif
   {
     SEL sel = sel_get_any_typed_uid (theMethodName);
     
@@ -400,6 +402,7 @@ PHASE(Creating)
         methodName = STRDUP (sel_get_name (sel));
       return self;
     }
+#ifdef HAVE_JDK
   else if ([fargs getLanguage] == LanguageJava)
     {
       jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
@@ -423,6 +426,7 @@ PHASE(Creating)
           return self;
         }
     }
+#endif
   {
     Class class;
     

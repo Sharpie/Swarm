@@ -79,6 +79,7 @@ PHASE(Using)
   [fa setReturnType: fcall_type_void];
   fa = [fa createEnd];
 
+#ifdef HAVE_JDK
   {
     jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (self);
     jobject jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
@@ -86,6 +87,7 @@ PHASE(Using)
     SD_JAVA_ENSURE_SELECTOR_JAVA (jcls, M(doesNotRecognize:));
     (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
   }
+#endif
 
   fc = [FCall create: getCZone (getZone (self))
               target: self

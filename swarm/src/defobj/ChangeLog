@@ -1,5 +1,8 @@
 2001-03-27  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* FArguments.m, FCall.m, JavaProxy.m, _fcall.m, internal.m:
+	HAVE_JDK fixes.
+
 	* HDF5Object.m ([HDF5_c -checkDatasetName:]): Suppress H5Gget_objinfo
 	messages.
 

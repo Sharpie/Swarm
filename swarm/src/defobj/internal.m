@@ -328,8 +328,8 @@ map_object_ivars (id object,
 
   if (jobj)
     map_java_ivars (jobj, process_object);
-#endif
   else
+#endif
     map_objc_ivars (object, process_object);
 }
 
@@ -1018,6 +1018,7 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
   
   if (arrayp (expr))
     {
+#ifdef HAVE_JDK
       if (SD_JAVA_FIND_OBJECT_JAVA (obj))
         {
           fcall_type_t type = [expr getArrayType];
@@ -1034,6 +1035,7 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
           }
         }
       else
+#endif
         {
           struct objc_ivar *ivar = find_ivar (getClass (obj), ivar_name);
           void *ptr = (void *) obj + ivar->ivar_offset;

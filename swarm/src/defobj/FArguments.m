@@ -326,8 +326,8 @@ PHASE(Creating)
   if (language == LanguageJava)
     [self addJavaObject: SD_JAVA_FIND_OBJECT_JAVA (value)
           type: fcall_type_jobject];
-#endif
   else
+#endif
     ADD_PRIMITIVE (fcall_type_object, id, value);
   return self;
 }
@@ -338,8 +338,8 @@ PHASE(Creating)
   if (language == LanguageJava)
     [self addJavaObject: SD_JAVA_FIND_SELECTOR_JAVA (aSel)
           type: fcall_type_jselector];
-#endif
   else
+#endif
     ADD_PRIMITIVE (fcall_type_selector, SEL, aSel);
   return self;
 }
