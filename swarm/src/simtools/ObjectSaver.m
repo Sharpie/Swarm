@@ -122,7 +122,7 @@
 
   anIndex = [aProbeMap begin: [self getZone]] ;
   while( (aProbe = [anIndex next]) )
-    if([aProbe isMemberOf: [VarProbe class]])
+    if([aProbe isKindOf: [VarProbe class]])
       if([aProbe isInteractive]){
         [theFileObject putString: [aProbe getProbedVariable]] ;
         [theFileObject putTab] ;
