@@ -1,3 +1,9 @@
+1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in: Add md_CHECK_INLINING check.
+
+	* VERSION: Bump version to 1998-07-19, 1.2.1.
+
 1998-07-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.appl.in (MODULES): Remove.
