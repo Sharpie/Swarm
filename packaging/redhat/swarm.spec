@@ -1,34 +1,72 @@
 Summary: Toolkit for agent-based simulation.
 Name: swarm
-Version: @version@
-Release: @release@
-Copyright: @copyright@
+Version: 2.1.141.20021019
+Release: 2RH8.0 
+Copyright: LGPL
 Group: Development/Libraries
-Source: @ftproot@/swarm-@date_version@.tar.gz
+Source: ftp://ftp.swarm.org/pub/swarm/swarm-%version.tar.gz
 %define prefix      /usr
+#Patch0: ObjectSaver.patch
+#Patch1: Customize.patch
+#Patch2: Signs2.patch 
 Prefix: %prefix
 BuildRoot: /tmp/swarm-root
-BuildPrereq: kaffe
+%ifarch ppc
+BuildPrereq: libffi >= 1.20
+%endif
 BuildPrereq: jikes
 Icon: swarm.xpm
-Packager: @packager@
-Distribution: @distribution@
-Vendor: @vendor@
-URL: @url@
-Requires: @base_requires@
+Packager: Red Hat Contrib|Net <rhcn-bugs@redhat.com>
+Distribution: Red Hat Contrib|Net
+Vendor: Swarm Development Group
+URL: http://www.swarm.org
+Requires: gcc >= 3.2, gcc-objc, hdf5 = 1.4.4, XFree86-devel, glibc-devel, libpng, libpng-devel, zlib, zlib-devel, blt, tcl >= 8.3.0, tk >= 8.3.0
+%ifarch ppc
+Requires: libffi >= 1.20
+%endif
 Provides: swarm-base
-Conflicts: swarm-hdf5
-%define date_version @date_version@
 
 %description
 Swarm is a simulation toolkit for complex adaptive systems. The Swarm
 project is sponsored by the Santa Fe Institute.  To use this version,
-you need a number of libraries and utilities, including tcl/tk 8.0.4
+you need a number of libraries and utilities, including tcl/tk 8.3.0
 or better, and the blt library package.
 
-@macros@
+
+#%define gcc_path PATH=/usr/local/bin:$PATH
+%define gcc_path PATH=$PATH
+
+%define baseconfigure CC=gcc JAVAC=jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix=/usr --enable-subdirs --with-jdkdir=/usr/java/j2sdk1.4.1_01
+
+%define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-%{version} 
+
+%define makebuilddir() test -d %1 || mkdir %1 && cd %1 
+
+%define swarm_shared_libs() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%verify (not size md5 mtime) %{1}/lib/swarm/lib$i.la" >> %2 ; echo "%{1}/lib/swarm/lib$i.so*" >> %2 ; done 
+
+%define swarm_static_libs() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.a" >> %2 ; done 
+
+%define gen_shared_filelist() echo "%{1}/bin/libtool-swarm" > %2; echo "%{1}/bin/m2h" >> %2; echo "%{1}/bin/make-h2x" >> %2 ; echo "%verify (not size md5 mtime) %{1}/etc/*" >> %2 ; echo "%{1}/include" >> %2 ; echo "%{1}/info/*" >> %2 ;  %{swarm_shared_libs: %1 %2}; echo '%dir %{1}/share' >> %2 ; echo '%doc README AUTHORS COPYING ChangeLog INSTALL NEWS THANKS' >> %2 
+
+%define gen_static_filelist() echo > %2; %{swarm_static_libs: %1 %2}
+
+%define fix_path() cd $RPM_INSTALL_PREFIX0; for i in %1; do eval "sed 's%/REPLACE-AT-INSTALLATION%$RPM_INSTALL_PREFIX0%g' $i > /tmp/swarmfile"; chmod --reference=$i /tmp/swarmfile; mv /tmp/swarmfile $i; done
 
 %changelog
+* Thu Nov 8 2001 Paul Johnson <pauljohn@ukans.edu>
+
+- trying to use Redhat 7.2's gcc3 compiler
+
+
+* Fri Sep 7 2001 Paul Johnson <pauljohn@ukans.edu>
+
+- create separate swarmgcj package
+- patch swarm for METHOD_FUNCTIONS usage
+
+* Fri Jun 22 2001 Paul Johnson <pauljohn@ukans.edu>
+
+- diddling for gcc3.0
+
 * Mon Feb 28 2000 Marcus G. Daniels <mgd@swarm.org>
 
 - Remove ppc patch.
@@ -153,6 +191,15 @@ or better, and the blt library package.
 
 - Used imlib.spec as template for swarm.
 
+
+%package gcjswarm
+Summary: Swarm library compiled for GNU java compiler
+Group: Development/Libraries
+
+%description gcjswarm
+This package is needed if you want to use gcj to compile java swarm programs.
+
+
 %package static
 Summary: Static libraries for Swarm
 Group: Development/Libraries
@@ -162,59 +209,110 @@ Requires: swarm-base
 Contains static libraries for Swarm which are otherwise excluded from
 the normal binary distribuion
 
-%package kaffe
+%package jdk
 Summary: Adds Java support to swarm-base package.
 Group: Development/Libraries
-Requires: kaffe = @kaffe_version@
-Requires: swarm-base
+Requires: swarm-base, jikes, j2sdk = 1.4.1_01
 
-%description kaffe
-swarm-kaffe adds Java support to your base Swarm package (either swarm
-or swarm-hdf5).  Kaffe is a freely-redistributable implementation of
-the Sun JDK.
+
+%description jdk
+swarm-jdk adds Java support to your base Swarm package (either swarm
+or swarm-hdf5).  
 
 %prep 
-%setup -q -n swarm-%date_version
-
+%setup -n swarm-%{version}
+#%patch0 -p1
+#%patch1 -p1
+#%patch2 -p1
 %build
 
-%makebuilddir =without-hdf
+%makebuilddir =with-hdf
 
-%define configure %baseconfigure --without-hdf5dir
+%define configure %baseconfigure
 
-@rules@
 
-%gen_shared_filelist %prefix %{SWARM_SRC_DIR}/without-hdf
+%ifarch sparc
+CONSERVATIVE_OPTIMIZATION=yes %configure
+%endif
+
+%ifarch ppc
+CFLAGS="-fdollars-in-identifiers -O2 -g" %configure --with-ffidir=/usr --disable-jar
+%endif
+
+%ifarch i386
+CFLAGS="-g $RPM_OPT_FLAGS" %configure
+%endif
+
+%ifarch i586
+CFLAGS="-g $RPM_OPT_FLAGS" %configure
+%endif
+
+%ifarch i686
+CFLAGS="-g $RPM_OPT_FLAGS" %configure
+%endif
+
+%{gcc_path} make EXTRACPPFLAGS=-DMETHOD_FUNCTIONS EXTRALDFLAGS=-static-libgcc JAVAC=/usr/bin/jikes
+
+# cd java
+# make gcjswarm.so
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir $RPM_BUILD_ROOT
+
+cd %SWARM_SRC_DIR
+
+
+%gen_shared_filelist %prefix %{SWARM_SRC_DIR}/with-hdf
 
 %gen_static_filelist %prefix %{SWARM_SRC_DIR}/static
 
-cd =without-hdf
-%{gcc_path} make prefix=$RPM_BUILD_ROOT%{prefix} install JAVAC=/usr/bin/jikes
+cd =with-hdf
+
+#RPM install would not complete unless I force creating this dir
+mkdir -p $RPM_BUILD_ROOT%{prefix}/include/swarm
+#%{gcc_path} make prefix=$RPM_BUILD_ROOT%{prefix} install JAVAC=/usr/bin/jikes
+%{gcc_path} make  DESTDIR=$RPM_BUILD_ROOT install  JAVAC=/usr/bin/jikes
+
+
+cd java
+make gcjswarm.so
+cp gcjswarm.so* $RPM_BUILD_ROOT%{prefix}/lib/swarm
+
+cd ..
 
 %post
-%define pathfiles etc/swarm/* lib/swarm/lib*.la
-%fix_path %pathfiles 
+#%define pathfiles etc/swarm/* lib/swarm/lib*.la
+#%fix_path %pathfiles 
 
 /sbin/ldconfig
 
-%post kaffe
-%define kaffepathfiles bin/java*swarm lib/swarm/libkaffeswarm*.la
-%fix_path %kaffepathfiles
+%post jdk
+#%define jdkpathfiles bin/java*swarm lib/swarm/libjavaswarm*.la
+#%fix_path %jdkpathfiles
 
 /sbin/ldconfig
 
-%files -f without-hdf
+%files -f with-hdf
+%{prefix}/bin/print-hdf5
 %defattr(-,root,root)
 
 %files static -f static
 %defattr(-,root,root)
 
-%files kaffe
+%files gcjswarm
+%{prefix}/lib/swarm/gcjswarm.so
+%defattr(-,root,root)
+
+
+%files jdk
 %defattr(-,root,root)
 %verify(not size md5 mtime) %{prefix}/bin/javaswarm
 %verify(not size md5 mtime) %{prefix}/bin/javacswarm
-%verify(not size md5 mtime) %{prefix}/lib/swarm/libkaffeswarm*.la
-%{prefix}/lib/swarm/libkaffeswarm*.so*
+%verify(not size md5 mtime) %{prefix}/lib/swarm/libjavaswarm*.la
+%{prefix}/lib/swarm/libjavaswarm*.so*
+%{prefix}/lib/swarm/libjavaswarm.a
 %{prefix}/share/swarm
 
 %clean 
