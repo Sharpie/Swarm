@@ -65,13 +65,9 @@ PHASE(Using)
 // This widget won't work without this initialized.
 - setColormap: (id <Colormap>)c
 {
-  if (colormap == nil)
-    [self erase];
-
   colormap = c;
   
   map = [colormap map];				  // cache this, fast access.
-  tkobjc_raster_setBackground (self, [colormap black]);
   tkobjc_raster_setColormap (self);
 
   return self;
@@ -104,9 +100,8 @@ PHASE(Using)
   tkobjc_raster_savePixmap (self);
   width = newWidth;
   height = newHeight;
-  tkobjc_raster_createPixmap (self);
-  tkobjc_raster_setColormap (self);
   [super setWidth: width Height: height];
+  tkobjc_raster_createPixmap (self);
   [self erase];
   tkobjc_raster_copy (self, oldWidth, oldHeight);
   tkobjc_raster_dropOldPixmap (self);

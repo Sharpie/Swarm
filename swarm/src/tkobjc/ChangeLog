@@ -1,3 +1,21 @@
+1999-08-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (tkobjc_raster_erase): Assume colormap
+	is set.  Call tkobjc_raster_setColormap to ensure that erase
+	color is set.
+
+	* Raster.m ([Raster -setColormap:]): Remove conditional call to
+	erase and call to tkobjc_raster_setBackground.
+	([Raster -setWidth:Height:]): Remove call to tkobjc_raster_setColormap
+	and call tkobjc_raster_createPixmap after [super setWidth:Height:].
+
+	* ZoomRaster.m (USE_GRID): New macro.
+	([ZoomRaster -setZoomFactor:]): Add code to support ZoomRaster
+	without grid support.  This can work better with the window
+	manager.
+	([ZoomRaster -setWidth:Height:]): Include call to "wm grid" only
+	if USE_GRID is set.
+
 1999-07-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ZoomRaster.m ([ZoomRaster -setZoomFactor:]): When intended

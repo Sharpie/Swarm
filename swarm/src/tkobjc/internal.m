@@ -459,12 +459,10 @@ tkobjc_raster_erase (Raster *raster)
          0, 0, raster->width, raster->height,
          BlackPixel (display, DefaultScreen (display)));
 #else
-  Colormap *colormap = raster->colormap;
-
-  if (colormap)
-    [raster fillRectangleX0: 0 Y0: 0
-            X1: [raster getWidth] Y1: [raster getHeight]
-            Color: raster->eraseColor];
+  tkobjc_raster_setColormap (raster);
+  [raster fillRectangleX0: 0 Y0: 0
+          X1: [raster getWidth] Y1: [raster getHeight]
+          Color: raster->eraseColor];
 #endif
 }
 

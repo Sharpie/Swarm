@@ -9,6 +9,8 @@
 #import <gui.h>
 #import <tkobjc/ZoomRaster.h>
 
+#define USE_GRID
+
 @implementation ZoomRaster
 
 PHASE(Creating)
@@ -82,11 +84,14 @@ PHASE(Using)
 
   // zoom ourselves
   zoomFactor = z;
+#ifdef USE_GRID
+  [self setWidth: logicalWidth Height: logicalHeight];
+#else
   if ([super getWidth] != logicalWidth * zoomFactor
       || [super getHeight] != logicalHeight * zoomFactor)
     {
       char buf[40];
-
+      
       [self setWidth: logicalWidth Height: logicalHeight];
       sprintf (buf,
                "%ux%u+%u+%u",
@@ -94,6 +99,7 @@ PHASE(Using)
                [self getX], [self getY]);
       [self setWindowGeometry: buf];
     }
+#endif
 
 #ifdef REDRAWONZOOM
   // now build a new image from the data in the old one.
@@ -134,7 +140,7 @@ PHASE(Using)
 {
   if (newWidth > width || newHeight > height)
     tkobjc_raster_clear (self, width, height);
-
+  
   return self;
 }
   
@@ -146,7 +152,7 @@ PHASE(Using)
 
   [super setWidth: newWidth * zoomFactor Height: newHeight * zoomFactor];
 
-#if 0
+#ifdef USE_GRID
   // Set up gridded geometry so this is resizeable. Only works if
   // the parent is a toplevel.
   [globalTkInterp eval: "wm grid %s %u %u %u %u; wm aspect %s %u %u %u %u",
