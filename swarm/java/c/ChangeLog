@@ -1,3 +1,10 @@
+1999-03-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.[hm] (java_directory_objc_find_java): New function.
+
+	* Makefile.in ($(libjavaswarmstubs_la_OBJECTS)): Add dependency
+	on directory.h.
+
 1999-03-25  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* directory.m (compare_java_objects): Use direct comparison of 

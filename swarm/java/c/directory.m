@@ -95,12 +95,10 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
   result = avl_find (java_tree, &pattern);
   (*env)->DeleteGlobalRef(env, newRef);
   if (!result) 
-      {
-	  result = java_directory_update (env,
-					  java_object,
-					  [JavaProxy create: globalZone]);
-	
-      }
+    result = java_directory_update (env,
+                                    java_object,
+                                    [JavaProxy create: globalZone]);
+  
   return result;
 }
 
@@ -114,7 +112,15 @@ java_directory_objc_find (id objc_object)
   result = avl_find (objc_tree, &pattern);
   if (!result) 
     abort ();
-  return result;
+      return result;
+}
+
+jobject
+java_directory_objc_find_java (id objc_object)
+{
+  if (objc_object)
+    return java_directory_objc_find (objc_object)->java_object;
+  return NULL;
 }
 
 jobject_id * 

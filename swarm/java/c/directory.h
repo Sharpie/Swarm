@@ -18,6 +18,7 @@ void java_directory_drop (JNIEnv *jniEnv);
 
 jobject_id *java_directory_java_find (JNIEnv *env, jobject java_object);
 jobject_id *java_directory_objc_find (id objc_object);
+jobject java_directory_objc_find_java (id objc_object);
 
 jobject_id *java_directory_update (JNIEnv *env, 
                                    jobject java_object,
@@ -38,7 +39,7 @@ jobject java_instantiate (JNIEnv *jniEnv, jclass clazz);
 jobject java_instantiate_using (JNIEnv *jniEnv, jobject jobj);
 
 #define JFINDOBJC(env, jobj) ((java_directory_java_find (env, jobj))->objc_object)
-#define JFINDJAVA(obj) ((java_directory_objc_find (obj))->java_object)
+#define JFINDJAVA(obj) (java_directory_objc_find_java (obj))
 #define JUPDATE(env, jobj, objc) java_directory_update_java (env, jobj, objc)
 #define JSWITCHUPDATE(env, oldjobj, newjobj, objc) java_directory_switchupdate_java(env, oldjobj, newjobj, objc)
 #define JINSTANTIATE(env, clazz) java_instantiate (env, clazz)
