@@ -1,6 +1,6 @@
 AC_DEFUN(md_CHECK_GUILIBS,
 [AC_MSG_CHECKING(for GUI libs)
-AC_TRY_COMPILE([#ifdef __CYGWIN32__
+AC_TRY_COMPILE([#ifdef __CYGWIN__
 #error
 #endif],[],
 GUILIBS="-lX11 ${X_EXTRA_LIBS}",

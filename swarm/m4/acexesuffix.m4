@@ -1,6 +1,6 @@
 AC_DEFUN(md_CHECK_EXESUFFIX,
 [AC_MSG_CHECKING(for executable suffix)
-AC_TRY_COMPILE([#ifdef __CYGWIN32__
+AC_TRY_COMPILE([#ifdef __CYGWIN__
 #error
 #endif
 ],[],

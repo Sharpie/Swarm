@@ -14,7 +14,7 @@ if test $found = yes; then
   XPMLIB=-l$xpmlibname
 else
   gnuwin32=no
-AC_TRY_COMPILE([#ifdef __CYGWIN32__
+AC_TRY_COMPILE([#ifdef __CYGWIN__
 #error
 #endif],[],,gnuwin32=yes)
   if test $gnuwin32 = yes; then
