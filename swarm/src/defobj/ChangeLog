@@ -1,3 +1,7 @@
+2001-11-12  Marcus G. Daniels  <mgd@condor>
+
+	* Makefile.am: Depend on install-defobjHEADERS.
+
 2001-11-06  Marcus G. Daniels  <mgd@condor>
 
 	* java.m (swarm_directory_java_associate_objects): Don't register 
