@@ -1,7 +1,7 @@
-<!entity % config.entities system "config.ent">
+<!entity % config.entities system "@srcdir@/config.ent">
 %config.entities;
 
-<!entity % tech.entities system "tech/tech.ent">
+<!entity % tech.entities system "@srcdir@/tech/tech.ent">
 %tech.entities;
 
 <!entity % defobj.entities system "defobj/defobj.ent">
@@ -34,15 +34,15 @@
 <!entity % space.entities system "space/space.ent">
 %space.entities;
 
-<!entity refmeta.sgml system "refmeta.sgml">
-<!entity refcont.sgml system "refcont.sgml">
-<!entity ref00.sgml system "ref00.sgml">
-<!entity ref00a.sgml system "ref00a.sgml">
-<!entity refindex.sgml system "refindex.sgml">
-<!entity grid-app.sgml system "grid-app.sgml">
-<!entity gridexamples.sgml system "grid/gridexamples.sgml">
-<!entity probes-app.sgml system "probes-app.sgml">
-<!entity conventions-app.sgml system "conventions-app.sgml">
-<!entity lgpl-app.sgml system "lgpl-app.sgml">
-<!entity gpl-app.sgml system "gpl-app.sgml">
+<!entity refmeta.sgml system "@srcdir@/refmeta.sgml">
+<!entity refcont.sgml system "@srcdir@/refcont.sgml">
+<!entity ref00.sgml system "@srcdir@/ref00.sgml">
+<!entity ref00a.sgml system "@srcdir@/ref00a.sgml">
+<!entity refindex.sgml system "@srcdir@/refindex.sgml">
+<!entity grid-app.sgml system "@srcdir@/grid-app.sgml">
+<!entity gridexamples.sgml system "@srcdir@/grid/gridexamples.sgml">
+<!entity probes-app.sgml system "@srcdir@/probes-app.sgml">
+<!entity conventions-app.sgml system "@srcdir@/conventions-app.sgml">
+<!entity lgpl-app.sgml system "@srcdir@/lgpl-app.sgml">
+<!entity gpl-app.sgml system "@srcdir@/gpl-app.sgml">
 
