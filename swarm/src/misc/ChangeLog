@@ -1,6 +1,7 @@
 1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* misc.h: Use static inlines for ctype-like macros.
+	* misc.h: Include objc/objc.h.
+	Use static inlines for ctype-like macros.
 
 1999-08-25    <mgd@HELEN>
 
