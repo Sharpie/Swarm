@@ -1,5 +1,8 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FCall.m ([FCall_c -getRetVal:buf:]): Force BUGGY_BUILTIN_APPLY
+	on i386 when < gcc-2.95.
+
 	* Arguments.[hm], defobj.h (Arguments): Add
 	inhibitExecutableSearchFlag, setter, and create argument.
 

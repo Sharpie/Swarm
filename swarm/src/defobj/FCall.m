@@ -484,6 +484,10 @@ PHASE(Using)
 
   *buf = *res;
 
+#if defined(__i386__) && (__GNUC__ == 2) && (__GNUC_MINOR__ < 95)
+#define BUGGY_BUILTIN_APPLY
+#endif
+
 #ifndef BUGGY_BUILTIN_APPLY
   {
     char return_schar (void) { return buf->schar; }
