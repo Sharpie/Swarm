@@ -976,6 +976,7 @@ extern void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
 CREATING
 - setParent: parent;
 - setName: (const char *)name;
+- setType: compoundType count: (unsigned)count;
 - createEnd;
 USING
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;

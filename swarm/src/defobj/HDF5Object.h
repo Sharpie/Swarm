@@ -17,6 +17,7 @@
 @interface HDF5CompoundType_c: CreateDrop_s
 {
   Class class;
+@public
   hid_t tid;
 }
 - setSourceClass: (Class)class;
@@ -29,9 +30,15 @@
   hid_t loc_id;
   id parent;
   const char *name;
+
+  id <HDF5CompoundType> c_type;
+  unsigned c_count;
+  hid_t c_sid;
+  hid_t c_did;
 }
 - setParent: parent;
 - setName: (const char *)name;
+- setType: compoundType count: (unsigned)count;
 - createEnd;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - (void)drop;

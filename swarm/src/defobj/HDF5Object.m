@@ -15,7 +15,7 @@
 
 #define REF2STRING_CONV "ref->string"
 
-static BOOL typeConvertersInstalled = NO;
+static unsigned hdf5InstanceCount = 0;
 
 static hid_t
 hdf5_tid_for_objc_type (const char *type)
@@ -109,6 +109,14 @@ PHASE(Creating)
   return self;
 }
 
+- setType: theCompoundType count: (unsigned)theRecordCount
+{
+  c_type = theCompoundType;
+  c_count = theRecordCount;
+
+  return self;
+}
+
 static herr_t
 ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
             size_t count, void *buf, void *bkg)
@@ -142,18 +150,34 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                                H5P_DEFAULT, H5P_DEFAULT))  < 0)
         raiseEvent (SaveError, "Failed to create HDF5 file `%s'", name);
     }
+  else if (c_type)
+    {
+      hsize_t dims[1];
+
+      dims[0] = c_count;
+      if ((c_sid = H5Screate_simple (1, dims, NULL)) < 0)
+        raiseEvent (SaveError, "unable to create (compound) space");
+      
+      loc_id = 0;
+      if ((c_did = H5Dcreate (((HDF5_c *) parent)->loc_id,
+                              name,
+                              ((HDF5CompoundType_c *) c_type)->tid,
+                              c_sid,
+                              H5P_DEFAULT)) < 0)
+        raiseEvent (SaveError, "unable to create (compound) dataset");
+    }
   else
     {
       if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0)) < 0)
         raiseEvent (SaveError, "Failed to create HDF5 group `%s'", name);
     }
-  if (!typeConvertersInstalled)
+  if (hdf5InstanceCount == 0)
     {
       if (H5Tregister_soft (REF2STRING_CONV,
                             H5T_REFERENCE,
                             H5T_STRING, ref_string) == -1)
         raiseEvent (SaveError, "unable to register ref->string converter");
-      typeConvertersInstalled = YES;
+      hdf5InstanceCount++;
     }
       
   return self;
@@ -182,8 +206,10 @@ PHASE(Using)
                             tid, sid, H5P_DEFAULT)) < 0)
         raiseEvent (SaveError, "unable to store %s as char", datasetName);
       
+
       if (H5Dwrite (did, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
         raiseEvent (SaveError, "unable to write %s as char", datasetName);
+
       if (H5Dclose (did) < 0)
         raiseEvent (SaveError, "unable to close dataset %s", datasetName);
       if (H5Sclose (sid) < 0)
@@ -237,7 +263,6 @@ PHASE(Using)
               store (sid, tid, tid);
             }
         }
-      
       process_array (type,
                      hdf5_setup_array,
                      NULL, NULL,
@@ -264,14 +289,25 @@ PHASE(Using)
       if (H5Fclose (loc_id) < 0)
         raiseEvent (SaveError, "Failed to close HDF5 file");
     }
+  else if (c_type)
+    {
+      if (H5Sclose (c_sid) < 0)
+        raiseEvent (SaveError, "Failed to close (compound) space");
+      if (H5Dclose (c_did) < 0)
+        raiseEvent (SaveError, "Failed to close (compound) dataset");
+    }
   else
+
     {
       if (H5Gclose (loc_id) < 0)
         raiseEvent (SaveError, "Failed to close HDF5 group");
     }
-  if (typeConvertersInstalled)
-    if (H5Tunregister (ref_string) == -1)
-      raiseEvent (SaveError, "unable to unregister ref->string converter");
+  hdf5InstanceCount--;
+  if (hdf5InstanceCount == 0)
+    {
+      if (H5Tunregister (ref_string) == -1)
+        raiseEvent (SaveError, "unable to unregister ref->string converter");
+    }
   [super drop];
 
 }  

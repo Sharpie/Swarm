@@ -1,6 +1,11 @@
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* HDF5Object.[hm], defobj.h (HDF5CompoundType): New type.
+	* HDF5Object.m ([HDF -createEnd]): Handle compound type case.
+	(hdf5InstanceCount): Use this to register and unregister 
+	type converters in -createEnd and -drop.
+
+	* HDF5Object.[hm], defobj.h ([HDF -setType:count:]): New method.
+	(HDF5CompoundType): New type.
 
 	* defobj.m (_defobj_implement): Call setTypeImplemented for HDF5
 	and HDF5CompoundType.
