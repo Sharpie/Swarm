@@ -1,0 +1,155 @@
+<SECT1 id="SWARM.USER.USER2.06.SECT1">
+  <TITLE>Building schedules</TITLE>
+
+<SECT2>
+ <TITLE>Step III: Building schedules </TITLE> 
+
+
+
+
+<H2>-buildActions {
+</TITLE><PARA>
+<BR></UL><UL>
+<H2>
+</TITLE><PARA>
+</UL><UL>
+<H2>modelSchedule=[Schedule createBegin: self];
+</TITLE><PARA>
+</UL><UL>
+<H2>[modelSchedule setRepeatInterval: 1];
+</TITLE><PARA>
+</UL><UL>
+<H2>modelSchedule = [modelSchedule createEnd];
+</TITLE><PARA>
+</UL><UL>
+<H2>
+</TITLE><PARA>
+</UL><UL>
+<H2>[modelSchedule at: 0 
+</TITLE><PARA>
+</UL><UL>
+<H2>   createActionTo: aBug  
+</TITLE><PARA>
+</UL><UL>
+<H2>          message: M(step)];
+</TITLE><PARA>
+</UL><UL>
+<H2>return self;
+</TITLE><PARA>
+</UL><UL>
+<H2>}</TITLE><PARA>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Schedules</TITLE> 
+
+
+
+
+Schedules define event in terms of:
+<UL>
+Time of first invocation
+Target object
+Method to call
+Repeat interval </UL></UL></P>
+t=1<BR></UL></P>
+t=2<BR></UL></P>
+t=3<BR></UL></P>
+[bug eat]<BR></UL></P>
+[bug eat]<BR></UL></P>
+
+<BR></UL></P>
+[schedule at:      t 
+<BR></UL><UL>
+createActionTo: agent
+</UL><UL>
+message:            M(method)]</UL></P>
+1<BR></UL></P>
+2<BR></UL></P>
+3<BR></UL></P>
+2<BR></UL></P>
+1<BR></UL></P>
+4<BR></UL></P>
+3<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>ActivityGroups</TITLE> 
+
+
+
+
+ActivityGroups group together events at same timestep
+</PARA></FORMALPARA>
+Schedule then ôexecutesö group</UL></P>
+t=1<BR></UL></P>
+t=2<BR></UL></P>
+t=3<BR></UL></P>
+[bug eat]<BR></UL></P>
+[bug eat]<BR></UL></P>
+[bug sleep]<BR></UL></P>
+[food grow]<BR></UL></P>
+
+<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Implementation</TITLE> 
+
+
+
+
+schedule1=[Schedule createBegin: [self getZone]];
+<BR></UL><UL>
+[schedule1 setRepeatInterval: 2];
+</UL><UL>
+schedule1=[schedule1 createEnd];
+</UL><UL>
+[schedule1 at: 1 createActionTo: bug message: M(eat)];
+</UL><UL>
+
+</UL><UL>
+actionGroup=[ActionGroup createBegin: [self getZone]];
+</UL><UL>
+[actionGroup createEnd];
+</UL><UL>
+[actionGroup createActionTo: bug message: M(sleep)];
+</UL><UL>
+[actionGroup createActionTo: food message: M(grow)];
+</UL><UL>
+schedule2=[Schedule createBegin: [self getZone]];
+</UL><UL>
+schedule2=[schedule2 createEnd];
+</UL><UL>
+[schedule2 at: 2 createAction: actionGroup];
+</UL></P>
+t=1<BR></UL></P>
+t=2<BR></UL></P>
+t=3<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,82 @@
+<!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+
+  <!ENTITY usermeta.sgml system "usermeta.sgml">
+  <!ENTITY user1.01.sgml system "user1.01.sgml">
+  <!ENTITY user1.02.sgml system "user1.02.sgml">
+  <!ENTITY user1.03.sgml system "user1.03.sgml">
+  <!ENTITY user1.04.sgml system "user1.04.sgml">
+  <!ENTITY user1.05.sgml system "user1.05.sgml">
+  <!ENTITY user2.01.sgml system "user2.01.sgml">
+  <!ENTITY user2.02.sgml system "user2.02.sgml">
+  <!ENTITY user2.03.sgml system "user2.03.sgml">
+  <!ENTITY user2.04.sgml system "user2.04.sgml">
+  <!ENTITY user2.05.sgml system "user2.05.sgml">
+  <!ENTITY user2.06.sgml system "user2.06.sgml">
+  <!ENTITY user2.07.sgml system "user2.07.sgml">
+  <!ENTITY user2.08.sgml system "user2.08.sgml">
+  <!ENTITY user2.09.sgml system "user2.09.sgml">
+  <!ENTITY user2.10.sgml system "user2.10.sgml">
+  <!ENTITY user2.11.sgml system "user2.11.sgml">
+  <!ENTITY user3.01.sgml system "user3.01.sgml">
+  <!ENTITY user3.02.sgml system "user3.02.sgml">
+  <!ENTITY user3.03.sgml system "user3.03.sgml">
+  <!ENTITY user3.04.sgml system "user3.04.sgml">
+  <!ENTITY user3.05.sgml system "user3.05.sgml">
+  <!ENTITY user3.06.sgml system "user3.06.sgml">
+  <!ENTITY user3.07.sgml system "user3.07.sgml">
+]>
+
+<BOOK ID="userguide">
+
+  &usermeta.sgml;
+
+<TITLE>Swarm User Guide</TITLE>
+
+<CHAPTER ID="SWARM.USER.USER1.CHAPTER">
+
+<TITLE>Basic Concepts</TITLE>
+
+
+  &user1.01.sgml;
+  &user1.02.sgml;
+  &user1.03.sgml;
+  &user1.04.sgml;
+  &user1.05.sgml;
+
+</CHAPTER>
+
+<CHAPTER ID="SWARM.USER.USER2.CHAPTER">
+
+<TITLE>Simplebug: a worked example</TITLE>
+
+
+  &user2.01.sgml;
+  &user2.02.sgml;
+  &user2.03.sgml;
+  &user2.04.sgml;
+  &user2.05.sgml;
+  &user2.06.sgml;
+  &user2.07.sgml;
+  &user2.08.sgml;
+  &user2.09.sgml;
+  &user2.10.sgml;
+  &user2.11.sgml;
+
+</CHAPTER>
+
+<CHAPTER ID="SWARM.USER.USER3.CHAPTER">
+
+<TITLE>Swarm Libraries</TITLE>
+
+
+  &user3.01.sgml;
+  &user3.02.sgml;
+  &user3.03.sgml;
+  &user3.04.sgml;
+  &user3.05.sgml;
+  &user3.06.sgml;
+  &user3.07.sgml;
+
+</CHAPTER>
+
+</BOOK>

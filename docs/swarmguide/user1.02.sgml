@@ -1,0 +1,117 @@
+<sect1 id="swarm.user.user1.02.sect1">
+  <title>Programming and simulation</title>
+
+<sect2>
+ <title>Object Oriented Programming</title> 
+
+    <itemizedlist>
+
+      <listitem>
+      Variables</listitem>
+      <listitem>
+      Methods</listitem>
+      <listitem>
+      State</listitem>
+      <listitem>
+      Behavior</listitem>
+      <listitem>
+      An object</listitem>
+      <listitem>
+      A program</listitem>
+      <listitem>
+      Message</listitem>
+    </itemizedlist>
+
+</sect2>
+
+<sect2>
+ <title>Interface vs. implementation</title> 
+
+    <para>User only has to be familiar with the interface of an object, not it's 
+      implementation</para>
+
+    <para>Objects hide their functions and data</para>
+</sect2>
+
+<sect2>
+ <title>The three principles of OOP</title> 
+
+    <formalpara><title>Encapsulation</title><para>
+        Objects hide their functions (methods) and data (instance variables and 
+        method variables).</para>
+    </formalpara>
+    
+    <formalpara><title>Inheritance</title>
+      <para>Each subclass inherits all variables of it's superclass</para>
+    </formalpara>
+    
+    <para>Super class</para>
+    <para>Sub classes</para>
+    
+    <formalpara><title>Polymorphism</title>
+      <para>Multiple instances of same class, sharing behavior but not state or 
+        memory</para>
+    </formalpara>
+    </para></formalpara> 
+
+</sect2>
+
+<sect2>
+ <title>Discrete event simulation</title> 
+
+    <formalpara><title>Simulation proceeds in discrete time steps</title>
+      <para></para></formalpara>
+
+    <formalpara><title>Interaction between agents or procedures within 
+        simulation may have own event schedule</title>
+      <para></para></formalpara> 
+
+</sect2>
+
+<sect2>
+    <title>Simulation in procedural language</title> 
+
+    <procedure>
+      <title>Procedural language pseudo-code</title>
+
+      <step>
+        <command>get parameters</command>
+      </step>
+      <step>
+        <command>initialize</command>
+      </step>
+
+      <step>
+        <command>for 1 to timesteps do:</command>
+        <substeps>
+          <step>
+            <command>for 1 to num_agents do:</command>
+            <substeps>
+              <step>
+                <command>agent-i-do-something</command>
+              </step>
+            </substeps>
+          </step>
+          <step>
+            <command>show state</command>
+          </step>
+        </substeps>
+      </step>
+      <step>
+        <command>quit</command>
+      </step>
+    </procedure>
+
+    <para>
+      Here must provide data structure to save agent's state and implement behavior
+      Generally set's up data structures and support for output.
+      Implementation of output often left to the programmer
+    </para>
+
+</sect2>
+</sect1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

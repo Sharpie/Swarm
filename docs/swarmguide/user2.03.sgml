@@ -1,0 +1,146 @@
+<SECT1 id="SWARM.USER.USER2.03.SECT1">
+  <TITLE>Object-oriented basics</TITLE>
+
+<SECT2>
+ <TITLE>Typical create phase</TITLE> 
+
+
+
+
+aBug = [Bug createBegin: globalZone];<BR></UL></P>
+aBug = [aBug createEnd];<BR></UL></P>
+<H2>[aBug setWorldSizeX: xsize Y: ysize];
+</TITLE><PARA>
+<BR></UL><UL>
+<H2>[aBug setFoodSpace: foodSpace];
+</TITLE><PARA>
+</UL><UL>
+<H2>[aBug setX: xPos Y: yPos];</TITLE><PARA>
+Allocate memory etc.<BR></UL></P>
+Set all necessary parameters<BR></UL></P>
+Finish initialization
+<BR></UL><UL>
+and return proper
+</UL><UL>
+instance of object</UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Bug in ObjC II: The FoodSpace</TITLE> 
+
+
+
+
+Here create a world for the bug to roam around in
+</PARA></FORMALPARA>
+The world is defined in FoodSpace, a subclass of Discrete2d
+</PARA></FORMALPARA>
+Discrete2d manages a lattice of integer values </UL></P>
+By passing the Bug a pointer 
+<BR></UL><UL>
+to FoodSpace it can ôtalkö to 
+</UL><UL>
+(i.e. forage in) the other object</UL></P>
+main<BR></UL></P>
+Bug<BR></UL></P>
+FoodSpace<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>The FoodSpace class</TITLE> 
+
+
+
+
+By subclassing from Discrete2d FoodSpace inherits several Ivars and about 16 methods to store and retrieve values in 2d space
+</PARA></FORMALPARA>
+The only addition is a method to fill space with ôfoodö
+</UL></P>
+-<BR></UL></P>
+-seedFoodWithProb:(float)seedProb 
+<BR></UL><UL>
+{
+</UL><UL>
+ int x,y;
+</UL><UL>
+
+</UL><UL>
+ for (y = 0; y &#060 ysize; y++) 
+</UL><UL>
+   for (x = 0; x &#060 xsize; x++) 
+</UL><UL>
+     if ([uniformDblRand 
+</UL><UL>
+          getDoubleWithMin: 0.0 
+</UL><UL>
+          withMax: 1.0]&#060=seedProb)
+</UL><UL>
+       [self putValue: 1 
+</UL><UL>
+                  atX: x 
+</UL><UL>
+                    Y: y];
+</UL><UL>
+
+</UL><UL>
+ return self;
+</UL><UL>
+
+</UL><UL>
+}
+</UL></P>
+Inherited method<BR></UL></P>
+Inherited variables<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>The power of inheritance</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Defobj
+</TITLE><PARA>
+<UL>
+Root class of Swarm. Memory management, create, drop etc.
+</UL></UL><UL>
+<FORMALPARA><TITLE>SwarmObject
+</TITLE><PARA>
+<UL>
+Adds support for probes
+</UL></UL><UL>
+<FORMALPARA><TITLE>Discrete2d
+</TITLE><PARA>
+<UL>
+2d lattice management</UL></UL></P>
+Defobj<BR></UL></P>
+SwarmObject<BR></UL></P>
+Discrete2d<BR></UL></P>
+FoodSpace<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

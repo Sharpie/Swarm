@@ -1,0 +1,230 @@
+<SECT1 id="SWARM.USER.USER3.04.SECT1">
+  <TITLE>Random Library</TITLE>
+
+<SECT2>
+ <TITLE>Major Random classes</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>The Random library can be divided into
+</TITLE><PARA>
+<UL>
+Generators
+Distributions
+</UL></UL><UL>
+<FORMALPARA><TITLE>Calling initSwarm in main creates a default generator and distributions</TITLE><PARA>
+Generators<BR></UL></P>
+...<BR></UL></P>
+Distributions<BR></UL></P>
+...<BR></UL></P>
+Defobj<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Principle of using Random lib</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>To draw random numbers from a distribution you∆ll need
+</TITLE><PARA>
+<UL>
+a generator instance
+<UL>
+Must provide random seed - an integer number which primes the generator
+</UL>a distribution instance</UL></UL></P>
+Generator<BR></UL></P>
+Distribution<BR></UL></P>
+a seed<BR></UL></P>
+random sequence of numbers<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Default distributions</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>When calling initSwarm in main, three default distributions are generated, fed by a default generator
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>You can∆t control this generator∆s seed, but can give command line arg:
+</TITLE><PARA>
+<UL>
+varySeed: New seed every time
+<BR>Otherwise always same</UL></UL></P>
+MT19937
+<BR></UL><UL>
+Generator</UL></P>
+Uniform
+<BR></UL><UL>
+Integer</UL></P>
+Uniform
+<BR></UL><UL>
+Unsigned
+</UL><UL>
+Integer</UL></P>
+Uniform
+<BR></UL><UL>
+Double</UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Using the default distributions</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Default distributions are global 
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>Can call any distribution from any agent 
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>Could feed own distribution from generator
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>For a double in interval [minVal,maxVal]:
+</TITLE><PARA>
+</UL><UL>
+<H2>	[uniformDblRand getDoubleWithMin: minVal   				         withMax: maxVal];
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>For an integer in interval [minVal,maxVal]:
+</TITLE><PARA>
+</UL><UL>
+<H2>  [uniformIntegerRand getDoubleWithMin: minVal   				       withMax:maxVal];</TITLE><PARA>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>The Random Number Generators</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Computers can∆t create real random numbers
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>These generators represent a large number of studies of pseudo RN generation
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>Rule of thumb: Choose well tested generator which has a long period</TITLE><PARA>
+<H2>ACG
+</TITLE><PARA>
+<BR></UL><UL>
+<H2>C2LCGX
+</TITLE><PARA>
+</UL><UL>
+<H2>C2MRG3
+</TITLE><PARA>
+</UL><UL>
+<H2>C2TAUS
+</TITLE><PARA>
+</UL><UL>
+<H2>C3MWC
+</TITLE><PARA>
+</UL><UL>
+<H2>C4LCGX
+</TITLE><PARA>
+</UL><UL>
+<H2>LCG
+</TITLE><PARA>
+</UL><UL>
+<H2>MRG</TITLE><PARA>
+MT19937
+<BR></UL><UL>
+MWCA
+</UL><UL>
+MWCB
+</UL><UL>
+PMMLCG
+</UL><UL>
+PSWB
+</UL><UL>
+RWC2
+</UL><UL>
+RWC8
+</UL><UL>
+SCG
+</UL><UL>
+SWB
+</UL><UL>
+TGFSR
+</UL></P>
+Generators in Swarm libs:<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>The distributions</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>All need setGenerator
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>...and parameters:
+</TITLE><PARA>
+<UL>
+For Bernoulli 
+<UL>
+setProbability: p
+</UL>For Exponential
+<UL>
+setMean
+</UL>ForNormal/LogNormal
+<UL>
+setVariance, setMean
+</UL>For Gamma
+<UL>
+setAlpha, setBeta</UL></UL></UL></P>
+<FORMALPARA><TITLE>Distributions
+</TITLE><PARA>
+<UL>
+BernoulliDist
+<BR><BR>ExponentialDist
+<BR>GammaDist
+<BR>LogNormalDist
+<BR>NormalDist
+<BR>RandomBitDist
+<BR>UniformDoubleDist
+<BR>UniformIntegerDist
+<BR>UniformUnsignedDist</UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

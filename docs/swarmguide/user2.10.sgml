@@ -1,0 +1,83 @@
+<SECT1 id="SWARM.USER.USER2.10.SECT1">
+  <TITLE>Swarm and probes</TITLE>
+
+<SECT2>
+ <TITLE>Bug with Observer II: Add probes</TITLE> 
+
+
+
+
+Model
+<BR></UL><UL>
+Swarm</UL></P>
+bugList<BR></UL></P>
+Observer
+<BR></UL><UL>
+Swarm</UL></P>
+Probe<BR></UL></P>
+Probe<BR></UL></P>
+main<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Creating ModelSwarmÆs probe</TITLE> 
+
+
+
+
+<H2>probeMap = [EmptyProbeMap createBegin: self];
+</TITLE><PARA>
+<BR></UL><UL>
+<H2>[probeMap setProbedClass: [self class]];
+</TITLE><PARA>
+</UL><UL>
+<H2>probeMap = [probeMap createEnd];
+</TITLE><PARA>
+</UL><UL>
+<H2> 
+</TITLE><PARA>
+</UL><UL>
+<H2> [probeMap addProbe: [probeLibrary
+</TITLE><PARA>
+</UL><UL>
+<H2>getProbeForVariable: "worldXSizeö 
+</TITLE><PARA>
+</UL><UL>
+<H2>            inClass: [self class]]];
+</TITLE><PARA>
+</UL><UL>
+<H2> 
+</TITLE><PARA>
+</UL><UL>
+<H2>[probeLibrary setProbeMap: probeMap 
+</TITLE><PARA>
+</UL><UL>
+<H2>                      For: [self class]];
+</TITLE><PARA>
+</UL><UL>
+<H2>(also must execute CREATE_PROBE_DISPLAY macro
+</TITLE><PARA>
+</UL><UL>
+<H2> in ObserverSwarm)
+</TITLE><PARA>
+1<BR></UL></P>
+2<BR></UL></P>
+3<BR></UL></P>
+4<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

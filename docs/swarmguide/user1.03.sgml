@@ -1,0 +1,101 @@
+<sect1 id="swarm.user.user1.03.sect1">
+  <title>The notion of a Swarm</title>
+
+<sect2>
+ <title>The (Swarm) OOP way</title> 
+
+    <para>Each agent saves his own behavior and state and acts when called upon by 
+      scheduler or other agents.
+    </para>
+    <para>The event loop is now embedded in an object that sends messages to agents 
+      and objects</para>
+</sect2>
+
+<sect2>
+ <title>The Swarms</title> 
+
+    <formalpara><title>A Swarm is an object that implements</title>
+      <para>
+        <itemizedlist>
+          <listitem>memory allocation</listitem>            
+          <listitem>management of scheduling mechanism</listitem>
+        </itemizedlist>
+      </para>
+    </formalpara>
+
+    <formalpara><title>A basic Swarm simulation consists of</title>
+      <para>
+        <itemizedlist>
+          <listitem>Observer Swarm</listitem>
+          <listitem>Model Swarm</listitem>
+          <listitem>Agents</listitem>
+          <listitem>Inanimate objects</listitem>
+          <listitem>Widgets</listitem>
+          <listitem>Probes</listitem>
+          <listitem>Observer</listitem>
+          <listitem>Model</listitem>
+        </itemizedlist>
+    </para></formalpara> 
+
+</sect2>
+
+<sect2>
+ <title>The recursive structure of Swarms</title> 
+
+    <itemizedlist>
+      <listitem>Swarm </listitem>
+      <listitem>Sub-Swarm    </listitem>
+      <listitem>Agent        </listitem>
+      <listitem>Schedule     </listitem>
+      <listitem>The Interface</listitem>
+      <listitem>The Model    </listitem>
+      <listitem>Probes       </listitem>
+      <listitem>Sub-sub-Swarm</listitem>
+    </itemizedlist>
+
+</sect2>
+
+<sect2>
+ <title>A Swarm as a virtual computer</title> 
+
+    <para> Operating System
+      Swarm kernel
+      GUI
+      Model
+    </para>
+
+<formalpara><title>A computer's CPU executes program instructions</title>
+              <para></para></formalpara>
+
+    <formalpara><title>Swarm kernel is sort of virtual CPU 
+        running model and GUI events</title><para>
+      </para></formalpara>
+
+    <formalpara><title>Nested Swarms merge schedules into one</title><para>
+        CPU</para></formalpara>
+
+</sect2>
+
+<sect2>
+ <title>The Activity framework</title> 
+
+
+    <formalpara><title>Provides abstractions that allow programmer to treat event scheduling in the artificial world as objects, separate from elements of model
+</title><para></para>
+    </formalpara>
+
+    <formalpara><title>Provide some useful shorthands to group actions and sort according to the desired order of events
+</title>
+      <para></para>
+    </formalpara>
+
+    <formalpara><title>Since schedules are objects, all agents in simulation can communicate with them, to schedule future events or cause actions to be dropped based on specified contingencies</title><para>
+</para></formalpara> 
+
+</sect2>
+</sect1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,61 @@
+<SECT1 id="SWARM.USER.USER2.11.SECT1">
+  <TITLE>Advanced miscellanea</TITLE>
+
+<SECT2>
+ <TITLE>Final frontier: Experiment Bug</TITLE> 
+
+
+
+
+main<BR></UL></P>
+Observer
+<BR></UL><UL>
+Swarm</UL></P>
+Model<BR></UL></P>
+Experiment
+<BR></UL><UL>
+Swarm</UL></P>
+Probe<BR></UL></P>
+Graph<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Creating a graph</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>EZGraph class sets up line graph for either
+</TITLE><PARA>
+<UL>
+Single agent or object
+Collection of agents 
+</UL></UL><UL>
+<FORMALPARA><TITLE>In both cases need
+</TITLE><PARA>
+<UL>
+Name of sequence
+Type of sequence (Count, Total, Average, Min, Max)
+Target (obj or collection)
+Name of method to fetch data
+</UL></UL></P>
+Agent<BR></UL></P>
+Averager<BR></UL></P>
+Collection<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,283 @@
+<sect1 id="swarm.user.user1.05.sect1">
+  <title>Nuts and bolts</title>
+
+<sect2>
+ <title>Why Objective-C?</title> 
+
+    <formalpara><title>History: Created by Brad Cox, most intensively used by NeXT, 
+        now owned by Apple Computer and forms basis for Rhapsody OS</title>
+      <para></para></formalpara>
+    
+    <formalpara><title>Main difference between C++ and Objective-C: </title>
+      <para>
+        <itemizedlist>
+          <listitem>Easy to learn: A simple superclass of C - no new keywords</listitem>
+          <listitem>Partially interpreted: Dynamic binding at runtime for 
+            objects and methods. Static typing optional.</listitem>
+          <listitem>No creator and destructor functions as in C++, nor overloading 
+            of functions or multiple inheritance </listitem>
+        </itemizedlist>
+      </para>
+    </formalpara> 
+
+</sect2>
+
+<sect2>
+ <title>A few Objective-C basics</title> 
+
+    <example>
+      <title>Objective C class</title>
+      <programlistingco>
+        <areaspec>
+          <area coords="1 1" id="decl">
+          <area coords="1 12" id="subclass">
+          <area coords="1 18" id="superclass">
+          <area coords="3" id="instance">
+          <area coords="6 15" id="method1">          
+          <area coords="7 15" id="method2">
+        </areaspec>
+
+<programlisting>
+@interface Bug : SwarmObject {
+  int xPos, yPos;
+  int worldXSize, worldYSize;
+  id foodSpace;
+}
+<funcsynopsis>
+  <funcprototype>
+    <funcdef><function>-set:Y:</function></funcdef>;
+    <paramdef>int<parameter>x</parameter></paramdef>
+    <paramdef>int<parameter>y</parameter></paramdef>
+  </funcprototype>
+</funcsynopsis>
+<funcsynopsis>
+  <funcprototype>
+    <funcdef><function>-step</function></funcdef>;
+  </funcprototype>
+</funcsynopsis>;
+<!-- 
+- setX: (int) x Y: (int) y;
+- step;
+-->
+@end
+
+</programlisting>
+
+        <calloutlist>
+          <callout arearefs="decl">
+            <para>Declarations of instance variables and methods</para>
+          </callout>
+          <callout arearefs="subclass">
+            <para>Sub class</para>
+          </callout>
+          <callout arearefs="superclass">
+            <para>Super class</para>
+          </callout>
+          <callout arearefs="instance">
+            <para>Instance Variables</para>
+          </callout>
+          <callout arearefs="method1">
+            <para>declares method called <function>set</function> 
+              that takes two arguments</para>
+          </callout>
+          <callout arearefs="method2">
+            <para>declares a method called <function>step</function>.</para>
+          </callout>
+
+        </calloutlist>
+      </programlistingco>
+    </example>
+
+</sect2>
+
+
+<sect2>
+ <title>More Objective-C syntax</title> 
+
+    <formalpara><title>Defining methods</title><para>
+        
+        <funcsynopsis>
+           <funcprototype>
+            <funcdef><function>-aMessage:</function></funcdef>;
+            <paramdef>type<parameter>var</parameter></paramdef>
+          </funcprototype>
+        </funcsynopsis>
+
+        <funcsynopsis>
+          <funcprototype>
+            <funcdef><function>-aMessage:</function></funcdef>;
+            <paramdef>type<parameter>v1</parameter></paramdef>
+            <paramdef>type<parameter>v2</parameter></paramdef>            
+            <paramdef>type<parameter>v3</parameter></paramdef>            
+          </funcprototype>
+        </funcsynopsis>
+
+<!--  -aMessage: (type) var -->
+<!--  -aMessage:(type)v1 with:(type)v2 and:(type) v3 -->
+
+      </para>
+
+    <formalpara><title>Calling methods</title>
+      <para>
+
+<programlisting>
+[obj aMessage: val]
+[obj aMessage: val1 with: val2 and: val3]
+[obj aMessage: val1 with: val2 and: val3]
+</programlisting>
+      
+      </para>
+    </formalpara> 
+
+</sect2>
+
+<sect2>
+ <title>The id variable type etc.</title> 
+
+    <formalpara><title>Default variable type for object in ObjC is 
+        <symbol>id</symbol></title>
+      <para></para></formalpara>
+
+    <formalpara><title>Think of this as a special variable type (which is actually a 
+        pointer to a special data structure - namely the object)</title>
+      <para></para></formalpara>
+
+    <formalpara><title>All objects can refer to themselves by</title><para>
+        <programlisting>[self ...]</programlisting>
+      </para>
+    </formalpara>
+
+    <formalpara><title>All objects can refer to superclass by</title>
+      <para>
+        <programlisting>[super ...]</programlisting>
+      </para></formalpara>
+</sect2>
+
+<sect2>
+ <title>Declaring a class</title> 
+
+    <para>The header file or interface declares</para>
+
+    <itemizedlist>
+      <listitem>Class name        </listitem>
+      <listitem>It's superclass   </listitem>
+      <listitem>Instance variables</listitem>
+      <listitem>Methods           </listitem>
+    </itemizedlist>
+
+    <programlisting>@interface  Obj:SuperClass
+{
+
+vartype Ivar1
+vartype Ivar2
+...
+vartype IvarN
+}
+
+-(vartype)aMethod
+-anotherMethod: (vartype) arg;
+
+</programlisting>
+
+</sect2>
+
+<sect2>
+ <title>Defining a class</title> 
+
+    <programlisting>
+#import "Obj.h"
+
+@implementation  Obj
+
+- (vartype)aMethod 
+{
+ (body)
+
+ return returnval;
+}
+
+- anotherMethod: (vartype)arg 
+{
+ (body)
+
+ return self;
+}
+</programlisting>
+
+    <para>
+      Based on the interface the object file contains the implementation of the class
+    </PARA>
+    <para>Methods are essentially C functions, same rules about return values 
+      and arguments, local vars etc. apply
+    </PARA>
+    <para>Method returning no value must return self</PARA>
+
+</sect2>
+
+<sect2>
+ <title>C Functions vs. ObjC methods </title> 
+
+
+<para>Objective-C method:</para>
+
+    <programlisting>
+- (type)name: (type)arg1 argName2: (type)arg2 
+{
+ (body)
+ return returnval;
+}
+</programlisting>
+
+    <para>C function:</para>
+
+    <programlisting>
+(type)name((type) arg1,(type) arg2)) 
+{
+ (body)
+ return returnval;
+}
+</programlisting>
+
+    <para>Code in body could look exactly the same in C and Objective-C</para>
+
+</sect2>
+
+<sect2>
+ <title>An example of C vs. ObjC</title> 
+
+    <programlisting>
+void rand_move(int i) {    
+
+ int tmp_loc;
+
+ do{
+ tmp_loc=get_rand_loc();
+ } while(val[tmp_loc]!=0);
+
+ val[location[i]]=0;
+ val[tmp_loc]=i;
+}
+</programlisting>
+
+    <programlisting>
+- rand_move: p 
+{
+  id loc;
+
+  do{
+   loc=[self getRandLoc];
+
+  } while([world at: loc]!=nil);
+
+ [p moveTo: loc];
+ return self;
+}
+</programlisting>
+
+</sect2>
+</sect1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,205 @@
+<SECT1 id="SWARM.USER.USER3.02.SECT1">
+  <TITLE>Collection Library</TITLE>
+
+<SECT2>
+ <TITLE>Some Collection syntax</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>getCount
+</TITLE><PARA>
+<UL>
+Gives number of members
+</UL></UL><UL>
+<FORMALPARA><TITLE>atOffset: i
+</TITLE><PARA>
+<UL>
+Retrieves member at location i
+</UL></UL><UL>
+<FORMALPARA><TITLE>atOffset:i put: obj
+</TITLE><PARA>
+<UL>
+Inserts obj at location i
+</UL></UL><UL>
+<FORMALPARA><TITLE>addFirst: o addLast: o
+</TITLE><PARA>
+<UL>
+Adds o at start/end of list
+</UL></UL><UL>
+<FORMALPARA><TITLE>getFirst,getLast
+</TITLE><PARA>
+<UL>
+Returns first/last member</UL></UL></P>
+<FORMALPARA><TITLE>contains: o
+</TITLE><PARA>
+<UL>
+Returns 1 if o is member
+</UL></UL><UL>
+<FORMALPARA><TITLE>remove: o
+</TITLE><PARA>
+<UL>
+Removes object o
+</UL></UL><UL>
+<FORMALPARA><TITLE>removeAll
+</TITLE><PARA>
+<UL>
+Removes all
+</UL></UL><UL>
+<FORMALPARA><TITLE>forEach:M(message)
+</TITLE><PARA>
+<UL>
+Sends message to all members
+</UL></UL><UL>
+<FORMALPARA><TITLE>removeFirst/Last
+</TITLE><PARA>
+<UL>
+removes and returns first/last member</UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Accessing Collections with Index</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Any collection can generate an index of itself
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>The index behaves as an object, and understands messages such as:
+</TITLE><PARA>
+<UL>
+prev,next
+findNext: o,findPrev: o</UL></UL></P>
+<FORMALPARA><TITLE>Using index to loop over all members:
+</TITLE><PARA>
+</UL><UL>
+<H2>
+</TITLE><PARA>
+</UL><UL>
+<H2>index=[list begin: zone];
+</TITLE><PARA>
+</UL><UL>
+<H2>while(o=[index next]) 
+</TITLE><PARA>
+<UL>
+value=[o getValue];
+<BR></UL></UL><UL>
+<H2>[index drop];
+</TITLE><PARA>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Typical use of List</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Typical use of a List instance is to keep track of agent population
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>At create time Model initializes each agent and puts him on agentList
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>The agentList is then accessed by Schedule, GUI objects and so on...</TITLE><PARA>
+<FORMALPARA><TITLE>Example
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>
+</TITLE><PARA>
+</UL><UL>
+<H2>for(i=0;i&#060numAgents;i++) {
+</TITLE><PARA>
+</UL><UL>
+<H2>   a=[Agent create: zone];
+</TITLE><PARA>
+</UL><UL>
+<H2>   [a setVar1: var1];
+</TITLE><PARA>
+</UL><UL>
+<H2>   [a setVar2: var2];
+</TITLE><PARA>
+<UL>
+...
+<BR></UL></UL><UL>
+<H2>   [a setVarN: varN];
+</TITLE><PARA>
+</UL><UL>
+<H2>   [agentList addLast: a];
+</TITLE><PARA>
+</UL><UL>
+<H2>}</TITLE><PARA>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>The KeyedCollection</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Use KeyedCollection if you want a List that is continously sorted
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>Can either have seperate key objects for each member (Map) or treat the members as keys (Set)
+</TITLE><PARA>
+<FORMALPARA><TITLE>Important: You must provide the key object yourself
+</TITLE><PARA>
+<UL>
+A key object knows how to respond to a 
+<BR><UL>
+compare: obj
+<BR></UL>method call. It then retrieves 
+<BR>the value in obj and responds
+<BR>with {-1,0,1} depending on
+<BR>if it is &#060, equal to, &#062 than obj </UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>RankedList: Example of Map</TITLE> 
+
+
+
+
+RankedList
+<BR></UL></P>
+Map<BR></UL></P>
+...<BR></UL></P>
+...<BR></UL></P>
+Agent<BR></UL></P>
+Agent<BR></UL></P>
+Agent<BR></UL></P>
+Key<BR></UL></P>
+Key<BR></UL></P>
+Key<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,77 @@
+<SECT1 id="SWARM.USER.USER3.01.SECT1">
+  <TITLE>Introduction to the Libraries</TITLE>
+
+<SECT2>
+ <TITLE>Swarmfest æ98</TITLE> 
+
+
+
+
+<H2>Session III: The libraries
+</TITLE><PARA>
+<BR></UL><UL>
+<H2>Benedikt Stefansson
+</TITLE><PARA>
+</UL><UL>
+<H2>&#060benedikt@ucla.edu&#062</TITLE><PARA>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Third session</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>More on Swarm libraries
+</TITLE><PARA>
+<UL>
+Collection: Lists, Arrays, Sorted lists
+Random: Random numbers
+Analysis: Graphs, Histograms and data filters
+Space: Lattice classes
+Activity: Schedules and ActivityGroups</UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>PPT Slide</TITLE> 
+
+
+
+
+The libraries<BR></UL></P>
+Note: It is actually impossible to draw the class hierarchy because some of the lib directories contain classes from different branches<BR></UL></P>
+Defobj<BR></UL></P>
+Simtools<BR></UL></P>
+Analysis<BR></UL></P>
+Collection<BR></UL></P>
+Probe<BR></UL></P>
+Swarm<BR></UL></P>
+Random<BR></UL></P>
+ObjectBase<BR></UL></P>
+Activity<BR></UL></P>
+Gui<BR></UL></P>
+Space<BR></UL></P>
+TkObjC<BR></UL></P>
+AwtObjC<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

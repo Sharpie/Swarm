@@ -1,0 +1,71 @@
+<SECT1 id="SWARM.USER.USER2.01.SECT1">
+  <TITLE>Simplebug</TITLE>
+
+<SECT2>
+ <TITLE>Second session</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Tutorial: Simplebug
+</TITLE><PARA>
+<UL>
+Start: From C to Objective-C to Swarm
+Adding GUI: Probes, raster image, graphs
+Creating and controlling full experiment run
+</UL></UL><UL>
+<FORMALPARA><TITLE>Topics covered:
+</TITLE><PARA>
+<UL>
+Managing objects
+Swarms, activity library, probes, GUI</UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Chapters in Simplebug tutorial</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>simpleCBug		Simple C code
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>simpleObjCBug		Bug is now Objective-C class
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>simpleObjCBug2		Adds FoodSpace object
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>simpleSwarmBug		Adds a ModelSwarm
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>simpleSwarmBug2		Many bugs...
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>simpleSwarmBug3		Reads parameters from file
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>simpleObserverBug	Adds ObserverSwarm & GUI
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>simpleObserverBug2	Adds more sophisticated GUI
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>simpleExperBug		Runs multiple experiments</TITLE><PARA>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,181 @@
+<sect1><title>Overview of features</title>
+
+<sect2>
+ <title>Elements of Activity library</title> 
+
+<formalpara><title>ActivityGroup</title>
+
+      <para>
+        Unordered set of "simultaneous" events 
+      </para>
+
+    <formalpara><title>Schedules</title>
+
+      <para>Ordered set of events or groups of events</para>
+    </formalpara>
+
+    <formalpara><title>SwarmActivity</title>
+      <para>
+        Underlying VM executing schedules.
+        Milk cows
+        Clean barn
+        Save whales</para>
+    </formalpara>
+
+</sect2>
+
+<sect2>
+ <title>Merging schedules in Swarms</title> 
+
+
+    <formalpara><title>The schedules of each sub Swarm are merged into the schedule of 
+        next level Swarm</title>
+      <para></para>
+    </formalpara>
+
+    <formalpara><title>Finally all schedules are merged in the top level Swarm</title>
+      <para></para></formalpara>
+
+    <formalpara><title>Allows you to treat the model as a nested 
+        hierarchy of models</title>
+      <para>
+        <itemizedlist>
+          <listitem>Agent          </listitem>
+          <listitem>Schedule       </listitem>
+          <listitem>Top level Swarm</listitem>
+          <listitem>Sub Swarm      </listitem>
+          <listitem>               </listitem>
+        </itemizedlist>
+      </para></formalpara> 
+
+</sect2>
+
+<sect2>
+ <title>Managing memory in Swarms</title> 
+
+    <formalpara><title>The allocation and deallocation of memory is a necessary 
+        feature in an OO system</title>
+      <para></para>
+    </formalpara>
+
+    <formalpara><title>Swarm provides libraries for this purpose which 
+        make the process transparent to user</title>
+      <para></para></formalpara>
+
+    <formalpara><title>Basic feature: Objects are created and dropped using a notion 
+        of memory zones</title>
+      <para></para></formalpara>
+
+    <formalpara><title>By extension of same principle can also drop entire 
+        collections or sub Swarms</title>
+      <para></para></formalpara> 
+
+</sect2>
+
+<sect2>
+ <title>The Probes</title> 
+
+    <para>All agents and objects in Swarm can be probed</PARA>
+
+    <para>Probe attaches itself to an agent, can send a message, change a variable 
+      or retrieve values by calling agent or reading variable directly</para>
+
+    <para>
+      Probe
+      var=10.2
+    </PARA>
+
+</sect2>
+
+<sect2>
+ <title>Probes and the GUI</title> 
+
+    <formalpara><title>A probe can be used to communicate with objects in real time 
+        through a graphical widget</title><para></para></formalpara>
+
+    <formalpara><title>A default probe map of agent shows all variables and 
+        functions - can also customize display</title>
+      <para>
+
+        <itemizedlist>
+          <listitem>Probe                   </listitem>
+          <listitem>Executes method         </listitem>
+          <listitem>Input value for variable</listitem>
+          <listitem>Open probe for class    </listitem>
+          <listitem>Close probe             </listitem>
+          <listitem>                        </listitem>
+        </itemizedlist>
+
+      </para></formalpara> 
+
+</sect2>
+
+<sect2>
+ <title>Probes without a GUI</title> 
+
+    <formalpara><title>Probes are also used to gather information dynamically 
+        from single agents or collection of agents</title><para></para></formalpara>
+
+    <formalpara><title>Among other features is the ability to define and execute 
+        method calls on the fly at runtime
+      <para>
+        Agents
+        A collection object
+        Object that analyzes data
+        Object that 
+        acts on data
+        Probe
+      </para></formalpara> 
+</sect2>
+
+<sect2>
+ <title>The Graphical User Interface</title> 
+
+    <formalpara><title>Objects provided to create and manage</title>
+
+<para>
+        <itemizedlist>
+          <listitem>Line graphs   </listitem>
+          <listitem>Histograms    </listitem>
+          <listitem>Raster images </listitem>
+          <listitem>Digraphs      </listitem> 
+        </itemizedlist>
+
+    <formalpara><title>Data collection, calculation and updating is provided 
+        through support objects to the GUI widgets</title><para></para></formalpara>
+
+</sect2>
+
+<sect2>
+ <title>Feeding data to the GUI widgets</title> 
+
+    <para>
+      <literallayout>      
+      Averager
+      
+      for price
+      Averager
+      
+      for cost
+      Probe
+      Probe
+      Agent
+      Collection
+      Graph 
+      
+      widget
+</literallayout>    </para>
+
+    <formalpara><title>Output on graphs or other widgets relies heavily on the probes 
+        and dynamic access to agent's data</title><para></para></formalpara>
+
+    <formalpara><title>Swarm collection objects also facilitate process</title><para>
+      </para></formalpara>
+
+</sect2>
+</sect1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,65 @@
+<SECT1 id="SWARM.USER.USER2.09.SECT1">
+  <TITLE>Swarm with GUI: Observer Swarms</TITLE>
+
+<SECT2>
+ <TITLE>Bug with Observer: Adding GUI</TITLE> 
+
+
+
+
+Raster<BR></UL></P>
+main<BR></UL></P>
+Food
+<BR></UL><UL>
+Space</UL></P>
+Model
+<BR></UL><UL>
+Swarm</UL></P>
+bugList<BR></UL></P>
+Observer
+<BR></UL><UL>
+Swarm</UL></P>
+World<BR></UL></P>
+Value2dDisplay<BR></UL></P>
+Object2dDisplay<BR></UL></P>
+Colormap<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>What do these new objects do?</TITLE> 
+
+
+
+
+food<BR></UL></P>
+bugList<BR></UL></P>
+world<BR></UL></P>
+Raster<BR></UL></P>
+Holds x,y
+<BR></UL><UL>
+location of food as array of 0,1</UL></P>
+Holds x,y
+<BR></UL><UL>
+locations of bugs as array of ids</UL></P>
+Object2dDisplay<BR></UL></P>
+Value2dDisplay<BR></UL></P>
+Colormap<BR></UL></P>
+ModelSwarm<BR></UL></P>
+ObserverSwarm<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

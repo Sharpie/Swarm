@@ -1,0 +1,206 @@
+<SECT1 id="SWARM.USER.USER3.06.SECT1">
+  <TITLE>Analysis Library</TITLE>
+
+<SECT2>
+ <TITLE>Major Analysis classes</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>EZGraph
+</TITLE><PARA>
+<UL>
+Combines several objects to gather and display data on line graph
+</UL></UL><UL>
+<FORMALPARA><TITLE>EZBin
+</TITLE><PARA>
+<UL>
+Does same for histogram
+</UL></UL><UL>
+<FORMALPARA><TITLE>Averager,Entropy and EZDistribution
+</TITLE><PARA>
+<UL>
+Collect statistics from collection of objects</UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Using EZGraph</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>EZGraph is a wrapper around several objects
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>Allows creation and setup to be achieved in one fell swoop
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>After setting title and labels must add one or more sequences</TITLE><PARA>
+<FORMALPARA><TITLE>Necessary steps:
+</TITLE><PARA>
+</UL><UL>
+<H2>1) create an instance
+</TITLE><PARA>
+</UL><UL>
+<H2>2) setTitle: titleString
+</TITLE><PARA>
+</UL><UL>
+<H2>3) setAxisLabelsX: str Y: str
+</TITLE><PARA>
+</UL><UL>
+<H2>4) Add sequence(s) 
+</TITLE><PARA>
+<UL>
+With feed from object
+Or feed from collection:
+<UL>
+ 	AverageSequence TotalSequence
+<BR><BR>    MinSequence MaxSequence </UL></UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Creating an EZGraph</TITLE> 
+
+
+
+
+A sequence with feed from collection is created with
+<BR></UL><UL>
+-createASequence: aString
+</UL><UL>
+   withFeedFrom: collection
+</UL><UL>
+    andSelector: M(method)
+</UL><UL>
+where A is one of Average, Total, Min, Max or Count</UL></P>
+aString<BR></UL></P>
+The title, made with:
+<BR></UL><UL>
+-setTitle: aString</UL></P>
+The axis labels, set with
+<BR></UL><UL>
+-setAxisLabelsX: str Y: str</UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Using EZBin</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>EZBin, is also a wrapper around several objects
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>This type of graph needs to be told the number of bins for histogram and interval in which values lie
+</TITLE><PARA>
+<FORMALPARA><TITLE>Necessary steps:
+</TITLE><PARA>
+</UL><UL>
+<H2>1) create an instance
+</TITLE><PARA>
+</UL><UL>
+<H2>2) setTitle: titleString
+</TITLE><PARA>
+</UL><UL>
+<H2>3) setCollection: collection
+</TITLE><PARA>
+</UL><UL>
+<H2>4) setProbedSelector:M(method)
+</TITLE><PARA>
+</UL><UL>
+<H2>5) setBinNum: n
+</TITLE><PARA>
+</UL><UL>
+<H2>6) setUpperBound:  and setLowerBound:</TITLE><PARA>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Creating an EZBin</TITLE> 
+
+
+
+
+Data is fed into Histogram by
+<BR></UL><UL>
+-setCollection: collection
+</UL><UL>
+and
+</UL><UL>
+-setProbedSelector:M(method)</UL></P>
+The title, made with:
+<BR></UL><UL>
+-setTitle: aString</UL></P>
+The axis labels, set with
+<BR></UL><UL>
+-setAxisLabelsX: str Y: str</UL></P>
+The number of bins is determined with
+<BR></UL><UL>
+-setNumBins: num
+</UL><UL>
+and the range of values by
+</UL><UL>
+-setUpperBound: -setLowerBound:</UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Other utility objects in Analysis</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Averager
+</TITLE><PARA>
+<UL>
+Gets feed from collection and calculates:
+<UL>
+Average
+Total
+Min
+Max
+Count</UL></UL></UL></P>
+<FORMALPARA><TITLE>Entropy
+</TITLE><PARA>
+<UL>
+Gets feed from collection and calculates entropy assuming data is probabilities
+</UL></UL><UL>
+<FORMALPARA><TITLE>EZDistribution
+</TITLE><PARA>
+<UL>
+Subclass of EZBin, gives acces to underlying distribution of data</UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

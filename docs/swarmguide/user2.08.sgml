@@ -1,0 +1,128 @@
+<SECT1 id="SWARM.USER.USER2.08.SECT1">
+  <TITLE>Extending basic functionality</TITLE>
+
+<SECT2>
+ <TITLE>Bug in Swarm II: More bugs</TITLE> 
+
+
+
+
+World<BR></UL></P>
+<FORMALPARA><TITLE>To manage more than one bug add
+</TITLE><PARA>
+<UL>
+World, a Grid2d instance that enforces one bug per location
+bugList, to keep track of bugs as a collection
+</UL></UL></P>
+main<BR></UL></P>
+Food
+<BR></UL><UL>
+Space</UL></P>
+ModelSwarm<BR></UL></P>
+bugList<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Creating a population of agents</TITLE> 
+
+
+
+
+Create collection objects (Grid2d, List) to keep track of agents
+</PARA></FORMALPARA>
+In for loop create each instance & initialize
+</PARA></FORMALPARA>
+Then put each agent on list,grid</UL></P>
+  (create world) 
+<BR></UL><UL>
+  bugList=[List create: [self getZone]];
+</UL><UL>
+  for(y=0;y&#060worldYSize;y++)
+</UL><UL>
+   for(x=0;x&#060worldXSize;x++) 
+</UL><UL>
+     if([uniformDblRand .] &#060=bugDensity){
+</UL><UL>
+
+</UL><UL>
+   aBug = [Bug createBegin: self];
+</UL><UL>
+   [aBug setWorld: world 
+</UL><UL>
+             Food: foodSpace];
+</UL><UL>
+ 	[aBug setX: x Y: y]; 
+</UL><UL>
+	aBug = [aBug createEnd];
+</UL><UL>
+   
+</UL><UL>
+   
+</UL><UL>
+   
+</UL><UL>
+
+</UL><UL>
+   [world putObject: aBug atX: x Y: y];
+</UL><UL>
+   [bugList addLast: aBug];
+</UL><UL>
+  
+</UL></P>
+1<BR></UL></P>
+2<BR></UL></P>
+3<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Bug in Swarm III: Loading state</TITLE> 
+
+
+
+
+The model.setup file:
+<UL>
+@begin
+<BR><BR>worldXSize 80
+<BR>worldYSize 80
+<BR>seedProb 0.9
+<BR>bugDensity 0.01
+<BR>@end
+</UL></UL><UL>
+ObjectLoader needs
+<UL>
+target object
+name of file</UL></UL></P>
+ObjectLoader 
+<UL>
+Reads values of ivars from file
+</UL></UL><UL>
+ObjectSaver 
+<UL>
+Writes values of ivars to file
+</UL></UL><UL>
+Any instance vars not mentioned in infile unchanged</UL></P>
+Needed<BR></UL></P>
+Needed<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->

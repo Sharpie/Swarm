@@ -1,0 +1,182 @@
+<SECT1 id="SWARM.USER.USER3.05.SECT1">
+  <TITLE>Probes</TITLE>
+
+<SECT2>
+ <TITLE>Major Probe classes</TITLE> 
+
+
+
+
+Probe<BR></UL></P>
+Probe
+<BR></UL><UL>
+Map</UL></P>
+Complete
+<BR></UL><UL>
+Probe
+</UL><UL>
+Map</UL></P>
+Complete
+<BR></UL><UL>
+Var
+</UL><UL>
+Map</UL></P>
+Custom
+<BR></UL><UL>
+Probe
+</UL><UL>
+Map</UL></P>
+Message
+<BR></UL><UL>
+Probe</UL></P>
+VarProbe<BR></UL></P>
+Object
+<BR></UL><UL>
+Base</UL></P>
+Probe
+<BR></UL><UL>
+Library</UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Using probes</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Two major uses for probes
+</TITLE><PARA>
+<UL>
+To interface with an object 
+To create a GUI to an object
+</UL></UL><UL>
+<FORMALPARA><TITLE>Interface with an object of two types
+</TITLE><PARA>
+<UL>
+VarProbe: 	   Probes an instance variable
+MessageProbe:    Probes a method
+</UL></UL><UL>
+<FORMALPARA><TITLE>GUI utilities:
+</TITLE><PARA>
+<UL>
+ProbeMap: 	  Collection of Var and MessageProbes</UL></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Graphical probes to agents</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Check out instance of EmtpyProbeMap 
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>Attach VarProbe or MessageProbe to each variable or message to appear on GUI
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>Put each probe on the EmptyProbeMap
+</TITLE><PARA>
+</PARA></FORMALPARA>
+<FORMALPARA><TITLE>ProbeDisplayManager  asked to create widget
+</TITLE><PARA>
+Agent<BR></UL></P>
+VarProbes<BR></UL></P>
+MessageProbe<BR></UL></P>
+ProbeMap<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Code for previous example</TITLE> 
+
+
+
+
+<H2>probeMap=[EmptyProbeMap createBegin: aZone];
+</TITLE><PARA>
+<BR></UL><UL>
+<H2>[probeMap setProbedClass: [self class]];
+</TITLE><PARA>
+</UL><UL>
+<H2>probeMap=[probeMap createEnd];
+</TITLE><PARA>
+</UL><UL>
+<H2>  [probeMap addProbe: [probeLibrary
+</TITLE><PARA>
+</UL><UL>
+<H2> getProbeForVariable: ösomeVar"          
+</TITLE><PARA>
+</UL><UL>
+<H2>             inClass: [agent class]]];
+</TITLE><PARA>
+</UL><UL>
+<H2>				...
+</TITLE><PARA>
+</UL><UL>
+<H2>  [probeMap addProbe: [probeLibrary getProbeForMessage: ösomeMessage"                                        		 inClass: [agent class]]
+</TITLE><PARA>
+</UL><UL>
+<H2>       setHideResult: 1]];
+</TITLE><PARA>
+</UL><UL>
+<H2>[probeLibrary setProbeMap: probeMap 
+</TITLE><PARA>
+</UL><UL>
+<H2>                      For: [self class]];
+</TITLE><PARA>
+</UL><UL>
+<H2>[probeDisplayManager createProbeDisplayFor: modelSwarm];</TITLE><PARA>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+
+<SECT2>
+ <TITLE>Other uses for probes</TITLE> 
+
+
+
+
+<FORMALPARA><TITLE>Example of dynamic message calling where message is chosen at runtime: 
+</TITLE><PARA>
+<UL>
+theProbe=[MessageProbe createBegin: zone];
+<BR><BR>[theProbe setProbedSelector: theSelector];
+<BR>theProbe=[theProbe createEnd];
+<BR>
+<BR>anIndex=[aCollection begin: zone];
+<BR>while((aMember=[anIndex next])) {
+<BR>	 theData=[theProbe doubleDynamicCallOn: aMember]];
+<BR>	 [self doSomething: theData];
+<BR>}
+<BR>[anIndex drop];</UL></UL></P>
+1<BR></UL></P>
+2<BR></UL></P>
+</PARA></FORMALPARA> 
+
+
+
+
+</SECT2>
+</SECT1>
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "SECT1")
+End:
+-->
