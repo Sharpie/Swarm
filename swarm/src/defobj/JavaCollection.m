@@ -181,7 +181,8 @@ PHASE(Using)
       javaTarget = (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
       selname = SSTRDUP (sel_get_name (sel));
       ptr = strchr (selname, ':');
-      *ptr = '\0';
+      if (ptr)
+        *ptr = '\0';
       [call setJavaMethodFromName: selname inObject: javaTarget];
       call = [call createEnd];
       [call performCall];

@@ -1,5 +1,10 @@
 2001-05-08    <mgd@coyote.santafe.edu>
 
+	* JavaCollection.m ([JavaCollection forEach::]): Don't assume
+	there will be a ":" in the selector name.
+
+2001-05-08    <mgd@coyote.santafe.edu>
+
 	* java.m (java_compareDirectoryEntries): Use IsSameObject instead
 	of call to m_Equals.  Remove obsolete diagnostic.
 
