@@ -934,7 +934,7 @@ externvar id _activity_current;
 extern id _activity_context_error (const char *macroName);
 
 
-@protocol ConcurrentGroup <ActionGroup, CREATABLE>
+@protocol ConcurrentGroup <ActionGroup, RETURNABLE>
 //S: Default type used as concurrent group of a schedule.
 //D: Default type used as concurrent group of a schedule.
 USING
