@@ -1064,7 +1064,7 @@ USING
 @end
 
 typedef void *JOBJECT;
-typedef void *COMOBJECT;
+typedef const void *COMOBJECT;
 
 @protocol FArguments <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic call argument construction.
