@@ -497,7 +497,7 @@
         ((looking-at "//F:") :function-doc)
         ((looking-at "//T:") :typedef-doc)
 
-        ((looking-at "externvar\\s-\\([^(]*\\|[^()]*(\\s-*[*][^)]+)([^)]*)[^()]*\\)$")
+        ((looking-at "externvar.*")
          (check-global parse-state))
         ((looking-at "//G:") :global-doc)
         ((looking-at ".+//G:") (check-global-doc-post parse-state))
