@@ -241,8 +241,8 @@ static BOOL
 checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag, BOOL updateFlag)
 {
   id obj;
-  BOOL ret;
   id archiver;
+  BOOL ret;
 
   archiver = createArchiver (aZone, hdf5Flag, (updateFlag ? YES : NO), 
                              deepFlag);
@@ -258,19 +258,17 @@ checkArchiver (id aZone, BOOL hdf5Flag, BOOL deepFlag, BOOL updateFlag)
             createEnd];
 
   [archiver registerClient: obj];
-  [archiver save];
+  [archiver sync];
   [obj drop];
   
   [archiver drop];
-  
   archiver = createArchiver (aZone, hdf5Flag, NO, deepFlag);
   obj = [archiver getObject: OBJNAME];
-
-  [archiver drop];
-  
+  if (!obj)
+    abort ();
   ret = [obj checkObject];
   [obj drop];
-
+  [archiver drop];
   return ret;
 }
 

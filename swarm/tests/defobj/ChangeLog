@@ -1,3 +1,7 @@
+1999-12-29  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* archiver.m (checkArchiver): Call sync instead of save.
+
 1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* forwarding.m (main): Use floating point constants
