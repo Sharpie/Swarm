@@ -45,9 +45,9 @@ if test -z "$*"; then
 elif test -n "$JAVASWARMGDB"; then
   (echo "shell rm -f /tmp/.gdbinit.$$";
    echo "cd `pwd`"; echo "set args $*" ) > /tmp/.swarmgdbinit.$$
-  eval "$JAVAENV CLASSPATH=$classpath $JAVASWARMGDB -command /tmp/.swarmgdbinit.$$ $JAVACMD"
+  eval "$JAVAENV CLASSPATH='$classpath' $JAVASWARMGDB -command /tmp/.swarmgdbinit.$$ $JAVACMD"
   rm -f /tmp/.swarmgdbinit.$$
 else
-  eval "$JAVAENV CLASSPATH=$classpath $JAVACMD $*"
+  eval "$JAVAENV CLASSPATH='$classpath' $JAVACMD $*"
 fi
 
