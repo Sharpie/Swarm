@@ -14,8 +14,8 @@ main ()
   changequote([,])dnl
 }
 ],
-AC_DEFINE(POINTER_FMT_HEX_PREFIX) AC_MSG_RESULT(yes),
-AC_MSG_RESULT(no),
-AC_MSG_RESULT(guessing no)
-))
+AC_DEFINE(PTRHEXFMT, "%p") AC_MSG_RESULT(yes),
+AC_DEFINE(PTRHEXFMT, "0x%p") AC_MSG_RESULT(no),
+AC_DEFINE(PTRHEXFMT, "0x%p") AC_MSG_RESULT(guessing no)))
+
 

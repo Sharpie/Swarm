@@ -1,3 +1,7 @@
+1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acpointerfmt.m4: Set PTRHEXFMT to 0x-prefixed %p equivalent.
+
 1999-07-30    <mgd@HELEN>
 
 	* acjdk.m4: Use jre/lib/rt.jar instead of classes.zip, if available.
