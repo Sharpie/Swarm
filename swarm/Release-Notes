@@ -1,12 +1,12 @@
 		Release Notes for Swarm Version 1.0.1
 
-  1. different colored lines in EZGraph
-  2. EZBin Tcl/Tk fix
-  3. Probe notification
+  1. Added different colored lines in EZGraph
+  2. EZBin Tcl/Tk fixed
+  3. ProbeDisplay notification
   4. Tk raster refresh fix
-  5. custom probemap create method
-  6. change in default probemap behavior
-  7. removed printfs from random
+  5. Added custom probemap create method
+  6. Change in default probemap behavior
+  7. Removed printfs from random
 
 
 	      =========================================
