@@ -34,17 +34,17 @@ else
 fi
 
 if test -z "$*"; then
-  echo "@JAVALIBPATH@=\"$@JAVALIBPATH@\""
+  echo "@JAVALIBPATH_VAR@=\"$@JAVALIBPATH_VAR@\""
   echo "CLASSPATH=\"$classpath\""
-  echo "export @JAVALIBPATH@ CLASSPATH"   
+  echo "export @JAVALIBPATH_VAR@ CLASSPATH"   
 elif test -n "$JAVASWARMGDB"; then
-  export @JAVALIBPATH@ @SHLIBPATH_VAR@
+  export @JAVALIBPATH_VAR@ @SHLIBPATH_VAR@
   (echo "shell rm -f /tmp/.gdbinit.$$";
    echo "cd `pwd`"; echo "set args $*" ) > /tmp/.swarmgdbinit.$$
   eval "$JAVAENV CLASSPATH=$classpath $JAVASWARMGDB -command /tmp/.swarmgdbinit.$$ $JAVACMD"
   rm -f /tmp/.swarmgdbinit.$$
 else
-  export @JAVALIBPATH@ @SHLIBPATH_VAR@
+  export @JAVALIBPATH_VAR@ @SHLIBPATH_VAR@
   eval "$JAVAENV CLASSPATH=$classpath $JAVACMD $*"
 fi
 
