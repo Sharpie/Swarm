@@ -1,3 +1,7 @@
+1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acargp.m4: Check for argp.h.
+
 1999-06-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Quote JAVALIBS for Kaffe setting of KAFFELIBRARYPATH.
