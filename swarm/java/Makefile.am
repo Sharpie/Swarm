@@ -5,7 +5,6 @@ EXTRA_SCRIPTS = javacswarm.in javaswarm.in
 EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST) $(EXTRA_SCRIPTS)
 EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
 
-swarm_srcdir = $(top_srcdir)
  include $(top_srcdir)/etc/Makefile.protocol
 
 SUBMAKEFILES = $(foreach module,$(MODULES),swarm/$(module)/Makefile)
