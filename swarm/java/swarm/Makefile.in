@@ -27,7 +27,7 @@ define interface-protocols
 $($(module)_creatable_PROTOCOLS) $($(module)_noncreatable_PROTOCOLS)
 endef
 
-define module-create-classes
+define module-creating-classes
 $(addprefix $(module)/,$(addsuffix CImpl,$(class-protocols)))
 endef
 
@@ -36,7 +36,7 @@ $(addprefix $(module)/,$(addsuffix Impl,$(class-protocols)))
 endef
 
 define module-classes
-$(module-create-classes) $(module-using-classes)
+$(module-creating-classes) $(module-using-classes)
 endef
 
 define module-creating-interfaces
