@@ -1,3 +1,10 @@
+1999-07-05    <mgd@HELEN>
+
+	* avcall.h.in (MSVC): Set on _MSC_VER.
+	Replace use of _MSC_VER with MSVC throughout.
+
+	* Makefile.in (avcall-i386-msvc.s): Pass -DMSVC.
+
 1999-07-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (avcall-i386-msvc.[so]): New rules.

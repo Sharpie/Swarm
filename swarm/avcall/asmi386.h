@@ -180,6 +180,7 @@
 #else
 #define ALIGN(log) .align log
 #endif
+#endif
 #ifdef INTEL_SYNTAX
 #define R(r) r
 #define NUM(n) n

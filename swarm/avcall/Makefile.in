@@ -62,7 +62,7 @@ avcall-i386-msvc.o: avcall-i386-msvc.s
 	$(CC) @GCC_X_NONE@ -c avcall-i386-msvc.s
 
 avcall-i386-msvc.s: $(srcdir)/avcall-i386-msvc.c
-	$(CPP) $(ASPFLAGS) $(srcdir)/avcall-i386-msvc.c | grep -v '^ *#line' | grep -v '^#ident' | grep -v '^#' | sed -e 's,% ,%,g' > avcall-i386-msvc.s
+	$(CPP) -DMSVC $(ASPFLAGS) $(srcdir)/avcall-i386-msvc.c | grep -v '^ *#line' | grep -v '^#ident' | grep -v '^#' | sed -e 's,% ,%,g' > avcall-i386-msvc.s
 
 avcall-sparc.o : avcall-sparc.s
 	$(CC) @GCC_X_NONE@ -c avcall-sparc.s

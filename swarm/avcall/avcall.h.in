@@ -58,6 +58,10 @@
 #undef __convex__
 #endif
 
+#ifdef _MSC_VER
+#define MSVC
+#endif
+
 /* Calling convention */
 /* Define if using pcc non-reentrant struct return convention */
 #undef __PCC_STRUCT_RETURN__
@@ -191,7 +195,7 @@ enum __AV_alist_flags
 #if defined(__i386__) && defined(NeXT) && defined(__GNUC__) /* NeXT gcc-2.5.8 */
 				  __AV_NEXTGCC_STRUCT_RETURN |
 #endif
-#if defined(__i386__) && defined(_MSC_VER) /* MSVC 4.0 */
+#if defined(__i386__) && defined(MSVC) /* MSVC 4.0 */
 				  __AV_MSVC_STRUCT_RETURN |
 #endif
 #if defined(__hppa__) && defined(__GNUC__) && (__GNUC_MINOR__ < 7)
@@ -848,7 +852,7 @@ typedef struct
 #define __av_struct_copy(TYPE,TYPE_SIZE,TYPE_ALIGN,PLACE,VAL_ADDR)	\
   __structcpy(PLACE,VAL_ADDR,TYPE_SIZE,TYPE_ALIGN)
 /* Structure argument alignment. */
-#if defined(__i386__) && defined(_MSC_VER)
+#if defined(__i386__) && defined(MSVC)
 /* In MSVC, doubles inside structures have alignment 8, i.e.
  * __AV_alignof(double) = 8, but doubles (and also structures containing
  * doubles are passed on the stack with alignment 4. Looks really weird.
