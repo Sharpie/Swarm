@@ -967,10 +967,16 @@ PHASE(Creating)
   return self;
 }
 
+#if ((H5_VERS_MAJOR > 1) || (H5_VERS_MAJOR == 1 && H5_VERS_MINOR >= 4))
+#define count_size_t hsize_t
+#else
+#define count_size_t size_t
+#endif
+
 #ifdef HAVE_HDF5
 static herr_t
 ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
-            hsize_t count, size_t stride, size_t bkg_stride,
+            count_size_t count, size_t stride, size_t bkg_stride,
             void *buf, void *bkg,
             hid_t dset_xfer_plid)
 {
@@ -996,7 +1002,7 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 
 static herr_t
 string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
-            hsize_t count, size_t stride, size_t bkg_stride,
+            count_size_t count, size_t stride, size_t bkg_stride,
             void *buf, void *bkg, hid_t xfer_plid)
 {
   if (cdata->command == H5T_CONV_CONV)
@@ -1736,9 +1742,11 @@ hdf5_store_attribute (hid_t did,
       hid_t did;
       
       did = hdf5_open_dataset (self, datasetName, tid, sid);
-      if (H5Dwrite (did, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
-        raiseEvent (SaveError, "unable to write to dataset `%s'", datasetName);
-
+      
+      if (H5Dwrite (did, memtid, H5S_ALL, sid, H5P_DEFAULT, ptr) < 0)
+        raiseEvent (SaveError, "unable to write to dataset `%s'",
+                    datasetName);
+      
       if (typeName)
         hdf5_store_attribute (did, ATTRIB_TYPE_NAME, typeName);
       
