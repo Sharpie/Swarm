@@ -75,7 +75,8 @@ void *_obj_initAlloc( size_t size )
 //
 // initModules() -- initialize all modules loaded into the program
 //
-static void initModules( void )
+static void
+initModules (void)
 {
   Class  moduleSuper, class;
   void   *enumState, **modules, **module;
@@ -141,22 +142,22 @@ static void initModules( void )
 
   // bootstrap initialization for symbols
 
-  _obj_getClassData( id_CreateDrop_s  )->classID = &id_CreateDrop_s;
-  _obj_getClassData( id_Customize_s   )->classID = &id_Customize_s;
-  _obj_getClassData( id_EventType_c   )->classID = &id_EventType_c;
-  _obj_getClassData( id_Symbol_c      )->classID = &id_Symbol_c;
-  _obj_getClassData( id_Warning_c     )->classID = &id_Warning_c;
-  _obj_getClassData( id_Error_c       )->classID = &id_Error_c;
+  _obj_getClassData (id_CreateDrop_s  )->classID = &id_CreateDrop_s;
+  _obj_getClassData (id_Customize_s   )->classID = &id_Customize_s;
+  _obj_getClassData (id_EventType_c   )->classID = &id_EventType_c;
+  _obj_getClassData (id_Symbol_c      )->classID = &id_Symbol_c;
+  _obj_getClassData (id_Warning_c     )->classID = &id_Warning_c;
+  _obj_getClassData (id_Error_c       )->classID = &id_Error_c;
 
   _obj_splitPhases( id_Error_c );
 
-  Symbol  = _obj_getClassData( id_Symbol_c  )->initialPhase;
-  Warning = _obj_getClassData( id_Warning_c )->initialPhase;
-  Error   = _obj_getClassData( id_Error_c   )->initialPhase;
+  Symbol  = _obj_getClassData (id_Symbol_c  )->initialPhase;
+  Warning = _obj_getClassData (id_Warning_c )->initialPhase;
+  Error   = _obj_getClassData (id_Error_c   )->initialPhase;
 
   // initialize 
 
-  _obj_initModule( _defobj_ );
+  _obj_initModule (_defobj_);
 
   // initialize standard allocation zones
 
@@ -172,7 +173,8 @@ static void initModules( void )
 //
 // _obj_initModule() -- initialize a generated module object
 //
-void _obj_initModule (void *module)
+void
+_obj_initModule (void *module)
 {
   ProgramModule_c  *moduleObject;
   func_t           implFunction, initFunction;

@@ -242,7 +242,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *) dalloc( getClass(anObject)->instance_size );
+  newObject = (Object_s *) dalloc (getClass(anObject)->instance_size);
 
   if (_obj_debug)
     {
@@ -264,7 +264,7 @@ PHASE(Using)
 // freeIVarsComponent: --
 //   free object allocated by allocIVarsComponent: or copyIVarsComponent:
 //
-- (void) freeIVarsComponent: anObject
+- (void)freeIVarsComponent: anObject
 {
   if (_obj_debug)
     {
@@ -276,7 +276,7 @@ PHASE(Using)
                     anObject, getClass (anObject)->name);
       
       objectCount--;
-      objectTotal -= getClass(anObject)->instance_size;
+      objectTotal -= getClass (anObject)->instance_size;
       
       memset ((id *) anObject, _obj_fillfree,
               getClass (anObject)->instance_size);
@@ -337,7 +337,7 @@ PHASE(Using)
   
   if (_obj_debug && size == 0)
     raiseEvent (InvalidAllocSize, nil);
-  newBlock = dalloc( size );
+  newBlock = dalloc (size);
   if (_obj_debug)
     {
       blockCount++;
