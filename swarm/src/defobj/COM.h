@@ -16,6 +16,7 @@ struct COMInterface_ {
 };
 
 extern void initCOM (COMEnv *env);
+extern BOOL COM_init_p ();
 extern COMobject swarm_directory_objc_find_object_COM (id object);
 extern COMclass swarm_directory_objc_find_COM_class (Class clazz);
 

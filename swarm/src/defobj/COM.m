@@ -9,6 +9,12 @@ initCOM (COMEnv *env)
   comEnv = env;
 }
 
+BOOL
+COM_init_p ()
+{
+  return comEnv != 0;
+}
+
 COMobject 
 swarm_directory_objc_find_object_COM (id object)
 {
