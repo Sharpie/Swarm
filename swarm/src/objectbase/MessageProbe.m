@@ -75,6 +75,11 @@ PHASE(Creating)
   return self;
 }
 
++ create: aZone setProbedSelector: (SEL)aSel
+{
+  return [[[self createBegin: aZone] setProbedSelector: aSel] createEnd];
+}
+
 PHASE(Setting)
 - setHideResult: (BOOL)theHideResultFlag
 {
@@ -99,9 +104,9 @@ PHASE(Using)
 }
 
 static const char
-nth_type (const char *type, int which)
+nth_type (const char *type, unsigned which)
 {
-  int i;
+  unsigned i;
 
   type = skip_argspec (type);  // result 
   type = skip_argspec (type);  // object

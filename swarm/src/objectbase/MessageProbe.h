@@ -15,6 +15,7 @@
 
 - setProbedSelector: (SEL)aSel;
 - createEnd;
++ create: aZone setProbedSelector: (SEL)aSel;
 
 - (const char *)getProbedMessage;
 - (int)getArgCount;

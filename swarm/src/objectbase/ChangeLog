@@ -1,3 +1,15 @@
+1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* objectbase.h, MessageProbe.[hm] ([MessageProbe
+	+create:setProbedSelector:]): New method.
+
+	* MessageProbe.m (nth_type): Used unsigned argument and counter.
+
+1999-06-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbe.m ([MessageProbe +create:setProbedSelector:]): New
+	method.
+
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbe.m (copy_to_nth_colon): Thinko.

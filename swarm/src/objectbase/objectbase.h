@@ -288,6 +288,9 @@ CREATING
 //M: the selector. 
 - setProbedSelector: (SEL)aSel;
 
+//M: Convenience factory method for common case.
++ create: aZone setProbedSelector: (SEL)aSel;
+
 SETTING
 //M: The setHideResult: method is used to set the visibility of the
 //M: result field.  When set to 1, the user is indicating that
