@@ -1,6 +1,7 @@
-all: HTML TEX PS
-HTML: refbook.html
-TEX: refbook.tex
-PS: refbook.ps
+all: html tex dvi ps
+html: refbook.html
+tex: refbook.tex
+dvi: refbook.dvi
+ps: refbook.ps
 
 include ../Makefile.conf
