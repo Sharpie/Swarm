@@ -1,5 +1,7 @@
 1999-09-01  Alex Lancaster  <alex@santafe.edu>
 
+	* StartMousetrap.java: Reword javadoc comment more precisely.
+
 	* MousetrapModelSwarm.java: Import Grid2d interface as well as
 	Grid2dImpl implementation.
 	(grid):  Type as Grid2d interface.
