@@ -1866,15 +1866,15 @@ hdf5_store_attribute (hid_t did,
     if (class == H5T_STRING)
       memtid = make_string_ref_type ();
     else
-      memtid = tid;
+      memtid = tid_for_fcall_type (fcall_type_for_tid (tid));
+
+    if (H5Dread (loc_id, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
+      raiseEvent (LoadError, "cannot read dataset");
+    
+    if (class == H5T_STRING)
+      if (H5Tclose (memtid) < 0)
+        raiseEvent (LoadError, "cannot close dataset mem type");
   }
-
-  if (H5Dread (loc_id, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
-    raiseEvent (LoadError, "cannot read dataset");
-
-  if (memtid != tid)
-    if (H5Tclose (memtid) < 0)
-      raiseEvent (LoadError, "cannot close dataset mem type");
   
   if (H5Tclose (tid) < 0)
     raiseEvent (LoadError, "cannot close dataset type");

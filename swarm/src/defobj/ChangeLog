@@ -20,6 +20,7 @@
 	* HDF5Object.m ([HDF5_c -assignIvar:]): Use SD_JAVA_FIND_OBJECT_JAVA
 	instead of isJavaProxy check.   Use java_object_setVariable instead
 	of object_setVariable.
+	([HDF5_c -loadDataset:]): Normalize memtid.
 
 2001-03-30  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
