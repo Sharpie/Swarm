@@ -5,13 +5,14 @@
 	* Makefile.conf (FFPREFIX): Change to libffi in SFI config.
 	Rename FFILIB to FFLIB throughout.  Adjust TCL{LIB,INC}DIRs for
 	SFI install locations.
-	(OTHER{INC,LIB}DIRS): Add FF{INC,DIR}LIB for SFI, mgd-PSU-GNU/Linux,
-	and mgd-PSU-Irix5 configurations.
+	(OTHER{INC,LIB}DIRS): Add FF{INC,DIR}LIB for SFI, mgd-SFI-GNU/Linux,
+	mgd-PSU-GNU/Linux, and mgd-PSU-Irix5 configurations.
 	Remove -lffi for FFLIB in SFI-NT, alex-SFI-Solaris,
 	and mgd-SFI-Solaris configs; it will be defined later by default.
 	Add -R directive to EXTRALDFLFAGS for $(FFLIBDIR) in these configs.
-	(FFPREFIX): Set FFPREFIX for for mgd-PSU-GNU/Linux differently
-	in glibc/libc1 cases.  Use {TCL,TK}PREFIX where applicable.
+	(FFPREFIX): Set FFPREFIX for mgd-PSU-GNU/Linux differently
+	in glibc/libc1 cases, set for mgd-SFI-GNU/Linux.
+	Use {TCL,TK}PREFIX where applicable.
 	In mgd-PSU-Irix5 configuration, set FF{INC,LIB}DIR to ffcall.
 	(FFLIB): Make -libffi the default.
 	(SYSLIBS): Use XPMLIB, not XPMLIBDIR.
