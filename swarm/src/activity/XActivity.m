@@ -318,16 +318,15 @@ stopFunction (Activity_c *activity)
 //
 // stop -- stop activity and all its subactivities
 //
-- stop
+- (void)stop
 {
   if (TERMINATEDP (status))
-    return self;
+    return;
 
   if (currentSubactivity)
     [currentSubactivity stop];
   else
     breakFunction = stopFunction;
-  return self;
 }
 
 //

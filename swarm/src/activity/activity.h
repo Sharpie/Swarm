@@ -133,7 +133,7 @@ USING
 
 //M: The stop message causes the a currently running tree of activities to
 //M: stop further processing and return a Stopped status.  
-- stop;
+- (void)stop;
 
 //M: Terminate also
 //M: stops a running tree of activities, but sets all activities within the

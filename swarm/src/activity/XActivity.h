@@ -37,7 +37,7 @@ Library:      activity
 - (id <Symbol>)run;
 - (id <Symbol>)_run_;
 - (void)terminate;
-- stop;
+- (void)stop;
 - (id <Symbol>)nextAction;
 - (id <Symbol>)stepAction;
 - (id <Symbol>)getStatus;

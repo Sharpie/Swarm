@@ -1,3 +1,8 @@
+2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* XActivity.[hm], activity.h ([Activity_c -stop]): Make return
+	type void.
+
 2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Schedule.m ([ScheduleActivity_c -stepUntil:]): Change next to
