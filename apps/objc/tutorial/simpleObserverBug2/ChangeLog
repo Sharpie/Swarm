@@ -18,6 +18,9 @@
 	Reformatting throughout.
 
 	* Bug.m: Likewise.
+	([Bug -drawSelfOn:]): Make color be 2, not 3; there's no
+	colormap entry for that.  Thanks to Pietro Terna for
+	reporting this.
 
 v1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

@@ -63,7 +63,7 @@
 
 - drawSelfOn: (id <Raster>)r
 {
-  [r drawPointX: xPos Y: yPos Color: 3];
+  [r drawPointX: xPos Y: yPos Color: 2];
   return self;
 }
   
