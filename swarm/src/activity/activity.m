@@ -31,6 +31,7 @@ _activity_implement (void)
   [id_FActionForEachHeterogeneous_c setTypeImplemented: FActionForEachHeterogeneous];
   [id_FActionForEachHomogeneous_c setTypeImplemented: FActionForEachHomogeneous];
   [id_ActionChanged_c setTypeImplemented: ActionChanged];
+  [id_ActionConcurrent_c setTypeImplemented: ActionConcurrent];
   
   [id_Activity_c setTypeImplemented: Activity];
   [id_ScheduleActivity_c setTypeImplemented: ScheduleActivity];

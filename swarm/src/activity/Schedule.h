@@ -106,6 +106,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 }
 /*** methods in ActionConcurrent_c (inserted from .m file by m2h) ***/
 - (void)_performAction_: (id <Activity>)anActivity;
+- (id <ActionGroup>)getConcurrentGroup;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)describe: outputCharStream;
 @end

@@ -887,6 +887,11 @@ PHASE(Using)
   [(id) concurrentGroup _performPlan_];
 }
 
+- (id <ActionGroup>)getConcurrentGroup
+{
+  return concurrentGroup;
+}
+
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
   // identify the action group that held the concurrent actions

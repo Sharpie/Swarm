@@ -633,6 +633,13 @@ USING
 //D: by removing from one position and reinserting at another.
 @end
 
+@protocol ActionConcurrent <Action, RETURNABLE>
+USING
+//S: An action generated when two or more actions co-occur.
+//D: An action generated when two or more actions co-occur.
+- (id <ActionGroup>)getConcurrentGroup;
+@end
+
 @protocol RelativeTime
 //S: Specifies that time is relative to when the schedule started.
 
