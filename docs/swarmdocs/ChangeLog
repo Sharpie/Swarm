@@ -1,3 +1,19 @@
+1998-12-22  Alex Lancaster  <alex@santafe.edu>
+
+	* protocol.el (check-common-tags): Flag `#include's.
+	(check-common-tags): Flag `#ifdef's
+	(sgml-examples): Generate ID attribute in addition to LABEL attrib
+	in EXAMPLE sgml tag, using similar notation to the LABEL.
+	(sgml-method-examples): Likewise.
+	(sgml-method-examples): Wrap the text of the PROGRAMLISTING with
+	the "<![ CDATA [ ]]>" directive to prevent erroneous
+	interpretation by jade of text of example as per sgml-examples.
+	(print-method-signature): Add optional flag to suppress generation
+	of colon in method signature when generating ID attribs - colons
+	are not valid inside IDs.
+
+	* docbook.dcl (ATTSPLEN, TAGLEN): Bump to 2100.
+
 1998-12-04  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* protocol.el (dot-graph-all-protocols,

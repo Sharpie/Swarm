@@ -501,6 +501,8 @@
          (c-forward-conditional 1)
          (beginning-of-line 0)
          :ifdef-comment)
+        ((looking-at "#ifdef")
+         :ifdef)
         ((looking-at "#ifndef")
          :ifndef)
         ((looking-at "#if [^0]")
@@ -516,6 +518,8 @@
          :c-comment)
         ((looking-at "#import")
          :import)
+        ((looking-at "#include")
+         :include)
         ((looking-at "")
          :page-break)
         ((looking-at "typedef\\s-+")
@@ -1213,14 +1217,17 @@
           (insert "\n"))
     (insert "</FUNCSYNOPSISINFO>\n"))
 
-(defun print-method-signature (method &optional stream)
+(defun print-method-signature (method &optional stream nocolon)
   (if (method-factory-flag method)
       (princ "+" stream)
       (princ "-" stream))
   (loop for arguments in (method-arguments method)
         for key = (first arguments)
         when key do (princ key stream)
-        when (third arguments) do (princ ":" stream)))
+        when (third arguments) do 
+        (unless nocolon
+            (princ ":" stream))
+        ))
 
 (defun sgml-method-funcsynopsis (owner-protocol method)
   (insert "<FUNCSYNOPSIS ID=\"")
@@ -1483,7 +1490,17 @@
       (insert "/")
       (insert (external-protocol-name protocol))
       (insert (format "/%d" (general-example-counter protocol)))
+
+      ; start ID tag attribute                                        
+      (insert "\" ID=\"SWARM.")
+      (insert (module-name (protocol-module protocol)))
+      (insert ".")
+      (insert (external-protocol-name protocol))
+      (insert ".GENERIC")
+      (insert (format ".%d" (general-example-counter protocol)))
+      (insert ".EXAMPLE")
       (insert "\">")
+
       (insert "<TITLE>\n")
       (insert "</TITLE>\n")
       (loop for example in example-list
@@ -1523,17 +1540,26 @@
     (insert "/")
     (print-method-signature method (current-buffer))
     (insert (format "/%d" (method-example-counter protocol method)))
+
+    ; start ID tag attribute                                        
+    (insert "\" ID=\"SWARM.")
+    (insert (module-name (protocol-module protocol)))
+    (insert ".")
+    (insert (external-protocol-name protocol))
+    (insert ".")
+    (print-method-signature method (current-buffer) t)
+    (insert (format ".%d" (method-example-counter protocol method)))
+    (insert ".EXAMPLE")
+
     (insert "\">")
     (insert "<TITLE>")
     (insert "</TITLE>\n")
 
-    (insert "<PROGRAMLISTING>\n")
-
     (loop for example in (method-example-list method)
           do
+          (insert "<PROGRAMLISTING>\n<![ CDATA [\n")
           (insert example)
-          (insert "\n"))
-    (insert "</PROGRAMLISTING>\n")
+          (insert "]]>\n</PROGRAMLISTING>\n"))
     (insert "</EXAMPLE>\n")))
 
 (defun sgml-methods-for-phase (protocol phase)
