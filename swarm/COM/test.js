@@ -10,4 +10,9 @@ function test () {
 
   env.xprint (env.globalZone);
   
+  var sel =
+    Components.classes["component://swarm/SelectorImpl"].
+     createInstance (Components.interfaces.swarmISelector);
+
+  sel.create (this, "myMethod", false);
 }
