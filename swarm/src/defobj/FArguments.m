@@ -152,13 +152,11 @@ PHASE(Creating)
     raiseEvent (SourceMessage,
                 "Types already assigned to maximum number arguments in the call!\n");
 
-#ifdef HAVE_JDK
   if (type == fcall_type_object)
     [self addObject: *(id *) value];
   else if (type == fcall_type_string)
     [self addString: *(const char **) value];
   else
-#endif
     {
       size = fcall_type_size (type);
       argTypes[offset] = type;
@@ -320,8 +318,8 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (language == LanguageJava)
     [self addJavaObject: SD_JAVA_FIND_OBJECT_JAVA (value)];
-  else
 #endif
+  else
     ADD_PRIMITIVE (fcall_type_object, id, value);
   return self;
 }

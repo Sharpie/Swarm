@@ -625,14 +625,21 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 
   if ((cObj = SD_COM_FIND_OBJECT_COM (self)))
     {
-      if (!SD_COM_FIND_SELECTOR_COM (aSel))
+      COMselector cSel; 
+
+      if (!(cSel = SD_COM_FIND_SELECTOR_COM (aSel)))
         raiseEvent (InvalidArgument,
                     "unable to find COM selector `%s' in objc:`%s' %p\n",
                     sel_get_name (aSel),
                     [self name],
                     self,
                     cObj);
-      [fa setLanguage: LanguageCOM];
+      {
+        id <Symbol> language = (COM_selector_is_javascript (cSel)
+                                ? LanguageJS
+                                : LanguageCOM);
+        [fa setLanguage: language];
+      }
     }
 #ifdef HAVE_JDK
   else if ((jObj = SD_JAVA_FIND_OBJECT_JAVA (self)))
@@ -642,7 +649,6 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 
       jSel = SD_JAVA_ENSURE_SELECTOR_JAVA (jClass, aSel);
       (*jniEnv)->DeleteLocalRef (jniEnv, jClass);
-      
 
 #if 0      
       if (!jSel)

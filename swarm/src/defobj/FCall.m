@@ -367,6 +367,9 @@ PHASE(Creating)
       callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
       (COMmethod) fmethod = COM_selector_method (cSel);
       (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
+      
+      if (callType == JScall)
+        methodName = STRDUP (sel_get_name (sel));
       return self;
     }
   else if ([fargs getLanguage] == LanguageJava)
@@ -518,8 +521,10 @@ PHASE(Creating)
 void
 updateTarget (FCall_c *self, id target)
 {
+  if ([target respondsTo: M(isCOMProxy)])
+    (COMobject) self->fobject = SD_COM_FIND_OBJECT_COM (target);
 #ifdef HAVE_JDK
-  if ([target respondsTo: M(isJavaProxy)])
+  else if ([target respondsTo: M(isJavaProxy)])
     updateJavaTarget (self, SD_JAVA_FIND_OBJECT_JAVA (target));
   else
 #endif

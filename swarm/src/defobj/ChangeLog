@@ -1,3 +1,18 @@
+2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* modulemap.el (print-module-lookup-function): Handle missing
+	protocols.
+	(generate-module-map): Handle Selector.
+
+	* FCall.m (updateTarget): Handle COM.
+
+	* FArguments.m ([FArguments_c -addArgument:ofType:]): Remove HAVE_JDK
+	around object, string checks.
+
+	* DefObject.m ([Object_s -forward::]): Handle JavaScript.
+
+	* FCall.m ([FCall_c -setMethodFromSelector:inObject:]): Likewise.
+
 2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* FArguments.m ([FArguments_c -setSelector:]): Don't check
@@ -5,7 +20,8 @@
 
 	* FCall.m ([FCall_c -setMethodFromSelector:inObject:]): Likewise.
 
-	* Zone.m ([Zone_c -freeIVarsComponent:], [Zone_c -freeIVars:]): Likewise.
+	* Zone.m ([Zone_c -freeIVarsComponent:], [Zone_c -freeIVars:]):
+	Likewise.
 
 	* HDF5Object.m ([HDF5_c -createEnd]): Likewise.
 	
