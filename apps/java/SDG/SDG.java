@@ -21,6 +21,7 @@ public class SDG extends Organization {
     world = new Grid2dImpl (getZone (), 100, 100);
     mgd = new Marcus2d (getZone (), world, 0, 0);
     gepr = new Glen2d (getZone (), world, 10, 10);
+
     return this;
   }
 

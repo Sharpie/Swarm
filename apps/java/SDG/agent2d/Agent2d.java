@@ -9,7 +9,7 @@ import swarm.gui.Raster;
 public class Agent2d extends SwarmImpl {
   int x, y;
   Grid2d world;
-
+  
   Agent2d (Zone aZone, Grid2d world, int x, int y) {
     super (aZone);
     this.x = x;
@@ -17,8 +17,8 @@ public class Agent2d extends SwarmImpl {
     this.world = world;
     world.putObject$atX$Y (this, x, y);
   }
+  
   public Object drawSelfOn (Raster r) {
     return this;
   }
-
 }

@@ -1,5 +1,8 @@
 import swarm.Globals;
 import swarm.objectbase.Swarm;
+import swarm.activity.Activity;
+import swarm.activity.Schedule;
+import swarm.activity.ScheduleImpl;
 import swarm.simtoolsgui.GUISwarmImpl;
 import swarm.space.Object2dDisplay;
 import swarm.space.Object2dDisplayImpl;
@@ -18,6 +21,7 @@ public class StartSDG extends GUISwarmImpl {
   ZoomRaster raster;
   SDG model;
   Colormap colormap;
+  Schedule displaySchedule;
 
   public StartSDG (Zone aZone) {
     super (aZone);
@@ -35,6 +39,7 @@ public class StartSDG extends GUISwarmImpl {
 
     raster = new ZoomRasterImpl (getZone (), "raster");
     raster.setColormap (colormap);
+    raster.setZoomFactor (2);
     raster.setWidth$Height (model.getWorld ().getSizeX (),
                             model.getWorld ().getSizeY ());
     raster.setWindowTitle ("SDG World");
@@ -53,10 +58,43 @@ public class StartSDG extends GUISwarmImpl {
     return this;
   }
 
+  public void updateDisplay () {
+    display.display ();
+    raster.drawSelf ();
+    getActionCache ().doTkEvents ();
+  }
+
+  public Object buildActions () {
+    super.buildActions ();
+
+    model.buildActions ();
+    displaySchedule = new ScheduleImpl (getZone (), 1);
+
+    try {
+      displaySchedule.at$createActionTo$message
+        (0, 
+         this,
+         new Selector (getClass (), "updateDisplay", false));
+    } catch (Exception e) {
+      e.printStackTrace (System.err);
+      System.exit (1);
+    }
+    return this;
+  }
+
+  public Activity activateIn (Swarm context) {
+    super.activateIn (context);
+    
+    model.activateIn (this);
+    displaySchedule.activateIn (this);
+    return getActivity ();
+  }
+
   public static void main (String[] args) {
     Globals.env.initSwarm ("SDG", "0.0", "bug-swarm@swarm.org", args);
     StartSDG observer = new StartSDG (Globals.env.globalZone);
     observer.buildObjects ();
+    observer.buildActions ();
     observer.activateIn (null);
     observer.go ();
   }
