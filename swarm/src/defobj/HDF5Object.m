@@ -812,6 +812,16 @@ PHASE(Using)
   return c_count;
 }
 
+- (BOOL)checkName: (const char *)groupName
+{
+  struct H5G_stat_t statbuf;
+
+  if (H5Gget_objinfo (loc_id, groupName, 1, &statbuf) < 0)
+    return NO;
+  else
+    return YES;
+}
+
 - iterate: (int (*) (id hdf5obj))iterateFunc
 {
 #ifdef HAVE_HDF5

@@ -73,6 +73,9 @@
 - createEnd;
 
 - setBaseTypeObject: typeObject;
+
+- (BOOL)checkName: (const char *)name;
+
 - (BOOL)getDatasetFlag;
 - getCompoundType;
 - (unsigned)getCount;

@@ -635,24 +635,29 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
   
   while ((member = [objectMapIndex next: &key]))
     {
-      id memberGroup;
-      
-      if (stringp (member))
-        deepFlag = NO;
-      memberGroup = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                          setCreateFlag: YES]
-                         setParent: hdf5Obj]
-                        setDatasetFlag: !deepFlag]
-                       setName: [key getC]]
-                      createEnd];
-      
-      // instance support only; classes are handled indirectly
-      if (deepFlag)
-        [member hdf5OutDeep: memberGroup];
+      if (deepFlag && !stringp (member))
+        {
+          id memberGroup = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                                setCreateFlag: YES]
+                               setParent: hdf5Obj]
+                              setName: [key getC]]
+                             createEnd];
+
+          [member hdf5OutDeep: memberGroup];
+          [memberGroup drop];
+        }
       else
-        [member hdf5OutShallow: memberGroup];
-      
-      [memberGroup drop];
+        {
+          id dataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                             setCreateFlag: YES]
+                            setParent: hdf5Obj]
+                           setDatasetFlag: YES]
+                          setName: [key getC]]
+                         createEnd];
+
+          [member hdf5OutShallow: dataset];
+          [dataset drop];
+        }
     }
 }
 #endif
