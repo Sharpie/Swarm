@@ -1,3 +1,8 @@
+1998-03-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile ($(BINDIR)/m2h, $(BINDIR)/make-h2x): Ensure that
+	there are execute permissions for installed versions.
+
 1998-03-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Create.m ([CreateDrop_s -getObjectName]): In cygwin B19 case,

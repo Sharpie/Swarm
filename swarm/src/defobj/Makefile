@@ -41,8 +41,11 @@ $(BINDIR):
 	if [ ! -x $(BINDIR) ]; then mkdir $(BINDIR); fi
 $(BINDIR)/m2h: m2h
 	cp $? $@
+	chmod u+x $@
+
 $(BINDIR)/make-h2x: make-h2x
 	cp $? $@
+	chmod u+x $@
 $(INCLIB):
 	if [ ! -x $(INCLIB) ]; then mkdir $(INCLIB); fi
 $(INCDIR)/defobj.h: defobj.h
