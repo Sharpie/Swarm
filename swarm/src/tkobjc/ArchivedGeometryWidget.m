@@ -53,12 +53,14 @@ PHASE(Creating)
   tkobjc_setName (self, windowGeometryRecordName);
   if (windowGeometryRecord)
     {
+      id topLevel = [self getTopLevel];
+
       if ([windowGeometryRecord getSizeFlag])
-        [self setWidth: [windowGeometryRecord getWidth]
-              Height: [windowGeometryRecord getHeight]];
+        [topLevel setWidth: [windowGeometryRecord getWidth]
+                  Height: [windowGeometryRecord getHeight]];
       if ([windowGeometryRecord getPositionFlag])
-        [self setX: [windowGeometryRecord getX]
-              Y: [windowGeometryRecord getY]];
+        [topLevel setX: [windowGeometryRecord getX]
+                  Y: [windowGeometryRecord getY]];
     }
 
   return self;
