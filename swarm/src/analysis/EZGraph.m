@@ -4,10 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <analysis/EZGraph.h>
-#import <analysis/Averager.h>
 #import <gui.h> // Graph
-#import <simtools.h> // OutFile, ActiveOutFile
-#import <simtoolsgui.h> // ActiveGraph
+#import <simtools.h> // OutFile
+#import <analysis.h> // ActiveGraph, ActiveOutFile
 
 #define NUMCOLORS 10
 const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow", 
