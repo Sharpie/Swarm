@@ -837,8 +837,7 @@ typedef struct { void *memberData[2]; id owner; } dupmember_t;
 USING
 //M: The add: message adds a new member to a set.  It returns true if
 //M: member added matched the key of any member already contained in the
-//M: Set.  Whether or not the member was actually added to the collection
-//M: or not depends on the setting of DupOption.
+//M: Set.
 - (BOOL)add: anObject;
 
 ///M: The add:setIndex: message adds a new member to a set just like add:,
@@ -904,8 +903,6 @@ USING
 //M: Replaces an existing member value associated with a key
 //M: value by a new value given as its final argument.  The message returns
 //M: the member value which was formerly associated with the key value.
-//M: The message returns nil if more than one member is present with the
-//M: same key.
 - at: aKey replace: anObject;
 @end
 

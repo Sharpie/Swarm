@@ -1,3 +1,10 @@
+1999-06-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* collections.h ([Set add:]): Remove remark about DupOption (moved to
+	design document).
+	([Map at:replace:]): Remove remark about potential multiple duplicate
+	keys.
+
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add -I$(top_builddir)/libobjc (for
