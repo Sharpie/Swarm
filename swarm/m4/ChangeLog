@@ -1,5 +1,8 @@
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* acdll.m4: Use AC_DEFINE, not AC_SUBST, since AC_CONFIG_HEADER
+	can't handle substitutions.
+
 	* acjdk.m4: Don't use Sun JDK wrapper script.  Add info
 	for proc, threads type, and LD_LIBRARY_PATH variable name.
 

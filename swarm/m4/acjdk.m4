@@ -30,11 +30,11 @@ else
       proc=sparc
     elif test -f $jdkincludedir/alpha/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
-      JAVALIBS='${jkddir}/shlib'
       threads=native
       proc=alpha
     elif test -f $jdkincludedir/hp-ux/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/hp-ux"
+      JAVALIBS='${jdkdir}/shlib'
       proc=green
       threads=PA_RISC
       LD_LIBRARY_PATH_VARNAME=SHLIB_PATH
@@ -62,7 +62,7 @@ else
     else
       JAVACLASSES="${jdkdir}/lib/classes.zip"
       test -n "$LD_LIBRARY_PATH_VARNAME" || LD_LIBRARY_PATH_VARNAME=LD_LIBRARY_PATH
-      JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\$$LD_LIBRARY_PATH_VARNAME"
+      JAVAENV="$LD_LIBRARY_PATH_VARNAME=$JAVALIBS:\${$LD_LIBRARY_PATH_VARNAME}"
       javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
     JAVA='${JAVAENV} ${JAVACMD}'
