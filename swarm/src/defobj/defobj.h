@@ -940,13 +940,13 @@ USING
 
 //F: Save objects registered with archiver.
 extern void archiverSave (void);
-void archiverRegister (id client);
-void archiverUnregister (id client);
-id lispArchiverGet (const char *key);
-void lispArchiverPut (const char *key, id object);
+extern void archiverRegister (id client);
+extern void archiverUnregister (id client);
+extern id lispArchiverGet (const char *key);
+extern void lispArchiverPut (const char *key, id object);
 #ifdef HAVE_HDF5
-id HDF5ArchiverGet (const char *key);
-void HDF5ArchiverPut (const char *key, id object);
+extern id HDF5ArchiverGet (const char *key);
+extern void HDF5ArchiverPut (const char *key, id object);
 #endif
 @end
 

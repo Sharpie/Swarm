@@ -1,3 +1,8 @@
+1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* defobj.h (archiver{Register,Unregister},
+	{lisp,HDF5}Archiver{Get,Put}): Prefix declaration with `extern'.
+
 1998-12-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefClass.m ([CreatedClass_s +createBegin:]): Don't use temporary
