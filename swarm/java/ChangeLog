@@ -18,6 +18,13 @@
 	java-print-native-class): New functions.
 	(java-print-classes): Call java-print-native-class.
 	(java-run-all): Pass :uniquify-method-lists t.
+	(module-path): New function.
+	(with-protocol-{c,java}-file): Use it.
+	(java-print-interface-name): Removed.
+	(java-class-name, java-interface-name): New functions.  Latter
+	uses former.
+	(java-print-makefiles): New function.
+	(java-print-classes): Use it.
 
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

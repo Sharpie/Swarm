@@ -167,10 +167,11 @@
     (:using "_u")
     (:creating "")))
 
-(defun java-print-interface-name (protocol phase)
-  (insert "i_")
-  (insert (protocol-name protocol))
-  (insert (java-suffix-for-phase phase)))
+(defun java-class-name (protocol phase)
+  (concat (protocol-name protocol) (java-suffix-for-phase phase)))
+
+(defun java-interface-name (protocol phase)
+  (concat "i_" (java-class-name protocol phase)))
 
 (defun java-print-implemented-interfaces-list (protocol phase separator)
   (let ((first t))
@@ -179,10 +180,10 @@
           (if first
               (setq first nil)
               (insert separator))
-          (java-print-interface-name iprotocol :setting)
+          (insert (java-interface-name iprotocol :setting))
           (unless (eq phase :setting)
             (insert separator)
-            (java-print-interface-name iprotocol phase)))
+            (insert (java-interface-name iprotocol phase))))
     (not first)))
 
 (defun the-CREATABLE-protocol-p (protocol)
@@ -200,7 +201,7 @@
   (insert "import swarm.")
   (insert (module-name (protocol-module protocol)))
   (insert ".")
-  (java-print-interface-name protocol phase)
+  (insert (java-interface-name protocol phase))
   (insert ";\n"))
 
 (defun java-print-imports (protocol phase)
@@ -222,12 +223,11 @@
   (unless (CREATABLE-p protocol)
     (insert "abstract "))
   (insert "class ")
-  (insert (protocol-name protocol))
-  (insert (java-suffix-for-phase phase))
+  (insert (java-class-name protocol phase))
   (insert " ")
   (when (java-print-implemented-protocols protocol phase ", " nil)
     (insert ", "))
-  (java-print-interface-name protocol :setting)
+  (insert (java-interface-name protocol :setting))
   (insert " {\n")
   (java-print-class-methods-in-phase protocol phase)
   (java-print-class-methods-in-phase protocol :setting)
@@ -235,7 +235,7 @@
 
 (defun java-print-interface-phase (protocol phase)
   (insert "public interface ")
-  (java-print-interface-name protocol phase)
+  (insert (java-interface-name protocol phase))
   (insert " ")
   (java-print-implemented-protocols protocol phase ", " t)
   (insert " {\n")
@@ -246,13 +246,15 @@
   (unless (file-directory-p dir)
     (make-directory dir)))
 
+(defun module-path (module-sym)
+  (concat *stub-directory*
+          "swarm/"
+          (symbol-name module-sym)
+          "/"))
+
 (defmacro with-protocol-java-file (protocol phase interface &rest body)
   (let ((dir (make-symbol "dir")))
-    `(let ((,dir
-            (concat *stub-directory*
-                    "swarm/"
-                    (module-name (protocol-module ,protocol))
-                    "/")))
+    `(let ((,dir (module-path (module-sym (protocol-module ,protocol)))))
       (ensure-directory ,dir)
       (with-temp-file (concat ,dir
                               (if ,interface "i_" "")
@@ -263,18 +265,14 @@
 
 (defmacro with-protocol-c-file (protocol &rest body)
   (let ((dir (make-symbol "dir")))
-    `(let ((,dir
-            (concat *stub-directory*
-                    "swarm/"
-                    (module-name (protocol-module ,protocol))
-                    "/")))
+    `(let ((,dir (module-path (module-sym (protocol-module ,protocol)))))
       (ensure-directory ,dir)
       (with-temp-file (concat ,dir (protocol-name ,protocol) ".c")
         ,@body))))
 
 (defun java-print-package (protocol)
   (insert "package swarm.")
-  (insert (symbol-name (module-sym (protocol-module protocol))))
+  (insert (module-name (protocol-module protocol)))
   (insert ";\n"))
       
 (defun java-print-class-phase-to-file (protocol phase)
@@ -400,10 +398,30 @@
           do
           (java-print-native-method method protocol)
           (insert "\n"))))
+
+(defun java-print-makefiles ()
+  (loop for module-sym being each hash-key of *module-hash-table* 
+        using (hash-value protocol-list)
+        do
+        (with-temp-file (concat (module-path module-sym) "Makefile")
+          (insert "all:")
+          (loop for obj in protocol-list
+                when (and (protocol-p obj)
+                          (not (the-CREATABLE-protocol-p obj)))
+                do
+                (loop for phase in '(:creating :using :setting)
+                      do
+                      (insert " ")
+                      (insert (java-interface-name obj phase))
+                      (insert ".class ")
+                      (insert (java-class-name obj phase))
+                      (insert ".class")))
+          (insert "\n"))))
   
 (defun java-print-classes ()
   (interactive)
   (ensure-directory "swarm")
+  (java-print-makefiles)
   (loop for protocol being each hash-value of *protocol-hash-table* 
         unless (the-CREATABLE-protocol-p protocol)
         do
