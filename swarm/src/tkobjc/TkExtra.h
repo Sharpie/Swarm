@@ -12,5 +12,6 @@
 {
 }
 - (const char *)getBltVersion;
+- (const char *)getBltFullVersion;
 - (BOOL)newBLTp;
 @end
