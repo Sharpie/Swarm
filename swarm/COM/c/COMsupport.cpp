@@ -143,7 +143,6 @@ createComponentByName (const char *progID, const char *interfaceName)
   rv = nsComponentManager::CreateInstance (progID, NULL, *iid, (void **) &obj);
   if (NS_FAILED (rv))
     abort ();
-  NS_ADDREF (obj);
   return obj;
 }
 
@@ -216,24 +215,32 @@ const char *
 getName (COMobject cObj)
 {
   nsresult rv;
-  const char *name;
+  char *name, *progID;
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, cObj);
-  nsIID *iid;
+  nsCID *cid;
   swarmITyping *typing;
 
   rv = obj->QueryInterface (NS_GET_IID (swarmITyping), (void **) &typing);
   if (NS_FAILED (rv))
     abort ();
   
-  rv = typing->GetIid (&iid);
+  rv = typing->GetCid (&cid);
   if (NS_FAILED (rv))
     abort ();
 
-  if (!(name = findNameFromIID (iid)))
+  rv = nsComponentManager::CLSIDToProgID (cid, &name, &progID);
+  if (NS_FAILED (rv))
     abort ();
-  
+
+  NS_RELEASE (typing);
+
   return name;
 }
 
+void
+addRef (COMobject cObj)
+{
+  NS_ADDREF (NS_STATIC_CAST (nsISupports *, cObj));
+}
 
 }
