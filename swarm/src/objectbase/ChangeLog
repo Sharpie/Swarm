@@ -6,6 +6,8 @@
 	MessageProbe.m, Probe.m, ProbeMap.m, Swarm.m, VarProbe.m move
 	documentation tags to objectbase.h.
 
+	* objectbase.h: Remove includes of SwarmObject.h and Swarm.h.
+
 1998-04-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbe.m ([MessageProbe -doubleDynamicCallOn:]): Convert

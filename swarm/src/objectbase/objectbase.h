@@ -628,14 +628,3 @@ USING
 @class ActivityControl;
 
 extern const char *swarm_version;
-
-// 
-// These are the base classes for all Swarm objects (agents and
-// Swarms).  They have been put in the library header file so
-// as not to break any user apps that relied upon the old
-// swarmobject.h, which simply included all the swarmobject/*.h files.
-// The general rule is that you must #import the header file of any
-// class you intend to subclass from.
-//
-#import <objectbase/SwarmObject.h>
-#import <objectbase/Swarm.h>

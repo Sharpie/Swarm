@@ -28,15 +28,15 @@
   if (SAFEPROBES)
     if (probedClass == 0)
       {
-        fprintf(stderr, "CompleteProbeMap object was not properly initialized\n");
+        fprintf (stderr,
+                 "CompleteProbeMap object was not properly initialized\n");
         return nil;
       }
-}
   
   probes = [Map createBegin: [self getZone]];
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
-	
+  
   if (probes == nil)
     return nil;
 
