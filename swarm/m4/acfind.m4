@@ -9,7 +9,7 @@ if test "$$1dir" != no ; then
 test -z "$_libdir" && _libdir=$$1dir/lib
 for dir in $3 $_libdir $defaultdir/lib /usr/lib /usr/local/lib; do
   expand_dir=`eval echo $dir`
-  for suffix in .so .a; do
+  for suffix in .so .sl .a; do
     if test -r $expand_dir/lib${libname}${suffix} ; then
       $1libdir=$dir
       break
@@ -29,7 +29,7 @@ else
   AC_MSG_RESULT($$1libdir)
 fi
 if test -n "$$1libdir" ; then
-  if test "$suffix" = .so; then
+  if test $suffix = .so || test $suffix = .sl ; then
     _ldflags="-L\${$1libdir} -R \${$1libdir}"
   else
     _ldflags='-L${$1libdir}'
