@@ -176,6 +176,7 @@ __inline__
 IMP
 objc_msg_lookup (id receiver, SEL op)
 {
+#ifndef DLL
   extern SEL allocSel;
   extern void *swarm_directory_objc_find_object (id);
   extern void *swarm_directory_objc_find_selector (SEL);
@@ -186,6 +187,7 @@ objc_msg_lookup (id receiver, SEL op)
       && !__objc_responds_to (receiver, allocSel))
     return __objc_get_forward_imp (op);
   else
+#endif
     return objc_msg_lookup_objc (receiver, op);
 }
 
