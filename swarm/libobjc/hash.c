@@ -51,7 +51,7 @@ hash_new (unsigned int size, hash_func_type hash_func,
 
   /* Allocate the cache structure.  calloc insures
      its initialization for default values.  */
-  cache = (cache_ptr) objc_calloc (1, sizeof (struct cache));
+  cache = (cache_ptr) objc_calloc (1, sizeof (cache_t));
   assert (cache);
 
   /* Allocate the array of buckets for the cache.
