@@ -51,21 +51,21 @@ public class HeatbugBatchSwarm extends SwarmImpl {
         super.buildObjects();
         
         /*
-          // But since we don't have any graphics, we load the
-          // object from the global `lispAppArchiver' instance which
-          // is created automatically from the file called
-          // `heatbugs.scm'
-          
-          // `modelSwarm' is the key in `heatbugs.scm' which
-          // contains the instance variables for the
-          // HeatbugModelSwarm class, such as numBugs etc.
-          
-          if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self 
-          object: "modelSwarm"]) == nil)
-          raiseEvent(InvalidOperation, 
-          "Can't find the parameters to create modelSwarm");
-        */
+        // But since we don't have any graphics, we load the
+        // object from the global `lispAppArchiver' instance which
+        // is created automatically from the file called
+        // `heatbugs.scm'
         
+        // `modelSwarm' is the key in `heatbugs.scm' which
+        // contains the instance variables for the
+        // HeatbugModelSwarm class, such as numBugs etc.
+
+        heatbugModelSwarm =
+          (HeatbugModelSwarm)
+          Globals.env.lispAppArchiver.getWithZone$object (getZone (),
+                                                          "modelSwarm");
+        */
+
         heatbugModelSwarm = new HeatbugModelSwarm (getZone ());
 
         // Now, let the model swarm build its objects.
