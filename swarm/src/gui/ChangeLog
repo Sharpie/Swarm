@@ -1,7 +1,7 @@
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* gui.h (Histogram): Change setNumBins: to setBinCount:.
-	Change type of setActiveOutlierText:count: count argument to unsigned.
+	Change type of setActiveOutlierText:count: arguments to unsigned.
 
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
