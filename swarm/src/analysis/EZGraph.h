@@ -14,81 +14,83 @@
 
 @interface EZGraph : SwarmObject
 {
-  int graphics ;
-  id theGraph ;
+  int graphics;
+  id theGraph;
   const char *graphWindowGeometryRecordName;
 
-  int fileOutput ;
+  int fileOutput;
 
-  id sequenceList ;
+  id sequenceList;
 
-  char * xLabel ;
-  char * yLabel ;
-  char *  title ;
+  const char *xLabel;
+  const char *yLabel;
+  const char *title;
   unsigned colorIdx;
 }
 
--setGraphics: (int) state ;
--setFileOutput: (int) state ;
+- setGraphics: (int)state;
+- setFileOutput: (int)state;
 
--setTitle: (char *) aTitle ;
--setAxisLabelsX: (char *) xl Y: (char *) yl ;
+- setTitle: (const char *)aTitle;
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
--setGraphWindowGeometryRecordName: (const char *)windowGeometryRecordName;
--createEnd ;
+- setGraphWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createEnd;
 
--getGraph ;
+- getGraph;
 
--createGraphSequence: (char *) aName 
-	 forSequence: aSeq
-	withFeedFrom: anObj 
-	 andSelector: (SEL) aSel ;
+- createGraphSequence: (const char *)aName 
+          forSequence: aSeq
+         withFeedFrom: anObj 
+          andSelector: (SEL)aSel;
 
--createSequence: (char *) aName  
-   withFeedFrom:          anObj 
-    andSelector: (SEL) aSel ;
+- createSequence: (const char *)aName
+    withFeedFrom: anObj 
+     andSelector: (SEL) aSel;
 
--createAverageSequence: (char * ) aName 
-          withFeedFrom: aCollection 
-           andSelector: (SEL) aSel ;
+- createAverageSequence: (const char *)aName 
+           withFeedFrom: aCollection 
+            andSelector: (SEL) aSel;
 
--createTotalSequence: (char *) aName 
-        withFeedFrom: aCollection 
-         andSelector: (SEL) aSel ;
+- createTotalSequence: (const char *)aName 
+         withFeedFrom: aCollection 
+          andSelector: (SEL) aSel;
 
--createMinSequence: (char *) aName 
-      withFeedFrom: aCollection 
-       andSelector: (SEL) aSel ;
+- createMinSequence: (const char *)aName
+       withFeedFrom: aCollection 
+        andSelector: (SEL) aSel;
 
--createMaxSequence: (char *) aName 
-      withFeedFrom: aCollection 
-       andSelector: (SEL) aSel ;
+- createMaxSequence: (const char *)aName
+       withFeedFrom: aCollection 
+        andSelector: (SEL) aSel;
 
--createCountSequence: (char *) aName 
-        withFeedFrom: aCollection 
-         andSelector: (SEL) aSel ;
+- createCountSequence: (const char *)aName
+         withFeedFrom: aCollection 
+          andSelector: (SEL) aSel;
 
--step ;
-
-@end
-
-@interface EZSequence : SwarmObject {
-  id theActiveOutFile ;
-  id theActiveGrapher ;
-}
-
--setActiveOutFile: anActiveOutFile ;
--setActiveGrapher: aGrapher ;
-
--step ;
+- step;
 
 @end
 
-@interface EZAverageSequence : EZSequence {
-  id theAverager ;
+@interface EZSequence : SwarmObject
+{
+  id theActiveOutFile;
+  id theActiveGrapher;
 }
 
--setAverager: anAverager ;
+- setActiveOutFile: anActiveOutFile;
+- setActiveGrapher: aGrapher;
+
+- step;
+
+@end
+
+@interface EZAverageSequence : EZSequence
+{
+  id theAverager;
+}
+
+- setAverager: anAverager;
 
 @end
 

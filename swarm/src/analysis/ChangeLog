@@ -1,3 +1,40 @@
+1997-12-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZGraph.m: Constify graphColors.
+	([EZGraph -setAxisLabelsX:Y:]): Constify arguments.
+	([EZGraph -setTitle:]): Constify argument.
+	([EZGraph
+	-createGraphSequence:forSequence:withFeedFrom:andSelector:]):
+	Constify first argument.
+	([EZGraph -createSequence:withFeedFrom:andSelector:aSel]):
+	Constify first argument.
+	([EZGraph -createAverageSequence:withFeedFrom:andSelector:]):
+	Likewise.
+	([EZGraph -createTotalSequence:withFeedFrom:andSelector:]):
+	Likewise.
+	([EZGraph -createMinSequence:withFeedFrom:andSelector:]):
+	Likewise.
+	([EZGraph -createMaxSequence:withFeedFrom:andSelector:]):
+	Likewise.
+	([EZGraph -createCountSequence:withFeedFrom:andSelector:aSel]):
+	Likewise.
+	Reformatting throughout.
+
+	* EZGraph.h (EZGraph): Constify xLabel, yLabel, and title.
+	Constify argument to setTitle. 
+	Constify arguments to setAxisLabelsX:Y:. 
+	Constify first argument to
+	createSequence:withFeedFrom:andSelector:. 
+	Constify first argument to
+	createAverageSequence:withFeedFrom:andSelector.
+	Constify first argument to
+	createMinSequence:withFeedFrom:andSelector.
+	Constify first argument to
+	createMaxSequence:withFeedFrom:andSelector.
+	Constify first argument to
+	createCountSequence:withFeedFrom:andSelector:.
+	Reformatting throughout.
+
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZDistribution.m ([EZDistribution -output]): Use new wrapper
