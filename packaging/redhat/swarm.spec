@@ -11,8 +11,8 @@ BuildRoot: /tmp/swarm-root
 BuildPrereq: kaffe = %kaffe_version
 %define jikes_version 0.47
 BuildPrereq: jikes = %jikes_version
-%define hdf5_version 1.2.0
-BuildPrereq: hdf5 = %hdf5_version
+%define hdf5_version 1.2
+BuildPrereq: hdf5 > %hdf5_version
 BuildPrereq: gperf > 2.7
 Icon: swarm.xpm
 Packager: Paul Johnson <pauljohn@ukans.edu>
@@ -114,7 +114,7 @@ hdf5 version 1.2.
 %package hdf5
 Summary: Toolkit for agent-based modelling with hdf5 enabled.
 Group: Development/Libraries
-Requires: hdf5 = %hdf5_version
+Requires: hdf5 > %hdf5_version
 Provides: swarm-base
 Conflicts: swarm
 %description hdf5
