@@ -93,11 +93,14 @@
         CREATE_PROBE_DISPLAY (obj);
       else
         tkobjc_ringBell();
-    } else
+    }
+    else
       [WarningMessage
         raiseEvent: 
           "Object2dDisplay: invalid coordinates to make probe (%d,%d)\n",
         x, y];
+  return self;
 }
+
 
 @end
