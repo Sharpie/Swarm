@@ -75,19 +75,25 @@ SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB)
 SWARMMODULES = $(shell cat $(top_srcdir)/etc/modules)
 
 USEDLL=@USEDLL@
+ONELIB=@ONELIB@
 
-ifeq ($(USEDLL),yes)
-ifneq ($(USESTATIC),)
-SWARMLIBS = -lswarm
-OBJCLIBS = -lswarmobjc
+ifeq ($(USEDLL),yes) 
+	ifneq ($(USESTATIC),)
+			SWARMLIBS = -lswarm
+			OBJCLIBS = -lswarmobjc
+		else
+			SWARMLIBS = -lswarmdll -lobjcdll
+			OBJCLIBS = 
+			DLLCPPFLAGS = -DDLL
+	endif
 else
-SWARMLIBS = -lswarmdll -lobjcdll
-OBJCLIBS = 
-DLLCPPFLAGS = -DDLL
-endif
-else
-SWARMLIBS = -lswarm
-OBJCLIBS = -lswarmobjc
+	ifeq ($(ONELIB),yes)
+		SWARMLIBS = -lswarm
+		OBJCLIBS =
+	else
+		SWARMLIBS = -lswarm
+		OBJCLIBS = -lswarmobjc
+	endif
 endif
 
 # Local variables:
