@@ -729,6 +729,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
 #ifndef _WIN32
       pixmap->display = Tk_Display (tkwin);
+      XFlush (pixmap->display);
       x_pixmap_create_from_window (pixmap, window);
 #else
       win32_pixmap_create_from_window (pixmap, window, parentFlag);
