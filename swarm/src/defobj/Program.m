@@ -156,13 +156,16 @@ static void initModules( void )
   // initialize 
 
   _obj_initModule( _defobj_ );
-  _obj_initModule( _collections_ );
 
   // initialize standard allocation zones
 
   _obj_globalZone  = [Zone create: _obj_initZone];
   _obj_sessionZone = [Zone create: _obj_initZone];
   _obj_scratchZone = [[Zone create: _obj_initZone] getComponentZone];
+
+  // initialize collections at the end (so that it can use Zones)
+  _obj_initModule( _collections_ );
+
 }
 
 
