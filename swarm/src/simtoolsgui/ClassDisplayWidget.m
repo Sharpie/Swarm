@@ -116,7 +116,7 @@ PHASE(Creating)
     [myTitle setText: [probedObject getName]];
 #ifdef HAVE_JDK
   else if ([theClass respondsTo: M(isJavaProxy)])
-    [myTitle setText: java_get_class_name (SD_JAVA_FINDJAVACLASS (theClass))];
+    [myTitle setText: java_get_class_name (SD_JAVA_FIND_CLASS_JAVA (theClass))];
 #endif
   else
     [myTitle setText: theClass->name];

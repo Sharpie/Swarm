@@ -1,3 +1,8 @@
+2000-07-26    <mgd@DRONE>
+
+	* ClassDisplayWidget.m: Change SD_JAVA_FINDJAVACLASS and
+	SD_JAVA_FIND_CLASS_JAVA.
+
 2000-06-19  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* MessageProbeWidget.m (printVal): Handle NULL objects.
