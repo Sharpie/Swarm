@@ -95,7 +95,7 @@ if test $USEDLL = yes; then
 else
 	if test  x$ONELIB = xyes; then
 	  noinst_LIBS=libswarmobjc.la
-	  inst_LDFLAGS =
+	  inst_LDFLAGS=
 	else
 	  inst_LIBS=libswarmobjc.la
 	  inst_LDFLAGS='-version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) -no-undefined # -L$(dir $(shell $(CC) -print-libgcc-file-name))'

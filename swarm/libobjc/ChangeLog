@@ -1,3 +1,8 @@
+2004-01-22  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* configure.in
+	(inst_LDFLAGS): Fix typo in null assignment.
+
 2004-07-20  Marcus G. Daniels  <mgd@santafe.edu>
 
 	* configure.in (OBJC_DLL): Remove
