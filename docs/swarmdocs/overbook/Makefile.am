@@ -1,12 +1,12 @@
 NAME = overbook
 
-SGML = over01.sgml over02.sgml over03.sgml over04.sgml over05.sgml overbook.sgml overcont.sgml overmeta.sgml  
+XML = over01.xml over02.xml over03.xml over04.xml over05.xml overbook.xml overcont.xml overmeta.xml  
 
-GENERATED_SGML = $(NAME)revhistory.sgml
+GENERATED_XML = $(NAME)revhistory.sgml
 
-SGML_FILES = $(SGML) $(GENERATED_SGML)
+XML_FILES = $(XML) $(GENERATED_XML)
 
-EXTRA_DIST = overbook.ent $(SGML)
+EXTRA_DIST = overbook.ent $(XML)
 
 include $(top_srcdir)/Makefile.common
 include $(top_srcdir)/Makefile.rules

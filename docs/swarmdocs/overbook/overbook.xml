@@ -1,0 +1,42 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd" [
+
+<!ENTITY % global.entities PUBLIC "-//SFI Hive//ENTITIES Globals//EN"
+"ignore.sysid">
+%global.entities;
+
+<!ENTITY % versions.entities PUBLIC "-//SFI Hive//ENTITIES Versions//EN"
+"ignore.sysid">
+%versions.entities;
+
+<!ENTITY % overview.entities PUBLIC "-//SFI Hive//ENTITIES Overview List//EN"
+"ignore.sysid">
+%overview.entities;
+
+<!ENTITY % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN"
+"ignore.sysid">
+%figures.entities;
+
+<!ENTITY lt     "&#38;#60;">
+<!ENTITY gt     "&#62;"> 
+
+]>
+
+<book id="overbook">
+
+<title>Overview of Swarm</title>
+
+&overcont.xml;
+
+</book>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,22 +1,19 @@
-<CHAPTER ID="SWARM.OVERVIEW.MAG4.CHAPTER">
-  <TITLE>Mag 4x:Sketch of Code </TITLE>
+<chapter id="SWARM.OVERVIEW.MAG4.CHAPTER">  <title>Mag 4x:Sketch of Code </title>
 
-  <PARA>Now that we have multiple Swarms and an experimental
+  <para>Now that we have multiple Swarms and an experimental
   apparatus, it's time to learn how to use the objects themselves
   inside an application. Some examples are provided here: to
   understand this better, it will be necessary to read through example
   applications and the library documentation. These examples come from
-  the Heatbugs application.</PARA>
+  the Heatbugs application.</para>
 
-  <SECT1 ID="SWARM.OVERVIEW.MAG4.MODEL-SWARM.SECT1">
-    <TITLE>Building a Model Swarm</TITLE> 
+  <sect1 id="SWARM.OVERVIEW.MAG4.MODEL-SWARM.SECT1">    <title>Building a Model Swarm</title> 
 
-    <PARA>The key component of a simulation is the model Swarm. Here
+    <para>The key component of a simulation is the model Swarm. Here
     is the definition of a HeatbugModelSwarm, from
-    HeatbugModelSwarm.h</PARA>
+    HeatbugModelSwarm.h</para>
 
-    <PROGRAMLISTING>
-      
+    <programlisting>      
 @interface HeatbugModelSwarm : Swarm {
  int numBugs; // simulation parameters
  double evaporationRate;
@@ -44,48 +41,47 @@
 -buildActions;
 -activateIn: swarmContext;
 
-    </PROGRAMLISTING>
+    </programlisting>
 
-    <PARA>The first section of code says that a HeatbugModelSwarm is a
+    <para>The first section of code says that a HeatbugModelSwarm is a
     kind of Swarm.  HeatbugModelSwarm inherits a lot of behavior from
-    generic Swarm, but also adds new variables and methods.</PARA>
+    generic Swarm, but also adds new variables and methods.</para>
 
-    <PARA>The new variables are enclosed in the braces in the definition
+    <para>The new variables are enclosed in the braces in the definition
     of HeatbugModelSwarm.  They are split into three general classes
     of things: simulation parameters, schedule data structures, and
-    objects in the world. This is a typical sort of model swarm.</PARA>
+    objects in the world. This is a typical sort of model swarm.</para>
 
-    <PARA>Finally, a HeatbugModelSwarm defines new methods. The first
+    <para>Finally, a HeatbugModelSwarm defines new methods. The first
     few methods are used to allow the model to be observed: a
     HeatbugModelSwarm will give out its list of Heatbugs, for
     instance, or its HeatSpace. Observers use these methods to monitor
-    the model.</PARA>
+    the model.</para>
 
-    <PARA>In addition to the observation methods, there are several
+    <para>In addition to the observation methods, there are several
     Swarm-specific methods for the building of Swarms. These are
-    fairly stereotyped. The <LITERAL>createBegin</LITERAL> and
-    <LITERAL>createEnd</LITERAL> messages are used to create the Swarm
-    object itself.  <LITERAL>buildObjects</LITERAL> builds the model
-    objects, and <LITERAL>buildActions</LITERAL> builds the model
+    fairly stereotyped. The <literal>createBegin</literal> and
+    <literal>createEnd</literal> messages are used to create the Swarm
+    object itself.  <literal>buildObjects</literal> builds the model
+    objects, and <literal>buildActions</literal> builds the model
     schedule - more on these later. Finally,
-    <LITERAL>activateIn</LITERAL> arranges for the execution machinery
-    to execute the Swarm itself. </PARA>
+    <literal>activateIn</literal> arranges for the execution machinery
+    to execute the Swarm itself. </para>
 
-  </SECT1>
+  </sect1>
 
-  <SECT1 ID="SWARM.OVERVIEW.MAG4.DEFINE-AGENT.SECT1">
-    <TITLE>Defining an Agent</TITLE>
+  <sect1 id="SWARM.OVERVIEW.MAG4.DEFINE-AGENT.SECT1">    <title>Defining an Agent</title>
 
-    <PARA>The agents are typically the real focus of a modeling
+    <para>The agents are typically the real focus of a modeling
     effort. Most of the work in a simulation comes in defining the
     agent behavior so that the computer agents resemble the real world
-    phenomena you are trying to create.</PARA>
+    phenomena you are trying to create.</para>
 
-    <PARA>In the case of Heatbugs, agents are pretty simple. Here is
-    their definition, from Heatbug.h:</PARA>
+    <para>In the case of Heatbugs, agents are pretty simple. Here is
+    their definition, from Heatbug.h:</para>
 
-    <PROGRAMLISTING>
-      
+    <programlisting>     
+<![CDATA [ 
 @interface Heatbug: SwarmObject {
  double unhappiness; // my current unhappiness
  int x, y; // my spatial coordinates
@@ -112,58 +108,56 @@
 
 -step;
 
--drawSelfOn: (id &lt;Raster&gt;) r;
+-drawSelfOn: (id <Raster>) r;
+]]>
+</programlisting>
 
-</PROGRAMLISTING>
-
-    <PARA>Heatbug is a subclass of SwarmObject. SwarmObjects have very
+    <para>Heatbug is a subclass of SwarmObject. SwarmObjects have very
     little behavior of their own - they are defined as the root class
     of most objects and control computer science aspects like memory
-    allocation and probability.</PARA>
+    allocation and probability.</para>
 
-    <PARA>Heatbug carry with them a variety of state variables. For
+    <para>Heatbug carry with them a variety of state variables. For
     instance, each Heatbug has a notion of its ideal temperature,
     which will affect it's behavior. In addition, Heatbugs have
     variables that let them know about the world: these agents are
-    storing references to the HeatSpace object, for example.</PARA>
+    storing references to the HeatSpace object, for example.</para>
 
-    <PARA> Most of the Heatbug methods have to do with setting up the
+    <para> Most of the Heatbug methods have to do with setting up the
     agents state - the inputs to a Heatbug. Every heatbug must set up
     its world and heat objects, via the
-    <LITERAL>setWorld:Heat:</LITERAL> method. In addition when
+    <literal>setWorld:Heat:</literal> method. In addition when
     Heatbugs are created they have their ideal temperature set, their
     output heat, etc.  Heatbugs are also observable. Heatbugs define a
-    <LITERAL>getUnhappiness</LITERAL> method - the unhappiness is the
+    <literal>getUnhappiness</literal> method - the unhappiness is the
     major measurable aspect of a heatbug, how well optimized it is at
-    the moment. They also have a <LITERAL>drawSelfOn</LITERAL> method
+    the moment. They also have a <literal>drawSelfOn</literal> method
     that directs the heatbug to draw itself on the specified graphics
-    widget.</PARA>
+    widget.</para>
 
-    <PARA>Finally, and most importantly, a Heatbug has a
-    <LITERAL>step</LITERAL> method.  <LITERAL>step</LITERAL> is where
+    <para>Finally, and most importantly, a Heatbug has a
+    <literal>step</literal> method.  <literal>step</literal> is where
     the Heatbugs behavior is defined: every time the Heatbug is told
     to step it performs its internal calculations, choosing where to
-    move. Each heatbug is told to <LITERAL>step</LITERAL> when
+    move. Each heatbug is told to <literal>step</literal> when
     appropriate by the model schedule. The code for
-    <LITERAL>step</LITERAL> is the real intellectual input into the
+    <literal>step</literal> is the real intellectual input into the
     model, and is worth reading as an example of an agent's
-    behavior.</PARA>
+    behavior.</para>
 
-    </SECT1>
+    </sect1>
 
-  <SECT1 ID="SWARM.OVERVIEW.MAG4.BUILD-AGENTS.SECT1">
+  <sect1 id="SWARM.OVERVIEW.MAG4.BUILD-AGENTS.SECT1">
+    <title>Building Agents</title>
 
-    <TITLE>Building Agents</TITLE>
 
-
-    <PARA>Now that Heatbugs have been defined, the model swarm needs
+    <para>Now that Heatbugs have been defined, the model swarm needs
     to create them.  This code fragment is from the
-    <LITERAL>buildObjects</LITERAL> method on HeatbugModelSwarm.</PARA>
+    <literal>buildObjects</literal> method on HeatbugModelSwarm.</para>
 
-    <PROGRAMLISTING>
-
+    <programlisting>
 // A loop to create a bunch of heatbugs.
-for (i = 0; i &lt; numBugs; i++) 
+for (i = 0; i  numBugs; i++) 
  {
   Heatbug * hbug;
   int idealTemp, outputHeat;
@@ -187,55 +181,51 @@ for (i = 0; i &lt; numBugs; i++)
   [hbug setX: [uniformRandom rMax: worldXSize] // random position
          Y: [uniformRandom rMax: worldYSize]];
 }
-    </PROGRAMLISTING>
+    </programlisting>
  
-    <PARA>The details of this code are best explained in reading the
+    <para>The details of this code are best explained in reading the
     documentation for the libraries and the heatbugs demo application
     itself. Essentially, we first generate two random numbers: an
     ideal temperature and an output heat for the new Heatbug. We then
-    create the Hheatbug itself with <LITERAL>createBegin</LITERAL> and
+    create the Hheatbug itself with <literal>createBegin</literal> and
     fill in the required parameters of world and heat. Once those are
-    set, we can send <LITERAL>createEnd</LITERAL> to the Heatbug and
+    set, we can send <literal>createEnd</literal> to the Heatbug and
     it is finished being created. After it's done being created we add
     it into a list of Heatbugs in the model and set a few parameters
-    on it like the ideal temperature and the initial position.</PARA>
+    on it like the ideal temperature and the initial position.</para>
 
-    </SECT1>
+    </sect1>
   
-  <SECT1 ID="SWARM.OVERVIEW.MAG4.BUILD-SPACE.SECT1">
-    <TITLE>Building Space objects</TITLE>
+  <sect1 id="SWARM.OVERVIEW.MAG4.BUILD-SPACE.SECT1">    <title>Building Space objects</title>
 
-    <PARA> In Swarm, spaces are really just another kind of agent. In
+    <para> In Swarm, spaces are really just another kind of agent. In
     the heatbugs model we create a HeatSpace, a subclass of a
     diffusion object from the Swarm space libaries (specified in
     HeatSpace.m). Here is the code from
-    <LITERAL>buildObjects</LITERAL> in the HeatbugModelSwarm.</PARA>
+    <literal>buildObjects</literal> in the HeatbugModelSwarm.</para>
 
-    <PROGRAMLISTING>
-
+    <programlisting>
 heat = [HeatSpace createBegin: [self getZone]];
 [heat setSizeX: worldXSize Y: worldYSize];
 [heat setDiffusionConstant: diffuseConstant];
 [heat setEvaporationRate: evaporationRate];
 heat = [heat createEnd];
 
-    </PROGRAMLISTING>
+    </programlisting>
 
 
-    <PARA> the object is created, a few parameters are set, and then
-    the creation is finalized.</PARA>
+    <para> the object is created, a few parameters are set, and then
+    the creation is finalized.</para>
 
-    </SECT1>
+    </sect1>
   
-  <SECT1 ID="SWARM.OVERVIEW.MAG4.SCHEDULE-SWARM.SECT1">
-    <TITLE>Scheduling a Model Swarm</TITLE>
+  <sect1 id="SWARM.OVERVIEW.MAG4.SCHEDULE-SWARM.SECT1">    <title>Scheduling a Model Swarm</title>
 
-    <PARA>Once all of the simulated objects are created in
-    <LITERAL>buildObjects</LITERAL>, the next task is to schedule them in the
-    method <LITERAL>buildActions</LITERAL>.</PARA>
+    <para>Once all of the simulated objects are created in
+    <literal>buildObjects</literal>, the next task is to schedule them in the
+    method <literal>buildActions</literal>.</para>
 
-    <PROGRAMLISTING>
-modelActions = [ActionGroup create: [self getZone]];
+    <programlisting>modelActions = [ActionGroup create: [self getZone]];
 [modelActions createActionTo: heat message: M(stepRule)];
 [modelActions createActionForEach: heatbugList message: M(step)];
 [modelActions createActionTo: heat message: M(updateLattice)];
@@ -244,42 +234,39 @@ modelSchedule = [Schedule createBegin: [self getZone]];
 [modelSchedule setRepeatInterval: 1];
 modelSchedule = [modelSchedule createEnd];
 [modelSchedule at: 0 createAction: modelActions];
-    </PROGRAMLISTING>
+    </programlisting>
 
-    <PARA>The heatbug model schedule actually consists of two
-    components: an ActionGroup called <LITERAL>modelActions</LITERAL>
-    and a Schedule called <LITERAL>modelSchedule</LITERAL>.  The
+    <para>The heatbug model schedule actually consists of two
+    components: an ActionGroup called <literal>modelActions</literal>
+    and a Schedule called <literal>modelSchedule</literal>.  The
     ActionGroup is a tightly coupled list of three messages: every
     time the action group is executed, it will send three messages in
     a row:
 
-      <PROGRAMLISTING>
-[heat stepRule];
+      <programlisting>[heat stepRule];
 [heatbugList forEach: step];
 [heat updateLattice];
-      </PROGRAMLISTING>
+      </programlisting>
 
      The ActionGroup alone specifies three messages to send - in order
      to put it in the simulation, that ActionGroup is then dropped
      into a Schedule.  The Schedule itself only has one action - to
-     execute <LITERAL>modelActions</LITERAL> itself. That action takes
+     execute <literal>modelActions</literal> itself. That action takes
      place at time 0. But because we've set a repeat interval on the
      schedule of 1, the schedule itself loops, executing every 1 time
-     step. The final result is that <LITERAL>modelActions</LITERAL> is
-     executed at time 0, time 1, etc.</PARA>
+     step. The final result is that <literal>modelActions</literal> is
+     executed at time 0, time 1, etc.</para>
 
-    </SECT1>
+    </sect1>
 
-  <SECT1 ID="SWARM.OVERVIEW.MAG4.BUILD-OBSERVER.SECT1">
-    <TITLE>Building a Graphical Observer Swarm</TITLE> 
+  <sect1 id="SWARM.OVERVIEW.MAG4.BUILD-OBSERVER.SECT1">    <title>Building a Graphical Observer Swarm</title> 
 
-    <PARA>With the model swarm defined, arranging for a graphical
+    <para>With the model swarm defined, arranging for a graphical
       observer Swarm is the next step. For Heatbugs, the code is in
       HeatbugObserverSwarm. The structure of an observer swarm is
-      almost exactly like building a model swarm.</PARA>
+      almost exactly like building a model swarm.</para>
 
-    <PROGRAMLISTING>
-@interface HeatbugObserverSwarm : GUISwarm {
+    <programlisting>@interface HeatbugObserverSwarm : GUISwarm {
   int displayFrequency; // one parameter: update freq
 
   id displayActions; // schedule data structs
@@ -296,29 +283,27 @@ modelSchedule = [modelSchedule createEnd];
   Value2dDisplay * heatDisplay; // display the heat
   Object2dDisplay * heatbugDisplay; // display the heatbugs
 }
-    </PROGRAMLISTING>
+    </programlisting>
 
-    <PARA>Again we have input parameters (display frequency), schedule
+    <para>Again we have input parameters (display frequency), schedule
       data structures, and resident objects (model swarm, display
       widgets). The important exception is that HeatbugObserverSwarm
       is a subclass not just of the generic Swarm class, but
       specifically a GUISwarm. That implies that the
       HeatbugObserverSwarm will contain a control panel to allow the
       user to stop execution, and will also have a special
-      <LITERAL>go</LITERAL> method to set everything running.</PARA>
+      <literal>go</literal> method to set everything running.</para>
 
-    </SECT1>
+    </sect1>
 
-  <SECT1 ID="SWARM.OVERVIEW.MAG4.BUILD-GRAPH.SECT1">
-    <TITLE>Building a Data Graph</TITLE>
+  <sect1 id="SWARM.OVERVIEW.MAG4.BUILD-GRAPH.SECT1">    <title>Building a Data Graph</title>
 
     
-    <PARA>An example of an object inside the HeatbugObserverSwarm is a
+    <para>An example of an object inside the HeatbugObserverSwarm is a
       data graph, the graph of average unhappiness. Here is the code
-      necessary to create that object:</PARA>
+      necessary to create that object:</para>
 
-    <PROGRAMLISTING>
-// Create the graph widget to display unhappiness.
+    <programlisting>// Create the graph widget to display unhappiness.
 unhappyGraph = [EZGraph createBegin: [self getZone]];
 [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
 [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
@@ -326,35 +311,33 @@ unhappyGraph = [unhappyGraph createEnd] ;
 
 [unhappyGraph createAverageSequence: "unhappiness"
  withFeedFrom: [heatbugModelSwarm getHeatbugList]
- andSelector: M(getUnhappiness)] ;</PROGRAMLISTING>
+ andSelector: M(getUnhappiness)] ;</programlisting>
 
 
-    <PARA>The first step is to build an instance of an EZGraph and set
+    <para>The first step is to build an instance of an EZGraph and set
       its captions.  Then a Sequence is created inside that graph (in
       this case, an AverageSequence).  In general, the Sequence
       requires a target object and a message with which to extract
       data from that object -- the data is then plotted as one line in
-      the graph.</PARA>
+      the graph.</para>
 
-    <PARA>In the case of an AverageSequence, an entire collection of
+    <para>In the case of an AverageSequence, an entire collection of
       objects is presented to it. The AverageSequence then extracts
       data from all the objects in the collection (in this case a
       List) using the provided message (in this case
-      <LITERAL>getUnhappiness</LITERAL>), and generate a datapoint
-      from these values by averaging them.</PARA>
+      <literal>getUnhappiness</literal>), and generate a datapoint
+      from these values by averaging them.</para>
 
-    </SECT1>
+    </sect1>
 
-  <SECT1 ID="SWARM.OVERVIEW.MAG4.MAIN-FUNC.SECT1">
-      <TITLE>The main() function</TITLE>
+  <sect1 id="SWARM.OVERVIEW.MAG4.MAIN-FUNC.SECT1">      <title>The main() function</title>
 
-    <PARA>The last main type of code needed for an application is the
-      function <LITERAL>main()</LITERAL> the first function called in
+    <para>The last main type of code needed for an application is the
+      function <literal>main()</literal> the first function called in
       your program. All the real work has been done already - all
-      that's left is to create the objects at the right time.</PARA>
+      that's left is to create the objects at the right time.</para>
 
-<PROGRAMLISTING>
-int main(int argc, const char** argv) 
+<programlisting>int main(int argc, const char** argv) 
 { 
  id theTopLevelSwarm ;
 
@@ -379,26 +362,18 @@ int main(int argc, const char** argv)
 
  // theTopLevelSwarm has finished processing, so it's time to quit.
  return 0;
-}</PROGRAMLISTING>
+}</programlisting>
 
-    <PARA><LITERAL>main()</LITERAL> calls <LITERAL>initSwarm</LITERAL>
+    <para><literal>main()</literal> calls <literal>initSwarm</literal>
       (required in all Swarm applications). It then detects if it
       should do graphics or not, creates the appropriate top level
       Swarm to contain the model, and sets it to running. Simple as
-      that!</PARA>
+      that!</para>
 
-    </SECT1>
-
-</CHAPTER>
-
+    </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("overbook.sgml""CHAPTER")
+sgml-parent-document:("overbook.xml" "chapter")
 End: 
 -->
-
-
-
-
-
-

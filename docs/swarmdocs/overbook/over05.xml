@@ -1,20 +1,16 @@
-<CHAPTER ID="SWARM.OVERVIEW.CHAP5">
-  <TITLE>Conclusion</TITLE>
+<?xml version="1.0"?>
+<chapter id="SWARM.OVERVIEW.CHAP5">  <title>Conclusion</title>
 
-  <PARA>Swarm tries to help computer simulation authors by making it
+  <para>Swarm tries to help computer simulation authors by making it
     easier to write simulations by making it more formal. The text
     above gives a narrative introduction into using Swarm for your own
     models, but a real understanding of Swarm will only come when you
     start to read through our examples and try to write your own
     applications. Good luck, and may your simulations be
-    successful!</PARA>
-
-</CHAPTER>
-
+    successful!</para>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("overbook.sgml" "CHAPTER")
+sgml-parent-document:("overbook.xml" "chapter")
 End:
 -->
-
-

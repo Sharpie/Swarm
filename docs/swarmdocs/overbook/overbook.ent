@@ -1,9 +1,17 @@
-<!entity overmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Metadata//EN">
-<!entity overcont.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Content//EN">
-<!entity over01.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 1//EN">
-<!entity over02.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 2//EN">
-<!entity over03.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 3//EN">
-<!entity over04.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 4//EN">
-<!entity over05.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 5//EN">
-<!entity overbookrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Overview Revision History//EN">
+<!ENTITY overmeta.xml PUBLIC "-//SFI Hive//ENTITIES Overview Metadata//EN"
+"ignore.sysid">
+<!ENTITY overcont.xml PUBLIC "-//SFI Hive//ENTITIES Overview Content//EN"
+"ignore.sysid">
+<!ENTITY over01.xml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 1//EN"
+"ignore.sysid">
+<!ENTITY over02.xml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 2//EN"
+"ignore.sysid">
+<!ENTITY over03.xml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 3//EN"
+"ignore.sysid">
+<!ENTITY over04.xml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 4//EN"
+"ignore.sysid">
+<!ENTITY over05.xml PUBLIC "-//SFI Hive//ENTITIES Overview Chapter 5//EN"
+"ignore.sysid">
+<!ENTITY overbookrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Overview Revision History//EN"
+"ignore.sysid">
 
