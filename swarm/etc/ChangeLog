@@ -1,3 +1,9 @@
+1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.tests.in (INCLUDES): Use ../.. instead of
+	-I$(top_builddir)/src.  Remove -I$(includedir). 
+	(builddir): Use $(shell cd ../..; pwd) instead of $(shell pwd)/...
+
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Add Makefile.test.in.
