@@ -129,9 +129,13 @@ USING
 
 @protocol _ArchivedGeometryWidget
 CREATING
++ createBegin: aZone;
+
 //M: Called to set a name for archiving.
 - setWindowGeometryRecordName: (const char *)recordName;
 
+- loadWindowGeometryRecord;
+- registerAndLoad;
 USING
 //M: Call a method if we are destroyed.
 - enableDestroyNotification: notificationTarget
@@ -139,6 +143,10 @@ USING
 
 //M: Prevent calling the destroy notification method.
 - disableDestroyNotification;
+
+- updateArchiver;
+- getDestroyedFlag;
+- (void)drop;
 @end
 
 @protocol ArchivedGeometryWidget <_ArchivedGeometryWidget, Widget>
