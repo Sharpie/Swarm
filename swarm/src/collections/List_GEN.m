@@ -225,7 +225,7 @@ PHASE(UsingOnly)
   [super describe: outputCharStream];
 #if MLINKS
   sprintf (buffer, "> internal links at offset: %d\n",
-           getField (bits, IndexFromMemberLoc_Shift, IndexFromMemberLoc_Mask) +
+           (int) getField (bits, IndexFromMemberLoc_Shift, IndexFromMemberLoc_Mask) +
            IndexFromMemberLoc_Min);
   [outputCharStream catC: buffer];
 #endif

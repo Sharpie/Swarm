@@ -1,5 +1,7 @@
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* List_GEN.m ([TARGET -describe:]): Cast getField return to int.
+
 	* InputStream.m ([ArchiverArray_c -lispOutDeep:]): Don't use
 	sprintf just to make string from char.
 
