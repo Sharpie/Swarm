@@ -34,6 +34,11 @@
   // declare the activity controller, which provides an interface 
   //   to the observerSwarm activity.
   id <ActivityControl> observerActCont;
+
+#ifdef SCHEDULE_INSPECTION
+  id <Canvas> canvas;
+  id <ScheduleItem> scheduleItem;
+#endif
 }
 
 // Methods overriden to make the Swarm

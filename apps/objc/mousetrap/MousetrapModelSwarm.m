@@ -90,9 +90,14 @@
   return maxTriggerTime;
 }
 
-- (Grid2d *)getWorld
+- (id <Grid2d>)getWorld
 {
   return grid;
+}
+
+- (id <Schedule>)getSchedule
+{
+  return modelSchedule;
 }
 
 - (Mousetrap *)getMousetrapAtX: (int)x Y: (int)y

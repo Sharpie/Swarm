@@ -58,7 +58,7 @@
   return obj;		// We return the newly created ObserverSwarm
 }
 
-- _updateMousetraps_: window
+- _setupMousetraps_: window
 {
   int x, y, size;
   // draw all the mousetraps 
@@ -83,7 +83,7 @@
 {
   [displayWindow drop];
   displayWindow = nil;
-  [self _updateMousetraps_: nil];
+  [self _setupMousetraps_: nil];
   return self;
 }
 
@@ -177,7 +177,7 @@
   [displayWindow setWidth: [mousetrapModelSwarm getGridSize]
 		 Height: [mousetrapModelSwarm getGridSize]];
   [displayWindow setWindowTitle: "Mousetrap World"];
-  [self _updateMousetraps_: displayWindow];
+  [self _setupMousetraps_: displayWindow];
   [displayWindow drawSelf];
   [displayWindow pack];
   
@@ -197,7 +197,7 @@
   mousetrapDisplay = [Object2dDisplay createBegin: [self getZone]];
   [mousetrapDisplay setDisplayWidget: displayWindow];
   [mousetrapDisplay setDiscrete2dToDisplay: [mousetrapModelSwarm getWorld]];
-  [mousetrapDisplay setDisplayMessage: M(drawSelfOn:)];   // draw method
+  [mousetrapDisplay setDisplayMessage: M(noMethod:)];
   mousetrapDisplay = [mousetrapDisplay createEnd];
 
   // And tell the displayWindow to send mouse clicks to the mousetrapDisplay
@@ -206,6 +206,18 @@
   [displayWindow setButton: ButtonRight 
 		 Client:    mousetrapDisplay
                  Message:   M(makeProbeAtX:Y:)];
+
+#ifdef SCHEDULE_INSPECTION
+  canvas = [Canvas create: [self getZone]];
+  [canvas setWidth: 200 Height: 400];
+  [canvas setWindowTitle: "Mousetrap Schedule"];
+  [canvas pack];
+
+  scheduleItem = [ScheduleItem createBegin: [self getZone]];
+  [scheduleItem setX: 5 Y: 10];
+  [scheduleItem setCanvas: canvas];
+  scheduleItem = [scheduleItem createEnd];
+#endif
 
   // All done - we're ready to build a schedule and go
   
@@ -216,6 +228,9 @@
 {
   if (displayWindow)
     [displayWindow drawSelf];
+#ifdef SCHEDULE_INSPECTION
+  [scheduleItem update];
+#endif
   return self;
 }
 
@@ -237,6 +252,10 @@
   // Then, let our model swarm build its own schedule
   
   [mousetrapModelSwarm buildActions];
+
+#ifdef SCHEDULE_INSPECTION
+  [scheduleItem setSchedule: [mousetrapModelSwarm getSchedule]];
+#endif
 
   // Create an ActionGroup for display: a bunch of things that occur in
   // a specific order, but in the same step of simulation time. Some of 
@@ -263,7 +282,7 @@
   // This is crucial: without this, no graphics update and the control
   // panel will be dead. It's best to put it at the end of the display schedule
 
-  [displayActions createActionTo: actionCache        message: M(doTkEvents)];
+  [displayActions createActionTo: actionCache         message: M(doTkEvents)];
 
   // And the display schedule. Note the repeat interval is set from our
   // own Swarm data structure. Display is frequently the slowest part of a

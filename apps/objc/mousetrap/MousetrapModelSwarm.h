@@ -68,6 +68,7 @@
 - (int)getMaxTriggerDistance;
 - (int)getMaxTriggerTime;
 - (id <Grid2d>)getWorld;                             // for Probes
+- (id <Schedule>)getSchedule;
 
 // Methods overridden to create the model Swarm
 
