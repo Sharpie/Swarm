@@ -12,8 +12,4 @@ extern ProbeDisplayManager *probeDisplayManager;
 
 void initSwarm (int argc, const char **argv);
 
-// Flag for whether we're in graphics mode or not. Default is 1.
-extern int swarmGUIMode;
-
-extern id applicationName;
-extern id applicationMode;
+extern id arguments;

@@ -15,54 +15,29 @@
 #import <simtools/Archiver.h>
 #import <gui.h>
 
+#import <objectbase/Arguments.h>
+
 id <ProbeDisplayManager> probeDisplayManager;
 int swarmGUIMode;
-id applicationName, applicationMode;
-void printHelp();
-
-static void
-setApplicationValue (id value, const char *ptr)
-{
-  const char *appStr = ptr;
-  
-  while (*ptr)
-    {
-      if (*ptr == '/')
-        appStr = ptr + 1;
-      ptr++;
-    }
-  [value setC: appStr];
-}
+id arguments;
 
 void
 initSwarm (int argc, const char **argv)
 {
-  int i;
-
-  initModule(activity);
-  initProbing();
-
   swarmGUIMode = 1;
-  applicationName = [String create: globalZone setC: ""];
-  applicationMode = [String create: globalZone setC: ""];
-  setApplicationValue (applicationName, argv[0]);
-  setApplicationValue (applicationMode, "default");
 
-  for (i = 1; i < argc; i++)
-    {
-      if (!strcmp (argv[i],"-help"))
-        printHelp ();
-      else if (!strcmp (argv[i],"-batchmode"))
-      swarmGUIMode = 0;
-      else if (!strncmp (argv[i], "-a", 2) && (i + 1 < argc))
-        setApplicationValue (applicationMode, argv[i+1]);
-    }
-  
+  initModule (activity);
+  initProbing ();
+
+  arguments = [Arguments createArgc: argc Argv: argv];
+  if ([arguments getBatchModeFlag])
+    swarmGUIMode = 0;
+
   archiver = [Archiver ensure: globalZone];
 
-  initRandom (argc, argv);
+  initRandom (arguments);
 
-  GUI_INIT (argc, argv);
+  GUI_INIT (arguments);
   if (swarmGUIMode)
     probeDisplayManager = [ProbeDisplayManager create: globalZone];
   
@@ -72,19 +47,6 @@ initSwarm (int argc, const char **argv)
   defsymbol (ControlStateStepping);
   defsymbol (ControlStateQuit);
   defsymbol (ControlStateNextTime);
-}
-
-void
-printHelp()
-{
-  (void)fprintf (stdout, "Swarm.  Copyright (C) 1996-1998 Santa Fe Institute\n");
-  (void)fprintf (stdout, "For more info, see:\n"
-	 "http://www.santafe.edu/projects/swarm\n\n");
-  (void)fprintf (stdout, "Supported command line flags are:\n\n");
-  (void)fprintf (stdout, "\t  -appMode: Change the mode of the application\n");
-  (void)fprintf (stdout, "\t-batchmode:  Run without a GUI\n");
-  (void)fprintf (stdout, "\t -varySeed:  Change RandomSeed for each run\n");
-  exit (-1);
 }
 
 const char *

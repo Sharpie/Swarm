@@ -4,10 +4,12 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/Archiver.h>
+
 #import <simtools/global.h>
 #import <collections/Map.h>
 #import <collections.h>
 #import <collections/predicates.h>
+#import <objectbase/Arguments.h>
 
 #import <objc/objc-api.h>
 
@@ -52,15 +54,18 @@ compareStrings (id val1, id val2)
 
 - createEnd
 {
+  const char *appName = [arguments getAppName];
+  const char *appModeString = [arguments getAppModeString];
+
   currentApplicationKey = 
-    [String create : [self getZone] setC: [applicationName getC]];
+    [String create :[self getZone] setC: appName];
   
   [currentApplicationKey catC: "/"];
-  [currentApplicationKey catC: [applicationMode getC]];
+  [currentApplicationKey catC: appModeString];
   return self;
 }
 
-- setArchiveFileName : (const char *)fileName
+- setArchiveFileName: (const char *)fileName
 {
   [archiveFileNameString setC: fileName];
   return self;
@@ -214,7 +219,7 @@ compareStrings (id val1, id val2)
           map: applicationMap];
 }
   
-- in : expr
+- in: expr
 {
   id archiverCallExprIndex, archiverCallName;
   
@@ -235,7 +240,7 @@ compareStrings (id val1, id val2)
   return self;
 }
 
-+ in : aZone expr: expr
++ in: aZone expr: expr
 {
   return [[Archiver create: aZone] in: expr];
 }
@@ -266,15 +271,17 @@ compareStrings (id val1, id val2)
   return newArchiver;
 }
 
-+ ensure : aZone archiveFileName: (const char *)archiveFileName
++ ensure         : aZone 
+  archiveFileName: (const char *)archiveFileName
 {
   Archiver *newArchiver;
 
-  newArchiver = [Archiver load : aZone fromFileNamed: archiveFileName];
+  newArchiver = [Archiver load: aZone
+                          fromFileNamed: archiveFileName];
   if (newArchiver == nil)
     {
-      newArchiver = [Archiver create : aZone];
-      [newArchiver setArchiveFileName : archiveFileName];
+      newArchiver = [Archiver create: aZone];
+      [newArchiver setArchiveFileName: archiveFileName];
     }
   return newArchiver;
 }
@@ -283,9 +290,9 @@ compareStrings (id val1, id val2)
 {
   Archiver *newArchiver;
 
-  newArchiver = [Archiver load : aZone];
+  newArchiver = [Archiver load: aZone];
   if (newArchiver == nil)
-    newArchiver = [Archiver create : aZone];
+    newArchiver = [Archiver create: aZone];
   return newArchiver;
 }
 
@@ -297,7 +304,7 @@ compareStrings (id val1, id val2)
 
   if (objectMap == nil)
     {
-      objectMap = [Map createBegin : [self getZone]];
+      objectMap = [Map createBegin: [self getZone]];
       [objectMap setCompareFunction: &compareStrings];
       objectMap = [objectMap createEnd];
       
@@ -397,13 +404,13 @@ compareStrings (id val1, id val2)
 void
 archiverRegister (id client)
 {
-  [archiver _register_ : client];
+  [archiver _register_: client];
 }
 
 void
 archiverUnregister (id client)
 {
-  [archiver _unregister_ : client];
+  [archiver _unregister_: client];
 }
 
 void

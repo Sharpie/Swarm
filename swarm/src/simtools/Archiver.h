@@ -15,21 +15,21 @@ extern id archiver;
   id clients;
 }
 
-+ createBegin : aZone;
++ createBegin: aZone;
 
 // If default archive exists, loads and returns archive, otherwise return nil.
-+ load : aZone;
++ load: aZone;
 
 // If archiveFileName exists, loads and returns archive, otherwise return nil.
-+ load : aZone fromFileNamed: (const char *)archiveFileName;
++ load: aZone fromFileNamed: (const char *)archiveFileName;
 
 // If archiveFileName exists, loads and returns archive, otherwise
 // return empty archive (archiveFileName is set to argument).
-+ ensure : aZone archiveFileName: (const char *)archiveFileName;
++ ensure: aZone archiveFileName: (const char *)archiveFileName;
 
 // If default archive exists, loads and returns archive, otherwise
 // return empty archive (archiveFilename is set to default).
-+ ensure : aZone;
++ ensure: aZone;
 
 - setArchiveFileName : (const char *)archiveFileName;
 - save;
