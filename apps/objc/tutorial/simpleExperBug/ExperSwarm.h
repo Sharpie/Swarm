@@ -50,7 +50,6 @@
   id experActions;				// schedule data structs
   id experSchedule;
 
-  id modelZone;					// Zone for modelSwarm
   ModelSwarm *modelSwarm;			// the Swarm we're iterating 
 
   ParameterManager *parameterManager; 		// An object to manage model
