@@ -3,6 +3,7 @@
 #import <defobj.h> // defobj_java_call_init_tables, SSTRDUP
 #import "directory.h" // java_directory_init, JAVA_APPNAME
 #import <simtoolsgui.h> // probe display macros
+#include <swarmconfig.h> // HAVE_KAFFE
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSwarm (JNIEnv *env, jobject obj)
@@ -194,8 +195,13 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
                NULL, NULL, NULL, NO, YES);
 #ifdef hpux
   {
+#ifdef HAVE_KAFFE
+    extern void libkaffeswarmstubs_constructor (void);
+    extern void libkaffeswarm_constructor (void);
+#else
     extern void libjavaswarmstubs_constructor (void);
     extern void libjavaswarm_constructor (void);
+#endif
 
     libjavaswarmstubs_constructor ();
     libjavaswarm_constructor ();

@@ -1,5 +1,8 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): 
+	Call lib{kaffe,java}swarm{stubs}_constructor per HAVE_KAFFE.
+
 	* Makefile.in (_LIBJAVASWARMSTUBS_LA, _LIBJAVASWARM_LA): New
 	variables (substituting JAVASWARM_LIB_NAME).  Use throughout
 	instead of literals.
