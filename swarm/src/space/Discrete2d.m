@@ -7,7 +7,7 @@
 #import <space.h>
 #import <simtools.h> // InFile
 #import <defobj.h> // ProtocolViolation
-#import <defobj/internal.h> // map_ivars
+#import "../defobj/internal.h" // lisp_process_array
 #import <defobj/defalloc.h> // getZone
 #include <collections/predicates.h> // keywordp, stringp
 
