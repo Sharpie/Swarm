@@ -1,3 +1,7 @@
+1998-09-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VERSION: Bump.
+
 1998-09-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in: Call md_FIND_TCL before md_FIND_TCL_HEADERS and
