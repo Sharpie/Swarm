@@ -19,7 +19,7 @@ void init_javacall_tables (void * jEnv);
 
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 
-@interface FCall: CreateDrop_s
+@interface FCall_c: CreateDrop_s
 {
 @public
    unsigned int callType;
@@ -37,10 +37,10 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - getArguments;
 - setFunction: (void (*)())fn;
 - setMethod: (SEL)method inObject: object;
-- setJavaMethod: (const char *)methodName inObject: (JOBJECT)obj;
+- setJavaMethod: (const char *)methodName inObject: (void *)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
 - createEnd;
-- (void)_performAction_: anActivity;
+- (void)performCall;
 - (void *)getResult;
 @end
 

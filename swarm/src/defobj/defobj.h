@@ -1027,6 +1027,20 @@ USING
 - getClass;
 @end
 
+@protocol FCall <Create, Drop, CREATABLE>
+CREATING
++ createBegin: aZone;
+- setArguments: args;
+- getArguments;
+- setFunction: (void (*)())fn;
+- setMethod: (SEL)method inObject: object;
+- setJavaMethod: (const char *)methodName inObject: (void *)obj;
+- setJavaMethod: (const char *)methodName inClass: (const char *)className;
+- createEnd;
+- performCall;
+- (void *)getResult;
+@end
+
 //G: The singleton Arguments object.
 extern id arguments;
 

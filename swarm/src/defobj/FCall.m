@@ -100,11 +100,11 @@ init_javacall_tables (void * jEnv)
 }
 #endif
 
-@implementation FCall
+@implementation FCall_c
 
 + createBegin: aZone
 {
-  FCall *newCall;
+  FCall_c *newCall;
   newCall = [aZone allocIVars: self];
   newCall->args = NULL;
   return newCall;
@@ -166,7 +166,7 @@ init_javacall_tables (void * jEnv)
 }
 
 void 
-fillHiddenArguments (FCall * self)
+fillHiddenArguments (FCall_c * self)
 {
   switch (self->callType)
     {
@@ -240,7 +240,7 @@ fillHiddenArguments (FCall * self)
   return self;
 }
 
-- (void)_performAction_: anActvity
+- (void)performCall
 {
   ffi_call(&cif, ffunction, args->result, args->argValues + 
 	   MAX_HIDDEN - args->hiddenArguments);  
