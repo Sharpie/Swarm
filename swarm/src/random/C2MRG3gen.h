@@ -9,6 +9,12 @@ Description:     Combined Multiple Recursive Generator
 Library:         random
 Original Author: Sven Thommesen
 Date:            1997-09-01 (v. 0.7)
+
+Modified by:	 Sven Thommesen
+Date:		 1998-10-08 (v. 0.8)
+Changes:	 Code cleanup related to signed/unsigned comparisons.
+		 Code rearranged for create-phase compatibility.
+		 Added -reset method.
 */
 
 /*
@@ -109,11 +115,11 @@ output quality:	|
 #import <random.h>
 #import <objectbase/SwarmObject.h>
 
-#define MAXLAG     3
-#define COMPONENTS 2
+#define MAXLAG     3U
+#define COMPONENTS 2U
 #define SEEDS      (COMPONENTS * MAXLAG)
 
-@interface C2MRG3gen: SwarmObject
+@interface C2MRG3gen: SwarmObject <SimpleRandomGenerator, CREATABLE>
 
 {
 
@@ -151,7 +157,7 @@ output quality:	|
 
 // Generator parameters:
 
-   int k;			// lag order (same for both components)
+   unsigned k;			// lag order (same for both components)
    int m1, m2;			// moduli
    int a12, a13, a21, a23;	// multipliers
 
@@ -169,83 +175,74 @@ output quality:	|
 
 }
 
-//                                                                      simple.h
 
-// ----- Private methods: -----
+CREATING
 
--		runup: (unsigned) streak;
--		generateSeeds;
--		setState;
+// Unpublished (private) methods:
+- runup: (unsigned)streak;
+- initState;
++ createBegin: aZone;
+- createEnd;
 
--		initState;
-+		createBegin: (id) aZone;
--		setStateFromSeed:  (unsigned)   seed;
--		setStateFromSeeds: (unsigned *) seeds;
--		createEnd;
+// @protocol Simple
++ createWithDefaults: aZone;
 
-// ----- Single-seed creation: -----
+// @protocol SingleSeed
++ create: aZone setStateFromSeed: (unsigned)seed;
 
-+ 		create: aZone setStateFromSeed:  (unsigned)   seed;
+// @protocol MultiSeed
++ create: aZone setStateFromSeeds: (unsigned *)seeds;
 
-// Limits on seed value supplied (minimum = 0):
-- (unsigned)	getMaxSeedValue;
+SETTING
 
-// Return generator starting value:
-- (unsigned) 	getInitialSeed;
+// Unpublished (private) methods:
+- setState;
+- generateSeeds;
+- generateSeedVector;
 
-// ----- Multi-seed creation: -----
+// @protocol Simple
+- setAntithetic: (BOOL) antiT;
 
-+		create: aZone setStateFromSeeds: (unsigned *) seeds;
+// @protocol SingleSeed
+- setStateFromSeed: (unsigned)seed;
 
-// Number of seeds required (size of array) (minimum = 1):
-- (unsigned) 	lengthOfSeedVector;
+// @protocol MultiSeed
+- setStateFromSeeds: (unsigned *)seeds;
 
-// Limits on seed values supplied (minimum = 0):
-- (unsigned *)	getMaxSeedValues;
+USING
 
-// Return generator starting values:
-- (unsigned *) 	getInitialSeeds;
+// Unpublished (private) methods:
 
-// ----- Other create methods: -----
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
-// Create with a default set of seeds and parameters:
-+		createWithDefaults: aZone;
+// @protocol SimpleOut
+- (unsigned)getUnsignedMax;
 
--		setAntithetic: (BOOL) antiT;
+- (unsigned)getUnsignedSample;
+- (float)getFloatSample;
+- (double)getThinDoubleSample;
+- (double)getDoubleSample;
+- (long double)getLongDoubleSample;
 
-// ----- Return values of parameters: -----
-- (BOOL)	getAntithetic;
+// @protocol Simple
+- (BOOL)getAntithetic;
+- (unsigned long long int)getCurrentCount;
+- reset;
 
-// ----- Return state values: -----
+// @protocol SingleSeed
+- (unsigned)getMaxSeedValue;		// min is 1
+- (unsigned)getInitialSeed;
 
-// Return count of variates generated:
-- (unsigned long long int)	getCurrentCount;
-
-// ----- Generator output: -----
-
-// The maximum value returned by getUnsignedSample is:
-- (unsigned)    getUnsignedMax;
-
-// Return a 'random' integer uniformly distributed over [0,unsignedMax]:
-- (unsigned)	getUnsignedSample;
-
-// Return a 'random' floating-point number uniformly distributed in [0.0,1.0):
-
-- (float)       getFloatSample;			// using 1 unsigned
-- (double)      getThinDoubleSample;		// using 1 unsigned
-- (double)      getDoubleSample;		// using 2 unsigneds
-- (long double) getLongDoubleSample;		// using 2 unsigneds
-
-// Warning: use of the last method is not portable between architectures.
-
-// ----- Object state management: -----
-
-- (unsigned)	getStateSize;		
-- (void)	putStateInto: (void *) buffer;
-- (void)	setStateFrom: (void *) buffer;
-- (void)	describe: (id) outStream;
-- (const char *)getName;		
-- (unsigned)	getMagic;	
+// @protocol MultiSeed
+- (unsigned)lengthOfSeedVector;
+- (unsigned *)getMaxSeedValues;		// min is 1
+- (unsigned *)getInitialSeeds;
 
 @end
 

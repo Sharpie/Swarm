@@ -9,10 +9,10 @@ Description:     Uniform distribution returning unsigned integers
 Library:         random
 Original Author: Sven Thommesen
 Date:            1997-01-15
-
 Modified by:	 Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
-
+Modified by:	 Sven Thommesen
+Date:		 1998-10-08 (v. 0.8)
 */
 
 /*
@@ -26,15 +26,6 @@ Date:		 1997-09-01 (v. 0.7)
 
 
 @implementation UniformUnsignedDist
-
-
-// Import common code snippets:
-
-#import "Common.dists.m"
-
-
-// And now code particular to this distribution:
-
 
 // data struct used by setStateFrom / putStateInto:
 //
@@ -58,12 +49,16 @@ typedef struct {
 } state_struct_t;
 
 
--initState {
+PHASE(Creating)
 
+#include "include.dists.creating.m"
+
+- initState
+{
 // Distribution personality:
 
    stateSize = sizeof(state_struct_t);
-   strncpy(distName,"UniformUnsignedDist",sizeof(distName));
+   strncpy (distName, "UniformUnsignedDist", sizeof (distName));
    distMagic = UNIFORMUNSIGNEDMAGIC + UNIFORMUNSIGNEDREVISION;
 
 // Parameters:
@@ -81,280 +76,308 @@ typedef struct {
    return self;
 }
 
--resetState {
-
-   currentCount = 0;
-
-   return self;
++ createBegin: aZone
+{
+  UniformUnsignedDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [super createBegin: aZone];
+  
+  // Initialize instance variables:
+  
+  aDistribution->randomGenerator = NULL;
+  
+  // Initialize parameters:
+  
+  [aDistribution initState];
+  
+  return aDistribution;
 }
 
 
-+createBegin: aZone {
-   UniformUnsignedDist * aDistribution;
++ create: aZone setGenerator: generator
+{
+  UniformUnsignedDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [UniformUnsignedDist createBegin: aZone];
+  
+  // Connect the supplied random generator:
 
-// Allocate space for the object:
+  [aDistribution setGenerator: generator];
+  
+  return [aDistribution createEnd];
+}
 
-   aDistribution = [super createBegin: aZone];
 
-// Initialize instance variables:
++ createWithDefaults: aZone
+{
+  UniformUnsignedDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [UniformUnsignedDist createBegin: aZone];
+  
+  // Connect a default random generator:
+  
+  [aDistribution setGenerator: [TT775gen createWithDefaults: aZone]];
+  
+  return [aDistribution createEnd];
+}
 
-   aDistribution->randomGenerator = NULL;
 
-// Initialize parameters:
++ create             : aZone
+         setGenerator: generator 
+  setVirtualGenerator: (unsigned)vGen
+{
+  UniformUnsignedDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [UniformUnsignedDist createBegin: aZone];
+  
+  // Connect the supplied random generator:
+  
+  [aDistribution setGenerator: generator
+                 setVirtualGenerator: vGen];
+  
+  return [aDistribution createEnd];
+}
 
-   [aDistribution initState];
++ create        : aZone
+    setGenerator: generator
+  setUnsignedMin: (unsigned) minValue
+          setMax: (unsigned) maxValue
+{
+  UniformUnsignedDist *aDistribution;
+  
+  aDistribution = [UniformUnsignedDist create: aZone setGenerator: generator];
+  
+  [aDistribution setUnsignedMin: minValue setMax: maxValue];
+  
+  return aDistribution;
+}
 
++ create            : aZone
+        setGenerator: generator
+ setVirtualGenerator: (unsigned)vGen
+      setUnsignedMin: (unsigned)minValue
+              setMax: (unsigned)maxValue
+{
+  UniformUnsignedDist *aDistribution;
+  
+   aDistribution = [UniformUnsignedDist create: aZone setGenerator: generator 
+                                        setVirtualGenerator: vGen];
+   
+   [aDistribution setUnsignedMin: minValue setMax: maxValue];
+   
    return aDistribution;
 }
 
 
-+create: (id) aZone setGenerator: (id) generator {
-   UniformUnsignedDist * aDistribution;
+PHASE(Setting)
 
-// Allocate space for the object:
+#include "include.dists.setting.m"
 
-   aDistribution = [UniformUnsignedDist createBegin: aZone];
+- resetState
+{
+  currentCount = 0;
+  
+  return self;
+}
 
-// Connect the supplied random generator:
+- setUnsignedMin: (unsigned)minValue setMax: (unsigned)maxValue
+{
+  /*
+    // Relax this restriction, too.
+    
+    if (optionsInitialized)
+    [InvalidCombination raiseEvent:
+    "%s: setting parameters more than once not allowed\n", distName];
+  */
+  
+  if (minValue == maxValue)
+    {
+      bSingular = YES;
+      uMax = uMin = minValue;
+      uRange = 0;
+      uCutoff = 0;
+    }
+  else
+    {
+      bSingular = NO;
+      
+      // Ensure that uMax > uMin:
+      
+      if (maxValue > minValue)
+        {
+          uMax = maxValue;
+          uMin = minValue;
+        }
+      else
+        {
+          uMax = minValue;
+          uMin = maxValue;
+        }
+      uRange = uMax - uMin;
+      
+      if (uRange > generatorMax-1)
+        [InvalidCombination
+          raiseEvent:
+            "%s: Requested random number with range %u, \nbut your generator only supports a range of %u \n", 
+          distName, uRange, generatorMax - 1];
 
-   [aDistribution setGenerator: generator];
-
-   return [ aDistribution createEnd ];
-
+      uRange = uRange + 1;
+      uCutoff = generatorMax - (generatorMax % uRange);
+      // uCutoff = (generatorMax / uRange) * uRange;
+    }
+  
+  // This object is now fixed:
+  
+  optionsInitialized = YES;
+  
+  [self resetState];
+  
+  return self;
 }
 
 
-+createWithDefaults: (id) aZone {
-   UniformUnsignedDist * aDistribution;
+PHASE(Using)
 
-// Allocate space for the object:
+#include "include.dists.using.m"
 
-   aDistribution = [UniformUnsignedDist createBegin: aZone];
 
-// Connect a default random generator:
-
-   [aDistribution setGenerator: [TT775gen createWithDefaults: aZone] ];
-
-   return [ aDistribution createEnd ];
-
+- (unsigned)getUnsignedMin
+{
+  return uMin;
 }
 
-
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen       {
-   UniformUnsignedDist * aDistribution;
-
-// Allocate space for the object:
-
-   aDistribution = [UniformUnsignedDist createBegin: aZone];
-
-// Connect the supplied random generator:
-
-   [aDistribution setGenerator: generator
-	setVirtualGenerator: vGen];
-
-   return [ aDistribution createEnd ];
-
-}
-
-
-// ----- protocol UniformUnsigned -----
-
--(unsigned) getUnsignedMin {
-   return uMin;
-}
-
--(unsigned) getUnsignedMax {
+- (unsigned)getUnsignedMax
+{
   return uMax;
 }
 
--setUnsignedMin: (unsigned) minValue setMax: (unsigned) maxValue {
-
-/*
-// Relax this restriction, too.
-
-   if (optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: setting parameters more than once not allowed\n", distName];
-*/
-
-   if (minValue == maxValue) {
-
-   bSingular = YES;
-   uMax = uMin = minValue;
-   uRange = 0;
-   uCutoff = 0;
-
-   } else {
-
-   bSingular = NO;
-
-   // Ensure that uMax > uMin:
-
-   if (maxValue > minValue) {
-     uMax = maxValue;
-     uMin = minValue;
-   } else {
-     uMax = minValue;
-     uMin = maxValue;
-   }
-   uRange = uMax - uMin;
-
-   if (uRange > generatorMax-1)
-    [InvalidCombination raiseEvent:
-    "%s: Requested random number with range %u, \n 
-     but your generator only supports a range of %u \n", 
-     distName, uRange, generatorMax-1];
-
-   uRange = uRange + 1;
-   uCutoff = generatorMax - (generatorMax % uRange);
-   // uCutoff = (generatorMax / uRange) * uRange;
-
-   }
-
-   // This object is now fixed:
-
-   optionsInitialized = YES;
-
-   [ self resetState ];
-
-   return self;
-}
-
-
-+create: (id) aZone setGenerator: (id) generator
-	setUnsignedMin: (unsigned) minValue setMax: (unsigned) maxValue {
-   UniformUnsignedDist * aDistribution;
-
-   aDistribution = [ UniformUnsignedDist create: aZone setGenerator: generator ];
-
-   [aDistribution setUnsignedMin: minValue setMax: maxValue];
-
-   return aDistribution;
-}
-
-+create: (id) aZone setGenerator: (id) generator
-	setVirtualGenerator: (unsigned) vGen
-	setUnsignedMin: (unsigned) minValue setMax: (unsigned) maxValue {
-   UniformUnsignedDist * aDistribution;
-
-   aDistribution = [ UniformUnsignedDist create: aZone setGenerator: generator 
-			setVirtualGenerator: vGen ];
-
-   [aDistribution setUnsignedMin: minValue setMax: maxValue];
-
-   return aDistribution;
-}
-
-
-// ----- Generate random numbers: -----
-
 
 // Return unsigned integer value in range [min,max] (inclusive).
 
--(unsigned) getUnsignedWithMin: (unsigned)minValue withMax: (unsigned)maxValue {
-   unsigned tmpMax, tmpMin;
-   unsigned uValue;
-   unsigned tmpRange, tmpCut;
-
-/*
-// Allow this call even if parameters are set!
-
-   if (optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: getUnsignedWithMin:withMax: options already initialized\n", distName];
-*/
-
-   currentCount++ ;
-
-   if (minValue == maxValue) return minValue;
-
-
-   // Ensure tmpMax > tmpMin:
-
-   if (maxValue > minValue) {
-     tmpMax = maxValue;
-     tmpMin = minValue;
-   } else {
-     tmpMax = minValue;
-     tmpMin = maxValue;
-   }
-   tmpRange = tmpMax - tmpMin;
-
-   if (tmpRange > generatorMax-1)
+- (unsigned)getUnsignedWithMin: (unsigned)minValue
+                       withMax: (unsigned)maxValue
+{
+  unsigned tmpMax, tmpMin;
+  unsigned uValue;
+  unsigned tmpRange, tmpCut;
+  
+  /*
+    // Allow this call even if parameters are set!
+    
+    if (optionsInitialized)
     [InvalidCombination raiseEvent:
-    "%s: Requested random number with range %u, \n 
-     but your generator only supports a range of %u \n", 
-     distName, tmpRange, generatorMax-1];
-
-   tmpRange = tmpRange + 1;
-   tmpCut = generatorMax - (generatorMax % tmpRange);
-   // tmpCut = (generatorMax / tmpRange) * tmpRange;
-
-   // uCutoff is set to be a multiple of uRange
-   // to ensure an unbiased uniform variable.
-   // Suggested by Barry McMullin.
-
-   if (useSplitGenerator) {
+    "%s: getUnsignedWithMin:withMax: options already initialized\n", distName];
+  */
+  
+  currentCount++;
+  
+  if (minValue == maxValue)
+    return minValue;
+  
+  
+  // Ensure tmpMax > tmpMin:
+  
+  if (maxValue > minValue)
+    {
+      tmpMax = maxValue;
+      tmpMin = minValue;
+    } 
+  else
+    {
+      tmpMax = minValue;
+      tmpMin = maxValue;
+    }
+  tmpRange = tmpMax - tmpMin;
+  
+  if (tmpRange > generatorMax-1)
+    [InvalidCombination 
+      raiseEvent:
+        "%s: Requested random number with range %u, \nbut your generator only supports a range of %u \n", 
+      distName, tmpRange, generatorMax - 1];
+  
+  tmpRange = tmpRange + 1;
+  tmpCut = generatorMax - (generatorMax % tmpRange);
+  // tmpCut = (generatorMax / tmpRange) * tmpRange;
+  
+  // uCutoff is set to be a multiple of uRange
+  // to ensure an unbiased uniform variable.
+  // Suggested by Barry McMullin.
+  
+  if (useSplitGenerator)
+    {
       do {
         uValue = [randomGenerator getUnsignedSample: virtualGenerator];
       } while (uValue >= tmpCut);
-   } else {
+    } 
+  else
+    {
       do {
         uValue = [randomGenerator getUnsignedSample];
       } while (uValue >= tmpCut);
-   }
-
-   uValue = (uValue % tmpRange) + tmpMin;
-
-   return uValue;
-
+    }
+  
+  uValue = (uValue % tmpRange) + tmpMin;
+  
+  return uValue;
 }
 
 // Return unsigned integer value in range [min,max] (inclusive).
 
--(unsigned) getUnsignedSample {
-   unsigned uValue;
-
-   if (!optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: getUnsignedSample: parameters have not been set\n", distName];
-
-   currentCount++ ;
-
-   if (bSingular) return uMin;
-
-
-   // uCutoff is set to be a multiple of uRange
-   // to ensure an unbiased uniform variable.
+- (unsigned)getUnsignedSample
+{
+  unsigned uValue;
+  
+  if (!optionsInitialized)
+    [InvalidCombination
+      raiseEvent:
+        "%s: getUnsignedSample: parameters have not been set\n", distName];
+  
+  currentCount++;
+  
+  if (bSingular)
+    return uMin;
+  
+  
+  // uCutoff is set to be a multiple of uRange
+  // to ensure an unbiased uniform variable.
    // Suggested by Barry McMullin.
 
-   if (useSplitGenerator) {
-      do {
-        uValue = [randomGenerator getUnsignedSample: virtualGenerator];
-      } while (uValue >= uCutoff);
-   } else {
-      do {
-        uValue = [randomGenerator getUnsignedSample];
-      } while (uValue >= uCutoff);
-   }
-
+   if (useSplitGenerator)
+     {
+       do {
+         uValue = [randomGenerator getUnsignedSample: virtualGenerator];
+       } while (uValue >= uCutoff);
+     } 
+   else
+     {
+       do {
+         uValue = [randomGenerator getUnsignedSample];
+       } while (uValue >= uCutoff);
+     }
+   
    uValue = (uValue % uRange) + uMin;
-
+   
    return uValue;
-
 }
 
-// ----- protocol InternalState -----
 
--(void) putStateInto: (void *) buffer {
-   state_struct_t * internalState;
-
+- (void)putStateInto: (void *)buffer
+{
+  state_struct_t *internalState;
+  
   // recast the caller's pointer:
   internalState = (state_struct_t *) buffer;
-
+  
   // fill the caller's buffer with state data:
-
+  
   // object identification:
   internalState->distMagic = distMagic;
   internalState->stateSize = stateSize;
@@ -376,24 +399,24 @@ typedef struct {
 
 }
 
--(void) setStateFrom: (void *) buffer {
-   state_struct_t * internalState;
-
+- (void)setStateFrom: (void *)buffer
+{
+  state_struct_t *internalState;
+  
   // recast the caller's pointer:
   internalState = (state_struct_t *) buffer;
-
+  
   // TEST the integrity of the external data:
-  if ( 
-          (internalState->distMagic != distMagic)
-       || (internalState->stateSize != stateSize)
-     )
-  [InvalidCombination raiseEvent:
-  "%u %s: you are passing bad data to setState!\n %u %u\n",
-   distMagic, distName,
-   internalState->distMagic, internalState->stateSize];
-
+  if ((internalState->distMagic != distMagic)
+      || (internalState->stateSize != stateSize))
+    [InvalidCombination
+      raiseEvent:
+        "%u %s: you are passing bad data to setState!\n %u %u\n",
+      distMagic, distName,
+      internalState->distMagic, internalState->stateSize];
+  
   // set internal state from data in caller's buffer:
-
+  
   // Fixed parameters:
   optionsInitialized = internalState->optionsInitialized;
   uMin   = internalState->uMin;
@@ -407,58 +430,58 @@ typedef struct {
 
   // Test generator data:
 
-  if (
-          ( (unsigned) [randomGenerator getMagic] != internalState->genMagic )
-       || ( useSplitGenerator != internalState->useSplitGenerator )
-       || ( virtualGenerator  != internalState->virtualGenerator  )
-     ) {
-  printf("%s setState: Warning! Not using the same generator\n", distName);
-  uCutoff = generatorMax - (generatorMax % uRange); // recalc for new gen
-       }
-
+  if (((unsigned) [randomGenerator getMagic] != internalState->genMagic)
+      || ( useSplitGenerator != internalState->useSplitGenerator)
+      || ( virtualGenerator  != internalState->virtualGenerator))
+    {
+      printf ("%s setState: Warning! Not using the same generator\n",
+              distName);
+      uCutoff = generatorMax - (generatorMax % uRange); // recalc for new gen
+    }
+  
   // nothing is returned from a (void) function
-
 }
 
-- (void) describe: outStream {
+- (void)describe: outStream 
+{
   char buffer[200];
-
-  (void)sprintf(buffer," %s describe: outStream: \n", distName);
+  
+  (void)sprintf (buffer," %s describe: outStream: \n", distName);
   [outStream catC: buffer];
-
-  (void)sprintf(buffer,"          distMagic = %24u\n", distMagic);
+  
+  (void)sprintf (buffer,"          distMagic = %24u\n", distMagic);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"           distName = %24s\n", distName);
+  (void)sprintf (buffer,"           distName = %24s\n", distName);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          stateSize = %24u\n", stateSize);
+  (void)sprintf (buffer,"          stateSize = %24u\n", stateSize);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"         *Generator = %24p\n", randomGenerator);
+  (void)sprintf (buffer,"         *Generator = %24p\n", randomGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"            genName = %24s\n", 
-	[randomGenerator getName]);
+  (void)sprintf (buffer,"            genName = %24s\n", 
+                 [randomGenerator getName]);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"       generatorMax = %24u\n", generatorMax);
+  (void)sprintf (buffer,"       generatorMax = %24u\n", generatorMax);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"  useSplitGenerator = %24d\n", useSplitGenerator);
+  (void)sprintf (buffer,"  useSplitGenerator = %24d\n", useSplitGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"   virtualGenerator = %24u\n", virtualGenerator);
+  (void)sprintf (buffer,"   virtualGenerator = %24u\n", virtualGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer," optionsInitialized = %24d\n", optionsInitialized);
+  (void)sprintf (buffer," optionsInitialized = %24d\n", optionsInitialized);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"               uMin = %24u\n", uMin);
+  (void)sprintf (buffer,"               uMin = %24u\n", uMin);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"               uMax = %24u\n", uMax);
+  (void)sprintf (buffer,"               uMax = %24u\n", uMax);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"             uRange = %24u\n", uRange);
+  (void)sprintf (buffer,"             uRange = %24u\n", uRange);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"            uCutoff = %24u\n", uCutoff);
+  (void)sprintf (buffer,"            uCutoff = %24u\n", uCutoff);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          bSingular = %24d\n", bSingular);
+  (void)sprintf (buffer,"          bSingular = %24d\n", bSingular);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"       currentCount = %24llu\n", currentCount);
+  (void)sprintf (buffer,"       currentCount = %24llu\n", currentCount);
   [outStream catC: buffer];
-
-
+  
+  
   [outStream catC: "\n"];
 
   //  return self;

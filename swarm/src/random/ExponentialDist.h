@@ -18,6 +18,11 @@ Changes:	 Standardized the informational comments.
 		 Added code to deal with split generators.
 		 Added method -createWithDefault.
 		 Removed distinction between frozen and non-frozen state.
+
+Modified by:	Sven Thommesen
+Date:		1998-10-08 (v. 0.8)
+Changes:	Rearranged code for create-phase compatibility.
+
 */
 
 /*
@@ -56,7 +61,7 @@ Relative speed:	| Speed 0.177 (time 5.653) relative to MT19937 getUnsignedSample
 #import <random.h>
 
 
-@interface ExponentialDist: SwarmObject 
+@interface ExponentialDist: SwarmObject <ExponentialDist>
 
 {
 
@@ -95,70 +100,75 @@ Relative speed:	| Speed 0.177 (time 5.653) relative to MT19937 getUnsignedSample
 
 }
 
-// --- Private methods: -----
+CREATING
 
--initState;
--resetState;
+// @protocol ExponentialDist <DoubleDistribution, CREATABLE> 
 
-// ----- Generator creation: -----
+- initState;		// unpublished
 
-+createBegin: (id) aZone;
--setGenerator: (id) generator;
--setGenerator: (id) generator setVirtualGenerator: (unsigned) vGen;
--createEnd;
++ create      : aZone
+  setGenerator: generator
+       setMean: (double)mean;
 
++ create             : aZone
+         setGenerator: generator
+  setVirtualGenerator: (unsigned)vGen
+              setMean: (double)mean;
 
-+createWithDefaults: aZone;
+// @protocol DoubleDistribution <ProbabilityDistribution>
 
-+create: (id) aZone setGenerator: (id) generator;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen;
++ createWithDefaults: aZone;
 
--setMean: (double) mean;
++ create: aZone setGenerator: generator;
 
-+create: (id) aZone setGenerator: (id) generator
-	setMean: (double) mean;
++ create             : aZone 
+         setGenerator: generator
+  setVirtualGenerator: (unsigned) vGen;
 
-+create: (id) aZone setGenerator: (id) generator
-	setVirtualGenerator: (unsigned) vGen
-	setMean: (double) mean;
++ createBegin: aZone;
+- createEnd;
 
--reset;		// reset currentCount and other state data
+// @protocol InternalState
 
-// ----- Return values of parameters: -----
+SETTING
 
--(id)		getGenerator;
--(unsigned)	getVirtualGenerator;
--(BOOL)		getOptionsInitialized;
+// @protocol ExponentialDist <DoubleDistribution, CREATABLE> 
+- resetState;		// unpublished
+- setMean: (double)mean;
 
--(double) 	getMean;
+// @protocol BooleanDistribution <ProbabilityDistribution> 
 
-// ----- Return state values: -----
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- setGenerator: generator;
+- setGenerator: generator setVirtualGenerator: (unsigned)vGen;
+- reset;
 
-// Return count of variates generated:
+// @protocol InternalState
 
--(unsigned  long long int) getCurrentCount;
+USING
 
- 
-// ----- Distribution output: -----
+// @protocol ExponentialDist <DoubleDistribution, CREATABLE> 
+- (double)getMean;
+- (double)getSampleWithMean: (double)mean;
 
-// FIXED parameters:
+// @protocol DoubleDistribution <ProbabilityDistribution>
+- (double)getDoubleSample;
 
--(double)      getDoubleSample;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- getGenerator;
+- (unsigned)getVirtualGenerator;
+- (BOOL)getOptionsInitialized;
+- (unsigned long long int)getCurrentCount;
 
-// FREE parameters:
-
--(double) getSampleWithMean: (double) mean;
-
-// ----- Object state management: -----
-
--(unsigned)  getStateSize;
--(void)      putStateInto:  (void *) buffer;
--(void)      setStateFrom:  (void *) buffer;
--(void)      describe:      (id) outStream;
--(const char *)getName;
--(unsigned)  getMagic;
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
 @end
 

@@ -9,10 +9,10 @@ Description:     Uniform distribution returning double values
 Library:         random
 Original Author: Sven Thommesen
 Date:            1997-01-15
-
 Modified by:	 Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
-
+Modified by:	 Sven Thommesen
+Date:		 1998-10-08 (v. 0.8)
 */
 
 /*
@@ -25,15 +25,6 @@ Date:		 1997-09-01 (v. 0.7)
 
 
 @implementation UniformDoubleDist
-
-
-// Import common code snippets:
-
-#import "Common.dists.m"
-
-
-// And now code particular to this distribution:
-
 
 // data struct used by setStateFrom / putStateInto:
 //
@@ -56,283 +47,304 @@ typedef struct {
 } state_struct_t;
 
 
+PHASE(Creating)
 
--initState {
+#include "include.dists.creating.m"
 
-// Distribution personality:
+- initState
+{
+  // Distribution personality:
 
-   stateSize = sizeof(state_struct_t);
-   strncpy(distName,"UniformDoubleDist",sizeof(distName));
-   distMagic = UNIFORMDOUBLEMAGIC + UNIFORMDOUBLEREVISION;
-   
-// Parameters:
-
-   optionsInitialized = NO;
-   useSplitGenerator  = NO;
-   virtualGenerator   = MAXVGEN;
-
-   doubleMin   = 0.0;
-   doubleMax   = 0.0;
-   doubleRange = 0.0;
-   bSingular   = YES;
-
+  stateSize = sizeof(state_struct_t);
+  strncpy (distName, "UniformDoubleDist", sizeof (distName));
+  distMagic = UNIFORMDOUBLEMAGIC + UNIFORMDOUBLEREVISION;
+  
+  // Parameters:
+  
+  optionsInitialized = NO;
+  useSplitGenerator  = NO;
+  virtualGenerator   = MAXVGEN;
+  
+  doubleMin   = 0.0;
+  doubleMax   = 0.0;
+  doubleRange = 0.0;
+  bSingular   = YES;
+  
 #ifdef USETHINDOUBLES
-   printf("NOTE! %s: created to use THIN doubles\n",distName);
+  printf ("NOTE! %s: created to use THIN doubles\n",distName);
 #endif
-
-   return self;
+  
+  return self;
 }
 
--resetState {
++ createBegin: aZone
+{
+  UniformDoubleDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [super createBegin: aZone];
+  
+  // Initialize instance variables:
+  
+  aDistribution->randomGenerator = NULL;
+  
+  // Initialize parameters:
+  
+  [aDistribution initState];
 
-   currentCount = 0;
-
-   return self;
-}
-
-+createBegin: aZone {
-   UniformDoubleDist * aDistribution;
-
-// Allocate space for the object:
-
-   aDistribution = [super createBegin: aZone];
-
-// Initialize instance variables:
-
-   aDistribution->randomGenerator = NULL;
-
-// Initialize parameters:
-
-   [aDistribution initState];
-
-   return aDistribution;
+  return aDistribution;
 }
 
 
-+create: (id) aZone setGenerator: (id) generator {
-   UniformDoubleDist * aDistribution;
++ create: aZone setGenerator: generator
+{
+  UniformDoubleDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [UniformDoubleDist createBegin: aZone];
 
-// Allocate space for the object:
-
-   aDistribution = [UniformDoubleDist createBegin: aZone];
-
-// Connect the supplied random generator:
-
-   [aDistribution setGenerator: generator];
-
-   return [ aDistribution createEnd ];
-
+  // Connect the supplied random generator:
+  
+  [aDistribution setGenerator: generator];
+  
+  return [aDistribution createEnd];
 }
 
 
-+createWithDefaults: (id) aZone {
-   UniformDoubleDist * aDistribution;
++ createWithDefaults: aZone
+{
+  UniformDoubleDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [UniformDoubleDist createBegin: aZone];
+  
+  // Connect a default random generator:
 
-// Allocate space for the object:
-
-   aDistribution = [UniformDoubleDist createBegin: aZone];
-
-// Connect a default random generator:
-
-   [aDistribution setGenerator: [TT800gen createWithDefaults: aZone] ];
-
-   return [ aDistribution createEnd ];
-
+  [aDistribution setGenerator: [TT800gen createWithDefaults: aZone]];
+  
+  return [aDistribution createEnd];
 }
 
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen      {
-   UniformDoubleDist * aDistribution;
++ create             : aZone
+         setGenerator: generator 
+  setVirtualGenerator: (unsigned)vGen
+{
+  UniformDoubleDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [UniformDoubleDist createBegin: aZone];
+  
+  // Connect the supplied random generator:
+  
+  [aDistribution setGenerator: generator
+                 setVirtualGenerator: vGen];
+  
+  return [aDistribution createEnd];
+}
 
-// Allocate space for the object:
++ create        : aZone
+    setGenerator: generator
+    setDoubleMin: (double)minValue
+          setMax: (double)maxValue
+{
+  UniformDoubleDist *aDistribution;
+  
+  aDistribution = [UniformDoubleDist create: aZone setGenerator: generator];
+  
+  [aDistribution setDoubleMin: minValue setMax: maxValue];
+  
+  return aDistribution;
+}
 
-   aDistribution = [UniformDoubleDist createBegin: aZone];
-
-// Connect the supplied random generator:
-
-   [aDistribution setGenerator: generator
-	setVirtualGenerator: vGen];
-
-   return [ aDistribution createEnd ];
-
++ create             : aZone
+         setGenerator: generator
+  setVirtualGenerator: (unsigned)vGen
+         setDoubleMin: (double)minValue
+               setMax: (double)maxValue
+{
+  UniformDoubleDist *aDistribution;
+  
+  aDistribution = [UniformDoubleDist create: aZone
+                                     setGenerator: generator 
+                                     setVirtualGenerator: vGen];
+  
+  [aDistribution setDoubleMin: minValue setMax: maxValue];
+  
+  return aDistribution;
 }
 
 
-// ----- protocol UniformDouble -----
+PHASE(Setting)
 
--(double) getDoubleMin {
-   return doubleMin;
+#include "include.dists.setting.m"
+
+- resetState
+{
+  currentCount = 0;
+  
+  return self;
 }
 
--(double) getDoubleMax {
-   return doubleMax;
-}
-
--setDoubleMin: (double) minValue setMax: (double) maxValue {
-
-/*
-// Relax this restriction, too.
-
-   if (optionsInitialized)
-   [InvalidCombination raiseEvent:
+- setDoubleMin: (double)minValue setMax: (double)maxValue
+{
+  /*
+    // Relax this restriction, too.
+    
+    if (optionsInitialized)
+    [InvalidCombination raiseEvent:
    "%s: setting parameters more than once not allowed\n", distName];
-*/
-
-   if (minValue == maxValue) {
-
-   bSingular = YES;
-   doubleMin = doubleMax = minValue;
-   doubleRange = 0.0;
-
-   } else {
-
-   bSingular = NO;
-
-   // Ensure that doubleMax > doubleMin:
-
-   if (maxValue > minValue) {
-     doubleMax = maxValue;
-     doubleMin = minValue;
-   } else {
-     doubleMax = minValue;
-     doubleMin = maxValue;
-   }
-   doubleRange = doubleMax - doubleMin;
-
-   }
-
+  */
+  
+  if (minValue == maxValue)
+    {
+      bSingular = YES;
+      doubleMin = doubleMax = minValue;
+      doubleRange = 0.0;
+    }
+  else
+    {
+      bSingular = NO;
+      
+      // Ensure that doubleMax > doubleMin:
+      
+      if (maxValue > minValue)
+        {
+          doubleMax = maxValue;
+          doubleMin = minValue;
+        }
+      else
+        {
+          doubleMax = minValue;
+          doubleMin = maxValue;
+        }
+      doubleRange = doubleMax - doubleMin;
+    }
+  
    // This object is now fixed:
-
-   optionsInitialized = YES;
-
-   [ self resetState ];
-
-   return self;
-}
-
-+create: (id) aZone setGenerator: (id) generator
-	setDoubleMin: (double) minValue setMax: (double) maxValue {
-   UniformDoubleDist * aDistribution;
-
-   aDistribution = [ UniformDoubleDist create: aZone setGenerator: generator ];
-
-   [aDistribution setDoubleMin: minValue setMax: maxValue];
-
-   return aDistribution;
-}
-
-+create: (id) aZone setGenerator: (id) generator
-	setVirtualGenerator: (unsigned) vGen
-	setDoubleMin: (double) minValue setMax: (double) maxValue {
-   UniformDoubleDist * aDistribution;
-
-   aDistribution = [ UniformDoubleDist create: aZone setGenerator: generator 
-			setVirtualGenerator: vGen];
-
-   [aDistribution setDoubleMin: minValue setMax: maxValue];
-
-   return aDistribution;
+  
+  optionsInitialized = YES;
+  
+  [self resetState];
+  
+  return self;
 }
 
 
-// ----- Generate random values: -----
+PHASE(Using)
 
--(double) getDoubleWithMin: (double) minValue withMax: (double) maxValue {
-   double tmpMin, tmpMax, tmpRange;
+#include "include.dists.using.m"
 
-/*
-// Allow this call even if parameters are set!
 
-   if (optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: getDoubleWithMin:withMax: options already initialized\n", distName];
-*/
+- (double)getDoubleMin
+{
+  return doubleMin;
+}
 
-   currentCount++ ;
+- (double)getDoubleMax
+{
+  return doubleMax;
+}
 
-   if (minValue == maxValue) 
 
-      return minValue;
-
-   else {
-
-   // Ensure tmpMax > tmpMin:
-
-   if (maxValue > minValue) {
-     tmpMax = maxValue;
-     tmpMin = minValue;
-   } else {
-     tmpMax = minValue;
-     tmpMin = maxValue;
-   }
-   tmpRange = tmpMax - tmpMin;
-
-   // Generate a value in [tmpMin, tmpMax)
-   // (using values supplied for this call only)
-
+- (double)getDoubleWithMin: (double)minValue withMax: (double)maxValue
+{
+  double tmpMin, tmpMax, tmpRange;
+  
+  /*
+    // Allow this call even if parameters are set!
+    
+    if (optionsInitialized)
+    [InvalidCombination raiseEvent:
+    "%s: getDoubleWithMin:withMax: options already initialized\n", distName];
+  */
+  
+  currentCount++;
+  
+  if (minValue == maxValue) 
+    return minValue;
+  else
+    {
+      // Ensure tmpMax > tmpMin:
+      
+      if (maxValue > minValue) 
+        {
+          tmpMax = maxValue;
+          tmpMin = minValue;
+        } 
+      else
+        {
+          tmpMax = minValue;
+          tmpMin = maxValue;
+        }
+      tmpRange = tmpMax - tmpMin;
+      
+      // Generate a value in [tmpMin, tmpMax)
+      // (using values supplied for this call only)
+      
 #ifdef USETHINDOUBLES
-   if (useSplitGenerator) {
-return (tmpMin+tmpRange*([randomGenerator getThinDoubleSample: virtualGenerator]));
-   } else {
-return (tmpMin + tmpRange * ([randomGenerator getThinDoubleSample]) );
-   }
+      if (useSplitGenerator)
+        return (tmpMin + tmpRange * 
+                ([randomGenerator getThinDoubleSample: virtualGenerator]));
+      else
+        return (tmpMin + tmpRange * ([randomGenerator getThinDoubleSample]));
 #else
-   if (useSplitGenerator) {
-return (tmpMin+tmpRange*([randomGenerator getDoubleSample: virtualGenerator]));
-   } else {
-return (tmpMin + tmpRange * ([randomGenerator getDoubleSample]) );
-   }
+      if (useSplitGenerator)
+        return (tmpMin + tmpRange * 
+                ([randomGenerator getDoubleSample: virtualGenerator]));
+      else
+        return (tmpMin + tmpRange * ([randomGenerator getDoubleSample]));
 #endif
-
-   }
-
+    }
 }
 
 
-
--(double) getDoubleSample {
-
-   if (!optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: getDoubleSample: parameters have not been set\n", distName];
-
-   currentCount++ ;
-
-   if (bSingular) {
-
-     return doubleMin;
-
-   } else {
-
-   // Generate a value in [doubleMin, doubleMax)
-   // (using fixed values set at creation)
-
+- (double)getDoubleSample
+{
+  
+  if (!optionsInitialized)
+    [InvalidCombination 
+      raiseEvent:
+        "%s: getDoubleSample: parameters have not been set\n", distName];
+  
+  currentCount++;
+  
+  if (bSingular)
+    return doubleMin;
+  else
+    {
+      // Generate a value in [doubleMin, doubleMax)
+      // (using fixed values set at creation)
+      
 #ifdef USETHINDOUBLES
-   if (useSplitGenerator) {
-return (doubleMin+doubleRange*([randomGenerator getThinDoubleSample:virtualGenerator]));
-   } else {
-return (doubleMin + doubleRange * ([randomGenerator getThinDoubleSample]) );
-   }
+      if (useSplitGenerator)
+        return (doubleMin + doubleRange * 
+                ([randomGenerator getThinDoubleSample:virtualGenerator]));
+    else
+      return (doubleMin + doubleRange * 
+              ([randomGenerator getThinDoubleSample]));
 #else
-   if (useSplitGenerator) {
-return (doubleMin+doubleRange*([randomGenerator getDoubleSample:virtualGenerator]));
-   } else {
-return (doubleMin + doubleRange * ([randomGenerator getDoubleSample]) );
-   }
+      if (useSplitGenerator)
+        return (doubleMin + doubleRange * 
+                ([randomGenerator getDoubleSample:virtualGenerator]));
+      else
+        return (doubleMin + doubleRange * ([randomGenerator getDoubleSample]));
 #endif
-
-   }
+    }
 }
 
-// ----- protocol InternalState -----
 
--(void) putStateInto: (void *) buffer {
-   state_struct_t * internalState;
-
+- (void)putStateInto: (void *)buffer
+{
+  state_struct_t *internalState;
+  
   // recast the caller's pointer:
-  internalState = (state_struct_t *) buffer;
-
+  internalState = (state_struct_t *)buffer;
+  
   // fill the caller's buffer with state data:
   // object identification:
   internalState->distMagic = distMagic;
@@ -351,25 +363,24 @@ return (doubleMin + doubleRange * ([randomGenerator getDoubleSample]) );
   internalState->currentCount = currentCount;
 
   // nothing is returned from a (void) function
-
 }
 
--(void) setStateFrom: (void *) buffer {
-   state_struct_t * internalState;
-
+- (void)setStateFrom: (void *)buffer
+{
+  state_struct_t *internalState;
+  
   // recast the caller's pointer:
-  internalState = (state_struct_t *) buffer;
-
+  internalState = (state_struct_t *)buffer;
+  
   // TEST the integrity of the external data:
-  if (
-          (internalState->distMagic != distMagic) 
-       || (internalState->stateSize != stateSize)
-     )
-  [InvalidCombination raiseEvent:
-  "%u %s: you are passing bad data to setState!\n %u %u\n",
-   distMagic, distName,
-   internalState->distMagic, internalState->stateSize];
-
+  if ((internalState->distMagic != distMagic) 
+      || (internalState->stateSize != stateSize))
+    [InvalidCombination
+      raiseEvent:
+        "%u %s: you are passing bad data to setState!\n %u %u\n",
+      distMagic, distName,
+      internalState->distMagic, internalState->stateSize];
+  
   // set internal state from data in caller's buffer:
 
   // Fixed parameters:
@@ -378,58 +389,56 @@ return (doubleMin + doubleRange * ([randomGenerator getDoubleSample]) );
   doubleMax   = internalState->doubleMax;
   doubleRange = internalState->doubleRange;
   bSingular   = internalState->bSingular;
-
+  
   // State variables:
   currentCount = internalState->currentCount;
-
+  
   // Test generator data:
-
-  if (
-          ( (unsigned) [randomGenerator getMagic] != internalState->genMagic )
-       || ( useSplitGenerator != internalState->useSplitGenerator )
-       || ( virtualGenerator  != internalState->virtualGenerator  )
-     )
-   printf("%s setState: Warning! Not using the same generator!\n", distName);
+  
+  if (((unsigned) [randomGenerator getMagic] != internalState->genMagic)
+      || ( useSplitGenerator != internalState->useSplitGenerator)
+      || ( virtualGenerator  != internalState->virtualGenerator))
+    printf("%s setState: Warning! Not using the same generator!\n", distName);
 
   // nothing is returned from a (void) function
-
 }
 
 
-- (void) describe: outStream {
+- (void)describe: outStream
+{
   char buffer[200];
 
-  (void)sprintf(buffer," %s describe: outStream: \n", distName);
+  (void)sprintf (buffer," %s describe: outStream: \n", distName);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          distMagic = %24u\n", distMagic);
+  (void)sprintf (buffer,"          distMagic = %24u\n", distMagic);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"           distName = %24s\n", distName);
+  (void)sprintf (buffer,"           distName = %24s\n", distName);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          stateSize = %24u\n", stateSize);
+  (void)sprintf (buffer,"          stateSize = %24u\n", stateSize);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"         *Generator = %24p\n", randomGenerator);
+  (void)sprintf (buffer,"         *Generator = %24p\n", randomGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"            genName = %24s\n", 
-	[randomGenerator getName]);
+  (void)sprintf (buffer,"            genName = %24s\n", 
+                 [randomGenerator getName]);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"       generatorMax = %24u\n", 
-	[randomGenerator getUnsignedMax]);
+  (void)sprintf (buffer,"       generatorMax = %24u\n", 
+                 [randomGenerator getUnsignedMax]);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"  useSplitGenerator = %24d\n", useSplitGenerator);
+  (void)sprintf (buffer,"  useSplitGenerator = %24d\n", useSplitGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"   virtualGenerator = %24u\n", virtualGenerator);
+  (void)sprintf (buffer,"   virtualGenerator = %24u\n", virtualGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer," optionsInitialized = %24d\n", optionsInitialized);
+  (void)sprintf (buffer," optionsInitialized = %24d\n", optionsInitialized);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          doubleMin = %24.16e\n", doubleMin);
+  (void)sprintf (buffer,"          doubleMin = %24.16e\n", doubleMin);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          doubleMax = %24.16e\n", doubleMax);
+  (void)sprintf (buffer,"          doubleMax = %24.16e\n", doubleMax);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"        doubleRange = %24.16e\n", doubleRange);
+  (void)sprintf (buffer,"        doubleRange = %24.16e\n", doubleRange);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          bSingular = %24d\n", bSingular);
+  (void)sprintf (buffer,"          bSingular = %24d\n", bSingular);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"       currentCount = %24llu\n", currentCount);
+  (void)sprintf (buffer,"       currentCount = %24llu\n", currentCount);
   [outStream catC: buffer];
 
   [outStream catC: "\n"];

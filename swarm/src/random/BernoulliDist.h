@@ -9,6 +9,11 @@ Description:     Distribution returning YES with a given probability
 Library:         random
 Original Author: Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
+
+Modified by:	Sven Thommesen
+Date:		1998-10-08 (v. 0.8)
+Changes:	Rearranged code for create-phase compatibility.
+
 */
 
 /*
@@ -51,7 +56,7 @@ Relative speed:	| Speed 0.453 (time 2.206) relative to MT19937 getUnsignedSample
 // So, regardless of what's done in distributions.h, we:
 #define USETHINDOUBLES 1
 
-@interface BernoulliDist: SwarmObject 
+@interface BernoulliDist: SwarmObject <BernoulliDist>
 
 {
 
@@ -90,72 +95,77 @@ Relative speed:	| Speed 0.453 (time 2.206) relative to MT19937 getUnsignedSample
 
 }
 
-// --- Private methods: -----
+CREATING
 
--initState;
--resetState;
+// @protocol BernoulliDist <BooleanDistribution, CREATABLE>
 
-// ----- Generator creation: -----
+- initState;	// unpublished
 
-+createBegin: (id) aZone;
--setGenerator: (id) generator;
--setGenerator: (id) generator setVirtualGenerator: (unsigned) vGen;
--createEnd;
++ create        : aZone
+    setGenerator: generator
+  setProbability: (double)p;
 
++ create             : aZone
+         setGenerator: generator
+  setVirtualGenerator: (unsigned)vGen
+       setProbability: (double)p;
 
-+createWithDefaults: aZone;
+// @protocol BooleanDistribution <ProbabilityDistribution> 
 
-+create: (id) aZone setGenerator: (id) generator;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen;
++ createWithDefaults: aZone;
 
--setProbability: (double) p;
++ create: aZone setGenerator: generator;
 
-+create: (id) aZone setGenerator: (id) generator
-	setProbability: (double) p;
++ create             : aZone 
+         setGenerator: generator
+  setVirtualGenerator: (unsigned) vGen;
 
-+create: (id) aZone setGenerator: (id) generator
-	setVirtualGenerator: (unsigned) vGen
-	setProbability: (double) p;
++ createBegin: aZone;
 
--reset;		// reset currentCount and other state data;
+- createEnd;
 
-// ----- Return values of parameters: -----
+// @protocol InternalState
 
--(id)		getGenerator;
--(unsigned)	getVirtualGenerator;
--(BOOL)		getOptionsInitialized;
+SETTING
 
--(double) 	getProbability;
+// @protocol BernoulliDist <BooleanDistribution, CREATABLE>
+- resetState;	// unpublished
+- setProbability: (double)p;
 
+// @protocol BooleanDistribution <ProbabilityDistribution> 
 
-// ----- Return state values: -----
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- setGenerator: generator;
+- setGenerator       : generator 
+  setVirtualGenerator: (unsigned)vGen;
+- reset;
 
-// Return count of variates generated:
+// @protocol InternalState
 
--(unsigned  long long int) getCurrentCount;
+USING
 
- 
-// ----- Distribution output: -----
+// @protocol BernoulliDist <BooleanDistribution, CREATABLE>
+- (double)getProbability;
+- (BOOL)getSampleWithProbability: (double)p;
 
-// FIXED parameters:
+// @protocol BooleanDistribution <ProbabilityDistribution> 
+- (BOOL)getBooleanSample;
+- (int)getIntegerSample;	// for convenience
 
--(BOOL) 	getBooleanSample;
--(int)  	getIntegerSample;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- getGenerator;
+- (unsigned)getVirtualGenerator;
+- (BOOL)getOptionsInitialized;
+- (unsigned long long int)getCurrentCount;
 
-// FREE parameters:
-
--(BOOL) getSampleWithProbability: (double) p;
-
-
-// ----- Object state management: -----
-
--(unsigned)  getStateSize;
--(void)      putStateInto:  (void *) buffer;
--(void)      setStateFrom:  (void *) buffer;
--(void)      describe:      (id) outStream;
--(const char *)getName;
--(unsigned)  getMagic;
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
 @end

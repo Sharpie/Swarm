@@ -1,3 +1,102 @@
+1998-10-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* BernoulliDist.m, ExponentialDist.m, GammaDist.m,
+	LogNormalDist.m, NormalDist.m, RandomBitDist.m,
+	UniformDoubleDist.m, UniformIntegerDist.m, UniformUnsignedDist.m:
+
+	* ACGgen.m, C2LCGXgen.m, C2MRG3gen.m, C2TAUSgen.m, C3MRG3gen.m,
+	C4LCGXgen.m, LCGgen.m, MRGgen.m, MT19937gen.m, MWCAgen.m,
+	MWCBgen.m, PMMLCGgen.m, PSWBgen.m, RWC2gen.m, RWC8gen.m, SCGgen.m,
+	SWBgen.m, TGFSRgen.m: Make i, j, and g unsigned in -setState,
+	-putStateInto, initState:, -describe:, and setStateFrom: (some of
+	these cases don't exist).  Use %u instead of %d as appropriate.
+	New method -reset.  Reformatting throughout.
+	
+	* C2MRG3gen.h (C2MRG3gen): Make k unsigned.
+
+	* C2LCGXgen.h, C2MRG3gen.h, C2TAUSgen.h, C4LCGXgen.h (COMPONENTS,
+	SEEDS): Make unsigned.
+
+	* ACgen.h, BernoulliDist.h, C2LCGXgen.h, C2MRG3gen.h, C2TAUSgen.h,
+	C3MWCgen.h, C4LCGXgen.h, ExponentialDist.h, GammaDist.h, LCGgen.h,
+	LogNormalDist.h, MRGgen.h, MT19937gen.h, MWCAgen.h, MWCBgen.h,
+	NormalDist.h, PMMLCGgen.h, PSWBgen.h, RWC2gen.h, RWC8gen.h,
+	RandomBitDist.h, SCGgen.h, SWBgen.h, TGFSRgen.h,
+	UniformDoubleDist.h, UniformIntegerDist.h, UniformUnsignedDist.h:
+	Add creating, setting, and using phases.
+
+	* ACGgen.h, C2MRG3gen.h, C2TAUSgen.h, C3MWCgen.h, LCGgen.h,
+	MRGgen.h, MT19937gen.h, MWCAgen.h, MWCBgen.h, PSWBgen.h, SCGgen.h,
+	SWBgen.h, TGFSRgen.h (ACGgen, C2MRG3gen, C2TAUS[123]gen, C3MWCgen,
+	LCGgen[123], MRG[567]gen, MT19937gen, MWCAgen, MWCBgen,
+	PMMLCG[123456789], PSWBgen, RWC2gen, RWC8gen, SCGgen, SWB[123]gen,
+	TT403gen, TT775gen, TT800gen): Conform to SimpleRandomGenerator
+	and CREATABLE.
+
+	* C2TAUSgen.h, LCGgen.h, MRGgen.h, PMMLCGgen.h, SWBgen.h, TGFSRgen.h
+	(C2TAUSgen, LCGgen, MRGgen, PMMLCGgen, SWBgen, TGFSRgen): Conform to
+	SimpleRandomGenerator.
+
+	* C2LCGXgen.h, C4LCGXgen.h (C2LCGXgen, C4LCGXgen): Conform to
+	SplitRandomGenerator and CREATABLE.
+
+	* BernoulliDist.h, ExponentialDist.h, GammDist.h, LogNormalDist.h,
+	NormalDist.h, RandomBitDist.h, UniformDoubleDist.h,
+	UniformIntegerDist.h, UniformUnsignedDist.h: Conform to respective
+	protocol.
+
+	* ACGgen.m, C2LCGXgen.m, C2MRG3gen.m, C2TAUSgen.m, C3MWCgen.m,
+	LCGgen.m, MRGgen.m, MT19937gen.m, MWCAgen.m, MWCBgen.m,
+	PMMLCGgen.m, PSWBgen.m, RWC2gen.m, RWC8gen.m, SCGgen.m, SWBgen.m:
+	Don't include Common.gens.create.m, Common.gens.genSeeds.m,
+	Common.gens.setparams.m, Common.gens.floats.m.  Add creating,
+	setting, and using phases, including include.gens.PHASE.m as
+	appropriate.
+
+	* BernoulliDist.m, ExponentialDist.m, GammaDist.m,
+	LogNormalDist.m, NormalDist.m, RandomBitDist.m,
+	UniformDoubleDist.m, UniformIntegerDist.m, UniformUnsignedDist.m:
+	Don't include Common.dists.m.  Add creating, setting, and using
+	phases, including include.dists.PHASE.m as appropriate.
+
+	* distributions.h (ProbabilityDistribution): Conform to
+	SwarmObject instead of Create and Drop.  Add setting phase.  Add
+	documentation.
+	(BernoulliDist, UniformIntegerDist, UniformUnsignedDist,
+	UniformDoubleDist, Normal, ExponentialDist, GammaDist): Add
+	documentation and setting phase
+	(NormalDist, LogNormalDist): Clarify descriptions.
+
+	* generators.h (SingleSeed, MultiSeed): Add setting phase.
+	(Simple, SplitSingleSeed, SplitMultiSeed, Split): Add setting
+	phase and augment documentation.
+	(Simple): Add reset method and documentation.
+	(SimpleOut): Improved descriptions.
+	(SimpleRandomGenerator, SplitRandomGenerator): New protocols.
+	(LCGgen, PMMLCGgen): Conform to SimpleRandomGenerator instead of
+	SingleShortGenerator.
+	(ACGgen, SCGgen, SWBgen, PSWBgen, MWCAgen, MWCBgen, RWC2gen,
+	TGFSRgen, MT19937gen, MRGgen): Conform to SimpleRandomGenerator
+	instead of SingleLongGenerator.
+	(RWC8gen): Conform to SimpleRandomGenerator instead of
+	CombinedLongGenerator.
+	(C2TAUSgen): Conform to SimpleRandomGenerator instead of
+	CombinedShortGenerator.
+	(C2MRG3gen, C3MWCgen): Conform to SimpleRandomGenerator instead of
+	CombinedLongGenerator.
+	(C2LCGXgen, C4LCGxgen): Conform to SplitRandomGenerator instead of
+	CombinedShortSplitGenerator.
+	(SingleShortGenerator, SingleLongGenerator,
+	CombinedShortGenerator, CombinedLongGenerator,
+	SingleShortSplitGenerator, SingleLongSplitGenerator,
+	CombinedShortSplitGenerator, CombinedLongSplitGenerator): Remove.
+
+	* random.h: Include objectbase.h instead of defobj.h.
+	Include random{vars,defs}.h instead of Random{Vars,Defs}.h.
+
+	* random.m: Make randomGenerator conform to SimpleRandomGenerator
+	instead of MT19937gen.
+
 1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT,REVISION,AGE): No changes. Swarm 1.3.1 released.

@@ -18,6 +18,11 @@ Changes:	 Standardized the informational comments.
 		 Added code to deal with split generators.
 		 Added method -createWithDefaults.
 		 Removed distinction between frozen and non-frozen state.
+
+Modified by:	Sven Thommesen
+Date:		1998-10-08 (v. 0.8)
+Changes:	Rearranged code for create-phase compatibility.
+
 */
 
 /*
@@ -57,7 +62,7 @@ Relative speed:	| 0.00310 (time 32.294) relative to MT19937 getUnsignedSample
 #import <random.h>
 
 
-@interface GammaDist: SwarmObject 
+@interface GammaDist: SwarmObject <GammaDist>
 
 {
 
@@ -97,73 +102,80 @@ Relative speed:	| 0.00310 (time 32.294) relative to MT19937 getUnsignedSample
 
 }
 
-// --- Private methods: -----
+CREATING
 
--initState;
--resetState;
+// @protocol GammaDist <DoubleDistribution, CREATABLE>
 
-// ----- Generator creation: -----
+- initState;		// unpublished
 
-+createBegin: (id) aZone;
--setGenerator: (id) generator;
--setGenerator: (id) generator setVirtualGenerator: (unsigned) vGen;
--createEnd;
++ create     : aZone
+ setGenerator: generator
+     setAlpha: (double)alpha
+      setBeta: (double)beta;
 
++ create             : aZone
+         setGenerator: generator
+  setVirtualGenerator: (unsigned)vGen
+             setAlpha: (double)alpha
+              setBeta: (double)beta;
 
-+createWithDefaults: aZone;
+// @protocol DoubleDistribution <ProbabilityDistribution>
 
-+create: (id) aZone setGenerator: (id) generator;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen;
++ createWithDefaults: aZone;
 
--setAlpha: (double) alpha setBeta: (double) beta;
++ create: aZone setGenerator: generator;
 
-+create: (id) aZone setGenerator: (id) generator
-	setAlpha: (double) alpha setBeta: (double) beta;
++ create             : aZone 
+         setGenerator: generator
+  setVirtualGenerator: (unsigned) vGen;
 
-+create: (id) aZone setGenerator: (id) generator
-	setVirtualGenerator: (unsigned) vGen
-	setAlpha: (double) alpha setBeta: (double) beta;
++ createBegin: aZone;
+- createEnd;
 
--reset;		// reset currentCount and other state data
+// @protocol InternalState
 
-// ----- Return values of parameters: -----
+SETTING
 
--(id)		getGenerator;
--(unsigned)	getVirtualGenerator;
--(BOOL)		getOptionsInitialized;
+// @protocol GammaDist <DoubleDistribution, CREATABLE>
+- resetState;		// unpublished
+- setAlpha: (double)alpha setBeta: (double)beta;
 
--(double) 	getAlpha;
--(double) 	getBeta;
+// @protocol BooleanDistribution <ProbabilityDistribution> 
 
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- setGenerator: generator;
+- setGenerator       : generator 
+  setVirtualGenerator: (unsigned)vGen;
+- reset;
 
-// ----- Return state values: -----
+// @protocol InternalState
 
-// Return count of variates generated:
+USING
 
--(unsigned  long long int) getCurrentCount;
+// @protocol GammaDist <DoubleDistribution, CREATABLE>
+- (double)getAlpha;
+- (double)getBeta;
+- (double)getSampleWithAlpha: (double)alpha 
+                    withBeta: (double)beta;
 
- 
-// ----- Distribution output: -----
+// @protocol DoubleDistribution <ProbabilityDistribution>
+- (double)getDoubleSample;
 
-// FIXED parameters:
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- getGenerator;
+- (unsigned)getVirtualGenerator;
+- (BOOL)getOptionsInitialized;
+- (unsigned long long int)getCurrentCount;
 
--(double)      getDoubleSample;
-
-// FREE parameters:
-
--(double) getSampleWithAlpha: (double) alpha withBeta: (double) beta;
-
-
-// ----- Object state management: -----
-
--(unsigned)  getStateSize;
--(void)      putStateInto:  (void *) buffer;
--(void)      setStateFrom:  (void *) buffer;
--(void)      describe:      (id) outStream;
--(const char *)getName;
--(unsigned)  getMagic;
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
 @end
 

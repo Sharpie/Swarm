@@ -10,6 +10,12 @@ Library:         random
 Original Author: Sven Thommesen
 Date:            1997-09-01 (v. 0.7)
 
+Modified by:	Sven Thommesen
+Date:		1998-10-08 (v. 0.8)
+Changes:	Code cleanup related to signed/unsigned comparisons.
+		Code rearranged for create-phase compatibility.
+		Added -drop method.
+		Added -reset method.
 */
 
 /*
@@ -134,8 +140,8 @@ output quality:	|
 #import <objectbase/SwarmObject.h>
 
 
-#define COMPONENTS 2
-#define SEEDS      2
+#define COMPONENTS 2U
+#define SEEDS      2U
 #define VGENS      0
 
 struct vGenStruct {
@@ -147,7 +153,7 @@ struct vGenStruct {
 } ;
 
 
-@interface C2LCGXgen: SwarmObject
+@interface C2LCGXgen: SwarmObject <SplitRandomGenerator, CREATABLE>
 
 {
 
@@ -209,124 +215,101 @@ struct vGenStruct {
 
 }
 
-//                                                                       split.h
+CREATING
 
-// ----- Private methods: -----
+// Unpublished (private) methods:
+- initState;
+- allocVectors;
++ createBegin: aZone;
+- createEnd;
+- setA: (unsigned) A setv: (unsigned) v setw: (unsigned) w;
 
--		generateSeeds;
--		setState;
--		allocVectors;
+// @protocol Split
++ createWithDefaults: aZone;
 
--		initState;
-+		createBegin: (id) aZone;
--		setA: (unsigned) A setv: (unsigned) v setw: (unsigned) w;
--		setStateFromSeed: (unsigned) seed;
--		setStateFromSeeds: (unsigned *) seeds;
--		createEnd;
+// @protocol SplitSingleSeed
++ create          : aZone
+              setA: (unsigned)A 	// # of virtual generators
+              setv: (unsigned)v 	// log2(#segments/generator)
+              setw: (unsigned)w		// log2(segment length)
+  setStateFromSeed: (unsigned)seed;
 
-// ----- Single-seed creation: -----
+// @protocol SplitMultiSeed
++ create          : aZone
+              setA: (unsigned)A         // # of virtual generators
+              setv: (unsigned)v         // log2(#segments/generator)
+              setw: (unsigned)w	        // log2(segment length)
+ setStateFromSeeds: (unsigned *)seeds;
 
-+		create: aZone
-		   setA: (unsigned) A 		// # of virtual generators
-		   setv: (unsigned) v 		// log2(#segments/generator)
-		   setw: (unsigned) w		// log2(segment length)
-		setStateFromSeed:  (unsigned)   seed;
+SETTING
 
-// Limits on seed value supplied (minimum = 0):
-- (unsigned)	getMaxSeedValue;
+// Unpublished (private) methods:
+- (unsigned)MultModMs: (unsigned)s t: (unsigned)t M: (unsigned)M;
+- setState;
+- generateSeedVector;
+- generateSeeds;
 
-// Return generator starting value:
-- (unsigned)	getInitialSeed;	
+// @protocol Split
+- setAntithetic: (BOOL)antiT;
+- initGenerator: (unsigned)vGen;
+- initAll; 
 
-// ----- Multi-seed creation: -----
+// @protocol SplitSingleSeed
+- setStateFromSeed: (unsigned)seed;
 
-+		create: aZone
-		   setA: (unsigned) A 		// # of virtual generators
-		   setv: (unsigned) v 		// log2(#segments/generator)
-		   setw: (unsigned) w		// log2(segment length)
-		setStateFromSeeds: (unsigned *) seeds;
+// @protocol SplitMultiSeed
+- setStateFromSeeds: (unsigned *)seeds;
 
-// Number of seeds required (size of array) (minimum = 1):
-- (unsigned)	lengthOfSeedVector;
 
-// Limits on seed values supplied (minimum = 0):
-- (unsigned *)	getMaxSeedValues;
 
-// Return generator starting values:
-- (unsigned *)	getInitialSeeds;
+USING
 
-// ----- Other create methods: -----
+// Unpublished (private) methods:
+- (void)drop;
 
-// Create with a default set of seeds and parameters:
-+		createWithDefaults: aZone;
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
--		setAntithetic: (BOOL) antiT;
+// @protocol SplitOut
+- (unsigned)getUnsignedMax;		// min is 0
 
-// ----- Return values of parameters: -----
+- (unsigned)getUnsignedSample:      (unsigned)vGen;
+- (float)getFloatSample:            (unsigned)vGen;
+- (double)getThinDoubleSample:      (unsigned)vGen;
+- (double)getDoubleSample:          (unsigned)vGen;
+- (long double)getLongDoubleSample: (unsigned)vGen;	// non-portable
 
-- (unsigned)    getNumGenerators;		// returns A
-- (unsigned)    getNumSegments;			// returns v
-- (unsigned)    getSegmentLength;		// returns w
-- (BOOL)	getAntithetic;
+// @protocol Split
+- (unsigned)getNumGenerators;		// A
+- (unsigned)getNumSegments;		// v
+- (unsigned)getSegmentLength;		// w
+- (BOOL)getAntithetic;
+- reset;
 
-// ----- Virtual generator management: -----
+- restartGenerator: (unsigned)vGen;
+- advanceGenerator: (unsigned)vGen;
+- jumpGenerator:    (unsigned)vGen  toSegment: (unsigned long long int)seg;
 
-// Reset the state of a virtual generator to the start of a specified segment:
+- restartAll;
+- advanceAll;
+- jumpAllToSegment: (unsigned long long int)seg;
 
--initGenerator:    (unsigned) vGen;		// to segment #0
--restartGenerator: (unsigned) vGen;		// to start of current segment
--advanceGenerator: (unsigned) vGen;		// to next segment
--jumpGenerator:    (unsigned) vGen  toSegment: (unsigned long long int) seg;
+- (unsigned long long int)getCurrentCount:   (unsigned)vGen;
+- (unsigned long long int)getCurrentSegment: (unsigned)vGen;
 
-// Reset the state of all virtual generators to the start of a given segment:
+// @protocol SplitSingleSeed
+- (unsigned)getMaxSeedValue;		// min is 1
+- (unsigned)getInitialSeed;
 
--initAll;					// to segment #0
--restartAll;					// to start of current segment
--advanceAll;					// to next segment
--jumpAllToSegment: (unsigned long long int) seg;
-
-// ----- Return state values: -----
-
-// Return generator seeds for a given virtual generator:
-//   (the single-seed version of these methods would never be applicable.)
-
-- (unsigned *)   getInitialSeeds:  (unsigned) vGen;	// start of segment #0
-- (unsigned *)   getLastSeeds:     (unsigned) vGen;	// start of current seg
-- (unsigned *)   getCurrentSeeds:  (unsigned) vGen;	// current state
-
-// Return current segment and number of variates generated from that segment:
-
-- (unsigned long long int) getCurrentSegment: (unsigned) vGen;
-- (unsigned long long int) getCurrentCount:   (unsigned) vGen;
-
-// ----- Generator output: -----
-
-// The maximum value returned by getUnsignedSample is:
-
-- (unsigned)    getUnsignedMax;
-
-// Return a 'random' integer uniformly distributed over [0,unsignedMax]
-//   from the current segment of virtual generator vGen:
-
-- (unsigned)	getUnsignedSample:   (unsigned) vGen;
-
-// Return a 'random' floating-point number uniformly distributed in [0.0,1.0):
-
-- (float)       getFloatSample:      (unsigned) vGen;	// using 1 unsigned
-- (double)      getThinDoubleSample: (unsigned) vGen;	// using 1 unsigned
-- (double)      getDoubleSample:     (unsigned) vGen;	// using 2 unsigneds
-- (long double) getLongDoubleSample: (unsigned) vGen;	// using 2 unsigneds
-
-// Warning: use of the last method is not portable between architectures.
-
-// ----- Object state management: -----
-
-- (unsigned)	getStateSize;		
-- (void)	putStateInto: (void *) buffer;
-- (void)	setStateFrom: (void *) buffer;
-- (void)	describe: (id) outStream;
-- (const char *)getName;		
-- (unsigned)	getMagic;	
+// @protocol SplitMultiSeed
+- (unsigned)lengthOfSeedVector;
+- (unsigned *)getMaxSeedValues;		// min is 1
+- (unsigned *)getInitialSeeds;     	// = getInitialSeeds: 0
 
 @end
 

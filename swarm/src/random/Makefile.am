@@ -6,11 +6,15 @@ randomdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-noinst_HEADERS =  Common.dists.m Common.gens.create.m Common.gens.floats.m \
-	Common.gens.genSeeds.m Common.gens.setparams.m Common.xgens.create.m \
-	Common.xgens.floats.m Common.xgens.setparams.m Common.xgens.vgens.m 
+noinst_HEADERS =  include.dists.creating.m include.dists.setting.m \
+        include.dists.using.m include.gens.creating.m \
+        include.gens.setting.m include.gens.using.m \
+        include.xgens.creating.m include.xgens.setting.m \
+        include.xgens.using.m
 
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I.. -I$(srcdir)/../activity -I$(srcdir)/..
+
+override CPPFLAGS += -Wno-protocol
 
 lib_LTLIBRARIES = librandom.la
 
@@ -28,6 +32,6 @@ random_HEADERS = ACGgen.h BernoulliDist.h C2LCGXgen.h C2MRG3gen.h C2TAUSgen.h \
 	C3MWCgen.h C4LCGXgen.h ExponentialDist.h GammaDist.h LCGgen.h \
 	LogNormalDist.h MRGgen.h MT19937gen.h MWCAgen.h MWCBgen.h \
 	NormalDist.h PMMLCGgen.h PSWBgen.h RWC2gen.h RWC8gen.h \
-	RandomBitDist.h RandomDefs.h RandomVars.h SCGgen.h SWBgen.h \
+	RandomBitDist.h randomdefs.h randomvars.h SCGgen.h SWBgen.h \
 	TGFSRgen.h UniformDoubleDist.h UniformIntegerDist.h \
 	UniformUnsignedDist.h distributions.h generators.h

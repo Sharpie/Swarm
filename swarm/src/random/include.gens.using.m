@@ -1,15 +1,63 @@
-// Common.gens.floats.m
+// include.gens.using.m
+//
 
 // 
 // Common code for simple generators
-// Random version 0.75
+// Random version 0.8
 // 
 
-// Change since version 0.7:
-// -getDoubleSample no longer calls -getLongDoubleSample,
-// since doing so made the method non-portable.
+// USING
+
+-(BOOL) getAntithetic {
+   return antiThetic;
+}
+
+
+-(unsigned) getUnsignedMax {
+   return unsignedMax;
+}
+
+-(unsigned) lengthOfSeedVector {
+   return lengthOfSeedVector;
+}
+
+-(unsigned) getMaxSeedValue {
+   return 0xffffffff;
+}
+
+-(unsigned *) getMaxSeedValues {
+   return &(maxSeedValues[0]);
+}
+
+-(unsigned) getInitialSeed {
+   return initialSeed;
+}
+
+-(unsigned *) getInitialSeeds {
+   return &(initialSeeds[0]);
+}
+
+-(const char *) getName {
+   return genName;
+}
+
+-(unsigned) getMagic {
+   return genMagic;
+}
+
+-(unsigned long long int) getCurrentCount {
+   return currentCount;
+}
+
+-(unsigned) getStateSize {
+   return stateSize;
+}
 
 // ----- Get floating-point random values: -----
+
+// Change in version 0.75:
+// -getDoubleSample no longer calls -getLongDoubleSample,
+// since doing so made the method non-portable.
 
 -(float) getFloatSample {
    double dd;
@@ -18,8 +66,6 @@
 
    dd = invModMult * [self getUnsignedSample];
    return (float) dd;
-
-   // return (float) [self getThinDoubleSample];
 }
 
 -(double) getThinDoubleSample {
@@ -29,33 +75,30 @@
 
    dd = invModMult * [self getUnsignedSample];
    return dd;
-
-   // return (double) ( invModMult * [self getUnsignedSample] );
 }
 
 -(double) getDoubleSample {
    double dd;
    // Two 32-bit unsigned random numbers are used
    // to fill the 53-bit mantissa of a double.
-   // Since everyone uses standard 8-byte doubles with 53-bit mantissa,
-   // truncating a long double to a double should be portable.
 
    dd = invModMult  * [self getUnsignedSample]
       + invModMult2 * [self getUnsignedSample];
    return dd;
-
-   // return (double) [self getLongDoubleSample];
 }
 
+// NOTE: since the size of a long double is machine dependent,
+// using this method may render the simulation non-portable!
 -(long double) getLongDoubleSample {
    long double ld;
    // Two 32-bit unsigned random numbers are used
    // to fill the mantissa of a long double.
-   // NOTE: since the size of a long double is machine dependent,
-   // using this method may render the simulation non-portable!
 
    ld = (long double) invModMult  * [self getUnsignedSample]
       + (long double) invModMult2 * [self getUnsignedSample];
 
    return ld;
 }
+
+//
+// include.gens.using.m

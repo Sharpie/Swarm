@@ -2,6 +2,7 @@
 // <random/distributions.h>
 //
 //     1997-09-01 (v. 0.7)
+//     1998-10-08 (v. 0.8)
 //
 
 // 
@@ -15,11 +16,11 @@
 //   integer samples to fill the mantissa of the returned double value.
 //
 // If you do not need this degree of precision, or prefer faster execution,
-//   uncomment the following line and recompile:
+//   uncomment the following line and recompile ('make install'):
 // #define USETHINDOUBLES 1
 // 
 
-@protocol ProbabilityDistribution <Create, Drop, InternalState> 
+@protocol ProbabilityDistribution <SwarmObject, InternalState> 
 //S: Probability Distribution
 
 //D: A process for generating a sequence of random numbers matching the
@@ -27,33 +28,38 @@
 //D: process is driven by input from a supplied uniform random generator.
 
 CREATING
-//M: The createWithDefaults method creates with a default set of seeds
-//M: and parameters.
+//M: The createWithDefaults method creates a distribution object with a 
+//M: default set of seeds and parameters, and its own private generator.
 + createWithDefaults: aZone;
 
+//M: Use this create message if the generator to be attached is a Simple one:
 + create: aZone setGenerator: generator;
 
+//M: Use this create message if the generator to be attached is a Split one:
 + create             : aZone 
          setGenerator: generator
   setVirtualGenerator: (unsigned) vGen;
 
-+ createBegin;
-
-USING
-- setGenerator: generator;
-
-- setGenerator       : generator 
-  setVirtualGenerator: (unsigned)vGen;
++ createBegin: aZone;
 
 - createEnd;
+
+SETTING
+//M: Use this message if the generator to be attached is a Simple one:
+- setGenerator: generator;
+
+//M: Use this message if the generator to be attached is a Split one:
+- setGenerator       : generator 
+  setVirtualGenerator: (unsigned)vGen;
 
 //M: The reset method resets the currentCount and other state data.
 - reset;
 
+USING
 //M: The getGenerator method returns the id of the generator.
 - getGenerator;
 
-//M: The getVirtualGenerator returns the virtual generator as an unsigned.
+//M: The getVirtualGenerator returns the number of the virtual generator used.
 - (unsigned)getVirtualGenerator;
 
 //M: The getOptionsInitialized returns the value of the parameter.
@@ -111,7 +117,10 @@ USING
 - (double)getDoubleSample;
 @end
 
+// 
 // Protocol definitions for specific distributions:
+// 
+// 
 
 @protocol RandomBitDist <BooleanDistribution, CREATABLE>
 //S: Random Bit Distribution 
@@ -129,19 +138,22 @@ USING
 
 //D: A distribution returning YES with a given probability.
 CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
 + create        : aZone
     setGenerator: generator
   setProbability: (double)p;
 
+//M: Use this create message if the generator to be attached is a Split one:
 + create             : aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
        setProbability: (double)p;
 
-USING
+SETTING
 //M: The setProbability: method sets the probability of returning YES.
 - setProbability: (double)p;
 
+USING
 //M: The getProbability method returns the probability of returning YES.
 - (double)getProbability;
 
@@ -157,22 +169,25 @@ USING
 //D: interval [min,max]. (The interval includes both its endpoints.)
 //D: Setting minValue == maxValue is allowed (and returns minValue).
 CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
 + create      : aZone
   setGenerator: generator
  setIntegerMin: (int)minValue
         setMax: (int)maxValue;
 
+//M: Use this create message if the generator to be attached is a Split one:
 + create           : aZone
        setGenerator: generator
 setVirtualGenerator: (unsigned) vGen
       setIntegerMin: (int)minValue
              setMax: (int)maxValue;
 
-USING
+SETTING
 //M: The setIntegerMin:setMax: method sets the minimum and maximum integer
 //M: values to be returned
 - setIntegerMin: (int)minValue setMax: (int)maxValue;
 
+USING
 //M: The getIntegerMin method returns the minimum integer value.
 - (int)getIntegerMin;
 
@@ -191,22 +206,26 @@ USING
 //D: a closed interval [min,max].  (The interval includes both its endpoints.)
 //D: Setting minValue == maxValue is allowed (and returns minValue).
 CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
 + create        : aZone
     setGenerator: generator
   setUnsignedMin: (unsigned)minValue
           setMax: (unsigned)maxValue;
 
+//M: Use this create message if the generator to be attached is a Split one:
 + create             : aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
        setUnsignedMin: (unsigned)minValue
                setMax: (unsigned)maxValue;
-USING
+
+SETTING
 //M: The setUnsignedMin:setMax: method sets the minimum and maximum unsigned
 //M: values to be returned
 - setUnsignedMin: (unsigned)minValue
           setMax: (unsigned)maxValue;
 
+USING
 //M: The getUnsignedMin method returns the minimum unsigned value.
 - (unsigned)getUnsignedMin;
 
@@ -228,21 +247,25 @@ USING
 //D: NOTE: Setting minValue == maxValue is allowed (and returns minValue).
 
 CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
 + create        : aZone
     setGenerator: generator
     setDoubleMin: (double)minValue
           setMax: (double)maxValue;
 
+//M: Use this create message if the generator to be attached is a Split one:
 + create             : aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
          setDoubleMin: (double)minValue
                setMax: (double)maxValue;
-USING
+
+SETTING
 //M: The setDoubleMin:setMax method sets the minimum and maximum floating
 //M: point values of the distribution.
 - setDoubleMin: (double)minValue setMax: (double)maxValue;
 
+USING
 //M: The getDoubleMin method returns the minimum floating point value in the
 //M: specified range.
 - (double)getDoubleMin;
@@ -257,25 +280,27 @@ USING
 @end
 
 @protocol Normal <DoubleDistribution> 
-//S: Normal Distribution
-
-//D: A well-known continuous probability distribution
+//S: Internal
 CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
 + create        : aZone
     setGenerator: generator
          setMean: (double)mean
      setVariance: (double)variance;
 
+//M: Use this create message if the generator to be attached is a Split one:
 + create             : aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
               setMean: (double)mean
           setVariance: (double)variance;
-USING
+
+SETTING
 //M: The setMean:setVariance: method sets the mean and the variance of the 
 //M: distribution.
 - setMean: (double)mean setVariance: (double)variance;
 
+USING
 //M: The getMean method returns the mean of the distribution.
 - (double)getMean;
 
@@ -285,22 +310,22 @@ USING
 //M: The getStdDev method returns the standard deviation of the distribution.
 - (double)getStdDev;
 
-//M: The getSampleWithMean:withVariance: method returns a sample value within
-//M: a distribution with the specified mean and variance.
+//M: The getSampleWithMean:withVariance: method returns a sample value drawn
+//M: from a distribution with the specified mean and variance.
 - (double)getSampleWithMean: (double)mean 
                withVariance: (double)variance;
 @end
 
 @protocol NormalDist <Normal, CREATABLE> 
-//S:  Normal (Gaussian) distribution returning double values.
+//S:  Normal (Gaussian) distribution
 
-//D:  Normal (Gaussian) distribution returning double values.
+//D:  A well-known continuous probability distribution returning doubles.
 @end
 
 @protocol LogNormalDist <Normal, CREATABLE> 
-//S: Log-Normal distribution returning double values.
+//S: Log-Normal distribution
 
-//D: Log-Normal distribution returning double values.
+//D:  A well-known continuous probability distribution returning doubles.
 @end
 
 @protocol ExponentialDist <DoubleDistribution, CREATABLE> 
@@ -308,19 +333,23 @@ USING
 
 //D: A well-known continuous probability distribution returning doubles.
 CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
 + create      : aZone
   setGenerator: generator
        setMean: (double)mean;
 
+//M: Use this create message if the generator to be attached is a Split one:
 + create             : aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
               setMean: (double)mean;
 
-USING
+
+SETTING
 //M: The setMean: method sets the mean of the distribution.
 - setMean: (double)mean;
 
+USING
 //M: The getMean method returns the mean of the distribution.
 - (double)getMean;
 
@@ -334,21 +363,25 @@ USING
 
 //D: A well-known continuous probability distribution returning doubles
 CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
 + create     : aZone
  setGenerator: generator
      setAlpha: (double)alpha
       setBeta: (double)beta;
 
+//M: Use this create message if the generator to be attached is a Split one:
 + create             : aZone
          setGenerator: generator
   setVirtualGenerator: (unsigned)vGen
              setAlpha: (double)alpha
               setBeta: (double)beta;
-USING
+
+SETTING
 //M: The setAlpha:setBeta: method sets the alpha and beta values for the
 //M: gamma distribution.
 - setAlpha: (double)alpha setBeta: (double)beta;
 
+USING
 //M: The getAlpha method returns the alpha value.
 - (double)getAlpha;
 

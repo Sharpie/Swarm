@@ -9,8 +9,10 @@ Description:	 startup functions for the random library
 Library:	 random
 Original Author: Glen E. Ropella
 Date:		 1997-09-01 (v. 0.7)
-Changed by:	 Sven Thommesen
+Modified by:	 Sven Thommesen
 Date:		 1997-12-08 (v. 0.75)
+Modified by:	 Sven Thommesen
+Date:		 1998-10-08 (v. 0.8)
 */
 
 #import <defobj.h>
@@ -21,11 +23,12 @@ Date:		 1997-12-08 (v. 0.75)
 
 // Utility random objects:
 
-id <MT19937gen>          randomGenerator;
+// id <MT19937gen>          randomGenerator;
+id <SimpleRandomGenerator>  randomGenerator;
 
-id <UniformIntegerDist>   uniformIntRand;
-id <UniformUnsignedDist>  uniformUnsRand;
-id <UniformDoubleDist>    uniformDblRand;
+id <UniformIntegerDist>     uniformIntRand;
+id <UniformUnsignedDist>    uniformUnsRand;
+id <UniformDoubleDist>      uniformDblRand;
 
 // Local variables:
 
@@ -92,29 +95,32 @@ initRandom (id arguments)
 //  2. the distribution objects are all connected to this generator,
 //     getting their random numbers from it in an interleaved fashion.
 // 
-
 }
 
 // These two functions are used by the macros in RandomDefs.h
 // to generate 'random' seed values:
 
-unsigned int tempusFugit(void) {
+unsigned int
+tempusFugit (void)
+{
   struct timeval now;
-
+  
   gettimeofday(&now, NULL);
   _timeNow = now.tv_usec + 1000000 * ( now.tv_sec % 2048 );
-
+  
   if ( _timeNow > _timeThen ) 
-     return ( _timeNow - _timeThen );
+    return ( _timeNow - _timeThen );
   else if ( _timeNow < _timeThen )
-     return ( _timeThen - _timeNow );
+    return ( _timeThen - _timeNow );
   else 
-     // do *not* return 0:
-     return DEFAULTSEED2;
+    // do *not* return 0:
+    return DEFAULTSEED2;
 }
 
-unsigned int nextSeed(void) {
-     _randomSeed = ( _randomSeed * 39039 );	// implicitly, mod 2^32
-   return _randomSeed;
+unsigned int
+nextSeed(void)
+{
+  _randomSeed = ( _randomSeed * 39039 );	// implicitly, mod 2^32
+  return _randomSeed;
 }
 

@@ -1,9 +1,10 @@
-// Common.dists.m
+// dists.include.creating.m
 
 // Code common to all distributions
-// Random version 0.7
+// Random version 0.8
 // 
 
+// Use if the generator is a Simple one:
 -setGenerator: (id) generator {
 
    if (randomGenerator) 
@@ -51,6 +52,7 @@
    return self;
 }
 
+// Use this if the generator is a Split one:
 -setGenerator: (id) generator setVirtualGenerator: (unsigned) vGen {
    unsigned k;
 
@@ -94,8 +96,6 @@
       "%s: wrong version of create: non-split generator %s detected\n",
       distName, [randomGenerator getName]];
 
-//   [self resetState];
-
    if (virtualGenerator != MAXVGEN) 
       [InvalidCombination raiseEvent:
       "%s setVirtualGenerator: already set\n", distName];
@@ -127,42 +127,4 @@
    return [super createEnd];
 }
 
-
--reset {
-   return [self resetState];
-}
-
-// ----- Return data values: -----
-
-
--(id) getGenerator {
-   return randomGenerator;
-}
-
-
--(unsigned) getVirtualGenerator {
-   return virtualGenerator;
-}
-
-
--(BOOL) getOptionsInitialized {
-   return optionsInitialized;
-}
-
-
--(unsigned long long int) getCurrentCount {
-   return currentCount;
-}
-
--(unsigned) getStateSize {
-   return stateSize;
-}
-
--(const char *) getName {
-   return distName;
-}
-
--(unsigned) getMagic {
-   return distMagic;
-}
-
+// dists.include.creating.m

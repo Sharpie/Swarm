@@ -12,6 +12,7 @@ Date:            1996-12-11
 Modified:        1997-01-15 (v. 0.6)  by Sven Thommesen
 Modified:	 1997-09-01 (v. 0.7)  by Sven Thommesen
 Modified:	 1997-12-08 (v. 0.75) by Sven Thommesen
+Modified:	 1998-10-08 (v. 0.8)  by Sven Thommesen
 */
 
 //S: Module for random number generation
@@ -20,7 +21,8 @@ Modified:	 1997-12-08 (v. 0.75) by Sven Thommesen
 //D: and a set of distribution classes for transforming random number
 //D: sequences into various simulated probability distributions.
 
-#import <defobj.h>
+#import <objectbase.h>		// for protocol SwarmObject
+
 
 @protocol InternalState
 //S: Archiving routines for internal generator and distribution state.
@@ -47,6 +49,6 @@ USING
 
 #import <random/generators.h>
 #import <random/distributions.h>
-#import <random/RandomVars.h>
-#import <random/RandomDefs.h>
+#import <random/randomvars.h>
+#import <random/randomdefs.h>
 

@@ -19,6 +19,11 @@ Changes:	 Allow minValue == maxValue (returns minValue).
 		 Added code to deal with split generators.
 		 Added method createWithDefaults.
 		 Removed distinction between frozen and non-frozen state.
+
+Modified by:	Sven Thommesen
+Date:		1998-10-08 (v. 0.8)
+Changes:	Rearranged code for create-phase compatibility.
+
 */
 
 /*
@@ -61,7 +66,7 @@ Relative speed:	| Speed 0.491 (time 2.037) relative to MT19937 getUnsignedSample
 #import <random.h>
 
 
-@interface UniformIntegerDist: SwarmObject 
+@interface UniformIntegerDist: SwarmObject <UniformIntegerDist>
 
 {
 
@@ -103,72 +108,79 @@ Relative speed:	| Speed 0.491 (time 2.037) relative to MT19937 getUnsignedSample
 
 }
 
-// --- Private methods: -----
 
--initState;
--resetState;
+CREATING
 
-// ----- Generator creation: -----
+// @protocol UniformIntegerDist <IntegerDistribution, CREATABLE>
 
-+createBegin: (id) aZone;
--setGenerator: (id) generator;
--setGenerator: (id) generator setVirtualGenerator: (unsigned) vGen;
--createEnd;
+- initState;		// unpublished
 
++ create      : aZone
+  setGenerator: generator
+ setIntegerMin: (int)minValue
+        setMax: (int)maxValue;
 
-+createWithDefaults: aZone;
++ create           : aZone
+       setGenerator: generator
+setVirtualGenerator: (unsigned) vGen
+      setIntegerMin: (int)minValue
+             setMax: (int)maxValue;
 
-+create: (id) aZone setGenerator: (id) generator;
+// @protocol IntegerDistribution <ProbabilityDistribution> 
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
 
--setIntegerMin: (int) minValue setMax: (int) maxValue;
++ createWithDefaults: aZone;
 
-+create: (id) aZone setGenerator: (id) generator
-	setIntegerMin: (int) minValue setMax: (int) maxValue;
++ create: aZone setGenerator: generator;
 
-+create: (id) aZone setGenerator: (id) generator
-	setVirtualGenerator: (unsigned) vGen
-	setIntegerMin: (int) minValue setMax: (int) maxValue;
++ create             : aZone 
+         setGenerator: generator
+  setVirtualGenerator: (unsigned) vGen;
 
--reset;		// reset currentCount and other state data
++ createBegin: aZone;
+- createEnd;
 
-// ----- Return values of parameters: -----
+// @protocol InternalState
 
--(id)		getGenerator;
--(unsigned)	getVirtualGenerator;
--(BOOL)		getOptionsInitialized;
+SETTING
 
--(int) 		getIntegerMin;
--(int) 		getIntegerMax;
+// @protocol UniformIntegerDist <IntegerDistribution, CREATABLE>
+- resetState;		// unpublished
+- setIntegerMin: (int)minValue setMax: (int)maxValue;
 
+// @protocol BooleanDistribution <ProbabilityDistribution> 
 
-// ----- Return state values: -----
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- setGenerator: generator;
+- setGenerator       : generator 
+  setVirtualGenerator: (unsigned)vGen;
+- reset;
 
-// Return count of variates generated:
+// @protocol InternalState
 
--(unsigned  long long int) getCurrentCount;
+USING
 
- 
-// ----- Distribution output: -----
+// @protocol UniformIntegerDist <IntegerDistribution, CREATABLE>
+- (int)getIntegerMin;
+- (int)getIntegerMax;
+- (int)getIntegerWithMin: (int)minValue withMax: (int)maxValue;
 
-// FIXED parameters:
+// @protocol IntegerDistribution <ProbabilityDistribution> 
+- (int)getIntegerSample;
 
--(int) getIntegerSample;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- getGenerator;
+- (unsigned)getVirtualGenerator;
+- (BOOL)getOptionsInitialized;
+- (unsigned long long int)getCurrentCount;
 
-// FREE parameters:
-
--(int) getIntegerWithMin: (int) minValue withMax: (int) maxValue;
-
-
-// ----- Object state management: -----
-
--(unsigned)  getStateSize;
--(void)      putStateInto:  (void *) buffer;
--(void)      setStateFrom:  (void *) buffer;
--(void)      describe:      (id) outStream;
--(const char *)getName;
--(unsigned)  getMagic;
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
 @end

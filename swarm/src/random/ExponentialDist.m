@@ -9,10 +9,10 @@ Description:     Exponential distribution returning doubles
 Library:         random
 Original Author: Sven Thommesen
 Date:            1997-01-15
-
 Modified by:	 Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
-
+Modified by:	 Sven Thommesen
+Date:		 1998-10-08 (v. 0.8)
 */
 
 /*
@@ -26,15 +26,6 @@ Date:		 1997-09-01 (v. 0.7)
 
 
 @implementation ExponentialDist
-
-
-// Import common code snippets:
-
-#import "Common.dists.m"
-
-
-// And now code particular to this distribution:
-
 
 // data struct used by setStateFrom / putStateInto:
 //
@@ -54,238 +45,253 @@ typedef struct {
 } state_struct_t;
 
 
--initState {
 
-// Distribution personality:
+PHASE(Creating)
 
-   stateSize = sizeof(state_struct_t);
-   strncpy(distName,"ExponentialDist",sizeof(distName));
-   distMagic = EXPONENTIALDISTMAGIC + EXPONENTIALDISTREVISION;
+#include "include.dists.creating.m"
 
-// Parameters:
-
-   optionsInitialized = NO;
-   useSplitGenerator  = NO;
-   virtualGenerator   = MAXVGEN;
-
-   theMean   = 0.0;
-
+- initState
+{
+  // Distribution personality:
+  
+  stateSize = sizeof(state_struct_t);
+  strncpy(distName,"ExponentialDist",sizeof(distName));
+  distMagic = EXPONENTIALDISTMAGIC + EXPONENTIALDISTREVISION;
+  
+  // Parameters:
+  
+  optionsInitialized = NO;
+  useSplitGenerator  = NO;
+  virtualGenerator   = MAXVGEN;
+  
+  theMean   = 0.0;
+  
 #ifdef USETHINDOUBLES
-   printf("NOTE! %s: created to use THIN doubles\n",distName);
+  printf("NOTE! %s: created to use THIN doubles\n",distName);
 #endif
-
-   return self;
+  
+  return self;
 }
 
--resetState {
-
-   currentCount = 0;
-
-   return self;
-}
-
-+createBegin: aZone {
-   ExponentialDist * aDistribution;
-
-// Allocate space for the object:
-
-   aDistribution = [super createBegin: aZone];
-
-// Initialize instance variables:
-
-   aDistribution->randomGenerator = NULL;
-
-// Initialize parameters:
-
-   [aDistribution initState];
-
-   return aDistribution;
++ createBegin: aZone
+{
+  ExponentialDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [super createBegin: aZone];
+  
+  // Initialize instance variables:
+  
+  aDistribution->randomGenerator = NULL;
+  
+  // Initialize parameters:
+  
+  [aDistribution initState];
+  
+  return aDistribution;
 }
 
 
-+create: (id) aZone setGenerator: (id) generator {
-   ExponentialDist * aDistribution;
-
-// Allocate space for the object:
-
-   aDistribution = [ExponentialDist createBegin: aZone];
-
-// Connect the supplied random generator:
-
-   [aDistribution setGenerator: generator];
-
-   return [ aDistribution createEnd ];
-
++ create: aZone setGenerator: generator
+{
+  ExponentialDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [ExponentialDist createBegin: aZone];
+  
+  // Connect the supplied random generator:
+  
+  [aDistribution setGenerator: generator];
+  
+  return [aDistribution createEnd];
+  
 }
 
-+createWithDefaults: (id) aZone {
-   ExponentialDist * aDistribution;
-
-// Allocate space for the object:
-
-   aDistribution = [ExponentialDist createBegin: aZone];
-
++ createWithDefaults: aZone
+{
+  ExponentialDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [ExponentialDist createBegin: aZone];
+  
 // Connect a default random generator:
-
-   [aDistribution setGenerator: [C2TAUS3gen createWithDefaults: aZone] ];
-
-   return [ aDistribution createEnd ];
-
+  
+  [aDistribution setGenerator: [C2TAUS3gen createWithDefaults: aZone]];
+  
+  return [aDistribution createEnd];
 }
 
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen {
-   ExponentialDist * aDistribution;
++ create: aZone setGenerator: generator  setVirtualGenerator: (unsigned)vGen
+{
+  ExponentialDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [ExponentialDist createBegin: aZone];
 
-// Allocate space for the object:
-
-   aDistribution = [ExponentialDist createBegin: aZone];
-
-// Connect the supplied random generator:
-
-   [aDistribution setGenerator: generator
-	setVirtualGenerator: vGen];
-
-   return [ aDistribution createEnd ];
+  // Connect the supplied random generator:
+  
+  [aDistribution setGenerator: generator
+                 setVirtualGenerator: vGen];
+  
+  return [aDistribution createEnd];
 }
 
-// ----- protocol Exponential -----
-
--(double) getMean {
-   return theMean;
++ create: aZone setGenerator: generator setMean: (double)mean
+{
+  ExponentialDist *aDistribution;
+  
+  aDistribution = [ExponentialDist create: aZone 
+                                   setGenerator: generator];
+  
+  [aDistribution setMean: mean];
+  
+  return aDistribution;
 }
 
--setMean: (double) mean {
-
-/*
-// Relax this restriction, too.
-
-   if (optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: setting parameters more than once not allowed\n", distName];
-*/
-
-   theMean = mean;
-
-   // This object is now fixed:
-
-   optionsInitialized = YES;
-
-   [self resetState];
-
-   return self;
++ create             : aZone
+         setGenerator: generator 
+  setVirtualGenerator: (unsigned)vGen
+              setMean: (double)mean
+{
+  ExponentialDist *aDistribution;
+  
+  aDistribution = [ExponentialDist create: aZone 
+                                   setGenerator: generator
+                                   setVirtualGenerator: vGen];
+  
+  [aDistribution setMean: mean];
+  
+  return aDistribution;
 }
 
-+create: (id) aZone setGenerator: (id) generator
-	setMean: (double) mean {
-   ExponentialDist * aDistribution;
 
-   aDistribution = [ ExponentialDist create: aZone 
-			setGenerator: generator ];
+PHASE(Setting)
 
-   [aDistribution setMean: mean];
+#include "include.dists.setting.m"
 
-   return aDistribution;
+- resetState
+{
+  currentCount = 0;
+  
+  return self;
 }
 
-+create: (id) aZone setGenerator: (id) generator
-	setVirtualGenerator: (unsigned) vGen
-	setMean: (double) mean {
-   ExponentialDist * aDistribution;
-
-   aDistribution = [ ExponentialDist create: aZone 
-			setGenerator: generator
-			setVirtualGenerator: vGen ];
-
-   [aDistribution setMean: mean];
-
-   return aDistribution;
+- setMean: (double)mean
+{
+  /*
+    // Relax this restriction, too.
+    
+    if (optionsInitialized)
+    [InvalidCombination raiseEvent:
+    "%s: setting parameters more than once not allowed\n", distName];
+  */
+  
+  theMean = mean;
+  
+  // This object is now fixed:
+  
+  optionsInitialized = YES;
+  
+  [self resetState];
+  
+  return self;
 }
 
-// ----- Generate random values: -----
+
+PHASE(Using)
+     
+#include "include.dists.using.m"
+     
+     
+- (double)getMean
+{
+  return theMean;
+}
 
 
--(double) getSampleWithMean: (double) mean {
-   double xpon;
-   double rdValue;
-
-/*
-// Allow this call even if parameters are set!
-
-   if (optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: getSampleWithMean: options already initialized\n", distName];
-*/
-
-   currentCount++ ;
-
-do {
+- (double)getSampleWithMean: (double)mean
+{
+  double xpon;
+  double rdValue;
+  
+  /*
+    // Allow this call even if parameters are set!
+    
+    if (optionsInitialized)
+    [InvalidCombination raiseEvent:
+    "%s: getSampleWithMean: options already initialized\n", distName];
+  */
+  
+  currentCount++;
+  
+  do {
 #ifdef USETHINDOUBLES
-   if (useSplitGenerator) {
-     rdValue = [randomGenerator getThinDoubleSample: virtualGenerator];
-   } else {
-     rdValue = [randomGenerator getThinDoubleSample];
-   }
+    if (useSplitGenerator)
+      rdValue = [randomGenerator getThinDoubleSample: virtualGenerator];
+    else
+      rdValue = [randomGenerator getThinDoubleSample];
 #else
-   if (useSplitGenerator) {
-     rdValue = [randomGenerator getDoubleSample: virtualGenerator];
-   } else {
-     rdValue = [randomGenerator getDoubleSample];
-   }
+    if (useSplitGenerator)
+      rdValue = [randomGenerator getDoubleSample: virtualGenerator];
+    else
+      rdValue = [randomGenerator getDoubleSample];
 #endif
-   } while (rdValue == 0.0);		// cannot take log of zero
+  } while (rdValue == 0.0);		// cannot take log of zero
+  
+  // Transform the uniform value:
+  
+  xpon = -mean * log (rdValue);		// need rdValue > 0 !!!
+  
+  return xpon;
+}
 
-// Transform the uniform value:
 
-   xpon = -mean*log(rdValue);		// need rdValue > 0 !!!
+- (double)getDoubleSample
+{
+  double xpon;
+  double rdValue;
+  
+  if (!optionsInitialized)
+    [InvalidCombination
+      raiseEvent:
+        "%s: getDoubleSample: parameters have not been set\n", distName];
+  
+  currentCount++;
+  
+  do {
+#ifdef USETHINDOUBLES
+    if (useSplitGenerator)
+      rdValue = [randomGenerator getThinDoubleSample: virtualGenerator];
+    else
+      rdValue = [randomGenerator getThinDoubleSample];
+#else
+    if (useSplitGenerator)
+      rdValue = [randomGenerator getDoubleSample: virtualGenerator];
+    else
+      rdValue = [randomGenerator getDoubleSample];
+#endif
+  } while (rdValue == 0.0);		// cannot take log of zero
+  
+  // Transform the uniform value:
 
+   xpon = -theMean * log (rdValue);	// need rdValue > 0 !!!
+   
    return xpon;
 }
 
 
--(double) getDoubleSample {
-   double xpon;
-   double rdValue;
-
-   if (!optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: getDoubleSample: parameters have not been set\n", distName];
-
-   currentCount++ ;
-
-do {
-#ifdef USETHINDOUBLES
-   if (useSplitGenerator) {
-     rdValue = [randomGenerator getThinDoubleSample: virtualGenerator];
-   } else {
-     rdValue = [randomGenerator getThinDoubleSample];
-   }
-#else
-   if (useSplitGenerator) {
-     rdValue = [randomGenerator getDoubleSample: virtualGenerator];
-   } else {
-     rdValue = [randomGenerator getDoubleSample];
-   }
-#endif
-   } while (rdValue == 0.0);		// cannot take log of zero
-
-// Transform the uniform value:
-
-   xpon = -theMean*log(rdValue);	// need rdValue > 0 !!!
-
-   return xpon;
-
-}
-
-// ----- protocol InternalState -----
-
--(void) putStateInto: (void *) buffer {
-   state_struct_t * internalState;
-
+- (void)putStateInto: (void *)buffer
+{
+  state_struct_t *internalState;
+  
   // recast the caller's pointer:
-  internalState = (state_struct_t *) buffer;
-
+  internalState = (state_struct_t *)buffer;
+  
   // fill the caller's buffer with state data:
   // object identification:
   internalState->distMagic = distMagic;
@@ -299,77 +305,75 @@ do {
   internalState->theMean = theMean;
   // State variables:
   internalState->currentCount = currentCount;
-
+  
   // nothing is returned from a (void) function
-
 }
 
--(void) setStateFrom: (void *) buffer {
-   state_struct_t * internalState;
-
+- (void)setStateFrom: (void *)buffer
+{
+  state_struct_t *internalState;
+  
   // recast the caller's pointer:
-  internalState = (state_struct_t *) buffer;
-
+  internalState = (state_struct_t *)buffer;
+  
   // TEST the integrity of the external data:
-  if (    (internalState->distMagic != distMagic)
-       || (internalState->stateSize != stateSize)
-     )
-  [InvalidCombination raiseEvent:
-  "%u %s: you are passing bad data to setState!\n %u %u\n",
-   distMagic, distName,
-   internalState->distMagic, internalState->stateSize];
-
+  if ((internalState->distMagic != distMagic)
+      || (internalState->stateSize != stateSize))
+    [InvalidCombination
+      raiseEvent:
+        "%u %s: you are passing bad data to setState!\n %u %u\n",
+      distMagic, distName,
+      internalState->distMagic, internalState->stateSize];
+  
   // set internal state from data in caller's buffer:
-
+  
   // Fixed parameters:
   optionsInitialized = internalState->optionsInitialized;
-  theMean       = internalState->theMean;
-
+  theMean = internalState->theMean;
+  
   // State variables:
   currentCount = internalState->currentCount;
 
   // Test generator data:
-
-  if (
-          ( (unsigned) [randomGenerator getMagic] != internalState->genMagic )
-       || ( useSplitGenerator != internalState->useSplitGenerator )
-       || ( virtualGenerator  != internalState->virtualGenerator  )
-     )
-  printf("%s setState: Warning! Not using the same generator!\n", distName);
-
+  
+  if (((unsigned) [randomGenerator getMagic] != internalState->genMagic)
+      || (useSplitGenerator != internalState->useSplitGenerator)
+      || (virtualGenerator  != internalState->virtualGenerator))
+    printf("%s setState: Warning! Not using the same generator!\n", distName);
+  
   // nothing is returned from a (void) function
-
 }
 
 
-- (void) describe: outStream {
+- (void)describe: outStream
+{
   char buffer[200];
-
-  (void)sprintf(buffer," %s describe: outstream: \n", distName);
+  
+  (void)sprintf (buffer," %s describe: outstream: \n", distName);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          distMagic = %24u\n", distMagic);
+  (void)sprintf (buffer,"          distMagic = %24u\n", distMagic);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"           distName = %24s\n", distName);
+  (void)sprintf (buffer,"           distName = %24s\n", distName);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          stateSize = %24u\n", stateSize);
+  (void)sprintf (buffer,"          stateSize = %24u\n", stateSize);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"         *Generator = %24p\n", randomGenerator);
+  (void)sprintf (buffer,"         *Generator = %24p\n", randomGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"            genName = %24s\n", 
-	[randomGenerator getName]);
+  (void)sprintf (buffer,"            genName = %24s\n", 
+                 [randomGenerator getName]);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"       generatorMax = %24u\n", 
-	[randomGenerator getUnsignedMax]);
+  (void)sprintf (buffer,"       generatorMax = %24u\n", 
+                 [randomGenerator getUnsignedMax]);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"  useSplitGenerator = %24d\n", useSplitGenerator);
+  (void)sprintf (buffer,"  useSplitGenerator = %24d\n", useSplitGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"   virtualGenerator = %24u\n", virtualGenerator);
+  (void)sprintf (buffer,"   virtualGenerator = %24u\n", virtualGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer," optionsInitialized = %24d\n", optionsInitialized);
+  (void)sprintf (buffer," optionsInitialized = %24d\n", optionsInitialized);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"            theMean = %24.16e\n", theMean);
+  (void)sprintf (buffer,"            theMean = %24.16e\n", theMean);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"       currentCount = %24llu\n", currentCount);
+  (void)sprintf (buffer,"       currentCount = %24llu\n", currentCount);
   [outStream catC: buffer];
 
 

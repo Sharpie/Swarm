@@ -10,9 +10,10 @@ Description:     Log-Normal distribution returning double values
 Library:         random
 Original author: Sven Thommesen
 Date:            1997-01-15 (v. 0.6)
-
 Modified by:	 Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
+Modified by:	 Sven Thommesen
+Date:		 1998-10-08 (v. 0.8)
 */
 
 /*
@@ -25,15 +26,6 @@ Date:		 1997-09-01 (v. 0.7)
 #import <random/LogNormalDist.h>
 
 @implementation LogNormalDist
-
-
-// Import common code snippets:
-
-#import "Common.dists.m"
-
-
-// And now code particular to this distribution:
-
 
 // data struct used by setStateFrom / putStateInto:
 //
@@ -56,298 +48,339 @@ typedef struct {
 } state_struct_t;
 
 
--initState { 				// Called from createBegin
+PHASE(Creating)
 
-// Distribution personality:
+#include "include.dists.creating.m"
 
-   stateSize = sizeof(state_struct_t);
-   strncpy(distName,"LogNormalDist",sizeof(distName));
-   distMagic = LOGNORMALDISTMAGIC + LOGNORMALDISTREVISION;
+- initState
+{
+  // Called from createBegin
 
-// Parameters:
-
-   optionsInitialized = NO;
-   useSplitGenerator = NO;
-   virtualGenerator = MAXVGEN;
-
-   theMean       = 0.0;
-   theVariance   = 0.0;
-   theStdDev     = 0.0;
+  // Distribution personality:
+  
+  stateSize = sizeof(state_struct_t);
+  strncpy (distName, "LogNormalDist" ,sizeof (distName));
+  distMagic = LOGNORMALDISTMAGIC + LOGNORMALDISTREVISION;
+  
+  // Parameters:
+  
+  optionsInitialized = NO;
+  useSplitGenerator = NO;
+  virtualGenerator = MAXVGEN;
+  
+  theMean       = 0.0;
+  theVariance   = 0.0;
+  theStdDev     = 0.0;
   
 #ifdef USETHINDOUBLES
-   printf("NOTE! %s: created to use THIN doubles\n",distName);
+  printf("NOTE! %s: created to use THIN doubles\n",distName);
 #endif
-
-   return self;
+  
+  return self;
 }
 
--resetState {		// called by setGenerator and setMean:variance
++ createBegin: aZone
+{
+  LogNormalDist *aDistribution;
 
-   stored = NO;
-   stored_double = 0.0;
-   currentCount = 0;
-
-   return self;
-}
-
-
-+createBegin: aZone {
-   LogNormalDist * aDistribution;
-
-// Allocate space for the object:
-
-   aDistribution = [super createBegin: aZone];
-
-// Initialize instance variables:
-
+  // Allocate space for the object:
+  
+  aDistribution = [super createBegin: aZone];
+  
+  // Initialize instance variables:
+  
    aDistribution->randomGenerator = NULL;
-
-// Initialize parameters:
-
+   
+   // Initialize parameters:
+   
    [aDistribution initState];
-
+   
    return aDistribution;
 }
 
 
-+create: (id) aZone setGenerator: (id) generator {
-   LogNormalDist * aDistribution;
-
-// Allocate space for the object:
-
-   aDistribution = [LogNormalDist createBegin: aZone];
-
-// Connect the supplied random generator:
-
-   [aDistribution setGenerator: generator];
-
-   return [ aDistribution createEnd ];
-
+ +create: aZone setGenerator: generator
+{
+  LogNormalDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [LogNormalDist createBegin: aZone];
+  
+  // Connect the supplied random generator:
+  
+  [aDistribution setGenerator: generator];
+  
+  return [aDistribution createEnd];
 }
 
 
-+createWithDefaults: (id) aZone {
-   LogNormalDist * aDistribution;
-
-// Allocate space for the object:
-
-   aDistribution = [LogNormalDist createBegin: aZone];
-
-// Connect a default random generator:
-
-   [aDistribution setGenerator: [MWCBgen createWithDefaults: aZone] ];
-
-   return [ aDistribution createEnd ];
-
++ createWithDefaults: aZone
+{
+  LogNormalDist *aDistribution;
+  
+  // Allocate space for the object:
+  
+  aDistribution = [LogNormalDist createBegin: aZone];
+  
+  // Connect a default random generator:
+  
+  [aDistribution setGenerator: [MWCBgen createWithDefaults: aZone]];
+  
+  return [aDistribution createEnd];
 }
 
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen {
-   LogNormalDist * aDistribution;
++ create: aZone setGenerator: generator  setVirtualGenerator: (unsigned)vGen
+{
+  LogNormalDist *aDistribution;
 
-// Allocate space for the object:
+  // Allocate space for the object:
+  
+  aDistribution = [LogNormalDist createBegin: aZone];
+  
+  // Connect the supplied random generator:
+  
+  [aDistribution setGenerator: generator
+                 setVirtualGenerator: vGen];
+  
+  return [aDistribution createEnd];
+}
 
-   aDistribution = [LogNormalDist createBegin: aZone];
++ create: aZone setGenerator: generator
+ setMean: (double)mean setVariance: (double)variance
+{
+  LogNormalDist *aDistribution;
+  
+  aDistribution = [LogNormalDist create: aZone setGenerator: generator ];
+  
+  [aDistribution setMean: mean setVariance: variance];
+  
+  return aDistribution;
+}
 
-// Connect the supplied random generator:
-
-   [aDistribution setGenerator: generator
-	setVirtualGenerator: vGen];
-
-   return [ aDistribution createEnd ];
-
++ create             : aZone
+         setGenerator: generator
+  setVirtualGenerator: (unsigned)vGen
+              setMean: (double)mean
+          setVariance: (double)variance
+{
+  LogNormalDist *aDistribution;
+  
+  aDistribution = [LogNormalDist create: aZone
+                                 setGenerator: generator 
+                                 setVirtualGenerator: vGen];
+  
+  [aDistribution setMean: mean setVariance: variance];
+  
+  return aDistribution;
 }
 
 
-// ----- protocol LogNormal -----
+PHASE(Setting)
 
+#include "include.dists.setting.m"
 
--(double) getMean {
-   return theMean;
+- resetState
+{
+  // called by setGenerator and setMean:variance
+  
+  stored = NO;
+  stored_double = 0.0;
+  currentCount = 0;
+  
+  return self;
 }
 
--(double) getVariance {
-   return theVariance;
+- setMean: (double)mean setVariance: (double)variance
+{
+  /*
+    // Relax this restriction, too.
+    
+    if (optionsInitialized)
+    [InvalidCombination raiseEvent:
+    "%s: re-setting parameters not allowed\n",distName];
+*/
+  
+  if (variance < 0.0)
+    [InvalidCombination
+      raiseEvent:
+        "%s: Variance cannot be negative !\n", distName];
+  
+  theMean     = mean;
+  theVariance = variance;
+  theStdDev   = sqrt (variance);
+  
+  // This object is now fixed:
+  
+  optionsInitialized = YES;
+
+  [self resetState];
+  
+  return self;
 }
 
--(double) getStdDev {
+
+PHASE(Using)
+
+#include "include.dists.using.m"
+
+
+- (double)getMean
+{
+  return theMean;
+}
+
+- (double)getVariance
+{
+  return theVariance;
+}
+
+- (double)getStdDev
+{
   return theStdDev;
 }
 
 
--setMean: (double) mean setVariance: (double) variance {
-
-/*
-// Relax this restriction, too.
-
-   if (optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: re-setting parameters not allowed\n",distName];
-*/
-
-   if (variance < 0.0)
-   [InvalidCombination raiseEvent:
-   "%s: Variance cannot be negative !\n",distName];
-
-   theMean     = mean;
-   theVariance = variance;
-   theStdDev   = sqrt(variance);
-
-   // This object is now fixed:
-
-   optionsInitialized = YES;
-
-   [self resetState];
-
-   return self;
-}
-
-+create: (id) aZone setGenerator: (id) generator
-	setMean: (double) mean setVariance: (double) variance {
-   LogNormalDist * aDistribution;
-
-   aDistribution=[LogNormalDist create: aZone setGenerator: generator ];
-
-   [aDistribution setMean: mean setVariance: variance];
-
-   return aDistribution;
-}
-
-+create: (id) aZone setGenerator: (id) generator
-	setVirtualGenerator: (unsigned) vGen
-	setMean: (double) mean setVariance: (double) variance {
-   LogNormalDist * aDistribution;
-
-   aDistribution = [ LogNormalDist create: aZone setGenerator: generator 
-			setVirtualGenerator: vGen ];
-
-   [aDistribution setMean: mean setVariance: variance];
-
-   return aDistribution;
-}
-
-
-// ----- Generate random values: -----
-
-
--(double) getSampleWithMean: (double) mean withVariance: (double) variance {
-   double fac,radius,v1,v2 ;
-   double rd1Value, rd2Value;
-   double stdDev;
-
-/*
-// Allow this call even if parameters are set!
-
-   if (optionsInitialized)
+- (double)getSampleWithMean: (double)mean withVariance: (double)variance
+{
+  double fac,radius,v1,v2;
+  double rd1Value, rd2Value;
+  double stdDev;
+  
+  /*
+    // Allow this call even if parameters are set!
+    
+    if (optionsInitialized)
    [InvalidCombination raiseEvent:
    "%s: getSampleWithMean:withVariance: parameters are frozen\n",distName];
-*/
-
-   if (variance < 0.0)
-   [InvalidCombination raiseEvent:
-   "%s: getSampleWithMean:withVariance: Variance cannot be negative !\n",
-	distName];
-
-   currentCount++ ;
-
-   if (variance == 0.0)
-     return exp(mean);		// no need to exercise the machinery ...
-
-   stdDev = sqrt(variance);
-
-  if (stored) {
-    stored = NO ;
-    // Return stored value:
-    return exp(stored_double*stdDev + mean) ;  // use parameters of current call
-  } else {
-    stored = YES;
-    // Generate 2 new values & store 1:
-    do {
+  */
+  
+  if (variance < 0.0)
+    [InvalidCombination
+      raiseEvent:
+        "%s: getSampleWithMean:withVariance: Variance cannot be negative !\n",
+      distName];
+  
+  currentCount++;
+  
+  if (variance == 0.0)
+    return exp (mean);		// no need to exercise the machinery ...
+  
+  stdDev = sqrt (variance);
+  
+  if (stored)
+    {
+      stored = NO ;
+      // Return stored value:
+      return exp (stored_double * stdDev + mean);  // use parameters of current call
+    } 
+  else 
+    {
+      stored = YES;
+      // Generate 2 new values & store 1:
+      do {
 #ifdef USETHINDOUBLES
-      if (useSplitGenerator) {
-        rd1Value = [randomGenerator getThinDoubleSample: virtualGenerator]; 
-        rd2Value = [randomGenerator getThinDoubleSample: virtualGenerator];
-      } else {
-        rd1Value = [randomGenerator getThinDoubleSample]; 
-        rd2Value = [randomGenerator getThinDoubleSample];
-      } 
+        if (useSplitGenerator) 
+          {
+            rd1Value = [randomGenerator getThinDoubleSample: virtualGenerator]; 
+            rd2Value = [randomGenerator getThinDoubleSample: virtualGenerator];
+          } 
+        else 
+          {
+            rd1Value = [randomGenerator getThinDoubleSample]; 
+            rd2Value = [randomGenerator getThinDoubleSample];
+          } 
 #else
-      if (useSplitGenerator) {
-        rd1Value = [randomGenerator getDoubleSample: virtualGenerator]; 
-        rd2Value = [randomGenerator getDoubleSample: virtualGenerator];
-      } else {
-        rd1Value = [randomGenerator getDoubleSample]; 
-        rd2Value = [randomGenerator getDoubleSample];
-      } 
+        if (useSplitGenerator) 
+          {
+            rd1Value = [randomGenerator getDoubleSample: virtualGenerator]; 
+            rd2Value = [randomGenerator getDoubleSample: virtualGenerator];
+          } 
+        else 
+          {
+            rd1Value = [randomGenerator getDoubleSample]; 
+            rd2Value = [randomGenerator getDoubleSample];
+          } 
 #endif
-      v1 = (2.0 * rd1Value) - 1.0 ;
-      v2 = (2.0 * rd2Value) - 1.0 ;
-      radius = v1*v1 + v2*v2 ; 
-        } while (radius >= 1.0) ;
-    fac = sqrt(-2.0*log(radius)/radius) ;
-    stored_double = v1*fac ;
-    return exp(v2*fac*stdDev + mean) ;	// use parameters of current call
-  }
+        v1 = (2.0 * rd1Value) - 1.0;
+        v2 = (2.0 * rd2Value) - 1.0;
+        radius = v1*v1 + v2*v2 ; 
+      } while (radius >= 1.0);
+      fac = sqrt (-2.0 * log (radius) / radius);
+      stored_double = v1 * fac;
+      return exp (v2 * fac * stdDev + mean);  // use parameters of current call
+    }
 }
 
 
--(double) getDoubleSample {
-   double fac,radius,v1,v2 ;
-   double rd1Value, rd2Value;
-
-   if (!optionsInitialized)
-   [InvalidCombination raiseEvent:
-   "%s: getDoubleSample: parameters have not been set\n",distName];
-
-   currentCount++ ;
-
-   if (theStdDev == 0.0)
-     return exp(theMean);	// no need to exercise the machinery ...
-
-  if (stored) {
-    stored = NO ;
-    // Return stored value:
-    return exp(stored_double*theStdDev + theMean) ;	// use fixed params
-  } else {
-    stored = YES;
-    // Generate 2 new values & store 1:
-    do {
+- (double)getDoubleSample
+{
+  double fac, radius, v1, v2;
+  double rd1Value, rd2Value;
+  
+  if (!optionsInitialized)
+    [InvalidCombination 
+      raiseEvent:
+        "%s: getDoubleSample: parameters have not been set\n", distName];
+  
+  currentCount++;
+  
+  if (theStdDev == 0.0)
+    return exp (theMean);	// no need to exercise the machinery ...
+  
+  if (stored) 
+    {
+      stored = NO ;
+      // Return stored value:
+      return exp (stored_double * theStdDev + theMean) ;  // use fixed params
+    } 
+  else 
+    {
+      stored = YES;
+      // Generate 2 new values & store 1:
+      do {
 #ifdef USETHINDOUBLES
-      if (useSplitGenerator) {
-        rd1Value = [randomGenerator getThinDoubleSample: virtualGenerator]; 
-        rd2Value = [randomGenerator getThinDoubleSample: virtualGenerator];
-      } else {
-        rd1Value = [randomGenerator getThinDoubleSample]; 
-        rd2Value = [randomGenerator getThinDoubleSample];
-      } 
+        if (useSplitGenerator) 
+          {
+            rd1Value = [randomGenerator getThinDoubleSample: virtualGenerator]; 
+            rd2Value = [randomGenerator getThinDoubleSample: virtualGenerator];
+          } 
+        else 
+          {
+            rd1Value = [randomGenerator getThinDoubleSample]; 
+            rd2Value = [randomGenerator getThinDoubleSample];
+          } 
 #else
-      if (useSplitGenerator) {
-        rd1Value = [randomGenerator getDoubleSample: virtualGenerator]; 
-        rd2Value = [randomGenerator getDoubleSample: virtualGenerator];
-      } else {
-        rd1Value = [randomGenerator getDoubleSample]; 
-        rd2Value = [randomGenerator getDoubleSample];
-      } 
+        if (useSplitGenerator) 
+          {
+            rd1Value = [randomGenerator getDoubleSample: virtualGenerator]; 
+            rd2Value = [randomGenerator getDoubleSample: virtualGenerator];
+          } 
+        else
+          {
+            rd1Value = [randomGenerator getDoubleSample]; 
+            rd2Value = [randomGenerator getDoubleSample];
+          } 
 #endif
-      v1 = (2.0 * rd1Value) - 1.0 ;
-      v2 = (2.0 * rd2Value) - 1.0 ;
-      radius = v1*v1 + v2*v2 ; 
-        } while (radius >= 1.0) ;
-    fac = sqrt(-2.0*log(radius)/radius) ;
-    stored_double = v1*fac;
-    return exp(v2*fac*theStdDev + theMean) ;	// use fixed params
-  }
+        v1 = (2.0 * rd1Value) - 1.0 ;
+        v2 = (2.0 * rd2Value) - 1.0 ;
+        radius = v1*v1 + v2*v2 ; 
+      } while (radius >= 1.0) ;
+      fac = sqrt (-2.0 * log (radius) / radius);
+      stored_double = v1 * fac;
+      return exp (v2 * fac * theStdDev + theMean);	// use fixed params
+    }
 }
 
-// ----- protocol InternalState -----
 
--(void) putStateInto: (void *) buffer {
-   state_struct_t * internalState;
-
+- (void)putStateInto: (void *)buffer
+{
+  state_struct_t *internalState;
+  
   // recast the caller's pointer:
   internalState = (state_struct_t *) buffer;
-
+  
   // Fill the caller's buffer with state data:
   // Object identification:
   internalState->distMagic = distMagic;
@@ -370,24 +403,25 @@ typedef struct {
 }
 
 
--(void) setStateFrom: (void *) buffer {
-   state_struct_t * internalState;
-
+- (void)setStateFrom: (void *)buffer
+{
+  state_struct_t * internalState;
+  
   // recast the caller's pointer:
-  internalState = (state_struct_t *) buffer;
-
+  internalState = (state_struct_t *)buffer;
+  
   // TEST the external data (object identification):
-
-  if (    (internalState->distMagic != distMagic)
-       || (internalState->stateSize != stateSize)
-     )
-  [InvalidCombination raiseEvent:
-  "%u %s : you are passing bad data to setState!\n %u %u\n",
-   distMagic, distName,
-   internalState->distMagic, internalState->stateSize];
-
+  
+  if ((internalState->distMagic != distMagic)
+      || (internalState->stateSize != stateSize))
+    [InvalidCombination
+      raiseEvent:
+        "%u %s : you are passing bad data to setState!\n %u %u\n",
+      distMagic, distName,
+      internalState->distMagic, internalState->stateSize];
+  
   // set internal state from data in caller's buffer:
-
+  
   // Fixed parameters:
   optionsInitialized = internalState->optionsInitialized;
   theMean       = internalState->theMean;
@@ -397,57 +431,55 @@ typedef struct {
   stored        = internalState->stored;
   stored_double = internalState->stored_double;
   currentCount  = internalState->currentCount;
-
+  
   // Test generator data:
 
-  if (
-          ( (unsigned) [randomGenerator getMagic] != internalState->genMagic )
-       || ( useSplitGenerator != internalState->useSplitGenerator )
-       || ( virtualGenerator  != internalState->virtualGenerator  )
-     )
-  printf("%s setState: Warning! Not using the same generator!\n",distName);
-
+  if (((unsigned) [randomGenerator getMagic] != internalState->genMagic)
+      || (useSplitGenerator != internalState->useSplitGenerator)
+      || (virtualGenerator  != internalState->virtualGenerator))
+    printf("%s setState: Warning! Not using the same generator!\n",distName);
+  
   // nothing is returned from a (void) function
-
 }
 
 
-- (void) describe: outStream {
+- (void)describe: outStream 
+{
   char buffer[200];
-
-  (void)sprintf(buffer," %s describe: outStream: \n", distName);
+  
+  (void)sprintf (buffer," %s describe: outStream: \n", distName);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          distMagic = %24u\n", distMagic);
+  (void)sprintf (buffer,"          distMagic = %24u\n", distMagic);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"           distName = %24s\n", distName);
+  (void)sprintf (buffer,"           distName = %24s\n", distName);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          stateSize = %24u\n", stateSize);
+  (void)sprintf (buffer,"          stateSize = %24u\n", stateSize);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"         *Generator = %24p\n", randomGenerator);
+  (void)sprintf (buffer,"         *Generator = %24p\n", randomGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"            genName = %24s\n", 
-	[randomGenerator getName]);
+  (void)sprintf (buffer,"            genName = %24s\n", 
+                [randomGenerator getName]);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"       generatorMax = %24u\n", 
+  (void)sprintf (buffer,"       generatorMax = %24u\n", 
 	[randomGenerator getUnsignedMax]);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"  useSplitGenerator = %24d\n", useSplitGenerator);
+  (void)sprintf (buffer,"  useSplitGenerator = %24d\n", useSplitGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"   virtualGenerator = %24u\n", virtualGenerator);
+  (void)sprintf (buffer,"   virtualGenerator = %24u\n", virtualGenerator);
   [outStream catC: buffer];
-  (void)sprintf(buffer," optionsInitialized = %24d\n", optionsInitialized);
+  (void)sprintf (buffer," optionsInitialized = %24d\n", optionsInitialized);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"            theMean = %24.16e\n", theMean);
+  (void)sprintf (buffer,"            theMean = %24.16e\n", theMean);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"        theVariance = %24.16e\n", theVariance);
+  (void)sprintf (buffer,"        theVariance = %24.16e\n", theVariance);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"          theStdDev = %24.16e\n", theStdDev);
+  (void)sprintf (buffer,"          theStdDev = %24.16e\n", theStdDev);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"            stored? = %24d\n", stored);
+  (void)sprintf (buffer,"            stored? = %24d\n", stored);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"      stored_double = %24f\n", stored_double);
+  (void)sprintf (buffer,"      stored_double = %24f\n", stored_double);
   [outStream catC: buffer];
-  (void)sprintf(buffer,"       currentCount = %24llu\n", currentCount);
+  (void)sprintf (buffer,"       currentCount = %24llu\n", currentCount);
   [outStream catC: buffer];
 
   [outStream catC: "\n"];

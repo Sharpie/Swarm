@@ -18,6 +18,11 @@ Changes:	 Standardized the informational comments.
 		 Added code to deal with split generators.
 		 Added method createWithDefaults.
 		 Removed distinction between frozen and non-frozen state.
+
+Modified by:	Sven Thommesen
+Date:		1998-10-08 (v. 0.8)
+Changes:	Rearranged code for create-phase compatibility.
+
 */
 
 /*
@@ -56,7 +61,7 @@ Relative speed:	| Speed 0.654 (time 1.529) relative to MT19937 getUnsignedSample
 #import <random.h>
 
 
-@interface RandomBitDist: SwarmObject 
+@interface RandomBitDist: SwarmObject <RandomBitDist>
 
 {
 
@@ -95,60 +100,66 @@ Relative speed:	| Speed 0.654 (time 1.529) relative to MT19937 getUnsignedSample
 
 }
 
-// --- Private methods: -----
 
--initState;
--resetState;
+CREATING
 
-// ----- Generator creation: -----
+// @protocol RandomBitDist <BooleanDistribution, CREATABLE>
 
-+createBegin: (id) aZone;
--setGenerator: (id) generator;
--setGenerator: (id) generator setVirtualGenerator: (unsigned) vGen;
--createEnd;
+- initState;		// unpublished
 
-+create: (id) aZone setGenerator: (id) generator;
+// @protocol BooleanDistribution <ProbabilityDistribution> 
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
 
-+createWithDefaults: aZone;
++ createWithDefaults: aZone;
 
--reset;		// reset currentCount and other state data
++ create: aZone setGenerator: generator;
 
-// ----- Return values of parameters: -----
++ create             : aZone 
+         setGenerator: generator
+  setVirtualGenerator: (unsigned) vGen;
 
--(id)		getGenerator;
--(unsigned)	getVirtualGenerator;
--(BOOL)		getOptionsInitialized;
++ createBegin: aZone;
+- createEnd;
 
+// @protocol InternalState
 
-// ----- Return state values: -----
+SETTING
 
-// Return count of variates generated:
+// @protocol RandomBitDist <BooleanDistribution, CREATABLE>
+- resetState;		// unpublished
 
--(unsigned  long long int) getCurrentCount;
+// @protocol BooleanDistribution <ProbabilityDistribution> 
 
- 
-// ----- Distribution output: -----
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- setGenerator: generator;
+- setGenerator       : generator 
+  setVirtualGenerator: (unsigned)vGen;
+- reset;
 
-// Methods that conform to the BooleanDistribution protocol:
+// @protocol InternalState
 
--(BOOL)		getBooleanSample;
--(int) 		getIntegerSample;
+USING
 
-// Methods that conform to the RandomBits protocol:
+// @protocol RandomBitDist <BooleanDistribution, CREATABLE>
+- (BOOL)getCoinToss;
 
--(BOOL) 	getCoinToss;
+// @protocol BooleanDistribution <ProbabilityDistribution> 
+- (BOOL)getBooleanSample;
+- (int)getIntegerSample;	// for convenience
 
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- getGenerator;
+- (unsigned)getVirtualGenerator;
+- (BOOL)getOptionsInitialized;
+- (unsigned long long int)getCurrentCount;
 
-// ----- Object state management: -----
-
--(unsigned)  getStateSize;
--(void)      putStateInto:  (void *) buffer;
--(void)      setStateFrom:  (void *) buffer;
--(void)      describe:      (id) outStream;
--(const char *)getName;
--(unsigned)  getMagic;
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
 @end

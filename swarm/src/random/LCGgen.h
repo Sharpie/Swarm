@@ -21,6 +21,12 @@ Changes:	 Standardized the informational comments.
 		 Sub-classed LCG1,LCG2,LCG3.
 		 Added floating point output (float, double, long double).
 		 Revised the 'magic number' numbering scheme.
+
+Modified by:	Sven Thommesen
+Date:		1998-10-08 (v. 0.8)
+Changes:	Code cleanup related to signed/unsigned comparisons.
+		Code rearranged for create-phase compatibility.
+		Added -reset method.
 */
 
 /*
@@ -92,7 +98,7 @@ Relative speed:	| Speed 1.442 (time 0.693) relative to MT19937 getUnsignedSample
 #define COMPONENTS 1
 #define SEEDS      1
 
-@interface LCGgen: SwarmObject
+@interface LCGgen: SwarmObject <SimpleRandomGenerator>
 
 {
 
@@ -148,90 +154,80 @@ Relative speed:	| Speed 1.442 (time 0.693) relative to MT19937 getUnsignedSample
 }
 
 
-//                                                                      simple.h
+CREATING
 
-// ----- Private methods: -----
+// Unpublished (private) methods:
+- runup: (unsigned)streak;
+- initState;
++ createBegin: aZone;
+- createEnd;
 
--		runup: (unsigned) streak;
--		generateSeeds;
--		setState;
+// @protocol Simple
++ createWithDefaults: aZone;
 
--		initState;
-+		createBegin: (id) aZone;
--		setStateFromSeed:  (unsigned)   seed;
--		setStateFromSeeds: (unsigned *) seeds;
--		createEnd;
+// @protocol SingleSeed
++ create: aZone setStateFromSeed: (unsigned)seed;
 
-// NOTE: create methods are in the subclass below
+// @protocol MultiSeed
++ create: aZone setStateFromSeeds: (unsigned *)seeds;
 
-// ----- Single-seed creation: -----
+SETTING
 
-// + 		create: aZone setStateFromSeed:  (unsigned)   seed;
+// Unpublished (private) methods:
+- setState;
+- generateSeeds;
+- generateSeedVector;
+- localGenerateSeeds;			// this class only
 
-// Limits on seed value supplied (minimum = 0):
-- (unsigned)	getMaxSeedValue;
+// @protocol Simple
+- setAntithetic: (BOOL) antiT;
 
-// Return generator starting value:
-- (unsigned) 	getInitialSeed;
+// @protocol SingleSeed
+- setStateFromSeed: (unsigned)seed;
 
-// ----- Multi-seed creation: -----
+// @protocol MultiSeed
+- setStateFromSeeds: (unsigned *)seeds;
 
-// +		create: aZone setStateFromSeeds: (unsigned *) seeds;
+USING
 
-// Number of seeds required (size of array) (minimum = 1):
-- (unsigned) 	lengthOfSeedVector;
+// Unpublished (private) methods:
 
-// Limits on seed values supplied (minimum = 0):
-- (unsigned *)	getMaxSeedValues;
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
-// Return generator starting values:
-- (unsigned *) 	getInitialSeeds;
+// @protocol SimpleOut
+- (unsigned)getUnsignedMax;
 
-// ----- Other create methods: -----
+- (unsigned)getUnsignedSample;
+- (float)getFloatSample;
+- (double)getThinDoubleSample;
+- (double)getDoubleSample;
+- (long double)getLongDoubleSample;
 
-// Create with a default set of seeds and parameters:
-// +		createWithDefaults: aZone;
+// @protocol Simple
+- (BOOL)getAntithetic;
+- (unsigned long long int)getCurrentCount;
+- reset;
 
--		setAntithetic: (BOOL) antiT;
+// @protocol SingleSeed
+- (unsigned)getMaxSeedValue;		// min is 1
+- (unsigned)getInitialSeed;
 
-// ----- Return values of parameters: -----
-- (BOOL)	getAntithetic;
+// @protocol MultiSeed
+- (unsigned)lengthOfSeedVector;
+- (unsigned *)getMaxSeedValues;		// min is 1
+- (unsigned *)getInitialSeeds;
 
-// ----- Return state values: -----
-
-// Return count of variates generated:
-- (unsigned long long int)	getCurrentCount;
-
-// ----- Generator output: -----
-
-// The maximum value returned by getUnsignedSample is:
-- (unsigned)    getUnsignedMax;
-
-// Return a 'random' integer uniformly distributed over [0,unsignedMax]:
-- (unsigned)	getUnsignedSample;
-
-// Return a 'random' floating-point number uniformly distributed in [0.0,1.0):
-
-- (float)       getFloatSample;			// using 1 unsigned
-- (double)      getThinDoubleSample;		// using 1 unsigned
-- (double)      getDoubleSample;		// using 2 unsigneds
-- (long double) getLongDoubleSample;		// using 2 unsigneds
-
-// Warning: use of the last method is not portable between architectures.
-
-// ----- Object state management: -----
-
-- (unsigned)	getStateSize;		
-- (void)	putStateInto: (void *) buffer;
-- (void)	setStateFrom: (void *) buffer;
-- (void)	describe: (id) outStream;
-- (const char *)getName;		
-- (unsigned)	getMagic;	
 
 @end
 
 
-@interface LCG1gen: LCGgen
+@interface LCG1gen: LCGgen <SimpleRandomGenerator, CREATABLE>
 
 {
 
@@ -253,15 +249,20 @@ output quality:	|
 
 }
 
--initState;
+CREATING
 
-+ 		create: aZone setStateFromSeed:  (unsigned)   seed;
-+		create: aZone setStateFromSeeds: (unsigned *) seeds;
-+		createWithDefaults: aZone;
+- initState;
++ create: aZone setStateFromSeed:  (unsigned)   seed;
++ create: aZone setStateFromSeeds: (unsigned *) seeds;
++ createWithDefaults: aZone;
+
+SETTING
+
+USING
 
 @end
 
-@interface LCG2gen: LCGgen
+@interface LCG2gen: LCGgen <SimpleRandomGenerator, CREATABLE>
 
 {
 
@@ -283,15 +284,20 @@ output quality:	|
 
 }
 
--initState;
+CREATING
 
-+ 		create: aZone setStateFromSeed:  (unsigned)   seed;
-+		create: aZone setStateFromSeeds: (unsigned *) seeds;
-+		createWithDefaults: aZone;
+- initState;
++ create: aZone setStateFromSeed:  (unsigned)   seed;
++ create: aZone setStateFromSeeds: (unsigned *) seeds;
++ createWithDefaults: aZone;
+
+SETTING
+
+USING
 
 @end
 
-@interface LCG3gen: LCGgen
+@interface LCG3gen: LCGgen <SimpleRandomGenerator, CREATABLE>
 
 {
 
@@ -313,11 +319,16 @@ output quality:	|
 
 }
 
--initState;
+CREATING
 
-+ 		create: aZone setStateFromSeed:  (unsigned)   seed;
-+		create: aZone setStateFromSeeds: (unsigned *) seeds;
-+		createWithDefaults: aZone;
+- initState;
++ create: aZone setStateFromSeed:  (unsigned)   seed;
++ create: aZone setStateFromSeeds: (unsigned *) seeds;
++ createWithDefaults: aZone;
+
+SETTING
+
+USING
 
 @end
 

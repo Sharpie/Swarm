@@ -13,6 +13,8 @@ Modified by:     Sven Thommesen
 Date:            1997-01-15   (v. 0.6)
 Modified by:     Sven Thommesen
 Date:            1997-09-01   (v. 0.7)
+Modified by:	 Sven Thommesen
+Date:		 1998-10-08   (v. 0.8)
 */
 
 /*
@@ -23,22 +25,8 @@ Date:            1997-09-01   (v. 0.7)
 
 #import <random/ACGgen.h>
 
+
 @implementation ACGgen
-
-
-// Import common snippets of code:
-
-#import "Common.gens.create.m"
-
-#import "Common.gens.genSeeds.m"
-
-#import "Common.gens.setparams.m"
-
-#import "Common.gens.floats.m"
-
-
-// And now code particular to this generator:
-
 
 // This struct is used by setStateFrom / putStateInto
 // to pass our state data to/from other objects:
@@ -58,34 +46,14 @@ typedef struct {
 } state_struct_t;
 
 
--setState {
-   int i;
 
-// Fill state variables from initialSeeds vector,
-// assuming initialSeeds contains valid seeds:
+PHASE(Creating)
 
-   for (i = 0; i < r; i++) 
-     state[i] = initialSeeds[i];
+#import "include.gens.creating.m"
 
-// Point to the beginning of the state vector:
-
-   index = 0;
-
-// If needed, draw a number of variates
-// to escape rho-sequences:
-   // [self runup: r];
-
-// Comment: ACG is single-cycle and does not need runup.
-// Eliminated in v. 0.7.
-
-   currentCount = 0;
-
-   return self;
-}
-
-
--initState {
-   int i;
+- initState
+{
+   unsigned i;
 
 // This method is called from createBegin.
 
@@ -114,7 +82,7 @@ typedef struct {
    lengthOfSeedVector = r;			// state vector
    for (i = 0; i < lengthOfSeedVector; i++)
      initialSeeds[i] = 0;
-   for (i=0; i<r; i++)
+   for (i = 0; i < r; i++)
      maxSeedValues[i] = 0xfffffffe;		// to avoid degenerate state
 
 // State size for getState and setState:
@@ -133,10 +101,6 @@ typedef struct {
 
    return self;
 }
-
-
-
-// ----- Published creation methods: -----
 
 +createBegin: aZone {
   ACGgen * aGenerator;
@@ -202,9 +166,60 @@ typedef struct {
 }
 
 
-// ----- Get unsigned random value: -----
 
--(unsigned) getUnsignedSample {
+
+PHASE(Setting)
+
+#import "include.gens.setting.m"
+
+- generateSeeds
+{
+  [self generateSeedVector];
+  return self;
+}
+
+- setState
+{
+   unsigned i;
+
+// Fill state variables from initialSeeds vector,
+// assuming initialSeeds contains valid seeds:
+
+   for (i = 0; i < r; i++) 
+     state[i] = initialSeeds[i];
+
+// Point to the beginning of the state vector:
+
+   index = 0;
+
+// If needed, draw a number of variates
+// to escape rho-sequences:
+   // [self runup: r];
+
+// Comment: ACG is single-cycle and does not need runup.
+// Eliminated in v. 0.7.
+
+   currentCount = 0;
+
+   return self;
+}
+
+
+
+PHASE(Using)
+
+#import "include.gens.using.m"
+
+- reset
+{
+  // Reset generator to the point of the last use of -setStateFromSeed(s).
+  // Also reset counters.
+  [self setState];
+  return self;
+}
+
+- (unsigned)getUnsignedSample
+{
    unsigned int rth, sth, new;
 
 // Update count of variates delivered:
@@ -249,90 +264,90 @@ typedef struct {
 }
 
 
-// ----- protocol InternalState: -----
-
-
--(void) putStateInto: (void *) buffer {
+- (void)putStateInto: (void *)buffer
+{
    state_struct_t * stateBuf;
-   int i;
+   unsigned i;
    unsigned int *bufArr;
 
-// Recast the caller's pointer:
-stateBuf = (state_struct_t *) (buffer) ;
+   // Recast the caller's pointer:
+   stateBuf = (state_struct_t *) (buffer);
+   
+   // Fill the external buffer with current values:
+   
+   // Generator identification:
+   stateBuf->genMagic     = genMagic;
+   stateBuf->stateSize    = stateSize;
+   
+   // Fixed parameters:
+   stateBuf->antiThetic   = antiThetic;
+   
+   // State variables:
+   stateBuf->singleInitialSeed = singleInitialSeed;
+   stateBuf->initialSeed  = initialSeed;
+   stateBuf->currentCount = currentCount;
+   stateBuf->index        = index;
+   
+   bufArr = &(stateBuf->stateVec);
+   
+   for (i = 0; i < lengthOfSeedVector; i++)
+     bufArr[i] = state[i];
 
-// Fill the external buffer with current values:
-
-  // Generator identification:
-  stateBuf->genMagic     = genMagic;
-  stateBuf->stateSize    = stateSize;
-
-  // Fixed parameters:
-  stateBuf->antiThetic   = antiThetic;
-
-  // State variables:
-  stateBuf->singleInitialSeed = singleInitialSeed;
-  stateBuf->initialSeed  = initialSeed;
-  stateBuf->currentCount = currentCount;
-  stateBuf->index        = index;
-
-  bufArr = &(stateBuf->stateVec);
-
-  for (i=0; i<lengthOfSeedVector; i++)
-    bufArr[i]   = state[i];
-
-  for (i=0; i < lengthOfSeedVector; i++)
+  for (i = 0; i < lengthOfSeedVector; i++)
     bufArr[lengthOfSeedVector+i] = initialSeeds[i];
-
+  
   // nothing returned from a (void) function
 }
 
--(void) setStateFrom: (void *) buffer {
-   state_struct_t * stateBuf;
-   int i;
-   unsigned int *bufArr;
-
-// Recast the caller's pointer:
-stateBuf = (state_struct_t *) (buffer) ;
-
-// TEST the integrity of the external data:
-if (     (stateBuf->genMagic  != genMagic)
-      || (stateBuf->stateSize != stateSize)
-   )
-
-[InvalidCombination raiseEvent:
- "%u %s generator: your are passing bad data to setState!\n %u %u\n",
-  genMagic, genName,
-  stateBuf->genMagic,
-  stateBuf->stateSize ];
-
-
-// Place external data into internal state variables:
-
+- (void)setStateFrom: (void *)buffer
+{
+  state_struct_t * stateBuf;
+  unsigned i;
+  unsigned int *bufArr;
+  
+  // Recast the caller's pointer:
+  stateBuf = (state_struct_t *) (buffer) ;
+  
+  // TEST the integrity of the external data:
+  if ((stateBuf->genMagic  != genMagic)
+      || (stateBuf->stateSize != stateSize))
+    
+    [InvalidCombination
+      raiseEvent:
+        "%u %s generator: your are passing bad data to setState!\n %u %u\n",
+      genMagic, genName,
+      stateBuf->genMagic,
+      stateBuf->stateSize];
+  
+  
+  // Place external data into internal state variables:
+  
   antiThetic   = stateBuf->antiThetic;
   singleInitialSeed = stateBuf->singleInitialSeed;
   initialSeed  = stateBuf->initialSeed;
   currentCount = stateBuf->currentCount;
   index        = stateBuf->index;
-
+  
   bufArr = &(stateBuf->stateVec);
   
-  for (i=0; i<lengthOfSeedVector; i++)
-    state[i]   = bufArr[i];
-
-  for (i=0; i<lengthOfSeedVector; i++)
-    initialSeeds[i] = bufArr[lengthOfSeedVector+i];
-
+  for (i = 0; i < lengthOfSeedVector; i++)
+    state[i] = bufArr[i];
+  
+  for (i = 0; i < lengthOfSeedVector; i++)
+    initialSeeds[i] = bufArr[lengthOfSeedVector + i];
+  
   // nothing returned from a (void) function
 }
 
 
-- (void) describe: outStream {
+- (void)describe: outStream
+{
   char buffer[128];
-  int i;
-
+  unsigned i;
+  
   (void)sprintf(buffer,"%s Describe: \n",genName);
   [outStream catC: buffer];
-
+  
   (void)sprintf(buffer,"      genName = %24s\n", genName);
   [outStream catC: buffer];
   (void)sprintf(buffer,"    stateSize = %24u\n", stateSize);
@@ -355,7 +370,7 @@ if (     (stateBuf->genMagic  != genMagic)
   [outStream catC: buffer];
   (void)sprintf(buffer,"  invModMult2 = %24.16e\n", invModMult2);
   [outStream catC: buffer];
-
+  
   (void)sprintf(buffer,"  initialSeed = %24u\n", initialSeed);
   [outStream catC: buffer];
   (void)sprintf(buffer," singleInitialSeed = %19u\n", singleInitialSeed);
@@ -364,26 +379,29 @@ if (     (stateBuf->genMagic  != genMagic)
   [outStream catC: buffer];
   (void)sprintf(buffer," currentCount = %24llu\n", currentCount);
   [outStream catC: buffer];
-
-  for (i=0; i<lengthOfSeedVector; i++) {
-    (void)sprintf(buffer,"     maxSeeds[%02d] = %20u\n", i, maxSeedValues[i]);
-    [outStream catC: buffer];
-  }
-
-  for (i=0; i<lengthOfSeedVector; i++) {
-    (void)sprintf(buffer," initialSeeds[%02d] = %20u\n", i, initialSeeds[i]);
-    [outStream catC: buffer];
-  }
-
-  for (i=0; i<lengthOfSeedVector; i++) {
-    (void)sprintf(buffer,"        state[%02d] = %20u\n", i, state[i]);
-    [outStream catC: buffer];
-  }
-
+  
+  for (i = 0; i < lengthOfSeedVector; i++)
+    {
+      (void)sprintf(buffer,"     maxSeeds[%02d] = %20u\n",
+                    i, maxSeedValues[i]);
+      [outStream catC: buffer];
+    }
+  
+  for (i = 0; i < lengthOfSeedVector; i++)
+    {
+      (void)sprintf(buffer," initialSeeds[%02d] = %20u\n", i, initialSeeds[i]);
+      [outStream catC: buffer];
+    }
+  
+  for (i = 0; i < lengthOfSeedVector; i++)
+    {
+      (void)sprintf (buffer,"        state[%02d] = %20u\n", i, state[i]);
+      [outStream catC: buffer];
+    }
+  
   [outStream catC: "\n\n"];
-
+  
   //  nothing returned from a (void) procedure.
-
 }
 
 @end

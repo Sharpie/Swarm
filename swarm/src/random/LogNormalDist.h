@@ -20,6 +20,11 @@ Changes:	 Fixed bug in method -getDoubleSample (missing exp()).
 		 Added method -createWithDefaults.
 		 Change: allow variance=0.0 (returns exp(mean)).
 		 Removed distinction between frozen and non-frozen state.
+
+Modified by:	Sven Thommesen
+Date:		1998-10-08 (v. 0.8)
+Changes:	Rearranged code for create-phase compatibility.
+
 */
 
 /*
@@ -62,13 +67,11 @@ Relative speed:	| Speed 0.111 (time 9.040) relative to MT19937 getUnsignedSample
 */
 
 
-
-
 #import <objectbase/SwarmObject.h>
 #import <random.h>
 
 
-@interface LogNormalDist: SwarmObject 
+@interface LogNormalDist: SwarmObject <LogNormalDist>
 
 {
 
@@ -109,74 +112,82 @@ Relative speed:	| Speed 0.111 (time 9.040) relative to MT19937 getUnsignedSample
 
 }
 
-// --- Private methods: -----
 
--initState;
--resetState;
+CREATING
 
-// ----- Generator creation: -----
+// @protocol LogNormalDist <Normal, CREATABLE> 
 
-+createBegin: (id) aZone;
--setGenerator: (id) generator;
--setGenerator: (id) generator setVirtualGenerator: (unsigned) vGen;
--createEnd;
+- initState;		// unpublished
 
++ create        : aZone
+    setGenerator: generator
+         setMean: (double)mean
+     setVariance: (double)variance;
 
-+createWithDefaults: aZone;
++ create             : aZone
+         setGenerator: generator
+  setVirtualGenerator: (unsigned)vGen
+              setMean: (double)mean
+          setVariance: (double)variance;
 
-+create: (id) aZone setGenerator: (id) generator;
+// @protocol DoubleDistribution <ProbabilityDistribution>
 
-+create: (id) aZone setGenerator: (id) generator 
-	setVirtualGenerator: (unsigned) vGen;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
 
--setMean: (double) mean setVariance: (double) variance;
++ createWithDefaults: aZone;
 
-+create: aZone setGenerator: generator
-	setMean: (double) mean setVariance: (double) variance;
++ create: aZone setGenerator: generator;
 
-+create: aZone setGenerator: generator
-	setVirtualGenerator: (unsigned) vGen
-	setMean: (double) mean setVariance: (double) variance;
++ create             : aZone 
+         setGenerator: generator
+  setVirtualGenerator: (unsigned) vGen;
 
--reset;		// reset currentCount and other state data
++ createBegin: aZone;
+- createEnd;
 
-// ----- Return values of parameters: -----
+// @protocol InternalState
 
--(id)		getGenerator;
--(unsigned)	getVirtualGenerator;
--(BOOL)		getOptionsInitialized;
+SETTING
 
--(double) 	getMean;
--(double) 	getVariance;
--(double) 	getStdDev;
+// @protocol LogNormalDist <Normal, CREATABLE> 
+- resetState;		// unpublished
+- setMean: (double)mean setVariance: (double)variance;
 
+// @protocol BooleanDistribution <ProbabilityDistribution> 
 
-// ----- Return state values: -----
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- setGenerator: generator;
+- setGenerator       : generator 
+  setVirtualGenerator: (unsigned)vGen;
+- reset;
 
-// Return count of variates generated:
+// @protocol InternalState
 
--(unsigned  long long int) getCurrentCount;
+USING
 
- 
-// ----- Distribution output: -----
+// @protocol LogNormalDist <Normal, CREATABLE> 
+- (double)getMean;
+- (double)getVariance;
+- (double)getStdDev;
+- (double)getSampleWithMean: (double)mean 
+               withVariance: (double)variance;
 
-// FIXED parameters:
+// @protocol DoubleDistribution <ProbabilityDistribution>
+- (double)getDoubleSample;
 
--(double)      getDoubleSample;
+// @protocol ProbabilityDistribution <SwarmObject, InternalState> 
+- getGenerator;
+- (unsigned)getVirtualGenerator;
+- (BOOL)getOptionsInitialized;
+- (unsigned long long int)getCurrentCount;
 
-// FREE parameters:
-
--(double) getSampleWithMean: (double) mean withVariance: (double) variance;
-
-
-// ----- Object state management: -----
-
--(unsigned)  getStateSize;
--(void)      putStateInto:  (void *) buffer;
--(void)      setStateFrom:  (void *) buffer;
--(void)      describe:      (id) outStream;
--(const char *)getName;
--(unsigned)  getMagic;
+// @protocol InternalState
+- (unsigned)getStateSize;		// size of buffer needed
+- (void)putStateInto: (void *)buffer;	// save state data for later use
+- (void)setStateFrom: (void *)buffer;	// set state from saved data
+- (void)describe: outStream;	        // prints ascii data to stream
+- (const char *)getName;		// returns name of object
+- (unsigned)getMagic;			// object's 'magic number'
 
 @end
 

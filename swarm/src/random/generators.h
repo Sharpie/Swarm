@@ -2,10 +2,11 @@
 // <random/generators.h>
 //
 //     1997-09-01 (v. 0.7)
+//     1998-10-08 (v. 0.8)
 //
 
 // 
-// See the file docs/README.Generators.v07 for guide to usage
+// See the file docs/README.Generators for guide to usage
 // 
 
 //
@@ -18,38 +19,6 @@
 //   [0.0,1.0).
 //
 
-//
-// The random number generators may be classified three different ways
-//   for implementation purposes: 
-// 
-// (a) whether the generator is 'short' or 'long': if it is short,
-//   it has a small state (1 integer) and a short cycle (less than 2^32).
-//   If it is long, it has a larger state (several integers) and a
-//   longer cycle (cycle >> 2^32).
-// 
-// (b) whether the generator is 'single' or 'combined': if it is 
-//   combined, it consists of a number of (short or long) components,
-//   whose output is combined in such a way that we get longer 
-//   cycles and better statistical properties.
-// 
-// (c) whether the generator is 'simple' or 'split': if it is split, then the
-//   generator's cycle is divided into a number (A) of 'virtual generators',
-//   each of which can randomly access a number (2^v) of segments (streams)
-//   of length 2^w. The particular configuration (A,v,w) is user selectable.
-// 
-//   These substreams (virtual generators) provide non-overlapping and
-//   statistically independent sequences of pseudo-random numbers.
-// 
-//   Individual virtual generators may be reset to the start of the current
-//   segment, jumped ahead to the next segment, or positioned to a chosen
-//   segment number; also all virtual generators may be moved in unison.
-//
-
-// The present implementation is an attempt to unify the methods available
-//   for these different types of generators.
-// 
-
-
 // 
 // ---------------------------------------------------------------------
 // Protocol components:
@@ -60,11 +29,12 @@
 CREATING
 + create: aZone setStateFromSeed: (unsigned)seed;
 
-USING
+SETTING
 //M: The setStateFromSeeds method initializes the seed dependent part of the 
 //M: state.
 - setStateFromSeed: (unsigned)seed;
 
+USING
 //M: The getMaxSeedValue method returns the upper limit on the seed value.
 - (unsigned)getMaxSeedValue;	// minvalue is 1
 
@@ -78,11 +48,12 @@ USING
 CREATING
 + create: aZone setStateFromSeeds: (unsigned *)seeds;
 
-USING
+SETTING
 //M: The setStateFromSeeds method initializes the seed dependent part of the 
 //M: state.
 - setStateFromSeeds: (unsigned *)seeds;
 
+USING
 //M: The lengthOfSeedVector method returns the number of seeds required
 //M: (the size of the array).
 - (unsigned)lengthOfSeedVector;
@@ -95,43 +66,62 @@ USING
 - (unsigned *)getInitialSeeds;
 @end
 
-
 @protocol Simple
 //S: Internal
 CREATING
 + createWithDefaults: aZone;
 
-USING
+SETTING
+//M: The setAntithetic method turns on or off antithetic output (default=off).
+//M: Antithetic output is (unsignedMax - u) or (1.0 - d).
 - setAntithetic: (BOOL) antiT;
 
-//M: The getAntithetic method returns the current values of generator
-//M: parameters.
+USING
+//M: The getAntithetic method returns the current values of the parameter.
 - (BOOL)getAntithetic;
 
 //M: The getCurrentCount method returns the count of variates generated.
 - (unsigned long long int)getCurrentCount;
+
+//M: The -reset method sets the generator back to the state it had at start
+//M: or at the last use of -setStateFromSeed(s). CurrentCount is zeroed.
+- reset;
 @end
 
 
 @protocol SimpleOut
 //S: Internal
+
 USING
-//M: The getUnsignedMax method returns the maximum value returned by
-//M: getUnsignedSample.
+//M: The getUnsignedMax method returns the highest value that will ever 
+//M: be returned by -getUnsignedSample (the lowest is 0).
 - (unsigned)getUnsignedMax;
 
-//M: The getUnsignedSample method returns a random integer uniformly
-//M: distributed over [0,unsignedMax].
+//M: The getUnsignedSample method returns a random unsigned integer 
+//M: uniformly distributed over [0,unsignedMax].
 - (unsigned)getUnsignedSample;
 
 //M: The getFloatSample method returns a random floating point number
-//M: uniformly distributed in the range [0.0, 1.0].
-- (float)getFloatSample;		// using 1 unsigned
+//M: of size float, uniformly distributed in the range [0.0, 1.0).
+//M: It uses 1 call to -getUnsignedSample to fill the mantissa.
+- (float)getFloatSample;
 
-- (double)getThinDoubleSample;		// using 1 unsigned
-- (double)getDoubleSample;		// using 2 unsigneds
-//M: use of this method is not portable between architectures.
-- (long double)getLongDoubleSample;	// using 2 unsigneds
+//M: The getThinDoubleSample method returns a random floating point number
+//M: of size double, uniformly distributed in the range [0.0, 1.0).
+//M: It uses 1 call to -getUnsignedSample to fill the mantissa.
+- (double)getThinDoubleSample;
+
+//M: The getDoubleSample method returns a random floating point number
+//M: of size double, uniformly distributed in the range [0.0, 1.0).
+//M: It uses 2 calls to -getUnsignedSample to fill the mantissa.
+- (double)getDoubleSample;
+
+//M: The getLongDoubleSample method returns a random floating point number
+//M: of size long double, uniformly distributed in the range [0.0, 1.0).
+//M: It uses 2 calls to -getUnsignedSample to fill the mantissa.
+//M: Note: use of this method is not portable between architectures.
+- (long double)getLongDoubleSample;
+
 @end
 
 @protocol SplitSingleSeed
@@ -143,15 +133,17 @@ CREATING
               setw: (unsigned)w		// log2(segment length)
   setStateFromSeed: (unsigned)seed;
 
-USING
-//M: The setStateFromSeeds method initializes the seed dependent part of the 
-//M: state.
+SETTING
+//M: The setStateFromSeed method initializes the generator from
+//M: a single seed value. If more are needed, they are generated internally.
 - setStateFromSeed: (unsigned)seed;
 
-//M: The getMaxSeedValue method returns the upper limit on the seed value.
-- (unsigned)getMaxSeedValue;	// min is 1
+USING
+//M: The getMaxSeedValue method returns the highest allowable seed value.
+//M: The lowest value is 1 (0 is not a legal seed value).
+- (unsigned)getMaxSeedValue;
 
-//M: The getInitialSeed method returns the generator's starting value.
+//M: The getInitialSeed method returns the generator's starting seed.
 - (unsigned)getInitialSeed;
 @end
 
@@ -164,18 +156,20 @@ CREATING
               setw: (unsigned)w	        // log2(segment length)
  setStateFromSeeds: (unsigned *)seeds;
 
-USING
-//M: The setStateFromSeeds method initializes the seed dependent part of the 
-//M: state.
+SETTING
+//M: The setStateFromSeeds method initializes the generator from
+//M: a vector of seed values.
 - setStateFromSeeds: (unsigned *)seeds;
 
+USING
 //M: The lengthOfSeedVector method returns the number of seeds required.
 - (unsigned)lengthOfSeedVector;
 
-//M: The getMaxSeedValue method returns the upper limit on the seed value.
+//M: The getMaxSeedValue method returns a vector of highest allowable 
+//M: seed values. The lowest value is always 1 (0 is not a valid seed).
 - (unsigned *)getMaxSeedValues;		// min is 1
 
-//M: The getInitialSeed method returns the generator's starting value.
+//M: The getInitialSeed method returns the generator's starting seeds.
 - (unsigned *)getInitialSeeds;     	// = getInitialSeeds: 0
 @end
 
@@ -185,63 +179,72 @@ USING
 CREATING
 + createWithDefaults: aZone;
 
-USING
+SETTING
+//M: The setAntithetic method turns on or off antithetic output (default=off).
+//M: Antithetic output is (unsignedMax - u) or (1.0 - d).
 - setAntithetic: (BOOL)antiT;
 
+//M: The initGenerator method resets the state of a virtual generator to 
+//M: the start of segment #0.
+- initGenerator: (unsigned)vGen;
+
+//M: The initAll method resets the state of all the virtual generators to 
+//M: the start of segment #0.
+- initAll; 
+
+USING
 // Note: Valid values for vGen are [0,getNumGenerators-1]
 
-//M: The getNumGenerators method returns the current number of generators.
+//M: The getNumGenerators method returns the current number of 
+//M: virtual generators (A).
 - (unsigned)getNumGenerators;
 
-//M: The getNumSegments method returns the current number of segments.
+//M: The getNumSegments method returns log2(the current number of 
+//M: segments) = v.
 - (unsigned)getNumSegments;
 
-//M: The getSegmentLength method returns the current segment length.
+//M: The getSegmentLength method returns log2(the current segment 
+//M: length) = w.
 - (unsigned)getSegmentLength;
 
-//M: The getAntithetic method returns the current values of generator
-//M: parameters.
+//M: The getAntithetic method returns the current value of the parameter.
 - (BOOL)getAntithetic;
-
-//M: The initGenerator method resets the state of a virtual generator to 
-//M: segment #0.
-- initGenerator: (unsigned)vGen;
 
 //M: The restartGenerator method resets the state of a virtual generator to
 //M: the start of the current segment.
 - restartGenerator: (unsigned)vGen;
 
 //M: The advanceGenerator method resets the state of a virtual generator to 
-//M: the next segment.
+//M: the start of the next segment.
 - advanceGenerator: (unsigned)vGen;
 
 //M: The jumpGenerator:toSegment: method resets the state of a virtual 
-//M: generator to start at the specified segment.
+//M: generator to the start of the specified segment.
 - jumpGenerator: (unsigned)vGen  toSegment: (unsigned long long int)seg;
 
-//M: The initAll method resets the state of all the virtual generators to 
-//M: segment #0.
-- initAll; 
-
 //M: The restartAll method resets the state of all the virtual generators to
-//M: the start of the current segment.
+//M: the start of their current segment.
 - restartAll;					// start of current segment
 
 //M: The advanceAll method resets the state of all the virtual generators to 
-//M: the next segment.
+//M: the start of their next segment.
 - advanceAll;					// to next segment
 
 //M: The jumpAlltoSegment: method resets the state of all the virtual 
-//M: generators to start at the specified segment.
+//M: generators to the start of the specified segment.
 - jumpAllToSegment: (unsigned long long int)seg;
 
-//M: The getCurrentCount method returns the current count of the virtual 
-//M: generator.
+//M: The getCurrentCount method returns the current count of the specified
+//M: virtual generator (i.e. the number of variates delivered).
 - (unsigned long long int)getCurrentCount: (unsigned)vGen;
 
-//M: The getCurrentSegment method returns the current segment of the virtual
-//M: generator.
+//M: The getCurrentSegment method returns the number of the current segment 
+//M: of the specified virtual generator.
 - (unsigned long long int)getCurrentSegment: (unsigned)vGen;
+
+//M: The -reset method sets the generator back to the state it had at start
+//M: or at the last use of -setStateFromSeed(s). CurrentCount is zeroed.
+- reset;
 @end
 
 @protocol SplitOut
@@ -249,103 +252,78 @@ USING
 USING
 // Note: Valid values for vGen are [0,getNumGenerators-1]
 
-//M: The getUnsignedMax method returns the maximum value returned by
-//M: getUnsignedSample.
+//M: The getUnsignedMax method returns the highest value that will ever
+//M: be returned by -getUnsignedSample (the lowest is 0).
 - (unsigned)getUnsignedMax;
 
-//M: The getUnsignedSample method returns a 'random' integer uniformly 
-//M: distributed over [0,unsignedMax] from the 'virtual generator' 
-//M: (data stream) vGen.
+//M: The getUnsignedSample method returns a random unsigned integer 
+//M: uniformly distributed over the interval [0,unsignedMax] 
+//M: from virtual generator (data stream) vGen.
 - (unsigned)getUnsignedSample: (unsigned)vGen;
 
-//M: The getFloatSample method returns a 'random' floating-point number 
-//M: uniformly distributed in [0.0,1.0).
+//M: The getFloatSample method returns a random floating-point number 
+//M: of size float, uniformly distributed in the range [0.0,1.0),
+//M: from virtual generator (data stream) vGen.
+//M: This method uses 1 call to -getUnsignedSample to fill the mantissa.
 - (float)getFloatSample: (unsigned)vGen; // using 1 unsigned
 
+//M: The getThinDoubleSample method returns a random floating-point number 
+//M: of size double, uniformly distributed in the range [0.0,1.0),
+//M: from virtual generator (data stream) vGen.
+//M: This method uses 1 call to -getUnsignedSample to fill the mantissa.
 - (double)getThinDoubleSample: (unsigned)vGen;      // using 1 unsigned
+
+//M: The getDoubleSample method returns a random floating-point number 
+//M: of size double, uniformly distributed in the range [0.0,1.0),
+//M: from virtual generator (data stream) vGen.
+//M: This method uses 2 calls to -getUnsignedSample to fill the mantissa.
 - (double)getDoubleSample: (unsigned)vGen;          // using 2 unsigneds
 
+//M: The getLongDoubleSample method returns a random floating-point number 
+//M: of size long double, uniformly distributed in the range [0.0,1.0),
+//M: from virtual generator (data stream) vGen.
+//M: This method uses 2 calls to -getUnsignedSample to fill the mantissa.
 //M: Warning: use of this method is not portable between architectures.
 - (long double)getLongDoubleSample: (unsigned)vGen; // using 2 unsigneds
+
 @end
+
 
 // 
 // ------------------------------------------------------------------------
-// Generator types:
+// Implemented generator types:
 //
-
-@protocol SingleShortGenerator <Create, Drop, InternalState, SimpleOut, Simple, SingleSeed>
-//S: A Single Short generator.
-
-//D: It has a single seed, a small state (1 integer) and a short cycle 
-//D: (less than 2^32).
-@end
-
-@protocol SingleLongGenerator <Create, Drop, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
-//S: A Single Long generator.
-
-//D: It has a single seed, a larger state (several integers) and a longer cycle
-//D: (cycle >> 2^32).
-@end
-
-@protocol CombinedShortGenerator <Create, Drop, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
-//S: A Combined Short generator.
-
-//D: A "combined short" generator is a combination of a number of single
-//D: short generators.
-@end
-
-@protocol CombinedLongGenerator <Create, Drop, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
-//S: A Combined Long generator
-
-//D: A "combined long" generator is a combination of a number of single 
-//D: long generators.
-@end
-
-@protocol SingleShortSplitGenerator <Create, Drop, InternalState, SplitOut, Split, SplitSingleSeed>
-//S: A Single Short Split generator
-
-//D: A "single short split" generator is a single short generator with 
-//D: splitting facilities. 
-@end
-
-@protocol SingleLongSplitGenerator <Create, Drop, InternalState, SplitOut, Split, SplitSingleSeed, SplitMultiSeed>
-//S: A Single Long Split generator
-
-//D: A "single long split" generator is a single long generator with splitting
-//D: facilities. 
-@end
-
-@protocol CombinedShortSplitGenerator <Create, Drop, InternalState, SplitOut, Split, SplitSingleSeed, SplitMultiSeed>
-//S: A Combined Short Split generator.
-
-//D: A "combined short split" generator is a combination of a number of single
-//D: short generators, with splitting facilities.
-@end
-
-@protocol CombinedLongSplitGenerator <Create, Drop, InternalState, SplitOut, Split, SplitSingleSeed, SplitMultiSeed>
-//S: A Combined Long Split generator.
-
-//D: A "combined long split" generator is a combination of a number of single 
-//D: long generators, with splitting facilities.
-@end
 
 // 
-// NOTE: for the time being, all the split generators implement the
-//   *same* protocols, and the non-split (simple) generators likewise.
-//   The files methods.simplegenerators.h and methods.splitgenerators.h 
-//   in the /docs directory show the resulting combined interfaces for 
-//   the two different types of generator.
+// NOTE: all the split generators implement the same protocols,
+//   and likewise for the non-split (simple) generators.
 //
 
+@protocol SimpleRandomGenerator 
+<SwarmObject, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
+//S: A Simple (non-split) generator.
+
+//D: This protocol covers all implemented non-split generators.
+@end
+
+@protocol SplitRandomGenerator 
+<SwarmObject, InternalState, SplitOut, Split, SplitSingleSeed, SplitMultiSeed>
+//S: A Split generator.
+
+//D: This protocol covers the implemented split generators
+//D: (C2LCGX and C4LCGX.)
+@end
 
 // 
 // -----------------------------------------------------------------
 // @protocols for individual generator classes:
 //
 
+// NOTE: these protocols are included for backward compatibility only.
+// Use protocols <SimpleRandomGenerator> and <SplitRandomGenerators>.
+
 // LCG[1-3] -- single short random number generators, 
-@protocol LCGgen <SingleShortGenerator>
+@protocol LCGgen <SimpleRandomGenerator>
 //S: Linear Congruential Generator
 
 //D: This classic generator relies on controlled overflow at 32 bits.
@@ -389,7 +367,7 @@ USING
 // PMMLCG8, PMMLCG9 --
 //   component generators of C2LCGX
 
-@protocol PMMLCGgen <SingleShortGenerator>
+@protocol PMMLCGgen <SimpleRandomGenerator>
 //S: Prime Modulus Multiplicative Linear Congruential Generator
 
 //D: These generator have single full cycle of length (m-1).
@@ -466,7 +444,7 @@ USING
 
 // ACG, SCG -- single long random number generators
 
-@protocol ACGgen <SingleLongGenerator, CREATABLE>
+@protocol ACGgen <SimpleRandomGenerator, CREATABLE>
 //S: Additive Congruential Generator
 
 //D: ACG is in the Lagged Fibonacci class of generators. These generators 
@@ -479,7 +457,7 @@ USING
 //D: historical reasons (compatibility with earlier releases).
 @end
 
-@protocol SCGgen <SingleLongGenerator, CREATABLE>
+@protocol SCGgen <SimpleRandomGenerator, CREATABLE>
 //S: Subtractive Congruential Generator
 
 //D: SCG is in the Lagged Fibonacci class of generators. These generators use 
@@ -494,7 +472,7 @@ USING
 
 // SWB1, SWB2, SWB3 -- single long generators recommended for use.
 
-@protocol SWBgen <SingleLongGenerator>
+@protocol SWBgen <SimpleRandomGenerator>
 //S: Subtract-with-borrow Congruential Generator
 
 //D: These generators use a basic algorithm of the form 
@@ -526,7 +504,7 @@ USING
 @end
 
 // PSWB -- single long generator recommended for use.
-@protocol PSWBgen   <SingleLongGenerator, CREATABLE>
+@protocol PSWBgen   <SimpleRandomGenerator, CREATABLE>
 //S: Subtract-with-borrow Congruential Generator with prime modulus
 
 //D: PSWB is an improvement on SWB in that the use of a prime modulus 
@@ -535,14 +513,14 @@ USING
 
 // MWC -- two long generators recommended for use.
 
-@protocol MWCAgen <SingleLongGenerator, CREATABLE>
+@protocol MWCAgen <SimpleRandomGenerator, CREATABLE>
 //S: Multiply-With-Carry generator
 
 //D: This generator is claimed to be strictly periodic, with a period > 2^59. 
 //D: (There's possibly two such cycles.)
 @end
 
-@protocol MWCBgen <SingleLongGenerator, CREATABLE>
+@protocol MWCBgen <SimpleRandomGenerator, CREATABLE>
 //S: Multiply-With-Carry generator
 
 //D: This generator implements an alternate manner of conjoining the two 
@@ -551,14 +529,14 @@ USING
 @end
 
 // RWC2 -- single long generator recommended for use.
-@protocol RWC2gen <SingleLongGenerator, CREATABLE>
+@protocol RWC2gen <SimpleRandomGenerator, CREATABLE>
 //S: 2-lag Recursion With Carry generator
 
 //D: This generator is a 2-lag MWC generator implemented using 64-bit math.
 @end
 
 // RWC8 ("Mother") -- single long generator recommended for use.
-@protocol RWC8gen <CombinedLongGenerator, CREATABLE>
+@protocol RWC8gen <SimpleRandomGenerator, CREATABLE>
 //S: Multiply With Carry generator ("The Mother of all RNG's")
 
 //D: This generator is a combination of 2 16-bit 8-lag Recursion-With-Carry 
@@ -566,7 +544,7 @@ USING
 @end
 
 // TT403, TT775, TT800 -- single long generators recommended for use.
-@protocol TGFSRgen <SingleLongGenerator>
+@protocol TGFSRgen <SimpleRandomGenerator>
 //S: Twisted GFSR generator
 
 //D: With properly chosen parameters, these generators have a single cycle 
@@ -592,14 +570,14 @@ USING
 @end
 
 // MT19937 -- single *very* long generator recommended for use.
-@protocol MT19937gen <SingleLongGenerator, CREATABLE>
+@protocol MT19937gen <SimpleRandomGenerator, CREATABLE>
 //S: 'Mersenne Twister' Twisted GFSR generator
 
 //D:  This generator has a single cycle of length 2^19937-1.
 @end
 
 // MRG5, MRG6, MRG7 -- single long generators recommended for use.
-@protocol MRGgen <SingleLongGenerator>
+@protocol MRGgen <SimpleRandomGenerator>
 //S: Multiple Recursive [LCG] Generator
 
 //D: These generators require k multipliers and k past values to be kept. 
@@ -631,7 +609,7 @@ USING
 @end
 
 // C2TAUS[1-3]: short component based generator recommended for use.
-@protocol C2TAUSgen <CombinedShortGenerator>
+@protocol C2TAUSgen <SimpleRandomGenerator>
 //S: Combined Tausworthe generator 
 
 //D: This generator is based on 2 component generators of periods 2^31-1 and 
@@ -666,7 +644,7 @@ USING
 @end
 
 // C2MRG3 -- long component based generator recommended for use.
-@protocol C2MRG3gen <CombinedLongGenerator, CREATABLE>
+@protocol C2MRG3gen <SimpleRandomGenerator, CREATABLE>
 //S: Combined Multiple Recursive Generator.  A combination of 2 multiple
 //S: recursive LCG generators.
 
@@ -677,7 +655,7 @@ USING
 @end
 
 // C3MWC -- long component based generator recommended for use.
-@protocol C3MWCgen <CombinedLongGenerator, CREATABLE>
+@protocol C3MWCgen <SimpleRandomGenerator, CREATABLE>
 //S: Combined Multiply With Carry generator
 
 //D: This generator is a combination of 3 MWC generators, each of which is 
@@ -693,14 +671,14 @@ USING
 // @protocol XXXgen <SingleShortSplitGenerator, CREATABLE> @end
 
 // 
-// XXX --
+// YYY --
 //   single long generator with splitting facilities.
 //
 //   (no generators in this class implemented.)
 //
-// @protocol XXXgen <SingleLongSplitGenerator, CREATABLE> @end
+// @protocol YYYgen <SingleLongSplitGenerator, CREATABLE> @end
 
-@protocol C2LCGXgen <CombinedShortSplitGenerator, CREATABLE>
+@protocol C2LCGXgen <SplitRandomGenerator, CREATABLE>
 //S: A short component based generator with splitting facilities. Recommended.
 //S: This combined random generator uses 2 (PMM)LGC generators.
 
@@ -713,7 +691,7 @@ USING
 @end
 
 // C4LCGX -- recommended short component based generator with splitting
-@protocol C4LCGXgen  <CombinedShortSplitGenerator, CREATABLE>
+@protocol C4LCGXgen  <SplitRandomGenerator, CREATABLE>
 //S: Combined random generator using 4 (PMM)LGC generators.
 
 //D:  This portable generator is based on a backbone generator which is a 
@@ -722,21 +700,19 @@ USING
 @end
 
 // 
-// XXX --
+// ZZZ --
 //   long component based generator with splitting facilities.
 //
 //   (no generators in this class implemented.)
 //
-// @protocol XXXgen <CombinedLongSplitGenerator, CREATABLE> @end
+// @protocol ZZZgen <CombinedLongSplitGenerator, CREATABLE> @end
 
 // 
 // ---------------------------------------------------------------
 // @class definitions for implemented generators:
 // 
-//   ( Note: the @class names must be the same as the 
-//     @protocol names given to generators specified as
-//     CREATABLE. Otherwise the magic may not work!    )
-//
+
+// ----- <SimpleRandomGenerator> -----
 
 // <SingleShortGenerator>
 
@@ -782,8 +758,9 @@ USING
 // <CombinedLongGenerator>
 
 @class C2MRG3gen;
-
 @class C3MWCgen;
+
+// ----- <SplitRandomGenerator> -----
 
 // <SingleShortSplitGenerator>
 
