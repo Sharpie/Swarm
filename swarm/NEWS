@@ -19,6 +19,10 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** Support for BLT 2.4.
 **** Independent archiving of size and position window geometry.
 
+*** objectbase / simtoolsgui
+**** The option --show-current-time will cause current absolute time to
+     be shown in control panel widget.
+
 *** simtoolsgui
 **** A new widget, MultiVarProbeWidget displays a matrix of 
      objects for a given ProbeMap.  MultiVarProbeDisplay is a ProbeDisplay
@@ -115,6 +119,10 @@ of size and position.
 
 *** objectbase
 **** isInteractive has been renamed to getInteractiveFlag.
+
+*** simtoolsgui
+**** There is no longer a Step button on the control panel.  It did not
+     have meaningful semantics given the current GUI infrastructure.
 
 * Release Notes for Swarm 1.2
 

@@ -1,3 +1,8 @@
+1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* NEWS: Note addition of --show-current-time, and removal of
+	step button.
+
 1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (SWARM_INSTALL): Substitute.
