@@ -1,3 +1,17 @@
+2001-09-23  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m ([VarProbe -_setupObjcVarProbe_]): Copy probedType
+	into globalZone.
+	([VarProbe -drop]): Don't drop classObject.
+
+	* Probe.m ([Probe -drop]): Drop probedType.
+
+	* MessageProbe.m ([MessageProbe -createEnd]): Copy
+	probedType into globalZone.
+
+	* VarProbe.m ([VarProbe -drop]): Don't free the class here as we
+	didn't allocate it.
+
 2001-09-17  Marcus G. Daniels  <mgd@condor>
 
 	* ProbeMap.m ([ProbeMap -addProbe:], [ProbeMap -_fastAddProbe_:],

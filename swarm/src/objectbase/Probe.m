@@ -209,4 +209,11 @@ PHASE(Using)
   return val;
 }
 
+- (void)drop
+{
+  if (probedType)
+    ZFREEBLOCK (globalZone, probedType);
+  [super drop];
+}
+
 @end

@@ -78,7 +78,7 @@ PHASE(Creating)
           [self drop]; 
           return nil;
         }
-      probedType = sel_get_type (probedSelector);
+      probedType = GSTRDUP (sel_get_type (probedSelector));
     }
   {
     unsigned argCount = [self getArgCount];

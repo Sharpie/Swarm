@@ -187,7 +187,7 @@ PHASE(Creating)
     }
   else
     {
-      probedType = ivarList->ivar_list[i].ivar_type;
+      probedType = GSTRDUP (ivarList->ivar_list[i].ivar_type);
       [self _typeSetup_]; 
       dataOffset = ivarList->ivar_list[i].ivar_offset;
 
@@ -1426,7 +1426,6 @@ convert_from_string (fcall_type_t type,
     {
       (*jniEnv)->DeleteGlobalRef (jniEnv, java_fieldObject);
       (*jniEnv)->DeleteGlobalRef (jniEnv, java_fieldType);
-      (*jniEnv)->DeleteGlobalRef (jniEnv, java_classObject);
     }
   if (javaInfo)
     [_obj_GCFixedRootZone freeBlock: javaInfo blockSize: JAVAINFO_SIZE];
