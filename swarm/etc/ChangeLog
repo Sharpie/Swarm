@@ -1,3 +1,8 @@
+1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* common.el (ensure-ending-slash): New function.
+	(get-builddir, get-top-builddir): Use it.
+
 1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common.in (SUPPORTLDFLAGS): Move FFILDFLAGS and HDF5FLAGS

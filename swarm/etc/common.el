@@ -52,11 +52,16 @@
               ((refbook set installbook overbook) (concat module-name "/" filename))
               (otherwise (concat "refbook/" module-name "/" filename))))))
 
+(defun ensure-ending-slash (str)
+  (if (string= (substring str -1) "/")
+      str
+      (concat str "/")))
+
 (defun get-builddir ()
-  (getenv "BUILDDIR"))
+  (ensure-ending-slash (getenv "BUILDDIR")))
 
 (defun get-top-builddir ()
-  (getenv "TOP_BUILDDIR"))
+  (ensure-ending-slash (getenv "TOP_BUILDDIR")))
 
 (defun pathname-for-swarmdocs-pages-output (module-sym)
   (let ((module-name (symbol-name module-sym)))
