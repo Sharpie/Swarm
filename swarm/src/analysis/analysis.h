@@ -252,6 +252,15 @@ USING
 - (double)getEntropy;
 @end
 
+@protocol EZSequence <SwarmObject, CREATABLE>
+//S:
+
+//D:
+CREATING
+SETTING
+USING
+@end
+
 @protocol EZGraph <SwarmObject, GUIComposite, CREATABLE>
 //S: A class for easily create graphs.
 
@@ -490,6 +499,7 @@ USING
 @class EZBin;
 @class EZDistribution;
 @class EZGraph;
+@class EZSequence;
 @class ActiveGraph;
 @class ActiveOutFile;
 @class FunctionGraph;
