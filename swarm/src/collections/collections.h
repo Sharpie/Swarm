@@ -708,7 +708,7 @@ extern int compareIntegers (id, id);
 typedef int (*compare_t) (id, id);
 
 CREATING
-- (void)setCompareFunction: (compare_t)aFunction;
+- setCompareFunction: (compare_t)aFunction;
 
 USING
 - (compare_t)getCompareFunction;
@@ -803,7 +803,7 @@ typedef struct memberData { void *memberData[2]; } member_t;
 typedef struct { void *memberData[2]; id owner; } dupmember_t;
 @end
 
-@protocol Set <KeyedCollection, CREATABLE>
+@protocol Set <CREATABLE>
 //S: Collection of members each having a defined identity.
 
 //D: Set is a subtype of KeyedCollection in which the key value associated
@@ -842,7 +842,7 @@ USING
 - replace: anObject;
 @end
 
-@protocol OrderedSet <KeyedCollection, List, CREATABLE>
+@protocol OrderedSet <List, CREATABLE>
 //S: A set of members in an externally assigned linear sequence.
 
 //D: An OrderedSet is a totally ordered collection of members in which every

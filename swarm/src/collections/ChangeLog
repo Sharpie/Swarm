@@ -1,3 +1,8 @@
+1998-12-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* collections.h, Map.[hm] ([Map -setCompareFunction:]): Return self.
+	(OrderedSet, Set): Don't adopt KeyedCollection.
+
 1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* collections.h (Index): Don't adopt Copy protocol.
