@@ -1,5 +1,9 @@
 1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* tkobjc.m (ensureBltSupportFiles): New function.  Looks for
+	bltGraph.tcl and exits with warning message upon failure.
+	(initTkObjc): Use above.
+
 	* control.m: Include stdlib.h for free.
 	(tkobjc_configureHideBitmap): Use the `hide' bitmap.
 	(tkobjc_configureHideButton): Use the `special' bitmap.

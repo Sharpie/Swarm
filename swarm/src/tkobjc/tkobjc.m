@@ -10,9 +10,33 @@
 #import "simtools_tcl.x"
 #import "analysis_tcl.x"
 
+#include <unistd.h>
+#include <string.h>
+
 TkExtra *globalTkInterp;
 
-id <Error> WindowCreation, WindowUsage;
+id <Error> WindowCreation, WindowUsage, MissingFiles;
+
+static void
+ensureBltSupportFiles (void)
+{
+  const char *fileName = "bltGraph.tcl";
+  const char *basePath = [globalTkInterp globalVariableValue: "blt_library"];
+  char buf[strlen (basePath) + 1 + strlen (fileName) + 1];
+
+  strcpy (buf, basePath);
+  strcat (buf, "/");
+  strcat (buf, fileName);
+
+  if (access (buf, F_OK) == -1)
+    {
+      fprintf (stderr, "BLT support file `%s' not found\n", fileName);
+      fprintf (stderr, "If the directory `%s' not the intended location for "
+               "the BLT support files,\nplease adjust BLT_LIBRARY to the "
+               "right place.\n", basePath);
+      exit (1);
+    }
+}
 
 void
 initTkObjc (int argc, char ** argv)
@@ -40,7 +64,10 @@ initTkObjc (int argc, char ** argv)
   [globalTkInterp eval: simtools_tcl];
   [globalTkInterp eval: analysis_tcl];
 
+  ensureBltSupportFiles ();
+    
   // (nelson) I think this is ok: lets us load cool graph code.
   // presumably, $blt_library is always set right.
   [globalTkInterp eval: "lappend auto_path $blt_library"];
 }
+
