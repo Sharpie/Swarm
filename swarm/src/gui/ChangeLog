@@ -1,3 +1,8 @@
+2001-04-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* gui.h (NodeItem): New method -resetString:.
+	(LinkItem): New method -setDirectedFlag:.
+
 2001-03-29  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* gui.h (Pixmap): Remove drawX:Y:, it's in Drawer.

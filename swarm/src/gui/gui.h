@@ -754,6 +754,8 @@ CREATING
 //M: Set the position of the node.
 - setX: (int)x Y: (int)y;
 USING
+//M: Change the label on the string after the node is created.
+- (void)resetString: (const char *)string;
 
 //M: Get the x position of the node on the canvas.
 - (int)getX;
@@ -787,6 +789,9 @@ CREATING
 
 //M: Designate the node that will be the destination of the link.
 - setTo: to;
+
+//M: For disabling directed link items.
+- setDirectedFlag: (BOOL)directedFlag;
 USING
 //M: Set the color of the link.
 - (void)setColor: (const char *)aColor;
