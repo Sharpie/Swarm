@@ -863,9 +863,15 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         
       retry:
         if (obscured)
-          for (i = 0; i < overlapCount; i++)
-            if (!XUnmapWindow (display, overlapWindows[i]))
-              abort ();
+          {
+            for (i = 0; i < overlapCount; i++)
+              {
+                printf ("unmapping: %x\n", overlapWindows[i]);
+                if (!XUnmapWindow (display, overlapWindows[i]))
+                  abort ();
+              }
+            XFlush (display);
+          }
         
         Tk_RestackWindow (tkwin, Above, NULL);
         keep_inside_screen (tkwin, window);
