@@ -92,6 +92,31 @@
          (string-append %admon-graphics-path% "warning.jpeg"))
         (else (error (string-append (gi nd) " is not an admonition.")))))
 
+(define ($callout-bug$ conumber)
+  (let ((number (if conumber (format-number conumber "1") "0")))
+    (if conumber
+	(if %callout-graphics%
+	    (if (<= conumber %callout-graphics-number-limit%)
+		(make empty-element gi: "IMG"
+		      attributes: (list (list "SRC" 
+					      (root-rel-path
+					       (string-append
+						%callout-graphics-path%
+						number
+						".jpeg")))
+					(list "HSPACE" "0")
+					(list "VSPACE" "0")
+					(list "BORDER" "0")
+					(list "ALT"
+					      (string-append
+					       "(" number ")"))))
+		(make element gi: "B"
+		      (literal "(" (format-number conumber "1") ")")))
+	    (make element gi: "B"
+		  (literal "(" (format-number conumber "1") ")")))
+	(make element gi: "B"
+	      (literal "(??)")))))
+
 </style-specification-body>
 </style-specification>
 

@@ -153,7 +153,7 @@
       features we emphasize here are encapsulation and
       inheritance. </para>
 
-    <sect2>
+    <sect2 id="swarm.user.user1.02-obj-adv-encap.sect2" >
 
       <INDEXTERM><primary>programming</primary>
        <secondary>object-oriented programming</secondary>       
@@ -197,7 +197,7 @@
 
     </sect2>
 
-    <sect2>
+    <sect2 id="swarm.user.user1.02-obj-adv-inherit.sect2">
       
       <INDEXTERM><primary>programming</primary>
        <secondary>object-oriented programming</secondary>       

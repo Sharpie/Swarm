@@ -462,7 +462,7 @@ probeMap = [CustomProbeMap create: aZone forClass: [self class]
       display of floating point number on
     <classname>ProbeDisplay</classname>s.</para>
 
-    <sect2><title>Global setting of precision</title>
+    <sect2 id="swarm.user.user2.07-precision-global.sect2"><title>Global setting of precision</title>
 
       <para>There are two types of  global precision setting via
         <!-- <LINK LINKEND="SWARM.OBJECTBASE.PROBELIBRARY.PROTOCOL">ProbeLibrary</LINK> -->:
@@ -546,7 +546,7 @@ probeMap = [CustomProbeMap create: aZone forClass: [self class]
       
     </sect2>
     
-    <sect2>
+    <sect2 id="swarm.user.user2.07-precision-indiv.sect2">
       <title>Setting Precision for Individual Probes</title>
 
       <para> The formatting for an individual probe can be set

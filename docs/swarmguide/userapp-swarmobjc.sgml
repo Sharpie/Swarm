@@ -7,7 +7,7 @@
     important to know as a beginner and those which can be ignored.
     This is also peripherally relevant for Java programmers.</PARA>
 
-  <SECT1>
+  <sect1 id="swarm.user.swarmobjc-nonconv.sect1">
     
     <TITLE>Non-Conventional Techniques, And The Libraries In Which They're
       Used</TITLE>
@@ -28,10 +28,11 @@
       code.</PARA>
 
   </SECT1>
-  <sect1>
+
+  <sect1 id="swarm.user.swarmobjc-zones.sect1">
     <title>Zones</title>
     
-    <sect2>
+    <sect2 id="swarm.user.swarmobjc-zones-principle.sect2">
       <TITLE>Zones in Principle</TITLE>
       
       <PARA>Perhaps the most visible change from normal Objective C is
@@ -59,7 +60,7 @@
       </PARA>
     </sect2>
   
-    <sect2>
+    <sect2 id="swarm.user.swarmobjc-zones-practice.sect2">
       <TITLE>Zones in Practice</TITLE>
       
       <PARA>As a beginning user, when required to provide a Zone, you
@@ -75,10 +76,10 @@
     </sect2>
   </sect1>
     
-  <sect1>
+  <sect1 id="swarm.user.swarmobjc-phases.sect1">
     <title>Create Phase</title>
     
-    <sect2 renderas="sect3">
+    <sect2 renderas="sect3" id="swarm.user.swarmobjc-phases-principle.sect2">
       <TITLE>The Create Phase in Principle</TITLE> 
       
       <PARA>One of the more surprising mechanisms used in Swarm is the
@@ -105,7 +106,7 @@
       
     </sect2>
     
-    <sect2>
+    <sect2 id="swarm.user.swarmobjc-phases-practice.sect2">
       <TITLE>The Create Phase in Practice</TITLE>
       
       <PARA>Since this form of object creation is still quite rare in
@@ -160,7 +161,7 @@ anObject = [anObject createEnd] ;
     </sect2>
   </sect1>
 
-  <SECT1>
+  <sect1 id="swarm.user.swarmobjc-libraries.sect1">
     <TITLE>Collections and Defobj</TITLE>
     
     <PARA>Two last pieces of advice:

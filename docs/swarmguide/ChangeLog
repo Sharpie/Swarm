@@ -1,6 +1,20 @@
-2000-03-05    <mgd@nest.swarm.org>
+2000-03-05  Alex Lancaster  <alex@santafe.edu>
 
 	* Swarm user guide 0.9 frozen.
+
+	* user1.02.sgml, user1.03.sgml, user2.07.sgml, user3.04.sgml,
+	user3.05.sgml, userapp-rand1.sgml, userapp-rand3.sgml,
+	userapp-rand4.sgml, userapp-swarmobjc.sgml, userapp-tech.sgml: Add
+	IDs to missing SECT2 elements. Brought all SECT1, SECT2 IDs and
+	IDREFs into line with conventions throughout.
+
+	* common.dsl (%callout-graphics-path%): Set to "figs" subdirectory
+	as per admonitions.
+
+	* html.dsl ($callout-bug$): Override standard function to specify
+	".jpeg" file extension for callout bugs.
+
+2000-03-05  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* configure.in: Fix typo in cygwin test.
 

@@ -69,7 +69,7 @@
         protocols is now officially deprecated and may go away in future
         releases.</para></caution>
 
-    <sect2>
+    <sect2 id="swarm.user.user3.05-sim-params-std.sect2">
       <title>Using the Standard <varname>lispAppArchiver</varname></title>
       <indexterm significance="preferred">
         <primary><classname>Archiver</classname></primary>
@@ -284,7 +284,7 @@ if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self
 
     </sect2>
 
-    <sect2>
+    <sect2 id="swarm.user.user3.05-sim-params-custom.sect2">
       <title>Using Custom <classname>LispArchiver</classname> Instances</title>
       <indexterm>
         <primary><classname>LispArchiver</classname></primary>

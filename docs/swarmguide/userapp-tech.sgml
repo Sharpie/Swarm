@@ -84,7 +84,7 @@
     happens and how to write code defensively so you have less bugs
     in the first place.</PARA>
     
-  <SECT2 renderas=SECT3>
+  <SECT2 id="swarm.user.tech-resources-bugs-finding.sect2" renderas=SECT3>
     <TITLE>Finding bugs</TITLE>
 
     <PARA>Bugs come in two categories: those that crash your program
@@ -170,7 +170,7 @@
 
     </SECT2>
 
-    <SECT2>
+    <SECT2 id="swarm.user.tech-resources-bugs-preventing-objc.sect2">
       <TITLE>Preventing Bugs: Objective C</TITLE> <PARA>Defensive
       programming can help prevent a good number of bugs. When writing
       code, try to test it incrementally: make small changes whose
@@ -234,7 +234,7 @@ aHeatbug = 0; // oops! bug.
 
     </SECT2>
 
-    <sect2>
+    <sect2 id="swarm.user.tech-resources-bugs-preventing-java.sect2">
       <title>Preventing Bugs: Java</title> 
 
       <para>The good news for Java programmers is that since Java is a
@@ -246,7 +246,7 @@ aHeatbug = 0; // oops! bug.
     </sect2>
   </SECT1>
 
-  <SECT1 ID="EMACS.SECT">
+  <SECT1 ID="swarm.user.tech-emacs.sect1">
     <TITLE>Emacs and Swarm</TITLE>
     
     <PARA>Emacs is the world's best editor, infinitely configurable
@@ -259,7 +259,7 @@ aHeatbug = 0; // oops! bug.
       and even act like a class browser. Documentation for those
       things are not here, see the Emacs documentation itself.</PARA>
 
-    <sect2>
+    <sect2 ID="swarm.user.tech-emacs-objc.sect2">
       <title>Objective C</title> 
     <FORMALPARA>
       <TITLE>objc-mode</TITLE>
@@ -308,7 +308,7 @@ aHeatbug = 0; // oops! bug.
       </FORMALPARA>
     </sect2>
 
-    <sect2>
+    <sect2 ID="swarm.user.tech-emacs-java.sect2">
       <title>Java</title>
 
       <formalpara>

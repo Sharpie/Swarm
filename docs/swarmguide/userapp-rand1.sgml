@@ -25,7 +25,7 @@
         <PARA>
           DO NOT use generators with bad statistical properties. See
            <link
-          linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
+          linkend="swarm.random.sgml.appendix-adv-usage.sect1">Advanced
           Usage Guide</link> for a discussion of the generators
           implemented in this library.</PARA>
       </listitem>
@@ -37,7 +37,7 @@
           aware of this if you use the PMMLCGgen class of generator;
           these have good properties but a fairly short cycle. See
           <link
-          linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
+          linkend="swarm.random.sgml.appendix-adv-usage.sect1">Advanced
           Usage Guide</link> to read more about how to select a
           generator.</PARA>
       </listitem>

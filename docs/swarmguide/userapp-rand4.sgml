@@ -1,4 +1,4 @@
-<sect1 id="swarm.random.sgml.appendix.sect1.reference">
+<sect1 id="swarm.random.sgml.appendix-reference.sect1">
   <title>Resources for random number generation</title>
   
   <para>This section lists some of the source reference material
@@ -6,7 +6,7 @@
     The following is a list of source articles or books from which
     the generator and distribution objects were implemented</para>
   
-  <sect2>
+  <sect2 id="swarm.random.sgml.appendix-reference-gen.sect2">
     
     <title>Generators</title>
     
@@ -92,7 +92,7 @@
     </itemizedlist>
   </sect2>
   
-  <sect2>
+  <sect2 id="swarm.random.sgml.appendix-reference-dist.sect2">
     <title>Distributions</title>
     
     <itemizedlist>
@@ -142,7 +142,7 @@
     </itemizedlist>
   </sect2>
   
-  <sect2>
+  <sect2 id="swarm.random.sgml.appendix-reference-web.sect2">
     <title>Useful Web Sites</title>
     
     <itemizedlist>

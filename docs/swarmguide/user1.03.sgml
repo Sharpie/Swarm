@@ -14,7 +14,7 @@
       from. In order to use the Swarm libraries, it is necessary to
       create or use code that calls Swarm features.</para>
 
-    <sect2>
+    <sect2 id="swarm.user.user1.03-multi-lang-objc.sect2">
       <indexterm significance="preferred">
         <primary>Objective C</primary>
       </indexterm>
@@ -37,7 +37,7 @@
         and is basis of Apple's runtime environment WebObjects.</para>
     </sect2>
 
-    <sect2>
+    <sect2 id="swarm.user.user1.03-multi-lang-java.sect2">
       <indexterm significance="preferred">
         <primary>Java</primary>
       </indexterm>
@@ -96,7 +96,7 @@
 
     </sect2>
     
-    <sect2>
+    <sect2 id="swarm.user.user1.03-multi-lang-why.sect2">
       <title>Why is Swarm Written in Objective C?</title>
       
       <para>Since Objective C is not currently a mainstream
@@ -546,7 +546,7 @@ void rand_move(int i) {
       memory management and object creation code in the Swarm
       library.</para>
     
-    <sect2>
+    <sect2 id="swarm.user.user1.03-inst-objc.sect2">
       <title>Instantiation: Objective C Style</title>
 
       <indexterm>
@@ -631,7 +631,7 @@ aBug = [Bug create: [self getZone]];
       
     </sect2>
 
-    <sect2>
+    <sect2 id="swarm.user.user1.03-inst-java.sect2">
       <indexterm>
         <primary>object creation</primary>
         <secondary>in Java</secondary>

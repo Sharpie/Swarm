@@ -32,6 +32,11 @@
   ;; Path to admonition graphics
   "figs/")
 
+
+(define %callout-graphics-path%
+  ;; Path to callout graphics
+  "figs/")
+
 (element classname ($mono-seq$))
 (element type ($mono-seq$))
 (element function ($bold-mono-seq$))

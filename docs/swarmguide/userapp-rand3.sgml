@@ -1,4 +1,4 @@
-<sect1 id="swarm.random.sgml.appendix.sect1.adv-usage">
+<sect1 id="swarm.random.sgml.appendix-adv-usage.sect1">
     <title>Advanced Usage Guide</title>
 
     <para>This section amplifies the Usage Guide with material on how to 
@@ -7,7 +7,7 @@
       on the set of test programs used.
     </para>
 
-    <sect2>
+    <sect2 id="swarm.random.sgml.appendix-adv-usage-choose.sect2">
       <title>Choosing a Generator</title>
 
 <!--
@@ -449,7 +449,7 @@ time.</para></listitem>
       
     </sect2>
 
-    <sect2>
+    <sect2 id="swarm.random.sgml.appendix-adv-usage-default.sect2">
       <title>Default Generators for the Distributions</title>
 
 <!--
@@ -526,7 +526,7 @@ option.  Note (b): the distribution objects are created
 
     </sect2>
 
-    <sect2>
+    <sect2 id="swarm.random.sgml.appendix-adv-usage-test.sect2">
       <title>Random Library Test Programs</title>
 
 <orderedlist>
@@ -601,7 +601,7 @@ tested statistically yet.</para></listitem>
      and run through some simple tests. Some generators, included here
      for historical reasons only, are known to have bad statistical
      properties, and their use is deprecated. See <link
-     linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
+     linkend="swarm.random.sgml.appendix-adv-usage.sect1">Advanced
      Usage Guide</link>for information on the quality of the included
      generators.
 </PARA>

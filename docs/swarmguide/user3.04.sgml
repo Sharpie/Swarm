@@ -293,7 +293,7 @@
       linkend="SWARM.RANDOM.SGML.BIBLIOGRAPHY">bibliography</link>. </para>
 
     
-    <sect2>
+    <sect2 id="swarm.user.user3.04-rand-gen-use.sect2">
       <title>How to use the default random generator</title> <PARA>
     Suppose you want to draw some random numbers with the default
     random generator.  When a swarm program runs, it creates a
@@ -331,7 +331,7 @@ myUnsigned = [randomGenerator getUnsignedSample];
 
 
 
-    <sect2>
+    <sect2 id="swarm.user.user3.04-rand-gen-list.sect1">
       <title>A list of generators in Swarm</title>
 
    <para>The default generator used in Swarm is
@@ -340,7 +340,7 @@ myUnsigned = [randomGenerator getUnsignedSample];
       replication of previous studies.  These generators have been
       subjected to various statistical tests, and the results of these
       tests are described in <link
-      linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
+      linkend="swarm.random.sgml.appendix-adv-usage.sect1">Advanced
       Usage Guide</link>.</PARA>
 
 
@@ -384,7 +384,7 @@ myUnsigned = [randomGenerator getUnsignedSample];
     </sect2>
 
 
-    <sect2>
+    <sect2 id="swarm.user.user3.04-rand-gen-seed.sect2">
       <TITLE>A note on starting seeds</TITLE>
 
       <PARA>
@@ -446,7 +446,7 @@ myUnsigned = [randomGenerator getUnsignedSample];
       one initializes the distribution, optionally setting its parameters
       at the time of creation. </para>
 
-    <sect2><title>Classes that adopt the ProbabilityDistribution Protocol</title>
+    <sect2 id="swarm.user.user3.04-rand-dist-class.sect2"><title>Classes that adopt the ProbabilityDistribution Protocol</title>
     
     <para>The distributions currently offered in the Swarm library are </para>
 
@@ -464,7 +464,7 @@ myUnsigned = [randomGenerator getUnsignedSample];
      
   </sect2>
 
-  <sect2>
+  <sect2 id="swarm.user.user3.04-rand-dist-match.sect2">
     <title>Matching generator and distribution objects</title>
     
     <para>
@@ -512,7 +512,7 @@ myUnsigned = [randomGenerator getUnsignedSample];
 
   </sect2>
 
-  <sect2>
+  <sect2 id="swarm.user.user3.04-rand-dist-setting.sect2">
     <title>Setting numerical parameters of distribution objects</title>
 
     <PARA> 
