@@ -1,5 +1,11 @@
 2000-08-17  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* java.h (SD_JAVA_ADD_CLASS_JAVA): New macro. 
+
+	* java.m (swarm_directory_objc_find_java_class): Use it / simplify.
+	(swarm_directory_java_ensure_class): Use it.
+	(swarm_directory_objc_ensure_java): Simplify.
+
 	* COM.[hm] (COM_init_p): New function.
 
 2000-08-15  Marcus G. Daniels  <mgd@forager.swarm.org>

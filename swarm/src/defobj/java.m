@@ -1616,25 +1616,22 @@ find_java_wrapper_class (Class class)
 jobject
 swarm_directory_objc_ensure_java (id object)
 {
-  ObjectEntry *result; 
+  jobject jobj;
 
   if (!object)
     return 0;
 
-  result = swarm_directory_objc_find_object (object);
-
-  if (!result)
+  jobj = SD_JAVA_FIND_OBJECT_JAVA (object);
+  if (!jobj)
     {
       Class class = getClass (object);
       jclass javaClass = SD_JAVA_FIND_CLASS_JAVA (class);
       jobject lref = java_instantiate (javaClass);
 
-      result = SD_JAVA_ADD (lref, object);
+      jobj = SD_JAVA_ADD_OBJECT_JAVA (lref, object);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
     }
-  else if (result->type != foreign_java)
-    abort ();
-  return result->foreignObject.java;
+  return jobj;
 }
 
 id
@@ -1885,10 +1882,10 @@ swarm_directory_objc_find_java_class (Class class)
       clazz = find_java_wrapper_class (class);
       if (clazz)
         {
-          ObjectEntry *result = SD_JAVA_ADD ((jobject) clazz, class);
-          
+          jclass gclazz = SD_JAVA_ADD_CLASS_JAVA (clazz, class);
+
           (*jniEnv)->DeleteLocalRef (jniEnv, clazz);
-          clazz = (jclass) result->foreignObject.java;
+          clazz = gclazz;
         }
     }
   return clazz;
@@ -1909,7 +1906,7 @@ swarm_directory_java_ensure_class (jclass javaClass)
       
       if (objcClass == nil)
         objcClass = [JavaProxy create: globalZone];
-      SD_JAVA_ADD ((jobject) javaClass, (id) objcClass);
+      (void) SD_JAVA_ADD_CLASS_JAVA (javaClass, objcClass);
       FREECLASSNAME (className);
     }
   return objcClass;

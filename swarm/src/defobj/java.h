@@ -77,6 +77,8 @@ extern void java_drop (jobject jobj);
 #define SD_JAVA_ADD(jObj, oObj) swarm_directory_java_add (jObj, oObj)
 #define SD_JAVA_ADD_SELECTOR(jsel, sel) swarm_directory_java_add_selector (sel, jsel)
 #define SD_JAVA_ADD_OBJECT_JAVA(jObj, oObj) swarm_directory_java_add (jObj, oObj)->foreignObject.java
+#define SD_JAVA_ADD_CLASS_JAVA(jObj, oObj) ((jclass) swarm_directory_java_add (jObj, oObj)->foreignObject.java)
+
 #define SD_JAVA_SWITCHPHASE(jobj, objc) swarm_directory_java_switch_phase (objc, jobj)->foreignObject.java
 #define SD_JAVA_SWITCHOBJC(jobj, newobjc) swarm_directory_java_switch_objc (newobjc, jobj)
 #define SD_JAVA_NEXTPHASE(jobj) swarm_directory_java_next_phase (jobj)
