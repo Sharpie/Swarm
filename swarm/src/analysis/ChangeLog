@@ -1,3 +1,7 @@
+1998-04-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZDistribution.m ([EZDistribution -drop]): Use xfree instead of free.
+
 1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* analysis.h: Remove includes of analysis things.  Replace
