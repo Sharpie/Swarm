@@ -73,7 +73,7 @@ PHASE(Creating)
 {
   id index, member;
 
-  index = [(id) self begin: scratchZone];
+  index = [(id) expr begin: scratchZone];
   while ((member = [index next]))
     {
       if (keywordp (member))
@@ -119,7 +119,10 @@ PHASE(Using)
 
   index = [(id) expr begin: scratchZone];
   while ((member = [index next]))
-    [(id) self addLast: lispIn ([self getZone], member)];
+    if (keywordp (member))
+      [index next];
+    else
+      [(id) self addLast: lispIn ([self getZone], member)];
   [index drop];
   return self;
 }
@@ -138,7 +141,21 @@ PHASE(Using)
   [self _lispOutAttr_: outputCharStream];
 
   if (bits & Bit_IndexFromMemberLoc)
-    [outputCharStream catC: "#:index-from-member-loc #t"];
+    {
+      char buf[6];
+
+      [outputCharStream catC: " #:index-from-member-loc "];
+      sprintf (buf, "%d", [self getIndexFromMemberLoc]);
+      [outputCharStream catC: buf];
+    }
+
+#if 0
+  if (bits & Bit_InitialValueSet)
+    {
+      // Would need to preserve original setting...
+      [outputCharStream catC: "#:initial-value-set "];
+    }
+#endif
   
   [outputCharStream catC: ")"];
   

@@ -54,22 +54,6 @@ PHASE(Creating)
   return YES;
 }
 
-- _lispOutAttr_: outputCharStream
-{
-#if 0
-  if (bits & Bit_ReadOnly)
-    [outputCharStream catC: "#:read-only #t"];
-#endif
-  
-  if (bits & Bit_ReplaceOnly)
-    [outputCharStream catC: "#:replace-only #t"];
-  
-  if (bits & Bit_InitialValueSet)
-    [outputCharStream catC: "#:initial-value-set #t"];
-
-  return self;
-}
-
 PHASE(Using)
 
 - (BOOL)getReadOnly
@@ -273,6 +257,19 @@ indexAtOffset (Collection_any *self, int offset)
   while ((member = [index next]))
     [member describeID: outputCharStream];
   [index drop];
+}
+
+- _lispOutAttr_: outputCharStream
+{
+#if 0
+  if (bits & Bit_ReadOnly)
+    [outputCharStream catC: " #:read-only #t"];
+#endif
+  
+  if (bits & Bit_ReplaceOnly)
+    [outputCharStream catC: " #:replace-only #t"];
+  
+  return self;
 }
 
 @end

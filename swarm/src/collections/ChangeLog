@@ -1,7 +1,6 @@
 1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* List.m ([List_any -getCountPerBlock]): abort instead of exit.
-	([List_any -lispIn:]): New method.
 
 	* collections.h (List): The methods here aren't create-time; mark
 	as USING phase.
@@ -11,15 +10,17 @@
 	* InputStream.[hm] (InputStream): New method setBoolean:
 	and getBoolean.  Handle #f and #t from input.
 
-	* Collection.m ([Collection_any -_lispInAttr_:], 
-	[Collection_any -_lispOutAttr_:]): New create-time expression
-	methods for use by subclasses.
-
+	* Collection.m ([Collection_any -_lispInAttr_:]): New method for
+	shared create-time expression option parsing. 
+	[Collection_any -_lispOutAttr_:]): New using-time expression option
+	output method.  Both are for subclass use.
+	
 	* List_GEN.m: Reformatting throughout.  New macros COUNT,
 	FIRST, and FIRSTPREV to simplify code.
 
 	* List.m ([List_any -lispIn:], [List_any -lispInCreate:], 
-	[List_any -lispOut:]): New methods.  (First is unimplemented.)
+	[List_any -lispOut:]): New methods.  InitialValueSet not yet
+	handled because a copy of that list is not saved from create-time.
 
 	* Map.m ([Map_c -lispin:], [Map_c -lispout:]): Likewise 
 	(All are unimplemented.)
