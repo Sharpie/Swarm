@@ -3,6 +3,8 @@
 	* MessageProbeWidget.m:  Include simtools.h instead of ProbeDisplay.h.
 	([MessageProbeWidget -Spawn]): Use createProbeDisplay instead of
 	calling createProbeDisplayFor method.
+	([MessageProbeWidget -argSpawn:which]): Likewise.
+
 	* VarProbeWidget.m: Likewise.
 
 	* simtools.m: Declare probeDisplay as an object complying to the

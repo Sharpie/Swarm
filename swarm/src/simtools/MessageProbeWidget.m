@@ -213,7 +213,7 @@ empty (const char *str)
   if (id_name != NULL)
     {
       arg_obj = tclObjc_nameToObject (id_name);
-      [probeDisplayManager createProbeDisplayFor: arg_obj];
+      createProbeDisplay (arg_obj);
     }
   else
     tkobjc_ringBell ();
