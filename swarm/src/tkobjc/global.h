@@ -15,7 +15,7 @@
 - promptAndEval;
 @end
 
-id <TkExtra> globalTkInterp;
+extern id <TkExtra> globalTkInterp;
 
 extern id <Error>
   WindowCreation,		// error while creating a window
@@ -25,5 +25,5 @@ extern id <Error>
   PixmapError,
   WindowGeometryRecordError;
 
-void initTkObjc (id arguments);
+extern void initTkObjc (id arguments);
 

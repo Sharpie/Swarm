@@ -1,3 +1,7 @@
+1999-05-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* global.h: Extern globalTkInterp and initTkObjc.
+
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Histogram.[hm] ([Histogram -setBinCount:]): Replaces -setNumBins:.
