@@ -6,7 +6,7 @@
 #import "HeatbugObserverSwarm.h"
 #import "HeatbugModelSwarm.h"
 #import <collections.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <analysis.h>
 #import <gui.h>
 
@@ -115,7 +115,7 @@
   // First, create a colormap: this is a global resource, the information
   // here is used by lots of different objects.
 
-  colormap = [XColormap create: [self getZone]];
+  colormap = [Colormap create: [self getZone]];
 
   // Colours [0,64) are assigned to the range Red [0, 1), for heat display.
 
@@ -152,7 +152,7 @@
   // display arbitrary 2d value arrays on a given Raster widget.
 
   heatDisplay = [Value2dDisplay createBegin: [self getZone]];
-  [heatDisplay setDisplayWidget: worldRaster Colormap: colormap];
+  [heatDisplay setDisplayWidget: worldRaster colormap: colormap];
   [heatDisplay setDiscrete2dToDisplay: [heatbugModelSwarm getHeat]];
   [heatDisplay setDisplayMappingM: 512 C: 0];	  // turn [0,32768) -> [0,64)
   heatDisplay = [heatDisplay createEnd];
@@ -170,7 +170,7 @@
   // Also, tell the world raster to send mouse clicks to the heatbugDisplay
   // this allows the user to right-click on the display to probe the bugs.
 
-  [worldRaster setButton: GUI_ButtonRight
+  [worldRaster setButton: ButtonRight
                Client: heatbugDisplay
                Message: M(makeProbeAtX:Y:)];
 

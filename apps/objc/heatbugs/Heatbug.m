@@ -214,7 +214,7 @@
 // This code works, but it'd be better if there were a generic object
 // that knew how to draw agents on grids.
 
-- setBugColor: (GUI_Color)c
+- setBugColor: (Color)c
 {
   bugColor = c;
   return self;

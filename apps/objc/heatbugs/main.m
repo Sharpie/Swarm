@@ -12,11 +12,12 @@
 // Swarm, let it build and activate, and set it to running.
 
 int
-main(int argc, char ** argv) {
-  id theTopLevelSwarm ;
+main (int argc, const char **argv)
+{
+  id theTopLevelSwarm;
 
   // Swarm initialization: all Swarm apps must call this first.
-  initSwarm(argc, argv);
+  initSwarm (argc, argv);
 
   // swarmGUIMode is set in initSwarm(). It's set to be 1 if you
   // typed heatbugs -batchmode. Otherwise, it's set to 0.

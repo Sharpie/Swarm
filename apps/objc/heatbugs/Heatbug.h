@@ -26,7 +26,7 @@
   Grid2d *world;				  // the world I live in
   int worldXSize, worldYSize;			  // how big that world is
   HeatSpace *heat;				  // the heat for the world
-  GUI_Color bugColor;				  // my colour (display)
+  Color bugColor;				  // my colour (display)
 }
 
 // these methods are used to initialize the object's state. First,
@@ -51,7 +51,7 @@
 - setOutputHeat: (HeatValue)o;
 - setRandomMoveProbability: (float)p;
 - setX: (int)x Y: (int)y;			  // bug's position
-- setBugColor: (GUI_Color)c;			  // bug's colour (display)
+- setBugColor: (Color)c;			  // bug's colour (display)
 
 // The major heatbug behaviour: do one "time step" (all bug action).
 
