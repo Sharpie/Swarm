@@ -17,7 +17,7 @@
 @public
   id <Colormap> colormap;
   void *private;
-  Color eraseColor;
+  int eraseColor;
   unsigned width, height;
 }
 + createBegin: aZone;

@@ -124,11 +124,11 @@ PHASE(Using)
 
 - (Color)nextFreeColor
 {
-  Color i;
+  int i;
 
-  for (i = MAXCOLORS - 1; i > 0; i--)
-    if (isSet[i - 1])
-      return i;
+  for (i = MAXCOLORS - 1; i >= 0; i--)
+    if (!isSet[i])
+      return (Color) i;
   raiseEvent (ResourceAvailability, "No free colors");
   return 0;
 }

@@ -787,8 +787,11 @@ tkobjc_raster_setColormap (Raster *raster)
     raiseEvent (WarningMessage, "colormap is nil");
   else
     {
-      raster->eraseColor = [colormap nextFreeColor];
-      [colormap setColor: raster->eraseColor ToName: "black"];
+      if (raster->eraseColor == -1)
+        {
+          raster->eraseColor = [colormap nextFreeColor];
+          [colormap setColor: raster->eraseColor ToName: "black"];
+        }
       {
 	raster_private_t *private = raster->private;
 #ifdef _WIN32

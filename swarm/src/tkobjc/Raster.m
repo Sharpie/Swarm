@@ -27,6 +27,7 @@ PHASE(Creating)
   obj->width = 100U;
   obj->height = 100U;
   obj->colormap = nil;
+  obj->eraseColor = -1;
   
   return obj;
 }

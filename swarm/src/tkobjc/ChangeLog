@@ -1,3 +1,12 @@
+2002-01-31  Marcus G. Daniels  <mgd@condor>
+
+	* Colormap.m ([Colormap -nextFreeColor]): Ise integer for search.
+
+	* internal.m (tkobjc_raster_setColormap): Don't re-initialize 
+	eraseColor if already set.
+
+	* Raster.[hm] (eraseColor): Make it an integer.  Initialize to -1.
+
 2002-01-14    <mgd@condor>
 
 	* Graph.m (getName): Return a new value in scratchZone.
