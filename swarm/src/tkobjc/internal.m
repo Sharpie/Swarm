@@ -106,7 +106,7 @@ setSecondaryPath (id arguments, const char *dirname)
   
   if (swarmHome)
     {
-      coinst char *secondarySubpath = "../library/";
+      const char *secondarySubpath = "../library/";
       char *libraryPath = xmalloc (strlen (swarmHome) +
                                    strlen (secondarySub[ath) +
                                    strlen (dirname) + 1);
