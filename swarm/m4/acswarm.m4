@@ -30,12 +30,15 @@ changequote([,])dnl
 
 al_SWARM_LOAD
 
-AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 LIBTOOL='$(SHELL) $(swarm_bindir)/libtool-swarm'
 AC_SUBST(LIBTOOL)
 
+AC_SUBST(CC)
+AC_SUBST(CFLAGS)
 AC_SUBST(OBJC)
 AC_SUBST(OBJCFLAGS)
+AC_SUBST(CPPFLAGS)
 
 AC_SUBST(swarm_prefix)
 AC_SUBST(swarm_execprefix)

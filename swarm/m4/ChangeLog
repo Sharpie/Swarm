@@ -1,3 +1,9 @@
+1999-10-14  Alex Lancaster  <alex@ip89.santafe.edu>
+
+	* acswarm.m4 (CC, CFLAGS, CPPFLAGS): Extract all variables, to
+	reflect variables in the Swarm installation at
+	etc/swarm/config.swarm.
+
 1999-10-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Check for $jdkdir/lib/rt.jar.
