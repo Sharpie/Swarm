@@ -2,10 +2,17 @@
   <title>Using the Random Library</title>
 
   <para>The creation of random numbers is a surprisingly complicated
-    affair.  It is also vital to the success of a simulation exercise.
-    One of the strengths of Swarm, as a simulation framework, is that it
-    includes a number of methods for the creation of streams of random
-    numbers that meet exacting standards.
+    affair.  It is also vital to the success of a simulation
+    exercise. Sooner or later you will want to simulate some real-life
+    stochastic phenomenon which occurs in a manner resembling an
+    identifiable statistical distribution, for example (to take the
+    canonical simulation example) the time intervals between customers
+    arriving to join a queue in front of a bank teller. Or perhaps you
+    just want to add some controlled unpredictability to the behavior
+    of your agents.  One of the strengths of Swarm, as a simulation
+    framework, is that it includes a number of methods for the
+    creation of streams of random numbers that meet exacting
+    standards.
   </para>
 
   <para>Before we step in to the details of the Swarm random library,
@@ -15,10 +22,14 @@
     challenge is to find a formula that makes the numbers sufficiently
     unpredictable that we can proceed as if they are random numbers
     that satisfy statistical requirements, like statistical
-    independence of successive draws.  The procedures we describe here
-    might are more correctly be called pseudo-random number
-    generators.  With that point being clear, we often refer to them
-    as random number generators.  </para>
+    independence of successive draws.  This means that the device puts
+    out numbers so that, even knowing all previous values, one is not
+    able to predict the next number to come out without looking inside
+    the program to steal the algorithm that is generating the
+    numbers. The procedures we describe here might are more correctly
+    be called pseudo-random number generators.  With that point being
+    clear, we often refer to them as random number generators.
+    </para>
  
   <para>In his section of the Swarm User Guide, we provide a survey of
     the basics of using the Swarm Random Library. A detailed technical
@@ -231,6 +242,8 @@
 
     <programlisting>myGenerator = [RWC8gen createWithDefaults: [self getZone]];</programlisting>
 
+   
+
     <para>Another example of the versatility of the Swarm random
       library is in the design of the distribution classes themselves.
       We have already seen examples in which random numbers are drawn
@@ -271,42 +284,155 @@
       streams of numbers that appear random to the outside observer.
       As a rule of thumb, users are well advised to choose a well
       tested generator which has a long period, which is the number of
-      draws that can be made before the sequence repeats.</para>
+      draws that can be made before the sequence repeats.  We also
+      want a generator that runs fast and uses little memory. (These
+      wishes are of course in conflict with each other, so choice
+      involves compromise.) And the generator should perform
+      `acceptably' in a statistical sense. Readers who wish to pursue
+      what this might mean are referred to the <link
+      linkend="SWARM.RANDOM.SGML.BIBLIOGRAPHY">bibliography</link>. </para>
 
-    <para>The default generator used in Swarm is
+    
+    <sect2>
+      <title>How to use the default random generator</title> <PARA>
+    Suppose you want to draw some random numbers with the default
+    random generator.  When a swarm program runs, it creates a
+    globally available object called randomGenerator that can be used
+    in any part of the program to draw random numbers.</PARA>  
+
+	<PARA>
+	If you want to draw unsigned integers, try this:</PARA>
+ 
+   <PROGRAMLISTING>
+<![ CDATA [
+unsigned int myUnsigned;
+myUnsigned = [randomGenerator getUnsignedSample];
+]]>
+</PROGRAMLISTING>
+
+    <PARA>
+      The values returned will be uniformly distributed in the range 
+      [0,4294967295] = [0,2<superscript>32</superscript>-1].</PARA>
+
+    <PARA>
+      Or, if you need floating-point values instead, you can say</PARA>
+    <PROGRAMLISTING>
+      <![ CDATA [
+      double myDouble;
+      myDouble = [randomGenerator getDoubleSample];
+      ]]>
+    </PROGRAMLISTING>
+
+    <PARA>
+      The returned values will be uniformly distributed in the range [0.0,1.0), 
+      i.e. they may be equal to 0.0 but never 1.0.</PARA>
+  </sect2>
+
+
+
+
+    <sect2>
+      <title>A list of generators in Swarm</title>
+
+   <para>The default generator used in Swarm is
       <classname>MT19337</classname>, but there are a number of others
       that are provided to suit the needs of experimentation and
-      replication of previous studies.  The current generators in
-      Swarm are:
+      replication of previous studies.  These generators have been
+      subjected to various statistical tests, and the results of these
+      tests are described in <link
+      linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
+      Usage Guide</link>.</PARA>
 
-      <itemizedlist>
-	<listitem><para>ACGgen: Additive Congruential Generator</para></listitem>
-	<listitem><para>C2LCGXgen: A short component based generator. This is considered a high quality generator</para></listitem>
-	<listitem><para>C2MRG3gen:  Combined Multiple Recursive Generator</para></listitem>
-	<listitem><para>C2TAUSUS<emphasis>x</emphasis>gen: A Family of Combined Trausworthe generators</para></listitem>
-	<listitem><para>C3MWCgen: Combined Multiply With Carry Generator</para></listitem>
-	<listitem><para>C4LCGXgen: Combined random generator using 4 (PMM)LGC generators</para></listitem>
-	<listitem><para>LCG<emphasis>x</emphasis>gen: Family of Linear Congruential Generators</para></listitem>
-	<listitem><para>MRG<emphasis>x</emphasis>gen: Family of Multiple Recrusive (LCG) Generators</para></listitem>
-	<listitem><para>MT19937gen: 'Mersenne Twister' Twisted GFSR generator. The Swarm default</para></listitem>
-	<listitem><para>MWC<emphasis>x</emphasis>gen: Family of Multiply-With Carry generators  </para></listitem>
-	<listitem><para>PMMLCG<emphasis>x</emphasis>gen: Family of Prime Modulus Multiplicative Linear Congruential Generators</para></listitem>
-	<listitem><para>PSWBgen: Subract-With-Borrow Congruential Generator with prime modulus</para></listitem>
-	<listitem><para>RWC2gen: 2-lag Recursion With Carry generator  </para></listitem>
-	<listitem><para>RWC8gen: Multiply With Carry generator</para></listitem>
-	<listitem><para>SCG: Subtractive Congruential Generator </para></listitem>
-	<listitem><para>SWB<emphasis>x</emphasis>gen: Family of Subtract-With-Borrow Congruential Generators   </para></listitem>
-	<listitem><para>TGFSRgen: Twisted GFSR generator</para></listitem>
 
-	<listitem><para>TT403gen: A single long generator recommended for use</para></listitem>
-	<listitem><para>TT775gen: A single long generator recommended for use</para></listitem>
-        <listitem><para>TT800gen: A single long generator recommended for use</para></listitem>
+      <para>The current generators in
+    Swarm are:
 
-      </itemizedlist>
+    <itemizedlist>
+      <listitem><para>ACGgen: Additive Congruential Generator</para></listitem>
+      <listitem><para>C2LCGXgen: A short component based generator. This is considered a high quality generator</para></listitem>
+      <listitem><para>C2MRG3gen:  Combined Multiple Recursive Generator</para></listitem>
+      <listitem><para>C2TAUSUS<emphasis>x</emphasis>gen: A Family of Combined Trausworthe generators</para></listitem>
+      <listitem><para>C3MWCgen: Combined Multiply With Carry Generator</para></listitem>
+      <listitem><para>C4LCGXgen: Combined random generator using 4 (PMM)LGC generators</para></listitem>
+      <listitem><para>LCG<emphasis>x</emphasis>gen: Family of Linear Congruential Generators</para></listitem>
+      <listitem><para>MRG<emphasis>x</emphasis>gen: Family of Multiple Recrusive (LCG) Generators</para></listitem>
+      <listitem><para>MT19937gen: 'Mersenne Twister' Twisted GFSR generator. The Swarm default</para></listitem>
+      <listitem><para>MWC<emphasis>x</emphasis>gen: Family of Multiply-With Carry generators  </para></listitem>
+      <listitem><para>PMMLCG<emphasis>x</emphasis>gen: Family of Prime Modulus Multiplicative Linear Congruential Generators</para></listitem>
+      <listitem><para>PSWBgen: Subract-With-Borrow Congruential Generator with prime modulus</para></listitem>
+      <listitem><para>RWC2gen: 2-lag Recursion With Carry generator  </para></listitem>
+      <listitem><para>RWC8gen: Multiply With Carry generator</para></listitem>
+      <listitem><para>SCG: Subtractive Congruential Generator </para></listitem>
+      <listitem><para>SWB<emphasis>x</emphasis>gen: Family of Subtract-With-Borrow Congruential Generators   </para></listitem>
+      <listitem><para>TGFSRgen: Twisted GFSR generator</para></listitem>
+
+      <listitem><para>TT403gen: A single long generator recommended for use</para></listitem>
+      <listitem><para>TT775gen: A single long generator recommended for use</para></listitem>
+      <listitem><para>TT800gen: A single long generator recommended for use</para></listitem>
+
+    </itemizedlist>
+
     </para>
 
-    <para>Issues involved in choosing among these are discussed in
-      further depth in the appendix on the Random Library</para>
+      
+      <PARA>
+	All the Swarm generators except two conform to the `SimpleRandomGenerator'
+	protocol. The two `split' generators that do not, C2LCGX and C4LCGX,
+	are described in the Generator Usage Guide.
+      </PARA>
+
+    </sect2>
+
+
+    <sect2>
+      <TITLE>A note on starting seeds</TITLE>
+
+      <PARA>
+	Whenever a random generator is created, its state has to be
+	initialized.  It uses a "seed", a positive integer, as its
+	starting place. To make life easy for the user, the Swarm
+	generators can be initialized to a predictable and repeatable
+	state. Every time you initialize a given generator with a
+	particular seed, you should get the same sequence of numbers
+	from it.</PARA>
+
+      <PARA>
+	You create and initialize a generator with a specific seed this way:</PARA>
+      <PROGRAMLISTING>
+	<![ CDATA [
+
+	#import <random.h>
+	id <SimpleRandomGenerator> myGenerator;
+	unsigned int mySeed;
+	mySeed = 123776;
+	myGenerator = [RWC8gen create: [self getZone]
+			setStateFromSeed: mySeed];
+	]]>
+      </PROGRAMLISTING>
+
+      <para>If it is necessary to set or reset the seed after the
+	generator has bene created, it can be done with the
+	<function>setStateFromSeed:</function> method:</para>
+
+     <PROGRAMLISTING>
+	<![ CDATA [
+	  mySeed = 4532657;
+	[randomGenerator setStateFromSeed: mySeed];
+	]]>
+      </PROGRAMLISTING>
+      <PARA>
+	You may do this any time during a simulation, not just at the
+	start.</PARA>
+
+      <PARA>
+	If you start your simulation with the command line option -s,
+	which is short for --varyseed, then the seed will be chosen at
+	random on the basis of the system clock.  If you do not add
+	that command line option, your simultion <emphasis>will use
+	the exact same stream of random numbers</emphasis> every time
+	you run it.  This makes replication easy. </PARA>
+    </sect2>
+    
     
   </sect1>
 
@@ -319,6 +445,8 @@
       outlined above.  First one needs a random number generator.  Then
       one initializes the distribution, optionally setting its parameters
       at the time of creation. </para>
+
+    <sect2><title>Classes that adopt the ProbabilityDistribution Protocol</title>
     
     <para>The distributions currently offered in the Swarm library are </para>
 
@@ -334,6 +462,117 @@
           <listitem><para>UniformUnsignedDist: Equally likely integers in a positive range</para></listitem>
         </itemizedlist>
      
+  </sect2>
+
+  <sect2>
+    <title>Matching generator and distribution objects</title>
+    
+    <para>
+      Each distribution object must have a generator associated with
+      it.  You may create a new generator for each distribution.  Or, you
+      may connect multiple distribution objects to one generator, so that
+      they end up drawing output from the generator in an interleaved
+      fashion.  (This is what has been done with the predefined
+      distributions.)</PARA>
+
+    <para>There is a method called createWithDefaults that can be uses
+      to streamline the creation process.  Here is a usage
+      example:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	myNormalDist = [NormalDist createWithDefaults: [self getZone]];
+]]>
+</PROGRAMLISTING>
+
+
+    <para>If you create distribution objects using the
+      <function>createWithDefaults</function> method <link
+      linkend="swarm.random.sgml.appendix.sect2.distrib-usage">Distribution
+      Usage Guide</link>, each distribution object is assigned its
+      own, newly created, private random generator. Each distribution
+      class uses a different class of default random generator, just
+      to keep things as statistically independent as possible.</PARA>
+
+    <PARA>
+      You can assign a seed for the private generator with code like
+      this:</PARA>
+    <PROGRAMLISTING>
+      <![ CDATA [
+      [[myNormalDist getGenerator] setStateFromSeed: 9874321];
+      ]]>
+    </PROGRAMLISTING>
+    <para>The usage of createWithDefaults is not without its dangers,
+      however.  If createWithDefaults is used to create two
+      distributions of the same type, say two NormalDistributions,
+      then (obviously) then each will have the same kind of private
+      generator created for it.  And, unless the simulation is
+      started with the --varyseed option, then both private generators
+      will start with the same seed and the two distributions will
+      generate identical numbers.</para>
+
+  </sect2>
+
+  <sect2>
+    <title>Setting numerical parameters of distribution objects</title>
+
+    <PARA> 
+      Each distribution has its own set of key parameters. You may deal with 
+      these parameters in three different ways: </PARA>
+
+    <orderedlist>
+
+      <listitem><para>Assign "default parameter values" when the distribution object is created
+	  For example:
+	  <PROGRAMLISTING>
+	    <![ CDATA [
+	    #import <random.h>
+	    id <NormalDist> myNormalDist;
+	    double sample;
+
+	    myNormalDist = [NormalDist create: [self getZone]
+	    setGenerator: randomGenerator];
+	    [myNormalDist setMean: 0.0 setVariance: 2.1];
+	    sample = [myNormalDist getDoubleSample];
+	    ]]>
+	  </PROGRAMLISTING>
+	</PARA>
+      </listitem>
+
+      <listitem><para>Specify parameters when random numbers are
+      drawn. These values do not override or change the defaults that were
+      set when the distribution was created.
+	  <PROGRAMLISTING>
+	    <![ CDATA [
+	    #import <random.h>
+	    id <NormalDist> myNormalDist;
+	    double sample;
+
+	    myNormalDist = [NormalDist create: [self getZone]
+	    setGenerator: randomGenerator];
+	    sample = [myNormalDist getSampleWithMean: 0.0 withVariance: 1.3];
+	    ]]>
+	  </PROGRAMLISTING>
+	</PARA>
+      </listitem>
+
+      <listitem><para>Re-set the parameters anytime.  For example,
+	  <PROGRAMLISTING>
+	    <![ CDATA [
+	    [myNormalDist setMean: 0.0 setVariance: 2.1];
+	    sample = [myNormalDist getDoubleSample];	// from N[0.0,2.1]
+	    ]]>
+	  </PROGRAMLISTING>
+	  </para>
+	  
+      </listitem>
+
+    </orderedlist>
+
+    <PARA>For a more detailed description of the methods available from
+      distribution objects, see the <link
+	linkend="swarm.random.sgml.appendix.sect2.distrib-usage">Distribution
+	Usage Guide</link>.</PARA>
+  </sect2>
   </sect1>
   
   <sect1 id="swarm.user.user3.04-rand-other.sect1">

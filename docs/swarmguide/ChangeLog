@@ -1,3 +1,13 @@
+2000-02-29  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user3.04.sgml: Edited to add bits from userapp-rand1.
+
+	* userapp-rand1.sgml: Hacked massively to mostly obliterate or
+	move this whole piece. Now all that is left is a brief list, which
+	I have kept as a place-holder.
+
+	* user2.02.sgml: Cleared up "Phases" explanation, added indexterms.
+
 2000-02-29  Alex Lancaster  <alex@santafe.edu>
 
 	* user1.01.sgml, user1.04.sgml, user2.01.sgml, user2.03.sgml

@@ -252,7 +252,7 @@
   <sect1 id="swarm.user.user3.02-array.sect1">
     <title>Using Swarm <classname>Array</classname>s</title> 
 
-    <indexterm><primary>collections</primary><secondary>array</secondary><tertiary>usage</tertiary></indexterm>
+    <indexterm><primary>collections</primary><secondary>arrays</secondary><tertiary>usage</tertiary></indexterm>
 
     <para>The Swarm <classname>Array</classname> is the easiest to use
       of the Swarm collections. At create-time, the size of the
@@ -261,7 +261,7 @@
       that has 15 elements, this code will get the job done:</para>
 
 <programlisting> 
-id &lt;Array&gt; foods; 
+id &lt;Arraya&gt; foods; 
 food=[Array create: [self getZone] setCount: 15];</programlisting>
 
     <para>If it is necessary to add elements to the

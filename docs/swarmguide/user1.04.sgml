@@ -246,7 +246,7 @@
       when the <function>activateIn:</function>method is called in
       each successive element of the hierarchy. </para>
 
-    <indexterm><primary>activateIn: method</primary></indexterm>
+    <indexterm><primary>activateIn</primary></indexterm>
 
     <para>This multi-level integration of swarm schedules means that
       the model can indeed be thought of as a nested hierarchy of

@@ -17,6 +17,8 @@
   <sect1 id="swarm.user.user2.02-start.sect1">
     <title>Begin at the Beginning</title> 
 
+    <indexterm><primary><application>heatbugs</application></primary><secondary>creating objects in</secondary></indexterm>
+
     <para>
       Pick any Swarm application you like, such as Heatbugs.  Look in
       <filename>main.m</filename>. What do you find?  There's a check
@@ -66,16 +68,27 @@ if (swarmGUIMode == 1)
       <function>createEnd</function> method.
     </para>
 
+    
+    <indexterm><primary>phases</primary></indexterm>
+    <indexterm><primary>Creating</primary><see>phases</see></indexterm>
+    <indexterm><primary>Setting</primary><see>phases</see></indexterm>
+    <indexterm><primary>Using</primary><see>phases</see></indexterm>
+
     <para>
-      In the Swarm Documentation, the methods that a class can execute
-      are subdivided into categories, such as "CREATING," "SETTING"
-      and "USING".  The methods or macros that appear under CREATING
-      can only be used between <function>createBegin</function> and
-      <function>createEnd</function>. Other commands that set values
-      for instance variables need not be included between the
-      <function>createBegin</function>/<function>createEnd</function>
-      pair.
-    </para>
+      In the Swarm Reference guide, many of the protocols have methods
+      that are divided between three phases. The phases are
+      "Creating", "Setting", and "Using".  It is important to pay
+      attention to the phase in which a method is listed.  Methods or macros
+      listed in the Creating phase must only be used between the
+      <function>createBegin</function> and
+      <function>createEnd</function> messages.  If such a method is
+      used after the createEnd, it will cause the program to fail.
+      Similarly, a method in the Using phase must be used only after
+      the createEnd method has finished.  Methods in the Setting phase
+      can be used at any time in an object's life cycle. </para>
+
+
+
   </sect1>
 
   <sect1 id="swarm.user.user2.02-detail.sect1">
@@ -252,10 +265,13 @@ if (swarmGUIMode == 1)
       define variables between the <function>createBegin</function>
       and <function>createEnd</function> steps, as seen in
       <filename>main.m</filename>. If there is no need to set values
-      in that way (no methods marked with CREATING in the Swarm
-      Documentation are used), then <function>create</function> is
+      in that way (no methods are listed in the Creating phase in the Swarm
+      Reference Guide are used), then <function>create</function> is
       enough.
     </para>
+
+ 
+
   </sect1>
 
   <sect1 id="swarm.user.user2.02-zones.sect1">
