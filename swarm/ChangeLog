@@ -1,3 +1,11 @@
+1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* configure.in (AC_OUTPUT): Extract externvar.h.
+
+	* externvar.h.in: New file.
+
+	* acconfig.h: Add EXPORT_EXTERN, EXPORT_EXTERNDEF, and IMPORT_EXTERN.
+
 1999-05-28  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note implementation of -containsKey: method for
