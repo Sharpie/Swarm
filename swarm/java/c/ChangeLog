@@ -1,5 +1,7 @@
 1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* Makefile.in (javaprefix): Assign jdkdir to javaprefix.
+
 	* directory.h: Add new file.
 
 	* directory.m: Add new file.

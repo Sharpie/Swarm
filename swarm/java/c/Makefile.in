@@ -15,7 +15,7 @@ libdir=@libdir@
 includedir=@includedir@
 LIBS=@LIBS@
 
-javaprefix=@javaprefix@
+javaprefix=@jdkdir@
 javaincludedir=$(javaprefix)/include
 JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
