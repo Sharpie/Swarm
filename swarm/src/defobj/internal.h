@@ -16,17 +16,11 @@ extern size_t fcall_type_alignment (fcall_type_t varType);
 extern void map_object_ivars (id object,
                               void (*process_object) (const char *name,
                                                       fcall_type_t type,
-                                                      size_t offset,
+                                                      void *ptr,
                                                       unsigned rank,
                                                       unsigned *dims));
-extern void map_class_ivars (Class class,
-                             void (*process_object) (const char *name,
-                                                     fcall_type_t type,
-                                                     size_t offset,
-                                                     unsigned rank,
-                                                     unsigned *dims));
 extern struct objc_ivar *find_ivar (id obj, const char *name);
-extern void *ivar_ptr (id obj, const char *name);
+extern void *ivar_ptr_for_name (id obj, const char *name);
 
 extern void
 process_array (unsigned rank,
@@ -81,8 +75,13 @@ extern fcall_type_t fcall_type_for_objc_type (char objcType);
 
 extern const char *objc_type_for_fcall_type (fcall_type_t type);
 
-extern Class copyClass (Class class);
-extern id createType (id aZone, const char *typeName);
-extern void addVariable (Class class, const char *varName, fcall_type_t varType, unsigned rank, unsigned *dims);
+extern id type_create (id aZone, const char *typeName);
 
-extern struct objc_ivar_list *extend_ivar_list (struct objc_ivar_list *ivars, unsigned additional);
+extern Class class_copy (Class class);
+extern void class_addVariable (Class class, const char *varName, fcall_type_t varType, unsigned rank, unsigned *dims);
+extern const char *class_generate_name (void);
+
+extern struct objc_ivar_list *ivar_extend_list (struct objc_ivar_list *ivars, unsigned additional);
+
+extern void object_setVariable (id obj, const char *ivarname, id expr);
+

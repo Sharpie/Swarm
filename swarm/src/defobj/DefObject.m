@@ -85,117 +85,15 @@ PHASE(Setting)
   while ((key = [li next]) != nil)
     {
       const char *ivarname;
-      struct objc_ivar *ivar;
-      void *ptr;
 
       if (!keywordp (key))
         raiseEvent (InvalidArgument, "expecting keyword [%s]", [key name]);
 
-      if ((val = [li next]) == nil)
+      if (!(val = [li next]))
         raiseEvent (InvalidArgument, "missing value");
       
       ivarname = [key getKeywordName];
-      ivar = find_ivar (getClass (self), ivarname);
-      
-      if (ivar == NULL)
-        raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarname);
-      
-      ptr = (void *) self + ivar->ivar_offset;
-
-    retry:
-      if (arrayp (val))
-        {
-          const char *atype = ivar->ivar_type;
-
-          while (isDigit (*atype) || *atype == _C_ARY_B)
-            atype++;
-          [val convertToType: fcall_type_for_objc_type (*atype) dest: ptr];
-        }
-      else if (valuep (val))
-        {
-          fcall_type_t ntype = [val getValueType];
-
-          switch (ntype)
-            {
-            case fcall_type_object:
-              *((id *) ptr) = [val getObject];
-              break;
-	    case fcall_type_class:
-	      *((Class *) ptr) = [val getClass];
-	      break;
-            case fcall_type_long_double:
-              *((long double *) ptr) = [val getLongDouble];
-              break;
-            case fcall_type_double:
-              *((double *) ptr) = [val getDouble];
-              break;
-            case fcall_type_float:
-              *((float *) ptr) = [val getFloat];
-              break;
-            case fcall_type_boolean:
-              *((BOOL *) ptr) = [val getBoolean];
-              break;
-            case fcall_type_slonglong:
-              {
-                char itype = *ivar->ivar_type;
-                long long ival = [val getLongLong];
-
-                if (itype == _C_INT)
-                  *((int *) ptr) = (int) ival;
-                else if (itype == _C_UINT)
-                  *((unsigned *) ptr) = (unsigned) ival;
-                else if (itype == _C_SHT)
-                  *((short *) ptr) = (short) ival;
-                else if (itype == _C_USHT)
-                  *((unsigned short *) ptr) = (unsigned short) ival;
-                else if (itype == _C_LNG)
-                  *((long *) ptr) = (long) ival;
-                else if (itype == _C_ULNG)
-                  *((unsigned long *) ptr) = (unsigned long) ival;
-                else if (itype == _C_LNG_LNG)
-                  *((long long *) ptr) = ival;
-                else if (itype == _C_ULNG_LNG)
-                  *((unsigned long long *) ptr) = (unsigned long long) ival;
-                else
-                  abort ();
-              }
-            case fcall_type_uchar:
-              *((unsigned char *) ptr) = [val getChar];
-              break;
-            default:
-              raiseEvent (InvalidArgument, "Unknown value type `%c'", ntype);
-              break;
-            }
-          }
-      else if (stringp (val))
-        *((const char **) ptr) = STRDUP ([val getC]);
-      else if (archiver_list_p (val))
-        {
-          id first = [val getFirst];
-
-          if (stringp (first))
-            {
-              const char *funcName = [first getC];
-
-              if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
-                  || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
-                *((id *) ptr) = lispIn (getZone (self), val);
-              else if (strcmp (funcName, PARSE_FUNCTION_NAME) != 0)
-                raiseEvent (InvalidArgument, "function not %s",
-                            MAKE_INSTANCE_FUNCTION_NAME
-                            " or "
-                            MAKE_CLASS_FUNCTION_NAME);
-            }
-          else
-            raiseEvent (InvalidArgument, "argument not a string");
-        }
-      else if (quotedp (val))
-        {
-          val = [val getQuotedObject];
-          goto retry;
-        }
-      else
-        raiseEvent (InvalidArgument, "Unknown type `%s'", [val name]);
+      object_setVariable (self, ivarname, val);
     }
   return self;
 }
@@ -1072,17 +970,17 @@ initDescribeStream (void)
 - lispOutVars: stream deep: (BOOL)deepFlag
 {
   void store_object (const char *name, fcall_type_t type,
-                     size_t offset, unsigned rank, unsigned *dims)
+                     void *ptr, unsigned rank, unsigned *dims)
     {
       [stream catSeparator];
       [stream catKeyword: name];
       [stream catSeparator];
       if (rank > 0)
-        lisp_process_array (rank, dims, type, (void *) self + offset,
+        lisp_process_array (rank, dims, type, ptr,
                             NULL, stream, deepFlag);
       else
         lisp_output_type (type,
-                          (void *) self + offset,
+                          ptr,
                           0,
                           NULL,
                           stream,
@@ -1117,12 +1015,10 @@ initDescribeStream (void)
 {
   void store_object (const char *name,
                      fcall_type_t type,
-                     size_t offset,
+                     void *ptr,
                      unsigned rank,
                      unsigned *dims)
     {
-      void *ptr = (void *) self + offset;
-      
       if (type == fcall_type_object)
         {
           id obj = *((id *) ptr);

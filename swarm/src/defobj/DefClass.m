@@ -166,7 +166,7 @@ PHASE(CreatingOnly)
   id <Index> li = [expr begin: aZone];
   id key, val;
 
-  Class newClass = copyClass ((Class) self);
+  Class newClass = class_copy ((Class) self);
   
   while ((key = [li next]) != nil)
     {
@@ -181,8 +181,8 @@ PHASE(CreatingOnly)
       varName = ZSTRDUP (aZone, [key getKeywordName]);
       
       if (stringp (val))
-        addVariable (newClass, varName,
-                     fcall_type_for_lisp_type ([val getC]), 0, NULL);
+        class_addVariable (newClass, varName,
+                           fcall_type_for_lisp_type ([val getC]), 0, NULL);
       else if (archiver_list_p (val))
         {
           id index = [val begin: aZone];
@@ -217,7 +217,7 @@ PHASE(CreatingOnly)
                               "array dimension count should be a value");
                 dims[i] = [dimCountValue getUnsigned];
               }
-            addVariable (newClass, varName, baseType, rank, dims);
+            class_addVariable (newClass, varName, baseType, rank, dims);
           }
           [index drop];
         }

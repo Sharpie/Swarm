@@ -31,7 +31,7 @@ jobject swarm_directory_java_instantiate (JNIEnv *jniEnv, jclass clazz);
 jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
 unsigned swarm_directory_java_hash_code (JNIEnv *env, jobject javaObject);
 
-char swarm_directory_objc_type_for_java_class (JNIEnv *env, jclass class);
+fcall_type_t swarm_directory_fcall_type_for_java_class (JNIEnv *env, jclass class);
 const char *swarm_directory_signature_for_class (JNIEnv *env, jclass class);
 
 @interface DirectoryEntry: CreateDrop
@@ -64,7 +64,9 @@ DirectoryEntry *swarm_directory_switch_objc (JNIEnv *env, id object, jobject jav
 id swarm_directory_java_ensure_objc (JNIEnv *env, jobject javaObject);
 jobject swarm_directory_objc_ensure_java (JNIEnv *env, id object);
 BOOL swarm_directory_objc_remove (JNIEnv *env, id obj);
+jclass swarm_directory_find_java_class (JNIEnv *env, const char *javaClassName, BOOL failFlag);
 jclass swarm_directory_objc_find_java_class (JNIEnv *env, Class class);
+
 - (void)describe: outputCharStream;
 @end
 
@@ -87,8 +89,10 @@ extern void swarm_directory_dump ();
 SEL swarm_directory_ensure_selector (JNIEnv *env, jobject jsel);
 #define SD_ENSUREOBJCMETHOD(env, jobj) (swarm_directory_ensure_selector (env, jobj))
 
-Class swarm_directory_ensure_class (JNIEnv *env, jclass javaClass);
-#define SD_ENSUREOBJCCLASS(env, jclass) (swarm_directory_ensure_class (env, jclass))
+Class swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass);
+Class swarm_directory_ensure_class_named (JNIEnv *env, const char *className);
+
+#define SD_ENSUREOBJCCLASS(env, jclass) (swarm_directory_java_ensure_class (env, jclass))
 
 const char *swarm_directory_copy_java_string (JNIEnv *env, jstring javaString);
 void swarm_directory_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);

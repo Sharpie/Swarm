@@ -1307,9 +1307,6 @@ extern void xfexec (id anObject, const char *name);
 //F: Get an object from textual pointer description.
 extern id nameToObject (const char *name);
 
-//F: Create a class name.
-extern const char *generate_class_name (void);
-
 //#: Name to use for Lisp archiving class-creation function
 #define MAKE_CLASS_FUNCTION_NAME "make-class"
 

@@ -16,6 +16,8 @@
 #import <defobj/Program.h> // Type_c
 #import <collections.h> // Map
 
+#import "internal.h" // objc_type_for_fcall_type
+
 #define extern
 #ifdef HAVE_JDK
 #import "javavars.h"
@@ -483,6 +485,36 @@ objcFindJavaClassName (JNIEnv *env, Class class)
   return javaClassName;
 }
 
+jclass
+swarm_directory_find_java_class (JNIEnv *env, const char *javaClassName, BOOL failFlag)
+{
+  jobject ret;
+  jobject throwable;
+  
+  (*env)->ExceptionClear (env);
+  ret = (*env)->FindClass (env, javaClassName);
+  
+  if (failFlag)
+    {
+      if ((throwable = (*env)->ExceptionOccurred (env)) != NULL)
+        (*env)->ExceptionDescribe (env);
+    }
+  else
+    (*env)->ExceptionClear (env);
+  return ret;
+}
+
+jclass
+swarm_directory_objc_find_java_class (JNIEnv *env, Class class)
+{
+  jclass ret;
+  const char *javaClassName = objcFindJavaClassName (env, class);
+
+  ret = swarm_directory_find_java_class (env, javaClassName, YES);
+  FREECLASSNAME (javaClassName);
+  return ret;
+}
+
 jobject
 swarm_directory_objc_ensure_java (JNIEnv *env, id object)
 {
@@ -505,23 +537,6 @@ swarm_directory_objc_ensure_java (JNIEnv *env, id object)
     }
   return result->javaObject;
 }
-
-jclass
-swarm_directory_objc_find_java_class (JNIEnv *env, Class class)
-{
-  const char *javaClassName = objcFindJavaClassName (env, class);
-  jclass ret;
-  jobject throwable;
-
-  (*env)->ExceptionClear (env);
-  ret = (*env)->FindClass (env, javaClassName);
-  if ((throwable = (*env)->ExceptionOccurred (env)) != NULL)
-    (*env)->ExceptionDescribe (env);
-
-  FREECLASSNAME (javaClassName);
-  return ret;
-}
-
 
 BOOL
 swarm_directory_objc_remove (JNIEnv *env, id object)
@@ -576,7 +591,7 @@ swarm_directory_objc_remove (JNIEnv *env, id object)
 @end
 
 static jclass
-get_java_class (JNIEnv *env, const char *name)
+get_java_lang_class (JNIEnv *env, const char *name)
 {
   char class_name_buf[10 + strlen (name) + 1];
   char *p;
@@ -647,7 +662,7 @@ create_class_refs (JNIEnv *env)
   jclass get_primitive (const char *name)
     {
 #if 0
-      return get_type_field_for_class (env, get_java_class (env, name));
+      return get_type_field_for_class (env, get_java_lang_class (env, name));
 #else
       jobject nameString = (*env)->NewStringUTF (env, name);
       jobject method;
@@ -682,18 +697,18 @@ create_class_refs (JNIEnv *env)
       c_void = get_primitive ("Void");
       c_boolean = get_primitive ("Boolean");
 
-      c_Boolean = get_java_class (env, "Boolean");
-      c_Char = get_java_class (env, "Character");
-      c_Byte= get_java_class (env, "Byte");
-      c_Integer = get_java_class (env, "Integer");
-      c_Short = get_java_class (env, "Short");
-      c_Long = get_java_class (env, "Long");
-      c_Float = get_java_class (env, "Float");
-      c_Double = get_java_class (env, "Double");
+      c_Boolean = get_java_lang_class (env, "Boolean");
+      c_Char = get_java_lang_class (env, "Character");
+      c_Byte= get_java_lang_class (env, "Byte");
+      c_Integer = get_java_lang_class (env, "Integer");
+      c_Short = get_java_lang_class (env, "Short");
+      c_Long = get_java_lang_class (env, "Long");
+      c_Float = get_java_lang_class (env, "Float");
+      c_Double = get_java_lang_class (env, "Double");
      
-      c_String = get_java_class (env, "String");
-      c_Object = get_java_class (env, "Object");
-      c_Class = get_java_class (env, "Class");
+      c_String = get_java_lang_class (env, "String");
+      c_Object = get_java_lang_class (env, "Object");
+      c_Class = get_java_lang_class (env, "Class");
 
       if (!(lref = (*env)->FindClass (env, "java/lang/reflect/Field")))
         abort ();
@@ -838,6 +853,11 @@ create_method_refs (JNIEnv *env)
   if (!(m_FieldGetChar =
       (*env)->GetMethodID (env, c_Field, "getChar", 
 			   "(Ljava/lang/Object;)C")))
+    abort();
+
+  if (!(m_FieldGetShort =
+      (*env)->GetMethodID (env, c_Field, "getShort", 
+			   "(Ljava/lang/Object;)S")))
     abort();
 
   if (!(m_FieldGetInt =
@@ -1115,38 +1135,37 @@ classp (JNIEnv *env, jclass class, jclass matchClass)
     }
 }
 
-char
-swarm_directory_objc_type_for_java_class (JNIEnv *env, jclass class)
+fcall_type_t
+swarm_directory_fcall_type_for_java_class (JNIEnv *env, jclass class)
 {
-  char type;
+  fcall_type_t type;
 
   if (classp (env, class, c_Selector))
-    type = _C_SEL;
+    type = fcall_type_selector;
   else if (classp (env, class, c_String))
-    type = _C_CHARPTR;
+    type = fcall_type_string;
   else if (classp (env, class, c_Class))
-    type = _C_CLASS;
+    type = fcall_type_class;
   else if (exactclassp (env, class, c_int))
-    type = _C_INT;
+    type = fcall_type_sint;
   else if (exactclassp (env, class, c_short))
-    type = _C_SHT;
+    type = fcall_type_sshort;
   else if (exactclassp (env, class, c_long))
-    type = _C_LNG;
+    type = fcall_type_slong;
   else if (exactclassp (env, class, c_boolean))
-    type = _C_UCHR;
+    type = fcall_type_boolean;
   else if (exactclassp (env, class, c_byte))
-    type = _C_UCHR;
+    type = fcall_type_uchar;
   else if (exactclassp (env, class, c_char))
-    type = _C_CHR;
+    type = fcall_type_schar;
   else if (exactclassp (env, class, c_float))
-    type = _C_FLT;
+    type = fcall_type_float;
   else if (exactclassp (env, class, c_double))
-    type = _C_DBL;
+    type = fcall_type_double;
   else if (exactclassp (env, class, c_void))
-    type = _C_VOID;
+    type = fcall_type_void;
   else
-    type = _C_ID;
-  
+    type = fcall_type_object;
   return type;
 }
 
@@ -1221,9 +1240,11 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
           }
         void add (jclass class)
           {
-            add_type (swarm_directory_objc_type_for_java_class (env, class));
+            const char *type = 
+              objc_type_for_fcall_type (swarm_directory_fcall_type_for_java_class (env, class));
+            add_type (*type);
+            [globalZone free: (void *) type];
           }
-
         {
           jobject retType = (*env)->GetObjectField (env, jsel, f_retTypeFid);
           
@@ -1268,7 +1289,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
 }
 
 Class
-swarm_directory_ensure_class (JNIEnv *env, jclass javaClass)
+swarm_directory_java_ensure_class (JNIEnv *env, jclass javaClass)
 {
   Class objcClass;
 
@@ -1324,7 +1345,7 @@ swarm_directory_class_from_objc_object (JNIEnv *env, id object)
       Class ret;
       
       jcls = (*env)->GetObjectClass (env,jobj);
-      ret = swarm_directory_ensure_class (env, jcls);
+      ret = swarm_directory_java_ensure_class (env, jcls);
       (*env)->DeleteLocalRef (env, jcls);
       return ret;
     }
@@ -1333,6 +1354,24 @@ swarm_directory_class_from_objc_object (JNIEnv *env, id object)
 }
 #endif
 #endif
+
+Class
+swarm_directory_ensure_class_named (JNIEnv *env, const char *className)
+{
+#ifdef HAVE_JDK
+  jclass javaClass = swarm_directory_find_java_class (env, className, NO);
+  Class objcClass;
+
+  if (javaClass)
+    {
+      objcClass = swarm_directory_java_ensure_class (env, javaClass);
+      (*env)->DeleteLocalRef (env, javaClass);
+    }
+  else
+#endif
+    objcClass = objc_lookup_class (className);
+  return objcClass;
+}
 
 Class 
 swarm_directory_swarm_class (id object)
@@ -1355,7 +1394,7 @@ swarm_directory_swarm_class (id object)
           FREECLASSNAME (className);
           if (!result)
             if (!(result = SD_FINDOBJC (env, jcls)))
-              result = swarm_directory_ensure_class (env, jcls);
+              result = swarm_directory_java_ensure_class (env, jcls);
           (*env)->DeleteLocalRef (env, jcls);
           return result;
         }

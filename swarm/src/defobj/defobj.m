@@ -18,7 +18,12 @@ Library:      defobj
 #include <misc.h> // strcmp, sscanf
 #include <collections/predicates.h> // keywordp, archiver_list_p, stringp
 
+#import "internal.h" // class_generate_name
 #include <swarmconfig.h> // HAVE_HDF5
+
+#ifdef HAVE_JDK
+#import <defobj/directory.h> // swarm_directory_ensure_class_named
+#endif
 
 BOOL _warning_dropFrom = YES;
 
@@ -27,8 +32,6 @@ externvardef BOOL _obj_debug = YES;
 
 Class *localClasses;
 unsigned localClassCount = 0;
-
-static unsigned generatedClassNameCount = 0;
 
 externvardef id lispArchiver;
 externvardef id lispAppArchiver;
@@ -288,14 +291,15 @@ lispIn (id aZone, id expr)
         
         if (classFlag)
           {
-            obj = createType (aZone, typeName);
+            obj = type_create (aZone, typeName);
             obj = [obj lispInCreate: argexpr];
             obj = [obj createEnd];
             registerLocalClass (obj);
           }
         else
           {
-            if ((typeObject = objc_lookup_class (typeName)) == nil)
+            if (!(typeObject =
+                  swarm_directory_ensure_class_named (jniEnv, typeName)))
               raiseEvent (InvalidArgument, "> type `%s' not found",
                           typeName);
 
@@ -312,17 +316,6 @@ lispIn (id aZone, id expr)
   }
 }
 
-const char *
-generate_class_name (void)
-{
-  char buf[5 + DSIZE (unsigned) + 1];
-
-  sprintf (buf, "Class%u", generatedClassNameCount);
-  generatedClassNameCount++;
-
-  return SSTRDUP (buf);
-}
-
 id
 hdf5In (id aZone, id hdf5Obj)
 {
@@ -332,9 +325,9 @@ hdf5In (id aZone, id hdf5Obj)
     
   if (type)
     {
-      if ((typeObject = objc_lookup_class (type)) == nil)
+      if (!(typeObject = swarm_directory_ensure_class_named (jniEnv, type)))
         {
-          id typeObj = createType (aZone, type);
+          id typeObj = type_create (aZone, type);
           id newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
           
           newTypeObj = [newTypeObj createEnd];
@@ -351,8 +344,8 @@ hdf5In (id aZone, id hdf5Obj)
           id typeObj;
           id newTypeObj;
 
-          type = generate_class_name ();
-          typeObj = createType (aZone, type);
+          type = class_generate_name ();
+          typeObj = type_create (aZone, type);
           newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
           
           newTypeObj = [newTypeObj createEnd];
@@ -390,7 +383,7 @@ nameToObject (const char *name)
            || (!strcmp (name, "Nil"))
            || (!strcmp (name, "0x0")))
     return nil;
-  else if ((object = (id) objc_lookup_class (name)))
+  else if ((object = (id) swarm_directory_ensure_class_named (jniEnv, name)))
     return object;
   abort ();
 }

@@ -1,6 +1,47 @@
-2000-01-18    <mgd@nest.swarm.org>
+2000-01-19    <mgd@nest.swarm.org>
 
-	* HDF5Object.m ([HDF -createEnd]): 
+	* HDF5Object.m (create_compound_type_from_prototype): Use pointer
+	instead of offset in insert_var.
+	([HDF5CompoundType_c -pack{Obj,Buf}:to:]): Likewise.
+	([HDF5CompoundType_c -writeLevels]): Likewise.
+	([HDF5_c -createEnd], [HDF5_c -getClass], [HDF5_c -assignIVar:]):
+	Accomodate renames.
+
+	* defobj.h: Don't declare generate_class_name.
+
+	* defobj.m: Include directory.h.  Moved generate_class_name
+	to internal.m.
+	(lispIn, hdf5In, nameToObject): Use
+	swarm_directory_ensure_class_named instead of objc_lookup_class.
+	(hdf5In): Accomodate renames.
+
+	* internal.[hm] (map_java_ivars, map_objc_ivars): New functions.
+	(map_object_ivars): Use them.
+	(map_class_ivars): Remove.
+	(object_setVariable): New function
+	(ivar_ptr): Renamed to ivar_ptr_for_name.
+	(ivar_extend_list, class_copy, type_create, class_addVariable):
+	Renamed from extend_ivar_list, copyClass, createType, and
+	addVariable.
+
+	* DefObject.m ([Object_s -lispIn:]): Use object_setVariable.
+	([Object_s -lispOutVars:deep:]): Use pointer instead 
+	of offset in store_object.
+
+	* DefClass.m: Accomodate renames in internal.[hm].
+
+	* directory.[hm] (swarm_directory_fcall_type_for_java_class):
+	Replaces swarm_directory_objc_type_for_java_class.
+	(swarm_directory_java_ensure_class): Renamed from
+	swarm_directory_ensure_class.
+	(swarm_directory_ensure_class_named,
+	swarm_directory_find_java_class): New functions.
+
+	* directory.m: Include internal.h.
+	(get_java_lang_class): Renamed from get_java_class.
+	(create_method_refs): Initialize m_FieldGetShort.
+
+2000-01-18    <mgd@nest.swarm.org>
 
 	* internal.m (process_array): Don't call output_type if NULL.
 

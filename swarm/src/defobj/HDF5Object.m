@@ -9,7 +9,7 @@
 #import <defobj.h> // STRDUP, ZSTRDUP, SSTRDUP, FREEBLOCK, SFREEBLOCK
 #import <defobj/defalloc.h> // getZone
 
-#import "internal.h" // map_{class,object}_ivars, ivar_ptr
+#import "internal.h" // map_object_ivars, class_generate_name, ivar_ptr_for_name
 
 #ifdef HAVE_HDF5
 
@@ -359,7 +359,7 @@ create_compound_type_from_prototype (id prototype)
   size_t offset;
   BOOL insertFlag;
 
-  void insert_var (const char *name, fcall_type_t type, size_t ivar_offset,
+  void insert_var (const char *name, fcall_type_t type, void *ptr,
                    unsigned rank, unsigned *dims)
     {
       if (rank > 0)
@@ -369,6 +369,7 @@ create_compound_type_from_prototype (id prototype)
       else if (type == fcall_type_string)
         type = fcall_type_sint;
 
+      offset = (PTRUINT) ptr - (PTRUINT) prototype;
       offset = alignsizeto (offset, fcall_type_alignment (type));
       
       if (insertFlag)
@@ -595,7 +596,7 @@ create_class_from_compound_type (id aZone,
       if (did)
         {
           void process_ivar (const char *ivarName, fcall_type_t type,
-                             size_t offset, unsigned rank, unsigned *dims)
+                             void *ptr, unsigned rank, unsigned *dims)
             {
               const char **strings;
               unsigned count =
@@ -663,7 +664,7 @@ PHASE(Using)
   unsigned inum = 0;
 
   void process_ivar (const char *ivar_name, fcall_type_t ivar_type,
-                     size_t offset, unsigned rank, unsigned *dims)
+                     void *ivar_ptr, unsigned rank, unsigned *dims)
     {
       hid_t mtid;
       fcall_type_t type;
@@ -688,8 +689,6 @@ PHASE(Using)
             raiseEvent (LoadError,
                         "expecting string table for int -> char * conversion");
           {
-            void *ptr = obj;
-            void *ivarptr = ptr + offset;
             PTRINT offset = *(int *) (buf + hoffset);
             id <MapIndex> mi = [stringMap begin: scratchZone];
             const char *key;
@@ -704,7 +703,7 @@ PHASE(Using)
             else
               key = NULL;
             
-            *(const char **) ivarptr = key;
+            *(const char **) ivar_ptr = key;
             [mi drop];
           }
         }
@@ -714,7 +713,7 @@ PHASE(Using)
             raiseEvent (LoadError, "ivar `%s' in `%s': `%u' != mtid: `%u'", 
                         name, [obj name],
                         ivar_type, type);
-          memcpy ((void *) obj + offset,
+          memcpy (ivar_ptr,
                   buf + hoffset,
                   fcall_type_size (type));
         }
@@ -729,7 +728,7 @@ PHASE(Using)
   unsigned inum = 0;
 
   void process_ivar (const char *ivar_name, fcall_type_t ivar_type,
-                     size_t offset, unsigned rank, unsigned *dims)
+                     void *ivar_ptr, unsigned rank, unsigned *dims)
     {
       hid_t mtid;
       fcall_type_t type;
@@ -759,8 +758,7 @@ PHASE(Using)
               [stringMaps at: (id) ivar_name insert: stringMap];
             }
           {
-            void *ivarptr = (void *)obj + offset;
-            const char *key = * (const char **)ivarptr;
+            const char *key = * (const char **)ivar_ptr;
             int *ptr = (int *) (buf + hoffset);
             PTRUINT offset = INT_MIN;
 
@@ -784,7 +782,7 @@ PHASE(Using)
             raiseEvent (LoadError, "differing source and target types %d/%d",
                         ivar_type, type);
           memcpy (buf + hoffset,
-                  (void *) obj + offset,
+                  ivar_ptr,
                   fcall_type_size (type));
         }
       inum++;
@@ -886,7 +884,7 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
 - writeLevels
 {
   void store_level (const char *ivar_name, fcall_type_t type,
-                    size_t offset, unsigned rank, unsigned *dims)
+                    void *ivar_ptr, unsigned rank, unsigned *dims)
     {
       if (type == fcall_type_string)
         [self writeLevel: ivar_name];
@@ -1181,13 +1179,13 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
                     if (componentTypeName)
                       [compoundType setName: componentTypeName];
                     else if (c_count > 1)
-                      [compoundType setName: generate_class_name ()];
+                      [compoundType setName: class_generate_name ()];
                     else
                       {
                         [compoundType
                           setName:
                             (get_attribute (loc_id, ATTRIB_TYPE_NAME)
-                             ?: generate_class_name ())];
+                             ?: class_generate_name ())];
                         
                         if (c_count != 1)
                           raiseEvent (LoadError, "expecting a point space");
@@ -1523,11 +1521,11 @@ PHASE(Using)
                         for (i = 0; i < rank; i++)
                           udims[i] = hdims[i];
 
-                        addVariable (typeObject,
-                                     [hdf5Obj getName],
-                                     baseType,
-                                     rank,
-                                     udims);
+                        class_addVariable (typeObject,
+                                           [hdf5Obj getName],
+                                           baseType,
+                                           rank,
+                                           udims);
                       }
                       if (H5Tclose (tid) < 0)
                         raiseEvent (LoadError, "could not close dataset tid");
@@ -1535,11 +1533,11 @@ PHASE(Using)
                         raiseEvent (LoadError, "could not close dataset sid");
                     }
                   else
-                    addVariable (typeObject,
-                                 [hdf5Obj getName],
-                                 fcall_type_object,
-                                 0,
-                                 NULL);
+                    class_addVariable (typeObject,
+                                       [hdf5Obj getName],
+                                       fcall_type_object,
+                                       0,
+                                       NULL);
                   return 0;
                 }
               [self iterate: process_object];
@@ -1558,7 +1556,7 @@ PHASE(Using)
 - assignIvar: obj
 {
   const char *ivarName = [self getName];
-  void *ptr = ivar_ptr (obj, ivarName);
+  void *ptr = ivar_ptr_for_name (obj, ivarName);
   
   if (ptr == NULL)
     raiseEvent (InvalidArgument,

@@ -9,9 +9,11 @@
 
 #include <misc.h> // strtoul, isDigit
 #include <objc/objc-api.h>
+#import <collections/predicates.h>
 
 #ifdef HAVE_JDK
 #import <defobj/directory.h>
+#import "javavars.h"
 #endif
 
 #define TYPE_BOOLEAN "boolean"
@@ -28,6 +30,8 @@
 #define TYPE_LONG_DOUBLE "long double"
 #define TYPE_STRING "string"
 #define TYPE_OBJECT "object"
+
+static unsigned generatedClassNameCount = 0;
 
 size_t
 alignsizeto (size_t pos, size_t alignment)
@@ -226,66 +230,184 @@ objc_process_array (const char *type,
                  data);
 }
 
+static void
+map_objc_ivars (id obj,
+                void (*process_object) (const char *name,
+                                        fcall_type_t type,
+                                        void *ptr,
+                                        unsigned rank,
+                                        unsigned *dims))
+{
+  void map_class_ivars (Class class)
+    {
+      struct objc_ivar_list *ivars = class->ivars;
+  
+      if (class->super_class)
+        {
+          if (strcmp (class->super_class->name, "Object_s") != 0)
+            map_class_ivars (class->super_class);
+        }
+  
+      if (ivars)
+        {
+          unsigned i, ivar_count = ivars->ivar_count;
+          struct objc_ivar *ivar_list = ivars->ivar_list;
+          
+          for (i = 0; i < ivar_count; i++)
+            {
+              // Special case to allow member_t for setIndexFromMemberLoc:
+              // lists.
+              if (strcmp (ivar_list[i].ivar_type,
+                          "{?=\"memberData\"[2^v]}") == 0)
+                continue;
+              else if (*ivar_list[i].ivar_type == _C_PTR)
+                continue;
+              else if (*ivar_list[i].ivar_type == _C_ARY_B)
+                {
+                  unsigned rank = get_rank (ivar_list[i].ivar_type);
+                  unsigned dims[rank];
+                  const char *baseType;
+                  
+                  baseType = fill_dims (ivar_list[i].ivar_type, dims);
+                  process_object (ivar_list[i].ivar_name,
+                                  fcall_type_for_objc_type (*baseType),
+                                  ivar_list[i].ivar_offset + obj,
+                                  rank,
+                                  dims);
+                }
+              else
+                process_object (ivar_list[i].ivar_name,
+                                fcall_type_for_objc_type (*ivar_list[i].ivar_type),
+                                ivar_list[i].ivar_offset + obj,
+                                0,
+                                NULL);
+            }
+        }
+    }
+  map_class_ivars (getClass (obj));
+}
+
+#define _GETVALUE(uptype) \
+    (*jniEnv)->Call##uptype##Method (jniEnv, \
+                                     field, \
+                                     m_FieldGet##uptype, \
+                                     javaObject)
+#define GETVALUE(uptype) _GETVALUE(uptype)
+
+void
+map_java_ivars (jobject javaObject,
+                void (*process_object) (const char *name,
+                                        fcall_type_t type,
+                                        void *ptr,
+                                        unsigned rank,
+                                        unsigned *dims))
+{
+  void map_class_ivars (jclass class)
+    {
+      jclass superClass = 0;
+      
+      if ((superClass = (*jniEnv)->GetSuperclass (jniEnv, class)))
+        map_class_ivars (superClass);
+      
+      {
+        jarray fields;
+        jsize count;
+        unsigned i;
+        jclass javaClass;
+        
+        if (!(javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject)))
+          abort ();
+        
+        if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
+                                                    javaClass,
+                                                    m_ClassGetDeclaredFields)))
+          abort();
+      
+        count = (*jniEnv)->GetArrayLength (jniEnv, fields);
+      
+        for (i = 0; i < count; i++)
+          {
+            jobject name, field;
+            jboolean isCopy;
+            const char *namestr;
+          
+            field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
+            if (!field)
+              raiseEvent (SourceMessage, "field %u unavailable", i);
+            name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+            namestr = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+            {
+              types_t val;
+              jobject lref = (*jniEnv)->CallObjectMethod (jniEnv,
+                                                          field,
+                                                          m_FieldGetType);
+              fcall_type_t type = 
+                swarm_directory_fcall_type_for_java_class (jniEnv, lref);
+            
+              (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+            
+              switch (type)
+                {
+                case fcall_type_boolean:
+                  val.boolean = GETVALUE (Boolean);
+                  break;
+                case fcall_type_schar:
+                  val.schar = GETVALUE (Char);
+                  break;
+                case fcall_type_sshort:
+                  val.sshort = GETVALUE (Short);
+                  break;
+                case fcall_type_sint:
+                  val.sint = GETVALUE (Int);
+                  break;
+                case fcall_type_slonglong:
+                  val.slonglong = GETVALUE (Long);
+                  break;
+                case fcall_type_float:
+                  val._float = GETVALUE (Float);
+                  break;
+                case fcall_type_double:
+                  val._double = GETVALUE (Double);
+                  break;
+                case fcall_type_object:
+                case fcall_type_string:
+                case fcall_type_selector:
+                  val.object = (id) GETVALUE (Object);
+                  break;
+                default:
+                  abort ();
+                }
+              process_object (namestr, type, &val, 0, NULL);
+              if (type == fcall_type_object 
+                  || type == fcall_type_string
+                  || type == fcall_type_selector)
+                (*jniEnv)->DeleteLocalRef (jniEnv, (jobject) val.object);
+            }
+            (*jniEnv)->DeleteLocalRef (jniEnv, field);
+            if (isCopy)
+              (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, namestr);
+            (*jniEnv)->DeleteLocalRef (jniEnv, name);
+          }
+        (*jniEnv)->DeleteLocalRef (jniEnv, fields);
+      }
+    }
+  map_class_ivars ((*jniEnv)->GetObjectClass (jniEnv, javaObject));
+}
+#undef GETVALUE
+#undef _GETVALUE
+
 void
 map_object_ivars (id object,
                   void (*process_object) (const char *name,
                                           fcall_type_t type,
-                                          size_t offset,
+                                          void *ptr,
                                           unsigned rank,
                                           unsigned *dims))
 {
-  map_class_ivars (getClass (object), process_object);
-}
-
-void
-map_class_ivars (Class class,
-                 void (*process_object) (const char *name,
-                                         fcall_type_t type,
-                                         size_t offset,
-                                         unsigned rank,
-                                         unsigned *dims))
-{
-  struct objc_ivar_list *ivars = class->ivars;
-  
-  if (class->super_class)
-    {
-      if (strcmp (class->super_class->name, "Object_s") != 0)
-        map_class_ivars (class->super_class, process_object);
-    }
-  
-  if (ivars)
-    {
-      unsigned i, ivar_count = ivars->ivar_count;
-      struct objc_ivar *ivar_list = ivars->ivar_list;
-      
-      for (i = 0; i < ivar_count; i++)
-        {
-          // Special case to allow member_t for setIndexFromMemberLoc: lists.
-          if (strcmp (ivar_list[i].ivar_type, "{?=\"memberData\"[2^v]}") == 0)
-            continue;
-          else if (*ivar_list[i].ivar_type == _C_PTR)
-            continue;
-          else if (*ivar_list[i].ivar_type == _C_ARY_B)
-            {
-              unsigned rank = get_rank (ivar_list[i].ivar_type);
-              unsigned dims[rank];
-              const char *baseType;
-              
-              baseType = fill_dims (ivar_list[i].ivar_type, dims);
-              process_object (ivar_list[i].ivar_name,
-                              fcall_type_for_objc_type (*baseType),
-                              ivar_list[i].ivar_offset,
-                              rank,
-                              dims);
-            }
-          else
-            process_object (ivar_list[i].ivar_name,
-                            fcall_type_for_objc_type (*ivar_list[i].ivar_type),
-                            ivar_list[i].ivar_offset,
-                            0,
-                            NULL);
-        }
-    }
+  if ([object respondsTo: M(isJavaProxy)])
+    map_java_ivars (SD_FINDJAVA (jniEnv, object), process_object);
+  else
+    map_objc_ivars (object, process_object);
 }
 
 struct objc_ivar *
@@ -320,9 +442,9 @@ find_ivar (Class class, const char *name)
 }
 
 void *
-ivar_ptr (id obj, const char *name)
+ivar_ptr_for_name (id obj, const char *name)
 {
-  struct objc_ivar *ivar = find_ivar ([obj class], name);
+  struct objc_ivar *ivar = find_ivar (getClass (obj), name);
 
   if (ivar)
     return (void *) obj + ivar->ivar_offset;
@@ -702,7 +824,7 @@ objc_type_for_fcall_type (fcall_type_t type)
 }
 
 struct objc_ivar_list *
-extend_ivar_list (struct objc_ivar_list *ivars, unsigned additional)
+ivar_extend_list (struct objc_ivar_list *ivars, unsigned additional)
 {
   unsigned existing = ivars ? ivars->ivar_count : 0;
   unsigned count = existing + additional;
@@ -723,18 +845,18 @@ extend_ivar_list (struct objc_ivar_list *ivars, unsigned additional)
 }
 
 Class 
-copyClass (Class class)
+class_copy (Class class)
 {
   size_t classSize = sizeof (struct objc_class);
   Class newClass = xmalloc (classSize);
   
   memcpy (newClass, class, classSize);
-  newClass->ivars = extend_ivar_list (newClass->ivars, 0);
+  newClass->ivars = ivar_extend_list (newClass->ivars, 0);
   return newClass;
 }
 
 id
-createType (id aZone, const char *typeName)
+type_create (id aZone, const char *typeName)
 {
   Class newClass = [CreateDrop class];
   id typeObject = [id_BehaviorPhase_s createBegin: aZone];
@@ -748,12 +870,12 @@ createType (id aZone, const char *typeName)
 }
 
 void
-addVariable (Class class, const char *varName, fcall_type_t varType,
+class_addVariable (Class class, const char *varName, fcall_type_t varType,
              unsigned rank, unsigned *dims)
 {
   struct objc_ivar *il;
   
-  class->ivars = extend_ivar_list (class->ivars, 1);
+  class->ivars = ivar_extend_list (class->ivars, 1);
   il = &class->ivars->ivar_list[class->ivars->ivar_count];
   
   il->ivar_offset = alignsizeto (class->instance_size,
@@ -764,3 +886,120 @@ addVariable (Class class, const char *varName, fcall_type_t varType,
   class->ivars->ivar_count++; 
 }
 
+const char *
+class_generate_name (void)
+{
+  char buf[5 + DSIZE (unsigned) + 1];
+
+  sprintf (buf, "Class%u", generatedClassNameCount);
+  generatedClassNameCount++;
+
+  return SSTRDUP (buf);
+}
+
+void
+object_setVariable (id obj, const char *ivarname, id expr)
+{
+  struct objc_ivar *ivar = find_ivar (getClass (obj), ivarname);
+  void *ptr;
+  
+  if (ivar == NULL)
+    raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarname);
+  
+  ptr = (void *) obj + ivar->ivar_offset;
+  
+ retry:
+  if (arrayp (expr))
+    {
+      const char *atype = ivar->ivar_type;
+      
+      while (isDigit (*atype) || *atype == _C_ARY_B)
+        atype++;
+      [expr convertToType: fcall_type_for_objc_type (*atype) dest: ptr];
+    }
+  else if (valuep (expr))
+    {
+      fcall_type_t ntype = [expr getValueType];
+
+      switch (ntype)
+        {
+        case fcall_type_object:
+          *((id *) ptr) = [expr getObject];
+          break;
+        case fcall_type_class:
+          *((Class *) ptr) = [expr getClass];
+          break;
+        case fcall_type_long_double:
+          *((long double *) ptr) = [expr getLongDouble];
+          break;
+        case fcall_type_double:
+          *((double *) ptr) = [expr getDouble];
+          break;
+        case fcall_type_float:
+          *((float *) ptr) = [expr getFloat];
+          break;
+        case fcall_type_boolean:
+          *((BOOL *) ptr) = [expr getBoolean];
+          break;
+        case fcall_type_slonglong:
+          {
+            char itype = *ivar->ivar_type;
+            long long iexpr = [expr getLongLong];
+
+            if (itype == _C_INT)
+              *((int *) ptr) = (int) iexpr;
+            else if (itype == _C_UINT)
+              *((unsigned *) ptr) = (unsigned) iexpr;
+            else if (itype == _C_SHT)
+              *((short *) ptr) = (short) iexpr;
+            else if (itype == _C_USHT)
+              *((unsigned short *) ptr) = (unsigned short) iexpr;
+            else if (itype == _C_LNG)
+              *((long *) ptr) = (long) iexpr;
+            else if (itype == _C_ULNG)
+              *((unsigned long *) ptr) = (unsigned long) iexpr;
+            else if (itype == _C_LNG_LNG)
+              *((long long *) ptr) = iexpr;
+            else if (itype == _C_ULNG_LNG)
+              *((unsigned long long *) ptr) = (unsigned long long) iexpr;
+            else
+              abort ();
+          }
+        case fcall_type_uchar:
+          *((unsigned char *) ptr) = [expr getChar];
+          break;
+        default:
+          raiseEvent (InvalidArgument, "Unknown exprue type `%c'", ntype);
+          break;
+        }
+    }
+  else if (stringp (expr))
+    *((const char **) ptr) = OSTRDUP (obj, [expr getC]);
+  else if (archiver_list_p (expr))
+    {
+      id first = [expr getFirst];
+
+      if (stringp (first))
+        {
+          const char *funcName = [first getC];
+
+          if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
+              || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
+            *((id *) ptr) = lispIn ([obj getZone], expr);
+          else if (strcmp (funcName, PARSE_FUNCTION_NAME) != 0)
+            raiseEvent (InvalidArgument, "function not %s",
+                        MAKE_INSTANCE_FUNCTION_NAME
+                        " or "
+                        MAKE_CLASS_FUNCTION_NAME);
+        }
+      else
+        raiseEvent (InvalidArgument, "argument not a string");
+    }
+  else if (quotedp (expr))
+    {
+      expr = [expr getQuotedObject];
+      goto retry;
+    }
+  else
+    raiseEvent (InvalidArgument, "Unknown type `%s'", [expr name]);
+}
