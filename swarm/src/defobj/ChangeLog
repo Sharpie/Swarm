@@ -1,5 +1,18 @@
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FArguments.[hm] ([FArguments -addArgument:ofObjCType:], 
+	[FArguments -setObjCReturnType:], [FArguments -getReturnVal:]):
+	New methods.
+	([FArguments -_setReturnType_:]): Renamed from setReturnType:.
+	([FArguments -_addArgument_:ofType:]): Renamed from
+
+	* FArguments.h: Include objc/objc.h.
+	(swarm_type_object): Renamed from swarm_type_pointer.
+
+	* FCall.m (defobj_init_java_call_tables): Accomodate.
+
+	* FCall.h, FArguments.h: Move JOBJECT to FCall.h.
+
 	* FArguments.[hm] ([FArguments -addUnsignedChar:], 
 	[FArguments -addUnsignedShort:], [FArguments -addUnsigned:],
 	[FArguments -addUnsignedLong:]): New methods.

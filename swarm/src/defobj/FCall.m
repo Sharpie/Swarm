@@ -71,7 +71,7 @@ defobj_init_java_call_tables (void *jEnv)
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticFloatMethod);
   java_static_call_functions[swarm_type_double] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticDoubleMethod);
-  java_static_call_functions[swarm_type_pointer] = NULL;
+  java_static_call_functions[swarm_type_object] = NULL;
   java_static_call_functions[swarm_type_string] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
   java_static_call_functions[swarm_type_jobject] = 
@@ -99,7 +99,7 @@ defobj_init_java_call_tables (void *jEnv)
       FFI_FN ((*(JNIEnv *)jEnv)->CallFloatMethod);
   java_call_functions[swarm_type_double] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallDoubleMethod);
-  java_call_functions[swarm_type_pointer] = NULL;
+  java_call_functions[swarm_type_object] = NULL;
   java_call_functions[swarm_type_string] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
   java_call_functions[swarm_type_jobject] = 

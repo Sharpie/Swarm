@@ -41,6 +41,22 @@ const char *java_type_signature[number_of_types] = {
   "Ljava/lang/Object;"
 };
 
+char objc_types[number_of_types] = {
+  _C_VOID,
+  _C_UCHR,
+  _C_USHT,
+  _C_SHT,
+  _C_UINT,
+  _C_INT,
+  _C_ULNG,
+  _C_LNG,
+  _C_FLT,
+  _C_DBL,
+  _C_ID,
+  _C_CHARPTR,
+  '\0'
+};
+
 unsigned java_type_signature_length[number_of_types] = { 1, 1, 1, 1, 1, 1,
                                                          1, 1, 1, 1, 1, 0,
                                                          18, 18 };
@@ -68,7 +84,7 @@ unsigned java_type_signature_length[number_of_types] = { 1, 1, 1, 1, 1, 1,
 }
 
 
-- addArgument: (void *)value ofType: (unsigned)type
+- _addArgument_: (void *)value ofType: (unsigned)type
 {
   if (assignedArguments == MAX_ARGS)
     raiseEvent (SourceMessage, "Types already assigned to maximum number
@@ -102,6 +118,103 @@ arguments in the call!\n");
 	}
     }
   return self;
+}
+
+static unsigned
+get_swarm_type_for_objc_type (char objcType)
+{
+  unsigned i;
+  
+  for (i = 0; i < number_of_types; i++)
+    if (objcType == objc_types[i])
+      return i;
+  abort ();
+}
+
+- (retval_t)getReturnVal: (void *)res
+{
+  unsigned char return_uchar (void) { return *(unsigned char *) res; }
+  unsigned short return_ushort (void) { return *(unsigned short *) res; }
+  unsigned return_unsigned (void) { return *(unsigned *) res; }
+  unsigned long return_ulong (void) { return *(unsigned long *) res; }
+  const char *return_string (void) { return *(const char **) res; }
+  float return_float (void) { return *(float *) res; }
+  double return_double (void) { return *(double *) res; }
+  id return_object (void) { return *(id *) res; }
+  void return_void (void) { return; }
+
+  retval_t apply_uchar (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_uchar, args, sizeof (void *));
+    }
+  retval_t apply_ushort (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_ushort, args, sizeof (void *));
+    }
+  retval_t apply_unsigned (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_unsigned, args, sizeof (void *));
+    }
+  retval_t apply_float (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_float, args, sizeof (void *));
+    }
+  retval_t apply_double (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_double, args, sizeof (void *));
+    }
+  retval_t apply_object (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_object, args, sizeof (void *));
+    }
+  retval_t apply_void (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_void, args, sizeof (void *));
+    }
+
+#if 0
+  switch (returnType)
+    {
+    case swarm_type_void:
+      return apply_void ();
+    case swarm_type_uchar: 
+    case swarm_type_char:
+      return apply_uchar ();
+    case swarm_type_ushort:
+    swarm_type_short: 
+      return apply_ushort ();
+    case swarm_type_uint:
+    case swarm_type_int:
+      return apply_unsigned ();
+    case swarm_type_ulong: 
+    case swarm_type_long:
+      return apply_ulong ();
+    case swarm_type_float: 
+      return apply_float ();
+    case swarm_type_double:
+      return apply_double ();
+    case swarm_type_string:
+      return apply_string ();
+    case swarm_type_object:
+      return apply_object ();
+    default:
+      abort ();
+    }
+#else
+  return NULL;
+#endif
+}
+
+- addArgument: (void *)value ofObjCType: (char)objcType
+{
+  return [self _addArgument_: value ofType: get_swarm_type_for_objc_type (objcType)];
 }
 
 #define ADD_COMMON_TEST if (assignedArguments == MAX_ARGS) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
@@ -176,7 +289,7 @@ arguments in the call!\n");
   return self;
 }
 
-- setReturnType: (unsigned)type
+- _setReturnType_: (unsigned)type
 {
   if (type > number_of_types)
       raiseEvent(SourceMessage,
@@ -205,6 +318,11 @@ arguments in the call!\n");
 #endif
   returnType = (void *) type;
   return self;
+}
+
+- setObjCReturnType: (char)objcType
+{
+  return [self _setReturnType_: get_swarm_type_for_objc_type (objcType)];
 }
 
 void

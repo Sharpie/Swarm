@@ -24,6 +24,8 @@ Library:      defobj
 void defobj_init_java_call_tables (void *jEnv);
 #endif
 
+#define JOBJECT void *
+
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 
 @interface FCall_c: CreateDrop_s

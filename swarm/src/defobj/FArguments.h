@@ -11,6 +11,8 @@ Library:      defobj
 
 #import <defobj.h>
 #import <defobj/Create.h>
+#include <objc/objc.h> // retval_t
+
 
 #define number_of_types 14
 
@@ -25,11 +27,9 @@ Library:      defobj
 #define swarm_type_slong   8
 #define swarm_type_float   9 
 #define swarm_type_double  10
-#define swarm_type_pointer 11
+#define swarm_type_object  11
 #define swarm_type_string  12
 #define swarm_type_jobject 13
-
-#define JOBJECT void *
 
 #define MAX_ARGS        5
 #define MAX_HIDDEN      3
@@ -47,7 +47,7 @@ Library:      defobj
    unsigned javaSignatureLength;
 }
 + createBegin: aZone;
-- addArgument: (void *)value ofType: (unsigned)type;
+- addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addUnsignedChar: (unsigned char)value;
 - addShort: (short)value;
@@ -58,8 +58,9 @@ Library:      defobj
 - addUnsignedLong: (unsigned long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
-- setReturnType: (unsigned)type;
+- setObjCReturnType: (char)type;
 - createEnd;
 - (void *)getResult;
+- (retval_t)getReturnVal: (void *)ret;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
