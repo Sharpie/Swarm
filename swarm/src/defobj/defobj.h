@@ -314,12 +314,6 @@ CREATING
 //M: freed storage available for other use.  Subsequent use could include
 //M: the allocation of a new object at precisely the same location,
 //M: resulting in a new object id identical to a previously dropped one.
-//M: Other zone types (..none implemented yet..)  might delay any
-//M: reclamation of freed storage until a more comprehensive check can be
-//M: made that other references no longer exist to the dropped object.
-//M: When running in debug mode (see debug support) the storage for a
-//M: dropped object is filled with predictable contents so that an error is
-//M: raised if there is any immediate attempt to us it again.
 
 //M: The Drop type may be inherited by any type that provides drop support
 //M: for its instances.  In addition to freeing the storage and
@@ -460,9 +454,6 @@ USING
 @end
 
 
-//
-// Symbol -- 
-//
 @deftype Symbol <Create, GetName, CREATABLE>
 //S: Object defined as a distinct global id constant.
 
@@ -564,9 +555,6 @@ extern id <Error>
 [eventType raiseEvent: \
 "\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
 
-//
-// Zone -- modular unit of storage allocation
-//
 @deftype Zone <Create, Drop, CREATABLE>
 //S: Modular unit of storage allocation.
 
@@ -605,15 +593,6 @@ extern id <Error>
 //D: It is also a supertype for other zones that implement alternative
 //D: policies for use in specialized situations.
 
-//D: (..The current Zone implementation is a temporary one based on a
-//D: simple pass-through of all allocation requests to the C library malloc
-//D: function.  Complete support of the zone population is already
-//D: provided, however, as is support for internal storage mapping that
-//D: will eventually be required for automatic storage reclamation
-//D: Considerable improvements in storage allocation are possible when the
-//D: current implementation is replaced by more efficient allocation
-//D: contained in pages local to each zone. ..)
-
 //D: A zone is created using standard create messages just like other
 //D: objects.  This means that a zone must identify another zone from which
 //D: it obtains its storage.  Storage is typically obtained from this other
@@ -628,16 +607,6 @@ extern id <Error>
 //D: defobj library; see predefined zones for a summary.
 
 CREATING
-//M: (.. Not implemented yet.  Will define the various types of zone
-//M: implementations, all the way to zones that support full automatic storage
-//M: reclamation. ..)
-- (void)setReclaimPolicy: reclaimPolicy;
-
-//M: (.. Not implemented yet.  Specifies that no further allocations are
-//M: made in the zone after a subzone is created, until that subzone itself
-//M: is dropped.  Supports an especially efficient of implementation. ..)
-- (void)setStackedSubzones: (BOOL)stackedSubzones;
-
 //M: PageSize specifies the size of pages within which a zone manages its
 //M: internal allocation.  Its default is typically a natural page size
 //M: (perhaps 4K) for the local machine architecture.  The default should
@@ -657,14 +626,14 @@ USING
 //M: as its argument.  The class also determines the size of the structure
 //M: allocated.  All remaining contents of this structure are initialized
 //M: to binary zeroes.
--		allocIVars: aClass;
+- allocIVars: aClass;
 
 //M: copyIVars: creates copies an existing instance variable structure into
 //M: a new allocation made within the local zone.  The existing instance
 //M: variable structure may be in any zone, but must contain a class
 //M: pointer in its first word that correctly describes the size of the
 //M: structure.
--		copyIVars: anObject;
+- copyIVars: anObject;
 
 //M: freeIVars: releases storage that was previously allocated to hold the
 //M: instance variable structure of an object.  The first word of the
@@ -730,17 +699,6 @@ USING
 //M: removed directly within the collection.
 - getPopulation;
 
-//M: getSubzones returns a collection of other zones that all obtain their
-//M: storage from the local zone.  mergeWithOwner drops the local zone, but
-//M: reassigns all the zone allocations to the zone from which all local
-//M: storage was obtained. (..neither message currently implemented..)
-- getSubzones;
-
-//M: mergeWithOwner drops the local zone, but reassigns all the zone
-//M: allocations to the zone from which all local storage was
-//M: obtained. (..neither message currently implemented..)
-- (void)mergeWithOwner;
-
 //M: containsAlloc: tests if a particular allocation was made by the local
 //M: zone, or any zone which obtains storage from that zone.  The pointer
 //M: argument must point to an allocation previously made by any zone.  The
@@ -748,25 +706,11 @@ USING
 //M: zone or any of its subzones.
 - (BOOL)containsAlloc: (void *)alloc;
 
-//M: getSubzones returns a collection of other zones that all obtain their
-//M: storage from the local zone.  mergeWithOwner drops the local zone, but
-//M: reassigns all the zone allocations to the zone from which all local
-//M: storage was obtained. (..neither message currently implemented..)
-- getSubzone: (void *)alloc;
-
 //M: Generate debug description for each member of the zone population.
 - (void)describeForEach: outputCharStream;
 
 //M: Generate debug id description for each member of the zone population.
 - (void)describeForEachID: outputCharStream;
-
-#if 0
-- (void)reclaimStorage;
-- (void)releaseStorage;
-
-- (void)xfprint;
-- (void)xfprintid;
-#endif
 
 //G: symbol values for ReclaimPolicy option
 extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
@@ -774,9 +718,6 @@ extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
 
 @end
 
-//
-// DefinedClass -- 
-//
 @deftype DefinedClass <DefinedObject, GetName>
 //S: Class which implements an interface of a type.
 
@@ -791,9 +732,6 @@ USING
 + (IMP)getMethodFor: (SEL)aSel;
 @end
 
-//
-// CreatedClass -- 
-//
 @deftype CreatedClass <Create, DefinedClass>
 //S: Class with variables and/or methods defined at runtime.
 
@@ -810,9 +748,6 @@ USING
 - getDefiningClass;
 @end
 
-//
-// BehaviorPhase -- 
-//
 @deftype BehaviorPhase <CreatedClass>
 //S: Created class which implements a phase of object behavior.
 
@@ -889,25 +824,25 @@ extern FILE *_obj_xerror;
 //G: output file for debugging messages   
 extern FILE *_obj_xdebug;  
 
-//F: debug set display name
+//F: Set the display name.
 extern void xsetname (id anObject, const char *name); 
 
-//F: debug object print
+//F: Print description of object on debug output stream.
 extern void xprint (id anObject);                
 
-//F: debug object id print
+//F: Print only the id string for an object on debug output stream.
 extern void xprintid (id anObject);              
 
-//F: debug foreach object print
-extern void xfprint (id anObject);    
+//F: Print description for each member of a collection on debug output stream.
+extern void xfprint (id anObject);
 
-//F: debug foreach id print           
+//F: Print id for each member of a collection on debug output stream.
 extern void xfprintid (id anObject);  
 
-//F: debug method exec
+//F: Debug function to perform message on an object.
 extern void xexec (id anObject, const char *name);
 
-//F: debug foreach method exec
+//F: Debug function to perform message on each member of a collection.
 extern void xfexec (id anObject, const char *name); 
 
 //F: Get an object from textual pointer description.

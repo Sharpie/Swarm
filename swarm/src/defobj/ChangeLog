@@ -1,3 +1,13 @@
+1998-06-14  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* defobj.h: Remove mention of what might happen with other
+	(nonexistent) zone types.  Remove mention of status of current
+	Zone implementation.  Remove mention of -setReclaimPolicy:,
+	-setStackedSubzones:, -getSubzones, -mergeWithOwner, -getSubzone:.
+	Remove -reclaimStorage, -releaseStorage, xfprint, and xfprintid
+	declarations.  Improve description of xsetname, xprint, xprintid,
+	xfprint, xfprintid, xexec, and xfexec.
+
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* defobj.h: Updated documentation tags.
