@@ -1,3 +1,10 @@
+2000-06-13  Alex Lancaster  <alex@santafe.edu>
+
+	* global.ent (docs-urlroot, userbook-urlroot, userbook-randomapp):
+	New entities for URLs to Swarm User Guide.
+	(userbook): Modify to use userbook-url entity to construct a ULINK
+	directly to the User Guide.
+
 2000-05-30  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Start release notes for swarmdocs 2.2, note updates for

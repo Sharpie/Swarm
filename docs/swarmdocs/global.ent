@@ -4,8 +4,15 @@
 <!ENTITY orgname 'Swarm Development Group'>
 <!ENTITY program-name "Swarm Project">
 
+<!ENTITY docs-urlroot "http://www.santafe.edu/projects/swarm">
+
+<!ENTITY userbook-urlroot "&docs-urlroot;/swarmdocs/userbook">
+
 <!ENTITY userbook 
-  '<ulink url="http://www.swarm.org"><citetitle>Swarm User Guide</citetitle></ulink>'>
+  '<ulink url="&userbook-urlroot;/userbook.html"><citetitle>Swarm User Guide</citetitle></ulink>'>
+
+<!ENTITY userbook-randomapp
+  '<ulink url="&userbook-urlroot;/swarm.random.sgml.appendix.html"><citetitle>Random Library Appendix</citetitle></ulink>'>
 
 <!ENTITY swarm-webpage 
   '<ulink url="http://www.swarm.org">Swarm home page</ulink>'>
