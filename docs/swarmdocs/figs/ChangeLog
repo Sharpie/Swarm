@@ -1,3 +1,8 @@
+1998-10-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am: (PNMCROP): Substitute.
+	(%.jpeg): Run pnmcrop before conversion to jpeg.
+
 1998-10-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (%.jpeg, %.png): Use redirection of input PostScript
