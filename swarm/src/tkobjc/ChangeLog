@@ -1,3 +1,9 @@
+2003-04-22    <pauljohn@localhost.localdomain>
+
+	* Makefile.am (%_tcl.x): Fix the %_tcl.x sed script to delete
+	copyright comments as well as force each line to look like
+	"words\".
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* ArchivedGeometryWidget.h, ArchivedGeometryWidget.m, Button.h,

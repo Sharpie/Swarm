@@ -42,5 +42,6 @@ internal.lo: internal.m
 endif
 
 %_tcl.x: %.tcl
-	(echo 'const char *$(notdir $(basename $<))_tcl = ' ; cat $< | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/"/' -e 's/$$/\\\n"/' ; echo ';' ) > $@ 
+	(echo 'const char *$(notdir $(basename $<))_tcl = ' ; cat $< | sed -e '/^.*\#/d' -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/"/' -e 's/$$/\\n"/' ; echo ';' ) > $@ 
+
 
