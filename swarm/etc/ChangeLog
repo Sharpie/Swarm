@@ -1,5 +1,9 @@
 1998-08-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.lib.in, Makefile.appl.in: Moved here from top level.
+	
+	* Makefile.am: Install files above.
+
 	* config.swarm.in: Use @libdir@ instead of @prefix@/lib.
 
 1998-08-10  Alex Lancaster  <alex@santafe.edu>
