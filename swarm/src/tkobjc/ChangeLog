@@ -1,5 +1,8 @@
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* TkExtra.m ([TkExtra -preInitWithArgc:argv:]): Constify return
+	of preInitWithArgc.  Minor reformatting.
+
 	* tkobjc.m (initTkObjc): Update to renamed tkobjc_registerCommand.
 
 	* simtools.tcl: Add `super' bitmap.

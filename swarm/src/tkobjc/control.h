@@ -20,6 +20,11 @@ void tkobjc_bindButton3ToArgSpawn (id widget, id self, int which);
 void tkobjc_bindButton3ToBeUnhelpful (id widget, id self);
 void tkobjc_bindWindowEntry (id widget);
 void tkobjc_bindWindowExit (id widget);
+void tkobjc_bindReturnToSetValue (id widget, id self);
+void tkobjc_bindKeyReleaseReturnToResetColorAndUpdate (id widget);
+void tkobjc_bindFocusInToSetSelection (id widget);
+void tkobjc_bindFocusOutToClearSelection (id widget);
+
 
 void tkobjc_configureSpecialBitmap (id widget);
 void tkobjc_configureHideBitmap (id widget);
