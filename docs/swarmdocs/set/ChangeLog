@@ -1,3 +1,8 @@
+1998-06-09  Alex Lancaster  <alex@santafe.edu>
+
+	* setmeta.sgml: Used global SFI entity 'corpauthor' in CORPAUTHOR
+	SGML tag.
+
 1998-06-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* set.sgml: Use public identifiers (file renamed from set.sgml.in).

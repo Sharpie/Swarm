@@ -5,7 +5,7 @@
   <BIBLIOSET>
     <TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
 
-    <CORPAUTHOR>the &orgname;</CORPAUTHOR>
+    <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
     
     &bibliodata;
 
