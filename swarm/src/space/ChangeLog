@@ -1,3 +1,8 @@
+1998-07-24  Alex Lancaster  <alex@santafe.edu>
+
+	* DblBuffer2d.m ([DblBuffer -updateLattice]): Fixed WarningMessage
+	to report error to DblBuffer2d rather than Ca2d.
+
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Int2dFiler.m ([Int -fileTo:]): Remove warning on nil outFile --

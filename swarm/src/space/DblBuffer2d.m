@@ -11,7 +11,7 @@
 //   for reading.
 // newLattice points to the (partially constructed) next lattice state,
 //   suitable only for writing.
-// [Ca2d updateLattice] sets lattice to be what newLattice was.
+// [DblBuffer2d updateLattice] sets lattice to be what newLattice was.
 //
 // Summary: only *read* from lattice, only *write* to newLattice.
 
@@ -60,7 +60,7 @@ PHASE(Using)
     {
       [WarningMessage
         raiseEvent:
-          "Ca2d: Sanity check failed when swapping lattice pointers!\n"];
+          "DblBuffer2d: Sanity check failed when swapping lattice pointers!\n"];
       return nil;
     }
 
