@@ -54,4 +54,4 @@ $(JAVA_OBJS): $(JAVA_SRC)
 	for i in $(JAVA_SRC); do libtool --mode=compile gcj -O2 -g -fjni -c $$i; done
 
 libgcjswarm.la: $(JAVA_OBJS)
-	libtool --mode=link gcc $(JAVA_OBJS) -o libgcjswarm.la -rpath $(SWARMHOME)/lib -Lc -ljavaswarm
+	libtool --mode=link gcc $(JAVA_OBJS) -o libgcjswarm.la -rpath $(libdir) -Lc -ljavaswarm
