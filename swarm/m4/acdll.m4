@@ -20,7 +20,7 @@ AC_DEFINE_UNQUOTED(EXPORT_EXTERNDEF,$EXPORT_EXTERNDEF)
 AC_DEFINE_UNQUOTED(IMPORT_EXTERN,$IMPORT_EXTERN)
 AC_PATH_PROG(DLLWRAP, dllwrap)
 if test "$dllwrap" != missing; then
-  DLLWRAP="${DLLWRAP} --add-stdcall-alias ---entry __cygwin_noncygwin_dll_entry@12"
+  DLLWRAP="${DLLWRAP} --add-stdcall-alias --entry __cygwin_noncygwin_dll_entry@12"
 fi
 AC_SUBST(USEDLL)
 AM_CONDITIONAL(USEDLL, test $USEDLL = yes)
