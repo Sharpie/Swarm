@@ -14,11 +14,9 @@
   <ABSTRACT>
       <TITLE>Overview</TITLE>
 
-      <PARA>Swarm is essentially a collection of libraries against
-        which you link your simulation code. This document describes the
-        complete interface references for those core libraries which
-        are crucial to the proper execution of Swarm, and are
-        therefore shipped with the Swarm distribution.</PARA>
+      <PARA>Swarm is a collection of libraries against which you link
+        your simulation code. This document describes the interface
+        for those core libraries.</PARA>
 
   </ABSTRACT>
   &srcrevhistory.sgml;
