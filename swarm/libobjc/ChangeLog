@@ -5,8 +5,9 @@
 
 	* config/hppa/mframe-hpux10.h (MFRAME_ARG_ENCODING): Rewrite.
 	Allow negative offsets.  Use existing offsets, stripping register
-	designation for floats and doubles. 
-	(MFRAME_ARGS): Use new hppa_args struct
+	designation for floats and doubles.  Handle weird relocation of
+	registers not designated for stack, but that underflow the top
+	of the region between arg_ptr and argFrame.
 
 	* config/hppa/{mframe,compiler-info}-hpux10.h replace *generic.h.
 
