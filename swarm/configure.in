@@ -41,12 +41,11 @@ AC_ARG_WITH(defaultdir,
 [  --with-defaultdir=DIR            Use DIR instead of prefix as default path],
   defaultdir=$withval)
 
+if test $prefix = NONE; then
+  prefix=/usr/local
+fi
 if test -z "$defaultdir" ; then
-  if test $prefix = NONE ; then
-    defaultdir=/usr/local
-  else
-    defaultdir=$prefix
-  fi
+  defaultdir='${prefix}'
 fi
 
 AC_ARG_WITH(xpmdir,
@@ -189,7 +188,7 @@ if test $prefix = /usr; then
   libdir=${libdir}/swarm
 fi
 
-swarm_prefix=$prefix
+swarm_prefix='${prefix}'
 if test $exec_prefix = NONE; then
   swarm_exec_prefix='${swarm_prefix}'
 else
