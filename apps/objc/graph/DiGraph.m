@@ -44,12 +44,12 @@
 {  
   canvas = aCanvas;
 
-  randGPosition = [PMMLCG1 createBegin: [self getZone]];
+  randGPosition = [PMMLCG1gen createBegin: [self getZone]];
   [randGPosition setStateFromSeed: seed];
   randGPosition = [randGPosition createEnd];
   
   // distribution for the random node positions
-  uRandPosition = [UniformInteger createBegin: [self getZone]];
+  uRandPosition = [UniformIntegerDist createBegin: [self getZone]];
   [uRandPosition setGenerator: randGPosition];
   uRandPosition = [uRandPosition createEnd];
 
@@ -79,12 +79,12 @@
        canvas = aCanvas; // set the DiGraph's canvas
 
        // generator for the random node positions
-       randGPosition = [PMMLCG1 createBegin: [self getZone]];
+       randGPosition = [PMMLCG1gen createBegin: [self getZone]];
        [randGPosition setStateFromSeed: randPosSeed];
        randGPosition = [randGPosition createEnd];
        
        // distribution for the random node positions
-       uRandPosition = [UniformInteger createBegin: [self getZone]];
+       uRandPosition = [UniformIntegerDist createBegin: [self getZone]];
        [uRandPosition setGenerator: randGPosition];
        uRandPosition = [uRandPosition createEnd];
        

@@ -1,5 +1,5 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-1998-08-20
+SWARMHOME=../swarm-2.1
 endif
 LIBNAME=graph
 OBJECTS=DiGraph.o DiGraphLink.o DiGraphNode.o graph.o
