@@ -50,7 +50,7 @@ typedef struct  {
 
 #define NSCParameterAssert(x) assert(x)
 
-#if defined(__WIN32__) || defined(_WIN32)
+#if (defined(__WIN32__) || defined(_WIN32)) && 0
 #include <windows.h>
 #define GNUSTEP_BASE_SOCKET_MESSAGE (WM_USER + 1)
 #endif
