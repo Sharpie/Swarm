@@ -114,6 +114,12 @@
 }
 
 
+- _resultGraphDeath_
+{
+  [resultGraph drop];
+  resultGraph = nil;
+  return self;
+}
 
 - buildObjects
 {
@@ -144,6 +150,9 @@
   [resultGraph setTitle: "Model Run Times"];
   [resultGraph setAxisLabelsX: "Model #" Y: "Run Time"];
   resultGraph = [resultGraph createEnd] ;
+
+  [resultGraph enableDestroyNotification: self
+               notificationMethod: @selector (_resultGraphDeath_)];
 
   // Create a sequence to track model run times.
   // Since we keep changing models, we feed from our own method
@@ -363,7 +372,8 @@
 
 - showStats
 {
-  [resultGraph step];			// step the result Graph
+  if (resultGraph)
+    [resultGraph step];			// step the result Graph
   return self;
 }
 

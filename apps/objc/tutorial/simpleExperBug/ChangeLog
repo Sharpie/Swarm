@@ -1,3 +1,8 @@
+1999-10-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ExperSwarm.m ([ExperSwarm -_resultGraphDeath_]): New method.
+	([ExperSwarm -buildObjects]): enableDestroyNotification using it.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (APPVERSION): Bump.
