@@ -175,9 +175,10 @@ defobj_init_java_call_tables (void *jEnv)
   return self;
 }
 
-void 
+static void 
 fillHiddenArguments (FCall_c * self)
 {
+#ifndef USE_AVCALL
   switch (self->callType)
     {
     case objccall: 
@@ -208,6 +209,9 @@ fillHiddenArguments (FCall_c * self)
       break;
 #endif
     }
+#else
+  abort ();
+#endif
 }
 
 
@@ -270,7 +274,3 @@ fillHiddenArguments (FCall_c * self)
 }
 
 @end
-
-
-
-

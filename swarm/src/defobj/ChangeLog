@@ -1,5 +1,7 @@
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FCall.m (fillHiddenArguments): Make static.
+
 	* FCall.[hm]: Abort if not using libffi.
 
 1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
