@@ -68,7 +68,7 @@ ALLOBJECTS = $(patsubst %.lo,%.o,$(libjavaswarm__la_OBJECTS) $(libjavaswarm__la_
 
 javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la
 	$(CC) -Dconstructor_func=javaswarm_constructor -c $(top_srcdir)/src/dllinit.c -o javaswarm_dllinit.o
-	$(top_srcdir)/src/genctors javaswarm_constructor $(libjavaswarmstubs__la_OBJECTS)
+	$(top_srcdir)/src/genctors javaswarm_constructor $(ALLOBJECTS)
 	$(CC) -c javaswarm_constructor.c
 	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarm.a --driver-name $(CC) -o javaswarm.dll javaswarm_dllinit.o javaswarm_constructor.o $(ALLOBJECTS) -L../libobjc -L$(top_builddir)/src $(SWARMLIBS)
 
