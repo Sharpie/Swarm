@@ -1,3 +1,10 @@
+2001-04-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* java.m (java_object_setVariable): Don't abort if field is not
+	found.  Instead, print a warning message.  This comes up when
+	ivars are deleted but you have serialized data.  Re-serializing
+	is sufficient to make it go away.
+
 2001-04-18  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* java.m (java_getTypeInfo): Handle empty arrays.

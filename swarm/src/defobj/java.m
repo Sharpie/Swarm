@@ -861,110 +861,115 @@ java_object_setVariable (jobject javaObject, const char *ivarName,
       abort ();
     fid = class_java_find_field (javaClass, ivarName, &type, &isArray);
     if (!fid)
-      abort ();
-    
-    if (isArray)
+      raiseEvent (WarningMessage,
+                  "field `%s' was not found in java class `%s'\n",
+                  ivarName,
+                  java_get_class_name (javaClass));
+    else
       {
-        jobject ary = 0;
-
-        if (rank > 1)
-          abort ();
-
-        switch (dataType)
+        if (isArray)
           {
-          case fcall_type_boolean:
-            ary = (*jniEnv)->NewBooleanArray (jniEnv, dims[0]);
-            break;
-          case fcall_type_uchar:
-            ary = (*jniEnv)->NewByteArray (jniEnv, dims[0]);
-            break;
-          case fcall_type_schar:
-            ary = (*jniEnv)->NewCharArray (jniEnv, dims[0]);
-            break;
-          case fcall_type_sshort:
-            ary = (*jniEnv)->NewShortArray (jniEnv, dims[0]);
-            break;
-          case fcall_type_sint:
-            ary = (*jniEnv)->NewIntArray (jniEnv, dims[0]);
-            break;
-          case fcall_type_slong:
-            ary = (*jniEnv)->NewLongArray (jniEnv, dims[0]);
-            break;
-          case fcall_type_float:
-            ary = (*jniEnv)->NewFloatArray (jniEnv, dims[0]);
-            break;
-          case fcall_type_double:
-            ary = (*jniEnv)->NewDoubleArray (jniEnv, dims[0]);
-            break;
-          default:
-            abort ();
+            jobject ary = 0;
+
+            if (rank > 1)
+              abort ();
+
+            switch (dataType)
+              {
+              case fcall_type_boolean:
+                ary = (*jniEnv)->NewBooleanArray (jniEnv, dims[0]);
+                break;
+              case fcall_type_uchar:
+                ary = (*jniEnv)->NewByteArray (jniEnv, dims[0]);
+                break;
+              case fcall_type_schar:
+                ary = (*jniEnv)->NewCharArray (jniEnv, dims[0]);
+                break;
+              case fcall_type_sshort:
+                ary = (*jniEnv)->NewShortArray (jniEnv, dims[0]);
+                break;
+              case fcall_type_sint:
+                ary = (*jniEnv)->NewIntArray (jniEnv, dims[0]);
+                break;
+              case fcall_type_slong:
+                ary = (*jniEnv)->NewLongArray (jniEnv, dims[0]);
+                break;
+              case fcall_type_float:
+                ary = (*jniEnv)->NewFloatArray (jniEnv, dims[0]);
+                break;
+              case fcall_type_double:
+                ary = (*jniEnv)->NewDoubleArray (jniEnv, dims[0]);
+                break;
+              default:
+                abort ();
+              }
+            java_storeArray (ary, dataType, rank, dims, inbuf);
+            (*jniEnv)->SetObjectField (jniEnv, javaObject, fid, ary);
+            (*jniEnv)->DeleteLocalRef (jniEnv, ary);
           }
-        java_storeArray (ary, dataType, rank, dims, inbuf);
-        (*jniEnv)->SetObjectField (jniEnv, javaObject, fid, ary);
-        (*jniEnv)->DeleteLocalRef (jniEnv, ary);
-      }
-    else if (rank == 0 || (rank == 1 && dims[0] == 1))
-      {
+        else if (rank == 0 || (rank == 1 && dims[0] == 1))
+          {
 #define _SETVALUE(uptype,value) \
     (*jniEnv)->Set##uptype##Field (jniEnv, javaObject, fid, value)
 #define SETVALUE(uptype, value) _SETVALUE(uptype, value)
         
-        types_t *buf = inbuf;
-        switch (type)
-          {
-          case fcall_type_object:
-            SETVALUE (Object, SD_JAVA_ENSURE_OBJECT_JAVA (buf->object));
-            break;
-          case fcall_type_class:
-            SETVALUE (Object, SD_JAVA_FIND_CLASS_JAVA (buf->_class));
-            break;
-          case fcall_type_string:
-            SETVALUE (Object, (*jniEnv)->NewStringUTF (jniEnv, buf->string));
-            break;
-          case fcall_type_long_double:
-            abort ();
-          case fcall_type_double:
-            SETVALUE (Double, buf->_double);
-            break;
-          case fcall_type_float:
-            SETVALUE (Float, buf->_float);
-            break;
-          case fcall_type_boolean:
-            SETVALUE (Boolean, buf->boolean);
-            break;
-          case fcall_type_sint:
-            SETVALUE (Int, buf->sint);
-            break;
-          case fcall_type_sshort:
-            SETVALUE (Short, buf->sshort);
-            break;
-          case fcall_type_slonglong:
-            SETVALUE (Long, buf->slonglong);
-            break;
-          case fcall_type_uchar:
-            SETVALUE (Byte, buf->uchar);
-            break;
-          case fcall_type_schar:
-            SETVALUE (Char, buf->schar);
-          case fcall_type_void:
-          case fcall_type_ushort:
-          case fcall_type_uint:
-          case fcall_type_ulong:
-          case fcall_type_slong:
-          case fcall_type_ulonglong:
-          case fcall_type_selector:
-          case fcall_type_jobject:
-          case fcall_type_jstring:
-          case fcall_type_jselector:
-          case fcall_type_iid:
-            abort ();
-          }
+            types_t *buf = inbuf;
+            switch (type)
+              {
+              case fcall_type_object:
+                SETVALUE (Object, SD_JAVA_ENSURE_OBJECT_JAVA (buf->object));
+                break;
+              case fcall_type_class:
+                SETVALUE (Object, SD_JAVA_FIND_CLASS_JAVA (buf->_class));
+                break;
+              case fcall_type_string:
+                SETVALUE (Object, (*jniEnv)->NewStringUTF (jniEnv, buf->string));
+                break;
+              case fcall_type_long_double:
+                abort ();
+              case fcall_type_double:
+                SETVALUE (Double, buf->_double);
+                break;
+              case fcall_type_float:
+                SETVALUE (Float, buf->_float);
+                break;
+              case fcall_type_boolean:
+                SETVALUE (Boolean, buf->boolean);
+                break;
+              case fcall_type_sint:
+                SETVALUE (Int, buf->sint);
+                break;
+              case fcall_type_sshort:
+                SETVALUE (Short, buf->sshort);
+                break;
+              case fcall_type_slonglong:
+                SETVALUE (Long, buf->slonglong);
+                break;
+              case fcall_type_uchar:
+                SETVALUE (Byte, buf->uchar);
+                break;
+              case fcall_type_schar:
+                SETVALUE (Char, buf->schar);
+              case fcall_type_void:
+              case fcall_type_ushort:
+              case fcall_type_uint:
+              case fcall_type_ulong:
+              case fcall_type_slong:
+              case fcall_type_ulonglong:
+              case fcall_type_selector:
+              case fcall_type_jobject:
+              case fcall_type_jstring:
+              case fcall_type_jselector:
+              case fcall_type_iid:
+                abort ();
+              }
 #undef SETVALUE
 #undef _SETVALUE
-        (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
+          }
+        else
+          abort ();
       }
-    else
-      abort ();
+    (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
   }
 }
 
