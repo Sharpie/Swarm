@@ -14,24 +14,28 @@
 
 @implementation Object2dDisplay
 
--createEnd {
+- createEnd
+{
   [super createEnd];
   if (displayWidget == nil || discrete2d == nil || displayMessage == (SEL) nil)
     [InvalidCombination raiseEvent: "Object display improperly initialized\n"];
   return self;
 }
 
--setDisplayWidget: (Raster *) r {
+- setDisplayWidget: (Raster *)r
+{
   displayWidget = r;
   return self;
 }
 
--setDiscrete2dToDisplay: (Discrete2d *) c {
+- setDiscrete2dToDisplay: (Discrete2d *)c
+{
   discrete2d = c;
   return self;
 }
 
--setDisplayMessage: (SEL) s {
+- setDisplayMessage: (SEL)s
+{
   displayMessage = s;
   return self;
 }
@@ -39,15 +43,17 @@
 // an optional collection of objects to display. If you give us one, then
 // on display we'll just forEach through the objects. Otherwise we have to
 // scan the whole array.
--setObjectCollection: (id) objects {
+- setObjectCollection: objects
+{
   objectCollection = objects;
   return self;
 }
 
--display {
+- display
+{
   int x, y;
-  id * lattice;
-  long * offsets;
+  id *lattice;
+  long *offsets;
   int xsize, ysize;
 
   lattice = [discrete2d getLattice];
@@ -57,18 +63,19 @@
 
   // if we have a collection to display, just use that. Otherwise scan
   // the entire 2d grid.
-  if (objectCollection) {
+  if (objectCollection)
     [objectCollection forEach: displayMessage : displayWidget];
-  } else {
-    for (y = 0; y < ysize; y++)
-      for (x = 0; x < xsize; x++) {
-	id potentialObject;
-	potentialObject = *discrete2dSiteAt(lattice, offsets, x, y);
-	if (potentialObject)
-	  [potentialObject perform: displayMessage with: displayWidget];
-      }
-  }
-
+  else
+    {
+      for (y = 0; y < ysize; y++)
+        for (x = 0; x < xsize; x++) {
+          id potentialObject;
+          potentialObject = *discrete2dSiteAt(lattice, offsets, x, y);
+          if (potentialObject)
+            [potentialObject perform: displayMessage with: displayWidget];
+        }
+    }
+  
   return self;
 }
 
@@ -78,17 +85,19 @@
 {
   id obj;
   
-  if (x >= 0 && x < [discrete2d getSizeX] &&
-      y >= 0 && y < [discrete2d getSizeY]) {
-    obj = [discrete2d getObjectAtX: x Y: y];
-    if (obj)
-      createProbeDisplay (obj);
-    else
-      tkobjc_ringBell();
-  } else {
-    [WarningMessage raiseEvent: "Object2dDisplay: invalid coordinates to make probe (%d,%d)\n", x, y];
-  }
-  return self;
+  if (x >= 0 && x < [discrete2d getSizeX]
+      && y >= 0 && y < [discrete2d getSizeY])
+    {
+      obj = [discrete2d getObjectAtX: x Y: y];
+      if (obj)
+        CREATE_PROBE_DISPLAY (obj);
+      else
+        tkobjc_ringBell();
+    } else
+      [WarningMessage
+        raiseEvent: 
+          "Object2dDisplay: invalid coordinates to make probe (%d,%d)\n",
+        x, y];
 }
-      
+
 @end
