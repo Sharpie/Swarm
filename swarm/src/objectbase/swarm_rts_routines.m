@@ -8,8 +8,7 @@
 
 #import <objectbase/swarm_rts_routines.h>
 #include <misc.h> // abort
-
-#define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
+#include "../defobj/internal.h" // isDigit
 
 const char*
 skip_type_qualifiers (const char *type)
