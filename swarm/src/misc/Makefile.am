@@ -6,7 +6,7 @@ miscdir = $(includedir)/misc
 
 include $(top_srcdir)/src/Makefile.rules 
 
-INCLUDES = -I$(srcdir)/..
+INCLUDES = -I$(srcdir)/.. -I$(top_srcdir)/libobjc
 
 noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
