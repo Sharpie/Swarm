@@ -1,10 +1,13 @@
 #include "JavaProxy.h"
 #include <objc/objc-api.h>
+#if 0
 #include "mframe.h"
+#endif
 
 @implementation JavaProxy
 - (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
 {
+#if 0
   unsigned i;
   NSArgumentInfo info;
   const char *type = sel_get_type (aSel);
@@ -25,6 +28,6 @@
             }
         }
     }
+#endif
 }
-
 @end
