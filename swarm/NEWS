@@ -22,6 +22,8 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 ** Autoconfiguration / Portability
 *** Support for Tcl/Tk 8.2.  Note BLT 2.4i requires an external fix
     for drag and drop to work reliably.
+*** Java layer can be built on x86 using stock egcs-1.1.2 compiler
+    on Redhat 6.
 
 * Release Notes for Swarm 2.0
 ** New features
