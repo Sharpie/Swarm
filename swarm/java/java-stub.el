@@ -558,7 +558,10 @@
 (defun java-print-nextphase-class-constructor (protocol)
   (insert "public ")
   (insert (java-class-name protocol :creating))
-  (insert " (Object nextPhase) { super(); this.nextPhase = nextPhase; }\n"))
+  (insert " (Object nextPhase) { super(); this.nextPhase = nextPhase; }\n")
+  (insert "public ")
+  (insert (java-class-name protocol :creating))
+  (insert " () {super();}\n"))
 
 (defun java-print-class-phase (protocol phase)
   (java-print-javadoc-protocol protocol)

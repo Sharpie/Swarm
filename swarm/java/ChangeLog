@@ -1,3 +1,8 @@
+1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* java-stub.el (java-print-nextphase-class-constructor): In 
+	creating phase make empty constructor that calls super().
+
 1999-07-12  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* java-stub.el (java-print-native-class): Print setting phase
