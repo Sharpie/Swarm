@@ -19,7 +19,10 @@ else
     JAVACLASSES='${jdkdir}/lib/classes.zip'
   elif test -f $jdkdir/include/japhar/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include/japhar"
-    JAVACLASSES=`$jdkdir/bin/japhar-config info datadir`
+    JAVACLASSES="`$jdkdir/bin/japhar-config info datadir`"
+  elif test -f $jdkdir/include/kaffe/jni.h ; then
+    JAVAINCLUDES="-I$jdkdir/include/kaffe"
+    JAVACLASSES="$datadir/kaffe/Klasses.jar:$datadir/kaffe/pizza.jar"
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
