@@ -10,6 +10,7 @@
 #include <misc.h>  // xmalloc, atoi, strtod
 
 #import <defobj.h> // FCall, FArguments, STRDUP, ZSTRDUP
+#import <defobj/defalloc.h> // getZone
 
 #ifdef HAVE_JDK
 #include <directory.h>
@@ -64,7 +65,8 @@ PHASE(Creating)
         int i;
         
         empty_val.type = '\0';
-        arguments = (val_t *) xmalloc (argCount * sizeof (val_t));
+        arguments = 
+          (val_t *) [getZone (self) alloc: argCount * sizeof (val_t)];
         
         for (i = 0; i < argCount; i++)
           arguments[i] = empty_val;
@@ -233,7 +235,7 @@ copy_to_nth_colon (const char *str, int n)
           
           end = count;
           
-          new_str = xmalloc ((end - beginning) + 1);
+          new_str = [scratchZone alloc: (end - beginning) + 1];
           
           count = 0;
           for (i = beginning; i < end; i++)

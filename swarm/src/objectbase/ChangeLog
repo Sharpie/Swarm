@@ -1,3 +1,9 @@
+1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbe.m: Include defalloc.h.
+	([MessageProbe -createEnd], copy_to_nth_colon): Use alloc: instead
+	of xmalloc.
+
 1999-09-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Pass results of
