@@ -1,3 +1,7 @@
+1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Initial release.
+
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HeatbugBatchSwarm.java: Add disabled code for loading from
