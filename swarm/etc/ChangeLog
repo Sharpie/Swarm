@@ -9,7 +9,7 @@
 
 	* Makefile.lib.in, Makefile.appl.in: Moved here from top level.
 	
-	* Makefile.am: Install files above.  Install to sysconfdir,
+	* Makefile.am: Install files above.  Install to $(sysconfdir)/swarm,
 	not $(prefix)/etc.
 
 	* config.swarm.in: Use @libdir@ instead of @prefix@/lib.
