@@ -1,7 +1,7 @@
 1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (CTOR): New variable.
-	(javaswarm.dll): Use it.
+	(javaswarm.dll): Use it. Depend on $(top_srcdir)/src/dllinit.c.
 
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

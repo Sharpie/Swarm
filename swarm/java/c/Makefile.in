@@ -73,7 +73,7 @@ ALLOBJECTS = $(patsubst %.lo,%.o,$(libjavaswarm__la_OBJECTS) $(libjavaswarmstubs
 
 CTOR = javaswarm_constructor
 
-javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la
+javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la $(top_srcdir)/src/dllinit.c
 	$(top_srcdir)/src/genctors $(CTOR) $(ALLOBJECTS)
 	$(CC) -c $(CTOR).c
 	$(CC) -Dconstructor_func=$(CTOR) -c $(top_srcdir)/src/dllinit.c -o javaswarm_dllinit.o
