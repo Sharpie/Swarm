@@ -1,3 +1,20 @@
+1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add fcall_{objc,java}.h and _fcall.m.
+	(SRC): Add fcall_{objc,java}.m.
+
+	* FCall.m: Include fcall_{objc,java}.h instead of avcall.h.
+	(fillHiddenArguments): Use objc_setup_call, java_setup_call,
+	and java_setup_static_call instead of direct use av_* macros.
+	(avcall_add_primitive): Remove.
+	(add_ffi_types): Use calls to {objc_java}_set_return_type and
+	{objc_java}_add_primitive per call type.
+	([FCall_c -performCall]): Call {java_objc}_call instead of
+	av_call.
+
+	* FArguments.h (FArguments_c): Replace avalist with objc_avalist
+	and java_avalist.
+
 1999-07-05    <mgd@HELEN>
 
 	* Arguments.m: When __CYGWIN__, include sys/cygwin.h and

@@ -44,7 +44,8 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
    void **ffiArgTypes;
    void *ffiReturnType;
 #else
-   av_alist avalist;
+   av_alist java_avalist;
+   av_alist objc_avalist;
 #endif
    void *result;
    const char *javaSignature; 

@@ -22,7 +22,8 @@ Library:      defobj
 #undef PACKAGE
 #undef VERSION
 #else
-#include <avcall.h>
+#include "fcall_objc.h"
+#include "fcall_java.h"
 #endif
 
 #include <misc.h>
@@ -136,8 +137,7 @@ fillHiddenArguments (FCall_c *self)
     case objccall: 
       fargs->hiddenArgumentCount = 2;	
 #ifdef USE_AVCALL
-      av_ptr (fargs->avalist, id, self->fobject);
-      av_ptr (fargs->avalist, SEL, self->fmethod);
+      objc_setup_call (fargs, self->fobject, self->fmethod);
 #else
       fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 2] = &self->fobject;
@@ -149,9 +149,7 @@ fillHiddenArguments (FCall_c *self)
     case javacall:
       fargs->hiddenArgumentCount = 3;
 #ifdef USE_AVCALL
-      av_ptr (fargs->avalist, JNIEnv *, jniEnv);
-      av_ptr (fargs->avalist, jobject, self->fobject);
-      av_ptr (fargs->avalist, jmethodID, self->fmethod);
+      java_setup_call (fargs, jniEnv, self->fobject, self->fmethod);
 #else
       fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
@@ -164,9 +162,7 @@ fillHiddenArguments (FCall_c *self)
     case javastaticcall:
       fargs->hiddenArgumentCount = 3;
 #ifdef USE_AVCALL
-      av_ptr (fargs->avalist, JNIEnv *, jniEnv);
-      av_ptr (fargs->avalist, jclass, self->fclass);
-      av_ptr (fargs->avalist, jmethodID, self->fmethod);
+      java_setup_static_call (fargs, jniEnv, self->fclass, self->fmethod);
 #else
       fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
@@ -179,67 +175,6 @@ fillHiddenArguments (FCall_c *self)
 #endif
     }
 }
-
-#ifdef USE_AVCALL
-static void
-avcall_add_primitive (FArguments_c *fa, fcall_type_t type, void *val)
-{
-  switch (type)
-    {
-    case fcall_type_void:
-      abort ();
-    case fcall_type_uchar:
-      av_uchar (fa->avalist, *(unsigned char *) val);
-      break;
-    case fcall_type_schar:
-      av_char (fa->avalist, *(char *) val);
-      break;
-    case fcall_type_ushort:
-      av_ushort (fa->avalist, *(unsigned short *) val);
-      break;
-    case fcall_type_sshort:
-      av_short (fa->avalist, *(short *) val);
-      break;
-    case fcall_type_uint:
-      av_uint (fa->avalist, *(unsigned *) val);
-      break;
-    case fcall_type_sint:
-      av_int (fa->avalist, *(int *) val);
-      break;
-    case fcall_type_slong:
-      av_long (fa->avalist, *(long *) val);
-      break;
-    case fcall_type_ulong:
-      av_ulong (fa->avalist, *(unsigned long *) val);
-      break;
-    case fcall_type_float:
-      av_float (fa->avalist, *(float *) val);
-      break;
-    case fcall_type_double:
-      av_double (fa->avalist, *(double *) val);
-      break;
-    case fcall_type_string:
-      av_ptr (fa->avalist, const char *, *(const char **) val);
-      break;
-    case fcall_type_selector:
-      av_ptr (fa->avalist, SEL, *(SEL *) val);
-      break;
-    case fcall_type_object:
-      av_ptr (fa->avalist, id, *(id *) val);
-      break;
-#ifdef HAVE_JDK
-    case fcall_type_jobject:
-      av_ptr (fa->avalist, jobject, *(jobject *) val);
-      break;
-    case fcall_type_jstring:
-      av_ptr (fa->avalist, jstring, *(jstring *) val);
-      break;
-#endif
-    default:
-      abort ();
-    }
-}
-#endif
 
 #ifndef USE_AVCALL
 static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
@@ -276,74 +211,27 @@ add_ffi_types (FCall_c *fc)
       fa->ffiArgTypes[pos] = ffi_types[type];
     }
 #else
-  void (*func) (void) = fc->ffunction;
-
-  switch (fa->returnType)
+  if (fc->callType == javacall || fc->callType == javastaticcall)
     {
-    case fcall_type_void:
-      av_start_void (fa->avalist, func);
-      break;
-    case fcall_type_uchar:
-      av_start_uchar (fa->avalist, func, &fa->resultVal.uchar);
-      break;
-    case fcall_type_schar:
-      av_start_char (fa->avalist, func, &fa->resultVal.schar);
-      break;
-    case fcall_type_ushort:
-      av_start_ushort (fa->avalist, func, &fa->resultVal.ushort);
-      break;
-    case fcall_type_sshort:
-      av_start_short (fa->avalist, func, &fa->resultVal.sshort);
-      break;
-    case fcall_type_uint:
-      av_start_uint (fa->avalist, func, &fa->resultVal.uint);
-      break;
-    case fcall_type_sint:
-      av_start_int (fa->avalist, func, &fa->resultVal.sint);
-      break;
-    case fcall_type_ulong:
-      av_start_ulong (fa->avalist, func, &fa->resultVal.ulong);
-      break;
-    case fcall_type_slong:
-      av_start_long (fa->avalist, func, &fa->resultVal.slong);
-      break;
-    case fcall_type_slonglong:
-      av_start_long (fa->avalist, func, &fa->resultVal.slonglong);
-      break;
-    case fcall_type_ulonglong:
-      av_start_ulong (fa->avalist, func, &fa->resultVal.ulonglong);
-      break;
-    case fcall_type_float:
-      av_start_float (fa->avalist, func, &fa->resultVal._float);
-      break;
-    case fcall_type_double:
-      av_start_double (fa->avalist, func, &fa->resultVal._double);
-      break;
-    case fcall_type_object:
-      av_start_ptr (fa->avalist, func, id, &fa->resultVal.object);
-      break;
-    case fcall_type_string:
-      av_start_ptr (fa->avalist, func, const char *, &fa->resultVal.string);
-      break;
-    case fcall_type_selector:
-      av_start_ptr (fa->avalist, func, SEL, &fa->resultVal.selector);
-      break;
-    case fcall_type_jobject:
-      av_start_ptr (fa->avalist, func, jobject, &fa->resultVal.object);
-      break;
-    case fcall_type_jstring:
-      av_start_ptr (fa->avalist, func, jstring, &fa->resultVal.object);
-      break;
-    default:
-      abort ();
+      java_set_return_type (fc, fa);
+      fillHiddenArguments (fc);
+      for (i = 0; i < fa->assignedArgumentCount; i++)
+        {
+          unsigned pos = i + MAX_HIDDEN;
+          
+          java_add_primitive (fa, fa->argTypes[pos], fa->argValues[pos]);
+        }
     }
-  fillHiddenArguments (fc);
-  for (i = 0; i < fa->assignedArgumentCount; i++)
+  else
     {
-      unsigned pos = i + MAX_HIDDEN;
-      fcall_type_t type = fa->argTypes[pos];
-    
-      avcall_add_primitive (fa, type, fa->argValues[pos]);
+      objc_set_return_type (fc, fa);
+      fillHiddenArguments (fc);
+      for (i = 0; i < fa->assignedArgumentCount; i++)
+        {
+          unsigned pos = i + MAX_HIDDEN;
+          
+          objc_add_primitive (fa, fa->argTypes[pos], fa->argValues[pos]);
+        }
     }
 #endif
 }
@@ -546,7 +434,10 @@ PHASE(Using)
         abort ();
       }
 #else
-  av_call (fargs->avalist);
+  if (callType == javacall || callType == javastaticcall)
+    java_call (fargs);
+  else
+    objc_call (fargs);
 #endif
 }
 
