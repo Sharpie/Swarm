@@ -420,7 +420,6 @@ PHASE(Using)
 - createEnd
 {
   [super createEnd];
-  [[self getCollection] createEnd];
   index = [collection begin: [getZone (self) getComponentZone]];
   return self;
 }
