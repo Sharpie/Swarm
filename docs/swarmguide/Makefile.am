@@ -14,7 +14,7 @@ JADEFLAGS = -V biblio-citation-check
 ## automatically generate index, if any non-generated SGML files change
 genindex.sgml: $(SGML)
 	perl $(docbookstyle_srcdir)/bin/collateindex.pl -N -o genindex.sgml
-	$(RUNJADE) -V html-index $(CATOPTS) -t sgml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`	
+	$(RUNJADE) -V html-index $(CATOPTS) -t sgml -ihtml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`	
 	perl $(docbookstyle_srcdir)/bin/collateindex.pl -g -o genindex.sgml HTML.index
 
 # Local variables:
