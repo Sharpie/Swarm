@@ -18,7 +18,7 @@
 @public
   int xCoord;				// X and Y coordinates
   int yCoord;
-  int triggered;			// Triggered state (0=no, 1=yes)
+  BOOL triggered;			// Triggered state (0=no, 1=yes)
   id displayWidget;			// Where we are displayed
   id modelSwarm;			// our modelSwarm
 @private

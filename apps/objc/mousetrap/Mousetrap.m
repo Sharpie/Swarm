@@ -94,7 +94,7 @@
       // mark ourselves as triggered, do book-keeping, and draw 
       // ourselves as triggered on the display widget
       
-      triggered = 1;
+      triggered = YES;
       
       [[modelSwarm getStats] addOneTriggered];
       
