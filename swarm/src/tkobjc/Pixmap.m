@@ -251,6 +251,7 @@ PHASE(Creating)
 #ifndef _WIN32
   obj->pixmap = 0;
   obj->mask = 0;
+  obj->display = NULL;
 #endif
 
   return obj;

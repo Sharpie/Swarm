@@ -13,8 +13,8 @@
 	mask are set, free them.  Set pixmap->display to current display
 	(for use with free).
 
-	* Pixmap.m ([Pixmap +createBegin:]): Initialize pixmap and mask to
-	zero in non-_WIN32 case.
+	* Pixmap.m ([Pixmap +createBegin:]): Initialize pixmap, mask and
+	display to zero in non-_WIN32 case.
 
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
