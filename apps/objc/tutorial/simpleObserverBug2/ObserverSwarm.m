@@ -59,7 +59,7 @@
   // datafile.
 
   if ((modelSwarm = 
-       [lispAppArchiver getWithZone: self object: "modelSwarm"]) == nil)
+       [lispAppArchiver getWithZone: self key: "modelSwarm"]) == nil)
     raiseEvent(InvalidOperation,
                "Can't find the modelSwarm parameters");
 

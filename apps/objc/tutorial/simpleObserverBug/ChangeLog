@@ -1,3 +1,11 @@
+2000-02-27    <mgd@nest.swarm.org>
+
+	* Makefile (BUGADDRESS): Update to SDG.
+	(SWARMHOME, APPVERSION): Update to 2.1.
+
+	* ObserverSwarm.m ([ObserverSwarm -buildObjects]): Use
+	getWithZone:key: instead of getWithZone:object:.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (APPVERSION, BUGADDRESS): Add.

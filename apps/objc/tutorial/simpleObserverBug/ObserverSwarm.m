@@ -35,7 +35,7 @@
   // First, we create the model that we're actually observing. The
   // model is a subswarm of the observer. Note that creating the
   // modelSwarm in the current Swarm, by referring to "self" in the
-  // [lispAppArchiver getWithZone: self object: "modelSwarm"] call
+  // [lispAppArchiver getWithZone: self key: "modelSwarm"] call
   // does actually create the new Swarm in it's *own* segregated Zone.
 
   // However, it does this in such a way that when current
@@ -52,7 +52,7 @@
   // change something
   
   if ((modelSwarm = 
-       [lispAppArchiver getWithZone: self object: "modelSwarm"]) == nil)
+       [lispAppArchiver getWithZone: self key: "modelSwarm"]) == nil)
     raiseEvent(InvalidOperation,
                "Can't find the modelSwarm parameters");
 
