@@ -31,5 +31,5 @@ override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swa
 
 SWARMMODULES = $(shell cat $(swarm_srcdir)/etc/modules)
 
-EXTRA_DSO_LDOPTS += $(MOZ_COMPONENT_LIBS) -L$(top_builddir)/src/.libs -lswarm $(foreach module,$(SWARMMODULES), -L$(top_builddir)/src/$(module)/.libs -l$(module)) -lobjc -lmozjs
+EXTRA_DSO_LDOPTS += $(MOZ_COMPONENT_LIBS) -L$(top_builddir)/libobjc/.libs -L$(top_builddir)/src/.libs -lswarm $(foreach module,$(SWARMMODULES), -L$(top_builddir)/src/$(module)/.libs -l$(module)) -lobjc -lmozjs
 
