@@ -1,3 +1,8 @@
+2000-07-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java-stub.el (java-print-class-getter-variables): Don't
+	handle guiFlag conversion here.
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* java-stub.el (*objc-to-java-type-alist*): Add const char **

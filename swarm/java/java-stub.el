@@ -364,11 +364,7 @@
         (insert "public ") 
         (insert (java-objc-to-java-type t (method-return-type method)))
         (insert " ")
-        (insert
-         (let ((name (get-variable-name-for-getter-method method)))
-           (if (string= name "swarmGUIMode")
-               "guiFlag"
-             name)))
+        (insert (get-variable-name-for-getter-method method))
         (insert ";\n"))
   (insert "\n"))
 
