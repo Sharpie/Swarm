@@ -37,15 +37,17 @@ echo \
 # note that we identify Symbol, Warning, Error and Event
 # *only* in the context of `extern', and we use a second
 # sed script to remove the `extern' after identification
-sh -c "$OBJC $OBJCFLAGS -Ddisable_externvar -E $srcdir/$m.h" | \
+grep -v '^#import' $srcdir/$m.h | \
+sh -c "$OBJC $OBJCFLAGS -Ddisable_externvar -x objective-c -E -" | \
 sed -n \
   -e 's@//.*$@@' \
   -e 's/	//g' \
   -e 's/[ ][ ]*//g'  -e 's///g' \
-  -e '/externvarid<Symbol>/,/^$/p' \
-  -e '/externvarid<Warning>/,/^$/p' \
-  -e '/externvarid<Error>/,/^$/p' \
-  -e '/externvarid<Event>/,/^$/p' | sed -e 's/externvar/externvardef /g' >$m.xm+
+  -e '/externvarid<Symbol>/,/^\($\|#[0-9]\)/p' \
+  -e '/externvarid<Warning>/,/^\($\|#[0-9]\)/p' \
+  -e '/externvarid<Error>/,/^\($\|#[0-9]\)/p' \
+  -e '/externvarid<Event>/,/^\($\|#[0-9]\)/p' | \
+sed -e '/^#[0-9]/d;s/externvar/externvardef /g' >$m.xm+
 
 # define symbol identifiers in generated file
 

@@ -1,3 +1,7 @@
+2001-06-06  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* make-h2x: Patch from Jakub Jelinek for GCC 2.96 and later.
+
 2001-06-05  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* javavars.h (m_FieldSet{Float,Double}): New variables.
