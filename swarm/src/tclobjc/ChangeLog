@@ -1,5 +1,7 @@
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
+	* List.m: Include stdlib.h.
+
 	* TclInterp.m: Include string.h.
 
 	* TkInterp.m: Include unistd.h.

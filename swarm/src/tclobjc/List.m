@@ -20,6 +20,7 @@
    */ 
 
 #include "List.h"
+#include <stdlib.h>
 
 /* Change this #define to 0 if you want -makeObjectsPerform: and 
    -makeObjectsPerform:with: to access content objects in order
