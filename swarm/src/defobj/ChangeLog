@@ -1,3 +1,8 @@
+1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* LispArchiver.m ([LispArchiver_c -createEnd]): Set inStreamZone to
+	nil when inhibitLoadFlag is set.
+
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Zone.m ([Zone_c -freeIVars:]): Use getCZone macro instead of

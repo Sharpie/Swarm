@@ -151,14 +151,15 @@ PHASE(Creating)
           // but don't drop it yet, since we will be doing
           // lazy evaluation on the saved pairs
           id inStream;
+
           inStreamZone = [Zone create: [self getZone]];
-          inStream = 
-            [InputStream create: inStreamZone setFileStream: fp];  
+          inStream = [InputStream create: inStreamZone setFileStream: fp];  
           [self lispLoadArchiver: [inStream getExpr]];
           fclose (fp);
         }
-      
     }
+  else
+    inStreamZone = nil;
   return self;
 }
 
