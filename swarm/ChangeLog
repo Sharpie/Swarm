@@ -4,8 +4,8 @@
 	entry for externvar.h.in.  This prevents header file touch
 	dates from changing. 
 
-	* externvar.h.in: Remove disable_externvar in favor of explicit
-	redef in make-h2x.  undef isn't ignored when AC_CONFIG_HEADER
+	* externvar.h.in: Don't do undef with disable_externvar, just
+	avoid definitions.  undef isn't ignored when AC_CONFIG_HEADER
 	is used.
 
 	* ltmain.sh: In the case of static linking, add container library
