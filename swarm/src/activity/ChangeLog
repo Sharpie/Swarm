@@ -1,3 +1,9 @@
+1999-03-03  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* ActionGroup.m ([GroupPermutedIndex_c +createBegin:]): Use getCZone
+	instead of getComponentZone: method.
+	([GroupPermutedIndex_c -createEnd]): Likewise.
+	
 1999-03-02  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* ActionGroup.m ([GroupPermutedIndex_c +createBegin:]): Use 
