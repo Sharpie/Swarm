@@ -333,6 +333,8 @@ describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3)
 {
   char buffer[100];
 
+  _obj_formatIDString (buffer, self);
+  [stream catC: buffer];
   [stream catC: "["];
   _obj_formatIDString (buffer, target);
   [stream catC: buffer];
