@@ -1,5 +1,8 @@
 1998-09-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* MessageProbe.m (dynamicCallOn): Add char support.  Add
+	workaround for bugs in libffi for shorts (like chars).
+
 	* objectbase.h (val_t): Add _short and _ushort.
 
 	* VarProbe.m ([VarProbe -createEnd]): Add short and unsigned short.

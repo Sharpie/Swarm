@@ -541,9 +541,13 @@ dynamicCallOn (const char *probedType,
       case _C_SEL:
           retVal->val.selector = VAL(SEL, ret);
           break;
+      case _C_CHR:
+        // character return is broken in libffi-1.18
+        retVal->val._int = VAL(int, ret);  
+        break;
       case _C_UCHR:
         // character return is broken in libffi-1.18
-        retVal->val._int = VAL(unsigned int, ret);  
+        retVal->val._uint = VAL(unsigned int, ret);  
         break;
       case _C_INT:
         retVal->val._int = VAL(int, ret);
@@ -552,10 +556,12 @@ dynamicCallOn (const char *probedType,
         retVal->val._uint = VAL(unsigned int, ret);
         break;
       case _C_SHT:
-        retVal->val._short = VAL(short, ret);
+        // short return is broken in libffi-1.18
+        retVal->val._int = VAL(int, ret);
         break;
       case _C_USHT:
-        retVal->val._ushort = VAL(unsigned short, ret);
+        // short return is broken in libffi-1.18
+        retVal->val._uint = VAL(unsigned int, ret);
         break;
       case _C_LNG:
         retVal->val._long = VAL(long, ret);
