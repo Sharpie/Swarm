@@ -19,7 +19,7 @@
   const char *defaultAppConfigPath;
   const char *defaultAppDataPath;
 }
-+ createArgc: (int)argc Argv: (const char **)argv;
++ createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress;
 - (struct argp_option *)addOptions: (struct argp_option *)options;
 - (int)parseKey: (int)key arg: (const char *)arg;
 
@@ -39,8 +39,6 @@
 - (const char *)getAppModeString;
 - (int)getArgc;
 - (const char **)getArgv;
-- (const char *)getVersion;
-- (const char *)getBugAddress;
 - (const char *)getExecutablePath;
 - (const char *)getSwarmHome;
 - (const char *)getConfigPath;

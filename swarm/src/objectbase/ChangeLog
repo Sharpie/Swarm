@@ -1,3 +1,9 @@
+1998-09-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Arguments.[hm], objectbase.h ([Arguments
+	+createArgc:Argv:version:bugAddress:]): Added version:bugAddress:.
+	([Arguments -get{Version,BugAddress}]): Remove.
+
 1998-09-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ActivityControl.h (ActivityControl): Make status of type
