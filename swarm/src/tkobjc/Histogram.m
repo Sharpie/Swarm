@@ -59,7 +59,7 @@ PHASE(Creating)
         eval: "%s element create %s; %s element configure %s -relief flat",
           widgetName, strBuffer, widgetName, elements[i]];
     }
-
+  [self updateSize];
   return self;
 }
 

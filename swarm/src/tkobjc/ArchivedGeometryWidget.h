@@ -20,6 +20,7 @@
 - (void)updateArchiver: archiver;
 - createEnd;
 - registerAndLoad;
+- updateSize;
 - (void)drop;
 
 @end

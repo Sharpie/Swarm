@@ -56,6 +56,7 @@ PHASE(Creating)
   tkobjc_raster_createContext (self);
   tkobjc_raster_createPixmap (self);
 
+  [self updateSize];
   return self;
 }
 

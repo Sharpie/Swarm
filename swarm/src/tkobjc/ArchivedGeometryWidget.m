@@ -62,14 +62,24 @@ PHASE(Creating)
     {
       id topLevel = [self getTopLevel];
 
-      if ([windowGeometryRecord getSizeFlag])
-        [topLevel setWidth: [windowGeometryRecord getWidth]
-                  Height: [windowGeometryRecord getHeight]];
       if ([windowGeometryRecord getPositionFlag])
         [topLevel setX: [windowGeometryRecord getX]
                   Y: [windowGeometryRecord getY]];
     }
 
+  return self;
+}
+
+- updateSize
+{
+  id windowGeometryRecord = [self loadWindowGeometryRecord];
+
+  if (windowGeometryRecord)
+    {
+      if ([windowGeometryRecord getSizeFlag])
+        [self setWidth: [windowGeometryRecord getWidth]
+              Height: [windowGeometryRecord getHeight]];
+    }
   return self;
 }
 

@@ -107,9 +107,9 @@ PHASE(Using)
       [stream catKeyword: "position"];
       [stream catSeparator];
       [stream catStartQuotedList];
-      [stream catUnsigned: x];
+      [stream catInt: x];
       [stream catSeparator];
-      [stream catUnsigned: y];
+      [stream catInt: y];
       [stream catEndQuotedList];
     }
   [stream catEndMakeInstance];

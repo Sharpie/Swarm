@@ -27,7 +27,7 @@ PHASE(Creating)
   // lots of features!
   [globalTkInterp eval: "Blt_ZoomStack %s; Blt_Crosshairs %s; Blt_ActiveLegend %s; Blt_ClosestPoint %s",
 		  widgetName, widgetName, widgetName, widgetName];
-  
+  [self updateSize];
   elementList = [List create: [self getZone]];
   
   return self;

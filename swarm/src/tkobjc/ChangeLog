@@ -1,3 +1,22 @@
+2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ArchivedGeometryWidget.[hm] ([ArchivedGeometryWidget -updateSize]): 
+	New method.
+
+	* ArchivedWidget.m ([ArchivedGeometryWidget -registerAndLoad]):
+	Remove size assignment.
+
+	* Raster.m ([Raster -createEnd]): Call updateSize.
+
+	* Histogram.m ([Histogram -createEnd]): Likewise.
+
+	* Graph.m ([Graph -createEnd]): Likewise.
+
+	* Canvas.m ([Canvas -createEnd]): Likewise.
+
+	* WindowGeometryRecord.m ([WindowGeometryRecord -lispOutShallow:]): 
+	Use catInt: for x and y.
+
 2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.am (INCLUDES): Add -I$(srcdir)/../simtoolsgui.

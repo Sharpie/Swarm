@@ -14,6 +14,7 @@ PHASE(Creating)
 {
   [super createEnd];
   [globalTkInterp eval: "canvas %s", widgetName];
+  [self updateSize];
   return self;
 }
 
