@@ -1,5 +1,8 @@
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
+	* refmeta.xml: Use <mediaobject> in place of <graphic>, which
+	will be obsoleted in V5.0 of DTD.
+
 	* refbook.xml: Update DOCTYPE to DocBook XML DTD V4.1.2.
 	
 	* sgml.el: Emit tags that are all strict XML (lowercase element
