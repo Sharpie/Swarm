@@ -791,7 +791,7 @@ PHASE(Using)
 
             if (key)
               {
-                offset = (unsigned) [stringMap at: (id) key];
+                offset = (PTRUINT) [stringMap at: (id) key];
                 
                 if (offset == 0)
                   {
@@ -876,9 +876,9 @@ PHASE(Using)
     const char *key;
     PTRINT offset;
 
-    for (i = 0, offset = (int) [mi next: (id *) &key];
+    for (i = 0, offset = (PTRINT) [mi next: (id *) &key];
          [mi getLoc] == (id) Member;
-         offset = (int) [mi next: (id *) &key], i++)
+         offset = (PTRINT) [mi next: (id *) &key], i++)
       buf[offset - 1] = key;
     
     if (H5Awrite (aid, memtid, buf) < 0)
