@@ -9,11 +9,11 @@ dib_create (void)
   dib_t *dib = xmalloc (sizeof (dib_t));
   
   dib->window = NULL;
-  dib->colorMapBlocks = 0;
-  dib->colorMapSize = 0;
-  dib->colorMap = NULL;
-  memset (dib->colorMapOffsets, 0, sizeof (dib->colorMapOffsets));
-  memset (dib->colorMapObjects, 0, sizeof (dib->colorMapObjects));
+  dib->colormapBlocks = 0;
+  dib->colormapSize = 0;
+  dib->colormap = NULL;
+  memset (dib->colormapOffsets, 0, sizeof (dib->colormapOffsets));
+  memset (dib->colormapObjects, 0, sizeof (dib->colormapObjects));
   dib->sourceDC = NULL;
   dib->destDC = NULL;
   dib->dibInfo = xmalloc (sizeof (CDIB_BITMAP));
@@ -229,8 +229,8 @@ dib_paletteIndexForObject (dib_t *dib, void *object)
 {
   unsigned i;
 
-  for (i = 0; i < dib->colorMapBlocks; i++)
-    if (object == dib->colorMapObjects[i])
+  for (i = 0; i < dib->colormapBlocks; i++)
+    if (object == dib->colormapObjects[i])
       return i;
   return -1;
 }
@@ -250,7 +250,7 @@ get_color (dib_t *dib, unsigned color, BYTE *red, BYTE *green, BYTE *blue)
     }
   else if (depth == 24)
     {
-      unsigned colorValue = dib->colorMap[color];
+      unsigned colorValue = dib->colormap[color];
 
       *blue = colorValue >> 16;
       *green = (colorValue >> 8) & 0xff;
@@ -263,22 +263,22 @@ get_color (dib_t *dib, unsigned color, BYTE *red, BYTE *green, BYTE *blue)
 void
 dib_augmentPalette (dib_t *dib,
 		    void *object,
-		    unsigned colorMapSize, unsigned long *colorMap)
+		    unsigned colormapSize, unsigned long *colormap)
 {
-  unsigned lastSize = dib->colorMapSize;
+  unsigned lastSize = dib->colormapSize;
   WORD depth = dib->dibInfo->bmiHead.biBitCount;
   
-  dib->colorMapObjects[dib->colorMapBlocks] = object;
-  dib->colorMapOffsets[dib->colorMapBlocks] = lastSize;
-  dib->colorMapSize += colorMapSize;
-  dib->colorMapBlocks++;
+  dib->colormapObjects[dib->colormapBlocks] = object;
+  dib->colormapOffsets[dib->colormapBlocks] = lastSize;
+  dib->colormapSize += colormapSize;
+  dib->colormapBlocks++;
 
   if (depth == 8)
     {
       unsigned i;
       RGBQUAD *rgb = &dib->dibInfo->rgb[lastSize];
       
-      for (i = 0; i < colorMapSize; i++)
+      for (i = 0; i < colormapSize; i++)
         get_color (dib, i, &rgb[i].rgbRed, &rgb[i].rgbGreen, &rgb[i].rgbBlue);
 
       if (dib->bitmap)
@@ -287,7 +287,7 @@ dib_augmentPalette (dib_t *dib,
 	  UINT ret;
 	  
 	  dib->oldBitmap = SelectObject (shdc, dib->bitmap);
-	  ret = SetDIBColorTable (shdc, 0, dib->colorMapSize,
+	  ret = SetDIBColorTable (shdc, 0, dib->colormapSize,
 				  dib->dibInfo->rgb);
 	  SelectObject (shdc, dib->oldBitmap);
 	  DeleteDC (shdc);
@@ -295,17 +295,17 @@ dib_augmentPalette (dib_t *dib,
     }
   else if (depth == 24)
     {
-      unsigned long *newColorMap;
+      unsigned long *newcolormap;
       unsigned i;
-      unsigned newSize = dib->colorMapSize * sizeof (unsigned long);
+      unsigned newSize = dib->colormapSize * sizeof (unsigned long);
       
-      dib->colorMap = dib->colorMap
-	? xrealloc (dib->colorMap, newSize)
+      dib->colormap = dib->colormap
+	? xrealloc (dib->colormap, newSize)
 	: xmalloc (newSize);
-      newColorMap = &dib->colorMap[lastSize];
+      newcolormap = &dib->colormap[lastSize];
       
-      for (i = 0; i < colorMapSize; i++)
-	newColorMap[i] = colorMap[i];
+      for (i = 0; i < colormapSize; i++)
+	newcolormap[i] = colormap[i];
     }
 }
 
@@ -532,23 +532,23 @@ dib_copy (dib_t *source, dib_t *dest,
 {
   BOOL result;
 
-  dest->colorMapBlocks = source->colorMapBlocks;
-  dest->colorMapSize = source->colorMapSize;
-  memcpy (dest->colorMapOffsets,
-	  source->colorMapOffsets,
-	  sizeof (source->colorMapOffsets));
-  memcpy (dest->colorMapObjects,
-	  source->colorMapObjects,
-	  sizeof (source->colorMapObjects));
+  dest->colormapBlocks = source->colormapBlocks;
+  dest->colormapSize = source->colormapSize;
+  memcpy (dest->colormapOffsets,
+	  source->colormapOffsets,
+	  sizeof (source->colormapOffsets));
+  memcpy (dest->colormapObjects,
+	  source->colormapObjects,
+	  sizeof (source->colormapObjects));
   memcpy (dest->dibInfo->rgb,
 	  source->dibInfo->rgb,
-	  sizeof (RGBQUAD) * source->colorMapSize);
+	  sizeof (RGBQUAD) * source->colormapSize);
 #if 0
   {
     HDC shdc = CreateCompatibleDC (NULL);
     
     dest->oldBitmap = SelectObject (shdc, dest->bitmap);
-    SetDIBColorTable (shdc, 0, dest->colorMapSize, dest->dibInfo->rgb);
+    SetDIBColorTable (shdc, 0, dest->colormapSize, dest->dibInfo->rgb);
     SelectObject (shdc, dest->oldBitmap);
     DeleteDC (shdc);
   }

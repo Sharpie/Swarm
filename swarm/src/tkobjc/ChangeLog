@@ -1,4 +1,9 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+	
+	* internal.m (raster_private): Add a privateColormapFlag
+	(tkobjc_raster_create): Initialize it.
+	(tkobjc_raster_setColormap): If private colormap is created,
+	set privateColormapFlag.  Don't do it twice.
 
 	* Colormap.m, Graph.m, Histogram.m, Pixmap.m, Widget.m,
 	WindowGeometryRecord.m, ZoomRaster.m: Change from raiseEvent:
@@ -18,6 +23,7 @@
 	(dib_augmentPalette, dib_fill, dib_ellipse, dib_line, dib_rectangle): 
 	Use it.
 
+	* win32dib.[ch]: colorMap -> colormap throughout.
 	* win32dib.[hc] (dib_fill, dib_ellipse, dib_line, dib_rectangle): 
 	Make color argument an unsigned int.
 

@@ -44,6 +44,7 @@ typedef struct raster_private {
 #ifndef _WIN32
   X11Pixmap pm;
   X11Pixmap oldpm;
+  BOOL privateColormapFlag;
 #else
   dib_t *oldpm;
   dib_t *pm;
@@ -394,6 +395,7 @@ tkobjc_raster_create (Raster *raster)
       raster_private_t *private = xmalloc (sizeof (raster_private_t));
 
       Tk_MakeWindowExist (tkwin);
+      private->privateColormapFlag = NO;
       private->tkwin = tkwin;
       raster->private = private;
     }
@@ -530,7 +532,7 @@ tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
       else if (depth == 24)
 	{
 	  LPBYTE rgb = (LPBYTE)dib->bits + (x + y * frameWidth * 3);
-	  unsigned long colorValue = dib->colorMap[c];
+	  unsigned long colorValue = dib->colormap[c];
 
 	  rgb[0] = colorValue >> 16;
 	  rgb[1] = (colorValue >> 8) && 0xff;
@@ -664,13 +666,13 @@ x_set_private_colormap (Display *display, Window window, X11Colormap cmap)
   else
     raiseEvent (WarningMessage, "Could not get top window");
 }
-
 #endif
 
 void
 tkobjc_raster_setColormap (Raster *raster)
 {
   Colormap *colormap = raster->colormap;
+
   if (colormap == nil)
     raiseEvent (WarningMessage, "colormap is nil");
   else
@@ -694,13 +696,18 @@ tkobjc_raster_setColormap (Raster *raster)
 	Tk_Window tkwin = private->tkwin;
 	Display *display = Tk_Display (tkwin);
 	Window window = Tk_WindowId (tkwin);
-	X11Colormap cmap = colormap->cmap;
-	
-	if (cmap != DefaultColormap (display, DefaultScreen (display)))
-	  {
-	    while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
-	    x_set_private_colormap (display, window, colormap->cmap);
-	  }
+        
+        if (private->privateColormapFlag == NO)
+          {
+            X11Colormap cmap = colormap->cmap;
+            
+            if (cmap != DefaultColormap (display, DefaultScreen (display)))
+              {
+                while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
+                x_set_private_colormap (display, window, colormap->cmap);
+              }
+            private->privateColormapFlag = YES;
+          }
 #endif
       }
     }
@@ -1493,9 +1500,9 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
     int ncolors = pixmap->xpmimage.ncolors;
 #else
     int ncolors = ((dib->dibInfo->bmiHead.biBitCount == 24
-		    && dib->colorMap == NULL)
+		    && dib->colormap == NULL)
 		   ? -1
-		   : dib->colorMapSize);
+		   : dib->colormapSize);
 #endif
     
     if (ncolors != -1)

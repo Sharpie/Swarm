@@ -26,11 +26,11 @@ typedef struct dib {
   HBITMAP oldBitmap;
   void /* far */ *bits;
 
-  unsigned colorMapOffsets[256];
-  void *colorMapObjects[256];
-  unsigned colorMapBlocks;
-  unsigned colorMapSize;
-  unsigned long *colorMap; // only used for when depth > 8
+  unsigned colormapOffsets[256];
+  void *colormapObjects[256];
+  unsigned colormapBlocks;
+  unsigned colormapSize;
+  unsigned long *colormap; // only used for when depth > 8
   /* Palette */
   HPALETTE *palette;
   HPALETTE *oldPalette;
