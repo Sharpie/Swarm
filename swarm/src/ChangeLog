@@ -1,9 +1,12 @@
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am (swarm.dll): Use libobjc *.lo files instead of linking
-	to DLL.
-	(libswarm_la_LDFLAGS): Put module -L options before support -L options.
+	* Makefile.am (swarm.dll): Use libobjc *.lo files instead of
+	linking to DLL.
+	(libswarm_la_LDFLAGS): Put module -L options before support -L
+	options.
 	(LIBS): Add -lobjc.
+	(libswarm_la_SOURCES, empty.c): Add to prevent problems with empty
+	archives on IRIX 6.5.
 
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

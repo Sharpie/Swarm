@@ -30,7 +30,10 @@ lib_LTLIBRARIES = @LIBSWARM_LA@
 EXTRA_LTLIBRARIES = libswarm.la
 libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la)
 
-libswarm_la_SOURCES = 
+libswarm_la_SOURCES = empty.c
+
+empty.c:
+	echo > empty.c
 
 LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lobjc $(SYSLIBS)
 
