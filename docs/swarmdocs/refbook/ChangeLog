@@ -8,6 +8,8 @@
 
 	* Makefile.am: New file.
 
+	* Makefile: Remove.
+
 	* src.ent.in: New file.
 
 	* src.ent: Removed.

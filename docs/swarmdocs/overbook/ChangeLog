@@ -2,6 +2,8 @@
 
 	* Makefile.am: New file.
 
+	* Makefile: Remove.
+
 	* overbook.tex.in: New file.
 
 	* overbook.sgml: Set ID of book to "overbook".
