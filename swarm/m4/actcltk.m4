@@ -59,7 +59,7 @@ AC_DEFUN(md_FIND_TCL_HEADERS,dnl
 
 INCPLACES=" \
         $defaultdir/include $defaultdir/include/tcl $defaultdir/include/tk \
-        \${CYGFS}include /Cygnus/cygwin-b20/include /Cygnus/B19/include \
+        \${CYGFS}include /Cygnus/cygwin-b20/include \
         /usr/local/include /usr/local/include/tcl /usr/local/include/tk \
         /usr/include /usr/include/tcl /usr/include/tk \
         $x_includes $x_includes/tcl $x_includes/tk \
@@ -96,9 +96,8 @@ AC_SUBST(TCLINCLUDES)
 AC_DEFUN(md_FIND_TCL_LIBRARIES,dnl
 [changequote(<,>)dnl
 LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
-        \${CYGFS}H-i386-cygwin32/lib \
+        \${CYGFS}H-i586-cygwin32/lib \
         /Cygnus/cygwin-b20/H-i586-cygwin32/lib \
-        /Cygnus/B19/H-i386-cygwin32/lib \
 	/usr/local/lib /usr/local/lib/tcl /usr/local/lib/tk \
 	/usr/lib /usr/lib/tcl /usr/lib/tk \
 	$x_libraries $x_libraries/tcl $x_libraries/tk \

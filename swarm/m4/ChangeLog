@@ -1,3 +1,8 @@
+1999-01-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* actcltk.m4 (INCPLACES, LIBPLACES): Remove B19 guess.
+	(LIBPLACES): Update CYGFS path to be for B20.
+
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 
 	* acswarm.m4 (al_INIT_SWARM): Include AM_PROG_LIBTOOL macros.
