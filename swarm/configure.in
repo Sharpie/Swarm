@@ -34,17 +34,26 @@ if test $USEDLL = yes; then
   LIBJAVASWARM_LA=
   LIBJAVASWARMSTUBS_LA=
   JAVASWARM_DLL=javaswarm.dll
+  noinst_LIBS='lib$(MODULE).la'
+  inst_LIBS=
+  inst_LDFLAGS=
 else
-  LIBSWARM_LA=libswarm.la
+  LIBSWARM_LA=
   SWARM_DLL=
   LIBJAVASWARM_LA=libjavaswarm.la
   LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
   JAVASWARM_DLL=
+  noinst_LIBS=
+  inst_LIBS='lib$(MODULE).la'
+  inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
 fi
 AC_SUBST(SWARM_DLL)
 AC_SUBST(LIBSWARM_LA)
 AC_SUBST(LIBJAVASWARM_LA)
 AC_SUBST(JAVASWARM_DLL)
+AC_SUBST(noinst_LIBS)
+AC_SUBST(inst_LIBS)
+AC_SUBST(inst_LDFLAGS)
 
 md_CHECK_LINKFLAGS
 
