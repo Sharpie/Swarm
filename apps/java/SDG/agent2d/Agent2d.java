@@ -139,7 +139,7 @@ public class Agent2d extends SwarmImpl {
     Globals.env.xprint (this);
     
     // Need Swarm snapshot 2000-07-20 or greater to actually drop it
-    // drop (); 
+    drop (); 
   }
 
   public void remove () {

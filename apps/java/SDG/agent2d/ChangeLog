@@ -1,3 +1,11 @@
+2001-01-29  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* Marcus2d.java: Remove suicidal tendencies.
+
+	* Alex2d.java: Make mean and deviation public for demo purposes.
+
+	* Agent2d.java (dropMe): Enable drop.
+
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Agent2d.java (reaper, dropSelector): New ivars.

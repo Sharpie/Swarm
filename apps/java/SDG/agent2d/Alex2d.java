@@ -19,8 +19,8 @@ import ObserverSwarm;
 
 public class Alex2d extends SocialAgent2d {
   Hashtable people;
-  int xmean, ymean;
-  double xdeviation, ydeviation;
+  public int xmean, ymean;
+  public double xdeviation, ydeviation;
 
   class Location {
     int x;
