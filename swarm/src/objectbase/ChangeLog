@@ -1,3 +1,12 @@
+2001-02-23  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Probe.h (CONVERT): Add case for fcall_type_jselector.
+
+	* VarProbe.m ([VarProbe -_typeSetup_]): Likewise.
+	(convert_from_string): Likewise.
+
+	* probing.m (string_convert): Likewise.
+
 2001-02-14  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* MessageProbe.m ([MessageProbe -drop]): Don't free arguments

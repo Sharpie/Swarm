@@ -160,6 +160,7 @@ string_convert (fcall_type_t type, const types_t *p,
       sprintf (buf, "none");
       break;
     case fcall_type_jobject:
+    case fcall_type_jselector:
 #ifdef HAVE_JDK
       {
         const char *name = java_class_name ((jobject) p->object);

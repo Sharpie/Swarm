@@ -51,6 +51,7 @@
     case fcall_type_selector:                             \
     case fcall_type_jobject:                              \
     case fcall_type_jstring:                              \
+    case fcall_type_jselector:                            \
     case fcall_type_iid:                                  \
       abort ();                                           \
     case fcall_type_boolean:                              \

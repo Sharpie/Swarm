@@ -91,6 +91,7 @@ PHASE(Creating)
         case fcall_type_selector:
         case fcall_type_jobject:
         case fcall_type_jstring:
+        case fcall_type_jselector:
         case fcall_type_void:
         case fcall_type_iid:
           interactiveFlag = NO;
@@ -1287,6 +1288,7 @@ convert_from_string (fcall_type_t type,
     case fcall_type_selector:
     case fcall_type_jobject:
     case fcall_type_jstring:
+    case fcall_type_jselector:
     case fcall_type_iid:
       abort ();
     }
