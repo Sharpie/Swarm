@@ -573,7 +573,7 @@ USING
 //M: subactivities within the swarm.  This activity is the same as the
 //M: value returned by activateIn: when the swarm was first activated.  It
 //M: returns nil if the swarm has not yet been activated.
-- getActivity;
+- (id <Activity>)getActivity;
 @end
 
 @protocol AutoDrop
@@ -757,12 +757,11 @@ USING
 //D: are examples.)
 
 CREATING
-
 //M: Convenience method for creating a repeating Schedule
-+ create: aZone setRepeatInterval: (timeval_t)rptInterval;
++ create: (id <Zone>)aZone setRepeatInterval: (timeval_t)rptInterval;
 
 //M: Convenience method for creating an AutoDrop Schedule
-+ create: aZone setAutoDrop: (BOOL)autoDrop;
++ create: (id <Zone>)aZone setAutoDrop: (BOOL)autoDrop;
 
 USING
 - at: (timeval_t)tVal createAction: anActionType;

@@ -2,9 +2,11 @@
 
 	* activity.h (Action, ActionCall, ActionTo, ActionForEach,
 	Activity, ScheduleActivity, SwarmActivity, ForEachActivity,
-	ConcurrentGroup, ConcurrentSchedule, ActivationOrder): Change
-	from CREATABLE to RETURNABLE.
-	(SwarmProcess): Remove CREATABLE.
+	ConcurrentGroup, ConcurrentSchedule, ActivationOrder): Change from
+	CREATABLE to RETURNABLE.
+	(SwarmProcess): Remove CREATABLE.  Return id <Activity> for
+	getActivity.
+	(Schedule): Add Zone typing for +create:*.
 
 1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
