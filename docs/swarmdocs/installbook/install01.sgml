@@ -1,4 +1,4 @@
-<ARTICLE>
+<ARTICLE ID="SWARM.INSTALLBOOK.INSTALL.ARTICLE">
   <ARTHEADER>
     <TITLE>Installing Swarm</TITLE>
     
@@ -172,8 +172,8 @@
         <FORMALPARA><TITLE>Tcl/Tk</TITLE> 
 
           <PARA>More common libraries: a scripting language and a GUI
-            toolkit. These libraries are available from <ULINK URL="ftp://ftp.smli.com/pub/tcl/">ftp://ftp.smli.com/pub/tcl/</ULINK>
-            or from <ULINK URL="http://www.tcltk.com">http://www.tcltk.com</ULINK>.
+            toolkit. These libraries are available from <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/">ftp://ftp.scriptics.com/pub/tcl/</ULINK>
+            or from <ULINK URL="http://www.scriptics.com">http://www.scriptics.com</ULINK>.
             Swarm works with Tcl/Tk versions 7.4/4.0, 7.5/4.1, 7.6/4.2,
             and 8.0/8.0.  It may work with later versions, but it hasn't
             been tested.</PARA>
@@ -183,7 +183,7 @@
       <LISTITEM>
         <FORMALPARA><TITLE>BLT</TITLE> <PARA>BLT is an add-on to Tk
           that provides more widgets. BLT is available from <ULINK
-          URL="http://www.tcltk.com/blt/index.html">http://www.tcltk.com/blt/index.html</ULINK>
+          URL="ftp://ftp.tcltk.com/pub/blt/">ftp://ftp.tcltk.com/pub/blt</ULINK>
           or <ULINK
           URL="ftp://ftp.neosoft.com/pub/tcl/sorted/devel/">ftp://ftp.neosoft.com/pub/tcl/sorted/devel/</ULINK>
           .  Note that BLT 2.3 works with either Tcl/Tk 7.5/4.1 or

@@ -1,3 +1,14 @@
+1998-07-17  Alex Lancaster  <alex@santafe.edu>
+
+	* install02.sgml: Fixed ID of ARTICLE to `INSTALLBOOK' rather than
+	`INSTALL'.
+
+	* install01.sgml (SIMPLESECT): Updated ULINK http and ftp
+	locations for download of Tcl/Tk to `scriptics.com'.  `smli.com'
+	is now out-of-date.  Also changed link to BLT to ftp location,
+	rather than the webpage.
+	(ARTICLE): Added missing ID.
+
 1998-06-25  Alex Lancaster  <alex@santafe.edu>
 
 	* install01.sgml: Updated installation instruction to reflect new
