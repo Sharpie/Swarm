@@ -1,3 +1,8 @@
+1999-05-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (lisp_output_type): Add support for long long and
+	unsigned long long.
+
 1999-05-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m ([FCall_c -getRetVal:buf:]): For builtin_apply workaround
