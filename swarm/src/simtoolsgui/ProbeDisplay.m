@@ -107,7 +107,7 @@ notifyObjectDropped (id anObject, id realloc, id pd)
       probeDisplay = [SimpleProbeDisplay createBegin: [self getZone]];
       [probeDisplay setProbeMap: probeMap];
     }
-  [probeDisplay setWindowGeometryRecordName : windowGeometryRecordName];
+  [probeDisplay setWindowGeometryRecordName: windowGeometryRecordName];
   [probeDisplay setProbedObject: probedObject];
   probeDisplay = [probeDisplay createEnd];
 
@@ -120,7 +120,7 @@ notifyObjectDropped (id anObject, id realloc, id pd)
 
   GUI_RELEASE_AND_UPDATE ();
   
-  [self drop] ;
+  [self drop];
   
   return probeDisplay;
 }
