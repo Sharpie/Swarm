@@ -13,20 +13,28 @@ if test $USE_FFCALL = 0 ; then
   if test -z "$ffidir" ; then 
     ffidir=$defaultdir
   fi
-  AC_MSG_CHECKING(directory of libffi.so)
-  if test -f $ffidir/lib/libffi.so ; then
-    FFILDFLAGS="-L\${ffidir}/lib $RPATH\${ffidir}/lib"
-    AC_MSG_RESULT($ffidir/lib)
-  else
-    AC_MSG_RESULT(no)
-    AC_MSG_CHECKING(directory of libffi.a)
-    if test -f $ffidir/lib/libffi.a ; then
-      FFILDFLAGS='-L${ffidir}/lib'
-      AC_MSG_RESULT($ffidir/lib)
+  FFILDFLAGS=''
+  for dir in /usr $ffidir ; do
+    AC_MSG_CHECKING(directory of libffi.so)
+    if test -f $dir/lib/libffi.so ; then
+      FFILDFLAGS="-L\${dir}/lib $RPATH\${dir}/lib"
+      AC_MSG_RESULT($dir/lib)
+      break
     else
-      AC_MSG_RESULT(no)    
-      AC_MSG_ERROR(Please use --with-ffidir to specify location of libffi library.)
+      AC_MSG_RESULT(no)
+      AC_MSG_CHECKING(directory of libffi.a)
+      if test -f $dir/lib/libffi.a ; then
+        FFILDFLAGS='-L${dir}/lib'
+        AC_MSG_RESULT($dir/lib)
+        break
+      fi
     fi
+  done
+  if test -z "$FFILDFLAGS" ; then
+    AC_MSG_RESULT(no)    
+    AC_MSG_ERROR(Please use --with-ffidir to specify location of libffi library.)
+  else
+    ffidir=$dir
   fi
   AC_MSG_CHECKING(directory of libffi include)
   if test -f $ffidir/include/ffi.h ; then
@@ -59,6 +67,12 @@ else
   fi
 fi
 AC_SUBST(ffidir)
+if test $ffidir = /usr; then
+  FFIINCLUDES=''
+else
+  FFIINCLUDES=-I/usr
+fi
+AC_SUBST(FFIINCLUDES)
 AC_SUBST(FFILDFLAGS)
 AC_SUBST(FFILIB)
 ])
