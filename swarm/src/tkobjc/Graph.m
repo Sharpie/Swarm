@@ -68,16 +68,16 @@ PHASE(Using)
   return self;
 }
 
-- (GraphElement *)createElement
+- (id <GraphElement>)createElement
 {
-  GraphElement *newElement = [GraphElement createOwnerGraph: self];
+  id <GraphElement> newElement = [GraphElement createOwnerGraph: self];
 
   [elementList addLast: newElement];  
 
   return newElement;
 }
 
-- destroyElement: (GraphElement *)g
+- destroyElement: (id <GraphElement>)g
 {
   [elementList remove: g];
   [g drop];
@@ -127,6 +127,7 @@ PHASE(Creating)
 - setOwnerGraph: (id <Graph>)og
 {
   ownerGraph = og;
+
   return self;
 }
 
@@ -284,7 +285,6 @@ PHASE(Using)
 }
 
 @end
-
 
 // replace this stuff with the BLT C API - should be much faster.
 // also optimize append so it doesn't regrow the vector for every single

@@ -1,3 +1,11 @@
+1998-07-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Graph.[hm] (-createElement, -destroyElement:, -setOwnerGraph:,
+	+createOwnerGraph:): Change to use of an object conforming to the
+	GraphElement protocol, not a statically-typed object.
+	(GraphElement): Make ownerGraph an object that conforms to the
+	Graph protocol instead of being statically typed.
+
 1998-07-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget

@@ -16,8 +16,8 @@
   id elementList;
 }
 
-- (GraphElement *)createElement;		   // create dataset to draw
-- destroyElement: (GraphElement *)g;               // remove element, free it
+- (id <GraphElement>)createElement;		   // create dataset to draw
+- destroyElement: (id <GraphElement>)g;            // remove element, free it
 - setTitle: (const char *)title;                   // title the graph
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;  // change labels here
 - setScaleModeX: (int)xs Y: (int)ys;               // 0 smooth, 1 jump
@@ -36,13 +36,13 @@
 @interface GraphElement: CreateDrop <_GraphElement>
 {
   const char *name;
-  Graph *ownerGraph;
+  id <Graph> ownerGraph;
   BLTVector *xData, *yData;
 }
 
-- setOwnerGraph: (Graph *)og;
+- setOwnerGraph: (id <Graph>)og;
 - createEnd;
-+ createOwnerGraph: (Graph *) og;  // alternate creation.
++ createOwnerGraph: (id <Graph>)og;  // alternate creation.
 
 - (const char *)getName;
 - (BLTVector *)getXData;
