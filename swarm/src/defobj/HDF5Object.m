@@ -97,6 +97,13 @@ compare_types (fcall_type_t ivarType, fcall_type_t type)
       else if (ivarType == fcall_type_boolean && type == fcall_type_uchar
                && sizeof (BOOL) == sizeof (unsigned char))
         return YES;
+      else if (ivarType == fcall_type_slonglong
+               && type == fcall_type_slong
+               && sizeof (long long) == sizeof (long))
+        return YES;
+      else if (ivarType == fcall_type_ulonglong
+               && type == fcall_type_ulong
+               && sizeof (unsigned long long) == sizeof (unsigned long))
       else
         return NO;
     }
