@@ -6,7 +6,7 @@ final public class Globals {
 
   static {
     try {
-      System.loadLibrary ("@JAVASWARMDLLNAME@");
+      System.loadLibrary ("@JAVASWARM_DLL_NAME@");
     }
     catch (Exception e) {
       System.err.println ("Exception caught: " + e.getMessage ());

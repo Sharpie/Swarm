@@ -189,8 +189,9 @@ AC_SUBST(JAVA_CLASSES_INSTALLED_AS)
 
 AC_ARG_WITH(javaswarm-dll-name,
 [  --with-javaswarm-dll-name=name   Use a different name for the Java DLL],
-  javaswarm_dll_name=$withval)
-test -n "$javaswarm_dll_name" || javaswarm_dll_name=javaswarm
+  JAVASWARM_DLL_NAME=$withval)
+test -n "$JAVASWARM_DLL_NAME" || JAVASWARM_DLL_NAME=javaswarm
+AC_SUBST(JAVASWARM_DLL_NAME)
 
 md_CHECK_DLL
 if test $USEDLL = yes; then
@@ -198,7 +199,7 @@ if test $USEDLL = yes; then
   SWARM_DLL=swarm.dll
   LIBJAVASWARM_LA=
   LIBJAVASWARMSTUBS_LA=
-  JAVASWARM_DLL=${javaswarm_dll_name}.dll
+  JAVASWARM_DLL=${JAVASWARM_DLL_NAME}.dll
   noinst_LIBS='lib$(MODULE).la'
   inst_LDFLAGS=-static
 else

@@ -5,7 +5,8 @@
 	* NEWS: Note that lookup methods don't terminate on null member.
 
 	* configure.in: Move library related things after option handling.
-	(--with-javaswarm-dll-name): New option.  
+	(--with-javaswarm-dll-name): 
+	New option, and substitution JAVASWARM_DLL_NAME
 	(AC_OUTPUT): Extract java/swarm/Globals.java.
 
 1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
