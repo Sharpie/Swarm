@@ -318,8 +318,6 @@ PHASE(Creating)
   const char *appName = [arguments getAppName];
   const char *appModeString = [arguments getAppModeString];
 
-  // printf ("pre:[%s]\n", [self name]);
-
   [super createEnd];
   currentApplicationKey = 
     [String create: [self getZone] setC: appName];

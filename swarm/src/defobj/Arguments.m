@@ -158,7 +158,7 @@ PHASE(Creating)
     argp_program_bug_address = bugAddress;
 
   argp_parse (argp, argc, argv, 0, 0, self);
-  return self;
+  return [super createEnd];
 }
 
 + createArgc: (int)theArgc
