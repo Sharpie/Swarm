@@ -6,8 +6,6 @@ HEADERS=Graph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histogram.h Label.
 
 OTHERCLEAN=testFrame testGraph testHistogram testRaster testFrame.o testGraph.o testHistogram.o testRaster.o
 
-override EXTRACFLAGS+=-Itk -DHAVE_LIMITS_H -DHAVE_UNISTD_H
-
 include $(SWARMHOME)/Makefile.lib
 
 testFrame: testFrame.o $(LIBRARY)

@@ -1,17 +1,20 @@
 1998-03-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile: Remove defines for Tk headers.
+
 	* internal.m: Include win32dib.h and Tk internal header files only
 	if _WIN32.  Include <misc.h>.
 	(Xfill): New function.
 	(tkobjc_raster_fillRectangle}): Use dib_fill in Win32 case and
 	Xfill in X case.
-	(tkobjc_raster_erase): Setup a temporary colormap and use
-	tkobjc_raster_fillRectangle with index of 0 to erase.
+	(tkobjc_raster_erase): In Win32 case, setup a temporary colormap
+	and use tkobjc_raster_fillRectangle with index of 0 to erase. 
+	In X case, use Xfill.
 	(tkobjc_raster_drawPoint,tkobjc_setColormap): New functions.
 	(tkobjc_raster_createPixmap, tkobjc_raster_flush): Handle Win32
 	case.
 	(tkobjc_raster_copy): Disabled in Win32 case.
-	(XDrawPoint, XCreatePixmap, XFreePixmap): Remove.	
+	(XDrawPoint, XCreatePixmap, XFreePixmap): Remove.
 
 	* internal.h: Include <tkobjc/Colormap.h> and make a @class.
 	(tkobjc_raster_{fillRectangle,drawPoint}): Takes a colormap index

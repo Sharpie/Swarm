@@ -67,7 +67,7 @@
   colormap = c;
   map = [colormap map];				  // cache this, fast access.
   tkobjc_raster_setBackground (self, [colormap black]);
-  tkobjc_setColormap (self);
+  tkobjc_raster_setColormap (self);
   return self;
 }
 
@@ -95,10 +95,9 @@
 
 // new methods
 
-// erase the pixmap - can't use XClearArea, sadly.
 - erase
 {
-  tkobjc_erase (self);
+  tkobjc_raster_erase (self);
   return self;
 }
 
