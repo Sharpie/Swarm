@@ -1,3 +1,8 @@
+1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* headers.m4 (md_CREATE_LIBOBJC_HEADERS): Convert solaris2.5.1 and
+	solaris2.7 into solaris2.  Convert linux into linux-gnu.
+
 1999-04-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* headers.m4 (md_CREATE_LIBOBJC_HEADERS): Convert i486, i586, and

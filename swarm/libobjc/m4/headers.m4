@@ -5,6 +5,12 @@ case "$host_cpu" in
   i486 | i586 | i686) host_cpu=i386 ;;
 esac
 
+case "$target_os" in
+  solaris2.5.1 | solaris2.7) target_os=solaris2 ;;
+  linux) target_os=linux-gnu ;;
+esac
+
+
 if test -d $configsrcdir/$host_cpu -a "`echo $configsrcdir/$host_cpu/*`" != "$host_cpu/*"; then
     cpudir=$configsrcdir/$host_cpu
 else
