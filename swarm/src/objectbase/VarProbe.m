@@ -65,10 +65,10 @@ PHASE(Creating)
         jobject probedVariableStr = (*jniEnv)->NewStringUTF (jniEnv, 
                                                              probedVariable);
         lref = 
-          (*jniEnv)->CallObjectMethod(jniEnv,
-                                      classObject, 
-                                      m_ClassGetDeclaredField,
-                                      probedVariableStr);
+          (*jniEnv)->CallObjectMethod (jniEnv,
+                                       classObject, 
+                                       m_ClassGetField,
+                                       probedVariableStr);
         (*jniEnv)->DeleteLocalRef (jniEnv, probedVariableStr);
       }
       if (!lref)

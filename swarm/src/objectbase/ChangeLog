@@ -1,3 +1,8 @@
+2000-04-13    <mgd@nest.swarm.org>
+
+	* VarProbe.m ([VarProbe -createEnd]): Use m_ClassGetField instead
+	of m_ClassGetDeclaredField.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT): Bump:  Swarm 2.1.1 frozen.
