@@ -1,4 +1,4 @@
-SAMPLE_FILES = run.js rungui.js test.js testgui.js test.html
+SAMPLE_FILES = run.js rungui.js test.js testgui.js test.html testgui.html
 EXTRA_DIST = COM.el move-if-change c/Makefile.in c/COMsupport.h c/COMsupport.cpp $(SAMPLE_FILES)
 EMACS = @EMACS@
 
