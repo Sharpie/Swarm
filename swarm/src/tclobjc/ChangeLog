@@ -1,7 +1,7 @@
 1998-08-14  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* tclObjc.m (dynamic_call): Wrap call to __builtin_apply with this
-	to get around bug in gcc-2.7.2.
+	to get around -O2 compilation core dump with gcc-2.7.2.
 	(tclObjc_msgSendToClientData): Use it.
 
 1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
