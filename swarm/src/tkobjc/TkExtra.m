@@ -131,7 +131,8 @@ ensureBltSupportFiles (id arguments, id interp)
     const char *fullVersion = [self getBltFullVersion];
 
     if (strcmp (fullVersion, "8.0-unoff") == 0
-        || strcmp (fullVersion, "2.4") == 0)
+        || strcmp (fullVersion, "2.4") == 0
+        || strcmp (fullVersion, "3.0") == 0)
       {
         [self eval: "namespace import blt::barchart"];
         [self eval: "namespace import blt::bitmap"];
@@ -200,7 +201,7 @@ ensureBltSupportFiles (id arguments, id interp)
       return YES;
     }
   else
-    return (major >= 2 && minor >= 3);
+    return ((major == 2 && minor >= 3) || (major >= 3));
 }
      
 @end

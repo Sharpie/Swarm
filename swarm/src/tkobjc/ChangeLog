@@ -1,3 +1,7 @@
+2004-07-12  Marcus G. Daniels <mgd@santafe.edu>
+
+	* TkExtra.m ([TkExtra -preInitWithArgc:argv:], newBLTp): Handle BLT 3.0.
+
 2004-02-24  Marcus G. Daniels <mgd@santafe.edu>
 
 	* internal.m (tkobjc_pixmap_save): Don't use stack allocated buffers
