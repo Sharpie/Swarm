@@ -1,0 +1,198 @@
+README
+
+jheatbugs
+
+Paul Johnson <pauljohn@ku.edu>
+2005-02-16
+
+How to compile & run the model
+
+Supposing Swarm is installed with Java support, it should be as simple
+as typing:
+
+1.
+
+# make
+
+2.
+
+# javaswarm StartHeatbugs
+
+
+To run in batch mode,
+
+#    javaswarm StartHeatbugs -b
+
+
+Discussion
+
+Heatbugs is a Swarm classic. Java Heatbugs (jheatbugs) is a Java
+implementation that was originally done by the Swarm development team
+led by Marcus Daniels <mgd@santafe.edu>, the developer who was
+primarily responsible for the implementation of Java support in Swarm.
+Later Tim Howe did a lot of work on documenting the code and making
+the Java model ready for the conduct of multi-run experiments.  The
+code includes plenty of commentary in javadoc format and I've run
+javadoc on these files and saved the output in a subdirectory called
+"doc".
+
+Tim's document "swarm-steps.gen.txt" contains information on how to
+install pre-2.2 edition Swarm in Windows, includes commentary as well
+as the java source code for jheatbugs.  It also includes a Perl
+program that can be used to extract the code from the file. In case
+you want to dig though Tim's original notes, I'd urge you to look at
+"swarm-steps.gen.txt".  I'm including (what are, in my opinion) the
+highlights that will help you to understand the handling of "command
+line options."
+
+In the swarm-support email list, we had quite a flurry of messages
+about ways to manage command line arguments in Java models. Sven
+Thommesen <sthomme@swarm.org> summarized these ruminations in a
+note.
+
+http://www.ku.edu/~pauljohn/SwarmFaq/Memos/SvenArgumentsNote.txt
+
+Tim Howe recommends that we use Java Properties to handle command line
+parameters.  In his example, one can run the jheatbugs program by
+adding options like this:
+
+# javaswarm -Dn=30 StartHeatbugs
+
+That will create 30 heatbugs (because the option n=30).  Tim created
+an option to run the model by starting the heatbugs in a tight
+cluster, and you can start that with: 
+
+# javaswarm -Dn=30 -Dc=1 StartHeatbugs
+
+
+
+Several years ago, I wrote a Perl script called "replicator.pl" that
+could be used to run models over and over and experiment with various
+parameters.  Because I'm an Objective-C user, I did not work on the
+extension of that code to Java use. Tim Howe found that he could make
+replicator work with Java by the use of an intermediary script called
+repswarm.pl.  
+
+The following is reprinted from Tim Howe's notes in
+"swarm-steps.gen.txt", with only minimal editing. 
+
+
+----------------From "swarm-steps.gen.txt" by Tim Howe ----------------
+
+Part 6. Experiment-suite tools. 
+
+When you invoke javaswarm, your program runs only once. To conduct an 
+experiment, you will probably want to invoke your program many times, with 
+varying arguments and possibly with a varying random seed. For all that you can 
+use replicator.pl, which is a general-purpose argument-varying program invoker. 
+You may also want to use repswarm.pl, which is a general-purpose interface 
+between replicator.pl and any Java Swarm program that accepts its run-time
+parameters in the form of Java Properties (class java.util.Properties). 
+
+To run the enhanced version of Jheatbugs multiple times using replicator.pl and 
+repswarm.pl, invoke
+
+#    chmod -R 755 *
+#    export SWARMSTARTCLASS=StartHeatbugs
+#    replicator.pl --program=repswarm.pl --sweep p=10 --sweep n=20,30,40
+#    ls -Rl exp-*
+
+The ls command will show the files that contain the output of your three
+experiments. 
+
+To run Jheatbugs with clustering switched off and switched on, 3 randomly 
+seeded runs each (not that Jheatbugs pays any attention to the random seed), 
+invoke
+
+#    replicator.pl --program=repswarm.pl --sweep c=0,1 --nruns=3
+
+To review all your experiments, invoke
+
+    cat exp-*/*/exp*
+
+For more information, read the documentation in replicator.pl and
+repswarm.pl. 
+
+
+Part 8. A Suggestion for Your Next Steps.
+
+Suggestion: never write a new Swarm program -- just modify an existing one. 
+
+For example, suppose your goal is to model the behavior of foxes and lemmings. 
+
+Start by getting jheatbugs-3.0 to run. 
+
+Next, invoke
+
+    mv Heatbug.java Fox.java
+    make
+
+That will generate error messages. Get the program running again, and you will 
+understand a bit about Java class names, file names, makefiles, and compiling. 
+
+Next, invoke
+
+    cp Fox.java Lemming.java
+
+Change Lemming.java only to make all the lemmings blue. Get your new 
+program to run -- which you can confirm by observing the yellow/green foxes
+and the blue lemmings -- and you will understand more about class names, file 
+names, makefiles, and compiling. 
+
+Then slowly give Fox more fox-like behavior and Lemming more lemming-like
+behavior. 
+
+Part 9. Naming and typographic conventions used in jheatbugs-3.0. 
+
+I prefix every instance-variable name with an underscore. This convention I 
+borrowed from Sriram Srinivasan of "Advanced Perl Programming" fame and Martin 
+Fowler of UML fame. 
+
+To make programming structures obvious, I put each matching token -- that is,
+every token among ( ) { } [ ] < > -- either on the same line or
+in the same column as its mate. Similarly for matching compound tokens, such
+as /* */ <!-- --> <tag> </tag>. 
+
+In documentation, I use the form "m()", with no space before the parentheses,
+to mean "the method m, however many arguments it takes"; I use "m ()" to mean
+"the method m, which takes zero arguments"; "m (a)" to mean "the method m, 
+which takes the argument a"; etc.
+
+At the close of some of the longer methods, I put a comment so you can see
+what method you're reading when the screen shows only the tail; for example, 
+"} /// buildObjects()". For constructors, the comment is "} /// constructor". 
+For the same reason, I sometimes put a comment at the end of a long loop; for
+example, "} /// if _unhappiness != 0". There's no special reason for the triple
+slashes, except that after a while one learns to look for the triple slash to
+get oriented. 
+
+I generally begin a comment with ellipsis ("...") if it explains the preceding 
+code; I end it with a colon (":") if it explains the subsequent code.
+
+In the Javadoc comments, I indicate the role of every parameter with the string
+"(in)" or "(out)" or "(inout)" to indicate, respectively, whether the parameter 
+is only read or is only written or is read and written by the method;
+for example, "@param numBugs (in)". Thus, if I pass an array to a method, and
+the method or a delegate of the method might ever write an element of the array
+and might ever also read an element of the array, I indicate "(inout)".
+This conventions I borrowed from Corba IDL. 
+
+I define nearly every accessor (getter or setter) immediately after, and
+indented one tab stop in from, its variable. This convention prevents accessors
+from cluttering up the more interesting methods, and keeps you from having
+to wonder about accessibility when you're examining the data members. 
+But recently I prefer Bill Vogel's convention: for simple data members that you
+want to give public write-access to, just make the data public. 
+
+The fundamental idea of exception handling is to remove unusual conditions from
+the normal flow of processing. Applying that concept to the typography, I do
+not indent try-blocks. But I do indent catch-blocks. 
+
+In the top-level class of each Java file, which typically contains most of the
+code, I save one tab stop by not indenting method and variable definitions
+(in other words, methods and variables begin at the left margin). For other
+classes in the file, only the class definition begins at the left margin; 
+methods and variables start one tab stop in. The goal of this convention is
+to avoid wasting a rather uninformative tab stop through the bulk of the code,
+while giving a visual clue as to whether the displayed code is in the eponymous
+class or some other class. 
