@@ -1,3 +1,8 @@
+1999-04-25  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* configure.in (enable_jar): New test.
+	(JAVA_CLASSES_INSTALLED_AS): Set per above.
+
 1999-04-24  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* configure.in: Add call to new macro md_CHECK_ARGP.
