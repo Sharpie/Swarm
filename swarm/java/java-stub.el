@@ -14,6 +14,7 @@
       ("SEL" . "swarm.Selector")
       ("void" . "void")
       ("const char \\*" . "java.lang.String")
+      ("const char \\*\\*" . "java.lang.String[]")
       
       ("char \\*" . "java.lang.String")
       ("char" . "char")
@@ -343,7 +344,7 @@
   (insert "class ")
   (insert (java-class-name protocol phase))
   (let ((pname (protocol-name protocol)))
-    (cond ((eq phase :creating)
+    (cond ((inclusive-phase-p phase :creating)
            (insert " extends swarm.PhaseCImpl"))
 	  (t (inheritance-cases pname))
           ))
@@ -353,7 +354,7 @@
   (insert (java-qualified-interface-name (protocol-module protocol)
                                          protocol :setting))
   (loop for interface-phase in '(:creating :using)
-        when (eq phase interface-phase)
+        when (inclusive-phase-p phase interface-phase)
         do
         (insert ", ")
         (insert (java-qualified-interface-name (protocol-module protocol)
@@ -361,14 +362,13 @@
   (insert " {\n")
   (java-print-class-methods-in-phase protocol phase)
   (java-print-class-methods-in-phase protocol :setting)
-  (case phase
-    (:using
-     (java-print-basic-constructor protocol)
-     (when (creatable-p protocol)
-       (java-print-convenience-constructors protocol)))
-    (:creating
-     (when (creatable-p protocol)
-       (java-print-nextphase-class-constructor protocol))))
+  (cond ((inclusive-phase-p phase :using)
+         (java-print-basic-constructor protocol)
+         (when (creatable-p protocol)
+           (java-print-convenience-constructors protocol)))
+        ((inclusive-phase-p phase :creating)
+         (when (creatable-p protocol)
+           (java-print-nextphase-class-constructor protocol))))
   (insert "}\n"))
 
 (defun java-print-interface-phase (protocol phase)
@@ -429,7 +429,7 @@
                            (java-print-interface-phase protocol phase)))
 
 (defun java-print-interface (protocol)
-  (loop for phase in '(:creating :setting :using)
+  (loop for phase in *phases*
         do (java-print-interface-phase-to-file protocol phase)))
 
 (defun mangle-signature (str)
@@ -796,17 +796,18 @@
   (print-makefile.common)
   (loop for module-sym being each hash-key of *module-hash-table*
         using (hash-value protocol-list)
-        for module = (lookup-module module-sym)
-        for dir = (java-module-path module)
+        unless (eq module-sym 'swarm)
         do
-        (ensure-directory dir)
-        (with-temp-file (concat dir "Makefile")
-          (insert "include ")
-          (insert "../../Makefile.common\n")
-          (insert "module = ")
-          (insert (symbol-name module-sym))
-          (insert "\n")
-          (insert "include ../Makefile.rules\n"))))
+        (let* ((module (lookup-module module-sym))
+               (dir (java-module-path module)))
+          (ensure-directory dir)
+          (with-temp-file (concat dir "Makefile")
+            (insert "include ")
+            (insert "../../Makefile.common\n")
+            (insert "module = ")
+            (insert (symbol-name module-sym))
+            (insert "\n")
+            (insert "include ../Makefile.rules\n")))))
 
 (defun java-run-all (&key unicode)
   (set-dollar-sign unicode)

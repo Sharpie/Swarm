@@ -5,6 +5,10 @@
 	java-print-method-invocation, java-print-native-method,
 	java-print-native-method): Use renamed argument-empty-p.
 	(java-argument-empty-p): Remove.
+	(*objc-to-java-type-alist*): Recognize const char **.
+	(java-print-class-phase): Use inclusive-phase-p instead of eq.
+	(java-print-interface): Loop over *phases* instead of literal list.
+	(java-print-makefiles): Skip swarm module.
 
 2000-07-07    <mgd@DRONE>
 
