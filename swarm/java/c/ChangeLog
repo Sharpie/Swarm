@@ -1,3 +1,8 @@
+1999-07-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.m: Accomodate J* to SD_* directory.h changes
+	throughout.
+
 1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.m: Implementations of methods that correspond

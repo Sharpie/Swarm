@@ -10,46 +10,46 @@
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSwarm (JNIEnv *env, jobject obj)
 {
-  return JENSUREJAVA (env, getCurrentSwarm());
+  return SD_ENSUREJAVA (env, getCurrentSwarm());
 }
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSchedule (JNIEnv *env, jobject obj)
 {
-  return JENSUREJAVA (env, getCurrentSchedule());
+  return SD_ENSUREJAVA (env, getCurrentSchedule());
 }
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSwarmActivity (JNIEnv *env, jobject obj)
 {
-  return JENSUREJAVA (env, getCurrentSwarmActivity ());
+  return SD_ENSUREJAVA (env, getCurrentSwarmActivity ());
 }
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentScheduleActivity (JNIEnv *env, 
 							jobject obj)
 {
-  return JENSUREJAVA (env, getCurrentScheduleActivity());
+  return SD_ENSUREJAVA (env, getCurrentScheduleActivity());
 }
 
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentOwnerActivity (JNIEnv *env, jobject obj)
 {
-  return JENSUREJAVA (env, getCurrentOwnerActivity ());
+  return SD_ENSUREJAVA (env, getCurrentOwnerActivity ());
 }
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentAction (JNIEnv *env, jobject obj)
 {
-  return JENSUREJAVA (env, getCurrentAction());
+  return SD_ENSUREJAVA (env, getCurrentAction());
 }
 
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentActivity (JNIEnv *env, jobject obj)
 {
-  return JENSUREJAVA (env, getCurrentActivity());
+  return SD_ENSUREJAVA (env, getCurrentActivity());
 }
 
 
@@ -63,7 +63,7 @@ JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_createProbeDisplay (JNIEnv * env, jobject obj, 
 						jobject anObject)
 {
-  return JENSUREJAVA (env, CREATE_PROBE_DISPLAY(JFINDOBJC (env, anObject)));
+  return SD_ENSUREJAVA (env, CREATE_PROBE_DISPLAY(SD_FINDOBJC (env, anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -71,7 +71,7 @@ Java_swarm_SwarmEnvironment_createCompleteProbeDisplay (JNIEnv * env,
 							jobject obj, 
 							jobject anObject)
 {
-  return JENSUREJAVA (env, CREATE_COMPLETE_PROBE_DISPLAY(JFINDOBJC (env, anObject)));
+  return SD_ENSUREJAVA (env, CREATE_COMPLETE_PROBE_DISPLAY(SD_FINDOBJC (env, anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -79,7 +79,7 @@ Java_swarm_SwarmEnvironment_createArchivedProbeDisplay (JNIEnv * env,
 							jobject obj, 
 							jobject anObject)
 {
-  return JENSUREJAVA (env, CREATE_ARCHIVED_PROBE_DISPLAY(JFINDOBJC (env, anObject)));
+  return SD_ENSUREJAVA (env, CREATE_ARCHIVED_PROBE_DISPLAY(SD_FINDOBJC (env, anObject)));
 }
 
 
@@ -89,7 +89,7 @@ Java_swarm_SwarmEnvironment_createArchivedCompleteProbeDisplay (JNIEnv * env,
 							   jobject anObject)
 {
   return 
-    JENSUREJAVA (env, CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(JFINDOBJC (env, anObject)));
+    SD_ENSUREJAVA (env, CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(SD_FINDOBJC (env, anObject)));
 }
 
 
@@ -99,13 +99,13 @@ Java_swarm_SwarmEnvironment_setWindowGeometryRecordName (JNIEnv * env,
 							 jobject anObject)
 {
   return 
-    JENSUREJAVA (env, SET_WINDOW_GEOMETRY_RECORD_NAME(JFINDOBJC (env, anObject)));
+    SD_ENSUREJAVA (env, SET_WINDOW_GEOMETRY_RECORD_NAME(SD_FINDOBJC (env, anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
 Java_swarm_SwarmEnvironment_setComponentWindowGeometryRecordNameFor (JNIEnv * env, jobject obj, jobject anObj, jobject widget)
 {
-  return JENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(JFINDOBJC (env, anObj), JFINDOBJC (env, widget)));
+  return SD_ENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(SD_FINDOBJC (env, anObj), SD_FINDOBJC (env, widget)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -113,7 +113,7 @@ Java_swarm_SwarmEnvironment_setComponentWindowGeometryRecordName (JNIEnv * env,
 								  jobject obj,
 								  jobject anObj)
 {
-  return JENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(JFINDOBJC (env, obj), JFINDOBJC (env, anObj)));
+  return SD_ENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(SD_FINDOBJC (env, obj), SD_FINDOBJC (env, anObj)));
 }
 
 JNIEXPORT void JNICALL
@@ -151,6 +151,6 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
     libjavaswarm_constructor ();
   }
 #endif
-  java_directory_init (env, obj);
+  swarm_directory_init (env, obj);
 }
 
