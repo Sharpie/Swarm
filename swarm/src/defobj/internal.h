@@ -46,5 +46,10 @@ lisp_process_array (const char *type,
                     id <OutputStream> stream,
                     BOOL deepFlag);
 
+extern const char *lisp_type_for_objc_type (const char *varType, void (*func) (unsigned dim, unsigned count));
+
+extern const char *objc_type_for_lisp_type (const char *lispTypeString);
+
 extern char *zstrdup (id aZone, const char *str);
+
 

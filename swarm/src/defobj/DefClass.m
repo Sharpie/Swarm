@@ -19,20 +19,6 @@ Library:      defobj
 
 #include <misc.h> // strncmp, isdigit
 
-#define TYPE_SHORT "short"
-#define TYPE_UNSIGNED_SHORT "unsigned short"
-#define TYPE_INT "int"
-#define TYPE_UNSIGNED "unsigned"
-#define TYPE_LONG "long"
-#define TYPE_UNSIGNED_LONG "unsigned long"
-#define TYPE_LONG_LONG "long long"
-#define TYPE_UNSIGNED_LONG_LONG "unsigned long long"
-#define TYPE_FLOAT "float"
-#define TYPE_DOUBLE "double"
-#define TYPE_LONG_DOUBLE "long double"
-#define TYPE_STRING "string"
-#define TYPE_OBJECT "object"
-
 //
 // Class_s -- portion of class object allocated for all classes 
 //
@@ -236,39 +222,6 @@ createType (id aZone, const char *typeName)
   return typeObject;
 }
   
-static const char *
-objc_type_for_lisp_type (const char *lispTypeString)
-{
-  if (strcmp (lispTypeString, TYPE_SHORT) == 0)
-    return @encode (short);
-  else if (strcmp (lispTypeString, TYPE_UNSIGNED_SHORT) == 0)
-    return @encode (unsigned short);
-  else if (strcmp (lispTypeString, TYPE_INT) == 0)
-    return @encode (int);
-  else if (strcmp (lispTypeString, TYPE_UNSIGNED) == 0)
-    return @encode (unsigned);
-  else if (strcmp (lispTypeString, TYPE_LONG) == 0)
-    return @encode (long);
-  else if (strcmp (lispTypeString, TYPE_UNSIGNED_LONG) == 0)
-    return @encode (unsigned long);
-  else if (strcmp (lispTypeString, TYPE_LONG_LONG) == 0)
-    return @encode (long long);
-  else if (strcmp (lispTypeString, TYPE_UNSIGNED_LONG_LONG) == 0)
-    return @encode (unsigned long long);
-  else if (strcmp (lispTypeString, TYPE_FLOAT) == 0)
-    return @encode (float);
-  else if (strcmp (lispTypeString, TYPE_DOUBLE) == 0)
-    return @encode (double);
-  else if (strcmp (lispTypeString, TYPE_LONG_DOUBLE) == 0)
-    return @encode (long double);
-  else if (strcmp (lispTypeString, TYPE_STRING) == 0)
-    return @encode (const char *);
-  else if (strcmp (lispTypeString, TYPE_OBJECT) == 0)
-    return @encode (id);
-  else
-    abort ();
-}
-
 - lispInCreate: expr
 {
   id aZone = [expr getZone];
@@ -351,118 +304,20 @@ objc_type_for_lisp_type (const char *lispTypeString)
   return [hdf5Obj getClass];
 }
 
-static const char *
-process_type (const char *varType,
-             void (*func) (unsigned dim, unsigned count))
-{
-  const char *baseType;
-  unsigned dimnum;
-
-  void expand_type (const char *type)
-    {
-      switch (*type)
-        {
-        case _C_SHT:
-          baseType = TYPE_SHORT;
-          break;
-        case _C_USHT:
-          baseType = TYPE_UNSIGNED_SHORT;
-          break;
-        case _C_INT:
-          baseType = TYPE_INT;
-          break;
-        case _C_UINT:
-          baseType = TYPE_UNSIGNED;
-          break;
-        case _C_LNG:
-          baseType = TYPE_LONG;
-          break;
-        case _C_ULNG:
-          baseType = TYPE_UNSIGNED_LONG;
-          break;
-        case _C_LNG_LNG:
-          baseType = TYPE_LONG_LONG;
-          break;
-        case _C_ULNG_LNG:
-          baseType = TYPE_UNSIGNED_LONG_LONG;
-          break;
-        case _C_FLT:
-          baseType = TYPE_FLOAT;
-          break;
-        case _C_DBL:
-          baseType = TYPE_DOUBLE;
-          break;
-        case _C_LNG_DBL:
-          baseType = TYPE_LONG_DOUBLE;
-          break;
-        case _C_CHARPTR:
-          baseType = TYPE_STRING;
-          break;
-        case _C_ID:
-          baseType = TYPE_OBJECT;
-          break;
-        case _C_ARY_B:
-          type++;
-          {
-            char *tail;
-            unsigned count = strtoul (type, &tail, 10);
-            
-            if (func)
-              func (dimnum, count);
-            dimnum++;
-            expand_type (tail);
-          }
-          break;
-        default:
-          abort ();
-        }
-    }
-  dimnum = 0;
-  expand_type (varType);
-  return baseType;
-}
-
 - lispOutShallow: stream
 {
   struct objc_ivar_list *ivars = ((Class_s *) self)->ivarList;
   unsigned i, count = ivars->ivar_count;
 
-  [stream catC: "(" MAKE_CLASS_FUNCTION_NAME " '"];
-  [stream catC: [self name]];
-  [stream catC: " "];
-
+  [stream catStartMakeClass: [self name]];
   for (i = 0; i < count; i++)
     {
-      [stream catC: " #:"];
-      [stream catC: ivars->ivar_list[i].ivar_name];
-      [stream catC: " "];
-      {
-        const char *type = ivars->ivar_list[i].ivar_type;
-        
-        if (*type == _C_ARY_B)
-          {
-            [stream catC: "(array '"];
-            [stream catC: process_type (type, NULL)];
-            {
-              void outputCount (unsigned dim, unsigned count)
-                {
-                  char buf[1 + DSIZE (count) + 1];
-                  
-                  sprintf (buf, " %u", count);
-                  [stream catC: buf];
-                }
-              process_type (type, outputCount);
-            }
-            [stream catC: ")"];
-          }
-        else
-          {
-            [stream catC: "'"];
-            [stream catC: process_type (type, NULL)];
-          }
-      }
+      [stream catSeparator];
+      [stream catKeyword: ivars->ivar_list[i].ivar_name];
+      [stream catSeparator];
+      [stream catType: ivars->ivar_list[i].ivar_type];
     }
-  [stream catC: ")"];
+  [stream catEndExpr];
   return self;
 }
 

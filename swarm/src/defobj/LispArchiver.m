@@ -283,8 +283,10 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream,
         {
           if (systemArchiverFlag)
             [outputCharStream catC: "      "];
-          [outputCharStream catC: "  (cons '"];
-          [outputCharStream catC: [key getC]];
+          [outputCharStream catC: " "];
+          [outputCharStream catStartCons];
+          [outputCharStream catSeparator];
+          [outputCharStream catSymbol: [key getC]];
           [outputCharStream catC: "\n"];
           
           if (systemArchiverFlag)
@@ -292,7 +294,7 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream,
           [outputCharStream catC: "    "];
           
           if (member == nil)
-            [outputCharStream catC: "#f"];
+            [outputCharStream catBoolean: NO];
           else
             {
               id obj;
@@ -327,7 +329,7 @@ lisp_output_objects (id <Map> objectMap, id outputCharStream,
                                "parsed ArchiverList instance expected");
                 }
             }
-          [outputCharStream catC: ")"];
+          [outputCharStream catEndExpr];
           member = [index next: &key];
           if ([index getLoc] == (id) Member)
             [outputCharStream catC: "\n"];
@@ -357,17 +359,22 @@ lisp_output_app_objects (id app, id outputCharStream, BOOL systemArchiverFlag)
       id app;
       id <String> appKey;
       
-      [outputCharStream catC: "(" ARCHIVER_FUNCTION_NAME "\n  (list"];
+      [outputCharStream catC: "(" ARCHIVER_FUNCTION_NAME "\n  "];
+      [outputCharStream catStartList];
       
       while ((app = [appMapIndex next: &appKey]))
         {
-          [outputCharStream catC: "\n    (cons "];
+          [outputCharStream catC: "\n   "];
+          [outputCharStream catSeparator];
+          [outputCharStream catStartCons];
+          [outputCharStream catSeparator];
           lisp_print_appkey ([appKey getC], outputCharStream);
           [outputCharStream catC: "\n      "];
           lisp_output_app_objects (app, outputCharStream, YES);
-          [outputCharStream catC: ")"];
+          [outputCharStream catEndExpr];
         }
-      [outputCharStream catC: "))\n"];
+      [outputCharStream catEndExpr];
+      [outputCharStream catC: ")\n"];
       [appMapIndex drop];
     }
   else

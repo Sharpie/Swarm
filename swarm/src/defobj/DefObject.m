@@ -1070,9 +1070,9 @@ initDescribeStream (void)
 {
   void store_object (struct objc_ivar *ivar)
     {
-      [stream catC: " #:"];
-      [stream catC: ivar->ivar_name];
-      [stream catC: " "];
+      [stream catSeparator];
+      [stream catKeyword: ivar->ivar_name];
+      [stream catSeparator];
       lisp_output_type (ivar->ivar_type,
                         (void *) self + ivar->ivar_offset,
                         0,
@@ -1086,10 +1086,10 @@ initDescribeStream (void)
 
 - _lispOut_: stream deep: (BOOL)deepFlag
 {
-  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [stream catC: [self getTypeName]];
+  [stream catStartMakeInstance: [self getTypeName]];
+  [stream catSeparator];
   [self lispOutVars: stream deep: deepFlag];
-  [stream catC: ")"];
+  [stream catEndExpr];
   return self;
 }
 

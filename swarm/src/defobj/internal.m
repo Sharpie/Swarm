@@ -9,6 +9,20 @@
 #include <misc.h> // strtoul, isDigit
 #include <objc/objc-api.h>
 
+#define TYPE_SHORT "short"
+#define TYPE_UNSIGNED_SHORT "unsigned short"
+#define TYPE_INT "int"
+#define TYPE_UNSIGNED "unsigned"
+#define TYPE_LONG "long"
+#define TYPE_UNSIGNED_LONG "unsigned long"
+#define TYPE_LONG_LONG "long long"
+#define TYPE_UNSIGNED_LONG_LONG "unsigned long long"
+#define TYPE_FLOAT "float"
+#define TYPE_DOUBLE "double"
+#define TYPE_LONG_DOUBLE "long double"
+#define TYPE_STRING "string"
+#define TYPE_OBJECT "object"
+
 size_t
 alignsizeto (size_t pos, size_t alignment)
 {
@@ -339,31 +353,29 @@ lisp_process_array (const char *type,
                     id <OutputStream> stream,
                     BOOL deepFlag)
 {
-  const char *space;
+  BOOL firstElement;
   
   void lisp_setup_array (unsigned rank, unsigned *dims, const char *baseType)
     {
-      char buf[1 + rank + 1]; // always big enough
-      
-      sprintf (buf, "#%u", rank);
-      [stream catC: buf];
+      [stream catArrayRank: rank];
     }
   void lisp_start_dim (unsigned dim)
     {
-      [stream catC: "("];
-      space = "";
+      [stream catStartExpr];
+      firstElement = YES;
     }
   void lisp_end_dim (void)
     {
-      [stream catC: ")"];
+      [stream catEndExpr];
     }
   void lisp_start_element (void)
     {
-      [stream catC: space];
+      if (!firstElement)
+        [stream catSeparator];
     }
   void lisp_end_element (void)
     {
-      space = " ";
+      firstElement = NO;
     }
   void lisp_array_output_type (const char *type,
                                unsigned offset,
@@ -398,15 +410,13 @@ lisp_output_type (const char *type,
         id obj = ((id *) ptr)[offset];
 
         if (obj == nil || !deepFlag)
-          [stream catC: "#f"];
+          [stream catBoolean: NO];
         else
           [obj lispOutDeep: stream];
         break;
       }
     case _C_CLASS:
-      [stream catC: "<"];
-      [stream catC: (*(Class *) ptr)->name];
-      [stream catC: ">"];
+      [stream catClass: (*(Class *) ptr)->name];
       break;
     case _C_SEL:
       raiseEvent (NotImplemented, "Selectors not supported");
@@ -461,9 +471,7 @@ lisp_output_type (const char *type,
       raiseEvent (NotImplemented, "Pointers not supported [%s]", type);
       break;
     case _C_CHARPTR:
-      [stream catC: "\""];
-      [stream catC: ((const char **) ptr)[offset]];
-      [stream catC: "\""];
+      [stream catString: ((const char **) ptr)[offset]];
       break;
     case _C_ATOM:
       raiseEvent (NotImplemented, "Atoms not supported");
@@ -490,6 +498,111 @@ lisp_output_type (const char *type,
       abort ();
       break;
     }
+}
+
+  
+const char *
+objc_type_for_lisp_type (const char *lispTypeString)
+{
+  if (strcmp (lispTypeString, TYPE_SHORT) == 0)
+    return @encode (short);
+  else if (strcmp (lispTypeString, TYPE_UNSIGNED_SHORT) == 0)
+    return @encode (unsigned short);
+  else if (strcmp (lispTypeString, TYPE_INT) == 0)
+    return @encode (int);
+  else if (strcmp (lispTypeString, TYPE_UNSIGNED) == 0)
+    return @encode (unsigned);
+  else if (strcmp (lispTypeString, TYPE_LONG) == 0)
+    return @encode (long);
+  else if (strcmp (lispTypeString, TYPE_UNSIGNED_LONG) == 0)
+    return @encode (unsigned long);
+  else if (strcmp (lispTypeString, TYPE_LONG_LONG) == 0)
+    return @encode (long long);
+  else if (strcmp (lispTypeString, TYPE_UNSIGNED_LONG_LONG) == 0)
+    return @encode (unsigned long long);
+  else if (strcmp (lispTypeString, TYPE_FLOAT) == 0)
+    return @encode (float);
+  else if (strcmp (lispTypeString, TYPE_DOUBLE) == 0)
+    return @encode (double);
+  else if (strcmp (lispTypeString, TYPE_LONG_DOUBLE) == 0)
+    return @encode (long double);
+  else if (strcmp (lispTypeString, TYPE_STRING) == 0)
+    return @encode (const char *);
+  else if (strcmp (lispTypeString, TYPE_OBJECT) == 0)
+    return @encode (id);
+  else
+    abort ();
+}
+
+const char *
+lisp_type_for_objc_type (const char *varType,
+                         void (*func) (unsigned dim, unsigned count))
+{
+  const char *baseType;
+  unsigned dimnum;
+
+  void expand_type (const char *type)
+    {
+      switch (*type)
+        {
+        case _C_SHT:
+          baseType = TYPE_SHORT;
+          break;
+        case _C_USHT:
+          baseType = TYPE_UNSIGNED_SHORT;
+          break;
+        case _C_INT:
+          baseType = TYPE_INT;
+          break;
+        case _C_UINT:
+          baseType = TYPE_UNSIGNED;
+          break;
+        case _C_LNG:
+          baseType = TYPE_LONG;
+          break;
+        case _C_ULNG:
+          baseType = TYPE_UNSIGNED_LONG;
+          break;
+        case _C_LNG_LNG:
+          baseType = TYPE_LONG_LONG;
+          break;
+        case _C_ULNG_LNG:
+          baseType = TYPE_UNSIGNED_LONG_LONG;
+          break;
+        case _C_FLT:
+          baseType = TYPE_FLOAT;
+          break;
+        case _C_DBL:
+          baseType = TYPE_DOUBLE;
+          break;
+        case _C_LNG_DBL:
+          baseType = TYPE_LONG_DOUBLE;
+          break;
+        case _C_CHARPTR:
+          baseType = TYPE_STRING;
+          break;
+        case _C_ID:
+          baseType = TYPE_OBJECT;
+          break;
+        case _C_ARY_B:
+          type++;
+          {
+            char *tail;
+            unsigned count = strtoul (type, &tail, 10);
+            
+            if (func)
+              func (dimnum, count);
+            dimnum++;
+            expand_type (tail);
+          }
+          break;
+        default:
+          abort ();
+        }
+    }
+  dimnum = 0;
+  expand_type (varType);
+  return baseType;
 }
 
 #if ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 2)

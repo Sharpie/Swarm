@@ -1,3 +1,17 @@
+1999-12-31  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* DefObject.m ([Object_s -lispOutVars:deep:],
+	[Object_s -_lispOut_:deep:]): Use new OutputStream methods.
+
+	* LispArchiver.m (lisp_output_objects, lisp_output_type): Likewise.
+
+	* internal.m (lisp_process_array): Likewise.
+
+	* DefClass.m, internal.[hm] (process_type,
+	objc_type_for_lisp_type, TYPE_*): Moved to internal.m.
+	([CreatedClass_s -lispOutShallow:]): Use new OutputStream
+	methods.
+
 1999-12-29  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* LispArchiver.m ([LispArchiver_c -createEnd]): Use
