@@ -1,3 +1,8 @@
+2002-02-06  Marcus G. Daniels  <mgd@condor>
+
+	* internal.m (object_setVariableFromExpr): Allocate memory for pointers
+	per expression and load.
+
 2002-01-14  Marcus G. Daniels  <mgd@condor>
 
 	* Symbol.m, Program.m: Ensure that all getName methods return data

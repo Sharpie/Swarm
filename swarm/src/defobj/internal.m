@@ -672,6 +672,7 @@ static char objc_types[FCALL_TYPE_COUNT] = {
   _C_SEL,
   '\001',
   '\002',
+  '\003',
   _C_PTR
 };
 
@@ -1037,12 +1038,24 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
 #endif
         {
           struct objc_ivar *ivar = find_ivar (getClass (obj), ivar_name);
-          void *ptr = (void *) obj + ivar->ivar_offset;
+          void *ptr;
           const char *atype = ivar->ivar_type;
+          fcall_type_t type;
           
           while (isDigit (*atype) || *atype == _C_ARY_B)
             atype++;
-          [expr convertToType: fcall_type_for_objc_type (*atype) dest: ptr];
+          ptr = (void *) obj + ivar->ivar_offset;
+          if (*atype == _C_PTR)
+            {
+              type = fcall_type_for_objc_type (*(atype + 1));
+              *((void **) ptr) = [[obj getZone] alloc:
+                                                  ([expr getElementSize] 
+                                                   * [expr getElementCount])];
+              ptr = *((void **) ptr);
+            }
+          else
+            type = fcall_type_for_objc_type (*atype);
+          [expr convertToType: type dest: ptr];
         }
     }
   else if (valuep (expr))
