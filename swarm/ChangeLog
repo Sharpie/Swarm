@@ -1,6 +1,7 @@
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in (AC_OUTPUT): Extract externvar.h.
+	Move dllwrap check into md_CHECK_DLL.
 
 	* externvar.h.in: New file.
 
@@ -13,7 +14,7 @@
 
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* configure.in: Call md_CHECK_DLLEXTERN.
+	* configure.in: Call md_CHECK_DLL.
 
 1999-05-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
