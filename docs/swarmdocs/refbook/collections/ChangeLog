@@ -1,3 +1,7 @@
+1999-01-07  Alex Lancaster  <alex@santafe.edu>
+
+	* collectionsmeta.sgml (End): Fixed missing end comment.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: Include from refbook/ instead of src/.
