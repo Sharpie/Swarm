@@ -1,10 +1,202 @@
 <!entity % html "IGNORE">
 <![%html;[
 <!entity % print "IGNORE">
-<!entity modeling PUBLIC "-//SFI Hive//ENTITIES Modeling JPEG//EN" ndata jpeg>
-]]>
 
-<!entity % print "INCLUDE">
-<![%print;[
-<!entity modeling PUBLIC "-//SFI Hive//ENTITIES Modeling EPS//EN" ndata eps>
-]]>
+<!entity discrete-event-sim PUBLIC "-//SFI Hive//ENTITIES
+discrete-event-sim JPEG//EN" ndata jpeg>
+
+<!entity interface-vs-implementation PUBLIC "-//SFI Hive//ENTITIES
+interface-vs-implementation JPEG//EN" ndata jpeg>
+
+<!entity libraries-activity PUBLIC "-//SFI Hive//ENTITIES
+libraries-activity JPEG//EN" ndata jpeg>
+
+<!entity libraries-itemized PUBLIC "-//SFI Hive//ENTITIES
+libraries-itemized JPEG//EN" ndata jpeg>
+
+<!entity libraries-overview PUBLIC "-//SFI Hive//ENTITIES
+libraries-overview JPEG//EN" ndata jpeg>
+
+<!entity libraries-random-overview PUBLIC "-//SFI Hive//ENTITIES
+libraries-random-overview JPEG//EN" ndata jpeg>
+
+<!entity libraries-random-process PUBLIC "-//SFI Hive//ENTITIES
+libraries-random-process JPEG//EN" ndata jpeg>
+
+<!entity libraries-rankedlist-map PUBLIC "-//SFI Hive//ENTITIES
+libraries-rankedlist-map JPEG//EN" ndata jpeg>
+
+<!entity libraries-space-hierarchy PUBLIC "-//SFI Hive//ENTITIES
+libraries-space-hierarchy JPEG//EN" ndata jpeg>
+
+<!entity merging-schedules PUBLIC "-//SFI Hive//ENTITIES
+merging-schedules JPEG//EN" ndata jpeg>
+
+<!entity modeling PUBLIC "-//SFI Hive//ENTITIES modeling JPEG//EN" ndata jpeg>
+
+<!entity objc-basics PUBLIC "-//SFI Hive//ENTITIES objc-basics JPEG//EN" ndata jpeg>
+
+<!entity oo-principles PUBLIC "-//SFI Hive//ENTITIES oo-principles
+JPEG//EN" ndata jpeg>
+
+<!entity oo-programming PUBLIC "-//SFI Hive//ENTITIES oo-programming
+JPEG//EN" ndata jpeg>
+
+<!entity recursive-swarm PUBLIC "-//SFI Hive//ENTITIES recursive-swarm
+JPEG//EN" ndata jpeg>
+
+<!entity simplebug-activation PUBLIC "-//SFI Hive//ENTITIES
+simplebug-activation JPEG//EN" ndata jpeg>
+
+<!entity simplebug-class-hierarchy PUBLIC "-//SFI Hive//ENTITIES
+simplebug-class-hierarchy JPEG//EN" ndata jpeg>
+
+<!entity simplebug-foodspace PUBLIC "-//SFI Hive//ENTITIES
+simplebug-foodspace JPEG//EN" ndata jpeg>
+
+<!entity simplebug-model-swarm PUBLIC "-//SFI Hive//ENTITIES
+simplebug-model-swarm JPEG//EN" ndata jpeg>
+
+<!entity simplebug-modelswarm2 PUBLIC "-//SFI Hive//ENTITIES
+simplebug-modelswarm2 JPEG//EN" ndata jpeg>
+
+<!entity simplebug-objc PUBLIC "-//SFI Hive//ENTITIES simplebug-objc
+JPEG//EN" ndata jpeg>
+
+<!entity simplebug-observer-swarm PUBLIC "-//SFI Hive//ENTITIES
+simplebug-observer-swarm JPEG//EN" ndata jpeg>
+
+<!entity simplebug-probes1 PUBLIC "-//SFI Hive//ENTITIES
+simplebug-probes1 JPEG//EN" ndata jpeg>
+
+<!entity simplebug-probes2 PUBLIC "-//SFI Hive//ENTITIES
+simplebug-probes2 JPEG//EN" ndata jpeg>
+
+<!entity simplebug-schedules-1 PUBLIC "-//SFI Hive//ENTITIES
+simplebug-schedules-1 JPEG//EN" ndata jpeg>
+
+<!entity simplebug-schedules-group PUBLIC "-//SFI Hive//ENTITIES
+simplebug-schedules-group JPEG//EN" ndata jpeg>
+
+<!entity swarm-discrete-event PUBLIC "-//SFI Hive//ENTITIES
+swarm-discrete-event JPEG//EN" ndata jpeg>
+
+<!entity swarm PUBLIC "-//SFI Hive//ENTITIES swarm JPEG//EN" ndata
+jpeg> 
+
+<!entity system-diagram PUBLIC "-//SFI Hive//ENTITIES system-diagram
+JPEG//EN" ndata jpeg>
+                              
+]]>                           
+                              
+<!entity % print "INCLUDE">   
+<![%print;[                   
+ 
+<!entity discrete-event-sim PUBLIC "-//SFI Hive//ENTITIES
+discrete-event-sim EPS//EN" ndata eps>
+
+<!entity interface-vs-implementation PUBLIC "-//SFI Hive//ENTITIES
+interface-vs-implementation EPS//EN" ndata eps>
+
+<!entity libraries-activity PUBLIC "-//SFI Hive//ENTITIES
+libraries-activity EPS//EN" ndata eps>
+
+<!entity libraries-itemized PUBLIC "-//SFI Hive//ENTITIES
+libraries-itemized EPS//EN" ndata eps>
+
+<!entity libraries-overview PUBLIC "-//SFI Hive//ENTITIES
+libraries-overview EPS//EN" ndata eps>
+
+<!entity libraries-random-overview PUBLIC "-//SFI Hive//ENTITIES
+libraries-random-overview EPS//EN" ndata eps>
+
+<!entity libraries-random-process PUBLIC "-//SFI Hive//ENTITIES
+libraries-random-process EPS//EN" ndata eps>
+
+<!entity libraries-rankedlist-map PUBLIC "-//SFI Hive//ENTITIES
+libraries-rankedlist-map EPS//EN" ndata eps>
+
+<!entity libraries-space-hierarchy PUBLIC "-//SFI Hive//ENTITIES
+libraries-space-hierarchy EPS//EN" ndata eps>
+
+<!entity merging-schedules PUBLIC "-//SFI Hive//ENTITIES
+merging-schedules EPS//EN" ndata eps>
+
+<!entity modeling PUBLIC "-//SFI Hive//ENTITIES modeling EPS//EN" ndata eps>
+
+<!entity objc-basics PUBLIC "-//SFI Hive//ENTITIES objc-basics EPS//EN" 
+ndata eps>
+
+<!entity oo-principles PUBLIC "-//SFI Hive//ENTITIES oo-principles
+EPS//EN" ndata eps>
+
+<!entity oo-programming PUBLIC "-//SFI Hive//ENTITIES oo-programming
+EPS//EN" ndata eps>
+
+<!entity recursive-swarm PUBLIC "-//SFI Hive//ENTITIES recursive-swarm
+EPS//EN" ndata eps>
+
+<!entity simplebug-activation PUBLIC "-//SFI Hive//ENTITIES
+simplebug-activation EPS//EN" ndata eps>
+
+<!entity simplebug-class-hierarchy PUBLIC "-//SFI Hive//ENTITIES
+simplebug-class-hierarchy EPS//EN" ndata eps>
+
+<!entity simplebug-foodspace PUBLIC "-//SFI Hive//ENTITIES
+simplebug-foodspace EPS//EN" ndata eps>
+
+<!entity simplebug-model-swarm PUBLIC "-//SFI Hive//ENTITIES
+simplebug-model-swarm EPS//EN" ndata eps>
+
+<!entity simplebug-modelswarm2 PUBLIC "-//SFI Hive//ENTITIES
+simplebug-modelswarm2 EPS//EN" ndata eps>
+
+<!entity simplebug-objc PUBLIC "-//SFI Hive//ENTITIES simplebug-objc
+EPS//EN" ndata eps>
+
+<!entity simplebug-observer-swarm PUBLIC "-//SFI Hive//ENTITIES
+simplebug-observer-swarm EPS//EN" ndata eps>
+
+<!entity simplebug-probes1 PUBLIC "-//SFI Hive//ENTITIES
+simplebug-probes1 EPS//EN" ndata eps>
+
+<!entity simplebug-probes2 PUBLIC "-//SFI Hive//ENTITIES
+simplebug-probes2 EPS//EN" ndata eps>
+
+<!entity simplebug-schedules-1 PUBLIC "-//SFI Hive//ENTITIES
+simplebug-schedules-1 EPS//EN" ndata eps>
+
+<!entity simplebug-schedules-group PUBLIC "-//SFI Hive//ENTITIES
+simplebug-schedules-group EPS//EN" ndata eps>
+
+<!entity swarm-discrete-event PUBLIC "-//SFI Hive//ENTITIES
+swarm-discrete-event EPS//EN" ndata eps>
+
+<!entity swarm PUBLIC "-//SFI Hive//ENTITIES swarm EPS//EN" ndata
+eps> 
+
+<!entity system-diagram PUBLIC "-//SFI Hive//ENTITIES system-diagram
+EPS//EN" ndata eps>
+                              
+]]>                           
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              

@@ -5,13 +5,12 @@ PNGTOPNM = @PNGTOPNM@
 PNMTOPS = @PNMTOPS@
 PNMCROP= @PNMCROP@
 
-EPS = discrete-event-sim.eps libraries-itemized.eps swarm.eps	\
-interface-vs-implementation.eps libraries-overview.eps libraries-activity.eps           modeling.eps    
+EPS = discrete-event-sim.eps interface-vs-implementation.eps libraries-activity.eps libraries-itemized.eps libraries-overview.eps libraries-random-overview.eps libraries-random-process.eps libraries-rankedlist-map.eps libraries-space-hierarchy.eps merging-schedules.eps modeling.eps objc-basics.eps oo-principles.eps oo-programming.eps recursive-swarm.eps simplebug-activation.eps simplebug-class-hierarchy.eps simplebug-foodspace.eps simplebug-model-swarm.eps simplebug-modelswarm2.eps simplebug-objc.eps simplebug-observer-swarm.eps simplebug-probes1.eps simplebug-probes2.eps simplebug-schedules-1.eps simplebug-schedules-group.eps swarm-discrete-event.eps swarm.eps system-diagram.eps
 
 GENERATED_EPS = $(patsubst %.png,%.eps,$(PNG))
 PNG = 
 GENERATED_JPEG = $(patsubst %.eps,%.jpeg,$(EPS)) $(patsubst %.png,%.jpeg,$(PNG))
-EXTRA_DIST = swarm.eps modeling.eps interface-vs-implementation.eps discrete-event-sim.eps 
+EXTRA_DIST = $(EPS)
 
 GENERATED_FIGS = $(GENERATED_EPS) $(GENERATED_JPEG)
 
