@@ -80,7 +80,7 @@ install-data:
         fi
 
 $(APPEXE): $(OBJECTS)
-	$(bindir)/libtool --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
+	$(bindir)/libtool-swarm --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
 
 .SUFFIXES: .m .xm
 

@@ -7,7 +7,8 @@
 	placeholder for the -ldld (HPUX) case.
 	(DLLIB): Put dynamic library here instead of in LIBS.  Substitute.
 
-	* Makefile.am (install-data-local): Install libtool to bindir.
+	* Makefile.am (install-data-local): Install libtool to bindir
+	as libtool-swarm.
 
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

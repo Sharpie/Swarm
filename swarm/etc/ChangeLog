@@ -7,7 +7,7 @@
 	* Makefile.lib.in (bindir): Add (for libraries with demo apps
 	that want to use libtool).
 
-	* Makefile.appl.in (LINK): Remove.  Use libtool 
+	* Makefile.appl.in (LINK): Remove.  Use libtool-swarm
 	directly in $(APPEXE) rule.
 	(SYSLIBS): Include substituted OBJCLIBS and DLLIB.
 
