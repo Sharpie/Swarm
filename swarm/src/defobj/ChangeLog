@@ -1,3 +1,10 @@
+1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (alignment_for_objc_type): Handle long long.
+
+	* DefObject.m ([Object_s -lispIn:]): Use convertToType:
+	instead of memcpy.
+
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.m (lispInInteger): Don't do type check here (it's now

@@ -107,8 +107,13 @@ PHASE(Setting)
       ptr = (void *) self + ivar->ivar_offset;
 
       if (arrayp (val))
-        memcpy (ptr, [val getData], 
-                [val getElementCount] * [val getElementSize]);
+        {
+          const char *atype = ivar->ivar_type;
+
+          while (isdigit ((int) *atype) || *atype == _C_ARY_B)
+            atype++;
+          [val convertToType: *atype dest: ptr];
+        }
       else if (valuep (val))
         {
           char ntype = [val getValueType];

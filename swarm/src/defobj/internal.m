@@ -87,14 +87,17 @@ size_for_objc_type (const char *varType)
 
   switch (*varType)
     {
+    case _C_INT: case _C_UINT:
+      size = sizeof (int);
+      break;
     case _C_SHT: case _C_USHT:
       size = sizeof (short);
       break;
     case _C_LNG: case _C_ULNG:
       size = sizeof (long);
       break;
-    case _C_INT: case _C_UINT:
-      size = sizeof (int);
+    case _C_LNG_LNG: case _C_ULNG_LNG:
+      size = sizeof (long long);
       break;
     case _C_CHR: case _C_UCHR:
       size = sizeof (char);
