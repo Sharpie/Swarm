@@ -1,8 +1,10 @@
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am (CURRENT): Increment. Swarm 1.3 released.
+
 	From Sven Thommesen <sthomme@humsci.auburn.edu>:
 	
-	* analysis.h (EZGraph): Note sequence return value for
+	* analysis.h (EZGraph): Return value is now a sequence for
 	create{,Average,Count,Min,Max,Total}Sequence:withFeedFrom: methods.
 	Declare new method -dropSequence:.
 

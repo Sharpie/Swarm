@@ -1,3 +1,7 @@
+1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (CURRENT): Increment.  Swarm 1.3 released.
+
 1998-07-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Array.m (initArray): Avoid allocating a block of size zero.

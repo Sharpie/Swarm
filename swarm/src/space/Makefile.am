@@ -1,7 +1,7 @@
 MODULE = space
 CURRENT = 0
 REVISION = 0
-AGE = 0
+AGE = 1
 spacedir = $(includedir)/space
 
 include $(top_srcdir)/src/Makefile.rules
