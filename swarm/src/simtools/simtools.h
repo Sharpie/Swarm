@@ -15,7 +15,6 @@ Library:         simtools
 //
 @protocol ControlPanel <SwarmObject>
 CREATING
-- setControlPanelGeometryName: (const char *)name;
 - createEnd;
 USING
 - getState;
@@ -47,7 +46,7 @@ extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 CREATING
 - setControlPanel: cp;
 - createEnd;
-- setControlPanelGeometryRecordName: (const char *)name;
+- setWindowGeometryRecordName: (const char *)name;
 USING
 - setScheduleContext: context;
 - insertAction: actionHolder;

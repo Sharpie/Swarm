@@ -1,5 +1,9 @@
 1998-01-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* simtools.h (Action): Rename
+	setControlPanelGeometryRecordName to setWindowGeometryRecordName.
+	(ControlPanel):  Remove setControlPanelGeometryRecordName.
+
 	* Makefile (OBJECTS): Add GUIComposite.o.
 	(HEADERS): Add GUIComposite.h.
 	(GUIComposite.o): Add.
