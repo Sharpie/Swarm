@@ -1,5 +1,10 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* DefObject.m ([Object_s -getDisplayName]): Return [self name]
+	if none set.
+
+	* DefObject.[hm] ([Object_s -getIdName]): Remove.
+
 	* directory.h (JAVA_APPNAME): Define to javaswarm.
 
 	* Arguments.m: Include directory.h.

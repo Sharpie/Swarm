@@ -63,7 +63,6 @@ Library:      defobj
 - (void)setDisplayName: (const char *)aName;
 - (const char *)getDisplayName;
 - (const char *)getObjectName;
-- (const char *)getIdName;
 - (const char *)getTypeName;
 - (void)describe: outputCharStream;
 - (void)describeID: outputCharStream;

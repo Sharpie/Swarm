@@ -932,15 +932,13 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 //
 - (const char *)getDisplayName
 {
-  if (!_obj_displayNameMap)
-    return NULL;
-  else
-    return (const char *) [_obj_displayNameMap at: self];
-}
+  const char *ret;
 
-- (const char *)getIdName
-{
-  return [self name];
+  ret = (_obj_displayNameMap
+         ? (const char *) [_obj_displayNameMap at: self]
+         : NULL);
+
+  return ret ?: [self name]; 
 }
 
 #define ATDELIMCHAR '@'
