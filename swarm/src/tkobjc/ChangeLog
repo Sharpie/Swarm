@@ -1,3 +1,8 @@
+2001-03-14  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Pixmap.m ([Pixmap -drop]): Drop directory and filename string if set.
+	([Pixmap -setDirectory:], [Pixmap -setFile:]): Copy strings.
+
 2001-03-13  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* gui.h, Graph.[hm]: Add setSymbolSize:.

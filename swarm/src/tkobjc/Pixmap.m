@@ -223,14 +223,14 @@ PHASE(Creating)
 - setDirectory: (const char *)theDirectory
 {
   if (theDirectory)
-    directory = theDirectory;
+    directory = STRDUP (theDirectory);
   
   return self;
 }
 
 - setFile: (const char *)theFilename
 {
-  filename = theFilename;
+  filename = STRDUP (theFilename);
   
   return self;
 }
@@ -307,6 +307,11 @@ PHASE(Using)
 - (void)drop
 {
   tkobjc_pixmap_drop (self);
+  if (directory)
+    FREEBLOCK (directory);
+  if (filename)
+    FREEBLOCK (filename);
+
   [super drop];
 }
 
