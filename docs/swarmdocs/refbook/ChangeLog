@@ -1,3 +1,17 @@
+2000-07-17  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* sgml.el (module-package-string): New function.
+	(sgml-object-id, sgml-examples, sgml-method-examples): Use it.
+	(module-path-string): New function.
+	(sgml-pathname-for-swarmdocs-pages-output,
+	sgml-examples,sgml-method-examples): Use it.
+	(sgml-method-signature-id): Handle getters phase.
+
+	* refcont.sgml: Add swarmcont.
+
+	* refbook.ent: Add entities for Swarm swarmcont.sgml and generated
+	swarmpages.sgml.
+
 2000-07-09  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* sgml.el (sgml-pathname-for-swarmdocs-pages-output): Moved

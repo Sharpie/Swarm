@@ -5,12 +5,19 @@
 
 (require 'protocol)
 
+(defun module-package-string (module)
+  (concat "SWARM." (module-name module) "."))
+
+(defun module-path-string (module)
+  (if (eq (module-sym module) 'swarm)
+      ""
+    (concat (module-name module) "/")))
+
 (defun sgml-pathname-for-swarmdocs-pages-output (module-sym)
   (let ((module-name (symbol-name module-sym)))
     (concat (get-top-builddir)
             "refbook/"
-            module-name
-            "/"
+            (module-path-string (lookup-module module-sym))
             module-name
             "pages.sgml")))
 
@@ -90,16 +97,14 @@
    (let* ((type-str (upcase (symbol-name type)))
           (base-id
            (if protocol
-               (let* ((cooked-protocol-name (external-protocol-name protocol)))
-                 (concat "SWARM."
-                         (upcase (module-name (protocol-module protocol)))
-                         "."
+               (let* ((cooked-protocol-name (external-protocol-name protocol))
+                      (module (protocol-module protocol)))
+                 (concat (insert (module-package-string module))
                          (upcase cooked-protocol-name)
                          "."
                          type-str))
-               (concat "SWARM."
-                       (upcase (module-name module))
-                       ".GENERIC."
+               (concat (insert (module-package-string module))
+                       "GENERIC."
                        type-str))))
      (if name
          (concat base-id "." (upcase name))
@@ -118,7 +123,7 @@
                           (case phase
                             (:creating "C")
                             (:setting "S")
-                            (:using "U")
+                            ((:getters :using) "U")
                             (otherwise (error "bad phase")))
                           (method-signature-index method-signature))))
 
@@ -441,15 +446,13 @@
   (let ((example-list (protocol-example-list object)))
     (when example-list
       (insert "<EXAMPLE LABEL=\"")
-      (insert (module-name (protocol-module protocol)))
-      (insert "/")
+      (insert (module-path-string (protocol-module protocol)))
       (insert (external-protocol-name protocol))
       (insert (format "/%d" (general-example-counter protocol)))
 
       ; start ID tag attribute                                        
-      (insert "\" ID=\"SWARM.")
-      (insert (module-name (protocol-module protocol)))
-      (insert ".")
+      (insert "\" ID=\"")
+      (insert (module-package-string (protocol-module protocol)))
       (insert (external-protocol-name protocol))
       (insert ".GENERIC")
       (insert (format ".%d" (general-example-counter protocol)))
@@ -468,17 +471,15 @@
 (defun sgml-method-examples (protocol method)
   (when (method-example-list method)
     (insert "<EXAMPLE LABEL=\"")
-    (insert (module-name (protocol-module protocol)))
-    (insert "/")
+    (insert (module-path-string (protocol-module protocol)))
     (insert (external-protocol-name protocol))
     (insert "/")
     (print-method-signature method (current-buffer))
     (insert (format "/%d" (method-example-counter protocol method)))
 
     ; start ID tag attribute                                        
-    (insert "\" ID=\"SWARM.")
-    (insert (module-name (protocol-module protocol)))
-    (insert ".")
+    (insert "\" ID=\"")
+    (insert (module-package-string (protocol-module protocol)))
     (insert (external-protocol-name protocol))
     (insert ".")
     (print-method-signature method (current-buffer) t)
@@ -580,19 +581,20 @@
         do (generate-refentry object)))
   
 (defun sgml-create-refentries-for-module (module-sym)
-  (let ((module-name (symbol-name module-sym)))
-    (with-temp-file (sgml-pathname-for-swarmdocs-pages-output module-sym)
-      (sgml-generate-refentries-for-module module-sym))))
+  (with-temp-file (sgml-pathname-for-swarmdocs-pages-output module-sym)
+    (sgml-generate-refentries-for-module module-sym)))
 
 (defun sgml-create-refentries-for-all-modules ()
   (interactive)
   (loop for module-sym being each hash-key of *module-hash-table*
         do
-        (sgml-create-refentries-for-module module-sym)))
+        (sgml-create-refentries-for-module module-sym)
+        ))
 
 (defun run-all ()
   (interactive)
   (load-and-process-modules :uniquify-method-lists nil)
-  (sgml-create-refentries-for-all-modules)  (sgml-generate-indices)
+  (sgml-create-refentries-for-all-modules) 
+  (sgml-generate-indices)
   nil)
 

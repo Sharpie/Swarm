@@ -43,4 +43,5 @@
 <!entity license-app.sgml PUBLIC "-//SFI Hive//ENTITIES License//EN">
 <!entity refbookrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Revision History//EN">
 
-
+<!entity swarmcont.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Content//EN">
+<!entity swarmpages.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Generated Content//EN">
