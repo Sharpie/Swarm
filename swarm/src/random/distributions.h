@@ -34,19 +34,20 @@ CREATING
 + createWithDefaults: (id <Zone>)aZone;
 
 //M: Use this create message if the generator to be attached is a Simple one:
-+ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>)generator;
++ create      : (id <Zone>)aZone
+  setGenerator: (id <SimpleRandomGenerator>)simpleGenerator;
 
 //M: Use this create message if the generator to be attached is a Split one:
 + create             : (id <Zone>)aZone 
-         setGenerator: (id <SplitRandomGenerator>)generator
+         setGenerator: (id <SplitRandomGenerator>)splitGenerator
   setVirtualGenerator: (unsigned) vGen;
 
 SETTING
 //M: Use this message if the generator to be attached is a Simple one:
-- setGenerator: (id <SimpleRandomGenerator>)generator;
+- setGenerator: (id <SimpleRandomGenerator>)simpleGenerator;
 
 //M: Use this message if the generator to be attached is a Split one:
-- setGenerator       : (id <SplitRandomGenerator>)generator 
+- setGenerator       : (id <SplitRandomGenerator>)splitGenerator 
   setVirtualGenerator: (unsigned)vGen;
 
 //M: The reset method resets the currentCount and other state data.
@@ -137,12 +138,12 @@ USING
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
 + create        : (id <Zone>)aZone
-    setGenerator: (id <SimpleRandomGenerator>)generator
+    setGenerator: (id <SimpleRandomGenerator>)simpleGenerator
   setProbability: (double)p;
 
 //M: Use this create message if the generator to be attached is a Split one:
 + create             : (id <Zone>)aZone
-         setGenerator: (id <SplitRandomGenerator>)generator
+         setGenerator: (id <SplitRandomGenerator>)splitGenerator
   setVirtualGenerator: (unsigned)vGen
        setProbability: (double)p;
 
@@ -168,13 +169,13 @@ USING
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
 + create      : (id <Zone>)aZone
-  setGenerator: (id <SimpleRandomGenerator>)generator
+  setGenerator: (id <SimpleRandomGenerator>)simpleGenerator
  setIntegerMin: (int)minValue
         setMax: (int)maxValue;
 
 //M: Use this create message if the generator to be attached is a Split one:
 + create           : (id <Zone>)aZone
-       setGenerator: (id <SplitRandomGenerator>)generator
+       setGenerator: (id <SplitRandomGenerator>)splitGenerator
 setVirtualGenerator: (unsigned) vGen
       setIntegerMin: (int)minValue
              setMax: (int)maxValue;
@@ -205,13 +206,13 @@ USING
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
 + create        : (id <Zone>)aZone
-    setGenerator: (id <SimpleRandomGenerator>)generator
+    setGenerator: (id <SimpleRandomGenerator>)simpleGenerator
   setUnsignedMin: (unsigned)minValue
           setMax: (unsigned)maxValue;
 
 //M: Use this create message if the generator to be attached is a Split one:
 + create             : (id <Zone>)aZone
-         setGenerator: (id <SplitRandomGenerator>)generator
+         setGenerator: (id <SplitRandomGenerator>)splitGenerator
   setVirtualGenerator: (unsigned)vGen
        setUnsignedMin: (unsigned)minValue
                setMax: (unsigned)maxValue;
@@ -246,13 +247,13 @@ USING
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
 + create        : (id <Zone>)aZone
-    setGenerator: (id <SimpleRandomGenerator>)generator
+    setGenerator: (id <SimpleRandomGenerator>)simpleGenerator
     setDoubleMin: (double)minValue
           setMax: (double)maxValue;
 
 //M: Use this create message if the generator to be attached is a Split one:
 + create             : (id <Zone>)aZone
-         setGenerator: (id <SplitRandomGenerator>)generator
+         setGenerator: (id <SplitRandomGenerator>)splitGenerator
   setVirtualGenerator: (unsigned)vGen
          setDoubleMin: (double)minValue
                setMax: (double)maxValue;
@@ -282,21 +283,21 @@ CREATING
 //M: Use this create message if the generator to be attached is a Simple one
 //M: and you wish to specify the variance:
 + create        : (id <Zone>)aZone
-    setGenerator: (id <SimpleRandomGenerator>)generator
+    setGenerator: (id <SimpleRandomGenerator>)simpleGenerator
          setMean: (double)mean
      setVariance: (double)variance;
 
 //M: Use this create message if the generator to be attached is a Simple one
 //M: and you wish to specify the standard deviation:
 + create        : (id <Zone>)aZone
-    setGenerator: (id <SimpleRandomGenerator>)generator
+    setGenerator: (id <SimpleRandomGenerator>)simpleGenerator
          setMean: (double)mean
        setStdDev: (double)sdev;
 
 //M: Use this create message if the generator to be attached is a Split one
 //M: and you wish to specify the variance:
 + create             : (id <Zone>)aZone
-         setGenerator: (id <SplitRandomGenerator>)generator
+         setGenerator: (id <SplitRandomGenerator>)splitGenerator
   setVirtualGenerator: (unsigned)vGen
               setMean: (double)mean
           setVariance: (double)variance;
@@ -304,7 +305,7 @@ CREATING
 //M: Use this create message if the generator to be attached is a Split one
 //M: and you wish to specify the standard deviation:
 + create             : (id <Zone>)aZone
-         setGenerator: (id <SplitRandomGenerator>)generator
+         setGenerator: (id <SplitRandomGenerator>)splitGenerator
   setVirtualGenerator: (unsigned)vGen
               setMean: (double)mean
             setStdDev: (double)sdev;
@@ -358,12 +359,12 @@ USING
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
 + create      : (id <Zone>)aZone
-  setGenerator: (id <SimpleRandomGenerator>)generator
+  setGenerator: (id <SimpleRandomGenerator>)simpleGenerator
        setMean: (double)mean;
 
 //M: Use this create message if the generator to be attached is a Split one:
 + create             : (id <Zone>)aZone
-         setGenerator: (id <SplitRandomGenerator>)generator
+         setGenerator: (id <SplitRandomGenerator>)splitGenerator
   setVirtualGenerator: (unsigned)vGen
               setMean: (double)mean;
 
@@ -388,13 +389,13 @@ USING
 CREATING
 //M: Use this create message if the generator to be attached is a Simple one:
 + create     : (id <Zone>)aZone
- setGenerator: (id <SimpleRandomGenerator>)generator
+ setGenerator: (id <SimpleRandomGenerator>)simpleGenerator
      setAlpha: (double)alpha
       setBeta: (double)beta;
 
 //M: Use this create message if the generator to be attached is a Split one:
 + create             : (id <Zone>)aZone
-         setGenerator: (id <SplitRandomGenerator>)generator
+         setGenerator: (id <SplitRandomGenerator>)splitGenerator
   setVirtualGenerator: (unsigned)vGen
              setAlpha: (double)alpha
               setBeta: (double)beta;
