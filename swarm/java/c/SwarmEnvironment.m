@@ -6,6 +6,7 @@
 #import <simtoolsgui.h>
 #include <jni.h>
 
+
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSwarm (JNIEnv *env, jobject obj)
 {
@@ -58,32 +59,62 @@ Java_swarm_SwarmEnvironment_getCurrentTime (JNIEnv *env, jobject obj)
   return getCurrentTime();
 }
 
-JNIEXPORT void JNICALL createProbeDisplay (JNIEnv * env, jobject obj, 
-					   jobject anObject)
+JNIEXPORT jobject JNICALL 
+Java_swarm_SwarmEnvironment_createProbeDisplay (JNIEnv * env, jobject obj, 
+						jobject anObject)
 {
-  CREATE_PROBE_DISPLAY(JFINDOBJC (env, anObject));
+  return JENSUREJAVA (env, CREATE_PROBE_DISPLAY(JFINDOBJC (env, anObject)));
 }
 
-JNIEXPORT void JNICALL createCompleteProbeDisplay (JNIEnv * env, jobject obj, 
-					   jobject anObject)
+JNIEXPORT jobject JNICALL 
+Java_swarm_SwarmEnvironment_createCompleteProbeDisplay (JNIEnv * env, 
+							jobject obj, 
+							jobject anObject)
 {
-  CREATE_COMPLETE_PROBE_DISPLAY(JFINDOBJC (env, anObject));
+  return JENSUREJAVA (env, CREATE_COMPLETE_PROBE_DISPLAY(JFINDOBJC (env, anObject)));
 }
 
-JNIEXPORT void JNICALL createArchivedProbeDisplay (JNIEnv * env, jobject obj, 
-					   jobject anObject)
+JNIEXPORT jobject JNICALL 
+Java_swarm_SwarmEnvironment_createArchivedProbeDisplay (JNIEnv * env, 
+							jobject obj, 
+							jobject anObject)
 {
-  CREATE_ARCHIVED_PROBE_DISPLAY(JFINDOBJC (env, anObject));
+  return JENSUREJAVA (env, CREATE_ARCHIVED_PROBE_DISPLAY(JFINDOBJC (env, anObject)));
 }
 
 
-JNIEXPORT void JNICALL createArchivedCompleteProbeDisplay (JNIEnv * env, 
+JNIEXPORT jobject JNICALL 
+Java_swarm_SwarmEnvironment_createArchivedCompleteProbeDisplay (JNIEnv * env, 
 							   jobject obj, 
 							   jobject anObject)
 {
-  CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(JFINDOBJC (env, anObject));
+  return 
+    JENSUREJAVA (env, CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(JFINDOBJC (env, anObject)));
 }
 
+
+JNIEXPORT jobject JNICALL 
+Java_swarm_SwarmEnvironment_setWindowGeometryRecordName (JNIEnv * env, 
+							 jobject obj, 
+							 jobject anObject)
+{
+  return 
+    JENSUREJAVA (env, SET_WINDOW_GEOMETRY_RECORD_NAME(JFINDOBJC (env, anObject)));
+}
+
+JNIEXPORT jobject JNICALL 
+Java_swarm_SwarmEnvironment_setComponentWindowGeometryRecordNameFor (JNIEnv * env, jobject obj, jobject anObj, jobject widget)
+{
+  return JENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(JFINDOBJC (env, anObj), JFINDOBJC (env, widget)));
+}
+
+JNIEXPORT jobject JNICALL 
+Java_swarm_SwarmEnvironment_setComponentWindowGeometryRecordName (JNIEnv * env,
+								  jobject obj,
+								  jobject anObj)
+{
+  return JENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(JFINDOBJC (env, obj), JFINDOBJC (env, anObj)));
+}
 
 JNIEXPORT void JNICALL
 Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
