@@ -7,10 +7,13 @@
       
       for (i = 0; i < c_count; i++)
         {
-          id obj =
-            ([class respondsTo: M(isJavaProxy)]
-             ? SD_JAVA_INSTANTIATE (SD_JAVA_FINDJAVACLASS (class))->object
-             : [class create: getZone (self)]);
+          id obj;
+#ifdef HAVE_JDK
+	  if ([class respondsTo: M(isJavaProxy)])
+	    obj = SD_JAVA_INSTANTIATE (SD_JAVA_FINDJAVACLASS (class))->object;
+	  else
+#endif
+	    obj = [class create: getZone (self)];
           
           [hdf5Obj selectRecord: i];
           [hdf5Obj shallowLoadObject: obj];

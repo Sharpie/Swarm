@@ -16,7 +16,11 @@ Library:      collections
 #include <collections/predicates.h> // keywordp
 #include <misc.h> // abort
 
+#include <swarmconfig.h>
+
+#ifdef HAVE_JDK
 #import <defobj/java.h> // SD_JAVA_{INSTANTIATE,FINDJAVACLASS} (in HDF5in)
+#endif
 
 @implementation List_any
 
