@@ -6,6 +6,8 @@
 	* FCall.[mh], defobj.h ([FCall_c -getRetVal:]): Remove argFrame
 	argument.
 
+	* DefObject.m ([Object_s -forward::]): Accomodate.
+
 1999-04-24  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* FCall.m ([FCall_c -performCall]): Move double return to float
