@@ -431,7 +431,7 @@ USING
 #define REMOVEDP(obj) ((id) (obj) == (id)Removed)
 
 //G: values for index location
-externvar id <Symbol>  Start, End, Between, Removed, Member;
+externvar id <Symbol> Start, End, Between, Removed, Member;
 
 //
 // return value for index offset if not defined
