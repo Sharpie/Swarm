@@ -28,8 +28,8 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
               fcall_type_string, fcall_type_selector, 
               fcall_type_jobject, fcall_type_jstring } fcall_type_t;
 
-#define MAX_ARGS        5
-#define MAX_HIDDEN      3
+#define MAX_ARGS 10
+#define MAX_HIDDEN 3
 
 @interface FArguments_c: CreateDrop_s
 {

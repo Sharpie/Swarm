@@ -1,9 +1,15 @@
 1999-08-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FArguments.h (MAX_ARGS): Increase from 5 to 10.
+
+	* FArguments.m ([FArguments_c -_setReturnType_:]): Get
+	return type signature after adjustment per javaFlag.
+
 	* directory.m (objc_class_for_classname): Reserve extra byte for 
 	typename terminator.
 
-	* FArguments.m (ALLOCTYPE): Use alloc: instead of allocBlock:.
+	* FArguments.m (ZALLOCBLOCK, ALLOCBLOCK): New macros.
+	(ALLOCTYPE): Use ALLOCBLOCK instead of allocBlock:.
 	([FArguments_c +createBegin:]): Likewise
 	(createJavaSignature): Likewise.
 

@@ -65,7 +65,9 @@ char objc_types[FCALL_TYPE_COUNT] = {
   '\002'
 };
 
-#define ALLOCTYPE(type) [[self getZone] alloc: fcall_type_size (type)]
+#define ZALLOCBLOCK(aZone, size) [aZone, allocBlock: size]
+#define ALLOCBLOCK(size) ZALLOCBLOCK([self getZone], size)
+#define ALLOCTYPE(type) ALLOCBLOCK (fcall_type_size (type))
 
 static size_t
 fcall_type_size (fcall_type_t type)
@@ -125,19 +127,21 @@ PHASE(Creating)
   newArguments = [aZone allocIVars: self];
   newArguments->assignedArgumentCount = 0;
   newArguments->hiddenArgumentCount = 0;
-  newArguments->argTypes = [aZone alloc:
-                                    (sizeof (fcall_type_t) * 
-                                     (MAX_ARGS + MAX_HIDDEN))];
-  newArguments->argValues = [aZone alloc: (sizeof (void *) * 
-                                           (MAX_ARGS + MAX_HIDDEN))];
+  newArguments->argTypes = ZALLOCBLOCK (aZone, 
+                                        (sizeof (fcall_type_t) * 
+                                         (MAX_ARGS + MAX_HIDDEN)));
+  newArguments->argValues = ZALLOCBLOCK (aZone, 
+                                         (sizeof (void *) * 
+                                          (MAX_ARGS + MAX_HIDDEN)));
 #ifndef USE_AVCALL
-  newArguments->ffiArgTypes = [aZone alloc: (sizeof (ffi_type *) * 
-                                             (MAX_ARGS + MAX_HIDDEN))];
+  newArguments->ffiArgTypes = ZALLOCBLOCK (aZone,
+                                           (sizeof (ffi_type *) * 
+                                            (MAX_ARGS + MAX_HIDDEN)));
   newArguments->ffiReturnType = &ffi_type_void;
 #endif
   newArguments->returnType = 0;
   newArguments->result = NULL;
-  newArguments->javaSignatureLength = 0;
+  newArguments->javaSignatureLength = 2; // "()"
   return newArguments;
 }
 
@@ -180,7 +184,7 @@ PHASE(Creating)
 #endif
     size = fcall_type_size (type);
   argTypes[offset] = type;
-  argValues[offset] = ALLOCTYPE (type);
+  argValues[offset] = ALLOCBLOCK (size);
   memcpy (argValues[offset], value, size);
   javaSignatureLength += strlen (java_type_signature[type]);
   assignedArgumentCount++;
@@ -294,8 +298,6 @@ get_fcall_type_for_objc_type (char objcType)
 
 - _setReturnType_: (fcall_type_t)type
 {
-  javaSignatureLength += strlen (java_type_signature[type]);
-
   if (javaFlag)
     {
       if (type == fcall_type_object)
@@ -303,7 +305,8 @@ get_fcall_type_for_objc_type (char objcType)
       else if (type == fcall_type_string)
         type = fcall_type_jstring;
     }
-  
+  javaSignatureLength += strlen (java_type_signature[type]);
+
   switch (type)
     {
     case fcall_type_uchar:
@@ -378,7 +381,7 @@ createJavaSignature (FArguments_c *self)
   unsigned i;
   char *str, *p;
 
-  str = [[self getZone] alloc: self->javaSignatureLength + 3];
+  str = ALLOCBLOCK (self->javaSignatureLength + 1);
   p = stpcpy (str, "(");
   for (i = 0; i < self->assignedArgumentCount; i++)
     p = stpcpy (p, java_type_signature [self->argTypes[i + MAX_HIDDEN]]);
@@ -437,7 +440,7 @@ PHASE(Using)
   mapAlloc (mapalloc, ffiArgTypes);
 #endif
   
-  mapalloc->size = javaSignatureLength + 3;
+  mapalloc->size = javaSignatureLength + 1;
   mapAlloc (mapalloc, (char *) javaSignature);
 }
 @end
