@@ -1,3 +1,7 @@
+1998-06-09  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* refmeta.sgml: Change CORPAUTHOR to SDP.
+
 1998-06-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* refbook.sgml.in: Use public identifer for global.ent,
