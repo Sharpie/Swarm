@@ -1,3 +1,12 @@
+1998-02-23  Alex Lancaster  <alex@santafe.edu>
+
+	* ModelSwarm.h: Include from objectbase/ instead of swarmobject/
+	
+	* ModelSwarm.m ([ModelSwarm -createActions]): Changed storage
+	calls allocation to use the current Swarm (self) as the basis for
+	storage allocation, rather than an explicit ([self -getZone])
+	call.
+
 1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Bug.h: Include from objectbase/ instead of swarmobject/.
