@@ -12,9 +12,7 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libactivity.la
 
-module_headers = $(TYPEINFO)
-
-BUILT_SOURCES = $(module_headers)
+BUILT_SOURCES = $(TYPEINFO)
 
 SRC = Action.m ActionGroup.m CompoundAction.m Schedule.m SwarmProcess.m XActivity.m activity.m
 

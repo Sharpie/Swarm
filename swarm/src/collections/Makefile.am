@@ -12,9 +12,7 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libcollections.la
 
-module_headers = $(TYPEINFO)
-
-BUILT_SOURCES = $(module_headers)
+BUILT_SOURCES = $(TYPEINFO)
 
 EXTRA_DIST = List_GEN.m
 

@@ -16,11 +16,9 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libdefobj.la
 
-module_headers = $(TYPEINFO)
-
 CLEANFILES += version.h
 
-BUILT_SOURCES = $(module_headers)
+BUILT_SOURCES = $(TYPEINFO)
 
 SRC = Archiver.m Arguments.m Create.m Customize.m \
 	DefClass.m DefObject.m HDF5Object.m Program.m Symbol.m Zone.m \
