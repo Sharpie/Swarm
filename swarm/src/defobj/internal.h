@@ -3,6 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <collections.h> // OutputStream
 #include <misc.h> // size_t
 #include <objc/objc-api.h>
 
@@ -29,3 +30,16 @@ process_array (const char *type,
                const void *ptr,
                void *data);
   
+extern void
+lisp_output_type (const char *type,
+                  const void *ptr,
+                  unsigned offset,
+                  void *data,
+                  id <OutputStream> stream,
+                  BOOL deepFlag);
+
+extern void
+lisp_process_array (const char *type,
+                    const void *ptr, void *data,
+                    id <OutputStream> stream,
+                    BOOL deepFlag);

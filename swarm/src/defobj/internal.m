@@ -301,6 +301,176 @@ objc_type_for_array (const char *baseType, unsigned rank, unsigned *dims)
   return strdup (buf);
 }
 
+void
+lisp_process_array (const char *type,
+                    const void *ptr, void *data,
+                    id <OutputStream> stream,
+                    BOOL deepFlag)
+{
+  const char *space;
+  
+  void lisp_setup_array (unsigned rank, unsigned *dims, const char *baseType)
+    {
+      char buf[1 + rank + 1]; // always big enough
+      
+      sprintf (buf, "#%u", rank);
+      [stream catC: buf];
+    }
+  void lisp_start_dim (unsigned dim)
+    {
+      [stream catC: "("];
+      space = "";
+    }
+  void lisp_end_dim (void)
+    {
+      [stream catC: ")"];
+    }
+  void lisp_start_element (void)
+    {
+      [stream catC: space];
+    }
+  void lisp_end_element (void)
+    {
+      space = " ";
+    }
+  void lisp_array_output_type (const char *type,
+                               unsigned offset,
+                               void *data)
+    {
+      lisp_output_type (type, ptr, offset, data, stream, deepFlag);
+    }
+    
+  process_array (type,
+                 lisp_setup_array,
+                 lisp_start_dim,
+                 lisp_end_dim,
+                 lisp_start_element,
+                 lisp_end_element,
+                 lisp_array_output_type,
+                 ptr,
+                 data);
+}
+
+void
+lisp_output_type (const char *type,
+                  const void *ptr,
+                  unsigned offset,
+                  void *data,
+                  id <OutputStream> stream,
+                  BOOL deepFlag)
+{
+  char buf[50];
+
+  switch (*type)
+    {
+    case _C_ID:
+      {
+        id obj = ((id *) ptr)[offset];
+
+        if (obj == nil || !deepFlag)
+          [stream catC: "#f"];
+        else
+          [obj lispOutDeep: stream];
+        break;
+      }
+    case _C_CLASS:
+      raiseEvent (NotImplemented, "Classes not supported [%s]", type);
+      break;
+    case _C_SEL:
+      raiseEvent (NotImplemented, "Selectors not supported");
+      break;
+    case _C_CHR: 
+    case _C_UCHR: 
+      [stream catC: "#\\"];
+      {
+        unsigned char ch = ((unsigned char *) ptr)[offset];
+        
+        if (isprint (ch))
+          {
+            buf[0] = ch;
+            buf[1] = '\0';
+          }
+        else
+          sprintf (buf, "%03o", (unsigned) ch);
+      }
+      [stream catC: buf];
+      break;
+    case _C_SHT: 
+      sprintf (buf, "%hd", ((short *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_USHT: 
+      sprintf (buf, "%hu", ((unsigned short *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_INT:
+      sprintf (buf, "%d", ((int *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_UINT:
+      sprintf (buf, "%u", ((unsigned *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_LNG:
+      sprintf (buf, "%ld", ((long *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_ULNG:
+      sprintf (buf, "%lu", ((unsigned long *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_FLT:
+      sprintf (buf, "%fF0", ((float *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_DBL:
+      sprintf (buf, "%fD0", ((double *) ptr)[offset]);
+      [stream catC: buf];
+      break;
+    case _C_BFLD:
+      raiseEvent (NotImplemented, "Bit fields not supported [%s]", type);
+      break;
+    case _C_VOID:
+      abort ();
+      break;
+    case _C_UNDEF: 
+      abort ();
+      break;
+    case _C_PTR:
+      raiseEvent (NotImplemented, "Pointers not supported [%s]", type);
+      break;
+    case _C_CHARPTR:
+      [stream catC: "\""];
+      [stream catC: ((const char **) ptr)[offset]];
+      [stream catC: "\""];
+      break;
+    case _C_ATOM:
+      raiseEvent (NotImplemented, "Atoms not supported");
+      break;
+    case _C_ARY_B:
+      lisp_process_array (type, ptr, data, stream, deepFlag);
+      break;
+    case _C_ARY_E:
+      abort ();
+      break;
+    case _C_UNION_B:
+      raiseEvent (NotImplemented, "Unions not supported [%s]", type);
+      break;
+    case _C_UNION_E:
+      abort ();
+      break;
+    case _C_STRUCT_B:
+      raiseEvent (NotImplemented, "Structures not supported [%s]", type);
+      break;
+    case _C_STRUCT_E:
+      abort ();
+      break;
+    default:
+      abort ();
+      break;
+    }
+}
+
 #if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)
 id
 nil_method (id receiver, SEL op, ...)
