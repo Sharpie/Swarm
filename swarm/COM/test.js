@@ -24,7 +24,8 @@ function test () {
 
   var obj =
     Components.classes["urn:swarm:objectbase.SwarmObjectImpl"].
-     createInstance (Components.interfaces.swarmISwarmObject);
+     createInstance (Components.interfaces.swarmICreate);
+  obj.create (env.globalZone);  
 
   var fa =
     Components.classes["urn:swarm:defobj.FArgumentsCImpl"].
@@ -45,5 +46,5 @@ function test () {
   fc.create_target_selector_arguments (env.globalZone, list, sel, fa);
   
   fc.performCall ();
-  env.xprint (list);
+  env.xfprint (list);
 }
