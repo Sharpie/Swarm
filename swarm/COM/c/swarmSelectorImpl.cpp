@@ -11,10 +11,12 @@
 #include "jsapi.h"
 #define VOID_TYPE 7
 
+#include "nsMemory.h" // NS_CI_INTERFACE_GETTER_NAME
+
 #include <defobj.h> // fcall_type_t
 
 
-NS_IMPL_ISUPPORTS2(swarmSelectorImpl, swarmISelector, swarmITyping)
+NS_IMPL_ISUPPORTS2_CI(swarmSelectorImpl, swarmISelector, swarmITyping)
 
 swarmSelectorImpl::swarmSelectorImpl ()
 {

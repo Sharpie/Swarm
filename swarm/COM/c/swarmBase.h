@@ -2,6 +2,7 @@
 #define __swarmBase_h__
 #include "nsIXPConnect.h"
 #include "swarmIBase.h"
+#include "nsMemory.h" // NS_CI_INTERFACE_GETTER_NAME
 
 class swarmBase: public swarmIBase
 {
