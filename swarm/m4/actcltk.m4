@@ -40,7 +40,7 @@ fi
 
 INCPLACES=" \
         $defaultdir/include $defaultdir/include/tcl $defaultdir/include/tk \
-        /Cygnus/B19/include \
+        \${CYGFS}/include /Cygnus/B19/include \
         /usr/local/include /usr/local/include/tcl /usr/local/include/tk \
         /usr/include /usr/include/tcl /usr/include/tk \
         $x_includes $x_includes/tcl $x_includes/tk \
@@ -53,7 +53,8 @@ INCPLACES="$USER_TCL_INCLUDE $USER_TK_INCLUDE $INCPLACES"
 
 AC_MSG_CHECKING(directory of tcl.h)
 for dir in $tclincludedir "$TCL_INCLUDE_DIR" $INCPLACES; do
-  if test -r $dir/tcl.h; then
+  expand_dir=`eval echo $dir`
+  if test -r $expand_dir/tcl.h; then
     tclincludedir=$dir
     break
   fi
@@ -77,7 +78,7 @@ AC_SUBST(TCLINCLUDES)
 AC_DEFUN(md_FIND_TCL_LIBRARIES,dnl
 [changequote(<,>)dnl
 LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
-        /Cygnus/B19/H-i386-cygwin32/lib \
+        \${CYGFS}H-i386-cygwin32/lib /Cygnus/B19/H-i386-cygwin32/lib \
 	/usr/local/lib /usr/local/lib/tcl /usr/local/lib/tk \
 	/usr/lib /usr/lib/tcl /usr/lib/tk \
 	$x_libraries $x_libraries/tcl $x_libraries/tk \
@@ -93,13 +94,14 @@ LIBPLACES="`dirname $tclincludedir`/lib $LIBPLACES"
 AC_MSG_CHECKING(directory and version of libtcl)
 for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
   tcllibdir=''
+  expand_dir=`eval echo $dir`
   for suffix in .so .a; do
-    if test -n "$tcllibname" && test -r $dir/lib${tcllibname}${suffix} ; then
+    if test -n "$tcllibname" && test -r $expand_dir/lib${tcllibname}${suffix} ; then
       tcllibdir=$dir
       break
     else
       for version in 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
-        if test -r $dir/libtcl${version}${suffix}; then
+        if test -r $expand_dir/libtcl${version}${suffix}; then
           tcllibdir=$dir  
           tcllibname=tcl$version
           break
@@ -146,7 +148,8 @@ INCPLACES="$INCPLACES \
 	$POTENTIALINCDIR/tk/include"
 AC_MSG_CHECKING(directory of tk.h)
 for dir in $tkincludedir "$TK_INCLUDE_DIR" $INCPLACES; do
-  if test -r $dir/tk.h; then
+  expand_dir=`eval echo $dir`
+  if test -r $expand_dir/tk.h; then
     tkincludedir=$dir
     break
   fi
@@ -179,13 +182,14 @@ LIBPLACES="`dirname $tkincludedir`/lib $tcllibdir $POTENTIALLIBDIR/tk/lib \
 AC_MSG_CHECKING(directory and version of libtk)
 for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
   tklibdir=''
+  expand_dir=`eval echo $dir`
   for suffix in .so .a; do
-    if test -n "$tklibname" && test -r $dir/lib${tklibname}${suffix} ; then
+    if test -n "$tklibname" && test -r $expand_dir/lib${tklibname}${suffix} ; then
       tklibdir=$dir
       break
     else
       for version in 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
-        if test -r $dir/libtk${version}${suffix}; then
+        if test -r $expand_dir/libtk${version}${suffix}; then
           tklibdir=$dir
           tklibname=tk${version}
           break
