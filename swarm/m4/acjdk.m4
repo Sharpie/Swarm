@@ -25,7 +25,17 @@ else
   fi
   if test -f $jdkincludedir/jni.h; then
     JAVAINCLUDES="-I$jdkincludedir"
-    if test -f $jdkincludedir/solaris/jni_md.h; then
+    if test -f $jdkincludedir/linux/jni_md.h; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/linux"
+      if test -d ${jdkdir}/bin/i386/native_threads; then
+	threads=native
+      elif test -d ${jdkdir}/bin/i386/green_threads; then
+        threads=green
+      else
+        AC_MSG_ERROR([Can't find threads])
+      fi
+      proc=i386
+    elif test -f $jdkincludedir/solaris/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
       if test -d ${jdkdir}/bin/sparc/native_threads; then
 	threads=native
@@ -66,7 +76,15 @@ else
     if test "$JAVALIBS" = no; then
       JAVALIBS=
     else
-      test -n "$JAVALIBS" || JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads"
+      if test -z "$JAVALIBS"; then
+        if test -d "${jdkdir}/jre/lib/${proc}"; then
+          JAVALIBS="\${jdkdir}/lib/${proc}"
+        elif test -d "${jdkdir}/lib/${proc}/${threads}_threads"; then
+          JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads"
+        else
+          AC_MSG_ERROR([Cannot find JDK library])
+        fi
+      fi
     fi
     test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/${proc}/${threads}_threads/java"
     if test -f ${jdkdir}/jre/lib/rt.jar; then

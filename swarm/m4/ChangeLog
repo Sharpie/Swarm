@@ -1,3 +1,8 @@
+1999-08-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Handle Blackdown JDK 1.2 and general case of 1.2 library
+	directory detection.
+
 1999-08-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Add ${jdkdir}/lib/kaffe/bin/Kaffe as another alternative.
