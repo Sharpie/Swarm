@@ -8,14 +8,8 @@ javaswarmdir = $(shell cd ../../java/c; pwd)
 
 JAVASWARMLIBS = @JAVASWARMLIBS@
 
-ifeq ($(USEDLL),yes)
 SWARMBUILDLDFLAGS = -L$(javaswarmdir) -R $(javaswarmdir) -L$(builddir)	\
 -R $(builddir) -L$(libobjcdir) -R $(libobjcdir)
-else
-SWARMBUILDLDFLAGS = -L$(javaswarmdir) -R $(javaswarmdir) $(foreach	\
-module,$(SWARMMODULES),-L$(builddir)/$(module) -R			\
-$(builddir)/$(module)) -L$(libobjcdir) -\R $(libobjcdir)
-endif
 
 LDFLAGS = $(SWARMBUILDLDFLAGS) $(SUPPORTLDFLAGS)
 

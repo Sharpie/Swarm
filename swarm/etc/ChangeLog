@@ -1,3 +1,9 @@
+1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.tests.in (SWARMBUILDLDFLAGS): Revert last change.
+
+	* Makefile.common.in (SWARMLIBS): Return to using -lswarm.
+
 1999-06-07  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.tests.in (SWARMBUILDLDFLAGS): If $(USEDLL) is set,
@@ -11,9 +17,6 @@
 	* Makefile.common.in (SWARMLIBS, OBJCLIBS): Select -l{swarm,objc}
 	or -l{swarm,objc}dll on the basis of USEDLL and USESTATIC.
 	(SYSLIBS): Remove OBJCLIBS.
-	(_SUPPORTLDFLAGS, _SYSLIBS): The previous values.
-	(SUPPORTLDFLAGS, SYSLIBS): New variables, set when needed for
-	application linking.
 
 	* Makefile.appl: Use $(OBJCLIBS) instead of -lobjc.
 
