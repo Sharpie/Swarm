@@ -82,13 +82,13 @@ PHASE(Creating)
     {
       id protoIndex = [target begin: getCZone (getZone (self))];
 
-      (IMP) nextImp = [protoIndex methodFor: M(next)];
-      (IMP) getLocImp = [protoIndex methodFor: M(getLoc)];
+      nextImp = [protoIndex methodFor: M(next)];
+      getLocImp = [protoIndex methodFor: M(getLoc)];
     
       [protoIndex drop];
     }
-  (IMP) callImp = [self methodFor: M(doubleDynamicCallOn:)];
-  (IMP) addImp = [self methodFor: M(addValueToAverage:)];
+  callImp = [self methodFor: M(doubleDynamicCallOn:)];
+  addImp = [self methodFor: M(addValueToAverage:)];
   
   setMappedAlloc (self);
   return [super createEnd];

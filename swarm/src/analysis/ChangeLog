@@ -1,3 +1,7 @@
+2004-11-24  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Averager.m :remove lvalue casts.
+	
 2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
 
 	* analysis.h (EZAverageSequence, EZSequence): Also exclude in
