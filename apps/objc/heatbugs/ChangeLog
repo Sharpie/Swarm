@@ -1,3 +1,18 @@
+1999-12-22    <mgd@nest.swarm.org>
+
+	* heatbugs.scm (experimentDuration): Increment from 200 to 250.
+
+	* HeatbugModelSwarm.m ([HeatbugModelSwarm -_syncUpdateOrder_]):
+	New method.
+	([HeatbugModelSwarm -toggleRandomizedOrder],
+	[HeatbugModelSwarm -buildActions]): Call it.
+	([HeatbugModelSwarm -buildActions]): Use an
+	FActionForEachHomogeneous instead of createActionTo.
+
+	* HeatbugModelSwarm.h (HeatbugModelSwarm): Add actionForEach.  Add
+	protocol qualifiers to modelSchedule, modelActions, and
+	heatbugList.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (APPVERSION): Bump.

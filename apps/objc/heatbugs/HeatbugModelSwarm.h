@@ -22,10 +22,11 @@
   double randomMoveProbability;
 
   BOOL randomizeHeatbugUpdateOrder;
-  id modelActions;				  // scheduling data structures
-  id modelSchedule;
+  id <ActionGroup> modelActions;	          // scheduling data structures
+  id <Schedule> modelSchedule;
+  id <FActionForEach> actionForEach;              // for frobbing randomization
 
-  id heatbugList;				  // list of all the heatbugs
+  id <List> heatbugList;			  // list of all the heatbugs
   id <Grid2d> world;				  // objects representing
   HeatSpace *heat;				  // the world
 }

@@ -6,6 +6,7 @@
 #import "HeatbugModelSwarm.h"
 #import <random.h>
 #import <space.h>
+#import <activity.h>
 
 @implementation HeatbugModelSwarm
 
@@ -29,11 +30,20 @@
   return heat;
 }
 
+- (void)_syncUpdateOrder_
+{
+  if (actionForEach)
+    [actionForEach setDefaultOrder:
+                     (id <Symbol>) (randomizeHeatbugUpdateOrder
+                                    ? Randomized
+                                    : Sequential)];
+}
+
 - (BOOL)toggleRandomizedOrder
 {
-  randomizeHeatbugUpdateOrder = 
-    ( (randomizeHeatbugUpdateOrder == NO) ? YES : NO );
-  return (randomizeHeatbugUpdateOrder);
+  randomizeHeatbugUpdateOrder = !randomizeHeatbugUpdateOrder;
+  [self _syncUpdateOrder_];
+  return randomizeHeatbugUpdateOrder;
 }
 
 // This method isn't normally used, but is convenient when running probes:
@@ -216,11 +226,18 @@
 
   modelActions = [ActionGroup create: self];
   [modelActions createActionTo:      heat        message: M(stepRule)];
-  if (randomizeHeatbugUpdateOrder == YES)
-    [[modelActions createActionForEach: heatbugList message: M(step)] 
-      setDefaultOrder: Randomized];
-  else
-    [modelActions createActionForEach: heatbugList message: M(step)];  
+  {
+    id call =
+      [FCall create: self
+             target: [heatbugList getFirst]
+             selector: M(step)
+             arguments:
+               [FArguments create: self setSelector: M(step) setJavaFlag: NO]];
+    
+    actionForEach = 
+      [modelActions createFActionForEachHomogeneous: heatbugList call: call];
+    [self _syncUpdateOrder_];
+  }
   [modelActions createActionTo:      heat        message: M(updateLattice)];
 
   // Then we create a schedule that executes the modelActions. modelActions

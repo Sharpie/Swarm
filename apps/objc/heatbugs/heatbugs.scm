@@ -2,7 +2,7 @@
  (cons 'batchSwarm
        (make-instance 'HeatbugBatchSwarm
                       #:loggingFrequency 1
-                      #:experimentDuration 200))
+                      #:experimentDuration 250))
  (cons 'modelSwarm
        (make-instance 'HeatbugModelSwarm
                       #:numBugs 200
