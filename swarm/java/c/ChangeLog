@@ -1,3 +1,8 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* SwarmEnvironmentExtra.m: Change copyright statement to canonical
+	version as suggested by GNU GPL.
+
 2001-11-24  Marcus G. Daniels  <mgd@condor>
 
 	* Makefile.in ($(_LIBJAVASWARMSTUBS_LA)): Remove -rpath; make it a
