@@ -27,14 +27,14 @@ typedef struct mapentry {
 }
 /*** methods in Map_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
-- (void) setCompareFunction: (int(*)(id,id))compareFunction;
+- (void)setCompareFunction: (int(*)(id,id))compareFunction;
 - createEnd;
 - copy: aZone;
 - at: aKey;
-- (BOOL) at: aKey insert: anObject;
+- (BOOL)at: aKey insert: anObject;
 - at: aKey replace: anObject;
-- (BOOL) at: aKey memberSlot: (id **)memPtr;
-- (BOOL) at: aKey keySlot: (id **)keyPtr memberSlot: (id **)memPtr;
+- (BOOL)at: aKey memberSlot: (id **)memPtr;
+- (BOOL)at: aKey keySlot: (id **)keyPtr memberSlot: (id **)memPtr;
 - removeKey: aKey;
 - begin: aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
@@ -60,8 +60,8 @@ typedef struct mapentry {
 - remove;
 - setKey: aKey;
 - getLoc;
-- (void) setLoc: locSymbol;
-- (int) getOffset;
+- (void)setLoc: (id <Symbol>)locSymbol;
+- (int)getOffset;
 - setOffset: (int)offset;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

@@ -11,28 +11,30 @@ Library:      collections
 
 #import <collections/Collection.h>
 #import <collections/Set.h>
+#import <collections.h> // INDEX{START,END}P.
 
 
 @implementation Collection_any
 
 PHASE(Creating)
 
-- (void) setReplaceOnly: (BOOL)replaceOnly
+- (void)setReplaceOnly: (BOOL)replaceOnly
 {
-  setBit( bits, Bit_ReplaceOnly, replaceOnly );
+  setBit (bits, Bit_ReplaceOnly, replaceOnly);
 }
 
-- (void) setIndexFromMemberLoc: (int)byteOffset  // belongs elsewhere...
+- (void)setIndexFromMemberLoc: (int)byteOffset  // belongs elsewhere...
 {
-  if ( byteOffset > -2044 && byteOffset <= 2048 ) {
-    setField( bits, IndexFromMemberLoc_Shift,
-              byteOffset - IndexFromMemberLoc_Min );
-    bits |= Bit_IndexFromMemberLoc;
-  } else {
-    raiseEvent( InvalidArgument,
-       "> IndexFromMemberLoc must be within range of -2044 to +2048\n"
-       "> value specified: %d\n", byteOffset );
-  }
+  if (byteOffset > -2044 && byteOffset <= 2048)
+    {
+      setField (bits, IndexFromMemberLoc_Shift,
+                byteOffset - IndexFromMemberLoc_Min );
+      bits |= Bit_IndexFromMemberLoc;
+    }
+  else
+    raiseEvent (InvalidArgument,
+                "> IndexFromMemberLoc must be within range of -2044 to +2048\n"
+                "> value specified: %d\n", byteOffset);
 }
 
 PHASE(Using)
@@ -254,10 +256,12 @@ static id indexAtOffset( Collection_any *self, int offset )
 {
   id member;
 
-  while ( [(id)self getLoc] != End ) {
-    member = [(id)self next];
-    if ( member == anObject ) return member;
-  }
+  while (!INDEXENDP ([(id)self getLoc]))
+    {
+      member = [(id)self next];
+      if (member == anObject)
+        return member;
+    }
   return NULL;
 }
 
@@ -265,10 +269,12 @@ static id indexAtOffset( Collection_any *self, int offset )
 {
   id member;
 
-  while ( [(id)self getLoc] != Start ) {
-    member = [(id)self prev];
-    if ( member == anObject ) return member;
-  }
+  while (!INDEXSTARTP ([(id)self getLoc]))
+    {
+      member = [(id)self prev];
+      if (member == anObject)
+        return member;
+    }
   return NULL;
 }
 

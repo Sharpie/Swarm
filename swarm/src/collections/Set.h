@@ -20,22 +20,22 @@ Library:      collections
 + createBegin: aZone;
 - createEnd;
 - copy: aZone;
-- (int) count;
-- (id *) add: anObject;
+- (int)count;
+- (id *)add: anObject;
 - replace: anObject;
-- (BOOL) contains: aKey;
+- (BOOL)contains: aKey;
 - at: aKey;
-- (BOOL) at: aKey memberSlot: (id **)memptr;
+- (BOOL)at: aKey memberSlot: (id **)memptr;
 - remove: aKey;
 - begin: aZone;
 - createIndex: aZone fromMember: anObject;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface SetIndex_c : Index_any // <KeyedCollectionIndex>
+@interface SetIndex_c: Index_any // <KeyedCollectionIndex>
 {
 @public
-  id     listIndex;     // index into list of entries
+  id listIndex; // index into list of entries
 }
 /*** methods in SetIndex_c (inserted from .m file by m2h) ***/
 - next;
@@ -44,8 +44,8 @@ Library:      collections
 - replace: anObject;
 - remove;
 - getLoc;
-- (void) setLoc: locSymbol;
-- (int) getOffset;
+- (void)setLoc: (id <Symbol>)locSymbol;
+- (int)getOffset;
 - setOffset: (int)offset;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

@@ -1,3 +1,28 @@
+1998-09-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Map.[hm]: ([MapIndex_c -setLoc:]): 
+	Make argument to setLoc: of type id <Symbol>.
+
+	* Set.[hm] ([SetIndex_c -setLoc:]): Likewise.
+
+	* List_GEN.[hm] ([TINDEX -setLoc:]): Likewise.
+
+	* Array.[hm] ([ArrayIndex_c -setLoc:]): Likewise.
+
+	* Map.h, List_GEN.h, Set.h: Reformatting throughout.
+
+	* collections.h (INDEXSTARTP, INDEXENDP, REMOVEDP): New macros.
+
+	* Collection.m: Reformatting throughout.
+	([Index_any -findNext:]): Use INDEXENDP.
+	([Index_any -findPrev:]): Use INDEXSTARTP.
+
+	* Array.m: Reformatting throughout.
+	Include collections.h.
+	([ArrayIndex_c -next], [ArrayIndex_c -prev], [ArrayIndex_c -get], 
+	[ArrayIndex_c -put:], [ArrayIndex_c -getLoc], [ArrayIndex_c -setLoc:],
+	[ArrayIndex_c -getOffset]):  Use INDEX{START,END}P.
+
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT): Increment.  Swarm 1.3 released.

@@ -265,7 +265,7 @@ PHASE(UsingOnly)
       return NULL;
     }
   } else if ( position == 0 ) {  // at Start or End
-    if ( (id)link == Start ) {
+    if (INDEXSTARTP (link)) {
       if ( ((TARGET *)collection)->firstLink ) {
         position = 1;
 	link = ((TARGET *)collection)->firstLink;
@@ -282,25 +282,30 @@ PHASE(UsingOnly)
       raiseEvent( AlreadyAtEnd, nil ); exit(0);
     }
   } else {  // member just removed
-    if ( (id)link == Start ) {
-      position = 0;
-      return [self next];
-    } else if ( (id)link == End ) {
-      position = 0;
-      return NULL;
-    } else {
-      position = (- position);
-      link = link->nextLink;
-
-      if (link == ((TARGET *)collection)->firstLink)
+    if (INDEXSTARTP (link))
+      {
+        position = 0;
+        return [self next];
+      }
+    else if (INDEXENDP (link))
+      {
+        position = 0;
         return NULL;
-
+      }
+    else
+      {
+        position = (- position);
+        link = link->nextLink;
+        
+        if (link == ((TARGET *)collection)->firstLink)
+          return NULL;
+        
 #if LINKED
-      return link->refObject;
+        return link->refObject;
 #elif MLINKS
-      return getMemberFromLink( link, collection->bits );
+        return getMemberFromLink (link, collection->bits);
 #endif
-    }
+      }
   }
 }
 
@@ -324,43 +329,55 @@ PHASE(UsingOnly)
       return NULL;
     }
   } else if ( position == 0 ) {  // at Start or End
-    if ( (id)link == End ) {
-      if ( ((TARGET *)collection)->firstLink ) {
-        position = ((TARGET *)collection)->count;
-	link = ((TARGET *)collection)->firstLink->prevLink;
+    if (INDEXENDP (link))
+      {
+        if (((TARGET *)collection)->firstLink)
+          {
+            position = ((TARGET *)collection)->count;
+            link = ((TARGET *)collection)->firstLink->prevLink;
 #if LINKED
-        return link->refObject;
+            return link->refObject;
 #elif MLINKS
-        return getMemberFromLink( link, collection->bits );
+            return getMemberFromLink( link, collection->bits );
 #endif
-      } else {  // no members
-        link = (link_t)Start;
-        return NULL;
+          }
+        else
+          {  // no members
+            link = (link_t)Start;
+            return NULL;
+          }
       }
-    } else {
+    else
       raiseEvent( AlreadyAtStart, nil ); exit(0);
-    }
-  } else {  // member just removed
-    if ( (id)link == Start ) {
-      position = 0;
-      return NULL;
-    } else if ( (id)link == End ) {
-      position = 0;
-      return [self prev];
-    } else {
-#if MLINKS
-      if ( position == UNKNOWN_POS )
-        position = (- position);
-      else  // conditionalizes next statement
-#endif
-      position = (- position) - 1;
-#if LINKED
-      return link->refObject;
-#elif MLINKS
-      return getMemberFromLink( link, collection->bits );
-#endif
-    }
   }
+  else
+    { 
+      // member just removed
+      if (INDEXSTARTP (link))
+        {
+          position = 0;
+          return NULL;
+        }
+      else if (INDEXENDP (link))
+        {
+          position = 0;
+          return [self prev];
+        }
+      else
+        {
+#if MLINKS
+          if (position == UNKNOWN_POS)
+            position = (- position);
+          else  // conditionalizes next statement
+#endif
+            position = (- position) - 1;
+#if LINKED
+          return link->refObject;
+#elif MLINKS
+          return getMemberFromLink (link, collection->bits);
+#endif
+        }
+    }
 }
 
 - get
@@ -456,17 +473,20 @@ PHASE(UsingOnly)
   return (id)link;
 }
 
-- (void) setLoc: locSymbol
+- (void)setLoc: (id <Symbol>)locSymbol
 {
-  if ( locSymbol == Start ) {
-    position = 0;
-    link     = (link_t)Start;
-  } else if ( locSymbol == End ) {
-    position = 0;
-    link     = (link_t)End;
-  } else {
-    raiseEvent( InvalidLocSymbol, nil );
-  }
+  if (INDEXSTARTP (locSymbol))
+    {
+      position = 0;
+      link = (link_t)Start;
+    }
+  else if (INDEXENDP (locSymbol))
+    {
+      position = 0;
+      link = (link_t)End;
+    }
+  else
+    raiseEvent (InvalidLocSymbol, nil);
 }
 
 - (int) getOffset
@@ -489,13 +509,12 @@ PHASE(UsingOnly)
   return [self get];
 }
 
-- (void) addAfter: anObject
+- (void)addAfter: anObject
 {
   link_t  newLink;
 
-  if ( position < 0 || ( position == 0 && (id)link != Start ) ) {
-    raiseEvent( InvalidIndexLoc, nil );
-  }
+  if (position < 0 || (position == 0 && !INDEXSTARTP (link)))
+    raiseEvent (InvalidIndexLoc, nil);
 #if LINKED
   newLink = [getZone( collection ) allocBlock: sizeof *link];
   newLink->refObject = anObject;
@@ -526,9 +545,8 @@ PHASE(UsingOnly)
 {
   link_t  newLink;
 
-  if ( position < 0 || ( position == 0 && (id)link != End ) ) {
-    raiseEvent( InvalidIndexLoc, nil );
-  }
+  if (position < 0 || (position == 0 && !INDEXENDP (link)))
+    raiseEvent (InvalidIndexLoc, nil);
 #if LINKED
   newLink = [getZone( collection ) allocBlock: sizeof *link];
   newLink->refObject = anObject;

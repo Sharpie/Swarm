@@ -14,7 +14,7 @@ Library:      collections
 @interface Array_c : Collection_any
 {
 @public
-  id   *block;    // block of id values
+  id *block;    // block of id values
 }
 /*** methods in Array_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
@@ -23,12 +23,12 @@ Library:      collections
 + create: aZone setCount: (int)memberCount;;
 + create: aZone setMemberBlock: (id *)members setCount: (int)memberCount;;
 + create: aZone setMemberAlloc: (id *)members setCount: (int)memberCount;;
-- (void) setMemberBlock: (id *)members setCount: (int)memberCount;
-- (void) setMemberAlloc: (id *)members setCount: (int)memberCount;
-- (void) setDefaultMember: memberValue;
-- (void) setCount: (int)memberCount;
-- (void *) getMemberBlock;
-- (void *) getMemberAlloc;
+- (void)setMemberBlock: (id *)members setCount: (int)memberCount;
+- (void)setMemberAlloc: (id *)members setCount: (int)memberCount;
+- (void)setDefaultMember: memberValue;
+- (void)setCount: (int)memberCount;
+- (void *)getMemberBlock;
+- (void *)getMemberAlloc;
 - getDefaultMember;
 - (int) getCount;
 - (int) count;
@@ -38,14 +38,14 @@ Library:      collections
 - getLast;
 - begin: aZone;
 - copy: aZone;
-- (void) describe: outputCharStream;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)describe: outputCharStream;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ArrayIndex_c : Index_any
 {
 @public
-  id   *memPtr;         // pointer to current member, or Start or End
+  id *memPtr; // pointer to current member, or Start or End
 }
 /*** methods in ArrayIndex_c (inserted from .m file by m2h) ***/
 - next;
@@ -54,9 +54,9 @@ Library:      collections
 - put: anObject;
 - remove;
 - getLoc;
-- (void) setLoc: locSymbol;
-- (int) getOffset;
-- (void) setOffset: (int)offset;
-- (int) compare: anIndex;
+- (void)setLoc: (id <Symbol>)locSymbol;
+- (int)getOffset;
+- (void)setOffset: (int)offset;
+- (int)compare: anIndex;
 @end
 

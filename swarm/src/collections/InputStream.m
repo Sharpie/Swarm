@@ -123,7 +123,7 @@ readString (id inStream, BOOL literalFlag)
 
           if (newObj == nil)
             [self _unexpectedEOF_];
-          if (newObj == ArchiverEOL)
+          if (newObj == (id)ArchiverEOL)
             break;
           [list addLast: newObj];
         }

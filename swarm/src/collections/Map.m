@@ -393,7 +393,7 @@ PHASE(Using)
   return [listIndex getLoc];
 }
 
-- (void) setLoc: locSymbol
+- (void) setLoc: (id <Symbol>)locSymbol
 {
   [listIndex setLoc: locSymbol];
 }

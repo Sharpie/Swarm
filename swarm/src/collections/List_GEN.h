@@ -47,9 +47,9 @@ struct link {
 - removeLast;
 - begin: aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
-- (void) describe: outputCharStream;
+- (void)describe: outputCharStream;
 - createIndex: aZone fromMember: anObject;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface TINDEX : ListIndex_any // <Index>
@@ -67,11 +67,11 @@ struct link {
 - replace: anObject;
 - remove;
 - getLoc;
-- (void) setLoc: locSymbol;
-- (int) getOffset;
+- (void)setLoc: locSymbol;
+- (int)getOffset;
 - setOffset: (int)offset;
-- (void) addAfter: anObject;
-- (void) addBefore: anObject;
+- (void)addAfter: anObject;
+- (void)addBefore: anObject;
 @end
 
 

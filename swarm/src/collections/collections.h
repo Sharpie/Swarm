@@ -409,6 +409,15 @@ USING
 //M: UnknownOffset integer value.
 - (int)compare: anIndex;
 
+//#: Predicate to test if index is at the start.
+#define INDEXSTARTP(obj) ((id)(obj) == (id)Start)
+
+//#: Predicate to test if index is at the end.
+#define INDEXENDP(obj) ((id)(obj) == (id)End)
+
+//#: Predicate to test if item at index has been removed.
+#define REMOVEDP(obj) ((id)(obj) == (id)Removed)
+
 //G: values for index location
 extern id <Symbol>  Start, End, Between, Removed, Member;
 
