@@ -1,7 +1,30 @@
+1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtools.h (SET_WINDOW_GEOMETRY_RECORD_NAME): Add convenience
+	macro.  ProbeDisplay and CompleteProbeDisplay derive from
+	WindowGeometryRecordName protocol.
+	CompositeWindowGeometryRecordName: New protocol.  ActionCache
+	and GUIComposite protocols derive from it.
+	
+
+	* GUISwarm.m: ([GUISwarm -windowGeometryRecordName:]): Remove.
+
+	* GUIComposite.m ([GUIComposite
+	-setWindowGeometryRecordNameForComponent:widget:]): Insert when
+	key doesn't exist.
+	([GUIComposite -disableDestroyNotification]): New method.
+
+	* GUIComposite.h: Declare -disableDestroyNotification.
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -drop]): Disable
+	destroy notification first thing.
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -drop]): Likewise.
+
+
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* GUISwarm.m ([GUISwarm -buildObjects]): Use
-	SET_WINDOW_GEOMETRY_RECORD_NAME.
+	SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME.
 
 	* GUISwarm.[hm]: Remove windowGeometryRecordNameForComponent and
 	windowGeometryRecordName. 
@@ -25,7 +48,8 @@
 	setWindowGeometryRecordNameForComponent:widget:.
 
 	* ActionCache.m ([ActionCache -createProcCtrl]): Use new
-	SET_WINDOW_GEOMETRY_RECORD_NAME to set archiving name for panelWidget.
+	SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME to set archiving name
+	for panelWidget.
 
 	* GUIComposite.m ([GUIComposite
 	-enableDestroyNotification:notificationMethod:]): New method.
@@ -36,11 +60,11 @@
 
 	* simtools.h: Drop windowGeometryRecordNameForComponent and
 	windowGeometryRecordName fro WindowGeometryRecordName protocol.
-	(SET_WINDOW_GEOMETRY_RECORD_NAME_FOR): New macro.
-	(SET_WINDOW_GEOMETRY_RECORD_NAME): New macro.
+	(SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR): New macro.
+	(SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME): New macro.
 	(CREATE_PROBE_DISPLAY, CREATE_COMPLETE_PROBE_DISPLAY,
 	CREATE_ARCHIVED_PROBE_DISPLAY,
-	CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY):  Rename to be in caps.
+	CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY): Rename to be in caps.
 
 	* CompleteProbeDisplay.m ([CompleteProbeDisplay -update]): Don't update
 	if marked for drop.

@@ -33,7 +33,11 @@ compareFunc (id obj1, id obj2)
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: widget
 {
-  [componentList at: (id)componentName replace: widget];
+  if ([componentList at: (id)componentName])
+    [componentList at: (id)componentName replace: widget];
+  else
+    [componentList at: (id)componentName insert: widget];
+
   [widget setWindowGeometryRecordName: 
             buildWindowGeometryRecordName (baseWindowGeometryRecordName, 
                                            componentName)];
@@ -44,9 +48,15 @@ compareFunc (id obj1, id obj2)
          notificationMethod: (SEL)theNotificationMethod
 {
   [componentList forEach: 
-                   @selector(enableDestroyNotification:notificationMethod:)
+                   @selector (enableDestroyNotification:notificationMethod:)
                  : theNotificationTarget
                  : (id)theNotificationMethod];
+  return self;
+}
+
+- disableDestroyNotification
+{
+  [componentList forEach: @selector(disableDestroyNotification)];
   return self;
 }
 @end

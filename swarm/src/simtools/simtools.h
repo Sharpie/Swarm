@@ -36,14 +36,20 @@ USING
 extern id ControlStateRunning, ControlStateStopped;
 extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
-#define SET_WINDOW_GEOMETRY_RECORD_NAME_FOR(obj, theWidget) \
-  [(obj) setWindowGeometryRecordNameForComponent: #theWidget widget: theWidget]
-
 #define SET_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
-  SET_WINDOW_GEOMETRY_RECORD_NAME_FOR (self,theWidget)
+  [theWidget setWindowGeometryRecordName: #theWidget]
 
 @protocol WindowGeometryRecordName <SwarmObject>
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+@end
+
+#define SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(obj, theWidget) \
+  [(obj) setWindowGeometryRecordNameForComponent: #theWidget widget: theWidget]
+
+#define SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
+  SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR (self,theWidget)
+
+@protocol CompositeWindowGeometryRecordName <WindowGeometryRecordName>
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: widget;
 @end
@@ -54,7 +60,7 @@ extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 //   thrown by other threads and Swarms intended for insertion on
 //   it's Swarm's schedule.
 //
-@protocol ActionCache <WindowGeometryRecordName>
+@protocol ActionCache <CompositeWindowGeometryRecordName>
 CREATING
 - setControlPanel: cp;
 - createEnd;
@@ -85,11 +91,10 @@ extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 //   a class which generates a GUI to a ProbeMap of probes applied to a 
 //   given target object...
 //
-@protocol ProbeDisplay <SwarmObject>
+@protocol ProbeDisplay <WindowGeometryRecordName>
 CREATING
 - setProbedObject: anObject;
 - setProbeMap: (ProbeMap *)probeMap;
-- setWindowGeometryRecordName: (const char *)name;
 USING
 - getProbedObject;
 - getProbeMap;
@@ -102,10 +107,9 @@ USING
 //   to a given target object (by complete we mean that all the probes for
 //   the target object's class and its superclasses are included)...
 //
-@protocol CompleteProbeDisplay <SwarmObject>
+@protocol CompleteProbeDisplay <WindowGeometryRecordName>
 CREATING
 - setProbedObject: anObject;
-- setWindowGeometryRecordName: (const char *)theName;
 USING
 - getProbedObject;
 - update;
@@ -152,7 +156,11 @@ USING
 - update;
 @end
 
-@protocol GUIComposite <WindowGeometryRecordName> @end
+@protocol GUIComposite <CompositeWindowGeometryRecordName>
+- enableDestroyNotification: notificationTarget
+         notificationMethod: (SEL)notificationMethod;
+- disableDestroyNotification;
+@end
 
 //
 // GUISwarm --

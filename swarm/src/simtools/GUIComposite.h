@@ -17,4 +17,5 @@
                                    widget: widget;
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)notificationMethod;
+- disableDestroyNotification;
 @end

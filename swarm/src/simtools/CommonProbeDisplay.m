@@ -16,7 +16,7 @@
   id c_Frame;
 
   topLevel = [Frame createBegin: [self getZone]];
-  [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
+  [topLevel setWindowGeometryRecordName: windowGeometryRecordName];
   topLevel = [topLevel createEnd];
   [topLevel enableDestroyNotification: self
             notificationMethod: @selector (markForDrop)];

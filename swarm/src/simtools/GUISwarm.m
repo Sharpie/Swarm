@@ -15,11 +15,6 @@
   return self;
 }
 
-- (const char *)windowGeometryRecordName
-{
-  return baseWindowGeometryRecordName;
-}
-
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: theWidget
 {
@@ -35,7 +30,7 @@
   controlPanel = [ControlPanel create: [self getZone]];
   // create the actionCache, we will initialize it in activateIn
   actionCache = [ActionCache createBegin: [self getZone]];
-  SET_WINDOW_GEOMETRY_RECORD_NAME (actionCache);
+  SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (actionCache);
   [actionCache setControlPanel: controlPanel];
   actionCache = [actionCache createEnd];
   return self;

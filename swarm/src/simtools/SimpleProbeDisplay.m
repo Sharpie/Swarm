@@ -153,6 +153,8 @@
 {
   int i;
   
+  [topLevel disableDestroyNotification];
+
   [leftFrame drop];
   [rightFrame drop];
   [middleFrame drop];

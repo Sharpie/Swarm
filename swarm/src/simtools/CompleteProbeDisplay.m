@@ -141,6 +141,7 @@ max_class_var_length (Class class)
   id index;
   id a_widget;
 
+  [topLevel disableDestroyNotification];
   index = [widgets begin: [self getZone]];
   while ((a_widget = [index next]) != nil)
     [a_widget drop];
