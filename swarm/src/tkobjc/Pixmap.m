@@ -213,6 +213,7 @@ PHASE(Creating)
                             palette, num_palette, raster);
     }
   }
+  return self;
 }
 
 + create: aZone file: (const char *)filename

@@ -1,6 +1,7 @@
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* Pixmap.m ([Pixmap -_loadPNG_:]): Initialize row_bytes to zero.
+	Return self.
 
 	* internal.m (tkobjc_pixmap_create_from_widget): Add <Widget>
 	qualifier to argument.
