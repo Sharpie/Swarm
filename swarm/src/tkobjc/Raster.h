@@ -18,25 +18,25 @@
 @interface Raster : ArchivedGeometryWidget
 {
   Tk_Window tkwin;
-  Display * display;
+  Display *display;
   Window xwin;
   unsigned width, height;
   GC gc;
   Pixmap pm;
-  XColormap * colormap;
-  PixelValue * map;
+  XColormap *colormap;
+  PixelValue *map;
   id button1Client, button2Client, button3Client;
   SEL button1Sel, button2Sel, button3Sel;
 }
 
--(Display *) getDisplay;
--(XColormap *) getColormap;
--setColormap: (XColormap *) colormap;
--drawPointX: (int) x Y: (int) y Color: (Color) c;
--fillRectangleX0: (int) x0 Y0: (int) y0 X1: (int) x1 Y1: (int) y1 Color: (Color) c;
--draw: (id <XDrawer>) xd X: (int) x Y: (int) y;
--drawSelf;
--erase;
--handleButton: (int) n X: (int) x Y: (int) y;
--setButton: (int) n Client: c Message: (SEL) s;
+- (Display *)getDisplay;
+- (XColormap *)getColormap;
+- setColormap: (XColormap *)colormap;
+- drawPointX: (int)x Y: (int)y Color: (Color)c;
+- fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c;
+- draw: (id <XDrawer>)xd X: (int)x Y: (int)y;
+- drawSelf;
+- erase;
+- handleButton: (int)n X: (int)x Y: (int)y;
+- setButton: (int)n Client: c Message: (SEL)s;
 @end

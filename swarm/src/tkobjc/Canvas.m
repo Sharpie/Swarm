@@ -14,17 +14,11 @@
 
 @implementation Canvas
 
--createEnd {
+- createEnd
+{
   [super createEnd];
   [globalTkInterp eval: "canvas %s", widgetName];
   return self;
 }
 
-- (void) drop 
-{
-   [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
-   [super drop];
-}
-
 @end
-

@@ -19,7 +19,7 @@
 
 @implementation BLTGraph
 
--createEnd
+- createEnd
 {
   [super createEnd];
   
@@ -100,8 +100,7 @@
 {
   while ([elementList getCount] > 0)
     [self destroyElement: [elementList getFirst]];
-  
-  [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
+
   [super drop];
 }
 
@@ -274,7 +273,7 @@
 // value - regrow in chunks.
 @implementation BLTVector
 
--createEnd
+- createEnd
 {
   name = strdup (tclObjc_objectToName (self));
   [globalTkInterp eval: "vector %s", name];

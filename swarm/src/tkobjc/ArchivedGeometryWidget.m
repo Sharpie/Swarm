@@ -75,6 +75,8 @@ id archiverGet (const char *key);
 { 
   archiverUnregister (self);
 
+  if (parent == nil)
+    [globalTkInterp eval: "destroy %s", [self getWidgetName]]; 
   [super drop];
 }
 

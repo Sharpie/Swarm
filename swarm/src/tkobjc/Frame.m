@@ -19,22 +19,19 @@
 // this is where the toplevel is actually built.
 - createEnd
 {
-  if (parent == nil) {
-    [self makeNameFromParentName: "."];
-    [globalTkInterp eval: "toplevel %s; wm minsize %s 1 1",
-		    widgetName, widgetName];
-    [self registerAndLoad];
-  } else {
-    [super createEnd];
-    [globalTkInterp eval: "frame %s", widgetName];
-  }
-  return self;
-}
-
-- (void)drop
-{
   if (parent == nil)
-    [globalTkInterp eval: "destroy %s",[self getWidgetName]];
+    {
+      [self makeNameFromParentName: "."];
+      [globalTkInterp eval: "toplevel %s; wm minsize %s 1 1",
+                      widgetName, widgetName];
+      [self registerAndLoad];
+    }
+  else
+    {
+      [super createEnd];
+      [globalTkInterp eval: "frame %s", widgetName];
+    }
+  return self;
 }
 
 @end

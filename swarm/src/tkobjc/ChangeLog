@@ -1,5 +1,26 @@
 1998-01-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Raster.m ([Raster -drop]):  Remove. 
+
+	* Raster.[hm]: Reformatting throughout.
+
+	* Frame.m ([Frame -createEnd]): Minor reformatting.
+	([Frame -drop]): Remove; leave that to superclass.
+	
+	* Frame.h: Remove drop method.
+
+	* Canvas.m ([Canvas -drop]): Remove; leave that to superclass.
+
+	* Canvas.[hm]: Minor reformatting.
+
+	* BLTGraph.m ([GraphElement -drop]): Leave destruction of widget
+	to superclass.
+
+	* BLTGraph.[hm]: Minor reformatting.
+
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget -drop]): 
+	Destroy the widget on drop, but only if there isn't a parent.
+
 	* CanvasItem.m ([CanvasItem -createBindings]): Constify temp.
 
 1998-01-11  Alex Lancaster  <alex@santafe.edu>

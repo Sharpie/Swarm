@@ -16,15 +16,17 @@
 }
 
 - (GraphElement *)createElement;		     // create dataset to draw
-- destroyElement: (GraphElement *) g;		     // remove element, free it
+- destroyElement: (GraphElement *)g;		     // remove element, free it
 - title: (const char *) t;		 	     // title the graph
 - axisLabelsX: (const char *)xl Y: (const char *)yl; // change labels here
 - setScaleModeX: (int)xs Y: (int)ys;		     // 0 smooth, 1 jump
 // bltgraph will autoscale, but you can also fix scale.
--setRangesXMin: (double)minX
-           Max: (double)maxX
-          YMin: (double)minY
-           Max: (double)maxY; 
+
+- setRangesXMin: (double)minX
+            Max: (double)maxX
+           YMin: (double)minY
+            Max: (double)maxY;
+- (void)drop;
 @end
 
 // object to describe one element (dataset) in a graph.
@@ -71,5 +73,3 @@
 - resetData;
 - delete: (int)n;
 @end
-
-
