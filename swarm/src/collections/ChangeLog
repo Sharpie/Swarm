@@ -1,5 +1,8 @@
 1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Map.m ([Map_c hdf5Out:deep]): Don't compute anything for call
+	to -setRowNameLength: and don't call it.
+
 	* List.m ([List_any -hdf5In:]): New method.
 	
 	* Array.[hm], collections.h ([Array_c -setCount:]): Return self.

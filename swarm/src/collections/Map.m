@@ -661,38 +661,14 @@ PHASE(Using)
           id compoundType = [[[HDF5CompoundType createBegin: aZone]
                                setClass: [memberProto class]]
                               createEnd];
-          size_t maxlen;
-          id <MapIndex> mi = [self begin: scratchZone];
-          id key;
-          BOOL isString;
-
-          [mi next: &key];
-          
-          isString = !compareFunc && stringp (key);
-          
-          if (isString)
-            {
-              maxlen = 0;
-              [mi setLoc: Start];
-              while ([mi next: &key])
-                {
-                  size_t len = [key getCount];
-                  
-                  if (len > maxlen)
-                    maxlen = len;
-                }
-            }
-          else
-            maxlen = DSIZE (unsigned);
           {
             id dataset =
-              [[[[[[[[HDF5 createBegin: aZone]
-                      setName: [hdf5Obj getName]]
-                     setCreateFlag: YES]
-                    setParent: hdf5Obj]
-                   setCompoundType: compoundType]
-                  setCount: [self getCount]]
-                 setRowNameLength: maxlen]
+              [[[[[[[HDF5 createBegin: aZone]
+                     setName: [hdf5Obj getName]]
+                    setCreateFlag: YES]
+                   setParent: hdf5Obj]
+                  setCompoundType: compoundType]
+                 setCount: [self getCount]]
                 createEnd];
             id member;
             
@@ -702,7 +678,7 @@ PHASE(Using)
             while ((member = [mi next: &key]))
               {
                 unsigned rn = [mi getOffset];
-                char buf[DSIZE (unsigned)];
+                char buf[DSIZE (unsigned) + 1];
 
                 if (isString)
                   [dataset nameRecord: rn name: [key getC]];
@@ -729,7 +705,7 @@ PHASE(Using)
 
 - hdf5In: hdf5Obj
 {
-  return nil;
+  return self;
 }
 
 @end
