@@ -1,3 +1,9 @@
+1999-06-18  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (java-print-javadoc-method): Print @deprecated tag,
+	if method has been parsed as `deprecated'.
+	(java-print-javadoc-protocol): Likewise for protocols.
+
 1999-06-17  Alex Lancaster  <alex@santafe.edu>
 
 	* java-stub.el (method-in-protocol-p): New function, checks to see

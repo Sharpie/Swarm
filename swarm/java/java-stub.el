@@ -247,8 +247,14 @@
       (insert "\n * @hide")
     (message "Supress javadoc `@hide' for `%s' in `%s'"
              (get-method-signature method)
-             (protocol-name protocol))    
-    )
+             (protocol-name protocol)))
+  (if (not (eq (length (method-deprecated-list method)) 0))
+      (progn (insert "\n * @deprecated ")
+             (loop for text in (method-deprecated-list method)
+                   do
+                   (insert text))
+             (message "`%s' in `%s' is `@deprecated'"
+                      (get-method-signature method) (protocol-name protocol))))
   (insert "\n */\n"))  
 
 (defun java-print-javadoc-protocol (protocol)
@@ -259,8 +265,14 @@
   (loop for text in (protocol-description-list protocol)
         do
         (insert text))
-  (insert "\n */\n")
-  )  
+  (if (not (eq (length (protocol-deprecated-list protocol)) 0))
+      (progn (insert "\n * @deprecated ")
+             (loop for text in (protocol-deprecated-list protocol)
+                   do
+                   (insert text))
+             (message "`%s' protocol is `@deprecated'"
+                      (protocol-name protocol))))
+  (insert "\n */\n"))  
 
 (defun freaky-message (objc-type)
   (error "Objective C type `%s' in protocol `%s' is freaky!"
@@ -385,7 +397,8 @@
 (defun java-print-interface-methods-in-phase (protocol phase)
   (loop for method in (protocol-method-list protocol)
         when (included-method-p protocol method phase)
-	do (java-print-method protocol method)))
+	do (progn (java-print-javadoc-method method protocol)
+                  (java-print-method protocol method))))
 
 (defun java-suffix-for-phase (phase)
   (case phase
@@ -477,6 +490,7 @@
   (insert "}\n"))
 
 (defun java-print-interface-phase (protocol phase)
+  (java-print-javadoc-protocol protocol)
   (insert "public interface ")
   (insert (java-interface-name protocol phase))
   (insert " ")
