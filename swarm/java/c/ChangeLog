@@ -1,5 +1,11 @@
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (java_directory_init): Add jglobalZone argument;
+	don't do lookup in environment.
+
+	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): Pass
+	globalZone Java object to java_directory_init.
+
 	* directory.m (create_class_refs): Look in swarmEnvironment
 	object, not class for globalZone instance variable.
 

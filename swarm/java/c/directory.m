@@ -25,7 +25,7 @@ static jobject o_globalZone;
 JNIEnv *jenv;
 
 static void
-create_class_refs (JNIEnv *env, jobject swarmEnvironment)
+create_class_refs (JNIEnv *env)
 {
   jclass find (const char *name)
     {
@@ -36,8 +36,7 @@ create_class_refs (JNIEnv *env, jobject swarmEnvironment)
       
       p = stpcpy (class_name_buf, "java/lang/");
       p = stpcpy (p, name);
-      clazz = (*env)->FindClass (env, class_name_buf);
-      if (clazz == NULL)
+      if (!(clazz = (*env)->FindClass (env, class_name_buf)))
         abort ();
       if (!(field = (*env)->GetStaticFieldID (env,
                                               clazz,
@@ -67,25 +66,6 @@ create_class_refs (JNIEnv *env, jobject swarmEnvironment)
       
       c_object = (*env)->NewGlobalRef (env, c_object);
       
-      {
-        jclass clazz;
-        jfieldID field;
-
-        if (!(clazz = (*env)->GetObjectClass (env, swarmEnvironment)))
-          abort ();
-        if (!(field = (*env)->GetFieldID (env,
-                                          clazz,
-                                          "globalZone",
-                                          "Lswarm/GlobalZone;")))
-          abort ();
-
-        if (!(o_globalZone = (*env)->GetObjectField (env,
-                                                     swarmEnvironment,
-                                                     field)))
-          abort ();
-
-	o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
-      }
       initFlag = YES;
     }
 }
@@ -288,13 +268,17 @@ int compare_objc_objects (const void *A, const void *B, void *PARAM)
 }
 
 void
-java_directory_init (JNIEnv *env, jobject swarmEnvironment)
+java_directory_init (JNIEnv *env,
+                     jobject swarmEnvironment,
+                     jobject jglobalZone)
 {
   jenv = env;
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
   
-  create_class_refs (env, swarmEnvironment);
+  create_class_refs (env);
+
+  o_globalZone = (*env)->NewGlobalRef (env, jglobalZone);
   java_directory_update (env, o_globalZone, globalZone);
 }
 
@@ -331,13 +315,16 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
 
 
   clazz = (*env)->GetObjectClass (env, jsel);
-  nameFid =(*env)->GetFieldID (env, clazz, "signature", "Ljava/lang/String;"); 
-  retTypeFid = 
-    (*env)->GetFieldID (env, clazz, "retType", "Ljava/lang/Class;");
-  argTypesFid =
-    (*env)->GetFieldID (env, clazz, "argTypes", "[Ljava/lang/Class;");
-  objcFlagFid =
-      (*env)->GetFieldID (env, clazz, "objcFlag", "Z");
+  if (!(nameFid = (*env)->GetFieldID (env, clazz, "signature", "Ljava/lang/String;")))
+    abort ();
+  if (!(retTypeFid = (*env)->GetFieldID (env, clazz, "retType", "Ljava/lang/Class;")))
+    abort ();
+  if (!(argTypesFid = (*env)->GetFieldID (env, clazz, "argTypes", "[Ljava/lang/Class;")))
+    abort ();
+      
+  if (!(objcFlagFid = (*env)->GetFieldID (env, clazz, "objcFlag", "Z")))
+    abort ();
+
   retType = (*env)->GetObjectField (env, jsel, retTypeFid);
   objcFlag = (*env)->GetBooleanField (env, jsel, objcFlagFid);
   argTypes = (*env)->GetObjectField (env, jsel, argTypesFid);

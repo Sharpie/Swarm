@@ -8,7 +8,10 @@ typedef struct jobject_id
   id objc_object;
 } jobject_id;
 
-void java_directory_init (JNIEnv *jniEnv, jobject swarmEnvironment);
+void java_directory_init (JNIEnv *jniEnv,
+                          jobject swarmEnvironment,
+                          jobject jglobalZone);
+
 void java_directory_drop (JNIEnv *jniEnv);
 
 jobject_id *java_directory_java_find (JNIEnv *env, jobject java_object);
