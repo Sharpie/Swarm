@@ -4,7 +4,8 @@
 
   <ABSTRACT>
     <TITLE>Documentation and Implementation Status</TITLE>
-    
+
+    <PARA>Created from Sven's original text.</PARA>
     
   </ABSTRACT>
   
@@ -29,3 +30,8 @@ Local Variables:
 sgml-parent-document:("randomcont.sgml" "DOCINFO")
 End:
 -->
+
+
+
+
+
