@@ -1,3 +1,10 @@
+2004-07-20  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.am (INCLUDES): Reorder so that X headers and Xpm are
+	first. This is to ensure that the Xpm and Tk (the non-X11 Tk on
+	Windows) get the right X headers from Cygwin Tk.  Otherwise
+	classes like Colormap get the wrong structure relative to Win32 Tk.
+
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Use libobjc definition.  Add GNUstep
