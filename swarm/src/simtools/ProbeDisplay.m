@@ -71,7 +71,7 @@ resetObjectError (void)
 //                           when the object it's probing is dropped
 //
 static void
-notifyObjectDropped ( id anObject, id realloc, id pd)
+notifyObjectDropped (id anObject, id realloc, id pd)
 {
   // Put a hook here so that the drop method knows whether the drop
   // was called from here.

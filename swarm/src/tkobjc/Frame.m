@@ -36,6 +36,10 @@
 
 - (void)drop
 {
+  void archiverUnregister (id client);
+  
+  archiverUnregister (self);
+
   if (parent == nil)
     [globalTkInterp eval: "destroy %s", [self getWidgetName]]; 
 }

@@ -1,3 +1,8 @@
+1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Frame.m ([Frame -drop]): Call archiverUnregister since we
+	aren't calling [super drop].
+
 1998-01-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ArchivedGeometryWidget.m (structure_proc): New function.  A

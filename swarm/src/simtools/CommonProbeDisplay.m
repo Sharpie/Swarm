@@ -18,6 +18,8 @@
   topLevel = [Frame createBegin: [self getZone]];
   [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
   topLevel = [topLevel createEnd];
+  [topLevel setupDestroyNotification: self
+            notificationMethod: @selector (markForDrop)];
   [topLevel setWindowTitle: tkobjc_getId (probedObject)];
   tkobjc_withdrawWindow (topLevel);
   c_Frame =  [Frame createParent: topLevel]; 
