@@ -9,11 +9,13 @@
 @interface MessageProbe: Probe <MessageProbe>
 {
   SEL probedSelector;
+  const char *probedMethodName;
   BOOL hideResultFlag;
   val_t *arguments;
 }
 
 - setProbedSelector: (SEL)aSel;
+- setProbedMethodName: (const char *)methodName;
 - createEnd;
 + create: aZone setProbedSelector: (SEL)aSel;
 
@@ -36,4 +38,5 @@
 - (BOOL)getHideResult;
 - setHideResult: (BOOL)hideResult;
 - (void)describe: stream;
+- (void)drop;
 @end

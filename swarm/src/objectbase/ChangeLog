@@ -1,3 +1,14 @@
+2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* MessageProbe.m ([MessageProbe -createEnd]): Check for dynamic
+	targets like JS objects.  Don't require selector or type in that case.
+	(dynamicCall): Eliminate.  Move into -dynamicCallOn:
+
+	* MessageProbe.[hm], objectbase.h (MessageProbe): Add
+	probedMethodName and setter.  
+
+	* MessageProbe.[hm]: Add drop method.
+
 2001-02-02  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VarProbe.m ([VarProbe -probeAsString:Buffer:withFullPrecision:]): 

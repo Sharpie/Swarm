@@ -17,6 +17,8 @@
 #import "../defobj/java.h" // JAVA_COPY_STRING, SD_JAVA_FIND_OBJECT_OBJC
 #endif
 
+#import "../defobj/COM.h" // SD_COM_FIND_OBJECT_COM, COM_is_javascript
+
 #import "../defobj/internal.h"
 
 @implementation MessageProbe
@@ -34,31 +36,47 @@ PHASE(Creating)
 - setProbedSelector: (SEL)aSel
 {
   probedSelector = aSel;
+  probedMethodName = STRDUP (sel_get_name (aSel));
+  return self;
+}
+
+- setProbedMethodName: (const char *)theMethodName
+{
+  probedMethodName = STRDUP (theMethodName);
+  probedSelector = NULL;
   return self;
 }
 
 - createEnd
 {
+  BOOL dynamicArgumentsFlag = NO;
+  
   [super createEnd];
-  
-  probedSelector = sel_get_any_typed_uid (sel_get_name (probedSelector));
-  
-  if (!probedSelector)
-    {
-      raiseEvent (WarningMessage, "Typed selector does not exist");
-      [self drop]; 
-      return nil;
-    }
 
-  if (!sel_get_type (probedSelector))
+  probedSelector = sel_get_any_typed_uid (probedMethodName);
+  if (probedObject)
     {
-      raiseEvent (WarningMessage, "Type for selector does not exist");
-      [self drop]; 
-      return nil;
-    }
-  
-  probedType = STRDUP (sel_get_type (probedSelector));
+      COMobject cObject = SD_COM_FIND_OBJECT_COM (probedObject);
 
+      dynamicArgumentsFlag = COM_is_javascript (cObject);
+      probedType = NULL;
+    }
+  if (!dynamicArgumentsFlag)
+    {
+      if (!probedSelector)
+        {
+          raiseEvent (WarningMessage, "Typed selector does not exist");
+          [self drop]; 
+          return nil;
+        }
+      if (!sel_get_type (probedSelector))
+        {
+          raiseEvent (WarningMessage, "Type for selector does not exist");
+          [self drop]; 
+          return nil;
+        }
+      probedType = sel_get_type (probedSelector);
+    }
   {
     unsigned argCount = [self getArgCount];
 
@@ -276,24 +294,22 @@ copy_to_nth_colon (const char *str, int n)
   return (nth_type (probedType, which) == _C_ID);
 }
 
-static void
-dynamicCallOn (const char *probedType,
-               id target,
-               SEL probedSelector, 
-               val_t *arguments,
-               val_t *retVal)
+
+- (val_t)dynamicCallOn: target
 {
+  val_t retVal;
   unsigned i;
   const char *type = probedType;
   id aZone = [target getZone];
   id fa = [FArguments createBegin: getCZone (aZone)];
   id <FCall> fc;
 
-  retVal->type = fcall_type_for_objc_type (*type);
+  retVal.type = fcall_type_for_objc_type (*type);
 
   if ([target respondsTo: M(isJavaProxy)])
     [fa setLanguage: LanguageJava];
-  [fa setSelector: probedSelector];
+  if (probedSelector)
+    [fa setSelector: probedSelector];
   type = skip_argspec (type);
   type = skip_argspec (type);
   for (i = 0, type = skip_argspec (type);
@@ -301,33 +317,27 @@ dynamicCallOn (const char *probedType,
        type = skip_argspec (type), i++)
     [fa addArgument: &arguments[i].val ofObjCType: *type];
   fa = [fa createEnd];
-  
+
   fc = [FCall create: getCZone (aZone)
 	      target: target
-	      selector: probedSelector
+	      methodName: probedMethodName
 	      arguments: fa];
   [fc performCall];
-  if (retVal->type != fcall_type_void)
-    retVal->val = *(types_t *) [fc getResult];
+  if (retVal.type != fcall_type_void)
+    retVal.val = *(types_t *) [fc getResult];
 #ifdef HAVE_JDK
   if ([fa getLanguage] == LanguageJava)
     {
-      if (retVal->type == fcall_type_string)
-        retVal->val.string =
-          JAVA_COPY_STRING ((jstring) retVal->val.object);
-      else if (retVal->type == fcall_type_object)
-        retVal->val.object = SD_JAVA_FIND_OBJECT_OBJC ((jobject) retVal->val.object);
+      if (retVal.type == fcall_type_string)
+        retVal.val.string =
+          JAVA_COPY_STRING ((jstring) retVal.val.object);
+      else if (retVal.type == fcall_type_object)
+        retVal.val.object =
+          SD_JAVA_FIND_OBJECT_OBJC ((jobject) retVal.val.object);
     }
 #endif
   [fc drop];
   [fa drop];
-}
-
-- (val_t)dynamicCallOn: target
-{
-  val_t retVal;
-
-  dynamicCallOn (probedType, target, probedSelector, arguments, &retVal);
 
   return retVal;
 }
@@ -382,6 +392,13 @@ dynamicCallOn (const char *probedType,
   [stream catC: "selector: "];
   [stream catC: sel_get_name (probedSelector)];
   [stream catC: "\n"];
+}
+
+- (void)drop
+{
+  FREEBLOCK (probedMethodName);
+  [getZone (self) free: arguments];
+  [super drop];
 }
 @end
 

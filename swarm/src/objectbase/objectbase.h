@@ -238,6 +238,12 @@ CREATING
 //M: the selector. 
 - setProbedSelector: (SEL)aSel;
 
+//M: The setProbedMessage: method sets the message to be probed given
+//M: the message name.  In dynamically-typed languages like JavaScript
+//M: selectors don't make sense, since method argument types aren't
+//M: fixed.
+- setProbedMethodName: (const char *)methodName;
+
 //M: Convenience factory method for common case.
 + create: (id <Zone>)aZone setProbedSelector: (SEL)aSel;
 
