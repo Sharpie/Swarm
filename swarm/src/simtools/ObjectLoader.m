@@ -11,15 +11,15 @@
 #include <misc.h> // stpcpy
 
 static void
-loadAborted (id anObject, const char *filename, unsigned lineno)
+loadAborted (id anObject, const char *filename, unsigned line, const char *arg)
 {
   raiseEvent (LoadError,
-              "Could not initialize class loader for %s (instance) [%s,%d]\n",
-              [anObject name], filename, lineno);
+              "Could not initialize class loader for %s [%s,%d] (%s)\n",
+              [anObject name], filename, line, arg);
 }
 
 
-#define ABORT(obj) loadAborted (obj, __FILE__, __LINE__)
+#define ABORT(obj,msg) loadAborted (obj, __FILE__, __LINE__, msg)
 
 @implementation ObjectLoader
 PHASE(Creating)
@@ -51,7 +51,7 @@ PHASE(Creating)
   aFileObject = [InFile create: [anObject getZone] setName: aFileName];
 
   if (!aFileObject)
-    ABORT (anObject);
+    ABORT (anObject, aFileName);
       
   anObj = [self create: [aFileObject getZone]];
   [anObj setFileObject: aFileObject];
@@ -114,23 +114,23 @@ PHASE(Using)
       while(1)
         {
           if (!([theFileObject getChar: &aChar]))
-            ABORT (anObject);
+            ABORT (anObject, "getChar");
           
           if (aChar == '#')
             {
               if (![theFileObject skipLine])
-                ABORT (anObject);
+                ABORT (anObject, "skipLine");
             }
           else
             {
               if (![theFileObject unGetChar: aChar])
-                ABORT (anObject);
+                ABORT (anObject, "ungetChar");
               break;
             }
         }
       
       if (![theFileObject getWord: aString])
-        ABORT (anObject);
+        ABORT (anObject, "getWord");
       
       if ((aString[0] == '@') && 
           (aString[1] == 'b') &&
@@ -140,7 +140,7 @@ PHASE(Using)
           (aString[5] == 'n'))
         {
           if (![theFileObject skipLine])
-            ABORT (anObject);
+            ABORT (anObject, "skipLine2");
           break;
         }
     }
@@ -150,23 +150,23 @@ PHASE(Using)
       while (1)
         { 
           if (!([theFileObject getChar: &aChar]))
-            ABORT (anObject);
+            ABORT (anObject, "getChar2");
           
           if (aChar == '#')
             {
               if (![theFileObject skipLine])
-                ABORT (anObject);
+                ABORT (anObject, "skipLine3");
             }
           else
             {
               if (![theFileObject unGetChar: aChar])
-                ABORT (anObject);
+                ABORT (anObject, "unGetChar2");
               break;
             }
         }
       
       if (![theFileObject getWord: aString])
-        ABORT (anObject);
+        ABORT (anObject, "getWord2");
       
       // Check for single quotes that surround the alphanumeric representation
       // of unsigned char variables.
@@ -174,7 +174,7 @@ PHASE(Using)
         {
           [theFileObject skipLine];
           if (![theFileObject getWord: aString])
-            ABORT (anObject);
+            ABORT (anObject, "getWord3");
         }
       
       if ((aString[0] == '@') && 
@@ -192,16 +192,16 @@ PHASE(Using)
       
       aProbe = [aProbeMap getProbeForVariable: aString]; 
       if (!aProbe)
-        ABORT (anObject);
+        ABORT (anObject, aString);
       
       if (![theFileObject getLine: aString])
-        ABORT (anObject);
+        ABORT (anObject, aString);
       
       if (![aProbe setData: anObject ToString: aString])
-        ABORT (anObject);
+        ABORT (anObject, aString);
       
       if (![theFileObject skipLine])
-        ABORT (anObject);
+        ABORT (anObject, aString);
     }
   
   return self;  

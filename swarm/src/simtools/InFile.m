@@ -42,8 +42,9 @@ PHASE(Using)
 {
   int c, pos = 0;
 
-  while ((c = fgetc (theFile)) != EOF && (c == ' ' || c == '\t' || c == '\n'));
-  while (c != EOF && !(c == ' ' || c == '\t' || c == '\n'))
+  while ((c = fgetc (theFile)) != EOF
+         && (c == ' ' || c == '\t' || c == '\n' || c == '\r'));
+  while (c != EOF && !(c == ' ' || c == '\t' || c == '\n' || c == '\r'))
     {
       aWord[pos++] = c;
       c = fgetc (theFile);
