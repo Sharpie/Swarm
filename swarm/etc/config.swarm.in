@@ -36,7 +36,7 @@ swarm_GUILIBS="@GUILIBS@"
 swarm_DLLIB="@DLLIB@"
 swarm_OBJCLIBS="@OBJCLIBS@"
 
-swarm_SYSLIBS="${swarm_BLTLIB} ${swarm_TKLIB} ${swarm_TCLLIB} ${swarm_PNGLIB} ${swarm_ZLIBLIB} ${swarm_FFILIB} ${swarm_GUILIBS} -lm ${swarm_DLLIB} ${swarm_OBJCLIBS}"
+swarm_SYSLIBS="${swarm_BLTLIB} ${swarm_TKLIB} ${swarm_TCLLIB} ${swarm_PNGLIB} ${swarm_ZLIBLIB} ${swarm_FFILIB} ${swarm_GUILIBS} -lm ${swarm_OBJCLIBS} ${swarm_DLLIB}"
 
 swarm_SWARMLIBS="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc"
 
