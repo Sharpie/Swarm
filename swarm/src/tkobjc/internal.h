@@ -5,7 +5,7 @@
 
 #ifndef _TKOBJC_INTERNAL_H
 #define _TKOBJC_INTERNAL_H
-#include <gui.h>
+#import <gui.h>
 
 #define Colormap X11Colormap
 #define Pixmap X11Pixmap
