@@ -12,25 +12,12 @@ Library:      defobj
 #import <defobj.h>
 #import <defobj/Create.h>
 #include <objc/objc.h> // retval_t
+#import "internal.h"
 
 #include <swarmconfig.h>
 #ifdef USE_AVCALL
 #include <avcall.h>
 #endif
-
-#define FCALL_TYPE_COUNT 21
-
-typedef enum {fcall_type_void = 0,
-              fcall_type_boolean,
-              fcall_type_uchar, fcall_type_schar,
-              fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
-              fcall_type_sint, fcall_type_ulong, fcall_type_slong,
-              fcall_type_slonglong, fcall_type_ulonglong,
-              fcall_type_float, fcall_type_double, 
-              fcall_type_long_double,
-              fcall_type_object, fcall_type_class,
-              fcall_type_string, fcall_type_selector, 
-              fcall_type_jobject, fcall_type_jstring } fcall_type_t;
 
 #define MAX_ARGS 10
 #define MAX_HIDDEN 3

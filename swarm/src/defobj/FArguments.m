@@ -11,7 +11,8 @@ Library:      defobj
 
 #import <defobj/FArguments.h>
 #import <objc/objc-api.h>
-#import <defalloc.h>
+#import <defobj/defalloc.h>
+#import "internal.h"
 #include <misc.h> // stpcpy
 #include <swarmconfig.h> // HAVE_JDK
 
@@ -30,7 +31,7 @@ Library:      defobj
 #import <defobj/javavars.h> // f_retTypeFid, c_boolean
 #endif
 
-const char *java_type_signature[FCALL_TYPE_COUNT] = {
+static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "C", "S", "S",
   "I", "I", "J", "J", 
 
@@ -47,87 +48,9 @@ const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "Ljava/lang/String;"
 };
 
-char objc_types[FCALL_TYPE_COUNT] = {
-  _C_VOID,
-  _C_UCHR, /* boolean */
-  _C_UCHR,
-  _C_CHR,
-  _C_USHT,
-  _C_SHT,
-  _C_UINT,
-  _C_INT,
-  _C_ULNG,
-  _C_LNG,
-  _C_ULNG_LNG,
-  _C_LNG_LNG,
-  _C_FLT,
-  _C_DBL,
-  _C_LNG_DBL,
-  _C_ID,
-  _C_CLASS,
-  _C_CHARPTR,
-  _C_SEL,
-  '\001',
-  '\002'
-};
-
 #define ZALLOCBLOCK(aZone, size) [aZone allocBlock: size]
 #define ALLOCBLOCK(size) ZALLOCBLOCK([self getZone], size)
 #define ALLOCTYPE(type) ALLOCBLOCK (fcall_type_size (type))
-
-static size_t
-fcall_type_size (fcall_type_t type)
-{
-  switch (type)
-    {
-    case fcall_type_void:
-      return 0;
-    case fcall_type_boolean:
-      return sizeof (BOOL);
-    case fcall_type_uchar:
-      return sizeof (unsigned char);
-    case fcall_type_schar:
-      return sizeof (char);
-    case fcall_type_ushort:
-      return sizeof (unsigned short);
-    case fcall_type_sshort:
-      return sizeof (short);
-    case fcall_type_uint:
-      return sizeof (unsigned);
-    case fcall_type_sint:
-      return sizeof (int);
-    case fcall_type_ulong:
-      return sizeof (unsigned long);
-    case fcall_type_slong:
-      return sizeof (long);
-    case fcall_type_ulonglong:
-      return sizeof (unsigned long long);
-    case fcall_type_slonglong:
-      return sizeof (long long);
-    case fcall_type_float:
-      return sizeof (float);
-    case fcall_type_double:
-      return sizeof (double);
-    case fcall_type_long_double:
-      return sizeof (long double);
-    case fcall_type_object:
-      return sizeof (id);
-    case fcall_type_class:
-      return sizeof (Class);
-    case fcall_type_string:
-      return sizeof (const char *);
-    case fcall_type_selector:
-      return sizeof (SEL);
-#ifdef HAVE_JDK
-    case fcall_type_jobject:
-      return sizeof (jobject);
-    case fcall_type_jstring:
-      return sizeof (jstring);
-#endif
-    default:
-      abort ();
-    }
-}
 
 @implementation FArguments_c
 PHASE(Creating)
@@ -244,23 +167,10 @@ PHASE(Creating)
   return self;
 }
 
-static unsigned
-get_fcall_type_for_objc_type (char objcType)
-{
-  unsigned i;
-  
-  for (i = 0; i < FCALL_TYPE_COUNT; i++)
-    if (objcType == objc_types[i])
-      return i;
-  raiseEvent (InvalidArgument, "Could not find objc type `%c'\n", objcType);
-  return 0;
-}
-
-
 - addArgument: (void *)value ofObjCType: (char)objcType
 {
   return [self _addArgument_: value
-               ofType: get_fcall_type_for_objc_type (objcType)];
+               ofType: fcall_type_for_objc_type (objcType)];
 }
 
 #define ADD_PRIMITIVE(fcall_type, type, value)  { javaSignatureLength += strlen (java_type_signature[fcall_type]); argValues[MAX_HIDDEN + assignedArgumentCount] = ALLOCTYPE (fcall_type); argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount] = value; assignedArgumentCount++; }
@@ -487,7 +397,7 @@ get_fcall_type_for_objc_type (char objcType)
 
 - setObjCReturnType: (char)objcType
 {
-  return [self _setReturnType_: get_fcall_type_for_objc_type (objcType)];
+  return [self _setReturnType_: fcall_type_for_objc_type (objcType)];
 }
 
 - setBooleanReturnType

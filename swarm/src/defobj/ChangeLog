@@ -1,3 +1,51 @@
+2000-01-11    <mgd@nest.swarm.org>
+
+	* HDF5Object.m ([HDF5_c
+	-storeAsDataset:typeName:type:rank:dims:ptr:]): Changed from
+	-storeAsDataset:TypeName:type:ptr:, adding array info.
+	(tid_for_fcall_type): Changed from tid_for_objc_type, using
+	fcall_type_t info instead.
+	(compare_types): Changed from compare_objc_types, using
+	fcall_type_t info instead.
+	(fcall_type_for_tid): Changed from objc_type_for_tid, using
+	fcall_type_t info instead.
+	(objc_type_for_did): Removed; code moved into into
+	create_class_from_compound_type.  Updated for fcall_type_t info.
+	([HDF5CompoundType_c -createEnd], [HDF5CompoundType_c -packObj:to:],
+	[HDF5CompoundType_c -packBuf:to:], [HDF5CompoundType_c -writeLevels],
+	[HDF5CompoundType_c -getClass]): Likewise.
+
+	* FArguments.h, defobj.h, internal.h: Move fcall_type_t to defobj.h and
+	FCALL_TYPE_COUNT to internal.h.  
+
+	* FArguments.m: Include internal.h in FArguments.h.  Use
+	defobj/defalloc instead of defalloc.  Make java_type_signature
+	static.  Move objc_types, fcall_type_size,
+	get_fcall_type_for_objc_type to internal.m, renaming the latter
+	to fcall_type_for_objc_type.
+
+	* DefObject.m ([Object_s -lispIn:]): Use fcall_type_t interfaces
+	instead of objc types.
+	([Object_s -lispOutVars:deep:]): Use lisp_process_array for
+	arrays.  Update to fcall_type_t interfaces.
+	([Object_s -hdf5OutDeep:]): Update to fcall_type_t interfaces.
+	Use storeAsDataset:typeName:type:rank:dims:ptr instead of
+	storeAsDataset:typeName:type:ptr.
+
+	* DefClass.m: Include internal.h, not defobj/internal.h.  
+	([CreatedClass_s -lispInCreate:]): Update use of addVariable
+	per new fcall_type_t interface.
+
+	* DefClass.m, internal.m: Move extend_ivar_list, addVariable,
+	copyClass, and createType to internal.m.
+
+	* internal.[hm] (lisp_process_array, process_array): Change to
+	have rank dims as arguments.
+	(objc_process_array): Former process_array interface.
+
+	* DefClass.h, defobj.h (CreatedClass_s): Don't declare copyClass,
+	addVariable, or createType here.
+
 2000-01-03 Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* LispArchiver.m (LispArchiverObject): Remove.

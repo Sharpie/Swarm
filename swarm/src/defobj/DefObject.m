@@ -109,30 +109,33 @@ PHASE(Setting)
 
           while (isDigit (*atype) || *atype == _C_ARY_B)
             atype++;
-          [val convertToType: *atype dest: ptr];
+          [val convertToType: fcall_type_for_objc_type (*atype) dest: ptr];
         }
       else if (valuep (val))
         {
-          char ntype = [val getValueType];
+          fcall_type_t ntype = [val getValueType];
 
           switch (ntype)
             {
-            case _C_ID:
+            case fcall_type_object:
               *((id *) ptr) = [val getObject];
               break;
-	    case _C_CLASS:
+	    case fcall_type_class:
 	      *((Class *) ptr) = [val getClass];
 	      break;
-            case _C_LNG_DBL:
+            case fcall_type_long_double:
               *((long double *) ptr) = [val getLongDouble];
               break;
-            case _C_DBL:
+            case fcall_type_double:
               *((double *) ptr) = [val getDouble];
               break;
-            case _C_FLT:
+            case fcall_type_float:
               *((float *) ptr) = [val getFloat];
               break;
-            case _C_LNG_LNG:
+            case fcall_type_boolean:
+              *((BOOL *) ptr) = [val getBoolean];
+              break;
+            case fcall_type_slonglong:
               {
                 char itype = *ivar->ivar_type;
                 long long ival = [val getLongLong];
@@ -156,7 +159,7 @@ PHASE(Setting)
                 else
                   abort ();
               }
-            case _C_UCHR:
+            case fcall_type_uchar:
               *((unsigned char *) ptr) = [val getChar];
               break;
             default:
@@ -1068,17 +1071,23 @@ initDescribeStream (void)
 
 - lispOutVars: stream deep: (BOOL)deepFlag
 {
-  void store_object (struct objc_ivar *ivar)
+  void store_object (const char *name, fcall_type_t type,
+                     size_t offset, unsigned rank, unsigned *dims)
     {
       [stream catSeparator];
-      [stream catKeyword: ivar->ivar_name];
+      [stream catKeyword: name];
       [stream catSeparator];
-      lisp_output_type (ivar->ivar_type,
-                        (void *) self + ivar->ivar_offset,
-                        0,
-                        NULL,
-                            stream,
-                        deepFlag);
+      if (rank > 0)
+        lisp_process_array (rank, dims, type, (void *) self + offset,
+                            NULL, stream, deepFlag);
+      else
+        lisp_output_type (type,
+                          (void *) self + offset,
+                          0,
+                          NULL,
+                          stream,
+                          deepFlag);
+        
     }
   map_ivars (getClass (self), store_object);
   return self;
@@ -1106,13 +1115,15 @@ initDescribeStream (void)
 
 - hdf5OutDeep: hdf5Obj
 {
-  void store_object (struct objc_ivar *ivar)
+  void store_object (const char *name,
+                     fcall_type_t type,
+                     size_t offset,
+                     unsigned rank,
+                     unsigned *dims)
     {
-      const char *name = ivar->ivar_name;
-      const char *type = ivar->ivar_type;
-      void *ptr = (void *)self + ivar->ivar_offset;
+      void *ptr = (void *) self + offset;
       
-      if (*type == _C_ID)
+      if (type == fcall_type_object)
         {
           id obj = *((id *) ptr);
           
@@ -1129,7 +1140,9 @@ initDescribeStream (void)
             }
         }
       else
-        [hdf5Obj storeAsDataset: name typeName: NULL type: type ptr: ptr];
+        [hdf5Obj storeAsDataset: name typeName: NULL
+                 type: type rank: rank dims: dims 
+                 ptr: ptr];
     }
   [hdf5Obj storeTypeName: [self getTypeName]];
   map_ivars (getClass (self), store_object);

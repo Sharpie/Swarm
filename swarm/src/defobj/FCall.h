@@ -10,7 +10,7 @@ Library:      defobj
 */
 
 
-#import "FArguments.h"
+#import <defobj/FArguments.h>
 #include <swarmconfig.h>
 #ifndef USE_AVCALL
 #undef PACKAGE

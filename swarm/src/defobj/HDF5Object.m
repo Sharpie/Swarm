@@ -9,7 +9,7 @@
 #import <defobj.h> // STRDUP, ZSTRDUP, SSTRDUP, FREEBLOCK, SFREEBLOCK
 #import <defobj/defalloc.h> // getZone
 
-#import <defobj/internal.h> // map_ivars, ivar_ptr
+#import "internal.h" // map_ivars, ivar_ptr
 
 #ifdef HAVE_HDF5
 
@@ -24,49 +24,52 @@
 static unsigned hdf5InstanceCount = 0;
 
 static hid_t
-tid_for_objc_type (const char *type)
+tid_for_fcall_type (fcall_type_t type)
 {
   hid_t tid;
 
-  switch (*type)
+  switch (type)
     {
-    case _C_CHR:
-      tid = H5T_NATIVE_CHAR;
-      break;
-    case _C_UCHR:
+    case fcall_type_boolean:
       tid = H5T_NATIVE_UCHAR;
       break;
-    case _C_SHT:
+    case fcall_type_schar:
+      tid = H5T_NATIVE_CHAR;
+      break;
+    case fcall_type_uchar:
+      tid = H5T_NATIVE_UCHAR;
+      break;
+    case fcall_type_sshort:
       tid = H5T_NATIVE_SHORT;
       break;
-    case _C_USHT:
+    case fcall_type_ushort:
       tid = H5T_NATIVE_USHORT;
       break;
-    case _C_INT:
+    case fcall_type_sint:
       tid = H5T_NATIVE_INT;
       break;
-    case _C_UINT:
+    case fcall_type_uint:
       tid = H5T_NATIVE_UINT;
       break;
-    case _C_LNG:
+    case fcall_type_slong:
       tid = H5T_NATIVE_LONG;
       break;
-    case _C_ULNG:
+    case fcall_type_ulong:
       tid = H5T_NATIVE_ULONG;
       break;
-    case _C_LNG_LNG:
+    case fcall_type_slonglong:
       tid = H5T_NATIVE_LLONG;
       break;
-    case _C_ULNG_LNG:
+    case fcall_type_ulonglong:
       tid = H5T_NATIVE_ULLONG;
       break;
-    case _C_FLT:
+    case fcall_type_float:
       tid = H5T_NATIVE_FLOAT;
       break;
-    case _C_DBL:
+    case fcall_type_double:
       tid = H5T_NATIVE_DOUBLE;
       break;
-    case _C_LNG_DBL:
+    case fcall_type_long_double:
       tid = H5T_NATIVE_LDOUBLE;
       break;
     default:
@@ -76,15 +79,18 @@ tid_for_objc_type (const char *type)
 }
 
 static BOOL
-compare_objc_types (const char *ivarType, const char *type)
+compare_types (fcall_type_t ivarType, fcall_type_t type)
 {
-  if (*ivarType != *type)
+  if (ivarType != type)
     {
-      if (*ivarType == _C_LNG && *type == _C_INT
+      if (ivarType == fcall_type_slong && type == fcall_type_sint
           && sizeof (long) == sizeof (int))
         return YES;
-      else if (*ivarType == _C_ULNG && *type == _C_UINT
+      else if (ivarType == fcall_type_ulong && type == fcall_type_uint
                && sizeof (unsigned long) == sizeof (unsigned))
+        return YES;
+      else if (ivarType == fcall_type_boolean && type == fcall_type_uchar
+               && sizeof (BOOL) == sizeof (unsigned char))
         return YES;
       else
         return NO;
@@ -223,12 +229,12 @@ get_attribute (hid_t oid, const char *attrName)
   return NULL;
 }
 
-static const char *
-objc_type_for_tid (hid_t tid)
+static fcall_type_t
+fcall_type_for_tid (hid_t tid)
 {
   H5T_class_t tid_class;
   size_t tid_size;
-  const char *type;
+  fcall_type_t type;
 
   if ((tid_class = H5Tget_class (tid)) < 0)
     raiseEvent (LoadError, "cannot get class of tid");
@@ -248,37 +254,37 @@ objc_type_for_tid (hid_t tid)
         if (tid_size == sizeof (char))
           {
             if (tid_sign == H5T_SGN_2)
-              type = @encode (char);
+              type = fcall_type_schar;
             else
-              type = @encode (unsigned char);
+              type = fcall_type_uchar;
           }
         else if (tid_size == sizeof (short))
           {
             if (tid_sign == H5T_SGN_2)
-              type = @encode (short);
+              type = fcall_type_sshort;
             else
-              type = @encode (unsigned short);
+              type = fcall_type_ushort;
           }
         else if (tid_size == sizeof (int))
           {
             if (tid_sign == H5T_SGN_2)
-              type = @encode (int);
+              type = fcall_type_sint;
             else
-              type = @encode (unsigned);
+              type = fcall_type_uint;
           }
         else if (tid_size == sizeof (long))
           {
             if (tid_sign == H5T_SGN_2)
-              type = @encode (long);
+              type = fcall_type_slong;
             else
-              type = @encode (unsigned long);
+              type = fcall_type_ulong;
           }
         else if (tid_size == sizeof (long long))
           {
             if (tid_sign == H5T_SGN_2)
-              type = @encode (long long);
+              type = fcall_type_slonglong;
             else
-              type = @encode (unsigned long long);
+              type = fcall_type_ulonglong;
           }
         else
           abort ();
@@ -286,64 +292,20 @@ objc_type_for_tid (hid_t tid)
       break;
     case H5T_FLOAT:
       if (tid_size == sizeof (float))
-        type = @encode (float);
+        type = fcall_type_float;
       else if (tid_size == sizeof (double))
-        type = @encode (double);
+        type = fcall_type_double;
       else if (tid_size == sizeof (long double))
-        type = @encode (long double);
+        type = fcall_type_long_double;
       else
         abort ();
       break;
     case H5T_STRING:
-      type = @encode (const char *);
+      type = fcall_type_string;
       break;
     default:
       abort ();
     }
-  return type;
-}
-
-const char *
-objc_type_for_did (hid_t did)
-{
-  hid_t tid, sid;
-  int rank;
-  const char *baseType, *type;
-  
-  if ((tid = H5Dget_type (did)) < 0)
-    raiseEvent (LoadError, "could not get dataset type");
-  
-  baseType = objc_type_for_tid (tid);
-  
-  if ((sid = H5Dget_space (did)) < 0)
-    raiseEvent (LoadError, "could not get dataset space");
-  
-  if ((rank = H5Sget_simple_extent_ndims (sid)) < 0)
-    raiseEvent  (LoadError,
-                 "could not get rank of data space");
-  {
-    hsize_t hdims[rank];
-    
-    if (H5Sget_simple_extent_dims (sid, hdims, NULL) < 0)
-      raiseEvent (LoadError,
-                  "could not get extent of data space");
-    if (hdims[0] > 1)
-      {
-        unsigned udims[rank], i;
-        
-        for (i = 0; i < rank; i++)
-          udims[i] = hdims[i];
-        
-        type = objc_type_for_array (baseType, rank, udims);
-      }
-    else
-      type = baseType;
-  }
-  if (H5Tclose (tid) < 0)
-    raiseEvent (LoadError, "could not close dataset tid");
-  if (H5Sclose (sid) < 0)
-    raiseEvent (LoadError, "could not close dataset sid");
-  
   return type;
 }
 
@@ -397,27 +359,26 @@ create_compound_type_from_class (Class class)
   size_t offset;
   BOOL insertFlag;
 
-  void insert_var (struct objc_ivar *ivar)
+  void insert_var (const char *name, fcall_type_t type, size_t ivar_offset,
+                   unsigned rank, unsigned *dims)
     {
-      const char *type = ivar->ivar_type;
-
-      if (*type == _C_ARY_B)
+      if (rank > 0)
         raiseEvent (SaveError, "cannot store arrays in compound types");
-      else if (*type == _C_ID)
+      else if (type == fcall_type_object)
         raiseEvent (SaveError, "cannot store objects in compound types");
-      else if (*type == _C_CHARPTR)
-        type = @encode (int);
+      else if (type == fcall_type_string)
+        type = fcall_type_sint;
 
-      offset = alignsizeto (offset, alignment_for_objc_type (type));
+      offset = alignsizeto (offset, fcall_type_alignment (type));
       
       if (insertFlag)
         {
-          if (H5Tinsert (tid, ivar->ivar_name, offset,
-                         tid_for_objc_type (type)) < 0)
+          if (H5Tinsert (tid, name, offset,
+                         tid_for_fcall_type (type)) < 0)
             raiseEvent (SaveError, "unable to insert to compound type");
         }
 
-      offset += size_for_objc_type (type);
+      offset += fcall_type_size (type);
     }
 
   check_for_empty_class (class);
@@ -489,32 +450,32 @@ create_class_from_compound_type (id aZone,
           ivar = find_ivar (class, name);
           {
             hid_t mtid;
-            const char *type;
+            fcall_type_t type;
 
             if ((mtid = H5Tget_member_type (tid, i)) < 0)
               raiseEvent (LoadError,
                           "unable to get compound type member type #%u",
                           i);
             
-            type = objc_type_for_tid (mtid);
+            type = fcall_type_for_tid (mtid);
 
-            if (*type == _C_INT && *ivar->ivar_type == _C_CHARPTR)
+            if (type == fcall_type_sint && *ivar->ivar_type == _C_CHARPTR)
               {
                 if (get_attribute_levels_string_list (did,
                                                       name,
                                                       NULL) == 0)
                   raiseEvent (LoadError, "int / char * mismatch");
               }
-            else if (!compare_objc_types (ivar->ivar_type, type))
+            else if (!compare_types (fcall_type_for_objc_type (*ivar->ivar_type), type))
               raiseEvent (LoadError,
-                          "compound type member type != ivar type `%s' != `%s'",
+                          "compound type member type (%d) != ivar type (%s)",
                           type, ivar->ivar_type);
           }
           {
             int offset;
             
             if ((offset = H5Tget_member_offset (tid, i)) < 0)
-             raiseEvent (LoadError,
+              raiseEvent (LoadError,
                           "unable to get compound type offset #%u",
                           i);
             if (offset != ivar->ivar_offset - min_offset)
@@ -538,7 +499,8 @@ create_class_from_compound_type (id aZone,
         {
           size_t hoffset, noffset;
           hid_t mtid;
-          const char *type, *name;
+          const char *name;
+          fcall_type_t type;
           
           if ((name = H5Tget_member_name (tid, i)) < 0)
             raiseEvent (LoadError,
@@ -548,16 +510,14 @@ create_class_from_compound_type (id aZone,
             raiseEvent (LoadError,
                         "unable to get compound type member type #%u",
                         i);
-          type = objc_type_for_tid (mtid);
+          type = fcall_type_for_tid (mtid);
 
-          if (get_attribute_levels_string_list (did,
-                                                name,
-                                                NULL) > 0)
+          if (get_attribute_levels_string_list (did, name, NULL) > 0)
             {
-              if (*type != _C_INT)
+              if (type != fcall_type_sint)
                 raiseEvent (LoadError, "expecting int string index");
 
-              type = @encode (const char *);
+              type = fcall_type_string;
             }
 
           if ((hoffset = H5Tget_member_offset (tid, i)) < 0)
@@ -569,7 +529,7 @@ create_class_from_compound_type (id aZone,
             raiseEvent (LoadError, "unable to close member type");
 
           noffset = alignsizeto (offset,
-                                 alignment_for_objc_type (type));
+                                 fcall_type_alignment (type));
           
           if (min_offset > 0)
             {
@@ -579,10 +539,10 @@ create_class_from_compound_type (id aZone,
                 alignedFlag = NO;
             }
           
-          ivar_list[i].ivar_type = ZSTRDUP (aZone, type);
+          ivar_list[i].ivar_type = objc_type_for_fcall_type (type);
           ivar_list[i].ivar_name = name;
           ivar_list[i].ivar_offset = noffset;
-          return noffset + size_for_objc_type (type);
+          return noffset + fcall_type_size (type);
         }
       
       [classObj setName: ZSTRDUP (aZone, typeName)];
@@ -601,7 +561,8 @@ create_class_from_compound_type (id aZone,
       ((Class) classObj)->ivars = ivars;
       {
         struct objc_ivar *ivar = &ivar_list[count - 1];
-        size_t size = ivar->ivar_offset + size_for_objc_type (ivar->ivar_type);
+        size_t size = ivar->ivar_offset +
+          fcall_type_size (fcall_type_for_objc_type (*ivar->ivar_type));
         
         ((Class) classObj)->instance_size = size;
       }
@@ -632,20 +593,19 @@ create_class_from_compound_type (id aZone,
       
       if (did)
         {
-          void process_ivar (struct objc_ivar *ivar)
+          void process_ivar (const char *ivarName, fcall_type_t type,
+                             size_t offset, unsigned rank, unsigned *dims)
             {
               const char **strings;
               unsigned count =
-                get_attribute_levels_string_list (did,
-                                                  ivar->ivar_name,
-                                                  &strings);
+                get_attribute_levels_string_list (did, ivarName, &strings);
               
               if (count > 0)
                 {
-                  if (*ivar->ivar_type != _C_CHARPTR)
+                  if (type != fcall_type_string)
                     raiseEvent (LoadError,
                                 "ivar `%s' has %u strings, but not a char *",
-                                ivar->ivar_name, count);
+                                name, count);
 
                   {
                     id <Map> stringMap =
@@ -657,7 +617,7 @@ create_class_from_compound_type (id aZone,
                     for (i = 0; i < count; i++)
                       [stringMap at: (id) strings[i] insert: (id) (i + 1)];
                     
-                    [stringMaps at: (id) ivar->ivar_name insert: stringMap];
+                    [stringMaps at: (id) ivarName insert: stringMap];
                   }
                 }
             }
@@ -701,34 +661,34 @@ PHASE(Using)
 {
   unsigned inum = 0;
 
-  void process_ivar (struct objc_ivar *ivar)
+  void process_ivar (const char *ivar_name, fcall_type_t ivar_type,
+                     size_t offset, unsigned rank, unsigned *dims)
     {
       hid_t mtid;
-      const char *type;
+      fcall_type_t type;
       size_t hoffset;
       
       if ((mtid = H5Tget_member_type (tid, inum)) < 0)
         raiseEvent (LoadError,
                     "unable to get compound type member type #%u",
                     inum);
-      type = objc_type_for_tid (mtid);
+      type = fcall_type_for_tid (mtid);
 
       if ((hoffset = H5Tget_member_offset (tid, inum)) < 0)
         raiseEvent (LoadError,
                     "unable to get compound type offset #%u",
                     inum);
       
-      if (*type == _C_INT && 
-          *ivar->ivar_type == _C_CHARPTR)
+      if (type == fcall_type_sint && ivar_type == fcall_type_string)
         {
-          id <Map> stringMap = [stringMaps at: (id) ivar->ivar_name];
+          id <Map> stringMap = [stringMaps at: (id) ivar_name];
           
           if (!stringMap)
             raiseEvent (LoadError,
                         "expecting string table for int -> char * conversion");
           {
             void *ptr = obj;
-            void *ivarptr = ptr + ivar->ivar_offset;
+            void *ivarptr = ptr + offset;
             PTRINT offset = *(int *) (buf + hoffset);
             id <MapIndex> mi = [stringMap begin: scratchZone];
             const char *key;
@@ -749,13 +709,13 @@ PHASE(Using)
         }
       else
         {
-          if (!compare_objc_types (ivar->ivar_type, type))
-            raiseEvent (LoadError, "ivar `%s' in `%s': `%s' != mtid: `%s'", 
-                        ivar->ivar_name, [obj name],
-                        ivar->ivar_type, type);
-          memcpy ((void *) obj + ivar->ivar_offset,
+          if (!compare_types (ivar_type, type))
+            raiseEvent (LoadError, "ivar `%s' in `%s': `%u' != mtid: `%u'", 
+                        name, [obj name],
+                        ivar_type, type);
+          memcpy ((void *) obj + offset,
                   buf + hoffset,
-                  size_for_objc_type (type));
+                  fcall_type_size (type));
         }
       inum++;
     }
@@ -767,27 +727,27 @@ PHASE(Using)
 {
   unsigned inum = 0;
 
-  void process_ivar (struct objc_ivar *ivar)
+  void process_ivar (const char *ivar_name, fcall_type_t ivar_type,
+                     size_t offset, unsigned rank, unsigned *dims)
     {
       hid_t mtid;
-      const char *type;
+      fcall_type_t type;
       size_t hoffset;
       
       if ((mtid = H5Tget_member_type (tid, inum)) < 0)
         raiseEvent (LoadError,
                     "unable to get compound type member type #%u",
                     inum);
-      type = objc_type_for_tid (mtid);
+      type = fcall_type_for_tid (mtid);
 
       if ((hoffset = H5Tget_member_offset (tid, inum)) < 0)
         raiseEvent (LoadError,
                     "unable to get compound type offset #%u",
                     inum);
       
-      if (*type == _C_INT && 
-          *ivar->ivar_type == _C_CHARPTR)
+      if (type == fcall_type_sint && ivar_type == fcall_type_string)
         {
-          id <Map> stringMap = [stringMaps at: (id) ivar->ivar_name];
+          id <Map> stringMap = [stringMaps at: (id) ivar_name];
           
           if (!stringMap)
             {
@@ -795,10 +755,10 @@ PHASE(Using)
                              setCompareFunction: compareCStrings]
                             createEnd];
 
-              [stringMaps at: (id) ivar->ivar_name insert: stringMap];
+              [stringMaps at: (id) ivar_name insert: stringMap];
             }
           {
-            void *ivarptr = (void *)obj + ivar->ivar_offset;
+            void *ivarptr = (void *)obj + offset;
             const char *key = * (const char **)ivarptr;
             int *ptr = (int *) (buf + hoffset);
             PTRUINT offset = INT_MIN;
@@ -819,15 +779,15 @@ PHASE(Using)
         }
       else
         {
-          if (!compare_objc_types (ivar->ivar_type, type))
-            raiseEvent (LoadError, "differing source and target types");
+          if (!compare_types (ivar_type, type))
+            raiseEvent (LoadError, "differing source and target types %d/%d",
+                        ivar_type, type);
           memcpy (buf + hoffset,
-                  (void *) obj + ivar->ivar_offset,
-                  size_for_objc_type (type));
+                  (void *) obj + offset,
+                  fcall_type_size (type));
         }
       inum++;
     }
-  
   map_ivars (getClass (obj), process_ivar);
   return self;
 
@@ -924,10 +884,11 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
 
 - writeLevels
 {
-  void store_level (struct objc_ivar *ivar)
+  void store_level (const char *ivar_name, fcall_type_t type,
+                    size_t offset, unsigned rank, unsigned *dims)
     {
-      if (*ivar->ivar_type == _C_CHARPTR)
-        [self writeLevel: ivar->ivar_name];
+      if (type == fcall_type_string)
+        [self writeLevel: ivar_name];
     }
   map_ivars (class, store_level);
   return self;
@@ -1532,16 +1493,52 @@ PHASE(Using)
 
               int process_object (id hdf5Obj)
                 {
-                  const char *type;
-                  
                   if (((HDF5_c *) hdf5Obj)->datasetFlag)
-                    type = objc_type_for_did (((HDF5_c *) hdf5Obj)->loc_id);
+                    {
+                      hid_t did = ((HDF5_c *) hdf5Obj)->loc_id;
+                      hid_t tid, sid;
+                      unsigned rank;
+                      fcall_type_t baseType;
+                      
+                      if ((tid = H5Dget_type (did)) < 0)
+                        raiseEvent (LoadError, "could not get dataset type");
+                      
+                      baseType = fcall_type_for_tid (tid);
+                      
+                      if ((sid = H5Dget_space (did)) < 0)
+                        raiseEvent (LoadError, "could not get dataset space");
+                      
+                      if ((rank = H5Sget_simple_extent_ndims (sid)) < 0)
+                        raiseEvent  (LoadError,
+                                     "could not get rank of data space");
+                      {
+                        unsigned udims[rank];
+                        hsize_t hdims[rank];
+                        unsigned i;
+                        
+                        if (H5Sget_simple_extent_dims (sid, hdims, NULL) < 0)
+                          raiseEvent (LoadError,
+                                      "could not get extent of data space");
+                        for (i = 0; i < rank; i++)
+                          udims[i] = hdims[i];
+
+                        addVariable (typeObject,
+                                     [hdf5Obj getName],
+                                     baseType,
+                                     rank,
+                                     udims);
+                      }
+                      if (H5Tclose (tid) < 0)
+                        raiseEvent (LoadError, "could not close dataset tid");
+                      if (H5Sclose (sid) < 0)
+                        raiseEvent (LoadError, "could not close dataset sid");
+                    }
                   else
-                    type = @encode (id);
-                  
-                  addVariable (typeObject,
-                               [hdf5Obj getName],
-                               type);
+                    addVariable (typeObject,
+                                 [hdf5Obj getName],
+                                 fcall_type_object,
+                                 0,
+                                 NULL);
                   return 0;
                 }
               [self iterate: process_object];
@@ -1644,7 +1641,9 @@ hdf5_store_attribute (hid_t did,
 
 - storeAsDataset: (const char *)datasetName
         typeName: (const char *)typeName
-            type: (const char *)type
+            type: (fcall_type_t)type
+            rank: (unsigned)rank
+            dims: (unsigned *)dims
              ptr: (void *)ptr
 {
 #ifdef HAVE_HDF5
@@ -1686,45 +1685,34 @@ hdf5_store_attribute (hid_t did,
         raiseEvent (SaveError, "unable to close string type");
     }
 
-  if (*type == _C_ARY_B)
+  if (rank > 0)
     {
-      void hdf5_setup_array (unsigned rank, unsigned *dims, 
-                             const char *baseType)
+      hssize_t hdf5dims[rank];
+      unsigned i;
+      hid_t sid;
+      
+      for (i = 0; i < rank; i++)
+        hdf5dims[i] = dims[i];
+      
+      if ((sid = H5Screate_simple (rank, hdf5dims, NULL)) < 0)
+        raiseEvent (SaveError, "unable to create array dataspace");
+      
+      if (type == fcall_type_string)
+        store_string (sid);
+      else
         {
-          hssize_t hdf5dims[rank];
-          unsigned i;
-          hid_t sid;
+          hid_t tid = tid_for_fcall_type (type);
           
-          for (i = 0; i < rank; i++)
-            hdf5dims[i] = dims[i];
-          
-          if ((sid = H5Screate_simple (rank, hdf5dims, NULL)) < 0)
-            raiseEvent (SaveError, "unable to create array dataspace");
-          
-          if (*baseType == _C_CHARPTR)
-            store_string (sid);
-          else
-            {
-              hid_t tid = tid_for_objc_type (baseType);
-
-              store (sid, tid, tid);
-            }
-          if (H5Sclose (sid) < 0)
-            raiseEvent (SaveError, "unable to close array dataspace");
+          store (sid, tid, tid);
         }
-      process_array (type,
-                     hdf5_setup_array,
-                     NULL, NULL,
-                     NULL, NULL, 
-                     NULL,
-                     ptr,
-                     NULL);
+      if (H5Sclose (sid) < 0)
+        raiseEvent (SaveError, "unable to close array dataspace");
     }
-  else if (*type == _C_CHARPTR)
+  else if (type == fcall_type_string)
     store_string (psid);
   else
     {
-      hid_t tid = tid_for_objc_type (type);
+      hid_t tid = tid_for_fcall_type (type);
 
       store (psid, tid, tid);
     }

@@ -535,9 +535,6 @@ CREATING
 - lispOutShallow: stream;
 - hdf5OutShallow: hdf5Obj;
 - updateArchiver: archiver;
-extern id createType (id <Zone> aZone, const char *name);
-extern Class copyClass (Class class);
-extern void addVariable (Class class, const char *name, const char *type);
 USING
 - getDefiningClass;
 @end
@@ -941,7 +938,7 @@ USING
 @protocol LispArchiver <Archiver, CREATABLE>
 //S: Protocol for creating Lisp instances of the Archiver
 //D: Protocol for creating Lisp instances of the Archiver
-//D: Default system path is  ~/.swarmArchiver.scm.
+//D: Default system path is ~/.swarmArchiver.scm.
 //D: Default application path is <swarmdatadir>/<appname>/<appname>.scm
 //D: or the current directory.
 CREATING
@@ -957,7 +954,7 @@ USING
 //S: Protocol for creating HDF5 instances of the Archiver
 //D: Protocol for creating HDF5 instances of the Archiver
 //D: Default system path is ~/swarmArchiver.hdf
-//D: Default application path is : <swarmdatadir>/<appname>/<appname>.hdf 
+//D: Default application path is <swarmdatadir>/<appname>/<appname>.hdf 
 //D: or the current directory.
 CREATING
 
@@ -967,6 +964,19 @@ CREATING
 SETTING
 USING
 @end
+
+typedef enum {fcall_type_void = 0,
+              fcall_type_boolean,
+              fcall_type_uchar, fcall_type_schar,
+              fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
+              fcall_type_sint, fcall_type_ulong, fcall_type_slong,
+              fcall_type_slonglong, fcall_type_ulonglong,
+              fcall_type_float, fcall_type_double, 
+              fcall_type_long_double,
+              fcall_type_object, fcall_type_class,
+              fcall_type_string, fcall_type_selector, 
+              fcall_type_jobject, fcall_type_jstring,
+              } fcall_type_t;
 
 @protocol HDF5 <Create, Drop, CREATABLE>
 //S: HDF5 interface
@@ -1002,7 +1012,7 @@ USING
 - (BOOL)checkDatasetName: (const char *)datasetName;
 
 - loadDataset: (void *)ptr;
-- storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
+- storeAsDataset: (const char *)name typeName: (const char *)typeName type: (fcall_type_t)type rank: (unsigned)rank dims: (unsigned *)dims ptr: (void *)ptr;
 - storeTypeName: (const char *)typeName;
 - storeComponentTypeName: (const char *)typeName;
 - shallowLoadObject: obj;

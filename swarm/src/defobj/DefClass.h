@@ -71,9 +71,6 @@ void _obj_initMethodInterfaces (Class_s *class);
 - hdf5InCreate: expr;
 - hdf5OutShallow: stream;
 - createEnd;
-Class copyClass (Class class);
-void addVariable (Class class, const char *name, const char *type);
-id createType (id aZone, const char *typeName);
 @end
 
 @interface BehaviorPhase_s: CreatedClass_s

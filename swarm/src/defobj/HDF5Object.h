@@ -13,6 +13,7 @@
 
 #import <defobj/Create.h>
 #import <collections.h> // Map
+#import "internal.h" // fcall_type_t
 
 #define ATTRIB_TYPE_NAME "type"
 #define ATTRIB_COMPONENT_TYPE_NAME "component-type"
@@ -106,7 +107,7 @@
 - shallowStoreObject: obj;
 
 - loadDataset: (void *)ptr;
-- storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
+- storeAsDataset: (const char *)name typeName: (const char *)typeName type: (fcall_type_t)type rank: (unsigned)rank dims: (unsigned *)dims ptr: (void *)ptr;
 
 - (void)iterate: (int (*) (id hdf5Obj))iterateFunc drop: (BOOL)dropFlag;
 - (void)iterate: (int (*) (id hdf5Obj))iterateFunc;
