@@ -1,5 +1,8 @@
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* EZBin.m ([EZBin -createEnd]): Use OutFile create:setName: instead
+	of create:withName:.
+
 	* FunctionGraph.[hm], analysis.h ([FunctionGraph
 	-setElement:setDataFeed:setFunctionSelector:]): Remove.
 

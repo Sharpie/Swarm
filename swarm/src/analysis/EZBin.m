@@ -181,7 +181,7 @@ PHASE(Creating)
     }
   
   if (fileOutput)
-    anOutFile = [OutFile create: [self getZone] withName: fileName];
+    anOutFile = [OutFile create: [self getZone] setName: fileName];
   
   return self;
 }
