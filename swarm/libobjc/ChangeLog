@@ -1,3 +1,8 @@
+1999-05-22  Marcus Daniels  <mgd@pajarito.libarts.wsu.edu>
+
+	* ltconfig: Add support for hpux9; generate and compile function
+	to call all constructors.
+
 1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe.m: Include sys/sigevent.h if __hpux__ and
