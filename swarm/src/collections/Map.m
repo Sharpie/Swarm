@@ -13,8 +13,9 @@ Library:      collections
 #import <defobj/defalloc.h>
 
 #include <objc/objc-api.h> // object_get_class
-#include <collections/predicates.h> // keywordp
+#include <collections/predicates.h> // keywordp, stringp
 
+#include <swarmconfig.h> // HAVE_HDF5
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
@@ -366,6 +367,42 @@ PHASE(Using)
   mapObject (mapalloc, list);
 }
 
+- (BOOL)allSameClass
+{
+  BOOL sameMembers = [super allSameClass];
+
+  if (sameMembers)
+    {
+      if (compareFunc)
+        return YES;
+      else
+        {
+          id <MapIndex> mi;
+          id key;
+          Class firstClass;
+          BOOL ret = YES;
+          
+          mi = [self begin: scratchZone];
+          if ([mi next: &key])
+            {
+              firstClass = [key class];
+              while ([mi getLoc] == (id) Member)
+                {
+                  if ([key class] != firstClass)
+                    {
+                      ret = NO;
+                      break;
+                    }
+                  [mi next: &key];
+                }
+            }
+          [mi drop];
+          return ret;
+        }
+    }
+  return NO;
+}
+
 - lispIn: expr
 {
   id index, member;
@@ -441,6 +478,90 @@ PHASE(Using)
   [outputCharStream catC: ")"];
   return self;
 }
+
+#ifdef HAVE_HDF5
+- hdf5Out: hdf5Obj deep: (BOOL)deepFlag
+{
+  if (deepFlag)
+    abort ();
+  else
+    {
+      if (![self allSameClass])
+        raiseEvent (SaveError,
+                    "shallow HDF5 serialization on Collections must be of same type");
+      else
+        {
+          id aZone = [self getZone];
+          id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
+                                   setSourceClass: [[self getFirst] class]]
+                                  createEnd];
+          size_t maxlen;
+          id <MapIndex> mi = [self begin: scratchZone];
+          id key;
+          BOOL isString;
+
+          [mi next: &key];
+          
+          isString = !compareFunc && stringp (key);
+          
+          if (isString)
+            {
+              maxlen = 0;
+              [mi setLoc: Start];
+              while ([mi next: &key])
+                {
+                  size_t len = [key getCount];
+                  
+                  if (len > maxlen)
+                    maxlen = len;
+                }
+            }
+          else
+            {
+              if (sizeof (unsigned) == 4)
+                maxlen = 10;
+              else if (sizeof (unsigned) == 8)
+                maxlen = 20;
+              else 
+                abort ();
+            }
+          {
+            id hdf5ObjDataset =
+              [[[[[[[HDF5 createBegin: aZone]
+                     setName: [hdf5Obj getName]]
+                    setTypeName: [self name]]
+                   setParent: hdf5Obj]
+                  setRecordType: hdf5CompoundType count: [self getCount]]
+                 setRowNameLength: maxlen]
+                createEnd];
+
+            id member;
+            
+            [mi setLoc: Start];
+            while ((member = [mi next: &key]))
+              {
+                unsigned rn = [mi getOffset];
+                char buf[sizeof (unsigned) + 1];
+
+                if (isString)
+                  [hdf5ObjDataset nameRecord: rn name: [key getC]];
+                else
+                  {
+                    sprintf (buf, "%u", (unsigned) key);
+                    [hdf5ObjDataset nameRecord: rn name: buf];
+                  }
+                [hdf5ObjDataset selectRecord: rn];
+                [member hdf5Out: hdf5ObjDataset deep: NO];
+              }
+            [hdf5ObjDataset drop];
+          }
+          [mi drop];
+          [hdf5CompoundType drop];
+        }
+    }
+  return self;
+}
+#endif
 
 @end
 

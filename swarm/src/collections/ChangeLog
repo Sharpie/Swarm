@@ -1,6 +1,10 @@
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Collection.[hm] ([Collection_any hdf5Out:deep:]): New method.
+	* Map.[hm]: Include swarmconfig.h.
+	([Map_c -allSameClass], [Map_c -hdf5Out:deep:]): New methods.
+
+	* Collection.[hm]: Include swarmconfig.h.
+	([Collection_any hdf5Out:deep:]): New method.
 
 	* Collection.m ([Colleciton_any hdf5Out:deep:]): Call
 	numberRecord: on dataset.

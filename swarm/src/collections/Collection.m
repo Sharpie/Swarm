@@ -14,6 +14,7 @@ Library:      collections
 #import <collections/Permutation.h> // PermutationItem_c
 #import <collections.h> // INDEX{START,END}P, Permutation
 #import <defobj/defalloc.h>
+#include <swarmconfig.h> // HAVE_HDF5
 
 @implementation Collection_any
 
