@@ -1,6 +1,7 @@
 jdkdir=@jdkdir@
 jdkbindir=$(jdkdir)/bin
 JAVAC=$(jdkbindir)/javac
+JAVACLASSES=@JAVACLASSES@
 
 CLASSPHASES := __c U
 PHASES := $(CLASSPHASES) S
@@ -14,5 +15,5 @@ CLASSFILES = $(addsuffix .class,$(CLASSES)) $(addsuffix .class,$(INTERFACES))
 all: $(CLASSFILES)
 
 $(CLASSFILES): $(addsuffix .java,$(CLASSES)) $(addsuffix .java,$(INTERFACES))
-	JAVA_HOME=$(jdkdir) $(JAVAC) -classpath ../..:$(jdkdir)/lib/classes.zip $^
+	JAVA_HOME=$(jdkdir) $(JAVAC) -classpath ../..:$(JAVACLASSES) $^
 

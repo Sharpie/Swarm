@@ -1,3 +1,11 @@
+1999-03-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules.in, Makefile.in (JAVACLASSES): Substitute.
+
+	* Makefile.in (%.class): Use it.
+
+	* Makefile.rules.in ($(CLASSFILES)): Use it.
+
 1999-03-31  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.java: Remove globalZone, uniformIntRand, 
