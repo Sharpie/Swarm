@@ -1,9 +1,13 @@
 1999-11-07    <mgd@VAIO>
 
+	* FArguments.m ([FArguments_c -drop]): Use globalrefs for 
+	return type and string arguments.
+	([FArguments_c -addString:]): Likewise.
+
 	* FCall.m (updateJavaTarget): New function.
 	([FCall_c -setJavaMethod:in{Class,Object:}]): Use globalref for
 	fclass.  Drop localref before leaving.
-	([FCall_c -drop]): Drop globalref, not localref.
+	([FCall_c -drop]): Drop globalref, not localref for fclass.
 	([FCall_c -performCall]): If a Java call and the
 	return type is object or string, create a globalref
 	and drop the localref.

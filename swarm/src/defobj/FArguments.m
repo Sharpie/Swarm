@@ -289,8 +289,12 @@ get_fcall_type_for_objc_type (char objcType)
       jstring string;
       size_t size;
       void *ptr;
+      jobject lref;
       
-      string = (*jniEnv)->NewStringUTF (jniEnv, str);
+      lref = (*jniEnv)->NewStringUTF (jniEnv, str);
+      string = (*jniEnv)->NewGlobalRef (jniEnv, string);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+
       size = sizeof (jstring);
       ptr = &string;
       argTypes[offset] = fcall_type_jstring;
@@ -455,14 +459,15 @@ PHASE(Using)
 
   if (returnType == fcall_type_jobject
       || returnType == fcall_type_jstring)
-    (*jniEnv)->DeleteLocalRef (jniEnv, (jobject) ((types_t *) result)->object);
+    (*jniEnv)->DeleteGlobalRef (jniEnv,
+				(jobject) ((types_t *) result)->object);
   for (i = 0; i < assignedArgumentCount; i++)
     {
       unsigned offset = i + MAX_HIDDEN;
       fcall_type_t type = argTypes[offset];
 
       if (type == fcall_type_jstring)
-        (*jniEnv)->DeleteLocalRef (jniEnv, *(jstring *) argValues[offset]);
+        (*jniEnv)->DeleteGlobalRef (jniEnv, *(jstring *) argValues[offset]);
     }
 #endif
   [super drop];

@@ -745,12 +745,7 @@ PHASE(Using)
 {
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
-    {
-      (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
-      if (fargs->returnType == fcall_type_jobject
-	  || fargs->returnType == fcall_type_jstring)
-	(*jniEnv)->DeleteGlobalRef (jniEnv, fobject);
-    }
+    (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
 #endif
   [super drop];
 }
