@@ -64,6 +64,10 @@
 #undef __ia64__
 #endif
 
+#ifdef _MSC_VER
+#define MSVC
+#endif
+
 /* Calling convention */
 /* Define if using pcc non-reentrant struct return convention */
 #undef __PCC_STRUCT_RETURN__
