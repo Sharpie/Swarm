@@ -1,5 +1,30 @@
 include ../Makefile.common
 CC=@CC@
+RANLIB=@RANLIB@
+top_builddir=../..
+SHELL=@SHELL@
+LIBTOOL=@LIBTOOL@
+
 CPPFLAGS=-I/opt/SUNWjava/usr/java1.2/include -I/opt/SUNWjava/usr/java1.2/include/solaris
 
-all: $(addsuffix .o,$(foreach module,$(MODULES),$($(module)PROTOCOLS)))
+modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS)))
+
+libjavaswarm_a_OBJECTS = $(addsuffix .o,$(modulePROTOCOLS))
+libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
+
+all: libjavaswarm.la libjavaswarm.a
+
+libjavaswarm.la: $(libjavaswarm_la_OBJECTS)
+	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@
+
+libjavaswarm.a: $(libjavaswarm_a_OBJECTS)
+	-$(RM) libjavaswarm.a
+	$(AR) cru libjavaswarm.a $(libjavaswarm_a_OBJECTS)
+	$(RANLIB) libdefobj.a
+
+%.o: %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+%.lo: %.c
+	$(LIBTOOL) --mode=compile $(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
