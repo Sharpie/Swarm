@@ -1,3 +1,13 @@
+1999-10-07    <mgd@HELEN>
+
+	* directory.m (JAVAFINDENTRY): New macro.
+	([-switchObjc:javaObject:]): Use it.
+	([-javaEnsureObjc:]): Don't free string until switch is done.
+	(swarm_directory_signature_for_class): Always copy string in
+	scratchZone.
+	(swarm_directory_ensure_selector_type_signature): Free retSig after
+	copying into returned signature.
+
 1999-10-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m ([-javaFind:], [-objcFind:], [-javaEnsureObjc:]):

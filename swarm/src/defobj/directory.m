@@ -180,6 +180,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 #define ENTRY(theObject,theJavaObject) [[[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
 #define OBJCENTRY(theObject) ENTRY(theObject,0)
 #define JAVAENTRY(theJavaObject) ENTRY(0,theJavaObject)
+#define JAVAFINDENTRY(theJavaObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->javaObject = theJavaObject; _findEntry; })
 #define OBJCFINDENTRY(theObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->object = theObject; _findEntry; })
 
 @internalimplementation Directory
@@ -334,7 +335,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   
   index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
   m = table[index];
-  entry = [table[index] at: OBJCFINDENTRY (theObject)];
+  entry = [table[index] at: JAVAFINDENTRY (theJavaObject)];
   if (!entry)
     abort ();
   
@@ -377,8 +378,10 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
           
           if (result)
             {
-              FREEBLOCK (result->object);
+              const char *last = (const char *) result->object;
+
               result = SD_SWITCHOBJC (jniEnv, javaObject, (id) str);
+	      FREEBLOCK ((void *) last);
             }
           else
             result = SD_ADD (jniEnv, javaObject, (id) str);
@@ -1374,9 +1377,9 @@ swarm_directory_signature_for_class (JNIEnv *env, jclass class)
       char *buf = [scratchZone alloc: 1 + strlen (name) + 1 + 1];
 
       fill_signature (buf, name);
-      type = buf;
+      return buf;
     }
-  return type;
+  return SSTRDUP (type);
 }
 
 const char *
@@ -1431,6 +1434,7 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
 
         for (ai = 0; ai < argCount; ai++)
           [scratchZone free: (void *) argSigs[ai]];
+	[scratchZone free: (void *) retSig];
 
         {
           jobject str = (*env)->NewStringUTF (env, sig);
