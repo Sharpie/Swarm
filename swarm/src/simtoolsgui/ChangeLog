@@ -1,5 +1,14 @@
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* GUIComposite.m ([GUIComposite -setWindowGeometryRecordName:]): Copy 
+	argument.
+
+	* GUISwarm.m ([GUISwarm -setWindowGeometryRecordName:]): Likewise.
+
+	* GUISwarm.m ([GUISwarm -drop]): Drop it.
+
+	* GUIComposite.[hm] ([GUIComposite -drop]): New method.
+
 	* ActionCache.m ([ActionCache -sendActionOfType:type:]): Handle
 	Quit and Save by sending a deliverActions straight away.
 

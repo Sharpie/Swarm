@@ -19,4 +19,5 @@
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)notificationMethod;
 - disableDestroyNotification;
+- (void)drop;
 @end

@@ -12,7 +12,7 @@ PHASE(Creating)
 
 - setWindowGeometryRecordName: (const char *)theWindowGeometryRecordName
 {
-  baseWindowGeometryRecordName = theWindowGeometryRecordName;
+  baseWindowGeometryRecordName = STRDUP (theWindowGeometryRecordName);
   return self;
 }
 
@@ -66,6 +66,7 @@ PHASE(Using)
 
 - (void)drop
 {
+  FREEBLOCK (baseWindowGeometryRecordName);
   [actionCache drop];
   [controlPanel drop];
   [super drop];

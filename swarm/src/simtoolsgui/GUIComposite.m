@@ -30,7 +30,7 @@ PHASE(Creating)
 
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
-  baseWindowGeometryRecordName = windowGeometryRecordName;
+  baseWindowGeometryRecordName = STRDUP (windowGeometryRecordName);
 
   return self;
 }
@@ -68,5 +68,11 @@ PHASE(Using)
   [componentList forEach: @selector (disableDestroyNotification)];
 
   return self;
+}
+
+- (void)drop
+{
+  FREEBLOCK (baseWindowGeometryRecordName);
+  [super drop];
 }
 @end
