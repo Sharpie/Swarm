@@ -153,10 +153,12 @@ make_string_ref_type (void)
   
   if ((memtid = H5Tcopy (H5T_STD_REF_OBJ)) < 0)
     raiseEvent (LoadError, "Unable to copy H5T_STD_REF_OBJ");
+#if 0
   // this must be set otherwise we can get 8 byte pointers on some 
   // architectures!
   if (H5Tset_size (memtid, sizeof (const char *)) < 0)
     raiseEvent (LoadError, "unable to set size of reference type");
+#endif
   return memtid;
 }    
 

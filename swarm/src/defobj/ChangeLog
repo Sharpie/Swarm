@@ -1,3 +1,9 @@
+2004-01-02  glen e. p. ropella  <gepr@tempusdictum.com>
+
+	* HDF5Object.m (make_string_ref_type): Re-disable H5Tset_size
+	call.  HDF5 1.5 doesn't like it.  Somehow this cpp block was 
+	removed circa 2002-10-29.
+
 2003-09-15  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* make-h2x : Add configured SED to allow for bad default sed.
