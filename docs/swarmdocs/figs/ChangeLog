@@ -1,3 +1,7 @@
+2000-02-19  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* swarm.eps: Scale it down a bit more.
+
 1999-02-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (%.jpeg, %.eps, %.jpeg): Use tee instead of
