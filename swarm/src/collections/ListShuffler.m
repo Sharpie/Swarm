@@ -10,7 +10,7 @@
 
 PHASE(Creating)
 
-- (void)setUniformRandom: rnd 
+- setUniformRandom: rnd 
 {
   if (uniformRandom) 
     [InvalidArgument
@@ -24,6 +24,7 @@ PHASE(Creating)
     [InvalidArgument
       raiseEvent:
         "ListShuffler: need a UniformUnsigned distribution object!\n"];
+  return self;
 }
 
 - createEnd 
@@ -54,9 +55,9 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- shufflePartialList: list Num: (int) num 
+- shufflePartialList: list Num: (unsigned)num 
 {
-  int j, k, m;
+  unsigned j, k, m;
 
   j = num;
 
@@ -84,7 +85,7 @@ PHASE(Using)
 
 - shuffleWholeList: list 
 {
-  int j,k;
+  unsigned j, k;
 
   j = [list getCount];
 

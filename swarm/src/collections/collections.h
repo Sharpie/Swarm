@@ -1055,7 +1055,7 @@ CREATING
 
 //M: the setUniformRandom: method connects the supplied uniform distribution 
 //M: to the Shuffler (run after createBegin:).
-- (void)setUniformRandom: dist;
+- setUniformRandom: dist;
 
 - createEnd;
 
@@ -1069,7 +1069,7 @@ USING
 
 //M: the shufflePartialList:Num method randomizes the order of the 'num'
 //M: lowest elements of the list, or the whole list if (num > size of list).
-- shufflePartialList: list Num: (int)num;
+- shufflePartialList: list Num: (unsigned)num;
 @end
 
 
@@ -1077,21 +1077,19 @@ USING
 //S: A class that reprents a permutation of an array of integers
 
 //D: Permutation is used for generation of arbitarily ordered arrays
-//D: of integers. Array consists of all integers between upper and
+//D: of integers.  Array consists of all integers between upper and
 //D: lower limits specified by setMaxElement: and setMinElement:
 //D: methods. ListShuffler is used to generate a permutation of 
-//D: an array of integers. Successive calls to generatePermutation
+//D: an array of integers.  Successive calls to generatePermutation
 //D: generate new permutations.
 
 CREATING
-- (void) setMaxElement: (int) max;
-- (void) setMinElement: (int) min;
-- (void) setUniformRandom: (id) rnd;
+- setMaxElement: (unsigned)max;
+- setMinElement: (unsigned)min;
+- setUniformRandom: rnd;
 
 USING
 - generatePermutation;
-
-
 @end
 
 @protocol PermutedIndex <Index, CREATABLE, Create>
@@ -1109,8 +1107,8 @@ USING
 - put: anObject;
 - remove;
 - getLoc;
-- (void) setLoc: locSymbol;
-- (int) getOffset;
+- (void)setLoc: locSymbol;
+- (int)getOffset;
 - setOffset: (int)offset;
 @end;
 

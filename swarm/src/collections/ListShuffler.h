@@ -17,10 +17,10 @@
 }
 
 + create: aZone setUniformRandom: dist;
-- (void)setUniformRandom: rnd;
+- setUniformRandom: rnd;
 - createEnd;
 
-- shufflePartialList: list Num: (int)num;
+- shufflePartialList: list Num: (unsigned)num;
 - shuffleWholeList: list;
 @end
 
