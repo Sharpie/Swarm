@@ -10,12 +10,20 @@ DIE=0
 # By default don't run `configure' after aclocal/autoconf/automake
 NOCONFIGURE=1
 
+# Hack here for autohell - substitute your install location or nothing for default path
+# ACDIR=/usr/local/autoconf-2.57/bin/
+LTDIR=/usr/local/libtool-1.5a/bin/
+# AMDIR=/usr/local/automake-1.7.5/bin/
+ACDIR=
+# LTDIR=
+AMDIR=
+
 # Update whenever version dependencies of developer tools change
 REQUIRED_AUTOCONF_VERSION="2.52"
-REQUIRED_LIBTOOL_VERSION="1.4.3"
-REQUIRED_AUTOMAKE_VERSION="1.5"
+#REQUIRED_LIBTOOL_VERSION="1.5a"
+REQUIRED_AUTOMAKE_VERSION="1.6"
 
-(autoconf --version) < /dev/null > /dev/null 2>&1 || {
+("$ACDIR"autoconf --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: You must have \`autoconf' installed to compile Swarm."
   echo "Download the appropriate package for your distribution,"
@@ -23,44 +31,45 @@ REQUIRED_AUTOMAKE_VERSION="1.5"
   DIE=1
 }
 
-AUTOCONF_VERSION=`(autoconf --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
+AUTOCONF_VERSION=`("$ACDIR"autoconf --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
 if [ "$AUTOCONF_VERSION" != "$REQUIRED_AUTOCONF_VERSION" ]; then
     echo
     echo "**Warning**: only tested with version" $REQUIRED_AUTOCONF_VERSION
     echo "of autoconf and may not work with version" $AUTOCONF_VERSION
 fi
 
-if [ `uname` = "Darwin" ]; then
-	(glibtool --version) < /dev/null > /dev/null 2>&1 || {
-		echo
-		echo "**Error**: You must have \`glibtool' installed to compile Swarm."
-		DIE=1
-	  }
+#if [ `uname` = "Darwin" ]; then
+#	("$LTDIR"libtool --version) < /dev/null > /dev/null 2>&1 || {
+#		echo
+#		echo "**Error**: You must have \`libtool' installed to compile Swarm."
+#		DIE=1
+#	  }
 	
-	LIBTOOL_VERSION=`(glibtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
-else
-	(libtool --version) < /dev/null > /dev/null 2>&1 || {
-		echo
-		echo "**Error**: You must have \`libtool' installed to compile Swarm."
-		DIE=1
-	  }
+#Why do we care about the system libtool?  Everything needed is in the source distribution.
+#	LIBTOOL_VERSION=`("$LTDIR"libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
+#else
+#	("$LTDIR"libtool --version) < /dev/null > /dev/null 2>&1 || {
+#		echo
+#		echo "**Error**: You must have \`libtool' installed to compile Swarm."
+#		DIE=1
+#	  }
 	
-	LIBTOOL_VERSION=`(libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
-fi
-if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
-	echo
-	echo "**Warning**: only tested with version" $REQUIRED_LIBTOOL_VERSION
-	echo "of libtool and may not work with version" $LIBTOOL_VERSION
-fi
+#	LIBTOOL_VERSION=`("$LTDIR"libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
+#fi
+#if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
+#	echo
+#	echo "**Warning**: only tested with version" $REQUIRED_LIBTOOL_VERSION
+#	echo "of libtool and may not work with version" $LIBTOOL_VERSION
+#fi
 
-(automake --version) < /dev/null > /dev/null 2>&1 || {
+("$AMDIR"automake --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: You must have \`automake' installed to compile Swarm."
   DIE=1
   NO_AUTOMAKE=yes
 }
 
-AUTOMAKE_VERSION=`(automake --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
+AUTOMAKE_VERSION=`("$AMDIR"automake --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
 if [ "$AUTOMAKE_VERSION" != "$REQUIRED_AUTOMAKE_VERSION" ]; then
     echo
     echo "**Warning**: only tested with version" $REQUIRED_AUTOMAKE_VERSION
@@ -69,7 +78,7 @@ fi
 
 
 # if no automake, don't bother testing for aclocal
-test -n "$NO_AUTOMAKE" || (aclocal --version) < /dev/null > /dev/null 2>&1 || {
+test -n "$NO_AUTOMAKE" || ("$AMDIR"aclocal --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: Missing \`aclocal'.  You need to install automake"  
   DIE=1
@@ -105,19 +114,19 @@ do
       done
       #if grep "^AC_PROG_LIBTOOL" configure.in >/dev/null; then
       # echo "Running libtoolize..."
-      # libtoolize --force --copy
+      # "$LTDIR"libtoolize --force --copy
       #fi
       echo "Running aclocal $aclocalinclude ..."
-      aclocal $aclocalinclude
+      "$AMDIR"aclocal $aclocalinclude
       if grep "^AM_CONFIG_HEADER" configure.in >/dev/null; then
 	echo "Running autoheader..."
-	autoheader
+	"$ACDIR"autoheader
       fi
       echo "Running autoconf ..."
-      autoconf
+      "$ACDIR"autoconf
       if test -f ./Makefile.am; then
 	  echo "Running automake --gnu $am_opt ..."
-	  automake --add-missing --gnu $am_opt
+	  "$AMDIR"automake --add-missing --gnu $am_opt
       else
 	  echo skipping "automake" in $dr -- Makefile.am does not exist
       fi
