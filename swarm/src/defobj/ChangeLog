@@ -1,5 +1,10 @@
 2001-08-01  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
+	* HDF5Object.m ([HDF5_c -flushVector]): Use H5Sselect_elements
+	instead of H5Soffset_simple, which is just resetting to the start with
+	hdf5 1.2.2.
+	([HDF5_c -drop]): Close dataset if it's a vector.
+
 	* FCall.h, FArguments.h (FArguments, FCall): Implement respective
 	protocol.
 

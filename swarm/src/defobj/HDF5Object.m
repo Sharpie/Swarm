@@ -1874,22 +1874,45 @@ hdf5_store_attribute (hid_t did,
   hsize_t size[1];
   hsize_t maxsize[1];
   unsigned bufCount = (c_count % VECTOR_BLOCK_SIZE) ?: VECTOR_BLOCK_SIZE;
-  hssize_t offset[1];
   
   size[0] = c_count;
   if (H5Dextend (loc_id, size) < 0)
     abort ();
   size[0] = bufCount;
   maxsize[0] = H5S_UNLIMITED;
-  if (H5Sset_extent_simple (c_sid, 1, size, maxsize) < 0)
-    abort ();
   if (H5Sset_extent_simple (bsid, 1, size, maxsize) < 0)
     abort ();
-  offset[0] = c_count - bufCount; 
-  if (H5Soffset_simple (c_sid, offset) < 0)
+#if 0
+  if (H5Sset_extent_simple (c_sid, 1, size, maxsize) < 0)
     abort ();
-  if (H5Dwrite (loc_id, H5T_NATIVE_DOUBLE, bsid, c_sid, H5P_DEFAULT, buf) < 0)
-    raiseEvent (InvalidArgument, "unable to write to vector");
+  {
+    hssize_t offset[1];
+
+    offset[0] = c_count - bufCount; 
+    if (H5Soffset_simple (c_sid, offset) < 0)
+      abort ();
+  }
+#else
+  size[0] = c_count;
+  maxsize[0] = H5S_UNLIMITED;
+  if (H5Sset_extent_simple (c_sid, 1, size, maxsize) < 0)
+    abort ();
+ {
+   hssize_t coords[bufCount][1], i;
+   hssize_t offset = c_count - bufCount;
+
+   for (i = 0; i < bufCount; i++)
+     coords[i][0] = offset + i;
+   
+   if (H5Sselect_elements (c_sid,
+                           H5S_SELECT_SET,
+                           bufCount,
+                           (const hssize_t **) coords) < 0)
+     raiseEvent (InvalidArgument, "unable to select elements");
+ }
+#endif
+   if (H5Dwrite (loc_id, H5T_NATIVE_DOUBLE, bsid, c_sid, H5P_DEFAULT, buf) < 0)
+     raiseEvent (InvalidArgument, "unable to write to vector");
 }
 
 - (void)addDoubleToVector: (double)val
@@ -2199,6 +2222,8 @@ hdf5_store_attribute (hid_t did,
         raiseEvent (SaveError, "Failed to close point space");
       if (vector_type != fcall_type_void)
         {
+          if (H5Dclose (loc_id) < 0)
+            raiseEvent (SaveError, "Failed to close vector dataset");
           if (H5Sclose (bsid) < 0)
             raiseEvent (SaveError, "Failed to close block space");
           if (H5Sclose (c_sid) < 0)
