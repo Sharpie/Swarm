@@ -4,7 +4,6 @@
 // See file LICENSE for details and terms of copying.
 
 #import <string.h>
-#import <tkobjc/control.h>
 #import <simtools/CompleteProbeDisplay.h>
 #import <simtools/ClassDisplayWidget.h>
 #import <simtools/global.h> // probeDisplayManager
@@ -51,6 +50,7 @@ max_class_var_length (Class class)
   id index;
   id previous;
 
+  horizontalScrollbarFlag = YES;
   [super createEnd];
 
   maxwidth = 0;
@@ -58,10 +58,10 @@ max_class_var_length (Class class)
   classList = [List create: [self getZone]];
   for (class = [probedObject class]; 
        class != nil; 
-       class = class_get_super_class(class))
+       class = class_get_super_class (class))
     {
       [classList addFirst: (id) class];	
-      maxwidth = max(max_class_var_length(class),maxwidth);
+      maxwidth = max (max_class_var_length (class), maxwidth);
     }
   
   widgets = [List create: [self getZone]];
@@ -76,17 +76,17 @@ max_class_var_length (Class class)
              setProbedObject: probedObject]
             setClassToDisplay: class]
            setOwner: self]
-          setMySuperClass: previous];
+          setMySuperclass: previous];
       
       if (previous != nil)
         {
-          [previous setMySubClass: classWidget];
+          [previous setMySubclass: classWidget];
           previous = [previous createEnd];
           [widgets addLast: previous];
         }
       previous = classWidget;
     }
-  [previous setMySubClass: nil];
+  [previous setMySubclass: nil];
   [previous setOwner: self];
   previous = [previous createEnd];
   [widgets addLast: previous];
@@ -102,8 +102,8 @@ max_class_var_length (Class class)
 
 - do_resize
 {
-  tkobjc_packForgetAndExpand (canvas);
-  tkobjc_assertGeometry (topFrame);
+  [canvas packForgetAndExpand];
+  [topFrame assertGeometry];
   return self;
 }
 
@@ -127,7 +127,7 @@ max_class_var_length (Class class)
   
   index = [widgets begin: [self getZone]];
   while ((a_widget = [index next]) != nil)
-    if (!markedForDropFlag)
+   if (!markedForDropFlag)
       [a_widget update];
     else
       break;

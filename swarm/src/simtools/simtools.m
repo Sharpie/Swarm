@@ -10,10 +10,10 @@
 #import <objectbase/probing.h>
 #import <simtools.h>
 #import <activity.h>
-#import <tkobjc.h>
 
 #import <simtools.h>
 #import <simtools/Archiver.h>
+#import <gui.h>
 
 id <ProbeDisplayManager> probeDisplayManager;
 int swarmGUIMode;
@@ -58,11 +58,11 @@ initSwarm (int argc, char **argv)
         setApplicationValue (applicationMode, argv[i+1]);
     }
   
-  archiver = [Archiver ensure : globalZone];
+  archiver = [Archiver ensure: globalZone];
 
   initRandom (argc, argv);
 
-  initTkObjc (argc, argv);
+  GUI_INIT (argc, argv);
   if (swarmGUIMode)
     probeDisplayManager = [ProbeDisplayManager create: globalZone];
   

@@ -5,22 +5,25 @@
 
 #import <simtools/ActiveGraph.h>
 #import <activity.h>
-#import <tkobjc.h>
+#import <gui.h>
 
 // ActiveGraph: a graph that actively updates its own element when stepped.
 @implementation ActiveGraph
 
--setElement: (GraphElement *) ge {
+- setElement: (id <GraphElement>)ge
+{
   element = ge;
   return self;
 }
 
--setDataFeed: d {
+- setDataFeed: d
+{
   dataFeed = d;
   return self;
 }
 
--createEnd {
+- createEnd
+{
   if (element == nil || dataFeed == nil)
     [InvalidCombination raiseEvent: "ActiveGraph not initialized properly"];
   [self setProbedClass: [dataFeed class]] ;
@@ -30,7 +33,8 @@
 }
 
 // add a new point, (currentTime, averageValue).
--step {
+- step
+{
   [element addX: getCurrentTime() Y: [self doubleDynamicCallOn: dataFeed]];
   return self;
 }

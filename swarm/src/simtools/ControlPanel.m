@@ -8,7 +8,7 @@
 #import <simtools/ControlPanel.h>
 #import <simtools/Archiver.h>
 #import <simtools/global.h>
-#import <tkobjc/control.h>
+#import <gui.h>
 
 // Rudimentary control panel. A lot of the work for making this useful
 // falls on the shoulders of the controller that's using us, typically
@@ -18,18 +18,6 @@ id ControlStateRunning, ControlStateStopped;
 id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 @implementation ControlPanel
-
-- _actionCacheWarning_: (const char *)msg
-{
-  id string = [String create: [self getZone] setC: msg];
-  
-  [string 
-    catC: 
-      "Please change your application to call an instance of ActionCache instead.\n"];
-  [ObsoleteMessage raiseEvent: [string getC]];
-  [string drop];
-  return self;
-}
 
 - createEnd
 {
@@ -41,13 +29,6 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   return self;
 }
 
-- getPanel
-{
-  [self _actionCacheWarning_: 
-          "getPanel in ControlPanel is now does NOTHING!\n"];
-  return self;
-}
-
 - getState
 {
   return state;
@@ -56,38 +37,6 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 - setState: theState
 {
   state = theState;
-  return self;
-}
-
-// What does a "waitForControlEvent" mean to a generic Swarm?  It's
-// obvious what it means to a guiSwarm, and since we only instantiate
-// a controlpanel with guiswarms, currently, we should provide some
-// kind of passthrough from the gui to here.  I'm going to make this
-// method block until the ControlPanel state changes.... via a call
-// on a controlpanel method from some other object.  So, if the 
-// gui isn't on it's own thread, nothing will happen here because 
-// on a serial process, this busy wait loop LOCKS everything up.
-//   Note also that this is how we do all the probe manipulations
-// for the set up of runs.  The probe actions won't get done unless
-// some polling action occurs here.  I.e. we don't want the schedule
-// to move forward without doing the probe actions first.
-// So, for the Tk version we still need a Tk poller; but in the Java
-// version we don't as long as we have some mechanism other than the
-// schedule for changing ObjC object state in response to Java
-// events. 
-- waitForControlEvent
-{
-  [self setState: ControlStateStopped];
-  while (state == ControlStateStopped)
-    tkobjc_doOneEventSync ();
-  return nil;
-}
-
-- doTkEvents
-{
-  [self _actionCacheWarning_:
-          "doTkEvents in ControlPanel now does NOTHING!\n"
-        "You risk application lockups if you call ControlPanel doTkEvents.\n"];
   return self;
 }
 
@@ -136,10 +85,15 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
     }
   else
     {
-      [self setState: ControlStateStopped];
+#if 0
       [self waitForControlEvent];
+#else
+      [self setState: ControlStateStopped];
+      while (state == ControlStateStopped)
+        GUI_EVENT_SYNC ();
+#endif      
       // Check now if the user hit the quit button: if so, abort.
-      if ([self getState] == ControlStateQuit)
+      if (state == ControlStateQuit)
         exit(0);
       else
         return self;

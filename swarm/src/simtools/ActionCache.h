@@ -5,17 +5,17 @@
 
 #import <collections.h>
 #import <activity.h>
-#import <tkobjc.h>
 #import <simtools/GUIComposite.h>
+#import <gui.h>
 
-@interface ActionCache : GUIComposite
+@interface ActionCache: GUIComposite
 {
   id <List> actionCache;
   id <Schedule> destinationSchedule;
   id ctrlPanel;
   
   // widget IVar
-  ButtonPanel *panel;
+  id <ButtonPanel> panel;
 }
 
 // Create Phase methods
@@ -35,9 +35,11 @@
 - sendQuitAction;
 - verifyActions;
 
+- waitForControlEvent;
+
 // widget methods
-- (ButtonPanel *)createProcCtrl;
-- (ButtonPanel *)getPanel;
+- (id <ButtonPanel>)createProcCtrl;
+- (id <ButtonPanel>)getPanel;
 - doTkEvents;
 
 @end

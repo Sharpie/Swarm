@@ -5,34 +5,33 @@
 
 #import <simtools/CommonProbeDisplay.h>
 #import <simtools/global.h> // probeDisplayManager
-
-#import <tkobjc.h>
-#import <tkobjc/control.h>
+#import <gui.h>
 
 @implementation CommonProbeDisplay
 
 - createEnd
 {
-  id c_Frame;
-
+  id <Frame> c_Frame;
+  
   topLevel = [Frame createBegin: [self getZone]];
   [topLevel setWindowGeometryRecordName: windowGeometryRecordName];
   topLevel = [topLevel createEnd];
   [topLevel enableDestroyNotification: self
             notificationMethod: @selector (markForDrop)];
-  [topLevel setWindowTitle: tkobjc_getId (probedObject)];
-  tkobjc_withdrawWindow (topLevel);
+  [topLevel setWindowTitle: [self getId]];
+  [topLevel withdraw];
   c_Frame =  [Frame createParent: topLevel]; 
 
-  canvas = [Canvas createParent: c_Frame];
-  tkobjc_configureProbeCanvas (canvas);
-
+  canvas = [ProbeCanvas createBegin: [self getZone]];
+  [canvas setParent: c_Frame];
+  [canvas setHorizontalScrollbarFlag: horizontalScrollbarFlag];
+  canvas = [canvas createEnd];
+  
   [c_Frame pack];
 
   topFrame =  [Frame createParent: canvas];
-  tkobjc_setBorderWidth (topFrame, 0);
-
-  tkobjc_createWindow (topFrame);
+  [topFrame setBorderWidth: 0];
+  [topFrame assertPosition];
 
   markedForDropFlag = NO;
   return self;
@@ -81,12 +80,22 @@
 
 - install
 {
-  tkobjc_deiconify (topLevel);
-  tkobjc_assertGeometry (topFrame);
+  [topLevel deiconify];
+  [topFrame assertGeometry];
 
   [probeDisplayManager addProbeDisplay: self];
   return self;
 }
-  
+
+- (const char *)package
+{
+  return [probedObject getObjectName];
+}
+
+- (const char *)getId
+{
+  return [probedObject getIdName];
+}
+
 
 @end

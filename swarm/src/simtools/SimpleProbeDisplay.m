@@ -3,15 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <string.h>
-
-#import <simtools/SimpleProbeDisplay.h>
 #import <objectbase.h>
+#import <simtools/SimpleProbeDisplay.h>
 #import <simtools/VarProbeWidget.h>
 #import <simtools/MessageProbeWidget.h>
 #import <simtools/global.h>
 
-#import <tkobjc/control.h>
+#import <gui.h>
 
 @implementation SimpleProbeDisplay
 
@@ -42,29 +40,23 @@
   top_top_Frame =  [Frame createParent: topFrame];  
 
   raisedFrame =  [Frame createParent: top_top_Frame];  
-  tkobjc_setRelief (raisedFrame);
+  [raisedFrame enableRelief];
 
-  myTitle = [Label createParent: raisedFrame];
-  [myTitle setText: tkobjc_getId (probedObject)];
+  myTitle = [CompleteProbeDisplayLabel createBegin: [self getZone]];
+  [myTitle setParent: raisedFrame];
+  [myTitle setProbeDisplay: self];
+  [myTitle setProbeDisplayManager: probeDisplayManager];
+  [myTitle setProbedObject: probedObject];
+  myTitle = [myTitle createEnd];
+  [myTitle setText: [self getId]];
   
-  tkobjc_setAnchorWest (myTitle);
-  tkobjc_setColorBlue (myTitle);
+  hideB = [SimpleProbeDisplayHideButton createBegin: [self getZone]];
+  [hideB setParent: top_top_Frame];
+  [hideB setProbeDisplay: self];
+  [hideB setFrame: raisedFrame];
+  hideB = [hideB createEnd];
 
-  dragAndDrop (myTitle, self);
-
-  tkobjc_bindButton3ForCompleteProbeDisplay (myTitle,
-                                             probedObject, 
-                                             probeDisplayManager);
-  tkobjc_bindWindowEntry (myTitle);
-  tkobjc_bindWindowExit (myTitle);
-  
-  [myTitle pack];
-  
-  hideB = [Button createParent: top_top_Frame];
-
-  tkobjc_configureHideButton (self, hideB, raisedFrame);
-
-  middleFrame =  [Frame  createParent: topFrame] ;  
+  middleFrame =  [Frame  createParent: topFrame];  
   leftFrame =  [Frame createParent: middleFrame];
   rightFrame = [Frame createParent: middleFrame];
   bottomFrame = [Frame createParent: topFrame];
@@ -75,9 +67,9 @@
   else
     widgets = 0;
 
-  index = [probeMap begin: globalZone] ;
+  index = [probeMap begin: globalZone];
 
-  i = 0 ;
+  i = 0;
   while ((probe = [index next]) != nil)
     {      
       if ([probe isKindOf: [VarProbe class]])
@@ -85,19 +77,19 @@
           widgets[i] =	
             [[VarProbeWidget createBegin: [self getZone]]
               setParent: topFrame];
-          [widgets[i]  setProbe: probe] ;
-          [widgets[i] setObject: probedObject] ;
-          [widgets[i]  setMyLeft:  leftFrame] ;
-          [widgets[i]  setMyRight: rightFrame] ;
-          widgets[i] = [widgets[i] createEnd] ;
+          [widgets[i] setProbe: probe];
+          [widgets[i] setObject: probedObject];
+          [widgets[i] setMyLeft:  leftFrame];
+          [widgets[i] setMyRight: rightFrame];
+          widgets[i] = [widgets[i] createEnd];
           [widgets[i] pack];
-          i++ ;
+          i++;
       }
     }
   
   [index drop];
 
-  index = [probeMap begin: globalZone] ;
+  index = [probeMap begin: globalZone];
 
   // When I figure out how to 'rewind' I'll do just that...
   while ((probe = [index next]) != nil)
@@ -106,12 +98,12 @@
         {
           widgets[i] =	
             [[MessageProbeWidget createBegin: [self getZone]] 
-              setParent: bottomFrame] ;
-          [widgets[i]  setProbe: probe] ;
-          [widgets[i] setObject: probedObject] ;
-          widgets[i] = [widgets[i] createEnd] ;
-          [widgets[i] pack] ;
-          i++ ;
+              setParent: bottomFrame];
+          [widgets[i]  setProbe: probe];
+          [widgets[i] setObject: probedObject];
+          widgets[i] = [widgets[i] createEnd];
+          [widgets[i] pack];
+          i++;
         }
     }
   
@@ -120,14 +112,14 @@
   // This label is not being garbage collected!!!!!
   if (!i)
     {
-      index = [Label createParent: topFrame] ;
-      [index setText: "No Instance Variables or Messages."] ;
-      [index pack] ;
+      index = [Label createParent: topFrame];
+      [index setText: "No Instance Variables or Messages."];
+      [index pack];
     }
 
-  tkobjc_packFill (top_top_Frame);
-  tkobjc_packFillLeft (leftFrame, 0);
-  tkobjc_packFillLeft (rightFrame, 1);
+  [top_top_Frame packFill];
+  [leftFrame packFillLeft: NO];
+  [rightFrame packFillLeft: YES];
 
   [middleFrame pack];
   [bottomFrame pack];
@@ -173,16 +165,6 @@
     [probedObject removeRef: objectRef];
   
   [super drop];
-}
-
-- (const char *)package
-{
-  return tkobjc_packageName (probedObject);
-}
-
-- (const char *)getId
-{
-  return tkobjc_getId (probedObject);
 }
 
 @end

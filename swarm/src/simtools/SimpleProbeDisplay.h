@@ -4,21 +4,20 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/CommonProbeDisplay.h>
+#import <gui.h>
 
 @interface SimpleProbeDisplay: CommonProbeDisplay
 {
   id probeMap;
-  id leftFrame, rightFrame, middleFrame, bottomFrame;
-  id myTitle;
+  id <Frame> leftFrame, rightFrame, middleFrame, bottomFrame;
+  id <CompleteProbeDisplayLabel> myTitle;
   int numberOfProbes;
-  id *widgets;
+  id <Widget> *widgets;
 }
 
 - setProbeMap: probeMap;
 - createEnd;
 - getProbeMap;
 - update;
-- (const char *)package;
-- (const char *)getId;
 - (void)drop;
 @end

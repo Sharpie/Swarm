@@ -3,28 +3,36 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc.h>
 #import <objectbase/SwarmObject.h>
 #import <objectbase/VarProbe.h>
+#import <gui.h>
 
-@interface VarProbeWidget : Widget
+#ifdef USE_WIDGET
+#include <tkobjc/Widget.h>
+@interface VarProbeWidget: Widget
+#else
+@interface VarProbeWidget: SwarmObject
+#endif
 {
   id myObject;
   VarProbe *myProbe;
-  Frame *myLeft;
-  Frame *myRight;
-  Label *myLabel;
+  id <Frame> myLeft;
+  id <Frame> myRight;
+  id <Label> myLabel;
   int maxLabelWidth;
   int interactive;
-  Entry *myEntry;
+  id <VarProbeEntry> myEntry;
+#ifndef USE_WIDGET
+  id parent;
+#endif
 }
 
 + createBegin: aZone;
 - setObject: obj;
-- setProbe: (Probe *) the_probe;
+- setProbe: (Probe *)the_probe;
 - setMyLeft: aFrame;
 - setMyRight: aFrame;
-- setMaxLabelWidth: (int) width;
+- setMaxLabelWidth: (int)width;
 - createEnd;
 - pack;
 - setValue;
@@ -33,4 +41,8 @@
 - idReceive;
 - (const char *)package;
 - (const char *)getId;
+#ifndef USE_WIDGET
+- focus;
+- setParent: parent;
+#endif
 @end

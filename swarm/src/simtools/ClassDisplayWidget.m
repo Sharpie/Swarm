@@ -3,12 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <stdlib.h>
-#import <objc/objc.h>
-#import <string.h>
-#import <tkobjc.h>
 #import <simtools/ClassDisplayWidget.h>
-#import <tkobjc/control.h>
+#import <gui.h>
 
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
@@ -28,15 +24,15 @@
   return self;
 }
 
-- setMySuperClass: aWidget
+- setMySuperclass: aWidget
 {
-  mySuperClass = aWidget;
+  mySuperclass = aWidget;
   return self;
 }
 
-- setMySubClass: aWidget
+- setMySubclass: aWidget
 {
-  mySubClass = aWidget;
+  mySubclass = aWidget;
   return self;
 }
 
@@ -97,51 +93,37 @@
           return nil;
         }
     }
-  
-  tkobjc_setRelief (self);
+
+  [self enableRelief];
 
   probeMap = [[[ProbeMap createBegin: [self getZone]] 
                        setProbedClass: theClass]
                        createEnd];
 
   numberOfProbes = [probeMap getNumEntries];
-	
+  
   topRow = [Frame createParent: self];
 
   myTitle  = [Label createParent: topRow];
   [myTitle setText: theClass->name];
+  [myTitle anchorWest];
+  [myTitle colorBlue];
 
-  tkobjc_setAnchorWest (myTitle);
-  tkobjc_setColorBlue (myTitle);
-
-  dragAndDrop (myTitle, self);
-
-  hideB = [Button createParent: topRow];
-  if (mySubClass != nil)
-    {
-      tkobjc_packForgetArmSuperAndResize (hideB, self, mySubClass, owner);
-      tkobjc_configureHideBitmap (hideB);
-    } 
-  else
-    {
-      tkobjc_configureWidgetToDrop (hideB, owner);
-      tkobjc_configureSpecialBitmap (hideB);
-    }
+  GUI_DRAG_AND_DROP (myTitle, self);
   
-  superB = [Button createParent: topRow];
-  tkobjc_configureSuperBitmap (superB);
-  
-  if (mySuperClass != nil) 
-    tkobjc_configureWidgetToPackBeforeAndFillLeftThenDisableAndResize 
-      (superB,
-       mySuperClass,
-       self,
-       owner);
-  else
-    {
-      tkobjc_configureWidgetToBeep (superB);
-      tkobjc_disabledState (superB);
-    }
+  hideB = [ClassDisplayHideButton createBegin: [self getZone]];
+  [hideB setParent: topRow];
+  [hideB setUser: self];
+  [hideB setOwner: owner];
+  [hideB setSubWidget: mySubclass];
+  hideB = [hideB createEnd];
+
+  superB = [SuperButton createBegin: [self getZone]];
+  [superB setParent: topRow];
+  [superB setUser: self];
+  [superB setOwner: owner];
+  [superB setSuperWidget: mySuperclass];
+  superB = [superB createEnd];
   
   middleFrame =  [Frame createParent: self];  
   leftFrame =  [Frame createParent: middleFrame];  
@@ -201,13 +183,13 @@
   
   [index drop];
   
-  tkobjc_packToRight (superB, hideB);
-  tkobjc_packBeforeAndFillLeft (myTitle, hideB, 0);
+  [superB packToRight: hideB];
+  [myTitle packBeforeAndFillLeft: hideB expand: NO];
   
   [topRow pack];
   
-  tkobjc_packFillLeft (leftFrame, 0);
-  tkobjc_packFillLeft (rightFrame, 1);
+  [leftFrame packFillLeft: NO];
+  [rightFrame packFillLeft: YES];
 
   [middleFrame pack];
   [bottomFrame pack];
@@ -217,7 +199,7 @@
 
 - armSuperButton
 {
-  tkobjc_normalState (superB);
+  [superB setActiveFlag: YES];
   return self;
 }
 
@@ -255,15 +237,13 @@
 
 - (const char *)package
 {
-  return tclObjc_objectToName (probedObject);
+  return [probedObject getObjectName];
 }
 
 - (const char *)getId
 {
-  if ([probedObject respondsTo: @selector (getInstanceName)])
-    return [probedObject getInstanceName];
-  else
-    return [probedObject name];
+  return [probedObject getIdName];
 }
 
 @end
+

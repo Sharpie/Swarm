@@ -4,16 +4,16 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/MessageProbe.h>
-#import <tkobjc.h>
 
 // An object that fetches its data, and writes it into a file
 
-@interface ActiveOutFile : MessageProbe {
-  id theFile ;
+@interface ActiveOutFile: MessageProbe
+{
+  id theFile;
   id dataFeed;
 }
 
--setFileObject: aFileObj ;
--setDataFeed: d;
--step;
+- setFileObject: aFileObj;
+- setDataFeed: d;
+- step;
 @end

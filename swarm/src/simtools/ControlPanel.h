@@ -9,7 +9,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface ControlPanel : SwarmObject
+@interface ControlPanel: SwarmObject
 {
   id state;					  // uses activity.h symbols
 }
@@ -17,7 +17,6 @@
 - createEnd;
 - getState;
 - setState: s;
-- waitForControlEvent; // deprecated, use this message on ActionCache
 
 - startInActivity: activityID;
 - setStateRunning;
@@ -27,7 +26,4 @@
 - setStateQuit;
 - setStateNextTime;
 
-// Deprecated Methods
-- doTkEvents;  // deprecated, use this message on ActionCache
-- getPanel;    // deprecated, use this on ActionCache
 @end

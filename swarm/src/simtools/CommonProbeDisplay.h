@@ -4,12 +4,15 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase.h>
+#import <gui.h>
 
 @interface CommonProbeDisplay: SwarmObject
 {
   id probedObject;  
-  id topLevel, topFrame, canvas;
+  id <Frame> topLevel, topFrame;
+  id <ProbeCanvas> canvas;
 
+  BOOL horizontalScrollbarFlag;
   BOOL removeRef;
   BOOL markedForDropFlag;
   ref_t objectRef;
@@ -26,5 +29,8 @@
 - (void)setObjectRef: (ref_t)objectRef;
 - (void)markForDrop;
 - (BOOL)getMarkedForDropFlag;
+
+- (const char *)package;
+- (const char *)getId;
 
 @end

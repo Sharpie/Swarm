@@ -11,11 +11,31 @@
 #import <stdlib.h>
 #import <simtools/MessageProbeWidget.h>
 #import <simtools/global.h>
-#import <tkobjc/control.h>
 #import <simtools.h>
+#import <gui.h>
+#include <objc/objc-api.h>
 
 // Avoid using chars as an index to ctype table.
 #define isSpace(ch) isspace((int)ch)
+
+static id
+_nameToObject (const char *name)
+{
+  id object;
+  void *val;
+  const char *p = name;
+  
+  while (*p != '@' && *p != '\0') p++;
+  if ((*p) && (sscanf (p + 3, "%p", &val) == 1))
+    return (id)val;
+  else if ((!strcmp (name, "nil"))
+           || (!strcmp (name, "Nil"))
+           || (!strcmp (name, "0x0")))
+    return nil;
+  else if ((object = (id)objc_lookup_class (name)))
+    return object;
+  abort ();
+}
 
 @implementation MessageProbeWidget
 
@@ -37,7 +57,7 @@
 
 - setProbe: (Probe *)theProbe
 {
-  myProbe = (MessageProbe *) theProbe;
+  myProbe = (MessageProbe *)theProbe;
   return self;
 }
 
@@ -50,50 +70,40 @@
 - createEnd
 {
   int i, which_arg;
-  char bcmd[1024];
-  
+
+#ifndef USE_FRAME
+  widgetName = [parent makeWidgetNameFor: self];
+  GUI_MAKE_FRAME (self);
+#endif
   [super createEnd];
-  
+
   if (![myProbe getHideResult])
     {
-      result = [Entry createParent: self];
-      tkobjc_disabledState (result);
+      result = [MessageProbeEntry createBegin: [self getZone]];
+      [result setParent: self];
+      [result setResultIdFlag: (BOOL)[myProbe isResultId]];
+      result = [result createEnd];
       if (maxReturnWidth)
-        tkobjc_setWidth (result, maxReturnWidth);
-      if ([myProbe isResultId])
-        {
-          tkobjc_bindButton3ToSpawn (result, self, 1);
-          dragAndDrop (result, self);
-        }
-      else
-        tkobjc_bindButton3ToBeUnhelpful (result, self);
-      tkobjc_packFillLeft (result, 0);
+        [result setWidth: maxReturnWidth];
+      [result setActiveFlag: NO];
     }
   
   argNum = [myProbe getArgNum];
   
   if (argNum)
     {
-      objWindows = (int *) malloc (sizeof (int)*argNum);
+      objWindows = (int *)malloc (sizeof (int) * argNum);
       argNum *= 2; 
-      myWidgets = (Widget **) malloc (sizeof (Widget *)*argNum);
+      myWidgets = (id <Widget> *)malloc (sizeof (id <Widget>) * argNum);
     }
   else
-    myWidgets = (Widget **) malloc (sizeof (Widget *));
+    myWidgets = (id <Widget> *)malloc (sizeof (id <Widget>));
   
   myWidgets[0] = [Button createParent: self];
-  
-  bcmd[0] = '\0';
-  strcat (bcmd, tclObjc_objectToName (self));
-  strcat (bcmd, " dynamic");
-  [(Button *)myWidgets[0] setCommand: bcmd];
-
-  tkobjc_setText (myWidgets[0], [myProbe getArgName: 0]);
-  
-  if (argNum)
-    tkobjc_packFillLeft (myWidgets[0], 0);
-  else 
-    tkobjc_packFillLeft (myWidgets[0], 1);
+  [(id <Button>)myWidgets[0] setButtonTarget: self
+                method: @selector (dynamic)];
+  [(id <Button>)myWidgets[0] setText: [myProbe getArgName: 0]];  
+  [myWidgets[0] packFillLeft: argNum ? NO : YES];
   
   for (i = 1; i < argNum; i++)
     {
@@ -101,38 +111,30 @@
       
       if (i % 2)
         {
-          myWidgets[i] = [Entry createParent: self];
-          if ([myProbe isArgumentId: which_arg])
-            {
-              objWindows[which_arg] = 1;
-              tkobjc_disabledState (myWidgets[i]);
-              tkobjc_bindButton3ToArgSpawn (myWidgets[i], self, which_arg);
-              dragAndDropArg (myWidgets[i], self, which_arg);
-            }
-          else
-            {
-              objWindows[which_arg] = 0;
-              tkobjc_bindButton3ToBeUnhelpful (myWidgets[i], nil);
-            }
-          tkobjc_packFillLeft (myWidgets[i], 1);
+          objWindows[which_arg] = [myProbe isArgumentId: which_arg];
+          myWidgets[i] = [MessageProbeEntry createBegin: [self getZone]];
+          [myWidgets[i] setParent: self];
+          [myWidgets[i] setResultIdFlag: [myProbe isArgumentId: which_arg]];
+          [myWidgets[i] setArg: which_arg];
+          myWidgets[i] = [myWidgets[i] createEnd];
         } 
       else
         {
           myWidgets[i] = [Label createParent: self];
-          tkobjc_setText (myWidgets[i], [myProbe getArgName: which_arg]);
-          tkobjc_packFillLeft (myWidgets[i], 0);
+          [(id <Label>)myWidgets[i] setText: [myProbe getArgName: which_arg]];
+          [myWidgets[i] packFillLeft: NO];
         }
     }
   return self;
 }
 
-int
+static BOOL
 empty (const char *str)
 {
   int i, length;
   
   if (str == NULL)
-    return 1;
+    return YES;
   
   length = strlen (str);
   for (i = 0; i < length; i++)
@@ -145,46 +147,48 @@ empty (const char *str)
 - dynamic
 {
   int i;
-  const char *test, *result_string;
+  const char *result_string;
   
   for (i = 0; i < (argNum / 2); i++)
     {
-      test = strdup ([((Entry *) myWidgets[2*i + 1]) getValue]);
+      id <MessageProbeEntry> entryWidget = myWidgets[2 * i + 1];
+      const char *test = strdup ([entryWidget getValue]);
       
       if (empty (test))
         {
-          tkobjc_ringBell ();
+          GUI_BEEP ();
           return self;
         }
       
       if (!objWindows[i])
         [myProbe setArg: i To: test];
     }
-  
-  // Here I must insist on a TCLOBJC mediated call since there will often
-  // be situations where the probe might attempt a direct call thus casting
-  // the result to an int (when the probedMessage does not take arguments).
-  [myProbe _trueDynamicCallOn_: myObject resultStorage: &result_string];
-  
+
+#if 0  
+    // Here I must insist on a TCLOBJC mediated call since there will often
+    // be situations where the probe might attempt a direct call thus casting
+    // the result to an int (when the probedMessage does not take arguments).
+    [myProbe _trueDynamicCallOn_: myObject resultStorage: &result_string];
+#endif
+    // probedSelector will be nil in the case of methods with arguments,
+    // and _trueDynamicCallOn_ will be called instead.  MessageProbes
+    // now support Id and Class, so the above isn't an issue. -mgd
+    [myProbe dynamicCallOn: myObject resultStorage: &result_string];
+
   if (![myProbe getHideResult])
     {
-      tkobjc_normalState (result);      
+      [result setActiveFlag: YES];
       if ([myProbe isResultId])
         {
-          if ((resultObject = tclObjc_nameToObject (result_string)) != nil)
-            {
-              if ([resultObject respondsTo: @selector (getInstanceName)])
-                [result setValue: [resultObject getInstanceName]];
-              else
-                [result setValue: [resultObject name]];
-            }
+          if ((resultObject = _nameToObject (result_string)) != nil)
+            [result setValue: [resultObject getIdName]];
           else    
             [result setValue: result_string];
         }
       else
         [result setValue: result_string];
       
-      tkobjc_disabledState (result);
+      [result setActiveFlag: NO];
     }
   
   free ((void *)result_string);  
@@ -197,7 +201,7 @@ empty (const char *str)
   if (resultObject != nil)
     CREATE_PROBE_DISPLAY (resultObject);
   else
-    tkobjc_ringBell ();
+    GUI_BEEP ();
   
   return self;
 }
@@ -205,17 +209,15 @@ empty (const char *str)
 - argSpawn: (int) which
 {
   id arg_obj;
-  const char *id_name;
-  
-  id_name = [myProbe getArg: which];
+  const char *id_name = [myProbe getArg: which];
   
   if (id_name != NULL)
     {
-      arg_obj = tclObjc_nameToObject (id_name);
+      arg_obj = _nameToObject (id_name);
       CREATE_PROBE_DISPLAY (arg_obj);
     }
   else
-    tkobjc_ringBell ();
+    GUI_BEEP ();
   
   return self;
 }
@@ -239,21 +241,19 @@ empty (const char *str)
 {
   if (resultObject == nil)
     {
-      tkobjc_ringBell ();
+      GUI_BEEP ();
       return "";
     }
-  return tclObjc_objectToName (resultObject);
+  return [resultObject getObjectName];
 }
 
-- (const char *)package: (int) which
+- (const char *)package: (int)which
 {
-  const char *id_name;
-  
-  id_name = [myProbe getArg: which];
+  const char *id_name = [myProbe getArg: which];
   
   if (id_name == NULL) 
     {
-      tkobjc_ringBell ();
+      GUI_BEEP ();
       return "";
     }
   return id_name;
@@ -267,30 +267,46 @@ empty (const char *str)
     return NULL;
 }
 
-- (const char *)getId: (int) which
+- (const char *)getId: (int)which
 {
-  return [((Entry *) myWidgets [which*2 + 1]) getValue];
+  return [((id <MessageProbeEntry>)myWidgets [which * 2 + 1]) getValue];
 }
 
-- idReceive: (int) which
+- idReceive: (int)which
 {
-  id resObj = tkobjc_gimme_drag_and_drop_object ();
+  id resObj = GUI_DRAG_AND_DROP_OBJECT ();
 
-  [myProbe setArg: which To: strdup (tclObjc_objectToName (resObj))];
+  [myProbe setArg: which ToObjectName: resObj];
   
   which *= 2;
   which += 1;
 
-  tkobjc_normalState (myWidgets[which]);
+  [myWidgets[which] setActiveFlag: YES];
+  [((id <Entry>)myWidgets[which]) setValue: [resObj getIdName]];
+  [myWidgets[which] setActiveFlag: NO];
 
-  if ([resObj respondsTo: @selector (getInstanceName)])
-    [((Entry *)myWidgets[which]) setValue: [resObj getInstanceName]];
-  else
-    [((Entry *)myWidgets[which]) setValue: [resObj name]];
-  
-  tkobjc_disabledState (myWidgets[which]);
-  tkobjc_update ();
+  GUI_UPDATE ();
+
   return self;
 }
+
+#ifndef USE_FRAME
+- setParent: theParent
+{
+  parent = theParent;
+  return self;
+}
+
+- (const char *)getWidgetName
+{
+  return widgetName;
+}
+
+- pack
+{
+  GUI_PACK (self);
+  return self;
+}
+#endif
 
 @end

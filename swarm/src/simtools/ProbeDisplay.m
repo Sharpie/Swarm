@@ -7,7 +7,8 @@
 #import <simtools/SimpleProbeDisplay.h>
 #import <simtools/CompleteProbeDisplay.h>
 #import <simtools/global.h>
-#import <tkobjc/control.h>
+
+#import <gui.h>
 
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
@@ -96,7 +97,7 @@ notifyObjectDropped (id anObject, id realloc, id pd)
         }
     }
   
-  tkobjc_updateIdleTasksAndHold ();
+  GUI_UPDATE_IDLE_TASKS_AND_HOLD ();
   
   if (probeMap == nil)
     probeDisplay = [CompleteProbeDisplay createBegin: [self getZone]];
@@ -115,8 +116,8 @@ notifyObjectDropped (id anObject, id realloc, id pd)
 				addRef: (notify_t)notifyObjectDropped 
                                 withArgument: (void *)probeDisplay ]];
   [probeDisplay setRemoveRef: 1];  // set this every time a reference is added
-  
-  tkobjc_releaseAndUpdate ();
+
+  GUI_RELEASE_AND_UPDATE ();
   
   [self drop] ;
   

@@ -4,15 +4,16 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/MessageProbe.h>
-#import <tkobjc.h>
+#import <gui.h>
 
 // A graph that fetches its data, draws it on a GraphElement
-@interface ActiveGraph : MessageProbe {
-  GraphElement * element;			  // element to draw on
+@interface ActiveGraph: MessageProbe
+{
+  id <GraphElement> element;			  // element to draw on
   id dataFeed;					  // object to read from
 }
 
--setElement: ge;
--setDataFeed: d;
--step;
+- setElement: (id <GraphElement>)ge;
+- setDataFeed: d;
+- step;
 @end

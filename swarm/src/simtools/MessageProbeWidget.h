@@ -3,36 +3,51 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc.h>
 #import <objectbase/SwarmObject.h>
 #import <objectbase/MessageProbe.h>
+#import <gui.h>
 
-@interface MessageProbeWidget : Frame
+#ifdef USE_FRAME
+#import <tkobjc/Frame.h>
+@interface MessageProbeWidget: Frame
+#else
+@interface MessageProbeWidget: SwarmObject
+#endif
 {
-  id myObject ;
-  int argNum ;
-  MessageProbe *myProbe ;
-  Widget **myWidgets ;
-  Entry *result ;
-  int maxReturnWidth ;
-  char resultType ;
-  id resultObject ;
-  int *objWindows ;
-  char **obj_args ;
+  id myObject;
+  int argNum;
+  MessageProbe *myProbe;
+  id <Widget> *myWidgets;
+  id <MessageProbeEntry> result;
+  int maxReturnWidth;
+  char resultType;
+  id resultObject;
+  int *objWindows;
+  char **obj_args;
+#ifndef USE_FRAME
+  id parent;
+  const char *widgetName;
+#endif
 }
 
-+ createBegin: aZone ;
-- setObject: obj ;
-- setProbe: (Probe *) the_probe;
-- setMaxReturnWidth: (int) width ;
-- createEnd ;
-- update ;
-- dynamic ;
-- Spawn ;
-- argSpawn: (int) which ;
-- (const char *)getId ;
-- (const char *)getId: (int) which ;
-- (const char *)package ;
-- (const char *)package: (int) which ;
-- idReceive: (int) which ;
++ createBegin: aZone;
+- setObject: obj;
+- setProbe: (Probe *)the_probe;
+- setMaxReturnWidth: (int)width;
+- createEnd;
+- update;
+- dynamic;
+- Spawn;
+- argSpawn: (int)which;
+- (const char *)getId;
+- (const char *)getId: (int)which;
+- (const char *)package;
+- (const char *)package: (int)which;
+- idReceive: (int)which;
+
+#ifndef USE_FRAME
+- setParent: parent;
+- pack;
+- (const char *)getWidgetName;
+#endif
 @end

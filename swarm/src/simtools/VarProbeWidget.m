@@ -5,9 +5,8 @@
 
 #import <simtools/VarProbeWidget.h>
 #import <simtools/global.h>
-#import <objc/objc-api.h>
-#import <tkobjc/control.h>
 #import <simtools.h>
+#import <gui.h>
 
 @implementation VarProbeWidget
 
@@ -53,39 +52,22 @@
 
 - createEnd
 {
-  char theType;
-  
   [super createEnd];
 
-  myLabel  = [Label  createParent: myLeft];
+  myLabel = [Label createParent: myLeft];
   [myLabel setText: [myProbe getProbedVariable]];
-  
-  tkobjc_setAnchorEast (myLabel);
+  [myLabel anchorEast];
+
   if (maxLabelWidth)
-    tkobjc_setWidth (myLabel, maxLabelWidth);
+    [myLabel setWidth: maxLabelWidth];
     
-  myEntry  = [Entry  createParent: myRight];
-  theType = ([myProbe getProbedType])[0];
-  
-  if ([myProbe isInteractive])
-    {
-      tkobjc_bindReturnToSetValue (myEntry, self);
-      tkobjc_bindKeyReleaseReturnToResetColorAndUpdate (myEntry);
-      tkobjc_bindFocusInToSetSelection (myEntry);
-      tkobjc_bindFocusOutToClearSelection (myEntry);
-      interactive = 1;
-    }
-  else
-    tkobjc_disabledState (myEntry);
-  
-  if (theType == _C_ID)
-    {
-      tkobjc_bindButton3ToSpawn (myEntry, self, 0);
-      dragAndDropTarget (myEntry, self);
-      dragAndDrop (myEntry, self);
-    }
-  else
-    tkobjc_bindButton3ToBeUnhelpful (myEntry, nil);
+  myEntry = [VarProbeEntry createBegin: [self getZone]];
+  [myEntry setOwner: self];
+  [myEntry setParent: myRight];
+  interactive = [myProbe isInteractive];
+  [myEntry setInteractiveFlag: interactive];
+  [myEntry setProbeType: ([myProbe getProbedType])[0]];
+  myEntry = [myEntry createEnd];
   
   [self update];
   
@@ -100,8 +82,8 @@
     CREATE_PROBE_DISPLAY (target);
   else
     {
-      tkobjc_ringBell ();
-      tkobjc_update ();
+      GUI_BEEP ();
+      GUI_UPDATE ();
     }
   return self;
 }
@@ -127,17 +109,31 @@
   
   if (!interactive)
     {
-      tkobjc_normalState (myEntry);
+      [myEntry setActiveFlag: YES];
       [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
-      tkobjc_disabledState (myEntry);
+      [myEntry setActiveFlag: NO];
     }
   else
     [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
   
-  tkobjc_update ();
+  GUI_UPDATE ();
   
   return self;
 }
+
+#ifndef USE_WIDGET
+- focus
+{
+  GUI_FOCUS (self);
+  return self;
+}
+
+- setParent: theParent
+{
+  parent = theParent;
+  return self;
+}
+#endif
 
 - (void)drop
 {
@@ -149,10 +145,10 @@
 
 - idReceive
 {
-  id resObj = tkobjc_gimme_drag_and_drop_object ();
-
+  id resObj = GUI_DRAG_AND_DROP_OBJECT ();
+  
   [myProbe setData: myObject To: &resObj]; 
-  tkobjc_focus (myEntry);
+  [self focus];
   [self update];
   return self;
 }
@@ -163,11 +159,11 @@
 
   if (*content == nil)
     {
-      tkobjc_ringBell ();
-      tkobjc_update ();
+      GUI_BEEP ();
+      GUI_UPDATE ();
       return "";
     }
-  return tclObjc_objectToName (*content);
+  return [*content getObjectName];
 }
 
 - (const char *)getId

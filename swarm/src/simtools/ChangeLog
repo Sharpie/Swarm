@@ -1,3 +1,196 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtools.m: Include gui.h instead of tkobjc.h.  Use GUI_INIT
+	instead of initTkObjc.
+
+	* simtools.h: Don't include tkobjc.h.
+
+	* VarProbeWidget.m: Include gui.h instead of tkobjc/control.h.
+	Don't include objc/objc-api.h.
+	([VarProbeWidget -createEnd]): Use anchorEast and setWidth, and 
+	instead of tkobjc_setAnchorEast and tkobjc_setWidth.
+	Make myEntry be a VarProbeEntry instead of tkobjc_* frobbed Entry.
+	([VarProbeWidget -Spawn]): Use GUI_BEEP and GUI_UPDATE instead
+	of tkobjc_ringBell and tkobjc_update.  
+	([VarProbeWidget -update]): Use setActiveFlag: instead of
+	tkobjc_normalState and tkobjc_disabledState.  Use GUI_UPDATE
+	instead of tkobjc_update.
+	([VarProbeWidget -focus], [VarProbeWidget -setParent:]): New methods
+	unless USE_WIDGET.
+	([VarProbeWidget -idReceive]): Use GUI_DRAG_AND_DROP_OBJECT instead
+	of tkobjc_gimme_drag_and_drop_object.  Use focus method instead
+	of tkobjc_focus.
+	([VarProbeWidget -package]): Use GUI_BEEP and GUI_UPDATE instead
+	of tkobjc_ringBell and tkobjc_update.
+
+	* VarProbeWidget.h: Include gui.h instead of tkobjc.h.
+	(VarProbeWidget): Inherit from SwarmObject (unless USE_WIDGET).
+	Make myLeft and myRight conform to the Frame protocol (instead of
+	being statically typed).  Likewise for myLabel, and myEntry, but
+	per the Label and VarProbeEntry protocols. 
+	Declare focus and setParent (unless USE_WIDGET).
+
+	* SimpleProbeDisplay.m: Don't include string.h.  Include gui.h
+	instead of tkobjc/control.h.
+	([SimpleProbeDisplay -createEnd]): Use enableRelief instead of
+	tkobjc_setRelief.  Make myTitle be a CompleteProbeDisplayLabel
+	instead of frobbing a Label.  Set the text using the getId method
+	instead of using tkobjc_getId.  Make hideB be a
+	SimpleProbeDisplayHideButton instead of frobbing an ordinary
+	Button.  Use widget methods packFill and packFillLeft instead of 
+	tkobjc_packFill and tkobjc_packFillLeft.
+	([SimpleProbeDisplay -package], [SimpleProbeDisplay -getId]):
+	Drop (inherited).
+
+	* SimpleProbeDisplay.h: Include gui.h.  Make leftFrame, rightFrame,
+	middleFrame, and bottomFrame comply with the Frame protocol.
+	Make myTitle comply with the CompleteProbeDisplayLabe protocol.
+	Make widgets[] comply with the Widget protocol.
+
+	* ProbeDisplay.m: Include gui.h instead of tkobjc/control.h.
+	([ProbeDisplay -createEnd]): Use GUI_UPDATE_IDLE_TASKS_AND_HOLD
+	isntead of tkobjc_updateIdleTasksAndHold.  Use GUI_RELEASE_AND_UPDATE
+	instead of tkobjc_releaseAndUpdate.
+
+	* MessageProbeWidget.m: Include gui.h instead of tkobjc/control.h.
+	Include objc/objc-api.h.
+	(_nameToObject): New static function.
+	([MessageProbeWidget -createEnd]): Define widgetName and create a
+	frame unless USE_FRAME.
+	([MessageProbeWidget -createEnd]): Use MessageProbeEntry instead
+	of a tkobjc_*-frobbed Entry.  Use setActiveFlag: instead of old
+	tkobjc_disabledState.  Make all Widget* casts to myWidgets be id
+	<Widget>, and Label* be <Label>.  Use setButtonTarget: method:
+	instead of computing a Tclish command-string for the button.  Use
+	new widget method packFillLeft instead of tkobjc_packFillLeft.
+	([MessageProbeWidget -dynamic]): Make entryWidget of type id
+	<MessageProbeEntry> instead of Entry*.
+	([MessageProbeWidget -dynamic]): Use GUI_BEEP instead of
+	tkobjc_ringBell.  Go ahead and use dynamicCallOn instead of
+	_trueDynamicCallOn_ because MessageProbes now support ids and
+	classes.  Use setActiveFlag: instead of tkobjc_normalState /
+	tkobjc_disabledState.  Use _nameToObject instead of
+	tclObjc_nameToObject, and getIdName instead of trying
+	getInstanceName.
+	([MessageProbeWidget -Spawn], [MessageProbeWidget
+	-argSpawn:which], [MessageProbeWidget -package],
+	[MessageProbeWidget -package:): Use GUI_BEEP instead of
+	tkobjc_ringBell.
+	([MessageProbeWidget -argSpawn:which]): Likewise.  Use
+	_nameToObject instead of tclObjc_nameToObject.
+	([MessageProbeWidget -package]): Use getObjectName instead of
+	tclObjc_objectToName.
+	([MessageProbeWidget -getId:]): Cast to id <MessageProbeEntry>
+	instead of Entry*.
+	([MessageProbeWidget -idReceive:]): Use GUI_DRAG_AND_DROP_OBJECT
+	isntead of tkobjc_gimme_drag_and_drop_object.  Use getIdName
+	instead of trying getInstanceName.  Use setActiveFlag: instead of
+	tkobjc_normalState / tkobjc_disabledState.  Use GUI_UPDATE instead
+	of tkobjc_update.
+	([MessageProbeWidget -setParent:], [MessageProbeWidget -getWidgetName], 	[MessageProbeWidget -pack]): New methods (unless USE_FRAME).
+
+	* MessageProbeWidget.h: Include gui.h instead of tkobjc.h.
+  	(MessageProbeWidget):  Inherit from SwarmObject (old code
+	conditionally there with USE_FRAME).  Make myWidgets comply
+	with Widget protocol instead of being statically typed.  Make
+	result comply with MessageProbeEntry instead of being statically
+	typed to Entry.  Declare setParent:, pack, and getWidgetName,
+	unless USE_FRAME.
+
+	* ControlPanel.m: Import gui.h instead of tkobjc/control.h.
+	([ControlPanel -_actionCacheWarning_], [ControlPanel -getPanel],
+	 [ControlPanel -waitForControlEvent], [ControlPanel -doTkEvents]):
+	Remove.
+	([ControlPanel -setStateStopped]): Set state to
+	ControlStateStopped and loop on GUI_EVENT_SYNC instead of calling
+	now-nonexistent waitForControlEvent.
+
+	* ControlPanel.h: Remove waitForControlEvent, doTkEvents, and
+	getPanel declarations.
+
+	* CompleteProbeDisplay.m: Don't include tkobjc/control.h.
+	([CompleteProbeDisplay -createEnd]): Activate horizontal scrollbar.
+	Use setMySubclass and setMySuperclass instead of setMySubClass
+	and setMySuperClass throughout.
+	([CompleteProbeDisplay -do_resize]): Use new widget method
+	packForgetAndExpand and new frame method assertGeometry instead
+	of tkobjc_* routines.
+	([CompleteProbeDisplay -update]): Break out as soon as drop
+	is requested.
+
+	* CommonProbeDisplay.m: Include gui.h.
+	([CommonProbeDisplay -createEnd]): Make c_Frame conform to Frame
+	protocol. Use getId to set window title.  Use new Frame method
+	withdraw instead of tkobjc_withdrawWindow.  Use ProbeCanvas instead
+	of frobbing a Canvas.  Use new methods setBorderWidth: and
+	assertPosition instead of tkobjc_* functions.
+	([CommonProbeDisplay -install]): Use new Frame methods deiconify and
+	assertGeometry.
+	([CommonProbeDisplay -package], [CommonProbeDisplay -getId]): 
+	New methods.
+
+	* CommonProbeDisplay.h: Include gui.h.
+	(CommonProbeDisplay): Make topLevel and topFrame conform to Frame
+	protocol.  Add horizontalScrollbarFlag.  Declare package and getId.
+
+	* ClassDisplayWidget.m: Don't include stdlib.h, objc/objc.h,
+	string.h, or tkobjc/control.h.  Include gui.h instead of tkobjc.h.
+	Use mySuperclass and mySubclass instead of mySuperClass and
+	mySubClass throughout (and for setters).
+	([ClassDisplayWidget -createEnd]): Use enableRelief instead of
+	tkobjc_setRelief.
+	([ClassDisplayWidget -createEnd]): Use anchorWest and colorBlue
+	methods instead of tkobjc_setAnchorWest and setColorBlue
+	(UNFINISHED).
+	([ClassDisplayWidget -createEnd]): Use GUI_DRAG_AND_DROP instead
+	of dragAndDrop.  Use new class ClassDisplayHideButton and
+	SuperButton instead of frobbing a plain button with old tkobjc_*
+	routines.  Use new widget methods packToRight:,
+	packBeforeAndFillLeft: and packFillLeft: instead of tkobjc_*
+	versions.
+	([ClassDisplayWidget -armSuperButton]): Use new widget method
+	setActiveFlag: instead of activating with old tkobjc_normalState.
+	([ClassDisplayWidget -package]): Use new CreateDrop method
+	getObjectName to determine value.
+	([ClassDisplayWidget -getId]): Use new CreateDrop method getIdName
+	to determine value.
+
+	* ClassDisplayWidget.h: Include tkobjc.h/Frame.h and gui.h
+	instead of tkobjc.h (UNFINISHED).
+	(ClassDisplayWidget): Use id <Label> for myTitle and
+	id <Frame> for leftFrame, rightFrame, middleFrame, and bottomFrame.
+	Rename mySuperClass and mySubClass to mySuperclass and mySubclass,
+	likewise for setters.
+	Declare new methods getId and package.
+
+	* ActiveOutFile.h: Don't include tkobjc.h.  Reformatting throughout.
+
+	* ActiveGraph.m:  Include gui.h instead of tkobjc.h.
+	([ActiveGraph -setElement:]): Argument
+	is of type id <GraphElement> not GraphElement *.
+	Reformatting throughout.
+
+	* ActiveGraph.h: Include gui.h instead of tkobjc.h.
+	element is now of type id <GraphElement> instead of GraphElement *.
+	Use this type for argument to setElement:.
+	Reformatting throughout.
+
+	* ActionCache.m: Don't include tkobjc/control.h.  Include gui.h.
+	([ActionCache -createProcCtrl]): Returns id <ButtonPanel>, 
+	panelWidget is this type.
+	([ActionCache -createProcCtrl]): Use setButtonTarget instead of
+	setTargetName (use a real object instead of a string).
+	([ActionCache -getPanel]): Returns id <ButtonPanel>.
+	([ActionCache -waitForControlEvent]): Moved from ControlPanel.
+	([ActionCache -waitForControlEvent]): Use GUI_EVENT_SYNC instead
+	of tkobjc_doOneEventAsync.
+
+	* ActionCache.h: Include gui.h instead of tkobjc.h.
+	(ActionCache):  Make panel conform to ButtonPanel protocol instead
+	of being statically typed.
+	createProcCtrl and getPanel now return ids per ButtonPanel protocol.
+	Declare new method waitForControlEvent.
+
 1998-01-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* AppendFile.m: Add @end.

@@ -5,25 +5,27 @@
 
 #import <objectbase/SwarmObject.h>
 #import <objectbase/ProbeMap.h>
-#import <tkobjc.h>
 #import <simtools/VarProbeWidget.h>
 #import <simtools/MessageProbeWidget.h>
 
-@interface ClassDisplayWidget : Frame
+#import <tkobjc/Frame.h>
+#import <gui.h>
+
+@interface ClassDisplayWidget: Frame
 {
   id probedObject;
   Class theClass;
-  Label *myTitle;
-  ProbeMap * probeMap;
-  Frame *leftFrame, *rightFrame, *middleFrame, *bottomFrame;
+  id <Label> myTitle;
+  ProbeMap *probeMap;
+  id <Frame> leftFrame, rightFrame, middleFrame, bottomFrame;
   id hideB;
   id superB;
   id topRow;
   int numberOfProbes;
   int maxLabelWidth;
   id *widgets;
-  id mySuperClass;
-  id mySubClass;
+  id mySuperclass;
+  id mySubclass;
   id owner;
 }
 
@@ -32,13 +34,16 @@
 - setClassToDisplay: (Class)aClass;
 - setMaxLabelWidth: (int)width;
 - setOwner: anOwner;
-- setMySuperClass: aWidget;
-- setMySubClass: aWidget;
+- setMySuperclass: aWidget;
+- setMySubclass: aWidget;
 - createEnd;
 
 - getProbedObject;
 - getProbeMap;
 - armSuperButton;
 - update;
+
+- (const char *)getId;
+- (const char *)package;
 
 @end

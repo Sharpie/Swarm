@@ -4,10 +4,10 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools.h>
-#import <tkobjc/control.h>
 #import <simtools/ActionCache.h>
 #import <simtools/ActionHolder.h>
 #import <simtools/Archiver.h>
+#import <gui.h>
 
 // Type Symbols
 id <Symbol> Control, Probing, Spatial;
@@ -173,7 +173,6 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return self;
 }
 
-
 // I suffered some code bloat because I didn't have time to
 // figure out how to pass arguments via the "simctl" Tk command.
 // Since this work is not really for Tk, but for Java, I'm not
@@ -238,12 +237,9 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 }
 
 // Widget methods
-- (ButtonPanel * )createProcCtrl
+- (id <ButtonPanel>)createProcCtrl
 {
-  ButtonPanel *panelWidget;
-  
-  // Make a command for ourselves
-  tkobjc_registerCommand (self, "simctl");
+  id <ButtonPanel> panelWidget;
   
   // These methods are bound to the Tk buttons. They get invoked directly
   // by the Tk interpreter (via tclobjc). ObserverSwarm uses these states
@@ -252,7 +248,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   // make a widget for us, too. Bind buttons to messages to ourself.
   panelWidget = [ButtonPanel createBegin: [self getZone]];
   SET_WINDOW_GEOMETRY_RECORD_NAME (panelWidget);
-  [panelWidget setTargetName: "simctl"];
+  [panelWidget setButtonTarget: self];
   panelWidget = [panelWidget createEnd];
   [panelWidget addButtonName: "Start" actionName: "sendStartAction"];
   [panelWidget addButtonName: "Stop" actionName: "sendStopAction"];
@@ -265,9 +261,33 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return panelWidget;
 }
 
-- (ButtonPanel *)getPanel
+- (id <ButtonPanel>)getPanel
 {
   return panel;
+}
+
+// What does a "waitForControlEvent" mean to a generic Swarm?  It's
+// obvious what it means to a guiSwarm, and since we only instantiate
+// a controlpanel with guiswarms, currently, we should provide some
+// kind of passthrough from the gui to here.  I'm going to make this
+// method block until the ControlPanel state changes.... via a call
+// on a controlpanel method from some other object.  So, if the 
+// gui isn't on it's own thread, nothing will happen here because 
+// on a serial process, this busy wait loop LOCKS everything up.
+//   Note also that this is how we do all the probe manipulations
+// for the set up of runs.  The probe actions won't get done unless
+// some polling action occurs here.  I.e. we don't want the schedule
+// to move forward without doing the probe actions first.
+// So, for the Tk version we still need a Tk poller; but in the Java
+// version we don't as long as we have some mechanism other than the
+// schedule for changing ObjC object state in response to Java
+// events. 
+- waitForControlEvent
+{
+  [ctrlPanel setState: ControlStateStopped];
+  while ([ctrlPanel getState] == ControlStateStopped)
+    GUI_EVENT_SYNC ();
+  return nil;
 }
 
 // Do the Tk Events.
@@ -279,9 +299,8 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 - doTkEvents
 {
   // do all events pending, but don't block.
-  while (tkobjc_doOneEventAsync ()) {}
+  while (GUI_EVENT_ASYNC ()) {}
   return self;
 }
 
 @end
-
