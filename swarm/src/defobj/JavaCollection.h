@@ -4,11 +4,8 @@
 @interface JavaCollection: CreateDrop
 {
 }
-- (BOOL)isJavaProxy;
 - (unsigned)getCount;
 - begin: aZone;
-- (id <Symbol>)getLoc;
-- next;
 - getFirst;
 - (void)forEach: (SEL)sel :arg1;
 @end

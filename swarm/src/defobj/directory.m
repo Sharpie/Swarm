@@ -393,7 +393,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
                   ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Collection)
                    ? [JavaCollection create: globalZone]
                    : [JavaProxy create: globalZone]));
-      
+
       return result->object;
     }
 }

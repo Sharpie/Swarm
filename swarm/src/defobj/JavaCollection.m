@@ -1,16 +1,11 @@
 #import <defobj/directory.h>
-#import <defobj/defalloc.h>
+#import <defobj/defalloc.h> // getZone
 #import <defobj/FCall.h>
-#import <collections.h> // Member, End
+#import <collections.h> // Member
 #import <defobj/JavaCollection.h>
-#import <defobj/JavaProxy.h>
+#import <defobj/JavaCollectionIndex.h>
 
 @implementation JavaCollection
-
-- (BOOL)isJavaProxy
-{
-  return YES;
-}
 
 - (unsigned)getCount
 {
@@ -50,54 +45,10 @@
     abort ();
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   iterator = (*jniEnv)->CallObjectMethod (jniEnv, coll, method);
-  entry = SD_ADD (jniEnv, iterator, [JavaProxy create: aZone]);
+  entry = SD_ADD (jniEnv, iterator, [JavaCollectionIndex create: aZone]);
   (*jniEnv)->DeleteLocalRef (jniEnv, iterator);
   return entry->object;
 }
-
-- (id <Symbol>)getLoc
-{
-  jobject iterator = SD_FINDJAVA (jniEnv, self);
-  jclass class;
-  jmethodID method;
-
-  if (!(class = (*jniEnv)->GetObjectClass (jniEnv, iterator)))
-    abort (); 
-  if (!(method =
-	(*jniEnv)->GetMethodID (jniEnv,
-				class,
-				"hasNext",
-				"()Z")))
-    abort ();
-  (*jniEnv)->DeleteLocalRef (jniEnv, class);
-  return ((*jniEnv)->CallBooleanMethod (jniEnv, iterator, method) == JNI_TRUE
-	  ? Member
-	  : End);
-}
-
-- next
-{
-  jobject iterator = SD_FINDJAVA (jniEnv, self);
-  jobject item;
-  id proxy;
-  jclass class;
-  jmethodID method;
-
-  if (!(class = (*jniEnv)->GetObjectClass (jniEnv, iterator)))
-    abort ();
-  if (!(method =
-	(*jniEnv)->GetMethodID (jniEnv,
-				class,
-				"next",
-				"()Ljava/lang/Object;")))
-    abort ();
-  (*jniEnv)->DeleteLocalRef (jniEnv, class);
-  item = (*jniEnv)->CallObjectMethod (jniEnv, iterator, method);
-  proxy = SD_ENSUREOBJC (jniEnv, item);
-  (*jniEnv)->DeleteLocalRef (jniEnv, item);
-  return proxy;
-}
-
 
 - getFirst
 {
