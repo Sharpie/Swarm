@@ -45,23 +45,55 @@
   ;; List of graphic filename extensions
   '("gif" "jpg" "jpeg"  "ps" ))
 
-;;(define %shade-verbatim%  
+(define %shade-verbatim%  
   ;; Should verbatim environments be shaded?
-;;  #t)
+  #t)
 
 (define %shade-verbatim-attr% 
   ;; Attributes used to create a shaded verbatim environment.
   (list
-   (list "BORDER" "2")
+   (list "BORDER" "1")
    (list "BGCOLOR" "#EOEOEO")
    (list "WIDTH" "70%")))
 
-(define %section-autolabel%
-  ;; Are sections enumerated?
-  #f)
-
 (define %use-id-as-filename%
   ;; Use ID attributes as name for component HTML files?
+  #t)
+
+;; customizing SET stuff...
+
+(define %generate-set-titlepage%
+  ;; Should a set title page be produced?
+  #t)
+
+(define %generate-set-toc% 
+  ;; Should a Table of Contents be produced for Sets?
+  #t)
+
+;; customizing SECTs
+
+(define %section-autolabel%
+  ;; Are sections enumerated?
+  #t)
+
+;; customizing REFERENCE sections
+
+(define %generate-reference-toc% 
+  ;; Should a Table of Contents be produced for References?
+  #t)
+
+(define %generate-reference-titlepage% 
+  ;; Should a reference title page be produced?
+  #t)
+
+(define %generate-partintro-on-titlepage%
+  ;; Should the PartIntro appear on the Part/Reference title page?
+  #f)
+
+;; customizing REFENTRYs
+
+(define %funcsynopsis-decoration%
+  ;; Decorate elements of a FuncSynopsis?
   #t)
 
 (define (make-divider)
