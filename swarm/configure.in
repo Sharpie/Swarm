@@ -116,16 +116,27 @@ md_FIND_FFI
 
 AC_ARG_WITH(zlibdir,
 [  --with-zlibdir=DIR               Use DIR/include and DIR/lib for zlib],
-  zlibdir=$withval)
+  zlibdir=$withval
+  zlibincludedir=$withval/include)
+
+AC_ARG_WITH(zlibincludedir,
+[  --with-zlibincludedir=DIR        Use DIR for zlib include files],
+  zlibincludedir=$withval)
 
 md_FIND_ZLIB
 
 AC_ARG_WITH(pngdir,
-[  --with-pngdir=DIR                Use DIR/include and DIR/lib for png],
-  pngdir=$withval)
+[  --with-pngdir=DIR                Use DIR/include and DIR/lib for PNG],
+  pngdir=$withval
+  pngincludedir=$withval)
+
+AC_ARG_WITH(pngincludedir,
+[  --with-pngincludedir=DIR                Use DIR for PNG include files],
+  pngincludedir=$withval)
 
 md_FIND_PNG
 
 AC_CHECK_LIB(dl,main)
 
-AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile Makefile.appl Makefile.lib])
+AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile Makefile.appl Makefile.lib])
+
