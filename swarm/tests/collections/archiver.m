@@ -288,18 +288,23 @@
 - createEnd
 {
   id aZone = getZone (self);
-  myArchiver = [[[[[Archiver createBegin: aZone]
-                    setPath:
-                      (mapFlag
-                       ? (hdf5Flag
-                          ? (deepFlag ? "deepMap.hdf" : "shallowMap.hdf")
-                          : (deepFlag ? "deepMap.scm" : "shallowMap.scm"))
-                       : (hdf5Flag
-                          ? (deepFlag ? "deepList.hdf" : "shallowList.hdf")
-                          : (deepFlag ? "deepList.scm" : "shallowList.scm")))]
-                   setHDF5Flag: hdf5Flag]
-                  setInhibitLoadFlag: inhibitLoadFlag]
-                 createEnd];
+
+  if (hdf5Flag)
+    myArchiver = [[[[HDF5Archiver createBegin: aZone]
+                     setPath:
+                       (mapFlag
+                        ? (deepFlag ? "deepMap.hdf" : "shallowMap.hdf")
+                        : (deepFlag ? "deepList.hdf" : "shallowList.hdf"))]
+                    setInhibitLoadFlag: inhibitLoadFlag]
+                   createEnd];
+  else
+    myArchiver = [[[[LispArchiver createBegin: aZone]
+                     setPath:
+                       (mapFlag
+                        ? (deepFlag ? "deepMap.scm" : "shallowMap.scm")
+                        : (deepFlag ? "deepList.scm" : "shallowList.scm"))]
+                    setInhibitLoadFlag: inhibitLoadFlag]
+                   createEnd];
   if (mapFlag)
     {
       if (deepFlag)
