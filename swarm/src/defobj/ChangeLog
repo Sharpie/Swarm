@@ -1,3 +1,7 @@
+2003-01-15  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* macros.h: Backed out previous change - needed for METHOD_FUNCTIONS.
+
 2003-01-14  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* DefObject.m, macros.h: Remove junk left over from obsolete
