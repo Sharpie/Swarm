@@ -41,14 +41,14 @@ Library:      defobj
 @interface FArguments: CreateDrop_s
 {
 @public
-   unsigned int assignedArguments;
-   unsigned int hiddenArguments;
+   unsigned assignedArguments;
+   unsigned hiddenArguments;
    void **argTypes;
    void **argValues;
    void *returnType;
-   char *signature; 
    void *result;
-   unsigned int signatureLength;
+   const char *javaSignature; 
+   unsigned javaSignatureLength;
 }
 + createBegin: aZone;
 - addArgument: (void *)value ofType: (unsigned int)type;
@@ -58,7 +58,7 @@ Library:      defobj
 - addLong: (long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
-- setReturnType: (unsigned int)type;
+- setReturnType: (unsigned)type;
 - createEnd;
 - (void *)getResult;
 - (void)mapAllocations: (mapalloc_t)mapalloc;

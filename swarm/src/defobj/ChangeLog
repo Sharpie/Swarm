@@ -1,3 +1,11 @@
+1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FArguments.h (FArguments): Rename signature to javaSignature and 
+	constify.  Rename signatureLength to javaSignatureLength.
+
+	* FArguments.m (createJavaSignature): Constify return and make static.
+	([FArguments -createEnd]): Use renamed version.
+
 1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* FCall.m ([FCall -getArguments]): New method.

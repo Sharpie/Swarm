@@ -12,31 +12,33 @@ Library:      defobj
 #import "FArguments.h"
 #import <objc/objc-api.h>
 #import <defalloc.h>
-#include <stdlib.h>
 
-ffi_type * swarm_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar, 
-                                            &ffi_type_schar, &ffi_type_ushort, 
-                                            &ffi_type_sshort, &ffi_type_uint,
-                                            &ffi_type_sint, &ffi_type_ulong, 
-                                            &ffi_type_slong, &ffi_type_float, 
-                                            &ffi_type_double,
-                                            &ffi_type_pointer,
-                                            &ffi_type_pointer, 
-                                            &ffi_type_pointer };
-                           
-char * java_type_signature[number_of_types] = { "V", "C", "C", "S", "S", "I", 
-                                    "I", "J", "J", "F", "D", NULL,
-                                    "Ljava/lang/String;", 
-                                    "Ljava/lang/Object;" };
+ffi_type *swarm_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar, 
+                                           &ffi_type_schar, &ffi_type_ushort, 
+                                           &ffi_type_sshort, &ffi_type_uint,
+                                           &ffi_type_sint, &ffi_type_ulong, 
+                                           &ffi_type_slong, &ffi_type_float, 
+                                           &ffi_type_double,
+                                           &ffi_type_pointer,
+                                           &ffi_type_pointer, 
+                                           &ffi_type_pointer };
 
-int java_type_signature_length[number_of_types] = {1, 1, 1, 1, 1, 1,
-						       1, 1, 1, 1, 1, 0,
-						       18, 18};
+const char *java_type_signature[number_of_types] = {
+  "V", "C", "C", "S", "S", "I", 
+  "I", "J", "J", "F", "D", NULL,
+  "Ljava/lang/String;", 
+  "Ljava/lang/Object;"
+};
+
+unsigned java_type_signature_length[number_of_types] = { 1, 1, 1, 1, 1, 1,
+                                                         1, 1, 1, 1, 1, 0,
+                                                         18, 18 };
 @implementation FArguments
 
 + createBegin: aZone
 {
   FArguments *newArguments;
+
   newArguments = [aZone allocIVars: self];
   newArguments->assignedArguments = 0;
   newArguments->hiddenArguments = 0;
@@ -46,12 +48,12 @@ int java_type_signature_length[number_of_types] = {1, 1, 1, 1, 1, 1,
 					(MAX_ARGS + MAX_HIDDEN))];
   newArguments->returnType = swarm_type_void;
   newArguments->result = NULL;
-  newArguments->signatureLength = 0;
+  newArguments->javaSignatureLength = 0;
   return newArguments;
 }
 
 
-- addArgument: (void *)value ofType: (unsigned int)type
+- addArgument: (void *)value ofType: (unsigned)type
 {
   if (assignedArguments == MAX_ARGS)
     raiseEvent (SourceMessage, "Types already assigned to maximum number
@@ -63,10 +65,10 @@ arguments in the call!\n");
       argValues[MAX_HIDDEN + assignedArguments] = 
 	[[self getZone] allocBlock: swarm_types[type]->size];
       memcpy (argValues[MAX_HIDDEN + assignedArguments], 
-	      value, swarm_types[(int) argTypes[MAX_HIDDEN + 
+	      value, swarm_types[(unsigned) argTypes[MAX_HIDDEN + 
 					       assignedArguments]]->size);
       assignedArguments++;
-      signatureLength++;
+      javaSignatureLength++;
     }
   else
     {
@@ -87,7 +89,7 @@ arguments in the call!\n");
 
 
 
-#define ADD_COMMON(type)  { ADD_COMMON_TEST; signatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: swarm_types[(type)]->size]; }
+#define ADD_COMMON(type)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: swarm_types[(type)]->size]; }
 
 
 
@@ -145,7 +147,6 @@ arguments in the call!\n");
 {
   if (type > number_of_types)
       raiseEvent(SourceMessage, "Unkown return type for foerign function call!\n"); 
-#ifdef HAVE_JDK
   switch (type)
     {
     case swarm_type_void:
@@ -158,46 +159,50 @@ arguments in the call!\n");
     case swarm_type_ulong:
     case swarm_type_slong:
     case swarm_type_float:
-    case swarm_type_double: signatureLength++; break;
+    case swarm_type_double: javaSignatureLength++; break;
     default:
-	  raiseEvent (SourceMessage, "Java methods can not return pointers or structures - specify strings and arrays directly!\n");
+	  raiseEvent (SourceMessage,
+                      "Java methods can not return pointers or structures - specify strings and arrays directly!\n");
     }
-#endif 
   result = (void *) [[self getZone] allocBlock: swarm_types[type]->size];
   returnType = (void *) type;
   return self;
 }
 
-void switch_to_ffi_types(FArguments * self)
+void
+switch_to_ffi_types (FArguments * self)
 {
-  unsigned int i;
+  unsigned i;
+
   for (i = MAX_HIDDEN; 
        i < MAX_HIDDEN + self->assignedArguments; 
        i++)
       *(self->argTypes + i) = 
 	  ((void *) swarm_types [*(int *) (self->argTypes + i)]);
-  self->returnType = (void *) (swarm_types [(int)(self->returnType)]);
+  self->returnType = (void *) (swarm_types [(unsigned) (self->returnType)]);
 }
 
-char * createSignature (FArguments * self)
+static const char *
+createJavaSignature (FArguments * self)
 {
-  unsigned int i;
-  unsigned int offset = 0;
-  char * str;
-  str = [[self getZone] allocBlock: self->signatureLength + 3];
+  unsigned i;
+  unsigned offset = 0;
+  char *str;
+
+  str = [[self getZone] allocBlock: self->javaSignatureLength + 3];
   str[offset++] = '(';
   for (i = MAX_HIDDEN; 
        i < MAX_HIDDEN + self->assignedArguments; 
        i++)
     {
        strcpy (str + offset, 
-	       java_type_signature [*(int *)(self->argTypes + i)]);
+	       java_type_signature [*(int *) (self->argTypes + i)]);
        offset += java_type_signature_length [*(int *) (self->argTypes + i)];
     }
 
   str[offset++] = ')';
-  strcpy (str + offset, java_type_signature [(int) self->returnType]);
-  offset += strlen (java_type_signature [(int) self->returnType]);
+  strcpy (str + offset, java_type_signature [(unsigned) self->returnType]);
+  offset += strlen (java_type_signature [(unsigned) self->returnType]);
   str[offset++]='\0';
   printf("\n%s\n", str);
   return str;
@@ -206,7 +211,7 @@ char * createSignature (FArguments * self)
 - createEnd
 {
   setMappedAlloc (self);
-  signature = createSignature ((FArguments *) self);
+  javaSignature = createJavaSignature ((FArguments *) self);
   return self;
 }
 
@@ -215,12 +220,13 @@ char * createSignature (FArguments * self)
   return result;
 }
 
-- (void)mapAllocations: (mapalloc_t) mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  int i;
-  for (i=0; i<assignedArguments; i++)
+  unsigned i;
+
+  for (i = 0; i< assignedArguments; i++)
       mapAlloc (mapalloc, argValues[MAX_HIDDEN + i]);
-  mapAlloc (mapalloc, signature);
+  mapAlloc (mapalloc, (void *) javaSignature);
   mapAlloc (mapalloc, argTypes);
   mapAlloc (mapalloc, argValues);
   if (result)
@@ -228,6 +234,5 @@ char * createSignature (FArguments * self)
 }
 
 @end
-
 
 

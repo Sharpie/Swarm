@@ -207,16 +207,16 @@ fillHiddenArguments (FCall * self)
   if (callType == javacall || callType == javastaticcall)
       {
         ffunction = (callType == javacall ? 
-                    java_call_functions[(int) args->returnType] :
-                    java_static_call_functions[(int) args->returnType]);
+                     java_call_functions[(unsigned) args->returnType] :
+                     java_static_call_functions[(unsigned) args->returnType]);
         
         (jmethodID) fmethod = (callType == javacall ?
-                              (*jniEnv)->GetMethodID (jniEnv, fclass, 
-                                                      methodName, 
-                                                      args->signature) :
-                              (*jniEnv)->GetStaticMethodID(jniEnv, fclass, 
-                                                           methodName, 
-                                                           args->signature)); 
+                               (*jniEnv)->GetMethodID (jniEnv, fclass, 
+                                                       methodName, 
+                                                       args->javaSignature) :
+                               (*jniEnv)->GetStaticMethodID (jniEnv, fclass, 
+                                                             methodName, 
+                                                             args->javaSignature)); 
         if (!fmethod)
           raiseEvent (SourceMessage, "Could not find Java method!\n");
       }
