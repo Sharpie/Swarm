@@ -580,6 +580,10 @@
                (insert "SD_COM_FIND_CLASS_COM (")
                (com-impl-print-call-imp-pointer-body method)
                (insert ")"))
+              ((string= ret-type "char *")
+               (insert "(char *) SD_COM_COPY_STRING (")
+               (com-impl-print-call-imp-pointer-body method)
+               (insert ")"))
               (t (com-impl-print-call-imp-pointer-body method)))
         (insert ";\n")))))
     
