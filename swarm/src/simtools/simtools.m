@@ -28,10 +28,8 @@ initSwarm(int argc, char ** argv) {
 
   initProbing() ;
 
-  randomGenerator = [PMMLCG create: globalZone];  // seeds from clock
-  uniformRandom = [[[Uniform createBegin: globalZone]
-                            setGenerator: randomGenerator]
-                              createEnd] ;
+  randomGenerator = [[PMMLCG1 alloc] init];	  // seeds from clock
+  uniformRandom = [[[Uniform alloc] init] setGenerator: randomGenerator];
 
   swarmGUIMode = 1;
 
