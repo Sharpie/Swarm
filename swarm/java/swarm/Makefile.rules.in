@@ -23,9 +23,11 @@ _CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(mod
 
 JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 
+all: all-classes
+
 -include .deps
 
-all: $(CLASSES)
+all-classes: $(CLASSES)
 
 .deps: $(JAVAFILES)
 	$(JAVA) -classpath '$(JAVADEPS)@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) | tr -d '\r' > .deps
