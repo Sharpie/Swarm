@@ -60,6 +60,7 @@ char objc_types[number_of_types] = {
   _C_DBL,
   _C_ID,
   _C_CHARPTR,
+  _C_SEL,
   '\0'
 };
 
