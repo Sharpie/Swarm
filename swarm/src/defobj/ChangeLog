@@ -1,3 +1,7 @@
+1998-02-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Create.m: Add PHASE(Using) before getIdName and getObjectName.
+
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* defobj.m (nameToObject): New function.  Include <stdio.h>

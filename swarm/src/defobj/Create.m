@@ -48,6 +48,8 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Using)
+
 - (const char *)getIdName
 {
   return [self name];
