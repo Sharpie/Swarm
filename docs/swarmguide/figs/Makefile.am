@@ -3,13 +3,15 @@ GS_LIB = @GS_LIB@
 CJPEG = @CJPEG@ -quality 100
 PNGTOPNM = @PNGTOPNM@
 PNMTOPS = @PNMTOPS@
-PNMCROP= pnmcrop
+PNMCROP= @PNMCROP@
 
-EPS = swarm.eps modeling.eps interface-vs-implementation.eps
+EPS = discrete-event-sim.eps libraries-itemized.eps swarm.eps	\
+interface-vs-implementation.eps libraries-overview.eps libraries-activity.eps           modeling.eps    
+
 GENERATED_EPS = $(patsubst %.png,%.eps,$(PNG))
 PNG = 
 GENERATED_JPEG = $(patsubst %.eps,%.jpeg,$(EPS)) $(patsubst %.png,%.jpeg,$(PNG))
-EXTRA_DIST = swarm.eps modeling.eps interface-vs-implementation.eps 
+EXTRA_DIST = swarm.eps modeling.eps interface-vs-implementation.eps discrete-event-sim.eps 
 
 GENERATED_FIGS = $(GENERATED_EPS) $(GENERATED_JPEG)
 
