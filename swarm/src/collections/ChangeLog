@@ -1,5 +1,8 @@
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* collections.h (OutputStream), OutputStream.[hm]: Add long long
+	output methods.
+
 	* collections.h, Map.[hm]: Add -setCompareCStrings,
 	-setCompareIntegers, -setCompareUnsignedIntegers, -setCompareIDs.
 

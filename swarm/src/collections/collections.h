@@ -974,6 +974,8 @@ USING
 - (void)catUnsignedShort: (unsigned short)usht;
 - (void)catLong: (long)lng;
 - (void)catUnsignedLong: (unsigned long)ulng;
+- (void)catLongLong: (long long)lnglng;
+- (void)catUnsignedLongLong: (unsigned long long)ulnglng;
 @end
 
 @protocol InputStream <Create, Drop, CREATABLE>
