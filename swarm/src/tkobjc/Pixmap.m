@@ -102,9 +102,7 @@ PHASE(Creating)
   {
     int bit_depth, color_type;
     int interlace_type, compression_type, filter_type;
-    png_colorp palette;
     png_uint_32 pngwidth, pngheight;
-    int num_palette;
 
     png_get_IHDR (read_ptr, read_info_ptr, &pngwidth, &pngheight, 
                   &bit_depth, &color_type, &interlace_type,
@@ -124,7 +122,7 @@ PHASE(Creating)
     else if (color_type == PNG_COLOR_TYPE_PALETTE)
       {
         row_bytes = png_get_rowbytes (read_ptr, read_info_ptr);
-        if (!png_get_PLTE (read_ptr, read_info_ptr, &palette, &num_palette))
+        if (!png_get_PLTE (read_ptr, read_info_ptr, &palette, &palette_size))
           [PaletteError raiseEvent: "Cannot get palette from PNG file: %s\n",
                        filename];
       }
@@ -171,8 +169,8 @@ PHASE(Creating)
             png_bytep rgb;
             id indexObj;
 
-            num_palette = [cMap getCount];
-            palette = xmalloc (sizeof (png_color) * num_palette);
+            palette_size = [cMap getCount];
+            palette = xmalloc (sizeof (png_color) * palette_size);
             
             while ((indexObj = [mi next: (id *)&rgb]) != nil)
               {
@@ -209,8 +207,7 @@ PHASE(Creating)
             row_pointers = new_row_pointers_buffer;
           }
         }
-      tkobjc_pixmap_create (self, row_pointers, bit_depth,
-                            palette, num_palette, raster);
+      tkobjc_pixmap_create (self, row_pointers, bit_depth);
     }
   }
   return self;
@@ -230,6 +227,7 @@ PHASE(Using)
 - setRaster: theRaster
 {
   raster = theRaster;
+  tkobjc_pixmap_update_raster (self, raster);
 
   return self;
 }

@@ -476,6 +476,7 @@ dib_copy (dib_t *source, dib_t *dest,
   memcpy (dest->dibInfo->rgb,
 	  source->dibInfo->rgb,
 	  sizeof (RGBQUAD) * source->colorMapSize);
+#if 0
   {
     HDC shdc = CreateCompatibleDC (NULL);
     
@@ -484,6 +485,7 @@ dib_copy (dib_t *source, dib_t *dest,
     SelectObject (shdc, dest->oldBitmap);
     DeleteDC (shdc);
   }
+#endif
 
   if (dib_lock (dest) == NULL)
     return FALSE;

@@ -627,13 +627,36 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
 }
 
 void
+tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
+{
+#ifdef _WIN32
+  raster_private_t *private = raster->private;
+  // (Apparently, there isn't a need to merge the pixmap and raster
+  // pixmaps by hand, but without doing so, somehow the black
+  // gets lost. -mgd)
+  dib_t *raster_dib = private->pm;
+  unsigned palette_size = pixmap->palette_size;
+  png_colorp palette = pixmap->palette;
+  unsigned long map[palette_size];
+  int i;
+  
+  for (i = 0; i < palette_size; i++)
+    map[i] = palette[i].red
+      | (palette[i].green << 8)
+      | (palette[i].blue << 16);
+  
+  dib_augmentPalette (raster_dib, pixmap, palette_size, map);
+#endif
+}
+
+
+void
 tkobjc_pixmap_create (Pixmap *pixmap,
                       png_bytep *row_pointers,
-                      unsigned bit_depth,
-                      png_colorp palette, unsigned palette_size,
-		      Raster *raster)
+                      unsigned bit_depth)
 {
-  raster_private_t *private = raster->private;
+  int palette_size = pixmap->palette_size;
+  png_colorp palette = pixmap->palette;
 
 #ifndef _WIN32
   XpmColor *colors = xmalloc (sizeof (XpmColor) * palette_size);
@@ -703,6 +726,7 @@ tkobjc_pixmap_create (Pixmap *pixmap,
   }
 #else
   {
+
     dib_t *dib = dib_create ();
 
     dib_createBitmap (dib, NULL, pixmap->width, pixmap->height);
@@ -715,15 +739,6 @@ tkobjc_pixmap_create (Pixmap *pixmap,
           | (palette[i].green << 8)
           | (palette[i].blue << 16);
       
-      {
-        // (Apparently, there isn't a need to merge the pixmap and raster
-        // pixmaps by hand, but without doing so, somehow the black
-        // gets lost. -mgd)
-        dib_t *raster_dib = private->pm;
-
-        dib_augmentPalette (raster_dib, pixmap, palette_size, map);
-      }
-
       dib_augmentPalette (dib, pixmap, palette_size, map);
       {
         unsigned ri;

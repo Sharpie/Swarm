@@ -19,6 +19,9 @@
 #else
   void *pixmap;
 #endif
+  unsigned palette_size;
+  png_colorp palette;
+
   unsigned width, height;
 }
 
