@@ -5,6 +5,8 @@
 
 #import <tkobjc/global.h>
 #import <tkobjc/Button.h>
+
+#include <objc/objc-api.h>
 #include <misc.h> // strcpy, stpcpy
 
 @implementation Button
@@ -13,7 +15,6 @@
 {
   [super createEnd];
 
-  // create the button
   [globalTkInterp eval: "button %s", widgetName];
   
   return self;
@@ -30,7 +31,8 @@
   char bcmd[1024], *p;
   
   p = stpcpy (bcmd, [target getObjectName]);
-  strcpy (p, " dynamic");
+  p = stpcpy (p, " ");
+  strcpy (p, sel_get_name (sel));
   [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, bcmd];
   
   return self;

@@ -10,12 +10,12 @@
 
 @interface ButtonPanel: Frame <_ButtonPanel>
 {
-  const char *targetName;
+  id target;
 }
 
 - setButtonTarget: target;
-- addButtonName: (const char *)n Command: (const char *)c;
+- addButtonName: (const char *)n target: target method: (SEL)sel;
 - addButtonName: (const char *)n
-     actionName: (const char *)action;
+         method: (SEL)sel;
 
 @end

@@ -1,5 +1,23 @@
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ClassDisplayHideButton.m (tkobjc_packForgetArmSuperAndResize): 
+	Copy the name of the object.
+
+	* ButtonPanel.m ([ButtonPanel -setButtonTarget:]): Assign target
+	variable; don't compute targetName.
+	([ButtonPanel -addButtonName:target:method:]): Use
+	setButtonTarget:method: not setCommand:.
+	([ButtonPanel -addButtonName:method:]): Use
+	addButtonName:target:method:; don't compute command name.
+
+	* ButtonPanel.h (ButtonPanel): Replace targetName with target.
+	Replace addButtonName:Command: with addButtonName:target:method:
+	and addButtonName:actionName: with addButtonName:method:.
+
+	* Button.m: Include objc-api.h.
+	([Button -setButtonTarget:method:]): Compute command name;
+	don't hard code to `dynamic'.
+
 	* Button.[hm]: Remove setCommand:.
 
 	* NodeItem.[hm] ([NodeItem -createPaddedText]): New method.

@@ -14,18 +14,18 @@
 
 - setButtonTarget: object
 {
-  targetName = strdup ([object getObjectName]);
+  target = object;
   return self;
 }
 
 // this is atrocious - we should maintain a collection of the buttons.
-- addButtonName: (const char *)n Command: (const char *)c
+- addButtonName: (const char *)name target: theTarget method: (SEL)sel
 {
-  Button * b;
+  Button *b;
 
   b = [Button createParent: self];
-  [b setText: n];
-  [b setCommand: c];
+  [b setText: name];
+  [b setButtonTarget: theTarget method: sel];
   // this command is unfortunate.
   [globalTkInterp eval: "%s configure -width 12", [b getWidgetName]];
   [b pack];
@@ -34,13 +34,8 @@
   return self;
 }
 
-- addButtonName: (const char *)n
-     actionName: (const char *)action
+- addButtonName: (const char *)name method: (SEL)sel
 {
-  id string = [String create: [self getZone] setC: targetName];
-  
-  [string catC: " "];
-  [string catC: action];
-  return [self addButtonName: n Command: [string getC]];
+  return [self addButtonName: name target: target method: sel];
 }
 @end

@@ -13,7 +13,7 @@
 static void
 tkobjc_packForgetArmSuperAndResize (id hideB, id user, id subWidget, id owner)
 {
-  const char *subWidgetName = [subWidget getObjectName];
+  const char *subWidgetName = strdup ([subWidget getObjectName]);
   const char *ownerName = [owner getObjectName];
 
   [globalTkInterp 
