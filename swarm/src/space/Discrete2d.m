@@ -8,6 +8,7 @@
 #import <simtools.h> // InFile
 #import <defobj.h> // ProtocolViolation
 #import <defobj/internal.h> // map_ivars
+#import <defobj/defalloc.h> // getZone
 #include <collections/predicates.h> // keywordp, stringp
 
 #include <misc.h> // memset
@@ -42,7 +43,7 @@ PHASE(Creating)
 {
   void *p;
 
-  p = [[self getZone] alloc: xsize * ysize * sizeof (id)];
+  p = [getZone (self) alloc: xsize * ysize * sizeof (id)];
   memset (p, 0, xsize * ysize * sizeof (id));
 
   return p;
@@ -55,7 +56,7 @@ PHASE(Creating)
   
   // precalculate offsets based on the y coordinate. This lets
   // us avoid arbitrary multiplication in array lookup.
-  offsets = [[self getZone] alloc: ysize * sizeof (*offsets)];
+  offsets = [getZone (self) alloc: ysize * sizeof (*offsets)];
 
   for (i = 0; i < ysize; i++)
     offsets[i] = xsize * i; // cache this multipliction
@@ -155,7 +156,7 @@ PHASE(Setting)
 
 - hdf5In: hdf5Obj
 {
-  id aZone = [self getZone];
+  id aZone = getZone (self);
 
   if ([hdf5Obj checkDatasetName: "lattice"])
     {
@@ -185,7 +186,7 @@ PHASE(Setting)
     }
   else if ([hdf5Obj getCompoundType])
     {
-      id aZone = [self getZone];
+      id aZone = getZone (self);
       Class class = [hdf5Obj getClass];
       unsigned i, c_count = [hdf5Obj getCount];
       const char **rowNames = [hdf5Obj readRowNames];
@@ -336,9 +337,9 @@ lispInLatticeValues (Discrete2d *self, id array)
 }
 
 static void
-lispInLatticeObjects (id self, id expr)
+lispInLatticeObjects (Discrete2d *self, id expr)
 {
-  id aZone = [self getZone];
+  id aZone = getZone (self);
   id site = [expr get]; // index points to first stored lattice coord
 
   do {
@@ -563,7 +564,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
       [a name]];
 
   // open the file
-  f = [InFile create: [self getZone] setName: filename];
+  f = [InFile create: getZone (self) setName: filename];
 
   // The first two characters should be P2, the PGM ASCII header (not P5 - raw)
   [f getChar: &c1];
@@ -634,7 +635,8 @@ lispOutLatticeValues (Discrete2d *self, id stream)
  
 - (void)drop
 {
-  [[self getZone] free: lattice];
+  [getZone (self) free: lattice];
+  [getZone (self) free: offsets];
   [super drop];
 }
 @end

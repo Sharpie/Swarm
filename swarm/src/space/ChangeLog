@@ -1,6 +1,14 @@
+1999-09-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Discrete2d.m: Include defalloc.h.
+	([Discrete2d -allocLattice], [Discrete2d -makeOffsets],
+	[Discrete2d -hdf5In:], lispInLatticeObjects, [Discrete2d
+	-setDiscrete2d:toFile:]): Use getZone () instead of method.
+	([Discrete -drop]): Drop offsets as well.
+
 1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Discrete2d.m ([Discrete -hdf5In{Create}:]): Use free: instead of
+	* Discrete2d.m ([Discrete2d -hdf5In{Create}:]): Use free: instead of
 	XFREE for rowNames.
 
 1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
