@@ -1,5 +1,11 @@
 2003-09-10  Alex Lancaster  <alex@swarm.org>
 
+	* configure.in: Use new-style autoconf 2.50+ macros that use the
+	AC_HELP_STRING when generating --with-* options.
+	Use /etc/xml/catalog as default catalog file location.  Check for
+	existence the catalog (if specified or if default is used), print
+	message if not found.
+
 	* catalog.xml.in: Extract a default location for stylesheets,
 	based on most GNU/Linux distros (put before the system override
 	system catalog).
@@ -37,12 +43,10 @@
 	(%.html): Use the the current target as basename for root element.
 	(%.fo): New rule to generate XSL-FO.
 
-
 	* configure.in (dtd-common, dtd, stylesheet): Remove these --with*
 	options, obsoleted by XML catalog support for XSL, all locations
 	should be specified by system catalogs, or local user catalogs.
 	(catopts, CATALOG_DTD_DELEGATE): Remove extraction.
-
 
 2003-09-10  Bill Northcott  <w.northcott@unsw.edu.au>
 
