@@ -36,5 +36,5 @@ stubs: Makefile.common
 # although this excludes all the Java and C stubs, it is useful
 # because it makes makefile regeneration automatic.
 Makefile.common: java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
-	$(ENVEMACS) -batch -l '$(dos_abs_builddir)\java-stub.elc' -f $(JAVASTUBS_FUNCTION)
+	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@java-stub.elc' -f $(JAVASTUBS_FUNCTION)
 
