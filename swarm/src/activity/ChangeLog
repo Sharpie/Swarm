@@ -1,3 +1,7 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* activity.h: Replace @deftype with @protocol throughout.
+
 1998-07-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* activity.h (Schedule): Declare -insertGroup:.
