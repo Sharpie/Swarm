@@ -1,3 +1,7 @@
+2000-09-09    <mgd@DRONE>
+
+	* directory.m: Initialize swarmDirectory to nil.
+
 2000-08-29  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.m (add): Call addRef for cObject.

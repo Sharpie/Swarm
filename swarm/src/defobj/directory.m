@@ -25,7 +25,7 @@
 #endif
 #import "COM.h" // SD_COM_FIND_OBJECT_COM
 
-Directory *swarmDirectory;
+Directory *swarmDirectory = nil;
 
 #define internalimplementation implementation // defeat make-h2x
 
