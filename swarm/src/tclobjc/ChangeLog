@@ -1,3 +1,10 @@
+1999-12-01    <mgd@HELEN>
+
+	* TclInterp.m (fix_tcl_path): New function.
+	([TclInterp -checkTclLibrary]): Use it.
+
+	* TkInterp.m ([TkInterp -checkTkLibrary]): Likewise.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.

@@ -45,6 +45,11 @@
 #define SUBDIR "tk8.0"
 #endif
 
+#ifdef __CYGWIN__
+#include <unistd.h> // MAXPATHLEN
+#include <sys/cygwin.h> // cygwin_conv_to_win32_path
+#endif
+
 // Global variables used by the main program:
 static Tk_Window w;		/* The main window for the application.  If
 				 * NULL then the application no longer
@@ -98,10 +103,14 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
 
 - (const char *)checkTkLibrary
 {
+  const char *path;
+  extern const char *fix_tcl_path (const char *path);
+
   if ([self checkPath: TK_LIBRARY subdirectory: NULL file: "tk.tcl"])
-    return TK_LIBRARY;
+    path = TK_LIBRARY;
   else
-    return [self checkPath: secondaryPath subdirectory: SUBDIR file: "tk.tcl"];
+    path = [self checkPath: secondaryPath subdirectory: SUBDIR file: "tk.tcl"];
+  return fix_tcl_path (path);
 }
 
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv

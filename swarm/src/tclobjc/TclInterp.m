@@ -51,6 +51,11 @@
 #define SUBDIR "tcl8.0"
 #endif
 
+#ifdef __CYGWIN__
+#include <unistd.h> // MAXPATHLEN
+#include <sys/cygwin.h> // cygwin_conv_to_win32_path
+#endif
+
 /* If we're using tcl 7.4 or greater, must make tcl_RcFileName reference
  * be extern or else we get a linker conflict. In tcl 7.3, you must
  * declare it here or else it links in the wrong file.
@@ -149,13 +154,36 @@ List* tclList;
     }
 }
 
+const char *
+fix_tcl_path (const char *path)
+{
+#ifndef __CYGWIN__
+  return path;
+#else
+  char buf[MAXPATHLEN + 1], *p;
+  
+  cygwin_conv_to_win32_path (path, buf);
+  
+  p = buf;
+  while (*p)
+    {
+      if (*p == '\\')
+	*p = '/';
+      p++;
+      }
+  return xstrdup (buf);
+#endif
+}
+
 - (const char *)checkTclLibrary
 {
+  const char *path;
   if ([self checkPath: TCL_LIBRARY subdirectory: NULL file: "init.tcl"])
-    return TCL_LIBRARY;
+    path = TCL_LIBRARY;
   else
-    return
+    path =
       [self checkPath: secondaryPath subdirectory: SUBDIR file: "init.tcl"];
+  return fix_tcl_path (path);
 }
 
 - (const char *)preInitWithArgc: (int)argc argv: (const char **)argv
