@@ -1,0 +1,7 @@
+#!/bin/sh
+. $SWARMHOME/etc/swarm/config.swarm
+
+classpath=".:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH"
+
+eval "$JAVA -classpath $classpath pizza.compiler.Main $*"
+
