@@ -1,3 +1,9 @@
+1999-01-11  Alex Lancaster  <alex@santafe.edu>
+
+	* config.swarm.in (swarm_HDF5LIB): Extract library name to pass to
+	linker for HDF5.
+	(swarm_SYSLIBS): If HDF5 is found at configure-time, use it.
+
 1999-01-04  Alex Lancaster  <alex@santafe.edu>
 
 	* config.swarm.in: (CFLAGS): Add extracted variable to
