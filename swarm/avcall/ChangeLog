@@ -1,3 +1,7 @@
+2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Makefile.in (libavcall.la): Remove -rpath from link.
+
 2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.in (install): Renamed from install-.

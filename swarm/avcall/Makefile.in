@@ -146,7 +146,7 @@ structcpy.lo : $(srcdir)/structcpy.c
 	$(LIBTOOL_COMPILE) $(CC) $(CFLAGS) -c $(srcdir)/structcpy.c
 
 libavcall.la : $(OBJECTS)
-	$(LIBTOOL_LINK) $(CC) -o libavcall.la -rpath $(libdir) $(OBJECTS)
+	$(LIBTOOL_LINK) $(CC) -o libavcall.la $(OBJECTS)
 
 # Installs the library and include files only. Typically called with only
 # $(libdir) and $(includedir) - don't use $(prefix) and $(exec_prefix) here.
