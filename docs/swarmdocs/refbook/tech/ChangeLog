@@ -1,3 +1,9 @@
+1998-06-18  Alex Lancaster  <alex@santafe.edu>
+
+	* emacs.sgml: Commented-out section on hilit19 - added more text
+	on better support for Objective C syntax in font-lock as of
+	emacs-20.*.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: Include from refbook/ instead of src/.

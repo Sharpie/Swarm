@@ -1,4 +1,4 @@
-<SECT1 id="emacs.sect">
+<SECT1 ID="EMACS.SECT">
   <TITLE>Emacs and Objective C</TITLE>
 
   <PARA>Emacs is the world's best editor, infinitely configurable and
@@ -45,12 +45,19 @@
   </FORMALPARA>
 
   <FORMALPARA><TITLE>font-lock</TITLE> 
-    <PARA> emacs-20.1 and later
-      also has a font-lock mode for Objective-C that supports the
-      method syntax unique to Objective-C. See the emacs manual for how
-      to turn on this feature to highlight .h and .m files
+
+    <PARA>emacs-20 and later also has a font-lock mode for Objective-C
+      that supports the method syntax unique to Objective-C.  We
+      recommend the use of font-lock, over hilit19, now that the
+      identification of Objective C syntax in emacs is better
+      supported, as font-lock supports 'lazy-fontification' (i.e. as
+      you type fontification), a feature that hilit19 never offered.
+      See the manual provided with emacs for how to turn on this
+      feature to highlight .h and .m files in 'objc-mode'
       automatically.</PARA>
   </FORMALPARA>
+
+<!--
     
   <FORMALPARA><TITLE>hilit19</TITLE>
     
@@ -74,24 +81,41 @@
 (append
   comments c++-comments strings preprocessor
   '(
+  
   ;; function decls are expected to have types on the previous line
-  ("^\\(\\(\\w\\|[$_]\\)+::\\)?\\(\\w\\|[$_]\\)+\\s *\\(\\(\\w\\|[$_]\\)+\\s *((\\|(\\)[^)]*)+" nil defun)
-  ("^\\(\\(\\w\\|[$_]\\)+[ \t]*::[ \t]*\\)?\\(\\(\\w\\|[$_]\\)+\\|operator.*\\)\\s *\\(\\(\\w\\|[$_]\\)+\\s *((\\|(\\)[^)]*)+" nil defun)
+  ("^\\(\\(\\w\\|[$_]\\)+::\\)?\\(\\w\\|[$_]\\)+\\s
+  *\\(\\(\\w\\|[$_]\\)+\\s *((\\|(\\)[^)]*)+" nil defun)
+  ("^\\(\\(\\w\\|[$_]\\)+[ \t]*::[
+  \t]*\\)?\\(\\(\\w\\|[$_]\\)+\\|operator.*\\)\\s
+  *\\(\\(\\w\\|[$_]\\)+\\s *((\\|(\\)[^)]*)+" nil defun)
+
   ;; nelson - objective c style defuns
-("^[-+].*{" nil defun)
+  ("^[-+].*{" nil defun)
 
   ("^\\(template\\|typedef\\|struct\\|union\\|class\\|enum\\|public\\|private\\|protected\\).*$" nil decl)
-  ;; datatype -- black magic regular expression (nelson - add id)
-  ("[ \n\t({]\\(\\(const\\|register\\|volatile\\|unsigned\\|extern\\|static\\)\\s +\\)*\\(\\(\\w\\|[$_]\\)+_t\\|float\\|double\\|void\\|char\\|short\\|int\\|unsigned\\|long\\|id\\|FILE\\|\\(\\(struct\\|union\\|enum\\|class\\)\\([ \t]+\\(\\w\\|[$_]\\)*\\)\\)\\)\\(\\s +\\*+)?\\|[ \n\t;()]\\)" nil type)
+  
+  ;; datatype - black magic regular expression (nelson - add id)
+  
+  ("[\n\t({]\\(\\(const\\|register\\|volatile\\|unsigned\\|extern\\|static\\)\\s
+        +\\)*\\(\\(\\w\\|[$_]\\)+_t\\|float\\|double\\|void\\|char\\|short\\|int\\|unsigned\\|long\\|id\\|FILE\\|\\(\\(struct\\|union\\|enum\\|class\\)\\([
+        \t]+\\(\\w\\|[$_]\\)*\\)\\)\\)\\(\\s +\\*+)?\\|[ \n\t;()]\\)"
+        nil type)
 
    ;; Objective C stuff: ^@[word] gets keyword colouring
    ("^@\\sw*" nil keyword)
+
    ;; key words
-   ("[^_]\\<\\(return\\|goto\\|if\\|else\\|case\\|default\\|switch\\|break\\|continue\\|while\\|do\\|for\\|super\\|self\\)\\>[^_]" 1 keyword)))))
+
+   ("[^_]\\<\\(return\\|goto\\|if\\|else\\|case\\|default\\|switch\\|break\\|continue\\|while\\|do\\|for\\|super\\|self\\)\\>[^_]"
+   1 keyword)))))
+
 </PROGRAMLISTING>
       
     </PARA>
   </FORMALPARA>
+
+-->
+
 </SECT1>
 
 <!--
