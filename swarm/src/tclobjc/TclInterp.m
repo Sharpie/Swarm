@@ -33,11 +33,7 @@
 #include "TclInterp.h"
 #include "tclObjc.h"
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
-#include <stdlib.h> // malloc
-#include <unistd.h> // access
+#include <misc.h>
 
 #if HAVE_READLINE
 #include <readline/readline.h>

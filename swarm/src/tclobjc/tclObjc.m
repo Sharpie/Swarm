@@ -54,6 +54,8 @@
 #undef PACKAGE
 #undef VERSION
 #include <ffi.h>
+#undef PACKAGE
+#undef VERSION
 #endif
 #endif
 
@@ -65,8 +67,7 @@
 #else
 #include "objc-malloc.h"
 #endif
-#include <stdlib.h>
-#include <string.h>
+#include <misc.h>
 
 #define ATDELIMCHAR '@'
 
