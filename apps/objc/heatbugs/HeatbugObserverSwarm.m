@@ -136,7 +136,7 @@
   // Next, create a 2d window for display, set its size, zoom factor, title.
   
   worldRaster = [ZoomRaster createBegin: [self getZone]];
-  [worldRaster setWindowGeometryRecordName : "worldRaster"];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (worldRaster);
   worldRaster = [worldRaster createEnd];
   [worldRaster enableDestroyNotification: self
                notificationMethod: @selector (_worldRasterDeath_:)];
@@ -176,7 +176,7 @@
   unhappyGraph = [EZGraph createBegin: [self getZone]];
   [unhappyGraph enableDestroyNotification: self
                 notificationMethod: @selector (_unhappyGraphDeath_:)];
-  [unhappyGraph setWindowGeometryRecordName : "graphWindow"];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (unhappyGraph);
   [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
   [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
   unhappyGraph = [unhappyGraph createEnd];
