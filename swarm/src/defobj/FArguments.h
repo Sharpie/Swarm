@@ -47,11 +47,15 @@ Library:      defobj
    unsigned javaSignatureLength;
 }
 + createBegin: aZone;
-- addArgument: (void *)value ofType: (unsigned int)type;
-- addShort: (short)value;
+- addArgument: (void *)value ofType: (unsigned)type;
 - addChar: (char)value;
+- addUnsignedChar: (unsigned char)value;
+- addShort: (short)value;
+- addUnsignedShort: (unsigned short)value;
 - addInt: (int)value;
+- addUnsigned: (unsigned)value;
 - addLong: (long)value;
+- addUnsignedLong: (unsigned long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
 - setReturnType: (unsigned)type;
@@ -59,7 +63,3 @@ Library:      defobj
 - (void *)getResult;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
-
-
-
-

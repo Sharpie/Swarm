@@ -109,40 +109,56 @@ arguments in the call!\n");
 
 
 #ifndef USE_AVCALL
-#define ADD_COMMON(type)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: swarm_types[(type)]->size]; }
+#define ADD_COMMON(swarm_type, type)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: swarm_types[(swarm_type)]->size]; argTypes[MAX_HIDDEN + assignedArguments] = (void *)swarm_type; *(type *) argValues[MAX_HIDDEN + assignedArguments++] = value; }
 #else
 #define ADD_COMMON(type) abort ()
 #endif
 
 - addChar: (char)value
 {
-  ADD_COMMON (swarm_type_schar);
-  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_schar; 
-  *(char *) argValues[MAX_HIDDEN + assignedArguments++] = value;
+  ADD_COMMON (swarm_type_schar, char);
+  return self;
+}
+
+- addUnsignedChar: (unsigned char)value
+{
+  ADD_COMMON (swarm_type_uchar, unsigned char);
   return self;
 }
 
 - addShort: (short)value 
 {
-  ADD_COMMON (swarm_type_sshort);
-  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_sshort;
-  *(short *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
+  ADD_COMMON (swarm_type_sshort, short);
+  return self;
+}
+
+- addUnsignedShort: (unsigned short)value 
+{
+  ADD_COMMON (swarm_type_ushort, unsigned short);
   return self;
 }
 
 - addInt: (int)value
 {
-  ADD_COMMON (swarm_type_sint);
-  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_sint;
-  *(int *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
+  ADD_COMMON (swarm_type_sint, int);
+  return self;
+}
+
+- addUnsigned: (unsigned)value
+{
+  ADD_COMMON (swarm_type_uint, unsigned);
   return self;
 }
 
 - addLong: (long)value
 {
-  ADD_COMMON (swarm_type_slong);
-  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_slong;
-  *(long *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
+  ADD_COMMON (swarm_type_slong, long);
+  return self;
+}
+
+- addUnsignedLong: (unsigned long)value
+{
+  ADD_COMMON (swarm_type_ulong, unsigned long);
   return self;
 }
 
@@ -150,24 +166,21 @@ arguments in the call!\n");
 {
   /* in case the function to be called is compiled with compiler other
      than gcc, that does automatic casting of floats to doubles */
-  ADD_COMMON (swarm_type_double); 
-  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_float;
-  *(double *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
+  ADD_COMMON (swarm_type_double, double); 
   return self;
 }
 
 - addDouble: (double)value
 {
-  ADD_COMMON (swarm_type_double);
-  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_double;
-  *(double *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
+  ADD_COMMON (swarm_type_double, double);
   return self;
 }
 
 - setReturnType: (unsigned)type
 {
   if (type > number_of_types)
-      raiseEvent(SourceMessage, "Unkown return type for foerign function call!\n"); 
+      raiseEvent(SourceMessage,
+                 "Unkown return type for foerign function call!\n"); 
   switch (type)
     {
     case swarm_type_void:
@@ -263,5 +276,4 @@ createJavaSignature (FArguments * self)
 }
 
 @end
-
 

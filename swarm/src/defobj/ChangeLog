@@ -1,3 +1,11 @@
+1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FArguments.[hm] ([FArguments -addUnsignedChar:], 
+	[FArguments -addUnsignedShort:], [FArguments -addUnsigned:],
+	[FArguments -addUnsignedLong:]): New methods.
+
+	* FArguments.m (ADD_COMMON): Add type and value assignment to macro.
+
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m (fillHiddenArguments): Make static.
