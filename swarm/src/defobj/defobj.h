@@ -374,13 +374,13 @@ USING
 //D: it obtains its storage.  Storage is typically obtained from this other
 //D: zone in large units called pages, which are then managed by the local
 //D: zone to support internal allocations.  The getZone message of the
-//D: Drop type returns the zone which provides these
+//D: DefinedObject type returns the zone which provides these
 //D: base pages.
 
 //D: Since a new zone always requires that an existing zone be identified,
 //D: no new zones could be created unless there were some zones that
-//D: already existed.  Several such zones are predefined as part of the
-//D: defobj library; see predefined zones for a summary.
+//D: already existed.  Two such zones are predefined as part of the
+//D: defobj library: globalZone and scratchZone.
 
 CREATING
 //M: PageSize specifies the size of pages within which a zone manages its
@@ -1085,18 +1085,17 @@ USING
 CREATING
 + createBegin: (id <Zone>)aZone;
 - createEnd;
-SETTING
 - setArguments: args;
-- getArguments;
 - setFunctionPointer: (func_t)fn;
 - setMethod: (SEL)method inObject: object;
 - setJavaMethod: (const char *)methodName inObject: (void *)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
 USING
-- (void) performCall;
+- getArguments;
+- (void)performCall;
 - (void *)getResult;
 - (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
-
+- (func_t)getFunctionPointer;
 extern void defobj_init_java_call_tables (void *jniEnv);
 @end
 
