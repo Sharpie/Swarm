@@ -1,13 +1,10 @@
 2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
-	* macros.h: Include DefObject.h.
-	(COMPROXYP, JAVAPROXYP): New macros.
-
-	* defobj.m (id_COMProxy, id_JavaProxy): New variables.
-	(initDefobj): Set them.
-
-	* FCall.m: Include macros.h.
-	(updateTarget): Use COMPROXYP and JAVAPROXYP.
+	* FCall.m: Change java_f* to gc_f* throughout.  Change JAVAINFO
+	GCINFO throughout.
+	(updateTarget): Don't use COMProxy or JavaProxy checks.
+	Rely on lookups.  Restructure so that COM comes second and that
+	there aren't elseif ifdef problems.
 
 2001-07-06  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 

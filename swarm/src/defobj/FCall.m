@@ -47,9 +47,9 @@ JNIEnv *jniEnv;
 void * java_static_call_functions[FCALL_TYPE_COUNT];
 void * java_call_functions[FCALL_TYPE_COUNT];
 
-#define JAVAINFO_SIZE (2 * sizeof (JOBJECT))
-#define java_fclass javaInfo[0]
-#define java_fobject javaInfo[1]
+#define GCINFO_SIZE (2 * sizeof (void *))
+#define gc_fclass javaInfo[0]
+#define gc_fobject javaInfo[1]
 #endif
 
 #ifndef HAVE_JDK
@@ -167,10 +167,10 @@ fillHiddenArguments (FCall_c *self)
     case objccall: 
       fargs->hiddenArgumentCount = 2;	
 #ifdef USE_AVCALL
-      objc_setup_call (fargs, self->java_fobject, self->fmethod);
+      objc_setup_call (fargs, self->gc_fobject, self->fmethod);
 #else
       fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      fargs->argValues[MAX_HIDDEN - 2] = &self->java_fobject;
+      fargs->argValues[MAX_HIDDEN - 2] = &self->gc_fobject;
       fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
 #endif
@@ -179,12 +179,12 @@ fillHiddenArguments (FCall_c *self)
     case javacall:
       fargs->hiddenArgumentCount = 3;
 #ifdef USE_AVCALL
-      java_setup_call (fargs, self->java_fobject, self->fmethod);
+      java_setup_call (fargs, self->gc_fobject, self->fmethod);
 #else
       fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
       fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      fargs->argValues[MAX_HIDDEN - 2] = &self->java_fobject;
+      fargs->argValues[MAX_HIDDEN - 2] = &self->gc_fobject;
       fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
 #endif
@@ -192,12 +192,12 @@ fillHiddenArguments (FCall_c *self)
     case javastaticcall:
       fargs->hiddenArgumentCount = 3;
 #ifdef USE_AVCALL
-      java_setup_static_call (fargs, self->java_fclass, self->fmethod);
+      java_setup_static_call (fargs, self->gc_fclass, self->fmethod);
 #else
       fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
       fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      fargs->argValues[MAX_HIDDEN - 2] = &self->java_fclass;
+      fargs->argValues[MAX_HIDDEN - 2] = &self->gc_fclass;
       fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
       fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
 #endif
@@ -319,9 +319,9 @@ PHASE(Creating)
   newCall->fargs = NULL;
 #ifdef HAVE_JDK
   {
-    JOBJECT *ptr = [_obj_GCFixedRootZone allocBlock: JAVAINFO_SIZE];
+    JOBJECT *ptr = [_obj_GCFixedRootZone allocBlock: GCINFO_SIZE];
     
-    memset (ptr, 0, JAVAINFO_SIZE);
+    memset (ptr, 0, GCINFO_SIZE);
     newCall->javaInfo = ptr;
   }
 #endif
@@ -355,13 +355,13 @@ PHASE(Creating)
   if (p)
     *p = '\0';
   
-  if (java_fclass)
-    (*jniEnv)->DeleteGlobalRef (jniEnv, java_fclass);
+  if (gc_fclass)
+    (*jniEnv)->DeleteGlobalRef (jniEnv, gc_fclass);
   lref = (*jniEnv)->GetObjectClass (jniEnv, (jobject) jObj);
-  java_fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  gc_fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   UPDATEMETHODNAME (buf);
-  java_fobject = jObj;
+  gc_fobject = jObj;
 #else
   java_not_available ();
 #endif
@@ -376,7 +376,7 @@ PHASE(Creating)
     {
       if (COM_is_javascript (cObj))
         {
-          (COMobject) java_fobject = SD_COM_FIND_OBJECT_COM (obj);
+          (COMobject) gc_fobject = SD_COM_FIND_OBJECT_COM (obj);
           callType = JScall;
 	  UPDATEMETHODNAME (theMethodName);
           return self;
@@ -411,7 +411,7 @@ PHASE(Creating)
     {
       callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
       (COMmethod) fmethod = COM_selector_method (cSel);
-      (COMobject) java_fobject = SD_COM_FIND_OBJECT_COM (obj);
+      (COMobject) gc_fobject = SD_COM_FIND_OBJECT_COM (obj);
       
       if (callType == JScall)
         UPDATEMETHODNAME (sel_get_name (sel));
@@ -446,11 +446,11 @@ PHASE(Creating)
     Class class;
     
     callType = objccall;
-    java_fobject = obj;
+    gc_fobject = obj;
     (SEL) fmethod = sel;
     class = getClass (obj);
-    java_fclass = class;
-    ffunction = FUNCPTR (get_imp ((Class) java_fclass, (SEL) fmethod));
+    gc_fclass = class;
+    ffunction = FUNCPTR (get_imp ((Class) gc_fclass, (SEL) fmethod));
     return self;
   }
 }
@@ -473,10 +473,10 @@ PHASE(Creating)
   jclass lref;
 
   callType = javastaticcall;
-  if (java_fclass)
-    (*jniEnv)->DeleteGlobalRef (jniEnv, java_fclass);
+  if (gc_fclass)
+    (*jniEnv)->DeleteGlobalRef (jniEnv, gc_fclass);
   lref = (*jniEnv)->FindClass (jniEnv, className);
-  java_fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  gc_fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   UPDATEMETHODNAME (theMethodName);
 #else
@@ -500,7 +500,7 @@ PHASE(Creating)
         {
           fmethod =
             (*jniEnv)->GetMethodID (jniEnv,
-                                    java_fclass,
+                                    gc_fclass,
                                     methodName, 
                                     fargs->javaSignature);
           ffunction = java_call_functions[fargs->retVal.type];
@@ -508,7 +508,7 @@ PHASE(Creating)
       else
         {
           fmethod = (*jniEnv)->GetStaticMethodID (jniEnv,
-                                                  java_fclass,
+                                                  gc_fclass,
                                                   methodName, 
                                                   fargs->javaSignature);
           ffunction = java_static_call_functions[fargs->retVal.type];
@@ -570,14 +570,27 @@ PHASE(Creating)
 void
 updateTarget (FCall_c *self, id target)
 {
-  if (COMPROXYP (target))
-    (COMobject) self->java_fobject = SD_COM_FIND_OBJECT_COM (target);
 #ifdef HAVE_JDK
-  else if (JAVAPROXYP (target))
-    updateJavaTarget (self, SD_JAVA_FIND_OBJECT_JAVA (target));
-  else
+  {
+    jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (target);
+
+    if (jObj)
+      {
+        updateJavaTarget (self, jObj);
+        return;
+      }
+  }
 #endif
-    self->java_fobject = target;
+  {
+    COMobject cObj = SD_COM_FIND_OBJECT_COM (target);
+
+    if (cObj)
+      {
+        (COMobject) self->gc_fobject = cObj;
+        return;
+      }
+  }
+  self->gc_fobject = target;
   add_ffi_types (self);
 }
 
@@ -587,10 +600,10 @@ updateJavaTarget (FCall_c *self, JOBJECT target)
 {
   if (self->fobjectPendingGlobalRefFlag)
     {
-      (*jniEnv)->DeleteGlobalRef (jniEnv, (jobject) self->java_fobject);
+      (*jniEnv)->DeleteGlobalRef (jniEnv, (jobject) self->gc_fobject);
       self->fobjectPendingGlobalRefFlag = NO;
     }
-  self->java_fobject = target;
+  self->gc_fobject = target;
   add_ffi_types (self);
 }
 #endif
@@ -619,11 +632,11 @@ PHASE(Using)
 #endif
   if (callType == COMcall)
     COM_method_invoke ((COMmethod) fmethod,
-                       (COMobject) java_fobject,
+                       (COMobject) gc_fobject,
                        COM_params);
   else if (callType == JScall)
     {
-      JS_method_invoke ((COMobject) java_fobject,
+      JS_method_invoke ((COMobject) gc_fobject,
                         methodName,
                         COM_params);
       JS_set_return (COM_params,
@@ -1005,13 +1018,13 @@ PHASE(Using)
   else if (callType == javacall)
     {
       if (fobjectPendingGlobalRefFlag)
-        (*jniEnv)->DeleteGlobalRef (jniEnv, java_fobject);
-      (*jniEnv)->DeleteGlobalRef (jniEnv, java_fclass);
+        (*jniEnv)->DeleteGlobalRef (jniEnv, gc_fobject);
+      (*jniEnv)->DeleteGlobalRef (jniEnv, gc_fclass);
     }
   else if (callType == javastaticcall)
-    (*jniEnv)->DeleteGlobalRef (jniEnv, java_fclass);
+    (*jniEnv)->DeleteGlobalRef (jniEnv, gc_fclass);
 
-  [_obj_GCFixedRootZone freeBlock: javaInfo blockSize: JAVAINFO_SIZE];
+  [_obj_GCFixedRootZone freeBlock: javaInfo blockSize: GCINFO_SIZE];
 
 #endif
   if (methodName)

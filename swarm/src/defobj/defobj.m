@@ -40,11 +40,6 @@ externvardef id lispAppArchiver;
 externvardef id hdf5AppArchiver;
 externvardef id hdf5Archiver;
 
-externvardef id id_COMProxy;
-#ifdef HAVE_JDK
-externvardef id id_JavaProxy;
-#endif
-
 //
 // _defobj_implement() -- generate implementations for defobj module
 //
@@ -145,11 +140,6 @@ findTypeOrLocalClass (const char *name)
 void
 initDefobj (id <Arguments> _arguments)
 {
-  id_COMProxy = [COMProxy self];
-#ifdef HAVE_JDK
-  id_JavaProxy = [JavaProxy self];
-#endif
-
   arguments = _arguments;
   _objc_lookup_class = findTypeOrLocalClass;
   {
