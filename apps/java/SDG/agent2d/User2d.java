@@ -12,16 +12,13 @@ import swarm.gui.Raster;
 import swarm.Selector;
 import swarm.Globals;
 
+import ObserverSwarm;
+
 public class User2d extends Agent2d {
   Schedule schedule;
 
-  public User2d (Zone aZone, Grid2d world,
-                 int x, int y,
-                 double resistProbabilityMean, double resistProbabilityDeviation,
-                 int energyMean, int energyDeviation) {
-    super (aZone, world, x, y,
-           resistProbabilityMean, resistProbabilityDeviation,
-           energyMean, energyDeviation);
+  public User2d (Zone aZone, Grid2d world, int x, int y) {
+    super (aZone, world, x, y, .6, .1, 10, 5);
 
     schedule = new ScheduleImpl (aZone, 1);
 
@@ -49,7 +46,7 @@ public class User2d extends Agent2d {
   }
 
   public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, (byte) 0);
+    r.drawPointX$Y$Color (x, y, resisting ? ObserverSwarm.UserResistColor : ObserverSwarm.UserTourColor);
     return this;
   }
 }

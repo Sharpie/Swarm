@@ -13,17 +13,28 @@ import swarm.gui.ColormapImpl;
 import swarm.defobj.Zone;
 import swarm.Selector;
 
+import ObserverSwarm;
+
 import java.util.List;
 import java.util.LinkedList;
 
-public class StartSDG extends GUISwarmImpl {
+public class ObserverSwarm extends GUISwarmImpl {
+  public final static byte UserTourColor = 0;
+  public final static byte UserResistColor = 1;
+  public final static byte GlenTourColor = 2;
+  public final static byte GlenAttackColor = 3;
+  public final static byte MarcusIncubateColor = 4;
+  public final static byte MarcusResistColor = 5;
+  public final static byte MarcusWorkColor = 6;
+  public final static byte AlexTourColor = 7;
+  public final static byte AlexTalkColor = 8;
   Object2dDisplay display;
   ZoomRaster raster;
   SDG model;
   Colormap colormap;
   Schedule displaySchedule;
 
-  public StartSDG (Zone aZone) {
+  public ObserverSwarm (Zone aZone) {
     super (aZone);
     model = new SDG (aZone);
   }
@@ -34,10 +45,18 @@ public class StartSDG extends GUISwarmImpl {
     model.buildObjects ();
     
     colormap = new ColormapImpl (getZone ());
-    colormap.setColor$ToName ((byte) 0, "white");
-    colormap.setColor$ToName ((byte) 1, "red");
-    colormap.setColor$ToName ((byte) 2, "green");
-    colormap.setColor$ToName ((byte) 3, "blue");
+    colormap.setColor$ToName (UserTourColor, "white");
+    colormap.setColor$ToName (UserResistColor, "gray");
+
+    colormap.setColor$ToName (MarcusIncubateColor, "yellow");
+    colormap.setColor$ToName (MarcusResistColor, "red");
+    colormap.setColor$ToName (MarcusWorkColor, "green");
+
+    colormap.setColor$ToName (GlenTourColor, "cyan");
+    colormap.setColor$ToName (GlenAttackColor, "pink");
+
+    colormap.setColor$ToName (AlexTourColor, "brown");
+    colormap.setColor$ToName (AlexTalkColor, "orange");
 
     raster = new ZoomRasterImpl (getZone (), "raster");
     raster.setColormap (colormap);
@@ -96,7 +115,7 @@ public class StartSDG extends GUISwarmImpl {
 
   public static void main (String[] args) {
     Globals.env.initSwarm ("SDG", "0.0", "bug-swarm@swarm.org", args);
-    StartSDG observer = new StartSDG (Globals.env.globalZone);
+    ObserverSwarm observer = new ObserverSwarm (Globals.env.globalZone);
     observer.buildObjects ();
     observer.buildActions ();
     observer.activateIn (null);

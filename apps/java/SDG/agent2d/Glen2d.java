@@ -9,20 +9,17 @@ import swarm.defobj.Zone;
 import swarm.space.Grid2d;
 import swarm.gui.Raster;
 
+import ObserverSwarm;
+
 import swarm.Selector;
 import swarm.Globals;
 
 public class Glen2d extends Agent2d {
   Schedule schedule;
+  boolean attacking;
 
-  public Glen2d (Zone aZone, Grid2d world,
-                 int x, int y,
-                 double resistProbabilityMean, double resistProbabilityDeviation,
-                 int energyMean, int energyDeviation) {
-    super (aZone, world,
-           x, y,
-           resistProbabilityMean, resistProbabilityDeviation,
-           energyMean, energyDeviation);
+  public Glen2d (Zone aZone, Grid2d world, int x, int y) {
+    super (aZone, world, x, y, .5, .25, 100, 50);
 
     schedule = new ScheduleImpl (aZone, 1);
 
@@ -45,19 +42,21 @@ public class Glen2d extends Agent2d {
   }
 
   public void stepAgent () {
-    Agent2d neighbor = getNeighbor (4);
+    Agent2d neighbor = getNeighbor (6);
     if (neighbor != null) {
       if (!neighbor.frob (Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359))) {
         moveAgent (neighbor.x - x, neighbor.y - y);
+        attacking = true;
         return;
       }
     }
-    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3),
-               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3));
+    attacking = false;
+    moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-4, 4),
+               Globals.env.uniformIntRand.getIntegerWithMin$withMax (-4, 4));
   }
   
   public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, (byte) 2);
+    r.drawPointX$Y$Color (x, y, attacking ? ObserverSwarm.GlenAttackColor : ObserverSwarm.GlenTourColor);
     return this;
   }
 }

@@ -22,7 +22,7 @@ public class Agent2d extends SwarmImpl {
   double resistProbability = 0.0;
   BernoulliDist bernoulliDist =
     new BernoulliDistImpl (getZone (), Globals.env.randomGenerator, .5);
-  boolean frobbed;
+  boolean frobbed, resisting;
   int direction, energy;
 
   Agent2d (Zone aZone,
@@ -45,37 +45,32 @@ public class Agent2d extends SwarmImpl {
                           Globals.env.randomGenerator,
                           energyMean,
                           energyDeviation);
-    this.frobbed = false;
     world.putObject$atX$Y (this, x, y);
   }
   
-  Agent2d getAgent (int x, int y) {
-    if (x < 0)
+  Agent2d getAgent (int xpos, int ypos) {
+    if (xpos < 0)
       return null;
-    else if (y < 0)
+    else if (ypos < 0)
       return null;
-    else if (x >= world.getSizeX ())
+    else if (xpos >= world.getSizeX ())
       return null;
-    else if (y >= world.getSizeY ())
+    else if (ypos >= world.getSizeY ())
       return null;
   
-    return (Agent2d) world.getObjectAtX$Y (x, y);
+    return (Agent2d) world.getObjectAtX$Y (xpos, ypos);
   }
 
   public Agent2d getNeighbor (int width) {
     int agentCount = 0;
     int xi, yi;
 
-    for (yi = -width; yi <= width; yi++) {
-      if (yi == 0)
-        continue;
-      for (xi = -width; xi <= width; xi++) {
-        if (xi == 0)
-          continue;
-        if (getAgent (x + xi, y + yi) != null)
-          agentCount++;
-      }
-    }
+    for (yi = -width; yi <= width; yi++)
+      if (yi != 0)
+        for (xi = -width; xi <= width; xi++)
+          if (xi != 0)
+            if (getAgent (x + xi, y + yi) != null)
+              agentCount++;
     if (agentCount > 0) {
       int selected =
         Globals.env.uniformIntRand.getIntegerWithMin$withMax (0,
@@ -83,24 +78,24 @@ public class Agent2d extends SwarmImpl {
       Agent2d agent;
       
       agentCount = 0;
-      for (yi = -width; yi <= width; yi++) {
-        if (yi == 0)
-          continue;
-        for (xi = -width; xi <= width; xi++) {
-          if (xi == 0)
-            continue;
-          agent = getAgent (x + xi, y + yi);
-          if (agent != null && agentCount == selected)
-            return agent;
-        }
-      }
+      for (yi = -width; yi <= width; yi++)
+        if (yi != 0)
+          for (xi = -width; xi <= width; xi++)
+            if (xi != 0) {
+              agent = getAgent (x + xi, y + yi);
+              if (agent != null) {
+                if (agentCount == selected)
+                  return agent;
+                else
+                  agentCount++;
+              }
+            }
     }
     return null;
   }
     
   public void moveAgent (int xoffset, int yoffset) {
     int newx, newy;
-    world.putObject$atX$Y (null, x, y);
     newx = x;
     newy = y;
     newx += xoffset;
@@ -113,11 +108,14 @@ public class Agent2d extends SwarmImpl {
       newy = 0;
     else if (newy >= world.getSizeY ())
       newy = world.getSizeY () - 1;
-    x = newx;
-    y = newy;
-    world.putObject$atX$Y (this, x, y);
+    if (world.getObjectAtX$Y (newx, newy) == null) {
+      world.putObject$atX$Y (null, x, y);
+      x = newx;
+      y = newy;
+      world.putObject$atX$Y (this, x, y);
+    }
   }
-
+  
   public double sampleResistProbability () {
     double prob;
 
@@ -132,15 +130,17 @@ public class Agent2d extends SwarmImpl {
   }
 
   public boolean frob (int direction) {
-    if (!bernoulliDist.getSampleWithProbability (resistProbability) || energy == 0) {
-      frobbed = true;
-      
+    frobbed = true;
+    if (!bernoulliDist.getSampleWithProbability (resistProbability)
+        || energy == 0) {
+      resisting = false;
       this.direction = direction;
-      return true;
     } else {
+      resisting = true;
+      System.out.println (this + " expending energy (" + energy + ")");
       energy--;
-      return false;
     }
+    return resisting;
   }
   
 

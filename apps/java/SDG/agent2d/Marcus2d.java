@@ -13,6 +13,8 @@ import swarm.Selector;
 
 import swarm.Globals;
 
+import ObserverSwarm;
+
 public class Marcus2d extends Agent2d {
   Schedule schedule;
   Selector incubateSelector;
@@ -21,18 +23,13 @@ public class Marcus2d extends Agent2d {
   Action xmoveNext, ymoveNext;
   int xoffset, yoffset;
   int xfreq, yfreq;
-  int incubationRemaining;
+  int incubationTime, incubationRemaining;
   boolean working;
 
-  public Marcus2d (Zone aZone, Grid2d world,
-                   int x, int y,
-                   double resistProbabilityMean, double resistProbabilityDeviation,
-                   int energyMean, int energyDeviation) {
-    super (aZone, world,
-           x, y,
-           resistProbabilityMean, resistProbabilityDeviation,
-           energyMean, energyDeviation);
-
+  public Marcus2d (Zone aZone, Grid2d world, int x, int y) {
+    super (aZone, world, x, y, .25, .5, 60, 10);
+    
+    this.incubationTime = 40;
     schedule = new ScheduleImpl (aZone, true);
 
     try {
@@ -63,7 +60,7 @@ public class Marcus2d extends Agent2d {
 
   public void startIncubation (int t) {
     working = false;
-    incubationRemaining = 10;
+    incubationRemaining = incubationTime;
     resistProbability = sampleResistProbability ();
     energy = sampleEnergy ();
     schedule.at$createActionTo$message (t, this, incubateSelector);
@@ -129,20 +126,22 @@ public class Marcus2d extends Agent2d {
   }
 
   public void incubate () {
-    if (incubationRemaining == 0 || frobbed) {
-      frobbed = false;
+    if (incubationRemaining == 0 || (frobbed && !resisting)) {
       if (energy > 0)
         startWork (Globals.env.getCurrentTime () + 1);
       else
         startIncubation (Globals.env.getCurrentTime () + 1);
-    } else {
-      moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1),
-                 Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1));
+    } 
+    else {
+      moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-5, 5),
+                 Globals.env.uniformIntRand.getIntegerWithMin$withMax (-5, 5));
       incubationRemaining--;
       schedule.at$createActionTo$message (Globals.env.getCurrentTime () + 1,
                                           this,
                                           incubateSelector);
     }
+    resisting = false;
+    frobbed = false;
   }
 
   public void checkWork () {
@@ -179,11 +178,17 @@ public class Marcus2d extends Agent2d {
   }
 
   public boolean frob (int direction) {
-    return working ? false : super.frob (direction);
+    if (!working)
+      return super.frob (direction);
+    else
+      return false;
   }
 
   public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, (byte) 1);
+    if (working)
+      r.drawPointX$Y$Color (x, y, ObserverSwarm.MarcusWorkColor);
+    else
+      r.drawPointX$Y$Color (x, y, resisting ? ObserverSwarm.MarcusResistColor : ObserverSwarm.MarcusIncubateColor);
     return this;
   }
 }
