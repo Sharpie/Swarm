@@ -11,6 +11,7 @@ Library:      defobj
 
 #import "FCall.h"
 #import <defobj.h>
+#import <defobj/FArguments.h>
 #import <objc/objc-api.h>
 
 #include <swarmconfig.h>
@@ -115,7 +116,7 @@ static void
 fillHiddenArguments (FCall_c *self)
 {
 #ifndef USE_AVCALL
-  FArguments *fargs = self->fargs;
+  FArguments_c *fargs = self->fargs;
 
   switch (self->callType)
     {
@@ -191,7 +192,7 @@ PHASE(Creating)
 #endif
   fillHiddenArguments (self);
 #ifndef USE_AVCALL
-  add_ffi_types ((FArguments *) fargs);
+  add_ffi_types ((FArguments_c *) fargs);
   {
     unsigned res;
     
@@ -294,7 +295,7 @@ PHASE(Using)
 
 - (retval_t)getRetVal: (arglist_t)argFrame buf: (types_t *)buf
 {
-  types_t *res = &((FArguments *) fargs)->resultVal;
+  types_t *res = &((FArguments_c *) fargs)->resultVal;
 
 #ifndef BUGGY_BUILTIN_APPLY
   unsigned char return_uchar (void) { return res->uchar; }

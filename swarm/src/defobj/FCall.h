@@ -32,7 +32,7 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 {
 @public
    unsigned int callType;
-   FArguments *fargs; 
+   FArguments_c *fargs; 
 #ifndef USE_AVCALL
    ffi_cif cif;
 #endif

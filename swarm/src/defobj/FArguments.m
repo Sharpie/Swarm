@@ -15,8 +15,6 @@ Library:      defobj
 #include <misc.h> // stpcpy
 #include <swarmconfig.h> // HAVE_JDK
 
-#include <swarmconfig.h>
-
 #ifndef USE_AVCALL
 #undef PACKAGE
 #undef VERSION
@@ -79,11 +77,11 @@ fcall_type_size (fcall_type_t type)
   return ffi_types[type]->size;
 }
 
-@implementation FArguments
+@implementation FArguments_c
 
 + createBegin: aZone
 {
-  FArguments *newArguments;
+  FArguments_c *newArguments;
 
   newArguments = [aZone allocIVars: self];
   newArguments->assignedArgumentCount = 0;
@@ -310,7 +308,7 @@ get_fcall_type_for_objc_type (char objcType)
 }
 
 void
-add_ffi_types (FArguments * self)
+add_ffi_types (FArguments_c * self)
 {
   unsigned i;
 
@@ -325,7 +323,7 @@ add_ffi_types (FArguments * self)
 }
 
 static const char *
-createJavaSignature (FArguments *self)
+createJavaSignature (FArguments_c *self)
 {
   unsigned i;
   char *str, *p;
@@ -343,7 +341,7 @@ createJavaSignature (FArguments *self)
 - createEnd
 {
   setMappedAlloc (self);
-  javaSignature = createJavaSignature ((FArguments *) self);
+  javaSignature = createJavaSignature ((FArguments_c *) self);
   return self;
 }
 

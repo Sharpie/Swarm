@@ -26,7 +26,7 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 #define MAX_ARGS        5
 #define MAX_HIDDEN      3
 
-@interface FArguments: CreateDrop_s
+@interface FArguments_c: CreateDrop_s
 {
 @public
    unsigned assignedArgumentCount;
@@ -62,5 +62,5 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-extern void add_ffi_types (FArguments *self);
+extern void add_ffi_types (FArguments_c *self);
 extern size_t fcall_type_size (fcall_type_t type);

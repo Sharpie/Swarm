@@ -3,7 +3,7 @@ CURRENT = 2
 REVISION = 0
 AGE = 0
 defobjdir = $(includedir)/$(MODULE)
-JAVAINCLUDES = @JAVAINCLUDES@ -I$(top_srcdir)/java/c
+JAVAINCLUDES = -I$(top_srcdir)/java/c @JAVAINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 

@@ -46,6 +46,7 @@ _defobj_implement (void)
   [id_HDF5_c setTypeImplemented: HDF5];
   [id_HDF5CompoundType_c setTypeImplemented: HDF5CompoundType];
   [id_FCall_c setTypeImplemented: FCall];
+  [id_FArguments_c setTypeImplemented: FArguments];
 }
 
 //
