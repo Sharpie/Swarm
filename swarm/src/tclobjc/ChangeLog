@@ -1,3 +1,8 @@
+2001-08-24    <mgd@HELEN>
+
+	* Makefile.am (XINCLUDES): Substitute.
+	(INCLUDES): Add XINCLUDES.
+
 2001-08-06  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Makefile.am (OBJCFLAGS): Add no-unknown-pragmas for the
