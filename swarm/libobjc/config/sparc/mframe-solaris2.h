@@ -31,7 +31,6 @@ struct sparc_args {
   (CUM).onStack = NO; \
 })
 
-#if 0
 #define GET_SPARC_ARG_LOCATION(CUM, CSTRING_TYPE, TYPESIZE) \
 ((CUM).onStack \
   ? ON_STACK \
@@ -40,39 +39,67 @@ struct sparc_args {
       ? 0 : ((CUM).offsets[ON_STACK] += 4)),\
       IN_REGS) \
     : ((CUM).onStack = YES, ON_STACK)))
-#endif
 
+#if 1
 #define MFRAME_ARG_ENCODING(CUM, TYPE, STACK, DEST) \
 ({ \
   const char* type = (TYPE); \
-  size_t align = objc_alignof_type(type); \
-  size_t size = objc_sizeof_type(type); \
+  size_t align = objc_alignof_type (type); \
+  size_t size = objc_sizeof_type (type); \
   unsigned locn; \
   int typelen; \
   \
-  /* \
   locn = GET_SPARC_ARG_LOCATION(CUM, type, size); \
- Rounding this seems arbitrary since it depends on what argFrame is aligned at.
-  (CUM).offsets[locn] = ROUND ((CUM).offsets[locn], align); \
+  if (locn == ON_STACK) \
+    (CUM).offsets[locn] = ROUND ((CUM).offsets[ON_STACK], align); \
   if (size < sizeof (int)) \
     { \
       (CUM).offsets[locn] += sizeof (int) - ROUND (size, align); \
     } \
-  */ \
   (TYPE) = objc_skip_typespec (type); \
-  locn = *(TYPE) == '+' ? IN_REGS : ON_STACK; \
+  if (*(TYPE) == '+') \
+    (TYPE)++; \
   typelen = (TYPE) - type; \
-  if (locn == IN_REGS) \
+  sprintf ((DEST), "%.*s%d", typelen, type, (CUM).offsets[locn]); \
+  while (isdigit ((int) *(TYPE))) \
     { \
       (TYPE)++; \
-      (CUM).offsets[IN_REGS] = atoi (TYPE); \
-      sprintf ((DEST), "%.*s+%d", typelen, type, (CUM).offsets[IN_REGS]); \
     } \
-  else \
+  (DEST) = &(DEST)[strlen(DEST)]; \
+  if (locn == ON_STACK) \
     { \
-      (CUM).offsets[ON_STACK] = atoi (TYPE); \
-      sprintf ((DEST), "%.*s%d", typelen, type, (CUM).offsets[ON_STACK]); \
+      if ((*type==_C_STRUCT_B || *type==_C_UNION_B || *type==_C_ARY_B)) \
+	{ \
+	  (STACK) = (CUM).offsets[ON_STACK] + ROUND(size, align); \
+	} \
+      else \
+	{ \
+	  (STACK) = (CUM).offsets[ON_STACK] + size; \
+	} \
     } \
+  (CUM).offsets[locn] += \
+    size < sizeof(int) \
+      ? ROUND (size, align) \
+      : ROUND (size, sizeof(void*)); \
+})
+
+#else
+#define MFRAME_ARG_ENCODING(CUM, TYPE, STACK, DEST) \
+({ \
+  const char* type = (TYPE); \
+  size_t align = objc_alignof_type (type); \
+  size_t size = objc_sizeof_type (type); \
+  unsigned locn; \
+  int typelen; \
+  \
+  locn = GET_SPARC_ARG_LOCATION(CUM, type, size); \
+  (TYPE) = objc_skip_typespec (type); \
+  locn = *(TYPE) == '+' ? IN_REGS : ON_STACK; \
+  if (locn == IN_REGS) \
+    (TYPE)++; \
+  (CUM).offsets[locn] = atoi (TYPE); \
+  typelen = (TYPE) - type; \
+  sprintf ((DEST), "%.*s%d", typelen, type, (CUM).offsets[locn]); \
   while (isdigit ((int) *(TYPE))) \
     { \
       (TYPE)++; \
@@ -95,3 +122,4 @@ struct sparc_args {
       : ROUND(size, sizeof(void*)); \
 })
 
+#endif

@@ -1,3 +1,10 @@
+1999-05-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/sparc/mframe-solaris2.h (MFRAME_ARG_ENCODING): Return
+	to using GET_SPARC_ARG_LOCATION; don't rely on compiler metadata for
+	coding signature. Don't do alignment of offsets
+	except in the case of stack.
+
 1999-05-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe.m (mframe_next_arg): Handle negative offsets (as stack
