@@ -1,3 +1,15 @@
+1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* simtools.m: Include defobj.h.  Don't include simtools/Archiver.h
+	or objectbase/Arguments.m.  
+	(initSwarmAppArguments): Don't initialize arguments or archiver here.
+	Call initDefObj after initModule.
+
+	* Makefile.am (SRC, simtools_HEADERS): Remove
+	{Archiver,Arguments}.[hm].
+
+	* {Archiver,Arguments}.[hm]: Remove (moved to defobj).
+
 1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT, AGE): Increment.  Swarm 1.3.1 released.

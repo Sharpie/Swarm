@@ -9,8 +9,7 @@
 #import <simtools.h>
 #import <simtoolsgui.h> // initSimtoolsGUI
 
-#import <simtools/Archiver.h>
-#import <objectbase/Arguments.h>
+#import <defobj.h> // Arguments
 
 #import <random.h>
 
@@ -52,18 +51,12 @@ initSwarmAppArguments (int argc, const char **argv,
   swarmGUIMode = 1;
 
   initModule (activity);
+
+  initDefobj (argc, argv, version, bugAddress, argumentsClass);
   initProbing ();
 
-  arguments = [argumentsClass ?: [Arguments class]
-                              createArgc: argc
-                              Argv: argv
-                              version: version
-                              bugAddress: bugAddress];
-  
   if ([arguments getBatchModeFlag])
     swarmGUIMode = 0;
-
-  archiver = [Archiver ensure: globalZone];
 
   initRandom (arguments);
 
