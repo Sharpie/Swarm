@@ -53,7 +53,7 @@ else
     else
       test -n "$JAVALIBS" || JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads/lib"
     fi
-    test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/$proc/native_threads/java"
+    test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/${proc}/${threads}_threads/java"
     if test "$host_os" = cygwin; then
       JAVACLASSES="`cygpath -w ${jdkdir}/lib/classes.zip`"
       JAVAENV=
