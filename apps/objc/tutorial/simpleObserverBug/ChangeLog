@@ -1,3 +1,7 @@
+2003-03-11  David H. Clements <dclement@mines.edu>
+	
+	* ObserverSwarm.h: Changed comments.
+
 2000-02-27    <mgd@nest.swarm.org>
 
 	* Makefile (BUGADDRESS): Update to SDG.
