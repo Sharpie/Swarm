@@ -6,7 +6,7 @@ defobjdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-EXTRA_DIST = make-h2x m2h
+EXTRA_DIST = make-h2x m2h internal.h
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES)
 
@@ -20,7 +20,7 @@ CLEANFILES += version.h
 BUILT_SOURCES = $(module_headers)
 
 SRC = Archiver.m Arguments.m Create.m Customize.m \
-	DefClass.m DefObject.m Program.m Symbol.m Zone.m defobj.m
+	DefClass.m DefObject.m Program.m Symbol.m Zone.m defobj.m internal.m
 
 libdefobj_a_SOURCES = $(SRC)
 libdefobj_la_SOURCES = $(SRC)

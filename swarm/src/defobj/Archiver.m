@@ -195,7 +195,6 @@ PHASE(Using)
         hid_t stringtype = H5Tcopy (H5T_C_S1);
         H5Tset_size (stringtype, strlen (str) + 1);
 
-        printf ("string:[%s]\n", str);
         store (stringtype);
         if (H5Tclose (stringtype) < 0)
           raiseEvent (SaveError, "cannot close stringtype");

@@ -285,14 +285,3 @@ nameToObject (const char *name)
     return object;
   abort ();
 }
-
-#if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)
-id
-nil_method (id receiver, SEL op, ...)
-{
-  [NotImplemented raiseEvent:  "The message `%s' was sent to nil.\n",
-                  sel_get_name (op)];
-
-  return nil;
-}
-#endif

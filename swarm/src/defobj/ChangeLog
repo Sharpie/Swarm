@@ -1,3 +1,16 @@
+1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (SRC): Add internal.m.
+	(EXTRA_DIST): Add internal.h.
+
+	* DefObject.m: Include internal.h.
+
+	* internal.m (process_array, nil_method): Moved from DefObject.m.
+	Add dims argument to start_array.  Remove arguments to end_array
+	and end_dim.
+
+	* internal.[hm]: New files.
+
 1999-01-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefObject.m (map_ivars): New function.
