@@ -25,9 +25,10 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 ***** Fixed casting bug which lead to segfaults on some platforms.
 
 *** space
-**** Discrete2d
+**** Discrete2d, DblBuffer2d
 ***** Free memory used by the 2d lattice internally when dropping Discrete2d 
-      instance.  Thanks to Jay Pringle for testcase reporting this.
+      and DblBuffer2d instances.  Thanks to Jay Pringle for testcase 
+      reporting this.
 
 * Release Notes for Swarm 1.4.1
 ** New features

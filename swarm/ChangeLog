@@ -1,3 +1,7 @@
+1999-03-19  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Note bug fix also to DblBuffer2d.
+
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Run libobjc's configure.
