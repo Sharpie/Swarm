@@ -71,13 +71,48 @@ PHASE(Creating)
 
 - hdf5InCreate: hdf5Obj
 {
-  if ([hdf5Obj getDatasetFlag])
+  if ([hdf5Obj checkName: "ivars"])
     {
-      if ([hdf5Obj getDatasetRank] != 2)
+      id latticeDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                                setParent: hdf5Obj]
+                               setCreateFlag: NO]
+                              setDatasetFlag: YES]
+                             setName: "lattice"]
+                            createEnd];
+      
+      if ([latticeDataset getDatasetRank] != 2)
         raiseEvent (InvalidArgument, "Rank of lattice dataset must be 2");
       
-      xsize = [hdf5Obj getDatasetDimension: 0];
-      ysize = [hdf5Obj getDatasetDimension: 1];
+      xsize = [latticeDataset getDatasetDimension: 0];
+      ysize = [latticeDataset getDatasetDimension: 1];
+      
+      [latticeDataset drop];
+    }
+  else
+    {
+      BOOL gotX = NO, gotY = NO;
+
+      int process_object (id component)
+        {
+          const char *name = [component getName];
+
+          if (strcmp (name, "xsize") == 0)
+            {
+              [component loadDataset: &xsize];
+              gotX = YES;
+            }
+          else if (strcmp (name, "ysize") == 0)
+            {
+              [component loadDataset: &ysize];
+              gotY = YES;
+            }
+          return gotX && gotY;
+        }
+      [hdf5Obj iterate: process_object];
+      if (!gotX)
+        raiseEvent (InvalidArgument, "missing xsize");
+      if (!gotY)
+        raiseEvent (InvalidArgument, "missing ysize");
     }
   return self;
 }
@@ -92,8 +127,58 @@ PHASE(Setting)
 
 - hdf5In: hdf5Obj
 {
-  if ([hdf5Obj getDatasetFlag])
-    [hdf5Obj loadDataset: lattice];
+  id aZone = [self getZone];
+
+  if ([hdf5Obj checkName: "ivars"])
+    {
+      {
+        id latticeDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                                  setParent: hdf5Obj]
+                                 setCreateFlag: NO]
+                                setDatasetFlag: YES]
+                               setName: "lattice"]
+                              createEnd];
+        [latticeDataset loadDataset: lattice];
+        [latticeDataset drop];
+      }
+      {
+        id ivarsDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                                setParent: hdf5Obj]
+                               setCreateFlag: NO]
+                              setDatasetFlag: YES]
+                             setName: "ivars"]
+                            createEnd];
+        [super hdf5In: ivarsDataset];
+        [ivarsDataset drop];
+      }
+    }
+  else
+    {
+      int process_ivar (id component)
+        {
+          const char *name = [component getName];
+          
+          if (strcmp (name, "lattice") == 0)
+            {
+              int process_lattice (id latticeHdf5Obj)
+                {
+                  unsigned x, y;
+                  const char *key = [latticeHdf5Obj getName];
+                  
+                  sscanf (key, "%u,%u", &x, &y);
+                  
+                  *discrete2dSiteAt (lattice, offsets, x, y) =
+                    hdf5In (aZone, latticeHdf5Obj);
+                  return 0;
+                }
+              [component iterate: process_lattice];
+            }
+          else
+            [component assignIvar: self];
+          return 0;
+        }
+      [hdf5Obj iterate: process_ivar];
+    }
   return self;
 }
 
@@ -111,23 +196,23 @@ PHASE(Using)
 
 - getObjectAtX: (unsigned)x Y: (unsigned)y
 {
-  return *discrete2dSiteAt(lattice, offsets, x, y);
+  return *discrete2dSiteAt (lattice, offsets, x, y);
 }
 
 - (long)getValueAtX: (unsigned)x Y: (unsigned)y
 {
-  return (long)*discrete2dSiteAt(lattice, offsets, x, y);
+  return (long) *discrete2dSiteAt (lattice, offsets, x, y);
 }
 
 - putObject: anObject atX: (unsigned)x Y: (unsigned)y
 {
-  *discrete2dSiteAt(lattice, offsets, x, y) = anObject;
+  *discrete2dSiteAt (lattice, offsets, x, y) = anObject;
   return self;
 }
 
 - putValue: (long)v atX: (unsigned)x Y: (unsigned)y
 {
-  *discrete2dSiteAt(lattice, offsets, x, y) = (id) v;
+  *discrete2dSiteAt (lattice, offsets, x, y) = (id) v;
   return self;
 }
 
@@ -194,33 +279,33 @@ PHASE(Using)
   return self;
 }
 
-- _lispInLatticeObjects_: l
+- _lispInLatticeObjects_: expr
 {
-  id aZone = [self getZone];  
-  id site = [l get]; // index points to first stored lattice coord
+  id aZone = [self getZone];
+  id site = [expr get]; // index points to first stored lattice coord
 
   do {
     // expect a `pair' - the co-ordinate & object 
     if (pairp (site))
       { 
         unsigned tempX = 0, tempY = 0;            
-        id coordExpr = [site getCar];
-        id objExpr = [site getCdr];
+        id coord = [site getCar];
+        id obj = [site getCdr];
         
-        if (listp (coordExpr) && ([coordExpr getCount] == 2))
+        if (pairp (coord))
           {
-            tempX = [[coordExpr getFirst] getInteger];
-            tempY = [[coordExpr getLast] getInteger];
+            tempX = [[coord getCar] getInteger];
+            tempY = [[coord getCdr] getInteger];
           }
         else
           raiseEvent (InvalidArgument, "Expecting a pair of integers");
         *discrete2dSiteAt (lattice, offsets, tempX, tempY) = 
-          lispIn (aZone, objExpr);
+          lispIn (aZone, obj);
       }
     else
       raiseEvent (InvalidArgument, "Expecting either cons pair or an array");
   }
-  while ((site = [l next]));
+  while ((site = [expr next]));
   return self;
 }
 
@@ -277,23 +362,22 @@ PHASE(Using)
 {
   unsigned x, y;
   
-  [stream catC: " #:lattice \n(parse "];
-  for (x = 0; x < xsize; x++) {
+  [stream catC: " #:lattice \n(parse\n"];
+  for (x = 0; x < xsize; x++)
     for (y = 0; y < ysize; y++)
       {
         id obj = *discrete2dSiteAt (lattice, offsets, x, y);
 
         if (obj != nil)
           {
-            char buffer[2 * DSIZE (int) + 20];
+            char buffer[2 * DSIZE (int) + 22];
 
-            sprintf(buffer, "  (cons '(%d %d)\n   ", x, y);
+            sprintf (buffer, "  (cons '(%u . %u)\n   ", x, y);
             [stream catC: buffer];    
             [obj lispOutDeep: stream];
             [stream catC: ")\n"];    
           }
       }
-  }
   [stream catC: ")"];
   return self;
 }
@@ -305,7 +389,7 @@ PHASE(Using)
   // generate compiler encoding for 2D array
   sprintf (buf,
            "%c%u%c%u%c%c%c", 
-           _C_ARY_B, xsize, _C_ARY_B, ysize, _C_LNG, _C_ARY_E, _C_ARY_E);
+           _C_ARY_B, ysize, _C_ARY_B, xsize, _C_LNG, _C_ARY_E, _C_ARY_E);
   
   [stream catC: " #:lattice \n (parse "];
   
@@ -341,23 +425,68 @@ PHASE(Using)
 
 - hdf5OutShallow: hdf5Obj
 {
-  char buf[DSIZE(unsigned) + 5 + 1];
-  
-  // generate compiler encoding for 2D array
-  sprintf (buf,
-           "%c%u%c%u%c%c%c", 
-           _C_ARY_B, xsize, _C_ARY_B, ysize, _C_LNG, _C_ARY_E, _C_ARY_E);
-  
-  [hdf5Obj storeAsDataset: [hdf5Obj getName]
+  id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+                  setParent: hdf5Obj]
+                 setCreateFlag: YES]
+                setName: [hdf5Obj getName]]
+               createEnd];
+
+  [group storeTypeName: [self getTypeName]];
+  [group setName: "ivars"];
+  [super hdf5OutShallow: group];
+  {
+    char buf[DSIZE(unsigned) + 5 + 1];
+    
+    // generate compiler encoding for 2D array
+    sprintf (buf,
+             "%c%u%c%u%c%c%c", 
+             _C_ARY_B, ysize, _C_ARY_B, xsize, _C_LNG, _C_ARY_E, _C_ARY_E);
+    
+    [group storeAsDataset: "lattice"
            typeName: [self name]
            type: buf
            ptr: lattice];
+  }
+  [group drop];
   return self;
 }
 
 - hdf5OutDeep: hdf5Obj
 {
-  abort ();
+  unsigned x, y;
+  id hdf5Zone = [hdf5Obj getZone];
+  id latticeHdf5Group;
+  
+  [super hdf5OutDeep: hdf5Obj];
+
+  latticeHdf5Group = [[[[[HDF5 createBegin: hdf5Zone]
+                          setParent: hdf5Obj]
+                         setCreateFlag: YES]
+                        setName: "lattice"]
+                       createEnd];
+  
+  for (x = 0; x < xsize; x++)
+    for (y = 0; y < ysize; y++)
+      {
+        id obj = *discrete2dSiteAt (lattice, offsets, x, y);
+
+        if (obj != nil)
+          {
+            char buf[DSIZE(unsigned) + 1 + 1];
+            id group;
+
+            sprintf (buf, "%u,%u", x, y);
+            group = [[[[[HDF5 createBegin: hdf5Zone]
+                         setCreateFlag: YES]
+                        setParent: latticeHdf5Group]
+                       setName: buf]
+                      createEnd];
+            [obj hdf5OutDeep: group];
+            [group drop];
+          }
+      }
+  [latticeHdf5Group drop];
+  return self;
 }
   
 // Read in a file in PGM format and load it into a discrete 2d.

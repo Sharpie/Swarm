@@ -1,3 +1,13 @@
+1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Discrete2d.m ([Discrete2d -_lispInLatticeObjects_:], 
+	[Discrete2d -_lispOutLatticeObjects_:]): 
+	Use pair for coordinates, not list.
+	([Discrete2d -_lispOutLatticeValues_:]): Array encoding was reversed.
+	([Discrete2d -hdf5In{Create}]): Uses group shallow encoding
+	to separate ivars and lattice.  Implement deep loading.
+	([Discrete2d -hdf5Deep:]): Implement.
+
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m ([Discrete2d -setSizeX:Y:], [Discrete -createEnd]):
@@ -10,7 +20,6 @@
 	([Discrete2d -_lispOutLatticeValues_:]): Don't gratuitously allocate
 	scratch buffer.
 	([Discrete2d -hdf5OutShallow:]): Implement
-	([Discrete2d -hdf5Deep:]): Stub.
 
 	* Discrete2d.h (Discrete2d):  -{{hdf5,lisp}{In,Out}}: Declare.
 
