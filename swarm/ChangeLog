@@ -1,6 +1,7 @@
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in (AC_REPLACE_FUNCS): Check for strtoll.
+	(AC_PROG_LIBTOOL): Use instead of AM_PROG_LIBTOOL.
 
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
