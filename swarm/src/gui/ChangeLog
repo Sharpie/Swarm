@@ -1,3 +1,7 @@
+1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h (Pixmap): Add setDirectory:.
+
 1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h (Pixmap): Revert create:widget: and create:file: addition

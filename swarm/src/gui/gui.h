@@ -769,6 +769,9 @@ CREATING
 //M: Create a pixmap from a PNG file.
 - setFile: (const char *)filename;
 
+//M: Specify the directory to find the PNG file.
+- setDirectory: (const char *)path;
+
 //M: Create a pixmap from a widget, or from the root window if widget is nil.
 - setWidget: (id <Widget>)widget;
 
