@@ -29,7 +29,7 @@ Library:      defobj
 #include <objc/mframe.h>
 
 #import <defobj.h> // FCall, FArguments
-#import <directory.h>
+#include <directory.h>
 #endif
 
 extern id _obj_implModule;  // defined in Program.m
