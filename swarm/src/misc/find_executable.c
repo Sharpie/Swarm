@@ -5,6 +5,10 @@
 #define FALSE 0
 #define TRUE 1
 
+#ifndef MAXPATHLEN
+#define MAXPATHLEN 1024 /* Hurd */
+#endif
+
 static int
 maybe_executable (const char *filename, int fd)
 { 
