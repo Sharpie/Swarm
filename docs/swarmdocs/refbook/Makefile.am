@@ -42,5 +42,5 @@ refindex.sgml $(PAGES): $(SWARMHOME)/src/activity/activity.h \
 	$(SWARMHOME)/src/random/random.h \
 	$(SWARMHOME)/src/simtools/simtools.h \
 	$(SWARMHOME)/src/simtoolsgui/simtoolsgui.h \
-	$(SWARMHOME)/src/space/space.h $(top_srcdir)/protocol.el
+	$(SWARMHOME)/src/space/space.h $(top_srcdir)/protocol.el $(top_srcdir)/common.el
 	SWARMDOCS=$(top_srcdir) SWARMDOCS_BUILD_AREA=$(top_builddir) $(EMACS) -batch -l $(top_srcdir)/protocol.el -f run-all $(SWARMHOME)
