@@ -15,7 +15,7 @@
 	* ActionGroup_test.h (ActionGroup_test_c): Renamed from
 	ActionGroup_test.
 
-	* tactivity.h: New file.
+	* tactivity.[hm]: New files.
 
 	* ActionGroup.m, ActionGroupRandomized.m, ConcurrentGroup.m,
 	ConcurrentGroupRandomized.m, ForEach.m, ForEachRandomized.m:
