@@ -1,4 +1,6 @@
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
+	
+	* swarm.eps: Scale down 75%.  RTF backend doesn't do scaling.
 
 	* Makefile.am (GENERATED_FIGS, figsdir, figs_DATA): New variables
 	(handle installation).
