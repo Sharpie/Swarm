@@ -19,3 +19,5 @@ jobject_id *java_directory_add (jobject java_object, id objc_object);
 #define JADD(jobj, objc) java_directory_add (jobj, objc);
 
 SEL java_ensure_selector (JNIEnv *env, jobject jsel);
+#define JFINDOBJCMETHOD(env, jobj) (java_ensure_selector (env, jobj))
+

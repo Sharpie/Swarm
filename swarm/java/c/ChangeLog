@@ -1,3 +1,7 @@
+1999-03-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.h (JFINDOBJCMETHOD): New macro.
+
 1999-03-11  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.m: New file.
