@@ -196,6 +196,8 @@ CFLAGS=$ac_save_CFLAGS
 
 AC_REPLACE_FUNCS(memchr realpath stpcpy strchr strdup strncmp strndup strnlen strpbrk strsep)
 
+md_CHECK_ARGP
+
 if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_cv_func_strnlen = yes; then
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 fi
