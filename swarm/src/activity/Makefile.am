@@ -1,5 +1,5 @@
 MODULE = activity
-CURRENT = 0
+CURRENT = 1
 REVISION = 0
 AGE = 1
 activitydir = $(includedir)/$(MODULE)
