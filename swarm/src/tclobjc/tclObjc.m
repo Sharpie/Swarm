@@ -300,7 +300,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     int argsize = method_get_sizeof_arguments(method);
     char argptr_buffer[argsize];
     unsigned int bargframe = (unsigned int)argptr_buffer;
-    int argnum;
+    int argnum = 0;
     const char *type;
     int tmpint;
     int tmpuint;

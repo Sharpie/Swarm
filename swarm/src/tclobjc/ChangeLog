@@ -1,3 +1,8 @@
+1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* tclObjc.m (tclObjc_msgSendToClientData): Initialize argnum to zero
+	to avoid warning on Irix.
+
 1999-04-19  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* tclObjc.m: Don't declare strchr.
