@@ -214,12 +214,13 @@ PHASE(Creating)
     if (!(probedVariable || (getterMethod && setterMethod)) || !probedClass)
       raiseEvent (WarningMessage, 
                   "VarProbe object was not properly initialized.\n");
+
+  if (language == LanguageCOM)
+    return [self _setupCOMVarProbe_];
 #ifdef HAVE_JDK
-  if (language == LanguageJava)
+  else if (language == LanguageJava)
     return [self _setupJavaVarProbe_];
 #endif   
-  else if (language == LanguageCOM)
-    return [self _setupCOMVarProbe_];
   else if (language == LanguageObjc)
     return [self _setupObjcVarProbe_];
     abort ();

@@ -416,8 +416,13 @@ PHASE(Creating)
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];  
 
+  if (COM_init_p () && SD_COM_FIND_CLASS_COM (probedClass))
+    {
+      [self addCOMFields: probedClass];
+      [self addCOMMethods: probedClass];
+    }
 #ifdef HAVE_JDK
-  if ([probedClass respondsTo: M(isJavaProxy)])
+  else if ([probedClass respondsTo: M(isJavaProxy)])
     { 
       jclass classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
 
@@ -426,11 +431,6 @@ PHASE(Creating)
       return self;
     }
 #endif
-  else if (COM_init_p () && SD_COM_FIND_CLASS_COM (probedClass))
-    {
-      [self addCOMFields: probedClass];
-      [self addCOMMethods: probedClass];
-    }
   else
     {
       [self addObjcFields: probedClass];
