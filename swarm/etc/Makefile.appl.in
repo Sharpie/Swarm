@@ -12,6 +12,7 @@ swarm_prefix=@swarm_prefix@
 swarm_exec_prefix=@swarm_exec_prefix@
 swarm_libdir=@swarm_libdir@
 
+xpmlibdir = @xpmlibdir@
 tcllibdir = @tcllibdir@
 tklibdir = @tklibdir@
 bltlibdir = @bltlibdir@
@@ -26,6 +27,7 @@ CPPFLAGS = @CPPFLAGS@
 INCLUDES = -I$(includedir)
 
 SWARMLDFLAGS = @SWARMLDFLAGS@
+XPMLDFLAGS = @XPMLDFLAGS@
 TCLLDFLAGS = @TCLLDFLAGS@
 TKLDFLAGS = @TKLDFLAGS@
 BLTLDFLAGS = @BLTLDFLAGS@
@@ -43,6 +45,7 @@ INSTALL = @INSTALL@
 INSTALL_PROGRAM = @SWARM_INSTALL_PROGRAM@
 INSTALL_DATA = @SWARM_INSTALL_DATA_@
 
+XPMLIB = @XPMLIB@
 TCLLIB = @TCLLIB@
 TKLIB = @TKLIB@
 BLTLIB = @BLTLIB@
@@ -59,9 +62,9 @@ OBJCLIBS = @OBJCLIBS@
 
 APPEXE = $(APPLICATION)@EXESUFFIX@
 
-LDFLAGS = $(SWARMLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
+LDFLAGS = $(SWARMLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
 
-SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
+SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
 
 SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
 

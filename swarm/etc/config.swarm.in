@@ -8,6 +8,7 @@ swarm_prefix="@swarm_prefix@"
 swarm_exec_prefix="@swarm_exec_prefix@"
 swarm_libdir="@swarm_libdir@"
 
+xpmlibdir="@xpmlibdir@"
 tcllibdir="@tcllibdir@"
 tklibdir="@tklibdir@"
 bltlibdir="@bltlibdir@"
@@ -16,6 +17,7 @@ zliblibdir="@zliblibdir@"
 pnglibdir="@pnglibdir@"
 
 swarm_SWARMLDFLAGS="@SWARMLDFLAGS@"
+swarm_XPMLDFLAGS="@XPMLDFLAGS@"
 swarm_TCLLDFLAGS="@TCLLDFLAGS@"
 swarm_TKLDFLAGS="@TKLDFLAGS@"
 swarm_BLTLDFLAGS="@BLTLDFLAGS@"
@@ -23,6 +25,7 @@ swarm_FFILDFLAGS="@FFILDFLAGS@"
 swarm_PNGLDFLAGS="@PNGLDFLAGS@"
 swarm_ZLIBLDFLAGS="@ZLIBLDFLAGS@"
 
+swarm_XPMLIB="@XPMLIB@"
 swarm_TCLLIB="@TCLLIB@"
 swarm_TKLIB="@TKLIB@"
 swarm_BLTLIB="@BLTLIB@"
@@ -37,7 +40,7 @@ swarm_GUILIBS="@GUILIBS@"
 swarm_DLLIB="@DLLIB@"
 swarm_OBJCLIBS="@OBJCLIBS@"
 
-swarm_SYSLIBS="${swarm_BLTLIB} ${swarm_TKLIB} ${swarm_TCLLIB} ${swarm_PNGLIB} ${swarm_ZLIBLIB} ${swarm_FFILIB} ${swarm_GUILIBS} -lm ${swarm_OBJCLIBS} ${swarm_DLLIB}"
+swarm_SYSLIBS="${swarm_BLTLIB} ${swarm_TKLIB} ${swarm_TCLLIB} ${swarm_XPMLIB} ${swarm_PNGLIB} ${swarm_ZLIBLIB} ${swarm_FFILIB} ${swarm_GUILIBS} -lm ${swarm_OBJCLIBS} ${swarm_DLLIB}"
 
 swarm_SWARMLIBS="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc"
 
@@ -46,6 +49,6 @@ swarm_LIBS="@LIBS@"
 ## The final shell variables which are to be substituted in the application
 ## Makefiles(s)
 
-SWARM_LDFLAGS="${swarm_SWARMLDFLAGS} ${swarm_BLTLDFLAGS} ${swarm_TCLLDFLAGS} ${swarm_TKLDFLAGS} ${swarm_FFILDFLAGS} ${swarm_PNGLDFLAGS} ${swarm_ZLIBLDFLAGS} ${swarm_X_LIBS}"
+SWARM_LDFLAGS="${swarm_SWARMLDFLAGS} ${swarm_BLTLDFLAGS} ${swarm_TCLLDFLAGS} ${swarm_TKLDFLAGS} ${swarm_FFILDFLAGS} ${swarm_XPMLDFLAGS} ${swarm_PNGLDFLAGS} ${swarm_ZLIBLDFLAGS} ${swarm_X_LIBS}"
 
 SWARM_LDADD="${swarm_SWARMLIBS} ${swarm_SYSLIBS} ${swarm_LIBS}"

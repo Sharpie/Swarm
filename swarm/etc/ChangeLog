@@ -1,3 +1,14 @@
+1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* config.swarm.in (xpmlibdir, swarm_XPMLDFLAGS, swarm_XPMLIB):
+	New substitutions.
+	(swarm_SYSLIBS): Include swarm_XPMLIB.
+	(SWARM_LDFLAGS): Include swarm_XPMLDFLAGS.
+
+	* Makefile.appl.in (xpmlibdir, XPMLDFLAGS, XPMLIB): New subsitutions.
+	(LDFLAGS): Include XPMLDFLAGS.
+	(SYSLIBS): Include XPMLIB.
+
 1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.appl.in (EXTRALDFLAGS): Add USE_EXTRALDFLAGS as 
