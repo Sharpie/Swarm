@@ -1,3 +1,7 @@
+2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* gui.h: Many changes to remove ugly object returns.
+
 2001-03-03  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* gui.h (NodeItem): Move setString, setFont, and setX:Y: into

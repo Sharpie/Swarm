@@ -58,16 +58,16 @@ USING
 //M: Roughly, packing a widget makes it draw on the screen. The Tk packer
 //M: allows complicated options to control widget layout. See documentation
 //M: on Tk to learn more about packing details.
-- pack;
+- (void)pack;
 
-- packFill;
-- packBeforeAndFillLeft: widget expand: (BOOL)expandFlag;
-- packFillLeft: (BOOL)expandFlag;
-- packToRight : widget;
-- packForgetAndExpand;
+- (void)packFill;
+- (void)packBeforeAndFillLeft: widget expand: (BOOL)expandFlag;
+- (void)packFillLeft: (BOOL)expandFlag;
+- (void)packToRight : widget;
+- (void)packForgetAndExpand;
 
 //M: Enable or disable the widget.
-- setActiveFlag: (BOOL)activeFlag;
+- (void)setActiveFlag: (BOOL)activeFlag;
 
 //M: Set the width of the widget.
 - setWidth: (unsigned)width;
@@ -82,7 +82,7 @@ USING
 - setX: (int)x Y: (int)y;
 
 //M: Set the title on the widget.
-- setWindowTitle: (const char *)title;
+- (void)setWindowTitle: (const char *)title;
 
 //M: Get the containing window of the widget.
 - getParent;
@@ -106,14 +106,14 @@ USING
 - (int)getY;
 
 - (const char *)getWindowGeometry;
-- setWindowGeometry: (const char *)s;
+- (void)setWindowGeometry: (const char *)s;
 
 //M: Call a method if we are destroyed.
-- enableDestroyNotification: notificationTarget
-         notificationMethod: (SEL)destroyNotificationMethod;
+- (void)enableDestroyNotification: notificationTarget
+               notificationMethod: (SEL)destroyNotificationMethod;
 
 //M: Prevent calling the destroy notification method.
-- disableDestroyNotification;
+- (void)disableDestroyNotification;
 
 - (BOOL)getDestroyedFlag;
 @end
@@ -188,10 +188,10 @@ CREATING
 - setReliefFlag: (BOOL)reliefFlag;
 USING
 //M: Take the frame off screen.
-- withdraw;
+- (void)withdraw;
 
 //M: Deiconify the frame.
-- deiconify;
+- (void)deiconify;
 @end
 
 @protocol Canvas <ArchivedGeometryWidget, CREATABLE>
@@ -220,7 +220,7 @@ CREATING
 - setHorizontalScrollbarFlag: (BOOL)horizontalScrolbarFlag;
 @end
 
-@protocol GraphElement <Create, Drop>
+@protocol GraphElement <Create, Drop, CREATABLE>
 //S: Contains a set of related data for display.
 
 //D: A GraphElement accumulates a related set of data for display,
@@ -231,22 +231,22 @@ CREATING
 + createOwnerGraph: ownerGraph;
 USING
 //M: Set the label for the element.
-- setLabel: (const char *)label;
+- (void)setLabel: (const char *)label;
 
 //M: Set the color for the element.
-- setColor: (const char *)colorName;
+- (void)setColor: (const char *)colorName;
 
 //M: Set the dash style, 0 means solid.
-- setDashes: (int)dashesVal;
+- (void)setDashes: (int)dashesVal;
 
 //M: Set the symbol for the element.
-- setSymbol: (const char *)symbol;
+- (void)setSymbol: (const char *)symbol;
 
 //M: Add a new data point.
-- addX: (double)x Y: (double)y;
+- (void)addX: (double)x Y: (double)y;
 
 //M: Clear the data to be displayed.
-- resetData;
+- (void)resetData;
 
 //M: Set the line width of the element.
 - setWidth: (unsigned)w;
@@ -264,19 +264,19 @@ USING
 CREATING
 USING
 //M: Set the title for the graph.
-- setTitle: (const char *)title;
+- (void)setTitle: (const char *)title;
 //M: Set the axis labels for the graph.
-- setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 //M: Builds a new GraphElement to plot data with.
 - (id <GraphElement>)createElement;
 //M: Whether to autoscale every timestep or instead to jump scale.
-- setScaleModeX: (BOOL)xs Y: (BOOL)ys;
+- (void)setScaleModeX: (BOOL)xs Y: (BOOL)ys;
 //M: Sets the X ranges for the graph.  Turns off autoscaling.
-- setRangesXMin: (double)minx Max:(double)maxx;
+- (void)setRangesXMin: (double)minx Max:(double)maxx;
 //M: Sets the Y ranges for the graph.  Turns off autoscaling.
-- setRangesYMin: (double)miny Max:(double)maxy;
+- (void)setRangesYMin: (double)miny Max:(double)maxy;
 //M: Sets the ranges for the graph.  Turns off autoscaling.
-- setRangesXMin: (double)minx Max:(double)maxx YMin: (double)miny Max: (double)maxy;
+- (void)setRangesXMin: (double)minx Max:(double)maxx YMin: (double)miny Max: (double)maxy;
 @end
 
 
@@ -294,49 +294,49 @@ CREATING
 USING
 //M: Set colors for the histogram bars. If not set, all are blue.
 //M: Colors are arrays of strings (one per bin/bar) of color names.
-- setColors: (const char * const *)c count: (unsigned)colorCount;
+- (void)setColors: (const char * const *)c count: (unsigned)colorCount;
 
 //M: Set labels for the histogram bars. If not set, they remain blank.
 //M: Labels are arrays of strings, one per bin/bar.
-- setLabels: (const char * const *)l count: (unsigned)labelCount;
+- (void)setLabels: (const char * const *)l count: (unsigned)labelCount;
 
 //M: Set the title of the histogram.
-- setTitle: (const char *)title;
+- (void)setTitle: (const char *)title;
 
 //M: Set the width of the bars.
-- setBarWidth: (double)step;
+- (void)setBarWidth: (double)step;
 
 //M: Set the X range and step size for the histogram.  
 //M: Display three significant figures for the major-tick labels.
-- setXaxisMin: (double)min max: (double)max step: (double)step;
+- (void)setXaxisMin: (double)min max: (double)max step: (double)step;
 
 //M: Set the X range, step size, and number of major-tick-label significant figures for the histogram.
-- setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision;
+- (void)setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision;
 
 //M: Set the axis labels.
-- setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
 //M: Set the text that describes a specified number of outliers.
-- setActiveOutlierText: (unsigned)outliers count: (unsigned)count;
+- (void)setActiveOutlierText: (unsigned)outliers count: (unsigned)count;
 
 //M: Hide the legend on the histogram.
-- hideLegend;
+- (void)hideLegend;
 
 //M: Draw the (integer) data in the histogram.
-- drawHistogramWithInt: (int *)points;
+- (void)drawHistogramWithInt: (int *)points;
 
 //M: Draw the (double) data in the histogram.
-- drawHistogramWithDouble: (double *)points;
+- (void)drawHistogramWithDouble: (double *)points;
 
 //M: Draw the (integer) data in the histogram at particular offsets.
-- drawHistogramWithInt: (int *)points atLocations: (double *)locations;
+- (void)drawHistogramWithInt: (int *)points atLocations: (double *)locations;
 
 //M: Draw the (double) data in the histogram at particular offsets.
-- drawHistogramWithDouble: (double *)points atLocations: (double *)locations;
+- (void)drawHistogramWithDouble: (double *)points atLocations: (double *)locations;
 
-- setupZoomStack;
-- setupActiveOutlierMarker;
-- setupActiveItemInfo;
+- (void)setupZoomStack;
+- (void)setupActiveOutlierMarker;
+- (void)setupActiveItemInfo;
 @end
 
 @protocol Label <Widget, CREATABLE>
@@ -389,7 +389,7 @@ USING
 - setText: (const char *)text;
 
 //M: Set the target and selector for button.
-- setButtonTarget: target method: (SEL)method;
+- (void)setButtonTarget: target method: (SEL)method;
 @end
 
 @protocol ClassDisplayHideButton <Button, CREATABLE>
@@ -436,16 +436,16 @@ USING
 
 //M: Set the string value of the widget. 
 //M: This must be implemented by a subclass.
-- setValue: (const char *)v;
+- (void)setValue: (const char *)v;
 
 //M: Attach the widget value to an integer.
-- linkVariableInt: (int *)p;
+- (void)linkVariableInt: (int *)p;
 
 //M: Attach the widget value to a double.
-- linkVariableDouble: (double *)p;
+- (void)linkVariableDouble: (double *)p;
 
 //M: Attach the widget value to a boolean.
-- linkVariableBoolean: (unsigned *)p;
+- (void)linkVariableBoolean: (unsigned *)p;
 @end
 
 @protocol Entry <InputWidget, CREATABLE>
@@ -495,13 +495,13 @@ USING
 CREATING
 USING
 //M: Set a default target for use with addButtonName:method:.
-- setButtonTarget: target;
+- (void)setButtonTarget: target;
 
 //M: Create a new button, and set both a target and method.
-- addButtonName: (const char *)name target: target method: (SEL)sel;
+- (void)addButtonName: (const char *)name target: target method: (SEL)sel;
 
 //M: Create a new button, and set the method, using the default target.
-- addButtonName: (const char *)name method: (SEL)sel;
+- (void)addButtonName: (const char *)name method: (SEL)sel;
 @end
 
 @protocol Form <Widget, CREATABLE>
@@ -511,16 +511,16 @@ USING
 CREATING
 USING
 //M: The width of all the Entry widgets.
-- setEntryWidth: (int)ew;
+- (void)setEntryWidth: (unsigned)ew;
 
 //M: Add a boolean CheckButton widget.
-- addLineName: (const char *)n Boolean: (unsigned *)p;
+- (void)addLineName: (const char *)n Boolean: (unsigned *)p;
 
 //M: Add an Entry to get an integer.
-- addLineName: (const char *)n Int: (int *)p;
+- (void)addLineName: (const char *)n Int: (int *)p;
 
 //M: Add an Entry to get a double.
-- addLineName: (const char *)n Double: (double *)p;
+- (void)addLineName: (const char *)n Double: (double *)p;
 @end
 
 @protocol CheckButton <InputWidget, CREATABLE>
@@ -567,7 +567,7 @@ USING
 - (BOOL)setColor: (Color)c ToGrey: (double)g;
 
 //M: Remove color at index `c' from the color map.
-- unsetColor: (Color)c;
+- (void)unsetColor: (Color)c;
 @end
 
 @class Raster;
@@ -578,7 +578,7 @@ USING
 //D: The interface used by Raster to draw an arbitrary object.
 //D: Pixmap uses this.
 USING
-- drawX: (int)x Y: (int)y;
+- (void)drawX: (int)x Y: (int)y;
 @end
 
 @protocol Raster <ArchivedGeometryWidget, CREATABLE>
@@ -595,34 +595,34 @@ USING
 - setColormap: (id <Colormap>)c;
 
 //M: Draw a point at the given coordinates with the given color.
-- drawPointX: (int)x Y: (int)y Color: (Color)c;
+- (void)drawPointX: (int)x Y: (int)y Color: (Color)c;
 
 //M: Draw the raster to the display.
-- drawSelf;
+- (void)drawSelf;
 
 //M: Configure at mouse button to send a message to a given client object.
-- setButton: (int)n Client: c Message: (SEL)sel;
+- (void)setButton: (int)n Client: c Message: (SEL)sel;
 
 //M: Fill a rectangle of given geometry and color.
-- fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)color;
+- (void)fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)color;
 
 //M: Draw an ellipse of given geometry, pen width, and color.
-- ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-      Width: (unsigned)penWidth Color: (Color)c;
+- (void)ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+            Width: (unsigned)penWidth Color: (Color)c;
 
 //M: Draw a line of given geometry, pen width, and color.
-- lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-   Width: (unsigned)penWidth Color: (Color)c;
+- (void)lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+         Width: (unsigned)penWidth Color: (Color)c;
 
 //M: Draw a rectangle of given geometry, pen width, and color.
-- rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
-        Width: (unsigned)penWidth Color: (Color)c;
+- (void)rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+              Width: (unsigned)penWidth Color: (Color)c;
 
 //M: Draw an object at a given position.
-- draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
+- (void)draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
 
 //M: Erase the raster.
-- erase;
+- (void)erase;
 @end
 
 @protocol ZoomRaster <Raster, CREATABLE>
@@ -633,10 +633,10 @@ USING
 CREATING
 USING
 //M: Make the raster bigger.
-- increaseZoom;
+- (void)increaseZoom;
 
 //M: Make the raster smaller.
-- decreaseZoom;
+- (void)decreaseZoom;
 
 //M: Get the current zoom factor.
 - (unsigned)getZoomFactor;
@@ -645,7 +645,7 @@ USING
 - setZoomFactor: (unsigned)z;
 
 //M: Reconfigures the ZoomRaster when the window is resized.
-- handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
+- (void)handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 @end
 
 @protocol Pixmap <Drawer, Create, Drop, CREATABLE>
@@ -669,7 +669,7 @@ CREATING
 USING
 //M: Set the raster that the pixmap will be shown on.
 //M: It's used to augment raster the color palette as necessary.
-- setRaster: (id <Raster>)raster;
+- (void)setRaster: (id <Raster>)raster;
 
 //M: Get the width of the bitmap in pixels.
 - (unsigned)getWidth;
@@ -678,10 +678,10 @@ USING
 - (unsigned)getHeight;
 
 //M: Draw the pixmap on the current raster at the given position.
-- drawX: (int)x Y: (int)y;
+- (void)drawX: (int)x Y: (int)y;
 
 //M: Save the pixmap to a file.
-- save: (const char *)filename;
+- (void)save: (const char *)filename;
 @end
 
 @protocol CanvasAbstractItem <Create, Drop>
@@ -690,34 +690,34 @@ USING
 //D: CanvasAbstractItem is the root class of all items drawn on a Canvas.
 CREATING
 //M: Method to be implemented by subclass.
-- createItem;
+- (void)createItem;
 
 //M: Method to be implemented by subclass.
-- createBindings;
+- (void)createBindings;
 
 //M: Designates the id of the Canvas in which this item resides.
-- setCanvas: canvas;
+- setCanvas: (id <Canvas>)canvas;
 USING
 //M: Designates the object to which this item refers.
-- setTargetId: target;
+- (void)setTargetId: target;
 
 //M: Sets the message that will be sent upon a click on this item.
-- setClickSel: (SEL)sel;
+- (void)setClickSel: (SEL)sel;
 
 //M: Sets the message that will effect the motion of the item on the canvas.
-- setMoveSel: (SEL)sel;
+- (void)setMoveSel: (SEL)sel;
 
 //M: Sets the message that will dictate what happens after the item is moved.
-- setPostMoveSel: (SEL)sel;
+- (void)setPostMoveSel: (SEL)sel;
 
 //M: Called when a mouse click occurs.
-- clicked;
+- (void)clicked;
 
 //M: Method to be implemented by subclass.
-- initiateMoveX: (long)delta_x Y: (long)delta_y; 
+- (void)initiateMoveX: (long)deltaX Y: (long)deltaY; 
 
 //M: Return the canvas.
-- getCanvas;
+- (id <Canvas>)getCanvas;
 @end
 
 @protocol CanvasItem <CanvasAbstractItem, CREATABLE>
@@ -725,12 +725,9 @@ USING
 
 //D: An abstract superclass for non-composite Canvas items.
 CREATING
-//M: Establishes the bindings for the buttons.
-- createBindings;
-
 USING
 //M: Prepares for movement of the item within the canvas.
-- initiateMoveX: (long)delta_x Y: (long)delta_y; 
+- (void)initiateMoveX: (long)deltaX Y: (long)deltaY; 
 @end
 
 @protocol CompositeItem <CanvasAbstractItem>
@@ -741,10 +738,10 @@ USING
 CREATING
 USING
 //M: Must be implemented by subclass.
-- moveX: (long)delta_x Y: (long)delta_y;
+- (void)moveX: (long)deltaX Y: (long)deltaY;
 
 //M: Prepares for movement of the item within the canvas.
-- initiateMoveX: (long)delta_x Y: (long)delta_y;
+- (void)initiateMoveX: (long)deltaX Y: (long)deltaY;
 @end
 
 @protocol NodeItem <CompositeItem, CREATABLE>
@@ -753,9 +750,6 @@ USING
 //D: A class for displaying a node on a Canvas.
 //D: A NodeItem has a position, a font, color, border color and width.
 CREATING
-//M: Set the mouse bindings for a NodeItem (e.g. dragging).
-- createBindings;
-
 //M: Set the label to put on the node.
 - setString: (const char *)string;
 
@@ -773,19 +767,19 @@ USING
 - (int)getY;
 
 //M: Set the color of the node.
-- setColor: (const char *)aColor;
+- (void)setColor: (const char *)aColor;
 
 //M: Set the border color of the node.
-- setBorderColor: (const char *)aColor;
+- (void)setBorderColor: (const char *)aColor;
 
 //M: Set the width of the border.
-- setBorderWidth: (int)aVal;
+- (void)setBorderWidth: (int)aVal;
 
 //M: Create the text for the node.
-- createText;
+- (void)createText;
 
 //M: Create the space for the text for the node.
-- createPaddedText;
+- (void)createPaddedText;
 @end
 
 @protocol LinkItem <CompositeItem, CREATABLE>
@@ -798,19 +792,12 @@ CREATING
 
 //M: Designate the node that will be the destination of the link.
 - setTo: to;
-
-//M: Create a the lines that make up the link item.
-- createItem;
-
-//M: A LinkItem is passive; disable the mouse bindings.
-- createBindings;
-
 USING
 //M: Set the color of the link.
-- setColor: (const char *)aColor;
+- (void)setColor: (const char *)aColor;
 
 //M: Redraw the link (especially due to the motion of nodes).
-- update;
+- (void)update;
 @end
 
 @protocol ScheduleItem <CompositeItem, CREATABLE>
@@ -826,17 +813,15 @@ CREATING
 
 //M: Position the item on the canvas.
 - setX: (int)x Y: (int)y;
-
-- createItem;
 USING
 //M: Redraw widget with current values from Schedule.
-- update;
+- (void)update;
 
 //M: Record the screen coordinates associated with a scheduling event.
-- at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY;
+- (void)at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY;
 
 //M: Send visual message indicator from browser to some target.
-- trigger: widget X: (int)x Y: (int)y;
+- (void)trigger: widget X: (int)x Y: (int)y;
 @end
 
 @protocol OvalNodeItem <NodeItem, CREATABLE>
@@ -844,8 +829,6 @@ USING
 
 //D: A NodeItem with a circular appearance.
 CREATING
-//M: Create the OvalNodeItem.
-- createItem;
 @end
 
 @protocol RectangleNodeItem <NodeItem, CREATABLE>
@@ -853,8 +836,6 @@ CREATING
 
 //D: A rectangular NodeItem.
 CREATING
-//M: A NodeItem with a rectangular appearance.
-- createItem;
 @end
 
 @protocol TextItem <CanvasItem, CREATABLE>
@@ -866,16 +847,13 @@ CREATING
 - setX: (int)x Y: (int)y;
 
 //M: Set the text to display.
-- setText: (const char *)the_text;
+- setText: (const char *)text;
 
 //M: Set the font with which to display the text.
-- setFont: (const char *)the_font;
+- setFont: (const char *)font;
 
 //M: Determine whether text is centered or not.
 - setCenterFlag: (BOOL)centerFlag;
-
-//M: Create the TextItem.
-- createItem; 
 USING
 @end
 
@@ -889,9 +867,6 @@ CREATING
 
 //M: Set the radius of the circle.
 - setRadius: (unsigned)r;
-
-//M: Create the Circle.
-- createItem;
 USING
 @end
 
@@ -902,9 +877,6 @@ USING
 CREATING
 //M: Set the diagonal corner coordinates of the rectangle.
 - setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
-
-//M: Create the Rectangle.
-- createItem;
 @end
 
 @protocol Line <CanvasItem, CREATABLE>
@@ -914,9 +886,6 @@ CREATING
 CREATING
 //M: Set the end points of the line.
 - setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
-
-//M: Create the Line.
-- createItem;
 @end
 
 #if 0 /* def USE_JAVA -- disabled for the sake of protocol.el */
