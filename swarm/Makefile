@@ -7,8 +7,9 @@ clean:
 	(cd src; $(MAKE) clean)
 
 realclean: clean
-	-rm -f $(LIBDIR)/* $(BINDIR)/* MakeOut
-	-rm -rf $(INCDIR)/*
+	-(cd $(LIBDIR); rm -rf `ls -1 | grep -v CVS`)
+	-(cd $(INCDIR); rm -rf `ls -1 | grep -v CVS`)
+	-(cd $(BINDIR); rm -f `ls -1 | grep -v CVS`)
 	-rm -f src/tmpobj/*
 
 binary: FORCE

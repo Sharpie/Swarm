@@ -1,5 +1,7 @@
 1998-03-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile (realclean): Exclude {bin,include,lib}/CVS from realclean.
+
 	* Makefile.conf (VERSION): New variable.
 	(SWARMBACKEND): Define as tk by default.
 
