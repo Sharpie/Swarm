@@ -61,7 +61,7 @@
 
 - (int *)getDistribution;
 
-- (int)getCount;
+- (unsigned)getCount;
 - (int)getOutliers;
 - (int)getBinNum;
 - (double)getUpperBound;

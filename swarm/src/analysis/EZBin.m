@@ -343,7 +343,7 @@ PHASE(Using)
   return distribution;
 }
 
-- (int)getCount
+- (unsigned)getCount
 {
   return count;
 }

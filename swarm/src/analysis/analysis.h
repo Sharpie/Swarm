@@ -44,7 +44,7 @@ USING
 - (double)getMin;
 
 //M: The getCount method returns the number of values the averager collects. 
-- (int)getCount;
+- (unsigned)getCount;
 @end
 
 @protocol Entropy <MessageProbe>
@@ -169,7 +169,7 @@ USING
 
 //M: The getCount method gets the number of entries which landed within the 
 //M: bounds of the histogram.
-- (int)getCount;
+- (unsigned)getCount;
 
 //M: The getOutliers method gets the number of entries which landed out of the 
 //M: bounds of the histogram.  Pressing the "o" key on the graphical 
