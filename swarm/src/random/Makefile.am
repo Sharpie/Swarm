@@ -10,7 +10,7 @@ noinst_HEADERS =  Common.dists.m Common.gens.create.m Common.gens.floats.m \
 	Common.gens.genSeeds.m Common.gens.setparams.m Common.xgens.create.m \
 	Common.xgens.floats.m Common.xgens.setparams.m Common.xgens.vgens.m 
 
-INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I.. -I$(srcdir)/..
+INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 
 lib_LTLIBRARIES = librandom.la
 

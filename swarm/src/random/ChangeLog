@@ -1,5 +1,7 @@
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am (INCLUDES): Add misc.
+
 	* random.m: Include objectbase.h instead of objectbase/Arguments.h.
 	Include misc.h instead of sys/time.h.  Move cygwin32 gettimeofday 
 	declaration to misc.h.
