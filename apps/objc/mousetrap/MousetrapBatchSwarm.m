@@ -34,7 +34,7 @@
   // create an instance of the Archiver to retrieve the file
   // set the path to `batch.scm'
 
-  archiver =  [Archiver create: self fromLispPath: "batch.scm"];
+  archiver =  [LispArchiver create: self setPath: "batch.scm"];
 
   // In MousetrapObserverSwarm, we'd build some probes and wait for a
   // user control event (this allows the user to fiddle with the

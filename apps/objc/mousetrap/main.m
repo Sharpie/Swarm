@@ -36,7 +36,7 @@ main (int argc, const char **argv)
     {
       // create an instance of the Archiver to retrieve the file
       // set the path to `batch.scm'
-      id archiver = [Archiver create: globalZone fromLispPath: "batch.scm"];
+      id archiver = [LispArchiver create: globalZone setPath: "batch.scm"];
 
       // retrieve the object from the archiver, if it can't be found
       // just raise an event; note that the call to the

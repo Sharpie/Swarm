@@ -1,3 +1,11 @@
+1999-06-28  Alex Lancaster  <alex@santafe.edu>
+
+	* main.m (main): Create instance of `LispArchiver', `Archiver' now
+	only an abstract protocol.
+
+	* MousetrapBatchSwarm.m ([MousetrapBatchSwarm -buildObjects]):
+	Likewise.
+
 1999-06-09  Alex Lancaster  <alex@santafe.edu>
 
 	* main.m (main): Drop the archiver instance after object
