@@ -57,7 +57,6 @@
 	* Customize.m ([Customize_s -_setCreateByMessage_:to:]): Constify
 	messageName.
 	([Customize_s -_setCreateByMessage_:toCopy:]): Likewise.
-	(_obj_splitPhases): Constify className.
 
 	* defobj.h: Reenable LibraryUsage, DefaultAssumed, and ObsoleteFeature.
 	Put back ObsoleteMessage (gepr argues they are important for a minor
