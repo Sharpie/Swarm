@@ -57,6 +57,35 @@
   return obj;		// We return the newly created ObserverSwarm
 }
 
+- _updateMousetraps_: window
+{
+  int x, y, size;
+  // draw all the mousetraps 
+  
+  size = [mousetrapModelSwarm getGridSize];
+  for (x = 0; x < size; x++)
+    for (y = 0; y < size; y++)
+      {
+        Mousetrap *trap = [mousetrapModelSwarm getMousetrapAtX: x Y: y];
+
+        if (trap)
+          {
+            if (window)
+              [window drawPointX: x Y: y Color: 1];
+            [trap setDisplayWidget: window];
+          }
+      }
+  return self;
+}
+
+- _displayWindowDeath_: caller
+{
+  [displayWindow drop];
+  displayWindow = nil;
+  [self _updateMousetraps_: nil];
+  return self;
+}
+
 // createEnd: create objects we know we'll need. In this case, none,
 // but you might want to override this.
 
@@ -64,7 +93,6 @@
 {
   return [super createEnd];
 }
-
 
 // Create the objects used in the display of the model. 
 // Here, we create the objects used in the experiment
@@ -74,7 +102,6 @@
 - buildObjects
 {
   id modelZone;					// zone for model
-  int x, y, size;
   
   // Let our superClass build any objects it needs to first
   
@@ -142,27 +169,14 @@
   displayWindow = [ZoomRaster createBegin: globalZone];
   [displayWindow setWindowGeometryRecordName: "mousetrapWorld"];
   displayWindow = [displayWindow createEnd];
+  [displayWindow enableDestroyNotification: self
+                 notificationMethod: @selector (_displayWindowDeath_:)];
   [displayWindow setColormap: colormap];
   [displayWindow setZoomFactor: 6];
   [displayWindow setWidth: [mousetrapModelSwarm getGridSize]
 		 Height: [mousetrapModelSwarm getGridSize]];
   [displayWindow setWindowTitle: "Mousetrap World"];
-
-  // draw all the mousetraps 
-
-  size = [mousetrapModelSwarm getGridSize];
-  for (x = 0; x < size; x++)
-    for (y = 0; y < size; y++)
-      {
-        Mousetrap * trap;
-        trap = [mousetrapModelSwarm getMousetrapAtX: x Y: y];
-        if (trap)
-          {
-            [displayWindow drawPointX: x Y: y Color: 1];
-            [trap setDisplayWidget: displayWindow];
-          }
-      }
-  
+  [self _updateMousetraps_: displayWindow];
   [displayWindow drawSelf];
   [displayWindow pack];
   
@@ -197,6 +211,13 @@
   return self;
 }  
 
+- _update_
+{
+  if (displayWindow)
+    [displayWindow drawSelf];
+  return self;
+}
+
 // Create the actions necessary for the simulation. This is where
 // the schedule is built (but not run!)
 
@@ -226,7 +247,7 @@
   // Schedule up the methods to draw the display of the world
   //  and to update the graph of the statistics we're keeping
 
-  [displayActions createActionTo: displayWindow       message: M(drawSelf)];
+  [displayActions createActionTo: self                message: M(_update_)];
   [displayActions createActionTo: triggerGraph	      message: M(step)];
 
   // Schedule the update of the probe display

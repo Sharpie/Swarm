@@ -1,3 +1,20 @@
+1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm -_update_]):
+	Checks to see that there is still a displayWindow before
+	attempting the draw it.
+	([MousetrapObserverSwarm -_updateMousetraps_:]): New method that
+	draws all the mousetraps unless there isn't a display window (the
+	argument), and sets a trap's display widget.
+	([MousetrapObserverSwarm -_displayWindowDeath_:]): New method
+	called on destruction of display windows.  Has the effect of
+	clearing all the display widgets.
+	([MousetrapObserverSwarm -buildObjects]): Call
+	enableDestroyNotification using our _displayWindowDeath_ as a
+	handler.  Call _updateMousetraps_ (code that was inline).
+	([MousetrapObserverSwarm -buildActions]): Use action that
+	calls our _update_ instead of displayWindow's drawSelf.
+
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MousetrapModelSwarm.m ([MousetrapModelSwarm -activateIn:]): Use
