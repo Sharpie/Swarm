@@ -4,6 +4,8 @@
 	(CPPFLAGS): Don't define for DLL import/export.  (Use
 	BUILDING_LIBOBJC to select in externvar.h.in).
 	(DLLOBJS): Use .lo files.
+	(objc.dll): Use .lo suffix for dllinit, to avoid wildcards
+	picking up as .o.
 
 	* ltconfig: Updated with -DDLL as PIC flag for DLL builds.
 
