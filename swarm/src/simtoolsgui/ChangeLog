@@ -1,6 +1,7 @@
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbeWidget.m (printVal): Cast to unsigned, not unsigned char.
+	Remove libffi hacks.
 
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

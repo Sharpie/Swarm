@@ -43,37 +43,33 @@ printVal (val_t val)
     case _C_SEL:
       return sel_get_name (val.val.selector);
     case _C_CHR:
-      // character return is broken in libffi-1.18
-      sprintf (buf, "%c", (char)val.val.sint);
+      sprintf (buf, "%c", val.val.schar);
       break;
     case _C_UCHR:
-      // character return is broken in libffi-1.18
-      switch (val.val.uint)
+      switch (val.val.uchar)
         {
         case NO:       
-          sprintf (buf, "%o (NO)", (unsigned) val.val.uint);
+          sprintf (buf, "%o (NO)", (unsigned) val.val.uchar);
           break;
         case YES:       
-          sprintf (buf, "%o (YES)", (unsigned) val.val.uint);
+          sprintf (buf, "%o (YES)", (unsigned) val.val.uchar);
           break;  
         default:
-          sprintf (buf, "%o", (unsigned) val.val.uint);
+          sprintf (buf, "%o", (unsigned) val.val.uchar);
           break;
         }
       break;
     case _C_SHT:
-      // short return is broken in libffi-1.18
-      sprintf (buf, "%hd", (short)val.val.sint);
+      sprintf (buf, "%hd", val.val.sshort);
       break;
     case _C_USHT:
-      // short return is broken in libffi-1.18
-      sprintf (buf, "%hu", (unsigned short)val.val.uint);
+      sprintf (buf, "%hu", val.val.ushort);
       break;
     case _C_INT:
       sprintf (buf, "%d", val.val.sint);
       break;
     case _C_UINT:
-      sprintf (buf, "%u", val.val.sint);
+      sprintf (buf, "%u", val.val.uint);
       break;
     case _C_LNG:
       sprintf (buf, "%ld", val.val.slong);
