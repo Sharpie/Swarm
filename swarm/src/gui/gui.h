@@ -288,6 +288,8 @@ USING
 - (id <GraphElement>)createElement;
 //M: Whether to autoscale every timestep or instead to jump scale.
 - setScaleModeX: (BOOL)xs Y: (BOOL)ys;
+//M: Sets the X ranges for the graph.  Turns off autoscaling.
+- setRangesXMin: (double)minx Max:(double)maxx;
 //M: Sets the Y ranges for the graph.  Turns off autoscaling.
 - setRangesYMin: (double)miny Max:(double)maxy;
 //M: Sets the ranges for the graph.  Turns off autoscaling.

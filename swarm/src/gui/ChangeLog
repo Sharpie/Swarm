@@ -1,7 +1,11 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h (Graph): Add setRangesXMin:Max:.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h (Graph): Arguments to setScaleModeX:Y: are now boolean, not
-	integers.
+	integers. 
 
 1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
