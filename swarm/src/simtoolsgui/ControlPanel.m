@@ -136,7 +136,14 @@ PHASE(Using)
 #endif
       // Check now if the user hit the quit button: if so, quit.
       if (state == ControlStateQuit)
-        exit(0);
+        {
+#if 0
+          extern id swarmDirectory;
+
+          xprint (swarmDirectory);
+#endif
+          exit(0);
+        }
       else
         return self;
     }
