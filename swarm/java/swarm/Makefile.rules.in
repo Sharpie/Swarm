@@ -1,6 +1,7 @@
 jdkdir=@jdkdir@
 jdkdosdir=@jdkdosdir@
 jdkbindir=$(jdkdir)/bin
+top_dossrcdir=@top_dossrcdir@
 JAVALIBS=@JAVALIBS@
 JAVACMD=@JAVACMD@
 JAVAENV=@JAVAENV@
