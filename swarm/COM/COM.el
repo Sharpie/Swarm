@@ -712,9 +712,9 @@
     (insert "\n")
     (com-impl-map-protocols
      #'(lambda (protocol phase)
-         (insert "NS_GENERIC_FACTORY_CONSTRUCTOR (")
+         (insert "NS_GENERIC_FACTORY_CONSTRUCTOR_INIT (")
          (insert (com-impl-name protocol phase))
-         (insert ");\n")))
+         (insert ", Init);\n")))
     (insert "#include \"componentIDs.h\"\n")
     (insert "static nsModuleComponentInfo components[] = {\n")
     (let ((first t))
