@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1998 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -77,14 +77,14 @@ initSwarm (int argc, char **argv)
 void
 printHelp()
 {
-  (void) fprintf(stdout, "Swarm.  Copyright (C) 1997 Santa Fe Institute\n");
-  (void) fprintf(stdout, "For more info, see:\n"
-		 "http://www.santafe.edu/projects/swarm\n\n");
-  (void) fprintf(stdout, "Supported command line flags are:\n\n");
-  (void) fprintf(stdout, "\t  -appMode: Change the mode of the application\n");
-  (void) fprintf(stdout, "\t-batchmode:  Run without a GUI\n");
-  (void) fprintf(stdout, "\t -varySeed:  Change RandomSeed for each run\n");
-  exit(-1);
+  (void)fprintf (stdout, "Swarm.  Copyright (C) 1996-1998 Santa Fe Institute\n");
+  (void)fprintf (stdout, "For more info, see:\n"
+	 "http://www.santafe.edu/projects/swarm\n\n");
+  (void)fprintf (stdout, "Supported command line flags are:\n\n");
+  (void)fprintf (stdout, "\t  -appMode: Change the mode of the application\n");
+  (void)fprintf (stdout, "\t-batchmode:  Run without a GUI\n");
+  (void)fprintf (stdout, "\t -varySeed:  Change RandomSeed for each run\n");
+  exit (-1);
 }
 
 const char *
