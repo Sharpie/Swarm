@@ -1,0 +1,5 @@
+2003-02-24  Paul E Johnson  <pauljohn@ukans.edu>
+
+	* ConwayWorld.m ([ConwayWorld -stepRule]): Replace profligate use
+	of % because it is slow.
+

@@ -1,0 +1,21 @@
+Paul Johnson <pauljohn@ku.edu> 2004-09-21
+
+This version of the Conway Game of Life is offered
+for free under the GNU Greater Public License (GPL)
+by me without any warranty of any kind for any purpose.
+
+I wanted a Conway Game of Life CA to show in class,
+so I started with my recently updated version of 
+Benedikt's Schelling model, hacked away, and happily 
+arrived at this.
+
+Conway's Game of Life is a cellular automata with cells
+that are two-valued, and if you run it the way it is,
+you see some interesting things.
+
+Some interesting GUI things:
+
+Right click on a square to change its color.
+
+You can erase the whole space and then right click
+to experiment with shapes.

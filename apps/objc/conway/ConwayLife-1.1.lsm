@@ -1,0 +1,14 @@
+Begin4
+Title: ConwayLife
+Version: 1.1
+Entered-date: 2-25-2003 
+Description: Conway's Game of Life. Version 1.1 corrects a flaw in eraseGUI.
+Keywords: Game of Life, cellular automata
+Author: Paul Johnson <pauljohn@ku.edu>
+Maintained-by: Paul Johnson
+Primary-site: lark.cc.ku.edu/~pauljohn/Swarm/MySwarmCode
+Alternate-site: 
+Original-site:
+Platforms: Any
+Copying-policy: GPL 
+End
