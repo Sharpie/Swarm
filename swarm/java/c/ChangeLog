@@ -1,5 +1,24 @@
 1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.h (JFINDOBJC): Formerly JFIND.
+	(JFINDJAVA): New macro.
+
+	* directory.c (compare_java_objects): Formerly compare_objects.
+	(compare_objc_objects): New function.
+	(java_tree): Formerly directory_tree.
+	(objc_tree): New static variable.
+	(java_directory_init): Initialize objc_tree.
+	(java_directory_drop): Drop objc_tree.
+
+	* directory.[hc] (java_directory_java_find): Formerly
+	java_directory_find.
+	(java_directory_objc_find): New function.
+
+	* Makefile.in (libjavaswarm_la_OBJECTS): Add setup.lo.
+	(CPPFLAGS): Add -I$(srcdir).
+
+	* setup.c: New file. 
+	
 	* Makefile.in (CFLAGS, CC): Substitute.  
 	(directory.c): Formerly directory.m.
 	(%.lo): Add rule from %.c.

@@ -20,7 +20,7 @@ jdkdir=@jdkdir@
 javaincludedir=$(jdkdir)/include
 JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
-CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(includedir)
+CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(includedir) -I$(srcdir)
 # Solaris JNI headers have some pragmas
 CFLAGS=@CFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 OBJCFLAGS=@OBJCFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
@@ -32,7 +32,8 @@ VPATH=$(srcdir)
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 
 libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
-libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS)) directory.lo
+libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS)) \
+	directory.lo setup.lo
 
 all: libjavaswarm.la
 
