@@ -680,9 +680,6 @@ USING
 //M: Get the height of the bitmap in pixels.
 - (unsigned)getHeight;
 
-//M: Draw the pixmap on the current raster at the given position.
-- (void)drawX: (int)x Y: (int)y;
-
 //M: Save the pixmap to a file.
 - (void)save: (const char *)filename;
 @end
@@ -729,8 +726,6 @@ USING
 //D: An abstract superclass for non-composite Canvas items.
 CREATING
 USING
-//M: Prepares for movement of the item within the canvas.
-- (void)initiateMoveX: (long)deltaX Y: (long)deltaY; 
 @end
 
 @protocol CompositeItem <CanvasAbstractItem>
@@ -742,9 +737,6 @@ CREATING
 USING
 //M: Must be implemented by subclass.
 - (void)moveX: (long)deltaX Y: (long)deltaY;
-
-//M: Prepares for movement of the item within the canvas.
-- (void)initiateMoveX: (long)deltaX Y: (long)deltaY;
 @end
 
 @protocol NodeItem <CompositeItem, CREATABLE>
@@ -754,7 +746,7 @@ USING
 //D: A NodeItem has a position, a font, color, border color and width.
 CREATING
 //M: Set the label to put on the node.
-- setString: (const char *)string;
+- setString: (const char *)label;
 
 //M: Set the font with which to draw the label.
 - setFont: (const char *)font;
