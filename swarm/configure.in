@@ -2,6 +2,8 @@ AC_INIT(etc/Makefile.appl.in)
 
 VERSION=`head -1 $srcdir/VERSION`
 AM_INIT_AUTOMAKE(swarm, $VERSION)
+md_SWARM_INSTALLER
+
 if test "x$ACLOCAL" = xaclocal; then
   ACLOCAL="aclocal -I m4"
 fi
