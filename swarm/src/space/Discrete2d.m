@@ -12,8 +12,14 @@
 // allocated. It uses casts to do this, and I think is portable to all
 // modern architectures.
 
+//S: Root class of all 2d discrete spaces.
+//D: A Discrete2d is basically a 2d array of ids.  
+//D: Subclasses add particular space semantics onto this.
+//D: Currently Discrete2d grids are accessed by integer pairs
+//D: of X and Y coordinates. 
 @implementation Discrete2d
 
+//M: Set the world size.
 - setSizeX: (int)x Y: (int)y
 {
   if (lattice)
@@ -24,6 +30,7 @@
   return self;
 }
 
+//M: Create the lattice, precompute the offsets based on Y coordinate.
 - createEnd
 {
   if (xsize <= 0 || ysize <= 0)
@@ -35,6 +42,7 @@
   return self;
 }
 
+//M: Allocate memory for the lattice. 
 - (id *)allocLattice
 {
   void *p;
@@ -44,7 +52,9 @@
   return p;
 }
 
-// part of createEnd, really, but separated out for ease of inheritance.
+// Part of createEnd, really, but separated out for ease of inheritance.
+//M: Given an array size, compute the offsets array that
+//M: caches the multiplication by ysize. See the discrete2dSiteAt macro. 
 - makeOffsets
 {
   int i;
@@ -58,38 +68,45 @@
   return self;
 }
 
+//M: Get the size of the lattice in the X dimension.
 - (int)getSizeX
 {
   return xsize;
 }
 
+//M: Get the size of the lattice in the Y dimension.
 - (int)getSizeY
 {
   return ysize;
 }
 
+//M: Return the pointer stored at (x,y).
 - getObjectAtX: (int)x Y: (int)y
 {
   return *discrete2dSiteAt(lattice, offsets, x, y);
 }
 
+//M: Return the integer stored at (x,y). 
 - (long)getValueAtX: (int)x Y: (int)y
 {
   return (long)*discrete2dSiteAt(lattice, offsets, x, y);
 }
 
+//M: Put the given pointer to (x,y) overwriting whatever was there.
 - putObject: anObject atX: (int)x Y: (int)y
 {
   *discrete2dSiteAt(lattice, offsets, x, y) = anObject;
   return self;
 }
 
+//M: Put the given integer to (x,y) overwriting whatever was there.
 - putValue: (long)v atX: (int)x Y: (int)y
 {
   *discrete2dSiteAt(lattice, offsets, x, y) = (id) v;
   return self;
 }
 
+//M: Directly fills the lattice with a value.
 - fastFillWithValue: (long)aValue
 {
   int i, lcount ;
@@ -102,6 +119,7 @@
   return self ;
 }
 
+//M: Directly fills the lattice with an object.
 - fastFillWithObject: anObj
 {
   int i, lcount ;
@@ -114,6 +132,7 @@
   return self ;
 }
 
+//M: Fills the space using putValue.
 - fillWithValue: (long)aValue
 {
   unsigned x, y;
@@ -125,6 +144,7 @@
   return self;
 }
 
+//M: Fills the space using putObject.
 - fillWithObject: anObj
 {
   unsigned x, y;
@@ -136,6 +156,7 @@
   return self;
 }
 
+//M: Returns the lattice pointer - use this for fast access. 
 - (id *)getLattice
 {
   return lattice;
@@ -149,6 +170,8 @@
 // Utility methods - these should be in the Swarm libraries.
 // Read in a file in PGM format and load it into a discrete 2d.
 // PGM is a simple image format. It stores grey values for a 2d array.
+//M: This method reads a PGM formatted file and pipes the data into
+//M: a Discrete2d object. 
 - (int)setDiscrete2d: (Discrete2d *)a toFile: (const char *)filename 
 {
   id <InFile> f;
@@ -201,6 +224,8 @@
 
 // Copy one Discrete2d's contents to another.
 // This could probably use the fast accessor macros.
+//M: This method copies the data in one Discrete2d object to
+//M: another Discrete2d object. It assumes that both objects already exist.
 - copyDiscrete2d: (Discrete2d *)a toDiscrete2d: (Discrete2d *)b
 {
   int x, y;

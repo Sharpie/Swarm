@@ -6,9 +6,13 @@
 #import <space/Value2dDisplay.h>
 #import <gui.h>
 
-// this should be subclassed to fill in the colormap for your CA.
+// This should be subclassed to fill in the colormap for your CA.
 // for now, we expect your colormap to be allocated already.
 
+//S: Value2dDisplay displays 2d arrays of values.
+//D: Value2dDisplay helps display 2d arrays of values.
+//D: Value2dDisplay goes through a given Discrete2d array,
+//D: turn states into colours, and draws them into a Raster widget. 
 @implementation Value2dDisplay
 
 - createEnd
@@ -24,6 +28,7 @@
   return self;
 }
 
+//M: Set the display widget and the colourmap to use to draw the value array. 
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c
 {
   displayWidget = r;
@@ -37,6 +42,7 @@
   return self;
 }
 
+//M: Set which array to draw. 
 - setDiscrete2dToDisplay: (Discrete2d *)c
 {
   discrete2d = c;
@@ -44,6 +50,9 @@
 }
 
 // linear transform between values and colours. Good enough?
+//M: Linear transform of states to colours for drawing. 
+//M: color = state / m + c 
+//M: If not set, assume m == 1 and c == 0. 
 - setDisplayMappingM: (int)m C: (int)c
 {
   modFactor = m;
@@ -51,6 +60,12 @@
   return self;
 }
 
+//M: Draw the array on the given widget.
+//M: Note that you still have to tell the widget to draw itself afterwards.
+//M: The code for display uses the fast macro access in Discrete2d on
+//M: the cached return value from getLattice.
+//M: It also caches the drawPointX:Y: method lookup on the display widget -
+//M: this is a nice trick that you might want to look at. 
 - display
 {
   int x, y;

@@ -6,8 +6,12 @@
 #import <space/ConwayLife2d.h>
 #import <random.h>
 
+//S: Classic 2d Conway's Life CA.
+//D: Classic 2d Conway's Life CA.
+
 @implementation ConwayLife2d
 
+//M: Set number of states to 2.
 + createBegin: aZone
 {
   id r;
@@ -17,6 +21,7 @@
   return r;
 }  
 
+//M: Initialize lattice to random 1/3 in state 1. 
 - initializeLattice
 {
   unsigned x, y;
@@ -33,6 +38,7 @@
   return self;
 }
 
+//M: Run Conway's Life rule (simpleminded version). 
 - stepRule
 {
   long newState;

@@ -3,36 +3,48 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <stdlib.h>
 #import <space/Ca2d.h>
+
+//S: Defines abstract protocol for cellular automata.
+
+//D: Inherits from DblBuffer2d, defines abstract protocol
+//D: for cellular automata. 
 
 @implementation Ca2d
 
--setNumStates: (int) n {
+//M: Record the number of states the CA understands.
+- setNumStates: (int)n
+{
   numStates = n;
   return self;
 }
 
-// allocate buffers.
--createEnd {
+//M: Check that numStates has been set.
+- createEnd
+{
+  // allocate buffers.
   if (numStates == 0)
     [InvalidCombination raiseEvent: "CA not initialized correctly.\n"];
-
+  
   [super createEnd];
-
+  
   // initialize ourselves.
   [self initializeLattice];
   return self;
 }
 
-// subclass this to set up initial state of lattice.
--initializeLattice {
+//M: Use this to set up your CA to a default initial state.
+//M: Unimplemented in Ca2d; subclass this to set up initial state of lattice.
+- initializeLattice
+{
   [SubclassMustImplement raiseEvent];
   return nil;
 }
 
-// subclass this to implement your CA rule.
--stepRule {
+//M: One iteration of the CA rule.
+//M: Unimplemented in Ca2d; subclass this to implement your CA rule.
+- stepRule
+{
   [SubclassMustImplement raiseEvent: "Ca2d: no default step.\n"];
   return nil;
 }

@@ -7,7 +7,8 @@
 
 #import <space/Ca2d.h>
 
-@interface ConwayLife2d: Ca2d {
+@interface ConwayLife2d: Ca2d
+{
 }
 
 @end

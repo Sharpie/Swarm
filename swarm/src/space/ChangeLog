@@ -1,3 +1,12 @@
+1998-04-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Ca2d.m, ConwayLife2d.m, DblBuffer2d.m, Diffuse2d.m,
+	Discrete2d.m, Grid.m, Int2dFiler.m Object2dDisplay.m
+	Value2dDisplay.m, space.h:  Merge documentation.
+
+	* Ca2d.h, Conway2d.h, DblBuffer2d.h, Discrete2d.h, Grid2d.h:
+	Reformatting throughout.
+	
 1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Object2dDisplay.m:  Include simtoolsgui.h instead of simtools.h.

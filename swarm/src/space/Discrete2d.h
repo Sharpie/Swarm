@@ -16,8 +16,8 @@
 {
 @public
   int xsize, ysize;
-  id * lattice;
-  long * offsets;
+  id *lattice;
+  long *offsets;
 }
 
 - setSizeX: (int) x Y: (int) y;

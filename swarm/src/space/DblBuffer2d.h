@@ -7,7 +7,8 @@
 
 #import <space/Discrete2d.h>
 
-@interface DblBuffer2d: Discrete2d {
+@interface DblBuffer2d: Discrete2d
+{
   id *wBuf1, *wBuf2;				  // store data here
 
 @public						  // only for the inlines
@@ -15,9 +16,9 @@
 }
 
 // getting the entire lattice (use carefully!)
--(id *) getNewLattice;			  // for writing
+- (id *)getNewLattice;			  // for writing
 
 // use after you've done writing on the lattice: synchronize old and new.
--updateLattice;
+- updateLattice;
 
 @end

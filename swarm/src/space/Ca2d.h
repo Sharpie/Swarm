@@ -7,16 +7,17 @@
 
 #import <space/DblBuffer2d.h>
 
-@interface Ca2d: DblBuffer2d {
+@interface Ca2d: DblBuffer2d
+{
   int numStates;
 }
 
 // initializing the object
--setNumStates: (int) n;
--initializeLattice;				  // must subclass
--createEnd;
+- setNumStates: (int)n;
+- initializeLattice;				  // must subclass
+- createEnd;
 
 // running the CA rule
--stepRule;					  // must subclass
+- stepRule;					  // must subclass
 
 @end

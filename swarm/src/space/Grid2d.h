@@ -5,10 +5,11 @@
 
 #import <space/Discrete2d.h>
 
-@interface Grid2d: Discrete2d {
+@interface Grid2d: Discrete2d
+{
   BOOL overwriteWarnings;
 }
 
--setOverwriteWarnings: (BOOL) b;
+- setOverwriteWarnings: (BOOL)b;
 
 @end
