@@ -1,3 +1,7 @@
+1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* collections.h: extern LiteralString.
+
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* collections.h (IndexSafety, Offsets, ForEach, DefaultMember,
