@@ -89,27 +89,30 @@ PHASE(Using)
 
 - lispOutShallow: stream
 {
-  char buf[20];
-
-  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [stream catC: [self name]];
-  [stream catC: " "];
-
+  [stream catStartMakeInstance: [self getTypeName]];
   if (sizeFlag)
     {
-      [stream catC: " #:size '("];
-      sprintf (buf, "%u %u", width, height);
-      [stream catC: buf];
-      [stream catC: ")"];
+      [stream catSeparator];
+      [stream catKeyword: "size"];
+      [stream catSeparator];
+      [stream catStartQuotedList];
+      [stream catUnsigned: width];
+      [stream catSeparator];
+      [stream catUnsigned: height];
+      [stream catEndExpr];
     }
   if (positionFlag)
     {
-      [stream catC: " #:position '("];
-      sprintf (buf, "%d %d", x, y);
-      [stream catC: buf];
-      [stream catC: ")"];
+      [stream catSeparator];
+      [stream catKeyword: "position"];
+      [stream catSeparator];
+      [stream catStartQuotedList];
+      [stream catUnsigned: x];
+      [stream catSeparator];
+      [stream catUnsigned: y];
+      [stream catEndExpr];
     }
-  [stream catC: ")"];
+  [stream catEndExpr];
   return self;
 }
 
