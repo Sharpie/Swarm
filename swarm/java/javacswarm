@@ -7,5 +7,5 @@ else
   classpath=".:${swarm_datadir}:${JAVACLASSES}:$CLASSPATH"
 fi
 
-eval "$JAVA -classpath $classpath pizza.compiler.Main $*"
+eval "$JAVAC -classpath $classpath $*"
 

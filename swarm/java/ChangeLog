@@ -1,3 +1,7 @@
+1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javacswarm: Use JAVAC.
+
 1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-methods*): Update to use getRetVal:buf:
