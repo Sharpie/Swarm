@@ -32,12 +32,28 @@
 //D: used when running Tcl code, an Objective C name when sending messages
 //D: from Tcl to those objects, and a parent.
 
+CREATING
 //M: When a widget is created it needs to be given a parent.  The parent
 //M: widget will be the widget's containing window. If no parent is given
 //M: (ie, a parent of nil), then a toplevel Frame will be allocated
 //M: automatically
 + createParent: parent;
 
+//M: Set the containing window of the widget.
+- setParent: parent;
+
+//M: Compute the widget name for a component widget.
+- (const char *)makeWidgetNameFor: widget;
+
+//M: Set the widget name using the parent as context.
+- setWidgetNameFromParent: parent;
+
+//M: Set the widget name using a hypothetical parent name.
+- setWidgetNameFromParentName: (const char *)parentWidgetName;
+
+- createEnd;
+
+USING
 //M: Roughly, packing a widget makes it draw on the screen. The Tk packer
 //M: allows complicated options to control widget layout. See documentation
 //M: on Tk to learn more about packing details.
@@ -48,9 +64,6 @@
 - packFillLeft: (BOOL)expandFlag;
 - packToRight : widget;
 - packForgetAndExpand;
-
-//M: Set the containing window of the widget.
-- setParent: parent;
 
 //M: Get the containing window of the widget.
 - getParent;
@@ -73,17 +86,8 @@
 //M: Set the title on the widget.
 - setWindowTitle: (const char *)title;
 
-//M: Compute the widget name for a component widget.
-- (const char *)makeWidgetNameFor: widget;
-
 //M: Get the widget name.
 - (const char *)getWidgetName;
-
-//M: Set the widget name using the parent as context.
-- setWidgetNameFromParent: parent;
-
-//M: Set the widget name using a hypothetical parent name.
-- setWidgetNameFromParentName: (const char *)parentWidgetName;
 
 //M: Get the height of the widget.
 - (unsigned)getHeight;
@@ -101,20 +105,22 @@
 //D: A container for window geometry information that implements
 //D: archiving methods.
 
-//M: Get a string describing the window geometry.
-- (const char *)getWindowGeometry;
+CREATING
+//M: Create window geometry object using expression object.
++ in: aZone expr: expr;
 
 //M: Set the window geometry from geometry string.
-- setWindowGeometry :(const char *)theWindowGeometryString;
+- setWindowGeometry: (const char *)theWindowGeometryString;
+
+USING
+//M: Get a string describing the window geometry.
+- (const char *)getWindowGeometry;
 
 //M: Print the geometry to a stream.
 - (void)describe: outputCharStream;
 
 //M: Load window geometry object using expression object.
 - in: expr;
-
-//M: Create window geometry object using expression object.
-+ in: aZone expr: expr;
 
 //M: Print window geometry to stream.
 - out: outputCharStream; 
@@ -130,15 +136,17 @@
 //D: their window geometry.  This class also provides an interface
 //D: to destroy notification.
 
+CREATING
+//M: Called to set a name for archiving.
+- setWindowGeometryRecordName: (const char *)recordName;
+
+USING
 //M: Call a method if we are destroyed.
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)destroyNotificationMethod;
 
 //M: Prevent calling the destroy notification method.
 - disableDestroyNotification;
-
-//M: Called to set a name for archiving.
-- setWindowGeometryRecordName: (const char *)recordName;
 @end
 
 @protocol ArchivedGeometryWidget <_ArchivedGeometryWidget, Widget>
@@ -153,12 +161,16 @@
 //D: yourself if building complicated composite widgets: by default, a
 //D: frame will be built automatically for widgets without parents.
 
-//M: Determines whether or not a frame has a border.
-- setReliefFlag: (BOOL)reliefFlag;
-
+CREATING
 //M: Determines the width of the border, if any.
 - setBorderWidth: (int)width;
 
+//M: Determines whether or not a frame has a border.
+- setReliefFlag: (BOOL)reliefFlag;
+
+- createEnd;
+
+USING
 //M: Take the frame off screen.
 - withdraw;
 
@@ -180,6 +192,7 @@
 
 //D: The Canvas widget allows display of a diverse range of graphical objects.
 
+CREATING
 //M: Create the canvas.
 - createEnd;
 @end
@@ -193,8 +206,11 @@
 //D: ProbeCanvas is a Canvas that implements the general appearance and
 //D: interface of a probe display.
 
+CREATING
 //M: Indicates the presence or absence of a horizontal scroll bar.
 - setHorizontalScrollbarFlag: (BOOL)horizontalScrolbarFlag;
+
+- createEnd;
 @end
 
 @protocol ProbeCanvas <_ProbeCanvas, Canvas>
@@ -206,6 +222,12 @@
 //D: A GraphElement accumulates a related set of data for display,
 //D: including attributes for the set.
 
+CREATING
+- setOwnerGraph: ownerGraph;
+- createEnd;
++ createOwnerGraph: ownerGraph;
+
+USING
 //M: Set the label for the element.
 - setLabel: (const char *)label;
 //M: Set the color for the element.
@@ -233,6 +255,10 @@
 //D: plot. GraphElements can be configured for appearance, and data can be
 //D: added to the element to draw.
 
+CREATING
+- createEnd;
+
+USING
 //M: Set the title for the graph.
 - setTitle: (const char *)title;
 //M: Set the axis labels for the graph.
@@ -259,30 +285,44 @@
 //D: (or optionally an array of datapoints and locations where the bars
 //D: should be drawn (specified as doubles).
 
+CREATING
+- createEnd;
+
+USING
 //M: Initialize the histogram, tell it how big its dataset is. Labels and
 //M: Colors are arrays of strings (one string per point) for text labels
 //M: and the colours of the bars (the last two arguments are optional).
 - setNumPoints: (int)n
         Labels: (const char * const *)l
         Colors: (const char * const *)c;
+
 //M: Set the title of the histogram.
 - setTitle: (const char *)title;
+
 //M: Set the width of the bars.
 - setBarWidth: (double)step;
+
 //M: Set the X range and step size for the histogram.
 - setXaxisMin: (double)min max: (double)max step: (double)step;
+
 //M: Set the axis labels.
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+
 //M: Set the text that describes a specified number of outliers.
 - setActiveOutlierText: (int)outliers count: (int)count;
+
 //M: Hide the legend on the histogram.
 - hideLegend;
+
 //M: Draw the (integer) data in the histogram.
 - drawHistogramWithInt: (int *)points;
+
 //M: Draw the (double) data in the histogram.
 - drawHistogramWithDouble: (double *)points;
+
 //M: Draw the (integer) data in the histogram at particular offsets.
 - drawHistogramWithInt: (int *)points atLocations: (double *)locations;
+
 //M: Draw the (double) data in the histogram at particular offsets.
 - drawHistogramWithDouble: (double *)points atLocations: (double *)locations;
 
@@ -299,6 +339,10 @@
 
 //D: A widget with text.
 
+CREATING
+- createEnd;
+
+USING
 //M: Set the text to write in the label.
 - setText: (const char *)text;
 @end
@@ -312,6 +356,7 @@
 //D: This widget is used internally by ClassDisplayWidget.
 
 //M: Create a blue, left-justified label.
+CREATING
 - createEnd;
 @end
 
@@ -323,6 +368,7 @@
 
 //D: This widget is used internally by VarProbeWidget.
 
+CREATING
 //M: Create a right-justified label.
 - createEnd;
 @end
@@ -337,6 +383,7 @@
 //D: It is used to set up the mouse bindings to get a CompleteProbeDisplay,
 //D: and to set up drag and drop.
 
+CREATING
 //M: Sets probe display which the widget represents.
 - setProbeDisplay: probeDisplay;
 
@@ -358,8 +405,15 @@
 //S: A button widget.
 
 //D: A button widget that, when pressed, sends a method to a target object.
+
+CREATING
+- createEnd;
+
+USING
+//M: Set the text for button.
 - setText: (const char *)text;
-//D: Set the target and selector for button.
+
+//M: Set the target and selector for button.
 - setButtonTarget: target method: (SEL)method;
 @end
 
@@ -372,6 +426,7 @@
 //D: A button that handles the dismissal of class widgets on a
 //D: ClassDisplayWidget (for CompleteProbeDisplay).
 
+CREATING
 - setSubWidget: subWidget;
 - setUser: user;
 - setOwner: owner;
@@ -385,8 +440,11 @@
 
 //D: A button that handles the dismissal of a SimpleProbeDisplay.
 
+CREATING
 //M: The probe display in use.
 - setProbeDisplay: probeDisplay;
+
+- createEnd;
 @end
 
 @protocol SimpleProbeDisplayHideButton <_SimpleProbeDisplayHideButton, Button>
@@ -397,6 +455,7 @@
 
 //D: A button used by ClassDisplayWidget to ask for superclass.
 
+CREATING
 - createEnd;
 - setSuperWidget: superWidget;
 - setOwner: owner;
@@ -412,6 +471,10 @@
 //D: InputWidgets get their input in one of two ways: by being readable, or
 //D: by being linked to a C variable.
 
+CREATING
+- createEnd;
+
+USING
 //M: Get the string value of the widget.
 - (const char *)getValue;
 
@@ -434,8 +497,10 @@
 
 //D: Handles text-field input.
 
+CREATING
 - createEnd;
 
+USING
 //M: Set the value of the widget, replacing the visible text in the widget.
 - setValue: (const char *)value;
 
@@ -451,6 +516,7 @@
 
 //D: An Entry widget for MessageProbe arguments.
 
+CREATING
 //M: Indicates whether the type of this entry is an id.
 - setIdFlag: (BOOL)idFlag;
 
@@ -468,6 +534,7 @@
 
 //D: An Entry widget for VarProbes.
 
+CREATING
 //M: Indicates whether the entry is editable or not.
 - setInteractiveFlag: (BOOL)interactiveFlag;
 
@@ -488,6 +555,7 @@
 
 //D: Several buttons bound together in one frame.
 
+USING
 //M: Set a default target for use with addButtonName:method:.
 - setButtonTarget: target;
 
@@ -506,6 +574,10 @@
 
 //D: A set of Entry widgets bound together in one frame.
 
+CREATING
+- createEnd;
+
+USING
 //M: The width of all the Entry widgets.
 - setEntryWidth: (int)ew;
 
@@ -527,6 +599,10 @@
 
 //D: A check box on/off selection widget.
 
+CREATING
+- createEnd;
+
+USING
 //M: Get on/off status.
 - (BOOL)getBoolValue;
 
@@ -547,6 +623,10 @@ typedef unsigned long PixelValue;
 //D: names. Create an XColormap, allocate colours in it, and pass it to a
 //D: Raster widget for drawing.
 
+CREATING
+- createEnd;
+
+USING
 //M: The current palette, per color-index.
 - (PixelValue *)map;
 
@@ -573,6 +653,7 @@ typedef unsigned long PixelValue;
 @class Raster;
 
 @protocol Drawer
+USING
 - drawX: (int)x Y: (int)y;
 @end
 
@@ -585,11 +666,16 @@ typedef unsigned long PixelValue;
 //D: double buffered - the pixels you draw are not actually put on the screen
 //D: until drawSelf is called. In addition, Rasters handle mouse clicks.
 
-//M: Draw a point at the given coordinates with the given color.
-- drawPointX: (int)x Y: (int)y Color: (Color)c;
+CREATING
++ createBegin: aZone;
+- createEnd;
 
+USING
 //M: Set the palette for this raster.
 - setColormap: (id <Colormap>)c;
+
+//M: Draw a point at the given coordinates with the given color.
+- drawPointX: (int)x Y: (int)y Color: (Color)c;
 
 //M: Draw the raster to the display.
 - drawSelf;
@@ -631,6 +717,10 @@ typedef unsigned long PixelValue;
 //D: ZoomRaster is a subclass of Raster that implements a zoomable image. It
 //D: handles translation between logical coordinates and screen coordinates.
 
+CREATING
+- createEnd;
+
+USING
 //M: Make the raster bigger.
 - increaseZoom;
 
@@ -656,6 +746,7 @@ typedef unsigned long PixelValue;
 //D: A class for drawing color bitmaps on a Raster.  The bitmaps are
 //D: stored in the Portable Network Graphics format.
 
+CREATING
 //M: Set the bitmap file to load.
 - setFile: (const char *)filename;
 
@@ -664,14 +755,15 @@ typedef unsigned long PixelValue;
 //M: color palette in use.
 - setRaster: (id <Raster>)raster;
 
+//M: Load the bitmap file and create the backend pixmap object.
+- createEnd;
+
+USING
 //M: Get the width of the bitmap in pixels.
 - getWidth;
 
 //M: Get the height of the bitmap in pixels.
 - getHeight;
-
-//M: Load the bitmap file and create the backend pixmap object.
-- createEnd;
 
 //M: Draw the pixmap on the current raster at the given position.
 - drawX: (int)x Y: (int)y;
@@ -685,9 +777,20 @@ typedef unsigned long PixelValue;
 
 //D: CanvasAbstractItem is the root class of all items drawn on a Canvas.
 
-//M: Designates the id of the Canvas in which this items resides.
+CREATING
+//M: Method to be implemented by subclass.
+- createItem;
+
+//M: Method to be implemented by subclass.
+- createBindings;
+
+//M: Calls createItem and createBindings.
+- createEnd;
+
+//M: Designates the id of the Canvas in which this item resides.
 - setCanvas: canvas;
 
+USING
 //M: Designates the object to which this item refers.
 - setTargetId: target;
 
@@ -700,17 +803,8 @@ typedef unsigned long PixelValue;
 //M: Sets the message that will dictate what happens after the item is moved.
 - setPostMoveSel: (SEL)sel;
 
-//M: Method to be implemented by subclass.
-- createItem;
-
-//M: Calls createItem and createBindings.
-- createEnd;
-
 //M: Called when a mouse click occurs.
 - clicked;
-
-//M: Method to be implemented by subclass.
-- createBindings;
 
 //M: Method to be implemented by subclass.
 - initiateMoveX: (long)delta_x Y: (long)delta_y; 
@@ -724,9 +818,11 @@ typedef unsigned long PixelValue;
 
 //D: An abstract superclass for non-composite Canvas items.
 
-//M: Establishes the bindings for the buttons:  
+CREATING
+//M: Establishes the bindings for the buttons.
 - createBindings;
 
+USING
 //M: Prepares for movement of the item within the canvas.
 - initiateMoveX: (long)delta_x Y: (long)delta_y; 
 @end
@@ -740,6 +836,7 @@ typedef unsigned long PixelValue;
 //D: A CompositeItem is a CanvasItem that consists of several pieces.
 //D: CompositeItem is an abstract superclass.
 
+USING
 //M: Must be implemented by subclass.
 - moveX: (long)delta_x Y: (long)delta_y;
 
@@ -756,13 +853,18 @@ typedef unsigned long PixelValue;
 //D: A class for displaying a node on a Canvas.
 //D: A NodeItem has a position, a font, color, border color and width.
 
-//D: Set the position of the node.
+CREATING
+//M: Set the mouse bindings for a NodeItem (e.g. dragging).
+- createBindings;
+
+USING
+//M: Set the position of the node.
 - setX: (int)x Y: (int)y;
 
-//D: Get the x position of the node on the canvas.
+//M: Get the x position of the node on the canvas.
 - (int)getX;
 
-//D: Get the y position of the node on the canvas.
+//M: Get the y position of the node on the canvas.
 - (int)getY;
 
 //M: Set the label to put on the node.
@@ -786,8 +888,6 @@ typedef unsigned long PixelValue;
 //M: Create the space for the text for the node.
 - createPaddedText;
 
-//M: Set the mouse bindings for a NodeItem (e.g. dragging).
-- createBindings;
 @end
 
 @protocol NodeItem <_NodeItem, CompositeItem>
@@ -796,25 +896,27 @@ typedef unsigned long PixelValue;
 @protocol _LinkItem
 //S: A canvas item for displaying a link between two nodes.
 
-//D: A CompositeCanvsItem for displaying a link between two NodeItems.
+//D: A CompositeCanvasItem for displaying a link between two NodeItems.
 
+CREATING
 //M: Designate the node that will be the source of the link.
 - setFrom: from;
 
 //M: Designate the node that will be the destination of the link.
 - setTo: to;
 
-//M: Set the color of the link.
-- setColor: (const char *)aColor;
-
-//M: Redraw the link (especially due to the motion of nodes).
-- update;
-
 //M: Create a the lines that make up the link item.
 - createItem;
 
 //M: A LinkItem is passive; disable the mouse bindings.
 - createBindings;
+
+USING
+//M: Set the color of the link.
+- setColor: (const char *)aColor;
+
+//M: Redraw the link (especially due to the motion of nodes).
+- update;
 
 //M: Delete the lines that make up a LinkItem.
 - (void)drop;
@@ -828,6 +930,7 @@ typedef unsigned long PixelValue;
 
 //D: A NodeItem with a circular appearance.
 
+CREATING
 //M: Create the OvalNodeItem.
 - createItem;
 @end
@@ -838,7 +941,8 @@ typedef unsigned long PixelValue;
 @protocol _RectangleNodeItem
 //S: A rectangular NodeItem.
 
-//D: A NodeItem with a rectangular appearance.
+CREATING
+//M: A NodeItem with a rectangular appearance.
 - createItem;
 @end
 
@@ -850,6 +954,7 @@ typedef unsigned long PixelValue;
 
 //D: A CanvasItem that displays text.
 
+CREATING
 //M: Set the coordinate for the center of the text.
 - setX: (int)x Y: (int)y;
 
@@ -871,6 +976,7 @@ typedef unsigned long PixelValue;
 
 //D: A CanvasItem that displays a circle.
 
+CREATING
 //M: Set the x, y coordinates for the center of the circle.
 - setX: (int)x Y: (int)y;
 
@@ -889,6 +995,7 @@ typedef unsigned long PixelValue;
 
 //D: A CanvasItem that displays a rectangle.
 
+CREATING
 //M: Set the diagonal corner coordinates of the rectangle.
 - setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
 
@@ -903,6 +1010,8 @@ typedef unsigned long PixelValue;
 //S: A CanvasItem that displays a line.
 
 //D: A CanvasItem that displays a line.
+
+CREATING
 
 //M: Set the end points of the line.
 - setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;

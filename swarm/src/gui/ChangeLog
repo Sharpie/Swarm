@@ -1,7 +1,32 @@
+1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* gui.h (_Widget, _WindowGeometryRecord, _ArchivedGeometryWidget,
+	_Frame, _Canvas, _ProbeCanvas, _GraphElement, _Graph, _Histogram,
+	_Label, _ClassDisplayLabel, _VarProbeLabel,
+	_CompleteProbeDisplayLabel, _Button, _ClassDisplayHideButton,
+	_SimpleProbeDisplayHideButton, _SuperButton, _InputWidget, _Entry,
+	_MessageProbeEntry, _VarProbeEntry, _ButtonPanel, _Form,
+	_Colormap, _Drawer, _Raster, _Pixmap, _CanvasAbstractItem,
+	_CanvasItem, _CompositeItem, _NodeItem, _LinkItem, _OvalNodeItem,
+	_RectangleNodeItem, _TextItem, _Circle, _Rectangle, _Line): Add
+	phase tags.
+	(_Widget, _WindowGeometryRecord, _ArchivedGeometryWidget, _Frame,
+	_ProbeCanvas, _Raster, _ZoomRaster, _Pixmap, _CanvasAbstractItem,
+	_NodeItem, _LinkItem): Reorder definitions for above.
+
+	(_GraphElement): Declare -setOwnerGraph:, -createEnd, and
+	+createOwnerGraph:.
+
+	(_Raster): Declare +createBegin and -createEnd.
+
+	(_Graph, _Histogram, _Label, _ClassDisplayLabel, _Button,
+	_SimpleProbeDisplayHideButton, _InputWidget, _Form, _Colormap,
+	_ZoomRaster): Declare -createEnd.
+	
 1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* gui.h:  Add documentation tags to all protocols.  Bring
-	in sync with tkobjc changes.
+	* gui.h: Add documentation tags to all protocols.  Bring in sync
+	with tkobjc changes.
 
 1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
