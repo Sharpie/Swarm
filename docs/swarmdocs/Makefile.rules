@@ -1,11 +1,14 @@
 JADE = @JADE@
+SGML_CATALOG_FILES = @SGML_CATALOG_FILES@
 JADETEX = @JADETEX@
 DVIPS = @DVIPS@
 GZIP = gzip --best
 
 HTML = $(top_srcdir)/html.dsl
 PRINT = $(top_srcdir)/print.dsl
-CATOPTS = -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/catalog
+
+RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE)
+CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/catalog
 GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl
 
 .PHONY: fot tex dvi ps rtf html figs htmldist dvidist psdist rtfdist
@@ -65,16 +68,16 @@ rtf: $(NAME).rtf
 html: $(NAME).html
 
 %.fot: %.sgml
-	$(JADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 
+	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 
 
 _%.tex: %.sgml
-	$(JADE) $(CATOPTS) -t tex -iprint -d $(PRINT) -o $@ $<
+	$(RUNJADE) $(CATOPTS) -t tex -iprint -d $(PRINT) -o $@ $<
 
 %.rtf: %.sgml
-	$(JADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ $<
+	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ $<
 
 %.html: %.sgml
-	$(JADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) $<
+	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) $<
 
 %.dvi: %.tex _%.tex
 	- $(JADETEX) $< ; $(JADETEX) $< 

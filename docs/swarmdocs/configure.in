@@ -57,6 +57,7 @@ AC_MSG_WARN(Failed to find $i)
 fi
 done
 
+AC_SUBST(SGML_CATALOG_FILES)
 md_PROG_GS
 
 AC_OUTPUT([catalog Makefile figs/Makefile refbook/Makefile installbook/Makefile overbook/Makefile set/Makefile refbook/activity/Makefile refbook/analysis/Makefile refbook/collections/Makefile refbook/defobj/Makefile refbook/gui/Makefile refbook/objectbase/Makefile refbook/random/Makefile refbook/simtools/Makefile refbook/simtoolsgui/Makefile refbook/space/Makefile refbook/tech/Makefile m4/Makefile refbook/refbook.tex overbook/overbook.tex installbook/installbook.tex set/set.tex])
