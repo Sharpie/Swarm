@@ -1,7 +1,8 @@
 2000-09-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* configure.in (AC_SUBST): Add
-	COM/demo/{resources/{.,content,skin},public}/Makefile substitutions.
+	COM/demo/{resources/{.,content,skin,locale},public}/Makefile
+	substitutions.
 
 2000-09-26  Marcus G. Daniels  <mgd@forager.swarm.org>
 
