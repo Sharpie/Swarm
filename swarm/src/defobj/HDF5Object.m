@@ -1115,6 +1115,7 @@ hdf5_store_attribute (hid_t did,
 
 - loadDataset: (void *)ptr
 {
+#ifdef HAVE_HDF5
   hid_t sid, tid, memtid;
 
   if ((sid = H5Dget_space (loc_id)) < 0)
@@ -1147,7 +1148,9 @@ hdf5_store_attribute (hid_t did,
   
   if (H5Sclose (sid) < 0)
     raiseEvent (LoadError, "cannot close dataset space");
-
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
