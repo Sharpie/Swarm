@@ -24,7 +24,7 @@ stubs_INSTALL=install-stubs
 
 all: $($(JAVASTUBS)_ALL)
 install: $($(JAVASTUBS)_INSTALL)
-	test -n "$(KAWAJAR)" && $(INSTALL) $(srcdir)/$(KAWAJAR) $(datadir)/swarm/kawa.jar
+	test -z "$(KAWAJAR)" || $(INSTALL) $(srcdir)/$(KAWAJAR) $(datadir)/swarm/kawa.jar
 
 all-stubs: stubs
 	$(MAKE) -C c all
