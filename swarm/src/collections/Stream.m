@@ -370,7 +370,7 @@ PHASE(Using)
   return (unsigned) value.ll;
 }
 
-- (unsigned char)getChar
+- (char)getChar
 {
   return value.ch;
 }

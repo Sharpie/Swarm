@@ -1,6 +1,11 @@
-2000-02-15    <mgd@nest.swarm.org>
+2000-02-18    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT): Bump.  Version 2.1.
+
+	* Stream.[hm], collections.h ([ArchiverValue_c -getChar]): 
+	Return char, not unsigned char.
+
+2000-02-15    <mgd@nest.swarm.org>
 
 	* collections.h (_Set): Remove bogus documentation about return
 	value of Set's add:.  Thanks to Michael Stillwell.

@@ -1125,7 +1125,7 @@ USING
 - (long long)getLongLong;
 - (int)getInteger;
 - (unsigned)getUnsigned;
-- (unsigned char)getChar;
+- (char)getChar;
 - (BOOL)getBoolean;
 - getObject;
 - (Class)getClass;
