@@ -2,6 +2,8 @@
 
 	* configure.in: Substitute JAVASWARM_DLL, LIBJAVASWARM_LA, and
 	LIBJAVASWARMSTUBS_LA.
+	(SHLIBPATH_VAR): Get value from libtool --config.  Substitute.
+	(AC_OUTPUT): Extract javaswarm.
 
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
