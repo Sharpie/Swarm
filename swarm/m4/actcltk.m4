@@ -44,8 +44,8 @@ INCPLACES=" \
         /usr/local/include /usr/local/include/tcl /usr/local/include/tk \
         /usr/include /usr/include/tcl /usr/include/tk \
         $x_includes $x_includes/tcl $x_includes/tk \
-        ../tcl8.0 ../tcl7.6 ../tcl7.5 ../tcl7.4 \
-        ../tk8.0 ../tk4.2 ../tk4.1 ../tk4.0"
+        ../tcl8.1 ../tcl8.0 ../tcl7.6 ../tcl7.5 ../tcl7.4 \
+        ../tk8.1 ../tk8.0 ../tk4.2 ../tk4.1 ../tk4.0"
 if test -n "$tclInstalledDir"; then
   INCPLACES="$tclInstalledDir/include $INCPLACES"
 fi
@@ -81,8 +81,8 @@ LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
 	/usr/local/lib /usr/local/lib/tcl /usr/local/lib/tk \
 	/usr/lib /usr/lib/tcl /usr/lib/tk \
 	$x_libraries $x_libraries/tcl $x_libraries/tk \
-	../tcl8.0 ../tcl7.6 ../tcl7.5 ../tcl7.4 \
-	../tk8.0 ../tk4.2 ../tk4.1 ../tk4.0"
+	../tcl8.1 ../tcl8.0 ../tcl7.6 ../tcl7.5 ../tcl7.4 \
+	../tk8.1 ../tk8.0 ../tk4.2 ../tk4.1 ../tk4.0"
 
 if test -n "$tclInstalledDir"; then
   LIBPLACES="$tclInstalledDir/lib $LIBPLACES"
@@ -92,12 +92,13 @@ LIBPLACES="`dirname $tclincludedir`/lib $LIBPLACES"
 
 AC_MSG_CHECKING(directory and version of libtcl)
 for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
+  tcllibdir=''
   for suffix in .so .a; do
     if test -n "$tcllibname" && test -r $dir/lib${tcllibname}${suffix} ; then
       tcllibdir=$dir
       break
     else
-      for version in 80 8.0 76 7.6 7.5 7.4 ''; do
+      for version in 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
         if test -r $dir/libtcl${version}${suffix}; then
           tcllibdir=$dir  
           tcllibname=tcl$version
@@ -137,6 +138,7 @@ AC_DEFUN(md_FIND_TK_HEADERS,
 POTENTIALINCDIR=`dirname $POTENTIALINCDIR`
 INCPLACES="$INCPLACES \
 	$tclincludedir \ 
+        $POTENTIALINCDIR/tk8.1/include \
 	$POTENTIALINCDIR/tk8.0/include \
 	$POTENTIALINCDIR/tk4.2/include \
 	$POTENTIALINCDIR/tk4.1/include \
@@ -168,6 +170,7 @@ AC_DEFUN(md_FIND_TK_LIBRARIES,
 POTENTIALLIBDIR=`dirname $tcllibdir`
 POTENTIALLIBDIR=`dirname $POTENTIALLIBDIR`
 LIBPLACES="`dirname $tkincludedir`/lib $tcllibdir $POTENTIALLIBDIR/tk/lib \
+        $POTENTIALLIBDIR/tk8.1/lib \
 	$POTENTIALLIBDIR/tk8.0/lib \
 	$POTENTIALLIBDIR/tk4.2/lib \
 	$POTENTIALLIBDIR/tk4.1/lib \
@@ -175,12 +178,13 @@ LIBPLACES="`dirname $tkincludedir`/lib $tcllibdir $POTENTIALLIBDIR/tk/lib \
 	$LIBPLACES"
 AC_MSG_CHECKING(directory and version of libtk)
 for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
+  tklibdir=''
   for suffix in .so .a; do
     if test -n "$tklibname" && test -r $dir/lib${tklibname}${suffix} ; then
       tklibdir=$dir
       break
     else
-      for version in 80 8.0 42 4.2 4.1 4.0 ''; do
+      for version in 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
         if test -r $dir/libtk${version}${suffix}; then
           tklibdir=$dir
           tklibname=tk${version}
@@ -265,6 +269,7 @@ else
 fi
 BLTLDFLAGS=$_ldflags
 BLTLIB=-l$bltlibname
+AC_SUBST(bltlibdir)
 AC_SUBST(bltdir)
 AC_SUBST(BLTLDFLAGS)
 AC_SUBST(BLTLIB)

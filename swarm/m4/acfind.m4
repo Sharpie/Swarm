@@ -20,7 +20,7 @@ if test -z "$$1libdir"; then
 else
   AC_MSG_RESULT($$1libdir)
 fi
-if test -n "$$libdir" ; then
+if test -n "$$1libdir" ; then
   if test "$suffix" = .so; then
     _ldflags="-L\$($1libdir) $RPATH\$($1libdir)"
   else

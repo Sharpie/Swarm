@@ -1,5 +1,12 @@
 1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* acfind.m4: Use $$1libdir, not $$libdir.
+
+	* actcltk.m4 (INCPLACES, LIBPLACES): Add tcl8.1 and tk8.1.
+	(md_FIND_TCL_LIBRARIES, md_FIND_TK_LIBRARIES): Add 81 and 8.1 for
+	Tcl library versions.  Clear t{cl,k}libdir before checking.
+	(bltlibdir): Substitute.
+
 	* acfind.m4: New file.
 
 	* acpng.m4: Move md_FIND_{LIB,INCLUDE} to acfind.m4.
