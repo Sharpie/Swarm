@@ -1,3 +1,29 @@
+1998-01-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* GUISwarm.m:  Import simtools.h for buildWindowGeometryRecordName.
+	([GUISwarm -setWindowGeometryRecordName:]): New method.
+	([GUISwarm -windowGeometryRecordName]): New method.
+	([GUISwarm -windowGeometryRecordNameForComponent:]): New method.
+	([GUISwarm -buildObjects]): setWindowGeometryRecordName for actionCache
+	using derived name using component "ActionCache".
+
+	* GUISwarm.h (GUISwarm): Add baseWindowGeometryRecordName instance
+	variable.  Declare WindowGeometryRecordName-protocol-conforming
+	methods setWindowGeometryRecordName,
+	windowGeometryRecordNameForComponent, and windowGeometryRecordName.
+
+	* ActionCache.m ([ActionCache -createProcCtrl]): Rename
+	component from controlPanel to ButtonPanel.
+
+	* GUIComposite.m: Import simtools.h for buildWindowGeometryRecordName.
+	([GUIComposite-windowGeometryRecordNameForComponent:]): Use
+	buildWindowGeometryRecordName to create the composite name.
+
+	* simtools.m (buildWindowGeometryRecordName): New function.
+
+	* simtools.h: Declare buildWindowGeometryRecordName.  New protocol
+	WindowGeometryRecordName, derive ActionCache, and GUISwarm from it.
+
 1998-01-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* simtools.h (Action): Rename

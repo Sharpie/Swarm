@@ -16,8 +16,12 @@
 {
   id controlPanel;
   id actionCache;
+  const char *baseWindowGeometryRecordName;
 }
 
+- setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- (const char *)windowGeometryRecordNameForComponent: (const char *)componentName;
+- (const char *)windowGeometryRecordName;
 - buildObjects;
 - go;				   // returns Completed or ControlStateQuit
 @end

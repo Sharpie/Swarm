@@ -5,8 +5,26 @@
 
 #import <simtools/GUISwarm.h>
 #import <simtools/ControlPanel.h>
+#import <simtools.h>
 
 @implementation GUISwarm
+
+- setWindowGeometryRecordName: (const char *)theWindowGeometryRecordName
+{
+  baseWindowGeometryRecordName = theWindowGeometryRecordName;
+  return self;
+}
+
+- (const char *)windowGeometryRecordName
+{
+  return baseWindowGeometryRecordName;
+}
+
+- (const char *)windowGeometryRecordNameForComponent: (const char *)componentName
+{
+  return buildWindowGeometryRecordName (baseWindowGeometryRecordName,
+                                        componentName);
+}
 
 - buildObjects
 {
@@ -14,6 +32,8 @@
   controlPanel = [ControlPanel create: [self getZone]];
   // create the actionCache, we will initialize it in activateIn
   actionCache = [ActionCache createBegin: [self getZone]];
+  [actionCache setWindowGeometryRecordName:
+                 [self windowGeometryRecordNameForComponent: "ActionCache"]];
   [actionCache setControlPanel: controlPanel];
   actionCache = [actionCache createEnd];
   return self;

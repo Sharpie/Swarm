@@ -36,17 +36,22 @@ USING
 extern id ControlStateRunning, ControlStateStopped;
 extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
+@protocol WindowGeometryRecordName <SwarmObject>
+- setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- (const char *)windowGeometryRecordNameForComponent: (const char *)componentName;
+- (const char *)windowGeometryRecordName;
+@end
+
 //
 // ActionCache --
 //   a class that provides a smart bag into which actions can be
 //   thrown by other threads and Swarms intended for insertion on
 //   it's Swarm's schedule.
 //
-@protocol ActionCache <SwarmObject>
+@protocol ActionCache <WindowGeometryRecordName>
 CREATING
 - setControlPanel: cp;
 - createEnd;
-- setWindowGeometryRecordName: (const char *)name;
 USING
 - setScheduleContext: context;
 - insertAction: actionHolder;
@@ -124,12 +129,14 @@ USING
 - update;
 @end
 
+@protocol GUIComposite <WindowGeometryRecordName> @end
+
 //
 // GUISwarm --
 //   a version of the Swarm class which is graphics aware. This is 
 //   known to be somewhat awkwardly designed...
 //
-@protocol GUISwarm <SwarmProcess> @end
+@protocol GUISwarm <SwarmProcess, WindowGeometryRecordName> @end
 
 //
 // UName --
@@ -298,6 +305,9 @@ extern id <ProbeDisplayManager> probeDisplayManager;
 
 void initSwarm (int argc, char ** argv);
 
+const char *buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
+                                           const char *componentName);
+
 // Flag for whether we're in graphics mode or not. Default is 1.
 extern int swarmGUIMode;
 
@@ -326,3 +336,4 @@ extern int swarmGUIMode;
 // #import the header file of any class you intend to subclass from.
 //
 #import <simtools/GUISwarm.h>
+

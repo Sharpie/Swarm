@@ -5,10 +5,11 @@
 
 #import <simtools/GUIComposite.h>
 #import <collections.h>
+#import <simtools.h>
 
 @implementation GUIComposite
 
-- setWindowGeometryRecordName : (const char *)windowGeometryRecordName
+- setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   baseWindowGeometryRecordName = windowGeometryRecordName;
   return self;
@@ -21,16 +22,8 @@
 
 - (const char *)windowGeometryRecordNameForComponent: (const char *)componentName
 {
-  if (baseWindowGeometryRecordName)
-    {
-      id string = [String create: [self getZone]
-                          setC: baseWindowGeometryRecordName];
-      [string appendC: "-"];
-      [string appendC: componentName];
-      return [string getC];
-    }
-  else
-    return NULL;
+  return buildWindowGeometryRecordName (baseWindowGeometryRecordName, 
+                                        componentName);
 }
 
 @end

@@ -86,4 +86,23 @@ printHelp()
   exit(-1);
 }
 
+const char *
+buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
+                               const char *componentName)
+{
+  if (baseWindowGeometryRecordName)
+    {
+      char *buf = malloc (strlen (baseWindowGeometryRecordName)
+                          + 1
+                          + strlen (componentName)
+                          + 1);
+
+      strcpy (buf, baseWindowGeometryRecordName);
+      strcat (buf, "-");
+      strcat (buf, componentName);
+      return buf;
+    }
+  else
+    return NULL;
+}
 
