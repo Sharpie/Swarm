@@ -45,20 +45,14 @@ AC_PATH_PROG(PNGTOPNM, pngtopnm, missing)
 AC_PATH_PROG(PNMTOPS, pnmtops, missing)
 AC_PATH_PROG(CJPEG, cjpeg, missing)
 
-for i in EMACS JADE PNGTOPNM PNMTOPS CJPEG ; do
+for i in EMACS JADE PNGTOPNM PNMTOPS CJPEG JADETEX DVIPS; do
 if eval test '$ac_cv_path_'$i = missing ; then
 AC_MSG_ERROR(Failed to find $i)
-fi
-done
-
-for i in JADETEX DVIPS; do
-if eval test '$ac_cv_path_'$i = missing ; then
-AC_MSG_WARN(Failed to find $i)
 fi
 done
 
 AC_SUBST(SGML_CATALOG_FILES)
 md_PROG_GS
 
-AC_OUTPUT([catalog Makefile figs/Makefile refbook/Makefile installbook/Makefile overbook/Makefile set/Makefile refbook/activity/Makefile refbook/analysis/Makefile refbook/collections/Makefile refbook/defobj/Makefile refbook/gui/Makefile refbook/objectbase/Makefile refbook/random/Makefile refbook/simtools/Makefile refbook/simtoolsgui/Makefile refbook/space/Makefile refbook/tech/Makefile m4/Makefile refbook/refbook.tex overbook/overbook.tex installbook/installbook.tex set/set.tex])
+AC_OUTPUT([catalog Makefile figs/Makefile refbook/Makefile installbook/Makefile overbook/Makefile set/Makefile refbook/activity/Makefile refbook/analysis/Makefile refbook/collections/Makefile refbook/defobj/Makefile refbook/gui/Makefile refbook/objectbase/Makefile refbook/random/Makefile refbook/simtools/Makefile refbook/simtoolsgui/Makefile refbook/space/Makefile refbook/tech/Makefile m4/Makefile tex/Makefile refbook/refbook.tex overbook/overbook.tex installbook/installbook.tex set/set.tex])
 
