@@ -71,13 +71,13 @@ PHASE(Creating)
   return newString;
 }
 
+
+PHASE(Setting)
 - setLiteralFlag: (BOOL)theLiteralFlag
 {
   literalFlag = theLiteralFlag;
   return self;
 }
-
-PHASE(Setting)
 
 - (void)setC: (const char *)cstring
 {

@@ -50,6 +50,7 @@ Library:     collections
 - (void)catString: (const char *)str;
 - (void)catSeparator;
 - (void)catArrayRank: (unsigned)rank;
+- (void)catEndArray;
 - (void)catArrayType: (const char *)type;
 - (void)catType: (const char *)type;
 - (void)catClass: (Class)class;

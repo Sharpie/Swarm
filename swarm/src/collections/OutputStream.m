@@ -13,6 +13,7 @@ Library:      collections
 #import <defobj/internal.h> // lisp_type_for_objc_type
 #import <defobj/defalloc.h> // getZone
 #import <collections.h> // ArchiverValue, ArchiverKeyword, ArchiverQuoted
+#import <collections/StringObject.h>
 #include <misc.h> // FILE, fputs, isPrint
 #include <swarmconfig.h> // PTRHEXFMT
 
@@ -93,7 +94,8 @@ PHASE(Using)
 - (void)catLiteral: (const char *)string
 {
   if (exprStack)
-    ADDEXPR ([String create: getZone (self) setC: string]);
+    ADDEXPR ([[String create: getZone (self) setC: string]
+               setLiteralFlag: YES]);
   else
     [self catC: string];
 }
@@ -331,8 +333,9 @@ PHASE(Using)
 {
   if (exprStack)
     ADDEXPR ([[[ArchiverQuoted createBegin: getZone (self)]
-                setQuotedObject: [String create: getZone (self)
-                                         setC: symbolName]]
+               setQuotedObject: [[String create: getZone (self) 
+                                         setC: symbolName]
+                                  setLiteralFlag: YES]]
                createEnd]);
   else
     {
@@ -344,7 +347,7 @@ PHASE(Using)
 - (void)catString: (const char *)str
 {
   if (exprStack)
-    ADDEXPR ([String create: getZone (self) setC: str]);
+    ADDEXPR ([[String create: getZone (self) setC: str] setLiteralFlag: YES]);
   else
     {
       [self catC: "\""];
@@ -372,6 +375,14 @@ PHASE(Using)
       [self catC: "#"];
       [self catUnsigned: rank];
     }
+}
+
+- (void)catEndArray
+{
+  if (exprStack)
+    ADDEXPR ([[[ArchiverArray createBegin: getZone (self)]
+                setArray: [[exprStack getFirst] removeLast]]
+               createEnd]);
 }
 
 - (void)catArrayType: (const char *)type
@@ -411,10 +422,11 @@ PHASE(Using)
       id consExpr = [exprStack removeFirst];
 
       [consExpr removeFirst];
-      ADDEXPR ([[[[ArchiverPair createBegin: getZone (self)]
+      ADDEXPR ([[[[[ArchiverPair createBegin: getZone (self)]
                   setConsFormatFlag: YES]
                   setCar: [consExpr getFirst]]
-                 setCdr: [consExpr getLast]]);
+                  setCdr: [consExpr getLast]]
+                 createEnd]);
       [consExpr drop];
     }
   else
@@ -515,9 +527,12 @@ PHASE(Using)
       id cdr = [[[ArchiverValue createBegin: getZone (self)]
                   setLongLong: (long long) y]
                  createEnd];
-      ADDEXPR ([[[[ArchiverPair createBegin: getZone (self)]
+      ADDEXPR ([[[ArchiverQuoted createBegin: getZone (self)]
+                  setQuotedObject: 
+                    [[[[ArchiverPair createBegin: getZone (self)]
                    setCar: car]
                   setCdr: cdr]
+                      createEnd]]
                  createEnd]);
     }
 }

@@ -2,12 +2,17 @@
 
 	* StringObject.m ([String_c -lispOutShallow:]): Use catString:
 	and catStartMakeInstance:.
+	([String_c -setLiteralFlag:]): Put it in setting phase.
 
-	* OutputStream.m: Don't include InputStream.h.
-	Include collections.h and defobj/defalloc.h.
-	([OutputStream_c -_addExpr_:]): New method.
-	Update all cat* routines to handle exprStack.
+	* OutputStream.m: Don't include InputStream.h.  Include
+	collections.h, defobj/defalloc.h, and StringObject.h.
+	([OutputStream_c -_addExpr_:]): New method.  Update all cat*
+	routines to handle exprStack.
 	([OutputStream_c -catType:]): Use -catArrayType:.
+	([OutputStream_c -catLiteral:],
+	[OutputStream_c -catSymbol:], [OutputStream_c -catString:]): Set
+	literal flag.
+	([OutputStream_c -catUnsignedPair::]): Quote ArchiverPair.
 
 	* OutputStream.[hm], collections.h ([OutputStream_c
 	-setExprFlag:], [OutputStream_c -catLiteral:],
@@ -17,7 +22,8 @@
 	[OutputStream_c -catEndQuotedList],
 	[OutputStream_c -catEndParse],
 	[OutputStream_c -catEndMakeInstance],
-	[OutputStream_c -catEndMakeClass]): New methods.
+	[OutputStream_c -catEndMakeClass],
+	[OutputStream_c -catEndArray]): New methods.
 	([OutputStream_c -catClass:]): Use Class as argument type.
 
 	* OutputStream.h (OutputStream_c): Add expr and exprStack.

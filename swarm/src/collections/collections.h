@@ -1040,6 +1040,7 @@ USING
 - (void)catString: (const char *)str;
 - (void)catSeparator;
 - (void)catArrayRank: (unsigned)rank;
+- (void)catEndArray;
 - (void)catType: (const char *)type;
 - (void)catClass: (Class)class;
 - (void)catStartFunction: (const char *)functionName;
