@@ -1,3 +1,10 @@
+1998-09-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.common: Export SWARMSRCDIR to run of history.el.
+
+	* configure.in: Escape $SWARMSRCDIR and $(swarm_srcdir) in 
+	help text.
+
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* history.el (process-changelog): Sort combined list by timestamp.
