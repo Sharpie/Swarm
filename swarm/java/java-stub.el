@@ -224,7 +224,6 @@
       "-allocBlock:" ; void* return
       "-free:" ; void* parameter
       "-freeBlock:blockSize:"; void* parameter
-      "-containsAlloc:" ; void* parameter
       "-getMemberBlock" ; void* return
       "-getData" ; void* return
 

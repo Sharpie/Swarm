@@ -1,3 +1,7 @@
+2000-01-22    <mgd@nest.swarm.org>
+
+	* java-stub.el (*removed-methods*):  Remove -containsAlloc:.
+
 2000-01-11    <mgd@nest.swarm.org>
 
 	* java-stub.el (*removed-methods*): Change
