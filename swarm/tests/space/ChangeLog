@@ -1,3 +1,15 @@
+1999-06-08  Alex Lancaster  <alex@santafe.edu>
+
+	* Discrete2d.m ([MyDiscrete2d -setUpdateFlag:]): New method and
+	instance variable to control whether if -putObject: is used.
+	([MyDiscrete2d -updateArchiver:]): Only call -putObject: if
+	updateFlag set.
+	(checkArchiverDiscrete2d): Accept additional BOOL updateFlag
+	variable.  Set created objects using this flag, and the read
+	Archiver instance accordingly.
+	(main): Add matching `NO' update tests for each existing Lisp
+	archiving test.
+
 1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m: Remove emptyMap.

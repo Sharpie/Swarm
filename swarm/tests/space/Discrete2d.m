@@ -59,8 +59,10 @@
 @interface MyDiscrete2d: Discrete2d
 {
   BOOL objectFlag;
+  BOOL updateFlag;
 }
 - setObjectFlag: (BOOL)objectFlag;
+- setUpdateFlag: (BOOL)updateFlag;
 - updateArchiver: archiver;
 - (BOOL)checkObject;
 @end
@@ -69,6 +71,8 @@
 + createBegin: aZone
 {
   MyDiscrete2d *obj = [super createBegin: aZone];
+
+  obj->updateFlag = YES;
   return obj;
 }
 
@@ -78,12 +82,21 @@
   return self;
 }
 
+- setUpdateFlag: (BOOL)theUpdateFlag
+{
+  updateFlag = theUpdateFlag;
+  return self;
+}
+
 - updateArchiver: archiver
 {
-  if (objectFlag)
-    [archiver putDeep: OBJNAME object: self];
-  else
-    [archiver putShallow: OBJNAME object: self];
+  if (updateFlag)
+    {
+      if (objectFlag)
+        [archiver putDeep: OBJNAME object: self];
+      else
+        [archiver putShallow: OBJNAME object: self];
+    }
   return self;
 }
 
@@ -132,19 +145,22 @@ createArchiver (id aZone, BOOL hdf5Flag, BOOL inhibitLoadFlag, BOOL deepFlag)
 }
 
 static BOOL
-checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL deepFlag)
+checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL deepFlag, 
+                         BOOL updateFlag)
 {
   id obj;
   BOOL ret;
   id archiver;
 
-  archiver = createArchiver (aZone, hdf5Flag, YES, deepFlag);
+  archiver = createArchiver (aZone, hdf5Flag, (updateFlag ? YES : NO), 
+                             deepFlag);
 
   if (!deepFlag)
     {
-      obj = [[[[MyDiscrete2d createBegin: aZone]
-                setSizeX: XSIZE Y: YSIZE]
-               setObjectFlag: NO]
+      obj = [[[[[MyDiscrete2d createBegin: aZone]
+                 setSizeX: XSIZE Y: YSIZE]
+                setObjectFlag: NO]
+               setUpdateFlag: updateFlag]
               createEnd];
       [obj fastFillWithValue: ULONGVAL];
       
@@ -154,9 +170,10 @@ checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL deepFlag)
   else
     {
       id latticeObj = [MyClass create: aZone];
-      obj = [[[[MyDiscrete2d createBegin: aZone]
-                setSizeX: XSIZE Y: YSIZE]
-               setObjectFlag: YES]
+      obj = [[[[[MyDiscrete2d createBegin: aZone]
+                 setSizeX: XSIZE Y: YSIZE]
+                setObjectFlag: YES]
+               setUpdateFlag: updateFlag]
               createEnd];
       [obj fastFillWithObject: latticeObj];
       
@@ -184,20 +201,32 @@ main (int argc, const char **argv)
 {
   initSwarmBatch (argc, argv);
 
-  if (checkArchiverDiscrete2d (globalZone, NO, YES) == NO)
+  if (checkArchiverDiscrete2d (globalZone, NO, YES, YES) == NO)
     raiseEvent (InternalError, 
-                "Deep Lisp serialization of Discrete2d with objects failed");
+                "Deep Lisp serialization of Discrete2d with objects" 
+                " and update failed");
 
-  if (checkArchiverDiscrete2d (globalZone, NO, NO) == NO)
+  if (checkArchiverDiscrete2d (globalZone, NO, YES, NO) == NO)
     raiseEvent (InternalError, 
-                "Shallow Lisp serialization of Discrete2d with values failed");
+                "Deep Lisp serialization of Discrete2d with objects" 
+                " and no update failed");
+
+  if (checkArchiverDiscrete2d (globalZone, NO, NO, YES) == NO)
+    raiseEvent (InternalError, 
+                "Shallow Lisp serialization of Discrete2d with values"
+                " and update failed");
+
+  if (checkArchiverDiscrete2d (globalZone, NO, NO, YES) == NO)
+    raiseEvent (InternalError, 
+                "Shallow Lisp serialization of Discrete2d with values"
+                " and no update failed");
 
 #ifdef HAVE_HDF5
-  if (checkArchiverDiscrete2d (globalZone, YES, YES) == NO)
+  if (checkArchiverDiscrete2d (globalZone, YES, YES, YES) == NO)
     raiseEvent (InternalError, 
                 "Deep HDF5 serialization of Discrete2d with objects failed");
 
-  if (checkArchiverDiscrete2d (globalZone, YES, NO) == NO)
+  if (checkArchiverDiscrete2d (globalZone, YES, NO, YES) == NO)
     raiseEvent (InternalError, 
                 "Shallow HDF5 serialization of Discrete2d with values failed");
 #endif
