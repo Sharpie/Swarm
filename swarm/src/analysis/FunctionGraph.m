@@ -3,6 +3,8 @@
 
 @implementation FunctionGraph
 
+PHASE(Creating)
+
 + createBegin: aZone
 {
   FunctionGraph *newFunctionGraph = [super createBegin: aZone];
@@ -74,6 +76,8 @@
   return self;
 }
 
+PHASE(Setting)
+
 - setArithmeticWarn: (BOOL)state
 {
   arithmeticWarn = state;
@@ -144,6 +148,7 @@
   return self;
 }
 
+PHASE(Using)
 
 - graph
 {

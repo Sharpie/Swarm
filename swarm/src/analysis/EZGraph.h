@@ -6,6 +6,7 @@
 // Simple Graph Object -> encapsulates many of the low-level objects 
 //                        required to get graphs/file traces to work.
 
+#import <analysis.h> // EZGraph
 #import <gui.h>
 #import <simtoolsgui/GUIComposite.h>
 
@@ -13,7 +14,7 @@
 @class EZSequence;
 @class EZAverageSequence;
 
-@interface EZGraph: GUIComposite
+@interface EZGraph: GUIComposite <EZGraph>
 {
   int graphics;
   id <Graph> graph;

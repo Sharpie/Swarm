@@ -3,12 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <analysis.h> // EZBin
 #import <simtoolsgui/GUIComposite.h>
 #import <gui.h>
 
 // EZBin object: used to generate histograms.
 
-@interface EZBin: GUIComposite
+@interface EZBin: GUIComposite <EZBin>
 {
   BOOL graphics;
   id <Histogram> aHisto;

@@ -7,6 +7,7 @@
 #import <simtools/OutFile.h>
 
 @implementation ActiveOutFile
+PHASE(Creating)
 
 - setFileObject: aFileObj
 {
@@ -28,6 +29,9 @@
   [super createEnd];
   return self;
 }
+
+PHASE(Setting)
+PHASE(Using)
 
 - step
 {

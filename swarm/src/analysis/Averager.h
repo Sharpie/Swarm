@@ -3,12 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <analysis.h> // Averager
 #import <objectbase/MessageProbe.h>
 
 // Average object: calculates a few basic statistics given a collection of 
 // objects to poll and a selector with which to poll them.
 
-@interface Averager: MessageProbe
+@interface Averager: MessageProbe <Averager>
 {
   double total;	      // total
   double max, min;    // maximum, minimum

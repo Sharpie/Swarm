@@ -3,11 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <analysis.h> // EZBin
 #import <analysis/EZBin.h>
 
 // EZDistribution object: used to generate distributions.
 
-@interface EZDistribution: EZBin
+@interface EZDistribution: EZBin <EZDistribution>
 {
   double *probabilities;
   double entropy, maximumEntropy;

@@ -3,11 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <analysis.h> // ActiveGraph
 #import <objectbase/MessageProbe.h>
 #import <gui.h>
 
 // A graph that fetches its data, draws it on a GraphElement
-@interface ActiveGraph: MessageProbe
+@interface ActiveGraph: MessageProbe <ActiveGraph>
 {
   id <GraphElement> element;			  // element to draw on
   id dataFeed;					  // object to read from

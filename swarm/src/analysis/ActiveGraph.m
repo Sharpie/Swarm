@@ -10,7 +10,6 @@
 
 // ActiveGraph: a graph that actively updates its own element when stepped.
 @implementation ActiveGraph
-
 PHASE(Creating)
 
 - setElement: (id <GraphElement>)ge
@@ -33,6 +32,8 @@ PHASE(Creating)
   [super createEnd];
   return self;
 }
+
+PHASE(Setting)
 
 PHASE(Using)
 
