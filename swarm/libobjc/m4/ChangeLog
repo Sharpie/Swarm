@@ -1,3 +1,7 @@
+1999-05-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* headers.m4: Convert hpux10.20 into hpux10.
+
 1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* headers.m4: Convert irix6.5 into irix6.
