@@ -1,3 +1,9 @@
+2000-07-03  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* ProbeMap.m ([ProbeMap -getProbeForMessage:],
+	[ProbeMap -getProbeForVariable:]): Remove warnings if 
+	probes don't exist.
+
 2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* VarProbe.[hm], MessageProbe.[hm] ([... -describe:]):

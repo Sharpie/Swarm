@@ -577,17 +577,7 @@ PHASE(Using)
   res = [probes at: string];
   [string drop];
   
-  if (res == nil)
-    { 
-      // if not found
-      if (SAFEPROBES)
-        raiseEvent (WarningMessage,
-                    "The variable %s was not found\n",
-                    aVariable);
-      return nil;
-    }
-  else
-    return res;
+  return res;
 }
 
 - dropProbeForMessage: (const char *)aMessage
@@ -612,16 +602,7 @@ PHASE(Using)
   res = [probes at: string];
   [string drop];
 
-  if (res == nil)
-    {
-      if (SAFEPROBES)
-        raiseEvent (WarningMessage,
-                    "The message %s was not found\n",
-                    aMessage);
-      return nil;
-    }
-  else
-    return res;
+  return res;
 }
 
 - begin: aZone
