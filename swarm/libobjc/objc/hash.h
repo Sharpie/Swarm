@@ -30,6 +30,7 @@ Boston, MA 02111-1307, USA.  */
 
 #include <stddef.h>
 #include <objc/objc.h>
+#include <objc/externvar.h>
 
 /*
  * This data structure is used to hold items

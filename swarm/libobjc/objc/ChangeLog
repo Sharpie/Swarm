@@ -1,6 +1,7 @@
 1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* hash.h (module_hash_table, class_hash_table): Use externobjcvar.
+	* hash.h: Include <objc/externvar.h>.
+	(module_hash_table, class_hash_table): Use externobjcvar.
 
 	* runtime.h (__objc_class_links_resolved, __objc_selector_max_index,
 	__objc_runtime_mutex, __objc_runtime_threads_alive): Likewise.
