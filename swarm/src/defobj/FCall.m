@@ -408,37 +408,37 @@ PHASE(Using)
         break;
       case fcall_type_schar:
         // character return is broken in libffi-1.18
-        fargs->resultVal.schar = VAL(int, ret);
+        fargs->resultVal.schar = VAL (int, ret);
         break;
       case fcall_type_uchar:
         // character return is broken in libffi-1.18
-        fargs->resultVal.uchar = VAL(unsigned, ret);
+        fargs->resultVal.uchar = VAL (unsigned, ret);
         break;
       case fcall_type_sint:
-        fargs->resultVal.sint = VAL(int, ret);
+        fargs->resultVal.sint = VAL (int, ret);
         break;
       case fcall_type_uint:
-        fargs->resultVal.uint = VAL(unsigned, ret);
+        fargs->resultVal.uint = VAL (unsigned, ret);
         break;
       case fcall_type_sshort:
         // short return is broken in libffi-1.18
-        fargs->resultVal.sshort = VAL(int, ret);
+        fargs->resultVal.sshort = VAL (int, ret);
         break;
       case fcall_type_ushort:
         // short return is broken in libffi-1.18
-        fargs->resultVal.ushort = VAL(unsigned, ret);
+        fargs->resultVal.ushort = VAL (unsigned, ret);
         break;
       case fcall_type_slong:
-        fargs->resultVal.slong = VAL(long, ret);
+        fargs->resultVal.slong = VAL (long, ret);
         break;
       case fcall_type_ulong:
-        fargs->resultVal.ulong = VAL(unsigned long, ret);
+        fargs->resultVal.ulong = VAL (unsigned long, ret);
         break;
       case fcall_type_slonglong:
-        fargs->resultVal.slonglong = VAL(long long, ret);
+        fargs->resultVal.slonglong = VAL (long long, ret);
         break;
       case fcall_type_ulonglong:
-        fargs->resultVal.ulonglong = VAL(unsigned long long, ret);
+        fargs->resultVal.ulonglong = VAL (unsigned long long, ret);
         break;
       case fcall_type_float:
         fargs->resultVal._float = ret._float;
@@ -450,24 +450,24 @@ PHASE(Using)
         fargs->resultVal._long_double = ret._long_double;
         break;
       case fcall_type_object:
-        fargs->resultVal.object = VAL(id, ret);
+        fargs->resultVal.object = VAL (id, ret);
         break;
       case fcall_type_class:
-        fargs->resultVal.class = VAL(Class, ret);
+        fargs->resultVal.class = VAL (Class, ret);
         break;
       case fcall_type_selector:
-        fargs->resultVal.selector = VAL(SEL, ret);
+        fargs->resultVal.selector = VAL (SEL, ret);
         break;
       case fcall_type_string:
-        fargs->resultVal.string = VAL(const char *, ret);
+        fargs->resultVal.string = VAL (const char *, ret);
         break;
 #ifdef HAVE_JDK
       case fcall_type_jobject:
-        fargs->resultVal.object = (id) VAL(jobject, ret);
-        break;
+	fargs->resultVal.object = (id) VAL (jobject, ret);
+	break;
       case fcall_type_jstring:
-        fargs->resultVal.object = (id) VAL(jstring, ret);
-        break;
+	fargs->resultVal.object = (id) VAL (jstring, ret);
+	break;
 #endif
       default:
         abort ();
@@ -475,10 +475,36 @@ PHASE(Using)
 #else
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
-    java_call (fargs);
+    {
+      java_call (fargs);
+
+      if (fargs->returnType == fcall_type_jobject
+	  || fargs->returnType == fcall_type_jstring)
+	{
+	  jobject lref = (jobject) fargs->resultVal.object;
+	  
+	  fargs->resultVal.object =
+	    (id) (*jniEnv)->NewGlobalRef (jniEnv, lref);
+	  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+	}
+    }
   else
 #endif
     objc_call (fargs);
+#endif
+#ifdef HAVE_JDK
+  if (callType == javacall || callType == javastaticcall)
+    {
+      if (fargs->returnType == fcall_type_jobject
+	  || fargs->returnType == fcall_type_jstring)
+	{
+	  jobject lref = (jobject) fargs->resultVal.object;
+	  
+	  fargs->resultVal.object =
+	    (id) (*jniEnv)->NewGlobalRef (jniEnv, lref);
+	  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+	}
+    }
 #endif
 }
 
@@ -719,7 +745,12 @@ PHASE(Using)
 {
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
-    (*jniEnv)->DeleteGlobalRef (jniEnv, self->fclass);
+    {
+      (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
+      if (fargs->returnType == fcall_type_jobject
+	  || fargs->returnType == fcall_type_jstring)
+	(*jniEnv)->DeleteGlobalRef (jniEnv, fobject);
+    }
 #endif
   [super drop];
 }
