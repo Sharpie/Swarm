@@ -215,24 +215,18 @@ java_instantiate (JNIEnv *env, jclass clazz)
   return (*env)->AllocObject (env, clazz);
 }
 
-jobject
-java_instantiate_using (JNIEnv *env, jobject jobj)
+jstring
+get_class_name (JNIEnv *env, jobject jobj)
 {
-  jclass clazz, newClass;
-  jstring classNameObj;
-  jobject classObj;
+  jclass clazz, classClass;
+  jobject classObj, nameObj;
   jmethodID methodID;
-  jboolean copyFlag;
-  const char *utf;
 
-  if (!jobj)
+  if (!(clazz = (*env)->GetObjectClass (env, jobj)))
     abort ();
 
-  if (!(newClass = (*env)->GetObjectClass (env, jobj)))
-    abort ();
-  
   if (!(methodID = (*env)->GetMethodID (env,
-                                        newClass,
+                                        clazz,
                                         "getClass",
                                         "()Ljava/lang/Class;")))
     abort ();
@@ -240,18 +234,35 @@ java_instantiate_using (JNIEnv *env, jobject jobj)
   if (!(classObj = (*env)->CallObjectMethod (env, jobj, methodID)))
     abort ();
   
-  if (!(clazz = (*env)->GetObjectClass (env, classObj)))
+  if (!(classClass = (*env)->GetObjectClass (env, classObj)))
     abort ();
   
   if (!(methodID = (*env)->GetMethodID (env,
-                                        clazz,
+                                        classClass,
                                         "getName",
                                         "()Ljava/lang/String;")))
     abort ();
   
-  if (!(classNameObj = (*env)->CallObjectMethod (env, classObj, methodID)))
+  if (!(nameObj = (*env)->CallObjectMethod (env, classObj, methodID)))
     abort ();
-  
+
+  return nameObj;
+}
+
+jobject
+java_instantiate_using (JNIEnv *env, jobject jobj)
+{
+  jclass clazz;
+  jstring classNameObj;
+  jmethodID methodID;
+  jboolean copyFlag;
+  const char *utf;
+
+  if (!jobj)
+    abort ();
+
+  classNameObj = get_class_name (env, jobj);
+
   if (!(clazz = (*env)->GetObjectClass (env, classNameObj)))
     abort ();
   
@@ -284,7 +295,8 @@ java_instantiate_using (JNIEnv *env, jobject jobj)
   return java_instantiate (env, clazz);
 }
 
-int compare_java_objects (const void *A, const void *B, void *PARAM)
+int
+compare_java_objects (const void *A, const void *B, void *PARAM)
 {
    if (((jobject_id *) A)->java_object <
       ((jobject_id *) B)->java_object)
@@ -294,7 +306,8 @@ int compare_java_objects (const void *A, const void *B, void *PARAM)
 	  ((jobject_id *) B)->java_object);
 }
 
-int compare_objc_objects (const void *A, const void *B, void *PARAM)
+int
+compare_objc_objects (const void *A, const void *B, void *PARAM)
 {
   if (((jobject_id *) A)->objc_object <
       ((jobject_id *) B)->objc_object)
@@ -546,7 +559,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
       printf ("[%s][%s]\n", name, signatureBuf);
       sel = sel_register_typed_name (name, signatureBuf);
     }
-  java_directory_update (jniEnv, jsel, (id) sel);
+  java_directory_update (env, jsel, (id) sel);
 
   if (copyFlag)
     (*env)->ReleaseStringUTFChars (env, string, utf);
@@ -556,21 +569,21 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
 }
 
 Class
-java_ensure_class (JNIEnv *env, jclass class)
+java_ensure_class (JNIEnv *env, jclass javaClass)
 {
-  jmethodID methodID = (*env)->GetStaticMethodID (env,
-                                                  class,
-                                                  "getName", 
-                                                  "()Ljava/lang/String;");
-  jstring ret = (*env)->CallStaticObjectMethod (env, class, methodID);
-  jboolean isCopy;
-  const char *utf = (*env)->GetStringUTFChars (env, ret, &isCopy);
-  const char *className = strdup (utf);
+  Class objcClass;
+  jstring name = get_class_name (env, (*env)->AllocObject (env, javaClass));
   
-  (*env)->ReleaseStringUTFChars (env, ret, utf);
-  printf ("ensure_class:[%s]\n", className);
-  
-  return objc_lookup_class (className);
+  {
+    jboolean isCopy;
+    const char *className =
+      (*env)->GetStringUTFChars (env, name, &isCopy);
+    
+    objcClass = objc_lookup_class (className);
+    (*env)->ReleaseStringUTFChars (env, name, className);
+  }
+  java_directory_update (env, (jobject) javaClass, (id) objcClass);
+  return objcClass;
 }
 
 const char *

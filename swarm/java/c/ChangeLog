@@ -1,3 +1,8 @@
+1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (get_class_name): New function.
+	(java_instantiate_using, java_ensure_class): Use it.
+
 1999-04-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (java_cleanup_strings, java_copy_string): Implement.
