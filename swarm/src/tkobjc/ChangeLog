@@ -1,6 +1,7 @@
 1999-03-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am: Add @CFLAGS_NOWARN_IMPLICIT_INT@.
+	* Makefile.am: Use @CFLAGS_NOWARN_IMPLICIT_INT@ instead of
+	-Wno-implicit-int.
 
 1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
