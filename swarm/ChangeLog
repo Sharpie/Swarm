@@ -1,6 +1,7 @@
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* NEWS: Note that completed activities can be dropped.
+	Note that HDF5 1.2.2 is required.
 
 	* VERSION: Bump.
 
