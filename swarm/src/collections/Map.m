@@ -335,42 +335,34 @@ PHASE(Using)
 - lispIn: expr
 {
   id index, member;
-  id aZone = [self getZone];
+  id aZone = [self getZone];  
 
   index = [(id) expr begin: scratchZone];
   while ((member = [index next]) != nil)
     {
       if (keywordp (member))
         [index next];
-      else if (listp (member))
+      else if (pairp (member))
         {
-          if (ARCHIVERLITERALP ([member getFirst]))
+          id pair = member;
+          id keyExpr = [pair getCar];
+          id valueExpr = [pair getCdr];
+          id key, value;
+          
+          if (valuep (keyExpr))
             {
-              id val = [member getLast];
-              
-              if (pairp (val))
-                {
-                  id keyExpr = [val getCar];
-                  id valueExpr = [val getCdr];
-                  id key, value;
-                  
-                  if (valuep (keyExpr))
-                    {
-                      if ([keyExpr getValueType] != _C_INT)
-                        raiseEvent (InvalidArgument, "ArchiverValue not integer");
-                      key = (id) [keyExpr getInteger];
-                    }
-                  else
-                    key = lispIn (aZone, keyExpr);
-                  value = lispIn (aZone, valueExpr);
-                  [(id) self at: key insert: value];
-                }
+              if ([keyExpr getValueType] != _C_INT)
+                raiseEvent (InvalidArgument, "ArchiverValue not integer");
+              key = (id) [keyExpr getInteger];
             }
           else
-            raiseEvent (InvalidArgument, "Expecting ArchiverLiteral");
+            key = lispIn (aZone, keyExpr);
+          value = lispIn (aZone, valueExpr);
+          [(id) self at: key insert: value];
         }
       else
-        raiseEvent (InvalidArgument, "Expecting quoted dotted pair");
+        raiseEvent (InvalidArgument,
+                    "Expecting quoted dotted pair or cons expression");
     }
   [index drop];
   return self;
@@ -385,7 +377,7 @@ PHASE(Using)
   index = [(id) self begin: scratchZone];
   while ((member = [index next: &key]))
     {
-      [outputCharStream catC: " '("];
+      [outputCharStream catC: " (cons "];
       if (compareFunc == compareIDs)
         [key lispOut: outputCharStream];
       else
@@ -395,7 +387,7 @@ PHASE(Using)
           sprintf (buf, "%d", (int)key);
           [outputCharStream catC: buf];
         }
-      [outputCharStream catC: " . "];
+      [outputCharStream catC: " "];
       [member lispOut: outputCharStream];
       [outputCharStream catC: ")"];
     }

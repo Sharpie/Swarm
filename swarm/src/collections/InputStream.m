@@ -25,7 +25,7 @@ PHASE(Creating)
   return newStream;
 }
 
-- (void) setFileStream: (FILE *)file
+- (void)setFileStream: (FILE *)file
 {
   fileStream = file;
 }
@@ -103,17 +103,7 @@ readString (id inStream, BOOL literalFlag)
   if (c == EOF)
     return nil;
   else if (c == '\'')
-    {
-      id list = [List create : [self getZone]];
-      id obj;
-
-      [list addFirst: ArchiverLiteral];
-      obj = [self getExpr];
-      if (obj == nil)
-        [self _unexpectedEOF_];
-      [list addLast: obj];
-      return list;
-    }
+    return [self getExpr];
   else if (c == '#')
     {
       int c2 = fgetc (fileStream);
@@ -196,13 +186,28 @@ readString (id inStream, BOOL literalFlag)
           [list addLast: newObj];
         }
       
-      if (symbolp ([list atOffset: 1]) && [list getCount] == 3)
+      if (ARCHIVERDOTP ([list atOffset: 1]) && [list getCount] == 3)
         {
           id pair = [ArchiverPair createBegin: [self getZone]];
 
           [pair setCar: [list getFirst]];
           [pair setCdr: [list getLast]];
 
+          pair = [pair createEnd];
+          [list drop];
+          return pair;
+        }
+      else if (cons_literal_p ([list getFirst]))
+        {
+          id pair;
+
+          if ([list getCount] != 3)
+            raiseEvent (InvalidArgument, "cons accepts only two arguments");
+          
+          pair = [ArchiverPair createBegin: [self getZone]];
+          
+          [pair setCar: [list atOffset: 1]];
+          [pair setCdr: [list atOffset: 2]];
           pair = [pair createEnd];
           [list drop];
           return pair;

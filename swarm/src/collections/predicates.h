@@ -12,3 +12,5 @@ BOOL keywordp (id obj);
 BOOL valuep (id obj);
 BOOL arrayp (id obj);
 BOOL pairp (id obj);
+BOOL cons_literal_p (id obj);
+BOOL list_literal_p (id obj);

@@ -1,16 +1,18 @@
 1998-11-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Map.m ([Map_c -lispIn:]): Convert quoted ArchiverPairs to key
-	values and insert. 
-	([Map_c -lispOut:]): Quote the pairs.
-
+	* Map.m ([Map_c -lispIn:]): Remove ARCHIVERLITERAL handling; all
+	pairs are the same.
+	([Map_c -lispOut:]): Output (cons key value) instead of '(key . value).
+	
 	* InputStream.m ([InputStream_c -getExpr]): Convert (key . value)
-	to ArchiverPair.
+	to ArchiverPair.  Skip "'"; don't make a (quote x) type datastructure.
+	Treat (cons x y) the same as '(x . y).
 
 	* InputStream.[hm] (ArchiverPair_c), collections.h,
 	collections.m (_collections_implement): New type.
 
-	* predicates.[hm]: Add symbolp and pairp.
+	* predicates.[hm] (cons_literal_p, list_literal_p, symbolp, pairp):
+	New predicates.
 
 1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

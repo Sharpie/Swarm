@@ -55,3 +55,27 @@ pairp (id obj)
 {
   return [obj isKindOfClassNamed: "ArchiverPair_c"];
 }
+
+BOOL
+cons_literal_p (id obj)
+{
+  if (stringp (obj))
+    {
+      const char *str = [obj getC];
+      
+      return strcmp (str, "cons") == 0;
+    }
+  return NO;
+}
+
+BOOL
+list_literal_p (id obj)
+{
+  if (stringp (obj))
+    {
+      const char *str = [obj getC];
+      
+      return strcmp (str, "list") == 0;
+    }
+  return NO;
+}

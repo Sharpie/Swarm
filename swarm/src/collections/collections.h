@@ -1008,7 +1008,7 @@ USING
 - getCdr;
 @end
 
-#define ARCHIVERLITERALP(obj) ((id) (obj) == (id) ArchiverLiteral)
+#define ARCHIVERDOTP(obj) ((id) (obj) == (id) ArchiverDot)
 
 @protocol String <Create, Drop, Copy, CREATABLE>
 //S: Character string object (later to support collection behavior).
