@@ -1,5 +1,7 @@
 1999-03-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (create_class_refs): c_int is an Integer, not an Int.
+
 	* Makefile.in: Split stubs and support code into two shared libraries.
 
 1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

@@ -41,7 +41,7 @@ create_class_refs (JNIEnv *env)
     {
       c_char = find ("Character");
       c_byte= find ("Byte");
-      c_int = find ("Int");
+      c_int = find ("Integer");
       c_short = find ("Short");
       c_long = find ("Long");
       c_float = find ("Float");
