@@ -7,7 +7,6 @@
 #include <misc.h> 
 #include <misc/avl.h>
 
-Class swarm_directory_swarm_class (id object);
 const char *swarm_directory_language_independent_class_name_for_objc_object (id object);
 const char *language_independent_class_name_for_objc_class (Class class);
 
@@ -68,6 +67,7 @@ extern Directory *swarmDirectory;
 
 extern void swarm_directory_dump ();
 
+Class swarm_directory_swarm_class (id obj);
 #define SD_GETCLASS(obj) swarm_directory_swarm_class (obj)
 
 extern Class swarm_directory_superclass (Class class);

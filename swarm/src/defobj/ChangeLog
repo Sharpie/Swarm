@@ -1,5 +1,40 @@
 2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* FArguments.m ([FArguments_c -setSelector:]): Don't check
+	swarmDirectory.
+
+	* FCall.m ([FCall_c -setMethodFromSelector:inObject:]): Likewise.
+
+	* Zone.m ([Zone_c -freeIVarsComponent:], [Zone_c -freeIVars:]): Likewise.
+
+	* HDF5Object.m ([HDF5_c -createEnd]): Likewise.
+	
+	* DefObject.m ([Object_s -getClass]): Just call SD_GETCLASS.
+
+	* java.[hm] (swarm_directory_java_find_class_named_objc,
+	swarm_directory_java_class_for_object_objc,
+	swarm_directory_objc_find_class_java): Renamed to follow suffix
+	convention.
+
+	* COM.m (find_wrapper_class_COM): Check comEnv.
+	(swarm_directory_objc_find_class_COM): First check
+	swarmDirectory.
+
+	* java.m (swarm_directory_objc_find_class_java): Likewise.
+
+	* directory.m (swarm_directory_objc_find_object,
+	swarm_directory_objc_find_selector): Likewise.
+	(swarm_directory_ensure_class_named, swarm_directory_swarm_class,
+	swarm_directory_language_independent_class_name_for_objc_object):
+	Don't check it.
+	(swarm_directory_superclass): Abort if COM class.
+	(swarm_directory_objc_find_object): Return nil
+	if swarmDirectory is not set.
+
+	* COMProxy.h: Don't claim Serialization protocol.
+
+	* Arguments.m (parse_opt): Remove swarmDirectory check.
+
 	* FCall.m (add_ffi_types): Don't set return type here
 	for JavaScript, as it will be dynamic.
 	([FCall_c -performCall]): Set it here.
@@ -14,8 +49,12 @@
 
 	* COM.[hm] (JS_method_{invoke,arg_count}): New functions.
 	(COM_method_invoke): Make target object first argument.
+	(COMInterface): Prefix remaining functions with COM.
+	Segregate class, object, and misc. functions.
+	(COM_get_class, COM_find_class): New functions.
 
-	* COM.m (COM_is_javascript): Return NO if comEnv hasn't been set yet.
+	* COM.m (COM_is_javascript): Return NO if argument object
+	is NULL, e.g. if a lookup failed to find one.
 
 2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 

@@ -16,19 +16,23 @@ typedef const void *COMmethod;
 struct COMInterface;
 
 typedef const struct COMInterface COMEnv;
- typedef void (*COM_collect_variable_func_t) (COMmethod getterMethod, COMmethod setterMethod);
+typedef void (*COM_collect_variable_func_t) (COMmethod getterMethod, COMmethod setterMethod);
 typedef void (*COM_collect_method_func_t) (COMmethod method);
 typedef void (*JS_collect_func_t) (const char *name);
 
 struct COMInterface {
-  void *(*createComponent) (COMclass cClass);
-  void *(*findComponent) (const char *componentName);
-  const char *(*copyString) (const char *str);
-  const char *(*getName) (COMobject cObj);
-  const char *(*getComponentName) (COMclass cClass);
+  COMclass (*COMcopyComponentID) (COMclass cClass);
+  COMclass (*COMgetClass) (COMobject cObj);
+  COMclass (*COMfindComponent) (const char *componentName);
+  const char *(*COMgetComponentName) (COMclass cClass);
+  
+  COMobject (*COMcreateComponent) (COMclass cClass);
 
-  COMclass (*copyComponentID) (COMclass);
-  COMobject (*normalize) (COMobject);
+  const char *(*COMgetName) (COMobject cObj);
+
+  COMobject (*COMnormalize) (COMobject);
+
+  const char *(*COMcopyString) (const char *str);
 
   COMselector (*selectorCreate) (COMmethod cMethod);
   COMmethod (*selectorMethod) (COMselector cSel);
@@ -86,6 +90,8 @@ extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
 extern const char *COM_copy_string (const char *str);
 extern const char *COM_class_name (COMobject cObj);
 extern const char *COM_get_class_name (COMclass cClass);
+extern COMclass COM_get_class (COMobject cObj);
+extern COMclass COM_find_class (const char *className);
 
 extern BOOL COM_selector_is_javascript (COMselector cSel);
 extern BOOL COM_selector_is_boolean_return (COMselector cSel);

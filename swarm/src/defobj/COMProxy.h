@@ -6,6 +6,6 @@
 #import <defobj.h>
 #import <defobj/Create.h>
 
-@interface COMProxy: CreateDrop <Serialization>
+@interface COMProxy: CreateDrop
 - (BOOL)isCOMProxy;
 @end

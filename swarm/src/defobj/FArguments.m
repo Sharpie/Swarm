@@ -78,52 +78,46 @@ PHASE(Creating)
       type = sel_get_type (selector);
     }
   
-  if (swarmDirectory)
-    {
-      COMobject cSel;
+  {
+    COMobject cSel;
 #ifdef HAVE_JDK
-      jobject jSel;
+    jobject jSel;
 #endif
-
-      if ((cSel = SD_COM_FIND_SELECTOR_COM (selector)))
+    
+    if ((cSel = SD_COM_FIND_SELECTOR_COM (selector)))
+      {
+        language = LanguageCOM;
+        if (COM_selector_is_boolean_return (cSel))
+          [self setBooleanReturnType];
+        else
+          [self setObjCReturnType: *type];
+      }
+#ifdef HAVE_JDK
+    else if ((jSel = SD_JAVA_FIND_SELECTOR_JAVA (selector)))
+      {
+        const char *sig =
+          java_ensure_selector_type_signature (jSel);
+        
+        [self setJavaSignature: sig];
+        [scratchZone free: (void *) sig];
         {
-          language = LanguageCOM;
-          if (COM_selector_is_boolean_return (cSel))
+          jobject retType =
+            (*jniEnv)->GetObjectField (jniEnv, jSel, f_retTypeFid);
+          
+          if ((*jniEnv)->IsSameObject (jniEnv, retType, c_boolean))
             [self setBooleanReturnType];
           else
             [self setObjCReturnType: *type];
+          (*jniEnv)->DeleteLocalRef (jniEnv, retType);
         }
-#ifdef HAVE_JDK
-      else if ((jSel = SD_JAVA_FIND_SELECTOR_JAVA (selector)))
-        {
-          const char *sig =
-            java_ensure_selector_type_signature (jSel);
-
-          [self setJavaSignature: sig];
-          [scratchZone free: (void *) sig];
-          {
-            jobject retType =
-              (*jniEnv)->GetObjectField (jniEnv, jSel, f_retTypeFid);
-            
-            if ((*jniEnv)->IsSameObject (jniEnv, retType, c_boolean))
-              [self setBooleanReturnType];
-            else
-              [self setObjCReturnType: *type];
-            (*jniEnv)->DeleteLocalRef (jniEnv, retType);
-          }
-        }
+      }
 #endif
-      else
-        {
-          language = LanguageObjc;
-          [self setObjCReturnType: *type];
-        }
-    }
-  else
-    {
-      language = LanguageObjc;
-      [self setObjCReturnType: *type];
-    }
+    else
+      {
+        language = LanguageObjc;
+        [self setObjCReturnType: *type];
+      }
+  }
   return self;
 }
 

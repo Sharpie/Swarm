@@ -21,7 +21,7 @@
 #include <swarmconfig.h>  // HAVE_JDK
 
 #ifdef HAVE_JDK
-#import "java.h" // swarm_directory_{java_hash_code,find_class_named,class_for_object}, SD_JAVA_FIND_OBJECT_JAVA
+#import "java.h" // swarm_directory_java_{hash_code,find_class_named}, SD_JAVA_FIND_OBJECT_JAVA
 #endif
 #import "COM.h" // SD_COM_FIND_OBJECT_COM
 
@@ -184,13 +184,16 @@ compare_COM_objects (const void *A, const void *B, void *PARAM)
 ObjectEntry *
 swarm_directory_objc_find_object (id object)
 {
-  if (object)
+  if (swarmDirectory)
     {
-      ObjectEntry *ret;
-      
-      ret = avl_find (swarmDirectory->object_tree,
-                      OBJC_FIND_OBJECT_ENTRY (object));
-      return ret;
+      if (object)
+        {
+          ObjectEntry *ret;
+          
+          ret = avl_find (swarmDirectory->object_tree,
+                          OBJC_FIND_OBJECT_ENTRY (object));
+          return ret;
+        }
     }
   return nil;
 }
@@ -198,11 +201,15 @@ swarm_directory_objc_find_object (id object)
 SelectorEntry *
 swarm_directory_objc_find_selector (SEL sel)
 {
-  SelectorEntry *ret;
-  
-  ret = avl_find (swarmDirectory->selector_tree,
-                  OBJC_FIND_SELECTOR_ENTRY (sel));
-  return ret;
+  if (swarmDirectory)
+    {
+      SelectorEntry *ret;
+      
+      ret = avl_find (swarmDirectory->selector_tree,
+                      OBJC_FIND_SELECTOR_ENTRY (sel));
+      return ret;
+    }
+  return nil;
 }
 
 BOOL
@@ -312,10 +319,15 @@ Class
 swarm_directory_ensure_class_named (const char *className)
 {
   Class objcClass = Nil;
+  COMclass cClass;
+
   if (swarmDirectory)
     {
+      if ((cClass = COM_find_class (className)))
+        objcClass = SD_COM_ENSURE_CLASS_OBJC (cClass);
 #ifdef HAVE_JDK
-      objcClass = swarm_directory_java_find_class_named (className);
+      else
+        objcClass = swarm_directory_java_find_class_named_objc (className);
 #endif
     }
   if (!objcClass)
@@ -326,33 +338,42 @@ swarm_directory_ensure_class_named (const char *className)
 Class
 swarm_directory_swarm_class (id object)
 {
-  if (swarmDirectory)
+  ObjectEntry *entry = swarm_directory_objc_find_object (object);
+  
+  if (entry)
     {
-      ObjectEntry *entry = swarm_directory_objc_find_object (object);
-
-      if (entry)
+      if (entry->type == foreign_COM)
         {
-#ifdef HAVE_JDK
-          if (entry->type == foreign_java)
-            {
-              jobject jobj;
-              
-              if ((jobj = SD_JAVA_FIND_OBJECT_JAVA (object)))
-                return swarm_directory_java_class_for_java_object (jobj);
-            }
+          COMobject cObj = SD_COM_FIND_OBJECT_COM (object);
+          COMclass cClass = COM_get_class (cObj);
+          
+          if (cClass)
+            return SD_COM_ENSURE_CLASS_OBJC (cClass);
           else
-#endif
-            abort ();
+            return Nil; // JavaScript or non-Swarm objects
         }
+#ifdef HAVE_JDK
+      if (entry->type == foreign_java)
+        {
+          jobject jobj;
+          
+          if ((jobj = SD_JAVA_FIND_OBJECT_JAVA (object)))
+            return swarm_directory_java_class_for_object_objc (jobj);
+        }
+      else
+#endif
+        abort ();
     }
-  return [object getClass];
+  return getClass (object);
 }
 
 Class
 swarm_directory_superclass (Class class)
 {
+  if (SD_COM_FIND_CLASS_COM (class))
+    abort ();
 #ifdef HAVE_JDK
-  if (swarmDirectory)
+  else
     {
       jclass clazz = 0;
       
@@ -382,29 +403,26 @@ swarm_directory_superclass (Class class)
 const char *
 swarm_directory_language_independent_class_name_for_objc_object  (id oObj)
 {
-  if (swarmDirectory)
+  ObjectEntry *entry = swarm_directory_objc_find_object (oObj);
+  
+  if (entry)
     {
-      ObjectEntry *entry = swarm_directory_objc_find_object (oObj);
-
-      if (entry)
+      if (entry->type == foreign_COM)
         {
-#ifdef HAVE_JDK
-          if (entry->type == foreign_java)
-            {
-              jobject jObj;
-              
-              if ((jObj = SD_JAVA_FIND_OBJECT_JAVA (oObj)))
-                return java_class_name (jObj);
-            }
-#endif
-          if (entry->type == foreign_COM)
-            {
-              COMobject cObj;
-
-              if ((cObj = SD_COM_FIND_OBJECT_COM (oObj)))
-                return COM_class_name (cObj);
-            }
+          COMobject cObj;
+          
+          if ((cObj = SD_COM_FIND_OBJECT_COM (oObj)))
+            return COM_class_name (cObj);
         }
+#ifdef HAVE_JDK
+      else if (entry->type == foreign_java)
+        {
+          jobject jObj;
+          
+          if ((jObj = SD_JAVA_FIND_OBJECT_JAVA (oObj)))
+            return java_class_name (jObj);
+        }
+#endif
     }
   return (const char *) (getClass (oObj))->name;      
 }

@@ -540,8 +540,7 @@ create_class_from_compound_type (id aZone,
 #ifdef HAVE_JDK
         jclass clazz = 0;
 
-        if (swarmDirectory)
-          clazz = SD_JAVA_FIND_CLASS_JAVA (class);
+        clazz = SD_JAVA_FIND_CLASS_JAVA (class);
 
         if (clazz && !java_objc_proxy_p (clazz))
           prototype = SD_JAVA_INSTANTIATE (clazz)->object;

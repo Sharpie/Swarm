@@ -1930,24 +1930,28 @@ swarm_directory_java_ensure_selector (jobject jsel)
 }
 
 jclass
-swarm_directory_objc_find_java_class (Class class)
+swarm_directory_objc_find_class_java (Class class)
 {
-  jclass clazz;
-
-  clazz = SD_JAVA_FIND_OBJECT_JAVA (class);
-
-  if (!clazz)
+  if (swarmDirectory) // for find_java_wrapper_class
     {
-      clazz = find_java_wrapper_class (class);
-      if (clazz)
+      jclass clazz;
+      
+      clazz = SD_JAVA_FIND_OBJECT_JAVA (class);
+      
+      if (!clazz)
         {
-          jclass gclazz = SD_JAVA_ADD_CLASS_JAVA (clazz, class);
-
-          (*jniEnv)->DeleteLocalRef (jniEnv, clazz);
-          clazz = gclazz;
+          clazz = find_java_wrapper_class (class);
+          if (clazz)
+            {
+              jclass gclazz = SD_JAVA_ADD_CLASS_JAVA (clazz, class);
+              
+              (*jniEnv)->DeleteLocalRef (jniEnv, clazz);
+              clazz = gclazz;
+            }
         }
+      return clazz;
     }
-  return clazz;
+  return NULL;
 }
 
 Class
@@ -2108,7 +2112,7 @@ swarm_directory_java_switch_objc (id object, jobject javaObject)
 }
 
 Class
-swarm_directory_java_find_class_named (const char *className)
+swarm_directory_java_find_class_named_objc (const char *className)
 {
   jclass javaClass = java_find_class (className, NO);
   
@@ -2123,7 +2127,7 @@ swarm_directory_java_find_class_named (const char *className)
 }
 
 Class
-swarm_directory_java_class_for_java_object (jobject jobj)
+swarm_directory_java_class_for_object_objc (jobject jobj)
 {
   jclass jcls;
   const char *className;

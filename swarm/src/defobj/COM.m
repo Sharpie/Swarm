@@ -22,19 +22,35 @@ COM_init_p ()
 const char *
 COM_copy_string (const char *str)
 {
-  return comEnv->copyString (str);
+  return comEnv->COMcopyString (str);
 }
 
 const char *
 COM_class_name (COMobject cObj)
 {
-  return SSTRDUP (comEnv->getName (cObj));
+  return SSTRDUP (comEnv->COMgetName (cObj));
 }
 
 const char *
 COM_get_class_name (COMclass cClass)
 {
-  return SSTRDUP (comEnv->getComponentName (cClass));
+  return SSTRDUP (comEnv->COMgetComponentName (cClass));
+}
+
+COMclass
+COM_get_class (COMobject cObj)
+{
+  if (comEnv)
+    return comEnv->COMgetClass (cObj);
+  return NULL;
+}
+
+COMclass
+COM_find_class (const char *className)
+{
+  if (comEnv)
+    return comEnv->COMfindComponent (className);
+  return NULL;
 }
 
 BOOL
@@ -88,9 +104,7 @@ COM_free_params (void *params)
 BOOL
 COM_is_javascript (COMobject cObj)
 {
-  if (comEnv)
-    return comEnv->isJavaScript (cObj);
-  return NO;
+  return cObj ? comEnv->isJavaScript (cObj) : NO;
 }
 
 void *
@@ -193,7 +207,7 @@ COMobject
 swarm_directory_objc_find_object_COM (id oObject)
 {
   ObjectEntry *entry = swarm_directory_objc_find_object (oObject);
-
+  
   if (entry)
     {
       if (entry->type == foreign_COM)
@@ -218,25 +232,34 @@ swarm_directory_objc_find_selector_COM (SEL sel)
 static COMclass
 find_wrapper_class_COM (Class oClass)
 {
-  const char *name = language_independent_class_name_for_objc_class (oClass);
-  COMclass cClass = comEnv->findComponent (name);
-
-  FREECLASSNAME (name);
-  return cClass;
+  if (comEnv)
+    {
+      const char *name = language_independent_class_name_for_objc_class (oClass);
+      COMclass cClass = comEnv->COMfindComponent (name);
+      
+      FREECLASSNAME (name);
+      return cClass;
+    }
+  return NULL;
 }
 
 COMclass
 swarm_directory_objc_find_class_COM (Class oClass)
 {
-  COMclass cClass = (COMclass) SD_COM_FIND_OBJECT_COM ((id) oClass);
-
-  if (!cClass)
+  if (swarmDirectory) // for find_wrapper_class_COM
     {
-      cClass = find_wrapper_class_COM (oClass);
-      if (cClass)
-        cClass = SD_COM_ADD_CLASS_COM (cClass, oClass);
+      COMclass cClass = (COMclass) SD_COM_FIND_OBJECT_COM ((id) oClass);
+      
+      if (!cClass)
+        {
+          cClass = find_wrapper_class_COM (oClass);
+          if (cClass)
+            cClass = SD_COM_ADD_CLASS_COM (cClass, oClass);
+        }
+      return cClass;
     }
-  return cClass;
+  else
+    return NULL;
 }
 
 COMobject
@@ -252,7 +275,7 @@ swarm_directory_objc_ensure_object_COM (id oObject)
       Class oClass = getClass (oObject);
       COMclass cClass = SD_COM_FIND_CLASS_COM (oClass);
       
-      cObject = comEnv->normalize (comEnv->createComponent (cClass));
+      cObject = comEnv->COMnormalize (comEnv->COMcreateComponent (cClass));
       return swarm_directory_COM_add_object_COM (cObject, oObject);
     }
   return cObject;
@@ -264,8 +287,8 @@ swarm_directory_update_phase_COM (id oObject)
   Class oClass = getClass (oObject);
   COMclass cClass = SD_COM_FIND_CLASS_COM (oClass);
   COMobject cLastObj = SD_COM_FIND_OBJECT_COM (oObject);
-  COMobject cNewObj = comEnv->createComponent (cClass);
-  COMobject cDirObj = cDirObj = comEnv->normalize (cNewObj);
+  COMobject cNewObj = comEnv->COMcreateComponent (cClass);
+  COMobject cDirObj = cDirObj = comEnv->COMnormalize (cNewObj);
   ObjectEntry *entry;
 
   avl_delete (swarmDirectory->COM_tree, COM_FIND_OBJECT_ENTRY (cLastObj));
@@ -281,7 +304,7 @@ swarm_directory_update_phase_COM (id oObject)
 static ObjectEntry *
 swarm_directory_COM_find (COMobject cObject)
 {
-  cObject = comEnv->normalize (cObject);
+  cObject = comEnv->COMnormalize (cObject);
   return (cObject
           ? avl_find (swarmDirectory->COM_tree,
                       COM_FIND_OBJECT_ENTRY (cObject))
@@ -340,7 +363,7 @@ swarm_directory_COM_ensure_object_objc (COMobject cObject)
 
       return (result
               ? result->object
-              : SD_COM_ADD_OBJECT_OBJC (comEnv->normalize (cObject),
+              : SD_COM_ADD_OBJECT_OBJC (comEnv->COMnormalize (cObject),
                                         [COMProxy create: globalZone]));
     }
 }
@@ -452,7 +475,7 @@ add (COMobject cObject, id oObject)
 COMclass
 swarm_directory_COM_add_class_COM (COMclass cClass, Class oClass)
 {
-  return add (comEnv->copyComponentID (cClass), oClass)->foreignObject.COM;
+  return add (comEnv->COMcopyComponentID (cClass), oClass)->foreignObject.COM;
 }
 
 COMobject

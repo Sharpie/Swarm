@@ -360,39 +360,36 @@ PHASE(Creating)
 
 - setMethodFromSelector: (SEL)sel inObject: obj
 {
-  if (swarmDirectory)
+  COMselector cSel = SD_COM_FIND_SELECTOR_COM (sel);
+  
+  if (cSel)
     {
-      COMselector cSel = SD_COM_FIND_SELECTOR_COM (sel);
+      callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
+      (COMmethod) fmethod = COM_selector_method (cSel);
+      (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
+      return self;
+    }
+  else if ([fargs getLanguage] == LanguageJava)
+    {
+      jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
       
-      if (cSel)
+      if (jsel)
         {
-          callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
-          (COMmethod) fmethod = COM_selector_method (cSel);
-          (COMobject) fobject = SD_COM_FIND_OBJECT_COM (obj);
-          return self;
-        }
-      else if ([fargs getLanguage] == LanguageJava)
-        {
-          jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
+          jstring string;
+          const char *javaMethodName;
+          jboolean copy;
+          jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
           
-          if (jsel)
-            {
-              jstring string;
-              const char *javaMethodName;
-              jboolean copy;
-              jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
-              
-              string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
-              javaMethodName =
-                (*jniEnv)->GetStringUTFChars (jniEnv, string, &copy);
-              
-              [(id) self setJavaMethodFromName: javaMethodName inObject: jobj];
-              if (copy)
-                (*jniEnv)->ReleaseStringUTFChars (jniEnv, string,
-                                                  javaMethodName);
-              (*jniEnv)->DeleteLocalRef (jniEnv, string);
-              return self;
-            }
+          string = (*jniEnv)->GetObjectField (jniEnv, jsel, f_nameFid);
+          javaMethodName =
+            (*jniEnv)->GetStringUTFChars (jniEnv, string, &copy);
+          
+          [(id) self setJavaMethodFromName: javaMethodName inObject: jobj];
+          if (copy)
+            (*jniEnv)->ReleaseStringUTFChars (jniEnv, string,
+                                              javaMethodName);
+          (*jniEnv)->DeleteLocalRef (jniEnv, string);
+          return self;
         }
     }
   {

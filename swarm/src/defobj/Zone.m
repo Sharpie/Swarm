@@ -198,8 +198,7 @@ PHASE(Using)
   id index;
   size_t size;
 
-  if (swarmDirectory)
-    swarm_directory_objc_remove (anObject);
+  swarm_directory_objc_remove (anObject);
 
   size = getClass (anObject)->instance_size;
   index = [population createIndex: getCZone (scratchZone)
@@ -283,8 +282,7 @@ PHASE(Using)
 //
 - (void)freeIVarsComponent: anObject
 { 
-  if (swarmDirectory)
-    swarm_directory_objc_remove (anObject);
+  swarm_directory_objc_remove (anObject);
 
   if (_obj_debug)
     {

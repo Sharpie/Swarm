@@ -111,8 +111,7 @@ parse_opt (int key, const char *arg, struct argp_state *state)
 #ifdef HAVE_JDK
   jobject jobj = 0;
 
-  if (swarmDirectory)
-    jobj = SD_JAVA_FIND_OBJECT_JAVA (arguments);
+  jobj = SD_JAVA_FIND_OBJECT_JAVA (arguments);
   if (jobj)
     [fa setLanguage: LanguageJava];
 #endif
