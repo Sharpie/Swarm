@@ -23,6 +23,6 @@ Library:     collections
 - createEnd;
 + create: aZone setFileStream: (FILE *)file;
 - (FILE *) getFileStream;
-- (void) catC: (char *)cstring;
-- (void) appendC: (char *)cstring;
+- (void) catC: (const char *)cstring;
+- (void) appendC: (const char *)cstring;
 @end

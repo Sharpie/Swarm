@@ -294,7 +294,7 @@ CREATING
 -		setFileStream: (FILE *)fileStream;
 USING
 - (FILE *)	getFileStream;
-- (void)	catC: (char *)cstring;
+- (void)	catC: (const char *)cstring;
 @end
 
 @deftype InputStream <Create, Drop, CREATABLE>
@@ -313,13 +313,13 @@ id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 //
 @deftype String <Create, Drop, Copy, CREATABLE>
 CREATING
-+		create: aZone setC: (char *)cstring;
++		create: aZone setC: (const char *)cstring;
 -               setLiteralFlag: (BOOL)literalFlag;
 SETTING
-- (void)	setC: (char *)cstring;
+- (void)	setC: (const char *)cstring;
 USING
-- (char *)	getC;
-- (void)	catC: (char *)cstring;
+- (const char *)getC;
+- (void)	catC: (const char *)cstring;
 
 - (int)		getCount;
 - (int)		compare: aString;
@@ -332,7 +332,7 @@ id LiteralString;
 // appendC: -- previous name for catC on OutputStream and String, now obsolete
 //
 @protocol appendC
-- (void)	appendC: (char *)cstring;
+- (void)	appendC: (const char *)cstring;
 @end
 
 

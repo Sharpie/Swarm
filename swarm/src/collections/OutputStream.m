@@ -55,12 +55,12 @@ PHASE(Using)
   return fileStream;
 }
 
-- (void) catC: (char *)cstring
+- (void) catC: (const char *)cstring
 {
   fputs( cstring, fileStream );
 }
 
-- (void) appendC: (char *)cstring
+- (void) appendC: (const char *)cstring
 {
   [self catC: cstring];
 }

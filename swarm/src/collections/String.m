@@ -58,7 +58,7 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setC: (char *)cstring
++ create: aZone setC: (const char *)cstring
 {
   String_c *newString;
 
@@ -78,7 +78,7 @@ PHASE(Creating)
 
 PHASE(Setting)
 
-- (void) setC: (char *)cstring
+- (void) setC: (const char *)cstring
 {
   int   countNew;
   char  *stringNew;
@@ -114,12 +114,12 @@ PHASE(Using)
   return newString;
 }
 
-- (char *) getC
+- (const char *) getC
 {
   return string;
 }
 
-- (void) catC: (char *)cstring
+- (void) catC: (const char *)cstring
 {
   id    zone;
   int   appendCount;
@@ -138,7 +138,7 @@ PHASE(Using)
   }
 }
 
-- (void) appendC: (char *)cstring
+- (void) appendC: (const char *)cstring
 {
   [self catC: cstring];
 }
