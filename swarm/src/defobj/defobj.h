@@ -116,7 +116,7 @@ CREATING
 //
 @deftype EventType <Symbol>
 - (void)	raiseEvent;
-- (void)	raiseEvent: (void *)eventData, ...;
+- (void)	raiseEvent: (const void *)eventData, ...;
 @end
 
 //

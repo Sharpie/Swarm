@@ -600,10 +600,10 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   
   displayName = (const char *)[_obj_displayNameMap removeKey: object];
   if (reallocAddress)
-    [_obj_displayNameMap at: object insert: displayName];
+    [_obj_displayNameMap at: object insert: (id)displayName];
   else
     [_obj_sessionZone
-      freeBlock: displayName blockSize: strlen (displayName) + 1];
+      freeBlock: (void *)displayName blockSize: strlen (displayName) + 1];
 }
 
 //

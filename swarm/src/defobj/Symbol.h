@@ -38,12 +38,12 @@ Library:      defobj
 - (void) setMessageString: (const char *)messageStr;
 - (const char *) getMessageString;
 - (void) raiseEvent;
-- (void) raiseEvent: (void *)eventData, ...;
+- (void) raiseEvent: (const void *)eventData, ...;
 - (void) describe: outputCharStream;
 @end
 
 @interface Error_c : Warning_c
 /*** methods in Error_c (inserted from .m file by m2h) ***/
 - (void) raiseEvent;
-- (void) raiseEvent: (void *)eventData, ...;
+- (void) raiseEvent: (const void *)eventData, ...;
 @end
