@@ -1,3 +1,9 @@
+2000-04-23    <mgd@nest.swarm.org>
+
+	* NEWS: Add info about getVariance and getStdDev.
+
+	* VERSION: Bump.
+
 2000-04-14    <mgd@HELEN>
 
 	* VERSION: Bump.
