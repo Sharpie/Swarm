@@ -6,13 +6,13 @@ import swarm.activity.*;
 import swarm.objectbase.*;
 
 public class SwarmEnvironment {
-  public SymbolImpl ControlStateRunning, ControlStateStopped,
+  public Symbol ControlStateRunning, ControlStateStopped,
     ControlStateStepping, ControlStateQuit, ControlStateNextTime;
-  public ZoneImpl globalZone;
-  public UniformIntegerDistImpl uniformIntRand;
-  public UniformDoubleDistImpl uniformDblRand;
-  public ProbeLibraryImpl probeLibrary;
-  public ProbeDisplayManagerImpl probeDisplayManager;
+  public Zone globalZone;
+  public UniformIntegerDist uniformIntRand;
+  public UniformDoubleDist uniformDblRand;
+  public ProbeLibrary probeLibrary;
+  public ProbeDisplayManager probeDisplayManager;
   public boolean guiFlag;
 
   public SwarmEnvironment () {
@@ -31,13 +31,13 @@ public class SwarmEnvironment {
   }
   public native void initSwarm (String args[]);
   public native int getCurrentTime ();
-  public native SwarmImpl getCurrentSwarm ();
-  public native ScheduleImpl getCurrentSchedule ();
-  public native SwarmActivityImpl getCurrentSwarmActivity ();
-  public native ScheduleActivityImpl getCurrentScheduleActivity();
-  public native ActivityImpl getCurrentOwnerActivity ();
-  public native ActionImpl getCurrentAction ();
-  public native ActivityImpl getCurrentActivity ();
+  public native Swarm getCurrentSwarm ();
+  public native Schedule getCurrentSchedule ();
+  public native SwarmActivity getCurrentSwarmActivity ();
+  public native ScheduleActivity getCurrentScheduleActivity();
+  public native Activity getCurrentOwnerActivity ();
+  public native Action getCurrentAction ();
+  public native Activity getCurrentActivity ();
   
   public native Object createProbeDisplay (Object anOjbect);
   public native Object createCompleteProbeDisplay (Object anObject);
