@@ -5,7 +5,11 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 ** New features
 *** analysis
-**** EZGraph now supports setRanges[XY]Min:Max: and setScaleModeX:Y:.
+**** EZBin, EZGraph
+***** New methods -outputGraph and -outputToFile for when differential
+      scheduling is desired.
+**** EZGraph
+***** New methods setRanges[XY]Min:Max: and setScaleModeX:Y:.
 **** A new widget, FunctionGraph for displaying a function over a range of
      a variable.
 
@@ -32,6 +36,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** ObjectLoader now has a +load:fromApp{Config,Data}FileNamed: method for
      loading an object from the path for application-specific
      configuration and files.
+**** A new class, ListShuffler.
 
 *** simtoolsgui
 **** A new widget, MultiVarProbeWidget displays a matrix of 
