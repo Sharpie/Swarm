@@ -17,6 +17,7 @@ Library:      collections
 
 #import <defobj.h> // hdf5in, HDF5
 
+#import <misc.h> // memcpy
 #include <swarmconfig.h> // HAVE_HDF5
 
 #define COMPARE_FUNCTION "compare-function"
