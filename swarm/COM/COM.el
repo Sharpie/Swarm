@@ -14,14 +14,14 @@
       ("void" . "void")
       ("const char \\*" . "string")
       ("char \\*" . "string")
-      ("const char \\*\\*" . "nsISupports")
+      ("const char \\*\\*" . "[string-array]")
 
       ("char" . "char")
       
       ("unsigned char" . "octet")
       ("int" . "long")
       ("short" . "short")
-      ("unsigned short" . "short")
+      ("unsigned short" . "unsigned short")
       ("double" . "double")
       ("float" . "float")
       ("unsigned" . "unsigned long")
@@ -29,14 +29,14 @@
 
       ("long" . "long")
       ("unsigned long" . "unsigned long")
-      ("timeval_t" . "long")
-      ("size_t" . "long")
+      ("timeval_t" . "unsigned long")
+      ("size_t" . "unsigned long")
 
       ("Class" . "nsISupports"); XXX
 
-      ("unsigned long long int" . "long")
-      ("unsigned long long" . "long")
-      ("long long" . "long")
+      ("long long" . "long long")
+      ("unsigned long long" . "unsigned long long")
+      ("unsigned long long int" . "unsigned long long")
 
       ("JOBJECT" . freaky)
 
@@ -87,13 +87,15 @@
     ("long long" . "PRInt64")
     ("unsigned short" . "PRUint16")
     ("unsigned long" . "PRUint32")
+    ("long long" . "PRInt64")
     ("unsigned long long" . "PRUint64")
     ("float" . "float")
     ("double" . "double")
     ("char" . "char")
     ("wchar" . "PRUnichar")
     ("string" . "const char*")
-    ("wstring" . "PRUnichar*")))
+    ("wstring" . "PRUnichar*")
+    ))
 
 (defvar *com-uuid-hash-table* (make-hash-table :test #'equal))
 
@@ -194,7 +196,10 @@
       idl-type)))
 
 (defun com-arg-idl-type (objc-type)
-  (concat "in " (com-idl-type objc-type)))
+  (let ((type (com-idl-type objc-type)))
+    (if (string= "[string-array]" type)
+        "in unsigned long count, [array, size_is (count)] in string"
+      (concat "in " type))))
 
 (defun com-idl-print-argument (argument)
   (print-argument argument
@@ -203,6 +208,22 @@
                       (cond ((string= name "context") "context_")
                             ((string= name "class") "class_")
                             (t name)))))
+
+(defun com-impl-type-from-idl-type (idl-type)
+  (cdr (find idl-type *com-idl-to-c++-type-alist*
+             :key #'car
+             :test #'(lambda (a b)
+                       (let ((expr (concat (concat "^" b) "$")))
+                         (string-match expr a))))))
+
+(defun com-impl-type (objc-type)
+  (let* ((idl-type (com-objc-to-idl-type objc-type))
+         (c++-type (com-impl-type-from-idl-type idl-type)))
+    (if (string= idl-type "[string-array]")
+        "PRUint32 count, const char **"
+      (if c++-type
+          c++-type
+        (concat idl-type "*")))))
 
 (defun com-impl-print-argument (argument)
   (print-argument argument #'com-impl-type
@@ -314,20 +335,6 @@
 
 (defun com-impl-ns-decl (protocol phase)
   (concat "NS_DECL_" (upcase (com-interface-name protocol phase))))
-
-(defun com-impl-type-from-idl-type (idl-type)
-  (cdr (find idl-type *com-idl-to-c++-type-alist*
-             :key #'car
-             :test #'(lambda (a b)
-                       (let ((expr (concat (concat "^" b) "$")))
-                         (string-match expr a))))))
-
-(defun com-impl-type (objc-type)
-  (let* ((idl-type (com-objc-to-idl-type objc-type))
-         (c++-type (com-impl-type-from-idl-type idl-type)))
-    (if c++-type
-        c++-type
-      (concat idl-type "*"))))
 
 (defun com-impl-print-interface-include (iprotocol phase)
   (insert "#include <")
@@ -729,7 +736,6 @@
   (insert " ")
   (insert "\"component://swarm/")
   (insert (module-path (protocol-module protocol)))
-  (insert "/")
   (insert (com-phase-name protocol phase))
   (insert "Impl\"\n"))
 
