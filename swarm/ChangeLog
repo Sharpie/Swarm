@@ -1,4 +1,9 @@
 1997-12-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+	
+	* Makefile.conf: Get SETUP from SWARMSETUP, to reduce probability
+	of picking up a non-Swarm related environment variable.
+
+	* Makefile.conf: Determine my compiler from SWARMCOMPILER variable.
 
 	* Makefile.conf: Always include debugging in my configs.
 
