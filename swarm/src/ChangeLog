@@ -1,8 +1,13 @@
-2001-11-05    <mgd@forager.swarm.org>
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* SwarmEnvironment.h, SwarmEnvironment.m, getters.el, swarm.h: Add
+	copyright and canonical GNU GPL license statement.
+
+2001-11-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.am: Don't use libgcc -L path.
 
-2001-11-04    <mgd@HELEN>
+2001-11-04  Marcus G. Daniels  <mgd@HELEN>
 
 	* Makefile.am: Don't use multi-line values as they confuse Cygwin
 	automake.
@@ -11,7 +16,7 @@
 
 	* Makefile.rules (CLEANFILES): Remove.
 
-2001-07-23    <mgd@HELEN>
+2001-07-23  Marcus G. Daniels  <mgd@HELEN>
 
 	* Makefile.am (swarm.dll): Manually specify avcall.o and
 	avcall-i386-msvc.o. 
@@ -23,7 +28,7 @@
 	* SwarmEnvironment.[hm], swarm.h ([SwarmEnvironment -updateDisplay]): 
 	Add.
 
-2001-05-08    <mgd@coyote.santafe.edu>
+2001-05-08  Marcus G. Daniels  <mgd@coyote.santafe.edu>
 
 	* SwarmEnvironment.m (_initSwarm_): Cast class values to id to
 	quiet new version of GCC.
