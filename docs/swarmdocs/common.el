@@ -78,9 +78,14 @@
           (save-excursion
             (while (search-forward "<" nil t)
               (replace-match "&lt;")))
+          (goto-char (point-min))
           (save-excursion
             (while (search-forward ">" nil t)
-              (replace-match "&gt;"))))))))
+              (replace-match "&gt;")))
+          (goto-char (point-min))
+          (save-excursion
+            (while (search-forward "\t" nil t)
+              (replace-match ""))))))))
 
 (defun strip-regexp (str strip-str)
   (with-output-to-string

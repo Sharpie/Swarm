@@ -146,6 +146,7 @@
                                    swarmdocs-changelog-list
                                    swarmhome-changelog-list)))
     (with-temp-file (pathname-for-swarmdocs-revision-output module-sym)
+      (sgml-mode)
       (insert "<REVHISTORY>\n")
       (loop for changelog in combined-changelog-list
             for date-string = (format-time-string 
@@ -171,6 +172,7 @@
                   (insert "</AUTHORINITIALS>\n")
                   (insert "<REVREMARK>\n")
                   (insert-text (changelog-item-description changelog-item))
+                  (fill-paragraph nil)
                   (insert "</REVREMARK>\n")
                   (insert "</REVISION>\n")))
       (insert "</REVHISTORY>\n"))))

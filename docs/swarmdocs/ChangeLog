@@ -1,5 +1,10 @@
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
-	
+
+	* history.el (process-changelog): Call fill-paragraph after
+	inserting contents of REVREMARK.
+
+	* common.el (insert-text): Strip tabs also.
+
 	* docbook.dcl: New file (increase limits on NAMELEN, TAGLEN,
 	and ATTSPLEN).
 
