@@ -1,3 +1,17 @@
+1999-03-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-suffix-for-phase): Use S and U instead of _s
+	and _u (avoids Unicode chars and is easier to type).
+	(java-qualified-name, java-qualified-native-name,
+	java-qualified-class-name, java-qualified-native-class-name): 
+	New functions.
+	(java-qualified-interface-name): Use java-qualified-name.
+	(java-print-method-name): New function.
+	(java-print-native-method, java-print-method): Use it.
+	(java-print-native-method): Handle +createBegin before other
+	+create* methods, which require use of JINSTANTIATENAME with a fully
+	qualified using phase class.
+
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-qualified-interface-name): New function.
