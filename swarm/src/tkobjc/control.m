@@ -104,7 +104,7 @@ void
 configureHideButton (id owner, id hideB, id raisedFrame)
 {
   [globalTkInterp 
-    eval: "%s configure -command {%s drop}",
+    eval: "%s configure -command {%s markForDrop}",
     [hideB getWidgetName],
     tclObjc_objectToName (owner)];
   [globalTkInterp
