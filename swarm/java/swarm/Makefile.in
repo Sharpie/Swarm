@@ -10,7 +10,7 @@ JAVAC=@JAVAC@
 JAVACLASSES=@JAVACLASSES@
 srcdir=@srcdir@
 VPATH=$(srcdir)
-JAVACOMPILE = $(JAVAC) -classpath '..@PATHDELIM@..@PATHSEP@$(JAVACLASSES)'
+JAVACOMPILE = $(JAVAC) -classpath '..@PATHSEP@$(JAVACLASSES)'
 
 include ../Makefile.common
 
