@@ -46,8 +46,12 @@
 }
 
 -createBindings {
+  char * temp ;
+
+  temp = tclObjc_objectToName(self);
+
   [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-    [canvas getWidgetName], item, tclObjc_objectToName(self)] ;
+    [canvas getWidgetName], item, temp] ;
   [globalTkInterp eval: "%s bind %s <Button-1> {
       set curX %s ; set curY %s
     }",[canvas getWidgetName], item, "%x" , "%y"];
@@ -55,7 +59,7 @@
   [globalTkInterp eval: "%s bind %s <B1-Motion> {
       %s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY] ;
       set curX %s ; set curY %s
-    }",[canvas getWidgetName],item,tclObjc_objectToName(self),"%x","%y","%x","%y"];
+    }",[canvas getWidgetName],item,temp,"%x","%y","%x","%y"];
 
   return self ;
 }

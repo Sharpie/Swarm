@@ -75,6 +75,10 @@
   return self;
 }
 
+-createBindings {
+  return self ;
+}
+
 -setColor: (char *) aColor {
 
   [globalTkInterp eval: "%s itemconfigure %s -fill %s",

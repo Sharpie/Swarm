@@ -6,9 +6,9 @@
 #import <swarmobject/SwarmObject.h>
 
 #import <tkobjc/NodeItem.h>
-#import <tkobjc/CanvasItem.h>
+#import <tkobjc/CompositeItem.h>
 
-@interface LinkItem: CanvasItem {
+@interface LinkItem: CompositeItem {
   id from, to ;
   char *line1,*line2 ;
 }
