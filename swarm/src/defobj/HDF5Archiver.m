@@ -7,6 +7,7 @@
 #import <defobj/HDF5Object.h>
 #import <defobj.h> // OSTRDUP
 #import <misc.h> // access
+#import <defobj/defalloc.h> // getZone
 
 #include <collections/predicates.h>
 
@@ -41,7 +42,7 @@ PHASE(Creating)
 
 - createEnd
 {
-  id aZone = [self getZone];
+  id aZone = getZone (self);
 
   [super createEnd];
   
@@ -71,7 +72,7 @@ PHASE(Setting)
 - hdf5LoadObjectMap: topHDF5Obj key: appKey
 {
   id app;
-  id aZone = [self getZone];
+  id aZone = getZone (self);
 
   int objIterateFunc (id hdf5Obj)
     {
@@ -211,8 +212,8 @@ archiverHDF5Put (id aZone, const char *keyStr, id value, id addMap, id removeMap
 {
   id app = [self getApplication];
 
-  archiverHDF5Put ([self getZone], key, object, [app getDeepMap], 
-               [app getShallowMap]);
+  archiverHDF5Put (getZone (self), key, object, [app getDeepMap], 
+                   [app getShallowMap]);
   return self;
 }
 
@@ -220,8 +221,8 @@ archiverHDF5Put (id aZone, const char *keyStr, id value, id addMap, id removeMap
 {
   id app = [self getApplication];
 
-  archiverHDF5Put ([self getZone], key, object, [app getShallowMap], 
-               [app getDeepMap]);
+  archiverHDF5Put (getZone (self), key, object, [app getShallowMap], 
+                   [app getDeepMap]);
   return self;
 }
 
@@ -238,7 +239,7 @@ archiverHDF5Get (id aZone, id string, id app)
 
 - _getWithZone_: aZone _object_: (const char *)key 
 {
-  id string = [String create: [self getZone] setC: key];
+  id string = [String create: getZone (self) setC: key];
   id app = [self getApplication];
   id result; 
   
@@ -250,7 +251,7 @@ archiverHDF5Get (id aZone, id string, id app)
 
 - getObject: (const char *)key
 {
-  return [self _getWithZone_: [self getZone] _object_: key];
+  return [self _getWithZone_: getZone (self) _object_: key];
 }
 
 - getWithZone: aZone object: (const char *)key
@@ -293,7 +294,7 @@ archiverHDF5Get (id aZone, id string, id app)
   [super updateArchiver];
   if ([self countObjects: YES] + [self countObjects: NO] > 0)
     {
-      id hdf5Obj = [[[[[HDF5 createBegin: [self getZone]]
+      id hdf5Obj = [[[[[HDF5 createBegin: getZone (self)]
                         setCreateFlag: YES]
                        setParent: nil]
                       setName: path]

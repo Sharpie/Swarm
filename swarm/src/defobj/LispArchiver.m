@@ -5,6 +5,7 @@
 
 #import <defobj/LispArchiver.h>
 #import <collections/predicates.h>
+#import <defobj/defalloc.h>
 
 static void
 lispProcessPairs (id aZone, 
@@ -149,7 +150,7 @@ PHASE(Creating)
           // lazy evaluation on the saved pairs
           id inStream;
 
-          inStreamZone = [Zone create: [self getZone]];
+          inStreamZone = [Zone create: getZone (self)];
           inStream = [InputStream create: inStreamZone setFileStream: fp];  
           [self lispLoadArchiver: [inStream getExpr]];
           fclose (fp);
@@ -164,7 +165,7 @@ PHASE(Setting)
 
 - lispLoadArchiver: expr
 {
-  id aZone = [self getZone];
+  id aZone = getZone (self);
 
   if (systemArchiverFlag)
     {
@@ -355,7 +356,7 @@ archiverLispPut (id aZone, const char *keyStr, id value, id addMap,
 {
   id app = [self getApplication];
 
-  archiverLispPut ([self getZone], key, object, [app getDeepMap], 
+  archiverLispPut (getZone (self), key, object, [app getDeepMap], 
                [app getShallowMap]);
   return self;
 }
@@ -364,7 +365,7 @@ archiverLispPut (id aZone, const char *keyStr, id value, id addMap,
 {
   id app = [self getApplication];
 
-  archiverLispPut ([self getZone], key, object, [app getShallowMap], 
+  archiverLispPut (getZone (self), key, object, [app getShallowMap], 
                [app getDeepMap]);
   return self;
 }
@@ -387,7 +388,7 @@ archiverLispGet (id aZone, id string, id app)
 
 - _getWithZone_: aZone _object_: (const char *)key 
 {
-  id string = [String create: [self getZone] setC: key];
+  id string = [String create: getZone (self) setC: key];
   id app = [self getApplication];
   id result; 
   
@@ -399,7 +400,7 @@ archiverLispGet (id aZone, id string, id app)
 
 - getObject: (const char *)key
 {
-  return [self _getWithZone_: [self getZone] _object_: key];
+  return [self _getWithZone_: getZone (self) _object_: key];
 }
 
 - getWithZone: aZone object: (const char *)key
@@ -411,7 +412,7 @@ archiverLispGet (id aZone, id string, id app)
 {
   FILE *fp = fopen (path, "w");
   id outStream;
-  
+
   [super updateArchiver];
 
   if (fp == NULL)
