@@ -155,8 +155,10 @@ PHASE(Creating)
 
 - setJavaSignature: (const char *)theJavaSignature
 {
-  javaSignature = ALLOCBLOCK (strlen (theJavaSignature) + 1);
-  strcpy (javaSignature, theJavaSignature);
+  char *buf = ALLOCBLOCK (strlen (theJavaSignature) + 1);
+
+  strcpy (buf, theJavaSignature);
+  javaSignature = buf;
   javaFlag = YES;
   return self;
 }
