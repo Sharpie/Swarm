@@ -15,30 +15,43 @@
 
 PHASE(Creating)
 
++ createBegin: aZone
+{
+  Histogram *histo;
+
+  histo = [super createBegin: aZone];
+  histo->numBins = -1;
+
+  return histo;
+}
+
+// This method can only be called once!
+-setNumBins: (unsigned)n 
+{
+  int i;
+
+  numBins = n;
+  elements = [[self getZone] alloc: (sizeof (*elements) * n)];
+
+  return self;
+}
+
 - createEnd
 {
+  int i;
+
   [super createEnd];
+
+  if (numBins < 1)
+    [InvalidCombination raiseEvent:
+    "Histogram: creation error: number of bins not specified\n"];
 
   // create the graph with one element
   [globalTkInterp eval: "barchart %s;", widgetName];
   [self setWidth: 400 Height: 247];		  // golden ratio
-  numPoints = 0;
-  return self;
-}
 
-PHASE(Using)
-
-// you can only call this once. Fix it.
-- setNumPoints: (int)n
-        Labels: (const char * const *)l 
-        Colors: (const char * const *)c
-{
-  int i;
-
-  numPoints = n;
-
-  elements = [[self getZone] alloc: (sizeof (*elements) * n)];
-  for (i = 0; i < n; i++)
+  // configure the elements
+  for (i = 0; i < numBins; i++)
     {
       char strBuffer[256];
 
@@ -46,15 +59,50 @@ PHASE(Using)
       elements[i] = strdup (strBuffer);
       [globalTkInterp
         eval: "%s element create %s; %s element configure %s -relief flat",
-        widgetName, strBuffer, widgetName, elements[i]];
-      if (l && l[i])
-        [globalTkInterp eval: "%s element configure %s -label \"%s\"",
-                        widgetName, elements[i], l[i]];
-      if (c && c[i])
-        [globalTkInterp eval: "%s element configure %s -foreground \"%s\"",
-                        widgetName, elements[i], c[i]];
+          widgetName, strBuffer, widgetName, elements[i]];
     }
-  
+
+  return self;
+}
+
+PHASE(Using)
+
+- setLabels: (const char * const *)l
+{
+  int i;
+
+  if (l == NULL) return self;	// nothing to be done
+
+  if (numBins < 1)
+    [InvalidCombination raiseEvent:
+    "Histogram: cannot set labels -- number of bins not set\n"];
+
+  for (i=0; i<numBins; i++)
+    if (l && l[i])
+      [globalTkInterp eval: "%s element configure %s -label \"%s\"",
+        widgetName, elements[i], l[i]];
+
+  return self;
+}
+
+- setColors: (const char * const *)c
+{
+  int i;
+
+  if (c == NULL) return self;	// nothing to be done
+
+  if (numBins < 1)
+    [InvalidCombination raiseEvent:
+    "Histogram: cannot set colors -- number of bins not set\n"];
+
+  for (i=0; i<numBins; i++)
+    if (c && c[i])
+      [globalTkInterp eval: "%s element configure %s -foreground \"%s\"",
+        widgetName, elements[i], c[i]];
+
+  // Note: caller needs to supply enough colors.
+  // If not, excess bars remain colored blue.
+
   return self;
 }
 
@@ -62,7 +110,7 @@ PHASE(Using)
 {
   int i;
 
-  for (i = 0; i < numPoints; i++)
+  for (i = 0; i < numBins; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %f }",
 		    widgetName, elements[i], i, points[i]];
   return self;
@@ -73,7 +121,7 @@ PHASE(Using)
 {
   int i;
 
-  for (i = 0; i < numPoints; i++)
+  for (i = 0; i < numBins; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %d }",
 		    widgetName, elements[i], i, points[i]];
   return self;
@@ -83,7 +131,7 @@ PHASE(Using)
 {
   int i;
 
-  for (i = 0; i < numPoints; i++)
+  for (i = 0; i < numBins; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %d }",
 		    widgetName, elements[i], locations[i], points[i]];
   return self;
@@ -93,7 +141,7 @@ PHASE(Using)
 {
   int i;
 
-  for (i = 0; i < numPoints; i++)
+  for (i = 0; i < numBins; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %g }",
 		    widgetName, elements[i], locations[i], points[i]];
   return self;
