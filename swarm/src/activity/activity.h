@@ -48,6 +48,136 @@ Library:      activity
 @end
 
 
+@protocol DefaultOrder
+//S: The DefaultOrder option indicates the ordering to be assumed among
+//S: actions of the plan when no other explicit ordering has been assigned.
+
+//D: The DefaultOrder option indicates the ordering to be assumed among
+//D: actions of the plan when no other explicit ordering has been assigned.
+//D: Beyond this initial ordering, additional ordering constraints can be
+//D: added selectively using partial order specifications on individual
+//D: actions.  (.. Partial order order constraints are not yet
+//D: implemented.)
+
+//D: The value for DefaultOrder is a symbol that may have one of the
+//D: following values: Concurrent, Sequential, Randomized;
+
+//D: The Concurrent value of the DefaultOrder option indicates that can
+//D: actions be run in any order (including at the same time, if hardware
+//D: and software to do this is available) without no impact on the net
+//D: outcome of the actions.  The claim that action results are independent
+//D: of their execution order gives the processing machinery explicit
+//D: leeway to execute them in any order it chooses.  In the current
+//D: implementation on a single, serial processor, actions are always
+//D: processed sequentially even if marked concurrent, because that is the
+//D: only way they can be.  In future versions, however, special runtime
+//D: processing modes may be defined even for a serial processor, which
+//D: would mix up execution order just to confirm the independence of model
+//D: results.
+
+//D: The Sequential value for the DefaultOrder option is the default.  It
+//D: specifies that the actions must always be executed in the same order
+//D: as they occur in the plan.  This order is ordinarily the same order in
+//D: which actions are first created in the plan, unless actions are
+//D: explicitly added elsewhere the collection that underlies a plan.  This
+//D: option is always the safest to assure predictability of results, but
+//D: it excludes the ability to run the actions in parallel.  To better
+//D: understand and document a model design, it is worth annotating action
+//D: plans with an explicit indication as to whether they do or do not
+//D: depend on a Sequential order.
+
+//D: The Randomized value for the DefaultOrder option specifies that the
+//D: model results do depend on execution order, but that the order in
+//D: which the actions were created or added has no special significance.
+//D: Instead, the method of dealing with order dependence is to generate a
+//D: random order each time a collection of same-time actions is processed.
+//D: The random order will be generated from an random number generator
+//D: internal to the processing machinery.
+
+CREATING
+- (void)setDefaultOrder: aSymbol;
+USING
+- getDefaultOrder;
+@end
+
+@protocol Action <GetOwner, RETURNABLE>
+//S: An action type that has been customized for direct execution by an
+//S: action interpreter.
+
+//D: Action is a common supertype of all action types which may be created
+//D: within an action plan.  Each action is always controlled by a single
+//D: action plan to which it belongs.  This action plan is referred to as
+//D: its owner.  Given the action object, its owner plan may be obtained
+//D: using the inherited getOwner message.
+
+//D: Actions are allocated in the same zone as their owner plan, and may be
+//D: created only using one of the createAction messages on an ActionGroup
+//D: or Schedule.  Each of these messages returns the action that was
+//D: created as its return value.  Actions in an action plan may also be
+//D: obtained by processing the plan using any of its messages inherited
+//D: from its underlying collection.  Actions may also be removed from an
+//D: action plan using a remove message on the underlying collection.
+
+//D: (.. Note: currently, an action cannot be removed while it is currently
+//D: being executed.  This means that the function or message called by an
+//D: action cannot itself remove that same action from its action plan.
+//D: This restriction will be removed in the future.)
+
+//D: Separate subtypes of Action are defined for each of the various forms
+//D: of createAction messages that create them.  The current representation
+//D: of these actions will be undergoing change as support for their
+//D: parameter and return types is migrated into more basic support from
+//D: the defobj library.  Each action type provides messages to retrieve
+//D: and set the values of all argument values bound into the action.
+//D: These capabilities will remain, but different messages will
+//D: eventually be supported.  This documentation will be completed once
+//D: the messages supported on Action types are finalized.
+@end
+
+@protocol ActionArgs <Action>
+//S: Supertype of ActionCall, ActionTo, and ActionForEach.
+
+//D: The ActionArgs subtypes all implement a specific, hard-coded method
+//D: for binding an action type to a fixed number of arguments.  All the
+//D: arguments must have types compatible with id type.  Eventually, more
+//D: generic methods for binding an action type to any number and types of
+//D: arguments and return values will also be provided.
+
+USING
+- (int)getNArgs;
+- (void)setArg1: arg1;
+- getArg1;
+- (void)setArg2: arg2;
+- getArg2;
+- (void)setArg3: arg3;
+- getArg3;
+@end
+
+@protocol ActionTo <ActionArgs, RETURNABLE>
+//S: An action defined by sending an Objective C message.
+//D: An action defined by sending an Objective C message.
+
+USING
+- (void)setTarget: target;
+- getTarget;
+- (void)setMessageSelector: (SEL)aSel;
+- (SEL)getMessageSelector;
+@end
+
+@protocol ActionForEach <ActionTo, DefaultOrder, RETURNABLE>
+//S: An action defined by sending a message to every member of a collection.
+//D: An action defined by sending a message to every member of a collection.
+@end
+
+@protocol ActionCall <ActionArgs, RETURNABLE>
+//S: An action defined by calling a C function.
+//D: An action defined by calling a C function.
+
+USING
+- (void)setFunctionPointer: (func_t)fptr;
+- (func_t)getFunctionPointer;
+@end
+
 @protocol ActionCreatingCall
 //S: An action that calls a C function.
 
@@ -57,10 +187,10 @@ Library:      activity
 //D: arguments for the function pointer passed as the initial argument must
 //D: be supplied.
 USING
-- createActionCall: (func_t)fptr;
-- createActionCall: (func_t)fptr : arg1;
-- createActionCall: (func_t)fptr : arg1 : arg2;
-- createActionCall: (func_t)fptr : arg1 : arg2 : arg3;
+- (id <ActionCall>)createActionCall: (func_t)fptr;
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1;
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1 : arg2;
+- (id <ActionCall>)createActionCall: (func_t)fptr : arg1 : arg2 : arg3;
 @end
 
 @protocol ActionCreatingTo
@@ -86,10 +216,10 @@ USING
 //E: [anActionGroup createActionTo: aTurtle message: M(move:) : obj];
 
 USING
-- createActionTo: target message: (SEL)aSel;
-- createActionTo: target message: (SEL)aSel : arg1;
-- createActionTo: target message: (SEL)aSel : arg1 : arg2;
-- createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel;
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1;
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2;
+- (id <ActionTo>)createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3;
 @end
 
 @protocol ActionCreatingForEach
@@ -104,10 +234,10 @@ USING
 //D: is to receive the specified message.
 
 USING
-- createActionForEach: target message: (SEL)aSel;
-- createActionForEach: target message: (SEL)aSel : arg1;
-- createActionForEach: target message: (SEL)aSel : arg1 : arg2;
-- createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2;
+- (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 @end
 
 @protocol ActionCreating <ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach>
@@ -176,135 +306,6 @@ typedef unsigned long timeval_t;
 #endif
 
 
-@protocol Action <GetOwner, RETURNABLE>
-//S: An action type that has been customized for direct execution by an
-//S: action interpreter.
-
-//D: Action is a common supertype of all action types which may be created
-//D: within an action plan.  Each action is always controlled by a single
-//D: action plan to which it belongs.  This action plan is referred to as
-//D: its owner.  Given the action object, its owner plan may be obtained
-//D: using the inherited getOwner message.
-
-//D: Actions are allocated in the same zone as their owner plan, and may be
-//D: created only using one of the createAction messages on an ActionGroup
-//D: or Schedule.  Each of these messages returns the action that was
-//D: created as its return value.  Actions in an action plan may also be
-//D: obtained by processing the plan using any of its messages inherited
-//D: from its underlying collection.  Actions may also be removed from an
-//D: action plan using a remove message on the underlying collection.
-
-//D: (.. Note: currently, an action cannot be removed while it is currently
-//D: being executed.  This means that the function or message called by an
-//D: action cannot itself remove that same action from its action plan.
-//D: This restriction will be removed in the future.)
-
-//D: Separate subtypes of Action are defined for each of the various forms
-//D: of createAction messages that create them.  The current representation
-//D: of these actions will be undergoing change as support for their
-//D: parameter and return types is migrated into more basic support from
-//D: the defobj library.  Each action type provides messages to retrieve
-//D: and set the values of all argument values bound into the action.
-//D: These capabilities will remain, but different messages will
-//D: eventually be supported.  This documentation will be completed once
-//D: the messages supported on Action types are finalized.
-@end
-
-@protocol ActionArgs <Action>
-//S: Supertype of ActionCall, ActionTo, and ActionForEach.
-
-//D: The ActionArgs subtypes all implement a specific, hard-coded method
-//D: for binding an action type to a fixed number of arguments.  All the
-//D: arguments must have types compatible with id type.  Eventually, more
-//D: generic methods for binding an action type to any number and types of
-//D: arguments and return values will also be provided.
-
-USING
-- (int)getNArgs;
-- (void)setArg1: arg1;
-- getArg1;
-- (void)setArg2: arg2;
-- getArg2;
-- (void)setArg3: arg3;
-- getArg3;
-@end
-
-@protocol ActionCall <ActionArgs, RETURNABLE>
-//S: An action defined by calling a C function.
-//D: An action defined by calling a C function.
-
-USING
-- (void)setFunctionPointer: (func_t)fptr;
-- (func_t)getFunctionPointer;
-@end
-
-@protocol ActionTo <ActionArgs, RETURNABLE>
-//S: An action defined by sending an Objective C message.
-//D: An action defined by sending an Objective C message.
-
-USING
-- (void)setTarget: target;
-- getTarget;
-- (void)setMessageSelector: (SEL)aSel;
-- (SEL)getMessageSelector;
-@end
-
-@protocol DefaultOrder
-//S: The DefaultOrder option indicates the ordering to be assumed among
-//S: actions of the plan when no other explicit ordering has been assigned.
-
-//D: The DefaultOrder option indicates the ordering to be assumed among
-//D: actions of the plan when no other explicit ordering has been assigned.
-//D: Beyond this initial ordering, additional ordering constraints can be
-//D: added selectively using partial order specifications on individual
-//D: actions.  (.. Partial order order constraints are not yet
-//D: implemented.)
-
-//D: The value for DefaultOrder is a symbol that may have one of the
-//D: following values: Concurrent, Sequential, Randomized;
-
-//D: The Concurrent value of the DefaultOrder option indicates that can
-//D: actions be run in any order (including at the same time, if hardware
-//D: and software to do this is available) without no impact on the net
-//D: outcome of the actions.  The claim that action results are independent
-//D: of their execution order gives the processing machinery explicit
-//D: leeway to execute them in any order it chooses.  In the current
-//D: implementation on a single, serial processor, actions are always
-//D: processed sequentially even if marked concurrent, because that is the
-//D: only way they can be.  In future versions, however, special runtime
-//D: processing modes may be defined even for a serial processor, which
-//D: would mix up execution order just to confirm the independence of model
-//D: results.
-
-//D: The Sequential value for the DefaultOrder option is the default.  It
-//D: specifies that the actions must always be executed in the same order
-//D: as they occur in the plan.  This order is ordinarily the same order in
-//D: which actions are first created in the plan, unless actions are
-//D: explicitly added elsewhere the collection that underlies a plan.  This
-//D: option is always the safest to assure predictability of results, but
-//D: it excludes the ability to run the actions in parallel.  To better
-//D: understand and document a model design, it is worth annotating action
-//D: plans with an explicit indication as to whether they do or do not
-//D: depend on a Sequential order.
-
-//D: The Randomized value for the DefaultOrder option specifies that the
-//D: model results do depend on execution order, but that the order in
-//D: which the actions were created or added has no special significance.
-//D: Instead, the method of dealing with order dependence is to generate a
-//D: random order each time a collection of same-time actions is processed.
-//D: The random order will be generated from an random number generator
-//D: internal to the processing machinery.
-
-CREATING
-- (void)setDefaultOrder: aSymbol;
-USING
-- getDefaultOrder;
-@end
-
-@protocol ActionForEach <ActionTo, DefaultOrder, RETURNABLE>
-//S: An action defined by sending a message to every member of a collection.
-//D: An action defined by sending a message to every member of a collection.
-@end
 
 
 @protocol Activity <DefinedObject, Drop, RETURNABLE>
@@ -766,21 +767,20 @@ CREATING
 USING
 - at: (timeval_t)tVal createAction: anActionType;
 
-- at: (timeval_t)tVal createActionCall: (func_t)fptr;
-- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1;
-- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2;
-- at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2:arg3;
+- (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr;
+- (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1;
+- (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2;
+- (id <ActionCall>)at: (timeval_t)tVal createActionCall: (func_t)fptr:arg1:arg2:arg3;
 
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel;
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1;
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2;
-- at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
+- (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel;
+- (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1;
+- (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2;
+- (id <ActionTo>)at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
 
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1;
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
-- at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:
-                                                                arg1:arg2:arg3;
+- (id <ActionTo>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel;
+- (id <ActionTo>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1;
+- (id <ActionTo>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
+- (id <ActionTo>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2:arg3;
 
 //M: Remove action from either schedule or concurrent group.
 - remove: anAction;

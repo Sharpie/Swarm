@@ -1,5 +1,8 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* activity.h: Add ActionTo,
+	ActionCall, and ActionForEach protocol-conforming return types.
+
 	* XActivity.h (Activity_c): Add registeredOwnerActivity.
 
 	* SwarmProcess.m ([ActionMerge_c -mapAllocations:]): Disable
