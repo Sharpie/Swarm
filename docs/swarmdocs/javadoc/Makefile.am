@@ -10,7 +10,7 @@ DOC_TITLE = "Swarm $(shell head -1 $(swarm_dossrcdir)/VERSION) Reference Guide"
 
 DISTNAME=$(NAME)-@VERSION@
 
-.PHONY: all html latex dvi ps stubs htmldist dvidist psdist
+.PHONY: all html latex dvi rtf ps stubs htmldist dvidist rtfdist psdist
 
 all: html latex dvi ps 
 
@@ -40,13 +40,13 @@ ps_DATA = $(NAME).ps
 ps: $(NAME).ps
 
 htmldist: html
-	tar c $(NAME) | $(GZIP) > $(DISTNAME)-html.tar.gz
+	tar c $(NAME) | $(GZIP) > ../$(DISTNAME)-html.tar.gz
 
 dvidist: dvi
-	$(GZIP) < $(NAME).dvi > $(DISTNAME).dvi.gz
+	$(GZIP) < $(NAME).dvi > ../$(DISTNAME).dvi.gz
 
 psdist: ps
-	$(GZIP) $(NAME).ps > $(DISTNAME).ps.gz
+	$(GZIP) < $(NAME).ps > ../$(DISTNAME).ps.gz
 
 java-stub.elc: $(swarm_dossrcdir)/java/java-stub.el $(abs_top_builddir)/protocol.elc
 	$(elcrule)

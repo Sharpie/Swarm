@@ -9,6 +9,10 @@
 	(psdir): Likewise for PostScript (ps).
 	(uninstall-local): Remove all html and subdirs in $(htmldir),
 	since no specific targets for each file.
+	(.PHONY): Add rtf and rtfdist (so recursion from top level
+	directory works).
+	(psdist): Direct ps filename into $(GZIP) rather than passing as
+	an argument.
 
 1999-07-08  Alex Lancaster  <alex@santafe.edu>
 
