@@ -637,6 +637,7 @@ USING
 @class VarProbe;
 @class MessageProbe;
 @class ProbeMap;
+@class DefaultProbeMap;
 @class CustomProbeMap;
 @class EmptyProbeMap;
 @class CompleteProbeMap;
