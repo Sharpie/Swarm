@@ -24,6 +24,9 @@
 <!-- grid turtle examples -->
 &grid-app.sgml;
 
+<!-- random library appendix -->
+&random-app.sgml;
+
 <!-- probes -->
 &probes-app.sgml;
 
