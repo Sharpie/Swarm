@@ -20,7 +20,9 @@
 #import <defobj.h>
 #import <random.h>
 #import <objectbase.h>
+#ifndef DISABLE_GUI
 #import <simtoolsgui.h>
+#endif
 #import <externvar.h>
 
 //S: Top-level Swarm module
@@ -71,11 +73,13 @@ GETTERS
 - (id <Symbol>)getRandomized;
 - (id <Symbol>)getSequential;
 
+#ifndef DISABLE_GUI
 - (id <Symbol>)getControlStateRunning;
 - (id <Symbol>)getControlStateStopped;
 - (id <Symbol>)getControlStateStepping;
 - (id <Symbol>)getControlStateQuit;
 - (id <Symbol>)getControlStateNextTime;
+#endif
 
 - (id <Zone>)getScratchZone;
 - (id <Zone>)getGlobalZone;
@@ -84,8 +88,10 @@ GETTERS
 - (id <UniformIntegerDist>)getUniformIntRand;
 - (id <UniformDoubleDist>)getUniformDblRand;
 
+#ifndef DISABLE_GUI
 - (id <ProbeLibrary>)getProbeLibrary;
 - (id <ProbeDisplayManager>)getProbeDisplayManager;
+#endif
 
 - (id <Archiver>)getHdf5Archiver;
 - (id <Archiver>)getLispArchiver;

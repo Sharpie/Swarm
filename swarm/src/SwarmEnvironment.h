@@ -24,7 +24,9 @@
 #import <objectbase.h>
 #import <random.h>
 #import <simtools.h>
+#ifndef DISABLE_GUI
 #import <simtoolsgui.h>
+#endif
 #import <defobj/Create.h>
 
 @interface SwarmEnvironment: CreateDrop <SwarmEnvironment>
@@ -43,6 +45,7 @@
 - (timeval_t)getCurrentTime;
 - (id <SwarmActivity>)getCurrentSwarmActivity;
 
+#ifndef DISABLE_GUI
 - (void)createProbeDisplay: obj;
 - (void)createCompleteProbeDisplay: obj;
 - (void)createArchivedProbeDisplay: obj name: (const char *)name;
@@ -50,12 +53,13 @@
 - (void)setWindowGeometryRecordName: obj name: (const char *)name;
 - (void)setComponentWindowGeometryRecordNameFor: obj widget: widget name: (const char *)name;
 - (void)setComponentWindowGeometryRecordName: widget name: (const char *)name;
+- (void)updateDisplay;
+#endif
 - (void)xprint: obj;
 - (void)xfprint: obj;
 - (void)dumpDirectory;
 - (const char *)typeModule: (const char *)typeName;
 - (void)verboseMessage: (const char *)message;
-- (void)updateDisplay;
 
 #import "SwarmEnvironment_getters.h"
 @end

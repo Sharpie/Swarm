@@ -1,3 +1,7 @@
+2004-07-21  Scott Christley  <schristley@mac.com>
+
+	* Makefile.am (INCLUDES): Parameterize simtoolsgui and gui.
+
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Use libobjc definition.  Add GNUstep

@@ -1,3 +1,12 @@
+2004-07-21  Scott Christley  <schristley@mac.com>
+
+	* Makefile.am (INCLUDES): Parameterize simtoolsgui and gui.
+	(SRC): Do not build ActiveGraph, EZBin, EZDistribution, EZGraph,
+	and FunctionGraph for a non-gui Swarm build.
+
+	* analysis.h: #ifndef DISABLE_GUI classes not applicable for
+	a non-gui Swarm build.
+
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Use libobjc definition. Add GNUstep includes.

@@ -1,6 +1,6 @@
 space
 analysis
-@SIMTOOLSGUIMODULE@
+@SIMTOOLSGUI@
 @GNUSTEPMODULE@
 simtools
 random

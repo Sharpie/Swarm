@@ -1,6 +1,6 @@
-SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) gui random simtools simtoolsgui analysis space $(GNUSTEPMODULE)
+SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space $(GNUSTEPMODULE)
 
-SWARMMODULES = space analysis $(GNUSTEPMODULE) $(SIMTOOLSGUIMODULE) simtools random $(TCLTKGUIDIR) objectbase activity defobj collections misc
+SWARMMODULES = space analysis $(GNUSTEPMODULE) $(SIMTOOLSGUI) simtools random $(TCLTKGUIDIR) objectbase activity defobj collections misc
 
 EXTRA_DIST = Makefile.rules getters.el SwarmEnvironment_getters.m
 
@@ -54,7 +54,7 @@ libswarm_la_LIBADD = $(SWFFILIB)
 
 LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(libswarm_la_LIBADD) $(LIBOBJCLIB) $(SYSLIBS)
 
-INCLUDES = $(LIBOBJCINCLUDES) -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools -I$(srcdir)/gui -I$(srcdir)/simtoolsgui -I$(srcdir)/misc -I. -I$(srcdir) $(JAVAINCLUDES) $(GNUSTEPLIBINCLUDES)
+INCLUDES = $(LIBOBJCINCLUDES) -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools $(GUIDIRINCLUDE) $(SIMTOOLSGUIINCLUDE) -I$(srcdir)/misc -I. -I$(srcdir) $(JAVAINCLUDES) $(GNUSTEPLIBINCLUDES)
 
 DLLWRAP = @DLLWRAP@
 if USEDLL

@@ -35,7 +35,10 @@
 //D: other dimensions, arbitrary graphs, etc.
 
 #import <objectbase.h>
+#import <swarmconfig.h>
+#ifndef DISABLE_GUI
 #import <gui.h> // Raster, Colormap
+#endif
 
 @protocol GridData
 //S: Methods used by Value2dDisplay and Object2dDisplay for display
@@ -223,6 +226,7 @@ USING
 - stepRule;
 @end
 
+#ifndef DISABLE_GUI
 @protocol Value2dDisplay <SwarmObject, CREATABLE>
 //S: Value2dDisplay displays 2d arrays of values.
 
@@ -254,6 +258,7 @@ USING
 //M: this is a nice trick that you might want to look at. 
 - display;
 @end
+#endif
 
 @protocol ConwayLife2d <Ca2d, CREATABLE>
 //S: Classic 2d Conway's Life CA.
@@ -332,6 +337,7 @@ USING
 - setOverwriteWarnings: (BOOL)b;
 @end
 
+#ifndef DISABLE_GUI
 @protocol Object2dDisplay <SwarmObject, CREATABLE>
 //S: Object2dDisplay displays 2d arrays of objects.
 
@@ -373,6 +379,7 @@ USING
 //M: Make a probe for an object at a specific point.
 - makeProbeAtX: (unsigned)x Y: (unsigned)y;
 @end
+#endif
 
 @protocol Int2dFiler <SwarmObject, CREATABLE>
 //S: Saves the state of a Discrete2d object [DEPRECATED].

@@ -25,13 +25,17 @@
 #import <random.h>
 #import <objectbase.h>
 #import <simtools.h>
+#ifndef DISABLE_GUI
 #import <simtoolsgui.h>
+#endif
 
 #import <objectbase/probing.h> // initProbing
 #import <defobj/Customize.h>  // PHASE
 #import <defobj/Arguments.h> // Arguments_c
 
+#ifndef DISABLE_GUI
 #import <gui.h> // GUI_EVENT_ASYNC
+#endif
 
 #include <swarmconfig.h>
 
@@ -132,14 +136,20 @@ PHASE(Creating)
 {
   initDefobj (arguments);
   initProbing ();
-  
+
+#ifndef DISABLE_GUI  
   if (![arguments getBatchModeFlag] && !forceBatchMode)
     swarmGUIMode = YES;
-  
+#else
+  swarmGUIMode = NO;
+#endif
+
   initRandom (arguments);
-  
+
+#ifndef DISABLE_GUI  
   if (swarmGUIMode)
     initSimtoolsGUI ();
+#endif
 
 #ifdef HAVE_JDK
   {
@@ -216,6 +226,7 @@ PHASE(Using)
   return getCurrentSwarmActivity ();
 }
 
+#ifndef DISABLE_GUI
 - (void)createProbeDisplay: obj
 {
   CREATE_PROBE_DISPLAY (obj);
@@ -255,16 +266,17 @@ PHASE(Using)
         name: name];
 }
 
-- (void)xprint: obj
-{
-  xprint (obj);
-}
-
 - (void)updateDisplay
 {
 #ifndef GNUSTEP
   while (GUI_EVENT_ASYNC ()) {}
 #endif
+}
+#endif
+
+- (void)xprint: obj
+{
+  xprint (obj);
 }
 
 - (void)xfprint: obj

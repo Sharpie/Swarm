@@ -81,4 +81,4 @@ super-clean: clean maintainer-clean
 	-rm -f tools/Makefile.in
 	-rm -f common.elc protocol.elc interface.elc
 	-rm -f Makefile.in aclocal.m4 configure
-	-rm -f swarmconfig.h.in stamp-h3 stamp-h4
+	-rm -f swarmconfig.h.in stamp-h*

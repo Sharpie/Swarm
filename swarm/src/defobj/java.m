@@ -1536,6 +1536,7 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
     ASSOCIATE (uniformDblRand);
   }
 
+#ifndef DISABLE_GUI
   if (swarmGUIMode)
     {
       extern id probeDisplayManager;
@@ -1551,6 +1552,7 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
       ASSOCIATE (ControlStateQuit);
       ASSOCIATE (ControlStateNextTime);
     }
+#endif
   
   {
     extern id <Symbol> Initialized, Running, Stopped, Holding, Released, 

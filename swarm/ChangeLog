@@ -1,3 +1,9 @@
+2004-07-21  Scott Christley  <schristley@mac.com>
+
+	* Makefile.am (super-clean): Remove all stamp files.
+
+	* configure.in: Add --disable-gui option.
+
 2004-07-19  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* COM/c/Makefile.in, etc/Makefile.common.in: etc/modules

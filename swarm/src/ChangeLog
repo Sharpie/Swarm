@@ -1,3 +1,18 @@
+2004-07-21  Scott Christley  <schristley@mac.com>
+
+	* Makefile.am (SUBDIRS): Parameterize simtoolsgui and gui.
+	(SWARMMODULES): Likewise.
+	(INCLUDES): Likewise.
+
+	* SwarmEnvironment.h: #ifndef DISABLE_GUI methods not
+	applicable for a non-gui Swarm build.
+
+	* swarm.h: Likewise.
+
+	* SwarmEnvironment.m: Likewise.
+	([SwarmEnvironment createEnd]): Set swarmGUIMode to NO for a
+	non-gui Swarm build.
+
 2004-07-20  Marcus G. Daniels  <mgd@baby>
 
 	* Makefile.am (libswarm_la_LDFLAGS): Add -Wl,--export-all and

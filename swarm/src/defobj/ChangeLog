@@ -1,3 +1,8 @@
+2004-07-21  Scott Christley  <schristley@mac.com>
+
+	* java.m (swarm_directory_java_associate_objects): Exclude
+	swarmGUIMode code for a non-gui Swarm build.
+
 2004-07-20  Marcus G. Daniels <mgd@santafe.edu>
 
 	* FArguments.[hm], defobj.h:  Always use void return on -addObject:.
