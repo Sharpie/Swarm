@@ -1,3 +1,7 @@
+1998-07-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (INCLUDES): Add misc.
+
 1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* String.m: Don't include string.h.  Include misc.h.

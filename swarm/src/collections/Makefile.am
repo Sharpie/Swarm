@@ -6,7 +6,7 @@ collectionsdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj
+INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj -I$(srcdir)/../misc
 
 lib_LTLIBRARIES = libcollections.la
 
