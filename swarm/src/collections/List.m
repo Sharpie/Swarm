@@ -187,18 +187,21 @@ PHASE(Using)
                setType: hdf5CompoundType count: [self getCount]]
               createEnd];
 
+
           {
             id <Index> li = [self begin: scratchZone];
             id member;
 
             while ((member = [li next]))
               {
-                [hdf5ObjDataset selectRecord: [li getOffset]];
+                unsigned rn = [li getOffset];
+
+                [hdf5ObjDataset numberRecord: rn];
+                [hdf5ObjDataset selectRecord: rn];
                 [member hdf5Out: hdf5ObjDataset deep: NO];
               }
             [li drop];
           }
-
           [hdf5ObjDataset drop];
           [hdf5CompoundType drop];
         }

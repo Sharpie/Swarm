@@ -1,3 +1,7 @@
+1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* List.m ([List_any hdf5Out:deep:]): Call numberRecord: on dataset.
+
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Collection.[hm], collections.h ([Collection_any -allSameClass]):
