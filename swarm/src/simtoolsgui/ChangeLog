@@ -1,3 +1,7 @@
+1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* simtoolsgui.h: Add CREATABLE tags to all non-abstract protocols.
+
 1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MultiVarProbeWidget.m ([MultiVarProbeWidget -createEnd]): 

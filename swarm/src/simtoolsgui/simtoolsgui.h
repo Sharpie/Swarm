@@ -45,7 +45,7 @@ CREATING
 @end
 
 
-@protocol ControlPanel <SwarmObject>
+@protocol ControlPanel <SwarmObject, CREATABLE>
 //S: Class to control the top level SwarmProcess
 
 //D: ControlPanel keeps track of the users requests to run, stop, quit, or
@@ -87,7 +87,7 @@ USING
 
 @end
 
-@protocol ActionCache <CompositeWindowGeometryRecordName>
+@protocol ActionCache <CompositeWindowGeometryRecordName, CREATABLE>
 //S: A class to manage threads and Swarms.
 
 //D: A class that provides a smart bag into which actions can be
@@ -155,7 +155,7 @@ USING
 - getProbedObject;
 @end
 
-@protocol ProbeDisplay <SingleProbeDisplay>
+@protocol ProbeDisplay <SingleProbeDisplay, CREATABLE>
 //S: A class to display ProbeMaps
 
 //D: A class which generates a GUI to a ProbeMap of probes applied to a 
@@ -185,7 +185,7 @@ USING
 //D: the target object's class and its superclasses are included)...
 @end
 
-@protocol MultiVarProbeDisplay <CommonProbeDisplay>
+@protocol MultiVarProbeDisplay <CommonProbeDisplay, CREATABLE>
 //S: A display for displaying a ProbeMap across a number of objects.
 
 //D: This ProbeDisplay extracts all the variable probes from a probe map
@@ -211,7 +211,7 @@ USING
 @end
 
 
-@protocol ProbeDisplayManager <SwarmObject>
+@protocol ProbeDisplayManager <SwarmObject, CREATABLE>
 //S: The ProbeDisplay manager.
 
 //D: A (singleton) class whose instance is used to manage all the 
@@ -290,7 +290,7 @@ USING
 - disableDestroyNotification;
 @end
 
-@protocol GUISwarm <SwarmProcess, WindowGeometryRecordName>
+@protocol GUISwarm <SwarmProcess, WindowGeometryRecordName, CREATABLE>
 //S: A version of the Swarm class which is graphics aware. 
 
 //D: GUISwarm is a subclass of Swarm that is used as a toplevel Swarm for
@@ -319,7 +319,7 @@ USING
 - (void)drop;
 @end
 
-@protocol MessageProbeWidget
+@protocol MessageProbeWidget <CREATABLE>
 //S: A widget for editing the arguments of a MessageProbe.
 
 //D: A widget for editing the arguments of a MessageProbe.
@@ -334,7 +334,7 @@ USING
 - pack;
 @end
 
-@protocol MultiVarProbeWidget
+@protocol MultiVarProbeWidget <CREATABLE>
 //S: A widget for displaying multiple objects across multiple fields.
 
 //D: A widget for displaying multiple objects across multiple fields.
