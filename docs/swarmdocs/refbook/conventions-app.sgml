@@ -1,0 +1,374 @@
+<APPENDIX ID="LIBRARY.APP">
+
+<DOCINFO>
+<TITLE>Library Interface Conventions</TITLE>
+</DOCINFO>
+
+<TITLE>Library Interface Conventions</TITLE>
+
+<SECT1>
+<TITLE>Overview</TITLE> <PARA>Some of the basic Swarm libraries are
+implemented using object definition conventions established by the
+<LINK LINKEND="DEFOBJ.REF">defobj library</LINK>. This document
+explains how to read and interpret the header files and interface
+definitions published by such libraries. It also explains the typical
+structure of documentation provided for libraries that follow these
+conventions.</PARA>
+
+</SECT1>
+
+<SECT1>
+<TITLE>Library Header File</TITLE>
+
+<PARA>For a library that adopts these conventions, a library is not merely a
+collection of source files that are compiled into a library archive
+under control of a make file. Instead, Objective C source files in the
+library are processed in a special way to publish their definitions
+not only as header files, but as generated objects available at
+runtime to make full use of the library. A library processed in this
+way is referred to as as a "package." (Note: some of the newer Swarm
+libraries, such as objectbase and random, don't undergo this special
+processing and yet still follow all the library interface conventions
+described in this document.)</PARA>
+
+<PARA>The <LINK LINKEND="DEFOBJ.REF">defobj</LINK> library documents
+the full details of special processing performed on a package. For
+simply using a library, the key fact to keep in mind is that the
+entire public interface to a library is declared in the one header
+file having the same name as the package itself, plus a trailing .h
+suffix. Additionally, the header file of a library normally documents
+only its public interface, in a way that is completely separated from
+the implementation of the objects it specifies.</PARA>
+
+<PARA>The separation of implementation means that a library publishes its
+interface entirely without reference to any Objective C classes which
+implement its objects. Even though classes are often thought of as
+separating the interface of an object from its implementation, this
+separation is far from complete. Not only do classes typically contain
+many internal methods not intended for external use, but they also
+define a particular storage format for an object defined as instance
+variables.</PARA>
+
+<PARA>A library instead publishes its interface as a set of public object
+types. These object types may also be supplemented by global object
+constants called symbols. Both these kinds of definitions normally
+appear only in the header file of a library. The remaining source
+files in a library normally contain the classes which implement the
+object types.</PARA>
+
+<PARA>In a library, the files which implement classes (including class
+header files), need not ever be referenced simply to make use of the
+implemented capabilities of the library object types. Documentation
+for the library is normally expressed entirely in terms of the types
+and symbols published in the library header file. If a feature does
+not appear in the library header file, it should not be considered
+part of a supported public interface.</PARA>
+
+<PARA>Individual class header files are required to subclass from existing
+implementations, but interfaces for subclassing are an entirely
+separate issue from normal public use of an object library. Class
+inheritance can be a powerful implementation technique, but extension
+of an existing class framework is typically safe only if performed in
+explicitly permitted ways. If a library supports subclassing at all,
+it must carefully state which classes may be subclassed and in what
+ways. For a library package, this information is supplied outside the
+library header file. The library header file specifies only the
+interfaces by which objects are intended to be used, whether
+implemented by a local class or an external subclass.</PARA>
+
+<PARA>Remaining sections of this document explain the declarations which
+appear in a library header file, and end with a suggested structure of
+documentation to be provided for a library. The libraries of Swarm
+mostly follow this structure.</PARA>
+
+</SECT1>
+
+<SECT1>
+<TITLE>Object Type Definitions</TITLE>
+
+<PARA>The interfaces to objects defined by a library are specified by
+object type definitions. An object type defines only a set of messages
+which may be sent to an object over various phases of its lifetime. An
+object type makes no commitment to the classes that might be used to
+implement the object.</PARA>
+
+<PARA>Multiple classes may all implement the same messages belonging to a
+type. The independence of types and classes means that different
+classes can provide alternate implementations of the same object
+type. For example, a particular implementing class might be selected
+to optimize the implementation for a particular case.</PARA>
+
+<PARA>Object types are similar to protocols defined by Objective C,
+and the declarations appearing in a library header file are a minor
+adaptation of Objective C protocol syntax. A key difference from
+protocols is that object types are published as real external objects
+that may be used at runtime to create instances of a type.  A further
+difference is that the object types of the <LINK LINKEND="DEFOBJ.REF">defobj library</LINK> are divided into separate
+interfaces that define distinct phases of an object's life
+cycle.</PARA>
+
+</SECT1>
+
+<SECT1>
+<TITLE>GridTurtle example</TITLE>
+
+<PARA>An example will help illustrate the features of type definitions
+supported by the defobj library. Throughout documentation of the basic
+Swarm libraries, a series of running examples will be based on a
+simple type of object belonging to sample Swarm simulations. This type
+of object is an agent that move around on a two-dimensional grid,
+always moving in a current direction that it maintains
+internally. This agent is like a "turtle" of the original Logo system,
+except that its position is constrained to discrete integer values of
+its X-Y coordinates, and its direction is always one of the four
+orthogonal directions north, east, south, or west.</PARA>
+
+<PARA>Following is a complete library header file for a library which defines such an object, called GridTurtle:</PARA>
+
+<PROGRAMLISTING>
+<![ CDATA [
+
+/*
+Name:         GridTurtle.h
+Description:  object type for Swarm example programs
+Library:      grid
+*/
+
+#import <defobj.h>
+
+@deftype GridTurtle <Create, Drop, CREATABLE>
+CREATING
+- (void)        setXLocMax: (int)xLocMax;
+- (void)        setYLocMax: (int)yLocMax;
+SETTING
+- (void)        setXLoc: (int)xLoc;
+- (void)        setYLoc: (int)yLoc;
+- (void)        setXLoc: xLoc setYLoc: yLoc;
+
+- (void)        setDirection: direction;
+USING
+- (int)         getXLoc;
+- (int)         getYLoc;
+
+-               getDirection;
+
+- (void)        move: (int)distance;
+- (void)        turn: (int)angle;  // angle measured in units of pi/2 (90 deg.)
+- (void)        print;
+@end
+
+id <Symbol> North, East, South, West;
+
+#import "grid.xt"
+
+
+]]>
+</PROGRAMLISTING>
+
+<PARA>An object type is defined by an @deftype declaration. (Note:
+newer libraries, including objectbase and random, now follow the
+library interface conventions without using this special @deftype
+tag. Instead they use just an ordinary @protocol declaration, but
+otherwise they follow all the structure explained in this document.)
+The syntax of such declaration is identical to that of an Objective C
+@protocol definition, except for the entirely uppercase keywords
+(CREATABLE, CREATING, SETTING, USING) appearing in the GridTurtle
+example above. All these modifications of Objective C syntax are
+accomplished by simple preprocessor macros; no extensions to the
+language compiler are involved.</PARA>
+
+<PARA>When this library header file is processed (by a special rule in
+a make file), an external object id with the name GridTurtle is
+automatically published. The name of a defined type becomes an
+ordinary object that accepts specific messages defined by the defobj
+library. The <LINK LINKEND="DEFOBJ.REF">defobj library</LINK> explains
+the details of such messages; the only purpose here is to explain the
+basic sections of a deftype declaration.</PARA>
+
+<PARA>deftype declarations follow the syntax as Objective C protocols
+for inheriting messages from each other: a list of names enclosed in
+angle brackets (e.g., &lt;Create, Drop, ...&gt; above) gives the names
+of other declared types containing messages to be supported by the new
+type as well. (These types referenced here are defined by the imported
+file &lt;defobj.h&gt;.)  Like protocols, full multiple inheritance of
+types is supported. The same messages may be inherited any number of
+times through any path with no different effect than if inherited or
+declared just once, so long as no conflicts occur in any of their
+argument or return types.</PARA>
+
+<PARA>The CREATABLE tag appearing in the inherited type list above is
+a special type which defines no messages of its own, but merely marks
+the type as one which supports direct creation of instances of the
+type. Without this tag, the only role of a type is to define messages
+for inheritance by other types. With this tag, the global type object
+has a particular implementation that supports object creation using
+standard messages defined in defobj.</PARA>
+
+<PARA>The declared messages of the type may be separated into sections
+marked by the special uppercase tags such as CREATING, SETTING, and
+USING above. (Currently, these are the only such tags which may
+occur.) These sections each define messages belonging to a particular
+defined "interface" of the object type, which are further combined
+into distinct "phases" of an object lifecycle supported by defobj
+messages. Further explanation of the interfaces and phases defined by
+this example are provided in the Usage Guide of the defobj
+library.</PARA>
+
+<!-- Irrelevant? 
+
+The following line at the end of the <grid.h> header file above
+is required as part of the standard conventions for coding a library
+header file: This line adds no information to the header file, but is
+required as part of the system by which definitions are automatically
+generated.
+
+#import "grid.xt"
+
+-->
+</SECT1>
+
+<SECT1>
+<TITLE>Global Object Symbols</TITLE>
+
+<PARA>The <FILENAME>grid.h</FILENAME> header file above also contains
+the declaration:
+
+<PROGRAMLISTING>
+
+<![ CDATA [
+id <Symbol>  North, East, South, West;
+]]>
+</PROGRAMLISTING></PARA>
+
+<PARA>Lines that declare global id variables of type Symbol,
+EventType, Warning, or Error (using the angle bracket syntax of id
+variables conforming to a protocol) are processed somewhat like
+deftype declarations in that they also produce global id variables
+initialized to support particular messages defined by defobj. These
+global variables, however, are not used to define or implement other
+message interfaces, but only to define certain fixed capabilities
+referenced through their global object names.</PARA>
+
+<PARA>If declared as a Symbol, as in the case here, the generated
+objects have no particular behavior of their own (other than the
+character string of their name), but only serve to define unique
+global id constants which may be used as distinct named values in
+messages. In this example, the current direction of a GridTurtle
+object is represented by one of the symbol names North, East, South,
+or West. These values are like the enum constants of the C language,
+except that they are defined as full Objective C objects, and may be
+used with further restrictions. An EventType, or a Warning or Error,
+defines a further subtype of a Symbol constant with further
+specialized messages documented in defobj.</PARA>
+
+</SECT1> 
+
+<SECT1>
+<TITLE>Interface Design Convention</TITLE>
+
+<PARA>A variety of rules on naming and declaration of object types,
+symbols, and messages are followed by many of the Swarm
+libraries. These rules help establish a basic consistency on the
+library interfaces. Following is a list of such conventions that apply
+to a public library interface, some but not all of which are derived
+from standard Smalltalk or Objective C coding practice:</PARA>
+
+<ITEMIZEDLIST>
+
+<LISTITEM><PARA>Names of global object constants are capitalized. In
+       the public interface, such names include types and
+       symbols.</PARA>
+</LISTITEM>
+
+<LISTITEM><PARA>Recapitalization separates words of a compound name
+       (e.g., GridTurtle).  Underscores are generally not used.</PARA>
+</LISTITEM>
+
+<LISTITEM><PARA>Message names start with a lower-case character, and
+       are named using verbs.  Nouns that represent gettable or
+       settable components of object state (e.g., Direction of a
+       GridTurtle), are prefixed by get or set to indicate the action
+       being performed.</PARA>
+</LISTITEM>
+
+<LISTITEM><PARA>The Smalltalk convention that a message return the
+       receiver of a message if there is no other specific return
+       value is generally *not* followed. If there is no specific
+       return value needed from a message the return type is declared
+       (void).</PARA>
+</LISTITEM>
+
+</ITEMIZEDLIST>
+
+</SECT1>
+
+<SECT1>
+<TITLE>Documentation Structure</TITLE>
+
+<PARA>The following standard sections of documentation are suggested for
+libraries that follow the strict interface vs. implementation
+separation of library packages, each with purpose and typical contents
+as given:</PARA>
+
+<ITEMIZEDLIST>
+
+<LISTITEM><FORMALPARA> <TITLE>Usage Guide</TITLE> <PARA>Tutorial
+   introduction to a library. Focuses on the most common uses in an
+   order reflecting the needs of a first-time user. Most explanation
+   by means of progressively elaborated examples. Serves as a guided
+   tour of major library capabilities. No attempt at reference-style
+   completeness.</PARA></FORMALPARA>
+</LISTITEM>
+
+<LISTITEM><FORMALPARA> <TITLE>Advanced Usage Guide</TITLE> <PARA>
+   Continues overview of all significant capabilities of a library,
+   including those which might be needed by advanced users customizing
+   or extending built-in capability.  Provides examples of specialized
+   uses extending beyond normal, basic usage, but still using built-in
+   features of the library framework. Helps to simplify the Usage
+   Guide by providing a location for overflow of more advanced
+   features.</PARA></FORMALPARA>
+</LISTITEM>
+
+<LISTITEM><FORMALPARA> <TITLE>Interface Reference</TITLE> <PARA>
+   Complete, concise summary of all features of a library. Fills the
+   role a Unix "man page" in providing comprehensive definition of
+   library services. Little or no concern to provide path of tutorial
+   introduction. Does not contain extended examples, at most only
+   fragments of examples which serve needs of specification.
+</PARA></FORMALPARA>
+</LISTITEM>
+
+<LISTITEM><FORMALPARA> <TITLE>Subclassing Reference</TITLE> <PARA>
+   Documents the rules for writing new classes which subclass from
+   classes that implement the library. Because a library might use
+   complex combinations of classes to implement the range of behaviors
+   defined by its types, the classes in a library are not
+   automatically usable as superclasses of user-defined classes. Each
+   library documents which classes are available for use as
+   superclasses, and the specific rules that must be followed when
+   subclassing from these classes.</PARA></FORMALPARA>
+</LISTITEM>
+
+<LISTITEM><FORMALPARA> <TITLE>Implementation Notes</TITLE><PARA>
+   Explains the structure of classes by which the types of a library
+   are implemented.  Summarizes the status of implementation if still
+   incomplete and lists items of possible future work. Provides
+   overview and high-level structure of the implementation in whatever
+   ways would best guide a reader of implementation source code. May
+   also discuss tradeoffs considered along with references to related
+   or supporting work.</PARA></FORMALPARA>
+</LISTITEM>
+
+</ITEMIZEDLIST>
+
+</SECT1>
+
+</APPENDIX>
+
+<!--
+Local Variables:
+sgml-parent-document:("refbook.sgml" "APPENDIX")
+End:
+-->
+ 
