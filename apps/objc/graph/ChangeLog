@@ -1,5 +1,8 @@
 1998-02-25  Alex Lancaster  <alex@santafe.edu>
 
+	* DiGraph.m (#import): Replaced separate imports of header files
+	 with <graph.h>
+
 	* graph.h (DEFAULT_RANDOM_SEED): Added to make global for entire
 	library.
 
