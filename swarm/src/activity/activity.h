@@ -338,7 +338,13 @@ typedef unsigned long timeval_t;
 #endif
 
 
-
+@protocol ActivityIndex <Index, RETURNABLE>
+//S: Additional methods used by indexes over activities.
+//D: Additional methods used by indexes over activities.
+USING
+- getHoldType;
+- (id <Action>)nextAction: (id *)status;
+@end
 
 @protocol Activity <DefinedObject, Drop, RETURNABLE>
 //S: A level of processing by the interpreter of an action type.

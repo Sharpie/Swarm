@@ -1,3 +1,45 @@
+1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Schedule.m (_update_mergeSchedules): Make second argument a
+	ScheduleActivity_c *, not a SwarmActivity_c *.  Make mergeSchedule
+	a Schedule_c *, not generic object.
+	(_activity_insertAction): Make activity a ScheduleActivity_c *,
+	not generic object.  Get scheduleIndex without a cast.  Make
+	scheduleIndex a ScheduleIndex_c *, not a generic object.  Get
+	currentAction, currentTime, and swarmActivity without a cast.
+	Reference startTime without a cast.
+	([ScheduleIndex_c -nextAction:]): Reference swarmActivity,
+	currentIndex, and mergeAction without a cast.  Cast collection
+	to Schedule_c to pass to _activity_insertAction.  Cast Removed
+	to an object conforming to Action for assignment to currentAction.
+	([ActionChanged_c -_performAction_:]): Add phase tags.
+
+	* Action.[hm] (PAction): New class to hold call and target.
+
+	* Action.h (PFAction, FAction_c): Inherit from it.
+
+	* Action.[hm], Schedule.[hm]: Add (id <Activity>) qualification to
+	_performAction_ throughout.
+
+	* Schedule.h (ScheduleIndex_c): Make activity a ScheduleActivity_c *.
+	Make currentAction an object conforming to Action.
+	(ActionChanged_c): Inherit from CAction, conform to Action.
+
+	* activity.h (ActivityIndex): New protocol.
+
+	* ActionGroup.h (GroupIndex_c, GroupPermutedIndex_c, ForEachIndex_c):
+	Conform to ActivityIndex.
+
+	* ActionGroup.m (GroupIndex_c): Add phase delimiters.
+	([ForEachActivity_c +_create_::]): Cast
+	forEachAction to PAction instead of CAction.
+	([ForEachActivity_c +_createRandom_::]): Likewise.
+
+	* ActionGroup.[hm] ([ForEachIndex_c -setOffset:, -getOffset,
+	-setLoc:, -remove, -put:, -findPrev:, -findNext:, -prev, -next,
+	-getCollection]): New methods (aborts).
+	([-getLoc]): Return object conforming to symbol.
+
 1999-11-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Action.m ([ActionTo_c -_performAction_:]): Drop arguments in

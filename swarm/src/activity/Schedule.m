@@ -190,7 +190,6 @@ PHASE(Using)
 
   // Advance the new index to its first action. The nextAction: message
   // will automatically insert the merge action at schedule's pending time.
-
   [newIndex nextAction: (id *) &newActivity->status];
 
   return newActivity;
@@ -229,22 +228,20 @@ createGroup (Schedule_c *self)
 // to be resheduled, so that the new action gets merged too.
 //
 
-
 void
 _update_mergeSchedules (Schedule_c *self, 
-                        SwarmActivity_c *mergeScheduleActivity,
+                        ScheduleActivity_c *mergeScheduleActivity,
                         timeval_t oldTime,
                         timeval_t tVal)
 {
   ScheduleIndex_c *mergeScheduleIndex;
   ActionMerge_c *mergeAction; 
-  id mergeSchedule;
+  Schedule_c *mergeSchedule;
   
   if (!mergeScheduleActivity)
     return;
-  mergeScheduleIndex =
-    ((ScheduleActivity_c *) mergeScheduleActivity)->currentIndex;
-  mergeSchedule = mergeScheduleIndex->collection;
+  mergeScheduleIndex = mergeScheduleActivity->currentIndex;
+  mergeSchedule = (Schedule_c *) mergeScheduleIndex->collection;
   if (mergeScheduleIndex->currentTime > tVal)
     mergeScheduleIndex->currentTime = tVal;
   mergeAction = [mergeSchedule at: (id) oldTime];
@@ -254,7 +251,7 @@ _update_mergeSchedules (Schedule_c *self,
 	{
 	  id concGroup;
 	  id index;
-	  
+	
 	  concGroup = ((ActionConcurrent_c *) mergeAction)->concurrentGroup;
 	  index = [concGroup begin: scratchZone];
 	  [index setLoc: Start];
@@ -279,7 +276,7 @@ _update_mergeSchedules (Schedule_c *self,
           [index drop];
 	} 
       else 
-	mergeAction = [mergeSchedule removeKey: (id) oldTime];     
+        mergeAction = [mergeSchedule removeKey: (id) oldTime];     
       _activity_insertAction (mergeSchedule, tVal, mergeAction);
     }
 }
@@ -338,7 +335,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 	    {
 	      timeval_t oldTime;  // time of the pending action
               id indexrefs;
-              id activity;
+              ScheduleActivity_c *activity;
 	      
 	      oldTime = (timeval_t) [index getKey];		   
 	      indexrefs = [self->activityRefs begin: scratchZone];
@@ -347,10 +344,9 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 	      
 	      while (activity)
 		{
-		  id scheduleIndex;
+		  ScheduleIndex_c *scheduleIndex;
 		  
-		  scheduleIndex =
-		    ((ScheduleActivity_c *) activity)->currentIndex;
+		  scheduleIndex = activity->currentIndex;
 		  if ([scheduleIndex get] == successor_action) 
 		    {
 		      id swarmActivity;
@@ -369,17 +365,10 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		      [scheduleIndex setLoc: Start];
 		      [scheduleIndex findNext: successor_action];
 		      
-		      ((ScheduleIndex_c *) scheduleIndex)->currentAction = 
-			[scheduleIndex prev];
-		      ((ScheduleIndex_c *) scheduleIndex)->currentTime = 
-			tVal;
-		      swarmActivity = 
-			((ScheduleActivity_c *) activity)->swarmActivity;
-		      _update_mergeSchedules (self, 
-                                              ((SwarmActivity_c *)
-                                               swarmActivity), 
-                                              oldTime, 
-                                              tVal);
+		      scheduleIndex->currentAction = [scheduleIndex prev];
+		      scheduleIndex->currentTime = tVal;
+		      swarmActivity = activity->swarmActivity;
+		      _update_mergeSchedules (self, swarmActivity, oldTime, tVal);
 		    }
 		  activity = [indexrefs next];
 		}
@@ -409,15 +398,13 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		      [scheduleIndex setLoc: Start];
 		      scheduleIndex->currentAction = 0; 
 		      scheduleIndex->currentTime = tVal;
-		      if (((ScheduleIndex_c *) scheduleIndex)->startTime > 
-                          tVal)
-			((ScheduleIndex_c *) scheduleIndex)->startTime -=
-			 ((Schedule_c *) self)->repeatInterval;
+		      if (scheduleIndex->startTime > tVal)
+			scheduleIndex->startTime -= self->repeatInterval;
 		      swarmActivity = activity->swarmActivity;
 		      if (swarmActivity)
 			{
 			  mergeScheduleIndex = swarmActivity->currentIndex;
-			  mergeSchedule =
+			  mergeSchedule = 
                             (Schedule_c *) mergeScheduleIndex->collection;
 			  _activity_insertAction (mergeSchedule,
                                                   tVal, 
@@ -825,12 +812,12 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [super mapAllocations: mapalloc];
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   [super describe: outputCharStream];
 }
 
-- (void) describeForEach: outputCharStream
+- (void)describeForEach: outputCharStream
 {
   char buffer[100];
   id index, actionAtTime;
@@ -871,7 +858,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 
 @implementation ActionConcurrent_c
 
-- (void)_performAction_: anActivity
+- (void)_performAction_: (id <Activity>)anActivity
 {
   [(id) concurrentGroup _performPlan_];
 }
@@ -1166,15 +1153,15 @@ PHASE(Using)
   // to Holding, so that the run loop will not attempt further processing
   // at this time.
   //
-  if (((ScheduleActivity_c *) activity)->swarmActivity
+  if (activity->swarmActivity
       && (currentAction
-          || INITIALIZEDP (((ScheduleActivity_c *) activity)->swarmActivity->status)))
+          || INITIALIZEDP (activity->swarmActivity->status)))
     {
-      swarmIndex =
-        ((ScheduleActivity_c *) activity)->swarmActivity->currentIndex;
+      swarmIndex = activity->swarmActivity->currentIndex;
 
-      _activity_insertAction ((id) swarmIndex->collection, currentTime,
-                              ((ScheduleActivity_c *) activity)->mergeAction);
+      _activity_insertAction ((Schedule_c *) swarmIndex->collection,
+                              currentTime,
+                              activity->mergeAction);
       if (currentAction) 
         *status = Holding;
       else
@@ -1244,7 +1231,7 @@ PHASE(Using)
         removedAction->owner =
           ((ConcurrentSchedule_c *) collection)->actionConcurrent->owner;
     }
-  currentAction = Removed;
+  currentAction = (id <Action>) Removed;
   return removedAction;
 }
 
@@ -1301,8 +1288,9 @@ PHASE(Using)
 
 
 @implementation ActionChanged_c
-
-- (void)_performAction_: anActivity
+PHASE(Creating)
+PHASE(Using)
+- (void)_performAction_: (id <Activity>)anActivity
 {
   //
   // Create the activity for the new concurrent group action, but position it

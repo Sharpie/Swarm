@@ -98,7 +98,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
   CompoundAction_c *concurrentGroup;  // concurrent group to be executed
 }
 /*** methods in ActionConcurrent_c (inserted from .m file by m2h) ***/
-- (void)_performAction_: anActivity;
+- (void)_performAction_: (id <Activity>)anActivity;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)describe: outputCharStream;
 @end
@@ -140,10 +140,10 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 @interface ScheduleIndex_c: MapIndex_c
 {
 @public
-  id <Activity> activity; // activity for which index created
-  id currentAction;       // action at current index position
-  timeval_t currentTime;  // clock value for activity
-  timeval_t startTime;    // time when current execution started
+  ScheduleActivity_c *activity; // activity for which index created
+  id <Action> currentAction;    // action at current index position
+  timeval_t currentTime;        // clock value for activity
+  timeval_t startTime;          // time when current execution started
 }
 /*** methods implemented in CompoundAction.m file ***/
 - getHoldType;
@@ -158,13 +158,13 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 - (void)dropAllocations: (BOOL)componentAlloc;
 @end
 
-@interface ActionChanged_c: CreateDrop
+@interface ActionChanged_c: CAction <Action>
 {
 @public
   ActionConcurrent_c *actionAtIndex;   // action for new concurrent group
 }
 /*** methods in ActionChanged_c (inserted from .m file by m2h) ***/
-- (void)_performAction_: anActivity;
+- (void)_performAction_: (id <Activity>)anActivity;
 - (void)describe: outputCharStream;
 @end
 
@@ -199,6 +199,6 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
   // subactivity->currentIndex->collection with some casting
 }
 /*** methods in ActionMerge_c (manually inserted) ***/
-- (void)_performAction_: callerActivity;
+- (void)_performAction_: (id <Activity>)callerActivity;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

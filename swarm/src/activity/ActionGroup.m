@@ -382,7 +382,7 @@ PHASE(Using)
 //
 
 @implementation GroupIndex_c
-
+PHASE(Creating)
 //
 // mix in action plan index methods by source inclusion
 //
@@ -394,7 +394,7 @@ PHASE(Using)
   activity = theActivity;
   return self;
 }
-
+PHASE(Using)
 //
 // nextAction: -- return next action, if any, or Holding status
 //
@@ -506,7 +506,7 @@ PHASE(Creating)
   newActivity->currentIndex = newIndex;
   newIndex->activity = anActivity;
 
-  newIndex->memberIndex = [((CAction *) forEachAction)->target
+  newIndex->memberIndex = [((PAction *) forEachAction)->target
                              begin: getCZone (ownerZone)];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
 
@@ -544,10 +544,10 @@ PHASE(Creating)
   newActivity->currentIndex = newIndex;
   newIndex->activity = anActivity;
 
-  newIndex->memberIndex = [((CAction *) forEachAction)->target
+  newIndex->memberIndex = [((PAction *) forEachAction)->target
                              beginPermuted: getCZone (ownerZone)];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
-  ((CAction *) newIndex->memberAction)->target = nil;
+  ((PAction *) newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_
 
@@ -597,6 +597,56 @@ PHASE(Using)
 {
   mapObject (mapalloc, memberIndex);
   mapObject (mapalloc, memberAction);
+}
+
+- setOffset: (unsigned)offset
+{
+  abort ();
+}
+
+- (unsigned)getOffset
+{
+  abort ();
+}
+    
+- (void)setLoc: (id <Symbol>)locSymbol
+{
+  abort ();
+}
+
+- remove
+{
+  abort ();
+}
+
+- put: anObject
+{
+  abort ();
+}
+
+- findPrev: anObject
+{
+  abort ();
+}
+
+- findNext: anObject
+{
+  abort ();
+}
+
+- prev
+{
+  abort ();
+}
+
+- next
+{
+  abort ();
+}
+
+- getCollection
+{
+  abort ();
 }
 
 @end

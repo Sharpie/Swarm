@@ -76,7 +76,7 @@ Library:      activity
 /*** methods in GroupActivity_c (inserted from .m file by m2h) ***/
 @end
 
-@interface GroupIndex_c: ListIndex_mlinks
+@interface GroupIndex_c: ListIndex_mlinks <ActivityIndex>
 {
 @public
   id <Activity> activity;               // activity for which index created
@@ -89,7 +89,7 @@ Library:      activity
 - (void)dropAllocations: (BOOL)componentAlloc;
 @end
 
-@interface GroupPermutedIndex_c: PermutedIndex_c
+@interface GroupPermutedIndex_c: PermutedIndex_c <ActivityIndex>
 {
 @public
   id <Activity> activity;
@@ -108,7 +108,7 @@ Library:      activity
 - getCurrentMember;
 @end
 
-@interface ForEachIndex_c: Object_s
+@interface ForEachIndex_c: Object_s <ActivityIndex>
 {
 @public
   id <Activity> activity;          // activity for which index created
@@ -118,7 +118,18 @@ Library:      activity
 /*** methods in ForEachIndex_c (inserted from .m file by m2h) ***/
 - nextAction: (id *)status;
 - get;
-- getLoc;
+- (id <Symbol>)getLoc;
 - getHoldType;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
+
+- setOffset: (unsigned)offset;
+- (unsigned)getOffset;
+- (void)setLoc: (id <Symbol>)locSymbol;
+- remove;
+- put: anObject;
+- findPrev: anObject;
+- findNext: anObject;
+- prev;
+- next;
+- getCollection;
 @end

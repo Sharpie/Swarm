@@ -27,7 +27,8 @@ Library:      activity
   id activitySet;                      // activities to cleanup on drop
   member_t activitySetRefs;            // internal links for owner
 
-  id currentIndex;                     // index to current action in plan
+  id <ActivityIndex> currentIndex;     // index to current action in plan
+
   Activity_c *currentSubactivity;      // subactivity for current action
   BOOL (*breakFunction) (id);          // function to call on each step
   BOOL keepEmptyFlag;

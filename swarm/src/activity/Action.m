@@ -34,11 +34,16 @@ PHASE(Using)
 }
 @end
 
-@implementation CFAction
+@implementation PAction
+PHASE(Creating)
+PHASE(Using)
+@end
+
+@implementation PFAction
 PHASE(Creating)
 + createBegin: aZone
 {
-  CFAction *action = [super createBegin: aZone];
+  PFAction *action = [super createBegin: aZone];
 
   action->argCount = 0;
   return action;
@@ -76,14 +81,14 @@ PHASE(Using)
     [arguments addObject: arg3];
 }
 
-- (void)_performAction_: anActivity
+- (void)_performAction_: (id <Activity>)anActivity
 {
   [call performCall];
 }
 
 - (void)describe: outputCharStream
 {
-  [outputCharStream catC: "CFAction"];
+  [outputCharStream catC: "PFAction"];
 }
 
 - (unsigned)getNArgs
@@ -126,7 +131,7 @@ PHASE(Creating)
 }
 
 PHASE(Using)
-- (void)_performAction_: anActivity
+- (void)_performAction_: (id <Activity>)anActivity
 {
   if (target) // in the case of FActionForEach
     updateTarget (call, target);
@@ -260,7 +265,7 @@ PHASE(Using)
   return [fc createEnd];
 }
 
-- (void)_performAction_: anActivity
+- (void)_performAction_: (id <Activity>)anActivity
 {
   if (call)
     {
@@ -339,7 +344,7 @@ PHASE(Setting)
 }
 
 PHASE(Using)
-- (void)_performAction_: anActivity
+- (void)_performAction_: (id <Activity>)anActivity
 {
   id memberAction;
   
@@ -473,7 +478,7 @@ PHASE(Setting)
 
 PHASE(Using)
 
-- (void)_performAction_: anActivity
+- (void)_performAction_: (id <Activity>)anActivity
 {
 #ifdef HAVE_JDK
   if (javaAryLen)
