@@ -5,6 +5,7 @@
 	for c-strings.
 	(LISP_COMPARE_{FUNCTION,INT,UNSIGNED,CSTRING,ID}: New macros.
 	([Map_c -lispInCreate:], [Map_c -lispOut:deep:]): Use them.
+	([Map_c -lispOut:deep:]): Abort if unknown compareFunc.
 
 	* Map.h (compareIDs, compareIntegers, compareUnsignedIntegers,
 	compareCStrings): Declare.

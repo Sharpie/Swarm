@@ -506,6 +506,8 @@ PHASE(Using)
           [outputCharStream catC: (const char *) key];
           [outputCharStream catC: "\""];
         }
+      else
+        abort ();
       [outputCharStream catC: " "];
       [member lispOut: outputCharStream deep: deepFlag];
       [outputCharStream catC: ")"];
