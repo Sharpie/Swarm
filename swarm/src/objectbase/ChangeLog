@@ -1,3 +1,9 @@
+1999-04-23  Alex Lancaster  <alex@santafe.edu>
+
+	* MessageProbe.m (dynamicCallOn): Use #ifdef HAVE_JDK to protect
+	the Java-specific code.
+	Likewise protect the #include <directory.h>.
+
 1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Call setObjCReturnType on

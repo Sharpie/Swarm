@@ -23,7 +23,9 @@
 
 #import <defobj.h> // FCall, FArguments
 
+#ifdef HAVE_JDK
 #include <directory.h>
+#endif
 
 @implementation MessageProbe
 PHASE(Creating)
@@ -411,10 +413,13 @@ dynamicCallOn (const char *probedType,
   fa = [fa createEnd];
   
   fc = [[FCall createBegin: aZone] setArguments: fa];
+
+#ifdef HAVE_JDK
   if (javaFlag)
     [fc setJavaMethod: sel_get_name (probedSelector) 
         inObject: JFINDJAVA (target)];
   else
+#endif
     [fc setMethod: probedSelector inObject: target];
   fc = [fc createEnd];
   [fc performCall];
