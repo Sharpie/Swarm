@@ -2,6 +2,8 @@
 
 	* VERSION: Version 2.0 released.
 
+	* INSTALL: Note --with-jdkdir.
+
 	* acconfig.h: Add HAVE_KAFFE.
 
 1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

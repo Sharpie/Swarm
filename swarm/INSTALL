@@ -72,7 +72,7 @@ for each required package.
 These options can be used in conjunction with their respective
 --with-tcldir, --with-tkdir, --with-tcldir options, if their header
 files are for some reason installed in a different location to the
-libraries. This is sometimes the case with Debbian or RedHat GNU/Linux
+libraries. This is sometimes the case with Debian or RedHat GNU/Linux
 distributions.
 
 `--with-tcllibname=NAME' --- Use -lNAME for Tcl   
@@ -82,9 +82,9 @@ distributions.
 These options are useful if the name of the library differs from the
 name derived from the name of the option.  
 
-`--with-ffcalldir=DIR' --- Use DIR/include and DIR/lib for
-ffcall. ffcall is an alternative to libffi, and sometimes works on
-systems that don't support libffi.
+`--with-jdkdir=DIR' --- Use DIR for Java Development Kit.  
+                        Kaffe and Sun JDK 1.1 and 1.2 are supported.
+
 
 Further details on `configure' and standard GNU options are described
 in the generic installation instructions, below.
