@@ -226,27 +226,7 @@ heat = [heat createEnd];
     the creation is finalized.</PARA>
 
     </SECT1>
-
-  <SECT1>
-    <TITLE>Scheduling a Model Swarm</TITLE>
-
-    <PARA>Once all of the simulated objects are created in
-    <LITERAL>buildObjects</LITERAL>, the next task is to schedule them
-    in the method <LITERAL>buildActions</LITERAL>.</PARA>
-
-      <PROGRAMLISTING>
-        heat = [HeatSpace createBegin: [self getZone]];
-        [heat setSizeX: worldXSize Y: worldYSize];
-        [heat setDiffusionConstant: diffuseConstant];
-        [heat setEvaporationRate: evaporationRate];
-        heat = [heat createEnd];
-      </PROGRAMLISTING>
-
-    <PARA>the object is created, a few parameters are set, and then
-    the creation is finalized.</PARA>
-
-  </SECT1>
-
+  
   <SECT1>
     <TITLE>Scheduling a Model Swarm</TITLE>
 

@@ -1,5 +1,8 @@
 1998-10-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* over04.sgml: Remove duplicated "Scheduling a Model Swarm"
+	section.
+
 	* overbook.tex.in: Include tex/macros.tex.
 
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
