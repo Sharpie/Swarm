@@ -1,9 +1,9 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../../swarm-1998-08-17
+SWARMHOME=../../swarm-1998-08-20
 endif
 APPLICATION=bug
 OBJECTS=Bug.o  main.o ObserverSwarm.o ModelSwarm.o FoodSpace.o
-APPLIBS=-lspace
+DATAFILES = model.setup
 include $(SWARMHOME)/etc/swarm/Makefile.appl
 
 main.o: main.m ObserverSwarm.h Bug.h FoodSpace.h 

@@ -66,7 +66,7 @@
   // First, we load our parameters from a file so we don't have 
   // to recompile everytime we want to change something
 
-  [ObjectLoader load: self fromFileNamed: "model.setup"] ;
+  [ObjectLoader load: self fromAppDataFileNamed: "model.setup"] ;
 
   // Then, create the food space and initialize it
 
