@@ -73,7 +73,7 @@ PHASE(Using)
   // currently ignored
 }
 
-- (void) raiseEvent: (void *)msgString, ...
+- (void) raiseEvent: (const void *)msgString, ...
 {
   // currently ignored
 }
