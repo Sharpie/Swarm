@@ -4,7 +4,8 @@
 
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* externvar.h.in (externobjcvar): Select on the basis of PIC.
+	* externvar.h.in (externobjcvar, externobjcvardef):
+	Select on the basis of PIC and DLL.
 
 1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

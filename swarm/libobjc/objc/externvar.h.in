@@ -1,13 +1,21 @@
 #ifndef _OBJC_EXTERNVAR_H
 #define _OBJC_EXTERNVAR_H
 
+#ifdef DLL
+
 #ifdef PIC
 #define externobjcvar @EXPORT_EXTERN@
 #else
 #define externobjcvar @IMPORT_EXTERN@
 #endif
-
 #define externobjcvardef @EXPORT_EXTERNDEF@
+
+#else
+
+#define externobjcvar extern
+#define externobjcvardef
+
+#endif
 
 #endif
 
