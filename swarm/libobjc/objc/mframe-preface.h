@@ -30,6 +30,7 @@
 
 #include <stdarg.h>
 #include <stdlib.h>
+#include <string.h> /* memcpy */
 
 #if 0
 #include <base/objc-gnu2next.h>

@@ -1,3 +1,7 @@
+1999-05-16  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
+
+	* mframe-preface.h: Include string.h.
+
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe-preface.h: For win32, disable include of windows.h and
