@@ -125,7 +125,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   doubleImp = 0;
   
   if (probedSelector)
-    probedMessage = strdup(sel_get_name(probedSelector));
+    probedMessage = strdup (sel_get_name (probedSelector));
   
   if (SAFEPROBES)
     if (probedMessage == 0)
@@ -317,8 +317,8 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       floatImp = 0;
       break;
     default :
-      fprintf(stderr,"Major problem with returnCategory in MessageProbe!\n");
-      exit(-1);
+      fprintf (stderr,"Major problem with returnCategory in MessageProbe!\n");
+      exit (-1);
       break;
     }
   
@@ -442,13 +442,13 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
       switch(returnCategory)
         {
         case 0: 
-          sprintf(*result,"%d",(*intImp)(target, probedSelector));
+          sprintf (*result,"%d",(*intImp)(target, probedSelector));
           break;
         case 1:
-          sprintf(*result,"%f",(*floatImp)(target, probedSelector));
+          sprintf (*result,"%f",(*floatImp)(target, probedSelector));
           break;
         case 2:
-          sprintf(*result,"%f",(*doubleImp)(target, probedSelector));
+          sprintf (*result,"%f",(*doubleImp)(target, probedSelector));
           break;
         default:
           fprintf(stderr, "Major problem with returnCategory in MessageProbe!\n");
@@ -541,7 +541,7 @@ static char runtimeBugWarning[] = "Could not complete creation of a message prob
   
   if (probedSelector)
     {
-      if(!caching)
+      if (!caching)
         [self _setImp_: target];
       
       switch (returnCategory)
