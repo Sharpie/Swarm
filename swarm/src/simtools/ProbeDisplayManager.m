@@ -28,13 +28,29 @@
   return self;
 }
 
--removeProbeDisplayFor: anObject {
+-dropProbeDisplaysFor: anObject {
   id index, aProbeDisplay ;
-  
+  id reaperQ ;
+ 
+  // We need a reaperQ because there may be more than one ProbeDisplay
+  // on a given object... Also, the object will [removeProbeDisplay: self]
+  // when asked to -drop.
+
+  reaperQ = [List create: [self getZone]] ;
+
   index = [probeList begin: [self getZone]] ;
   while ( (aProbeDisplay = [index next]) )
     if([aProbeDisplay getProbedObject] == anObject)
-      [aProbeDisplay drop] ;
+      [reaperQ addLast: aProbeDisplay] ;
+  [index drop] ;     
+
+  index = [reaperQ begin: [self getZone]] ;
+  while ( (aProbeDisplay = [index next]) ){
+    [index remove] ;
+    [aProbeDisplay drop] ;  
+  }
+  [index drop] ;     
+  [reaperQ drop] ;
 
   return self ;
 }

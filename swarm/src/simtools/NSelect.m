@@ -30,7 +30,7 @@ Library:      simtools
   N = [aCollection getCount] ;
 
   if(N < n){
-    fprintf("NSelect: attempted to select %d elements from a collection containing only %d elements!!!\n",n,N) ;
+    fprintf(stderr,"NSelect: attempted to select %d elements from a collection containing only %d elements!!!\n",n,N) ;
     exit(-1) ;
   }
 
