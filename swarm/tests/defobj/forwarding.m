@@ -271,7 +271,7 @@ strip_type_sig (const char *sig)
 
   fc = [FCall createBegin: getCZone (getZone (self))];
   fc = [fc setArguments: fa];
-  fc = [fc setMethod: aSel inObject: delegateObject];
+  fc = [fc setMethodFromSelector: aSel inObject: delegateObject];
   fc = [fc createEnd];
 
   [fc performCall];

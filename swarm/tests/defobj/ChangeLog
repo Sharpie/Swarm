@@ -1,3 +1,8 @@
+2001-02-06  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* forwarding.m ([BaseObject -forward::]): Accomodate rename of
+	setMethodFromSelector:inObject:.
+
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* forwarding.m: Include defalloc.h>
