@@ -128,13 +128,13 @@ PHASE(Creating)
 
 - setBugAddress: (const char *)theBugAddress
 {
-  bugAddress = SSTRDUP (theBugAddress);
+  bugAddress = theBugAddress ? SSTRDUP (theBugAddress) : NULL;
   return self;
 }
 
 - setVersion: (const char *)theVersion
 {
-  version = SSTRDUP (theVersion);
+  version = theVersion ? SSTRDUP (theVersion) : NULL;
   return self;
 }
 
