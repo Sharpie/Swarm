@@ -6,14 +6,12 @@
 	([Arguments_c -_runningFromInstall_]): Convert candidate SWARMHOME
 	directories to Win32, and then expand them for strcmp (continue
 	to use inode comparision for Unix).
-
-	([Arguments_c -getExecutablePath]): Use it.
+	([Arguments_c -createEnd]): Set executablePath.
+	([Arguments_c -getExecutablePath]): Return executablePath.
 	(findDirectory): Handle empty executablePath.
 	([Arguments_c -_runningFromInstall_]): Likewise.
 
 	* Arguments.h (Arguments_c): New ivar executablePath.
-
-	* Arguments.m ([Arguments_c -createEnd]): Set it.
 
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
