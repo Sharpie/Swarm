@@ -35,7 +35,7 @@ if test @USEDOSCLASSPATH@ = yes; then
     JAVACLASSES="${JAVACLASSES}`cygpath -w "$path"`;"
   done
   PS=';'
-  PD='\\'
+  PD='\'
   swarmclassdir=`cygpath -w "@swarm_datadir@"`
   @JAVALIBPATH_VAR@=`cygpath -w "@swarm_bindir@${PS}${DOSJAVALIBS}"`
 else

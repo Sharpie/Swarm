@@ -5,7 +5,7 @@ _JAVACLASSES='@JAVACLASSES@'
 
 if test @USEDOSCLASSPATH@ = yes; then
   PS=';'
-  PD='\\'
+  PD='\'
   swarmclassdir=`cygpath -w "@swarm_datadir@"`
   JAVACLASSES=''
   for path in `echo $_JAVACLASSES | tr ':' '\012'`; do
