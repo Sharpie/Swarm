@@ -10,6 +10,8 @@ CLEANFILES = $(TYPEINFO)
 
 headers: $(module_headers)
 
+override CPPFLAGS += -DBUILDING_SWARM
+
 $(TYPEINFO): $(MODULE).h $(MAKEH2X) # $(SOURCES)
 	OBJC="$(OBJC)" OBJCFLAGS='$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)' OBJECTS="$(lib$(MODULE)_la_OBJECTS)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
 	mv $(MODULE).xt types.h
