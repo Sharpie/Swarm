@@ -93,7 +93,7 @@
 
     <FIGURE>
       <TITLE>Schematic of proto-object creation</TITLE>
-      <GRAPHIC align=center ENTITYREF="switcheroo" format=tiff></GRAPHIC>
+      <GRAPHIC align=center ENTITYREF="switcheroo" format=tiff SCALE=60></GRAPHIC>
     </FIGURE>
 
 

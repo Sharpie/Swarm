@@ -1,3 +1,7 @@
+1998-06-16  Alex Lancaster  <alex@santafe.edu>
+
+	* swarmobjc.sgml (switcheroo):  Scale graphic to 60%.
+
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (MODULE): New variable.  Clear swarm_ChangeLog.
