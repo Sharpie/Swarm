@@ -650,7 +650,6 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
 {
   jobject str;
   jboolean isCopy;
-  const char *result;
   jfieldID fid;
   jstring name = (*jniEnv)->CallObjectMethod (jniEnv,
                                               field,
@@ -700,12 +699,18 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     }
   else
     str = (*jniEnv)->CallObjectMethod (jniEnv, fieldType, m_ClassGetName);
-  result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);
-  strcpy (buf, result);
-  if (isCopy)
-    (*jniEnv)->ReleaseStringUTFChars (jniEnv, str, result);
+  if (str)
+    {
+      const char *result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);
+
+      strcpy (buf, result);
+      if (isCopy)
+        (*jniEnv)->ReleaseStringUTFChars (jniEnv, str, result);
+      (*jniEnv)->DeleteLocalRef (jniEnv, str);
+    }
+  else
+    strcpy (buf, "<NULL>");
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
-  (*jniEnv)->DeleteLocalRef (jniEnv, str);
   SFREEBLOCK (fieldName);
 }
 
@@ -1278,7 +1283,10 @@ convert_from_string (fcall_type_t type,
       break;
       
     case fcall_type_string:
-      out->string = SSTRDUP (s);
+      if (strcmp (s, "<NULL>") == 0)
+        out->string = NULL;
+      else
+        out->string = SSTRDUP (s);
       ret = YES;
       break;
 

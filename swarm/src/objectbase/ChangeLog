@@ -1,3 +1,7 @@
+2001-05-30  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* VarProbe.m (java_probe_as_string): Handle NULL strings.
+
 2001-05-08    <mgd@coyote.santafe.edu>
 
 	* CustomProbeMap.m (addProbesWithIdentifers): Don't requires a
