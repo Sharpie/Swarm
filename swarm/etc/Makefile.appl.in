@@ -31,7 +31,7 @@ install-data:
         fi
 
 $(APPEXE): $(OBJECTS)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(OBJCLIBS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(OBJCLIBS)
 
 # Local variables:
 # mode: makefile

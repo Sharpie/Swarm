@@ -1,7 +1,7 @@
 .SUFFIXES: .m .xm
 
 .m.o:
-	$(SHELL) $(bindir)/libtool-swarm --mode compile $(CC) -c -Wno-import -Wno-protocol $(CFLAGS) $(CPPFLAGS) $(SWARMINCLUDES) $< 
+	$(CC) -c -Wno-import -Wno-protocol $(CFLAGS) $(CPPFLAGS) $(SWARMINCLUDES) $< 
 
 # Local Variables:
 # mode: makefile
