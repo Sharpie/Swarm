@@ -1,3 +1,8 @@
+1999-05-05  Alex Lancaster  <alex@santafe.edu>
+
+	* space.h (Ca2d): Remove CREATABLE tag in protocol definition,
+	since this protocol is intended to be abstract.
+
 1999-05-04  Alex Lancaster  <alex@santafe.edu>
 
 	* Discrete2d.m ([Discrete2d -_lispInLatticeObjects_:]): Use

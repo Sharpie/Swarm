@@ -123,7 +123,7 @@ USING
 - putValue: (long)v atX: (unsigned)x Y: (unsigned)y;
 @end
 
-@protocol Ca2d <DblBuffer2d, CREATABLE>
+@protocol Ca2d <DblBuffer2d>
 //S: Defines abstract protocol for cellular automata.
 
 //D: Inherits from DblBuffer2d, defines abstract protocol
