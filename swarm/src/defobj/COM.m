@@ -7,7 +7,6 @@ void
 initCOM (COMEnv *env)
 {
   comEnv = env;
-  swarmDirectory = [Directory create: globalZone];
 }
 
 COMobject 
