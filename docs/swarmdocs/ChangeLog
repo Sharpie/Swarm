@@ -1,8 +1,12 @@
-2000-02-28    <mgd@nest.swarm.org>
+2000-02-28  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Note 2.1 changes.
+
+2000-02-28  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* global.ent, AUTHORS, NEWS: Updates for SDG, 2000.
 
-2000-02-16    <mgd@nest.swarm.org>
+2000-02-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* configure.in: For Cygwin hosted builds, use cygpath -w instead
 	of sed expression for path conversion.  Substitute

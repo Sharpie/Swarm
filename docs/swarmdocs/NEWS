@@ -1,6 +1,16 @@
 swarmdocs NEWS --- history of major changes to swarmdocs.  -*- text -*-
 Copyright © 1996-2000 Swarm Development Group
 
+* Release Notes for swarmdocs 2.1
+
+** Removed probe, random and technical appendices.  Material has been 
+relocated to the Swarm User Guide.
+
+** Updates for Modular Stylesheets 1.53.
+
+** Add new configure time options for specifying catalog files in 
+alternative locations.
+
 * Release Notes for swarmdocs 2.0.1
 
 ** Updates for Modular Stylesheets 1.44.
