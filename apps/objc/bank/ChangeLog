@@ -1,3 +1,10 @@
+1998-02-25  Alex Lancaster  <alex@santafe.edu>
+
+	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Removed
+	reference to globalTkInterp for Canvas creation with ([graphCanvas
+	packFillLeft:1]) and the GUI_UPDATE_IDLE_TASKS() macro which
+	removes any remaining explicit Tk GUI references.
+
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Use
