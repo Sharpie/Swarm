@@ -55,24 +55,6 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- assertGeometry
-{
-  id canvas = [self getParent];
-  const char *canvasName = [canvas getWidgetName];
-  
-  [globalTkInterp eval:
-                    "tkwait visibility %s ;"
-                  "set width [winfo width %s] ;"
-                  "set height [winfo height %s] ;"
-                  "%s configure -scrollregion [list 0 0 $width $height] ;"
-                  "if {$height > 500} {set height 500} ;"
-                  "if {$width > 809} {set width 809} ;"
-                  "%s configure -width $width -height $height",
-                  widgetName, widgetName, widgetName,
-                  canvasName, canvasName];
-  return self;
-}
-
 - withdraw
 {
   [globalTkInterp eval: "wm withdraw %s", [self getWidgetName]];
