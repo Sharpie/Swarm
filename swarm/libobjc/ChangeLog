@@ -1,3 +1,8 @@
+2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* sendmsg.c (__objc_print_dtable_stats): Don't split expression
+	across preprocessor commands.
+
 2001-02-01  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* sendmsg.c (__objc_double_forward): Use an explicit register

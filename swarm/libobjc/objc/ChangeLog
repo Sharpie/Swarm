@@ -1,3 +1,7 @@
+2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Protocol.h: Remove symbols trailing #endif.
+
 2000-09-22  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* hash.h: Include string.h for strcmp.
