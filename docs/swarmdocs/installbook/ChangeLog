@@ -1,3 +1,7 @@
+1999-04-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* install01.sgml: Update versions for ffcall, Tcl/Tk, BLT, and libpng.
+
 1999-04-06  Alex Lancaster  <alex@santafe.edu>
 
 	* installbook.sgml: Change PUBLIC identifier for DTD to

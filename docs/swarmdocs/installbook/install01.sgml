@@ -5,7 +5,7 @@
   </ARTHEADER>
   
   <SIDEBAR><PARA>Unless you are using a Windows or a Unix system with
-pre-built package manager support (Debian GNU/Linux 2.0, Redhat 5.1,
+pre-built package manager support (Debian GNU/Linux 2.0, Redhat 5.2,
 Solaris 2.5), installing Swarm will take some time: various external
 libraries need to be acquired, compiled, and installed, and then Swarm
 itself needs to be compiled.  Please report any problems during
@@ -175,10 +175,8 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
         <FORMALPARA>
           <TITLE><ULINK URL="http://www.scriptics.com">Tcl/Tk</ULINK></TITLE> 
 
-          <PARA>Swarm works with Tcl/Tk versions 7.4/4.0, 7.5/4.1, 7.6/4.2,
-            and 
-            <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tcl8.0p2.tar.gz">8.0p2</ULINK>/<ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tk8.0p2.tar.gz">8.0p2</ULINK>.  It may work with later versions, but it hasn't
-            been tested.</PARA>
+          <PARA>Swarm works with Tcl/Tk versions
+            <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tcl8.0p2.tar.gz">8.0p2</ULINK>/<ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tk8.0p2.tar.gz">8.0p2</ULINK> and later.</PARA>
         </FORMALPARA>
       </LISTITEM>
 
@@ -187,9 +185,9 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
             <TITLE><ULINK URL="http://www.tcltk.com/blt/index.html">BLT</ULINK></TITLE>
 
             <PARA>BLT is an add-on to Tk that provides more widgets.  
-<ULINK URL="http://ftp.tcltk.com/pub/blt/BLT2.4f.tar.gz">BLT 2.4f</ULINK>
+<ULINK URL="http://ftp.tcltk.com/pub/blt/BLT2.4g.tar.gz">BLT 2.4g</ULINK>
 is the current version.  Another version,
-<ULINK URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/blt8.0-unoff-swarm-0.tar.gz">BLT 8.0-unoff (SFI)</ULINK> is needed for use with Windows.
+<ULINK URL="ftp://ftp.santafe.edu/pub/swarm/needed-software/blt8.0-unoff-swarm-1.tar.gz">BLT 8.0-unoff (SFI)</ULINK> is needed for use with Windows.
           </PARA>
           </FORMALPARA>
         </LISTITEM>
@@ -212,7 +210,7 @@ is the current version.  Another version,
           </FORMALPARA>
           
           <PARA>The latest version of ffcall is
-            <ULINK URL="ftp://ftp.santafe.edu/pub/gnu/ffcall-1.3.1.tar.gz">1.3.1</ULINK>
+            <ULINK URL="ftp://ftp.santafe.edu/pub/gnu/ffcall-1.5.tar.gz">1.5</ULINK>
           </PARA>
           <PARA>The latest version of libffi is:
             <ULINK URL="ftp://ftp.cygnus.com:/pub/green/libffi-1.20.tar.gz">1.20</ULINK>
@@ -228,7 +226,7 @@ is the current version.  Another version,
             </PARA>
           </FORMALPARA>
           <PARA>The current version is 
-            <ULINK URL="ftp://swrinde.nde.swri.edu/pub/png/src/libpng-1.0.2.tar.gz">1.0.2</ULINK>
+            <ULINK URL="ftp://swrinde.nde.swri.edu/pub/png/src/libpng-1.0.3.tar.gz">1.0.2</ULINK>
           </PARA>
           <FORMALPARA>
             <TITLE><ULINK URL="http://www.cdrom.com/pub/infozip/zlib">zlib</ULINK></TITLE>
