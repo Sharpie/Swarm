@@ -35,7 +35,7 @@ struct method_pair {
 struct collect_methods_t {
   nsISupports *obj;
   COM_collect_method_func_t collectMethodFunc;
-  BOOL gettersFlag;
+  BOOL variableFlag;
 };
   
 
@@ -430,7 +430,6 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
   struct collect_methods_t *info = (struct collect_methods_t *) item;
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, info->obj);
   nsIID *iid;
-  BOOL collectedFlag = NO;
 
   if (!NS_SUCCEEDED (interfaceInfo->GetIID (&iid)))
     abort ();
@@ -455,11 +454,37 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
         {
           if (!NS_SUCCEEDED (interfaceInfo->GetMethodInfo (i, &methodInfo)))
             abort ();
-          if (methodInfo->IsGetter () || !info->gettersFlag)
+          if (info->variableFlag)
             {
-              collectedFlag = YES;
-              info->collectMethodFunc (ret, methodInfo->GetName ());
+              if (methodInfo->IsGetter ())
+                {
+                  const char *variableName = methodInfo->GetName ();
+
+                  printf ("[%s] %u\n", variableName, (unsigned) methodInfo->IsSetter ());
+#if 0
+                  nsISupports *setterInterface;
+                  PRUint16 setterMethodIndex;
+                  const nsXPTMethodInfo *setterMethodInfo;
+                  
+                  PL_strcpy (setterName, "Set");
+                  PL_strcpy (setterName + 3, variableName);
+
+                  printf ("candidate setter name: `%s'\n", setterName);
+                  
+                  if (findMethod (obj,
+                                  setterName,
+                                  &setterInterface,
+                                  &setterMethodIndex,
+                                  &setterMethodInfo))
+                    {
+                      if (setterMethodInfo->IsSetter ())
+                        info->collectMethodFunc (ret, variableName);
+                    }
+#endif
+                }
             }
+          else
+            info->collectMethodFunc (ret, methodInfo->GetName ());
         }
       NS_RELEASE (ret);
     }
@@ -468,10 +493,10 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
 
 
 void
-COMcollectMethods (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag)
+COMcollectMethods (COMclass cClass, COM_collect_method_func_t func, BOOL variableFlag)
 {
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, createComponent (cClass));
-  struct collect_methods_t info = { obj, func, gettersFlag };
+  struct collect_methods_t info = { obj, func, variableFlag };
   if (!obj)
     abort ();
   find (matchImplementedInterfaces, &info);
