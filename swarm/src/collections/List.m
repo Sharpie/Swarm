@@ -259,7 +259,7 @@ PHASE(Using)
       
       itemGroup = [[[[[HDF5 createBegin: aZone]
                        setParent: hdf5Obj]
-                      setCreateFlag: YES]
+                      setWriteFlag: YES]
                      setName: buf]
                     createEnd];
       
@@ -288,7 +288,7 @@ PHASE(Using)
         [[[[[[[HDF5 createBegin: aZone]
                setName: [hdf5Obj getName]]
               setParent: hdf5Obj]
-             setCreateFlag: YES]
+             setWriteFlag: YES]
             setCompoundType: hdf5CompoundType]
            setCount: [self getCount]]
           createEnd];

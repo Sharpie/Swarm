@@ -285,21 +285,18 @@ PHASE(Setting)
       if ((COMPAREFUNCEQ (compareIDs) || compareFunc == NULL)
           && [hdf5Obj checkName: GROUP_KEYS])
         {
-          id keyGroup = [[[[[HDF5 createBegin: aZone]
-                          setCreateFlag: NO]
+          id keyGroup = [[[[HDF5 createBegin: aZone]
                          setParent: hdf5Obj]
                         setName: GROUP_KEYS]
                        createEnd];
-          id valueGroup = [[[[[HDF5 createBegin: aZone]
-                               setCreateFlag: NO]
+          id valueGroup = [[[[HDF5 createBegin: aZone]
                               setParent: hdf5Obj]
                              setName: GROUP_VALUES]
                             createEnd];
           {
             int process_object (id keyComponent)
               {
-                id valueComponent = [[[[[HDF5 createBegin: aZone]
-                                         setCreateFlag: NO]
+                id valueComponent = [[[[HDF5 createBegin: aZone]
                                         setParent: valueGroup]
                                        setName: [keyComponent getName]]
                                       createEnd];
@@ -872,12 +869,12 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
       && !(keyStringFlag = [self allStringKeys]))
     {
       id keyGroup = [[[[[HDF5 createBegin: aZone]
-                         setCreateFlag: YES]
+                         setWriteFlag: YES]
                         setParent: hdf5Obj]
                        setName: GROUP_KEYS]
                       createEnd];
       id valueGroup = [[[[[HDF5 createBegin: aZone]
-                           setCreateFlag: YES]
+                           setWriteFlag: YES]
                           setParent: hdf5Obj]
                          setName: GROUP_VALUES]
                         createEnd];
@@ -892,7 +889,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           
           sprintf (buf, "%u", offset);
           keyInstanceGroup = [[[[[HDF5 createBegin: aZone]
-                                  setCreateFlag: YES]
+                                  setWriteFlag: YES]
                                  setParent: keyGroup]
                                 setName: buf]
                                createEnd];
@@ -900,7 +897,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           [keyInstanceGroup drop];
           
           valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
-                                    setCreateFlag: YES]
+                                    setWriteFlag: YES]
                                    setParent: valueGroup]
                                   setName: buf]
                                  createEnd];
@@ -923,7 +920,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           while ((value = [mi next: &key]))
             {
               id valueInstanceGroup = [[[[[HDF5 createBegin: aZone]
-                                           setCreateFlag: YES]
+                                           setWriteFlag: YES]
                                           setParent: hdf5Obj]
                                          setName: getKeyStr (key)]
                                         createEnd];
@@ -994,7 +991,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
       id dataset =
         [[[[[[[HDF5 createBegin: aZone]
                setName: [hdf5Obj getName]]
-              setCreateFlag: YES]
+              setWriteFlag: YES]
              setParent: hdf5Obj]
             setCompoundType: compoundType]
            setCount: [self getCount]]
