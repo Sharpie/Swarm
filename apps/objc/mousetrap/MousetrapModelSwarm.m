@@ -245,7 +245,7 @@
   // just make one schedule. Autodrop, so old activities get destroyed.
   
   modelSchedule = [Schedule createBegin: [self getZone]];
-  [modelSchedule setAutoDrop: 1];
+  [modelSchedule setAutoDrop: YES];
   modelSchedule = [modelSchedule createEnd];
 
   // Now, we add one action to the schedule: trigger the mousetrap

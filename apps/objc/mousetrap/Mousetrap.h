@@ -20,6 +20,9 @@
   int yCoord;
   BOOL triggered;			// Triggered state (0=no, 1=yes)
   id displayWidget;			// Where we are displayed
+#ifdef SCHEDULE_INSPECTION
+  id scheduleItem;
+#endif
   id modelSwarm;			// our modelSwarm
 @private
   id <UniformDouble> uniform0to1;
@@ -32,6 +35,9 @@
 + create: aZone setModelSwarm: modelSwarm setXCoord: (int)x setYCoord: (int)y setGenerator: randGen;
 - trigger;
 - setDisplayWidget: widget;
+#ifdef SCHEDULE_INSPECTION
+- setScheduleItem: scheduleItem;
+#endif
 
 @end
 

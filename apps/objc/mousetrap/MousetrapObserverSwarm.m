@@ -74,6 +74,9 @@
             if (window)
               [window drawPointX: x Y: y Color: 1];
             [trap setDisplayWidget: window];
+#ifdef SCHEDULE_INSPECTION
+            [trap setScheduleItem: scheduleItem];
+#endif
           }
       }
   return self;
@@ -164,6 +167,20 @@
                          withFeedFrom: [mousetrapModelSwarm getStats] 
                           andSelector: M(getNumBalls)] ;
 
+#ifdef SCHEDULE_INSPECTION
+  // scheduleItem needs to be ready before _setupMousetraps_
+  canvas = [Canvas create: [self getZone]];
+  [canvas setWidth: 350 Height: 400];
+  [canvas setWindowTitle: "Mousetrap Schedule"];
+  [canvas pack];
+
+  scheduleItem = [ScheduleItem createBegin: [self getZone]];
+  [scheduleItem setX: 5 Y: 10];
+  [scheduleItem setCanvas: canvas];
+  scheduleItem = [scheduleItem createEnd];
+#endif
+
+
   // Next, create a 2d window to display the mousetrap world
   // and  set its size, zoom factor, title.
 
@@ -206,18 +223,6 @@
   [displayWindow setButton: ButtonRight 
 		 Client:    mousetrapDisplay
                  Message:   M(makeProbeAtX:Y:)];
-
-#ifdef SCHEDULE_INSPECTION
-  canvas = [Canvas create: [self getZone]];
-  [canvas setWidth: 200 Height: 400];
-  [canvas setWindowTitle: "Mousetrap Schedule"];
-  [canvas pack];
-
-  scheduleItem = [ScheduleItem createBegin: [self getZone]];
-  [scheduleItem setX: 5 Y: 10];
-  [scheduleItem setCanvas: canvas];
-  scheduleItem = [scheduleItem createEnd];
-#endif
 
   // All done - we're ready to build a schedule and go
   

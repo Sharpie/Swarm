@@ -67,6 +67,14 @@
   return self;
 }
 
+#ifdef SCHEDULE_INSPECTION
+- setScheduleItem: w
+{
+  scheduleItem = w;
+  return self;
+}
+#endif
+
  // The crucial step for a Mousetrap (equivalent to "step" for a Heatbug)
 
 - trigger
@@ -99,7 +107,12 @@
       [[modelSwarm getStats] addOneTriggered];
       
       if (displayWidget)
-        [displayWidget drawPointX: xCoord Y: yCoord Color: 2];
+        {
+#ifdef SCHEDULE_INSPECTION
+          [scheduleItem trigger: displayWidget X: xCoord Y: yCoord];
+#endif
+          [displayWidget drawPointX: xCoord Y: yCoord Color: 2];
+        }
       
       // now schedule trigger events for neighbours.
       // We have n ping-pong balls to toss into the air, so we
@@ -141,6 +154,12 @@
               // This is where *dynamic scheduling* is actually accomplished
               
               [[modelSwarm getStats] addOneBall];
+#ifdef SCHEDULE_INSPECTION
+              [scheduleItem at: triggerTick
+                            owner: trap
+                            widget: displayWidget
+                            x: xCoord y: yCoord];
+#endif
               [modelSwarm scheduleTriggerAt: triggerTick For: trap];
             }
         }
