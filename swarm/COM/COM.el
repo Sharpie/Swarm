@@ -368,10 +368,11 @@
       (insert "\n")
       (insert "class ")
       (insert (com-impl-name protocol phase))
-      (insert ": public ")
+      (insert ": ")
       (print-implemented-interfaces-list
        protocol phase
        #'(lambda (imodule iprotocol iphase)
+           (insert "public ")
            (com-interface-name iprotocol iphase))
        t)
       (insert "\n")
@@ -380,7 +381,6 @@
       (insert "  ")
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
-      (insert "NS_IMETHOD Init();\n")
       (when (eq phase :using)
         (let ((create-methods (collect-convenience-create-methods protocol)))
           (when (>= (length create-methods) 2)
@@ -399,13 +399,14 @@
       (loop for iprotocol in iprotocols
             do
             (insert "  ")
-            (insert (com-impl-ns-decl iprotocol :setting))
+            (insert (com-impl-ns-decl iprotocol phase))
             (insert "\n")
             (insert "  ")
-            (insert (com-impl-ns-decl iprotocol phase))
+            (insert (com-impl-ns-decl iprotocol :setting))
             (insert "\n"))
       (insert "\n")
       (when (eq phase :using)
+        (insert "  NS_IMETHOD Init();\n")
         (insert "protected:\n")
         (com-impl-print-initialization-parameters protocol))
       (insert "};\n")
@@ -562,10 +563,10 @@
     (loop for iprotocol in iprotocols
           do
           (insert "NS_INTERFACE_MAP_ENTRY(")
-          (insert (com-interface-name iprotocol :setting))
+          (insert (com-interface-name iprotocol phase))
           (insert ")\n")
           (insert "NS_INTERFACE_MAP_ENTRY(")
-          (insert (com-interface-name iprotocol phase))
+          (insert (com-interface-name iprotocol :setting))
           (insert ")\n"))
     (insert "NS_INTERFACE_MAP_ENTRY_AMBIGUOUS(nsISupports, ")
     (insert (com-interface-name protocol phase))
@@ -608,10 +609,10 @@
     (insert "}\n")
     (insert "\n")))
 
-(defun com-impl-print-method-definitions (protocol phase)
+(defun com-impl-print-method-definitions (protocol actual-phase phase)
   (loop for method in (expanded-method-list protocol phase)
 	do
-        (com-impl-print-method-definition protocol phase method)
+        (com-impl-print-method-definition protocol actual-phase method)
         (insert "\n")))
 
 (defun com-impl-print-impl-include (protocol phase)
@@ -660,7 +661,8 @@
     (com-impl-print-destructor protocol phase)
     (when (eq phase :using)
       (com-impl-print-class-init-method protocol ))
-    (com-impl-print-method-definitions protocol phase)))
+    (com-impl-print-method-definitions protocol phase :setting)
+    (com-impl-print-method-definitions protocol phase phase)))
 
 (defun com-protocol-sym (protocol phase suffix)
   (concat
@@ -724,9 +726,15 @@
     (insert "\n")
     (com-impl-map-protocols
      #'(lambda (protocol phase)
-         (insert "NS_GENERIC_FACTORY_CONSTRUCTOR_INIT (")
-         (insert (com-impl-name protocol phase))
-         (insert ", Init);\n")))
+         (if (eq phase :using)
+             (progn
+               (insert "NS_GENERIC_FACTORY_CONSTRUCTOR_INIT (")
+               (insert (com-impl-name protocol phase))
+               (insert ", Init);\n"))
+           (progn
+               (insert "NS_GENERIC_FACTORY_CONSTRUCTOR (")
+               (insert (com-impl-name protocol phase))
+               (insert ");\n")))))
     (insert "#include \"componentIDs.h\"\n")
     (insert "static nsModuleComponentInfo components[] = {\n")
     (let ((first t))
