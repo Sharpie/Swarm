@@ -1,3 +1,8 @@
+2002-03-14  Marcus G. Daniels  <mgd@condor>
+
+	* Grid2d.m ([Grid -putObject:atX:Y:]): Print out name of object along
+	with pointer.
+
 2001-11-04    <mgd@HELEN>
 
 	* Makefile.am: Avoid multi-line values as they confuse Cygwin.

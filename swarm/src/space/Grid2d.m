@@ -42,9 +42,9 @@ PHASE(Using)
       (objectThere != nil))
     [WarningMessage
       raiseEvent: 
-        "Grid2d: you're overwriting object %x at (%d,%d) with object %x.\n"
+        "Grid2d: you're overwriting object %x at (%d,%d) with object %p (%s).\n"
       "Grid2d does not support two objects in one place.\n",
-      objectThere, x, y, anObject];
+      objectThere, x, y, anObject, [anObject getName]];
   
   *discrete2dSiteAt(lattice, offsets, x, y) = anObject;
 
