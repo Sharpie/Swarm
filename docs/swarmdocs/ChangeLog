@@ -1,3 +1,8 @@
+2000-02-15  Alex Lancaster  <alex@santafe.edu>
+
+	* global.ent: Add `userbook' as a general entity for the Swarm
+	User Guide which contains the URL to the book in a CITETITLE.
+
 2000-02-07  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.rules (_%.tex): Add `-V tex-backend' option,

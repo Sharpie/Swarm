@@ -4,6 +4,9 @@
 <!ENTITY orgname 'Swarm Development Group'>
 <!ENTITY program-name "Swarm Project">
 
+<!ENTITY userbook 
+  '<ulink url="http://www.swarm.org"><citetitle>Swarm User Guide</citetitle></ulink>'>
+
 <!ENTITY swarm-webpage 
   '<ulink url="http://www.swarm.org">Swarm home page</ulink>'>
 
