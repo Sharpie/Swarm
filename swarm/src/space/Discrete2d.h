@@ -10,7 +10,7 @@
 
 // See FUTURE-DESIGN for notes on where this is going.
 
-#import <objectbase.h>
+#import <objectbase/SwarmObject.h>
 
 @interface Discrete2d: SwarmObject
 {
