@@ -5,6 +5,7 @@
 
 	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_initSwarm): 
 	Renamed from Java_SwarmEnvironment_initSwarm.
+	Fix off-by-one argv/argc problem.  Initialize argv[0] to "java".
 
 	* directory.m (create_class_refs): c_int is an Integer, not an Int.
 
