@@ -57,7 +57,7 @@
 
 +createBegin: (id) aZone {
   MousetrapModelSwarm * obj;
-  ProbeMap * probeMap;
+  id <ProbeMap> probeMap;
 
   // First, call our superclass createBegin - the return value is the
   // allocated MousetrapModelSwarm object.

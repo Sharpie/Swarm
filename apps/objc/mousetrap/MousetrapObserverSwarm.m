@@ -27,7 +27,7 @@
 
 +createBegin: (id) aZone {
   MousetrapObserverSwarm * obj;
-  ProbeMap * probeMap;
+  id <ProbeMap> probeMap;
 
   // invoke our superClass createBegin to allocate ourselves.
   // obj is the allocated ObserverSwarm
