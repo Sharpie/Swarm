@@ -515,7 +515,19 @@ __objc_double_forward (id rcv, SEL op, ...)
 
   args = __builtin_apply_args ();
   res = __objc_forward (rcv, op, args);
+#ifndef __alpha__
   __builtin_return (res);
+#else
+  /* Emprically determined -- very fragile! -mgd */
+  {
+    const char *type = sel_get_type (op);
+
+    if (*type == _C_FLT)
+      return ((float *) res)[30];
+    else
+      return ((double *) res)[15];
+  }
+#endif
 }
 
 #if MFRAME_STACK_STRUCT
