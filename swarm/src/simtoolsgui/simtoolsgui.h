@@ -140,6 +140,9 @@ USING
 @end
 
 @protocol SingleProbeDisplay <CommonProbeDisplay>
+//S: An abstract protocol underlying single-object probe displays.
+
+//D: This protocol is common to CompleteProbeDisplay and ProbeDisplay.
 CREATING
 //M: This method must be called.
 - setProbedObject: anObject;

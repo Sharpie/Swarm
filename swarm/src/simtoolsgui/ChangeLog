@@ -9,6 +9,8 @@
 	([ActionCache -sendNextAction]): Send Next on sendNextAction, not Step.
 	([ActionCache -createProcCtrl]): Don't create a button for Step.
 
+	* simtoolsgui.h (SingleProbeDisplay): Add //S and //D.
+
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ControlPanel.[hm]: Declare.
