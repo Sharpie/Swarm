@@ -6,6 +6,8 @@
 	to a Windows path using cygpath -w.  Otherwise, use literal
 	swarm_datadir. 
 	Use swarmclassdir to set classpath.
+	Add a special case for setting SHLIBPATH_VAR (PATH) in the case
+	of DLLs.  These with be `bin' directories, not `lib' directories.
 
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

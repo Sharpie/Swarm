@@ -9,6 +9,13 @@ else
 fi
 jdkdir=@jdkdir@
 
+if test @USEDLL@ = yes; then
+@SHLIBPATH_VAR@=`cat << EOF
+@swarm_bindir@
+@tcllibdir@/../bin
+EOF
+`$@SHLIBPATH_VAR@
+else
 @SHLIBPATH_VAR@=`cat << EOF | sort 2>/dev/null | uniq | tr '\012' ':'
 @swarm_libdir@
 @xpmlibdir@
@@ -20,7 +27,7 @@ jdkdir=@jdkdir@
 @zliblibdir@
 EOF
 `$@SHLIBPATH_VAR@
-
+fi
 
 JAVALIBS=@JAVALIBS@
 JAVACLASSES='@JAVACLASSES@'
