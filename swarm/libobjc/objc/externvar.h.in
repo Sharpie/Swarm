@@ -3,11 +3,11 @@
 
 #if defined(DLL) && !defined(INHIBIT_OBJC_DLL)
 
-#ifdef BUILDING_LIBOBJC
-
 #undef EXPORT_EXTERN
 #undef IMPORT_EXTERN
 #undef EXPORT_EXTERNDEF
+
+#ifdef BUILDING_LIBOBJC
 
 #ifdef EXPORT_EXTERN
 #define externobjcvar EXPORT_EXTERN

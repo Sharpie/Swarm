@@ -5,11 +5,11 @@
 
 #ifdef DLL
 
-#ifdef BUILDING_SWARM
-
 #undef EXPORT_EXTERN
 #undef IMPORT_EXTERN
 #undef EXPORT_EXTERNDEF
+
+#ifdef BUILDING_SWARM
 
 #ifdef EXPORT_EXTERN
 #define externvar EXPORT_EXTERN

@@ -1,4 +1,4 @@
-1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* externvar.h.in: Don't use substitutions.  Add preprocessor
 	logic to do the right thing.
