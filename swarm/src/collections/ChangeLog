@@ -1,3 +1,12 @@
+1998-12-15  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Collection.m ([PermutedIndex_c -mapAllocations:mapalloc]): 
+	Cast mapAllocations: as void.
+
+	* Permutation.m ([Permutation_c -mapAllocations:mapalloc]): 
+	Likewise.
+	
+
 1998-12-14  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Collection.m ([PermutedIndex_c -mapAllocations:mapalloc]): 

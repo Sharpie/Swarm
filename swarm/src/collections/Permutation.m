@@ -78,7 +78,7 @@ PHASE(Using)
   return self;
 }
 
-- mapAllocations: (mapalloc_t) mapalloc
+-(void)mapAllocations: (mapalloc_t) mapalloc
 {
   mapObject(mapalloc, shuffler);
   return self;

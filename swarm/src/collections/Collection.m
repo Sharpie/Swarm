@@ -474,7 +474,7 @@ indexAtOffset (Collection_any *self, int offset)
     }
 }
 
-- mapAllocations: (mapalloc_t) mapalloc
+- (void) mapAllocations: (mapalloc_t) mapalloc
 {
   mapObject(mapalloc, ((Index_any *) permutationIndex)->collection);
   mapObject(mapalloc, permutationIndex);
