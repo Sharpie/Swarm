@@ -1,3 +1,5 @@
+EXTRA_DIST = java-stub.el
+
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
 abs_builddir := $(shell pwd)
 EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
