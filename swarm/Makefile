@@ -41,7 +41,7 @@ dist:
 ifeq ($(OUT),"")
 	@ echo "make dist" should only be called from "make distrib"
 else
-	sed -e 's/SYS=.*/SYS=$(SYS)/' \
+	sed -e 's/SYS=$$/SYS=$(SYS)/' \
 	    -e 's/SETUP=.*/SETUP=$(SETUP)/' \
 	    -e 's/LDCONFIG=.*/LDCONFIG=$(LDCONFIG)/' Makefile.oconf > Makefile.conf
 	(cd ..; tar cvf $(OUT) $(SWARMDIST))
@@ -56,6 +56,7 @@ bininc: FORCE
 	for d in $(BININCDIRS); do \
 	  cp $$d/*.h $(TMPDIST)/include/; \
 	done
+	(cd $(XINC); tar cf - X11/xpm.h) | (cd $(TMPDIST)/include/; tar xf -)
 	for d in $(TKTCLDIRS); do \
 	  cp $$d/*.tcl $(TMPDIST)/lib/; \
 	done
