@@ -1,8 +1,10 @@
 #ifndef _MISC_H
 #define _MISC_H
 
+#include <swarmconfig.h>
+
 #include <stddef.h>
-#ifdef __hpux__
+#if defined(__hpux__) && defined(HAVE_SYS_SIGEVENT_H)
 #include <sys/sigevent.h>
 #endif
 #include <stdio.h>
@@ -19,8 +21,6 @@
 #include <math.h>
 
 #include <limits.h>
-
-#include <swarmconfig.h>
 
 #ifdef __jmalloc_h
 #error
