@@ -3,6 +3,7 @@
 	* HeatbugModelSwarm.java: Change variables _printDiagnostics,
 	_evaporationRate, _worldXSize, _worldYSize, _diffusionConstant to
 	be public, removing leading "_".  Probed variables must be public.
+	(buildActions): Remove now-obsolete boolean argument from FArguments.
 
 	* Makefile (all): Don't run executable by default.
 
