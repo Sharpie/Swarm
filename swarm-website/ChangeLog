@@ -6,7 +6,7 @@
 	xsl/website/tabular.xsl, xsl/website/website.xsl: Change from GIF
 	to PNG throughout.
 
-	* configure.in, config.h.in, Makefile.in,
+	* configure.in, config.h.in, aclocal.m4, Makefile.in,
 	install-sh missing mkinstalldirs: Add files.
 
 2003-03-18  Alex Lancaster  <alex@swarm.org>
