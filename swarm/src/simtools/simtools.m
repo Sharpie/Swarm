@@ -5,6 +5,7 @@
 
 #import <stdlib.h>
 #import <time.h>
+#import <string.h>
 
 #import <swarmobject/probing.h>
 #import <simtools.h>
