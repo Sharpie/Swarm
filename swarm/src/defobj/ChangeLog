@@ -1,3 +1,13 @@
+1999-09-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (swarm_directory_get_java_class_name): Renamed
+	from get_class_name_from_object.
+
+	* directory.h: Declare swarm_directory_get_java_class_name.
+	(JAVA_APPNAME): Remove.
+
+	* DefObject.m: Use getZone (self) throughout instead of [self getZone].
+
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.m (lispIn): Call getQuotedObject to get typeNameString.

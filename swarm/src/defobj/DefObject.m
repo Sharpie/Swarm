@@ -177,7 +177,7 @@ PHASE(Setting)
 
               if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0
                   || strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0) 
-                *((id *) ptr) = lispIn ([self getZone], val);
+                *((id *) ptr) = lispIn (getZone (self), val);
               else if (strcmp (funcName, PARSE_FUNCTION_NAME) != 0)
                 raiseEvent (InvalidArgument, "function not %s",
                             MAKE_INSTANCE_FUNCTION_NAME
@@ -701,7 +701,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   id <FArguments> fa;
   id <FCall> fc;
   types_t val;
-  id aZone = [self getZone];
+  id aZone = getZone (self);
   const char *type = sel_get_type (aSel);
   jobject jobj = SD_FINDJAVA (jniEnv, self);
   jobject jsel;
@@ -1152,7 +1152,7 @@ initDescribeStream (void)
     [hdf5Obj shallowStoreObject: self];
   else
     {
-      id aZone = [self getZone];
+      id aZone = getZone (self);
       id cType = [[[HDF5CompoundType createBegin: aZone]
                     setClass: [self class]]
                    createEnd];

@@ -78,7 +78,7 @@ get_class_name (JNIEnv *env, jclass class)
 }
 
 const char *
-get_class_name_from_object (JNIEnv *env, jobject obj)
+swarm_directory_get_java_class_name (JNIEnv *env, jobject obj)
 {
   jclass class;
 
@@ -91,8 +91,13 @@ get_class_name_from_object (JNIEnv *env, jobject obj)
 unsigned
 swarm_directory_java_hash_code (jobject javaObject)
 {
-  int hashCode = (*jniEnv)->CallIntMethod (jniEnv, javaObject, m_HashCode);
-  return (hashCode < 0 ? - hashCode : hashCode) % DIRECTORY_SIZE;
+  int hashCode;
+
+  javaObject = (*jniEnv)->NewGlobalRef (jniEnv, javaObject);
+  hashCode = (*jniEnv)->CallIntMethod (jniEnv, javaObject, m_HashCode);
+  hashCode = (hashCode < 0 ? - hashCode : hashCode) % DIRECTORY_SIZE;
+  (*jniEnv)->DeleteGlobalRef (jniEnv, javaObject);
+  return hashCode;
 }
 
 @internalimplementation DirectoryEntry
@@ -146,7 +151,8 @@ swarm_directory_java_hash_code (jobject javaObject)
 
 - (void)describe: outputCharStream
 {
-  const char *className = get_class_name_from_object (jniEnv, javaObject);
+  const char *className =
+    swarm_directory_get_java_class_name (jniEnv, javaObject);
   
   [outputCharStream catPointer: self];
   [outputCharStream catC: " objc: "];
@@ -789,7 +795,8 @@ create_field_refs (JNIEnv *env)
 static jstring
 get_base_class_name (JNIEnv *env, jobject jobj)
 {
-  jstring classNameObj = get_class_name_from_object (env, jobj);
+  jstring classNameObj =
+    swarm_directory_get_java_class_name (env, jobj);
   jsize len = (*env)->GetStringLength (env, classNameObj);
   jclass clazz;
   jmethodID methodID;
@@ -1154,7 +1161,7 @@ swarm_directory_get_swarm_class (id object)
       id proxy;
 
       jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
-      className = get_class_name_from_object (jniEnv, jobj);
+      className = swarm_directory_get_java_class_name (jniEnv, jobj);
       result = objc_class_for_class_name (className);
       FREECLASSNAME (className);
       if (result)
@@ -1176,7 +1183,7 @@ swarm_directory_get_language_independent_class_name  (id object)
   jobject jobj;
 
   if ((jobj = SD_FINDJAVA (jniEnv, object)))
-    return get_class_name_from_object (jniEnv, jobj);
+    return swarm_directory_get_java_class_name (jniEnv, jobj);
   else 
     return (const char *) (getClass (object))->name;      
 #else

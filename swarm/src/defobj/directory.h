@@ -20,7 +20,8 @@ const char *swarm_directory_get_language_independent_class_name (id object);
 #import <defobj/Create.h>
 
 extern JNIEnv *jniEnv;
-#define JAVA_APPNAME javaswarm
+
+const char *swarm_directory_get_java_class_name (JNIEnv *env, jobject obj);
 
 void swarm_directory_init (JNIEnv *jniEnv,
                           jobject swarmEnvironment);
