@@ -1,3 +1,8 @@
+1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (SUPPORTLDFLAGS): Move FFILDFLAGS and HDF5FLAGS
+	before the others, as they are more likely to be non-default.
+
 1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common.in (_SWARMLIBS): New variable for just the
