@@ -1,3 +1,7 @@
+1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* objectbase.h: Add CREATABLE tags to all non-abstract protocols.
+
 1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VarProbe.h (VarProbe): Implement VarProbe, not _VarProbe.

@@ -164,7 +164,7 @@ USING
 #endif
 @end
 
-@protocol VarProbe <Probe>
+@protocol VarProbe <Probe, CREATABLE>
 //S: A class that allows the user to inspect a given variable in any
 //S: candidate that is an instance of, or inherits from, a given class.
 
@@ -290,7 +290,7 @@ typedef struct val {
   } val;
 } val_t;
 
-@protocol MessageProbe <Probe>
+@protocol MessageProbe <Probe, CREATABLE>
 //S: A class that allows the user to call a given message on any
 //S: candidate that is an instance of, or inherits from, a given class.
 
@@ -348,7 +348,7 @@ USING
 - (double)doubleDynamicCallOn: target;
 @end
 
-@protocol ProbeMap <SwarmObject, ProbeConfig>
+@protocol ProbeMap <SwarmObject, ProbeConfig, CREATABLE>
 //S: A container class for Probes used to specify the contents of a 
 //S: ProbeDisplay.
 
@@ -452,7 +452,7 @@ CREATING
 //D: A CustomProbeMap to be used for building up ProbeMaps from scratch.
 @end
 
-@protocol CompleteProbeMap <ProbeMap>
+@protocol CompleteProbeMap <ProbeMap, CREATABLE>
 //S: A subclass of ProbeMap whose initial state contains the VarProbes and
 //S: MessageProbes of the requested target class but also those of all its
 //S: subclasses.
@@ -462,7 +462,7 @@ CREATING
 //D: ones). 
 @end
 
-@protocol CompleteVarMap <ProbeMap>
+@protocol CompleteVarMap <ProbeMap, CREATABLE>
 //S: A subclass of ProbeMap, whose initial state contains no MessageProbes.
 
 //D: A subclass of ProbeMap, whose initial state contains no MessageProbes,
@@ -470,7 +470,7 @@ CREATING
 //D: those of all its superclasses.
 @end
 
-@protocol ProbeLibrary <Create, Drop, ProbeConfig> 
+@protocol ProbeLibrary <Create, Drop, ProbeConfig, CREATABLE> 
 //S: A (singleton) Class, whose instance is used as a container for a global
 //S: mapping between classnames and their 'default' ProbeMaps. These defaults
 //S: can be changed by the user, thus allowing him/her to customize the default
@@ -557,7 +557,7 @@ USING
 //G: The global librarian for ProbeMaps.
 extern id <ProbeLibrary> probeLibrary;
 
-@protocol ActivityControl <SwarmObject>
+@protocol ActivityControl <SwarmObject, CREATABLE>
 //S: A class that provides an object interface to an activity.
 
 //D: The ActivityControl class specifies an object that can be attached to 
