@@ -1,3 +1,9 @@
+1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* strtoll.c: New file.
+
+	* Makefile.am (EXTRA_DIST): Add strtoll.c.
+
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* misc.h: Declare xstrdup, remove conditional strdup declaration.

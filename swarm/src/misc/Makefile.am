@@ -19,7 +19,7 @@ ARGP_SRC = argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
 EXTRA_DIST = memchr.c memcpy.c memset.c \
 	realpath.c \
 	stpcpy.c strchr.c strcmp.c strlen.c strncmp.c \
-	strndup.c strnlen.c strpbrk.c strsep.c $(ARGP_SRC)
+	strndup.c strnlen.c strpbrk.c strsep.c strtoll.c $(ARGP_SRC)
 
 EXTRA_HEADERS = argp.h
 
