@@ -29,8 +29,8 @@ Library:      defobj
 JNIEnv *jniEnv;
 #endif
 
-extern void switch_to_ffi_types (FArguments * self);
-static void fillHiddenArguments (FCall_c * self);
+extern void add_ffi_types (FArguments *self);
+static void fillHiddenArguments (FCall_c *self);
 
 #ifdef HAVE_JDK
 void * java_static_call_functions[number_of_types];
@@ -75,6 +75,8 @@ defobj_init_java_call_tables (void *jEnv)
   java_static_call_functions[fcall_type_object] = NULL;
   java_static_call_functions[fcall_type_string] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
+  java_static_call_functions[fcall_type_selector] = 
+      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_jobject] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
 
@@ -103,42 +105,46 @@ defobj_init_java_call_tables (void *jEnv)
   java_call_functions[fcall_type_object] = NULL;
   java_call_functions[fcall_type_string] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
+  java_call_functions[fcall_type_selector] = 
+      FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_jobject] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
 }
 #endif
 
 static void 
-fillHiddenArguments (FCall_c * self)
+fillHiddenArguments (FCall_c *self)
 {
 #ifndef USE_AVCALL
+  FArguments *fargs = self->fargs;
+
   switch (self->callType)
     {
     case objccall: 
-      ((FArguments *)self->fargs)->hiddenArguments = 2;	
-      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fobject;
-      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+      fargs->hiddenArgumentCount = 2;	
+      fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      fargs->argValues[MAX_HIDDEN - 2] = &self->fobject;
+      fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
 #ifdef HAVE_JDK
     case javacall:
-      ((FArguments *)self->fargs)->hiddenArguments = 3;
-      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
-      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 3] = &jniEnv;
-      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fobject;
-      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+      fargs->hiddenArgumentCount = 3;
+      fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
+      fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
+      fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      fargs->argValues[MAX_HIDDEN - 2] = &self->fobject;
+      fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
     case javastaticcall:
-      ((FArguments *)self->fargs)->hiddenArguments = 3;
-      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
-      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 3] = &jniEnv;
-      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fclass;
-      ((FArguments *)self->fargs)->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+      fargs->hiddenArgumentCount = 3;
+      fargs->ffiArgTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
+      fargs->argValues[MAX_HIDDEN - 3] = &jniEnv;
+      fargs->ffiArgTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      fargs->argValues[MAX_HIDDEN - 2] = &self->fclass;
+      fargs->ffiArgTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
 #endif
     }
@@ -171,28 +177,30 @@ PHASE(Creating)
                      java_call_functions[(unsigned) fargs->returnType] :
                      java_static_call_functions[(unsigned) fargs->returnType]);
         
-        (jmethodID) fmethod = (callType == javacall ?
-                               (*jniEnv)->GetMethodID (jniEnv, fclass, 
-                                                       methodName, 
-                                                       fargs->javaSignature) :
-                               (*jniEnv)->GetStaticMethodID (jniEnv, fclass, 
-                                                             methodName, 
-                                                             fargs->javaSignature)); 
+        (jmethodID) fmethod =
+          (callType == javacall ?
+           (*jniEnv)->GetMethodID (jniEnv, fclass, 
+                                   methodName, 
+                                   fargs->javaSignature) :
+           (*jniEnv)->GetStaticMethodID (jniEnv, fclass, 
+                                         methodName, 
+                                         fargs->javaSignature)); 
         if (!fmethod)
           raiseEvent (SourceMessage, "Could not find Java method!\n");
       }
 #endif
   fillHiddenArguments (self);
 #ifndef USE_AVCALL
-  switch_to_ffi_types ((FArguments *) fargs);
+  add_ffi_types ((FArguments *) fargs);
   {
     unsigned res;
     
     res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
-                        fargs->hiddenArguments + fargs->assignedArguments, 
-                        (ffi_type *) fargs->returnType, 
-                        (ffi_type **) fargs->argTypes + MAX_HIDDEN - 
-                        fargs->hiddenArguments);
+                        (fargs->hiddenArgumentCount +
+                         fargs->assignedArgumentCount),
+                        (ffi_type *) fargs->ffiReturnType, 
+                        (ffi_type **) fargs->ffiArgTypes + MAX_HIDDEN - 
+                        fargs->hiddenArgumentCount);
     if (_obj_debug && res != FFI_OK)
       raiseEvent (SourceMessage,
                   "Failed while preparing foreign function call closure!\n"); 
@@ -200,7 +208,7 @@ PHASE(Creating)
 #else
   abort ();
 #endif
-  setNextPhase(self);
+  setNextPhase (self);
   return self;
 }
 
@@ -273,7 +281,7 @@ PHASE(Using)
 {
 #ifndef USE_AVCALL
   ffi_call(&cif, ffunction, fargs->result, fargs->argValues + 
-	   MAX_HIDDEN - fargs->hiddenArguments);  
+	   MAX_HIDDEN - fargs->hiddenArgumentCount);  
 #else
   abort ();
 #endif

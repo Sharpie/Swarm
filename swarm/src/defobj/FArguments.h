@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996-1998 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1999 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -14,13 +14,14 @@ Library:      defobj
 #include <objc/objc.h> // retval_t
 
 
-#define number_of_types 14 
+#define number_of_types 15 
 
 typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
               fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
               fcall_type_sint, fcall_type_ulong, fcall_type_slong,
               fcall_type_float, fcall_type_double, fcall_type_object,
-              fcall_type_string, fcall_type_jobject} fcall_type_t;
+              fcall_type_string, fcall_type_selector, 
+              fcall_type_jobject} fcall_type_t;
 
 #define MAX_ARGS        5
 #define MAX_HIDDEN      3
@@ -28,8 +29,8 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 @interface FArguments: CreateDrop_s
 {
 @public
-   unsigned assignedArguments;
-   unsigned hiddenArguments;
+   unsigned assignedArgumentCount;
+   unsigned hiddenArgumentCount;
    fcall_type_t *argTypes;
    void **ffiArgTypes;
    fcall_type_t returnType;
@@ -51,6 +52,7 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 - addUnsignedLong: (unsigned long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
+- _setReturnType_: (fcall_type_t)type;
 - setObjCReturnType: (char)type;
 - createEnd;
 - (void *)getResult;

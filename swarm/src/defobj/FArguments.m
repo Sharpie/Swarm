@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996-1998 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1999 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -34,6 +34,7 @@ ffi_type *ffi_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar,
                                          &ffi_type_double,
                                          &ffi_type_pointer,
                                          &ffi_type_pointer, 
+                                         &ffi_type_pointer, 
                                          &ffi_type_pointer };
 #endif
 
@@ -42,6 +43,7 @@ const char *java_type_signature[number_of_types] = {
   "V", "C", "C", "S", "S", "I", 
   "I", "J", "J", "F", "D", NULL,
   "Ljava/lang/String;", 
+  "Lswarm/Selector;"
   "Ljava/lang/Object;"
 };
 
@@ -63,7 +65,7 @@ char objc_types[number_of_types] = {
 
 unsigned java_type_signature_length[number_of_types] = { 1, 1, 1, 1, 1, 1,
                                                          1, 1, 1, 1, 1, 0,
-                                                         18, 18 };
+                                                         18, 16, 18 };
 @implementation FArguments
 
 + createBegin: aZone
@@ -71,8 +73,8 @@ unsigned java_type_signature_length[number_of_types] = { 1, 1, 1, 1, 1, 1,
   FArguments *newArguments;
 
   newArguments = [aZone allocIVars: self];
-  newArguments->assignedArguments = 0;
-  newArguments->hiddenArguments = 0;
+  newArguments->assignedArgumentCount = 0;
+  newArguments->hiddenArgumentCount = 0;
 #ifndef USE_AVCALL
   newArguments->ffiArgTypes = [aZone allocBlock: (sizeof (ffi_type *) * 
 				       (MAX_ARGS + MAX_HIDDEN))];
@@ -94,23 +96,23 @@ unsigned java_type_signature_length[number_of_types] = { 1, 1, 1, 1, 1, 1,
 
 - _addArgument_: (void *)value ofType: (fcall_type_t)type
 {
-  if (assignedArguments == MAX_ARGS)
-    raiseEvent (SourceMessage, "Types already assigned to maximum number
-arguments in the call!\n");
+  if (assignedArgumentCount == MAX_ARGS)
+    raiseEvent (SourceMessage,
+                "Types already assigned to maximum number arguments in the call!\n");
 
   if (type != fcall_type_jobject)
     {
-      argTypes[MAX_HIDDEN + assignedArguments] = type;
+      argTypes[MAX_HIDDEN + assignedArgumentCount] = type;
 #ifndef USE_AVCALL
-      argValues[MAX_HIDDEN + assignedArguments] = 
+      argValues[MAX_HIDDEN + assignedArgumentCount] = 
 	[[self getZone] allocBlock: ffi_types[type]->size];
-      memcpy (argValues[MAX_HIDDEN + assignedArguments], 
+      memcpy (argValues[MAX_HIDDEN + assignedArgumentCount], 
 	      value, ffi_types[argTypes[MAX_HIDDEN + 
-                                       assignedArguments]]->size);
+                                       assignedArgumentCount]]->size);
 #else
       abort ();
 #endif
-      assignedArguments++;
+      assignedArgumentCount++;
       javaSignatureLength++;
     }
   else
@@ -146,12 +148,12 @@ get_fcall_type_for_objc_type (char objcType)
                ofType: get_fcall_type_for_objc_type (objcType)];
 }
 
-#define ADD_COMMON_TEST if (assignedArguments == MAX_ARGS) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
+#define ADD_COMMON_TEST if (assignedArgumentCount == MAX_ARGS) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
 
 
 
 #ifndef USE_AVCALL
-#define ADD_COMMON(fcall_type, type, value)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: ffi_types[(fcall_type)]->size]; argTypes[MAX_HIDDEN + assignedArguments] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArguments++] = value; }
+#define ADD_COMMON(fcall_type, type, value)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArgumentCount] = [[self getZone] allocBlock: ffi_types[(fcall_type)]->size]; argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount++] = value; }
 #else
 #define ADD_COMMON(type) abort ()
 #endif
@@ -255,12 +257,12 @@ get_fcall_type_for_objc_type (char objcType)
 }
 
 void
-switch_to_ffi_types (FArguments * self)
+add_ffi_types (FArguments * self)
 {
   unsigned i;
 
   for (i = MAX_HIDDEN; 
-       i < MAX_HIDDEN + self->assignedArguments; 
+       i < MAX_HIDDEN + self->assignedArgumentCount; 
        i++)
 #ifndef USE_AVCALL
     *(self->ffiArgTypes + i) = ffi_types [self->argTypes[i]];
@@ -271,7 +273,7 @@ switch_to_ffi_types (FArguments * self)
 }
 
 static const char *
-createJavaSignature (FArguments * self)
+createJavaSignature (FArguments *self)
 {
   unsigned i;
   unsigned offset = 0;
@@ -280,7 +282,7 @@ createJavaSignature (FArguments * self)
   str = [[self getZone] allocBlock: self->javaSignatureLength + 3];
   str[offset++] = '(';
   for (i = MAX_HIDDEN; 
-       i < MAX_HIDDEN + self->assignedArguments; 
+       i < MAX_HIDDEN + self->assignedArgumentCount; 
        i++)
     {
        strcpy (str + offset, java_type_signature [self->argTypes[i]]);
@@ -311,7 +313,7 @@ createJavaSignature (FArguments * self)
 {
   unsigned i;
 
-  for (i = 0; i< assignedArguments; i++)
+  for (i = 0; i< assignedArgumentCount; i++)
     mapAlloc (mapalloc, argValues[MAX_HIDDEN + i]);
   mapAlloc (mapalloc, argTypes);
   mapAlloc (mapalloc, ffiArgTypes);

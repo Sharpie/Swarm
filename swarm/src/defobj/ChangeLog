@@ -1,7 +1,8 @@
 1999-03-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* FCall.[hm], FArguments.[hm]: Rename argSwarmTypes -> argTypes
+	* FArguments.[hm], FCall.[hm]: Rename argSwarmTypes -> argTypes
 	and argTypes -> ffiArgTypes.  Likewise for returns.
+	Add support for selectors.
 
 1999-03-23  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
