@@ -1272,25 +1272,41 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
     Colormap *colormap = raster->colormap;
     BOOL retryFlag = NO;
 
-    if (pixmap->pixmap)
-      XFreePixmap (pixmap->display, pixmap->pixmap);
-    if (pixmap->mask)
-      XFreePixmap (pixmap->display, pixmap->mask);
+    if (pixmap->display)
+      {
+        if (pixmap->pixmap)
+          {
+            XFreePixmap (pixmap->display, pixmap->pixmap);
+            pixmap->pixmap = 0;
+          }
+        if (pixmap->mask)
+          {
+            XFreePixmap (pixmap->display, pixmap->mask);
+            pixmap->mask = 0;
+          }
+        XFreeColors (pixmap->display,
+                     pixmap->xpmattrs.colormap,
+                     pixmap->xpmattrs.alloc_pixels,
+                     pixmap->xpmattrs.nalloc_pixels,
+                     0);
+        XpmFreeAttributes (&pixmap->xpmattrs);
+        pixmap->display = NULL;
+      }
     
     while (1)
       {
-        XpmAttributes xpmattrs;
         int err;
         
-        xpmattrs.valuemask = XpmColormap;
-        xpmattrs.colormap = colormap->cmap;
+        pixmap->xpmattrs.valuemask = XpmColormap | XpmReturnAllocPixels;
+        pixmap->xpmattrs.colormap = colormap->cmap;
 
         if ((err = XpmCreatePixmapFromXpmImage (display,
                                                 window,
                                                 &pixmap->xpmimage,
                                                 &pixmap->pixmap,
                                                 &pixmap->mask,
-                                                &xpmattrs)) != XpmSuccess)
+                                                &pixmap->xpmattrs))
+            != XpmSuccess)
           {
             if (retryFlag == YES)
               {

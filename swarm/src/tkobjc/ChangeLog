@@ -1,3 +1,12 @@
+1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (tkobjc_pixmap_update_raster): Put pixmap and mask
+	frees inside pixmap->display conditional.  In this context, also
+	call XFreeColors using xpmattrs.{colormap,alloc_pixels,nalloc_pixels}. 
+	Call XpmFreeAttributes.
+
+	* Pixmap.h (Pixmap): Add xpmattrs.
+
 1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (tkobjc_pixmap_update_raster): If pixmap or

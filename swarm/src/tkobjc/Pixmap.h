@@ -21,6 +21,7 @@
   X11Pixmap pixmap;				  // the map
   X11Pixmap mask;				  // clipping mask
   XpmImage xpmimage;
+  XpmAttributes xpmattrs;
 #else
   void *pixmap;
 #endif
