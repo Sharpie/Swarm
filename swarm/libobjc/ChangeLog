@@ -14,7 +14,7 @@
 
 	* init.c (_objc_load_callback): Add externobjcvardef.
 
-	* configure.in: Use md_CHECK_DLLEXTERN.
+	* configure.in: Use md_CHECK_DLL.
 
 	* Makefile.am (CPPFLAGS): Add -Dexternobjcvar=$(EXPORT_EXTERN).
 

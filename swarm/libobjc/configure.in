@@ -66,6 +66,6 @@ if [[[ x$enable_objc_gc = xyes ]]]; then
 fi)
 
 md_CREATE_LIBOBJC_HEADERS
-md_CHECK_DLLEXTERN
+md_CHECK_DLL
 AC_CHECK_HEADERS(sys/sigevent.h)
 AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile objc/externvar.h])
