@@ -1,3 +1,7 @@
+1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* protocol.el:  Use "externvar" for global variables.
+
 1999-05-27  Alex Lancaster  <alex@santafe.edu>
 
 	* config.swarm.in (swarm_SWARMLIBS): Replace explicit list of
