@@ -6,6 +6,8 @@ defobjdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
+EXTRA_DIST = make-h2x m2h
+
 INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc
 
 lib_LIBRARIES = libdefobj.a
@@ -25,4 +27,7 @@ libdefobj_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 bin_SCRIPTS = m2h make-h2x
 
 defobj_HEADERS = Create.h Customize.h DefClass.h DefObject.h Program.h \
-	Symbol.h Zone.h defalloc.h deftype.h $(module_headers)
+	Symbol.h Zone.h defalloc.h deftype.h
+
+install-data-local:
+	$(INSTALL_DATA) $(module_headers) $(defobjdir)
