@@ -78,6 +78,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
   }
   
   public Object _displayWindowDeath_ (Object caller) {
+    System.err.println ("displayWindowDeath");
     displayWindow.drop ();
     displayWindow = null;
     _setupMousetraps_ ();
@@ -139,7 +140,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
     displayWindow = new ZoomRasterImpl (getZone ());
     
     Globals.env.setWindowGeometryRecordName (displayWindow);
-    
+
     try {
       displayWindow.
         enableDestroyNotification$notificationMethod
@@ -154,7 +155,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
                                    mousetrapModelSwarm.getGridSize ());
     displayWindow.setWindowTitle ("Mousetrap World");
     _setupMousetraps_ ();
-    displayWindow.pack();
+    displayWindow.pack ();
     
     try {
       mousetrapDisplay = new Object2dDisplayImpl
@@ -164,7 +165,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
          new Selector (Class.forName ("Mousetrap"), "noMethod", false));
     }
     catch (Exception e) {
-      System.out.println ("Exception no method:" + e.getMessage());
+      System.out.println ("Exception no method:" + e.getMessage ());
     }
     
     try  {
@@ -247,7 +248,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
     
     return getActivity ();
   }
-  
+
   /**
    * monitor method - if all the balls have landed, time to quit!
    **/
@@ -257,6 +258,11 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
       getControlPanel ().setStateStopped ();
     }
     return this;
+  }
+
+  public void drop () {
+    displayWindow.disableDestroyNotification ();
+    super.drop ();
   }
 }
 

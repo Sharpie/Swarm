@@ -21,6 +21,7 @@ public class StartMousetrap {
         topLevelSwarm.activateIn (null);
         topLevelSwarm.go ();
       }
+      topLevelSwarm.drop ();
     }
     else {
       MousetrapBatchSwarm topLevelSwarm =
@@ -29,6 +30,7 @@ public class StartMousetrap {
       topLevelSwarm.buildActions ();
       topLevelSwarm.activateIn (null);
       topLevelSwarm.go ();
+      topLevelSwarm.drop ();
     }
   }
 }

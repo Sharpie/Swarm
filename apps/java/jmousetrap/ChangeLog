@@ -1,3 +1,10 @@
+1999-08-24    <mgd@HELEN>
+
+	* StartMousetrap.java: Drop topLevelSwarm at the end.
+
+	* MousetrapObserverSwarm.java (drop): New method.  Disable destroy
+	notification.
+
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MousetrapObserverSwarm.java (buildObjects): Return null on Quit.
