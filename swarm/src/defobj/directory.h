@@ -1,3 +1,8 @@
+// Swarm library. Copyright © 1999-2000 Swarm Development Group.
+// This library is distributed without any warranty; without even the
+// implied warranty of merchantability or fitness for a particular purpose.
+// See file LICENSE for details and terms of copying.
+
 // Include before jni.h to avoid jmalloc screwing up stdlib malloc decls.
 #include <misc.h> 
 #include <swarmconfig.h>
