@@ -1,8 +1,8 @@
 1998-10-28  Alex Lancaster  <alex@santafe.edu>
 
-	* print.dsl (make-listitem): Changed all references of para-style
-	to default-text-style as per current use in Modular DocBook
-	stylesheets 1.19.
+	* print.dsl: Changed all references of para-style to
+	default-text-style throughout, as per current use in Modular
+	DocBook stylesheets 1.19.
 
 1998-10-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
