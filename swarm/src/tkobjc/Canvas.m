@@ -3,10 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
-#import <tkobjc/global.h>
 #import <tkobjc/Canvas.h>
+#import <tkobjc/global.h>
 
 @implementation Canvas
 
