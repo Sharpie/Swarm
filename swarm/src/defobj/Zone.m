@@ -14,7 +14,7 @@ Library:      defobj
 
 #import <collections/List_linked.h>
 
-#include <misc.h> // memset, xmalloc, XFREE
+#include <misc.h> // memset, xmalloc, XFREE, MAX_ALIGNMENT
 
 //
 // temporary hack to guarantee double word alignment of allocations
@@ -305,9 +305,9 @@ PHASE(Using)
   
   if (_obj_debug && size == 0)
     raiseEvent (InvalidAllocSize, nil);
-  newBlock = dalloc (size + sizeof (size_t));
-  *(size_t *)newBlock = size;
-  newBlock += sizeof (size_t);
+  newBlock = dalloc (size + MAX_ALIGNMENT);
+  *(size_t *) newBlock = size;
+  newBlock += sizeof (MAX_ALIGNMENT);
   if (_obj_debug)
     {
       allocCount++;
@@ -325,7 +325,7 @@ PHASE(Using)
   aBlock -= sizeof (size_t);
   if (_obj_debug)
     {
-      allocTotal -= *(size_t *)aBlock;
+      allocTotal -= *(size_t *) aBlock;
       allocCount--;
     }
   XFREE (aBlock);

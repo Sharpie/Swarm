@@ -1,3 +1,8 @@
+1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Zone.m ([Zone_c -alloc:]): Pad return pointer up to
+	max alignment.
+
 1999-07-12  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* directory.m (java_ensure_selector): If there exists selector 
