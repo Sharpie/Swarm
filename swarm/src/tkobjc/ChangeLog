@@ -1,3 +1,10 @@
+1999-09-15    <mgd@HELEN>
+
+	* internal.m (win32_pixmap_create_from_window): Get width 
+	and height from GetDeviceCaps when window is desktop.
+
+	* win32dib.c (dib_snapshot): Likewise.
+
 1999-09-14  Alex Lancaster  <alex@santafe.edu>
 
 	* Raster.[hm] ([Raster +create:setWindowGeometryRecordName:]): New

@@ -154,8 +154,16 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   GetWindowRect (dib->window, &rect);
   dib->bitmap = NULL;
 
-  height = rect.bottom - rect.top;
-  width = rect.right - rect.left;
+  if (dib->window == HWND_DESKTOP)
+    {
+      height = GetDeviceCaps (hdc, HORZRES);
+      width = GetDeviceCaps (hdc, VERTRES);
+    }
+  else
+    {
+      height = rect.bottom - rect.top;
+      width = rect.right - rect.left;
+    }
   hbmmem = CreateCompatibleBitmap (hdc, width, height);
   hb1 = SelectObject (hmemdc, hbmmem);
 

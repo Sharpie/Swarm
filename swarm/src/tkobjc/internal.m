@@ -965,20 +965,26 @@ win32_pixmap_create_from_window (Pixmap *pixmap,
 {
   dib_t *dib = dib_create ();
 
-  dib->window = (!window
-		 ? HWND_DESKTOP
-		 : (!decorationsFlag
-		    ? TkWinGetHWND (window)
-		    : (HWND) window));
-  
-  pixmap->pixmap = dib;
-  {
-    RECT rect;
+  if (!window)
+    {
+      HDC dc = GetDC (HWND_DESKTOP);
 
-    GetWindowRect (dib->window, &rect);
-    pixmap->height = rect.bottom - rect.top;
-    pixmap->width = rect.right - rect.left;
-  }
+      pixmap->height = GetDeviceCaps (dc, HORZRES);
+      pixmap->width = GetDeviceCaps (dc, VERTRES);
+      dib->window = HWND_DESKTOP;
+    }
+  else
+    {
+      RECT rect;
+      dib->window = (!decorationsFlag
+		     ? TkWinGetHWND (window)
+		     : (HWND) window);
+      
+      GetWindowRect (dib->window, &rect);
+      pixmap->height = rect.bottom - rect.top;
+      pixmap->width = rect.right - rect.left;
+    }
+  pixmap->pixmap = dib;
   dib_snapshot (dib, decorationsFlag);
 }
 #endif
