@@ -3,12 +3,15 @@
   <TITLE>Getting Started with Swarm</TITLE>
 
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
-  <AUTHOR>
-    
-    <AFFILIATION>
-      <ORGNAME>&orgname;</ORGNAME>
-    </AFFILIATION>
-  </AUTHOR>
+
+  <CORPAUTHOR>the &orgname;</CORPAUTHOR>
+
+  <BOOKBIBLIO>
+
+    &bibliodata;
+
+  </BOOKBIBLIO>
+
   <ABSTRACT><TITLE>Overview</TITLE> 
 
     <PARA> A full-fledged "User Guide" is forthcoming, but incomplete

@@ -3,15 +3,12 @@
 
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
 
-  <CORPAUTHOR>&orgname;</CORPAUTHOR>
+  <CORPAUTHOR>the &orgname;</CORPAUTHOR>
 
   <BOOKBIBLIO>
+
+    &bibliodata;
     
-    <RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
-    <PUBDATE>&pubdate;</PUBDATE>
-    <COPYRIGHT>
-      <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
-      <HOLDER>the Santa Fe Institute</HOLDER></COPYRIGHT>
   </BOOKBIBLIO>
 
   <ABSTRACT>

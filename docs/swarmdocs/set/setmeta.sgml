@@ -5,13 +5,10 @@
   <BIBLIOSET>
     <TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
 
-    <CORPAUTHOR>&orgname;</CORPAUTHOR>
+    <CORPAUTHOR>the &orgname;</CORPAUTHOR>
+    
+    &bibliodata;
 
-    <RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
-    <PUBDATE>&pubdate;</PUBDATE>
-    <COPYRIGHT>
-      <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
-      <HOLDER>the &orgname;</HOLDER></COPYRIGHT>
   </BIBLIOSET>
 
   <ABSTRACT>

@@ -4,11 +4,11 @@
 
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
 
-  <AUTHOR>
-    <AFFILIATION>
-      <ORGNAME>&orgname;</ORGNAME>
-    </AFFILIATION>
-  </AUTHOR>
+  <CORPAUTHOR>the &orgname;</CORPAUTHOR>
+
+  <BOOKBIBLIO>
+    &bibliodata;
+  </BOOKBIBLIO>
 
   <ABSTRACT>
     <TITLE>A Top-Down Introduction To Implementing an Experiment Using
