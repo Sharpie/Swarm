@@ -3,6 +3,7 @@ AC_CANONICAL_SYSTEM
 
 VERSION=`head -1 $srcdir/VERSION`
 AM_INIT_AUTOMAKE(swarm, $VERSION)
+wn_PROG_OBJC
 
 md_SWARM_INSTALLER
 
@@ -14,8 +15,6 @@ AC_PROG_CC
 LT_AC_PROG_SED
 AC_SUBST(SED)
 
-test -n "$OBJC" || OBJC="$CC"
-AC_SUBST(OBJC)
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
 OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)
@@ -229,11 +228,11 @@ md_CHECK_BUILTIN_APPLY
 md_CHECK_SIZES
 md_CHECK_long_long_printf
 
-AC_OBJEXT
-if test $ac_objext = o ; then 
+#AC_OBJEXT
+#if test $ac_objext = o ; then 
  # so that LIBOBJS additions from AC_REPLACE_FUNCS have a .lo suffix.
-  ac_objext=lo
-fi
+#  ac_objext=lo
+#fi
 
 ac_save_CFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -fno-builtin"
@@ -334,9 +333,6 @@ AC_PATH_PROG(EMACS, emacs, missing)
 
 test -n "$ffidir" || AVCALLDIR=avcall
 AC_SUBST(AVCALLDIR)
-
-OBJCDEPMODE='depmode=gcc3'
-AC_SUBST(OBJCDEPMODE)
 
 test -d libobjc || mkdir libobjc
 AC_CONFIG_SUBDIRS(libobjc)

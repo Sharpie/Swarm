@@ -1,3 +1,8 @@
+2004-01-21  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* makefile.am: use @LTLIBOBJS@ for consistency with
+	   AM_DEPENDENCIES.
+
 2003-09-15  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* xmalloc.c: conditionalised use of weak attribute not supported

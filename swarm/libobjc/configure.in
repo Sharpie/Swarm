@@ -1,6 +1,7 @@
 AC_INIT(objc/objc.h)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(libobjc, 1.2)
+wn_PROG_OBJC
 
 test "x$ACLOCAL" = xaclocal && ACLOCAL="aclocal -I m4"
 
@@ -21,11 +22,14 @@ AC_SUBST(SED)
 
 # AC_DISABLE_SHARED
 
+test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
+OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
+AC_SUBST(OBJCFLAGS)   
+
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 
-test -n "$OBJC" || OBJC="$CC"
-AC_SUBST(OBJC)
+wn_PROG_OBJC
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
 OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long"
 AC_SUBST(OBJCFLAGS)   
@@ -107,8 +111,6 @@ AC_SUBST(noinst_LIBS)
 AC_SUBST(OBJC_DLL)
 AC_SUBST(ONELIB)
 
-OBJCDEPMODE='depmode=gcc3'
-AC_SUBST(OBJCDEPMODE)
 
 AC_CHECK_HEADERS(sys/sigevent.h)
 AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile])

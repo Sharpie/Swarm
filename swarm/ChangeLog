@@ -1,3 +1,9 @@
+2004-01-21  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* configure.in: remove obsolete attempt to AC_SUBST
+	  OBJCDEPMODE.  All now done by new wn_PROG_OBJC
+	  macro, ACLIBOBJ and AM_DEPENDENCIES.
+
 2003-08-12  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* configure.in: allow libjavaswarm to build against combined

@@ -1,3 +1,8 @@
+2004-01-21  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* acobjc.m4: new file for compatability with AC_LIBOBJ
+	 and AM_DEPENDENCIES.  
+
 2003-08-12  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* acjdk.m4: added variable MACOSJAVA for apple JDK.
