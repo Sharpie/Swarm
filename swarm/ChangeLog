@@ -1,3 +1,18 @@
+1998-05-29  Alex Lancaster  <alex@santafe.edu>
+
+	* COPYING: Created from LICENCE.
+
+	* AUTHORS: Created from Acknowledgements.  Changed to reflect
+	current affliations.
+
+	* NEWS: Created from Release-Notes.
+
+	* Release-Notes, Acknowledgements, LICENCE: All removed and
+	renamed to NEWS, AUTHORS and COPYING, respectively, to comply with
+	GNU automake conventions.
+
+	* README: Reference to 'Release-Notes' is now to 'NEWS'.
+
 1998-05-26  Alex Lancaster  <alex@santafe.edu>
 
 	* Release-Notes: Reformatted Release-Notes into emacs
