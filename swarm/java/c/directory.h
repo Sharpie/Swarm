@@ -7,13 +7,9 @@ typedef struct jobject_id
   id objcobject;
 } jobject_id;
 
-extern avl_tree *_directory_tree;
+avl_tree *initDirectoryTree (void);
 
-avl_tree * 
-initDirectoryTree (void);
-
-void
-removeDirectoryTree (void);
+void removeDirectoryTree (void);
 
 #define DIRECTORY_ID_LOOKUP(jobj) \
 ((jobject_id *) _directory_findEntry (jobj))->objcobject

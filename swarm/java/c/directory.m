@@ -1,10 +1,9 @@
+#include "directory.h"
+#include <misc.h>
 #include <misc/avl.h>
 #include <jni.h>
-#include <stdlib.h>
-#include "directory.h"
 
 avl_tree *_directory_tree;
-
 
 int 
 _directory_compare_jobjects (const void *A, const void *B, void *PARAM)
@@ -34,7 +33,7 @@ _directory_addNewEntry (jobject javaobject, id objcobject)
 {
   jobject_id * data;
   
-  data = malloc (sizeof (jobject_id));
+  data = xmalloc (sizeof (jobject_id));
   data->objcobject = objcobject;
   data->javaobject = javaobject;
 

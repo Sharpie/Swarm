@@ -1,3 +1,10 @@
+1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m: Include misc.h instead of stdlib.h.
+	(_directory_addNewEntry): Use xmalloc instead of malloc.
+
+	* directory.h: Don't declare extern _directory_tree.
+
 1999-03-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (OBJCFLAGS): Add @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@.
