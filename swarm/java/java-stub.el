@@ -140,10 +140,9 @@
       "Rectangle"
       "Line"
 
-      "Pixmap"
-      "Raster"
       "Graph"
       "Histogram"
+      "Pixmap"
                                 
       ;; gui non-creatable
       "Widget"
@@ -351,6 +350,12 @@
       "-map" ; PixelValue * return
       "-black" ; PixelValue return
       "-white" ; PixelValue return
+
+      ;; EZGraph
+      "-getGraph" ; id <Graph> return -- a disabled protocol
+
+      ;; EZBin
+      "-getHistogram" ; id <Histogram> return -- a disabled protocol
 
       ;; HDF5
       "-iterate:"
@@ -712,10 +717,20 @@
     (insert "abstract "))
   (insert "class ")
   (insert (java-class-name protocol phase))
-  (cond ((eq phase :creating)
-         (insert " extends swarm.PhaseCImpl"))
-        ((string= (protocol-name protocol) "GUISwarm")
-         (insert " extends swarm.objectbase.SwarmImpl")))
+  (let ((pname (protocol-name protocol)))
+    (cond ((eq phase :creating)
+           (insert " extends swarm.PhaseCImpl"))
+          ((string= pname "GUISwarm")
+           (insert " extends swarm.objectbase.SwarmImpl"))
+          ((string= pname "ZoomRaster")
+           (insert " extends swarm.gui.RasterImpl"))
+          ((or (string= pname "DblBuffer2d")
+               (string= pname "Grid2d"))
+           (insert " extends swarm.space.Discrete2dImpl"))
+          ((or (string= pname "ConwayLife2d")
+               (string= pname "Diffuse2d"))
+           (insert " extends swarm.space.DblBuffer2dImpl")) ;; Ca2d is abstract
+          ))
   (insert " ")
   (when (java-print-implemented-protocols protocol phase ", " nil)
     (insert ", "))

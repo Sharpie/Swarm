@@ -3,6 +3,11 @@
 	* java-stub.el (*removed-protocols*): Disable all generators but
 	MT19937, PSWB, C2TAUS, and PMMLCG1gen (which Mousetrap happened to
 	use).
+	(java-print-class-phase): Handle inheritance for ZoomRaster,
+	DblBuffer2d, Grid2d, ConwayLife2d, and Diffuse2d.
+	(*removed-protocols*): Remove Graph, Histogram, and Pixmap.
+	(*removed-methods*): Disable getters than reference Graph and
+	Histogram.
 
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
