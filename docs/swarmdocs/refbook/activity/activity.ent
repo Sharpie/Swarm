@@ -1,0 +1,5 @@
+<!entity activitycont.sgml PUBLIC "-//SFI Hive//ENTITIES Activity Content//EN">
+<!entity activityrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Activity Revision History//EN">
+<!entity activitymeta.sgml PUBLIC "-//SFI Hive//ENTITIES Activity Metadata//EN">
+<!entity activity00.sgml PUBLIC "-//SFI Hive//ENTITIES Activity Introduction//EN">
+<!entity activitypages.sgml PUBLIC "-//SFI Hive//ENTITIES Activity Generated Content//EN">

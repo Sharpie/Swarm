@@ -1,5 +1,0 @@
-<!entity activitycont.sgml system "@srcdir@/activitycont.sgml">
-<!entity activityrevhistory.sgml system "activityrevhistory.sgml">
-<!entity activitymeta.sgml system "@srcdir@/activitymeta.sgml">
-<!entity activity00.sgml system "@srcdir@/activity00.sgml">
-<!entity activitypages.sgml system "activitypages.sgml">
