@@ -1,5 +1,8 @@
 1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.m ([HDF +createBegin:]): Only init loc_id if HAVE_HDF5 
+	is defined.
+
 	* HDF5Object.[hm]: Only define setId: if HAVE_HDF5 is defined.
 
 	* Archiver.m ([Archiver_c -save]): Set createFlag to YES.

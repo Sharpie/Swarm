@@ -116,7 +116,9 @@ PHASE(Creating)
 
   obj->createFlag = NO;
   obj->datasetFlag = NO;
+#ifdef HAVE_HDF5
   obj->loc_id = 0;
+#endif
   return obj;
 }
 
