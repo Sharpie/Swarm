@@ -404,16 +404,26 @@
         using (hash-value protocol-list)
         do
         (with-temp-file (concat (module-path module-sym) "Makefile")
+          (insert "CC=gcc\n")
+          (insert "CPPFLAGS=-I/opt/SUNWjava/usr/java1.2/include -I/opt/SUNWjava/usr/java1.2/include/solaris\n")
+          (insert "\n")
+          (insert "%.class: %.java\n")
+          (insert "\tjavac -sourcepath ../.. $<\n")
+          (insert "\n")
           (insert "all:")
           (loop for obj in protocol-list
                 when (and (protocol-p obj)
                           (not (the-CREATABLE-protocol-p obj)))
                 do
+                (insert " ")
+                (insert (protocol-name obj))
+                (insert ".o")
                 (loop for phase in '(:creating :using :setting)
                       do
                       (insert " ")
                       (insert (java-interface-name obj phase))
-                      (insert ".class ")
+                      (insert ".class")
+                      (insert " ")
                       (insert (java-class-name obj phase))
                       (insert ".class")))
           (insert "\n"))))
