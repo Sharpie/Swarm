@@ -1,6 +1,10 @@
 AC_DEFUN(md_CREATE_LIBOBJC_HEADERS,
 [configsrcdir=$srcdir/config
 
+case "$host_cpu" in
+  i486 | i586 | i686) host_cpu=i386 ;;
+esac
+
 if test -d $configsrcdir/$host_cpu -a "`echo $configsrcdir/$host_cpu/*`" != "$host_cpu/*"; then
     cpudir=$configsrcdir/$host_cpu
 else
