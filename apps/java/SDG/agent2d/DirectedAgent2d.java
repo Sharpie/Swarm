@@ -12,33 +12,28 @@ import swarm.Globals;
 import Organization;
 
 abstract class DirectedAgent2d extends Agent2d {
-  int xoffset, yoffset;
-  NormalDist resistProbabilityDistribution;
-  NormalDist energyDistribution;
-  double resistProbability = 0.0;
-  private BernoulliDist bernoulliDist =
-    new BernoulliDistImpl (getZone (), Globals.env.randomGenerator, .5);
-  boolean frobbed, resisting;
-  int direction, energy;
+    int xoffset, yoffset;
+    NormalDist resistProbabilityDistribution;
+    double resistProbability = 0.0;
+    private BernoulliDist bernoulliDist =
+        new BernoulliDistImpl (getZone (), Globals.env.randomGenerator, .5);
+    boolean frobbed, resisting;
+    int direction;
 
-  DirectedAgent2d (Zone aZone,
-                   Organization org,
-                   int x, int y,
-                   int scatter, int size,
-                   double resistProbabilityMean, double resistProbabilityDeviation,
-                   int energyMean, int energyDeviation) {
-    super (aZone, org, x, y, scatter, size);
-    this.resistProbabilityDistribution =
-      new NormalDistImpl (aZone,
-                          Globals.env.randomGenerator,
-                          resistProbabilityMean,
-                          resistProbabilityDeviation);
-    this.energyDistribution =
-      new NormalDistImpl (aZone,
-                          Globals.env.randomGenerator,
-                          energyMean,
-                          energyDeviation);
-  }
+    DirectedAgent2d (Zone aZone,
+                     Organization org,
+                     int x, int y,
+                     int scatter, int size,
+                     double resistProbabilityMean, 
+                     double resistProbabilityDeviation, 
+                     int energyMean, int energyDeviation) {
+        super (aZone, org, x, y, scatter, size, energyMean, energyDeviation);
+        this.resistProbabilityDistribution =
+            new NormalDistImpl (aZone,
+                                Globals.env.randomGenerator,
+                                resistProbabilityMean,
+                                resistProbabilityDeviation);
+    }
 
   public void setOffsets () {
     if (direction == 90) {
@@ -79,11 +74,11 @@ abstract class DirectedAgent2d extends Agent2d {
     double theta = Math.toRadians ((double) direction);
     int xo = (int) Math.round (size * Math.cos (theta));
     int yo = (int) Math.round (size * Math.sin (theta));
-
+    resize();
     r.ellipseX0$Y0$X1$Y1$Width$Color (x - size, y - size,
                                       x + size, y + size,
-                                      1, color);
-    r.lineX0$Y0$X1$Y1$Width$Color (x, y, x + xo, y + yo, 1, color);
+                                      thickness, color);
+    r.lineX0$Y0$X1$Y1$Width$Color (x, y, x + xo, y + yo, thickness, color);
 
     return this;
   }
@@ -99,20 +94,19 @@ abstract class DirectedAgent2d extends Agent2d {
     resistProbability = prob;
   }
 
-  public void sampleEnergy () {
-    energy = Math.abs ((int) energyDistribution.getDoubleSample ());
-  }
-
   public boolean frob (int direction) {
     frobbed = true;
     if (!bernoulliDist.getSampleWithProbability (resistProbability)
         || energy == 0) {
       resisting = false;
+      System.out.println(name + ":         Wow!!!  Wiggling dots!");
+      energy += 5;
       this.direction = direction;
     } else {
       resisting = true;
-      System.out.println (this + " expending energy (" + energy + ")");
-      energy--;
+      System.out.println (name + ": .......working........working......" + 
+                          " Energy: " + energy);
+      energy -= 5;
     }
     return resisting;
   }

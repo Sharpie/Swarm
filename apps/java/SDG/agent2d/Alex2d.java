@@ -33,8 +33,8 @@ public class Alex2d extends SocialAgent2d {
   }
 
   public Alex2d (Zone aZone, Organization org, int x, int y) {
-    super (aZone, org, x, y, 2, 4);
-
+    super (aZone, org, x, y, 2, 4, 50, 10);
+    name = "Alex";
     people = new Hashtable (10);
   }
 
@@ -58,7 +58,7 @@ public class Alex2d extends SocialAgent2d {
     int xsum = 0, ysum = 0, xsumsq = 0, ysumsq = 0;
     int count = 0;
     double xm, ym;
-    
+
     while (iterator.hasNext ()) {
       Location location = (Location) iterator.next ();
       
@@ -94,11 +94,14 @@ public class Alex2d extends SocialAgent2d {
   }
   
   public void stepSocialAgent (Agent2d neighbor) {
-    if (neighbor == null)
+    super.stepSocialAgent(neighbor);
+    if (neighbor == null) {
       color = ObserverSwarm.AlexTourColor;
-    else {
+      energy -= 40;
+    } else {
       noteOpinion (neighbor);
       neighbor.frob (computeCentroidDirection ());
+      energy += 50;
       color = ObserverSwarm.AlexTalkColor;
     }
     randomWalk ();

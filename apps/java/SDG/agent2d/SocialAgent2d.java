@@ -17,8 +17,9 @@ public abstract class SocialAgent2d extends Agent2d {
   
   public SocialAgent2d (Zone aZone, Organization org,
                         int x, int y,
-                        int scatter, int size) {
-    super (aZone, org, x, y, scatter, size);
+                        int scatter, int size, int energyMean,
+                        int energyDeviation) {
+    super (aZone, org, x, y, scatter, size, energyMean, energyDeviation);
 
     schedule = new ScheduleImpl (aZone, 1);
 
@@ -45,9 +46,13 @@ public abstract class SocialAgent2d extends Agent2d {
   }
 
   public void stepSocialAgent (Agent2d neighbor) {
+      int energyMean = (int)energyDistribution.getMean();
+      if (energy < 0) sampleEnergy();
+      if (energy > 10*energyMean) energy = 10*energyMean;
   }
 
   public Object drawSelfOn (Raster r) {
+    resize();
     super.drawSelfOn (r);
     r.rectangleX0$Y0$X1$Y1$Width$Color
       (x - size, y - size, x + size, y + size, 1, color);
@@ -55,7 +60,9 @@ public abstract class SocialAgent2d extends Agent2d {
   }
 
   public boolean frob (int direction) {
-    System.out.print (this + " sure, whatever!");
+    System.out.println (name + ": Of course WE can do that!");
+    energy += 10;
     return false;
   }
 }
+

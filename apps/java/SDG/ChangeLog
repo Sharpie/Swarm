@@ -1,3 +1,15 @@
+2001-11-23  glen e. p. ropella  <gepr@confused.dischordia.net>
+
+	* SDG.java: Made userCount changeable.
+	(SDG): Added int users to constructor.
+	(buildObjects): Added name to User2d constructor.
+
+	* ObserverSwarm.java (ObserverSwarm): Added a probemap and display.
+	(ObserverSwarm, buildObjects): Added nameTable to keep track of user names.
+        (createNameTable): New method.  Ack!  Hardcoded names.
+	(buildObjects): New parameters for SDG constructor.
+
+	
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Organization.java (reaper, getReaper, Organization, activateIn):

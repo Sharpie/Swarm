@@ -23,6 +23,7 @@ public class User2d extends DirectedAgent2d {
   }
 
   public User2d (Zone aZone, Organization org,
+                 String myName,
                  int x, int y,
                  int scatter,
                  double resistanceProbabilityMean,
@@ -32,7 +33,7 @@ public class User2d extends DirectedAgent2d {
     super (aZone, org, x, y, scatter, 2,
            resistanceProbabilityMean, resistanceProbabilityDeviation,
            energyMean, energyDeviation);
-
+    name = myName;
     sampleResistProbability ();
     newEffort ();
     schedule = new ScheduleImpl (aZone, 1);
@@ -56,6 +57,7 @@ public class User2d extends DirectedAgent2d {
   }
 
   public void stepAgent () {
+    if (energy < 0) sampleEnergy();
     if (frobbed && !resisting)
       color = ObserverSwarm.UserListenColor;
     else

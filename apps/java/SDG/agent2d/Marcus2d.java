@@ -33,7 +33,7 @@ public class Marcus2d extends DirectedAgent2d {
 
   public Marcus2d (Zone aZone, Organization org, int x, int y) {
     super (aZone, org, x, y, 5, 4, .25, .75, 100, 10);
-    
+    name = "Marcus";
     schedule = new ScheduleImpl (aZone, true);
 
     try {
@@ -65,6 +65,7 @@ public class Marcus2d extends DirectedAgent2d {
   public void startIncubation (int t) {
     color = ObserverSwarm.MarcusIncubateColor;
     working = false;
+    thickness = 1;
     incubationRemaining = incubationTime;
     sampleResistProbability ();
     sampleEnergy ();
@@ -73,6 +74,7 @@ public class Marcus2d extends DirectedAgent2d {
 
   public void startWork (int t) {
     working = true;
+    thickness = 3;
     if (frobbed)
       color = ObserverSwarm.MarcusListenColor;
     else {
@@ -133,7 +135,7 @@ public class Marcus2d extends DirectedAgent2d {
   }
 
   public void checkWork () {
-    if (energy == 0) {
+    if (energy <= 0) {
       if (xmoveNext != null) {
         ((Action) schedule.remove (xmoveNext)).drop ();
         xmoveNext = null;
@@ -145,13 +147,18 @@ public class Marcus2d extends DirectedAgent2d {
       startIncubation (Globals.env.getCurrentTime () + 1);
     }
     else {
-      energy--;
+      energy -= 5;
       schedule.at$createActionTo$message (Globals.env.getCurrentTime () + 1,
                                           this,
                                           checkWorkSelector);
     }
   }
   
+    public void moveAgent(int xo, int yo) {
+        super.moveAgent(xo,yo);
+        if (!frobbed && !working) energy += 10;
+    }
+
   public void xmove () {
     moveAgent (xoffset, 0);
     xmoveNext = schedule.at$createActionTo$message (Globals.env.getCurrentTime () + xfreq,
@@ -174,9 +181,11 @@ public class Marcus2d extends DirectedAgent2d {
 
 
   public boolean frob (int direction) {
-    if (!working)
-      return super.frob (direction);
-    else
-      return false;
+      if (!working) {
+          energy -= 10;
+          return super.frob (direction);
+      } else {
+          return false;
+      }
   }
 }

@@ -16,13 +16,14 @@ import java.util.LinkedList;
 import java.util.Iterator;
 
 public class SDG extends Organization {
-  final static int userCount = 10;
+  public int userCount = 10;
   Agent2d mgd, gepr, alex;
   Agent2d user1, user2, user3;
   List userList;
 
-  public SDG (Zone aZone, int xsize, int ysize) {
+  public SDG (Zone aZone, int xsize, int ysize, int users) {
     super (aZone, xsize, ysize);
+    userCount = users;
   }
 
   public Object buildObjects () {
@@ -43,8 +44,10 @@ public class SDG extends Organization {
         Globals.env.uniformDblRand.getDoubleWithMin$withMax (0, 1);
       int energyMean = Globals.env.uniformIntRand.getIntegerWithMin$withMax (1, 50);
       int energyDeviation = Globals.env.uniformIntRand.getIntegerWithMin$withMax (1, 50);
-      
-      userList.add (new User2d (getZone (), this, x, y,
+      String name = (String)ObserverSwarm.nameTable.get
+          (Globals.env.uniformIntRand.getIntegerWithMin$withMax
+           (0, ObserverSwarm.nameTable.size()-1));
+      userList.add (new User2d (getZone (), this, name, x, y,
                                 scatter,
                                 resistProbabilityMean,
                                 resistProbabilityDeviation,

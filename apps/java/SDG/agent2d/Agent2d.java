@@ -7,14 +7,20 @@ import swarm.space.Grid2d;
 import swarm.gui.Raster;
 import swarm.activity.Schedule;
 import swarm.Selector;
+import swarm.random.NormalDist;
+import swarm.random.NormalDistImpl;
 
 import Organization;
 
 import swarm.Globals;
 
 public class Agent2d extends SwarmImpl {
+  String name = "unknown user";
   int size;
   int scatter;
+  int thickness=1;
+  NormalDist energyDistribution;
+  int energy=50;
 
   int x, y; 
   private Grid2d world;
@@ -24,7 +30,8 @@ public class Agent2d extends SwarmImpl {
 
   public Agent2d (Zone aZone, Organization org,
                   int x, int y,
-                  int scatter, int size) {
+                  int scatter, int size,
+                  int energyMean, int energyDeviation) {
     super (aZone);
     this.x = x;
     this.y = y;
@@ -32,6 +39,13 @@ public class Agent2d extends SwarmImpl {
     this.reaper = org.getReaper ();
     this.scatter = scatter;
     this.size = size;
+    this.energyDistribution =
+      new NormalDistImpl (aZone,
+                          Globals.env.randomGenerator,
+                          energyMean,
+                          energyDeviation);
+    sampleEnergy();
+
     world.putObject$atX$Y (this, x, y);
 
     try {
@@ -95,13 +109,13 @@ public class Agent2d extends SwarmImpl {
     newx += xo;
     newy += yo;
     if (newx < 0)
-      newx = 0;
+        newx = newx + world.getSizeX();
     else if (newx >= world.getSizeX ())
-      newx = world.getSizeX () - 1;
+        newx = xo;
     if (newy < 0)
-      newy = 0;
+        newy = newy + world.getSizeY();
     else if (newy >= world.getSizeY ())
-      newy = world.getSizeY () - 1;
+        newy = yo;
     if (world.getObjectAtX$Y (newx, newy) == null) {
       world.putObject$atX$Y (null, x, y);
       x = newx;
@@ -130,6 +144,17 @@ public class Agent2d extends SwarmImpl {
     r.drawPointX$Y$Color (x, y, color);
     return this;
   }
+
+  public void sampleEnergy () {
+    energy = Math.abs ((int) energyDistribution.getDoubleSample ());
+  }
+
+    public void resize() {
+        int energyMean = (int)energyDistribution.getMean();
+        size = energy/energyMean;
+        size = (size < 2 ? 2 : size);
+        size = (size > 10 ? 10 : size);
+    }
 
   public boolean frob (int direction) {
     return false;

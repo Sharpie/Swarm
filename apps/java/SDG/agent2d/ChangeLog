@@ -1,3 +1,36 @@
+2001-11-23  glen e. p. ropella  <gepr@confused.dischordia.net>
+
+	* User2d.java (User2d): Accept myName in API.
+	Initialize name.
+	(stepAgent): Make "energy" pRNG draw at each step.
+
+	* SocialAgent2d.java (SocialAgent2d): Added "energy" distrib.
+	parameters to superclass constructor.
+	(stepSocialAgent): Added "energy" pRNG draw.
+	(drawSelfOn): Resize based on "energy".
+	(frob): Added more appropriate status output.
+
+	* Marcus2d.java (moveAgent): Override for Marcus.  Changed
+	"energy" dynamics.
+
+	* Alex2d.java (Alex2d), Glen2d.java (Glen2d): Added "energy"
+	distrib constants.  Initialized name.  Changed "energy" 
+	dynamics.
+	(resize): new method to change agents size based on "energy".
+
+	* DirectedAgent2d.java: Moved "energy" distrib to super.
+	(drawSelfOn): Parametrized thickness and resize.
+	(sampleEnergy): Moved to super.
+	(frob): Changed "energy" dynamic somewhat.  Printing status.
+	
+	* Agent2d.java: import pseudo random number distributions.
+	Added default name value.
+	Added ivars for visualization and new "energy" state.
+	(Agent2d): Percolate pRNG info via API and initialize "energy".
+	Parametrize initial position with world size values.
+	(sampleEnergy): New method for pRNG draw.
+	
+
 2001-01-29  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* Marcus2d.java: Remove suicidal tendencies.
