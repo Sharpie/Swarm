@@ -1,3 +1,14 @@
+2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ProbeMap.m ([ProbeMap -_addMessageProbe_:methodName:]): New method.
+	([ProbeMap -addJSMethods:]): Call it.
+
+	* MessageProbe.m ([MessageProbe -getArgCount]): Handle JavaScript.
+	([MessageProbe -setArg:ToString:]): Use fcall_type_t for switch, not
+	ObjC typecodes.
+	([MessageProbe -dynamicCallOn:]): Rework to pull typecode from 
+	FCall.
+
 2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* MessageProbe.m ([MessageProbe -createEnd]): Check for dynamic

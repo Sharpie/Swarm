@@ -148,7 +148,19 @@ nth_type (const char *type, unsigned which)
 
 - (unsigned)getArgCount
 {
-  return get_number_of_arguments (probedType) - 2;
+  if (probedType)
+    return get_number_of_arguments (probedType) - 2;
+  else if (probedObject)
+    {
+      COMobject cObj = SD_COM_FIND_OBJECT_COM (probedObject);
+      
+      if (COM_is_javascript (cObj))
+        return JS_method_arg_count (cObj, probedMethodName);
+      else
+        abort ();
+    }
+  else
+    abort ();
 }
 
 - (val_t)getArg: (unsigned)which
@@ -156,81 +168,76 @@ nth_type (const char *type, unsigned which)
   return arguments[which];
 }
 
-- setArg: (unsigned)which ToUnsigned: (unsigned)val
+- setArg: (unsigned)i ToUnsigned: (unsigned)val
 {
-  arguments[which].type = fcall_type_uint;
-  arguments[which].val.uint =  val;
+  arguments[i].type = fcall_type_uint;
+  arguments[i].val.uint =  val;
 
   return self;
 }
 
-- setArg: (unsigned)which ToString: (const char *)what
+- setArg: (unsigned)i ToString: (const char *)what
 {
-  switch (nth_type (probedType, which))
+  if (i >= [self getArgCount])
+    abort ();
+  if (probedType)
     {
-    case _C_ID:
-      arguments[which].type = fcall_type_object;
-      arguments[which].val.object = nameToObject (what);
-      break;
-    case _C_CHR:
-      arguments[which].type = fcall_type_schar;
-      arguments[which].val.schar = (char) atoi (what);
-      break;
-    case _C_UCHR:
-      arguments[which].type = fcall_type_uchar;
-      arguments[which].val.uchar = (unsigned char) strtoul (what, NULL, 10);
-      break;
-    case _C_SHT:
-      arguments[which].type = fcall_type_sshort;
-      arguments[which].val.sshort = atoi (what);
-      break;
-    case _C_USHT:
-      arguments[which].type = fcall_type_ushort;
-      arguments[which].val.ushort = (unsigned short) strtoul (what, NULL, 10);
-      break;
-    case _C_INT:
-      arguments[which].type = fcall_type_sint;
-      arguments[which].val.sint = atoi (what);
-      break;
-    case _C_UINT:
-      arguments[which].type = fcall_type_uint;
-      arguments[which].val.uint = (unsigned int) strtoul (what, NULL, 10);
-      break;
-    case _C_LNG:
-      arguments[which].type = fcall_type_slong;
-      arguments[which].val.slong = strtol (what, NULL, 10);
-      break;
-    case _C_ULNG:
-      arguments[which].type = fcall_type_ulong;
-      arguments[which].val.ulong = strtoul (what, NULL, 10);
-      break;
-    case _C_LNG_LNG:
-      arguments[which].type = fcall_type_slonglong;
-      arguments[which].val.slonglong = (long long) strtol (what, NULL, 10);
-      break;
-    case _C_ULNG_LNG:
-      arguments[which].type = fcall_type_ulonglong;
-      arguments[which].val.ulonglong = (unsigned long long) strtoul (what, NULL, 10);
-      break;
-    case _C_FLT:
-      arguments[which].type = fcall_type_float;
-      arguments[which].val._float = strtod (what, NULL);
-      break;
-    case _C_DBL:
-      arguments[which].type = fcall_type_double;
-      arguments[which].val._double = strtod (what, NULL);
-      break;
-    case _C_LNG_DBL:
-      arguments[which].type = fcall_type_long_double;
-      arguments[which].val._long_double = (long double) strtod (what, NULL);
-      break;
-    case _C_CHARPTR:
-      arguments[which].type = fcall_type_string;
-      arguments[which].val.string = STRDUP (what);
-      break;
-    default:
-      abort ();
+      arguments[i].type = fcall_type_for_objc_type (nth_type (probedType, i));
+
+      switch (arguments[i].type)
+        {
+        case fcall_type_object:
+          arguments[i].val.object = nameToObject (what);
+          break;
+        case fcall_type_schar:
+          arguments[i].val.schar = (char) atoi (what);
+          break;
+        case fcall_type_uchar:
+          arguments[i].val.uchar = (unsigned char) strtoul (what, NULL, 10);
+          break;
+        case fcall_type_sshort:
+          arguments[i].val.sshort = atoi (what);
+          break;
+        case fcall_type_ushort:
+          arguments[i].val.ushort = (unsigned short) strtoul (what, NULL, 10);
+          break;
+        case fcall_type_sint:
+          arguments[i].val.sint = atoi (what);
+          break;
+        case fcall_type_uint:
+          arguments[i].val.uint = (unsigned int) strtoul (what, NULL, 10);
+          break;
+        case fcall_type_slong:
+          arguments[i].val.slong = strtol (what, NULL, 10);
+          break;
+        case fcall_type_ulong:
+          arguments[i].val.ulong = strtoul (what, NULL, 10);
+          break;
+        case fcall_type_slonglong:
+          arguments[i].val.slonglong = (long long) strtol (what, NULL, 10);
+          break;
+        case fcall_type_ulonglong:
+          arguments[i].val.ulonglong = (unsigned long long) strtoul (what, NULL, 10);
+          break;
+        case fcall_type_float:
+          arguments[i].val._float = strtod (what, NULL);
+          break;
+        case fcall_type_double:
+          arguments[i].val._double = strtod (what, NULL);
+          break;
+        case fcall_type_long_double:
+          arguments[i].val._long_double = (long double) strtod (what, NULL);
+          break;
+        case fcall_type_string:
+          arguments[i].val.string = STRDUP (what);
+          break;
+        default:
+          abort ();
+        }
     }
+  else
+    arguments[i] = [self guessValue: what];
+
   return self;
 }
 
@@ -297,49 +304,48 @@ copy_to_nth_colon (const char *str, int n)
 
 - (val_t)dynamicCallOn: target
 {
-  val_t retVal;
-  unsigned i;
-  const char *type = probedType;
   id aZone = [target getZone];
   id fa = [FArguments createBegin: getCZone (aZone)];
   id <FCall> fc;
 
-  retVal.type = fcall_type_for_objc_type (*type);
-
+  if (probedType)
+    [fa setReturnType: fcall_type_for_objc_type (*probedType)];
+  
   if ([target respondsTo: M(isJavaProxy)])
     [fa setLanguage: LanguageJava];
   if (probedSelector)
     [fa setSelector: probedSelector];
-  type = skip_argspec (type);
-  type = skip_argspec (type);
-  for (i = 0, type = skip_argspec (type);
-       type; 
-       type = skip_argspec (type), i++)
-    [fa addArgument: &arguments[i].val ofObjCType: *type];
-  fa = [fa createEnd];
+  {
+    unsigned i;
+    unsigned argCount = [self getArgCount];
 
+    for (i = 0; i < argCount; i++)
+      [fa addArgument: &arguments[i].val ofType: arguments[i].type];
+  }
+  fa = [fa createEnd];
   fc = [FCall create: getCZone (aZone)
 	      target: target
 	      methodName: probedMethodName
 	      arguments: fa];
   [fc performCall];
-  if (retVal.type != fcall_type_void)
-    retVal.val = *(types_t *) [fc getResult];
+  {
+    val_t retVal = [fa getRetVal];
 #ifdef HAVE_JDK
-  if ([fa getLanguage] == LanguageJava)
-    {
-      if (retVal.type == fcall_type_string)
-        retVal.val.string =
-          JAVA_COPY_STRING ((jstring) retVal.val.object);
-      else if (retVal.type == fcall_type_object)
-        retVal.val.object =
-          SD_JAVA_FIND_OBJECT_OBJC ((jobject) retVal.val.object);
-    }
+    if ([fa getLanguage] == LanguageJava)
+      {
+        if (retVal.type == fcall_type_string)
+          retVal.val.string =
+            JAVA_COPY_STRING ((jstring) retVal.val.object);
+        else if (retVal.type == fcall_type_object)
+          retVal.val.object =
+            SD_JAVA_FIND_OBJECT_OBJC ((jobject) retVal.val.object);
+      }
 #endif
-  [fc drop];
-  [fa drop];
-
-  return retVal;
+    [fc drop];
+    [fa drop];
+    
+    return retVal;
+  }
 }
 
 - (double)doubleDynamicCallOn: target

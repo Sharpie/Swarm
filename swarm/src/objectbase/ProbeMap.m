@@ -261,7 +261,30 @@ PHASE(Creating)
       [key drop];
     }
   else
-    count ++;
+    count++;
+}
+
+- (void)_addMessageProbe_: obj methodName: (const char *)methodName
+{
+  id <MessageProbe> messageProbe = [MessageProbe createBegin: getZone (self)];
+  id <String> key;
+  
+  [messageProbe setProbedObject: obj];
+  [messageProbe setProbedMethodName: methodName];
+  if (objectToNotify != nil) 
+    [messageProbe setObjectToNotify: objectToNotify];
+  messageProbe = [messageProbe createEnd];
+
+  key = [String create: getZone (self) setC: methodName];
+  
+  if (!messageProbe || ![probes at: key insert: messageProbe])
+    {
+      if (messageProbe)
+        [messageProbe drop];
+      [key drop];
+    }
+  else
+    count++;
 }
 
 
@@ -427,9 +450,10 @@ PHASE(Creating)
 
 - (void)addJSMethods: (COMobject)cObj
 {
-  void collect (const char *funcName)
+  void collect (const char *methodName)
     {
-      printf ("JS function:`%s'\n", funcName);
+      [self _addMessageProbe_: SD_COM_ENSURE_OBJECT_OBJC (cObj)
+            methodName: methodName];
     }
   JS_collect_methods (cObj, collect);
 }
