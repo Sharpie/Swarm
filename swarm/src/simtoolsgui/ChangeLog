@@ -1,3 +1,8 @@
+1999-07-27  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* ProbeDisplayManager.m: Rename java_get_class_from_objc_object
+	to java_get_swarm_class.
+
 1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* simtoolsgui.h: Make CommonProbeDisplay protocol CREATABLE.

@@ -22,8 +22,9 @@
 #import <simtoolsgui.h> // ProbeDisplay, CompleteProbeDisplay
 
 #ifdef HAVE_JDK
-extern Class java_get_class_from_objc_object (id object);
+extern Class java_get_swarm_class (id object);
 #endif
+
 @implementation ProbeDisplayManager
 PHASE(Creating)
 
@@ -116,7 +117,7 @@ PHASE(Using)
   id tempPD, tempPM;
   Class cls;
 #ifdef HAVE_JDK
-  cls = java_get_class_from_objc_object (anObject);
+  cls = java_get_swarm_class (anObject);
 #else
   cls =  [anObject class];
 #endif
@@ -143,8 +144,9 @@ PHASE(Using)
                        setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   Class cls;
+    
 #ifdef HAVE_JDK
-  cls = java_get_class_from_objc_object (anObject);
+  cls = java_get_swarm_class (anObject);
 #else
   cls =  [anObject class];
 #endif
