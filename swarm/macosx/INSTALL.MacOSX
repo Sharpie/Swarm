@@ -1,0 +1,27 @@
+If you are reading this, you got the code already.  Hopefully from the cvs.  If not, you would be better to use cvs code at this time of rapid development.
+See the README.MacOSX for how to get it.
+
+If you have the cvs sources, you will need to
+
+cd $SRCROOT
+autogen.sh
+
+This wll create the configure files.
+
+Then 
+
+cd $SRCROOT/macosx/swarmx/build
+
+edit configure.sh to reflect appropriate paths on your system
+the invoke it.
+
+Finally type
+
+make
+
+and start fixing bugs where it crashes.
+If you do any fixes please let me know, and regularly update from the cvs so that you get other developers fixes.  There is no kudos reinventing the wheel.
+
+Bill Northcott
+w.northcott@unsw.edu.au
+2 Jan 2003
