@@ -39,9 +39,10 @@
       ("unsigned long long" . "long")
       ("long long" . "long")
 
-      ("JOBJECT" . "Object")
-
       ("Color" . "byte")
+
+      ("JOBJECT" . "Object")
+      ("COMOBJECT" . freaky)
 
       ("compare_t" . freaky)
 
@@ -887,7 +888,11 @@
             (insert "\n")
             (insert "include ../Makefile.rules\n")))))
 
+(defun java-init ()
+  (setq *extra-removed-methods* '("-setCOMMethod:inObject:")))
+
 (defun java-run-all (&key unicode)
+  (java-init)
   (setq *java-flag* t)
   (set-dollar-sign unicode)
   (load-and-process-modules :uniquify-method-lists t)
