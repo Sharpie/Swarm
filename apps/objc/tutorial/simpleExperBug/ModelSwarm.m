@@ -124,7 +124,8 @@
 - buildActions
 {
   // Create the list of simulation actions. 
-  
+
+  printf ("creating Actions\n");
   modelActions = [ActionGroup create: self];
   
   [modelActions createActionForEach: bugList    message: M(step)];
@@ -169,10 +170,11 @@
   return self;
 }
 
+- (void)drop
+{
+  [foodSpace drop];
+  [world drop];
+  [super drop];
+}
+
 @end
-
-
-
-  
-
-

@@ -1,3 +1,8 @@
+1999-09-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ModelSwarm.m ([ModelSwarm -drop]): Drop foodSpace and world.
+	The space library doesn't handle mapAllocations, et. al.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (APPVERSION, BUGADDRESS): Add.
