@@ -18,7 +18,7 @@ static jclass c_boolean,
   c_int, 
   c_short, c_long,
   c_float, c_double,
-  c_object,
+  c_object, c_void,
   c_globalZone;
 
 static void
@@ -55,6 +55,7 @@ create_class_refs (JNIEnv *env)
       c_long = find ("Long");
       c_float = find ("Float");
       c_double = find ("Double");
+      c_void = find ("Void");
       c_object = (*env)->FindClass (env, "java/lang/Object");
 
       if (c_object == NULL)

@@ -1,3 +1,8 @@
+1999-03-19  Vladimir Jojic  <vjojic@wupatki.santafe.edu>
+
+	* directory.m (create_class_refs): Create class reference
+	for primitive type void.
+
 1999-03-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.h (JINSTANTIATE, JSWITCHUPDATE): New macros.
