@@ -1,3 +1,11 @@
+1999-03-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in: Include $(top_builddir)/etc/Makefile.common.
+	Append build-directory -I directives to CPPFLAGS.
+	Append @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@ to CFLAGS and OBJCFLAGS.
+	(libjavaswarm_la_LDFLAGS): Use SUPPORTLDFLAGS.
+	(libjavaswarm.la): Use SWARMLIBS.
+
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (CPPFLAGS): Add -I for libobjc.

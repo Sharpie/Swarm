@@ -14,8 +14,8 @@ jobject_id *java_directory_java_find (jobject java_object);
 jobject_id *java_directory_objc_find (id objc_object);
 jobject_id *java_directory_add (jobject java_object, id objc_object);
 
-#define JFINDOBJC(jobj) ((java_directory_objc_find (jobj))->objc_object)
-#define JFINDJAVA(obj) ((java_directory_java_find (obj))->java_object)
+#define JFINDOBJC(jobj) ((java_directory_java_find (jobj))->objc_object)
+#define JFINDJAVA(obj) ((java_directory_objc_find (obj))->java_object)
 #define JADD(jobj, objc) java_directory_add (jobj, objc);
 
 SEL java_ensure_selector (JNIEnv *env, jobject jsel);

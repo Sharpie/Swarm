@@ -118,7 +118,7 @@ java_directory_init (void)
 void
 java_directory_drop (void)
 {
-  avl_destory (java_tree, NULL);
+  avl_destroy (java_tree, NULL);
   avl_free (objc_tree);
 }
 

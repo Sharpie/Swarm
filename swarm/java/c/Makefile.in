@@ -2,19 +2,15 @@ CURRENT = 0
 REVISION = 0
 AGE = 0
 include ../Makefile.common
-OBJC=@OBJC@
-CC=@CC@
-RANLIB=@RANLIB@
-INSTALL=@INSTALL@
+include $(top_builddir)/etc/Makefile.common
+
 top_builddir=../..
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
-SHELL=@SHELL@
-LIBTOOL=@LIBTOOL@
 
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-libdir=@libdir@
-LIBS=@LIBS@
+SHELL=@SHELL@
+RANLIB=@RANLIB@
+INSTALL=@INSTALL@
+LIBTOOL=@LIBTOOL@
 
 top_srcdir=@top_srcdir@
 srcdir=@srcdir@
@@ -24,18 +20,15 @@ jdkdir=@jdkdir@
 javaincludedir=$(jdkdir)/include
 JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
-CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(top_srcdir)/libobjc -I$(top_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(top_srcdir)/src $(foreach module,$(MODULES),-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(srcdir)
+override CPPFLAGS += $(JAVAINCLUDES) -I$(top_srcdir)/libobjc -I$(top_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(top_srcdir)/src $(foreach module,$(MODULES),-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(srcdir)
+
 # Solaris JNI headers have some pragmas
-CFLAGS=@CFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
-OBJCFLAGS=@OBJCFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
+override CFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
+override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 
-IMPMODULES = space analysis simtools simtoolsgui tkobjc random objectbase activity defobj collections misc
-
-LDFLAGS=@LDFLAGS@
-
-libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(foreach impmodule,$(IMPMODULES),-L$(abs_top_builddir)/src/$(impmodule)/.libs) -L$(abs_top_builddir)/libobjc/.libs -rpath $(libdir)
+libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(foreach impmodule,$(SWARMMODULES),-L$(abs_top_builddir)/src/$(impmodule)/.libs) -L$(abs_top_builddir)/libobjc/.libs $(SUPPORTLDFLAGS) -rpath $(libdir)
 
 libjavaswarm_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS)) \
 	directory.lo setup.lo
@@ -46,7 +39,7 @@ install: all
 	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir)
 
 libjavaswarm.la: $(libjavaswarm_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) $(LDFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) $(foreach impmodule,$(IMPMODULES),-l$(impmodule)) -lobjc
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) $(SWARMLIBS) $(SYSLIBS)
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
