@@ -529,7 +529,7 @@
          :macro)
         ((looking-at "@class")
          :class)
-        ((looking-at "extern\\s-+\\(Class\\s-+\\|int\\s-+\\|void\\s-\\|id\\s-+<.*\\s-\\|id\\s-\\|const\\s-+char\\s-*\\*\\)\\s-*\\([^ (]+\\)\\s-*(")
+        ((looking-at "extern\\s-+\\(Class\\s-+\\|int\\s-+\\|void\\s-\\|id\\s-+<.*\\s-\\|id\\s-\\|const\\s-+char\\s-*\\*\\|BOOL\\)\\s-*\\([^ (]+\\)\\s-*(")
          (let ((return-type (match-string 1))
                (function-name (match-string 2)))
            (setf (parse-state-function-return-type parse-state)
@@ -1755,5 +1755,49 @@
   (sgml-create-refentries-for-all-modules)
   (sgml-generate-indices)
   nil)
+
+(defun vcg-graph-all-protocols ()
+  (loop for module-sym being each hash-key of *module-hash-table*
+        using (hash-values module-items)
+        for module-name = (concat "M:" (symbol-name module-sym))
+        do
+        (insert "graph: {\nfolding: 0 color: blue title: \"")
+        (insert (capitalize module-name))
+        (insert "\"\n")
+        (insert "node: { title: \"")
+        (insert module-name)
+        (insert "\" }\n")
+        (loop for module-item in module-items do
+              (cond ((and (protocol-p module-item)
+                          (not (internal-protocol-p module-item)))
+                     (let ((protocol-name (protocol-name module-item)))
+                       (insert "node: { title: \"")
+                       (insert protocol-name)
+                       (insert "\" shape: ellipse color: red }\n")
+                       (insert "edge: { targetname: \"")
+                       (insert protocol-name)
+                       (insert "\" sourcename: \"")
+                       (insert module-name)
+                       (insert "\" }\n"))
+                     (loop for included-protocol in
+                           (protocol-included-protocol-list module-item)
+                           unless (internal-protocol-p included-protocol)
+                           do
+                           (insert "backedge: { targetname: \"")
+                           (insert (protocol-name module-item))
+                           (insert "\" sourcename: \"")
+                           (insert (protocol-name included-protocol))
+                           (insert "\" }\n")))))
+        (insert "}\n")))
+
+(defun vcg-output-protocol-graph ()
+  (interactive)
+  (with-temp-file (concat (get-swarmdocs-build-area) "protocols.vcg")
+    (insert "graph: {\n")
+    (insert "orientation: left_to_right\n")
+    (vcg-graph-all-protocols)
+    (insert "}\n")))
+
+  
 
 
