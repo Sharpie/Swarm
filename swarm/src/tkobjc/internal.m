@@ -395,7 +395,9 @@ tkobjc_raster_create (Raster *raster)
       raster_private_t *private = xmalloc (sizeof (raster_private_t));
 
       Tk_MakeWindowExist (tkwin);
+#ifndef _WIN32
       private->privateColormapFlag = NO;
+#endif
       private->tkwin = tkwin;
       raster->private = private;
     }
