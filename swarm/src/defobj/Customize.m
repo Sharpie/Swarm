@@ -290,7 +290,8 @@ PHASE(Creating)
   messageName = (const char *)sel_get_name( messageSelector );
   if (!messageName
       || !strchr (messageName, ':')
-      || strchr (messageName, ':') - messageName != strlen (messageName) - 1)
+      || ((unsigned)(strchr (messageName, ':') - messageName)
+	  != strlen (messageName) - 1))
     raiseEvent (CreateSubclassing,
                 "> class %s: setCreateByMessage:to: message selector name: \"%s\"\n"
                 "> message selector must accept one argument (for create zone)\n",
@@ -313,9 +314,10 @@ PHASE(Creating)
   // confirm valid message selector and return customization wrapper class
 
   messageName = (const char *)sel_get_name( messageSelector );
-  if ( ! messageName ||
-       (strchr (messageName, ':') &&
-        strchr (messageName, ':') - messageName != strlen (messageName) - 1 ))
+  if (! messageName ||
+      (strchr (messageName, ':')
+       && ((unsigned)(strchr (messageName, ':') - messageName)
+	   != strlen (messageName) - 1)))
     raiseEvent (CreateSubclassing,
                 "> class %s: setCreateByMessage:to: message selector name: \"%s\"\n"
                 "> message selector must accept at most one argument\n",
