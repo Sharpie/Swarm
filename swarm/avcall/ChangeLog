@@ -2,6 +2,10 @@
 
 	* avcall.m4:  Generated via aclocal from ffcall-1.10 sources.
 
+	* Makefile.in:  Change ASS_UNDERSCORE to AS_UNDERSCORE, and extract 
+	variable.
+	(ASPFLAGS): Use it.
+
 2004-08-03  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.in: Add x86-64.lo rule.
