@@ -85,6 +85,10 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
     (or replacements) throughout.
 
 ** Other changes
+*** Build environment
+**** Makefile.appl and Makefile.lib are now installed in $SWARMHOME/etc/swarm.
+     This is to facilitate consistent naming in system-wide installs (/usr)
+     as well with arbitrary prefix paths.
 *** analysis
 **** ActiveGraph (simtoolsgui) and ActiveOutFile (simtools) are now in the
      analysis library.  These have been moved to facilitate the elimination
