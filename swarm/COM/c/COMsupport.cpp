@@ -6,6 +6,7 @@
 #include "xptinfo.h"
 #include "COM.h"
 #include "COMsupport.h"
+#include "plstr.h"
 
 extern "C" {
 
@@ -17,6 +18,7 @@ findInterface (COMEnv *env, const char *name)
   nsISupports *is_Interface;
   nsIInterfaceInfo *Interface;
   nsresult rv;
+  PRBool matched = PR_FALSE;
 
   if (!(iim = XPTI_GetInterfaceInfoManager ()))
     {
@@ -30,7 +32,7 @@ findInterface (COMEnv *env, const char *name)
       goto done;
     }
   
-  if (NS_FAILED (rv = Interfaces->First()))
+  if (NS_FAILED (rv = Interfaces->First ()))
     {
       NS_ASSERTION (0, "failed to go to first item in interface enumeration");
       goto done;
@@ -55,14 +57,19 @@ findInterface (COMEnv *env, const char *name)
           char *interface_name;
 
           Interface->GetName (&interface_name);
-          printf ("Got: [%s]\n", interface_name);
+
+          matched = (PL_strcmp (name, interface_name) == 0);
           nsMemory::Free (interface_name);
           NS_RELEASE (Interface);
         }
       else
         abort ();
+
+      if (matched)
+        break;
+
       NS_RELEASE (is_Interface);
-      Interfaces->Next();
+      Interfaces->Next ();
       
     } while (NS_COMFALSE == Interfaces->IsDone ());
   
@@ -70,7 +77,7 @@ findInterface (COMEnv *env, const char *name)
   NS_IF_RELEASE (Interfaces);
   NS_IF_RELEASE (iim);
 
-  return NULL;
+  return matched ? is_Interface : NULL;
 }
 
 }

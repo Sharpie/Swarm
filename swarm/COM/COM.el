@@ -14,7 +14,7 @@
       ("void" . "void")
       ("const char \\*" . "string")
       ("char \\*" . "string")
-      ("const char \\*\\*" . "[string-array]")
+      ("const char \\*\\*" . "string-array")
 
       ("char" . "char")
       
@@ -79,7 +79,8 @@
       ))
 
 (defconst *com-idl-to-c++-type-alist*
-  '(("void" . "void")
+  '(("string-array" . "const char **")
+    ("void" . "void")
     ("boolean" . "PRBool")
     ("octet" . "PRUint8")
     ("short" . "PRInt16")
@@ -197,8 +198,8 @@
 
 (defun com-arg-idl-type (objc-type)
   (let ((type (com-idl-type objc-type)))
-    (if (string= "[string-array]" type)
-        "in unsigned long count, [array, size_is (count)] in string"
+    (if (string= "string-array" type)
+        "[array, size_is (count)] in string"
       (concat "in " type))))
 
 (defun com-idl-print-argument (argument)
@@ -219,27 +220,18 @@
 (defun com-impl-type (objc-type)
   (let* ((idl-type (com-objc-to-idl-type objc-type))
          (c++-type (com-impl-type-from-idl-type idl-type)))
-    (if (string= idl-type "[string-array]")
-        "PRUint32 _count, const char **"
-      (if c++-type
-          c++-type
-        (concat idl-type "*")))))
-
-(defun com-impl-decl-type (objc-type &optional declaration-flag)
-  (let* ((idl-type (com-objc-to-idl-type objc-type))
-         (c++-type (com-impl-type-from-idl-type idl-type)))
-    (if (string= idl-type "[string-array]")
-        "PRUint32 count;\n  const char **"
-      (if c++-type
-          c++-type
-        (concat idl-type "*")))))
+    (if c++-type
+        c++-type
+      (concat idl-type "*"))))
 
 (defun com-impl-argument-name (name)
   (concat "_" name))
 
 (defun com-impl-print-argument (argument)
-  (print-argument argument #'com-impl-type
-                  #'com-impl-argument-name))
+  (print-argument argument #'com-impl-type #'com-impl-argument-name))
+
+(defun com-impl-print-objc-argument (argument)
+  (print-argument argument #'com-simplify-type #'com-impl-argument-name))
 
 (defun com-swarm-type-p (type)
   (when (stringp type)
@@ -366,21 +358,6 @@
         (loop for phase in '(:creating :using)
               do (funcall protocol-func protocol phase))))
 
-(defun com-impl-print-initialization-parameters (protocol)
-  (let* ((ht (create-hash-table-for-initialization-parameters protocol))
-         (vars (sort
-                (loop for argument-name being each hash-key of ht
-                      using (hash-value pair)
-                      collect (list (car pair) argument-name (cdr pair)))
-                #'(lambda (a b) (< (first a) (first b))))))
-    (loop for pos.name.type in vars
-          do
-          (insert "  ")
-          (insert (com-impl-decl-type (third pos.name.type)))
-          (insert " ")
-          (insert (second pos.name.type))
-          (insert ";\n"))))
-
 (defun com-impl-generate-headers (protocol phase)
   (let ((iprotocols (generate-complete-protocol-list protocol)))
     (with-temp-file
@@ -419,16 +396,6 @@
       (insert "  ")
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
-      (when (inclusive-phase-p phase :using)
-        (let ((create-methods (collect-convenience-create-methods protocol)))
-          (when (>= (length create-methods) 2)
-            (insert "  unsigned constructorNumber;\n"))
-          (loop for method in create-methods
-                do
-                (insert "  ")
-                (com-impl-print-class-constructor-method-declaration protocol
-                                                                     method)
-                (insert ";\n"))))
       (insert "  virtual ~")
       (insert (com-impl-name protocol phase))
       (insert " ();\n")
@@ -443,10 +410,9 @@
             (insert (com-impl-ns-decl iprotocol :setting))
             (insert "\n"))
       (insert "\n")
-      (when (inclusive-phase-p phase :using)
-        (insert "  NS_IMETHOD Init();\n")
-        (insert "protected:\n")
-        (com-impl-print-initialization-parameters protocol))
+      (when (and (string= (protocol-name protocol) "SwarmEnvironment")
+                 (inclusive-phase-p phase :using))
+        (insert "  NS_IMETHOD Init ();\n"))
       (insert "};\n")
       (insert "#endif\n"))))
 
@@ -461,127 +427,19 @@
     (insert "}\n")
     (insert "\n")))
 
-(defun com-impl-print-class-constructor-method-declaration (protocol method)
-  (let ((name (com-impl-name protocol :using))
-        (arguments (method-arguments method)))
-    (insert name)
-    (insert " (")
-    (com-impl-print-argument (first arguments))
-    (loop for argument in (cdr arguments)
-          do
-          (insert ", ")
-          (com-impl-print-argument argument))
-    (insert ")")))
-
 (defun com-cid (protocol phase)
   (concat (com-impl-name protocol phase) "CID"))
 
-(defun com-impl-print-class-constructor-method (protocol
-                                                method
-                                                constructor-number)
-  (let ((name (com-impl-name protocol :using))
-        (arguments (method-arguments method)))
-    (insert name)
-    (insert "::")
-    (com-impl-print-class-constructor-method-declaration protocol method)
-    (insert " :\n")
-    (when (>= constructor-number 0)
-      (insert "\n  constructorNumber (")
-      (insert (prin1-to-string constructor-number))
-      (insert "),\n"))
-    (flet ((print-pair (argument)
-                       (let ((argname (argument-name argument)))
-                         (insert "  ")
-                         (insert argname)
-                         (insert "(_")
-                         (insert argname)
-                         (insert ")"))))
-      (print-pair (first arguments))
-      (loop for argument in (cdr arguments)
-            do
-            (insert ",\n")
-            (print-pair argument)))
-    (insert "\n{\n")
-    (insert "  NS_INIT_REFCNT ();\n")
-    (insert "}\n")
-    (insert "\n")))
-
-(defun com-impl-print-create-method-invocation (method)
-  (let ((arguments (method-arguments method)))
-    (insert "create_obj->")
-    (insert (com-c++-method-name arguments))
-    (insert " (")
-    (insert (argument-name (first arguments)))
-    (loop for argument in (cdr arguments)
-          do
-          (when (string= (com-objc-to-idl-type (argument-type argument))
-                         "[string-array]")
-            (insert ", count"))
-          (insert ", ")
-          (insert (argument-name argument)))
-    (insert ", &ret);\n")))
-
-(defun com-impl-print-class-init-method (protocol)
-  (let ((name (com-impl-name protocol :using))
-        (cname (com-impl-name protocol :creating))
-        (se-flag (eq (lookup-protocol "SwarmEnvironment") protocol)))
-    
-    (insert "NS_IMETHODIMP\n")
-    (insert name)
-    (insert "::Init()\n")
-    (insert "{\n")
-    
-    (when se-flag
-      (insert "  COMEnv env = { findInterface };\n"))
-
-    (insert "  nsCOMPtr <")
-    (insert cname)
-    (insert "> ")
-    (insert "create_obj;\n")
-    
-    (insert "  nsISupports *ret;\n")
-    (insert "\n")
-    (when se-flag
-      (insert "  initCOM (env);\n"))
-    (insert "  nsresult rv = nsComponentManager::CreateInstance (")
-    (insert (com-cid protocol :creating))
-    (insert ", NULL, NS_GET_IID (")
-    (insert (com-interface-name protocol :creating))
-    (insert "), ")
-    (insert "getter_AddRefs (create_obj));\n"))
-  (insert "  if (rv != NS_OK)\n")
-  (insert "    return rv;\n") 
-  (let* ((create-methods (collect-convenience-create-methods protocol))
-         (len (length create-methods)))
-    (cond ((> len 1)
-           (insert "  if (constructorNumber == 0)\n")
-           (insert "    ")
-           (com-impl-print-create-method-invocation (first create-methods))
-           (loop for method in (cdr create-methods)
-                 for constructorNumber from 1
-                 do
-                 (insert "  else if (constructorNumber == ")
-                 (insert (prin1-to-string constructorNumber))
-                 (insert ")\n")
-                 (insert "    ")
-                 (com-impl-print-create-method-invocation method)))
-          ((= len 1)
-           (insert "  ")
-           (com-impl-print-create-method-invocation (first create-methods)))))
+(defun com-impl-print-startup-init-method ()
+  (insert "NS_IMETHODIMP\n")
+  (insert "swarmSwarmEnvironmentImpl::Init ()\n")
+  (insert "{\n")
+  
+  (insert "  COMEnv env = { findInterface };\n")
+  (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
   
-(defun com-impl-print-convenience-constructors (protocol)
-  (let* ((create-methods (collect-convenience-create-methods protocol))
-         (start (if (> (length create-methods) 1) 0 -1)))
-    (loop for method in create-methods
-          for constructor-number from start
-          do
-          (com-impl-print-class-constructor-method protocol
-                                                   method
-                                                   constructor-number))))
-
-
 (defun com-impl-print-destructor (protocol phase)
   (let ((name (com-impl-name protocol phase)))
     (insert name)
@@ -636,26 +494,34 @@
 (defun com-impl-print-get-imp-pointer (method)
   (insert "  ")
   (insert (com-simplify-return-type (method-return-type method)))
-  (insert " (*COMswarm_imp) (id target, SEL sel")
+  (if (method-factory-flag method)
+      (insert " (*COMswarm_imp) (Class target, SEL sel")
+    (insert " (*COMswarm_imp) (id target, SEL sel"))
   (when (has-arguments-p method)
     (loop for argument in (method-arguments method)
           do
           (insert ", ")
-          (insert (com-simplify-type (argument-type argument)))
-          (insert " ")
-          (insert (argument-name argument))))
+          (com-impl-print-objc-argument argument)))
   (insert ");\n")
-  (insert "  (IMP) COMswarm_imp = objc_msg_lookup (COMswarm_target, COMswarm_sel);\n"))
+  (if (method-factory-flag method)
+      (progn
+        (insert "  MetaClass mClass = class_get_meta_class (COMswarm_target);\n")
+        (insert "  (IMP) COMswarm_imp = class_get_class_method (mClass, COMswarm_sel)->method_imp;\n"))
+    (insert "  (IMP) COMswarm_imp = objc_msg_lookup (COMswarm_target, COMswarm_sel);\n")))
 
 (defun com-impl-print-call-imp-pointer-body (method)
   (insert "(*COMswarm_imp) (COMswarm_target, COMswarm_sel")
   (when (has-arguments-p method)
     (loop for argument in (method-arguments method)
           for name = (com-impl-argument-name (argument-name argument))
-          for type = (com-simplify-type (argument-type argument))
-          do 
+          for objc-type = (argument-type argument)
+          for idl-type = (com-idl-type objc-type)
+          for type = (com-simplify-type objc-type)
+          do
           (insert ", ")
-          (cond ((string= type "id")
+          (cond ((string= idl-type "string-array")
+                 (insert name))
+                ((string= type "id")
                  (insert "SD_COM_ENSURE_OBJECT_OBJC (")
                  (insert name)
                  (insert ")"))
@@ -717,7 +583,12 @@
           (print-return-argument nil))))
     (insert ")\n")
     (insert "{\n")
-    (insert "  id COMswarm_target = SD_COM_ENSURE_OBJECT_OBJC (this);\n")
+    (if (method-factory-flag method)
+        (progn
+          (insert "  Class COMswarm_target = objc_lookup_class (\"")
+          (insert (protocol-name protocol))
+          (insert "\");\n"))
+      (insert "  id COMswarm_target = SD_COM_ENSURE_OBJECT_OBJC (this);\n"))
     (insert "  SEL COMswarm_sel = sel_get_uid (\"")
     (insert (substring (get-method-signature method) 1))
     (insert "\");\n")
@@ -798,12 +669,12 @@
       (insert "\n"))
     (insert "extern \"C\" {\n")
     (insert "#include <objc/objc.h>\n")
-    (insert "extern SEL sel_get_uid (const char *);\n")
+    (insert "#include <objc/objc-api.h>\n")
     (insert "}\n")
     (insert "#include <defobj/COM.h>\n")
     (insert "#include \"COMsupport.h\"\n")
 
-    (when (inclusive-phase-p phase :using)
+    (when (and (inclusive-phase-p phase :using) nil)
       (insert "#include <nsCOMPtr.h>\n")
       (insert "#include <nsIComponentManager.h>\n")
       (insert "#include \"componentIDs.h\"\n")
@@ -815,12 +686,11 @@
       (insert ");\n"))
     (insert "\n")
     (com-impl-generate-supports protocol phase)
-    (if (inclusive-phase-p phase :using)
-        (com-impl-print-convenience-constructors protocol)
-      (com-impl-print-basic-constructor protocol phase))
+    (com-impl-print-basic-constructor protocol phase)
     (com-impl-print-destructor protocol phase)
-    (when (inclusive-phase-p phase :using)
-      (com-impl-print-class-init-method protocol))
+    (when (and (string= (protocol-name protocol) "SwarmEnvironment")
+               (inclusive-phase-p phase :using))
+      (com-impl-print-startup-init-method))
     (com-impl-print-typedefs)
     (com-impl-print-method-definitions protocol phase :setting)
     (com-impl-print-method-definitions protocol phase phase)))
@@ -890,7 +760,8 @@
     (insert "\n")
     (com-impl-map-protocols
      #'(lambda (protocol phase)
-         (if (inclusive-phase-p phase :using)
+         (if (and (string= (protocol-name protocol) "SwarmEnvironment")
+                  (inclusive-phase-p phase :using))
              (progn
                (insert "NS_GENERIC_FACTORY_CONSTRUCTOR_INIT (")
                (insert (com-impl-name protocol phase))

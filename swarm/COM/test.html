@@ -1,10 +1,8 @@
 <html>
 <script language="javascript">
   netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-  var test = Components.classes["component://swarm/SwarmEnvironmentCImpl"].createInstance ();
-  test = test.QueryInterface(Components.interfaces.swarmISwarmEnvironmentC);
-  test.createBegin ();
-  test.initSwarm_version_bugAddress_args ("test", "0.0", "bug-swarm@swarm.org", 2, ["foo", "bar"]);
+  
+  Components.classes["component://swarm/SwarmEnvironmentCImpl"].createInstance (Components.interfaces.swarmISwarmEnvironmentC).initSwarm_version_bugAddress_argCount_args ("test", "0.0", "bug-swarm@swarm.org", 1, ["--help"]);
 </script>
 
 </html>
