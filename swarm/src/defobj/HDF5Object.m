@@ -1277,15 +1277,32 @@ PHASE(Using)
   return c_count;
 }
 
-- (BOOL)checkName: (const char *)groupName
+- (BOOL)checkName: (const char *)objName
 {
 #ifdef HAVE_HDF5
   struct H5G_stat_t statbuf;
 
-  if (H5Gget_objinfo (loc_id, groupName, 1, &statbuf) < 0)
+  if (H5Gget_objinfo (loc_id, objName, 1, &statbuf) < 0)
     return NO;
   else
     return YES;
+#else
+  hdf5_not_available ();
+  return NO;
+#endif
+}
+
+- (BOOL)checkDatasetName: (const char *)datasetName
+{
+#ifdef HAVE_HDF5
+  struct H5G_stat_t statbuf;
+
+  if (H5Gget_objinfo (loc_id, datasetName, 1, &statbuf) < 0)
+    return NO;
+  else if (statbuf.type == H5G_DATASET)
+    return YES;
+  else
+    return NO;
 #else
   hdf5_not_available ();
   return NO;

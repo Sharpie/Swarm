@@ -1005,7 +1005,9 @@ USING
 - getClass;
 - assignIvar: obj;
 
-- (BOOL)checkName: (const char *)groupName;
+- (BOOL)checkName: (const char *)name;
+- (BOOL)checkDatasetName: (const char *)datasetName;
+
 - loadDataset: (void *)ptr;
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 - storeTypeName: (const char *)typeName;

@@ -1,5 +1,9 @@
 1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HDF5Object.m ([HDF5_c -checkDatasetName:]): New method.
+
+	* HDF5Object.[hm], defobj.h: 
+
 	* internal.m (map_ivars): Ignore pointers.
 
 	* HDF5Object.m (create_class_from_compound_type): Remove

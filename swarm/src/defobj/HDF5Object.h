@@ -82,6 +82,7 @@
 - setBaseTypeObject: typeObject;
 
 - (BOOL)checkName: (const char *)name;
+- (BOOL)checkDatasetName: (const char *)name;
 
 - (BOOL)getDatasetFlag;
 - (size_t)getDatasetRank;
