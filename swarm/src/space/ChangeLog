@@ -1,3 +1,7 @@
+1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DblBuffer2d.m ([DblBuffer -createEnd]): Include misc.h.
+
 1999-04-26  Alex Lancaster  <alex@santafe.edu>
 
 	* Discrete2d.m ([Discrete2d -setUseObjects]): Make option

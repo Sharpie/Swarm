@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <space/DblBuffer2d.h>
+#include <misc.h> // memcpy
 
 // general plan:
 // wBuf1 and wBuf2 always point to the allocated storage.
