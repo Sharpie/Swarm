@@ -59,6 +59,13 @@ public class LatexDoclet {
     static private boolean showSummary = true;
 /** Flag indicating whether document should be formatted for double-sided printing or not. */
     static private boolean twoSide = false;
+
+/** don't generate the parameter table for methods */
+    static private boolean paramTable = true;
+
+/** if false, don't any class info except for name, and interface conformance */
+    static private boolean showClass = true;
+
 /** This flag is used when converting definition lists from html to latex.  On the first line,
    we do not start the line with \\.  On other lines we do.
 */
@@ -363,10 +370,15 @@ public class LatexDoclet {
  */
     public static void processClass(ClassDoc c) {
 // Write out the section header information.
-        out.println("\\newpage");
-        out.println("\\section{"+c.qualifiedName()+"}");
+        if ((c.isClass() && showClass) || c.isInterface())
+            out.println("\\newpage");
+        if ((c.isClass() && showClass) || c.isInterface())
+            out.println("\\section{"+c.qualifiedName()+"}");
+        else
+            out.println("\\subsection{Implementing class: "+c.qualifiedName()+"}");
         out.println("\\label{res="+getClassId(c)+"}");
-        out.println("\\index{"+processCommentText(c.name(),true)+"}");
+        if ((c.isClass() && showClass) || c.isInterface())
+            out.println("\\index{"+processCommentText(c.name(),true)+"}");
 
 // Print the superclass hierarchy for this class, followed by a black horizontal line.
         printClassTree(c);
@@ -394,7 +406,8 @@ public class LatexDoclet {
         out.println("");
 
 // Print out the comment text.  Convert html tags to latex
-        out.println(processCommentText(c.commentText(), false));
+        if ((c.isClass() && showClass) || c.isInterface())
+            out.println(processCommentText(c.commentText(), false));
         out.println("");
 
 // Write out any @see tags as references
@@ -416,6 +429,8 @@ public class LatexDoclet {
             out.println("\\end{itemize}");
         }
 
+        if ((c.isClass() && showClass) || c.isInterface())
+            {
 // Get a list of all the fields, and sort it with an ArrayList
         FieldDoc[] fields = c.fields();
         ArrayList fieldArray=new ArrayList();
@@ -462,7 +477,9 @@ public class LatexDoclet {
             }
             out.println("\\end{longtable}");
         }
-// Get a list of all the constructors.  Since they all have the same name, we don't sort this list.
+
+// Get a list of all the constructors.  Since they all have the same
+// name, we don't sort this list.
         ConstructorDoc[] constructors = c.constructors();
         int constructorRef = ref;
 
@@ -563,6 +580,7 @@ public class LatexDoclet {
             }
         }
     }
+    }
 
 
 /**
@@ -645,10 +663,14 @@ public class LatexDoclet {
 
         for (int i=0;i<docs.length;i++) {
             startRes++;
-            out.println("\\noindent");
-            out.println("\\begin{sffamily}\\begin{large}");
-            out.println("\\raisebox{1pt}{\\makebox[-1mm][l]{"+processCommentText(docs[i].name(), true)+"}}\\hrulefill");
-            out.println("\\end{large}\\end{sffamily}");
+
+            if (paramTable) {
+                out.println("\\noindent");
+                out.println("\\begin{sffamily}\\begin{large}");
+                out.println("\\raisebox{1pt}{\\makebox[-1mm][l]{"+processCommentText(docs[i].name(), true)+"}}\\hrulefill");
+                out.println("\\end{large}\\end{sffamily}");
+            }
+
             out.println("");
             out.println("\\index{"+processCommentText(docs[i].name(), true)+"}");
             out.println("\\begin{raggedright}");
@@ -668,7 +690,7 @@ public class LatexDoclet {
             out.println("\\vspace{3mm}");
             out.println("");
             int j;
-            if (params.length > 0) {
+            if ((params.length > 0) && paramTable) {
                 out.println("\\noindent\\textbf{Parameters:}");
                 out.println("");
                 out.println("\\begin{longtable}{|p{1.5in}|p{3.5in}|}");
@@ -1037,6 +1059,12 @@ public class LatexDoclet {
         else if (option.equals("-twoside")) {
             return 1;
         }
+        else if (option.equals("-noparamtable")) {
+            return 1;
+        }
+        else if (option.equals("-noclass")) {
+            return 1;
+        }
         return 0;
     }
 
@@ -1066,6 +1094,12 @@ public class LatexDoclet {
             }
             else if (opt[0].equals("-twoside")) {
                 twoSide = true;
+            }
+            else if (opt[0].equals("-noparamtable")) {
+                paramTable = false;
+            }
+            else if (opt[0].equals("-noclass")) {
+                showClass = false;
             }
 
         }
