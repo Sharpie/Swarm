@@ -22,6 +22,7 @@ Library:      defobj
 #undef PACKAGE
 #undef VERSION
 #else
+#undef __mips__
 #include <avcall.h>
 #endif
 

@@ -21,6 +21,9 @@ Library:      defobj
 #include <ffi.h>
 #undef PACKAGE
 #undef VERSION
+#else
+#undef __mips__
+#include <avcall.h>
 #endif
 
 #include <misc.h>
