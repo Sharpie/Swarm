@@ -321,6 +321,6 @@ _lversionpl=${_version}${_patchlevel}
 path=`eval echo $$1includedir/$1.h`
 _iversionpl=`sed -n "s/#define ${_upper}_PATCH_LEVEL.*\"\(.*\)\"/\1/p" < $path`
 if test "$_lversionpl" != "$_iversionpl" || test -z "$_lversionpl" || test -z "$_iversionpl"; then
-  AC_MSG_ERROR($1 include and $1Config.sh file version mismatch \"$_lversionpl\" != \"$_iversionpl\")
+  AC_MSG_WARN($1 include and $1Config.sh file version mismatch \"$_lversionpl\" != \"$_iversionpl\")
 fi
 ])

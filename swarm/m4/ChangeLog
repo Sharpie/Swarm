@@ -1,3 +1,8 @@
+1999-11-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* actcltk.m4: Make t{cl,k}Config.sh / t{cl,k}.h version mismatch
+	a warning, not an error.
+
 1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acpng.m4: Let check for zlib and png fail.
