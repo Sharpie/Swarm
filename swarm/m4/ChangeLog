@@ -1,3 +1,7 @@
+2004-11-25  Marcus G. Daniels <mgd@santafe.edu>
+
+	* acfind.m4: Avoid test negation that doesn't work in Solaris /bin/sh.
+
 2004-11-25  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* acffi.m4: ensure libffi linked with libswarm in
