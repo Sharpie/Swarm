@@ -1,3 +1,7 @@
+2000-12-16  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (findImp_LDFLAGS): Add.
+
 2000-12-15  Marcus G. Daniels  <mgd@nest.swarm.org>
 	
 	* Makefile (noinst_PROGRAMS, findImp_SOURCES, swarm_srcdir, INCLUDES):
