@@ -262,7 +262,7 @@ dynamicCallOn (const char *probedType,
   id <FCall> fc;
 
 #ifdef HAVE_JDK
-  javaFlag = (JFINDJAVA (target) != NULL);
+  javaFlag = (JFINDJAVA (jniEnv, target) != NULL);
 #else
   javaFlag = NO;
 #endif
@@ -290,7 +290,7 @@ dynamicCallOn (const char *probedType,
       if (p)
         *p = '\0';
 
-      [fc setJavaMethod: selname inObject: JFINDJAVA (target)];
+      [fc setJavaMethod: selname inObject: JFINDJAVA (jniEnv, target)];
     }
   else
 #endif

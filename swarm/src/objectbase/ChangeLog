@@ -1,3 +1,7 @@
+1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbe.m (dynamicCallOn): Pass jniEnv to JFINDJAVA.
+
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VarProbe.m ([VarProbe -createEnd]): Make floatFormat string
