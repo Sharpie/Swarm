@@ -78,8 +78,8 @@ INCPLACES=" \
         /usr/local/include /usr/local/include/tcl /usr/local/include/tk \
         /usr/include /usr/include/tcl /usr/include/tk \
         $x_includes $x_includes/tcl $x_includes/tk \
-        ../tcl8.1 ../tcl8.0 ../tcl7.6 ../tcl7.5 ../tcl7.4 \
-        ../tk8.1 ../tk8.0 ../tk4.2 ../tk4.1 ../tk4.0"
+        ../tcl8.3 ../tcl8.2 ../tcl8.1 ../tcl8.0 ../tcl7.6 ../tcl7.5 ../tcl7.4 \
+        ../tk8.3 ../tk8.2 ../tk8.1 ../tk8.0 ../tk4.2 ../tk4.1 ../tk4.0"
 if test -n "$tclInstalledDir"; then
   INCPLACES="$tclInstalledDir/include $INCPLACES"
 fi
