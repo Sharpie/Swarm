@@ -33,7 +33,7 @@ dvidist: dvi
 psdist: ps
 	$(GZIP) $(NAME).ps > $(DISTNAME).ps.gz
 
-java-stub.elc: $(swarm_dossrcdir)/java/java-stub.el protocol.elc
+java-stub.elc: $(swarm_dossrcdir)/java/java-stub.el $(abs_top_builddir)/protocol.elc
 	$(elcrule)
 
 STUBS = $(foreach module, $(MODULES),swarm/$(module)/package.html swarm/$(module))
@@ -43,12 +43,12 @@ $(STUBS): java-stub.elc $(foreach module,$(MODULES),$(swarm_dossrcdir)/src/$(mod
 
 STANDARD_JAVADOC_OPTIONS = -public -sourcepath .:$(swarm_dossrcdir)/java/swarm $(foreach module, $(MODULES),swarm.$(module)) $(swarm_dossrcdir)/java/swarm/*.java
 
-$(NAME)/index.html: $(STUBS)
+$(NAME)/index.html: $(STUBS) $(srcdir)/html/swarm-doclet.jar
 	test -d $(NAME) || mkdir $(NAME)
 	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -d $(NAME) -windowtitle $(DOC_TITLE) -doctitle $(DOC_TITLE) -docletpath $(srcdir)/html/swarm-doclet.jar -doclet Standard -link http://java.sun.com/products/jdk/1.2/docs/api
 
-$(NAME).tex: $(STUBS)
-	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -docletpath $(srcdir)/latex -doclet LatexDoclet -title $(DOC_TITLE) -f $(NAME).tex
+$(NAME).tex: $(STUBS) $(srcdir)/latex/LatexDoclet.class
+	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -docletpath $(srcdir)/latex -doclet LatexDoclet -title $(DOC_TITLE) -nosummary -noparamtable -noclass -docauthor "Swarm Development Group" -f $(NAME).tex
 
 $(NAME).dvi: $(NAME).tex
 	- @LATEX@ $< ; @LATEX@ $< ; @LATEX@ $<
