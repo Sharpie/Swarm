@@ -6,6 +6,7 @@
 //D: GUI-related features for simulation.
 
 #import <objectbase.h>
+#import <activity.h> // SwarmProcess
 
 @protocol WindowGeometryRecordName <SwarmObject>
 //S: Protocol for archiving window geometry.
