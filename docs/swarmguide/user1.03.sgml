@@ -585,9 +585,9 @@ void rand_move(int i) {
 - buildObjects 
 {    
     id  aBug;
-    bug = [Bug createBegin: self];
+    aBug = [Bug createBegin: self];
     // commands that set permanent features of the agent can apppear here
-    bug = [Bug createEnd];
+    aBug = [aBug createEnd];
 }</programlisting>
 
     <para> The class's "factory object", <classname>Bug</classname>,

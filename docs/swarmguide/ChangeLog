@@ -1,3 +1,8 @@
+2001-04-23  Marcus Daniels  <mgd@santafe.edu>
+
+	* user1.03.sgml: Fix +createBegin:/-createEnd usage.
+	Thanks to Russell Senior.
+
 2000-05-02  Alex Lancaster  <alex@santafe.edu>
 
 	* user2.07.sgml: Fixed syntax in EXAMPLE for ProbeMap.  Thanks to
