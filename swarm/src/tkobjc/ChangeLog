@@ -1,5 +1,7 @@
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Button.[hm]: Remove setCommand:.
+
 	* NodeItem.[hm] ([NodeItem -createPaddedText]): New method.
 
 	* OvalNodeItem.m ([OvalNodeItem -createItem]): Use it.

@@ -25,19 +25,13 @@
   return self;
 }
 
-- setCommand: (const char *)command
-{
-  [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, command];
-  return self;
-}
-
 - setButtonTarget: target method: (SEL)sel
 {
   char bcmd[1024], *p;
   
   p = stpcpy (bcmd, [target getObjectName]);
   strcpy (p, " dynamic");
-  [self setCommand: bcmd];
+  [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, command];
   
   return self;
 }

@@ -10,8 +10,7 @@
 {
 }
 
-- setText: (const char *)text;		  // give the button a name
-- setCommand: (const char *)command;	  // give the button a cmd
+- setText: (const char *)text;
 - setButtonTarget: target method: (SEL)sel;
 
 @end
