@@ -38,6 +38,8 @@ ALLCLASSFILES = $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
 all: modules $(addsuffix .class,$(POSTCLASSES))
 
+$(POSTCLASSES): modules
+
 deps: 
 	for module in $(MODULES); do $(MAKE) -C $$module .deps; done
 
