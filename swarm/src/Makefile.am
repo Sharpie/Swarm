@@ -21,8 +21,9 @@ headers: SwarmEnvironment_getters.m
 	for i in $(SUBDIRS) ; do $(MAKE) -C $$i headers ; done
 
  include $(top_builddir)/etc/Makefile.common
- include $(srcdir)/Makefile.rules
 
+override CPPFLAGS += -DBUILDING_SWARM
+ 
 CURRENT = 0
 REVISION = 0
 AGE = 0

@@ -2,7 +2,7 @@
 
 	* swarm.h: Include externvar.h and declare swarmGUIMode.
 
-	* Makefile.am: Include Makefile.rules.
+	* Makefile.am (CPPFLAGS): Append -DBUILDING_SWARM.
 	(headers): Depend on SwarmEnvironment_getters.m.
 	(OBJS): Add SwarmEnvironment.lo.
 
