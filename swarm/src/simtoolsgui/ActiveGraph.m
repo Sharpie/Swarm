@@ -4,8 +4,8 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtoolsgui/ActiveGraph.h>
-#import <activity.h>
 #import <objectbase.h>
+#import <activity.h> // getCurrentTime
 #import <gui.h>
 
 // ActiveGraph: a graph that actively updates its own element when stepped.
