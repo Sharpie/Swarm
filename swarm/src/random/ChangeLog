@@ -1,3 +1,8 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* include.dists.creating.m: Reformatting throughout.
+	Use of raiseEvent macro instead of raiseEvent: method.
+
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add -I$(top_builddir)/libobjc.
