@@ -1,3 +1,10 @@
+2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* NEWS: Note that Objective C messages can be sent to Java/Swarm
+	subclasses.
+
+	* VERSION: Bump.
+
 2000-11-27  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* NEWS: Note addition of ActionConcurrent protocol and getKeyValue
