@@ -3,12 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <defobj.h>
 #import <defobj/Create.h>
 
-@interface JavaProxy: CreateDrop
+@interface JavaClassProxy: CreateDrop
+{
+}
 - (BOOL)isJavaProxy;
-- createJavaCounterpart: (const char *)typeName;
-- doesNotRecognize: (SEL)aSel;
 - (int)compare: obj;
 @end

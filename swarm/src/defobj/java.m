@@ -2,6 +2,7 @@
 #ifdef HAVE_JDK
 #import "java.h"
 #import <defobj/JavaProxy.h>
+#import <defobj/JavaClassProxy.h>
 #import <defobj/JavaCollection.h>
 #import <defobj/defalloc.h>
 #include <objc/mframe.h> // mframe_build_signature
@@ -36,7 +37,7 @@ static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "X" // iid
 };
 
-externvar id id_JavaProxy;
+externvar id id_JavaClassProxy;
 
 
 const char *
@@ -1999,7 +2000,7 @@ swarm_directory_java_ensure_selector (jobject jsel)
 jclass
 swarm_directory_objc_find_class_java (Class class)
 {
-  return (class == id_JavaProxy
+  return (class == id_JavaClassProxy
           ? (jclass) SD_JAVA_FIND_OBJECT_JAVA ((id) class)
           : find_java_wrapper_class (class));
 }
@@ -2019,7 +2020,7 @@ swarm_directory_java_ensure_class (jclass javaClass)
       
       if (objcClass == nil)
         {
-          objcClass = [JavaProxy create: globalZone];
+          objcClass = [JavaClassProxy create: globalZone];
           
           (void) SD_JAVA_ADD_OBJECT_JAVA (javaClass, objcClass);
         }

@@ -1,3 +1,18 @@
+2001-07-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* java.m (swarm_directory_java_ensure_class): Use id_JavaClassProxy
+	instead of id_JavaProxy.
+
+	* Makefile.am (SRC): Add JavaClassProxy.m.
+	(defobj_HEADERS): Add JavaClassProxy.h.
+
+	* JavaProxy.h: Don't adopt Serialization.
+
+	* defobj.m, java.m: Include JavaClassProxy.h.
+
+	* defobj.m: Change definition from id_JavaProxy to id_JavaClassProxy.
+	(initDefobj): Likewise.
+
 2001-07-14  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* java.m (id_JavaProxy): Declare.

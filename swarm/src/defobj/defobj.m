@@ -24,6 +24,7 @@ Library:      defobj
 #import <defobj/directory.h> // swarm_directory_ensure_class_named
 #ifdef HAVE_JDK
 #import <defobj/JavaProxy.h> // -createJavaCounterpart, JavaProxy
+#import <defobj/JavaClassProxy.h>
 #endif
 
 
@@ -40,7 +41,7 @@ externvardef id lispAppArchiver;
 externvardef id hdf5AppArchiver;
 externvardef id hdf5Archiver;
 
-externvardef id id_JavaProxy;
+externvardef id id_JavaClassProxy;
 
 //
 // _defobj_implement() -- generate implementations for defobj module
@@ -142,7 +143,7 @@ findTypeOrLocalClass (const char *name)
 void
 initDefobj (id <Arguments> _arguments)
 {
-  id_JavaProxy = [JavaProxy self];
+  id_JavaClassProxy = [JavaClassProxy self];
 
   arguments = _arguments;
   _objc_lookup_class = findTypeOrLocalClass;
