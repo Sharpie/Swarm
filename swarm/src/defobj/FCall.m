@@ -786,7 +786,7 @@ PHASE(Using)
     }
 #endif
 
-#if (defined(__i386__) && (__GNUC__ == 2) && ((__GNUC_MINOR__ < 95)  || (__GNUC_MINOR__ == 96)) || __GNUC__ == 3)
+#if (defined(__i386__) && ((__GNUC__ == 2) && ((__GNUC_MINOR__ < 95)  || (__GNUC_MINOR__ == 96))) || __GNUC__ == 3 || defined (__CYGWIN__))
 #define BUGGY_BUILTIN_APPLY
 #endif
 
