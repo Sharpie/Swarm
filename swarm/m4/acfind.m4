@@ -29,10 +29,14 @@ else
   AC_MSG_RESULT($$1libdir)
 fi
 if test -n "$$1libdir" ; then
-  if test $suffix = .so || test $suffix = .sl ; then
-    _ldflags="-L\${$1libdir} -R \${$1libdir}"
+  if ! test "$$1libdir" = /usr/lib; then
+    if test $suffix = .so || test $suffix = .sl ; then
+      _ldflags="-L\${$1libdir} -R \${$1libdir}"
+    else
+      _ldflags='-L${$1libdir}'
+    fi
   else
-    _ldflags='-L${$1libdir}'
+    _ldflags=''
   fi
 else
   _ldflags=''

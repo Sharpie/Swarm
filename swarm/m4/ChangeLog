@@ -1,3 +1,7 @@
+2004-11-07  Marcus G. Daniels <mgd@santafe.edu>
+
+	* acfind.m4: Don't put /usr/lib into LDFLAGS.
+
 2004-08-12  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* acffi.m4: find libffi built as part of Apple
