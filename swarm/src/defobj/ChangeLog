@@ -7,6 +7,14 @@
 	functions previously named `find' and `find_primtive'.
 	(swarm_directory_ensure_selector): Add type info to type-conflict
 	message.
+	(m_ClassGetClass, m_ClassGetName): New variables.
+	(get_class_name_from_object, get_class_name): Return const char *,
+	not jstring.
+	([DirectoryEntry -describe:], create_signature_from_object,
+	swarm_directory_ensure_class, swarm_directory_get_swarm_class):
+	Per previous change.
+	(objc_class_from_class_name): Renamed.
+	(classp): Search up tree.  Handle c_Class.
 
 	* defobj.h (types_t): Add Class.
 

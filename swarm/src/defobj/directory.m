@@ -44,9 +44,11 @@ jmethodID m_BooleanValueOf,
   m_FloatValueOf, m_DoubleValueOf, 
   m_StringValueOf, 
   m_FieldSet, m_FieldSetChar,
+  m_ClassGetClass,
   m_ClassGetDeclaredField,
   m_ClassGetDeclaredFields,
   m_ClassGetDeclaredMethods,
+  m_ClassGetName,
   m_FieldGetType,
   m_FieldGetInt,
   m_FieldGetDouble,
@@ -83,57 +85,26 @@ getObjcName (jobject javaObject, id object)
     return object ? [object name] : "nil";
 }
 
-static jstring
-get_class_name_from_class_object (JNIEnv *env, jobject classObj)
-{
-  jmethodID methodID;
-  jobject nameObj;
-  jclass class;
-  
-  if (!(class = (*env)->GetObjectClass (env, classObj)))
-    abort ();
-
-  if (!(methodID = (*env)->GetMethodID (env,
-                                        class,
-                                        "getName",
-                                        "()Ljava/lang/String;")))
-    abort ();
-  
-  if (!(nameObj = (*env)->CallObjectMethod (env, classObj, methodID)))
-    abort ();
-  
-  return nameObj;
-}
-
-static jstring
-get_class_name_from_object (JNIEnv *env, jobject jobj)
-{
-  jclass class;
-  jmethodID methodID;
-  jobject classObj;
-
-  if (!(class = (*env)->GetObjectClass (env, jobj)))
-    abort ();
-
-  if (!(methodID = (*env)->GetMethodID (env,
-                                        class,
-                                        "getClass",
-                                        "()Ljava/lang/Class;")))
-    abort ();
-  
-  if (!(classObj = (*env)->CallObjectMethod (env, jobj, methodID)))
-    abort ();
-
-  return get_class_name_from_class_object (env, classObj);
-}
-
-
-static jstring
+static const char *
 get_class_name (JNIEnv *env, jclass class)
 {
-  return
-    get_class_name_from_object (env,
-                                swarm_directory_java_instantiate (env, class));
+  jobject string;
+
+  if (!(string = (*env)->CallObjectMethod (env, class, m_ClassGetName)))
+    abort ();
+
+  return swarm_directory_copy_java_string (jniEnv, string);  
+}
+
+static const char *
+get_class_name_from_object (JNIEnv *env, jobject obj)
+{
+  jclass class;
+  
+  if (!(class = (*env)->GetObjectClass (env, obj)))
+    abort ();
+
+  return get_class_name (env, class);
 }
 
 unsigned
@@ -194,8 +165,7 @@ swarm_directory_java_hash_code (jobject javaObject)
 
 - (void)describe: outputCharStream
 {
-  jstring string = get_class_name_from_object (jniEnv, javaObject);
-  const char *className = swarm_directory_copy_java_string (jniEnv, string);
+  const char *className = get_class_name_from_object (jniEnv, javaObject);
   
   [outputCharStream catPointer: self];
   [outputCharStream catC: " objc: "];
@@ -677,6 +647,12 @@ create_method_refs (JNIEnv *env)
 	(*env)->GetMethodID (env, c_Field, "setChar", 
 			     "(Ljava/lang/Object;C)V")))
     abort();
+
+  if (!(m_ClassGetClass = (*env)->GetMethodID (env,
+                                               c_Class,
+                                               "getClass",
+                                               "()Ljava/lang/Class;")))
+    abort ();
  
   if (!(m_ClassGetDeclaredField =
       (*env)->GetMethodID (env, c_Class, "getDeclaredField",
@@ -691,6 +667,10 @@ create_method_refs (JNIEnv *env)
   if (!(m_ClassGetDeclaredMethods =
   	(*env)->GetMethodID (env, c_Class, "getDeclaredMethods",
   		     "()[Ljava/lang/reflect/Method;")))
+    abort();
+
+  if (!(m_ClassGetName = 
+	(*env)->GetMethodID (env, c_Class, "getName", "()Ljava/lang/String;")))
     abort();
 
   if (!(m_FieldGetName = 
@@ -821,9 +801,7 @@ create_signature_from_class_name (JNIEnv *env, const char *className)
 static const char *
 create_signature_from_object (JNIEnv *env, jobject jobj)
 {
-  const char *className =
-    swarm_directory_copy_java_string (env, 
-                                      get_class_name_from_object (env, jobj));
+  const char *className = get_class_name_from_object (env, jobj);
   const char *ret = create_signature_from_class_name (env, className);
   
   SFREEBLOCK (className);
@@ -831,7 +809,7 @@ create_signature_from_object (JNIEnv *env, jobject jobj)
 }
 
 static Class
-objc_class_for_classname (const char * classname)
+objc_class_for_class_name (const char * classname)
 {
   int len = strlen (classname);
   int end, beg;
@@ -965,7 +943,6 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
             *p++ = ':';
           *p = '\0';
         }
-        
       {
         jsize ti;
         char signatureBuf[(argCount + 3) * 2 + 1], *p = signatureBuf;
@@ -978,19 +955,25 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
           }
         void add (jobject class)
           {
-            char type = '\0';
+            char type;
               
-            jboolean classp (jclass matchClass)
+            BOOL classp (jclass matchClass)
               {
-                return (*env)->IsSameObject (env, class, matchClass);
-              }
+                jobject clazz;
 
-            if (classp (c_Object))
-              type = _C_ID;
-            else if (classp (c_Selector))
+                for (clazz = class;
+                     clazz;
+                     clazz = (*env)->GetSuperclass (env, clazz))
+                  if ((*env)->IsSameObject (env, clazz, matchClass))
+                    return YES;
+                return NO;
+              }
+            if (classp (c_Selector))
               type = _C_SEL;
             else if (classp (c_String))
               type = _C_CHARPTR;
+            else if (classp (c_Class))
+              type = _C_CLASS;
             else if (classp (c_int))
               type = _C_INT;
             else if (classp (c_short))
@@ -1010,17 +993,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
             else if (classp (c_void))
               type = _C_VOID;
             else
-#if 0
-              {
-                jstring name = get_class_name_from_object (env, class);
-                const char *className = 
-                  swarm_directory_copy_java_string (env, name);
-                                                    
-                raiseEvent (InternalError, "Unknown type `%s'", className);
-              }
-#else
-            type = _C_ID;
-#endif
+              type = _C_ID;
             add_type (type);
           }
           
@@ -1032,7 +1005,6 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
           add ((*env)->GetObjectArrayElement (env, argTypes, ti));
       
         sel = sel_get_any_typed_uid (name);
-
         if (sel)
           {
             if (!sel_get_typed_uid (name, signatureBuf))
@@ -1061,15 +1033,10 @@ swarm_directory_ensure_class (JNIEnv *env, jclass javaClass)
 
   if (!(objcClass = SD_FINDOBJC (env, javaClass)))
     {
-      jstring name = get_class_name (env, javaClass);
-      jboolean isCopy;
-      const char *className =
-        (*env)->GetStringUTFChars (env, name, &isCopy);
+      const char *className = get_class_name (env, javaClass);
 
-      objcClass = objc_class_for_classname (className);
-      
-      if (isCopy)
-        (*env)->ReleaseStringUTFChars (env, name, className);
+      objcClass = objc_class_for_class_name (className);
+      SFREEBLOCK (className);
       
       // if the corresponding class does not exist create new Java Proxy
       
@@ -1092,7 +1059,6 @@ swarm_directory_copy_java_string (JNIEnv *env, jstring javaString)
     (*env)->ReleaseStringUTFChars (env, javaString, str);
   return ret;
 }
-
 
 void
 swarm_directory_cleanup_strings (JNIEnv *env,
@@ -1127,22 +1093,18 @@ swarm_directory_get_swarm_class (id object)
 {
 #ifdef HAVE_JDK
   jobject jobj;
-  jclass jcls;
-  Class result;
-  id proxy;
-  jboolean isCopy;
-  const char *classname;
   
   if ((jobj = SD_FINDJAVA (env, object)))
     {
-      jstring javaclassname;
-      jcls = (*jniEnv)->GetObjectClass (jniEnv,jobj);
-      javaclassname = get_class_name_from_class_object (jniEnv, jcls);
-      classname = 
-        (*jniEnv)->GetStringUTFChars (jniEnv, javaclassname, &isCopy);
-      result = objc_class_for_classname (classname);
-      if (isCopy)
-        (*jniEnv)->ReleaseStringUTFChars (jniEnv, javaclassname, classname);
+      jclass jcls;
+      const char *className;
+      Class result;
+      id proxy;
+
+      jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
+      className = get_class_name (jniEnv, jcls);
+      result = objc_class_for_class_name (className);
+      SFREEBLOCK (className);
       if (result)
         return result;      
       if ((proxy = SD_FINDOBJC (jniEnv, jcls)))
