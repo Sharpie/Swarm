@@ -11,8 +11,7 @@
 #import <tkobjc/global.h>
 #import <collections.h> // List
 
-#include <misc.h> // strdup
-#include <stdlib.h> // atoi
+#include <misc.h> // strdup, atoi
 
 @implementation Graph
 
