@@ -1,3 +1,8 @@
+1998-01-26  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.conf (LIBS): Added $(APPLIBS) for the case an
+	application is being built against a binary distribution.
+
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.lib ($(INCINSTALLED)): Check to see if there are
