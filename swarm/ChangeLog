@@ -1,5 +1,7 @@
 1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* VERSION: Bump.
+
 	* acconfig.h: Add BUGGY_BUILTIN_APPLY.
 
 	* configure.in: Call md_CHECK_BUILTIN_APPLY.
