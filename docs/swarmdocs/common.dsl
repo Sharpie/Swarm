@@ -176,9 +176,6 @@
                (expand-paragraphs (skip-nonchars
                                    (children (current-node))))))
   
-;;(element CLASSNAME (empty-sosofo))
-
-
 (define (previous-nl last-nl end-node)
   (let loop ((nl last-nl))
         (let ((node (node-list-first nl)))
@@ -545,6 +542,13 @@
      (process-children)
      (make-linebreak)))
 
+(define (year)
+  (make sequence
+    (process-children)
+    (if (not (last-sibling? (current-node)))
+	(literal ", ")
+	(literal (string-append " " )))))
+
 (mode article-titlepage-recto-mode (element revhistory (empty-sosofo)))
 (mode book-titlepage-recto-mode (element revhistory (empty-sosofo)))
 (mode reference-titlepage-recto-mode (element revhistory (empty-sosofo)))
@@ -556,8 +560,7 @@
       (element (revision revnumber) ($revnumber$))
       (element (revision date) ($revdate$))
       (element (revision authorinitials) ($authorinitials$))
-      (element (revision revremark) ($revremark$))
-      (element releaseinfo (releaseinfo)))
+      (element (revision revremark) ($revremark$)))
 (mode book-titlepage-verso-mode
       (element revhistory (revhistory))
       (element (revhistory revision) ($revision$))
@@ -566,9 +569,10 @@
       (element (revision authorinitials) ($authorinitials$))
       (element (revision revremark) ($revremark$))
       (element releaseinfo (releaseinfo))
-      (element (set book bookinfo bookbiblio copyright) (empty-sosofo))
-      (element (set book bookinfo bookbiblio pubdate) (empty-sosofo))
-      (element (set book bookinfo bookbiblio releaseinfo) (empty-sosofo))
+      (element year (year)) 
+      (element (set book bookinfo copyright) (empty-sosofo))
+      (element (set book bookinfo pubdate) (empty-sosofo))
+      (element (set book bookinfo releaseinfo) (empty-sosofo))
       (element (set book bookinfo legalnotice) (empty-sosofo)))
 (mode reference-titlepage-verso-mode
       (element revhistory (revhistory))
@@ -576,8 +580,7 @@
       (element (revision revnumber) ($revnumber$))
       (element (revision date) ($revdate$))
       (element (revision authorinitials) ($authorinitials$))
-      (element (revision revremark) ($revremark$))
-      (element releaseinfo (releaseinfo)))
+      (element (revision revremark) ($revremark$)))
 (mode set-titlepage-verso-mode
       (element revhistory (revhistory))
       (element (revhistory revision) ($revision$))
@@ -585,9 +588,8 @@
       (element (revision date) ($revdate$))
       (element (revision authorinitials) ($authorinitials$))
       (element (revision revremark) ($revremark$))
-      (element copyright (copyright))
-      (element releaseinfo (releaseinfo)))
-
+      (element releaseinfo (releaseinfo))
+      (element year (year)))
 
 (element revhistory (empty-sosofo))
 

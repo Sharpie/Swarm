@@ -1,3 +1,37 @@
+1999-01-26  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Add 1999 to Copyright dates.  Note legalnotice links in
+	HTML backend.
+
+	* common.dsl (year): Add function.  Suppress generation of `by'
+	literal in Copyright before corpauthor.
+	(set-titlepage-verso-mode): Use local `year' expansion.
+	(book-titlepage-verso-mode): Likewise.
+	(set-titlepage-verso-mode): Remove `copyright' function expansion.
+	(book-titlepage-verso-mode): Likewise.
+	(article-titlepage-verso-mode): Remove `releaseinfo' expansion.
+	(reference-titlepage-verso-mode): Likewise.
+	(book-titlepage-verso-mode): Remove `bookbiblio' context when
+	emptying `copyright, pubdate, releaseinfo, legalnotice' in the
+	context of SETs.
+	
+	* html.dsl (copyright): New function modified from the original
+	`book-titlepage-recto-mode' in html/dbttlpg.dsl version also
+	remove generation of `by' literal.
+	(legalnotice): Modified function from original in
+	`book-titlepage-recto-mode' in html/dbttlpg.dsl.  Wrap the first
+	legalnotice in book-titlepage-verso-mode to avoid the `default'
+	rule problem in the context of a set.
+	(%generate-legalnotice-link%): Enable generation of link to
+	legalnotice.
+	(book-titlepage-verso-mode): Use local copyright, legalnotice,
+	pubdate functions.
+	(set-titlepage-verso-mode): Likewise.  Remove older legalnotice
+	expansion.
+
+	* print.dsl (copyright): Removed function entirely - stylesheets
+	now work.
+ 
 1999-01-20  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note stylesheets version is now 1.33.

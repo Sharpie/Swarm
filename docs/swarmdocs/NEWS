@@ -1,12 +1,14 @@
 swarmdocs NEWS --- history of major changes to swarmdocs.  -*- text -*-
-Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
+Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 
 * Release Notes for swarmdocs 1.4
 
 ** Updates for DocBook stylesheets 1.33.
 
-** Legal notices for distribution of the swarmdocs package and the generated 
+** Legalnotices for distribution of the swarmdocs package and the generated 
 documentation clarified.
+
+** Legalnotices are now links from the `Copyright' word in the HTML backend.
 
 * Release Notes for swarmdocs 1.3.1
 

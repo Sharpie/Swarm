@@ -206,48 +206,43 @@
 (mode set-titlepage-recto-mode (element graphic ($img$)))
 (mode set-titlepage-verso-mode (element graphic ($img$)))
 
-(define (copyright)
-    (make paragraph
-          use: default-text-style
-          (make sequence
-                (literal (gentext-element-name (current-node)))
-                (literal " ")
-                (literal (dingbat "copyright"))
-                (literal " ")
-                (process-children-trim))))
-
 (define (corpauthor)
-    (make paragraph
-          font-family-name: %title-font-family%
-          font-weight: 'bold
-          font-size: (HSIZE 3)
-          space-before: 1pt
-          space-after: 1pt
-          quadding: 'center
-          keep-with-previous?: #t
-          (process-children)))
+  (make paragraph
+    font-family-name: %title-font-family%
+    font-weight: 'bold
+    font-size: (HSIZE 3)
+    space-before: 1pt
+    space-after: 1pt
+    quadding: 'center
+    keep-with-previous?: #t
+    (process-children)))
 
 (define (infotitle)
-    (make paragraph
-          font-family-name: %title-font-family%
-          font-weight: 'bold
-          font-size: (HSIZE 5)
-          space-before: 1pt
-          space-after: 1pt
-          quadding: 'center
-          break-before: 'page
-          keep-with-next?: #t
-          (process-children-trim)))
+  (make paragraph
+    font-family-name: %title-font-family%
+    font-weight: 'bold
+    font-size: (HSIZE 5)
+    space-before: 1pt
+    space-after: 1pt
+    quadding: 'center
+    break-before: 'page
+    keep-with-next?: #t
+    (process-children-trim)))
 
 (mode book-titlepage-recto-mode 
-      (element corpauthor (corpauthor))
-      (element title (infotitle)))
+  (element corpauthor (corpauthor))
+  (element title (infotitle))
+  )
+
 (mode set-titlepage-recto-mode
-      (element corpauthor (corpauthor))
-      (element title (infotitle)))
+  (element corpauthor (corpauthor))
+  (element title (infotitle))
+  )
+
 (mode article-titlepage-recto-mode
-      (element corpauthor (corpauthor))
-      (element title (infotitle)))
+  (element corpauthor (corpauthor))
+  (element title (infotitle))
+  )
 
 (define (example-title text)
     (make sequence

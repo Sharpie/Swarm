@@ -10,6 +10,10 @@
 (define %html-ext% ".html")
 (define %use-id-as-filename% #t)
 
+(define %generate-legalnotice-link%
+  ;; Should legal notices be a link to a separate file?
+  #t)
+
 (define %stylesheet%
   ;; Name of the stylesheet to use. #f = don't make link to text/css in HTML
   #f)
@@ -216,7 +220,7 @@
                           (list "HREF" (href-to (current-node))))
              (literal title)))))
 
-(element pubdate
+(define (pubdate)
          (make element gi: "DIV"
                (literal "Published ")
                (process-children)))
@@ -252,39 +256,74 @@
 (mode book-titlepage-recto-mode (element graphic (graphic)))
 (mode set-titlepage-recto-mode (element graphic (graphic)))
 
+;; modified from html/dbttlpg.dsl  
 (define (copyright)
     (let ((years (select-elements (descendants (current-node))
-                                  (normalize "year")))
-          (holders (select-elements (descendants (current-node))
-                                    (normalize "holder")))
-          (legalnotice (select-elements (children (parent (current-node)))
-                                        (normalize "legalnotice"))))
+				  (normalize "year")))
+	  (holders (select-elements (descendants (current-node))
+				    (normalize "holder")))
+	  (legalnotice (select-elements (children (parent (current-node)))
+					(normalize "legalnotice"))))
       (make element gi: "P"
-            attributes: (list
-                         (list "CLASS" (gi)))
-            (if (and %generate-legalnotice-link%
-                     (not (node-list-empty? legalnotice)))
-                (make sequence
-                      (make element gi: "A"
-                            attributes: (list
-                                         (list "HREF"
-                                               ($legalnotice-link-file$
-                                                (node-list-first legalnotice))))
-                            (literal (gentext-element-name (gi (current-node)))))
-                      (literal " ")
-                      (literal (dingbat "copyright"))
-                      (literal " ")
-                      (process-node-list years)
-                      (literal (string-append " " (gentext-by) " "))
-                      (process-node-list holders))
-                (make sequence
-                      (literal (gentext-element-name (gi (current-node))))
-                      (literal " ")
-                      (literal (dingbat "copyright"))
-                      (literal " ")
-                      (process-node-list years)
-                      (literal (string-append " " (gentext-by) " "))
-                      (process-node-list holders))))))
+	    attributes: (list
+			 (list "CLASS" (gi)))
+	    (if (and %generate-legalnotice-link%
+		     (not nochunks)
+		     (not (node-list-empty? legalnotice)))
+		(make sequence
+		  (make element gi: "A"
+			attributes: (list 
+				     (list "HREF" 
+					   ($legalnotice-link-file$
+					    (node-list-first legalnotice))))
+			(literal (gentext-element-name (gi (current-node)))))
+		  (literal " ")
+		  (literal (dingbat "copyright"))
+		  (literal " ")
+		  (process-node-list years)
+		  (literal (string-append " ")); (gentext-by) " "))
+		  (process-node-list holders))
+		(make sequence
+		  (literal (gentext-element-name (gi (current-node))))
+		  (literal " ")
+		  (literal (dingbat "copyright"))
+		  (literal " ")
+		  (process-node-list years)
+		  (literal (string-append " " )); (gentext-by) " "))
+		  (process-node-list holders))))))
+
+;; from html/dbttlpg.dsl
+(define (legalnotice) 
+  (let ((notices (select-elements 
+                  (descendants (parent (current-node)))
+		    (normalize "legalnotice"))))
+    (if (and %generate-legalnotice-link%
+             (not nochunks))
+        ;; Divert the contents of legal to another file.  It will be xref'd
+        ;; from the Copyright.
+        (if (first-sibling? (current-node))
+            (make entity
+              system-id: (html-entity-file
+                          ($legalnotice-link-file$ (current-node)))
+              (if %html-pubid%
+                  (make document-type
+                    name: "HTML"
+                    public-id: %html-pubid%)
+                  (empty-sosofo))
+              (make element gi: "HTML"
+                    (make element gi: "HEAD"
+			    ($standard-html-header$))
+                    (make element gi: "BODY" 
+			    attributes: %body-attr%
+			    (header-navigation (current-node))
+                            (with-mode  book-titlepage-verso-mode 
+                              ($semiformal-object$))
+			    (with-mode ;book-titlepage-verso-mode 
+                                legal-notice-link-mode
+			      (process-node-list (node-list-rest notices)))
+			    (footer-navigation (current-node)))))
+            (empty-sosofo))
+        ($semiformal-object$))))
 
 (define (set-titlepage-separator side)
   (if (equal? side 'recto)
@@ -388,16 +427,27 @@
 ; titlepages by switching context to book mode
 (mode reference-titlepage-verso-mode
   (element abstract 
-    (with-mode book-titlepage-verso-mode ($semiformal-object$)))
-  )
+    (with-mode book-titlepage-verso-mode ($semiformal-object$))))
 
-; similarily for set titlepages
+; use local definitions of copyright, legalnotice and pubdate to
+; generate links to legalnotices properly.
+(mode book-titlepage-verso-mode
+  (element copyright (copyright))
+  (element legalnotice (legalnotice))
+  (element pubdate (pubdate))  
+  (element (set book bookinfo copyright) (empty-sosofo))
+  (element (set book bookinfo pubdate) (empty-sosofo))
+  (element (set book bookinfo releaseinfo) (empty-sosofo))
+  (element (set book bookinfo legalnotice) (empty-sosofo)))
+
+; likewise for sets, likewise override `default' block processing for
+; set titlepages
 (mode set-titlepage-verso-mode
   (element abstract 
     (with-mode book-titlepage-verso-mode ($semiformal-object$)))
-  (element legalnotice
-    (with-mode book-titlepage-verso-mode ($semiformal-object$)))
-  )
+  (element copyright (copyright))
+  (element legalnotice (legalnotice))
+  (element pubdate (pubdate)))
 
 </style-specification-body>
 </style-specification>
