@@ -16,9 +16,9 @@
 - (const char *)variableValue: (const char *)variableName;
 @end
 
-extern id <TkExtra> globalTkInterp;
+externvar id <TkExtra> globalTkInterp;
 
-extern id <Error>
+externvar id <Error>
   WindowCreation,		// error while creating a window
   WindowUsage,                  // error while a window was being used
   PaletteError,

@@ -10,7 +10,7 @@
 #import <tkobjc/global.h>
 #import <defobj.h> // Arguments
 
-id <TkExtra> globalTkInterp;
+externvardef id <TkExtra> globalTkInterp;
 
 #import "simtools_tcl.x"
 #import "analysis_tcl.x"

@@ -1,3 +1,11 @@
+1999-10-03    <mgd@HELEN>
+
+	* tkobjc.m (globalTkInterp): Define using externvardef.
+
+	* global.h (globalTkInterp, WindowCreation, WindowUsage,
+	PaletteError, MissingFiles, PixmapError,
+	WindowGeometryRecordError): Declare using externvar, not extern.
+	
 1999-09-23    <mgd@HELEN>
 
 	* win32dib.c (dib_snapshot): Force width of new bitmap (and
