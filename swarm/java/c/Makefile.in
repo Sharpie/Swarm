@@ -58,8 +58,8 @@ install-la: all
 
 install-dll: all
 	$(INSTALL) javaswarm.dll $(bindir)
-	$(INSTALL) libjavaswarm.a $(libdir)
-	$(RANLIB) $(libdir)/libjavaswarm.a
+	$(INSTALL) libjavaswarmdll.a $(libdir)
+	$(RANLIB) $(libdir)/libjavaswarmdll.a
 
 libjavaswarmstubs_.la: $(libjavaswarmstubs__la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs__la_LDFLAGS) $(libjavaswarmstubs__la_OBJECTS)
