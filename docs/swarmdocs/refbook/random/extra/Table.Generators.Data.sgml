@@ -21,7 +21,7 @@
 <entry>Generator</entry>
 <entry>Seeds</entry>
 <entry>Modulus</entry>
-<entry>Cycles(length)</entry>
+<entry>Cycles (length)</entry>
 <entry>Bits</entry>
 <entry>Speed</entry>
 <entry>State</entry>
@@ -29,6 +29,7 @@
 </thead>
 
 <tbody>
+<row><entry spanname="all"></entry></row>
 <row><entry spanname="all">(a) Simple Short Generators</entry></row>
 <row><entry>LCG1</entry><entry>1</entry><entry>2<superscript>32</superscript></entry><entry>1 m</entry><entry>32</entry><entry>1.442</entry><entry>32</entry></row>
 <row><entry>LCG2</entry><entry>1</entry><entry>2<superscript>32</superscript></entry><entry>1 m</entry><entry>32</entry><entry>1.442</entry><entry>32</entry></row>
@@ -55,7 +56,7 @@
 <row><entry>TT403	</entry><entry>13  </entry><entry>2<superscript>31</superscript>	</entry><entry>   1 2<superscript>403</superscript> </entry><entry>31</entry><entry>0.792</entry><entry>403</entry></row>
 <row><entry>TT775	</entry><entry>25  </entry><entry>2<superscript>31</superscript>	</entry><entry>   1 2<superscript>775</superscript> </entry><entry>31</entry><entry>0.795</entry><entry>775</entry></row>
 <row><entry>TT800	</entry><entry>25  </entry><entry>2<superscript>32</superscript>	</entry><entry>   1 2<superscript>800</superscript> </entry><entry>32</entry><entry>0.795</entry><entry>800</entry></row>
-<row><entry>MT19937	</entry><entry>624 </entry><entry>2<superscript>32</superscript>	</entry><entry>   1 <superscript>19937</superscript></entry><entry>32</entry><entry>1.000</entry><entry>19937</entry></row>
+<row><entry>MT19937	</entry><entry>624 </entry><entry>2<superscript>32</superscript>	</entry><entry>   1 2<superscript>19937</superscript></entry><entry>32</entry><entry>1.000</entry><entry>19937</entry></row>
                                                                                          
 <row><entry>MRG5	</entry><entry> 5  </entry><entry>2<superscript>31</superscript>-1</entry><entry>   1 2<superscript>155</superscript> </entry><entry>31</entry><entry>0.382</entry><entry>155</entry></row>
 <row><entry>MRG6	</entry><entry> 6  </entry><entry>2<superscript>31</superscript>-1</entry><entry>   1 2<superscript>186</superscript></entry><entry> 31</entry><entry>0.354 </entry><entry>186</entry></row>
@@ -89,7 +90,7 @@
 <colspec colname="col2">
 <spanspec align="center" namest="col1" nameend="col2" spanname="all">
 <thead>
-<row><entry spanname="all">Calculating cycle lengths</entry></row>
+<row><entry>Generator</entry><entry>Calculating cycle lengths</entry></row>
 </thead>
 
 <tbody>
@@ -97,9 +98,9 @@
 <row><entry>PMMLCGi</entry><entry>cycle = m-1 < 2<superscript>31</superscript></entry></row>
 <row><entry>ACG</entry><entry>cycle = 2<superscript>r</superscript></entry></row>
 <row><entry>SCG</entry><entry>cycle = 2<superscript>r</superscript></entry></row>
-<row><entry>SWBi</entry><entry>cycle = ( 2^(32r) - 2^(32s) ) / #cycles</entry></row>
+<row><entry>SWBi</entry><entry>cycle = ( 2<superscript>32r</superscript> - 2<superscript>32s</superscript> ) / #cycles</entry></row>
 <row><entry>PSWB</entry><entry>cycle = m<superscript>r</superscript> - m<superscript>s</superscript></entry></row>
-<row><entry>TGFSRi</entry><entry>cycle = 2^(w*N) - 1 </entry></row>
+<row><entry>TGFSRi</entry><entry>cycle = 2<superscript>w*N</superscript> - 1 </entry></row>
 <row><entry>MRGi</entry><entry>cycle = m<superscript>i</superscript> - 1</entry></row>
 <row><entry>C2MRG3</entry><entry>cycle = (m1<superscript>3</superscript> - 1)*(m2<superscript>3</superscript> - 1)/2</entry></row>
 <row><entry>C2TAUSi</entry><entry>cycle = Mask1 * Mask2</entry></row>

@@ -18,11 +18,11 @@ statistically:</para>
 <table id="SWARM.RANDOM.APPENDIX.GENERATOR.QUALITY.TABLE">
 <title>Random Library: Generator Statistical Tests</title>
 <tgroup cols="5" colsep="1" rowsep="1">
-<colspec colname="col1">
-<colspec colname="col2">
-<colspec colname="col3">
-<colspec colname="col4">
-<colspec colname="col5" align="justify">
+<colspec colname="col1"> <!-- colwidth="0.175*"-->
+<colspec colname="col2"> <!--colwidth="0.175*"-->
+<colspec colname="col3"> <!--colwidth="0.175*"-->
+<colspec colname="col4"> <!--colwidth="0.175*"-->
+<colspec colname="col5" align="justify" colwidth="5cm">
 <spanspec align="center" namest="col1" nameend="col5" spanname="all">
 <spanspec align="justify" namest="col5" nameend="col5" spanname="col5">
 <thead>
@@ -93,7 +93,7 @@ statistically:</para>
 <colspec colname="col3">
 <spanspec align="center" namest="col1" nameend="col3" spanname="all">
 <thead>
-<row><entry spanname="all">(*) Explanation of test codes</entry></row>
+<row><entry>Test code</entry><entry>Test suite</entry><entry>Explanation of test codes</entry></row>
 </thead>
 <tbody>
 <row><entry>a</entry><entry>Diehard</entry><entry>Birthday Spacings Test</entry></row>
@@ -126,10 +126,9 @@ statistically:</para>
 <tgroup cols="2" colsep="1" rowsep="1">
 <colspec colname="col1">
 <colspec colname="col2">
-<colspec colname="col3">
-<spanspec align="center" namest="col1" nameend="col3" spanname="all">
+<spanspec align="center" namest="col1" nameend="col2" spanname="all">
 <thead>
-<row><entry spanname="all">(*) Explanation of indications</entry></row>
+<row><entry>Indication</entry><entry>Explanation of indications</entry></row>
 </thead>
 <tbody>
 <row><entry>.</entry><entry>The generator passed this test</entry></row>
