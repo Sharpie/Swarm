@@ -18,7 +18,7 @@ SUFFIXES = .m
 INCLUDES = -I$(top_srcdir)/libobjc -I$(srcdir)/../misc $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES)
 
 override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@
-override CPPFLAGS += -DList=TclObjcList -DTCL_LIBRARY=\"$(TCL_LIBRARY)\" -DTK_LIBRARY=\"$(TK_LIBRARY)\" 
+override CPPFLAGS += -DList=TclObjcList -DTCL_LIBRARY=\"$(TCL_LIBRARY)\" -DTK_LIBRARY=\"$(TK_LIBRARY)\" -Dexternvar=@EXPORT_EXTERN@ -Dexternvardef=@EXPORT_EXTERNDEF@
 
 noinst_LTLIBRARIES = libtclobjc.la
 
