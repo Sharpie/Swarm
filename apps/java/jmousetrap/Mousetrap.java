@@ -105,22 +105,33 @@ class StartMousetrap
     public static void main (String[] args)
     {
       Globals.env.initSwarm(args);
-      
-      MousetrapObserverSwarmImpl topLevelSwarm = 
+
+      if (true) {
+        
+        MousetrapObserverSwarmImpl topLevelSwarm = 
           new MousetrapObserverSwarmImpl();
-      
-      MousetrapObserverSwarmCImpl cswarm = 
+        
+        MousetrapObserverSwarmCImpl cswarm = 
           new MousetrapObserverSwarmCImpl (topLevelSwarm);
       
-      cswarm.createBegin (Globals.env.globalZone);
-      topLevelSwarm = (MousetrapObserverSwarmImpl) cswarm.createEnd ();
-      
-      Globals.env.setWindowGeometryRecordName (topLevelSwarm);
-      
-      topLevelSwarm.buildObjects ();
-      topLevelSwarm.buildActions ();
-      topLevelSwarm.activateIn (null);
-      topLevelSwarm.go ();
+        cswarm.createBegin (Globals.env.globalZone);
+        topLevelSwarm = (MousetrapObserverSwarmImpl) cswarm.createEnd ();
+        
+        Globals.env.setWindowGeometryRecordName (topLevelSwarm);
+        topLevelSwarm.buildObjects ();
+        topLevelSwarm.buildActions ();
+        topLevelSwarm.activateIn (null);
+        topLevelSwarm.go ();
+        
+      }
+      else {
+        MousetrapBatchSwarmImpl topLevelSwarm 
+          = new MousetrapBatchSwarmImpl((ZoneImpl)Globals.env.globalZone);
+        topLevelSwarm.buildObjects();
+        topLevelSwarm.buildActions();
+        topLevelSwarm.activateIn(null);
+        topLevelSwarm.go();
+      }
     }
 }
 
