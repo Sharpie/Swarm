@@ -1,3 +1,8 @@
+1999-08-15    <mgd@HELEN>
+
+	* java-stub.el (java-print-native-class): Use import of
+	<defobj/directory.h> instead of include of "directory.h".
+
 1999-08-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javaswarm.in (SHLIBPATH_VAR): Add hdf5libdir.
