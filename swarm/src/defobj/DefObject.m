@@ -1045,15 +1045,18 @@ initDescribeStream (void)
 {
   void store_object (struct objc_ivar *ivar)
     {
-      [stream catC: " #:"];
-      [stream catC: ivar->ivar_name];
-      [stream catC: " "];
-      lisp_output_type (ivar->ivar_type,
-                        (void *) self + ivar->ivar_offset,
-                        0,
-                        NULL,
-                        stream,
-                        deepFlag);
+      if (*ivar->ivar_type != _C_PTR)
+        {
+          [stream catC: " #:"];
+          [stream catC: ivar->ivar_name];
+          [stream catC: " "];
+          lisp_output_type (ivar->ivar_type,
+                            (void *) self + ivar->ivar_offset,
+                            0,
+                            NULL,
+                            stream,
+                            deepFlag);
+        }
     }
   map_ivars (getClass (self), store_object);
   return self;
