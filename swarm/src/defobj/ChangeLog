@@ -1,5 +1,7 @@
 1998-11-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Makefile.am (CLEANFILES): Append version.h.
+
 	* DefObject.m (lispIn): Get typeNameString directly from list.
 
 	* DefObject.[hm], defobj.h: Remove lispInQuotedExpr.

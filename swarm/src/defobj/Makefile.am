@@ -15,6 +15,8 @@ lib_LTLIBRARIES = libdefobj.la
 
 module_headers = classes.h types.h
 
+CLEANFILES += version.h
+
 BUILT_SOURCES = $(module_headers)
 
 SRC = Archiver.m Arguments.m Create.m Customize.m \
