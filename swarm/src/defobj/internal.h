@@ -50,5 +50,5 @@ extern char *zstrdup (id aZone, const char *str);
 
 #define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
 #define isSpace(ch) ((ch) == ' ' || (ch) == '\t' || (ch) == '\n' || (ch) == '\r')
-#define isPrint(ch) ((ch) < (char) 128)
+#define isPrint(ch) ((ch) < (unsigned char) 128)
 
