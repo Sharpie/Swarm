@@ -19,7 +19,7 @@
 // #define USETHINDOUBLES 1
 // 
 
-@deftype ProbabilityDistribution <Create, Drop, InternalState> 
+@protocol ProbabilityDistribution <Create, Drop, InternalState> 
 //S: Probability Distribution
 
 //D: A process for generating a sequence of random numbers matching the
@@ -67,7 +67,7 @@ USING
 // Subtype protocols:
 // 
 
-@deftype BooleanDistribution <ProbabilityDistribution> 
+@protocol BooleanDistribution <ProbabilityDistribution> 
 //S: Boolean Distribution
 
 //D: A probability distribution that returns YES/NO sample values.
@@ -78,7 +78,7 @@ USING
 - (int)getIntegerSample;	// for convenience
 @end
 
-@deftype IntegerDistribution <ProbabilityDistribution> 
+@protocol IntegerDistribution <ProbabilityDistribution> 
 //S: Integer Distribution 
 
 //D: A probability distribution that returns integer sample values.
@@ -88,7 +88,7 @@ USING
 - (int)getIntegerSample;
 @end
 
-@deftype UnsignedDistribution <ProbabilityDistribution> 
+@protocol UnsignedDistribution <ProbabilityDistribution> 
 //S: Unsigned Distribution 
 
 //D: A probability distribution that returns non-negative integer sample 
@@ -99,7 +99,7 @@ USING
 - (unsigned)getUnsignedSample;
 @end
 
-@deftype DoubleDistribution <ProbabilityDistribution>
+@protocol DoubleDistribution <ProbabilityDistribution>
 //S: Double Distribution 
 
 //D: A probability distribution that returns an approximation of continuous
@@ -113,7 +113,7 @@ USING
 
 // Protocol definitions for specific distributions:
 
-@deftype RandomBitDist <BooleanDistribution, CREATABLE>
+@protocol RandomBitDist <BooleanDistribution, CREATABLE>
 //S: Random Bit Distribution 
 
 //D: A generator that returns uniformly distributed single bit values
@@ -124,7 +124,7 @@ USING
 - (BOOL)getCoinToss;
 @end
 
-@deftype BernoulliDist <BooleanDistribution, CREATABLE>
+@protocol BernoulliDist <BooleanDistribution, CREATABLE>
 //S: Bernoulli Distribution 
 
 //D: A distribution returning YES with a given probability.
@@ -150,7 +150,7 @@ USING
 @end
 
 
-@deftype UniformIntegerDist <IntegerDistribution, CREATABLE>
+@protocol UniformIntegerDist <IntegerDistribution, CREATABLE>
 //S: Uniform Integer Distribution
 
 //D: A generator of integral values uniformly distributed across a closed
@@ -184,7 +184,7 @@ USING
 - (int)getIntegerWithMin: (int)minValue withMax: (int)maxValue;
 @end
 
-@deftype UniformUnsignedDist <UnsignedDistribution, CREATABLE> 
+@protocol UniformUnsignedDist <UnsignedDistribution, CREATABLE> 
 //S: Uniform Unsigned Distribution
 
 //D: A generator of non-negative integral values uniformly distributed across
@@ -219,7 +219,7 @@ USING
                        withMax: (unsigned)maxVal;
 @end
 
-@deftype UniformDoubleDist <DoubleDistribution, CREATABLE> 
+@protocol UniformDoubleDist <DoubleDistribution, CREATABLE> 
 //S: Uniform Double Distribution
 
 //D: A generator of floating point values uniformly distributed
@@ -256,7 +256,7 @@ USING
 - (double)getDoubleWithMin: (double)minValue withMax: (double)maxValue;
 @end
 
-@deftype Normal <DoubleDistribution> 
+@protocol Normal <DoubleDistribution> 
 //S: Normal Distribution
 
 //D: A well-known continuous probability distribution
@@ -291,19 +291,19 @@ USING
                withVariance: (double)variance;
 @end
 
-@deftype NormalDist <Normal, CREATABLE> 
+@protocol NormalDist <Normal, CREATABLE> 
 //S:  Normal (Gaussian) distribution returning double values.
 
 //D:  Normal (Gaussian) distribution returning double values.
 @end
 
-@deftype LogNormalDist <Normal, CREATABLE> 
+@protocol LogNormalDist <Normal, CREATABLE> 
 //S: Log-Normal distribution returning double values.
 
 //D: Log-Normal distribution returning double values.
 @end
 
-@deftype ExponentialDist <DoubleDistribution, CREATABLE> 
+@protocol ExponentialDist <DoubleDistribution, CREATABLE> 
 //S: Exponential distribuiton 
 
 //D: A well-known continuous probability distribution returning doubles.
@@ -329,7 +329,7 @@ USING
 - (double)getSampleWithMean: (double)mean;
 @end
 
-@deftype GammaDist <DoubleDistribution, CREATABLE>
+@protocol GammaDist <DoubleDistribution, CREATABLE>
 //S: Gamma distribution
 
 //D: A well-known continuous probability distribution returning doubles
@@ -361,7 +361,7 @@ USING
                     withBeta: (double)beta;
 @end
 
-// Include declarations of type factories for each deftype marked CREATABLE
+// Include declarations of type factories for each protocol marked CREATABLE
 // (type factories can be defined either as class names or external id's)
 
 // Boolean:
