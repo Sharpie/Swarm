@@ -279,6 +279,17 @@
         (process-node-list first-child))
       (process-node-list (node-list-rest itemcontent))))) 
 
+(define (funcprototype)
+    (let ((paramdefs (select-elements (children (current-node)) (normalize "paramdef"))))
+      (make sequence
+            (make paragraph
+                  font-family-name: %mono-font-family%
+                  (process-children))
+            (if (equal? %funcsynopsis-style% 'kr)
+                (with-mode kr-funcsynopsis-mode
+                  (process-node-list paramdefs))
+                (empty-sosofo)))))
+
 </style-specification-body>
 </style-specification>
 
@@ -458,7 +469,17 @@
                   (literal " ")
                   (literal (example-label example-node))))))
 
-
+(define (funcprototype)
+  (let ((paramdefs (select-elements (children (current-node)) (normalize "paramdef"))))
+    (make sequence
+      (make element gi: "P"
+            (make element gi: "CODE"
+                  (process-children)
+                  (if (equal? %funcsynopsis-style% 'kr)
+                      (with-mode kr-funcsynopsis-mode
+                        (process-node-list paramdefs))
+                      (empty-sosofo)))))))
+                                                                                        
 </style-specification-body>
 </style-specification>
 

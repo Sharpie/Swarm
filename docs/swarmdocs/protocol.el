@@ -33,6 +33,7 @@
   description-list
   included-protocol-list
   macro-list
+  function-list
   global-list
   typedef-list
   example-list
@@ -49,21 +50,29 @@
 
 (defstruct global
   name
+  module
+  protocol
   type
   description-list)
 
 (defstruct macro
   name
+  module
+  protocol
   arguments
   description-list)
 
 (defstruct typedef
   name
+  module
+  protocol
   type
   description-list)
 
 (defstruct function
   name
+  module
+  protocol
   return-type
   arguments
   description-list
@@ -83,8 +92,11 @@
 
   global-type
   global-name
+  global-names
   global-list
 
+  function-return-type
+  function-name
   function-list
 
   macro-name
@@ -113,7 +125,9 @@
   (skip-chars-forward " \t\r\n"))
 
 (defun skip-whitespace-backward ()
-  (skip-chars-backward " \t\r\n"))
+  (skip-chars-backward " \t\r\n")
+  (when (looking-at "\\s-")
+    (backward-char)))
 
 (defun skip-name ()
   (skip-chars-forward "[a-zA-Z_.][a-zA-Z0-9_.]")
@@ -163,7 +177,7 @@
         (buffer-substring beg end)
       (skip-whitespace))))
 
-(defun parse-method (protocol-name
+(defun parse-method (protocol
                      phase
                      factory-flag
                      method-description-list
@@ -190,7 +204,7 @@
        (beginning-of-line 2))
      until (looking-at ";"))
     (unless phase
-      (error "No phase in protocol: %s" protocol-name))
+      (error "No phase in protocol: %s" (protocol-name protocol)))
     (make-method
      :phase phase
      :factory-flag factory-flag
@@ -207,10 +221,17 @@
                  (method-example-list method)
                  ))))
 
-(defun parse-function (item-list example-list)
+(defun parse-function (module
+                       protocol
+                       function-return-type
+                       function-name
+                       item-list
+                       example-list)
   (make-function
-   :name (match-string 2)
-   :return-type (match-string 1)
+   :name function-name
+   :module module
+   :protocol protocol
+   :return-type function-return-type
    :description-list item-list
    :example-list example-list
    :arguments
@@ -222,9 +243,7 @@
            (re-search-forward "[),]")
            (backward-char 2)
            (skip-whitespace-backward)
-           (when (looking-at "\\s-")
-             (backward-char))
-           for arg = (buffer-substring start-pos (point))
+           for arg = (buffer-substring start-pos (1+ (point)))
            collect
            (if (string-match "\\(.*[^a-zA-Z_]\\)\\([a-zA-Z_]+\\)" arg)
                (cons (match-string 1 arg) (match-string 2 arg))
@@ -238,12 +257,16 @@
 
 (defun test-parse-function ()
   (interactive)
-  (let ((func (parse-function nil nil)))
+  (let ((func (parse-function nil nil nil nil nil nil)))
     (princ (list (function-return-type method)
                  (function-arguments method)))))
 
-(defun handle-function (parse-state)
-  (push (parse-function (reverse (parse-state-item-doc-list parse-state))
+(defun handle-function (module protocol parse-state)
+  (push (parse-function protocol
+                        module
+                        (parse-state-function-return-type parse-state)
+                        (parse-state-function-name parse-state)
+                        (reverse (parse-state-item-doc-list parse-state))
                         (reverse
                          (parse-state-scratch-example-list parse-state)))
         (parse-state-function-list parse-state)))
@@ -276,20 +299,22 @@
                  0)))))
     (1+ index)))
 
-(defun parse-global-using-parse-state (parse-state)
+(defun parse-global-using-parse-state (module protocol parse-state)
   (make-global
    :name (parse-state-global-name parse-state)
+   :module module
+   :protocol protocol
    :type (parse-state-global-type parse-state)
    :description-list
    (if (eq (parse-state-tag parse-state) :global)
        (parse-state-scratch-doc-list parse-state)
        (list (extract-doc-string line)))))
    
-(defun immediate-global-tag-processed (parse-state line)
+(defun immediate-global-tag-processed (module protocol parse-state line)
   (when (member (parse-state-tag parse-state)
                 '(:global-begin :global-end :global-break))
     (prog1
-        (parse-global-using-parse-state parse-state)
+        (parse-global-using-parse-state module protocol parse-state)
       (setf (parse-state-scratch-doc-list parse-state) nil))))
     
 (defun is-doc-type (parse-state)
@@ -346,7 +371,7 @@
     (re-search-forward "\\s-+")
     (setf (parse-state-global-type parse-state)
           (let ((beg (point)))
-            (re-search-forward "\\(;\\|//G:\\)")
+            (re-search-forward "\\(;\\|//G:\\|,\\)")
             (backward-char)
             (let ((have-global-tag (looking-at ":")))
               (if have-global-tag
@@ -358,15 +383,31 @@
                     (when have-global-tag
                       (setq tag :global-end)
                       (backward-char))))
-              (when have-global-tag
-                (backward-char 3)
-                (update-global-name parse-state)
-                (backward-word 1)
-                (skip-chars-backward " \t\r\n")))
+              (cond (have-global-tag
+                     (backward-char 3)
+                     (update-global-name parse-state)
+                     (backward-word 1)
+                     (skip-whitespace-backward)
+                     (forward-char))
+                    ((looking-at ",")
+                     (backward-char)
+                     (skip-whitespace-backward)
+                     (backward-word 1)
+                     (setf (parse-state-global-name parse-state) nil)
+                     (setq tag :global-names)
+                     (save-excursion
+                       (let ((beg (point)))
+                         (search-forward ";")
+                         (backward-char)
+                         (setf (parse-state-global-names parse-state)
+                               (buffer-substring beg (point))))))))
             (buffer-substring beg (point))))
     (when (or (eq tag :global-begin) (eq tag :global-end))
       (search-forward "//G: ")
       (backward-char 5))
+    (when (eq :global-names tag)
+      (search-forward ";")
+      (setq tag :global))
     tag))
 
 (defun skip-c-comment ()
@@ -412,10 +453,12 @@
          :macro)
         ((looking-at "@class")
          :class)
-        ((looking-at "\\(void\\s-\\|id\\s-+<.*\\s-\\|id\\s-\\|const\\s-+char\\s-*\\*\\)\\s-*\\([^ (]+\\)\\s-*(")
+        ((looking-at "\\(extern\\s-+\\)?\\(Class\\s-+\\|int\\s-+\\|void\\s-\\|id\\s-+<.*\\s-\\|id\\s-\\|const\\s-+char\\s-*\\*\\)\\s-*\\([^ (]+\\)\\s-*(")
+         (setf (parse-state-function-return-type parse-state) (match-string 2))
+         (setf (parse-state-function-name parse-state) (match-string 3))
          (search-forward ";")
          :function)
-        ((looking-at "extern\\s-") (check-global parse-state))
+        ((looking-at "extern\\s-[^(]*$") (check-global parse-state))
         (t nil)))
   
 (defun check-protocol-tags (parse-state)
@@ -464,8 +507,8 @@
       (:description-doc
        (push buf (parse-state-description-doc-list parse-state))))))
 
-(defun handle-method (protocol-name factory-flag parse-state)
-  (push (parse-method protocol-name
+(defun handle-method (protocol factory-flag parse-state)
+  (push (parse-method protocol
                       (parse-state-phase parse-state)
                       factory-flag
                       (reverse (parse-state-item-doc-list parse-state))
@@ -475,7 +518,7 @@
   (setf (parse-state-item-doc-list parse-state) nil)
   t)
        
-(defun parse-typedef (description-list)
+(defun parse-typedef (module protocol description-list)
   (forward-char 7)
   (skip-whitespace)
   (let ((type-beg (point)))
@@ -491,7 +534,9 @@
               (backward-char)
               (skip-whitespace-backward)
               (make-typedef
-               :name (buffer-substring name-beg (point))
+               :name (buffer-substring name-beg (1+ (point)))
+               :module module
+               :protocol protocol
                :type (buffer-substring type-beg type-end)
                :description-list description-list))))
         (progn
@@ -504,26 +549,30 @@
             (let ((name-beg (point)))
               (backward-char)
               (skip-whitespace-backward)
-              (let ((type-end (point)))
+              (let ((type-end (1+ (point))))
                 (make-typedef
                  :name (buffer-substring name-beg name-end)
+                 :module module
+                 :protocol protocol
                  :type (buffer-substring type-beg type-end)
                  :description-list description-list))))))))
                                          
 (defun test-parse-typedef ()
   (interactive)
-  (let ((typedef (parse-typedef nil)))
+  (let ((typedef (parse-typedef nil nil nil)))
     (message "%s/%s"
              (typedef-name typedef)
              (typedef-type typedef))))
              
-(defun handle-typedef (parse-state)
-  (push (parse-typedef (parse-state-scratch-doc-list parse-state))
+(defun handle-typedef (module protocol parse-state)
+  (push (parse-typedef module 
+                       protocol 
+                       (parse-state-scratch-doc-list parse-state))
         (parse-state-typedef-list parse-state))
   (setf (parse-state-scratch-doc-list parse-state) nil)
   t)
 
-(defun parse-macro (parse-state)
+(defun parse-macro (module protocol parse-state)
   (prog1
       (let ((dl (parse-state-scratch-doc-list parse-state))
             (name (parse-state-macro-name parse-state)))
@@ -535,8 +584,6 @@
                      (re-search-forward "[),]")
                      (backward-char 2)
                      (skip-whitespace-backward)
-                     (when (looking-at "\\s-")
-                       (backward-char))
                      for arg = (buffer-substring start-pos (1+ (point)))
                      collect arg
                      do
@@ -547,52 +594,70 @@
                      (forward-char))))
           (make-macro
            :name name
+           :module module
+           :protocol protocol
            :arguments arguments
            :description-list dl)))
     (while (looking-at ".*\\\\\\s-*$")
       (forward-line))))
 
-(defun handle-macro (parse-state)
-  (push (parse-macro parse-state)
+(defun handle-macro (module protocol parse-state)
+  (push (parse-macro module protocol parse-state)
         (parse-state-macro-list parse-state))
   (setf (parse-state-scratch-doc-list parse-state) nil)
   t)
 
-(defun handle-global (parse-state)
-  (push (parse-global-using-parse-state parse-state)
-        (parse-state-global-list parse-state))
-  (setf (parse-state-scratch-doc-list parse-state) nil)
+(defun handle-global (module protocol parse-state)
+  (let ((names (parse-state-global-names parse-state)))
+    (if names
+        (progn
+          (loop for name in (split-string names ",")
+                for stripped-name = (strip-regexp name "\\s-+")
+                do
+                (push
+                 (make-global
+                  :name stripped-name
+                  :module module
+                  :protocol protocol
+                  :type (parse-state-global-type parse-state)
+                  :description-list
+                  (parse-state-scratch-doc-list parse-state))
+                 (parse-state-global-list parse-state)))
+          (setf (parse-state-global-names parse-state) nil))
+        (push (parse-global-using-parse-state module protocol parse-state)
+              (parse-state-global-list parse-state)))
+    (setf (parse-state-scratch-doc-list parse-state) nil))
   t)
   
-(defun handle-protocol-tag (protocol-name parse-state)
+(defun handle-protocol-tag (protocol parse-state)
   (let ((tag (parse-state-tag parse-state)))
     (case tag
       ((:method :factory-method)
-       (handle-method protocol-name
+       (handle-method protocol
                       (eq (parse-state-tag parse-state) :factory-method)
                       parse-state))
       (:global
-       (handle-global parse-state))
+       (handle-global nil protocol parse-state))
       (:macro
-       (handle-macro parse-state))
+       (handle-macro nil protocol parse-state))
       (:typedef
-       (handle-typedef parse-state))
+       (handle-typedef nil protocol parse-state))
       (:function
-       (handle-function parse-state))
+       (handle-function nil protocol parse-state))
       (:protocol-end t)
       (otherwise nil))))
 
-(defun handle-common-tag (parse-state)
+(defun handle-common-tag (module protocol parse-state)
   (let ((tag (parse-state-tag parse-state)))
     (case tag
       (:global
-       (handle-global parse-state))
+       (handle-global module protocol parse-state))
       (:macro
-       (handle-macro parse-state))
+       (handle-macro module protocol parse-state))
       (:typedef
-       (handle-typedef parse-state))
+       (handle-typedef module protocol parse-state))
       (:function
-       (handle-function parse-state))
+       (handle-function module protocol parse-state))
       (otherwise nil))))
 
 (defun same-tag-p (parse-state)
@@ -602,15 +667,15 @@
 (defun end-tag-p (parse-state)
   (eq (parse-state-tag parse-state) :protocol-end))
 
-(defun process-header-file (protocol-flag)
+(defun process-header-file (module protocol)
   (let ((parse-state (make-parse-state)))
     (beginning-of-line 1)
       (while (and (zerop (forward-line 1))
-                  (not (and protocol-flag (end-tag-p parse-state))))
+                  (not (and protocol (end-tag-p parse-state))))
         (beginning-of-line)
         (let ((tag (check-common-tags parse-state)))
           (unless tag
-          (if protocol-flag
+          (if protocol
               (progn
                 (setq tag (check-protocol-tags parse-state))
                 (unless tag
@@ -625,23 +690,25 @@
         (setf (parse-state-tag parse-state) tag))
       (let ((line (line-text)))
         (let ((immediate-object
-               (immediate-global-tag-processed parse-state line)))
+               (immediate-global-tag-processed module
+                                               protocol
+                                               parse-state line)))
           (if immediate-object
               (push immediate-object (parse-state-global-list parse-state))
               (progn
                 (if (same-tag-p parse-state)
                     (append-buf parse-state line)
                     (progn
-                      (if protocol-flag
+                      (if protocol
                           (unless (protocol-tag-change parse-state)
                             (common-tag-change parse-state))
                           (common-tag-change parse-state))
                       (when (is-doc-type parse-state)
                         (set-buf parse-state line))))))))
-      (if protocol-flag
-          (unless (handle-protocol-tag protocol-name parse-state)
-            (handle-common-tag parse-state))
-          (handle-common-tag parse-state))
+      (if protocol
+          (unless (handle-protocol-tag protocol parse-state)
+            (handle-common-tag module protocol parse-state))
+          (handle-common-tag module protocol parse-state))
       (setf (parse-state-last-tag parse-state)
             (parse-state-tag parse-state)))
     parse-state))
@@ -654,26 +721,34 @@
             (skip-name)
             (buffer-substring beg (point))))
          (included-protocol-list
-          (parse-included-protocol-list)))
-    (let ((parse-state (process-header-file t)))
-      (make-protocol
-       :module module
-       :name protocol-name
-       :example-list (reverse (parse-state-example-list parse-state))
-       :included-protocol-list included-protocol-list
-       :summary (parse-state-summary-doc parse-state)
-       :description-list
-       (reverse (parse-state-description-doc-list parse-state))
-       :macro-list
-       (reverse (parse-state-macro-list parse-state))
-       :global-list
-       (reverse (parse-state-global-list parse-state))
-       :method-list
-       (reverse (parse-state-method-list parse-state))
-       :typedef-list
-       (reverse (parse-state-typedef-list parse-state))
-      ))))
+          (parse-included-protocol-list))
+         (protocol (make-protocol
+                    :module module
+                    :name protocol-name
+                    :included-protocol-list included-protocol-list)))
+    (let ((parse-state (process-header-file module protocol)))
+      (setf (protocol-summary protocol)
+            (parse-state-summary-doc parse-state)
+            
+            (protocol-description-list protocol)
+            (reverse (parse-state-description-doc-list parse-state))
+            
+            (protocol-macro-list protocol)
+            (reverse (parse-state-macro-list parse-state))
 
+            (protocol-global-list protocol)
+            (reverse (parse-state-global-list parse-state))
+
+            (protocol-method-list protocol)
+            (reverse (parse-state-method-list parse-state))
+
+            (protocol-typedef-list protocol)
+            (reverse (parse-state-typedef-list parse-state))
+
+            (protocol-example-list protocol)
+            (reverse (parse-state-example-list parse-state))))
+    protocol))
+            
 (defun load-protocols (module)
   (interactive)
   (goto-char (point-min))
@@ -683,7 +758,7 @@
 
 (defun load-module (module)
   (goto-char (point-min))
-  (let ((parse-state (process-header-file nil)))
+  (let ((parse-state (process-header-file module nil)))
     (make-module
      :name (symbol-name module)
      :summary (parse-state-summary-doc parse-state)
@@ -834,22 +909,41 @@
 (defun method-signature-index (method-signature)
   (position method-signature *method-signature-list* :test #'string=))
 
+(defun sgml-object-id (type module protocol &optional name)
+  (cook-id
+   (let ((base-id
+          (if protocol
+              (let* ((cooked-protocol-name (external-protocol-name protocol)))
+                (concat "SWARM."
+                        (upcase (symbol-name (protocol-module protocol)))
+                        "."
+                        (upcase cooked-protocol-name)
+                        "."
+                        type))
+              (concat "SWARM."
+                      (upcase (symbol-name module))
+                      ".GENERIC."
+                      type))))
+     (if name
+         (concat base-id "." (upcase name))
+         base-id))))
+
 (defun sgml-protocol-id (protocol)
-  (let* ((cooked-protocol-name (external-protocol-name protocol)))
-    (concat "SWARM."
-            (upcase (symbol-name (protocol-module protocol)))
-            "."
-            (upcase cooked-protocol-name))))
+  (sgml-object-id "PROTOCOL"
+                  (protocol-module protocol)
+                  protocol))
 
 (defun sgml-method-signature-id (protocol phase method-signature)
-  (concat (sgml-protocol-id protocol)
-          (format ".P%s.M%d" 
-                  (case phase
-                    (:creating "C")
-                    (:setting "S")
-                    (:using "U")
-                    (otherwise (error "bad phase")))
-                  (method-signature-index method-signature))))
+  (sgml-object-id "METHOD"
+                  (protocol-module protocol)
+                  protocol
+                  (format "P%s.M%d" 
+                          (case phase
+                            (:creating "C")
+                            (:setting "S")
+                            (:using "U")
+                            (otherwise (error "bad phase")))
+                          (method-signature-index method-signature))))
 
 (defun sgml-refentry-start (protocol)
   (insert "<REFENTRY ID=\"")
@@ -895,17 +989,17 @@
   (sgml-refsect1-text-list "Description"
                            (protocol-description-list protocol)))
 
-(defun sgml-method-description (protocol method)
-  (let ((descriptions (method-description-list method)))
-    (insert "<FUNCSYNOPSISINFO>\n")
-    (insert "<CLASSNAME>")
-    (insert (protocol-name protocol))
-    (insert "</CLASSNAME>\n")
-    (loop for description in descriptions
+
+(defun sgml-funcsynopsisinfo (class-name description-list)
+  (insert "<FUNCSYNOPSISINFO>\n")
+  (insert "<CLASSNAME>")
+  (insert class-name)
+  (insert "</CLASSNAME>\n")
+  (loop for description in description-list
           do
           (insert-text description)
           (insert "\n"))
-    (insert "</FUNCSYNOPSISINFO>\n")))
+    (insert "</FUNCSYNOPSISINFO>\n"))
 
 (defun print-method-signature (method &optional stream)
   (if (method-factory-flag method)
@@ -950,7 +1044,8 @@
                   (insert "</PARAMETER>")
                   (insert "</PARAMDEF>\n"))))))
   (insert "</FUNCPROTOTYPE>\n")
-  (sgml-method-description owner-protocol method)
+  (sgml-funcsynopsisinfo (protocol-name owner-protocol)
+                         (method-description-list method))
   (insert "</FUNCSYNOPSIS>\n"))
 
 (defun sgml-link-to-protocol (protocol)
@@ -1031,10 +1126,76 @@
           (insert "</LISTITEM>\n"))
         (insert "</ITEMIZEDLIST>\n")))))
 
+(defun sgml-macro (macro)
+  (insert "<FUNCSYNOPSIS ID=\"")
+  (insert (sgml-object-id "MACRO"
+                          (macro-module macro)
+                          (macro-protocol macro)
+                          (macro-name macro)))
+  (insert "\">\n")
+  (insert "<FUNCPROTOTYPE>\n")
+  (insert "<FUNCDEF>")
+  (insert "<FUNCTION>")
+  (insert-text (macro-name macro))
+  (insert "</FUNCTION>")
+  (insert "</FUNCDEF>\n")
+  (loop for arg in (macro-arguments macro)
+        do
+        (when arg
+          (insert "<PARAMDEF>")
+          (insert "<PARAMETER>")
+          (insert arg)
+          (insert "</PARAMETER>")
+          (insert "</PARAMDEF>\n")))
+  (insert "</FUNCPROTOTYPE>\n")
+  (sgml-funcsynopsisinfo "(MACRO)"
+                         (macro-description-list macro))
+  (insert "</FUNCSYNOPSIS>\n"))
+
+(defun sgml-function (function)
+  (insert "<FUNCSYNOPSIS ID=\"")
+  (insert (sgml-object-id "FUNCTION"
+                          (function-module function)
+                          (function-protocol function)
+                          (function-name function)))
+  (insert "\">\n")
+  (insert "<FUNCPROTOTYPE>\n")
+  (insert "<FUNCDEF>")
+  (insert-text (function-return-type function))
+  (insert "<FUNCTION>")
+  (insert-text (function-name method))
+  (insert "</FUNCTION>")
+  (insert "</FUNCDEF>\n")
+  (loop for type.name in (function-arguments function)
+        do
+        (when arg
+          (insert "<PARAMDEF>")
+          (insert-text (car type.name))
+          (insert "<PARAMETER>")
+          (insert-text (cdr type.name))
+          (insert "</PARAMETER>")
+          (insert "</PARAMDEF>\n")))
+  (insert "</FUNCPROTOTYPE>\n")
+  (sgml-funcsynopsisinfo "(FUNCTION)"
+                         (function-description-list function))
+  (insert "</FUNCSYNOPSIS>\n"))
+
+(defun sgml-typedef (typedef)
+  (insert "<PARA ID=\"")
+  (insert (sgml-object-id "TYPEDEF"
+                          (typedef-module typedef)
+                          (typedef-protocol typedef)
+                          (typedef-name typedef)))
+  (insert "\">\n")
+  (insert (typedef-name typedef))
+  (insert "<TYPE>\n")
+  (insert (typedef-type typedef))
+  (insert "</TYPE>\n")
+  (insert "</PARA>\n"))
+
 (defun sgml-refsect1-object-list (title
                                   object-list
-                                  get-name-func
-                                  get-description-list-func)
+                                  print-object-func)
   (when object-list
     (insert "<REFSECT1>\n")
     (insert "<TITLE>")
@@ -1044,28 +1205,55 @@
     (loop for object in object-list
           do
           (insert "<LISTITEM>\n")
-          (insert "<PARA>")
-          (insert-text (funcall get-name-func object))
-          (insert "</PARA>\n")
-          (loop for text in (funcall get-description-list-func object)
-                do
-                (insert "<PARA>")
-                (insert-text text)
-                (insert "</PARA>\n"))
+          (funcall print-object-func object)
           (insert "</LISTITEM>\n"))
     (insert "</ITEMIZEDLIST>\n")))
 
-(defun sgml-refsect1-macro-list (protocol)
+(defun sgml-refsect1-macro-list (macro-list)
   (sgml-refsect1-object-list "Macros"
-                             (protocol-macro-list protocol)
-                             #'macro-name
-                             #'macro-description-list))
+                             macro-list
+                             #'sgml-macro))
 
-(defun sgml-refsect1-global-list (protocol)
-  (sgml-refsect1-object-list "Global Variables"
-                             (protocol-global-list protocol)
-                             #'global-name
-                             #'global-description-list))
+(defun sgml-refsect1-typedef-list (typedef-list)
+  (sgml-refsect1-object-list "Typedefs"
+                             typedef-list
+                             #'sgml-typedef))
+
+(defun sgml-refsect1-function-list (function-list)
+  (sgml-refsect1-object-list "Functions"
+                             function-list
+                             #'sgml-function))
+
+(defun sgml-refsect1-global-list (global-list)
+  (when global-list
+    (insert "<REFSECT1>\n")
+    (insert "<TITLE>")
+    (insert "Globals")
+    (insert "</TITLE>\n")
+    (insert "<VARIABLELIST>\n")
+    (loop for global in global-list
+          do
+          (insert "<VARLISTENTRY ID=\"")
+          (insert (sgml-object-id "GLOBAL"
+                                  (global-module global)
+                                  (global-protocol global)
+                                  (global-name global)))
+          (insert "\">\n")
+          (insert "<TERM>")
+          (insert-text (global-type global))
+          (insert "</TERM>\n")
+          (insert "<TERM>")
+          (insert-text (global-name global))
+          (insert "</TERM>\n")
+          (insert "<LISTITEM>\n")
+          (loop for text in (global-description-list global)
+                do 
+                (insert "<PARA>\n")
+                (insert-text text)
+                (insert "</PARA>\n"))
+          (insert "</LISTITEM>\n")
+          (insert "</VARLISTENTRY>\n"))
+    (insert "</VARIABLELIST>\n")))
 
 (defun sgml-examples (protocol)
   (let ((example-list (protocol-example-list protocol)))
@@ -1197,8 +1385,10 @@
     (sgml-refsect1-description protocol)
     (sgml-refsect1-protocol-list protocol)
     (sgml-refsect1-method-list protocol)
-    (sgml-refsect1-macro-list protocol)
-    (sgml-refsect1-global-list protocol)
+    (sgml-refsect1-macro-list (protocol-macro-list protocol))
+    (sgml-refsect1-function-list (protocol-function-list protocol))
+    (sgml-refsect1-typedef-list (protocol-typedef-list protocol))
+    (sgml-refsect1-global-list (protocol-global-list protocol))
     (sgml-refsect1-examples protocol)
     (insert "</REFENTRY>\n")))
 

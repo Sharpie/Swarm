@@ -14,12 +14,12 @@
            (if (< pos signature-length)
                (if (char=? (string-ref signature pos) #\:)
                    (sosofo-append
-                    (literal (substring signature start-pos (+ pos 1)))
+                    ($bold-seq$ (literal (substring signature start-pos (+ pos 1))))
                     (process-node-list (node-list-first paramdefs))
                     (next-pos (+ 1 pos) (+ 1 pos) (node-list-rest paramdefs)))
                    (next-pos start-pos (+ 1 pos) paramdefs))
                (if (= start-pos 0)
-                   (literal (substring signature 0 signature-length))
+                   ($bold-seq$ (literal (substring signature 0 signature-length)))
                    (empty-sosofo))))))
 
 (define (some-chars-p nl)
@@ -78,26 +78,68 @@
                     (empty-node-list)))
               (loop (node-list-rest nl))))))
 
-(element FUNCDEF (type-expand (children (current-node))))
-         
+(define (get-classname funcsynopsis-node)
+  (data (select-elements
+         (children
+          (select-elements (children funcsynopsis-node)
+                           "FUNCSYNOPSISINFO"))
+         "CLASSNAME")))
+
+(element FUNCDEF
+         (let ((classname (get-classname (parent (parent)))))
+           (cond ((string=? classname "(MACRO)")
+                  (process-children))
+                 ((string=? classname "(FUNCTION)")
+                  (process-children))
+                 (#t (type-expand (children (current-node)))))))
+
+(define (paramdef)
+    (let ((param (select-elements (children (current-node)) (normalize "parameter"))))
+      (make sequence
+            (if (equal? (child-number (current-node)) 1)
+                (literal "(")
+                (empty-sosofo))
+            (if (equal? %funcsynopsis-style% 'ansi)
+                (process-children)
+                (process-node-list param))
+            (if (equal? (gi (ifollow (current-node))) (normalize "paramdef"))
+                (literal ", ")
+                (literal ")")))))
+
 (element PARAMDEF
-         (sosofo-append
-          (literal " ")
-          (type-expand (children (current-node)))
-          (process-matching-children "PARAMETER")
-          (literal " ")))
+         (let ((classname (get-classname (parent (parent)))))
+           (cond ((string=? classname "(MACRO)")
+                  (paramdef))
+                 ((string=? classname "(FUNCTION)")
+                  (sosofo-append
+                   (paramdef)
+                   ";"))
+                 (#t
+                  (sosofo-append
+                   (literal " ")
+                   (type-expand (children (current-node)))
+                   (process-matching-children "PARAMETER")
+                   (literal " "))))))
+
+(define (methodprototype)
+    (let* ((funcdef (select-elements (children (current-node)) "FUNCDEF"))
+           (function (select-elements (children funcdef) "FUNCTION"))
+           (function-data (data function)))
+      (sosofo-append
+       (literal (substring function-data 0 1))
+       (literal " ")
+       (process-node-list funcdef)
+       (expand-method
+        (substring function-data 1 (string-length function-data))
+        (select-elements (children (current-node)) "PARAMDEF")))))
 
 (element FUNCPROTOTYPE
-         (let* ((funcdef (select-elements (children (current-node)) "FUNCDEF"))
-                (function (select-elements (children funcdef) "FUNCTION"))
-                (function-data (data function)))
-           (sosofo-append
-            (literal (substring function-data 0 1))
-            (literal " ")
-            (process-node-list funcdef)
-            (expand-method
-             (substring function-data 1 (string-length function-data))
-             (select-elements (children (current-node)) "PARAMDEF")))))
+         (let ((classname (get-classname (parent))))
+           (cond ((string=? classname "(MACRO)")
+                  (funcprototype))
+                 ((string=? classname "(FUNCTION)")
+                  (funcprototype))
+                 (#t (methodprototype)))))
 
 (element FUNCSYNOPSISINFO
          (make paragraph
@@ -146,7 +188,7 @@
     (let* ((id-split-list (split-string id #\.)))
       (if (string=? (car (cdr id-split-list)) "SRC")
           #f
-          (not (null? (cdr (cdr (cdr id-split-list))))))))
+          (not (null? (cdr (cdr (cdr (cdr id-split-list)))))))))
 
 (define (char-change-case ch upcase)
     (let loop ((lc-pos
@@ -200,7 +242,7 @@
              
 (define (method-signature-id-to-description method-signature-id)
     (let* ((id-elements (split-string method-signature-id #\.))
-           (phase-abbrev (car (cdr (cdr (cdr id-elements))))))
+           (phase-abbrev (car (cdr (cdr (cdr (cdr id-elements)))))))
       (string-append 
        (module-for-id method-signature-id)
        "/"

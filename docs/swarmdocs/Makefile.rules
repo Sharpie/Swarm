@@ -5,7 +5,7 @@ EMACS = emacs
 
 .PHONY: fot tex dvi ps rtf html
 
-$(addprefix $(NAME),.fot .htm .tex .dvi .ps .rtf): $(SGML_FILES)
+$(addprefix $(NAME),.fot .htm .tex .dvi .ps .rtf): $(SGML_FILES) $(top_srcdir)/common.dsl $(top_srcdir)/swarmbook.dsl
 
 fot: all $(NAME).fot
 

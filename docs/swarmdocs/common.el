@@ -83,3 +83,20 @@
               (while (search-forward ">" nil t)
                 (replace-match "&gt;")))))))))
 
+(defun strip-regexp (str strip-str)
+  (with-output-to-string
+    (with-temp-buffer
+      (let ((beg (point)))
+        (insert str)
+        (let ((end (point)))
+          (save-excursion
+            (save-restriction
+              (narrow-to-region beg end)
+              (goto-char (point-min))
+              (while (re-search-forward strip-str nil t)
+                (replace-match ""))))))
+      (princ (buffer-string)))))
+
+(defun cook-id (id)
+  (strip-regexp id "_"))
+

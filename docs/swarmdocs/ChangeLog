@@ -1,5 +1,71 @@
 1998-05-29  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* protocol.el (protocol): Add function-list slot.
+	(global, macro, typedef, function): Add module and protocol slots.
+	(parse-state): Add global-names, function-return-type, and
+	function-name slots.
+	(skip-whitespace-backward): Make sure ending position is on a
+	non-space.
+	(parse-method): Take protocol instead of protocol-name for first
+	argument.
+	(parse-function, parse-macro): Add module and protocol as
+	arguments, and use them in creation of object.  Use
+	skip-whitespace-backward without checking afterward for space,
+	adjust buffer-substring to end one character after location.
+	(test-parse-function): Modify for new arguments to parse-function.
+	(handle-function): Add module, protocol, (parser-state)
+	return-type and name arguments, and them through to
+	parse-function.
+	(parse-global-using-parse-state, immediate-global-tag-processed):
+	Add module and protocol arguments.
+	(check-global): Also search for comma.  Handle that case by
+	storing everything up to ; in global-names.  Nil global-name.
+	(check-common-tags): Recognize "extern" before a function
+	declaration.  Store parts in function-return-type and
+	function-name.  Make regexp for globals reject lines with
+	parenthesis.
+	(handle-method): Pass protocol instead of protocol-name.
+	(parse-typedef): Add module and protocol arguments, and pass
+	through to make-typedef.
+	(test-parse-typedef): Modify usage per previous.
+	(handle-typedef): Add module and protocol arguments.
+	(handle-macro, handle-global, handle-protocol-tag,
+	handle-common-tag): Add module and protocol arguments.  Adjust
+	callers.
+	(process-header-files): Pass module.  Replace protocol-flag with
+	protocol object.  Adjust callers.
+	(load-protocol): Create minimally-initialized object as for use
+	during component initialization.
+	(sgml-object-id): New function.
+	(sgml-method-signature-id, sgml-protocol-id,
+	sgml-method-description, sgml-funcsynopsisinfo): Modify to use
+	previous.
+	(sgml-macro, sgml-function, sgml-typedef): New functions.
+	(sgml-refsect1-object-list): Modify to use object output routines
+	(like previous).
+	(sgml-refsect1-macro-list): Modify usage per previous.
+	(sgml-refsect1-typedef-list, sgml-refsect1-function-list): New
+	functions.
+	(sgml-refsect1-global-list): Modified to creates a VARIABLELIST.
+	(generate-refentry-for-protocol): Call sgml-refsect1-typedef-list
+	and sgml-refsect1-function-list.
+
+	* swarmbook.dsl (funcprototype): New function for both backends.
+
+	* common.dsl (expand-method): Use $bold-seq$ for signature text.
+	(FUNCDEF): Only do type-expand if CLASSNAME is a protocol.
+	(get-classname, paramdef, methodprototype): New functions.
+	(PARAMDEF): Only do type-expand if CLASSNAME is a protocol,
+	otherwise call paramdef.
+	(FUNCPROTOTYPE): Call methodprototype if CLASSNAME is a protocol,
+	otherwise call funcprototype.
+	(has-phase-p, method-signature-id-to-description): Look one more
+	into the list; the ID structure is updated to contain a type
+	field.
+	
+	* Makefile.rules: Add common.dsl and swarmbook.dsl as dependencies
+	to output files.
+
 	* protocol.el (named-object): Remove.
 	(macro, typedef, function, global): New structs.
 	(parse-state): New slots: global-type, global-name, function-list,
