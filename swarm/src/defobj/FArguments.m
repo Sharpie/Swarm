@@ -26,7 +26,7 @@ Library:      defobj
 #endif
 
 #ifdef HAVE_JDK
-#include <directory.h> // jniEnv
+#include <defobj/directory.h> // jniEnv
 #endif
 
 const char *java_type_signature[FCALL_TYPE_COUNT] = {
