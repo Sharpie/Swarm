@@ -24,7 +24,7 @@
   BOOL randomizeHeatbugUpdateOrder;
   id <ActionGroup> modelActions;	          // scheduling data structures
   id <Schedule> modelSchedule;
-  id <FActionForEach> actionForEach;              // for frobbing randomization
+  id actionForEach;                               // for frobbing randomization
 
   id <List> heatbugList;			  // list of all the heatbugs
   id <Grid2d> world;				  // objects representing

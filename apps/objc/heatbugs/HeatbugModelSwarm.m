@@ -226,6 +226,7 @@
 
   modelActions = [ActionGroup create: self];
   [modelActions createActionTo:      heat        message: M(stepRule)];
+#ifdef FAST
   {
     id call =
       [FCall create: self
@@ -236,8 +237,12 @@
     
     actionForEach = 
       [modelActions createFActionForEachHomogeneous: heatbugList call: call];
-    [self _syncUpdateOrder_];
   }
+#else
+  actionForEach =
+    [modelActions createActionForEach: heatbugList message: M(step)];
+#endif
+  [self _syncUpdateOrder_];
   [modelActions createActionTo:      heat        message: M(updateLattice)];
 
   // Then we create a schedule that executes the modelActions. modelActions

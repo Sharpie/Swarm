@@ -1,3 +1,12 @@
+2000-03-29    <mgd@nest.swarm.org>
+
+	* HeatbugModelSwarm.h (HeatbugModelSwarm): Make actionForEach
+	a generic id.
+
+	* HeatbugModelSwarm.m ([HeatbugModelSwarm -buildActions]): 
+	Compare and contrast the use of createFActionForEachHomogenous
+	and createActionForEach.
+
 2000-02-27    <mgd@nest.swarm.org>
 
 	* Makefile (SWARMHOME, APPVERSION): Update for 2.1.
