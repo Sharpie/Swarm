@@ -39,7 +39,7 @@
 
 #include <swarmconfig.h>
 
-#ifdef __CYGWIN__
+#if defined(__CYGWIN__) || defined(__alpha__)
 #define BUGGY_BUILTIN_APPLY
 #endif
 
@@ -446,9 +446,10 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
       }
 
     {
-      IMP imp = method->method_imp;
 #ifndef USE_FFI
-      retframe = dynamic_call ((apply_t)imp, argframe, argsize);
+      retframe = dynamic_call ((apply_t) method->method_imp,
+                               argframe, 
+                               argsize);
 #else
 #ifndef USE_AVCALL
       typedef struct alist *av_alist;
@@ -592,47 +593,51 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
               abort ();
             }
         }
-      switch (*(method->method_types))
-        {
-        case _C_ID:
-          av_start_ptr (alist, imp, id, retframe);
+      {
+        IMP imp = method->method_imp;
+        
+        switch (*(method->method_types))
+          {
+          case _C_ID:
+            av_start_ptr (alist, imp, id, retframe);
           break;
-        case _C_SEL:
-          av_start_ptr (alist, imp, SEL, retframe);
-          break;
-        case _C_UCHR:
-          av_start_uchar (alist, imp, retframe);
-          break;
-        case _C_INT:
-          av_start_int (alist, imp, retframe);
-          break;
-        case _C_FLT:
-          av_start_float (alist, imp, retframe);
-          break;
-        case _C_DBL:
-          av_start_double (alist, imp, retframe);
-          break;
-        case _C_CHARPTR:
-          av_start_ptr (alist, imp, const char *, retframe);
-          break;
-        default:
-          abort ();
-        }              
+          case _C_SEL:
+            av_start_ptr (alist, imp, SEL, retframe);
+            break;
+          case _C_UCHR:
+            av_start_uchar (alist, imp, retframe);
+            break;
+          case _C_INT:
+            av_start_int (alist, imp, retframe);
+            break;
+          case _C_FLT:
+            av_start_float (alist, imp, retframe);
+            break;
+          case _C_DBL:
+            av_start_double (alist, imp, retframe);
+            break;
+          case _C_CHARPTR:
+            av_start_ptr (alist, imp, const char *, retframe);
+            break;
+          default:
+            abort ();
+          }
+      }
 #endif
       for (argnum = 0,
-	 datum = method_get_first_argument (method, argframe, &type);
-	 datum;
-	 datum = method_get_next_argument (argframe, &type),
-	 ({argnum++; while (datum && !argvIsMethodArg[argnum]) argnum++;}))
-      {
-        push_argument (type, datum);
-      }
-
+             datum = method_get_first_argument (method, argframe, &type);
+           datum;
+           datum = method_get_next_argument (argframe, &type),
+             ({argnum++; while (datum && !argvIsMethodArg[argnum]) argnum++;}))
+        {
+          push_argument (type, datum);
+        }
+      
 #ifndef USE_AVCALL
       if (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, acnt, fret, types_buf) != FFI_OK)
         abort ();  
-
-      ffi_call (&cif, (void *)imp, retframe, values_buf);  
+      
+      ffi_call (&cif, (void *) method->method_imp, retframe, values_buf);  
 #else
       av_call (alist);
 #endif

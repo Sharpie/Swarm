@@ -9,6 +9,9 @@
 	__builtin_apply/libffi/avcall will do the job just fine.
 	Declare alloca.
 	Handle unsigned ints in libffi and avcall cases.
+	(tclObjc_msgSendToClientData): Move imp closer to usages to
+	stop compiler warnings.
+	(BUGGY_BUILTIN_APPLY): Set for __alpha__.
 
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
