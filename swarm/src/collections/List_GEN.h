@@ -47,6 +47,7 @@ struct link {
 - removeLast;
 - begin: aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
+- _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass;
 - (void)describe: outputCharStream;
 - createIndex: aZone fromMember: anObject;
 - (void)mapAllocations: (mapalloc_t)mapalloc;

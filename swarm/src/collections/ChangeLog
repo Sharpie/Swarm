@@ -1,3 +1,36 @@
+1998-12-11  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Array.h (ArrayIndex_c): setOffset returns id. 
+
+	* Array.m ([ArrayIndex_c -setOffset:]): setOffset modified to
+	return object at offset.
+
+	* Collection.h (Collection_any): Add method beginPermuted: 
+	(PermutedIndex): New class for randomized traversal of a collection.
+
+	* Collection.m ([Collection_any -beginPermuted:aZone]): New method
+	used for creation of a PermutedIndex over any collection.	
+	(PermutedIndex_c): New class that allows randomized traversal of any
+	collection.
+
+	* List_GEN.h:Add method _createPermutedIndex_:forIndexSubclass: 
+
+	* List_GEN.m ([TARGET -_createPermutedIndex_:forIndexSubclass:]): 
+	New method that supports creation of PermutedIndex that operates
+	on top of an arbitrary ListIndex subclass.
+
+	* Map.h (Map_c): Add method _createPermutedIndex_:forIndexSubclass:
+
+	* Map.m ([Map_c -_createPermutedIndex_:forIndexSubclass:]): 
+	New method that suports creation of PermutedIndex that  
+	operates on top of an arbitrary MapIndex subclass.
+
+	* collections.m (_collections_implement): Permutation and 
+	PermutationIndex class objects added.
+
+	* collections.h (ListShuffler): ListShuffler protocol moved from 
+	simtools to collections
+
 1998-12-01  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* collections.h (Index): Change example to avoid processing the
@@ -375,3 +408,5 @@
 	declare accompanying getter/setter methods.
 
 	* collections.h: Append <Collection> to KeyedCollection deftype.
+
+	

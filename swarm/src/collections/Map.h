@@ -38,6 +38,7 @@ typedef struct mapentry {
 - removeKey: aKey;
 - begin: aZone;
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
+- _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass;
 - createIndex: aZone fromMember: anObject;
 - createIndex: aZone fromKey: aKey;
 - (void)mapAllocations: (mapalloc_t)mapalloc;

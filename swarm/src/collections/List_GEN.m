@@ -207,6 +207,19 @@ PHASE(UsingOnly)
   return newIndex;
 }
 
+- _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass
+{
+  PermutedIndex_c *newIndex;
+
+  newIndex = [PermutedIndex_c createBegin: aZone];
+  newIndex->collection = self;
+  newIndex->index = [(TARGET *)newIndex->collection 
+			       _createIndex_: getZone(self)  
+			       forIndexSubclass: anIndexSubclass];
+  newIndex = [newIndex createEnd];
+  return newIndex;
+}
+
 //
 // describe: -- standard method to generate debug description of object
 //

@@ -488,11 +488,12 @@ PHASE(Using)
   return memPtr - ((Array_c *) collection)->block;
 }
 
-- (void)setOffset: (int)offset
+- setOffset: (int)offset
 {
   if (offset < 0 || offset >= ((Array_c *) collection)->count)
     raiseEvent (OffsetOutOfRange, nil);
   memPtr = ((Array_c *) collection)->block + offset;
+  return *memPtr; 
 }
 
 - (int)compare: anIndex

@@ -11,8 +11,9 @@ Library:      collections
 
 #import <collections/Collection.h>
 #import <collections/Set.h>
+#import <collections/Permutation.h>
 #import <collections.h> // INDEX{START,END}P.
-
+#import <defobj/defalloc.h>
 
 @implementation Collection_any
 
@@ -70,6 +71,15 @@ PHASE(Using)
 {
   return
     getField (bits, IndexFromMemberLoc_Shift, IndexFromMemberLoc_Mask) - 2044;
+}
+
+- (id) beginPermuted: (id) aZone
+{
+  PermutedIndex_c *newIndex;
+  newIndex = [PermutedIndex_c createBegin: aZone];
+  newIndex->collection=self;
+  newIndex = [newIndex createEnd];
+  return newIndex;
 }
 
 - (int)getCount
@@ -310,3 +320,158 @@ indexAtOffset (Collection_any *self, int offset)
 }
 
 @end
+
+
+@implementation PermutedIndex_c
+
++ createBegin: (id) aZone
+{
+  PermutedIndex_c *newIndex;
+  newIndex = [aZone allocIVars: id_PermutedIndex_c];
+  newIndex->index = nil;
+  return newIndex;
+}
+
+- createEnd
+{
+  int count;
+  id permutation;
+  count = [collection getCount];
+  permutation = [Permutation createBegin: getZone(self)];
+  [permutation  setMaxElement: count];
+  permutation = [permutation createEnd];
+  permutationIndex = [permutation begin: getZone(self)];
+  index = [collection begin: getZone(self)];
+  
+  return self;
+}
+
+- generatePermutation
+{
+  Permutation_c *perm;
+  perm = ((Permutation_c *)((Index_any *)permutationIndex)->collection);
+  [perm generatePermutation];
+  return self;
+}
+
+- next
+{
+  int position;
+ 
+  position = (int) [permutationIndex next];
+  if (position)
+    {
+      [index setOffset: position - 1];
+      return [index get];
+    }
+  else
+    {
+      return nil;
+    }
+}
+
+- prev
+{
+  int position;
+
+  position = (int) [permutationIndex prev];
+  if (position)
+    {
+      [index setOffset: position - 1];
+      return [index get];
+    }
+  else
+    {
+      return nil;
+    }
+}
+
+- findNext: anObject;
+{
+
+  int position;
+  id member;
+
+  while (!INDEXENDP ([permutationIndex getLoc]))
+    {
+      position = (int) [permutationIndex next];
+      member = [index setOffset: position - 1];
+      if (member == anObject)
+	{
+	  return member;
+	}
+    }
+  return nil;
+}
+
+- findPrev: anObject;
+{
+
+  int position;
+  id member;
+
+  while (!INDEXENDP ([permutationIndex getLoc]))
+    {
+      position = (int) [permutationIndex prev];
+      member = [index setOffset: position - 1];
+      if (member == anObject)
+	{
+	  return member;
+	}
+    }
+  return nil;
+}
+
+- get
+{
+  return [index get];
+}
+
+- put: anObject;
+{
+  return [index put: anObject];
+}
+
+- remove;
+{
+  raiseEvent(SourceMessage,"> Elements can not be removed via the PermutedIndex");
+  return nil;
+}
+
+- getLoc
+{
+  id loc;
+  loc = [permutationIndex getLoc];
+  if (INDEXSTARTP (loc) || INDEXENDP (loc))
+    {
+      return loc;
+    }
+  return [index get];
+}
+
+- (void) setLoc: locSymbol
+{
+  [permutationIndex setLoc: locSymbol];
+}
+
+- (int) getOffset
+{
+  return (int) [permutationIndex get];
+}
+
+- setOffset: (int)offset;
+{
+  int position;
+  position = (int) [permutationIndex setOffset: offset];
+  if (position)
+    {
+      return [index setOffset: position - 1];
+    }
+  else
+    {
+      raiseEvent(OffsetOutOfRange, nil);
+      return nil;
+    }
+}
+
+@end;

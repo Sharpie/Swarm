@@ -35,6 +35,7 @@ Library:      collections
 - (BOOL)getReadOnly;
 - (BOOL)getReplaceOnly;
 - (int)getIndexFromMemberLoc;
+- beginPermuted: aZone;
 - (int)getCount;
 - (int)count;
 - atOffset: (int)offset;
@@ -67,4 +68,27 @@ Library:      collections
 - getCollection;
 - findNext: anObject;
 - findPrev: anObject;
+@end
+
+@interface PermutedIndex_c: Customize_s
+{
+@public
+  id collection;
+  id permutationIndex;
+  id index;
+}
++ createBegin: (id) aZone;
+- createEnd;
+- generatePermutation;
+- next;
+- prev;
+- findNext: anObject;
+- findPrev: anObject;
+- get;
+- put: anObject;
+- remove;
+- getLoc;
+- (void) setLoc: locSymbol;
+- (int) getOffset;
+- setOffset: (int)offset;
 @end

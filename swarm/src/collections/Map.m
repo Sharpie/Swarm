@@ -306,6 +306,18 @@ PHASE(Using)
   return newIndex;
 }
 
+- _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass
+{
+  MapIndex_c *newIndex;
+
+  newIndex = [aZone allocIVars: anIndexSubclass];
+  setMappedAlloc (newIndex);
+  newIndex->collection = self;
+  newIndex->listIndex  = [list beginPermuted: getCZone (aZone)];
+
+  return newIndex;
+}
+
 - createIndex: aZone fromMember: anObject
 {
   MapIndex_c *newIndex;

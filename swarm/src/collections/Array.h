@@ -53,7 +53,7 @@ Library:      collections
 - getLoc;
 - (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
-- (void)setOffset: (int)offset;
+- setOffset: (int)offset;
 - (int)compare: anIndex;
 @end
 

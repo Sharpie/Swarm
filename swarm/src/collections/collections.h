@@ -1041,5 +1041,80 @@ USING
 - (BOOL)getLiteralFlag;
 @end
 
-
+@protocol ListShuffler 
+//S: A class to randomize the order of a given Swarm List
+
+//D: ListShuffler randomizes the order of the elements in a List; 
+//D: either the whole list or the num lowest elements. The list must be
+//D: supplied. An uniform distribution can be supplied, or the system-
+//D: supplied uniformUnsRand is used. The algorith is from Knuth.
+//D: All these methods modify the underlying collection, so
+//D: any indexes should always be regenerated. 
+CREATING
+
++ createBegin: aZone;
++ create: aZone withUniformRandom: dist;
+
+//M: the setUniformRandom: method connects the supplied uniform distribution 
+//M: to the Shuffler (run after createBegin:).
+- (void) setUniformRandom: dist;
+
+- createEnd;
+
+//M: the create:setUniformRandom method creates the Shuffler
+//M: and connects the supplied distribution object.
++ create: aZone setUniformRandom: dist;
+
+USING
+
+//M: the shuffleWholeList method randomizes the whole list.
+- shuffleWholeList: list;
+
+//M: the shufflePartialList:Num method randomizes the order of the 'num'
+//M: lowest elements of the list, or the whole list if (num > size of list).
+- shufflePartialList: list Num: (int)num;
+@end
+
+
+@protocol Permutation <Collection, CREATABLE, Create, Array>
+//S: A class that reprents a permutation of an array of integers
+
+//D: Permutation is used for generation of arbitarily ordered arrays
+//D: of integers. Array consists of all integers between upper and
+//D: lower limits specified by setMaxElement: and setMinElement:
+//D: methods. ListShuffler is used to generate a permutation of 
+//D: an array of integers. Successive calls to generatePermutation
+//D: generate new permutations.
+
+CREATING
+- (void) setMaxElement: (int) max;
+- (void) setMinElement: (int) min;
+- (void) setUniformRandom: (id) rnd;
+
+USING
+- generatePermutation;
+
+
+@end
+
+@protocol PermutedIndex <Index, CREATABLE, Create>
+//S: General PermutedIndex class. 
+
+//D: PermutedIndex class may be used for randomized traversals of a 
+//D: collection. Methods implemented offer the same functionality sa 
+//D: Index class does, except that traversal is randomized.
+USING
+- next;
+- prev;
+- findNext: anObject;
+- findPrev: anObject;
+- get;
+- put: anObject;
+- remove;
+- getLoc;
+- (void) setLoc: locSymbol;
+- (int) getOffset;
+- setOffset: (int)offset;
+@end;
+
 #import <collections/types.h>
