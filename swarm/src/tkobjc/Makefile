@@ -1,7 +1,7 @@
 SWARMHOME=../..
 LIBNAME=tkobjc
-OBJECTS=BLTGraph.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o XColormap.o XPixmap.o Entry.o Label.o Form.o Histo.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o
-HEADERS=BLTGraph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histo.h Label.h Raster.h TkExtra.h Widget.h XColormap.h XDrawer.h XPixmap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h
+OBJECTS=BLTGraph.o DragDrop.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o XColormap.o XPixmap.o Entry.o Label.o Form.o Histo.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o
+HEADERS=BLTGraph.h Button.h ButtonPanel.h DragDrop.h Entry.h Form.h Frame.h Histo.h Label.h Raster.h TkExtra.h Widget.h XColormap.h XDrawer.h XPixmap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h
 OTHERCLEAN=testFrame testGraph testHisto testRaster testFrame.o testGraph.o testHisto.o testRaster.o
 include $(SWARMHOME)/Makefile.lib
 
@@ -17,6 +17,7 @@ testGraph: testGraph.o $(LIBRARY)
 TkExtra.o: TkExtra.m TkExtra.h
 Widget.o: Widget.m Widget.h
 BLTGraph.o: BLTGraph.m BLTGraph.h global.h Widget.h
+DragDrop.o: DragDrop.m DragDrop.h
 Frame.o: Frame.m Frame.h global.h Widget.h
 Button.o: Button.m Button.h global.h Widget.h
 ButtonPanel.o: ButtonPanel.m ButtonPanel.h Frame.h global.h Widget.h
