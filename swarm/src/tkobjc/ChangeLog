@@ -1,3 +1,8 @@
+2003-09-14    <mgd@DRONE>
+
+	* ZoomRaster.m ([ZoomRaster -handleButton:X:Y:]): Adjust
+	coordinates for change of 06-23.
+
 2003-09-05  Marcus G. Daniels <mgd@santafe.edu>
 
 	* win32dib.c (dib_get_color): Avoid using color indicies out of range.

@@ -293,6 +293,8 @@ PHASE(Using)
 // scale by zoom factor
 - (void)handleButton: (int)n X: (int)x Y: (int)y
 {
+  x += floor (.5 * zoomFactor);
+  y += floor (.5 * zoomFactor);
   [super handleButton: n
          X: (x / (int) zoomFactor)
          Y: (y / (int) zoomFactor)];
