@@ -321,7 +321,7 @@ tkobjc_animate_message (id srcWidget,
 
 	  {
 	    PAINTSTRUCT ps;
-	    HDC destDC = BeginPaint (hwnd, &ps);
+	    HDC destDC = GetDC (hwnd);
 	    HDC sourceDC = CreateCompatibleDC (destDC);
 	    
 	    SelectObject (sourceDC, image);
@@ -329,7 +329,6 @@ tkobjc_animate_message (id srcWidget,
 		== FALSE)
 	      abort ();
 	    DeleteDC (sourceDC);
-	    EndPaint (hwnd, &ps);
 	  }
 #endif
           if (triggerFlag && sleepTime)
