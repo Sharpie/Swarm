@@ -1,7 +1,7 @@
 AC_DEFUN(vj_FIND_JDK,
 [AC_PATH_PROG(JAVAC, javac, missing)
+AC_MSG_CHECKING(for JDK)
 if test -z "$jdkdir" ; then
-  AC_MSG_CHECKING(for JDK)
   if test $JAVAC != missing; then
     changequote(,)
     jdkdir=`echo $JAVAC | sed -e 's/\/javac$//' -e 's/\/[^/][^/]*$//'`
@@ -18,6 +18,7 @@ else
   else
     AC_MSG_RESULT($jdkdir)
     JAVASTUBS=stubs
+    test $JAVAC = missing && JAVAC=$jdkdir/bin/javac
   fi
 fi
 AC_SUBST(JAVASTUBS)
