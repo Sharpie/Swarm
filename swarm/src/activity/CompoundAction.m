@@ -64,9 +64,9 @@ Library:      activity
   return Sequential;
 }
 
-- (BOOL) getAutoDrop
+- (BOOL)getAutoDrop
 {
-  return bits & BitAutoDrop;
+  return (bits & BitAutoDrop) == BitAutoDrop;
 }
 
 //

@@ -1,3 +1,8 @@
+1998-05-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* CompoundAction.m ([CompoundAction_c -getAutoDrop]): Convert
+	the presence of BitAutoDrop in bits to a boolean.
+
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* activity.h: Remove instances of <p> Minor spacing changes to
