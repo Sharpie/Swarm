@@ -1,3 +1,8 @@
+1999-09-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-print-native-method): Remove SD_NEXTJAVAPHASE
+	local reference.
+
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-protocols*): Add ArchiverQuoted.
