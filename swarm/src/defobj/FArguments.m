@@ -180,8 +180,12 @@ PHASE(Creating)
     {
       if (type == fcall_type_object)
 	{
+          jobject jobj;
+
 	  type = fcall_type_jobject;
 	  size = fcall_type_size (type);
+          jobj = SD_FINDJAVA (jniEnv, *(id *) value);
+          value = &jobj;
 	}
       else if (type == fcall_type_string)
         {
