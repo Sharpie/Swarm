@@ -1,3 +1,10 @@
+1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (module-class-files, module-interface-files): Switch
+	from i_* for interfaces to *Impl for classes.
+
+	* Makefile.rules.in (INTERFACES, _CLASSES): Likewise.
+
 1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (all-classes): Strip \015 instead of \r.

@@ -17,9 +17,9 @@ SHELL = /bin/sh
 CLASSPHASES := __c U
 PHASES := $(CLASSPHASES) S
 
-INTERFACES := $(subst __c,,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS)))))
+INTERFACES := $(subst __c,,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS))))
 
-_CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS))))
+_CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx)Impl,$($(module)PROTOCOLS))))
 
 JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 

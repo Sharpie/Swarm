@@ -20,11 +20,11 @@ PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Select
 POSTCLASSES = SwarmEnvironment
 
 define module-class-files
-$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))
+$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx)Impl,$($(module)PROTOCOLS)))))
 endef
 
 define module-interface-files
-$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS))))))
+$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))
 endef
 
 GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-class-files)))
