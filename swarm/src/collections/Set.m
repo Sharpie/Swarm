@@ -52,10 +52,10 @@ PHASE(Using)
   return [list count];
 }
 
-- (id *)add: anObject
+- (BOOL)add: anObject
 {
   [(id) list addLast: anObject];
-  return (id *) nil;
+  return NO;
 }
 
 - replace: anObject

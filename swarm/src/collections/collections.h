@@ -835,7 +835,7 @@ USING
 //M: member added matched the key of any member already contained in the
 //M: Set.  Whether or not the member was actually added to the collection
 //M: or not depends on the setting of DupOption.
-- (id *)add: anObject;
+- (BOOL)add: anObject;
 
 ///M: The add:setIndex: message adds a new member to a set just like add:,
 ///M: but also has a side effect of setting the position of the index passed
