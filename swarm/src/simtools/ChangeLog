@@ -6,9 +6,9 @@
 	Call initDefObj after initModule.
 
 	* Makefile.am (SRC, simtools_HEADERS): Remove
-	{Archiver,Arguments}.[hm].
+	Arguments.[hm].
 
-	* {Archiver,Arguments}.[hm]: Remove (moved to defobj).
+	* Archiver.[hm]: Remove (moved to defobj).
 
 1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
