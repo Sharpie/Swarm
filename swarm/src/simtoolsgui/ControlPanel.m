@@ -74,12 +74,12 @@ PHASE(Using)
       controlState = [self getState];
       activityState = [activityID getStatus];
       
-      if ((controlState == ControlStateRunning) && 
-          (activityState != Running))
+      if ((controlState == ControlStateRunning)
+          && !RUNNINGP (activityState))
         activityState = [activityID run];
       else if (controlState == ControlStateStopped)
         {
-          if ( (state == ControlStateStopped) && _activity_current )
+          if ((state == ControlStateStopped) && _activity_current)
             return state;
           else
             [self setStateStopped];
