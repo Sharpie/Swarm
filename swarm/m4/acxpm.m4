@@ -35,6 +35,14 @@ if test "$xpmincludedir" = "$x_includes"; then
 else
   XPMINCLUDES='-I${xpmincludedir}'
 fi
+if test -f $xpmincludedir/X11/xpm.h; then
+  AC_DEFINE(HAVE_X11_XPM_H)
+elif test -f $xpmincludedir/xpm.h; then
+  AC_DEFINE(HAVE_XPM_H)
+else
+  AC_MSG_ERROR(Cannot find xpm.h)
+fi
+
 AC_SUBST(XPMINCLUDES)
 ])
 
