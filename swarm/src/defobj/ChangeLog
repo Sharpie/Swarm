@@ -1,3 +1,8 @@
+1999-04-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m: Make jniEnv be global.  This is to avoid unresolved
+	symbols when the support shared libraries for Java are not used.
+
 1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FArguments.m: Include swarmconfig.h.

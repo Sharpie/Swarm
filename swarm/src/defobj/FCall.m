@@ -26,7 +26,7 @@ Library:      defobj
 
 #ifdef HAVE_JDK
 #include <jni.h>
-extern JNIEnv *jniEnv;
+JNIEnv *jniEnv;
 #endif
 
 static void fillHiddenArguments (FCall_c *self);
