@@ -1,4 +1,4 @@
-AC_INIT(protocol.el)
+AC_INIT(sgml.el)
 
 AM_INIT_AUTOMAKE(swarmdocs, 1.4.1)
 

@@ -1,3 +1,19 @@
+1999-02-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* history.el: Load $SWARMSRCDIR/etc/common.el instead of common.el.
+
+	* configure.in (AC_INIT): Check for sgml.el instead of protocol.el.
+
+	* Makefile.common (%revhistory.sgml): Depend on
+	$(swarm_srcdir)/etc/common.el instead of common.el.
+
+	* Makefile.am (EXTRA_DIST): Remove protocol.el and common.el.
+
+	* sgml.el, graph.el: New files, {sgml,graph}-related code from
+	protocol.el.
+
+	* protocol.el: Removed.  (Parsing code now in Swarm.)
+
 1999-02-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* protocol.el (generic-description-list): Don't reverse result.
