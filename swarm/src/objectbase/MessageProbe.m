@@ -275,10 +275,10 @@ dynamicCallOn (const char *probedType,
   id aZone = [target getZone];
   id fa = [FArguments createBegin: aZone];
   id <FCall> fc;
-  BOOL javaFlag = NO;
+  jobject javaObj = SD_FINDJAVA (jniEnv, target);
 
 #ifdef HAVE_JDK  
-  if (SD_FINDJAVA (jniEnv, target) != NULL)
+  if (javaObj)
     {
       jobject jsel = SD_FINDJAVA (jniEnv, (id) probedSelector);
 
@@ -291,7 +291,6 @@ dynamicCallOn (const char *probedType,
         [fa setJavaSignature: sig];
         [scratchZone free: (void *) sig];
       }
-      javaFlag = YES;
     }
 #endif
   retVal->type = *type;
@@ -307,7 +306,7 @@ dynamicCallOn (const char *probedType,
   fc = [[FCall createBegin: aZone] setArguments: fa];
   
 #ifdef HAVE_JDK
-  if (javaFlag)
+  if (javaObj)
     {
       char *selname = ZSTRDUP (aZone, sel_get_name (probedSelector));
       char *p;
@@ -316,7 +315,7 @@ dynamicCallOn (const char *probedType,
       if (p)
         *p = '\0';
 
-      [fc setJavaMethod: selname inObject: SD_FINDJAVA (jniEnv, target)];
+      [fc setJavaMethod: selname inObject: javaObj];
     }
   else
 #endif
@@ -326,7 +325,7 @@ dynamicCallOn (const char *probedType,
   if (retVal->type != _C_VOID)
     retVal->val = *(types_t *) [fc getResult];
 #ifdef HAVE_JDK
-  if (javaFlag)
+  if (javaObj)
     {
       if (retVal->type == _C_CHARPTR)
         retVal->val.string =
