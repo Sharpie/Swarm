@@ -35,6 +35,7 @@ id archiverGet (const char *key);
   ArchivedGeometryWidget *obj = [super createBegin: aZone];
 
   obj->windowGeometryRecordName = NULL;
+  obj->destroyedFlag = NO;
   return obj;
 }
 
@@ -75,14 +76,20 @@ id archiverGet (const char *key);
 { 
   archiverUnregister (self);
 
-  [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
+  if (!destroyedFlag)
+    [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
   [super drop];
 }
 
-- _notifyTargetAndDrop_
+- (BOOL)getDestroyedFlag
 {
-  [notificationTarget perform: destroyNotificationMethod];
-  [self drop];
+  return destroyedFlag;
+}
+
+- _notifyTarget_
+{
+  destroyedFlag = YES;
+  [destroyNotificationTarget perform: destroyNotificationMethod with: self];
   return self;
 }
 
@@ -90,19 +97,22 @@ static void
 structure_proc (ClientData clientdata, XEvent *eventptr)
 {
   if (eventptr->type == DestroyNotify)
-    [(id)clientdata _notifyTargetAndDrop_];
+    [(id)clientdata _notifyTarget_];
 }
 
 - enableDestroyNotification: theNotificationTarget
-         notificationMethod: (SEL)theDestroyNotificationMethod
+         notificationMethod: (SEL)theNotificationMethod
 {
-  Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
-                                     (char *)widgetName,
-                                     [globalTkInterp mainWindow]);
-  Tk_CreateEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
-
-  notificationTarget = theNotificationTarget;
-  destroyNotificationMethod = theDestroyNotificationMethod;
+  if (theNotificationTarget)
+    {
+      Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
+                                         (char *)widgetName,
+                                         [globalTkInterp mainWindow]);
+      Tk_CreateEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
+      
+      destroyNotificationTarget = theNotificationTarget;
+      destroyNotificationMethod = theNotificationMethod;
+    }
   return self;
 }
 

@@ -169,9 +169,10 @@
 
 - (void)drop
 {
-  [globalTkInterp eval: "%s element delete %s",
-		  [ownerGraph getWidgetName],
-                  [self getName]];
+  if (![ownerGraph getDestroyedFlag])
+    [globalTkInterp eval: "%s element delete %s",
+                    [ownerGraph getWidgetName],
+                    [self getName]];
   [xData drop];
   [yData drop];
   [super drop];

@@ -9,19 +9,20 @@
 @interface ArchivedGeometryWidget : Widget
 {
   const char *windowGeometryRecordName;
-  id notificationTarget;
+  id destroyNotificationTarget;
   SEL destroyNotificationMethod;
+  BOOL destroyedFlag;
 }
 
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)destroyNotificationMethod;
 - disableDestroyNotification;
-
-- setWindowGeometryRecordName : (const char *)recordName;
+- setWindowGeometryRecordName: (const char *)recordName;
 - loadWindowGeometryRecord;
 - updateArchiver;
 - createEnd;
 - registerAndLoad;
+- (BOOL)getDestroyedFlag;
 - (void)drop;
 
 @end

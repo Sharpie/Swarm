@@ -1,5 +1,26 @@
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Frame.m ([Frame -drop]): Don't destroy if already destroyed.
+
+	* BLTGraph.m ([GraphElement -drop]): Don't delete elements in
+	the case the graph has been destroyed.
+	
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-getDestroyedFlag]): New method.
+	([ArchivedGeometryWidget +createBegin:]): Initialize destroyedFlag
+	to NO.
+	([ArchivedGeometryWidget -drop]): Don't destroy if already
+	destroyed.
+	([ArchivedGeometryWidget -_notifyTarget_]): Don't drop (renamed
+	method), and pass self as an argument to the notification method.
+	(structure_proc): Use renamed _notifyTarget_.
+	([ArchivedGeometryWidget
+	-enableDestroyNotification:notificationMethod:]): Don't setup
+	handler if target is nil.
+
+	* ArchivedGeometryWidget.h (ArchivedGeometryWidget): Add
+	destroyedFlag, and getter.
+
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
 	-disableDestroyNotification]):  New method.
 
@@ -36,7 +57,7 @@
 	Destroy the parent widget on drop.
 
 	* ArchivedGeometryWidget.h (ArchivedGeometryWidget): Add
-	notificationTarget and destroyNotificationMethod variables, and
+	destroyNotificationTarget and destroyNotificationMethod variables, and
 	declare enableDestroyNotification.
 
 	* CanvasItem.m ([CanvasItem -createBindings]): Constify temp.

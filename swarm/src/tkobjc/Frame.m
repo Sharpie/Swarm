@@ -40,7 +40,7 @@
   
   archiverUnregister (self);
 
-  if (parent == nil)
+  if (parent == nil && !destroyedFlag)
     [globalTkInterp eval: "destroy %s", [self getWidgetName]]; 
 }
 

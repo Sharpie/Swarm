@@ -10,7 +10,7 @@
 @class GraphElement;
 @class BLTVector;
 
-@interface BLTGraph : ArchivedGeometryWidget
+@interface BLTGraph: ArchivedGeometryWidget
 {
   id elementList;
 }
