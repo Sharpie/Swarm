@@ -1,3 +1,8 @@
+1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbe.m ([MessageProbe -objectDynamicCallOn:]): Permit
+	objects to be selectors.
+
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VarProbe.m: Include swarmconfig.h.

@@ -373,9 +373,12 @@ dynamicCallOn (const char *probedType,
 {
   val_t val = [self dynamicCallOn: target];
 
-  if (val.type != _C_ID)
+  if (val.type == _C_ID)
+    return val.val.object;
+  else if (val.type == _C_SEL)
+    return val.val.selector;
+  else
     abort ();
-  return val.val.object;
 }
 
 - (BOOL)getHideResult
