@@ -16,7 +16,7 @@ xpmlibdir="@xpmlibdir@"
 tcllibdir="@tcllibdir@"
 tklibdir="@tklibdir@"
 bltlibdir="@bltlibdir@"
-ffidir="@ffidir@"
+ffilibdir="@ffilibdir@"
 zliblibdir="@zliblibdir@"
 pnglibdir="@pnglibdir@"
 

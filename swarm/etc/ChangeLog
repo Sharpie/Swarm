@@ -1,3 +1,11 @@
+1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.tests.in (SWARMBUILDLDFLAGS): Use -R instead of -rpath.
+
+	* Makefile.common.in (ffilibdir): Use instead of ffidir.
+
+	* config.swarm.in (ffilibdir): Likewise.
+
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common.in (OBJCLIBS): Don't substitute (use local -lobjc).
