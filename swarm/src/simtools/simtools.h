@@ -329,39 +329,7 @@ USING
 //M: is from Knuth.
 + (void)select: (int)n from: aCollection into: bCollection;
 @end
-
-@protocol ListShuffler <SwarmObject>
-//S: A class to randomize the order of a given Swarm List
 
-//D: ListShuffler randomizes the order of the elements in a List; 
-//D: either the whole list or the num lowest elements. The list must be
-//D: supplied. An uniform distribution can be supplied, or the system-
-//D: supplied uniformUnsRand is used. The algorith is from Knuth.
-//D: All these methods modify the underlying collection, so
-//D: any indexes should always be regenerated. 
-CREATING
-
-+ createBegin: aZone;
-
-//M: the setUniformRandom: method connects the supplied uniform distribution 
-//M: to the Shuffler (run after createBegin:).
-- setUniformRandom: dist;
-
-- createEnd;
-
-//M: the create:setUniformRandom method creates the Shuffler
-//M: and connects the supplied distribution object.
-+ create: aZone setUniformRandom: dist;
-
-USING
-
-//M: the shuffleWholeList method randomizes the whole list.
-- shuffleWholeList: list;
-
-//M: the shufflePartialList:Num method randomizes the order of the 'num'
-//M: lowest elements of the list, or the whole list if (num > size of list).
-- shufflePartialList: list Num: (int)num;
-@end
 
 
 //F: Initializes the Swarm libraries without version or bug-report-address
@@ -395,5 +363,5 @@ extern int swarmGUIMode;
 @class ObjectSaver;
 @class QSort;
 @class NSelect;
-@class ListShuffler;
+
 

@@ -1,5 +1,11 @@
+1998-12-11  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* simtools.h: Remove ListShuffler protocol and ListShuffler class
+	definition
+
 1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	
 	* simtools.m: Include defobj.h.  Don't include simtools/Archiver.h
 	or objectbase/Arguments.m.  
 	(initSwarmAppArguments): Don't initialize arguments or archiver here.
