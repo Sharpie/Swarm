@@ -1,6 +1,7 @@
 // Bug.m					simpleExperBug	
 
 #import "Bug.h"
+#import <random.h>
 
 @implementation Bug
 

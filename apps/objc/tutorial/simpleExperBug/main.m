@@ -1,7 +1,9 @@
 // main.m 					simpleExperBug
 
 #import "ExperSwarm.h"
-#import <simtools.h>                // ... for initSwarm () 
+#import <simtools.h>     // initSwarm () 
+#import <simtoolsgui.h>  // SET_WINDOW_GEOMETRY_RECORD_NAME
+#import <analysis.h>
 
 int
 main (int argc, const char **argv)

@@ -1,42 +1,50 @@
 // ModelSwarm.m					simpleExperBug 
 
 #import "ModelSwarm.h"
+#import <random.h>
 
 @implementation ModelSwarm  
 
 // These methods provide access to the objects inside the ModelSwarm.
 
--getBugList {
+- getBugList
+{
   return bugList;
 }
 
--getWorld {
+- getWorld
+{
   return world;
 }
 
--getFoodSpace {
+- getFoodSpace
+{
   return foodSpace;
 }
 
--(int)getTime {
+- (int)getTime
+{
    return time;
 }
 
--setWorldXSize: (int) x YSize: (int) y {
+- setWorldXSize: (int)x YSize: (int)y
+{
   worldXSize = x;
   worldYSize = y;
   return self;
 }
 
--setSeedProb: (float) s bugDensity: (float) b {
+- setSeedProb: (float)s bugDensity: (float)b
+{
   seedProb = s;
   bugDensity = b;
   return self;
 }
 
 
-+createBegin: (id) aZone {
-  ModelSwarm * obj;
++ createBegin: aZone
+{
+  ModelSwarm *obj;
 
   // First, call our superclass createBegin - the return value is the
   // allocated ModelSwarm instance.
@@ -57,12 +65,14 @@
   return obj;
 }
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
--buildObjects {
-  Bug * aBug;
+- buildObjects
+{
+  Bug *aBug;
   int x,y;
   
   // Here, we create the objects in the model
@@ -91,46 +101,46 @@
 
   for (y = 0; y < worldYSize; y++)
     for (x = 0; x < worldXSize; x++) 
-      if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] <= bugDensity) {
-
-         aBug = [Bug createBegin: self];
-         [aBug setWorld: world Food: foodSpace];
-         aBug = [aBug createEnd];
-
-         [aBug setX: x Y: y];
-         [world putObject: aBug atX: x Y: y];
-
-         [bugList addLast: aBug];
-      }
-
+      if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] <= bugDensity)
+        {
+          aBug = [Bug createBegin: self];
+          [aBug setWorld: world Food: foodSpace];
+          aBug = [aBug createEnd];
+          
+          [aBug setX: x Y: y];
+          [world putObject: aBug atX: x Y: y];
+          
+          [bugList addLast: aBug];
+        }
+  
   time = 0;
-
+  
   return self;
 }
 
 
--buildActions {
-
+- buildActions
+{
   // Create the list of simulation actions. 
-
+  
   modelActions = [ActionGroup create: self];
-
+  
   [modelActions createActionForEach: bugList    message: M(step)];
   [modelActions createActionTo:      self	message: M(checkToStop)];
-
+  
   // Then we create a schedule that executes the modelActions. 
-
+  
   modelSchedule = [Schedule createBegin: self];
   [modelSchedule setRepeatInterval: 1];
   modelSchedule = [modelSchedule createEnd];
   [modelSchedule at: 0 createAction: modelActions]; 
-
+  
   return self;
 }
 
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   // Here, we activate the swarm in the context passed in
   // Then we activate our schedule in ourselves
 

@@ -1,6 +1,7 @@
 // ExperSwarm.m					simpleExperBug
 
 #import "ExperSwarm.h"
+#import <simtoolsgui.h>
 
 @implementation ParameterManager
 

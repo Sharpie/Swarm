@@ -4,16 +4,13 @@
 // model. 
 
 #import "ModelSwarm.h"
-
+#import <simtoolsgui/GUISwarm.h>
 #import <objectbase.h>
-#import <activity.h>
-#import <collections.h>
-#import <simtools.h>
 #import <analysis.h>
 
 // First, the interface for the ParameterManager
 
-@interface ParameterManager : SwarmObject
+@interface ParameterManager: SwarmObject
 {
   int worldXSize;
   int worldYSize;
