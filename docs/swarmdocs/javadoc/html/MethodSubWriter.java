@@ -102,6 +102,8 @@ public class MethodSubWriter extends ExecutableMemberSubWriter {
       Map imsmap = new HashMap();   // inherited methods
       List hierarchy = new ArrayList();
 
+      imsmap = getMethodMapForInterface(cd, tcms, imsmap, hierarchy);
+
       if (hierarchy.size() > 0) {
         for (int i = 0; i < hierarchy.size(); i++) {
           ClassDoc classkey = (ClassDoc)hierarchy.get(i);
@@ -186,9 +188,8 @@ public class MethodSubWriter extends ExecutableMemberSubWriter {
             tcms.add(methods[i]);
         }
         if (!imsmap.containsKey(icd)) {
-          System.out.print(icd + ", ");
-          imsmap.put(icd, methodlist);
-          hierarchy.add(icd); 
+            imsmap.put(icd, methodlist);
+            hierarchy.add(icd); 
         }
     }
 
