@@ -11,7 +11,7 @@
 // Avoid using chars as an index to ctype table.
 #define isDigit(ch) isdigit((int)ch)
 
-inline const char*
+const char*
 skip_type_qualifiers (const char *type)
 {
   while (*type == _C_CONST
@@ -99,7 +99,7 @@ skip_typespec (const char *type)
     }
 }
 
-inline const char* 
+const char* 
 skip_offset (const char* type)
 {
   if (*type == '+')

@@ -7,9 +7,9 @@
 #import <objc/objc-api.h>
 #import <objc/encoding.h>
 
-inline const char* skip_type_qualifiers (const char* type) ;
-const char* skip_typespec (const char* type) ;
-inline const char* skip_offset (const char* type) ;
-const char* skip_argspec (const char* type) ;
-int get_number_of_arguments (const char* type) ;
+const char *skip_type_qualifiers (const char* type);
+const char *skip_typespec (const char* type);
+const char *skip_offset (const char* type);
+const char *skip_argspec (const char* type);
+int get_number_of_arguments (const char* type);
 
