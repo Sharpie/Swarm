@@ -1,3 +1,9 @@
+1999-04-06  Alex Lancaster  <alex@santafe.edu>
+
+	* installbook.sgml: Change PUBLIC identifier for DTD to
+	"-//OASIS//DTD DocBook V3.1//EN".  Remove JPEG notation class: now
+	part of the 3.1 DTD.
+
 1999-01-27  Alex Lancaster  <alex@santafe.edu>
 
 	* installmeta.sgml (booktitlelogo): Scale GRAPHIC by 98%, so all

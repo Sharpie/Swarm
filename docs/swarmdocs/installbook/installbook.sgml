@@ -1,4 +1,4 @@
-<!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!DOCTYPE BOOK PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
 
 <!entity % global.entities PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
 %global.entities;
@@ -12,8 +12,6 @@
 <!entity % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
 %figures.entities;
 
-<!entity % local.notation.class "| JPEG">
-<!notation jpeg system>
 ]>
 
 <BOOK ID="installbook">
