@@ -689,7 +689,7 @@ extern int compareIDs (id, id);
 extern int compareIntegers (id, id);
 
 //F: A routine for comparing unsigned integers.
-extern int compareUnsigned (id, id);
+extern int compareUnsignedIntegers (id, id);
 
 @protocol CompareFunction
 //S: Interface for defining the compare function to use when comparing

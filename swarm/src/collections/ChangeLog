@@ -1,6 +1,8 @@
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Map.m, collections.h (compareUnsigned): New function.
+	* Map.m, collections.h (compareUnsignedIntegers): New function.
+	([Map_c -lispOut:deep:], [Map_c -lispInCreate:]): Handle
+	compareUnsignedIntegers case.
 
 	* Collection.[hm], Map.[hm]: Always declare hdf5Out:deep:. Don't
 	include swarmconfig.h.  Call hdf5_not_available when HAVE_HDF5 not

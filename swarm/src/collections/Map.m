@@ -43,13 +43,13 @@ compareIntegers (id val1, id val2)
 }
 
 //
-// compareUnsigned --
+// compareUnsignedIntegers --
 //   function to compare two unsigned integer values stored within id values
 // (Functionally identical to compareIDs, but the identity distinction is
 //  useful for deciding the appropriate use of Map keys.)
 //
 int
-compareUnsigned (id val1, id val2)
+compareUnsignedIntegers (id val1, id val2)
 {
   if ((unsigned) val1 < (unsigned) val2)
     return -1;
@@ -111,6 +111,8 @@ PHASE(Creating)
 
               if (strcmp (funcName, "compare-integers") == 0)
                 [self setCompareFunction: compareIntegers];
+              else if (strcmp (funcName, "compare-unsigned-integers") == 0)
+                [self setCompareFunction: compareUnsignedIntegers];
               else if (strcmp (funcName, "compare-IDs") == 0)
                 [self setCompareFunction: compareIDs];
               else
@@ -465,11 +467,18 @@ PHASE(Using)
       [outputCharStream catC: " (cons "];
       if (compareFunc == compareIDs)
         [key lispOut: outputCharStream deep: deepFlag];
-      else
+      else if (compareFunc == compareUnsigned)
         {
-          char buf[12];
-
-          sprintf (buf, "%d", (int) key);
+          char buf[sizeof (unsigned) * 8 + 1];
+          
+          sprintf (buf, "%u", (int) key);
+          [outputCharStream catC: buf];
+        }
+      else if (compareFunc == compareIntegers)
+        {
+          char buf[sizeof (unsigned) * 8 + 1];
+          
+          sprintf (buf, "%u", (int) key);
           [outputCharStream catC: buf];
         }
       [outputCharStream catC: " "];
@@ -484,6 +493,8 @@ PHASE(Using)
 
   if (compareFunc == compareIntegers)
     [outputCharStream catC: "#:compare-integers"];
+  else if (compareFunc == compareUnsignedIntegers)
+    [outputCharStream catC: "#:compare-unsigned-integers"];
   else if (compareFunc == compareIDs)
     [outputCharStream catC: "#:compare-IDs"];
   else
