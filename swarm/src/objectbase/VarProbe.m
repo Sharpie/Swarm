@@ -13,7 +13,7 @@
 #include "../defobj/internal.h" // process_array
 
 #ifdef HAVE_JDK
-#include <defobj/directory.h> // directory services for Java Proxy lookup
+#import <defobj/directory.h> // directory services for Java Proxy lookup
 #include <defobj/javavars.h>
 #endif
 
