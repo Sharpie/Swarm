@@ -58,7 +58,7 @@ install-java-classes-as-files: all
 	for f in $(SWARMCLASSES); do echo $$f >> ../filelist ; done
 	$(foreach module,$(MODULES),for f in $(module-class-files); do echo $$f >> ../filelist; done;)
 	$(foreach module,$(MODULES),for f in $(module-interface-files); do echo $$f >> ../filelist; done;)
-	sed -e 's,^,swarm/,' -e 's,$,.class,' < ../filelist > ../filelist.new
+	sed -e 's,^,swarm/,' -e 's,$$,\.class,' < ../filelist > ../filelist.new
 	(cd ..; tar -c -f - -T filelist.new) | (cd $(datadir); tar xf -)
 	$(RM) ../filelist ../filelist.new
 
