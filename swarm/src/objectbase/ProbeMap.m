@@ -416,7 +416,7 @@ PHASE(Using)
   return count;
 }
 
-- addProbeMap: (ProbeMap *)aProbeMap
+- addProbeMap: (id <ProbeMap>)aProbeMap
 {
   Class aClass;
   Class class;
@@ -442,18 +442,17 @@ PHASE(Using)
   return self;
 }
 
-- addProbe: aProbe
+- addProbe: (id <Probe>)aProbe
 {
-  id string;
-  Class aClass;
-  Class class;
+  id <String> string;
+  Class aClass, class;
 	
-  if([aProbe isKindOf: [VarProbe class]])
+  if ([aProbe conformsTo: @protocol (VarProbe)])
     string = [String create: getZone (self)
-                           setC: [aProbe getProbedVariable]];
+                     setC: [(id <VarProbe>)aProbe getProbedVariable]];
   else	
     string = [String create: getZone (self)
-                           setC: STRDUP ([aProbe getProbedMessage])];
+                     setC: STRDUP ([(id <MessageProbe>) aProbe getProbedMessage])];
   
   if ([probes at: string] != nil)
     raiseEvent (WarningMessage,
@@ -489,17 +488,17 @@ PHASE(Using)
 // Note: In practice, it is probably unnecessary to check for duplicate
 //       inclusion...
 
-- _fastAddProbe_: aProbe
+- _fastAddProbe_: (id <Probe>)aProbe
 {
 
   id string;
 
-  if([aProbe isKindOf: [VarProbe class]])
+  if ([aProbe conformsTo: @protocol (VarProbe)])
     string = [String create: getZone (self)
-                     setC: [aProbe getProbedVariable]];
+                     setC: [(id <VarProbe>) aProbe getProbedVariable]];
   else
     string = [String create: getZone (self)
-                     setC: STRDUP ([aProbe getProbedMessage])];
+                     setC: STRDUP ([(id <MessageProbe>) aProbe getProbedMessage])];
 
   if ([probes at: string] != nil)
     raiseEvent (WarningMessage,
@@ -523,7 +522,7 @@ PHASE(Using)
 // [We do not check that the classes are appropriate because the
 // user may want to subtract commonly named methods from unrelated
 // classes!!!]
-- dropProbeMap: (ProbeMap *) aProbeMap
+- dropProbeMap: (id <ProbeMap>)aProbeMap
 {
   id index;
   id aProbe;
@@ -553,7 +552,7 @@ PHASE(Using)
   return self;
 }
 
-- (Probe *)getProbeForVariable: (const char *)aVariable
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable
 {
   id string;
   id res;
@@ -578,7 +577,7 @@ PHASE(Using)
   return self;
 }
 
-- (Probe *)getProbeForMessage: (const char *)aMessage
+- (id <Probe>)getProbeForMessage: (const char *)aMessage
 {
   id string;
   id res;

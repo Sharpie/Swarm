@@ -1,3 +1,19 @@
+2000-10-14  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* objectbase.h (ProbeMap): Make argument to addProbe: id <Probe>.
+	(ProbeLibrary): Make first argument to setProbeMap:For: id <ProbeMap>.
+
+	* ProbeMap.m ([ProbeMap -addProbeMap:],
+	[ProbeMap -_fastAddProbe_:],
+	[ProbeMap -dropProbeMap:]):  Make argument id <Probe>.
+	([ProbeMap -getProbeForVariable:]): Make return id <VarProbe>.
+	([ProbeMap -getProbeForMessage:]): Make return id <MessageProbe>.
+
+	* ProbeLibrary.h: Add return types to -getProbeMapFor:,
+	-getCompleteProbeMapFor:, -getCompleteVarMapFor:,
+	-getProbeForVariable:inClass:,
+	-getProbeForMessage:inClass:,-setProbeMap:For:.
+
 2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -createEnd]): Remove inversionList code.

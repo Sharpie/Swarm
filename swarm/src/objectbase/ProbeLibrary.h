@@ -18,7 +18,7 @@
   int sigFigsSaved;
 }
 
-- createEnd ;
+- createEnd;
 
 - setDisplayPrecision: (int)nSigDisplay;
 - (int)getDisplayPrecision;
@@ -52,11 +52,11 @@
 - getObjectToNotify;
 
 - (BOOL)isProbeMapDefinedFor: (Class)aClass;
-- getProbeMapFor: (Class)aClass;
-- getCompleteProbeMapFor: (Class)aClass;
-- getCompleteVarMapFor: (Class)aClass;
-- getProbeForVariable: (const char *)aVariable inClass: (Class) aClass;
-- getProbeForMessage: (const char *)aVariable inClass: (Class) aClass;
-- setProbeMap: aMap For: (Class)aClass;
+- (id <ProbeMap>)getProbeMapFor: (Class)aClass;
+- (id <ProbeMap>)getCompleteProbeMapFor: (Class)aClass;
+- (id <ProbeMap>)getCompleteVarMapFor: (Class)aClass;
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable inClass: (Class) aClass;
+- (id <MessageProbe>)getProbeForMessage: (const char *)aVariable inClass: (Class) aClass;
+- setProbeMap: (id <ProbeMap>)aMap For: (Class)aClass;
 
 @end

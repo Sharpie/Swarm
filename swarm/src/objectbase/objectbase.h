@@ -332,7 +332,7 @@ USING
 //M: The addProbe: method adds a probe to the contents of the ProbeMap.
 //M: The ProbeMap will always make sure that the probedClass of the Probe being
 //M: added corresponds to its own probedClass.
-- addProbe: aProbe;
+- addProbe: (id <Probe>)aProbe;
 
 //M: The addProbeMap: method is used to tailor the contents of a ProbeMap by
 //M: performing "set inclusion" with another ProbeMap. The typing is verified 
@@ -447,7 +447,6 @@ USING
 //D: A CustomProbeMap to be used for building up ProbeMaps from scratch.
 
 CREATING
-
 //M: Convenience method for creating an EmptyProbeMap 
 + create: (id <Zone>)aZone forClass: (Class)aClass;
 @end
@@ -548,7 +547,7 @@ USING
 //M: The setProbeMap:For: method sets the standard probe map as the probe map.
 //M: The returned Probe will be cached as though it was produced by the
 //M: library itself.
-- setProbeMap: aMap For: (Class)aClass; 
+- setProbeMap: (id <ProbeMap>)aMap For: (Class)aClass; 
 
 @end
 

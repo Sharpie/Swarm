@@ -63,14 +63,14 @@
 - clone: aZone;
 - (unsigned)getCount;
 - (Class)getProbedClass;
-- addProbeMap: (ProbeMap *)aProbeMap;
-- dropProbeMap: (ProbeMap *)aProbeMap;
-- addProbe: (Probe *)aProbe;
-- _fastAddProbe_: (Probe *)aProbe;
+- addProbeMap: (id <ProbeMap>)aProbeMap;
+- dropProbeMap: (id <ProbeMap>)aProbeMap;
+- addProbe: (id <Probe>)aProbe;
+- _fastAddProbe_: (id <Probe>)aProbe;
 - dropProbeForVariable: (const char *)aVariable;
 - dropProbeForMessage: (const char *)aMessage;
-- (VarProbe *)getProbeForVariable: (const char *)aVariable;
-- (MessageProbe *)getProbeForMessage: (const char *)aMessage;
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable;
+- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage;
 - begin: aZone;
 
 #if defined(HAVE_JDK) && defined(BUILDING_SWARM)
