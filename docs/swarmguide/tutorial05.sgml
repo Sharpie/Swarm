@@ -1,19 +1,17 @@
-<CHAPTER ID="SWARM.OVERVIEW.CHAP5">
+<PART ID="SWARM.GUIDE.CHAP5">
   <TITLE>Conclusion</TITLE>
 
-  <PARA>Swarm tries to help computer simulation authors by making it
-    easier to write simulations by making it more formal. The text
-    above gives a narrative introduction into using Swarm for your own
-    models, but a real understanding of Swarm will only come when you
-    start to read through our examples and try to write your own
-    applications. Good luck, and may your simulations be
-    successful!</PARA>
+  <CHAPTER>
+    <TITLE></TITLE>
+    <!-- one of (calloutlist glosslist itemizedlist orderedlist segmentedlist simplelist variablelist caution important note tip warning literallayout programlisting programlistingco screen screenco screenshot synopsis cmdsynopsis funcsynopsis formalpara para simpara address blockquote graphic graphicco informalequation informalexample informaltable equation example figure table msgset procedure sidebar anchor bridgehead comment highlights abstract authorblurb epigraph simplesect refentry sect1) -->
+    <PARA></PARA>
+  </CHAPTER>
 
-</CHAPTER>
+</PART>
 
 <!--
 Local Variables:
-sgml-parent-document:("tutorialbook.sgml" "CHAPTER")
+sgml-parent-document:("tutorialbook.sgml" "PART")
 End:
 -->
 
