@@ -338,6 +338,8 @@ extern void xfprintid (id anObject)  ;              // debug foreach id print
 extern void xexec (id anObject, const char *name);  // debug method exec
 extern void xfexec (id anObject, const char *name); // debug foreach method exec
 
+extern id nameToObject (const char *name);
+
 //
 // old stuff for compatibility during the transition
 //

@@ -72,3 +72,25 @@ void _defobj_initialize( void )
 "> superclass.  This error may be avoided by compiling the defobj library\n"
 "> without the -DINHERIT_OBJECT_WITH_ERRORS compile-time flag set.\n"];
 }
+
+#include <stdio.h>
+
+id
+nameToObject (const char *name)
+{
+  id object;
+  void *val;
+  const char *p = name;
+  
+  while (*p != '@' && *p != '\0') p++;
+  if ((*p) && (sscanf (p + 3, "%p", &val) == 1))
+    return (id)val;
+  else if ((!strcmp (name, "nil"))
+           || (!strcmp (name, "Nil"))
+           || (!strcmp (name, "0x0")))
+    return nil;
+  else if ((object = (id)objc_lookup_class (name)))
+    return object;
+  abort ();
+}
+

@@ -46,6 +46,7 @@ $(BINDIR)/make-h2x: make-h2x
 $(INCLIB):
 	if [ ! -x $(INCLIB) ]; then mkdir $(INCLIB); fi
 $(INCDIR)/defobj.h: defobj.h
+	rm -f $@
 	cp $? $@
 $(INCLIB)/types.h $(INCLIB)/classes.h: defobj.h
 	@ rm -f defobj.xm; $(MAKE) defobj.xm

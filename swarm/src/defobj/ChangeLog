@@ -1,3 +1,13 @@
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* defobj.m (nameToObject): New function.  Include <stdio.h>
+	on its behalf.
+
+	* defobj.h: Declare nameToObject function.
+
+	* Makefile ($(INCDIR)/defobj.h): Remove target before copying
+	to it.
+
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Create.m ([CreateDrop_s -getIdName], [CreateDrop_s
