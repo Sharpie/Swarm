@@ -1,3 +1,7 @@
+1999-03-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (vj_FIND_JDK): Add check for japhar's JNI include files.
+
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4 (vj_FIND_JDK): Don't substitute JAR or go out of the
