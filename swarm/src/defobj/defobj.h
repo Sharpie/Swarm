@@ -817,7 +817,7 @@ externvar id <Error>
 //E: }
 
 CREATING
-- setArgc: (int)theArgc Argv: (const char **)theArgv;
+- setArgc: (unsigned)count Argv: (const char **)theArgv;
 - setAppName: (const char *)appName;
 - setAppModeString: (const char *)appModeString;
 - setOptionFunc: (int (*) (int, const char *))optionFunc;

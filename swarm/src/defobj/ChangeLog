@@ -1,3 +1,8 @@
+2000-08-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* defobj.h (Arguments): Call setArgc argument count "count" and
+	make it unsigned.
+
 2000-08-14  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.[hm] (comEnv): Add static global for below, and an

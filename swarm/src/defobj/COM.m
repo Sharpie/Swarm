@@ -57,7 +57,7 @@ swarm_directory_objc_find_COM_class (Class oClass)
 COMobject
 swarm_directory_objc_ensure_COM (id object)
 {
-  abort ();
+  return 0;
 }
 
 id
