@@ -30,35 +30,21 @@ public class Mousetrap
                       int y, Object randGenerator)
     {
         int maxD;
-        UniformDoubleDistCImpl iudbld;
-        UniformIntegerDistCImpl iuintd;
-        UniformUnsignedDistCImpl iuunsd;
     
         modelSwarm = s;
         xCoord = x;
         yCoord = y;
     
         maxD = modelSwarm.getMaxTriggerDistance();
-        uniform0to1 = new  UniformDoubleDistImpl ();
-        iudbld = new UniformDoubleDistCImpl (uniform0to1);
-    
-        uniform0to1 = (UniformDoubleDistImpl) 
-            iudbld.create$setGenerator$setDoubleMin$setMax 
-            (modelSwarm.getZone(), randGenerator, 0.0, 1.0);
+        uniform0to1 = new  UniformDoubleDistImpl 
+          ((ZoneImpl)modelSwarm.getZone(), randGenerator, 0.0, 1.0);
 
-        uniformRadius = new  UniformIntegerDistImpl ();
-        iuintd = new UniformIntegerDistCImpl (uniformRadius);
-  
-        uniformRadius =  (UniformIntegerDistImpl) 
-            iuintd.create$setGenerator$setIntegerMin$setMax 
-            (modelSwarm.getZone(), randGenerator, -maxD, maxD);
+        uniformRadius = new UniformIntegerDistImpl     
+          ((ZoneImpl)modelSwarm.getZone(), randGenerator, -maxD, maxD);
 
-        uniformTrigTime =  new UniformUnsignedDistImpl (); 
-        iuunsd = new UniformUnsignedDistCImpl (uniformTrigTime);
-
-        uniformTrigTime = (UniformUnsignedDistImpl) 
-            iuunsd.create$setGenerator$setUnsignedMin$setMax 
-            (modelSwarm.getZone(), randGenerator, 1, modelSwarm.getMaxTriggerTime());
+        uniformTrigTime =  new UniformUnsignedDistImpl 
+          ((ZoneImpl)modelSwarm.getZone(), randGenerator, 1, 
+           modelSwarm.getMaxTriggerTime());
     }
 
     public Object setDisplayWidget (ZoomRasterImpl w)
