@@ -1,3 +1,12 @@
+1998-02-26  Alex Lancaster  <alex@santafe.edu>
+
+	* ObserverSwarm.m ([ObserverSwarm -build{Objects,Actions}]): Made
+	all references to object creation in create: and createBegin:
+	calls be to "self" rather than the redundant [self getZone].
+	Swarms are now responsible for managing their own Zones.
+
+	* ModelSwarm.m: Likewise.
+
 1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ModelSwarm.h, Bug.h: Include from objectbase/ instead of
