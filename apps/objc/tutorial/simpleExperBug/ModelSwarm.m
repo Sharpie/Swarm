@@ -1,6 +1,8 @@
 // ModelSwarm.m					simpleExperBug 
 
 #import "ModelSwarm.h"
+#import <activity.h>
+#import <collections.h>
 #import <random.h>
 
 @implementation ModelSwarm  
