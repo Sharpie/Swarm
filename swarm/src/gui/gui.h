@@ -788,7 +788,7 @@ CREATING
 
 //M: Specify whether or not window manager decorations for a widget
 //M: should be included.
-- setParentFlag: (BOOL)parentFlag;
+- setDecorationsFlag: (BOOL)decorationsFlag;
 
 - createEnd;
 

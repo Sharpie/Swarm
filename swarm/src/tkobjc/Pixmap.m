@@ -235,7 +235,7 @@ PHASE(Creating)
 
 - setDecorationsFlag: (BOOL)theDecorationsFlag
 {
-  decorationsFlag = thedecorationsFlag;
+  decorationsFlag = theDecorationsFlag;
 
   return self;
 }
