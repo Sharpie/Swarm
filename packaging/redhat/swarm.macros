@@ -1,13 +1,13 @@
-%ifnarch ppc
-%define ffiflag --without-ffidir
-%define jdkflag --with-jdkdir=/usr --disable-jar
-%define cflags %{?dummy-macro}
-%define objcflags %{?dummy-macro}
-%else
+%ifarch ppc
 %define ffiflag --with-ffidir=/usr
 %define jdkflag --without-jdkdir
 %define cflags CFLAGS='-O -g'
 %define objcflags OBJCFLAGS='-fdollars-in-identifiers'
+%else
+%define ffiflag --without-ffidir
+%define jdkflag --with-jdkdir=/usr --disable-jar
+%define cflags %{?dummy-macro}
+%define objcflags %{?dummy-macro}
 %endif
 
 %define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-$RPM_PACKAGE_VERSION 
