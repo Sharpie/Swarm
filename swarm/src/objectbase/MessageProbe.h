@@ -34,5 +34,5 @@
 
 - (BOOL)getHideResult;
 - setHideResult: (BOOL)hideResult;
-
+- (void)describe: stream;
 @end

@@ -177,6 +177,10 @@ USING
 //M: variable into the buffer. The buffer should be pre-allocated.
 - (const char *)probeAsString: anObject Buffer: (char *)buffer;
 
+//M: The probeAsString: method prints the value of the
+//M: variable into a new String object. 
+- (id <String>)probeAsString: anObject;
+
 //M: The probeAsString:Buffer:withFullPrecision: method prints the
 //M: value of the variable into the buffer.  The buffer should be
 //M: pre-allocated.  This version of probeAsString is used
@@ -354,7 +358,7 @@ USING
 
 //M: The begin: method returns an iterator (index) over the ProbeMap. This 
 //M: index is used in the exact same way any Map index is used. 
-- begin: (id <Zone>)aZone; // returns an index to the underlying Map.
+- (id <Index>)begin: (id <Zone>)aZone; // returns an index to the underlying Map.
 
 //M: The clone: method returns a clone of the probe map. If the initial probe
 //M: map created by Library Generation or by the default version of Object 

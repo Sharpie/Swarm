@@ -45,6 +45,7 @@
 - (int)probeAsInt: anObject;
 - (double)probeAsDouble: anObject;
 - (const char *)probeAsString: anObject Buffer: (char *)buffer;
+- (id <String>)probeAsString: anObject;
 - (const char *)probeAsString: (id) anObject Buffer: (char *)buf 
             withFullPrecision: (int) precision;
 
@@ -58,8 +59,6 @@
 - setData: anObject To: (void *)newValue;	      // pass by reference.
 - (BOOL)setData: anObject ToString: (const char *)s;  // gives us the string.
 - (void)drop;
-
+- (void)describe: stream;
 @end
-
-
 

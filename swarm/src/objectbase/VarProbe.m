@@ -513,6 +513,14 @@ probe_as_double (const char *probedType, const void *p)
   return buf;
 }
 
+- (id <String>)probeAsString: anObject
+{
+  char buf[1024];
+
+  [self probeAsString: anObject Buffer: buf withFullPrecision: 0];
+  return [String create: getZone (self) setC: buf];
+}
+
 #ifdef HAVE_JDK
 #define _GETSTROBJECT(type, uptype) \
   (*jniEnv)->CallStaticObjectMethod (jniEnv, \
@@ -1225,6 +1233,14 @@ setFieldFromString (id anObject, jobject field,
   if (dims)
     FREEBLOCK (dims);
   [super drop];
+}
+
+- (void)describe: stream
+{
+  [super describe: stream];
+  [stream catC: "variableName: "];
+  [stream catC: probedVariable];
+  [stream catC: "\n"];
 }
 
 @end

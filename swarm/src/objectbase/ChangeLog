@@ -1,3 +1,23 @@
+2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* VarProbe.[hm], MessageProbe.[hm] ([... -describe:]):
+	New method.
+
+	* VarProbe.[hm], objectbase.h
+	([VarProbe -probeAsString:]): New method.
+
+	* objectbase.h (ProbeMap): Change return type on begin:
+	to Index.
+
+	* CompleteProbeMap.m ([CompleteProbeMap -createEnd]): Check
+	for javaProxy, not swarmDirectory before doing
+	java class lookup.  Use SD_JAVA_FINDJAVACLASS, not
+	SD_JAVA_FIND_OBJECT_JAVA.
+
+	* ProbeLibrary.m: Formatting tweaks.
+
+	* ProbeMap.[hm] ([ProbeMap -describeForEach:]): New method.
+	
 2000-06-27  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* CompleteProbeMap.m ([CompleteProbeMap -createEnd]): 

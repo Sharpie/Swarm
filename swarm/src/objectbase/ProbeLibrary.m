@@ -73,12 +73,12 @@ PHASE(Using)
   return objectToNotify;
 }
 
-- (BOOL)isProbeMapDefinedFor: (Class) aClass
+- (BOOL)isProbeMapDefinedFor: (Class)aClass
 {
   return ([classMap at: aClass] != nil) ;
 }
 
-- getProbeMapFor: (Class) aClass
+- getProbeMapFor: (Class)aClass
 {
   id ret_val;
   
@@ -100,7 +100,7 @@ PHASE(Using)
 // Since ProbeLibrary is the source of all probes, I am adding methods for
 // making complete probemaps as well, even though they are not cached...
 
-- getCompleteProbeMapFor: (Class) aClass
+- getCompleteProbeMapFor: (Class)aClass
 {
   id <ProbeMap> temp;
 
@@ -110,7 +110,7 @@ PHASE(Using)
   return [temp createEnd];
 }
 
-- getCompleteVarMapFor: (Class) aClass
+- getCompleteVarMapFor: (Class)aClass
 {
   id <ProbeMap> temp;
 
@@ -121,19 +121,19 @@ PHASE(Using)
   return [temp createEnd];
 }
 
-- getProbeForVariable: (const char *)aVariable inClass: (Class) aClass
+- getProbeForVariable: (const char *)aVariable inClass: (Class)aClass
 {
   return [[self getProbeMapFor: aClass] 
            getProbeForVariable: (const char *)aVariable];
 }
 
-- getProbeForMessage: (const char *)aMessage inClass: (Class) aClass
+- getProbeForMessage: (const char *)aMessage inClass: (Class)aClass
 {
   return [[self getProbeMapFor: aClass]
            getProbeForMessage: (const char *)aMessage];
 }
 
-- setProbeMap: aMap For: (Class) aClass
+- setProbeMap: aMap For: (Class)aClass
 {
   if (objectToNotify != nil)
     [aMap setObjectToNotify: objectToNotify];

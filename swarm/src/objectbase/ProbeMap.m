@@ -339,13 +339,12 @@ PHASE(Creating)
       return self;
     }
 #endif
-      
+
   if (!(ivarList = probedClass->ivars))
     numEntries = 0;
   else
     {
       numEntries = ivarList->ivar_count;
-      
       for (i = 0; i < numEntries; i++)
         {
           const char *name;
@@ -629,4 +628,13 @@ PHASE(Using)
   return [probes begin: aZone];
 }
 
+- (void)describeForEach: stream
+{
+  id index = [probes begin: getCZone (getZone (self))];
+  id member;
+
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    xprint (member);
+  [index drop];
+}
 @end

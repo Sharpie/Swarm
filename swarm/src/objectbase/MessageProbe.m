@@ -414,6 +414,13 @@ dynamicCallOn (const char *probedType,
   return hideResultFlag;
 }
 
+- (void)describe: stream
+{
+  [super describe: stream];
+  [stream catC: "selector: "];
+  [stream catC: sel_get_name (probedSelector)];
+  [stream catC: "\n"];
+}
 @end
 
 #if 0

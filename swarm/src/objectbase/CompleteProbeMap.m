@@ -44,8 +44,8 @@ PHASE(Creating)
 
 
 #ifdef HAVE_JDK
-  if (swarmDirectory)
-    classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+  if (isJavaProxy)
+    classObject = SD_JAVA_FINDJAVACLASS (probedClass);
 
   if (classObject)
     { 

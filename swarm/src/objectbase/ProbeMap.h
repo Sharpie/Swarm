@@ -77,5 +77,7 @@
 - (void)addJavaFields: (jclass)javaClass;
 - (void)addJavaMethods: (jclass)javaClass;
 #endif
+
+- (void)describeForEach: stream;
 @end
 
