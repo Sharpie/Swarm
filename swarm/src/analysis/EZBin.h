@@ -32,6 +32,7 @@
   SEL probedSelector;
 
   double minval, maxval, average, average2, std;
+  unsigned precision;
 }
 
 - setTitle: (const char *)aTitle; 
@@ -45,6 +46,7 @@
 - setUpperBound: (double)theMax;
 - setCollection: (id)aCollection;
 - setProbedSelector: (SEL)aSel;
+- setPrecision: (unsigned)precision;
 
 - reset;
 - update;

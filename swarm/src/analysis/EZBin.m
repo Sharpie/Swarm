@@ -26,6 +26,7 @@ PHASE(Creating)
   anObj->theTitle = NULL;
   anObj->xLabel = NULL;
   anObj->yLabel = NULL;
+  anObj->precision = 3;
   return anObj;
 }
 
@@ -102,13 +103,20 @@ PHASE(Creating)
       [aHisto pack];
       
       [aHisto setBarWidth: step];
+#if 0
       [aHisto setXaxisMin: min
               max: max
               step: 
                 // stepsize cannot be same size than range
                 ((binNum > 2)
-                 ? (max - min) / (binNum-1)
-                 : (max-min) / binNum)];
+                 ? (max - min) / (binNum - 1)
+                 : step)];
+#else
+      [aHisto setXaxisMin: min
+              max: max
+              step: step
+              precision: precision];
+#endif
       [aHisto setupZoomStack];
       [aHisto hideLegend];
       [aHisto setupActiveOutlierMarker];
@@ -142,9 +150,15 @@ PHASE(Using)
   return self;
 }
 
-- setUpperBound: (double) theMax
+- setUpperBound: (double)theMax
 {
   max = theMax;
+  return self;
+}
+
+- setPrecision: (unsigned)thePrecision
+{
+  precision = thePrecision;
   return self;
 }
 

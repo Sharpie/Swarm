@@ -122,6 +122,9 @@ USING
 //M: The setUpperBound method sets the upper bound on the histogram range.
 - setUpperBound: (double)theMax;
 
+//M: Sets the number of significant figures shown for major-tick labels.
+- setPrecision: (unsigned)precision;
+
 //M: The reset method resets the histogram.
 - reset;
 
