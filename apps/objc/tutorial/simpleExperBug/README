@@ -4,21 +4,21 @@ MAKE AN EXPERIMENT SWARM TO MANAGE MULTIPLE RUNS OF A MODEL, SWEEPING
 PARAMETERS, GRAPHING MODEL RESULTS, AND LOGGING RESULTS TO A FILE
 
 
-In this version of the simpleBug model, we turn the ObserverSwarm 
-into an ExperimentSwarm, in which we encapsulate the functions that 
-we as experimenters might perform in running multiple copies of the 
+In this version of the simpleBug model, we turn the ObserverSwarm into
+an ExperimentSwarm, in which we encapsulate the functions that we as
+experimenters might perform in running multiple copies of the
 simpleObserverBug experiment: changing some parameter in a regular
 way, graphing the results of the different runs, and writing up the
 results of each experiment in a log.
 
 Once again, we gather together the various functions that we perform
-in some role (as an experimenter in this case) into an object that we 
-can treat like a "thing," which we can then use as an intelligent 
-assistant in our work with models. 
+in some role (as an experimenter in this case) into an object that we
+can treat like a "thing," which we can then use as an intelligent
+assistant in our work with models.
 
 Again, the top and bottom levels (main.m and the Bug and FoodSpace)
-remain pretty much unchanged. Most of the new functionality comes
-at the middle level - in ExperSwarm
+remain pretty much unchanged. Most of the new functionality comes at
+the middle level - in ExperSwarm
 
 ---------------------------------------------------------------------
 
@@ -35,11 +35,11 @@ Swarm.
 
 The first thing to note is that these files now contain the interface
 and implementation declarations for *two* objects: a ParameterManager
-and an ExperSwarm. We could have created separate .h and .m files for 
+and an ExperSwarm. We could have created separate .h and .m files for
 the ParameterManager object, as we've done for each of the new objects
 before. However, the parameterManager is very closely allied with the
 ExperSwarm itself - essentially a helper-object - so we include it in
-the same file as the ExperSwarm.  
+the same file as the ExperSwarm.
 
 As we add quite a bit of new capability in these objects, we'll go 
 through both of them method-by-method.
@@ -165,30 +165,31 @@ does, and are not relevant to the outside world in terms of *what* it does.
 
 -buildModel:
 
-  First, buildModel does pretty much what we previously did in the 
-buildObjects method when we only built a single model. The first
-thing it does is to create a modelZone and create an instance of the
-modelSwarm in it. Since we are going to build a number of models, we only 
-want to do some things the first time we build a model, such as build a 
-customized probeMap for the modelSwarm class. Once an instance of 
-ModelSwarm has been created, we ask the ParameterManager to initialize
-it with the current parameter settings, we create a probeDisplay on 
-the modelSwarm, and then we proceed with the normal invocations of
-buildObjects, buildActions, and activateIn on the modelSwarm. 
+  First, buildModel does pretty much what we previously did in the
+buildObjects method when we only built a single model. The first thing
+it does is to create an instance of the modelSwarm. (Note that we now
+no longer need to create a separate modelZone - as the Swarm itself
+can now handle this). Since we are going to build a number of models,
+we only want to do some things the first time we build a model, such
+as build a customized probeMap for the modelSwarm class. Once an
+instance of ModelSwarm has been created (we no longer display the
+probeMap for the modelSwarm) we initialize it with the current
+parameter settings, and then we proceed with the normal invocations of
+buildObjects, buildActions, and activateIn on the modelSwarm.
 
-  Notice, however, that rather than activate the modelSwarm in ourselves, 
-as before, we activate it in "nil", establishing it as a separate
-activity from us. We do this for several reasons. The time-scales
-of the modelSwarm and experSwarm are different. Each major step of the
-experiment will run a model through as many of its major steps as it 
-takes to complete, so we do *not* want to merge the modelSchedule and
-the experSchedule. Rather, the ExperSwarm activates the new modelSwarm
-in "nil", and then, via the "runModel" method, starts the modelSwarm
-schedule, letting it iterate over and over again until it reaches
-completion, at which point control returns to the experSchedule, which
-will move to its next action. Thus, a large number of iterations of the 
-modelSwarm's schedule takes place during a single action of the experSwarm 
-schedule.
+  Notice, however, that rather than activate the modelSwarm in
+ourselves, as before, we activate it in "nil", establishing it as a
+separate activity from us. We do this for several reasons. The
+time-scales of the modelSwarm and experSwarm are different. Each major
+step of the experiment will run a model through as many of its major
+steps as it takes to complete, so we do *not* want to merge the
+modelSchedule and the experSchedule. Rather, the ExperSwarm activates
+the new modelSwarm in "nil", and then, via the "runModel" method,
+starts the modelSwarm schedule, letting it iterate over and over again
+until it reaches completion, at which point control returns to the
+experSchedule, which will move to its next action. Thus, a large
+number of iterations of the modelSwarm's schedule takes place during a
+single action of the experSwarm schedule.
 
   Also, it will be easier to drop the modelSwarm's activity if we
 keep it separate from our own, without merging it into our activity
@@ -230,70 +231,76 @@ each run will be recorded together with the results of the run.
 
 -showStats:
 
-  This simply steps the resultGraph. We could have done this directly from 
-the experSchedule, but do it this way here because the details of what we 
-might want to do for a specific action in experSchedule might change, yet 
-still fulfill the same "function." If we'd built another graph, or a histogram, 
-we could add "step" calls on them here, without changing the action in the 
-experSchedule. This keeps the schedule cleaner, calling on high-level functions 
-rather than explicitly handling the details of those functions. In fact, it is 
-treating these methods almost as if they were objects themselves. 
+  This simply steps the resultGraph. We could have done this directly
+from the experSchedule, but do it this way here because the details of
+what we might want to do for a specific action in experSchedule might
+change, yet still fulfill the same "function." If we'd built another
+graph, or a histogram, we could add "step" calls on them here, without
+changing the action in the experSchedule. This keeps the schedule
+cleaner, calling on high-level functions rather than explicitly
+handling the details of those functions. In fact, it is treating these
+methods almost as if they were objects themselves.
 
-  We're always on the lookout for ways to package up functionality in convenient 
-"chunks," which we can then manipulate, and use as building blocks, without caring 
-what is inside them.
+  We're always on the lookout for ways to package up functionality in
+convenient "chunks," which we can then manipulate, and use as building
+blocks, without caring what is inside them.
 
 
 -dropModel:
 
-  This method handles dropping an instance of ModelSwarm after we are through 
-with it, in order to reclaim its storage, and to pave the way for other objects 
-to point to a new instance of ModelSwarm. Here, we first drop things created in 
-ExperSwarm that point to the modelSwarm, and then we drop everything we built 
-in modelSwarm by simply dropping the zone in which we created them. Note that 
-we drop the modelSwarm activity before we drop the modelZone, as some of the 
-activity objects were created in the modelZone, and if we dropped the modelZone 
-first, we'd crash when we tried to drop the activities.
+  This method handles dropping an instance of ModelSwarm after we are
+through with it, in order to reclaim its storage, and to pave the way
+for other objects to point to a new instance of ModelSwarm. Here, we
+first drop things created in ExperSwarm that point to the modelSwarm,
+and then we drop everything we built in modelSwarm by simply dropping
+the modelSwarm itself We drop the modelSwarm activity before we drop
+the modelSwarm, as some of the activity objects were created in the
+modelSwarm, and if we dropped the modelSwarm first, we'd crash when we
+tried to drop the activities.
 
 
 -checkToStop:
 
-  This is where we determine if we are through with the whole sequence of model 
-runs making up the experiment run. We first step the parameters. If any parameter 
-goes out of bounds as a result of this step, the parameterManager will return "nil", 
-and we know that we are done. If we're done, we report it and close the logFile by 
-dropping it. We also halt the ExperSwarm activity, which returns control to the 
-controlPanel, where we'll probably just push the quit button, since the experimental 
-run is done. If we're not done, we simply return, having stepped the parameters to 
-their proper values for the next model run.
+  This is where we determine if we are through with the whole sequence
+of model runs making up the experiment run. We first step the
+parameters. If any parameter goes out of bounds as a result of this
+step, the parameterManager will return "nil", and we know that we are
+done. If we're done, we report it and close the logFile by dropping
+it. We also halt the ExperSwarm activity, which returns control to the
+controlPanel, where we'll probably just push the quit button, since
+the experimental run is done. If we're not done, we simply return,
+having stepped the parameters to their proper values for the next
+model run.
 
 ------------------------------------------------------------------------------
 
-Most of the fundamental changes were in the ExperSwarm. However, a few changes
-had to be made in other objects, to allow ExperSwarm to set and get values
-its needs for managing an experimental run. 
+Most of the fundamental changes were in the ExperSwarm. However, a few
+changes had to be made in other objects, to allow ExperSwarm to set
+and get values its needs for managing an experimental run.
 
 
 ModelSwarm.h and ModelSwarm.m
 
-  Here, we have added a couple of methods that will allow the experSwarm to 
-initialize the model parameters.  We also keep track of the runtime of the model, 
-as this data will be collected by the Experiment Swarm when we are done. Otherwise, 
-everything is the same as before. 
+  Here, we have added a couple of methods that will allow the
+experSwarm to initialize the model parameters.  We also keep track of
+the runtime of the model, as this data will be collected by the
+Experiment Swarm when we are done. Otherwise, everything is the same
+as before.
 
 
 FoodSpace.h and FoodSpace.m
 
-  Here, we keep count of the total food that we created, so that we can tell
-when it has all been eaten. Bugs can tell us when they've eaten food by calling 
-the -bugAte method on us. We also add a -getFood method so that the modelSwarm can 
-end its run when the food is all gone. 
+  Here, we keep count of the total food that we created, so that we
+can tell when it has all been eaten. Bugs can tell us when they've
+eaten food by calling the -bugAte method on us. We also add a -getFood
+method so that the modelSwarm can end its run when the food is all
+gone.
 
 
 Bug.h and Bug.m
 
-The only new thing here is that we have the bug tell the foodSpace when it eats 
-some food, via the -bugAte method on FoodSpace.
+The only new thing here is that we have the bug tell the foodSpace
+when it eats some food, via the -bugAte method on FoodSpace.
 
 
 ----------------------------------------------------------------
@@ -302,7 +309,7 @@ log.file
 
 After the experiment has run to completion, this file will have been
 created which contains the parameter settings and results from each
-run of the model. 
+run of the model.
 
 
 NEXT ->  from here, you should go and look at some of the other
