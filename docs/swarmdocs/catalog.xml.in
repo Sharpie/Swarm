@@ -1,0 +1,198 @@
+<!DOCTYPE catalog
+  PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+  "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+
+ <nextCatalog catalog="file:///etc/xml/catalog"/>
+
+ <group xml:base="file://@top_dossrcdir@">
+  <rewriteURI uriStartString="http://docbook.sourceforge.net/release/website/1.6/xsl/" rewritePrefix="xsl/website/"/> 
+ </group>
+
+ <group prefer="public" xml:base="file://@top_dossrcdir@/">
+  <public publicId="-//SFI Hive//ENTITIES Reference//EN" uri="refbook/refcont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Reference Metadata//EN" uri="refbook/refmeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Reference Preface//EN" uri="refbook/ref00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Reference Changes//EN" uri="refbook/ref00a.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Probes//EN" uri="refbook/probes-app.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Conventions//EN" uri="refbook/conventions-app.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES License//EN" uri="refbook/license-app.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Swarm Content//EN" uri="refbook/swarmcont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Grid Turtle//EN" uri="refbook/grid-app.xml"/>
+
+  <public publicId="-//SFI Hive//ENTITIES Activity Content//EN" uri="refbook/activity/activitycont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Activity Introduction//EN" uri="refbook/activity/activity00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Activity Metadata//EN" uri="refbook/activity/activitymeta.xml"/>
+
+  <public publicId="-//SFI Hive//ENTITIES Analysis Content//EN" uri="refbook/analysis/analysiscont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Analysis Introduction//EN" uri="refbook/analysis/analysis00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Analysis Metadata//EN" uri="refbook/analysis/analysismeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Collections Content//EN" uri="refbook/collections/collectionscont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Collections Introduction//EN" uri="refbook/collections/collections00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Collections Metadata//EN" uri="refbook/collections/collectionsmeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Defobj Content//EN" uri="refbook/defobj/defobjcont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Defobj Introduction//EN" uri="refbook/defobj/defobj00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Defobj Metadata//EN" uri="refbook/defobj/defobjmeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES GUI Content//EN" uri="refbook/gui/guicont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES GUI Introduction//EN" uri="refbook/gui/gui00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES GUI Metadata//EN" uri="refbook/gui/guimeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Objectbase Content//EN" uri="refbook/objectbase/objectbasecont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Objectbase Introduction//EN" uri="refbook/objectbase/objectbase00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Objectbase Metadata//EN" uri="refbook/objectbase/objectbasemeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Content//EN" uri="refbook/random/randomcont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Introduction//EN" uri="refbook/random/random00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Appendix//EN" uri="refbook/random/random-app.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Metadata//EN" uri="refbook/random/randommeta.xml"/>
+
+  <public publicId="-//SFI Hive//ENTITIES Random README For Distributions//EN" uri="refbook/random/extra/README.Distributions-0.8.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random README For Generators//EN" uri="refbook/random/extra/README.Generators-0.8.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random README For This Release//EN" uri="refbook/random/extra/README.Random-0.8.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Table of Generator Characteristics//EN" uri="refbook/random/extra/Table.Generators.Data.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Table of Generator Test Results//EN" uri="refbook/random/extra/Table.Generators.Quality.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Guide to Choosing a Generator//EN" uri="refbook/random/extra/Usage-Guide.Choosing-A-Generator.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Description of Default Generators//EN" uri="refbook/random/extra/Usage-Guide.Default-Generators.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random User Guide to Distributions//EN" uri="refbook/random/extra/Usage-Guide.Distributions.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random User Guide For Beginners//EN" uri="refbook/random/extra/Usage-Guide.For-Beginners.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random User Guide to Generators//EN" uri="refbook/random/extra/Usage-Guide.Generators.xml"/> 
+  <public publicId="-//SFI Hive//ENTITIES Random Source Resources//EN" uri="refbook/random/extra/Usage-Guide.Resources.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Source Bibliography//EN" uri="refbook/random/extra/Usage-Guide.Bibliography.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Description of Test Programs//EN" uri="refbook/random/extra/Usage-Guide.Test-Programs.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Index to documentation files//EN" uri="refbook/random/extra/Usage-Guide.file-list"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Description of Current Additions//EN" uri="refbook/random/extra/Whats-New-0.8"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Description of Current Changes//EN" uri="refbook/random/extra/Whats-Changed-0.8"/>
+  <public publicId="-//SFI Hive//ENTITIES Random Description of Work To Be Done//EN" uri="refbook/random/extra/Whats-Left-ToDo-0.8.xml"/>
+  
+  <public publicId="-//SFI Hive//ENTITIES Simtools Content//EN" uri="refbook/simtools/simtoolscont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Simtools Introduction//EN" uri="refbook/simtools/simtools00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Simtools Metadata//EN" uri="refbook/simtools/simtoolsmeta.xml"/>
+  
+  <public publicId="-//SFI Hive//ENTITIES SimtoolsGUI Content//EN" uri="refbook/simtoolsgui/simtoolsguicont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES SimtoolsGUI Introduction//EN" uri="refbook/simtoolsgui/simtoolsgui00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES SimtoolsGUI Metadata//EN" uri="refbook/simtoolsgui/simtoolsguimeta.xml"/>
+
+  <public publicId="-//SFI Hive//ENTITIES Space Content//EN" uri="refbook/space/spacecont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Space Introduction//EN" uri="refbook/space/space00.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Space Metadata//EN" uri="refbook/space/spacemeta.xml"/>
+
+  <public publicId="-//SFI Hive//ENTITIES Tech Content//EN" uri="refbook/tech/techcont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Tech Metadata//EN" uri="refbook/tech/techmeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Tech Debug//EN" uri="refbook/tech/debug.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Tech Emacs//EN" uri="refbook/tech/emacs.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Tech Objective C//EN" uri="refbook/tech/objc.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Tech Swarm Objective C//EN" uri="refbook/tech/swarmobjc.xml"/>
+
+  <public publicId="-//SFI Hive//ENTITIES Swarm Logo EPS//EN" uri="figs/swarm.eps"/>
+
+  <public publicId="-//SFI Hive//ENTITIES Globals//EN" uri="global.ent"/>
+  
+  <public publicId="-//SFI Hive//ENTITIES Activity List//EN" uri="refbook/activity/activity.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Analysis List//EN" uri="refbook/analysis/analysis.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Collections List//EN" uri="refbook/collections/collections.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Defobj List//EN" uri="refbook/defobj/defobj.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES GUI List//EN" uri="refbook/gui/gui.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Objectbase List//EN" uri="refbook/objectbase/objectbase.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Random List//EN" uri="refbook/random/random.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Simtools List//EN" uri="refbook/simtools/simtools.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES SimtoolsGUI List//EN" uri="refbook/simtoolsgui/simtoolsgui.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Space List//EN" uri="refbook/space/space.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Tech List//EN" uri="refbook/tech/tech.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Figure List//EN" uri="figs/figs.ent"/>
+  
+  <public publicId="-//SFI Hive//ENTITIES Reference List//EN" uri="refbook/refbook.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Overview List//EN" uri="overbook/overbook.ent"/>
+  <public publicId="-//SFI Hive//ENTITIES Install List//EN" uri="installbook/installbook.ent"/>
+  
+  <public publicId="-//SFI Hive//ENTITIES Overview Metadata//EN" uri="overbook/overmeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Overview Content//EN" uri="overbook/overcont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Overview Chapter 1//EN" uri="overbook/over01.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Overview Chapter 2//EN" uri="overbook/over02.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Overview Chapter 3//EN" uri="overbook/over03.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Overview Chapter 4//EN" uri="overbook/over04.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Overview Chapter 5//EN" uri="overbook/over05.xml"/>
+
+  <public publicId="-//SFI Hive//ENTITIES Installing Metadata//EN" uri="installbook/installmeta.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Installing Content//EN" uri="installbook/installcont.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Installing Article 1//EN" uri="installbook/install01.xml"/>
+  <public publicId="-//SFI Hive//ENTITIES Installing Article 2//EN" uri="installbook/install02.xml"/>
+  
+  <public publicId="-//SFI Hive//ENTITIES Set Metadata//EN" uri="set/setmeta.xml"/>
+
+  <public publicId="-//SFI Hive//ENTITIES GNU FDL//EN" uri="gfdl.xml"/>
+
+ </group>
+
+
+ <!-- entities generated in build directory -->
+
+ <public publicId="-//SFI Hive//ENTITIES Reference Index//EN" uri="refbook/refindex.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Reference Revision History//EN" uri="refbook/refbookrevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Grid Turtle Examples//EN" uri="refbook/gridexamples.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Swarm Generated Content//EN" uri="refbook/swarmpages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Activity Revision History//EN" uri="refbook/activity/activityrevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Activity Generated Content//EN" uri="refbook/activity/activitypages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Analysis Revision History//EN" uri="refbook/analysis/analysisrevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Analysis Generated Content//EN" uri="refbook/analysis/analysispages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Collections Revision History//EN" uri="refbook/collections/collectionsrevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Collections Generated Content//EN" uri="refbook/collections/collectionspages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Defobj Revision History//EN" uri="refbook/defobj/defobjrevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Defobj Generated Content//EN" uri="refbook/defobj/defobjpages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES GUI Revision History//EN" uri="refbook/gui/guirevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES GUI Generated Content//EN" uri="refbook/gui/guipages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Objectbase Revision History//EN" uri="refbook/objectbase/objectbaserevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Objectbase Generated Content//EN" uri="refbook/objectbase/objectbasepages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Random Revision History//EN" uri="refbook/random/randomrevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Random Generated Content//EN" uri="refbook/random/randompages.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Simtools Revision History//EN" uri="refbook/simtools/simtoolsrevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Simtools Generated Content//EN" uri="refbook/simtools/simtoolspages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES SimtoolsGUI Revision History//EN" uri="refbook/simtoolsgui/simtoolsguirevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES SimtoolsGUI Generated Content//EN" uri="refbook/simtoolsgui/simtoolsguipages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Space Revision History//EN" uri="refbook/space/spacerevhistory.xml"/>
+ <public publicId="-//SFI Hive//ENTITIES Space Generated Content//EN" uri="refbook/space/spacepages.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Tech Revision History//EN" uri="refbook/tech/techrevhistory.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Complete ProbeMap JPEG//EN" uri="figs/complete.jpeg"/>
+ <public publicId="-//SFI Hive//ENTITIES Complete ProbeMap EPS//EN" uri="figs/complete.eps"/>
+ <public publicId="-//SFI Hive//ENTITIES Customized ProbeMap JPEG//EN" uri="figs/customized.jpeg"/>
+ <public publicId="-//SFI Hive//ENTITIES Customized ProbeMap EPS//EN" uri="figs/customized.eps"/>
+ <public publicId="-//SFI Hive//ENTITIES Swarm Logo JPEG//EN" uri="figs/swarm.jpeg"/>
+    
+ <public publicId="-//SFI Hive//ENTITIES Small Swarm Logo JPEG//EN" uri="figs/small-logo.jpeg"/>
+ <public publicId="-//SFI Hive//ENTITIES Small Swarm Logo EPS//EN" uri="figs/small-logo.eps"/>
+ <public publicId="-//SFI Hive//ENTITIES Switcheroo JPEG//EN" uri="figs/switcheroo.jpeg"/>
+ <public publicId="-//SFI Hive//ENTITIES Switcheroo EPS//EN" uri="figs/switcheroo.eps"/>
+
+ <public publicId="-//SFI Hive//ENTITIES Versions//EN" uri="versions.ent"/>
+
+ <public publicId="-//SFI Hive//ENTITIES Overview Revision History//EN" uri="overbook/overbookrevhistory.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Installing Revision History//EN" uri="installbook/installbookrevhistory.xml"/>
+ 
+ <public publicId="-//SFI Hive//ENTITIES Set Revision History//EN" uri="set/setrevhistory.xml"/>
+
+</catalog> 
+
+<!--
+<public publicId="-//SFI Hive//DOCUMENT DSSSL HTML Style Sheet//EN" uri="html.dsl
+<public publicId="-//SFI Hive//DOCUMENT DSSSL Print Style Sheet//EN" uri="print.dsl"/>
+<public publicId="-//SFI Hive//DOCUMENT DSSSL Common Definitions//EN" uri="common.dsl"/>
+-->
+
+<!-- 
+Local variables:
+mode: xml
+End:
+-->
+
+

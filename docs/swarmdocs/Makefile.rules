@@ -6,6 +6,10 @@ DVIPS = @DVIPS@
 GZIP = gzip --best
 top_dossrcdir = @top_dossrcdir@
 
+
+HTML_XSL = $(top_dossrcdir)/html.xsl
+PRINT_XSL = $(top_dossrcdir)/fo.xsl
+# obsolete variables
 HTML = $(top_dossrcdir)/html.dsl
 PRINT = $(top_dossrcdir)/print.dsl
 JADEFLAGS = -V biblio-citation-check
@@ -14,7 +18,7 @@ XML_DECL = $(top_srcdir)/xml.dcl
 RUNJADE = $(JADE) $(JADEFLAGS)
 CATOPTS = -c $(top_builddir)/catalog @catopts@
 
-RUNXSLTPROC = SGML_CATALOG_FILES="$(top_builddir)/catalog @catalog_file@" $(XSLTPROC) --nonet --catalogs
+RUNXSLTPROC = XML_CATALOG_FILES="$(top_builddir)/catalog.xml @catalog_file@" $(XSLTPROC) --nonet # --catalogs
 
 FIGS = figs/swarm.eps # for the timestamp
 
@@ -105,9 +109,12 @@ _%.tex: %.xml
 	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d '$(PRINT)' -o $@ $(XML_DECL) @DOSIFYEXPR@
 
 %.html: %.xml
-	$(RUNXSLTPROC) http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl @DOSIFYEXPR@
+	$(RUNXSLTPROC) -o $@ $(HTML_XSL) @DOSIFYEXPR@
 #%.html: %.xml
 #	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d '$(HTML)' $(XML_DECL) @DOSIFYEXPR@
+
+%.fo: %.xml
+	$(RUNXSLTPROC) -o $@ $(PRINT_XSL) @DOSIFYEXPR@
 
 %.dvi: %.tex _%.tex
 	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
