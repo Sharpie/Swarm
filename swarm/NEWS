@@ -1,5 +1,32 @@
 Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
-Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
+Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
+
+* Release Notes for Swarm 1.4.1
+** New features
+*** activity
+**** Schedule
+***** New method setKeepEmptyFlag: for tagging Schedules so that they will be
+      kept even when completed and empty, which is now true by default.
+
+*** defobj
+**** HDF5Object
+***** Support for strings in shallow HDF5 serialization.  Strings are 
+      stored as an index into a string table.  This is compatible with
+      the way R stores strings (e.g. levels in a factor analysis).
+**** hdf5in
+***** HDF5 objects don't require type or component-type tags.  If absent,
+      an HDF5 dataset with multiple items will be treated and a list and
+      the component will get assigned a generated class name.
+
+** Autoconfiguration
+*** New options --with-tclscriptdir and --with-tkscriptdir, for specifying
+    where the Tcl support files for Tcl and Tk can be found.
+
+** Bug fixes
+*** defobj
+**** Arguments
+***** Inode comparision in SWARMHOME directory search fixed for Cygwin, which
+      generates inodes from a hash of the pathname.
 
 * Release Notes for Swarm 1.4
 ** New features
