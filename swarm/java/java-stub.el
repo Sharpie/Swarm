@@ -282,7 +282,7 @@
       "-getBaseType:" ; array type
       "-getRank:" ; array rank
       "-probeAsString:Buffer:"; 2nd arg is char * but that fails because
-                             ; strings[] is constr char **;
+                             ; strings[] is const char **;
       "-probeAsString:Buffer:withFullPrecision:" ;same reason
 
       ;; MessageProbe
