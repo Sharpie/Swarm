@@ -4,6 +4,8 @@
 	ArchvierPair, ArchiverList, PermutationItem): Change from CREATABLE
 	to RETURNABLE.
 
+	* collections.h: Add objects-conforming-to-Zone argument types.
+
 1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* InputStream.m ([ArchiverArray_c -setArray:]): Use size_for_objc_type

@@ -173,7 +173,7 @@ CREATING
 
 USING
 //M: Note: copies are shallow; members inside the collection are not copied.
-- copy: aZone;
+- copy: (id <Zone>)aZone;
 
 - (BOOL)getReplaceOnly;
 
@@ -217,9 +217,9 @@ USING
 //M: The begin: message is the standard method for creating a new index for
 //M: traversing the elements of a collection.  All further information
 //M: about indexes is documented under the Index type.
-- begin: aZone;
+- begin: (id <Zone>)aZone;
 
-- beginPermuted: aZone;
+- beginPermuted: (id <Zone>)aZone;
 @end
 
 @protocol Index <DefinedObject, Drop>
@@ -521,7 +521,7 @@ USING
 //D: subrange views of a single, contiguous initial allocation by means of
 //D: separately created external collections.
 CREATING
-+ create: aZone setMemberBlock: (id *)members setCount: (unsigned)count;
++ create: (id <Zone>)aZone setMemberBlock: (id *)members setCount: (unsigned)count;
 
 SETTING
 - (void)setMemberBlock: (id *)members setCount: (unsigned)count;
@@ -594,7 +594,7 @@ USING
 //D: already created, subject to restrictions noted below.
 
 CREATING
-+ create: aZone setCount: (unsigned)count;
++ create: (id <Zone>)aZone setCount: (unsigned)count;
 
 SETTING
 //M: The Count option sets the number of members which belong to the
@@ -760,7 +760,7 @@ USING
 CREATING
 
 USING
-- createIndex: aZone fromMember: anObject;
+- createIndex: (id <Zone>)aZone fromMember: anObject;
 
 //M: The at: message returns the existing member of the collection which
 //M: matches the key value passed as its argument, or nil if there is no
@@ -963,7 +963,7 @@ USING
 //D: members (an input stream).  With the exception of the -catC: method, 
 //D: all messages write to stream in Lisp archiver format.
 CREATING
-+ create: aZone setFileStream: (FILE *)fileStream;
++ create: (id <Zone>)aZone setFileStream: (FILE *)fileStream;
 - setFileStream: (FILE *)fileStream;
 
 USING
@@ -1005,8 +1005,8 @@ USING
 //D: This type reads Lisp-like expressions into lists.  Supports Lisp
 //D: comments: semi-colons `;'
 CREATING
-+ create: aZone setFileStream: (FILE *)file;
--               setFileStream: (FILE *)fileStream;
++ create: (id <Zone>)aZone setFileStream: (FILE *)file;
+- setFileStream: (FILE *)fileStream;
 
 USING
 - (FILE *)getFileStream;
@@ -1109,7 +1109,7 @@ USING
 //D: strings and other kinds of allocated objects.
 
 CREATING
-+ create: aZone setC: (const char *)cstring;
++ create: (id <Zone>)aZone setC: (const char *)cstring;
 
 SETTING
 - (void)setC: (const char *)cstring;
@@ -1139,7 +1139,7 @@ CREATING
 
 //M: The create:setUniformRandom method creates the Shuffler
 //M: and connects the supplied distribution object.
-+ create: aZone setUniformRandom: dist;
++ create: (id <Zone>)aZone setUniformRandom: dist;
 
 USING
 //M: the shuffleWholeList method randomizes the whole list.
@@ -1172,7 +1172,7 @@ USING
 //D: of contents of Permutation will not reflect on the original collection.
 
 CREATING
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - setCollection: collection;
 - setUniformRandom: rnd;
 
@@ -1187,7 +1187,7 @@ USING
 //D: collection.  Methods implemented offer the same functionality as 
 //D: Index class does, except that traversal is randomized. 
 CREATING
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - setCollection: aCollection;
 - setUniformRandom: rnd;
 - createEnd;
