@@ -16,13 +16,24 @@ PAGES = activity/activitypages.sgml \
 	simtoolsgui/simtoolsguipages.sgml \
 	space/spacepages.sgml
 
-noinst_DATA = $(PAGES)
+GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml
 
-SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refindex.sgml refmeta.sgml 
+noinst_DATA = $(GENERATED_SGML)
 
-SGML_FILES = $(SGML) $(PAGES)
+SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml 
 
-$(PAGES): $(SWARMHOME)/src/activity/activity.h \
+SGML_FILES = $(SGML) $(GENERATED_SGML)
+
+EXAMPLES=GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
+        Mousetrap2.m grid.h grid.m grid0.m grid1a.m grid1b.m grid1c.m\
+        grid2.m grid2b.m grid3.m grid3b.m grid4.m  grid4b.m grid5.m \
+        grid6.m grid7.m grid8.m grid9.m mousetraps.m mousetraps2.m \
+        strtest.m 
+
+gridexamples.sgml: $(addprefix $(srcdir)/grid/,$(EXAMPLES))
+	- (cd $(srcdir)/grid ; (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.SRC.GRID.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) ; cd ..) > $@
+
+refindex.sgml $(PAGES): $(SWARMHOME)/src/activity/activity.h \
 	$(SWARMHOME)/src/analysis/analysis.h \
 	$(SWARMHOME)/src/collections/collections.h \
 	$(SWARMHOME)/src/defobj/defobj.h \
