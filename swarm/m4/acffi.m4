@@ -18,12 +18,12 @@ if test $USE_FFCALL = 0 ; then
   for dir in $ffidir /usr ; do
     ffidir_expand=`eval echo $dir`
     if test -f $ffidir_expand/lib/libffi.so ; then
-      FFILDFLAGS="-L\${ffidir}/lib -R \${ffidir}/lib"
+      FFILDFLAGS="-L\${ffilibdir} -R \${ffilibdir}"
       AC_MSG_RESULT($dir/lib/libffi.so)
       break
     else
       if test -f $ffidir_expand/lib/libffi.a ; then
-        FFILDFLAGS='-L${ffidir}/lib'
+        FFILDFLAGS='-L${ffilibdir}'
         AC_MSG_RESULT($dir/lib/libffi.a)
         break
       fi
@@ -52,7 +52,7 @@ else
   ffidir_expand=`eval echo $ffidir`
   AC_MSG_CHECKING(directory of libavcall.a)
   if test -f $ffidir_expand/lib/libavcall.a ; then
-    FFILDFLAGS='-L${ffidir}/lib'
+    FFILDFLAGS='-L${ffilibdir}'
     AC_MSG_RESULT($ffidir/lib)
   else
     AC_MSG_RESULT(no)    
@@ -67,10 +67,13 @@ else
   fi
 fi
 AC_SUBST(ffidir)
+ffilibdir=$ffidir/lib
+AC_SUBST(ffilibdir)
+
 if test $ffidir_expand = /usr; then
   FFIINCLUDES=''
 else
-  FFIINCLUDES=-I$ffidir/include
+  FFIINCLUDES='-I${ffidir}/include'
 fi
 AC_SUBST(FFIINCLUDES)
 AC_SUBST(FFILDFLAGS)

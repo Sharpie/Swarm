@@ -1,5 +1,8 @@
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* acffi.m4 (ffilibdir): New substituted variable.  Use
+	'-I${ffidir}/include' instead of $ffidir/includ.
+
 	* acfind.m4 (md_FIND_LIB): Use -R instead of -rpath.
 
 	* acffi.m4 (md_FIND_FFI): Likewise.
