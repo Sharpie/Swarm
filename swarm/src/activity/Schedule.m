@@ -198,7 +198,7 @@ PHASE(Using)
 
   // create merge action for use by swarm in merging schedule subactivities
 
-  newIndex = newActivity->currentIndex;
+  newIndex = (ScheduleIndex_c *)newActivity->currentIndex;
   mergeAction = ALLOCIVARSCOMPONENT (swarmZone, id_ActionMerge_c);
   setMappedAlloc (mergeAction);
   mergeAction->subactivity = newActivity;
@@ -207,7 +207,7 @@ PHASE(Using)
 
   // set the starting and current times of the new activity
 
-  swarmIndex = swarmActivity->currentIndex;
+  swarmIndex = (ScheduleIndex_c *)swarmActivity->currentIndex;
   newIndex->currentTime = newIndex->startTime = swarmIndex->currentTime;
 
   // Advance the new index to its first action. The nextAction: message
@@ -270,7 +270,7 @@ _update_mergeSchedules (Schedule_c *self,
 
   if (!mergeScheduleActivity)
     return;
-  mergeScheduleIndex = mergeScheduleActivity->currentIndex;
+  mergeScheduleIndex = (ScheduleIndex_c *)mergeScheduleActivity->currentIndex;
   mergeSchedule = (Schedule_c *) mergeScheduleIndex->collection;
   if (mergeScheduleIndex->currentTime > tVal)
     mergeScheduleIndex->currentTime = tVal;
@@ -329,7 +329,7 @@ ensureLeadingMerge (Schedule_c *self, id <Index> index, timeval_t tVal)
           Schedule_c *mergeSchedule;
           Activity_c *swarmActivity;
           
-          scheduleIndex = activity->currentIndex;
+          scheduleIndex =  (ScheduleIndex_c *)activity->currentIndex;
           MAP_INDEX_SETLOC (scheduleIndex, Start);
           scheduleIndex->currentAction = 0; 
           scheduleIndex->currentTime = tVal;
@@ -338,12 +338,12 @@ ensureLeadingMerge (Schedule_c *self, id <Index> index, timeval_t tVal)
           swarmActivity = activity->swarmActivity;
           if (swarmActivity)
             {
-              mergeScheduleIndex = swarmActivity->currentIndex;
+              mergeScheduleIndex =  (ScheduleIndex_c *)swarmActivity->currentIndex;
               mergeSchedule = 
                 (Schedule_c *) mergeScheduleIndex->collection;
               _activity_insertAction (mergeSchedule,
                                       tVal, 
-                                      activity->mergeAction);
+                                      (CAction *)activity->mergeAction);
             }
           activity = [indexrefs next];
         }
@@ -411,7 +411,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
                 {
                   ScheduleIndex_c *scheduleIndex;
                   
-                  scheduleIndex = activity->currentIndex;
+                  scheduleIndex =  (ScheduleIndex_c *)activity->currentIndex;
                   if ([scheduleIndex get] == successor_action) 
                     {
                       // update of index, if we were to perform
@@ -553,7 +553,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   id <FAction> faction =  [FAction createBegin: getCZone (getZone (self))];
   [faction setCall: call];
   faction = [faction createEnd];
-  _activity_insertAction (self, tVal, faction);
+  _activity_insertAction (self, tVal, (CAction *)faction);
   return faction;
 }
 
@@ -572,7 +572,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
     [ActionCall createBegin: getCZone (getZone (self))];
   [newAction setFunctionPointer: fptr];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -583,7 +583,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setFunctionPointer: fptr];
   [newAction setArg1: arg1];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -595,7 +595,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setArg1: arg1];
   [newAction setArg2: arg2];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -608,7 +608,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setArg2: arg2];
   [newAction setArg3: arg3];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -618,7 +618,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setTarget: target];
   [newAction setMessageSelector: aSel];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -629,7 +629,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setMessageSelector: aSel];
   [newAction setArg1: arg1];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -641,7 +641,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setArg1: arg1];
   [newAction setArg2: arg2];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -654,7 +654,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setArg2: arg2];
   [newAction setArg3: arg3];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -666,7 +666,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setTarget: target];
   [newAction setMessageSelector: aSel];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -677,7 +677,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setTarget: target];
   [newAction setMessageSelector: aSel];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -689,7 +689,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setMessageSelector: aSel];
   [newAction setArg1: arg1];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -702,7 +702,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setArg1: arg1];
   [newAction setArg2: arg2];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -717,7 +717,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setArg2: arg2];
   [newAction setArg3: arg2];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -728,7 +728,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setCall: call];
   [newAction setTarget: target];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -739,7 +739,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   [newAction setCall: call];
   [newAction setTarget: target];
   newAction = [newAction createEnd];
-  _activity_insertAction (self, tVal, newAction);
+  _activity_insertAction (self, tVal, (CAction *)newAction);
   return newAction;
 }
 
@@ -1159,7 +1159,7 @@ PHASE(Using)
           //!! get actionAtIndex directly from the underlying implementation)
           newAction = [ActionChanged 
                         create: getCZone (getZone ((Activity_c *) activity))];
-          newAction->actionAtIndex = actionAtIndex;
+          newAction->actionAtIndex =  (ActionConcurrent_c *)actionAtIndex;
           currentAction = newAction;
           setMappedAlloc (self);
           // return special object to handle _performAction_:
@@ -1223,11 +1223,11 @@ PHASE(Using)
       && (currentAction
           || INITIALIZEDP (activity->swarmActivity->status)))
     {
-      swarmIndex = activity->swarmActivity->currentIndex;
+      swarmIndex = (ScheduleIndex_c *)activity->swarmActivity->currentIndex;
 
       _activity_insertAction ((Schedule_c *) swarmIndex->collection,
                               currentTime,
-                              activity->mergeAction);
+			      (CAction *)activity->mergeAction);
       if (currentAction) 
         *status = Holding;
       else
@@ -1260,7 +1260,7 @@ PHASE(Using)
 
 - setActivity: (id <Activity>)theActivity
 {
-  activity = theActivity;
+  activity = (ScheduleActivity_c *)theActivity;
   return self;
 }
 
@@ -1387,7 +1387,7 @@ PHASE(Using)
   ScheduleIndex_c *schedIndex;
   id unusedStatus;
 
-  schedIndex = ((Activity_c *) anActivity)->currentIndex;
+  schedIndex = (ScheduleIndex_c *)((Activity_c *) anActivity)->currentIndex;
   schedIndex->currentAction = actionAtIndex;
   unsetMappedAlloc (schedIndex);
   [actionAtIndex _performAction_: anActivity];

@@ -220,7 +220,7 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
   activity = [mergeSchedule _activateIn_: swarmContext
                             : id_SwarmActivity_c 
                             : id_ScheduleIndex_c
-                            : activityZone];
+                            : (Zone_c *)activityZone];
   activity->swarm = self;
   activity->status = Initialized;
   
@@ -250,8 +250,8 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
 - (void)_performPlan_
 {
   Activity_c *newActivity;
-
-  newActivity = [self activateIn: nil];
+  
+  newActivity = (Activity_c *)[self activateIn: nil];
   newActivity->ownerActivity = _activity_current;
   newActivity->ownerActivity->currentSubactivity = newActivity;
 }

@@ -1,3 +1,30 @@
+2003-06-11  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* SwarmProcess.m ([CSwarmProcess -activateIn:]): cast 4th argument
+	 activity = [mergeSchedule _activateIn_: swarmContext
+                            : id_SwarmActivity_c
+                            : id_ScheduleIndex_c
+                            : (Zone_c *)activityZone];
+	
+	([CSwarmProcess -_performPlan_]): cast: newActivity = 
+	(Activity_c *)[self activateIn: nil];
+
+	* Schedule.m: To eliminate compiler warnings, throughout this
+	class, several variables were cast:
+
+	 (ScheduleIndex_c *)newActivity->currentIndex
+
+	3rd argument here:
+	   _activity_insertAction (self, tVal, (CAction *)newAction)
+	
+	(ActionConcurrent_c*)actionAtIndex;
+	 
+	(ScheduleIndex_c *)activity->swarmActivity->currentIndex;
+	activity = (ScheduleActivity_c *)theActivity;
+
+	([ActionChanged_c -_performAction_:]): schedIndex =
+	(ScheduleIndex_c *)((Activity_c *) anActivity)->currentIndex;
+
 2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
 
 	* Makefile.am (install-data-local): $(DESTDIR) added
