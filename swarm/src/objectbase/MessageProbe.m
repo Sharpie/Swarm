@@ -138,10 +138,10 @@ nth_type (const char *type, unsigned which)
   return arguments[which];
 }
 
-- setArg: (unsigned)which ToUnsigned: (unsigned)x
+- setArg: (unsigned)which ToUnsigned: (unsigned)val
 {
   arguments[which].type = fcall_type_uint;
-  arguments[which].val.uint =  x;
+  arguments[which].val.uint =  val;
 
   return self;
 }
