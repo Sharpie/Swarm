@@ -1,3 +1,11 @@
+1998-09-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Zone.m ([Zone_c -alloc:]): Allocate enough for a size_t and
+	stash the size there.  Adjust-up returned pointer. Increment
+	allocTotal.
+	([Zone_c -free:]): Decrement allocTotal.  Adjust-down pointer
+	before freeing.
+
 1998-09-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* DefObject.h: Reformatting throughout.

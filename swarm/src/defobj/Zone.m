@@ -19,8 +19,8 @@ Library:      defobj
 //
 // temporary hack to guarantee double word alignment of allocations
 //
-static inline
-void *dalloc (size_t blockSize)
+static inline void *
+dalloc (size_t blockSize)
 {
   static BOOL  notAligned = 0;
   void         *block;
@@ -74,7 +74,7 @@ PHASE(Creating)
   return newZone;
 }
 
-- (void) setPageSize: (int)pageSize
+- (void)setPageSize: (size_t)pageSize
 {
   raiseEvent( NotImplemented,
     "> PageSize option not yet implemented.\n"
@@ -100,6 +100,7 @@ PHASE(Creating)
   population = [List_linked createBegin: componentZone];
   [population setIndexFromMemberLoc: - (2 * sizeof(id))];
   population = [(id)population createEnd];
+  populationTotal = 0;
 
   // zero internal allocation statistics to remove zone overhead
 
@@ -113,7 +114,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (int) getPageSize
+- (size_t)getPageSize
 {
   return 0;
 }
@@ -124,24 +125,27 @@ PHASE(Using)
 - allocIVars: aClass
 {
   Object_s *newObject;
+  size_t size = ((Class)aClass)->instance_size;
 
   //!! need to guarantee that class inherits from Object_s, to define slot
   //!! for zbits
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *)dalloc (((Class)aClass)->instance_size
-                                  + 2 * sizeof (id));
+  newObject = (Object_s *) dalloc (size + 2 * sizeof (id));
   
   // add object to the population list, skipping over links in object header
 
-  newObject = (Object_s *)((id *)newObject + 2);
+  newObject = (Object_s *) ((id *)newObject + 2);
   if (population)
-    [population addLast: newObject];
+    {
+      [population addLast: newObject];
+      populationTotal += size;
+    }
 
   // initialize and return the newly allocated object
 
-  memset (newObject, 0, ((Class)aClass)->instance_size);
+  memset (newObject, 0, size);
   setClass (newObject, aClass);   
   newObject->zbits = (unsigned long)self;   
   return (id)newObject;
@@ -157,13 +161,14 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  instanceSize = getClass(anObject)->instance_size;
-  newObject = (Object_s *)dalloc (instanceSize + 2 * sizeof (id));
+  instanceSize = getClass (anObject)->instance_size;
+  newObject = (Object_s *) dalloc (instanceSize + 2 * sizeof (id));
 
   // add object to the population list, skipping over links in object header
 
   newObject = (Object_s *)((id *)newObject + 2);
   [population addLast: newObject];
+  populationTotal += instanceSize;
 
   // initialize and return the newly allocated object
 
@@ -179,11 +184,13 @@ PHASE(Using)
 //
 - (void) freeIVars: anObject
 {
-  id   index;
+  id index;
+  size_t size = getClass (anObject)->instance_size;
 
   index = [population createIndex: scratchZone fromMember: anObject];
   [index remove];
   [index drop];
+  populationTotal -= size;
 
   if (_obj_debug)
     {
@@ -195,8 +202,7 @@ PHASE(Using)
                     "> and may only be freed by freeIVarsComponent:\n",
                     anObject, getClass (anObject)->name);
       
-      memset ((id *)anObject - 2, _obj_fillfree,
-              getClass (anObject)->instance_size + (2 * sizeof (id)));
+      memset ((id *)anObject - 2, _obj_fillfree, size + (2 * sizeof (id)));
     }
   XFREE ((id *)anObject - 2);
 }
@@ -236,7 +242,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *)dalloc( getClass(anObject)->instance_size );
+  newObject = (Object_s *) dalloc( getClass(anObject)->instance_size );
 
   if (_obj_debug)
     {
@@ -272,7 +278,7 @@ PHASE(Using)
       objectCount--;
       objectTotal -= getClass(anObject)->instance_size;
       
-      memset ((id *)anObject, _obj_fillfree,
+      memset ((id *) anObject, _obj_fillfree,
               getClass (anObject)->instance_size);
     }
   XFREE (anObject);
@@ -296,10 +302,13 @@ PHASE(Using)
   
   if (_obj_debug && size == 0)
     raiseEvent (InvalidAllocSize, nil);
-  newBlock = dalloc (size);
+  newBlock = dalloc (size + sizeof (size_t));
+  *(size_t *)newBlock = size;
+  newBlock += sizeof (size_t);
   if (_obj_debug)
     {
       allocCount++;
+      allocTotal += size;
       memset (newBlock, _obj_fillalloc, size);
     }
   return newBlock;
@@ -310,15 +319,19 @@ PHASE(Using)
 //
 - (void)free: (void *)aBlock
 {
+  aBlock -= sizeof (size_t);
   if (_obj_debug)
-    allocCount--;
+    {
+      allocTotal -= *(size_t *)aBlock;
+      allocCount--;
+    }
   XFREE (aBlock);
 }
 
 //
 // allocBlock: -- allocate block, with block size required on free
 //
-- (void *) allocBlock: (size_t)size
+- (void *)allocBlock: (size_t)size
 {
   void  *newBlock;
   
@@ -360,22 +373,25 @@ PHASE(Using)
 //
 // describe: -- generate object description string
 //
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  char  buffer[200];
+  char buffer[200];
 
   [super describe: outputCharStream];
-  sprintf (buffer, "> number of objects in population: %d\n",
-           [population getCount] );
+  sprintf (buffer, "> number of objects in population: %u\n"
+           "> total size of objects in population: %u\n",
+           [population getCount], populationTotal);
   [outputCharStream catC: buffer];
   
   if (_obj_debug)
     {
       sprintf (buffer,
-               "> number of internal objects: %3d  total size: %d\n"
-               "> number of internal blocks:  %3d  total size: %d\n"
-               "> number of alloc: blocks:  %5d  (total size not available)\n",
-               objectCount, objectTotal, blockCount, blockTotal, allocCount );
+               "> number of internal objects: %3u  total size: %u\n"
+               "> number of internal blocks:  %3u  total size: %u\n"
+               "> number of alloc blocks:  %5u  total size: %u\n",
+               objectCount, objectTotal,
+               blockCount, blockTotal,
+               allocCount, allocTotal);
       [outputCharStream catC: buffer];
     }
 }
@@ -384,9 +400,9 @@ PHASE(Using)
 // describeForEach: --
 //   generate debug description for each member of the zone population
 //
-- (void) describeForEach: outputCharStream
+- (void)describeForEach: outputCharStream
 {
-  id  index, member;
+  id index, member;
 
   index = [population begin: scratchZone];
   while ((member = [index next]))
@@ -398,7 +414,7 @@ PHASE(Using)
 // describeForEachID: --
 //   generate debug id description for each member of the zone population
 //
-- (void) describeForEachID: outputCharStream
+- (void)describeForEachID: outputCharStream
 {
   id index, member;
 
@@ -411,14 +427,14 @@ PHASE(Using)
 //
 // mapAllocations: -- standard method to identify internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   id  index, member;
 
   // map all objects within the zone population, including internal block
   // allocations
 
-  mapalloc->zone       = self;
+  mapalloc->zone = self;
   mapalloc->descriptor = t_PopulationObject;
 
   index = [population begin: scratchZone];
