@@ -7,7 +7,7 @@ package swarm;
 
 import java.lang.reflect.*;
 
-public class PhaseCImpl {
+public class PhaseCImpl extends BaseImpl {
   public Object nextPhase;
   public void _copy_creating_phase_to_using_phase ()
   {

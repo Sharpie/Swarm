@@ -1,3 +1,11 @@
+2001-07-13    <mgd@maya.santafe.edu>
+	
+	* BaseImpl.java: New file.
+
+	* PhaseCImpl.java: Inherit from it.
+
+	* Makefile.in (PRECLASSES): Add BaseImpl.
+
 2001-04-17    <mgd@coyote.santafe.edu>
 
 	* Selector.java: Skip over same-named, but different arity methods.

@@ -20,7 +20,7 @@ include ../Makefile.common
 CLASSPHASES := C __u
 INTERFACEPHASES := $(CLASSPHASES) S
 
-PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector PhaseCImpl Primitives ObjCProxy
+PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector BaseImpl PhaseCImpl Primitives ObjCProxy
 SECLASSES = SwarmEnvironment SwarmEnvironmentC SwarmEnvironmentS SwarmEnvironmentImpl SwarmEnvironmentCImpl
 POSTCLASSES = CustomizedType ProxyClassLoader $(SECLASSES) Globals
 
