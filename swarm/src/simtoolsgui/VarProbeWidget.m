@@ -11,9 +11,8 @@
 
 + createBegin: aZone
 {
-  id obj;
-  
-  obj = [super createBegin: aZone];
+  id obj = [super createBegin: aZone];
+
   [obj setMaxLabelWidth: 0];
   
   return obj;
@@ -22,30 +21,35 @@
 - setObject: obj
 {
   myObject = obj;
+
   return self;
 }
 
-- setProbe: (Probe *) the_probe
+- setProbe: aProbe
 {
-  myProbe = (VarProbe *) the_probe;
+  myProbe = aProbe;
+
   return self;
 }
 
 - setMyLeft: obj
 {
   myLeft = obj;
+
   return self;
 }
 
 - setMyRight: obj
 {
   myRight = obj;
+
   return self;
 }
 
-- setMaxLabelWidth: (int) width
+- setMaxLabelWidth: (int)width
 {
   maxLabelWidth = width;
+
   return self;
 }
 
@@ -64,7 +68,7 @@
   [myEntry setParent: myRight];
   interactiveFlag = [myProbe getInteractiveFlag];
   [myEntry setInteractiveFlag: interactiveFlag];
-  [myEntry setProbeType: ([myProbe getProbedType])[0]];
+  [myEntry setVarProbe: myProbe];
   myEntry = [myEntry createEnd];
   
   [self update];
@@ -135,7 +139,7 @@
   [super drop];
 }
 
-- idReceive
+- idReceive: (const char *)windowName
 {
   id resObj = GUI_DRAG_AND_DROP_OBJECT ();
   

@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtoolsgui/CommonProbeDisplay.h>
+#import <simtoolsgui/SingleProbeDisplay.h>
 #import <gui.h>
 
-@interface SimpleProbeDisplay: CommonProbeDisplay
+@interface SimpleProbeDisplay: SingleProbeDisplay
 {
   id probeMap;
   id <Frame> leftFrame, rightFrame, middleFrame, bottomFrame;

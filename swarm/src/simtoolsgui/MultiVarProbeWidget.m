@@ -1,5 +1,6 @@
 #import <simtoolsgui/MultiVarProbeWidget.h>
 #import <objectbase/SwarmObject.h>
+#import <objectbase.h>
 #import <gui.h>
 
 #include <misc.h>
@@ -7,20 +8,22 @@
 @interface MultiProbe: SwarmObject
 {
   id <Frame> parent;
-
   id <VarProbe> varProbe;
   id <Frame> frame;
   id <Label> label;
   id <Map> entryMap;
   compare_t compareFunction;
   BOOL interactiveFlag;
+  BOOL labelingFlag;
 }
 - setParent: parent;
+- setLabelingFlag: (BOOL)flag;
 - (void)setCompareFunction: (compare_t)aFunction;
 - setVarProbe: (id <VarProbe>)probe;
 - createEnd;
 - addEntries: (id <List>)objectList;
-- Spawn: (const char *)widgetName;
+- Spawn: (const char *)windowName;
+- idReceive: (const char *)windowName;
 - (const char *)package: (const char *)window;
 @end
 
@@ -45,12 +48,22 @@
   compareFunction = aFunction;
 }
 
+- setLabelingFlag: (BOOL)flag
+{
+  labelingFlag = flag;
+
+  return self;
+}
+
 - createEnd
 {
   frame = [Frame createParent: parent];
 
-  label = [VarProbeLabel createParent: frame];
-  [label setText: [varProbe getProbedVariable]];
+  if (labelingFlag)
+    {
+      label = [VarProbeLabel createParent: frame];
+      [label setText: [varProbe getProbedVariable]];
+    }
 
   entryMap = [Map createBegin: [self getZone]];
   [entryMap setCompareFunction: compareFunction];
@@ -64,16 +77,12 @@
   id <VarProbeEntry> entry = [VarProbeEntry createBegin: [self getZone]];
   
   [entry setParent: frame];
-  [entry setProbeType: ([varProbe getProbedType])[0]];
+  [entry setVarProbe: varProbe];
   [entry setInteractiveFlag: [varProbe getInteractiveFlag]];
   [entry setOwner: self];
   entry = [entry createEnd];
   if (![varProbe getInteractiveFlag])
-    {
-      [entry setActiveFlag: YES];
-      [entry setValue: "Blah"];
-      [entry setActiveFlag: NO];
-    }
+    [entry setActiveFlag: NO];
   else
     [entry setActiveFlag: YES];
   
@@ -179,17 +188,44 @@ findObject (id entryMap, const char *windowName,
   [entryMap drop];
 }
 
-- Spawn: (const char *)widgetName
+- Spawn: (const char *)windowName
 {
   return self;
 } 
 
+- idReceive: (const char *)windowName
+{
+  id resObj = GUI_DRAG_AND_DROP_OBJECT ();
+  id obj;
+  id <VarProbeEntry> entry;
+
+  if (findObject (entryMap, windowName, &obj, &entry))
+    {
+      [[entry getVarProbe] setData: obj To: &resObj];
+      
+      [self update];
+    }
+
+  return self;
+}      
+
 - (const char *)package: (const char *)windowName
 {
   id obj;
+  id <VarProbeEntry> entry;
 
-  if (findObject (entryMap, windowName, &obj, NULL))
-    return [obj getObjectName];
+  if (findObject (entryMap, windowName, &obj, &entry))
+    {
+      id *content = [[entry getVarProbe] probeRaw: obj];
+      
+      if (*content == nil)
+        {
+          GUI_BEEP ();
+          GUI_UPDATE ();
+          return "";
+        }
+      return [*content getObjectName];         
+    }
   return "";
 }
 
@@ -213,6 +249,15 @@ findObject (id entryMap, const char *windowName,
 
 PHASE(Creating)
 
++ createBegin: aZone
+{
+  MultiVarProbeWidget *obj = [super createBegin: aZone];
+
+  obj->fieldLabelingFlag = NO;
+
+  return obj;
+}
+
 - setObjectList: (id <List>)l
 {
   objectList = l;
@@ -220,28 +265,28 @@ PHASE(Creating)
   return self;
 }
 
-- setProbeList: (id <List>)l
+- setProbeMap: (id <ProbeMap>)aProbeMap
 {
-  probeList = l;
+  probeMap = aProbeMap;
 
   return self;
 }
 
-- setLabelingFlag: (BOOL)flag
+- setFieldLabelingFlag: (BOOL)flag
 {
-  labelingFlag = flag;
+  fieldLabelingFlag = flag;
 
   return self;
 }
 
-- setAgentNameSelector: (SEL)sel
+- setObjectNameSelector: (SEL)sel
 {
-  agentNameSelector = sel;
+  objectNameSelector = sel;
 
   return self;
 }
 
-- setParent: (id <Frame>)frame
+- setParent: frame
 {
   parent = frame;
   
@@ -277,58 +322,72 @@ PHASE(Creating)
 
   int compareProbes (id a, id b)
     {
-      return findPosition (probeList, a) - findPosition (probeList, b);
+      BOOL aIsVarProbe = [a conformsTo: @protocol(_VarProbe)];
+      BOOL bIsVarProbe = [b conformsTo: @protocol(_VarProbe)];
+
+      int typediff = aIsVarProbe - bIsVarProbe;
+
+      if (typediff == 0)
+        {
+          if (aIsVarProbe)
+            return strcmp ([a getProbedVariable], [b getProbedVariable]);
+          else
+            return strcmp ([a getProbedMessage], [b getProbedMessage]);
+        }
+      return typediff;
     }
 
   objectsLabelFrame = [Frame createParent: parent];
-  
-  objectsTitleLabel = [VarProbeLabel createParent: objectsLabelFrame];
-  [objectsTitleLabel setText: [[objectList getFirst] name]];
 
   labelMap = [Map createBegin: aZone];
   [labelMap setCompareFunction: compareObjects];
   labelMap = [labelMap createEnd];
 
-  {
-    id <ListIndex> oli = [objectList begin: aZone];
-    id obj;
-    
-    while ((obj = [oli next]) != nil)
-      {
-        id <VarProbeLabel> label =
-          [VarProbeLabel createParent: objectsLabelFrame];
-        
-        [label setText: (const char *)[obj perform: agentNameSelector]];
-        
-        [labelMap at: obj insert: label];
-      }
-    [oli drop];
-  }
+  if (objectNameSelector)
+    {
+      id oli = [objectList begin: aZone];
+      id obj;
 
+      objectsTitleLabel = [VarProbeLabel createParent: objectsLabelFrame];
+      [objectsTitleLabel setText: [[objectList getFirst] name]];
+      
+      while ((obj = [oli next]) != nil)
+        {
+          id <Label> label = [Label createParent: objectsLabelFrame];
+        
+          [label setText: (const char *)[obj perform: objectNameSelector]];
+          
+        [labelMap at: obj insert: label];
+        }
+      [oli drop];
+    }
+  
   multiProbeMap = [Map createBegin: aZone];
   [multiProbeMap setCompareFunction: compareProbes];
   multiProbeMap = [multiProbeMap createEnd];
 
   {
-    id <ListIndex> pli;
-    id <VarProbe> probe;
-
-    pli = [probeList begin: aZone];
-
-    while ((probe = [pli next]) != nil)
+    id pmi = [probeMap begin: aZone];
+    id probe;
+    
+    while ((probe = [pmi next]) != nil)
       {
-        id multiProbe = [MultiProbe createBegin: aZone];
+        if ([probe conformsTo: @protocol(_VarProbe)])
+          {
+            id multiProbe = [MultiProbe createBegin: aZone];
 
-        [multiProbe setParent: parent];
-        [multiProbe setCompareFunction: compareObjects];
-        [multiProbe setVarProbe: probe];
-        multiProbe = [multiProbe createEnd];
-        
-        [multiProbe addEntries: objectList];
-        
-        [multiProbeMap at: probe insert: multiProbe];
+            [multiProbe setLabelingFlag: fieldLabelingFlag];
+            [multiProbe setParent: parent];
+            [multiProbe setCompareFunction: compareObjects];
+            [multiProbe setVarProbe: probe];
+            multiProbe = [multiProbe createEnd];
+            
+            [multiProbe addEntries: objectList];
+            
+            [multiProbeMap at: probe insert: multiProbe];
+          }
       }
-    [pli drop];
+    [pmi drop];
   }
   [self update];
   

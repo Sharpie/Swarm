@@ -227,7 +227,7 @@ PHASE(Using)
   [super drop];
 }
 
-- (const char *)package
+- (const char *)package: (const char *)windowName
 {
   if (resultObject == nil)
     {
@@ -237,7 +237,7 @@ PHASE(Using)
   return [resultObject getObjectName];
 }
 
-- (const char *)package: (int)which
+- (const char *)package: (const char *)windowName arg: (int)which
 {
   val_t val = [myProbe getArg: which];
   
@@ -262,7 +262,7 @@ PHASE(Using)
   return [((id <MessageProbeEntry>)myWidgets [which * 2 + 1]) getValue];
 }
 
-- idReceive: (int)which
+- idReceive: (const char *)windowName arg: (int)which
 {
   id resObj = GUI_DRAG_AND_DROP_OBJECT ();
 

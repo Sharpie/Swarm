@@ -8,29 +8,19 @@
 
 @interface CommonProbeDisplay: SwarmObject
 {
-  id probedObject;  
   id <Frame> topLevel, topFrame;
   id <ProbeCanvas> canvas;
 
   BOOL horizontalScrollbarFlag;
-  BOOL removeRef;
   BOOL markedForDropFlag;
-  ref_t objectRef;
   const char *windowGeometryRecordName;
 }
 
 - createEnd;
 - install;
-- setProbedObject: anObject;
-- getProbedObject;
 
 - setWindowGeometryRecordName : (const char *)windowGeometryRecordName;
-- (void)setRemoveRef: (BOOL)removeRef;
-- (void)setObjectRef: (ref_t)objectRef;
 - (void)markForDrop;
 - (BOOL)getMarkedForDropFlag;
-
-- (const char *)package: (const char *)windowName;
-- (const char *)getId: (const char *)windowName;
 
 @end

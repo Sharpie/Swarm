@@ -26,7 +26,6 @@ PHASE(Creating)
   topLevel = [topLevel createEnd];
   [topLevel enableDestroyNotification: self
             notificationMethod: @selector (markForDrop)];
-  [topLevel setWindowTitle: [self getId: NULL]];
   [topLevel withdraw];
   c_Frame =  [Frame createParent: topLevel]; 
 
@@ -45,29 +44,7 @@ PHASE(Creating)
   return self;
 }
 
-- setProbedObject: (id)anObject
-{
-  probedObject = anObject;
-
-  return self;
-}
-
 PHASE(Using)
-
-- getProbedObject
-{
-  return probedObject;
-}
-
-- (void)setRemoveRef: (BOOL)theRemoveRef
-{
-  removeRef = theRemoveRef;
-}
-
-- (void)setObjectRef: (ref_t)theObjectRef
-{
-  objectRef = theObjectRef;
-}
 
 - (void)markForDrop
 {
@@ -91,16 +68,6 @@ PHASE(Using)
   [probeDisplayManager addProbeDisplay: self];
 
   return self;
-}
-
-- (const char *)package: (const char *)windowName
-{
-  return [probedObject getObjectName];
-}
-
-- (const char *)getId: (const char *)windowName
-{
-  return [probedObject getIdName];
 }
 
 @end

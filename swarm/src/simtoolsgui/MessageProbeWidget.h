@@ -42,8 +42,8 @@
 - (const char *)getId: (const char *)windowName;
 - (const char *)getId: (const char *)windowName arg: (int)which;
 - (const char *)package: (const char *)windowName;
-- (const char *)package: (const char *)windowaName arg: (int)which;
-- idReceive: (int)which;
+- (const char *)package: (const char *)windowName arg: (int)which;
+- idReceive: (const char *)windowName arg: (int)which;
 
 #ifndef USE_FRAME
 - setParent: parent;

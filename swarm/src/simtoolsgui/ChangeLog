@@ -1,3 +1,74 @@
+1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtoolsgui.h (CommonProbeDisplay): Remove setProbedObject: and
+	getProbedObject from protocol (moved to SingleProbeDisplay).
+	(SingleProbeDisplay): New protocol.
+	(CompleteProbeDisplay, SimpleProbeDisplay): Adopt SingleProbeDisplay
+	instead of CommonProbeDisplay.
+	(MultiVarProbeDisplay): New protocol. 
+	(MultiVarProbeWidget): Replace setProbeList: with setProbeMap:.
+	Rename setLabelingFlag: to setFieldLabelingFlag:.
+	Rename setAgentNameSelector: to setObjectNameSelector:.
+	Add +createBegin:.
+	Add MultiVarProbeDisplay class object.
+
+	* VarProbeWidget.m ([VarProbeWidget -createEnd]): Use setVarProbe:
+	instead of setProbeType:.
+
+	* VarProbeWidget.[hm]: Remove static typing from setProbe:.
+	Add windowName argument to idReceive:.
+
+	* SimpleProbeDisplay.h: Include SingleProbeDisplay.h instead 
+	of CommonProbeDisplay.h.
+	(SimpleProbeDisplay): Inherit from SingleProbeDisplay.
+
+	* ProbeDisplay.h: Include objectbase.h instead of ProbeMap.h.
+	Make probeMap conform to ProbeMap protocol instead of being statically
+	typed.  Remove static typing from accessors.
+
+	* MultiVarProbeWidget.m: Include objectbase.h.
+	([MultiProbe -setLabelingFlag:]): New method.
+	([MultiProbe -createEnd]): Don't create label unless labelingFlag
+	is set.
+	([MultiProbe -addEntryFor:]): Use setVarProbe: instead of
+	setProbeType:.  Don't set default value for entry.
+	([MultiProbe -idReceive:]): New method.
+	([MultiProbe -package:]): Read value using probe.
+	([MultiVarProbeWidget +createBegin:]): New method.
+	([MultiVarProbeWidget -setFieldLabelingFlag:]): Renamed
+	from setLabelingFlag:.
+	([MultiVarProbeWidget -setObjectNameSelector:]): Renamed
+	from setAgentNameSelector:.
+	(compareProbes): Compare by name.
+	([MultiVarProbeWidget -createEnd]): Don't create objectsTitlelabel
+	unless there is a objectsNameSelector.
+	([MultiVarProbeWidget -createEnd]): Create MultiProbe for each
+	object conforming to a _VarProbe.
+
+	* MultiVarProbeWidget.h (MultiVarProbeWidget): Rename labelingFlag
+	to fieldLabelingFlag. 
+
+	* MultiVarProbeWidget.[hm]: Rename accessor for same.
+	Change setProbeMap: to setProbeList: and setAgentNameSelector
+	to setObjectNameSelector.  Add createBegin:.
+
+	* MessageProbeWidget.m ([MessageProbeWidget -package:],
+	[MessageProbeWidget -package:arg:]): Add windowName argument.
+
+	* MessageProbeWidget.[hm]: Rename idReceive to idReceive:.
+
+	* Makefile.am (SRC, simtoolsgui_HEADERS): Add SingleProbeDisplay
+	and MultiVarProbeDisplay.
+
+	* CommonProbeDisplay.m ([CommonProbeDisplay -createEnd]): Don't
+	call setWindowTitle:.
+
+	* CommonProbeDisplay.h (CommonProbeDisplay): Remove probedObject,
+	objectRef, and removeRef (moved to SingleProbeDisplay).
+
+	* CommonProbeDisplay.[hm]: Remove accessors for same.
+	Remove package: and getId:.
+
 1998-07-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MultiVarProbeWidget.[hm]: New files.

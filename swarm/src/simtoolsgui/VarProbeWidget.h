@@ -29,16 +29,16 @@
 
 + createBegin: aZone;
 - setObject: obj;
-- setProbe: (Probe *)the_probe;
+- setProbe: probe;
 - setMyLeft: aFrame;
 - setMyRight: aFrame;
 - setMaxLabelWidth: (int)width;
 - createEnd;
 - pack;
-- setVariableValue: (const char *)widgetName;
+- setVariableValue: (const char *)windowName;
 - update;
-- Spawn: (const char *)widgetName;
-- idReceive;
+- Spawn: (const char *)windowName;
+- idReceive: (const char *)windowName;
 - (const char *)package: (const char *)widgetName;
 - (const char *)getId: (const char *)widgetName;
 #ifndef USE_WIDGET

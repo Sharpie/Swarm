@@ -121,18 +121,12 @@ extern id <Symbol> Control, Probing, Spatial;
 //G: Error Symbols for ActionCache
 extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
+
 @protocol CommonProbeDisplay <WindowGeometryRecordName>
 //S: A protocol underlying ProbeDisplay and CompleteProbeDisplay
 //D: This protocol provides the common interface to all kinds of ProbeDisplays.
 
-CREATING
-//M: This method must be called.
-- setProbedObject: anObject;
-
 USING
-//M: Gets the probed object.
-- getProbedObject;
-
 //M: This method maintains consistency between the values of the
 //M: probedObject's variables and the values which are displayed in
 //M: the ProbeDisplay. Ideally, this method should be called every
@@ -145,12 +139,23 @@ USING
 - (BOOL)getMarkedForDropFlag;
 @end
 
-
-@protocol ProbeDisplay <CommonProbeDisplay>
+@protocol SingleProbeDisplay <CommonProbeDisplay>
+CREATING
+//M: This method must be called.
+- setProbedObject: anObject;
+
+- createEnd;
+USING
+//M: Gets the probed object.
+- getProbedObject;
+@end
+
+@protocol ProbeDisplay <SingleProbeDisplay>
 //S: A class to display ProbeMaps
 
 //D: A class which generates a GUI to a ProbeMap of probes applied to a 
 //D: given target object.
+
 CREATING
 //M: This is an optional create phase method - if no probeMap is specified
 //M: the ProbeDisplay will ask the probedObject for a ProbeMap using the
@@ -167,14 +172,38 @@ USING
 
 @end
 
-@protocol CompleteProbeDisplay <CommonProbeDisplay>
+@protocol CompleteProbeDisplay <SingleProbeDisplay>
 //S: A class that generates a complete ProbeMap for an object.
 
 //D: A class which generates a GUI to a complete ProbeMap of probes applied 
 //D: to a given target object (by complete we mean that all the probes for
 //D: the target object's class and its superclasses are included)...
 @end
-
+
+@protocol MultiVarProbeDisplay <CommonProbeDisplay>
+//S: A display for displaying a ProbeMap across a number of objects.
+
+//D: This ProbeDisplay extracts all the variable probes from a probe map
+//D: and creates a variable probe entry for each object in the list
+//D: provided by the user.
+CREATING
+//M: Sets the list of objects to display.
+- setObjectList: (id <List>)objectList;
+
+//M: Sets the probe map (i.e. list of fields) to display.
+- setProbeMap: (id <ProbeMap>)probeMap;
+
+//M: Sets the selector to send for labeling the object.
+- setObjectNameSelector: (SEL)objectNameSelector;
+
+- setLabelingFlag: (BOOL)labelingFlag;
+
++ createBegin: aZone;
+- createEnd;
+USING
+- (void)drop;
+@end
+
 extern id <ProbeDisplay> _createProbeDisplay (id obj);
 extern id <CompleteProbeDisplay> _createCompleteProbeDisplay (id obj);
 
@@ -283,11 +312,14 @@ USING
 //S: A widget for editing the arguments of a MessageProbe.
 
 //D: A widget for editing the arguments of a MessageProbe.
+CREATING
 + createBegin: aZone;
 - setParent: parent;
 - setObject: object;
 - createEnd;
-- setProbe: (id <Probe>)probe;
+- setProbe: probe;
+
+USING
 - pack;
 @end
 
@@ -295,12 +327,16 @@ USING
 //S: A widget for displaying multiple objects across multiple fields.
 
 //D: A widget for displaying multiple objects across multiple fields.
-
+CREATING
++ createBegin: aZone;
 - createEnd;
-- setLabelingFlag: (BOOL)labelingFlag;
+- setParent: parent;
+- setFieldLabelingFlag: (BOOL)labelingFlag;
+- setObjectNameSelector: (SEL)objectNameSelector;
 - setObjectList: (id <List>)objectList;
-- setProbeList: (id <List>)probeList;
-- setAgentNameSelector: (SEL)agentNameSelector;
+- setProbeMap: (id <ProbeMap>)probeMap;
+
+USING
 - update;
 - pack;
 - (void)drop;
@@ -320,6 +356,7 @@ extern void initSimtoolsGUI (void);
 @class ActionCache;
 @class ProbeDisplay;
 @class CompleteProbeDisplay;
+@class MultiVarProbeDisplay;
 @class ProbeDisplayManager;
 @class GUISwarm;
 @class MessageProbeWidget;

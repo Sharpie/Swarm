@@ -4,10 +4,11 @@
 
 @interface MultiVarProbeWidget: SwarmObject
 {
-  BOOL labelingFlag;
-  id <List> objectList, probeList;
+  id <List> objectList;
+  id <ProbeMap> probeMap;
 
-  SEL agentNameSelector;
+  BOOL fieldLabelingFlag;
+  SEL objectNameSelector;
   
   id <Frame> parent;
   id <VarProbeLabel> objectsTitleLabel;
@@ -17,11 +18,14 @@
   id <Map> multiProbeMap;
 }
 
++ createBegin: aZone;
 - createEnd;
-- setLabelingFlag: (BOOL)labelingFlag;
 - setObjectList: (id <List>)objectList;
-- setProbeList: (id <List>)probeList;
-- setAgentNameSelector: (SEL)agentNameSelector;
+- setParent: parent;
+- setProbeMap: (id <ProbeMap>)probeMap;
+- setFieldLabelingFlag: (BOOL)labelingFlag;
+- setObjectNameSelector: (SEL)agentNameSelector;
+
 - update;
 - pack;
 - (void)drop;

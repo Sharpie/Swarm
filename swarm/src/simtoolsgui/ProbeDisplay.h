@@ -4,12 +4,12 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/SwarmObject.h>
-#import <objectbase/ProbeMap.h>
+#import <objectbase.h>
 
 @interface ProbeDisplay: SwarmObject
 {
   id probedObject;
-  ProbeMap *probeMap;
+  id <ProbeMap> probeMap;
 
   const char *windowGeometryRecordName;
 }
@@ -17,7 +17,7 @@
 - setWindowGeometryRecordName: (const char *)theName;
 - setProbedObject: anObject;
 - getProbedObject;
-- setProbeMap: (ProbeMap *)probeMap;
+- setProbeMap: probeMap;
 - getProbeMap;
 - createEnd;
 @end

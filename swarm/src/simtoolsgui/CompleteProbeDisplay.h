@@ -3,9 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtoolsgui/CommonProbeDisplay.h>
+#import <simtoolsgui/SingleProbeDisplay.h>
 
-@interface CompleteProbeDisplay : CommonProbeDisplay
+@interface CompleteProbeDisplay: SingleProbeDisplay
 {
   id widgets;
 }

@@ -94,7 +94,6 @@
 
   index = [probeMap begin: globalZone];
 
-  // When I figure out how to 'rewind' I'll do just that...
   while ((probe = [index next]) != nil)
     {
       if ([probe isKindOf: [MessageProbe class]])
