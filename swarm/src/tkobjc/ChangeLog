@@ -1,3 +1,8 @@
+2000-06-29    <mgd@DRONE>
+
+	* ArchivedGeometryWidget.[hm]
+	([ArchivedGeometryWidget -updateArchiver:]): Remove return type.
+
 2000-06-14    <mgd@DRONE>
 
 	* ScheduleItem.m: Include tkobjc/CanvasItem.h.

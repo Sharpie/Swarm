@@ -168,7 +168,7 @@ CREATING
 - loadWindowGeometryRecord;
 - registerAndLoad;
 USING
-- updateArchiver: archiver;
+- (void)updateArchiver: archiver;
 @end
 
 @protocol Frame <ArchivedGeometryWidget, CREATABLE>

@@ -83,7 +83,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- updateArchiver: archiver
+- (void)updateArchiver: archiver
 {
   if (windowGeometryRecordName)
     {
@@ -100,7 +100,6 @@ PHASE(Using)
       [archiver putShallow: windowGeometryRecordName
                     object: windowGeometryRecord];
     }
-  return self;
 }
 
 - (void)drop
