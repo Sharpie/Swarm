@@ -186,7 +186,7 @@ checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL deepFlag,
     }
 
   [archiver registerClient: obj];
-  [archiver save];
+  [archiver sync];
   [obj drop];
   [archiver drop];
       
