@@ -1,3 +1,8 @@
+1998-07-01  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Archiver.m ([Archiver -_collectRemaining_:]): New method.
+	([Archiver -processMakeExpr:]): Call it.
+
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (lib_LIBRARIES, libsimtools_a_SOURCES): Remove.

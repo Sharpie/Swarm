@@ -39,10 +39,10 @@ compareStrings (id val1, id val2)
   return [val1 compare: val2];
 }
 
-+ createBegin : aZone
++ createBegin: aZone
 {
-  Archiver *newArchiver = [super createBegin : aZone];
-  id map = [Map createBegin : aZone];
+  Archiver *newArchiver = [super createBegin: aZone];
+  id map = [Map createBegin: aZone];
 
   [map setCompareFunction: &compareStrings];
   newArchiver->applicationMap = [map createEnd];
@@ -57,7 +57,7 @@ compareStrings (id val1, id val2)
   const char *appModeString = [arguments getAppModeString];
 
   currentApplicationKey = 
-    [String create :[self getZone] setC: appName];
+    [String create: [self getZone] setC: appName];
   
   [currentApplicationKey catC: "/"];
   [currentApplicationKey catC: appModeString];
@@ -75,29 +75,40 @@ compareStrings (id val1, id val2)
   abort ();
 }
 
-- _badType_ : obj
+- _badType_: obj
 {
   id oStream = [OutputStream create: scratchZone setFileStream: stdout];
 
-  [obj describe : oStream];
+  [obj describe: oStream];
   [oStream drop];
   abort ();
 }
 
-- processQuotedExpr : expr
+- processQuotedExpr: expr
 {
   id value;
 
   if (!listp (expr))
-    [self _badType_ : expr];
+    [self _badType_: expr];
   value = [expr getFirst];
   if (value != ArchiverLiteral)
-    [self _badValue_ : value];
+    [self _badValue_: value];
   value = [expr getLast];
   return value;
 }
 
-- processMakeExpr : expr
+- _collectRemaining_: makeExprIndex
+{
+  id obj;
+  id newList = [List create: [self getZone]];
+
+  while ((obj = [makeExprIndex next]))
+      [newList addLast: obj];
+
+  return newList;
+}
+
+- processMakeExpr: expr
 {
   if (!listp (expr))
     [self _badType_: expr];
@@ -120,13 +131,14 @@ compareStrings (id val1, id val2)
       Class classObject;
       id result;
       
-      classNameString = [self processQuotedExpr : [makeExprIndex next]];
+      classNameString = [self processQuotedExpr: [makeExprIndex next]];
       if (!stringp (classNameString))
         [self _badValue_: classNameString];
       classObject = objc_lookup_class ([classNameString getC]);
       if (!classObject)
         [self _badValue_: classNameString];
-      result = [classObject in: aZone expr: [makeExprIndex next]];
+      result = [classObject in: aZone
+                            expr: [self _collectRemaining_: makeExprIndex]];
       
       [makeExprIndex drop];
       return result;
@@ -134,19 +146,19 @@ compareStrings (id val1, id val2)
   }
 }
   
-- processPairs : obj method: (SEL)method map: map
+- processPairs: obj method: (SEL)method map: map
 {
   if (!listp (obj))
-    [self _badType_ : obj];
+    [self _badType_: obj];
   {
     id aZone = [self getZone];
     id listExprIndex = [obj begin: scratchZone];
     id listExpr = [listExprIndex next];
     
     if (!stringp (listExpr))
-      [self _badType_ : listExpr];
+      [self _badType_: listExpr];
     if (strcmp ([listExpr getC], "list") != 0)
-      [self _badValue_ : listExpr];
+      [self _badValue_: listExpr];
     
     {
       id keyValue;
@@ -157,7 +169,7 @@ compareStrings (id val1, id val2)
           id consFuncString = [consIndex next];
           
           if (!stringp (consFuncString))
-            [self _badType_ : consFuncString];
+            [self _badType_: consFuncString];
           if (strcmp ([consFuncString getC], "cons") != 0)
             [self _badValue_: consFuncString];
 
@@ -172,7 +184,7 @@ compareStrings (id val1, id val2)
                 if (!stringp (first))
                   [self _badType_: first];
                 if (!stringp (last))
-                  [self _badType_ : last];
+                  [self _badType_: last];
                 [first catC: "/"];
                 [first catC: [last getC]];
                 key = [first copy: aZone];
@@ -182,7 +194,7 @@ compareStrings (id val1, id val2)
               [self _badType_: key];
 
             {
-              id value = [self perform : method with: [consIndex next]];
+              id value = [self perform: method with: [consIndex next]];
               
               if ([map at: key])
                 [map at: key replace: value];
@@ -197,23 +209,23 @@ compareStrings (id val1, id val2)
   return self;
 }
 
-- processMakeObjcPairs : obj
+- processMakeObjcPairs: obj
 {
   id objectMap = [Map createBegin: [self getZone]];
   [objectMap setCompareFunction: &compareStrings];
   objectMap = [objectMap createEnd];
   
-  [self processPairs : obj
+  [self processPairs: obj
         method: @selector(processMakeExpr:)
         map: objectMap];
           
   return objectMap;
 }
 
-- processApplicationPairs : obj
+- processApplicationPairs: obj
 {
   return 
-    [self processPairs : obj
+    [self processPairs: obj
           method: @selector(processMakeObjcPairs:)
           map: applicationMap];
 }
@@ -223,18 +235,18 @@ compareStrings (id val1, id val2)
   id archiverCallExprIndex, archiverCallName;
   
   if (!listp (expr))
-    [self _badType_ : expr];
+    [self _badType_: expr];
   
   archiverCallExprIndex = [expr begin: scratchZone];
   archiverCallName = [archiverCallExprIndex next];
 
   if (!stringp (archiverCallName))
-    [self _badType_ : archiverCallName];
+    [self _badType_: archiverCallName];
   
   if (strcmp ([archiverCallName getC], ARCHIVER_FUNCTION_NAME) != 0)
     [self _badValue_: archiverCallName];
 
-  [self processApplicationPairs : [archiverCallExprIndex next]];
+  [self processApplicationPairs: [archiverCallExprIndex next]];
   [archiverCallExprIndex drop];
   return self;
 }
@@ -244,14 +256,14 @@ compareStrings (id val1, id val2)
   return [[Archiver create: aZone] in: expr];
 }
 
-+ load : aZone fromFileNamed: (const char *)archiveFileName;
++ load: aZone fromFileNamed: (const char *)archiveFileName;
 {
   if (archiveFileName && access (archiveFileName, R_OK) != -1)
     {
       FILE *fp = fopen (archiveFileName, "r");
       // Create a temporary zone to simplify destruction of expression
-      id inStreamZone = [Zone create : scratchZone];
-      id inStream = [InputStream create : inStreamZone setFileStream: fp];
+      id inStreamZone = [Zone create: scratchZone];
+      id inStream = [InputStream create: inStreamZone setFileStream: fp];
       id newArchiver = [Archiver in: aZone
                                  expr: [inStream getExpr]];
       [newArchiver setArchiveFileName: archiveFileName];
@@ -262,16 +274,15 @@ compareStrings (id val1, id val2)
   return nil;
 }
 
-+ load : aZone
++ load: aZone
 {
-  id newArchiver = [Archiver load : aZone
+  id newArchiver = [Archiver load: aZone
                              fromFileNamed: [defaultFileName (aZone) getC]];
 
   return newArchiver;
 }
 
-+ ensure         : aZone 
-  archiveFileName: (const char *)archiveFileName
++ ensure: aZone archiveFileName: (const char *)archiveFileName
 {
   Archiver *newArchiver;
 
@@ -285,7 +296,7 @@ compareStrings (id val1, id val2)
   return newArchiver;
 }
 
-+ ensure : aZone
++ ensure: aZone
 {
   Archiver *newArchiver;
 
@@ -312,7 +323,7 @@ compareStrings (id val1, id val2)
   return objectMap;
 }
 
-- out : outputCharStream
+- out: outputCharStream
 {
   id appMapIndex = [applicationMap begin: scratchZone];
   id objectMap, appKey;
@@ -373,7 +384,7 @@ compareStrings (id val1, id val2)
     return nil;
   outStream = [OutputStream create: scratchZone setFileStream: fp];
   [clients forEach: @selector(updateArchiver)];
-  [self out : outStream];
+  [self out: outStream];
   fclose (fp);
   [outStream drop];
   return self;
@@ -396,7 +407,7 @@ compareStrings (id val1, id val2)
 
 - _unregister_: client
 {
-  [clients remove : client];
+  [clients remove: client];
   return self;
 }
 
