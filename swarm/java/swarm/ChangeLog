@@ -1,3 +1,7 @@
+1999-06-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules.in, Makefile.in (jdkdosdir): Remove.
+
 1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (.deps): Strip off carriage returns.

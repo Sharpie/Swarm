@@ -1,7 +1,6 @@
 prefix=@prefix@
 datadir=@datadir@
 jdkdir=@jdkdir@
-jdkdosdir=@jdkdosdir@
 INSTALL=@INSTALL@
 jdkdir=@jdkdir@
 jdkbindir=$(jdkdir)/bin
