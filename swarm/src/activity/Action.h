@@ -133,18 +133,21 @@ Library:      activity
 
 @interface ActionForEach_0: ActionTo_0
 /*** methods in ActionForEach_0 (inserted from .m file by m2h) ***/
+- (void)setDefaultOrder: aSymbol;
 - (void)_performAction_: anActivity;
 - (void)describe: outputCharStream;
 @end
 
 @interface ActionForEach_1: ActionTo_1
 /*** methods in ActionForEach_1 (inserted from .m file by m2h) ***/
+- (void)setDefaultOrder: aSymbol;
 - (void)_performAction_: anActivity;
 - (void)describe: outputCharStream;
 @end
 
 @interface ActionForEach_2: ActionTo_2
 /*** methods in ActionForEach_2 (inserted from .m file by m2h) ***/
+- (void)setDefaultOrder: aSymbol;
 - (void)_performAction_: anActivity;
 - (void)describe: outputCharStream;
 @end

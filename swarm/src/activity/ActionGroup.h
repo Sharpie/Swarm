@@ -10,6 +10,7 @@ Library:      activity
 */
 
 #import <collections/OrderedSet.h>
+#import <collections/Permutation.h>
 #import <activity/CompoundAction.h>
 #import <activity/XActivity.h>
 
@@ -85,7 +86,7 @@ Library:      activity
 @public
   id <Activity> activity;
 }
-+ createBegin: aZone;
++ createBegin: aZone forCollection: aGroup;
 - createEnd;
 - getHoldType;
 - nextAction: (id *)status;

@@ -347,6 +347,22 @@ describeMessage(id stream, id target, SEL msg, int nargs, id arg1, id arg2, id a
 
 @implementation ActionForEach_0
 
+- (void)setDefaultOrder: aSymbol
+{
+  if (aSymbol == (id) Concurrent) 
+    setBit (bits, BitConcurrent, 1); 
+  else if (aSymbol == (id) Sequential)
+    {
+      setBit(bits, BitConcurrent, 0);
+      setBit(bits, BitRandomized, 0);
+    }
+  else if (aSymbol == (id) Randomized)
+    setBit(bits, BitRandomized, 1);
+  else
+    raiseEvent(InvalidArgument, nil);
+}
+
+
 - (void)_performAction_: anActivity
 {
   id  memberAction;
@@ -382,6 +398,22 @@ describeForEachMessage (id stream, id target, SEL msg, int nargs, id arg1, id ar
 
 @implementation ActionForEach_1
 
+- (void)setDefaultOrder: aSymbol
+{
+  if (aSymbol == (id) Concurrent) 
+    setBit (bits, BitConcurrent, 1); 
+  else if (aSymbol == (id) Sequential)
+    {
+      setBit(bits, BitConcurrent, 0);
+      setBit(bits, BitRandomized, 0);
+    }
+  else if (aSymbol == (id) Randomized)
+    setBit(bits, BitRandomized, 1);
+  else
+    raiseEvent(InvalidArgument, nil);
+}
+
+
 - (void)_performAction_: anActivity
 {
   id memberAction;
@@ -404,6 +436,22 @@ describeForEachMessage (id stream, id target, SEL msg, int nargs, id arg1, id ar
 
 
 @implementation ActionForEach_2
+- (void)setDefaultOrder: aSymbol
+{
+  if (aSymbol == (id) Concurrent) 
+    setBit (bits, BitConcurrent, 1); 
+  else if (aSymbol == (id) Sequential)
+    {
+      setBit(bits, BitConcurrent, 0);
+      setBit(bits, BitRandomized, 0);
+    }
+  else if (aSymbol == (id) Randomized)
+    setBit(bits, BitRandomized, 1);
+  else
+    raiseEvent(InvalidArgument, nil);
+}
+
+
 
 - (void)_performAction_: anActivity
 {
@@ -426,6 +474,21 @@ describeForEachMessage (id stream, id target, SEL msg, int nargs, id arg1, id ar
 @end
 
 @implementation ActionForEach_3
+- (void)setDefaultOrder: aSymbol
+{
+  if (aSymbol == (id) Concurrent) 
+    setBit (bits, BitConcurrent, 1); 
+  else if (aSymbol == (id) Sequential)
+    {
+      setBit(bits, BitConcurrent, 0);
+      setBit(bits, BitRandomized, 0);
+    }
+  else if (aSymbol == (id) Randomized)
+    setBit(bits, BitRandomized, 1);
+  else
+    raiseEvent(InvalidArgument, nil);
+}
+
 
 - (void)_performAction_: anActivity
 {

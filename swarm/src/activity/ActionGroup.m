@@ -181,8 +181,6 @@ PHASE(Using)
   newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_0];
   newAction->target   = target;
   newAction->selector = aSel;
-  if ([self getDefaultOrder] == (id) Randomized)
-    setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];
   return newAction;
 }
@@ -195,8 +193,6 @@ PHASE(Using)
   newAction->target = target;
   newAction->selector = aSel;
   newAction->arg1 = arg1;
-  if ([self getDefaultOrder] == (id) Randomized)
-    setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];
   return newAction;
 }
@@ -210,8 +206,6 @@ PHASE(Using)
   newAction->selector = aSel;
   newAction->arg1 = arg1;
   newAction->arg2 = arg2;
-  if ([self getDefaultOrder] == (id) Randomized)
-    setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];
   return newAction;
 }
@@ -226,8 +220,6 @@ PHASE(Using)
   newAction->arg1 = arg1;
   newAction->arg2 = arg2;
   newAction->arg3 = arg3;
-  if ([self getDefaultOrder] == (id) Randomized)
-      setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];
   return newAction;
 }
@@ -236,8 +228,7 @@ PHASE(Using)
 {
   GroupPermutedIndex_c *newIndex;
 
-  newIndex = [GroupPermutedIndex_c createBegin: aZone];
-  newIndex->collection = self;
+  newIndex = [GroupPermutedIndex_c createBegin: aZone forCollection: self];
   newIndex = [newIndex createEnd];
   return newIndex;
 }
@@ -413,37 +404,22 @@ PHASE(Using)
 
 @implementation GroupPermutedIndex_c
 
-+ createBegin: (id)aZone forIndexSubclass: (id)anClass
-{
-  GroupPermutedIndex_c *newIndex;
 
-  newIndex = [PermutedIndex_c createBegin: aZone forIndexSubclass: anClass];
-  newIndex->collection = self;
-  newIndex = [newIndex createEnd];
-  return newIndex;
-}
-
-+ createBegin: aZone
++ createBegin: aZone forCollection: aCollection;
 {
   GroupPermutedIndex_c *newIndex;
 
   newIndex = [aZone allocIVars: self];
-  newIndex->index = nil;
+  newIndex->collection = [Permutation createBegin:  [aZone getComponentZone] 
+				      forCollection: aCollection];;
+  newIndex->collection = [newIndex->collection createEnd];
+
   return newIndex;
 }
 
 - createEnd
 {
-  int count;
-  id permutation;
-
-  count = [collection getCount];
-  permutation = [Permutation createBegin: [getZone(self) getComponentZone]];
-  [permutation  setMaxElement: count];
-  permutation = [permutation createEnd];
-  permutationIndex = [permutation begin: [getZone(self) getComponentZone]];
-  index = [collection begin: [getZone(self) getComponentZone]];
-  
+  index = [collection begin: [getZone(self) getComponentZone]];  
   return self;
 }
 
@@ -470,7 +446,8 @@ PHASE(Using)
 //
 - (void)dropAllocations: (BOOL)componentAlloc
 {
-  [((ActionGroup_c *) collection)->activityRefs remove: activity];
+  [((ActionGroup_c *)((Permutation_c *)collection)->collection)->activityRefs 
+				       remove: activity];
   [super dropAllocations: YES];
 }
 

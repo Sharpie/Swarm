@@ -1,3 +1,49 @@
+1998-12-22  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Action.h (ActionForEach_0): Add setDefaultOrder:.
+	(ActionForEach_1): Likewise.
+	(ActionForEach_2): Likewise.
+	(ActionForEach_3): Likewise.
+
+	* Action.m ([ActionForEach_0 -setDefaultOrder:]): Implement default 
+	order setting.
+	([ActionForEach_1 -setDefaultOrder:]): Likewise.
+	([ActionForEach_2 -setDefaultOrder:]): Likewise
+	([ActionForEach_3 -setDefaultOrder:]): Likewise.
+
+	* ActionGroup.h (GroupPermutedIndex_c): Remove +createBegin:.
+	(GroupPermutedIndex_c): Add +createBegin: forCollection:.
+
+	* ActionGroup.m ([ActionGroup_c -createActionForEach:message:]): 
+	Remove inheritance of the default order.
+	([ActionGroup_c -createActionForEach:message::]):
+	Likewise.
+	([ActionGroup_c -createActionForEach:message:]): 
+	Likewise.
+	([ActionGroup_c -createActionForEach:message:]): 
+	Likewise.
+	([ActionGroup_c -_createPermutedIndex_:]): Use 
+	[GroupPermutedIndex -createBegin: forCollection:] instead of
+	[GroupPermutedIndex -createBegin:].
+	([GroupPermutedIndex_c +createBegin: forIndexSubclass:]): 
+	Remove.
+	([GroupPermutedIndex_c +createBegin:forCollection:]): Modify 
+	[GroupPermutedIndex_c +createBegin:] to support new PermutedIndex
+	class.
+	([GroupPermutedIndex_c -createEnd]): Modify to support new 
+	PermutedIndex class.
+	([GroupPermutedIndex_c -dropAllocations:]): Likewise.
+
+	* Schedule.m ([Schedule_c -at:createActionForEach:message:]): 
+	Remove inheritance of the default order.
+	([Schedule_c -at:createActionForEach:message::]):
+	Likewise.
+	([Schedule_c -at:createActionForEach:message:::]):
+	Likewise.
+	([Schedule_c -at:createActionForEach:message::::]):
+	Likewise.
+	
+	
 1998-12-22  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* activity.h (ActionType): Remove activate:.

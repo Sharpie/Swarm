@@ -581,8 +581,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_0];
   newAction->target = target;
   newAction->selector = aSel;
-  if ([self getDefaultOrder] == (id) Randomized)
-    setBit (newAction->bits, BitRandomized, 1);
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
@@ -595,8 +593,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   newAction->target = target;
   newAction->selector = aSel;
   newAction->arg1 = arg1;
-  if ([self getDefaultOrder] == (id) Randomized)
-    setBit(newAction->bits, BitRandomized, 1);
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
@@ -610,8 +606,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   newAction->selector = aSel;
   newAction->arg1 = arg1;
   newAction->arg2 = arg2;
-  if ([self getDefaultOrder] == (id) Randomized)
-    setBit (newAction->bits, BitRandomized, 1);
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
@@ -625,8 +619,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   newAction->selector = aSel;
   newAction->arg1 = arg1;
   newAction->arg2 = arg2;
-  if ([self getDefaultOrder] == (id) Randomized)
-    setBit (newAction->bits, BitRandomized, 1);
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
