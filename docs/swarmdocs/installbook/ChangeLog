@@ -1,6 +1,7 @@
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* Makefile.am (EXTRA_DIST): New variable.
+	* Makefile.am: Include $(top_srcdir)/Makefile.common.
+	(EXTRA_DIST): New variable.
 
 1998-06-15  Alex Lancaster  <alex@santafe.edu>
 
