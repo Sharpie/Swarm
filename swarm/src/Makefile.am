@@ -30,12 +30,24 @@ lib_LTLIBRARIES = @LIBSWARM_LA@
 EXTRA_LTLIBRARIES = libswarm.la
 libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la)
 
-libswarm_la_SOURCES = empty.c
+libswarm_la_SOURCES = SwarmEnvironment.m
 
-empty.c:
-	echo > empty.c
+include_HEADERS = swarm.h
+
+SwarmEnvironment.lo: SwarmEnvironment_getters.m
+
+SwarmEnvironment_getters.m: swarm.h
+
+ include $(top_srcdir)/etc/Makefile.protocol
+
+getters.elc: $(abs_top_builddir)/protocol.elc
+
+$(srcdir)/SwarmEnvironment_getters.m: swarm.h getters.elc
+	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@getters.elc' -f generate-SwarmEnvironment-getters
 
 LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lobjc $(SYSLIBS)
+
+INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/collections -I$(srcdir)/defobj -I$(srcdir)/activity -I$(srcdir)/objectbase -I$(srcdir)/random -I$(srcdir)/simtools -I$(srcdir)/simtoolsgui -I$(srcdir)/misc -I. -I$(srcdir)
 
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(SUPPORTLDFLAGS) -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
 
