@@ -26,3 +26,20 @@ listp (id obj)
   return [obj isKindOfClassNamed: "List_linked"];
 }
 
+BOOL
+keywordp (id obj)
+{
+  return [obj isKindOfClassNamed: "ArchiverKeyword_c"];
+}
+
+BOOL
+numberp (id obj)
+{
+  return [obj isKindOfClassNamed: "ArchiverNumber_c"];
+}
+
+BOOL
+arrayp (id obj)
+{
+  return [obj isKindOfClassNamed: "ArchiverArray_c"];
+}

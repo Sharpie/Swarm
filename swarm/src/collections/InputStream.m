@@ -11,8 +11,8 @@ Library:      collections
 
 #import <collections.h>
 #import <collections/InputStream.h>
-#include <stdio.h> // fputs
-#include <ctype.h> // isspace
+#include <objc/objc-api.h> // type definitions
+#include <misc.h> // errno, fputs, isspace, isdigit
 
 @implementation InputStream_c
 
@@ -116,7 +116,6 @@ readString (id inStream, BOOL literalFlag)
   else if (c == '#')
     {
       int c2 = fgetc (fileStream);
-      id list = [List create: [self getZone]];
 
       if (c2 == ':')
         {
@@ -125,8 +124,9 @@ readString (id inStream, BOOL literalFlag)
           if (newObj == nil)
             [self _unexpectedEOF_];
           
-          [list addLast: ArchiverSymbol];
-          [list addLast: newObj];
+          return [[[ArchiverKeyword createBegin: [self getZone]]
+                    setKeywordName: [newObj getC]]
+                   createEnd];
         }
       else if (c2 >= '0' && c2 <= '9')
         {
@@ -147,15 +147,13 @@ readString (id inStream, BOOL literalFlag)
             if (newObj == nil)
               [self _unexpectedEOF_];
             
-            [list addLast: ArchiverArray];
-            [list addLast: (id)rank];
-            [list addLast: newObj];
-            xfprint (newObj);
+            return [[[ArchiverArray createBegin: [self getZone]]
+                      setArray: newObj]
+                     createEnd];
           }
         }
       else
         raiseEvent (InvalidArgument, "Unknown `#' form");
-      return list;
     }
   else if (c == '(')
     {
@@ -189,15 +187,283 @@ readString (id inStream, BOOL literalFlag)
   else
     {
       id string;
+      BOOL isNumeric = YES;
+      char type = _C_INT;
+      BOOL isDouble = NO;
 
       ungetc (c, fileStream);
       string = readString (self, 0);
+
+      {
+        const char *str = [string getC];
+        size_t len = strlen (str);
+        size_t pos;
+        
+        for (pos = 0; pos < len; pos++)
+          {
+            char ch = str[pos];
+            
+            if (ch == '.')
+              type = _C_DBL;
+            else if (!isdigit (ch))
+              {
+                if (pos == len - 2)
+                  {
+                    if (ch == 'F')
+                      type = _C_FLT;
+                    else if (ch == 'D')
+                      type = _C_DBL;
+                    else
+                      {
+                        isNumeric = NO;
+                        break;
+                      }
+                  }
+                else
+                  {
+                    isNumeric = NO;
+                    break;
+                  }
+              }
+          }
+      
+        if (isNumeric)
+          {
+            id number = [ArchiverNumber createBegin: [self getZone]];
+            
+            if (type == _C_DBL || type == _C_FLT)
+              {
+                double val;
+                
+                errno = 0;
+                val = strtod (str, NULL);
+                if (errno != 0)
+                  raiseEvent (InvalidArgument, "Could not convert to double");
+                if (type == _C_FLT)
+                  [number setFloat: (float)val];
+                else
+                  [number setDouble: val];
+              }
+            else if (type == _C_INT)
+              {
+                long val;
+
+                errno = 0;
+                val = strtol (str, NULL, 10);
+                if (errno != 0)
+                  raiseEvent (InvalidArgument, "Could not convert to long");
+                [number setInteger: (int)val];
+              }
+            else
+              abort ();
+            return [number createEnd];
+          }
+      }
       if (string)
         return string;
       else
         [self _badType_ : string];
     }
-  abort ();
+}
+
+@end
+
+@implementation ArchiverKeyword_c
+
+PHASE(Creating)
+
+- setKeywordName: (const char *)name
+{
+  keywordName = name;
+  return self;
+}
+
+PHASE(Using)
+
+- (const char *)getKeywordName
+{
+  return keywordName;
+}
+
+@end
+    
+@implementation ArchiverArray_c
+
+PHASE(Creating)
+
+- setArray: array
+{
+  id <List> l;
+  id proto;
+  
+  for (l = array, rank = 0; listp (l); rank++)
+    l = [l getFirst];
+
+  proto = l;
+
+  if (!numberp (proto))
+    raiseEvent (InvalidArgument, "Array element not numeric");
+  
+  dims = xcalloc (rank, sizeof (unsigned));
+  
+  {
+    unsigned dimnum;
+    
+    elementCount = 1;
+    for (l = array, dimnum = 0; listp (l); l = [l getFirst], dimnum++)
+      {
+        dims[dimnum] = [l getCount];
+        elementCount *= dims[dimnum];
+      }
+  }
+  
+  switch ([proto getNumberType])
+    {
+    case _C_INT:
+      elementSize = sizeof (int);
+      break;
+    case _C_DBL:
+      elementSize = sizeof (double);
+      break;
+    case _C_FLT:
+      elementSize = sizeof (float);
+      break;
+    default:
+      raiseEvent (InvalidArgument, "Unknown number type");
+    }
+  
+  data = xcalloc (elementCount, elementSize);
+  
+  {
+    unsigned coord[rank];
+    
+    void expand (id val, unsigned dimnum)
+      {
+        if (listp (val))
+          {
+            id <Index> li = [val begin: [val getZone]];
+            id item;
+            unsigned pos = 0;
+            
+            while ((item = [li next]) != nil)
+              {
+                coord[dimnum] = pos;
+                expand (item, dimnum + 1);
+                pos++;
+              }
+          }
+        else
+          {
+            unsigned i;
+            unsigned mult = 1;
+            unsigned offset = 0;
+            
+            offset = coord[rank - 1];
+
+            if (!numberp (val))
+              raiseEvent (InvalidArgument, "Array element not a number");
+
+            for (i = rank - 1; i > 0; i--)
+              {
+                mult *= dims[i];
+                offset += coord[i - 1] * mult;
+              }
+            switch ([val getNumberType])
+              {
+              case _C_INT:
+                ((int *) data)[offset] = [val getInteger];
+                break;
+              case _C_FLT:
+                ((float *) data)[offset] = [val getFloat];
+                break;
+              case _C_DBL:
+                ((double *) data)[offset] = [val getDouble];
+                break;
+              default:
+                raiseEvent (InvalidArgument, "Unknown element type");
+              }
+          }
+      }
+    expand (array, 0);
+  }
+  return self;
+}
+
+PHASE(Using)
+
+- (void *)getData
+{
+  return data;
+}
+
+- (unsigned *)getDims
+{
+  return dims;
+}
+
+- (unsigned)getElementCount
+{
+  return elementCount;
+}
+
+- (size_t)getElementSize
+{
+  return elementSize;
+}
+
+- (void)drop
+{
+  xfree (dims);
+  xfree (data);
+}
+
+@end
+
+@implementation ArchiverNumber_c
+
+PHASE(Creating)
+
+- setDouble: (double)val
+{
+  type = _C_DBL;
+  number.d = val;
+  return self;
+}
+
+- setFloat: (float)val
+{
+  type = _C_FLT;
+  number.f = val;
+  return self;
+}
+
+- setInteger: (int)val
+{
+  type = _C_INT;
+  number.i = val;
+  return self;
+}
+
+PHASE(Using)
+
+- (char)getNumberType
+{
+  return type;
+}
+
+- (double)getDouble
+{
+  return number.d;
+}
+
+- (float)getFloat
+{
+  return number.f;
+}
+
+- (int)getInteger
+{
+  return number.i;
 }
 
 @end

@@ -963,7 +963,38 @@ USING
 @end
 
 //G: Tokens used by the archiving parser.
-extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot, ArchiverSymbol, ArchiverArray;
+extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
+
+@protocol ArchiverKeyword <Create, Drop, CREATABLE>
+CREATING
+- setKeywordName: (const char *)name;
+USING
+- (const char *)getKeywordName;
+@end
+
+@protocol ArchiverArray <Create, Drop, CREATABLE>
+CREATING
+- setArray: array;
+USING
+- (void *)getData;
+- (unsigned *)getDims;
+- (size_t)getElementSize;
+- (unsigned)getElementCount;
+- (void)drop;
+@end
+
+@protocol ArchiverNumber <Create, Drop, CREATABLE>
+CREATING
+- setDouble: (double)val;
+- setFloat: (float)val;
+- setInteger: (int)val;
+USING
+- (char)getNumberType;
+- (double)getDouble;
+- (float)getFloat;
+- (int)getInteger;
+- (void)drop;
+@end
 
 #define ARCHIVERLITERALP(obj) ((id)(obj) == (id)ArchiverLiteral)
 

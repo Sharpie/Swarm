@@ -25,3 +25,45 @@ Library:     collections
 - (FILE *) getFileStream;
 - getExpr;
 @end
+
+@interface ArchiverKeyword_c : CreateDrop_s
+{
+  const char *keywordName;
+}
+- setKeywordName: (const char *)name;
+- (const char *)getKeywordName;
+@end
+
+@interface ArchiverArray_c : CreateDrop_s
+{
+  unsigned rank;
+  unsigned *dims;
+  size_t elementSize;
+  unsigned elementCount;
+  void *data;
+}
+- setArray: array;
+- (void *)getData;
+- (unsigned *)getDims;
+- (size_t)getElementSize;
+- (unsigned)getElementCount;
+- (void)drop;
+@end
+
+@interface ArchiverNumber_c: CreateDrop_s
+{
+  char type;
+  union {
+    double d;
+    float f;
+    int i;
+  } number;
+}
+- setDouble: (double)val;
+- setFloat: (float)val;
+- setInteger: (int)val;
+- (double)getDouble;
+- (float)getFloat;
+- (int)getInteger;
+- (char)getNumberType;
+@end

@@ -15,31 +15,34 @@ Library:      collections
 //
 // _collections_implement() -- generate implementations for defobj module
 //
-void _collections_implement( void )
+void
+_collections_implement (void)
 {
-  [id_Array_c        setTypeImplemented: Array       ];
-  [id_List_any       setTypeImplemented: List        ];
-  [id_List_linked    setTypeImplemented: List        ];
-  [id_List_mlinks    setTypeImplemented: List        ];
-  [id_Map_c          setTypeImplemented: Map         ];
-  [id_Set_c          setTypeImplemented: Set         ];
-  [id_OrderedSet_c   setTypeImplemented: OrderedSet  ];
-  [id_String_c       setTypeImplemented: String      ];
-  [id_InputStream_c  setTypeImplemented: InputStream ];
+  [id_Array_c setTypeImplemented: Array];
+  [id_List_any setTypeImplemented: List];
+  [id_List_linked setTypeImplemented: List];
+  [id_List_mlinks setTypeImplemented: List];
+  [id_Map_c setTypeImplemented: Map];
+  [id_Set_c setTypeImplemented: Set];
+  [id_OrderedSet_c setTypeImplemented: OrderedSet];
+  [id_String_c setTypeImplemented: String];
+  [id_InputStream_c setTypeImplemented: InputStream];
   [id_OutputStream_c setTypeImplemented: OutputStream];
+  [id_ArchiverKeyword_c setTypeImplemented: ArchiverKeyword];
+  [id_ArchiverArray_c setTypeImplemented: ArchiverArray];
+  [id_ArchiverNumber_c setTypeImplemented: ArchiverNumber];
 }
 
 //
 // _collections_initialize() -- initialize global data for collections module
 //
-void _collections_initialize (void)
+void
+_collections_initialize (void)
 {
   defsymbol (ArchiverLiteral);
   defsymbol (ArchiverQuote);
   defsymbol (ArchiverEOL);
   defsymbol (ArchiverDot);
-  defsymbol (ArchiverSymbol);
-  defsymbol (ArchiverArray);
 }
 
 

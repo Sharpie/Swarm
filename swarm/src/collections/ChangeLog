@@ -1,7 +1,17 @@
-1998-11-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
+1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* collections.h, collections.m (_collections_initialize): 
-	Add ArchiverSymbol and ArchiverArray symbols.
+	* predicates.[hm] (keywordp, numberp, arrayp): New predicates.
+
+	* InputStream.m: Include misc.h instead of stdio.h and ctype.h
+
+	* InputStream.[hm] (ArchiverKeyword_c,
+	ArchiverArray_c, ArchiverNumber_c): New classes.
+
+	* collections.h: Add corresponding protocols.
+
+	* collections.m (_collections_implement): Associate them.
+
+1998-11-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* InputStream.m ([InputStream_c -_unexpectedEOF_], 
 	[InputStream_c -_badType_:]): Raise an event instead of aborting.
