@@ -1,3 +1,7 @@
+1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Globals.java: Remove loading messages.
+
 1999-08-19    <mgd@HELEN>
 
 	* SwarmEnvironment.java: Initialize globalZone, uniformIntRand,
