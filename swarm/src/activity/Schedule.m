@@ -263,6 +263,7 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   memptr = &anAction;
   newKey = [self at: (id)tVal memberSlot: &memptr];
 
+#if 0
   if (_activity_current
       && self->activityRefs
       &&  !([(id)anAction class] == [ActionMerge_c class]))
@@ -274,6 +275,7 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
         _check_external_activity (sActivity, tVal);
       [index drop];
     }
+#endif
 
   // if no previous action at key, then return unless singleton group required 
 
