@@ -897,7 +897,7 @@ swarm_directory_next_phase (JNIEnv *env, jobject jobj)
   return (*env)->GetObjectField(env, jobj, f_nextPhase);
 }
 
-jobject
+static jobject
 get_swarmEnvironment_field (JNIEnv *env,
 			    jobject swarmEnvironment,
 			    const char *fieldName)
@@ -918,7 +918,7 @@ get_swarmEnvironment_field (JNIEnv *env,
 }
 
 void
-create_refs (JNIEnv *env)
+swarm_directory_create_refs (JNIEnv *env)
 {
   create_class_refs (env);
   create_method_refs (env);
@@ -942,7 +942,7 @@ swarm_directory_init (JNIEnv *env, jobject _swarmEnvironment)
   swarmEnvironment = (*env)->NewGlobalRef (env, _swarmEnvironment);
   swarmDirectory = [Directory create: globalZone];
 
-  create_refs (env);
+  swarm_directory_create_refs (env);
 
   ASSOCIATE (globalZone);
 
@@ -957,6 +957,56 @@ swarm_directory_init (JNIEnv *env, jobject _swarmEnvironment)
   ASSOCIATE (ControlStateStepping);
   ASSOCIATE (ControlStateQuit);
   ASSOCIATE (ControlStateNextTime);
+}
+
+char
+swarm_directory_objc_type_for_java_class (JNIEnv *env, jclass class)
+{
+  char type;
+
+  BOOL exactclassp (jclass matchClass)
+    {
+      return (*env)->IsSameObject (env, class, matchClass);
+    }
+  BOOL classp (jclass matchClass)
+    {
+      jobject clazz;
+      
+      for (clazz = class;
+           clazz;
+           clazz = (*env)->GetSuperclass (env, clazz))
+        if ((*env)->IsSameObject (env, clazz, matchClass))
+          return YES;
+      return NO;
+    }
+  if (classp (c_Selector))
+    type = _C_SEL;
+  else if (classp (c_String))
+    type = _C_CHARPTR;
+  else if (classp (c_Class))
+    type = _C_CLASS;
+  else if (exactclassp (c_int))
+    type = _C_INT;
+  else if (exactclassp (c_short))
+    type = _C_SHT;
+  else if (exactclassp (c_long))
+    type = _C_LNG;
+  else if (exactclassp (c_boolean))
+    type = _C_UCHR;
+  else if (exactclassp (c_byte))
+    type = _C_UCHR;
+  else if (exactclassp (c_char))
+    type = _C_CHR;
+  else if (exactclassp (c_float))
+    type = _C_FLT;
+  else if (exactclassp (c_double))
+    type = _C_DBL;
+  else if (exactclassp (c_void))
+    type = _C_VOID;
+  else
+    type = _C_ID;
+  
+  return type;
 }
 
 SEL
@@ -1022,52 +1072,9 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
             *p++ = '0';
             *p = '\0';
           }
-        void add (jobject class)
+        void add (jclass class)
           {
-            char type;
-              
-            BOOL exactclassp (jclass matchClass)
-              {
-                return (*env)->IsSameObject (env, class, matchClass);
-              }
-            BOOL classp (jclass matchClass)
-              {
-                jobject clazz;
-
-                for (clazz = class;
-                     clazz;
-                     clazz = (*env)->GetSuperclass (env, clazz))
-                  if ((*env)->IsSameObject (env, clazz, matchClass))
-                    return YES;
-                return NO;
-              }
-            if (classp (c_Selector))
-              type = _C_SEL;
-            else if (classp (c_String))
-              type = _C_CHARPTR;
-            else if (classp (c_Class))
-              type = _C_CLASS;
-            else if (exactclassp (c_int))
-              type = _C_INT;
-            else if (exactclassp (c_short))
-              type = _C_SHT;
-            else if (exactclassp (c_long))
-              type = _C_LNG;
-            else if (exactclassp (c_boolean))
-              type = _C_UCHR;
-            else if (exactclassp (c_byte))
-              type = _C_UCHR;
-            else if (exactclassp (c_char))
-              type = _C_CHR;
-            else if (exactclassp (c_float))
-              type = _C_FLT;
-            else if (exactclassp (c_double))
-              type = _C_DBL;
-            else if (exactclassp (c_void))
-              type = _C_VOID;
-            else
-              type = _C_ID;
-            add_type (type);
+            add_type (swarm_directory_objc_type_for_java_class (env, class));
           }
           
         add (retType);

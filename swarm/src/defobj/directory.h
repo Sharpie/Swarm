@@ -29,6 +29,8 @@ jobject swarm_directory_java_instantiate (JNIEnv *jniEnv, jclass clazz);
 jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
 unsigned swarm_directory_java_hash_code (jobject javaObject);
 
+char swarm_directory_objc_type_for_java_class (JNIEnv *env, jclass class);
+
 @interface DirectoryEntry: CreateDrop
 {
 @public

@@ -1,3 +1,8 @@
+1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (swarm_directory_objc_type_for_java_class): New function.
+	(swarm_directory_ensure_selector.add): Use it.
+
 1999-08-19    <mgd@HELEN>
 
 	* directory.m (get_class_name): Use env not jniEnv.
@@ -7,7 +12,7 @@
 	(java_classname_for_typename, objcFindJavaClassName): New functions.
 	([-objcFindJavaClass:]): Use objcFindJavaClassName.
 	(create_class_refs): Set c_SwarmEnvironment.
-	(create_refs): New function.
+	(swarm_directory_create_refs): New function.
 	(get_swarmEnvironment_field): New function.
 	(swarm_directory_init): Use both.  Rewrite to expect pre-instantiated
 	SwarmEnvironment variables.
