@@ -17,6 +17,9 @@
 
 	* defobj.m: Include misc.h instead of stdio.h.  Use YES instead
 	of 1 for initialization of _warning_dropFrom and _obj_debug.
+	(initDefobj): Default to Arguments_c if argumentsClass
+	is Nil.
+
 
 	* Makefile.am (module_headers): Add defobj.xm.
 
