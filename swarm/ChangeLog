@@ -1,3 +1,7 @@
+2004-07-27  Marcus G. Daniels <mgd@santafe.edu>
+
+	* NEWS: Note BinomialDist.
+
 2004-07-23  Marcus G. Daniels <mgd@santafe.edu>
 
 	* configure.in:  Don't use /usr/lib/swarm for --enable-subdirs

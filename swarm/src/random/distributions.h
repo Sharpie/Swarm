@@ -477,6 +477,75 @@ USING
 
 @end
 
+@protocol BinomialDist <UnsignedDistribution, CREATABLE>
+//S: Binomial distribution
+//D: The binomial distribution gives the discrete probability 
+//D: of obtaining exactly n successes out of N Bernoulli trials
+
+CREATING
+//M: Use this create message if the generator to be attached is a Simple one:
++ create     : (id <Zone>)aZone
+ setGenerator: (id <SimpleRandomGenerator>)generator;
+
+//M: Use this create message if the generator to be attached is a Simple one:
+//M: and both the number of trials and the probability are to be set at create time:
++ create        : (id <Zone>)aZone
+    setGenerator: (id <SimpleRandomGenerator>)generator
+    setNumTrials: (unsigned) aNumTrials
+  setProbability: (double) aProbability;
+
+
+//M: Use this create message if the generator to be attached is a Split one:
++ create             : (id <Zone>)aZone
+         setGenerator: (id <SplitRandomGenerator>)generator
+  setVirtualGenerator: (unsigned)vGen;
+
+//M: Use this create message if the generator to be attached is a Split one
+//M: and both the number of trials and the probability are to be set at create time:
++ create             : (id <Zone>)aZone
+         setGenerator: (id <SplitRandomGenerator>)generator
+  setVirtualGenerator: (unsigned)vGen
+         setNumTrials: (unsigned) aNumTrials
+       setProbability: (double) aProbability;
+
+SETTING
+
+//M: The setNumTrials only sets the numTrials parameter; the probability parameter
+//M: is left unchanged from its previous or initialized value 
+- setNumTrials: (unsigned) aNumTrials;
+
+//M: The setNumTrials:setProbability sets both the number of trials rate 
+//M: and the probability parameters.
+-    setNumTrials: (unsigned) aNumTrials
+   setProbability: (double) aProbability;
+
+USING
+
+//M: The getNumTrials returns number of trials parameter.
+- (unsigned) getNumTrials;
+
+//M: The getProbability returns probability parameter.
+- (double) getProbability;
+
+//M: The getIntegerSample returns a sample value using the distribution's current 
+//M: number of trials and probability parameters; causes an error if these parameters 
+//M: have not been previously set.
+- (unsigned) getUnsignedSample;
+
+//M: The getIntegerSampleWithInterval returns a sample value using the distribution's 
+//M: current number of trials and new probability value. Causes an error if the number 
+//M: of trials has not been previously set.
+- (unsigned) getUnsignedSampleWithProbability: (double) aProbability;
+
+//M: The getUnsignedSampleWithOccurRate:andInterval return a sample value for the
+//M: specified number of trials and probability. Does not change the the distribution's
+//M: parameter values.
+- (unsigned) getUnsignedSampleWithNumTrials: (unsigned) aNumTrials
+                            withProbability: (double) aProbability;
+
+
+@end
+
 // Include declarations of type factories for each protocol marked CREATABLE
 // (type factories can be defined either as class names or external id's)
 
@@ -497,4 +566,4 @@ USING
 @class ExponentialDist;
 @class GammaDist;
 @class PoissonDist;
-
+@class BinomialDist;

@@ -1,3 +1,11 @@
+2004-07-26  Marcus G. Daniels <mgd@santafe.edu
+
+	* distributions.h: Add BinomialDist and @class.
+
+	* BinomialDist.[hm]: New files.
+
+	* Makefile.am (random_HEADERS, SRC): Add above files.
+
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Use libobjc definition.  Add GNUstep
