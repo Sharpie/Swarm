@@ -6,8 +6,7 @@
 #import <simtools/QSort.h>
 #import <collections.h>
 
-#include <misc.h> // xmalloc, xfree
-#include <stdlib.h> // qsort
+#include <misc.h> // xmalloc, xfree, qsort
 
 @implementation QSort
 

@@ -5,17 +5,13 @@
 
 #import <simtools/Archiver.h>
 
-#import <collections/Map.h>
 #import <collections.h>
 #import <collections/predicates.h>
 #import <objectbase/Arguments.h>
 
 #import <objc/objc-api.h>
 
-#include <unistd.h>
-#include <strings.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h> // access
 
 #define ARCHIVER_FUNCTION_NAME "archiver"
 #define MAKE_OBJC_FUNCTION_NAME "make-objc"
