@@ -186,7 +186,7 @@ java_instantiate (JNIEnv *env, jclass clazz)
 }
 
 jobject
-java_instantiate_using_from_object (JNIEnv *env, jobject jobj)
+java_instantiate_using (JNIEnv *env, jobject jobj)
 {
   jclass clazz, newClass;
   jstring classNameObj;
