@@ -18,14 +18,15 @@ PAGES = activity/activitypages.sgml \
 	random/randompages.sgml \
 	simtools/simtoolspages.sgml \
 	simtoolsgui/simtoolsguipages.sgml \
-	space/spacepages.sgml
+	space/spacepages.sgml \
+	swarmpages.sgml
 
 GENERATED_SGML = $(PAGES) refindex.sgml refbookrevhistory.sgml
 nodist_noinst_DATA = $(GENERATED_SGML)
 
 ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 
-SGML = conventions-app.sgml license-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml grid-app.sgml
+SGML = conventions-app.sgml license-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml swarmcont.sgml refmeta.sgml grid-app.sgml
 
 EXTRA_DIST = Makefile.rules refbook.ent sgml.el graph.el $(SGML)
 
