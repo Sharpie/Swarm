@@ -1,6 +1,6 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* tkobjc.h: Remove.
+	* tkobjc.h: Replace with error message.
 
 1999-05-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
