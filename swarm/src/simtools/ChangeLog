@@ -496,8 +496,7 @@ Fri Nov 28 16:49:14 1997  glen e. p. ropella  <gepr@swarm.com>
 	setTemplateProbeMap method to ObjectLoader.
 
 	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): Replace
-	call to globalTkInterp for drag&drop with new tkobjc dragAndDrop
-	function.
+	call to Tcl for drag&drop with new tkobjc dragAndDrop function.
 
 	* MessageProbeWidget.m ([MessageProbeWidget -createEnd]): Same.
 	
