@@ -1,4 +1,6 @@
+ifeq ($(SWARMHOME),)
 SWARMHOME=../../swarm
+endif
 APPLICATION=bug
 OBJECTS= main.o  Bug.o FoodSpace.o
 APPLIBS=-lspace

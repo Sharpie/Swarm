@@ -1,4 +1,6 @@
-SWARMHOME=/disks/disk1/swarm-0.7
+ifeq ($(SWARMHOME),)
+SWARMHOME=../../swarm
+endif
 APPLICATION=bug
 OBJECTS= main.o 
 include $(SWARMHOME)/Makefile.appl
