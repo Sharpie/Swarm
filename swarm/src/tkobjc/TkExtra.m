@@ -8,8 +8,7 @@
 #import <objectbase/Arguments.h>
 
 #include <tcl.h>
-#include <unistd.h> // access
-#include <misc.h> // strdup
+#include <misc.h> // strdup, acess
 
 @implementation TkExtra
 
