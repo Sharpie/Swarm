@@ -290,6 +290,21 @@ USING
 - setProbe: (id <Probe>)probe;
 - pack;
 @end
+
+@protocol MultiVarProbeWidget
+//S: A widget for displaying multiple objects across multiple fields.
+
+//D: A widget for displaying multiple objects across multiple fields.
+
+- createEnd;
+- setLabelingFlag: (BOOL)labelingFlag;
+- setObjectList: (id <List>)objectList;
+- setProbeList: (id <List>)probeList;
+- setAgentNameSelector: (SEL)agentNameSelector;
+- update;
+- pack;
+- (void)drop;
+@end
 
 //G: Manager that keeps track of active probes to be updated
 extern id <ProbeDisplayManager> probeDisplayManager;
@@ -308,3 +323,4 @@ extern void initSimtoolsGUI (void);
 @class ProbeDisplayManager;
 @class GUISwarm;
 @class MessageProbeWidget;
+@class MultiVarProbeWidget;

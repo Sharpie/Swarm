@@ -50,7 +50,7 @@
   [myTitle setProbeDisplayManager: probeDisplayManager];
   [myTitle setProbedObject: probedObject];
   myTitle = [myTitle createEnd];
-  [myTitle setText: [self getId]];
+  [myTitle setText: [self getId: NULL]];
   
   hideB = [SimpleProbeDisplayHideButton createBegin: [self getZone]];
   [hideB setParent: top_top_Frame];

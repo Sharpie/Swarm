@@ -62,8 +62,8 @@
   myEntry = [VarProbeEntry createBegin: [self getZone]];
   [myEntry setOwner: self];
   [myEntry setParent: myRight];
-  interactive = [myProbe isInteractive];
-  [myEntry setInteractiveFlag: interactive];
+  interactiveFlag = [myProbe getInteractiveFlag];
+  [myEntry setInteractiveFlag: interactiveFlag];
   [myEntry setProbeType: ([myProbe getProbedType])[0]];
   myEntry = [myEntry createEnd];
   
@@ -72,10 +72,10 @@
   return self;
 }
 
-- Spawn
+- Spawn: (const char *)widgetName
 {
   id target = (*(id *)[myProbe probeRaw: myObject]);
-  
+
   if (target)
     CREATE_PROBE_DISPLAY (target);
   else
@@ -94,7 +94,7 @@
   return self;
 }
 
-- setValue
+- setVariableValue: (const char *)windowName
 {
   [myProbe setData: myObject ToString: [myEntry getValue]];
   
@@ -105,15 +105,15 @@
 {
   char buffer[512];
   
-  if (!interactive)
+  if (interactiveFlag)
+    [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
+  else
     {
       [myEntry setActiveFlag: YES];
       [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
       [myEntry setActiveFlag: NO];
     }
-  else
-    [myEntry setValue: [myProbe probeAsString: myObject Buffer: buffer]];
-  
+    
   GUI_UPDATE ();
   
   return self;
@@ -145,7 +145,7 @@
   return self;
 }
 
-- (const char *)package
+- (const char *)package: (const char *)windowName
 {
   id *content = [myProbe probeRaw: myObject];
 
@@ -158,7 +158,7 @@
   return [*content getObjectName];
 }
 
-- (const char *)getId
+- (const char *)getId: (const char *)windowName
 {
   return [myEntry getValue];
 }

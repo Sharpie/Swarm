@@ -37,12 +37,12 @@
 - createEnd;
 - update;
 - dynamic;
-- Spawn;
-- argSpawn: (int)which;
-- (const char *)getId;
-- (const char *)getId: (int)which;
-- (const char *)package;
-- (const char *)package: (int)which;
+- Spawn: (const char *)widgetName;
+- argSpawn: (const char *)widgetName arg:(int)which;
+- (const char *)getId: (const char *)windowName;
+- (const char *)getId: (const char *)windowName arg: (int)which;
+- (const char *)package: (const char *)windowName;
+- (const char *)package: (const char *)windowaName arg: (int)which;
 - idReceive: (int)which;
 
 #ifndef USE_FRAME

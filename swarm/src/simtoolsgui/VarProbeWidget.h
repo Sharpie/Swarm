@@ -20,7 +20,7 @@
   id <Frame> myRight;
   id <VarProbeLabel> myLabel;
   int maxLabelWidth;
-  int interactive;
+  BOOL interactiveFlag;
   id <VarProbeEntry> myEntry;
 #ifndef USE_WIDGET
   id parent;
@@ -35,12 +35,12 @@
 - setMaxLabelWidth: (int)width;
 - createEnd;
 - pack;
-- setValue;
+- setVariableValue: (const char *)widgetName;
 - update;
-- Spawn;
+- Spawn: (const char *)widgetName;
 - idReceive;
-- (const char *)package;
-- (const char *)getId;
+- (const char *)package: (const char *)widgetName;
+- (const char *)getId: (const char *)widgetName;
 #ifndef USE_WIDGET
 - setParent: parent;
 #endif

@@ -250,12 +250,12 @@ PHASE(Using)
   [super drop];
 }
 
-- (const char *)package
+- (const char *)package: (const char *)windowName
 {
   return [probedObject getObjectName];
 }
 
-- (const char *)getId
+- (const char *)getId: (const char *)windowName
 {
   return [probedObject getIdName];
 }

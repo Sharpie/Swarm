@@ -26,7 +26,7 @@ PHASE(Creating)
   topLevel = [topLevel createEnd];
   [topLevel enableDestroyNotification: self
             notificationMethod: @selector (markForDrop)];
-  [topLevel setWindowTitle: [self getId]];
+  [topLevel setWindowTitle: [self getId: NULL]];
   [topLevel withdraw];
   c_Frame =  [Frame createParent: topLevel]; 
 
@@ -93,12 +93,12 @@ PHASE(Using)
   return self;
 }
 
-- (const char *)package
+- (const char *)package: (const char *)windowName
 {
   return [probedObject getObjectName];
 }
 
-- (const char *)getId
+- (const char *)getId: (const char *)windowName
 {
   return [probedObject getIdName];
 }

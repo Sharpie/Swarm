@@ -30,7 +30,7 @@
 - (void)markForDrop;
 - (BOOL)getMarkedForDropFlag;
 
-- (const char *)package;
-- (const char *)getId;
+- (const char *)package: (const char *)windowName;
+- (const char *)getId: (const char *)windowName;
 
 @end

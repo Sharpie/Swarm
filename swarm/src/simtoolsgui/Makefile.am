@@ -13,6 +13,7 @@ lib_LTLIBRARIES = libsimtoolsgui.la
 SRC = ActionCache.m ActionHolder.m \
 	ClassDisplayWidget.m CommonProbeDisplay.m CompleteProbeDisplay.m \
 	ControlPanel.m GUIComposite.m GUISwarm.m MessageProbeWidget.m \
+	MultiVarProbeWidget.m \
 	ProbeDisplay.m ProbeDisplayManager.m SimpleProbeDisplay.m \
 	VarProbeWidget.m simtoolsgui.m
 
@@ -22,5 +23,6 @@ libsimtoolsgui_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 simtoolsgui_HEADERS = ActionCache.h ActionHolder.h \
 	ClassDisplayWidget.h CommonProbeDisplay.h CompleteProbeDisplay.h \
 	ControlPanel.h GUIComposite.h GUISwarm.h MessageProbeWidget.h \
+	MultiVarProbeWidget.h \
 	ProbeDisplay.h ProbeDisplayManager.h SimpleProbeDisplay.h \
 	VarProbeWidget.h global.h

@@ -1,3 +1,26 @@
+1998-07-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MultiVarProbeWidget.[hm]: New files.
+	
+	* simtoolsgui.h: Add MultiVarProbeWidget protocol and class object.
+
+	* ClassDisplayWidget.[hm], CommonProbeDisplay.[hm],
+	MessageProbeWidget.[hm], VarProbeWidget.[hm]: getId is now getId:.
+	package is now package:. 
+
+	* MessageProbeWidget.[hm]: getId: is now getId:arg:.
+	package: is now package:arg:.
+	argSpawn: is now argSpawn:arg:.
+
+	* MessageProbeWidget.[hm],
+	
+	* VarProbeWidget.h (VarProbeWidget): Rename interactive to
+	interactiveFlag, make it boolean.
+
+	* VarProbeWidget.[hm], MessageProbeWidget.[hm]: Spawn is now Spawn:.
+	
+	* VarProbeWidget.[hm]: setValue is now setVariableName:.
+
 1998-07-10  Alex Lancaster  <alex@santafe.edu>
 
 	* simtoolsgui.h (MessageProbeWidget):  Add phase tags.

@@ -190,7 +190,7 @@ PHASE(Using)
   return self;
 }
 
-- Spawn
+- Spawn: (const char *)widgetName
 {
   if (resultObject != nil)
     CREATE_PROBE_DISPLAY (resultObject);
@@ -200,7 +200,7 @@ PHASE(Using)
   return self;
 }
 
-- argSpawn: (int)which
+- argSpawn: (const char *)widgetName arg: (int)which
 {
   val_t val = [myProbe getArg: which];
  
@@ -249,7 +249,7 @@ PHASE(Using)
   return [val.val.object getObjectName];
 }
 
-- (const char *)getId
+- (const char *)getId: (const char *)windowName
 {
   if (![myProbe getHideResult])
     return [resultMessageProbeEntry getValue];
@@ -257,7 +257,7 @@ PHASE(Using)
     return NULL;
 }
 
-- (const char *)getId: (int)which
+- (const char *)getId: (const char *)windowName arg: (int)which
 {
   return [((id <MessageProbeEntry>)myWidgets [which * 2 + 1]) getValue];
 }

@@ -56,7 +56,7 @@
 - pack;
 #endif
 
-- (const char *)getId;
-- (const char *)package;
+- (const char *)getId: (const char *)windowName;
+- (const char *)package: (const char *)windowName;
 
 @end
