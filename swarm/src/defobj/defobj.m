@@ -12,7 +12,6 @@ Library:      defobj
 #import <defobj.h>
 
 #include "defobj.xm"
-#import <defobj/Archiver.h>
 #import <defobj/HDF5Object.h>
 
 #include <objc/objc-api.h> // objc_lookup_class, _objc_lookup_class
@@ -30,6 +29,11 @@ Class *localClasses;
 unsigned localClassCount = 0;
 
 static unsigned generatedClassNameCount = 0;
+
+externvardef id lispArchiver;
+externvardef id lispAppArchiver;
+externvardef id hdf5AppArchiver;
+externvardef id hdf5Archiver;
 
 //
 // _defobj_implement() -- generate implementations for defobj module

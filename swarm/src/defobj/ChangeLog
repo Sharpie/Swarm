@@ -1,5 +1,8 @@
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* {Lisp,HDF5}Archiver.m, defobj.m: Move global archiver objects 
+	variables to defobj.m.
+
 	* directory.m (create_signature_from_class_name): New function.
 	(java_next_phase): Use it.  nextPhase is of type Object.
 	(create_signature_from_object): Use it.

@@ -6,9 +6,6 @@
 #import <defobj/LispArchiver.h>
 #import <collections/predicates.h>
 
-externvardef LispArchiver_c *lispArchiver;
-externvardef LispArchiver_c *lispAppArchiver;
-
 static void
 lispProcessPairs (id aZone, 
                   id obj,

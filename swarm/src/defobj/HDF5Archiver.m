@@ -9,9 +9,6 @@
 
 #include <collections/predicates.h>
 
-externvardef HDF5Archiver_c *hdf5AppArchiver;
-externvardef HDF5Archiver_c *hdf5Archiver;
-
 @implementation HDF5Archiver_c
 
 PHASE(Creating)
