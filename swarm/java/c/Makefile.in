@@ -72,7 +72,7 @@ libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
 ALLOBJECTS = $(libjavaswarm__la_OBJECTS) $(libjavaswarmstubs__la_OBJECTS)
 
 javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la $(top_srcdir)/src/dllinit.c
-	$(CC) -c (top_srcdir)/src/dllinit.c
+	$(CC) -c $(top_srcdir)/src/dllinit.c
 	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarm.a --driver-name $(CC) -o javaswarm.dll dllinit.o $(ALLOBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) -L../libobjc/.libs $(top_builddir)/libobjc/*.o $(SUPPORTLDFLAGS) $(SYSLIBS)
 
 %.lo: %.m
