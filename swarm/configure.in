@@ -128,7 +128,7 @@ md_FIND_ZLIB
 AC_ARG_WITH(pngdir,
 [  --with-pngdir=DIR                Use DIR/include and DIR/lib for PNG],
   pngdir=$withval
-  pngincludedir=$withval)
+  pngincludedir=$withval/include)
 
 AC_ARG_WITH(pngincludedir,
 [  --with-pngincludedir=DIR                Use DIR for PNG include files],
