@@ -75,6 +75,8 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** avcall is now included in distribution
 *** libffi is forcibly disabled on Sparc and Intel platforms, due to known 
     bugs.
+*** Support for machines where sizeof (int) < sizeof (void *), such
+    as alphaev56-dec-osf4.0d (Digital Unix 4.0 on the Alpha / 64 bit).
 
 ** Bug fixes
 *** collections

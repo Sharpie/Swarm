@@ -1,3 +1,7 @@
+1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note support for alphaev56-dec-osf4.0d.
+
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note support for compound HDF5 serialization of
