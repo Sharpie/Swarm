@@ -1,3 +1,9 @@
+1998-06-01  Marcus G. Daniels  <mgd@mogollon.santafe.edu>
+
+	* Makefile.am (swarm_srcdir, gridturtle_srcdir): New variables
+	which get substituted assignments from configure.  Use them
+	instead of $(SWARMHOME) and $(srcdir)/grid.
+
 1998-06-01  Alex Lancaster  <alex@santafe.edu>
 
 	* grid-app.sgml: Fixed incorrect LINKENDS and descriptions for

@@ -1,6 +1,9 @@
 NAME = refbook
 SUBDIRS = activity analysis collections defobj gui objectbase random simtools simtoolsgui space
 
+swarm_srcdir = @swarm_srcdir@
+gridturtle_srcdir = @gridturtle_srcdir@
+
 include $(top_srcdir)/Makefile.rules
 
 CLEANFILES = *.htm $(NAME).tex _$(NAME).tex refbook.rtf
@@ -30,17 +33,17 @@ EXAMPLES=GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
         grid6.m grid7.m grid8.m grid9.m mousetraps.m mousetraps2.m \
         strtest.m 
 
-gridexamples.sgml: $(addprefix $(srcdir)/grid/,$(EXAMPLES))
+gridexamples.sgml: $(addprefix $(gridturtle_srcdir)/,$(EXAMPLES))
 	- (cd $(srcdir)/grid ; (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.SRC.GRID.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) ; cd ..) > $@
 
-refindex.sgml $(PAGES): $(SWARMHOME)/src/activity/activity.h \
-	$(SWARMHOME)/src/analysis/analysis.h \
-	$(SWARMHOME)/src/collections/collections.h \
-	$(SWARMHOME)/src/defobj/defobj.h \
-	$(SWARMHOME)/src/gui/gui.h \
-	$(SWARMHOME)/src/objectbase/objectbase.h \
-	$(SWARMHOME)/src/random/random.h \
-	$(SWARMHOME)/src/simtools/simtools.h \
-	$(SWARMHOME)/src/simtoolsgui/simtoolsgui.h \
-	$(SWARMHOME)/src/space/space.h $(top_srcdir)/protocol.el $(top_srcdir)/common.el
-	SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/protocol.el -f run-all $(SWARMHOME)
+refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
+	$(swarm_srcdir)/src/analysis/analysis.h \
+	$(swarm_srcdir)/src/collections/collections.h \
+	$(swarm_srcdir)/src/defobj/defobj.h \
+	$(swarm_srcdir)/src/gui/gui.h \
+	$(swarm_srcdir)/src/objectbase/objectbase.h \
+	$(swarm_srcdir)/src/random/random.h \
+	$(swarm_srcdir)/src/simtools/simtools.h \
+	$(swarm_srcdir)/src/simtoolsgui/simtoolsgui.h \
+	$(swarm_srcdir)/src/space/space.h $(top_srcdir)/protocol.el $(top_srcdir)/common.el
+	SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/protocol.el -f run-all $(swarm_srcdir)
