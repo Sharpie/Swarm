@@ -78,4 +78,5 @@ Library:      defobj
 - (void *)getResult;
 - (void)dropAllocations: (BOOL)componentAlloc;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
+- (void)drop;
 @end

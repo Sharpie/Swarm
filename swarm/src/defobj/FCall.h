@@ -63,4 +63,5 @@ void updateJavaTarget (id self, JOBJECT target);
 - (func_t)getFunctionPointer;
 - (call_t)getCallType;
 - (void)dropAllocations: (BOOL)componentAlloc;
+- (void)drop;
 @end
