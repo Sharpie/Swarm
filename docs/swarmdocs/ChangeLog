@@ -1,4 +1,11 @@
 1998-05-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* common.el, history.el: New files.
+
+	* protocol.el: Move get-swarmhome, get-swarmdocs,
+	pathname-for-module, and *swarm-modules* to common.el.  Load it.
+	(sgml-create-refentries-for-module): 
+	Use pathname-for-swarmdocs-pages-output.
+
 	* Begin revision log.
 

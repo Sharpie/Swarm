@@ -1,4 +1,5 @@
 (require 'cl)
+(load "common.el")
 
 (defvar *protocol-hash-table* (make-hash-table :test #'equal))
 
@@ -15,19 +16,6 @@
 (defvar *general-example-counter-hash-table* (make-hash-table :test #'eq))
 
 (defvar *method-example-counter-hash-table* (make-hash-table :test #'equal))
-
-(defconst *swarm-modules* '(activity
-                            analysis
-                            collections
-                            defobj
-                            gui
-                            objectbase
-                            random
-                            (random . "generators.h")
-                            (random . "distributions.h")
-                            simtools
-                            simtoolsgui
-                            space))
 
 (defstruct protocol
   module
@@ -282,21 +270,6 @@
    while (find-protocol)
    collect (load-protocol module)))
    
-(defun get-swarmhome ()
-  (let ((swarmhome-env (getenv "SWARMHOME")))
-    (if swarmhome-env
-        swarmhome-env
-        (if (> (length command-line-args 1))
-            (last command-line-args)
-            (error "Can't find SWARMHOME")))))
-
-(defun pathname-for-module (module &optional filename)
-  (let ((module-name (symbol-name module)))
-    (concat (get-swarmhome) "/src/" module-name "/" 
-            (if filename
-                filename
-                (concat module-name ".h")))))
-
 (defun create-included-protocol-list (protocol)
   (loop for included-protocol-name in (protocol-included-protocol-list protocol)
         for included-protocol = (get-protocol included-protocol-name)
@@ -774,9 +747,6 @@
     (sgml-refsect1-examples protocol)
     (insert "</REFENTRY>\n")))
 
-(defun get-swarmdocs ()
-  (concat (get-swarmhome) "/../swarmdocs/"))
-
 (defun sgml-generate-refentries-for-module (module)
   (loop for protocol in (sort 
                          (gethash module *module-hash-table*)
@@ -787,14 +757,8 @@
         (generate-refentry-for-protocol protocol)))
 
 (defun sgml-create-refentries-for-module (module)
-  (let* ((module-name (symbol-name module))
-         (filename (concat (get-swarmdocs)
-                           "src/"
-                           module-name
-                           "/"
-                           module-name
-                           "pages.sgml")))
-    (with-temp-file filename
+  (let ((module-name (symbol-name module)))
+    (with-temp-file (pathname-for-swarmdocs-pages-output module)
       (sgml-generate-refentries-for-module module))))
 
 (defun sgml-create-refentries-for-all-modules ()
