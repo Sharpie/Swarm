@@ -1,3 +1,14 @@
+1999-04-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*objc-to-java-type-alist*): Don't treat Class as
+	freaky.
+	(*removed-protocols*): Remove Class-related excluded protocols.
+	(*removed-methods*): Likewise for method.
+	(java-type-to-signature): Map Class to Ljava_lang_Class_2.  Remove
+	freaky handling.
+	(java-type-to-native-type): Handle Class.
+	(java-argument-print-conversion): Handle jclass.
+
 1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-argument-print-conversion): Add position

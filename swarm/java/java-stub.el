@@ -32,6 +32,7 @@
       ("timeval_t" . "long")
       ("size_t" . "long")
       ("Color" . "byte")
+      ("Class" . "Class")
 
       ("void \\*" . freaky)
       ("ref_t" . freaky)
@@ -81,11 +82,6 @@
                                 "HDF5CompoundType"
                                 "InFile"
                                 "Arguments"
-                                "CompleteVarMap" ; Class
-                                "CustomProbeMap"; Class
-                                "DefaultProbeMap" ; Class
-                                "ProbeLibrary" ; Class
-                                "ActiveOutFile" ; Class
                                 ))
 
 (defconst *removed-methods* 
@@ -162,8 +158,6 @@
       "-probeRaw:" ; void* return
       "-probeAsPointer:" ; void* return
       "-setData:To:" ; void* parameter
-      "-setProbedClass:" ; Class parameter
-      "-getProbedClass" ; Class return
 
       ;; MessageProbe
       "-getArg:" ; val_t return
@@ -525,8 +519,8 @@
         ((string= "float" type) "F")
         ((string= "double" type) "D")
         ((string= "String" type) "Ljava_lang_String_2")
-        ((or (string= "Object" type)
-             (eq type 'freaky)) "Ljava_lang_Object_2")
+        ((string= "Class" type) "Ljava_lang_Class_2")
+        ((string= "Object" type) "Ljava_lang_Object_2")
         (t (mangle-signature (concat "L" type "_2")))))
 
 (defun java-type-to-native-type (type)
@@ -539,6 +533,7 @@
         ((string= "float" type) "jfloat")
         ((string= "double" type) "jdouble")
         ((string= "String" type) "jstring")
+        ((string= "Class" type) "jclass")
         ((string= "void" type) "void")
         (t "jobject")))
 
@@ -567,6 +562,10 @@
                (insert "strings[")
                (insert (format "%u" string-pos))
                (insert "]"))
+              ((string= jni-type "jclass")
+               (insert "JFINDOBJCCLASS (env, ")
+               (insert argname)
+               (insert ")"))
               ((string= jni-type "jobject")
                (insert "JFINDOBJC (env, ")
                (insert argname)
