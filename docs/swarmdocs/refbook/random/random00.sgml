@@ -21,7 +21,7 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.SRC.RANDOM.DEPEND">
+  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
@@ -75,7 +75,7 @@
     
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.RANDOM.COMPAT">
+  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <ITEMIZEDLIST>
@@ -100,7 +100,7 @@
     
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.RANDOM.USAGE">
+  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.USAGE">
     <TITLE>Usage Guide</TITLE>
     
     <SECT2>
@@ -918,21 +918,21 @@ generator, which has a period of 2^19937 (10^6001) and is quite fast.
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.RANDOM.ADVUSAGE">
+  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.RANDOM.SUBCLASS">
+  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.RANDOM.DESIGN">
+  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Never has a Swarm library interface been debated as this one
@@ -1021,7 +1021,7 @@ generator, which has a period of 2^19937 (10^6001) and is quite fast.
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.RANDOM.IMPL">
+  <SECT1 ID="SWARM.RANDOM.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <PARA>The code here represents an effort to implement several
