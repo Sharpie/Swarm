@@ -243,7 +243,6 @@ add_ffi_types (FCall_c *fc)
 {
   unsigned i;
   FArguments_c *fa = fc->fargs;
-  void (*func) (void) = fc->ffunction;
 
 #ifndef USE_AVCALL
   fa->ffiReturnType = ffi_types[fa->returnType];
@@ -256,6 +255,8 @@ add_ffi_types (FCall_c *fc)
       fa->ffiArgTypes[pos] = ffi_types[type];
     }
 #else
+  void (*func) (void) = fc->ffunction;
+
   switch (fa->returnType)
     {
     case fcall_type_void:
