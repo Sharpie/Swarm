@@ -29,6 +29,9 @@
 */
 
 #include <objc/objc-api.h>
+#ifdef __hpux__
+#include <sys/sigevent.h>
+#endif
 BOOL sel_types_match (const char* t1, const char* t2);
 #include <objc/mframe.h>
 #include <stdlib.h>

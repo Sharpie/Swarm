@@ -1,3 +1,8 @@
+1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* mframe.m: Include sys/sigevent.h in case of HPUX.
+	This is to avoid warning about implicit structure definition.
+
 1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config/unknown/mframe-generic.h (MFRAME_ARG_ENCODING): Cast argument
