@@ -1,3 +1,6 @@
+(require 'cl)
+(provide 'common)
+
 (defconst *swarm-modules* '(activity
                             analysis
                             collections
@@ -21,7 +24,7 @@
    (let ((swarmsrcdir-env (getenv "SWARMSRCDIR")))
      (if swarmsrcdir-env
          swarmsrcdir-env
-         (if (> (length command-line-args 1))
+         (if (> (length command-line-args) 1)
              (car (last command-line-args))
              (error "Can't find SWARMSRCDIR"))))
    "/"))

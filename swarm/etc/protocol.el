@@ -1,5 +1,10 @@
 (require 'cl)
-(load (concat (getenv "SWARMSRCDIR") "/etc/common.el"))
+(eval-and-compile
+ (push (getenv "SWARMDOCS_BUILD_AREA") load-path))
+(require 'common)
+(require 'cc-mode)
+
+(provide 'protocol)
 
 (defvar *protocol-hash-table* (make-hash-table :test #'equal))
 

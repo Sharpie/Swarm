@@ -1,3 +1,12 @@
+1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* protocol.el: Add SWARMDOCS_BUILD_AREA to load path (both
+	compile time and load time).
+	Require common and cc-mode.
+
+	* common.el: Require cl and provide common.
+	(get-swarmsrcdir): Typo in command-line-args length comparision.
+
 1999-02-24  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* java-stub.el: New java stub generator. 
