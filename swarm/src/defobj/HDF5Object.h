@@ -67,13 +67,15 @@
 - setId: (hid_t)locId;
 #endif
 
-- setCompoundType: compoundType count: (unsigned)count;
+- setCompoundType: compoundType;
+- setCount: (unsigned)count;
 - setRowNameLength: (size_t)len;
 - createEnd;
 
 - setBaseTypeObject: typeObject;
 - (BOOL)getDatasetFlag;
 - getCompoundType;
+- (unsigned)getCount;
 - (const char *)getName;
 - getClass;
 

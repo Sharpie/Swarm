@@ -1089,7 +1089,7 @@ lisp_output_type (const char *type,
                           setName: [hdf5Obj getName]]
                          setCreateFlag: YES]
                         setParent: hdf5Obj]
-                       setCompoundType: cType count: 1]
+                       setCompoundType: cType]
                       createEnd];
       
       [cDataset storeTypeName: [self getTypeName]];
@@ -1196,13 +1196,7 @@ lisp_output_type (const char *type,
 {
 #ifdef HAVE_HDF5
   if ([hdf5Obj getDatasetFlag])
-    {
-      if ([hdf5Obj getCompoundType] == nil)
-        raiseEvent (LoadError,
-                    "shallow datasets are expected to have compound type");
-
-      [hdf5Obj shallowLoadObject: self];
-    }
+    [hdf5Obj shallowLoadObject: self];
   else
     {
       int process_object (id component)

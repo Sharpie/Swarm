@@ -975,7 +975,8 @@ CREATING
 - setDatasetFlag: (BOOL)datasetFlag;
 - setParent: parent;
 - setName: (const char *)name;
-- setCompoundType: compoundType count: (unsigned)count;
+- setCompoundType: compoundType;
+- setCount: (unsigned)count;
 - setRowNameLength: (size_t)len;
 - createEnd;
 SETTING
@@ -985,6 +986,7 @@ USING
 - iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc;
 - (BOOL)getDatasetFlag;
 - (const char *)getName;
+- (unsigned)getCount;
 - getCompoundType;
 - getClass;
 

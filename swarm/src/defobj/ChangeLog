@@ -1,5 +1,18 @@
 1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.[hm], defobj.h ([HDF5_c -setCompoundType:], [HDF5_c
+	-setCount:],
+	[HDF5_c -getCount]): New methods.
+	([HDF5_c -setCompoundType:count:]): Remove.
+	
+	* HDF5Object.m ([HDF5_c -createEnd]): Check that rank is one and
+	restore c_count in compoundType case.
+
+	* DefObject.m ([HDF5_c -hdf5Out:deep:]): Replace
+	setCompoundType:count: with setCompoundType: (which defaults to 1).
+	([HDF5_c -hdf5In:]): Remove compoundType check (now in
+	shallowLoadObject:).
+
 	* HDF5Object.m (objc_type_for_did): New function.
 	([HDF5_c -getClass]): Use it.
 	([HDF5_c -loadDataset:]): Handle strings.

@@ -573,10 +573,20 @@ PHASE(Creating)
   return self;
 }
 
-- setCompoundType: theCompoundType count: (unsigned)theRecordCount
+- setCompoundType: theCompoundType
 {
 #ifdef HAVE_HDF5
   compoundType = theCompoundType;
+  c_count = 1;
+#else
+  hdf5_not_available ();
+#endif
+  return self;
+}
+
+- setCount: (unsigned)theRecordCount
+{
+#ifdef HAVE_HDF5
   c_count = theRecordCount;
   c_rnlen = 1 + (unsigned) log10 ((double) c_count);
 #else
@@ -659,7 +669,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
         {
           if ((loc_id = H5Fcreate (name, H5F_ACC_TRUNC,
                                    H5P_DEFAULT, H5P_DEFAULT))  < 0)
-            raiseEvent (SaveError, "Failed to create HDF5 file `%s'", name);
+            raiseEvent (SaveError, "failed to create HDF5 file `%s'", name);
         }
       else 
         {
@@ -686,7 +696,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                 {
                   if ((loc_id = H5Gcreate (((HDF5_c *) parent)->loc_id, name, 0))
                       < 0)
-                    raiseEvent (SaveError, "Failed to create HDF5 group `%s'",
+                    raiseEvent (SaveError, "failed to create HDF5 group `%s'",
                                 name);
                 }
               else
@@ -699,14 +709,14 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
       if (parent == nil)
         {
           if ((loc_id = H5Fopen (name, H5F_ACC_RDONLY, H5P_DEFAULT)) < 0)
-            raiseEvent (LoadError, "Failed to open HDF5 file `%s'", name);
+            raiseEvent (LoadError, "failed to open HDF5 file `%s'", name);
         }
       else
         {
           if (loc_id == 0)
             {
               if ((loc_id = H5Gopen (((HDF5_c *) parent)->loc_id, name)) < 0)
-                raiseEvent (LoadError, "Failed to open HDF5 group `%s'", name);
+                raiseEvent (LoadError, "failed to open HDF5 group `%s'", name);
             }
           if (datasetFlag)
             {
@@ -714,10 +724,10 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
               H5T_class_t class;
 
               if ((tid = H5Dget_type (loc_id)) < 0)
-                raiseEvent (LoadError, "Failed to get type of dataset");
+                raiseEvent (LoadError, "failed to get type of dataset");
 
               if ((class = H5Tget_class (tid)) < 0)
-                raiseEvent (LoadError, "Failed to get class of dataset type");
+                raiseEvent (LoadError, "failed to get class of dataset type");
 
               if (class == H5T_COMPOUND)
                 {
@@ -727,13 +737,30 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                   
                   compoundType = [[HDF5CompoundType createBegin: aZone]
                                    setTid: tid];
-                                    
+
                   if (componentTypeName)
                     {
+                      int rank;
+
                       [compoundType setName: componentTypeName];
                       if ((c_sid = H5Dget_space (loc_id)) < 0)
                         raiseEvent (LoadError,
-                                    "Failed to get space of dataset");
+                                    "failed to get space of dataset");
+                      
+                      if ((rank = H5Sget_simple_extent_ndims (c_sid)) < 0)
+                        raiseEvent  (LoadError,
+                                     "could not get rank of space");
+                      
+                      if (rank != 1)
+                        raiseEvent (LoadError, "expected rank of 1");
+                      {
+                        hsize_t dims[1];
+
+                        if (H5Sget_simple_extent_dims (c_sid, dims, NULL) < 0)
+                          raiseEvent (LoadError,
+                                      "could not get extent of space");
+                        c_count = dims[0];
+                      }
                     }
                   else
                     {
@@ -789,6 +816,11 @@ PHASE(Using)
 - getCompoundType
 {
   return compoundType;
+}
+
+- (unsigned)getCount
+{
+  return c_count;
 }
 
 - iterateAttributes: (int (*) (const char *key, const char *value))iterateFunc
@@ -1193,7 +1225,13 @@ check_alignment (id obj, id compoundType)
 - shallowLoadObject: obj
 {
 #ifdef HAVE_HDF5
-  void *ptr = check_alignment (obj, compoundType);
+  void *ptr;
+
+  if (compoundType == nil)
+    raiseEvent (LoadError,
+                "shallow datasets are expected to have compound type");
+
+  ptr = check_alignment (obj, compoundType);
   
   if (H5Dread (loc_id, [compoundType getTid],
                psid, c_sid, H5P_DEFAULT, ptr) < 0)
@@ -1207,7 +1245,13 @@ check_alignment (id obj, id compoundType)
 - shallowStoreObject: obj
 {
 #ifdef HAVE_HDF5
-  void *ptr = check_alignment (obj, compoundType);
+  void *ptr;
+
+  if (compoundType == nil)
+    raiseEvent (SaveError,
+                "shallow datasets are expected to have compound type");
+  
+  ptr = check_alignment (obj, compoundType);
   
   if (H5Dwrite (loc_id, [compoundType getTid],
                 psid, c_sid, H5P_DEFAULT, ptr) < 0)
