@@ -6,6 +6,25 @@ struct MapIndex_c;
 struct Map_c;
 struct OrderedSet_c;
 
+extern id _i_Collection_any_remove_ (id, SEL, id);
+extern id _i_Collection_any_atOffset_ (id, SEL, unsigned)
+extern id _i_Collection_any_getFirst (id, SEL);
+extern id _i_Collection_any_getLast (id, SEL);
+
+#define COLLECTION_REMOVE(coll, obj) _i_Collection_any_remove_(coll, M(remove:), obj)
+#define COLLECTION_ATOFFSET(coll, offset) _i_Collection_any_atOffset_ (coll, M(atAOffset:), offset)
+#define COLLECTION_GETLAST(coll) _i_Collection_any_getLast (coll, M(getLast))
+#define COLLECTION_GETFIRST(coll) _i_Collection_any_getFirst (coll, M(getFirst))
+
+extern id _i_List_linked__removeLast (id, SEL);
+#define LIST_REMOVELAST(list) _i_List_linked__removeLast(list, M(removeLast))
+extern id _i_List_linked__removeFirst (id, SEL);
+#define LIST_REMOVEFIRST(list) _i_List_linked__removeFirst(list, M(removeFirst))
+extern id _i_List_linked__addLast_ (id, SEL, id);
+#define LIST_ADDLAST(list, obj) _i_List_linked__addLast_(list, M(addLast), obj)
+extern id _i_List_linked__addFirst_ (id, SEL, id);
+#define LIST_ADDFIRST(list, obj) _i_List_linked__addFirst_(list, M(addFirst), obj)
+
 extern id _i_ListIndex_linked__next (id, SEL);
 extern id _i_ListIndex_linked__prev (id, SEL);
 extern id <Symbol> _i_ListIndex_linked__getLoc (id, SEL);
@@ -32,6 +51,7 @@ extern BOOL _i_Map_c__at_insert_ (struct Map_c *, struct objc_selector *, id, id
 extern id _i_OrderedSet_c__remove_ (struct OrderedSet_c *, struct objc_selector *, id);
 
 #define LIST_BEGIN(list) beginLinkedList (list)
+
 #define LIST_INDEX_NEXT(index) _i_ListIndex_linked__next (index, M(next))
 #define LIST_INDEX_PREV(index) _i_ListIndex_linked__prev (index, M(prev))
 #define LIST_INDEX_GETLOC(index) _i_ListIndex_linked__getLoc (index, M(getLoc))
@@ -58,6 +78,16 @@ extern id _i_OrderedSet_c__remove_ (struct OrderedSet_c *, struct objc_selector 
 #define ORDEREDSET_REMOVE(set, obj) _i_OrderedSet_c__remove_ (set, M(remove:), obj)
 
 #else
+
+#define COLLECTION_REMOVE(coll, obj) [coll remove: obj]
+#define COLLECTION_ATOFFSET(coll, offset) [coll atOffset: offset]
+#define COLLECTION_GETLAST(coll) [coll getLast]
+#define COLLECTION_GETFIRST(coll) [coll getFirst]
+
+#define LIST_REMOVELAST(list) [list removeLast]
+#define LIST_REMOVEFIRST(list) [list removeFirst]
+#define LIST_ADDFIRST(list, obj) [list addFirst: obj]
+#define LIST_ADDLAST(list, obj) [list addLast: obj]
 
 #define LIST_BEGIN(list) beginLinkedList (list)
 #define LIST_INDEX_NEXT(index) [index next]
@@ -86,3 +116,4 @@ extern id _i_OrderedSet_c__remove_ (struct OrderedSet_c *, struct objc_selector 
 #define ORDEREDSET_REMOVE(set, obj) [set remove: obj]
 
 #endif
+
