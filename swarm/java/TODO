@@ -49,3 +49,5 @@ Check funny VarProbe behavior on HPUX9
 Too much casting!
   How about having stubbing logic to convert id <Zone> into ZoneImpl?
   Or, as a short-term solution, perhaps a table of common-cases like getZone?
+
+Review Java probe support; there is code that can be compressed.
