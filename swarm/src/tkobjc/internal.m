@@ -694,13 +694,21 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget)
       Window window = Tk_WindowId (tkwin);
 
       keep_inside_screen ([widget getTopLevel]);
-      // emulated in Tk for Win32
-      XRaiseWindow (Tk_Display (tkwin), window);
 #ifndef _WIN32
-      pixmap->display = Tk_Display (tkwin);
-      x_pixmap_create_from_window (pixmap, window);
+      {
+        Display *display = Tk_Display (tkwin);
+        
+        XRaiseWindow (display, window);
+        pixmap->display = display;
+        x_pixmap_create_from_window (pixmap, window);
+      }
 #else
-      win32_pixmap_create_from_window (pixmap, Tk_GetHWND (window));
+      {
+        HWND w = Tk_GetHWND (window);
+
+        SetForegroundWindow (w);
+        win32_pixmap_create_from_window (pixmap, w);
+      }
 #endif
     }
 }
