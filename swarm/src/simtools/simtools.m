@@ -107,12 +107,12 @@ buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
     return NULL;
 }
 
-void createProbeDisplay (id obj)
+void _createProbeDisplay (id obj)
 {
   [probeDisplayManager createProbeDisplayFor: obj];
 }
 
-void createCompleteProbeDisplayNamed (id obj)
+void _createCompleteProbeDisplay (id obj)
 {
   [probeDisplayManager createCompleteProbeDisplayFor: obj];
 }

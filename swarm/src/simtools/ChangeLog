@@ -7,7 +7,7 @@
 	getKeyForName, createArchivedProbeDisplayNamed,
 	createArchivedCompleteProbeDisplayNamed): New functions.
 
-	* simtools.h (createProbeDisplay, createCompleteProbeDisplay,
+	* simtools.h (_createProbeDisplay, _createCompleteProbeDisplay,
 	createArchivedProbeDisplayNamed,
 	createArchivedCompleteProbeDisplayNamed): Declare new functions.
 	(createArchivedProbeDisplay): New macro to pass variable variable
@@ -17,6 +17,7 @@
 	versions of createProbeDisplayFor with
 	createArchivedProbeDisplayFor:variableName: and
 	createArchivedCompleteProbeDisplayFor:variableName.
+	(createProbeDisplay, createCompleteProbeDisplays): Define macros.
 
 	* ProbeDisplayManager.m ([ProbeDisplayManager
 	-_computeProbeDisplayKeyFor_:]): New method.  Returns

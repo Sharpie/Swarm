@@ -112,17 +112,24 @@ USING
 //   ProbeDisplays created by the user during a GUI run of the 
 //   simulation.
 //
-void createProbeDisplay (id obj);
-void createCompleteProbeDisplay (id obj);
+void _createProbeDisplay (id obj);
+void _createCompleteProbeDisplay (id obj);
 
 void createArchivedProbeDisplayNamed (id obj, const char *name);
 void createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
+
+#define createProbeDisplay(anObject) \
+  _createProbeDisplayNamed(anObject)
+
+#define createCompleteProbeDisplay(anObject) \
+  _createCompleteProbeDisplayNamed(anObject)
 
 #define createArchivedProbeDisplay(anObject) \
   createArchivedProbeDisplayNamed(anObject,#anObject)
 
 #define createArchivedCompleteProbeDisplay(anObject) \
   createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
+
 
 @protocol ProbeDisplayManager <SwarmObject>
 USING
