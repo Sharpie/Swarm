@@ -91,7 +91,7 @@ getVal (id obj)
 {
   char buf[20];
 
-  [stream catC: "(" MAKE_OBJC_FUNCTION_NAME " '"];
+  [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self name]];
   [stream catC: " "];
 
