@@ -19,7 +19,7 @@ main (int argc, const char ** argv)
   int i, ok;
   id forEachAction;
   
-  initSwarm (argc, argv);
+  initSwarmBatch (argc, argv);
   init_tables ();
   
   actionGroupTest = [ActionGroup_test createBegin: globalZone 

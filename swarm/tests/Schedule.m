@@ -18,7 +18,7 @@ main (int argc, const char ** argv)
   int i;
   id schedule;
   
-  initSwarm (argc, argv);
+  initSwarmBatch (argc, argv);
   init_tables ();
 
   array = [Array create: globalZone setCount: 5];

@@ -13,7 +13,7 @@ main (int argc, const char ** argv)
 {
   id theSwarm;
   
-  initSwarm (argc, argv);
+  initSwarmBatch (argc, argv);
   
   theSwarm = [DSRSwarm create: globalZone];
   

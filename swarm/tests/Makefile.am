@@ -17,21 +17,3 @@ DynamicScheduleRepeat_SOURCES = DynamicScheduleRepeat.m DSRSwarm.m DSRSwarm.h
 
 TESTS = $(noinst_PROGRAMS)
 TESTS_ENVIRONMENT = SWARM_INHIBIT_ARCHIVER_LOAD=1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
