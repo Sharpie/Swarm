@@ -1,5 +1,10 @@
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 
+	* catalog.in: Add new text-file entities README.Generators.v075,
+	README.Distributions.v07
+
+	* configure.in (AC_OUTPUT): Add refbook/random/extra/Makefile.
+
 	* NEWS: Add 1999 to Copyright dates.  Note legalnotice links in
 	HTML backend.
 
