@@ -3,13 +3,14 @@
 
 #import <objectbase.h>
 
-@interface DiGraphNode: SwarmObject {
+@interface DiGraphNode: SwarmObject
+{
   id fromList ;
   id toList ;
   id canvas ;
   id nodeItem ;
   id nodeType ;
-  char *label ;
+  const char *label ;
 }
 
 -setCanvas: aCanvas ;
@@ -26,6 +27,6 @@
 -(int) agreeX: (int) x Y: (int) y ;
 -updateLinks ;
 -(void) drop ;
--setNodeLabel: (char *) aLabel ;
+-setNodeLabel: (const char *) aLabel ;
 
 @end

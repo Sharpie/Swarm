@@ -42,7 +42,8 @@
   return self ;
 }
 
--setNodeLabel: (char *) aLabel {
+- setNodeLabel: (const char *)aLabel
+{
   label = aLabel ;
   return self ;
 }

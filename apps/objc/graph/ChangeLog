@@ -1,5 +1,11 @@
 1997-12-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* DiGraphNode.m ([DiGraphNode -setNodeLabel:aLabel]): Constify
+	argument.
+
+	* DiGraphNode.h (DiGraphNode): Constify label.
+	Constify argument to setNodeLabel.
+
 	* Makefile (SWARMHOME): Don't define if already defined in
 	environment.
 
