@@ -78,11 +78,22 @@ PHASE(UsingOnly)
 #endif
   if (firstLink)
     {
-      newLink->prevLink = firstLink->prevLink;
-      newLink->nextLink = firstLink;
-      firstLink->prevLink->nextLink = newLink;
-      firstLink->prevLink = newLink;
-      firstLink = newLink;
+#if !LINKED
+      BOOL newFlag = (newLink->nextLink == (void *) 0);
+
+      if (newFlag || newLink->nextLink != firstLink)
+        {
+#endif
+          newLink->prevLink = firstLink->prevLink;
+          newLink->nextLink = firstLink;
+          firstLink->prevLink->nextLink = newLink;
+          firstLink->prevLink = newLink;
+          firstLink = newLink;
+#if !LINKED
+        }
+      if (!newFlag)
+        return;
+#endif
     }
   else
     {
@@ -106,10 +117,21 @@ PHASE(UsingOnly)
 #endif
   if (firstLink)
     {
-      newLink->prevLink = firstLink->prevLink;
-      newLink->nextLink = firstLink;
-      firstLink->prevLink->nextLink = newLink;
-      firstLink->prevLink = newLink;
+#if !LINKED
+      BOOL newFlag = (newLink->nextLink == (void *) 0);
+
+      if (newFlag || newLink->nextLink != firstLink)
+        {
+#endif
+          newLink->prevLink = firstLink->prevLink;
+          newLink->nextLink = firstLink;
+          firstLink->prevLink->nextLink = newLink;
+          firstLink->prevLink = newLink;
+#if !LINKED
+        }
+      if (!newFlag)
+        return;
+#endif
     }
   else
     {
@@ -260,7 +282,7 @@ PHASE(UsingOnly)
 
   if (!includeBlocks (mapalloc))
     return;
-  
+
   mapalloc->size = sizeof *link;
   if (firstLink)
     {
@@ -499,7 +521,7 @@ PHASE(Using)
 
   if (position <= 0)
     raiseEvent (InvalidIndexLoc, nil);
-  
+   
   oldLink = link;
 #if LINKED
   oldMem  = link->refObject;
