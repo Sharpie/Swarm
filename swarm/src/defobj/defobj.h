@@ -839,7 +839,7 @@ CREATING
 - setVersion: (const char *)version;
 - addOptions: (struct argp_option *)options;
 
-+ createArgc: (int)argc Argv: (const char **)argv appName: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
++ createArgc: (int)argc Argv: (const char **)argv appName: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc inhibitExecutableSearchFlag: (BOOL)inhibitExecutableSearchFlag;
 
 //M: Takes an option specification that includes the following information:
 

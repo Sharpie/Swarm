@@ -1,7 +1,7 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Arguments.[hm], defobj.h (Arguments): Add
-	inhibitExecutableSearchFlag, and setter.
+	inhibitExecutableSearchFlag, setter, and create argument.
 
 	* Arguments.m: Add above as +create argument.
 	([Arguments_c -createEnd]): Use it.
