@@ -1,3 +1,8 @@
+1999-01-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* main.m (main): Update version string (argument to initSwarmApp)
+	to 1.4.
+
 1999-01-16  Alex Lancaster  <alex@santafe.edu>
 
 	* HeatbugBatchSwarm.m ([HeatbugBatchSwarm -go]): Changed printf to
