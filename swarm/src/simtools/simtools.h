@@ -379,7 +379,7 @@ extern void initSwarmAppArguments (int argc, const char **argv,
                                    Class argumentsClass);
 
 //G: Flag for whether we're in graphics mode or not.  Default is 1.
-extern BOOL swarmGUIMode;
+externvar BOOL swarmGUIMode;
 
 @class ControlPanel;
 @class UName;

@@ -1,3 +1,7 @@
+1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* simtools.h: Use `externvar' for external variables.
+
 1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtools.m (init): Use YES and NO explicitly for swarmGUIMode.
