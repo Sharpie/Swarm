@@ -284,7 +284,7 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
     {
         if (worldRaster != null) {
             heatDisplay.display();
-            // heatbugDisplay.display();
+            heatbugDisplay.display();
             worldRaster.drawSelf();
         }
 

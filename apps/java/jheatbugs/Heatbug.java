@@ -283,7 +283,7 @@ public class Heatbug
         return this; 
     }
 
-    public Object drawSelfOn (Object r)
+    public Object drawSelfOn (Raster r)
     {
         System.out.println("(" + x + "," + y + ") bugColor = " + bugColor);
         
