@@ -43,10 +43,6 @@ extern void *alloca (size_t);
 
 BOOL initFlag = NO;
 
-extern id ControlStateRunning, ControlStateStopped,
-  ControlStateStepping, ControlStateQuit,ControlStateNextTime, 
-  probeLibrary, probeDisplayManager, uniformIntRand, uniformDblRand;
-
 extern JNIEnv *jniEnv;
 
 id swarmDirectory;
@@ -937,22 +933,40 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
 
   ASSOCIATE (globalZone);
 
-  ASSOCIATE (uniformIntRand);
-  ASSOCIATE (uniformDblRand);
-
-  ASSOCIATE (probeLibrary);
-  ASSOCIATE (probeDisplayManager);
-
-  ASSOCIATE (ControlStateRunning);
-  ASSOCIATE (ControlStateStopped);
-  ASSOCIATE (ControlStateStepping);
-  ASSOCIATE (ControlStateQuit);
-  ASSOCIATE (ControlStateNextTime);
-
+  ASSOCIATE (hdf5Archiver);
+  ASSOCIATE (lispArchiver);
+  ASSOCIATE (hdf5AppArchiver);
+  ASSOCIATE (lispAppArchiver);
+  
   {
     extern id <Symbol> Randomized;
     
     ASSOCIATE (Randomized);
+  }
+
+  {
+    extern id probeLibrary, probeDisplayManager;
+    
+    ASSOCIATE (probeLibrary);
+    ASSOCIATE (probeDisplayManager);
+  }
+   
+  {
+    extern id uniformIntRand, uniformDblRand;
+    
+    ASSOCIATE (uniformIntRand);
+    ASSOCIATE (uniformDblRand);
+  }
+
+  {
+    extern id <Symbol> ControlStateRunning, ControlStateStopped,
+      ControlStateStepping, ControlStateQuit,ControlStateNextTime;
+    
+    ASSOCIATE (ControlStateRunning);
+    ASSOCIATE (ControlStateStopped);
+    ASSOCIATE (ControlStateStepping);
+    ASSOCIATE (ControlStateQuit);
+    ASSOCIATE (ControlStateNextTime);
   }
 }
 
