@@ -1,3 +1,20 @@
+2003-08-17	David H. Clements <david.clements.03@alum.mines.edu>
+
+	* Added a "cleandata" flag to the Makefile.
+	
+	* Clarified code a bit in createTimeString, no functional changes--
+	things like bracket alignment and whitespace.
+	
+	* Made some functional changes to Output:
+	
+		*changed timeString to a pointer,
+		*made the appropriate changes surrounding that change
+		*rewrote the else side of the runNumber if branch
+
+	
+	* Added/changed documentation here and there in Output.h and Output.m.
+		
+		
 2003-04-17    <pauljohn@localhost.localdomain>
 
 	* I have checked in this tutorial exercise and began

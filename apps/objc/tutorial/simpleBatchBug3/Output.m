@@ -32,36 +32,41 @@
 
 - (void)createTimeString
 {
-  int i;
-  time_t runTime; /*"Return from the system's time() function"*/
-  int runNumber = getInt((Parameters*)arguments,"run"); 
- 
-  if ( runNumber == -1)
+	int i;
+	time_t runTime; /*"Return from the system's time() function"*/
+	int runNumber = getInt((Parameters*)arguments,"run"); 
+	
+	if( runNumber == -1 )	//Run number is unspecified by user, we generate our own.
     {
-      runTime = time(NULL);
-      strcpy (timeString, ctime(&runTime));
-      //this scans through and converts spaces and colons to underscores.
-      for (i = 0; i < 100; i++)
-	{
-	  if (timeString[i] == ' ' || timeString[i] == ':')
-	    timeString[i] = '_';
-	  else if (timeString[i] == '\n')
-	    timeString[i] = '\0';
-	}
-    }
-  else
-    {
+		i = 0;
+		
+		runTime = time(NULL);					//Get the time in seconds.
+		timeString = strdup( ctime(&runTime) );	//Creates a properly terminated string.
+		
+		//Normally we should check to make sure that timeString is not null,
+		//but in this case we're going to play it a bit fast and loose...
+		//REVIEW: Should this be the case? Should we use asserts more assertively (ha ha)?
+
+		//this scans through and converts spaces and colons to underscores.
       
-      snprintf (timeString, 100, "%4d", runNumber);
-      for (i = 0; i < 100; i++)
-	{
-	  if (timeString[i] == ' ' || timeString[i] == ':')
-	    timeString[i] = '0';
-	  else if (timeString[i] == '\n')
-	    timeString[i] = '\0';
-	  
-	}
-    }
+      	while( timeString[ i ] != '\0' )
+      	{
+      		//First we strip those characters that we would prefer
+      		//not to see in a unix operating system terminal...
+			if (timeString[i] == ' ' || timeString[i] == ':')
+			{
+				timeString[i] = '_';
+			} else if( timeString[i] == '\n' ) {	//Now we remove the end-of-line terminator.
+	    		timeString[i] = '\0';
+	    		break;								//Nothing left to see, we've shortened the string.
+	    	}
+	    	i++;	//Move one forward in timeString.
+		}
+    } else { //Run number was specified by the user.
+      
+      	asprintf( &timeString, "%4d", runNumber ); //Should we free these somewhere? a dealloc?
+      	
+    } //if( runNumber == -1 ) - else
   
 }
 

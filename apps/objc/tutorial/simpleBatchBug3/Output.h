@@ -11,7 +11,7 @@
 
   id bugList;
   
-  char timeString[100];/*"a verbose description of current time"*/
+  char * timeString;/*"a verbose description of current time"*/
   FILE * dataOutputFile; /*"FILE handle for output from C style fprintf"*/
 
   id <EZAverageSequence> eatenSequence;  
