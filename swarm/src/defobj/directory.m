@@ -974,10 +974,12 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
               
             jboolean classp (jclass matchClass)
               {
-                return (*env)->IsSameObject (env, class, matchClass);
+                return (*env)->IsInstanceOf (env, matchClass, class);
               }
               
-            if (classp (c_object))
+            if (classp (c_selector))
+              type = _C_SEL;
+            else if (classp (c_object))
               type = _C_ID;
             else if (classp (c_string))
               type = _C_CHARPTR;
@@ -1018,7 +1020,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
             if (!sel_get_typed_uid (name, signatureBuf))
               raiseEvent (SourceMessage,
                           "Method `%s' type (%s) from the Swarm library\n"
-                          "method with the same name!\n"
+                          "method with the same name.\n\n"
                           "Adjust type to match Swarm method's type (%s)\n"
                           "use different method name!\n",
                           name, signatureBuf, sel->sel_types);

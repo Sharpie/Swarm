@@ -2,6 +2,8 @@
 
 	* directory.m (swarm_directory_ensure_selector): Add types to
 	error message.
+	(swarm_directory_ensure_selector): Add case for selector argument
+	type.  Use IsInstanceOf instead of IsSameObject.
 
 1999-08-08  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
 
