@@ -1,3 +1,9 @@
+2000-04-15    <mgd@nest.swarm.org>
+
+	* ProbeMap.m ([ProbeMap -addJavaFields:]): Use m_ClassGetFields
+	instead of m_ClassGetDeclaredFields.  (Want the publics, and inherited
+	variables.)
+
 2000-04-13    <mgd@nest.swarm.org>
 
 	* VarProbe.m ([VarProbe -createEnd]): Use m_ClassGetField instead

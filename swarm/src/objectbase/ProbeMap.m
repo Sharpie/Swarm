@@ -184,7 +184,7 @@ PHASE(Creating)
 
   if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
                                               javaClass,
-                                              m_ClassGetDeclaredFields)))
+                                              m_ClassGetFields)))
     abort();
 
   count = (*jniEnv)->GetArrayLength (jniEnv, fields);
