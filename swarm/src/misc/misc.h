@@ -17,6 +17,7 @@ char *strdup (const char *string);
 char *strndup (const char *s, size_t n);
 char *stpcpy (char *dest, const char *src);
 
+char *strpbrk (const char *s, const char *accept);
 char *strsep (char **string, const char *delim);
 #define strchr swarm_strchr
 const char *strchr (const char *string, int c);
@@ -24,6 +25,7 @@ const char *strchr (const char *string, int c);
 size_t strlen (const char *);
 size_t strnlen (const char *string, size_t maxlen);
 int strcmp (const char *p1, const char *p2);
+int strncmp (const char *p1, const char *p2, size_t n);
 
 void *memset (void *dstpp, int c, size_t len);
 void *memcpy (void *, const void *, size_t);
