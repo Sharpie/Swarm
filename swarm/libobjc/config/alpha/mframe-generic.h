@@ -81,7 +81,7 @@ typedef struct alpha_args {
     { \
       (TYPE)++; \
     } \
-  while (isdigit(*(TYPE))) \
+  while (isdigit ((int) *(TYPE))) \
     { \
       (TYPE)++; \
     } \
