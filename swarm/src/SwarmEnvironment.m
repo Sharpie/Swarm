@@ -147,7 +147,7 @@ PHASE(Setting)
   return [self createEnd];
 }
 
-// It is declare in Using phase (so that it shows up in Globals.env),
+// It is declared in Using phase (so that it shows up in Globals.env),
 // but technically will run from the Java stub in Create phase.
 - (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
 {
