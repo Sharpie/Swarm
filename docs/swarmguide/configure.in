@@ -1,0 +1,14 @@
+AC_INIT(tutorialbook.sgml)
+
+AM_INIT_AUTOMAKE(Swarmguide, 0.0)
+
+AC_ARG_WITH(stylesheet,dnl
+  --with-stylesheet=directory-of-stylesheets,dnl
+  stylesheets_srcdir=$withval,dnl
+  stylesheets_srcdir=/net/wijiji/disk2/src/docbook)
+
+AM_CONFIG_HEADER(config.h)
+
+AC_SUBST(stylesheets_srcdir)
+
+AC_OUTPUT([Makefile swarmbook.dsl])
