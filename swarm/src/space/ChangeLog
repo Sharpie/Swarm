@@ -1,3 +1,8 @@
+1999-03-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Diffuse2d.m: Remove const unsigned maxStates and replace with
+	macro.
+
 1999-02-26  Alex Lancaster  <alex@santafe.edu>
 
 	* Value2dDisplay.m ([Value2dDisplay -setDiscrete2dToDisplay:]):

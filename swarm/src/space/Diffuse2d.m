@@ -13,9 +13,9 @@
 //   k is the diffusion constant
 //   evap is the evaporation rate.
 
-@implementation Diffuse2d
+#define MAXSTATES 0x7fff
 
-const unsigned maxStates = 0x7fff;
+@implementation Diffuse2d
 
 PHASE(Creating)
 
@@ -25,7 +25,7 @@ PHASE(Creating)
 
   r->diffusionConstant = 1.0;
   r->evaporationRate = 1.0;
-  r->numStates = maxStates;
+  r->numStates = MAXSTATES;
 
   return r;
 }
@@ -54,7 +54,7 @@ PHASE(Creating)
         long newState;
 
 #ifdef RANDOMINIT
-        newState = (long)[uniformRandom rMax: maxStates];
+        newState = (long)[uniformRandom rMax: MAXSTATES];
 #else
         newState = 0L;
 #endif
@@ -116,10 +116,10 @@ PHASE(Creating)
         // Hiebeler's original Swarm code.
         if (d < 0)
           newState = 0L;
-        else if (d + 0.5 >= maxStates)
-          newState = maxStates;
+        else if (d + 0.5 >= MAXSTATES)
+          newState = MAXSTATES;
         else
-          newState = (long)floor (d+0.5);	  // round to nearest.
+          newState = (long) floor (d+0.5);	  // round to nearest.
         // can't use rint(), sigh.
         
         *(discrete2dSiteAt (newLattice, offsets, x, y)) = (id)newState;
