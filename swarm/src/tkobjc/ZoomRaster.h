@@ -9,14 +9,14 @@
 #import <tkobjc/Frame.h>
 
 @interface ZoomRaster: Raster {
-  int zoomFactor;
-  int logicalWidth, logicalHeight;
+  unsigned zoomFactor;
+  unsigned logicalWidth, logicalHeight;
 }
 
 -increaseZoom;
 -decreaseZoom;
--(int) getZoomFactor;
--setZoomFactor: (int) z;
--handleConfigureWidth: (int) newWidth Height: (int) newHeight;
+-(unsigned) getZoomFactor;
+-setZoomFactor: (unsigned) z;
+-handleConfigureWidth: (unsigned) newWidth Height: (unsigned) newHeight;
 
 @end

@@ -15,6 +15,14 @@
 
 @implementation ZoomRaster
 
+-(unsigned) getWidth {
+  return (logicalWidth);
+}
+
+-(unsigned) getHeight {
+  return (logicalHeight);
+}
+
 -createEnd {
   [super createEnd];
   // we do things to the parent widget that are really only allowed
@@ -24,7 +32,7 @@
 
   logicalWidth = width;
   logicalHeight = height;
-  zoomFactor = 1;
+  zoomFactor = 1U;
 
   [globalTkInterp eval: "bind %s <Configure> { %s handleConfigureWidth: %s Height: %s }",
 		  [parent getWidgetName], [self getObjcName], "%w", "%h"];
@@ -32,19 +40,19 @@
 }
 
 
--(int) getZoomFactor {
+-(unsigned) getZoomFactor {
   return zoomFactor;
 }
 
 // the REDRAWONZOOM code handles redrawing the window when zooming.
 // Unfortunately, it's a bit buggy and only works well when there are no
 // pixmaps drawn to the Raster, just squares.
--setZoomFactor: (int) z {
-  int oldZoom;
+-setZoomFactor: (unsigned) z {
+  unsigned oldZoom;
 #ifdef REDRAWONZOOM
   XImage *oldImage;
   XGCValues oldgcv;
-  int x, y;
+  unsigned x, y;
 #endif
 
   // save necessary state: old image, old zoom.
@@ -79,14 +87,14 @@
 
 // handler for tk4.0 <Configure> events - width and height is passed to us.
 // note that they are passed to us in absolute values, not gridded.
--handleConfigureWidth: (int) newWidth Height: (int) newHeight {
-  int newZoom;
+-handleConfigureWidth: (unsigned) newWidth Height: (unsigned) newHeight {
+  unsigned newZoom;
   newZoom = newWidth / logicalWidth;
   if (newZoom != newHeight / logicalHeight)
     [WindowUsage raiseEvent: "nonsquare zoom given.\n"];
 
 #ifdef DEBUG
-  printf("Handling configure for %s\noldZoom: %d newZoom: %d, newWidth = %d newHeight = %d\n",
+  printf("Handling configure for %s\noldZoom: %u newZoom: %u, newWidth = %u newHeight = %u\n",
 	 [self getObjcName], zoomFactor, newZoom, newWidth, newHeight);
 #endif
   
@@ -99,7 +107,7 @@
 }
   
 // override setWidth to set it for them according to zoom factor.
--setWidth: (int) newWidth Height: (int) newHeight {
+-setWidth: (unsigned) newWidth Height: (unsigned) newHeight {
   logicalWidth = newWidth;
   logicalHeight = newHeight;
 
@@ -107,7 +115,7 @@
 
   // set up gridded geometry so this is resizeable. Only works if
   // the parent is a toplevel.
-  [globalTkInterp eval: "wm grid %s %d %d %d %d; wm aspect %s 1 1 1 1",
+  [globalTkInterp eval: "wm grid %s %u %u %u %u; wm aspect %s 1 1 1 1",
 		  [parent getWidgetName],  zoomFactor, zoomFactor,
 		  logicalWidth, logicalHeight, [parent getWidgetName]];
 
@@ -136,12 +144,12 @@
 }
 
 -increaseZoom {
-  return [self setZoomFactor: zoomFactor + 1];
+  return [self setZoomFactor: zoomFactor + 1U];
 }
 
 -decreaseZoom {
-  if (zoomFactor > 1)
-    return [self setZoomFactor: zoomFactor - 1];
+  if (zoomFactor > 1U)
+    return [self setZoomFactor: zoomFactor - 1U];
   else
     return self;
 }

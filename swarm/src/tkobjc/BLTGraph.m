@@ -80,12 +80,10 @@
 
 // first destroy all the elements, then ourselves.
 -(void) drop {
-  id index, e;
-  index = [elementList begin: [self getZone]];
-  while ((e = [index next])) {
-    [self destroyElement: e];
-  }
-  [index drop];
+  while ([elementList getCount] > 0)
+    [self destroyElement: [elementList getFirst]];
+
+  [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
   [super drop];
 }
 
@@ -162,8 +160,8 @@
   return self;
 }
 
--setWidth: (int) w {
-  [globalTkInterp eval: "%s element configure %s -linewidth %d",
+-setWidth: (unsigned) w {
+  [globalTkInterp eval: "%s element configure %s -linewidth %u",
 		  [ownerGraph getWidgetName], name, w];
   return self;
 }
@@ -198,13 +196,13 @@
   return name;
 }
 
--(int) getLength {
+-(unsigned) getLength {
   [globalTkInterp eval: "%s length", name];
   return atoi([globalTkInterp result]);
 }
 
--setLength: (int) n {
-  [globalTkInterp eval: "%s length %d", name, n];
+-setLength: (unsigned) n {
+  [globalTkInterp eval: "%s length %u", name, n];
   return self;
 }
 

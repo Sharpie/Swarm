@@ -43,7 +43,7 @@
 // user configurable options.
 -setLabel: (char *) label;
 -setColor: (char *) color;
--setWidth: (int) w;
+-setWidth: (unsigned) w;
 -setSymbol: (char *)s;   // line square circle diamond plus cross splus scross
 -setDashes: (int) i;				  // only if we're a line.
 @end
@@ -55,9 +55,9 @@
 
 -createEnd;
 -(char *)getName;
--(int) getLength;
+-(unsigned) getLength;
 
--setLength: (int) n;
+-setLength: (unsigned) n;
 -append: (double) v;
 -resetData;
 -delete: (int) n;

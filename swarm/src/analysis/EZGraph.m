@@ -248,6 +248,8 @@ char graphColors[NUMCOLORS][16] ={"Red", "Green", "Blue",
 -(void) drop {
   id index, aSequence ;
 
+  [theGraph drop] ;
+
   index = [sequenceList begin: [self getZone]] ;
   while( (aSequence = [index next]) ){
     [index remove] ;

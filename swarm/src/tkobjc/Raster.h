@@ -19,7 +19,7 @@
   Tk_Window tkwin;
   Display * display;
   Window xwin;
-  int width, height;
+  unsigned width, height;
   GC gc;
   Pixmap pm;
   XColormap * colormap;

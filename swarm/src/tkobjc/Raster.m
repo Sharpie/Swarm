@@ -28,12 +28,12 @@
   [super createEnd];
 
   // create a frame widget, set its height
-  width = 100; height = 100;
+  width = 100U; height = 100U;
   // BMcM - 12-FEB-97: force widget to have *no* background;
   //   fixes problem with newer tcl/tk (7.5/4.1 up?) whereby raster
   //   was being erased, *after* our -drawself, on all <Expose>
   //   events...
-  [globalTkInterp eval: "frame %s -background \"\" -width %d -height %d",
+  [globalTkInterp eval: "frame %s -background \"\" -width %u -height %u",
   	  widgetName, width, height];
 
   tkwin = Tk_NameToWindow([globalTkInterp interp], widgetName,
@@ -94,8 +94,8 @@
 // avoid problems with Tk's caching.
 // For pixmap handling, we create a new pixmap, erase it, copy the old
 // one to it and redraw ourselves.
--setWidth: (int) newWidth Height: (int) newHeight {
-  int minWidth, minHeight;
+-setWidth: (unsigned) newWidth Height: (unsigned) newHeight {
+  unsigned minWidth, minHeight;
   Pixmap oldpm;
 
   oldpm = pm;
@@ -188,5 +188,11 @@
     [c perform: sel with: (void *) x with: (void *) y];
   return self;
 }
+
+-(void) drop {
+  [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
+  [super drop];
+}
+
 
 @end

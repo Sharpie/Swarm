@@ -30,9 +30,9 @@
 -(int) getPositionX;
 -(int) getPositionY;
 
--setWidth: (int) w Height: (int) h;		  // set size
--setWidth: (int) w;
--setHeight: (int) h;
+-setWidth: (unsigned) w Height: (unsigned) h;		  // set size
+-setWidth: (unsigned) w;
+-setHeight: (unsigned) h;
 -setWindowGeometry: (char *) s;			  // set geometry as a string
 -setPositionX: (int) x Y: (int) y;		  // set window position.
 

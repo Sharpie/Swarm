@@ -122,17 +122,17 @@
   return self;
 }
 
--setWidth: (int) w {
+-setWidth: (unsigned) w {
   [globalTkInterp eval: "%s configure -width %u", widgetName, w];
   return self;
 }
 
--setHeight: (int) h {
+-setHeight: (unsigned) h {
   [globalTkInterp eval: "%s configure -height %u", widgetName, h];
   return self;
 }
 
--setWidth: (int) w Height: (int) h {
+-setWidth: (unsigned) w Height: (unsigned) h {
   return [[self setWidth: w] setHeight: h];
 }
 
