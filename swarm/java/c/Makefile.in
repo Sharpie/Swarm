@@ -71,7 +71,7 @@ libjavaswarm.la: libjavaswarmstubs.la $(libjavaswarm_la_OBJECTS)
 
 javaswarm.dll: libjavaswarm.la libjavaswarmstubs.la javaswarm.dll.c
 	$(CC) -c $(srcdir)/javaswarm.dll.c
-	$(DLLWRAP) --add-stdcall-alias --entry __cygwin_noncygwin_dll_entry@12 --export-all --output-def javaswarm.def --implib libjavaswarmdll.a --driver-name $(CC) -o javaswarm.dll javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(SYSLIBS)
+	$(DLLWRAP) --add-stdcall-alias --entry __cygwin_noncygwin_dll_entry@12 --export-all --output-def javaswarm.def --implib libjavaswarmdll.a --driver-name $(CC) -o javaswarm.dll javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(top_builddir)/avcall/avcall-i386-msvc.o $(filter-out $(top_builddir)/avcall/avcall.lo,$(SYSLIBS))
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
