@@ -1,3 +1,9 @@
+2001-03-26  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (INCLUDES): Put JAVAINCLUDES before HDF5INCLUDES since
+	gcj includes will land in the HDF5INCLUDES assuming the same
+	local prefix for commonly-installed-from-source packages.
+
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* HDF5Object.m ([HDF5_c -createEnd]): Always open RDWR -- 1.4.0 insists

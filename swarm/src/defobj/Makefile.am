@@ -10,7 +10,7 @@ include $(top_srcdir)/src/Makefile.rules
 
 EXTRA_DIST = make-h2x m2h internal.h java.h modulemap.el fcall_objc.h fcall_java.h _fcall.m COM.h
 
-INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES) $(FFIINCLUDES)
+INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(JAVAINCLUDES) $(HDF5INCLUDES) $(FFIINCLUDES)
 
 noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
