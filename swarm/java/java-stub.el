@@ -481,9 +481,6 @@
     (when varname
       (funcall convert (java-objc-to-java-type t (car type-and-varname))))))
 
-(defun java-argument-empty-p (argument)
-  (null (third argument)))
-
 (defun java-argument-print-conversion (current-module argument string-pos)
   (let ((type (second argument))
         (jni-type (java-argument-convert argument
@@ -541,7 +538,7 @@
           for arg-pos from 0
           for arg-name = (third argument)
           for type = (second argument)
-          when (and (not (java-argument-empty-p argument))
+          when (and (not (argument-empty-p argument))
                     (local-ref-p argument)
                     (not (java-argument-string-p argument)))
           do
@@ -568,7 +565,7 @@
   (let ((arguments (method-arguments method)))
     (loop for argument in arguments
           for argname = (third argument)
-          when (and (not (java-argument-empty-p argument))
+          when (and (not (argument-empty-p argument))
                     (local-ref-p argument))
           do
           (insert "  (*env)->DeleteLocalRef (env, ")
@@ -593,7 +590,7 @@
         (string-pos 0)
         (module (protocol-module protocol)))
     (insert (first (car arguments)))
-    (unless (java-argument-empty-p (car arguments))
+    (unless (argument-empty-p (car arguments))
       (insert ": ")
       (insert (java-argument-ref (car arguments) 0 string-pos))
       (when (java-argument-string-p (car arguments))
@@ -643,7 +640,7 @@
       (insert (java-class-name protocol phase))
       (insert "_")
       (java-print-method-name arguments t)
-      (unless (java-argument-empty-p first-argument)
+      (unless (argument-empty-p first-argument)
         (insert "__")
         (insert (java-argument-convert first-argument
                                        #'java-type-to-signature))
@@ -653,7 +650,7 @@
                                              #'java-type-to-signature))))
       (insert " (JNIEnv *env, ")
       (insert "jobject jobj")
-      (unless (java-argument-empty-p (car arguments))
+      (unless (argument-empty-p (car arguments))
         (loop for argument in arguments
               do
               (insert ",\n")
