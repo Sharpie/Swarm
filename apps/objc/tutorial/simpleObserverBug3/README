@@ -17,7 +17,7 @@ arguments object for us.  When this works (we did not say "if", but
 class can send messages to it.  These classes will need to import the
 Parameters.h file. Don't forget that. Also, when you use the "arguments" 
 object, some versions of gcc will insist you cast the object, so that 
-the compiler can find the correct method.  Hence usage is written like:
+the compiler can find the correct methods.  Hence usage is written like:
 
 [(Parameters *)arguments getSeedProb];
 
@@ -126,19 +126,25 @@ anything else.
 
 ObserverSwarm
 
-We have made a few changes here.  One is purely cosmetic,
-really.  We have disabled the CREATE_PROBE_DISPLAY(modelSwarm)
-command.  This is done only to prevent distraction.  Since we have a
-probe display from the Parameters object, we don't want to see the
-same set of parameters twice.
+We have made a few changes here.  No doubt, the most conceptually
+siginifican change is the re-sequencing of the way in which the
+modelSwarm is created.  As in the previous tutorial exercises, the
+values in "bug.scm" are used to initialize the model. However, we want
+the command line parameters to override those values.  So, before the
+modelSwarm is told to get the new parameters:
 
-There is a new instance variable in the ObserverSwarm. It is 
-currentTime.  Sometimes it is important to know what the current
-time step of the simulation is.  The Swarm function getCurrentTime()
-can be used to retrieve the time, but not if the model is stopped.
-Sometimes when the model is stopped, we want to know the time, so
-the currentTime variable saves the time.  The time gets used in
-the "takeScreenShot" method (see below).
+[modelSwarm resetParameters];
+
+The other changes in the ObserverSwarm are designed to facilitate
+record-keeping and repetitive processing of the model.
+
+
+One is purely cosmetic, really.  We have disabled the
+CREATE_PROBE_DISPLAY(modelSwarm) command.  This is done only to
+prevent distraction.  Since we have a probe display from the
+Parameters object, we don't want to see the same set of parameters
+twice.
+
 
 In case you really do want to see the same thing twice, and put that
 CREATE_PROBE_DISPLAY command back into the ObserverSwarm.m file, you
@@ -159,15 +165,25 @@ modelSwarm in the ObserverSwarm.m file.  The ModelSwarm probe corrects
 itself when the first step of the simulation occurs, reflecting the
 fact that the values have been obtained from arguments.
 
+
+
 The other changes we have made in the ObserverSwarm are intended to
 make your life a little easier if you don't want to watch your
 simulation run to the bloody end.  
 
-First, we have added a method called "takeScreenShot". That method
+First, There is a new instance variable in the ObserverSwarm. It is 
+currentTime.  Sometimes it is important to know what the current
+time step of the simulation is.  The Swarm function getCurrentTime()
+can be used to retrieve the time, but not if the model is stopped.
+Sometimes when the model is stopped, we want to know the time, so
+the currentTime variable saves the time.  The time gets used in
+the "takeScreenShot" method (see below).
+
+Second, we have added a method called "takeScreenShot". That method
 "takeScreenShot" is tied into the graphical interface, so whenever the
 user wants to take a picture of the screen, hit the button!
 
-Second, we have added a method called "stopRunning" and scheduled it
+Third, we have added a method called "stopRunning" and scheduled it
 so that, even if you are off drinking coffee, your program will take a
 picture of itself and close down.  Or, if you want, it will stop there
 and wait for your instructions.
@@ -272,14 +288,21 @@ The change here looks pretty drastic, but its not really so bad.
 There is no longer a need for a createBegin method!
 
 We moved the Probe Maps into the Parameters class.  Further, there is no
-need to set values for variables here.  We can retrieve them from the
-Parameters class when we need them.  Down in the buildObjects method, you
-will note how these values are retrieved:
+need to set values for parameter variables here.  We can retrieve them from the
+Parameters class when we need them.  
+
+There is a new method called "resetParameters", which will cause the model to
+go and get the newest values of the input parameters.
 
   worldXSize = getInt(arguments, "worldXSize");
   worldYSize = getInt(arguments,"worldYSize");
   seedProb   = getDouble(arguments,"seedProb");
   bugDensity = getDouble(arguments, "bugDensity");
+
+This is necessary because the model swarm was created according to
+the parameter values originally specified in bug.scm.  We need to override
+those values with the numbers from the command line.
+
 
 Everything else is unchanged.  Note that, if you leave out one of
 these lines, then the parameter value in the bug.scm file will be
@@ -297,10 +320,10 @@ Sometimes people want to run a simulation over and over again to
 explore various possibilities.  We are trying to work our way up to
 that capability right now.  In fact, we are extremely close.  If you
 don't mind a little "stone knive and bear skin" scripting, take a look
-at the file we have included called "batchBug".  The file
+at the file we have included called "batchBug.sh".  The file
 "batchBug" is just a list of runs of the bug model.  If you adjust
 the parameters how you like, you can make the model run over and over
-again by executing the program "batchBug". (On Unix, that file must be
+again by executing the program "batchBug.sh". (On Unix, that file must be
 executable, of course.)
 
 If you want to do a little shell programming, you can enhance and

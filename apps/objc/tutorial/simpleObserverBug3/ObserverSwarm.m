@@ -95,7 +95,8 @@
 
   // OK - the user said "go" so we're ready to start
 
-  [modelSwarm buildObjects];
+    [modelSwarm resetParameters];
+    [modelSwarm buildObjects];
 
   // Now get down to building our own display objects.
 

@@ -6,7 +6,7 @@
                  // It contains header info for C functions atoi, strtod
 
 
-//These 3 are "convenience" functions that other objects can use to get
+//These are "convenience" functions that other objects can use to get
 //values out of the Parameters object.
 id
 makeProbe (id obj, const char *ivarName)

@@ -36,18 +36,22 @@
   return [super createEnd];
 }
 
-- buildObjects
+- (void)resetParameters
 {
-  Bug *aBug;
-  int x,y;
-  
-  // These retrieve values from the Parameters object
+ // These retrieve values from the Parameters object
 
   worldXSize = getInt ((Parameters *)arguments, "worldXSize");
   worldYSize = getInt ((Parameters *)arguments,"worldYSize");
   seedProb   = [(Parameters *)arguments getSeedProb];
   bugDensity = [(Parameters *)arguments getBugDensity];
+}
 
+- buildObjects
+{
+  Bug *aBug;
+  int x,y;
+  
+ 
 
   // Here, we create the objects in the model
 

@@ -24,6 +24,7 @@
 - getBugList;
 
 - createEnd;
+- (void)resetParameters;
 - buildObjects;
 - buildActions;
 - activateIn: swarmContext;
