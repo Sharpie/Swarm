@@ -1,3 +1,8 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Discrete2d.m (lispInLatticeObjects): Call getQuotedObject for
+	coordinate.
+
 1999-09-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m: Include defalloc.h.

@@ -340,14 +340,14 @@ static void
 lispInLatticeObjects (Discrete2d *self, id expr)
 {
   id aZone = getZone (self);
-  id site = [expr get]; // index points to first stored lattice coord
+  id site = [expr get];
 
   do {
     // expect a `pair' - the co-ordinate & object 
     if (pairp (site))
       { 
         unsigned tempX = 0, tempY = 0;            
-        id coord = [site getCar];
+        id coord = [[site getCar] getQuotedObject];
         id obj = [site getCdr];
         
         if (pairp (coord))
