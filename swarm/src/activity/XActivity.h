@@ -15,7 +15,7 @@ Library:      activity
 //
 // Activity_c -- state of processing within an action type
 //
-@interface Activity_c: Object_s
+@interface Activity_c: Object_s <Activity>
 {
 @public
   Activity_c *ownerActivity;        // activity running this activity

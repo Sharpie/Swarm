@@ -1,5 +1,9 @@
 1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* XActivity.m (Activity_c): Add phase tags.
+
+	* XActivity.h (Activity_c): Implement Activity protocol.
+
 	* ActionGroup.[hm] ([GroupPermutedIndex_c -setActivity:]): New setter.
 	([ActionGroup_c -_createPermutedIndex_:activity:]): 
 	Add activity: argument, which sets activity slot in index. Use previous

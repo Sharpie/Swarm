@@ -26,7 +26,8 @@ BOOL  (*_activity_trace)( id );
 //
 
 @implementation Activity_c
-
+PHASE(Creating)
+PHASE(Using)
 //
 // auditRunRequest() -- common function for run and step messages
 //
