@@ -107,11 +107,11 @@
           Similarly, if you subclass from Swarm, you will require
         objectbase/Swarm.h </PARA></LISTITEM>
 
-        <LISTITEM><PARA>All instance variables of Swarm protocols should
-          either be defined to conform to the appropriate Swarm
-          protocol, or be left untyped.  In *no* circumstance should
-          it be statically typed.  In practice, this means that you
-          can write, either:
+        <LISTITEM><PARA>All references to objects conforming to Swarm
+          protocols should either be defined to conform to the
+          appropriate Swarm protocol, or be left untyped.  In no
+          circumstance should it be statically typed.  In practice,
+          this means that you can write, either:
 
 <PROGRAMLISTING> 
    id &lt;Grid2d&gt; world;  OR

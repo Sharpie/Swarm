@@ -1,3 +1,8 @@
+1998-07-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ref00a.sgml: Clarify wording about not using statically typed
+	Swarm objects.
+
 1998-06-25  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (refindex.sgml $(PAGES)): Set temporary environment
