@@ -1,3 +1,9 @@
+1999-06-17  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Note javadoc support.
+
+	* configure.in (AC_OUTPUT): Add javadoc/{html,latex}/Makefile.
+
 1999-06-15  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (SUBDIRS): Substitute with @TOPSUBDIRS@
