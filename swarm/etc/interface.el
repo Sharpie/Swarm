@@ -459,14 +459,15 @@
     (when (>= len sig-len)
       (string= (substring signature 0 sig-len) match-signature))))
   
-(defun match-create-signature (signature)
+(defun create-signature-p (signature)
   (or (match-signature signature "+createParent:") ; gui
       (match-signature signature "+createWithDefaults:"); random
-      (match-signature signature "+create:")))
+      (match-signature signature "+create:")
+      (match-signature signature "+initSwarm:version:bugAddress:args:")))
 
 (defun convenience-create-method-p (protocol method)
   (unless (unwanted-create-method-p protocol method)
-    (match-create-signature (get-method-signature method))))
+    (create-signature-p (get-method-signature method))))
   
 (defun collect-convenience-create-methods (protocol)
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
@@ -484,7 +485,7 @@
                  key))
            (fix (key) (concat (downcase (substring key 0 1))
                               (substring key 1))))
-      (loop for argument in (cdr (method-arguments method))
+      (loop for argument in (method-arguments method)
             collect (cons (fix (strip (car argument)))
                           argument))))
 
