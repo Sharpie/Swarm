@@ -1000,28 +1000,7 @@ CREATING
 //D: A CanvasItem that displays a line.
 @end
 
-#if 1 /* ndef USE_JAVA -- disabled for the sake of protocol.el */
-#import <tkobjc/common.h>
-extern void initTkObjc (id arguments);
-
-#define GUI_BEEP() tkobjc_ringBell ()
-#define GUI_UPDATE() tkobjc_update ()
-#define GUI_UPDATE_IDLE_TASKS() tkobjc_updateIdleTasks (NO)
-#define GUI_UPDATE_IDLE_TASKS_AND_HOLD() tkobjc_updateIdleTasks (YES)
-#define GUI_RELEASE_AND_UPDATE() tkobjc_releaseAndUpdate () 
-#define GUI_DRAG_AND_DROP(source,object) tkobjc_dragAndDrop (source, object)
-#define GUI_DRAG_AND_DROP_OBJECT() tkobjc_drag_and_drop_object ()
-#define GUI_EVENT_SYNC() tkobjc_doOneEventSync ()
-#define GUI_EVENT_ASYNC() tkobjc_doOneEventAsync ()
-
-// for MessageProbeWidget
-#define GUI_MAKE_FRAME(widget) tkobjc_makeFrame (widget)
-#define GUI_PACK(widget) tkobjc_pack (widget)
-// for VarProbeWidget
-#define GUI_FOCUS(widget) tkobjc_focus (widget)
-
-#define GUI_INIT(arguments) initTkObjc (arguments)
-#else
+#if 0 /* ndef USE_JAVA -- disabled for the sake of protocol.el */
 #define _GUI_MSG(str) printf ("GUI [%s,%d] %s\n",__FILE__,__LINE__,str)
 #define GUI_BEEP() _GUI_MSG ("GUI_BEEP")
 #define GUI_UPDATE() _GUI_MSG ("GUI_UPDATE")
@@ -1042,6 +1021,27 @@ extern void initTkObjc (id arguments);
 #import <awtobjc/global.h>
 
 #define GUI_INIT(arguments)  initAWTObjc (arguments)
+#else
+#import <tkobjc/common.h>
+extern void initTkObjc (id arguments);
+
+#define GUI_BEEP() tkobjc_ringBell ()
+#define GUI_UPDATE() tkobjc_update ()
+#define GUI_UPDATE_IDLE_TASKS() tkobjc_updateIdleTasks (NO)
+#define GUI_UPDATE_IDLE_TASKS_AND_HOLD() tkobjc_updateIdleTasks (YES)
+#define GUI_RELEASE_AND_UPDATE() tkobjc_releaseAndUpdate () 
+#define GUI_DRAG_AND_DROP(source,object) tkobjc_dragAndDrop (source, object)
+#define GUI_DRAG_AND_DROP_OBJECT() tkobjc_drag_and_drop_object ()
+#define GUI_EVENT_SYNC() tkobjc_doOneEventSync ()
+#define GUI_EVENT_ASYNC() tkobjc_doOneEventAsync ()
+
+// for MessageProbeWidget
+#define GUI_MAKE_FRAME(widget) tkobjc_makeFrame (widget)
+#define GUI_PACK(widget) tkobjc_pack (widget)
+// for VarProbeWidget
+#define GUI_FOCUS(widget) tkobjc_focus (widget)
+
+#define GUI_INIT(arguments) initTkObjc (arguments)
 #endif
 
 @class Button;

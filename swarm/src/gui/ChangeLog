@@ -1,3 +1,8 @@
+1998-06-10  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* gui.h: Exchange awt/Tk macros so that it can remain a #if 0
+	and work with the protocol script.
+
 1998-06-05  Alex Lancaster  <alex@santafe.edu>
 
 	* gui.h: Fixed (#if 1) around the tk macros - erroneosly set to
