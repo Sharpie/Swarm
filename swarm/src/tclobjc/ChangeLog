@@ -1,0 +1,270 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tclObjc.m (ATDELIMCHAR): Switch back to `@', until BLT 2.4 is
+	for real.
+
+1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in (INCPLACES, LIBPLACES): Add /Cygnus/B19/{include,lib}.
+
+1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tclObjc.m (ATDELIMCHAR): New macro.  Used in 
+	tclObjc_objectToName and tclObjcToObject as delimiter between
+	name and address.  Also used in TclObjc_Init.
+
+1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.in: Bump TCLOBJC_VERSION to 1.4.
+
+	* configure.in (TCLLIBNAME): Update for Tcl/Tk 8.1.
+
+1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* TkInterp.m ([TkInterp -initWithArgc:argv:]): Put "update"
+	in writable buffer before handing it to Tcl_Eval.
+
+	* TclInterp.m ([TclInterp -preInitWithArgc:argv:]): Move buffer
+	to where it is used for setting argc.
+
+1998-04-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* checkT{cl,k}.m (main): Constify argv.
+
+1998-03-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* NEWS: Update for 1.3.
+	
+	* TkInterp.m ([TkInterp -preInitWithArgc:argv:]): Recreate
+	interpreter until Tcl and Tk library files have been located, or fail.
+
+	* TclInterp.m: Include stdlib.h and unistd.h.
+	([TclInterp -setSecondaryLibraryPath:],	[TclInterp -checkPath:file:],
+	[TclInterp -checkTclLibrary]): New methods.
+	([TclInterp -preInitWithArgc:argv:]): Call checkTclLibrary after
+	interpreter is created to make best effort that there's a
+	valid tcl_library.
+	([TclInterp -preInitWithArgc:argv:]): Cast argument to ckfree
+	to void * to avoid warning.
+
+	* TclInterp.h (TclInterp): New instance variable secondaryPath 
+	and setter.  Declare new methods checkTclLibrary and checkPath:file:.
+
+1998-03-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.in (TCLOBJC_GCC_VERSION): Remove.
+
+	* Makefile.in, tclObjc.h.in (TCLOBJC_VERSION): Change to 1.3.
+
+	* TkInterp.m: Make Tk_{Create,Delete}FileHandler NOPs with cygwin.
+
+1998-03-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* TclInterp.m (eval:): Increase size of cmd buffer from 4k to 32k.
+	
+1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* TclInterp.h, TclInterp.m, TkInterp.m: Constify argv in
+	initWithArgc:argv: and preInitWithArgc:argv:.
+
+1998-01-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* checkTcl.m (main): Change [Tcl alloc] to [TclInterp alloc].
+
+	* checkTk.m (main): Change [Tk alloc] to [TkInterp alloc].
+
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* TclInterp.[hm]: Class renamed from Tcl to TclInterp.
+	
+	* TkInterp.[hm]: Class renamed from Tk to TkInterp.
+
+1998-01-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in: Change from Tk to TkInterp in --with-tk conditional.
+	Check for TclInterp.m in AC_INIT.
+	Substitute TkInterp_o and TkInterp_h instead of Tk_o and Tk_h.
+
+	* Makefile.in (SRCS,OBJS,HDRS,DISTFILES): Change from Tcl.[hm] to
+	TclInterp.[hm].
+	(tclObjc.o TclInterp.o): Change from tclObjc.o Tcl.o.
+	(SRCS,OBJS,HDRS,DISTFILES): Change from Tk.[hm] to TkInterp.[hm]
+	(and @TKInterp_o@).
+
+1997-12-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.in: Use $(findstring -DHAVE_OBJC_MALLOC,$(DEFS)) instead
+	of @HAVE_OBJC_MALLOC@.
+
+	* configure.in: Remove substitution of HAVE_OBJC_MALLOC.
+
+1997-12-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tclObjc.m: If HAVE_OBJC_MALLOC, include <objc/objc-api.h>
+	so that objc_malloc, etc. will be declared, otherwise include
+	our objc-malloc.h.
+
+	* configure.in: Check for libobjc, objc_malloc in libobjc and
+	then substitute HAVE_OBJC_MALLOC.
+
+	* Makefile.in (SRCS): Use $(OBJC_MALLOC_SRC) not @OBJC_MALLOC_SRC@.
+	(OBJS): Use $(OBJC_MALLOC_OBJ) not @OBJC_MALLOC_OBJ@.
+	(HAVE_OBJC_MALLOC): Define from configure substitution.
+	(OBJC_MALLOC_SRC, OBJC_MALLOC_OBJ): Define if HAVE_OBJC_MALLOC
+	is empty.
+
+1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Tcl.m ([Tcl -registerObject:withName:]): Cast value: argument
+	to insertKey: value: to eliminate warning.
+	([Tcl - promptAndEval]): Cast cmd to char * to eliminate warning
+	(Tcl_CommandComplete, Tcl_RecordAndEval).
+
+	* Tk.m: Disable synchronize and display for recent versions of Tk.
+	([Tk -preInitWithArgc:argv:]): Constify return.
+	([Tk -preInitWithArgc:argv:]): Constify fileName.
+	([Tk -promptAndEval]:): Constify cmd and line.
+	(StdinProc): Constify cmd.
+	(StdinProc): Cast cmd to char * to eliminate warning
+	(Tcl_CommandComplete).
+	(StdinProc): Cast cmd to char * to eliminate warning
+	(Tcl_RecordAndEval).
+
+	* Tcl.m ([Tcl -preInitWithArgc:argv:]): Constify return.
+	([Tcl -initWithArgc:argv:]): Constify fileName and msg.
+	([Tcl -eval:]:) Constify first argument.	
+	([Tcl -globalEval:]:) Constify first argument.
+
+	* Tcl.h: Constify return of preInitWithArgc.
+	Constify first argument of eval and globalEval.
+
+1997-12-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in: Add -lpthread to LIBS if it is there.  This
+	is needed for the thread-safe Objective C runtime of gcc-2.8.
+
+1997-12-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.in (TCLLIBS, LIBS): Add -lobjc.
+
+	* configure.in: Add -ldl to LIBS if it is there.
+
+	* NEWS: Version notes.
+
+	* Makefile.in (TCLOBJC_VERSION): Bump version.
+	* tclObjc.h.in: Likewise.
+
+	* Makefile.in (doCheckTcl): Add $(srcdir) prefix before check.tcl.
+	(doCheckTk): Likewise.
+
+1997-12-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in (INCPLACES, LIBPLACES): Quote $tclInstalledDir
+	because it may be empty.
+	(INCPLACES): Append other potential tk include directories after
+	existing list, otherwise if there are several Tk trees, a user's
+	request for a particular Tk tree may get overridden.
+	(LIBPLACES): Use "`dirname $TKINCDIR`/lib", not "`dirname
+	$TKINCDIR/lib`", for guessing a library pathname from include
+	pathname.
+
+1997-12-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in:  Replace instances of "test ! -z" with
+	"test -n".
+
+	* Tk.m (tk_iter): Cope with Tk >= 8.0.
+	([Tk -preInitWithArgc:argv:]): Likewise.
+	([Tk -promptAndEval]): Likewise.
+
+	* Tcl.h (TCLVERSIONLT74, TCLVERSIONGT74): Fix logic for Tcl >= 8.0.
+
+	* configure.in (INCPLACES, LIBPLACES): Added tcl8.0 and tk8.0.
+	(TCLLIBNAME): Added check for 80/8.0 (automatic search and manual
+	request).
+	(TKLIBNAME): Likewise.
+
+	* Makefile.in (tclObjc.o Tcl.o): Changed rule "tclObjc.m: tclObjc.h"
+	to "tclObjc.o Tcl.o: tclObjc.h" (needed now that there isn't a 
+	tclObjc.h file).
+
+1997-11-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in (INCPLACES): Add tcl7.6 and tk4.2.
+	(LIBPLACES): Likewise.
+	(TCLLIBNAME): Replace conditions for checking for different
+	versions of tcl with a loop over the versions and shared/static
+	library suffixes.
+	(TCLLIBNAME): Likewise.
+
+	* Makefile.in (ALL_INCLUDE_FLAGS): Add -I. to find tclObjc.h if
+	doing a --srcdir build.
+	(HDRS): Remove tclObjc.h.
+	(DISTFILES): Rename tclObjc.h to tclObjc.h.in.
+	(install): Add explicit install command for tclObjc.h.
+	(uninstall): Add tclObjc.h after HDRS.  Change $file to $$file.
+	(tclObjc.h): Change to read from tclObjc.h.in, using no temporary
+	files.
+
+1997-11-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in: Fix typo; check for libtk.a was looking for libk.a.
+
+1997-11-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.in (OBJS): Replace literal objc-malloc.[mo] with
+	@OBJC_MALLOC_SRC@, @OBJC_MALLOC_OBJ@.
+	(install): Fix HDRS install target to work with $(srcdir).
+
+	* configure.in: Add check for objc_malloc in libobjc.a. Don't compile
+	objc-malloc.m if it already exists.
+
+Fri Sep 12 14:46    1997  glen e. p. ropella <gepr@santafe.edu>
+
+        * tclObjc.m: changed %u to %p for 64-bit compatibility
+        * tclObjc.m: changed for new ObjC compatibility.
+
+Wed Nov 20 1996 glen e. p. ropella <gepr@santafe.edu>
+
+	* Modified Tcl.m to account for the variable tcl_rcFileName
+	being a Tcl variable instead of a C variable.
+
+Mon Oct 28 1996 glen e. p. ropella <gepr@santafe.edu>
+
+	* Modified Tcl.[hm] and Tk.m to account for changes in
+	Tcl between 7.4 and 7.5 and changes in Tk between 4.0 and 
+	4.1.  These include the renaming of the tcl_RcFileName to
+	tcl_rcFileName and changes from the variable tk_NumMainWindows
+	to Tk_GetNumMainWindows.  Also, allowed Tk_Init to create the
+	main window for the raster in Tk.m and filled in the "w" 
+	variable with what it generated.
+
+Wed Dec 13 18:04:33 1995  Nelson Minar  <nelson@santafe.edu>
+
+	* .texi: removed the .texi sources, because I'm not keeping them
+	up to date.
+
+	* configure.in: remove check for tcl version: assumes tcl7.4
+	or newer.
+
+	* tclObjc.h: replace Class * with Class, to be consistent
+	with gcc 2.7.0.
+
+	* INSTALL: updated instructions to reflect changes.
+	
+Tue Aug  8 00:09:15 1995  Nelson Minar  <nelson@santafe.edu>
+
+	* configure.in: modernize configure.in
+
+	* Makefile.in: changed "clean" targets around a bit to be more
+	friendly.
+
+	* Tcl.m: changed declaration of tcl_RcFileName to match
+	tcl7.4 library organization.
+	
+	* Tcl.m: added in support for printing out all commands before
+	they are sent to Tcl_Eval (debugging aid).
+
+	* Tk.h, Tk.m: add mainWindow method
+
+	* Beginning of Nelson's libtclobjc maintainance
