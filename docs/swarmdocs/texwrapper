@@ -1,1 +1,0 @@
-\def\Entity#1{\if#1\lt{\tt <}\else\if#1\gt{\tt >}\fi\fi}

@@ -366,7 +366,7 @@
         (< (length a) (length b))
         diff)))
 
-(defun expand-protocol (protocol)
+(defun generate-expanded-methodinfo-list (protocol)
   (let ((expanded-protocols-hash-table (make-hash-table))
         (method-hash-table (make-hash-table)))
     (flet ((expand-protocol-level (protocol level)
@@ -407,15 +407,12 @@
                        (< phase-diff 0)))
                  (< level-diff 0))))))))
 
-(defun expand-and-update-protocol (protocol)
-  (setf (protocol-expanded-methodinfo-list protocol)
-        (expand-protocol protocol)))
-
-(defun expand-protocols ()
+(defun generate-expanded-methodinfo-lists ()
   (interactive)
   (loop for protocol being each hash-value of *protocol-hash-table*
         do
-        (expand-and-update-protocol protocol)))
+        (setf (protocol-expanded-methodinfo-list protocol)
+              (generate-expanded-methodinfo-list protocol))))
 
 (defun external-protocol-name (protocol)
   (let ((raw-protocol-name (protocol-name protocol)))
@@ -476,14 +473,6 @@
   (insert "\n</REFPURPOSE>\n")
   (insert "</REFNAMEDIV>\n"))
 
-(defun count-methods-for-phase (protocol phase)
-  (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
-        count (eq (method-phase (third methodinfo)) phase)))
-
-(defun count-methods-for-all-phases (protocol)
-  (loop for phase in *phases*
-        sum (count-methods-for-phase protocol phase)))
-
 (defun insert-text (text)
   (when text
     (let ((beg (point)))
@@ -500,10 +489,9 @@
               (while (search-forward ">" nil t)
                 (replace-match "&gt;")))))))))
 
-(defun sgml-refsect1 (protocol)
-  (let ((have-methods (> (count-methods-for-all-phases protocol) 0))
-        (description-list (protocol-description-list protocol)))
-    (when (or description-list have-methods)
+(defun sgml-refsect1-description (protocol)
+  (let ((description-list (protocol-description-list protocol)))
+    (when description-list
       (insert "<REFSECT1>\n")
       (insert "<TITLE>Description</TITLE>\n")
       (loop for description in description-list
@@ -511,8 +499,6 @@
             (insert "<PARA>\n")
             (insert-text description)
             (insert "\n</PARA>\n"))
-      (when have-methods
-        (sgml-refsect2-method-list protocol))
       (insert "</REFSECT1>\n"))))
 
 (defun sgml-method-description (protocol method)
@@ -593,11 +579,24 @@
            (substring (protocol-name owner-protocol) 1)
            (protocol-name protocol))))))
 
-(defun sgml-method-definitions (protocol phase)
-  (let ((methodinfo-list (methodinfo-list-for-phase protocol phase))
-        have-list have-item)
-    (when methodinfo-list
-      (insert "<ITEMIZEDLIST>\n")
+(defun count-included-methodinfo-entries (protocol phase)
+  (loop for methodinfo in (methodinfo-list-for-phase protocol phase)
+        count (include-p (first methodinfo)
+                         protocol
+                         (second methodinfo))))
+
+(defun count-included-methodinfo-entries-for-all-phases (protocol)
+  (loop for phase in *phases*
+        sum (count-included-methodinfo-entries protocol phase)))
+
+(defun sgml-method-definitions (protocol
+                                phase
+                                &optional protocol-listitem-flag)
+  (unless (zerop (count-included-methodinfo-entries protocol phase))
+    (let ((methodinfo-list (methodinfo-list-for-phase protocol phase))
+          have-list have-item)
+      (when protocol-listitem-flag
+        (insert "<ITEMIZEDLIST>\n"))
       (loop with last-protocol = nil
             for methodinfo in methodinfo-list
             for level = (first methodinfo)
@@ -612,13 +611,13 @@
             (when have-item
               (insert "</LISTITEM>\n")
               (setq have-item nil))
-            (insert "<LISTITEM>\n")
-            (setq have-item t)
-            (insert "<PARA>")
-            (if (include-p level protocol owner-protocol)
+            (when protocol-listitem-flag
+              (when (include-p level protocol owner-protocol)
+                (insert "<LISTITEM>\n")
+                (setq have-item t)
+                (insert "<PARA>")
                 (insert (external-protocol-name owner-protocol))
-                (sgml-link-to-protocol owner-protocol))
-            (insert "</PARA>\n")
+                (insert "</PARA>\n")))
             (when (include-p level protocol owner-protocol)
               (setq have-list t)
               (insert "<ITEMIZEDLIST>\n"))
@@ -633,9 +632,10 @@
             for last-protocol = owner-protocol)
       (when have-list
         (insert "</ITEMIZEDLIST>\n"))
-      (when have-item
-        (insert "</LISTITEM>\n"))
-      (insert "</ITEMIZEDLIST>\n"))))
+      (when protocol-listitem-flag
+        (when have-item
+          (insert "</LISTITEM>\n"))
+        (insert "</ITEMIZEDLIST>\n")))))
 
 (defun sgml-examples (protocol)
   (let ((example-list (protocol-example-list protocol)))
@@ -659,6 +659,10 @@
   (loop for methodinfo in (methodinfo-list-for-phase protocol phase)
         for method = (third methodinfo)
         count (method-example-list method)))
+
+(defun count-noninternal-protocols (protocol)
+  (loop for included-protocol in (protocol-included-protocol-list protocol)
+        count (not (internal-protocol-p included-protocol))))
 
 (defun compare-method-signatures (method-a method-b)
   (let* ((method-a-signature (get-method-signature method-a))
@@ -695,21 +699,60 @@
     (insert "</EXAMPLE>\n")))
 
 (defun sgml-methods-for-phase (protocol phase)
-  (insert "<REFSECT3>\n")
-  (insert "<TITLE>Phase: ")
-  (insert (capitalize (substring (prin1-to-string phase) 1)))
-  (insert "</TITLE>\n")
-  (sgml-method-definitions protocol phase)
-  (sgml-examples protocol)
-  (insert "</REFSECT3>\n"))
+  (unless (zerop (count-included-methodinfo-entries protocol phase))
+    (insert "<REFSECT2>\n")
+    (insert "<TITLE>Phase: ")
+    (insert (capitalize (substring (prin1-to-string phase) 1)))
+    (insert "</TITLE>\n")
+    (sgml-method-definitions protocol phase)
+    (insert "</REFSECT2>\n")))
 
-(defun sgml-refsect2-method-list (protocol)
-  (insert "<REFSECT2><TITLE>Methods</TITLE>\n")
-  (loop for phase in *phases*
-        do
-        (unless (zerop (count-methods-for-phase protocol phase))
-          (sgml-methods-for-phase protocol phase)))
-  (insert "</REFSECT2>\n"))
+(defun sgml-refsect1-protocol-list (protocol &optional expand-flag)
+  (unless (zerop (count-noninternal-protocols protocol))
+    (insert "<REFSECT1>\n")
+    (insert "<TITLE>Protocols adopted by ")
+    (insert (protocol-name protocol))
+    (insert "</TITLE>\n")
+    (flet ((print-expanded-protocol-list (protocol)
+             (insert "<ITEMIZEDLIST>\n")
+             (loop for included-protocol in
+                   (protocol-included-protocol-list protocol)
+                   do
+                   (unless (internal-protocol-p protocol)
+                     (insert "<LISTITEM>\n")
+                     (insert "<PARA>")
+                     (sgml-link-to-protocol included-protocol)
+                     (insert "</PARA>\n")
+                     (print-expanded-protocol-list included-protocol)
+                     (insert "</LISTITEM>\n")))
+               (insert "</ITEMIZEDLIST>\n"))
+           (print-unexpanded-protocol-list (protocol)
+             (insert "<PARA>")
+             (loop for included-protocol in
+                   (protocol-included-protocol-list protocol)
+                   do
+                   (unless (internal-protocol-p protocol)
+                     (insert " ")
+                     (sgml-link-to-protocol included-protocol)))
+             (insert "</PARA>\n")))
+      (if expand-flag
+          (print-expanded-protocol-list protocol)
+          (print-unexpanded-protocol-list protocol)))
+    (insert "</REFSECT1>\n")))
+
+(defun sgml-refsect1-method-list (protocol)
+  (unless (zerop (count-included-methodinfo-entries-for-all-phases protocol))
+    (insert "<REFSECT1><TITLE>Methods</TITLE>\n")
+    (loop for phase in *phases*
+          do
+          (sgml-methods-for-phase protocol phase))
+    (insert "</REFSECT1>\n")))
+
+(defun sgml-refsect1-examples (protocol)
+  (when (protocol-example-list protocol)
+    (insert "<REFSECT1><TITLE>Examples</TITLE>\n")
+    (sgml-examples protocol)
+    (insert "</REFSECT1>\n")))
 
 (defun internal-protocol-p (protocol)
   (string= (substring (protocol-name protocol) 0 1) "_"))
@@ -719,7 +762,10 @@
     (sgml-refentry-start protocol)
     (sgml-refmeta protocol)
     (sgml-namediv protocol)
-    (sgml-refsect1 protocol)
+    (sgml-refsect1-description protocol)
+    (sgml-refsect1-protocol-list protocol)
+    (sgml-refsect1-method-list protocol)
+    (sgml-refsect1-examples protocol)
     (insert "</REFENTRY>\n")))
 
 (defun get-swarmdocs ()
@@ -828,7 +874,7 @@
 (defun load-and-process-protocols ()
   (interactive)
   (load-protocols-for-all-modules)
-  (expand-protocols)
+  (generate-expanded-methodinfo-lists)
   (build-method-signature-hash-table)
   (build-protocol-vector)
   (build-method-signature-vector))
