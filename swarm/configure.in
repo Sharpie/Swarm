@@ -19,7 +19,7 @@ md_CHECK_EXESUFFIX
 md_CHECK_LINKFLAGS
 
 AC_CHECK_LIB(dl,main,DLLIB=-ldl)
-AC_CHECK_LIB(dld,main,DLLIB=-ldl) # HPUX
+AC_CHECK_LIB(dld,main,DLLIB=-ldld) # HPUX
 AC_SUBST(DLLIB)
 
 if test "$ac_R_space" = yes ; then
