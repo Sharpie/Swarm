@@ -1,6 +1,7 @@
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* actcltk.m4 (INCPLACES): Add /Cygnus/cygwin-b20/include.
+	(LIBPLACES): Add /Cygnus/cygwin-b20/H-i586-cygwin32/lib.
 
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
