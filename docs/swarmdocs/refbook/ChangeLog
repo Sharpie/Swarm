@@ -1,3 +1,8 @@
+1998-06-23  Alex Lancaster  <alex@santafe.edu>
+
+	* ref00a.sgml: Added porting notes for Swarm 1.1 => 1.2.  Expanded
+	porting notes for Swarm 1.0.5 => 1.1.  Added intro SIDEBAR.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* refmeta.sgml: Use refbookrevhistory.sgml instead of
@@ -7,7 +12,8 @@
 
 	* Makefile.am: Include refbook/Makefile.rules instead of
 	src/Makefile.rules.
-	(GENERATED_SGML): Rename srcrevhistory.sgml to refbookrevhistory.sgml.
+	(GENERATED_SGML): Rename srcrevhistory.sgml to
+	refbookrevhistory.sgml.
 	(ENT, EXTRA_DIST): Use refbook.ent instead of src.ent.
 
 	* refbook.ent: Renamed from src.ent.

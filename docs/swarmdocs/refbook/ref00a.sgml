@@ -1,32 +1,315 @@
-<PREFACE ID="SWARM.COMPATIBILITY.SGML.PREFACE">
+ <PREFACE ID="SWARM.COMPATIBILITY.SGML.PREFACE">
   <TITLE>Swarm Changes and Compatibility</TITLE>
+
+  <SIDEBAR>
+    <TITLE>Porting Notes</TITLE>
+    
+    <PARA>New versions provide new features, but may have the
+      unfortunate side-effect of breaking many existing
+      applications. This document is intended to provide a
+      step-by-step guide to updating your Swarm applications to use
+      the latest version as quickly and painlessly as possible.
+    </PARA>
+
+    <PARA>This document contains detailed examples for porting
+      versions equal to, or later than, Swarm 1.0.5.
+    </PARA>
+
+    <PARA>Users trying to port from versions
+      <EMPHASIS>earlier</EMPHASIS> than 1.0.5, are advised to first
+      view the compatibility section of the 1.0.5 swarmdocs.  First
+      perform those changes in sequence, (i.e. if you have apps
+      compatible with Swarm 1.0.3 - first make the 1.0.3 => 1.0.4
+      changes, followed by the 1.0.4 => 1.0.5 changes) and then
+      perform the changes described here. You may notice that some of
+      the changes overlap as earlier versions may have merely
+      deprecated some functionality, whilst later versions actually
+      disabled it. This has been done to phase new functionality in,
+      and old functionality out over several releases, so the user
+      isn't hit with an enormous burden every minor release.
+    </PARA>
+
+    <PARA>We intend that most application changes should be covered,
+      but given that we can never know in advance how a user has
+      employed the software, we cannot guarantee that all potential
+      application changes will be covered in the document explicitly.
+    </PARA>
+
+    <PARA><EMPHASIS>Key for changes:</EMPHASIS></PARA>
+  
+    <SIMPLELIST>
+
+      <MEMBER>(*) = absolutely necessary changes (if not performed,
+        will fail to compile)</MEMBER>
+      <MEMBER>(x) = not-strictly necessary, but highly recommended
+        changes (deprecated coding practice, or will produce a
+        compiler warning, if not performed)
+      </MEMBER>
+    
+    </SIMPLELIST>
+  </SIDEBAR>
+
+  <SECT1>
+
+    <TITLE>Porting from 1.1 to 1.2</TITLE>
+    <SECT2>
+      <TITLE>Major changes</TITLE>
+
+      <PARA>There are really only two main changes which are likely to
+        affect existing users, and all other changes required in
+        user's applications mostly flow from these two changes:
+      </PARA>
+
+      <ITEMIZEDLIST>
+
+        <LISTITEM>
+          <PARA>All Swarm functionality is now exported through a
+            single, well-defined interface: Objective C protocols.
+            Essentially this means that all creatable or subclass-able
+            protocols now follow the same conventions as those in the
+            defobj, activity and collections libraries.  This means
+            that static typing of Swarm protocols is now obsolete
+            across the whole package.</PARA></LISTITEM>
+
+        <LISTITEM>
+          <PARA>Library header files no longer include any of their
+            individual class header files.</PARA></LISTITEM>
+
+      </ITEMIZEDLIST>
+
+    </SECT2>
+    
+    <SECT2>
+      <TITLE>Porting Guide</TITLE>
+
+      <ITEMIZEDLIST>
+        <LISTITEM><PARA>Any subclass of a class defined as a Swarm protocol
+          now requires the *specific* importation of that protocol's
+          header file.  Previously, only a warning was raised.  This
+          particularly affects Swarm and SwarmObject.  If you define
+          something like:
+
+<PROGRAMLISTING> @interface MyObject: SwarmObject
+
+  then you need to include:
+
+  #import &lt;objectbase/SwarmObject.h&gt;
+</PROGRAMLISTING>
+ 
+          Similarly, if you subclass from Swarm, you will require
+        objectbase/Swarm.h </PARA></LISTITEM>
+
+        <LISTITEM><PARA>All instance variables of Swarm protocols should
+          either be defined to conform to the appropriate Swarm
+          protocol, or be left untyped.  In *no* circumstance should
+          it be statically typed.  In practice, this means that you
+          can write, either:
+
+<PROGRAMLISTING> 
+   id &lt;Grid2d&gt; world;  OR
+   id world;
+
+    but NOT
+
+   Grid2d *world;
+</PROGRAMLISTING>
+ 
+            Note that this only applies to protocols defined by Swarm
+            proper, not to your own classes, although it is good
+            practice to adopt a convention and stick to it.
+          </PARA></LISTITEM>
+
+      </ITEMIZEDLIST>
+      
+    </SECT2>
+
+    <SECT2>
+      <TITLE>Porting example: heatbugs</TITLE>
+
+      <PARA><EMPHASIS>HeatSpace.h</EMPHASIS></PARA>
+
+      <ITEMIZEDLIST>
+        <LISTITEM>
+          <PARA>Include header file for Diffuse2d (x)</PARA>
+        </LISTITEM>
+      </ITEMIZEDLIST>
+
+      <PARA><EMPHASIS>Heatbug.h:</EMPHASIS></PARA>
+
+      <ITEMIZEDLIST>
+        <LISTITEM>
+          <PARA>id &lt;Grid2d&gt; world NOT id Grid2d *; (x)</PARA>
+        </LISTITEM>
+      </ITEMIZEDLIST>
+
+      <PARA><EMPHASIS>Heatbug.m</EMPHASIS></PARA>
+
+      <ITEMIZEDLIST>
+        <LISTITEM>
+          <PARA>in setWorld method: make cast to protocol not static (x)</PARA>
+        </LISTITEM>
+      </ITEMIZEDLIST>
+
+      <PARA><EMPHASIS>HeatbugModelSwarm.h</EMPHASIS></PARA>
+      
+      <ITEMIZEDLIST>
+        <LISTITEM>
+          <PARA>HeatbugObserverSwarm.h</PARA>
+        </LISTITEM>
+        <LISTITEM>
+
+          <PARA>make instance variable id &lt;Grid2d&gt; world NOT
+            Grid2d *world (x)</PARA>
+
+          <PARA>change static cast of -getWorld method to protocol
+            version (x)</PARA>
+
+          <PARA>change all the below to protocol (x)
+
+            <PROGRAMLISTING>
+ EZGraph *unhappyGraph;
+ Value2dDisplay *heatDisplay;
+ Object2dDisplay *heatbugDisplay;
+</PROGRAMLISTING>
+            </PARA>
+
+        </LISTITEM>
+      </ITEMIZEDLIST>
+    
+    </SECT2>
+
+    <SECT2>
+      <TITLE>Porting example: mousetrap</TITLE>
+
+      <PARA><EMPHASIS>MousetrapModelSwarm.h</EMPHASIS></PARA>
+
+      <ITEMIZEDLIST>
+        <LISTITEM>
+
+          <PARA>Import &lt;objectbase/Swarm.h&gt; for subclassing from
+          Swarm (*)</PARA>
+        </LISTITEM>
+
+        <LISTITEM>
+          <PARA>Remove imports of <LITERAL>&lt;activity.h&gt;
+            &lt;collections.h&gt; &lt;simtools.h&gt;
+            &lt;objectbase.h&gt;</LITERAL> irrelevant, as not used in
+            the interface. (x)</PARA>
+
+        </LISTITEM>
+
+        <LISTITEM>
+          <PARA>make Grid2d conform to protocol, not static typed. (x)</PARA>
+        </LISTITEM>
+      </ITEMIZEDLIST>
+
+      <PARA><EMPHASIS>MousetrapObserverSwarm.h</EMPHASIS></PARA>
+
+      <ITEMIZEDLIST>
+        <LISTITEM>
+          <PARA>Make instances of EZGraph, Object2dDisplay conform
+            to protocol, rather than be statically typed. (x)
+          </PARA>
+        </LISTITEM>
+      </ITEMIZEDLIST>
+
+      <PARA><EMPHASIS>Mousetrap.h</EMPHASIS></PARA>
+
+      <ITEMIZEDLIST>
+        <LISTITEM>
+          <PARA>Remove import of &lt;objectbase.h&gt; (x)</PARA>
+        </LISTITEM>
+      </ITEMIZEDLIST>
+
+    </SECT2>
+  </SECT1>
 
   <SECT1>
     <TITLE>Porting from 1.0.5 to 1.1</TITLE>
 
-    <ITEMIZEDLIST>
-      <LISTITEM><PARA> Always use the "gui" protocol when calling
-          doing any GUI events:
-          
-          <ITEMIZEDLIST>
-            <LISTITEM><PARA>Replace all occurences of tkobjc.h with
-                gui.h</PARA></LISTITEM>
-            
-            <LISTITEM><PARA><EMPHASIS>never</EMPHASIS> explicitly
-                reference any Tcl/Tk-specific code, in particular
-                module with a call to globalTkInterp will no longer
-                compile.</PARA></LISTITEM>
+    <SECT2>
+      <TITLE>Major changes</TITLE>
 
-          </ITEMIZEDLIST>
-        </PARA>
-      </LISTITEM>
-      
-      <LISTITEM><PARA> Using simtools/simtoolsgui: 
-          
-          <ITEMIZEDLIST>
-            <LISTITEM><PARA>Add the header file simtoolsgui.h to
-                your list of imports whenever you are referencing
-                any of the following classes:
+      <PARA> The major changes which are likely to affect existing
+      users are the following:</PARA>
+
+      <ITEMIZEDLIST>
+
+        <LISTITEM><PARA>Addition of a new library class "gui" which replaces
+          the existing "tkobjc" library.</PARA></LISTITEM>
+        
+        <LISTITEM><PARA>All direct references to any Tcl/Tk code such as the
+          "globalTkInterp" variable have been completely removed from
+          any library code and should not be used in any
+          application.</PARA></LISTITEM>
+
+        <LISTITEM><PARA> Splitting of simtools into two separate libraries:
+          simtools and simtoolsgui.  Classes that intrinsically depend
+          on a GUI toolkit being present (either Tcl/Tk or Java AWT)
+          were put into simtoolsgui.  This allows a user who never
+          intends to use a GUI toolkit, to be able to compile, link
+          and run Swarm applications <EMPHASIS>without any</EMPHASIS>
+          GUI toolkit installed at all.  This was not previously
+          possible.</PARA></LISTITEM>
+
+        <LISTITEM><PARA> The above change has been made possible by the fact
+          that the dependency of Tcl/Tk in the Probing mechanism has
+          been completely removed. It has been replaced by the
+          libffi/ffcall libraries.  Other than the fact that the user
+          will need to install this new library if they are not using
+          a binary distribution, this new dependence should
+          <EMPHASIS>not</EMPHASIS> break any user code.</PARA></LISTITEM>
+
+        <LISTITEM><PARA> The header file to the random library is no longer
+          included in simtools.h you need to explicitly import
+          random.h when you use a default random number
+          generator.</PARA></LISTITEM>
+
+        <LISTITEM><PARA>The XColormap class is now just Colormap to divorce
+          it from its association with X-Windows.  Similarly, BLTGraph
+          is now just Graph.</PARA></LISTITEM>
+        
+        <LISTITEM><PARA>The class named Histo is now named
+            Histogram.</PARA></LISTITEM>
+
+        <LISTITEM><PARA>Certain classes now enforce their defining by the
+            protocol method.  For example an instance of the Raster
+            class must be defined as <LITERAL>(id &lt;Raster&gt;
+              r)</LITERAL> rather than <LITERAL>(Raster *
+              r)</LITERAL>.</PARA></LISTITEM>
+
+        <LISTITEM><PARA> Backwardly-compatible references to the old
+            swarmobject library are no longer supported.  You should
+            always use objectbase.</PARA></LISTITEM>
+
+      </ITEMIZEDLIST>
+    </SECT2>
+    
+    <SECT2>
+      <TITLE>Porting guide</TITLE>
+      <ITEMIZEDLIST>
+        <LISTITEM><PARA> Always use the "gui" protocol when calling
+            doing any GUI events:
+            
+            <ITEMIZEDLIST>
+              <LISTITEM><PARA>Replace all occurences of tkobjc.h with
+                  gui.h</PARA></LISTITEM>
+              
+              <LISTITEM><PARA><EMPHASIS>never</EMPHASIS> explicitly
+                reference any Tcl/Tk-specific code, in particular
+                  module with a call to globalTkInterp will no longer
+                  compile.</PARA></LISTITEM>
+              
+            </ITEMIZEDLIST>
+          </PARA>
+        </LISTITEM>
+        
+        <LISTITEM><PARA> Using simtools/simtoolsgui: 
+            
+            <ITEMIZEDLIST>
+              <LISTITEM><PARA>Add the header file simtoolsgui.h to
+                  your list of imports whenever you are referencing
+                  any of the following classes:
                 
                 <PROGRAMLISTING>
 ActionCache, ControlPanel, SimpleProbeDisplay, ActionHolder,
@@ -35,95 +318,257 @@ ClassDisplayWidget, MessageProbeWidget, CommonProbeDisplay,
 ProbeDisplay, CompleteProbeDisplay,
 ProbeDisplayManager</PROGRAMLISTING>
 
-              </PARA>
-            </LISTITEM>
+                </PARA>
+              </LISTITEM>
+              
+            </ITEMIZEDLIST>
+          </PARA></LISTITEM>
+        
+        <LISTITEM><PARA> Explictly import the header when you are
+            subclassing from a given class:
             
-          </ITEMIZEDLIST>
-        </PARA></LISTITEM>
-      
-      <LISTITEM><PARA> Explictly import the header when you are
-          subclassing from a given class:
-          
-          <ITEMIZEDLIST> 
-            
-            <LISTITEM><PARA>You also need to import the header
-                file for any class for which you are
+            <ITEMIZEDLIST> 
+              
+              <LISTITEM><PARA>You also need to import the header
+                  file for any class for which you are
                 subclassing.  In particular, when you are
-                creating a GUISwarm you are subclassing from
-                GUISwarm so you need to explicitly import both
+                  creating a GUISwarm you are subclassing from
+                  GUISwarm so you need to explicitly import both
                 &lt;simtoolsgui.h&gt; AND
-                &lt;simtoolsgui/GUISwarm.h&gt;. The same is true
-                for &lt;objectbase/SwarmObject.h&gt; and
-                &lt;objectbase/Swarm.h&gt;</PARA></LISTITEM>
-          </ITEMIZEDLIST></PARA></LISTITEM>
-
-      <LISTITEM><PARA> Colormap class name change:
-          
+                  &lt;simtoolsgui/GUISwarm.h&gt;. The same is true
+                  for &lt;objectbase/SwarmObject.h&gt; and
+                  &lt;objectbase/Swarm.h&gt;</PARA></LISTITEM>
+            </ITEMIZEDLIST></PARA></LISTITEM>
+        
+        <LISTITEM><PARA> Colormap class name change:
+            
           <ITEMIZEDLIST>
-            <LISTITEM><PARA>Change all references of
-                XColormap to Colormap as it is no longer
-                specific to X11.</PARA></LISTITEM>
-
-            <LISTITEM><PARA> Change all method references to set the
-                Colormap for the Value2dDisplay class ([Value2dDisplay
-                -Colormap]) to lowercase ([Value2dDisplay -colormap])
-                to avoid namespace conflicts with Colormap class.  For
-                example, in heatbugs:
-
-                <PROGRAMLISTING>
+              <LISTITEM><PARA>Change all references of
+                  XColormap to Colormap as it is no longer
+                  specific to X11.</PARA></LISTITEM>
+              
+              <LISTITEM><PARA> Change all method references to set the
+                  Colormap for the Value2dDisplay class ([Value2dDisplay
+                  -Colormap]) to lowercase ([Value2dDisplay -colormap])
+                  to avoid namespace conflicts with Colormap class.  For
+                  example, in heatbugs:
+                  
+                  <PROGRAMLISTING>
 [heatDisplay setDisplayWidget: worldRaster Colormap: colormap];      
                   
                  should now be:
                   
 [heatDisplay setDisplayWidget: worldRaster colormap: colormap];      
 
-                </PROGRAMLISTING>
-              </PARA></LISTITEM>
-          </ITEMIZEDLIST>
-          
-        </PARA></LISTITEM>
-      
-      <LISTITEM><PARA> Ensure that all required classes
-          conform to their protocol:
-          
-          <ITEMIZEDLIST>
-            <LISTITEM><PARA>Make all occurences of
-                (Raster *) to the protocol i.e. (id
-                &lt;Raster&gt;)</PARA></LISTITEM>
+                  </PROGRAMLISTING>
+                </PARA></LISTITEM>
+            </ITEMIZEDLIST>
             
-            <LISTITEM><PARA>Similarly change any
-                references to Colormap, ZoomRaster,
-                InFile and OutFile.</PARA></LISTITEM>
-          </ITEMIZEDLIST>
+          </PARA></LISTITEM>
+        
+        <LISTITEM><PARA> Ensure that all required classes
+            conform to their protocol:
+            
+            <ITEMIZEDLIST>
+              <LISTITEM><PARA>Make all occurences of
+                  (Raster *) to the protocol i.e. (id
+                  &lt;Raster&gt;)</PARA></LISTITEM>
+              
+              <LISTITEM><PARA>Similarly change any
+                  references to Colormap, ZoomRaster,
+                  InFile and OutFile.</PARA></LISTITEM>
+            </ITEMIZEDLIST>
           
-        </PARA></LISTITEM>
-      
+          </PARA></LISTITEM>
+        
       <LISTITEM><PARA> Import random.h explicitly:
+            
+            <ITEMIZEDLIST>
+              <LISTITEM><PARA>The header file
+                  &lt;random.h&gt; is no longer
+                  included by &lt;simtools.h&gt;
+                  should always <EMPHASIS>explicitly</EMPHASIS>
+                  reference the random library if you
+                  use it in a given module (.m) file.
+                  This again reduces the inter-library
+                  dependence, if you don't need to use
+                  the random library in your
+                  application, you shouldn't be
+                  including it.  </PARA></LISTITEM>
+            </ITEMIZEDLIST></PARA></LISTITEM>
+
+        <LISTITEM><PARA> ActionCache and ControlPanel:
+
+            <ITEMIZEDLIST>
+              <LISTITEM><PARA>Make all references to -doTkEvents and
+                  -waitForControlEvent be to actionCache NOT
+                  controlPanel.</PARA></LISTITEM>
+            </ITEMIZEDLIST>
+          </PARA></LISTITEM>
+
+      </ITEMIZEDLIST>
+
+    </SECT2>
+
+    <SECT2>
+      <TITLE>Porting example: heatbugs</TITLE>
+
+      <PARA>To help users port their applications to 1.1, I have
+        included a checklist of changes that were required to update
+        heatbugs from 1.0.5 to 1.1.  This may help some users as a
+        kind of "template" for changes they may require for their
+        applications.  The <EMPHASIS>ChangeLog</EMPHASIS> entries in in
+        the heatbug-1.1 distribution also provide further specific
+        information.</PARA>
+
+      <PARA><EMPHASIS>Heatbug.h</EMPHASIS></PARA>
+
+      <ITEMIZEDLIST> 
+        <LISTITEM><PARA>
+          Replace &lt;tkobjc/Raster.h> with &lt;gui.h>
+          <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
           
-          <ITEMIZEDLIST>
-            <LISTITEM><PARA>The header file
-                &lt;random.h&gt; is no longer
-                included by &lt;simtools.h&gt;
-                should always <EMPHASIS>explicitly</EMPHASIS>
-                reference the random library if you
-                use it in a given module (.m) file.
-                This again reduces the inter-library
-                dependence, if you don't need to use
-                the random library in your
-                application, you shouldn't be
-                including it.  </PARA></LISTITEM>
-          </ITEMIZEDLIST></PARA></LISTITEM>
+          <LISTITEM><PARA>
+            Make all occurences of (Raster *) to the protocol (id
+            &lt;Raster>) <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        </ITEMIZEDLIST>
+        
+      <PARA><EMPHASIS>Heatbug.m</EMPHASIS></PARA>
 
-      <LISTITEM><PARA> ActionCache and ControlPanel:
+      <ITEMIZEDLIST> 
+        
+        <LISTITEM><PARA>Make all occurences of (Raster *) to the protocol
+          (id &lt;Raster>) <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>Removed &lt;simtools.h> altogether - not
+        used. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>Added &lt;random.h> - no longer included by
+          &lt;simtools.h> - should always <EMPHASIS>explicitly</EMPHASIS>
+          reference the random library if you use it in your
+          code. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+      </ITEMIZEDLIST>
+ 
+      <PARA><EMPHASIS>HeatbugBatchSwarm.h</EMPHASIS></PARA>
 
-          <ITEMIZEDLIST>
-            <LISTITEM><PARA>Make all references to -doTkEvents and
-                -waitForControlEvent be to actionCache NOT
-                controlPanel.</PARA></LISTITEM>
-          </ITEMIZEDLIST>
-        </PARA></LISTITEM>
+      <ITEMIZEDLIST> 
+        <LISTITEM><PARA>
+          Changed &lt;swarmobject.h> to &lt;objectbase.h>
+          <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+      </ITEMIZEDLIST>
 
+      <PARA><EMPHASIS>HeatbugBatchSwarm.m</EMPHASIS></PARA>
+
+      <ITEMIZEDLIST> 
+        <LISTITEM><PARA>
+          Removed redundant &lt;collections.h> <EMPHASIS>(x)</EMPHASIS></PARA></LISTITEM>
+      </ITEMIZEDLIST>
+      
+      <PARA><EMPHASIS>HeatbugModelSwarm.h</EMPHASIS></PARA>
+      
+      <ITEMIZEDLIST>
+        <LISTITEM><PARA>Removed &lt;tkobjc.h> irrelevant in this context - tkobjc should
+          never be included directly in any case, if required use &lt;gui.h>
+          <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>
+          Changed &lt;swarmobject.h> to &lt;objectbase.h>. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>
+          Note we need to <EMPHASIS>separately</EMPHASIS> include &lt;objectbase/Swarm.h>
+          since you always need to the header file for a class if you need to
+          subclass from it. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+      </ITEMIZEDLIST>
+      
+      <PARA>HeatbugModelSwarm.m</PARA>
+      
+      <ITEMIZEDLIST> 
+        <LISTITEM><PARA>
+          Include &lt;random.h> explicitly since we use the default
+          random number generators. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+      </ITEMIZEDLIST>
+      
+      <PARA><EMPHASIS>HeatbugObserverSwarm.h</EMPHASIS></PARA>
+      
+      <ITEMIZEDLIST> 
+        <LISTITEM><PARA>
+          Change &lt;simtools.h> to &lt;simtoolsgui.h> since we are using GUI
+          widgets <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>
+          Explicitly import &lt;simtoolsgui/GUISwarm.h> since we subclass from
+          it <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>
+          Remove: &lt;swarmobject.h> &lt;space.h> &lt;activity.h>
+          &lt;collections.h> all are irrelevant in the header
+          file. <EMPHASIS>(x)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>&lt;tkobjc.h> has been relocated to the (.m) file as
+          no gui classes are referenced directly in the header (.h)
+          file.  It is now changed to
+          &lt;gui.h&gt;. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>
+            Change all references of XColormap to Colormap and use
+            protocol form: <EMPHASIS>(*)</EMPHASIS>
+
+<PROGRAMLISTING>
+ XColormap * colormap TO
+ id &lt;Colormap> colormap
+</PROGRAMLISTING>
+
+          </PARA></LISTITEM>
+ 
+      <LISTITEM><PARA>Make ZoomRaster conform to protocol, ie:
+          <EMPHASIS>(*)</EMPHASIS>
+      
+<PROGRAMLISTING>
+ ZoomRaster * worldRaster TO
+ id &lt;ZoomRaster> worldRaster
+</PROGRAMLISTING>
+
+</PARA></LISTITEM>
     </ITEMIZEDLIST>
+      
+      <PARA><EMPHASIS>HeatbugObserverSwarm.m</EMPHASIS></PARA>
+        
+      <ITEMIZEDLIST> 
+        
+        <LISTITEM><PARA>Change swarmobject to objectbase
+          <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>Import the &lt;gui.h> in the implementation file -
+          since it is not referenced in the header file
+          <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>Change XColormap to Colormap - no longer specific
+          to X11 - so name should not suggest
+          so. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>Message to set colormap for worldRaster changed
+          name from (uppercase) Colormap to (lowercase)
+          colormap.<EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+        
+        <LISTITEM><PARA>Call -enableDestroyNotification method on
+          worldRaster after createEnd.
+          <EMPHASIS>(x)</EMPHASIS></PARA></LISTITEM>
+        
+      </ITEMIZEDLIST>
+      
+      <PARA><EMPHASIS>main.m</EMPHASIS></PARA>
+      
+      <ITEMIZEDLIST> 
+        
+        <LISTITEM><PARA>Need to import &lt;simtoolsgui.h&gt; in
+          addition to &lt;simtools.h&gt; since we reference GUISwarm
+          methods. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
+      </ITEMIZEDLIST>
+      
+    </SECT2>
+
   </SECT1>
 
   <SECT1>
@@ -227,6 +672,7 @@ ProbeDisplayManager</PROGRAMLISTING>
   </SECT1>
 
   <SECT1>
+
     <TITLE>Porting from 1.0.0 to 1.0.1</TITLE>
 
     <PARA>There should not be any imcompatibilities between 1.0.1 and
@@ -252,8 +698,7 @@ ProbeDisplayManager</PROGRAMLISTING>
 
       </ITEMIZEDLIST>
 
-      See the <ULINK
-        URL="http://www.santafe.edu/projects/swarm/release.html#changes">Release
+      See the <ULINK URL="http://www.santafe.edu/projects/swarm/release.html#changes">Release
         Page</ULINK> for other differences.</PARA>
   </SECT1>
 
@@ -275,8 +720,7 @@ ProbeDisplayManager</PROGRAMLISTING>
         <LISTITEM><PARA>The biggest and most pervasive problems will
             be due to the new <EMPHASIS>random</EMPHASIS>
             library. Notes on how to deal with this problem are
-            provided in the <LINK
-            LINKEND="SWARM.RANDOM.SGML.REFERENCE">documentation for the
+            provided in the <LINK LINKEND="SWARM.RANDOM.SGML.REFERENCE">documentation for the
             <EMPHASIS>random</EMPHASIS>
             library</LINK>.</PARA></LISTITEM>
 
@@ -288,8 +732,7 @@ ProbeDisplayManager</PROGRAMLISTING>
             <EMPHASIS>collections</EMPHASIS> libraries. (The rest of
             the errant libraries will follow in a later release.) The
             solutions to the problems associated with this interface
-            change are detailed in the <LINK
-            LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">documentation for
+            change are detailed in the <LINK LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">documentation for
             the <EMPHASIS>objectbase</EMPHASIS> library</LINK>.</PARA>
         </LISTITEM>
 
@@ -298,8 +741,7 @@ ProbeDisplayManager</PROGRAMLISTING>
             <EMPHASIS>activity</EMPHASIS> library. Many parts of
             <EMPHASIS>activity</EMPHASIS> have changed.  But, for the
             most part, everything works exactly the same. For details
-            on the incompatibilities please see the <LINK
-            LINKEND="SWARM.ACTIVITY.SGML.REFERENCE">documentation for
+            on the incompatibilities please see the <LINK LINKEND="SWARM.ACTIVITY.SGML.REFERENCE">documentation for
             the <EMPHASIS>activity</EMPHASIS> library</LINK>. Briefly,
             the incompatibilities are:
 
