@@ -128,6 +128,16 @@ PHASE(Using)
                   canvasName, item, the_x, the_y];
 }
 
+- (void)resetString: (const char *)newString
+{
+  if (string)
+    FREEBLOCK (string);
+  
+  string = STRDUP (newString);
+  [globalTkInterp eval: "%s itemconfigure %s -text {%s}",
+                  [canvas getWidgetName], text, string];  
+}
+
 - (void)createText
 {
   text = tkobjc_createText (getZone (self), canvas, x, y, string, font, YES);

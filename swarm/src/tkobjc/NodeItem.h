@@ -17,10 +17,11 @@
 
 - setX: (int)x Y: (int)y;
 - setString: (const char *)string;
-- setFont: (const char *)the_font;
+- setFont: (const char *)font;
 
 - (int)getX;
 - (int)getY;
+- (void)resetString: (const char *)string;
 - (void)setColor: (const char *)aColor;
 - (void)setBorderColor: (const char *)aColor;
 - (void)setBorderWidth: (int)aVal;

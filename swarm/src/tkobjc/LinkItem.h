@@ -9,9 +9,11 @@
 @interface LinkItem: CompositeItem <LinkItem>
 {
   id from, to;
+  BOOL directedFlag;
   const char *line1, *line2;
 }
 
+- setDirectedFlag: (BOOL)d;
 - setFrom: from;
 - setTo: to;
 - (void)createItem;

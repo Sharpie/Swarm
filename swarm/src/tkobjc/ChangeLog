@@ -1,3 +1,15 @@
+2001-04-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* NodeItem.[hm] ([NodeItem -resetString:]): New method.
+
+	* LinkItem.m ([LinkItem +createBegin:]): New method.  Set directedFlag
+	to YES.
+	([LinkItem -createItem], [LinkItem -update]) 
+	([LinkItem -setColor:]): Use directedFlag.
+	([LinkItem -drop]): Free line1 and line2 if set.
+
+	* LinkItem.[hm] ([LinkItem -setDirectedFlag:]): New ivar and setter.
+
 2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Raster.[mh]: Sync up void returns with ZoomRaster.
