@@ -1,5 +1,14 @@
 1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Action.m ([CAction -drop]): Use YES instead of 1 as argument
+	to dropAllocations:.
+
+	* ActionGroup.m ([GroupIndex_c -dropAllocations:],
+	[GroupPermutedIndex_c -dropAllocations:]):  Likewise.
+
+	* activity.m (_activity_initialize): Add defsymbols for
+	Randomized, Sequential, and Concurrent.
+
 	* Makefile.am (module_headers): Add activity.xm.
 
 1998-12-11  Vladimir Jojic  <vjojic@wijiji.santafe.edu>

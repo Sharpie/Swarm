@@ -163,50 +163,46 @@ PHASE(Using)
 {
   ActionTo_3  *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_3];
-  newAction->target   = target;
+  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_3];
+  newAction->target = target;
   newAction->selector = aSel;
-  newAction->arg1     = arg1;
-  newAction->arg2     = arg2;
-  newAction->arg3     = arg3;
+  newAction->arg1 = arg1;
+  newAction->arg2 = arg2;
+  newAction->arg3 = arg3;
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionForEach: target message: (SEL)aSel
 {
-  ActionForEach_0  *newAction;
+  ActionForEach_0 *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_0];
+  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_0];
   newAction->target   = target;
   newAction->selector = aSel;
   if ([self getDefaultOrder] == (id) Randomized)
-    {
-      setBit(newAction->bits, BitRandomized, 1);
-    }
+    setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionForEach: target message: (SEL)aSel : arg1
 {
-  ActionForEach_1  *newAction;
+  ActionForEach_1 *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_1];
-  newAction->target   = target;
+  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_1];
+  newAction->target = target;
   newAction->selector = aSel;
-  newAction->arg1     = arg1;
+  newAction->arg1 = arg1;
   if ([self getDefaultOrder] == (id) Randomized)
-    {
-      setBit(newAction->bits, BitRandomized, 1);
-    }
+    setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2
 {
-  ActionForEach_2  *newAction;
+  ActionForEach_2 *newAction;
 
   newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_2];
   newAction->target   = target;
@@ -214,60 +210,54 @@ PHASE(Using)
   newAction->arg1     = arg1;
   newAction->arg2     = arg2;
   if ([self getDefaultOrder] == (id) Randomized)
-    {
-      setBit(newAction->bits, BitRandomized, 1);
-    }
+    setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
-  ActionForEach_3  *newAction;
+  ActionForEach_3 *newAction;
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_3];
-  newAction->target   = target;
+  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_3];
+  newAction->target = target;
   newAction->selector = aSel;
-  newAction->arg1     = arg1;
-  newAction->arg2     = arg2;
-  newAction->arg3     = arg3;
+  newAction->arg1 = arg1;
+  newAction->arg2 = arg2;
+  newAction->arg3 = arg3;
   if ([self getDefaultOrder] == (id) Randomized)
-    {
-      setBit(newAction->bits, BitRandomized, 1);
-    }
+      setBit (newAction->bits, BitRandomized, 1);
   [self addLast: newAction];
   return newAction;
 }
 
-
-
-- _createPermutedIndex_: (id) aZone
+- _createPermutedIndex_: (id)aZone
 {
   GroupPermutedIndex_c *newIndex;
 
-  newIndex = 
-    [GroupPermutedIndex_c createBegin: aZone];
+  newIndex = [GroupPermutedIndex_c createBegin: aZone];
   newIndex->collection = self;
   newIndex = [newIndex createEnd];
   return newIndex;
 }
 
-
 //
 // mapAllocations: -- standard method to identify internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   id  index, member, nextMember;
 
-  if ( activityRefs ) mapObject( mapalloc, activityRefs );
+  if (activityRefs)
+    mapObject (mapalloc, activityRefs);
 
   index = [self begin: scratchZone];
   nextMember = [index next];
-  while ( (member = nextMember) ) {
-    nextMember = [index next];
-    mapObject( mapalloc, member );
-  }
+  while ((member = nextMember))
+    {
+      nextMember = [index next];
+      mapObject (mapalloc, member);
+    }
   // no [super mapAllocations: mapalloc] because all links are internal
 }
 
@@ -278,16 +268,16 @@ PHASE(Using)
 
 - (void) describeForEach: outputCharStream
 {
-  char       buffer[100];
-  id         index, action;
+  char buffer[100];
+  id index, action;
 
   index = [self begin: scratchZone];
-  while ( (action = [index next]) ) 
-  {
-    sprintf( buffer, "action is: " );
-    [outputCharStream catC: buffer];
-    [action describe: outputCharStream];
-  }
+  while ((action = [index next])) 
+    {
+      sprintf( buffer, "action is: " );
+      [outputCharStream catC: buffer];
+      [action describe: outputCharStream];
+    }
   [index drop]; 
 }
 
@@ -313,21 +303,22 @@ PHASE(Creating)
 //
 - createEnd
 {
-  if ( createByMessageToCopy( self, createEnd ) ) return self;
-
-  [(id)self setIndexFromMemberLoc: offsetof( CAction, ownerActions )];
-  setMappedAlloc( self );
-  setNextPhase( self );
+  if (createByMessageToCopy (self, createEnd))
+    return self;
+  
+  [(id) self setIndexFromMemberLoc: offsetof (CAction, ownerActions)];
+  setMappedAlloc (self);
+  setNextPhase (self);
   return self;
 }
 
-PHASE( Using )
+PHASE(Using)
 
 //
 // _setActionConcurrent_ --
 //   internal method to set link back to action that refers to concurrent group
 //
-- (void) _setActionConcurrent_: action
+- (void)_setActionConcurrent_: action
 {
   actionConcurrent = action;
 }
@@ -338,17 +329,19 @@ PHASE( Using )
 //
 - _getEmptyActionConcurrent_
 {
-  if ( count ) return nil;
+  if (count)
+    return nil;
   return actionConcurrent;
 }
 
 //
 // mapAllocations: -- standard method to identify internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  if ( activityRefs ) mapObject( mapalloc, activityRefs );
-
+  if (activityRefs)
+    mapObject (mapalloc, activityRefs);
+  
   // Avoid drop of members that ActionGroup would perform, since Schedule is
   // responsible for dropping all members.
 }
@@ -385,28 +378,29 @@ PHASE( Using )
 
   // if AutoDrop option and index at a valid position then drop previous action
  
-  if ( ((ActionGroup_c *)collection)->bits & BitAutoDrop && position > 0 )
+  if (((ActionGroup_c *) collection)->bits & BitAutoDrop && position > 0)
     {
       removedAction = [self remove];
       [getZone((ActionGroup_c *) collection) 
-	      freeIVarsComponent: removedAction];
+              freeIVarsComponent: removedAction];
     }
 
   // get next action to be executed
 
   nextAction = [self next];
   
-  if ( ! nextAction ) *status = Completed;
+  if (!nextAction)
+    *status = Completed;
   return nextAction;
 }
 
 //
 // dropAllocations: -- drop index as component of activity
 //
-- (void) dropAllocations: (BOOL)componentAlloc
+- (void)dropAllocations: (BOOL)componentAlloc
 {
-  [((ActionGroup_c *)collection)->activityRefs remove: activity];
-  [super dropAllocations: 1];
+  [((ActionGroup_c *) collection)->activityRefs remove: activity];
+  [super dropAllocations: YES];
 }
 
 @end
@@ -418,7 +412,7 @@ PHASE( Using )
 
 @implementation GroupPermutedIndex_c
 
-+ createBegin: (id) aZone forIndexSubclass: (id) anClass
++ createBegin: (id)aZone forIndexSubclass: (id)anClass
 {
   GroupPermutedIndex_c *newIndex;
 
@@ -428,9 +422,10 @@ PHASE( Using )
   return newIndex;
 }
 
-+ createBegin: (id) aZone
++ createBegin: aZone
 {
   GroupPermutedIndex_c *newIndex;
+
   newIndex = [aZone allocIVars: self];
   newIndex->index = nil;
   return newIndex;
@@ -440,11 +435,12 @@ PHASE( Using )
 {
   int count;
   id permutation;
+
   count = [collection getCount];
-  permutation = [Permutation createBegin: getZone(self)];
+  permutation = [Permutation createBegin: getZone (self)];
   [permutation  setMaxElement: count];
   permutation = [permutation createEnd];
-  permutationIndex = [permutation begin: getZone(self)];
+  permutationIndex = [permutation begin: getZone (self)];
   index = [collection begin: getZone(self)];
   
   return self;
@@ -461,22 +457,20 @@ PHASE( Using )
 //
 - nextAction: (id *)status
 {
-  id nextAction=nil;
-
-
-  nextAction = [self next];
+  id nextAction = [self next];
   
-  if ( ! nextAction ) *status = Completed;
+  if (! nextAction)
+    *status = Completed;
   return nextAction;
 }
 
 //
 // dropAllocations: -- drop index as component of activity
 //
-- (void) dropAllocations: (BOOL)componentAlloc
+- (void)dropAllocations: (BOOL)componentAlloc
 {
-  [((ActionGroup_c *)collection)->activityRefs remove: activity];
-  [super dropAllocations: 1];
+  [((ActionGroup_c *) collection)->activityRefs remove: activity];
+  [super dropAllocations: YES];
 }
 
 @end
@@ -488,70 +482,71 @@ PHASE( Using )
 
 @implementation ForEachActivity_c
 
-+ _create_: forEachAction : anActivity
++ _create_: forEachAction: anActivity
 {
-  Activity_c      *owner, *newActivity;
-  id              ownerZone;
-  ForEachIndex_c  *newIndex;
+  Activity_c *owner, *newActivity;
+  id ownerZone;
+  ForEachIndex_c *newIndex;
 
   // create new activity containing custom index into target collection
 
   owner = anActivity;
-  ownerZone = getZone( owner );
+  ownerZone = getZone (owner);
   newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];
   newIndex    = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
 
-  setMappedAlloc( newActivity );
-  setMappedAlloc( newIndex );
+  setMappedAlloc (newActivity);
+  setMappedAlloc (newIndex);
 
   newActivity->ownerActivity  = anActivity;
-  newActivity->status         = Initialized;
-  newActivity->breakFunction  = owner->breakFunction;
-  newActivity->currentIndex   = newIndex;
-  newIndex->activity          = anActivity;
+  newActivity->status = Initialized;
+  newActivity->breakFunction = owner->breakFunction;
+  newActivity->currentIndex = newIndex;
+  newIndex->activity = anActivity;
 
-  newIndex->memberIndex = [((ActionForEach_0 *)forEachAction)->target
-                             begin: getCZone( ownerZone )];
+  newIndex->memberIndex = [((ActionForEach_0 *) forEachAction)->target
+                             begin: getCZone (ownerZone)];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
-  ((ActionForEach_0 *)newIndex->memberAction)->target = nil;
+  ((ActionForEach_0 *) newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_
 
-  owner->currentSubactivity = (id)newActivity;
+  owner->currentSubactivity = (id) newActivity;
+
   return newIndex->memberAction;
 }
 
 + _createRandom_:  forEachAction : anActivity
 {
-  Activity_c      *owner, *newActivity;
-  id              ownerZone;
-  ForEachIndex_c  *newIndex;
+  Activity_c *owner, *newActivity;
+  id ownerZone;
+  ForEachIndex_c *newIndex;
 
   // create new activity containing custom index into target collection
 
   owner = anActivity;
-  ownerZone = getZone( owner );
+  ownerZone = getZone (owner);
   newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];
-  newIndex    = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
+  newIndex = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
 
-  setMappedAlloc( newActivity );
-  setMappedAlloc( newIndex );
+  setMappedAlloc (newActivity);
+  setMappedAlloc (newIndex);
 
   newActivity->ownerActivity  = anActivity;
-  newActivity->status         = Initialized;
-  newActivity->breakFunction  = owner->breakFunction;
-  newActivity->currentIndex   = newIndex;
-  newIndex->activity          = anActivity;
+  newActivity->status = Initialized;
+  newActivity->breakFunction = owner->breakFunction;
+  newActivity->currentIndex = newIndex;
+  newIndex->activity = anActivity;
 
-  newIndex->memberIndex = [((ActionForEach_0 *)forEachAction)->target
-                             beginPermuted: getCZone( ownerZone )];
+  newIndex->memberIndex = [((ActionForEach_0 *) forEachAction)->target
+                             beginPermuted: getCZone (ownerZone)];
   [((PermutedIndex_c *) newIndex->memberIndex) generatePermutation];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
   ((ActionForEach_0 *)newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_
 
-  owner->currentSubactivity = (id)newActivity;
+  owner->currentSubactivity = (id) newActivity;
   return newIndex->memberAction;
 }
 
@@ -569,15 +564,16 @@ PHASE( Using )
 {
   // reload and return the action being used to execute each member
 
-  ((ActionForEach_0 *)memberAction)->target = [memberIndex next];
-  if ( ((ActionForEach_0 *)memberAction)->target ) return memberAction;
+  ((ActionForEach_0 *) memberAction)->target = [memberIndex next];
+  if ( ((ActionForEach_0 *) memberAction)->target ) return memberAction;
   *status = Completed;
   return nil;
 }
 
 - get
 {
-  if ( memberAction->target == nil ) return nil;
+  if (memberAction->target == nil)
+    return nil;
   return memberAction;
 }
 
@@ -591,7 +587,7 @@ PHASE( Using )
   return nil;
 }
 
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   mapObject( mapalloc, memberIndex );
   mapObject( mapalloc, memberAction );
