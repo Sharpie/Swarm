@@ -16,18 +16,11 @@ noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
 EXTRA_LTLIBRARIES = libdefobj.la
 
-CLEANFILES += version.h
+CLEANFILES = $(TYPEINFO) version.h
 
 BUILT_SOURCES = $(TYPEINFO)
 
-SRC = Archiver.m LispArchiver.m HDF5Archiver.m Arguments.m Create.m	\
-	Customize.m DefClass.m DefObject.m HDF5Object.m Program.m	\
-	Symbol.m Zone.m FCall.m FArguments.m defobj.m internal.m java.m	\
-	directory.m \
-	JavaProxy.m JavaClassProxy.m \
-	JavaCollection.m JavaCollectionIndex.m \
-	COMProxy.m \
-	fcall_objc.m fcall_java.m COM.m
+SRC = Archiver.m LispArchiver.m HDF5Archiver.m Arguments.m Create.m Customize.m DefClass.m DefObject.m HDF5Object.m Program.m Symbol.m Zone.m FCall.m FArguments.m defobj.m internal.m java.m directory.m JavaProxy.m JavaClassProxy.m JavaCollection.m JavaCollectionIndex.m COMProxy.m fcall_objc.m fcall_java.m COM.m
 
 override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
@@ -37,16 +30,9 @@ libdefobj_la_LIBADD = $(FFILIB)
 
 bin_SCRIPTS = m2h make-h2x
 
-defobj_HEADERS = Archiver.h LispArchiver.h HDF5Archiver.h Arguments.h	  \
-	Create.h Customize.h						  \
-	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h	  \
-	FCall.h FArguments.h defalloc.h deftype.h directory.h \
-	JavaProxy.h JavaClassProxy.h JavaCollection.h JavaCollectionIndex.h \
-	javavars.h \
-	COMProxy.h \
-	macros.h
+defobj_HEADERS = Archiver.h LispArchiver.h HDF5Archiver.h Arguments.h Create.h Customize.h DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h FCall.h FArguments.h defalloc.h deftype.h directory.h JavaProxy.h JavaClassProxy.h JavaCollection.h JavaCollectionIndex.h javavars.h COMProxy.h macros.h
 
-$(OBJECTS): version.h
+$(libdefobj_la_OBJECTS): version.h
 
 version.h: $(top_srcdir)/VERSION
 	sed -n '1s/.*/#define SWARM_VERSION "&"/p' < $< > $@
