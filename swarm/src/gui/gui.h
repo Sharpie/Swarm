@@ -1000,7 +1000,7 @@ CREATING
 //D: A CanvasItem that displays a line.
 @end
 
-#if 0 /* ndef USE_JAVA -- disabled for the sake of protocol.el */
+#if 1 /* ndef USE_JAVA -- disabled for the sake of protocol.el */
 #import <tkobjc/common.h>
 extern void initTkObjc (id arguments);
 
