@@ -278,12 +278,22 @@ dynamicCallOn (const char *probedType,
   id <FCall> fc;
 
 #ifdef HAVE_JDK
-  javaFlag = (SD_FINDJAVA (jniEnv, target) != NULL);
-#else
-  javaFlag = NO;
-#endif
+  
+  if (SD_FINDJAVA (jniEnv, target) != NULL)
+    {
+      jobject jsel = SD_FINDJAVA (jniEnv, (id) probedSelector);
 
-  [fa setJavaFlag: javaFlag];
+      if (!jsel)
+        abort ();
+      {
+        const char *sig =
+          swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
+        
+        [fa setJavaSignature: sig];
+        [scratchZone free: (void *) sig];
+      }
+    }
+#endif
   retVal->type = *type;
   [fa setObjCReturnType: retVal->type];
   type = skip_argspec (type);
