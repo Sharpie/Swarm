@@ -3,6 +3,8 @@
 	* NEWS: Note Discrete2d convenience constructor fix
 	and activity library memory leak fix.
 
+	* VERSION: Bump.
+
 1999-10-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note InputStream and EZBin fixes.
