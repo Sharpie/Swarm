@@ -647,7 +647,7 @@ USING
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 @end
 
-@protocol Pixmap <Drawer, Create, CREATABLE>
+@protocol Pixmap <Drawer, Create, Drop, CREATABLE>
 //S: A class for drawing color bitmaps on a Raster.
 
 //D: A class for drawing color bitmaps on a Raster.  The bitmaps are
