@@ -1478,9 +1478,11 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
 
   ASSOCIATE (arguments);
 
-  ASSOCIATE (hdf5Archiver);
+  if (hdf5Archiver)
+    ASSOCIATE (hdf5Archiver);
   ASSOCIATE (lispArchiver);
-  ASSOCIATE (hdf5AppArchiver);
+  if (hdf5AppArchiver)
+    ASSOCIATE (hdf5AppArchiver);
   ASSOCIATE (lispAppArchiver);
 
   {

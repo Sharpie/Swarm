@@ -1,3 +1,8 @@
+2001-11-06  Marcus G. Daniels  <mgd@condor>
+
+	* java.m (swarm_directory_java_associate_objects): Don't register 
+	hdf5Archiver or hdf5AppArchiver if null.
+
 2001-11-06    <mgd@condor.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add -I$(top_builddir) for externvar.h.
