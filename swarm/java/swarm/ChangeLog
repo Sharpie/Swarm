@@ -1,3 +1,9 @@
+1999-07-27  Vladimir Jojic  <vjojic@ute.santafe.edu>
+
+	* PhaseCImpl.java (_copy_creating_phase_to_using_phase): 
+	New function that copies values of variables from creating 
+	phase object to using phase object.
+	
 1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.java: New methods that correspond to macros
