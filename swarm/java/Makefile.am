@@ -43,8 +43,7 @@ stubs: Makefile.common
 Makefile.common: java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
 	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@java-stub.elc' -f $(JAVASTUBS_FUNCTION)
 
-JAVA_SRC = $(addprefix $(srcdir)/,$(SWARM_JAVA_BASIC)) $(wildcard swarm/*.java)
-$(foreach module,$(MODULES),$(wildcard swarm/$(module)/*.java))
+JAVA_SRC = $(addprefix $(srcdir)/,$(SWARM_JAVA_BASIC)) $(wildcard swarm/*.java) $(foreach module,$(MODULES),$(wildcard swarm/$(module)/*.java))
 
 gcjswarm.so:
 	gcj -fPIC -shared -o gcjswarm.so --encoding=UTF-8 -fjni -g -O2 $(JAVA_SRC)
@@ -52,8 +51,7 @@ gcjswarm.so:
 JAVA_OBJS = $(patsubst %.java,%.lo,$(notdir $(JAVA_SRC)))
 
 $(JAVA_OBJS): $(JAVA_SRC)
-        for i in $(JAVA_SRC); do libtool --mode=compile gcj -O2 -g -fjni -c $$i;
- done
+        for i in $(JAVA_SRC); do libtool --mode=compile gcj -O2 -g -fjni -c $$i; done
 
 libgcjswarm.la: $(JAVA_OBJS)
         libtool --mode=link gcc $(JAVA_OBJS) -o libgcjswarm.la -rpath $(SWARMHOME)/lib -L$(SWARMHOME)/lib -ljavaswarm
