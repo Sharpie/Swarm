@@ -1,3 +1,26 @@
+1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ACGgen.h: Constify return of getName.
+	* C2LCGXgen.h: Likewise.
+	* C2MRG3gen.h: Likewise.
+	* C2TAUSgen.h: Likewise.
+	* C3MWCgen.h: Likewise.
+	* C4LCGXgen.h: Likewise.
+	* Common.gens.setparams.m: Likewise.
+	* Common.xgens.setparams.m: Likewise.
+	* LCGgen.h: Likewise.
+	* MRGgen.h: Likewise.
+	* MT19937gen.h: Likewise.
+	* MWCAgen.h: Likewise.
+	* MWCBgen.h: Likewise.
+	* PMMLCGgen.h: Likewise.
+	* PSWBgen.h: Likewise.
+	* RWC2gen.h: Likewise.
+	* RWC8gen.h: Likewise.
+	* SCGgen.h: Likewise.
+	* SWBgen.h: Likewise.
+	* TGFSRgen.h: Likewise.
+
 Mon Dec  8 22:36:07 1997  glen e. p. ropella  <gepr@swarm.com>
 
 	* random: replaced all instances of swarmobject.h with

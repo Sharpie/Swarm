@@ -42,7 +42,7 @@
    return &(initialSeeds[0]);
 }
 
--(char *) getName {
+-(const char *) getName {
    return genName;
 }
 

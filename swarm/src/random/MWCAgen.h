@@ -213,7 +213,7 @@ Relative speed:	| Speed 1.088 (time 0.919) relative to MT19937 getUnsignedSample
 - (void)	putStateInto: (void *) buffer;
 - (void)	setStateFrom: (void *) buffer;
 - (void)	describe: (id) outStream;
-- (char *)      getName;		
+- (const char *)getName;		
 - (unsigned)	getMagic;	
 
 @end

@@ -249,7 +249,7 @@ output quality:	|
 - (void)	putStateInto: (void *) buffer;
 - (void)	setStateFrom: (void *) buffer;
 - (void)	describe: (id) outStream;
-- (char *)      getName;		
+- (const char *)getName;		
 - (unsigned)	getMagic;	
 
 @end
