@@ -1,3 +1,8 @@
+1998-06-23  Alex Lancaster <alex@santafe.edu>
+
+	* COPYING, README:  New files, replacements for LICENCE and READ.ME, 
+	respectively.
+
 1998-04-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugModelSwarm.h (Swarm): 
