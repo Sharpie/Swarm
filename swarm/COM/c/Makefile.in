@@ -14,7 +14,7 @@ moduleidlfiles = $(subst __u,,$(foreach phase,C S __u,$(addprefix swarmI,$(addsu
 modulecppfiles = $(subst __u,,$(foreach phase,C __u,$(addprefix swarm,$(addsuffix $(phase)Impl.cpp,$($(1)_creatable_PROTOCOLS)))))
 
 MODULE = swarm
-LIBRARY_NAME = swarm
+LIBRARY_NAME = xpcomswarm
 IS_COMPONENT = 1
 
 REQUIRES = xpcom
@@ -28,4 +28,6 @@ include $(topsrcdir)/config/rules.mk
 override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swarm_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(swarm_srcdir)/src $(foreach module,defobj,-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(swarm_srcdir)
 
 
-EXTRA_DSO_LDOPTS += $(MOZ_COMPONENT_LIBS)
+SWARMMODULES = $(shell cat $(swarm_srcdir)/etc/modules)
+
+EXTRA_DSO_LDOPTS += $(MOZ_COMPONENT_LIBS) -L$(top_builddir)/src/.libs -lswarm $(foreach module,$(SWARMMODULES), -L$(top_builddir)/src/$(module)/.libs -l$(module))

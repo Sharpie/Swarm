@@ -220,7 +220,16 @@
   (let* ((idl-type (com-objc-to-idl-type objc-type))
          (c++-type (com-impl-type-from-idl-type idl-type)))
     (if (string= idl-type "[string-array]")
-        "PRUint32 count, const char **"
+        "PRUint32 _count, const char **"
+      (if c++-type
+          c++-type
+        (concat idl-type "*")))))
+
+(defun com-impl-decl-type (objc-type &optional declaration-flag)
+  (let* ((idl-type (com-objc-to-idl-type objc-type))
+         (c++-type (com-impl-type-from-idl-type idl-type)))
+    (if (string= idl-type "[string-array]")
+        "PRUint32 count;\n  const char **"
       (if c++-type
           c++-type
         (concat idl-type "*")))))
@@ -367,7 +376,7 @@
     (loop for pos.name.type in vars
           do
           (insert "  ")
-          (insert (com-impl-type (third pos.name.type)))
+          (insert (com-impl-decl-type (third pos.name.type)))
           (insert " ")
           (insert (second pos.name.type))
           (insert ";\n"))))
@@ -454,16 +463,14 @@
 
 (defun com-impl-print-class-constructor-method-declaration (protocol method)
   (let ((name (com-impl-name protocol :using))
-        (name.arguments
-         (collect-convenience-constructor-name.arguments method)))
+        (arguments (method-arguments method)))
     (insert name)
     (insert " (")
-    (insert (com-interface-name (lookup-protocol "Zone") :using))
-    (insert "* _aZone")
-    (loop for name.argument in name.arguments
+    (com-impl-print-argument (first arguments))
+    (loop for argument in (cdr arguments)
           do
           (insert ", ")
-          (com-impl-print-argument (cdr name.argument)))
+          (com-impl-print-argument argument))
     (insert ")")))
 
 (defun com-cid (protocol phase)
@@ -473,8 +480,7 @@
                                                 method
                                                 constructor-number)
   (let ((name (com-impl-name protocol :using))
-        (name.arguments
-         (collect-convenience-constructor-name.arguments method)))
+        (arguments (method-arguments method)))
     (insert name)
     (insert "::")
     (com-impl-print-class-constructor-method-declaration protocol method)
@@ -483,34 +489,36 @@
       (insert "\n  constructorNumber (")
       (insert (prin1-to-string constructor-number))
       (insert "),\n"))
-    (insert "  aZone(_aZone)")
-    (loop for name.argument in name.arguments
-          for argname = (caddr (cdr name.argument))
-          do
-          (insert ",\n  ")
-          (insert argname)
-          (insert "(_")
-          (insert argname)
-          (insert ")"))
+    (flet ((print-pair (argument)
+                       (let ((argname (argument-name argument)))
+                         (insert "  ")
+                         (insert argname)
+                         (insert "(_")
+                         (insert argname)
+                         (insert ")"))))
+      (print-pair (first arguments))
+      (loop for argument in (cdr arguments)
+            do
+            (insert ",\n")
+            (print-pair argument)))
     (insert "\n{\n")
     (insert "  NS_INIT_REFCNT ();\n")
     (insert "}\n")
     (insert "\n")))
 
 (defun com-impl-print-create-method-invocation (method)
-  (let ((name.arguments
-         (collect-convenience-constructor-name.arguments method)))
-    (insert "create_obj->Create")
-    (loop for name.argument in name.arguments
-          do
-          (insert "_")
-          (insert (car (cdr name.argument))))
+  (let ((arguments (method-arguments method)))
+    (insert "create_obj->")
+    (insert (com-c++-method-name arguments))
     (insert " (")
-    (insert "aZone")
-    (loop for name.argument in name.arguments
+    (insert (argument-name (first arguments)))
+    (loop for argument in (cdr arguments)
           do
+          (when (string= (com-objc-to-idl-type (argument-type argument))
+                         "[string-array]")
+            (insert ", count"))
           (insert ", ")
-          (insert (caddr (cdr name.argument))))
+          (insert (argument-name argument)))
     (insert ", &ret);\n")))
 
 (defun com-impl-print-class-init-method (protocol)
