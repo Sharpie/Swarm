@@ -1,5 +1,7 @@
 1999-03-01  Alex Lancaster  <alex@santafe.edu>
 
+	* userbiblio.sgml: Add id to BIBLIOGRAPHY tag.
+
 	* html.dsl: Customize similarly to swarmdocs.  Add references to
 	new common.dsl stylesheet.
 
