@@ -1,8 +1,7 @@
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FArguments.[hm] ([FArguments -addArgument:ofObjCType:], 
-	[FArguments -setObjCReturnType:], [FArguments -getReturnVal:]):
-	New methods.
+	[FArguments -setObjCReturnType:]): New methods.
 	([FArguments -_setReturnType_:]): Renamed from setReturnType:.
 	([FArguments -_addArgument_:ofType:]): Renamed from
 
@@ -10,6 +9,8 @@
 	(swarm_type_object): Renamed from swarm_type_pointer.
 
 	* FCall.m (defobj_init_java_call_tables): Accomodate.
+
+	* FCall.[hm] ([FArguments -getReturnVal:]): New method.
 
 	* FCall.h, FArguments.h: Move JOBJECT to FCall.h.
 

@@ -113,19 +113,19 @@ defobj_init_java_call_tables (void *jEnv)
 {
   FCall_c *newCall;
   newCall = [aZone allocIVars: self];
-  newCall->args = NULL;
+  newCall->fargs = NULL;
   return newCall;
 }
 
 - setArguments: arguments
 {
-  self->args = arguments;
+  self->fargs = arguments;
   return self;
 }
 
 - getArguments
 {
-  return args;
+  return fargs;
 }
 
 - setFunctionPointer: (func_t)fn
@@ -184,30 +184,30 @@ fillHiddenArguments (FCall_c * self)
   switch (self->callType)
     {
     case objccall: 
-      ((FArguments *)self->args)->hiddenArguments = 2;	
-      ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->fobject;
-      ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+      ((FArguments *)self->fargs)->hiddenArguments = 2;	
+      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fobject;
+      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
 #ifdef HAVE_JDK
     case javacall:
-      ((FArguments *)self->args)->hiddenArguments = 3;
-      ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 3] = &jniEnv;
-      ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->fobject;
-      ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+      ((FArguments *)self->fargs)->hiddenArguments = 3;
+      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 3] = &jniEnv;
+      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fobject;
+      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
     case javastaticcall:
-      ((FArguments *)self->args)->hiddenArguments = 3;
-      ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 3] = &jniEnv;
-      ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->fclass;
-      ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
+      ((FArguments *)self->fargs)->hiddenArguments = 3;
+      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 3] = &jniEnv;
+      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 2] = &self->fclass;
+      ((FArguments *)self->fargs)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      ((FArguments *)self->fargs)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
 #endif
     }
@@ -221,37 +221,37 @@ fillHiddenArguments (FCall_c * self)
 {
   if (_obj_debug && (callType == ccall || callType == objccall) && !ffunction)
     raiseEvent (SourceMessage, "Function to be called not set!\n");
-  if (_obj_debug && !args)
+  if (_obj_debug && !fargs)
     raiseEvent (SourceMessage, "Arguments and return type not specified!\n");
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
       {
         ffunction = (callType == javacall ? 
-                     java_call_functions[(unsigned) args->returnType] :
-                     java_static_call_functions[(unsigned) args->returnType]);
+                     java_call_functions[(unsigned) fargs->returnType] :
+                     java_static_call_functions[(unsigned) fargs->returnType]);
         
         (jmethodID) fmethod = (callType == javacall ?
                                (*jniEnv)->GetMethodID (jniEnv, fclass, 
                                                        methodName, 
-                                                       args->javaSignature) :
+                                                       fargs->javaSignature) :
                                (*jniEnv)->GetStaticMethodID (jniEnv, fclass, 
                                                              methodName, 
-                                                             args->javaSignature)); 
+                                                             fargs->javaSignature)); 
         if (!fmethod)
           raiseEvent (SourceMessage, "Could not find Java method!\n");
       }
 #endif
   fillHiddenArguments (self);
 #ifndef USE_AVCALL
-  switch_to_ffi_types ((FArguments *) args);
+  switch_to_ffi_types ((FArguments *) fargs);
   {
     unsigned res;
     
     res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
-                        args->hiddenArguments + args->assignedArguments, 
-                        (ffi_type *) args->returnType, 
-                        (ffi_type **) args->argTypes + MAX_HIDDEN - 
-                        args->hiddenArguments);
+                        fargs->hiddenArguments + fargs->assignedArguments, 
+                        (ffi_type *) fargs->returnType, 
+                        (ffi_type **) fargs->argTypes + MAX_HIDDEN - 
+                        fargs->hiddenArguments);
     if (_obj_debug && res != FFI_OK)
       raiseEvent (SourceMessage,
                   "Failed while preparing foreign function call closure!\n"); 
@@ -265,8 +265,8 @@ fillHiddenArguments (FCall_c * self)
 - (void)performCall
 {
 #ifndef USE_AVCALL
-  ffi_call(&cif, ffunction, args->result, args->argValues + 
-	   MAX_HIDDEN - args->hiddenArguments);  
+  ffi_call(&cif, ffunction, fargs->result, fargs->argValues + 
+	   MAX_HIDDEN - fargs->hiddenArguments);  
 #else
   abort ();
 #endif
@@ -274,7 +274,88 @@ fillHiddenArguments (FCall_c * self)
 
 - (void *)getResult
 {
-  return [args getResult];
+  return [fargs getResult];
+}
+
+- (retval_t)getReturnVal: (void *)res
+{
+  unsigned char return_uchar (void) { return *(unsigned char *) res; }
+  unsigned short return_ushort (void) { return *(unsigned short *) res; }
+  unsigned return_unsigned (void) { return *(unsigned *) res; }
+  unsigned long return_ulong (void) { return *(unsigned long *) res; }
+  const char *return_string (void) { return *(const char **) res; }
+  float return_float (void) { return *(float *) res; }
+  double return_double (void) { return *(double *) res; }
+  id return_object (void) { return *(id *) res; }
+  void return_void (void) { return; }
+
+  retval_t apply_uchar (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_uchar, args, sizeof (void *));
+    }
+  retval_t apply_ushort (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_ushort, args, sizeof (void *));
+    }
+  retval_t apply_unsigned (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_unsigned, args, sizeof (void *));
+    }
+  retval_t apply_float (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_float, args, sizeof (void *));
+    }
+  retval_t apply_double (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_double, args, sizeof (void *));
+    }
+  retval_t apply_object (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_object, args, sizeof (void *));
+    }
+  retval_t apply_void (void)
+    {
+      void* args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_void, args, sizeof (void *));
+    }
+
+#if 0
+  switch (returnType)
+    {
+    case swarm_type_void:
+      return apply_void ();
+    case swarm_type_uchar: 
+    case swarm_type_char:
+      return apply_uchar ();
+    case swarm_type_ushort:
+    swarm_type_short: 
+      return apply_ushort ();
+    case swarm_type_uint:
+    case swarm_type_int:
+      return apply_unsigned ();
+    case swarm_type_ulong: 
+    case swarm_type_long:
+      return apply_ulong ();
+    case swarm_type_float: 
+      return apply_float ();
+    case swarm_type_double:
+      return apply_double ();
+    case swarm_type_string:
+      return apply_string ();
+    case swarm_type_object:
+      return apply_object ();
+    default:
+      abort ();
+    }
+#else
+  return NULL;
+#endif
 }
 
 @end

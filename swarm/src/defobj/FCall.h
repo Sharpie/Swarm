@@ -32,7 +32,7 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 {
 @public
    unsigned int callType;
-   FArguments * args; 
+   FArguments *fargs; 
    void *result;
 #ifndef USE_AVCALL
    ffi_cif cif;
@@ -53,6 +53,7 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - createEnd;
 - (void)performCall;
 - (void *)getResult;
+- (retval_t)getReturnVal: (void *)ret;
 @end
 
 

@@ -61,6 +61,5 @@ Library:      defobj
 - setObjCReturnType: (char)type;
 - createEnd;
 - (void *)getResult;
-- (retval_t)getReturnVal: (void *)ret;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
