@@ -1,3 +1,7 @@
+2004-11-22  Marcus G. Daniels <mgd@santafe.edu>
+
+	* aclibtool.m4: Remove.
+
 2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
 
 	* acguilibs.m4: Look for __MINGW32__ as well as __CYGWIN__.

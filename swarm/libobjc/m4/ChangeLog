@@ -2,6 +2,8 @@
 
 	* headers.m4: Don't look for version info in Darwin host signature.
 
+	* aclibtool.m4: Remove.
+
 2004-01-22  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* acobjc.m4: new file for compatability with AC_LIBOBJ
