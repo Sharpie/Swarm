@@ -1,3 +1,8 @@
+1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* misc.h: Catch the case that jmalloc.h (from Kaffe) was included
+	before misc.h.
+
 1999-03-04  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* avl.c: Include swarmconfig.h instead of config.h
