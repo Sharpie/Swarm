@@ -14,6 +14,7 @@ Library:      defobj
 #import <defobj/FArguments.h>
 #import <objc/objc-api.h>
 #import <defobj/defalloc.h>
+#import <defobj/macros.h>
 
 #include <swarmconfig.h>
 #ifndef USE_AVCALL
@@ -569,10 +570,10 @@ PHASE(Creating)
 void
 updateTarget (FCall_c *self, id target)
 {
-  if ([target respondsTo: M(isCOMProxy)])
+  if (COMPROXYP (target))
     (COMobject) self->java_fobject = SD_COM_FIND_OBJECT_COM (target);
 #ifdef HAVE_JDK
-  else if ([target respondsTo: M(isJavaProxy)])
+  else if (JAVAPROXYP (target))
     updateJavaTarget (self, SD_JAVA_FIND_OBJECT_JAVA (target));
   else
 #endif

@@ -1,3 +1,14 @@
+2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* macros.h: Include DefObject.h.
+	(COMPROXYP, JAVAPROXYP): New macros.
+
+	* defobj.m (id_COMProxy, id_JavaProxy): New variables.
+	(initDefobj): Set them.
+
+	* FCall.m: Include macros.h.
+	(updateTarget): Use COMPROXYP and JAVAPROXYP.
+
 2001-07-06  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
 	* Zone.m, DefObject.m: Utilize macros.h. (Many changes.)

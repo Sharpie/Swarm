@@ -1,3 +1,5 @@
+#import <defobj/DefObject.h> // getClass
+
 #ifdef METHOD_FUNCTIONS
 struct Zone_c;
 struct Object_s;
@@ -24,4 +26,12 @@ extern id _i_ComponentZone_c__allocIVars_ (struct ComponentZone_c *, struct objc
 #define ALLOCBLOCK(zone, size) [zone allocBlock: size]
 #define FREEBLOCK_SIZE(zone, ptr, size) [zone freeBlock: ptr blockSize: size]
 #define DROP(obj) [obj drop]
+#endif
+
+externvar id id_COMProxy;
+externvar id id_JavaProxy;
+
+#define COMPROXYP(obj) (getClass (obj) == id_COMProxy)
+#ifdef HAVE_JDK
+#define JAVAPROXYP(obj) (getClass (obj) == id_JavaProxy)
 #endif
