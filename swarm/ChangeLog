@@ -1,6 +1,6 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* NEWS: Note support for parallel builds.
+	* NEWS: Note support for parallel builds and DLLs.
 
 	* configure.in (LIBSWARM_LA): Build it even in USEDLL case.
 	Don't build it in non-DLL case.

@@ -55,10 +55,11 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 **** Discrete2d
 ***** Support for shallow and deep Lisp and HDF5 serialization.
 
-** Autoconfiguration / Build
+** Autoconfiguration / Build Environment
 *** Swarm can now be compiled with Checker.
     http://www.gnu.org/software/checker
 *** Swarm supports parallel builds, e.g. make -j N.
+*** Swarm builds DLLs for Windows.
 
 ** Bug fixes
 *** collections
