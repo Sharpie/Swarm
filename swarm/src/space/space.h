@@ -38,6 +38,9 @@ CREATING
 //M: Create the lattice, precompute the offsets based on Y coordinate.
 - createEnd;
 
+SETTING
+- setLattice: (id *)lattice;
+
 USING
 //M: Get the size of the lattice in the X dimension.
 - (unsigned)getSizeX;

@@ -41,6 +41,8 @@
 - fillWithValue: (long)aValue;
 - fillWithObject: anObj;
 
+- setLattice: (id *)lattice;
+
 - (id *)getLattice;
 - (long *)getOffsets;
 

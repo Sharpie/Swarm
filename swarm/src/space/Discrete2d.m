@@ -63,6 +63,14 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
+
+- setLattice: (id *)theLattice
+{
+  lattice = theLattice;
+  return self;
+}
+
 PHASE(Using)
 
 - (unsigned)getSizeX
@@ -111,12 +119,10 @@ PHASE(Using)
 
 - fastFillWithObject: anObj
 {
-  int i, lcount ;
-  
-  lcount = xsize * ysize ;
+  int i, lcount = xsize * ysize;
 
-  for(i = 0 ; i < lcount ; i++)
-    lattice[i] = anObj ;
+  for(i = 0; i < lcount; i++)
+    lattice[i] = anObj;
 
   return self ;
 }
