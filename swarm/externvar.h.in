@@ -20,3 +20,5 @@
 #ifdef disable_externvar
 #undef externvar
 #endif
+
+#endif
