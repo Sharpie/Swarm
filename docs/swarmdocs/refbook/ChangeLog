@@ -1,3 +1,7 @@
+1999-06-02  Alex Lancaster  <alex@santafe.edu>
+
+	* ref00a.sgml: Add porting notes for 1.4/1.4.1 -> 2.0 changes.
+
 1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Add graph.el.
