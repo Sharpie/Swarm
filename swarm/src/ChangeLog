@@ -1,3 +1,7 @@
+2004-11-25  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.am: Use ENABLE_GNUSTEP to select SUBDIRS.
+
 2004-11-24  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* SwarmEnvironment.m :remove lvalue casts.

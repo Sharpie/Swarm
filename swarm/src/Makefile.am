@@ -1,4 +1,8 @@
-SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space $(GNUSTEPMODULE)
+if ENABLE_GNUSTEP
+SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space swarmgstep
+else
+SUBDIRS = misc collections defobj activity objectbase $(TCLTKGUIDIR) $(GUIDIR) random simtools $(SIMTOOLSGUI) analysis space
+endif
 
 SWARMMODULES = space analysis $(GNUSTEPMODULE) $(SIMTOOLSGUI) simtools random $(TCLTKGUIDIR) objectbase activity defobj collections misc
 
