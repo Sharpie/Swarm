@@ -18,6 +18,7 @@ extern id lispArchiver;
   id <Map> applicationMap;
   BOOL hdf5Flag;
   BOOL inhibitLoadFlag;
+  BOOL systemArchiverFlag;
   const char *path;
 @public
   id <List> classes;
@@ -28,8 +29,16 @@ extern id lispArchiver;
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - setPath: (const char *)path;
 - setHDF5Flag: (BOOL)hdf5Flag;
+- setSystemArchiverFlag: (BOOL)systemArchiverFlag;
 - setDefaultLispPath;
 - setDefaultHDF5Path;
+
+- createAppKey: (const char *)appName mode: (const char *)modeName;
+- ensureApp: appKey;
+
+- hdf5LoadObjectMap: hdfObj key: appKey;
+- hdf5LoadArchiver: hdf5File;
+- lispLoadArchiver: expr;
 
 - getApplication;
 
@@ -43,4 +52,3 @@ extern id lispArchiver;
 - putShallow: (const char *)key object: object;
 
 @end
-

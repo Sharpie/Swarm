@@ -184,88 +184,6 @@ lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
   lispProcessPairs (aZone, expr, mapUpdate);
 }
 
-static void
-lispLoadArchiver (id applicationMap, id expr)
-{
-  id archiverCallExprIndex, archiverCallName;
-  
-  if (!listp (expr))
-    raiseEvent (InvalidArgument, "argument to Archiver lispIn not a list");
-  
-  archiverCallExprIndex = [expr begin: scratchZone];
-  archiverCallName = [archiverCallExprIndex next];
-
-  if (!stringp (archiverCallName))
-    raiseEvent (InvalidArgument, "Archiver function not a string");
-  
-  if (strcmp ([archiverCallName getC], ARCHIVER_FUNCTION_NAME) != 0)
-    raiseEvent (InvalidArgument,
-                "Archiver function name incorrect: [%s]",
-                [archiverCallName getC]);
-
-  lispProcessApplicationPairs ([applicationMap getZone],
-                               [archiverCallExprIndex next],
-                               applicationMap);
-  [archiverCallExprIndex drop];
-}
-
-static void
-hdf5LoadArchiver (id applicationMap, id hdf5file)
-{
-  id aZone = [applicationMap getZone];
-
-  int appIterateFunc (id appHDF5Obj)
-    {
-      int modeIterateFunc (id modeHDF5Obj)
-        {
-          id app;
-          id appKey;
-
-          int objIterateFunc (id hdf5Obj)
-            {
-              id key = [String create: aZone setC: [hdf5Obj getName]];
-              id value = hdf5In (aZone, hdf5Obj);
-              id objectMap = ([hdf5Obj getDatasetFlag]
-                              ? [app getShallowMap]
-                              : [app getDeepMap]);
-
-              if ([objectMap at: key] == nil)
-                [objectMap at: key insert: value];
-              else
-                {
-                  raiseEvent (WarningMessage, "Duplicate HDF5 object key `%s'",
-                              [key getC]);
-                  [key drop];
-                  [value drop];
-                }
-              
-              return 0;
-            }
-          
-          appKey = [String create: aZone setC: [appHDF5Obj getName]];
-          [appKey catC: "/"];
-          [appKey catC: [modeHDF5Obj getName]];
-
-          if ((app = [applicationMap at: appKey]) == nil)
-            {
-              app = [[[Application createBegin: aZone]
-                       setName: [appKey getC]]
-                      createEnd];
-              
-              [applicationMap at: appKey insert: app];
-            }
-          else
-            [appKey drop];
-          
-          [modeHDF5Obj iterate: objIterateFunc];
-          return 0;
-        }
-      [appHDF5Obj iterate: modeIterateFunc];
-      return 0;
-    }
-  [hdf5file iterate: appIterateFunc];
-}
-
 @implementation Archiver_c
 PHASE(Creating)
 
@@ -279,6 +197,7 @@ PHASE(Creating)
   newArchiver->path = NULL;
   newArchiver->hdf5Flag = NO;
   newArchiver->inhibitLoadFlag = NO;
+  newArchiver->systemArchiverFlag = NO;
   return newArchiver;
 }
 
@@ -314,17 +233,20 @@ PHASE(Creating)
   return self;
 }
 
+- setSystemArchiverFlag: (BOOL)theSystemArchiverFlag
+{
+  systemArchiverFlag = theSystemArchiverFlag;
+  return self;
+}
+
 - createEnd
 {
-  const char *appName = [arguments getAppName];
-  const char *appModeString = [arguments getAppModeString];
   id aZone = [self getZone];
 
   [super createEnd];
-
-  currentApplicationKey = [String create: aZone setC: appName];  
-  [currentApplicationKey catC: "/"];
-  [currentApplicationKey catC: appModeString];
+  
+  currentApplicationKey = [self createAppKey: [arguments getAppName]
+                                mode: [arguments getAppModeString]];
 
   if (!inhibitLoadFlag)
     {
@@ -338,7 +260,7 @@ PHASE(Creating)
                            setName: path]
                           createEnd];
               
-              hdf5LoadArchiver (applicationMap, file);
+              [self hdf5LoadArchiver: file];
               [file drop];
             }
         }
@@ -350,10 +272,10 @@ PHASE(Creating)
             {
               // Create a temporary zone to simplify destruction of expression
               id inStreamZone = [Zone create: scratchZone];
-              id inStream =
+              id inStream = 
                 [InputStream create: inStreamZone setFileStream: fp];
               
-              lispLoadArchiver (applicationMap, [inStream getExpr]);
+              [self lispLoadArchiver: [inStream getExpr]];
               [inStreamZone drop]; 
               fclose (fp);
             }
@@ -362,8 +284,120 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
+
+- hdf5LoadObjectMap: topHDF5Obj key: appKey
+{
+  id app;
+  id aZone = [self getZone];
+
+  int objIterateFunc (id hdf5Obj)
+    {
+      id key = [String create: aZone setC: [hdf5Obj getName]];
+      id value = hdf5In (aZone, hdf5Obj);
+      id objectMap = ([hdf5Obj getDatasetFlag] 
+                      ? [app getShallowMap]
+                      : [app getDeepMap]);
+
+      if ([objectMap at: key] == nil)
+        [objectMap at: key insert: value];
+      else
+        {
+          raiseEvent (WarningMessage,
+                      "Duplicate HDF5 object key `%s'",
+                      [key getC]);
+          [key drop];
+          [value drop];
+        }
+      return 0;
+    }
+  app = [self ensureApp: appKey];
+  [topHDF5Obj iterate: objIterateFunc];
+}
+
+- hdf5LoadArchiver: hdf5File
+{
+  if (systemArchiverFlag)
+    {
+      int appIterateFunc (id appHDF5Obj)
+        {
+          int modeIterateFunc (id modeHDF5Obj)
+            {
+              [self hdf5LoadObjectMap: modeHDF5Obj key: 
+                      [self createAppKey: [appHDF5Obj getName]
+                            mode: [modeHDF5Obj getName]]];
+              return 0;
+            }
+          [appHDF5Obj iterate: modeIterateFunc];
+          return 0;
+        }
+      [hdf5File iterate: appIterateFunc];
+    }
+  else
+    [self hdf5LoadObjectMap: hdf5File key: currentApplicationKey];
+}
+
+
+- lispLoadArchiver: expr
+{
+  id aZone = [self getZone];
+
+  if (systemArchiverFlag)
+    {
+      id archiverCallExprIndex, archiverCallName;
+      
+      if (!listp (expr))
+        raiseEvent (InvalidArgument, "argument to Archiver lispIn not a list");
+      
+      archiverCallExprIndex = [expr begin: scratchZone];
+      archiverCallName = [archiverCallExprIndex next];
+      
+      if (!stringp (archiverCallName))
+        raiseEvent (InvalidArgument, "Archiver function not a string");
+      
+      if (strcmp ([archiverCallName getC], ARCHIVER_FUNCTION_NAME) != 0)
+        raiseEvent (InvalidArgument,
+                    "Archiver function name incorrect: [%s]",
+                    [archiverCallName getC]);
+      
+      lispProcessApplicationPairs (aZone,
+                                   [archiverCallExprIndex next],
+                                   applicationMap);
+      [archiverCallExprIndex drop];
+    }
+  else
+    lispProcessMakeObjcPairs (aZone, expr,
+                              [self ensureApp: currentApplicationKey]);
+  return self;
+}
+
 PHASE(Using)
-     
+
+- createAppKey: (const char *)appName mode: (const char *)modeName
+{
+  id appKey = [String create: [self getZone] setC: appName];
+
+  [appKey catC: "/"];
+  [appKey catC: modeName];
+  return appKey;
+}
+
+- ensureApp: appKey
+{
+  id app;
+  id aZone = [self getZone];
+  
+  if ((app = [applicationMap at: appKey]) == nil)
+    {
+      app = [[[Application createBegin: aZone]
+               setName: [appKey getC]]
+              createEnd];
+      
+      [applicationMap at: appKey insert: app];
+    }
+  return app;
+}
+    
 - getApplication
 {
   id app = [applicationMap at: currentApplicationKey];
@@ -401,58 +435,93 @@ lisp_print_appkey (const char *appKey, id <OutputStream> outputCharStream)
 }
 
 static void
-lisp_output_objects (id <Map> objectMap, id outputCharStream, BOOL deepFlag)
+lisp_output_objects (id <Map> objectMap, id outputCharStream,
+                     BOOL deepFlag, BOOL systemArchiverFlag)
 {
-  id index = [objectMap begin: scratchZone];
-  id key, member;
 
-  for (member = [index next: &key];
-       [index getLoc] == (id) Member;
-       member = [index next: &key])
+  if ([objectMap getCount] > 0)
     {
-      if (member)
+      id index = [objectMap begin: scratchZone];
+      id key, member;
+      
+      member = [index next: &key];
+      for (;;)
         {
-          [outputCharStream catC: "\n        (cons '"];
+          if (systemArchiverFlag)
+            [outputCharStream catC: "      "];
+          [outputCharStream catC: "  (cons '"];
           [outputCharStream catC: [key getC]];
-          [outputCharStream catC: "\n          "];
-          if (![member isClass])
-            {
-              if (deepFlag)
-                [member lispOutDeep: outputCharStream];
-              else
-                [member lispOutShallow: outputCharStream];
-            }
+          [outputCharStream catC: "\n"];
+          
+          if (systemArchiverFlag)
+            [outputCharStream catC: "      "];
+          [outputCharStream catC: "    "];
+          
+          if (member == nil)
+            [outputCharStream catC: "#f"];
           else
             {
-              SEL sel = M(lispOutShallow:);
-              IMP func = get_imp (id_CreatedClass_s, sel);
-              
-              func (member, sel, outputCharStream);
+              if (![member isClass])
+                {
+                  if (deepFlag)
+                    [member lispOutDeep: outputCharStream];
+                  else
+                    [member lispOutShallow: outputCharStream];
+                }
+              else
+                {
+                  SEL sel = M(lispOutShallow:);
+                  IMP func = get_imp (id_CreatedClass_s, sel);
+                  
+                  func (member, sel, outputCharStream);
+                }
             }
           [outputCharStream catC: ")"];
+          member = [index next: &key];
+          if ([index getLoc] == (id) Member)
+            [outputCharStream catC: "\n"];
+          else
+            break;
         }
     }
 }
 
+static void
+lisp_output_app_objects (id app, id outputCharStream, BOOL systemArchiverFlag)
+{
+  [outputCharStream catC: "(list\n"];
+  lisp_output_objects ([app getShallowMap], outputCharStream,
+                       NO, systemArchiverFlag);
+  lisp_output_objects ([app getDeepMap], outputCharStream,
+                       YES, systemArchiverFlag);
+  [outputCharStream catC: ")"];
+}
+
+
 - _lispOut_: outputCharStream
 {
-  id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
-  id app;
-  id <String> appKey;
-  
-  [outputCharStream catC: "(" ARCHIVER_FUNCTION_NAME "\n  (list"];
-  
-  while ((app = [appMapIndex next: &appKey]))
+  if (systemArchiverFlag)
     {
-      [outputCharStream catC: "\n    (cons "];
-      lisp_print_appkey ([appKey getC], outputCharStream);
-      [outputCharStream catC: "\n      (list"];
-      lisp_output_objects ([app getShallowMap], outputCharStream, NO);
-      lisp_output_objects ([app getDeepMap], outputCharStream, YES);
-      [outputCharStream catC: "))"];
+      id <MapIndex> appMapIndex = [applicationMap begin: scratchZone];
+      id app;
+      id <String> appKey;
+      
+      [outputCharStream catC: "(" ARCHIVER_FUNCTION_NAME "\n  (list"];
+      
+      while ((app = [appMapIndex next: &appKey]))
+        {
+          [outputCharStream catC: "\n    (cons "];
+          lisp_print_appkey ([appKey getC], outputCharStream);
+          [outputCharStream catC: "\n      "];
+          lisp_output_app_objects (app, outputCharStream, YES);
+          [outputCharStream catC: ")"];
+        }
+      [outputCharStream catC: "))\n"];
+      [appMapIndex drop];
     }
-  [outputCharStream catC: "))\n"];
-  [appMapIndex drop];
+  else
+    lisp_output_app_objects ([self ensureApp: currentApplicationKey],
+                             outputCharStream, NO);
   return self;
 }
 
@@ -612,14 +681,23 @@ archiverPut (const char *keyStr, id value, id addMap, id removeMap)
   
   while ((app = [index next: &appKey]))
     {
-      id appGroup;
-      id modeGroup = hdf5_create_app_group ([appKey getC], hdf5Obj, &appGroup);
-      
-      hdf5_output_objects ([app getShallowMap], modeGroup, NO);
-      hdf5_output_objects ([app getDeepMap], modeGroup, YES);
-      
-      [modeGroup drop];
-      [appGroup drop];
+      if (systemArchiverFlag)
+        {
+          id appGroup;
+          id modeGroup = hdf5_create_app_group ([appKey getC],
+                                                hdf5Obj, &appGroup);
+          
+          hdf5_output_objects ([app getShallowMap], modeGroup, NO);
+          hdf5_output_objects ([app getDeepMap], modeGroup, YES);
+          
+          [modeGroup drop];
+          [appGroup drop];
+        }
+      else
+        {
+          hdf5_output_objects ([app getShallowMap], hdf5Obj, NO);
+          hdf5_output_objects ([app getDeepMap], hdf5Obj, YES);
+        }
     }
   [index drop];
   return self;

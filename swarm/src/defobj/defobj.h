@@ -962,6 +962,7 @@ CREATING
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - setHDF5Flag: (BOOL)hdf5Flag;
 - setPath: (const char *)path;
+- setSystemArchiverFlag: (BOOL)systemArchiverFlag;
 - setDefaultLispPath;
 - setDefaultHDF5Path;
 - createEnd;

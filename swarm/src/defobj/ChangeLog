@@ -1,5 +1,33 @@
 1999-02-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.m (initDefobj): Call setSystemArchiverFlag: YES for
+	hdf5Archiver and lispArchiver.
+
+	* DefObject.m (lisp_output_type): Make buf larger.  Print empty/ignored
+	object as #f instead of nil.
+
+	* Archiver.m (lisp_output_objects): Add systemArchiverFlag
+	argument (used to adjust indentation).  Generate EOL at the
+	end of the loop instead of beginning. 
+	(lisp_output_app_objects): New function.
+	([Archiver_c -_lispOut_:]): Use it.
+	([Archiver_c -_hdf5Out_:]): Handle non system archiver case.
+
+	* Archiver.[hm] ([Archiver_c -createAppKey:mode:],
+	([Archiver_c -ensureApp:], [Archiver_c -hdf5LoadObjectMap:key:],
+	[Archiver_c -{hdf5,lisp}LoadArchiver:], [Archiver_c
+	hdf5LoadObjectMap:key:]): New methods.
+	(lispLoadArchiver, hdf5LoadArchiver): Remove.
+	([Archiver_c +createBegin:]): Initialize systemArchiverFlag to NO.
+	([Archiver_c -createEnd]): Use createAppKey: to get value of
+	currentApplicationKey.  Use {hdf5,lisp}LoadArchiver: instead of
+	functions.
+
+	* Archiver.[hm], defobj.h ([Archiver_c -setSystemArchiverFlag:]):
+	New method.
+
+	* Archiver.h (CreateDrop_s): New ivar systemArchiverFlag.
+
 	* defobj.h: Disable CreateDrop protocol; it is already an @interface.
 
 1999-02-19  Vladimir Jojic  <vjojic@chama.santafe.edu>

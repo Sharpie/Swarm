@@ -906,7 +906,7 @@ lisp_output_type (const char *type,
                   id <OutputStream> stream,
                   BOOL deepFlag)
 {
-  char buf[22];  // 2^64
+  char buf[50];
 
   switch (*type)
     {
@@ -915,7 +915,7 @@ lisp_output_type (const char *type,
         id obj = ((id *) ptr)[offset];
 
         if (obj == nil || !deepFlag)
-          [stream catC: "nil"];
+          [stream catC: "#f"];
         else
           [obj lispOutDeep: stream];
         break;
