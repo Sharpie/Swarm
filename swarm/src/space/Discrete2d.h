@@ -29,6 +29,7 @@
 
 @interface Discrete2d: SwarmObject <Discrete2d>
 {
+  BOOL objectFlag;
 @public
   unsigned xsize, ysize;
   id *lattice;
@@ -57,6 +58,7 @@
 - fillWithObject: anObj;
 
 - setLattice: (id *)lattice;
+- (void)setObjectFlag: (BOOL)objectFlag;
 
 - (id *)getLattice;
 - (long *)getOffsets;

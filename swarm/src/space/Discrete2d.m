@@ -40,6 +40,7 @@ PHASE(Creating)
   Discrete2d *obj = [self createBegin: aZone];
   obj->xsize = x;
   obj->ysize = y;
+  obj->objectFlag = NO;
   return [obj createEnd];
 }
 
@@ -166,6 +167,11 @@ PHASE(Setting)
 {
   lattice = theLattice;
   return self;
+}
+
+- (void)setObjectFlag: (BOOL)_objectFlag
+{
+  objectFlag = _objectFlag;
 }
 
 - hdf5In: hdf5Obj
@@ -492,29 +498,87 @@ lispOutLatticeValues (Discrete2d *self, id stream)
 
 - (void)hdf5OutShallow: hdf5Obj
 {
-  id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
-                  setParent: hdf5Obj]
-                 setWriteFlag: YES]
-                setName: [hdf5Obj getHDF5Name]]
-               createEnd];
 
-  [group storeTypeName: [self getTypeName]];
-  [group setName: "ivars"];
-  [super hdf5OutShallow: group];
-  {
-    unsigned dims[2];
+  if (objectFlag)
+    {
+      unsigned xi, yi;
+      id proto = nil;
+      unsigned count = 0, pos = 0;
+      
+      for (yi = 0; yi < ysize; yi++)
+	for (xi = 0; xi < xsize; xi++)
+	  {
+	    id obj = *discrete2dSiteAt (lattice, offsets, xi, yi);
+	    
+	    if (obj != nil)
+	      {
+		proto = obj;
+		count++;
+	      }
+	  }
+      if (proto)
+	{
+	  id cType = [[[HDF5CompoundType createBegin: [hdf5Obj getZone]]
+			setPrototype: proto]
+		       createEnd];
+	  const char *objName = [hdf5Obj getHDF5Name];
+	  
+	  id cDataset = [[[[[[[HDF5 createBegin: getZone (self)]
+			       setName: objName]
+			      setWriteFlag: YES]
+			     setParent: hdf5Obj]
+			    setCompoundType: cType]
+			   setCount: count]
+			  createEnd];
+	  [cDataset storeTypeName: [self getTypeName]];
+	  [cDataset storeComponentTypeName: [proto getTypeName]];
+	  for (yi = 0; yi < ysize; yi++)
+	    for (xi = 0; xi < xsize; xi++)
+	      {
+		id obj = *discrete2dSiteAt (lattice, offsets, xi, yi);
+		
+		if (obj != nil)
+		  {
+		    char buf[64];
+		    
+		    sprintf (buf, "%u,%u", yi, xi);
+		    [cDataset nameRecord: pos name: buf];
+		    [cDataset selectRecord: pos];
+		    [obj hdf5OutShallow: cDataset];
+		    pos++;
+		  }
+	      }
+	  [cDataset writeRowNames];
+	  [cDataset drop];
+	  [cType drop];
+	}
+    }
+  else
+    {
+      id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
+		      setParent: hdf5Obj]
+		     setWriteFlag: YES]
+		    setName: [hdf5Obj getHDF5Name]]
+		   createEnd];
 
-    dims[0] = ysize;
-    dims[1] = xsize;
-
-    [group storeAsDataset: "lattice"
-           typeName: [self name]
+      [group storeTypeName: [self getTypeName]];
+      [group setName: "ivars"];
+      [super hdf5OutShallow: group];
+      {
+	unsigned dims[2];
+	
+	dims[0] = ysize;
+	dims[1] = xsize;
+	
+	[group storeAsDataset: "lattice"
+	       typeName: [self name]
            type: fcall_type_slong
-           rank: 2
-           dims: dims
-           ptr: lattice];
-  }
-  [group drop];
+	       rank: 2
+	       dims: dims
+	       ptr: lattice];
+	[group drop];
+      }
+    }
 }
 
 - (void)hdf5OutDeep: hdf5Obj

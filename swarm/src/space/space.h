@@ -137,9 +137,12 @@ CREATING
 //M: caches the multiplication by ysize. See the discrete2dSiteAt macro. 
 - makeOffsets;
 
+
 SETTING
 - setLattice: (id *)lattice;
 
+//M: When objectFlag is true, indicates that this lattice is intended only for objects.
+- setObjectFlag: (BOOL)objectFlag;
 USING
 //M: Put the given pointer to (x,y) overwriting whatever was there.
 - putObject: anObject atX: (unsigned)x Y: (unsigned)y;
