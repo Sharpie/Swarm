@@ -110,7 +110,7 @@ Following is a summary of new features in the Swarm 1.0.0 release:
 
     The collections library has not been through this kind of cleanup yet.
     Its current capabilities remain limited to what is essential to the
-    implementation of warms and schedules in the activity library.  The
+    implementation of Swarms and schedules in the activity library.  The
     basic List and Array classes remain fairly complete and close to the
     advertised interface, but Map and Set don't even come close yet.
 
