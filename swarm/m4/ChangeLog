@@ -1,7 +1,7 @@
 1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* acjdk.m4: Add -Wl,-e,__cygwin_noncygwin_dll_entry@12 to
-	DLLWRAP when Sun JDK and Windows.
+	* acdll.m4 (md_CHECK_DLL): Add -Wl,-e,__cygwin_noncygwin_dll_entry@12
+	to dllwrap.
 
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
