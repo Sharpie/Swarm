@@ -2,6 +2,9 @@
 #define _MISC_H
 
 #include <stddef.h>
+#ifdef __hpux__
+#include <sys/sigevent.h>
+#endif
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
@@ -14,6 +17,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <math.h>
+
+#include <limits.h>
 
 #include <swarmconfig.h>
 
