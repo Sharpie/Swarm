@@ -181,25 +181,19 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setScaleModeX: (BOOL)xs Y: (BOOL)ys
+- (void)setScaleModeX: (BOOL)xs Y: (BOOL)ys
 {
   [graph setScaleModeX: xs Y: ys];
-
-  return self;
 }
 
-- setRangesXMin: (double)xmin Max: (double)xmax
+- (void)setRangesXMin: (double)xmin Max: (double)xmax
 {
   [graph setRangesXMin: xmin Max: xmax];
-
-  return self;
 }
 
-- setRangesYMin: (double)ymin Max: (double)ymax
+- (void)setRangesYMin: (double)ymin Max: (double)ymax
 {
   [graph setRangesYMin: ymin Max: ymax];
-
-  return self;
 }
 
 - (id <Graph>)getGraph
@@ -536,21 +530,17 @@ PHASE(Creating)
 PHASE(Setting)
 PHASE(Using)
 
-- setActiveOutFile: anActiveOutFile
+- (void)setActiveOutFile: (id <ActiveOutFile>)anActiveOutFile
 {
   activeOutFile = anActiveOutFile;
-
-  return self;
 }
 
-- setActiveGrapher: aGrapher
+- (void)setActiveGrapher: (id <ActiveGraph>)aGrapher
 {
   activeGrapher = aGrapher;
-
-  return self;
 }
 
-- setUnsignedArg: (unsigned)val
+- (void)setUnsignedArg: (unsigned)val
 {
   if (activeGrapher)
     [activeGrapher setArg: 0 ToUnsigned: val];
@@ -558,7 +548,6 @@ PHASE(Using)
     [activeOutFile setArg: 0 ToUnsigned: val];
   else
     abort ();
-  return self;
 }
 
 - (void)step
@@ -606,17 +595,14 @@ PHASE(Creating)
 PHASE(Setting)
 PHASE(Using)
 
-- setAverager: anAverager
+- (void)setAverager: (id <Averager>)anAverager
 {
   averager = anAverager;
-
-  return self;
 }
 
-- setUnsignedArg: (unsigned)val
+- (void)setUnsignedArg: (unsigned)val
 {
   [averager setArg: 0 ToUnsigned: val];
-  return self;
 }
 
 - (void)step

@@ -17,5 +17,5 @@
 - setFileObject: aFileObj;
 - setHDF5Dataset: (id <HDF5>)hdf5Obj;
 - setDataFeed: d;
-- step;
+- (void)step;
 @end

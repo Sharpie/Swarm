@@ -199,13 +199,12 @@ PHASE(Using)
   return self;
 }
 
-- setPrecision: (unsigned)thePrecision
+- (void)setPrecision: (unsigned)thePrecision
 {
   precision = thePrecision;
-  return self;
 }
 
-- reset
+- (void)reset
 {
   int i;
   
@@ -215,11 +214,9 @@ PHASE(Using)
 
   for (i = 0; i < binCount; i++)
     distribution[i] = 0;
-  
-  return self;
 }
 
-- update
+- (void)update
 {
   if ([collection getCount] > 0)
     {
@@ -284,10 +281,9 @@ PHASE(Using)
       [iter drop];
       [mp drop];
     }
-  return self;
 }
 
-- output
+- (void)output
 {
   unsigned i;
   
@@ -307,22 +303,18 @@ PHASE(Using)
         }
       [anOutFile putNewLine];
     }
-  
-  return self;
 }
 
-- outputGraph 
+- (void)outputGraph 
 {
   if (graphics)
     {
       [aHisto setActiveOutlierText: outliers count: count];
       [aHisto drawHistogramWithInt: distribution atLocations: locations];
     }
-
-  return self;
 }
 
-- outputToFile 
+- (void)outputToFile 
 {
   int i;
   
@@ -336,8 +328,6 @@ PHASE(Using)
         }
       [anOutFile putNewLine];
     }
-
-  return self;
 }
 
 - (const char *)getTitle

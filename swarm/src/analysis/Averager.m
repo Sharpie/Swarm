@@ -98,7 +98,7 @@ PHASE(Using)
   count++;
 }
 
-- update
+- (void)update
 {
   if (isList)
     {
@@ -114,7 +114,7 @@ PHASE(Using)
         {
           min = 0;
           max = 0;
-          return self;
+          return;
         }
       
       {
@@ -129,8 +129,6 @@ PHASE(Using)
     }
   else
     [self addValueToAverage: [self doubleDynamicCallOn: target]];
-  
-  return self;
 }
 
 - (double)getAverage

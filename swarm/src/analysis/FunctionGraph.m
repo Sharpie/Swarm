@@ -146,7 +146,7 @@ PHASE(Setting)
 
 PHASE(Using)
 
-- graph
+- (void)graph
 {
   static const char *Arithmetic_Warning =
     "\t Function could not be evaluated for value %e.\n";
@@ -191,8 +191,6 @@ PHASE(Using)
   else
     if (arithmeticWarn == YES)
       raiseEvent (WarningMessage, Arithmetic_Warning, x);
-  
-  return self;
 }
 
 @end

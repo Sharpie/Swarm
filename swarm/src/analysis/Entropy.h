@@ -18,6 +18,6 @@
 - setCollection: aCollection;
 - createEnd;	
 
-- update;		
+- (void)update;		
 - (double)getEntropy;
 @end

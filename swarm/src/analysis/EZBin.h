@@ -57,13 +57,13 @@
 - setUpperBound: (double)max;
 - setCollection: aCollection;
 - setProbedSelector: (SEL)aSel;
-- setPrecision: (unsigned)precision;
+- (void)setPrecision: (unsigned)precision;
 
-- reset;
-- update;
-- output;
-- outputGraph;
-- outputToFile;
+- (void)reset;
+- (void)update;
+- (void)output;
+- (void)outputGraph;
+- (void)outputToFile;
 
 - (unsigned *)getDistribution;
 

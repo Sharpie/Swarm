@@ -152,10 +152,10 @@ CREATING
 
 USING
 //M: Sets the number of significant figures shown for major-tick labels.
-- setPrecision: (unsigned)precision;
+- (void)setPrecision: (unsigned)precision;
 
 //M: The reset method resets the histogram.
-- reset;
+- (void)reset;
 
 //M: The update method polls the collection of objects and adds the data to the
 //M: final data set. It is possible to poll the same collection of objects 
@@ -291,7 +291,7 @@ USING
 //E:
 //E:   [sequence setUnsignedArg: 4];
 //E: }   
-- setUnsignedArg: (unsigned)val;
+- (void)setUnsignedArg: (unsigned)val;
 
 @end
 
@@ -374,13 +374,13 @@ CREATING
 
 USING
 //M: Fix the range of X values on the graph between some range.
-- setRangesXMin: (double)xmin Max: (double)xmax;
+- (void)setRangesXMin: (double)xmin Max: (double)xmax;
 
 //M: Fix the range of Y values on the graph between some range.
-- setRangesYMin: (double)ymin Max: (double)ymax;
+- (void)setRangesYMin: (double)ymin Max: (double)ymax;
 
 //M: Whether to autoscale every timestep or instead to jump scale.
-- setScaleModeX: (BOOL)xs Y: (BOOL)ys;
+- (void)setScaleModeX: (BOOL)xs Y: (BOOL)ys;
 
 //M: The getGraph method lets the user access the graph generated internally
 //M: by the EZGraph. (Only relevant if the state of setGraphics is set to 1.)
@@ -524,12 +524,13 @@ USING
 //D: actually do graphic functions. This class is used by EZGraph, and we
 //D: expect to see less direct usage of it by end-users as more analysis
 //D: tools (such as EZGraph) internalize its functionality.
-USING
 //M: Sets the graph element used to draw on.
+CREATING
 - setElement: ge;
 
 //M: Sets the object that will be probed for data.
 - setDataFeed: d;
+USING
 
 //M: Fires the probe, reads the value from the object, and draws it
 //M: on the graph element. The X value is implicitly the current
@@ -543,7 +544,8 @@ USING
 //D: This is the file I/O equivalent of ActiveGraph: it takes an OutFile 
 //D: object, a target (datafeed) object, and a selector, which it uses to
 //D: extract data from the object and send it to the file. 
-USING
+
+CREATING
 //M: The setFileObject: method sets the file object to which the data will be
 //M: sent.
 - setFileObject: aFileObj;
@@ -554,6 +556,7 @@ USING
 //M: The setDataFeed: method sets the object that will be probed for data.
 - setDataFeed: d;
 
+USING
 //M: The step method fires the probe, reads the value from the object, and 
 //M: sends the value to the file.
 - (void)step;
@@ -600,7 +603,7 @@ CREATING
 
 USING
 //M: Draw the graph with the current contents of the graph element.
-- graph;
+- (void)graph;
 @end
 
 @class Averager;

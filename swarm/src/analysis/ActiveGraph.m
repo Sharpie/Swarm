@@ -38,11 +38,10 @@ PHASE(Setting)
 PHASE(Using)
 
 // add a new point, (currentTime, averageValue).
-- step
+- (void)step
 {
   [element addX: (double)getCurrentTime ()
            Y: [self doubleDynamicCallOn: dataFeed]];
-  return self;
 }
 
 @end

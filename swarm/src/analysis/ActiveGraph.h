@@ -16,5 +16,5 @@
 
 - setElement: (id <GraphElement>)ge;
 - setDataFeed: d;
-- step;
+- (void)step;
 @end

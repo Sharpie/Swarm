@@ -39,7 +39,7 @@ PHASE(Creating)
 PHASE(Setting)
 PHASE(Using)
 
-- step
+- (void)step
 {
   if (file)
     {
@@ -48,7 +48,6 @@ PHASE(Using)
     }
   else
     [hdf5Dataset addDoubleToVector: [self doubleDynamicCallOn: dataFeed]];
-  return self;
 }
 
 - (void)drop

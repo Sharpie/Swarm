@@ -1,3 +1,13 @@
+2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* ActiveGraph.[hm], ActiveOutFile.[hm], Averager.[hm], EZBin.[hm],
+	EZGraph.[hm], Entropy.[hm], FunctionGraph.[hm], analysis.h: Change
+	to void returns as appropriate: -step, -update, -reset,
+	-setPrecision:, -output, -outputGraph, -outputToFile,
+	-setRangesXMin:Max:, -setRangesYMin:Max:,
+	setActive{OutFile,Grapher}:, -setUnsignedArg:, -setAverager:,
+	-setScaleModeX:Y:, -setAverager:, -graph:.
+
 2001-03-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* EZGraph.m ([EZSequence -setUnsignedArg:]): Check for activeOutFile

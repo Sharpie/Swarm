@@ -37,7 +37,7 @@
 
 - setResetFrequency: (unsigned)freq;
 
-- graph;
+- (void)graph;
 
 @end
 

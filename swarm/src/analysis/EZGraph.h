@@ -52,9 +52,9 @@
 
 - createEnd;
 
-- setRangesXMin: (double)xmin Max: (double)xmax;
-- setRangesYMin: (double)ymin Max: (double)ymax;
-- setScaleModeX: (BOOL)xs Y: (BOOL)ys;
+- (void)setRangesXMin: (double)xmin Max: (double)xmax;
+- (void)setRangesYMin: (double)ymin Max: (double)ymax;
+- (void)setScaleModeX: (BOOL)xs Y: (BOOL)ys;
 
 - (id <Graph>) getGraph;
 
@@ -125,13 +125,13 @@
 
 @interface EZSequence : SwarmObject <EZSequence>
 {
-  id activeOutFile;
-  id activeGrapher;
+  id <ActiveOutFile> activeOutFile;
+  id <ActiveGraph> activeGrapher;
 }
 
-- setActiveOutFile: anActiveOutFile;
-- setActiveGrapher: aGrapher;
-- setUnsignedArg: (unsigned)val;
+- (void)setActiveOutFile: (id <ActiveOutFile>)anActiveOutFile;
+- (void)setActiveGrapher: (id <ActiveGraph>)aGrapher;
+- (void)setUnsignedArg: (unsigned)val;
 
 - (void)step;
 
@@ -143,10 +143,10 @@
 
 @interface EZAverageSequence : EZSequence <EZAverageSequence>
 {
-  id averager;
+  id <Averager> averager;
 }
 
-- setAverager: anAverager;
-- setUnsignedArg: (unsigned)val;
+- (void)setAverager: (id <Averager>)anAverager;
+- (void)setUnsignedArg: (unsigned)val;
 @end
 

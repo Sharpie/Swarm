@@ -28,7 +28,7 @@ PHASE(Creating)
 PHASE(Setting)
 PHASE(Using)
 
-- update
+- (void)update
 {
   id iter, obj;
   double maximum;
@@ -39,7 +39,7 @@ PHASE(Using)
   count = [collection getCount];   
 
   if (!count)
-    return self;
+    return;
   
   maximum = log (1.0 / ((double) count));
 
@@ -56,8 +56,6 @@ PHASE(Using)
   [iter drop];
   
   entropy /= maximum;
-  
-  return self;
 }
 
 - (double)getEntropy

@@ -27,7 +27,7 @@
 - setWidth: (unsigned)width;
 - createEnd;		
 
-- update;					  // update the average.
+- (void)update;					  // update the average.
 - (double)getAverage;
 - (double)getMovingAverage;
 - (double)getVariance;
