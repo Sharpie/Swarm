@@ -1,7 +1,7 @@
 		Release Notes for Swarm Version 1.0.4
 
  1. Added ActionCache and ActionHolder and changed control scheme for
-    top level Swarm in anticipation of the JAVAGUI residing in a separate
+    top level Swarm in anticipation of the Java GUI residing in a separate
     thread.
 
  2. Added protocol interface for simtools.
@@ -42,6 +42,61 @@
 
  9. Renamed the "swarmobject" library to "objectbase" to avoid
     filename conflicts in brain-dead operating systems.
+
+10. The random library has been upgraded to version 0.75.
+    See src/random/docs/WHATS.CHANGED.in.0.75 for details.
+
+11. Added the class Archiver to do coordinate archiving of object state 
+    to the file ~/.swarmArchiver.
+
+12. Added the class ArchivedGeometryWidget from which many widgets now inherit.
+    Of particular interest is the method setWindowGeometryRecordName
+    which can be used to set a name that the Archiver will use to record 
+    geometry information to file.
+
+13. Added the method setControlPanelGeometryRecordName to GUISwarm.
+    This method allows a control panel to be named, and thus have its
+    geometry saved by the Archiver.
+
+14. Added the argument -appMode to give the Archiver extra information
+    about `mode of use'.  For example, it may be desirable to have
+    a panels positioned in one way for a demo, and a another way for
+    everyday research use.
+
+15. Added a Save button to the control panel.  This button tells the
+    Archiver to record the state of suitably modified objects.  See Heatbugs
+    for an example of how to do this.  With unmodifed applications,
+    this button will be a NOP.
+
+16. Added the class InputStream.  InputStream is currently equipped to load
+    simple Lisp-like expressions.
+
+17. All non-tkobjc library use of globalTkInterp has been eliminated.
+    This is part of an ongoing effort to make Swarm libraries
+    as independent from GUI features as possible.  Code that
+    talks to globalTkInterp is now found in tkobjc/control.[hm].
+    Libraries now use functions prefixed with "tkobjc_".
+
+18. SimpleProbeDisplay and CompleteProbeDisplay now inherit from a
+    common abstract class, CommonProbeDisplay.  These classes are 
+    now less convoluted.
+
+19. BLT 2.3 is now supported (Tcl/Tk 8.0 is supported by Swarm and tclobjc,
+    but BLT 2.3 doesn't yet support Tcl/Tk 8.0).
+
+20. Strings and other constant parameters in Swarm are now coded with `const'.
+
+21. Dropping a probe panel during a running simulation no longer
+    results in a crash.
+
+22. Dynamic schedule changes outside of the current Swarm (but within
+    the same toplevel hierarchy) now actually work.
+
+23. Subclassing of VarProbe and MessageProbe is now possible.
+
+24. ObjectLoader has a setTemplateProbeMap and getLine method.
+
+
 
 	      =========================================
 		Release Notes for Swarm Version 1.0.3
