@@ -1,3 +1,8 @@
+2001-09-03    <mgd@HELEN>
+
+	* Mousetrap.java: Import SimpleRandomGenerator, and use it in
+	constructor instead of Object.
+
 2000-02-27    <mgd@nest.swarm.org>
 
 	* StartMousetrap.java (main): Update for SDG and 2.1.

@@ -9,6 +9,7 @@ import swarm.random.UniformUnsignedDist;
 import swarm.random.UniformUnsignedDistImpl;
 import swarm.random.UniformIntegerDist;
 import swarm.random.UniformIntegerDistImpl;
+import swarm.random.SimpleRandomGenerator;
 import swarm.gui.ZoomRaster;
 import swarm.Globals;
 
@@ -31,7 +32,7 @@ public class Mousetrap {
   public UniformUnsignedDist uniformTrigTime;
 
   public Mousetrap (MousetrapModelSwarm s, int x, int y,
-                    Object randGenerator) {
+                     SimpleRandomGenerator randGenerator) {
     int maxD;
     
     modelSwarm = s;
