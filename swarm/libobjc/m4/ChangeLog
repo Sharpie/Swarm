@@ -1,3 +1,8 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acdll.m4: Use AC_DEFINE, not AC_SUBST, since AC_CONFIG_HEADERS
+	won't handle substitutions.
+
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acdll.m4: Add USEDLL automake conditional.
