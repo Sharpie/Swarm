@@ -22,7 +22,15 @@
 //D: header files, and the Swarm examples: more complicated graphical
 //D: output will require the programmer have some familiarity with Tk.
 
-@protocol _Widget
+@protocol Widget <Create, Drop>
+//S: Widget base class.
+
+//D: All graphical widgets inherit from the Widget base class. Widget
+//D: defines most of the behaviour needed: Widgets are created by the user
+//D: with a particular parent, and then "pack"ed in order to draw them on
+//D: the screen.  All widgets have three essential things: a widget name
+//D: used when running Tcl code, an Objective C name when sending messages
+//D: from Tcl to those objects, and a parent.
 CREATING
 //M: When a widget is created it needs to be given a parent.  The parent
 //M: widget will be the widget's containing window. If no parent is given
@@ -110,19 +118,12 @@ USING
 - (void)drop;
 @end
 
-@protocol Widget <_Widget, Create, Drop>
-//S: Widget base class.
 
-//D: All graphical widgets inherit from the Widget base class. Widget
-//D: defines most of the behaviour needed: Widgets are created by the user
-//D: with a particular parent, and then "pack"ed in order to draw them on
-//D: the screen.  All widgets have three essential things: a widget name
-//D: used when running Tcl code, an Objective C name when sending messages
-//D: from Tcl to those objects, and a parent.
-@end
+@protocol WindowGeometryRecord <Serialization, Create, Drop>
+//S: A container for window geometry information.
 
-
-@protocol _WindowGeometryRecord <Serialization>
+//D: A container for window geometry information that implements
+//D: archiving methods.
 USING
 //M: Set the window position.
 - setX: (int)x Y: (int)y;
@@ -149,14 +150,12 @@ USING
 - (int)getY;
 @end
 
-@protocol WindowGeometryRecord <_WindowGeometryRecord, Create, Drop>
-//S: A container for window geometry information.
+@protocol ArchivedGeometryWidget <Widget>
+//S: Base class for widgets that archive geometry.
 
-//D: A container for window geometry information that implements
-//D: archiving methods.
-@end
-
-@protocol _ArchivedGeometryWidget
+//D: Subclasses of this class inherit the ability to archive
+//D: their window geometry.  This class also provides an interface
+//D: to destroy notification.
 CREATING
 + createBegin: aZone;
 
@@ -170,15 +169,14 @@ USING
 - (void)drop;
 @end
 
-@protocol ArchivedGeometryWidget <_ArchivedGeometryWidget, Widget>
-//S: Base class for widgets that archive geometry.
+@protocol Frame <ArchivedGeometryWidget>
+//S: Encapsulation of toplevels.
 
-//D: Subclasses of this class inherit the ability to archive
-//D: their window geometry.  This class also provides an interface
-//D: to destroy notification.
-@end
-
-@protocol _Frame
+//D: Frames are boxes other widgets fit in. They correspond to the Tk
+//D: "frame" and "toplevel" widgets. Frames can be new windows, or
+//D: subwindows in an existing window. You only need to create frames
+//D: yourself if building complicated composite widgets: by default, a
+//D: frame will be built automatically for widgets without parents.
 CREATING
 //M: Determines the width of the border, if any.
 - setBorderWidth: (int)width;
@@ -196,17 +194,10 @@ USING
 - deiconify;
 @end
 
-@protocol Frame <_Frame, ArchivedGeometryWidget>
-//S: Encapsulation of toplevels.
+@protocol Canvas <ArchivedGeometryWidget>
+//S: An interface to Tk canvas semantics.
 
-//D: Frames are boxes other widgets fit in. They correspond to the Tk
-//D: "frame" and "toplevel" widgets. Frames can be new windows, or
-//D: subwindows in an existing window. You only need to create frames
-//D: yourself if building complicated composite widgets: by default, a
-//D: frame will be built automatically for widgets without parents.
-@end
-
-@protocol _Canvas
+//D: The Canvas widget allows display of a diverse range of graphical objects.
 CREATING
 //M: Create the canvas.
 - createEnd;
@@ -222,13 +213,11 @@ USING
 - checkGeometry: frame;
 @end
 
-@protocol Canvas <_Canvas, ArchivedGeometryWidget>
-//S: An interface to Tk canvas semantics.
+@protocol ProbeCanvas <Canvas>
+//S: A canvas type for probe displays.
 
-//D: The Canvas widget allows display of a diverse range of graphical objects.
-@end
-
-@protocol _ProbeCanvas
+//D: ProbeCanvas is a Canvas that implements the general appearance and
+//D: interface of a probe display.
 CREATING
 //M: Indicates the presence or absence of a horizontal scroll bar.
 - setHorizontalScrollbarFlag: (BOOL)horizontalScrolbarFlag;
@@ -236,14 +225,11 @@ CREATING
 - createEnd;
 @end
 
-@protocol ProbeCanvas <_ProbeCanvas, Canvas>
-//S: A canvas type for probe displays.
+@protocol GraphElement <Create, Drop>
+//S: Contains a set of related data for display.
 
-//D: ProbeCanvas is a Canvas that implements the general appearance and
-//D: interface of a probe display.
-@end
-
-@protocol _GraphElement
+//D: A GraphElement accumulates a related set of data for display,
+//D: including attributes for the set.
 CREATING
 - setOwnerGraph: ownerGraph;
 - createEnd;
@@ -272,14 +258,15 @@ USING
 - setWidth: (unsigned)w;
 @end
 
-@protocol GraphElement <_GraphElement, Create, Drop>
-//S: Contains a set of related data for display.
+@protocol Graph <ArchivedGeometryWidget>
+//S: A time series graph tool.
 
-//D: A GraphElement accumulates a related set of data for display,
-//D: including attributes for the set.
-@end
-
-@protocol _Graph
+//D: A time series graph tool, based on BLT's graph widget.  Graph
+//D: currently implements just a basic graph with multiple datasets, but
+//D: should eventually support scaling and scrolling. For each Graph you
+//D: create one or many GraphElements, one per dataset to
+//D: plot. GraphElements can be configured for appearance, and data can be
+//D: added to the element to draw.
 CREATING
 - createEnd;
 
@@ -300,19 +287,15 @@ USING
 - setRangesXMin: (double)minx Max:(double)maxx YMin: (double)miny Max: (double)maxy;
 @end
 
-@protocol Graph <_Graph, ArchivedGeometryWidget>
-//S: A time series graph tool.
 
-//D: A time series graph tool, based on BLT's graph widget.  Graph
-//D: currently implements just a basic graph with multiple datasets, but
-//D: should eventually support scaling and scrolling. For each Graph you
-//D: create one or many GraphElements, one per dataset to
-//D: plot. GraphElements can be configured for appearance, and data can be
-//D: added to the element to draw.
-@end
+@protocol Histogram <ArchivedGeometryWidget>
+//S: Histogram display tool.
 
-
-@protocol _Histogram
+//D: In Tk, this is based on BLT's barchart. 
+//D: The number of bins is fixed at creation time, then the user hands
+//D: the Histogram an array of datapoints (double or int) to display
+//D: (or optionally an array of datapoints and locations where the bars
+//D: should be drawn (specified as doubles).
 CREATING
 + createBegin: aZone;
 
@@ -370,17 +353,10 @@ USING
 - setupActiveItemInfo;
 @end
 
-@protocol Histogram <_Histogram, ArchivedGeometryWidget>
-//S: Histogram display tool.
+@protocol Label <Widget>
+//S: A widget with text.
 
-//D: In Tk, this is based on BLT's barchart. 
-//D: The number of bins is fixed at creation time, then the user hands
-//D: the Histogram an array of datapoints (double or int) to display
-//D: (or optionally an array of datapoints and locations where the bars
-//D: should be drawn (specified as doubles).
-@end
-
-@protocol _Label
+//D: A widget with text.
 CREATING
 - createEnd;
 
@@ -389,38 +365,31 @@ USING
 - setText: (const char *)text;
 @end
 
-@protocol Label <_Label, Widget>
-//S: A widget with text.
+@protocol ClassDisplayLabel <Label>
+//S: A label for displaying class names.
 
-//D: A widget with text.
-@end
-
-@protocol _ClassDisplayLabel
+//D: This widget is used internally by ClassDisplayWidget.
 CREATING
 //M: Create a blue, left-justified label.
 - createEnd;
 USING
 @end
 
-@protocol ClassDisplayLabel <_ClassDisplayLabel, Label>
-//S: A label for displaying class names.
+@protocol VarProbeLabel <Label>
+//S: A label for displaying variable names.
 
-//D: This widget is used internally by ClassDisplayWidget.
-@end
-
-@protocol _VarProbeLabel
+//D: This widget is used internally by VarProbeWidget.
 CREATING
 //M: Create a right-justified label.
 - createEnd;
 @end
 
-@protocol VarProbeLabel <_VarProbeLabel, Label>
-//S: A label for displaying variable names.
+@protocol CompleteProbeDisplayLabel <Label>
+//S: A class label used in a SimpleProbeDisplay.
 
-//D: This widget is used internally by VarProbeWidget.
-@end
-
-@protocol _CompleteProbeDisplayLabel
+//D: This widget is used internally by SimpleProbeDisplay.
+//D: It is used to set up the mouse bindings to get a CompleteProbeDisplay,
+//D: and to set up drag and drop.
 CREATING
 //M: Sets target widget which to report (e.g. probeDisplay).
 - setTargetWidget: targetWidget;
@@ -434,15 +403,10 @@ CREATING
 USING
 @end
 
-@protocol CompleteProbeDisplayLabel <_CompleteProbeDisplayLabel, Label>
-//S: A class label used in a SimpleProbeDisplay.
+@protocol Button <Widget>
+//S: A button widget.
 
-//D: This widget is used internally by SimpleProbeDisplay.
-//D: It is used to set up the mouse bindings to get a CompleteProbeDisplay,
-//D: and to set up drag and drop.
-@end
-
-@protocol _Button
+//D: A button widget that, when pressed, sends a method to a target object.
 CREATING
 - createEnd;
 
@@ -454,13 +418,11 @@ USING
 - setButtonTarget: target method: (SEL)method;
 @end
 
-@protocol Button <_Button, Widget>
-//S: A button widget.
+@protocol ClassDisplayHideButton <Button>
+//S: The hide button used by a CompleteProbeDisplay.
 
-//D: A button widget that, when pressed, sends a method to a target object.
-@end
-
-@protocol _ClassDisplayHideButton
+//D: A button that handles the dismissal of class widgets on a
+//D: ClassDisplayWidget (for CompleteProbeDisplay).
 CREATING
 - setSubWidget: subWidget;
 - setUser: user;
@@ -468,14 +430,10 @@ CREATING
 USING
 @end
 
-@protocol ClassDisplayHideButton <_ClassDisplayHideButton, Button>
-//S: The hide button used by a CompleteProbeDisplay.
+@protocol SimpleProbeDisplayHideButton <Button>
+//S: The hide button used by a SimpleProbeDisplay.
 
-//D: A button that handles the dismissal of class widgets on a
-//D: ClassDisplayWidget (for CompleteProbeDisplay).
-@end
-
-@protocol _SimpleProbeDisplayHideButton
+//D: A button that handles the dismissal of a SimpleProbeDisplay.
 CREATING
 //M: The probe display in use.
 - setProbeDisplay: probeDisplay;
@@ -483,13 +441,10 @@ CREATING
 - createEnd;
 @end
 
-@protocol SimpleProbeDisplayHideButton <_SimpleProbeDisplayHideButton, Button>
-//S: The hide button used by a SimpleProbeDisplay.
+@protocol SuperButton <Button>
+//S: Request superclass in ClassDisplayWidget.
 
-//D: A button that handles the dismissal of a SimpleProbeDisplay.
-@end
-
-@protocol _SuperButton
+//D: A button used by ClassDisplayWidget to ask for superclass.
 CREATING
 - createEnd;
 - setSuperWidget: superWidget;
@@ -498,13 +453,11 @@ CREATING
 USING
 @end
 
-@protocol SuperButton <_SuperButton, Button>
-//S: Request superclass in ClassDisplayWidget.
+@protocol InputWidget <Widget>
+//S: Abstract superclass for widgets that take input.
 
-//D: A button used by ClassDisplayWidget to ask for superclass.
-@end
-
-@protocol _InputWidget
+//D: InputWidgets get their input in one of two ways: by being readable, or
+//D: by being linked to a C variable.
 CREATING
 - createEnd;
 
@@ -526,14 +479,10 @@ USING
 - setValue: (const char *)v;
 @end
 
-@protocol InputWidget <_InputWidget, Widget>
-//S: Abstract superclass for widgets that take input.
+@protocol Entry <InputWidget>
+//S: Handles text-field input.
 
-//D: InputWidgets get their input in one of two ways: by being readable, or
-//D: by being linked to a C variable.
-@end
-
-@protocol _Entry
+//D: Handles text-field input.
 CREATING
 - createEnd;
 
@@ -545,13 +494,10 @@ USING
 - setHeight: (unsigned)h; // since this isn't possible with Tk, it will abort.
 @end
 
-@protocol Entry <_Entry, InputWidget>
-//S: Handles text-field input.
+@protocol MessageProbeEntry <Entry>
+//S: A widget for arguments to a message probe.
 
-//D: Handles text-field input.
-@end
-
-@protocol _MessageProbeEntry
+//D: An Entry widget for MessageProbe arguments.
 CREATING
 //M: Indicates whether the type of this entry is an id.
 - setIdFlag: (BOOL)idFlag;
@@ -563,13 +509,10 @@ CREATING
 USING
 @end
 
-@protocol MessageProbeEntry <_MessageProbeEntry, Entry>
-//S: A widget for arguments to a message probe.
+@protocol VarProbeEntry <Entry>
+//S: A widget for variable probes.
 
-//D: An Entry widget for MessageProbe arguments.
-@end
-
-@protocol _VarProbeEntry
+//D: An Entry widget for VarProbes.
 CREATING
 //M: Indicates whether the entry is editable or not.
 - setInteractiveFlag: (BOOL)interactiveFlag;
@@ -585,13 +528,10 @@ USING
 - getVarProbe;
 @end
 
-@protocol VarProbeEntry <_VarProbeEntry, Entry>
-//S: A widget for variable probes.
+@protocol ButtonPanel <Frame>
+//S: Several buttons bound together in one frame.
 
-//D: An Entry widget for VarProbes.
-@end
-
-@protocol _ButtonPanel
+//D: Several buttons bound together in one frame.
 CREATING
 USING
 //M: Set a default target for use with addButtonName:method:.
@@ -604,13 +544,10 @@ USING
 - addButtonName: (const char *)name method: (SEL)sel;
 @end
 
-@protocol ButtonPanel <_ButtonPanel, Frame>
-//S: Several buttons bound together in one frame.
+@protocol Form <Widget>
+//S: A set of Entry widgets bound together in one frame.
 
-//D: Several buttons bound together in one frame.
-@end
-
-@protocol _Form
+//D: A set of Entry widgets bound together in one frame.
 CREATING
 - createEnd;
 
@@ -628,13 +565,10 @@ USING
 - addLineName: (const char *)n Double: (double *)p;
 @end
 
-@protocol Form <_Form, Widget>
-//S: A set of Entry widgets bound together in one frame.
+@protocol CheckButton <InputWidget>
+//S: A check box on/off selection widget.
 
-//D: A set of Entry widgets bound together in one frame.
-@end
-
-@protocol _CheckButton
+//D: A check box on/off selection widget.
 CREATING
 - createEnd;
 
@@ -646,16 +580,15 @@ USING
 - setBoolValue: (BOOL)v;
 @end
 
-@protocol CheckButton <_CheckButton, InputWidget>
-//S: A check box on/off selection widget.
-
-//D: A check box on/off selection widget.
-@end
-
 typedef unsigned char Color; 
 typedef unsigned long PixelValue;
 
-@protocol _Colormap
+@protocol Colormap <Create>
+//S: An class for creating a color palette for use with a Raster.
+
+//D: Mechanism used to map numbers in the range [0, 255] to colour
+//D: names. Create an XColormap, allocate colours in it, and pass it to a
+//D: Raster widget for drawing.
 CREATING
 - createEnd;
 
@@ -680,14 +613,6 @@ USING
 - (BOOL)setColor: (Color)c ToGrey: (double)g;
 @end
 
-@protocol Colormap <Create, _Colormap>
-//S: An class for creating a color palette for use with a Raster.
-
-//D: Mechanism used to map numbers in the range [0, 255] to colour
-//D: names. Create an XColormap, allocate colours in it, and pass it to a
-//D: Raster widget for drawing.
-@end
-
 @class Raster;
 
 @protocol Drawer
@@ -699,7 +624,14 @@ USING
 - drawX: (int)x Y: (int)y;
 @end
 
-@protocol _Raster
+@protocol Raster <ArchivedGeometryWidget>
+//S: A two dimension color display class.
+
+//D: 2 dimensional, colour pixel images. Raster is based on a Tk frame widget
+//D: with our own code for fast display of images. You can draw coloured dots
+//D: on a Raster, or generic Drawers. Raster widgets are
+//D: double buffered - the pixels you draw are not actually put on the screen
+//D: until drawSelf is called. In addition, Rasters handle mouse clicks.
 CREATING
 + createBegin: aZone;
 - createEnd;
@@ -742,17 +674,11 @@ USING
 - erase;
 @end
 
-@protocol Raster <ArchivedGeometryWidget, _Raster>
-//S: A two dimension color display class.
+@protocol ZoomRaster <Raster>
+//S: A zoomable Raster.
 
-//D: 2 dimensional, colour pixel images. Raster is based on a Tk frame widget
-//D: with our own code for fast display of images. You can draw coloured dots
-//D: on a Raster, or generic Drawers. Raster widgets are
-//D: double buffered - the pixels you draw are not actually put on the screen
-//D: until drawSelf is called. In addition, Rasters handle mouse clicks.
-@end
-
-@protocol _ZoomRaster
+//D: ZoomRaster is a subclass of Raster that implements a zoomable image. It
+//D: handles translation between logical coordinates and screen coordinates.
 CREATING
 - createEnd;
 
@@ -773,14 +699,11 @@ USING
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 @end
 
-@protocol ZoomRaster <Raster, _ZoomRaster>
-//S: A zoomable Raster.
+@protocol Pixmap <Drawer, Create>
+//S: A class for drawing color bitmaps on a Raster.
 
-//D: ZoomRaster is a subclass of Raster that implements a zoomable image. It
-//D: handles translation between logical coordinates and screen coordinates.
-@end
-
-@protocol _Pixmap
+//D: A class for drawing color bitmaps on a Raster.  The bitmaps are
+//D: stored in the Portable Network Graphics format.
 CREATING
 + createBegin: aZone;
 
@@ -819,14 +742,10 @@ USING
 - (void)drop;
 @end
 
-@protocol Pixmap <_Pixmap, Drawer, Create>
-//S: A class for drawing color bitmaps on a Raster.
+@protocol CanvasAbstractItem <Create, Drop>
+//S: An abstract class for items on a Canvas.
 
-//D: A class for drawing color bitmaps on a Raster.  The bitmaps are
-//D: stored in the Portable Network Graphics format.
-@end
-
-@protocol _CanvasAbstractItem
+//D: CanvasAbstractItem is the root class of all items drawn on a Canvas.
 CREATING
 //M: Method to be implemented by subclass.
 - createItem;
@@ -863,13 +782,10 @@ USING
 - getCanvas;
 @end
 
-@protocol CanvasAbstractItem <_CanvasAbstractItem, Create, Drop>
-//S: An abstract class for items on a Canvas.
+@protocol CanvasItem <CanvasAbstractItem>
+//S: An abstract superclass for simple Canvas items.
 
-//D: CanvasAbstractItem is the root class of all items drawn on a Canvas.
-@end
-
-@protocol _CanvasItem
+//D: An abstract superclass for non-composite Canvas items.
 CREATING
 //M: Establishes the bindings for the buttons.
 - createBindings;
@@ -879,13 +795,11 @@ USING
 - initiateMoveX: (long)delta_x Y: (long)delta_y; 
 @end
 
-@protocol CanvasItem <_CanvasItem, CanvasAbstractItem>
-//S: An abstract superclass for simple Canvas items.
+@protocol CompositeItem <CanvasAbstractItem>
+//S: A CanvasItem with several pieces.
 
-//D: An abstract superclass for non-composite Canvas items.
-@end
-
-@protocol _CompositeItem
+//D: A CompositeItem is a CanvasItem that consists of several pieces.
+//D: CompositeItem is an abstract superclass.
 CREATING
 USING
 //M: Must be implemented by subclass.
@@ -895,14 +809,11 @@ USING
 - initiateMoveX: (long)delta_x Y: (long)delta_y;
 @end
 
-@protocol CompositeItem <_CompositeItem, CanvasAbstractItem>
-//S: A CanvasItem with several pieces.
+@protocol NodeItem <CompositeItem>
+//S: A class for displaying a node on a Canvas.
 
-//D: A CompositeItem is a CanvasItem that consists of several pieces.
-//D: CompositeItem is an abstract superclass.
-@end
-
-@protocol _NodeItem
+//D: A class for displaying a node on a Canvas.
+//D: A NodeItem has a position, a font, color, border color and width.
 CREATING
 //M: Set the mouse bindings for a NodeItem (e.g. dragging).
 - createBindings;
@@ -937,17 +848,12 @@ USING
 
 //M: Create the space for the text for the node.
 - createPaddedText;
-
 @end
 
-@protocol NodeItem <_NodeItem, CompositeItem>
-//S: A class for displaying a node on a Canvas.
+@protocol LinkItem <CompositeItem>
+//S: A canvas item for displaying a link between two nodes.
 
-//D: A class for displaying a node on a Canvas.
-//D: A NodeItem has a position, a font, color, border color and width.
-@end
-
-@protocol _LinkItem
+//D: A CompositeCanvasItem for displaying a link between two NodeItems.
 CREATING
 //M: Designate the node that will be the source of the link.
 - setFrom: from;
@@ -972,13 +878,10 @@ USING
 - (void)drop;
 @end
 
-@protocol LinkItem <_LinkItem, CompositeItem>
-//S: A canvas item for displaying a link between two nodes.
+@protocol ScheduleItem <CompositeItem>
+//S: A canvas item for displaying the time structure of a schedule.
 
-//D: A CompositeCanvasItem for displaying a link between two NodeItems.
-@end
-
-@protocol _ScheduleItem
+//D: A CompositeCanvasItem for displaying the time structure of a schedule.
 CREATING
 + createBegin: aZone;
 
@@ -1006,37 +909,28 @@ USING
 - (void)drop;
 @end
 
-@protocol ScheduleItem <_ScheduleItem, CompositeItem>
-//S: A canvas item for displaying the time structure of a schedule.
+@protocol OvalNodeItem <NodeItem>
+//S: A circular NodeItem.
 
-//D: A CompositeCanvasItem for displaying the time structure of a schedule.
-@end
-
-@protocol _OvalNodeItem
+//D: A NodeItem with a circular appearance.
 CREATING
 //M: Create the OvalNodeItem.
 - createItem;
 @end
 
-@protocol OvalNodeItem <_OvalNodeItem, NodeItem>
-//S: A circular NodeItem.
+@protocol RectangleNodeItem <NodeItem>
+//S: A rectangular NodeItem.
 
-//D: A NodeItem with a circular appearance.
-@end
-
-@protocol _RectangleNodeItem
+//D: A rectangular NodeItem.
 CREATING
 //M: A NodeItem with a rectangular appearance.
 - createItem;
 @end
 
-@protocol RectangleNodeItem <_RectangleNodeItem, NodeItem>
-//S: A rectangular NodeItem.
+@protocol TextItem <CanvasItem>
+//S: A CanvasItem that displays text.
 
-//D: A rectangular NodeItem.
-@end
-
-@protocol _TextItem
+//D: A CanvasItem that displays text.
 CREATING
 + createBegin: aZone;
 
@@ -1057,13 +951,10 @@ CREATING
 USING
 @end
 
-@protocol TextItem <_TextItem, CanvasItem>
-//S: A CanvasItem that displays text.
+@protocol Circle <CanvasItem>
+//S: A CanvasItem that displays a circle.
 
-//D: A CanvasItem that displays text.
-@end
-
-@protocol _Circle
+//D: A CanvasItem that displays a circle.
 CREATING
 //M: Set the x, y coordinates for the center of the circle.
 - setX: (int)x Y: (int)y;
@@ -1076,13 +967,10 @@ CREATING
 USING
 @end
 
-@protocol Circle <_Circle, CanvasItem>
-//S: A CanvasItem that displays a circle.
+@protocol Rectangle <CanvasItem>
+//S: A CanvasItem that displays a rectangle.
 
-//D: A CanvasItem that displays a circle.
-@end
-
-@protocol _Rectangle
+//D: A CanvasItem that displays a rectangle.
 CREATING
 //M: Set the diagonal corner coordinates of the rectangle.
 - setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
@@ -1091,25 +979,16 @@ CREATING
 - createItem;
 @end
 
-@protocol Rectangle <_Rectangle, CanvasItem>
-//S: A CanvasItem that displays a rectangle.
+@protocol Line <CanvasItem>
+//S: A CanvasItem that displays a line.
 
-//D: A CanvasItem that displays a rectangle.
-@end
-
-@protocol _Line
+//D: A CanvasItem that displays a line.
 CREATING
 //M: Set the end points of the line.
 - setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
 
 //M: Create the Line.
 - createItem;
-@end
-
-@protocol Line <_Line, CanvasItem>
-//S: A CanvasItem that displays a line.
-
-//D: A CanvasItem that displays a line.
 @end
 
 #if 0 /* def USE_JAVA -- disabled for the sake of protocol.el */

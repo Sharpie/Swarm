@@ -1,3 +1,7 @@
+1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* gui.h: Merge internal protocols into advertised protocols.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* gui.h (_ArchivedGeometryWidget): Add archiver argument to
