@@ -139,7 +139,7 @@
 
   // create a colormap
 
-  colormap = [XColormap create: globalZone];
+  colormap = [Colormap create: globalZone];
   [colormap setColor: 1 ToGrey: 0.3];
   [colormap setColor: 2 ToName: "red"];
 
@@ -203,7 +203,7 @@
   // And tell the displayWindow to send mouse clicks to the mousetrapDisplay
   // this allows the user to right-click on the display to probe the traps.
 
-  [displayWindow setButton: GUI_ButtonRight 
+  [displayWindow setButton: ButtonRight 
 		 Client:    mousetrapDisplay
                  Message:   M(makeProbeAtX:Y:)];
 

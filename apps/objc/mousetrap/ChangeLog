@@ -1,3 +1,11 @@
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Constify argv.
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	-buildObjects]): Use Colormap not XColormap for colormap.  Revert
+	GUI_ButtonRight change.
+
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MousetrapObserverSwarm.m:  Include gui.h.

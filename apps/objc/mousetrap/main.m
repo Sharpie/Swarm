@@ -12,12 +12,13 @@
 // Swarm, let it build its objects and activities, and set it running.
 
 int
-main(int argc, char ** argv) {
+main (int argc, const char **argv)
+{
   id theTopLevelSwarm ;
 
   // Swarm initialization: all Swarm apps must call this first.
 
-  initSwarm(argc, argv);
+  initSwarm (argc, argv);
 
   // swarmGUIMode is set in initSwarm(). It's set to be 0 if you
   // typed mousetrap -batchmode. Otherwise, it's set to 1.
