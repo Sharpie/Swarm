@@ -1,6 +1,8 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules (CPPFLAGS): Append -Dextern=@EXPORT_EXTERN@.
+	($(TYPEINFO)): Use single quotes on OBJCFLAGS, so that CPPFLAGS
+	may contain double quotes. 
 
 1999-05-27  Alex Lancaster  <alex@santafe.edu>
 
