@@ -10,7 +10,7 @@ import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.vecmath.Vector3d;
 
-public class Agent extends SwarmImpl {
+public class Agent3d extends SwarmImpl {
   TransformGroup trans;
 
   void createText (String textString) {
@@ -29,7 +29,7 @@ public class Agent extends SwarmImpl {
     trans.addChild (sh);
   }
   
-  Agent (Zone aZone, String textString) {
+  Agent3d (Zone aZone, String textString) {
     super (aZone);
 
     createText (textString);

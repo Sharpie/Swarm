@@ -18,9 +18,9 @@ import java.awt.GraphicsConfiguration;
 
 import swarm.Globals;
 
-public class StartSDG extends Applet {
+public class StartSDG3d extends Applet implements Context {
   TransformGroup rootTrans;
-  public StartSDG () {
+  public StartSDG3d () {
   }
 
   public BranchGroup createSceneGraph () {
@@ -67,15 +67,19 @@ public class StartSDG extends Applet {
 
     BranchGroup scene = createSceneGraph ();
 
-    Organization sdg = new SDG (Globals.env.globalZone, rootTrans);
+    Organization sdg = new SDG (Globals.env.globalZone, this);
 
     SimpleUniverse u = new SimpleUniverse (c);
     u.getViewingPlatform ().setNominalViewingTransform ();
     u.addBranchGraph (scene);
   }
 
+  public void addAgent (Agent3d agent) {
+    rootTrans.addChild (agent.getTransformGroup ());
+  }
+
   public static void main (String[] args) {
     Globals.env.initSwarm ("SDG", "0.0", "bug-swarm@swarm.org", args);
-    new MainFrame (new StartSDG (), 200, 200);
+    new MainFrame (new StartSDG3d (), 200, 200);
   }
 }

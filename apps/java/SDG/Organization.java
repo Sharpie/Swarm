@@ -1,17 +1,15 @@
 import swarm.objectbase.SwarmImpl;
 import swarm.defobj.Zone;
 
-import javax.media.j3d.TransformGroup;
-
 public class Organization extends SwarmImpl {
-  TransformGroup group;
+  Context context;
 
-  public Organization (Zone aZone, TransformGroup group) {
+  public Organization (Zone aZone, Context context) {
     super (aZone);
-    this.group = group;
+    this.context = context;
   }
 
-  public void addAgent (Agent agent) {
-    group.addChild (agent.getTransformGroup ());
+  public void addAgent (Agent3d agent) {
+    context.addAgent (agent);
   }
 }

@@ -6,7 +6,7 @@ import swarm.objectbase.Swarm;
 import swarm.defobj.Zone;
 import swarm.Selector;
 
-public class Marcus extends Agent {
+public class Marcus extends Agent3d {
   public Marcus (Zone aZone) {
     super (aZone, "Marcus");
   }

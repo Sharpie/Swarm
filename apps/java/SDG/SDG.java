@@ -5,10 +5,10 @@ import swarm.Globals;
 import swarm.defobj.Zone;
 
 public class SDG extends Organization {
-  Agent mgd, gepr;
+  Agent3d mgd, gepr;
 
-  public SDG (Zone aZone, TransformGroup group) {
-    super (aZone, group);
+  public SDG (Zone aZone, Context context) {
+    super (aZone, context);
 
     mgd = new Marcus (aZone);
     gepr = new Glen (aZone);
