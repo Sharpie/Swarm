@@ -1,3 +1,11 @@
+1999-09-13    <mgd@HELEN>
+
+	* GUISwarm.m ([GUISwarm -setWindowGeometryRecordName:]): 
+	Only duplicate if non-NULL.
+
+	* GUIComposite.m ([GUIComposite -setWindowGeometryRecordName:]):
+	Likewise.
+
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* GUIComposite.m ([GUIComposite -setWindowGeometryRecordName:]): Copy 

@@ -30,8 +30,9 @@ PHASE(Creating)
 
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
-  baseWindowGeometryRecordName = STRDUP (windowGeometryRecordName);
-
+  baseWindowGeometryRecordName = (windowGeometryRecordName
+				  ? STRDUP (windowGeometryRecordName)
+				  : NULL);
   return self;
 }
 
