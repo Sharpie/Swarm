@@ -68,7 +68,7 @@ PHASE(Using)
 - install
 {
   [topLevel deiconify];
-  [topFrame assertGeometry];
+  [canvas checkGeometry: topFrame];
 
   [probeDisplayManager addProbeDisplay: self];
 

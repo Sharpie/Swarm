@@ -108,7 +108,7 @@ PHASE(Using)
 - do_resize
 {
   [canvas packForgetAndExpand];
-  [topFrame assertGeometry];
+  [canvas checkGeometry: topFrame];
   return self;
 }
 
