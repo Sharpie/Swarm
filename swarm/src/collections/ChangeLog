@@ -1,7 +1,8 @@
 1998-11-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* Map.m ([Map_c -lispIn:]): Convert ArchiverPairs to key
-	values and insert.
+	* Map.m ([Map_c -lispIn:]): Convert quoted ArchiverPairs to key
+	values and insert. 
+	([Map_c -lispOut:]): Quote the pairs.
 
 	* InputStream.m ([InputStream_c -getExpr]): Convert (key . value)
 	to ArchiverPair.

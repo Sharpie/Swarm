@@ -339,23 +339,39 @@ PHASE(Using)
 
   index = [(id) expr begin: scratchZone];
   while ((member = [index next]) != nil)
-    if (pairp (member))
-      {
-        id keyExpr = [member getCar];
-        id valueExpr = [member getCdr];
-        id key, value;
-        
-        if (valuep (keyExpr))
-          {
-            if ([keyExpr getValueType] != _C_INT)
-              raiseEvent (InvalidArgument, "ArchiverValue not integer");
-            key = (id) [keyExpr getInteger];
-          }
-        else
-          key = lispIn (aZone, keyExpr);
-        value = lispIn (aZone, valueExpr);
-        [(id) self at: key insert: value];
-      }
+    {
+      if (keywordp (member))
+        [index next];
+      else if (listp (member))
+        {
+          if (ARCHIVERLITERALP ([member getFirst]))
+            {
+              id val = [member getLast];
+              
+              if (pairp (val))
+                {
+                  id keyExpr = [val getCar];
+                  id valueExpr = [val getCdr];
+                  id key, value;
+                  
+                  if (valuep (keyExpr))
+                    {
+                      if ([keyExpr getValueType] != _C_INT)
+                        raiseEvent (InvalidArgument, "ArchiverValue not integer");
+                      key = (id) [keyExpr getInteger];
+                    }
+                  else
+                    key = lispIn (aZone, keyExpr);
+                  value = lispIn (aZone, valueExpr);
+                  [(id) self at: key insert: value];
+                }
+            }
+          else
+            raiseEvent (InvalidArgument, "Expecting ArchiverLiteral");
+        }
+      else
+        raiseEvent (InvalidArgument, "Expecting quoted dotted pair");
+    }
   [index drop];
   return self;
 }
@@ -369,7 +385,7 @@ PHASE(Using)
   index = [(id) self begin: scratchZone];
   while ((member = [index next: &key]))
     {
-      [outputCharStream catC: "("];
+      [outputCharStream catC: " '("];
       if (compareFunc == compareIDs)
         [key lispOut: outputCharStream];
       else
