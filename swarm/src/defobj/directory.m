@@ -1105,7 +1105,7 @@ swarm_directory_copy_java_string (JNIEnv *env, jstring javaString)
 {
   jboolean isCopy;
   const char *str = (*env)->GetStringUTFChars (env, javaString, &isCopy);
-  const char *ret = DUPCLASSNAME (str);
+  const char *ret = SSTRDUP (str);
 
   if (isCopy)
     (*env)->ReleaseStringUTFChars (env, javaString, str);

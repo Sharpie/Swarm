@@ -7,6 +7,7 @@
 
 #import <defobj/HDF5Object.h>
 #import <defobj.h> // STRDUP, ZSTRDUP, SSTRDUP, FREEBLOCK, SFREEBLOCK
+#import <defobj/defalloc.h> // getZone
 
 #import <defobj/internal.h> // map_ivars, ivar_ptr
 
@@ -521,8 +522,8 @@ create_class_from_compound_type (id aZone,
       Class newClass = [CreateDrop class];
       id classObj = [id_BehaviorPhase_s createBegin: aZone];
       struct objc_ivar_list *ivars =
-        xmalloc (sizeof (struct objc_ivar_list) +
-                 (count - 1) * sizeof (struct objc_ivar));
+        [aZone alloc: (sizeof (struct objc_ivar_list) +
+                       (count - 1) * sizeof (struct objc_ivar))];
       struct objc_ivar *ivar_list = ivars->ivar_list;
       size_t next_offset, min_offset;
 
@@ -1844,7 +1845,7 @@ hdf5_store_attribute (hid_t did,
   if (c_count != dims[0])
     raiseEvent (LoadError, "row names vector different size from table");
 
-  buf = xmalloc (sizeof (const char *) * c_count);
+  buf = [getZone (self) alloc: sizeof (const char *) * c_count];
 
   if (H5Aread (aid, memtid, buf) < 0)
     raiseEvent (LoadError, "could not get row names vecotr");
