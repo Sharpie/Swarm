@@ -1,5 +1,15 @@
 2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* Averager.h: Add getLocImp, nextImp, addImp, and callImp for
+	predispatched methods.  Add totalCount.
+	
+	* Averager.m: Use totalCount for moving average & variance
+	computations and count for normal average & variance.
+	([Averager -createEnd]): Setup new ivars above.	
+	([Averager -update]): Remove zero length check.
+	Remove maWidth check, instead discriminating between count
+	and totalCount.  Use NEXT, GETLOC, ADD, and CALL macros.
+
 	* Makefile.am (INCLUDES): Add FFIINCLUDES.
 
 	* ActiveGraph.m: Include DefObject.h.

@@ -3,10 +3,15 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <collections.h>
 #import <analysis/Averager.h>
-#import <defobj/defalloc.h> // getZone
+#import <collections.h>
+#import <defobj/defalloc.h> // getZone, getCZone
 #include <misc.h> // sqrt
+
+#define NEXT(index) nextImp(index, M(next))
+#define GETLOC(index) ((id) getLocImp (index, M(getLoc)))
+#define ADD(val) addImp (self, M(addValueToAverage:), val)
+#define CALL(target) callImp (self, M(doubleDynamicCallOn:), target)
 
 @implementation Averager
 
@@ -30,6 +35,10 @@ PHASE(Creating)
 
   total = 0.0;
   totalSquared = 0.0;
+  count = 0;
+  totalCount = 0;
+  min = 0.0;
+  max = 0.0;
 
   if (target == nil)
     raiseEvent (InvalidCombination, "Averager created without a target\n");
@@ -53,6 +62,19 @@ PHASE(Creating)
       maTotal = 0.0;
       maTotalSquared = 0.0;
     }
+
+
+  {
+    id protoIndex = [target begin: getCZone (getZone (self))];
+
+    nextImp = [protoIndex methodFor: M(next)];
+    getLocImp = [protoIndex methodFor: M(getLoc)];
+    
+    [protoIndex drop];
+  }
+  callImp = [self methodFor: M(doubleDynamicCallOn:)];
+  addImp = [self methodFor: M(addValueToAverage:)];
+  
   setMappedAlloc (self);
   return [super createEnd];
 }
@@ -66,7 +88,7 @@ PHASE(Using)
   total += v;
   totalSquared += v * v;
 
-  if (count == 0)
+  if (totalCount == 0)
     max = min = v;
   else
     {
@@ -77,15 +99,15 @@ PHASE(Using)
     }
   if (maWidth > 0)
     {
-      if (count < maWidth)
+      if (totalCount < maWidth)
         {
           maTotal += v;
           maTotalSquared += v * v;
-          maData[count] = v;
+          maData[totalCount] = v;
         }
       else
         {
-          unsigned maPos = count % maWidth;
+          unsigned maPos = totalCount % maWidth;
           double obsolete = maData[maPos];
       
           maTotal = maTotal - obsolete + v; 
@@ -96,39 +118,30 @@ PHASE(Using)
         }
     }
   count++;
+  totalCount++;
 }
 
 - (void)update
 {
   if (isList)
     {
-      if (maWidth == 0)
-        {
-          count = 0;
-          total = 0.0;
-          totalSquared = 0.0;
-        }
-      
-      // special case empty collection.
-      if ([target getCount] == 0)
-        {
-          min = 0;
-          max = 0;
-          return;
-        }
+      count = 0;
+      total = 0.0;
+      totalSquared = 0.0;
+      min = max = 0.0;
       
       {
         id <Index> iter;
         id obj;
         
-        iter = [target begin: scratchZone];
-        for (obj = [iter next]; [iter getLoc] == Member; obj = [iter next])
-          [self addValueToAverage: [self doubleDynamicCallOn: obj]];
+        iter = [target begin: getCZone (getZone (self))];
+        for (obj = NEXT (iter); GETLOC (iter) == (id) Member; obj = NEXT (iter))
+          ADD (CALL (obj));
         [iter drop];
       }
     }
   else
-    [self addValueToAverage: [self doubleDynamicCallOn: target]];
+    ADD (CALL (target));
 }
 
 - (double)getAverage
@@ -141,10 +154,10 @@ PHASE(Using)
 
 - (double)getMovingAverage
 {
-  if (count  == 0)
+  if (totalCount == 0)
     return 0.0;
 
-  return maTotal / ((count < maWidth) ? count : maWidth);
+  return maTotal / ((totalCount < maWidth) ? totalCount : maWidth);
 }
 
 
@@ -159,10 +172,10 @@ PHASE(Using)
 - (double)getMovingVariance
 {
   double movingMean = [self getMovingAverage];
-  double actualCount = (count < maWidth) ? count : maWidth;
+  double actualCount = (totalCount < maWidth) ? totalCount : maWidth;
 
   return (((double) actualCount / ((double) (actualCount - 1))) * 
-          (maTotalSquared / (double) count - movingMean * movingMean));
+          (maTotalSquared / (double) totalCount - movingMean * movingMean));
 }
 
 - (double)getStdDev

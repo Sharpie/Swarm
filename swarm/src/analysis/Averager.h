@@ -13,7 +13,7 @@
 {
   double total, totalSquared; 
   double max, min;
-  unsigned count;
+  unsigned count, totalCount;
   id target;
   BOOL isList;
 
@@ -21,6 +21,11 @@
   double maTotal;
   double maTotalSquared;
   double *maData;
+
+  IMP nextImp;
+  IMP getLocImp;
+  IMP callImp;
+  IMP addImp;
 }
 
 - setCollection: aCollection;
