@@ -20,9 +20,9 @@
 
 @interface HDF5CompoundType_c: CreateDrop_s
 {
-  const char *name;
   Class class;
 @public
+  const char *name;
 #ifdef HAVE_HDF5
   hid_t tid;
 #endif
@@ -87,6 +87,7 @@
 - shallowLoadObject: obj;
 - shallowStoreObject: obj;
 
+- loadDatasetToIvar: obj;
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 
 - iterate: (int (*) (id hdf5Obj))iterateFunc;

@@ -1045,6 +1045,37 @@ hdf5_store_attribute (hid_t did,
   return self;
 }
 
+- loadDatasetToIvar: obj
+{
+  hid_t sid, tid;
+  struct objc_ivar *ivar;
+  void *ptr;
+  const char *componentName = [self getName];
+
+  if ((ivar = find_ivar (obj, componentName)) == NULL)
+    raiseEvent (LoadError, "could not find ivar `%s' in class `%s'",
+                componentName, [obj name]);
+
+  ptr = (void *) obj + ivar->ivar_offset;
+
+  if ((sid = H5Dget_space (loc_id)) < 0)
+    raiseEvent (LoadError, "cannot get dataset space");
+
+  if ((tid = H5Dget_type (loc_id)) < 0)
+    raiseEvent (LoadError, "cannot get dataset type");
+
+  if (H5Dread (loc_id, tid, sid, sid, H5P_DEFAULT, ptr) < 0)
+    raiseEvent (LoadError, "cannot read dataset");
+  
+  if (H5Tclose (tid) < 0)
+    raiseEvent (LoadError, "cannot close dataset type");
+
+  if (H5Sclose (sid) < 0)
+    raiseEvent (LoadError, "cannot close dataset space");
+  
+  return self;
+}
+
 - selectRecord: (unsigned)recordNumber
 {
 #ifdef HAVE_HDF5
@@ -1102,7 +1133,8 @@ check_alignment (id obj, id compoundType)
   
   if (tid_size + offset != class->instance_size)
     raiseEvent (InternalError,
-                "tid_size + offset != instance_size (%x + %x != %x)",
+                "%s/%s tid_size + offset != instance_size (%x + %x != %x)",
+                [obj getTypeName], ((HDF5CompoundType_c *)compoundType)->name,
                 tid_size, offset, class->instance_size);
   return (void *) obj + offset;
 }

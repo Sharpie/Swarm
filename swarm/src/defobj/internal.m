@@ -225,6 +225,27 @@ map_ivars (struct objc_ivar_list *ivars,
     }
 }
 
+struct objc_ivar *
+find_ivar (id obj, const char *name)
+{
+  Class class = [obj class];
+  struct objc_ivar_list *ivars = class->ivars;
+
+  if (ivars)
+    {
+      unsigned i, ivar_count = ivars->ivar_count;
+      struct objc_ivar *ivar_list = ivars->ivar_list;
+
+      for (i = 0; i < ivar_count; i++)
+        {
+          if (strcmp (ivar_list[i].ivar_name, name) == 0)
+            return &ivars->ivar_list[i];
+        }
+      return NULL;
+    }
+  return NULL;
+}
+
 #if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 8)) && (__GNUC__ > 2)
 id
 nil_method (id receiver, SEL op, ...)

@@ -1110,26 +1110,6 @@ lisp_output_type (const char *type,
   return self;
 }
 
-static struct objc_ivar *
-find_ivar (id obj, const char *name)
-{
-  struct objc_ivar_list *ivars = getClass (obj)->ivars;
-
-  if (ivars)
-    {
-      unsigned i, ivar_count = ivars->ivar_count;
-      struct objc_ivar *ivar_list = ivars->ivar_list;
-
-      for (i = 0; i < ivar_count; i++)
-        {
-          if (strcmp (ivar_list[i].ivar_name, name) == 0)
-            return &ivars->ivar_list[i];
-        }
-      return NULL;
-    }
-  return NULL;
-}
-
 - lispIn: expr
 {
   id <Index> li = [expr begin: [expr getZone]];
@@ -1219,7 +1199,7 @@ find_ivar (id obj, const char *name)
     {
       if ([hdf5Obj getCompoundType] == nil)
         raiseEvent (LoadError,
-                    "all shallow datasets are expected to have compound type");
+                    "shallow datasets are expected to have compound type");
 
       [hdf5Obj shallowLoadObject: self];
     }
@@ -1229,6 +1209,7 @@ find_ivar (id obj, const char *name)
         {
           if ([component getDatasetFlag])
             {
+              [component loadDatasetToIvar: self];
               printf ("%s got primitive [%s]\n",
                       [self getTypeName],
                       [component getName]);

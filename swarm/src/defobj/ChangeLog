@@ -1,3 +1,14 @@
+1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* HDF5Object.[hm], defobj.h ([HDF5_c -loadDatasetToIvar:]): New
+	method.
+
+	* HDF5Object.h (HDF5CompoundType_c): Make name public.
+
+	* internal.m (find_ivar): Moved from DefObject.m.
+
+	* DefClass.m (addVariable): Duplicate type and name.
+
 1999-01-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* HDF5Object.[hm], defobj.h ([HDF5_c -storeComponentTypeName:]):
