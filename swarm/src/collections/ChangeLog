@@ -1,5 +1,10 @@
 1999-06-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Collection.m (indexAtOffset): Adjust loop logic to avoid
+	negative numbers.
+
+	* List_GEN.m ([TINDEX -setOffset:]): Likewise.
+
 	* Permutation.[hm] ([PermutationItem_c -setPosition:],
 	[PermutationItem_c -getPosition]): Make position unsigned.
 

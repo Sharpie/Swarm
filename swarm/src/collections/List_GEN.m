@@ -582,7 +582,8 @@ PHASE(Using)
     raiseEvent (OffsetOutOfRange, nil);
   link = (link_t) Start;
   position = 0;
-  for (; offset >= 0; offset--)
+  [self next];
+  for (; offset > 0; offset--)
     [self next];
   return [self get];
 }

@@ -108,7 +108,7 @@ indexAtOffset (Collection_any *self, unsigned offset)
 
   if (offset >= self->count)
     raiseEvent (OffsetOutOfRange, nil);
-  for (index = [(id) self begin: scratchZone]; offset >= 0; offset--)
+  for (offset++, index = [(id) self begin: scratchZone]; offset > 0; offset--)
     [index next];
   return index;
 }
