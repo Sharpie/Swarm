@@ -34,7 +34,7 @@
 - setTitle: (const char *)aTitle;
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
-- setGraphWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 - createEnd;
 
 - getGraph;

@@ -54,7 +54,7 @@ const char graphColors[NUMCOLORS][16] ={"Red", "Green", "Yellow",
   return self;
 }
 
-- setGraphWindowGeometryRecordName : (const char *)windowGeometryRecordName
+- setWindowGeometryRecordName : (const char *)windowGeometryRecordName
 {
   graphWindowGeometryRecordName = windowGeometryRecordName;
   return self;
