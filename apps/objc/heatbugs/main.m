@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools.h>                // ... for initSwarm() and swarmGUIMode
+#import <simtools/Archiver.h>
 #import "HeatbugObserverSwarm.h"
 #import "HeatbugBatchSwarm.h"
 
@@ -22,8 +23,14 @@ main(int argc, char ** argv) {
   // typed heatbugs -batchmode. Otherwise, it's set to 0.
   
   if (swarmGUIMode == 1)
-    // We've got graphics, so make a full ObserverSwarm to get GUI objects
-    theTopLevelSwarm = [HeatbugObserverSwarm create: globalZone];
+    {
+      // We've got graphics, so make a full ObserverSwarm to get GUI objects
+      theTopLevelSwarm = [HeatbugObserverSwarm createBegin: globalZone];
+      // Tell Swarm to remember where you positioned the controlPanel (using
+      // the key "controlPanel").
+      [theTopLevelSwarm setControlPanelGeometryRecordName : "controlPanel"];
+      theTopLevelSwarm = [theTopLevelSwarm createEnd];
+    }
   else
     // No graphics - make a batchmode swarm and run it.
     theTopLevelSwarm = [HeatbugBatchSwarm create: globalZone];

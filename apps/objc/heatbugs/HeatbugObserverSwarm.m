@@ -60,7 +60,8 @@
 // fairly complicated because we build a fair number of widgets. It's
 // also a good example of how to use the display code.
 
--buildObjects {
+-buildObjects
+{
   id modelZone;					  // zone for model.
   int i;
 
@@ -76,9 +77,14 @@
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
 
-  [probeDisplayManager createProbeDisplayFor: heatbugModelSwarm];
-  [probeDisplayManager createProbeDisplayFor: self];
+  // The setWindowGeometryRecordName argument enables Swarm to archive
+  // the positions and sizes of the windows for later use.
 
+  [probeDisplayManager createProbeDisplayFor: heatbugModelSwarm
+                       setWindowGeometryRecordName : "heatbugModelSwarm"];
+  [probeDisplayManager createProbeDisplayFor: self
+                       setWindowGeometryRecordName: "observerSwarm"];
+  
   // Instruct the control panel to wait for a button event: we halt here
   // until someone hits a control panel button so the user can get a
   // chance to fill in parameters before the simulation runs
@@ -117,8 +123,10 @@
   [[heatbugModelSwarm getHeatbugList] forEach: M(setBugColor:) : (void *) 64];
   
   // Next, create a 2d window for display, set its size, zoom factor, title.
-
-  worldRaster = [ZoomRaster create: [self getZone]];
+  
+  worldRaster = [ZoomRaster createBegin: [self getZone]];
+  [worldRaster setWindowGeometryRecordName : "worldRaster"];
+  worldRaster = [worldRaster createEnd];
   [worldRaster setColormap: colormap];
   [worldRaster setZoomFactor: 4];
   [worldRaster setWidth: [[heatbugModelSwarm getWorld] getSizeX]
@@ -153,6 +161,7 @@
   // Create the graph widget to display unhappiness.
 
   unhappyGraph = [EZGraph createBegin: [self getZone]];
+  [unhappyGraph setGraphWindowGeometryRecordName : "graphWindow"];
   [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
   [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
   unhappyGraph = [unhappyGraph createEnd] ;
