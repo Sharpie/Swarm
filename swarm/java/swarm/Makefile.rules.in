@@ -9,7 +9,11 @@ JAVACLASSES=@JAVACLASSES@
 JAVAC=@JAVAC@
 JAVACOMPILE=$(JAVAC) -classpath '..@PATHDELIM@..@PATHSEP@$(JAVACLASSES)'
 top_dossrcdir=@top_dossrcdir@
-JAVADEPS = $(top_dossrcdir)@PATHDELIM@java
+ifneq ($(top_dossrcdir),.)
+JAVADEPS = $(top_dossrcdir)@PATHDELIM@java@PATHDELIM@JavaDeps.jar
+else
+JAVADEPS = ..@PATHDELIM@..@PATHDELIM@JavaDeps.jar
+endif
 
 # (WebObjects sh.exe has been known to interfere with running its java.exe)
 SHELL = /bin/sh

@@ -1,3 +1,8 @@
+1999-08-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules.in (JAVADEPS): Switch to JavaDeps.jar and handle
+	case of "srcdir=.".
+
 1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Globals.java.in: Rename from Globals.java to allow
