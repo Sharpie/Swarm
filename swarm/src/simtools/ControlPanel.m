@@ -7,6 +7,7 @@
 #import <simtools.h>
 #import <simtools/ControlPanel.h>
 #import <simtools/Archiver.h>
+#import <simtools/global.h>
 #import <tkobjc/control.h>
 
 // Rudimentary control panel. A lot of the work for making this useful
@@ -15,9 +16,6 @@
 
 id ControlStateRunning, ControlStateStopped;
 id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
-
-@class ProbeDisplayManager;
-extern ProbeDisplayManager *probeDisplayManager;
 
 @implementation ControlPanel
 -createEnd {
