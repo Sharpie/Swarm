@@ -79,7 +79,7 @@ PHASE(Creating)
 
 - setProbe: (id <Probe>)theProbe
 {
-  myProbe = (id <MessageProbe>) (void *) theProbe;
+  myProbe = (id <MessageProbe>) theProbe;
 
   return self;
 }

@@ -41,7 +41,6 @@ externvar id Creating, Setting, Using, CreatingOnly, UsingOnly;
 // Customize_s -- superclass impleemntation of create-phase customization
 //
 @interface Customize_s: Object_s
-+ createBegin: aZone;
 /*** methods in Customize_s (inserted from .m file by m2h) ***/
 + customizeBegin: aZone;
 - customizeEnd;
