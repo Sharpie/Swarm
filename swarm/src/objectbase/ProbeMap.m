@@ -270,7 +270,7 @@ PHASE(Creating)
 - (void)addJavaFields: (jclass)javaClass
 {
   jarray fields;
-  jsize fieldCount;
+  jsize fieldCount, i;
 
   if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
                                               javaClass,
@@ -279,12 +279,11 @@ PHASE(Creating)
 
   fieldCount = (*jniEnv)->GetArrayLength (jniEnv, fields);
 
-  while (fieldCount > 0)
+  for (i = 0; i < fieldCount; i++)
     {
       jobject field;
       
-      fieldCount--;
-      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, fieldCount);
+      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
       if (java_field_usable_p (field))
 	{
 	  jstring name;
@@ -318,15 +317,14 @@ PHASE(Creating)
   
   if (methodCount)
     {
-      while (methodCount > 0)
+      jsize i;
+
+      for (i = 0; i < methodCount; i++)
         {
 	  jobject method;
           
-          methodCount--;
-            
-	  method = (*jniEnv)->GetObjectArrayElement (jniEnv,
-                                                     methods,
-                                                     methodCount);
+	  method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, i);
+
 	  if (java_method_usable_p (method))
 	    {
               SEL sel;

@@ -1,5 +1,8 @@
 2001-01-29  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* ProbeMap.m ([ProbeMap -addJavaFields:]): Reverse order.
+	([ProbeMap -addJavaMethods:]): Likewise.
+
 	* VarProbe.m (convert_from_string): Handle true/false and
 	failing that, try casting the numeric value.  (Backward compatibility.)
 	([VarProbe -probeAsString:Buffer:withFullPrecision:]): In the 
