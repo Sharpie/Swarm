@@ -9,7 +9,8 @@
 	mgd-PSU-GNU/Linux, and mgd-PSU-Irix5 configurations.
 	Remove -lffi for FFLIB in SFI-NT, alex-SFI-Solaris,
 	and mgd-SFI-Solaris configs; it will be defined later by default.
-	Add -R directive to EXTRALDFLFAGS for $(FFLIBDIR) in these configs.
+	Add -R directive to EXTRALDFLFAGS for $(FFLIBDIR) in these configs,
+	except for SFI-NT.
 	(FFPREFIX): Set FFPREFIX for mgd-PSU-GNU/Linux differently
 	in glibc/libc1 cases, set for mgd-SFI-GNU/Linux.
 	Use {TCL,TK}PREFIX where applicable.
