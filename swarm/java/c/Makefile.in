@@ -58,7 +58,6 @@ endif
 
 install-la: all
 	$(LIBTOOL) --mode=install $(INSTALL) $(_LIBJAVASWARM_LA) $(libdir)
-	$(LIBTOOL) --mode=install $(INSTALL) $(_LIBJAVASWARMSTUBS_LA) $(libdir)
 	$(LIBTOOL) --mode=finish $(libdir)
 
 install-dll: all
@@ -68,7 +67,7 @@ install-dll: all
 	cat $(addsuffix .m,$($*_creatable_PROTOCOLS)) > $*_stubs.m
 
 $(_LIBJAVASWARMSTUBS_LA): $(libjavaswarmstubs_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir) $^
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) $^
 
 $(_LIBJAVASWARM_LA): $(_LIBJAVASWARMSTUBS_LA) $(libjavaswarm_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(libdir) $(libjavaswarm_la_OBJECTS) $(_LIBJAVASWARMSTUBS_LA) -L$(abs_top_builddir)/src $(SWARMLIBS) -lobjc

@@ -1,3 +1,9 @@
+2001-11-24  Marcus G. Daniels  <mgd@condor>
+
+	* Makefile.in ($(_LIBJAVASWARMSTUBS_LA)): Remove -rpath; make it a
+	convenience library.
+	(install-la): Remove installation of stubs shared library.
+
 2001-07-23    <mgd@HELEN>
 
 	* Makefile.in ($(JAVASWARM_DLL)): Remove FFILIB and manually specify
