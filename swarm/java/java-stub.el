@@ -35,6 +35,8 @@
       ("Color" . "byte")
       ("Class" . "Class")
 
+      ("compare_t" . freaky)
+
       ("void \\*" . freaky)
       ("ref_t" . freaky)
       ("val_t" . freaky)
@@ -51,7 +53,6 @@
       ("BOOL \\*" . freaky)
       ("Class" . freaky)
       ("FILE \\*" . freaky)
-      ("compare_t" . freaky)
       ("func_t" . freaky)
       ("unsigned \\*" . freaky)
       ("IMP" . freaky)
@@ -74,19 +75,87 @@
       ))
 
 (defconst *removed-protocols* '("CREATABLE"
-                                "InputStream"
+                                "RETURNABLE"
+                                
+                                ;; problematic types
+                                "Arguments"
+
+                                ;; should be done by archiver
                                 "ArchiverKeyword"
                                 "ArchiverArray"
                                 "ArchiverValue"
                                 "ArchiverPair"
+                                "InputStream"
                                 "OutputStream"
                                 "HDF5"
                                 "HDF5CompoundType"
+
+                                ;; deprecated
                                 "InFile"
                                 "OutFile" 
                                 "AppendFile"
-                                "Arguments"
+                                "ObjectSaver"
+                                "ObjectLoader"
+                                
+                                ;; weird / broken collections
+                                "Set"
+                                "OrderedSet"
+                                "_Set"
+
+                                ;; objectbase creatable
+                                "CustomProbeMap"
+                                "CompleteProbeMap"
+                                "CompleteVarMap"
+
+                                ;; objectbase non-creatable
+                                "ProbeConfig"
+
+                                ;; gui creatable
+                                "Frame"
+                                "Canvas"
+                                "ProbeCanvas"
+                                "Label"
+                                "ClassDisplayLabel"
+                                "VarProbeLabel"
+                                "CompleteProbeDisplayLabel"
+                                "Button"
+                                "ClassDisplayHideButton"
+                                "SimpleProbeDisplayHideButton"
+                                "SuperButton"
+                                "Entry"
+                                "MessageProbeEntry"
+                                "VarProbeEntry"
+                                "ButtonPanel"
+                                "Form"
+                                "CheckButton"
+                                "CanvasItem"
+                                "NodeItem"
+                                "LinkItem"
+                                "ScheduleItem"
+                                "OvalNodeItem"
+                                "RectangleNodeItem"
+                                "TextItem"
+                                "Circle"
+                                "Rectangle"
+                                "Line"
+                                
+                                ;; gui non-creatable
+                                "Widget"
+                                "WindowGeometryRecord"
+                                "ArchivedGeometryWidget"
+                                "GraphElement"
+                                "InputWidget"
+                                "CompositeItem"
+
+                                ;; simtoolsgui non-creatable
+                                "WindowGeometryRecordName"
+                                "CompositeWindowGeometryRecordName"
+                                "GUIComposite"
+                                "MessageProbeWidget"
+                                "MultiVarProbeWidget"
                                 ))
+
+(defconst *removed-modules* '())
 
 (defconst *removed-methods* 
     '("-getClass" ; conflict with Java
@@ -166,12 +235,10 @@
       ;; ActionCall
       "-getFunctionPointer" ; func_t return
 
-      ;; Probe
+      ;; VarProbe
       "-probeRaw:" ; void* return
       "-probeAsPointer:" ; void* return
       "-setData:To:" ; void* parameter
-
-      ;; VarProbe
       "-getDims" ; unsigned * return; removal of this method 
 		 ; makes all array methods unusable
       "-iterateAsDouble:using:" ; array iterator
@@ -203,29 +270,6 @@
       "-getCurrentSegment:" ; unsigned long long return
       "-getInitialSeeds" ; unsigned* return
 
-      ;; InputWidget
-      "-linkVariableBoolean:" ; BOOL* parameter
-      "-linkVariableInt:" ; int* parameter
-      "-linkVariableDouble:" ; double* parameter
-
-      ;; Form
-      "-addLineName:Boolean:" ; BOOL* parameter
-      "-addLineName:Int:" ; int* parameter
-      "-addLineName:Double:" ; double* parameter
-
-      ;; Histogram
-      "-setLabels:count:" ; const char * const * parameter
-      "-setColors:count:" ; const char * const * parameter
-      "-drawHistogramWithInt:" ; int * parameter
-      "-drawHistogramWithInt:atLocations:" ; int*, double* parameters
-      "-drawHistogramWithDouble:" ; double * parameter
-      "-drawHistogramWithDouble:atLocations:" ; double * parameter
-
-      ;; Colormap
-      "-map" ; PixelValue * return
-      "-black" ; PixelValue return
-      "-white" ; PixelValue return
-
       ;; EZBin
       "-getDistribution" ; int* return
 
@@ -246,6 +290,30 @@
 
       ;; ActionTo
       "-getMessageSelector"
+
+
+      ;; InputWidget
+      "-linkVariableBoolean:" ; BOOL* parameter
+      "-linkVariableInt:" ; int* parameter
+      "-linkVariableDouble:" ; double* parameter
+      
+      ;; Form
+      "-addLineName:Boolean:" ; BOOL* parameter
+      "-addLineName:Int:" ; int* parameter
+      "-addLineName:Double:" ; double* parameter
+
+      ;; Histogram
+      "-setLabels:count:" ; const char * const * parameter
+      "-setColors:count:" ; const char * const * parameter
+      "-drawHistogramWithInt:" ; int * parameter
+      "-drawHistogramWithInt:atLocations:" ; int*, double* parameters
+      "-drawHistogramWithDouble:" ; double * parameter
+      "-drawHistogramWithDouble:atLocations:" ; double * parameter
+
+      ;; Colormap
+      "-map" ; PixelValue * return
+      "-black" ; PixelValue return
+      "-white" ; PixelValue return
       ))
 
 (defun method-in-protocol-p (protocol method)
@@ -468,7 +536,8 @@
     (not first)))
 
 (defun removed-protocol-p (protocol)
-  (find (protocol-name protocol) *removed-protocols* :test #'string=))
+  (or (find (module-sym (protocol-module protocol)) *removed-modules*)
+      (find (protocol-name protocol) *removed-protocols* :test #'string=)))
 
 (defun included-protocol-list (protocol)
   (remove-if #'removed-protocol-p 
@@ -477,9 +546,20 @@
 (defun the-CREATABLE-protocol-p (protocol)
   (string= (protocol-name protocol) "CREATABLE"))
 
+(defun the-RETURNABLE-protocol-p (protocol)
+  (string= (protocol-name protocol) "RETURNABLE"))
+
 (defun creatable-p (protocol)
   (member-if #'the-CREATABLE-protocol-p
              (protocol-included-protocol-list protocol)))
+
+(defun returnable-p (protocol)
+  (member-if #'the-RETURNABLE-protocol-p
+             (protocol-included-protocol-list protocol)))
+
+(defun real-class-p (protocol)
+  (or (returnable-p protocol)
+      (creatable-p protocol)))
 
 (defun java-print-implemented-protocols (protocol phase separator interface)
   (if interface
@@ -554,28 +634,27 @@
           (insert (caddr (cdr name.argument))))
     (insert "); }\n")))
 
-(defun java-print-basic-class-constructor (protocol)
+(defun java-print-basic-constructor (protocol)
   (insert "public ")
   (insert (java-class-name protocol :using))
   (insert " () { super (); }\n"))
 
-(defun java-print-class-constructors (protocol)
-  (java-print-basic-class-constructor protocol)
+(defun java-print-convenience-constructors (protocol)
   (loop for method in (collect-convenience-create-methods protocol)
         do (java-print-class-constructor-method protocol method)))
 
 (defun java-print-nextphase-class-constructor (protocol)
   (insert "public ")
   (insert (java-class-name protocol :creating))
-  (insert " (Object nextPhase) { super(); this.nextPhase = nextPhase; }\n")
+  (insert " (Object nextPhase) { super (); this.nextPhase = nextPhase; }\n")
   (insert "public ")
   (insert (java-class-name protocol :creating))
-  (insert " () {super();}\n"))
+  (insert " () {super ();}\n"))
 
 (defun java-print-class-phase (protocol phase)
   (java-print-javadoc-protocol protocol)
   (insert "public ")
-  (unless (creatable-p protocol)
+  (unless (real-class-p protocol)
     (insert "abstract "))
   (insert "class ")
   (insert (java-class-name protocol phase))
@@ -592,10 +671,14 @@
   (insert " {\n")
   (java-print-class-methods-in-phase protocol phase)
   (java-print-class-methods-in-phase protocol :setting)
-  (cond ((eq phase :using)
-         (java-print-class-constructors protocol))
-        ((eq phase :creating)
-         (java-print-nextphase-class-constructor protocol)))
+  (case phase
+    (:using
+     (java-print-basic-constructor protocol)
+     (when (creatable-p protocol)
+       (java-print-convenience-constructors protocol)))
+    (:creating
+     (when (creatable-p protocol)
+       (java-print-nextphase-class-constructor protocol))))
   (insert "}\n"))
 
 (defun java-print-interface-phase (protocol phase)
@@ -918,7 +1001,7 @@
           (insert "_noncreatable_PROTOCOLS =")
           (loop for obj in protocol-list
                 when (and (protocol-p obj)
-                          (not (creatable-p obj))
+                          (not (real-class-p obj))
                           (not (removed-protocol-p obj)))
                 do
                 (insert " ")
@@ -928,7 +1011,7 @@
           (insert "_creatable_PROTOCOLS =")
           (loop for obj in protocol-list
                 when (and (protocol-p obj)
-                          (creatable-p obj)
+                          (real-class-p obj)
                           (not (removed-protocol-p obj)))
                 do
                 (insert " ")
@@ -979,7 +1062,7 @@
         do
         (setq *last-protocol* protocol)
         (java-print-interface protocol)
-        (when (creatable-p protocol)
+        (when (real-class-p protocol)
           (java-print-class protocol)
           (java-print-native-class protocol))))
 
@@ -1003,7 +1086,7 @@
         do
         (setq *last-protocol* protocol)
         (java-print-interface protocol)
-        (when (creatable-p protocol)
+        (when (real-class-p protocol)
           (java-print-class protocol))))
 
 (defun java-run-all-unicode ()

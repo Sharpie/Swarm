@@ -37,7 +37,7 @@ public class SwarmEnvironment {
   public native ScheduleActivityImpl getCurrentScheduleActivity();
   public native ActivityImpl getCurrentOwnerActivity ();
   public native ActionImpl getCurrentAction ();
-  public native ActivityImpl getCurrentActivity();
+  public native ActivityImpl getCurrentActivity ();
   
   public native Object createProbeDisplay (Object anOjbect);
   public native Object createCompleteProbeDisplay (Object anObject);

@@ -1,3 +1,22 @@
+1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*removed-protocols*): Disable most of gui library,
+	and some stuff in objectbase and simtoolsgui.
+	(*removed-modules*, removed-protocol-p): Add support for disabling
+	whole modules.
+	(the-RETURNABLE-protocol-p): New function
+	(returnable-p): New function, use function above.
+	(real-class-p): Likewise.
+	(java-print-class-phase, java-print-makefiles,
+	java-print-makefiles, java-print-classes, java-run-all-javadoc):
+	Use it.
+	(java-print-convenience-constructors): Renamed from
+	java-print-class-constructors.  Remove call to
+	java-print-basic-class-constructor.
+	(java-print-class-phase): Always print basic constructor, and print
+	convenience and nextphase constructors when creatable (using and
+	creating phase respective).  
+
 1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-protocols*): Add OutFile and AppendFile.
