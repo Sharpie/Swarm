@@ -501,14 +501,16 @@ PHASE(Using)
       if (dim < rank)
         {
           for (i = 0; i < dims[dim]; i++)
-            coord[dim] = i;
-          permute (dim + 1);
+            {
+              coord[dim] = i;
+              permute (dim + 1);
+            }
         }
       else
         {
           unsigned offset = 0;
           unsigned mult = 1;
-          long long val = *(long long *) data;
+          long long val;
           
           offset = coord[rank - 1];
           for (i = rank - 1; i > 0; i--)
@@ -516,6 +518,7 @@ PHASE(Using)
               mult *= dims[i];
               offset += coord[i - 1] * mult;
             }
+          val = ((long long *) data)[offset];
           switch (destType)
             {
             case _C_INT:
