@@ -73,7 +73,8 @@ else
     JAVALIBPATH_VAR=
   elif test -f $jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
-    JAVACLASSES="$datadir/kaffe/Klasses.jar:$datadir/kaffe/pizza.jar"
+    jdkdatadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $jdkdir/bin/kaffe`
+    JAVACLASSES="$jdkdatadir/Klasses.jar:$jdkdatadir/pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
     JAVALIBS='${jdkdir}/lib/kaffe' # count on -rpath for main executable
     JAVACMD='${jdkdir}/libexec/Kaffe'
