@@ -151,8 +151,8 @@ PHASE(Creating)
     {
       aHisto = [Histogram createBegin: getZone (self)];
       [aHisto setBinCount: binCount];
-      aHisto = [aHisto createEnd];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
+      aHisto = [aHisto createEnd];
 
       [aHisto setTitle: title];
       if(xLabel && yLabel) 
