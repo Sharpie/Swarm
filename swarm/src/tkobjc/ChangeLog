@@ -1,3 +1,13 @@
+1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* win32dib.[hc] (dib_line): New function.
+
+	* internal.[hm] (tkobjc_raster_line): New function.
+
+	* Raster.m ([Raster -setColormap:]): If colormap is nil, call erase.
+
+	* Raster.[hm]: New method lineX0:Y0:X1:Y1:Width:Color:.
+
 1998-04-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* testGraph.m, testHistogram.m: Don't include stdio.h, stdlib.h,

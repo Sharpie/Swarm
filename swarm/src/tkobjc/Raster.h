@@ -38,6 +38,7 @@
 - drawPointX: (int)x Y: (int)y Color: (Color)c;
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c;
 - ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Width: (unsigned)width Color: (Color)c;
+- lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Width: (unsigned)width Color: (Color)c;
 - draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
 - drawSelf;
 - erase;

@@ -61,9 +61,6 @@
   tkobjc_raster_createContext (self);
   tkobjc_raster_createPixmap (self);
 
-  // The colormap doesn't exist yet, so don't. -mgd
-  // [self erase];
-  
   return self;
 }
 
@@ -75,10 +72,15 @@
 // This widget won't work without this initialized.
 - setColormap: (id <Colormap>)c
 {
+  if (colormap == nil)
+    [self erase];
+
   colormap = c;
+  
   map = [colormap map];				  // cache this, fast access.
   tkobjc_raster_setBackground (self, [colormap black]);
   tkobjc_raster_setColormap (self);
+
   return self;
 }
 
@@ -117,6 +119,7 @@
 - drawPointX: (int)x Y: (int)y Color: (Color)c
 {
   tkobjc_raster_drawPoint (self, x, y, map[c]);
+
   return self;
 }
 
@@ -125,6 +128,7 @@
 - draw: (id <Drawer>)drawer X: (int)x Y: (int)y
 {
   [drawer drawX: x Y: y];
+
   return self;
 }
 
@@ -132,6 +136,7 @@
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
 {
   tkobjc_raster_fillRectangle (self, x0, y0, x1 - x0, y1 - y0, c);
+
   return self;
 }
 
@@ -139,6 +144,15 @@
       Width: (unsigned)penWidth Color: (Color)c
 {
   tkobjc_raster_ellipse (self, x0, y0, x1 - x0, y1 - y0, penWidth, c);
+
+  return self;
+}
+
+- lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+   Width: (unsigned)penWidth Color: (Color)c
+{
+  tkobjc_raster_line (self, x0, y0, x1, y1, penWidth, c);
+
   return self;
 }
 
@@ -146,6 +160,7 @@
 - drawSelf
 {
   tkobjc_raster_flush (self);
+
   return self;
 }
 

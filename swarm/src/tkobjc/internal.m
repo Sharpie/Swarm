@@ -196,6 +196,26 @@ tkobjc_raster_ellipse (Raster *raster,
 }
 
 void
+tkobjc_raster_line (Raster *raster,
+                    int x0, int y0,
+                    int x1, int y1,
+                    unsigned pixels,
+                    Color color)
+{
+#ifndef _WIN32
+  PixelValue *map = ((Colormap *)raster->colormap)->map;
+  Display *display = Tk_Display (raster->tkwin);
+  GC gc = raster->gc;
+
+  XSetForeground (display, gc, map[color]);
+  XSetLineAttributes (display, gc, pixels, LineSolid, CapButt, JoinRound);
+  XDrawLine (display, raster->pm, gc, x0, y0, x1, y1);
+#else
+  dib_line ((dib_t *)raster->pm, x0, y0, x1, y1, pixels, color);
+#endif
+}
+
+void
 tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 {
   PixelValue *map = ((Colormap *)raster->colormap)->map;

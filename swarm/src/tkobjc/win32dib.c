@@ -221,6 +221,35 @@ dib_ellipse (dib_t *dib,
   dib_unlock (dib);
 }
 
+void
+dib_line (dib_t *dib,
+          int x0, int y0,
+          int x1, int y1,
+          unsigned pixels,
+          unsigned char color)
+{
+  HPEN oldPen, pen;
+  HBRUSH oldBrush;
+  RGBQUAD *rgb = &dib->dibInfo->rgb[color];
+
+  pen = CreatePen (PS_SOLID,
+		   pixels,
+		   RGB (rgb->rgbRed, rgb->rgbGreen, rgb->rgbBlue));
+
+  dib_lock (dib);
+  
+  oldPen = SelectObject (dib->sourceDC, pen);
+  oldBrush = SelectObject (dib->sourceDC, GetStockObject (NULL_BRUSH));
+
+  MoveTo (dib->sourceDC, x0, y1);
+  LineTo (dib->sourceDC, x1, y1);
+  
+  DeleteObject (SelectObject (dib->sourceDC, oldPen));
+  SelectObject (dib->sourceDC, oldBrush);
+
+  dib_unlock (dib);
+}
+
 
 BOOL
 dib_paintBlit (dib_t *dib,
