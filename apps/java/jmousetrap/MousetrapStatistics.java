@@ -9,6 +9,12 @@ import swarm.analysis.*;
 import swarm.space.*;
 import swarm.random.*;
 
+/**
+ * A `helper' class that keeps statistics on the mousetrap world. It
+ * is an object that is model specific, but does not live "in" the
+ * mousetrap model. Counts how many times anything has ever been
+ * triggered, also how many balls are in the air.
+ **/
 public class MousetrapStatistics
 {
   public int numTriggered = 0;

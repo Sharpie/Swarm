@@ -9,6 +9,12 @@ import swarm.analysis.*;
 import swarm.space.*;
 import swarm.random.*;
 
+/**
+ * The MousetrapObserverSwarmImpl is the top-level swarm that watches
+ * and reports on what's happening in the MousetrapModelSwarmImpl. It
+ * is like the lab-bench on which the mousetrap world is located,
+ * along with the various instruments that we construct to monitor
+ * that world. */
 public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 {
     public int displayFrequency;
@@ -38,23 +44,12 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
     {
         super(aZone);
         
-        EmptyProbeMapCImpl iprobeMap;
         EmptyProbeMapImpl probeMap;
         
         displayFrequency = 1;
         nag("Observer: probeMap");
-        probeMap = new EmptyProbeMapImpl ();
-        nag("Observer: iProbeMap");
-        iprobeMap = new EmptyProbeMapCImpl (probeMap);
-        
-        
-        nag("Observer: iProbeMap createBegin");
-        iprobeMap.createBegin (aZone);
-        nag("Observer: iProbeMap setProbedClass");
-        iprobeMap.setProbedClass (this.getClass());
-        nag("Observer: iProbeMap createEnd");
-        iprobeMap.createEnd();
-        
+        probeMap = new EmptyProbeMapImpl (aZone, this.getClass());
+
         nag("Observer: probeMap addProbe\n");
         probeMap.addProbe 
             (Globals.env.probeLibrary.getProbeForVariable$inClass
@@ -102,6 +97,12 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         return this;
     }
 
+
+  /**
+   * Create the objects used in the display of the model.  Here, we
+   * create the objects used in the experiment. Primarily, the
+   * MousetrapModelSwarmImpl instance, itself, but also the various
+   * instrumentation that observes the model.  */
     public Object buildObjects ()
     {
         super.buildObjects();
@@ -201,7 +202,14 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
             displayWindow.drawSelf ();
         return this;
     }
-   
+
+  /**
+   * Create the actions necessary for the simulation. This is where
+   * the schedule is built (but not run!)  Here we create a
+   * displaySchedule - this is used to display the state of the world
+   * and check for user input. This schedule should be thought of as
+   * independent from the model - in particular, you will also want to
+   * run the model without any display.  */
     public Object buildActions ()
     {
         Selector slct;
@@ -244,6 +252,13 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         return this;
     }
 
+  /**
+   * activate the schedules so they're ready to run.  The swarmContext
+   * argument has to do with what we were activated *in*.  Typically
+   * the ObserverSwarm is the top-level Swarm, so it's activated in
+   * "nil". But other Swarms and Schedules and such will be activated
+   * inside of us.
+   **/
     public Object activateIn (Object swarmContext)
     {
         super.activateIn (swarmContext);
@@ -261,15 +276,18 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         return this.getActivity();
     
     }
-
-    public Object checkToStop ()
-    {
-        if (((MousetrapStatistics)mousetrapModelSwarm.getStats()).
-            getNumBalls() == 0)
-            {
-                System.out.println ("All balls have landed!\n");
-                ((ControlPanelImpl)this.getControlPanel()).setStateStopped();
-            }
-        return this;
-    }
+  
+  /**
+   * monitor method - if all the balls have landed, time to quit!
+   **/
+  public Object checkToStop ()
+  {
+    if (((MousetrapStatistics)mousetrapModelSwarm.getStats()).
+        getNumBalls() == 0)
+      {
+        System.out.println ("All balls have landed!\n");
+        ((ControlPanelImpl)this.getControlPanel()).setStateStopped();
+      }
+    return this;
+  }
 }

@@ -9,6 +9,12 @@ import swarm.analysis.*;
 import swarm.space.*;
 import swarm.random.*;
 
+
+/** 
+ * The MousetrapModelSwarmImpl defines the mousetrap world. All of the
+ * structures specific to the model are built and scheduled here.
+ * Observations on the model are built and scheduled in the
+ * MousetrapObserverSwarmImpl */
 public class MousetrapModelSwarmImpl extends SwarmImpl
 {
   public int gridSize;
@@ -46,9 +52,6 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     // in Objective C implementation, this normally goes in a
     // `createBegin' method
     
-    EmptyProbeMapCImpl iepm;
-    EmptyProbeMapImpl fepm = new EmptyProbeMapImpl();
-    
     gridSize = 50;
     triggerLikelihood = 1.0;
     numberOutputTriggers = 2;
@@ -56,43 +59,32 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     maxTriggerTime = 16;
     trapDensity = 1.0;
     
-    nag ("Model: Custom probe map");
-    
-    //    CustomProbeMapImpl probeMap = new CustomProbeMapImpl
-    //      ((ZoneImpl) aZone, this.getClass(), "gridSize", 
-    //      "triggerLikelihood", "numberOutputTriggers", "maxTriggerDistance",
-    //      "maxTriggerTime", "trapDensity", ":", null);
-        
-    iepm = new EmptyProbeMapCImpl (fepm);
-    nag ("Model: Empty probe map create begin");
-    iepm.createBegin (aZone);
-    nag ("Model: probe this");
-    iepm.setProbedClass (this.getClass());
-    nag ("Model: Create End");
-    fepm = (EmptyProbeMapImpl) iepm.createEnd();
+    nag ("Model: EmptyProbeMap");
+    EmptyProbeMapImpl probeMap = new EmptyProbeMapImpl(aZone, this.getClass());
+
     nag ("add probe");
-    fepm.addProbe 
+    probeMap.addProbe 
       (Globals.env.probeLibrary.getProbeForVariable$inClass 
        ("gridSize", this.getClass()));
-    fepm.addProbe 
+    probeMap.addProbe 
       (Globals.env.probeLibrary.getProbeForVariable$inClass 
        ("triggerLikelihood", this.getClass()));
-    fepm.addProbe 
+    probeMap.addProbe 
       (Globals.env.probeLibrary.getProbeForVariable$inClass 
        ("numberOutputTriggers", this.getClass()));
-    fepm.addProbe 
+    probeMap.addProbe 
       (Globals.env.probeLibrary.getProbeForVariable$inClass 
        ("maxTriggerDistance", this.getClass()));
-    fepm.addProbe 
+    probeMap.addProbe 
       (Globals.env.probeLibrary.getProbeForVariable$inClass 
        ("maxTriggerTime", this.getClass()));
-    fepm.addProbe 
+    probeMap.addProbe 
       (Globals.env.probeLibrary.getProbeForVariable$inClass 
        ("trapDensity", this.getClass()));
 
-    Globals.env.probeLibrary.setProbeMap$For (fepm, this.getClass());
+    Globals.env.probeLibrary.setProbeMap$For (probeMap, this.getClass());
 
-    // in Objective C implementation, this normally goes in a
+    // in Objective C implementation, the following normally goes in a
     // `createEnd' method
 
     randomGenerator = 
@@ -147,6 +139,9 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     return (Mousetrap) grid.getObjectAtX$Y (x,y);
   }
 
+  /**
+   * Building of the model objects. We use various parameters set via
+   * the constructor, to choose how to create things. */
   public Object buildObjects()
   {
     int x, y;
@@ -168,6 +163,16 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     return this;
   }
 
+ /** 
+  * Here is where the model schedule is built, the data structures
+  * that define the simulation of time in the model. Here, we
+  * implement *dynamic scheduling* Here is where mousetrap differs
+  * from time-step models like heatbugs.  Mousetrap uses a
+  * discrete-event time-update, so we don't create a regularly
+  * repeated ActionGroupImpl and put it on a schedule.  Instead, we
+  * merely create an empty ScheduleImpl, and let it know that once an
+  * action has been executed, it is to be dropped from the schedule,
+  * by using the (aZone, autoDrop) constructor for ScheduleImpl */
   public Object buildActions ()
   {
     super.buildActions();
@@ -178,7 +183,13 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     stats.addOneBall();
     return this;
   }
-    
+
+  /** 
+   * This is how new actions get added to the schedule. When a
+   * mousetrap triggers, it randomly picks some other "nearby"
+   * mousetraps to trigger. "Triggering" mousetraps simply means to
+   * add a "trigger" action on them to the schedule, inserted at the
+   * proper time in the future.  */
   public Object scheduleTriggerAt$For (int n, Mousetrap trap)
   {
     try {
@@ -190,6 +201,10 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
     return this;
   }
 
+  /**
+   * Now set up the model's activation. swarmContext indicates where
+   * we're being started in - typically, this model is run as a
+   * subswarm of an observer swarm.  */
   public Object activateIn (Object swarmContext)
   {
     super.activateIn (swarmContext);
