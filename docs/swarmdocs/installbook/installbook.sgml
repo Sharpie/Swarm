@@ -3,8 +3,14 @@
 <!entity % global.entities PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
 %global.entities;
 
+<!entity % versions.entities PUBLIC "-//SFI Hive//ENTITIES Versions//EN">
+%versions.entities;
+
 <!entity % install.entities PUBLIC "-//SFI Hive//ENTITIES Install List//EN">
 %install.entities;
+
+<!entity % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
+%figures.entities;
 
 ]>
 

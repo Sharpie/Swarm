@@ -1,4 +1,4 @@
-<ARTICLE ID="SWARM.INSTALLING.INSTALL.ARTICLE">
+<ARTICLE ID="SWARM.INSTALL.INSTALL.ARTICLE">
 <ARTHEADER>
     <TITLE>Installing Swarm</TITLE>
     
@@ -77,8 +77,9 @@
               
               <PARA>gdb is the GNU debugger: Swarm doesn't require
               this, but you will probably want gdb on your system to
-              <LINK LINKEND="DEBUG.SECT">debug programs</LINK>.  Gdb
-              is available on <ULINK URL="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>.</PARA>
+              <LINK LINKEND="SWARM.TECH.SGML.SECT1.DEBUG">debug
+              programs</LINK>.  Gdb is available on <ULINK
+              URL="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>.</PARA>
               
             </FORMALPARA>
             </LISTITEM>
