@@ -1,3 +1,7 @@
+2003-08-11  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* aclibtool.m4: added libtool macros to configure sed.
+
 2003-08-01  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* acffi.m4: restore FFILIB as libtool object.  Previous version
