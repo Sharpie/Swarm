@@ -3,6 +3,7 @@
 	* Makefile.am: Include $(top_srcdir)/etc/Makefile.protocol.
 	Remove protocol compilation rules.
 	(EMACS): Remove addition of {TOP_}BUILDDIR environment here.
+	(Makefile.common): Use ENVEMACS instead of EMACS.
 
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
