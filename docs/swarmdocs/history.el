@@ -138,8 +138,10 @@
                          module-arg
                          (intern (car (last command-line-args)))))
          (swarmhome-changelog-list
-          (parse-changelog (pathname-for-module-sym module-sym "ChangeLog")
-                           (header-filename-for-module-sym module-sym)))
+          (if (member module-sym '(src tech))
+              nil
+              (parse-changelog (pathname-for-module-sym module-sym "ChangeLog")
+                               (header-filename-for-module-sym module-sym))))
          (swarmdocs-changelog-list
           (parse-changelog (pathname-for-swarmdocs module-sym "ChangeLog")))
          (combined-changelog-list (append

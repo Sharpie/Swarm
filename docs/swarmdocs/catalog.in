@@ -1,3 +1,4 @@
 PUBLIC "-//SFI Hive//DOCUMENT DSSSL Common Definitions//EN" @top_srcdir@/common.dsl
 PUBLIC "-//SFI Hive//DOCUMENT DSSSL DocBook Overrides//EN" @top_srcdir@/swarmbook.dsl
+
 SGMLDECL "@top_srcdir@/docbook.dcl"

@@ -42,5 +42,5 @@ _%.tex: %.sgml
 %.htm: %.sgml
 	- $(JADE) $(CATOPTS) -t sgml -ihtml -d $(SWARMBOOK)\#html $<
 
-%revhistory.sgml: ChangeLog $(SWARMHOME)/src/%/ChangeLog $(top_srcdir)/history.el $(top_srcdir)/common.el
+%revhistory.sgml: ChangeLog $(swarm_ChangeLog) $(top_srcdir)/history.el $(top_srcdir)/common.el
 	SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/history.el -f process-changelog $*

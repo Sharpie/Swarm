@@ -1,3 +1,18 @@
+1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* history.el (process-changelog): Handle src and tech.
+
+	* configure.in: Add src/tech/Makefile.
+
+	* common.el (pathname-for-swarmdocs,
+	pathname-for-swarmdocs-revision-output): Handle src.
+
+	* common.dsl: Mirror revhistory elements outside of
+	reference-titlepage-verso-mode.
+
+	* Makefile.rules: Use $(swarm_ChangeLog) instead of
+	$(SWARMHOME)/%/ChangeLog in revhistory rule.
+
 1998-06-04  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* swarmbook.dsl (revhistory, revision): Remove for both backends.

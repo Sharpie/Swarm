@@ -437,16 +437,10 @@
 (define (reference-titlepage-verso-elements)
   (list (normalize "revhistory")))
 
-(mode reference-titlepage-verso-mode
-  (element revhistory
-           (make sequence
-                 ($lowtitlewithsosofo$ 1 (literal "Revision History"))
-                 (process-children)))
-
-  (element (revhistory revision)
-           (let ((revnumber (select-elements (descendants (current-node)) (normalize "revnumber")))
-                 (revdate   (select-elements (descendants (current-node)) (normalize "date")))
-                 (revauthor (select-elements (descendants (current-node)) (normalize "authorinitials")))
+(define ($revision$)
+             (let ((revnumber (select-elements (descendants (current-node)) (normalize "revnumber")))
+                   (revdate   (select-elements (descendants (current-node)) (normalize "date")))
+                   (revauthor (select-elements (descendants (current-node)) (normalize "authorinitials")))
                  (revremark (select-elements (descendants (current-node)) (normalize "revremark"))))
              (make sequence
                    (sosofo-append
@@ -463,17 +457,39 @@
                     (make-linebreak)
                     (process-node-list revremark)
                     (make-linebreak)))))
-  (element (revision revnumber) 
-           ($bold-seq$ (process-children))) 
-  (element (revision date) 
-           ($bold-seq$ (process-children)))
-  (element (revision authorinitials)  
-           ($italic-seq$ (process-children)))
-  (element (revision revremark)
-           (make sequence
-                 font-posture: 'upright
-                 (process-children)))
-  ) 
+
+(define ($revhistory$)
+    (make sequence
+          ($lowtitlewithsosofo$ 1 (literal "Revision History"))
+          (process-children)))
+
+(mode reference-titlepage-verso-mode
+      (element (revhistory revision) ($revision$))
+      (element revhistory ($revhistory$))
+      (element (revision revnumber) 
+               ($bold-seq$ (process-children))) 
+      (element (revision date) 
+               ($bold-seq$ (process-children)))
+      (element (revision authorinitials)  
+               ($italic-seq$ (process-children)))
+      (element (revision revremark)
+               (make sequence
+                     font-posture: 'upright
+                     (process-children)))
+      ) 
+
+(element (revhistory revision) ($revision$))
+(element revhistory ($revhistory$))
+(element (revision revnumber) 
+         ($bold-seq$ (process-children))) 
+(element (revision date) 
+         ($bold-seq$ (process-children)))
+(element (revision authorinitials)  
+         ($italic-seq$ (process-children)))
+(element (revision revremark)
+         (make sequence
+               font-posture: 'upright
+               (process-children)))
 
 
 </style-specification-body>

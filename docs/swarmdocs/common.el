@@ -44,7 +44,9 @@
 
 (defun pathname-for-swarmdocs (module-sym filename)
   (let ((module-name (symbol-name module-sym)))
-    (concat (get-swarmdocs) "src/" module-name "/" filename)))
+    (if (eq module-sym 'src)
+        (concat (get-swarmdocs) "src/" filename)
+        (concat (get-swarmdocs) "src/" module-name "/" filename))))
 
 (defun get-swarmdocs-build-area ()
     (getenv "SWARMDOCS_BUILD_AREA"))
@@ -60,12 +62,15 @@
 
 (defun pathname-for-swarmdocs-revision-output (module-sym)
   (let ((module-name (symbol-name module-sym)))
-    (concat (get-swarmdocs-build-area)
-            "src/"
-            module-name
-            "/"
-            module-name
-            "revhistory.sgml")))
+    (if (eq module-sym 'src)
+        (concat (get-swarmdocs-build-area)
+                "src/srcrevhistory.sgml")
+        (concat (get-swarmdocs-build-area)
+                "src/"
+                module-name
+                "/"
+                module-name
+                "revhistory.sgml"))))
   
 (defun insert-text (text)
   (let ((beg (point)))
