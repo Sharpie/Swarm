@@ -53,7 +53,7 @@ clean:
 	-rm -f $(OBJECTS) $(APPLICATION) $(OTHERCLEAN) core gmon.out
 
 $(APPLICATION): $(OBJECTS)
-	$(LINK) $(OBJECTS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
+	$(LINK) $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
 
 .SUFFIXES: .m .xm
 
