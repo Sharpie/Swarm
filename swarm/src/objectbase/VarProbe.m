@@ -154,6 +154,15 @@ PHASE(Creating)
               memcpy (dims, theDims, size);
               baseType = objc_type_for_fcall_type (theBaseType);
             }
+          char objcArraySubtype = *objc_array_subtype (probedType, NULL);
+          
+          if (objcArraySubtype == _C_UNION_B 
+              || objcArraySubtype == _C_STRUCT_B)
+            raiseEvent (NotImplemented,
+                        "Probing of unions and structs not supported.\n"
+                        "[class: `%s', variable: `%s']\n",
+                        probedClass->name, probedVariable);
+
           objc_process_array (probedType,
                               setup_array,
                               NULL, NULL,
