@@ -10,14 +10,15 @@ Authors:         Manor Askenazi
 Date:            1996-12-12
 */
 
-//D: The objectbase library uses the module definition conventions
-//D: established by the defobj library. It also depends on standard
-//D: supertypes and classes defined by this library.
+//D: The objectbase library contains the most basic objects users need to
+//D: design their agents and swarms. It also serves, at present, as a
+//D: repository for the probe machinery, which is provided for every
+//D: SwarmObject.
 
 #import <activity.h>
 
 //
-//  Swarmobject errors
+//  Objectbase errors
 //
 //id <Error> ReferenceError;  // dangling pointer to removed object
 
