@@ -1,14 +1,14 @@
 1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* win32dib.c (dib_line): Use MoveToEx, not MoveTo.
+	* win32dib.[hc] (dib_line, dib_rectangle): New functions.
 
-	* win32dib.[hc] (dib_line): New function.
-
-	* internal.[hm] (tkobjc_raster_line): New function.
+	* internal.[hm] (tkobjc_raster_line, tkobjc_raster_rectangle): New
+	functions.
 
 	* Raster.m ([Raster -setColormap:]): If colormap is nil, call erase.
 
-	* Raster.[hm]: New method lineX0:Y0:X1:Y1:Width:Color:.
+	* Raster.[hm]: New methods lineX0:Y0:X1:Y1:Width:Color: and
+	rectangleX0:Y0:X1:Y1:.
 
 1998-04-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

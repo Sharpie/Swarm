@@ -216,6 +216,26 @@ tkobjc_raster_line (Raster *raster,
 }
 
 void
+tkobjc_raster_rectangle (Raster *raster,
+                         int x, int y,
+                         unsigned width, unsigned height,
+                         unsigned pixels,
+                         Color color)
+{
+#ifndef _WIN32
+  PixelValue *map = ((Colormap *)raster->colormap)->map;
+  Display *display = Tk_Display (raster->tkwin);
+  GC gc = raster->gc;
+
+  XSetForeground (display, gc, map[color]);
+  XSetLineAttributes (display, gc, pixels, LineSolid, CapButt, JoinRound);
+  XDrawRectangle (display, raster->pm, gc, x, y, width, height);
+#else
+  dib_rectangle ((dib_t *)raster->pm, x, y, width, height, pixels, color);
+#endif
+}
+
+void
 tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color c)
 {
   PixelValue *map = ((Colormap *)raster->colormap)->map;

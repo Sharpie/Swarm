@@ -54,7 +54,11 @@ void tkobjc_raster_line (Raster *raster,
                          int x1, int y1,
                          unsigned pixels,
                          Color color);
-
+void tkobjc_raster_rectangle (Raster *raster,
+                               int x0, int y0,
+                               unsigned width, unsigned height,
+                               unsigned pixels,
+                               Color color);
 void tkobjc_raster_drawPoint (Raster *raster, int x, int y, Color color);
 void tkobjc_raster_createContext (Raster *raster);
 void tkobjc_raster_setBackground (Raster *raster, PixelValue c);
