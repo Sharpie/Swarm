@@ -18,7 +18,7 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  OrderedSet_c  *newOrderedSet;
+  OrderedSet_c *newOrderedSet;
 
   newOrderedSet = [aZone allocIVars: self];
   return newOrderedSet;
@@ -26,8 +26,8 @@ PHASE(Creating)
 
 - createEnd
 {
-  createByCopy( );
-  setNextPhase( self );
+  createByCopy ();
+  setNextPhase (self);
   return self;
 }
 
@@ -35,14 +35,16 @@ PHASE(Using)
 
 - (BOOL) contains: anObject
 {
-  id  index, member;
+  id index, member;
 
   index = [self begin: scratchZone];
-  while ( (member = [index next]) ) if ( member == anObject ) return 1;
-  return 0;
+  while ((member = [index next]))
+    if (member == anObject)
+      return YES;
+  return NO;
 }
 
-- (id *) add: anObject
+- (id *)add: anObject
 {
   [self addLast: anObject];
   return (id *)nil;
