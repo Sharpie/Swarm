@@ -5,9 +5,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <tkobjc.h>
 #include <math.h>
-#include <simtools.h>
+
+#import <tkobjc.h>
+#import <simtools.h>
 
 #import "DiGraphLink.h"
 #import "DiGraphNode.h"
@@ -129,7 +130,8 @@
   return self;
 }
 
--(double) boingStep {
+- (double)boingStep 
+{
 //
 //	This method updates the nodes in
 //	a directed graph using 
@@ -145,7 +147,8 @@
 
   int nedges;
 
-  int i, j, n, h, w, m, posx, posy;
+  int i, j, h, w, m, posx, posy;
+  int n = 0;
   double vx, vy, length, f, dx, dy, dlength;
   id obj, another_obj ;
 

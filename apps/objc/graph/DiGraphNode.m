@@ -3,8 +3,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <tkobjc.h>
-#include <simtools.h>
+
+#import <tkobjc.h>
+#import <simtools.h>
+
 #import <objc/objc-api.h>
 #import <graph.h> 
 

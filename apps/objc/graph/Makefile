@@ -1,4 +1,6 @@
+ifeq ($(SWARMHOME),)
 SWARMHOME=../swarm-1.0.4
+endif
 LIBNAME=graph
 OBJECTS=DiGraph.o DiGraphLink.o DiGraphNode.o graph.o
 HEADERS=DiGraph.h DiGraphLink.h DiGraphNode.h 
