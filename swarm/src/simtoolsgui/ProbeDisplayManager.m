@@ -21,9 +21,7 @@
 
 #import <simtoolsgui.h> // ProbeDisplay, CompleteProbeDisplay
 
-#ifdef HAVE_JDK
-extern Class java_get_swarm_class (id object);
-#endif
+#import <defobj/directory.h> // swarm_directory_get_swarm_class
 
 @implementation ProbeDisplayManager
 PHASE(Creating)
@@ -47,30 +45,31 @@ PHASE(Using)
 
 - dropProbeDisplaysFor: anObject
 {
-  id index, aProbeDisplay ;
-  id reaperQ ;
+  id index, aProbeDisplay;
+  id reaperQ;
   
   // We need a reaperQ because there may be more than one ProbeDisplay
   // on a given object... Also, the object will [removeProbeDisplay: self]
   // when asked to -drop.
   
-  reaperQ = [List create: [self getZone]] ;
+  reaperQ = [List create: [self getZone]];
 
-  index = [probeList begin: [self getZone]] ;
-  while ( (aProbeDisplay = [index next]) )
+  index = [probeList begin: [self getZone]];
+  while ((aProbeDisplay = [index next]))
     if([aProbeDisplay getProbedObject] == anObject)
-      [reaperQ addLast: aProbeDisplay] ;
-  [index drop] ;     
+      [reaperQ addLast: aProbeDisplay];
+  [index drop];
 
-  index = [reaperQ begin: [self getZone]] ;
-  while ( (aProbeDisplay = [index next]) ){
-    [index remove] ;
-    [aProbeDisplay drop] ;  
-  }
-  [index drop] ;     
-  [reaperQ drop] ;
+  index = [reaperQ begin: [self getZone]];
+  while ((aProbeDisplay = [index next]))
+    {
+      [index remove];
+      [aProbeDisplay drop];  
+    }
+  [index drop];     
+  [reaperQ drop];
 
-  return self ;
+  return self;
 }
 
 // just for removing the probe display from the probelist
@@ -85,7 +84,7 @@ PHASE(Using)
   id index;
   id member;
 
-  [probeList forEach: @selector(update)];
+  [probeList forEach: @selector (update)];
 
   // remove marked probeDisplay
 
@@ -116,11 +115,7 @@ PHASE(Using)
 {
   id tempPD, tempPM;
   Class cls;
-#ifdef HAVE_JDK
-  cls = java_get_swarm_class (anObject);
-#else
-  cls =  [anObject class];
-#endif
+  cls = swarm_directory_get_swarm_class (anObject);
   tempPM = [DefaultProbeMap createBegin: [anObject getZone]];
   [tempPM setProbedClass: cls];
   [tempPM setObjectToNotify: [probeLibrary getObjectToNotify]];
@@ -145,11 +140,7 @@ PHASE(Using)
 {
   Class cls;
     
-#ifdef HAVE_JDK
-  cls = java_get_swarm_class (anObject);
-#else
-  cls =  [anObject class];
-#endif
+  cls = swarm_directory_get_swarm_class (anObject);
   if (([anObject respondsTo: @selector(getProbeMap)]) &&
       ([probeLibrary isProbeMapDefinedFor: cls]))
     return [[[[[ProbeDisplay createBegin: [self getZone]]

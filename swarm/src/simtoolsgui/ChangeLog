@@ -1,3 +1,12 @@
+1999-07-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ProbeDisplayManager.m: Import directory.h instead of declaring
+	java_get_swarm_class.  Always use (renamed)
+	swarm_directory_get_swarm_class instead of java_get_swarm_class;
+	remove HAVE_JDK conditionals.
+
+	* Makefile.am (INCLUDES): Add JAVAINCLUDES.
+
 1999-07-27  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* ProbeDisplayManager.m: Rename java_get_class_from_objc_object
