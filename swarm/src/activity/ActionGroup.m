@@ -12,8 +12,6 @@ Library:      activity
 #import <activity/ActionGroup.h>
 #import <defobj/defalloc.h>
 
-#import <defobj/directory.h>
-
 @implementation ActionGroup_c
 
 PHASE(Creating)
