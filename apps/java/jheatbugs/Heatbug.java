@@ -128,7 +128,7 @@ public class Heatbug {
      implemented here. The notion of a "step" method is a nice
      simplification for basic simulations.
   */
-  public Object step () {
+  public void step () {
     long heatHere;
     int newX, newY;
     int tries;
@@ -268,7 +268,6 @@ public class Heatbug {
     }
         
     // all done moving! Return this.
-    return this;
   }
 
   /**

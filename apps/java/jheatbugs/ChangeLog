@@ -1,3 +1,12 @@
+1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugModelSwarm.java: Import {FArguments,FCall}[C]{Impl}.
+	Import FActionForEach instead of ActionForEach.
+	(buildActions): Use FActionForEach with FCall (instead of
+	ActionForEach with a Selector).
+
+	* Heatbug.java (step): Make method a void return.
+
 1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HeatbugObserverSwarm.java: Import java.util.List instead of

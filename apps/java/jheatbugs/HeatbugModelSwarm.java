@@ -8,12 +8,21 @@ import swarm.Selector;
 import swarm.defobj.Zone;
 import swarm.defobj.SymbolImpl;
 
+import swarm.defobj.FArgumentsC;
+import swarm.defobj.FArguments;
+import swarm.defobj.FArgumentsCImpl;
+import swarm.defobj.FArgumentsImpl;
+import swarm.defobj.FCallC;
+import swarm.defobj.FCall;
+import swarm.defobj.FCallCImpl;
+import swarm.defobj.FCallImpl;
+
 import swarm.activity.Activity;
 import swarm.activity.ActionGroup;
 import swarm.activity.ActionGroupImpl;
 import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
-import swarm.activity.ActionForEach;
+import swarm.activity.FActionForEach;
 
 import swarm.objectbase.Swarm;
 import swarm.objectbase.SwarmImpl;
@@ -272,20 +281,28 @@ public class HeatbugModelSwarm extends SwarmImpl
       System.err.println ("Exception stepRule: " + e.getMessage ());
     }
         
-    try {
-      ActionForEach actionForEach;
-
-      Selector sel =
-        new Selector (Class.forName ("Heatbug"), "step", false);
+    {
+      FActionForEach actionForEach;
       
+      FArgumentsC argumentsCreating =
+        new FArgumentsCImpl (new FArgumentsImpl ());
+      argumentsCreating.createBegin (getZone ());
+      argumentsCreating.setJavaSignature ("()V");
+      argumentsCreating.setObjCReturnType ('v');
+      FArguments arguments = (FArguments) argumentsCreating.createEnd ();
+
+      FCallC callCreating = new FCallCImpl (new FCallImpl ());
+      callCreating.createBegin (getZone ());
+      callCreating.setJavaMethod$inObject ("step", heatbugList.get (0));
+      callCreating.setArguments (arguments);
+      FCall call = (FCall) callCreating.createEnd ();
+
       actionForEach =
-        modelActions.createActionForEach$message (heatbugList, sel);
+        modelActions.createFActionForEach$call$setFinalizationFlag
+        (heatbugList, call, true);
 
       if (randomizeHeatbugUpdateOrder == true)
         actionForEach.setDefaultOrder (Globals.env.Randomized);
-    }
-    catch (Exception e) {
-      System.err.println("Exception step: " + e.getMessage ());
     }
     
     try {
