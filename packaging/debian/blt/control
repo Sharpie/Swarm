@@ -1,0 +1,18 @@
+Source: blt82
+Section: devel
+Priority: optional
+Maintainer: Marcus G. Daniels <mgd@helen.santafe.edu>
+Standards-Version: 2.4.0.1
+
+Package: blt82
+Section: libs
+Architecture: i386
+Depends: tcl8.2, tk8.2
+Description: Shared libraries for BLT
+
+Package: blt82-dev
+Section: devel
+Architecture: i386
+Depends: blt82, tcl8.2-dev, tk8.2-dev
+Description: Developer support for BLT
+

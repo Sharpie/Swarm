@@ -1,0 +1,10 @@
+blt82 (2.4i) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Marcus G. Daniels <mgd@swarm.org>  Sat, 18 Sep 1999 11:15:22 -0600
+
+Local variables:
+mode: debian-changelog
+add-log-mailing-address: "mgd@swarm.org"
+End:

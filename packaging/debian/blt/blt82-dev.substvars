@@ -1,0 +1,1 @@
+shlibs:Depends=libc6 (>= 2.1), tcl8.2, tk8.2, xlib6g (>= 3.3.4-1)
