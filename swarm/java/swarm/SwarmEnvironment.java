@@ -10,19 +10,19 @@ public class SwarmEnvironment {
       System.loadLibrary ("javaswarm");
     }
     catch (Exception e) {
-      System.err.println ("Exception caught: " + e.getMessage());
+      System.err.println ("Exception caught: " + e.getMessage ());
     } 
     System.out.println ("Lib loaded!\n");
   }
   public native void initSwarm (String args[]);
-  public ZoneU globalZone;
-  public UniformIntegerDistU uniformIntRand;
-  public UniformDoubleDistU uniformDblRand;
-  public SwarmEnvironment(String args[]) {
+  public ZoneUImpl globalZone;
+  public UniformIntegerDistUImpl uniformIntRand;
+  public UniformDoubleDistUImpl uniformDblRand;
+  public SwarmEnvironment (String args[]) {
     System.out.println ("Global zone!");
-    globalZone = new ZoneU ();
-    uniformIntRand = new UniformIntegerDistU();
-    uniformDblRand = new UniformDoubleDistU();
+    globalZone = new ZoneUImpl ();
+    uniformIntRand = new UniformIntegerDistUImpl ();
+    uniformDblRand = new UniformDoubleDistUImpl ();
     
     System.out.println ("Init Swarm!");
     initSwarm (args);

@@ -1,5 +1,7 @@
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* SwarmEnvironment.java: Classes now end in "Impl".
+
 	* Makefile.in (module-class-files, module-interface-files): Switch
 	from i_* for interfaces to *Impl for classes.
 
