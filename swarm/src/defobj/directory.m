@@ -974,7 +974,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
               
             jboolean classp (jclass matchClass)
               {
-                return (*env)->IsInstanceOf (env, matchClass, class);
+                return (*env)->IsInstanceOf (env, class, matchClass);
               }
               
             if (classp (c_Selector))
