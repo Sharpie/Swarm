@@ -1,7 +1,8 @@
 1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (top_dossrcdir): Substitute.
-	(.deps): Use top_dossrcdir for accessing jdeps.jar.
+	(JAVADEPS): New variable.
+	(.deps): Use JAVADEPS for accessing jdeps.jar.
 
 1999-05-03    <mgd@HELEN>
 

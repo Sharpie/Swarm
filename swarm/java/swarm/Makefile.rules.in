@@ -1,7 +1,6 @@
 jdkdir=@jdkdir@
 jdkdosdir=@jdkdosdir@
 jdkbindir=$(jdkdir)/bin
-top_dossrcdir=@top_dossrcdir@
 JAVALIBS=@JAVALIBS@
 JAVACMD=@JAVACMD@
 JAVAENV=@JAVAENV@
@@ -9,7 +8,8 @@ JAVA=@JAVA@
 JAVACLASSES=@JAVACLASSES@
 JAVAC=@JAVAC@
 JAVACOMPILE=$(JAVAC) -classpath '../..@PATHSEP@$(JAVACLASSES)'
-top_srcdir=@top_srcdir@
+top_dossrcdir=@top_dossrcdir@
+JAVADEPS = $(top_dossrcdir)@PATHDELIM@java@PATHDELIM@jdeps.jar
 
 CLASSPHASES := __c U
 PHASES := $(CLASSPHASES) S
@@ -25,5 +25,5 @@ JAVAFILES = $(addsuffix .java,$(_CLASSES)) $(addsuffix .java,$(INTERFACES))
 all: $(CLASSES)
 
 .deps: $(JAVAFILES)
-	$(JAVA) -classpath '$(top_dossrcdir)/java/jdeps.jar@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
+	$(JAVA) -classpath '$(JAVADEPS)@PATHSEP@$(JAVACLASSES)' smr.JavaDeps.JavaDeps $(JAVAFILES) > .deps
 
