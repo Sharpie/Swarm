@@ -1,3 +1,18 @@
+1999-07-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m ([FCall_c -getRetVal:buf:]): Use SD_SWITCHOBJC instead
+	of JUPDATE.  Use SD_FINDOBJC instead of JFINDOBJC.
+
+	* DefObject.m ([Object_s -forward::]): Accomodate J* to SD_* renames.
+
+	* directory.[hm] (DirectoryEntry, Directory): New classes.
+	Directory lookups on Java side are done using hashCode method
+	to index into table of Maps.
+	(jobject_id): Remove; use directory instances as avl entry.
+	Rename all java_directory_* routines to swarm_directory_*. 
+	Change all macros to use new Directoy methods. Accomodate J* to
+	SD_* renames.
+
 1999-07-27  Vladimir Jojic  <vjojic@ute.santafe.edu>
 
 	* directory.m: New global variables c_PhaseCImpl, 

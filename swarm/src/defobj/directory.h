@@ -14,61 +14,69 @@
 #include <misc/avl.h>
 #include <objc/objc.h>
 
+#import <defobj/Create.h>
+
 extern JNIEnv *jniEnv;
 
-typedef struct jobject_id
-{
-  jobject java_object;
-  id objc_object;
-} jobject_id;
-
-void java_directory_init (JNIEnv *jniEnv,
+void swarm_directory_init (JNIEnv *jniEnv,
                           jobject swarmEnvironment);
 
 
-void java_directory_drop (JNIEnv *jniEnv);
+jobject swarm_directory_java_instantiate (JNIEnv *jniEnv, jclass clazz);
+jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
 
-jobject_id *java_directory_java_find (JNIEnv *env, jobject java_object);
-id java_directory_java_find_objc (JNIEnv *env, jobject java_object);
 
-jobject_id *java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag);
-jobject java_directory_objc_find_java (JNIEnv *env, id objc_object, BOOL createFlag);
+@interface DirectoryEntry: CreateDrop
+{
+@public
+  jobject javaObject;
+  id object;
+}
+- setJavaObject: (jobject)javaObject;
+- setObject: object;
+- (int)compare: obj;
+@end
 
-jobject_id *java_directory_update (JNIEnv *env, 
-                                   jobject java_object,
-                                   id objc_object);
-jobject_id *java_directory_switchupdate (JNIEnv *env,
-                                         jobject old_java_object,
-                                         jobject new_java_object,
-                                         id objc_object);
-jobject java_directory_update_java (JNIEnv *env,
-                                    jobject java_object,
-                                    id objc_object);
-jobject java_directory_switchupdate_java (JNIEnv *env,
-                                          jobject old_java_object,
-                                          jobject new_java_object,
-                                          id objc_object);
+@interface Directory: CreateDrop
+{
+  id *table;
+  avl_tree *objc_tree;
+}
++ createBegin: aZone;
+- add: object javaObject: (jobject)javaObject;
+- findJava: (jobject)javaObject;
+- findJavaObjC: (jobject)javaObject;
+- findObjC: object;
+- (jobject)findObjCJava: object;
+- switchJava: object javaObject: (jobject)javaObject;
+- switchObjC: object javaObject: (jobject)javaObject;
+- ensureObjC: (jobject)javaObject;
+- (jobject)ensureJava: object;
+@end
 
-jobject java_instantiate (JNIEnv *jniEnv, jclass clazz);
-jobject java_next_phase (JNIEnv *jniEnv, jobject jobj);
+extern id swarmDirectory;
 
-#define JFINDOBJC(env, jobj) java_directory_java_find_objc (env, jobj)
-#define JFINDJAVA(env, objc) java_directory_objc_find_java (env, objc, NO)
-#define JENSUREJAVA(env, objc) java_directory_objc_find_java (env, objc, YES)
-#define JUPDATE(env, jobj, objc) java_directory_update_java (env, jobj, objc)
-#define JSWITCHUPDATE(env, oldjobj, newjobj, objc) java_directory_switchupdate_java(env, oldjobj, newjobj, objc)
-#define JINSTANTIATE(env, clazz) java_instantiate (env, clazz)
-#define JNEXTPHASE(env, jobj) java_next_phase (env, jobj)
+#define SD_FINDOBJC(env, jobj) [swarmDirectory findJavaObjC: jobj]
+#define SD_ENSUREOBJC(env, jobj) [swarmDirectory ensureObjC: jobj]
+#define SD_FINDJAVA(env, objc) [swarmDirectory findObjCJava: objc]
+#define SD_ENSUREJAVA(env, objc) [swarmDirectory ensureJava: objc]
+#define SD_ADD(env, jobj, objc) [swarmDirectory add: objc javaObject: jobj]
+#define SD_ADDJAVA(env, jobj, objc) (((DirectoryEntry *) SD_ADD (env, jobj, objc))->javaObject)
+#define SD_SWITCHJAVA(env, newjobj, objc) (((DirectoryEntry *) [swarmDirectory switchJava: objc javaObject: newjobj])->javaObject)
+#define SD_SWITCHOBJC(env, jobj, newobjc) [swarmDirectory switchObjC: newobjc javaObject: jobj]
+#define SD_INSTANTIATE(env, clazz) swarm_directory_java_instantiate (env, clazz)
+#define SD_NEXTPHASE(env, jobj) swarm_directory_next_phase (env, jobj)
 
-SEL java_ensure_selector (JNIEnv *env, jobject jsel);
-#define JENSUREOBJCMETHOD(env, jobj) (java_ensure_selector (env, jobj))
+SEL swarm_directory_ensure_selector (JNIEnv *env, jobject jsel);
+#define SD_ENSUREOBJCMETHOD(env, jobj) (swarm_directory_ensure_selector (env, jobj))
 
-Class java_ensure_class (JNIEnv *env, jclass class);
-#define JENSUREOBJCCLASS(env, jclass) (java_ensure_class (env, jclass))
+Class swarm_directory_ensure_class (JNIEnv *env, jclass javaClass);
+#define SD_ENSUREOBJCCLASS(env, jclass) (swarm_directory_ensure_class (env, jclass))
 
-const char *java_copy_string (JNIEnv *env, jstring javaString);
-void java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);
+const char *swarm_directory_copy_java_string (JNIEnv *env, jstring javaString);
+void swarm_directory_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);
 
-#define COPYSTRING(env, javaString) java_copy_string (env, javaString)
-#define CLEANUPSTRINGS(env, stringArray) java_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))
+#define SD_COPYSTRING(env, javaString) swarm_directory_copy_java_string (env, javaString)
+#define SD_CLEANUPSTRINGS(env, stringArray) swarm_directory_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))
 #endif
+

@@ -457,14 +457,14 @@ PHASE(Using)
 #ifdef HAVE_JDK
   id return_jobject (void)
     {
-      return JFINDOBJC (jniEnv, (jobject) buf->object);
+      return SD_FINDOBJC (jniEnv, (jobject) buf->object);
     }
   const char *return_jstring (void)
     {
       const char *newString =
-        java_copy_string (jniEnv, (jstring) buf->object);
+        swarm_directory_copy_java_string (jniEnv, (jstring) buf->object);
       
-      JUPDATE (jniEnv, (jstring) buf->object, (id) newString);
+      (void) SD_SWITCHOBJC (jniEnv, (jstring) buf->object, (id) newString);
       return newString;
     }
 #endif

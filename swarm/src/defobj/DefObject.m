@@ -680,8 +680,9 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   types_t val;
   id aZone = [self getZone];
   const char *type = sel_get_type (aSel);
-  jobject jobj = JFINDJAVA (jniEnv, self);
+  jobject jobj = SD_FINDJAVA (jniEnv, self);
   jobject jsel;
+
   if (jobj == NULL)
     [self doesNotRecognize: aSel];
   
@@ -692,7 +693,11 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       if (!type)
         abort ();
     }
-  jsel = JFINDJAVA (jniEnv, (id) aSel);
+  jsel = SD_FINDJAVA (jniEnv, (id) aSel);
+  if (!jsel)
+    raiseEvent (InvalidArgument, "unable to find Java selector for `%s'\n",
+                sel_get_name (aSel));
+  
   fa = [FArguments createBegin: aZone];
   [fa setJavaFlag: YES];
   type = mframe_next_arg (type, &info);
