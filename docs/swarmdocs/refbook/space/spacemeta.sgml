@@ -1,0 +1,63 @@
+<DOCINFO>
+
+<TITLE>Space Library</TITLE>
+
+<ABSTRACT>
+<TITLE>Documentation and Implementation Status</TITLE>
+
+<PARA>Swarm is an open ended system which is meant to grow in response
+to the requirements of the user base, either by inhouse development or
+through user re-contributions. We are therefore maintaining a list of
+the most popular requests (both in terms of tools and libraries) so
+that groups of users can recognize common requirements, make more
+informed suggestions and so forth:
+</PARA>
+
+<PARA>
+A 'Double' Space
+
+       Which could deal with notions of "distance" and answer
+       questions of the form: "which other objects are within X radius
+       of me"? An initial implementation of such a space has been
+       re-contributed by Ginger Booth and may serve as a good
+       foundation for such a space.
+</PARA>
+
+<PARA>
+Complete Batch-Mode Support
+
+Swarm can now run in batch mode, which should allow the user to
+organize large parameter sweeps over the models s/he is
+implementing. However, we still need to provide adequate and
+standardized support for file operations (it should be easy, for
+example, to load the parameters of an experiment from a file). In
+order to do this we will provide File objects which will allow users
+to avoid ad-hoc coding of their file-I/O. This support will be in
+place well before V1.0.
+</PARA>
+
+<PARA>
+More Analysis Tools The averager object can generate the Mean, Max,
+Min, and Count of a given input stream. We would like to add similar
+tools to calculate entropies, mutual information and other such
+measures.
+</PARA>
+
+</ABSTRACT>
+
+<REVHISTORY>
+<REVISION>
+<REVNUMBER>1.1
+</REVNUMBER>
+<DATE>1998-04-17
+</DATE>
+</REVISION>
+</REVHISTORY>
+
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("spacecont.sgml" "DOCINFO")
+End:
+-->

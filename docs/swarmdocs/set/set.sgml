@@ -1,0 +1,39 @@
+<!DOCTYPE SET PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+
+<!entity % global.entities system "../global.ent">
+%global.entities;
+
+<!entity % figures.entities system "../figures.ent">
+%figures.entities;
+
+<!entity % src.entities system "../src/src.ent">
+%src.entities;
+
+<!entity % overview.entities system "../overview/over.ent">
+%overview.entities;
+
+<!entity % install.entities system "../installing/install.ent">
+%install.entities;
+
+<!entity setmeta.sgml system "setmeta.sgml">
+
+
+]>
+
+<SET>
+
+&setmeta.sgml;
+
+<BOOK>
+&overcont.sgml;
+</BOOK>
+
+<BOOK>
+&installcont.sgml;
+</BOOK>
+
+<BOOK>
+&refcont.sgml;
+</BOOK>
+
+</SET>

@@ -1,0 +1,19 @@
+<REFERENCE ID="DEFOBJ.REF">
+&defobjmeta.sgml;
+
+<TITLE>Defobj Library</TITLE>
+<TITLEABBREV>Defobj</TITLEABBREV>
+
+<!-- partintro -->
+&defobj00.sgml;
+
+<!-- actual reference content -->
+&defobjpages.sgml;
+
+</REFERENCE>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
+End:
+-->

@@ -1,0 +1,26 @@
+<!-- General boilerplate -->
+
+<!ENTITY swarm-webpage '<literal><ulink url="http://www.santafe.edu/projects/swarm/">http://www.santafe.edu/projects/swarm</ulink></literal>'>
+
+<!ENTITY permission "<para>Permission to use, copy, modify and
+distribute the Swarm must be in accordance with the GNU Library Public
+Licence.</para>">
+
+<!ENTITY sfi-address "<literallayout>Santa Fe Institute
+1399 Hyde Park Road
+Santa Fe NM 87501
+</literallayout>">
+
+<!ENTITY mgd '<literallayout>Marcus Daniels <literal><ulink url="mailto:mgd@santafe.edu">mgd@santafe.edu</ulink></literal></literallayout>'>
+
+<!ENTITY alex '<literallayout>Alex Lancaster <literal><ulink url="mailto:alex@santafe.edu">alex@santafe.edu</ulink></literal></literallayout>'>
+
+<!ENTITY program-name "Swarm Project">
+
+<!ENTITY swarm-program '&program-name;
+&sfi-address;<literal><ulink url="mailto:swarm@santafe.edu">swarm@santafe.edu</ulink></literal>'>
+
+
+<!ENTITY swarm-release-number "1.1">
+
+<!ENTITY swarm-doc-release-number "1.1">

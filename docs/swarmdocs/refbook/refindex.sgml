@@ -1,0 +1,21 @@
+<INDEX ID="CLASS.INDEX">
+<TITLE>Index of Swarm classes</TITLE>
+
+<INDEXENTRY>
+<PRIMARYIE LINKENDS="DBRE.ELEM.DEFOBJ.DISCRETE2D">
+Discrete2d
+</PRIMARYIE>
+</INDEXENTRY>
+
+<INDEXENTRY>
+<PRIMARYIE LINKENDS="DBRE.ELEM.SPACE.SWARMOBJECT">SwarmObject
+</PRIMARYIE>
+</INDEXENTRY>
+
+</INDEX>
+
+<!--
+Local Variables:
+sgml-parent-document:("refbook.sgm" "INDEX")
+End:
+-->

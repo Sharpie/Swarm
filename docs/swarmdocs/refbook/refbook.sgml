@@ -1,0 +1,31 @@
+<!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+
+<!entity % global.entities system "../global.ent">
+%global.entities;
+
+<!entity % figures.entities system "../figures.ent">
+%figures.entities;
+
+<!entity % src.entities system "src.ent">
+%src.entities;
+
+]>
+
+<BOOK>
+
+<TITLE>Reference Guide to Swarm &swarm-release-number;</TITLE>
+
+&refcont.sgml;
+
+</BOOK>
+
+
+
+
+
+
+
+
+
+
+

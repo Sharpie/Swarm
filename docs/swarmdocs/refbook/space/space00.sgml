@@ -1,0 +1,38 @@
+<PARTINTRO>
+<SIDEBAR>
+<TITLE>Overview</TITLE>
+
+<PARA>The Swarm Space library is the beginnings of a library to assist
+in building environments for interacting agents. In general,
+environments can be just as varied as the agents themselves (in one
+view, the environment itself is simply another agent). However, many
+simulations have similar types of environments that can be helpfully
+supported by generic code.</PARA>
+
+<PARA>The current space library only addresses simple kinds of
+discretized 2d space. Improvement is planned in the future: see the
+todo list for ideas. Briefly, coordinates need to be elevated to the
+status of objects, which should hopefully allow spaces of different
+scales and boundary conditions to interact through a common reference
+system. In addition, other types of spaces are desired: continuous
+coordinates, other dimensions, arbitrary graphs, etc</PARA>
+
+</SIDEBAR>
+
+<SECT1>
+<TITLE>Interface for Space</TITLE>
+
+<PARA>Nothing yet</PARA>
+</SECT1>
+
+</PARTINTRO>
+
+<!--
+Local Variables:
+sgml-parent-document:("spacecont.sgml" "PARTINTRO")
+End:
+-->
+
+
+
+

@@ -1,0 +1,55 @@
+<DOCINFO>
+
+<TITLE>Defobj Library</TITLE>
+
+<ABSTRACT>
+<TITLE>Documentation and Implementation Status</TITLE>
+
+<PARA>
+The current interfaces defined in defobj are expected to remain
+stable, with the exception of those relating to package structure and
+custom-generated classes. Those facilities are in process of being
+totally replaced, and will not be documented further until that
+replacement is complete. Details of support for defining a customized
+type will also be provided later.
+</PARA>
+
+<PARA>
+All the interfaces defined in the header file are currently
+implemented, except for the various types of zones that would hold all
+allocated storage in a collection of local pages, and that would
+provide automatic reclaim of unused storage. The current zone
+implementation supports all defined allocation messages, and also
+maintains the population of the zone that consists of all objects
+created directly within it.
+</PARA>
+
+<PARA>
+The Usage Guide section is only a start, but it does include
+subsections that discuss the style of Objective C programming adopted
+for use throughout Swarm. There is a full set of Interface Reference
+sections, though some details remain to be filled in.
+
+Throughout the documentation, a parenthesized comment that starts with
+(.. indicates an editorial comment on the current status of
+implementation or documentation.
+
+</PARA>
+</ABSTRACT>
+
+<REVHISTORY>
+<REVISION>
+<REVNUMBER>1.1
+</REVNUMBER>
+<DATE>1998-04-17
+</DATE>
+</REVISION>
+</REVHISTORY>
+
+</DOCINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("defobjcont.sgml" "DOCINFO")
+End:
+-->

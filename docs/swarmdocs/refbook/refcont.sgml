@@ -1,0 +1,21 @@
+<!-- book metainformation -->
+&refmeta.sgml; 
+
+<!-- preface -->
+&ref00.sgml;
+
+<!-- list of REFERENCES -->
+&defobjcont.sgml;
+&spacecont.sgml;
+
+<!-- appendices -->
+
+<!-- technical tips chapter -->
+&techcont.sgml;
+
+<!-- library interface conventions -->
+&refapp.sgml;
+
+<!-- index -->
+&refindex.sgml;
+

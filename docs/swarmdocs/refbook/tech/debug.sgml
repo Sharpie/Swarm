@@ -1,0 +1,141 @@
+<SECT1 id="debug.sect">
+
+  <TITLE>Debugging Tips for Swarm</TITLE>
+
+  <PARA>Debugging software is an art, perhaps even more so than
+    writing the software itself. All software we write will have
+    bugs: it is important to know how to diagnose a bug when it
+    happens and how to write code defensively so you have less bugs
+    in the first place.</PARA>
+    
+  <SECT2 renderas=SECT3>
+    <TITLE>Finding bugs</TITLE>
+
+    <PARA>Bugs come in two categories: those that crash your program
+    and those that don't. Bugs that crash your program are friendlier
+    because they're obvious.  Bugs that you don't notice are much more
+    dangerous: one nagging question in every programmer's mind should
+    be "is the program doing what I think it is doing?"</PARA>
+
+    <FORMALPARA>
+      <TITLE>gdb</TITLE>
+      
+      <PARA>By far the most useful tool for finding bugs is a good
+        debugger, a shell you can run a program under and set
+        breakpoints, inspect the values of variables, etc. The best
+        free debugger for Unix is probably gdb, available from the
+        <ULINK url="ftp://prep.ai.mit.edu/pub/gnu/">GNU ftp
+        site</ULINK>. gdb seems unfriendly and confusing at first, but
+        it is definitely worth your time to learn it.</PARA>
+    </FORMALPARA>
+
+    <PARA>The most important gdb commands are
+      <LITERAL>help</LITERAL>: browse online help,
+      <LITERAL>where</LITERAL>: show me a stack trace, where did we
+      crash?, <LITERAL>list</LITERAL>: show me the source code where
+      we are, <LITERAL>break</LITERAL>, set a breakpoint, and
+      <LITERAL>print</LITERAL>: show me the value of of some
+      expression. If your program is crashing on you, run it under
+      gdb and look at the stack trace. If it looks to be buggy but
+        you don't know where, start setting breakpoints and see when
+      things go awry.</PARA>
+        
+    <FORMALPARA><TITLE>gdb and Objective C</TITLE> 
+      
+      <PARA>Unfortunately, at this time gdb does not directly support
+        Objective C.  There are <ULINK
+          url="http://www.cons.org/cracauer/objc-hint-gdb.html">some
+          workarounds</ULINK> that make debugging Objective C programs
+        possible. They are based on the knowledge that Objective C is
+        little more than a glorified syntax for structs (objects) and
+        strange function names (methods).</PARA>
+      
+      </FORMALPARA>
+
+    <FORMALPARA>
+      <TITLE>defobj: xprint(), xprintid(), xfprint(), xfprintid(),
+        xexec(), and xfexec()</TITLE> 
+
+      <PARA>Swarm also has a few functions defined that can be used to
+        make debugging easier. In particular, the function
+        xprint(object) prints out the class of an object, and
+        xexec(object, "message") calls the message specified on the
+        object. These can be invoked under gdb as <LITERAL>call
+        xprint(aHeatbug)</LITERAL>.  Note that you can't pass
+        arguments to a message, nor can you see the return
+        value. There are also methods xfprint(collection) and
+        xfexec(collection, "message") that print or exec foreach
+        member of a collection.</PARA>
+
+    </FORMALPARA>
+
+    <SECT2 renderas=SECT3>
+      <TITLE>Preventing Bugs</TITLE> <PARA>Defensive programming can
+      help prevent a good number of bugs. When writing code, try to
+      test it incrementally: make small changes whose effects you
+      think you can predict and then test them. Don't outsmart
+      yourself with cleverness: write code correctly first, then go in
+      and hack it up if you need it to be more efficient. Put in
+      sanity checks for conditions that shouldn't go wrong in normal
+      usage, but might if you make a mistake.</PARA>
+
+      <FORMALPARA>
+        <TITLE>-Wall</TITLE> 
+
+        <PARA>Swarm currently compiles all code with "gcc -Wall",
+          which tells gcc to emit warnings for a lot of things that it
+          wouldn't normally complain about.  Warnings are not
+          (necessarily) errors - warnings will be generated for legal
+          code if gcc thinks that what you're doing could easily be a
+          mistake.  You might find this frustrating at first, but it
+          helps catch a lot of common errors, including forgetting to
+          include a prototype or forgetting to return a value from a
+          function. Passing -Wall is good discipline.</PARA>
+
+        </FORMALPARA>
+
+      <FORMALPARA>
+        <TITLE>nil_method</TITLE> 
+
+        <PARA>Objects in Objective C are
+          essentially pointers to structs. So what happens if you send
+          an object to the pointer 0x0, "nil" in Objective C parlance?
+          Unfortunately, most implementations of Objective C, including
+          gcc, define methods to nil as having no effect. The code:
+        </PARA>
+
+      </FORMALPARA>          
+
+      <PROGRAMLISTING>
+aHeatbug = [Heatbug create: aZone]; 
+aHeatbug = 0; // oops! bug.  
+[aHeatbug setIdealTemperature: idealTemp];
+      </PROGRAMLISTING> 
+
+      <PARA>will <EMPHASIS>not</EMPHASIS> generate any errors.</PARA>
+
+      <PARA>The reason this is unfortunate is that it's a common bug
+        to trash a pointer accidentally, set it to 0. It would be
+        nice if your program then crashed when you tried to send a
+        message to that mangled object: instead, the message send
+        will fail silently and the program will continue to execute.
+        This can make it hard to find bugs.</PARA>
+      
+      <PARA>There are two ways to make messages sent to nil crash
+        your program.  The simplest is to put a breakpoint on
+        <LITERAL>nil_method</LITERAL> under gdb: nil_method is
+        invoked every time a message is sent to nil. Alternately,
+        you can make a copy of the libobjc runtime source and edit
+        nil_method to do whatever you want. The source code in
+        <LITERAL>src/defobj</LITERAL> contains a file
+        <LITERAL>objc.patch</LITERAL> that patches the runtime from
+        gcc 2.7.2.</PARA>
+
+      </SECT2>
+</SECT1>
+
+<!--
+Local Variables:
+sgml-parent-document:("techcont.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,98 @@
+<CHAPTER>
+  <TITLE>Mag 1x: Experimental Procedure in a Computer</TITLE>
+
+  <PARA>At the highest level of abstraction ( = the lowest level of
+  magnification), most experiments look like this:</PARA>
+
+  <ORDEREDLIST>
+    <LISTITEM>
+      <PARA>Set up the physical system to be studied.</PARA>
+    </LISTITEM>
+    <LISTITEM>
+      <PARA>Set up and calibrate the instrumentation</PARA>
+    </LISTITEM>
+    <LISTITEM>
+      <PARA>Run the experimental system and record the outputs of the
+      instrumentation.</PARA>
+    </LISTITEM>
+    <LISTITEM>
+      <PARA>Analyze results.</PARA>
+    </LISTITEM>
+
+    <LISTITEM>
+      <ITEMIZEDLIST>
+        <LISTITEM><PARA>Change experimental and instrumental setup
+        </PARA>
+        </LISTITEM>
+        <LISTITEM><PARA>Go to 3.</PARA></LISTITEM>
+      </ITEMIZEDLIST>
+    </LISTITEM>
+
+    <LISTITEM>
+      <PARA>Publish paper -&gt; tenure -&gt; fame -&gt; etc..... </PARA>
+    </LISTITEM>
+
+  </ORDEREDLIST>
+
+  <PARA>The important part of step 6) is that the published paper
+   includes enough detail about the experimental setup and how it was
+   run so that other labs with access to the same equipment can
+   recreate the experiment and test the repeatability of the
+   results. This is hardly ever done (or even possible) in the context
+   of experiments run in computers, and the crucial process of
+   independent verification via replication of results is almost
+   unheard of in computer simulation. One goal of Swarm is to bring
+   simulation writing up to a higher level of expression, writing
+   applications with reference to a standard set of simulation tools.
+  </PARA>
+
+  <PARA>First, let's look at what happens when we port the above
+  stages into the world of a computer. In a computer, you don't just
+  drag the pieces of your experiment in from the outside world and
+  hook them up. You have to create a world with space and time, a
+  bunch of objects in that world (stuff to study and stuff to look at
+  it with), schedules of events over those objects, all sorts of
+  computer widgetry to interact with that artificial world and to
+  manage multiple experimental runs and the data that they generate,
+  and so forth. In other words, in a computer, one usually has to
+  first *create* from scratch all of the bits and pieces of the
+  experimental setup - the virtual equivalent of beakers, bunsen
+  burners, microscopes etc. </PARA>
+
+  <PARA>Perhaps the most important difference between an experiment in
+  the "real" world and an experiment inside of a computer is the
+  nature of time. In the real world, everything in one's experimental
+  setup is moved forward in time via a very concurrency courtesy of
+  the laws of physics. In a computer experiment, however, the
+  experimenter has to explicitly move every object in his/her
+  artificial universe forward in time, making sure that everything
+  remains within some well-understood state of synchronization. Many
+  fundamental problems in computer science have arisen in the course
+  of trying to understand how to control and use concurrency.
+  Furthermore, most people who implement computer simulations aren't
+  even aware of the subtle, but quite-possibly dominating, impacts of
+  assumptions that they aren't even aware that they are making about
+  concurrency in their model when they code it up and run it.</PARA>
+
+  <PARA>Therefore, a very important aspect of setting up an experiment
+  in a computer is how one weaves the multiple threads of time that
+  must be woven together coherently in order to produce reliable,
+  repeatable results. Much of our work on Swarm has been devoted to
+  not only making the task of managing concurrency manageable, but
+  towards mechanisms to make people aware that they are always making
+  implicit assumptions about how multiple threads of time are
+  interacting with one another in their experimental setups. Swarm
+  forces experimenters to make their concurrency assumptions explicit,
+  so that others can reproduce their results by implementing the same
+  assumptions about the flow of time. </PARA>
+
+</CHAPTER>
+
+<!--
+Local Variables:
+sgml-parent-document:("overbook.sgml" "CHAPTER")
+End: 
+-->
+
+
+

@@ -1,0 +1,129 @@
+<ARTICLE ID="DISTRIB.ART">
+<ARTHEADER>
+    <TITLE>Overview of the Swarm Distribution</TITLE>
+
+  </ARTHEADER>
+      
+  <SIMPLESECT>
+    <TITLE>Libraries</TITLE>
+
+    <PARA>The main part of Swarm is a set of libraries, one per source
+    directory. Briefly, the directory organization is as
+    follows:</PARA>
+
+    <FORMALPARA><TITLE>lib, include, bin</TITLE><PARA>Installed
+    libraries, include files, and helper binaries.</PARA></FORMALPARA>
+
+    <FORMALPARA><TITLE>src</TITLE><PARA> Swarm library source
+    files.</PARA></FORMALPARA>
+
+    <ITEMIZEDLIST>
+
+      <LISTITEM><PARA><LINK LINKEND="DEFOBJ.REF">defobj</LINK> Support
+          of Swarm style Objective C programming</PARA>
+      </LISTITEM>
+
+      <LISTITEM>
+        <PARA><LINK LINKEND="COLLECTIONS.REF">collections</LINK> Collection
+          library -- various objects that "collect" other objects </PARA>
+      </LISTITEM>
+      
+      <LISTITEM>
+        <PARA><LINK LINKEND="ACTIVITY.REF">activity</LINK> Schedule
+          execution mechanism -- the "process"</PARA>
+      </LISTITEM>
+
+      <LISTITEM><PARA><LINK LINKEND="OBJECTBASE.REF">objectbase</LINK>
+          Base class for simulated objects -- the "agents"</PARA>
+      </LISTITEM>
+
+      <LISTITEM><PARA><LINK LINKEND="SPACE.REF">space</LINK> Spatial
+          environment library (currenly mostly 2D spaces are
+          supported).</PARA></LISTITEM>
+
+      <LISTITEM><PARA><LINK LINKEND="RANDOM.REF">random</LINK> Random
+          number library.</PARA>
+      </LISTITEM>
+
+      <LISTITEM><PARA><LINK LINKEND="SIMTOOLS.REF">simtools</LINK>
+          Collected tools (non-GUI) useful for developing Swarm
+          simulations</PARA>
+      </LISTITEM>
+
+      <LISTITEM><PARA><LINK
+          LINKEND="SIMTOOLSGUI.REF">simtoolsgui</LINK> Further tools
+          useful for interactive "GUI-oriented" simulations</PARA>
+      </LISTITEM>
+          
+      <LISTITEM><PARA><LINK LINKEND="GUI.REF">gui</LINK> Graphical
+          Interface library</PARA>
+      </LISTITEM>
+
+      <LISTITEM><PARA><LINK LINKEND="ANALYSIS.REF">analysis</LINK>
+          Objects that help with data processing</PARA>
+      </LISTITEM>
+
+    </ITEMIZEDLIST>
+
+  </SIMPLESECT>
+
+  <SIMPLESECT>
+    <TITLE>Sample applications</TITLE>
+
+    <PARA>In addition, there is a set of sample Swarm applications
+      that are distributed separately.  Applications are the best
+      current roadmap for the Swarm code: much of what is possible
+      with Swarm is demonstrated in the sample applications.  The most
+      important applications are:</PARA>
+
+    <ITEMIZEDLIST>
+      
+      <LISTITEM><FORMALPARA><TITLE>template</TITLE>
+          <PARA>Template simulation. The code itself here is trivial, but
+            provides a nice base for new Swarm programmers to start
+            from.</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+
+      <LISTITEM><FORMALPARA><TITLE>tutorial</TITLE> <PARA>A
+          step-by-step tutorial to using Swarm.  The tutorial starts
+          with a simple implementation of a cellular automaton in
+          ordinary "C" and proceeds up to a full-blown GUI-oriented
+          Swarm application in Swarm Objective C.</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+      
+      <LISTITEM><FORMALPARA><TITLE>heatbugs</TITLE> <PARA>Heatbugs, our
+            canonical, simple complex system. The code here is thoroughly
+            commented for use as a guide to swarm programming.</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+      
+      <LISTITEM><FORMALPARA><TITLE>mousetrap</TITLE> <PARA>Mousetrap is
+            a discrete event simulation of a room full of mousetraps
+            loaded with ping-pong balls.  The triggering of one of the
+            traps sets off a chain reaction supposedly similar to fission.
+            It is also thoroughly commented.</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+      
+      <LISTITEM><FORMALPARA><TITLE>market</TITLE> <PARA>Market is an
+            Objective-C wrapped piece of legacy code originally written in
+            C.  It is a useful example of how to convert legacy code into
+            Swarm; but, it is not very instructive on Swarm programming in
+            general.</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+      
+    </ITEMIZEDLIST>
+
+    </SIMPLESECT>
+
+
+</ARTICLE>
+
+<!--
+Local Variables:
+sgml-parent-document:("installbook.sgml" "ARTICLE")
+End: 
+-->

@@ -1,0 +1,283 @@
+<ARTICLE id="install.art">
+<ARTHEADER>
+    <TITLE>Installing Swarm</TITLE>
+    
+</ARTHEADER>
+   
+  <ABSTRACT><PARA>Installing Swarm will take some time: various
+      external libraries need to be acquired, compiled, and installed,
+      and then Swarm itself needs to be compiled. Please report any
+      problems during installation back so that we can try to fix them
+      in the future. Also we've tried to compile some of the common
+      obstacles to installation in the <EMPHASIS>Swarm FAQ</EMPHASIS>.
+    </PARA>
+  </ABSTRACT>
+
+  <SIMPLESECT>
+    <TITLE>Supported Systems</TITLE> 
+    
+    <PARA>Our intention is that Swarm will run on any modern Unix
+      system. Ideally, Swarm itself should be 100% portable. Swarm is
+      currently known to be running on SunOS 4.1.3, Linux, HP/UX, some
+      SGI Irix boxes, MachTen/68k, and Solaris.  Some of the software
+      Swarm uses might not be entirely portable; these problems are
+      largely out of our hands. The major difficulty so far is the
+      tricks the GNU Objective C runtime uses may not work properly on
+      AIX and MachTen/PPC, so Swarm may not work on those
+     systems. Fixing this is a longterm project; if you absolutely
+      must use Swarm on AIX or MachTen/PPC, contact us.</PARA>
+    
+    <PARA>See the <ULINK
+        url="http://www.santafe.edu/projects/swarm/platforms.html">Platform
+        News</ULINK> web page for recent information.</PARA>
+
+  </SIMPLESECT>
+
+  <SIMPLESECT>
+    <TITLE>Prerequisite Programs</TITLE>
+
+    <PARA>We assume you already have Unix and X Windows on your
+      system: the rest of this software is freely available. Expect to
+      spend some time compiling and installing these packages. URLs on
+      this page are to the home distribution site: as a convenience,
+      the Swarm ftp site <ULINK
+      url="ftp://ftp.santafe.edu/pub/swarm/needed-software/">ftp://ftp.santafe.edu/pub/swarm/</ULINK>
+      contains copies of the necessary packages in <ULINK
+      url="ftp://ftp.santafe.edu/pub/swarm/needed-software/">needed-software/</ULINK>.
+      </PARA>
+
+    <PARA>
+      <ITEMIZEDLIST>
+
+        <LISTITEM>
+          <FORMALPARA><TITLE>gcc 2.7.x</TITLE> 
+
+            <PARA>gcc is the FSF's C, C++, and Objective C
+              compiler. You need gcc 2.7.2 or greater installed on
+              your system, including the Objective C support,
+              libobjc.a.  The latest version is available from <ULINK
+              url="ftp://prep.ai.mit.edu/pub/gnu">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>. Note:
+              Swarm will not work with versions of gcc before
+              2.7.2.</PARA>
+
+          </FORMALPARA>
+        </LISTITEM>
+
+        <LISTITEM>
+          
+          <FORMALPARA><TITLE>GNU make</TITLE>
+
+            <PARA>Make is used to automate building programs: every OS
+              ships their own version of make with some random set of
+              features. The Swarm makefiles currently use features
+              that are not supported by all makes: GNU make is the
+              only one guaranteed to work. Linux systems probably use
+              GNU make already. The latest version of GNU make should
+              be available on <ULINK
+              url="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK></PARA>
+          </FORMALPARA>
+
+          <LISTITEM>
+            <FORMALPARA><TITLE>gdb</TITLE> 
+              
+              <PARA>gdb is the GNU debugger: Swarm doesn't require
+              this, but you will probably want gdb on your system to
+              <LINK linkend="debug.sect">debug programs</LINK>.  Gdb
+              is available on <ULINK
+                  url="ftp://prep.ai.mit.edu/pub/gnu/">ftp://prep.ai.mit.edu/pub/gnu/</ULINK>.</PARA>
+              
+            </FORMALPARA>
+            </LISTITEM>
+      </ITEMIZEDLIST>
+
+      </SIMPLESECT>
+
+  <SIMPLESECT>
+    <TITLE>Prerequisite Libraries</TITLE>
+
+
+    <PARA>Swarm uses a variety of freely available software
+      libraries. All of these libraries need to be configured and
+      installed independently of Swarm. When you have installed them
+      all, modify <LITERAL>Makefile.conf</LITERAL> in the Swarm
+      library package to tell the compiler and linker where to find
+      them. Note: it pays to spend the extra time to build shared
+      library versions of these things.</PARA>
+
+    <ITEMIZEDLIST>
+      <LISTITEM>
+        
+        <FORMALPARA><TITLE>libXpm</TITLE> 
+
+          <PARA>libXpm adds pixmap (coloured bitmap) support to
+          X11. libXpm is a common X library, many systems already have
+          it installed. A reasonably modern version is needed: we've
+          used version 3.4f. If you get complaints about "Object"
+          being multiply defined, your version of libXpm is too
+          old. The library is available from <ULINK
+          url="ftp://ftp.x.org/contrib/libraries/xpm-3.4h.tar.gz">ftp://ftp.x.org/contrib/libraries/xpm-3.4h.tar.gz</ULINK>.</PARA>
+          </FORMALPARA>
+        </LISTITEM>
+
+<LISTITEM>
+        <FORMALPARA><TITLE>Tcl/Tk</TITLE> 
+
+          <PARA>More common libraries: a scripting language and a GUI
+          toolkit. These libraries are available from <ULINK
+          url="ftp://ftp.smli.com/pub/tcl/">ftp://ftp.smli.com/pub/tcl/</ULINK>
+          or from <ULINK
+          url="http://www.tcltk.com">http://www.tcltk.com</ULINK>.
+          Swarm works with Tcl/Tk versions 7.4/4.0, 7.5/4.1, 7.6/4.2,
+          and 8.0/8.0.  It may work with later versions, but it hasn't
+          been tested.</PARA>
+        </FORMALPARA>
+      </LISTITEM>
+
+      <LISTITEM>
+        <FORMALPARA><TITLE>BLT-2.3</TITLE> 
+          <PARA>BLT is an add-on to Tk that provides more widgets. BLT
+            is available from <ULINK
+              url="http://www.tcltk.com/blt/index.html">http://www.tcltk.com/blt/index.html</ULINK>
+            or <ULINK
+              url="ftp://ftp.neosoft.com/pub/tcl/sorted/devel/">ftp://ftp.neosoft.com/pub/tcl/sorted/devel/</ULINK>
+            .  Note that BLT 2.3 works with either Tcl/Tk 7.5/4.1 or
+            7.6/4.2, whereas BLT 2.1 only works with versions up to and
+            including Tcl/Tk 7.5/4.1.  There are problems with using BLT
+            2.3 in that some of the functionality has changed and
+            non-fatal errors may spit out on the terminal window you start
+            Swarm in.  But, we haven't taken the time to debug these
+            things.</PARA>
+      </FORMALPARA>
+      </LISTITEM>
+
+      <LISTITEM>
+        <FORMALPARA><TITLE>tclobjc-1.2</TITLE> 
+
+          <PARA>Glue between TCL and Objective C. This version of the
+            library is currently only available from the Swarm
+            authors, and is <ULINK
+            url="http://www.santafe.edu/projects/swarm/release.html">distributed</ULINK>
+            in the same place as Swarm.</PARA>
+          </FORMALPARA>
+      </LISTITEM>
+      </ITEMIZEDLIST>
+    </SIMPLESECT>
+  
+  <SIMPLESECT>
+    <TITLE>Configuring Swarm Libraries</TITLE>
+    
+    <PARA>Once you have all of the above software installed, the next
+      step is to configure Swarm. First unpack the Swarm .tar.gz file
+      into a convenient place <LITERAL>(via gzip -dc swarm-xx.yy.zz.tar.gz
+      | tar xf -)</LITERAL>.
+    </PARA>
+
+    <PARA>All configuration of Swarm compilation is localized to the
+      file <LITERAL>Makefile.conf</LITERAL>.  You should change the lines
+      OTHERINCDIRS and OTHERLIBDIRS to point to the directories where
+      the libraries you installed are, and set OTHERLIBS to link in
+      other OS-dependent libraries that might be required on your
+      system.  In addition, if your OS doesn't have <LITERAL>ranlib</LITERAL>,
+      then configure the <LITERAL>RANLIB=</LITERAL> line to just execute
+      <LITERAL>/bin/true</LITERAL>.
+
+      <PARA>All of the procedures run by make are defined in the three
+        top level makefiles <LITERAL>Makefile.conf</LITERAL>,
+        <LITERAL>Makefile.lib</LITERAL>, and
+        <LITERAL>Makefile.appl</LITERAL>.  If you run into problems,
+        you might need to look at the Makefile code in there.
+      </PARA>
+  </SIMPLESECT>
+
+  <SIMPLESECT>
+
+    <TITLE>Compiling Swarm Libraries -- (not required for binary
+distributions)</TITLE> 
+
+    <PARA>You've done the hard part, now type "make" and watch the
+      fun! Make will recursively run make in subdirectories, building
+      libraries, installing header files in <LITERAL>include</LITERAL>
+      and libraries in <LITERAL>lib</LITERAL>. If running "make" in
+      the root Swarm directory does nothing, you probably aren't
+      running GNU Make.</PARA>
+
+    <PARA>Swarm is set up so that you can run make in subdirectories
+      and expect it to work. If a particular directory doesn't seem to
+      make correctly, try to cd into that directory and run "make"
+      from there to better see what the problem is.</PARA>
+    
+  </SIMPLESECT>
+
+  <SIMPLESECT>
+
+    <TITLE>Compiling and Running Swarm Applications</TITLE>
+    
+    <PARA>Swarm applications are distributed separately: you will need
+      to download and unpack applications independently. After the
+      application is unpacked, you will have to change the
+      <LITERAL>SWARMHOME</LITERAL> variable in the Makefile. It is
+      setup, by default to point to "../swarm", as if the Swarm
+      libraries were in a sibling directory called "swarm". Just edit
+      that string to point to where you installed the Swarm
+      libraries. No other configuration should be necessary. All you
+      need to do to compile an application is type "make", and it will
+      compile and link.</PARA>
+
+    <PARA>Once the application is compiled, just run it out of its own
+      directory.  A control panel and a couple of parameter windows
+      should pop up; press the "Go" button to watch it
+      run. Congratulations!</PARA>
+
+  </SIMPLESECT>
+
+  <SIMPLESECT>
+    <TITLE>Post-compile cleanup</TITLE>
+
+    <PARA>After you've tried out the Swarm libraries for awhile you
+      may want to clean up the intermediate .o files. Swarm is set up
+      so that the only files that you need after compile are
+      <LITERAL>$(SWARMHOME)/Makefile.appl</LITERAL>,
+      <LITERAL>$(SWARMHOME)/Makefile.lib</LITERAL>,
+      <LITERAL>$(SWARMHOME)/Makefile.conf</LITERAL>, and the contents
+      of <LITERAL>$(SWARMHOME)/lib</LITERAL> and
+      <LITERAL>$(SWARMHOME)/include</LITERAL>. If you run
+      <LITERAL>make clean</LITERAL> in
+      <LITERAL>$(SWARMHOME)</LITERAL>, it will throw away all the .o
+      files in the source directories. You can even copy out the
+      Makefiles, <LITERAL>lib</LITERAL>, and
+      <LITERAL>include</LITERAL> to someplace else on your system: no
+      paths are compiled in. Just remember to set
+      <LITERAL>$(SWARMHOME)</LITERAL> to the right directory in your
+      application's makefile. If you need to recompile the library and
+      want to start from a completely clean source directory,
+      <LITERAL>make realclean</LITERAL> will delete the includes and
+      libs created or copied during the compile process. Note that
+      <LITERAL>make realclean</LITERAL> will delete *all* the files in
+      the include and lib directories. So, if you've set your
+      Makefile.conf to point to a directory where you have other
+      include files and libraries, then you don't want to do a
+      <LITERAL>make realclean</LITERAL>.</PARA>
+
+
+    <PARA>For debugging purposes it's easiest if your Swarm libraries
+      are compiled with <LITERAL>OPTFLAGS=-g</LITERAL> and you leave
+      the sources around. However, your applications will run faster
+      if you compile with optimization, <LITERAL>OPTFLAGS=-O3
+      -g</LITERAL>. This will make debugging inside the Swarm
+      libraries strange, but gives noticeable performance
+      improvement. Users of Sparc based machines should also see the
+      notes about <LITERAL>-mv8</LITERAL> in
+      <LITERAL>Makefile.conf</LITERAL>.
+    </PARA>
+
+  </SIMPLESECT>
+
+</ARTICLE>
+
+<!--
+Local Variables:
+sgml-parent-document:("installbook.sgml" "ARTICLE")
+End:
+-->
+
+

@@ -1,0 +1,112 @@
+<CHAPTER>
+  <TITLE>Mag 3x: Swarm Structures</TITLE>
+
+  <PARA>Swarm applications are structured around the concept of the
+  Swarm. Swarms are the basic building blocks of Swarm simulations: a
+  Swarm is a combination of a collection of objects and a schedule of
+  activity over those objects. The collection are like the matter of
+  the Swarm and the schedule is like the arrow of time moving the
+  objects forward.</PARA>
+
+  <SECT1>
+    <TITLE>Model Swarms</TITLE> 
+
+    <PARA>In our current demos, Swarm applications contain two
+    swarms. At the core is the <EMPHASIS>model swarm</EMPHASIS>, the
+    Swarm that encapsulates the simulated model. Everything in the
+    model swarm corresponds to objects in the world being modeled. For
+    instance, in Heatbugs the HeatbugModelSwarm contains a collection
+    of Heatbug agents, a HeatSpace to represent a physical property of
+    the world, antion of Heatbug agents, a HeatSpace to represent a
+    physical property of the world, and a Grid2d to store agent
+    position.</PARA>
+
+    <PARA>In addition to the object collection, the model swarm also
+    contains a schedule of activity on the model. The schedule defines
+    the effect of passing time on the model. For the simple heatbugs
+    schedule, the execution is simply to update the HeatSpace
+    (diffusing heat across the world) and then telling each Heatbug
+    agent to move itself. </PARA>
+
+    <PARA>Model swarms consist of a set of inputs and outputs. The
+    inputs to the HeatbugModelSwarm are model parameters: things like
+    the size of the world, the number of HeatBugs, and the diffusion
+    rate of heat. The outputs of the HeatbugModelSwarm are the
+    observables of the model: the individual Heatbugs, the
+    distribution of heat across the world, etc. </PARA>
+
+    </SECT1>
+
+  <SECT1>
+    <TITLE>Observer Swarms</TITLE> <PARA>The model swarm alone defines
+    the simulated world. But an experiment does not just consist of
+    the objects being experimented upon, it also includes the
+    experimental apparatus used for observation and measurements. In
+    Swarm computer simulations, those observation objects are placed
+    in an <EMPHASIS>observer swarm</EMPHASIS>.
+
+   <PARA>The most important object in an observer swarm is the model
+    swarm that is being studied. The model swarm is one component of
+    the observer, kind of like a little world in a petri dish on the
+    lab bench. Other observer objects can then input data into the
+    model swarm (setting simulation parameters, for instance) and read
+    data out of the model swarm (collecting statistics of the behavior
+    of agents).</PARA>
+
+   <PARA>Just as in setting up a model swarm, an observer swarm has a
+    collection of objects (the instrumentation), a schedule of
+    activity, and a set of inputs and outputs. The activity of the
+    observer schedule is to drive data collection - read this number
+    out of the model, draw it on a graph. The inputs to the observer
+    swarm are configurations of the observer tools: what sorts of
+    graphs to generate, for instance. The outputs are the
+    observations.</PARA>
+
+   <PARA>When running in graphics mode, the observer swarm objects are
+    largely used to mediate user interface. For instance, in Heatbugs
+    the HeatbugObserverSwarm creates Raster widgets, EZGraphs, and
+    Probes. All of these objects are connected into the HeatbugModel
+    swarm to read data, and to graphical interface objects so the
+    human sitting in front of the computer can observe the world.</PARA>
+
+    <PARA>Interactive, graphical experimentation with models is useful
+    for coming up with intuitions. But for serious experimentation it
+    is necessary to collect statistics, which means doing many runs
+    and storing data for analysis.  As an alternative to a graphical
+    observer swarm, you can also create <EMPHASIS>batch
+    swarms</EMPHASIS>, observer swarms that are intended to be run
+    without any interaction at all. Instead of putting up fancy
+    graphics, batch swarms read data from files to control the model
+    and write the data out to other files for analysis.  The key here
+    is that the model swarm used in the batch swarm is the exact same
+    model as that used in a graphical observer swarm: the only
+    difference is what tools the observer (batch or graphical)
+    connects to the model.</PARA>
+
+  </SECT1>
+  
+  <SECT1>
+    <TITLE>Summary</TITLE> 
+  
+    <PARA>Multiple Swarms are used to create an experimental apparatus
+    and control it. The use of multiple Swarms is not restricted only
+    to this use, though: in particular, a model Swarm could itself
+    contain its own subswarms, building a hierarchical simulation. In
+    future Swarm development, we intend to use the power of the
+    multiple Swarm modeling approach to build complicated and flexible
+    models.</PARA>
+
+  </SECT1>
+
+</CHAPTER>
+
+<!--
+Local Variables:
+sgml-parent-document:("overbook.sgml" "CHAPTER")
+End:
+-->
+
+
+
+
+

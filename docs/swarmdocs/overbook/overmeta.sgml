@@ -1,0 +1,40 @@
+<BOOKINFO>
+
+  <TITLE>Brief Overview of Swarm</TITLE>
+  
+  <ABSTRACT>
+    <TITLE>A Top-Down Introduction To Implementing an Experiment Using
+      Swarm</TITLE>
+    
+    <PARA>This document attempts to explain the logical structure of a
+      Swarm experiment application. Starting with a very general outline of
+      an idealized experimental procedure, we successively increase the
+      level of specification of each stage of this idealized structure until
+      we arrive at details of an actual running Swarm application.
+    </PARA>
+    
+    <PARA>Along the way, we introduce and describe (very briefly) some of
+      the tools currently available in Swarm to help users build
+      experiments. The tools presented here are only suggestive: the Swarm
+      library documentation and example applications will give a more
+      detailed view of using specific components of Swarm
+    </PARA>
+    
+  </ABSTRACT>
+  
+  <REVHISTORY>
+    <REVISION>
+      <REVNUMBER>1.1
+      </REVNUMBER>
+      <DATE>1998-04-20
+      </DATE>
+    </REVISION>
+  </REVHISTORY>
+  
+</BOOKINFO>
+
+<!--
+Local Variables:
+sgml-parent-document:("overbook.sgml" "BOOKINFO")
+End:
+-->

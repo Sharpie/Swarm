@@ -1,0 +1,198 @@
+<SECT1 ID="SWARMOBJC.SECT">
+   <TITLE>Objective C - Swarm Style</TITLE>
+
+  <PARA>The Swarm system provides a few extensions to the syntax/style
+      of Objective-C.  This note describes those features which are
+      important to know as a beginner and those which can be
+      ignored...</PARA>
+
+  <SECT2 RENDERAS="SECT3">
+
+    <TITLE>Non-Conventional Techniques, And The Libraries In Which They're
+      Used</TITLE>
+
+    <PARA>When building some of the internals of the Swarm system, we
+      found that there was a need to add a certain amount of machinery
+      to the conventional Objective C language. In particular, we
+      found that the system used for object creation needed to be
+      expanded. The main goal of this document is to explain very
+      briefly what those changes are, and why the user need never know
+      about them...</PARA>
+
+    <PARA>Even within the Swarm libraries, only the most fundamental
+      ones require the usage of some of the magic described
+      below. Essentially, only Defobj, Collections and Activity use
+      the features described below. Nevertheless, there are some minor
+      conventions, which as a consequence, must be used throughout the
+      code.</PARA>
+
+  </SECT2>
+  
+  <SECT2 RENDERAS="SECT3">
+    <TITLE>Zones in Principle</TITLE>
+
+    <PARA>Perhaps the most visible change from normal Objective C is
+      the use of Zones within which objects are allocated. We have
+      requiered that objects be allocated within specific Zones for
+      two main reasons:
+
+    <ITEMIZEDLIST>
+      <LISTITEM><FORMALPARA><TITLE>Probing</TITLE><PARA>Zones will be
+              used to facilitate the process of
+              Probing.</PARA></FORMALPARA>
+      </LISTITEM>
+
+      <LISTITEM><FORMALPARA><TITLE>Garbage Collection</TITLE>
+            <PARA>In later versions of Swarm, the Zones will be used
+            to coordinate garbage collection.</PARA></FORMALPARA>
+      </LISTITEM>
+
+      <LISTITEM><FORMALPARA><TITLE>Parallelism</TITLE> <PARA>In Swarm
+          2.0 we hope to use the Zone system to facilitate the
+          management of distributed memory.</PARA></FORMALPARA>
+      </LISTITEM>
+    </ITEMIZEDLIST>
+
+    </PARA>
+  </SECT2>
+  
+  <SECT2 RENDERAS="SECT3">
+    <TITLE>Zones in Practice</TITLE>
+
+    <PARA>As a beginning user, when required to provide a Zone, you
+      can simply use the globalZone variable which is global and is
+      already initialised to a valid zone. But, this is discouraged
+      because the things in that Zone are expected to be resident
+      throughout the entire execution of the program and can lead to
+      inefficient use of memory. Also, you should always attempt to
+      allocate memory from Zones rather than using malloc. And when
+      allocating a temporary object that won't be needed past the
+      current scope, a scratchZone is provided.</PARA>
+
+    </SECT2>
+  
+  <SECT2 RENDERAS="SECT3">
+    <TITLE>The Create Phase in Principle</TITLE> 
+
+    <PARA>One of the more surprising mechanisms used in Swarm is the
+    Create Phase protocol. The idea behind the protocol is that when
+    you create an object, you are not really getting the final object
+    - only a "proto-object". This "proto-object" is then sent a
+    sequence of "create phase" messages which are meant to provide
+    hints to the system about the way in which the object is going to
+    be used.</PARA>
+
+    <PARA>So, for example, when creating a List object you may declare
+      that you will only access the list from either end, never from
+      an arbitrary location.  By doing so you allow the "proto-object"
+      to provide you with a tailored implementation which attempts to
+      meet your specific usage patterns. This sort of approach is
+      crucial for the performance-critical libraries in Swarm (such as
+      the Activity library). Here is a schematic of what sometimes
+      occurs in these libraries:</PARA>
+
+    <GRAPHIC ENTITYREF="switcheroo"></GRAPHIC>
+
+  </SECT2>
+
+  <SECT2 RENDERAS="SECT3">
+    <TITLE>The Create Phase in Practice</TITLE>
+
+    <PARA>Since this form of object creation is still quite rare in
+      the object oriented community, we do not expect the users to
+      write code which actually implements this sort of
+      technique. However, we do advise the users to try and split
+      those messages which are supposed to be sent only once in the
+      lifetime of an object (just after the object is created) from
+      the ones that are sent multiple times.</PARA>
+
+    <PARA>For example, if your object has a variable which will never
+      change and furthermore should be set at the very early stages of
+      its lifetime (say, Color), then you should declare the message
+      which sets this variable before the createEnd message: </PARA>
+
+    <PROGRAMLISTING>
+-setColor: (int) aColor ; // createPhase message -createEnd ;
+-(int) getColor ; // normal message
+    </PROGRAMLISTING>
+
+    <PARA>The only other requirement is that whenever you create any
+      object in Swarm, you should always
+      <EMPHASIS>re-assign</EMPHASIS> the object, when createEnd is
+      called.</PARA>
+    
+    <PROGRAMLISTING>
+anObject = [anObject createEnd] ;
+    </PROGRAMLISTING>
+
+    <PARA>This is because certain proto-objects in the swarm library will
+      not return themselves at createEnd time. In fact, they may
+      return a completely different class of object, which happens to
+      satisfy the needs of the user. We therefore suggest that even
+      when createEnding your own classes you should stick to this
+      standard creation format.</PARA>
+
+    <PARA>In some classes, you will see that some "convenience methods"
+      for object creation have been provided. These are basically
+      parametrized constructors that the author of the class felt
+      would be handy. However, the objects that result from the use of
+      these "convenience methods" should not differ in any way from an
+      object created via a sequential set of separate methods called
+      during the create phase (as long as each of the appropriate
+      parameters are set). It is important to retain the "null
+      constructor" for a couple of reasons: 1) it allows the interface
+      for a class to *grow* without breaking legacy code and 2) it
+      facilitates the use of development and design tools in handling
+      objects. JavaBeans is one example where this particular
+      constraint (the requirement of a null constructor) is in use and
+      necessary, today. Of course, we don't have design and
+      development tools like that for Swarm, yet...</PARA>
+
+    </SECT2>
+
+  <SECT2 RENDERAS="SECT3">
+    <TITLE>Collections and Defobj</TITLE>
+
+    <PARA>Two last pieces of advice:
+
+      <ORDEREDLIST>
+        
+        <LISTITEM><PARA>When using the Collections library, if you
+          want to create your own versions of the collections, don't
+          do it by subclassing the collections themselves.  Instead,
+          create a different class of object which contains inside it,
+          an instance of the appropriate class (this is called
+          delegation in the OOP community). You should do this because
+          the actual subclassing of objects which actively use the
+          createPhase stuff (by actively I mean ones that don't return
+          self on a createEnd), is not well
+          supported.</PARA></LISTITEM>
+        
+        <LISTITEM><PARA>Defobj is the most basic library in Swarm. It
+          provides the foundation on which the system builds
+          schedules, collections and swarmObjects. It is therefore
+          quite involved and you should not feel disheartened if the
+          concepts embodied within it seem unfamiliar, or if the code
+          seems a bit cryptic.</PARA></LISTITEM>
+        
+      </ORDEREDLIST>
+      
+    </PARA>
+
+    <PARA>You should now be ready to use Objective C in a more
+      or less Swarm compliant way. Theoretically, all you need to do
+      is follow these standards.  In particular, you should be able to
+      code your simulations without needing to know anything else
+      about the language extensions (you still need to learn about the
+      libraries and tools provided by Swarm, but their interface is
+      written in straight Objective C, so there should be no language
+      barrier).</PARA>
+
+    </SECT2>
+</SECT1>
+
+<!--
+Local Variables:
+sgml-parent-document:("techcont.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,20 @@
+<CHAPTER>
+  <TITLE>Conclusion</TITLE>
+
+  <PARA>Swarm tries to help computer simulation authors by making it
+    easier to write simulations by making it more formal. The text
+    above gives a narrative introduction into using Swarm for your own
+    models, but a real understanding of Swarm will only come when you
+    start to read through our examples and try to write your own
+    applications. Good luck, and may your simulations be
+    successful!</PARA>
+
+</CHAPTER>
+
+<!--
+Local Variables:
+sgml-parent-document:("overbook.sgml" "CHAPTER")
+End:
+-->
+
+

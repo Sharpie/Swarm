@@ -1,0 +1,7 @@
+<!entity techcont.sgml system "techcont.sgml">
+<!entity techmeta.sgml system "techmeta.sgml">
+<!entity objc.sgml system "objc.sgml">
+<!entity swarmobjc.sgml system "swarmobjc.sgml">
+<!entity emacs.sgml system "emacs.sgml">
+<!entity debug.sgml system "debug.sgml">
+

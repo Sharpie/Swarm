@@ -1,0 +1,33 @@
+<SECT1 ID="OBJC.SECT">
+<TITLE>Objective C Web Resources</TITLE>
+
+  <PARA>The main technical skill required of a Swarm user is the
+    ability to write Objective C code. Other recommended skills
+    include the ability to use tools such as gdb and emacs. For the
+    record, if you know C and have some form of experience in either
+    C++ or Smalltalk, then learning Objective C should take no more
+    than a day or so.</PARA>
+
+  <ITEMIZEDLIST>
+    <LISTITEM><PARA><ULINK URL="http://www.santafe.edu/projects/swarm/ObjC/objective-c.html">Objective
+          C references</ULINK> List of Objective C references on the
+          Web. Includes a 10 minute overview to Objective C that is
+          most of what you need to know about Objective C.  Originally
+          contributed by Nelson Minar</PARA>
+      </LISTITEM>
+
+    <LISTITEM><PARA><ULINK URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html">Object-Oriented
+          Programming and the Objective-C Language</ULINK> An excellent
+        (online!) book on Objective C. This is for generic NeXT Objective C:
+        Swarm uses GNU Objective C in addition to our own <LINK LINKEND="DEFOBJ.REF">defobj</LINK> extensions.</PARA>
+    </LISTITEM>
+
+  </ITEMIZEDLIST>
+
+</SECT1>
+
+<!--
+Local Variables:
+sgml-parent-document:("techcont.sgml" "SECT1")
+End:
+-->

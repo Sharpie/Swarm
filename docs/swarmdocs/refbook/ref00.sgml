@@ -1,0 +1,81 @@
+<PREFACE ID="REFERENCE.PREFACE">
+<TITLE>Preface</TITLE>
+
+<SECT1>
+<TITLE>Overview of Reference Guide</TITLE>
+
+<PARA>Swarm is essentially a collection of libraries against which you
+link your simulation code. This document is the complete interface
+references for those core libraries which are crucial to the proper
+execution of Swarm, and are therefore shipped with the Swarm
+distribution.</PARA>
+
+</SECT1>
+
+<SECT1><TITLE>Obtaining Swarm</TITLE>
+
+<SIMPLESECT renderas="sect3">
+<TITLE>The Swarm Hive</TITLE>
+
+<PARA>
+The &program-name; archive at &swarm-webpage; is the place to obtain
+both new software releases and documentation for Swarm.
+</PARA>
+
+<PARA>
+We welcome comments about Swarm and it's documentation.
+</PARA>
+
+<PARA>
+You may send comments to the Swarm team: 
+</PARA>
+
+<PARA>&swarm-program;</PARA>
+
+<PARA> or, individually, to
+its current members : &alex; &mgd;
+</PARA>
+
+<PARA>
+You can also mail comments to the <LITERAL>swarm-support@santafe.edu
+</LITERAL> mailing list. See the Swarm support archive for
+instructions on how to join this list.
+</PARA>
+</SIMPLESECT>
+
+<SIMPLESECT renderas="sect3">
+<TITLE>Acknowledgments</TITLE>
+
+<PARA>
+The Swarm project was started by Chris Langton, formerly of the Santa Fe
+Institute now at the Swarm Corporation, New Mexico.  Swarm is being
+designed and programmed by Chris Langton (SFI), Roger Burkhart (John
+Deere), Irene Lee (SFI), Marcus Daniels (SFI) and Alex Lancaster
+(SFI).  Much of the development of Swarm was done by Nelson Minar,
+who is now at the MIT Media Lab, and Manor Askenazi and Glen Ropella,
+formerly of the SFI.  The new random library was written by Sven
+Thommesen and graciously contributed.  Eric Carr and JJ Merelo have
+been patient Swarm users and developers. Howard Gutowitz and David
+Hiebeler have participated in the design process.  (David is also the
+implementor of the original Swarm prototype.)  And, many thanks to
+Simon Fraser, Swarm graphic designer extraordinaire.  Finally, many
+thanks go out to the Swarm user community, particularly those who have
+stuck with us from the beginning.
+</PARA>
+
+<PARA>
+See the &program-name archive for more information about Swarm.
+</PARA>
+
+</SIMPLESECT>
+
+</SECT1>
+
+</PREFACE>
+
+
+<!--
+Local Variables:
+sgml-parent-document:("refbook.sgml" "PREFACE")
+End:
+-->
