@@ -3,8 +3,14 @@
 	* FCall.m ([FCall_c -setJavaMethod:inObject:], 
 	[FCall_c -setJavaMethod:inClass:]): Copy value for methodName.
 	([FCall_c -drop]): Free methodName if set.
+	([FCall_c -setJavaMethod:inObject:]): Make object a global ref
+	to store in fobject.
+	([FCall_c -drop]): Remove globalref for fobject if javacall.
 
 	* FCall.h (FCall_c): Constify methodName.
+
+	* FArguments.m ([FArguments_c addString:]): Make globalref from
+	java string, not objc string.
 
 1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

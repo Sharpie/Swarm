@@ -299,7 +299,7 @@ PHASE(Creating)
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   methodName = STRDUP (mtdName);
-  (jobject) fobject = (jobject) obj;
+  (jobject) fobject = (*jniEnv)->NewGlobalRef (jniEnv, (jobject) obj);
 #else
   java_not_available ();
 #endif
@@ -755,6 +755,8 @@ PHASE(Using)
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
     (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
+  if (callType == javacall)
+    (*jniEnv)->DeleteGlobalRef (jniEnv, fobject);
 #endif
   if (methodName)
     FREEBLOCK (methodName);

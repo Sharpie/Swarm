@@ -295,7 +295,7 @@ get_fcall_type_for_objc_type (char objcType)
       jobject lref;
       
       lref = (*jniEnv)->NewStringUTF (jniEnv, str);
-      string = (*jniEnv)->NewGlobalRef (jniEnv, string);
+      string = (*jniEnv)->NewGlobalRef (jniEnv, lref);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
       size = sizeof (jstring);
