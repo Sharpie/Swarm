@@ -63,8 +63,6 @@ PHASE(Creating)
 #endif
 
   classList = [List create: getZone (self)];
-  if(!classList) 
-    return nil;
 
   count = 0;
 

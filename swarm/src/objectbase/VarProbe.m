@@ -83,7 +83,8 @@ PHASE(Creating)
                                           fieldObject, 
                                           m_FieldGetType);      
       if (!lref)
-	raiseEvent (SourceMessage, "Unknown type of probed field.\n");
+	raiseEvent (SourceMessage, "Unknown type of probed field `%s'\n",
+                    probedVariable);
 
       fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
@@ -105,7 +106,9 @@ PHASE(Creating)
     { 
       // if not found
       if (SAFEPROBES)
-        raiseEvent (WarningMessage, "Warning: variable not found\n");
+        raiseEvent (WarningMessage,
+                    "Warning: variable `%s' not found\n",
+                    probedVariable);
       return nil;
     }
   else

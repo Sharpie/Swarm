@@ -1,9 +1,14 @@
 2001-01-17  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* CompleteVarMap.m ([CompleteVarMap -createEnd]): Remove paranoid 
+	classList check.
+
 	* VarProbe.[hm], objectbase.h ([VarProbe
 	-probeAsString:Buffer:withFullPrecision:]): Cast precision values
 	to int.  Make precision argument unsigned.  Likewise for getter
 	and setter.
+
+	* VarProbe.m ([VarProbe -createEnd]): Improve error messages.
 
 	* MessageProbe.[hm] (-getArgCount, -setArg:ToString:, -getArg:,
 	-getArgName:, -isArgumentId): Don't use int for count or

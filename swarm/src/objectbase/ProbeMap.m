@@ -179,7 +179,7 @@ PHASE(Creating)
   id <VarProbe> varProbe = [VarProbe createBegin: getZone (self)];
   id <String> key = [String create: getZone (self) setC: name];
 
-  [varProbe setProbedClass: probedClass];
+  [varProbe setProbedClass: aClass];
   [varProbe setProbedVariable: name];
 	  
   if (objectToNotify != nil) 
