@@ -146,4 +146,14 @@ void debugabort (const char *filename, unsigned lineno, const char *function) __
 
 #define abort() debugabort(__FILE__,__LINE__, __PRETTY_FUNCTION__)
 
+#define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
+#define isSpace(ch) ((ch) == ' ' || (ch) == '\t' || (ch) == '\n' || (ch) == '\r' || (ch) == '\f')
+#define isUpper(ch) ((ch) >= 'A' && (ch) <= 'Z')
+#define isLower(ch) ((ch) >= 'a' && (ch) <= 'z')
+#define isAlpha(ch) (isUpper(ch) || isLower(ch))
+#define isAlnum(ch) (isAlpha(ch) || isDigit(ch))
+#define isPunct(ch) ((((ch) > ' ') && ((ch) < '0')) || (((ch) > '9') && ((ch) < 'A')) || (((ch) > 'Z') && ((ch) < 'a')) || (((ch) > 'z') && ((ch) <= '~')))
+#define isPrint(ch) (isPunct(ch) || isAlnum(ch) || ((ch) == ' '))
+
 #endif
+

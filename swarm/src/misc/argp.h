@@ -22,7 +22,7 @@
 #define __ARGP_H__
 
 #include <stdio.h>
-#include <ctype.h>
+#include <misc.h> // for fake ctype macros
 #if 0
 #include <getopt.h>
 #else
@@ -535,7 +535,7 @@ __option_is_short (__const struct argp_option *__opt)
   else
     {
       int __key = __opt->key;
-      return __key > 0 && isprint (__key);
+      return __key > 0 && isPrint (__key);
     }
 }
 

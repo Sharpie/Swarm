@@ -1,7 +1,7 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* argp-help.c (fill_in_uparams, canon_doc_option, SKIPWS): Update
-	ctype-like macros not to use ctype.
+	* argp.h, argp-help.c (fill_in_uparams, canon_doc_option, SKIPWS):
+	Update ctype-like macros not to use ctype.
 
 1999-08-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

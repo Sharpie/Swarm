@@ -126,13 +126,6 @@ fill_in_uparams (const struct argp_state *state)
 {
   const char *var = getenv ("ARGP_HELP_FMT");
 
-#define isUpper(ch) ((ch) >= 'A' && (ch) <= 'Z')
-#define isLower(ch) ((ch) >= 'a' && (ch) <= 'z')
-#define isAlpha(ch) (isUpper(ch) || isLower(ch))
-#define isAlnum(ch) (isAlpha(ch) || isDigit(ch))
-#define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
-#define isSpace(ch) ((ch) == ' ' || (ch) == '\t' || (ch) == '\n' || (ch) == '\r' || (ch) == '\f')
-
 #define SKIPWS(p) do { while (isSpace (*p)) p++; } while (0);
 
   if (var)
