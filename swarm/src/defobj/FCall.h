@@ -42,14 +42,16 @@ void init_javacall_tables (void);
 #else
 #define JOBJECT void *
 #endif
- 
+
+#define MAX_ARGS        5
+#define MAX_HIDDEN      3
+
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 
 @interface FCall: CreateDrop_s
 {
 @public
    unsigned int callType;
-   unsigned int argNo;
    unsigned int assignedArguments;
    unsigned int hiddenArguments;
    void **argTypes;
@@ -64,12 +66,10 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
    unsigned int signatureLength;
 }
 + createBegin: aZone;
-- setCallType: (unsigned int)callType;
 - setFunction: (void (*)())fn;
 - setMethod: (SEL)method inObject: object;
 - setJavaMethod: (const char *)methodName inObject: (JOBJECT)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
-- setNumberOfArguments: (unsigned)argNo;
 - addArgument: (void *)value ofType: (unsigned int)type;
 - addShort: (short)value;
 - addChar: (char)value;
@@ -87,6 +87,7 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - (const char *)getStringResult;
 - (JOBJECT)getJObjectResult;
 - (void *)getResult;
+- mapAllocations: (mapalloc_t) mapalloc;
 @end
 
 

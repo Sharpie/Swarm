@@ -13,10 +13,27 @@ Library:      defobj
 #import <objc/objc-api.h>
 #include <stdlib.h>
 
-ffi_type * swarm_types[number_of_types];
-char * java_type_signatures[number_of_types];
+ffi_type * swarm_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar, 
+                                            &ffi_type_schar, &ffi_type_ushort, 
+                                            &ffi_type_sshort, &ffi_type_uint,
+                                            &ffi_type_sint, &ffi_type_ulong, 
+                                            &ffi_type_slong, &ffi_type_float, 
+                                            &ffi_type_double,
+                                            &ffi_type_pointer,
+                                            &ffi_type_pointer, 
+                                            &ffi_type_pointer };
+                           
+char * java_type_signature[number_of_types] = { "V", "C", "C", "S", "S", "I", 
+                                    "I", "J", "J", "F", "D", NULL,
+                                    "Ljava/lang/String;", 
+                                    "Ljava/lang/Object;" };
+
+char * java_type_signature_length[number_of_types] = {1, 1, 1, 1, 1, 1,
+						       1, 1, 1, 1, 1, 0,
+						       18, 18};
 void * java_static_call_functions[number_of_types];
-void * java_call_functions[number_of_types];
+void * java_call_functions[number_of_types
+];
 
 static void
 java_not_available (void)
@@ -91,38 +108,23 @@ init_javacall_tables (void)
 {
   FCall *newCall;
   newCall = [aZone allocIVars: self];
-  newCall->argNo = 0;
   newCall->assignedArguments = 0;
   newCall->hiddenArguments = 0;
-  newCall->argTypes = NULL;
-  newCall->argValues = NULL;
+  newCall->argTypes = [[self getZone] allocBlock: (sizeof (ffi_type *) * 
+					      (MAX_ARGS + MAX_HIDDEN))];
+  newCall->argValues = [[self getZone] allocBlock: (sizeof (void *) * 
+					       (MAX_ARGS + MAX_HIDDEN))];
   newCall->returnType = swarm_type_void;
   newCall->result = NULL;
   newCall->signatureLength = 0;
+  newCall->callType = anycall;
+  setMappedAlloc (self);
   return newCall;
-}
-
-- setCallType: (unsigned int)cType
-{
-  callType = cType;
-  switch (callType)
-    {
-    case ccall:
-      hiddenArguments = 0;
-      return self;
-    case objccall:    
-      hiddenArguments = 2;
-      return self;
-    case javacall:
-    case javastaticcall:
-      hiddenArguments = 3;
-      return self;
-    }
-  return self;
 }
 
 - setFunction: (void (*)())fn
 {
+  hiddenArguments = 0;
   callType = ccall;
   function = fn;
   return self;
@@ -142,9 +144,10 @@ init_javacall_tables (void)
 - setJavaMethod: (const char *)methodName inObject: (JOBJECT)obj
 {
 #ifdef HAVE_JDK
+  hiddenArguments = 3;
   callType = javacall;
   (jclass) class = (*jniEnv)->GetObjectClass (jniEnv, obj);
-  method = (char *) methodName;
+  methodName = (char *) methodName;
   (jobject) object = obj;
 #else
   java_not_available();
@@ -155,48 +158,42 @@ init_javacall_tables (void)
 - setJavaMethod: (const char *)methodName inClass: (const char *)className
 { 
 #ifdef HAVE_JDK
+  hiddenArguments = 3;
   callType = javastaticcall;
   (jclass) class = (*jniEnv)->FindClass (jniEnv, className);
-  rmethod = (char *) methodName;
+  methodName = (char *) methodName;
 #else
   java_not_available();
 #endif
   return self;
 }
 
-- setNumberOfArguments: (unsigned)number
+void 
+fillHiddenArguments (FCall * self)
 {
-  argNo = number;
-  if (argNo + hiddenArguments)
-    {
-      argTypes = [[self getZone] allocBlock: (sizeof (ffi_type *) * 
-					      (argNo + hiddenArguments))];
-      argValues = [[self getZone] allocBlock: (sizeof (void *) * 
-					       (argNo + hiddenArguments))];
-    }
-  switch (callType)
+  switch (self->callType)
     {
     case objccall: 
-      argTypes[0] = &ffi_type_pointer;
-      argValues[0] = &object;
-      argTypes[1] = &ffi_type_pointer;
-      argValues[1] = &method;
+      self->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      self->argValues[MAX_HIDDEN - 2] = &object;
+      self->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      self->argValues[MAX_HIDDEN - 1] = &method;
       return self;
     case javacall:
-      argTypes[0] = &ffi_type_pointer;
-      argValues[0] = &jniEnv;
-      argTypes[1] = &ffi_type_pointer;
-      argValues[1] = &object;
-      argTypes[2] = &ffi_type_pointer;
-      argValues[2] = &method;
+      self->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
+      self->argValues[MAX_HIDDEN - 3] = &jniEnv;
+      self->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      self->argValues[MAX_HIDDEN - 2] = &object;
+      self->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      self->argValues[MAX_HIDDEN - 1] = &method;
       return self;
     case javastaticcall:
-      argTypes[0] = &ffi_type_pointer;
-      argValues[0] = &jniEnv;
-      argTypes[1] = &ffi_type_pointer;
-      argValues[1] = &class;
-      argTypes[2] = &ffi_type_pointer;
-      argValues[2] = &method;
+      self->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
+      self->argValues[MAX_HIDDEN - 3] = &jniEnv;
+      self->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
+      self->argValues[MAX_HIDDEN - 2] = &class;
+      self->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
+      self->argValues[MAX_HIDDEN - 1] = &method;
       return self;
     }
   return self;
@@ -204,16 +201,17 @@ init_javacall_tables (void)
 
 - addArgument: (void *)value ofType: (unsigned int)type
 {
-  if (assignedArguments == argNo)
-    raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n");
+  if (assignedArguments == MAX_ARGS)
+    raiseEvent (SourceMessage, "Types already assigned to maximum number
+arguments in the call!\n");
 
   if (type <= swarm_type_double && type != swarm_type_float)
     {
-      argTypes[hiddenArguments + assignedArguments] = (void *) type;
-      argValues[hiddenArguments + assignedArguments] = 
+      argTypes[MAX_HIDDEN + assignedArguments] = (void *) type;
+      argValues[MAX_HIDDEN + assignedArguments] = 
 	[[self getZone] allocBlock: swarm_types[type]->size];
-      memcpy (argValues[hiddenArguments + assignedArguments], 
-	      value, swarm_types[(int) argTypes[hiddenArguments + 
+      memcpy (argValues[MAX_HIDDEN + assignedArguments], 
+	      value, swarm_types[(int) argTypes[MAX_HIDDEN + 
 					       assignedArguments]]->size);
       assignedArguments++;
       signatureLength++;
@@ -239,43 +237,43 @@ init_javacall_tables (void)
   return self;
 }
 
-#define ADD_COMMON_TEST if (assignedArguments == argNo) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
+#define ADD_COMMON_TEST if (assignedArguments == MAX_ARGS) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
 
 
 
-#define ADD_COMMON(type)  { ADD_COMMON_TEST if (callType == javacall || callType == javastaticcall) signatureLength++; argValues[hiddenArguments + assignedArguments] = [[self getZone] allocBlock: swarm_types[(type)]->size]; }
+#define ADD_COMMON(type)  { ADD_COMMON_TEST if (callType == javacall || callType == javastaticcall) signatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: swarm_types[(type)]->size]; }
 
 
 
 - addChar: (char)value
 {
   ADD_COMMON (swarm_type_schar);
-  argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_schar; 
-  *(char *) argValues[hiddenArguments + assignedArguments++] = value;
+  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_schar; 
+  *(char *) argValues[MAX_HIDDEN + assignedArguments++] = value;
   return self;
 }
 
 - addShort: (short)value 
 {
   ADD_COMMON (swarm_type_sshort);
-  argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_sshort;
-  *(short *) argValues[hiddenArguments + assignedArguments++] = value; 
+  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_sshort;
+  *(short *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
   return self;
 }
 
 - addInt: (int)value
 {
   ADD_COMMON (swarm_type_sint);
-  argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_sint;
-  *(int *) argValues[hiddenArguments + assignedArguments++] = value; 
+  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_sint;
+  *(int *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
   return self;
 }
 
 - addLong: (long)value
 {
   ADD_COMMON (swarm_type_slong);
-  argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_slong;
-  *(long *) argValues[hiddenArguments + assignedArguments++] = value; 
+  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_slong;
+  *(long *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
   return self;
 }
 
@@ -284,23 +282,23 @@ init_javacall_tables (void)
   /* in case the function to be called is compiled with compiler other
      than gcc, that does automatic casting of floats to doubles */
   ADD_COMMON (swarm_type_double); 
-  argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_float;
-  *(double *) argValues[hiddenArguments + assignedArguments++] = value; 
+  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_float;
+  *(double *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
   return self;
 }
 
 - addDouble: (double)value
 {
   ADD_COMMON (swarm_type_double);
-  argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_double;
-  *(double *) argValues[hiddenArguments + assignedArguments++] = value; 
+  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_double;
+  *(double *) argValues[MAX_HIDDEN + assignedArguments++] = value; 
   return self;
 }
 
 - addString: (const char *)value
 {
   ADD_COMMON (swarm_type_string);
-  argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_string;
+  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_string;
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall) 
     {
@@ -309,29 +307,29 @@ init_javacall_tables (void)
       if (jstr == NULL)
       	  raiseEvent (SourceMessage, "Out of memory!\n");
       signatureLength += 18; // strlen("Ljava/lang/String;") 
-      *(jstring *) argValues[hiddenArguments + assignedArguments] = jstr;
+      *(jstring *) argValues[MAX_HIDDEN + assignedArguments] = jstr;
       assignedArguments++;
     }
   else
 #endif
-      *(char **) argValues[hiddenArguments + assignedArguments++] = value;
+      *(char **) argValues[MAX_HIDDEN + assignedArguments++] = value;
   return self;
 }
 
 - addJObject: (JOBJECT)value
 {
   ADD_COMMON (swarm_type_jobject);
-  argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_jobject;
+  argTypes[MAX_HIDDEN + assignedArguments] = (void *) swarm_type_jobject;
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall) 
     {
       signatureLength += 18; // strlen("Ljava/lang/Object;") 
-      *(jobject *) argValues[hiddenArguments + assignedArguments] = value; 
+      *(jobject *) argValues[MAX_HIDDEN + assignedArguments] = value; 
       assignedArguments++;
     }
   else
 #endif
-    *(jobject *) argValues[hiddenArguments + assignedArguments++] = value;
+    *(jobject *) argValues[MAX_HIDDEN + assignedArguments++] = value;
   return self;
 }
 
@@ -397,22 +395,21 @@ char * createSignature (FCall * self)
 
   str = [[self getZone] allocBlock: self->signatureLength + 3];
   str[offset++] = '(';
-  for (i = self->hiddenArguments; 
-       i < self->hiddenArguments + self->argNo; 
+  for (i = MAX_HIDDEN; 
+       i < MAX_HIDDEN + self->assignedArguments; 
        i++)
     {
        strcpy (str + offset, 
-	       java_type_signatures [*(int *)(self->argTypes + i)]);
-       offset += 
-	   strlen (java_type_signatures [*(int *) (self->argTypes + i)]);
+	       java_type_signature [*(int *)(self->argTypes + i)]);
+       offset += java_type_signature_length [*(int *) (self->argTypes + i)];
        *(self->argTypes + i) = 
 	   (void *) swarm_types [*(int *) (self->argTypes + i)];
     }
 
   str[offset++] = ')';
 
-  strcpy (str + offset, java_type_signatures [(int) self->returnType]);
-  offset += strlen (java_type_signatures [(int) self->returnType]);
+  strcpy (str + offset, java_type_signature [(int) self->returnType]);
+  offset += strlen (java_type_signature [(int) self->returnType]);
   self->returnType = (void *) swarm_types [(int) self->returnType];
   
   str[offset++]='\0';
@@ -422,8 +419,8 @@ char * createSignature (FCall * self)
 void switch_to_ffi_types(FCall * self)
 {
   unsigned int i;
-  for (i = self->hiddenArguments; 
-       i < self->hiddenArguments + self->argNo; 
+  for (i = MAX_HIDDEN; 
+       i < MAX_HIDDEN + self->assignedArguments; 
        i++)
       *(self->argTypes + i) = 
 	  (void *) swarm_types [*(int *) (self->argTypes + i)];
@@ -435,8 +432,7 @@ void switch_to_ffi_types(FCall * self)
   unsigned int res;
   if (_obj_debug && (callType == ccall || callType == objccall) && !function)
     raiseEvent (SourceMessage, "Function to be called not set!\n");
-  if (_obj_debug && assignedArguments != argNo)
-    raiseEvent (SourceMessage, "Arguments not initialized!\n");
+  fillHiddenArguments (self);
   if (callType == javacall || callType == javastaticcall)
       {
         const char *mtdName;
@@ -460,8 +456,9 @@ void switch_to_ffi_types(FCall * self)
       }
   else 
     switch_to_ffi_types ((FCall *) self);
-  res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, hiddenArguments + argNo, 
-		      (ffi_type *) returnType, (ffi_type **) argTypes);
+  res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, MAX_HIDDEN + assignedArguments, 
+		      (ffi_type *) returnType, 
+		      (ffi_type **) argTypes + MAX_HIDDEN - hiddenArguments);
   if (_obj_debug && res != FFI_OK)
     raiseEvent (SourceMessage,
                 "Failed while preparing foreign function call closure!\n"); 
@@ -497,6 +494,12 @@ void switch_to_ffi_types(FCall * self)
 - (void *)getResult
 {
   return result;
+}
+
+- (void)mapAllocations: (mapalloc_t) mapalloc
+{
+  mapObject (mapalloc, argTypes);
+  mapObject (mapalloc, argValues);
 }
 
 @end
