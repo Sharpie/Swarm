@@ -1,5 +1,7 @@
 1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* common.m: Include internal.h instead of tk.h.
+
 	* Form.m, Histogram.m: Include internal.h not TkExtra.h.
 
 	* ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h
