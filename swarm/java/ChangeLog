@@ -1,3 +1,8 @@
+2000-07-06    <mgd@DRONE>
+
+	* java-stub.el (java-print-makefiles): Use java-module-path
+	instead of using a relative path.
+
 2000-07-03  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.am (SWARM_EXTRA_DIST): Add
