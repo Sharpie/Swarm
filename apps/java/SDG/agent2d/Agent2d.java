@@ -121,7 +121,6 @@ public class Agent2d extends SwarmImpl {
   }
 
   public boolean frob (int direction) {
-    System.out.print (this + " sure, whatever!");
     return false;
   }
 }

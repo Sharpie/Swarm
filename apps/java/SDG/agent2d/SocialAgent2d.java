@@ -53,4 +53,9 @@ public abstract class SocialAgent2d extends Agent2d {
       (x - size, y - size, x + size, y + size, 1, color);
     return this;
   }
+
+  public boolean frob (int direction) {
+    System.out.print (this + " sure, whatever!");
+    return false;
+  }
 }
