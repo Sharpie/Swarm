@@ -277,7 +277,7 @@ empty (const char *str)
 {
   id resObj = tkobjc_gimme_drag_and_drop_object ();
 
-  [myProbe setArg: which To: tclObjc_objectToName (resObj)];
+  [myProbe setArg: which To: strdup (tclObjc_objectToName (resObj))];
   
   which *= 2;
   which += 1;
