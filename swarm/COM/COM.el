@@ -426,6 +426,7 @@
   (make-protocol
    :name "Selector"
    :module (lookup-module 'swarm)
+   :included-protocol-list (list (lookup-protocol "CREATABLE"))
    :method-list (list
                  (make-method
                   :phase :creating
@@ -438,11 +439,17 @@
 (defun com-complete-protocols ()
   (cons (selector-protocol) (com-wrapped-protocols)))
 
+(defun com-impl-wrapped-protocols ()
+  (remove-if-not #'real-class-p (com-wrapped-protocols)))
+
+(defun com-impl-complete-protocols ()
+  (remove-if-not #'real-class-p (com-complete-protocols)))
+
 (defun com-impl-map-wrapped-protocols (protocol-func)
-  (com-impl-map-protocol-list (com-wrapped-protocols) protocol-func))
+  (com-impl-map-protocol-list (com-impl-wrapped-protocols) protocol-func))
 
 (defun com-impl-map-complete-protocols (protocol-func)
-  (com-impl-map-protocol-list (com-complete-protocols) protocol-func))
+  (com-impl-map-protocol-list (com-impl-complete-protocols) protocol-func))
 
 (defun com-impl-generate-headers (protocol phase)
   (let ((iprotocols (generate-complete-protocol-list protocol)))
