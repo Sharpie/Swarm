@@ -3,6 +3,7 @@
 #import <simtools.h> // initSwarm
 #import <defobj.h> // defobj_java_call_init_tables
 #import "directory.h" // java_directory_init
+#import <simtoolsgui.h>
 #include <jni.h>
 
 JNIEXPORT jobject JNICALL
@@ -55,6 +56,32 @@ JNIEXPORT int JNICALL
 Java_swarm_SwarmEnvironment_getCurrentTime (JNIEnv *env, jobject obj)
 {
   return getCurrentTime();
+}
+
+JNIEXPORT void JNICALL createProbeDisplay (JNIEnv * env, jobject obj, 
+					   jobject anObject)
+{
+  CREATE_PROBE_DISPLAY(JFINDOBJC (env, anObject));
+}
+
+JNIEXPORT void JNICALL createCompleteProbeDisplay (JNIEnv * env, jobject obj, 
+					   jobject anObject)
+{
+  CREATE_COMPLETE_PROBE_DISPLAY(JFINDOBJC (env, anObject));
+}
+
+JNIEXPORT void JNICALL createArchivedProbeDisplay (JNIEnv * env, jobject obj, 
+					   jobject anObject)
+{
+  CREATE_ARCHIVED_PROBE_DISPLAY(JFINDOBJC (env, anObject));
+}
+
+
+JNIEXPORT void JNICALL createArchivedCompleteProbeDisplay (JNIEnv * env, 
+							   jobject obj, 
+							   jobject anObject)
+{
+  CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(JFINDOBJC (env, anObject));
 }
 
 

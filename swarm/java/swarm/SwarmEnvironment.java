@@ -26,6 +26,11 @@ public class SwarmEnvironment {
   public native ActionImpl getCurrentAction ();
   public native ActivityImpl getCurrentActivity();
 
+  public native void createProbeDisplay (Object anOjbect);
+  public native void createCompleteProbeDisplay (Object anObject);
+  public native void createArchivedProbeDisplay (Object anObject);
+  public native void createArchivedCompleteProbeDisplay (Object anObject);
+
   public ProbeLibraryImpl probeLibrary;
   public ZoneImpl globalZone;
   public UniformIntegerDistImpl uniformIntRand;

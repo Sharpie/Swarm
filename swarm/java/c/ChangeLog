@@ -2,6 +2,8 @@
 
 	* SwarmEnvironment.m: Implementations of getCurrent... methods
 	that correspond to getCurrent... macros from activity.h
+	Implementations of create...ProbeDisplay methods that correspond
+	to CREATE_..._PROBE_DISPLAY macros from simtoolsgui.h
 
 1999-07-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
