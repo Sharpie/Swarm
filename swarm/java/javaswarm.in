@@ -20,12 +20,12 @@ EOF
 `$@SHLIBPATH_VAR@
 fi
 
-JAVALIBS='@JAVALIBS@'
+JAVALIBS="@JAVALIBS@"
 if test @USEDOSCLASSPATH@ = yes; then
   PS='@PATHSEP@'
   PD='@PATHDELIM@'
   swarmclassdir=`cygpath -w "@swarm_datadir@"`
-  @JAVALIBPATH_VAR@="`cygpath -w @swarm_libdir@`${PS}${JAVALIBS}"
+  @JAVALIBPATH_VAR@="`cygpath -w @swarm_bindir@`"
 else
   PS=:
   PD=/
