@@ -308,8 +308,8 @@ AC_DEFUN(md_FIND_BLT,
 found=no
 for name in $bltlibname BLT30 BLT24 BLT8.0 BLT80 BLT; do
    for _libdir in "$bltdir/lib/shared" "$bltdir/lib" ; do
-	  md_FIND_LIB(blt,$name,$libdir,1)
-	  if test -n "$_ldflags" ; then
+	  md_FIND_LIB(blt,$name,$_libdir,1)
+	  if test -n "$bltlibdir" ; then
 		bltlibname=$name
 		bltlibdir=$_libdir
 		found=yes
