@@ -1,3 +1,7 @@
+1998-09-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* WindowGeometryRecord.m (getValueList): Use ARCHIVERLITERALP.
+
 1998-09-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (tkobjc_pixmap_save): Abort if ncolors == -1 in X11 case.

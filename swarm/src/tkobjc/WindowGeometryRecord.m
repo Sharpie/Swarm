@@ -53,7 +53,7 @@ getValueList (id index)
 {
   id l = [index next];
   
-  if ([l getFirst] != ArchiverLiteral)
+  if (!ARCHIVERLITERALP ([l getFirst]))
     [WindowGeometryRecordError raiseEvent: "ArchiverLiteral expected"];
 
   return [l getLast];
