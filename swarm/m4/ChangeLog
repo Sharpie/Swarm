@@ -2,7 +2,7 @@
 
 	* acjdk.m4 (jv_FIND_JDK): Use simply the japhar datadir instead of
 	datadir/classes.zip.  Add test for kaffe class and include file
-	locations.
+	locations.  Substitute java, japhar, or kaffe to JAVA.
 
 1999-03-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
