@@ -1,3 +1,12 @@
+2001-01-29  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* VarProbe.m ([VarProbe -_typeSetup_]): Handle ObjC array type.
+
+	* Probe.h (CONVERT): Moved from VarProbe.m.
+
+	* MessageProbe.m ([MessageProbe -doubleDynamicCallOn:]) 
+	([MessageProbe -longDynamicCallOn:]): Use it.
+
 2001-01-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* objectbase.h (val_t): Remove.  (Moved to defobj.h.)

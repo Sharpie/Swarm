@@ -54,42 +54,47 @@ PHASE(Creating)
 
 - (void)_typeSetup_
 {
-  switch (fcall_type_for_objc_type (probedType[0]))
+  if (probedType[0] == _C_ARY_B)
+    interactiveFlag = NO;
+  else
     {
-    case fcall_type_float:
-    case fcall_type_double:
-    case fcall_type_long_double:
-      {
+      switch (fcall_type_for_objc_type (probedType[0]))
+        {
+        case fcall_type_float:
+        case fcall_type_double:
+        case fcall_type_long_double:
+          {
         // set up default formatting string for floating point and 
         // double types - defaults are set in the probeLibrary instance
-        char *buf = [getZone (self) alloc: 16];
-        
-        sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
-        floatFormat = buf; // allocate memory for string
-      }
-    case fcall_type_boolean:
-    case fcall_type_string:
-    case fcall_type_schar:
-    case fcall_type_uchar:
-    case fcall_type_sshort:
-    case fcall_type_ushort:
-    case fcall_type_sint:
-    case fcall_type_uint:
-    case fcall_type_slong:
-    case fcall_type_ulong:
-    case fcall_type_slonglong:
-    case fcall_type_ulonglong:
-      interactiveFlag = YES;
-      break;
-    case fcall_type_object:
-    case fcall_type_class:
-    case fcall_type_selector:
-    case fcall_type_jobject:
-    case fcall_type_jstring:
-    case fcall_type_void:
-    case fcall_type_iid:
-      interactiveFlag = NO;
-      break;
+            char *buf = [getZone (self) alloc: 16];
+            
+            sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
+            floatFormat = buf; // allocate memory for string
+          }
+        case fcall_type_boolean:
+        case fcall_type_string:
+        case fcall_type_schar:
+        case fcall_type_uchar:
+        case fcall_type_sshort:
+        case fcall_type_ushort:
+        case fcall_type_sint:
+        case fcall_type_uint:
+        case fcall_type_slong:
+        case fcall_type_ulong:
+        case fcall_type_slonglong:
+        case fcall_type_ulonglong:
+          interactiveFlag = YES;
+          break;
+        case fcall_type_object:
+        case fcall_type_class:
+        case fcall_type_selector:
+        case fcall_type_jobject:
+        case fcall_type_jstring:
+        case fcall_type_void:
+        case fcall_type_iid:
+          interactiveFlag = NO;
+          break;
+        }
     }
 }
 
@@ -418,65 +423,9 @@ java_probe_as_int (jobject fieldType, jobject field, jobject object)
 
 #endif
 
-#define CONVERT(ftype, type, p)                           \
-  switch (ftype)                                          \
-    {                                                     \
-    case fcall_type_void:                                 \
-    case fcall_type_object:                               \
-    case fcall_type_class:                                \
-    case fcall_type_string:                               \
-    case fcall_type_selector:                             \
-    case fcall_type_jobject:                              \
-    case fcall_type_jstring:                              \
-    case fcall_type_iid:                                  \
-      abort ();                                           \
-    case fcall_type_boolean:                              \
-      ret = (type) p->boolean;                            \
-      break;                                              \
-    case fcall_type_uchar:                                \
-      ret = (type) p->uchar;                              \
-      break;                                              \
-    case fcall_type_schar:                                \
-      ret = (type) p->schar;                              \
-      break;                                              \
-    case fcall_type_ushort:                               \
-      ret = (type) p->ushort;                             \
-      break;                                              \
-    case fcall_type_sshort:                               \
-      ret = (type) p->sshort;                             \
-      break;                                              \
-    case fcall_type_uint:                                 \
-      ret = (type) p->uint;                               \
-      break;                                              \
-    case fcall_type_sint:                                 \
-      ret = (type) p->sint;                               \
-      break;                                              \
-    case fcall_type_ulong:                                \
-      ret = (type) p->ulong;                              \
-      break;                                              \
-    case fcall_type_slong:                                \
-      ret = (type) p->slong;                              \
-      break;                                              \
-    case fcall_type_ulonglong:                            \
-      ret = (type) p->ulonglong;                          \
-      break;                                              \
-    case fcall_type_slonglong:                            \
-      ret = (type) p->slonglong;                          \
-      break;                                              \
-    case fcall_type_float:                                \
-      ret = (type) p->_float;                             \
-      break;                                              \
-    case fcall_type_double:                               \
-      ret = (type) p->_double;                            \
-      break;                                              \
-    case fcall_type_long_double:                          \
-      ret = (type) p->_long_double;                       \
-      break;                                              \
-    }
-
-#define COM_CONVERT(type) CONVERT (COM_method_param_fcall_type (getterMethod, 0), type, p)
 #define OBJC_CONVERT(type) CONVERT (fcall_type_for_objc_type (probedType[0]), type, p)
-#define JS_CONVERT(casttype) CONVERT (val.type, casttype, (&val.val))
+#define COM_CONVERT(type) CONVERT (COM_method_param_fcall_type (getterMethod, 0), type, p)
+#define JS_CONVERT(casttype) CONVERT (val.type, casttype, &val.val)
 
 static int
 COM_probe_as_int (COMobject cObj,

@@ -335,67 +335,19 @@ dynamicCallOn (const char *probedType,
 - (double)doubleDynamicCallOn: target
 {
   val_t val = [self dynamicCallOn: target];
+  double ret = 0.0;
 
-  if (val.type == fcall_type_sshort)
-    return (double) val.val.sshort;
-  else if (val.type == fcall_type_ushort)
-    return (double) val.val.ushort;
-  else if (val.type == fcall_type_sint)
-    return (double) val.val.sint;
-  else if (val.type == fcall_type_uint)
-    return (double) val.val.uint;
-  else if (val.type == fcall_type_slong)
-    return (double) val.val.slong;
-  else if (val.type == fcall_type_ulong)
-    return (double) val.val.ulong;
-  else if (val.type == fcall_type_slonglong)
-    return (double) val.val.slonglong;
-  else if (val.type == fcall_type_ulonglong)
-    return (double) val.val.ulonglong;
-  else if (val.type == fcall_type_schar)
-    return (double) val.val.schar;
-  else if (val.type == fcall_type_uchar)
-    return (double) val.val.uchar; 
-  else if (val.type == fcall_type_float)
-    return (double) val.val._float;
-  else if (val.type == fcall_type_double)
-    return val.val._double;
-  else if (val.type == fcall_type_long_double)
-    return (double) val.val._long_double;
-  abort ();
+  CONVERT (val.type, double, &val.val);
+  return ret;
 }
 
 - (long)longDynamicCallOn: target
 {
   val_t val = [self dynamicCallOn: target];
+  long ret= 0;
 
-  if (val.type == fcall_type_schar)
-    return (long) val.val.schar;
-  else if (val.type == fcall_type_uchar)
-    return (long) val.val.uchar;
-  else if (val.type == fcall_type_sshort)
-    return (long) val.val.sshort;
-  else if (val.type == fcall_type_ushort)
-    return (long) val.val.ushort; 
-  else if (val.type == fcall_type_sint)
-    return (long) val.val.sint;
-  else if (val.type == fcall_type_uint)
-    return (long) val.val.uint;
-  else if (val.type == fcall_type_slong)
-    return val.val.slong;
-  else if (val.type == fcall_type_ulong)
-    return (long) val.val.ulong;
-  else if (val.type == fcall_type_slonglong)
-    return val.val.slonglong;
-  else if (val.type == fcall_type_ulonglong)
-    return (long) val.val.ulonglong;
-  else if (val.type == fcall_type_float)
-    return (long) val.val._float;
-  else if (val.type == fcall_type_double)
-    return (long) val.val._double;
-  else if (val.type == fcall_type_long_double)
-    return (long) val.val._long_double;
-  abort ();
+  CONVERT (val.type, long, &val.val);
+  return ret;
 }
 
 - (const char *)stringDynamicCallOn: target
