@@ -1286,7 +1286,10 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
           p = stpcpy (p, argSigs[ai]);
         *p++ = ')';
         p = stpcpy (p, retSig);
-        
+
+        for (ai = 0; ai < argCount; ai++)
+          [scratchZone free: (void *) argSigs[ai]];
+
         (*env)->SetObjectField (env,
                                 jsel,
                                 f_typeSignatureFid,

@@ -344,9 +344,9 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
           [index remove];
           [zone freeBlock: suballocEntry blockSize: sizeof *suballocEntry];
         }
+      [index drop];
       if (!suballocEntry)
         {
-          [index drop];
           setBit (zbits, BitSuballocList, 0);
           [zone freeBlock: suballocList
                 blockSize: getClass (suballocList)->instance_size];
@@ -1337,13 +1337,16 @@ xfexec (id anObject, const char *msgName)
       else
         {
           index = [anObject begin: scratchZone];
-          while ((member = [index next]))
+          for (member = [index next];
+               [index getLoc] == Member;
+               member = [index next])
             {
               xexec (member, msgName);
               anObject = nil;
             }
           if (anObject)
             fprintf (_obj_xdebug, "collection has no members\n");
+          [index drop];
         }
     }
   else

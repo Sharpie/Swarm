@@ -224,23 +224,23 @@ PHASE(Using)
 //
 // allocIVarsComponent: -- allocate an internal component object
 //
-- allocIVarsComponent: aClass
+- allocIVarsComponent: (Class)aClass
 {
-  Object_s  *newObject;
+  Object_s *newObject;
 
   // allocate object of required size, including links in object header
-
-  newObject = (Object_s *) dalloc (((Class) aClass)->instance_size);
+  
+  newObject = (Object_s *) dalloc (aClass->instance_size);
 
   if (_obj_debug)
     {
       objectCount++;
-      objectTotal += ((Class)aClass)->instance_size;
+      objectTotal += aClass->instance_size;
     }
   
   // initialize and return the new object, without adding to population list
 
-  memset (newObject, 0, ((Class) aClass)->instance_size);
+  memset (newObject, 0, aClass->instance_size);
   setClass (newObject, aClass);   
   newObject->zbits = (unsigned long) self;
   setBit (newObject->zbits, BitComponentAlloc, 1); 
@@ -267,7 +267,7 @@ PHASE(Using)
   // initialize and return the new object, without adding to population list
   
   memcpy (newObject, anObject, getClass (anObject)->instance_size);
-  newObject->zbits = (unsigned long)self;
+  newObject->zbits = (unsigned long) self;
   if (getMappedAlloc ((Object_s *) anObject))
     setMappedAlloc (newObject);  
   setBit (newObject->zbits, BitComponentAlloc, 1); 
@@ -295,7 +295,7 @@ PHASE(Using)
       
       objectCount--;
       objectTotal -= getClass (anObject)->instance_size;
-      
+
       memset ((id *) anObject, _obj_fillfree,
               getClass (anObject)->instance_size);
     }
@@ -502,7 +502,7 @@ PHASE(Using)
 
 - allocIVars: (Class)aClass
 {
-  return [baseZone allocIVarsComponent: (Class)aClass];
+  return [baseZone allocIVarsComponent: aClass];
 }
 
 - copyIVars: anObject
