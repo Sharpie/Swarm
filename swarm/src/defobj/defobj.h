@@ -34,11 +34,6 @@ Library:      defobj
 //D: The DefinedObject type defines a minimum of standard messages, and
 //D: leaves to other types the definition of message that might or might
 //D: not apply in any general way to particular objects.
-CREATING
-//M: Process an expression to create an instance of some class
-//M: (either implicitly or explicitly specified).
-+ lispin: aZone expr: expr;
-
 USING
 //M: The getZone message returns the zone in which the object was created.
 - getZone;
@@ -120,6 +115,9 @@ USING
 
 //M: Output a Lisp representation of object state to a stream.
 - lispout: stream;
+
+//F: Load an object of the form (make-objc :arg1 x :arg 2)
+extern id lispin (id aZone, id expr);
 @end
 
 @protocol Customize

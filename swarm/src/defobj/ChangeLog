@@ -1,3 +1,16 @@
+1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* DefObject.m (find_ivar): New function.
+	([Object_s -lispin:]): Handle arrays, numbers, strings, and 
+	object creation.
+
+	* defobj.h, DefObject.[hm]: Replace +lispin:expr with lispin ().
+
+	* Archiver.m (callLispIn): Remove.
+	(processMakeObjcPairs): Call lispin directly.
+
+	* Makefile.am ($(OBJECTS)): Depend on version.h.
+
 1998-11-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefObject.m (output_type): Return next type position.

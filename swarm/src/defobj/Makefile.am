@@ -29,7 +29,7 @@ bin_SCRIPTS = m2h make-h2x
 defobj_HEADERS = Archiver.h Arguments.h Create.h Customize.h \
 	DefClass.h DefObject.h Program.h Symbol.h Zone.h defalloc.h deftype.h
 
-libdefobj_a_DEPENDENCIES = version.h
+$(OBJECTS): version.h
 
 version.h: $(top_srcdir)/VERSION
 	sed -n '1s/.*/#define SWARM_VERSION "&"/p' < $< > $@

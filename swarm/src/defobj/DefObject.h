@@ -68,9 +68,10 @@ Library:      defobj
 - (void)xfprint;
 - (void)xfprintid;
 - lispin: expr;
-+ lispin: aZone expr: expr;
 - lispout: stream;
 @end
+
+id lispin (id aZone, id expr);
 
 //
 // macros for accessing bits at defined locations inside instance variables

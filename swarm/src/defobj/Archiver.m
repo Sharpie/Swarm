@@ -109,19 +109,13 @@ processPairs (id aZone, id obj, id (*func)(id, id), id map)
 }
 
 static id
-callLispIn (id aZone, id expr)
-{
-  return [Archiver lispin: aZone expr: expr];
-}
-
-static id
 processMakeObjcPairs (id aZone, id expr)
 {
   id objectMap = [Map createBegin: aZone];
   [objectMap setCompareFunction: &compareStrings];
   objectMap = [objectMap createEnd];
   
-  processPairs (aZone, expr, callLispIn, objectMap);
+  processPairs (aZone, expr, lispin, objectMap);
           
   return objectMap;
 }

@@ -66,7 +66,22 @@ collectRemaining (id makeExprIndex)
   return newList;
 }
 
-+ lispin: aZone expr: expr
+id
+lispinQuotedExpr (id expr)
+{
+  id value;
+
+  if (!listp (expr))
+    raiseEvent (InvalidArgument, "expr not a list");
+  value = [expr getFirst];
+  if (!ARCHIVERLITERALP (value))
+    raiseEvent (InvalidArgument, "value not archiver literal");
+  value = [expr getLast];
+  return value;
+}
+
+id
+lispin (id aZone, id expr)
 {
   if (!listp (expr))
     raiseEvent (InvalidArgument, "> expr not a list");
@@ -1095,18 +1110,24 @@ output_type (const char *type,
   return self;
 }
 
-id
-lispinQuotedExpr (id expr)
+static struct objc_ivar *
+find_ivar (id obj, const char *name)
 {
-  id value;
+  struct objc_ivar_list *ivars = getClass (obj)->ivars;
 
-  if (!listp (expr))
-    raiseEvent (InvalidArgument, "expr not a list");
-  value = [expr getFirst];
-  if (!ARCHIVERLITERALP (value))
-    raiseEvent (InvalidArgument, "value not archiver literal");
-  value = [expr getLast];
-  return value;
+  if (ivars)
+    {
+      unsigned i, ivar_count = ivars->ivar_count;
+      struct objc_ivar *ivar_list = ivars->ivar_list;
+
+      for (i = 0; i < ivar_count; i++)
+        {
+          if (strcmp (ivars->ivar_list[i].ivar_name, name) == 0)
+            return &ivars->ivar_list[i];
+        }
+      return NULL;
+    }
+  return NULL;
 }
 
 - lispin: expr
@@ -1116,21 +1137,63 @@ lispinQuotedExpr (id expr)
 
   while ((key = [li next]) != nil)
     {
-      if (!listp (key))
-        raiseEvent (InvalidArgument, "expecting list [%s]", [key name]);
-      {
-        id first = [key getFirst];
+      const char *ivarname = [key getKeywordName];
+      struct objc_ivar *ivar;
+      void *ptr;
 
-        if (first != (id) ArchiverSymbol)
-          raiseEvent (InvalidArgument, "expecting keyword [%s]", [first name]);
-      }
+      if (!keywordp (key))
+        raiseEvent (InvalidArgument, "expecting keyword [%s]", [key name]);
+      
+      if ((val = [li next]) == nil)
+        raiseEvent (InvalidArgument, "missing value");
+      
+      ivar = find_ivar (self, ivarname);
+      
+      if (ivar == NULL)
+        raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarname);
+      
+      ptr = (void *) self + ivar->ivar_offset;
 
-      {
-        if ((val = [li next]) == nil)
-          raiseEvent (InvalidArgument, "missing value");
-        
-        xprint (val);
-      }
+      if (arrayp (val))
+        memcpy (ptr, [val getData], 
+                [val getElementCount] * [val getElementSize]);
+      else if (numberp (val))
+        {
+          char ntype = [val getNumberType];
+
+          switch (ntype)
+            {
+            case _C_DBL:
+              *((double *) ptr) = [val getDouble];
+              break;
+            case _C_FLT:
+              *((float *) ptr) = [val getFloat];
+              break;
+            case _C_INT:
+              *((int *) ptr) = [val getInteger];
+              break;
+            default:
+              raiseEvent (InvalidArgument, "Unknown number type `%c'", ntype);
+              break;
+            }
+          }
+      else if (stringp (val))
+        *((const char **) ptr) = strdup ([val getC]);
+      else if (listp (val))
+        {
+          id first = [val getFirst];
+
+          if (stringp (first))
+            {
+              if (strcmp ([first getC], MAKE_OBJC_FUNCTION_NAME) == 0)
+                *((id *) ptr) = lispin ([self getZone], val);
+            }
+          else
+            raiseEvent (InvalidArgument, "function not %s",
+                        MAKE_OBJC_FUNCTION_NAME);
+        }
+      else
+        raiseEvent (InvalidArgument, "Unknown type `%s'", [val name]);
     }
   return self;
 }
