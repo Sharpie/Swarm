@@ -77,10 +77,6 @@
       ("ProbeMap \\*" . freaky) 
       ))
 
-(defvar *extra-removed-methods* nil)
-
-(defvar *extra-unwanted-create-method-signatures* nil)
-
 (defun method-in-protocol-p (protocol method)
   (loop for sig in (protocol-method-list protocol)
         if (eq method sig) return 't
