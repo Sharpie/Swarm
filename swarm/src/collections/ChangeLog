@@ -3,6 +3,9 @@
 	* Permutation.[hm] (Permutation): Add touchedFlag and untouchedFlag
 	and getters.
 	([Permutation_c -getLastDirectionFor:]): New method.
+	([Permutation_c -createEnd]): Don't create
+	PermutationItems if the collection is empty.
+	([Permutation_c -describe:]): Fixes.
 
 	* Collection.m ([PermutedIndex_c +createBegin:]): Clear nextFlag.
 	([PermutedIndex_c -_updatePermutation_]): Don't use count as 

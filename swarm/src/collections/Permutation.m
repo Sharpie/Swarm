@@ -91,28 +91,33 @@ PHASE(Creating)
     [shuffler setUniformRandom: rnd];
   shuffler = [shuffler createEnd];
 
-  index = [collection begin: scratchZone];  
-  touchedFlag = NO;
-  untouchedFlag = NO;
-  for (elem = [index next], i = 0; i < count; elem = [index next], i++)
+  if (count > 0)
     {
-      int direction = (lastPermutation
-                       ? [lastPermutation getLastDirectionFor: elem]
-                       : 0);
-      if (direction == 1)
-        touchedFlag = YES;
-      else if (direction == 0)
-        untouchedFlag = YES;
-      [self atOffset: i
-            put:
-              [[[[[PermutationItem createBegin: getCZone (getZone (self))]
-                   setPosition: i]
-                  setItem: elem]
-                 setLastDirection: direction]
-                createEnd]];
+      index = [collection begin: scratchZone];  
+      touchedFlag = NO;
+      untouchedFlag = NO;
+      for (elem = [index next], i = 0;
+           [index getLoc] == Member;
+           elem = [index next], i++)
+        {
+          int direction = (lastPermutation
+                           ? [lastPermutation getLastDirectionFor: elem]
+                           : 0);
+          if (direction == 1)
+            touchedFlag = YES;
+          else if (direction == 0)
+            untouchedFlag = YES;
+          [self atOffset: i
+                put:
+                  [[[[[PermutationItem createBegin: getCZone (getZone (self))]
+                       setPosition: i]
+                      setItem: elem]
+                     setLastDirection: direction]
+                    createEnd]];
+        }
+      [index drop];
+      [shuffler shuffleWholeList: self];
     }
-  [index drop];
-  [shuffler shuffleWholeList: self];
   return self;
 }
 
@@ -123,7 +128,7 @@ PHASE(Using)
   int direction = 0;
   id index = [self begin: scratchZone];
   PermutationItem_c *pi;
-  
+
   for (pi = [index next]; [index getLoc] == Member; pi = [index next])
     if (pi->position >= 0 && pi->item == item)
       {
@@ -154,7 +159,7 @@ PHASE(Using)
   id elem;
   id index = [self begin: scratchZone];
   unsigned i;
-  
+
   for (elem = [index next], i = 0; i < count; elem = [index next], i++)
     mapObject (mapalloc, elem);
 
@@ -163,24 +168,23 @@ PHASE(Using)
   [super mapAllocations: mapalloc];  
 }
 
-- (void)describe: outputCharStream
+- (void)describe: stream
 {
-  char buffer[20];
   id index;
   id elem;
 
-  [outputCharStream catC: "Permutation:\n"];
+  [stream catC: "Permutation "];
+  [stream catPointer: self];
+  [stream catC: ":\n"];
   index = [self begin: scratchZone];
   [index setLoc:Start];
-  elem = [index next];
-  while (elem) 
+  for (elem = [index next]; [index getLoc] == Member; elem = [index next])
     {
-       [elem describe: outputCharStream];
-       elem = [index next];
-       [outputCharStream catC: buffer];
-
+      if (elem)
+        [elem describe: stream];
+      else
+        [stream catC: "<null>\n"];
     }
-  sprintf (buffer,"\n");
   [index drop];
 }
 
