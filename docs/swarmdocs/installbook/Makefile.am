@@ -1,6 +1,6 @@
 NAME = installbook
 
-SGML= install00.sgml install01.sgml install02.sgml installbook.sgml installcont.sgml installmeta.sgml   
+SGML= install01.sgml install02.sgml installbook.sgml installcont.sgml installmeta.sgml   
 
 GENERATED_SGML = installrevhistory.sgml
 

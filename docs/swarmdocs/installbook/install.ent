@@ -1,6 +1,5 @@
 <!entity installmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Metadata//EN">
 <!entity installcont.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Content//EN">
-<!entity install00.sgml PUBLIC  "-//SFI Hive//ENTITIES Installing Preface//EN"> 
 <!entity install01.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Article 1//EN"> 
 <!entity install02.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Article 2//EN">
 <!entity installrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Installing Revision History//EN">
