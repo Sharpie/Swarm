@@ -83,3 +83,28 @@ AC_SUBST(JAR)
 AC_SUBST(jdkdir)
 ])
 
+AC_DEFUN(md_CHECK_JNI_H,
+[last_cppflags=$CPPFLAGS
+CPPFLAGS="$JAVAINCLUDES $CPPFLAGS"
+AC_TRY_COMPILE([#include <jni.h>],[],jni_h_works=yes,jni_h_works=no)
+CPPFLAGS=$last_cppflags
+if test $jni_h_works = no; then
+  AC_CHECK_SIZEOF(int, 4)
+  AC_CHECK_SIZEOF(long, 4)
+  AC_CHECK_SIZEOF(long long, 8)
+  if test $ac_cv_sizeof_int = 8; then
+    AC_DEFINE(INT64, int)
+  elif test $ac_cv_sizeof_long = 8; then
+    AC_DEFINE(INT64, long)
+  elif test $ac_cv_sizeof_long_long = 8; then
+    AC_DEFINE(INT64, long long)
+  else
+    AC_MSG_ERROR(Cannot find 8 byte integer for jni.h)
+  fi
+  CPPFLAGS="$JAVAINCLUDES $CPPFLAGS"
+  AC_TRY_COMPILE([#define __int64 INT64
+#include <jni.h>],[],AC_DEFINE(JNI_H_NEEDS_INT64))
+  CPPFLAGS=$last_cppflags
+fi
+])
+

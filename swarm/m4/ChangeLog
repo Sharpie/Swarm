@@ -1,6 +1,7 @@
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4 (vj_FIND_JDK): Add check for $jdkdir/include/winnt.
+	(md_CHECK_JNI_H): New macro.
 
 	* acxpm.m4 (md_FIND_XPM): Use AC_TRY_COMPILE instead of simple
 	file tests.  Add messages.  Don't do xpm.h tests if gnuwin32.
