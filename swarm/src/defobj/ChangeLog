@@ -1,3 +1,8 @@
+2002-04-09  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* HDF5Object.m (get_attribute_string_list): Use max of size
+	of str_ref_tid and the target pointer size.
+
 2002-03-18  Marcus G. Daniels  <mgd@condor>
 
 	* HDF5Object.m (chunk_deflate_plist): New function.

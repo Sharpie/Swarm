@@ -215,7 +215,13 @@ get_attribute_string_list (hid_t oid,
 
           if (strings)
             {
-              ptr = [scratchZone alloc: sizeof (const char *) * retcount];
+              size_t refsize = H5Tget_size (str_ref_tid);
+              size_t size = sizeof (const char *) * retcount;
+
+              if (refsize > size)
+                size = refsize;
+
+              ptr = [scratchZone alloc: size];
               
               if (H5Aread (aid, str_ref_tid, ptr) < 0)
                 raiseEvent (LoadError,
@@ -1052,7 +1058,7 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
       size_t i;
       
       memcpy (srcbuf, buf, sizeof (srcbuf));
-      for (i = 0; i < count;i ++)
+      for (i = 0; i < count; i++)
         {
           ((const char **) buf)[i] = SSTRDUP (srcptr);
           srcptr += size;
