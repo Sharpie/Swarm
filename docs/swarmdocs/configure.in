@@ -1,4 +1,4 @@
-AC_INIT(sgml.el)
+AC_INIT(history.el)
 
 AM_INIT_AUTOMAKE(swarmdocs, 1.4.1)
 
