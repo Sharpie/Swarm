@@ -1,7 +1,7 @@
 C_EXTRA_DIST = c/setup.c c/Makefile.in c/SwarmEnvironment.m c/ChangeLog
 SWARM_EXTRA_DIST = swarm/Makefile.rules.in swarm/Makefile.in swarm/ChangeLog swarm/Selector.java swarm/NonUniqueMethodSignatureException.java swarm/SignatureNotFoundException.java
 JAVASWARMSCRIPTS=@JAVASWARMSCRIPTS@
-EXTRA_SCRIPTS = javacswarm javaswarm.in
+EXTRA_SCRIPTS = javacswarm.in javaswarm.in
 EXTRA_DIST = java-stub.el $(C_EXTRA_DIST) $(SWARM_EXTRA_DIST) $(EXTRA_SCRIPTS)
 
 abs_top_builddir := $(shell cd $(top_builddir); pwd)

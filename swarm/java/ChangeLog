@@ -1,3 +1,11 @@
+1999-06-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (EXTRA_SCRIPTS): Switch to javacswarm.in.
+
+	* javacswarm.in: New file.
+
+	* javacswarm: Remove.
+
 1999-06-02    <mgd@HELEN>
 
 	* javaswarm.in (JAVALIBPATH_VAR): Include JAVALIBS.
