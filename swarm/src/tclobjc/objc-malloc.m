@@ -31,7 +31,7 @@ __objc_malloc(size_t size)
 void*
 __objc_realloc(void* mem, size_t size)
 {
-  return xrealloc (size);
+  return xrealloc (mem, size);
 }
  
 void*
