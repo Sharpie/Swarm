@@ -1,5 +1,9 @@
 1999-03-21  Marcus G. Daniels  <mgd@chimayo.santafe.edu>
 
+	* Selector.java: Make class public.
+
+	* SwarmEnvironment.java: Remove main.
+
 	* Makefile.in (SWARMCLASSFILES): New variable with swarm/ prefix in
 	front of CLASSFILES.
 	(all): Pass SWARMCLASSFILES and GENCLASSFILES to jar. 

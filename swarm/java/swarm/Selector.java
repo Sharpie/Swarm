@@ -1,6 +1,6 @@
 package swarm;
 
-class Selector {
+public class Selector {
   public Selector (String nameVal, Class retTypeVal, Class[] argTypeVals) {
     name = nameVal;
     retType = retTypeVal;
