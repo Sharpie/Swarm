@@ -34,8 +34,8 @@
   ;; 2-level deep for each book
   ;; 2-levels deep for sets
   ;; and 3-deep for all remaining
-  (cond ((string=? (gi nd) (normalize "book")) 2)
-        ((string=? (gi nd) (normalize "set")) 2)
+  (cond ((string=? (gi nd) (normalize "book")) 3)
+        ((string=? (gi nd) (normalize "chapter")) 1)
         (else 3)))
 
 </style-specification-body>

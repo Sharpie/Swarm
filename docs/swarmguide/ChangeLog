@@ -1,3 +1,8 @@
+1999-03-03  Alex Lancaster  <alex@santafe.edu>
+
+	* html.dsl (toc-depth): Make `book' TOC 3-deep, `chapter' TOC
+	1-deep.  Remove `set' depth - not needed.
+
 1999-03-02  Alex Lancaster  <alex@santafe.edu>
 
 	* userbook.sgml: Remove local variable sgml-default-dtd-file.
