@@ -1,3 +1,13 @@
+2000-01-24    <mgd@nest.swarm.org>
+
+	* ZoomRaster.m ([ZoomRaster -handleConfigureWidth:Height:]): 
+	Don't do anything unless configureFlag is set.
+
+	* ZoomRaster.[hm] ([ZoomRaster -pack]): Custom method to turn off
+	window size configuration until pack is called.
+
+	* ZoomRaster.h (ZoomRaster): New ivar configureFlag.
+
 2000-01-20    <mgd@nest.swarm.org>
 
 	* win32dib.c (dib_snapshot): height/width was swapped for 

@@ -56,6 +56,13 @@ PHASE(Creating)
 
 PHASE(Using)
 
+- pack
+{
+  while (GUI_EVENT_ASYNC ()) { };
+  configureFlag = YES;
+  [super pack];
+}
+
 - (unsigned)getWidth
 {
   return logicalWidth;
@@ -132,14 +139,17 @@ PHASE(Using)
 // note that they are passed to us in absolute values, not gridded.
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
-  unsigned newZoomH = newHeight / logicalHeight;
-  unsigned newZoomW = newWidth / logicalWidth;
-  unsigned newZoom = newZoomH > newZoomW ? newZoomH : newZoomW;
-  
-  if (newZoom == 0)
-    newZoom = 1;
-  
-  [self setZoomFactor: newZoom];
+  if (configureFlag)
+    {
+      unsigned newZoomH = newHeight / logicalHeight;
+      unsigned newZoomW = newWidth / logicalWidth;
+      unsigned newZoom = newZoomH > newZoomW ? newZoomH : newZoomW;
+      
+      if (newZoom == 0)
+        newZoom = 1;
+      
+      [self setZoomFactor: newZoom];
+    }
   return self;
 }
 

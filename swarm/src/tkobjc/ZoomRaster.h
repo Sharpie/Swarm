@@ -13,9 +13,11 @@
 {
   unsigned zoomFactor;
   unsigned logicalWidth, logicalHeight;
+  BOOL configureFlag;
 }
 + create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 - createEnd;
+- pack;
 - increaseZoom;
 - decreaseZoom;
 - (unsigned)getZoomFactor;
