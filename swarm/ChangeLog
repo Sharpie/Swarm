@@ -1,3 +1,10 @@
+2001-03-19  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* VERSION: Bump.
+
+	* NEWS: Note addition of support for growing HDF5 vectors in
+	EZGraph and ActiveOutFile.
+
 2001-03-18  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* VERSION: Bump.
