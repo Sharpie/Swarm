@@ -1,3 +1,10 @@
+1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javaswarm.in: New file.  Do this to get substitutions for
+	shared library path and Java runtime paths.
+
+	* javaswarm: Remove.
+
 1999-05-27  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (C_EXTRA_DIST): Remove c/directory.[hm],
