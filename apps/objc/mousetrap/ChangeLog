@@ -1,3 +1,20 @@
+1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MousetrapObserverSwarm.m: Include space.h.
+
+	* MousetrapObserverSwarm.h: Include space.h.
+	(MousetrapObserverSwarm): Make triggerGraph an object conforming
+	to the EZGraph protcol, and mousetrapDisplay an object
+	conforming to the Object2dDisplay protocol.
+
+	* MousetrapModelSwarm.h: Include objectbase/Swarm.h.  Don't
+	include objectbase.h.  Don't include activity.h and collections.h.
+	(MousetrapModelSwarm): Make grid an object that conforms to the
+	Grid2d protocol.
+
+	* Mousetrap.h: Include objectbase/SwarmObject.h instead of
+	objectbase.h.  Reformatting throughout.
+
 1998-02-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* main.m: Include simtoolsgui.h instead of simtools.h.

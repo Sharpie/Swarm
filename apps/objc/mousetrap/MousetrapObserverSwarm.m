@@ -5,9 +5,10 @@
 
 #import "MousetrapObserverSwarm.h"
 #import "MousetrapModelSwarm.h"
-#import <analysis.h>
-#import <simtoolsgui.h>
-#import <gui.h>
+#import <analysis.h> // EZGraph
+#import <space.h> // Object2dDisplay
+#import <gui.h> // ZoomRaster
+#import <simtoolsgui.h> // SET_WINDOW_GEOMETRY_RECORD_NAME
 
 // The MousetrapObserverSwarm is the top-level swarm that
 // watches and reports on what's happening in the 
@@ -27,7 +28,7 @@
 
 + createBegin: aZone
 {
-  MousetrapObserverSwarm * obj;
+  MousetrapObserverSwarm *obj;
   id <ProbeMap> probeMap;
   
   // invoke our superClass createBegin to allocate ourselves.
@@ -350,7 +351,7 @@
 {
   if ([[mousetrapModelSwarm getStats] getNumBalls] == 0)
     {
-      printf("All the balls have landed!\n");
+      printf ("All the balls have landed!\n");
       
       [controlPanel setStateStopped];
     }

@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <activity.h>
-#import <objectbase.h>
+#import <objectbase/SwarmObject.h>
 #import <random.h>
 
 // The definition of a mousetrap object. We inherit code from the generic
@@ -29,8 +29,9 @@
 
   // Methods that a mousetrap responds to
 
-+create: aZone setModelSwarm: modelSwarm setXCoord: (int)x setYCoord: (int)y setGenerator: (id) randGen;
--trigger;
--setDisplayWidget: (id) widget;
++ create: aZone setModelSwarm: modelSwarm setXCoord: (int)x setYCoord: (int)y setGenerator: randGen;
+- trigger;
+- setDisplayWidget: widget;
 
 @end
+

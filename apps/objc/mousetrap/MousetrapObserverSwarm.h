@@ -12,6 +12,7 @@
 #import <simtoolsgui/GUISwarm.h>
 #import <gui.h>
 #import <analysis.h>
+#import <space.h>
 
 @interface MousetrapObserverSwarm: GUISwarm
 {
@@ -26,9 +27,9 @@
 
   id <Colormap> colormap;             // allocate colors
   id <ZoomRaster> displayWindow;      // 2d display widget
-  EZGraph *triggerGraph;	      // graphing widget
+  id <EZGraph> triggerGraph;	      // graphing widget
 
-  Object2dDisplay *mousetrapDisplay;  // to Probe mousetraps
+  id <Object2dDisplay> mousetrapDisplay;  // to Probe mousetraps
 
   // declare the activity controller, which provides an interface 
   //   to the observerSwarm activity.

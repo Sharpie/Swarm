@@ -10,12 +10,9 @@
 // Note that the MousetrapModelSwarm uses dynamic scheduling
 // while the MousetrapObserverSwarm uses static scheduling
 
-#import <objectbase.h>
+#import <objectbase/Swarm.h>
 #import <objectbase/SwarmObject.h>
 #import <space.h>
-#import <activity.h>
-#import <collections.h>
-#import <simtools.h>
 #import <random.h>
 #import "Mousetrap.h"
 
@@ -50,7 +47,7 @@
   id modelSchedule;
 
   MousetrapStatistics *stats;			  // statistics object
-  Grid2d *grid;					  // world
+  id <Grid2d> grid;				  // world
 
   // Declare the ActivityControl, which will serve as an interface to
   //   the model swarm activity.
@@ -70,7 +67,7 @@
 - (int)getNumberOutputTriggers;
 - (int)getMaxTriggerDistance;
 - (int)getMaxTriggerTime;
-- (Grid2d *)getWorld;                             // for Probes
+- (id <Grid2d>)getWorld;                             // for Probes
 
 // Methods overridden to create the model Swarm
 
