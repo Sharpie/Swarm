@@ -313,9 +313,13 @@ readString (id inStream, BOOL literalFlag)
                 if (errno != 0)
                   raiseEvent (InvalidArgument, "Could not convert to double");
                 if (type == _C_FLT)
-                  [number setFloat: (float)val];
-                else
+                  [number setFloat: (float) val];
+                else if (type == _C_DBL)
                   [number setDouble: val];
+                else if (type == _C_LNG_DBL)
+                  [number setLongDouble: (long double) val];
+                else
+                  abort ();
               }
             else if (type == _C_LNG_LNG)
               {

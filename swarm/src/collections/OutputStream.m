@@ -93,7 +93,7 @@ PHASE(Using)
 - (void)catLongDouble: (long double)ldbl
 {
   char buf[30 + 1];
-  sprintf (buf, "%fD0", (double) ldbl);
+  sprintf (buf, "%fL0", (double) ldbl);
   [self catC: buf];
 }
 
