@@ -1,7 +1,14 @@
 SWARMHOME=../..
 LIBNAME=swarmobject
-OBJECTS=SwarmObject.o Swarm.o Probe.o VarProbe.o MessageProbe.o ProbeMap.o EmptyProbeMap.o ProbeLibrary.o CompleteProbeMap.o CompleteVarMap.o probing.o swarm_rts_routines.o
-HEADERS=SwarmObject.h Swarm.h Probe.h VarProbe.h MessageProbe.h ProbeMap.h EmptyProbeMap.h ProbeLibrary.h CompleteProbeMap.h CompleteVarMap.h probing.h swarm_rts_routines.h
+OBJECTS=SwarmObject.o Swarm.o Probe.o VarProbe.o MessageProbe.o \
+	ProbeMap.o EmptyProbeMap.o ProbeLibrary.o CompleteProbeMap.o \
+	CompleteVarMap.o probing.o swarm_rts_routines.o \
+	ActivityControl.o 
+HEADERS=SwarmObject.h Swarm.h Probe.h VarProbe.h MessageProbe.h \
+	ProbeMap.h EmptyProbeMap.h ProbeLibrary.h CompleteProbeMap.h \
+	CompleteVarMap.h probing.h swarm_rts_routines.h \
+	ActivityControl.h 
+
 include $(SWARMHOME)/Makefile.lib
 
 main:		main.o
@@ -22,3 +29,4 @@ CompleteVarMap.o:	CompleteVarMap.m CompleteVarMap.h \
                     ProbeMap.m ProbeMap.h Probe.h SwarmObject.h
 swarm_rts_routines.o: swarm_rts_routines.m swarm_rts_routines.h
 main.o: main.m
+ActivityControl.o: ActivityControl.m ActivityControl.h

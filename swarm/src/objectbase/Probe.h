@@ -3,6 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <swarmobject.h>
 #import <swarmobject/SwarmObject.h>
 
 // Options for the format of the string returned when probing an unsigned
