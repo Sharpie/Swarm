@@ -1,7 +1,6 @@
 #import <objectbase.h>
 
 @protocol Widget <SwarmObject>
-USING
 + createParent: parent;
 - pack;
 - packFill;
@@ -40,7 +39,6 @@ USING
 @end
 
 @protocol Canvas <ArchivedGeometryWidget>
-USING
 - createEnd;
 @end
 
@@ -49,13 +47,11 @@ USING
 @end
 
 @protocol GraphElement <SwarmObject>
-USING
 - setLabel: (const char *)label;
 - addX: (double)x Y: (double)y;
 @end
 
 @protocol Graph <ArchivedGeometryWidget>
-USING
 - setTitle: (const char *)title;
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 - (id <GraphElement>)createElement;
@@ -63,7 +59,6 @@ USING
 @end
 
 @protocol Histogram <ArchivedGeometryWidget>
-USING
 - setNumPoints: (int)n
         Labels: (const char * const *)l
         Colors: (const char * const *)c;
@@ -81,6 +76,7 @@ USING
 - drawHistogramWithInt: (int *)points;
 - drawHistogramWithInt: (int *)points atLocations: (double *)locations;
 - drawHistogramWithDouble: (double *)points atLocations: (double *)locations;
+- drawHistogramWithDouble: (double *)points;
 @end
 
 @protocol Label <Widget>
@@ -216,6 +212,7 @@ typedef unsigned long GUI_PixelValue;
 @end
 
 #include <tkobjc/common.h>
+
 #define GUI_BEEP() tkobjc_ringBell ()
 #define GUI_UPDATE() tkobjc_update ()
 #define GUI_UPDATE_IDLE_TASKS_AND_HOLD() tkobjc_updateIdleTasksAndHold ()
@@ -226,10 +223,10 @@ typedef unsigned long GUI_PixelValue;
 #define GUI_EVENT_ASYNC() tkobjc_doOneEventAsync ()
 
 // for MessageProbeWidget
-#define GUI_MAKE_FRAME(widget) tkobjc_makeFrame(widget)
-#define GUI_PACK(widget) tkobjc_pack(widget)
+#define GUI_MAKE_FRAME(widget) tkobjc_makeFrame (widget)
+#define GUI_PACK(widget) tkobjc_pack (widget)
 // for VarProbeWidget
-#define GUI_FOCUS(widget) tkobjc_focus(widget)
+#define GUI_FOCUS(widget) tkobjc_focus (widget)
 
 #include <tkobjc/global.h>
 #define GUI_INIT(argc, argv) initTkObjc (argc, argv)
