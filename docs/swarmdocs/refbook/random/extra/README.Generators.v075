@@ -57,7 +57,7 @@ The macro NEXTSEED will generate a deterministic sequence of seed values, using
 and inline LCG and starting with FIRSTSEED. There is the macro RANDOMSEED, which
 will be different every time it is invoked because it depends on program time. 
 And there is value STARTSEED, which will by default equal NEXTSEED, but will 
-instead be equal to RANDOMSEED if you start your program with the '-varySeed' 
+instead be equal to RANDOMSEED if you start your program with the '--varyseed' 
 command line parameter.
 
 The generators have gained a new creation method, '+createWithDefaults: aZone',
@@ -111,7 +111,7 @@ You create a generator in one of 3 ways:
    myGenerator = [ PSWBgen createWithDefaults: [self getZone] ];
 
 This allocates the object and initializes it with STARTSEED, which equals
-NEXTSEED if -varySeed was not specified, or RANDOMSEED if it was.
+NEXTSEED if --varyseed was not specified, or RANDOMSEED if it was.
 
 
 (b) using a single seed value:

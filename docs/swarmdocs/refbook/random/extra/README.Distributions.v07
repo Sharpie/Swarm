@@ -22,7 +22,7 @@ object for its exclusive use. Each distribution class has a different
 default generator class assigned. These generators are initialized with
 STARTSEED, which by default equals the fixed value DEFAULTSEED, but will
 be equal to the varying RANDOMSEED if you start your program with the
-command line parameter '-varySeed'.
+command line parameter `--varyseed'.
 
 All distributions have code to interact with the new 'split' generators.
 

@@ -1,3 +1,10 @@
+1999-01-26  Alex Lancaster  <alex@santafe.edu>
+
+	* README.Generators.v075 (Note): Change `-varySeed' to
+	`--varyseed' to reflect current usage.
+
+	* README.Distributions.v07: Likewise.
+
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* methods.NormalDist.h: Use @protocol instead of @deftype.
