@@ -21,3 +21,5 @@
 <!entity ref00.sgml system "ref00.sgml">
 <!entity refindex.sgml system "refindex.sgml">
 <!entity refapp.sgml system "refapp.sgml">
+<!entity lgpl-app.sgml system "lgpl-app.sgml">
+<!entity gpl-app.sgml system "gpl-app.sgml">
