@@ -1,5 +1,12 @@
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* java-stub.el (java-qualified-interface-name): New function.
+	(java-print-implemented-interfaces-list): Use it.
+	(java-print-import, java-print-imports): Remove.
+	(java-print-class-phase-to-file,
+	java-print-interface-phase-to-file): Don't call
+	java-print-imports.
+
 	* Makefile.am (SWARM_EXTRA_DIST): Add
 	swarm/NonUniqueMethodSignatureException.java and
 	swarm/SignatureNotFoundException.java.

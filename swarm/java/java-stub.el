@@ -340,17 +340,25 @@
 (defun java-interface-name (protocol phase)
   (concat "i_" (java-class-name protocol phase)))
 
+(defun java-qualified-interface-name (current-module protocol phase)
+  (let ((module-name (module-name (protocol-module protocol)))
+        (interface-name (java-interface-name protocol phase)))
+    (if (string= module-name (module-name current-module))
+        interface-name
+        (concat "swarm." module-name "." interface-name))))
+
 (defun java-print-implemented-interfaces-list (protocol phase separator)
-  (let ((first t))
+  (let ((first t)
+        (module (protocol-module protocol)))
     (loop for iprotocol in (included-protocol-list protocol)
           do
           (if first
               (setq first nil)
               (insert separator))
-          (insert (java-interface-name iprotocol :setting))
+          (insert (java-qualified-interface-name module iprotocol :setting))
           (unless (eq phase :setting)
             (insert separator)
-            (insert (java-interface-name iprotocol phase))))
+            (insert (java-qualified-interface-name module iprotocol phase))))
     (not first)))
 
 (defun removed-protocol-p (protocol)
@@ -366,17 +374,6 @@
 (defun creatable-p (protocol)
   (member-if #'the-CREATABLE-protocol-p
              (protocol-included-protocol-list protocol)))
-
-(defun java-print-import (protocol phase)
-  (insert "import swarm.")
-  (insert (module-name (protocol-module protocol)))
-  (insert ".")
-  (insert (java-interface-name protocol phase))
-  (insert ";\n"))
-
-(defun java-print-imports (protocol phase)
-  (loop for iprotocol in (included-protocol-list protocol)
-        do (java-print-import iprotocol phase)))
 
 (defun java-print-implemented-protocols (protocol phase separator interface)
   (if interface
@@ -447,8 +444,6 @@
 (defun java-print-class-phase-to-file (protocol phase)
   (with-protocol-java-file protocol phase nil
                            (java-print-package protocol)
-                           (java-print-imports protocol phase)
-                           (java-print-imports protocol :setting)
                            (java-print-class-phase protocol phase)))
 
 (defun java-print-class (protocol)
@@ -458,9 +453,6 @@
 (defun java-print-interface-phase-to-file (protocol phase)
   (with-protocol-java-file protocol phase t
                            (java-print-package protocol)
-                           (java-print-imports protocol phase)
-                           (unless (eq phase :setting)
-                             (java-print-imports protocol :setting))
                            (java-print-interface-phase protocol phase)))
 
 (defun java-print-interface (protocol)
