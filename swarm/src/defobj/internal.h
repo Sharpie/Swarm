@@ -7,6 +7,8 @@
 #include <misc.h> // size_t
 #include <objc/objc-api.h>
 
+externvar id _obj_GCFixedRootZone;
+
 extern size_t alignsizeto (size_t pos, size_t alignment);
 extern void *alignptrto (void *ptr, size_t alignment);
 

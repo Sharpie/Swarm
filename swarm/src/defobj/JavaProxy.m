@@ -126,6 +126,7 @@ PHASE(Using)
 
 - (int)compare: obj2
 {
+#ifdef HAVE_JDK
   jobject jobj1 = SD_JAVA_FIND_OBJECT_JAVA (self);
   jobject jobj2 = ([obj2 isInstance]
                    ? SD_JAVA_ENSURE_OBJECT_JAVA (obj2)
@@ -149,6 +150,9 @@ PHASE(Using)
     ret = (*jniEnv)->CallIntMethod (jniEnv, jobj1, method, jobj2);
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   return ret;
+#else
+  return 0;
+#endif
 }
 
 @end

@@ -46,11 +46,11 @@ JNIEnv *jniEnv;
 #ifdef HAVE_JDK
 void * java_static_call_functions[FCALL_TYPE_COUNT];
 void * java_call_functions[FCALL_TYPE_COUNT];
+#endif
 
 #define GCINFO_SIZE (2 * sizeof (void *))
 #define gc_fclass gcInfo[0]
 #define gc_fobject gcInfo[1]
-#endif
 
 #ifndef HAVE_JDK
 static void
