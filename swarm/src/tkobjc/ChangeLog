@@ -1,3 +1,13 @@
+1999-09-23    <mgd@HELEN>
+
+	* win32dib.c (dib_snapshot): Force width of new bitmap (and
+	buffer) to four byte boundary but only copy the original width
+	size.
+	
+	* internal.m (win32_pixmap_create_from_window): Set width
+	to bmiHead.biWidth after the snapshot; it may have been adjusted
+	by the backend.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.

@@ -140,7 +140,7 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   HDC hmemdc = CreateCompatibleDC (hdc);
   HDC hbmmem;
   RECT rect;
-  unsigned width, height;
+  unsigned width, height, newWidth;
   int caps;
   HGDIOBJ hb1;
   HPALETTE holdPal = NULL;
@@ -163,8 +163,15 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
     {
       height = rect.bottom - rect.top;
       width = rect.right - rect.left;
+
     }
-  hbmmem = CreateCompatibleBitmap (hdc, width, height);
+  if (width & 3)
+    newWidth = width + 4 - (width & 3);
+  else
+    newWidth = width;
+
+  hbmmem = CreateCompatibleBitmap (hdc, newWidth, height);
+
   hb1 = SelectObject (hmemdc, hbmmem);
 
   caps = GetDeviceCaps (hdc, RASTERCAPS);
@@ -186,10 +193,10 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
     }
   if (BitBlt (hmemdc, 0, 0, width, height, hdc, 0, 0, SRCCOPY) == FALSE)
     abort ();
-  pixelCount = width * height;
+  pixelCount = newWidth * height;
   bufsize = pixelCount * (depth >> 3);
   pbmp->biSize = sizeof (BITMAPINFOHEADER);
-  pbmp->biWidth = width;
+  pbmp->biWidth = newWidth;
   pbmp->biHeight = -height;
   pbmp->biPlanes = 1;
   pbmp->biBitCount = depth;

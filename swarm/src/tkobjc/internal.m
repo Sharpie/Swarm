@@ -986,6 +986,7 @@ win32_pixmap_create_from_window (Pixmap *pixmap,
     }
   pixmap->pixmap = dib;
   dib_snapshot (dib, decorationsFlag);
+  pixmap->width = dib->dibInfo->bmiHead.biWidth;
 }
 #endif
 
