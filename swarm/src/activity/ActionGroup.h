@@ -100,17 +100,17 @@ Library:      activity
 - getCurrentMember;
 @end
 
-@interface ForEachIndex_c : Object_s
+@interface ForEachIndex_c: Object_s
 {
 @public
-  id <Activity>    activity;       // activity for which index created
-  id <Index>       memberIndex;    // index into target collection
-  ActionForEach_0  *memberAction;  // local copy of original ForEach action
+  id <Activity> activity;        // activity for which index created
+  id <Index> memberIndex;        // index into target collection
+  ActionForEach_0 *memberAction; // local copy of original ForEach action
 }
 /*** methods in ForEachIndex_c (inserted from .m file by m2h) ***/
 - nextAction: (id *)status;
 - get;
 - getLoc;
 - getHoldType;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

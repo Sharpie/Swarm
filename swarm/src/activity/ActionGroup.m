@@ -262,12 +262,12 @@ PHASE(Using)
   // no [super mapAllocations: mapalloc] because all links are internal
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   [super describe: outputCharStream];
 }
 
-- (void) describeForEach: outputCharStream
+- (void)describeForEach: outputCharStream
 {
   char buffer[100];
   id index, action;
@@ -566,7 +566,8 @@ PHASE(Using)
   // reload and return the action being used to execute each member
 
   ((ActionForEach_0 *) memberAction)->target = [memberIndex next];
-  if ( ((ActionForEach_0 *) memberAction)->target ) return memberAction;
+  if (((ActionForEach_0 *) memberAction)->target)
+    return memberAction;
   *status = Completed;
   return nil;
 }
@@ -590,8 +591,8 @@ PHASE(Using)
 
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  mapObject( mapalloc, memberIndex );
-  mapObject( mapalloc, memberAction );
+  mapObject (mapalloc, memberIndex);
+  mapObject (mapalloc, memberAction);
 }
 
 @end
