@@ -1,3 +1,10 @@
+1999-01-14  Alex Lancaster  <alex@santafe.edu>
+
+	* simtools.[hm] (initSwarmApp, initSwarmAppOptions): Remove
+	batchMode arguments.
+	(initSwarmAppBatch, initSwarmAppOptionsBatch): Add new functions,
+	have the effect of setting the batchMode internally.
+
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* simtools.[hm] (initSwarmBatch): New function.

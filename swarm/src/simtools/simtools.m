@@ -54,25 +54,43 @@ initSwarmBatch (int argc, const char **argv)
 
 void
 initSwarmApp (int argc, const char **argv,
-              const char *version, const char *bugAddress, BOOL batchMode)
+              const char *version, const char *bugAddress)
 {
-  init (argc, argv, version, bugAddress, Nil, NULL, NULL, batchMode);
+  init (argc, argv, version, bugAddress, Nil, NULL, NULL, NO);
+}
+
+void
+initSwarmAppBatch (int argc, const char **argv,
+              const char *version, const char *bugAddress)
+{
+  init (argc, argv, version, bugAddress, Nil, NULL, NULL, YES);
 }
 
 void
 initSwarmAppOptions (int argc, const char **argv,
                      const char *version, const char *bugAddress,
                      struct argp_option *options,
-                     int (*optionFunc) (int key, const char *arg),
-                     BOOL batchMode)
+                     int (*optionFunc) (int key, const char *arg))
 {
   init (argc, argv,
         version, bugAddress,
         Nil,
         options, optionFunc,
-        batchMode);
+        NO);
 }
 
+void
+initSwarmAppOptionsBatch (int argc, const char **argv,
+                     const char *version, const char *bugAddress,
+                     struct argp_option *options,
+                     int (*optionFunc) (int key, const char *arg))
+{
+  init (argc, argv,
+        version, bugAddress,
+        Nil,
+        options, optionFunc,
+        YES);
+}
 
 void
 initSwarmArguments (int argc, const char **argv, Class argumentsClass)

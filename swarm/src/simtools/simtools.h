@@ -342,15 +342,23 @@ extern void initSwarmBatch (int argc, const char **argv);
 
 //F: Initializes the Swarm libraries for an application.  
 extern void initSwarmApp (int argc, const char **argv,
-                          const char *version, const char *bugAddress,
-                          BOOL batchMode);
+                          const char *version, const char *bugAddress);
+
+//F: Like initSwarmApp, but initializes in batch-mode only
+extern void initSwarmAppBatch (int argc, const char **argv,
+                          const char *version, const char *bugAddress);
 
 //F: Like initSwarmApp, but specifies a parsing function .
 extern void initSwarmAppOptions (int argc, const char **argv,
                                  const char *version, const char *bugAddress,
                                  struct argp_option *options,
-                                 int (*optionFunc) (int key, const char *arg),
-                                 BOOL batchMode);
+                                 int (*optionFunc) (int key, const char *arg));
+
+//F: Like initSwarmAppOptions, but initializes in batch-mode only
+extern void initSwarmAppOptionsBatch (int argc, const char **argv,
+                                 const char *version, const char *bugAddress,
+                                 struct argp_option *options,
+                                 int (*optionFunc) (int key, const char *arg));
 
 //F: Like initSwarm, but specifies what class to use for argument
 //F: parsing, typically this will be a subclass of Arguments.
