@@ -1394,8 +1394,15 @@ PHASE(Using)
 {
 #ifdef HAVE_HDF5
   struct H5G_stat_t statbuf;
+  BOOL result;
 
-  if (H5Gget_objinfo (loc_id, datasetName, 1, &statbuf) < 0)
+  void func ()
+    {
+      result = (H5Gget_objinfo (loc_id, datasetName, 1, &statbuf) >= 0);
+    }
+
+  suppress_messages (func);
+  if (!result)
     return NO;
   else if (statbuf.type == H5G_DATASET)
     return YES;
