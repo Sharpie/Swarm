@@ -2,11 +2,11 @@ SWARMHOME=../..
 LIBNAME=simtools
 OBJECTS=simtools.o UName.o InFile.o ObjectLoader.o OutFile.o AppendFile.o ObjectSaver.o ActiveOutFile.o QSort.o NSelect.o Archiver.o
 
-HEADERS=global.h UName.h InFile.h ObjectLoader.h OutFile.h AppendFile.h ObjectSaver.h ActiveOutFile.h QSort.h NSelect.h Archiver.h
+HEADERS=UName.h InFile.h ObjectLoader.h OutFile.h AppendFile.h ObjectSaver.h ActiveOutFile.h QSort.h NSelect.h Archiver.h
 
 include $(SWARMHOME)/Makefile.lib
 
-simtools.o: simtools.m global.h
+simtools.o: simtools.m
 UName.o: UName.m UName.h
 InFile.o: InFile.m InFile.h
 ObjectLoader.o: ObjectLoader.m ObjectLoader.h

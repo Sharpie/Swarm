@@ -5,7 +5,6 @@
 
 #import <simtools/Archiver.h>
 
-#import <simtools/global.h>
 #import <collections/Map.h>
 #import <collections.h>
 #import <collections/predicates.h>

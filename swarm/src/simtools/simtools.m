@@ -14,10 +14,7 @@
 
 #import <random.h>
 
-#include <stdlib.h>
-
 int swarmGUIMode;
-id arguments;
 
 void
 initSwarm (int argc, const char **argv)

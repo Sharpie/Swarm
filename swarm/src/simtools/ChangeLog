@@ -1,3 +1,13 @@
+1998-03-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtools.m: Don't define arguments here (now in objectbase).
+
+	* Makefile (HEADERS): Remove global.h.
+	(simtools.o): Remove global.h as a dependency.
+
+	* Archiver.m: Don't include simtools/global.h.
+	(global.h): Removed.
+
 1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* NSelect.m:  Include random.h.
