@@ -1,5 +1,8 @@
 2000-06-19  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* JavaCollection.m ([JavaCollection -allSameClass]): Don't drop
+	local ref of firstJavaClass if 0.
+
 	* java.m (find_java_wrapper_class): Renamed from
 	swarm_directory_objc_find_java_class and made static.
 	(swarm_directory_objc_find_java_class): Now checks for proxy

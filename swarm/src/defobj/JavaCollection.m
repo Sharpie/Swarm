@@ -176,15 +176,13 @@
   for (member = [index next];
        [index getLoc] == Member;
        member = [index next])
-    if (!member)
+    if ((!member && firstJavaClass)
+        || (!firstJavaClass && member))
       {
-        if (firstJavaClass)
-          {
-            ret = NO;
-            break;
-          }
+        ret = NO;
+        break;
       }
-    else
+    else if (member)
       {
         jobject javaObject = SD_JAVA_FIND_OBJECT_JAVA (member);
         jclass javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
@@ -197,7 +195,8 @@
         if (ret == NO)
           break;
       }
-  (*jniEnv)->DeleteLocalRef (jniEnv, firstJavaClass);
+  if (firstJavaClass)
+    (*jniEnv)->DeleteLocalRef (jniEnv, firstJavaClass);
   [index drop];
   return ret;
 }
