@@ -17,9 +17,9 @@ CREATING
 - setArguments: (id <Arguments>)arguments;
 - setBatchMode: (BOOL)batchMode;
 - createEnd;
-+ initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args;
++ initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)count args: (const char **)args;
 USING
-- (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args;
+- (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)count args: (const char **)args;
 - (timeval_t)getCurrentTime;
 - (id <SwarmActivity>)getCurrentSwarmActivity;
 - (void)createProbeDisplay: obj;

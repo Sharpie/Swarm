@@ -94,22 +94,19 @@ PHASE(Creating)
   return self;
 }
 
-+ initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
++ initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)count args: (const char **)args
 {
   id obj = [SwarmEnvironment createBegin];
-  [obj _init_: appName version: version bugAddress: bugAddress args: args];
+  [obj _init_: appName version: version bugAddress: bugAddress argCount: count args: args];
   return [obj createEnd];
 }
 
 PHASE(Setting)
 
-- (void)_init_: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
+- (void)_init_: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)argc args: (const char **)args
 {
-  int argc, i;
+  unsigned i;
 
-  for (argc = 0; args[argc]; argc++)
-    {
-    }
   {
     const char *argv[argc + 1];
     
@@ -133,9 +130,9 @@ PHASE(Setting)
 
 PHASE(Using)
 
-- (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
+- (void)initSwarmUsing: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress argCount: (unsigned)count args: (const char **)args
 {
-  [self _init_: appName version: version bugAddress: bugAddress args: args];
+  [self _init_: appName version: version bugAddress: bugAddress argCount: count args: args];
 }
 
 - (timeval_t)getCurrentTime
