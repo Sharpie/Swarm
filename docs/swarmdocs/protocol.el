@@ -552,8 +552,7 @@
 
 (defun generate-refentries-for-module (module)
   (let* ((module-name (symbol-name module))
-         (filename (concat "/opt/src/mgd/src/Swarm/swarmdocs/src/"
-                           module-name "/" module-name "pages.sgml")))
+         (filename (concat module-name "/" module-name "pages.sgml")))
     (with-temp-file filename
       (loop for protocol in (gethash module *module-hash-table*)
             do
