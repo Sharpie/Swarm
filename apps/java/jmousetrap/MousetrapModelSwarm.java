@@ -1,18 +1,21 @@
-// Java mousetrap application. Copyright (C) 1999 Santa Fe Institute.
+// Java mousetrap application. Copyright © 1999 Santa Fe Institute.
 // This application is distributed without any warranty; without even
 // the implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-import swarm.*;
-import swarm.activity.*;
-import swarm.objectbase.*;
-import swarm.simtoolsgui.*;
-import swarm.random.*;
-import swarm.defobj.*;
-import swarm.gui.*;
-import swarm.analysis.*;
-import swarm.space.*;
-import swarm.random.*;
+import swarm.objectbase.SwarmImpl;
+
+import swarm.Globals;
+import swarm.Selector;
+import swarm.defobj.ZoneImpl;
+import swarm.activity.ScheduleImpl;
+import swarm.activity.ActivityImpl;
+import swarm.objectbase.ActivityControlImpl;
+import swarm.objectbase.VarProbeImpl;
+import swarm.objectbase.EmptyProbeMapImpl;
+import swarm.random.PMMLCG1genImpl;
+import swarm.random.UniformDoubleDistImpl;
+import swarm.space.Grid2dImpl;
 
 /** 
  * The MousetrapModelSwarm defines the mousetrap world. All of the

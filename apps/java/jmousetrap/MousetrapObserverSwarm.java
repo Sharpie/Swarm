@@ -1,18 +1,22 @@
-// Java mousetrap application. Copyright (C) 1999 Santa Fe Institute.
+// Java mousetrap application. Copyright © 1999 Santa Fe Institute.
 // This application is distributed without any warranty; without even
 // the implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-import swarm.*;
-import swarm.activity.*;
-import swarm.objectbase.*;
-import swarm.simtoolsgui.*;
-import swarm.random.*;
-import swarm.defobj.*;
-import swarm.gui.*;
-import swarm.analysis.*;
-import swarm.space.*;
-import swarm.random.*;
+import swarm.simtoolsgui.GUISwarmImpl;
+
+import swarm.Globals;
+import swarm.Selector;
+import swarm.defobj.ZoneImpl;
+import swarm.objectbase.EmptyProbeMapImpl;
+import swarm.objectbase.ActivityControlImpl;
+import swarm.activity.ScheduleImpl;
+import swarm.activity.ActionGroupImpl;
+import swarm.activity.ActivityImpl;
+import swarm.gui.ColormapImpl;
+import swarm.gui.ZoomRasterImpl;
+import swarm.analysis.EZGraphImpl;
+import swarm.space.Object2dDisplayImpl;
 
 /**
  * The MousetrapObserverSwarm is the top-level swarm that watches
@@ -20,66 +24,64 @@ import swarm.random.*;
  * is like the lab-bench on which the mousetrap world is located,
  * along with the various instruments that we construct to monitor
  * that world. */
-public class MousetrapObserverSwarm extends GUISwarmImpl
-{
-    public int displayFrequency;
-    public ScheduleImpl displaySchedule;
-    public MousetrapModelSwarm mousetrapModelSwarm;
+public class MousetrapObserverSwarm extends GUISwarmImpl {
+  public int displayFrequency;
+  public ScheduleImpl displaySchedule;
+  public MousetrapModelSwarm mousetrapModelSwarm;
   
-    public ColormapImpl colormap;
-    public ZoomRasterImpl displayWindow;
-    public EZGraphImpl triggerGraph;
-
-    public Object2dDisplayImpl mousetrapDisplay;
-
-    public ActivityControlImpl observerActCont;
-    public ActionGroupImpl displayActions;
-
-    /**
-     * MousetrapObserverSwarm constructor: since we are only interested in
-     * subclassing from the `USING' phase object, this constructor does
-     * the work of the createBegin, createEnd methods in Objective C */
-    public MousetrapObserverSwarm (ZoneImpl aZone)
-    {
-        super (aZone);
-        
-        EmptyProbeMapImpl probeMap;
-        
-        displayFrequency = 1;
-        probeMap = new EmptyProbeMapImpl (aZone, getClass ());
-
-        probeMap.addProbe 
-            (Globals.env.probeLibrary.getProbeForVariable$inClass
-             ("displayFrequency", getClass ()));
-        
-        Globals.env.probeLibrary.setProbeMap$For (probeMap, getClass ());
-    }
-
-    public void noMethod (Object a) {
-    }
+  public ColormapImpl colormap;
+  public ZoomRasterImpl displayWindow;
+  public EZGraphImpl triggerGraph;
   
-    public Object _setupMousetraps_ () {
-      int x, y, size;
-      
-      size = mousetrapModelSwarm.getGridSize ();
-      for (x = 0; x < size; x++)
-        for (y = 0; y < size; y++) {
-          Mousetrap trap = mousetrapModelSwarm.getMousetrapAtX$Y (x, y);
-          if (trap != null) {
-            if (displayWindow != null)
-              displayWindow.drawPointX$Y$Color (x, y, (byte) 1);
-            trap.setDisplayWidget (displayWindow);
-          }
+  public Object2dDisplayImpl mousetrapDisplay;
+  
+  public ActivityControlImpl observerActCont;
+  public ActionGroupImpl displayActions;
+  
+  /**
+   * MousetrapObserverSwarm constructor: since we are only interested in
+   * subclassing from the `USING' phase object, this constructor does
+   * the work of the createBegin, createEnd methods in Objective C */
+  public MousetrapObserverSwarm (ZoneImpl aZone) {
+    super (aZone);
+    
+    EmptyProbeMapImpl probeMap;
+    
+    displayFrequency = 1;
+    probeMap = new EmptyProbeMapImpl (aZone, getClass ());
+    
+    probeMap.addProbe 
+      (Globals.env.probeLibrary.getProbeForVariable$inClass
+       ("displayFrequency", getClass ()));
+    
+    Globals.env.probeLibrary.setProbeMap$For (probeMap, getClass ());
+  }
+  
+  public void noMethod (Object a) {
+  }
+  
+  public Object _setupMousetraps_ () {
+    int x, y, size;
+    
+    size = mousetrapModelSwarm.getGridSize ();
+    for (x = 0; x < size; x++)
+      for (y = 0; y < size; y++) {
+        Mousetrap trap = mousetrapModelSwarm.getMousetrapAtX$Y (x, y);
+        if (trap != null) {
+          if (displayWindow != null)
+            displayWindow.drawPointX$Y$Color (x, y, (byte) 1);
+          trap.setDisplayWidget (displayWindow);
         }
-      return this;
-    }
+      }
+    return this;
+  }
   
-    public Object _displayWindowDeath_ (Object caller) {
-      displayWindow.drop ();
-      displayWindow = null;
-      _setupMousetraps_ ();
-      return this;
-    }
+  public Object _displayWindowDeath_ (Object caller) {
+    displayWindow.drop ();
+    displayWindow = null;
+    _setupMousetraps_ ();
+    return this;
+  }
   
   public Object _scheduleItemCanvasDeath_ (Object caller) {
     _setupMousetraps_ ();
@@ -138,7 +140,6 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
     Globals.env.setWindowGeometryRecordName (displayWindow);
     
     try {
-      
       displayWindow.
         enableDestroyNotification$notificationMethod
         (this, new Selector (getClass (), "_displayWindowDeath_", false));

@@ -1,29 +1,23 @@
-// Java mousetrap application. Copyright (C) 1999 Santa Fe Institute.
+// Java mousetrap application. Copyright © 1999 Santa Fe Institute.
 // This application is distributed without any warranty; without even
 // the implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-import swarm.*;
-import swarm.activity.*;
-import swarm.objectbase.*;
-import swarm.simtoolsgui.*;
-import swarm.random.*;
-import swarm.defobj.*;
-import swarm.gui.*;
-import swarm.analysis.*;
-import swarm.space.*;
-import swarm.random.*;
+import swarm.random.UniformDoubleDistImpl;
+import swarm.random.UniformUnsignedDistImpl;
+import swarm.random.UniformIntegerDistImpl;
+import swarm.gui.ZoomRasterImpl;
+import swarm.Globals;
 
 /**
- This class implements a `Mousetrap' agent. Mousetraps that live in
+ This class implements a `Mousetrap' agent.  Mousetraps that live in
  fixed positions on a 2D lattice. Each mousetrap has N "ping-pong"
- balls. When "triggered" (hit by another ping-pong ball) it releases
+ balls.  When "triggered" (hit by another ping-pong ball) it releases
  its ping-pong balls into the air, which hit other mousetraps and
  trigger them.  Tossing ping-pong balls into the air to trigger other
  mousetraps is accomplished by picking "nearby" mousetraps, and
  arranging for them to be sent trigger messages in the "near" future.  */
-public class Mousetrap 
-{
+public class Mousetrap {
   public int xCoord;
   public int yCoord;
   public boolean triggered;
@@ -33,15 +27,8 @@ public class Mousetrap
   public UniformIntegerDistImpl uniformRadius;
   public UniformUnsignedDistImpl uniformTrigTime;
 
-  public void nag (String s)
-  {
-    System.out.println (getClass().getName() + ":" + s);
-    System.out.flush ();
-  }
-
-  public Mousetrap (MousetrapModelSwarm s, int x, 
-                    int y, Object randGenerator)
-  {
+  public Mousetrap (MousetrapModelSwarm s, int x, int y,
+                    Object randGenerator) {
     int maxD;
     
     modelSwarm = s;
@@ -50,21 +37,20 @@ public class Mousetrap
     
     maxD = modelSwarm.getMaxTriggerDistance();
     uniform0to1 = new  UniformDoubleDistImpl 
-      ((ZoneImpl)modelSwarm.getZone(), randGenerator, 0.0, 1.0);
-
+      (modelSwarm.getZone (), randGenerator, 0.0, 1.0);
+    
     uniformRadius = new UniformIntegerDistImpl     
-      ((ZoneImpl)modelSwarm.getZone(), randGenerator, -maxD, maxD);
-
+      (modelSwarm.getZone (), randGenerator, -maxD, maxD);
+    
     uniformTrigTime =  new UniformUnsignedDistImpl 
-      ((ZoneImpl)modelSwarm.getZone(), randGenerator, 1, 
-       modelSwarm.getMaxTriggerTime());
+      (modelSwarm.getZone (), randGenerator, 1, 
+       modelSwarm.getMaxTriggerTime ());
   }
 
   /**
    * Here we record who to display ourselves on.
    */
-  public Object setDisplayWidget (ZoomRasterImpl w)
-  {
+  public Object setDisplayWidget (ZoomRasterImpl w) {
     displayWidget = w;
     return this;
   }
@@ -94,6 +80,7 @@ public class Mousetrap
       if (displayWidget != null)
         displayWidget.drawPointX$Y$Color (xCoord, yCoord, (byte) 2);
       size = modelSwarm.getGridSize();
+
       for (n = modelSwarm.getNumberOutputTriggers (); n>0; n--) {
         Mousetrap trap;
         xTrigger = 

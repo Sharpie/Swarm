@@ -1,5 +1,9 @@
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Mousetrap.java, MousetrapObserverSwarm.java,
+	MousetrapModelSwarm.java, MousetrapStatistics.java,
+	StartMousetrap.java: Do minimal, explicit imports.
+
 	* MousetrapModelSwarm.java (MousetrapProbeMap): New inner class.
 
 	* MousetrapObserverSwarm.java, MousetrapModelSwarm.java: Eliminate

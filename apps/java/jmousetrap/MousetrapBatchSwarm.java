@@ -1,148 +1,126 @@
-// Java mousetrap application. Copyright (C) 1999 Santa Fe Institute.
+// Java mousetrap application. Copyright © 1999 Santa Fe Institute.
 // This application is distributed without any warranty; without even
 // the implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-import swarm.*;
-import swarm.activity.*;
-import swarm.objectbase.*;
-import swarm.simtoolsgui.*;
-import swarm.random.*;
-import swarm.defobj.*;
-import swarm.gui.*;
-import swarm.analysis.*;
-import swarm.space.*;
-import swarm.random.*;
+import swarm.objectbase.SwarmImpl;
 
-public class MousetrapBatchSwarm extends SwarmImpl
-{
-    int loggingFrequency = 1;		     // Frequency of fileI/O
+import swarm.Globals;
+import swarm.Selector;
+import swarm.defobj.ZoneImpl;
+import swarm.activity.ActionGroupImpl;
+import swarm.activity.ActivityImpl;
+import swarm.activity.ScheduleImpl;
+import swarm.analysis.EZGraphImpl;
 
-    ActionGroupImpl displayActions;	     // schedule data structs
-    ScheduleImpl displaySchedule;
+public class MousetrapBatchSwarm extends SwarmImpl {
+  int loggingFrequency = 1;		     // Frequency of fileI/O
+  
+  ActionGroupImpl displayActions;	     // schedule data structs
+  ScheduleImpl displaySchedule;
+  
+  MousetrapModelSwarm mousetrapModelSwarm;   // the Swarm we're observing
+  
+  EZGraphImpl triggerGraph;
 
-    MousetrapModelSwarm mousetrapModelSwarm;   // the Swarm we're observing
-    
-    EZGraphImpl triggerGraph;
+  public MousetrapBatchSwarm (ZoneImpl aZone) {
+    super (aZone);
+  }
+  
+  public Object buildObjects ()   {
+    super.buildObjects();
 
-    public void nag (String s)
-    {
-        System.out.println (this.getClass().getName() + ":" + s);
-        System.out.flush ();
-    }
+    mousetrapModelSwarm 
+      = new MousetrapModelSwarm (getZone ());
 
-    public MousetrapBatchSwarm (ZoneImpl aZone)
-    {
-        super(aZone);
-    }
-    
-    public Object buildObjects ()
-    {
-        super.buildObjects();
-
-        mousetrapModelSwarm 
-            = new MousetrapModelSwarm (getZone ());
-
-        mousetrapModelSwarm.buildObjects();
+    mousetrapModelSwarm.buildObjects();
       
-        triggerGraph = new EZGraphImpl(getZone (), true);
+    triggerGraph = new EZGraphImpl(getZone (), true);
 
-        try {
+    try {
         
-            triggerGraph.createSequence$withFeedFrom$andSelector
-                ("trigger.output", mousetrapModelSwarm.getStats(), 
-                 new Selector ((mousetrapModelSwarm.getStats()).getClass(), 
-                               "getNumTriggered", false));
-
-            triggerGraph.createSequence$withFeedFrom$andSelector
-                ("delta-trigger.output", mousetrapModelSwarm.getStats(), 
-                 new Selector ((mousetrapModelSwarm.getStats()).getClass(), 
-                               "getNumBalls", false));
-        
-        } catch (Exception e) {
-            System.out.println ("Exception EZGraph: " + e.getMessage());
-        }
-    
-        return this;
-    }  
-
-    public Object buildActions()
-    {
-        super.buildActions();
-  
-        mousetrapModelSwarm.buildActions();
-
-        if (loggingFrequency > 0) {
-            
-            displayActions = new ActionGroupImpl (getZone());
+      triggerGraph.createSequence$withFeedFrom$andSelector
+        ("trigger.output", mousetrapModelSwarm.getStats(), 
+         new Selector (mousetrapModelSwarm.getStats().getClass(), 
+                       "getNumTriggered", false));
       
-            try {
-                
-                displayActions.createActionTo$message 
-                    (triggerGraph, new Selector 
-                        (triggerGraph.getClass(), "step", true));
-                displayActions.createActionTo$message (this,
-                                                       new Selector (getClass(), "checkToStop", false));
-            } catch (Exception e) {
-                System.out.println ("Exception batch EZGraph: " 
-                                    + e.getMessage());
-            }
-            
-            displaySchedule = new ScheduleImpl (getZone (), loggingFrequency);
-            
-            displaySchedule.at$createAction (0, displayActions);
-        }
-    
-        return this;
+      triggerGraph.createSequence$withFeedFrom$andSelector
+        ("delta-trigger.output", mousetrapModelSwarm.getStats(), 
+         new Selector (mousetrapModelSwarm.getStats().getClass(), 
+                       "getNumBalls", false));
+      
+    } catch (Exception e) {
+      System.out.println ("Exception EZGraph: " + e.getMessage ());
     }
+    
+    return this;
+  }  
 
+  public Object buildActions() {
+    super.buildActions ();
+    
+    mousetrapModelSwarm.buildActions();
+    
+    if (loggingFrequency > 0) {
+      
+      displayActions = new ActionGroupImpl (getZone ());
+      
+      try {
+        
+        displayActions.createActionTo$message 
+          (triggerGraph, new Selector 
+            (triggerGraph.getClass (), "step", true));
+        displayActions.createActionTo$message
+          (this,
+           new Selector (getClass (), "checkToStop", false));
+      } catch (Exception e) {
+        System.out.println ("Exception batch EZGraph: " + e.getMessage ());
+      }
+      
+      displaySchedule = new ScheduleImpl (getZone (), loggingFrequency);
+      
+      displaySchedule.at$createAction (0, displayActions);
+    }
+    
+    return this;
+  }
 
-    public ActivityImpl activateIn (Object swarmContext)
-    {
+  public ActivityImpl activateIn (Object swarmContext) {
+    super.activateIn(swarmContext);
     
-        super.activateIn(swarmContext);
+    mousetrapModelSwarm.activateIn(this);
     
-        mousetrapModelSwarm.activateIn(this);
+    if (loggingFrequency > 0)
+      displaySchedule.activateIn(this);
     
-        if (loggingFrequency > 0)
-            displaySchedule.activateIn(this);
-    
-        return this.getActivity();
-    }
+    return getActivity ();
+  }
   
-    public Object go ()
-    {
-        System.out.println
-            ("You typed `mousetrap --batchmode' or `mousetrap -b'," 
-             + " so we're running without graphics.");
+  public Object go () {
+    System.out.println
+      ("You typed `mousetrap --batchmode' or `mousetrap -b'," 
+       + " so we're running without graphics.");
+    
+    System.out.println("mousetrap is running to completion.");
+    
+    if (loggingFrequency > 0) 
+      System.out.println 
+        ("It is logging data every " + loggingFrequency +
+         " timesteps to: trigger.output");
+    
+    getActivity().run(); 
+    
+    if (loggingFrequency > 0)
+      triggerGraph.drop ();
+    
+    return this.getActivity().getStatus();
+  }
   
-        System.out.println("mousetrap is running to completion.");
- 
-        if (loggingFrequency > 0) 
-            System.out.println 
-                ("It is logging data every " + loggingFrequency +
-                 " timesteps to: trigger.output");
-    
-        this.getActivity().run(); 
-    
-        if (loggingFrequency > 0)
-            triggerGraph.drop();
-    
-        return this.getActivity().getStatus();
+  public Object checkToStop () {
+    if (mousetrapModelSwarm.getStats().getNumBalls() == 0) {
+      System.out.println ("All the balls have landed!");
+      Globals.env.getCurrentSwarmActivity ().terminate (); 
     }
-    
-    public Object checkToStop ()
-    {
-        if (((MousetrapStatistics)mousetrapModelSwarm.getStats()).
-            getNumBalls() == 0)
-            {
-                System.out.println("All the balls have landed!");
-                (Globals.env.getCurrentSwarmActivity()).terminate(); 
-            }
-    
-        return this;
-    }
+    return this;
+  }
 }
-
-
-
