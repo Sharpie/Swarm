@@ -1,3 +1,21 @@
+1998-01-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* BLTGraph.m ([GraphElement -createEnd]): Use different code
+	for setting active line width and symbol between BLT 2.1 and BLT 2.3.
+	([GraphElement -setColor:]): Set the active line color to be the
+	same as the inactive line color.  Different versions for BLT 2.1
+	and BLT 2.3.
+
+	* DragDrop.m (new_BLT_p): Remove.
+	(setupDragAndDrop): Use newBLTp method now in TkExtra.
+	(setupDragAndDropArg): Likewise.
+	(setupHandler): Likewise.
+
+	* TkExtra.m ([TkExtra -newBLTp]): Move new_BLT_p predicate from
+	DragDrop and rename it to newBLTp.
+
+	* TkExtra.h: Add newBLTp.
+
 1997-12-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* WindowGeometryRecord.h: Remove get_expr_func_t and

@@ -19,9 +19,10 @@ int Blt_Init(Tcl_Interp *);			  // wish this were declared..
 
   // now init extras widget sets.
 
-  if (Blt_Init(interp) == TCL_ERROR)
+  if (Blt_Init (interp) == TCL_ERROR)
     {
-      char *msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
+      char *msg = Tcl_GetVar (interp, "errorInfo", TCL_GLOBAL_ONLY);
+      
       if (msg == NULL)
         msg = interp->result;
       [self error:msg];
@@ -52,4 +53,13 @@ bind Text <Delete> [bind Text <BackSpace>]
   return version_string;
 }
 
+- (BOOL)newBLTp
+{
+  const char *version_string = [self getBltVersion];
+  int major, minor;
+
+  sscanf (version_string, "%d.%d", &major, &minor);
+  return (major >= 2 && minor >= 3);
+}
+     
 @end

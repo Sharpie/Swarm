@@ -6,16 +6,6 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 
-static BOOL
-new_BLT_p (void)
-{
-  const char *version_string = [globalTkInterp getBltVersion];
-  int major, minor;
-  
-  sscanf (version_string, "%d.%d", &major, &minor);
-  return (major >= 2 && minor >= 3);
-}
-
 void
 dragAndDropTarget (id target, id object)
 {
@@ -63,7 +53,7 @@ newSetupDragAndDrop (id source, id object)
 static void
 setupDragAndDrop (id source, id object)
 {
-  if (new_BLT_p ())
+  if ([globalTkInterp newBLTp])
     newSetupDragAndDrop (source, object);
   else
     oldSetupDragAndDrop (source, object);
@@ -98,7 +88,7 @@ newSetupDragAndDropArg (id source, id object, int arg)
 void
 setupDragAndDropArg (id source, id object, int arg)
 {
-  if (new_BLT_p ())
+  if ([globalTkInterp newBLTp])
     newSetupDragAndDropArg (source, object, arg);
   else
     oldSetupDragAndDropArg (source, object, arg);
@@ -123,7 +113,7 @@ newSetupHandler (id source)
 void
 setupHandler (id source)
 {
-  if (new_BLT_p ())
+  if ([globalTkInterp newBLTp])
     newSetupHandler (source);
   else
     oldSetupHandler (source);
@@ -143,5 +133,4 @@ dragAndDropArg (id source, id object, int arg)
   setupDragAndDropArg (source, object, arg);
   setupHandler (source);
 }
-
 

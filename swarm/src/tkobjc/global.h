@@ -6,7 +6,7 @@
 #import <defobj.h>
 #import <tkobjc/TkExtra.h>
 
-extern TkExtra * globalTkInterp;
+extern TkExtra *globalTkInterp;
 
 extern id <Error>
   WindowCreation,		// error while creating a window

@@ -121,17 +121,45 @@
 {
   if (ownerGraph == nil)
     [InvalidCombination raiseEvent: "This element has no owner graph!\n"];
-  name = strdup(tclObjc_objectToName(self));
+  name = strdup (tclObjc_objectToName(self));
   xData = [BLTVector create: [self getZone]];
   yData = [BLTVector create: [self getZone]];
 
-  [globalTkInterp
-    eval: "%s element create %s -xdata %s -ydata %s -symbol none",
-    [ownerGraph getWidgetName],
-    [self getName],
-    [xData getName],
-    [yData getName]];
-  
+  if ([globalTkInterp newBLTp])
+    {
+#if 0
+      // Create a pen for a small, hollow circle.
+      [globalTkInterp
+        eval: "%s pen create %s_line -symbol circle -outlinewidth 1 -fill \"\" -pixels 0.05i",
+        [ownerGraph getWidgetName],
+        [self getName]];
+#else
+      // Create a pen for a wider line.
+      [globalTkInterp
+        eval: "%s pen create %s_line -symbol none -linewidth 3",
+        [ownerGraph getWidgetName],
+        [self getName]];
+#endif
+      
+      // When inactive, use no symbol.  When active, use the new pen. 
+      [globalTkInterp
+        eval: "%s element create %s -xdata %s -ydata %s -symbol none -activepen %s_line",
+        [ownerGraph getWidgetName],
+        [self getName],
+        [xData getName],
+        [yData getName],
+        [self getName]];
+    }
+  else
+    // If we are using old BLT, only change line width.
+    [globalTkInterp
+      eval: "%s element create %s -xdata %s -ydata %s -symbol none -activelinewidth 3",
+      [ownerGraph getWidgetName],
+      [self getName],
+      [xData getName],
+      [yData getName],
+      [self getName]];
+
   return self;
 }
 
@@ -190,10 +218,25 @@
 
 - setColor: (const char *)color
 {
-  [globalTkInterp eval: "%s element configure %s -color \"%s\"",
-                  [ownerGraph getWidgetName],
-                  name,
-                  color];
+  if ([globalTkInterp newBLTp])
+    {
+      [globalTkInterp eval: "%s element configure %s -color %s",
+                      [ownerGraph getWidgetName],
+                      name,
+                      color];
+      [globalTkInterp
+        eval: "%s pen configure %s_line -color %s -outline %s",
+        [ownerGraph getWidgetName],
+        [self getName],
+        color, color];
+    }
+  else
+    [globalTkInterp
+      eval: "%s element configure %s -color %s -activecolor %s",
+      [ownerGraph getWidgetName],
+      name,
+      color, color];
+  
   return self;
 }
 
@@ -204,7 +247,7 @@
   return self;
 }
 
--setSymbol: (const char *)s
+- setSymbol: (const char *)s
 {
   [globalTkInterp eval: "%s element configure %s -symbol %s",
 		  [ownerGraph getWidgetName],
