@@ -1,3 +1,8 @@
+1998-06-15  Alex Lancaster  <alex@santafe.edu>
+
+	* Array.m ([Array_c -describe:]): Removed cast of pointer to
+	unsigned long.
+
 1998-06-14  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* collections.h: Remove MemberType; don't adopt it in Collection.

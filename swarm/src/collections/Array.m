@@ -331,11 +331,11 @@ PHASE(Using)
   [super describe: outputCharStream];
   if ( getBit( bits, Bit_MemberAlloc ) ) {
     sprintf( buffer, "> external member allocation at: " PTRFMT "\n",
-             (unsigned long)block );
+             block );
     [outputCharStream catC: buffer];
   } else if ( getBit( bits, Bit_DefaultMember ) ) {
     sprintf( buffer, "> default member value: " PTRFMT "\n",
-             (unsigned long)block[count] );
+             block[count] );
     [outputCharStream catC: buffer];
   }
 }
