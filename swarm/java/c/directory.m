@@ -18,8 +18,9 @@ static jclass c_boolean,
   c_int, 
   c_short, c_long,
   c_float, c_double,
-  c_object, c_void,
-  c_globalZone;
+  c_object, c_void;
+
+static jobject o_globalZone;
 
 JNIEnv * jenv;
 
@@ -78,9 +79,9 @@ create_class_refs (JNIEnv *env)
                                           "Lswarm/GlobalZone;")))
           abort ();
 
-        if (!(c_globalZone = (*env)->GetObjectField (env, clazz, field)))
+        if (!(o_globalZone = (*env)->GetObjectField (env, clazz, field)))
           abort ();
-	c_globalZone = (*env)->NewGlobalRef (env, c_globalZone);
+	o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
       }
       initFlag = YES;
     }
@@ -225,7 +226,7 @@ java_directory_init (JNIEnv *env)
   objc_tree = avl_create (compare_objc_objects, NULL);
   
   create_class_refs (env);
-  java_directory_update (env, c_globalZone, globalZone);
+  java_directory_update (env, o_globalZone, globalZone);
 }
 
 void

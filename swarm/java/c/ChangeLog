@@ -1,3 +1,8 @@
+1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (o_globalZone): Make jobject, not jclass.
+	(create_class_refs, java_directory_init): Accomodate.
+
 1999-03-23  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* directory.m (create_class_refs): Type of the field global zone
