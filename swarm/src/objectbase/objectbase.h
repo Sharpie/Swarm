@@ -25,7 +25,7 @@ Date:            1996-12-12
 //
 // id <Error> ReferenceError;  // dangling pointer to removed object
 
-@protocol SwarmObject <Create, Drop>
+@protocol SwarmObject <Create, Drop, CREATABLE>
 //S: A superclass of most objects in a Swarm simulation that provides
 //S: support for probing.
 
