@@ -201,11 +201,6 @@ PHASE(Using)
 //
 // getName -- return name of class
 //
-+ (const char *)getName
-{
-  return (const char *) ((Class) self)->name;
-}
-
 - (const char *)getName
 {
   return (const char *) (getClass (self))->name;

@@ -434,8 +434,6 @@ USING
 //M: only for returning a name associated with an object throughout its
 //M: lifetime.  It does not return any data that ever changes.
 USING
-+ (const char *)getName;
-
 - (const char *)getName;
 @end
 

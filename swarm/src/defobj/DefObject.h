@@ -32,7 +32,6 @@ Library:      defobj
 }
 #endif
 /*** methods in Object_s (inserted from .m file by m2h) ***/
-+ (const char *)getName;
 - (const char *)getName;
 + (BOOL)respondsTo: (SEL)aSel;
 - (BOOL)respondsTo: (SEL)aSel;

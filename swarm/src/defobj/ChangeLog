@@ -2,9 +2,10 @@
 
 	* DefObject.h (Object_s): Adopt GetName.
 
-	* DefObject.[hm] ([Object_s -getName]): New method.
+	* DefObject.[hm] ([Object_s -getName]): New method, remove factory 
+	method of same.
 
-	* defobj.h (GetName): Add instance -getName.
+	* defobj.h (GetName): Add instance -getName, remove +getName:.
 
 	* FCall.m ([FCall_c -performCall]): Put libffi return type in
 	a types_t and recover it per the case (libffi bug workarounds for
