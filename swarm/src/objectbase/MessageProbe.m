@@ -475,6 +475,8 @@ copy_to_nth_colon (const char *str, int n)
 #else
     return (double)val.val._int;
 #endif
+  else if (val.type == _C_FLT)
+    return (double)val.val._float;
   else if (val.type == _C_DBL)
     return val.val._double;
   abort ();

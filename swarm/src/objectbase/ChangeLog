@@ -1,3 +1,8 @@
+1998-04-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MessageProbe.m ([MessageProbe -doubleDynamicCallOn:]): Convert
+	for float, too.
+
 1998-04-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* objectbase.h: Add //D: documentation comment tag for module.
