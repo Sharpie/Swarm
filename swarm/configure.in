@@ -228,6 +228,7 @@ AC_REPLACE_FUNCS(memchr realpath stpcpy strchr strncmp strndup strnlen strpbrk s
 md_CHECK_ARGP
 
 md_STRUCT_XPM_ALLOCPIXELS
+AM_CONDITIONAL(CONSERVATIVE_OPTIMIZATION,test -n "$CONSERVATIVE_OPTIMIZATION")
 
 if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_cv_func_strnlen = yes; then
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
