@@ -44,7 +44,7 @@ $(FIGS):
 	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs
 
 $(NAME).html: $(GENERAL) # $(HTML)
-
+$(NAME).fo: $(GENERAL)
 $(NAME).info: $(GENERAL)
 $(NAME).texi: $(GENERAL) $(top_srcdir)/docbook2texi
 
