@@ -1,3 +1,9 @@
+1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (*objc-to-java-type-alist*,
+	java-type-to-native-type, java-print-native-method): Use
+	java.lang.String instead of String.
+
 1999-07-23  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* java-stub.el (*removed-methods*): Remove getDisplayName, 
