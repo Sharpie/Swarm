@@ -221,18 +221,13 @@ AC_SUBST(tklibdir)
 
 AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
-if test -z "$bltlibname"; then
-  md_FIND_LIB(blt,BLT8.0,$bltdir/lib/shared,1)
-  if test -z "$_ldflags" ; then
-    md_FIND_LIB(blt,BLT)
-    bltlibname=BLT
-    test -n "$_ldflags" || AC_MSG_ERROR(Unable to find $bltlibname)
-  else
-    bltlibname=BLT8.0
+for name in $bltlibname BLT BLT8.0 BLT80 ; do
+  md_FIND_LIB(blt,$name,$bltdir/lib/shared,1)
+  if test -n "$_ldflags" ; then
+    bltlibname=$name
+    break
   fi
-else
-  md_FIND_LIB(blt,$bltlibname,$bltdir/lib/shared)
-fi
+done
 BLTLDFLAGS=$_ldflags
 BLTLIB=-l$bltlibname
 AC_SUBST(bltlibdir)

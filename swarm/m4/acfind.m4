@@ -2,8 +2,9 @@ AC_DEFUN(md_FIND_LIB,
 [libname=$2
 AC_MSG_CHECKING(directory of lib${libname})
 for dir in $3 $$1dir/lib $defaultdir/lib /usr/lib /usr/local/lib; do
+  expand_dir=`eval echo $dir`
   for suffix in .so .a; do
-    if test -r $dir/lib${libname}${suffix} ; then
+    if test -r $expand_dir/lib${libname}${suffix} ; then
       $1libdir=$dir
       break
     else
@@ -37,7 +38,8 @@ AC_DEFUN(md_FIND_INCLUDE,
 fi
 AC_MSG_CHECKING(directory of $1.h)
 for dir in $$1includedir /usr/include; do
-  if test -r $dir/$1.h ; then
+  expand_dir=`eval echo $dir`
+  if test -r $expand_dir/$1.h ; then
     $1includedir=$dir
     break
   else
