@@ -38,5 +38,3 @@
 #import <tkobjc/OvalNodeItem.h>
 #import <tkobjc/LinkItem.h>
 #import <tkobjc/global.h>
-
-

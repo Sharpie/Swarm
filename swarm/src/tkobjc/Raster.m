@@ -19,8 +19,6 @@
 
 - createEnd
 {
-  XGCValues gcv;
-
   // initialize the superclass.
   [super createEnd];
 
@@ -36,15 +34,12 @@
   tkwin = tkobjc_nameToWindow (widgetName);
   if (tkwin == NULL)
     {
-      [WindowCreation raiseEvent: "Error creating tkin!\n%s",
+      [WindowCreation raiseEvent: "Error creating tkwin!\n%s",
                       [globalTkInterp result]];
       return nil;
     }
-  
+
   Tk_MakeWindowExist (tkwin);
-  
-  display = Tk_Display (tkwin);
-  xwin = Tk_WindowId (tkwin);
   
   // now arrange for expose events to call our redraw procedure.
   [globalTkInterp eval: "bind %s <Expose> {%s drawSelf}",
@@ -53,24 +48,12 @@
   [globalTkInterp eval: 
     "bind %s <ButtonPress> { %s handleButton: %s X: %s Y: %s }",
 		  widgetName, [self getObjcName], "%b", "%x", "%y"];
-
-  // now create a GC
-  gcv.background = BlackPixel(display, DefaultScreen(display));
-  gcv.graphics_exposures = False;
-  gc = XCreateGC (display, xwin, GCBackground | GCGraphicsExposures, &gcv);
-  XSetFillStyle (display, gc, FillSolid);
-  XSetClipOrigin (display, gc, 0, 0);
-
-  // and create a local Pixmap for drawing
-  pm = XCreatePixmap (display, xwin, width, height, Tk_Depth(tkwin));
+  
+  tkobjc_raster_createContext (self);
+  tkobjc_raster_createPixmap (self);
   [self erase];
   
   return self;
-}
-
-- (Display *)getDisplay
-{
-  return display;
 }
 
 - (id <Colormap>)getColormap
@@ -81,12 +64,9 @@
 // This widget won't work without this initialized.
 - setColormap: (id <Colormap>)c
 {
-  XGCValues gcv;
-
   colormap = c;
   map = [colormap map];				  // cache this, fast access.
-  gcv.background = [colormap black];
-  XChangeGC (display, gc, GCBackground, &gcv);
+  tkobjc_raster_setBackground (self, [colormap black]);
   return self;
 }
 
@@ -96,22 +76,19 @@
 // one to it and redraw ourselves.
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
-  unsigned minWidth, minHeight;
-  Pixmap oldpm;
+  Pixmap oldpm = pm;
+  int oldWidth = width;
+  int oldHeight = height;
 
-  oldpm = pm;
-  minWidth = (newWidth < width ? newWidth : width);
-  minHeight = (newHeight < height ? newHeight : height);
-  
-  pm = XCreatePixmap (display, xwin, newWidth, newHeight, Tk_Depth (tkwin));
   width = newWidth;
   height = newHeight;
-  
-  [super setWidth: width Height: height];
+  tkobjc_raster_createPixmap (self);
 
+  [super setWidth: width Height: height];
   [self erase];
-  XCopyArea (display, oldpm, pm, gc, 0, 0, minWidth, minHeight, 0, 0);
-  XFreePixmap (display, oldpm);
+
+  tkobjc_raster_copy (self, oldpm, oldWidth, oldHeight);
+
   return [self drawSelf];
 }
 
@@ -120,22 +97,18 @@
 // erase the pixmap - can't use XClearArea, sadly.
 - erase
 {
-  XGCValues oldgcv;
-  XGetGCValues (display, gc, GCForeground, &oldgcv);   // save old colour
+  Display *display = Tk_Display (tkwin);
 
-  XSetForeground (display, gc, BlackPixel(display, DefaultScreen(display)));
-  XFillRectangle (display, pm, gc, 0, 0, width, height);
-
-  XChangeGC (display, gc, GCForeground, &oldgcv);  // now restore colour
+  tkobjc_raster_fillRectangle (self,
+                               0, 0, width, height, 
+                               BlackPixel (display, DefaultScreen (display)));
   return self;
 }
 
 // draw a point on the window.
-- drawPointX: (int) x Y: (int) y Color: (Color) c
+- drawPointX: (int)x Y: (int)y Color: (Color)c
 {
-  XSetForeground (display, gc, map[c]);		  // no checking on map.
-
-  XDrawPoint (display, pm, gc, x, y);
+  tkobjc_raster_drawPoint (self, x, y, map[c]);
   return self;
 }
 
@@ -150,8 +123,7 @@
 // draw a rectangle.
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
 {
-  XSetForeground (display, gc, map[c]);		  // no checking on map.
-  XFillRectangle (display, pm, gc, x0, y0, x1-x0, y1-y0);
+  tkobjc_raster_fillRectangle (self, x0, y0, x1 - x0, y1 - y0, map[c]);
   return self;
 }
 
@@ -162,8 +134,7 @@
   printf("Redrawing %s\nPixmap: %x Window: %x Width: %d Height: %d\n",
 	 [self getObjcName], pm, xwin, width, height);
 #endif
-  XCopyArea (display, pm, xwin, gc, 0, 0, width, height, 0, 0);
-  XFlush (display);
+  tkobjc_raster_flush (self);
   return self;
 }
 

@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <X11/Xlib.h>
+#include "internal.h"
 
 // protocol for a "Drawer", something that draws itself with Xlib
 // calls on a Drawable at a given location. Raster calls this method

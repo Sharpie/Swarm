@@ -3,29 +3,27 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-// Objective C interface to Raster, for use with tclobjc
+// Objective C interface to Raster, for use with tclobjc.
 
 #import <tkobjc/ArchivedGeometryWidget.h>
-#import "internal.h"
 #import <tkobjc/XDrawer.h>
 #import <gui.h>
+#import "internal.h"
 
-// this could include a list of environments (graphics contexts)
+// This could include a list of environments (graphics contexts).
 @interface Raster: ArchivedGeometryWidget
 {
-  Tk_Window tkwin;
-  Display *display;
-  Window xwin;
-  unsigned width, height;
-  GC gc;
-  Pixmap pm;
   id <Colormap> colormap;
-  PixelValue *map;
   id button1Client, button2Client, button3Client;
   SEL button1Sel, button2Sel, button3Sel;
+  PixelValue *map;
+@public
+  Tk_Window tkwin;
+  GC gc;
+  Pixmap pm;
+  unsigned width, height;
 }
 
-- (Display *)getDisplay;
 - (id <Colormap>)getColormap;
 - setColormap: (id <Colormap>)colormap;
 - drawPointX: (int)x Y: (int)y Color: (Color)c;

@@ -5,6 +5,9 @@ OBJECTS=Graph.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomR
 HEADERS=Graph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histogram.h Label.h Raster.h TkExtra.h Widget.h Colormap.h XDrawer.h XPixmap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h ClassDisplayHideButton.h ClassDisplayLabel.h VarProbeLabel.h SimpleProbeDisplayHideButton.h SuperButton.h MessageProbeEntry.h VarProbeEntry.h CompleteProbeDisplayLabel.h ProbeCanvas.h common.h internal.h
 
 OTHERCLEAN=testFrame testGraph testHistogram testRaster testFrame.o testGraph.o testHistogram.o testRaster.o
+
+override EXTRACFLAGS+=-Itk -DHAVE_LIMITS_H -DHAVE_UNISTD_H
+
 include $(SWARMHOME)/Makefile.lib
 
 testFrame: testFrame.o $(LIBRARY)

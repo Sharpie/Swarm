@@ -1,3 +1,48 @@
+1998-03-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m: Don't include tkobjc/Widget.m. Include internal.h
+	first.  Define BOOL to be BOOL_ to avoid conflict with Xmd.h.
+	Include tkInt.h and, if __WIN32__, tkWinInt.h. 
+	(tkobjc_linkVar): Make second argument void *.
+	tkobjc_raster_{fillRectangle,drawPoint,createContext,createPixmap,
+	setBackground,copy,flush}: New functions.
+
+	* internal.h: Define Colormap as X11Colormap before including X11
+	things.  Otherwise, don't try to preserve Colormap preprocessor
+	definitions.  Include and define Raster class.  Declare
+	tkobjc_raster_{fillRectangle,drawPoint,createContext,createPixmap,
+	setBackground,copy,flush}.
+
+	* XDrawer.h: Include internal.h instead of X11/Xlib.h.
+
+	* Raster.m ([Raster -createEnd]): Don't set display or xwin
+	(variables removed).
+	([Raster -getDisplay]): Removed.
+	([Raster -createEnd]): Use tkobjc_raster_createContext and
+	tkobjc_raster_createPixmap instead of calling X primitives.
+	([Raster -setColormap:]): Use tkobjc_raster_setBackground instead
+	of using X primitives.
+	([Raster -setWidth:Height:]): Use tkobjc_raster_createPixmap and
+	tkobjc_raster_copy instead of using X primitives.
+	([Raster -erase]): Use tkobjc_raster_fillRectangle rather than
+	using X primitives.  Don't bother preserving foreground color.
+	([Raster -drawPointX:Y:Color:]): Use tkobjc_raster_drawPoint
+	rather than X primitives.
+	([Raster -fillRectangleX0:Y0:X1:Y1:Color:]): Use
+	tkobjc_raster_fillRectangle rather than using X primitives.
+	([Raster -drawSelf]): Use tkobjc_raster_flush rather than 
+	X primitives.
+
+	* Raster.h (Raster):  Make tkwin, gc, pm, width and height
+	public (for access by internal.m routines).  Remove display, and xwin.
+
+	* Colormap.m ([Colormap -setColor:ToName:]): Get xc in two
+	steps:  XParseColor and XAllocColor instead of XAllocNamedColor.
+	(More precision in error reports and Tk 8 lacks an emulation
+	routine for the latter.)
+
+	* Colormap.h: Type of cmap renamed from Colormap_ to X11Colormap.
+
 1998-02-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* InputWidget.[mh] ([InputWidget -linkVariableDouble:], 

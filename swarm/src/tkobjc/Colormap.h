@@ -31,7 +31,7 @@
   Tk_Window tkwin;
   Display *display;
   Window xwin;
-  Colormap_ cmap;
+  X11Colormap cmap;
 }
 
 - (PixelValue *)map;

@@ -65,11 +65,21 @@
   else
     {
       int rc;
-      XColor xc, t;				  // ignore t
-      
+      XColor xc;
+
       isSet[c] = YES;
-      rc = XAllocNamedColor (display, cmap, colorName, &xc, &t);
-      if (rc == 0)
+      rc = XParseColor (display, cmap, colorName, &xc);
+      if (!rc)
+        {
+          [ResourceAvailability
+            raiseEvent:
+              "Problem locating color %s. Substituting white.\n",
+            colorName];
+          map[c] = white;
+          return NO;
+        }
+      rc = XAllocColor (display, cmap, &xc);
+      if (!rc)
         {
           [ResourceAvailability
             raiseEvent:
