@@ -1661,6 +1661,7 @@ compiler."
           convenience="$convenience $ladir/$objdir/$old_library"
           old_convenience="$old_convenience $ladir/$objdir/$old_library"
           deplibs="$deplibs $ladir/$objdir/$old_library"
+          continue
 	fi
 
 	# Find the relevant object directory and library name.
