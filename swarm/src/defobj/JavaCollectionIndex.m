@@ -8,24 +8,19 @@
 @implementation JavaCollectionIndex
 
 #ifdef HAVE_JDK
++ create: aZone setCount: (size_t)theCount
+{
+  JavaCollectionIndex *obj = [self create: aZone];
+
+  obj->pos = -1;
+  obj->count = theCount;
+  return obj;
+}
+
+
 - (id <Symbol>)getLoc
 {
-  jobject iterator = SD_FINDJAVA (jniEnv, self);
-  jclass class;
-  jmethodID method;
-
-  if (!(class = (*jniEnv)->GetObjectClass (jniEnv, iterator)))
-    abort (); 
-  if (!(method =
-	(*jniEnv)->GetMethodID (jniEnv,
-				class,
-				"hasNext",
-				"()Z")))
-    abort ();
-  (*jniEnv)->DeleteLocalRef (jniEnv, class);
-  return ((*jniEnv)->CallBooleanMethod (jniEnv, iterator, method) == JNI_TRUE
-	  ? Member
-	  : End);
+  return pos < count ? Member : End;
 }
 
 - next
@@ -48,6 +43,7 @@
   item = (*jniEnv)->CallObjectMethod (jniEnv, iterator, method);
   proxy = SD_ENSUREOBJC (jniEnv, item);
   (*jniEnv)->DeleteLocalRef (jniEnv, item);
+  pos++;
   return proxy;
 }
 #endif

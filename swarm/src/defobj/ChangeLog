@@ -1,3 +1,19 @@
+1999-12-13    <mgd@nest.swarm.org>
+
+	* directory.m ([-objcFindJavaClass:]): Clear exceptions and then
+	call ExceptionDescribe if exception occurs for FindClass.  
+
+	* JavaCollectionIndex.h (JavaCollectionIndex): Add count and pos
+	ivars.  
+
+	* JavaCollectionIndex.[hm] ([JavaCollectionIndex +create:setCount:]): 
+	New constructor.
+
+	* JavaCollection.m ([JavaCollection -begin:]): Use it.
+
+	* JavaCollectionIndex.m ([JavaCollectionIndex -getLoc]): Use 
+	pos and count to determine if at end.  hasNext is off by one.
+
 1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* DefClass.m (_obj_initMethodInterfaces): Don't crash when

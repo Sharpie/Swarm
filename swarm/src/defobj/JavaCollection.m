@@ -54,7 +54,9 @@
     abort ();
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   iterator = (*jniEnv)->CallObjectMethod (jniEnv, coll, method);
-  entry = SD_ADD (jniEnv, iterator, [JavaCollectionIndex create: aZone]);
+  entry = SD_ADD (jniEnv, iterator,
+                  [JavaCollectionIndex create: getZone (self)
+                                       setCount: [self getCount]]);
   (*jniEnv)->DeleteLocalRef (jniEnv, iterator);
   return entry->object;
 }

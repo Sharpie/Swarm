@@ -440,7 +440,7 @@ objcFindJavaClassName (Class class)
     {
       Type_c *typeImpl;
       typeImpl = [class getTypeImplemented];
-      
+
       if (typeImpl)
         javaClassName =
 	  java_classname_for_typename (jniEnv, typeImpl->name, YES);
@@ -454,7 +454,13 @@ objcFindJavaClassName (Class class)
 - (jclass)objcFindJavaClass: (Class)class
 {
   const char *javaClassName = objcFindJavaClassName (class);
-  jclass ret = (*jniEnv)->FindClass (jniEnv, javaClassName);
+  jclass ret;
+  jobject throwable;
+
+  (*jniEnv)->ExceptionClear (jniEnv);
+  ret = (*jniEnv)->FindClass (jniEnv, javaClassName);
+  if ((throwable = (*jniEnv)->ExceptionOccurred (jniEnv)) != NULL)
+    (*jniEnv)->ExceptionDescribe (jniEnv);
 
   FREECLASSNAME (javaClassName);
   return ret;
