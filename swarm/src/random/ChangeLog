@@ -1,3 +1,7 @@
+1998-03-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* random.m: Declare gettimeofday for cygwin.
+
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* C2LCGXgen.m ([C -setA:setv:setw:]): Make maxGen an unsigned long.
