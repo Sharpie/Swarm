@@ -22,6 +22,9 @@
                             defobj
                             gui
                             objectbase
+                            random
+                            (random . "generators.h")
+                            (random . "distributions.h")
                             simtools
                             simtoolsgui
                             space))
@@ -124,10 +127,11 @@
      (while (looking-at ",")
        (forward-char)
        (push (cons nil (next-expr)) arguments))
-
+     (when (looking-at "//")
+       (beginning-of-line 2))
      until (looking-at ";"))
     (unless phase
-      (error "No phase in protocol: " protocol-name))
+      (error "No phase in protocol: %s" protocol-name))
     (make-method
      :phase phase
      :factory-flag factory-flag
@@ -138,7 +142,7 @@
 
 (defun test-parse-method ()
   (interactive)
-  (let ((method (parse-method nil :creating nil nil)))
+  (let ((method (parse-method nil :creating nil nil nil)))
     (princ (list (method-return-type method)
                  (method-arguments method)
                  (method-example-list method)
@@ -170,7 +174,6 @@
 
 (defun load-protocol (module)
   (interactive)
-
   (skip-whitespace)
   (let* ((name
           (let ((beg (point)))
@@ -238,7 +241,7 @@
               (progn
                 (case last-tag
                   (:example-doc
-                   (push buf example-list)
+                   (push (concat buf "\n") example-list)
                    (unless (or method-list method-doc-list)
                      (setq global-example-list example-list)
                      (setq example-list nil)))
@@ -283,9 +286,12 @@
             (last command-line-args)
             (error "Can't find SWARMHOME")))))
 
-(defun pathname-for-module (module)
+(defun pathname-for-module (module &optional filename)
   (let ((module-name (symbol-name module)))
-    (concat (get-swarmhome) "/src/" module-name "/" module-name ".h")))
+    (concat (get-swarmhome) "/src/" module-name "/" 
+            (if filename
+                filename
+                (concat module-name ".h")))))
 
 (defun create-included-protocol-list (protocol)
   (loop for included-protocol-name in (protocol-included-protocol-list protocol)
@@ -308,6 +314,9 @@
   (setf (gethash (protocol-name protocol) *protocol-hash-table*) protocol)
   (push protocol (gethash module *module-hash-table*)))
 
+(defun get-module (module-spec)
+  (if (consp module-spec) (car module-spec) module-spec))
+
 (defun load-protocols-for-all-modules ()
   (interactive)
 
@@ -321,9 +330,13 @@
     (clrhash *protocol-hash-table*)
     (clrhash *module-hash-table*)
     (add-protocol 'defobj (CREATABLE-protocol))
-    (loop for module in *swarm-modules*
+    (loop for module-spec in *swarm-modules*
+          for module = (get-module module-spec)
           do
-          (find-file-read-only (pathname-for-module module))
+          (if (consp module-spec)
+              (find-file-read-only 
+               (pathname-for-module module (cdr module-spec)))
+              (find-file-read-only (pathname-for-module module)))
           (loop for protocol in (load-protocols module)
                 for name = (protocol-name protocol)
                 for exist = (gethash name *protocol-hash-table*)
@@ -632,7 +645,7 @@
       (insert (format " / %d" (general-example-counter protocol)))
       (insert "\">")
       (insert "<TITLE>\n")
-      (insert "</TITLE>")
+      (insert "</TITLE>\n")
       (loop for example in example-list
             do
             (insert "<PROGRAMLISTING>\n")
@@ -729,7 +742,8 @@
 
 (defun sgml-generate-modules ()
   (interactive)
-  (loop for module in *swarm-modules*
+  (loop for module-spec in *swarm-modules*
+        for module = (get-module module-spec)
         do
         (generate-refentries-for-module module)))
 

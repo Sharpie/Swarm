@@ -25,7 +25,7 @@
           orientation: 'horizontal
           line-thickness: 1pt))
 
-(define (make-paragraph nl)
+(define (make-linebreak nl)
     (make paragraph
           (process-node-list nl)))
 
@@ -180,10 +180,10 @@
     (make empty-element gi: "HR"
           attributes: (list (list "SIZE" "1"))))
 
-(define (make-paragraph nl)
+(define (make-linebreak nl)
     (sosofo-append
-     (make empty-element gi: "P")
-     (process-node-list nl)))
+     (process-node-list nl)
+     (make empty-element gi: "BR" (empty-sosofo))))
   
 (element PRIMARYIE
          (sosofo-append
