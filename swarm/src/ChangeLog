@@ -1,3 +1,8 @@
+1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (EXTRALIBS): Set to -lswarm when USEBUILTINAVCALL.
+	(LIBS): Include it.
+
 1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (swarm.dll): Use -lobjcdll, not *.lo files.  
