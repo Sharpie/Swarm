@@ -3,6 +3,7 @@
 	* acswarm.m4 (al_INIT_SWARM)): Add extractions for OBJC and
 	OBJCFLAGS as per configure.in, so that other Swarm-related
 	automake packages will inherit the appropriate rules.
+	Use OBJC, OBJCFLAGS inherited from config.swarm
 
 1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
