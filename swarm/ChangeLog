@@ -1,3 +1,9 @@
+2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* complete conversion to libtool 1.4.3
+	autogen.sh test for 1.4.3 and glibtool on Darwin
+	autoconfigure SED
+
 2003-02-14  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* ltmain.sh and libtool/ltmain.sh: from libtool 1.4.3 needed on MacOS X.  
