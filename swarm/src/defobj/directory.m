@@ -197,13 +197,17 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - javaFind: (jobject)theJavaObject
 {
-  id ret;
-  unsigned index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
-  id <Map> m = table[index];
-  
-  findEntry->javaObject = theJavaObject;
-  ret = m ? [m at: findEntry] : nil;
-  return ret;
+  if (theJavaObject)
+    {
+      id ret;
+      unsigned index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
+      id <Map> m = table[index];
+      
+      findEntry->javaObject = theJavaObject;
+      ret = m ? [m at: findEntry] : nil;
+      return ret;
+    }
+  return nil;
 }
 
 - javaFindObjc: (jobject)theJavaObject
@@ -215,10 +219,14 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - objcFind: theObject
 {
-  DirectoryEntry *ret;
-
-  ret = avl_find (objc_tree, OBJCFINDENTRY (theObject));
-  return ret;
+  if (theObject)
+    {
+      DirectoryEntry *ret;
+      
+      ret = avl_find (objc_tree, OBJCFINDENTRY (theObject));
+      return ret;
+    }
+  return nil;
 }
 
 - (jobject)objcFindJava: theObject
@@ -346,35 +354,40 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - javaEnsureObjc: (jobject)javaObject
 {
-  DirectoryEntry *result; 
-
   if (!javaObject)
     return nil;
-  
-  result = [swarmDirectory javaFind: javaObject];
-
-  if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_String))
+  else
     {
-      jboolean isCopy;
-      const char *utf, *str;
+      DirectoryEntry *result; 
       
-      utf = (*jniEnv)->GetStringUTFChars (jniEnv, javaObject, &isCopy);
-      str = STRDUP (utf);
-      if (isCopy)
-        (*jniEnv)->ReleaseStringUTFChars (jniEnv, javaObject, utf);
+      if (!javaObject)
+        return nil;
+  
+      result = [swarmDirectory javaFind: javaObject];
       
-      if (result)
+      if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_String))
         {
-          FREEBLOCK (result->object);
-          result = SD_SWITCHOBJC (jniEnv, javaObject, (id) str);
+          jboolean isCopy;
+          const char *utf, *str;
+          
+          utf = (*jniEnv)->GetStringUTFChars (jniEnv, javaObject, &isCopy);
+          str = STRDUP (utf);
+          if (isCopy)
+            (*jniEnv)->ReleaseStringUTFChars (jniEnv, javaObject, utf);
+          
+          if (result)
+            {
+              FREEBLOCK (result->object);
+              result = SD_SWITCHOBJC (jniEnv, javaObject, (id) str);
+            }
+          else
+            result = SD_ADD (jniEnv, javaObject, (id) str);
         }
-      else
-        result = SD_ADD (jniEnv, javaObject, (id) str);
+      else if (!result) 
+        result = SD_ADD (jniEnv, javaObject, [JavaProxy create: globalZone]);
+      
+      return result->object;
     }
-  else if (!result) 
-    result = SD_ADD (jniEnv, javaObject, [JavaProxy create: globalZone]);
-
-  return result->object;
 }
 
 static const char *

@@ -1,3 +1,11 @@
+1999-10-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m ([-javaFind:], [-objcFind:], [-javaEnsureObjc:]):
+	Handle null objects explictly.
+
+	* FCall.m ([FCall_c -getRetVal:buf:]): Use SD_ENSUREOBJC instead
+	of SD_FINDOBJC for return_jobject.  Remove `res'.
+
 1999-10-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FArguments.m ([FArguments_c -drop]): Dereference argValues[] for

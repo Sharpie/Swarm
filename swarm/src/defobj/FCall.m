@@ -465,12 +465,10 @@ PHASE(Using)
 
 - (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf
 {
-  types_t *res = &((FArguments_c *) fargs)->resultVal;
-
 #ifdef HAVE_JDK
   id return_jobject (void)
     {
-      return SD_FINDOBJC (jniEnv, (jobject) buf->object);
+      return SD_ENSUREOBJC (jniEnv, (jobject) buf->object);
     }
   const char *return_jstring (void)
     {
@@ -482,11 +480,11 @@ PHASE(Using)
     }
 #endif
 
-  *buf = *res;
-
 #if defined(__i386__) && (__GNUC__ == 2) && (__GNUC_MINOR__ < 95)
 #define BUGGY_BUILTIN_APPLY
 #endif
+
+  *buf = ((FArguments_c *) fargs)->resultVal;
 
 #ifndef BUGGY_BUILTIN_APPLY
   {
