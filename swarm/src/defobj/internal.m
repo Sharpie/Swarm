@@ -827,6 +827,9 @@ object_ivar_type (id obj, const char *ivar_name, BOOL *isArrayPtr)
     {
       struct objc_ivar *ivar = find_ivar (getClass (obj), ivar_name);
       
+      if (!ivar)
+        raiseEvent (InvalidArgument, "Cannot find ivar `%s'", ivar_name);
+      
       if (*ivar->ivar_type == _C_ARY_B)
         {
           unsigned rank = get_rank (ivar->ivar_type);

@@ -1,3 +1,7 @@
+2000-06-30  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* internal.m (object_ivar_type): Raise an error if ivar isn't found.
+
 2000-06-29    <mgd@DRONE>
 
 	* defobj.h (CreatedClass): Remove return type from
