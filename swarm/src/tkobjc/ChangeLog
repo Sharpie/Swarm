@@ -1,3 +1,16 @@
+1999-07-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputWidget.[hm]: Change argument type of linkVariableBoolean:
+	to unsigned * (from BOOL *).
+
+	* TkExtra.m ([TkExtra -preInitWithArgc:argv:]): Import blt::table
+	namespace.
+
+	* Form.[hm]: Rename numEntries to entryCount.  Change type
+	to unsigned.  Change type of entryWidth to unsigned, and setter.
+	([Form -addLineName:Boolean:]): Change type of boolean
+	argument to unsigned * (not BOOL *).
+
 1999-07-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Widget.m (makeWidgetName): Use PTRUINTFMT with PTRUINT instead of %p.

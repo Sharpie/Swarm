@@ -50,7 +50,7 @@ PHASE(Using)
   return self;
 }
 
-- linkVariableBoolean: (BOOL *)p
+- linkVariableBoolean: (unsigned *)p
 {
   relink (variableName, p, TCL_LINK_BOOLEAN);
 

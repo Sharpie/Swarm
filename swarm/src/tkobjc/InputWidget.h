@@ -20,7 +20,7 @@
 - (const char *)getValue;
 - linkVariableInt: (int *)p;
 - linkVariableDouble: (double *)p;
-- linkVariableBoolean: (BOOL *)p;
+- linkVariableBoolean: (unsigned *)p;
 - setValue: (const char *)v;
 
 @end

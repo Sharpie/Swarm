@@ -26,7 +26,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setEntryWidth: (int)ew
+- setEntryWidth: (unsigned)ew
 {
   entryWidth = ew;
   return self;
@@ -44,7 +44,7 @@ PHASE(Using)
       "table %s %s %d,0 -anchor e -fill none",
     [parent getWidgetName],
     [l getWidgetName],
-    numEntries];
+    entryCount];
 
   if (type == TCL_LINK_BOOLEAN)
     {
@@ -66,17 +66,17 @@ PHASE(Using)
   [globalTkInterp eval: "table %s %s %d,1 -anchor w -fill x",
 		  [parent getWidgetName],
                   [w getWidgetName],
-                  numEntries];
+                  entryCount];
   
   // only have to call this once, not once per item, but oh well.
   [globalTkInterp eval: "table configure %s c0 -resize none",
 		  [parent getWidgetName]];
-  numEntries++;
+  entryCount++;
   return self;
 }
 
 // this is atrocious - we should maintain a collection of the entries
-- addLineName: (const char *)n Boolean: (BOOL *)p
+- addLineName: (const char *)n Boolean: (unsigned *)p
 {
   return [self _addLineName_: n Variable: p Type: TCL_LINK_BOOLEAN];
 }

@@ -116,6 +116,7 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
         [self eval: "namespace import blt::graph"];
         [self eval: "namespace import blt::BLT_ZoomStack"];
         [self eval: "namespace import blt::vector"];
+        [self eval: "namespace import blt::table"];
         // Without the load below, on VarProbeEntry double-clicks,
         // this occured:
         //   Original error: no value given for parameter "start" to

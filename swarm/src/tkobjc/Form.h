@@ -10,12 +10,12 @@
 
 @interface Form: Widget <Form>
 {
-  int numEntries;
-  int entryWidth;
+  unsigned entryCount;
+  unsigned entryWidth;
 }
 
-- setEntryWidth: (int) ew;
-- addLineName: (const char *)n Boolean: (BOOL *)p;
+- setEntryWidth: (unsigned)ew;
+- addLineName: (const char *)n Boolean: (unsigned *)p;
 - addLineName: (const char *)n Int: (int *)p;
 - addLineName: (const char *)n Double: (double *)p;
 @end
