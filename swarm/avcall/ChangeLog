@@ -1,3 +1,10 @@
+1999-07-04  Alex Lancaster  <alex@santafe.edu>
+
+	* aclocal.m4 (host_cpu, host_vendor, host_os): Use sed regexps
+	from the 2.13 autoconf distribution, existing regexps assumed
+	canonical hostname always consists of three hyphenated components,
+	but there can be more.
+
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* tests.c (structure_tests): Disable F_Ffd test.  It doesn't

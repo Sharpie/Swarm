@@ -252,10 +252,13 @@ else
 fi
 cl_cv_host="$host"
 ])
+# set the host vars
+changequote(<<, >>)dnl
 host="$cl_cv_host"
-host_cpu=`echo $host | sed 's/^\(.*\)-\(.*\)-\(.*\)$/\1/'`
-host_vendor=`echo $host | sed 's/^\(.*\)-\(.*\)-\(.*\)$/\2/'`
-host_os=`echo $host | sed 's/^\(.*\)-\(.*\)-\(.*\)$/\3/'`
+host_cpu=`echo $host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/'`
+host_vendor=`echo $host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/'`
+host_os=`echo $host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
+changequote([, ])dnl
 AC_SUBST(host)dnl
 AC_SUBST(host_cpu)dnl
 AC_SUBST(host_vendor)dnl
