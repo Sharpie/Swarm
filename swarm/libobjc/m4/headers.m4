@@ -24,22 +24,23 @@ fi
 
 if test -f $cpudir/compiler-info-${target_os}.h; then
   COMPILERINFOHEADER="\${top_srcdir}/config/$host_cpu/compiler-info-${target_os}.h"
-  AC_SUBST(COMPILERINFOHEADER)
 else
-  AC_MSG_ERROR(Could not find compiler information for $target_os)
+  COMPILERINFOHEADER="\${top_srcdir}/config/$host_cpu/compiler-info-generic.h"
+  echo '*************** Warning ****************'
+  echo The mframe software has not been ported to $target_cpu-$target_os.
+  echo Using information from $COMPILERINFOHEADER
+  echo '****************************************'
 fi
+AC_SUBST(COMPILERINFOHEADER)
 
 if test -f $cpudir/mframe-${target_os}.h; then
-    ospath=$cpudir/mframe-${target_os}.h
-    MFRAMEHEADER="\${top_srcdir}/config/$host_cpu/mframe-${target_os}.h"
-    echo Using information from $MFRAMEHEADER
+  MFRAMEHEADER="\${top_srcdir}/config/$host_cpu/mframe-${target_os}.h"
 else
-    ospath=$cpudir/mframe-generic.h
-    echo '*************** Warning ****************'
-    echo The mframe software has not been ported to $target_cpu-$target_os.
-    echo Using information from $ospath.
-    echo '****************************************'
-    MFRAMEHEADER="\${top_srcdir}/$host_cpu/mframe-generic.h"
+  MFRAMEHEADER="\${top_srcdir}/config/$host_cpu/mframe-generic.h"
+  echo '*************** Warning ****************'
+  echo The mframe software has not been ported to $target_cpu-$target_os.
+  echo Using information from $MFRAMEHEADER
+  echo '****************************************'
 fi
 AC_SUBST(MFRAMEHEADER)
 ])
