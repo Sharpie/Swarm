@@ -571,12 +571,12 @@ PHASE(Using)
   return [listIndex getLoc];
 }
 
-- (void) setLoc: (id <Symbol>)locSymbol
+- (void)setLoc: (id <Symbol>)locSymbol
 {
   [listIndex setLoc: locSymbol];
 }
 
-- (int) getOffset
+- (int)getOffset
 {
   return [listIndex getOffset];
 }
@@ -586,7 +586,7 @@ PHASE(Using)
   return [listIndex setOffset: offset];
 }
 
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   mapObject (mapalloc, listIndex);
 }
