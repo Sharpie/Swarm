@@ -22,8 +22,16 @@
 BOOL swarmGUIMode;
 
 static void
-initSwarmFinish (void)
+init (int argc, const char **argv, 
+      const char *version, const char *bugAddress,
+      Class argumentsClass)
 {
+  initModule (activity);
+
+  initDefobj (argc, argv, version, bugAddress,
+              options, optionFunc,
+              argumentsClass);
+
   initProbing ();
 
   swarmGUIMode = ![arguments getBatchModeFlag];
@@ -43,38 +51,33 @@ initSwarmFinish (void)
 void
 initSwarm (int argc, const char **argv)
 {
-  initModule (activity);
-  initDefobj (argc, argv);
-  initSwarmFinish ();
+  init (argc, argv, NULL, NULL, NULL, NULL, [Arguments class]);
 }
 
 void
 initSwarmApp (int argc, const char **argv,
               const char *version, const char *bugAddress)
 {
-  initModule (activity);
-  initDefobjApp (argc, argv, version, bugAddress);
-  initSwarmFinish ();
+  init (argc, argv, version, bugAddress, NULL, NULL, [Arguments class]);
 }
 
 void
-initSwarmAppFunc (int argc, const char **argv,
-                  const char *version, const char *bugAddress,
-                  struct argp_option *options,
-                  int (*parseKeyFunc) (int key, const char *arg))
+initSwarmAppOptions (int argc, const char **argv,
+                     const char *version, const char *bugAddress,
+                     struct argp_option *options,
+                     int (*optionFunc) (int key, const char *arg))
 {
-  initModule (activity);
-  initDefobjAppFunc (argc, argv, version, bugAddress, options, parseKeyFunc);
-  initSwarmFinish ();
+  init (argc, argv,
+        version, bugAddress,
+        options, optionFunc,
+        [Arguments class]);
 }
 
 
 void
 initSwarmArguments (int argc, const char **argv, Class argumentsClass)
 {
-  initModule (activity);
-  initDefobjAppArguments (argc, argv, NULL, NULL, argumentsClass);
-  initSwarmFinish ();
+  init (argc, argv, NULL, NULL, NULL, NULL, argumentsClass);
 }
 
 void
@@ -82,7 +85,6 @@ initSwarmAppArguments (int argc, const char **argv,
                        const char *version, const char *bugAddress,
                        Class argumentsClass)
 {
-  initModule (activity);
-  initDefobjAppArguments (argc, argv, version, bugAddress, argumentsClass);
-  initSwarmFinish ();
+  init (argc, argv, version, bugAddress, NULL, NULL, argumentsClass);
 }
+

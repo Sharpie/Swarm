@@ -1,6 +1,6 @@
 1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* simtools.m (initSwarmFinish): New internal function.
+	* simtools.m (init): New internal function.
 	(initSwarm, initSwarmApp, initSwarmAppFunc, initSwarmArguments,
 	initSwarmAppArguments): Use it.
 
