@@ -14,6 +14,7 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Raster.h>
 #include "internal.h"
+#include <swarmconfig.h> // PTRINT
 
 @implementation Raster
 
@@ -209,7 +210,7 @@ PHASE(Using)
     }
   
   if (c && sel)
-    [c perform: sel with: (void *)x with: (void *)y];
+    [c perform: sel with: (void *) (PTRINT) x with: (void *) (PTRINT) y];
   return self;
 }
 

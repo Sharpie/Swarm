@@ -8,6 +8,7 @@
 #import <tkobjc/global.h>
 #include <png.h>
 #include <misc.h> // xmalloc, XFREE
+#include <swarmconfig.h> // PTRUINT
 
 static int
 compareRGB (id aobj, id bobj)
@@ -159,7 +160,7 @@ PHASE(Creating)
                   void *ptr = &row_pointers[ri][ci * 3];
                   
                   if (![cMap at: ptr])
-                    [cMap at: ptr insert: (id)++colorCount];
+                    [cMap at: ptr insert: (id) (PTRUINT) ++colorCount];
                 }
             }
           {
@@ -172,7 +173,7 @@ PHASE(Creating)
             
             while ((indexObj = [mi next: (id *)&rgb]) != nil)
               {
-                unsigned index = (unsigned)indexObj - 1;
+                unsigned index = (PTRUINT) indexObj - 1;
 
                 palette[index].red = rgb[0];
                 palette[index].green = rgb[1];
@@ -196,7 +197,7 @@ PHASE(Creating)
                                   "No index for R:%d G:%d B:%d\n",
                                   rgb[0], rgb[1], rgb[2]);
                     new_row_pointers_buffer[ri][ci] = 
-                      (png_byte)(unsigned)indexObj - 1;
+                      (png_byte) (PTRUINT) indexObj - 1;
                   }
               }
             [cMap drop];

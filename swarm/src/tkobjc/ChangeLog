@@ -1,5 +1,11 @@
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Pixmap.m ([Pixmap -_loadPNG_]): Use PTRUINT as cast intermediary.
+
+	* Raster.m: Include swarmconfig.h
+	([Raster -handleButton:X:Y:]): Cast x and y to PTRINT before
+	casting to void *.
+
 	* internal.h: Include misc.h before png.h (include standard
 	headers in a well-behaved way that would otherwise be done 
 	unprotected in png.h).
