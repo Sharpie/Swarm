@@ -1,7 +1,5 @@
-/* Default definition for ARGP_PROGRAM_VERSION.
-   Copyright (C) 1996, 1997 Free Software Foundation, Inc.
+/* Copyright (C) 1992, 1995, 1997 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
-   Written by Miles Bader <miles@gnu.ai.mit.edu>.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -18,8 +16,23 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
-/* If set by the user program to a non-zero value, then a default option
-   --version is added (unless the ARGP_NO_HELP flag is used), which will
-   print this this string followed by a newline and exit (unless the
-   ARGP_NO_EXIT flag is used).  Overridden by ARGP_PROGRAM_VERSION_HOOK.  */
-const char *argp_program_version /* = 0 */;
+/* Pulled from glibc-2.1.  Minor renamings. 
+   marcus@sysc.pdx.edu 1997-09-26 */     
+
+#include <string.h>
+
+/* Copy SRC to DEST, returning the address of the terminating '\0' in DEST.  */
+char *
+stpcpy (dest, src)
+     char *dest;
+     const char *src;
+{
+  register char *d = dest;
+  register const char *s = src;
+
+  do
+    *d++ = *s;
+  while (*s++ != '\0');
+
+  return d - 1;
+}

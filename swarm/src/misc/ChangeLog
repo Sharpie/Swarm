@@ -1,5 +1,11 @@
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* argp-pv.c: Don't initialize argp_program_version.
+
+	* argp-ba.c: Don't initialize argp_program_bug_address.
+
+	* Makefile (string_routines): Add strdup, strndup, strsep and stpcpy.
+
 	* argp-parse.c (parser_finalize, parser_parse_arg,
 	parser_parse_next): Add extra braces to avoid if/else compiler
 	warnings.

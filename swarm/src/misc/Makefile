@@ -16,6 +16,8 @@
 # not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+# Modified by mgd@santafe.edu 1998-02-20 for use in Swarm
+
 SWARMHOME=../..
 
 LIBNAME=misc
@@ -24,7 +26,7 @@ HEADERS=argp.h getopt.h
 argp_routines	= $(addprefix argp-, ba fmtstream fs-xinl help parse pv \
 				     pvh xinl eexst)
 getopt_routines = getopt getopt1
-string_routines = strndup strnlen
+string_routines = strdup strndup strnlen strsep stpcpy
 other_routines = xmalloc
 
 OBJECTS = $(addsuffix .o,$(argp_routines) $(getopt_routines) $(string_routines) $(other_routines))
