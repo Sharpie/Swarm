@@ -162,7 +162,7 @@ public class HeatbugBatchSwarm extends SwarmImpl {
         // Now activate our schedules in ourselves. Note that we just
         // activate both schedules: the activity library will merge
         // them properly.
-        // stopSchedule.activateIn (this);
+        stopSchedule.activateIn (this);
 
         if (loggingFrequency > 0)
             displaySchedule.activateIn (this);
