@@ -1,3 +1,7 @@
+2004-12-11  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.in (distdir): Exclude m4 subdirectory.
+
 2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
 
 	* avcall.m4:  Generated via aclocal from ffcall-1.10 sources.
