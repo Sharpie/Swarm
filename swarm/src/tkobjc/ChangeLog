@@ -1,5 +1,5 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-	
+
 	* internal.m (raster_private): Add a privateColormapFlag
 	(tkobjc_raster_create): Initialize it.
 	(tkobjc_raster_setColormap): If private colormap is created,
@@ -23,6 +23,7 @@
 	* win32dib.c (get_color): New function.
 	(dib_augmentPalette, dib_fill, dib_ellipse, dib_line, dib_rectangle): 
 	Use it.
+	win32dib.c (dib_fill): Array order is B, G, R.
 
 	* win32dib.[ch]: colorMap -> colormap throughout.
 	* win32dib.[hc] (dib_fill, dib_ellipse, dib_line, dib_rectangle): 

@@ -359,7 +359,7 @@ dib_fill (dib_t *dib,
 
   if (depth == 8)
     {
-      LPBYTE base = (LPBYTE)dib->bits + (clipy * frameWidth);
+      LPBYTE base = (LPBYTE) dib->bits + (clipy * frameWidth);
 
       for (yoff = 0; yoff < height; yoff++)
 	{
@@ -372,7 +372,7 @@ dib_fill (dib_t *dib,
     }
   else if (depth == 24)
     {
-      LPBYTE base = ((LPBYTE)dib->bits + (clipy * frameWidth * 3));
+      LPBYTE base = ((LPBYTE) dib->bits + (clipy * frameWidth * 3));
       BYTE red, green, blue;
 
       get_color (dib, color, &red, &green, &blue);
@@ -384,11 +384,11 @@ dib_fill (dib_t *dib,
 	  
 	  for (xoff = 0; xoff < width; xoff++)
 	    {
-	      LPBYTE xbase = (LPBYTE)&ybase[xoff][0];
+	      LPBYTE xbase = (LPBYTE) &ybase[xoff][0];
 
-	      xbase[0] = red;
+	      xbase[0] = blue;
 	      xbase[1] = green;
-	      xbase[2] = blue;
+	      xbase[2] = red;
 	    }
 	}
     }
