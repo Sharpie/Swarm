@@ -1,0 +1,5 @@
+2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Organization.java (reaper, getReaper, Organization, activateIn):
+	Configure reaper queue.
+
