@@ -18,10 +18,10 @@ figs_DATA = $(GENERATED_FIGS) $(EPS)
 CLEANFILES = $(GENERATED_FIGS)
 
 %.png: $(srcdir)/%.eps
-	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=png256 -sOutputFile=$@ < $<
+	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=png256 -sOutputFile=$@ - < $<
 
 %.jpeg: $(srcdir)/%.eps
-	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm < $<
+	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm - < $<
 	$(CJPEG) < $*.ppm > $@
 	$(RM) $*.ppm
 
