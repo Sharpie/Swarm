@@ -2,6 +2,8 @@
 
 	* gui.h (Entry): Add linkVariableInt: to protocol (used in testIPD).
 	(Graph) Add setRangesYMin:Max:.
+	(GraphElement): Add setColor:, setDashes:, setSymbol:, and resetData.
+	(Entry): Add linkVariableDouble: and linkVariableBoolean:.
 
 1998-02-24  Alex Lancaster  <alex@santafe.edu>
 

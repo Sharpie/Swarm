@@ -50,7 +50,11 @@
 
 @protocol GraphElement <SwarmObject>
 - setLabel: (const char *)label;
+- setColor: (const char *)colorName;
+- setDashes: (int)dashesVal;
+- setSymbol: (const char *)symbol;
 - addX: (double)x Y: (double)y;
+- resetData;
 @end
 
 @protocol Graph <ArchivedGeometryWidget>
@@ -59,6 +63,7 @@
 - (id <GraphElement>)createElement;
 - setScaleModeX: (int)xs Y: (int)ys;
 - setRangesYMin: (double)miny Max:(double)maxy;
+- setRangesXMin: (double)minx Max:(double)maxx YMin: (double)miny Max: (double)maxy;
 @end
 
 @protocol Histogram <ArchivedGeometryWidget>
@@ -135,6 +140,8 @@
 - (const char *)getValue;
 - setValue: (const char *)value;
 - linkVariableInt: (void *)p;
+- linkVariableDouble: (void *)p;
+- linkVariableBoolean: (void *)p;
 @end
 
 @protocol MessageProbeEntry <Entry>
