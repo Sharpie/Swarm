@@ -134,7 +134,8 @@ USING
 
 - setArg: (int)which ToString: (const char *)what;
 
-- (val_t)       dynamicCallOn: target;
+- (val_t)dynamicCallOn: target;
+- (double)doubleDynamicCallOn: target;
 @end
 
 //

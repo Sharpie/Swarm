@@ -1,3 +1,7 @@
+1998-03-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* objectbase.h (MessageProbe): Declare doubleDynamicCallOn:.
+
 1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* objectbase.h (val_t): Add _uchar.
