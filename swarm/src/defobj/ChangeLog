@@ -1,3 +1,8 @@
+1999-10-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FArguments.m ([FArguments_c -drop]): Dereference argValues[] for
+	localref to free.
+
 1999-09-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javavars.h: Add c_Primitives, m_PrimitivesGetTypeMethod,

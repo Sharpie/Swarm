@@ -471,7 +471,7 @@ PHASE(Using)
       fcall_type_t type = argTypes[offset];
 
       if (type == fcall_type_jstring)
-        (*jniEnv)->DeleteLocalRef (jniEnv, argValues[offset]);
+        (*jniEnv)->DeleteLocalRef (jniEnv, *(jstring *) argValues[offset]);
     }
 #endif
   [super drop];
