@@ -7,5 +7,30 @@ Full installation instructions are in the Swarm documentation. Very
 briefly, you should edit Makefile.conf to point to the right
 directories and run "make".
 
-Questions about this release should be directed to <swarm-support@santafe.edu>
-This is a mailing list shared by all beta developers.
+Setting the SYS makefile variable to one of {solaris,linux,hpux,sgi}
+will pick up any standard system-dependent components or compilation
+environment settings for those systems.  Other selections for those
+settings may be made by modifying the Makefile.
+
+For binary distributions, you will also need to set OTHERINCDIRS to include
+X11 and Objective C include files; you will need to set OTHERLIBDIRS
+to include X11 and Objective C libraries.
+
+For source distributions, you will need to set OTHERINCDIRS to include
+tcl, tk, tclobjc, BLT, X11, and Objective C include directories; 
+you will need to set OTHERLIBDIRS to include libraries for those subsystems
+as well.
+
+If you are using a binary distribution, you will have a make variable
+"LDCONFIG" set to "bin", which will cause your applications link with
+"swarm.x"; "swarm.x" is an object module that has all necessary
+swarm and system-specific libraries compiled into it (with the exception of the
+X11 and Objective C runtimes, which must still be provided as directed).
+
+If you are using a source distribution, "LDCONFIG" will be set to
+"archive", and it will be necessary to compile all swarm libraries, and
+provide versions of tk, tcl, tclobjc, and blt runtime libraries.
+
+Questions about this release should be directed to
+<swarm-support@santafe.edu> This is a mailing list shared by all beta
+developers.
