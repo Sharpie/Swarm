@@ -7,6 +7,7 @@
 #import <objc/objc-api.h>
 #import <defobj.h> // Warning, STRDUP
 #import <defobj/defalloc.h> // getZone
+#import <objectbase/VarProbe.h>
 
 #import "local.h"
 

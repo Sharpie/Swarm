@@ -12,7 +12,7 @@ EXTRA_LTLIBRARIES = libobjectbase.la
 
 JAVAINCLUDES = -I$(top_srcdir)/java/c @JAVAINCLUDES@
 
-INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc $(JAVAINCLUDES)
+INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../misc $(JAVAINCLUDES) $(FFIINCLUDES)
 
 SRC = ActivityControl.m \
 	CompleteVarMap.m CompleteProbeMap.m \

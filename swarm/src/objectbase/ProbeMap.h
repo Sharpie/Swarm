@@ -7,10 +7,7 @@
 // generic Map class. Given a class, build an array of probe objects that
 // work on that class (one per variable).
 
-#import <collections/Map.h>
-#import <objectbase/Probe.h>
-#import <objectbase/VarProbe.h>
-#import <objectbase/MessageProbe.h>
+#import <objectbase/SwarmObject.h>
 #import <objectbase.h>
 
 #ifdef BUILDING_SWARM

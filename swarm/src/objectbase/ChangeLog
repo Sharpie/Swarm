@@ -1,3 +1,24 @@
+2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* ProbeMap.m: Include VarProbe.h.
+
+	* ProbeMap.h: Don't include collections/Map.h,
+	objectbase/{Probe,VarProbe,MessageProbe}.h.  Include SwarmObject.h.
+
+	* Probe.m ([Probe -setProbedClass:]): Remove SAFEPROBES check.
+
+	* MessageProbe.m: Include FCall.h and FArguments.h.
+	([MessageProbe -createEnd]): Initialize call to nil.
+	([MessageProbe -dynamicCallOn:]): Split out FCall creation into
+	_createFCall_:.  Modify to cache call if there are no arguments.
+	Only drop fc and fa when there is no cached call.  Call
+	setProbedObject: during setup to ensure argument call is set
+	(in COM case).
+
+	* MessageProbe.h (MessageProbe): Add `call'.
+
+	* Makefile.am (INCLUDES): Add FFIINCLUDES.
+
 2001-06-27  Marcus G. Daniels  <mgd@dhcp144.santafe.edu>
 
 	* VarProbe.h (VarProbe): javaInfo replaces fieldObject, fieldType,

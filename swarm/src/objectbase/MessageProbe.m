@@ -21,6 +21,9 @@
 
 #import "../defobj/internal.h"
 
+#import <defobj/FCall.h>
+#import <defobj/FArguments.h>
+
 @implementation MessageProbe
 PHASE(Creating)
 
@@ -95,6 +98,7 @@ PHASE(Creating)
     else
       arguments = NULL;
   }
+  call = nil;
   return self;
 }
 
@@ -301,12 +305,13 @@ copy_to_nth_colon (const char *str, int n)
   return (nth_type (probedType, which) == _C_ID);
 }
 
-
-- (val_t)dynamicCallOn: target
+- (FCall_c *)_createFCall_: target
 {
-  id aZone = [target getZone];
-  id fa = [FArguments createBegin: getCZone (aZone)];
-  id <FCall> fc;
+  id fa;
+  id aZone = getZone (self);
+
+  [self setProbedObject: target];
+  fa = [FArguments createBegin: getCZone (aZone)];
 
   if (probedType)
     [fa setReturnType: fcall_type_for_objc_type (*probedType)];
@@ -323,15 +328,37 @@ copy_to_nth_colon (const char *str, int n)
       [fa addArgument: &arguments[i].val ofType: arguments[i].type];
   }
   fa = [fa createEnd];
-  fc = [FCall create: getCZone (aZone)
-	      target: target
-	      methodName: probedMethodName
-	      arguments: fa];
+  return [FCall create: getCZone (aZone)
+                target: target
+                methodName: probedMethodName
+                arguments: fa];
+}
+
+- (val_t)dynamicCallOn: target
+{
+  FArguments_c *fa;
+  FCall_c *fc;
+
+  if (call)
+    {
+      fc = call;
+      updateTarget (fc, target);
+    }
+  else
+    {
+      fc = [self _createFCall_: target];
+
+      if (fc->fargs->assignedArgumentCount == 0)
+        call = fc;
+    }
+
+  fa = fc->fargs;
+      
   [fc performCall];
   {
     val_t retVal = [fa getRetVal];
 #ifdef HAVE_JDK
-    if ([fa getLanguage] == LanguageJava)
+    if (fa->language == LanguageJava)
       {
         if (retVal.type == fcall_type_string)
           retVal.val.string =
@@ -341,9 +368,11 @@ copy_to_nth_colon (const char *str, int n)
             SD_JAVA_FIND_OBJECT_OBJC ((jobject) retVal.val.object);
       }
 #endif
-    [fc drop];
-    [fa drop];
-    
+    if (!call)
+      {
+        [fc drop];
+        [fa drop];
+      }
     return retVal;
   }
 }

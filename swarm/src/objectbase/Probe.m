@@ -105,12 +105,6 @@ PHASE(Using)
 
 - setProbedClass: (Class)aClass
 {
-  if (SAFEPROBES)
-    if (probedClass != 0)
-      {
-        raiseEvent (WarningMessage, "It is an error to reset the class\n");
-        return nil;
-      }
 #ifdef HAVE_JDK
   // if class passed to setProbedClass is 
   if ([aClass respondsTo: M(isJavaProxy)])
