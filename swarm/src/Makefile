@@ -1,4 +1,4 @@
-DIRS=defobj collections activity random tkobjc swarmobject simtools analysis \
+DIRS=defobj collections activity random tkobjc objectbase simtools analysis \
      space 
 
 all:    headers libs
