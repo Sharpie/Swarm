@@ -21,6 +21,23 @@ static const char * defaultGraphColors[NUMCOLORS] = {
 
 PHASE(Creating)
 
++ create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl
+{
+  EZGraph *obj = [super createBegin: aZone];
+
+  obj->graphics = 1;
+  obj->fileOutput = 0;
+  obj->title = aTitle;
+  obj->fileName = NULL;
+  obj->xLabel = xl;
+  obj->yLabel = yl;
+  obj->graphColors = defaultGraphColors;
+  obj->colorCount = NUMCOLORS;
+  obj->colorIdx = 0;
+
+  return [obj createEnd];
+}
+
 + createBegin: aZone
 {
   EZGraph *obj = [super createBegin: aZone];

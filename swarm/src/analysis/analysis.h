@@ -276,6 +276,10 @@ USING
 //D: user having to mess with Averagers amd other low-level classes.
 
 CREATING
+
+//M: Convenience method for creating `graphical' EZGraph instances
++ create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+
 //M: The setGraphics method sets the state of the display. Set the state to 0 
 //M: if a graphical display of the graph is not required.
 //M: The default state is 1 meaning that by default the data appears

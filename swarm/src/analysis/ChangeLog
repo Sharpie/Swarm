@@ -1,3 +1,11 @@
+1999-08-02  Alex Lancaster  <alex@santafe.edu>
+
+	* analysis.h (EZGraph): Add new convenience factory method to
+	protocol.
+
+	* EZGraph.[hm] ([EZGraph +create:setTitle:setAxisLabelsX:Y:]): New
+	convenience factory method for creating `graphics' only EZGraphs.
+
 1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* analysis.h: Add EZSequence protocol.
