@@ -34,6 +34,7 @@
 - setDirectory: (const char *)directory;
 - setFile: (const char *)filename;
 - setWidget: (id <Widget>)widget;
+- setParentFlag: (BOOL)parentFlag;
 - createEnd;
 
 - setRaster: raster;
