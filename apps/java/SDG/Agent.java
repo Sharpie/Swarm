@@ -1,3 +1,6 @@
+import swarm.objectbase.SwarmImpl;
+import swarm.defobj.Zone;
+
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.Font3D;
 import javax.media.j3d.FontExtrusion;
@@ -7,10 +10,10 @@ import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.vecmath.Vector3d;
 
-public class Agent {
+public class Agent extends SwarmImpl {
   TransformGroup trans;
-  
-  Agent (String textString) {
+
+  void createText (String textString) {
     Font3D f3d = new Font3D (new Font ("TestFont", Font.PLAIN, 2),
                              new FontExtrusion ());
     Text3D txt = new Text3D (f3d, textString);
@@ -24,6 +27,12 @@ public class Agent {
     trans.setCapability (TransformGroup.ALLOW_TRANSFORM_WRITE); 
     trans.setTransform (t3d);
     trans.addChild (sh);
+  }
+  
+  Agent (Zone aZone, String textString) {
+    super (aZone);
+
+    createText (textString);
   }
 
   TransformGroup getTransformGroup () {
@@ -41,7 +50,4 @@ public class Agent {
     trans.setTransform (t3d);
   }
 
-  public void step () {
-    
-  }
 }

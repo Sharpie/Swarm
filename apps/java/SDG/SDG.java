@@ -1,19 +1,28 @@
 import javax.media.j3d.TransformGroup;
-
+import swarm.activity.Activity;
+import swarm.objectbase.Swarm;
 import swarm.Globals;
 import swarm.defobj.Zone;
 
 public class SDG extends Organization {
+  Agent mgd, gepr;
+
   public SDG (Zone aZone, TransformGroup group) {
     super (aZone, group);
 
-    Agent mgd = new Marcus ();
-    Agent gepr = new Glen ();
+    mgd = new Marcus (aZone);
+    gepr = new Glen (aZone);
     
     addAgent (mgd);
     addAgent (gepr);
-    
-    gepr.moveAgent (0.0, -0.25, 0.25);
-    mgd.step ();
+  }
+
+  public Activity activateIn (Swarm swarmContext) {
+    super.activateIn (swarmContext);
+
+    System.out.println ("Activating..");
+    mgd.activateIn (this);
+    gepr.activateIn (this);
+    return getActivity ();
   }
 }

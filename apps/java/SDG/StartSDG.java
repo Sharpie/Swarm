@@ -63,11 +63,11 @@ public class StartSDG extends Applet {
     setLayout (new BorderLayout ());
     GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration ();
     Canvas3D c = new Canvas3D (config);
-    add ("Center", c);
+     add ("Center", c);
 
     BranchGroup scene = createSceneGraph ();
 
-    new SDG (Globals.env.globalZone, rootTrans);
+    Organization sdg = new SDG (Globals.env.globalZone, rootTrans);
 
     SimpleUniverse u = new SimpleUniverse (c);
     u.getViewingPlatform ().setNominalViewingTransform ();

@@ -1,5 +1,7 @@
+import swarm.defobj.Zone;
+
 public class Glen extends Agent {
-  Glen () {
-    super ("Glen");
+  Glen (Zone aZone) {
+    super (aZone, "Glen");
   }
 }
