@@ -20,11 +20,7 @@ PHASE(Creating)
   displayWidget = r;
   colormap = c;
 
-#ifndef USE_JAVA
-  drawPointImp = getMethodFor ([r getClass], @selector (drawPointX:Y:Color:));
-#else
   drawPointImp = [(Object *)r methodFor: @selector (drawPointX:Y:Color:)];
-#endif
   return self;
 }
 
@@ -80,6 +76,7 @@ PHASE(Using)
     for (x = 0; x < xsize; x++)
       {
         long color;
+
         color = (long) *(discrete2dSiteAt(lattice, offsets, x, y));
         color = color / modFactor + colorConstant;
         if (color < 0 || color > 255)
@@ -89,14 +86,13 @@ PHASE(Using)
                 "Value2dDisplay: found colour %d not in [0,255].\n", color];
           }
         
-#ifdef METHODS
-        [displayWidget drawPointX: x Y: y Color: (unsigned char)color];
-#else
-        // cache method lookup.
-        (void) *drawPointImp (displayWidget,
-                              @selector(drawPointX:Y:Color:),
-                              x, y, color);
-#endif
+        if (drawPointImp)
+          // cache method lookup.
+          (void) *drawPointImp (displayWidget,
+                                @selector (drawPointX:Y:Color:),
+                                x, y, color);
+        else
+          [displayWidget drawPointX: x Y: y Color: (unsigned char)color];
       }
   return self;
 }
