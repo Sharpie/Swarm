@@ -1,3 +1,10 @@
+2000-02-12    <mgd@HELEN>
+
+	* Makefile.protocol (dos_abs_builddir, dos_abs_top_builddir,
+	dos_swarm_srcdir): New variables.  Set per
+	$(host_triplet)/i686-pc-cygwin.
+	(ENVEMACS): Pass them here.
+
 2000-02-12    <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.

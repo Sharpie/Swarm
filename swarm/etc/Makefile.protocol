@@ -4,8 +4,17 @@ endif
 
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
 abs_builddir := $(shell pwd)
+ifeq ($(host_triplet),i686-pc-cygwin)
+  dos_abs_top_builddir := $(shell cygpath -w $(abs_top_builddir))
+  dos_abs_builddir := $(shell cygpath -w $(abs_builddir))
+  dos_swarm_srcdir = $(shell cygpath -w $(swarm_srcdir))
+else
+  dos_abs_top_builddir := $(abs_top_builddir)
+  dos_abs_builddir := $(abs_builddir)
+  dos_swarm_srcdir := $(swarm_srcdir)
+endif
 
-ENVEMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) $(EMACS)
+ENVEMACS = TOP_BUILDDIR='$(dos_abs_top_builddir)' BUILDDIR='$(dos_abs_builddir)' SWARMSRCDIR='$(dos_swarm_srcdir)' $(EMACS)
 
 define elcrule
 cp -f $< $(dir $@)_$(notdir $<)
