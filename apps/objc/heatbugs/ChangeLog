@@ -1,3 +1,32 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HeatbugObserverSwarm.m: Include gui.h.
+	([HeatbugObserverSwarm -buildObjects]): Use GUI_ButtonRight
+	instead of ButtonRight.
+
+	* HeatbugObserverSwarm.h: Include gui.h instead of tkobjc.h.
+	(HeatbugObserverSwarm): Make colormap conform to the Colormap
+	protocol instead of being statically typed to XColormap.
+	Make worldRaster conform to the ZoomRaster protocol instead
+	of being statically typed to ZoomRaster.
+	Reformatting throughout.
+
+	* HeatbugModelSwarm.m: Reformatting throughout.
+
+	* HeatbugModelSwarm.h: Don't include tkobjc.h. Reformatting throughout.
+
+	* Heatbug.m ([Heatbug -setBugColor:]): Use GUI_Color instead of
+	Color for argument type.
+	([Heatbug -drawSelfOn:]): Use id <Raster> instead of Raster* for
+	argument type.
+	Reformatting throughout.
+
+	* Heatbug.h: Include gui.h instead of tkobjc/Raster.h.
+	(Heatbug): Use GUI_Color instead of Color.
+	Use GUI_Color instead of Color for argument to setBugColor:.
+	Use id <Raster> instead of Raster* for argument to drawSelfOn:.
+	Reformatting throughout.
+
 1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]): Use

@@ -13,29 +13,34 @@
 // In theory we could just let other objects use Probes to read our state,
 // but message access is frequently more convenient.
 
--getHeatbugList {
+- getHeatbugList
+{
   return heatbugList;
 }
 
--getWorld {
+- getWorld
+{
   return world;
 }
 
--getHeat {
+- getHeat
+{
   return heat;
 }
 
 // This method isn't normally used, but is convenient when running probes:
 // it lets you easily clone a heatbug and drag it into the model.
 
--addHeatbug: (Heatbug *) bug {
+- addHeatbug: (Heatbug *)bug
+{
   [heatbugList addLast: bug];
   return self;
 }
 
 // createBegin: here we set up the default simulation parameters.
 
-+createBegin: (id) aZone {
++ createBegin: aZone
+{
   HeatbugModelSwarm * obj;
   id <ProbeMap> probeMap;
 
@@ -106,14 +111,16 @@
 // to later. (In this example, this method does nothing at all and could
 // just be inherited. But it's here to show you a place to customize.)
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
 // Now it's time to build the model objects. We use various parameters
 // inside ourselves to choose how to create things.
 
--buildObjects {
+- buildObjects
+{
   int i;
 
   // allow our parent class to build anything.
@@ -200,8 +207,8 @@
 // that define the simulation of time in the mode. The core is an
 // actionGroup that has a list of actions. That's then put in a Schedule.
 
--buildActions {
-
+- buildActions
+{
   [super buildActions];
   
   // Create the list of simulation actions. We put these in an action
@@ -241,8 +248,8 @@
 // we're being started in - typically, this model is run as a subswarm
 // of an observer swarm.
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   // First, activate ourselves via the superclass activateIn: method.
   // Just pass along the context: the activity library does the right thing.
 

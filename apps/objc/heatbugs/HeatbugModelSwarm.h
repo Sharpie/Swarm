@@ -12,11 +12,10 @@
 #import <activity.h>
 #import <collections.h>
 #import <swarmobject/Swarm.h>
-#import <tkobjc.h>
 #import <swarmobject.h>
 
-@interface HeatbugModelSwarm : Swarm {
-
+@interface HeatbugModelSwarm: Swarm
+{
   int numBugs;					  // simulation parameters
   double evaporationRate;
   double diffuseConstant;
@@ -29,21 +28,21 @@
   id modelSchedule;
 
   id heatbugList;				  // list of all the heatbugs
-  Grid2d * world;				  // objects representing
-  HeatSpace * heat;				  // the world
+  Grid2d *world;				  // objects representing
+  HeatSpace *heat;				  // the world
 }
 
--getHeatbugList;				  // access methods into the
--(Grid2d *) getWorld;				  // model swarm. These methods
--(HeatSpace *) getHeat;				  // allow the model swarm to
+- getHeatbugList;				  // access methods into the
+- (Grid2d *)getWorld;				  // model swarm. These methods
+- (HeatSpace *)getHeat;				  // allow the model swarm to
 						  // be observed.
 
--addHeatbug: (Heatbug *) bug;			  // special method for demo
+- addHeatbug: (Heatbug *)bug;			  // special method for demo
 
-+createBegin: (id) aZone;			  // extra methods you
--createEnd;					  // provide for Swarms
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
++ createBegin: aZone;				  // extra methods you
+- createEnd;					  // provide for Swarms
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;
 
 @end

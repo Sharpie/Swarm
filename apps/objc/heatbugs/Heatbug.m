@@ -19,8 +19,8 @@
 
 // Initialize crucial state for the heatbug.
 
--setWorld: (Grid2d *) w Heat: (HeatSpace *) h {
-
+- setWorld: (Grid2d *)w Heat: (HeatSpace *)h
+{
   // Strictly speaking, this check isn't necessary. But we intend these
   // parameters to be immutable once set, so to be extrasafe we check:
   // it could catch an error later.
@@ -38,14 +38,13 @@
 // of initialization that can only be done after some parameters of the
 // object are set. It's also a good time to check for errors in creation.
 
--createEnd {
-
+- createEnd
+{
   // make sure the user set up world and heat.
 
-  if (world == nil || heat == nil) {
+  if (world == nil || heat == nil)
     [InvalidCombination raiseEvent: "Heatbug was created without a world or heat.\n"];
-  }
-
+  
   // Cache the worldSize for speed of later access. Note how we do
   // this in createEnd - it could also have been done when setWorld:Heat:
   // was called, but this is a good place to do it, too. If an object
@@ -75,7 +74,8 @@
 // Reading unhappiness is a common enough operation that we provide a
 // special method.
 
--(double) getUnhappiness {
+- (double)getUnhappiness
+{
   return unhappiness;
 }
 
@@ -83,17 +83,20 @@
 // going to normally change in a heatbugs lifetime, but there's no reason
 // they couldn't change.
 
--setIdealTemperature: (HeatValue) i {
+- setIdealTemperature: (HeatValue)i
+{
   idealTemperature = i;
   return self;
 }
 
--setOutputHeat: (HeatValue) o {
+- setOutputHeat: (HeatValue)o
+{
   outputHeat = o;
   return self;
 }
 
--setRandomMoveProbability: (float) p {
+- setRandomMoveProbability: (float)p
+{
   randomMoveProbability = (float) p;
   return self;
 }
@@ -106,7 +109,8 @@
 // looking in the grid, it would cause problems. (But note, in heatbug
 // creation, how we tell Grid2d to turn off its warnings about overwrites)
 
--setX: (int) inX Y: (int) inY {
+- setX: (int)inX Y: (int)inY
+{
   x = inX;
   y = inY;
   [world putObject: self atX: x Y: y];		  // yikes!
@@ -121,7 +125,8 @@
 // Heatbug behaviour is actually implemented here. The notion of a "step"
 // method is a nice simplification for basic simulations.
 
--step {
+- step
+{
   HeatValue heatHere;
   int newX, newY;
   int tries;
@@ -172,24 +177,27 @@
   // unoccupied spot by then, assume it's too crowded and just don't move.
 
   tries = 0;
-  while ([world getObjectAtX: newX Y: newY] != nil && tries < 10) {
-  newX = (x + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
-            worldXSize) % worldXSize;
-    newY = (y + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
-            worldYSize) % worldYSize;
-
-    tries++;					  // don't try too hard.
-  }
-  if (tries == 10) {				  // no nearby clear spot
-    newX = x;					  // so just don't move.
-    newY = y;
-  }
-
+  while ([world getObjectAtX: newX Y: newY] != nil && tries < 10)
+    {
+      newX = (x + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
+              worldXSize) % worldXSize;
+      newY = (y + [uniformIntRand getIntegerWithMin: -1L withMax: 1L] +
+              worldYSize) % worldYSize;
+      
+      tries++;					  // don't try too hard.
+    }
+  if (tries == 10)
+    {
+      // no nearby clear spot, so just don't move.
+      newX = x;
+      newY = y;
+    }
+  
   // Phew - we've finally found a spot to move ourselves, in (newX, newY).
   // Update heat where we were sitting.
-
+  
   [heat addHeat: outputHeat X: x Y: y];
-
+  
   // Now move ourselves in the grid and update our coordinates.
 
   [world putObject: nil atX: x Y: y];
@@ -206,12 +214,14 @@
 // This code works, but it'd be better if there were a generic object
 // that knew how to draw agents on grids.
 
--setBugColor: (Color) c {
+- setBugColor: (GUI_Color)c
+{
   bugColor = c;
   return self;
 }
 
--drawSelfOn: (Raster *) r {
+- drawSelfOn: (id <Raster>)r
+{
   [r drawPointX: x Y: y Color: bugColor];
   return self;
 }

@@ -8,6 +8,7 @@
 #import <collections.h>
 #import <swarmobject.h>
 #import <analysis.h>
+#import <gui.h>
 
 @implementation HeatbugObserverSwarm
 
@@ -169,7 +170,9 @@
   // Also, tell the world raster to send mouse clicks to the heatbugDisplay
   // this allows the user to right-click on the display to probe the bugs.
 
-  [worldRaster setButton: ButtonRight Client: heatbugDisplay Message: M(makeProbeAtX:Y:)];
+  [worldRaster setButton: GUI_ButtonRight
+               Client: heatbugDisplay
+               Message: M(makeProbeAtX:Y:)];
 
   // Create the graph widget to display unhappiness.
 
