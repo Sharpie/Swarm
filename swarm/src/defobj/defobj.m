@@ -310,7 +310,7 @@ lispIn (id aZone, id expr)
                 && [typeObject respondsTo: M(isJavaProxy)])
               {
                 obj = [JavaProxy createBegin: aZone];
-                obj = [obj createJavaCounterpart: typeName];
+                [obj createJavaCounterpart: typeName];
               }
             else
 #endif
@@ -376,7 +376,7 @@ hdf5In (id aZone, id hdf5Obj)
       && [typeObject respondsTo: M(isJavaProxy)])
     {
       obj = [JavaProxy createBegin: aZone];
-      obj = [obj createJavaCounterpart: typeName];
+      [obj createJavaCounterpart: typeName];
     }
   else
 #endif

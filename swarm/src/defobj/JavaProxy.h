@@ -6,7 +6,7 @@
 #import <defobj.h>
 #import <defobj/Create.h>
 
-@interface JavaProxy: CreateDrop
+@interface JavaProxy: CreateDrop <Serialization>
 - (BOOL)isJavaProxy;
-- createJavaCounterpart: (const char *)typeName;
+- (void)createJavaCounterpart: (const char *)typeName;
 @end

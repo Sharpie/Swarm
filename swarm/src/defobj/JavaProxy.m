@@ -13,13 +13,15 @@
 #endif
 
 @implementation JavaProxy
-
+PHASE(Creating)
+PHASE(Setting)
+PHASE(Using)
 - (BOOL)isJavaProxy
 {
   return YES;
 }
 
-- createJavaCounterpart: (const char *)typeName
+- (void)createJavaCounterpart: (const char *)typeName
 {
   [self createEnd];
 #ifdef HAVE_JDK
@@ -64,7 +66,6 @@
     }
   }
 #endif
-  return self;
 }
 
 @end

@@ -7,7 +7,8 @@
 	* JavaProxy.m ([JavaProxy -createJavaCounterpart:]): Use
 	java_find_class instead of JNI FindClass.
 	([JavaProxy -createJavaCounterpart:]): If Java object
-	is a collection assign the class to JavaCollection.
+	is a collection assign the class to JavaCollection.  Remove
+	return type.
 
 	* JavaCollection.m: Include List_HDF5in.m in
 	setting phase and List_HDF5out.m in using phase.

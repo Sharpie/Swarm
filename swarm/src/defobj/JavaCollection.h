@@ -6,7 +6,7 @@
 #import "JavaProxy.h"
 #include <swarmconfig.h>
 
-@interface JavaCollection: JavaProxy
+@interface JavaCollection: JavaProxy <Serialization>
 {
 }
 #ifdef HAVE_JDK

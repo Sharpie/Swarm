@@ -16,8 +16,26 @@
 #endif
 
 @implementation JavaCollection
+PHASE(Creating)
+PHASE(Setting)
 
 #ifdef HAVE_JDK
+
+- lispIn: expr
+{
+  id index, member;
+
+  index = [(id) expr begin: scratchZone];
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
+    [(id) self addLast: lispIn ([self getZone], member)];
+  [index drop];
+  return self;
+}
+
+#include "../collections/List_HDF5in.m"
+
+PHASE(Using)
+
 - (BOOL)isJavaCollection
 {
   return YES;
@@ -223,21 +241,6 @@
   [index drop];
   return ret;
 }
-
-- lispIn: expr
-{
-  id index, member;
-
-  index = [(id) expr begin: scratchZone];
-  for (member = [index next]; [index getLoc] == Member; member = [index next])
-    [(id) self addLast: lispIn ([self getZone], member)];
-  [index drop];
-  return self;
-}
-
-#include "../collections/List_HDF5in.m"
-
-PHASE(Using)
 
 - (void)_lispOut_: outputCharStream deep: (BOOL)deepFlag
 {
