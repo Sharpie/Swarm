@@ -785,10 +785,10 @@ USING
 //D: A CompositeCanvasItem for displaying a link between two NodeItems.
 CREATING
 //M: Designate the node that will be the source of the link.
-- setFrom: from;
+- setFrom: (id <NodeItem>)from;
 
 //M: Designate the node that will be the destination of the link.
-- setTo: to;
+- setTo: (id <NodeItem>)to;
 
 //M: For disabling directed link items.
 - setDirectedFlag: (BOOL)directedFlag;
