@@ -460,25 +460,23 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   [stream catEndParse];
 }
 
-- lispOutShallow: stream
+- (void)lispOutShallow: stream
 {
   [stream catStartMakeInstance: [self getTypeName]];
   [self lispOutVars: stream deep: NO];
   lispOutLatticeValues (self, stream);
   [stream catEndMakeInstance];
-  return self;
 }
 
-- lispOutDeep: stream
+- (void)lispOutDeep: stream
 {
   [stream catStartMakeInstance: [self getTypeName]];
   [self lispOutVars: stream deep: NO]; // The others ivars are scalar
   lispOutLatticeObjects (self, stream);
   [stream catEndMakeInstance];
-  return self;
 }
 
-- hdf5OutShallow: hdf5Obj
+- (void)hdf5OutShallow: hdf5Obj
 {
   id group = [[[[[HDF5 createBegin: [hdf5Obj getZone]]
                   setParent: hdf5Obj]
@@ -503,10 +501,9 @@ lispOutLatticeValues (Discrete2d *self, id stream)
            ptr: lattice];
   }
   [group drop];
-  return self;
 }
 
-- hdf5OutDeep: hdf5Obj
+- (void)hdf5OutDeep: hdf5Obj
 {
   unsigned x, y;
   id hdf5Zone = [hdf5Obj getZone];
@@ -541,7 +538,6 @@ lispOutLatticeValues (Discrete2d *self, id stream)
           }
       }
   [latticeHdf5Group drop];
-  return self;
 }
   
 // Read in a file in PGM format and load it into a discrete 2d.

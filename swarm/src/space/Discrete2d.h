@@ -50,12 +50,12 @@
 - copyDiscrete2d: a toDiscrete2d: b;
 - (int)setDiscrete2d: a toFile: (const char *)filename;
 
-- lispOutShallow: stream;
-- lispOutDeep: stream;
 - hdf5InCreate: hdf5Obj;
 - hdf5In: hdf5Obj;
-- hdf5OutShallow: hdf5Obj;
-- hdf5OutDeep: hdf5Obj;
+- (void)hdf5OutShallow: hdf5Obj;
+- (void)hdf5OutDeep: hdf5Obj;
+- (void)lispOutShallow: stream;
+- (void)lispOutDeep: stream;
 @end
 
 // fast macro to access lattice array. Use this cautiously.
