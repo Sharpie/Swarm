@@ -18,7 +18,8 @@ SUFFIXES = .m
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../misc -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES)
 
-override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@
+# Solaris 2.8 has a pragma in Xlib.h
+override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@ 
 override CPPFLAGS += -DList=TclObjcList -DTCL_LIBRARY=\"$(TCL_LIBRARY)\" -DTK_LIBRARY=\"$(TK_LIBRARY)\" -DBUILDING_SWARM
 
 noinst_LTLIBRARIES = @noinst_LIBS@
