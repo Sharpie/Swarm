@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import "Probe.h"
-#import <objectbase.h>
+#import <objectbase.h> // MessageProbe, val_t
+#import <objectbase/Probe.h>
 
-@interface MessageProbe: Probe
+@interface MessageProbe: Probe <MessageProbe>
 {
   SEL probedSelector;
   BOOL hideResultFlag;

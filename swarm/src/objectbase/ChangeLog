@@ -1,3 +1,18 @@
+1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Swarm.h: Include objectbase.h.  Don't include activity.h.
+	(Swarm): Add protocol compliance tag. 
+
+	* Swarm.m: Add Creating tag.
+
+	* VarProbe.h:  Include objectbase.h.
+	(VarProbe): Add protocol compliance tag. 
+
+	* MessageProbe.h:  Include objectbase.h.
+	(MessageProbe): Add protocol compliance tag. 
+
+	* objectbase.h (MessageProbe): Add setting tag.
+
 1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* objectbase.h (val_t): Use types_t instead of included union.

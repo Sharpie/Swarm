@@ -7,6 +7,9 @@
 #import <objectbase.h>
 
 @implementation Swarm
+PHASE(Creating)
+
+PHASE(Using)
 
 // Override this to let your Swarm create the objects that it contains.
 - buildObjects

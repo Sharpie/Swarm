@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <activity.h>
-#import <activity/SwarmProcess.h>
+#import <objectbase.h> // Swarm
+#import <activity/SwarmProcess.h> // CSwarmProcess
 
-@interface Swarm : CSwarmProcess
+@interface Swarm: CSwarmProcess <Swarm>
 {
 }
 

@@ -287,6 +287,7 @@ CREATING
 //M: the selector. 
 - setProbedSelector: (SEL)aSel;
 
+SETTING
 //M: The setHideResult: method is used to set the visibility of the
 //M: result field.  When set to 1, the user is indicating that
 //M: the result field in a graphical representation of the message
