@@ -1,3 +1,36 @@
+1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el: Load protocol.el from $SWARMSRCDIR/etc/protocol.el.
+	Remove buffer arguments throughout, depending instead on
+	use of with-temp-file, etc.  Use java-print throughout instead of
+	print and princ.
+	(java-protocol-creatable-p): Renamed from java-is-creatable.
+	(*objc-to-java-type-alist*): Regular express alist of type
+	conversion rules.
+	(*last-protocol*, *stub-directory*): New variables.
+	(java-type-for-objc-type): Use it.  Use string-match using alist
+	patterns as ^$ wrappedregular expressions.
+	(java-protocol-creatable-p): Use find instead of loop.
+	(java-print, freakyp): New functions.
+	(java-print-type): Print a message when freaky types are seen.
+	(java-print-argument): Don't do anything when varname doesn't
+	exist (the case of method with no arguments).
+	(java-print-methods-in-protocol): Use mapcar instead of loop, set
+	(java-print-class): Use with-current-buffer instead of creating
+	and passing down Makefile buffer to java-print-makefile.
+	(java-print-classes): Kill the makefile-buffer when finished.
+	Set *last-protocol* for use by debugging messages.
+	(java-print-protocol-list-with-suffix): Remove (similiar contents
+	were inlined in java-print-implemented-protocols-list -- now are
+	in flet).
+	(java-print-implemented-protocols-list): New internal function
+	protocol-loop, reused several times.
+	(stub-protocol-path): New function.
+	(java-print-interface, java-print-interface-setting,
+	java-print-class-creating, java-print-class-using): Use it.  Use
+	with-temp-file instead of creating buffer by hand and passing it
+	down.
+
 1999-02-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* java-stub.el: Makefile generation. 

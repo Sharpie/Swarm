@@ -1,308 +1,307 @@
 (require 'cl)
-(load (concat (getenv "SWARMDOCS") "protocol.el"))
+(load (concat (getenv "SWARMSRCDIR") "/etc/protocol.el"))
 
-(defun java-is-creatable (protocol)
-  (loop for iprotocol in (protocol-included-protocol-list protocol)
-	do 
-	(if (string= (protocol-name iprotocol) "CREATABLE")
-	  (return  t)
-	  nil)))
+(defvar *last-protocol*)
+(defconst *stub-directory* "/tmp/stubs/")
 
-(defun java-print-protocol-name (protocol buffer)
-  (princ (protocol-name protocol) buffer))
-  
-(defun java-print-type (type buffer)
-  (if type
-      (cond ( (eq (compare-strings type 0 2 "id" 0 2) t) 
-	      (princ 'Object buffer))
-	    ( (string= type "void") (princ "void" buffer))
-	    ( (string= type "const char *") (princ "String" buffer))
-	    ( (string= type "char *") (princ "String" buffer))
-	    ( (string= type "int") (princ "int" buffer))
-	    ( (string= type "long") (princ "long" buffer))
-	    ( (string= type "double") (princ "double" buffer))
-	    ( (string= type "float") (princ "float" buffer))
-	    ( (string= type "unsigned") (princ "int" buffer))
-	    ( (string= type "long double") (princ "double" buffer))
-	    ( (string= type "unsigned long long int") (princ "long" buffer))
-	    ( (string= type "BOOL") (princ "boolean" buffer))
-	    ( (string= type "void *") (princ "Object" buffer))
-	    ( (string= type "ref_t") (princ "Object" buffer))
-	    ( (string= type "val_t") (princ "Object" buffer))
-	    ( (string= type "Protocol *") (princ "Class" buffer))
-	    ( (string= type "SEL") (princ "java.lang.reflect.Method" buffer))
-	    ( (string= type "notify_t") (princ "Notify_t" buffer))
-	    
-	    ( t (princ type buffer)))
-    (princ 'Object buffer)))
+(defun freakyp (java-type)
+  (eq java-type freaky))
 
-(defun java-print-argument (argument buffer)
-  (progn
-    (java-print-type (car (cdr argument)) buffer)
-    (princ " " buffer)
-    (princ (car (cdr (cdr argument))) buffer)))
+(defconst *objc-to-java-type-alist*
+    '(("id .*" . "Object")
+      ("void" . "void")
+      ("const char \\*" . "String")
+      
+      ("char \\*" . "String")
+      ("char" . "char")
+      ("unsigned char" . "byte")
+      ("int" . "int")
+      ("long" . "long")
+      ("double" . "double")
+      ("float" . "float")
+      ("unsigned" . "int")
+      ("unsigned long" . "int")
+      ("long double" . "double"); really?
+      ("unsigned long long int" . "long"); really?
+      ("BOOL" . "boolean")
+      ("void \\*" . "Object")
+      ("ref_t" . "Object")
+      ("val_t" . "Object")
+      ("Protocol \\*" . "Class")
+      ("SEL" . "java.lang.reflect.Method")
+      ("notify_t" . "Notify_t")
+      
+      ("const char \\* const \\*" . freaky)
+      ("int \\*" . freaky)
+      ("double \\*" . freaky)
+      ("BOOL \\*" . freaky)
+      ("Class" . freaky)
+      ("FILE \\*" . freaky)
+      ("compare_t" . freaky)
+      ("timeval_t" . freaky)
+      ("func_t" . freaky)
+      ("unsigned \\*" . freaky)
+      ("size_t" . freaky)
+      ("IMP" . freaky)
+      ("const char \\*\\*" . freaky)
+      ("int (\\*) (int, const char \\*)" . freaky)
+      ("struct argp_option \\*" . freaky)
+      ("PixelValue \\*" . freaky)
+      ("PixelValue" . freaky)
+      ("Color" . freaky)
+      ("long \\*" . freaky)
+      ("const void \\*" . freaky)
+      ("int(\\*)(const void\\*,const void\\*)" . freaky)
+      ("int (\\*) (id hdf5Obj)" . freaky)
+      ("int (\\*) (const char \\*key, const char \\*value)" . freaky)
+      ("unsigned long \\*" . freaky)
+      ("float \\*" . freaky)
+      ("void (\\*) (unsigned rank, unsigned \\*vec, double val)" . freaky)
+      ("void (\\*) (unsigned rank, unsigned \\*vec, int val)" . freaky)
+      ("ProbeMap \\*" . freaky)
+      ))
 
+(defun java-print (str)
+  (insert str))
 
-(defun java-print-method (method buffer)
-  (let ((arguments  (car (method-arguments method))))
-    (java-print-type (method-return-type  method) buffer)
-    (princ " " buffer)
-    (princ (car arguments) buffer)
-    (princ " (" buffer)
-    (java-print-argument arguments buffer)	   	
+(defun java-protocol-creatable-p (protocol)
+  (find "CREATABLE" 
+        (protocol-included-protocol-list protocol)
+        :test #'string=
+        :key #'protocol-name))
+
+(defun java-print-protocol-name (protocol)
+  (java-print (protocol-name protocol)))
+
+(defun java-type-for-objc-type (objc-type)
+  (if objc-type
+      (let ((ret
+             (find objc-type *objc-to-java-type-alist*
+                   :key #'car
+                   :test #'(lambda (a b)
+                             (let ((expr (concat (concat "^" b) "$")))
+                               (string-match expr a))))))
+        (when (freakyp (cdr ret))
+          (message "Objective C type `%s' in protocol `%s' is freaky!"
+                 objc-type
+                 (protocol-name *last-protocol*)))
+        (cdr ret))
+      "Object"))
+
+(defun java-print-type (objc-type)
+  (let ((java-type (java-type-for-objc-type objc-type)))
+    (unless java-type
+      (error "No Java type for `%s'" objc-type))
+    (if (freakyp java-type)
+        (java-print "FreakyType")
+        (java-print java-type))))
+
+(defun java-print-argument (argument)
+  (let* ((type-and-varname (cdr argument))
+         (varname (cadr type-and-varname)))
+    ;; the case of method with no arguments
+    (when varname
+      (java-print-type (car type-and-varname))
+      (java-print " ")
+      (java-print varname))))
+
+(defun java-print-method (method)
+  (let ((arguments (car (method-arguments method))))
+    (java-print-type (method-return-type method))
+    (java-print " ")
+    (java-print (car arguments))
+    (java-print " (")
+    (java-print-argument arguments)
     (loop for argument in (cdr (method-arguments method))
 	      do
-	      (progn
-		(princ ", " buffer)
-		(java-print-argument argument buffer)))		  
-    (princ ");\n" buffer)))
+              (java-print ", ")
+              (java-print-argument argument))
+    (java-print ");\n")))
 
 
-(defun java-print-methods-in-protocol (protocol buffer)
-  (loop for method in (protocol-method-list protocol) 
-	do (java-print-method method buffer)))
+(defun java-print-methods-in-protocol (protocol)
+  (setq *last-protocol* protocol)
+  (mapcar #'java-print-method (protocol-method-list protocol)))
 
-
-(defun java-print-methods-in-phase (protocol prefix phase buffer)
+(defun java-print-methods-in-phase (protocol prefix phase)
   (loop for method in (protocol-method-list protocol) 
 	do
-	(if (eq (method-phase method) phase)
-	    (progn 
-	      (princ prefix buffer)
-	      (java-print-method method buffer)))))
+        (when (eq (method-phase method) phase)
+          (java-print prefix)
+          (java-print-method method))))
 
-(defun java-print-all-methods (protocol buffer)
-  (progn 
-    (loop for iprotocol in (protocol-included-protocol-list  protocol)
-	  do (java-print-all-methods iprotocol buffer)
-    (java-print-methods-in-phase protocol " " :creating buffer)
-    (java-print-methods-in-phase protocol " " :setting  buffer)
-    (java-print-methods-in-phase protocol " " :using    buffer))))
+(defun java-print-all-methods (protocol)
+  (loop for iprotocol in (protocol-included-protocol-list protocol)
+        do
+        (java-print-all-methods iprotocol)
+        (java-print-methods-in-phase protocol " " :creating)
+        (java-print-methods-in-phase protocol " " :setting)
+        (java-print-methods-in-phase protocol " " :using)))
 
 (defun java-print-methods (protocol is-class)
-  (progn 
-    (loop for iprotocol in (protocol-included-protocol-list  protocol)
-	  do (java-print-methods iprotocol is-class))
-    (java-print-methods-in-protocol protocol is-class)))
+  (loop for iprotocol in (protocol-included-protocol-list protocol)
+        do (java-print-methods iprotocol is-class))
+  (java-print-methods-in-protocol protocol is-class))
 
-(defun java-print-protocol-list-with-suffix (protocol-list separator suffix buffer)
-  (progn 
-    (let ((first t))
-      (loop for protocol in protocol-list
-	    do  (progn
-		  (if first
-		      (setq first nil)
-		    (princ separator buffer))
-		  (java-print-protocol-name protocol buffer)
-		  (princ suffix buffer))))))
-  
-(defun java-print-implemented-protocols (protocol phase separator buffer)
-  (if (protocol-included-protocol-list protocol)
-      (progn 
-	(if (or (java-is-creatable protocol) 
-		(eq phase :creating)
-		(eq phase :using ))
-	    (princ "implements " buffer)
-	  (princ "extends " buffer))
-	(java-print-implemented-protocols-list protocol phase separator ""
-					       buffer))))
-	
+(defun java-print-implemented-protocols (protocol phase separator)
+  (when (protocol-included-protocol-list protocol)
+    (if (or (java-protocol-creatable-p protocol) 
+            (eq phase :creating)
+            (eq phase :using))
+        (java-print "implements ")
+        (java-print "extends "))
+    (java-print-implemented-protocols-list protocol phase separator "")))
 
-(defun java-print-implemented-protocols-list (protocol phase separator suffix buffer)
-  (if (protocol-included-protocol-list protocol)
-      (let ((first t))
-	(if phase
-	    (case phase
-	      (:setting 
-	       (loop for iprotocol in 
-		     (protocol-included-protocol-list protocol)
-		     do (progn
-			  (if first
-			      (setq first nil)
-			    (princ separator buffer))
-			  (princ (protocol-name iprotocol) buffer)
-			  (if (java-is-creatable iprotocol)
-			      (princ "-s" buffer))
-			  (princ suffix buffer))))
-	      (:creating
-	       (loop for iprotocol in 
-		     (protocol-included-protocol-list protocol)
-		     do (progn
-			  (if first
-			      (setq first nil)
-			    (princ separator buffer))
-			  (princ (protocol-name iprotocol) buffer)
-			  (if (java-is-creatable iprotocol)
-			      (progn 
-				(princ "-s" buffer)
-				(princ suffix buffer)
-				(princ separator buffer)
-				(princ (protocol-name iprotocol) buffer)))
-			  (princ suffix buffer))))
-	      (:using
-	       (loop for iprotocol in 
-		     (protocol-included-protocol-list protocol)
-		     do (progn
-			  (if first
-			      (setq first nil)
-			    (princ separator buffer))
-			  (princ (protocol-name iprotocol) buffer)
-			  (if (java-is-creatable iprotocol)
-			      (progn 
-				(princ "-s" buffer)
-				(princ suffix buffer)
-				(princ separator buffer)
-				(princ (protocol-name iprotocol) buffer)
-				(princ "-u" buffer)))
-			  (princ suffix buffer)))))
-	  (loop for iprotocol in (protocol-included-protocol-list protocol)
-		do  (progn
-		      (if first
-			  (setq first nil)
-			(princ separator buffer))
-		  (java-print-protocol-name iprotocol buffer)
-		  (princ suffix buffer)))))))
-  
-   
-(defun java-print-interface (protocol stub-directory)
-  (let* 
-       ((file-name (concat 
-		    (concat stub-directory (protocol-name protocol)) ".java"))
-	(buffer (generate-new-buffer file-name)))
-    (princ "interface " buffer)
-    (java-print-protocol-name protocol buffer)
-    (princ " " buffer)
-    (java-print-implemented-protocols protocol nil ", " buffer)
-    (print '{ buffer)
-    (java-print-methods-in-protocol protocol buffer)
-    (print '} buffer)
-    (set-buffer buffer)
-    (write-file file-name)))
+(defun java-print-implemented-protocols-list (protocol phase separator suffix)
+  (let ((first t)
+        (included-protocols (protocol-included-protocol-list protocol)))
+    (flet ((protocol-loop (func)
+             (loop for iprotocol in included-protocols
+                   do
+                   (if first
+                       (setq first nil)
+                       (java-print separator))
+                   (java-print (protocol-name iprotocol))
+                   (funcall func iprotocol)
+                   (java-print suffix))))
+      (if phase
+          (case phase
+            (:setting 
+             (protocol-loop #'(lambda (iprotocol)
+                              (when (java-protocol-creatable-p iprotocol)
+                                (java-print "-s")))))
+            (:creating
+             (protocol-loop #'(lambda (iprotocol)
+                              (when (java-protocol-creatable-p iprotocol)
+                                (java-print "-s")
+                                (java-print suffix)
+                                (java-print separator)
+                                (java-print (protocol-name iprotocol))))))
+            (:using
+             (protocol-loop #'(lambda (iprotocol)
+                              (when (java-protocol-creatable-p iprotocol)
+                                (java-print "-s")
+                                (java-print suffix)
+                                (java-print separator)
+                                (java-print (protocol-name iprotocol))
+                                (java-print "-u"))))))
+          (protocol-loop #'(lambda (iprotocol)))))))
 
-(defun java-print-interface-setting (protocol stub-directory)
-   (let* 
-       ((file-name (concat (concat stub-directory 
-				   (protocol-name protocol)) "-s.java"))
-	(buffer (generate-new-buffer file-name)))
-    (princ "interface " buffer)
-    (java-print-protocol-name protocol buffer)
-    (princ "-s " buffer)
-    (java-print-implemented-protocols protocol :setting ", " buffer)
-    (print '{ buffer)
-    (java-print-methods-in-phase protocol " " :setting buffer)
-    (print '} buffer)
-    (set-buffer buffer)
-    (write-file file-name)))
+(defun stub-protocol-path (protocol &optional suffix)
+  (let ((path (concat *stub-directory* (protocol-name protocol))))
+    (when suffix
+      (setq path (concat path suffix)))
+    (setq path (concat path ".java"))
+    path))
 
-(defun java-print-class-creating (protocol stub-directory)
- (let* 
-       ((file-name (concat (concat stub-directory 
-				   (protocol-name protocol)) ".java"))
-	(buffer (generate-new-buffer file-name)))
-    (princ "class " buffer)
-    (java-print-protocol-name protocol buffer)
-    (princ " " buffer)
-    (java-print-implemented-protocols protocol :creating ", " buffer)
-    (princ ", " buffer)
-    (princ (protocol-name protocol) buffer)
-    (princ "-s " buffer)
-    (print '{ buffer)
-    (java-print-methods-in-phase protocol "native " :creating buffer)
-    (java-print-methods-in-phase protocol "native " :setting buffer)
-    (print '} buffer)
-    (set-buffer buffer)
-    (write-file file-name)))
+(defun java-print-interface (protocol)
+  (with-temp-file (stub-protocol-path protocol)
+    (java-print "interface ")
+    (java-print-protocol-name protocol)
+    (java-print " ")
+    (java-print-implemented-protocols protocol nil ", ")
+    (java-print "\n{\n")
+    (java-print-methods-in-protocol protocol)
+    (java-print "}\n")))
 
-(defun java-print-class-using (protocol stub-directory)
- (let* 
-       ((file-name (concat (concat stub-directory 
-				   (protocol-name protocol)) "-u.java"))
-	(buffer (generate-new-buffer file-name)))
-    (princ "class " buffer)
-    (java-print-protocol-name protocol buffer)
-    (princ "-u " buffer)
-    (java-print-implemented-protocols protocol :using ", " buffer)
-    (princ ", " buffer)
-    (princ (protocol-name protocol) buffer)
-    (princ "-s " buffer)
-    (print '{ buffer)
-    (java-print-methods-in-phase protocol "native " :setting buffer)
-    (java-print-methods-in-phase protocol "native " :using buffer)
-    (print '} buffer)
-    (set-buffer buffer)
-    (write-file file-name)))
+(defun java-print-interface-setting (protocol)
+  (with-temp-file (stub-protocol-path protocol "-s")
+    (java-print "interface ")
+    (java-print-protocol-name protocol)
+    (java-print "-s ")
+    (java-print-implemented-protocols protocol :setting ", ")
+    (java-print "\n{\n")
+    (java-print-methods-in-phase protocol " " :setting)
+    (java-print "}\n")))
 
-(defun java-print-makefile (protocol makefile-buffer)
-  (progn
-    (princ "\n" makefile-buffer)
-    (if (java-is-creatable protocol)
-	(progn
-	  (java-print-protocol-name protocol makefile-buffer)
-	  (princ ".class: " makefile-buffer)
-	  (java-print-protocol-name protocol makefile-buffer)
-	  (princ ".java " makefile-buffer)
-	  (java-print-protocol-name protocol makefile-buffer)
-	  (princ "-s.class " makefile-buffer)
-	  (java-print-implemented-protocols-list
-	   protocol :creating " " ".class" makefile-buffer)
-	  (princ "\n\t javac " makefile-buffer)
-	  (princ (protocol-name protocol) makefile-buffer)
-	  (princ ".java\n" makefile-buffer)
-	  
-	  (java-print-protocol-name protocol makefile-buffer)
-	  (princ "-u.class: " makefile-buffer)
-	  (java-print-protocol-name protocol makefile-buffer)
-	  (princ "-u.java " makefile-buffer)
-	  (java-print-protocol-name protocol makefile-buffer)
-	  (princ "-s.class " makefile-buffer)
-	  (java-print-implemented-protocols-list
-	   protocol :using " " ".class" makefile-buffer)
-	  (princ "\n\t javac " makefile-buffer)
-	  (princ (protocol-name protocol) makefile-buffer)
-	  (princ ".java\n" makefile-buffer)
+(defun java-print-class-creating (protocol)
+   (with-temp-file (stub-protocol-path protocol)
+     (java-print "class ")
+     (java-print-protocol-name protocol)
+     (java-print " ")
+     (java-print-implemented-protocols protocol :creating ", ")
+     (java-print ", ")
+     (java-print (protocol-name protocol))
+     (java-print "-s ")
+     (java-print "\n{\n")
+     (java-print-methods-in-phase protocol "native " :creating)
+     (java-print-methods-in-phase protocol "native " :setting)
+     (java-print "}\n")))
 
-	  (java-print-protocol-name protocol makefile-buffer)
-	  (princ "-s.class: " makefile-buffer)
-	  (java-print-protocol-name protocol makefile-buffer)
-	  (princ "-s.java " makefile-buffer)
-	  (java-print-implemented-protocols-list
-	   protocol :setting " " ".class" makefile-buffer)
-	  (princ "\n\t javac " makefile-buffer)
-	  (princ (protocol-name protocol) makefile-buffer)
-	  (princ ".java\n" makefile-buffer))
-      (progn 
-	(java-print-protocol-name protocol makefile-buffer)
-	(princ ".class: " makefile-buffer)
-	(java-print-implemented-protocols-list
-	 protocol nil " " ".class" makefile-buffer)
-	(princ "\n\t javac " makefile-buffer)
-	(princ (protocol-name protocol) makefile-buffer)
-	(princ ".java\n" makefile-buffer)))))
+(defun java-print-class-using (protocol)
+  (with-temp-file (stub-protocol-path protocol "-u")
+    (java-print "class ")
+    (java-print-protocol-name protocol)
+    (java-print "-u ")
+    (java-print-implemented-protocols protocol :using ", ")
+    (java-print ", ")
+    (java-print (protocol-name protocol))
+    (java-print "-s ")
+    (java-print "\n{\n")
+    (java-print-methods-in-phase protocol "native " :setting)
+    (java-print-methods-in-phase protocol "native " :using)
+    (java-print "\n}\n")))
 
-   
-
-
-
-(defun java-print-class (protocol stub-directory makefile-buffer)
-  (progn  
-    (if (java-is-creatable protocol)
+(defun java-print-makefile (protocol)
+  (java-print "\n")
+  (if (java-protocol-creatable-p protocol)
       (progn
-	(java-print-interface-setting protocol stub-directory)
-	(java-print-class-using protocol stub-directory)
-	(java-print-class-creating protocol stub-directory))
-      (java-print-interface protocol stub-directory))
-    (java-print-makefile protocol makefile-buffer)))
+        (java-print-protocol-name protocol)
+        (java-print ".class: ")
+        (java-print-protocol-name protocol)
+        (java-print ".java ")
+        (java-print-protocol-name protocol)
+        (java-print "-s.class ")
+        (java-print-implemented-protocols-list protocol :creating " " ".class")
+        (java-print "\n\t javac ")
+        (java-print (protocol-name protocol))
+        (java-print ".java\n")
+        
+        (java-print-protocol-name protocol)
+        (java-print "-u.class: ")
+        (java-print-protocol-name protocol)
+        (java-print "-u.java ")
+        (java-print-protocol-name protocol)
+        (java-print "-s.class ")
+        (java-print-implemented-protocols-list protocol :using " " ".class")
+        (java-print "\n\t javac ")
+        (java-print (protocol-name protocol))
+        (java-print ".java\n")
+        
+        (java-print-protocol-name protocol)
+        (java-print "-s.class: ")
+        (java-print-protocol-name protocol)
+        (java-print "-s.java ")
+        (java-print-implemented-protocols-list
+         protocol :setting " " ".class")
+        (java-print "\n\t javac ")
+        (java-print (protocol-name protocol))
+        (java-print ".java\n"))
+      (progn 
+        (java-print-protocol-name protocol)
+        (java-print ".class: ")
+        (java-print-implemented-protocols-list protocol nil " " ".class")
+        (java-print "\n\t javac ")
+        (java-print (protocol-name protocol))
+        (java-print ".java\n"))))
 
-(defun java-print-classes (stub-directory)
-  (let* ((makefile-name (concat stub-directory "Makefile"))
-	(makefile-buffer (generate-new-buffer makefile-name)))
+(defun java-print-class (protocol makefile-buffer)
+  (if (java-protocol-creatable-p protocol)
+      (progn
+	(java-print-interface-setting protocol)
+	(java-print-class-using protocol)
+	(java-print-class-creating protocol))
+      (java-print-interface protocol))
+  (with-current-buffer makefile-buffer
+    (java-print-makefile protocol)))
+
+(defun java-print-classes ()
+  (interactive)
+  (let* ((makefile-name (concat *stub-directory* "Makefile"))
+         (makefile-buffer (generate-new-buffer makefile-name)))
     (loop for protocol being each hash-value of *protocol-hash-table* 
-	  do 
-	  (java-print-class protocol stub-directory makefile-buffer))
+	  do (java-print-class protocol makefile-buffer))
     (set-buffer makefile-buffer)
-    (write-file makefile-name)))
-
-
-
-
+    (write-file makefile-name)
+    (kill-buffer makefile-buffer)))
 
