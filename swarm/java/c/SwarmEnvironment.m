@@ -1,9 +1,8 @@
 #include "SwarmEnvironment.h"
-#include <defobj/FCall.h>
-#include "directory.h"
-
-#include <misc.h>
-#include <simtools.h>
+#include <simtools.h> // initSwarm
+#include <defobj.h> // defobj_java_call_init_tables
+#include "directory.h" // java_directory_init
+#include <misc.h> // xmalloc
 
 void 
 Java_SwarmEnvironment_initSwarm (JNIEnv *env, jobject obj, jobjectArray args)
@@ -25,7 +24,7 @@ Java_SwarmEnvironment_initSwarm (JNIEnv *env, jobject obj, jobjectArray args)
       argv[i] = isCopy ? (char *) utf : strdup (utf);
     }
   java_directory_init (env);
-  init_javacall_tables ((void *) env);
+  defobj_init_java_call_tables ((void *) env);
   initSwarm (argc, (const char **)argv);
 }
 

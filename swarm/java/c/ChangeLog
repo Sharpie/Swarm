@@ -1,3 +1,9 @@
+1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.m: Include defobj.h instead of defobj/FCall.h.
+	(Java_SwarmEnvironment_initSwarm): 
+	Use renamed init_javacall_tables; defobj_init_java_call_tables.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (libjavaswarm_la_OBJECTS): Add SwarmEnvironment.lo.
