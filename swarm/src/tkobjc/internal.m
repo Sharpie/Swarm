@@ -590,12 +590,12 @@ x_pixmap_create_from_window (Pixmap *pixmap, Window window)
 static void
 win32_pixmap_create_from_window (Pixmap *pixmap,
 				 Window window,
-				 BOOL parentFlag)
+				 BOOL decorationsFlag)
 {
   dib_t *dib = dib_create ();
   dib->window = (!window
 		 ? GetDesktopWindow () 
-		 : (!parentFlag
+		 : (!decorationsFlag
 		    ? TkWinGetHWND (window)
 		    : (HWND)window));
   
@@ -607,7 +607,7 @@ win32_pixmap_create_from_window (Pixmap *pixmap,
     pixmap->height = rect.bottom - rect.top;
     pixmap->width = rect.right - rect.left;
   }
-  dib_snapshot (dib, parentFlag);
+  dib_snapshot (dib, decorationsFlag);
 }
 #endif
 
@@ -806,7 +806,7 @@ check_for_overlaps (Display *display, Window parent,
 
 void
 tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
-                                  BOOL parentFlag)
+                                  BOOL decorationsFlag)
 {
   if (widget == nil)
     pixmap_create_from_root_window (pixmap);
@@ -817,7 +817,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       Tk_Window tkwin = tkobjc_nameToWindow (widgetName);
       Window window;
 
-      if (!parentFlag)
+      if (!decorationsFlag)
         window = Tk_WindowId (tkwin);
       else
         {
@@ -921,7 +921,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       keep_inside_screen (tkwin, window);
       Tk_RestackWindow (tkwin, Above, NULL);
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
-      win32_pixmap_create_from_window (pixmap, window, parentFlag);
+      win32_pixmap_create_from_window (pixmap, window, decorationsFlag);
 #endif
     }
 }

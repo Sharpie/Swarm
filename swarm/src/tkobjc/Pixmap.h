@@ -13,7 +13,7 @@
   const char *directory;
   const char *filename;
   id <Widget> widget;
-  BOOL parentFlag;
+  BOOL decorationsFlag;
 
   @public
 #ifndef _WIN32
@@ -34,7 +34,7 @@
 - setDirectory: (const char *)directory;
 - setFile: (const char *)filename;
 - setWidget: (id <Widget>)widget;
-- setParentFlag: (BOOL)parentFlag;
+- setDecorationsFlag: (BOOL)decorationsFlag;
 - createEnd;
 
 - setRaster: raster;

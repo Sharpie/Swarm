@@ -233,9 +233,9 @@ PHASE(Creating)
   return self;
 }
 
-- setParentFlag: (BOOL)theParentFlag
+- setDecorationsFlag: (BOOL)theDecorationsFlag
 {
-  parentFlag = theParentFlag;
+  decorationsFlag = thedecorationsFlag;
 
   return self;
 }
@@ -247,7 +247,7 @@ PHASE(Creating)
   obj->widget = nil;
   obj->directory = "./";
   obj->filename = NULL;
-  obj->parentFlag = NO;
+  obj->decorationsFlag = NO;
 
   return obj;
 }
@@ -257,7 +257,7 @@ PHASE(Creating)
   if (filename)
     [self _loadPNG_];
   else
-    tkobjc_pixmap_create_from_widget (self, widget, parentFlag);
+    tkobjc_pixmap_create_from_widget (self, widget, decorationsFlag);
   
   return self;
 }

@@ -1,3 +1,15 @@
+1998-09-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Pixmap.[hm] ([Pixmap -setDecorationsFlag:], [Pixmap +createBegin:],
+	[Pixmap -createEnd], Pixmap): parentFlag is now decorationsFlag.
+
+	* internal.m (tkobjc_pixmap_create_from_widget):
+	Add Exposure binding to set obscured, since Visibility 
+	doesn't seem to get sent if a move occurs while already 
+	underneath a window being kept on top by the window manager.
+	(win32_pixmap_create_from_window, tkobjc_pixmap_create_from_widget): 
+	Rename parentFlag to decorationsFlag.
+
 1998-09-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (overlap_p): Pass parent as second argument compare
@@ -14,9 +26,6 @@
 	restacking after unmapping all the overlapWindows (and undo when
 	finished with snapshot).  Undo Tk Visibility binding when done.
 	Copy keep_inside_screen and Tk_RestackWindow to win32 version.
-	Add Configure binding to set obscured, since Visibility 
-	doesn't seem to get send if a move occurs while already 
-	underneath a window being kept on top by the window manager.
 
 1998-09-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
