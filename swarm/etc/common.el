@@ -1,3 +1,5 @@
+;; Copyright © 1996-1999 Santa Fe Institute
+
 (require 'cl)
 (provide 'common)
 

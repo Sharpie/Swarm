@@ -1,3 +1,5 @@
+;; Copyright © 1998-1999 Santa Fe Institute
+
 (require 'cl)
 (eval-and-compile
  (push (getenv "TOP_BUILDDIR") load-path))
