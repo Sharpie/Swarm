@@ -65,7 +65,7 @@ struct objc_method_description
 #define _C_ULNG_LNG 'Q'
 #define _C_FLT      'f'
 #define _C_DBL      'd'
-#define _C_LNG_DBL  'D'
+#define _C_LNG_DBL  'X'
 #define _C_BFLD     'b'
 #define _C_VOID     'v'
 #define _C_UNDEF    '?'
