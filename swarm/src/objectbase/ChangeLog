@@ -1,3 +1,8 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VarProbe.m ([VarProbe -createEnd]): Drop localref to temp
+	probedVariable java string.
+
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* CompleteProbeMap.m: Convert [self getZone] to getZone (self).

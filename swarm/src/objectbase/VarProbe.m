@@ -5,6 +5,7 @@
 
 #import <objectbase/VarProbe.h>
 #import <defobj.h> // raiseEvent, WarningMessage, STRDUP, FREEBLOCK
+#import <defobj/defalloc.h> // getZone
 #import "local.h"
 
 #include <objc/objc-api.h>
@@ -44,7 +45,6 @@ PHASE(Creating)
 {
   IvarList_t ivarList;
   unsigned i;
-  id aZone = [self getZone];
   
   [super createEnd];
 
@@ -61,12 +61,16 @@ PHASE(Creating)
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed cannot be found.\n");      
-      lref = 
-	(*jniEnv)->CallObjectMethod(jniEnv,
-                                    classObject, 
-				    m_ClassGetDeclaredField, 
-				    (*jniEnv)->NewStringUTF (jniEnv, 
-                                                             probedVariable));
+      {
+        jobject probedVariableStr = (*jniEnv)->NewStringUTF (jniEnv, 
+                                                             probedVariable);
+        lref = 
+          (*jniEnv)->CallObjectMethod(jniEnv,
+                                      classObject, 
+                                      m_ClassGetDeclaredField,
+                                      probedVariableStr);
+        (*jniEnv)->DeleteLocalRef (jniEnv, probedVariableStr);
+      }
       if (!lref)
 	raiseEvent (SourceMessage,
 		    "Cannot find field to be probed in the Java class.\n"); 
@@ -82,7 +86,7 @@ PHASE(Creating)
       fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
       {
-        char *buf = [aZone alloc: 2];
+        char *buf = [getZone (self) alloc: 2];
         
         buf[0] = swarm_directory_objc_type_for_java_class (jniEnv, fieldType);
         buf[1] = '\0';
@@ -139,7 +143,7 @@ PHASE(Creating)
       // double types - defaults are set in the probeLibrary instance
       if  (type == _C_FLT || type == _C_DBL || type == _C_LNG_DBL)
         {
-          char *buf = [aZone alloc: 16];
+          char *buf = [getZone (self) alloc: 16];
 
           sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
           floatFormat = buf; // allocate memory for string
@@ -153,7 +157,7 @@ PHASE(Creating)
               size_t size = sizeof (unsigned) * theRank;
               
               rank = theRank;
-              dims = [aZone alloc: size];
+              dims = [getZone (self) alloc: size];
               memcpy (dims, theDims, size);
               baseType = theBaseType;
             }
