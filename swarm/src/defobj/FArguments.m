@@ -315,6 +315,11 @@ PHASE(Creating)
   return self;
 }
 
+- addJavaObject: (JOBJECT)jobj
+{
+  return [self addJavaObject: jobj type: fcall_type_object];
+}
+
 - addObject: value
 {
 #ifdef HAVE_JDK

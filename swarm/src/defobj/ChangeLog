@@ -22,8 +22,9 @@
 	* FArguments.m ([FArguments_c -dropAllocations:]): Handle
 	fcall_type_jselector.
 
-	* defobj.h, FArguments.[hm]: Add -addSelector: and replace
-	-addJavaObject: with -addJavaObject:type:.
+	* defobj.h, FArguments.[hm]: Add -addSelector:.
+
+	* FArguments.[hm]: Add -addJavaObject:type:.
 
 	* DefObject.m ([Object_s -forward::]): Allow for failed FCall, e.g.
 	missing methods.

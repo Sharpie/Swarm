@@ -70,6 +70,7 @@ Library:      defobj
 - addString: (const char *)value;
 - addObject: value;
 - addSelector: (SEL)aSel;
+- addJavaObject: (JOBJECT)javaObject;
 - addJavaObject: (JOBJECT)javaObject type: (fcall_type_t)type;
 - setObjCReturnType: (char)type;
 - setReturnType: (fcall_type_t)retType;

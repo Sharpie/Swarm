@@ -1102,7 +1102,7 @@ CREATING
 - addString: (const char *)value;
 - addObject: obj;
 - addSelector: (SEL)aSel;
-- addJavaObject: (JOBJECT)obj type: (fcall_type_t)type;
+- addJavaObject: (JOBJECT)obj;
 - setObjCReturnType: (char)type;
 - setReturnType: (fcall_type_t)retType;
 - setBooleanReturnType;
