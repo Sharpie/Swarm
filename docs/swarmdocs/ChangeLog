@@ -1,3 +1,21 @@
+1998-10-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* configure.in: Use curly instead of parens for default swarm_srcdir,
+	`${SWARMSRCDIR}'.
+	(top_dossrcdir, swarm_dossrcdir): New variables which correspond
+	to DOS-style paths of top_srcdir and swarm_srcdir.
+
+	* catalog.in: Use top_dossrcdir instead of top_srcdir throughout.
+
+	* Makefile.rules (HTML, PRINT): Use top_dossrcdir.
+	(%.fot, _%.tex, %.rtf, %.html): Transform potential UNC 
+	dependent path to DOS-style path.
+
+	* Makefile.common (%revhistory.sgml): Use top_dossrcdir and
+	swarm_dossrcdir instead of top_srcdir and swarm_srcdir.
+
+	* configure.in (srcdosdir, swarm_srcdosdir): Set and substitute.
+
 1998-10-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.rules (GENERAL): Depend on FIGS.

@@ -7,7 +7,7 @@ changequote(<,>)dnl
   --with-swarm=DIR        Swarm in DIR [\$SWARMSRCDIR],dnl
 changequote([,])dnl
   swarm_srcdir=$withval,dnl
-  swarm_srcdir='$(SWARMSRCDIR)')
+  swarm_srcdir='${SWARMSRCDIR}')
 
 AC_ARG_WITH(dtd,dnl
 changequote(<,>)dnl
@@ -33,6 +33,16 @@ changequote([,])dnl
 AM_CONFIG_HEADER(config.h)
 
 AC_SUBST(swarm_srcdir)
+
+dnl Change to the directory, since the text may be symbolic or a relative path
+changequote(<,>)dnl
+top_dossrcdir=`cd $srcdir; pwd | sed 's,//\([A-Za-z]\),\1:,'`
+dnl Eval command, since default is symbolic SWARMSRCDIR
+swarm_dossrcdir=`eval cd $swarm_srcdir ; pwd | sed 's,//\([A-Za-z]\),\1:,'`
+changequote([,])dnl
+AC_SUBST(top_dossrcdir)
+AC_SUBST(swarm_dossrcdir)
+
 AC_SUBST(docbookdtd_srcdir)
 AC_SUBST(docbookstyle_srcdir)
 AC_SUBST(gridturtle_srcdir)

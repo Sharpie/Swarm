@@ -4,8 +4,8 @@ JADETEX = @JADETEX@
 DVIPS = @DVIPS@
 GZIP = gzip --best
 
-HTML = $(top_srcdir)/html.dsl
-PRINT = $(top_srcdir)/print.dsl
+HTML = $(top_dossrcdir)/html.dsl
+PRINT = $(top_dossrcdir)/print.dsl
 
 RUNJADE = SGML_CATALOG_FILES="$(SGML_CATALOG_FILES)" $(JADE)
 CATOPTS = $(STANDARD_CATALOG_OPT) -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docbookstyle_srcdir@/catalog
@@ -73,16 +73,16 @@ rtf: all-recursive $(NAME).rtf
 html: all-recursive $(NAME).html
 
 %.fot: %.sgml
-	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 
+	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\1:,'`
 
 _%.tex: %.sgml
-	$(RUNJADE) $(CATOPTS) -t tex -iprint -d $(PRINT) -o $@ $<
+	$(RUNJADE) $(CATOPTS) -t tex -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
 
 %.rtf: %.sgml
-	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ $<
+	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
 
 %.html: %.sgml
-	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) $<
+	$(RUNJADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`
 
 %.dvi: %.tex _%.tex
 	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
