@@ -1377,21 +1377,23 @@ extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 //D: C-format character strings.  These are sufficient for its current
 //D: limited roles in places that need a uniformity between character
 //D: strings and other kinds of allocated objects.
+
 CREATING
 + create: aZone setC: (const char *)cstring;
 - setLiteralFlag: (BOOL)literalFlag;
+
 SETTING
 - (void)setC: (const char *)cstring;
+
 USING
 - (const char *)getC;
 - (void)catC: (const char *)cstring;
-
 - (int)getCount;
 - (int)compare: aString;
 - (BOOL)getLiteralFlag;
 @end
 
-extern id LiteralString;
+@class LiteralString;
 
 
 #import <collections/types.h>

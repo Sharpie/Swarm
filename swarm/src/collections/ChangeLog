@@ -1,6 +1,8 @@
-1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
+1998-06-01  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* collections.h: extern LiteralString.
+	* collections.m: Put LiteralString global here.
+
+	* collections.h: Make LiteralString a @class.
 
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
