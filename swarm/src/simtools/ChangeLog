@@ -1,3 +1,8 @@
+2000-07-11    <mgd@HELEN>
+
+	* Makefile.am (INCLUDES): Move parent directories to front
+	(to prefer swarm.h over objectbase/Swarm.h).
+
 2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* simtools.m: Remove includes.  Use just defobj/Arguments.h
