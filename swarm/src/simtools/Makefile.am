@@ -23,4 +23,4 @@ libsimtools_la_LDFLAGS = @inst_LDFLAGS@
 simtools_HEADERS = InFile.h OutFile.h AppendFile.h \
 	ObjectLoader.h ObjectSaver.h \
 	NSelect.h QSort.h \
-	UName.h
+	UName.h initSwarm.h

@@ -1,3 +1,18 @@
+1999-06-21  Alex Lancaster  <alex@santafe.edu>
+
+	* simtools.h (InFile, OutFile, AppendFile, ObjectSaver,
+	ObjectLoader): Markup with `//x:' doc-string as deprecated
+	protocols.  Move explanatory text originally in `//D:' markup to
+	new tag, where appropriate.
+
+	* Makefile.am (simtools_HEADERS): Add initSwarm.h.
+
+	* initSwarm.h: New file
+
+	* simtools.h (_initSwarm_, STRINGIFY, STRINGIFYSYM,
+	APPNAME_STRING, APPVERSION_STRING, BUGADDRESS_STRING): Remove,
+	hide from user in new include'd initSwarm.h.
+
 1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtools.m (run_constructors): New static function.

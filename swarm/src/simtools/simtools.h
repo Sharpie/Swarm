@@ -60,13 +60,13 @@ USING
 @protocol InFile <SwarmObject, CREATABLE>
 //S: Class to perform file input.
 
+//x: Warning: the error return behavior of these methods is fragile, only
+//x: end of file is reported as an error.  It is probably not wise to use
+//x: use this inteface unless your text processing needs are very simple.
+
 //D: This class is (was) intended to simplify the input file-I/O in Swarm. It
 //D: essentially deals with the detailed file opening and closing routines
 //D: thus alleviating the need for C file I/O procedure calls.
-
-//D: Warning: the error return behavior of these methods is fragile, only
-//D: end of file is reported as an error.  It is probably not wise to use
-//D: use this inteface unless your text processing needs are very simple.
 
 CREATING
 //M: This is the create method for InFiles, where theName is, of course the
@@ -131,6 +131,10 @@ USING
 @protocol OutFile <SwarmObject, CREATABLE>
 //S: A class to perform file output.
 
+//x: Warning: the error return behavior of these methods is fragile, only
+//x: end of file is reported as an error.  It is probably not wise to use
+//x: use this inteface unless your text processing needs are very simple.
+
 //D: This class is intended to simplify output file-I/O in Swarm. It 
 //D: essentially deals with the detailed file opening and closing routines 
 //D: thus alleviating the need for C file I/O procedure calls. 
@@ -188,6 +192,10 @@ USING
 @protocol AppendFile <OutFile, CREATABLE>
 //S: A class for appended file output.
 
+//x: Warning: the error return behavior of these methods is fragile, only
+//x: end of file is reported as an error.  It is probably not wise to use
+//x: use this inteface unless your text processing needs are very simple.
+
 //D: This class subclasses from OutFile, the only functional difference being
 //D: that it opens a given file in Append Mode rather than in Overwrite mode.
 
@@ -200,6 +208,9 @@ CREATING
 @protocol ObjectLoader <SwarmObject, CREATABLE>
 //S: A class to load an object's instance variables from a file.
 
+//x: Use the Archiver protocol in the defobj library as a replacement for
+//x: this ad-hoc format
+
 //D: This class is used to initialize the variables of a target object from
 //D: a data file. The data file is required to have a very simple format.
 
@@ -207,6 +218,7 @@ CREATING
 //M: The load:from: method loads anObject from the previously opened 
 //M: aFileObject without returning an actual instance of the ObjectLoader 
 //M: class.  The FileObject remains open after the method has been called. 
+
 + load: anObject from: aFileObject;
 
 //M: The load:fromFileNamed: method loads anObject from the file named 
@@ -245,8 +257,13 @@ USING
 - updateCache: exampleTarget; 
 @end
 
+
+
 @protocol ObjectSaver <SwarmObject, CREATABLE>
 //S: A class to save an object's instance variables to a file.
+
+//x: Use the Archiver protocol in the defobj library as a replacement for
+//x: this ad-hoc format
 
 //D: This class is used to write an object's variables to a specified file. 
 //D: If only a subset of the variables should be written out, the set is 
@@ -340,28 +357,7 @@ USING
 
 
 
-//F: Internal function used by the initSwarm* macros to initialize the
-//F: libraries
-extern void _initSwarm_ (int argc, const char **argv, const char *appName,
-                         const char *version, const char *bugAddress,
-                         Class argumentsClass,
-                         struct argp_option *options,
-                         int (*optionFunc) (int key, const char *arg),
-                         BOOL forceBatchMode);
-
-#define STRINGIFY(sym) #sym
-#define STRINGIFYSYM(sym) STRINGIFY(sym)
-#define APPNAME_STRING STRINGIFYSYM(APPNAME)
-#ifdef APPVERSION
-#define APPVERSION_STRING STRINGIFYSYM(APPVERSION)
-#else
-#define APPVERSION_STRING NULL
-#endif
-#ifdef BUGADDRESS
-#define BUGADDRESS_STRING STRINGIFYSYM(BUGADDRESS)
-#else
-#define BUGADDRESS_STRING NULL
-#endif
+#include <simtools/initSwarm.h>
 
 //#: Initializes the Swarm libraries without version or bug-report-address
 //#: information.
