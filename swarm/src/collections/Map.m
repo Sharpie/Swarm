@@ -225,7 +225,7 @@ PHASE(Setting)
           else if (stringp (keyExpr))
             {
               if (COMPAREFUNCEQ (compareCStrings))
-                key = (id) strdup ([keyExpr getC]);
+                key = (id) STRDUP ([keyExpr getC]);
               else
                 key = [keyExpr copy: aZone];
             }
@@ -339,7 +339,7 @@ PHASE(Setting)
         {
           int process_object (id keyComponent)
             {
-              const char *key = strdup ([keyComponent getName]);
+              const char *key = STRDUP ([keyComponent getName]);
               id value =  hdf5In (aZone, keyComponent);
 
               [self at: (id) key insert: value];
@@ -351,7 +351,7 @@ PHASE(Setting)
         {
           int process_object (id keyComponent)
             {
-              const char *key = strdup ([keyComponent getName]);
+              const char *key = STRDUP ([keyComponent getName]);
               id value =  hdf5In (aZone, keyComponent);
 
               [self at: [String create: aZone setC: key] insert: value];

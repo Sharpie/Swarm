@@ -1,3 +1,7 @@
+1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Map.m ([Map_c -{hdf5,lisp}In:]): Use STRDUP instead of strdup.
+
 1999-08-01  Alex Lancaster  <alex@santafe.edu>
 
 	* collections.h (ForEachKey): New protocol.

@@ -14,7 +14,7 @@ Library:      collections
 #import <defobj.h> // SaveError
 
 #include <collections/predicates.h> // keywordp
-#include <misc.h> // abort, XFREE, strstr
+#include <misc.h> // abort
 
 @implementation List_any
 
