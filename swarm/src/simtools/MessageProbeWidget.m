@@ -44,9 +44,9 @@
 
   int i, which_arg ;
   char bcmd[1024] ;
-
+  
   [super createEnd] ;
- 
+  
   if(![myProbe getHideResult]){
     result = [Entry createParent: self] ;
     [globalTkInterp eval: 
@@ -68,14 +68,7 @@
         tclObjc_objectToName(self),
         [result getWidgetName],
         [self getWidgetName]] ;
-      [globalTkInterp 
-        eval: 
-   "drag&drop source %s config -packagecmd {do_package %s} -sitecmd sitecmd -button 1", 
-          [result getWidgetName],
-          tclObjc_objectToName(self)] ;
-        [globalTkInterp eval: "drag&drop source %s handler id send_id", 
-        [result getWidgetName],
-        tclObjc_objectToName(self)] ;
+      dragAndDrop (result, self);
     } else {
       [globalTkInterp eval:
         "bind %s <Button-3> {focus %s; %s configure -highlightcolor red ;
@@ -151,19 +144,7 @@
           [myWidgets[i] getWidgetName],
           [self getWidgetName]] ;
 
-
-        [globalTkInterp eval: 
-      "drag&drop target %s handler id {%s idReceive: %d}", 
-          [myWidgets[i] getWidgetName],
-          tclObjc_objectToName(self), which_arg] ;
-
-         [globalTkInterp eval: "drag&drop source %s config -packagecmd {do_package_arg %s %d} -sitecmd sitecmd -button 1", 
-            [myWidgets[i] getWidgetName],
-            tclObjc_objectToName(self),which_arg] ;
-
-        [globalTkInterp eval: "drag&drop source %s handler id send_id", 
-          [myWidgets[i] getWidgetName],
-          tclObjc_objectToName(self)] ;
+        dragAndDropArg (myWidgets[i], self, which_arg);
 
       } else {
         objWindows[which_arg] = 0 ;
