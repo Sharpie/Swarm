@@ -1,3 +1,7 @@
+1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* main.m (main): Bump version to 1.4.1.
+
 1999-02-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Heatbug.m ([Heatbug -_getPixmap_:]): Call setRaster: after
