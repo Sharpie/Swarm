@@ -12,6 +12,7 @@ Library:      activity
 #import <activity/ActionGroup.h>
 #import <activity/Action.h> // CAction
 #import <defobj/defalloc.h>
+#include <misc.h> // abort
 
 @implementation ActionGroup_c
 
