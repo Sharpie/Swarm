@@ -1,7 +1,11 @@
+1998-09-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (EXTRADIST): Add macros.tex.
+
 1998-09-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.rules (CATOPTS): Use `catalog' instead of `CATALOG' for
-	DocBook style sheets.
+	DocBook style sheets.  
 
 	* macros.tex (resetHeadersAndFooters): New macro to clear all
 	the headers and footers.
