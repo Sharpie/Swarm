@@ -74,7 +74,7 @@ readString (id inStream, BOOL literalFlag)
               : (isspace (c) || c == '(' || c == ')')))
     {
       buf[0] = c;
-      [string appendC: buf];
+      [string catC: buf];
     }
   if (c == EOF)
     {
