@@ -736,7 +736,7 @@ overlap_p (Display *display, Window child, int l, int r, int t, int b)
 
 static void
 check_for_overlaps (Display *display, Window window,
-                    Window **unmappedWindowsPtr, unsigned *unmappedCountPtr)
+                    Window **overlapWindowsPtr, unsigned *overlapCountPtr)
 {
   Window root, parent, qroot;
   Window *children;
@@ -760,19 +760,19 @@ check_for_overlaps (Display *display, Window window,
   if (!XQueryTree (display, root, &root, &parent, &children, &nchildren))
     abort ();
   {  
-    Window *unmappedWindows, root;
-    unsigned unmappedCount = 0;
+    Window *overlapWindows, root;
+    unsigned overlapCount = 0;
     
     for (i = 0; i < nchildren; i++)
-      unmappedCount += overlap_p (display, children[i], l, r, t, b);
-    unmappedWindows = xmalloc (sizeof (Window) * unmappedCount);
-    unmappedCount = 0;
+      overlapCount += overlap_p (display, children[i], l, r, t, b);
+    overlapWindows = xmalloc (sizeof (Window) * overlapCount);
+    overlapCount = 0;
     for (i = 0; i < nchildren; i++)
       if (overlap_p (display, children[i], l, r, t, b)
           && children[i] != window)
-        unmappedWindows[unmappedCount++] = children[i];
-    *unmappedCountPtr = unmappedCount;
-    *unmappedWindowsPtr = unmappedWindows;
+        overlapWindows[overlapCount++] = children[i];
+    *overlapCountPtr = overlapCount;
+    *overlapWindowsPtr = overlapWindows;
   }
   XFree (children);
 }
@@ -806,8 +806,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
 
 #ifndef _WIN32
       pixmap->display = Tk_Display (tkwin);
-      Tk_RestackWindow (tkwin, Above, NULL);
-      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
       XFlush (pixmap->display);
       {
         unsigned overlapCount, i;
@@ -830,8 +828,10 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                                           CWOverrideRedirect,
                                           &attr))
               abort ();
-            XUnmapWindow (display, overlapWindows[i]);
+            // XUnmapWindow (display, overlapWindows[i]);
           }
+        Tk_RestackWindow (tkwin, Above, NULL);
+        while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         
         XFlush (display);
         
@@ -844,11 +844,13 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                                           CWOverrideRedirect,
                                           &attr))
               abort ();
-            XMapWindow (display, overlapWindows[i]);
+            // XMapWindow (display, overlapWindows[i]);
           }
         xfree (overlapWindows);
       }
 #else
+      Tk_RestackWindow (tkwin, Above, NULL);
+      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
       win32_pixmap_create_from_window (pixmap, window, parentFlag);
 #endif
     }
