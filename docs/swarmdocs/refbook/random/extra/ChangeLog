@@ -1,5 +1,7 @@
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 
+	* Makefile.am: Add file, include all files in EXTRA_DIST.
+
 	* README.Generators.v075 (Note): Change `-varySeed' to
 	`--varyseed' to reflect current usage.
 
