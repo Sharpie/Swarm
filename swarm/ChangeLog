@@ -1,3 +1,10 @@
+1998-09-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VERSION: Bump.
+
+	* configure.in (SWARMLDFLAGS): Escape $(libdir) in -L and rpath
+	options.
+
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* NEWS: Note improvements to Arguments, rpath autoconfiguation,
