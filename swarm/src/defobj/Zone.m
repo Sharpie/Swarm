@@ -85,6 +85,8 @@ PHASE(Creating)
 
 - createEnd
 {
+  int indexOffset = 2 * sizeof (id);
+
   if (createByMessageToCopy (self, createEnd))
     return self;
 
@@ -98,7 +100,7 @@ PHASE(Creating)
   ((ComponentZone_c *) componentZone)->componentZone = componentZone;
 
   population = [List_linked createBegin: componentZone];
-  [population setIndexFromMemberLoc: - (2 * sizeof(id))];
+  [population setIndexFromMemberLoc: -indexOffset];
   population = [(id)population createEnd];
   populationTotal = 0;
 

@@ -2,6 +2,8 @@
 
 	* Zone.m ([Zone_c -describe:]): Cast all counts to unsigned long
 	and use %lu specifier.
+	([Zone_c createEnd]): New variable indexOffset (avoids compiler
+	warning on Irix).
 
 	* Zone.h: Use size_t instead of unsigned for return of getPageSize.
 	(Zone_c): Use size_t for all counts.
