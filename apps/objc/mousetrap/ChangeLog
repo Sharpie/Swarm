@@ -1,3 +1,8 @@
+1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* main.m (main): Use initSwarmApp instead of initSwarm; add
+	version and bug report address.
+
 1998-10-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm

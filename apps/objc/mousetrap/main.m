@@ -1,4 +1,4 @@
-// Mousetrap application. Copyright (C) 1996-1998 Santa Fe Institute.
+// Mousetrap application. Copyright (C) 1996-1999 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -18,7 +18,7 @@ main (int argc, const char **argv)
 
   // Swarm initialization: all Swarm apps must call this first.
 
-  initSwarm (argc, argv);
+  initSwarmApp (argc, argv, "1.4.1", "bug-swarm@santafe.edu");
 
   // swarmGUIMode is set in initSwarm(). It's set to be 0 if you
   // typed mousetrap -batchmode. Otherwise, it's set to 1.
