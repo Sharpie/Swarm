@@ -130,7 +130,7 @@ const unsigned maxStates = 0x7fff;
           newState = (long)floor (d+0.5);	  // round to nearest.
         // can't use rint(), sigh.
         
-        *(discrete2dSiteA t(newLattice, offsets, x, y)) = (id)newState;
+        *(discrete2dSiteAt (newLattice, offsets, x, y)) = (id)newState;
       }
   [self updateLattice];
   return self;
