@@ -1,3 +1,8 @@
+1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (SWARMHOME): Default to 1998-08-17.
+	Include Makefile.appl from $(SWARMHOME)/etc/swarm.
+
 1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Bug.m: Include random.h instead of simtools.h.
