@@ -11,7 +11,7 @@
     
     <FIGURE>
       <TITLE>Complete probe map</TITLE>
-      <GRAPHIC ENTITYREF="complete-probe-map" ALIGN="CENTER"></GRAPHIC>
+      <GRAPHIC ENTITYREF="complete-probe-map" ALIGN="CENTER" SCALE=50></GRAPHIC>
     </FIGURE>
     
   </SECT1>
@@ -330,7 +330,7 @@
         definition</LINK> from <LINK LINKEND="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</LINK> library.
     </PARA>
 
-    <ITEMIZEDLIST>
+    <ITEMIZEDLIST spacing=compact>
       <LISTITEM>
         <FORMALPARA>
 
@@ -404,7 +404,7 @@
 
         <FIGURE>
           <TITLE>Customized probe map</TITLE>
-          <GRAPHIC ENTITYREF="customized-probe-map" ALIGN="CENTER"></GRAPHIC>
+          <GRAPHIC ENTITYREF="customized-probe-map" ALIGN="CENTER" SCALE=75></GRAPHIC>
         </FIGURE>
 
       </PARA>

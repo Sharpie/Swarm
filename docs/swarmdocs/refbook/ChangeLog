@@ -1,3 +1,9 @@
+1998-06-16  Alex Lancaster  <alex@santafe.edu>
+
+	* probes-app.sgml (complete-probe-map): Scale graphic to 50%.
+	(customized-probe-map): Scale graphic to 75 %.  In 'Support for
+	Probing' section - make ITEMIZEDLIST spacing=compact.
+
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: Include $(top_srcdir)/src/Makefile.rules.
