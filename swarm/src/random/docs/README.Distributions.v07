@@ -243,7 +243,7 @@ using these methods:
 To illustrate, assume the following data definitions:
 
    FILE * myFile;
-   char * myFileName = "MyDistFile.bin"; // or whatever
+   const char * myFileName = "MyDistFile.bin"; // or whatever
    int stateSizeD;
    id stateBufD;
    int status;

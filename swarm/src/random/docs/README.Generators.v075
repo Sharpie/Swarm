@@ -347,7 +347,7 @@ using these methods:
 To illustrate, assume the following data definitions:
 
    FILE * myFile;
-   char * myFileName = "MyGenFile.bin"; // or whatever
+   const char * myFileName = "MyGenFile.bin"; // or whatever
    int stateSizeG;
    id stateBufG;
    int status;

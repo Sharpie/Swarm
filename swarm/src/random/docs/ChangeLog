@@ -1,5 +1,9 @@
 1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* README.Generators.v075: Constify myFileName.
+
+	* README.Distributions.v07: Constify myFileName.
+
 	* methods.NormalDist.h: Constify return of getName.
 
 	* methods.SimpleGenerators.h: Likewise.
