@@ -1,5 +1,7 @@
 1998-08-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* NEWS: Note addition of Pixmap output and snapshot capability.
+
 	* INSTALL: Fix note about --disable-shared and --enable-shared=no
 	equivalence.
 

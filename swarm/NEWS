@@ -11,6 +11,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** gui (tkobjc)
 **** Graph now accepts X ranges as well as Y and X+Y.
 **** Widget has additional readers getX and getY.
+**** Pixmap writes PNG files.
+**** Pixmap can be created from a snapshot of the screen or a given widget.
+     (This facilitates the creation of simulation movies.)
 **** Pixmap supports RGB PNG files.
 **** Support for BLT 2.4.
 **** Independent archiving of size and position window geometry.
