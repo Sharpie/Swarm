@@ -133,7 +133,7 @@
                             (children (current-node))))))
 
 (element PROGRAMLISTING
-         (expand-paragraphs (children (current-node))))
+         (expand-paragraphs (skip-nonchars (children (current-node)))))
 
 (define (embed-split string)
     (let loop ((last-ch #\U-0000) (l (string->list string)))
