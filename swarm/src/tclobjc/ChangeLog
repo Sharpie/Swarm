@@ -1,5 +1,7 @@
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
+	* tclObjc.m: Include swarmconfig.h instead of config.h.
+
 	* List.m: Include stdlib.h.
 
 	* TclInterp.m: Include string.h.
