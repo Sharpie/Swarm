@@ -1,5 +1,13 @@
 1999-09-15  Alex Lancaster  <alex@santafe.edu>
 
+	* COPYING: Add GPL.
+
+	* INSTALL: Generic configuration instructions.
+
+	* AUTHORS: Add Paul, Alex and Benedikt.
+
+	* README: Add brief description and URLs.
+
 	* userbook.sgml, user1.01.sgml, user1.02.sgml, user1.03.sgml,
 	user1.04.sgml, user1.05.sgml, user2.01.sgml, user2.02.sgml,
 	user2.03.sgml, user2.04.sgml, user2.05.sgml, user2.06.sgml,
