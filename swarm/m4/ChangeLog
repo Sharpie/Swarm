@@ -3,7 +3,8 @@
 	* Makefile.am (EXTRA_DIST): Add acxpm.m4.
 
 	* acfind.m4 (md_FIND_INCLUDES): Use symbolic expansion for _includes.
-	(md_FIND_LIB): Test for both dir/lib and libdir.
+	(md_FIND_LIB): Test for both dir/lib and libdir.  Reverse sense
+	of error msg test.
 
 	* actcltk.m4: Use symbolic expansions for TCLINCLUDES and
 	TKINCLUDES.
