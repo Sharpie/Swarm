@@ -3,7 +3,8 @@
 #include <stddef.h>
 
 #ifndef __ptr_t
-typedef void * __ptr_t;
+/* This is a macro and not a typedef so that it can be combined with const. */
+#define __ptr_t void *
 #endif
 
 void * xmalloc (size_t size);
@@ -17,13 +18,16 @@ char *strndup (const char *s, size_t n);
 char *stpcpy (char *dest, const char *src);
 
 char *strsep (char **string, const char *delim);
-
-size_t strnlen (const char *string, size_t maxlen);
 #define strchr swarm_strchr
 const char *strchr (const char *string, int c);
+
+size_t strlen (const char *);
+size_t strnlen (const char *string, size_t maxlen);
 int strcmp (const char *p1, const char *p2);
+
 void *memset (void *dstpp, int c, size_t len);
 void *memcpy (void *, const void *, size_t);
+void *memchr (const void *s, int c, size_t n);
 
 const char *myrealpath (const char *path, char *resolved_path);
 const char *find_executable (const char *program_name);

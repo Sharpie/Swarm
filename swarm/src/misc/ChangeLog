@@ -1,15 +1,17 @@
 1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.am (SRC): Add memcpy.c and memchr.c.
+	* misc.h (__ptr_t): Make it a macro instead of a typedef.
+
+	* Makefile.am (SRC): Add memcpy.c, memchr.c, and strchr.c.
 	(noinst_HEADERS): Add mem.h.
 
 	* strndup.c: Don't include stdio.h or sys/types.h.
 
-	* misc.h: Add declaration of memcpy.
+	* misc.h: Add declaration of memcpy, memchr, and strlen.
 
 	* memset.c: Include mem.h instead of having local defines.
 
-	* memcpy.c, memchr.c: New files.
+	* memcpy.c, memchr.c, strlen.c: New files.
 
 	* mem.h: New file (defines common to memset.c and memcpy.c).
 

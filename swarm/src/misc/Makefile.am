@@ -11,7 +11,10 @@ INCLUDES = -I$(srcdir)/..
 lib_LTLIBRARIES = libmisc.la
 
 SRC = getopt.c getopt1.c \
-	strdup.c strndup.c strsep.c stpcpy.c strnlen.c strcmp.c strchr.c \
+	strdup.c strndup.c stpcpy.c \
+	strsep.c strchr.c \
+	strlen.c strnlen.c \
+	strcmp.c \
 	memset.c memcpy.c memchr.c \
 	xmalloc.c realpath.c find_executable.c \
 	argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \

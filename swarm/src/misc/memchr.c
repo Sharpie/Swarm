@@ -35,10 +35,7 @@
 /* Search no more than N bytes of S for C.  */
 
 __ptr_t
-memchr (s, c, n)
-     const __ptr_t s;
-     int c;
-     size_t n;
+memchr (const __ptr_t s, int c, size_t n)
 {
   const unsigned char *char_ptr;
   const unsigned long int *longword_ptr;
