@@ -515,3 +515,73 @@ tkobjc_getId (id probedObject)
     return [probedObject name];
 }
 
+// Items below are for analysis/.
+
+void
+tkobjc_setupZoomStack (id widget)
+{
+  [globalTkInterp eval: "Blt_ZoomStack %s",
+                  [widget getWidgetName]];
+}
+
+void
+tkobjc_setHistogramBarWidth (id histogram, double step)
+{
+  [globalTkInterp eval: 
+                    "%s configure -barwidth %g",
+                  [histogram getWidgetName],
+                  step];
+}
+
+void
+tkobjc_setHistogramXaxisRange (id histogram,
+                               double min,
+                               double max,
+                               double step)
+{
+  [globalTkInterp eval: 
+                    "%s xaxis configure -min %g -max %g -stepsize %g",
+                  [histogram getWidgetName],
+                  min,
+                  max,
+                  step];
+}
+
+void
+tkobjc_setupHistogramLegend (id histogram)
+{
+  [globalTkInterp eval: "%s legend configure -mapped 0",
+                  [histogram getWidgetName]];
+}
+
+void
+tkobjc_setupHistogramMisc (id histogram)
+{
+  [globalTkInterp
+    eval: 
+      "%s marker create text -coords { -Inf +Inf } "
+    "-name active_outlier_marker "
+    "-anchor nw -justify right "
+    "-bg {} -mapped 0",
+    [histogram getWidgetName]];
+}
+
+void
+tkobjc_histogramActiveItemInfo (id histogram)
+{
+  [globalTkInterp eval: "active_item_info %s",
+                  [histogram getWidgetName]];
+}
+
+void
+tkobjc_setHistogramActiveOutlierText (id histogram, int outliers, int count)
+{
+  [globalTkInterp
+    eval: 
+      "%s marker configure active_outlier_marker -text \"outliers: %d (%g)\" ",
+    [histogram getWidgetName], 
+    outliers, 
+    ((double)outliers / ((double)outliers + (double)count))];
+}
+  
+

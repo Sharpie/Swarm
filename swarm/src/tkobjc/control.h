@@ -70,3 +70,21 @@ id tkobjc_gimme_drag_and_drop_object (void);
 const char *tkobjc_packageName (id probedObject);
 const char *tkobjc_getId (id probedObject);
 
+// Items below are for analysis/.
+
+void tkobjc_setupZoomStack (id widget);
+
+void tkobjc_setHistogramBarWidth (id histogram, double step);
+void tkobjc_setHistogramXaxisRange (id widget,
+                                    double min,
+                                    double max,
+                                    double step);
+void tkobjc_setupHistogramMisc (id histogram);
+void tkobjc_setupHistogramLegend (id histogram);
+void tkobjc_histogramActiveItemInfo (id histogram);
+void tkobjc_setHistogramActiveOutlierText (id histogram,
+                                           int outliers,
+                                           int count);
+
+
+
