@@ -4,7 +4,13 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj/Create.h>
+
+#include <swarmconfig.h>
+#ifdef HAVE_ARGP_H
+#include <argp.h>
+#else
 #include <misc/argp.h>
+#endif
 
 @interface Arguments_c: CreateDrop
 {

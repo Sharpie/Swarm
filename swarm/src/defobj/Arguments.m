@@ -6,8 +6,13 @@
 #import <defobj/Arguments.h>
 #import <defobj.h> // arguments
 #include <misc.h> // strdup, getenv, access, stpcpy, stat, dropdir
+
+#include <swarmconfig.h> // SYSCONFDIR, HAVE_ARGP_H
+#ifdef HAVE_ARGP_H
+#include <argp.h>
+#else
 #include <misc/argp.h>
-#include <swarmconfig.h> // SYSCONFDIR
+#endif
 
 #ifndef __GLIBC__
 const char *program_invocation_name;
