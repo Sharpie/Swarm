@@ -1,2 +1,2 @@
-\input @top_srcdir@/macros.tex
+\input @top_srcdir@/tex/macros.tex
 \input _refbook.tex
