@@ -6,6 +6,9 @@
 <!entity % overview.entities system "over.ent">
 %overview.entities;
 
+<!entity % figures.entities system "../figures.ent">
+%figures.entities;
+
 ]>
 
 <BOOK>
