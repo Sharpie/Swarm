@@ -5,9 +5,10 @@
 
 #import <simtools/ObjectLoader.h>
 #import <simtools/InFile.h>
-#import <objectbase.h> // probeLibrary
+#import <objectbase.h> // probeLibrary, arguments
 
 #include <stdio.h>
+#include <misc.h> // stpcpy
 
 @implementation ObjectLoader
 
@@ -49,6 +50,18 @@
   [aFileObject drop];
 
   return self;
+}
+
+
++ load: anObject fromAppConfigFileNamed: (const char *)aFileName
+{
+  const char *configPath = [arguments getAppConfigPath];
+  char buf[strlen (configPath) + strlen (aFileName) + 1], *p;
+  
+  p = stpcpy (buf, configPath);
+  stpcpy (p, aFileName);
+
+  return [self load: anObject fromFileNamed: buf];
 }
 
 + (void)_crash_: anObject

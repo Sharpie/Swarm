@@ -16,8 +16,6 @@
 
 + create: aZone setBaseName: (const char *)aString;
 + create: aZone setBaseNameObject: aStringObject;
-+ create: aZone setConfigBaseName: (const char *)aString;
-+ create: aZone setAppConfigBaseName: (const char *)aString;
 
 - setBaseName: (const char *)aString;
 - setBaseNameObject: aStringObject;

@@ -13,6 +13,7 @@
 
 + load: anObject from: aFileObject;
 + load: anObject fromFileNamed: (const char *)aFileName;
++ load: anObject fromAppConfigFileNamed: (const char *)aFileName;
 
 - setFileObject: aFileObject;
 - loadObject: anObject;

@@ -38,16 +38,6 @@ CREATING
 //M: method will automatically reset the counter.
 + create: aZone setBaseNameObject: aStringObject;
 
-//M: This method is used to create an instance of the UName class by
-//M: appending a filename to the current path where configuration files
-//M: are stored.  This method will reset counter.
-+ create: aZone setConfigBaseName: (const char *)aFilename;
-
-//M: This method is used to create an instance of the UName class by
-//M: appending a filename to the current path where configuration files
-//M: are stored for the current application.  This method will reset counter.
-+ create: aZone setAppConfigBaseName: (const char *)aFilename;
-
 //M: The setBaseName: method is used to set the base name given a const char *.
 - setBaseName: (const char *)aString;
 
@@ -218,6 +208,12 @@ USING
 //M: aFileName.  The ObjectLoader class will open the file, initialize the 
 //M: object with its contents and then close the file.
 + load: anObject fromFileNamed: (const char *)aFileName;
+
+//M: The load:fromAppConfigFileNamed: method loads anObject from th
+//M: application-specific configuration file named aFileName. 
+//M: The ObjectLoader class will open the file, initialize the 
+//M: object with its contents and then close the file.
++ load: anObject fromAppConfigFileNamed: (const char *)aFileName;
 
 //M: The setFileObject: method sets the source fileObject which the instance 
 //M: of the ObjectLoader class should use by sending it this message.

@@ -5,7 +5,6 @@
 
 #import "UName.h"
 #import <collections.h>
-#import <objectbase.h> // arguments
 
 #include <swarmconfig.h>
 #include <misc.h>
@@ -28,37 +27,6 @@ id <Error> UNameError;
 
   [obj setBaseNameObject: aStringObject];
   return [obj createEnd];
-}
-
-+ create: aZone setConfigBaseName: (const char *)aString
-{
-  const char *configPath = [arguments getSwarmConfigPath];
-  id basePath;
-
-  if (!configPath)
-    [UNameError raiseEvent: "Unable to determine configuration path"];
-
-  basePath = [String create: aZone setC: configPath];
-  
-  [basePath catC: aString];
-  
-  return [self create: aZone setBaseNameObject: basePath];
-}
-
-+ create: aZone setAppConfigBaseName: (const char *)aString
-{
-  const char *configPath = [arguments getAppConfigPath];
-  id basePath;
-
-  if (!configPath)
-    [UNameError raiseEvent:
-                  "Unable to determine application's configuration path"];
-
-  basePath = [String create: aZone setC: configPath];
-  
-  [basePath catC: aString];
-  
-  return [self create: aZone setBaseNameObject: basePath];
 }
 
 - resetCounter
