@@ -34,8 +34,6 @@ Boston, MA 02111-1307, USA.  */
 
 #include <string.h> /* strcpy, strlen */ 
 
-#define isDigit(ch) ((ch) >= '0' && (ch) <= '9')
-
 extern int fflush(FILE*);
 
 #define ROUND(V, A) \

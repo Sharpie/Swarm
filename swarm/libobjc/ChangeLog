@@ -1,8 +1,15 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* archive.c (isDigit): New macro.
-	(objc_write_type, objc_read_type, objc_write_types, objc_read_types): 
-	Use it.
+	* mframe.m (mframe_build_signature, mframe_next_arg): Use isDigit.
+
+	* selector.c (sel_types_match): Use isDigit.
+
+	* encoding.c (atoi, objc_sizeof_type, objc_alignof_type,
+	objc_skip_typespec, objc_skip_offset,
+	objc_layout_structure_next_member): Use isDigit.
+
+	* archive.c (objc_write_type, objc_read_type, objc_write_types,
+	objc_read_types): Use isDigit.
 
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

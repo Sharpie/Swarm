@@ -76,7 +76,7 @@ __objc_gc_setup_array (GC_bitmap mask, const char *type, int offset)
 {
   int i, len = atoi(type + 1);
 
-  while (isdigit(*++type))
+  while (isDigit (*++type))
     /* do nothing */;		/* skip the size of the array */
 
   switch (*type) {

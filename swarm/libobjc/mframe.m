@@ -115,10 +115,8 @@ mframe_build_signature(const char *typePtr, int *size, int *narg, char *buf)
     {
       types++;
     }
-  while (isdigit((int)*types))
-    {
-      types++;
-    }
+  while (isDigit (*types))
+    types++;
 
   /*
    *	Where to start putting encoding information - leave enough room for
@@ -337,10 +335,8 @@ mframe_next_arg(const char *typePtr, NSArgumentInfo *info)
 	{
 	  int	length = atoi(typePtr);
 
-	  while (isdigit((int)*typePtr))
-	    {
-	      typePtr++;
-	    }
+	  while (isDigit (*typePtr))
+            typePtr++;
 	  typePtr = mframe_next_arg(typePtr, &local);
 	  info->size = length * ROUND(local.size, local.align);
 	  info->align = local.align;
@@ -473,10 +469,8 @@ mframe_next_arg(const char *typePtr, NSArgumentInfo *info)
        *	this argument.
        */
       info->offset = 0;
-      while (isdigit ((int) *typePtr))
-	{
-	  info->offset = info->offset * 10 + (*typePtr++ - '0');
-	}
+      while (isDigit (*typePtr))
+        info->offset = info->offset * 10 + (*typePtr++ - '0');
       if (negFlag)
         info->offset *= -1;
     }
