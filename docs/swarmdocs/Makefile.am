@@ -1,5 +1,5 @@
-SUBDIRS = figs refbook installbook overbook set m4
-EXTRA_DIST = Makefile.common Makefile.rules common.el history.el protocol.el common.dsl html.dsl print.dsl global.ent docbook.dcl macros.tex
+SUBDIRS = figs refbook installbook overbook set m4 tex
+EXTRA_DIST = Makefile.common Makefile.rules common.el history.el protocol.el common.dsl html.dsl print.dsl global.ent docbook.dcl
 
 all-recursive-am: versions.ent
 

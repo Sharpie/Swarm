@@ -1,6 +1,13 @@
 1998-10-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* configure.in: Add tex/Makefile to AC_OUTPUT.
+	* configure.in: Add tex/Makefile to AC_OUTPUT.  Don't use
+	AC_PATH_PROG for jadetex or dvips since they can't deal with Cygwin
+	paths.  Check using alternate cache varibles.
+
+	* Makefile.rules ($(NAME).dvi): Use tex/macros.tex.
+
+	* Makefile.am (EXTRA_DIST): Remove macros.tex.
+	(SUBDIRS): Add tex.
 
 	* macros.tex: Moved to tex/.
 

@@ -53,7 +53,7 @@ _$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT) figs
 
 $(NAME).html: $(GENERAL) $(HTML) figs
 
-$(NAME).dvi: $(top_srcdir)/macros.tex figs
+$(NAME).dvi: $(top_srcdir)/tex/macros.tex figs
 
 fot: $(NAME).fot
 
