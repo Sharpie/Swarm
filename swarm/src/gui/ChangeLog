@@ -1,3 +1,7 @@
+1998-09-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h (_Canvas): Use addWidget:X:Y:centerFlag: and removeWidget:.
+
 1998-09-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h (_ScheduleItem): Add trigger:X:Y:.

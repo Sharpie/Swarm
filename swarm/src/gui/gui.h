@@ -97,6 +97,17 @@ USING
 
 - (const char *)getWindowGeometry;
 - setWindowGeometry: (const char *)s;
+
+//M: Call a method if we are destroyed.
+- enableDestroyNotification: notificationTarget
+         notificationMethod: (SEL)destroyNotificationMethod;
+
+//M: Prevent calling the destroy notification method.
+- disableDestroyNotification;
+
+- (BOOL)getDestroyedFlag;
+
+- (void)drop;
 @end
 
 @protocol Widget <_Widget, SwarmObject>
@@ -165,15 +176,7 @@ CREATING
 - loadWindowGeometryRecord;
 - registerAndLoad;
 USING
-//M: Call a method if we are destroyed.
-- enableDestroyNotification: notificationTarget
-         notificationMethod: (SEL)destroyNotificationMethod;
-
-//M: Prevent calling the destroy notification method.
-- disableDestroyNotification;
-
 - updateArchiver;
-- getDestroyedFlag;
 - (void)drop;
 @end
 
@@ -204,9 +207,6 @@ USING
 
 //M: Make sure the that the geometry is `reasonable'.
 - assertGeometry;
-
-//M: Move to the northwest corner of the screen.
-- assertPosition;
 @end
 
 @protocol Frame <_Frame, ArchivedGeometryWidget>
@@ -223,6 +223,13 @@ USING
 CREATING
 //M: Create the canvas.
 - createEnd;
+
+USING
+//M: Position a widget inside the canvas
+- addWidget: widget X: (int)x Y: (int)y centerFlag: (BOOL)centerFlag;
+
+//M: Remove a widget from the canvas.
+- removeWidget: widget;
 @end
 
 @protocol Canvas <_Canvas, ArchivedGeometryWidget>
