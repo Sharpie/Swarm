@@ -15,7 +15,7 @@
 
 +createBegin: (id) aZone {
   HeatbugObserverSwarm * obj;
-  ProbeMap * probeMap;
+  id <ProbeMap> probeMap;
   
   // Superclass createBegin to allocate ourselves.
 
