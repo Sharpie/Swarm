@@ -1,3 +1,8 @@
+1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (MODULE): New variable.  Include Makefile.rules 
+	from src.  Remove everything else.
+
 1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* simtoolsgui00.sgml, simtoolsguicont.sgml: Update IDs to

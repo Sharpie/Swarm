@@ -1,6 +1,4 @@
-noinst_DATA = analysisrevhistory.sgml
+MODULE = analysis
 
-swarm_ChangeLog = $(swarm_srcdir)/src/analysis/ChangeLog
-
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 

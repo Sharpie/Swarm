@@ -1,7 +1,5 @@
-noinst_DATA = randomrevhistory.sgml
+MODULE = random
 
-swarm_ChangeLog = $(swarm_srcdir)/src/random/ChangeLog
-
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 

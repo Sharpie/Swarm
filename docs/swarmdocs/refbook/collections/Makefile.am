@@ -1,5 +1,4 @@
-noinst_DATA = collectionsrevhistory.sgml
+MODULE = collections
 
-swarm_ChangeLog = $(swarm_srcdir)/src/collections/ChangeLog
+include $(top_srcdir)/src/Makefile.rules
 
-include $(top_srcdir)/Makefile.rules

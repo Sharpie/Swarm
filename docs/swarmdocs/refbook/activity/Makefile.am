@@ -1,5 +1,3 @@
-noinst_DATA = activityrevhistory.sgml
+MODULE = activity
 
-swarm_ChangeLog = $(swarm_srcdir)/src/activity/ChangeLog
-
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules

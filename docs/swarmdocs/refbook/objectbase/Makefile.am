@@ -1,7 +1,5 @@
-noinst_DATA = objectbaserevhistory.sgml
+MODULE = objectbase
 
-swarm_ChangeLog = $(swarm_srcdir)/src/objectbase/ChangeLog
-
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 

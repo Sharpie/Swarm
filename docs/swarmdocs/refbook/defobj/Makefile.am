@@ -1,7 +1,5 @@
-noinst_DATA = defobjrevhistory.sgml
+MODULE = defobj
 
-swarm_ChangeLog = $(swarm_srcdir)/src/defobj/ChangeLog
-
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 

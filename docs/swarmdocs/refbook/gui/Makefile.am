@@ -1,6 +1,4 @@
-noinst_DATA = guirevhistory.sgml
+MODULE = gui
 
-swarm_ChangeLog = $(swarm_srcdir)/src/gui/ChangeLog
-
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 

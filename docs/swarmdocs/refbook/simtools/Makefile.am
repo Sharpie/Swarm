@@ -1,6 +1,4 @@
-noinst_DATA = simtoolsrevhistory.sgml
+MODULE = simtools
 
-swarm_ChangeLog = $(swarm_srcdir)/src/simtools
-
-include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
