@@ -1,8 +1,6 @@
 String conversion from MessageProbes will leak memory -- it's entered
 in the directory and points to strdupped stuff on the heap. [mgd]
 
-Non-cygwin DLLs -> test on IDE [mgd]
-
 Implement heatbugs
 
 Formalize Kaffe patches (Windows, HPUX)  [mgd]
