@@ -1,6 +1,7 @@
 #include "swarmSelectorImpl.h"
 
 #include "componentIDs.h"
+#include "COMsupport.h"
 
 NS_IMPL_ISUPPORTS1(swarmSelectorImpl, swarmISelector)
 
@@ -29,9 +30,10 @@ swarmSelectorImpl::GetCid (nsCID **acid)
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::Create (swarmITyping *obj, const char *methodName, PRBool objcFlag, swarmISelector **ret)
+swarmSelectorImpl::Create (nsISupports *obj, const char *methodName, PRBool objcFlag, swarmISelector **ret)
 {
   printf ("methodName: `%s' objcFlag: %u\n", methodName, (unsigned) objcFlag);
+  findMethod (obj, methodName);
   *ret = NS_STATIC_CAST (swarmISelector*, this);
   return NS_OK;
 }

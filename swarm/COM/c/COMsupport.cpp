@@ -14,6 +14,11 @@
 
 extern "C" {
 
+struct method_key {
+  nsISupports *target;
+  const char *methodName;
+};
+
 static void *
 find (void *(*match) (nsIInterfaceInfo *, void *), void *item)
 {
@@ -59,7 +64,8 @@ find (void *(*match) (nsIInterfaceInfo *, void *), void *item)
       if (!NS_FAILED (rv))
         {
           ret = (*match) (Interface, item);
-          NS_RELEASE (Interface);
+          if (ret != Interface)
+            NS_RELEASE (Interface);
         }
       else
         abort ();
@@ -81,16 +87,16 @@ find (void *(*match) (nsIInterfaceInfo *, void *), void *item)
 }
 
 static void *
-matchInterfaceName (nsIInterfaceInfo *interface, void *item)
+matchInterfaceName (nsIInterfaceInfo *interfaceInfo, void *item)
 {
   nsIID *ret = NULL;
   char *name;
   const char *interfaceName = (const char *)item;
   
-  interface->GetName (&name);
+  interfaceInfo->GetName (&name);
   
   if (PL_strcmp (interfaceName, name) == 0)
-    interface->GetIID (&ret);
+    interfaceInfo->GetIID (&ret);
   nsMemory::Free (name);
   return ret;
 }
@@ -101,28 +107,35 @@ findIIDFromName (const char *interfaceName)
   return (nsIID *) find (matchInterfaceName, (void *) interfaceName);
 }
 
-static void*
-matchIID (nsIInterfaceInfo *interface, void *item)
+static void *
+matchMethodName (nsIInterfaceInfo *interfaceInfo, void *item)
 {
-  nsIID *iid = (nsIID *) item;
-  nsIID *miid;
-  
-  interface->GetIID (&miid);
-  
-  if (iid->Equals (*miid))
+  struct method_key *key = (struct method_key *) item;
+  const nsXPTMethodInfo *methodInfo;
+  nsISupports *interface;
+  PRUint16 index;
+  nsIID *iid;
+
+  if (interfaceInfo->GetIID (&iid) != NS_OK)
+    abort ();
+  if (key->target->QueryInterface (*iid, (void **) &interface) == NS_OK)
     {
-      char *name;
-      interface->GetName (&name);
       
-      return name;
+      NS_RELEASE (interface);
+      if (interfaceInfo->GetMethodInfoForName (key->methodName,
+                                               &index,
+                                               &methodInfo) == NS_OK)
+        return (void *) methodInfo;
     }
   return NULL;
 }
 
-static const char *
-findNameFromIID (nsIID *iid)
+void *
+findMethod (nsISupports *obj, const char *methodName)
 {
-  return (const char *) find (matchIID, (void *) iid);
+  struct method_key key = { obj, methodName };
+
+  return find (matchMethodName, &key);
 }
 
 
