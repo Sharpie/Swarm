@@ -35,8 +35,8 @@ else
     elif test -f $jdkincludedir/hp-ux/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/hp-ux"
       JAVALIBS='${jdkdir}/shlib'
-      proc=green
-      threads=PA_RISC
+      threads=green
+      proc=PA_RISC
       LD_LIBRARY_PATH_VARNAME=SHLIB_PATH
     elif test -f $jdkincludedir/winnt/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
