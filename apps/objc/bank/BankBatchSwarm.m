@@ -1,4 +1,4 @@
-// Copyright (C) 1996-1999 Santa Fe Institute.
+// Copyright © 1996-1999 Santa Fe Institute.
 #import "BankBatchSwarm.h"
 #import "BankModelSwarm.h"
 #import <activity.h>

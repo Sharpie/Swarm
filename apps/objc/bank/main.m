@@ -1,4 +1,6 @@
-// Copyright (C) 1996-1999 Santa Fe Institute.
+// Copyright © 1996-1999 Santa Fe Institute.
+
+#import <simtools.h>
 #import "BankObserverSwarm.h"
 #import "BankBatchSwarm.h"
 
@@ -8,7 +10,7 @@ main (int argc, const char **argv)
   BankObserverSwarm *observerSwarm;
   BankBatchSwarm *batchSwarm;
   
-  initSwarmApp (argc, argv, "1.4.1", "bug-swarm@santafe.edu");
+  initSwarm (argc, argv);
   initGraphLibrary ();
   
   // swarmGUIMode is set in initSwarm(). It's set to be 1 if your

@@ -1,4 +1,4 @@
-// Copyright (C) 1996-1999 Santa Fe Institute.
+// Copyright © 1996-1999 Santa Fe Institute.
 #import "FEntity.h"
 #import "ILink.h"
 #import "BLink.h"

@@ -1,5 +1,8 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* main.m: Import simtools.h. 
+	(main): Use initSwarm instead of initSwarmApp.
+
 	* Makefile (APPVERSION, BUGADDRESS): Add.
 
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
