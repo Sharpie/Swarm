@@ -2,6 +2,8 @@
 
 	* Makefile.am (objc.dll): Rename libobjc.a to libobjcdll.a.
 	(install-data-local): Accomodate.  Use objc.dll.c instead of dllinit.c.
+	Put rules above in an USEDLL automake conditional (removing the
+	shell logic in the latter).
 
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

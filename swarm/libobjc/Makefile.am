@@ -41,6 +41,7 @@ COMPILERINFOHEADER = @COMPILERINFOHEADER@
 compiler-info.h: $(COMPILERINFOHEADER)
 	cp $(COMPILERINFOHEADER) $@
 
+if USEDLL
 DLLOBJS = $(addsuffix .lo,$(basename $(libobjc__la_SOURCES)))
 
 objc.dll: libobjc_.la objc.dll.c
@@ -48,9 +49,9 @@ objc.dll: libobjc_.la objc.dll.c
 	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll objc.dll.lo $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
 install-data-local: 
-	if test $(USEDLL) = yes; then \
-	  $(INSTALL) libobjcdll.a $(libdir) && ranlib $(libdir)/libobjcdll.a ; \
-	fi
+	$(INSTALL) libobjcdll.a $(libdir)
+	ranlib $(libdir)/libobjcdll.a
+endif
 
 #CC1OBJ = @gccdir@/cc1obj
 
