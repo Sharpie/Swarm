@@ -28,7 +28,7 @@ Library:      activity
 //
 - (void) drop
 {
-  [self dropAllocations: 1];
+  [self dropAllocations: YES];
 }
 
 @end
@@ -56,31 +56,34 @@ Library:      activity
   funcPtr();
 }
 
-static void describeFunctionCall(
-  id stream, func_t fptr, int nargs, id arg1, id arg2, id arg3 ) 
+static void
+describeFunctionCall(id stream, func_t fptr, int nargs, id arg1, id arg2, id arg3) 
 {
-  char  buffer[100];
+  char buffer[100];
 
-  sprintf( buffer, "(function at " PTRFMT ")(", fptr );
+  sprintf (buffer, "(function at " PTRFMT ")(", fptr);
   [stream catC: buffer];
-  if ( nargs > 0 ) {
-    sprintf( buffer, PTRFMT, arg1 );
-    [stream catC: buffer];
-    if ( nargs > 1 ) {
-      sprintf( buffer, ", " PTRFMT, arg2 );
+  if (nargs > 0)
+    {
+      sprintf( buffer, PTRFMT, arg1 );
       [stream catC: buffer];
-      if ( nargs > 2 ) {
-        sprintf( buffer, ", " PTRFMT, arg3 );
-        [stream catC: buffer];
-      }
+      if (nargs > 1)
+        {
+          sprintf (buffer, ", " PTRFMT, arg2);
+          [stream catC: buffer];
+          if (nargs > 2)
+            {
+              sprintf (buffer, ", " PTRFMT, arg3);
+              [stream catC: buffer];
+            }
+        }
     }
-  }
   [stream catC: ")\n"];
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeFunctionCall( outputCharStream, funcPtr, 0, 0, 0, 0 );
+  describeFunctionCall (outputCharStream, funcPtr, 0, 0, 0, 0);
 }
 
 @end
@@ -88,12 +91,12 @@ static void describeFunctionCall(
 
 @implementation ActionCall_1
 
-- (int) getNArgs
+- (int)getNArgs
 {
   return 1;
 }
 
-- (void) setArg1: anArg
+- (void)setArg1: anArg
 {
   arg1 = anArg;
 }
@@ -103,14 +106,14 @@ static void describeFunctionCall(
   return arg1;
 }
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
-  ((void(*)(id))funcPtr)( arg1 );
+  ((void (*) (id)) funcPtr) (arg1);
 }
 
 - (void) describe: outputCharStream
 {
-  describeFunctionCall( outputCharStream, funcPtr, 1, arg1, 0, 0 );
+  describeFunctionCall (outputCharStream, funcPtr, 1, arg1, 0, 0);
 }
 
 @end
@@ -133,14 +136,14 @@ static void describeFunctionCall(
   return arg2;
 }
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
-  ((void(*)(id, id))funcPtr)( arg1, arg2 );
+  ((void (*) (id, id)) funcPtr) (arg1, arg2);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeFunctionCall( outputCharStream, funcPtr, 2, arg1, arg2, 0 );
+  describeFunctionCall (outputCharStream, funcPtr, 2, arg1, arg2, 0);
 }
 
 @end
@@ -148,12 +151,12 @@ static void describeFunctionCall(
 
 @implementation ActionCall_3
 
-- (int) getNArgs
+- (int)getNArgs
 {
   return 3;
 }
 
-- (void) setArg3: anArg
+- (void)setArg3: anArg
 {
   arg3 = anArg;
 }
@@ -163,14 +166,14 @@ static void describeFunctionCall(
   return arg3;
 }
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
-  ((void(*)(id, id, id))funcPtr)( arg1, arg2, arg3 );
+  ((void (*) (id, id, id)) funcPtr) (arg1, arg2, arg3);
 }
 
 - (void) describe: outputCharStream
 {
-  describeFunctionCall( outputCharStream, funcPtr, 3, arg1, arg2, arg3 );
+  describeFunctionCall (outputCharStream, funcPtr, 3, arg1, arg2, arg3);
 }
 
 @end
@@ -188,62 +191,65 @@ static void describeFunctionCall(
   return target;
 }
 
-- (void) setMessageSelector: (SEL)aSel
+- (void)setMessageSelector: (SEL)aSel
 {
   selector = aSel;
 }
 
-- (SEL) getMessageSelector
+- (SEL)getMessageSelector
 {
   return selector;
 }
 
-- (int) getNArgs
+- (int)getNArgs
 {
   return 0;
 }
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
   [target perform: selector];
 }
 
-static void describeMessageArgs(
-  id stream, SEL msg, int nargs, id arg1, id arg2, id arg3 ) 
+static void
+describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3) 
 {
-  char  buffer[100];
+  char buffer[100];
 
-  sprintf( buffer, " %s", sel_get_name( msg ) );
+  sprintf (buffer, " %s", sel_get_name (msg));
   [stream catC: buffer];
-  if ( nargs > 0 ) {
-    sprintf( buffer, " " PTRFMT, arg1 );
-    [stream catC: buffer];
-    if ( nargs > 1 ) {
-      sprintf( buffer, " " PTRFMT, arg2 );
+  if (nargs > 0)
+    {
+      sprintf (buffer, " " PTRFMT, arg1);
       [stream catC: buffer];
-      if ( nargs > 2 ) {
-        sprintf( buffer, " " PTRFMT, arg3 );
-        [stream catC: buffer];
-      }
+      if (nargs > 1)
+        {
+          sprintf (buffer, " " PTRFMT, arg2);
+          [stream catC: buffer];
+          if (nargs > 2)
+            {
+              sprintf (buffer, " " PTRFMT, arg3);
+              [stream catC: buffer];
+            }
+        }
     }
-  }
   [stream catC: "]\n"];
 }
 
-static void describeMessage(
-  id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3 ) 
+static void
+describeMessage(id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3) 
 {
-  char  buffer[100];
+  char buffer[100];
 
   [stream catC: "["];
-  _obj_formatIDString( buffer, target );
+  _obj_formatIDString (buffer, target);
   [stream catC: buffer];
-  describeMessageArgs( stream, msg, nargs, arg1, arg2, arg3 );
+  describeMessageArgs (stream, msg, nargs, arg1, arg2, arg3);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeMessage( outputCharStream, target, selector, 0, 0, 0, 0 );
+  describeMessage (outputCharStream, target, selector, 0, 0, 0, 0);
 }
 
 @end
@@ -251,12 +257,12 @@ static void describeMessage(
 
 @implementation ActionTo_1
 
-- (int) getNArgs
+- (int)getNArgs
 {
   return 1;
 }
 
-- (void) setArg1: anArg
+- (void)setArg1: anArg
 {
   arg1 = anArg;
 }
@@ -266,14 +272,14 @@ static void describeMessage(
   return arg1;
 }
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
   [target perform: selector with: arg1];
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeMessage( outputCharStream, target, selector, 1, arg1, 0, 0 );
+  describeMessage (outputCharStream, target, selector, 1, arg1, 0, 0);
 }
 
 @end
@@ -281,12 +287,12 @@ static void describeMessage(
 
 @implementation ActionTo_2
 
-- (int) getNArgs
+- (int)getNArgs
 {
   return 2;
 }
 
-- (void) setArg2: anArg
+- (void)setArg2: anArg
 {
   arg2 = anArg;
 }
@@ -296,14 +302,14 @@ static void describeMessage(
   return arg2;
 }
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
   [target perform: selector with: arg1 with: arg2];
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeMessage( outputCharStream, target, selector, 2, arg1, arg2, 0 );
+  describeMessage (outputCharStream, target, selector, 2, arg1, arg2, 0);
 }
 
 @end
@@ -311,12 +317,12 @@ static void describeMessage(
 
 @implementation ActionTo_3
 
-- (int) getNArgs
+- (int)getNArgs
 {
   return 3;
 }
 
-- (void) setArg3: anArg
+- (void)setArg3: anArg
 {
   arg3 = anArg;
 }
@@ -326,14 +332,14 @@ static void describeMessage(
   return arg3;
 }
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
   [target perform: selector with: arg1 with: arg2 with: arg3];
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeMessage( outputCharStream, target, selector, 3, arg1, arg2, arg3 );
+  describeMessage (outputCharStream, target, selector, 3, arg1, arg2, arg3);
 }
 
 @end
@@ -341,36 +347,34 @@ static void describeMessage(
 
 @implementation ActionForEach_0
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
   id  memberAction;
-  if (getBit(bits, BitRandomized))
-    {
-       memberAction = 
-	 [id_ForEachActivity_c _createRandom_: self : anActivity ];
-    }
+
+  if (getBit (bits, BitRandomized))
+    memberAction = 
+      [id_ForEachActivity_c _createRandom_: self : anActivity ];
   else
-    {
-      memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
-    }
-  setClass( memberAction, id_ActionTo_0 );
+    memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+
+  setClass (memberAction, id_ActionTo_0);
 }
 
-static void describeForEachMessage(
-  id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3 ) 
+static void
+describeForEachMessage (id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3)
 {
-  char  buffer[100];
+  char buffer[100];
 
   [stream catC: "[[foreach: "];
-  _obj_formatIDString( buffer, target );
+  _obj_formatIDString (buffer, target);
   [stream catC: buffer];
   [stream catC: "]"];
-  describeMessageArgs( stream, msg, nargs, arg1, arg2, arg3 );
+  describeMessageArgs (stream, msg, nargs, arg1, arg2, arg3);
 }
 
 - (void) describe: outputCharStream
 {
-  describeForEachMessage( outputCharStream, target, selector, 0, 0, 0, 0 );
+  describeForEachMessage (outputCharStream, target, selector, 0, 0, 0, 0);
 }
 
 @end
@@ -378,24 +382,22 @@ static void describeForEachMessage(
 
 @implementation ActionForEach_1
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
-  id  memberAction;
-  if (getBit(bits, BitRandomized))
-    {
-       memberAction = 
-	 [id_ForEachActivity_c _createRandom_: self : anActivity ];
-    }
+  id memberAction;
+
+  if (getBit (bits, BitRandomized))
+    memberAction = 
+      [id_ForEachActivity_c _createRandom_: self : anActivity ];
   else
-    {
-      memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
-    }
-  setClass( memberAction, id_ActionTo_1 );
+    memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+
+  setClass (memberAction, id_ActionTo_1);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeForEachMessage( outputCharStream, target, selector, 1, arg1, 0, 0 );
+  describeForEachMessage (outputCharStream, target, selector, 1, arg1, 0, 0);
 }
 
 @end
@@ -403,43 +405,40 @@ static void describeForEachMessage(
 
 @implementation ActionForEach_2
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
   id  memberAction;
-  if (getBit(bits, BitRandomized))
-    {
-       memberAction = 
-	 [id_ForEachActivity_c _createRandom_: self : anActivity ];
-    }
+
+  if (getBit (bits, BitRandomized))
+    memberAction = 
+      [id_ForEachActivity_c _createRandom_: self : anActivity];
   else
-    {
-      memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
-    }
-  setClass( memberAction, id_ActionTo_2 );
+    memberAction = [id_ForEachActivity_c _create_: self : anActivity];
+
+  setClass (memberAction, id_ActionTo_2);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeForEachMessage(
-    outputCharStream, target, selector, 2, arg1, arg2, 0 );
+  describeForEachMessage (outputCharStream, target, selector, 2, arg1, arg2, 0);
 }
 
 @end
 
 @implementation ActionForEach_3
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
   id  memberAction;
 
-  memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
-  setClass( memberAction, id_ActionTo_3 );
+  memberAction = [id_ForEachActivity_c _create_: self : anActivity];
+  setClass (memberAction, id_ActionTo_3);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  describeForEachMessage(
-    outputCharStream, target, selector, 3, arg1, arg2, arg3 );
+  describeForEachMessage (outputCharStream, target, selector, 3, arg1, arg2, arg3);
 }
 
 @end
+
