@@ -66,8 +66,7 @@ PHASE(Creating)
 {
 #ifndef HAVE_HDF5
   hdf5_not_available ();
-#else
-
+#endif
   return self;
 }
 
