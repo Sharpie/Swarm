@@ -258,6 +258,10 @@ md_CHECK_PATH_SYNTAX
 
 AC_PATH_PROG(EMACS, emacs, missing)
 
+AC_PATH_PROG(DLLWRAP, dllwrap, missing)
+test $DLLWRAP = missing || SWARMDLL=swarm.dll
+AC_SUBST(SWARMDLL)
+
 AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile tests/collections/Makefile tests/defobj/Makefile tests/objectbase/Makefile tests/simtools/Makefile tests/space/Makefile java/Makefile java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules])
 
 (abs_srcdir=`cd $srcdir; pwd`; test -d libobjc || mkdir libobjc; cd libobjc ; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/libobjc/configure --srcdir=$abs_srcdir/libobjc --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared)
