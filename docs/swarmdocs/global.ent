@@ -1,14 +1,14 @@
 <!-- General boilerplate -->
 
 <!ENTITY corpauthor 'Swarm Development Group'> 
-<!ENTITY orgname 'Santa Fe Institute'>
+<!ENTITY orgname 'Swarm Development Group'>
 <!ENTITY program-name "Swarm Project">
 
 <!ENTITY swarm-webpage 
-  '<ulink url="http://www.santafe.edu/projects/swarm/">Swarm home page</ulink>'>
+  '<ulink url="http://www.swarm.org">Swarm home page</ulink>'>
 
 <!ENTITY swarm-mailing-lists 
-  '<ulink url="http://www.santafe.edu/projects/swarm/mailing-lists.html">Swarm
+  '<ulink url="http://www.swarm.org/community-mailing-lists.html">Swarm
 mailing lists page</ulink>'>
 
 <!ENTITY doc-legalnotice
@@ -42,25 +42,28 @@ mailing lists page</ulink>'>
 
 <!ENTITY address 
 "<ADDRESS>
-<STREET>1399 Hyde Park Road</STREET>
-<CITY>Santa Fe</CITY> <STATE>NM</STATE> <POSTCODE>87501</POSTCODE> 
+<STREET>114 West Lupita Road</STREET>
+<CITY>Santa Fe</CITY> <STATE>NM</STATE> <POSTCODE>87505-4718</POSTCODE> 
 <COUNTRY>USA</COUNTRY>
-<EMAIL>swarm@santafe.edu</EMAIL>
+<EMAIL>lee@swarm.org</EMAIL>
 </ADDRESS>">
 
-<!ENTITY mgd '<literallayout>Marcus Daniels <EMAIL>mgd@santafe.edu</EMAIL></literallayout>'>
+<!ENTITY mgd '<literallayout>Marcus Daniels <EMAIL>mgd@swarm.org</EMAIL></literallayout>'>
 
-<!ENTITY alex '<literallayout>Alex Lancaster <EMAIL>alex@santafe.edu</EMAIL></literallayout>'>
+<!ENTITY alex '<literallayout>Alex Lancaster <EMAIL>alex@swarm.org</EMAIL></literallayout>'>
 
 <!ENTITY swarm-program 
- '<LITERALLAYOUT>&program-name;
-&orgname; </LITERALLAYOUT>&address;'>
+ '<LITERALLAYOUT>&orgname;</LITERALLAYOUT>&address;'>
 
 <!ENTITY bibliodata  "<RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
     <PUBDATE>&pubdate;</PUBDATE>
     <COPYRIGHT>
+      <YEAR>2000</YEAR>
+      <HOLDER>&orgname;</HOLDER>
+    </COPYRIGHT>
+    <COPYRIGHT>
       <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR><YEAR>1999</YEAR>
-      <HOLDER>&orgname;</HOLDER></COPYRIGHT>"
+      <HOLDER>Santa Fe Institute</HOLDER></COPYRIGHT>"
 >
 
 <!--
