@@ -258,6 +258,14 @@ PHASE(Using)
                   s];
 }
 
+- (void)setSymbolSize: (unsigned)size
+{
+  [globalTkInterp eval: "%s element configure %s -pixels %u",
+		  [ownerGraph getWidgetName],
+                  name,
+                  size];
+}
+
 // set the dash style - 0 means solid.
 - (void)setDashes: (int)d
 {

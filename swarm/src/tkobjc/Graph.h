@@ -58,6 +58,8 @@
 - setWidth: (unsigned)w;
 // line square circle diamond plus cross splus scross
 - (void)setSymbol: (const char *)s; 
+// symbol size in pixels
+- (void)setSymbolSize: (unsigned)size;
 // only if we're a line.
 - (void)setDashes: (int)i;
 @end

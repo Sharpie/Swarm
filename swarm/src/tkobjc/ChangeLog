@@ -1,3 +1,7 @@
+2001-03-13  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* gui.h, Graph.[hm]: Add setSymbolSize:.
+
 2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* ArchivedGeometryWidget.m, Button.[hm], ButtonPanel.[hm],
