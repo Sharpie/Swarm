@@ -24,7 +24,7 @@
     for your application to disable top level user interface features after
     user kills from the window manager.  See heatbugs for an example of this.
 
- 6. ProbeDisplays were not equipped with #4, so kills from the window
+ 6. ProbeDisplays were not equipped with #5, so kills from the window
     manager could result Tk becoming confused (a fairly common operation 
     with popular window managers like fvwm95).  Thanks to Pietro Terna
     for his assistance in debugging this.
