@@ -101,8 +101,9 @@ USING
 CREATING
 -		setProbedObject: anObject;
 USING
--		getProbedObject ;
--		update ;
+-		getProbedObject;
+-	        update;
+-               getMarkedForDropFlag;
 @end
 
 //

@@ -1,5 +1,18 @@
 1997-12-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* simtools.h (CompleteProbeDisplay): Add getMarkedForDropFlag
+	to protocol.
+
+	* ProbeDisplay.m (resetObjectError): Add routine for error message
+	formerly invoked using redundant code.
+	([ProbeDisplay -setProbedObject:anObject]): Use above.
+	([ProbeDisplay -setProbeMap:]): Likewise.
+	([ProbeDisplay -createEnd]): Use new routines updateIdleTasksAndHold
+	and releaseAndUpdate (in place of direct calls to the Tcl interpreter).
+	([ProbeDisplay -createEnd]): Move common creation code for
+	CompleteProbeDisplay and SimpleProbeDisplay out of conditional.
+	Reformatting throughout.
+
 	* ProbeDisplayManager.m ([ProbeDisplayManager -createEnd]):
 	Include CommonProbeDisplay instead of SimpleProbeDisplay (for 
 	getMarkedForDropFlag).
