@@ -1,3 +1,7 @@
+1998-04-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Create.h: Make CreateDrop conform to Create protocol.
+
 1998-03-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile ($(BINDIR)/m2h, $(BINDIR)/make-h2x): Ensure that

@@ -14,7 +14,7 @@ Library:      defobj
 //
 // CreateDrop_s -- superclass to create object with retained zone for drop
 //
-@interface CreateDrop_s : Customize_s
+@interface CreateDrop_s: Customize_s
 /*** methods in CreateDrop_s (inserted from .m file by m2h) ***/
 + create: aZone;
 + createBegin: aZone;
@@ -23,7 +23,7 @@ Library:      defobj
 - (const char *)getObjectName;
 @end
 
-@interface CreateDrop: CreateDrop_s
+@interface CreateDrop: CreateDrop_s <Create>
 /*** methods in CreateDrop (inserted from .m file by m2h) ***/
 - createEnd;
 @end
