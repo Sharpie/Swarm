@@ -50,8 +50,8 @@ void main (int argc, const char **argv)
         take 2 args:</title><para>
 
         <itemizedlist>
-        <listitem>argc : # of command line args   </listitem>
-        <listitem>argv: value of command line args</listitem>
+        <listitem><para>argc : # of command line args   </para></listitem>
+        <listitem><para>argv: value of command line args</para></listitem>
         </itemizedlist>
       </para></formalpara>
 
@@ -112,8 +112,8 @@ void main (int argc, const char **argv)
     <formalpara><title>The simplest version of an Objective-C program</title>
       <para>
         <itemizedlist>
-          <listitem>A main( ) function             </listitem>
-          <listitem>One class and one instance: Bug</listitem>
+          <listitem><para>A main( ) function             </para></listitem>
+          <listitem><para>One class and one instance: Bug</para></listitem>
         </itemizedlist>
         </para>
     </formalpara>
@@ -123,14 +123,14 @@ void main (int argc, const char **argv)
 
       <para>
         <itemizedlist>
-          <listitem>
-            xPos, yPos, worldXSize, worldYSize - Instance variables</listitem>
-          <listitem>
+          <listitem><para>
+            xPos, yPos, worldXSize, worldYSize - Instance variables</para></listitem>
+          <listitem><para>
             -setX: Y:
             -setWorldSizeX: Y:
             -step
             Methods
-          </listitem>
+          </para></listitem>
 
         </itemizedlist>
         
@@ -147,9 +147,10 @@ void main (int argc, const char **argv)
     <para>Inheriting from the ObjectBase class Bug knows these tricks:
 
       <itemizedlist>
-        <listitem>create: Allocate memory</listitem>        
-        <listitem>drop: Deallocate and die</listitem>
+        <listitem><para>create: Allocate memory</para></listitem>        
+        <listitem><para>drop: Deallocate and die</para></listitem>
       </itemizedlist>
+    </para>
       
     <para>
       First instruct class to create instance of itself. 

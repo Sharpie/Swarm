@@ -1,293 +1,218 @@
-<SECT1 id="SWARM.USER.USER3.07.SECT1">
-  <TITLE>GUI and Simtools Libraries</TITLE>
+<sect1 id="swarm.user.user3.07.sect1">
+  <title>GUI and Simtools Libraries</title>
 
-<SECT2>
- <TITLE>Raster and Object2dDisplay</TITLE> 
+<sect2>
+ <title>Raster and Object2dDisplay</title> 
 
-
-
-
-Discrete2d<BR></UL></P>
-Raster<BR></UL></P>
+    <literallayout>Discrete2d
+Raster
 Holds x,y
-<BR></UL><UL>
-locations of agents</UL></P>
-Object2dDisplay<BR></UL></P>
-XColormap<BR></UL></P>
-ModelSwarm<BR></UL></P>
-ObserverSwarm<BR></UL></P>
-Main purpose of Object2dDisplay to catch messages from Raster widget on a mouse-click. It then opens up a probe to the object that at this  location.<BR></UL></P>
-Agent<BR></UL></P>
-</PARA></FORMALPARA> 
 
+locations of agents
+Object2dDisplay
+XColormap
+ModelSwarm
+ObserverSwarm
+</literallayout>
 
+    <para>Main purpose of Object2dDisplay to catch messages from
+      Raster widget on a mouse-click. It then opens up a probe to the
+      object that at this location.
+    </para>
 
+    <literallayout>Agent
+    </literallayout>
+</sect2>
 
-</SECT2>
+<sect2>
+ <title>The classes in Space</title> 
 
-<SECT2>
- <TITLE>The classes in Space</TITLE> 
+    <para>Space</para>
 
+<!-- image -->
 
-
-
-Space<BR></UL></P>
-Discrete2d<BR></UL></P>
-DblBuffer
-<BR></UL><UL>
-2d</UL></P>
-Grid2d<BR></UL></P>
-Conway
-<BR></UL><UL>
-Life</UL></P>
-Ca2d<BR></UL></P>
-Diffuse
-<BR></UL><UL>
-2d</UL></P>
-Object2d
-<BR></UL><UL>
-Display</UL></P>
-Value2d
-<BR></UL><UL>
-Display</UL></P>
-Int2d
-<BR></UL><UL>
-Filer</UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>The basic 2d classes</TITLE> 
-
-
-
-
-Space<BR></UL></P>
-Discrete
-<BR></UL><UL>
-2d</UL></P>
-DblBuffer
-<BR></UL><UL>
-2d</UL></P>
-Grid2d<BR></UL></P>
-<FORMALPARA><TITLE>Discrete2d 
-</TITLE><PARA>
-<UL>
-Provides basic 2d lattice functions
-<BR></UL></UL><UL>
-<FORMALPARA><TITLE>Subclasses
-</TITLE><PARA>
-<UL>
+    <literallayout>Discrete2d
+DblBuffer2d
 Grid2d
-<UL>
-DoesnÆt allow you to overwrite members
-</UL>DblBuffer2d
-<UL>
-Writes go to a buffer
-Then updates all at once
-</UL></UL></UL><UL>
-<FORMALPARA><TITLE>
-</TITLE><PARA>
-</PARA></FORMALPARA> 
+ConwayLife
+Ca2d
+Diffuse2d
+Object2dDisplay
+Value2dDisplay
+Int2dFiler
+</literallayout>
+
+</sect2>
+
+<sect2>
+ <title>The basic 2d classes</title> 
+
+    <para>Space</para>
+
+    <literallayout>Discrete2d
+DblBuffer2d
+Grid2d
+</literallayout>
+
+    <formalpara><title>Discrete2d </title>
+      <para>Provides basic 2d lattice functions</para>
+    </formalpara>
+
+    <formalpara><title>Subclasses
+     </title><para>
+        <itemizedlist>
+          <listitem><formalpara><title>Grid2d</title><para>Doesn't allow you to
+                overwrite members</para>
+            </formalpara>
+          </listitem>
+
+          <listitem><formalpara><title>DblBuffer2d </title><para>Writes go to a
+                buffer, Then updates all at once</para>
+            </formalpara>
+          </listitem>
+
+        </itemizedlist>
+      </para>
+    </formalpara>
+
+</sect2>
+
+<sect2>
+ <title>Some basic Discrete2d syntax</title> 
+
+    <formalpara><title>setSizeX: i Y: j </title><para>
+        Set the world size. 
+      </para>
+    </formalpara>
+
+    <formalpara><title>getSizeX, getSizeY</title>
+      <para>Get the dimensions of the lattice
+      </para>
+    </formalpara>
+
+    <formalpara><title>fillWithValue: val, fillWithObject: obj</title>
+      <para>puts same value or object at each site </para>
+    </formalpara>
+
+    <formalpara><title>setDiscrete2d: o  toFile: filename</title>
+      <para>Reads a PGM formatted file and fills lattice with values</para>
+    </formalpara>
+
+    <formalpara><title>copyDiscrete2d: a toDiscrete2d: b</title>
+      <para>Fills lattice b with values from a
+      </para>
+    </formalpara> 
+</sect2>
+
+<sect2>
+ <title>More basic Discrete2d syntax</title> 
+
+    <formalpara><title>getObjectAtX: Y:</title>
+      <para>Return object at x,y. </para>
+    </formalpara>
+
+    <formalpara><title>getValueAtX: Y: </title>
+      <para>Return value at x,y. </para></formalpara>
+
+    <formalpara><title>putObject:o atX:Y:</title>
+      <para>Put obj at x,y and overwrite present obj </para>
+    </formalpara>
+
+    <formalpara><title>putValue: v atX:Y:</title>
+      <para>Put val v at x,y </para>
+    </formalpara> 
+</sect2>
+
+<sect2>
+ <title>Some classes in Simtools</title> 
+
+    <formalpara><title>ObjectLoader / Saver</title><para>
+        Loads/Saves instance variable values from file</para>
+    </formalpara>
+
+    <formalpara><title>NSelect</title>
+      <para>Selects N members from collection </para>
+    </formalpara>
+
+    <formalpara><title>QSort</title>
+      <para>QuickSort for collection</para>
+    </formalpara>
+
+<!-- note to Paul J - we should really reconsider just what we choose to
+  say about these classes, I've found them to be next-to-useless -->
+
+    <formalpara><title>OutFile [DEPRECATED!!]</title>
+      <para>Substitute for opening outfiles C style</para>
+    </formalpara>
+
+    <formalpara><title>InFile [DEPRECATED!!]</title> 
+      <para>Opens file and understand
+      basic operations, getString, getInt, next etc.
+      </para></formalpara>
+
+</sect2>
+
+<sect2>
+ <title>OutFile and InFile</title> 
 
 
+    <para>Should consider using standard C I/O library, rather than
+      these classes, the stdio.h library is flexible and well-known to
+      previous C programmers</para>
+
+    <formalpara><title>Basic idea that InFile opens file and 'gets'
+        strings and OutFile opens file and puts
+        same</title><para></para></formalpara>
+
+    <formalpara><title>Both can deal with any var type (only String
+      and Int shown) </title><para></para></formalpara>
+
+    <formalpara><title>In addition methods to insert delimiter
+    ('tab'), skip line, go to next line etc.</title><para>
+        Some methods in InFile:
+
+        <literallayout>
+- (int)getWord: (char *)aWord 
+- (int)getInt: (int *)anInt; 
+- (int)skipLine 
+...and OutFile:
+- putString: (char *)aString 
+- putInt: (int)anInt 
+- putTab: (char)aChar 
+- putNewLine</literallayout> 
+      </para>
+    </formalpara>
+
+</sect2>
+
+<sect2>
+ <title>Major GUI classes</title> 
 
 
-</SECT2>
+    <formalpara><title>ZoomRaster</title><para>Resizeable raster</para>
+    </formalpara>
 
-<SECT2>
- <TITLE>Some basic Discrete2d syntax</TITLE> 
+    <formalpara><title>BLTGraph</title><para>Basic display of graph</para>
+    </formalpara>
 
+    <formalpara><title>Histogram</title><para>Display of histogram</para>
+    </formalpara>
 
+    <formalpara><title>Colormap</title>
+      <para>Map between integer values and colors</para>
+    </formalpara>
 
+    <literallayout>
+Raster
+BLTGraph
+Histo
+Widget
+ZoomRaster
+Colormap
+    </literallayout>
 
-<FORMALPARA><TITLE>setSizeX: i Y: j 
-</TITLE><PARA>
-<UL>
-Set the world size. 
-</UL></UL><UL>
-<FORMALPARA><TITLE>getSizeX, getSizeY
-</TITLE><PARA>
-<UL>
-Get the dimensions of the lattice
-</UL></UL><UL>
-<FORMALPARA><TITLE>fillWithValue: val, fillWithObject: obj
-</TITLE><PARA>
-<UL>
-puts same value or object at each site </UL></UL></P>
-<FORMALPARA><TITLE>setDiscrete2d: o  toFile: filename
-</TITLE><PARA>
-<UL>
-Reads a PGM formatted file and fills lattice with values
-</UL></UL><UL>
-<FORMALPARA><TITLE>copyDiscrete2d: a toDiscrete2d: b
-</TITLE><PARA>
-<UL>
-Fills lattice b with values from a</UL></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>More basic Discrete2d syntax</TITLE> 
-
-
-
-
-<FORMALPARA><TITLE>getObjectAtX: Y:  
-</TITLE><PARA>
-<UL>
-Return object at x,y. 
-</UL></UL><UL>
-<FORMALPARA><TITLE>getValueAtX: Y: 
-</TITLE><PARA>
-<UL>
-Return value at x,y. </UL></UL></P>
-<FORMALPARA><TITLE>putObject:o atX:Y:
-</TITLE><PARA>
-<UL>
-Put obj at x,y and overwrite present obj 
-</UL></UL><UL>
-<FORMALPARA><TITLE>putValue: v atX:Y:
-</TITLE><PARA>
-<UL>
-Put val v at x,y 
-</UL></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>Some classes in Simtools</TITLE> 
-
-
-
-
-<FORMALPARA><TITLE>ObjectLoader / Saver
-</TITLE><PARA>
-<UL>
-Loads/Saves instance variable values from file
-</UL></UL><UL>
-<FORMALPARA><TITLE>NSelect
-</TITLE><PARA>
-<UL>
-Selects N members from collection 
-</UL></UL><UL>
-<FORMALPARA><TITLE>QSort
-</TITLE><PARA>
-<UL>
-QuickSort for collection
-</UL></UL></P>
-<FORMALPARA><TITLE>OutFile,
-</TITLE><PARA>
-<UL>
-Substitute for opening outfiles C style
-</UL></UL><UL>
-<FORMALPARA><TITLE>InFile
-</TITLE><PARA>
-<UL>
-Opens file and understand basic operations, getString, getInt, next etc.</UL></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>OutFile and InFile</TITLE> 
-
-
-
-
-<FORMALPARA><TITLE>Basic idea that InFile opens file and ôgetsö strings and OutFile opens file and ôputsö same
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Both can deal with any var type (only String and Int shown)
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>In addition methods to insert delimiter (ôtabö), skip line, go to next line etc.</TITLE><PARA>
-<H2>Some methods in InFile:
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>-(int) getWord: (char *) aWord 
-</TITLE><PARA>
-</UL><UL>
-<H2>-(int) getInt: (int *) anInt; 
-</TITLE><PARA>
-</UL><UL>
-<H2>-(int) skipLine 
-</TITLE><PARA>
-</UL><UL>
-<H2>...and OutFile:
-</TITLE><PARA>
-</UL><UL>
-<H2>-putString: (char *) aString 
-</TITLE><PARA>
-</UL><UL>
-<H2>-putInt: (int) anInt 
-</TITLE><PARA>
-</UL><UL>
-<H2>-putTab: (char) aChar 
-</TITLE><PARA>
-</UL><UL>
-<H2>-putNewLine </TITLE><PARA>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>Major GUI classes</TITLE> 
-
-
-
-
-<FORMALPARA><TITLE>ZoomRaster
-</TITLE><PARA>
-<UL>
-Resizeable raster
-</UL></UL><UL>
-<FORMALPARA><TITLE>BLTGraph
-</TITLE><PARA>
-<UL>
-Basic display of graph
-</UL></UL><UL>
-<FORMALPARA><TITLE>Histo
-</TITLE><PARA>
-<UL>
-Display of histogram
-</UL></UL><UL>
-<FORMALPARA><TITLE>Colormap
-</TITLE><PARA>
-<UL>
-Map between integer values and colors
-</UL></UL></P>
-Raster<BR></UL></P>
-BLTGraph<BR></UL></P>
-Histo<BR></UL></P>
-Widget<BR></UL></P>
-ZoomRaster<BR></UL></P>
-Colormap<BR></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-</SECT1>
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

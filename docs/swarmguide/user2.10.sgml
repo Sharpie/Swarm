@@ -46,23 +46,27 @@ Swarm
 <para>Two major uses for probes:
       
       <itemizedlist>
-        <listitem>
-          To interface with an object </listitem>
-        <listitem>
-          To create a GUI to an object</listitem>
+        <listitem><para>
+          To interface with an object </para></listitem>
+        <listitem><para>
+          To create a GUI to an object</para></listitem>
       </itemizedlist>
 
       Interface with an object of two types:
 
       <itemizedlist>
-        <listitem>VarProbe: 	   Probes an instance variable</listitem>
-        <listitem>MessageProbe:    Probes a method</listitem>
+        <listitem><para>VarProbe: Probes an instance
+        variable</para></listitem>
+
+        <listitem><para>MessageProbe: Probes a method</para></listitem>
       </itemizedlist>
 
       GUI utilities:
       <itemizedlist>
-        <listitem>ProbeMap: 	  Collection of Var and MessageProbes</listitem>
+        <listitem><para>ProbeMap: Collection of Var and
+        MessageProbes</para></listitem>
       </itemizedlist>
+    </para>
 
 </sect2>
 

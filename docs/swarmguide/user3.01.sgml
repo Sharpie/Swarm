@@ -1,75 +1,142 @@
-<SECT1 id="SWARM.USER.USER3.01.SECT1">
-  <TITLE>Introduction to the Libraries</TITLE>
+<sect1 id="swarm.user.user3.01.sect1">
+  <title>Introduction to the Libraries</title>
 
-<SECT2>
- <TITLE>Swarmfest Ê98</TITLE> 
+<sect2>
+ <title>Swarm Libraries</title> 
 
+    <formalpara><title>More on Swarm libraries</title><para>
 
+        <itemizedlist>
 
+          <listitem>
+            <formalpara><title>Collection</title>
+              <para>Lists, Arrays, Sorted lists</para>
+            </formalpara></listitem> 
 
-<H2>Session III: The libraries
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>Benedikt Stefansson
-</TITLE><PARA>
-</UL><UL>
-<H2>&#060benedikt@ucla.edu&#062</TITLE><PARA>
-</PARA></FORMALPARA> 
+          <listitem>
+            <formalpara><title>Random</title>
+              <para>Random numbers</para></formalpara></listitem>
 
+          <listitem><formalpara><title>Analysis</title>
+              <para>Graphs,Histograms and data filters</para>
+            </formalpara></listitem>
 
+          <listitem><formalpara><title>Space</title>
+              <para>Latticeclasses</para>
+            </formalpara></listitem>
 
+          <listitem><formalpara><title>Activity</title>
+              <para>Schedulesand ActivityGroups</para>
+            </formalpara></listitem>
+        </itemizedlist>
 
-</SECT2>
+      </para></formalpara> 
 
-<SECT2>
- <TITLE>Third session</TITLE> 
+</sect2>
 
+<sect2>
+ <title>PPT Slide</title> 
 
+    <para>The libraries</para>
 
+    <para>Note: It is actually impossible to draw the class hierarchy
+      because some of the lib directories contain classes from
+      different branches</para>
+    <literallayout>
+Defobj
+Simtools
+Analysis
+Collection
+Probe
+Swarm
+Random
+ObjectBase
+Activity
+Gui
+Space
+TkObjC
+AwtObjC
+</literallayout>
 
-<FORMALPARA><TITLE>More on Swarm libraries
-</TITLE><PARA>
-<UL>
-Collection: Lists, Arrays, Sorted lists
-Random: Random numbers
-Analysis: Graphs, Histograms and data filters
-Space: Lattice classes
-Activity: Schedules and ActivityGroups</UL></UL></P>
-</PARA></FORMALPARA> 
+</sect2>
 
+<sect2>
+ <title>PPT Slide</title> 
 
+    <para>What these classes do</para>
 
+    <itemizedlist>
+      
+      <listitem><formalpara><title>Activity</title><para> Schedules,
+        ActivityGroups and Swarms</para> </formalpara></listitem>
 
-</SECT2>
+      <listitem><formalpara><title>Probe </title><para> Probing
+            object∆s state and behavior</para> </formalpara></listitem>
 
-<SECT2>
- <TITLE>PPT Slide</TITLE> 
+      <listitem><formalpara><title>Random </title><para> Random number
+            generators and distributions</para> </formalpara></listitem>
 
+      <listitem><formalpara><title>Simtools</title><para> Grab bag of
+            various tools</para> </formalpara></listitem>
 
+      <listitem<formalpara><title>Collection </title><para>Arrays,
+            Lists and ordered Lists of objects</para>
+        </formalpara>
+      </listitem>
 
+      <listitem><formalpara><title>GUI </title><para>Graphical
+            interface objects</para>
+        </formalpara>
+      </listitem>
 
-The libraries<BR></UL></P>
-Note: It is actually impossible to draw the class hierarchy because some of the lib directories contain classes from different branches<BR></UL></P>
-Defobj<BR></UL></P>
-Simtools<BR></UL></P>
-Analysis<BR></UL></P>
-Collection<BR></UL></P>
-Probe<BR></UL></P>
-Swarm<BR></UL></P>
-Random<BR></UL></P>
-ObjectBase<BR></UL></P>
-Activity<BR></UL></P>
-Gui<BR></UL></P>
-Space<BR></UL></P>
-TkObjC<BR></UL></P>
-AwtObjC<BR></UL></P>
-</PARA></FORMALPARA> 
+      <listitem><formalpara><title>Space </title><para>Manages
+            information for 2D lattice or grids</para>
+        </formalpara>
+      </listitem>
 
+      <listitem><formalpara><title>Analysis </title><para>Easier
+            interface to graphs, calculate statistics</para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
 
+</sect2>
 
+<sect2>
+ <title>Collection</title> 
 
-</SECT2>
-</SECT1>
+    <formalpara><title>List</title><para>A flat list of objects with
+        random access </para>
+    </formalpara>
+
+    <formalpara><title>KeyedCollection</title><para>
+        <itemizedlist>
+          <listitem>
+            <formalpara><title>Map </title><para>Key  is independent object</para>
+            </formalpara>
+          </listitem>
+
+          <listitem>
+            <formalpara><title>Set </title><para>Key is the member itself </para>
+            </formalpara>
+          </listitem>
+        </itemizedlist>
+      </para></formalpara>
+
+    <formalpara><title>Array</title><para>
+        Collection with fixed size</para></formalpara>
+
+    <literallayout>Collection
+List
+Keyed
+Collection
+Array
+Map
+Set
+</literallayout>
+
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

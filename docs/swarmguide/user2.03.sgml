@@ -5,7 +5,8 @@
  <title>Typical create phase</title> 
 
 
-    <programlisting>aBug = [Bug createBegin: globalZone];
+    <programlisting>
+aBug = [Bug createBegin: globalZone];
 aBug = [aBug createEnd];
 [aBug setWorldSizeX: xsize Y: ysize];
 [aBug setFoodSpace: foodSpace];
@@ -13,9 +14,14 @@ aBug = [aBug createEnd];
 </programlisting>
 
     <orderedlist>
-      <listitem>Allocate memory etc.                                      </listitem>
-      <listitem>Set all necessary parameters                              </listitem>
-      <listitem>Finish initialization and return proper instance of object</listitem>
+
+      <listitem><para>Allocate memory etc.  </para></listitem>
+
+      <listitem><para>Set all necessary parameters </para></listitem>
+
+      <listitem><para>Finish initialization and return proper instance
+          of object</para></listitem>
+
     </orderedlist>
 
 </sect2>

@@ -17,7 +17,7 @@ Experiment
 Swarm
 Probe
 Graph
-</literallayout></PARA>
+</literallayout></para>
 
 </sect2>
 
@@ -44,7 +44,7 @@ Graph
 
  [modelSwarm activateIn: self];
 }
-</programlisting>
+</programlisting></para>
 
     <para>
       <literallayout>ObserverSwarm
@@ -75,15 +75,15 @@ ModelSwarm
     <formalpara><title>Pros:</title><para>
         <itemizedlist>
           <listitem>
-            All processing is done within Swarm framework</listitem>
+            <para>All processing is done within Swarm framework</para></listitem>
           <listitem>
-            Can use GUI interactively</listitem>
-        </itemizedlist>
+            <para>Can use GUI interactively</para></listitem>
+        </itemizedlist></para></formalpara>
 
     <formalpara><title>Cons</title><para>
         <itemizedlist>
           <listitem>
-            Sequential - can't parallelize in present form</listitem>
+            <para>Sequential - can't parallelize in present form</para></listitem>
         </itemizedlist>
       </para></formalpara>
 
@@ -94,8 +94,8 @@ ModelSwarm
     <formalpara><title>Pros:</title><para>
         <itemizedlist>
           <listitem>
-            Can do "poor man's" paralellization on multiprocessor 
-            machines</listitem>
+            <para>Can do "poor man's" paralellization on multiprocessor 
+            machines</para></listitem>
         </itemizedlist>
       </para>
     </formalpara>
@@ -103,7 +103,8 @@ ModelSwarm
     <formalpara><title>Cons:</title><para>
         <itemizedlist>
           <listitem>
-            Requires knowledge of tools outside Swarm framework</listitem>
+            <para>Requires knowledge of tools outside Swarm
+            framework</para></listitem>
         </itemizedlist>
       </para></formalpara> 
 
@@ -116,9 +117,9 @@ ModelSwarm
         line graph for either</title><para>
         <itemizedlist>
           <listitem>
-            Single agent or object</listitem>
+            <para>Single agent or object</para></listitem>
           <listitem>
-            Collection of agents </listitem>
+            <para>Collection of agents</para> </listitem>
         </itemizedlist>
       </para>
     </formalpara>
@@ -126,18 +127,20 @@ ModelSwarm
     <formalpara><title>In both cases need</title><para>
         <itemizedlist>
           <listitem>
-            Name of sequence</listitem>
+            <para> Name of sequence</para></listitem>
           <listitem>
-            Type of sequence (Count, Total, Average, Min, Max)</listitem>
+            <para> Type of sequence (Count, Total, Average, Min,
+            Max)</para></listitem>
           <listitem>
-            Target (obj or collection)</listitem>
+          <para> Target (obj or collection)</para></listitem>
           <listitem>
-            Name of method to fetch data</listitem>
+          <para> Name of method to fetch data</para></listitem>
         </itemizedlist>
       </para>
     </formalpara>
 
-    <literallayout>Agent
+    <literallayout>
+      Agent
       Averager
       Collection
     </literallayout>

@@ -1,203 +1,145 @@
-<SECT1 id="SWARM.USER.USER3.02.SECT1">
-  <TITLE>Collection Library</TITLE>
+<sect1 id="swarm.user.user3.02.sect1">
+  <title>Collection Library</title>
 
-<SECT2>
- <TITLE>Some Collection syntax</TITLE> 
-
-
+<sect2>
+ <title>Some Collection syntax</title> 
 
 
-<FORMALPARA><TITLE>getCount
-</TITLE><PARA>
-<UL>
-Gives number of members
-</UL></UL><UL>
-<FORMALPARA><TITLE>atOffset: i
-</TITLE><PARA>
-<UL>
-Retrieves member at location i
-</UL></UL><UL>
-<FORMALPARA><TITLE>atOffset:i put: obj
-</TITLE><PARA>
-<UL>
-Inserts obj at location i
-</UL></UL><UL>
-<FORMALPARA><TITLE>addFirst: o addLast: o
-</TITLE><PARA>
-<UL>
-Adds o at start/end of list
-</UL></UL><UL>
-<FORMALPARA><TITLE>getFirst,getLast
-</TITLE><PARA>
-<UL>
-Returns first/last member</UL></UL></P>
-<FORMALPARA><TITLE>contains: o
-</TITLE><PARA>
-<UL>
-Returns 1 if o is member
-</UL></UL><UL>
-<FORMALPARA><TITLE>remove: o
-</TITLE><PARA>
-<UL>
-Removes object o
-</UL></UL><UL>
-<FORMALPARA><TITLE>removeAll
-</TITLE><PARA>
-<UL>
-Removes all
-</UL></UL><UL>
-<FORMALPARA><TITLE>forEach:M(message)
-</TITLE><PARA>
-<UL>
-Sends message to all members
-</UL></UL><UL>
-<FORMALPARA><TITLE>removeFirst/Last
-</TITLE><PARA>
-<UL>
-removes and returns first/last member</UL></UL></P>
-</PARA></FORMALPARA> 
+    <formalpara><title>getCount</title><para>
+        Gives number of members</para>
+    </formalpara>
 
+    <formalpara><title>atOffset: i</title><para>
+        Retrieves member at location i
+      </para></formalpara>
 
+    <formalpara><title>atOffset:i put: obj</title><para>
+        Inserts obj at location i
+      </para></formalpara>
 
+    <formalpara><title>addFirst: o addLast: o</title>
+      <para>Adds o at start/end of list</para></formalpara>
 
-</SECT2>
+    <formalpara><title>getFirst,getLast</title>
+      <para>Returns first/last member</para></formalpara>
 
-<SECT2>
- <TITLE>Accessing Collections with Index</TITLE> 
+    <formalpara><title>contains: o</title>
+      <para>Returns 1 if o is member</para></formalpara>
 
+    <formalpara><title>remove: o</title><para>
+        Removes object o
+      </para></formalpara>
 
+    <formalpara><title>removeAll</title><para>
+        Removes all</para></formalpara>
 
+    <formalpara><title>forEach:M(message)</title><para>
+        Sends message to all members</para></formalpara>
 
-<FORMALPARA><TITLE>Any collection can generate an index of itself
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>The index behaves as an object, and understands messages such as:
-</TITLE><PARA>
-<UL>
-prev,next
-findNext: o,findPrev: o</UL></UL></P>
-<FORMALPARA><TITLE>Using index to loop over all members:
-</TITLE><PARA>
-</UL><UL>
-<H2>
-</TITLE><PARA>
-</UL><UL>
-<H2>index=[list begin: zone];
-</TITLE><PARA>
-</UL><UL>
-<H2>while(o=[index next]) 
-</TITLE><PARA>
-<UL>
-value=[o getValue];
-<BR></UL></UL><UL>
-<H2>[index drop];
-</TITLE><PARA>
-</PARA></FORMALPARA> 
+    <formalpara><title>removeFirst/Last</title><para>
+        removes and returns first/last member
+      </para></formalpara> 
 
+</sect2>
 
+<sect2>
+ <title>Accessing Collections with Index</title> 
 
+    <formalpara><title>Any collection can generate an index of
+        itself</title><para> </para></formalpara>
 
-</SECT2>
+    <formalpara><title>The index behaves as an object, and understands
+        messages such as:</title><para>prev,next
+        findNext: o,findPrev: o</para></formalpara>
 
-<SECT2>
- <TITLE>Typical use of List</TITLE> 
+    <formalpara><title>Using index to loop over all members:</title>
+      <para>
 
+        <programlisting>
+index = [list begin: zone];
+while ( o = [index next]) 
+  value = [o getValue];
+[index drop];
+</programlisting>
+</para></formalpara> 
 
+</sect2>
 
+<sect2>
+ <title>Typical use of List</title> 
 
-<FORMALPARA><TITLE>Typical use of a List instance is to keep track of agent population
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>At create time Model initializes each agent and puts him on agentList
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>The agentList is then accessed by Schedule, GUI objects and so on...</TITLE><PARA>
-<FORMALPARA><TITLE>Example
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>
-</TITLE><PARA>
-</UL><UL>
-<H2>for(i=0;i&#060numAgents;i++) {
-</TITLE><PARA>
-</UL><UL>
-<H2>   a=[Agent create: zone];
-</TITLE><PARA>
-</UL><UL>
-<H2>   [a setVar1: var1];
-</TITLE><PARA>
-</UL><UL>
-<H2>   [a setVar2: var2];
-</TITLE><PARA>
-<UL>
-...
-<BR></UL></UL><UL>
-<H2>   [a setVarN: varN];
-</TITLE><PARA>
-</UL><UL>
-<H2>   [agentList addLast: a];
-</TITLE><PARA>
-</UL><UL>
-<H2>}</TITLE><PARA>
-</PARA></FORMALPARA> 
+    <formalpara><title>Typical use of a List instance is to keep track
+        of agent population</title><para></para></formalpara>
 
+    <formalpara><title>At create time Model initializes each agent and
+        puts him on agentList</title><para></para></formalpara>
 
+    <formalpara><title>The agentList is then accessed by Schedule, GUI
+        objects and so on...</title><para></para></formalpara>
 
+    <example>
+      <title>List</title>
+      <programlisting>
+<![CDATA[
+for (i = 0; i < numAgents;i++) 
+{
+   a = [Agent create: zone];
+   [a setVar1: var1];
+   [a setVar2: var2];
+        ...
+   [a setVarN: varN];
+   [agentList addLast: a];
+}
+]]>
+</programlisting>
+    </example>
 
-</SECT2>
+</sect2>
 
-<SECT2>
- <TITLE>The KeyedCollection</TITLE> 
+<sect2>
+ <title>The KeyedCollection</title> 
 
+    <formalpara><title>Use KeyedCollection if you want a List that is
+    continously sorted</title>
+      <para></para></formalpara>
+    
+    <formalpara><title>Can either have seperate key objects for each
+        member (Map) or treat the members as keys
+        (Set)</title><para></para></formalpara>
 
+    <formalpara><title>Important: You must provide the key object
+      yourself</title> 
 
+      <para>A key object knows how to respond to a <literal>[compare:
+          obj]</literal> method call. It then retrieves the value in
+          obj and responds with {-1,0,1} depending on if it is less
+          than, equal to, greater than obj
+      </para>
+    </formalpara>
 
-<FORMALPARA><TITLE>Use KeyedCollection if you want a List that is continously sorted
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Can either have seperate key objects for each member (Map) or treat the members as keys (Set)
-</TITLE><PARA>
-<FORMALPARA><TITLE>Important: You must provide the key object yourself
-</TITLE><PARA>
-<UL>
-A key object knows how to respond to a 
-<BR><UL>
-compare: obj
-<BR></UL>method call. It then retrieves 
-<BR>the value in obj and responds
-<BR>with {-1,0,1} depending on
-<BR>if it is &#060, equal to, &#062 than obj </UL></UL></P>
-</PARA></FORMALPARA> 
+</sect2>
 
+<sect2>
+ <title>RankedList: Example of Map</title> 
 
+<!-- image ??? -->
 
-
-</SECT2>
-
-<SECT2>
- <TITLE>RankedList: Example of Map</TITLE> 
-
-
-
-
+    <literallayout>
 RankedList
-<BR></UL></P>
-Map<BR></UL></P>
-...<BR></UL></P>
-...<BR></UL></P>
-Agent<BR></UL></P>
-Agent<BR></UL></P>
-Agent<BR></UL></P>
-Key<BR></UL></P>
-Key<BR></UL></P>
-Key<BR></UL></P>
-</PARA></FORMALPARA> 
 
+Map
+...
+...
+Agent
+Agent
+Agent
+Key
+Key
+Key
+</literallayout>
 
-
-
-</SECT2>
-</SECT1>
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

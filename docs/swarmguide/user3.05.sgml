@@ -1,180 +1,131 @@
-<SECT1 id="SWARM.USER.USER3.05.SECT1">
-  <TITLE>Probes</TITLE>
+<sect1 id="swarm.user.user3.05.sect1">
+  <title>Probes</title>
 
-<SECT2>
- <TITLE>Major Probe classes</TITLE> 
+<sect2>
+ <title>Major Probe classes</title> 
 
+    <literallayout>Probe
+ProbeMap
+CompleteProbeMap
+CompleteVarMap
+CustomProbeMap
+MessageProbe
+VarProbe
+ObjectBase
+ProbeLibrary
+</literallayout>
 
+</sect2>
 
+<sect2>
+ <title>Using probes</title> 
 
-Probe<BR></UL></P>
-Probe
-<BR></UL><UL>
-Map</UL></P>
-Complete
-<BR></UL><UL>
-Probe
-</UL><UL>
-Map</UL></P>
-Complete
-<BR></UL><UL>
-Var
-</UL><UL>
-Map</UL></P>
-Custom
-<BR></UL><UL>
-Probe
-</UL><UL>
-Map</UL></P>
-Message
-<BR></UL><UL>
-Probe</UL></P>
-VarProbe<BR></UL></P>
-Object
-<BR></UL><UL>
-Base</UL></P>
-Probe
-<BR></UL><UL>
-Library</UL></P>
-</PARA></FORMALPARA> 
+    <formalpara><title>Two major uses for probes</title>
+      <para>
+        <itemizedlist>
+          <listitem>
+            <para>        To interface with an object</para> </listitem>
+          <listitem>
+            <para>        To create a GUI to an object</para></listitem>
+        </itemizedlist>
+      </para>
+    </formalpara>
 
+    <formalpara><title>Interface with an object of two types</title>
+      <para>
 
+        <literallayout>    
+    VarProbe: 	   Probes an instance variable
+    MessageProbe:    Probes a method
+</literallayout>
+      </para>
+    </formalpara>
 
+    <formalpara><title>GUI utilities:</title>
+      <para>
 
-</SECT2>
+        <literallayout>        ProbeMap: Collection of Var and MessageProbes
+</literallayout>
 
-<SECT2>
- <TITLE>Using probes</TITLE> 
+      </para>
+    </formalpara> 
+</sect2>
 
+<sect2>
+ <title>Graphical probes to agents</title> 
 
+    <formalpara><title>Check out instance of EmptyProbeMap </title>
+      <para></para></formalpara>
 
+    <formalpara><title>Attach VarProbe or MessageProbe to each
+        variable or message to appear on GUI</title><para></para></formalpara>
 
-<FORMALPARA><TITLE>Two major uses for probes
-</TITLE><PARA>
-<UL>
-To interface with an object 
-To create a GUI to an object
-</UL></UL><UL>
-<FORMALPARA><TITLE>Interface with an object of two types
-</TITLE><PARA>
-<UL>
-VarProbe: 	   Probes an instance variable
-MessageProbe:    Probes a method
-</UL></UL><UL>
-<FORMALPARA><TITLE>GUI utilities:
-</TITLE><PARA>
-<UL>
-ProbeMap: 	  Collection of Var and MessageProbes</UL></UL></P>
-</PARA></FORMALPARA> 
+    <formalpara><title>Put each probe on the EmptyProbeMap</title>
+      <para></para></formalpara>
 
+    <formalpara><title>ProbeDisplayManager  asked to create widget
+      </title><para>
 
+        <literallayout>
+Agent
+VarProbes
+MessageProbe
+ProbeMap
+        </literallayout>
+        
+      </para>
+    </formalpara> 
+</sect2>
 
+<sect2>
+ <title>Code for previous example</title> 
 
-</SECT2>
+    <programlisting>probeMap=[EmptyProbeMap createBegin: aZone];
 
-<SECT2>
- <TITLE>Graphical probes to agents</TITLE> 
+[probeMap setProbedClass: [self class]];
 
+probeMap=[probeMap createEnd];
 
+[probeMap addProbe: [probeLibrary getProbeForVariable: "someVar"          
 
+             inClass: [agent class]]];
 
-<FORMALPARA><TITLE>Check out instance of EmtpyProbeMap 
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Attach VarProbe or MessageProbe to each variable or message to appear on GUI
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Put each probe on the EmptyProbeMap
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>ProbeDisplayManager  asked to create widget
-</TITLE><PARA>
-Agent<BR></UL></P>
-VarProbes<BR></UL></P>
-MessageProbe<BR></UL></P>
-ProbeMap<BR></UL></P>
-</PARA></FORMALPARA> 
+				...
 
+[probeMap addProbe: [probeLibrary getProbeForMessage: "someMessage" inClass: [agent class]] setHideResult: 1]];
 
+[probeLibrary setProbeMap: probeMap For: [self class]];
 
+[probeDisplayManager createProbeDisplayFor: modelSwarm];
+</programlisting>
 
-</SECT2>
+</sect2>
 
-<SECT2>
- <TITLE>Code for previous example</TITLE> 
-
-
-
-
-<H2>probeMap=[EmptyProbeMap createBegin: aZone];
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>[probeMap setProbedClass: [self class]];
-</TITLE><PARA>
-</UL><UL>
-<H2>probeMap=[probeMap createEnd];
-</TITLE><PARA>
-</UL><UL>
-<H2>  [probeMap addProbe: [probeLibrary
-</TITLE><PARA>
-</UL><UL>
-<H2> getProbeForVariable: ösomeVar"          
-</TITLE><PARA>
-</UL><UL>
-<H2>             inClass: [agent class]]];
-</TITLE><PARA>
-</UL><UL>
-<H2>				...
-</TITLE><PARA>
-</UL><UL>
-<H2>  [probeMap addProbe: [probeLibrary getProbeForMessage: ösomeMessage"                                        		 inClass: [agent class]]
-</TITLE><PARA>
-</UL><UL>
-<H2>       setHideResult: 1]];
-</TITLE><PARA>
-</UL><UL>
-<H2>[probeLibrary setProbeMap: probeMap 
-</TITLE><PARA>
-</UL><UL>
-<H2>                      For: [self class]];
-</TITLE><PARA>
-</UL><UL>
-<H2>[probeDisplayManager createProbeDisplayFor: modelSwarm];</TITLE><PARA>
-</PARA></FORMALPARA> 
+<sect2>
+ <title>Other uses for probes</title> 
 
 
+    <formalpara><title>Example of dynamic message calling where
+        message is chosen at runtime: </title>
+      <para>
+        <programlisting>
+theProbe = [MessageProbe createBegin: zone];
+[theProbe setProbedSelector: theSelector];
+theProbe = [theProbe createEnd];
 
+anIndex = [aCollection begin: zone];
+while ( (aMember = [anIndex next]) ) 
+{
+   theData = [theProbe doubleDynamicCallOn: aMember]];
+   [self doSomething: theData];
+}
+[anIndex drop];
+</programlisting>
+      </para>
+    </formalpara>
 
-</SECT2>
-
-<SECT2>
- <TITLE>Other uses for probes</TITLE> 
-
-
-
-
-<FORMALPARA><TITLE>Example of dynamic message calling where message is chosen at runtime: 
-</TITLE><PARA>
-<UL>
-theProbe=[MessageProbe createBegin: zone];
-<BR><BR>[theProbe setProbedSelector: theSelector];
-<BR>theProbe=[theProbe createEnd];
-<BR>
-<BR>anIndex=[aCollection begin: zone];
-<BR>while((aMember=[anIndex next])) {
-<BR>	 theData=[theProbe doubleDynamicCallOn: aMember]];
-<BR>	 [self doSomething: theData];
-<BR>}
-<BR>[anIndex drop];</UL></UL></P>
-1<BR></UL></P>
-2<BR></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-</SECT1>
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")

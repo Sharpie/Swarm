@@ -7,13 +7,13 @@
     <para>To manage more than one bug add
 
       <itemizedlist>
-        <listitem>
+        <listitem><para>
           <literal>World</literal>, a <classname>Grid2d</classname>
-          instance that enforces one bug per location </listitem>
-        <listitem>
+          instance that enforces one bug per location </para></listitem>
+        <listitem><para>
           <literal>bugList</literal>, to keep track of bugs as a
           collection.
-        </listitem>
+        </para></listitem>
       </itemizedlist>
       
     </para>

@@ -6,12 +6,10 @@
 
     <formalpara><title>Tutorial: Simplebug</title>
       <para>
-
         <itemizedlist>
-          <listitem>Start: From C to Objective-C to Swarm       </listitem>
-          <listitem>Adding GUI: Probes, raster image, graphs    </listitem>
-          <listitem>Creating and controlling full experiment run</listitem>
-          </listitem>
+          <listitem><para>Start: From C to Objective-C to Swarm       </para></listitem>
+          <listitem><para>Adding GUI: Probes, raster image, graphs    </para></listitem>
+          <listitem><para>Creating and controlling full experiment run</para></listitem>
         </itemizedlist>
       </para>
     </formalpara>
@@ -19,8 +17,8 @@
     <formalpara><title>Topics covered:</title>
       <para>
         <itemizedlist>
-          <listitem>Managing objects                     </listitem>
-          <listitem>Swarms, activity library, probes, GUI</listitem>
+          <listitem><para>Managing objects                     </para></listitem>
+          <listitem><para>Swarms, activity library, probes, GUI</para></listitem>
         </itemizedlist>
       </para></formalpara> 
 

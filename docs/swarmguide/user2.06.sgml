@@ -24,10 +24,10 @@
 
     <para>Schedules define event in terms of:
       <itemizedlist>
-        <listitem>Time of first invocation</listitem>
-        <listitem>Target object           </listitem>
-        <listitem>Method to call          </listitem>
-        <listitem>Repeat interval         </listitem>
+        <listitem><para>Time of first invocation</para></listitem>
+        <listitem><para>Target object           </para></listitem>
+        <listitem><para>Method to call          </para></listitem>
+        <listitem><para>Repeat interval         </para></listitem>
       </itemizedlist>
 
       <programlisting>
@@ -56,6 +56,7 @@ t=3
 [bug sleep]
 [food grow]
 </programlisting>
+    </para>
 
 </sect2>
 

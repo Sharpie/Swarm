@@ -174,15 +174,15 @@ Colormap
  <title>Merging two Swarms</title> 
 
     <orderedlist>
-      <listitem>
-        main( ) creates ObserverSwarm</listitem>
+      <listitem><para>
+        main( ) creates ObserverSwarm</para></listitem>
 
-      <listitem>
+      <listitem><para>
         ObserverSwarm creates ModelSwarm as a subswarm in own memory zone
-      </listitem>
+      </para></listitem>
 
-      <listitem>
-        ModelSwarm creates agents and activates self in ObserverSwarm</listitem>
+      <listitem><para>
+        ModelSwarm creates agents and activates self in ObserverSwarm</para></listitem>
     </orderedlist>
 
 

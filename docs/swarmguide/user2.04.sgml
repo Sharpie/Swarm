@@ -40,9 +40,11 @@
     <formalpara><title>[super ...]</title>
       <para>Executes createBegin method in the super class of 
         obj (Swarm) and returns an instance of ModelSwarm
+      </para>
+    </formalpara>
 
     <formalpara><title>obj->varName=val</title>
-      <para>Abuses OOP paradigm and ôpokesö values directly into object</para>
+      <para>Abuses OOP paradigm and "pokes" values directly into object</para>
     </formalpara>
 
 </sect2>

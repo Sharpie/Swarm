@@ -1,228 +1,182 @@
-<SECT1 id="SWARM.USER.USER3.04.SECT1">
-  <TITLE>Random Library</TITLE>
+<sect1 id="swarm.user.user3.04.sect1">
+  <title>Random Library</title>
 
-<SECT2>
- <TITLE>Major Random classes</TITLE> 
+<sect2>
+ <title>Major Random classes</title> 
 
+    <formalpara><title>The Random library can be divided into</title><para>
 
+        <itemizedlist>
+          <listitem>
+            <para>Generators</para></listitem>
+          <listitem>
+            <para>Distributions</para></listitem>
+        </itemizedlist>
+      </para>
+    </formalpara>
 
-
-<FORMALPARA><TITLE>The Random library can be divided into
-</TITLE><PARA>
-<UL>
+    <formalpara><title>Calling initSwarm in main creates a default
+        generator and distributions</title><para>
+        <literallayout>
 Generators
+...
 Distributions
-</UL></UL><UL>
-<FORMALPARA><TITLE>Calling initSwarm in main creates a default generator and distributions</TITLE><PARA>
-Generators<BR></UL></P>
-...<BR></UL></P>
-Distributions<BR></UL></P>
-...<BR></UL></P>
-Defobj<BR></UL></P>
-</PARA></FORMALPARA> 
+...
+Defobj
+</literallayout>      
+      </para>
+    </formalpara>
 
+</sect2>
 
+<sect2>
+ <title>Principle of using Random lib</title> 
 
+<formalpara><title>To draw random numbers from a distribution you'll need</title>
+      <para>
+        <literallayout>
+a generator instance. 
 
-</SECT2>
+Must provide random seed - an integer number which primes the
+generator a distribution instance
 
-<SECT2>
- <TITLE>Principle of using Random lib</TITLE> 
+Generator
+Distribution
+a seed
+random sequence of numbers
+</literallayout>
+      </para>
+    </formalpara>
 
+</sect2>
 
+<sect2>
+ <title>Default distributions (usage deprecated!!)</title> 
 
+    <formalpara><title>When calling initSwarm in main, three default
+        distributions are generated, fed by a default generator</title>
+      <para> </para></formalpara>
 
-<FORMALPARA><TITLE>To draw random numbers from a distribution you∆ll need
-</TITLE><PARA>
-<UL>
-a generator instance
-<UL>
-Must provide random seed - an integer number which primes the generator
-</UL>a distribution instance</UL></UL></P>
-Generator<BR></UL></P>
-Distribution<BR></UL></P>
-a seed<BR></UL></P>
-random sequence of numbers<BR></UL></P>
-</PARA></FORMALPARA> 
+    <formalpara><title>You can't control this generator's seed, but
+        can give command line arg:</title><para> varySeed: New seed
+        every time, Otherwise always same.
 
+        <literallayout>MT19937
+Generator
+Uniform Integer
+UniformUnsignedInteger 
+UniformDouble
+</literallayout>
 
+      </para>
+    </formalpara> 
+</sect2>
 
+<sect2>
+ <title>Using the default distributions</title> 
 
-</SECT2>
+    <formalpara><title>Default distributions are global </title><para>
+      </para></formalpara>
 
-<SECT2>
- <TITLE>Default distributions</TITLE> 
+    <formalpara><title>Can call any distribution from any agent </title><para>
+      </para></formalpara>
 
+    <formalpara><title>Could feed own distribution from
+        generator</title><para> </para></formalpara>
 
+<formalpara><title>For a double in interval [minVal,maxVal]:</title>
 
+      <para><programlisting>
+	[uniformDblRand getDoubleWithMin: minVal withMax: maxVal];
+        </programlisting>
+      </para>
+    </formalpara>
 
-<FORMALPARA><TITLE>When calling initSwarm in main, three default distributions are generated, fed by a default generator
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>You can∆t control this generator∆s seed, but can give command line arg:
-</TITLE><PARA>
-<UL>
-varySeed: New seed every time
-<BR>Otherwise always same</UL></UL></P>
-MT19937
-<BR></UL><UL>
-Generator</UL></P>
-Uniform
-<BR></UL><UL>
-Integer</UL></P>
-Uniform
-<BR></UL><UL>
-Unsigned
-</UL><UL>
-Integer</UL></P>
-Uniform
-<BR></UL><UL>
-Double</UL></P>
-</PARA></FORMALPARA> 
+    <formalpara><title>For an integer in interval [minVal,maxVal]:</title>
+      <para>
 
+        <programlisting>  
+[uniformIntegerRand getDoubleWithMin: minVal withMax:maxVal];
+        </programlisting>
+      </para>
+    </formalpara>
+</sect2>
 
+<sect2>
+ <title>The Random Number Generators</title> 
 
+    <formalpara><title>Computers can't create real random numbers</title>
+      <para></para></formalpara>
 
-</SECT2>
+    <formalpara><title>These generators represent a large number of
+        studies of pseudo RN generation</title><para>
+      </para></formalpara>
 
-<SECT2>
- <TITLE>Using the default distributions</TITLE> 
+    <formalpara><title>Rule of thumb: Choose well tested generator
+    which has a long period</title>
+      <para>Generators in Swarm libs:
 
+        <itemizedlist>
+          <listitem><para>ACG</para></listitem>
+          <listitem><para>C2LCGX</para></listitem>
+          <listitem><para>C2MRG3</para></listitem>
+          <listitem><para>C2TAUS</para></listitem>
+          <listitem><para>C3MWC</para></listitem>
+          <listitem><para>C4LCGX</para></listitem>
+          <listitem><para>LCG</para></listitem>
+          <listitem><para>MRG</para></listitem>
+          <listitem><para>MT1993</para></listitem>
+          <listitem><para>MWCA  </para></listitem>
+          <listitem><para>MWCB  </para></listitem>
+          <listitem><para>PMMLCG</para></listitem>
+          <listitem><para>PSWB  </para></listitem>
+          <listitem><para>RWC2  </para></listitem>
+          <listitem><para>RWC8  </para></listitem>
+          <listitem><para>SCG   </para></listitem>
+          <listitem><para>SWB   </para></listitem>
+          <listitem><para>TGFSR </para></listitem>
+        </itemizedlist>
+      </para>
+    </formalpara>
+</sect2>
 
+<sect2>
+ <title>The distributions</title> 
 
+    <formalpara><title>All need setGenerator</title><para></para></formalpara>
 
-<FORMALPARA><TITLE>Default distributions are global 
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Can call any distribution from any agent 
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Could feed own distribution from generator
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>For a double in interval [minVal,maxVal]:
-</TITLE><PARA>
-</UL><UL>
-<H2>	[uniformDblRand getDoubleWithMin: minVal   				         withMax: maxVal];
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>For an integer in interval [minVal,maxVal]:
-</TITLE><PARA>
-</UL><UL>
-<H2>  [uniformIntegerRand getDoubleWithMin: minVal   				       withMax:maxVal];</TITLE><PARA>
-</PARA></FORMALPARA> 
+    <formalpara><title>...and parameters:</title><para>
 
+        <literallayout>
+          For Bernoulli <literal>setProbability: p</literal>
 
+          For Exponential <literal>setMean</literal>
 
+          ForNormal/LogNormal <literal>setVariance, setMean</literal>
 
-</SECT2>
+          For Gamma setAlpha, <literal>setBeta</literal>
+</literallayout>
+      </para>
+    </formalpara>
 
-<SECT2>
- <TITLE>The Random Number Generators</TITLE> 
+<formalpara><title>Distributions</title><para>
 
+        <itemizedlist>
+          <listitem><para>BernoulliDist      </para></listitem>
+          <listitem><para>ExponentialDist    </para></listitem>
+          <listitem><para>GammaDist          </para></listitem>
+          <listitem><para>LogNormalDist      </para></listitem>
+          <listitem><para>NormalDist         </para></listitem>
+          <listitem><para>RandomBitDist      </para></listitem>
+          <listitem><para>UniformDoubleDist  </para></listitem>
+          <listitem><para>UniformIntegerDist </para></listitem>
+          <listitem><para>UniformUnsignedDist</para></listitem>
+        </itemizedlist>
 
-
-
-<FORMALPARA><TITLE>Computers can∆t create real random numbers
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>These generators represent a large number of studies of pseudo RN generation
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>Rule of thumb: Choose well tested generator which has a long period</TITLE><PARA>
-<H2>ACG
-</TITLE><PARA>
-<BR></UL><UL>
-<H2>C2LCGX
-</TITLE><PARA>
-</UL><UL>
-<H2>C2MRG3
-</TITLE><PARA>
-</UL><UL>
-<H2>C2TAUS
-</TITLE><PARA>
-</UL><UL>
-<H2>C3MWC
-</TITLE><PARA>
-</UL><UL>
-<H2>C4LCGX
-</TITLE><PARA>
-</UL><UL>
-<H2>LCG
-</TITLE><PARA>
-</UL><UL>
-<H2>MRG</TITLE><PARA>
-MT19937
-<BR></UL><UL>
-MWCA
-</UL><UL>
-MWCB
-</UL><UL>
-PMMLCG
-</UL><UL>
-PSWB
-</UL><UL>
-RWC2
-</UL><UL>
-RWC8
-</UL><UL>
-SCG
-</UL><UL>
-SWB
-</UL><UL>
-TGFSR
-</UL></P>
-Generators in Swarm libs:<BR></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-
-<SECT2>
- <TITLE>The distributions</TITLE> 
-
-
-
-
-<FORMALPARA><TITLE>All need setGenerator
-</TITLE><PARA>
-</PARA></FORMALPARA>
-<FORMALPARA><TITLE>...and parameters:
-</TITLE><PARA>
-<UL>
-For Bernoulli 
-<UL>
-setProbability: p
-</UL>For Exponential
-<UL>
-setMean
-</UL>ForNormal/LogNormal
-<UL>
-setVariance, setMean
-</UL>For Gamma
-<UL>
-setAlpha, setBeta</UL></UL></UL></P>
-<FORMALPARA><TITLE>Distributions
-</TITLE><PARA>
-<UL>
-BernoulliDist
-<BR><BR>ExponentialDist
-<BR>GammaDist
-<BR>LogNormalDist
-<BR>NormalDist
-<BR>RandomBitDist
-<BR>UniformDoubleDist
-<BR>UniformIntegerDist
-<BR>UniformUnsignedDist</UL></UL></P>
-</PARA></FORMALPARA> 
-
-
-
-
-</SECT2>
-</SECT1>
+      </para>
+    </formalpara> 
+</sect2>
+</sect1>
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "SECT1")
