@@ -26,6 +26,7 @@ Library:      defobj
 #endif
 
 #include <misc.h>
+#include <objc/mframe.h>
 
 #ifdef HAVE_JDK
 #include <directory.h>
@@ -531,115 +532,99 @@ PHASE(Using)
   return [fargs getResult];
 }
 
-- (retval_t)getRetVal: (types_t *)buf
+- (void)setRetVal: (retval_t)retVal buf: (types_t *)buf
 {
   types_t *res = &((FArguments_c *) fargs)->resultVal;
 
+  *buf = *res;
 #ifndef BUGGY_BUILTIN_APPLY
-  unsigned char return_uchar (void) { return res->uchar; }
-  unsigned short return_ushort (void) { return res->ushort; }
-  unsigned return_unsigned (void) { return res->uint; }
-  unsigned long return_ulong (void) { return res->ulong; }
-  const char *return_string (void) { return res->string; }
-  float return_float (void) { return res->_float; }
-  double return_double (void) { return res->_double; }
-  id return_object (void) { return res->object; }
+  {
+    char return_schar (void) { return buf->schar; }
+    unsigned char return_uchar (void) { return buf->uchar; }
+    short return_sshort (void) { return buf->sshort; }
+    unsigned short return_ushort (void) { return buf->ushort; }
+    int return_sint (void) { return buf->sint; }
+    unsigned return_uint (void) { return buf->uint; }
+    long return_slong (void) { return buf->slong; }
+    unsigned long return_ulong (void) { return buf->ulong; }
+    const char *return_string (void) { return buf->string; }
+    float return_float (void) { return buf->_float; }
+    double return_double (void) { return buf->_double; }
+    id return_object (void) { return buf->object; }
 #ifdef HAVE_JDK
-  id return_jobject (void)
-    {
-      return JFINDOBJC (jniEnv, (jobject) res->object);
-    }
-  const char *return_jstring (void)
-    {
-      return java_copy_string (jniEnv, (jstring) res->object);
-    }
+    id return_jobject (void)
+      {
+        return JFINDOBJC (jniEnv, (jobject) buf->object);
+      }
+    const char *return_jstring (void)
+      {
+        return java_copy_string (jniEnv, (jstring) buf->object);
+      }
 #endif
-  void return_void (void) { return; }
-
-#define APPLY(func) __builtin_apply ((apply_t) func,__builtin_apply_args (), 16)
-
-  retval_t apply_uchar (void)
-    {
-      return APPLY (return_uchar);
-    }
-  retval_t apply_ushort (void)
-    {
-      return APPLY (return_ushort);
-    }
-  retval_t apply_unsigned (void)
-    {
-      return APPLY (return_unsigned);
-    }
-  retval_t apply_ulong (void)
-    {
-      return APPLY (return_ulong);
-    }
-  retval_t apply_float (void)
-    {
-      return APPLY (return_float);
-    }
-  retval_t apply_double (void)
-    {
-      return APPLY (return_double);
-    }
-  retval_t apply_object (void)
-    {
-      return APPLY (return_object);
-    }
-  retval_t apply_string (void)
-    {
-      return APPLY (return_string);
-    }
-  retval_t apply_void (void)
-    {
-      return APPLY (return_void);
-    }
+    void return_void (void) { return; }
+    void apply (apply_t func)
+      {
+        memcpy (retVal,
+                __builtin_apply (func, __builtin_apply_args (), 16),
+                MFRAME_RESULT_SIZE);
+      }
+#define APPLY(func) apply ((apply_t) func)
+    
+    switch (fargs->returnType)
+      {
+      case fcall_type_void:
+        APPLY (return_void);
+        break;
+      case fcall_type_uchar: 
+        APPLY (return_uchar);
+        break;
+      case fcall_type_schar:
+        APPLY (return_schar);
+        break;
+      case fcall_type_ushort:
+        APPLY (return_ushort);
+        break;
+      case fcall_type_sshort: 
+        APPLY (return_sshort);
+        break;
+      case fcall_type_uint:
+        APPLY (return_uint);
+        break;
+      case fcall_type_sint:
+        APPLY (return_sint);
+        break;
+      case fcall_type_ulong: 
+        APPLY (return_ulong);
+        break;
+      case fcall_type_slong:
+        APPLY (return_ulong);
+        break;
+      case fcall_type_float: 
+        APPLY (return_float);
+        break;
+      case fcall_type_double:
+        APPLY (return_double);
+        break;
+      case fcall_type_string:
+        APPLY (return_string);
+        break;
+      case fcall_type_object:
+        APPLY (return_object);
+        break;
 #ifdef HAVE_JDK
-  retval_t apply_jobject (void)
-    {
-      return APPLY (return_jobject);
-    }
-  retval_t apply_jstring (void)
-    {
-      return APPLY (return_jstring);
-    }
+      case fcall_type_jobject:
+        APPLY (return_jobject);
+        break;
+      case fcall_type_jstring:
+        APPLY (return_jstring);
+        break;
 #endif
-  switch (fargs->returnType)
-    {
-    case fcall_type_void:
-      return apply_void ();
-    case fcall_type_uchar: 
-    case fcall_type_schar:
-      return apply_uchar ();
-    case fcall_type_ushort:
-    case fcall_type_sshort: 
-      return apply_ushort ();
-    case fcall_type_uint:
-    case fcall_type_sint:
-      return apply_unsigned ();
-    case fcall_type_ulong: 
-    case fcall_type_slong:
-      return apply_ulong ();
-    case fcall_type_float: 
-      return apply_float ();
-    case fcall_type_double:
-      return apply_double ();
-    case fcall_type_string:
-      return apply_string ();
-    case fcall_type_object:
-      return apply_object ();
-#ifdef HAVE_JDK
-    case fcall_type_jobject:
-      return apply_jobject ();
-    case fcall_type_jstring:
-      return apply_jobject ();
-#endif
-    default:
-      abort ();
-    }
+      default:
+        abort ();
+      }
+  }
 #else
   void *ptr;
-  *buf = *res;
 
   switch (fargs->returnType)
     {

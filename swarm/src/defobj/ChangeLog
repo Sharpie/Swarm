@@ -1,3 +1,11 @@
+1999-05-09  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* FCall.[hm], defobj.h ([FCall_c -setRetVal:buf:]): Replaces 
+	getRetVal:.
+
+	* DefObject.m ([Object_s -forward::]): Use it, pre-allocating
+	retVal with alloca.
+
 1999-05-08  Marcus Daniels  <marcusd@asl.krasnow.gmu.edu>
 
 	* FCall.m (APPLY): New macro. Use it in all apply_* functions.

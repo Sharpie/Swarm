@@ -719,11 +719,13 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   [fc performCall];
   {
     types_t typebuf;
-    retval_t retval = [fc getRetVal: &typebuf];
+    retval_t retVal = alloca (MFRAME_RESULT_SIZE);
+                      
+    [fc setRetVal: retVal buf: &typebuf];
 
     [fc drop];
     [fa drop];
-    return retval;
+    return retVal;
   }
 #else
   [self doesNotRecognize: aSel];
