@@ -5,7 +5,8 @@
 @echo.
 @echo I haven't figured out yet how to make this .bat program work. 
 @echo.
-@echo All the other programs work (current.ksh, current.pl, *.java).
+@echo All the other programs work (current.ksh, current.pl, *.java), at least
+@echo on Windows NT and Windows Me.
 @echo.
 @echo Please tell me how to make this work, if you can.
 @echo.

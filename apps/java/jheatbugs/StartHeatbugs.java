@@ -1,4 +1,4 @@
-// Java Heatbugs application. Copyright © 1999-2000 Swarm Development Group.
+// Java Heatbugs program. Copyright © 1999-2000 Swarm Development Group.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
@@ -10,10 +10,18 @@ import swarm.simtoolsgui.GUISwarm;
 import swarm.simtoolsgui.GUISwarmImpl;
 
 /**
-See HeatbugModelSwarm for an overview of the heatbugs application.
 
 <p>
-Properies recognized by this program:
+See HeatbugModelSwarm for an overview of the jheatbugs program.
+
+<p>
+The remainder of this discussion is confined to the issue of command-line
+parameters. 
+
+<p> <b> Controlling this program </b>
+
+<p>
+The following Java properties are recognized by this program.
 
  <dir>
  c=&lt;boolean&gt;: Start the Heatbugs all in a contiguous cluster
@@ -32,7 +40,7 @@ Properies recognized by this program:
  </dir>
 
  <dir>
- n=&lt;integer&gt;: Specify the number of heatbugs
+ n=&lt;int&gt;:     Specify the number of heatbugs
  </dir>
 
  <dir>
@@ -44,26 +52,47 @@ Properies recognized by this program:
  </dir>
 
 <p>
+You can set Java properties on the java command line; for example, invoke
+
+ <dir>
+ <xmp>
+  javaswarm -Dn=300 StartHeatbugs
+ </xmp>
+ </dir>
+
+<p>
+to start jheatbugs in GUI mode with 300 Heatbugs, or invoke
+
+ <dir>
+ <xmp>
+  javaswarm -Dn=300 StartHeatbugs -b
+ </xmp>
+ </dir>
+
+<p>
+to start jheatbugs in batch mode with 300 Heatbugs.
+
+<p> <b> Precedence of controls </b>
+
+<p>
 In batch mode, the Java properties mechanism herein 
 takes precedence over all other setting of variables, 
-overriding the SCM file, which 
-itself overrides the Java initializers and constructors. 
+overriding the SCM file, 
+which itself overrides the Java initializers and constructors. 
 
 <p>
 In GUI mode, the probe display 
 takes precedence over all other setting of variables, 
-overriding the Java properties mechanism herein, which 
-itself overrides the Java initializers and constructors. 
+overriding the Java properties mechanism herein, 
+which itself overrides the Java initializers and constructors. 
+
+<p> <b> Modifying this program's properties </b>
 
 <p>
-See current.ksh and current.pl for a way to convert command-line options into 
-Java properties.
-
-<p>
-To modify this application to accept an additional boolean command-line option:
+To modify this program to accept an additional boolean property:
 
  <dir>
- Add to this documentation section a line analogous to the line
+ Add to this documentation section a line analogous to 
   <dir>
   <xmp>
     c=&lt;boolean&gt;: Start the Heatbugs all in a contiguous cluster
@@ -72,7 +101,7 @@ To modify this application to accept an additional boolean command-line option:
  </dir>
 
  <dir>
- and add to the code below a statement analogous to the line
+ and add to the code a statement analogous to 
   <dir>
   <xmp>
     model.setStartInOneCluster (getBooleanProperty ("c", false));
@@ -81,14 +110,13 @@ To modify this application to accept an additional boolean command-line option:
  </dir>
 
 <p>
-To modify this application to accept an 
-additional integer command-line option:
+To modify this program to accept an additional double property:
 
  <dir>
- Add to this documentation section a line analogous to the line
+ Add to this documentation section a line analogous to 
   <dir>
   <xmp>
-    n=&lt;integer&gt;: Specify the number of heatbugs
+    r=&lt;double&gt;:  Specify the random-move probability
   </xmp>
   </dir>
  </dir>
@@ -96,7 +124,7 @@ additional integer command-line option:
  <dir>
  If you do not want this file to apply a default
  overriding the model's default, 
- add to the code below a statement analogous to the statement
+ add to the code a statement analogous to 
   <dir>
   <xmp>
     model.setRandomMoveProbability 
@@ -106,20 +134,17 @@ additional integer command-line option:
 
  If you do want this file to apply a default
  overriding the model's default,
- add a statement analogous to the statement
+ add a statement analogous to 
 
   <dir>
   <xmp>
-    model.setRandomMoveProbability 
-     (getDoubleProperty ("r", 0.5));
+    model.setRandomMoveProbability (getDoubleProperty ("r", 0.5));
   </xmp>
   </dir>
  </dir>
 
 <p>
-The documentation in the Swarm Reference Guide for the Arguments protocol
-describes a different mechanism for managing command-line options (with an 
-example in Objective-C). 
+Similarly for int properties, String properties, etc.
 
 */
 public class StartHeatbugs
@@ -194,7 +219,7 @@ private static void build (Swarm swarm, HeatbugModelSwarm model)
     swarm.buildObjects ();
     swarm.buildActions ();
     swarm.activateIn (null);
-}
+} /// build()
 
 private static void unbuild (Swarm swarm, HeatbugModelSwarm model)
 {
@@ -202,8 +227,8 @@ private static void unbuild (Swarm swarm, HeatbugModelSwarm model)
 }
 
 /**
-This method and the other get...Property() methods are generic methods
-that would normally be defined in some utility library.
+This method and the other get...Property() methods are generic convenience
+methods that would normally be defined in some utility library.
 */
 private static boolean getBooleanProperty (String propertyName, boolean dflt)
 {

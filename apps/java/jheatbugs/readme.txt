@@ -12,16 +12,17 @@ that you would take the time to send me, at timothyrhowe@hotmail.com.
 - Tim Howe
 
 
-  		Section 1. Installing jheatbugs
+  		Part 1. Installing jheatbugs
 
 
 You can find the jheatbugs sample Swarm application at swarm.org, under
 Software - Applications. Or you can use wget to download it, as illustrated
 below. 
 
-You'll need to install Swarm itself, set the environment variable SWARMHOME
-to the directory where you install Swarm, include $SWARMHOME/bin in your
-PATH, and confirm the installation by invoking javaswarm --help. 
+You'll need to install Swarm itself (which includes the Cygwin Unix-like tools,
+including Perl), set the environment variable SWARMHOME to the directory where 
+you install Swarm, and include $SWARMHOME/bin in your PATH. You can confirm the 
+installation by invoking javaswarm --help. 
 
 Here is one way to download and install jheatbugs:
 
@@ -37,29 +38,32 @@ Here is one way to download and install jheatbugs:
     make executable
 
 
-  		Section 2. Invoking jheatbugs
+  		Part 2. Invoking jheatbugs
 
 
 To run the current code of the application from Unix, or from a Unix-like
 shell, or from DOS, invoke
 
-    ksh current.ksh
+    current.ksh
 
 for interactive mode, or
 
-    ksh current.ksh -b
+    current.ksh -b
 
 for batch mode, or
 
-    ksh current.ksh --help
+    current.ksh --help
 
 for help.
 
-(On Cygwin you will probably need to type <tt>sh current.ksh</tt> rather than
-<tt>ksh current.ksh</tt>.)
+(On Cygwin you will probably need to type <tt>sh current.ksh</tt> or
+<tt>ksh current.ksh</tt> rather than <tt>current.ksh</tt>.)
+
+(The script <tt>current.ksh</tt> invokes <tt>current.pl StartHeatbugs</tt>, 
+which ultimately invokes <tt>java StartHeatbugs</tt>.)
 
 
-  		Section 3. Goals of jheatbugs
+  		Part 3. Goals of jheatbugs
 
 
 This Java Swarm application is copiously documented, with the goal of providing
@@ -69,45 +73,37 @@ complete applications.
 The application provides command-line arguments and some diagnostic output with
 the goal of making experimentation easy. For example, invoke
 
-    ksh current.ksh -c
+    current.ksh -c
 
 and watch what happens when all the Heatbugs start their lives in a contiguous
 cluster. Invoke
 
-    ksh current.ksh -i
+    current.ksh -i
 
 and watch what happens when the Heatbugs are immobile. Invoke
 
-    ksh current.ksh -p 10
+    current.ksh -p 10
 
 and observe the history of an arbitrary cell. Invoke
 
-    ksh current.ksh -cip10
+    current.ksh -cip10
 
 and guess how long it will take the heat to diffuse to the arbitrary cell for
 which the history is reported.
 
 Here's another interesting simulation: invoke
 
-    ksh current.ksh -r0 -e1 -c
+    current.ksh -r0 -e1 -c
 
 and explain why you see momentum first emerge (at about step 350) and then
 disappear (by step 900). 
 
 Similarly for other command-line arguments, which you can list by invoking
 
-    ksh current.ksh --help
-
-Another goal is that this program should be not only an educational tool but
-also a model for good programming: to that end, I have avoided sacrificing
-quality of engineering for pedagogical purposes. Exceptions are generally
-obvious or announced: for example, the quantity of comments, the presence of
-methods that contain only diagnostic code, and ActionGroup and Action
-structures that illustrate more possibilities than non-educational goals would
-justify.
+    current.ksh --help
 
 
-  		Section 4. Suggested learning path
+  		Part 4. Suggested learning path
 
 
 1. Invoke the application, in batch and interactive mode, with various
@@ -128,11 +124,117 @@ combinations of options, to understand its black-box behavior.
 8. Study HeatbugObserverSwarm.java.
 
 
-  		Section 5. Naming and typographic conventions
+  		Part 5. Invoking jheatbugs in multiple experiments
+
+
+You can use an experiment wrapper such as Drone or replicator.pl to manage
+repeated invocations of jheatbugs, sweeping through arbitrary combinations of
+parameter values.
+
+Depending on which experiment wrapper you use, you may have to write a program 
+wrapper or modify your existing program wrapper. For example, to get 
+jheatbugs to run under replicator.pl, we
+
+  	ignored our first-level program wrapper <tt>current.ksh</tt>;
+
+  	copied our second-level program wrapper <tt>current.pl</tt> to the new file 
+	<tt>replicatable.pl</tt>; and
+
+  	modified <tt>replicatable.pl</tt> to get it to work with 
+	<tt>replicator.pl</tt>.
+
+Then when we invoke
+
+    perl replicator.pl --program=replicatable.pl --sweep p=10 --sweep n=20,30,40
+
+<tt>replicator.pl</tt> invokes <tt>replicatable.pl</tt> 3 times, 
+each invocation occurring in a different dedicated subdirectory, 
+with the command-line options <tt>-p10 -n20</tt> on the first run, 
+<tt>-p10 -n30</tt> on the second run, and
+<tt>-p10 -n40</tt> on the third run.
+
+
+  		Part 6. Properties versus command-line parameters
+
+
+The jheatbugs program does not use command-line parameters. (By command-line
+parameters we mean both command-line arguments and command-line options.)
+Instead, the program uses Java properties. 
+
+Writing Java programs to use
+Java properties rather than command-line parameters has these advantages:
+
+  	properties are a standard Java control mechanism; 
+	command-line parameters are not;
+
+  	properties act consistently across Java applications and Java applets;
+	command-line parameters do not;
+
+  	properties are supported by many Java-based and web-based utilities, 
+	such as integrated development environments, 
+	Java Beans and Enterprise Java Beans tools, 
+	XML editors,
+	and XML RPC utilities; 
+	command-line parameters are not;
+
+  	it's relatively easy to write wrapper scripts that convert command-line
+	parameters to Java properties, providing convenience on the command
+	line with simplicity and adherence to standards within Java programs. 
+
+
+  			Part 6.1. Notes on command-line parameters
+
+
+It would be possible to write a wrapper class in Java to
+convert command-line parameters to properties, but probably
+that job is more easily handled by scripting languages rather
+than by Java code. 
+
+The wrapper program current.pl converts command-line options into Java 
+properties. The documentation of specific properties in StartHeatbugs.java is
+formatted so that current.pl can parse the documentation.
+In response to the --help option, 
+current.pl lists the properties as command-line options. 
+For invocations that do not request help, current.pl uses the documentation to
+separate the application-specific options from other options, 
+which it assumes to be options for javaswarm.
+
+The documentation in the Swarm Reference Guide for the Arguments protocol
+describes a different mechanism for managing command-line options (with an 
+example in Objective-C). It is not clear what problems would confront an
+attempt to create an analogous mechanism for Java. 
+
+If you prefer to use Java to handle command-line parameters, you may want to
+use a web search engine to look for (non-standard) utility libraries, typically 
+named "getopts.java". 
+
+For a checklist when assessing command-line parameter mechanisms, note that
+a comprehensive mechanism should support
+
+  	long-form as well as short-form options;
+
+  	option arguments, both contiguous (e.g. -a13) and non-contiguous 
+	(e.g. -a 13);
+
+  	set-based options (allowing multiple values for a single option);
+
+  	option bundling;
+
+  	the terminal option "--", necessary when the first command-line argument 
+	(as distinguished from a command-line option) might begin with a hyphen;
+
+  	provision of command-line help.
+
+The program current.pl is not a comprehensive mechanism: it does not support
+long-form options nor set-based options nor the terminal option.
+
+
+  		Part 7. Naming and typographic conventions
 
 
 On all private variable names, I use an underscore as a prefix. This convention
-I borrowed from Sriram Srinivasan of Perl fame and Martin Fowler of UML fame. 
+I borrowed from Sriram Srinivasan of "Advanced Perl Programming" fame and 
+Martin Fowler of UML fame. 
 
 To make programming structures obvious, I put each matching symbol (that is,
 every symbol among ( ) { } [ ] < >) either on the same line or
@@ -156,9 +258,9 @@ I generally begin a comment with "..." if it explains the preceding code; I end
 it with ":" if it explains the subsequent code.
 
 In the Javadoc comments, I indicate the role of every parameter with the string
-"(in)" or "(out)" or "(inout)" (for example: "@param numBugs (in)") to
-indicate, respectively, whether the parameter is only read or is only written
-or is read and written by the method. Thus, if I pass an array to a method, and
+"(in)" or "(out)" or "(inout)" to indicate, respectively, whether the parameter 
+is only read or is only written or is read and written by the method;
+for example, "@param numBugs (in)". Thus, if I pass an array to a method, and
 the method or a delegate of the method might ever write an element of the array
 and might ever also read an element of the array, I indicate "(inout)".
 These conventions I borrowed from Corba IDL. 

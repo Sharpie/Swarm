@@ -20,18 +20,19 @@ that you would take the time to send me, at timothyrhowe@hotmail.com.
 - Tim Howe
 <br><p>
 <br><p>
-<h2>1. Installing jheatbugs
+<UL><UL>        Part 1. Installing jheatbugs
 
-</h2>
 
+</UL></UL>
 <br><p>
 You can find the jheatbugs sample Swarm application at swarm.org, under
 Software - Applications. Or you can use wget to download it, as illustrated
 below. 
 <br><p>
-You'll need to install Swarm itself, set the environment variable SWARMHOME
-to the directory where you install Swarm, include $SWARMHOME/bin in your
-PATH, and confirm the installation by invoking javaswarm --help. 
+You'll need to install Swarm itself (which includes the Cygwin Unix-like tools,
+including Perl), set the environment variable SWARMHOME to the directory where 
+you install Swarm, and include $SWARMHOME/bin in your PATH. You can confirm the 
+installation by invoking javaswarm --help. 
 <br><p>
 Here is one way to download and install jheatbugs:
 <br><p>
@@ -46,47 +47,46 @@ Here is one way to download and install jheatbugs:
     gzip -dc ../arc/*.tar.gz | tar xf -
     cd jheatbugs
     make executable
-
 </xmp></font>
 
 <br><p>
-<h2>2. Invoking jheatbugs
+<UL><UL>        Part 2. Invoking jheatbugs
 
-</h2>
 
+</UL></UL>
 <br><p>
 To run the current code of the application from Unix, or from a Unix-like
 shell, or from DOS, invoke
 <br><p>
 <font size=3><xmp>
-    ksh current.ksh
-
+    current.ksh
 </xmp></font>
 
 for interactive mode, or
 <br><p>
 <font size=3><xmp>
-    ksh current.ksh -b
-
+    current.ksh -b
 </xmp></font>
 
 for batch mode, or
 <br><p>
 <font size=3><xmp>
-    ksh current.ksh --help
-
+    current.ksh --help
 </xmp></font>
 
 for help.
 <br><p>
-(On Cygwin you will probably need to type <tt>sh current.ksh</tt> rather than
-<tt>ksh current.ksh</tt>).
+(On Cygwin you will probably need to type <tt>sh current.ksh</tt> or
+<tt>ksh current.ksh</tt> rather than <tt>current.ksh</tt>.)
+<br><p>
+(The script <tt>current.ksh</tt> invokes <tt>current.pl StartHeatbugs</tt>, 
+which ultimately invokes <tt>java StartHeatbugs</tt>.)
 <br><p>
 <br><p>
-<h2>3. Goals of jheatbugs
+<UL><UL>        Part 3. Goals of jheatbugs
 
-</h2>
 
+</UL></UL>
 <br><p>
 This Java Swarm application is copiously documented, with the goal of providing
 a useful tool for learning Swarm, for those who like to learn by studying
@@ -96,62 +96,51 @@ The application provides command-line arguments and some diagnostic output with
 the goal of making experimentation easy. For example, invoke
 <br><p>
 <font size=3><xmp>
-    ksh current.ksh -c
-
+    current.ksh -c
 </xmp></font>
 
 and watch what happens when all the Heatbugs start their lives in a contiguous
 cluster. Invoke
 <br><p>
 <font size=3><xmp>
-    ksh current.ksh -i
-
+    current.ksh -i
 </xmp></font>
 
 and watch what happens when the Heatbugs are immobile. Invoke
 <br><p>
-<ul>    ksh current.ksh -p 10
+<font size=3><xmp>
+    current.ksh -p 10
+</xmp></font>
 
-
-</ul>
 and observe the history of an arbitrary cell. Invoke
 <br><p>
-<ul>    ksh current.ksh -cip10
+<font size=3><xmp>
+    current.ksh -cip10
+</xmp></font>
 
-
-</ul>
 and guess how long it will take the heat to diffuse to the arbitrary cell for
 which the history is reported.
 <br><p>
-Here's another interesting simulation:
+Here's another interesting simulation: invoke
 <br><p>
-<ul>    ksh current.ksh -r0 -e1 -c
+<font size=3><xmp>
+    current.ksh -r0 -e1 -c
+</xmp></font>
 
-
-</ul>
 and explain why you see momentum first emerge (at about step 350) and then
 disappear (by step 900). 
 <br><p>
 Similarly for other command-line arguments, which you can list by invoking
 <br><p>
 <font size=3><xmp>
-    ksh current.ksh --help
-
+    current.ksh --help
 </xmp></font>
 
-Another goal is that this program should be not only an educational tool but
-also a model for good programming: to that end, I have avoided sacrificing
-quality of engineering for pedagogical purposes. Exceptions are generally
-obvious or announced: for example, the quantity of comments, the presence of
-methods that contain only diagnostic code, and ActionGroup and Action
-structures that illustrate more possibilities than non-educational goals would
-justify.
 <br><p>
-<br><p>
-<h2>4. Suggested learning path
+<UL><UL>        Part 4. Suggested learning path
 
-</h2>
 
+</UL></UL>
 <br><p>
 1. Invoke the application, in batch and interactive mode, with various
 combinations of options, to understand its black-box behavior.
@@ -171,16 +160,158 @@ combinations of options, to understand its black-box behavior.
 8. Study HeatbugObserverSwarm.java.
 <br><p>
 <br><p>
-<h2>5. Naming and typographic conventions
+<UL><UL>        Part 5. Invoking jheatbugs in multiple experiments
 
-</h2>
 
+</UL></UL>
 <br><p>
-On all private variable names, I use an underscore as a prefix.
+You can use an experiment wrapper such as Drone or replicator.pl to manage
+repeated invocations of jheatbugs, sweeping through arbitrary combinations of
+parameter values.
 <br><p>
-To make programming structures obvious, I put almost every matching symbol --
-that is, every symbol among ( ) { } [ ] < > /* */ -- either on the same line or
-in the same column as its mate.
+Depending on which experiment wrapper you use, you may have to write a program 
+wrapper or modify your existing program wrapper. For example, to get 
+jheatbugs to run under replicator.pl, we
+<br><p>
+<UL>    ignored our first-level program wrapper <tt>current.ksh</tt>;
+
+
+</UL>
+<UL>    copied our second-level program wrapper <tt>current.pl</tt> to the new file 
+    <tt>replicatable.pl</tt>; and
+
+
+</UL>
+<UL>    modified <tt>replicatable.pl</tt> to get it to work with 
+    <tt>replicator.pl</tt>.
+
+
+</UL>
+Then when we invoke
+<br><p>
+<font size=3><xmp>
+    perl replicator.pl --program=replicatable.pl --sweep p=10 --sweep n=20,30,40
+</xmp></font>
+
+<tt>replicator.pl</tt> invokes <tt>replicatable.pl</tt> 3 times, 
+each invocation occurring in a different dedicated subdirectory, 
+with the command-line options <tt>-p10 -n20</tt> on the first run, 
+<tt>-p10 -n30</tt> on the second run, and
+<tt>-p10 -n40</tt> on the third run.
+<br><p>
+<br><p>
+<UL><UL>        Part 6. Properties versus command-line parameters
+
+
+</UL></UL>
+<br><p>
+The jheatbugs program does not use command-line parameters. (By command-line
+parameters we mean both command-line arguments and command-line options.)
+Instead, the program uses Java properties. 
+<br><p>
+Writing Java programs to use
+Java properties rather than command-line parameters has these advantages:
+<br><p>
+<UL>    properties are a standard Java control mechanism; 
+    command-line parameters are not;
+
+
+</UL>
+<UL>    properties act consistently across Java applications and Java applets;
+    command-line parameters do not;
+
+
+</UL>
+<UL>    properties are supported by many Java-based and web-based utilities, 
+    such as integrated development environments, 
+    Java Beans and Enterprise Java Beans tools, 
+    XML editors,
+    and XML RPC utilities; 
+    command-line parameters are not;
+
+
+</UL>
+<UL>    it's relatively easy to write wrapper scripts that convert command-line
+    parameters to Java properties, providing convenience on the command
+    line with simplicity and adherence to standards within Java programs. 
+
+
+</UL>
+<br><p>
+<UL><UL><UL>            Part 6.1. Notes on command-line parameters
+
+
+</UL></UL></UL>
+<br><p>
+It would be possible to write a wrapper class in Java to
+convert command-line parameters to properties, but probably
+that job is more easily handled by scripting languages rather
+than by Java code. 
+<br><p>
+The wrapper program current.pl converts command-line options into Java 
+properties. The documentation of specific properties in StartHeatbugs.java is
+formatted so that current.pl can parse the documentation.
+In response to the --help option, 
+current.pl lists the properties as command-line options. 
+For invocations that do not request help, current.pl uses the documentation to
+separate the application-specific options from other options, 
+which it assumes to be options for javaswarm.
+<br><p>
+The documentation in the Swarm Reference Guide for the Arguments protocol
+describes a different mechanism for managing command-line options (with an 
+example in Objective-C). It is not clear what problems would confront an
+attempt to create an analogous mechanism for Java. 
+<br><p>
+If you prefer to use Java to handle command-line parameters, you may want to
+use a web search engine to look for (non-standard) utility libraries, typically 
+named "getopts.java". 
+<br><p>
+For a checklist when assessing command-line parameter mechanisms, note that
+a comprehensive mechanism should support
+<br><p>
+<UL>    long-form as well as short-form options;
+
+
+</UL>
+<UL>    option arguments, both contiguous (e.g. -a13) and non-contiguous 
+    (e.g. -a 13);
+
+
+</UL>
+<UL>    set-based options (allowing multiple values for a single option);
+
+
+</UL>
+<UL>    option bundling;
+
+
+</UL>
+<UL>    the terminal option "--", necessary when the first command-line argument 
+    (as distinguished from a command-line option) might begin with a hyphen;
+
+
+</UL>
+<UL>    provision of command-line help.
+
+
+</UL>
+The program current.pl is not a comprehensive mechanism: it does not support
+long-form options nor set-based options nor the terminal option.
+<br><p>
+<br><p>
+<UL><UL>        Part 7. Naming and typographic conventions
+
+
+</UL></UL>
+<br><p>
+On all private variable names, I use an underscore as a prefix. This convention
+I borrowed from Sriram Srinivasan of "Advanced Perl Programming" fame and 
+Martin Fowler of UML fame. 
+<br><p>
+To make programming structures obvious, I put each matching symbol (that is,
+every symbol among ( ) { } [ ] < >) either on the same line or
+in the same column as its mate. Similarly for compound matching symbols, such
+as /* */ <!-- --> <tag> </tag>. 
 <br><p>
 In documentation, I use the form "m()", with no space before the parentheses,
 to mean "the method m, however many arguments it takes"; I use "m ()" to mean
@@ -191,26 +322,35 @@ At the close of some of the longer methods, I put a comment so you can know
 what method you're reading when the screen shows only the tail; for example, "}
 /// buildObjects()". For constructors, the comment is "} /// constructor". For
 the same reason, I sometimes put a comment at the end of a long loop; for
-example, "} /// if _unhappiness != 0".
+example, "} /// if _unhappiness != 0". There's no special reason for the triple
+slashes, except that after a while your brain may help itself by learning to 
+recognize them as the sign of such orientation comments. 
 <br><p>
 I generally begin a comment with "..." if it explains the preceding code; I end
 it with ":" if it explains the subsequent code.
 <br><p>
 In the Javadoc comments, I indicate the role of every parameter with the string
-"(in)" or "(out)" or "(inout)" (for example: "@param numBugs (in)") to
-indicate, respectively, whether the parameter is only read or is only written
-or is read and written by the method. Thus, if I pass an array to a method, and
+"(in)" or "(out)" or "(inout)" to indicate, respectively, whether the parameter 
+is only read or is only written or is read and written by the method;
+for example, "@param numBugs (in)". Thus, if I pass an array to a method, and
 the method or a delegate of the method might ever write an element of the array
 and might ever also read an element of the array, I indicate "(inout)".
+These conventions I borrowed from Corba IDL. 
 <br><p>
 I define nearly every accessor (getter or setter) immediately after, and
-indented from, its variable.
+indented one tab stop in from, its variable. This convention prevents accessors
+from cluttering up the more interesting methods, and keeps you from having
+to wonder about accessibility when you're examining the data members. 
 <br><p>
 The fundamental idea of exception handling is to remove unusual conditions from
 the normal flow of processing. Applying that concept to the typography, I do
-not indent try-blocks.
+not indent try-blocks. But I do indent catch-blocks. 
 <br><p>
-Because most Java files contain exactly one top-level class, which all the
-methods belong to, it is generally uninformative to indent each variable or
-method definition. Rather than squander one tab stop on a not very informative
-typographic convention, I do not indent variable and method definitions.
+In the top-level class of each Java file, which typically contains most of the
+code, I save one tab stop by not indenting method and variable definitions
+(in other words, methods and variables begin at the left margin). For other
+classes in the file, only the class definition begins at the left margin; 
+methods and variables start one tab stop in. The goal of this convention is
+to avoid wasting a rather uninformative tab stop through the bulk of the code,
+while giving a visual clue as to whether the displayed code is in the eponymous
+class or some other class. 

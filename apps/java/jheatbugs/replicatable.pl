@@ -1,5 +1,9 @@
-# This program invokes a Swarm application, after make-ing sure that the
-# executable files are up to date.
+#!//c/cygwin/bin/perl
+# This program invokes a Swarm application.
+#
+# The program is a somewhat modified copy of current.pl. The modifications were
+# made so that the program could be run by replicator.pl, the experiment
+# wrapper. 
 #
 # The program also converts application-specific command-line options to Java 
 # properties for consumption by the application. Invoke this program with the 
@@ -35,7 +39,8 @@
 use FileHandle;
 
 $swarmhome = $ENV{"SWARMHOME"};
-$inname = @ARGV[0];
+## $inname = @ARGV[0];
+$inname = "StartHeatbugs.java";
 $true = 1;
 $false = 0;
 
@@ -63,13 +68,12 @@ sub debugprintln
     }
 }
 
-$cmd = qq {$swarmhome/bin/make executable};
-debugprintln "cmd is <$cmd>";
-$result = system $cmd;
-exit1 ("Exiting due to failure of make.") if ($result != 0);
-
 $in = new FileHandle; 
-open ($in, "$inname") || die ("$inname won't open: $!.");
+# We parse the specified Java file - the one with the main() method - to figure 
+# out what the application-specific options are. Because this program is run by 
+# replicator.pl, that Java file is two directory levels up, hence we open 
+# "../../$inname":
+open ($in, "../../$inname") || die ("$inname won't open: $!.");
 ($inclass = $inname) =~ s/\.java$//g;
 undef $/;   # eliminate input record separator
 $slurp = <$in>;
@@ -96,8 +100,7 @@ foreach $match (@matches)
 }
 
 debugprintln "\n";
-# Start with $paramI = 1, because $ARGV[0] is $inname:
-for ($paramI = 1; $paramI <= $#ARGV; $paramI++)
+for ($paramI = 0; $paramI <= $#ARGV; $paramI++)
 {
     $param = $ARGV[$paramI];
     debugprintln "param is <$param>";
@@ -144,16 +147,27 @@ debugprintln "    checking $param against -$key";
         }
         if ($param)
         {
-            $otherparams .= " $param";
+            if ($param =~ m/^--run=|-R|--seed=|-S/i)
+            {
+                debugprintln "replicatable.pl is consuming and discarding param $param";
+            } else
+            {
+                $otherparams .= " $param";
+                debugprintln "otherparams is <$otherparams>";
+            }
             $param = "";
-            debugprintln "otherparams is <$otherparams>";
         }
     }
     next if $found;
 }
 
+# Because this program is run by replicator.pl, the application's Java files
+# are two directory levels up, hence we need to modify CLASSPATH. 
 $cmd = qq 
- {$swarmhome/bin/javaswarm $propstring $inclass $otherparams};
+ {CLASSPATH="../..;$ENV{CLASSPATH}" $swarmhome/bin/javaswarm $propstring $inclass $otherparams};
+# ... We also # tried javaswarm -classpath ..., but when javaswarm sees the 
+# -classpath argument, it gives us this error: 
+#     Couldn't find or load essential class 'java/lang/Object' ...
 debugprintln "cmd is <$cmd>";
 $result = system $cmd;
 if ($help)

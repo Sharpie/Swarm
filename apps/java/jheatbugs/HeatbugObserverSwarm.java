@@ -103,7 +103,10 @@ public HeatbugObserverSwarm (Zone aZone)
 "In each field you change in the probe display, press Enter.\n" +
 "\n" +
 "For method invocations, enter an appropriate value in each argument\n" +
-"textbox after the method button, then click the button.\n"
+"textbox after the method button, then click the button.\n" +
+"\n" +
+"Method invocations are subject to acceptance by the program; for example,\n" +
+"addHeatbugs() has no effect after you click Start or Next.\n"
      );
 
 } /// constructor
