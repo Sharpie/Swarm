@@ -37,6 +37,8 @@
    I think 2. is better. */
 #define OBJECTS_AS_TCL_COMMANDS 0
 
+#include <config.h>
+
 #include "tclObjc.h"
 #include <tcl.h>
 

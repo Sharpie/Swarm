@@ -27,7 +27,7 @@
 #include <objc/objc.h>
 #include <tcl.h>
 
-#define TCLOBJC_VERSION "1.3"
+#define TCLOBJC_VERSION "1.4"
 extern const char tclObjcVersion[];
 
 extern int TclObjc_Init(Tcl_Interp *interp);
