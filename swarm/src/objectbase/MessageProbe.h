@@ -25,6 +25,8 @@
 - (val_t)dynamicCallOn: target;
 - (double)doubleDynamicCallOn: target;
 - (int)intDynamicCallOn: target;
+- objectDynamicCallOn: target;
+- (const char *)stringDynamicCallOn: target;
 
 - (BOOL)isResultId;
 - (BOOL)isArgumentId: (int)which;

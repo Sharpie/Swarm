@@ -333,9 +333,19 @@ USING
 - (double)doubleDynamicCallOn: target;
 
 //M: The intDynamicCallOn: method generates a dynamic message call on the 
-//M: target object. This method assumes the user knows the type to be numeric
-//M: and would like a direct translation into type int.
+//M: target object. This method assumes the user knows the return 
+//M: type to be numeric and would like a direct translation into type int.
 - (int)intDynamicCallOn: target;
+
+//M: The stringDynamicCallOn: method generates a dynamic message call on the 
+//M: target object. This method assumes the user knows the return type to be 
+//M: const char *.
+- (const char*)stringDynamicCallOn: target;
+
+//M: The objectDynamicCallOn: method generates a dynamic message call on the 
+//M: target object. This method assumes the user knows the return type to be 
+//M: id.
+- objectDynamicCallOn: target;
 @end
 
 @protocol ProbeMap <SwarmObject, ProbeConfig, CREATABLE>

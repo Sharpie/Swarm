@@ -520,6 +520,24 @@ dynamicCallOn (const char *probedType,
   abort ();
 }
 
+- (const char *)stringDynamicCallOn: target
+{
+  val_t val = [self dynamicCallOn: target];
+
+  if (val.type != _C_CHARPTR)
+    abort ();
+  return val.val.string;
+}
+
+- objectDynamicCallOn: target
+{
+  val_t val = [self dynamicCallOn: target];
+
+  if (val.type != _C_ID)
+    abort ();
+  return val.val.object;
+}
+
 - (BOOL)getHideResult
 {
   return hideResultFlag;
