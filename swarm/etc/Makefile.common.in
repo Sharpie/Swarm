@@ -76,16 +76,18 @@ SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
 
 
 USEDLL=@USEDLL@
-ifeq ($(USEDLL),yes)
-DLLSUFFIX=dll
-endif
 
+ifeq ($(USEDLL),yes)
 ifeq ($(USESTATIC),yes)
 SWARMLIBS = -lswarm
 OBJCLIBS = -lobjc
 else
-SWARMLIBS = -lswarm$(DLLSUFFIX)
-OBJCLIBS = -lobjc$(DLLSUFFIX)
+SWARMLIBS = -lswarmdll
+OBJCLIBS = -lobjcdll
+endif
+else
+SWARMLIBS = $(foreach module,$(SWARMMODULES),-l$(module))
+OBJCLIBS = -lobjc
 endif
 
 # Local variables:
