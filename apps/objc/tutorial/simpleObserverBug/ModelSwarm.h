@@ -6,7 +6,6 @@
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
-#import <tkobjc.h>
 #import <objectbase.h>
 
 

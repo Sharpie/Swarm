@@ -1,3 +1,26 @@
+1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ObserverSwarm.m ([ObserverSwarm +createBegin:]): Include 
+	gui.h.  Reformatting throughout.
+
+	* ObserverSwarm.h: Include gui.h instead of tkobjc.h.
+	(ObserverSwarm):  Make colormap conform to the Colormap protocol
+	instead of being statically typed.  Make worldRaster conform
+	to the ZoomRaster protocol instead of being statically typed.
+	Reformatting throughout.
+
+	* ModelSwarm.h: Don't include tkobjc.h.
+
+	* Bug.m ([Bug -drawSelfOn:]): Use color 2, not 3.
+	Thanks to Pietro Terna for reporting this.
+	Change argument to conform to the Raster protocol instead
+	of being statically typed.
+	Reformatting throughout.
+
+	* Bug.h: Include gui.h.  Change argument to drawSelfOn to
+	conform to the Raster protocol instead of being statically typed.
+	Reformatting throughout.
+
 1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ModelSwarm.h: Include objectbase.h instead of swarmobject.h.

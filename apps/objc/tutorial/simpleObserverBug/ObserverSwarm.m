@@ -5,12 +5,14 @@
 #import <collections.h>
 #import <objectbase.h>
 #import <analysis.h>
+#import <gui.h>
 
 @implementation ObserverSwarm
 
-+createBegin: (id) aZone {
-  ObserverSwarm * obj;
-
++ createBegin: aZone
+{
+  ObserverSwarm *obj;
+  
   // createBegin: here we set up the default simulation parameters.
 
   // Superclass createBegin to allocate ourselves.
@@ -24,15 +26,17 @@
   return obj;
 }
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
--buildObjects {
+- buildObjects
+{
   id modelZone;                                   // zone for model.
-
+  
   [super buildObjects];
-
+  
   // First, we create the model that we're actually observing. The
   // model is a subswarm of the observer. We also create the model in
   // its own zone, so storage is segregated.
@@ -91,11 +95,11 @@
   return self;
 }
 
--buildActions
+- buildActions
 {
 
   [super buildActions];
-
+  
   // First, let our model swarm build its own schedule.
 
   [modelSwarm buildActions];
@@ -113,7 +117,7 @@
   [displayActions createActionTo: bugDisplay          message: M(display)];
   [displayActions createActionTo: worldRaster         message: M(drawSelf)];
 
-  [displayActions createActionTo: actionCache        message: M(doTkEvents)];
+  [displayActions createActionTo: actionCache         message: M(doTkEvents)];
 
   // And the display schedule. Note the repeat interval is set from our
   // own Swarm data structure. Display is frequently the slowest part of a
@@ -127,8 +131,9 @@
   return self;
 }
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
+  
 // activateIn: - activate the schedules so they're ready to run.
 // The swarmContext argument has to do with what we were activated *in*.
 // Typically the ObserverSwarm is the top-level Swarm, so it's activated
@@ -153,11 +158,4 @@
 }
 
 @end
-
-
-
-
-
-
-
 
