@@ -3,53 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <objectbase/probing.h>
-#import <activity.h>
-
-#import <simtools.h>
-#import <simtoolsgui.h> // initSimtoolsGUI
-
-#import <defobj.h> // Arguments
-
-#import <random.h>
-
-externvardef BOOL swarmGUIMode = NO;
-
-#ifdef hpux
-static void
-run_constructors (void)
-{
-  extern void libobjc_constructor (void);
-  extern void libmisc_constructor (void);
-  extern void libdefobj_constructor (void);
-  extern void libcollections_constructor (void);
-  extern void libactivity_constructor (void);
-  extern void libobjectbase_constructor (void);
-  extern void librandom_constructor (void);
-  extern void libtclobjc_constructor (void);
-  extern void libtkobjc_constructor (void);
-  extern void libsimtools_constructor (void);
-  extern void libsimtoolsgui_constructor (void);
-  extern void libanalysis_constructor (void);
-  extern void libspace_constructor (void);
-  extern void libswarm_constructor (void);
-
-  libobjc_constructor ();
-  libmisc_constructor ();
-  libdefobj_constructor ();
-  libcollections_constructor ();
-  libactivity_constructor ();
-  libobjectbase_constructor ();
-  librandom_constructor ();
-  libtclobjc_constructor ();
-  libtkobjc_constructor ();
-  libsimtools_constructor ();
-  libsimtoolsgui_constructor ();
-  libanalysis_constructor ();
-  libspace_constructor ();
-  libswarm_constructor ();
-}
-#endif 
+#import <defobj/Arguments.h>
+#import <SwarmEnvironment.h> // SwarmEnvironment
 
 void
 _initSwarm_ (int argc, const char **argv, const char *appName,
@@ -60,25 +15,21 @@ _initSwarm_ (int argc, const char **argv, const char *appName,
       BOOL forceBatchMode,
       BOOL inhibitExecutableSearchFlag)
 {
-#ifdef hpux
-  run_constructors ();
-#endif
-  initModule (activity);
+  id env = [SwarmEnvironment createBegin];
 
-  initDefobj (argc, argv, 
-              appName, version, bugAddress,
-              argumentsClass,
-              options, optionFunc,
-              inhibitExecutableSearchFlag);
+  [env setArguments:
+         [argumentsClass ?: [Arguments_c class]
+                         createArgc: argc
+                         Argv: argv
+                         appName: appName
+                         version: version
+                         bugAddress: bugAddress
+                         options: options
+                         optionFunc: optionFunc
+                         inhibitExecutableSearchFlag:
+                           inhibitExecutableSearchFlag]];
+  [env setBatchMode: forceBatchMode];
 
-  initProbing ();
-
-  if (![arguments getBatchModeFlag] && !forceBatchMode)
-    swarmGUIMode = YES;
-  
-  initRandom (arguments);
-  
-  if (swarmGUIMode)
-    initSimtoolsGUI ();
+  [env createEnd];
 }
 
