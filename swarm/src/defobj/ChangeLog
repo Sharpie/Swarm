@@ -1,5 +1,9 @@
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* internal.m (map_object_ivars): Use SD_JAVA_FIND_OBJECT_JAVA
+	instead of a JavaProxy check for decided on whether to map
+	java or objc ivars.
+
 	* defobj.m (lispIn): Handle nil ArchiverValue objects.
 
 	* LispArchiver.m (lisp_output_objects): Likewise.

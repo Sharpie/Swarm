@@ -324,10 +324,12 @@ map_object_ivars (id object,
                                           unsigned *dims))
 {
 #ifdef HAVE_JDK
-  if ([object respondsTo: M(isJavaProxy)])
-    map_java_ivars (SD_JAVA_FIND_OBJECT_JAVA (object), process_object);
-  else
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (object);
+
+  if (jobj)
+    map_java_ivars (jobj, process_object);
 #endif
+  else
     map_objc_ivars (object, process_object);
 }
 
@@ -454,7 +456,7 @@ lisp_output_type (fcall_type_t type,
         id obj = ((id *) ptr)[offset];
 
         if (obj == nil || !deepFlag)
-          [stream catBoolean: NO];
+          [stream catNil];
         else
           [obj lispOutDeep: stream];
         break;
