@@ -252,7 +252,7 @@ USING
 - (double)getEntropy;
 @end
 
-@protocol EZSequence <SwarmObject, CREATABLE>
+@protocol EZSequence <SwarmObject, RETURNABLE>
 //S:
 
 //D:
