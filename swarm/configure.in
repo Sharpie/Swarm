@@ -29,8 +29,8 @@ md_CHECK_EXESUFFIX
 
 md_CHECK_DLL
 if test $USEDLL = yes; then
-  LIBSWARM_LA=
-  SWARM_DLL=swarm.dll
+  LIBSWARM_LA=libswarm.la
+  SWARM_DLL=
   LIBJAVASWARM_LA=
   LIBJAVASWARMSTUBS_LA=
   JAVASWARM_DLL=javaswarm.dll
