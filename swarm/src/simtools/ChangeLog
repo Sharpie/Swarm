@@ -1,3 +1,8 @@
+1998-02-01  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* NSelect.m ([NSelect +select:from:into:]): Set a [0,1) 
+	interval for random number generator.  Reformatting throughout.
+
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ActionCache.m ([ActionCache -deliverActions]): For Stop

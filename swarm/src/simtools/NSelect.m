@@ -10,50 +10,53 @@ Library:      simtools
 */
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
-#import <stdlib.h>
+
 #import <simtools.h>
 #import <simtools/NSelect.h>
 
 @implementation NSelect
 
-+(void) select: (int) n from: aCollection into: bCollection {
-  id a, b ;
-  int N ; // total number of items in aCollection
-  int t ; // items seen
-  int m ; // items selected
-  float r ;
++ (void)select: (int)n from: aCollection into: bCollection
+{
+  id a, b;
+  int N; // total number of items in aCollection
+  int t; // items seen
+  int m; // items selected
+  float r;
 
-  if(!n)
-    return ;
+  if (!n)
+    return;
 
-  t = m = 0 ;
+  t = m = 0;
 
-  N = [aCollection getCount] ;
+  N = [aCollection getCount];
 
-  if(N < n){
-    fprintf(stderr,"NSelect: attempted to select %d elements from a collection containing only %d elements!!!\n",n,N) ;
-    exit(-1) ;
-  }
-
-  a = [aCollection begin: scratchZone] ;
-  b = [bCollection begin: scratchZone] ;
-
-  while(m < n){
-    r = (float) [uniformDblRand getDoubleSample] ;    
-    
-    if( ( ((float)(N - t)) * r) >= ((float)(n - m)) ){
-      [a next] ;
-    } else {
-      m++ ;
-      [b next] ;
-      [b put: [a next]] ;
+  if (N < n)
+    {
+      fprintf (stderr, "NSelect: attempted to select %d elements from a collection containing only %d elements!!!\n", n, N);
+      exit (-1);
     }
+  
+  a = [aCollection begin: scratchZone];
+  b = [bCollection begin: scratchZone];
 
-    t++ ;
-  }
-
-  [a drop] ;
-  [b drop] ;
+  while (m < n)
+    {
+      r = (float)[uniformDblRand getDoubleWithMin:0 withMax: 1.0];    
+      
+      if ((((float)(N - t)) * r) >= ((float)(n - m)))
+        [a next];
+      else
+        {
+          m++;
+          [b next];
+          [b put: [a next]];
+        }
+      t++;
+    }
+  
+  [a drop];
+  [b drop];
 }
 
 @end
