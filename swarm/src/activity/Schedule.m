@@ -539,9 +539,9 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 
 - at: (timeval_t)tVal createFAction: call
 {
-  FAction *faction;
-  faction =  [getZone (self) allocIVarsComponent: id_FAction];
-  faction->call = call;
+  id <FAction> faction =  [FAction createBegin: getCZone (getZone (self))];
+  [faction setCall: call];
+  faction = [faction createEnd];
   _activity_insertAction (self, tVal, faction);
   return faction;
 }
@@ -557,147 +557,143 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 
 - at: (timeval_t)tVal createActionCall: (func_t)fptr
 {
-  ActionCall_0 *newAction;
-  
-  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_0];
-  newAction->funcPtr = fptr;
+  id <ActionCall> newAction = 
+    [ActionCall createBegin: getCZone (getZone (self))];
+  [newAction setFunctionPointer: fptr];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1
 {
-  ActionCall_1 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_1];
-  newAction->funcPtr= fptr;
-  newAction->arg1 = arg1;
+  id <ActionCall> newAction = [ActionCall createBegin: 
+                                            getCZone (getZone (self))];
+  [newAction setFunctionPointer: fptr];
+  [newAction setArg1: arg1];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1 : arg2
 {
-  ActionCall_2 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_2];
-  newAction->funcPtr = fptr;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
+  id <ActionCall> newAction = [ActionCall createBegin: 
+                                            getCZone (getZone (self))];
+  [newAction setFunctionPointer: fptr];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1 : arg2 : arg3
 {
-  ActionCall_3 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_3];
-  newAction->funcPtr = fptr;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
-  newAction->arg3 = arg3;
+  id <ActionCall> newAction = 
+    [ActionCall createBegin: getCZone (getZone (self))];
+  [newAction setFunctionPointer: fptr];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  [newAction setArg3: arg3];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionTo: target message: (SEL)aSel
 {
-  ActionTo_0 *newAction;
-
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionTo_0];
-  newAction->target = target;
-  newAction->selector = aSel;
+  id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionTo: target message: (SEL)aSel : arg1
 {
-  ActionTo_1 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_1];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
+  id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionTo: target message: (SEL)aSel : arg1 : arg2
 {
-  ActionTo_2 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_2];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
-
+  id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionTo: target message: (SEL)aSel:arg1:arg2:arg3;
 {
-  ActionTo_3 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_3];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
-  newAction->arg3 = arg3;
+  id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  [newAction setArg3: arg3];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel
 {
-  ActionForEach_0 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_0];
-  newAction->target = target;
-  newAction->selector = aSel;
+  id <ActionForEach> newAction = [ActionForEach createBegin:
+                                                  getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1
 {
-  ActionForEach_1 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_1];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
+  id <ActionForEach> newAction = [ActionForEach createBegin:
+                                                  getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2
 {
-  ActionForEach_2 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_2];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
+  id <ActionForEach> newAction = [ActionForEach createBegin:
+                                                  getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
 
-- at: (timeval_t)tVal createActionForEach: t message: (SEL)aSel:arg1:arg2:arg3;
+- at: (timeval_t)tVal createActionForEach: target
+                                  message: (SEL)aSel:arg1:arg2:arg3;
 {
-  ActionForEach_3 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_3];
-  newAction->target = t;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
-  newAction->arg3 = arg3;
+  id <ActionForEach> newAction = [ActionForEach createBegin:
+                                                  getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  [newAction setArg3: arg2];
+  newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }

@@ -79,9 +79,10 @@ PHASE(Using)
 
 - createFAction: call
 {
-  FAction *faction;
-  faction =  [getZone (self) allocIVarsComponent: id_FAction];
-  faction->call = call;
+  id <FAction> faction;
+  faction = [FAction createBegin: getCZone (getZone (self))];
+  [faction setCall: call];
+  faction = [faction createEnd];
   [self addLast: faction];
   return faction;
 }
@@ -96,146 +97,143 @@ PHASE(Using)
 
 - createActionCall: (func_t)fptr
 {
-  ActionCall_0 *newAction;
+  id <ActionCall> newAction;
 
-  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_0];
-  newAction->funcPtr = fptr;
+  newAction = [ActionCall createBegin: getCZone (getZone (self))];
+  [newAction setFunctionPointer: fptr];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionCall: (func_t)fptr : arg1
 {
-  ActionCall_1  *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_1];
-  newAction->funcPtr = fptr;
-  newAction->arg1 = arg1;
+  id <ActionCall> newAction =
+    [ActionCall createBegin: getCZone (getZone (self))];
+  [newAction setFunctionPointer: fptr];
+  [newAction setArg1: arg1];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionCall: (func_t)fptr : arg1 : arg2
 {
-  ActionCall_2  *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_2];
-  newAction->funcPtr = fptr;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
+  id <ActionCall> newAction =
+    [ActionCall createBegin: getCZone (getZone (self))];
+  [newAction setFunctionPointer: fptr];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionCall: (func_t)fptr : arg1 : arg2 : arg3
 {
-  ActionCall_3 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionCall_3];
-  newAction->funcPtr = fptr;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
-  newAction->arg3 = arg3;
+  id <ActionCall> newAction =
+    [ActionCall createBegin: getCZone (getZone (self))];
+  [newAction setFunctionPointer: fptr];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  [newAction setArg3: arg3];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionTo: target message: (SEL)aSel
 {
-  ActionTo_0 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_0];
-  newAction->target = target;
-  newAction->selector = aSel;
+  id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionTo: target message: (SEL)aSel : arg1
 {
-  ActionTo_1  *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_1];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
+  id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionTo: target message: (SEL)aSel : arg1 : arg2
 {
-  ActionTo_2 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_2];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
+  id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
-  ActionTo_3 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionTo_3];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
-  newAction->arg3 = arg3;
+  id <ActionTo> newAction = [ActionTo createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  [newAction setArg3: arg2];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionForEach: target message: (SEL)aSel
 {
-  ActionForEach_0 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_0];
-  newAction->target   = target;
-  newAction->selector = aSel;
+  id <ActionForEach> newAction =
+    [ActionForEach createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionForEach: target message: (SEL)aSel : arg1
 {
-  ActionForEach_1 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_1];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
+  id <ActionForEach> newAction =
+    [ActionForEach createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2
 {
-  ActionForEach_2 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_2];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
+  id <ActionForEach> newAction =
+    [ActionForEach createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
 
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3
 {
-  ActionForEach_3 *newAction;
-
-  newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_3];
-  newAction->target = target;
-  newAction->selector = aSel;
-  newAction->arg1 = arg1;
-  newAction->arg2 = arg2;
-  newAction->arg3 = arg3;
+  id <ActionForEach> newAction =
+    [ActionForEach createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setMessageSelector: aSel];
+  [newAction setArg1: arg1];
+  [newAction setArg2: arg2];
+  [newAction setArg3: arg3];
+  newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
 }
@@ -483,7 +481,7 @@ PHASE(Creating)
   owner = anActivity;
   ownerZone = getZone (owner);
   newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];
-  newIndex    = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
+  newIndex = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
 
   setMappedAlloc (newActivity);
   setMappedAlloc (newIndex);
@@ -495,11 +493,11 @@ PHASE(Creating)
   newActivity->currentIndex = newIndex;
   newIndex->activity = anActivity;
 
-  newIndex->memberIndex = [((ActionForEach_0 *) forEachAction)->target
+  newIndex->memberIndex = [((ActionForEach_c *) forEachAction)->target
                              begin: getCZone (ownerZone)];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
 
-  ((ActionForEach_0 *) newIndex->memberAction)->target = nil;
+  ((ActionForEach_c *) newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_
 
@@ -524,7 +522,7 @@ PHASE(Creating)
   setMappedAlloc (newActivity);
   setMappedAlloc (newIndex);
 
-  newActivity->ownerActivity  = anActivity;
+  newActivity->ownerActivity = anActivity;
 
   registerSubactivity (ownerZone, owner, newActivity);
 
@@ -533,10 +531,10 @@ PHASE(Creating)
   newActivity->currentIndex = newIndex;
   newIndex->activity = anActivity;
 
-  newIndex->memberIndex = [((ActionForEach_0 *) forEachAction)->target
+  newIndex->memberIndex = [((ActionForEach_c *) forEachAction)->target
                              beginPermuted: getCZone (ownerZone)];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
-  ((ActionForEach_0 *) newIndex->memberAction)->target = nil;
+  ((ActionForEach_c *) newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_
 
@@ -558,8 +556,8 @@ PHASE(Using)
 {
   // reload and return the action being used to execute each member
 
-  ((ActionForEach_0 *) memberAction)->target = [memberIndex next];
-  if (((ActionForEach_0 *) memberAction)->target)
+  ((ActionForEach_c *) memberAction)->target = [memberIndex next];
+  if (((ActionForEach_c *) memberAction)->target)
     return memberAction;
   *status = Completed;
   return nil;

@@ -12,37 +12,62 @@ Library:      activity
 #import <activity/Action.h>
 #import <activity/ActionGroup.h>
 #import <activity/Schedule.h>
+#import <defobj/directory.h>
 
 @implementation CAction
+PHASE(Creating)
 PHASE(Using)
 - getOwner
 {
   return owner;
 }
 
-//
-// temporary support for dropping actions (must be removed from owner first!)
-//
 - (void)drop
 {
   [self dropAllocations: YES];
 }
-
 @end
 
-
-@implementation FAction
-
-- setCall: fcall
+@implementation CFAction
+PHASE(Creating)
++ createBegin: aZone
 {
-  call = fcall;
-  return self;
+  CFAction *action = [super createBegin: aZone];
+
+  action->argCount = 0;
+  return action;
 }
 
-- setArguments: args
+- (void)setArg1: anArg
 {
-  [call setArguments: args];
-  return self;
+  arg1 = anArg;
+  if (argCount < 1)
+    argCount = 1;
+}
+
+- (void)setArg2: anArg
+{
+  arg2 = anArg;
+  if (argCount < 2)
+    argCount = 2;
+}
+
+- (void)setArg3: anArg
+{
+  arg3 = anArg;
+  if (argCount < 3)
+    argCount = 3;
+}
+
+PHASE(Using)
+- (void)_addArguments_
+{
+  if (argCount >= 1)
+    [arguments addObject: arg1];
+  if (argCount >= 2)
+    [arguments addObject: arg2];
+  if (argCount >= 3)
+    [arguments addObject: arg3];
 }
 
 - (void)_performAction_: anActivity
@@ -52,43 +77,87 @@ PHASE(Using)
 
 - (void)describe: outputCharStream
 {
+  [outputCharStream catC: "CFAction"];
 }
 
-- getOwner
+- (unsigned)getNArgs
 {
-  return owner;
+  return argCount;
+}
+
+- getArg1
+{
+  return arg1;
+}
+
+- getArg2
+{
+  return arg2;
+}
+
+- getArg3
+{
+  return arg3;
 }
 
 - (void)drop
 {
-  [[call getArguments] drop];
-  [call drop];
-  [self dropAllocations: YES];
+  if (call)
+    {
+      [[call getArguments] drop];
+      [call drop];
+    }
+  [super drop];
 }
-
-
 @end
 
-@implementation ActionCall_0
-
-- (void)setFunctionPointer: (func_t)fptr
+@implementation FAction_s
+PHASE(Creating)
+- setCall: fcall
 {
-  funcPtr = fptr;
+  call = fcall;
+  return self;
 }
 
-- (func_t)getFunctionPointer
-{
-  return funcPtr;
-}
-
-- (int)getNArgs
-{
-  return 0;
-}
-
+PHASE(Using)
 - (void)_performAction_: anActivity
 {
-  funcPtr ();
+  [call performCall];
+}
+
+- (void)describe: outputCharStream
+{
+  [outputCharStream catC: "FAction"];
+}
+@end
+
+@implementation ActionCall_c
+PHASE(Creating)
+- (void)setFunctionPointer: (func_t)fptr
+{
+  [call setFunctionPointer: fptr];
+}
+
+- createEnd
+{
+  [super createEnd];
+
+  arguments = [FArguments createBegin: getZone (self)];
+
+  [arguments setObjCReturnType: _C_VOID];
+  [self _addArguments_];
+  arguments = [arguments createEnd];
+
+  call = [FCall createBegin: getZone (self)];
+  [call setArguments: arguments];
+  call = [call createEnd];
+  return self;
+}
+
+PHASE(Using)
+- (func_t)getFunctionPointer
+{
+  return [call getFunctionPointer];
 }
 
 static void
@@ -118,112 +187,17 @@ describeFunctionCall (id stream, func_t fptr, int nargs, id arg1, id arg2, id ar
 
 - (void)describe: outputCharStream
 {
-  describeFunctionCall (outputCharStream, funcPtr, 0, 0, 0, 0);
+  describeFunctionCall (outputCharStream,
+                        [call getFunctionPointer],
+                        argCount, arg1, arg2, arg3);
 }
-
 @end
 
-
-@implementation ActionCall_1
-
-- (int)getNArgs
-{
-  return 1;
-}
-
-- (void)setArg1: anArg
-{
-  arg1 = anArg;
-}
-
-- getArg1
-{
-  return arg1;
-}
-
-- (void)_performAction_: anActivity
-{
-  ((void (*) (id)) funcPtr) (arg1);
-}
-
-- (void)describe: outputCharStream
-{
-  describeFunctionCall (outputCharStream, funcPtr, 1, arg1, 0, 0);
-}
-
-@end
-
-
-@implementation ActionCall_2
-
-- (int)getNArgs
-{
-  return 2;
-}
-
-- (void)setArg2: anArg
-{
-  arg2 = anArg;
-}
-
-- getArg2
-{
-  return arg2;
-}
-
-- (void)_performAction_: anActivity
-{
-  ((void (*) (id, id)) funcPtr) (arg1, arg2);
-}
-
-- (void)describe: outputCharStream
-{
-  describeFunctionCall (outputCharStream, funcPtr, 2, arg1, arg2, 0);
-}
-
-@end
-
-
-@implementation ActionCall_3
-
-- (int)getNArgs
-{
-  return 3;
-}
-
-- (void)setArg3: anArg
-{
-  arg3 = anArg;
-}
-
-- getArg3
-{
-  return arg3;
-}
-
-- (void)_performAction_: anActivity
-{
-  ((void (*) (id, id, id)) funcPtr) (arg1, arg2, arg3);
-}
-
-- (void)describe: outputCharStream
-{
-  describeFunctionCall (outputCharStream, funcPtr, 3, arg1, arg2, arg3);
-}
-
-@end
-
-
-@implementation ActionTo_0
-
+@implementation ActionTo_c
+PHASE(Creating)
 - (void)setTarget: aTarget
 {
   target = aTarget;
-}
-
-- getTarget
-{
-  return target;
 }
 
 - (void)setMessageSelector: (SEL)aSel
@@ -231,19 +205,67 @@ describeFunctionCall (id stream, func_t fptr, int nargs, id arg1, id arg2, id ar
   selector = aSel;
 }
 
+- createEnd
+{
+  id protoTarget = target;
+
+  [super createEnd];
+
+  if ([self conformsTo: @protocol (ActionForEach)])
+    protoTarget = [target allSameClass] ? [target getFirst] : nil;
+  
+  if (protoTarget)
+    {
+      BOOL javaFlag = [protoTarget respondsTo: M(isJavaProxy)];
+      
+      arguments = [FArguments createBegin: getZone (self)];
+
+      if (javaFlag)
+        {
+          jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
+          const char *sig =
+            swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
+          
+          [arguments setJavaSignature: sig];
+        }
+      [arguments setObjCReturnType: _C_ID];
+      [self _addArguments_];
+      arguments = [arguments createEnd];
+
+      call = [FCall createBegin: getZone (self)];
+      [call setArguments: arguments];
+      if (javaFlag)
+        [call setJavaMethod: sel_get_name (selector)
+              inObject: SD_FINDJAVA (jniEnv, protoTarget)];
+      else
+        [call setMethod: selector inObject: protoTarget];
+      call = [call createEnd];
+    }
+  else
+    call = nil;
+  return self;
+}
+
+PHASE(Using)
+- (void)_performAction_: anActivity
+{
+  if (call)
+    {
+      updateTarget (call, target);
+      [call performCall];
+    }
+  else
+    [target perform: selector];
+}
+
+- getTarget
+{
+  return target;
+}
+
 - (SEL)getMessageSelector
 {
   return selector;
-}
-
-- (int)getNArgs
-{
-  return 0;
-}
-
-- (void)_performAction_: anActivity
-{
-  [target perform: selector];
 }
 
 static void
@@ -271,164 +293,27 @@ describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3)
   [stream catC: "]\n"];
 }
 
-static void
-describeMessage(id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3)
+- (void)describe: stream
 {
   char buffer[100];
 
   [stream catC: "["];
   _obj_formatIDString (buffer, target);
   [stream catC: buffer];
-  describeMessageArgs (stream, msg, nargs, arg1, arg2, arg3);
-}
-
-- (void)describe: outputCharStream
-{
-  describeMessage (outputCharStream, target, selector, 0, 0, 0, 0);
+  describeMessageArgs (stream, selector, argCount, arg1, arg2, arg3);
 }
 
 @end
 
-
-@implementation ActionTo_1
-
-- (int)getNArgs
-{
-  return 1;
-}
-
-- (void)setArg1: anArg
-{
-  arg1 = anArg;
-}
-
-- getArg1
-{
-  return arg1;
-}
-
-- (void)_performAction_: anActivity
-{
-  [target perform: selector with: arg1];
-}
-
-- (void)describe: outputCharStream
-{
-  describeMessage (outputCharStream, target, selector, 1, arg1, 0, 0);
-}
-
-@end
-
-
-@implementation ActionTo_2
-
-- (int)getNArgs
-{
-  return 2;
-}
-
-- (void)setArg2: anArg
-{
-  arg2 = anArg;
-}
-
-- getArg2
-{
-  return arg2;
-}
-
-- (void)_performAction_: anActivity
-{
-  [target perform: selector with: arg1 with: arg2];
-}
-
-- (void)describe: outputCharStream
-{
-  describeMessage (outputCharStream, target, selector, 2, arg1, arg2, 0);
-}
-
-@end
-
-
-@implementation ActionTo_3
-
-- (int)getNArgs
-{
-  return 3;
-}
-
-- (void)setArg3: anArg
-{
-  arg3 = anArg;
-}
-
-- getArg3
-{
-  return arg3;
-}
-
-- (void)_performAction_: anActivity
-{
-  [target perform: selector with: arg1 with: arg2 with: arg3];
-}
-
-- (void)describe: outputCharStream
-{
-  describeMessage (outputCharStream, target, selector, 3, arg1, arg2, arg3);
-}
-
-@end
-
-
-@implementation ActionForEach_0
-
+@implementation ActionForEach_c
+PHASE(Creating)
+PHASE(Setting)
 - (void)setDefaultOrder: aSymbol
 {
-  setDefaultOrder (&self->bits, aSymbol);
+  setDefaultOrder (&bits, aSymbol);
 }
 
-
-- (void)_performAction_: anActivity
-{
-  id  memberAction;
-
-  if (getBit (bits, BitRandomized))
-    memberAction = 
-      [id_ForEachActivity_c _createRandom_: self : anActivity ];
-  else
-    memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
-
-  setClass (memberAction, id_ActionTo_0);
-}
-
-static void
-describeForEachMessage (id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3)
-{
-  char buffer[100];
-
-  [stream catC: "[[foreach: "];
-  _obj_formatIDString (buffer, target);
-  [stream catC: buffer];
-  [stream catC: "]"];
-  describeMessageArgs (stream, msg, nargs, arg1, arg2, arg3);
-}
-
-- (void)describe: outputCharStream
-{
-  describeForEachMessage (outputCharStream, target, selector, 0, 0, 0, 0);
-}
-
-@end
-
-
-@implementation ActionForEach_1
-
-- (void)setDefaultOrder: aSymbol
-{
-  setDefaultOrder (&self->bits, aSymbol);
-}
-
-
+PHASE(Using)
 - (void)_performAction_: anActivity
 {
   id memberAction;
@@ -439,64 +324,24 @@ describeForEachMessage (id stream, id target, SEL msg, int nargs, id arg1, id ar
   else
     memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
 
-  setClass (memberAction, id_ActionTo_1);
+  setClass (memberAction, id_ActionTo_c);
 }
 
-- (void)describe: outputCharStream
+- getDefaultOrder
 {
-  describeForEachMessage (outputCharStream, target, selector, 1, arg1, 0, 0);
+  return getDefaultOrder (bits);
 }
 
-@end
-
-
-@implementation ActionForEach_2
-- (void)setDefaultOrder: aSymbol
+- (void)describe: stream
 {
-  setDefaultOrder (&self->bits, aSymbol);
+  char buffer[100];
+
+  [stream catC: "[[foreach: "];
+  _obj_formatIDString (buffer, target);
+  [stream catC: buffer];
+  [stream catC: "]"];
+  describeMessageArgs (stream, selector, argCount, arg1, arg2, arg3);
+
 }
-
-
-
-- (void)_performAction_: anActivity
-{
-  id  memberAction;
-
-  if (getBit (bits, BitRandomized))
-    memberAction = 
-      [id_ForEachActivity_c _createRandom_: self : anActivity];
-  else
-    memberAction = [id_ForEachActivity_c _create_: self : anActivity];
-
-  setClass (memberAction, id_ActionTo_2);
-}
-
-- (void)describe: outputCharStream
-{
-  describeForEachMessage (outputCharStream, target, selector, 2, arg1, arg2, 0);
-}
-
-@end
-
-@implementation ActionForEach_3
-- (void)setDefaultOrder: aSymbol
-{
-  setDefaultOrder (&self->bits, aSymbol);
-}
-
-
-- (void)_performAction_: anActivity
-{
-  id  memberAction;
-
-  memberAction = [id_ForEachActivity_c _create_: self : anActivity];
-  setClass (memberAction, id_ActionTo_3);
-}
-
-- (void)describe: outputCharStream
-{
-  describeForEachMessage (outputCharStream, target, selector, 3, arg1, arg2, arg3);
-}
-
 @end
 

@@ -33,6 +33,16 @@ setDefaultOrder (unsigned *bits, id aSymbol)
     raiseEvent (InvalidArgument, nil);
 }
 
+id
+getDefaultOrder (unsigned bits)
+{
+  if (bits & BitConcurrent)
+    return Concurrent;
+  if (bits & BitRandomized)
+    return Randomized;
+  return Sequential;
+}
+
 @implementation ActionType_c
 @end
 
@@ -57,19 +67,8 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 
 - (void)setDefaultOrder: aSymbol
 {
-  if (aSymbol == (id) Concurrent) 
-    setBit (bits, BitConcurrent, 1); 
-  else if (aSymbol == (id) Sequential)
-    {
-      setBit(bits, BitConcurrent, 0);
-      setBit(bits, BitRandomized, 0);
-    }
-  else if (aSymbol == (id) Randomized)
-    setBit(bits, BitRandomized, 1);
-  else
-    raiseEvent(InvalidArgument, nil);
+  setDefaultOrder (&bits, aSymbol);
 }
-
 
 #elif defined(MIXIN_C)
 #undef MIXIN_C
@@ -85,11 +84,7 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 
 - getDefaultOrder
 {
-  if (bits & BitConcurrent)
-    return Concurrent;
-  if (bits & BitRandomized)
-    return Randomized;
-  return Sequential;
+  return getDefaultOrder (bits);
 }
 
 //

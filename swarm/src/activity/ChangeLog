@@ -1,3 +1,26 @@
+1999-10-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionGroup.m, Schedule.m: Use +createBegin:/-createEnd 
+	initialization of Action{Call,To,ForEach}_c instead of 
+	allocIVars and assignment.
+
+	* activity.h (FAction): Advertise.
+	(Action): Adopt Create and Drop.
+	(ActionArgs, ActionTo, ActionCall): Organize methods into creating
+	and using sections.
+
+	* activity.m: Remove setTypeImplemented relations for the
+	Action{Call,To,ForEach}_[123], replacing them with
+	Action{Call,To,ForEach}_c.
+
+	* ActionGroup.h (ForEachIndex_c): Make memberAction of type
+	ActionForEach_c instead of ActionForEach_0.
+
+	* Action.[hm] (CFAction): New class.
+	Remove Action{Call,To,ForEach}_[123] variant classes
+	replacing them with Action{Call,To,ForEach}_c classes inheriting 
+	from CFAction.
+
 1999-10-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* XActivity.m ([Activity_c -dropAllocations:]): Do next before

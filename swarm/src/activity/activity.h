@@ -101,7 +101,7 @@ USING
 - getDefaultOrder;
 @end
 
-@protocol Action <GetOwner, RETURNABLE>
+@protocol Action <Create, Drop, GetOwner, RETURNABLE>
 //S: An action type that has been customized for direct execution by an
 //S: action interpreter.
 
@@ -143,25 +143,33 @@ USING
 //D: arguments must have types compatible with id type.  Eventually, more
 //D: generic methods for binding an action type to any number and types of
 //D: arguments and return values will also be provided.
-
-USING
-- (int)getNArgs;
+CREATING
 - (void)setArg1: arg1;
-- getArg1;
 - (void)setArg2: arg2;
-- getArg2;
 - (void)setArg3: arg3;
+USING
+- (unsigned)getNArgs;
+- getArg1;
+- getArg2;
 - getArg3;
+@end
+
+@protocol FAction <Action, RETURNABLE>
+//S: An action defined by sending a FCall.
+//D: An action defined by sending a FCall.
+CREATING
+- setCall: fcall;
+USING
 @end
 
 @protocol ActionTo <ActionArgs, RETURNABLE>
 //S: An action defined by sending an Objective C message.
 //D: An action defined by sending an Objective C message.
-
-USING
+CREATING
 - (void)setTarget: target;
-- getTarget;
 - (void)setMessageSelector: (SEL)aSel;
+USING
+- getTarget;
 - (SEL)getMessageSelector;
 @end
 
@@ -173,9 +181,9 @@ USING
 @protocol ActionCall <ActionArgs, RETURNABLE>
 //S: An action defined by calling a C function.
 //D: An action defined by calling a C function.
-
-USING
+CREATING
 - (void)setFunctionPointer: (func_t)fptr;
+USING
 - (func_t)getFunctionPointer;
 @end
 

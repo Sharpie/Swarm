@@ -108,7 +108,7 @@ Library:      activity
 @public
   id <Activity> activity;        // activity for which index created
   id <Index> memberIndex;        // index into target collection
-  ActionForEach_0 *memberAction; // local copy of original ForEach action
+  ActionForEach_c *memberAction; // local copy of original ForEach action
 }
 /*** methods in ForEachIndex_c (inserted from .m file by m2h) ***/
 - nextAction: (id *)status;

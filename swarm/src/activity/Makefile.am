@@ -3,10 +3,11 @@ CURRENT = 3
 REVISION = 0
 AGE = 1
 activitydir = $(includedir)/$(MODULE)
+JAVAINCLUDES = @JAVAINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc
+INCLUDES = -I.. -I$(srcdir)/.. -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../misc $(JAVAINCLUDES)
 
 noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@

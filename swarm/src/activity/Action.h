@@ -10,162 +10,72 @@ Library:      activity
 */
 
 #import <defobj.h>
+#import <defobj/Create.h>
 #import <activity/CompoundAction.h>
 #import <activity.h>
 
-@interface CAction: Object_s <Action>
+@interface CAction: CreateDrop_s <Action>
 {
 @public
-  ActionType_c *owner;        // action type that binds action in its context
-  member_t ownerActions;       // internal links in actions owned by ActionType
-  unsigned bits;               // bit allocations
+  ActionType_c *owner;       // action type that binds action in its context
+  member_t ownerActions;     // internal links in actions owned by ActionType
+  unsigned bits;             // bit allocations
 }
 /*** methods in CAction (inserted from .m file by m2h) ***/
 - getOwner;
 - (void)drop;
 @end
 
-@interface FAction: CAction 
+@interface CFAction: CAction <ActionArgs, Action>
 {
-@public
-   id <FCall> call;
+  unsigned argCount;
+  id arg1, arg2, arg3;
+  id <FArguments> arguments;
+  id <FCall> call;
+}
++ createBegin: aZone;
+- (void)_addArguments_;
+- (unsigned)getNArgs;
+- (void)setArg1: arg1;
+- (void)setArg2: arg2;
+- (void)setArg3: arg3;
+- getArg1;
+- getArg2;
+- getArg3;
+@end
+
+@interface FAction_s: CAction <Action>
+{
+  id <FCall> call;
 }
 - setCall: fcall;
-- setArguments: args;
 - (void)_performAction_: anActivity;
 - (void)describe: outputCharStream;
 @end
 
-@interface ActionCall_0: CAction
+@interface ActionCall_c: CFAction
 {
-@public
-  func_t funcPtr;              // pointer to function to be called
 }
-/*** methods in ActionCall_0 (inserted from .m file by m2h) ***/
 - (void)setFunctionPointer: (func_t)fptr;
+- createEnd;
 - (func_t)getFunctionPointer;
-- (int)getNArgs;
-- (void)_performAction_: anActivity;
 - (void)describe: outputCharStream;
 @end
 
-@interface ActionCall_1: ActionCall_0
-{
-@public
-  id arg1;
-}
-/*** methods in ActionCall_1 (inserted from .m file by m2h) ***/
-- (int)getNArgs;
-- (void)setArg1: anArg;
-- getArg1;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionCall_2: ActionCall_1
-{
-@public
-  id arg2;
-}
-/*** methods in ActionCall_2 (inserted from .m file by m2h) ***/
-- (int)getNArgs;
-- (void)setArg2: anArg;
-- getArg2;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionCall_3: ActionCall_2
-{
-@public
-  id arg3;
-}
-/*** methods in ActionCall_3 (inserted from .m file by m2h) ***/
-- (int)getNArgs;
-- (void)setArg3: anArg;
-- getArg3;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionTo_0: CAction
+@interface ActionTo_c: CFAction <ActionArgs>
 {
 @public
   id target;     // receiver of action message
   SEL selector;  // selector of message to send
 }
-/*** methods in ActionTo_0 (inserted from .m file by m2h) ***/
 - (void)setTarget: aTarget;
 - getTarget;
 - (void)setMessageSelector: (SEL)aSel;
 - (SEL)getMessageSelector;
-- (int)getNArgs;
-- (void)_performAction_: anActivity;
 - (void)describe: outputCharStream;
 @end
 
-@interface ActionTo_1: ActionTo_0
-{
-@public
-  id arg1;
-}
-/*** methods in ActionTo_1 (inserted from .m file by m2h) ***/
-- (int)getNArgs;
-- (void)setArg1: anArg;
-- getArg1;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionTo_2: ActionTo_1
-{
-@public
-  id arg2;
-}
-/*** methods in ActionTo_2 (inserted from .m file by m2h) ***/
-- (int)getNArgs;
-- (void)setArg2: anArg;
-- getArg2;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionTo_3: ActionTo_2
-{
-@public
-  id arg3;
-}
-/*** methods in ActionTo_3 (inserted from .m file by m2h) ***/
-- (int)getNArgs;
-- (void)setArg3: anArg;
-- getArg3;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionForEach_0: ActionTo_0
-/*** methods in ActionForEach_0 (inserted from .m file by m2h) ***/
+@interface ActionForEach_c: ActionTo_c <ActionForEach>
 - (void)setDefaultOrder: aSymbol;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionForEach_1: ActionTo_1
-/*** methods in ActionForEach_1 (inserted from .m file by m2h) ***/
-- (void)setDefaultOrder: aSymbol;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionForEach_2: ActionTo_2
-/*** methods in ActionForEach_2 (inserted from .m file by m2h) ***/
-- (void)setDefaultOrder: aSymbol;
-- (void)_performAction_: anActivity;
-- (void)describe: outputCharStream;
-@end
-
-@interface ActionForEach_3: ActionTo_3
-/*** methods in ActionForEach_3 (inserted from .m file by m2h) ***/
-- (void)_performAction_: anActivity;
 - (void)describe: outputCharStream;
 @end
