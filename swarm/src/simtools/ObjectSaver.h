@@ -6,7 +6,7 @@
 #import <objectbase/SwarmObject.h>
 #import <objectbase/VarProbe.h>
 
-@interface ObjectSaver : SwarmObject
+@interface ObjectSaver: SwarmObject
 {
   id templateProbeMap;  
   id theFileObject;    
