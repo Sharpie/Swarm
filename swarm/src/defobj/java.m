@@ -358,9 +358,17 @@ map_java_class_ivars_internal (jclass class,
                                void (*process_array_ivar) (const char *name, jfieldID fid),
                                void (*process_ivar) (const char *name, jfieldID fid, fcall_type_t type))
 {
+  jclass superClass = (*jniEnv)->GetSuperclass (jniEnv, class);
   jarray fields;
   jsize count;
   unsigned fi;
+  
+  if (superClass)
+    {
+      map_java_class_ivars_internal (superClass,
+                                     process_array_ivar, process_ivar);
+      (*jniEnv)->DeleteLocalRef (jniEnv, superClass);
+    }
   
   if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
                                               class,

@@ -1,5 +1,7 @@
 2001-03-28  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
+	* java.m (map_java_class_ivars_internal): Process super classes.
+
 	* FCall.m ([FCall_c -setMethodFromName:inObject:]): If there is a 
 	selector, use it before doing Java-specific thing, even if there
 	is Java counterpart.
