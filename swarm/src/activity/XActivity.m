@@ -299,9 +299,10 @@ nextFunction (id activity)
   // if Holding then defer stop to owner activity
   
   if (HOLDINGP (((Activity_c *)activity)->status))
-    ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
-  return NO;
-  
+    {
+      ((Activity_c *)activity)->ownerActivity->breakFunction = stopFunction;
+      return NO;
+    }
   // return up stack of activities with status set to Stopped
   
   ((Activity_c *)activity)->status = Stopped;
