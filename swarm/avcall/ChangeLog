@@ -1,3 +1,8 @@
+2001-02-04  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* avcall-rs6000-linux.s, avcall.h.in, Makefile.in, configure.in:
+	Adapted from ffcall-1.8.  Thanks to Ralf Stephan.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.
