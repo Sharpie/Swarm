@@ -9,6 +9,7 @@ EXTRA_DIST = VERSION
 SWARM_INSTALL = @SWARM_INSTALL@
 
 install-data-local:
+	$(mkinstalldirs) $(includedir) 
 	$(INSTALL_DATA) swarmconfig.h $(includedir)
 	$(INSTALL_DATA) externvar.h $(includedir)
 	$(mkinstalldirs) $(bindir) $(datadir)/swarm

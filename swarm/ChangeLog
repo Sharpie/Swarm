@@ -1,3 +1,8 @@
+2002-09-17  Paul E Johnson  <pauljohn@ukans.edu>
+
+	* Makefile.am (install-data-local): Must create destination
+	includedir first, because swarmconfig.h is written into it.
+
 2002-05-14  Marcus G. Daniels  <mgd@condor>
 
 	* VERSION: Bump.
