@@ -1,28 +1,13 @@
 1999-06-13  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
 
-	* config/alpha/mframe-generic.h: Rewritten to synthesize
-	register/stack offset information.
-	
 	* sendmsg.c (__objc_double_forward): Special case for double
 	returns on alpha.  [Danger: empirically determined!]
-
-1999-06-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/hppa/mframe-hpux.h (MFRAME_ARG_ENCODING): Likewise.
-
-1999-06-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/mips/mframe-irix6.h (MFRAME_ARG_ENCODING): Synthesize
-	register/stack layout info without compiler clues.
 
 1999-06-11  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in: Add "-I m4" to aclocal, if it exists.
 
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/sparc/mframe-solaris2.h (MFRAME_ARG_ENCODING): Ensure
-	that register items get tagged with `+'.
 
 	* configure.in: Use AM_CONFIG_HEADER to extract externvar.h,
 	not an AC_OUTPUT entry.
@@ -75,13 +60,6 @@
 
 	* selector.c (__sel_register_typed_name,
 	__objc_uninstalled_dtable): Likewise.
-
-1999-06-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/i386/mframe-{freebsd,generic,linux-gnu,openbsd,sysv4.2MP}.h,
-	config/powerpc/mframe-{generic,linux-gnu}.h,
-	config/sparc/mframe-{generic,sunos4.1.3}.h: Add casts for isdigit
-	args.
 
 1999-05-31    <mgd@HELEN>
 
@@ -147,11 +125,6 @@
 
 	* archive.c, objects.c, selector.c: Include string.h.
 
-1999-05-15  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
-
-	* config/alpha/mframe-generic.h (MFRAME_STACK_STRUCT): Add.
-	Add casts from pointer diff to ints for printf args.
-
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (libobjc_la_LIBADD): Add -lgcc.
@@ -159,75 +132,12 @@
 	resolve symbols like __eprintf on HPUX, where shared library
 	linking doesn't go through gcc.
 
-	* config/hppa/{mframe-hpux,compiler-info-hpux}.h: Renamed from
-	*hpux10.h.
-
-1999-05-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/sparc/mframe-solaris2.h (MFRAME_ARG_ENCODING): Return
-	to using GET_SPARC_ARG_LOCATION; don't rely on compiler metadata for
-	coding signature. Don't do alignment of offsets
-	except in the case of stack.
-
 1999-05-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe.m (mframe_next_arg): Handle negative offsets (as stack
 	offsets).
 
-	* config/hppa/mframe-hpux10.h (MFRAME_ARG_ENCODING): Rewrite.
-	Allow negative offsets.  Use existing offsets, stripping register
-	designation for floats and doubles.  Handle weird relocation of
-	registers not designated for stack, but that underflow the top
-	of the region between arg_ptr and argFrame.
-
-	* config/hppa/{mframe,compiler-info}-hpux10.h replace *generic.h.
-
-1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/sparc/mframe-solaris2.h (MFRAME_ARG_ENCODING): Disable
-	check for sizes less and alignment of original.  Disable use
-	of GET_SPARC_ARG_LOCATION, trusting the `+' and offset encoding.
-
-	* config/mips/mframe-irix6.h: Add stack offset counter to mips_args.
-	(MFRAME_INIT_ARGS): Initialize it to 96 (determined empirically).
-	(MFRAME_ARG_ENCODING): Handle stack items. 
-
-1999-05-08  Marcus Daniel  <marcusd@asl.krasnow.gmu.edu>
-
-	* config/mips/mframe-irix6.h (MFRAME_INIT_ARGS, MFRAME_ARG_ENCODING): 
-	Add separate counters for floating point and non-floating point
-	registers.
-
-1999-05-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/mips/mframe-irix6.h (refstructp): New inline.
-	(mframe_get_struct_addr_ptr, MFRAME_ARG_ENCODING): Use it.
-	(MFRAME_INIT_ARGS): Start CUM at 20.
-	(MFRAME_ARG_ENCODING): Use offset of 4 when large struct reference,
-	and CUM otherwise.  In latter case, add size to CUM.
-	Retain register tags.
-
-1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/mips/mframe-irix6.h (MFRAME_{G,S}ET_STRUCT_ADDR): 
-	Use an offset of 1 into the argframe for struct return address.
-	Note that this only occurs for structures larger than 16 bytes,
-	(mframe_get_struct_addr_ptr): New static inline.
-	(MFRAME_GET_STRUCT_ADDR, MFRAME_SET_STRUCT_ADDR): Use it.
-
-	* config/mips/compiler-info-irix6.h, config/mips/mframe-irix6.h:
-	Renamed from *irix6.5.h.
-
 1999-05-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/unknown/compiler-info-generic.h,
-	config/i386/compiler-info-linux-gnu.h,
-	config/sparc/compiler-info-solaris2.h,
-	config/hppa/compiler-info-generic.h:  Remove INVISIBLE_STRUCT_RETURN,
-	it is redundant with mframe's MFRAME_STACK_STRUCT.
-
-	* config/mips/compiler-info-irix6.5.h,
-	config/mips/mframe-irix6.5.h: New files.
 
 	* sendmsg.c: Use MFRAME_STACK_STRUCT from mframe.h instead of
 	INVISIBLE_STRUCT_RETURN from compiler-info.h.
@@ -238,16 +148,8 @@
 
 	* Object.m: Include string.h.
 
-	* config/unknown/mframe-generic.h (MFRAME_ARG_ENCODING): Cast
-	pointer difference to int to avoid warning (Irix 6.5).
-
 	* mframe.m: Include sys/sigevent.h in case of HPUX.
 	This is to avoid warning about implicit structure definition.
-
-1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* config/unknown/mframe-generic.h (MFRAME_ARG_ENCODING): Cast argument
-	to int to avoid warning.
 
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
