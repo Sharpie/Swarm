@@ -1,3 +1,8 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.m: Add YES as new inhibitExecutableSearchFlag
+	argument to _initSwarm_.
+
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmEnvironment.m: Don't include misc.h.

@@ -191,7 +191,7 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
                argv[0],
                (*env)->GetStringUTFChars (env, version, &isCopy),
                (*env)->GetStringUTFChars (env, bugAddress, &isCopy),
-               NULL, NULL, NULL, NO);
+               NULL, NULL, NULL, NO, YES);
 #ifdef hpux
   {
     extern void libjavaswarmstubs_constructor (void);
