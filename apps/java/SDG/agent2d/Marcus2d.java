@@ -135,11 +135,11 @@ public class Marcus2d extends DirectedAgent2d {
   public void checkWork () {
     if (energy == 0) {
       if (xmoveNext != null) {
-        schedule.remove (xmoveNext);
+        ((Action) schedule.remove (xmoveNext)).drop ();
         xmoveNext = null;
       }
       if (ymoveNext != null) {
-        schedule.remove (ymoveNext);
+        ((Action) schedule.remove (ymoveNext)).drop ();
         ymoveNext = null;
       }
       startIncubation (Globals.env.getCurrentTime () + 1);
