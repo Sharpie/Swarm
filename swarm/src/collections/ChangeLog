@@ -1,5 +1,7 @@
 1999-01-06  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* List_GEN.m ([TINDEX -setOffset:]): Cast count to int.
+
 	* collections.h (PermutationItem): New protocol.
 	(PermutedIndex): Remove no-update qualification.
 

@@ -578,7 +578,7 @@ PHASE(Using)
 
 - setOffset: (int)offset
 {
-  if ((offset < 0) || (offset >= collection->count))
+  if ((offset < 0) || (offset >= (int) collection->count))
     raiseEvent (OffsetOutOfRange, nil);
   link = (link_t) Start;
   position = 0;
