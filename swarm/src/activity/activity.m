@@ -12,8 +12,7 @@ Library:      activity
 #import "activity.xm"
 #import <activity/XActivity.h>
 
-id  _activity_current, _activity_zone;
-id  _activity_activityRefsType, _activity_swarmSyncType;
+externvardef id _activity_activityRefsType, _activity_swarmSyncType;
 
 void
 _activity_implement (void)

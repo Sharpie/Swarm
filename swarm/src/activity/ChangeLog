@@ -1,3 +1,10 @@
+1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* activity.m: Don't define _activity_current, _activity_zone here.
+	Use externvardef for remaining symbols.
+
+	* SwarmProcess.m: Use externvar to declare _activity_swarmSyncType.
+
 1999-07-28  Alex Lancaster  <alex@santafe.edu>
 
 	* activity.h (Schedule): Add +create:setRepeatInterval: and

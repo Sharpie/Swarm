@@ -13,7 +13,7 @@ Library:      activity
 #import <activity/Schedule.h>
 #import <defobj/defalloc.h>
 
-extern id _activity_swarmSyncType;
+externvar id _activity_swarmSyncType;
 
 @implementation CSwarmProcess
 
