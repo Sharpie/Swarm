@@ -4,9 +4,6 @@
 #import "FoodSpace.h"
 #import <objectbase/Swarm.h>
 #import <space.h>
-#import <activity.h>
-#import <collections.h>
-#import <objectbase.h>
 
 @interface ModelSwarm: Swarm
 {
