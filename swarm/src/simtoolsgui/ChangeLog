@@ -1,3 +1,9 @@
+1999-09-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ProbeDisplayManager.m ([ProbeDisplayManager
+	-_createProbeDisplayFor_:setWindowGeometryRecordName:]):
+	swarm_directory_get_swarm_class -> swarm_directory_swarm_class.
+
 1999-09-13    <mgd@HELEN>
 
 	* GUISwarm.m ([GUISwarm -setWindowGeometryRecordName:]): 

@@ -21,7 +21,7 @@
 
 #import <simtoolsgui.h> // ProbeDisplay, CompleteProbeDisplay
 
-#import <defobj/directory.h> // swarm_directory_get_swarm_class
+#import <defobj/directory.h> // swarm_directory_swarm_class
 
 @implementation ProbeDisplayManager
 PHASE(Creating)
@@ -115,7 +115,7 @@ PHASE(Using)
 {
   id tempPD, tempPM;
   Class cls;
-  cls = swarm_directory_get_swarm_class (anObject);
+  cls = swarm_directory_swarm_class (anObject);
   tempPM = [DefaultProbeMap createBegin: [anObject getZone]];
   [tempPM setProbedClass: cls];
   [tempPM setObjectToNotify: [probeLibrary getObjectToNotify]];
@@ -140,7 +140,7 @@ PHASE(Using)
 {
   Class cls;
     
-  cls = swarm_directory_get_swarm_class (anObject);
+  cls = swarm_directory_swarm_class (anObject);
   if (([anObject respondsTo: @selector(getProbeMap)]) &&
       ([probeLibrary isProbeMapDefinedFor: cls]))
     return [[[[[ProbeDisplay createBegin: [self getZone]]
