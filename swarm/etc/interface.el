@@ -504,6 +504,10 @@
     (when varname
       (car type-and-varname))))
 
+(defun argument-name (argument)
+  (let ((type-and-varname (cdr argument)))
+    (cadr type-and-varname)))
+
 (defun augment-type-hash-table (ht method)
   (let* ((return-type (method-return-type method))
          (mprotocol (objc-protocol-for-type return-type)))
@@ -531,3 +535,26 @@
           (augment-type-hash-table ht method))
     ht))
     
+(defun create-hash-table-for-initialization-parameters (protocol)
+  (let ((ht (make-hash-table :test #'equal)))
+    (loop for method in (collect-convenience-create-methods protocol)
+          do
+          (loop for argument in (method-arguments method)
+                for argument-name = (argument-name argument)
+                when argument-name
+                do
+                (setf (gethash argument-name ht) (argument-type argument))))
+    ht))
+
+(defun print-argument (argument
+                       convert-type-func
+                       convert-name-func)
+  (let* ((type-and-varname (cdr argument))
+         (varname (cadr type-and-varname)))
+    ;; the case of method with no arguments
+    (when varname
+      (insert (funcall convert-type-func (car type-and-varname)))
+      (insert " ")
+      (insert (funcall convert-name-func varname))
+      t)))
+

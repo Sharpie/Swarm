@@ -2,6 +2,8 @@
 
 	* interface.el (*extra-removed-methods*,
 	*extra-unwanted-create-method-signatures*): Declare here.
+	(argument-name, create-hash-table-for-initialization-create-methods,
+	print-argument): New functions.
 
 2000-05-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
