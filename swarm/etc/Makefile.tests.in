@@ -4,7 +4,7 @@ INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(
 
 builddir = $(shell cd ../../src; pwd)
 
-SWARMBUILDLDFLAGS = $(foreach module,$(SWARMMODULES),-L$(builddir)/$(module)/.libs -R $(builddir)/$(module)/.libs)
+SWARMBUILDLDFLAGS = $(foreach module,$(SWARMMODULES),-L$(builddir)/$(module) -R $(builddir)/$(module))
 
 LDFLAGS = $(SWARMBUILDLDFLAGS) $(SUPPORTLDFLAGS)
 
