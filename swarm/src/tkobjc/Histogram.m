@@ -20,7 +20,7 @@ PHASE(Creating)
   Histogram *histo;
 
   histo = [super createBegin: aZone];
-  histo->numBins = -1;
+  histo->numBins = 0;
 
   return histo;
 }
@@ -36,12 +36,13 @@ PHASE(Creating)
 
 - createEnd
 {
-  int i;
+  unsigned i;
 
   [super createEnd];
 
   if (numBins < 1)
-    [InvalidCombination raiseEvent:
+    [InvalidCombination
+      raiseEvent:
     "Histogram: creation error: number of bins not specified\n"];
 
   // create the graph with one element
@@ -65,40 +66,43 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setLabels: (const char * const *)l
+- setLabels: (const char * const *)l count: (unsigned)labelCount
 {
-  int i;
+  unsigned i;
 
   if (l == NULL)
     return self;	// nothing to be done
 
   if (numBins < 1)
-    [InvalidCombination raiseEvent:
+    [InvalidCombination
+      raiseEvent:
     "Histogram: cannot set labels -- number of bins not set\n"];
 
-  for (i=0; i<numBins; i++)
-    if (l && l[i])
+  if (l)
+    for (i = 0; i < numBins; i++)
       [globalTkInterp eval: "%s element configure %s -label \"%s\"",
-        widgetName, elements[i], l[i]];
-
+		      widgetName, elements[i], l[i % labelCount]];
+  
   return self;
 }
 
-- setColors: (const char * const *)c
+- setColors: (const char * const *)c count: (unsigned)colorCount
 {
-  int i;
+  unsigned i;
 
-  if (c == NULL) return self;	// nothing to be done
+  if (c == NULL)
+    return self;	// nothing to be done
 
   if (numBins < 1)
-    [InvalidCombination raiseEvent:
+    [InvalidCombination
+      raiseEvent:
     "Histogram: cannot set colors -- number of bins not set\n"];
 
-  for (i=0; i<numBins; i++)
-    if (c && c[i])
+  if (c)
+    for (i = 0; i < numBins; i++)
       [globalTkInterp eval: "%s element configure %s -foreground \"%s\"",
-        widgetName, elements[i], c[i]];
-
+                      widgetName, elements[i], c[i % colorCount]];
+  
   // Note: caller needs to supply enough colors.
   // If not, excess bars remain colored blue.
 
@@ -107,7 +111,7 @@ PHASE(Using)
 
 - drawHistogramWithDouble: (double *)points
 {
-  int i;
+  unsigned i;
 
   for (i = 0; i < numBins; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %f }",
@@ -118,7 +122,7 @@ PHASE(Using)
 // ick. How to do two data formats right?
 - drawHistogramWithInt: (int *)points
 {
-  int i;
+  unsigned i;
 
   for (i = 0; i < numBins; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %d }",
@@ -126,9 +130,9 @@ PHASE(Using)
   return self;
 }
 
-- drawHistogramWithInt: (int *) points atLocations: (double *) locations
+- drawHistogramWithInt: (int *)points atLocations: (double *)locations
 {
-  int i;
+  unsigned i;
 
   for (i = 0; i < numBins; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %d }",
@@ -136,9 +140,9 @@ PHASE(Using)
   return self;
 }
 
-- drawHistogramWithDouble: (double *) points atLocations: (double *) locations
+- drawHistogramWithDouble: (double *)points atLocations: (double *)locations
 {
-  int i;
+  unsigned i;
 
   for (i = 0; i < numBins; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %g }",

@@ -11,14 +11,14 @@
 @interface Histogram: ArchivedGeometryWidget <Histogram>
 {
   const char **elements;
-  int numBins;  			// should be dynamic
+  unsigned numBins;  			// should be dynamic
 }
 + createBegin: aZone;
 - setNumBins: (unsigned)n;		// how many bins to use (bars to draw)
 - createEnd;
 
-- setLabels: (const char * const *)l;	// labels for the bars
-- setColors: (const char * const *)c;	// colors for the bars
+- setLabels: (const char * const *)l count: (unsigned)labelCount;
+- setColors: (const char * const *)c count: (unsigned)colorCount;
 
 - drawHistogramWithDouble: (double *) points;	  // data format hack
 - drawHistogramWithInt: (int *) points;

@@ -1,3 +1,28 @@
+1999-01-06  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Widget.m ([Widget -setParent:]): Check for nil, not 0.
+	([Widget -createEnd]): Set shellFrameFlag if parent is nil.
+	([Widget -drop]): Use shellFrameFlag to determine if parent
+	should be dropped.
+
+	* Widget.h (Widget): New flag shellFrameFlag.
+
+	* Histogram.m ([Histogram +createBegin:]): Initialize numBins
+	to 0 instead of -1.
+	([Histogram -createEnd]): Make i unsigned.
+	([Histogram -setLabels:count:], [Histogram -setColors:count:]):
+	Modulus index by {label,color}Count.  Don't check for
+	entry of NULL.
+	([Histogram -drawHistogramWithInt:], 
+	[Histogram -drawHistogramWithDouble:],
+	[Histogram -drawHistogramWithInt:atLocations:],
+	[Histogram -drawHistogramWithDouble:points:locations]): 
+	Make i unsigned.
+
+	* Histogram.h (Histogram): Make numBins unsigned. 
+
+	* Histogram.[hm]: Add count argument to setLabels and setColors.
+
 1998-12-31  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Widget.m ([Widget -drop]): Handle widgets which had shell

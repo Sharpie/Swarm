@@ -17,7 +17,7 @@ PHASE(Creating)
 
 - setParent: p
 {
-  if (parent == 0)
+  if (parent == nil)
     {
       parent = p;
       return self;
@@ -34,10 +34,8 @@ PHASE(Creating)
 {
   if (parent == nil)
     { 
-      // no parent, make a frame
-      Frame *defaultFrame;
-      defaultFrame = [Frame create: [self getZone]];
-      [self setParent: defaultFrame];
+      [self setParent: [Frame create: [self getZone]]];
+      shellFrameFlag = YES;
     }
   [self setWidgetNameFromParent: parent];
   
@@ -284,20 +282,16 @@ get_geometry_element (id widget, unsigned offset)
 }
 
 - (void)drop
-{ 
+{
   [self disableDestroyNotification];
-
+  
   if (!destroyedFlag)
     {
       if (parent == nil)
-	{
-	  Tk_DestroyWindow (tkobjc_nameToWindow ([self getWidgetName]));
-	  [super drop];
-	}
-      // If parent has default name, assume it is a shell frame for
-      // a single widget.
-      else if (strncmp ([parent getWidgetName], ".w", 2) == 0)
-	[parent drop];
+        Tk_DestroyWindow (tkobjc_nameToWindow ([self getWidgetName]));
+      if (shellFrameFlag)
+        [parent drop];
+      [super drop];
     }
 }
 

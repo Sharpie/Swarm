@@ -17,7 +17,7 @@
   id destroyNotificationTarget;
   SEL destroyNotificationMethod;
   BOOL destroyedFlag;
-
+  BOOL shellFrameFlag;
 }
 
 // creation time messages
