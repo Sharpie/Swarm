@@ -1,5 +1,9 @@
 1999-01-18  Alex Lancaster  <alex@santafe.edu>
 
+	* Makefile.am: Add.
+
+	* Makefile: Remove.
+
 	* ProbeTest.m (main): Add return values for all test cases, so
 	automake will assign pass/fail correctly.  Tweaked some test
 	cases.
