@@ -1,3 +1,9 @@
+1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Heatbug.m (bugPixmap): Static variable included in USE_PIXMAP case.
+	([Heatbug -_getPixmap_:]): New method.
+	([Heatbug -drawSelfOn:]): Call draw:X:Y: if USE_PIXMAP.
+
 1998-03-18  Alex Lancaster  <alex@santafe.edu>
 
 	* Heatbug.m: Removed redundant reference to <simtoolsgui.h>.

@@ -13,6 +13,10 @@
 #import "Heatbug.h"
 #import <random.h>
 
+#ifdef USE_PIXMAP
+static id <Pixmap> bugPixmap = nil;
+#endif
+
 // Defining the methods for a Heatbug.
 
 @implementation Heatbug
@@ -233,9 +237,30 @@
   return self;
 }
 
+#ifdef USE_PIXMAP
+- _getPixmap_: (id <Raster>)r
+{
+  if (bugPixmap == nil)
+    {
+      bugPixmap = [Pixmap createBegin: [self getZone]];
+      
+      [bugPixmap setFile: "ant.png"];
+      [bugPixmap setRaster: r];
+      bugPixmap = [bugPixmap createEnd];
+    }
+  
+  return bugPixmap;
+}
+#endif
+
 - drawSelfOn: (id <Raster>)r
 {
+#ifndef USE_PIXMAP
   [r drawPointX: x Y: y Color: bugColor];
+#else
+  [r draw: [self _getPixmap_: r] X: x Y: y];
+#endif
+
   return self;
 }
 
