@@ -17,8 +17,8 @@ Packager: Red Hat Contrib|Net <rhcn-bugs@redhat.com>
 Distribution: Red Hat Contrib|Net
 Vendor: Swarm Development Group
 URL: http://www.santafe.edu/projects/swarm
-BuildPrereq: blt tcl tk zlib libpng 
-Requires: blt tcl tk zlib libpng 
+BuildPrereq: blt tcl tk zlib libpng xpm
+Requires: blt tcl tk zlib libpng xpm
 
 %changelog
 * Sat Sep 18 1999 Alex Lancaster <alex@santafe.edu>
@@ -89,6 +89,9 @@ done
 
 # don't want to package libtool-swarm!
 rm $RPM_BUILD_ROOT%{prefix}/bin/libtool-swarm
+
+# strip all binaries, to save space in package
+strip $RPM_BUILD_ROOT%{prefix}/bin/*
 
 # create doc directories for each app
 # and prepare documentation for packaging

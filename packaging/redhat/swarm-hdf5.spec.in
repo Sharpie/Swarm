@@ -1,0 +1,78 @@
+Summary: Toolkit for agent-based simulation with hdf5 enabled.
+Name: swarm-hdf5
+Version: @version@
+Release: @release@
+Copyright: @copyright@
+Group: Development/Libraries
+Source: @ftproot@/swarm-@version@.tar.gz 
+%define prefix      /usr
+Prefix: %prefix
+BuildRoot: /tmp/swarm-root
+BuildPrereq: hdf5 > @hdf5_version@
+Icon: swarm.xpm
+Packager: @packager@
+Distribution: @distribution@
+Vendor: @vendor@
+URL: @url@
+Requires: egcs-objc 
+Requires: libpng
+Requires: libpng-devel
+Requires: zlib
+Requires: xpm
+Requires: xpm-devel
+Requires: blt
+Requires: tcl >= 8.0.4 
+Requires: tk >= 8.0.4 
+Provides: swarm-base
+Requires: hdf5 > @hdf5_version@
+Conflicts: swarm
+ 
+%description
+Swarm is a simulation toolkit for Complex Adaptive Systems. The Swarm
+project is sponsored by the Santa Fe Institute.  To use this version,
+you need a number of libraries and utilities, including tcl/tk 8.0.4
+or better, and the blt library package.  This version enables hdf5.
+
+@macros@
+
+%changelog
+* Sun Sep 19 1999 Alex Lancaster <alex@santafe.edu>
+
+- Split swarm and swarm-hdf5 files into separate spec files.  No
+  way to make two slightly different builds with overlapping namespace
+  in the BuildRoot using rpm, as yet.
+
+%prep 
+%setup -n swarm-@version@
+
+%build
+
+%makebuilddir =with-hdf
+
+JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix=%prefix --enable-linuxprefix --without-jdkdir --with-hdf5dir=/usr --disable-jar
+make
+                            
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir $RPM_BUILD_ROOT
+
+#install with-hdf5 version of build
+cd %{SWARM_SRC_DIR}
+%gen_filelist %{prefix} %{SWARM_SRC_DIR}/with-hdf
+
+cd =with-hdf
+make prefix=$RPM_BUILD_ROOT%{prefix} install
+
+%post 
+%fix_path etc/swarm/Makefile* etc/swarm/config.swarm lib/swarm/lib*.la
+
+%files -f with-hdf 
+%defattr(-,root,root)
+
+%clean 
+rm -rf $RPM_BUILD_ROOT
+
+# Local variables:
+# mode: shell-script
+# sh-shell: rpm
+# end:

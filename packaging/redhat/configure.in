@@ -1,0 +1,40 @@
+AC_INIT(swarm.spec)
+
+AM_INIT_AUTOMAKE(swarmspecs, 2.0.1)
+
+version=2.0.1
+release=1.rh6
+hdf5_version=1.2
+kaffe_version=1.0.b4
+jikes_version=0.47
+
+copyright='LGPL'
+packager='Red Hat Contrib|Net <rhcn-bugs@redhat.com>'
+distribution='Red Hat Contrib|Net'
+vendor='Swarm Development Group'
+url='http://www.santafe.edu/projects/swarm'
+ftproot='ftp://ftp.santafe.edu/pub/swarm'
+
+AC_SUBST_FILE(macros)dnl
+macros=$srcdir/swarm.macros
+
+AC_SUBST(version)
+AC_SUBST(release)
+AC_SUBST(hdf5_version)
+AC_SUBST(jikes_version)
+AC_SUBST(kaffe_version)
+
+AC_SUBST(copyright)
+AC_SUBST(packager)
+AC_SUBST(distribution)
+AC_SUBST(vendor)
+AC_SUBST(url)
+AC_SUBST(ftproot)
+
+AC_OUTPUT([Makefile swarm.spec swarm-hdf5.spec])
+
+# Local variables:
+# mode: m4
+# end:
+
+

@@ -1,0 +1,9 @@
+%define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-$RPM_PACKAGE_VERSION 
+
+%define makebuilddir() test -d %1 || mkdir %1 && cd %1 
+
+%define swarmlibraries() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.*" >> %2; done 
+
+%define gen_filelist() echo "%{1}/bin/libtool-swarm" > %2; echo "%{1}/bin/m2h" >> %2; echo "%{1}/bin/make-h2x" >> %2 ; echo "%{1}/etc/*" >> %2 ; echo "%{1}/include" >> %2 ; echo "%{1}/info/*" >> %2 ;  %{swarmlibraries: %1 %2}; echo '%dir %{1}/share' >> %2 ; echo '%doc README AUTHORS COPYING ChangeLog INSTALL NEWS THANKS' >> %2 
+
+%define fix_path() cd $RPM_INSTALL_PREFIX0; for i in %1; do eval "sed 's%/REPLACE-AT-INSTALLATION%$RPM_INSTALL_PREFIX0%g' $i > /tmp/swarmfile"; mv /tmp/swarmfile $i; done
