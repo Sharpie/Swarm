@@ -5,6 +5,7 @@
 #include <swarmITyping.h>
 #include <swarmISelector.h>
 #include "xptinfo.h"
+#include "xptcall.h"
 
 class swarmSelectorImpl: public swarmISelector, public swarmITyping
 {

@@ -12,12 +12,19 @@ void *createComponent (COMclass cClass);
 void *findComponent (const char *className);
 const char *copyString (const char *str);
 const char *getName (COMobject cObj);
-BOOL selectorIsVoidReturn (COMobject cSel);
-BOOL selectorIsBooleanReturn (COMobject cSel);
-const char *selectorName (COMobject cSel);
-unsigned selectorArgCount (COMobject cSel);
-fcall_type_t selectorArgFcallType (COMobject cSel, unsigned argIndex);
+
+COMobject normalize (COMobject cObj);
+
+COMobject selectorQuery (COMselector cObj);
+BOOL selectorIsVoidReturn (COMselector cSel);
+BOOL selectorIsBooleanReturn (COMselector cSel);
+const char *selectorName (COMselector cSel);
+unsigned selectorArgCount (COMselector cSel);
+fcall_type_t selectorArgFcallType (COMselector cSel, unsigned argIndex);
+void selectorInvoke (COMselector cSel, void *args);
+
 void *createArgVector (unsigned size);
-void addArg (fcall_type_t type, void *value);
-void setReturn (fcall_type_t type, void *value);
+void setArg (void *args, unsigned pos, fcall_type_t type, void *value);
+void freeArgVector (void *args);
+
 }

@@ -8,7 +8,7 @@
 
 #include <defobj.h> // fcall_type_t
 
-NS_IMPL_ISUPPORTS1(swarmSelectorImpl, swarmISelector)
+NS_IMPL_ISUPPORTS2(swarmSelectorImpl, swarmISelector, swarmITyping)
 
 swarmSelectorImpl::swarmSelectorImpl ()
 {
@@ -150,42 +150,22 @@ swarmSelectorImpl::Create (nsISupports *obj, const char *methodName, swarmISelec
   if (!findMethod (obj, methodName,
                    &methodInterface, &methodIndex, &methodInfo))
     return NS_ERROR_NOT_IMPLEMENTED;
-#if 0  
-  {
-    nsXPTCVariant params[1];
-    nsISupports *retInterface = NULL;
-    
-    params[0].ptr = &retInterface;
-    params[0].type = nsXPTType::T_INTERFACE;
-    params[0].flags = nsXPTCVariant::PTR_IS_DATA;
-
-    printf ("interface: %p methodIndex: %u methodInfo: %p paramCount: %u\n",
-            methodInterface,
-            (unsigned) methodIndex,
-            methodInfo, 
-            (unsigned) methodInfo->GetParamCount ());
-
-    if (!NS_SUCCEEDED (XPTC_InvokeByIndex (methodInterface,
-                                           methodIndex,
-                                           methodInfo->GetParamCount (),
-                                           params)))
-      abort ();
-    
-    printf ("called interface: %p\n", methodInterface);
-    {
-      swarmITyping *typing;
-
-      if (!NS_SUCCEEDED (methodInterface->QueryInterface (NS_GET_IID (swarmITyping), (void **) &typing)))
-        abort ();
-      
-      id oObj = SD_COM_ENSURE_OBJECT_OBJC (typing);
-      
-      printf ("typing interface: %p objc object: %p\n", typing, oObj);
-      printf ("[%s]\n", (*((struct objc_class **) oObj))->name);
-    }
-  }
-#endif
     
   NS_ADDREF (*ret = NS_STATIC_CAST (swarmISelector*, this));
   return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::Invoke (nsXPTCVariant *params)
+{
+  printf ("interface: %p methodIndex: %u methodInfo: %p paramCount: %u\n",
+          methodInterface,
+          (unsigned) methodIndex,
+          methodInfo, 
+          (unsigned) methodInfo->GetParamCount ());
+  
+  return XPTC_InvokeByIndex (methodInterface,
+                             methodIndex,
+                             methodInfo->GetParamCount (),
+                             params);
 }
