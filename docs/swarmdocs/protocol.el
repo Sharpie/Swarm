@@ -1,5 +1,5 @@
 (require 'cl)
-(load (concat (getenv "SWARMHOME") "/../swarmdocs/common.el"))
+(load (concat (getenv "SWARMDOCS") "/common.el"))
 
 (defvar *protocol-hash-table* (make-hash-table :test #'equal))
 

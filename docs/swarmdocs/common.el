@@ -27,7 +27,10 @@
    "/"))
 
 (defun get-swarmdocs ()
-  (concat (get-swarmhome) "../swarmdocs/"))
+  (let ((swarmdocs-env (getenv "SWARMDOCS")))
+    (if swarmdocs-env
+        swarmdocs-env
+        (concat (get-swarmhome) "../swarmdocs"))))
 
 (defun header-filename-for-module (module)
   (concat (symbol-name module) ".h"))
