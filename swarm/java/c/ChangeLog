@@ -1,3 +1,8 @@
+1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (CTOR): New variable.
+	(javaswarm.dll): Use it.
+
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (libjavaswarm.la): Use only libswarm and libobjc.

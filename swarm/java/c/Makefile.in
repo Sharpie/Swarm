@@ -71,11 +71,13 @@ libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
 
 ALLOBJECTS = $(patsubst %.lo,%.o,$(libjavaswarm__la_OBJECTS) $(libjavaswarmstubs__la_OBJECTS))
 
+CTOR = javaswarm_constructor
+
 javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la
-	$(CC) -Dconstructor_func=javaswarm_constructor -c $(top_srcdir)/src/dllinit.c -o javaswarm_dllinit.o
-	$(top_srcdir)/src/genctors javaswarm_constructor $(ALLOBJECTS)
-	$(CC) -c javaswarm_constructor.c
-	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarm.a --driver-name $(CC) -o javaswarm.dll javaswarm_dllinit.o javaswarm_constructor.o $(ALLOBJECTS) -L../libobjc -L$(top_builddir)/src $(SWARMLIBS) -lobjc
+	$(top_srcdir)/src/genctors $(CTOR) $(ALLOBJECTS)
+	$(CC) -c $(CTOR).c
+	$(CC) -Dconstructor_func=$(CTOR) -c $(top_srcdir)/src/dllinit.c -o javaswarm_dllinit.o
+	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarm.a --driver-name $(CC) -o javaswarm.dll javaswarm_dllinit.o $(CTOR).o $(ALLOBJECTS) -L../libobjc -L$(top_builddir)/src $(SWARMLIBS) -lobjc
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
