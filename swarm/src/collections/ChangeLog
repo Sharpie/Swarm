@@ -1,3 +1,8 @@
+2001-04-12    <mgd@coyote.santafe.edu>
+
+	* collections.h: Remove Index safety info from Index, Array, and List.
+	Remove EndsOnly info from ListIndex.
+
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Stream.m ([ArchiverValue_c -lispOutDeep:]): Handle nil.

@@ -129,10 +129,6 @@ USING
 
 //D: If changes to a collection are made while other indexes exist, those
 //D: other indexes could be affected in potentially catastrophic ways.
-//D: Each collection type documents which kinds of changes can be made
-//D: without affecting or invalidating existing indexes.  The IndexSafety
-//D: option of Collection provides additional ways to protect indexes
-//D: against possible effects of independent updates.
 
 //D: Each index is a stand-alone object allocated within a zone passed as
 //D: an argument in the message that created it.  This zone need not match
@@ -589,18 +585,6 @@ USING
 //D: attempt to remove a member will raise an error that the operation is
 //D: not supported.
 
-//D: While the IndexSafety option of an Array defaults to Unsafe, indexes
-//D: are inherently safe under all operations with the exception of
-//D: resizing an array or resetting its member allocation.  (The only
-//D: individual member operation which modifies contents of an array is
-//D: replacing a member value, and this does not affect existing indexes.)
-//D: The UnsafeAtMember value of IndexSafety is not supported since
-//D: individual members cannot be added or removed.  A value of SafeAlways
-//D: makes existing indexes safe even under resizing or reallocation.  If
-//D: an existing index referred to a member location that is no longer
-//D: contained in the array, the index location is reset to the End
-//D: location.
-
 //D: The default value of the ReplaceOnly option is true, and cannot be
 //D: overridden.
 
@@ -653,11 +637,6 @@ SETTING
 //D: addAfter:, or the location was End and the message addBefore:, the
 //D: index location remains Start or End.
 
-//D: If either the addAfter: or addBefore: message is requested with the
-//D: EndsOnly option, and the index location is not Start or End, or
-//D: if remove is requested on an index that is not positioned at either the
-//D: first or last member, an invalid operation error is raised.
-
 USING
 //M: Add a member after the index.
 - (void)addAfter: anObject;
@@ -686,15 +665,6 @@ USING
 //D: The List type is supports all messages of Collection.  If created with
 //D: default options, it provides no special speedup of accesses by integer
 //D: offset.
-
-//D: Unless the EndsOnly option is specified, the default value of
-//D: IndexSafety is UnsafeAtMember.  This means that indexes are inherently
-//D: safe under all operations except those which affect the member at an
-//D: index or immediately adjacent to an index between members.  If the
-//D: EndsOnly option is specified, the default value of IndexSafety is
-//D: Unsafe.  In this case, indexes could be invalidated by any operation
-//D: that adds or removes members.  The SafeAlways can be specified for any
-//D: case to get a guarantee of full index safety.
 
 USING
 //M: The addFirst: message adds a new member to the front of the list.
