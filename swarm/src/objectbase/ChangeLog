@@ -1,3 +1,12 @@
+1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* probing.m: Use externvardef to declare symbols below.
+
+	* local.h: Use externvar for declaration of symbols below.
+
+	* Probe.h: Include local.h.  Don't declare DefaultString, CharString,
+	and IntString.h.
+
 1999-08-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VarProbe.m ([VarProbe

@@ -8,6 +8,7 @@
 
 #import "local.h"
 
+externvardef id <Symbol> DefaultString, CharString, IntString;
 externvardef id probeLibrary;
 
 void

@@ -15,4 +15,4 @@
 extern int p_compare(id, id);
 
 // Symbols for this library
-id <Symbol> DefaultString, CharString, IntString;
+externvar id <Symbol> DefaultString, CharString, IntString;
