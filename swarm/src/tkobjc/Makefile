@@ -1,7 +1,7 @@
 SWARMHOME=../..
 LIBNAME=tkobjc
 
-ifeq $(MACHTYPE,i386-pc-cygwin32)
+ifeq ($(MACHTYPE),i386-pc-cygwin32)
 XPIXMAP_H=
 XPIXMAP_O=
 else
