@@ -1,3 +1,8 @@
+1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am ($(srcdir)/modulemap.c): Add change rule to srcdir but
+	depend on protocol files.
+
 1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.h: Add (id <Zone>) argument and return types.  Reorganize.

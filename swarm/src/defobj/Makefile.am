@@ -55,6 +55,6 @@ install-data-local:
 
 modulemap.elc: $(abs_top_builddir)/protocol.elc
 
-modulemap.c: modulemap.elc
+$(srcdir)/modulemap.c: modulemap.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
 	MODULES="$(MODULES)" SWARMSRCDIR=$(top_srcdir) $(ENVEMACS) -batch -l $(abs_builddir)/modulemap.elc -f generate-module-map
-	gperf -k \* -r -t modulemap > modulemap.c
+	gperf -k \* -r -t modulemap > $@
