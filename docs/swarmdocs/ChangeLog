@@ -1,5 +1,9 @@
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
+	* global.ent: Update legalnotice for Swarm itself, note GPL
+	conditions.  Clarify that the code for the docs is also under GPL
+	whilst the docs themselves are GFDL.
+
 	* gfdl.xml: Renamed and XML-ified from fdl.sgml.
 
 	* fdl.sgml: Removed.

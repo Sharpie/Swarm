@@ -34,11 +34,13 @@ mailing lists page</ulink>'>
       section entitled <link linkend="SWARM.GFDL.SGML.APPENDIX">"GNU
       Free Documentation License"</link>.</para>
 
-     <para>The SGML source and associated utilites
-    needed to generate this documentation can be found in the package:
-    <ulink
+     <para>The XML source and associated utilites needed to generate
+    this documentation can be found in the package: <ulink
     url="ftp://ftp.swarm.org/pub/swarm/swarmdocs-&swarm-doc-release-number;.tar.gz">swarmdocs-&swarm-doc-release-number;.tar.gz</ulink>.
-   The utilites are distributed under the GNU GPL.</para></legalnotice>'>
+    Whilst the documentation itself is under the GFDL, all code for
+    used to generate the documentation is distributed under the <ulink
+    url="http://www.gnu.org/copyleft/gpl.html">GNU
+    GPL</ulink>.</para></legalnotice>'>
 
 <!ENTITY swarm-legalnotice 
 
@@ -46,9 +48,9 @@ mailing lists page</ulink>'>
   <para>The copyright holders make no representation about the
   suitability of Swarm for any purpose. It is provided <quote>as
   is</quote> without expressed or implied warranty. Please refer to
-  the <ulink url="http://www.gnu.org/copyleft/lgpl.html">GNU Library Public
-  Licence</ulink> (LGPL). Permission to use, copy, modify and
-  distribute Swarm must be in accordance with the LGPL.</para>
+  the <ulink url="http://www.gnu.org/copyleft/gpl.html">GNU General Public
+  Licence</ulink> (GPL). Permission to use, copy, modify and
+  distribute Swarm must be in accordance with the GPL.</para>
   </legalnotice>'>
 
 <!ENTITY address 
