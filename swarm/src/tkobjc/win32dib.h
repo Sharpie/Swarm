@@ -3,6 +3,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <windowsx.h>
+#define BOOL w32BOOL
+#include <misc.h>
+#undef BOOL
 
 /* 1 = Top-Down   0 = Bottom-Up */
 #define TOP_DOWN_DIB 1

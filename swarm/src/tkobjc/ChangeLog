@@ -1,3 +1,7 @@
+1999-08-26    <mgd@HELEN>
+
+	* win32dib.[ch]: Avoid BOOL conflicts.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ScheduleItem.m ([ScheduleItem -_createItem_]): Use getDisplayName
