@@ -509,21 +509,45 @@ USING
 
 //M: Return the message associated with this warning.
 - (const char *)getMessageString;
+
+extern id <Warning>
+  WarningMessage,         //G: message in the source defines warning
+  ResourceAvailability,   //G: resource from runtime environment not available
+  LibraryUsage,           //G: invalid usage of library interface
+  DefaultAssumed,         //G: non-silent use of default
+  ObsoleteFeature,        //G: using feature which could be removed in future
+  ObsoleteMessage;        //G: using message which could be removed in future
+
 @end
 
 @deftype Error <Warning, CREATABLE>
 //S: A condition which prevents further execution.
 
 //D: A condition which prevents further execution.
+
+extern id <Error> 
+  SourceMessage,        //G: message in the source defines error
+  NotImplemented,       //G: requested behavior not implemented by object
+  SubclassMustImplement,//G: requested behavior must be implemented by subclass
+  InvalidCombination,   //G: invalid combination of set messages for create
+  InvalidOperation,     //G: invalid operation for current state of receiver
+  InvalidArgument,      //G: argument value not valid
+  CreateSubclassing,    //G: improper use of Create subclassing framework
+  CreateUsage,          //G: incorrect sequence of Create protocol messages
+  OutOfMemory,          //G: no more memory available for allocation
+  InvalidAllocSize,     //G: no more memory available for allocation
+  InternalError,        //G: unexpected condition encountered in program
+  BlockedObjectAlloc,   //G: method from Object with invalid allocation
+  BlockedObjectUsage,   //G: method inherited from Object superclass
+  ProtocolViolation;    //G: object does not comply with expected protocol
+
 @end
 
-//
-// raiseEvent() -- macro to raise Warning or Error with source location strings
-//
+
+//#: macro to raise Warning or Error with source location strings
 #define raiseEvent( eventType, formatString, args... ) \
 [eventType raiseEvent: \
 "\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
-
 
 //
 // Zone -- modular unit of storage allocation
@@ -728,14 +752,13 @@ USING
 - (void)xfprint;
 - (void)xfprintid;
 #endif
-@end
 
-//
-// symbol values for ReclaimPolicy option
-//
+//G: symbol values for ReclaimPolicy option
+
 extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
                     ReclaimFrontierInternal, ReclaimInternal, ReclaimFrontier;
-
+
+@end
 
 //
 // DefinedClass -- 
@@ -787,46 +810,11 @@ CREATING
 USING
 - getNextPhase;
 @end
-
 
-//
-// standard errors
-//
-extern id <Error> 
-  SourceMessage,          // message in the source defines error
-  NotImplemented,         // requested behavior not implemented by object
-  SubclassMustImplement,  // requested behavior must be implemented by subclass
-  InvalidCombination,     // invalid combination of set messages for create
-  InvalidOperation,       // invalid operation for current state of receiver
-  InvalidArgument,        // argument value not valid
-  CreateSubclassing,      // improper use of Create subclassing framework
-  CreateUsage,            // incorrect sequence of Create protocol messages
-  OutOfMemory,            // no more memory available for allocation
-  InvalidAllocSize,       // no more memory available for allocation
-  InternalError,          // unexpected condition encountered in program
-  BlockedObjectAlloc,     // method from Object with invalid allocation
-  BlockedObjectUsage,     // method inherited from Object superclass
-  ProtocolViolation;      // object does not comply with expected protocol
-
-//
-// standard warnings
-//
-extern id <Warning>
-  WarningMessage,         // message in the source defines warning
-  ResourceAvailability,   // resource from runtime environment not available
-  LibraryUsage,           // invalid usage of library interface
-  DefaultAssumed,         // non-silent use of default
-  ObsoleteFeature,        // using feature which could be removed in future
-  ObsoleteMessage;
-
-//
-// predefined type descriptors for allocated blocks
-//
+//G: predefined type descriptors for allocated blocks
 extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 
-//
-// M() -- macro to abbreviate @selector()
-//
+//#: macro to abbreviate @selector()
 #define M( messageName ) @selector( messageName )
 
 //
@@ -844,57 +832,62 @@ extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 #endif
 #endif
 
-//
-// _obj_formatIDString() --
-//   function to generate object id string in standard format
-//
-// (Up to 78 characters of the supplied buffer argument could be filled.)
-//
+//G: function to generate object id string in standard format
+//G: (Up to 78 characters of the supplied buffer argument could be filled.)
 extern void _obj_formatIDString (char *buffer, id anObject);
 
-//
-// declaration to enable use of @class declaration for message receiver without
-// compile error (discovered by trial and error; the declaration appears in
-// <objc/objc-api.h> which is also sufficient to suppress the error)
-//
+//G: declaration to enable use of @class declaration for message
+//G: receiver without compile error (discovered by trial and error; the
+//G: declaration appears in <objc/objc-api.h> which is also sufficient to
+//G: suppress the error)
 extern Class objc_get_class (const char *name);  // for class id lookup
 
 //
 // type objects generated for module
 //
 #import <defobj/types.h>
-
 
 //
 // global data and functions
 //
 
-//
-// initModule() -- module initialization macro
-//
+
+//#: module initialization macro
 #define initModule(module) _obj_initModule(_##module##_)
+
 extern void _obj_initModule( void *module );
+extern id _obj_globalZone;   
+extern id _obj_scratchZone; 
 
-extern id _obj_globalZone;   // global storage zone
-extern id _obj_scratchZone;  // scratch zone
-
+//#: global storage zone
 #define globalZone       _obj_globalZone
+//#: scratch zone
 #define scratchZone      _obj_scratchZone
 
 #ifndef _obj_debug
-extern BOOL _obj_debug;       // if true then perform all debug error checking
+//G: if true then perform all debug error checking
+extern BOOL _obj_debug;   
 #endif
 
-extern FILE *_obj_xerror;     // output file for error messages
-extern FILE *_obj_xdebug;     // output file for debugging messages
+//G: output file for error messages
+extern FILE *_obj_xerror;  
+//G: output file for debugging messages   
+extern FILE *_obj_xdebug;  
 
-extern void xsetname (id anObject, const char *name); // debug set display name
-extern void xprint (id anObject);                // debug object print
-extern void xprintid (id anObject);              // debug object id print
-extern void xfprint (id anObject);               // debug foreach object print
-extern void xfprintid (id anObject);             // debug foreach id print
-extern void xexec (id anObject, const char *name);  // debug method exec
-extern void xfexec (id anObject, const char *name); // debug foreach method exec
+//G: debug set display name
+extern void xsetname (id anObject, const char *name); 
+//G: debug object print
+extern void xprint (id anObject);                
+//G: debug object id print
+extern void xprintid (id anObject);              
+//G: debug foreach object print
+extern void xfprint (id anObject);    
+//G: debug foreach id print           
+extern void xfprintid (id anObject);  
+//G: debug method exec
+extern void xexec (id anObject, const char *name);
+//G: debug foreach method exec
+extern void xfexec (id anObject, const char *name); 
 
 extern id nameToObject (const char *name);
 
@@ -903,12 +896,15 @@ extern id nameToObject (const char *name);
 // (obsolete once module system in use)
 //
 
+//# macro used to create and initialize a symbol
 #define defsymbol(name) name = [Symbol create: globalZone setName: #name]
 
+//# macro used to create and initialize an Error symbol
 #define defwarning(name, message) \
   [(name = [Warning create: globalZone setName: #name]) \
     setMessageString: message]
 
+//# macro used to create and initialize a Warning symbol
 #define deferror(name, message) \
   [(name = [Error create: globalZone setName: #name]) \
     setMessageString: message]
