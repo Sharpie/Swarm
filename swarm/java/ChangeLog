@@ -1,3 +1,7 @@
+2001-07-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Makefile.am (libgcjswarm.la): Don't link against javaswarm.
+
 2001-07-13  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* java-stub.el (inheritance-cases): Always inherit from BaseImpl.
