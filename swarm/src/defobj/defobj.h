@@ -11,8 +11,15 @@ Library:      defobj
 
 #import <defobj/deftype.h>
 
+//S: Standard objects for GNU Objective C extensions
+
+//D: The defobj library supports the style of object-oriented programming
+//D: that is used throughout Swarm.  It defines a specific style for using
+//D: the Objective C language that includes its own standard conventions for
+//D: creating objects and for storage allocation, error handling, and debugging
+//D: support.
+
 @deftype DefinedObject
-USING
 //S: Object with defined type and implementation.
 
 //D: DefinedObject is the top-level supertype for all objects that follow
@@ -28,6 +35,7 @@ USING
 //D: leaves to other types the definition of message that might or might
 //D: not apply in any general way to particular objects.
 
+USING
 //M: The getZone message returns the zone in which the object was created.
 - getZone;
 
@@ -761,7 +769,6 @@ USING
 #endif
 
 //G: symbol values for ReclaimPolicy option
-
 extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
                     ReclaimFrontierInternal, ReclaimInternal, ReclaimFrontier;
 
@@ -818,35 +825,35 @@ USING
 - getNextPhase;
 @end
 
-//G: predefined type descriptors for allocated blocks
+//G: Predefined type descriptors for allocated blocks.
 extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 
-//#: macro to abbreviate @selector()
-#define M( messageName ) @selector( messageName )
+//#: Abbreviation for @selector().
+#define M(messageName) @selector( messageName )
 
-//
-// PTR_... -- macro settings for machine-dependent pointer options
-//
+#ifndef PTRFMT
+#if 0
+//#: The size of a pointer in bytes.
 #ifndef PTRSIZE
 #define PTRSIZE 4
 #endif
-
-#ifndef PTRFMT
 #if PTRSIZE == 4
 #define PTRFMT "%0#8lx"
 #else
 #define PTRFMT "%0#16lx"
 #endif
 #endif
+//#: The printf-style format for displaying a pointer.
+#define PTRFMT "%p"
+#endif
 
-//G: function to generate object id string in standard format
-//G: (Up to 78 characters of the supplied buffer argument could be filled.)
+
+//F: Function to generate object id string in standard format
+//F: (Up to 78 characters of the supplied buffer argument could be filled.)
 extern void _obj_formatIDString (char *buffer, id anObject);
 
-//G: declaration to enable use of @class declaration for message
-//G: receiver without compile error (discovered by trial and error; the
-//G: declaration appears in <objc/objc-api.h> which is also sufficient to
-//G: suppress the error)
+//F: Declaration to enable use of @class declaration for message
+//F: receiver without compile error.
 extern Class objc_get_class (const char *name);  // for class id lookup
 
 //
@@ -854,22 +861,23 @@ extern Class objc_get_class (const char *name);  // for class id lookup
 //
 #import <defobj/types.h>
 
-//
-// global data and functions
-//
-
+//G: internal module initialization function
+extern void _obj_initModule (void *module);
 
 //#: module initialization macro
 #define initModule(module) _obj_initModule(_##module##_)
 
-extern void _obj_initModule( void *module );
+//G: internal variable for globalZone macro
 extern id _obj_globalZone;   
+
+//G: internal variable for scratchZone macro
 extern id _obj_scratchZone; 
 
-//#: global storage zone
-#define globalZone       _obj_globalZone
-//#: scratch zone
-#define scratchZone      _obj_scratchZone
+//#: A zone for allocating global objects.
+#define globalZone _obj_globalZone
+
+//#: A zone for allocating temporary objects.
+#define scratchZone _obj_scratchZone
 
 #ifndef _obj_debug
 //G: if true then perform all debug error checking
@@ -881,21 +889,28 @@ extern FILE *_obj_xerror;
 //G: output file for debugging messages   
 extern FILE *_obj_xdebug;  
 
-//G: debug set display name
+//F: debug set display name
 extern void xsetname (id anObject, const char *name); 
-//G: debug object print
+
+//F: debug object print
 extern void xprint (id anObject);                
-//G: debug object id print
+
+//F: debug object id print
 extern void xprintid (id anObject);              
-//G: debug foreach object print
+
+//F: debug foreach object print
 extern void xfprint (id anObject);    
-//G: debug foreach id print           
+
+//F: debug foreach id print           
 extern void xfprintid (id anObject);  
-//G: debug method exec
+
+//F: debug method exec
 extern void xexec (id anObject, const char *name);
-//G: debug foreach method exec
+
+//F: debug foreach method exec
 extern void xfexec (id anObject, const char *name); 
 
+//F: Get an object from textual pointer description.
 extern id nameToObject (const char *name);
 
 //

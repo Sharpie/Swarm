@@ -1,3 +1,8 @@
+1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* defobj.h: Updated documentation tags.
+	(PTRFMT): Use %p.
+
 1998-06-01  Alex Lancaster  <alex@santafe.edu>
 
 	* DefObject.m ([Object_s -xfprintid]): Fixed typo in comment above
