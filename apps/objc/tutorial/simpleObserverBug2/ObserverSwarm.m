@@ -2,10 +2,7 @@
 
 #import "ObserverSwarm.h"
 #import "ModelSwarm.h"
-#import <collections.h>
-#import <objectbase.h>
-#import <analysis.h>
-#import <gui.h>
+#import <simtoolsgui.h>
 
 @implementation ObserverSwarm
 

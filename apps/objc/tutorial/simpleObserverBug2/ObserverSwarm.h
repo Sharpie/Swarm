@@ -1,13 +1,7 @@
 // ObserverSwarm.h
 
-#import <objectbase.h>
-#import <space.h>
-#import <activity.h>
-#import <gui.h>
-#import <collections.h>
-#import <simtools.h>
-#import <analysis.h>
 #import "ModelSwarm.h"
+#import <simtoolsgui/GUISwarm.h>
 
 @interface ObserverSwarm: GUISwarm
 {

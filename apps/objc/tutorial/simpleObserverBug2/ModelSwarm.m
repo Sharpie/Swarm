@@ -1,7 +1,7 @@
 // ModelSwarm.m					SimpleBug app
 
 #import "ModelSwarm.h"
-#import <simtools.h>
+#import <random.h>
 
 @implementation ModelSwarm  
 
@@ -10,21 +10,24 @@
 // In theory we could just let other objects use Probes to read our state,
 // but message access is frequently more convenient.
 
--getBugList {
+- getBugList
+{
   return bugList;
 }
 
--getWorld {
+- getWorld
+{
   return world;
 }
 
--getFood {
+- getFood
+{
   return food;
 }
 
-+createBegin: (id) aZone 
++ createBegin: aZone 
 {
-  ModelSwarm * obj;
+  ModelSwarm *obj;
   id <ProbeMap> probeMap;
 
   // in createBegin, we set up the simulation parameters
@@ -70,12 +73,14 @@
   return obj;
 }
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
--buildObjects {
-  Bug * aBug;
+- buildObjects
+{
+  Bug *aBug;
   int x,y;
   
   // Here, we create the objects in the model
@@ -102,21 +107,21 @@
 
   for (y = 0; y < worldYSize; y++)
     for (x = 0; x < worldXSize; x++) 
-      if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] < bugDensity) {
-
-         aBug = [Bug createBegin: self];
-         [aBug setWorld: world Food: food];
-         aBug = [aBug createEnd];
-         [aBug setX: x Y: y];
-
-         [bugList addLast: aBug];
-      }
-
+      if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] < bugDensity)
+        {
+          aBug = [Bug createBegin: self];
+          [aBug setWorld: world Food: food];
+          aBug = [aBug createEnd];
+          [aBug setX: x Y: y];
+          
+          [bugList addLast: aBug];
+        }
+  
   return self;
 }
 
--buildActions {
-
+- buildActions
+{
   // Create the list of simulation actions. We put these in an action
   // group, because we want these actions to be executed in a specific
   // order, but these steps should take no (simulated) time. The
@@ -142,11 +147,10 @@
   [modelSchedule at: 0 createAction: modelActions]; 
 
   return self;
-
 }
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   // Here, we activate the swarm in the context passed in
   // Then we activate our schedule in ourselves
 
@@ -155,7 +159,6 @@
   [modelSchedule activateIn: self];
 
   return [self getSwarmActivity];
-
 }
 
 @end
