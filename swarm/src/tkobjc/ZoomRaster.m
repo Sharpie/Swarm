@@ -106,12 +106,19 @@
 {
   unsigned newZoom = newHeight / logicalHeight;
 
-  if (newWidth >  newHeight)
-    newWidth = newHeight;
-
-  if (newZoom != newWidth / logicalWidth)
-    [WindowUsage raiseEvent: "nonsquare zoom given.\n"];
-
+  while (newZoom != newWidth / logicalWidth)
+    {
+      // In this case, assume that Windows refused to make the window
+      // that narrow.  Retry.
+      if (newWidth > newHeight)
+        newWidth = newHeight;  
+      else
+        [WindowUsage
+          raiseEvent:
+            "nonsquare zoom given (nz:%u nh:%lu nw:%u lh: %u lw:%u).\n",
+          newZoom, newHeight, newWidth, logicalHeight, logicalWidth];
+    }
+  
 #ifdef DEBUG
   printf("Handling configure for %s\noldZoom: %u newZoom: %u, newWidth = %u newHeight = %u\n",
 	 [self getObjcName], zoomFactor, newZoom, newWidth, newHeight);

@@ -1,3 +1,9 @@
+1998-03-31  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ZoomRaster.m ([ZoomRaster -handleConfigureWidth:Height:]): Don't
+	adjust newWidth unless there is disagreement between the computed
+	width and height zoom.
+
 1998-03-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* win32dib.c (dib_createBitmap): Round frameWidth up to 4.
