@@ -1,0 +1,1840 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 38;
+	objects = {
+		014CEA520018CE5811CA2923 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		014CEA530018CE5811CA2923 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//010
+//011
+//012
+//013
+//014
+//080
+//081
+//082
+//083
+//084
+		08FB7793FE84155DC02AAC07 = {
+			buildStyles = (
+				014CEA520018CE5811CA2923,
+				014CEA530018CE5811CA2923,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 08FB7794FE84155DC02AAC07;
+			projectDirPath = "";
+			targets = (
+			);
+		};
+		08FB7794FE84155DC02AAC07 = {
+			children = (
+				08FB7795FE84155DC02AAC07,
+				C6A0FF2B0290797F04C91782,
+				1AB674ADFE9D54B511CA2CBB,
+			);
+			isa = PBXGroup;
+			name = swarmdoc;
+			refType = 4;
+		};
+		08FB7795FE84155DC02AAC07 = {
+			children = (
+				79DE3519050C1F910000016A,
+				79DE351A050C1F910000016A,
+				79DE351B050C1F910000016A,
+				79DE351C050C1F910000016A,
+				79DE351D050C1F910000016A,
+				79DE351E050C1F910000016A,
+				79DE351F050C1F910000016A,
+				79DE3520050C1F910000016A,
+				79DE3526050C1F910000016A,
+				79DE3527050C1F910000016A,
+				79DE3528050C1F910000016A,
+				79DE3531050C1F920000016A,
+				79DE3532050C1F920000016A,
+				79DE3533050C1F920000016A,
+				79DE3534050C1F920000016A,
+				79DE3535050C1F920000016A,
+				79DE3536050C1F920000016A,
+				79DE3537050C1F920000016A,
+				79DE3541050C1F920000016A,
+				79DE3578050C1F920000016A,
+				79DE357C050C1F920000016A,
+				79DE358E050C1F920000016A,
+				79DE358F050C1F920000016A,
+				79DE3590050C1F920000016A,
+				79DE3591050C1F920000016A,
+				79DE3592050C1F920000016A,
+				79DE3593050C1F920000016A,
+				79DE3594050C1F920000016A,
+				79DE3595050C1F920000016A,
+				79DE35A2050C1F920000016A,
+				79DE35A3050C1F920000016A,
+				79DE35A4050C1F920000016A,
+				79DE3605050C1F920000016A,
+				79DE360B050C1F920000016A,
+				79DE3611050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = Source;
+			refType = 4;
+		};
+//080
+//081
+//082
+//083
+//084
+//1A0
+//1A1
+//1A2
+//1A3
+//1A4
+		1AB674ADFE9D54B511CA2CBB = {
+			children = (
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+		};
+//1A0
+//1A1
+//1A2
+//1A3
+//1A4
+//790
+//791
+//792
+//793
+//794
+		79DE3519050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = acconfig.h;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/acconfig.h;
+			refType = 0;
+		};
+		79DE351A050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AUTHORS;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/AUTHORS;
+			refType = 0;
+		};
+		79DE351B050C1F910000016A = {
+			isa = PBXFileReference;
+			name = catalog.in;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/catalog.in;
+			refType = 0;
+		};
+		79DE351C050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = ChangeLog;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/ChangeLog;
+			refType = 0;
+		};
+		79DE351D050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = common.dsl;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/common.dsl;
+			refType = 0;
+		};
+		79DE351E050C1F910000016A = {
+			isa = PBXFileReference;
+			name = configure.in;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/configure.in;
+			refType = 0;
+		};
+		79DE351F050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = COPYING;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/COPYING;
+			refType = 0;
+		};
+		79DE3520050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = COPYING.FDL;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/COPYING.FDL;
+			refType = 0;
+		};
+		79DE3526050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = docbook.dcl;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/docbook.dcl;
+			refType = 0;
+		};
+		79DE3527050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = docbook2texi;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/docbook2texi;
+			refType = 0;
+		};
+		79DE3528050C1F910000016A = {
+			children = (
+				79DE3529050C1F910000016A,
+				79DE352A050C1F910000016A,
+				79DE352B050C1F910000016A,
+				79DE352C050C1F910000016A,
+				79DE352D050C1F920000016A,
+				79DE352E050C1F920000016A,
+				79DE352F050C1F920000016A,
+				79DE3530050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = figs;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/figs;
+			refType = 0;
+		};
+		79DE3529050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE352A050C1F910000016A = {
+			isa = PBXFileReference;
+			path = complete.png;
+			refType = 4;
+		};
+		79DE352B050C1F910000016A = {
+			isa = PBXFileReference;
+			path = customized.png;
+			refType = 4;
+		};
+		79DE352C050C1F910000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = figs.ent;
+			refType = 4;
+		};
+		79DE352D050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE352E050C1F920000016A = {
+			isa = PBXFileReference;
+			path = "small-logo.png";
+			refType = 4;
+		};
+		79DE352F050C1F920000016A = {
+			isa = PBXFileReference;
+			path = swarm.eps;
+			refType = 4;
+		};
+		79DE3530050C1F920000016A = {
+			isa = PBXFileReference;
+			path = switcheroo.png;
+			refType = 4;
+		};
+		79DE3531050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = gfdl.xml;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/gfdl.xml;
+			refType = 0;
+		};
+		79DE3532050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = global.ent;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/global.ent;
+			refType = 0;
+		};
+		79DE3533050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = history.el;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/history.el;
+			refType = 0;
+		};
+		79DE3534050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = html.dsl;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/html.dsl;
+			refType = 0;
+		};
+		79DE3535050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = INSTALL;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/INSTALL;
+			refType = 0;
+		};
+		79DE3536050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			name = "install-sh";
+			path = "/Users/billn/Public/Swarm/docs/swarmdocs/install-sh";
+			refType = 0;
+		};
+		79DE3537050C1F920000016A = {
+			children = (
+				79DE3538050C1F920000016A,
+				79DE3539050C1F920000016A,
+				79DE353A050C1F920000016A,
+				79DE353B050C1F920000016A,
+				79DE353C050C1F920000016A,
+				79DE353D050C1F920000016A,
+				79DE353E050C1F920000016A,
+				79DE353F050C1F920000016A,
+				79DE3540050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = installbook;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/installbook;
+			refType = 0;
+		};
+		79DE3538050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE3539050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = install01.xml;
+			refType = 4;
+		};
+		79DE353A050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = install02.xml;
+			refType = 4;
+		};
+		79DE353B050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = installbook.ent;
+			refType = 4;
+		};
+		79DE353C050C1F920000016A = {
+			isa = PBXFileReference;
+			path = installbook.tex.in;
+			refType = 4;
+		};
+		79DE353D050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = installbook.xml;
+			refType = 4;
+		};
+		79DE353E050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = installcont.xml;
+			refType = 4;
+		};
+		79DE353F050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = installmeta.xml;
+			refType = 4;
+		};
+		79DE3540050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE3541050C1F920000016A = {
+			children = (
+				79DE3542050C1F920000016A,
+				79DE3543050C1F920000016A,
+				79DE3570050C1F920000016A,
+				79DE3577050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = javadoc;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/javadoc;
+			refType = 0;
+		};
+		79DE3542050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE3543050C1F920000016A = {
+			children = (
+				79DE3544050C1F920000016A,
+				79DE3545050C1F920000016A,
+				79DE3546050C1F920000016A,
+				79DE3547050C1F920000016A,
+				79DE3548050C1F920000016A,
+				79DE3549050C1F920000016A,
+				79DE354A050C1F920000016A,
+				79DE354B050C1F920000016A,
+				79DE354C050C1F920000016A,
+				79DE354D050C1F920000016A,
+				79DE354E050C1F920000016A,
+				79DE354F050C1F920000016A,
+				79DE3550050C1F920000016A,
+				79DE3551050C1F920000016A,
+				79DE3552050C1F920000016A,
+				79DE3553050C1F920000016A,
+				79DE3554050C1F920000016A,
+				79DE3555050C1F920000016A,
+				79DE3556050C1F920000016A,
+				79DE3557050C1F920000016A,
+				79DE3558050C1F920000016A,
+				79DE3559050C1F920000016A,
+				79DE355A050C1F920000016A,
+				79DE355B050C1F920000016A,
+				79DE355C050C1F920000016A,
+				79DE355D050C1F920000016A,
+				79DE355E050C1F920000016A,
+				79DE355F050C1F920000016A,
+				79DE3560050C1F920000016A,
+				79DE3561050C1F920000016A,
+				79DE3562050C1F920000016A,
+				79DE3563050C1F920000016A,
+				79DE3564050C1F920000016A,
+				79DE3565050C1F920000016A,
+				79DE3566050C1F920000016A,
+				79DE3567050C1F920000016A,
+				79DE3568050C1F920000016A,
+				79DE3569050C1F920000016A,
+				79DE356A050C1F920000016A,
+				79DE356B050C1F920000016A,
+				79DE356C050C1F920000016A,
+				79DE356D050C1F920000016A,
+				79DE356E050C1F920000016A,
+				79DE356F050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = html;
+			refType = 4;
+		};
+		79DE3544050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AbstractIndexWriter.java;
+			refType = 4;
+		};
+		79DE3545050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AbstractPackageIndexWriter.java;
+			refType = 4;
+		};
+		79DE3546050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AbstractPackageWriter.java;
+			refType = 4;
+		};
+		79DE3547050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AbstractSubWriter.java;
+			refType = 4;
+		};
+		79DE3548050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AbstractTreeWriter.java;
+			refType = 4;
+		};
+		79DE3549050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AllClassesFrameWriter.java;
+			refType = 4;
+		};
+		79DE354A050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE354B050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ClassSubWriter.java;
+			refType = 4;
+		};
+		79DE354C050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ClassTree.java;
+			refType = 4;
+		};
+		79DE354D050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ClassUseMapper.java;
+			refType = 4;
+		};
+		79DE354E050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ClassUseWriter.java;
+			refType = 4;
+		};
+		79DE354F050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ClassWriter.java;
+			refType = 4;
+		};
+		79DE3550050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ConfigurationStandard.java;
+			refType = 4;
+		};
+		79DE3551050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ConstructorSubWriter.java;
+			refType = 4;
+		};
+		79DE3552050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DeprecatedAPIListBuilder.java;
+			refType = 4;
+		};
+		79DE3553050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DeprecatedListWriter.java;
+			refType = 4;
+		};
+		79DE3554050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ExecutableMemberSubWriter.java;
+			refType = 4;
+		};
+		79DE3555050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Extern.java;
+			refType = 4;
+		};
+		79DE3556050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = FieldSubWriter.java;
+			refType = 4;
+		};
+		79DE3557050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = FrameOutputWriter.java;
+			refType = 4;
+		};
+		79DE3558050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Group.java;
+			refType = 4;
+		};
+		79DE3559050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = HelpWriter.java;
+			refType = 4;
+		};
+		79DE355A050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = HtmlStandardWriter.java;
+			refType = 4;
+		};
+		79DE355B050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = IndexBuilder.java;
+			refType = 4;
+		};
+		79DE355C050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE355D050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MethodSubWriter.java;
+			refType = 4;
+		};
+		79DE355E050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PackageFrameWriter.java;
+			refType = 4;
+		};
+		79DE355F050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PackageIndexFrameWriter.java;
+			refType = 4;
+		};
+		79DE3560050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PackageIndexWriter.java;
+			refType = 4;
+		};
+		79DE3561050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PackageListWriter.java;
+			refType = 4;
+		};
+		79DE3562050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PackagesFileWriter.java;
+			refType = 4;
+		};
+		79DE3563050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PackageTreeWriter.java;
+			refType = 4;
+		};
+		79DE3564050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PackageUseWriter.java;
+			refType = 4;
+		};
+		79DE3565050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PackageWriter.java;
+			refType = 4;
+		};
+		79DE3566050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SerialFieldSubWriter.java;
+			refType = 4;
+		};
+		79DE3567050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SerializedFormWriter.java;
+			refType = 4;
+		};
+		79DE3568050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SerialMethodSubWriter.java;
+			refType = 4;
+		};
+		79DE3569050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SingleIndexWriter.java;
+			refType = 4;
+		};
+		79DE356A050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SplitIndexWriter.java;
+			refType = 4;
+		};
+		79DE356B050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Standard.java;
+			refType = 4;
+		};
+		79DE356C050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = StylesheetWriter.java;
+			refType = 4;
+		};
+		79DE356D050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SubWriterHolderWriter.java;
+			refType = 4;
+		};
+		79DE356E050C1F920000016A = {
+			includeInIndex = 1;
+			isa = PBXZipArchiveReference;
+			path = "swarm-doclet.jar";
+			refType = 4;
+		};
+		79DE356F050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = TreeWriter.java;
+			refType = 4;
+		};
+		79DE3570050C1F920000016A = {
+			children = (
+				79DE3571050C1F920000016A,
+				79DE3572050C1F920000016A,
+				79DE3573050C1F920000016A,
+				79DE3574050C1F920000016A,
+				79DE3575050C1F920000016A,
+				79DE3576050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = latex;
+			refType = 4;
+		};
+		79DE3571050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE3572050C1F920000016A = {
+			isa = PBXFileReference;
+			path = fancyhdr.sty;
+			refType = 4;
+		};
+		79DE3573050C1F920000016A = {
+			isa = PBXFileReference;
+			path = LatexDoclet.class;
+			refType = 4;
+		};
+		79DE3574050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LatexDoclet.java;
+			refType = 4;
+		};
+		79DE3575050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE3576050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Readme.txt;
+			refType = 4;
+		};
+		79DE3577050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE3578050C1F920000016A = {
+			children = (
+				79DE3579050C1F920000016A,
+				79DE357A050C1F920000016A,
+				79DE357B050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = m4;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/m4;
+			refType = 0;
+		};
+		79DE3579050C1F920000016A = {
+			isa = PBXFileReference;
+			path = acprogs.m4;
+			refType = 4;
+		};
+		79DE357A050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE357B050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE357C050C1F920000016A = {
+			children = (
+				79DE3620050C21970000016A,
+				79DE3621050C21970000016A,
+				79DE357D050C1F920000016A,
+				79DE358B050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = macosx;
+			path = "";
+			refType = 4;
+		};
+		79DE357D050C1F920000016A = {
+			children = (
+				79DE357E050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = build;
+			refType = 4;
+		};
+		79DE357E050C1F920000016A = {
+			children = (
+				79DE357F050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = swarmdoc.build;
+			refType = 4;
+		};
+		79DE357F050C1F920000016A = {
+			children = (
+				79DE3580050C1F920000016A,
+				79DE3581050C1F920000016A,
+				79DE3582050C1F920000016A,
+				79DE3583050C1F920000016A,
+				79DE3584050C1F920000016A,
+				79DE3585050C1F920000016A,
+				79DE3586050C1F920000016A,
+				79DE3587050C1F920000016A,
+				79DE358A050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = swarmdoc.pbxindex;
+			refType = 4;
+		};
+		79DE3580050C1F920000016A = {
+			isa = PBXFileReference;
+			path = categories.pbxbtree;
+			refType = 4;
+		};
+		79DE3581050C1F920000016A = {
+			isa = PBXFileReference;
+			path = decls.pbxbtree;
+			refType = 4;
+		};
+		79DE3582050C1F920000016A = {
+			isa = PBXFileReference;
+			path = files.pbxbtree;
+			refType = 4;
+		};
+		79DE3583050C1F920000016A = {
+			isa = PBXFileReference;
+			path = imports.pbxbtree;
+			refType = 4;
+		};
+		79DE3584050C1F920000016A = {
+			isa = PBXFileReference;
+			path = pbxindex.header;
+			refType = 4;
+		};
+		79DE3585050C1F920000016A = {
+			isa = PBXFileReference;
+			path = protocols.pbxbtree;
+			refType = 4;
+		};
+		79DE3586050C1F920000016A = {
+			isa = PBXFileReference;
+			path = refs.pbxbtree;
+			refType = 4;
+		};
+		79DE3587050C1F920000016A = {
+			children = (
+				79DE3588050C1F920000016A,
+				79DE3589050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = strings.pbxstrings;
+			refType = 4;
+		};
+		79DE3588050C1F920000016A = {
+			isa = PBXFileReference;
+			path = control;
+			refType = 4;
+		};
+		79DE3589050C1F920000016A = {
+			isa = PBXFileReference;
+			path = strings;
+			refType = 4;
+		};
+		79DE358A050C1F920000016A = {
+			isa = PBXFileReference;
+			path = subclasses.pbxbtree;
+			refType = 4;
+		};
+		79DE358B050C1F920000016A = {
+			children = (
+				79DE358C050C1F920000016A,
+				79DE358D050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = swarmdoc.pbproj;
+			refType = 4;
+		};
+		79DE358C050C1F920000016A = {
+			isa = PBXFileReference;
+			path = billn.pbxuser;
+			refType = 4;
+		};
+		79DE358D050C1F920000016A = {
+			isa = PBXFileReference;
+			path = project.pbxproj;
+			refType = 4;
+		};
+		79DE358E050C1F920000016A = {
+			isa = PBXFileReference;
+			name = macros.tex;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/macros.tex;
+			refType = 0;
+		};
+		79DE358F050C1F920000016A = {
+			isa = PBXFileReference;
+			name = Makefile.am;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/Makefile.am;
+			refType = 0;
+		};
+		79DE3590050C1F920000016A = {
+			isa = PBXFileReference;
+			name = Makefile.common;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/Makefile.common;
+			refType = 0;
+		};
+		79DE3591050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Makefile.rules;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/Makefile.rules;
+			refType = 0;
+		};
+		79DE3592050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			name = missing;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/missing;
+			refType = 0;
+		};
+		79DE3593050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			name = mkinstalldirs;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/mkinstalldirs;
+			refType = 0;
+		};
+		79DE3594050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = NEWS;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/NEWS;
+			refType = 0;
+		};
+		79DE3595050C1F920000016A = {
+			children = (
+				79DE3596050C1F920000016A,
+				79DE3597050C1F920000016A,
+				79DE3598050C1F920000016A,
+				79DE3599050C1F920000016A,
+				79DE359A050C1F920000016A,
+				79DE359B050C1F920000016A,
+				79DE359C050C1F920000016A,
+				79DE359D050C1F920000016A,
+				79DE359E050C1F920000016A,
+				79DE359F050C1F920000016A,
+				79DE35A0050C1F920000016A,
+				79DE35A1050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = overbook;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/overbook;
+			refType = 0;
+		};
+		79DE3596050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE3597050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE3598050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = over01.xml;
+			refType = 4;
+		};
+		79DE3599050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = over02.xml;
+			refType = 4;
+		};
+		79DE359A050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = over03.xml;
+			refType = 4;
+		};
+		79DE359B050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = over04.xml;
+			refType = 4;
+		};
+		79DE359C050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = over05.xml;
+			refType = 4;
+		};
+		79DE359D050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = overbook.ent;
+			refType = 4;
+		};
+		79DE359E050C1F920000016A = {
+			isa = PBXFileReference;
+			path = overbook.tex.in;
+			refType = 4;
+		};
+		79DE359F050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = overbook.xml;
+			refType = 4;
+		};
+		79DE35A0050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = overcont.xml;
+			refType = 4;
+		};
+		79DE35A1050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = overmeta.xml;
+			refType = 4;
+		};
+		79DE35A2050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = print.dsl;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/print.dsl;
+			refType = 0;
+		};
+		79DE35A3050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = README;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/README;
+			refType = 0;
+		};
+		79DE35A4050C1F920000016A = {
+			children = (
+				79DE35A5050C1F920000016A,
+				79DE35AC050C1F920000016A,
+				79DE35B3050C1F920000016A,
+				79DE35B4050C1F920000016A,
+				79DE35BB050C1F920000016A,
+				79DE35BC050C1F920000016A,
+				79DE35BD050C1F920000016A,
+				79DE35C4050C1F920000016A,
+				79DE35C5050C1F920000016A,
+				79DE35C6050C1F920000016A,
+				79DE35CD050C1F920000016A,
+				79DE35CE050C1F920000016A,
+				79DE35CF050C1F920000016A,
+				79DE35D0050C1F920000016A,
+				79DE35D7050C1F920000016A,
+				79DE35D8050C1F920000016A,
+				79DE35E6050C1F920000016A,
+				79DE35E7050C1F920000016A,
+				79DE35E8050C1F920000016A,
+				79DE35E9050C1F920000016A,
+				79DE35EA050C1F920000016A,
+				79DE35EB050C1F920000016A,
+				79DE35EC050C1F920000016A,
+				79DE35ED050C1F920000016A,
+				79DE35EE050C1F920000016A,
+				79DE35EF050C1F920000016A,
+				79DE35F6050C1F920000016A,
+				79DE35FD050C1F920000016A,
+				79DE3604050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = refbook;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/refbook;
+			refType = 0;
+		};
+		79DE35A5050C1F920000016A = {
+			children = (
+				79DE35A6050C1F920000016A,
+				79DE35A7050C1F920000016A,
+				79DE35A8050C1F920000016A,
+				79DE35A9050C1F920000016A,
+				79DE35AA050C1F920000016A,
+				79DE35AB050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = activity;
+			refType = 4;
+		};
+		79DE35A6050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = activity.ent;
+			refType = 4;
+		};
+		79DE35A7050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = activity00.xml;
+			refType = 4;
+		};
+		79DE35A8050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = activitycont.xml;
+			refType = 4;
+		};
+		79DE35A9050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = activitymeta.xml;
+			refType = 4;
+		};
+		79DE35AA050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35AB050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35AC050C1F920000016A = {
+			children = (
+				79DE35AD050C1F920000016A,
+				79DE35AE050C1F920000016A,
+				79DE35AF050C1F920000016A,
+				79DE35B0050C1F920000016A,
+				79DE35B1050C1F920000016A,
+				79DE35B2050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = analysis;
+			refType = 4;
+		};
+		79DE35AD050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = analysis.ent;
+			refType = 4;
+		};
+		79DE35AE050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = analysis00.xml;
+			refType = 4;
+		};
+		79DE35AF050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = analysiscont.xml;
+			refType = 4;
+		};
+		79DE35B0050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = analysismeta.xml;
+			refType = 4;
+		};
+		79DE35B1050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35B2050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35B3050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35B4050C1F920000016A = {
+			children = (
+				79DE35B5050C1F920000016A,
+				79DE35B6050C1F920000016A,
+				79DE35B7050C1F920000016A,
+				79DE35B8050C1F920000016A,
+				79DE35B9050C1F920000016A,
+				79DE35BA050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = collections;
+			refType = 4;
+		};
+		79DE35B5050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35B6050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = collections.ent;
+			refType = 4;
+		};
+		79DE35B7050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = collections00.xml;
+			refType = 4;
+		};
+		79DE35B8050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = collectionscont.xml;
+			refType = 4;
+		};
+		79DE35B9050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = collectionsmeta.xml;
+			refType = 4;
+		};
+		79DE35BA050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35BB050C1F920000016A = {
+			isa = PBXFileReference;
+			path = "conventions-app.sgml";
+			refType = 4;
+		};
+		79DE35BC050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "conventions-app.xml";
+			refType = 4;
+		};
+		79DE35BD050C1F920000016A = {
+			children = (
+				79DE35BE050C1F920000016A,
+				79DE35BF050C1F920000016A,
+				79DE35C0050C1F920000016A,
+				79DE35C1050C1F920000016A,
+				79DE35C2050C1F920000016A,
+				79DE35C3050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = defobj;
+			refType = 4;
+		};
+		79DE35BE050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35BF050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = defobj.ent;
+			refType = 4;
+		};
+		79DE35C0050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = defobj00.xml;
+			refType = 4;
+		};
+		79DE35C1050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = defobjcont.xml;
+			refType = 4;
+		};
+		79DE35C2050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = defobjmeta.xml;
+			refType = 4;
+		};
+		79DE35C3050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35C4050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = graph.el;
+			refType = 4;
+		};
+		79DE35C5050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "grid-app.xml";
+			refType = 4;
+		};
+		79DE35C6050C1F920000016A = {
+			children = (
+				79DE35C7050C1F920000016A,
+				79DE35C8050C1F920000016A,
+				79DE35C9050C1F920000016A,
+				79DE35CA050C1F920000016A,
+				79DE35CB050C1F920000016A,
+				79DE35CC050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = gui;
+			refType = 4;
+		};
+		79DE35C7050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35C8050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = gui.ent;
+			refType = 4;
+		};
+		79DE35C9050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = gui00.xml;
+			refType = 4;
+		};
+		79DE35CA050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = guicont.xml;
+			refType = 4;
+		};
+		79DE35CB050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = guimeta.xml;
+			refType = 4;
+		};
+		79DE35CC050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35CD050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "license-app.xml";
+			refType = 4;
+		};
+		79DE35CE050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35CF050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile.rules;
+			refType = 4;
+		};
+		79DE35D0050C1F920000016A = {
+			children = (
+				79DE35D1050C1F920000016A,
+				79DE35D2050C1F920000016A,
+				79DE35D3050C1F920000016A,
+				79DE35D4050C1F920000016A,
+				79DE35D5050C1F920000016A,
+				79DE35D6050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = objectbase;
+			refType = 4;
+		};
+		79DE35D1050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35D2050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35D3050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = objectbase.ent;
+			refType = 4;
+		};
+		79DE35D4050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = objectbase00.xml;
+			refType = 4;
+		};
+		79DE35D5050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = objectbasecont.xml;
+			refType = 4;
+		};
+		79DE35D6050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = objectbasemeta.xml;
+			refType = 4;
+		};
+		79DE35D7050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "probes-app.xml";
+			refType = 4;
+		};
+		79DE35D8050C1F920000016A = {
+			children = (
+				79DE35D9050C1F920000016A,
+				79DE35DA050C1F920000016A,
+				79DE35E1050C1F920000016A,
+				79DE35E2050C1F920000016A,
+				79DE35E3050C1F920000016A,
+				79DE35E4050C1F920000016A,
+				79DE35E5050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = random;
+			refType = 4;
+		};
+		79DE35D9050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35DA050C1F920000016A = {
+			children = (
+				79DE35DB050C1F920000016A,
+				79DE35DC050C1F920000016A,
+				79DE35DD050C1F920000016A,
+				79DE35DE050C1F920000016A,
+				79DE35DF050C1F920000016A,
+				79DE35E0050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = extra;
+			refType = 4;
+		};
+		79DE35DB050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35DC050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35DD050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "README.Distributions-0.8.xml";
+			refType = 4;
+		};
+		79DE35DE050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "README.Generators-0.8.xml";
+			refType = 4;
+		};
+		79DE35DF050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "README.Random-0.8.xml";
+			refType = 4;
+		};
+		79DE35E0050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "Whats-Left-ToDo-0.8.xml";
+			refType = 4;
+		};
+		79DE35E1050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35E2050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = random.ent;
+			refType = 4;
+		};
+		79DE35E3050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = random00.xml;
+			refType = 4;
+		};
+		79DE35E4050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = randomcont.xml;
+			refType = 4;
+		};
+		79DE35E5050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = randommeta.xml;
+			refType = 4;
+		};
+		79DE35E6050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ref00.xml;
+			refType = 4;
+		};
+		79DE35E7050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ref00a.xml;
+			refType = 4;
+		};
+		79DE35E8050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = refbook.ent;
+			refType = 4;
+		};
+		79DE35E9050C1F920000016A = {
+			isa = PBXFileReference;
+			path = refbook.tex.in;
+			refType = 4;
+		};
+		79DE35EA050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = refbook.xml;
+			refType = 4;
+		};
+		79DE35EB050C1F920000016A = {
+			isa = PBXFileReference;
+			path = refbookwrapper.tex;
+			refType = 4;
+		};
+		79DE35EC050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = refcont.xml;
+			refType = 4;
+		};
+		79DE35ED050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = refmeta.xml;
+			refType = 4;
+		};
+		79DE35EE050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = sgml.el;
+			refType = 4;
+		};
+		79DE35EF050C1F920000016A = {
+			children = (
+				79DE35F0050C1F920000016A,
+				79DE35F1050C1F920000016A,
+				79DE35F2050C1F920000016A,
+				79DE35F3050C1F920000016A,
+				79DE35F4050C1F920000016A,
+				79DE35F5050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = simtools;
+			refType = 4;
+		};
+		79DE35F0050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35F1050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35F2050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtools.ent;
+			refType = 4;
+		};
+		79DE35F3050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtools00.xml;
+			refType = 4;
+		};
+		79DE35F4050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtoolscont.xml;
+			refType = 4;
+		};
+		79DE35F5050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtoolsmeta.xml;
+			refType = 4;
+		};
+		79DE35F6050C1F920000016A = {
+			children = (
+				79DE35F7050C1F920000016A,
+				79DE35F8050C1F920000016A,
+				79DE35F9050C1F920000016A,
+				79DE35FA050C1F920000016A,
+				79DE35FB050C1F920000016A,
+				79DE35FC050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = simtoolsgui;
+			refType = 4;
+		};
+		79DE35F7050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35F8050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE35F9050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtoolsgui.ent;
+			refType = 4;
+		};
+		79DE35FA050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtoolsgui00.xml;
+			refType = 4;
+		};
+		79DE35FB050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtoolsguicont.xml;
+			refType = 4;
+		};
+		79DE35FC050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtoolsguimeta.xml;
+			refType = 4;
+		};
+		79DE35FD050C1F920000016A = {
+			children = (
+				79DE35FE050C1F920000016A,
+				79DE35FF050C1F920000016A,
+				79DE3600050C1F920000016A,
+				79DE3601050C1F920000016A,
+				79DE3602050C1F920000016A,
+				79DE3603050C1F920000016A,
+			);
+			isa = PBXGroup;
+			path = space;
+			refType = 4;
+		};
+		79DE35FE050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE35FF050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE3600050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = space.ent;
+			refType = 4;
+		};
+		79DE3601050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = space00.xml;
+			refType = 4;
+		};
+		79DE3602050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = spacecont.xml;
+			refType = 4;
+		};
+		79DE3603050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = spacemeta.xml;
+			refType = 4;
+		};
+		79DE3604050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = swarmcont.xml;
+			refType = 4;
+		};
+		79DE3605050C1F920000016A = {
+			children = (
+				79DE3606050C1F920000016A,
+				79DE3607050C1F920000016A,
+				79DE3608050C1F920000016A,
+				79DE3609050C1F920000016A,
+				79DE360A050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = set;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/set;
+			refType = 0;
+		};
+		79DE3606050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ChangeLog;
+			refType = 4;
+		};
+		79DE3607050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE3608050C1F920000016A = {
+			isa = PBXFileReference;
+			path = set.tex.in;
+			refType = 4;
+		};
+		79DE3609050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = set.xml;
+			refType = 4;
+		};
+		79DE360A050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = setmeta.xml;
+			refType = 4;
+		};
+		79DE360B050C1F920000016A = {
+			children = (
+				79DE360C050C1F920000016A,
+				79DE360D050C1F920000016A,
+				79DE360E050C1F920000016A,
+				79DE360F050C1F920000016A,
+				79DE3610050C1F920000016A,
+			);
+			isa = PBXGroup;
+			name = tex;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/tex;
+			refType = 0;
+		};
+		79DE360C050C1F920000016A = {
+			isa = PBXFileReference;
+			path = isoents.tex;
+			refType = 4;
+		};
+		79DE360D050C1F920000016A = {
+			isa = PBXFileReference;
+			path = macros.tex;
+			refType = 4;
+		};
+		79DE360E050C1F920000016A = {
+			isa = PBXFileReference;
+			path = Makefile.am;
+			refType = 4;
+		};
+		79DE360F050C1F920000016A = {
+			isa = PBXFileReference;
+			path = OT2wncyr.fd;
+			refType = 4;
+		};
+		79DE3610050C1F920000016A = {
+			isa = PBXFileReference;
+			path = T3cmr.fd;
+			refType = 4;
+		};
+		79DE3611050C1F920000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = xml.dcl;
+			path = /Users/billn/Public/Swarm/docs/swarmdocs/xml.dcl;
+			refType = 0;
+		};
+		79DE3620050C21970000016A = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			path = configure.sh;
+			refType = 4;
+		};
+		79DE3621050C21970000016A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = xslt.sh;
+			refType = 4;
+		};
+//790
+//791
+//792
+//793
+//794
+//C60
+//C61
+//C62
+//C63
+//C64
+		C6A0FF2B0290797F04C91782 = {
+			children = (
+			);
+			isa = PBXGroup;
+			name = Documentation;
+			refType = 4;
+		};
+	};
+	rootObject = 08FB7793FE84155DC02AAC07;
+}
