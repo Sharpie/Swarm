@@ -95,7 +95,6 @@ void swarm_directory_cleanup_strings (JNIEnv *env, const char **stringArray, siz
 
 const char *swarm_directory_signature_for_class (JNIEnv *env, jclass class);
 const char *swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel);
-id swarm_directory_create_by_name (JNIEnv *env, const char *name);
 
 #define SD_COPYSTRING(env, javaString) swarm_directory_copy_java_string (env, javaString)
 #define SD_CLEANUPSTRINGS(env, stringArray) swarm_directory_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))

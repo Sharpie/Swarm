@@ -588,14 +588,10 @@ create_class_from_compound_type (id aZone,
     tid = create_compound_type_from_prototype (prototype);
   else if (tid)
     {
-#if 1
       Class class;
 
       create_class_from_compound_type (aZone, tid, did, name, &class);
       prototype = [aZone allocIVars: class];
-#else
-      prototype = swarm_directory_create_by_name (name);
-#endif
       if (did)
         {
           void process_ivar (const char *ivarName, fcall_type_t type,

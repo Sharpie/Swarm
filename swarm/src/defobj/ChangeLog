@@ -1,5 +1,7 @@
 2000-01-18    <mgd@nest.swarm.org>
 
+	* HDF5Object.m ([HDF -createEnd]): 
+
 	* internal.m (process_array): Don't call output_type if NULL.
 
 2000-01-16    <mgd@nest.swarm.org>
