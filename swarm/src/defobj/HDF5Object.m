@@ -1920,8 +1920,10 @@ hdf5_store_attribute (hid_t did,
       if ((memtid = H5Tcopy (H5T_STD_REF_OBJ)) < 0)
         raiseEvent (SaveError, "unable to copy reference type");
 
+#if 0
       if ((H5Tset_size (memtid, sizeof (const char *))) < 0)
         raiseEvent (SaveError, "unable to set size of reference type");
+#endif
 
       if ((tid = H5Tcopy (H5T_C_S1)) < 0)
         raiseEvent (SaveError, "unable to copy string type");
