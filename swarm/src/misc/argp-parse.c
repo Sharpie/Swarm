@@ -609,42 +609,43 @@ parser_finalize (struct parser *parser,
     err = 0;
 
   if (! err)
-    if (parser->state.next == parser->state.argc)
-      /* We successfully parsed all arguments!  Call all the parsers again,
-	 just a few more times... */
-      {
-	for (group = parser->groups;
-	     group < parser->egroup && (!err || err==EBADKEY);
-	     group++)
-	  if (group->args_processed == 0)
-	    err = group_parse (group, &parser->state, ARGP_KEY_NO_ARGS, 0);
-	for (group = parser->groups;
-	     group < parser->egroup && (!err || err==EBADKEY);
-	     group++)
-	  err = group_parse (group, &parser->state, ARGP_KEY_END, 0);
-
-	if (err == EBADKEY)
-	  err = 0;		/* Some parser didn't understand.  */
-
-	/* Tell the user that all arguments are parsed.  */
-	if (end_index)
-	  *end_index = parser->state.next;
-      }
-    else if (end_index)
-      /* Return any remaining arguments to the user.  */
-      *end_index = parser->state.next;
-    else
-      /* No way to return the remaining arguments, they must be bogus. */
-      {
-	if (!(parser->state.flags & ARGP_NO_ERRS) && parser->state.err_stream)
-	  fprintf (parser->state.err_stream,
-		   _("%s: Too many arguments\n"), parser->state.name);
-	err = EBADKEY;
-      }
-
+    {
+      if (parser->state.next == parser->state.argc)
+        /* We successfully parsed all arguments!  Call all the parsers again,
+           just a few more times... */
+        {
+          for (group = parser->groups;
+               group < parser->egroup && (!err || err==EBADKEY);
+               group++)
+            if (group->args_processed == 0)
+              err = group_parse (group, &parser->state, ARGP_KEY_NO_ARGS, 0);
+          for (group = parser->groups;
+               group < parser->egroup && (!err || err==EBADKEY);
+               group++)
+            err = group_parse (group, &parser->state, ARGP_KEY_END, 0);
+          
+          if (err == EBADKEY)
+            err = 0;		/* Some parser didn't understand.  */
+          
+          /* Tell the user that all arguments are parsed.  */
+          if (end_index)
+            *end_index = parser->state.next;
+        }
+      else if (end_index)
+        /* Return any remaining arguments to the user.  */
+        *end_index = parser->state.next;
+      else
+        /* No way to return the remaining arguments, they must be bogus. */
+        {
+          if (!(parser->state.flags & ARGP_NO_ERRS) && parser->state.err_stream)
+            fprintf (parser->state.err_stream,
+                     _("%s: Too many arguments\n"), parser->state.name);
+          err = EBADKEY;
+        }
+    }
   /* Okay, we're all done, with either an error or success.  We only call the
      parsers once more, to indicate which one.  */
-
+  
   if (err)
     {
       /* Maybe print an error message.  */
@@ -695,15 +696,16 @@ parser_parse_arg (struct parser *parser, const char *val)
     err = group_parse (group, &parser->state, ARGP_KEY_ARG, val);
 
   if (!err)
-    if (parser->state.next >= index)
-      /* Remember that we successfully processed a non-option
-	 argument -- but only if the user hasn't gotten tricky and set
-	 the clock back.  */
-      (--group)->args_processed++;
-    else
-      /* The user wants to reparse some args, give getopt another try.  */
-      parser->try_getopt = 1;
-
+    {
+      if (parser->state.next >= index)
+        /* Remember that we successfully processed a non-option
+           argument -- but only if the user hasn't gotten tricky and set
+           the clock back.  */
+        (--group)->args_processed++;
+      else
+        /* The user wants to reparse some args, give getopt another try.  */
+        parser->try_getopt = 1;
+    }
   return err;
 }
 
@@ -796,18 +798,20 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
     opt = KEY_END;
 
   if (opt == KEY_END)
-    /* We're past what getopt considers the options.  */
-    if (parser->state.next >= parser->state.argc
-	|| (parser->state.flags & ARGP_NO_ARGS))
-      /* Indicate that we're done.  */
-      {
-	*arg_ebadkey = 1;
-	return EBADKEY;
-      }
-    else
-      /* A non-option arg.  */
-      err =
-	parser_parse_arg (parser, parser->state.argv[parser->state.next++]);
+    {
+      /* We're past what getopt considers the options.  */
+      if (parser->state.next >= parser->state.argc
+          || (parser->state.flags & ARGP_NO_ARGS))
+        /* Indicate that we're done.  */
+        {
+          *arg_ebadkey = 1;
+          return EBADKEY;
+        }
+      else
+        /* A non-option arg.  */
+        err =
+          parser_parse_arg (parser, parser->state.argv[parser->state.next++]);
+    }
   else if (opt == KEY_ARG)
     /* A non-option argument; try each parser in turn.  */
     err = parser_parse_arg (parser, optarg);

@@ -131,7 +131,11 @@ fill_in_uparams (const struct argp_state *state)
 {
   const char *var = getenv ("ARGP_HELP_FMT");
 
-#define SKIPWS(p) do { while (isspace (*p)) p++; } while (0);
+#define IsAlpha(ch) isalpha((int)ch)
+#define IsAlnum(ch) isalnum((int)ch)
+#define IsDigit(ch) isdigit((int)ch)
+#define IsSpace(ch) isspace((int)ch)
+#define SKIPWS(p) do { while (IsSpace (*p)) p++; } while (0);
 
   if (var)
     /* Parse var. */
@@ -139,14 +143,14 @@ fill_in_uparams (const struct argp_state *state)
       {
 	SKIPWS (var);
 
-	if (isalpha (*var))
+	if (IsAlpha (*var))
 	  {
 	    size_t var_len;
 	    const struct uparam_name *un;
 	    int unspec = 0, val = 0;
 	    const char *arg = var;
-
-	    while (isalnum (*arg) || *arg == '-' || *arg == '_')
+            
+	    while (IsAlnum (*arg) || *arg == '-' || *arg == '_')
 	      arg++;
 	    var_len = arg - var;
 
@@ -161,18 +165,20 @@ fill_in_uparams (const struct argp_state *state)
 	      }
 
 	    if (unspec)
-	      if (var[0] == 'n' && var[1] == 'o' && var[2] == '-')
-		{
-		  val = 0;
-		  var += 3;
-		  var_len -= 3;
-		}
-	      else
-		val = 1;
-	    else if (isdigit (*arg))
+              {
+                if (var[0] == 'n' && var[1] == 'o' && var[2] == '-')
+                  {
+                    val = 0;
+                    var += 3;
+                    var_len -= 3;
+                  }
+                else
+                  val = 1;
+              }
+	    else if (IsDigit (*arg))
 	      {
 		val = atoi (arg);
-		while (isdigit (*arg))
+		while (IsDigit (*arg))
 		  arg++;
 		SKIPWS (arg);
 	      }
@@ -660,12 +666,12 @@ canon_doc_option (const char **name)
 {
   int non_opt;
   /* Skip initial whitespace.  */
-  while (isspace (**name))
+  while (IsSpace (**name))
     (*name)++;
   /* Decide whether this looks like an option (leading `-') or not.  */
   non_opt = (**name != '-');
   /* Skip until part of name used for sorting.  */
-  while (**name && !isalnum (**name))
+  while (**name && !IsAlnum (**name))
     (*name)++;
   return non_opt;
 }
@@ -680,20 +686,22 @@ hol_entry_cmp (const struct hol_entry *entry1, const struct hol_entry *entry2)
   int group1 = entry1->group, group2 = entry2->group;
 
   if (entry1->cluster != entry2->cluster)
-    /* The entries are not within the same cluster, so we can't compare them
-       directly, we have to use the appropiate clustering level too.  */
-    if (! entry1->cluster)
-      /* ENTRY1 is at the `base level', not in a cluster, so we have to
-	 compare it's group number with that of the base cluster in which
-	 ENTRY2 resides.  Note that if they're in the same group, the
-	 clustered option always comes laster.  */
-      return group_cmp (group1, hol_cluster_base (entry2->cluster)->group, -1);
-    else if (! entry2->cluster)
-      /* Likewise, but ENTRY2's not in a cluster.  */
-      return group_cmp (hol_cluster_base (entry1->cluster)->group, group2, 1);
-    else
-      /* Both entries are in clusters, we can just compare the clusters.  */
-      return hol_cluster_cmp (entry1->cluster, entry2->cluster);
+    {
+      /* The entries are not within the same cluster, so we can't compare them
+         directly, we have to use the appropiate clustering level too.  */
+      if (! entry1->cluster)
+        /* ENTRY1 is at the `base level', not in a cluster, so we have to
+           compare it's group number with that of the base cluster in which
+           ENTRY2 resides.  Note that if they're in the same group, the
+           clustered option always comes laster.  */
+        return group_cmp (group1, hol_cluster_base (entry2->cluster)->group, -1);
+      else if (! entry2->cluster)
+        /* Likewise, but ENTRY2's not in a cluster.  */
+        return group_cmp (hol_cluster_base (entry1->cluster)->group, group2, 1);
+      else
+        /* Both entries are in clusters, we can just compare the clusters.  */
+        return hol_cluster_cmp (entry1->cluster, entry2->cluster);
+    }
   else if (group1 == group2)
     /* The entries are both in the same cluster and group, so compare them
        alphabetically.  */
@@ -771,74 +779,75 @@ hol_append (struct hol *hol, struct hol *more)
 
   /* Merge entries.  */
   if (more->num_entries > 0)
-    if (hol->num_entries == 0)
-      {
-	hol->num_entries = more->num_entries;
-	hol->entries = more->entries;
-	hol->short_options = more->short_options;
-	more->num_entries = 0;	/* Mark MORE's fields as invalid.  */
-      }
-    else
-      /* append the entries in MORE to those in HOL, taking care to only add
-	 non-shadowed SHORT_OPTIONS values.  */
-      {
-	unsigned left;
-	char *so, *more_so;
-	struct hol_entry *e;
-	unsigned num_entries = hol->num_entries + more->num_entries;
-	struct hol_entry *entries =
-	  xmalloc (num_entries * sizeof (struct hol_entry));
-	unsigned hol_so_len = strlen (hol->short_options);
-	char *short_options =
-	  xmalloc_atomic (hol_so_len + strlen (more->short_options) + 1);
-
-	memcpy (entries, hol->entries,
-		hol->num_entries * sizeof (struct hol_entry));
-	memcpy (entries + hol->num_entries, more->entries,
-		more->num_entries * sizeof (struct hol_entry));
-
-	memcpy (short_options, hol->short_options, hol_so_len);
-
-	/* Fix up the short options pointers from HOL.  */
-	for (e = entries, left = hol->num_entries; left > 0; e++, left--)
-	  e->short_options += (short_options - hol->short_options);
-
-	/* Now add the short options from MORE, fixing up its entries too.  */
-	so = short_options + hol_so_len;
-	more_so = more->short_options;
-	for (left = more->num_entries; left > 0; e++, left--)
-	  {
-	    int opts_left;
-	    const struct argp_option *opt;
-
-	    e->short_options = so;
-
-	    for (opts_left = e->num, opt = e->opt; opts_left; opt++, opts_left--)
-	      {
-		int ch = *more_so;
-		if (oshort (opt) && ch == opt->key)
-		  /* The next short option in MORE_SO, CH, is from OPT.  */
-		  {
-		    if (! find_char (ch, short_options,
-				     short_options + hol_so_len))
-		      /* The short option CH isn't shadowed by HOL's options,
-			 so add it to the sum.  */
-		      *so++ = ch;
-		    more_so++;
-		  }
-	      }
-	  }
-
-	*so = '\0';
-
-	xfree (hol->entries);
-	xfree (hol->short_options);
-
-	hol->entries = entries;
-	hol->num_entries = num_entries;
-	hol->short_options = short_options;
-      }
-
+    {
+      if (hol->num_entries == 0)
+        {
+          hol->num_entries = more->num_entries;
+          hol->entries = more->entries;
+          hol->short_options = more->short_options;
+          more->num_entries = 0;	/* Mark MORE's fields as invalid.  */
+        }
+      else
+        /* append the entries in MORE to those in HOL, taking care to only add
+           non-shadowed SHORT_OPTIONS values.  */
+        {
+          unsigned left;
+          char *so, *more_so;
+          struct hol_entry *e;
+          unsigned num_entries = hol->num_entries + more->num_entries;
+          struct hol_entry *entries =
+            xmalloc (num_entries * sizeof (struct hol_entry));
+          unsigned hol_so_len = strlen (hol->short_options);
+          char *short_options =
+            xmalloc_atomic (hol_so_len + strlen (more->short_options) + 1);
+          
+          memcpy (entries, hol->entries,
+                  hol->num_entries * sizeof (struct hol_entry));
+          memcpy (entries + hol->num_entries, more->entries,
+                  more->num_entries * sizeof (struct hol_entry));
+          
+          memcpy (short_options, hol->short_options, hol_so_len);
+          
+          /* Fix up the short options pointers from HOL.  */
+          for (e = entries, left = hol->num_entries; left > 0; e++, left--)
+            e->short_options += (short_options - hol->short_options);
+          
+          /* Now add the short options from MORE, fixing up its entries too.  */
+          so = short_options + hol_so_len;
+          more_so = more->short_options;
+          for (left = more->num_entries; left > 0; e++, left--)
+            {
+              int opts_left;
+              const struct argp_option *opt;
+              
+              e->short_options = so;
+              
+              for (opts_left = e->num, opt = e->opt; opts_left; opt++, opts_left--)
+                {
+                  int ch = *more_so;
+                  if (oshort (opt) && ch == opt->key)
+                    /* The next short option in MORE_SO, CH, is from OPT.  */
+                    {
+                      if (! find_char (ch, short_options,
+                                       short_options + hol_so_len))
+                        /* The short option CH isn't shadowed by HOL's options,
+                           so add it to the sum.  */
+                        *so++ = ch;
+                      more_so++;
+                    }
+                }
+            }
+          
+          *so = '\0';
+          
+          xfree (hol->entries);
+          xfree (hol->short_options);
+          
+          hol->entries = entries;
+          hol->num_entries = num_entries;
+          hol->short_options = short_options;
+        }
+    }
   hol_free (more);
 }
 
@@ -871,10 +880,12 @@ arg (const struct argp_option *real, const char *req_fmt, const char *opt_fmt,
      argp_fmtstream_t stream)
 {
   if (real->arg)
-    if (real->flags & OPTION_ARG_OPTIONAL)
-      __argp_fmtstream_printf (stream, opt_fmt, gettext (real->arg));
-    else
-      __argp_fmtstream_printf (stream, req_fmt, gettext (real->arg));
+    {
+      if (real->flags & OPTION_ARG_OPTIONAL)
+        __argp_fmtstream_printf (stream, opt_fmt, gettext (real->arg));
+      else
+        __argp_fmtstream_printf (stream, req_fmt, gettext (real->arg));
+    }
 }
 
 /* Helper functions for hol_entry_help.  */
@@ -1077,13 +1088,15 @@ hol_entry_help (struct hol_entry *entry, const struct argp_state *state,
   __argp_fmtstream_set_lmargin (stream, 0);
 
   if (pest.first)
-    /* Didn't print any switches, what's up?  */
-    if (!oshort (real) && !real->name)
-      /* This is a group header, print it nicely.  */
-      print_header (real->doc, entry->argp, &pest);
-    else
-      /* Just a totally shadowed option or null header; print nothing.  */
-      goto cleanup;		/* Just return, after cleaning up.  */
+    {
+      /* Didn't print any switches, what's up?  */
+      if (!oshort (real) && !real->name)
+        /* This is a group header, print it nicely.  */
+        print_header (real->doc, entry->argp, &pest);
+      else
+        /* Just a totally shadowed option or null header; print nothing.  */
+        goto cleanup;		/* Just return, after cleaning up.  */
+    }
   else
     {
       const char *tstr = real->doc ? gettext (real->doc) : 0;
@@ -1212,17 +1225,19 @@ usage_long_opt (const struct argp_option *opt,
     arg = real->arg;
 
   if (! (flags & OPTION_NO_USAGE))
-    if (arg)
-      {
-	arg = gettext (arg);
-	if (flags & OPTION_ARG_OPTIONAL)
-	  __argp_fmtstream_printf (stream, " [--%s[=%s]]", opt->name, arg);
-	else
-	  __argp_fmtstream_printf (stream, " [--%s=%s]", opt->name, arg);
-      }
-    else
-      __argp_fmtstream_printf (stream, " [--%s]", opt->name);
-
+    {
+      if (arg)
+        {
+          arg = gettext (arg);
+          if (flags & OPTION_ARG_OPTIONAL)
+            __argp_fmtstream_printf (stream, " [--%s[=%s]]", opt->name, arg);
+          else
+            __argp_fmtstream_printf (stream, " [--%s=%s]", opt->name, arg);
+        }
+      else
+        __argp_fmtstream_printf (stream, " [--%s]", opt->name);
+    }
+      
   return 0;
 }
 
@@ -1348,16 +1363,18 @@ argp_args_usage (const struct argp *argp, const struct argp_state *state,
       advance = !argp_args_usage ((child++)->argp, state, levels, advance, stream);
 
   if (advance && multiple)
-    /* Need to increment our level.  */
-    if (*nl)
-      /* There's more we can do here.  */
-      {
-	(*our_level)++;
-	advance = 0;		/* Our parent shouldn't advance also. */
-      }
-    else if (*our_level > 0)
-      /* We had multiple levels, but used them up; reset to zero.  */
-      *our_level = 0;
+    {
+      /* Need to increment our level.  */
+      if (*nl)
+        /* There's more we can do here.  */
+        {
+          (*our_level)++;
+          advance = 0;		/* Our parent shouldn't advance also. */
+        }
+      else if (*our_level > 0)
+        /* We had multiple levels, but used them up; reset to zero.  */
+        *our_level = 0;
+    }
 
   return !advance;
 }

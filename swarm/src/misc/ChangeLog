@@ -1,0 +1,18 @@
+1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* argp-parse.c (parser_finalize, parser_parse_arg,
+	parser_parse_next): Add extra braces to avoid if/else compiler
+	warnings.
+
+	* getopt.c (_getopt_internal): Likewise.
+
+	* argp-help.c (IsAlpha, IsAlnum, IsDigit, IsSpace): And and use
+	new macros to avoid char index to array compiler warnings.
+	(hol_entry_cmp, hol_append, arg, hol_entry_help, usage_long_opt,
+	argp_args_usage): Add extra braces to avoid if/else compiler
+	warnings.
+
+	* argp-fmtstream.c (__argp_fmtstream_update): Add extra braces
+	to avoid if/else compiler warning.
+	
+
