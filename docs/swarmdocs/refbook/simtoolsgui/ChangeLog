@@ -1,3 +1,8 @@
+1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* simtoolsgui00.sgml, simtoolsguicont.sgml: Update IDs to
+	SWARM.module.SGML.type.
+
 1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* simtoolsgui.ent: Use public identifiers.
