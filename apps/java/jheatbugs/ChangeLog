@@ -1,5 +1,12 @@
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HeatbugObserverSwarm.java: Add geometry record names
+	to all archived ProbeDisplay calls, worldRaster, and unhappyGraph.
+
+	* StartHeatbugs.java: Add app name, version, and bug address
+	arguments to initSwarm.
+	(StartHeatbugs): Add name argument to setWindowGeometryRecordName.
+
 	* HeatbugObserverSwarm.java (buildObjects): Pass windowGeometry
 	name to EZGraph creation.
 

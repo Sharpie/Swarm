@@ -12,7 +12,7 @@ public class StartHeatbugs {
         running.  */
     public static void main (String[] args) {
         // Swarm initialization: all Swarm apps must call this first.
-        Globals.env.initSwarm (args);
+        Globals.env.initSwarm ("jheatbugs", "2.0.1", "bug-swarm@santafe.edu", args);
         
         // swarmGUIMode is set in initSwarm(). It's set to be `false'
         // if you typed `heatbugs --batchmode' or `heatbugs
@@ -23,7 +23,7 @@ public class StartHeatbugs {
             // GUI objects
             HeatbugObserverSwarm topLevelSwarm = 
                 new HeatbugObserverSwarm (Globals.env.globalZone);
-            Globals.env.setWindowGeometryRecordName (topLevelSwarm);
+            Globals.env.setWindowGeometryRecordName (topLevelSwarm, "topLevelSwarm");
             
             topLevelSwarm.buildObjects ();
             topLevelSwarm.buildActions ();

@@ -148,8 +148,8 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         // Now create probe objects on the model and ourselves. This gives a
         // simple user interface to let the user change parameters.
         
-        Globals.env.createArchivedProbeDisplay (heatbugModelSwarm);
-        Globals.env.createArchivedProbeDisplay (this);
+        Globals.env.createArchivedProbeDisplay (heatbugModelSwarm, "heatbugModelSwarm");
+        Globals.env.createArchivedProbeDisplay (this, "heatbugObserverSwarm");
         
         // Instruct the control panel to wait for a button event: we
         // halt here until someone hits a control panel button so the
@@ -194,7 +194,7 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         // Next, create a 2d window for display, set its size, zoom
         // factor, title.
         worldRaster = new ZoomRasterImpl (getZone ());
-        Globals.env.setWindowGeometryRecordName (worldRaster);
+        Globals.env.setWindowGeometryRecordName (worldRaster, "worldRaster");
         
         try {
             worldRaster.enableDestroyNotification$notificationMethod 
@@ -254,7 +254,7 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
            "time", "unhappiness",
            "unhappyGraph");
         
-        Globals.env.setWindowGeometryRecordName (unhappyGraph); 
+        Globals.env.setWindowGeometryRecordName (unhappyGraph, "unhappyGraph"); 
         
         // instruct this _unhappyGraphDeath_ method to be called when
         // the widget is destroyed
