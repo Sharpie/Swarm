@@ -1,3 +1,10 @@
+2001-08-22  Alex Lancaster  <alex@swarm.org>
+
+	* COPYING.FDL: Add file.
+
+	* global.ent (doc-legalnotice): Change to the GNU FDL.  Still need
+	to list `invariant sections' and `cover texts'.
+
 2000-07-17  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* catalog.in: Add public identifiers for swarmcont.sgml and
