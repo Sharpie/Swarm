@@ -4,6 +4,19 @@ include @swarm_prefix@/etc/swarm/Makefile.rules
 APPEXE = $(APPLICATION)@EXESUFFIX@
 LDFLAGS = $(SWARMLDFLAGS) $(EXTRALDFLAGS)
 
+ifneq ($(APPVERSION),)
+_APPVERSION = -DAPPVERSION=\"$(APPVERSION)\"
+else
+_APPVERSION = -DAPPVERSION=NULL
+endif
+ifneq ($(BUGADDRESS),)
+_BUGADDRESS = -DBUGADDRESS=\"$(BUGADDRESS)\"
+else
+_BUGADDRESS = -DBUGADDRESS=NULL
+endif
+
+CFLAGS += -DAPPNAME=\"$(APPLICATION)\" $(_APPVERSION) $(_BUGADDRESS)
+
 .PHONY: install-config install-data
 
 all: $(APPEXE)

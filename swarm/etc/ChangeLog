@@ -1,3 +1,13 @@
+1999-06-09  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.appl.in (CFLAGS): Add -D defined macros to existing
+	CFLAGS, for APPNAME, BUGADDRESS and APPVERSION which are passed to
+	the initSwarm call in simtools.h at compile time.  
+	(_APPVERSION): Add logic to set the #define to NULL, in the case it
+	is not defined in the user Makefile, or set it to the user defined
+	one, in the case it is set.
+	(_BUGADDRESS): Likewise.
+
 1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common.in: Don't be particular about the value
