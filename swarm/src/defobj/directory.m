@@ -1286,39 +1286,43 @@ Class
 swarm_directory_swarm_class (id object)
 {
 #ifdef HAVE_JDK
-  jobject jobj;
-  
-  if ((jobj = SD_FINDJAVA (env, object)))
+  if (swarmDirectory)
     {
-      jclass jcls;
-      const char *className;
-      Class result;
-
-      jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
-      className = swarm_directory_java_class_name (jniEnv, jobj);
-      result = objc_class_for_class_name (className);
-      FREECLASSNAME (className);
-      if (!result)
-        if (!(result = SD_FINDOBJC (jniEnv, jcls)))
-          result = swarm_directory_ensure_class (jniEnv, jcls);
-      (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
-      return result;
+      jobject jobj;
+      
+      if ((jobj = SD_FINDJAVA (env, object)))
+        {
+          jclass jcls;
+          const char *className;
+          Class result;
+          
+          jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
+          className = swarm_directory_java_class_name (jniEnv, jobj);
+          result = objc_class_for_class_name (className);
+          FREECLASSNAME (className);
+          if (!result)
+            if (!(result = SD_FINDOBJC (jniEnv, jcls)))
+              result = swarm_directory_ensure_class (jniEnv, jcls);
+          (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
+          return result;
+        }
     }
-  else
 #endif
-    return [object getClass];
+  return [object getClass];
 }
 
 const char *
 swarm_directory_language_independent_class_name  (id object)
 {
 #ifdef HAVE_JDK
-  jobject jobj;
-
-  if ((jobj = SD_FINDJAVA (jniEnv, object)))
-    return swarm_directory_java_class_name (jniEnv, jobj);
-  else 
-    return (const char *) (getClass (object))->name;      
+  if (swarmDirectory)
+    {
+      jobject jobj;
+      
+      if ((jobj = SD_FINDJAVA (jniEnv, object)))
+        return swarm_directory_java_class_name (jniEnv, jobj);
+    }
+  return (const char *) (getClass (object))->name;      
 #else
   return (const char *) (getClass (object))->name;
 #endif

@@ -1,5 +1,9 @@
 1999-10-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (swarm_directory_swarm_class,
+	swarm_directory_language_independent_class_name): Don't
+	attempt Java lookups when swarmDirectory doesn't exist.
+
 	* LispArchiver.m (archiverLispGet): Explicitly handle nil 
 	ArchiverObjects.
 
