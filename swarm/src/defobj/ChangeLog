@@ -1,5 +1,9 @@
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Arguments.m ([Arguments_c -createEnd]): Cover
+	program_invocation_[short]_name initializations in w/ and w/o
+	applicationName as well as w/ and w/o glibc.
+
 	* Makefile.am (BUILT_SOURCES): Use TYPEINFO.
 	(module_headers): Remove.
 

@@ -153,14 +153,26 @@ strip_quotes (const char *argv0)
 - createEnd
 {
   const char *argv0 = strip_quotes (argv[0]);
-  program_invocation_name = (char *) find_executable (argv0);
 #ifndef __GLIBC__
-  program_invocation_short_name = getApplicationValue (argv0);
   if (applicationName == NULL)  
-    [self setAppName: program_invocation_short_name];
+    {
+      program_invocation_short_name = getApplicationValue (argv0);
+      program_invocation_name = (char *) find_executable (argv0);
+      [self setAppName: program_invocation_short_name];
+    }
+  else
+    {
+      program_invocation_short_name = applicationName;
+      program_invocation_name = applicationName;
+    }
 #else
   if (applicationName == NULL)
     [self setAppName: getApplicationValue (argv0)];
+  else
+    {
+      program_invocation_short_name = applicationName;
+      program_invocation_name = applicationName;
+    }
 #endif
 
   if (version == NULL)
