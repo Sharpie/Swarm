@@ -5,6 +5,7 @@
 
 #import <simtoolsgui/GUIComposite.h>
 #import <simtoolsgui.h>
+#import <simtoolsgui/global.h> // buildWindowGeometryRecordName
 #import <collections.h>
 
 static int

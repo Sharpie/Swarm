@@ -1,3 +1,13 @@
+1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* simtoolsgui.h: Update documentation tags.
+	Prefix global references with extern.
+
+	* global.h: Move buildWindowGeometryRecordName declaration here
+	(was in simtoolsgui.h).
+
+	* GUIComposite.m, GUISwarm.m: Include global.h.
+
 1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* simtoolsgui.h: Include activity.h.

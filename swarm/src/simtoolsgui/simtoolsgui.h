@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.    
 
-//D: GUI-related features for simulation.
+//S: GUI-related features for simulation.
 
 #import <objectbase.h>
 #import <activity.h> // SwarmProcess
@@ -97,6 +97,7 @@ CREATING
 - setControlPanel: cp;
 - createEnd;
 - createProcCtrl;
+
 USING
 - setScheduleContext: context;
 - insertAction: actionHolder;
@@ -116,13 +117,14 @@ USING
 
 //G: Type Symbols for ActionCache
 extern id <Symbol> Control, Probing, Spatial;
+
 //G: Error Symbols for ActionCache
 extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
-
 
 @protocol CommonProbeDisplay <WindowGeometryRecordName>
 //S: A protocol underlying ProbeDisplay and CompleteProbeDisplay
 //D: This protocol provides the common interface to all kinds of ProbeDisplays.
+
 CREATING
 //M: This method must be called.
 - setProbedObject: anObject;
@@ -173,11 +175,11 @@ USING
 //D: the target object's class and its superclasses are included)...
 @end
 
-id <ProbeDisplay> _createProbeDisplay (id obj);
-id <CompleteProbeDisplay> _createCompleteProbeDisplay (id obj);
+extern id <ProbeDisplay> _createProbeDisplay (id obj);
+extern id <CompleteProbeDisplay> _createCompleteProbeDisplay (id obj);
 
-id <ProbeDisplay> createArchivedProbeDisplayNamed (id obj, const char *name);
-id <CompleteProbeDisplay> createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
+extern id <ProbeDisplay> createArchivedProbeDisplayNamed (id obj, const char *name);
+extern id <CompleteProbeDisplay> createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
 
 
 @protocol ProbeDisplayManager <SwarmObject>
@@ -223,7 +225,7 @@ USING
 #define CREATE_PROBE_DISPLAY(anObject) \
   _createProbeDisplay(anObject)
 
-//#: This macro creates a "complete" probe display for the given object
+//#: This macro creates a complete probe display for the given object
 #define CREATE_COMPLETE_PROBE_DISPLAY(anObject) \
   _createCompleteProbeDisplay(anObject)
 
@@ -232,7 +234,7 @@ USING
 #define CREATE_ARCHIVED_PROBE_DISPLAY(anObject) \
   createArchivedProbeDisplayNamed(anObject,#anObject)
 
-//#: This macro creates a "complete" probe display for the given
+//#: This macro creates a complete probe display for the given
 //#: object, to be saved  by the window archiver
 #define CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(anObject) \
   createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
@@ -254,7 +256,7 @@ USING
 
 //D: GUISwarm is a subclass of Swarm that is used as a toplevel Swarm for
 //D: simulations running with a graphical user interface. The GUISwarm
-//D: creates a ControlPanel automatically for you and defines a "go" method
+//D: creates a ControlPanel automatically for you and defines a -go method
 //D: that interprets the state of the ControlPanel to keep things running
 //D: in response to user input. Users subclass GUISwarm much like they
 //D: subclass a normal Swarm, implementing the same kind of buildObjects,
@@ -303,15 +305,11 @@ USING
 extern id <ProbeDisplayManager> probeDisplayManager;
 
 //G: State Symbols for the ControlPanel.
-extern id ControlStateRunning, ControlStateStopped;
-extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
+extern id ControlStateRunning, ControlStateStopped, ControlStateStepping,
+  ControlStateNextTime, ControlStateQuit;
 
-//G: Initialize the library and create a ProbeDisplayManager
-void initSimtoolsGUI (void);
-
-const char *buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
-                                           const char *componentName);
-
+//F: Initialize the library and create a ProbeDisplayManager.
+extern void initSimtoolsGUI (void);
 
 @class ControlPanel;
 @class ActionCache;

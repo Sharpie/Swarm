@@ -8,3 +8,7 @@
 // Manager that keeps track of active probes to be updated
 extern ProbeDisplayManager *probeDisplayManager;
 
+extern const char *buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
+                                                  const char *componentName);
+
+
