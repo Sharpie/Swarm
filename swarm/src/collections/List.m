@@ -194,7 +194,7 @@ PHASE(Using)
             while ((member = [li next]))
               {
                 [hdf5ObjDataset selectRecord: [li getOffset]];
-                [hdf5ObjDataset storeObject: member];
+                [self hdf5Out: member deep: NO];
               }
             [li drop];
           }
