@@ -14,6 +14,7 @@
 - setWidth: (unsigned)width;
 - setHeight: (unsigned)height;
 - setWidth: (unsigned)width Height: (unsigned)height;
+- setPositionX: (int)x Y: (int)y;
 - setWindowTitle: (const char *)title;
 - (const char *)makeWidgetNameFor: widget;
 - (const char *)getWidgetName;
@@ -224,7 +225,9 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - setTo: to;
 @end
 
+#ifdef _TK_
 #import <tkobjc/common.h>
+void initTkObjc (id arguments);
 
 #define GUI_BEEP() tkobjc_ringBell ()
 #define GUI_UPDATE() tkobjc_update ()
@@ -241,8 +244,28 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 // for VarProbeWidget
 #define GUI_FOCUS(widget) tkobjc_focus (widget)
 
-#import <tkobjc/global.h>
-#define GUI_INIT(argc, argv) initTkObjc (argc, argv)
+#define GUI_INIT(arguments) initTkObjc (arguments)
+#else
+#define _GUI_MSG(str) printf ("GUI [%s,%d] %s\n",__FILE__,__LINE__,str)
+#define GUI_BEEP() _GUI_MSG ("GUI_BEEP")
+#define GUI_UPDATE() _GUI_MSG ("GUI_UPDATE")
+#define GUI_UPDATE_IDLE_TASKS_AND_HOLD() _GUI_MSG ("GUI_UPDATE_IDLE_TASKS_AND_HOLD")
+#define GUI_RELEASE_AND_UPDATE()  _GUI_MSG ("GUI_RELEASE_AND_UPDATE")
+#define GUI_DRAG_AND_DROP(source,object) _GUI_MSG ("GUI_DRAG_AND_DROP")
+#define GUI_DRAG_AND_DROP_OBJECT() (_GUI_MSG ("GUI_DRAG_AND_DROP_OBJECT"), nil)
+#define GUI_EVENT_SYNC() _GUI_MSG ("GUI_EVENT_SYNC")
+#define GUI_EVENT_ASYNC() (_GUI_MSG ("GUI_EVENT_ASYNC"), 0)
+
+// for MessageProbeWidget
+#define GUI_MAKE_FRAME(widget) _GUI_MSG ("GUI_MAKE_FRAME")
+#define GUI_PACK(widget) _GUI_MSG ("GUI_PACK")
+// for VarProbeWidget
+#define GUI_FOCUS(widget) _GUI_MSG ("GUI_FOCUS")
+
+#import <javaobjc/global.h>
+
+#define GUI_INIT(arguments)  initJavaObjc (arguments)
+#endif
 
 @class Button;
 @class ButtonPanel;

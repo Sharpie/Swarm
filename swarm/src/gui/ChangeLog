@@ -1,3 +1,9 @@
+1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h (Widget): Add setPositionX:Y:.
+	Add AWT placeholders for GUI_* macros.
+	Change GUI_INIT to take a single argument, the Arguments object.
+
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h: Remove GUI_ prefixes from GUI_Color and GUI_PixelValue.
