@@ -1,3 +1,9 @@
+2003-05-10  Marcus Daniels  <mgd@mac>
+
+	* Makefile.am (EXTRA_LTLIBRARIES, lib{swarm}objc_*, DLLOBJS,
+	objc.dll, install-data-local): Change from libobjc to
+	libswarmobjc.
+
 2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* complete conversion to libtool 1.4.3

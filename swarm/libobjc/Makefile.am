@@ -13,14 +13,14 @@ EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c thr-posix.c
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
 lib_LTLIBRARIES = @LIBOBJC_LA@
-EXTRA_LTLIBRARIES = libobjc.la
+EXTRA_LTLIBRARIES = libswarmobjc.la
 #bin_PROGRAMS = @OBJC_DLL@
 #EXTRA_PROGRAMS = objc.dll
 
-libobjc_la_SOURCES = $(CSRC) $(MSRC)
-libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) # -L$(dir $(shell $(CC) -print-libgcc-file-name))
-libobjc_la_LIBADD = $(objc_thread_lo) -lgcc
-libobjc_la_DEPENDENCIES = $(objc_thread_lo)
+libswarmobjc_la_SOURCES = $(CSRC) $(MSRC)
+libswarmobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) # -L$(dir $(shell $(CC) -print-libgcc-file-name))
+libswarmobjc_la_LIBADD = $(objc_thread_lo) -lgcc
+libswarmobjc_la_DEPENDENCIES = $(objc_thread_lo)
 
 override CPPFLAGS += -DBUILDING_LIBOBJC
 
@@ -34,17 +34,17 @@ compiler-info.h: $(COMPILERINFOHEADER)
 	cp $(COMPILERINFOHEADER) $@
 
 if USEDLL
-DLLOBJS = $(addsuffix .lo,$(basename $(libobjc_la_SOURCES)))
+DLLOBJS = $(addsuffix .lo,$(basename $(libswarmobjc_la_SOURCES)))
 
-objc.dll: libobjc.la objc.dll.c
+objc.dll: libswarmobjc.la objc.dll.c
 	$(CC) -c $(srcdir)/objc.dll.c -o objc.dll.o
-	$(DLLWRAP) --export-all-symbols --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
+	$(DLLWRAP) --export-all-symbols --output-def libswarmobjc.def --implib libswarmobjcdll.a --driver-name $(CC) -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
 
-#$(CC) -Wl,-shared -Wl,--export-all-symbols -Wl,--output-def,libobjc.def -Wl,--out-implib,libobjcdll.a -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
+#$(CC) -Wl,-shared -Wl,--export-all-symbols -Wl,--output-def,libswarmobjc.def -Wl,--out-implib,libswarmobjcdll.a -o objc.dll objc.dll.o $(DLLOBJS) $(objc_thread_lo)
 
 install-data-local: 
-	$(INSTALL) libobjcdll.a $(DESTDIR)$(libdir)
-	ranlib $(DESTDIR)$(libdir)/libobjcdll.a
+	$(INSTALL) libswarmobjcdll.a $(DESTDIR)$(libdir)
+	ranlib $(DESTDIR)$(libdir)/libswarmobjcdll.a
 endif
 
 #CC1OBJ = @gccdir@/cc1obj
