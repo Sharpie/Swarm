@@ -1,3 +1,11 @@
+1999-05-24  Alex Lancaster  <alex@santafe.edu>
+
+	* make-h2x: Modify sed script that generates the .xm+ file, to
+	only output lines that have id<{Symbol,Warning,Error,Event}> if
+	prefaced by `extern'.  This avoids the problem of
+	misinterpretation of methods that take or return an argument that
+	have casts to id<{Symbol,Warning,Error,Event}>, as symbols.
+
 1999-05-20  Alex Lancaster  <alex@santafe.edu>
 
 	* directory.[hm]: Protect Java-specific code with HAVE_JDK

@@ -34,17 +34,18 @@ echo \
 ' >$m.xm
 
 # extract all declared symbols into temporary file
-
+# note that we identify Symbol, Warning, Error and Event
+# *only* in the context of `extern', and we use a second
+# sed script to remove the `extern' after identification
 sh -c "$OBJC $OBJCFLAGS -E $srcdir/$m.h" | \
 sed -n \
   -e 's@//.*$@@' \
   -e 's/	//g' \
-  -e 's/^[ ]*extern //g' \
-  -e 's/[ ][ ]*//g' -e 's///g' \
-  -e '/id<Symbol>/,/^$/p' \
-  -e '/id<Warning>/,/^$/p' \
-  -e '/id<Error>/,/^$/p' \
-  -e '/id<Event>/,/^$/p' >$m.xm+
+  -e 's/[ ][ ]*//g'  -e 's///g' \
+  -e '/externid<Symbol>/,/^$/p' \
+  -e '/externid<Warning>/,/^$/p' \
+  -e '/externid<Error>/,/^$/p' \
+  -e '/externid<Event>/,/^$/p' | sed -e 's/extern//g' >$m.xm+
 
 # define symbol identifiers in generated file
 
