@@ -1,0 +1,4 @@
+include ../Makefile.common
+CC=@CC@
+CPPFLAGS=-I/opt/SUNWjava/usr/java1.2/include -I/opt/SUNWjava/usr/java1.2/include/solaris
+all: $(addsuffix .o,$(foreach module,$(MODULES),$($(module)PROTOCOLS)))
