@@ -1,3 +1,19 @@
+1999-08-06  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* directory.h (Directory): new ivar findEntry.
+
+	* directory.m ([-javaFind:]): Use it.
+	
+	* directory.m: Include defalloc.h.
+	([-add:javaObject:]):
+	([+createBegin:]): Preallocate an entry for searching for Java
+	objects.
+	([-drop], [-add:javaObject:],
+	[-switchJavaEntry:javaObject:]): Use getZone macro instead of
+	method.
+
+	* directory.[hm] ([-describe:], [-findDrop]): New methods.
+
 1999-08-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.[hm] ([-objcRemove:]): New method.
@@ -92,9 +108,6 @@
 	(alignptrto): New function.
 
 1999-08-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* directory.m ([-setJavaObject:]): Make globalref here so
-	that drop can assume the javaObject, if any, is a globalref.
 
 	* directory.[mh] ([-getHashCode], swarm_directory_java_hash_code):
 	Make return unsigned.

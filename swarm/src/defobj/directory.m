@@ -1,4 +1,5 @@
-#include "directory.h"
+#import "directory.h"
+#import "defalloc.h"
 #include <misc.h>
 #include <misc/avl.h>
 #include <objc/objc.h>
@@ -136,7 +137,7 @@ swarm_directory_java_hash_code (jobject javaObject)
 @internalimplementation DirectoryEntry
 - setJavaObject: (jobject)theJavaObject
 {
-  javaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
+  javaObject = theJavaObject;
   return self;
 }
 
@@ -172,10 +173,33 @@ swarm_directory_java_hash_code (jobject javaObject)
                                               ((DirectoryEntry *) obj)->javaObject);
 }
 
+- (void)findDrop
+{
+  [getZone (self) freeIVars: self];
+}
+
 - (void)drop
 {
   (*jniEnv)->DeleteGlobalRef (jniEnv, javaObject);
-  [super drop];
+  [getZone (self) freeIVars: self];
+}
+
+- (void)describe: outputCharStream
+{
+  jstring string = get_class_name_from_object (jniEnv, javaObject);
+  const char *className = swarm_directory_copy_java_string (jniEnv, string);
+  
+  [outputCharStream catPointer: self];
+  [outputCharStream catC: " objc: "];
+  [outputCharStream catC: [self getObjcName]];
+  [outputCharStream catC: " "];
+  [outputCharStream catPointer: object];
+  [outputCharStream catC: "  java: "];
+  [outputCharStream catC: className];
+  [outputCharStream catC: " "];
+  [outputCharStream catPointer: javaObject];
+  [outputCharStream catC: "\n"];
+  SFREEBLOCK (className);
 }
 
 @end
@@ -194,7 +218,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 #define ENTRY(theObject,theJavaObject) [[[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
 #define OBJCENTRY(theObject) ENTRY(theObject,0)
 #define JAVAENTRY(theJavaObject) ENTRY(0,theJavaObject)
-#define OBJCFINDENTRY(theObject) ({ DirectoryEntry *findEntry  = alloca (sizeof (DirectoryEntry)); findEntry->object = theObject; findEntry; })
+#define OBJCFINDENTRY(theObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->object = theObject; _findEntry; })
 
 @internalimplementation Directory
 + createBegin: aZone
@@ -205,17 +229,19 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   obj->table = [aZone alloc: size];
   memset (obj->table, 0, size);
   obj->objc_tree = avl_create (compare_objc_objects, NULL);
+  obj->findEntry = ENTRY (0, 0);
   return obj;
 }
 
 - javaFind: (jobject)theJavaObject
 {
-  DirectoryEntry *findEntry = JAVAENTRY (theJavaObject);
-  unsigned index = swarm_directory_java_hash_code (findEntry->javaObject);
+  unsigned index = swarm_directory_java_hash_code (theJavaObject);
   id <Map> m = table[index];
-  id ret = m ? [m at: findEntry] : nil;
+  id ret;
 
-  [findEntry drop];
+  findEntry->javaObject = theJavaObject;
+  ret = m ? [m at: findEntry] : nil;
+
   return ret;
 }
 
@@ -247,11 +273,11 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   id <Map> m = table[index];
   id entry;
   
-  entry = ENTRY (theObject, theJavaObject);
+  entry = ENTRY (theObject, (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject));
 
   if (m == nil)
     {
-      m = [Map create: [self getZone]];
+      m = [Map create: getZone (self)];
       table[index] = m;
     }
   [m at: entry insert: entry];
@@ -273,7 +299,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   index = swarm_directory_java_hash_code (theJavaObject);
   entry->javaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
   if (!table[index])
-    table[index] =  [Map create: [self getZone]];
+    table[index] = [Map create: getZone (self)];
   [table[index] at: entry insert: entry];
 }
 
@@ -449,7 +475,7 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
       Class class = getClass (object);
       jclass javaClass = [self objcFindJavaClass: class];
       
-      result = SD_ADD (jniEnv, 
+      result = SD_ADD (jniEnv,
                        swarm_directory_java_instantiate (jniEnv, javaClass),
                        object);
     }
@@ -459,7 +485,7 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
 - (BOOL)objcRemove: object
 {
   DirectoryEntry *entry = [swarmDirectory objcFind: object];
-
+  
   if (entry)
     {
       unsigned index =
@@ -468,9 +494,16 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
       
       if (!m)
         abort ();
-      
+
       [m removeKey: entry];
-      avl_delete (objc_tree, entry);
+      {
+        DirectoryEntry *ret;
+        
+        ret = avl_delete (objc_tree, entry);
+        
+        if (ret != entry)
+          abort ();
+      }
       [entry drop];
       return YES;
     }

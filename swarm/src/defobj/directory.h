@@ -39,13 +39,16 @@ unsigned swarm_directory_java_hash_code (jobject javaObject);
 - (int)compare: obj;
 - (const char *)getObjcName;
 - (unsigned)getHashCode;
+- (void)findDrop;
 - (void)drop;
+- (void)describe: outputCharStream;
 @end
 
 @interface Directory: CreateDrop
 {
   id *table;
   avl_tree *objc_tree;
+  DirectoryEntry *findEntry;
 }
 + createBegin: aZone;
 - add: object javaObject: (jobject)javaObject;

@@ -340,7 +340,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
           suballocList = nil;
         }
     }
-  
+
   // free any internal allocations mapped explicitly by the object
   
   //
