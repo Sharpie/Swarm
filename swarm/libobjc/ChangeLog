@@ -1,3 +1,8 @@
+2001-01-22  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sendmsg.c (__objc_double_forward): Change offset for alpha
+	from 15 to 19.
+
 2000-08-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* hash.c (hash_new): Use cache_t instead of struct cache.
