@@ -269,7 +269,7 @@ USING
 //M: Set the title for the graph.
 - setTitle: (const char *)title; // other modules are creating-phase
 //M: Set the axis labels for the graph.
-- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 //M: Builds a new GraphElement to plot data with.
 - (id <GraphElement>)createElement;
 //M: Whether to autoscale every timestep or instead to jump scale.
@@ -317,7 +317,7 @@ USING
 - (void)setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision;
 
 //M: Set the axis labels.
-- (void)setAxisLabelsX: (const char *)xl Y: (const char *)yl;
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
 //M: Set the text that describes a specified number of outliers.
 - (void)setActiveOutlierText: (unsigned)outliers count: (unsigned)count;
