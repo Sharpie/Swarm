@@ -1088,6 +1088,19 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
     ASSOCIATE (ControlStateQuit);
     ASSOCIATE (ControlStateNextTime);
   }
+
+  {
+    extern id <Symbol> Initialized, Running, Stopped, Holding, Released, 
+      Terminated, Completed;
+
+    ASSOCIATE (Initialized);
+    ASSOCIATE (Running);
+    ASSOCIATE (Stopped);
+    ASSOCIATE (Holding);
+    ASSOCIATE (Released);
+    ASSOCIATE (Terminated);
+    ASSOCIATE (Completed);
+  }
 }
 
 jobject

@@ -1,5 +1,9 @@
 2000-04-20    <mgd@nest.swarm.org>
 
+	* directory.m (swarm_directory_init): Add associations for
+	Initialized, Running, Stopped, Holding, Release, Terminated, and
+	Completed.
+
 	* FArguments.m ([FArguments_c -setSelector:]): Don't abort
 	when there is not a Java selector available.  Turn off 
 	javaFlag and set the return type.
