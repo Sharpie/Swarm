@@ -344,8 +344,7 @@
           (insert ";\n"))))
 
 (defun com-impl-generate-headers (protocol phase)
-  (let ((iprotocols (cons protocol
-                          (included-protocol-list protocol))))
+  (let ((iprotocols (generate-complete-protocol-list protocol)))
     (with-temp-file
         (com-impl-pathname protocol phase ".h")
       (let ((cppsym 
@@ -599,8 +598,7 @@
     (insert "\n")))
 
 (defun com-impl-print-method-definitions (protocol phase)
-  (loop for method in (protocol-method-list protocol)
-        when (included-method-p protocol method phase)
+  (loop for method in (expanded-method-list protocol phase)
 	do
         (com-impl-print-method-definition protocol phase method)
         (insert "\n")))
