@@ -122,7 +122,7 @@
       ;; FCall
       "-setJavaMethod:inObject:" ; void* parameter
       "-getResult"; void* return
-
+      "-getReturnVal"; retval_t return
       
       ;; Array
       "-getData"; void* return

@@ -3,6 +3,7 @@
 	* java-stub.el (java-print-native-method): Use
 	JINSTANTIATEUSINGFROMCLASS for +create* and
 	JINSTANTIATEUSINGFROMOBJECT for -createEnd.
+	(*removed-methods*): Add getReturnVal.
 
 1999-03-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
