@@ -1,7 +1,7 @@
 1998-03-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.conf: Rename mgd-SFI-NT SFI-NT.  Use /Swarm instead
-	of /packages/swarm.
+	* Makefile.conf: Rename mgd-SFI-NT SFI-NT.  Use /Swarm/packages instead
+	of /packages/swarm for $(P).
 	(EXTRACFLAGS): Add -Werror and -Wno-sign-compare.
 
 1998-03-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
