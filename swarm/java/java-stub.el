@@ -498,33 +498,36 @@
     (when (>= len sig-len)
       (string= (substring signature 0 sig-len) match-signature))))
 
-(defun unwanted-random-create-method-p (protocol method)
-  (and (string= (get-method-signature method) "+create:")
-       (find (protocol-name protocol)
-             '("UniformUnsignedDist"
-               "PMMLCG1gen"
-               "C2TAUS3gen"
-               "RandomBitDist"
-               "ExponentialDist"
-               "MT19937gen"
-               "UniformDoubleDist"
-               "NormalDist"
-               "C2TAUS1gen"
-               "GammaDist"
-               "UniformIntegerDist"
-               "PSWBgen"
-               "LogNormalDist"
-               "BernoulliDist"
-               "C2TAUS2gen")
-             :test #'string=)))
-
+(defun unwanted-create-method-p (protocol method)
+  (let ((signature (get-method-signature method)))
+    (or
+     (and (string= signature "+create:")
+          (find (protocol-name protocol)
+                '("UniformUnsignedDist"
+                  "PMMLCG1gen"
+                  "C2TAUS3gen"
+                  "RandomBitDist"
+                  "ExponentialDist"
+                  "MT19937gen"
+                  "UniformDoubleDist"
+                  "NormalDist"
+                  "C2TAUS1gen"
+                  "GammaDist"
+                  "UniformIntegerDist"
+                  "PSWBgen"
+                  "LogNormalDist"
+                  "BernoulliDist"
+                  "C2TAUS2gen")
+                :test #'string=))
+     (string= signature "+createParent:"))))
+  
 (defun match-create-signature (signature)
   (or (match-signature signature "+createParent:") ; gui
       (match-signature signature "+createWithDefaults:"); random
       (match-signature signature "+create:")))
 
 (defun convenience-create-method-p (protocol method)
-  (unless (unwanted-random-create-method-p protocol method)
+  (unless (unwanted-create-method-p protocol method)
     (match-create-signature (get-method-signature method))))
   
 (defun included-method-p (protocol method phase)
@@ -1168,7 +1171,7 @@
       (loop for phase in '(:creating :using)
             do
             (loop for method in (expanded-method-list protocol phase)
-                  unless (unwanted-random-create-method-p protocol method)
+                  unless (unwanted-create-method-p protocol method)
                   do
                   (java-print-native-method method protocol phase)
                   (insert "\n")))
