@@ -1,4 +1,4 @@
-AC_DEFUN(md_CREATE_LIBOBJC_HEADERS,
+AC_DEFUN([md_CREATE_LIBOBJC_HEADERS],
 [configsrcdir=$srcdir/config
 
 case "$host_cpu" in

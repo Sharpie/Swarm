@@ -1,3 +1,10 @@
+2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
+
+	* acdll.m4, acheaders.m4: Quote all macro names for newer aclocal.
+
+	* acdll.m4 (EXPORT_EXTERN, EXPORT_EXTERNDEF, IMPORT_EXTERN):
+	Change AC_DEFINEs to be documenting three argument usages.
+
 2004-11-22  Marcus G. Daniels <mgd@santafe.edu>
 
 	* headers.m4: Don't look for version info in Darwin host signature.
