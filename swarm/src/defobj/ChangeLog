@@ -1,6 +1,7 @@
 1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (modulemap.c): New target.
+	(EXTRA_DIST): Add modulemap.c and modulemap.el
 
 	* modulemap.el: New file.
 

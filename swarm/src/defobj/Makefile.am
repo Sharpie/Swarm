@@ -8,7 +8,7 @@ FFIINCLUDES = @FFIINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
-EXTRA_DIST = make-h2x m2h internal.h modules.c
+EXTRA_DIST = make-h2x m2h internal.h modulemap.c modulemap.el
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES) $(FFIINCLUDES)
 
