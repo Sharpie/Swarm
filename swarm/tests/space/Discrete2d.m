@@ -58,8 +58,10 @@
 
 @interface MyDiscrete2d: Discrete2d
 {
+  BOOL objectFlag;
   id <Map>emptyMap;
 }
+- setObjectFlag: (BOOL)objectFlag;
 - updateArchiver: archiver;
 - (BOOL)checkObject;
 @end
@@ -71,44 +73,51 @@
   return obj;
 }
 
+- setObjectFlag: (BOOL)theObjectFlag;
+{
+  objectFlag = theObjectFlag;
+  return self;
+}
+
 - createEnd
 {
   [super createEnd];
   emptyMap = [Map create: [self getZone]];
   return self;
 }
+
 - updateArchiver: archiver
 {
-  [archiver putDeep: OBJNAME object: self];
+  if (objectFlag)
+    [archiver putDeep: OBJNAME object: self];
+  else
+    [archiver putShallow: OBJNAME object: self];
   return self;
 }
 
 - (BOOL)checkObject
 {
-  if (useValues)
+  if (!objectFlag)
     {
       unsigned i, lcount;
+      
       lcount = xsize * ysize;
       for (i = 0; i < lcount; i++)
-        if ( (lattice[i] != (id) ULONGVAL) && 
-            ( (i == ((OTHERX-1)*(OTHERY-1))) && 
-              (lattice[i] != (id) OTHERULONGVAL)) )
+        if ((lattice[i] != (id) ULONGVAL) && 
+            ((i == ((OTHERX-1)*(OTHERY-1))) && 
+             (lattice[i] != (id) OTHERULONGVAL)))
           return NO;
-      return YES;
     }
-  else if (useObjects)
+  else
     {
       unsigned x, y;
+      
       for (x = 0; x < xsize; x++) 
         for (y = 0; y < ysize; y++)
           if ([*discrete2dSiteAt(lattice, offsets, x, y) checkObject] == NO)
-              return NO;
-      return YES;
+            return NO;
     }
-  else
-    raiseEvent(InvalidOperation, 
-     "State of use{Values, Objects} Discrete2d not set correctly");
-  return NO;
+  return YES;
 }
 @end
 
@@ -138,10 +147,10 @@ checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL valueFlag)
     {
       obj = [[[[MyDiscrete2d createBegin: aZone]
                 setSizeX: XSIZE Y: YSIZE]
-               setUseValues]
+               setObjectFlag: NO]
               createEnd];
       [obj fastFillWithValue: ULONGVAL];
-
+      
       // make one cell different from the others
       [obj putValue: OTHERULONGVAL atX: OTHERX Y: OTHERY];
     }
@@ -150,7 +159,7 @@ checkArchiverDiscrete2d (id aZone, BOOL hdf5Flag, BOOL valueFlag)
       id latticeObj = [MyClass create: aZone];
       obj = [[[[MyDiscrete2d createBegin: aZone]
                 setSizeX: XSIZE Y: YSIZE]
-               setUseObjects]
+               setObjectFlag: YES]
               createEnd];
       [obj fastFillWithObject: latticeObj];
       

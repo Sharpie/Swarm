@@ -1,3 +1,13 @@
+1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Discrete2d.m (Discrete2d): Add objectFlag.
+	([MyDiscrete -setObjectFlag:]): New setter.
+	(checkArchiverDiscrete2d): Use it.
+	([MyDiscrete -updateArchiver:]): Use putDeep:object: or
+	putDeepShallow:object: per objectFlag.
+	([MyDiscrete -checkObject]): Check values or objects per objectFlag
+	(not formerly inherited useValues or useObjects).
+
 1999-04-25  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am, Discrete2d.m: New files.
