@@ -1,15 +1,14 @@
 <html>
 <script language="javascript">
   netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-
   document.write ("Hello world<BR>");
+  var clazz = Components.classes["component://swarm/SwarmEnvironmentImpl"];
+  var iface = Components.interfaces.swarmISwarmEnvironment;
   
-  var env = Components.classes["component://swarm/SwarmEnvironmentImpl"].createInstance (Components.interfaces.swarmISwarmEnvironment);
+  var env = clazz.createInstance (iface);
   var env2 = env.initSwarm_version_bugAddress_argCount_args ("test", "0.0", "bug-swarm@swarm.org", 0, []);
-  document.write (typeof (env2.guiFlag));
-  document.write (env.guiFlag);
-  document.write ("Done<BR>");
+  dump (env2);
+  document.write (env2.guiFlag);
 </script>
-
 </html>
 

@@ -236,7 +236,7 @@
     (buffer-string)))
 
 (defun com-idl-return-type (protocol phase method)
-  (if (convenience-create-method-p protocol method)
+  (if (method-factory-flag method)
       (com-interface-name protocol phase)
     (com-idl-type (method-return-type method))))
 
@@ -246,7 +246,7 @@
       (com-interface-name (methodinfo-protocol methodinfo) phase)))
 
 (defun com-impl-return-type (protocol phase method)
-  (if (convenience-create-method-p protocol method)
+  (if (method-factory-flag method)
       (concat (com-impl-defining-interface protocol phase method) "*")
     (com-remove-const (com-impl-type (method-return-type method)))))
 
@@ -586,9 +586,11 @@
           (insert ";\n")
           ;; there is no QueryInterface here because we shouldn't
           ;; ever be dealing with a non-interface to begin with?
-          (insert "  *ret = (")
+          (insert "  COMswarm_return = NS_STATIC_CAST (")
           (insert (com-impl-return-type protocol phase method))
-          (insert ") SD_COM_ADD_OBJECT_COM (this, COMswarm_newobj);\n"))
+          (insert ", this);\n")
+          (insert "  SD_COM_ADD_OBJECT_COM (COMswarm_return, COMswarm_newobj);\n")
+          (insert "  NS_ADDREF (*ret = COMswarm_return);\n"))
       (progn
         (unless (string= ret-type "void")
           (insert "*ret = "))
@@ -642,6 +644,9 @@
     (if (method-factory-flag method)
         (progn
           (insert "  id COMswarm_newobj;\n")
+          (insert "  ")
+          (insert (com-impl-return-type protocol phase method))
+          (insert " COMswarm_return;\n")
           (insert "  Class COMswarm_target = objc_lookup_class (\"")
           (insert (protocol-name protocol))
           (insert "\");\n"))
