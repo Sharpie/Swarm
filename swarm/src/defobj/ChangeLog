@@ -6,8 +6,9 @@
 
 	* directory.m ([-javaEnsureObjc:]): Use STRDUP instead of strdup.
 	(create_signature_from_class_name,
-	swarm_directory_ensure_selector,
-	swarm_directory_copy_java_string): Use SSTRDUP inst of strdup.
+	swarm_directory_copy_java_string): Use SSTRDUP instead of strdup.
+	(swarm_directory_ensure_selector): Use alloc: in scratchZone
+	instead of xmalloc. Use SSTRDUP instead of stdup.
 
 	* defobj.m (generate_class_name): use SSTRDUP instead of strdup.
 

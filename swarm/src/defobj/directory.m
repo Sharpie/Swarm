@@ -879,7 +879,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
         }
       else
         {
-          name = xmalloc (strlen (utf) + argCount + 1);
+          name = [scratchZone alloc: strlen (utf) + argCount + 1];
           p = stpcpy (name, utf);
           for (i = 0; i < argCount; i++)
             *p++ = ':';
