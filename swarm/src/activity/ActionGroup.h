@@ -64,11 +64,11 @@ Library:      activity
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface GroupActivity_c : Activity_c
+@interface GroupActivity_c: Activity_c
 /*** methods in GroupActivity_c (inserted from .m file by m2h) ***/
 @end
 
-@interface GroupIndex_c : ListIndex_mlinks
+@interface GroupIndex_c: ListIndex_mlinks
 {
 @public
   id <Activity>  activity;               // activity for which index created
@@ -93,7 +93,7 @@ Library:      activity
 
 @end
 
-@interface ForEachActivity_c : Activity_c
+@interface ForEachActivity_c: Activity_c <ForEachActivity>
 /*** methods in ForEachActivity_c (inserted from .m file by m2h) ***/
 + _create_: forEachAction : anActivity;
 + _createRandom_: forEachAction: anActivity;

@@ -13,12 +13,12 @@ Library:      activity
 
 @class SwarmActivity_c, ScheduleActivity_c;
 
-@interface CSwarmProcess : CreateDrop_s
+@interface CSwarmProcess: CreateDrop_s <SwarmProcess>
 {
 @public
-  id               internalZone;  // internal zone to hold objects of swarm
-  id               syncType;      // type of synchronization schedule, if any
-  SwarmActivity_c  *activity;     // activity running swarm subactivities
+  id internalZone;           // internal zone to hold objects of swarm
+  id syncType;               // type of synchronization schedule, if any
+  SwarmActivity_c *activity; // activity running swarm subactivities
 }
 /*** Zone pass-through methods (manually inserted) ***/
 - (int)getPageSize;
@@ -30,7 +30,7 @@ Library:      activity
 - (void)freeIVarsComponent: anObject;
 - getComponentZone;
 - (void *)alloc: (size_t)size;
-- (void) free: (void *) aBlock;
+- (void)free: (void *) aBlock;
 - (void *)allocBlock: (size_t)size;
 - (void)freeBlock: (void *)aBlock blockSize: (size_t)size;
 - getPopulation;

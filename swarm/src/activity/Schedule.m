@@ -813,7 +813,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 //
 
 @implementation ConcurrentSchedule_c
-
+PHASE(Creating)
+PHASE(Using)
 //
 // addLast: --
 //  method to make a schedule usable in the special role as a concurrent group
@@ -847,7 +848,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return actionConcurrent;
 }
 
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   if (activityRefs)
     mapObject (mapalloc, activityRefs);
@@ -870,7 +871,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 //   concurrent group to order merge by activation order within swarm
 //
 @implementation ActivationOrder_c
-
+PHASE(Creating)
+PHASE(Using)
 //
 // addLast: --
 //   method to sort concurrent merge actions in the order of swarm activation
@@ -909,7 +911,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 //
 
 @implementation ScheduleActivity_c
-
+PHASE(Creating)
+PHASE(Using)
 //
 // getCurrentTime -- get current time of activity (pending time if holding)
 //

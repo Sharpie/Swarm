@@ -703,16 +703,6 @@ USING
 //M: The step message executes a single action within a tree of activities. 
 - step;
 
-//M: The stepEntry message executes multiple actions within a single
-//M: currently runnable activity, but stops the activity when a new level
-//M: of action plan has just been started within the tree of activities.
-- stepEntry;
-
-//M: stepExit executes multiple actions in the same action plan until the
-//M: activity for that action plan has completed, or cannot otherwise be
-//M: run further.
-- stepExit;
-
 //M: The getStatus message returns one of the following codes for the current
 //M: run status of a particular activity:
 //M: Initialized, Running, Stopped, Holding, Released, Terminated, Completed.
@@ -784,17 +774,8 @@ USING
 @protocol ScheduleActivity <Activity>
 //S: State of execution within a Schedule.
 //D: State of execution within a Schedule.
-
+CREATING
 USING
-#if 0
-- setTerminateAtEnd: (BOOL)terminateAtEnd;
-- (BOOL)getTerminateAtEnd;
-
-- (void)setSynchronizedMode: (BOOL)synchronizedMode;
-- getSynchronizedMode;
-- (int)getCurrentTimebase;
-#endif
-
 //M: Get current time of activity (pending time if holding).
 - (timeval_t)getCurrentTime;
 
@@ -894,7 +875,6 @@ extern id _activity_context_error (const char *macroName);
 @protocol ActivationOrder <ActionGroup, CREATABLE>
 //S: Default type used as concurrent group of a swarm.
 //D: Concurrent group to order merge by activation order within swarm.
-
 USING
 //M: Method to sort concurrent merge actions in the order of swarm activation.
 - (void)addLast: mergeAction;

@@ -83,7 +83,7 @@ Library:      activity
 
 extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 
-@interface ActionConcurrent_c : CAction
+@interface ActionConcurrent_c: CAction
 {
 @public
   CompoundAction_c *concurrentGroup;  // concurrent group to be executed
@@ -94,7 +94,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 - (void)describe: outputCharStream;
 @end
 
-@interface ConcurrentSchedule_c : Schedule_c
+@interface ConcurrentSchedule_c: Schedule_c <ConcurrentSchedule>
 {
   CAction *actionConcurrent;  // action that includes group in schedule
 }
@@ -105,14 +105,14 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface ActivationOrder_c : ConcurrentSchedule_c
+@interface ActivationOrder_c: ConcurrentSchedule_c <ActivationOrder>
 /*** methods in ActivationOrder_c (inserted from .m file by m2h) ***/
 - (void)addLast: mergeAction;
 - remove: mergeAction;
 - _getEmptyActionConcurrent_;
 @end
 
-@interface ScheduleActivity_c : Activity_c
+@interface ScheduleActivity_c: Activity_c <ScheduleActivity>
 {
 @public
   Activity_c *swarmActivity;  // controlling swarm activity, if any
@@ -142,12 +142,12 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 - remove;
 - get;
 - (timeval_t)getCurrentTime;
-- setCurrentTime : (timeval_t)timeval;
+- setCurrentTime: (timeval_t)timeval;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)dropAllocations: (BOOL)componentAlloc;
 @end
 
-@interface ActionChanged_c : CreateDrop
+@interface ActionChanged_c: CreateDrop
 {
 @public
   ActionConcurrent_c *actionAtIndex;   // action for new concurrent group
@@ -163,7 +163,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 //
 @class GenericSwarm_c;
 
-@interface SwarmActivity_c : ScheduleActivity_c
+@interface SwarmActivity_c: ScheduleActivity_c <SwarmActivity>
 {
 @public
   id swarm;           // object that encapsulates the activity
@@ -177,7 +177,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface ActionMerge_c : CAction
+@interface ActionMerge_c: CAction
 {
 @public
   ScheduleActivity_c *subactivity;  // activity holding for merge 

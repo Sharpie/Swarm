@@ -256,7 +256,8 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 
 
 @implementation SwarmActivity_c
-
+PHASE(Creating)
+PHASE(Using)
 //
 // terminate -- terminate activity and all its subactivities
 //
@@ -318,11 +319,10 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 // mapAllocations: -- standard method to map internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  id mergeSchedule;
+  id mergeSchedule = ((ScheduleIndex_c *) currentIndex)->collection;
 
-  mergeSchedule = ((ScheduleIndex_c *) currentIndex)->collection;
   [super mapAllocations: mapalloc];
   mapObject (mapalloc, mergeSchedule);
 }

@@ -1,6 +1,25 @@
 1998-12-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* activity.h (ActionType): Remove -getActionType.
+	* activity.h (Activity): Remove stepEntry and stepExit methods
+	(moved to design document).
+	(ScheduleActivity): Remove setTerminateAtEnd:, getTerminateAtEnd,
+	getSynchronizedMode, and getCurrentTimebase (moved to design
+	document). Add creating phase tag.
+	(ActionType): Remove -getActionType.
+	
+	* Schedule.m (ConcurrentSchedule_c, ActivationOrder_c,
+	ScheduleActivity_c): Add phase tags.
+
+	* SwarmProcess.h (CSwarmProcess): Implement SwarmProcess protocol.
+
+	* Schedule.h (ConcurrentSchedule_c): Implement ConcurrentSchedule
+	protocol.
+	(ActivationOrder_c): Implement ActivationOrder protocol.
+	(ScheduleActivity_c): Implement ScheduleActivity protocol.
+	(SwarmActivity_c): Implement SwarmActivity protocol.
+
+	* ActionGroup.h (ActionGroup_c): Implement ActionGroup protocol.
+	(ForEachActivity_c): Implement ForEachActivity protocol.
 
 	* Makefile.am (Schedule.lo ActionGroup.lo): Depend on CompoundAction.m.
 
