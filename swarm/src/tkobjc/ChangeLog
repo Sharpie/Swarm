@@ -1,5 +1,7 @@
 1998-03-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* internal.h: Don't include X11/{Xlib,Xutil,xpm}.h if __WIN32__.
+
 	* internal.m: Don't include tkobjc/Widget.m. Include internal.h
 	first.  Define BOOL to be BOOL_ to avoid conflict with Xmd.h.
 	Include tkInt.h and, if __WIN32__, tkWinInt.h. 

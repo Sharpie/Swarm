@@ -10,9 +10,11 @@
 
 #define Colormap X11Colormap
 #include <tk.h>
+#ifndef __WIN32__
 #include <X11/Xlib.h>    // XColormap
 #include <X11/Xutil.h>  // ZoomRaster
-#import <X11/xpm.h>
+#include <X11/xpm.h>
+#endif
 #undef Colormap
 
 Tk_Window tkobjc_nameToWindow (const char *widgetName);
