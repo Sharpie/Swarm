@@ -1,5 +1,7 @@
 1999-03-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* SwarmEnvironment.m: Use import for Objective C things.
+
 	* Makefile.in (JAVAINCLUDES): Use substitution.
 
 1999-03-31  Vladimir Jojic  <vjojic@chama.santafe.edu>

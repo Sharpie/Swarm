@@ -1,7 +1,7 @@
-#include "SwarmEnvironment.h"
-#include <simtools.h> // initSwarm
-#include <defobj.h> // defobj_java_call_init_tables
-#include "directory.h" // java_directory_init
+#import "SwarmEnvironment.h"
+#import <simtools.h> // initSwarm
+#import <defobj.h> // defobj_java_call_init_tables
+#import "directory.h" // java_directory_init
 #include <misc.h> // xmalloc, strdup
 #include <swarmconfig.h>
 
