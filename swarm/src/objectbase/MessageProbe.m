@@ -401,6 +401,7 @@ dynamicCallOn (const char *probedType,
   [fa setJavaFlag: javaFlag];
 
   retVal->type = *type;
+  [fa setObjCReturnType: retVal->type];
   type = skip_argspec (type);
   type = skip_argspec (type);
   for (i = 0, type = skip_argspec (type);
