@@ -1,7 +1,11 @@
+1998-08-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.appl.in (LDFLAGS): Substitute at the end, but leave
+	commented.
+
 1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.appl.in (APPEXE): Move up with other substitutions.
-	(LDFLAGS): Put EXTRALDFLAGS substitution in front.
 
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
