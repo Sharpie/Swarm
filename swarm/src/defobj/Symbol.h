@@ -26,7 +26,7 @@ Library:      defobj
 @interface EventType_c : Symbol_c
 /*** methods in EventType_c (inserted from .m file by m2h) ***/
 - (void) raiseEvent;
-- (void) raiseEvent: (void *)msgString, ...;
+- (void) raiseEvent: (const void *)msgString, ...;
 @end
 
 @interface Warning_c : EventType_c

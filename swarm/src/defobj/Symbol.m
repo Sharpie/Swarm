@@ -87,7 +87,7 @@ PHASE(Using)
 static void
 printMessage (const char *eventClass,
               const char *eventName,
-              void *eventData,
+              const void *eventData,
               va_list argptr,
               const char *messageString)
 {
@@ -125,7 +125,7 @@ printMessage (const char *eventClass,
   return messageString;
 }
 
-- (void) raiseEvent
+- (void)raiseEvent
 {
   fprintf (_obj_xerror, "*** event raised for warning: %s\n", name);
   if (messageString)
@@ -133,7 +133,7 @@ printMessage (const char *eventClass,
   fprintf (_obj_xerror, "*** execution continuing...\n");
 }
 
-- (void) raiseEvent: (void *)eventData, ...
+- (void)raiseEvent: (const void *)eventData, ...
 {
   va_list argptr;
 
@@ -161,7 +161,7 @@ printMessage (const char *eventClass,
 
 @implementation Error_c
 
-- (void) raiseEvent
+- (void)raiseEvent
 {
   fprintf (_obj_xerror, "*** event raised for error: %s\n", name);
   if (messageString)
@@ -170,7 +170,7 @@ printMessage (const char *eventClass,
   abort();
 }
 
-- (void) raiseEvent: (void *)eventData, ...
+- (void)raiseEvent: (const void *)eventData, ...
 {
   va_list argptr;
 
