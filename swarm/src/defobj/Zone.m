@@ -189,7 +189,7 @@ PHASE(Using)
 //
 // freeIVars: -- free object allocated by allocIVars: or copyIVars:
 //
-- (void) freeIVars: anObject
+- (void)freeIVars: anObject
 {
   id index;
   size_t size;
@@ -481,10 +481,9 @@ PHASE(Using)
       [index prev];
       mapAlloc (mapalloc, member);
     }
-  [index drop];
+   [index drop];
 
   // map components of the zone itself
-
   mapObject (mapalloc, componentZone);
   mapObject (mapalloc, population);
 }
