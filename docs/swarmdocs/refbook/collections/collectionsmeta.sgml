@@ -71,7 +71,7 @@
 
     <PARA>The Usage Guide code examples have not yet been developed.
       For the time being, a directory of test programs (<LINK
-      LINKEND="GRID.REF">GridTurtle test programs</LINK>, contained
+      LINKEND="GRID.APP">GridTurtle test programs</LINK>, contained
       within the documentation release directory) provides code
       examples of many of the basic features of the defobj,
       collections, and activity libraries.  These code examples also
