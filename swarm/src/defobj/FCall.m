@@ -377,9 +377,9 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone withTarget: target
-                withSelector: (SEL)aSel
-                withArguments: (id <FArguments>)fa
++ create: aZone target: target
+                selector: (SEL)aSel
+                arguments: (id <FArguments>)fa
 {
   id <FCall> fc = [FCall createBegin: aZone];
 

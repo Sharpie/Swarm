@@ -746,9 +746,9 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   fa = [fa createEnd];
 
   fc = [FCall create: getZone (self)
-              withTarget: self
-              withSelector: aSel
-              withArguments: fa];
+              target: self
+              selector: aSel
+              arguments: fa];
 
   [fc performCall];
   {

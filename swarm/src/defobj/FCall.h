@@ -47,9 +47,9 @@ void updateJavaTarget (id self, JOBJECT target);
    BOOL fobjectPendingGlobalRefFlag;
 }
 + createBegin: aZone;
-+ create: aZone withTarget: obj
-                withSelector: (SEL)aSel
-                withArguments: (id <FArguments>)fa;
++ create: aZone target: obj
+                selector: (SEL)aSel
+                arguments: (id <FArguments>)fa;
 - setArguments: args;
 - getArguments;
 - setFunctionPointer: (func_t)fn;

@@ -61,7 +61,9 @@ typedef enum {fcall_type_void = 0,
    BOOL javaFlag;
 }
 + createBegin: aZone;
-- setSelector: (SEL)aSel setJavaFlag: (BOOL)javaFlag;
+- setJavaFlag: (BOOL)javaFlag;
+- setSelector: (SEL)aSel;
++ create: aZone setSelector: (SEL)aSel setJavaFlag: (BOOL)theJavaFlag;
 - setJavaSignature: (const char *)javaSignature;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addBoolean: (BOOL)value;

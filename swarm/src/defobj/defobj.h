@@ -1057,8 +1057,10 @@ typedef union {
 //D: A language independent interface to dynamic call argument construction.
 CREATING
 + createBegin: (id <Zone>)aZone;
-- setSelector: (SEL)aSel setJavaFlag: (BOOL)javaFlag;
+- setJavaFlag: (BOOL)javaFlag;
+- setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
++ create: aZone setSelector: (SEL)aSel setJavaFlag: (BOOL)javaFlag;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addBoolean: (BOOL)value;
@@ -1094,9 +1096,9 @@ typedef void *JOBJECT;
 CREATING
 + createBegin: (id <Zone>)aZone;
 - createEnd;
-+ create: aZone withTarget: obj
-                withSelector: (SEL)aSel
-                withArguments: (id <FArguments>)fa;
++ create: aZone target: obj
+                selector: (SEL)aSel
+                arguments: (id <FArguments>)fa;
 - setArguments: args;
 - setFunctionPointer: (func_t)fn;
 - setMethod: (SEL)method inObject: object;

@@ -151,7 +151,7 @@ PHASE(Creating)
   return newArguments;
 }
 
-- setSelector: (SEL)selector setJavaFlag: (BOOL)theJavaFlag
+- setSelector: (SEL)selector
 {
   const char *type = sel_get_type (selector);
 
@@ -162,7 +162,7 @@ PHASE(Creating)
       selector = sel_get_any_typed_uid (name);
       type = sel_get_type (selector);
     }
-  if (swarmDirectory && theJavaFlag)
+  if (swarmDirectory && javaFlag)
     {
       jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
       
@@ -192,6 +192,14 @@ PHASE(Creating)
   return self;
 }
 
++ create: aZone setSelector: (SEL)aSel setJavaFlag: (BOOL)theJavaFlag
+{
+  return [[[[self createBegin: aZone]
+             setJavaFlag: theJavaFlag]
+            setSelector: aSel]
+           createEnd];
+}
+
 
 - setJavaSignature: (const char *)theJavaSignature
 {
@@ -200,6 +208,12 @@ PHASE(Creating)
   strcpy (buf, theJavaSignature);
   javaSignature = buf;
   javaFlag = YES;
+  return self;
+}
+
+- setJavaFlag: (BOOL)theJavaFlag
+{
+  javaFlag = theJavaFlag;
   return self;
 }
 
