@@ -5,8 +5,6 @@
 
 	* win32dib.[ch] (dib_paletteIndexForObject): New function.
 
-	* Pixmap.m ([Pixmap -setRaster:]): Move to Setting phase.
-	
 	* Pixmap.[hm] ([Pixmap +createBegin:], [Pixmap -setFile:],
 	[Pixmap -setWidget:], [Pixmap -createEnd]):
 	Remove +create:{widget,file} and provide setter methods.

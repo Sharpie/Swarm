@@ -34,7 +34,6 @@
 - createEnd;
 
 - setRaster: raster;
-
 - (unsigned)getWidth;
 - (unsigned)getHeight;
 - drawX: (int)x Y: (int)y;

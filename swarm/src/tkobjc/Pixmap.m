@@ -238,7 +238,7 @@ PHASE(Creating)
   return self;
 }
 
-PHASE(Setting)  
+PHASE(Using)               
 
 - setRaster: theRaster
 {
@@ -247,8 +247,6 @@ PHASE(Setting)
 
   return self;
 }
-
-PHASE(Using)               
 
 - (unsigned)getWidth
 {
