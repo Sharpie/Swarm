@@ -1,3 +1,7 @@
+1998-06-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (install-data-local): Install Makefile.appl to $(prefix).
+
 1998-06-22  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Added Release Notes for Swarm 1.2.
