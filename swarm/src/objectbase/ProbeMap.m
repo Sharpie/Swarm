@@ -583,37 +583,43 @@ PHASE(Using)
 {
   id <String> string;
   Class aClass, class;
-	
-  if ([aProbe conformsTo: @protocol (VarProbe)])
-    string = [String create: getZone (self)
-                     setC: [(id <VarProbe>)aProbe getProbedVariable]];
-  else	
-    string = [String create: getZone (self)
-                     setC: STRDUP ([(id <MessageProbe>) aProbe getProbedMessage])];
-  
-  if ([probes at: string] != nil)
+
+  if (!aProbe)
     raiseEvent (WarningMessage,
-                "addProbe: There was already a probe for %s!!!\n",
-                [string getC]);
+                "Attempt to add null probe\n");
+  else
+    {
+      if ([aProbe conformsTo: @protocol (VarProbe)])
+        string = [String create: getZone (self)
+                         setC: [(id <VarProbe>)aProbe getProbedVariable]];
+      else	
+        string = [String create: getZone (self)
+                         setC: STRDUP ([(id <MessageProbe>) aProbe getProbedMessage])];
+      
+      if ([probes at: string] != nil)
+        raiseEvent (WarningMessage,
+                    "addProbe: There was already a probe for %s!!!\n",
+                    [string getC]);
+      
+      aClass = [aProbe getProbedClass];
+      
+      for (class = probedClass;
+           class != Nil;
+           class = SD_SUPERCLASS (class))
+        if (class == aClass)
+          {
+            [probes at: string insert: aProbe];
+            count++;
+            if (objectToNotify != nil) 
+              [aProbe setObjectToNotify: objectToNotify];
+            return self;
+          }
   
-  aClass = [aProbe getProbedClass];
-  
-  for (class = probedClass;
-       class != Nil;
-       class = SD_SUPERCLASS (class))
-    if (class == aClass)
-      {
-        [probes at: string insert: aProbe];
-        count++;
-        if (objectToNotify != nil) 
-          [aProbe setObjectToNotify: objectToNotify];
-        return self;
-      }
-  
- raiseEvent (WarningMessage,
-             "Probe not added to ProbeMap because %s is not a superclass of %s\n",
-             aClass->name, probedClass->name);
-  
+      raiseEvent (WarningMessage,
+                  "Probe not added to ProbeMap because %s is not a superclass of %s\n",
+                  aClass->name, probedClass->name);
+    }
+      
   return self;
 }
 

@@ -1,3 +1,8 @@
+2001-02-09  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ProbeMap.m ([ProbeMap -addProbe:]): Warn about attempts
+	to add null probes.
+
 2001-02-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* DefaultProbeMap.m ([DefaultProbeMap -createEnd]): Handle JavaScript.
