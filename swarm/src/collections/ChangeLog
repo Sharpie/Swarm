@@ -1,3 +1,7 @@
+1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* List_GEN.m ([... -next]): Return NULL if there is a wrap.
+
 1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* String.m, collections.[hm]: Remove LiteralString.

@@ -189,7 +189,7 @@ PHASE(UsingOnly)
 //
 // describe: -- standard method to generate debug description of object
 //
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
 #if MLINKS
   char  buffer[100];
@@ -291,6 +291,10 @@ PHASE(UsingOnly)
     } else {
       position = (- position);
       link = link->nextLink;
+
+      if (link == ((TARGET *)collection)->firstLink)
+        return NULL;
+
 #if LINKED
       return link->refObject;
 #elif MLINKS
