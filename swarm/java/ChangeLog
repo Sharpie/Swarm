@@ -1,3 +1,10 @@
+1999-06-29  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* java-stub.el (*removed-methods*): Add VarProbe methods for array
+	operations and string operations due to freaky types and type
+	problems with strings[] being const char.
+	(*removed-protocols*): Remove VarProbe.
+
 1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (included-method-p): Don't put +create methods

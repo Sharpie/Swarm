@@ -78,7 +78,6 @@
                                 "ArchiverValue"
                                 "ArchiverPair"
                                 "OutputStream"
-                                "VarProbe"
                                 "HDF5"
                                 "HDF5CompoundType"
                                 "InFile"
@@ -166,6 +165,17 @@
       "-probeRaw:" ; void* return
       "-probeAsPointer:" ; void* return
       "-setData:To:" ; void* parameter
+
+      ;; VarProbe
+      "-getDims" ; unsigned * return; removal of this method 
+		 ; makes all array methods unusable
+      "-iterateAsDouble:using:" ; array iterator
+      "-iterateAsInteger:using:" ; array iterator
+      "-getBaseType:" ; array type
+      "-getRank:" ; array rank
+      "-probeAsString:Buffer:"; 2nd arg is char * but that fails because
+                             ; strings[] is constr char **;
+      "-probeAsString:Buffer:withFullPrecision:" ;same reason
 
       ;; MessageProbe
       "-getArg:" ; val_t return
