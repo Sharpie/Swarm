@@ -5,6 +5,7 @@
 
 #import "MousetrapObserverSwarm.h"
 #import "MousetrapBatchSwarm.h"
+#import <simtools.h>
 #import <simtoolsgui.h>
 
 // The main() function is the top-level place where everything starts.
@@ -18,12 +19,12 @@ main (int argc, const char **argv)
 
   // Swarm initialization: all Swarm apps must call this first.
 
-  initSwarmApp (argc, argv, "1.4.1", "bug-swarm@santafe.edu");
+  initSwarm (argc, argv);
 
   // swarmGUIMode is set in initSwarm(). It's set to be 0 if you
-  // typed mousetrap -batchmode. Otherwise, it's set to 1.
+  // typed mousetrap -batchmode. Otherwise, it's set to YES.
   
-  if (swarmGUIMode == 1)
+  if (swarmGUIMode == YES)
     {
       // We've got graphics, so make a full ObserverSwarm to get GUI objects
       
