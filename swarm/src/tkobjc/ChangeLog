@@ -1,3 +1,8 @@
+1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* TkExtra.m ([TkExtra -getBltFullVersion]): Put blt_versions
+	variable name in scratch buffer before handing it to Tcl_GetVar.
+
 1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord

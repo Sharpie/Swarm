@@ -141,14 +141,18 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
 
   if (strcmp (version, "8.0") == 0)
     {
-      const char *full_version =
-        Tcl_GetVar (interp, 
-                    "blt::blt_versions(BLT_patchlevel)",
-                    TCL_GLOBAL_ONLY);
-      if (full_version == NULL)
-        return [self getBltVersion];
-      else
-        return full_version;
+      const char *var = "blt::blt_versions(BLT_patchlevel)";
+      char buf[strlen(var) + 1];
+
+      strcpy (buf, var);
+      {
+        const char *full_version = Tcl_GetVar (interp, buf, TCL_GLOBAL_ONLY);
+
+        if (full_version == NULL)
+          return [self getBltVersion];
+        else
+          return full_version;
+      }
     }
   return version;
 }
