@@ -57,10 +57,10 @@ else
     JAVAINCLUDES="-I$jdkdir/include/kaffe"
     JAVACLASSES="$datadir/kaffe/Klasses.jar:$datadir/kaffe/pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
-    JAVALIBS='${jdkdir}/lib:${jdkdir}/lib/kaffe'
+    JAVALIBS='${jdkdir}/lib/kaffe' # count on -rpath for main executable
     JAVACMD='${jdkdir}/libexec/Kaffe'
     JAVAENV=''
-    JAVA='LD_LIBRARY_PATH=${JAVALIBS}:${LD_LIBRARY_PATH} ${JAVACMD}'
+    JAVA='KAFFELIBRARYPATH=${JAVALIBS} ${JAVACMD}'
     JAVAC='${jdkdir}/bin/javac'
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])

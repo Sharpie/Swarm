@@ -1,3 +1,11 @@
+1999-05-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (vj_FIND_JDK): In JAVA, use KAFFELIBRARYPATH instead of
+	LD_LIBRARY_PATH.  KAFFELIBRARYPATH sets dynamic library path,
+	and we count on -rpath being compiled into the executable itself;
+	LD_LIBRARY_PATH isn't portable, e.g. HPUX.  For JAVALIBS, use
+	only jdkdir/lib/kaffe.
+
 1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acpath.m4 (md_CHECK_PATH_SYNTAX): New macro.
