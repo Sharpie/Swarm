@@ -1,5 +1,9 @@
 1999-05-18  Alex Lancaster  <alex@santafe.edu>
 
+	* html.dsl (%show-comments%): Set to true for editorial purposes.
+	(comment): Override element to make comment text tagged with the
+	COMMENT tag show up as green text.
+
 	* user1.05.sgml: Scale gui-probemap-complete FIGURE by 80% for
 	print backend.  Add missing IDs for all FIGURE tags.
 

@@ -38,6 +38,16 @@
         ((string=? (gi nd) (normalize "chapter")) 1)
         (else 3)))
 
+(define %show-comments%
+  ;; Display Comment elements?
+  #t)
+
+;; Make text that comes from unimplemented tags easy to spot
+(element comment
+  (make element gi: "FONT"
+ 	attributes: '(("COLOR" "GREEN"))
+ 	(process-children)))
+
 </style-specification-body>
 </style-specification>
 
