@@ -2,7 +2,7 @@ AC_INIT(Makefile.appl.in)
 
 VERSION=`head -1 $srcdir/VERSION`
 AM_INIT_AUTOMAKE(swarm, $VERSION)
-if test $ACLOCAL = aclocal; then
+if test "x$ACLOCAL" = xaclocal; then
   ACLOCAL="aclocal -I m4"
 fi
 
