@@ -90,7 +90,7 @@
   &userbiblio.sgml;
   &genindex.sgml; 
   
-  <colophon>
+  <colophon id="swarm.user.colophon">
     <para>This book is generated entirely from a single SGML source
       document marked up in the <ulink
                                        url="http://www.oasis-open.org/docbook/">DocBook 3.1

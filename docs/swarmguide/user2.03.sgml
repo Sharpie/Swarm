@@ -35,7 +35,7 @@
     <function>getAge</function>.
   </para>
 
-  <sect1>
+  <sect1 id="swarm.user.user2.03-getset.sect1">
     <title>Get and Set Methods</title> 
 
     <para>Get and set methods are needed to pass information among
@@ -79,7 +79,7 @@
       that the observer swarm can use.</para>
   </sect1>
   
-  <sect1>
+  <sect1 id="swarm.user.user2.03-set.sect1">
     <title>Using Set Methods During Object Creation</title> 
 
     <para>Consider the way the model swarm level of a simulation can
@@ -173,7 +173,7 @@ aBug = [aBug createEnd];
       completely isolated within the object.</para>
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user2.03-import.sect1">
     <title>Passing Information Around</title>
     <subtitle>Getting the Import Statements Right</subtitle>
 

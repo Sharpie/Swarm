@@ -1,3 +1,16 @@
+2000-02-11  Alex Lancaster  <alex@santafe.edu>
+
+	* userbook.sgml: Give COLOPHON an ID.
+
+	* common.dsl (%biblioentry-in-entry-order%): Set to be false.
+	(bibltable): Set to true to produce the BIBLIOGRAPHY in a table
+	format.
+
+	* user3.01.sgml, user3.02.sgml, user3.04.sgml, user3.05.sgml:
+	Markup additions.  Add symbolic IDs to all SECT1 elements.
+
+	* user2.03.sgml, user2.04.sgml: Likewise.
+
 2000-02-10  Alex Lancaster  <alex@santafe.edu>
 
 	* userbiblio.sgml: New reference, DiBona et. al.

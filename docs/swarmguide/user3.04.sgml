@@ -19,9 +19,8 @@
     might are more correctly be called pseudo-random number
     generators.  With that point being clear, we often refer to them
     as random number generators.  </para>
-
-
-  <sect1>
+ 
+  <sect1 id="swarm.user.user3.04-rand-built.sect1">
     <title>Built-in Random Number Distributions</title>
 
     <para>Since not all users want to become experts in random (well,
@@ -38,51 +37,59 @@
 
       <itemizedlist>
 	<listitem>
-	  <para>uniformUnsRand.  This object will draw a positive
-	    integer at random within a user specified interval.  To get
-	    a random integer between 3 and 47, this command will work:
+	  <para><function>uniformUnsRand</function> This object will
+	    draw a positive integer at random within a user specified
+	    interval.  To get a random integer between 3 and 47, this
+	    command will work:
 	    <programlisting>
 	      myUnsigned = [uniformUnsRand getUnsignedWithMin: 3 withMax: 47];
 	    </programlisting>
 	    The object <varname>uniformUnsRand</varname> is an
-	    instance of the Swarm class UniformUnsignedDist.  Readers
-	    can consult the documentation for a full explanation of
-	    all available options.</para>
+	    instance of the Swarm class
+	    <classname>UniformUnsignedDist</classname>.  Readers can
+	    consult the documentation for a full explanation of all
+	    available options.</para>
 	</listitem>
+
 	<listitem>
-	  <para>uniformIntRand.  This object will draw an ingeger at
-	    random from an interval that may include negative or
-	    positive numbers.  A usage example would be:</para>
+	  <para><function>uniformIntRand</function> This object will
+	    draw an ingeger at random from an interval that may
+	    include negative or positive numbers.  A usage example
+	    would be:</para>
 	  <programlisting>
 	    myInteger = [uniformIntRand getUnsignedWithMin: -44 withMax: 47];
 	  </programlisting> 
 	  <para>
 	    This object is an instance of the Swarm
-	    UniformIntegerDist, which is fully documented in the Swarm
-	    documentation.</para></listitem>
+	    <classname>UniformIntegerDist</classname>, which is fully
+	    documented in the Swarm documentation.</para></listitem>
 	<listitem>
-	  <para>uniformDblRand.  This object will draw a real number
-	    from a user-specified interval. Unlike the previous two,
-	    this distribution is not restricted to integers.  If a
-	    random number from the interval [1,5] is needed, this
-	    command will work:</para>
+	  <para><function>uniformDblRand</function> This object will
+	    draw a real number from a user-specified interval. Unlike
+	    the previous two, this distribution is not restricted to
+	    integers.  If a random number from the interval [1,5] is
+	    needed, this command will work:</para>
 	  <programlisting>
 	    myDouble   = [uniformDblRand getDoubleWithMin: 1 withMax: 5];
 	  </programlisting>
 	  <para>
-	    This object is an instance of the Swarm UniformDoubleDist.
-	  </para></listitem>
+	    This object is an instance of the Swarm
+	    <classname>UniformDoubleDist</classname>.
+	  </para>
+        </listitem>
       </itemizedlist>
-      These are global objects that can be used in any file that is part of a swarm program.
-    </para> 
+
+      These are global objects that can be used in any file that is
+      part of a Swarm program.</para>
+
     <para>
       When a Swarm program starts, it initializes these random number
       creators.  <emphasis>They will deliver the same stream of
-	numbers every time the program is run</emphasis> unless the user
+      numbers every time the program is run</emphasis> unless the user
       adds the "vary seed" parameter when the program is run.  This
-      parameter is "-s" and is added on the command line.  For a full
-      list of possible options, type the name of the application
-      followed by --help.
+      parameter is <option>-s</option> and is added on the command
+      line.  For a full list of possible options, type the name of the
+      application followed by <option>--help</option>.
     </para>
 
     <para>
@@ -94,11 +101,10 @@
     </para>
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user3.04-overview.sect1">
     <title>Overview of the Random Library</title> 
 
-    <para>
-      Suppose you want to draw random numbers from a Normal
+    <para>Suppose you want to draw random numbers from a Normal
       Distribution with a mean of 33 and variance of 10.  There is no
       "normal distribution object" created automatically in the Swarm
       kernel, you have to create that in your code.  In order to
@@ -170,26 +176,26 @@
       libraries, but first we will offer a couple of simple usage
       examples.</para>
 
-    <para>Suppose one wants to draw numbers from a Normal
-      distribution.  The Normal is a well known distribution and it
+    <para>Suppose one wants to draw numbers from a normal
+      distribution.  The normal is a well known distribution and it
       has known statistical properties.  The object "randomGenerator"
       is created when the Swarm kernel is initialized, so it can be
       used in any distribution as the random number generator.  To
-      create a Normal distribution object and connect it to the
-      predefined MT19937 generator, this code will suffice:</para>
+      create a <classname>NormalDist</classname> distribution object
+      and connect it to the predefined <classname>MT19937</classname>
+      generator, this code will suffice:</para>
     
-    <programlisting>
+<programlisting>#import &lt;random.h&gt;   //This includes the Swarm random library
+id &lt;NormalDist&gt; myNormalDist;  //This names your object and adopts the NormalDist protocol
+myNormalDist = [NormalDist create: [self getZone]
+setRandomGenerator: randomGenerator];</programlisting>
 
-      #import &lt;random.h&gt;   //This includes the Swarm random library
-      id &lt;NormalDist&gt; myNormalDist;  //This names your object and adopts the NormalDist protocol
-      myNormalDist = [NormalDist create: [self getZone]
-      setRandomGenerator: randomGenerator];
-    </programlisting>
     <para>
-      If for some reason, one does not want to use MT19937 as the
-      generator, then one of the other Swarm generators can be
-      selected and explicitly created.  The next code example uses a
-      generator called RWC8gen. This code will first create an
+      If for some reason, one does not want to use
+      <classname>MT19937</classname> as the generator, then one of the
+      other Swarm generators can be selected and explicitly created.
+      The next code example uses a generator called
+      <classname>RWC8gen</classname>. This code will first create an
       instance of that generator, then it will create an object to
       draw normally distributed observations.</para>
 
@@ -207,59 +213,60 @@
     <para>The random library is designed in a highly versatile way.
       Each generator must have a "seed" value, a starting place from
       which to spin out the random numbers.  As long as one leaves the
-      seed at the same value, then the stream of random numbers will be
-      replicated each time the program is run.  If one does not want to
-      specify a seed, then that chore can be left up to Swarm, which
-      will insert a seed on behalf of the user.  The way to create a
-      generator that uses the system default value for the seed is shown
-      here:</para>
-    <programlisting>
-      myGenerator = [RWC8gen createWithDefaults: [self getZone]];
-    </programlisting>
+      seed at the same value, then the stream of random numbers will
+      be replicated each time the program is run.  If one does not
+      want to specify a seed, then that chore can be left up to Swarm,
+      which will insert a seed on behalf of the user.  The way to
+      create a generator that uses the system default value for the
+      seed is shown here:</para>
+
+<programlisting>myGenerator = [RWC8gen createWithDefaults: [self getZone]];</programlisting>
 
     <para>Another example of the versatility of the Swarm random
       library is in the design of the distribution classes themselves.
       We have already seen examples in which random numbers are drawn
       according to user specified requirements.  In the case of the
-      Normal distribution, one can draw from a distribution with a mean
-      of 0 and variance of 1.3 with this command:</para>
+      Normal distribution, one can draw from a distribution with a
+      mean of 0 and variance of 1.3 with this command:</para>
 
     <programlisting>
       double sample;
       sample = [myNormalDist getSampleWithMean: 0.0 withVariance: 1.3];
     </programlisting>
-    <para>
-      If one expects to want many draws from a distribution with that
-      same set of parameters, then the distribution object can be told
-      to set those values as the defaults. After the default values of
-      the mean and variance are set, then values retrieved from that
-      distribution object can be retrieved with the simpler command
-      "getDoubleSample."  For example:</para>
+
+    <para>If one expects to want many draws from a distribution with
+      that same set of parameters, then the distribution object can be
+      told to set those values as the defaults. After the default
+      values of the mean and variance are set, then values retrieved
+      from that distribution object can be retrieved with the simpler
+      method <function>getDoubleSample</function>.  For
+      example:</para>
 
     <programlisting>
       [myNormalDist setMean: 0.0 setVariance: 1.3];
       sample = [myNormalDist getDoubleSample];
     </programlisting>
 
-    <para>Of course, each distribution will have its own parameters and
-      particular methods for setting them.  These parameters can be reset
-      at any time.</para>
+    <para>Of course, each distribution will have its own parameters
+      and particular methods for setting them.  These parameters can
+      be reset at any time.</para>
 
   </sect1>
-
-<sect1>
- <title>The Random Number Generators</title> 
-
+  
+  <sect1 id="swarm.user.user3.04-rand-gen.sect1">
+    <title>The Random Number Generators</title> 
+    
     <para>Recall that computers can't create real random numbers, just
-    streams of numbers that appear random to the outside observer.  As
-    a rule of thumb, users are well advised to choose a well tested
-    generator which has a long period, which is the number of draws
-    that can be made before the sequence repeats.</para>
+      streams of numbers that appear random to the outside observer.
+      As a rule of thumb, users are well advised to choose a well
+      tested generator which has a long period, which is the number of
+      draws that can be made before the sequence repeats.</para>
 
-      <para>The default generator used in Swarm is MT19337, but there
-      are a number of others that are provided to suit the needs of
-      experimentation and replication of previous studies.  The
-      current generators in Swarm are:
+    <para>The default generator used in Swarm is
+      <classname>MT19337</classname>, but there are a number of others
+      that are provided to suit the needs of experimentation and
+      replication of previous studies.  The current generators in
+      Swarm are:
 
         <itemizedlist>
           <listitem><para>ACGgen: Additive Congruential Generator</para></listitem>
@@ -285,18 +292,18 @@
         <listitem><para>TT800gen: A single long generator recommended for use</para></listitem>
 
         </itemizedlist>
-      </para>
+    </para>
     
-</sect1>
+  </sect1>
 
-<sect1>
- <title>The Distributions in Swarm</title> 
-
+  <sect1 id="swarm.user.user3.04-rand-dist.sect1">
+    <title>The Distributions in Swarm</title> 
+    
     <para>All distributions are created through the two-step process
-    outlined above.  First one needs a random number generator.  Then
-    one initializes the distribution, optionally setting its parameters
-    at the time of creation. </para>
-
+      outlined above.  First one needs a random number generator.  Then
+      one initializes the distribution, optionally setting its parameters
+      at the time of creation. </para>
+    
     <para>The distributions currently offered in the Swarm library are </para>
 
         <itemizedlist>
@@ -311,23 +318,20 @@
           <listitem><para>UniformUnsignedDist: Equally likely integers in a positive range</para></listitem>
         </itemizedlist>
      
-</sect1>
-
-
-<sect1>
- <title>How to Create Other Random Number Distributions</title> 
-
-    <para>
-      Suppose one wants to draw numbers according to a distribution
-      that is not offered in Swarm.  For example, the Beta
-      distribution is a distribution that has two parameters.  The
-      Beta distribution can take on almost any unimodal shape, ranging
-      from uniform, to highly skewed to the left or right (see Law and
-      Kelton, p. 166).  The Beta distribution can be produced by
-      taking two draws from a particular Gamma distribution and
+  </sect1>
+  
+  <sect1 id="swarm.user.user3.04-rand-other.sect1">
+    <title>How to Create Other Random Number Distributions</title> 
+    
+    <para>Suppose one wants to draw numbers according to a
+      distribution that is not offered in Swarm.  For example, the
+      Beta distribution is a distribution that has two parameters.
+      The Beta distribution can take on almost any unimodal shape,
+      ranging from uniform, to highly skewed to the left or right (see
+      Law and Kelton, p. 166).  The Beta distribution can be produced
+      by taking two draws from a particular Gamma distribution and
       transforming them.  For example, one can first create the
-      gammaDist1 and then put it to use:
-    </para>
+      <varname>gammaDist1</varname> and then put it to use:</para>
 
 <programlisting>
 - initializeRNGs
@@ -346,24 +350,20 @@
 }
 </programlisting>
 
-    <para>
-      With these methods defined, then the code must simply
+    <para>With these methods defined, then the code must simply
       execute the <function>initializeRNGs</function> and then grab a
       Beta variate by specifying the two parameters, alpha1 and
       alpha2:
     </para>
 
+<programlisting>id gammaDist1;
+double aDrawFromBeta;
+[self initializeRNGs];
+aDrawFromBeta = [self getBetaVariateAlpha1: .8  Alpha2: 2 ];</programlisting>
 
-     <programlisting>
-     id gammaDist1;
-     double aDrawFromBeta;
-     [self initializeRNGs];
-     aDrawFromBeta = [self getBetaVariateAlpha1: .8  Alpha2: 2 ];
-    </programlisting>
-
-
-</sect1>
+  </sect1>
 </chapter>
+
 <!--
 Local Variables:
 sgml-parent-document:("userbook.sgml" "CHAPTER")

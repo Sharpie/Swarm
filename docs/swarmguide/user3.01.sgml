@@ -1,5 +1,5 @@
 <chapter id="swarm.user.user3.01.chapter">
-  <title>Anything C can do, Swarm can do better</title>
+  <title>Anything C can do, Swarm Can Do Better</title>
 
   <para>
     Any programming statements that will work in C can also be used in
@@ -9,16 +9,17 @@
     integrated into Swarm code.
   </para>
 
-  <sect1>
+  <sect1 id="swarm.user.user3.01-cmdline.sect1">
     <indexterm>
       <primary>parameter</primary>
-      <secondary sortas="preferred">command-line</secondary>
+      <secondary>command-line</secondary>
     </indexterm>
+
     <title>Managing command line parameters</title>
     <para>
       One of the obscure and difficult parts of C programming is
       designing a program to handle command line arguments.  The
-      <varname>argc</varname> and argv[]<varname></varname> approach
+      <varname>argc</varname> and <varname>argv[]</varname> approach
       is difficult to manage.  Swarm has built-in tools to handle this
       problem.
     </para>
@@ -57,14 +58,14 @@ for any corresponding short options.</screen>
 <screen>
 <prompt>$</prompt> <userinput>./heatbugs -s -t</userinput></screen>
 
-      then swarm will use a random number seed that is based on the
+      then Swarm will use a random number seed that is based on the
       system's clock and the display of the control panel will show
       the time. As a result, the random number stream used in the
       program will be different each time you run the program.
 
     </para>
 
-    <para> A person might want to add command line parameters to their
+    <para>A person might want to add command line parameters to their
       Swarm code if they want to automate the processing of many
       simulation runs.  For example, if one wanted to make a
       simulation run 50 times for each setting of a particular
@@ -73,20 +74,21 @@ for any corresponding short options.</screen>
       repetition of the program can be managed by a user-created
       script (written in some language like Perl, for example), or
       with a simulation tool like <ulink
-      url="http://aaron.physics.lsa.umich.edu:80/Software/Drone/">Drone</ulink>,
-      which is available from the web sites of the Center for the
-      Study of Complex Systems at the University of Michigan.
+      url="http://drone.sourceforge.net">Drone</ulink>, developed by
+      Ted Belding of the Center for the Study of Complex Systems at
+      the University of Michigan.
     </para>
 
     <para>If the user wants to pass additional parameters in the
       command line, Swarm has built in procedures that make argument
       processing a bit easier than using the command line processing
       available in C.  This functionality is found in Swarm's
-      Arguments protocol.  The details of the usage of Arguments are
-      explained quite well in the Swarmdocs.  Rather than explain
-      every detail, we choose here to explain one worked
-      example<footnote> <para>This example is available in full in the
-      package <ulink
+      <classname>Arguments</classname> protocol.  The details of the
+      usage of <classname>Arguments</classname> are explained quite
+      well in the <citetitle>Reference Guide to Swarm</citetitle>.
+      Rather than explain every detail, we choose here to explain one
+      worked example<footnote> <para>This example is available in full
+      in the package <ulink
       url="http://lark.cc.ukans.edu/~pauljohn/Swarm/MySwarmCode/ParameterHeatbugs.tar.gz">ParameterHeatbugs.tar.gz</ulink>. All
       of the changes described here begin with the
       <application>Heatbugs</application> application distributed in
@@ -98,19 +100,20 @@ for any corresponding short options.</screen>
     <para>
       The first step is to edit the <filename>main.m</filename>.  Add
       an import command for our object that will manage the
-      parameters:
+      parameters:</para>
 
       <programlisting>
 #import "MyParameters.h"</programListing>
 
-      and then change the initSwarm command to this:
+    <para>and then change the <function>initSwarm</function> command
+      to this:</para>
 
       <programlisting> 
 initSwarmArguments (argc, argv, [MyParameters class]);</programListing>
 
-      This change tells the swarm kernel to look in your class called
-      <classname>MyParameters</classname> for information about how to
-      process the command line arguments.
+    <para>This change tells the swarm kernel to look in your class
+      called <classname>MyParameters</classname> for information about
+      how to process the command line arguments.
     </para>
 
     <para>
@@ -173,8 +176,7 @@ initSwarmArguments (argc, argv, [MyParameters class]);</programListing>
 
 @end</programlisting>
 
-    <para>
-      The <function>parseKey:arg:</function> method indicates that
+    <para>The <function>parseKey:arg:</function> method indicates that
       when the key is <varname>n</varname>, meaning the command line
       passed <option>-n</option> after the program name, then it the
       corresponding argument is taken and converted to an integer (by
@@ -185,8 +187,7 @@ initSwarmArguments (argc, argv, [MyParameters class]);</programListing>
       will be returned if there was one, otherwise it will return -1.
     </para>
 
-    <para>
-      The only interesting wrinkle arises when it is necessary to
+    <para>The only interesting wrinkle arises when it is necessary to
       retrieve the value of <varname>numBugs</varname> from the
       parameter class.  When the Swarm kernel is initialized, it
       creates an object called <varname>arguments</varname>.  Any
@@ -212,17 +213,15 @@ initSwarmArguments (argc, argv, [MyParameters class]);</programListing>
   if (([arguments getBugArg] != -1))obj->numBugs=[arguments getBugArg];
      [and so forth]</programlisting>
 
-    <para>
-      This example sets the number of bugs equal to 10, but if the
+    <para>This example sets the number of bugs equal to 10, but if the
       value is included in a command line option, then that value is
       incorporated.
     </para>
 
-    <para>
-      Once the <filename>Makefile</filename> is touched up to include
-      references to <classname>MyParameters</classname>, then the
-      program compiles and hthe output from the help command indicates
-      the new parameter is recognized:
+    <para>Once the <filename>Makefile</filename> is touched up to
+      include references to <classname>MyParameters</classname>, then
+      the program compiles and hthe output from the help command
+      indicates the new parameter is recognized:
     </para>
 
     <screen>
@@ -233,10 +232,10 @@ Usage: lt-heatbugs [OPTION...]
 -b, --batch                Run in batch mode
 -m, --mode=MODE            Specify mode of use (for archiving)
 -t, --show-current-time    Show current time in control panel
---no-init-file         Inhibit loading of ~/.swarmArchiver
+--no-init-file             Inhibit loading of ~/.swarmArchiver
 -n, --numBugs=N            Set numBugs
 -?, --help                 Give this help list
---usage                Give a short usage message
+--usage                    Give a short usage message
 -V, --version              Print program version
 
 Mandatory or optional arguments to long options are also mandatory or optional
@@ -260,13 +259,13 @@ or
     </para>
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user3.01-cfuncs.sect1">
     <indexterm>
       <primary>function</primary>
       <secondary>C</secondary>
     </indexterm>
 
-    <title>Using C functions in Swarm </title> 
+    <title>Using C Functions in Swarm </title> 
 
     <para>
       The fundamental rules of C programming apply in Swarm. Perhaps
@@ -304,31 +303,30 @@ or
       with "static".
     </para>
 
-    <para> A function can also be defined <emphasis>inside a
+    <para>A function can also be defined <emphasis>inside a
         method!</emphasis>.  It looks a bit peculiar when functions
-        crop up inside Objective-C methods, but there is nothing wrong
+        crop up inside Objective C methods, but there is nothing wrong
         with doing so.  Of course, when a function is defined inside a
         method, then its scope is sharply restricted. That function
         can be called only inside that method.
     </para>
 
-    <para> There are some occasions in which is is extremely handy to
+    <para>There are some occasions in which is is extremely handy to
       define functions inside methods.  Two particulary useful aspects
-      of this practice are as follows. First, Objective-C calls to
+      of this practice are as follows. First, Objective C calls to
       <varname>self</varname> can be made in such functions. If a
       function needs some value, and it intends to get it by calling a
       get method such as <literal>[self getThatNumber]</literal> it
       will work as long as the function is defined inside a legitimate
-      Objective-C method.  If the function is located at the top of
+      Objective C method.  If the function is located at the top of
       the file, before the implementation statement, then the term
       <varname>self</varname> will have no meaning and the program
       will not compile.
     </para>
 
-    <para>
-      The second useful aspect is of this practice is that one can
+    <para>The second useful aspect is of this practice is that one can
       have several different functions with the same name if those
-      functions are set inside Objective-C methods. It may seem hard
+      functions are set inside Objective C methods. It may seem hard
       to imagine situations in which this would be useful, but they do
       arise.
     </para>
@@ -341,12 +339,22 @@ or
       function inside each method.  To be a bit more concrete,
       consider the GNU C library's binary search tree defined in the
       header file <filename>search.h</filename>. The function
-      <function>tsearch</function> (version 2.1) has this prototype:
-      <programlisting>
-void *tsearch (const void *key, void **rootp, int (*compar)(const void *, const void *));
-      </programlisting>
+      <function>tsearch</function> (version 2.1) has this
+      prototype:</para>
 
-      The <function>tsearch</function> function checks to see if a
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>void * <function>tsearch</function></funcdef>
+        <paramdef>const void *<parameter>key</parameter></paramdef>
+        <paramdef>void ** <parameter>rootp</parameter></paramdef>
+        <paramdef>int
+          <parameter>(*compar)</parameter>
+          <funcparams>const void *, const void *</funcparams>
+        </paramdef>
+      </funcprototype>
+    </funcsynopsis>
+
+    <para>The <function>tsearch</function> function checks to see if a
       node already exists by using a comparison function. If an equal
       node exists, then tsearch returns that node. If no such node
       exists, <function>tsearch</function> adds the node to the
@@ -370,9 +378,10 @@ void *tsearch (const void *key, void **rootp, int (*compar)(const void *, const 
 
   </sect1>
 
-  <sect1><title>Examples of useful functions:
-      <function>getInt</function> and
-      <function>getDouble</function></title> 
+  <sect1 id="swarm.user.user3.01-examples.sect1">
+    
+    <title>Examples of Useful Functions: <function>getInt</function>
+      and <function>getDouble</function></title>
 
     <para> Functions can come in handy in many cases, but let's begin
       with a particularly useful example that continues with the
@@ -389,7 +398,7 @@ void *tsearch (const void *key, void **rootp, int (*compar)(const void *, const 
       values.  In the top part of the
       <filename>MyParameters.m</filename> file, between the include
       statements and the implementation statement, the functions are
-      defined thus:
+      defined thus:</para>
 
       <programlisting>
 //MyParameters.m
@@ -426,11 +435,11 @@ getInt (id obj, const char *ivarName)
 @implementation MyParameters
 [and so forth...]</programlisting>
 
-      These functions are made available to calls in other files by
-      declaring them in the header file,
+    <para>These functions are made available to calls in other files
+      by declaring them in the header file,
       <filename>MyParameters.h</filename>.  The declarations are
       inserted between the import statements and before the interface
-      declaration.
+      declaration.</para>
 
       <programlisting>
 //MyParameters.h
@@ -447,18 +456,19 @@ getInt (id obj, const char *ivarName);
 @interface MyArguments: Arguments_c
 [And so forth...]</programlisting>
 
-      In any file that includes <filename>MyParameters.h</filename>,
-      one can retrieve the value of a parameter by using the
-      <function>getInt</function> and <function>getDouble</function>
-      functions.  For example, if there is an instance variable
-      defined in <classname>MyParameters</classname> called
+    <para>In any file that includes
+      <filename>MyParameters.h</filename>, one can retrieve the value
+      of a parameter by using the <function>getInt</function> and
+      <function>getDouble</function> functions.  For example, if there
+      is an instance variable defined in
+      <classname>MyParameters</classname> called
       <varname>maxHeat</varname>, it can be retrieved by the following
-      call to the function:
+      call to the function:</para>
 
       <programlisting>
 getInt(arguments, "maxHeat");</programlisting>
 
-      This call is made against the object called
+    <para>This call is made against the object called
       <varname>arguments</varname> because, as mentioned in the
       previous section, the instantiation of
       <classname>MyParameters</classname> is named
@@ -466,36 +476,37 @@ getInt(arguments, "maxHeat");</programlisting>
     </para>
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user3.01-dynamic.sect1">
     <indexterm>
-      <primary>dynamic memory allocation</primary>
-      <secondary sortas="preferred">alloc</secondary>
+      <primary>memory allocation</primary>
+      <secondary>dynamic</secondary>
     </indexterm>
-    <title>Dynamic memory allocation and Swarm zones </title>
 
-    <para>
-      Veteran C programmers have no doubt tangled with the problem of
-      dynamic memory allocation using malloc or calloc.  In its Zone
-      protocol, Swarm has methods that can be used in place of these
-      functions.  While there is nothing inherently wrong with using
-      the built-in C functions to allocate memory, there are some
-      advantages in the Swarm methods that may reduce the danger of
-      memory leaks.
+    <title>Dynamic Memory Allocation and Swarm Zones </title>
+
+    <para>Veteran C programmers have no doubt tangled with the problem
+      of dynamic memory allocation using <function>malloc</function>
+      or <function>calloc</function>.  In its
+      <classname>Zone</classname> protocol, Swarm has methods that can
+      be used in place of these functions.  While there is nothing
+      inherently wrong with using the built-in C functions to allocate
+      memory, there are some advantages in the Swarm methods that may
+      reduce the danger of memory leaks.
     </para>
       
-      <para>
-      Swarm users who are not familiar with dynamic memory allocation
-      may wish to consult a C manual.  In a nutshell, the problem is
-      this.  If one wants to create an array, the elementary way to do
-      so is to declare the array like so:
-
-      <programlisting>
-	int array[5];
-      </programlisting>
-      This creates an array of 5 integers.  When the program runs,
+      <para>Swarm users who are not familiar with dynamic memory
+      allocation may wish to consult a C manual.  In a nutshell, the
+      problem is this.  If one wants to create an array, the
+      elementary way to do so is to declare the array like so:</para>
+      
+<programlisting>
+int array[5]; </programlisting>
+      
+    <para>This creates an array of 5 integers.  When the program runs,
       memory is set aside where values can be placed into and
       retrieved from the array.
     </para>
+
     <para>
       This standard approach only works when the user knows that there
       will be exactly 5 elements in the array.  What if some
@@ -507,9 +518,10 @@ getInt(arguments, "maxHeat");</programlisting>
       then the program can grab some of the system's physical memory
       and use it.
     </para>
-    <para>
-      Dynamic memory in Swarm can be accessed by the methods alloc:
-      and allocBlock: in Swarm's Zone protocol.  First, it is
+
+    <para>Dynamic memory in Swarm can be accessed by the methods
+      <function>alloc:</function> and <function>allocBlock:</function>
+      in Swarm's <classname>Zone</classname> protocol.  First, it is
       necessary to declare a pointer that will serve as the address of
       the dynamically allocated memory.  Second, the memory is
       allocated to that pointer. Here is an example from a class
@@ -519,26 +531,22 @@ getInt(arguments, "maxHeat");</programlisting>
 
       <programlisting>
 //Point.h
-
 @interface Point: SwarmObject {
         double * position;
         int spaceSize;
  }
-
 
 -buildObjects;
 -(void) drop;
 -setSpaceSize:(int) size;
 
 
-
 //Point.m
-
 #import Point.h
 
 @implementation Point
 
--buildObjects
+- buildObjects
 {
   //position = xmalloc(spaceSize * sizeof(double));
   //Test to make sure the memory was allocated. If not, exit immediately
@@ -546,32 +554,33 @@ getInt(arguments, "maxHeat");</programlisting>
    position = [[self getZone] allocBlock: spaceSize * sizeof(double)];
    return self;
 }
--(void) drop
+- (void)drop
 {
   //free(position);
   [[self getZone] freeBlock: position blockSize: spaceSize * sizeof(double)];
   [super drop];
 }
 
--setSpaceSize:(int) size
+- setSpaceSize: (int)size
 {
   spaceSize=size;
   return self;
-}
-
-      </programlisting>
-      <para>
-      Note that for the C programmer's information there are
+}</programlisting>
+ 
+     <para>Note that for the C programmer's information there are
       commented-out versions of <function>malloc</function> and
       <function>free</function> calls.
-      </para>
-    <para>
-      When a user wants to use the Point class to create a new Point,
-      which has an array of doubles inside it, then an instance of the
-      Point class is created in the usual Swarm way.  Then the size is
-      set, and then the Point is told to build its objects, which
+    </para>
+    
+    <para>When a user wants to use the <classname>Point</classname>
+      class to create a new <classname>Point</classname>, which has an
+      array of doubles inside it, then an instance of the
+      <classname>Point</classname> class is created in the usual Swarm
+      way.  Then the size is set, and then the
+      <classname>Point</classname> is told to build its objects, which
       allocates the dynamic memory.  For example:
     </para>
+
       <programlisting>
 	id  newPoint;
 
@@ -580,66 +589,68 @@ getInt(arguments, "maxHeat");</programlisting>
 	[newPoint setSize: N];
 	[newPoint buildObjects];
       </programlisting>
-      <para>
-      After that space is allocated, then it can be used by methods in
-      the Point class as if it were an array. The reason that one can
-      treat the pointer to the dynamically allocated memory as if it
-      were an array is found in the fundamental similarity of pointers
-      and arrays in C.  Interested research should consult the C
-      manuals for a comparision of pointers and arrays.  To consider a
-      usage example, a method could be written to fill the array with
-      random numbers between 1 and 5. 
-    </para>
+
+    <para>After that space is allocated, then it can be used by methods in
+      the <classname>Point</classname> class as if it were an
+      array. The reason that one can treat the pointer to the
+      dynamically allocated memory as if it were an array is found in
+      the fundamental similarity of pointers and arrays in C.
+      Interested research should consult the C manuals for a
+      comparision of pointers and arrays.  To consider a usage
+      example, a method could be written to fill the array with random
+      numbers between 1 and 5.</para>
     
-    <programlisting>
-      -fillRandomly
-      {
-      int i;
+<programlisting>- fillRandomly
+{
+  int i;
 
-      for(i=0, i &lt; spaceSize; i++)
-      {
-      position[i]=[uniformDblRand getDoubleWithMin: 1 withMax: 5];
-      return self;
-      }
-      }
-    </programlisting>
+  for(i = 0, i &lt; spaceSize; i++)
+  {
+    position[i]=[uniformDblRand getDoubleWithMin: 1 withMax: 5];
+    return self;
+  }
+}</programlisting>
 
-    <para>
-      A memory leak is a flaw in a program which causes it to access
-      dynamic memory and then "waste" it by dropping all references to
-      it without letting the operating system know that the memory is
-      no longer needed.  In C, the <function>free()</function>
-      function tells the operating system that the memory can be
-      reallocated to other purposes.  If the programmer forgets to
-      free memory that is no longer needed, then the memory demands of
-      the program will expand with each new allocation, taking memory
-      that might be used by other applications and eventually causing
-      the program to crash.
+    <para>A memory leak is a flaw in a program which causes it to
+      access dynamic memory and then "waste" it by dropping all
+      references to it without letting the operating system know that
+      the memory is no longer needed.  In C, the
+      <function>free()</function> function tells the operating system
+      that the memory can be reallocated to other purposes.  If the
+      programmer forgets to free memory that is no longer needed, then
+      the memory demands of the program will expand with each new
+      allocation, taking memory that might be used by other
+      applications and eventually causing the program to crash.
     </para>
-    <para>
-      In Swarm, memory allocated with <function>allocBlock:</function>
-      can be freed explicitly with the <function>freeBlock:</function>
-      method.  The usage of <function>freeBlock:</function> is
-      illustrated in the <function>drop</function> method of the
-      Point.m class.  This <function>drop</function> method is used
-      only to free the dynamic memory, but it would also explicitly
-      drop any Swarm objects that were created inside the object.  The
-      topic of designing programs to avoid memory leaks is discussed
-      further in the next section.
+
+    <para>In Swarm, memory allocated with
+      <function>allocBlock:</function> can be freed explicitly with
+      the <function>freeBlock:</function> method.  The usage of
+      <function>freeBlock:</function> is illustrated in the
+      <function>drop</function> method of the
+      <classname>Point</classname> class.  This
+      <function>drop</function> method is used only to free the
+      dynamic memory, but it would also explicitly drop any Swarm
+      objects that were created inside the object.  The topic of
+      designing programs to avoid memory leaks is discussed further in
+      the next section.
     </para>
-       
       
-    </sect1>
-
-<sect1>
-   <indexterm>
+  </sect1>
+  
+  <sect1 id="swarm.user.user3.01-drop.sect1">
+    <indexterm significance="preferred">
       <primary>drop</primary>
-      <secondary sortas="preferred">allocFree</secondary>
     </indexterm>
-    <title>Dropping unused objects</title>
 
-    <para>
-      Most Swarm objects will respond to the <function>drop</function>
+    <indexterm>
+      <primary>drop</primary>
+      <seealso>memory allocation</seealso>
+    </indexterm>
+
+    <title>Dropping Unused Objects</title>
+
+    <para>Most Swarm objects will respond to the <function>drop</function>
       message. This message causes them to execute whatever commands
       are necessary to remove themselves from memory. When objects
       created by user-created classes are no longer needed, they
@@ -648,94 +659,108 @@ getInt(arguments, "maxHeat");</programlisting>
       created within the object are explictly dropped.
     </para>
 
-    <para>
-      In the Point class, the super class's 
+    <para>In the <classname>Point</classname> class, the super class's
       <function>drop</function> method is inherited from
-      SwarmObject. However, if we were to tell a Point object to drop,
-      it would not automatically drop the dynamically allocated memory
-      referred to by the pointer <varname>position</varname>.
-      Similarly, any other Swarm objects allocated in the Point object
-      would not be dropped.  In order to be sure these are dropped,
-      the drop method should be overridden and customized.  When that
-      method is overridden, it is vital to make sure the super class's
-      drop method is executed.  That is the reason that the Point
-      class's drop method begins with [super drop].  Any objects that
-      have been allocated in Point.m, such as the memory devoted to
-      the variable <varname>position</varname>, should be taken care
-      of at that stage.  Any Swarm objects that have been created,
-      such as lists, list indexes, or other objects should be dropped
-      in the drop command.
-    </para>
-    <para>
-      Many users think that there ought to be an "automatic" way to
-      drop all objects that exist inside an object.  This would
+      <classname>SwarmObject</classname>. However, if we were to tell
+      a <classname>Point</classname> object to drop, it would not
+      automatically drop the dynamically allocated memory referred to
+      by the pointer <varname>position</varname>.  Similarly, any
+      other Swarm objects allocated in the
+      <classname>Point</classname> object would not be dropped.  In
+      order to be sure these are dropped, the drop method should be
+      overridden and customized.  When that method is overridden, it
+      is vital to make sure the super class's drop method is executed.
+      That is the reason that the <classname>Point</classname> class's
+      drop method begins with [super drop].  Any objects that have
+      been allocated in <classname>Point</classname>, such as the
+      memory devoted to the variable <varname>position</varname>,
+      should be taken care of at that stage.  Any Swarm objects that
+      have been created, such as lists, list indexes, or other objects
+      should be dropped in the drop command.</para>
+
+    <para>Many users think that there ought to be an "automatic" way
+      to drop all objects that exist inside an object.  This would
       certainly be convenient, since rewriting a drop method to make
       sure all objects are correctly disposed of can be tedious and
       possibly error-prone.  While there is no such automatic
       object-dropping facility, there is a way to design Swarm code
       that comes close.
     </para>
-    <para>
-      To make sure that all objects inside another object are dropped,
-      users might consider a strategy that uses zones more carefully.
-      Instead of following the zone usage examples provided by most
-      Swarm applications, consider instead creating agents inside
-      separate memory zones.  When a zone gets the drop method,
-      <emphasis>it does drop all objects inside it!</emphasis>
-    </para>
-    <para>
-      Here is how such a program might be designed. Suppose that agents are to be created in the model swarm by a for loop.  The usual approach would create the objects in the model swarm itself, using the zone of the model swarm.
-      </para>
-      <programlisting>
-//in the buildObjects method of ModelSwarm.m
-	for(i=0;i &lt; numAgents;i++)
-	{
-	id agent;
-	agent=[Agent createBegin: self];
-	agent=[agent createEnd];
-	[agentList addLast: agent];
-	}
-      </programlisting>
-    <para>
-      Suppose that instead of creating the instances of the class Agent inside the model swarm itself, we create a Zone object each time through the loop, and then create the agent inside that zone.  For example,
-    </para>
-    <programlisting>
-//in the buildObjects method of ModelSwarm.m
-	for(i=0;i &lt; numAgents;i++)
-	{
-	id agent, newZone;
-	newZone=[Zone create: self];
-	agent=[Agent createBegin: newZone];
-	agent=[agent createEnd];
-	[agentList addLast: agent];
-	}
-      </programlisting>
 
     <para>
-      The Agent class might create all kinds of objects, and we could
-      use the method described above to write a drop method for the
-      Agent class.  However, this second approach has simplicity on
-      its side.  If it is necessary to drop an agent, instead of using
-      the command [agent drop], we instead find out what the agent's
-      zone is, and drop that:
+      To make sure that all objects inside another object are dropped,
+      users might consider a strategy that uses
+      <classname>Zone</classname>s more carefully.  Instead of
+      following the <classname>Zone</classname> usage examples
+      provided by most Swarm applications, consider instead creating
+      agents inside separate memory zones.  When a zone gets the drop
+      method, <emphasis>it does drop all objects inside it!</emphasis>
     </para>
-<programlisting>
-      //first, suppose you want to remove an agent named "agent".  
-      //Remove references to agent from the list
-      [agentList remove: agent];
-      //Then drop that agent's zone
-      {
-      id agentZone;
-      agentZone=[agent getZone];
-      [agentZone drop];
-      }
-      //This could be achieved with a single line: [[agent getZone] drop];
-    </programlisting>
+
+    <para>Here is how such a program might be designed. Suppose that
+      agents are to be created in the model swarm by a for loop.  The
+      usual approach would create the objects in the model swarm
+      itself, using the <classname>Zone</classname> of the model
+      swarm.</para>
+
+<programlisting>//in the buildObjects method of ModelSwarm.m
+for(i=0;i &lt; numAgents;i++)
+ {
+   id agent;
+   agent=[Agent createBegin: self];
+   agent=[agent createEnd];
+   [agentList addLast: agent];
+ }</programlisting>
+
+    <para>Suppose that instead of creating the instances of the class
+      <classname>Agent</classname> inside the model swarm itself, we
+      create a <classname>Zone</classname> object each time through
+      the loop, and then create the agent inside that zone.  For
+      example,
+    </para>
+
+<programlisting>//in the buildObjects method of ModelSwarm.m
+for(i = 0;i &lt; numAgents; i++)
+{
+  id agent, newZone;
+  newZone=[Zone create: self];
+  agent=[Agent createBegin: newZone];
+  agent=[agent createEnd];
+  [agentList addLast: agent];
+}</programlisting>
+
     <para>
-      This zone-oriented approach might bring a bit of peace of mind
-      because it eliminates the danger of a memory leak that may
-      result when an agent is dropped but the objects inside it are
-      not.
+      The <classname>Agent</classname> class might create all kinds of
+      objects, and we could use the method described above to write a
+      drop method for the <classname>Agent</classname> class.
+      However, this second approach has simplicity on its side.  If it
+      is necessary to drop an agent, instead of using the command
+      <literal>[agent drop]</literal>, we instead find out what the
+      agent's zone is, and drop that:
+    </para>
+
+<programlisting>
+<lineannotation>
+//first, suppose you want to remove an agent named "agent".  
+//Remove references to agent from the list
+</lineannotation>
+[agentList remove: agent];
+<lineannotation>
+//Then drop that agent's zone
+</lineannotation>
+{
+  id agentZone;
+  agentZone=[agent getZone];
+  [agentZone drop];
+}
+<lineannotation>
+//This could be achieved with a single line: [[agent getZone] drop];
+</lineannotation></programlisting>
+
+    <para>This <classname>Zone</classname>-oriented approach might
+      bring a bit of peace of mind because it eliminates the danger of
+      a memory leak that may result when an agent is dropped but the
+      objects inside it are not.
     </para>
   </sect1>
 

@@ -3,6 +3,10 @@
 <style-specification id="common">
 <style-specification-body>
 
+;; bibliographic entry stuff....
+(define %biblioentry-in-entry-order% #f)
+(define bibltable #t)
+
 (define %show-comments%
   ;; Display Comment elements?
   #t)

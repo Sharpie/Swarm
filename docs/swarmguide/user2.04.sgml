@@ -424,7 +424,7 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
     </para>
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user2.04-activating.sect1">
     <title>Activating Swarms</title> 
 
     <para>The <function>buildActions</function> method is intended to

@@ -1,7 +1,7 @@
 <chapter id="swarm.user.user3.05.chapter">
   <title>Serialization</title>
 
-  <indexterm>
+  <indexterm significance="preferred">
     <primary>serialization</primary>
   </indexterm>
 
@@ -52,7 +52,7 @@
     </itemizedlist>
   </para>
 
-  <sect1>
+  <sect1 id="swarm.user.user3.05-sim-params.sect1">
     <title>Using the <classname>LispArchiver</classname> to manage
       simulation parameters</title>
     <indexterm>
@@ -68,7 +68,7 @@
         releases.</para></caution>
 
     <sect2>
-      <title>Using the standard <varname>lispAppArchiver</varname></title>
+      <title>Using the Standard <varname>lispAppArchiver</varname></title>
       <indexterm significance="preferred">
         <primary><classname>Archiver</classname></primary>
         <secondary>application</secondary>
@@ -283,7 +283,7 @@ if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self
     </sect2>
 
     <sect2>
-      <title>Using custom <classname>LispArchiver</classname> instances</title>
+      <title>Using Custom <classname>LispArchiver</classname> Instances</title>
       <indexterm>
         <primary><classname>LispArchiver</classname></primary>
         <secondary>application</secondary>

@@ -5,7 +5,7 @@
   <sect1>
     <title>Overview: the <classname>List</classname>,
       <classname>Map</classname> and <classname>Array</classname>
-      protocols</title>
+      Protocols</title>
 
     <para>The most frequently used kinds of collections are the
       <classname>List</classname>, <classname>Map</classname> and
@@ -21,70 +21,23 @@
     <para>It is very important to note that these collections are
       primarily intended to manage objects, not integers or floating
       point values.
+      <footnote>
+        <para>
+          Type casting for both storage of variables in collections as
+          well as usage of non-object values for keys was discussed in
+          the original Swarm design.  Roger Burkhart defined a
+          protocol <classname>MemberType</classname> which would have
+          been adopted by the <classname>Collection</classname>
+          protocol: <quote>The MemberType option may be used to
+          declare the type of member which a collection contains.  Its
+          value must be an object having one of the ValueType types
+          defined in defobj.  (..Currently no ValueType objects are
+          implemented, so MemberType is not supported.)</quote> This
+          protocol was to have two methods: <function>-setMemberType:
+          aDataType</function> and
+          <function>-getMemberType</function>.</para>
+      </footnote>
 
-<footnote>
-<para>
-Type casting for both storage of variables in collections as well as
-usage of non-object values for keys was discussed in the original
-Swarm design.  Roger Burkhart wrote:
-</para>
-          <programlisting>
-@deftype MemberType
-(Would be adopted by Collection.)
-//S: Accessors for member type.
-
-//D: The default member type of any collection is the id type defined by
-//D: Objective C.  All messages which add, remove, or access members
-//D: declare their member value with the id type.  None of the collection
-//D: types, however, requires that the member value actually point to a
-//D: valid object.  The member values of any collection may contain an
-//D: arbritrary bit pattern, provided these bits fit in the space available
-//D: within an id pointer.
-
-//D: In the few cases when default operations assume that a member points
-//D: to a valid object, there are alternate ways to avoid these defaults
-//D: and use an arbritrary bit pattern as a member value instead.  When
-//D: using an arbritrary bit pattern, the member value must be cast to or
-//D: from the id type when adding or retrieving it from the collection.  By
-//D: global portability assumptions, the number of bits in an id value
-//D: may be safely assumed to be at least as large as an int
-//D: (signed or unsigned), but not necessarily as large as a long.
-
-//D: There is also an option to override the default member type so that it
-//D: can be larger than a id pointer.  Use of this option, however, changes
-//D: the way member values must be passed to or from a collection.  More
-//D: information is given with the MemberType option below.
-
-// (.. This option is not currently implemented for any collection types.)
-
-//M: The MemberType option may be used to declare the type of member which
-//M: a collection contains.  Its value must be an objec having one of the
-//M: ValueType types defined in defobj.  (..Currently no ValueType objects
-//M: are implemented, so MemberType is not supported.)
-
-//M: The member type defaults to the Symbol value Unknown.  Specifying a
-//M: member type has no effect on the collection if the storage size of the
-//M: data type is no larger than a pointer of id type.  The member type,
-//M: however, may be helpful as documentation, and members can be checked
-//M: for conformance to the type as part of debug options.
-
-//M: If the data type has a size greater than id, the collection
-//M: automatically allocates and frees space for the member value whenever
-//M: member values are added or removed.  For such a collection, all member
-//M: values must be passed to the collection not as the value itself, but
-//M: as a pointer to the value (cast to id as necessary).  If a new member
-//M: is being added, the value will be copied to a new member location
-//M: contained within the collection.  Member values returned by the
-//M: collection will be returned as pointers to this internal value, not as
-//M: the value itself.  In the case of member values removed from the
-//M: collection, a nil pointer is returned.
-CREATING
-- (void)setMemberType: aDataType;
-USING
-- getMemberType;
-@end
-</programlisting>
-        </footnote>
       If you need an array of integers (or floats or chars or whatever
       else), just use an ordinary C array.  When it is necessary to
       use strings, integers, or floating point values in a Swarm
@@ -142,7 +95,7 @@ USING
     
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user3.02-choose.sect1">
 
     <title>Choosing between <classname>List</classname>s,
       <classname>Map</classname>s, and
@@ -280,20 +233,20 @@ USING
 
   </sect1>
 
-  <sect1>
+  <sect1 id="swarm.user.user3.02-array.sect1">
     <title>Using Swarm <classname>Array</classname>s</title> 
 
     <para>The Swarm <classname>Array</classname> is the easiest to use
       of the Swarm collections. At create-time, the size of the
       <classname>Array</classname> is set.  For example, to create an
       <classname>Array</classname> called <varname>foods</varname>
-      that has 15 elements, this code will get the job done:
+      that has 15 elements, this code will get the job done:</para>
 
-      <programlisting> 
+<programlisting> 
 id &lt;Array&gt; foods; 
 food=[Array create: [self getZone] setCount: 15];</programlisting>
 
-      If it is necessary to add elements to the
+    <para>If it is necessary to add elements to the
       <classname>Array</classname>, then the
       <function>setCount:</function>method of the
       <classname>Array</classname> class can be used to increase the
@@ -356,14 +309,13 @@ retrievedObject=[foods atOffset: 6];</programlisting>
 
   </sect1>
   
-  <sect1>
+  <sect1 id="swarm.user.user3.02-map.sect1">
     <title>Swarm <classname>Map</classname>s</title> 
 
-    <para> Experienced programmers are familiar with the term "key" as
+    <para>Experienced programmers are familiar with the term "key" as
       it refers to management of collections.  People who are new to
       programming and Swarm often find this idea quite confusing.
-      Hence, we will explain.
-    </para>
+      Hence, we will explain.</para>
 
     <para>Think of a <classname>Map</classname> as two rows of
       objects.  The bottom row contains the objects you want to store
@@ -380,11 +332,10 @@ retrievedObject=[foods atOffset: 6];</programlisting>
       the bottom row.
     </para>
     
-    <para> The names of the objects are called "keys" in Swarm (and
+    <para>The names of the objects are called "keys" in Swarm (and
       other programming languages). The usage of keys is somewhat
       confusing and difficult for newcomers because the keys should be
-      Swarm objects.  
-    </para>      
+      Swarm objects. </para>
 
     <example>
       <title>Maps and keys</title>
@@ -442,116 +393,113 @@ thePreference=[mapOfPreferences at: aParticularFriend];
         value from <literal>[index next]</literal> as the key:
       </para>
 
-        <programlisting>
+<programlisting>
 id index, aPerson;
 index= [listOfPeople begin: [self getZone]];
 while( (aPerson=[index next])!=nil )
 {
-id thePreference;
+  id thePreference;
 thePreference = [mapOfPreferences at: aPerson];
 // here you insert some code that does something with the retrieved preference!
 }</programlisting> 
     </example>
 
-    <para>
-      This example works because the Map object automatically compares
-      the objects acting as keys to see if they are identical. This is
-      the default compare: method of the class
-      <classname>SwarmObject</classname>. If one wishes to compare the
-      objects by another criterion, then a comparison function can be
-      declared when the Map is created.  Lacking a user-defined
-      comparison function, the Map will always use the
+    <para>This example works because the <classname>Map</classname>
+      object automatically compares the objects acting as keys to see
+      if they are identical. This is the default compare: method of
+      the class <classname>SwarmObject</classname>. If one wishes to
+      compare the objects by another criterion, then a comparison
+      function can be declared when the <classname>Map</classname> is
+      created.  Lacking a user-defined comparison function, the
+      <classname>Map</classname> will always use the
       <function>compare:</function> that is defined in the key object.
       Lacking such a function, the program should not run.
     </para>
 
-    <para>
-      When an object that is being used as a key has a
-      <function>compare:</function> function, then the map will use
-      that function to decide if the two objects are equal.  If a
-      comparison function is declared when the map is created, then
-      that comparison function will be used instead. Swarm includes
-      some built-in comparison functions, but, as we will see, the
-      usage of customized functions is quite easy and convenient. If
-      no comparison function is declared, then the fall-back approach
+    <para>When an object that is being used as a key has a
+      <function>compare:</function> function, then the
+      <classname>Map</classname> will use that function to decide if
+      the two objects are equal.  If a comparison function is declared
+      when the <classname>Map</classname> is created, then that
+      comparison function will be used instead.  Swarm includes some
+      built-in comparison functions, but, as we will see, the usage of
+      customized functions is quite easy and convenient. If no
+      comparison function is declared, then the fall-back approach
       checks for a <function>compare:</function> method in the key
       object itself. Since all objects that are based on Swarm inherit
       from the defined object class, all such objects have (at least)
       access to the bare minimum <function>compare:</function> that
       checks to see if two objects are identical.  Classes from which
       key objects are created can, of course, create more informative
-      comparison methods.
-    </para>
+      comparison methods.</para>
       
     <para>Lets begin with the problem of using integers as keys.
       There are two possible approaches, typecasting and the creation
-      of "integer wrappers."  
-
-      The typecasting approach is used in many Swarm applications. The
-      essence of this approach is to use type casting to trick the
-      Swarm library to make it treat an integer <emphasis>as
-      if</emphasis> it were an object.  Without going too deeply into
-      the computer science of the issue, it may not be possible to
-      explain this, but we will take a stab at it.  On many computer
-      systems, a pointer uses the same amount of space as an
-      integer. Hence, it is possible to cast an integer as a pointer
-      to "fool" the compiler, and then to retrieve the value of the
-      integer from the place in memory where the pointer was supposed
-      to be. (Confusing? Many users say, yes!)  Instead of inserting
-      objects into a <classname>Map</classname> with objects as keys,
-      using this casting trick, one can insert objects at integer
-      values that are cast as objects of type id.  For example:
+      of "integer wrappers."  The typecasting approach is used in many
+      Swarm applications. The essence of this approach is to use type
+      casting to trick the Swarm library to make it treat an integer
+      <emphasis>as if</emphasis> it were an object.  Without going too
+      deeply into the computer science of the issue, it may not be
+      possible to explain this, but we will take a stab at it.  On
+      many computer systems, a pointer uses the same amount of space
+      as an integer. Hence, it is possible to cast an integer as a
+      pointer to "fool" the compiler, and then to retrieve the value
+      of the integer from the place in memory where the pointer was
+      supposed to be. (Confusing? Many users say, yes!)  Instead of
+      inserting objects into a <classname>Map</classname> with objects
+      as keys, using this casting trick, one can insert objects at
+      integer values that are cast as objects of type <type>id</type>.
+      For example:
     </para>
 
       <programlisting>
 [mapOfPreferences at: (id) 13 insert: aFriend]</programlisting>
 
     <para>
-      In order for this to work, the <varname>mapOfPreferences</varname> has to be
-      created so that it knows integers are going to be passed through
-      in this way. At create time, the <classname>Map</classname> must
-      be told to use the built-in comparison function that will uncast
-      the pointers and compare them.
+      In order for this to work, the
+      <varname>mapOfPreferences</varname> has to be created so that it
+      knows integers are going to be passed through in this way. At
+      create time, the <classname>Map</classname> must be told to use
+      the built-in comparison function that will uncast the pointers
+      and compare them.</para>
 
       <programlisting>
 mapOfPreferences  = [Map createBegin: aZone];
 [mapOfPreferences  setCompareFunction: compareIntegers];
 mapOfPreferences = [mapOfPreferences createEnd];</programlisting>
 
-      The GridTurtle code example <filename>grid3b.m</filename> uses
-      this appoach.
+    <para>The GridTurtle code example <filename>grid3b.m</filename>
+      uses this appoach.
     </para>
 
-    <para> This "casting" approach to creating a keys has some
-      serious shortcomings.  Most importantly, it is severely
-      nonportable.  Code written in this way on a Linux system might
-      not work on a DEC Unix system. Why?  On DEC Unix, an integer and
-      a pointer do not have the same size.</para>
+    <para>This "casting" approach to creating a keys has some serious
+      shortcomings.  Most importantly, it is severely nonportable.
+      Code written in this way on a Linux system might not work on a
+      DEC Unix system. Why?  On DEC Unix, an integer and a pointer do
+      not have the same size.</para>
 
     <para>What is the alternative if one wants to enter objects into a
       <classname>Map</classname> using integers as keys? The answer
-      is: create an "integer wrapper" class.  This integer wrapper
-      can store and retrieve the values of integers, and these
-      objects can be used as keys in Swarm
-      <classname>Map</classname>s.
+      is: create an "integer wrapper" class.  This integer wrapper can
+      store and retrieve the values of integers, and these objects can
+      be used as keys in Swarm <classname>Map</classname>s.
     </para>
 
-    <para>
-      Here is the integer wrapper class <footnote> <para>There is an
-        example of a program by Marcus Daniels that uses integer
+    <para>Here is the integer wrapper class <footnote> <para>There is
+        an example of a program by Marcus Daniels that uses integer
         wrappers at <ulink
         url="http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/WorkingExampleCode/MapIntegerIndex.txt">MapIntegerIndex.txt</ulink>.</para>
-</footnote>, which is called <classname>Integer</classname>:
+        </footnote>, which is called <classname>Integer</classname>:
     </para>
           
-      <programlisting>
+    <programlisting>
 //Integer.h
 #import &lt;defobj/Create.h&gt;
 
 @interface Integer: CreateDrop
 {
-int value;
-member_t link;
+ int value;
+ member_t link;
 }
 - setValue: (int)value;
 - (int)getValue;
@@ -561,13 +509,13 @@ member_t link;
 @implementation Integer
 - setValue: (int)theValue
 {
-value = theValue;
-return self;
+ value = theValue;
+ return self;
 }
 
 - (int)getValue
 {
-return value;
+ return value;
 }
 
 @end</programlisting>
@@ -645,39 +593,38 @@ printf("The preference Object gives this output \n");
       tedious).
     </para>
 
-    <para>
-      The same kind of approaches can be used if one wants to use
-      strings as keys in a Map.  The easiest way to use strings as the
-      keys is to use the Swarm <classname>String</classname> protocol
-      to create objects that act as "wrappers" for the string
-      names. In the Swarm Documentation, one can find the GridTurtle
-      test programs for the Collections library.  The file
-      <filename>grid3.m</filename> contains an example that does
-      exactly this.  The code in <filename>grid3.m</filename> creates
-      a string, equal to the index variable i, and then sets that
-      string into a <classname>String</classname> object, which is in
-      turn used as the key. Of course, there is no reason that the
-      chosen character string had to be a simple number. If you want
-      to, you can create strings for all your friends and wrap them
-      inside <classname>String</classname> objects.
+    <para>The same kind of approaches can be used if one wants to use
+      strings as keys in a <classname>Map</classname>.  The easiest
+      way to use strings as the keys is to use the Swarm
+      <classname>String</classname> protocol to create objects that
+      act as "wrappers" for the string names. In the Swarm
+      Documentation, one can find the GridTurtle test programs for the
+      Collections library.  The file <filename>grid3.m</filename>
+      contains an example that does exactly this.  The code in
+      <filename>grid3.m</filename> creates a string, equal to the
+      index variable i, and then sets that string into a
+      <classname>String</classname> object, which is in turn used as
+      the key. Of course, there is no reason that the chosen character
+      string had to be a simple number. If you want to, you can create
+      strings for all your friends and wrap them inside
+      <classname>String</classname> objects.
     </para>
 
-    <para>
-      Unless you define a comparison function, the String objects are
-      compared according to the <function>compare:</function> method
-      that is defined for Swarm <classname>String</classname>s.  This
-      function is defined in the Swarm library in the file
+    <para>Unless you define a comparison function, the String objects
+      are compared according to the <function>compare:</function>
+      method that is defined for Swarm <classname>String</classname>s.
+      This function is defined in the Swarm library in the file
       <filename>StringObject.m</filename>.  The comparison uses the C
       function strcmp to find out if the object's own string is the
-      same as the string retrieved from the other object
-      (which is called "aString"):
+      same as the string retrieved from the other object (which is
+      called <varname>aString</varname>):
     </para>
-<programlisting>
-- (int)compare: aString
+
+<programlisting>- (int)compare: aString
 {
   return strcmp (string, ((String_c *) aString)->string);
-}
-</programlisting>
+}</programlisting>
+
     <para>
       As in the case of integers, the built-in compare: method can be
       over-ridden by a customized comparison function declared by the
@@ -686,8 +633,8 @@ printf("The preference Object gives this output \n");
 
   </sect1>  
 
-  <sect1>
-    <title>Accessing Collections with Indices</title> 
+  <sect1 id="swarm.user.user3.02-index.sect1">
+    <title>Accessing Collections with Indices</title>
 
     <para>Any collection can generate an <classname>Index</classname>
       that can be used to access its members.  The command to create
@@ -714,7 +661,7 @@ printf("The preference Object gives this output \n");
       For example, as we noted in our discussion of
       <classname>List</classname>s, the <classname>Index</classname>
       can be used to orchestrate the repetitive processing of a
-      <classname>List</classname> object in the following way.
+      <classname>List</classname> object in the following way:</para>
 
       <programlisting>
 id aCollection;
@@ -727,7 +674,7 @@ while( (anObject=[index next]) != nil )
   //write code that does something to anObject
 }</programlisting>
 
-      This code will cycle through the
+    <para> This code will cycle through the
       <classname>List</classname>. Because the
       <classname>Index</classname> object remembers its position in
       the <classname>List</classname>, the processing is efficient in
@@ -735,7 +682,8 @@ while( (anObject=[index next]) != nil )
       one step to be taken. This is a sharp contrast with the usage of
       collections methods like <literal>[aCollection atOffset:
       i]</literal>, which cause the <classname>List</classname> to
-      begin at the beginning and count up to the <varname>i</varname>th object.
+      begin at the beginning and count up to the
+      <varname>i</varname>th object.
     </para>
 
     <para>Perhaps the most significant advantage of indices is that
