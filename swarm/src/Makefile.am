@@ -41,12 +41,12 @@ OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
 
 swarm.dll: dllinit.c $(OBJS)
 	$(CC) -c $(srcdir)/dllinit.c
-	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
+	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll dllinit.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
 swarm_dll_SOURCES = dllinit.c
 
 install-data-local: 
 	if test $(USEDLL) = yes; then \
-	  $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a ; \
+	  $(INSTALL) libswarmdll.a $(libdir) && ranlib $(libdir)/libswarmdll.a ; \
 	fi
 
