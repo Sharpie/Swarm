@@ -983,16 +983,18 @@ USING
 - (void)drop;
 @end
 
-@protocol ArchiverNumber <Create, Drop, CREATABLE>
+@protocol ArchiverValue <Create, Drop, CREATABLE>
 CREATING
 - setDouble: (double)val;
 - setFloat: (float)val;
 - setInteger: (int)val;
+- setChar: (unsigned char)val;
 USING
-- (char)getNumberType;
+- (char)getValueType;
 - (double)getDouble;
 - (float)getFloat;
 - (int)getInteger;
+- (unsigned char)getChar;
 - (void)drop;
 @end
 

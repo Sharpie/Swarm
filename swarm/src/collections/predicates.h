@@ -8,5 +8,5 @@ BOOL literal_string_p (id obj);
 BOOL listp (id obj);
 
 BOOL keywordp (id obj);
-BOOL numberp (id obj);
+BOOL valuep (id obj);
 BOOL arrayp (id obj);

@@ -152,6 +152,28 @@ readString (id inStream, BOOL literalFlag)
                      createEnd];
           }
         }
+      else if (c2 == '\\')
+        {
+          unsigned val;
+          unsigned char c3;
+
+          c3 = fgetc (fileStream);
+
+          if (c3 >= '0' && c3 <= '3')
+            {
+              int ret;
+
+              ungetc (c3, fileStream);
+              ret = fscanf (fileStream, "%o", &val);
+              
+              if (ret != 1)
+                raiseEvent (InvalidArgument,
+                            "Unable to scan octal character value");
+              c3 = (unsigned char)val;
+            }
+          return [[[ArchiverValue createBegin: [self getZone]]
+                    setChar: c3] createEnd];
+        }
       else
         raiseEvent (InvalidArgument, "Unknown `#' form");
     }
@@ -205,7 +227,7 @@ readString (id inStream, BOOL literalFlag)
             
             if (ch == '.')
               type = _C_DBL;
-            else if (!isdigit (ch))
+            else if (!isdigit (ch) && !(pos == 0 && ch == '-'))
               {
                 if (pos == len - 2)
                   {
@@ -229,7 +251,7 @@ readString (id inStream, BOOL literalFlag)
       
         if (isNumeric)
           {
-            id number = [ArchiverNumber createBegin: [self getZone]];
+            id number = [ArchiverValue createBegin: [self getZone]];
             
             if (type == _C_DBL || type == _C_FLT)
               {
@@ -301,7 +323,7 @@ PHASE(Creating)
 
   proto = l;
 
-  if (!numberp (proto))
+  if (!valuep (proto))
     raiseEvent (InvalidArgument, "Array element not numeric");
   
   dims = xcalloc (rank, sizeof (unsigned));
@@ -317,7 +339,7 @@ PHASE(Creating)
       }
   }
   
-  switch ([proto getNumberType])
+  switch ([proto getValueType])
     {
     case _C_INT:
       elementSize = sizeof (int);
@@ -327,6 +349,9 @@ PHASE(Creating)
       break;
     case _C_FLT:
       elementSize = sizeof (float);
+      break;
+    case _C_UCHR:
+      elementSize = sizeof (unsigned char);
       break;
     default:
       raiseEvent (InvalidArgument, "Unknown number type");
@@ -360,7 +385,7 @@ PHASE(Creating)
             
             offset = coord[rank - 1];
 
-            if (!numberp (val))
+            if (!valuep (val))
               raiseEvent (InvalidArgument, "Array element not a number");
 
             for (i = rank - 1; i > 0; i--)
@@ -368,7 +393,7 @@ PHASE(Creating)
                 mult *= dims[i];
                 offset += coord[i - 1] * mult;
               }
-            switch ([val getNumberType])
+            switch ([val getValueType])
               {
               case _C_INT:
                 ((int *) data)[offset] = [val getInteger];
@@ -378,6 +403,9 @@ PHASE(Creating)
                 break;
               case _C_DBL:
                 ((double *) data)[offset] = [val getDouble];
+                break;
+              case _C_UCHR:
+                ((unsigned char *) data)[offset] = [val getChar];
                 break;
               default:
                 raiseEvent (InvalidArgument, "Unknown element type");
@@ -419,7 +447,7 @@ PHASE(Using)
 
 @end
 
-@implementation ArchiverNumber_c
+@implementation ArchiverValue_c
 
 PHASE(Creating)
 
@@ -444,9 +472,16 @@ PHASE(Creating)
   return self;
 }
 
+- setChar: (unsigned char)val
+{
+  type = _C_UCHR;
+  number.ch = val;
+  return self;
+}  
+
 PHASE(Using)
 
-- (char)getNumberType
+- (char)getValueType
 {
   return type;
 }
@@ -464,6 +499,11 @@ PHASE(Using)
 - (int)getInteger
 {
   return number.i;
+}
+
+- (unsigned char)getChar
+{
+  return number.ch;
 }
 
 @end

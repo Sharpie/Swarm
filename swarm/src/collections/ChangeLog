@@ -1,11 +1,14 @@
 1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* predicates.[hm] (keywordp, numberp, arrayp): New predicates.
+	* InputStream.m ([InputStream_c -getExpr]): Don't require
+	leading 0 on octal numbers.  Handle negative values.
+
+	* predicates.[hm] (keywordp, valuep, arrayp): New predicates.
 
 	* InputStream.m: Include misc.h instead of stdio.h and ctype.h
 
 	* InputStream.[hm] (ArchiverKeyword_c,
-	ArchiverArray_c, ArchiverNumber_c): New classes.
+	ArchiverArray_c, ArchiverValue_c): New classes.
 
 	* collections.h: Add corresponding protocols.
 

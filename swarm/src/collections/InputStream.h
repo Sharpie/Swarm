@@ -50,20 +50,23 @@ Library:     collections
 - (void)drop;
 @end
 
-@interface ArchiverNumber_c: CreateDrop_s
+@interface ArchiverValue_c: CreateDrop_s
 {
   char type;
   union {
     double d;
     float f;
     int i;
+    unsigned char ch;
   } number;
 }
 - setDouble: (double)val;
 - setFloat: (float)val;
 - setInteger: (int)val;
+- setChar: (unsigned char)val;
 - (double)getDouble;
 - (float)getFloat;
 - (int)getInteger;
-- (char)getNumberType;
+- (unsigned char)getChar;
+- (char)getValueType;
 @end

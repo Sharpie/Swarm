@@ -29,8 +29,8 @@ _collections_implement (void)
   [id_InputStream_c setTypeImplemented: InputStream];
   [id_OutputStream_c setTypeImplemented: OutputStream];
   [id_ArchiverKeyword_c setTypeImplemented: ArchiverKeyword];
+  [id_ArchiverValue_c setTypeImplemented: ArchiverValue];
   [id_ArchiverArray_c setTypeImplemented: ArchiverArray];
-  [id_ArchiverNumber_c setTypeImplemented: ArchiverNumber];
 }
 
 //

@@ -33,9 +33,9 @@ keywordp (id obj)
 }
 
 BOOL
-numberp (id obj)
+valuep (id obj)
 {
-  return [obj isKindOfClassNamed: "ArchiverNumber_c"];
+  return [obj isKindOfClassNamed: "ArchiverValue_c"];
 }
 
 BOOL
