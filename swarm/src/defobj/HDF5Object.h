@@ -65,7 +65,7 @@
 - storeTypeName: (const char *)typeName;
 - storeAttribute: (const char *)attributeName value: (const char *)valueString;
 - storeObject: obj;
-- storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
+- storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 - (const char *)getName;
 - (void)drop;
 @end

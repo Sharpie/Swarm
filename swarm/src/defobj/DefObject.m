@@ -1064,7 +1064,7 @@ lisp_output_type (const char *type,
                 }
             }
           else
-            [hdf5Obj storeAsDataset: name type: type ptr: ptr];
+            [hdf5Obj storeAsDataset: name typeName: NULL type: type ptr: ptr];
         }
       [hdf5Obj storeTypeName: [self name]];
       map_ivars (getClass (self)->ivars, store_object);

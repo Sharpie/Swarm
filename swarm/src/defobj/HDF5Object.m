@@ -275,12 +275,14 @@ PHASE(Using)
   return self;
 }
 
-- storeAttribute: (const char *)attributeName value: (const char *)valueString
-{
 #ifdef HAVE_HDF5
+static void
+hdf5_store_attribute (hid_t did,
+                      const char *attributeName,
+                      const char *valueString)
+{
   hid_t type_tid, type_sid, type_aid;
   hsize_t dims[1];
-  hid_t did = c_type ? c_did : loc_id;
   
   dims[0] = 1;
   
@@ -307,13 +309,25 @@ PHASE(Using)
   
   if (H5Sclose (type_sid) < 0)
     raiseEvent (SaveError, "unable to close type name space");
+}
+#endif
+
+- storeAttribute: (const char *)attributeName value: (const char *)valueString
+{
+#ifdef HAVE_HDF5
+  hdf5_store_attribute (c_type ? c_did : loc_id,
+                        attributeName,
+                        valueString);
 #else
   hdf5_not_available ();
 #endif
   return self;
 }
 
-- storeAsDataset: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
+- storeAsDataset: (const char *)datasetName
+        typeName: (const char *)typeName
+            type: (const char *)type
+             ptr: (void *)ptr
 {
 #ifdef HAVE_HDF5
   hid_t scalar_space (void)
@@ -339,6 +353,9 @@ PHASE(Using)
       if (H5Dwrite (did, memtid, sid, sid, H5P_DEFAULT, ptr) < 0)
         raiseEvent (SaveError, "unable to write to dataset `%s'", datasetName);
 
+      if (typeName)
+        hdf5_store_attribute (did, ATTRIB_TYPE_NAME, typeName);
+      
       if (H5Dclose (did) < 0)
         raiseEvent (SaveError, "unable to close dataset `%s'", datasetName);
       if (H5Sclose (sid) < 0)

@@ -1,10 +1,21 @@
 1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.m (hdf5_store_attribute): New internal function.
+	([HDF -storeAttribute:value:]): Use it.
+	([HDF -storeAsDataset:typeName:type:ptr:]): Use it if typeName
+	non-NULL.
+
+	* HDF5Object.[hm], defobj.h: Add typeName: to
+	storeAsDataset:typeName:type:ptr.
+
+	* DefObject.m ([Object_s -hdf5Out:deep:]): Use it.
+
 	* Archiver.m ([Archiver_c -lispOut:]): Put cons
 	(cons appKey objects) within loop over applications.
 	(lispProcessMakeObjcPairs): Pass app instead of deepMap.
 	(archiverPut): New function.  Keep key in just one Map.
 	(lispArchiverPut, hdf5ArchiverPut): Use it.
+	(hdf5_output_objects): Set deepFlag to NO if object is a string.
 
 	* HDF5Object.m, defobj.h ([HDF5_c -storeAttributeName:value:]):
 	New method (a parameterized storeTypeName:).
