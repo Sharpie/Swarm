@@ -13,7 +13,6 @@ import Organization;
 
 abstract class DirectedAgent2d extends Agent2d {
   int xoffset, yoffset;
-  double resistProbabilityMean, resistProbabilityDeviation;
   NormalDist resistProbabilityDistribution;
   NormalDist energyDistribution;
   double resistProbability = 0.0;
