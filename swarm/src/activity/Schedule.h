@@ -12,6 +12,7 @@ Library:      activity
 #import <activity/ActionGroup.h>
 #import <activity/XActivity.h>
 #import <collections/Map.h>
+#import <defobj/Zone.h>
 
 @interface Schedule_c: Map_c <Schedule>
 {
@@ -36,7 +37,7 @@ Library:      activity
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : (Class)activityClass : (Class)indexClass;
 - (void)_performPlan_;
-- _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : aZone;
+- _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : (Zone_c *)aZone;
 - (void)drop;
 /*** methods in Schedule_c (inserted from .m file by m2h) ***/
 + create: aZone setRepeatInterval: (timeval_t)rptInterval;
@@ -50,7 +51,7 @@ Library:      activity
 - (BOOL)getSingletonGroups;
 - (BOOL)getRelativeTime;
 - (timeval_t)getRepeatInterval;
-- _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext : swarmZone;
+- _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext : (Zone_c *)swarmZone;
 - insertGroup: aKey;
 - remove: anAction;
 - at: (timeval_t)tVal createFAction: call;

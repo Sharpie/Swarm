@@ -1,3 +1,18 @@
+1999-09-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* XActivity.m ([Activity_c -dropAllocations:]): New method.
+
+	* XActivity.h (Activity_c): New ivars activitySet and
+	activitySetRefs.
+
+	* CompoundAction.m (notifyActivityDrop): New function.
+	([CompoundAction_c -_createActivity_::::]): Set it up.
+
+	* CompoundAction.h, activity.m (_activity_activitySetRefsType):
+	New global.
+
+	* activity.m (_activity_initialize): Set it up.
+
 1999-09-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* XActivity.m ([Activity_c -_run_]): Don't process immediateReturnFlag.

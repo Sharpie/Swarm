@@ -53,7 +53,7 @@ PHASE(Using)
 - (id <Activity>)_activateUnderSwarm_: (Class)activityClass 
                                      : (Class)indexClass
                                      : swarmContext
-                                     : swarmZone
+                                     : (Zone_c *)swarmZone
 {
   id newSchedule;
 
@@ -344,6 +344,7 @@ PHASE(Using)
 {
   if (activityRefs)
     mapObject (mapalloc, activityRefs);
+
   
   // Avoid drop of members that ActionGroup would perform, since Schedule is
   // responsible for dropping all members.
@@ -471,7 +472,7 @@ PHASE(Creating)
   ForEachIndex_c *newIndex;
 
   // create new activity containing custom index into target collection
-
+  
   owner = anActivity;
   ownerZone = getZone (owner);
   newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];

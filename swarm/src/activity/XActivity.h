@@ -22,6 +22,8 @@ Library:      activity
   CAction *topLevelAction;          // action binding at top of stack
   id status;                        // symbol for current status
   member_t activityRefs;            // internal links in references to plan
+  id activitySet;                   // activities to cleanup on drop
+  member_t activitySetRefs;         // internal links for owner
   id currentIndex;                  // index to current action in plan
   Activity_c *currentSubactivity;   // subactivity for current action
   BOOL (*breakFunction) (id);       // function to call on each step

@@ -151,7 +151,7 @@ PHASE(Using)
 //
 // _activateUnderSwarm_::: -- release new activity to run under swarm
 //
-- _activateUnderSwarm_: activityClass : indexClass : swarmContext : swarmZone
+- _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext : (Zone_c *)swarmZone
 {
   SwarmActivity_c *swarmActivity;
   ScheduleActivity_c *newActivity;
@@ -1020,12 +1020,18 @@ PHASE(Using)
 //
 - (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  [super mapAllocations: mapalloc];
+  printf ("currentSubactivity: %p [%s] topLevelAction: %p [%s]\n",
+          currentSubactivity,
+          currentSubactivity ? [currentSubactivity name] : "<nil>",
+          topLevelAction,
+          topLevelAction ? [topLevelAction name] : "<nil>");
   if (mergeAction)
     {
       mapalloc->descriptor = t_LeafObject;
       mapAlloc (mapalloc, mergeAction);
     }
+
+  [super mapAllocations: mapalloc];
 }
 
 //
@@ -1039,7 +1045,7 @@ PHASE(Using)
   if (mergeAction)
     [((Index_any *) swarmActivity->currentIndex)->collection
                                                 remove: mergeAction];
- 
+
   // complete the rest of the drop actions by standard means
   
   [super dropAllocations: componentAlloc];

@@ -12,7 +12,8 @@ Library:      activity
 #import "activity.xm"
 #import <activity/XActivity.h>
 
-externvardef id _activity_activityRefsType, _activity_swarmSyncType;
+externvardef id _activity_activityRefsType, _activity_activitySetRefsType;
+externvardef id _activity_swarmSyncType;
 
 void
 _activity_implement (void)
@@ -58,6 +59,11 @@ _activity_initialize (void)
   [_activity_activityRefsType
     setIndexFromMemberLoc: offsetof (Activity_c, activityRefs)];
   _activity_activityRefsType = [_activity_activityRefsType customizeEnd];
+
+  _activity_activitySetRefsType = [OrderedSet customizeBegin: globalZone];
+  [_activity_activitySetRefsType
+    setIndexFromMemberLoc: offsetof (Activity_c, activitySetRefs)];
+  _activity_activitySetRefsType = [_activity_activitySetRefsType customizeEnd];
 
   _activity_swarmSyncType = [Schedule customizeBegin: globalZone];
   [_activity_swarmSyncType setConcurrentGroupType: ActivationOrder];

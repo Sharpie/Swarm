@@ -591,10 +591,37 @@ installStep (id activity)
   return currentSubactivity;
 }
 
+- (void)dropAllocations: (BOOL)components
+{
+  if (activitySet)
+    {
+      Activity_c *activity;
+
+      for (;;)
+        {
+          id index = [activitySet begin: scratchZone];
+
+          activity = [index next];
+          if ([index getLoc] == Member)
+            {
+              [index remove];
+              [activity dropAllocations: YES];
+            }
+          else
+            {
+              [index drop];
+              break;
+            }
+        }
+      [activitySet dropAllocations: YES];
+    }
+  [super dropAllocations: components];
+}
+
 //
 // mapAllocations: -- standard method to identify internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   if (topLevelAction)
     mapObject (mapalloc, topLevelAction);
@@ -631,7 +658,7 @@ installStep (id activity)
     raiseEvent (SourceMessage,
                 "> cannot drop an activity while it is running\n" );
   
-  [self dropAllocations: NO];
+  [self dropAllocations: YES];
 }
 
 - (void)describe: outputCharStream

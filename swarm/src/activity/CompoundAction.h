@@ -11,7 +11,8 @@ Library:      activity
 
 #import <collections/Collection.h>
 
-extern id  _activity_activityRefsType;
+externvar id _activity_activityRefsType;
+externvar id _activity_activitySetRefsType;
 
 extern void setDefaultOrder (unsigned *bits, id aSymbol);
 

@@ -13,6 +13,7 @@ Library:      activity
 #import <collections/Permutation.h>
 #import <activity/CompoundAction.h>
 #import <activity/XActivity.h>
+#import <defobj/Zone.h>
 
 @interface ActionGroup_c: OrderedSet_c <ActionGroup>
 {
@@ -30,12 +31,12 @@ Library:      activity
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : (Class)activityClass : (Class)indexClass;
 - (void)_performPlan_;
-- _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : aZone;
+- _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : (Zone_c *)aZone;
 - (void)drop;
 - _createPermutedIndex_: aZone activity: activity;
 /*** methods in ActionGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
-- _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext: swarmZone;
+- _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext: (Zone_c *)swarmZone;
 - createFAction: call;
 - createAction: anActionType;
 - createActionCall: (func_t)fptr;
