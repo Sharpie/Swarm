@@ -11,7 +11,7 @@ MSRC = NXConstStr.m Object.m Protocol.m linking.m mframe.m
 
 EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c \
 	thr-posix.c thr-pthreads.c thr-single.c thr-solaris.c thr-vxworks.c \
-	thr-win32.c config dllinit.c
+	thr-win32.c config
 
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
@@ -21,7 +21,7 @@ EXTRA_LTLIBRARIES = libobjc.la
 bin_PROGRAMS = @OBJC_DLL@
 EXTRA_PROGRAMS = objc.dll
 
-libobjc_la_SOURCES = empty.c
+libobjc_la_SOURCES = 
 libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir)
 libobjc_la_LIBADD = libobjc_.la
 
@@ -43,12 +43,9 @@ compiler-info.h: $(COMPILERINFOHEADER)
 
 DLLOBJS = $(addsuffix .lo,$(basename $(libobjc__la_SOURCES)))
 
-empty.c:
-	echo > empty.c
-
-objc.dll: libobjc_.la dllinit.c
-	$(CC) -c $(srcdir)/dllinit.c -o dllinit.lo
-	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll dllinit.lo $(DLLOBJS) $(basename $(objc_thread_lo)).o
+objc.dll: libobjc_.la objc.dll.c
+	$(CC) -c $(srcdir)/objc.dll.c -o objc.dll.lo
+	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll objc.dll.lo $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
 install-data-local: 
 	if test $(USEDLL) = yes; then \

@@ -1,7 +1,7 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (objc.dll): Rename libobjc.a to libobjcdll.a.
-	(install-data-local): Accomodate.
+	(install-data-local): Accomodate.  Use objc.dll.c instead of dllinit.c.
 
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
