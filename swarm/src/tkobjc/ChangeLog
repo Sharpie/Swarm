@@ -1,3 +1,10 @@
+1998-08-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Pixmap.m ([Pixmap -createEnd]): Move row_columns to block with
+	row_pointers, initialize it there, not in RGB vs.  palette
+	conditional.  Free row_pointers after the map has been dropped.
+	Add sanity check for missing indices for a given RGB triplet.
+
 1998-08-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Pixmap.m (compareRGB): New function.

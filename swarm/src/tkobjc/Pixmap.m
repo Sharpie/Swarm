@@ -69,7 +69,7 @@ compareRGB (id aobj, id bobj)
   char header[8];
   png_structp read_ptr;
   png_infop read_info_ptr;
-  unsigned row_bytes, row_columns;
+  unsigned row_bytes;
 
   [super createEnd];
 
@@ -134,12 +134,10 @@ compareRGB (id aobj, id bobj)
           png_set_expand (read_ptr);
         bit_depth = 8;
         row_bytes = png_get_rowbytes (read_ptr, read_info_ptr);
-        row_columns = row_bytes / 3;
       }
     else if (color_type == PNG_COLOR_TYPE_PALETTE)
       {
         row_bytes = png_get_rowbytes (read_ptr, read_info_ptr);
-        row_columns = row_bytes;
         if (!png_get_PLTE (read_ptr, read_info_ptr, &palette, &num_palette))
           [PaletteError raiseEvent: "Cannot get palette from PNG file: %s\n",
                         filename];
@@ -152,6 +150,7 @@ compareRGB (id aobj, id bobj)
       png_bytep row_pointers_buffer[height];
       png_bytep new_row_pointers_buffer[height];
       png_bytep *row_pointers = row_pointers_buffer;
+      unsigned row_columns = row_bytes / 3;
       
       for (ri = 0; ri < height; ri++)
         row_pointers[ri] = xmalloc (row_bytes);
@@ -206,13 +205,22 @@ compareRGB (id aobj, id bobj)
                 
                 new_row_pointers_buffer[ri] = xmalloc (row_columns);
                 for (ci = 0; ci < row_columns; ci++)
-                  new_row_pointers_buffer[ri][ci] =
-                    (png_byte)(unsigned)
-                    [cMap at: (id)&row_pointers[ri][ci * 3]] - 1;
-                xfree (row_pointers[ri]);
+                  {
+                    png_bytep rgb = &row_pointers[ri][ci * 3];
+                    id indexObj = [cMap at: (id)rgb];
+
+                    if (indexObj == nil)
+                      [PaletteError raiseEvent:
+                                      "No index for R:%d G:%d B:%d\n",
+                                    rgb[0], rgb[1], rgb[2]];
+                    new_row_pointers_buffer[ri][ci] = 
+                      (png_byte)(unsigned)indexObj - 1;
+                  }
               }
-            row_pointers = new_row_pointers_buffer;
             [cMap drop];
+            for (ri = 0; ri < height; ri++)
+              xfree (row_pointers[ri]);
+            row_pointers = new_row_pointers_buffer;
           }
         }
       tkobjc_pixmap_create (self, row_pointers, bit_depth,
