@@ -150,13 +150,22 @@
                         :function-doc :macro-doc :typedef-doc
                         :global-doc :global-begin :global-end :global-break
                         :example-doc :deprecated-doc))
+(defconst *protocol-regexp* "^\\(@protocol\\|#ifndef DISABLE_GUI\\)")
 
-(defconst *protocol-regexp* "^@\\(protocol\\|deftype\\)")
 (defconst *funcptr-regexp* "\\([^;()]*(\\s-*[*]*\\s-*\\([^*);]+\\))[^;]*\\);")
 
 (defun find-protocol ()
   (interactive)
-  (re-search-forward *protocol-regexp* nil t))
+  (let ((ret nil))
+    (while (progn
+             (setq ret (re-search-forward *protocol-regexp* nil t))
+	     (when (save-excursion
+		     (beginning-of-line 1)
+		     (looking-at "#ifndef DISABLE_GUI"))
+	       (beginning-of-line 1)
+	       (c-forward-conditional 1)
+	       t)))
+    (and ret (save-excursion (beginning-of-line 1) (looking-at "@protocol")))))
 
 (defun skip-whitespace ()
   (skip-chars-forward " \t\r\n"))
@@ -591,6 +600,10 @@
         ((looking-at ".+//G:") (check-global-doc-post parse-state))
 
         ((looking-at "#if 0")
+         (c-forward-conditional 1)
+         (beginning-of-line 0)
+         :ifdef-comment)
+        ((and (looking-at "#ifndef DISABLE_GUI") *disable-gui*)
          (c-forward-conditional 1)
          (beginning-of-line 0)
          :ifdef-comment)

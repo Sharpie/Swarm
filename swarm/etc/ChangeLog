@@ -1,3 +1,10 @@
+2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.protocol (GUIOPT): Add.
+
+	* protocol.el (find-protocol, *protocol-regexp*, check-common-tags):
+	Handle DISABLE_GUI.
+
 2004-07-29  Marcus G. Daniels <mgd@santafe.edu>
 
 	* interface.el (unwanted-create-method-p): Added BinomialDist.

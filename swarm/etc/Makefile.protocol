@@ -44,3 +44,5 @@ $(abs_top_builddir)/%.elc: $(top_srcdir)/%.el
 	$(elcrule)
 
 $(abs_top_builddir)/protocol.elc: $(abs_top_builddir)/common.elc
+
+GUIOPT = --eval '(setq *disable-gui* $(if $(GUIDIR),nil,t))'
