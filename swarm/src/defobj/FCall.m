@@ -390,6 +390,13 @@ PHASE(Using)
 
 - (void)performCall
 {
+  if (fargs->pendingGlobalRefFlag)
+    {
+#ifdef HAVE_JDK
+      (*jniEnv)->DeleteGlobalRef (jniEnv, (jobject) fargs->resultVal.object);
+      fargs->pendingGlobalRefFlag = NO;
+#endif
+    }
 #ifndef USE_AVCALL
   types_t ret;
 
@@ -475,19 +482,7 @@ PHASE(Using)
 #else
 #ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
-    {
-      java_call (fargs);
-
-      if (fargs->returnType == fcall_type_jobject
-	  || fargs->returnType == fcall_type_jstring)
-	{
-	  jobject lref = (jobject) fargs->resultVal.object;
-	  
-	  fargs->resultVal.object =
-	    (id) (*jniEnv)->NewGlobalRef (jniEnv, lref);
-	  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-	}
-    }
+    java_call (fargs);
   else
 #endif
     objc_call (fargs);
@@ -503,6 +498,7 @@ PHASE(Using)
 	  fargs->resultVal.object =
 	    (id) (*jniEnv)->NewGlobalRef (jniEnv, lref);
 	  (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+	  fargs->pendingGlobalRefFlag = YES;
 	}
     }
 #endif

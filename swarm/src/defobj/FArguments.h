@@ -41,6 +41,9 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
    unsigned hiddenArgumentCount;
    fcall_type_t returnType;
    types_t resultVal;
+#ifdef HAVE_JDK
+   BOOL pendingGlobalRefFlag;
+#endif
    fcall_type_t argTypes[MAX_TOTAL];
    void *argValues[MAX_TOTAL];
 #ifndef USE_AVCALL

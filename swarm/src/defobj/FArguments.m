@@ -141,6 +141,7 @@ PHASE(Creating)
   newArguments->returnType = 0;
   newArguments->result = NULL;
   newArguments->javaSignatureLength = 2; // "()"
+  newArguments->pendingGlobalRefFlag = NO;
   return newArguments;
 }
 
@@ -457,10 +458,12 @@ PHASE(Using)
 #ifdef HAVE_JDK  
   unsigned i;
 
-  if (returnType == fcall_type_jobject
-      || returnType == fcall_type_jstring)
-    (*jniEnv)->DeleteGlobalRef (jniEnv,
-				(jobject) ((types_t *) result)->object);
+  if (pendingGlobalRefFlag)
+    {
+      (*jniEnv)->DeleteGlobalRef (jniEnv,
+				  (jobject) ((types_t *) result)->object);
+      pendingGlobalRefFlag = NO;
+    }
   for (i = 0; i < assignedArgumentCount; i++)
     {
       unsigned offset = i + MAX_HIDDEN;

@@ -1,4 +1,4 @@
-#import <defobj/directory.h>
+]#import <defobj/directory.h>
 
 #import <defobj/DefObject.h>
 #import <defobj/defalloc.h>
@@ -485,8 +485,6 @@ objcFindJavaClassName (Class class)
     {
       unsigned index;
       id <Map> m;
-      
-      entry->javaObject = (*jniEnv)->NewGlobalRef (jniEnv, entry->javaObject);
 
       index = swarm_directory_java_hash_code (jniEnv, entry->javaObject);
       m = table[index];
