@@ -1,9 +1,9 @@
 1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.rules.in (JAVACOMPILE, all): Use PATHSEP for delimiter in
+	* Makefile.rules.in (JAVACOMPILE, all): Use @PATHSEP@ for delimiter in
 	classpath.  Quote classpath.
 
-	* Makefile.in (%.class): Likewise.
+	* Makefile.in (%.class): Likewise.  Use @PATHEXPR@ instead of $<.
 
 1999-04-25  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
