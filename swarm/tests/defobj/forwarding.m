@@ -184,7 +184,7 @@ strip_type_sig (const char *sig)
   {
     const char *sig = mframe_build_signature (stripped_type, NULL, NULL, NULL);
 
-    printf ("{%s} {%s}{%s}\n\n", stripped_type, type, sig);
+    printf ("{%s} {%s}{%s}\n", stripped_type, type, sig);
     sig = mframe_next_arg (sig, &info);
     mframe_get_arg (argFrame, &info, &val);
     [fa setObjCReturnType: *info.type];
