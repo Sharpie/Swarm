@@ -14,6 +14,9 @@ PUBLIC "-//SFI Hive//ENTITIES Probes//EN" @top_dossrcdir@/refbook/probes-app.sgm
 PUBLIC "-//SFI Hive//ENTITIES Conventions//EN" @top_dossrcdir@/refbook/conventions-app.sgml
 PUBLIC "-//SFI Hive//ENTITIES License//EN" @top_dossrcdir@/refbook/license-app.sgml
 
+PUBLIC "-//SFI Hive//ENTITIES Swarm Content//EN" @top_dossrcdir@/refbook/swarmcont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Swarm Generated Content//EN" refbook/swarmpages.sgml
+
 PUBLIC "-//SFI Hive//ENTITIES Activity Content//EN" @top_dossrcdir@/refbook/activity/activitycont.sgml
 PUBLIC "-//SFI Hive//ENTITIES Activity Introduction//EN" @top_dossrcdir@/refbook/activity/activity00.sgml
 PUBLIC "-//SFI Hive//ENTITIES Activity Metadata//EN" @top_dossrcdir@/refbook/activity/activitymeta.sgml
