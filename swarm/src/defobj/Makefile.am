@@ -13,7 +13,7 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc
 lib_LIBRARIES = libdefobj.a
 lib_LTLIBRARIES = libdefobj.la
 
-module_headers = classes.h types.h
+module_headers = classes.h types.h defobj.xm
 
 CLEANFILES += version.h
 
