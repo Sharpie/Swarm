@@ -1,9 +1,13 @@
 1998-09-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* internal.m (keep_on_screen):  Account for border width.
-	(tkobjc_pixmap_create_from_widget): Do keep_on_screen before
-	check_for_overlaps so that coordinate comparisons will be
-	what they ultimately must.
+	* internal.m (keep_inside_screen):  Account for border width in
+	X11 version.  Do a Tk event sync after move.
+	(tkobjc_pixmap_create_from_widget): In X11 version, do
+	keep_inside_screen before check_for_overlaps so that
+	coordinate comparisons will be what they ultimately must.
+	In Win32 version, call keep_inside_screen with topWindow.
+	Call keep_Use SetWindowPos to make topWindow topmost for snapshot.
+	Call GdiFlush before snapshot.
 
 1998-09-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
@@ -23,7 +27,6 @@
 	with child before accepting.
 	(check_for_overlaps): Rename unmappedWindows and unmappedCount to
 	overlapWindows, and overlapCount.
-	(get_top_level_window): New function.
 	(tkobjc_pixmap_create_from_widget): Use get_top_level_window, and
 	use it for all WM-related things.  Do keep_inside_screen,
 	Tk_RestackWindow within override_redirect.  Temporarily map

@@ -702,6 +702,7 @@ keep_inside_screen (Tk_Window tkwin, Window window)
   if (nx != x || ny != y)
     {
       Tk_MoveToplevelWindow (tkwin, nx + dx, ny + dy);
+      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
 
       return YES;
     }
@@ -741,26 +742,6 @@ overlap_p (Display *display, Window parent, Window child, int l, int r, int t, i
       return (bt <= bb && bl <= br);
     }
   return NO;
-}
-
-static Window
-get_top_level_window (Display *display, Window window)
-{
-  Window root, parent;
-  Window *children;
-  unsigned nchildren;
-
-  do
-    { 
-      if (!XQueryTree (display, window, &root, &parent, &children, &nchildren))
-        abort ();
-      XFree (children);
-      if (parent == root)
-        break;
-      else
-        window = parent;
-    } while (1);
-  return window;
 }
 
 static void
@@ -818,15 +799,13 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       id topLevel = [widget getTopLevel];
       const char *widgetName = [topLevel getWidgetName];
       Tk_Window tkwin = tkobjc_nameToWindow (widgetName);
-      Window window;
+      Window window, topWindow;
 
-      if (!decorationsFlag)
-        window = Tk_WindowId (tkwin);
-      else
-        {
-          [globalTkInterp eval: "wm frame %s", widgetName];
-          sscanf ([globalTkInterp result], "0x%x", &window);
-        }
+      [globalTkInterp eval: "wm frame %s", widgetName];
+      sscanf ([globalTkInterp result], "0x%x", &topWindow);
+
+      window = decorationsFlag ? topWindow : Tk_WindowId (tkwin);
+
       [globalTkInterp eval: "wm deiconify %s", widgetName];
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
 #ifndef _WIN32
@@ -835,7 +814,6 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         unsigned overlapCount, i;
         Window *overlapWindows;
         Display *display = pixmap->display;
-        Window topWindow = get_top_level_window (display, window);
         XSetWindowAttributes attr;
         XWindowAttributes top_attr;
         BOOL obscured = NO, configured = NO;
@@ -915,9 +893,11 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         [globalTkInterp eval: "bind %s <Expose> {}\n", widgetName];
       }
 #else
-      keep_inside_screen (tkwin, window);
-      Tk_RestackWindow (tkwin, Above, NULL);
-      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+      keep_inside_screen (tkwin, topWindow);
+      SetWindowPos ((HWND)topWindow,
+		    HWND_TOPMOST, 0, 0, 0, 0,
+		    SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+      GdiFlush ();
       win32_pixmap_create_from_window (pixmap, window, decorationsFlag);
 #endif
     }
