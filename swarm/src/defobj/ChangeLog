@@ -1,3 +1,20 @@
+1999-11-08    <mgd@VAIO>
+
+	* directory.m ([-objcRemove:]): Don't make a globalref
+	for dropping.
+
+	* FCall.m ([FCall_c -performCall]): If pendingGlobalRefFlag
+	is set, drop the return value.  Set pendingGlobalRefFlag
+	at the end if return type is jobject or jstring.
+
+	* FArguments.m ([FArguments_c +createBegin:]): Set
+	pendingGlobalRefFlag to NO.
+	([FArguments_c -drop]): Use pendingGlobalRefFlag instead
+	of type check to determine if whether or not to drop
+	globalref of return.
+	
+	* FArguments.h (FArguments_c): Add pendingGlobalRefFlag.
+
 1999-11-07    <mgd@VAIO>
 
 	* FArguments.m ([FArguments_c -drop]): Use globalrefs for 
