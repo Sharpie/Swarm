@@ -1,3 +1,7 @@
+1998-10-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* set.tex.in: Use top_dossrcdir instead of top_srcdir.
+
 1998-10-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* set.tex.in: Include tex/macros.tex.
