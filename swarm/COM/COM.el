@@ -15,6 +15,7 @@
       ("Class" . "nsCIDPtr") 
 
       ("SEL" . "swarmISelector")
+      ("COMmethod" . "COMmethod")
       
       ("void" . "void")
       ("const char \\*" . "string")
@@ -284,8 +285,9 @@
     (and (string= (protocol-name protocol) "Selector")
          (let ((signature (get-method-signature method)))
            (or
-            (string= signature "-COMinvoke:")
-            (string= signature "-JSinvoke:")))))
+            (string= signature "+createFromMethod:")
+            (string= signature "-COMinvoke::")
+            (string= signature "-JSinvoke::")))))
 
 (defun com-idl-print-method-declaration (protocol phase method)
   (let* ((arguments (method-arguments method))
@@ -371,6 +373,7 @@
     (insert "#include \"jsapi.h\"\n")
     (insert "%}\n")
     (insert "[ptr] native nsXPTCVariantPtr(nsXPTCVariant);\n")
+    (insert "[ptr] native COMmethod(const void);\n")
     (insert "[ptr] native jsvalPtr(jsval);\n")))
 
 (defun com-start-idl (protocol phase)
@@ -469,6 +472,11 @@
                   :arguments (list (list "create" "id" "obj")
                                    (list nil "const char *" "methodName"))
                   :return-type "id <Selector>")
+                 (make-method
+                  :phase :creating
+                  :factory-flag t
+                  :arguments (list (list "createFromMethod" "COMmethod" "method"))
+                  :return-type "id <Selector>")
 
                  (make-method
                   :phase :using
@@ -542,11 +550,13 @@
                   :return-type "fcall_type_t")
                  (make-method
                   :phase :using
-                  :arguments (list (list "COMinvoke" "nsXPTCVariantPtr" "params"))
+                  :arguments (list (list "COMinvoke" "id" "obj")
+                                   (list nil "nsXPTCVariantPtr" "params"))
                   :return-type "void")
                  (make-method
                   :phase :using
-                  :arguments (list (list "JSinvoke" "jsvalPtr" "params"))
+                  :arguments (list (list "JSinvoke" "id" "obj")
+                                   (list nil "jsvalPtr" "params"))
                   :return-type "void")
                  )))
                  
@@ -648,7 +658,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, getComponentName, copyComponentID, normalize, selectorQuery, selectorIsJavaScript, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, selectorCOMInvoke, selectorJSInvoke, COMcreateParams, COMsetArg, COMsetReturn, COMfreeParams, JScreateParams, JSsetArg, JSsetReturn, JSfreeParams, COMcollect, COMmethodName, COMmethodArgCount, COMmethodParamFcallType, COMmethodSetReturn, COMmethodInvoke };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, getComponentName, copyComponentID, normalize, selectorCreate, selectorQuery, selectorIsJavaScript, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, selectorCOMInvoke, selectorJSInvoke, COMcreateParams, COMsetArg, COMsetReturn, COMfreeParams, JScreateParams, JSsetArg, JSsetReturn, JSfreeParams, COMcollect, COMmethodName, COMmethodArgCount, COMmethodParamFcallType, COMmethodSetReturn, COMmethodInvoke };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
