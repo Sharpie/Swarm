@@ -94,9 +94,11 @@ PHASE(Creating)
   return self;
 }
 
-- (void)initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
++ initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
 {
-  [self _init_: appName version: version bugAddress: bugAddress args: args];
+  id obj = [SwarmEnvironment createBegin];
+  [obj _init_: appName version: version bugAddress: bugAddress args: args];
+  return [obj createEnd];
 }
 
 PHASE(Setting)

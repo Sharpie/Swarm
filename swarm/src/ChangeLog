@@ -1,3 +1,9 @@
+2000-07-27  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* swarm.h, SwarmEnvironment.[hm] ([SwarmEnvironment
+	+initSwarm:version:bugAddress:args:]): Make create-time init
+	method a factory method, so that stubbing can handle constructor.
+
 2000-07-25  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* swarm.h, SwarmEnvironment.[hm] (SwarmEnvironment) Add
