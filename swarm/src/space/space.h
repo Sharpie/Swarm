@@ -268,6 +268,9 @@ CREATING
 //M: Set diffusion constant and evaporation rate to 1.0, numStates to 0x7fff.
 + createBegin: aZone;
 
+//M: Initialize world to 0.
+- initializeLattice;
+
 SETTING
 
 //M: Set the diffusion constant. Values over 1.0 might not be valid.
@@ -275,9 +278,6 @@ SETTING
 
 //M: Set the evaporation rate. Values over 1.0 don't make much sense
 - setEvaporationRate: (double)e;
-
-//M: Initialize world to 0.
-- initializeLattice;
 
 USING
 //M: Run discrete approximation to diffusion. Roughly, it's 

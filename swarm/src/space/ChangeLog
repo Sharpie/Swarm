@@ -1,3 +1,8 @@
+1999-08-03  Alex Lancaster  <alex@santafe.edu>
+
+	* space.h (Diffuse2d): Make initializeLattice a CREATING method to
+	match implementation.
+	
 1999-08-02  Alex Lancaster  <alex@santafe.edu>
 
 	* Diffuse2d.m ([Diffuse2d
