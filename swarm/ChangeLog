@@ -1,5 +1,10 @@
 1998-06-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* configure.in: Add AM_PROG_LIBTOOL.  Remove AC_PROG_RANLIB.
+	Substitute RPATH.
+
+	* Makefile.appl.in (LINK): Use libtool for linking.
+
 	* configure.in: Unconditionally run
 	md_FIND_{TCL,TK}_{HEADERS,LIBRARIES}.
 

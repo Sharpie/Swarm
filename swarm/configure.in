@@ -6,7 +6,7 @@ AM_INIT_AUTOMAKE(Swarm, $VERSION)
 AM_CONFIG_HEADER(config.h)
 
 AC_PROG_CC
-AC_PROG_RANLIB
+AM_PROG_LIBTOOL
 
 AC_PATH_XTRA
 if test "$ac_R_space" = yes ; then
@@ -18,6 +18,7 @@ else
     RPATH='-Wl,-rpath '
   fi
 fi
+AC_SUBST(RPATH)
 
 AC_ARG_WITH(defaultdir,
 [  --with-defaultdir=DIR            Use DIR instead of prefix as default path],
