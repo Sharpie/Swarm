@@ -831,7 +831,7 @@ initDescribeStream (void)
   [(id) self describeForEach: describeStream];
 }
 
-static const char *
+static void
 lisp_output_type (const char *type,
                   const void *ptr,
                   unsigned offset,
@@ -847,15 +847,12 @@ lisp_process_array (const char *type,
 {
   const char *space;
   
-  void lisp_start_array (unsigned rank, unsigned *dims)
+  void lisp_setup_array (unsigned rank, unsigned *dims, const char *baseType)
     {
       char buf[1 + rank + 1]; // always big enough
       
       sprintf (buf, "#%u", rank);
       [stream catC: buf];
-    }
-  void lisp_end_array (void)
-    {
     }
   void lisp_start_dim (unsigned dim)
     {
@@ -874,16 +871,15 @@ lisp_process_array (const char *type,
     {
       space = " ";
     }
-  const char *lisp_array_output_type (const char *type,
-                                      unsigned offset,
-                                      void *data)
+  void lisp_array_output_type (const char *type,
+                               unsigned offset,
+                               void *data)
     {
-      return lisp_output_type (type, ptr, offset, data, stream, deepFlag);
+      lisp_output_type (type, ptr, offset, data, stream, deepFlag);
     }
     
   process_array (type,
-                 lisp_start_array,
-                 lisp_end_array,
+                 lisp_setup_array,
                  lisp_start_dim,
                  lisp_end_dim,
                  lisp_start_element,
@@ -893,7 +889,7 @@ lisp_process_array (const char *type,
                  data);
 }
 
-static const char *
+static void
 lisp_output_type (const char *type,
                   const void *ptr,
                   unsigned offset,
@@ -1013,9 +1009,7 @@ lisp_output_type (const char *type,
       abort ();
       break;
     }
-  return type + 1;
 }
-
 
 static void
 map_ivars (struct objc_ivar_list *ivars,

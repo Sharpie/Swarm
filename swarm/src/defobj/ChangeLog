@@ -1,5 +1,18 @@
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* internal.m (process_array): Add baseType argument to setup_array.
+	Don't permute over array if no output_type.  Don't call any
+	NULL function argument.  Remove end_array argument.
+
+	* DefObject.m (lisp_output_type): Return nothing.
+	(lisp_end_array): Removed.
+	(lisp_array_output_type): Remove end_array argument.
+	(lisp_setup_array): Add third argument for base type.
+
+	* Archiver.m: Include internal.h.
+	(hdf5_tid_for_objc_type): New function.
+	([HDF -store:type:ptr:]): Add support for strings and arrays.
+
 	* Makefile.am (SRC): Add internal.m.
 	(EXTRA_DIST): Add internal.h.
 

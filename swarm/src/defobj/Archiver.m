@@ -8,6 +8,7 @@
 #import <collections.h>
 #import <collections/predicates.h> // list_literal_p, listp, pairp, stringp
 #import <defobj.h> // arguments
+#import <defobj/internal.h> // process_array
 
 #include <misc.h> // access, getenv, xmalloc, stpcpy, strdup
 
@@ -135,77 +136,121 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- store: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
+static hid_t
+hdf5_tid_for_objc_type (const char *type)
 {
-  void store (hid_t type)
-    {
-      hid_t did;
-      hid_t space;
-      hsize_t dims[1];
-
-      if ((space = H5Screate_simple (1, dims, NULL)) == -1)
-        raiseEvent (SaveError, "unable to create dataspace");
-      if ((did = H5Dcreate (loc_id, datasetName,
-                            type, space, H5P_DEFAULT)) < 0)
-        raiseEvent (SaveError, "unable to store %s as char", datasetName);
-      
-      if (H5Dwrite (did, type, space, space, H5P_DEFAULT, ptr) < 0)
-        raiseEvent (SaveError, "unable to write %s as char", datasetName);
-      if (H5Dclose (did) < 0)
-        raiseEvent (SaveError, "unable to close dataset %s", datasetName);
-      if (H5Sclose (space) < 0)
-        raiseEvent (SaveError, "unable to close dataspace");
-    }
+  hid_t tid;
 
   switch (*type)
     {
     case _C_CHR:
-      store (H5T_NATIVE_CHAR);
+      tid = H5T_NATIVE_CHAR;
       break;
     case _C_UCHR:
-      store (H5T_NATIVE_UCHAR);
+      tid = H5T_NATIVE_UCHAR;
       break;
     case _C_SHT:
-      store (H5T_NATIVE_SHORT);
+      tid = H5T_NATIVE_SHORT;
       break;
     case _C_USHT:
-      store (H5T_NATIVE_USHORT);
+      tid = H5T_NATIVE_USHORT;
       break;
     case _C_INT:
-      store (H5T_NATIVE_INT);
+      tid = H5T_NATIVE_INT;
       break;
     case _C_UINT:
-      store (H5T_NATIVE_UINT);
+      tid = H5T_NATIVE_UINT;
       break;
     case _C_LNG:
-      store (H5T_NATIVE_LONG);
+      tid = H5T_NATIVE_LONG;
       break;
     case _C_ULNG:
-      store (H5T_NATIVE_ULONG);
+      tid = H5T_NATIVE_ULONG;
       break;
     case _C_FLT:
-      store (H5T_NATIVE_FLOAT);
+      tid = H5T_NATIVE_FLOAT;
       break;
     case _C_DBL:
-      store (H5T_NATIVE_DOUBLE);
-      break;
-    case _C_CHARPTR:
-      {
-        const char *str = *(const char **)ptr;
-        hid_t stringtype = H5Tcopy (H5T_C_S1);
-        H5Tset_size (stringtype, strlen (str) + 1);
-
-        store (stringtype);
-        if (H5Tclose (stringtype) < 0)
-          raiseEvent (SaveError, "cannot close stringtype");
-      }
-      break;
-    case _C_ARY_B:
-      printf ("ignoring array [%s]", name);
+      tid = H5T_NATIVE_DOUBLE;
       break;
     default:
       abort ();
     }
+  return tid;
+}
+
+- store: (const char *)datasetName type: (const char *)type ptr: (void *)ptr
+{
+  hid_t scalar_space (void)
+    {
+      hid_t space;
+      hsize_t dims[1];
+      
+      dims[0] = 1;
+      if ((space = H5Screate_simple (1, dims, NULL)) == -1)
+        raiseEvent (SaveError, "unable to create dataspace");
+      return space;
+    }
+
+  void store (hid_t sid, hid_t tid)
+    {
+      hid_t did;
+      
+      if ((did = H5Dcreate (loc_id, datasetName,
+                            tid, sid, H5P_DEFAULT)) < 0)
+        raiseEvent (SaveError, "unable to store %s as char", datasetName);
+      
+      if (H5Dwrite (did, tid, sid, sid, H5P_DEFAULT, ptr) < 0)
+        raiseEvent (SaveError, "unable to write %s as char", datasetName);
+      if (H5Dclose (did) < 0)
+        raiseEvent (SaveError, "unable to close dataset %s", datasetName);
+      if (H5Sclose (sid) < 0)
+        raiseEvent (SaveError, "unable to close dataspace");
+    }
+  void store_string (hid_t sid)
+    {
+      const char *str = *(const char **)ptr;
+      hid_t tid = H5Tcopy (H5T_C_S1);
+      H5Tset_size (tid, strlen (str) + 1);
+      
+      store (sid, tid);
+      if (H5Tclose (tid) < 0)
+        raiseEvent (SaveError, "unable to close string type");
+    }
+
+  if (*type == _C_ARY_B)
+    {
+      void hdf5_setup_array (unsigned rank, unsigned *dims, 
+                             const char *baseType)
+        {
+          hssize_t hdf5dims[rank];
+          unsigned i;
+          hid_t sid;
+          
+          for (i = 0; i < rank; i++)
+            hdf5dims[i] = dims[i];
+          
+          if ((sid = H5Screate_simple (rank, hdf5dims, NULL)) < 0)
+            raiseEvent (SaveError, "unable to create array dataspace");
+          
+          if (*baseType == _C_CHARPTR)
+            store_string (sid);
+          else
+            store (sid, hdf5_tid_for_objc_type (baseType));
+        }
+      
+      process_array (type,
+                     hdf5_setup_array,
+                     NULL, NULL,
+                     NULL, NULL, 
+                     NULL,
+                     ptr,
+                     NULL);
+    }
+  else if (*type == _C_CHARPTR)
+    store_string (scalar_space ());
+  else
+    store (scalar_space (), hdf5_tid_for_objc_type (type));
   return self;
 }
 
