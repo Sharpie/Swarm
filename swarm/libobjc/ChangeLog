@@ -1,5 +1,7 @@
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* mframe.m: Declare alloca.
+
 	* Object.m: Include string.h.
 
 	* config/unknown/mframe-generic.h (MFRAME_ARG_ENCODING): Cast

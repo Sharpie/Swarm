@@ -54,6 +54,8 @@ BOOL sel_types_match (const char* t1, const char* t2);
 /* memory.h and strings.h conflict on some systems.  */
 #endif /* not STDC_HEADERS and not HAVE_STRING_H */
 
+void *alloca (size_t);
+
 
 /* For encoding and decoding the method arguments, we have to know where
    to find things in the "argframe" as returned by __builtin_apply_args.
