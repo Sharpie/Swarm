@@ -6,7 +6,9 @@ swarm_srcdir = @swarm_srcdir@
 gridturtle_srcdir = @gridturtle_srcdir@
 
 include $(top_srcdir)/Makefile.rules
-include $(top_srcdir)/refbook/Makefile.rules
+include $(top_srcdir)/Makefile.common
+
+EXTRA_DIST = Makefile.rules refbook.ent sgml.el graph.el $(XML)
 
 PAGES = activity/activitypages.xml \
 	analysis/analysispages.xml \
@@ -21,13 +23,12 @@ PAGES = activity/activitypages.xml \
 	swarmpages.xml
 
 GENERATED_XML = $(PAGES) refindex.xml refbookrevhistory.xml
-nodist_noinst_DATA += $(GENERATED_XML)
+nodist_noinst_DATA = $(GENERATED_XML)
 
 ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 
 XML = conventions-app.xml license-app.xml probes-app.xml ref00.xml ref00a.xml refbook.xml refcont.xml swarmcont.xml refmeta.xml grid-app.xml
 
-EXTRA_DIST += Makefile.rules refbook.ent sgml.el graph.el $(XML)
 
 XML_FILES = $(XML) $(ENT) $(GENERATED_XML)
 

@@ -1,8 +1,8 @@
-2001-11-26  Alex Lancaster  <alexl@users.sourceforge.net>
+2001-11-26  Alex Lancaster  <alex@swarm.org>
 
-	* Makefile.am (nodist_noinst_DATA): Use "+=" syntax to piggy-back
-	onto to of same target defined in Makefile.rules.
-	(EXTRA_DIST): Likewise.
+	* Makefile.am: include Makefile.common, not
+	refbook/Makefile.rules, the EXTRA_DIST and noinst_nodist_DATA
+	macros were conflicting, automake 1.5 flags this as an error
 	(SUBDIRS): Remove 'tech' subdirectory.  Moved to User Guide.
 	(swarm_ChangeLog): Remove, automake now smart enough to get this
 	target from included Makefile.
