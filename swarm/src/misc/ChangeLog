@@ -1,3 +1,10 @@
+1998-03-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* find_executable.c (maybe_executable): Add fd argument
+	for executable read from /proc/PID/exe.  Check it against
+	the path's inode.
+	(find_executable): Don't return the /proc path after open.
+
 1998-03-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* realpath.c (MAXSYMLINKS): Define it as 10 if it isn't defined.

@@ -13,12 +13,27 @@
 #define TRUE 1
 
 static int
-maybe_executable (const char *filename)
+maybe_executable (const char *filename, int fd)
 { 
+  struct stat statexe;
+  struct stat statfile;
+
   if (access (filename, R_OK|X_OK) < 0)
     return FALSE;
   /* Should check that inodes match up, but only know how 
      do that on Linux. */
+  if (fd != -1)
+    {
+      if (fstat (fd, &statexe) == -1)
+        return TRUE;
+      if (stat (filename, &statfile) == -1)
+        return FALSE;
+      if (statfile.st_dev
+          && statfile.st_dev == statexe.st_dev
+          && statfile.st_ino == statexe.st_ino)
+        return TRUE; 
+      return FALSE;
+    }
   return TRUE;
 }
 
@@ -26,6 +41,7 @@ const char *
 find_executable (const char *program_name)
 { 
   char *executable_name;
+  int executable_fd = -1;
 
 #ifdef __linux__
   /* The executable is accessible as /proc/<pid>/exe. We try this
@@ -34,12 +50,9 @@ find_executable (const char *program_name)
      support into his kernel. */
   {
     char buf[6+10+5];
-    int fd;
 
     sprintf (buf, "/proc/%d/exe", getpid ());
-    fd = open (buf, O_RDONLY, 0644);
-    if (fd != -1)
-      return strdup (buf);
+    executable_fd = open (buf, O_RDONLY, 0644);
   }
 #endif
   /* Now we guess the executable's full path. We assume the executable
@@ -101,7 +114,7 @@ find_executable (const char *program_name)
                       memcpy (concat_name, p, p_len);
                       sprintf (concat_name + p_len, "/%s", program_name);
                     }
-                  if (maybe_executable (concat_name))
+                  if (maybe_executable (concat_name, executable_fd))
                     /* Assume we have found the executable */
                     {
                       program_name = concat_name;
@@ -116,7 +129,7 @@ find_executable (const char *program_name)
 
     /* exec treats paths containing slashes as relative to the current
        directory. */
-    if (maybe_executable (program_name))
+    if (maybe_executable (program_name, executable_fd))
       resolve:
     /* resolve program_name */
     {
