@@ -423,6 +423,8 @@
                       (insert " ")
                       (insert (java-interface-name obj phase))
                       (insert ".class")
+                      unless (eq phase :setting)
+                      do
                       (insert " ")
                       (insert (java-class-name obj phase))
                       (insert ".class")))
