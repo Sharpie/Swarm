@@ -360,7 +360,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
   if (!sel)
     {
       jsize ti;
-      char signatureBuf[argCount * 6], *p = signatureBuf;
+      char signatureBuf[(argCount + 2) * 6], *p = signatureBuf;
       size_t pos = 0;
 
       size_t alignto (size_t pos, size_t alignment)
@@ -372,67 +372,9 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
           else
             return (pos + alignment) & ~mask;
         }
-      void add (jobject class, BOOL regFlag)
-        {
-          char type;
 
-          jboolean classp (jclass matchClass)
-            {
-              return (*env)->IsSameObject (env, class, matchClass);
-            }
-          
-          if (classp (c_object))
-            {
-              type = _C_ID;
-              pos = alignto (pos, __alignof__ (id));
-            }
-          else if (classp (c_string))
-            {
-              type = _C_CHARPTR;
-              pos = alignto (pos, __alignof__ (const char *));
-            }
-          else if (classp (c_int))
-            {
-              type = _C_INT;
-              pos = alignto (pos, __alignof__ (int));
-            }
-          else if (classp (c_short))
-            {
-              type = _C_SHT;
-              pos = alignto (pos, __alignof__ (short));
-            }
-          else if (classp (c_long))
-            {
-              type = _C_LNG;
-              pos = alignto (pos, __alignof__ (long));
-            }
-          else if (classp (c_boolean))
-            {
-              type = _C_UCHR;
-              pos = alignto (pos, __alignof__ (BOOL));
-            }
-          else if (classp (c_byte))
-            {
-              type = _C_UCHR;
-              pos = alignto (pos, __alignof__ (unsigned char));
-            }
-          else if (classp (c_char))
-            {
-              type = _C_CHR;
-              pos = alignto (pos, __alignof__ (char));
-            }
-          else if (classp (c_float))
-            {
-              type = _C_FLT;
-              pos = alignto (pos, __alignof__ (float));
-            }
-          else if (classp (c_double))
-            {
-              type = _C_DBL;
-              pos = alignto (pos, __alignof__ (double));
-            }
-          else
-            abort ();
+      void addstr (char type, BOOL regFlag, size_t pos)
+        {
           *p++ = type;
           if (regFlag)
             *p++ = '+';
@@ -443,8 +385,94 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
             p = stpcpy (p, posbuf);
           }
         }
+      void add (jobject class, BOOL regFlag)
+        {
+          char type;
+          size_t size;
+
+          jboolean classp (jclass matchClass)
+            {
+              return (*env)->IsSameObject (env, class, matchClass);
+            }
+          
+          if (classp (c_object))
+            {
+              type = _C_ID;
+              pos = alignto (pos, __alignof__ (id));
+              size = sizeof (id);
+            }
+          else if (classp (c_string))
+            {
+              type = _C_CHARPTR;
+              pos = alignto (pos, __alignof__ (const char *));
+              size = sizeof (const char *);
+            }
+          else if (classp (c_int))
+            {
+              type = _C_INT;
+              pos = alignto (pos, __alignof__ (int));
+              size = sizeof (int);
+            }
+          else if (classp (c_short))
+            {
+              type = _C_SHT;
+              pos = alignto (pos, __alignof__ (short));
+              size = sizeof (short);
+            }
+          else if (classp (c_long))
+            {
+              type = _C_LNG;
+              pos = alignto (pos, __alignof__ (long));
+              size = sizeof (long);
+            }
+          else if (classp (c_boolean))
+            {
+              type = _C_UCHR;
+              pos = alignto (pos, __alignof__ (BOOL));
+              size = sizeof (BOOL);
+            }
+          else if (classp (c_byte))
+            {
+              type = _C_UCHR;
+              pos = alignto (pos, __alignof__ (unsigned char));
+              size = sizeof (unsigned char);
+            }
+          else if (classp (c_char))
+            {
+              type = _C_CHR;
+              pos = alignto (pos, __alignof__ (char));
+              size = sizeof (char);
+            }
+          else if (classp (c_float))
+            {
+              type = _C_FLT;
+              pos = alignto (pos, __alignof__ (float));
+              size = sizeof (float);
+            }
+          else if (classp (c_double))
+            {
+              type = _C_DBL;
+              pos = alignto (pos, __alignof__ (double));
+              size = sizeof (double);
+            }
+          else
+            abort ();
+          addstr (type, regFlag, pos);
+          pos += size;
+        }
       
       add (retType, NO);
+#if 0
+      pos = alignto (pos, __alignof__ (id));
+#else
+      pos = 8;
+#endif
+      addstr (_C_ID, YES, pos);
+      pos += sizeof (id);
+      pos = alignto (pos, __alignof__ (SEL));
+      addstr (_C_SEL, YES, pos);
+      pos += sizeof (SEL);
+
       for (ti = 0; ti < argCount; ti++)
         add ((*env)->GetObjectArrayElement (env, argTypes, ti), YES);
 

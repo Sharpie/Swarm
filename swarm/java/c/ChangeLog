@@ -1,5 +1,8 @@
 1999-03-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (java_ensure_selector): Force starting argument
+	position to 8.  Add object and selector.
+
 	* JavaProxy.m ([JavaProxy -forward::]): Skip object and selector;
 	they are provided in FCall setMethod:inObject.
 
