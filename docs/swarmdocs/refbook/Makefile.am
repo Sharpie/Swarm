@@ -20,7 +20,7 @@ PAGES = activity/activitypages.sgml \
 	simtoolsgui/simtoolsguipages.sgml \
 	space/spacepages.sgml
 
-GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml refbookrevhistory.sgml
+GENERATED_SGML = $(PAGES) refindex.sgml refbookrevhistory.sgml
 nodist_noinst_DATA = $(GENERATED_SGML)
 
 ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
@@ -36,9 +36,6 @@ EXAMPLES = GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
         grid2.m grid2b.m grid3.m grid3b.m grid4.m  grid4b.m grid5.m \
         grid6.m grid7.m grid8.m grid9.m mousetraps.m mousetraps2.m \
         strtest.m 
-
-gridexamples.sgml: $(addprefix $(gridturtle_srcdir)/,$(EXAMPLES))
-	- (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.GRID.SGML.EXAMPLE.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $(gridturtle_srcdir)/$$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) > $@
 
 sgml.elc: $(abs_top_builddir)/common.elc $(abs_top_builddir)/protocol.elc
 
