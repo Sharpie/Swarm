@@ -24,5 +24,5 @@
 - (double)getTotal;
 - (double)getMax;
 - (double)getMin;
-- (int)getCount;
+- (unsigned)getCount;
 @end

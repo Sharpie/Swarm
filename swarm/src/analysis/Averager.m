@@ -90,7 +90,7 @@ PHASE(Using)
   return min;
 }
 
-- (int)getCount 
+- (unsigned)getCount 
 {
   return count;
 }
