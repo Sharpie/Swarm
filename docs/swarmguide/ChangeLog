@@ -1,3 +1,9 @@
+1999-10-20  Alex Lancaster  <alex@santafe.edu>
+
+	* common.dsl (artheader citetitle): Make stylesheet Do The Right
+	Thing with journal article names, that is no-italics in quotes,
+	whilst journal titles remain in italicized.
+
 1999-10-07  Alex Lancaster  <alex@ip89.santafe.edu>
 
 	* configure.in (COLLATEINDEX): If docbookstyle_srcdir set, check

@@ -35,6 +35,16 @@
 (element varname ($italic-mono-seq$))
 (element application ($bold-sanserif-seq$))
 
+(element (artheader citetitle)
+  (let ((work (attribute-string (normalize "pubwork"))))
+    (cond 
+     ((equal? work (normalize "article"))
+      (make sequence
+        (literal (gentext-start-quote))
+        (process-children)
+        (literal (gentext-end-quote))))
+     (else ($italic-seq$)))))
+
 </style-specification-body>
 </style-specification>
 </style-sheet>
