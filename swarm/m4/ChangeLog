@@ -1,3 +1,8 @@
+1999-02-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* actcltk.m4 (md_FIND_TCLTK_SCRIPTS, md_FIND_TCL_SCRIPTS,
+	md_FIND_TK_SCRIPTS): New macros.
+
 1999-01-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acfind.m4 (_libdir): Handle --without-* case; skip the search.

@@ -252,6 +252,30 @@ AC_SUBST(TKLIB)
 AC_SUBST(tklibdir)
 ])
 
+AC_DEFUN(md_FIND_TCLTK_SCRIPTS,
+[_configfile="$$1libdir/$1Config.sh"
+if test -z "$$1scriptdir" ; then
+  _version=`sed -n "s/^translit($1,a-z,A-Z)_VERSION='\(.*\)'/\1/p" $_configfile 2>/dev/null`
+  _prefix=`sed -n "s/^translit($1,a-z,A-Z)_PREFIX='\(.*\)'/\1/p" $_configfile 2>/dev/null`
+  $1scriptdir=$_prefix/lib/$1$_version
+fi
+])
+
+AC_DEFUN(md_FIND_TCL_SCRIPTS,
+md_FIND_TCLTK_SCRIPTS(tcl)
+[if test ! -r $tclscriptdir/init.tcl ; then
+  AC_MSG_ERROR(Please use --with-tclscriptdir to specify location of init.tcl)
+fi
+])
+
+AC_DEFUN(md_FIND_TK_SCRIPTS,
+md_FIND_TCLTK_SCRIPTS(tk)
+[if test ! -r $tkscriptdir/tk.tcl ; then
+  AC_MSG_ERROR(Please use --with-tkscriptdir to specify location of tk.tcl)
+fi
+])
+
+
 AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
 found=no
