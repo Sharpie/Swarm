@@ -1,3 +1,12 @@
+1999-06-15  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (SUBDIRS): Substitute with @TOPSUBDIRS@
+
+	* configure.in: Add `--with-javadoc' configure-time flag and
+	search logic for Javadoc.  Substitute new variables JAVADOC and
+	TOPSUBDIRS (to specify to whether javadoc SUBDIR is `made').
+	(AC_OUTPUT):  Output javadoc/Makefile.
+
 1999-04-27  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Bump stylesheets version supported to 1.40.

@@ -34,6 +34,31 @@ changequote([,])dnl
   gridturtle_srcdir=$withval,dnl
   gridturtle_srcdir=$swarm_srcdir/../gridturtle)
 
+AC_ARG_WITH(javadoc,dnl
+changequote(<,>)dnl
+  --with-javadoc=DIR      Enable generation of Java documentation using JDK installed in DIR,dnl
+changequote([,])dnl
+  javadoc=$withval)
+AC_MSG_CHECKING(do we build Java documentation?)
+
+test -z "$javadoc" && javadoc=no
+if test $javadoc = no; then
+  AC_MSG_RESULT(no)
+  JAVADOC=
+  TOPSUBDIRS="figs refbook installbook overbook set m4 tex"
+else
+  AC_MSG_RESULT(yes)
+  AC_PATH_PROG(JAVADOC, javadoc, missing, $javadoc/bin)
+  if test $JAVADOC != missing; then
+    AC_MSG_RESULT(yes)
+    TOPSUBDIRS="figs refbook installbook overbook set m4 tex javadoc"
+  else
+    AC_MSG_ERROR([Please specify a correct location for the JDK])
+  fi
+fi
+AC_SUBST(JAVADOC)
+AC_SUBST(TOPSUBDIRS)
+
 AM_CONFIG_HEADER(config.h)
 
 AC_SUBST(swarm_srcdir)
@@ -50,6 +75,7 @@ AC_SUBST(swarm_dossrcdir)
 AC_SUBST(docbookdtd_srcdir)
 AC_SUBST(docbookstyle_srcdir)
 AC_SUBST(gridturtle_srcdir)
+
 
 AC_PATH_PROG(EMACS, emacs, missing)
 AC_PATH_PROG(JADE, jade, missing)
@@ -79,7 +105,7 @@ done
 AC_SUBST(SGML_CATALOG_FILES)
 md_PROG_GS
 
-AC_OUTPUT([catalog Makefile figs/Makefile refbook/Makefile installbook/Makefile overbook/Makefile set/Makefile refbook/activity/Makefile refbook/analysis/Makefile refbook/collections/Makefile refbook/defobj/Makefile refbook/gui/Makefile refbook/objectbase/Makefile refbook/random/Makefile refbook/random/extra/Makefile refbook/simtools/Makefile refbook/simtoolsgui/Makefile refbook/space/Makefile refbook/tech/Makefile m4/Makefile tex/Makefile refbook/refbook.tex overbook/overbook.tex installbook/installbook.tex set/set.tex])
+AC_OUTPUT([catalog Makefile figs/Makefile refbook/Makefile installbook/Makefile overbook/Makefile set/Makefile refbook/activity/Makefile refbook/analysis/Makefile refbook/collections/Makefile refbook/defobj/Makefile refbook/gui/Makefile refbook/objectbase/Makefile refbook/random/Makefile refbook/random/extra/Makefile refbook/simtools/Makefile refbook/simtoolsgui/Makefile refbook/space/Makefile refbook/tech/Makefile javadoc/Makefile m4/Makefile tex/Makefile refbook/refbook.tex overbook/overbook.tex installbook/installbook.tex set/set.tex])
 
 
 
