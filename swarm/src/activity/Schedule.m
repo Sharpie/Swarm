@@ -113,6 +113,9 @@ PHASE(Setting)
   return self;
 }
 
+#define MIXIN_SET
+#include "CompoundAction.m"
+
 PHASE(Using)
 
 //
@@ -894,7 +897,7 @@ PHASE(Creating)
   obj->keepEmptyFlag = NO;
   return obj;
 }
-
+PHASE(Setting)
 PHASE(Using)
 //
 // addLast: --
@@ -953,7 +956,7 @@ PHASE(Using)
 //
 @implementation ActivationOrder_c
 PHASE(Creating)
-
+PHASE(Setting)
 PHASE(Using)
 //
 // addLast: --

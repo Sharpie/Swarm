@@ -33,6 +33,11 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
+
+#define MIXIN_SET
+#include "CompoundAction.m"
+
 PHASE(Using)
 
 //
@@ -315,6 +320,7 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
 PHASE(Using)
 
 //

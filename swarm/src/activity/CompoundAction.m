@@ -9,7 +9,7 @@ Description:  a collection of actions to be performed in a defined order
 Library:      activity
 */
 
-#if !defined(MIXIN_CREATE) && !defined(MIXIN_C) && !defined(MIXIN_INDEX)
+#if !defined(MIXIN_CREATE) && !defined(MIXIN_SET) && !defined(MIXIN_C) && !defined(MIXIN_INDEX)
 //
 // this section compiled when not included for mixin inheritance
 //
@@ -51,6 +51,9 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 {
   setBit (bits, BitAutoDrop, autoDrop);
 }
+
+#elif defined(MIXIN_SET)
+#undef MIXIN_SET
 
 - (void)setDefaultOrder: aSymbol
 {

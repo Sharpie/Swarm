@@ -95,6 +95,7 @@ Library:      activity
 //D: internal to the processing machinery.
 
 CREATING
+SETTING
 - (void)setDefaultOrder: aSymbol;
 USING
 - getDefaultOrder;

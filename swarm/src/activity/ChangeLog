@@ -1,7 +1,16 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* CompoundAction.m: Move setDefaultOrder: to MIXIN_SET inclusion.
+
+	* ActionGroup.m (ActionGroup): Add setting phase tag w/ mixin.
+	(ConcurrentGroup_c): Add setting phase tag.
+
+	* Schedule.m (Schedule_c): Add setting mixin.
+	(ConcurrentSchedule_c, ActivationOrder_c): Add setting phase tag.
+
 	* activity.h: Add ActionTo,
 	ActionCall, and ActionForEach protocol-conforming return types.
+	(DefaultOrder): Move setDefaultOrder: to setting phase.
 
 	* XActivity.h (Activity_c): Add registeredOwnerActivity.
 
