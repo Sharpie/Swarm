@@ -635,17 +635,21 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
   // pixmaps by hand, but without doing so, somehow the black
   // gets lost. -mgd)
   dib_t *raster_dib = private->pm;
-  unsigned palette_size = pixmap->palette_size;
-  png_colorp palette = pixmap->palette;
-  unsigned long map[palette_size];
-  int i;
-  
-  for (i = 0; i < palette_size; i++)
-    map[i] = palette[i].red
-      | (palette[i].green << 8)
-      | (palette[i].blue << 16);
-  
-  dib_augmentPalette (raster_dib, pixmap, palette_size, map);
+
+  if (dib_paletteIndexForObject (raster_dib, pixmap) == -1)
+    {
+      unsigned palette_size = pixmap->palette_size;
+      png_colorp palette = pixmap->palette;
+      unsigned long map[palette_size];
+      int i;
+      
+      for (i = 0; i < palette_size; i++)
+        map[i] = palette[i].red
+          | (palette[i].green << 8)
+          | (palette[i].blue << 16);
+      
+      dib_augmentPalette (raster_dib, pixmap, palette_size, map);
+    }
 #endif
 }
 

@@ -10,6 +10,9 @@
 @interface Pixmap: CreateDrop <_Pixmap, Drawer>
 {
   id <Raster> raster;
+  const char *filename;
+  id <Widget> widget;
+
   @public
 #ifndef _WIN32
   Display *display;
@@ -25,11 +28,15 @@
   unsigned width, height;
 }
 
-+ create: aZone file: (const char *)pathname;
-+ create: aZone widget: widget;
++ createBegin: aZone;
+- setFile: (const char *)filename;
+- setWidget: (id <Widget>)widget;
+- createEnd;
+
+- setRaster: raster;
+
 - (unsigned)getWidth;
 - (unsigned)getHeight;
-- setRaster: raster;
 - drawX: (int)x Y: (int)y;
 - save: (const char *)filename;
 @end

@@ -42,16 +42,7 @@ compareRGB (id aobj, id bobj)
 
 PHASE(Creating)
 
-+ create: aZone widget: widget
-{
-  Pixmap *obj = [self createBegin: aZone];
-
-  tkobjc_pixmap_create_from_widget (obj, widget);
-
-  return obj;
-}
-
-- _loadPNG_: (const char *)filename
+- _loadPNG_
 {
   FILE *fp;
   char header[8];
@@ -213,14 +204,39 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone file: (const char *)filename
+- setFile: (const char *)theFilename
 {
-  Pixmap *obj = [self createBegin: aZone];
+  filename = theFilename;
   
-  [obj _loadPNG_: filename];
+  return self;
+}
+
+- setWidget: (id <Widget>)theWidget
+{
+  widget = theWidget;
+  
+  return self;
+}
+
++ createBegin: aZone
+{
+  Pixmap *obj = [super createBegin: aZone];
+
+  obj->widget = nil;
+  obj->filename = NULL;
 
   return obj;
-}             
+}
+  
+- createEnd
+{
+  if (filename)
+    [self _loadPNG_];
+  else
+    tkobjc_pixmap_create_from_widget (self, widget);
+  
+  return self;
+}
 
 PHASE(Setting)  
 

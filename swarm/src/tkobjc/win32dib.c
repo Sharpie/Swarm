@@ -231,6 +231,17 @@ dib_snapshot (dib_t *dib)
   DeleteDC (hmemdc);
 }
 
+int
+dib_paletteIndexForObject (dib_t *dib, void *object)
+{
+  int i;
+
+  for (i = 0; i < dib->colorMapBlocks; i++)
+    if (object == dib->colorMapObjects[i])
+      return i;
+  return -1;
+}
+
 void
 dib_augmentPalette (dib_t *dib,
 		    void *object,
@@ -491,7 +502,6 @@ dib_copy (dib_t *source, dib_t *dest,
     return FALSE;
   if (dib_lock (source) == NULL)
     return FALSE;
-
 
   result = BitBlt (dest->sourceDC, destx, desty,
 		   width, height,

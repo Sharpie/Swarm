@@ -1,6 +1,15 @@
 1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* internal.m (tkobjc_pixmap_update_raster): Don't augment
+	raster palette if it has already been done for this pixmap.
+
+	* win32dib.[ch] (dib_paletteIndexForObject): New function.
+
 	* Pixmap.m ([Pixmap -setRaster:]): Move to Setting phase.
+	
+	* Pixmap.[hm] ([Pixmap +createBegin:], [Pixmap -setFile:],
+	[Pixmap -setWidget:], [Pixmap -createEnd]):
+	Remove +create:{widget,file} and provide setter methods.
 
 	* win32dib.c (dib_copy): Don't update DIB color table.
 

@@ -53,6 +53,8 @@ void dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
 void dib_deleteBitmap (dib_t *dib);
 
 /* Palette Manipulation */
+int dib_paletteIndexforObject (dib_t *dib, void *object);
+
 void dib_augmentPalette (dib_t *dib, void *object,
 			 unsigned mapSize, unsigned long *map);
 
