@@ -521,7 +521,7 @@ USING
 //D: subrange views of a single, contiguous initial allocation by means of
 //D: separately created external collections.
 CREATING
-+ create: aZone setMemberBlock: (id *)members setCount:(unsigned)count;
++ create: aZone setMemberBlock: (id *)members setCount: (unsigned)count;
 
 SETTING
 - (void)setMemberBlock: (id *)members setCount: (unsigned)count;
@@ -530,7 +530,7 @@ USING
 - (void *)getMemberBlock;
 @end
 
-@protocol Array <Collection, CREATABLE, DefaultMember, MemberBlock>
+@protocol Array <Collection, DefaultMember, MemberBlock, CREATABLE>
 //S: Collection supporting access only by relative position.
 
 //D: An array is a collection of members that are all created as members of
@@ -1016,7 +1016,7 @@ USING
 //G: Tokens used by the archiving parser.
 externvar id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 
-@protocol ArchiverKeyword <Create, Drop, CREATABLE>
+@protocol ArchiverKeyword <Create, Drop, RETURNABLE>
 //S: Keyword encapsulation for serialization.
 //D: Keyword encapsulation for serialization.
 CREATING
@@ -1027,7 +1027,7 @@ USING
 - lispOutDeep: (id <OutputStream>)stream;
 @end
 
-@protocol ArchiverArray <Create, Drop, CREATABLE>
+@protocol ArchiverArray <Create, Drop, RETURNABLE>
 //S: Array encapsulation for serialization.
 //D: Array encapsulation for serialization.
 CREATING
@@ -1044,7 +1044,7 @@ USING
 - (void)drop;
 @end
 
-@protocol ArchiverValue <Create, Drop, CREATABLE>
+@protocol ArchiverValue <Create, Drop, RETURNABLE>
 //S: Value encapsulation for serialization.
 //D: Value encapsulation for serialization.
 CREATING
@@ -1071,7 +1071,7 @@ USING
 - (void)drop;
 @end
 
-@protocol ArchiverPair <Create, Drop, CREATABLE>
+@protocol ArchiverPair <Create, Drop, RETURNABLE>
 //S: List pair encapsulation for serialization.
 //D: List pair encapsulation for serialization.
 CREATING
@@ -1086,7 +1086,7 @@ USING
 - lispOutDeep: (id <OutputStream>)stream;
 @end
 
-@protocol ArchiverList <List, CREATABLE>
+@protocol ArchiverList <List, RETURNABLE>
 //S: Archiver list encapsulation for serialization.
 //D: Archiver list encapsulation for serialization.
 CREATING
@@ -1150,7 +1150,7 @@ USING
 - shufflePartialList: list Num: (unsigned)num;
 @end
 
-@protocol PermutationItem <CREATABLE, Create>
+@protocol PermutationItem <Create, RETURNABLE>
 //S: An element of a Permutation
 
 //D: An element of a Permutation
@@ -1163,7 +1163,7 @@ USING
 - (unsigned)getPosition;
 @end
 
-@protocol Permutation <Collection, CREATABLE, Create, Array>
+@protocol Permutation <Collection, Create, Array, CREATABLE>
 //S: A class that represents a permutation of elements of a collection
 
 //D: Permutation is used to generate a permutation of elements of a

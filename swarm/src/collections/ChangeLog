@@ -1,3 +1,9 @@
+1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* collections.h (ArchiverKeyword, ArchiverArray, ArchiverValue,
+	ArchvierPair, ArchiverList, PermutationItem): Change from CREATABLE
+	to RETURNABLE.
+
 1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* InputStream.m ([ArchiverArray_c -setArray:]): Use size_for_objc_type
