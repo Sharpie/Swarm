@@ -1,0 +1,35 @@
+<!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!entity % global.ent PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
+%global.ent;
+
+<!entity % versions.ent PUBLIC "-//SFI Hive//ENTITIES Versions//EN">
+%versions.ent;
+
+<!entity % src.ent PUBLIC "-//SFI Hive//ENTITIES Src List//EN">
+%src.ent;
+
+<!entity % figs.ent PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
+%figs.ent;
+
+<!entity % local.notation.class "| JPG">
+<!notation JPG system>
+]>
+
+<BOOK ID="refbook">
+
+<TITLE>Reference Guide to Swarm &swarm-release-number;</TITLE>
+
+&refcont.sgml;
+
+</BOOK>
+
+
+
+
+
+
+
+
+
+
+

@@ -21,7 +21,7 @@ PAGES = activity/activitypages.sgml \
 	simtoolsgui/simtoolsguipages.sgml \
 	space/spacepages.sgml
 
-GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml srcrevhistory.sgml
+GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml srcrevhistory.sgml $(top_builddir)/versions.ent
 
 noinst_DATA = $(GENERATED_SGML)
 
