@@ -1,3 +1,7 @@
+1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* genctors: Redirect into $1.c.  Use $1 as the function name.
+
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (lib_LTLIBRARIES): Set to @LIBSWARM_LA@.

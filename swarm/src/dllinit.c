@@ -68,9 +68,9 @@ DllMain (
     {
     case DLL_PROCESS_ATTACH:
       {
-        extern void swarm_constructors ();
 #if 0
-        swarm_constructors ();
+        extern void constructor_func ();
+        constructor_func ();
 #endif
       }
       break;
