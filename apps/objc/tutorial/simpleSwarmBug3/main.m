@@ -10,7 +10,8 @@
 // Swarm, let it build and activate, and set it to running.
 
 int
-main(int argc, char ** argv) {
+main (int argc, const char **argv)
+{
   ModelSwarm * modelSwarm;
 
   // Swarm initialization: all Swarm apps must call this first.

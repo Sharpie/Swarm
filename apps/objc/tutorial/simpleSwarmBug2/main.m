@@ -11,12 +11,13 @@
 #import "ModelSwarm.h"
 
 int
-main(int argc, char ** argv) {
+main (int argc, const char ** argv)
+{
   ModelSwarm * modelSwarm;
 
   // Swarm initialization: all Swarm apps must call this first.
 
-  initSwarm(argc, argv);
+  initSwarm (argc, argv);
 
   // Make the bug model swarm
 

@@ -4,8 +4,8 @@
 #import "Bug.h"
 
 int
-main(int argc, char ** argv) {
-
+main (int argc, const char **argv)
+{
   int worldXSize = 80;
   int worldYSize = 80;
 

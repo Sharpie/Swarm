@@ -1,12 +1,10 @@
 // main.m 					simpleExperBug
 
-
 #import "ExperSwarm.h"
-
 #import <simtools.h>                // ... for initSwarm () 
 
 int
-main (int argc, char **argv)
+main (int argc, const char **argv)
 {
   ExperSwarm *experSwarm;
 

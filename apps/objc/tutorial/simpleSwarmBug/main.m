@@ -5,10 +5,11 @@
 #import "ModelSwarm.h"
 
 int
-main(int argc, char ** argv) {
+main (int argc, const char **argv)
+{
   id modelSwarm;
 
-  initSwarm(argc, argv);
+  initSwarm (argc, argv);
 
   // Make the model swarm
 

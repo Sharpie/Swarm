@@ -3,8 +3,8 @@
 #import <simtools.h>
 
 int
-main(int argc, char ** argv) {
-
+main (int argc, const char **argv)
+{
   int worldXSize = 80;			// Maximum X value
   int worldYSize = 80;			// Maximum Y value
 
@@ -13,7 +13,7 @@ main(int argc, char ** argv) {
 
   int i;
 
-  initSwarm(argc, argv);		// Always first in Swarm main.m 
+  initSwarm (argc, argv);		// Always first in Swarm main.m 
 
   printf("I started at X = %d Y = %d \n\n", xPos, yPos);
 
