@@ -29,5 +29,7 @@ function test () {
   // args.addObject (sel);
 
   args = args.QueryInterface (Components.interfaces.swarmICreateC);
-  // args.createEnd ();
+  args.createEnd ();
+
+  env.xprint (args);
 }

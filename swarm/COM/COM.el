@@ -445,8 +445,24 @@
                   :return-type "id <Selector>")
                  (make-method
                   :phase :using
+                  :arguments (list (list "isVoidReturn" nil nil))
+                  :return-type "BOOL")
+                 (make-method
+                  :phase :using
                   :arguments (list (list "isBooleanReturn" nil nil))
-                  :return-type "BOOL"))))
+                  :return-type "BOOL")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "getName" nil nil))
+                  :return-type "const char *")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "getArgCount" nil nil))
+                  :return-type "unsigned")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "getArgObjcType" "unsigned" "index"))
+                  :return-type "char"))))
                  
 (defun com-complete-protocols ()
   (cons (selector-protocol) (com-wrapped-protocols)))
@@ -544,7 +560,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, addRef, selectorIsBooleanReturn };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgObjcType };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
@@ -651,28 +667,30 @@
           (insert "  SD_COM_ADD_THIS_OBJECT_COM (COMswarm_newobj);\n")
           (insert "  NS_ADDREF (*ret = NS_STATIC_CAST (")
           (insert (com-impl-return-type protocol phase method))
-          (insert ", this));\n"))
-      (progn
-        (unless (string= ret-type "void")
-          (insert "*ret = "))
-        (cond ((string= ret-type "id")
-               (insert "SD_COM_ENSURE_OBJECT_COM_CAST (")
-               (insert (com-impl-return-type protocol phase method))
-               (insert ", ")
-               (com-impl-print-call-imp-pointer-body method)
-               (insert ")"))
-              ((string= ret-type "Class")
-               (insert "SD_COM_FIND_CLASS_COM_CAST (")
-               (insert (com-impl-return-type protocol phase method))
-               (insert ", ")
-               (com-impl-print-call-imp-pointer-body method)
-               (insert ")"))
-              ((string= ret-type "char *")
-               (insert "(char *) SD_COM_COPY_STRING (")
-               (com-impl-print-call-imp-pointer-body method)
-               (insert ")"))
-              (t (com-impl-print-call-imp-pointer-body method)))
-        (insert ";\n")))))
+          (insert ", this))"))
+      (cond ((string= ret-type "id")
+             (insert "SD_COM_ENSURE_OBJECT_COM_ADDREF_RETURN (")
+             (insert (com-impl-return-type protocol phase method))
+             (insert ", ")
+             (com-impl-print-call-imp-pointer-body method)
+             (insert ")"))
+            ((string= ret-type "Class")
+             ;; a nsCID *, not an object, so no addref
+             (insert "SD_COM_FIND_CLASS_COM_RETURN (")
+             (insert (com-impl-return-type protocol phase method))
+             (insert ", ")
+             (com-impl-print-call-imp-pointer-body method)
+             (insert ")"))
+            ((string= ret-type "char *")
+             (insert "*ret = (char *) SD_COM_COPY_STRING (")
+             (com-impl-print-call-imp-pointer-body method)
+             (insert ")"))
+            (t 
+             (unless (string= ret-type "void")
+               (insert "*ret = "))
+             (com-impl-print-call-imp-pointer-body method)))))
+  (insert ";\n"))
+
     
 (defun com-impl-print-method-definition (protocol phase method)
   (let* ((arguments (method-arguments method))
