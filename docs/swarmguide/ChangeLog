@@ -1,5 +1,9 @@
 1999-03-01  Alex Lancaster  <alex@santafe.edu>
 
+	* catalog.in: Prepend @top_dossrcdir@ to all EPS files in figs
+	subdirectory, so they are found in the correct location from the
+	build tree.
+
 	* userbiblio.sgml: Add id to BIBLIOGRAPHY tag.
 
 	* html.dsl: Customize similarly to swarmdocs.  Add references to
