@@ -15,7 +15,7 @@
   ;; 1-level deep for each book
   ;; 2-levels deep for sets
   ;; and 3-deep for all remaining
-  (cond ((string=? (gi nd) (normalize "book")) 2)
+  (cond ((string=? (gi nd) (normalize "book")) 1)
         ((string=? (gi nd) (normalize "set")) 2)
         (else 3)))
 
@@ -25,8 +25,9 @@
           line-thickness: 1pt))
 
 (define (make-linebreak)
-    (make paragraph-break
-          space-before: 6pt))
+    (make paragraph
+          space-before: 6pt
+          (empty-sosofo)))
 
 (define (printed-link)
     (let* ((id (attribute-string "LINKEND"))
@@ -182,6 +183,7 @@
                                           (graphic-file entityfilename)
                                           ""))
                 space-before: 36pt
+                keep-with-previous?: #t
                 display?: #t
                 ;; The [scale=\ScaleX] as an argument to \includegraphics
                 ;; errors in TeX.  This forces a preceding \scalebox.
@@ -282,20 +284,6 @@
                         (literal (BULLTREAT BULLSTR ilevel override mark)))
                   title
                   contents))))
-
-(element figure 
-         (make sequence
-               (with-mode formal-object-title-mode
-                 (process-node-list (select-elements (children (current-node)) (normalize "
-title"))))
-               (make paragraph
-                     use: para-style
-                     font-weight: 'bold
-                     space-before: 0pt
-                     space-after: %block-sep%
-                     keep-with-next?: #t
-                     start-indent: (+ %block-start-indent% (inherited-start-indent))
-                     (process-children))))  
 
 </style-specification-body>
 </style-specification>

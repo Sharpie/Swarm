@@ -18,3 +18,14 @@
  \global\LastDisplayStack=\DisplayStack
  \advance\DisplayStack by -1
 }
+\def\insertExternalGraphic#1{%
+ \ifGroupMode\begingroup\fi
+ \SetupICs{#1}%
+ \ifnum\KeepWithPrevious=1\nobreak\fi
+ \expandafter\ifx\csname insertExternalGraphicNotation\NotationSystemId\endcsname\relax%
+   \insertExternalGraphicNotation%
+ \else
+   \csname insertExternalGraphicNotation\NotationSystemId\endcsname
+ \fi
+ \ifGroupMode\endgroup\fi
+} 
