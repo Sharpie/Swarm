@@ -511,7 +511,7 @@ PHASE(Using)
   return inhibitArchiverLoadFlag;
 }
 
-- (int)getFixedSeed
+- (unsigned)getFixedSeed
 {
   return fixedSeed;
 }

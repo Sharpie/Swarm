@@ -64,7 +64,7 @@
 - (BOOL)getVerboseFlag;
 - (BOOL)getBatchModeFlag;
 - (BOOL)getFixedSeedFlag;
-- (int)getFixedSeed;
+- (unsigned)getFixedSeed;
 - (BOOL)getVarySeedFlag;
 - (BOOL)getShowCurrentTimeFlag;
 - (BOOL)getInhibitArchiverLoadFlag;

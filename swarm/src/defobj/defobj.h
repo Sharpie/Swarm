@@ -926,7 +926,7 @@ USING
 - (BOOL)getBatchModeFlag;
 - (BOOL)getVarySeedFlag;
 - (BOOL)getFixedSeedFlag;
-- (int)getFixedSeed;
+- (unsigned)getFixedSeed;
 - (BOOL)getVerboseFlag;
 - (const char *)getAppName;
 - (const char *)getAppModeString;
