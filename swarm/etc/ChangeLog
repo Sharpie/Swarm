@@ -1,5 +1,9 @@
 1998-08-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* config.swarm.in (swarm_prefix, swarm_exec_prefix, swarm_libdir):
+	Assigned from new substituted variables of same name.
+	Remove "config_" throughout.
+
 	* Makefile.am (install-data-local): Use mkinstalldirs instead of
 	test + mkdir.
 
