@@ -1,10 +1,16 @@
 1999-05-17  Alex Lancaster  <alex@santafe.edu>
 
+	* gui-probemap-{complete, customized, example}.png: Add files.
+
+	* figs.ent: Add corresponding entities.
+
+	* Makefile.am (PNG): Likewise for files.
+
 	* ChangeLog: Start.
 
-	* graph-{graph, histogram, raster}.png:  Add files.
+	* gui-{graph, histogram, raster}.png:  Add files.
 
-	* figs.ent: Add graph-{graph, histogram, raster} entities.
+	* figs.ent: Add gui-{graph, histogram, raster} entities.
 
 	* Makefile.am (PNG): Likewise.
 

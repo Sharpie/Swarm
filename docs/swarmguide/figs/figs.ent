@@ -95,6 +95,15 @@ JPEG//EN" ndata jpeg>
 
 <!entity gui-raster PUBLIC "-//SFI Hive//ENTITIES gui-raster
 JPEG//EN" ndata jpeg>
+
+<!entity gui-probemap-complete PUBLIC "-//SFI Hive//ENTITIES gui-probemap-complete
+JPEG//EN" ndata jpeg>
+
+<!entity gui-probemap-customized PUBLIC "-//SFI Hive//ENTITIES gui-probemap-customized
+JPEG//EN" ndata jpeg>
+
+<!entity gui-probemap-example PUBLIC "-//SFI Hive//ENTITIES gui-probemap-example
+JPEG//EN" ndata jpeg>
                               
 ]]>                           
                               
@@ -194,6 +203,15 @@ EPS//EN" ndata eps>
 EPS//EN" ndata eps>
 
 <!entity gui-raster PUBLIC "-//SFI Hive//ENTITIES gui-raster
+EPS//EN" ndata eps>
+
+<!entity gui-probemap-complete PUBLIC "-//SFI Hive//ENTITIES gui-probemap-complete
+EPS//EN" ndata eps>
+
+<!entity gui-probemap-customized PUBLIC "-//SFI Hive//ENTITIES gui-probemap-customized
+EPS//EN" ndata eps>
+
+<!entity gui-probemap-example PUBLIC "-//SFI Hive//ENTITIES gui-probemap-example
 EPS//EN" ndata eps>
                               
 ]]>                           
