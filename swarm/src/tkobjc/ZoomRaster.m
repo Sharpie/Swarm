@@ -113,11 +113,14 @@
       // that narrow.  Retry.
       if (newWidth > newHeight)
         newWidth = newHeight;  
-      else
+      else if (newHeight > newWidth)
+        // Still not right?  Try the width.
+        newZoom = newWidth / logicalWidth;
+      else 
         [WindowUsage
           raiseEvent:
             "nonsquare zoom given (nz:%u nh:%lu nw:%u lh: %u lw:%u).\n",
-          newZoom, newHeight, newWidth, logicalHeight, logicalWidth];
+          newZoom, newHeight, newWidth, logicalHeight, logicalWidth];  
     }
   
 #ifdef DEBUG

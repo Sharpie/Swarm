@@ -1,3 +1,9 @@
+1998-04-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ZoomRaster.m ([ZoomRaster -handleConfigureWidth:Height:]): 
+	When newHeight exceeds newWidth, make the zoom be the smaller
+	(perhaps already adjusted width).
+
 1998-04-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ZoomRaster.m: Include Drawer.h.
