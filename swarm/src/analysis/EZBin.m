@@ -150,7 +150,7 @@ PHASE(Creating)
         [aHisto setAxisLabelsX: xLabel Y: yLabel];
       // [aHisto setLabels: binLabels];
       if (!monoColorBars)
-        [aHisto setColors: binColors];
+        [aHisto setColors: binColors count: NUMCOLORS];
       [aHisto pack];
       
       [aHisto setBarWidth: step];
