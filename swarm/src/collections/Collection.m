@@ -81,12 +81,9 @@ PHASE(Using)
     getField (bits, IndexFromMemberLoc_Shift, IndexFromMemberLoc_Mask) - 2044;
 }
 
-- (id)beginPermuted: (id) aZone
+- beginPermuted: aZone
 {
-  PermutedIndex_c *newIndex;
-  newIndex = [PermutedIndex_c createBegin: aZone forCollection: self];
-  newIndex = [newIndex createEnd];
-  return newIndex;
+  return [[PermutedIndex_c createBegin: aZone forCollection: self] createEnd];
 }
 
 - (int)getCount
@@ -381,7 +378,7 @@ PHASE(Using)
 
 @implementation PermutedIndex_c
 PHASE(Creating)
-+ createBegin: (id) aZone forCollection: aCollection
++ createBegin: aZone forCollection: aCollection
 {
   PermutedIndex_c *newIndex;
   newIndex = [aZone allocIVars: id_PermutedIndex_c];
@@ -392,15 +389,15 @@ PHASE(Creating)
 
 - setUniformRandom: rnd
 {
-  [(Permutation_c *)collection setUniformRandom: rnd];
+  [(Permutation_c *) collection setUniformRandom: rnd];
   return self;
 }
 
 - createEnd
 {
   collection = [collection createEnd];
-  index = [collection begin: [getZone(self) getComponentZone]];
-  setMappedAlloc(self);  
+  index = [collection begin: [getZone (self) getComponentZone]];
+  setMappedAlloc (self);  
   return self;
 }
 
@@ -408,7 +405,7 @@ PHASE(Using)
 
 - generatePermutation
 {
-  [(Permutation_c *)collection generatePermutation];
+  [(Permutation_c *) collection generatePermutation];
   return self;
 }
 

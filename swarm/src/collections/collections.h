@@ -203,6 +203,9 @@ USING
 //M: traversing the elements of a collection.  All further information
 //M: about indexes is documented under the Index type.
 - begin: aZone;
+
+//M: Like begin:, but the order is randomized.
+- beginPermuted: aZone;
 @end
 
 @protocol Index <DefinedObject, Drop>
@@ -1086,6 +1089,7 @@ USING
 USING
 - next;
 - prev;
+- generatePermutation;
 - findNext: anObject;
 - findPrev: anObject;
 - get;
@@ -1096,3 +1100,4 @@ USING
 @end;
 
 #import <collections/types.h>
+
