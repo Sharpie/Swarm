@@ -187,32 +187,6 @@ else
 fi
 AC_SUBST(JAVA_CLASSES_INSTALLED_AS)
 
-md_CHECK_DLL
-if test $USEDLL = yes; then
-  LIBSWARM_LA=libswarm.la
-  SWARM_DLL=swarm.dll
-  LIBJAVASWARM_LA=
-  LIBJAVASWARMSTUBS_LA=
-  JAVASWARM_DLL=${JAVASWARM_DLL_NAME}.dll
-  noinst_LIBS='lib$(MODULE).la'
-  inst_LDFLAGS=-static
-else
-  LIBSWARM_LA=libswarm.la
-  SWARM_DLL=
-  LIBJAVASWARM_LA=libjavaswarm.la
-  LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
-  JAVASWARM_DLL=
-  inst_LIBS='lib$(MODULE).la' 
-  inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
-fi
-AC_SUBST(SWARM_DLL)
-AC_SUBST(LIBSWARM_LA)
-AC_SUBST(LIBJAVASWARM_LA)
-AC_SUBST(JAVASWARM_DLL)
-AC_SUBST(noinst_LIBS)
-AC_SUBST(inst_LIBS)
-AC_SUBST(inst_LDFLAGS)
-
 md_CHECK_LINKFLAGS
 
 AC_CHECK_LIB(dl,main,DLLIB=-ldl)
@@ -248,6 +222,8 @@ md_STRUCT_XPM_ALLOCPIXELS
 if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_cv_func_strnlen = yes; then
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 fi
+
+AC_CHECK_HEADERS(sys/sigevent.h)
 
 if test $prefix = /usr; then
   includesubdir=swarm
@@ -286,11 +262,34 @@ AC_DEFINE_UNQUOTED(INCLUDESUBDIR,"$includesubdir")
 fi
 
 md_CHECK_PATH_SYNTAX
+
 vj_FIND_JDK
 md_CHECK_JNI_H
-
-AC_CHECK_HEADERS(sys/sigevent.h)
-
+md_CHECK_DLL
+if test $USEDLL = yes; then
+  LIBSWARM_LA=libswarm.la
+  SWARM_DLL=swarm.dll
+  LIBJAVASWARM_LA=
+  LIBJAVASWARMSTUBS_LA=
+  JAVASWARM_DLL=${JAVASWARM_DLL_NAME}.dll
+  noinst_LIBS='lib$(MODULE).la'
+  inst_LDFLAGS=-static
+else
+  LIBSWARM_LA=libswarm.la
+  SWARM_DLL=
+  LIBJAVASWARM_LA=libjavaswarm.la
+  LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
+  JAVASWARM_DLL=
+  inst_LIBS='lib$(MODULE).la' 
+  inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
+fi
+AC_SUBST(SWARM_DLL)
+AC_SUBST(LIBSWARM_LA)
+AC_SUBST(LIBJAVASWARM_LA)
+AC_SUBST(JAVASWARM_DLL)
+AC_SUBST(noinst_LIBS)
+AC_SUBST(inst_LIBS)
+AC_SUBST(inst_LDFLAGS)
 
 AC_PATH_PROG(EMACS, emacs, missing)
 
