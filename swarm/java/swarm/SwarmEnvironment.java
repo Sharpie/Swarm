@@ -16,6 +16,7 @@ public class SwarmEnvironment {
     ControlStateStepping, ControlStateQuit, ControlStateNextTime;
   public Symbol Randomized, Sequential;
   public Zone globalZone;
+  public SimpleRandomGenerator randomGenerator;
   public UniformIntegerDist uniformIntRand;
   public UniformDoubleDist uniformDblRand;
   public ProbeLibrary probeLibrary;
@@ -30,6 +31,7 @@ public class SwarmEnvironment {
     super ();
 
     globalZone = new ZoneImpl ();
+    randomGenerator = new MT19937genImpl ();
     uniformIntRand = new UniformIntegerDistImpl ();
     uniformDblRand = new UniformDoubleDistImpl ();
     probeLibrary = new ProbeLibraryImpl ();

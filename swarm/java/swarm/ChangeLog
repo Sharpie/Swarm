@@ -1,6 +1,8 @@
-2000-02-12    <mgd@nest.swarm.org>
+2000-02-14    <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.
+
+	* SwarmEnvironment.java (randomGenerator): Add and initialize.
 
 1999-12-26    <mgd@DRONE>
 
