@@ -21,7 +21,7 @@ JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)
 
 CPPFLAGS=@CPPFLAGS@ $(JAVAINCLUDES) -I$(includedir)
 # Solaris JNI headers have some pragmas
-OBJCFLAGS=@OBJCFLAGS@  -Wno-unknown-pragmas
+OBJCFLAGS=@OBJCFLAGS@ @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 LDFLAGS=@LDFLAGS@
 
 
