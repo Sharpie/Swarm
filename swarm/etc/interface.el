@@ -71,7 +71,6 @@
       "ButtonPanel"
       "Form"
       "CheckButton"
-      "LinkItem"
       "ScheduleItem"
       "TextItem"
       "Line"

@@ -1,3 +1,7 @@
+2001-04-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (*removed-protocols*): Remove LinkItem.
+
 2001-04-04  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* interface.el (*removed-methods*): Removed -setLabels:count:
