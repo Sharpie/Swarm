@@ -1,7 +1,8 @@
 1998-08-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (SWARM_INSTALL): Substitute.
-	(install-data-local): Install install-sh if needed.
+	(install-data-local): Create $(bindir) and install install-sh if
+	needed.
 
 	* configure.in: Call md_SWARM_INSTALLER after AM_INIT_AUTOMAKE.
 
