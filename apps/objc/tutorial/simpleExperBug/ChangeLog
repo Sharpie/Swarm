@@ -1,5 +1,7 @@
 1998-02-26  Alex Lancaster  <alex@santafe.edu>
 
+	* README: Updated to reflect changes.
+	
 	* ModelSwarm.m ([ModelSwarm -build{Objects,Actions}]): Made all
 	references to object creation in create: and createBegin: calls be
 	to "self" rather than the redundant [self getZone].  Swarms are
