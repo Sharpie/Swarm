@@ -6,11 +6,30 @@
 #ifdef DLL
 
 #ifdef BUILDING_SWARM
-#define externvar @EXPORT_EXTERN@
+
+#undef EXPORT_EXTERN
+#undef IMPORT_EXTERN
+#undef EXPORT_EXTERNDEF
+
+#ifdef EXPORT_EXTERN
+#define externvar EXPORT_EXTERN
 #else
-#define externvar @IMPORT_EXTERN@
-#endif /* BUILDILNG_SWARM */
-#define externvardef @EXPORT_EXTERNDEF@
+#define externvar
+#endif
+
+#else
+
+#ifdef IMPORT_EXTERN
+#define externvar IMPORT_EXTERN
+#else
+#define externvar
+#endif
+
+#endif /* BUILDING_SWARM */
+
+#ifdef EXPORT_EXTERNDEF
+#define externvardef EXPORT_EXTERNDEF
+#endif
 
 #else
 

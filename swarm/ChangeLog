@@ -1,5 +1,8 @@
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* externvar.h.in: Don't use substitutions; they don't work with
+	AC_CONFIG_HEADER files.
+
 	* NEWS: Note that EZBin's -setBinNum: and Histogram's -setNumBins:
 	are now named -setBinCount:.
 
