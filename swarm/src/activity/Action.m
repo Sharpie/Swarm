@@ -216,11 +216,9 @@ PHASE(Creating)
   
   if (protoTarget)
     {
-      BOOL javaFlag = [protoTarget respondsTo: M(isJavaProxy)];
-      
       arguments = [FArguments createBegin: getZone (self)];
 
-      if (javaFlag)
+      if ([protoTarget respondsTo: M(isJavaProxy)])
         {
           jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
           const char *sig =
@@ -231,15 +229,7 @@ PHASE(Creating)
       [arguments setObjCReturnType: _C_ID];
       [self _addArguments_];
       arguments = [arguments createEnd];
-
-      call = [FCall createBegin: getZone (self)];
-      [call setArguments: arguments];
-      if (javaFlag)
-        [call setJavaMethod: sel_get_name (selector)
-              inObject: SD_FINDJAVA (jniEnv, protoTarget)];
-      else
-        [call setMethod: selector inObject: protoTarget];
-      call = [call createEnd];
+      call = [self _createCall_: protoTarget];
     }
   else
     call = nil;
@@ -247,15 +237,31 @@ PHASE(Creating)
 }
 
 PHASE(Using)
+- _createCall_: protoTarget
+{
+  id fc = [FCall createBegin: getZone (self)];
+
+  [fc setArguments: arguments];
+  if ([protoTarget respondsTo: M(isJavaProxy)])
+    [fc setJavaMethod: sel_get_name (selector)
+        inObject: SD_FINDJAVA (jniEnv, protoTarget)];
+  else
+    [fc setMethod: selector inObject: protoTarget];
+  return [fc createEnd];
+}
+
 - (void)_performAction_: anActivity
 {
+  updateTarget (call, target);
   if (call)
-    {
-      updateTarget (call, target);
-      [call performCall];
-    }
+    [call performCall];
   else
-    [target perform: selector];
+    {
+      id fc = [self _createCall_: target];
+        
+      [fc performCall];
+      [fc drop];
+    }
 }
 
 - getTarget

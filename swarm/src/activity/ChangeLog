@@ -6,8 +6,9 @@
 	([ActionForEach_c -setDefaultOrder:]): Use setDefaultOrder.
 
 	* Action.m ([Action{Call,To}_c {-createEnd, -_performAction_:}]):
-	All calls are done with FArguments/FCall with the exception of
-	heterogeneous ForEach collections.
+	All calls are done with FArguments/FCall. ([ActionTo_c _createCall_:]):
+	New method. Heterogeneous ForEach collections recreate the call
+	for each component and homogeneous collections just update the target.
 
 	* ActionGroup.m, Schedule.m: Use +createBegin:/-createEnd 
 	initialization of Action{Call,To,ForEach}_c instead of 

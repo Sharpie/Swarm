@@ -21,7 +21,6 @@ Library:      activity
   member_t ownerActions;     // internal links in actions owned by ActionType
   unsigned bits;             // bit allocations
 }
-/*** methods in CAction (inserted from .m file by m2h) ***/
 - getOwner;
 - (void)drop;
 @end
@@ -42,6 +41,7 @@ Library:      activity
 - getArg1;
 - getArg2;
 - getArg3;
+- (void)_performAction_: activity;
 @end
 
 @interface FAction_s: CAction <Action>
@@ -65,9 +65,12 @@ Library:      activity
 @interface ActionTo_c: CFAction <ActionArgs>
 {
 @public
-  id target;     // receiver of action message
-  SEL selector;  // selector of message to send
+  id target;
+  SEL selector;
 }
+- createEnd;
+- _createCall_: protoTarget;
+- (void)_performAction_: activity;
 - (void)setTarget: aTarget;
 - getTarget;
 - (void)setMessageSelector: (SEL)aSel;
@@ -78,4 +81,5 @@ Library:      activity
 @interface ActionForEach_c: ActionTo_c <ActionForEach>
 - (void)setDefaultOrder: aSymbol;
 - (void)describe: outputCharStream;
+- (void)_performAction_: activity;
 @end
