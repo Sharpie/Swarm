@@ -1,5 +1,9 @@
 1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FCall.h: Include swarmconfig.h, but first undefine PACKAGE 
+	and VERSION after inclusion of ffi.h.
+	(FCall_c): Make ffunction be of type func_t.  
+
 	* defobj.h, FCall.[hm]: Use setFunctionPointer: with func_t 
 	argument instead of setFunction: with (void (*)()) argument.
 
