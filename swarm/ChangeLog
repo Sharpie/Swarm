@@ -6,6 +6,7 @@
 	supported).  Use neither for old gcc.
 	Add -Werror and switch to -Wno-implicit-int for glibc2 config
 	(now using gcc28).
+	Use -Wno-implicit-int -Werror for my Irix 5.3 config too.
 
 1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
