@@ -189,7 +189,7 @@ PHASE(Using)
   id index;
   size_t size = getClass (anObject)->instance_size;
 
-  index = [population createIndex: [scratchZone getComponentZone]
+  index = [population createIndex: getCZone (scratchZone)
                       fromMember: anObject];
   [index remove];
   [index drop];
