@@ -125,15 +125,15 @@ find_executable (const char *program_name)
     /* resolve program_name */
     {
       char buf[MAXPATHLEN];
-      const char *ptr;
+      char *dupbuf;
 
       memset (buf, 0, MAXPATHLEN);
       if (realpath ((char *) program_name, buf) == NULL)
         goto notfound;
       
-      ptr = xmalloc (strlen (buf) + 1);
-      strcpy (ptr, buf);
-      return ptr;
+      dupbuf = xmalloc (strlen (buf) + 1);
+      strcpy (dupbuf, buf);
+      return (const char *) dupbuf;
     }
     errno = ENOENT;
   notfound:
