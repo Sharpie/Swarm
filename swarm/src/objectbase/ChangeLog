@@ -1,3 +1,8 @@
+1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* objectbase.h: Add Zone typing to +create:* methods.
+	(Swarm): Return Activity with activateIn:
+
 1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VarProbe.m (java_probe_as_object): New function.

@@ -90,9 +90,9 @@ USING
 //M: actions inside you. 
 
 //E: [super activateIn: swarmContext];
-//E: [myFancySchedule activateIn: self];
+//E: [fancySchedule activateIn: self];
 //E: return [self getSwarmActivity];    
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 
 //M: Needed to support probing of Swarms.
 - getProbeMap;
@@ -137,7 +137,7 @@ USING
 //M: of Object generation, the probe should be cloned prior to making
 //M: changes to it to avoid having the changes affect the other
 //M: potential users of the probe.
-- clone: aZone;
+- clone: (id <Zone>)aZone;
 
 //M: The getProbedClass method returns the class of the object the
 //M: probe points at as a Class pointer.
@@ -276,7 +276,7 @@ CREATING
 - setProbedSelector: (SEL)aSel;
 
 //M: Convenience factory method for common case.
-+ create: aZone setProbedSelector: (SEL)aSel;
++ create: (id <Zone>)aZone setProbedSelector: (SEL)aSel;
 
 SETTING
 //M: The setHideResult: method is used to set the visibility of the
@@ -400,14 +400,14 @@ USING
 
 //M: The begin: method returns an iterator (index) over the ProbeMap. This 
 //M: index is used in the exact same way any Map index is used. 
-- begin: aZone; // returns an index to the underlying Map.
+- begin: (id <Zone>)aZone; // returns an index to the underlying Map.
 
 //M: The clone: method returns a clone of the probe map. If the initial probe
 //M: map created by Library Generation or by the default version of Object 
 //M: generation, the probe map should be cloned prior to making changes to it 
 //M: to avoid having the changes affect the other potential users of the 
 //M: probe map.
-- clone: aZone;
+- clone: (id <Zone>)aZone;
 
 @end
 
@@ -439,7 +439,7 @@ CREATING
 //M: user specifies the list of variables and methods to be probed
 //M: this by passing a delimited list of strings of the form: "var1",
 //M: "var2", ..., ":", "method1", "method2",..., NULL
-+ create: aZone forClass: (Class)aClass withIdentifiers: (const char *)vars, ...;
++ create: (id <Zone>)aZone forClass: (Class)aClass withIdentifiers: (const char *)vars, ...;
 SETTING
 //M: Allows further probes specified in the delimited string list to
 //M: be added *after* the CustomProbeMap has been created
@@ -456,7 +456,7 @@ USING
 CREATING
 
 //M: Convenience method for creating an EmptyProbeMap 
-+ create: aZone forClass: (Class)aClass;
++ create: (id <Zone>)aZone forClass: (Class)aClass;
 @end
 
 @protocol CompleteProbeMap <ProbeMap, CREATABLE>
