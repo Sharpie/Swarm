@@ -24,6 +24,12 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 **** CompoundAction
 ***** Fixed casting bug which lead to segfaults on some platforms.
 
+*** gui (tkobjc)
+**** Pixmap
+***** Fixed a memory leak that occured when setRaster: was called
+      repeatedly, e.g. as is needed for an agent's pixmap from one
+      raster to another.
+
 *** space
 **** Discrete2d, DblBuffer2d
 ***** Free memory used by the 2d lattice internally when dropping Discrete2d 

@@ -1,3 +1,7 @@
+1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note memory leak bug fix to Pixmap.
+
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in (swarm_datadir): New substitution.
