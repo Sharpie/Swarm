@@ -589,19 +589,22 @@
       (insert "  return ")
 
       (let ((java-return (java-objc-to-java-type (method-return-type method)))
-            (create-flag (let ((signature (get-method-signature method)))
-                           (or (string= "+createBegin:" signature)
-                               (string= "-createEnd" signature)))))
-        (if create-flag
-            (insert "JUPDATE (jobj, ")
-            (cond ((string= java-return "Object")
-                   (insert "JFINDJAVA ("))
-                  ((string= java-return "String")
-                   (insert "(*env)->NewStringUTF (env, "))))
+            (signature (get-method-signature method)))
+        (cond ((string= "-createEnd" signature)
+               (insert "JSWITCHUPDATE (jobj, JINSTANTIATE (env, \"")
+               (insert (java-class-name protocol :using))
+               (insert "\"), "))
+              ((string= "+createBegin:" signature)
+               (insert "JUPDATE (jobj, "))
+              ((string= java-return "Object")
+               (insert "JFINDJAVA ("))
+              ((string= java-return "String")
+               (insert "(*env)->NewStringUTF (env, ")))
         
         (java-print-method-invocation arguments)
         
-        (when (or create-flag
+        (when (or (string= "+createBegin:" signature)
+                  (string= "-createEnd" signature)
                   (string= java-return "String")
                   (string= java-return "Object"))
           (insert ")")))

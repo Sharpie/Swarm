@@ -3,6 +3,8 @@
 	* java-stub.el (expanded-method-list): Renamed from method-list.
 	(java-print-class-methods-in-phase, java-print-native-class): 
 	Accommodate.
+	(java-print-native-method): Use JSWITCHUPDATE / JINSTANTIATE of
+	user-phase class for createEnd.
 
 	* javaswarm: Print out LD_LIBRARY_PATH additions if there are no
 	arguments (otherwise export and run java).
