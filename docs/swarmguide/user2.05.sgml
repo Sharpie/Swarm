@@ -1,58 +1,412 @@
 <sect1 id="swarm.user.user2.05.sect1">
-  <title>Building agents</title>
+
+  <title>Working with lists</title>
+
+<para> Programmers who have worked primarily in non-object-oriented
+languages like Fortran, Pascal, or C, are sometimes perplexed at the
+way Swarm programs manage repetitive tasks.  While there is no hard
+rule that iterative chores have to be managed in a certain way, one
+will find a fairly common approach that uses a Swarm object called
+"List".  Since this usage is both widespread in Swarm and different
+from the usual strategy in other languages, it deserves some discussion.
+</para>	 
 
 <sect2>
- <title>Step II: Building the agents</title> 
+ <title>The list class</title> 
+ 
+<para> This section is not intended as a comprehensive review of
+Swarm's Collections library.  That job is left to a later chapter.
+Instead, the purpose of this section is to introduce some popular
+usages of the List class and discuss the implications for simulation
+modeling.  </para>
 
-    <programlisting>- buildObjects 
-{
+<para>The concept of a "linked list" may be familiar to C
+programmers. The motivating idea of a linked list is that one can
+develop a collection of entities by defining a series of structures
+that refer to each other. The first structure contains not only the
+information needed to describe a single entity a pointer to the next
+entity in the series. A linked list has a major advantage that it is
+flexible. Unlike an array that is allocated to allow N members, a
+linked list can grow indefinitely as members are added and it can
+shrink as members are deleted. The complicated problem is to make sure
+that the structures always correctly refer to each other as entities
+are added and removed.</para>
 
- foodSpace = [FoodSpace createBegin: globalZone];
- [foodSpace setSizeX: worldXSize Y: worldYSize];
- foodSpace = [foodSpace createEnd];
- [foodSpace seedFoodWithProb: seedProb];
+<para>The Swarm Collections library provides a protocol called "List"
+that provides the swarm program with all of the benefits of a linked
+list and none of the hassles. The usage of List objects seems rather
+informal. A list can be told to add an object at the end or the
+beginning, or to retrieve an object that is in a certain position in a
+list. Working together with another Swarm protocol, the Index
+protocol, the List object has a great deal of power and many uses.  It
+should be noted that Swarm provides other, more structured "container"
+classes as well (Array, OrderedSet, Map, and so forth), but a
+treatment of them is left to a later chapter.</para>
 
- aBug = [Bug createBegin: globalZone];
- [aBug setWorldSizeX: worldXSize Y: worldYSize];
- [aBug setFoodSpace: foodSpace];
- [aBug setX: xPos Y: yPos];
- aBug = [aBug createEnd];
+</sect2>
 
- return self; 
+<sect2>
+ <title>Basic List syntax</title> 
 
-}
+    <para>A list is created by making a call to the List class object.
+    Since there are probably not going to be any creation-time
+    variables to set, the method used is typically create, rather than
+    a createBegin/createEnd pair. In order to use method calls against
+    the List object, one can import the header file collections.h from
+    the Swarm library, and then this command will create a list
+    object:
+
+<programlisting>
+  id nameOfSomeList;
+  nameOfSomeList = [List create: self];
 </programlisting>
 
+    Recall from the discussion of object creation that "self" refers
+    to the memory zone in which the list is created. This is
+    appropriate in a Swarm or GUISwarm instance, while other classes
+    would use "[self getZone]" in place of self.</para>
+
+    <para>Once a list object exists, it can carry out many
+    instructions. In the List protocol, methods that can add and
+    remove either the first or last object in a list are defined.  For
+    example, to add an object called "fred" at the end of a list
+    called "listOfDogs", one could write
+
+<programlisting>
+	[listOfDogs addLast: fred];
+</programlisting>
+     and, if it were necessary to remove the last object in the list, one could write:
+
+ <programlisting>
+	[listOfDogs removeLast];
+</programlisting>
+
+</para>
+
+    <para>The object of type List is able not only to carry out the
+    addFirst:, addLast:, removeFirst, and removeLast methods, it can
+    also inherits methods from the Collections protocol. Some of the
+    useful methods in the Collections protocol are:
+<itemizedlist>
+	<listitem><para> getCount. Use this to find out how many items
+	are already in the list </para>
+	</listitem>
+	<listitem><para>begin: aZone. This creates an index object
+	that can be used to traverse this list. </para></listitem>
+	<listitem><para>remove: aMember. This will search through a
+	list to find aMember and it will remove that object (and
+	return it).</para>
+	</listitem>
+	<listitem><para>removeAll. This take all elements out of the
+	list, but it will not destroy the list or the elements in the
+	list.</para>
+	</listitem>
+	<listitem><para>deleteAll. Be careful: this removes the
+	elements from memory as it clears the list </para> </listitem>
+      </itemizedlist>
+     </para>
+ 
+    <para>Lists have many uses in Swarm projects. The following
+    sections discuss them, in turn.  First, lists are used to manage
+    collections of objects and schedule their activities in the model
+    swarm layer of a simulation.  Second, lists are used to pass
+    information back and forth between levels of a simulation.  Third,
+    lists can be used by individual agents to keep track of their
+    experiences and manage their information </para>
+
+
 </sect2>
 
 <sect2>
- <title>Details on the buildObjects phase</title> 
+ <title>Lists: Managing objects in the model swarm</title> 
 
-    <formalpara><title>The purpose of this method is to create each instance 
-        of objects needed at the start of simulation, and then to pass parameters 
-        to the objects</title><para></para></formalpara>
+<para> In the SwarmApps package, one can find the "Hello World"
+example exercises. This exercise provides a good example of the way in
+which lists are used to organize the agents in a model swarm.  In
+volume 3 of the Hello World package, a list of people called "pplList"
+is created.  Here is a skeleton showing the important commands that
+create and use the List protocol in the model swarm level. The file is
+called PplModelSwarm.m.
 
-    <formalpara><title>It is good OOP protocol to provide setX: methods for each 
-        parameter X we want to set, as in: [aBug setFoodSpace: foodSpace]</title><para>
-      </para></formalpara> 
+<programlisting>
+
+@implementation PplModelSwarm
+...
+  // build the list to keep track of the ppl
+  pplList = [List create: [self getZone]];
+  for (inci = 0; inci < numPpl; inci++)
+    {
+      Person * person;
+      id name;
+      // allocate memory for a temporary person
+      person = [Person createBegin: [self getZone]];
+... 
+     [person setWorld: pplList Room: room Party: self];
+...
+      person = [person createEnd];
+
+      // add the person to the list of people
+      [pplList addLast: person];
+}
+- buildActions
+{
+...
+modelActions createActionForEach: pplList message: M(step)];
+...
+}
+</programlisting>
+As in most Swarm examples, the list is created in the buildObjects
+method.  The List class object is a "factory object," it can create
+instances that can answer to the List protocol. In this case, the list
+is called pplList.</para>
+
+<para>In order to instruct the factory object "List" to manufacture an
+object that acts like a List, one would ordinarily have to import the
+collections.h header file. However, as in many Swarm examples, the
+collections.h file has already been included in a file that has been
+included in this file, and so an explicit import statement is not
+needed. </para>
+
+<para>After an object that responds to the List protocol is created,
+then objects can be added onto that list. In this example, after
+pplList is created, then the buildObjects method proceeds into a for
+loop that creates the people objects.  At the end of that loop, each
+person is added to the pplList by the command
+
+<programlisting>
+[pplList addLast: person];
+</programlisting>
+The Swarm libraries take care of allocating memory and all the other
+details.</para>
+
+<para> Once this list of people is created, what happens?  In this
+case, the list of people becomes the central organizing element of
+actions that are to be scheduled. The object modelActions is told to
+go through the people list, one at a time, and cause each person to
+carry out its "step" method.  The ins-and-outs of activity and
+schedule design are discussed elsewhere.  This createActionForEach
+method works because the target is a Swarm collection item, the
+pplList, and the Swarm library knows how to traverse through the list
+of people. </para>
 
 </sect2>
 
 <sect2>
- <title>Why createBegin vs. create?</title> 
+ <title>Lists: Passing information among levels in a Swarm model</title> 
 
-    <formalpara><title>Using createBegin:, createEnd is appropriate when we 
-        want a reminder that the object needs to initialize something, 
-        calculate or set (usually this code is put in the createEnd method).</title>
-      <para></para></formalpara>
 
-    <formalpara><title>Always use createBegin with createEnd to 
-        avoid messy problems</title><para></para></formalpara>
+<para>Simplified scheduling is not the only usage for lists. It is
+equally important that list objects can be used to quickly communicate
+a great deal of information between objects. This is done by creating 
+methods that can get a list and pass it to another object. </para>
 
-    <formalpara><title>But create: is perfectly fine if we just want just to 
-        create an object without further ado</title><para></para></formalpara> 
+<para>
+In the PplModelSwarm.m file, for example, one finds this method:
 
+<programlisting>
+- getPplList
+{
+  return pplList;
+}
+</programlisting>
+When another object needs a list of people, the PplModelSwarm is able
+to supply it.</para>
+<para>
+This design is extremely convenient when it comes time to consider the
+observer swarm level of the simulation. The PplObserverSwarm.m file
+gets the list of people from the PplModelSwarm and uses that list to
+collect data in order to construct graphs.  Consider the
+avgFriendGraph object, for example, which charts the average number of
+friends per person.  The buildObjects section of PplObserverSwarm.m
+has this command:
+
+<programlisting>
+   [avgFriendGraph createAverageSequence: "avgNumFriends"
+		  withFeedFrom: [pplModelSwarm getPplList]
+		  andSelector: M(getNumFriends)];
+</programlisting>
+
+The method createAverageSequence:withFeedFrom:andSelector is equipt to
+take a list of objects, ask each one to supply a piece of data (the
+getNumFriends returns an integer from the person object), and builds
+an average that is plotted.  This powerful, easy method of passing
+information for presentation is possible because the various Swarm
+libraries are designed to work together.  While the user could
+certainly ignore the List protocol and design her own setup for
+managing collections, doing so would indeed be costly because one
+would be forced to forfeit the convenient features of the other
+libraries that can handle Swarm List objects.  </para>
+
+<para> The ability to pass a list to the observer swarm in order to
+create a graph is just one benefit of Swarm List protocol.  Note in
+the PplModelSwarm example that when people are created, one of the set
+messages (setWorld:Room:Party:) tells the individual person in which
+list it is currently residing. When that method executes, it sets the
+value of an instance variable called "pplPresent" inside the
+person. (Look at the code in Person.m to verify it!)  Since each
+individual person has that list available, it can ask the list for
+information. For example, to find out how many other people are still
+in the list, the Person object can do this:
+
+<programlisting>
+[pplPresent getCount]-1
+</programlisting>
+
+which returns an integer equal to the number of objects in the pplList
+minus 1. The Person object does not have to do anything to update the
+pplPresent variable to reflect current conditions.  Since the
+pplPresent variable is actually a pointer to the pplList as it
+currently exists in the PplModelSwarm, this is always "up to date."
+Some additional usages that the Person class might include require the
+creation of Index objects, which are introduced in the next section.
+</para>
 </sect2>
+
+<sect2>
+ <title>Lists: Organizing repetitive chores inside SwarmObjects</title> 
+
+<para> In the Hello World example, each instance of the Person class
+is aware of the pplList that exists in the PplModelSwarm.  Inside the
+individual person, the name used to refer to that list is
+pplPresent. Because pplPresent refers to an object that conforms to
+the List protocol, and all List objects follow the Collections
+protocol, then a number of interesting features can be put to use.</para>
+
+
+
+<para>
+  Suppose the we want to have the person go through the list of people
+  in the list and make a new list that includes all of the people in
+  that list who have a lot of friends, say more than 3.  In order to
+  carry this out, code has to be designed to traverse through the
+  pplPresent list, ask each one how many friend it has, and then if
+  that person has more than 3, then add that person to another
+  list.</para>
+
+  <para> One of the most interesting protocols in Swarm is the Index
+   protocol. In mathematics, one might have seen a variable
+   X[subscript]i, and the index variable i can range from 1 through
+   the number of possible values. In Swarm, Index means much more than
+   that.  A Swarm Index is a "living, breating" object that can be
+   moved around in a list, and the Index can also respond to requests
+   for information.</para>
+
+<para> For new Swarm users, the most puzzling thing about the usage of
+Index is the creation process.  Index objects are not created with the
+standard swarm createBegin/createEnd pair. Instead, any object from
+the Collections class, such as a List, can spawn an index by using the
+"begin:" method. In one step, the begin: method will create an object
+that conforms to the Index protocol and positions that index object before the
+first element of the collection.  Here is an example of how the
+pplPresent list might create an index called pplIndex:
+
+<programlisting>
+id &lt; Index &gt; pplIndex;
+pplIndex = [ pplPresent begin: [self getZone]];
+</programlisting>
+
+The first line declares the instance variable that will be the index.
+It is not necessary to include the protocol name &lt; Index &gt; in
+the declaration, so it might as well have been just "id pplIndex."
+Some programmers prefer to include the extra information in the
+declaration because it clarifies the code and also may help to catch
+programming mistakes.
+</para>
+
+<para> After it is created, the pplIndex can respond to messages. Many
+of the methods that Index objects can carry out will do two things at
+the same time: the Index will be positioned and the identity of the
+object at which the index currently resides will be returned.  For
+example, consider this code that sets a variable called
+"elementFromList" equal to the next one, as provided by the index:
+
+<programListing>
+elementFromList = [pplIndex next];
+</programListing>
+
+When it is first created, the pplIndex is positioned at the edge of
+the collection, just before the first object in the collection. If we
+want the index to move to the next object, and give us a pointer to
+the next object in the list, it is done with that command. (As in C,
+collections are numbered beginning with the number zero).
+</para>
+<para>
+It is common in Swarm examples to use the "next" method of the index object
+in a while statement that cycles through the elements of a list.  Here is a
+bit of code that would go through the list of people in Hello World and ask
+each one how many friends it has. And, if the number is larger than 3, then
+that object is added to a list "popularPeople" (which we assume is created 
+somewhere else in the code).
+
+<programlisting>
+  id &lt; Index &gt; pplIndex    = NULL;
+   id         element  = NULL;
+   int numberOfFriends;
+   
+   pplIndex = [ pplPresent begin: [self getZone] ];
+   while ( (element = [pplIndex next]) != NULL ) 
+      {
+      numberOfFriends = [ element getNumFriends ];
+      if (numberOfFriends &gt; 3) [popularPeople addLast: element];
+      }
+   [ index drop ];
+</programlisting>
+
+This example uses a number of convenient features from the C language.
+One is that the conditions evaluated in logical statements are
+actually calculated.  Hence, the conditional in the while statement
+causes the pplIndex to move to the next element, in the process
+setting the variable element equal to that object.  As a result,
+inside the curly braces, the variable element can be used to refer to
+that particular element from the list. In this case, that object is
+asked to give us its number of friends.</para>
+
+<para> The while statement in the previous example will begin with the
+first element of the list, and one-by-one it will move through the
+pplList. What happens when it gets to the end?  When it is positioned
+at the last element of the list, then the [pplIndex next] command will
+return NULL.  The logical condition is set so that the program exits
+the while loop at that point.
+</para>
+
+<para>
+     If one inspects a number of Swarm examples, one will find the
+     while loop constructed in slightly different ways, but the effect
+     is the same. For example, the logical condition is sometimes
+     written simply as ([pplIndex next]).  This is allowed because of
+     the convention that, as long as this does not return NULL, then
+     the while loop will continue.  If that approach is used, instead
+     of using element in the while loop, we replace all occurrences of
+     element with [index get], like so:
+<programlisting>
+   id &lt; Index &gt; pplIndex    = NULL;
+   int numberOfFriends;
+   
+   pplIndex = [ pplPresent begin: [self getZone] ];
+   while ( (element = [pplIndex next]) != NULL ) 
+      {
+      numberOfFriends = [ [pplIndex get] getNumFriends ];
+      if (numberOfFriends &gt; 3) [popularPeople addLast: [pplIndex get]];
+      }
+   [ index drop ];
+</programlisting>
+    What can the pplIndex do? What is it good for?  One common usage
+    is to use the index in a "while" statement that can cycle through
+    the elements in a list.
+</para>
+    <para>This last change would cause a performance penalty because
+    the pplIndex object is asked to evaluate and return on object
+    three times.
+</para>
+  
+<para> 
+    One final note: it is important to drop the index object when its
+    use is completed.  That's accomplished by the [ index drop ];
+    command in the last example.  If this is forgotten, the index will
+    continue to occupy memory and waste resources.
+</para>
+
+  </sect2>
 </sect1>
 <!--
 Local Variables:

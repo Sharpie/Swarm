@@ -1,89 +1,89 @@
 <sect1 id="swarm.user.user2.04.sect1">
-  <title>Initializing Swarms</title>
+  <title>Building schedules</title>
 
 <sect2>
- <title>Step I: Initializing</title> 
+ <title>Step III: Building schedules </title> 
 
-    <programlisting>
-<![CDATA [
-+ createBegin: aZone 
+    <programlisting>-buildActions 
 {
-  ModelSwarm * obj;
 
-  obj = [super createBegin: aZone];
-  obj->worldXSize = 80;
-  obj->worldYSize = 80;
-  obj->seedProb = 0.1;
-  obj->xPos = 40;
-  obj->yPos = 40;
-  
- return obj;
+ modelSchedule=[Schedule createBegin: self];
+ [modelSchedule setRepeatInterval: 1];
+ modelSchedule = [modelSchedule createEnd];
+
+ [modelSchedule at: 0 createActionTo: aBug message: M(step)];
+
+ return self;
 }
-]]>
 </programlisting>
 
-
 </sect2>
 
 <sect2>
- <title>Details on createBegin method</title> 
+ <title>Schedules</title> 
 
-    <formalpara><title>The <emphasis>+</emphasis> indicates that this is a class 
-        method as opposed to <emphasis>-</emphasis> which indicates an instance 
-        method</title><para></para></formalpara>
+    <para>Schedules define event in terms of:
+      <itemizedlist>
+        <listitem><para>Time of first invocation</para></listitem>
+        <listitem><para>Target object           </para></listitem>
+        <listitem><para>Method to call          </para></listitem>
+        <listitem><para>Repeat interval         </para></listitem>
+      </itemizedlist>
 
-    <formalpara><title>ModelSwarm * obj</title>
-      <para>indicates to compiler that obj is statically typed to 
-        <classname>ModelSwarm </classname>class</para>
-    </formalpara>
+      <programlisting>
+t=1
+t=2
+t=3
+[bug eat]
+[bug eat]
+[schedule at:  t createActionTo: agent message: M(method)]
+</programlisting>
 
-    <formalpara><title>[super ...]</title>
-      <para>Executes createBegin method in the super class of 
-        obj (Swarm) and returns an instance of ModelSwarm
-      </para>
-    </formalpara>
-
-    <formalpara><title>obj->varName=val</title>
-      <para>Abuses OOP paradigm and "pokes" values directly into object</para>
-    </formalpara>
-
-</sect2>
-
-<sect2>
- <title>Memory zones</title> 
-
-    <formalpara><title>The Defobj super class provides facilities to create and 
-        drop an object through</title><para></para></formalpara>
-
-    <formalpara><title>In either case the object is created "in a memory zone"</title>
-      <para></para></formalpara>
-
-    <formalpara><title>Effectively this means that the underlying mechanism provides 
-        enough memory for the instance, it's variables and methods.</title>
-      <para></para></formalpara>
-
-    <formalpara><title>The zone also keeps track of all objects created in it and 
-        allows you to reclaim memory simply by dropping a zone. It will signals to 
-        all objects in it to destroy themselves</title><para></para></formalpara> 
-
-</sect2>
-
-<sect2>
- <title>Where did that zone come from?</title> 
-
-    <para>In main.m: modelSwarm= [ModelSwarm create: globalZone];</para>
-
-    <para>In main.m : initSwarm (argc, argv);</para>
-
-    <para>In ModelSwarm.m: +createBegin:
-
-      Executes various functions in defobj and simtools which create a
-      global memory zone among other things create: method is
-      implemented in defobj, superclass of the Swarm class and it
-      calls the createBegin: method in ModelSwarm
     </para>
 
 </sect2>
+
+<sect2>
+ <title>ActivityGroups</title> 
+
+    <para>ActivityGroups group together events at same timestep. Schedule then 
+      <emphasis>executes</emphasis> group
+      <programlisting>t=1
+t=2
+t=3
+[bug eat]
+[bug eat]
+[bug sleep]
+[food grow]
+</programlisting>
+    </para>
+
+</sect2>
+
+<sect2>
+ <title>Implementation</title> 
+
+    <programlisting>
+schedule1=[Schedule createBegin: [self getZone]];
+[schedule1 setRepeatInterval: 2];
+schedule1=[schedule1 createEnd];
+[schedule1 at: 1 createActionTo: bug message: M(eat)];
+
+actionGroup=[ActionGroup createBegin: [self getZone]];
+[actionGroup createEnd];
+[actionGroup createActionTo: bug message: M(sleep)];
+[actionGroup createActionTo: food message: M(grow)];
+schedule2=[Schedule createBegin: [self getZone]];
+schedule2=[schedule2 createEnd];
+[schedule2 at: 2 createAction: actionGroup];
+
+t=1
+t=2
+t=3
+</programlisting>
+
+</sect2>
+
 </sect1>
 <!--
 Local Variables:

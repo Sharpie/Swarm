@@ -1,3 +1,12 @@
+1999-03-05  Paul E. Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user2.05.sgml (elementFromList): This is a chapter about Lists.
+	(elementFromList): First draft submitted today!
+
+	* user2.04.sgml (t): This place-holder section is to be about
+ 	scheduling in Swarm. Was previously in user2.06.sgml. Did not
+ 	write it yet.
+
 1999-03-03  Alex Lancaster  <alex@santafe.edu>
 
 	* user1.02.sgml: Use INDEXTERMS consistently within document.
