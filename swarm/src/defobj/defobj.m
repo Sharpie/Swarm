@@ -292,7 +292,7 @@ lispIn (id aZone, id expr)
                           typeName);
 
 #ifdef HAVE_JDK
-            if (!object_is_class (typeObject)
+            if (object_is_instance (typeObject)
                 && [typeObject respondsTo: M(isJavaProxy)])
               {
                 obj = [JavaProxy createBegin: aZone];
@@ -358,7 +358,7 @@ hdf5In (id aZone, id hdf5Obj)
                 [hdf5Obj getName]);
   
 #ifdef HAVE_JDK
-  if (!object_is_class (typeObject)
+  if (object_is_instance (typeObject)
       && [typeObject respondsTo: M(isJavaProxy)])
     {
       obj = [JavaProxy createBegin: aZone];

@@ -898,7 +898,7 @@ object_setVariable (id obj, const char *ivar_name, void *inbuf)
   jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
 
   if (jobj)
-    java_object_setVariable (jobj, ivar_name, inbuf);
+    java_object_setVariable (jobj, ivar_name, fcall_type_void, 0, NULL, inbuf);
   else
 #endif
     {
@@ -937,18 +937,13 @@ object_getVariableElementCount (id obj,
                                 unsigned irank,
                                 unsigned *idims)
 {
-#ifdef HAVE_JDK
-  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+  unsigned i;
+  unsigned total = 1;
 
-  if (jobj)
-    return java_object_getVariableElementCount (jobj,
-                                                ivar_name,
-                                                itype,
-                                                irank,
-                                                idims);
-  else
-#endif
-    abort ();
+  for (i = 0; i < irank; i++)
+    total *= idims[i];
+
+  return total;
 }
 
 static void
@@ -1019,19 +1014,23 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
   if (arrayp (expr))
     {
 #ifdef HAVE_JDK
-      if (SD_JAVA_FIND_OBJECT_JAVA (obj))
+      jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+
+      if (jobj)
         {
           fcall_type_t type = [expr getArrayType];
+          unsigned rank = [expr getRank];
+          unsigned *dims = [expr getDims];
           unsigned count = object_getVariableElementCount (obj,
                                                            ivar_name,
                                                            type,
-                                                           [expr getRank],
-                                                           [expr getDims]);
+                                                           rank,
+                                                           dims);
           {
             unsigned char buf[fcall_type_size (type) * count];
 
             [expr convertToType: type dest: buf];
-            object_setVariable (obj, ivar_name, buf);
+            java_object_setVariable (jobj, ivar_name, type, rank, dims, buf);
           }
         }
       else

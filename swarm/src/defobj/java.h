@@ -20,7 +20,11 @@ extern const char *java_signature_for_fcall_type (fcall_type_t type);
 extern fcall_type_t fcall_type_for_java_class (jclass class);
 extern const char *java_ensure_selector_type_signature (jobject jsel);
 extern const char *java_get_class_name (jclass class);
-extern void java_object_setVariable (jobject obj, const char *ivarName, void *inbuf);
+extern void java_object_setVariable (jobject javaObject, const char *ivarName,
+                                     fcall_type_t type,
+                                     unsigned rank, unsigned *dims,
+                                     void *inbuf);
+
 extern void map_java_ivars (jobject javaObject,
                             void (*process_object) (const char *name,
                                                     fcall_type_t type,
@@ -33,11 +37,6 @@ extern void map_java_class_ivars (jclass class,
                                                         fcall_type_t type));
 
 extern fcall_type_t java_object_ivar_type (jobject javaObject, const char *ivarName, BOOL *isArrayPtr);
-extern unsigned java_object_getVariableElementCount (jobject javaObject,
-                                                     const char *ivarName,
-                                                     fcall_type_t itype,
-                                                     unsigned irank,
-                                                     unsigned *idims);
 
 extern void java_create_refs ();
 extern void swarm_directory_java_associate_objects_startup (jobject swarmEnvironment);

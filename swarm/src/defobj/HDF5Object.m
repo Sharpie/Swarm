@@ -1617,27 +1617,32 @@ PHASE(Using)
 - (void)assignIvar: obj
 {
   const char *ivarName = [self getName];
-  if ([obj respondsTo: M(isJavaProxy)])
+#ifdef HAVE_JDK
+  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
+
+  if (jobj)
     {
       if ([self getDatasetFlag])
         {
           unsigned rank = [self getDatasetRank];
           unsigned dims[rank], i;
+          fcall_type_t type = [self getDatasetType];
           
           for (i = 0; i < rank; i++)
             dims[i] = [self getDatasetDimension: i];
-          
+
+
           {
-            fcall_type_t type = [self getDatasetType];
             unsigned char buf[object_getVariableElementCount (obj,
                                                               ivarName,
                                                               type,
-                                                              rank,
-                                                              dims) *
-                             fcall_type_size (type)];
+                                                              rank, dims)
+                              * fcall_type_size (type)];
             
             [self loadDataset: buf];
-            object_setVariable (obj, ivarName, buf);
+            java_object_setVariable (jobj, ivarName,
+                                     type, rank, dims,
+                                     buf);
           }
         }
       else
@@ -1649,6 +1654,7 @@ PHASE(Using)
         }
     }
   else
+#endif
     {
       void *ptr = ivar_ptr_for_name (obj, ivarName);
       

@@ -647,7 +647,7 @@ java_storeArray (jobject javaObject,
     {
       if (di == rank - 1)
         {
-          unsigned len = vec[di] + 1;
+          unsigned len = vec[di];
           switch (type)
             {
             case fcall_type_boolean:
@@ -845,7 +845,9 @@ java_get_class_name (jclass class)
 }
 
 void
-java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
+java_object_setVariable (jobject javaObject, const char *ivarName,
+                         fcall_type_t dataType, unsigned rank, unsigned *dims,
+                         void *inbuf)
 {
   if (!javaObject)
     abort ();
@@ -863,21 +865,45 @@ java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
     
     if (isArray)
       {
-        jobject ary = GETVALUE (Object);
-        unsigned rank;
-        
-        {
-          type = java_getTypeInfo (ary, &rank, NULL);
+        jobject ary = 0;
+
+        if (rank > 1)
+          abort ();
+
+        switch (dataType)
           {
-            unsigned dims[rank];
-            
-            java_getTypeInfo (ary, &rank, dims);
-            java_storeArray (ary, type, rank, dims, inbuf);
+          case fcall_type_boolean:
+            ary = (*jniEnv)->NewBooleanArray (jniEnv, dims[0]);
+            break;
+          case fcall_type_uchar:
+            ary = (*jniEnv)->NewByteArray (jniEnv, dims[0]);
+            break;
+          case fcall_type_schar:
+            ary = (*jniEnv)->NewCharArray (jniEnv, dims[0]);
+            break;
+          case fcall_type_sshort:
+            ary = (*jniEnv)->NewShortArray (jniEnv, dims[0]);
+            break;
+          case fcall_type_sint:
+            ary = (*jniEnv)->NewIntArray (jniEnv, dims[0]);
+            break;
+          case fcall_type_slong:
+            ary = (*jniEnv)->NewLongArray (jniEnv, dims[0]);
+            break;
+          case fcall_type_float:
+            ary = (*jniEnv)->NewFloatArray (jniEnv, dims[0]);
+            break;
+          case fcall_type_double:
+            ary = (*jniEnv)->NewDoubleArray (jniEnv, dims[0]);
+            break;
+          default:
+            abort ();
           }
-        }
+        java_storeArray (ary, dataType, rank, dims, inbuf);
+        (*jniEnv)->SetObjectField (jniEnv, javaObject, fid, ary);
         (*jniEnv)->DeleteLocalRef (jniEnv, ary);
       }
-    else
+    else if (rank == 0 || (rank == 1 && dims[0] == 1))
       {
 #define _SETVALUE(uptype,value) \
     (*jniEnv)->Set##uptype##Field (jniEnv, javaObject, fid, value)
@@ -937,6 +963,8 @@ java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
 #undef _SETVALUE
         (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
       }
+    else
+      abort ();
   }
 }
 
@@ -952,58 +980,6 @@ java_object_ivar_type (jobject javaObject, const char *ivarName, BOOL *isArrayPt
   if (!class_java_find_field (javaClass, ivarName, &type, isArrayPtr))
     abort ();
   return type;
-}
-
-unsigned
-java_object_getVariableElementCount (jobject javaObject,
-                                     const char *ivarName,
-                                     fcall_type_t itype,
-                                     unsigned irank,
-                                     unsigned *idims)
-{
-  unsigned count = 1;
-  
-  if (!javaObject)
-    abort ();
-  {
-    BOOL isArray;
-    jclass javaClass = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
-    jfieldID fid =
-      class_java_find_field (javaClass, ivarName, NULL, &isArray);
-    
-    if (!fid)
-      abort ();
-    
-    if (isArray)
-      {
-        jobject ary = GETVALUE (Object);
-        unsigned rank;
-        fcall_type_t type = java_getTypeInfo (ary, &rank, NULL);
-        
-        if (rank != irank)
-          raiseEvent (SourceMessage, "array rank mismatch %u != %u\n",
-                      rank, irank);
-        if (type != itype)
-          raiseEvent (SourceMessage, "array type mismatch %u != %u\n",
-                      type, itype);
-        {
-          unsigned dims[rank];
-          unsigned i;
-          
-          java_getTypeInfo (ary, &rank, dims);
-          for (i = 0; i < rank; i++)
-            {
-              if (dims[i] != idims[i])
-                raiseEvent (SourceMessage,
-                            "idims[%u] %u != dims[%u] %u",
-                            i, idims[i], i, dims[i]);
-              count *= dims[i];
-            }
-        }
-      }
-    (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
-  }
-  return count;
 }
 
 static jobject

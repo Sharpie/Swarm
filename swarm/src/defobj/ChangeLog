@@ -1,3 +1,26 @@
+2001-04-01  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* internal.m (object_setVariable): Update usage of
+	java_object_setVariable.
+	(object_getVariableElementCount): Simply do the multiplication based
+	on arguments.
+	(object_setVariableFromExpr): Use java_object_setVariable instead
+	of object_setVariable.
+
+	* java.[hm] (java_object_setVariable): Add array type, rank, and dims 
+	arguments.
+	(java_object_getVariableElementCount): Remove.
+
+	* java.m (java_storeArray): Don't add one to vec[di].
+	(java_object_setVariable): Create arrays as necessary.
+
+	* defobj.m (lispIn, hdf5In): Use object_is_instance instead of
+	!object_is_class.
+
+	* HDF5Object.m ([HDF5_c -assignIvar:]): Use SD_JAVA_FIND_OBJECT_JAVA
+	instead of isJavaProxy check.   Use java_object_setVariable instead
+	of object_setVariable.
+
 2001-03-30  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* HDF5Object.m (count_size_t): Define depending on whether using
