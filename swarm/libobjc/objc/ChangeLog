@@ -5,7 +5,7 @@
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* externvar.h.in (externobjcvar, externobjcvardef):
-	Select on the basis of PIC and DLL.
+	Select on the basis of BUILDING_LIBOBJC and DLL.
 
 1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
