@@ -1,3 +1,9 @@
+1998-01-16  Alex Lancaster  <alexl@bigfoot.com>
+
+	* Makefile (dist): Added new target to create archive. Creates it
+	in the current directory with a directory name specified by a
+	$TARNAME variable.
+
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* DiGraphLink.m: Don't do anything except set the canvas variable
