@@ -17,7 +17,7 @@ IS_COMPONENT = 1
 
 REQUIRES = xpcom
 
-CPPSRCS = $(foreach module,$(MODULES),$(call modulecppfiles,$(module))) $(NULL)
+CPPSRCS = module.cpp $(foreach module,$(MODULES),$(call modulecppfiles,$(module))) $(NULL)
 
 XPIDLSRCS = $(foreach module,$(MODULES),$(call moduleidlfiles,$(module)))
 
