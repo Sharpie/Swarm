@@ -1,3 +1,7 @@
+2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Makefile.am (libdefobj_la_LDFLAGS): Add -L../../avcall -lavcall.
+
 2001-07-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* java.m (swarm_directory_java_ensure_class): Use id_JavaClassProxy
