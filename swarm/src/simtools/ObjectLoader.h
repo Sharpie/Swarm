@@ -16,6 +16,7 @@
 -setFileObject: aFileObject ;
 -loadObject: anObject ;
 
+-setTemplateProbeMap : probeMap;
 -updateCache: exampleTarget ;
 
 -(void) _crash_: anObject ;

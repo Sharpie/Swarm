@@ -177,6 +177,11 @@
   return self ;  
 }
 
+-setTemplateProbeMap: probeMap
+{
+  probeMapCache = probeMap;
+  return self;
+}
 
 -updateCache: exampleTarget {
 
