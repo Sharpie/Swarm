@@ -1,3 +1,8 @@
+1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FunctionGraph.[hm], analysis.h ([FunctionGraph
+	-setElement:setDataFeed:setFunctionSelector:]): Remove.
+
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* EZBin.m ([EZBin -update]): Create and use a message probe for 

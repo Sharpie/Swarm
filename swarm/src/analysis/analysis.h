@@ -459,11 +459,6 @@ CREATING
 + createBegin: aZone;
 - createEnd;
 
-//M: Convenience function for setting all of the needed slots.
-- setElement         : (id <GraphElement>)e
-          setDataFeed: f
-  setFunctionSelector: (SEL)sel;
-
 //M: Set the GraphElement to use for plotting.
 - setElement: (id <GraphElement>)graphElement;
 

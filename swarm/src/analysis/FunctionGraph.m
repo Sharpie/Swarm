@@ -40,15 +40,6 @@ PHASE(Creating)
 }
 
 
-- setElement: (id <GraphElement>)e setDataFeed: f setFunctionSelector: (SEL)sel
-{
-  [self setElement: e];
-  [self setDataFeed: f];
-  [self setFunctionSelector: sel];
-  
-  return self;
-}
-
 - setElement: (id <GraphElement>)graphElement
 {
   element = graphElement;

@@ -26,10 +26,6 @@
 + createBegin: aZone;
 - createEnd;
 
-- setElement          : (id <GraphElement>)e
-           setDataFeed: f
-   setFunctionSelector: (SEL)sel;
-
 - setElement: (id <GraphElement>)graphElement;
 - setDataFeed: feed;
 - setFunctionSelector: (SEL)aSel;
