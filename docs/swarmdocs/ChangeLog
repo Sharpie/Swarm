@@ -1,3 +1,8 @@
+1998-06-17  Alex Lancaster  <alex@santafe.edu>
+
+	* README: Add text briefly describing the purpose and contents of
+	the swarmdocs package, and a list of required packages.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.rules (htmldir, html_DATA, dvidir, dvi_DATA, psdir, ps_DATA,
