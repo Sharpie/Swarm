@@ -5,7 +5,7 @@
 package=swarm
 
 ifneq ($(DEB_BUILD_GNU_TYPE),sparc-linux)
-ENV = JAVAC=javac
+ENV = JAVAC=javac JAR=/usr/java1.2.2/bin/jar
 else
 ENV = JAVAC=javac CONSERVATIVE_OPTIMIZATION=yes
 endif
