@@ -2,6 +2,8 @@
 
 	* NEWS: Note support for private colormaps in display Pixmaps.
 
+	* VERSION: Bump.
+
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Remove tests.
