@@ -1,5 +1,6 @@
 NAME = refbook-java
 SUBDIRS = html latex
+GZIP = gzip --best
 
 include $(top_srcdir)/Makefile.common
 
@@ -7,13 +8,30 @@ MODULES = defobj collections activity objectbase random simtools gui simtoolsgui
 
 DOC_TITLE = "Swarm $(shell head -1 $(swarm_dossrcdir)/VERSION) Reference Guide"
 
-.PHONY: all html latex stubs
+DISTNAME=$(NAME)-@VERSION@
 
-all: html latex
+.PHONY: all html latex dvi ps stubs htmldist dvidist psdist
+
+all: html latex dvi ps 
+
+alldist: htmldist dvidist psdist
 
 html: $(NAME)/index.html html/swarm-doclet.jar
 
 latex: $(NAME).tex latex/LatexDoclet.class
+
+dvi: $(NAME).dvi
+
+ps: $(NAME).ps
+
+htmldist: html
+	tar c $(NAME) | $(GZIP) > $(DISTNAME)-html.tar.gz
+
+dvidist: dvi
+	$(GZIP) < $(NAME).dvi > $(DISTNAME).dvi.gz
+
+psdist: ps
+	$(GZIP) $(NAME).ps > $(DISTNAME).ps.gz
 
 java-stub.elc: $(swarm_dossrcdir)/java/java-stub.el protocol.elc
 	$(elcrule)
@@ -32,7 +50,13 @@ $(NAME)/index.html: $(STUBS)
 $(NAME).tex: $(STUBS)
 	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -docletpath $(srcdir)/latex -doclet LatexDoclet -title $(DOC_TITLE) -f $(NAME).tex
 
-MOSTLYCLEANFILES = $(NAME).tex $(NAME)/index.html protocol.elc java-stub.elc
+$(NAME).dvi: $(NAME).tex
+	- @LATEX@ $< ; @LATEX@ $< ; @LATEX@ $<
+
+$(NAME).ps: $(NAME).dvi
+	@DVIPS@ -o $@ $<
+
+MOSTLYCLEANFILES = $(NAME)/index.html protocol.elc java-stub.elc $(addprefix $(NAME)., idx aux dvi log tex toc) 
 
 clean-local:
 	- rm -rf $(NAME) swarm
