@@ -1,3 +1,7 @@
+1999-07-23  Alex Lancaster  <alex@santafe.edu>
+
+	* NEWS: Note stylesheet version 1.42.
+
 1999-07-08  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in (AM_MAINTAINER_MODE): New macro.

@@ -11,7 +11,7 @@ Support for both html output (using a modified version of the
 `Standard' Doclet from Sun) and latex output (using the LateX Doclet,
 from Robert McDermid <mcdermid@hcl.com>).  
 
-** Updates for OASIS DocBook 3.1 DTD and Modular Stylesheets 1.40.
+** Updates for OASIS DocBook 3.1 DTD and Modular Stylesheets 1.42.
 
 * Release Notes for swarmdocs 1.4.1
 
