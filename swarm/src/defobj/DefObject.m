@@ -667,8 +667,8 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
     retval_t retVal;
                       
     retVal = [fc getRetVal: retValBuf buf: &typebuf];
-    [(id) fc dropAllocations: YES];
-    [(id) fa dropAllocations: YES];
+    [fc drop];
+    [fa drop];
     return retVal;
   }
 #else

@@ -850,4 +850,8 @@ PHASE(Using)
   [super dropAllocations: componentAlloc];
 }
 
+- (void)drop
+{
+  [self dropAllocations: YES];
+}
 @end

@@ -455,7 +455,6 @@ PHASE(Using)
 - (void)dropAllocations: (BOOL)componentAlloc
 {
 #ifdef HAVE_JDK  
-
   if (pendingGlobalRefFlag)
     {
       (*jniEnv)->DeleteGlobalRef (jniEnv,
@@ -497,5 +496,10 @@ PHASE(Using)
   mapalloc->size = javaSignatureLength + 1;
   mapAlloc (mapalloc, (char *) javaSignature);
 #endif
+}
+
+- (void)drop
+{
+  [self dropAllocations: YES];
 }
 @end
