@@ -1,5 +1,7 @@
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* catalog.in: New file.
+
 	* history.el (process-changelog): Call fill-paragraph after
 	inserting contents of REVREMARK.
 
