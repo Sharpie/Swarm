@@ -1,3 +1,10 @@
+1999-02-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (refindex.sgml $(PAGES)): Depend on
+	$(swarm_srcdir)/etc/{protocol,common}.el instead of
+	$(top_srcdir)/{protocol,common}.el.  Load sgml.el instead of
+	protocol.el.
+
 1999-02-09  Alex Lancaster  <alex@santafe.edu>
 
 	* refcont.sgml (random-app.sgml): Add `Random' Appendix to list of

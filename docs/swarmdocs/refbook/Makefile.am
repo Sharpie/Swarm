@@ -50,8 +50,10 @@ refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/random/random.h \
 	$(swarm_srcdir)/src/simtools/simtools.h \
 	$(swarm_srcdir)/src/simtoolsgui/simtoolsgui.h \
-	$(swarm_srcdir)/src/space/space.h $(top_srcdir)/protocol.el $(top_srcdir)/common.el
-	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_dossrcdir)/protocol.el -f run-all $(swarm_dossrcdir)
+	$(swarm_srcdir)/src/space/space.h \
+	$(swarm_srcdir)/etc/protocol.el $(swarm_srcdir)/etc/common.el \
+	$(top_srcdir)/sgml.el
+	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_dossrcdir)/sgml.el -f run-all $(swarm_dossrcdir)
 
 # Local variables:
 # mode: makefile
