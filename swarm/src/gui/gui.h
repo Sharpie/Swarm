@@ -1000,7 +1000,7 @@ CREATING
 //D: A CanvasItem that displays a line.
 @end
 
-#if 0 /* ndef USE_JAVA -- disabled for the sake of protocol.el */
+#if 0 /* def USE_JAVA -- disabled for the sake of protocol.el */
 #define _GUI_MSG(str) printf ("GUI [%s,%d] %s\n",__FILE__,__LINE__,str)
 #define GUI_BEEP() _GUI_MSG ("GUI_BEEP")
 #define GUI_UPDATE() _GUI_MSG ("GUI_UPDATE")
@@ -1021,7 +1021,9 @@ CREATING
 #import <awtobjc/global.h>
 
 #define GUI_INIT(arguments)  initAWTObjc (arguments)
-#else
+#endif
+
+#ifndef USE_JAVA
 #import <tkobjc/common.h>
 extern void initTkObjc (id arguments);
 

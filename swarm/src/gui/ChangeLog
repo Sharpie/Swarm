@@ -1,7 +1,7 @@
-1998-06-10  Marcus G. Daniels  <mgd@ute.santafe.edu>
+1998-06-14  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* gui.h: Exchange awt/Tk macros so that it can remain a #if 0
-	and work with the protocol script.
+	* gui.h: Make separate ifdefs for GUI macros to work with the
+	protocol script.  Use #if 0 for awt.
 
 1998-06-05  Alex Lancaster  <alex@santafe.edu>
 
