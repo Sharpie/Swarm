@@ -15,15 +15,6 @@
 
 @implementation ButtonPanel
 
-// a ButtonPanel is itself just a frame.
--createEnd {
-  [super createEnd];
-
-  [globalTkInterp eval: "frame %s", widgetName];
-
-  return self;
-}
-
 // this is atrocious - we should maintain a collection of the buttons.
 -addButtonName: (char *) n Command: (char *) c {
   Button * b;

@@ -7,7 +7,8 @@
 
 #import <tkobjc/Frame.h>
 
-@interface ButtonPanel : Widget {
+@interface ButtonPanel : Frame
+{
 }
 
 -addButtonName: (char *) n Command: (char *) c;

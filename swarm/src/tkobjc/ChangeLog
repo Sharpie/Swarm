@@ -1,3 +1,33 @@
+1997-11-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Frame.m ([Frame -drop]): Add.  (Only drop if no parent.)
+
+	* Frame.h: Add -(void)drop.
+
+	* Makefile (OBJECTS,HEADER): Add WindowGeometryRecord and
+	ArchivedGeometryWidget
+	(WindowGeometryRecord.o, ArchivedGeometryWidget.o): Add.
+
+	* tkobjc.h: Include WindowGeometryRecord.h and
+	ArchivedGeometryWidget.h.
+
+	* ButtonPanel.m: Remove -createEnd; Frame will take care of it.
+
+	* ButtonPanel.h (Frame): Derive ButtonPanel from Frame, not Widget.
+
+	* Frame.m ([Frame -createEnd]): Call registerAndLoad (since
+	ArchivedGeometryWidget's createEnd isn't being called).
+
+	* Frame.h: Inherit from ArchivedGeometryWidget instead of Widget.
+	* BLTGraph.h: Likewise.
+	* Raster.h: Likewise.
+
+	* WindowGeometryRecord.h: New files.  An object for storing
+	geometry information.
+
+	* ArchivedGeometryWidget.[hm]: New files. An enhanced Widget that
+	can communicate with the Archiver class (in simtools).
+
 Fri Nov 28 16:26:44 1997  glen e. p. ropella  <gepr@swarm.com>
 
 	* [Zoom]Raster.[hm] ([-handleButton]): Changed -handleButton

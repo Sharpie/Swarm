@@ -5,11 +5,12 @@
 
 // Objective C encapsulation of toplevels and frames, for use with libtclobjc
 
-#import <tkobjc/Widget.h>
+#import <tkobjc/ArchivedGeometryWidget.h>
 
-@interface Frame: Widget {
+@interface Frame: ArchivedGeometryWidget 
+{
 }
 
 -createEnd;					  // we override this.
-
+-(void)drop;
 @end

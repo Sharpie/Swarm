@@ -5,12 +5,13 @@
 
 // Objective C interface to BltGraph, for use with libtclobjc
 
-#import <tkobjc/Widget.h>
+#import <tkobjc/ArchivedGeometryWidget.h>
 
 @class GraphElement;
 @class BLTVector;
 
-@interface BLTGraph : Widget {
+@interface BLTGraph : ArchivedGeometryWidget
+{
   id elementList;
 }
 

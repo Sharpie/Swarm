@@ -5,7 +5,7 @@
 
 // Objective C interface to Raster, for use with libtclobjc
 
-#import <tkobjc/Widget.h>
+#import <tkobjc/ArchivedGeometryWidget.h>
 #import <tk.h>
 #import <tkobjc/XColormap.h>
 #import <tkobjc/XDrawer.h>
@@ -15,7 +15,8 @@
 #define ButtonRight 3
 
 // this could include a list of environments (graphics contexts)
-@interface Raster : Widget {
+@interface Raster : ArchivedGeometryWidget
+{
   Tk_Window tkwin;
   Display * display;
   Window xwin;

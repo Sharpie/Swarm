@@ -5,6 +5,8 @@
 
 #import <tkobjc/BLTGraph.h>
 #import <tkobjc/Button.h>
+#import <tkobjc/WindowGeometryRecord.h>
+#import <tkobjc/ArchivedGeometryWidget.h>
 #import <tkobjc/ButtonPanel.h>
 #import <tkobjc/Entry.h>
 #import <tkobjc/Form.h>
