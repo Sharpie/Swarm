@@ -1,3 +1,11 @@
+1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (CURRENT, VERSION, AGE, lib_LTLIBRARIES,
+	libswarm_la_SOURCES, LIBS, empty.m, libswarm_la_LDFLAGS): New
+	target for libswarm.  Include Makefile.common.
+	(SWARMMODULES): New variable.
+	(SUBDIRS): Use it.
+
 1999-05-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules (LDFLAGS): Add directory for -lgcc.
