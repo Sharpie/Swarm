@@ -9,10 +9,11 @@
 #import <tkobjc/Widget.h>
 #import <tkobjc/CanvasItem.h>
 
-@interface Rectangle: CanvasItem {
-  int tx,ty,lx,ly ;
+@interface Rectangle: CanvasItem
+{
+  int tx, ty, lx, ly;
 }
 
--setTX: (int) tx TY: (int) ty LX: (int) lx LY: (int) ly ;
--createItem ;
+-setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
+-createItem;
 @end

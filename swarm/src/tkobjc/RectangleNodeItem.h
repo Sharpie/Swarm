@@ -9,7 +9,8 @@
 #import <tkobjc/Widget.h>
 #import <tkobjc/NodeItem.h>
 
-@interface RectangleNodeItem: NodeItem {
+@interface RectangleNodeItem: NodeItem
+{
 }
 @end
 

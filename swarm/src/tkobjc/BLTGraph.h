@@ -15,51 +15,61 @@
   id elementList;
 }
 
--(GraphElement *) createElement;		  // create a dataset to draw
--destroyElement: (GraphElement *) g;		  // remove element, free it.
--title: (char *) t;				  // title the graph
--axisLabelsX: (char *) xl Y: (char *) yl;	  // change labels here.
--setScaleModeX: (int) xs Y: (int) ys;		  // 0 smooth, 1 jump
--setRangesXMin: (double) minX Max: (double) maxX YMin: (double) minY Max: (double) maxY;        // bltgraph will autoscale, but you can also fix scale.
+- (GraphElement *)createElement;		     // create dataset to draw
+- destroyElement: (GraphElement *) g;		     // remove element, free it
+- title: (const char *) t;		 	     // title the graph
+- axisLabelsX: (const char *)xl Y: (const char *)yl; // change labels here
+- setScaleModeX: (int)xs Y: (int)ys;		     // 0 smooth, 1 jump
+// bltgraph will autoscale, but you can also fix scale.
+-setRangesXMin: (double)minX
+           Max: (double)maxX
+          YMin: (double)minY
+           Max: (double)maxY; 
 @end
 
 // object to describe one element (dataset) in a graph.
-@interface GraphElement : CreateDrop {
-  char * name;
-  BLTGraph * ownerGraph;
+@interface GraphElement : CreateDrop
+{
+  const char *name;
+  BLTGraph *ownerGraph;
   BLTVector *xData, *yData;
 }
 
--setOwnerGraph: (BLTGraph *) og;
--createEnd;
-+createOwnerGraph: (BLTGraph *) og;		  // alternate creation.
+- setOwnerGraph: (BLTGraph *) og;
+- createEnd;
++ createOwnerGraph: (BLTGraph *) og;		  // alternate creation.
 
--(char *)getName;
--(BLTVector *) getXData;
--(BLTVector *) getYData;
+- (const char *)getName;
+- (BLTVector *)getXData;
+- (BLTVector *)getYData;
 
--addX: (double) x Y: (double) y;
--resetData;
+- addX: (double)x Y: (double)y;
+- resetData;
 
 // user configurable options.
--setLabel: (char *) label;
--setColor: (char *) color;
--setWidth: (unsigned) w;
--setSymbol: (char *)s;   // line square circle diamond plus cross splus scross
--setDashes: (int) i;				  // only if we're a line.
+- setLabel: (const char *)label;
+- setColor: (const char *)color;
+- setWidth: (unsigned)w;
+// line square circle diamond plus cross splus scross
+- setSymbol: (const char *)s; 
+// only if we're a line.
+- setDashes: (int)i;
 @end
 
 // wrapper for BLT 2.x vectors, most important functions..
-@interface BLTVector : CreateDrop {
-  char * name;
+@interface BLTVector : CreateDrop
+{
+  const char *name;
 }
 
--createEnd;
--(char *)getName;
--(unsigned) getLength;
+- createEnd;
+- (const char *)getName;
+- (unsigned)getLength;
 
--setLength: (unsigned) n;
--append: (double) v;
--resetData;
--delete: (int) n;
+- setLength: (unsigned)n;
+- append: (double)v;
+- resetData;
+- delete: (int)n;
 @end
+
+

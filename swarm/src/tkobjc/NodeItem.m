@@ -15,89 +15,111 @@
 
 @implementation NodeItem
 
--setX: (int) the_x Y: (int) the_y {
-  x = the_x ;
-  y = the_y ;
-  return self ;
+- setX: (int)the_x Y: (int)the_y
+{
+  x = the_x;
+  y = the_y;
+  return self;
 }
 
--setColor: (char *) aColor {
+- setColor: (const char *)aColor
+{
   [globalTkInterp eval: "%s itemconfigure %s -fill %s",
-    [canvas getWidgetName],item,aColor] ;  
-  return self ;
+                  [canvas getWidgetName],item,aColor];  
+  return self;
 }
 
--setBorderColor: (char *) aColor {
+- setBorderColor: (const char *)aColor
+{
   [globalTkInterp eval: "%s itemconfigure %s -outline %s",
-    [canvas getWidgetName],item,aColor] ;  
-  return self ;
+                  [canvas getWidgetName],item,aColor];  
+  return self;
 }
 
--setBorderWidth: (int) aVal {
+- setBorderWidth: (int)aVal
+{
   [globalTkInterp eval: "%s itemconfigure %s -width %d",
-    [canvas getWidgetName],item,aVal] ;  
-  return self ;
+                  [canvas getWidgetName],
+                  item,
+                  aVal];  
+  return self;
 }
 
--setString: (char *) the_text {
-  string = the_text ;
-  return self ;
+- setString: (const char *)the_text
+{
+  string = the_text;
+  return self;
 }
 
--createBindings {
+- createBindings
+{
   [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-    [canvas getWidgetName], item, tclObjc_objectToName(self)] ;
-
+                  [canvas getWidgetName],
+                  item,
+                  tclObjc_objectToName (self)];
+  
   [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-    [canvas getWidgetName], text, tclObjc_objectToName(self)] ;
-
-  [globalTkInterp eval: "%s bind %s <Button-1> {
-      set curX %s ; set curY %s
-    }",[canvas getWidgetName], item, "%x" , "%y"];
-
-  [globalTkInterp eval: "%s bind %s <Button-1> {
-      set curX %s ; set curY %s
-    }",[canvas getWidgetName], text, "%x" , "%y"];
-
-  [globalTkInterp eval: "%s bind %s <B1-Motion> {
-      %s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY] ;
-      set curX %s ; set curY %s
-    }",[canvas getWidgetName],item,tclObjc_objectToName(self),"%x","%y","%x","%y"];
-
-  [globalTkInterp eval: "%s bind %s <B1-Motion> {
-      %s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY] ;
-      set curX %s ; set curY %s
-    }",[canvas getWidgetName],text,tclObjc_objectToName(self),"%x","%y","%x","%y"];
-
-  return self ;
-}
-
--(int) getX {
-  return x ;
-}
-
--(int) getY {
-  return y ;
-}
-
--moveX: (long) the_x Y: (long) the_y {
+                  [canvas getWidgetName],
+                  text,
+                  tclObjc_objectToName (self)];
   
-  x += the_x ;
-  y += the_y ;
+  [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
+                  [canvas getWidgetName],
+                  item,
+                  "%x", "%y"];
   
-  [globalTkInterp eval: "%s move %s %ld %ld ; %s move %s %ld %ld",
-    [canvas getWidgetName], text, the_x, the_y,
-    [canvas getWidgetName], item, the_x, the_y] ;
+  [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
+                  [canvas getWidgetName],
+                  text,
+                  "%x", "%y"];
+  
+  [globalTkInterp eval: "%s bind %s <B1-Motion> {"
+                  "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
+                  "set curX %s; set curY %s}",
+                  [canvas getWidgetName],
+                  item,
+                  tclObjc_objectToName (self),
+                  "%x", "%y", "%x", "%y"];
 
-  return self ;
+  [globalTkInterp eval: "%s bind %s <B1-Motion> {"
+                  "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
+                  "set curX %s; set curY %s}",
+                  [canvas getWidgetName],
+                  text,
+                  tclObjc_objectToName (self),
+                  "%x", "%y", "%x", "%y"];
+  return self;
 }
 
--(void) drop {
+- (int)getX
+{
+  return x;
+}
+
+- (int)getY
+{
+  return y;
+}
+
+- moveX: (long)the_x Y: (long)the_y
+{
+  x += the_x;
+  y += the_y;
+  
+  [globalTkInterp eval: "%s move %s %ld %ld; %s move %s %ld %ld",
+                  [canvas getWidgetName], text, the_x, the_y,
+                  [canvas getWidgetName], item, the_x, the_y];
+  
+  return self;
+}
+
+-(void) drop
+{
   [globalTkInterp eval: "%s delete %s",
-    [canvas getWidgetName],text] ;  
+                  [canvas getWidgetName],text];  
   [globalTkInterp eval: "%s delete %s",
-    [canvas getWidgetName],item] ;  
-  [super drop] ;
+                  [canvas getWidgetName],item];  
+  [super drop];
 }
 
 @end

@@ -7,7 +7,8 @@
 
 #import <tkobjc/NodeItem.h>
 
-@interface OvalNodeItem: NodeItem {
+@interface OvalNodeItem: NodeItem
+{
 }
 @end
 

@@ -7,20 +7,21 @@
 
 #import <tkobjc/CompositeItem.h>
 
-@interface NodeItem: CompositeItem {
-  int x,y ;
-  char *text ;
-  char *item ;
-  char *string ;
+@interface NodeItem: CompositeItem
+{
+  int x,y;
+  const char *text;
+  const char *item;
+  const char *string;
 }
 
--setX: (int) x Y: (int) y ;
--(int) getX ;
--(int) getY ;
--setString: (char *) string ;
--setColor: (char *) aColor ;
--setBorderColor: (char *) aColor ;
--setBorderWidth: (int) aVal ;
--createBindings ;
+- setX: (int)x Y: (int)y;
+- (int)getX;
+- (int)getY;
+- setString: (const char *)string;
+- setColor: (const char *)aColor;
+- setBorderColor: (const char *)aColor;
+- setBorderWidth: (int)aVal;
+- createBindings;
 @end
 

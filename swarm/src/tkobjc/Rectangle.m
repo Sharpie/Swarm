@@ -15,22 +15,25 @@
 
 @implementation Rectangle
 
--setTX: (int) the_tx TY: (int) the_ty LX: (int) the_lx LY: (int) the_ly {
-  tx = the_tx ;
-  ty = the_ty ;
-  lx = the_lx ;
-  ly = the_ly ;
-  return self ;
+- setTX: (int)the_tx TY: (int)the_ty LX: (int)the_lx LY: (int)the_ly
+{
+  tx = the_tx;
+  ty = the_ty;
+  lx = the_lx;
+  ly = the_ly;
+  return self;
 }
  
--createItem {
+- createItem
+{
 
-  [globalTkInterp eval: 
-    "%s create rectangle %d %d %d %d -fill white", 
-    [canvas getWidgetName],tx,ty,lx,ly];
+  [globalTkInterp 
+    eval: 
+      "%s create rectangle %d %d %d %d -fill white", 
+    [canvas getWidgetName], tx, ty, lx, ly];
   
-  item = strdup([globalTkInterp result]) ;
-
+  item = strdup ([globalTkInterp result]);
+  
   return self;
 }
 

@@ -8,16 +8,17 @@
 #import <tkobjc/NodeItem.h>
 #import <tkobjc/CompositeItem.h>
 
-@interface LinkItem: CompositeItem {
-  id from, to ;
-  char *line1,*line2 ;
+@interface LinkItem: CompositeItem
+{
+  id from, to;
+  const char *line1, *line2;
 }
 
--setFrom: from ;
--setTo: to ;
--createItem ;
+- setFrom: from;
+- setTo: to;
+- createItem;
 
--setColor: (char *) aColor ;
--update ;
+- setColor: (const char *)aColor;
+- update;
 
 @end

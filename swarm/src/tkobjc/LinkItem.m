@@ -15,85 +15,90 @@
 
 @implementation LinkItem
 
--setFrom: the_from {
-  from = the_from ;
-  return self ;
+- setFrom: the_from
+{
+  from = the_from;
+  return self;
 }
 
--setTo: the_to {
-  to = the_to ;
-  return self ;
+- setTo: the_to
+{
+  to = the_to;
+  return self;
 }
 
--update{
-  int fx,fy,tx,ty,mx,my ;
- 
-  fx = [from getX] ;
-  fy = [from getY] ;
+- update
+{
+  int fx,fy,tx,ty,mx,my;
+  
+  fx = [from getX];
+  fy = [from getY];
 
-  tx = [to getX] ;  
-  ty = [to getY] ;
+  tx = [to getX];  
+  ty = [to getY];
 
-  mx = fx + (tx - fx) / 2 ;
-  my = fy + (ty - fy) / 2 ;
+  mx = fx + (tx - fx) / 2;
+  my = fy + (ty - fy) / 2;
 
   [globalTkInterp eval: "%s coords %s %d %d %d %d",
-    [canvas getWidgetName],line1,fx,fy,mx,my] ;
+    [canvas getWidgetName],line1,fx,fy,mx,my];
 
   [globalTkInterp eval: "%s coords %s %d %d %d %d",
-    [canvas getWidgetName],line2,mx,my,tx,ty] ;
-
-  return self ;
-}
-
--createItem {
-
-  int fx,fy,tx,ty,mx,my ;
- 
-  fx = [from getX] ;
-  fy = [from getY] ;
-
-  tx = [to getX] ;  
-  ty = [to getY] ;
-
-  mx = fx + (tx - fx) / 2 ;
-  my = fy + (ty - fy) / 2 ;
-
-  line1 = strdup([[globalTkInterp eval: 
-   "%s create line %d %d %d %d -arrow last", 
-   [canvas getWidgetName],fx,fy,mx,my] 
-   result]) ;
-
-  line2 = strdup([[globalTkInterp eval: 
-   "%s create line %d %d %d %d", 
-   [canvas getWidgetName],mx,my,tx,ty] 
-   result]) ;
-
-  [globalTkInterp eval: "%s lower %s ; %s lower %s",
-    [canvas getWidgetName],line1,[canvas getWidgetName], line2] ;
+    [canvas getWidgetName],line2,mx,my,tx,ty];
 
   return self;
 }
 
--createBindings {
-  return self ;
+- createItem
+{
+  int fx,fy,tx,ty,mx,my;
+  
+  fx = [from getX];
+  fy = [from getY];
+
+  tx = [to getX];  
+  ty = [to getY];
+
+  mx = fx + (tx - fx) / 2;
+  my = fy + (ty - fy) / 2;
+
+  line1 = strdup ([[globalTkInterp eval: 
+                                     "%s create line %d %d %d %d -arrow last", 
+                                   [canvas getWidgetName],fx,fy,mx,my] 
+                    result]);
+  
+  line2 = strdup([[globalTkInterp eval: 
+                                    "%s create line %d %d %d %d", 
+                                  [canvas getWidgetName],mx,my,tx,ty] 
+                   result]);
+  
+  [globalTkInterp eval: "%s lower %s; %s lower %s",
+                  [canvas getWidgetName],line1,[canvas getWidgetName], line2];
+  
+  return self;
 }
 
--setColor: (char *) aColor {
-
-  [globalTkInterp eval: "%s itemconfigure %s -fill %s",
-    [canvas getWidgetName],line1,aColor] ;  
-
-  [globalTkInterp eval: "%s itemconfigure %s -fill %s",
-    [canvas getWidgetName],line2,aColor] ;  
- 
-  return self ;
+- createBindings
+{
+  return self;
 }
 
--(void) drop {
+- setColor: (const char *)aColor
+{
+  [globalTkInterp eval: "%s itemconfigure %s -fill %s",
+                  [canvas getWidgetName], line1, aColor];  
+  
+  [globalTkInterp eval: "%s itemconfigure %s -fill %s",
+                  [canvas getWidgetName], line2, aColor];  
+  
+  return self;
+}
+
+- (void)drop
+{
   [globalTkInterp eval: "%s delete %s %s",
-    [canvas getWidgetName],line1,line2] ;  
-  [super drop] ;
+                  [canvas getWidgetName],line1,line2];  
+  [super drop];
 }
 
 @end
