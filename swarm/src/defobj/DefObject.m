@@ -1215,19 +1215,9 @@ lisp_output_type (const char *type,
                         "could not find ivar `%s'", ivarName);
 
           if ([component getDatasetFlag])
-            {
-              [component loadDataset: ptr];
-              printf ("%s got primitive [%s]\n",
-                      [self getTypeName],
-                      [component getName]);
-            }
+            [component loadDataset: ptr];
           else
-            {
-              *(id *) ptr = hdf5In ([self getZone], component);
-              printf ("%s got object [%s]\n",
-                      [self getTypeName],
-                      [component getName]);
-            }
+            *(id *) ptr = hdf5In ([self getZone], component);
           return 0;
         }
       [hdf5Obj iterate: process_object];
