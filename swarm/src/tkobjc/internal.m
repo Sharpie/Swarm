@@ -544,6 +544,8 @@ x_pixmap_create_from_window (Pixmap *pixmap, Window window)
                      &x, &y, &w, &h,
                      &bw, &depth))
     [PixmapError raiseEvent: "Cannot get geometry for root window"];
+  pixmap->height = h;
+  pixmap->width = w;
   ximage = XGetImage (pixmap->display, window, x, y, w, h, AllPlanes, ZPixmap);
   if (ximage == NULL)
     [PixmapError raiseEvent: "Cannot get XImage of window"];

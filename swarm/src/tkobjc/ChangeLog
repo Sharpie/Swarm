@@ -1,5 +1,8 @@
 1998-08-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* internal.m (x_pixmap_create_from_window): Store
+	pixmap->{height,width}.
+
 	* win32dib.c (SNAPSHOTPALETTE): Placeholder for colormap
 	entry for palette generated on the fly for snapshot.
 	(dib_augmentPalette): Don't create DIB color table if there
