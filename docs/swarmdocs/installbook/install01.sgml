@@ -61,12 +61,12 @@
           
           <PARA>We have also ported Swarm to work on Windows NT.  The
             following discussion largely pertains to installing Swarm
-            under Linux/Unix systems.  The installation of the
-            'Prerequisite Programs' is replaced by installing the Cygnus
-            Win32 environment, and a Swarm "Install Shield" has been
-            created to install Swarm in under Windows NT (also
-            replacing the job of installing the prerequisite
-            libraries).  Please see the Swarm <ULINK
+            under Linux/Unix systems.  In the case of Windows NT, the
+            installation of the 'Prerequisite Programs' is replaced by
+            installing the Cygnus Win32 environment, and a Swarm
+            "Install Shield" has been created to install Swarm on
+            Windows NT (also replacing the job of installing the
+            'Prerequisite Libraries').  Please see the Swarm <ULINK
             URL="http://www.santafe.edu/projects/swarm/release.html">release
             page</ULINK>, for more details.</PARA>
 
