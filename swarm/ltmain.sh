@@ -2437,6 +2437,9 @@ EOF
 	    newdependency_libs="$newdependency_libs $deplib"
 	  fi
 	done
+        if test -n "$link_static_flag"; then
+          deplibs="$deplibs $lib"
+        fi
       done
       
       # Eliminate all dependency_libs that are already contained in deplibs
