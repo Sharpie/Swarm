@@ -16,6 +16,7 @@
   ty = the_ty;
   lx = the_lx;
   ly = the_ly;
+
   return self;
 }
  

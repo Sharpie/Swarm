@@ -39,6 +39,7 @@
 - reportClick
 {
   printf ("Reporting!!!\n");
+
   return self;
 }
 
