@@ -19,6 +19,24 @@
 
 #include <swarmconfig.h> // PTRUINT
 
+static double
+derefDouble (const void *p)
+{
+#ifdef hpux9
+  double val;
+  unsigned *ptr = &val;
+  unsigned temp;
+  
+  memcpy (val, p, sizeof (double));
+  temp = ptr[0];
+  ptr[0] = ptr[1];
+  ptr[1] = temp;
+  return val;
+#else
+  return *(double *) p;
+#endif
+}
+
 @implementation VarProbe
 
 PHASE(Creating)
@@ -394,7 +412,7 @@ probe_as_int (const char *probedType, const void *p)
     case _C_ULNG_LNG: i = (unsigned) *(unsigned long long *) p; break;
 
     case _C_FLT:     i = (int) *(float *) p; break;
-    case _C_DBL:     i = (int) *(double *) p; break;
+    case _C_DBL:     i = (int) derefDouble (p); break;
     case _C_LNG_DBL: i = (int) *(long double *) p; break;
       
     default:
@@ -480,7 +498,7 @@ probe_as_double (const char *probedType, const void *p)
     case _C_ULNG_LNG: d = (double) *(unsigned long long *) p; break;
       
     case _C_FLT:  d = (double) *(float *) p; break;
-    case _C_DBL:  d = (double) *(double *) p; break;
+    case _C_DBL:  d = derefDouble (p); break;
     case _C_LNG_DBL:  d = (double) *(long double *) p; break;
       
     default:
@@ -676,9 +694,9 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     case _C_DBL:
       if (precision)
         sprintf (buf, "%.*g", [probeLibrary getSavedPrecision],
-                *(double *) p);
+                 derefDouble (p));
       else
-        sprintf (buf, floatFormat, *(double *) p);
+        sprintf (buf, floatFormat, derefDouble (p));
       break;
     case _C_LNG_DBL:
       if (precision)
@@ -719,7 +737,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     }
   void output_type (const char *type, unsigned offset, void *data)
     {
-      func (rank, vec, ((double *)ary)[offset]);
+      func (rank, vec, derefDouble (&((double *) ary)[offset]));
     }
   process_array (probedType,
                  NULL,
@@ -787,23 +805,24 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   
   switch (probedType[0])
     {
-    case _C_ID:   *(id *)p = *(id *)newValue; break;
+    case _C_ID:   *(id *) p = *(id *) newValue; break;
     case _C_CHARPTR:
-    case _C_PTR:  *(void **)p = *(void **)newValue; break;
+    case _C_PTR:  *(void **) p = *(void **) newValue; break;
       
-    case _C_UCHR: *(unsigned char *)p = *(unsigned char *)newValue; break;
-    case _C_CHR:  *(char *)p = *(char *)newValue; break;
-    case _C_SHT:  *(short *)p = *(short *)newValue; break;
-    case _C_USHT: *(unsigned short *)p = *(unsigned short *)newValue; break;
-    case _C_INT:  *(int *)p = *(int *)newValue; break;
-    case _C_UINT: *(unsigned int *)p = *(unsigned int *)newValue; break;
-    case _C_LNG:  *(long *)p = *(long *)newValue; break;
-    case _C_ULNG: *(unsigned long *)p = *(unsigned long *)newValue; break;
-    case _C_LNG_LNG:  *(long long *)p = *(long long *)newValue; break;
-    case _C_ULNG_LNG: *(unsigned long long *)p = *(unsigned long long *)newValue; break;
-    case _C_FLT:  *(float *)p = *(float *)newValue; break;
-    case _C_DBL:  *(double *)p = *(double *)newValue; break;
-    case _C_LNG_DBL:  *(long double *)p = *(long double *)newValue; break;
+    case _C_UCHR: *(unsigned char *) p = *(unsigned char *) newValue; break;
+    case _C_CHR:  *(char *) p = *(char *) newValue; break;
+    case _C_SHT:  *(short *) p = *(short *) newValue; break;
+    case _C_USHT: *(unsigned short *) p = *(unsigned short *) newValue; break;
+    case _C_INT:  *(int *) p = *(int *) newValue; break;
+    case _C_UINT: *(unsigned int *) p = *(unsigned int *) newValue; break;
+    case _C_LNG:  *(long *) p = *(long *) newValue; break;
+    case _C_ULNG: *(unsigned long *) p = *(unsigned long *) newValue; break;
+    case _C_LNG_LNG:  *(long long *) p = *(long long *) newValue; break;
+    case _C_ULNG_LNG:
+      *(unsigned long long *) p = *(unsigned long long *) newValue; break;
+    case _C_FLT:  *(float *) p = *(float *) newValue; break;
+    case _C_DBL: *(double *) p = derefDouble (newValue); break;
+    case _C_LNG_DBL:  *(long double *) p = *(long double *) newValue; break;
       
     default:
       if (SAFEPROBES)

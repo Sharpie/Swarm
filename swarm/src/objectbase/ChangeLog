@@ -1,7 +1,12 @@
 1999-08-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* VarProbe.m ([VarProbe -probeAsString:Buffer:withFullPrecision:]): 
-	Use a display name if available.  Don't use getInstanceName.
+	* VarProbe.m ([VarProbe
+	-probeAsString:Buffer:withFullPrecision:]): Use a display name if
+	available.  Don't use getInstanceName.
+	(derefDouble): New internal function.
+	(probe_as_int, probe_as_double, [VarProbe
+	-probeAsString:Buffer:withFullPrecision:], output_type,
+	[VarProbe -setData:To:]): Use it.
 
 	* SwarmObject.[hm], objectbase.h ([SwarmObject -getInstanceName]): 
 	Remove.
