@@ -1,3 +1,12 @@
+2003-06-11  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* Permutation.m ([Permutation_c -setLastPermutation:]): Cast as
+	(Permutation_c *) to stop compiler warning.
+
+	* Collection.m ([PermutedIndex_c -remove]): cast collection as
+	(Collection_any *) to stop compiler warning about wrong type
+	pointer.
+
 2003-05-05    <mgd@arrow.santafe.edu>
 
 	* InputStream.m ([InputStream -getExpr]): Treat #() like #1().

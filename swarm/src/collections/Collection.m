@@ -591,7 +591,7 @@ PHASE(Using)
     {
       id ret;
       id removeIndex = 
-	indexAtOffset (((Permutation_c *) collection)->collection,
+	indexAtOffset ((Collection_any *)(((Permutation_c *) collection)->collection),
                        pi->position);
       pi->item = nil;
       pi->position = -1;

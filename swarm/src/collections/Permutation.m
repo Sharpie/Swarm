@@ -85,7 +85,7 @@ PHASE(Creating)
 
 - setLastPermutation: (id <Permutation>)aPermutation
 {
-  lastPermutation = aPermutation;
+  lastPermutation =  (Permutation_c *)aPermutation;
   return self;
 }
 
