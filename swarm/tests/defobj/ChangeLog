@@ -1,3 +1,8 @@
+1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* forwarding.m (main): Use floating point constants
+	for 9 and 11.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.

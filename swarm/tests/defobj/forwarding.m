@@ -339,10 +339,10 @@ main (int argc, const char **argv)
   if ([obj lm1i: 4] != 7)
     return 1;
 
-  if ([obj fm1i: 5] != 9)
+  if ([obj fm1i: 5] != 9.0)
     return 1;
 
-  if ([obj dm1i: 6] != 11)
+  if ([obj dm1i: 6] != 11.0)
     return 1;
 
   {
