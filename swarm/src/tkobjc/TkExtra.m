@@ -8,16 +8,28 @@
 
 #include <tcl.h>
 #include <misc.h> // access
+#ifdef __CYGWIN__
+#include <unistd.h> // MAXPATHLEN
+#include <sys/cygwin.h> // cygwin_conv_to_win32_path
+#endif
 
 @implementation TkExtra
 
 int Blt_Init(Tcl_Interp *);			  // wish this were declared..
 
 static void
-ensureBltSupportFiles (id arguments, id globalTkInterp)
+setBltLibrary (id interp, const char *path)
+{
+  extern const char *fix_tcl_path (const char *path);
+
+  [interp globalEval: "set blt_library \"%s\"", fix_tcl_path (path)];
+}
+
+static void
+ensureBltSupportFiles (id arguments, id interp)
 {
   const char *fileName = "bltGraph.tcl";
-  const char *basePath = [globalTkInterp globalVariableValue: "blt_library"];
+  const char *basePath = [interp globalVariableValue: "blt_library"];
   BOOL retry = NO;
   
   do { 
@@ -44,14 +56,12 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
                 stpcpy (p, libdir);
                 
                 basePath = OSTRDUP (arguments, libPath); 
-                [globalTkInterp globalEval: "set blt_library \"%s\"",
-				libPath];
+		setBltLibrary (interp, libPath);
               }
             else
               {
                 basePath = ".";
-                [globalTkInterp globalEval: "set blt_library \"%s\"",
-				basePath];
+		setBltLibrary (interp, basePath);
               }
             retry = YES;
             continue;
@@ -122,11 +132,7 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
         //   Original error: no value given for parameter "start" to
         //   "tcl_wordBreakBefore"
         // -mgd
-        [self eval: "if {[info library] == \"\"} { "
-              "source ./word.tcl "
-              "} else { "
-              "source [info library]/word.tcl "
-              "}"];
+        [self eval: "source %s/word.tcl", [self checkTclLibrary]];
       }
   }
   return filename;

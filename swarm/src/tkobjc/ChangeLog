@@ -1,5 +1,10 @@
 1999-12-01    <mgd@HELEN>
 
+	* TkExtra.m (setBltLibrary): New function.
+	(ensureBltSupportFiles): Use it.
+	([TkExtra -preInitWithArgc:argv:]): Use checkTclLibrary instead of
+	[info library], remove check for empty [info library].
+
 	* win32dib.h: Undef BOOL before including misc.
 
 1999-11-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
