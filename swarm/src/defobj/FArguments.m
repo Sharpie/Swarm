@@ -459,8 +459,9 @@ PHASE(Using)
 
 - (void)drop
 {
+#ifdef HAVE_JDK  
   unsigned i;
-  
+
   if (returnType == fcall_type_jobject
       || returnType == fcall_type_jstring)
     (*jniEnv)->DeleteLocalRef (jniEnv, (jobject) ((types_t *) result)->object);
@@ -468,10 +469,11 @@ PHASE(Using)
     {
       unsigned offset = i + MAX_HIDDEN;
       fcall_type_t type = argTypes[offset];
-      
+
       if (type == fcall_type_jstring)
         (*jniEnv)->DeleteLocalRef (jniEnv, argValues[offset]);
     }
+#endif
   [super drop];
 }
 
