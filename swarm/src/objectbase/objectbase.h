@@ -10,6 +10,10 @@ Authors:         Manor Askenazi
 Date:            1996-12-12
 */
 
+//D: The objectbase library uses the module definition conventions
+//D: established by the defobj library. It also depends on standard
+//D: supertypes and classes defined by this library.
+
 #import <activity.h>
 
 //

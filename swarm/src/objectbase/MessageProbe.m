@@ -16,6 +16,11 @@
 #import "swarm_rts_routines.h"
 #import <objectbase.h> // val_t
 
+//S: A class that allows the user to call a given message on any candidate
+//S: that is an instance of, or inherits from, a given class.
+//D: This is a specialized subclass of the abstract class Probe. It completes 
+//D: the specification of a probe that refers to a message element of
+//D: an object. 
 @implementation MessageProbe
 
 + createBegin: aZone
@@ -27,12 +32,16 @@
   return obj;
 }
 
+//M: The setProbedSelector: method sets the message to be probed given the 
+//M: selector. 
 - setProbedSelector: (SEL)aSel
 {
   probedSelector = aSel;
   return self;
 }
 
+//M: The getProbedMessage method returns the string matching the identifier of
+//M: the message being probed.
 - (const char *)getProbedMessage
 {
   return sel_get_name (probedSelector);
@@ -108,11 +117,14 @@ nth_type (const char *type, int which)
   return get_number_of_arguments (probedType) - 2;
 }
 
+//M: The getArg: method returns a string representation of the nth argument.
 - (val_t)getArg: (int)which
 {
   return arguments[which];
 }
 
+//M: The setArg:ToString: method sets the nth argument of the message. 
+//M: The argument must be provided in string form.
 - setArg: (int)which ToString: (const char *)what
 {
   switch (nth_type (probedType, which))
@@ -174,16 +186,22 @@ copy_to_nth_colon (const char *str, int n)
   return new_str;
 } 
 
+//M: The getArgName: method returns a string representation of the argument
+//M: with the given name.
 - (const char *)getArgName: (int)which
 {
   return copy_to_nth_colon (sel_get_name (probedSelector), which);
 }
 
+//M: The isResultId method returns 1 if the return value of the message is of
+//M: type object, and returns 0 otherwise.
 - (BOOL)isResultId
 {
   return (probedType[0] == _C_ID);
 }
 
+//M: The isArgumentId: method returns 1 if a given argument of the message
+//M: is of type object, and returns 0 otherwise.
 - (BOOL)isArgumentId: (int)which
 {
   return (nth_type (probedType, which) == _C_ID);
@@ -191,6 +209,8 @@ copy_to_nth_colon (const char *str, int n)
 
 #ifdef USE_AVCALL
 
+//M: The dynamicCallOn: method generates a dynamic message call on the target
+//M: object. This method does not return a result.
 - (val_t)dynamicCallOn: target
 {
   const char *type = probedType;
@@ -440,6 +460,9 @@ copy_to_nth_colon (const char *str, int n)
 
 #endif
 
+//M: The doubleDynamicCallOn: method generates a dynamic message call on the 
+//M: target object. This method assumes the user knows the type to be double 
+//M: and would like a direct translation into type double.
 - (double)doubleDynamicCallOn: target
 {
   val_t val = [self dynamicCallOn: target];
@@ -457,12 +480,16 @@ copy_to_nth_colon (const char *str, int n)
   abort ();
 }
 
+//M: The setHideResult: method is used to set the visibility of the result
+//M: field. When set to 1, the user is indicating that the result field in 
+//M: a graphical representation of the message probe should not be shown.
 - setHideResult: (BOOL)theHideResultFlag
 {
   hideResultFlag = theHideResultFlag;
   return self;
 }
 
+//M: The getHideResult method returns 1 if the result field is "hidden".
 - (BOOL)getHideResult
 {
   return hideResultFlag;

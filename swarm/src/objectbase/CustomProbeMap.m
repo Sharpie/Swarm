@@ -9,6 +9,16 @@
 
 #import "local.h"
 
+//S: A subclass of ProbeMap, whose initial state is empty unlike the default
+//S: probeMap initial state which contains all the VarProbes of the requested
+//S: target class.
+//D: This subclass of the ProbeMap is used to create probe maps which are 
+//D: initialised in an emtpy state or with the VarProbes and MessageProbes 
+//D: intended. In other words, the probed class is set, as is the case with 
+//D: the normal ProbeMap class but upon createEnd no VarProbes or 
+//D: MessageProbes will be present within it. This feature is useful when 
+//D: creating a probe map from scratch (e.g. to be used in conjunction with 
+//D: the setProbeMap:For: message of the ProbeLibrary). 
 @implementation CustomProbeMap
 
 +create: aZone forClass: (Class) aClass withIdentifiers: (char *) vars, ... {

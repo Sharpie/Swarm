@@ -1,3 +1,13 @@
+1998-04-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* objectbase.h: Add //D: documentation comment tag for module.
+
+1998-04-15  Irene Lee  <lee@wijiji.santafe.edu>
+
+	* ActivityControl.m, CompleteProbeMap.m, CustomProbeMap.m,
+	MessageProbe.m, Probe.m, ProbeLibrary.m, ProbeMap.m, Swarm.m,
+	SwarmObject.m, VarProbe.m: Add tagged documentation comments.
+
 1998-04-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Arguments.h: Include misc/argp.h.

@@ -11,6 +11,13 @@
 
 #import "local.h"
 
+//S: A container class for Probes used to specify the contents of a 
+//S: ProbeDisplay.
+//D: A ProbeMap is a Map-type collection of Probes. They are used to gather 
+//D: several Probes, who usually have a common referent, into a single
+//D: bundle. For example, all the instance variables of a ModelSwarm might be 
+//D: gathered into a single ProbeMap. Each ProbeMap is then installed
+//D: into the global ProbeLibrary. 
 @implementation ProbeMap
 
 + createBegin: aZone
@@ -127,6 +134,9 @@
   return objectToNotify;
 }
 
+//M: The setProbedClass: method sets the class of the object that the set of 
+//M: probes that constitute the probe map points at. This message must be sent 
+//M: before createEnd. 
 - setProbedClass: (Class)aClass
 {
   if (SAFEPROBES)
@@ -141,6 +151,8 @@
   return self;
 }
 
+//M: The getProbedClass method returns the class of the object that the set of 
+//M: probes that constitute the probe map points at.
 - (Class)getProbedClass
 {
   return probedClass;
@@ -264,6 +276,11 @@
   return self;
 }
 
+//M: The clone: method returns a clone of the probe map. If the initial probe
+//M: map created by Library Generation or by the default version of Object 
+//M: generation, the probe map should be cloned prior to making changes to it 
+//M: to avoid having the changes affect the other potential users of the 
+//M: probe map.
 - clone: aZone
 {
   ProbeMap *npm;
@@ -284,11 +301,15 @@
   return npm;
 }
 
+//M: The getNumEntries method returns the number of probes in the ProbeMap.
 - (int)getNumEntries
 {
   return numEntries;
 }
 
+//M: The addProbeMap: method is used to tailor the contents of a ProbeMap by
+//M: performing "set inclusion" with another ProbeMap. The typing is verified 
+//M: prior to inclusion.
 - addProbeMap: (ProbeMap *)aProbeMap
 {
   Class aClass;
@@ -313,6 +334,9 @@
   return self;
 }
 
+//M: The addProbe: method adds a probe to the contents of the ProbeMap.
+//M: The ProbeMap will always make sure that the probedClass of the Probe being
+//M: added corresponds to its own probedClass.
 - addProbe: aProbe
 {
   id string;
@@ -390,7 +414,10 @@
 // [We do not check that the classes are appropriate because the
 // user may want to subtract commonly named methods from unrelated
 // classes!!!]
-
+//M: The dropProbeMap: method is used to drop a probe from a probe map. It is
+//M: equivalent to callling dropProbeForVariable for each variable name present
+//M: in the ProbeMap being dropped, followed by a call to dropProbeForMessage
+//M: for each message name present in the ProbeMap being dropped.
 - dropProbeMap: (ProbeMap *) aProbeMap
 {
   id index;
@@ -409,6 +436,9 @@
   return self;
 }
 
+//M: The dropProbeForVariable: method is used to drop a Probe from the 
+//M: ProbeMap. No class verification takes place since the probe is dropped
+//M: based on its variableName, not its actual id value.
 - dropProbeForVariable: (const char *)aVariable
 {
   id string;
@@ -421,6 +451,8 @@
   return self;
 }
 
+//M: The getProbeForVariable: method returns the Probe corresponding to the 
+//M: given variable name.
 - (Probe *)getProbeForVariable: (const char *)aVariable
 {
   id string;
@@ -442,6 +474,9 @@
     return res;
 }
 
+//M: The dropProbeForMessage: method is used to drop a Probe from the ProbeMap.
+//M: No class verification takes place since the probe is dropped based on its
+//M: messageName, not its actual id value.
 - dropProbeForMessage: (const char *)aMessage
 {
   id string;
@@ -454,6 +489,8 @@
   return self;
 }
 
+//M: The getProbeForMessage: method returns the Probe corresponding to the
+//M: specified message name.
 - (Probe *)getProbeForMessage: (const char *)aMessage
 {
   id string;
@@ -474,6 +511,8 @@
     return res;
 }
 
+//M: The begin: method returns an iterator (index) over the ProbeMap. This 
+//M: index is used in the exact same way any Map index is used. 
 -begin: aZone
 {
   return [probes begin: aZone];
