@@ -1,3 +1,7 @@
+2000-07-16    <mgd@DRONE>
+
+	* Makefile.in ($(JAVASWARM_DLL)): Add src/SwarmEnvironment.o.
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.in (javaswarm_entities): Add SwarmEnvironmentExtra.
