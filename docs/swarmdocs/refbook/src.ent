@@ -1,5 +1,5 @@
-<!entity % reference.entities system "ref.ent">
-%reference.entities;
+<!entity % reference.entities system "config.ent">
+%config.entities;
 
 <!entity % tech.entities system "tech/tech.ent">
 %tech.entities;
@@ -7,14 +7,14 @@
 <!entity % defobj.entities system "defobj/defobj.ent">
 %defobj.entities;
 
-<!entity % defobj.elements system "defobj/defobjelem.ent">
-%defobj.elements;
+<!entity % collections.entities system "collections/collections.ent">
+%collections.entities;
+
+<!entity % activity.entities system "activity/activity.ent">
+%activity.entities;
 
 <!entity % space.entities system "space/space.ent">
 %space.entities;
-
-<!entity % space.elements system "space/spaceelem.ent">
-%space.elements;
 
 <!entity refmeta.sgml system "refmeta.sgml">
 <!entity refcont.sgml system "refcont.sgml">
