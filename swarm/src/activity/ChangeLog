@@ -1,3 +1,8 @@
+2000-02-09    <mgd@nest.swarm.org>
+
+	* ActionGroup.m ([ActionGroup_c -createActionTo:message::::]):
+	arg3 was being passed as arg2.
+	
 2000-02-08    <mgd@nest.swarm.org>
 
 	* Schedule.m (_activity_insertAction): Don't scrutinize 

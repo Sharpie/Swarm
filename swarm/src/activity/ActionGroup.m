@@ -183,7 +183,7 @@ PHASE(Using)
   [newAction setMessageSelector: aSel];
   [newAction setArg1: arg1];
   [newAction setArg2: arg2];
-  [newAction setArg3: arg2];
+  [newAction setArg3: arg3];
   newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;
