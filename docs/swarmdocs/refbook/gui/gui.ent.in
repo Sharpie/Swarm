@@ -1,5 +1,0 @@
-<!entity guicont.sgml system "@srcdir@/guicont.sgml">
-<!entity guirevhistory.sgml system "guirevhistory.sgml">
-<!entity guimeta.sgml system "@srcdir@/guimeta.sgml">
-<!entity gui00.sgml system "@srcdir@/gui00.sgml">
-<!entity guipages.sgml system "guipages.sgml">
