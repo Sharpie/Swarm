@@ -35,9 +35,10 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
   }
 
   /**
-   * MousetrapModelSwarm constructor: since we are only interested in
-   * subclassing from the `USING' phase object, this constructor does
-   * the work of the createBegin, createEnd methods in Objective C */
+   * MousetrapModelSwarmImpl constructor: since we are only interested
+   * in subclassing from the `USING' phase object, this constructor
+   * does the work of the createBegin, createEnd methods in Objective
+   * C */
   public MousetrapModelSwarmImpl (ZoneImpl aZone)
   {
     super(aZone);

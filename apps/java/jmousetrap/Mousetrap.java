@@ -109,13 +109,13 @@ class StartMousetrap
       if (true) {
         
         MousetrapObserverSwarmImpl topLevelSwarm = 
-          new MousetrapObserverSwarmImpl();
+          new MousetrapObserverSwarmImpl(Globals.env.globalZone);
         
-        MousetrapObserverSwarmCImpl cswarm = 
-          new MousetrapObserverSwarmCImpl (topLevelSwarm);
+//          MousetrapObserverSwarmCImpl cswarm = 
+//            new MousetrapObserverSwarmCImpl (topLevelSwarm);
       
-        cswarm.createBegin (Globals.env.globalZone);
-        topLevelSwarm = (MousetrapObserverSwarmImpl) cswarm.createEnd ();
+//          cswarm.createBegin (Globals.env.globalZone);
+//          topLevelSwarm = (MousetrapObserverSwarmImpl) cswarm.createEnd ();
         
         Globals.env.setWindowGeometryRecordName (topLevelSwarm);
         topLevelSwarm.buildObjects ();
@@ -140,4 +140,5 @@ class StartMousetrap
 
 
 
+ 
  

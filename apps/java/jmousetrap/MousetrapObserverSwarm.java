@@ -29,9 +29,46 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         System.out.println (this.getClass().getName() + ":" + s);
         System.out.flush ();
     }
+
+    /**
+     * MousetrapObserverSwarmImpl constructor: since we are only interested in
+     * subclassing from the `USING' phase object, this constructor does
+     * the work of the createBegin, createEnd methods in Objective C */
+    public MousetrapObserverSwarmImpl (ZoneImpl aZone)
+    {
+        super(aZone);
+        
+        EmptyProbeMapCImpl iprobeMap;
+        EmptyProbeMapImpl probeMap;
+        
+        displayFrequency = 1;
+        nag("Observer: probeMap");
+        probeMap = new EmptyProbeMapImpl ();
+        nag("Observer: iProbeMap");
+        iprobeMap = new EmptyProbeMapCImpl (probeMap);
+        
+        
+        nag("Observer: iProbeMap createBegin");
+        iprobeMap.createBegin (aZone);
+        nag("Observer: iProbeMap setProbedClass");
+        iprobeMap.setProbedClass (this.getClass());
+        nag("Observer: iProbeMap createEnd");
+        iprobeMap.createEnd();
+        
+        nag("Observer: probeMap addProbe\n");
+        probeMap.addProbe 
+            (Globals.env.probeLibrary.getProbeForVariable$inClass
+             ("displayFrequency", this.getClass()));
+        
+        nag("Observer: probeLibrary.setProbeMap$For");
+        
+        Globals.env.probeLibrary.setProbeMap$For (probeMap, this.getClass());
+    }
+
     public void noMethod (Object a)
     {
     }
+
     public Object _setupMousetraps_ ()
     {
         int x, y, size;
@@ -67,16 +104,10 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 
     public Object buildObjects ()
     {
-        //MousetrapModelSwarmCImpl immswarm;
         super.buildObjects();
 
         mousetrapModelSwarm 
             = new MousetrapModelSwarmImpl((ZoneImpl)this.getZone());
-        
-//          mousetrapModelSwarm = new MousetrapModelSwarmImpl();
-//          immswarm = new MousetrapModelSwarmCImpl(mousetrapModelSwarm);
-//          mousetrapModelSwarm = 
-//              (MousetrapModelSwarmImpl) immswarm.create (this.getZone());
 
         Globals.env.createArchivedProbeDisplay (mousetrapModelSwarm);
         Globals.env.createArchivedProbeDisplay (this);
