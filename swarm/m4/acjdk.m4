@@ -151,8 +151,17 @@ else
   elif test -f $expand_jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
     JAVASWARM_LIB_NAME=kaffeswarm
-    kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $expand_jdkdir/bin/kaffe`
-    kaffe_datadir=`sed -n 's/^: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $expand_jdkdir/bin/kaffe`
+    if test -x "$expand_jdkdir/bin/kaffe" ; then
+      kaffebindir="$expand_jdkdir/bin"
+      javac_default='${jdkdir}/bin/javac'
+    elif test -x "$expand_jdkdir/lib/kaffe/bin/kaffe"; then
+      kaffebindir="$expand_jdkdir/lib/kaffe/bin"
+      javac_default='${jdkdir}/lib/kaffe/bin/javac'
+    else
+      AC_MSG_ERROR([Cannot find kaffe script])
+    fi
+    kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $kaffebindir/kaffe`
+    kaffe_datadir=`sed -n 's/^: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $kaffebindir/kaffe`
     kaffe_expanded_datadir=`echo $kaffe_datadir | sed  "s,\\${prefix},${kaffe_prefix},"`
     jdkdatadir=`eval echo $kaffe_expanded_datadir`
     JAVACLASSES="${jdkdatadir}/Klasses.jar"
@@ -185,7 +194,6 @@ else
     fi
     JAVAENV=''
     JAVA='KAFFELIBRARYPATH="${JAVALIBSARG}" ${JAVACMD}'
-    javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=
     JAVALIBPATH_VAR=KAFFELIBRARYPATH
   else

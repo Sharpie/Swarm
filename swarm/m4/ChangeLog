@@ -1,6 +1,11 @@
-2000-02-14    <mgd@HELEN>
+2000-02-23    <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.
+
+	* acjdk.m4 (vj_FIND_JDK): Handle Debian 2.2 Java installation
+	structure.
+
+2000-02-14    <mgd@HELEN>
 
 	* acjdk.m4 (vj_FIND_JDK): Add jdkswarm and jdkcswarm 
 	to JAVASWARMSCRIPTS in Cygwin case.
