@@ -1,3 +1,7 @@
+1998-06-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* overbook.sgml: Use public identifiers.
+
 1998-06-04  Alex Lancaster  <alex@santafe.edu>
 
 	* over02.sgml, over03.sgml, over04.sgmL: Fixed inappropriately

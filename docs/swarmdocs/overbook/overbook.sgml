@@ -1,12 +1,12 @@
 <!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 
-<!entity % global.entities system "../global.ent">
+<!entity % global.entities PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
 %global.entities;
 
-<!entity % overview.entities system "over.ent">
+<!entity % overview.entities PUBLIC "-//SFI Hive//ENTITIES Overview List//EN">
 %overview.entities;
 
-<!entity % figures.entities system "../figures.ent">
+<!entity % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
 %figures.entities;
 
 ]>
