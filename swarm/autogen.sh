@@ -30,17 +30,19 @@ if [ "$AUTOCONF_VERSION" != "$REQUIRED_AUTOCONF_VERSION" ]; then
     echo "of autoconf and may not work with version" $AUTOCONF_VERSION
 fi
 
-(libtool --version) < /dev/null > /dev/null 2>&1 || {
-    echo
-    echo "**Error**: You must have \`libtool' installed to compile Swarm."
-    DIE=1
-  }
-
-LIBTOOL_VERSION=`(libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
-if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
-    echo
-    echo "**Warning**: only tested with version" $REQUIRED_LIBTOOL_VERSION
-    echo "of libtool and may not work with version" $LIBTOOL_VERSION
+if [ ! `uname`="Darwin" ]; then
+	(libtool --version) < /dev/null > /dev/null 2>&1 || {
+		echo
+		echo "**Error**: You must have \`libtool' installed to compile Swarm."
+		DIE=1
+	  }
+	
+	LIBTOOL_VERSION=`(libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
+	if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
+		echo
+		echo "**Warning**: only tested with version" $REQUIRED_LIBTOOL_VERSION
+		echo "of libtool and may not work with version" $LIBTOOL_VERSION
+	fi
 fi
 
 (automake --version) < /dev/null > /dev/null 2>&1 || {
