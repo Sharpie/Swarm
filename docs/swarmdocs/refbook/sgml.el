@@ -5,6 +5,15 @@
 
 (require 'protocol)
 
+(defun sgml-pathname-for-swarmdocs-pages-output (module-sym)
+  (let ((module-name (symbol-name module-sym)))
+    (concat (get-top-builddir)
+            "refbook/"
+            module-name
+            "/"
+            module-name
+            "pages.sgml")))
+
 (defun sgml-protocol-indexentry (protocol)
   (insert "<INDEXENTRY>\n")
   (insert "<PRIMARYIE LINKENDS=\"")
@@ -572,7 +581,7 @@
   
 (defun sgml-create-refentries-for-module (module-sym)
   (let ((module-name (symbol-name module-sym)))
-    (with-temp-file (pathname-for-swarmdocs-pages-output module-sym)
+    (with-temp-file (sgml-pathname-for-swarmdocs-pages-output module-sym)
       (sgml-generate-refentries-for-module module-sym))))
 
 (defun sgml-create-refentries-for-all-modules ()

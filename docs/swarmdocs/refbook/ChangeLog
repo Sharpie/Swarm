@@ -1,3 +1,8 @@
+2000-07-09  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* sgml.el (sgml-pathname-for-swarmdocs-pages-output): Moved
+	from Swarm's etc/common.el.
+
 2000-07-04  Alex Lancaster  <alex@santafe.edu>
 
 	* license-app.sgml: Give IMPORTANT box a TITLE.
