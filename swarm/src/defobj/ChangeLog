@@ -1,3 +1,16 @@
+1999-02-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* defobj.m (hdf5In): Use getAttribute: instead of iterateAttributes:
+	for getting the type name.
+	(hdf5In): Generate a class name if type attribute absent.
+
+	* HDF5Object.m ([HDF5_c -getClass]): If baseTypeObject is
+	set, peer into the class instance to see what name it was given,
+	otherwise depend on the type attribute being present.
+
+	* defobj.[hm], HDF5Object.m: Move generate_class_name and
+	generateClassNameCount from HDF5Object.m.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.m (initDefobj): Don't create hdf5Archiver if HAVE_HDF5

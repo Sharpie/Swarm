@@ -29,6 +29,8 @@ FILE *_obj_xerror, *_obj_xdebug;
 Class *localClasses;
 unsigned localClassCount = 0;
 
+static unsigned generatedClassNameCount = 0;
+
 //
 // _defobj_implement() -- generate implementations for defobj module
 //
@@ -289,40 +291,55 @@ lispIn (id aZone, id expr)
   }
 }
 
+const char *
+generate_class_name (void)
+{
+  char buf[5 + DSIZE (unsigned) + 1];
+
+  sprintf (buf, "Class%u", generatedClassNameCount);
+  generatedClassNameCount++;
+
+  return strdup (buf);
+}
+
 id
 hdf5In (id aZone, id hdf5Obj)
 {
   id obj;
   id typeObject;
-
-  int attrIterateFunc (const char *key,
-                       const char *value)
+  const char *type = [hdf5Obj getAttribute: ATTRIB_TYPE_NAME];
+    
+  if (type)
     {
-      if (strcmp (key, ATTRIB_TYPE_NAME) == 0)
+      if ((typeObject = objc_lookup_class (type)) == nil)
         {
-          if ((typeObject = objc_lookup_class (value)) == nil)
-            {
-              id typeObj = createType (aZone, value);
-              id newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
-              
-              newTypeObj = [newTypeObj createEnd];
-              registerLocalClass (newTypeObj);
-              typeObject = newTypeObj;
-            }
-          return 1;
+          id typeObj = createType (aZone, type);
+          id newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
+          
+          newTypeObj = [newTypeObj createEnd];
+          registerLocalClass (newTypeObj);
+          typeObject = newTypeObj;
         }
-      return 0;
     }
-  
-  typeObject = nil;
-  [hdf5Obj iterateAttributes: attrIterateFunc];
-
-  if (!typeObject)
+  else
     {
       if ([hdf5Obj getDatasetFlag] && [hdf5Obj getCount] > 1)
         typeObject = objc_lookup_class ("List");
-    }
+      else
+        {
+          id typeObj;
+          id newTypeObj;
 
+          type = generate_class_name ();
+          typeObj = createType (aZone, type);
+          newTypeObj = [typeObj hdf5InCreate: hdf5Obj];
+          
+          newTypeObj = [newTypeObj createEnd];
+          registerLocalClass (newTypeObj);
+          type = [newTypeObj name];
+          typeObject = newTypeObj;
+        }
+    }
   if (typeObject == nil)
     raiseEvent (LoadError,
                 "Failed to find or create class for HDF5 object `%s'",

@@ -21,7 +21,6 @@
 #define LEVELSPREFIX "levels."
 
 static unsigned hdf5InstanceCount = 0;
-static unsigned generatedClassNameCount = 0;
 
 static hid_t
 tid_for_objc_type (const char *type)
@@ -1044,19 +1043,6 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 
 #endif
 
-#ifdef HAVE_HDF5
-static const char *
-generate_class_name (void)
-{
-  char buf[5 + DSIZE (unsigned) + 1];
-
-  sprintf (buf, "Class%u", generatedClassNameCount);
-  generatedClassNameCount++;
-
-  return strdup (buf);
-}
-#endif
-
 - createEnd
 {
 #ifdef HAVE_HDF5
@@ -1354,8 +1340,13 @@ PHASE(Using)
     }
   else
     {
-      const char *typeName = get_attribute (loc_id, ATTRIB_TYPE_NAME);
+      const char *typeName
 
+      if (baseTypeObject)
+        typeName = strdup ((const char *) ((void **) baseTypeObject)[2]);
+      else
+        typeName = get_attribute (loc_id, ATTRIB_TYPE_NAME);
+      
       if (typeName)
         {
           Class class = objc_lookup_class (typeName);

@@ -1137,6 +1137,9 @@ extern void xfexec (id anObject, const char *name);
 //F: Get an object from textual pointer description.
 extern id nameToObject (const char *name);
 
+//F: Create a class name.
+const char *generate_class_name (void);
+
 //
 // macros used to create and initialize warning and error symbols
 // (obsolete once module system in use)
