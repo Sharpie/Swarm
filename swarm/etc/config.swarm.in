@@ -34,7 +34,7 @@ config_swarm_GUILIBS="@GUILIBS@"
 
 config_swarm_SYSLIBS="$config_swarm_BLTLIB $config_swarm_TKLIB $config_swarm_TCLLIB $config_swarm_PNGLIB $config_swarm_ZLIBLIB $config_swarm_FFILIB $config_swarm_GUILIBS -lobjc -lm"
 
-config_swarm_SWARMLIBS="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc"
+config_swarm_SWARMLIBS="-lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc"
 
 config_swarm_LIBS="@LIBS@"
 
