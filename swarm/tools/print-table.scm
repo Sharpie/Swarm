@@ -44,6 +44,3 @@
   (lambda (path)
     (make <swarm.defobj.HDF5ArchiverImpl> *globalZone* path)))
 
-(define (make-open-lisp-archive-procedure)
-  (lambda (path)
-    (make <swarm.defobj.LispArchiverImpl> *globalZone* path)))
