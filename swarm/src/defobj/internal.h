@@ -5,6 +5,7 @@
 
 #include <misc.h> // size_t
 
+extern size_t alignto (size_t pos, size_t alignment);
 extern size_t size_for_objc_type (const char *varType);
 extern size_t alignment_for_objc_type (const char *varType);
 

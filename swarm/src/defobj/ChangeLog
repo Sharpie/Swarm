@@ -1,10 +1,12 @@
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* internal.[hm] (alignment_for_objc_type, size_for_objc_type): 
-	Moved from DefClass.m (formerly type_alignment and type_size).
+	* internal.[hm] (alignment_for_objc_type, size_for_objc_type,
+	alignto): Moved from DefClass.m (formerly type_alignment, type_size,
+	align).
 
 	* DefClass.m: Include internal.h.
-	(addVariable): Use alignment_for_objc_type and size_for_objc_type.
+	(addVariable): Use alignment_for_objc_type, size_for_objc_type, and
+	alignto.
 
 	* HDF5Object.m (ref_string): Handler for const char * -> HDF5 string
 	conversion.

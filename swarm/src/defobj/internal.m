@@ -10,6 +10,17 @@
 #include <objc/objc-api.h>
 
 size_t
+alignto (size_t pos, size_t alignment)
+{
+  size_t mask = (alignment - 1);
+
+  if ((pos & mask) == 0)
+    return pos;
+  else
+    return (pos + alignment) & ~mask;
+}
+
+size_t
 alignment_for_objc_type (const char *varType)
 {
   size_t alignment = 0;

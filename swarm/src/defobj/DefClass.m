@@ -15,7 +15,7 @@ Library:      defobj
 #import <objc/sarray.h>
 #import <collections.h> // catC:
 #import <collections/predicates.h> // keywordp
-#import <defobj/internal.h> // {alignment,size}_for_objc_type
+#import <defobj/internal.h> // {alignment,size}_for_objc_type, align
 
 #include <misc.h> // strncmp, isdigit
 
@@ -161,17 +161,6 @@ extend_ivar_list (struct objc_ivar_list *ivars, unsigned additional)
   return newivars;
 }
 
-static size_t
-align (size_t pos, size_t alignment)
-{
-  size_t mask = (alignment - 1);
-
-  if ((pos & mask) == 0)
-    return pos;
-  else
-    return (pos + alignment) & ~mask;
-}
-
 void
 addVariable (Class class, const char *varName, const char *varType)
 {
@@ -180,8 +169,8 @@ addVariable (Class class, const char *varName, const char *varType)
   class->ivars = extend_ivar_list (class->ivars, 1);
   il = &class->ivars->ivar_list[class->ivars->ivar_count];
   
-  il->ivar_offset = align (class->instance_size,
-                           alignment_for_objc_type (varType));
+  il->ivar_offset = alignto (class->instance_size,
+                             alignment_for_objc_type (varType));
   il->ivar_type = varType;
   il->ivar_name = varName;
   class->instance_size = il->ivar_offset + size_for_objc_type (varType);
