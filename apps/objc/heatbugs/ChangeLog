@@ -1,3 +1,23 @@
+1999-08-02  Alex Lancaster  <alex@santafe.edu>
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm +createBegin:]):
+	Likewise use CustomProbeMap convenience methods for probeMap
+	creation.
+	([HeatbugObserverSwarm -buildObjects]): Use convenience factory
+	methods for creation of Value2dDisplay, Object2dDisplay and
+	EZGraph instances.
+	([HeatbugObserverSwarm -buildActions]): Likewise for Schedule
+	instance.
+
+	* HeatbugModelSwarm.m ([HeatbugModelSwarm +createBegin:]): Use
+	CustomProbeMap rather than EmptyProbeMap and use succinct
+	identifier list probe creation rather than the verbose
+	probe-by-probe method.
+	([HeatbugModelSwarm -buildObjects]): Use convenience factory
+	methods for all object creation: HeatSpace, Grid2d.
+	([HeatbugModelSwarm -buildActions]): Likewise for Schedule
+	instance.
+
 1999-06-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HeatSpace.m ([HeatSpace -findExtremeType:type:px:py]): Remove

@@ -50,7 +50,7 @@
 + createBegin: aZone
 {
   HeatbugModelSwarm *obj;
-  id <ProbeMap> probeMap;
+  id <CustomProbeMap> probeMap;
 
   // First, call our superclass createBegin - the return value is the
   // allocated HeatbugModelSwarm object.
@@ -75,42 +75,18 @@
   // is to show all variables and messages. Here we choose to
   // customize the appearance of the probe, give a nicer interface.
 
-  probeMap = [EmptyProbeMap createBegin: aZone];
-  [probeMap setProbedClass: [self class]];
-  probeMap = [probeMap createEnd];
+  // The identifier list includes all the simulation parameters in a
+  // list, then (separated by the ":" delimiter) two methods
+  // "toggleRandomizedOrder" and "addHeatbug" method for a probe demo.
 
-  // Add in a bunch of variables, one per simulation parameter
-
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "numBugs"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "diffuseConstant"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "worldXSize"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "worldYSize"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "minIdealTemp"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "maxIdealTemp"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "minOutputHeat"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "maxOutputHeat"
-				    inClass: [self class]]]; 
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "evaporationRate"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForMessage: 
-                                      "toggleRandomizedOrder" 
-                                    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "randomMoveProbability"
-				    inClass: [self class]]];
-
-  // And one method, the "addHeatbug" method for a probe demo.
-  // we also hide the return value for this message probe, just for nicety.
-
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "addHeatbug:"
-			     inClass: [self class]]
-			setHideResult: 1]];
+  probeMap = 
+    [CustomProbeMap create: aZone 
+                    forClass: [self class]
+                    withIdentifiers:  "numBugs", "diffuseConstant",
+                    "worldXSize", "worldYSize", "minIdealTemp", "maxIdealTemp",
+                    "minOutputHeat", "maxOutputHeat", "evaporationRate",
+                    "randomMoveProbability", ":", "toggleRandomizedOrder", 
+                    "addHeatbug:", NULL]; 
 
   // Now install our custom probeMap into the probeLibrary.
 
@@ -145,17 +121,13 @@
   // The heatspace agent represents the spatial property of heat.
   // It is initialized via various model parameters.
 
-  heat = [HeatSpace createBegin: self];
-  [heat setSizeX: worldXSize Y: worldYSize];
-  [heat setDiffusionConstant: diffuseConstant];
-  [heat setEvaporationRate: evaporationRate];
-  heat = [heat createEnd];
-
+  heat = [HeatSpace create: self setSizeX: worldXSize Y: worldYSize
+                    setDiffusionConstant: diffuseConstant
+                    setEvaporationRate: evaporationRate];
+  
   // Now set up the grid used to represent agent position
 
-  world = [Grid2d createBegin: self];
-  [world setSizeX: worldXSize Y: worldYSize];
-  world = [world createEnd];
+  world = [Grid2d create: self setSizeX: worldXSize Y: worldYSize];
 
   // Create a list to keep track of the heatbugs in the model.
 
@@ -261,9 +233,7 @@
   // This is a simple schedule, with only one action that is just
   // repeated every time. See mousetraps for more complicated schedules.
   
-  modelSchedule = [Schedule createBegin: self];
-  [modelSchedule setRepeatInterval: 1];
-  modelSchedule = [modelSchedule createEnd];
+  modelSchedule = [Schedule create: self setRepeatInterval: 1];
   [modelSchedule at: 0 createAction: modelActions];
 
   return self;

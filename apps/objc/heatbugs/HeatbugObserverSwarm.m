@@ -17,7 +17,7 @@
 + createBegin: aZone
 {
   HeatbugObserverSwarm *obj;
-  id <ProbeMap> probeMap;
+  id <CustomProbeMap> probeMap;
   
   // Superclass createBegin to allocate ourselves.
 
@@ -31,19 +31,11 @@
   // is to show all variables and messages. Here we choose to
   // customize the appearance of the probe, give a nicer interface.
 
-  probeMap = [EmptyProbeMap createBegin: aZone];
-  [probeMap setProbedClass: [self class]];
-  probeMap = [probeMap createEnd];
-
-  // Add in a bunch of variables, one per simulation parameters
-
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "displayFrequency"
-				    inClass: [self class]]];
-
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "graphBug:"
-			     inClass: [self class]]
-			setHideResult: YES]];
-
+  probeMap = [CustomProbeMap create: aZone
+                             forClass: [self class]
+                             withIdentifiers: "displayFrequency", 
+                             ":", "graphBug:", NULL];
+  
   // Now install our custom probeMap into the probeLibrary.
 
   [probeLibrary setProbeMap: probeMap For: [self class]];
@@ -153,22 +145,25 @@
   // Now create a Value2dDisplay: this is a special object that will
   // display arbitrary 2d value arrays on a given Raster widget.
 
-  heatDisplay = [Value2dDisplay createBegin: self];
-  [heatDisplay setDisplayWidget: worldRaster colormap: colormap];
-  [heatDisplay setDiscrete2dToDisplay: [heatbugModelSwarm getHeat]];
+  heatDisplay = 
+    [Value2dDisplay create: self 
+                    setDisplayWidget: worldRaster 
+                    colormap: colormap
+                    setDiscrete2dToDisplay: [heatbugModelSwarm getHeat]];
+
   [heatDisplay setDisplayMappingM: 512 C: 0];	  // turn [0,32768) -> [0,64)
-  heatDisplay = [heatDisplay createEnd];
 
   // And also create an Object2dDisplay: this object draws heatbugs on
   // the worldRaster widget for us, and also receives probes.
 
-  heatbugDisplay = [Object2dDisplay createBegin: self];
-  [heatbugDisplay setDisplayWidget: worldRaster];
-  [heatbugDisplay setDiscrete2dToDisplay: [heatbugModelSwarm getWorld]];
+  heatbugDisplay = 
+    [Object2dDisplay create: self
+                     setDisplayWidget: worldRaster
+                     setDiscrete2dToDisplay: [heatbugModelSwarm getWorld]
+                     setDisplayMessage: M(drawSelfOn:)];
+    
   [heatbugDisplay setObjectCollection: [heatbugModelSwarm getHeatbugList]];
-  [heatbugDisplay setDisplayMessage: M(drawSelfOn:)];   // draw method
-  heatbugDisplay = [heatbugDisplay createEnd];
-
+ 
   // Also, tell the world raster to send mouse clicks to the heatbugDisplay
   // this allows the user to right-click on the display to probe the bugs.
 
@@ -178,11 +173,12 @@
 
   // Create the graph widget to display unhappiness.
 
-  unhappyGraph = [EZGraph createBegin: self];
+  unhappyGraph = 
+    [EZGraph create: self
+             setTitle: "Unhappiness of bugs vs. time"
+             setAxisLabelsX: "time" Y: "unhappiness"];
+  
   SET_WINDOW_GEOMETRY_RECORD_NAME (unhappyGraph);
-  [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
-  [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
-  unhappyGraph = [unhappyGraph createEnd];
   [unhappyGraph enableDestroyNotification: self
                 notificationMethod: @selector (_unhappyGraphDeath_:)];
 
@@ -264,10 +260,10 @@
   // And the display schedule. Note the repeat interval is set from our
   // own Swarm data structure. Display is frequently the slowest part of a
   // simulation, so redrawing less frequently can be a help.
-
-  displaySchedule = [Schedule createBegin: self];
-  [displaySchedule setRepeatInterval: displayFrequency]; // note frequency!
-  displaySchedule = [displaySchedule createEnd];
+  
+  // note frequency!
+  displaySchedule = [Schedule create: self setRepeatInterval: displayFrequency];
+  
   [displaySchedule at: 0 createAction: displayActions];
   
   return self;
