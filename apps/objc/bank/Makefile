@@ -1,7 +1,9 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-1998-08-20
+SWARMHOME=../swarm-2.0
 endif
 APPLICATION=bank
+APPVERSION=2.0
+BUGADDRESS=bug-swarm@santafe.edu
 OBJECTS=FEntity.o FLink.o ILink.o BLink.o FNet.o main.o BankModelSwarm.o \
 	BankObserverSwarm.o BankBatchSwarm.o
 APPLIBS=-lgraph

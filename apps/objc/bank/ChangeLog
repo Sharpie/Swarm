@@ -1,3 +1,7 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile (APPVERSION, BUGADDRESS): Add.
+
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* main.m (main): Use initSwarmApp instead of initSwarm.  Add
