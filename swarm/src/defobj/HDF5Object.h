@@ -45,11 +45,13 @@
   hid_t c_rnaid;
   const char **c_rnbuf;
 }
++ createBegin: aZone;
 - setParent: parent;
 - setName: (const char *)name;
 - setTypeName: (const char *)typeName;
 - setCreateGroupFlag: (BOOL)createGroupFlag;
 - setRecordType: compoundType count: (unsigned)count;
+- setRowNameLength: (size_t)len;
 - createEnd;
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;

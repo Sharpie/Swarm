@@ -1,5 +1,8 @@
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* HDF5Object.[hm], defobj.h ([HDF5_c +createBegin:]): New method.
+	createGroupFlag defaults to YES.
+
 	* Archiver.m ([Archiver +createBegin:]): Set inhibitLoadFlag
 	to YES if the environment variable SWARM_INHIBIT_ARCHIVER_LOAD
 	exists.

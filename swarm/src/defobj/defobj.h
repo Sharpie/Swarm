@@ -976,10 +976,12 @@ extern void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
 //S: HDF5 interface
 //D: HDF5 interface
 CREATING
++ createBegin: aZone;
 - setParent: parent;
 - setName: (const char *)name;
 - setTypeName: (const char *)typeName;
 - setRecordType: compoundType count: (unsigned)count;
+- setRowNameLength: (size_t)len;
 - setCreateGroupFlag: (BOOL)createGroupFlag;
 - createEnd;
 USING

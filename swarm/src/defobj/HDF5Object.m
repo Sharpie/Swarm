@@ -100,6 +100,14 @@ PHASE(Using)
 
 @implementation HDF5_c
 PHASE(Creating)
++ createBegin: aZone
+{
+  HDF5_c *obj = [super createBegin: aZone];
+
+  obj->createGroupFlag = YES;
+  return obj;
+}
+
 - setParent: theParent
 {
   parent = theParent;
@@ -132,7 +140,7 @@ PHASE(Creating)
   return self;
 }
 
-- setRowNameLength: (unsigned)rnlen
+- setRowNameLength: (size_t)rnlen
 {
   c_rnlen = rnlen;
   return self;
