@@ -1,3 +1,8 @@
+1999-02-15  Alex Lancaster  <alex@santafe.edu>
+
+	* acffi.m4 (md_FIND_FFI): Reverse order of test - look in $ffidir
+	before looking in `/usr'.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* actcltk.m4 (md_FIND_TCLTK_SCRIPTS): Test $_prefix/share as

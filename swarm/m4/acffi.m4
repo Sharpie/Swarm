@@ -15,7 +15,7 @@ if test $USE_FFCALL = 0 ; then
   fi
   FFILDFLAGS=''
   AC_MSG_CHECKING(directory of libffi)
-  for dir in /usr $ffidir ; do
+  for dir in $ffidir /usr ; do
     ffidir_expand=`eval echo $dir`
     if test -f $ffidir_expand/lib/libffi.so ; then
       FFILDFLAGS="-L\${ffidir}/lib -rpath \${ffidir}/lib"
