@@ -15,6 +15,7 @@ Library:      defobj
 #import <collections/List_linked.h>
 
 #include <misc.h> // memset, xmalloc, XFREE, MAX_ALIGNMENT
+#include "internal.h"
 
 //
 // temporary hack to guarantee double word alignment of allocations
@@ -301,20 +302,37 @@ PHASE(Using)
 //
 - (void *)alloc: (size_t)size
 {
-  void  *newBlock;
+  void *ptr, *aptr, *newBlock;
+  size_t headerSize = sizeof (ptrdiff_t) + sizeof (size_t);
+  size_t offset;
+  size_t extraAlloc;
   
   if (_obj_debug && size == 0)
     raiseEvent (InvalidAllocSize, nil);
-  newBlock = dalloc (size + MAX_ALIGNMENT);
-  *(size_t *) newBlock = size;
-  newBlock += sizeof (MAX_ALIGNMENT);
+  newBlock = xmalloc (size + headerSize);
+  ptr = newBlock + headerSize;
+  aptr = alignptrto (ptr, MAX_ALIGNMENT);
+  extraAlloc = (size_t) (ptrdiff_t) (aptr - ptr);
+  if (extraAlloc)
+    {
+      newBlock = xrealloc (newBlock, size + headerSize + extraAlloc);
+      ptr = newBlock + headerSize;
+      aptr = alignptrto (ptr, MAX_ALIGNMENT);
+      extraAlloc = (size_t) (ptrdiff_t) (aptr - ptr);
+      if (extraAlloc != 0)
+        abort ();
+    }
+  offset = (ptrdiff_t) (aptr - newBlock);
+
+  *(ptrdiff_t *) (aptr - sizeof (ptrdiff_t)) = offset;
+  *(size_t *) (aptr - headerSize) = size;
   if (_obj_debug)
     {
       allocCount++;
       allocTotal += size;
       memset (newBlock, _obj_fillalloc, size);
     }
-  return newBlock;
+  return aptr;
 }
 
 //
@@ -322,12 +340,14 @@ PHASE(Using)
 //
 - (void)free: (void *)aBlock
 {
-  aBlock -= sizeof (size_t);
+  ptrdiff_t offset = *(ptrdiff_t *) (aBlock - sizeof (ptrdiff_t));
+
   if (_obj_debug)
     {
-      allocTotal -= *(size_t *) aBlock;
+      allocTotal -= *(size_t *) (aBlock - sizeof (ptrdiff_t) - sizeof (size_t));
       allocCount--;
     }
+  aBlock -= offset;
   XFREE (aBlock);
 }
 

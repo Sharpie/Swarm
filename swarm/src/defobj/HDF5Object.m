@@ -381,7 +381,7 @@ create_compound_type_from_class (Class class)
       else if (*type == _C_CHARPTR)
         type = @encode (int);
 
-      offset = alignto (offset, alignment_for_objc_type (type));
+      offset = alignsizeto (offset, alignment_for_objc_type (type));
       
       if (insertFlag)
         {
@@ -541,8 +541,8 @@ create_class_from_compound_type (id aZone,
           if (H5Tclose (mtid) < 0)
             raiseEvent (LoadError, "unable to close member type");
 
-          noffset = alignto (offset,
-                             alignment_for_objc_type (type));
+          noffset = alignsizeto (offset,
+                                 alignment_for_objc_type (type));
           
           if (min_offset > 0)
             {

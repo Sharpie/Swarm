@@ -1,3 +1,18 @@
+1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Zone.m ([Zone_c -alloc:]): Store offset after alignment and size
+	in allocation. 
+	([Zone_c -free:]): And free it.
+
+	* DefClass.m (addVariable): Use renamed alignsizeto instead of
+	alignto.
+
+	* HDF5Object.m (create_compound_type_from_class,
+	create_class_from_compound_type): Likewise.
+
+	* internal.[hm] (alignsizeto): Renamed from alignto.
+	(alignptrto): New function.
+
 1999-08-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m ([-setJavaObject:]): Make globalref here so

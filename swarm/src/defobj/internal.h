@@ -7,7 +7,9 @@
 #include <misc.h> // size_t
 #include <objc/objc-api.h>
 
-extern size_t alignto (size_t pos, size_t alignment);
+extern size_t alignsizeto (size_t pos, size_t alignment);
+extern void *alignptrto (void *ptr, size_t alignment);
+
 extern size_t size_for_objc_type (const char *varType);
 extern size_t alignment_for_objc_type (const char *varType);
 extern void map_ivars (Class class,

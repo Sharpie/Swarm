@@ -10,7 +10,7 @@
 #include <objc/objc-api.h>
 
 size_t
-alignto (size_t pos, size_t alignment)
+alignsizeto (size_t pos, size_t alignment)
 {
   size_t mask = (alignment - 1);
 
@@ -18,6 +18,18 @@ alignto (size_t pos, size_t alignment)
     return pos;
   else
     return (pos + alignment) & ~mask;
+}
+
+void *
+alignptrto (void *ptr, size_t alignment)
+{
+  PTRUINT mask = (alignment - 1);
+  PTRUINT pos = (PTRUINT) ptr;
+
+  if ((pos & mask) == 0)
+    return ptr;
+  else
+    return (void *) ((pos + alignment) & ~mask);
 }
 
 size_t

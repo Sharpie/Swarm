@@ -172,8 +172,8 @@ addVariable (Class class, const char *varName, const char *varType)
   class->ivars = extend_ivar_list (class->ivars, 1);
   il = &class->ivars->ivar_list[class->ivars->ivar_count];
   
-  il->ivar_offset = alignto (class->instance_size,
-                             alignment_for_objc_type (varType));
+  il->ivar_offset = alignsizeto (class->instance_size,
+                                 alignment_for_objc_type (varType));
   il->ivar_type = strdup (varType);
   il->ivar_name = strdup (varName);
   class->instance_size = il->ivar_offset + size_for_objc_type (varType);
