@@ -305,8 +305,7 @@ dynamicCallOn (const char *probedType,
     {
       if (retVal->type == _C_CHARPTR)
         retVal->val.string =
-          swarm_directory_copy_java_string (jniEnv, 
-                                            (jstring) retVal->val.object);
+          SD_JAVA_COPYSTRING (jniEnv, (jstring) retVal->val.object);
       else if (retVal->type == _C_ID)
         retVal->val.object = SD_JAVA_FINDOBJC (jniEnv,
                                                (jobject) retVal->val.object);

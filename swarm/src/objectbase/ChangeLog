@@ -1,3 +1,11 @@
+2000-05-01  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ProbeMap.m ([ProbeMap -addJavaMethods:]): Use 
+	SD_JAVA_ENSUREOBJCMETHOD instead of function. 
+
+	* MessageProbe.m (dynamicCallOn): Use java copy string macro
+	instead of function.
+
 2000-04-28    <mgd@nest.swarm.org>
 
 	* CompleteProbeMap.m, CompleteVarMap.m, DefaultProbeMap.m,

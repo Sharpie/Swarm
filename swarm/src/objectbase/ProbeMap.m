@@ -12,7 +12,7 @@
 
 #include <swarmconfig.h> // HAVE_JDK
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // SD_JAVA_FINDJAVA, swarm_directory_ensure_selector, JNI
+#import <defobj/directory.h> // SD_JAVA_FINDJAVA, SD_JAVA_ENSUREOBJCMETHOD, JNI
 #import <defobj/javavars.h>
 #endif
 
@@ -284,7 +284,7 @@ PHASE(Creating)
                                                name,
                                                JNI_FALSE);
               (*jniEnv)->DeleteLocalRef (jniEnv, name);
-              sel = swarm_directory_ensure_selector (jniEnv, selector);
+              sel = SD_JAVA_ENSUREOBJCMETHOD (jniEnv, selector);
               (*jniEnv)->DeleteLocalRef (jniEnv, selector);
               
               aProbe = [MessageProbe createBegin: getZone (self)];
