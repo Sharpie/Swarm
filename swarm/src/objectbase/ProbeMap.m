@@ -189,7 +189,6 @@ PHASE(Creating)
     abort();
 
   count = (*jniEnv)->GetArrayLength (jniEnv, fields);
-  numEntries += count;
 
   while (count > 0)
     {
@@ -220,6 +219,7 @@ PHASE(Creating)
 	  if (isCopy)
 	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
 	  (*jniEnv)->DeleteLocalRef (jniEnv, name);
+          numEntries++;
 	}
       (*jniEnv)->DeleteLocalRef (jniEnv, field);
     }
@@ -237,7 +237,6 @@ PHASE(Creating)
     abort();
   
   count = (*jniEnv)->GetArrayLength (jniEnv, methods);
-  numEntries += count;
   
   if (count)
     {
@@ -284,6 +283,7 @@ PHASE(Creating)
                   [probes at: [String create: getZone (self)
                                       setC: [aProbe getProbedMessage]]
                           insert: aProbe];
+                  numEntries++;
                 }
             }
 	  (*jniEnv)->DeleteLocalRef (jniEnv, method);
