@@ -477,10 +477,10 @@ PHASE(Using)
         fargs->resultVal.uchar = VAL(unsigned, ret);
         break;
       case fcall_type_sint:
-        fargs->resultVal.sint = ret.sint;
+        fargs->resultVal.sint = VAL(int, ret);
         break;
       case fcall_type_uint:
-        fargs->resultVal.uint = ret.uint;
+        fargs->resultVal.uint = VAL(unsigned, ret);
         break;
       case fcall_type_sshort:
         // short return is broken in libffi-1.18
@@ -491,10 +491,10 @@ PHASE(Using)
         fargs->resultVal.ushort = VAL(unsigned, ret);
         break;
       case fcall_type_slong:
-        fargs->resultVal.slong = ret.slong;
+        fargs->resultVal.slong = VAL(long, ret);
         break;
       case fcall_type_ulong:
-        fargs->resultVal.ulong = ret.ulong;
+        fargs->resultVal.ulong = VAL(unsigned long, ret);
         break;
       case fcall_type_float:
         fargs->resultVal._float = ret._float;
