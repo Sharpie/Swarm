@@ -33,3 +33,7 @@ add alternative interfaces that use objects.
 Function pointers
 
 Ensure that javaswarm and javacswarm get installed with execute permissions
+
+Check cget vs. get for CheckButton
+
+Check PTRUINT vs. %p in widget creation
