@@ -109,8 +109,7 @@ AC_SUBST(TCLINCLUDES)
 ])dnl
 
 AC_DEFUN(md_FIND_TCL_LIBRARIES,dnl
-[changequote(<,>)dnl
-LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
+[LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
         \${CYGFS}H-i586-cygwin32/lib \
         /Cygnus/cygwin-b20/H-i586-cygwin32/lib \
 	/usr/local/lib /usr/local/lib/tcl /usr/local/lib/tk \
@@ -165,7 +164,6 @@ if test -n "$tcllibdir" ; then
 else
   AC_MSG_RESULT(no)
 fi
-changequote([,])dnl
 AC_SUBST(TCLLIB)
 AC_SUBST(TCLLDFLAGS)
 AC_SUBST(tcllibdir)
@@ -208,8 +206,7 @@ AC_SUBST(TKINCLUDES)
 ])
 
 AC_DEFUN(md_FIND_TK_LIBRARIES,
-[changequote(<,>)dnl
-POTENTIALLIBDIR=`dirname $tcllibdir`
+[POTENTIALLIBDIR=`dirname $tcllibdir`
 POTENTIALLIBDIR=`dirname $POTENTIALLIBDIR`
 LIBPLACES="`dirname $tkincludedir`/lib $tcllibdir $POTENTIALLIBDIR/tk/lib \
         $POTENTIALLIBDIR/tk8.1/lib \
@@ -261,7 +258,6 @@ if test -n "$tklibdir" ; then
 else
   AC_MSG_RESULT(no)
 fi
-changequote([,])dnl
 AC_SUBST(TKLDFLAGS)
 AC_SUBST(TKLIB)
 AC_SUBST(tklibdir)
@@ -280,15 +276,15 @@ fi
 ])
 
 AC_DEFUN(md_FIND_TCL_SCRIPTS,
-md_FIND_TCLTK_SCRIPTS(tcl)
-[if test ! -r $tclscriptdir/init.tcl ; then
+[md_FIND_TCLTK_SCRIPTS(tcl)
+if test ! -r $tclscriptdir/init.tcl ; then
   AC_MSG_ERROR(Please use --with-tclscriptdir to specify location of init.tcl)
 fi
 ])
 
 AC_DEFUN(md_FIND_TK_SCRIPTS,
-md_FIND_TCLTK_SCRIPTS(tk)
-[if test ! -r $tkscriptdir/tk.tcl ; then
+[md_FIND_TCLTK_SCRIPTS(tk)
+if test ! -r $tkscriptdir/tk.tcl ; then
   AC_MSG_ERROR(Please use --with-tkscriptdir to specify location of tk.tcl)
 fi
 ])

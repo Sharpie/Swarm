@@ -1,5 +1,5 @@
 AC_DEFUN(md_CHECK_BUILTIN_APPLY,
-AC_MSG_CHECKING(for working __builtin_apply)
+[AC_MSG_CHECKING(for working __builtin_apply)
 AC_TRY_RUN([
 void *buf;
 int exit_code = 0;
@@ -19,7 +19,7 @@ main ()
   exit (exit_code);
 }
 ],
-AC_MSG_RESULT(yes),
-AC_DEFINE(BUGGY_BUILTIN_APPLY) AC_MSG_RESULT(no),
-AC_MSG_RESULT(guessing yes)
-))
+[AC_MSG_RESULT(yes)],
+[AC_DEFINE(BUGGY_BUILTIN_APPLY) AC_MSG_RESULT(no)],
+[AC_MSG_RESULT(guessing yes)]
+)])
