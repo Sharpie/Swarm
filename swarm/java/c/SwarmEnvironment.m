@@ -5,53 +5,54 @@
 
 #import <simtools.h> // initSwarm, swarmGUIMode
 #import <defobj.h> // defobj_java_call_init_tables, SSTRDUP
-#import <defobj/directory.h> // SD_JAVA_ENSURE_JAVA, swarm_directory_{dump,init}
 #import <simtoolsgui.h> // probe display macros
 #include <swarmconfig.h> // HAVE_KAFFE
+#import "../../src/defobj/java.h" // SD_JAVA_ENSURE_JAVA, swarm_directory_dump, swarm_directory_java_associate_objects
+#import <defobj/directory.h> // swarmDirectory
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSwarm (JNIEnv *env, jobject obj)
 {
-  return SD_JAVA_ENSUREJAVA (env, getCurrentSwarm ());
+  return SD_JAVA_ENSUREJAVA (getCurrentSwarm ());
 }
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSchedule (JNIEnv *env, jobject obj)
 {
-  return SD_JAVA_ENSUREJAVA (env, getCurrentSchedule ());
+  return SD_JAVA_ENSUREJAVA (getCurrentSchedule ());
 }
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentSwarmActivity (JNIEnv *env, jobject obj)
 {
-  return SD_JAVA_ENSUREJAVA (env, getCurrentSwarmActivity ());
+  return SD_JAVA_ENSUREJAVA (getCurrentSwarmActivity ());
 }
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentScheduleActivity (JNIEnv *env, 
 							jobject obj)
 {
-  return SD_JAVA_ENSUREJAVA (env, getCurrentScheduleActivity ());
+  return SD_JAVA_ENSUREJAVA (getCurrentScheduleActivity ());
 }
 
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentOwnerActivity (JNIEnv *env, jobject obj)
 {
-  return SD_JAVA_ENSUREJAVA (env, getCurrentOwnerActivity ());
+  return SD_JAVA_ENSUREJAVA (getCurrentOwnerActivity ());
 }
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentAction (JNIEnv *env, jobject obj)
 {
-  return SD_JAVA_ENSUREJAVA (env, getCurrentAction ());
+  return SD_JAVA_ENSUREJAVA (getCurrentAction ());
 }
 
 
 JNIEXPORT jobject JNICALL
 Java_swarm_SwarmEnvironment_getCurrentActivity (JNIEnv *env, jobject obj)
 {
-  return SD_JAVA_ENSUREJAVA (env, getCurrentActivity ());
+  return SD_JAVA_ENSUREJAVA (getCurrentActivity ());
 }
 
 
@@ -66,7 +67,7 @@ Java_swarm_SwarmEnvironment_createProbeDisplay (JNIEnv *env,
                                                 jobject obj, 
 						jobject anObject)
 {
-  return SD_JAVA_ENSUREJAVA (env, CREATE_PROBE_DISPLAY (SD_JAVA_ENSUREOBJC (env, anObject)));
+  return SD_JAVA_ENSUREJAVA (CREATE_PROBE_DISPLAY (SD_JAVA_ENSUREOBJC (anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -74,11 +75,11 @@ Java_swarm_SwarmEnvironment_createCompleteProbeDisplay (JNIEnv *env,
 							jobject obj, 
 							jobject anObject)
 {
-  return SD_JAVA_ENSUREJAVA (env, CREATE_COMPLETE_PROBE_DISPLAY (SD_JAVA_ENSUREOBJC (env, anObject)));
+  return SD_JAVA_ENSUREJAVA (CREATE_COMPLETE_PROBE_DISPLAY (SD_JAVA_ENSUREOBJC (anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
-Java_swarm_SwarmEnvironment_createArchivedProbeDisplay (JNIEnv * env, 
+Java_swarm_SwarmEnvironment_createArchivedProbeDisplay (JNIEnv *env, 
 							jobject obj, 
 							jobject anObject,
                                                         jstring objectName)
@@ -89,16 +90,15 @@ Java_swarm_SwarmEnvironment_createArchivedProbeDisplay (JNIEnv * env,
   const char *name = (*env)->GetStringUTFChars (env, objectName, &isCopy);
   
   probeDisplay =
-    SD_JAVA_ENSUREJAVA (env,
-                        createArchivedProbeDisplayNamed
-                        (SD_JAVA_ENSUREOBJC (env, anObject), name));
+    SD_JAVA_ENSUREJAVA (createArchivedProbeDisplayNamed
+                        (SD_JAVA_ENSUREOBJC (anObject), name));
   (*env)->ReleaseStringUTFChars (env, objectName, name);
   return probeDisplay;
 }
 
 
 JNIEXPORT jobject JNICALL 
-Java_swarm_SwarmEnvironment_createArchivedCompleteProbeDisplay (JNIEnv * env, 
+Java_swarm_SwarmEnvironment_createArchivedCompleteProbeDisplay (JNIEnv *env, 
                                                                 jobject obj, 
                                                                 jobject anObject,
                                                                 jstring objectName)
@@ -109,9 +109,8 @@ Java_swarm_SwarmEnvironment_createArchivedCompleteProbeDisplay (JNIEnv * env,
   const char *name = (*env)->GetStringUTFChars (env, objectName, &isCopy);
 
   probeDisplay =
-    SD_JAVA_ENSUREJAVA (env,
-                        createArchivedCompleteProbeDisplayNamed
-                        (SD_JAVA_ENSUREOBJC (env, anObject), name));
+    SD_JAVA_ENSUREJAVA (createArchivedCompleteProbeDisplayNamed
+                        (SD_JAVA_ENSUREOBJC (anObject), name));
   
   (*env)->ReleaseStringUTFChars (env, objectName, name);
   return probeDisplay;
@@ -129,8 +128,7 @@ Java_swarm_SwarmEnvironment_setWindowGeometryRecordName (JNIEnv *env,
   jobject ret;
 
   ret =
-    SD_JAVA_ENSUREJAVA (env,
-                        [SD_JAVA_FINDOBJC (env, anObject) setWindowGeometryRecordName: name]);
+    SD_JAVA_ENSUREJAVA ([SD_JAVA_FINDOBJC (anObject) setWindowGeometryRecordName: name]);
   if (isCopy)
     (*env)->ReleaseStringUTFChars (env, objectName, name);
   return ret;
@@ -143,13 +141,12 @@ Java_swarm_SwarmEnvironment_setComponentWindowGeometryRecordNameFor (JNIEnv *env
                                                                      jobject widget,
                                                                      jobject widgetName)
 {
-  id objcObject = SD_JAVA_FINDOBJC (env, anObj);
-  id objcWidget = SD_JAVA_FINDOBJC (env, widget);
+  id objcObject = SD_JAVA_FINDOBJC (anObj);
+  id objcWidget = SD_JAVA_FINDOBJC (widget);
   jboolean isCopy;
   const char *name = (*env)->GetStringUTFChars (env, widgetName, &isCopy);
   jobject ret =
-    SD_JAVA_ENSUREJAVA (env, 
-                        [objcObject setWindowGeometryRecordNameForComponent: name
+    SD_JAVA_ENSUREJAVA ([objcObject setWindowGeometryRecordNameForComponent: name
                                     widget: objcWidget]);
   if (isCopy)
     (*env)->ReleaseStringUTFChars (env, widgetName, name);
@@ -215,7 +212,9 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
 
   }
 #endif
-  swarm_directory_init (env, obj);
+  jniEnv = env;
+  swarmDirectory = [Directory create: globalZone];
+  swarm_directory_java_associate_objects (obj);
   {
     jclass class = (*env)->GetObjectClass (env, obj);
     jfieldID fid;
@@ -231,13 +230,13 @@ Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
 JNIEXPORT void JNICALL
 Java_swarm_SwarmEnvironment_xprint (JNIEnv *env, jobject swarmEnv, jobject obj)
 {
-  xprint (SD_JAVA_FINDOBJC (env, obj));
+  xprint (SD_JAVA_FINDOBJC (obj));
 }
 
 JNIEXPORT void JNICALL
 Java_swarm_SwarmEnvironment_xfprint (JNIEnv *env, jobject swarmEnv, jobject obj)
 {
-  xfprint (SD_JAVA_FINDOBJC (env, obj));
+  xfprint (SD_JAVA_FINDOBJC (obj));
 }
 
 JNIEXPORT void JNICALL

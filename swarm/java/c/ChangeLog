@@ -1,3 +1,22 @@
+2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* SwarmEnvironment.m (Java_swarm_SwarmEnvironment_getCurrentSwarm,
+	Java_swarm_SwarmEnvironment_getCurrent{Schedule,SwarmActivity,
+	ScheduleAcitvity,OwnerActivity,Action,Activity}: Remove jniEnv
+	argument to SD_JAVA_ENSUREJAVA.
+	(Java_swarm_SwarmEnvironment_create{ProbeDisplay,CompleteProbeDisplay,
+	ArchivedProbeDisplay,ArchivedCompleteProbeDisplay):
+	Remove jniEnv argument to SD_JAVA_ENSUREJAVA and
+	SD_JAVA_ENSUREOBJC.
+	(Java_swarm_SwarmEnvironment_setWindowGeometryRecordName): Remove
+	jniEnv argument to SD_JAVA_ENSUREJAVA and SD_FINDOBJC.
+	(Java_swarm_SwarmEnvironment_setComponentWindowGeometryRecordNameFor,
+	Java_swarm_SwarmEnvironment_x[f]print):
+	Remove jniEnv argument to SD_JAVAFINDOBJC.
+	(Java_swarm_SwarmEnvironment_initSwarm): Don't call
+	swarm_directory_init, instead make swarmDirectory and call
+	swarm_directory_java_associate_objects.
+
 2000-04-29  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Makefile.in (%_stubs.m): Remove % symbol dependency.  That doesn't
