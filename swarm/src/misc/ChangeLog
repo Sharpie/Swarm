@@ -1,3 +1,8 @@
+1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (EXTRA_HEADERS): Set to argp.h.
+	(misc_HEADERS): Use @ARGP_H@ instead of argp.h.
+
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (noinst_LTLIBRARIES): Switch from lib_LTLIBRARIES.

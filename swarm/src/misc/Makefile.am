@@ -19,6 +19,8 @@ EXTRA_DIST = memchr.c memcpy.c memset.c \
 	stpcpy.c strchr.c strcmp.c strdup.c strlen.c strncmp.c \
 	strndup.c strnlen.c strpbrk.c strsep.c $(ARGP_SRC)
 
+EXTRA_HEADERS = argp.h
+
 SRC = xmalloc.c find_executable.c dropdir.c avl.c 
 
 noinst_HEADERS = argp-fmtstream.h argp-namefrob.h mem.h
@@ -27,4 +29,4 @@ libmisc_la_SOURCES = $(SRC)
 libmisc_la_LIBADD = @LIBOBJS@
 libmisc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
-misc_HEADERS = argp.h getopt.h avl.h
+misc_HEADERS = @ARGP_H@ getopt.h avl.h
