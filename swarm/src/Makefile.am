@@ -39,11 +39,9 @@ libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLA
 
 OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
 
-swarm.dll: dllinit.c $(OBJS)
-	$(CC) -c $(srcdir)/dllinit.c
-	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll dllinit.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
-
-swarm_dll_SOURCES = dllinit.c
+swarm.dll: swarm.dll.c $(OBJS)
+	$(CC) -c $(srcdir)/swarm.dll.c
+	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
 install-data-local: 
 	if test $(USEDLL) = yes; then \

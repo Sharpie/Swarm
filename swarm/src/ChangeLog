@@ -2,6 +2,8 @@
 
 	* Makefile.am (swarm.dll): Rename libswarm.a to libswarmdll.a.
 	(install-data-local): Accomodate.
+	(swarm_dll_SOURCES): Remove (calling dllinit.c swarm.dll.c instead).
+	(swarm.dll): Use swarm.dll.[co].
 
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
