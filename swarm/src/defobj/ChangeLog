@@ -1,3 +1,7 @@
+2004-07-20  Marcus G. Daniels <mgd@santafe.edu>
+
+	* FArguments.[hm], defobj.h:  Always use void return on -addObject:.
+
 2004-07-16  Scott Christley <schristley@mac.com>
 
 	* Makefile.am (INCLUDES): Use libobjc definition. Add GNUstep includes.
