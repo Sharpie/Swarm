@@ -17,5 +17,6 @@
 -getTo ;
 -getLinkItem ;
 -update ;
+-hideLink ;
 -(void) drop ;
 @end

@@ -10,11 +10,6 @@
 
 @implementation DiGraphLink
 
--setCanvas: the_canvas {
-  canvas = the_canvas ;
-  return self ;
-}
-
 -setFrom: the_from To: the_to {
   from = the_from ;
   to = the_to ;
@@ -22,14 +17,30 @@
   return self ;
 }
 
--createEnd {  
-  if(canvas)
-    linkItem = [[[[[LinkItem createBegin: [self getZone]] 
-              setFrom: [from getNodeItem]] setTo: [to getNodeItem]] 
-              setCanvas: canvas] createEnd] ;
+-setCanvas: the_canvas {
+  canvas = the_canvas ;   
+  
+  if (from && to) 
+     linkItem = [[[[[LinkItem createBegin: [self getZone]] 
+                      setFrom: [from getNodeItem]] setTo: [to getNodeItem]] 
+                    setCanvas: canvas] createEnd] ;
+ 
+  return self ;
+}
 
-  [from addTo: self] ;
-  [to addFrom: self] ;
+-createEnd {  
+ 
+   if (canvas) {
+      if (linkItem) {
+      }
+      else 
+         linkItem = [[[[[LinkItem createBegin: [self getZone]] 
+                          setFrom: [from getNodeItem]] setTo: [to getNodeItem]] 
+                         setCanvas: canvas] createEnd] ;
+   }
+   
+   [from addTo: self] ;
+   [to addFrom: self] ;
   
   return self;
 }
@@ -51,11 +62,18 @@
   return self ;
 }
 
+-hideLink {
+   canvas = nil;
+   [linkItem drop] ;
+   return self;
+}
+
 -(void) drop {
   [from removeTo: self] ;
   [to removeFrom: self] ;
-  if(canvas)
-    [linkItem drop] ;
+  if(canvas)  
+     [self hideLink];
+   
   [super drop] ;
 }
 
