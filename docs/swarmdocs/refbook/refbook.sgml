@@ -5,8 +5,8 @@
 <!entity % versions.ent PUBLIC "-//SFI Hive//ENTITIES Versions//EN">
 %versions.ent;
 
-<!entity % src.ent PUBLIC "-//SFI Hive//ENTITIES Src List//EN">
-%src.ent;
+<!entity % refbook.ent PUBLIC "-//SFI Hive//ENTITIES Reference List//EN">
+%refbook.ent;
 
 <!entity % figs.ent PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
 %figs.ent;

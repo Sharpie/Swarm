@@ -1,3 +1,17 @@
+1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* refmeta.sgml: Use refbookrevhistory.sgml instead of
+	srcrevhistory.sgml.
+
+	* refbook.sgml: Use refbook.ent instead of src.ent.
+
+	* Makefile.am: Include refbook/Makefile.rules instead of
+	src/Makefile.rules.
+	(GENERATED_SGML): Rename srcrevhistory.sgml to refbookrevhistory.sgml.
+	(ENT, EXTRA_DIST): Use refbook.ent instead of src.ent.
+
+	* refbook.ent: Renamed from src.ent.
+
 1998-06-16  Alex Lancaster  <alex@santafe.edu>
 
 	* probes-app.sgml (complete-probe-map): Scale graphic to 50%.
