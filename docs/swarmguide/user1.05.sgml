@@ -1,5 +1,6 @@
-<sect1 id="swarm.user.user1.05.sect1"><title>The Graphical User Interface</title>
+<sect1 id="swarm.user.user1.05.sect1">
 
+<title>The Graphical User Interface</title>
 
 
 <sect2>
@@ -7,14 +8,17 @@
 
     <para>All agents and objects in Swarm can be probed</para>
 
-    <para>Probe attaches itself to an agent, can send a message, change a variable 
-      or retrieve values by calling agent or reading variable directly</para>
+    <para>Probe attaches itself to an agent, can send a message,
+      change a variable or retrieve values by calling agent or reading
+      variable directly</para>
+
 </sect2>
 
 <sect2>
  <title>Probes and the GUI</title> 
 
-    <formalpara><title>A probe can be used to communicate with objects in real time 
+    <formalpara>
+      <title>A probe can be used to communicate with objects in real time
         through a graphical widget</title><para></para></formalpara>
 
     <formalpara><title>A default probe map of agent shows all variables and 
@@ -22,12 +26,12 @@
       <para>
 
         <itemizedlist>
-          <listitem>Probe                   </listitem>
-          <listitem>Executes method         </listitem>
-          <listitem>Input value for variable</listitem>
-          <listitem>Open probe for class    </listitem>
-          <listitem>Close probe             </listitem>
-          <listitem>                        </listitem>
+          <listitem><para>Probe                   </para></listitem>
+          <listitem><para>Executes method         </para></listitem>
+          <listitem><para>Input value for variable</para></listitem>
+          <listitem><para>Open probe for class    </para></listitem>
+          <listitem><para>Close probe             </para></listitem>
+          <listitem><para>                        </para></listitem>
         </itemizedlist>
 
       </para></formalpara> 
@@ -37,11 +41,13 @@
 <sect2>
  <title>Probes without a GUI</title> 
 
-    <formalpara><title>Probes are also used to gather information dynamically 
-        from single agents or collection of agents</title><para></para></formalpara>
+    <formalpara><title>Probes are also used to gather information
+        dynamically from single agents or collection of
+        agents</title><para></para></formalpara>
 
-    <formalpara><title>Among other features is the ability to define and execute 
-        method calls on the fly at runtime
+    <formalpara><title>Among other features is the ability to define
+        and execute method calls on the fly at runtime</title>
+
       <para>
         Agents
         A collection object
@@ -50,6 +56,7 @@
         acts on data
         Probe
       </para></formalpara> 
+
 </sect2>
 
 <sect2>
@@ -59,14 +66,15 @@
 
 <para>
         <itemizedlist>
-          <listitem>Line graphs   </listitem>
-          <listitem>Histograms    </listitem>
-          <listitem>Raster images </listitem>
-          <listitem>Digraphs      </listitem> 
-        </itemizedlist>
+          <listitem><para>Line graphs   </para></listitem>
+          <listitem><para>Histograms    </para></listitem>
+          <listitem><para>Raster images </para></listitem>
+          <listitem><para>Digraphs      </para></listitem> 
+        </itemizedlist></para></formalpara>
 
-    <formalpara><title>Data collection, calculation and updating is provided 
-        through support objects to the GUI widgets</title><para></para></formalpara>
+    <formalpara><title>Data collection, calculation and updating is
+        provided through support objects to the GUI
+        widgets</title><para></para></formalpara>
 
 </sect2>
 
@@ -88,13 +96,16 @@
       Graph 
       
       widget
-</literallayout>    </para>
+      </literallayout>    
 
-    <formalpara><title>Output on graphs or other widgets relies heavily on the probes 
-        and dynamic access to agent's data</title><para></para></formalpara>
+    </para>
 
-    <formalpara><title>Swarm collection objects also facilitate process</title><para>
-      </para></formalpara>
+    <formalpara><title>Output on graphs or other widgets relies
+        heavily on the probes and dynamic access to agent's
+        data</title><para></para></formalpara>
+
+    <formalpara><title>Swarm collection objects also facilitate
+      process</title><para> </para></formalpara>
 
 </sect2>
 </sect1>

@@ -35,9 +35,8 @@
 
 <BOOK ID="userbook">
 
-  &usermeta.sgml;
-
 <TITLE>Swarm User Guide</TITLE>
+  &usermeta.sgml;
 
 <CHAPTER ID="SWARM.USER.USER1.CHAPTER">
 

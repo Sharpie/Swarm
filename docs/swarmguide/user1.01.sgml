@@ -11,47 +11,168 @@
   (and uninteresting) details of computer coding.</para>
 
   <para>The Swarm project has benefitted from the contributions of
-  many programmers, including Roger Burkhart, Nelson Minar, Manor
-  Askenazi, Glen Ropella, Sven Thommesen, Marcus Daniels, Alex
-  Lancaster, and Irene Lee. </para>
+    many programmers, including Roger Burkhart, Nelson Minar, Manor
+    Askenazi, Glen Ropella, Sven Thommesen, Marcus Daniels, Alex
+    Lancaster, and Irene Lee. </para>
 
-<sect2><title>Basic facts about Swarm</title> <para>Swarm is a
+  <sect2><title>Basic facts about Swarm</title> <para>Swarm is a
     collection of software libraries which provide support for
     simulation programming. Among the most prominent features are the
     following.
+
     <itemizedlist>
 
-	<listitem> <formalpara>Swarm Code is Object-Oriented.</formalpara><para>The swarm libraries are written in a computer language called "Objective-C", a superset of the C language. Objective-C adds the ability to create software "classes" from which individual instances can be created.  These instances are self-contained entities, and the terminology of object-oriented programming turns out to be very well suited to discussions of agent-based models.</para> </listitem>
+	<listitem> <formalpara><title>Swarm Code is
+          Object-Oriented.</title><para>The swarm
+          libraries are written in a computer language called
+          "Objective-C", a superset of the C language. Objective-C
+          adds the ability to create software "classes" from which
+          individual instances can be created.  These instances are
+          self-contained entities, and the terminology of
+          object-oriented programming turns out to be very well suited
+          to discussions of agent-based models.</para>
+          </formalpara>
+        </listitem>
 
-	<listitem><formalpara>Swarm Programs are Hierarchical.</formalpara><para>Most swarm applications have a structure that roughly goes like this.  First, a top level--often called the "observer swarm"--is created.  That layer creates screen displays and it also creates the level below it, which is called the "model swarm".  The model swarm in turn creates the individual agents, schedulestheir activities, collects information about them and relays that information when the observer swarm needs it. This terminology is not required by Swarm, but its use does facilitate it. </para>
+	<listitem>
+          <formalpara><title>Swarm Programs are Hierarchical.</title>
+            
+            <para>Most swarm applications have a structure that
+            roughly goes like this.  First, a top level--often called
+            the "observer swarm"--is created.  That layer creates
+            screen displays and it also creates the level below it,
+            which is called the "model swarm".  The model swarm in
+            turn creates the individual agents, schedulestheir
+            activities, collects information about them and relays
+            that information when the observer swarm needs it. This
+            terminology is not required by Swarm, but its use does
+            facilitate it. </para>
+          </formalpara>
 	</listitem>
 
-	<listitem><formalpara>Swarm Provides Many Handy Tools.</formalpara><para>As we shall see in later sections, the Swarm libraries provide a number of convenient pieces of code that will facilitate the design of an agent-based model. These tools facilitate the management of memory, the maintenance of lists, scheduling of actions, and many other chores.<para></listitem> 
+	<listitem>
+          <formalpara><title>Swarm Provides Many Handy Tools.</title>
+
+            <para>As we shall see in later sections, the Swarm
+            libraries provide a number of convenient pieces of code
+            that will facilitate the design of an agent-based
+            model. These tools facilitate the management of memory,
+            the maintenance of lists, scheduling of actions, and many
+            other chores.</para>
+          </formalpara>
+        </listitem>
    </itemizedlist>
-</para> 
-<para> Users build simulations by incorporating Swarm objects in their own programs.  Users are encouraged to study a number of tutorial examples in order to make full use of the Swarm libraries and the strategy of modeling that inspires them.</para>
+    </para> 
+
+    <para> Users build simulations by incorporating Swarm objects in
+      their own programs.  Users are encouraged to study a number of
+      tutorial examples in order to make full use of the Swarm
+      libraries and the strategy of modeling that inspires
+      them.</para>
+
 </sect2>
 
 <sect2><title>Swarm is a moving target</title>
-    <para>Swarm is an "open source" project. {need some licensing frob here} </para>
 
-    <para>Most of the development work has been done by the Swarm Development Group at the SFI.  Their results are periodically released on the internet and users can edit the source code.  The creators fully intended for users to take the code, experiment with it, and propose changes and enhancements.  This open source strategy is designed to capture the contributions of a lively research community. When users make improvements in the libraries, they are encouraged to announce them to the community and make them available.  As a result of the interaction of the community and the Swarm team, the Swarm libraries are constantly being revised.</para>
-    <para>To get an idea of how much things change, consider the brief history of the project. Swarm was originally intended for Unix operating systems that support the X Windows System.  The first beta version of Swarm was released in 1995.  In January, 1997, version 1.0 was released to the public.  It would run on Solaris and Linux operating systems.  Quickly after that, minor releases followed that opened up Swarm to the DEC Alpha platform and other flavors of Unix.  In April 1998, the reach of Swarm again broadened, as version 1.1 was released and, with the help of the Cygnus Win32 package, Swarm could be used on the Microsoft Windows 95/NT operating system.</para>
-    <para>Because Swarm does grow and change as a result of the complex interaction within a research community, its precise path for development is not predictable.  Current priorities for the Swarm team at SFI include the further generalization of Swarm to be useful on a broader array of platforms and in conjunction with additional computer languages.
-  </para>
+    <para>Swarm is an "open source" project. {need some licensing frob
+      here} </para>
+
+    <para>Most of the development work has been done by the Swarm
+      Development Group at the SFI.  Their results are periodically
+      released on the internet and users can edit the source code.
+      The creators fully intended for users to take the code,
+      experiment with it, and propose changes and enhancements.  This
+      open source strategy is designed to capture the contributions of
+      a lively research community. When users make improvements in the
+      libraries, they are encouraged to announce them to the community
+      and make them available.  As a result of the interaction of the
+      community and the Swarm team, the Swarm libraries are constantly
+      being revised.</para>
+    
+    <para>To get an idea of how much things change, consider the brief
+      history of the project. Swarm was originally intended for Unix
+      operating systems that support the X Windows System.  The first
+      beta version of Swarm was released in 1995.  In January, 1997,
+      version 1.0 was released to the public.  It would run on Solaris
+      and Linux operating systems.  Quickly after that, minor releases
+      followed that opened up Swarm to the DEC Alpha platform and
+      other flavors of Unix.  In April 1998, the reach of Swarm again
+      broadened, as version 1.1 was released and, with the help of the
+      Cygnus Win32 package, Swarm could be used on the Microsoft
+      Windows 95/NT operating system.</para> <para>Because Swarm does
+      grow and change as a result of the complex interaction within a
+      research community, its precise path for development is not
+      predictable.  Current priorities for the Swarm team at SFI
+      include the further generalization of Swarm to be useful on a
+      broader array of platforms and in conjunction with additional
+      computer languages.
+    </para>
+
   </sect2>
 
 <sect2>
 <title>Prerequisites for success with Swarm.</title>
-    <para>Swarm was originally conceived as a set of standardized methods for the design of multi-agent simulation models. One need not be a highly-accomplished computer program to user the Swarm libraries.  In fact, as the installation process for Swarm becomes increasingly streamlined, it is quite easy for anyone with suitable hardware to test some of the sample applications. For people who have Windows 98/NT or Linux operating systems, compiled versions of the Swarm libraries are available and installation is quite painless</para>
-    <para>However, it is not easy to create new Swarm applications. Doing so requires the creation of a computer program.  While one need not be an expert programmer, one must have a rudimentary understanding of vital computing concepts. The required knowledge will vary with the sort of model that one is intending to create, of course, but,<emphasis> at the bare minumum</emphasis>, users must have a basic understanding of computer programming, the C computer language, and Objective C. </para>
-    <para>Fortunately, C is a highly-useful language and it is relatively easy to learn.  Objective-C is, well, truly elegant and fun to use and people who know C say it is fairly easy to learn. </para>
-<para> People who have not done computer programming will thus need to do some background preparation before they try to make a serious effort at building a Swarm model.  We suggest that the first step is to find one of the many elementary guides to computing with C, such as XXX or XXX. A manual with examples and exercises is vital.  These will teach the basics about writing code and compiling it into programs.  The book The C Programming Language, by the authors of C, Brian Kernighan and Dennis Ritchie, is a truly readable and informative manual that all users ought to investigate. The Objective-C language is best learned from the online book XXX.</para></sect2>
+
+    <para>Swarm was originally conceived as a set of standardized
+      methods for the design of multi-agent simulation models. One
+      need not be a highly-accomplished computer program to user the
+      Swarm libraries.  In fact, as the installation process for Swarm
+      becomes increasingly streamlined, it is quite easy for anyone
+      with suitable hardware to test some of the sample
+      applications. For people who have Windows 98/NT or Linux
+      operating systems, compiled versions of the Swarm libraries are
+      available and installation is quite painless</para>
+
+    <para>However, it is not easy to create new Swarm
+      applications. Doing so requires the creation of a computer
+      program.  While one need not be an expert programmer, one must
+      have a rudimentary understanding of vital computing
+      concepts. The required knowledge will vary with the sort of
+      model that one is intending to create, of course, but,<emphasis>
+      at the bare minumum</emphasis>, users must have a basic
+      understanding of computer programming, the C computer language,
+      and Objective C. </para>
+    
+    <para>Fortunately, C is a highly-useful language and it is
+      relatively easy to learn.  Objective-C is, well, truly elegant
+      and fun to use and people who know C say it is fairly easy to
+      learn. </para> <para> People who have not done computer
+      programming will thus need to do some background preparation
+      before they try to make a serious effort at building a Swarm
+      model.  We suggest that the first step is to find one of the
+      many elementary guides to computing with C, such as XXX or
+      XXX. A manual with examples and exercises is vital.  These will
+      teach the basics about writing code and compiling it into
+      programs.  The book <citetitle pubwork="book">The C Programming
+      Language</citetitle>, by the authors of C, <author>
+      <firstname>Brian</firstname> <surname>Kernighan</surname>
+      </author> and <author> <firstname>Dennis</firstname> <surname>
+      Ritchie</surname> </author>, is a truly readable and informative
+      manual that all users ought to investigate. The Objective-C
+      language is best learned from the online book
+      XXX.</para></sect2>
 
 <sect2>
+
  <title>About This Guide</title> 
-    <para> This Guide presents an overview of the Swarm simulation toolkit. It is intended to be used in conjunction with other materials, which include the sample programs and tutorials provided by the Swarm team and the Documentation Set.  Since this is a user guide, it is intended to be less formal and not so encyclopaedic as the Reference Manual. When there is any doubt, the Reference Manual (and the source code itself) is the final, most appropriate, authority.</para>
-    <para>The inspiration for this Guide was provided by <author>Benedikt Stefansson</author> <email>benedikt@ucla.edu</email>, who prepared a series of lectures for the 1998 Swarmfest.  Benedikt generated a series of slides and illustrations and many of them have been adapted for this Guide. He has also provided help in the form of sample code and advice about many topics.</para>
+
+    <para> This Guide presents an overview of the Swarm simulation
+      toolkit. It is intended to be used in conjunction with other
+      materials, which include the sample programs and tutorials
+      provided by the Swarm team and the Documentation Set.  Since
+      this is a user guide, it is intended to be less formal and not
+      so encyclopaedic as the Reference Manual. When there is any
+      doubt, the Reference Manual (and the source code itself) is the
+      final, most appropriate, authority.</para>
+
+    <para>The inspiration for this Guide was provided
+        by <author><firstname>Benedikt</firstname>
+        <surname>Stefansson</surname></author>
+        <email>benedikt@ucla.edu</email>, who prepared a series of
+        lectures for the 1998 Swarmfest.  Benedikt generated a series
+        of slides and illustrations and many of them have been adapted
+        for this Guide. He has also provided help in the form of
+        sample code and advice about many topics.</para>
 
 </sect2>
 </sect1>
