@@ -6,8 +6,12 @@
 
 #ifdef __CYGWIN32__
 #define PATHNAME_UNIX_UNC
-#define MAXSYMLINKS 10
 int readlink (const char *, char *, int);
+#endif
+
+#ifndef MAXSYMLINKS
+/* Cygwin32 and libc1 GNU/Linux machines lack this in sys/param.h. */
+#define MAXSYMLINKS 10
 #endif
 
 #define HAVE_READLINK

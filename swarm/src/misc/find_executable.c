@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/param.h>
+#include <sys/fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -38,7 +39,7 @@ find_executable (const char *program_name)
     sprintf (buf, "/proc/%d/exe", getpid ());
     fd = open (buf, O_RDONLY, 0644);
     if (fd != -1)
-      return buf;
+      return strdup (buf);
   }
 #endif
   /* Now we guess the executable's full path. We assume the executable
