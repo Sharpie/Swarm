@@ -3,19 +3,24 @@
  1. Variant method names for passthru to setWindowGeometryRecordName have been
     eliminated.  In these cases, the resulting key is computed from the
     components involved.  Thanks to Ken Cline for the idea.
+
+ 2. The methods create[Complete]ProbeDisplayFor:setWindowGeometryRecordName:
+    have been removed in favor of the macros
+    createArchived[Complete]ProbeDisplay (obj), which derive the geometry 
+    record name from the variable name provided as an argument.
  
- 2. Save and Quit no longer result in a timestep.  Thanks to Rick Riolo
+ 3. Save and Quit no longer result in a timestep.  Thanks to Rick Riolo
     for reporting this.
 
- 3. Using the method setupDestroyNotification: notificationMethod:
+ 4. Using the method setupDestroyNotification: notificationMethod:
     with a target object (e.g. the parent) and handler method, it is possible
     for your application to disable top level user interface features that the
     user kills with the window manager.  See heatbugs for an example of this.
  
- 4. Histo and Canvas are now subclassed from ArchivedGeometryWidget; their
+ 5. Histo and Canvas are now subclassed from ArchivedGeometryWidget; their
     geometry can now be saved.
 
- 5. Active graph items in a BLTGraph were not being properly hilighted
+ 6. Active graph items in a BLTGraph were not being properly hilighted
     with BLT 2.3.  Thanks to Pietro Terna for reporting this.
 
 		Release Notes for Swarm Version 1.0.4
