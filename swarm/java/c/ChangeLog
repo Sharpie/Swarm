@@ -1,7 +1,8 @@
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (libjavaswarm.la): Use only libswarm.
-	(javaswarmstubs.dll, javaswarm.dll): New targets.
+	(ALLOBJECTS): New variable.
+	(javaswarm.dll): New target.  Use it.
 	(all): Use substitution targets.
 	(libjavaswarm_.la, libjavaswarmstubs_.la): New intermediate targets.
 	(DLLWRAP): Substitute.
