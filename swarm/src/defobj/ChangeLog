@@ -1,7 +1,8 @@
 2000-08-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
-	* COM.h (SD_COM_FIND_CLASS_COM, SD_COM_ENSURE_OBJECT_COM): Add
-	type argument, passing it to NS_STATIC_CAST.
+	* COM.h (SD_COM_FIND_CLASS_COM_CAST,
+	SD_COM_ENSURE_OBJECT_COM_CAST): New macros which
+	add type argument, passing it to NS_STATIC_CAST.
 
 2000-08-25  Marcus G. Daniels  <mgd@forager.swarm.org>
 

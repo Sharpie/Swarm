@@ -34,10 +34,12 @@ extern const char *swarm_COM_copy_string (const char *str);
 }
 #endif
 
-#define SD_COM_FIND_CLASS_COM(type,oClass) NS_STATIC_CAST(type, swarm_directory_objc_find_COM_class (oClass))
+#define SD_COM_FIND_CLASS_COM(oClass) swarm_directory_objc_find_COM_class (oClass)
+#define SD_COM_FIND_CLASS_COM_CAST(type,oClass) NS_STATIC_CAST(type, SD_COM_FIND_CLASS_COM (oClass))
 
 #define SD_COM_FIND_OBJECT_COM(oObject) swarm_directory_objc_find_object_COM (oObject)
-#define SD_COM_ENSURE_OBJECT_COM(type,oObject) NS_STATIC_CAST(type,swarm_directory_objc_ensure_COM (oObject))
+#define SD_COM_ENSURE_OBJECT_COM(oObject) swarm_directory_objc_ensure_COM (oObject)
+#define SD_COM_ENSURE_OBJECT_COM_CAST(type,oObject) NS_STATIC_CAST(type,SD_COM_ENSURE_OBJECT_COM (oObject))
 
 #define SD_COM_ENSURE_OBJECT_OBJC(cObject) swarm_directory_COM_ensure_objc (cObject)
 #define SD_COM_ENSURE_SELECTOR_OBJC(cSelector) swarm_directory_COM_ensure_selector (cSelector)
