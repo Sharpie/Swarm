@@ -1,3 +1,11 @@
+1999-12-22    <mgd@nest.swarm.org>
+
+	* JavaCollection.m ([JavaCollection -begin:]): Put JavaCollectionIndex
+	in component zone.
+
+	* JavaCollection.[hm] ([JavaCollection -beginPermuted:]): 
+	New method.
+
 1999-12-21    <mgd@nest.swarm.org>
 
 	* defobj.h (types_t): Add boolean.

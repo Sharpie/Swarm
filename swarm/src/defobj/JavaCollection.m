@@ -6,6 +6,7 @@
 #import <defobj/FCall.h>
 #import <collections.h> // Member
 #import <defobj/JavaCollectionIndex.h>
+#import <collections/Permutation.h>
 #endif
 
 @implementation JavaCollection
@@ -55,10 +56,16 @@
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   iterator = (*jniEnv)->CallObjectMethod (jniEnv, coll, method);
   entry = SD_ADD (jniEnv, iterator,
-                  [JavaCollectionIndex create: getZone (self)
+                  [JavaCollectionIndex create: getCZone (getZone (self))
                                        setCount: [self getCount]]);
   (*jniEnv)->DeleteLocalRef (jniEnv, iterator);
   return entry->object;
+}
+
+- beginPermuted: aZone
+{
+  return [[[PermutedIndex_c createBegin: aZone]
+            setCollection: self] createEnd];
 }
 
 - getFirst

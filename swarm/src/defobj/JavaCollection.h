@@ -8,6 +8,7 @@
 - (BOOL)isJavaCollection;
 - (unsigned)getCount;
 - begin: aZone;
+- beginPermuted: aZone;
 - getFirst;
 - (void)forEach: (SEL)sel :arg1;
 #endif
