@@ -1,5 +1,5 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-1.0.5
+SWARMHOME=../swarm-1998-08-17
 endif
 LIBNAME=graph
 OBJECTS=DiGraph.o DiGraphLink.o DiGraphNode.o graph.o
@@ -12,7 +12,7 @@ SRCS=DiGraph.m DiGraphLink.m DiGraphNode.m
 # all the files to put into archive
 DISTSRCS=Makefile $(HEADERS) $(SRCS) ChangeLog graph.h graph.sym
 
-include $(SWARMHOME)/Makefile.lib
+include $(SWARMHOME)/etc/swarm/Makefile.lib
 graph.o: graph.m graph.h
 DiGraph.o: DiGraph.m DiGraph.h DiGraphLink.h DiGraphNode.h
 DiGraphLink.o: DiGraphLink.m DiGraphLink.h 
