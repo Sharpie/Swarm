@@ -5,6 +5,7 @@
 	depending on existance of $jdkdir/include/solaris/jni_md.h.
 	(JAVASTUBS_FUNCTION):  Substitute. Avoid Unicode mangling for Kaffe.
 	(JAVALIBS, JAVAC): Substitute.
+	(JAVA): For Kaffe, set LD_LIBRARY_PATH to JAVALIBS.
 
 1999-04-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
