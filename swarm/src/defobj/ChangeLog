@@ -3,6 +3,8 @@
 	* DefObject.m (find_ivar): New function.
 	([Object_s -lispin:]): Handle arrays, numbers, strings, and 
 	object creation.
+	(output_type): Print character when isprint-able, otherwise
+	use 3-digit octal. 
 
 	* defobj.h, DefObject.[hm]: Replace +lispin:expr with lispin ().
 

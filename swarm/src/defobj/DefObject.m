@@ -20,7 +20,7 @@ Library:      defobj
 #import <objc/sarray.h>
 
 #include <stdio.h>
-#include <misc.h> // strcpy, strlen
+#include <misc.h> // strcpy, strlen, isprint
 
 extern id _obj_implModule;  // defined in Program.m
 
@@ -909,16 +909,19 @@ output_type (const char *type,
       raiseEvent (NotImplemented, "Selectors not supported");
       break;
     case _C_CHR: 
-      buf[0] = ((char *) ptr)[offset];
-      buf[1] = '\0';
-          
-      [stream catC: "#\\"];
-      [stream catC: buf];
-      break;
     case _C_UCHR: 
-      [stream catC: "#\\0"];
-      sprintf (buf, "%o",
-               (unsigned) ((unsigned char *) ptr)[offset]);
+      [stream catC: "#\\"];
+      {
+        unsigned char ch = ((unsigned char *) ptr)[offset];
+        
+        if (isprint (ch))
+          {
+            buf[0] = ch;
+            buf[1] = '\0';
+          }
+        else
+          sprintf (buf, "%03o", (unsigned) ch);
+      }
       [stream catC: buf];
       break;
     case _C_SHT: 
@@ -1157,9 +1160,9 @@ find_ivar (id obj, const char *name)
       if (arrayp (val))
         memcpy (ptr, [val getData], 
                 [val getElementCount] * [val getElementSize]);
-      else if (numberp (val))
+      else if (valuep (val))
         {
-          char ntype = [val getNumberType];
+          char ntype = [val getValueType];
 
           switch (ntype)
             {
@@ -1172,8 +1175,11 @@ find_ivar (id obj, const char *name)
             case _C_INT:
               *((int *) ptr) = [val getInteger];
               break;
+            case _C_UCHR:
+              *((unsigned char *) ptr) = [val getChar];
+              break;
             default:
-              raiseEvent (InvalidArgument, "Unknown number type `%c'", ntype);
+              raiseEvent (InvalidArgument, "Unknown value type `%c'", ntype);
               break;
             }
           }
