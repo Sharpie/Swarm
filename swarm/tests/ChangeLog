@@ -1,3 +1,7 @@
+1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.am (TESTS_ENVIRONMENT): Set SWARM_INHIBIT_ARCHIVER_LOAD.
+
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Makefile.am: Use noinst_PROGRAMS instead of bin_PROGRAMS. 
