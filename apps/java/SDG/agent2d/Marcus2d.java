@@ -10,6 +10,11 @@ import swarm.defobj.Zone;
 import swarm.space.Grid2d;
 import swarm.gui.Raster;
 import swarm.Selector;
+import swarm.defobj.FArgumentsC;
+import swarm.defobj.FArguments;
+import swarm.defobj.FArgumentsImpl;
+import swarm.defobj.FArgumentsCImpl;
+import swarm.defobj.FCallImpl;
 
 import swarm.Globals;
 
@@ -32,10 +37,17 @@ public class Marcus2d extends DirectedAgent2d {
     schedule = new ScheduleImpl (aZone, true);
 
     try {
-      schedule.at$createActionTo$message
-        (0,
-         this,
-         new Selector (getClass (), "startIncubation", false));
+      Selector sel =
+	new Selector (getClass (), "startIncubation", false);
+      FArgumentsC fac = 
+	new FArgumentsCImpl (new FArgumentsImpl ());
+      fac.createBegin (getZone ());
+      fac.setSelector (sel);
+      fac.addInt (0);
+      FArguments fa = (FArguments) fac.createEnd ();
+
+      schedule.at$createFAction
+	(0, new FCallImpl (getZone (), this, sel, fa));
       incubateSelector = 
         new Selector (getClass (), "incubate", false);
       checkWorkSelector = 
