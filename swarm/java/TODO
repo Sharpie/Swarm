@@ -1,38 +1,35 @@
 String conversion from MessageProbes will leak memory -- it's entered
-in the directory and points to strdupped stuff on the heap.
+in the directory and points to strdupped stuff on the heap. [mgd]
 
-Java-side (return) proxies
+Add create:set* convenience methods for all appropriate creatable protocols.
+  [alex]
 
-Using constructors
+Non-cygwin DLLs -> test on IDE [mgd]
 
-Non-cygwin DLLs -> test on IDE
-
-Colormap crash
-
-U -> C suffix
+Colormap crash [mgd]
 
 Implement heatbugs, mousetrap
 
-Formalize Kaffe patches (Windows, HPUX)
+Formalize Kaffe patches (Windows, HPUX)  [mgd]
 
 Deprecated methods (and replacements for create:withPath:)
 
 Should we encourage using interface-conformance typing or class typing?
 
-Installshield
+Installshield [mgd]
   - add new BLT
   - add Swarm DLL  
  
-libffi / Bank
+libffi / Bank [mgd]
 
-wite forwarding type signatures in forwarding without register info
+write forwarding type signatures in forwarding without register info [mgd]
 
-make check
+make check [mgd]
   - Alpha serialization
   - hppa avcall
 
-make --with-package flags should reject bad arguments
+make --with-package flags should reject bad arguments [mgd]
 
-Formalize GCC patches
+Formalize GCC patches [mgd]
 
-Probes on Java objects (by serialization)
+Probes on Java objects (by serialization) [vjojic]
