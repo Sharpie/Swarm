@@ -9,15 +9,42 @@
 
 #include <swarmconfig.h>
 
-extern id hdf5Archiver;
-extern id lispArchiver;
+#define ARCHIVER_FUNCTION_NAME "archiver"
 
-@interface Archiver_c: CreateDrop_s
+const char *defaultPath (const char *swarmArchiver);
+const char *defaultAppPath (const char *appDataPath, const char *appName,
+                            const char *suffix);
+
+@interface ArchiverObject: CreateDrop
+{
+  id expr;
+  id object;
+}
++ create: aZone withExpr: valexpr;
++ create: aZone withObject: theObj;
+- setExpr: valexpr;
+- getExpr;
+- setObject: theObj;
+- getObject;
+@end
+
+@interface Application: CreateDrop
+{
+  const char *name;
+  id <Map> deepMap;
+  id <Map> shallowMap;
+}
++ createBegin: aZone;
+- setName: (const char *)name;
+- getDeepMap;
+- getShallowMap;
+@end
+
+@interface Archiver_c: CreateDrop_s <Archiver>
 {
   id currentApplicationKey;
   id <Map> applicationMap;
   id inStreamZone;
-  BOOL hdf5Flag;
   BOOL inhibitLoadFlag;
   BOOL systemArchiverFlag;
   const char *path;
@@ -26,29 +53,22 @@ extern id lispArchiver;
   id <List> instances;
 }
 
-+ createBegin: aZone;
-+ create: aZone setPath: (const char *)path setHDF5Flag: (BOOL)hdf5Flag;
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - setPath: (const char *)path;
-- setHDF5Flag: (BOOL)hdf5Flag;
 - setSystemArchiverFlag: (BOOL)systemArchiverFlag;
-- setDefaultLispPath;
-- setDefaultHDF5Path;
-- setDefaultAppLispPath;
-- setDefaultAppHDF5Path;
+- setDefaultPath;
+- setDefaultAppPath;
 
 - createAppKey: (const char *)appName mode: (const char *)modeName;
 - ensureApp: appKey;
-
-- hdf5LoadObjectMap: hdfObj key: appKey;
-- hdf5LoadArchiver: hdf5File;
-- lispLoadArchiver: expr;
 
 - getApplication;
 
 - registerClient: client;
 - unregisterClient: client;
 
+- (unsigned)countObjects: (BOOL)deepFlag;
+- updateArchiver;
 - save;
 
 - getObject: (const char *)key;

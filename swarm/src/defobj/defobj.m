@@ -42,7 +42,8 @@ _defobj_implement (void)
   [id_Warning_c setTypeImplemented: Warning];
   [id_Error_c setTypeImplemented: Error];
   [id_Arguments_c setTypeImplemented: Arguments];
-  [id_Archiver_c setTypeImplemented: Archiver];
+  [id_LispArchiver_c setTypeImplemented: LispArchiver];
+  [id_HDF5Archiver_c setTypeImplemented: HDF5Archiver];
   [id_HDF5_c setTypeImplemented: HDF5];
   [id_HDF5CompoundType_c setTypeImplemented: HDF5CompoundType];
   [id_FCall_c setTypeImplemented: FCall];
@@ -151,28 +152,28 @@ initDefobj (int argc, const char **argv,
        (getenv ("SWARM_INHIBIT_ARCHIVER_LOAD") != NULL));
 
 #ifdef HAVE_HDF5
-    hdf5Archiver = [[[[[Archiver createBegin: globalZone]
-                        setDefaultHDF5Path]
+    hdf5Archiver = [[[[[HDF5Archiver createBegin: globalZone]
+                        setDefaultPath]
                        setSystemArchiverFlag: YES]
                       setInhibitLoadFlag: inhibitLoadFlag]
                      createEnd];
-    hdf5AppArchiver = [[[[Archiver createBegin: globalZone]
-                        setDefaultAppHDF5Path]
-                      setInhibitLoadFlag: inhibitLoadFlag]
-                     createEnd];
+    hdf5AppArchiver = [[[[HDF5Archiver createBegin: globalZone]
+                          setDefaultAppPath]
+                         setInhibitLoadFlag: inhibitLoadFlag]
+                        createEnd];
 #else
     hdf5Archiver = nil;
     hdf5AppArchiver = nil;
 #endif
-    lispArchiver = [[[[[Archiver createBegin: globalZone]
-                        setDefaultLispPath]
+    lispArchiver = [[[[[LispArchiver createBegin: globalZone]
+                        setDefaultPath]
                        setSystemArchiverFlag: YES]
                       setInhibitLoadFlag: inhibitLoadFlag]
                      createEnd];
-    lispAppArchiver = [[[[Archiver createBegin: globalZone]
-                        setDefaultAppLispPath]
-                      setInhibitLoadFlag: inhibitLoadFlag]
-                     createEnd];
+    lispAppArchiver = [[[[LispArchiver createBegin: globalZone]
+                          setDefaultAppPath]
+                         setInhibitLoadFlag: inhibitLoadFlag]
+                        createEnd];
   }
 }
 

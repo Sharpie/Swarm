@@ -20,9 +20,10 @@ CLEANFILES += version.h
 
 BUILT_SOURCES = $(TYPEINFO)
 
-SRC = Archiver.m Arguments.m Create.m Customize.m \
-	DefClass.m DefObject.m HDF5Object.m Program.m Symbol.m Zone.m \
-	FCall.m FArguments.m defobj.m internal.m directory.m JavaProxy.m
+SRC = Archiver.m LispArchiver.m HDF5Archiver.m Arguments.m Create.m	\
+	Customize.m DefClass.m DefObject.m HDF5Object.m Program.m	\
+	Symbol.m Zone.m FCall.m FArguments.m defobj.m internal.m	\
+	directory.m JavaProxy.m	
 
 override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
@@ -31,8 +32,9 @@ libdefobj_la_LDFLAGS = @inst_LDFLAGS@
 
 bin_SCRIPTS = m2h make-h2x
 
-defobj_HEADERS = Archiver.h Arguments.h Create.h Customize.h \
-	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h \
+defobj_HEADERS = Archiver.h LispArchiver.h HDF5Archiver.h Arguments.h	  \
+	Create.h Customize.h						  \
+	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h	  \
 	FCall.h FArguments.h defalloc.h deftype.h directory.h JavaProxy.h
 
 $(OBJECTS): version.h

@@ -1,3 +1,26 @@
+1999-06-28  Alex Lancaster  <alex@santafe.edu>
+
+	* defobj.m (initDefobj): Instantiate LispArchiver and HDF5Archiver
+	instances, rather than Archiver.
+
+	* Makefile.am (SRC): Add {HDF5,Lisp}Archiver.m
+	(defobj_HEADERS): Add {HDF5,Lisp}Archiver.h
+
+	* defobj.h: Reflect Archiver changes.  Make `Archiver' an abstract
+	protocol.
+	(HDF5Archiver, LispArchiver): New protocols now conform to and
+	CREATABLE.
+
+	* HDF5Archiver.[hm]: New files.
+
+	* LispArchiver.[hm]: New files.
+
+	* Archiver.[hm]: Removed all references to `hdf5Flag', move all
+	{lisp, HDF5}-specific code into separate subclasses of Archiver_c
+	(LispArchiver_c, HDF5Archiver_c), respectively.  Moved
+	Archiver{Value,Object}, Application interfaces into Archiver.h, so
+	they are accessible from subclasses.
+
 1999-06-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (fill_signature, create_signature): New functions.

@@ -957,20 +957,13 @@ USING
 - (BOOL)getInhibitArchiverLoadFlag;
 @end
 
-@protocol Archiver <Create, Drop, CREATABLE>
-//S: High level serialization interface.
-//D: High level serialization interface.
+@protocol Archiver <Create, Drop>
+//S: High level abstract serialization interface.
+//D: High level abstract serialization interface.
 CREATING
-+ createBegin: aZone;
-
-//M: Convenience method to create an Archiver from a specified path
-+ create: aZone setPath: (const char *)path setHDF5Flag: (BOOL)hdf5Flag;
 
 //M: Make the Archiver ignore any file found in the specified path
 - setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
-
-//M: Set the Archiver to use HDF5 serialization
-- setHDF5Flag: (BOOL)hdf5Flag;
 
 //M: Set the physical path for the Archiver to read/write
 - setPath: (const char *)path;
@@ -979,24 +972,11 @@ CREATING
 //M: information 
 - setSystemArchiverFlag: (BOOL)systemArchiverFlag;
 
-//M: Specify that the Archiver instance use the default system Lisp path:
-//M: ~/.swarmArchiver.scm
-- setDefaultLispPath;
+//M: Specify that the Archiver instance use the default system path
+- setDefaultPath;
 
-//M: Specify that the Archiver instance use the default system Lisp path:
-//M: ~/swarmArchiver.hdf
-- setDefaultHDF5Path;
-
-//M: Specify that the Archiver to use the default application Lisp path:
-//M: <swarmdatadir>/<application>/<application>.scm or the current 
-//M: directory
-- setDefaultAppLispPath;
-
-//M: Specify that the Archiver to use the default application Lisp path:
-//M: <swarmdatadir>/<application>/<application>.hdf or the current 
-//M: directory
-- setDefaultAppHDF5Path;
-- createEnd;
+//M: Specify that the Archiver to use the default application path
+- setDefaultAppPath;
 USING
 - registerClient: client;
 - unregisterClient: client;
@@ -1018,6 +998,37 @@ USING
 //M: the requested backend
 - save;
 @end
+
+@protocol LispArchiver <Archiver, CREATABLE>
+//S: Protocol for creating Lisp instances of the Archiver
+//D: Protocol for creating Lisp instances of the Archiver
+//D: Default system path is  ~/.swarmArchiver.scm.
+//D: Default application path is <swarmdatadir>/<appname>/<appname>.scm
+//D: or the current directory.
+CREATING
+
+//M: Convenience method to create LispArchiver from a specified path
++ create: aZone setPath: (const char *)path;
+
+SETTING
+USING
+@end
+
+@protocol HDF5Archiver <Archiver, CREATABLE>
+//S: Protocol for creating HDF5 instances of the Archiver
+//D: Protocol for creating HDF5 instances of the Archiver
+//D: Default system path is ~/swarmArchiver.hdf
+//D: Default application path is : <swarmdatadir>/<appname>/<appname>.hdf 
+//D: or the current directory.
+CREATING
+
+//M: Convenience method to create an HDF5Archiver from a specified path
++ create: aZone setPath: (const char *)path;
+
+SETTING
+USING
+@end
+
 
 @protocol HDF5 <Create, Drop, CREATABLE>
 //S: HDF5 interface
@@ -1153,16 +1164,16 @@ extern void defobj_init_java_call_tables (void *jniEnv);
 externvar id arguments;
 
 //G: The singleton HDF5 system Archiver object.
-externvar id hdf5Archiver;
+externvar id <HDF5Archiver> hdf5Archiver;
 
 //G: The singleton Lisp system Archiver object.
-externvar id lispArchiver;
+externvar id <LispArchiver> lispArchiver;
 
 //G: The singleton HDF5 application Archiver object.
-externvar id hdf5AppArchiver;
+externvar id <HDF5Archiver> hdf5AppArchiver;
 
 //G: The singleton Lisp application Archiver object.
-externvar id lispAppArchiver;
+externvar id <LispArchiver> lispAppArchiver;
 
 //G: Predefined type descriptors for allocated blocks.
 externvar id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
