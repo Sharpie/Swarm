@@ -7,29 +7,43 @@ function test () {
                                                   "0.0",
                                                   "bug-swarm@swarm.org",
                                                   0, []);
-  
+
   var sel =
     Components.classes["urn:swarm:SelectorImpl"].
      createInstance (Components.interfaces.swarmISelector);
+
+  var list =
+    Components.classes["urn:swarm:collections.ListImpl"].
+     createInstance (Components.interfaces.swarmICreate);
+
+  list = list.create (env.globalZone);
+
+  list = list.QueryInterface (Components.interfaces.swarmIList);
+
+  sel = sel.create (list, "addLast");
 
   var obj =
     Components.classes["urn:swarm:objectbase.SwarmObjectImpl"].
      createInstance (Components.interfaces.swarmISwarmObject);
 
-  var args =
+  var fa =
     Components.classes["urn:swarm:defobj.FArgumentsCImpl"].
      createInstance (Components.interfaces.swarmICreateC);
 
-  sel.create (obj, "respondsTo");
+  fa = fa.createBegin (env.globalZone);
 
-  args.createBegin (env.globalZone);
+  fa = fa.QueryInterface (Components.interfaces.swarmIFArgumentsC);
+  fa.setSelector (sel);       
+  fa.addObject (obj);
+  fa = fa.QueryInterface (Components.interfaces.swarmICreateC);
+  fa = fa.createEnd ();
 
-  args = args.QueryInterface (Components.interfaces.swarmIFArgumentsC);
-  args.setSelector (sel);       
-  // args.addObject (sel);
-
-  args = args.QueryInterface (Components.interfaces.swarmICreateC);
-  args.createEnd ();
-
-  env.xprint (args);
+  var fc =
+    Components.classes["urn:swarm:defobj.FCallImpl"].
+     createInstance (Components.interfaces.swarmIFCall);
+                
+  fc.create_target_selector_arguments (env.globalZone, list, sel, fa);
+  
+  fc.performCall ();
+  env.xprint (list);
 }

@@ -20,6 +20,8 @@
       ("const char \\*" . "string")
       ("char \\*" . "string")
       ("const char \\*\\*" . "string-array")
+      
+      ("nsXPTCVariantPtr" . "nsXPTCVariantPtr") ; pass-thru, not scriptable
 
       ("char" . "char")
       
@@ -104,6 +106,7 @@
     ("string" . "const char*")
     ("wstring" . "PRUnichar*")
     ("nsCIDPtr" . "const nsCID*")
+    ("nsXPTCVariantPtr" . "nsXPTCVariant*")
     ))
 
 (defvar *com-uuid-hash-table* (make-hash-table :test #'equal))
@@ -275,10 +278,16 @@
   (when (stringp type)
     (string-match (concat "^" *com-interface-prefix*) type)))
 
+(defun com-idl-noscript-method-p (protocol method)
+  (and (string= (protocol-name protocol) "Selector")
+       (string= (get-method-signature method) "-invoke:")))
+
 (defun com-idl-print-method-declaration (protocol phase method)
   (let* ((arguments (method-arguments method))
          (first-argument (car arguments)))
     (insert "  ")
+    (when (com-idl-noscript-method-p protocol method)
+      (insert "[noscript] "))
     (insert (com-idl-return-type protocol phase method))
     (insert " ")
     (insert (com-idl-method-name arguments))
@@ -350,11 +359,19 @@
 	do
         (com-idl-print-method-declaration protocol :using method)))
 
+(defun com-idl-print-extra-types (protocol)
+  (when (string= (protocol-name protocol) "Selector")
+    (insert "%{C++\n")
+    (insert "#include \"xptcall.h\"\n")
+    (insert "%}\n")
+    (insert "[ptr] native nsXPTCVariantPtr(nsXPTCVariant);\n")))
+
 (defun com-start-idl (protocol phase)
   (let* ((interface-name (com-interface-name protocol phase))
          (uuid (gethash interface-name *com-uuid-hash-table*)))
     (insert "#include \"nsISupports.idl\"\n")
     (com-idl-print-includes protocol phase)
+    (com-idl-print-extra-types protocol)
     (insert "\n")
     (insert "[scriptable, uuid(")
     (insert uuid)
@@ -464,7 +481,11 @@
                  (make-method
                   :phase :using
                   :arguments (list (list "getArgFcallType" "unsigned" "index"))
-                  :return-type "fcall_type_t"))))
+                  :return-type "fcall_type_t")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "invoke" "nsXPTCVariantPtr" "params"))
+                  :return-type "void"))))
                  
 (defun com-complete-protocols ()
   (cons (selector-protocol) (com-wrapped-protocols)))
@@ -562,7 +583,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, createArgVector, addArg, setReturn };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, normalize, selectorQuery, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, selectorInvoke, createArgVector, setArg, freeArgVector };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
@@ -659,40 +680,42 @@
 (defun com-impl-print-call-imp-pointer (protocol phase method)
   (let ((ret-type (com-simplify-return-type (method-return-type method))))
     (insert "  ")
-    (if (method-factory-flag method)
-        (progn
-          (insert "COMswarm_newobj = ")
-          (com-impl-print-call-imp-pointer-body method)
-          (insert ";\n")
-          ;; there is no QueryInterface here because we shouldn't
-          ;; ever be dealing with a non-interface to begin with?
-          (insert "  SD_COM_ADD_THIS_OBJECT_COM (COMswarm_newobj);\n")
-          (insert "  NS_ADDREF (*ret = NS_STATIC_CAST (")
-          (insert (com-impl-return-type protocol phase method))
-          (insert ", this))"))
-      (cond ((string= ret-type "id")
-             (insert "SD_COM_ENSURE_OBJECT_COM_ADDREF_RETURN (")
-             (insert (com-impl-return-type protocol phase method))
-             (insert ", ")
-             (com-impl-print-call-imp-pointer-body method)
-             (insert ")"))
-            ((string= ret-type "Class")
-             ;; a nsCID *, not an object, so no addref
-             (insert "SD_COM_FIND_CLASS_COM_RETURN (")
-             (insert (com-impl-return-type protocol phase method))
-             (insert ", ")
-             (com-impl-print-call-imp-pointer-body method)
-             (insert ")"))
-            ((string= ret-type "char *")
+    (cond ((method-factory-flag method)
+           (insert "COMswarm_newobj = ")
+           (com-impl-print-call-imp-pointer-body method)
+           (insert ";\n")
+           (insert "  SD_COM_ADD_THIS_OBJECT_COM (COMswarm_newobj);\n")
+           (insert "  NS_ADDREF (*ret = NS_STATIC_CAST (")
+           (insert (com-impl-return-type protocol phase method))
+           (insert ", this))"))
+          ((string= (get-method-signature method) "-createEnd")
+           (insert "SD_COM_UPDATE_PHASE_RETURN (")
+           (com-impl-print-call-imp-pointer-body method)
+           (insert ",")
+           (insert (com-impl-return-type protocol phase method))
+           (insert ")"))
+          ((string= ret-type "id")
+           (insert "rv = SD_COM_ENSURE_OBJECT_COM_RETURN (")
+           (com-impl-print-call-imp-pointer-body method)
+           (insert ", ")
+           (insert (com-idl-return-type protocol phase method))
+           (insert ")"))
+          ((string= ret-type "Class")
+           ;; a nsCID *, not an object, so no addref
+           (insert "SD_COM_FIND_CLASS_COM_RETURN (")
+           (insert (com-impl-return-type protocol phase method))
+           (insert ", ")
+           (com-impl-print-call-imp-pointer-body method)
+           (insert ")"))
+          ((string= ret-type "char *")
              (insert "*ret = (char *) SD_COM_COPY_STRING (")
              (com-impl-print-call-imp-pointer-body method)
              (insert ")"))
-            (t 
-             (unless (string= ret-type "void")
-               (insert "*ret = "))
-             (com-impl-print-call-imp-pointer-body method)))))
-  (insert ";\n"))
-
+          (t 
+           (unless (string= ret-type "void")
+             (insert "*ret = "))
+           (com-impl-print-call-imp-pointer-body method)))
+    (insert ";\n")))
     
 (defun com-impl-print-method-definition (protocol phase method)
   (let* ((arguments (method-arguments method))
