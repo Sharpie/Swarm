@@ -159,9 +159,9 @@
       "LCGgen" "LCG1gen" "LCG2gen" "LCG3gen"
 
 
-      "PMMLCGgen" "PMMLCG1gen" 
-      ;; "PMMLCG2gen" "PMMLCG3gen" "PMMLCG4gen"
-      ;; "PMMLCG5gen" "PMMLCG6gen" "PMMLCG7gen" "PMMLCG8gen" "PMMLCG9gen"
+      ;; "PMMLCGgen" "PMMLCG1gen" 
+      "PMMLCG2gen" "PMMLCG3gen" "PMMLCG4gen"
+      "PMMLCG5gen" "PMMLCG6gen" "PMMLCG7gen" "PMMLCG8gen" "PMMLCG9gen"
 
       "ACGgen"
       "SCGgen"
