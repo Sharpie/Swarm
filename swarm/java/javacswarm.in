@@ -1,5 +1,6 @@
 #!/bin/sh
 
+swarm_prefix="@swarm_prefix@"
 if test @USEDOSCLASSPATH@ = yes; then
   PS=';'
   PD='\\'
@@ -20,8 +21,8 @@ else
   classpath=".${PS}${swarmclassdir}${PS}${JAVACLASSES}${PS}$CLASSPATH"
 fi
 
-jdkdir=@jdkdir@
-JAVAC=@JAVAC@
+jdkdir="@jdkdir@"
+JAVAC="@JAVAC@"
 
-eval "$JAVAC -classpath $classpath $*"
+$JAVAC -classpath "$classpath" $*
 
