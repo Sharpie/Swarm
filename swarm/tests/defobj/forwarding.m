@@ -208,6 +208,7 @@ strip_type_sig (const char *sig)
   [fc performCall];
   
   {
+    extern void *alloca (size_t);
     types_t retBuf;
     retval_t retValBuf = alloca (MFRAME_RESULT_SIZE);
     retval_t ret = [fc getRetVal: retValBuf buf: &retBuf];

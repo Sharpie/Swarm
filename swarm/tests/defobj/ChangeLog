@@ -1,3 +1,7 @@
+1999-06-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* forwarding.m ([BaseObject -forward::]): Declare alloca.
+
 1999-06-10  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* forwarding.m (strip_type_sig): New function.
