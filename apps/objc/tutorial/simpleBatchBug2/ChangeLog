@@ -1,3 +1,8 @@
+2003-05-16  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* Parameters.m ([Parameters -parseKey:key:arg]): removed processing
+	of -S option because that is built into Swarm now.
+
 2003-05-16    <pauljohn@localhost.localdomain>
 
 	* I have checked in this tutorial exercise and began
