@@ -26,7 +26,7 @@
 }
 
 -(const char *) getName {
-   return distName;
+   return SSTRDUP (distName);
 }
 
 -(unsigned) getMagic {

@@ -38,7 +38,7 @@
 }
 
 -(const char *) getName {
-   return genName;
+   return SSTRDUP (genName);
 }
 
 -(unsigned) getMagic {

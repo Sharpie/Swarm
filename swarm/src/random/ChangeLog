@@ -1,3 +1,8 @@
+2002-01-14  Marcus G. Daniels  <mgd@condor>
+
+	* include.dists.using.m, include.gens.using.m, include.xgens.using.m
+	(getName): Always return a new value in scratchZone.
+
 2001-12-18  Marcus G. Daniels  <mgd@condor>
 
 	* distributions.h (PoissonDist): Remove +create:setGenerator:
