@@ -52,6 +52,7 @@ Library:      activity
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext;
 - insertGroup: aKey;
 - remove: anAction;
+- at: (timeval_t)tVal createFAction: call;
 - at: (timeval_t)tVal createAction: anActionType;
 - at: (timeval_t)tVal createActionCall: (func_t)fptr;
 - at: (timeval_t)tVal createActionCall: (func_t)fptr : arg1;
@@ -65,6 +66,7 @@ Library:      activity
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel : arg1;
 - at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
 - at: (timeval_t)tVal createActionForEach: t message: (SEL)aSel:arg1:arg2:arg3;;
+- createFAction: call;
 - createAction: anActionType;
 - createActionCall: (func_t)fptr;
 - createActionCall: (func_t)fptr : arg1;

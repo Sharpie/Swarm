@@ -9,6 +9,7 @@ Description:  action included in an activity plan
 Library:      activity
 */
 
+#import <defobj/FCall.h>
 #import <activity/CompoundAction.h>
 #import <activity.h>
 
@@ -22,6 +23,17 @@ Library:      activity
 /*** methods in CAction (inserted from .m file by m2h) ***/
 - getOwner;
 - (void)drop;
+@end
+
+@interface FAction: CAction 
+{
+@public
+   FCall *call;
+}
+- setCall: fcall;
+- setArguments: args;
+- (void)_performAction_: anActivity;
+- (void)describe: outputCharStream;
 @end
 
 @interface ActionCall_0: CAction

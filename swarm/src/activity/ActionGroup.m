@@ -70,6 +70,15 @@ PHASE(Using)
 // createAction... -- create actions comprising the action plan
 //
 
+- createFAction: call
+{
+  FAction *faction;
+  faction =  [getZone (self) allocIVarsComponent: id_FAction];
+  faction->call = call;
+  [self addLast: faction];
+  return faction;
+}
+
 - createAction: anActionType
 {
   if (!respondsTo (anActionType, M(_performPlan_)))

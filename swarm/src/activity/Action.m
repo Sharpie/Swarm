@@ -34,6 +34,44 @@ PHASE(Using)
 @end
 
 
+@implementation FAction
+
+- setCall: fcall
+{
+  call = fcall;
+  return self;
+}
+
+- setArguments: args
+{
+  [call setArguments: args];
+  return self;
+}
+
+- (void)_performAction_: anActivity
+{
+  [call _performAction_: anActivity];
+}
+
+- (void)describe: outputCharStream
+{
+}
+
+- getOwner
+{
+  return owner;
+}
+
+- (void)drop
+{
+  [[call getArguments] drop];
+  [call drop];
+  [self dropAllocations: YES];
+}
+
+
+@end
+
 @implementation ActionCall_0
 
 - (void)setFunctionPointer: (func_t)fptr

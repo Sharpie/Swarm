@@ -36,6 +36,7 @@ Library:      activity
 /*** methods in ActionGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext;
+- createFAction: call;
 - createAction: anActionType;
 - createActionCall: (func_t)fptr;
 - createActionCall: (func_t)fptr : arg1;

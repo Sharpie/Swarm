@@ -1,3 +1,22 @@
+1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* Schedule.h: New method at:createFAction: which creates a FAction
+	from a FCall instance.
+	New method createFAction: which calls at:createFAction:
+
+	* Schedule.m ([Schedule_c -at:createFAction:]): New method.
+	([Schedule_c -createFAction:]): New method.
+
+	* Action.h: New class FAction that performs a foreign function call
+	through FCall class.
+
+	* Action.m: New class FAction.
+
+	* ActionGroup.h: New method createFAction: which creates a FAction
+	that performs a foreign function call.
+
+	* ActionGroup.m ([ActionGroup_c -createFAction:]): New method.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am: Revert last change.

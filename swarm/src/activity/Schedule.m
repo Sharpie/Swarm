@@ -527,6 +527,15 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 // createAction... -- create actions comprising the action plan
 //
 
+- at: (timeval_t)tVal createFAction: call
+{
+  FAction *faction;
+  faction =  [getZone (self) allocIVarsComponent: id_FAction];
+  faction->call = call;
+  _activity_insertAction (self, tVal, faction);
+  return faction;
+}
+
 - at: (timeval_t)tVal createAction: anActionType
 {
   if (!respondsTo (anActionType, M(_performPlan_)))
@@ -685,6 +694,11 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 //
 // createAction... -- convenience messages to create actions at time value zero
 //
+
+- createFAction: call
+{
+  return [self at: 0 createFAction: call];
+}
 
 - createAction: anActionType
 {
