@@ -3,6 +3,7 @@
 	* acjdk.m4: Define HAVE_KAFFE when using Kaffe.
 	Set JAVASWARM_DLL_{NAME,ENTRY} per JDK/Kaffe.
 	Check for lib/kaffe/Kaffe as well as libexec/Kaffe.
+	Add JAVASWARM_DLL_LOADNAME.
 
 1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
