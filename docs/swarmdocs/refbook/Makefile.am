@@ -39,7 +39,7 @@ EXAMPLES = GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
         strtest.m 
 
 gridexamples.sgml: $(addprefix $(gridturtle_srcdir)/,$(EXAMPLES))
-	- (cd $(gridturtle_srcdir) ; for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.GRID.SGML.EXAMPLE.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) > $@
+	- (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.GRID.SGML.EXAMPLE.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $(gridturtle_srcdir)/$$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) > $@
 
 refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/analysis/analysis.h \
@@ -51,7 +51,7 @@ refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/simtools/simtools.h \
 	$(swarm_srcdir)/src/simtoolsgui/simtoolsgui.h \
 	$(swarm_srcdir)/src/space/space.h $(top_srcdir)/protocol.el $(top_srcdir)/common.el
-	SWARMSRCDIR=$(swarm_srcdir) SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/protocol.el -f run-all $(swarm_srcdir)
+	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_dossrcdir)/protocol.el -f run-all $(swarm_dossrcdir)
 
 # Local variables:
 # mode: makefile
