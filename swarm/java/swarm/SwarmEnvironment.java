@@ -43,6 +43,7 @@ public class SwarmEnvironment {
   public native void initSwarm (String appName, String version, String bugAddress, String args[]);
   public native void xprint (Object obj);
   public native void xfprint (Object obj);
+  public native void dumpDirectory ();
   public native int getCurrentTime ();
   public native Swarm getCurrentSwarm ();
   public native Schedule getCurrentSchedule ();
