@@ -724,6 +724,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   [fc performCall];
   {
     types_t typebuf;
+    extern void *alloca (size_t);
     retval_t retValBuf = alloca (MFRAME_RESULT_SIZE);
     retval_t retVal;
                       

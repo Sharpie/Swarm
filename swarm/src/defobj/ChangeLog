@@ -1,3 +1,7 @@
+1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefObject.m ([Object_s -forward::]): Declare alloca.
+
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* make-h2x: Instead of unsetting externvar, set disable_externvar
