@@ -1,3 +1,8 @@
+1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Globals.java.in: Rename from Globals.java to allow
+	for JAVASWARMDLLNAME substitution.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (jar): Do wildcard with Cygwin to avoid command line
