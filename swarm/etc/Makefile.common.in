@@ -84,7 +84,7 @@ OBJCLIBS = -lobjc
 else
 SWARMLIBS = -lswarmdll -lobjcdll
 OBJCLIBS = 
-EXTRACPPFLAGS = -DDLL
+DLLCPPFLAGS = -DDLL
 endif
 else
 SWARMLIBS = -lswarm

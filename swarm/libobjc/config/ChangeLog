@@ -1,3 +1,12 @@
+2000-02-12    <mgd@nest.swarm.org>
+
+	* sparc/Makefile.am (EXTRA_DIST): Add it.
+
+	* sparc/compiler-info-linux-gnu.h: New file.
+
+	* powerpc/Makefile.am (EXTRA_DIST): Add
+	powerpc/compiler-info-linux-gnu.h.
+
 1999-09-25  Marcus Daniels  <mgd@ip174.santafe.edu>
 
 	* powerpc/compiler-info-linux-gnu.h: New file.

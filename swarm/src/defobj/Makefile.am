@@ -1,5 +1,5 @@
 MODULE = defobj
-CURRENT = 2
+CURRENT = 3
 REVISION = 0
 AGE = 0
 defobjdir = $(includedir)/$(MODULE)

@@ -1,6 +1,6 @@
 MODULE = space
 CURRENT = 2
-REVISION = 0
+REVISION = 1
 AGE = 0
 spacedir = $(includedir)/space
 

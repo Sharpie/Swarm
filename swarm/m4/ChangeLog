@@ -1,3 +1,7 @@
+2000-02-12    <mgd@nest.swarm.org>
+
+	* Swarm 2.1 frozen.
+
 1999-11-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* actcltk.m4: Make t{cl,k}Config.sh / t{cl,k}.h version mismatch

@@ -1,3 +1,7 @@
+2000-02-12    <mgd@nest.swarm.org>
+
+	* Swarm 2.1 frozen.
+
 1999-10-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* gui.h (ArchivedGeometryWidget): Add -setSaveSizeFlag:.

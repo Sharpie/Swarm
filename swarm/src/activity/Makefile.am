@@ -1,7 +1,7 @@
 MODULE = activity
-CURRENT = 3
+CURRENT = 4
 REVISION = 0
-AGE = 1
+AGE = 0
 activitydir = $(includedir)/$(MODULE)
 JAVAINCLUDES = @JAVAINCLUDES@
 

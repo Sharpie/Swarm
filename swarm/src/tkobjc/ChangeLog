@@ -1,3 +1,7 @@
+2000-02-12    <mgd@nest.swarm.org>
+
+	* Makefile.am (AGE): Bump.  Version 2.1.
+
 2000-01-24    <mgd@nest.swarm.org>
 
 	* ZoomRaster.m ([ZoomRaster -handleConfigureWidth:Height:]): 

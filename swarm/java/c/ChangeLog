@@ -1,3 +1,7 @@
+2000-02-12    <mgd@nest.swarm.org>
+
+	* Makefile.in (CURRENT): Bump.  Version 2.1.
+
 2000-02-07    <mgd@HELEN>
 
 	* Makefile.in ($(JAVASWARM_DLL)): Use ld, not ld-new and don't

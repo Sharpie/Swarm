@@ -1,3 +1,7 @@
+2000-02-12    <mgd@nest.swarm.org>
+
+	* Makefile.am (CURRENT): Bump.  Version 2.1.
+
 1999-12-20    <mgd@nest.swarm.org>
 
 	* EZGraph.m ([EZGraph -drop]): Only drop graph if graphics is set.

@@ -1,6 +1,6 @@
 MODULE = tclobjc
 CURRENT = 1
-REVISION = 1
+REVISION = 2
 AGE = 1
 tclobjcdir = $(includedir)/tclobjc
 

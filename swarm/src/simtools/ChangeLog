@@ -1,3 +1,7 @@
+2000-02-12    <mgd@nest.swarm.org>
+
+	* Makefile.am (REVISION): Bump.  Version 2.1.
+
 1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* QSort.m ([QSort +sortObjectsIn:],

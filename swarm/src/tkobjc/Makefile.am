@@ -2,7 +2,7 @@ SUBDIRS = tk
 MODULE = tkobjc
 CURRENT = 4
 REVISION = 0
-AGE = 0
+AGE = 1
 tkobjcdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
