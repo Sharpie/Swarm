@@ -1084,7 +1084,7 @@
       (when (create-method-p method)
         (insert "  jobject nextPhase = SD_NEXTJAVAPHASE (env, jobj);\n"))
       (java-print-method-invocation-arguments protocol method)
-      (java-print-method-invocation-arguments-lref-deletion protocol method)
+      ;; (java-print-method-invocation-arguments-lref-deletion protocol method)
 
       (insert "  ")
       (unless (string= ret-type "void")

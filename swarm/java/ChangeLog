@@ -1,7 +1,8 @@
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (argname-number, java-argument-ref, 
-	java-print-method-invocation-arguments): New function.
+	java-print-method-invocation-arguments,
+	java-print-method-invocation-arguments-lref-deletion): New functions.
 	(java-print-method-invocation): Use argname-number instead of 
 	SD_ENSURE_OBJC and java-argument-ref instead of direct conversions.
 	(java-print-native-method): Use return variable as appropriate
