@@ -41,6 +41,15 @@
 
 ;; customize the html stylesheet
 
+
+
+(define ($generate-book-lot-list$)
+  ;; Which Lists of Titles should be produced for Books?
+  (list (normalize "table")
+        (normalize "figure")
+        (normalize "example")
+        (normalize "equation")))
+
 (define %graphic-extensions% 
   ;; List of graphic filename extensions
   '("gif" "jpg" "jpeg"  "ps" ))
@@ -60,6 +69,20 @@
   ;; Use ID attributes as name for component HTML files?
   #t)
 
+
+(define (toc-depth nd)
+  ;; make table of contents:
+  ;; 1-level deep for each book
+  ;; 2-levels deep for sets
+  ;; and 3-deep for all remaining
+  ;;  (if (string=? (gi nd) (normalize "book"))
+  ;;      1
+  ;;      3))
+  (cond ((string=? (gi nd) (normalize "book")) 1)
+         ((string=? (gi nd) (normalize "set")) 2)
+         (else 3))
+  )
+
 ;; customizing SET stuff...
 
 (define %generate-set-titlepage%
@@ -69,6 +92,29 @@
 (define %generate-set-toc% 
   ;; Should a Table of Contents be produced for Sets?
   #t)
+
+
+(define (set-titlepage-verso-elements)
+  ;; by default style sheet doesn't include the "verso" elements on the 
+  ;; title page.
+  (list (normalize "abstract")
+        (normalize "biblioset")
+        (normalize "releaseinfo")
+        (normalize "revhistory")))
+
+;; customizing BOOKs
+
+(define %generate-book-titlepage%
+  ;; Should a book title page be produced?
+  #t)
+
+(define (book-titlepage-verso-elements)
+  ;; by default style sheet doesn't include the "verso" elements on the 
+  ;; title page.
+  (list (normalize "abstract")
+        (normalize "releaseinfo")
+        (normalize "bookbiblio")
+        (normalize "revhistory")))
 
 ;; customizing SECTs
 
