@@ -1,3 +1,7 @@
+2001-07-23    <mgd@HELEN>
+
+	* Makefile.am (objc.dll): Replace .lo with .o in objc.dll dllwrap link.
+
 2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* config.guess, config.sub, ltmain.sh: Scratch that.  No joy with
