@@ -305,9 +305,7 @@
   // own Swarm data structure. Display is frequently the slowest part of a
   // simulation, so redrawing less frequently can be a help.
   
-  displaySchedule = [Schedule createBegin: [self getZone]];
-  [displaySchedule setRepeatInterval: displayFrequency];
-  displaySchedule = [displaySchedule createEnd];
+  displaySchedule = [Schedule create: self setRepeatInterval: displayFrequency];
   [displaySchedule at: 0 createAction: displayActions];
 
   return self;

@@ -1,3 +1,13 @@
+1999-07-28  Alex Lancaster  <alex@santafe.edu>
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	-buildActions]): Use +create:setRepeatInterval: convenience method
+	to setup Schedule.
+
+	* MousetrapModelSwarm.m ([MousetrapModelSwarm -buildActions]):
+	Likewise use +create:setAutoDrop: convenience method for creation
+	of dynamic schedule instance.
+
 1999-06-28  Alex Lancaster  <alex@santafe.edu>
 
 	* main.m (main): Create instance of `LispArchiver', `Archiver' now

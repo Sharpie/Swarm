@@ -244,10 +244,8 @@
   
   // just make one schedule. Autodrop, so old activities get destroyed.
   
-  modelSchedule = [Schedule createBegin: [self getZone]];
-  [modelSchedule setAutoDrop: YES];
-  modelSchedule = [modelSchedule createEnd];
-
+  modelSchedule = [Schedule create: self setAutoDrop: YES];
+                            
   // Now, we add one action to the schedule: trigger the mousetrap
   // at the center of the grid. And we also bump up the count of
   // "balls in the air" for bookeeping (This is the ball we will
