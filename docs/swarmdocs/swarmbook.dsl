@@ -59,6 +59,20 @@
   ;; Are sections enumerated?
   #t)
 
+(element PRIMARYIE
+         (make paragraph
+               (let* ((linkends-string (attribute-string "LINKENDS")))
+                 (let loop ((linkends (split linkends-string)))
+                      (if (null? linkends)
+                          (empty-sosofo)
+                          (sosofo-append
+                           (make link
+                                 destination: (idref-address (car linkends))
+                                 (process-children))
+                           (literal " ")
+                           (loop (cdr linkends))))))))
+
+
 </style-specification-body>
 </style-specification>
 
