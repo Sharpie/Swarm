@@ -1,6 +1,6 @@
 1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* refmeta.sgml: Scale graphic to 80%.
+	* refmeta.sgml: Scale graphic to 75%.
 
 	* Makefile.am (gridexamples.sgml): Update IDs to
 	SWARM.module.SGML.type.

@@ -1,7 +1,7 @@
 <BOOKINFO>
   <TITLE>Reference Guide for Swarm &swarm-release-number;</TITLE> 
 
-  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER" SCALE=80></GRAPHIC>
+  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER" SCALE=75></GRAPHIC>
 
   <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
 
