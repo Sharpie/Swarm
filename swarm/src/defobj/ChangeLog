@@ -1,3 +1,8 @@
+2003-03-05  Scott Christley <schristley@mac.com>
+
+	* DefObject.m ([Object_s -dropAllocations:]): Replace asm code
+	with static field for drop selector.
+
 2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* internal.m move nil_method to libobjc/nil_method.c

@@ -332,7 +332,10 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 - (void)dropAllocations: (BOOL)componentAlloc
 {
-   extern id baseDrop (id, SEL) asm ("-[Object_s drop]");
+   static IMP baseDrop = 0;
+   if (baseDrop == 0) {
+      baseDrop = [Object_s instanceMethodFor:@selector(drop)];
+   }
 
   if (getBit (zbits, BitComponentAlloc) && !componentAlloc)
     raiseEvent (InvalidOperation,
