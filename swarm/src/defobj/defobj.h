@@ -829,9 +829,9 @@ USING
 //E: To implement this you need to make your own subclass of Arguments
 //E: like the following:
 //E: 
-//E: #import <objectbase/Arguments.h>
+//E: #import <defobj/Arguments.h>
 //E: 
-//E: @interface MySwarmAppArguments: Arguments
+//E: @interface MySwarmAppArguments: Arguments_c
 //E: {
 //E:   const char *protocolArg;
 //E: }
@@ -874,7 +874,7 @@ USING
 //E: To actually invoke this in the main.m program, you do the following:
 //E:
 //E: int 
-//E: main(int argc, const char ** argv) 
+//E: main (int argc, const char ** argv) 
 //E: {
 //E:   initSwarmArguments (argc, argv, [MySwarmAppArguments class]);
 //E:   

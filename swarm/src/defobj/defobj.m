@@ -126,14 +126,14 @@ void
 initDefobjAppArguments (int argc, const char **argv,
                         const char *version,
                         const char *bugAddress,
-                        Class arguments)
+                        Class argumentsClass)
 {
-  arguments = [arguments createArgc: argc
-                         Argv: argv
-                         version: version
-                         bugAddress: bugAddress
-                         options: NULL
-                         parseFunc: NULL];
+  arguments = [argumentsClass createArgc: argc
+                              Argv: argv
+                              version: version
+                              bugAddress: bugAddress
+                              options: NULL
+                              parseFunc: NULL];
   archiver = [Archiver ensure: globalZone];
 }
 

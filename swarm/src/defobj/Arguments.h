@@ -6,7 +6,7 @@
 #import <defobj/Create.h>
 #include <misc/argp.h>
 
-@interface Arguments_c: CreateDrop_s
+@interface Arguments_c: CreateDrop
 {
   int argc;
   const char **argv;

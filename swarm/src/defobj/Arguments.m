@@ -111,22 +111,22 @@ PHASE(Creating)
      options: (struct argp_option *)options
    parseFunc: (int (*) (int key, const char *arg))aParseFunc
 {
-  Arguments_c *arguments = [self createBegin: globalZone];
+  Arguments_c *argobj = [self createBegin: globalZone];
   
-  [arguments setArgc: theArgc Argv: theArgv];
+  [argobj setArgc: theArgc Argv: theArgv];
   program_invocation_name = (char *)find_executable (theArgv[0]);
 #ifndef __GLIBC__
   program_invocation_short_name = getApplicationValue (theArgv[0]);
 #endif  
   if (options)
-    [arguments addOptions: options];
-  [arguments setParseFunc: aParseFunc];
-  [arguments setAppName: program_invocation_short_name];
-  [arguments setAppModeString: "default"];
+    [argobj addOptions: options];
+  [argobj setParseFunc: aParseFunc];
+  [argobj setAppName: program_invocation_short_name];
+  [argobj setAppModeString: "default"];
   if (version == NULL)
     version = "[no application version]";
   {
-    const char *appName = arguments->applicationName;
+    const char *appName = argobj->applicationName;
     const char *swarmstr = " (Swarm ";
     char *buf = xmalloc (strlen (appName) + 1 + 
                          strlen (version) + strlen (swarmstr) +
@@ -143,7 +143,7 @@ PHASE(Creating)
   }
   if (bugAddress == NULL)
     {
-      const char *appName = arguments->applicationName;
+      const char *appName = argobj->applicationName;
       const char *bugstr = "bug-";
       const char *address = "@[none set]";
       char *buf = xmalloc (strlen (bugstr) + strlen (appName) + 
@@ -158,9 +158,9 @@ PHASE(Creating)
   else
     argp_program_bug_address = bugAddress;
 
-  argp_parse (arguments->argp, theArgc, theArgv, 0, 0, arguments);
+  argp_parse (argobj->argp, theArgc, theArgv, 0, 0, argobj);
   
-  return [arguments createEnd];
+  return [argobj createEnd];
 }
 
 - addOptions: (struct argp_option *)newoptions

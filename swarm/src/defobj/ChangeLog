@@ -1,5 +1,8 @@
 1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Arguments.h (Arguments_c): Inherit from CreateDrop instead of
+	CreateDrop_s.
+
 	* defobj.[hm] (initDefobj): Simplify usage to just argc and argv.
 	(initDefobjApp, initDefobjAppFunc, initDefobjAppArguments): New
 	functions.
@@ -8,7 +11,7 @@
 	to NULL.
 	([Arguments_c -parseKey:arg:]): Call parseFunc if set.
 	(+createArgc:Argv:version:bugAddress:options:parseFunc): Call
-	addOptions if options is set.
+	addOptions if options is set.  Rename (local) arguments to argObj.
 
 	* Arguments.[hm], defobj.h: Add options:parseFunc: to
 	+createArgc:Argv:version:bugAddress:options:parseFunc.
