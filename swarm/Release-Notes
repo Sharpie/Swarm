@@ -1,3 +1,16 @@
+		Release Notes for Swarm Version 1.0.2
+
+  1. Kernel was made compatible with DEC Unix on the Alpha.
+  2. Raster, BLTGraph, and EZGraph "drop" now include Tk frame
+     destruction.
+  3. "getHeight" and "getWidth" methods were added to ZoomRaster.
+  4. Default ProbeMap creation was fixed by returning the correct
+     BOOL type within "isProbeMapDefinedFor:".
+  5. Float and double format outputs in OutFile were changed to "%8.6e"
+     "%17.15e", respectively.
+
+
+	      =========================================
 		Release Notes for Swarm Version 1.0.1
 
   1. Added different colored lines in EZGraph
