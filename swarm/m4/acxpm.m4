@@ -9,11 +9,11 @@ for name in $xpmlibname Xpm; do
     break
   fi
 done
+gnuwin32=no
 if test $found = yes; then
   XPMLDFLAGS=$_ldflags
   XPMLIB=-l$xpmlibname
 else
-  gnuwin32=no
 AC_TRY_COMPILE([#ifdef __CYGWIN__
 #error
 #endif],[],,gnuwin32=yes)
