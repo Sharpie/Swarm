@@ -2,7 +2,7 @@
 
 #import "Bug.h"
 #import "FoodSpace.h"
-#import <swarmobject/Swarm.h>
+#import <objectbase/Swarm.h>
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
@@ -10,7 +10,6 @@
 
 @interface ModelSwarm: Swarm
 {
-
   int worldXSize, worldYSize;
   float seedProb;
   float bugDensity;
