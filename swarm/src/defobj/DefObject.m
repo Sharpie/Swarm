@@ -129,6 +129,8 @@ PHASE(Setting)
                   *((short *) ptr) = ival;
                 else if (itype == _C_LNG || itype == _C_ULNG)
                   *((long *) ptr) = ival;
+                else if (itype == _C_LNGLNG || itype == _C_ULNGLNG)
+                  *((long long *) ptr) = ival;
                 else
                   abort ();
               }

@@ -1,5 +1,7 @@
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* DefObject.m ([Object_s -lispIn:]): Handle long long types.
+
 	* internal.m (lisp_output_type): Renable long long handling,
 	using -cat[Unsigned]LongLong.
 
