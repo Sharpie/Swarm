@@ -1,3 +1,8 @@
+1999-01-27  Alex Lancaster  <alex@santafe.edu>
+
+	* installmeta.sgml (booktitlelogo): Scale GRAPHIC by 98%, so all
+	recto-mode elements fit on one page in print backend.
+
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 
 	* installmeta.sgml: Move bibliodata entity outside of BOOKBIBLIO -
