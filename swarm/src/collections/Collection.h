@@ -13,7 +13,7 @@ Library:      collections
 #import <collections.h>
 #import <defobj.h> // Serialization
 
-@interface Collection_any: CreateDrop_s <Serialization>
+@interface Collection_any: CreateDrop_s
 {
 @public
   int count;       // number of members in collection
@@ -54,8 +54,8 @@ Library:      collections
 - (void)describe: outputCharStream;
 - (void)describeForEach: outputCharStream;
 - (void)describeForEachID: outputCharStream;
-- lispin: expr;
-- lispout: stream;
+- _lispOutAttr_: stream;
+- (BOOL)_lispInAttr_: index;
 @end
 
 @interface Index_any: Object_s

@@ -175,6 +175,9 @@ readString (id inStream, BOOL literalFlag)
           return [[[ArchiverValue createBegin: [self getZone]]
                     setChar: c3] createEnd];
         }
+      else if (c2 == 't' || c2 == 'f')
+        return [[[ArchiverValue createBegin: [self getZone]]
+                  setBoolean: (c2 == 't')] createEnd];
       else
         raiseEvent (InvalidArgument, "Unknown `#' form");
     }
@@ -480,6 +483,13 @@ PHASE(Creating)
   return self;
 }  
 
+- setBoolean: (BOOL)val
+{
+  type = _C_UCHR;
+  number.ch = (unsigned char)val;
+  return self;
+}
+
 PHASE(Using)
 
 - (char)getValueType
@@ -503,6 +513,11 @@ PHASE(Using)
 }
 
 - (unsigned char)getChar
+{
+  return number.ch;
+}
+
+- (BOOL)getBoolean
 {
   return number.ch;
 }

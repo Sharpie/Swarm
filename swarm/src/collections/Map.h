@@ -41,8 +41,8 @@ typedef struct mapentry {
 - createIndex: aZone fromMember: anObject;
 - createIndex: aZone fromKey: aKey;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
-- lispin: expr;
-- lispout: stream;
+- lispIn: expr;
+- lispOut: stream;
 @end
 
 @interface MapIndex_c: Index_any // <MapIndex>

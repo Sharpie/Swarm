@@ -37,6 +37,39 @@ PHASE(Creating)
                 "> value specified: %d\n", byteOffset);
 }
 
+
+- (BOOL)_lispInAttr_: index
+{
+  id key = [index get];
+  const char *name = [key getKeywordName];
+  
+  if (strcmp (name, "replace-only") == 0)
+    [self setReplaceOnly: lispInBoolean (index)];
+#if 0
+  else if (strcmp (name, "read-only") == 0)
+    raiseEvent (InvalidArgument, "ReadOnly not yet settable");
+#endif
+  else
+    return NO;
+  return YES;
+}
+
+- _lispOutAttr_: outputCharStream
+{
+#if 0
+  if (bits & Bit_ReadOnly)
+    [outputCharStream catC: "#:read-only #t"];
+#endif
+  
+  if (bits & Bit_ReplaceOnly)
+    [outputCharStream catC: "#:replace-only #t"];
+  
+  if (bits & Bit_InitialValueSet)
+    [outputCharStream catC: "#:initial-value-set #t"];
+
+  return self;
+}
+
 PHASE(Using)
 
 - (BOOL)getReadOnly
@@ -240,16 +273,6 @@ indexAtOffset (Collection_any *self, int offset)
   while ((member = [index next]))
     [member describeID: outputCharStream];
   [index drop];
-}
-
-- lispin: expr
-{
-  return self;
-}
-
-- lispout: stream
-{
-  return self;
 }
 
 @end

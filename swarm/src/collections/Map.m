@@ -297,12 +297,17 @@ PHASE(Using)
   mapObject (mapalloc, list);
 }
 
-- lispin: expr
+- lispInCreate: expr
 {
   return self;
 }
 
-- lispout: stream
+- lispIn: expr
+{
+  return self;
+}
+
+- lispOut: stream
 {
   return self;
 }

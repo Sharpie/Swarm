@@ -64,9 +64,11 @@ Library:     collections
 - setFloat: (float)val;
 - setInteger: (int)val;
 - setChar: (unsigned char)val;
+- setBoolean: (BOOL)val;
 - (double)getDouble;
 - (float)getFloat;
 - (int)getInteger;
 - (unsigned char)getChar;
+- (BOOL)getBoolean;
 - (char)getValueType;
 @end

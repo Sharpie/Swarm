@@ -87,7 +87,7 @@ USING
 @end
 
 
-@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach, Serialization>
+@protocol Collection <Create, SetInitialValue, Copy, Drop, Offsets, ForEach>
 //S: A generic collection interface.
 
 //D: A collection is a grouping of object references or other data values which
@@ -586,7 +586,7 @@ SETTING
 @end
 
 
-@protocol List <Collection, CREATABLE>
+@protocol List <Collection, Serialization, CREATABLE>
 //S:  Collection of members in an externally assigned linear sequence.
 
 //D: A list is a collection of members that are all maintained at some
@@ -988,12 +988,14 @@ CREATING
 - setFloat: (float)val;
 - setInteger: (int)val;
 - setChar: (unsigned char)val;
+- setBoolean: (BOOL)val;
 USING
 - (char)getValueType;
 - (double)getDouble;
 - (float)getFloat;
 - (int)getInteger;
 - (unsigned char)getChar;
+- (BOOL)getBoolean;
 - (void)drop;
 @end
 

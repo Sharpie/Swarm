@@ -12,6 +12,7 @@ Library:      collections
 #import <collections/List.h>
 #import <defobj/defalloc.h>
 
+#include <collections/predicates.h> // keywordp
 
 @implementation List_any
 
@@ -19,69 +20,122 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  List_any  *newList;
+  List_any *newList;
 
   newList = [aZone allocIVars: self];
   return newList;
 }
 
-- (void) setInitialValue: initialValue
+- (void)setInitialValue: initialValue
 {
-  firstLink = (link_t)initialValue;
-  setBit( bits, Bit_InitialValueSet, 1 );
+  firstLink = (link_t) initialValue;
+  setBit (bits, Bit_InitialValueSet, 1);
 }
 
-- (void) setDequeOnly: (BOOL)dequeOnly
+- (void)setDequeOnly: (BOOL)dequeOnly
 {
-  setBit( bits, Bit_DequeOnly, dequeOnly );
+  setBit (bits, Bit_DequeOnly, dequeOnly);
 }
 
 - createEnd
 {
-  id  index, member;
+  id index, member;
 
-  if ( ( bits & Bit_InitialValueSet ) && ( bits & Bit_IndexFromMemberLoc ) )
-    raiseEvent( InvalidCombination,
-       "> cannot specify an initial value with IndexFromMemberLoc option\n" );
+  if ((bits & Bit_InitialValueSet) && (bits & Bit_IndexFromMemberLoc))
+    raiseEvent (InvalidCombination,
+                "> cannot specify an initial value with IndexFromMemberLoc option\n");
+  
+  if (bits & Bit_InitialValueSet)
+    {
+      if (createByMessageToCopy (self, createEnd))
+        return self;
+      setClass (self, id_List_linked);
+      setMappedAlloc (self);
+      index = [(id) firstLink begin: scratchZone];
+      firstLink = NULL;
+      while ((member = [index next]))
+        [(id) self addLast: member];
+      [index drop];
+    }
+  else
+    {
+      createByCopy ();
+      if (bits & Bit_IndexFromMemberLoc)
+        setClass (self, id_List_mlinks);
+      else
+        setClass (self, id_List_linked);
+      setMappedAlloc (self);
+    }
+  return self;
+}
 
-  if ( bits & Bit_InitialValueSet ) {
-    if ( createByMessageToCopy( self, createEnd ) ) return self;
-    setClass( self, id_List_linked );
-    setMappedAlloc( self );
-    index = [(id)firstLink begin: scratchZone];
-    firstLink = NULL;
-    while ( (member = [index next]) ) [(id)self addLast: member];
-    [index drop];
+- lispInCreate: expr
+{
+  id index, member;
 
-  } else {
-    createByCopy( );
-    if ( bits & Bit_IndexFromMemberLoc )
-      setClass( self, id_List_mlinks );
-    else
-      setClass( self, id_List_linked );
-      setMappedAlloc( self );
-  }
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
+    {
+      if (keywordp (member))
+        {
+          const char *name = [member getKeywordName];
+
+          if (strcmp (name, "index-from-member-loc") == 0)
+            [self setIndexFromMemberLoc: lispInInteger (index)];
+          else if (strcmp (name, "initial-value-set") == 0)
+            [self setInitialValue: lispIn ([self getZone], [index next])];
+          else if (![self _lispInAttr_: index])
+            raiseEvent (InvalidArgument, "unknown keyword `%s'", name);
+        }
+    }
+  [index drop];
   return self;
 }
 
 PHASE(Setting)
 
-- (void) setCountPerBlock: (int)countPerBlock
+- (void)setCountPerBlock: (int)countPerBlock
 {
-  raiseEvent( NotImplemented, nil );
+  raiseEvent (NotImplemented, nil);
 }
 
 PHASE(Using)
 
-- (BOOL) getDequeOnly
+- (BOOL)getDequeOnly
 {
   return bits & Bit_DequeOnly;
 }
 
-- (int) getCountPerBlock
+- (int)getCountPerBlock
 {
-  raiseEvent( NotImplemented, nil );
-  exit(1);
+  raiseEvent (NotImplemented, nil);
+  exit (1);
+}
+
+- lispIn: expr
+{
+  return self;
+}
+
+- lispOut: outputCharStream
+{
+  id index, member;
+
+  [outputCharStream catC: "(" MAKE_OBJC_FUNCTION_NAME " 'List"];
+
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
+    [member lispOut: outputCharStream];
+  [index drop];
+
+  [self _lispOutAttr_: outputCharStream];
+
+  if (bits & Bit_IndexFromMemberLoc)
+    [outputCharStream catC: "#:index-from-member-loc #t"];
+  
+  [outputCharStream catC: ")"];
+  
+  return self;
 }
 
 @end

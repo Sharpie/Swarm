@@ -1,20 +1,28 @@
 1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* InputStream.[hm] (InputStream): New method setBoolean:
+	and getBoolean.  Handle #f and #t from input.
+
+	* Collection.m ([Collection_any -_lispInAttr_:], 
+	[Collection_any -_lispOutAttr_:]): New create-time expression
+	methods for use by subclasses.
+
 	* List_GEN.m: Reformatting throughout.  New macros COUNT,
 	FIRST, and FIRSTPREV to simplify code.
 
-	* Collection.m ([Collection_any -lispin:], [Collection_any
-	-lispout:]): Stubs.
+	* List.m ([List_any -lispIn:], [List_any -lispInCreate:], 
+	[List_any -lispOut:]): New methods.  (First is unimplemented.)
 
-	* Map.m ([Map_c -lispin:], [Map_c -lispout:]): Likewise.
+	* Map.m ([Map_c -lispin:], [Map_c -lispout:]): Likewise 
+	(All are unimplemented.)
 
-	* Collection.h (Collection_any): Conform to Serialization protocol.
-	Declare -lispin: and -lispout:.
+	* List.h (List_any): Conform to Serialization protocol.
+	Declare -lispIn: and -lispOut:.
 
 	* Map.h (Map_c): Likewise.
 
-	* collections.h (Collections, Map): Adopt Serialization 
-	protocol.
+	* collections.h (List, Map): Adopt Serialization protocol.
+	(ArchiverValue): Add setBoolean: and getBoolean.
 
 	* Collection.[hm], Map.[hm]: Reformatting throughout.
 
