@@ -1,6 +1,10 @@
 #!/bin/sh
-JDKPATH=`regtool get 'HKLM\SOFTWARE\JavaSoft\Java Development Kit\1.2\JavaHome'`
-PATH=`cygpath -u $JDKPATH`/bin:$PATH
-export PATH
+JDKPATH=`regtool get 'HKLM\SOFTWARE\JavaSoft\Java Development Kit\1.2\JavaHome' 2>/dev/null`
+if test -n "$JDKPATH"; then
+  PATH=`cygpath -u $JDKPATH`/bin:$PATH
+  export PATH
 
-CLASSPATH=".;${SWARMDIR}"'\share\swarm\swarm.jar' javac $*
+  CLASSPATH=".;${SWARMDIR}"'\share\swarm\swarm.jar' javac $*
+else
+  echo JDK 1.2 does not appear to be installed 1>&2
+fi
