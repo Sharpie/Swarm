@@ -19,9 +19,7 @@ ARGP_SRC = argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
 EXTRA_DIST = memchr.c memcpy.c memset.c \
 	realpath.c \
 	stpcpy.c strchr.c strcmp.c strlen.c strncmp.c \
-	strndup.c strnlen.c strpbrk.c strsep.c strtoll.c $(ARGP_SRC)
-
-EXTRA_HEADERS = argp.h
+	strndup.c strnlen.c strpbrk.c strsep.c strtoll.c argp.h $(ARGP_SRC)
 
 SRC = xmalloc.c find_executable.c dropdir.c avl.c avltr.c debugabort.c strdup.c quicksort.c
 

@@ -1,3 +1,8 @@
+2001-09-07  Marcus G. Daniels  <mgd@condor>
+
+	* Makefile.am (EXTRA_DIST): Move argp.h from EXTRA_HEADERS to here.
+	(EXTRA_HEADERS): Remove.
+
 2001-06-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* xmalloc.c: Disable GC code.
