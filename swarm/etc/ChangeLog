@@ -2,7 +2,7 @@
 
 	* Makefile.appl.in (LDFLAGS): Remove SUPPORTLDFLAGS.
 	(LIBS): Remove.
-	($(APPEXE)): Remove LIBS and SYSLIBS.
+	($(APPEXE)): Remove LIBS and SYSLIBS, but keep -lobjc.
 	
 	* genctors: New file.
 
