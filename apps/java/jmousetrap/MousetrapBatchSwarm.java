@@ -11,6 +11,8 @@ import swarm.defobj.ZoneImpl;
 import swarm.activity.ActionGroupImpl;
 import swarm.activity.ActivityImpl;
 import swarm.activity.ScheduleImpl;
+import swarm.activity.SwarmActivityImpl;
+
 import swarm.analysis.EZGraphImpl;
 
 public class MousetrapBatchSwarm extends SwarmImpl {
@@ -30,15 +32,13 @@ public class MousetrapBatchSwarm extends SwarmImpl {
   public Object buildObjects ()   {
     super.buildObjects();
 
-    mousetrapModelSwarm 
-      = new MousetrapModelSwarm (getZone ());
+    mousetrapModelSwarm = new MousetrapModelSwarm (getZone ());
 
-    mousetrapModelSwarm.buildObjects();
+    mousetrapModelSwarm.buildObjects ();
       
-    triggerGraph = new EZGraphImpl(getZone (), true);
+    triggerGraph = new EZGraphImpl (getZone (), true);
 
     try {
-        
       triggerGraph.createSequence$withFeedFrom$andSelector
         ("trigger.output", mousetrapModelSwarm.getStats(), 
          new Selector (mousetrapModelSwarm.getStats().getClass(), 
@@ -50,31 +50,30 @@ public class MousetrapBatchSwarm extends SwarmImpl {
                        "getNumBalls", false));
       
     } catch (Exception e) {
-      System.out.println ("Exception EZGraph: " + e.getMessage ());
+      System.err.println ("Exception EZGraph: " + e.getMessage ());
     }
     
     return this;
   }  
 
-  public Object buildActions() {
+  public Object buildActions () {
     super.buildActions ();
     
-    mousetrapModelSwarm.buildActions();
+    mousetrapModelSwarm.buildActions ();
     
     if (loggingFrequency > 0) {
       
       displayActions = new ActionGroupImpl (getZone ());
       
       try {
-        
         displayActions.createActionTo$message 
-          (triggerGraph, new Selector 
-            (triggerGraph.getClass (), "step", true));
+          (triggerGraph, 
+           new Selector (triggerGraph.getClass (), "step", true));
         displayActions.createActionTo$message
           (this,
            new Selector (getClass (), "checkToStop", false));
       } catch (Exception e) {
-        System.out.println ("Exception batch EZGraph: " + e.getMessage ());
+        System.err.println ("Exception batch EZGraph: " + e.getMessage ());
       }
       
       displaySchedule = new ScheduleImpl (getZone (), loggingFrequency);
@@ -86,12 +85,12 @@ public class MousetrapBatchSwarm extends SwarmImpl {
   }
 
   public ActivityImpl activateIn (Object swarmContext) {
-    super.activateIn(swarmContext);
+    super.activateIn (swarmContext);
     
-    mousetrapModelSwarm.activateIn(this);
+    mousetrapModelSwarm.activateIn (this);
     
     if (loggingFrequency > 0)
-      displaySchedule.activateIn(this);
+      displaySchedule.activateIn (this);
     
     return getActivity ();
   }
@@ -101,23 +100,23 @@ public class MousetrapBatchSwarm extends SwarmImpl {
       ("You typed `mousetrap --batchmode' or `mousetrap -b'," 
        + " so we're running without graphics.");
     
-    System.out.println("mousetrap is running to completion.");
+    System.out.println ("mousetrap is running to completion.");
     
     if (loggingFrequency > 0) 
       System.out.println 
         ("It is logging data every " + loggingFrequency +
          " timesteps to: trigger.output");
     
-    getActivity().run(); 
+    ((SwarmActivityImpl) (Object) getActivity ()).run (); 
     
     if (loggingFrequency > 0)
       triggerGraph.drop ();
     
-    return this.getActivity().getStatus();
+    return getActivity ().getStatus ();
   }
   
   public Object checkToStop () {
-    if (mousetrapModelSwarm.getStats().getNumBalls() == 0) {
+    if (mousetrapModelSwarm.getStats ().getNumBalls () == 0) {
       System.out.println ("All the balls have landed!");
       Globals.env.getCurrentSwarmActivity ().terminate (); 
     }

@@ -24,7 +24,7 @@ public class StartMousetrap {
     }
     else {
       MousetrapBatchSwarm topLevelSwarm =
-        new MousetrapBatchSwarm(Globals.env.globalZone);
+        new MousetrapBatchSwarm (Globals.env.globalZone);
       topLevelSwarm.buildObjects ();
       topLevelSwarm.buildActions ();
       topLevelSwarm.activateIn (null);
