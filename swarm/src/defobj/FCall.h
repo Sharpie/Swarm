@@ -36,7 +36,7 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 @interface FCall_c: CreateDrop_s
 {
 @public
-   unsigned int callType;
+   unsigned callType;
    FArguments_c *fargs; 
 #ifndef USE_AVCALL
    ffi_cif cif;
