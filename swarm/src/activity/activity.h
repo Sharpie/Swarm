@@ -62,11 +62,12 @@ Library:      activity
 //D: Executable actions include both actions compiled in a host language
 //D: (such as C functions or Objective C messages) and compound actions
 //D: built at runtime for interpretation by the Swarm abstract machine.
-
+  
 //D: (.. For now, the only subtype of ActionType is CompoundAction.  Types
 //D: for compiled actions such as functions and messages have not been
 //D: defined yet. ..)
 
+USING
 //M: The activateIn: message is used to initialize a process for executing
 //M: the actions of an ActionType.  This process is controlled by an object
 //M: called an Activity.  The activateIn message initializes an activity to
@@ -86,8 +87,10 @@ Library:      activity
 //M: control among all its activities.  Activating a plan for execution
 //M: under a swarm turns over control to the swarm to execute the
 //M: subactivity as a more-or-less autonomous activity.
-USING
 - activateIn: swarmContext;
+//M: activate an action type to run as a subprocess controlled by the swarm
+- activate: anActionType;
+
 @end
 
 
