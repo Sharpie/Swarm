@@ -1856,27 +1856,21 @@ swarm_directory_java_find_class_named (const char *className)
 }
 
 Class
-swarm_directory_java_class_for_object (id object)
+swarm_directory_java_class_for_object (jobject jobj)
 {
-  jobject jobj;
+  jclass jcls;
+  const char *className;
+  Class result;
   
-  if ((jobj = SD_JAVA_FINDJAVA (object)))
-    {
-      jclass jcls;
-      const char *className;
-      Class result;
-      
-      jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
-      className = java_class_name (jobj);
-      result = objc_class_for_class_name (className);
-      FREECLASSNAME (className);
-      if (!result)
-        if (!(result = SD_JAVA_FINDOBJC (jcls)))
-          result = SD_JAVA_ENSUREOBJCCLASS (jcls);
-      (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
-      return result;
-    }
-  abort ();
+  jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
+  className = java_class_name (jobj);
+  result = objc_class_for_class_name (className);
+  FREECLASSNAME (className);
+  if (!result)
+    if (!(result = SD_JAVA_FINDOBJC (jcls)))
+      result = SD_JAVA_ENSUREOBJCCLASS (jcls);
+  (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
+  return result;
 }
 
 const char *

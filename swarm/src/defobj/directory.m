@@ -227,7 +227,7 @@ swarm_directory_dump (void)
 Class
 swarm_directory_ensure_class_named (const char *className)
 {
-  Class objcClass = nil;
+  Class objcClass = Nil;
   if (swarmDirectory)
     {
 #ifdef HAVE_JDK
@@ -239,28 +239,53 @@ swarm_directory_ensure_class_named (const char *className)
   return objcClass;
 }
 
-Class 
+Class
 swarm_directory_swarm_class (id object)
 {
-#ifdef HAVE_JDK
   if (swarmDirectory)
-    return swarm_directory_java_class_for_object (object);
+    {
+      DirectoryEntry *entry = swarm_directory_objc_find (object);
+
+      if (!entry)
+        abort ();
+
+#ifdef HAVE_JDK
+      if (entry->type == foreign_java)
+        {
+          jobject jobj;
+
+          if ((jobj = SD_JAVA_FINDJAVA (object)))
+            return swarm_directory_java_class_for_object (jobj);
+        }
+      else
 #endif
+        abort ();
+    }
   return [object getClass];
 }
 
 const char *
 swarm_directory_language_independent_class_name  (id object)
 {
-#ifdef HAVE_JDK
   if (swarmDirectory)
     {
-      jobject jobj;
-      
-      if ((jobj = SD_JAVA_FINDJAVA (object)))
-        return java_class_name (jobj);
-    }
+      DirectoryEntry *entry = swarm_directory_objc_find (object);
+
+      if (entry)
+        {
+#ifdef HAVE_JDK
+          if (entry->type == foreign_java)
+            {
+              jobject jobj;
+              
+              if ((jobj = SD_JAVA_FINDJAVA (object)))
+                return java_class_name (jobj);
+            }
+          else
 #endif
+            abort ();
+        }
+    }
   return (const char *) (getClass (object))->name;      
 }
 
