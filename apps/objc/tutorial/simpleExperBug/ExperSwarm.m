@@ -128,7 +128,7 @@
 
   // Build the parameter manager
 
-  parameterManager = [ParameterManager create: [self getZone]];
+  parameterManager = [ParameterManager create: self];
   [parameterManager initializeParameters];
 
   // Build a probeDisplay on ourself
@@ -137,7 +137,7 @@
 
   // build the EZGraph for model results
 
-  resultGraph = [EZGraph createBegin: [self getZone]];
+  resultGraph = [EZGraph createBegin: self];
   SET_WINDOW_GEOMETRY_RECORD_NAME (resultGraph);
   [resultGraph setTitle: "Model Run Times"];
   [resultGraph setAxisLabelsX: "Model #" Y: "Run Time"];
@@ -158,7 +158,7 @@
 
   // Create the OutFile object to log the runs
 
-  logFile = [OutFile create: [self getZone] withName: "log.file"];
+  logFile = [OutFile create: self withName: "log.file"];
 
   return self;
 }
@@ -177,7 +177,7 @@
   // Create an ActionGroup for experiment: a bunch of things that occur in
   // a specific order, but in the same step of simulation time. 
 
-  experActions = [ActionGroup create: [self getZone]];
+  experActions = [ActionGroup create: self];
 
   // Schedule up the methods to  build the model, run it, collect data,
   // display the data, log the results, and drop the model.  
@@ -203,7 +203,7 @@
 
   // Now make the experiment schedule. Note the repeat interval is 1
   
-  experSchedule = [Schedule createBegin: [self getZone]];
+  experSchedule = [Schedule createBegin: self];
   [experSchedule setRepeatInterval: 1];
   experSchedule = [experSchedule createEnd];
   [experSchedule at: 0 createAction: experActions];
@@ -243,13 +243,15 @@
 
 - buildModel
 {
-  // Here, we create an instance of the model that we're managing. 
+  // Here, we create an instance of the model that we're managing.
   // The model is a subswarm of the experiment. We create the model in
-  // its own zone, so storage is segregated. We can drop everything
-  // we create in the modelSwarm later by just dropping the modelZone
+  // *within* the current ExperSwarm! - this creates a separate
+  // segregated part of the current Zone. We can drop everything we
+  // create in the modelSwarm later by just dropping the modelSwarm
+  // itself. Note that this excludes any separately allocated memory
+  // outside of the Zone mechanism and any GUI widgets.
 
-  modelZone = [Zone create: [self getZone]];
-  modelSwarm = [ModelSwarm create: modelZone];
+  modelSwarm = [ModelSwarm create: self];
 
   // If this is the first model, create a custom probeMap for modelSwarm 
   // and construct a graph displaying model results
@@ -258,7 +260,7 @@
     {
       // Build a customized probe map for the class ModelSwarm
       
-      modelProbeMap = [EmptyProbeMap createBegin: [self getZone]];
+      modelProbeMap = [EmptyProbeMap createBegin: self];
       [modelProbeMap setProbedClass: [modelSwarm class]];
       modelProbeMap = [modelProbeMap createEnd];
       
@@ -281,10 +283,6 @@
   // Now, we invoke the parameterManager to initialize the model 
   
   [parameterManager initializeModel: modelSwarm];
-
-  // Now we create a probeDisplay for this model instance
-
-  CREATE_ARCHIVED_PROBE_DISPLAY (modelSwarm);
 
   // Let the modelSwarm build its objects and actions and activate
   // it in "nil", giving us a new activity. We don't start it here...
@@ -370,14 +368,12 @@
 
 - dropModel
 {
-  // The model has finished and we've extracted the data we need
-  // from it. We drop the probeDisplay for it, drop its activity,
-  // and then drop the Zone we created it in, which drops all
-  // of the objects built by modelSwarm
+  // The model has finished and we've extracted the data we need from
+  // it. We the modelSwarm's activity, and then drop the modelSwarm
+  // itself which drops of the objects built by modelSwarm
 
-  [probeDisplayManager dropProbeDisplaysFor: modelSwarm];
   [[modelSwarm getActivity] drop];
-  [modelZone drop];
+  [modelSwarm drop];
 
   return self;
 }
