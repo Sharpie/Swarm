@@ -2,6 +2,7 @@
 
 	* Makefile.appl.in (INSTALL_PROGRAM): Set INSTALL_PROGRAM to
 	@SWARM_INSTALL_PROGRAM@.
+	(INSTALL): Substitute.
 
 1998-08-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
