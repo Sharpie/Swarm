@@ -8,6 +8,7 @@
 	$(swarm_srcdir)/etc/common.el instead of common.el.
 
 	* Makefile.am (EXTRA_DIST): Remove protocol.el and common.el.
+	Add graph.el and sgml.el.
 
 	* sgml.el, graph.el: New files, {sgml,graph}-related code from
 	protocol.el.
