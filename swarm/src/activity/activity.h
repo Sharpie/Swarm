@@ -29,7 +29,7 @@ Library:      activity
 //D: ProcessType will eventually define support for parameterization of all
 //D: processes.  A process is a uniquely identified course of events that
 //D: conforms to a specification of external and internal behavior.
-//
+
 //D: Processes include both objects and executable actions.  Objects change
 //D: their state and behavior based on a sequence of externally initiated
 //D: actions.  An action, in contrast, typically has no external behavior
@@ -76,7 +76,7 @@ Library:      activity
 //M: by the caller.  Otherwise, the execution context must be either an
 //M: instance of SwarmProcess or SwarmActivity.  (These objects are always
 //M: maintained in one-to-one association with each other, either one of
-//M: the pair is equivalent to the other as a swarmContext argument.)<p>
+//M: the pair is equivalent to the other as a swarmContext argument.)
 
 //M: If a top-level activity is created (swarmContext is nil), the created
 //M: activity may be processed using activity processing commands such as
@@ -86,7 +86,8 @@ Library:      activity
 //M: control among all its activities.  Activating a plan for execution
 //M: under a swarm turns over control to the swarm to execute the
 //M: subactivity as a more-or-less autonomous activity.
--		activateIn: swarmContext;
+USING
+- activateIn: swarmContext;
 @end
 
 
@@ -191,7 +192,7 @@ extern id <Symbol>  Concurrent, Sequential, Randomized;
 //D: of a C function to a list of argument values.  The correct number of
 //D: arguments for the function pointer passed as the initial argument must
 //D: be supplied.
-
+USING
 - createActionCall: (func_t)fptr;
 - createActionCall: (func_t)fptr : arg1;
 - createActionCall: (func_t)fptr : arg1 : arg2;
@@ -220,6 +221,7 @@ extern id <Symbol>  Concurrent, Sequential, Randomized;
 
 //E: [createActionTo: aTurtle message: $m(move:) : (id)10];
 
+USING
 - createActionTo: target message: (SEL)aSel;
 - createActionTo: target message: (SEL)aSel : arg1;
 - createActionTo: target message: (SEL)aSel : arg1 : arg2;
@@ -237,6 +239,7 @@ extern id <Symbol>  Concurrent, Sequential, Randomized;
 //D: standard messages of the Collection type in the collections library,
 //D: is to receive the specified message.
 
+USING
 - createActionForEach: target message: (SEL)aSel;
 - createActionForEach: target message: (SEL)aSel : arg1;
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2;
@@ -274,6 +277,7 @@ extern id <Symbol>  Concurrent, Sequential, Randomized;
 //D: undergoing change as the responsibility for parameter and return value
 //D: typing gets taken over by ActionType in defobj.)
 
+USING
 //M: The createAction: message specifies that processing of another action
 //M: type is to be performed by the action.  The referenced action type is
 //M: performed in its entirety, from start to finish, as the effect of the
@@ -631,6 +635,7 @@ USING
 //D: eventually be supported.  This documentation will be completed once
 //D: the messages supported on Action types are finalized.
 
+USING
 //M: Get action type of action being performed by activity.
 - getActionType;
 @end
@@ -644,6 +649,7 @@ USING
 //D: generic methods for binding an action type to any number and types of
 //D: arguments and return values will also be provided.
 
+USING
 - (int)getNArgs;
 - (void)setArg1: arg1;
 - getArg1;
@@ -655,14 +661,18 @@ USING
 
 @deftype ActionCall <ActionArgs>
 //S: An action defined by calling a C function.
+//D: An action defined by calling a C function.
 
+USING
 - (void)setFunctionPointer: (func_t)fptr;
 - (func_t)getFunctionPointer;
 @end
 
 @deftype ActionTo <ActionArgs>
 //S: An action defined by sending an Objective C message.
+//D: An action defined by sending an Objective C message.
 
+USING
 - (void)setTarget: target;
 - getTarget;
 - (void)setMessageSelector: (SEL)aSel;
@@ -671,6 +681,7 @@ USING
 
 @deftype ActionForEach <ActionTo>
 //S: An action defined by sending a message to every member of a collection.
+//D: An action defined by sending a message to every member of a collection.
 @end
 
 
@@ -717,6 +728,7 @@ USING
 //D: messages are available to obtain the currently running leaf activity
 //D: or useful context information such as the current time available from it.
 
+USING
 //M: The run message continue processing of an activity from any state in
 //M: which its execution has been suspended.  An error is raised if the
 //M: activity is already running.  run returns either a Stopped or
@@ -814,14 +826,18 @@ extern id <Symbol>  HoldStart, HoldEnd;
 
 
 @deftype ForEachActivity <Activity>
+USING
 //S: State of execution within a ForEach action.
+//D: State of execution within a ForEach action.
 
 - getCurrentMember;
 @end
 
 @deftype ScheduleActivity <Activity>
 //S: State of execution within a Schedule.
+//D: State of execution within a Schedule.
 
+USING
 #if 0
 - setTerminateAtEnd: (BOOL)terminateAtEnd;
 - (BOOL)getTerminateAtEnd;
@@ -840,7 +856,9 @@ extern id <Symbol>  HoldStart, HoldEnd;
 
 @deftype SwarmActivity <ScheduleActivity>
 //S: A collection of started subactivities.
+//D: A collection of started subactivities.
 
+USING
 //M: Return swarm object containing this swarm activity, if any.
 - getSwarm;
 
@@ -892,9 +910,12 @@ _activity_context_error( "getCurrentOwnerActivity" ) )
 ( _activity_current ? [_activity_current _getSubactivityAction_] : \
 _activity_context_error( "getCurrentAction" ) )
 
+#if 0
 @deftype GetSubactivityAction
+USING
 -	_getSubactivityAction_;  // internal method for getCurrentAction()
 @end
+#endif
 
 #define getCurrentActivity() \
 ( _activity_current ? [_activity_current getCurrentSubactivity] : nil )
@@ -909,14 +930,17 @@ extern id  _activity_context_error (const char *macroName);
 
 @deftype ConcurrentGroup <ActionGroup, CREATABLE>
 //S: Default type used as concurrent group of a schedule.
+//D: Default type used as concurrent group of a schedule.
 @end
 
 @deftype ConcurrentSchedule <ActionGroup, CREATABLE>
 //S: Time-based map usable for concurrent group.
+//D: Time-based map usable for concurrent group.
 @end
 
 @deftype ActivationOrder <ActionGroup, CREATABLE>
 //S: Default type used as concurrent group of a swarm.
+//D: Default type used as concurrent group of a swarm.
 @end
 
 //

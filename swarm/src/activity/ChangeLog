@@ -1,3 +1,13 @@
+1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* activity.h: Remove instances of <p> Minor spacing changes to
+	methods. 
+	(ActionType, ActionCreatingCall, ActionCreatingTo,
+	ActionCreatingForEach, ActionCreating, Action, ActionArgs,
+	ActionCall, ActionTo, Activity, ForEachActivity,
+	ScheduleActivity, SwarmActivity): Add phase tags.
+	(GetSubactivityAction): Disable declaration.
+
 1998-04-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* activity.h: Include new protocols DefaultOrder, AutoDrop in
