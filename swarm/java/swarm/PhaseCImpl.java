@@ -12,9 +12,8 @@ public class PhaseCImpl {
      creating_phase_fields = this.getClass().getDeclaredFields();
      
      try {
-       for (i=0; i<creating_phase_fields.length; i++)
+       for (i = 0; i < creating_phase_fields.length; i++)
 	 {
-	   System.out.println (creating_phase_fields[i].getName());
 	   using_phase_field = 
 	     nextPhaseClass.getDeclaredField(creating_phase_fields[i].getName());
 	   
@@ -24,7 +23,7 @@ public class PhaseCImpl {
 	 }
      } catch (Exception e) 
        { 
-	 System.out.println ("\nWhile copying field: " +
+	 System.err.println ("\nWhile copying field: " +
 			     creating_phase_fields[i].getName() +
 			     "\nfrom an instance of class: " + 
 			     this.getClass().getName() +

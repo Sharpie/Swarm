@@ -1,5 +1,7 @@
 1999-08-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* PhaseCImpl.java: Don't print ivars as they're copied.
+
 	* Selector.java (hashCode, equals): New methods.
 	(Selector): Allow duplicate methods to be found, but check
 	that the types are the same.
