@@ -31,6 +31,8 @@ That's it.
 Edit $SRCROOT/macosx/swarmx/configure.sh to reflect appropriate paths on your system
 Open the PB project and build the targets autogen, config and swarmlibmake in that order.)
 
+To start over delete everything in $SRCROOT/macosx/swarmx/build
+
 Start fixing bugs where it crashes.
 
 If you have any fixes please let me know, and regularly update from the cvs so that you get other developers fixes.  There is no kudos reinventing the wheel.
