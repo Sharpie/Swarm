@@ -1,3 +1,10 @@
+1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules.in (JAVACOMPILE, all): Use PATHSEP for delimiter in
+	classpath.  Quote classpath.
+
+	* Makefile.in (%.class): Likewise.
+
 1999-04-25  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* Makefile.in (all): Depend on modules and $(POSTCLASSFILES).
