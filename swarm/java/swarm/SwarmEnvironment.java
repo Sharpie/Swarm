@@ -12,12 +12,13 @@ import swarm.activity.*;
 import swarm.objectbase.*;
 
 public class SwarmEnvironment {
-  public Symbol ControlStateRunning, ControlStateStopped,
-    ControlStateStepping, ControlStateQuit, ControlStateNextTime;
+  public Symbol Start, Member, End;
   public Symbol Initialized, Running, Stopped, Holding, Released, 
       Terminated, Completed;
   public Symbol Randomized, Sequential;
-  public Zone globalZone;
+  public Symbol ControlStateRunning, ControlStateStopped,
+    ControlStateStepping, ControlStateQuit, ControlStateNextTime;
+  public Zone scratchZone, globalZone;
   public SimpleRandomGenerator randomGenerator;
   public UniformIntegerDist uniformIntRand;
   public UniformDoubleDist uniformDblRand;
@@ -28,11 +29,16 @@ public class SwarmEnvironment {
   public HDF5Archiver hdf5AppArchiver;
   public LispArchiver lispAppArchiver;
   public boolean guiFlag;
+  public ClassLoader proxyClassLoader;
 
   public SwarmEnvironment () {
     super ();
 
+    proxyClassLoader = new ProxyClassLoader ();
+
     globalZone = new ZoneImpl ();
+    scratchZone = new ZoneImpl ();
+
     randomGenerator = new MT19937genImpl ();
     uniformIntRand = new UniformIntegerDistImpl ();
     uniformDblRand = new UniformDoubleDistImpl ();
@@ -44,6 +50,10 @@ public class SwarmEnvironment {
     ControlStateStepping = new SymbolImpl ();
     ControlStateQuit = new SymbolImpl ();
     ControlStateNextTime = new SymbolImpl ();
+
+    Start = new SymbolImpl ();
+    Member = new SymbolImpl ();
+    End = new SymbolImpl ();
 
     Initialized = new SymbolImpl ();
     Running = new SymbolImpl ();

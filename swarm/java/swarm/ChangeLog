@@ -1,3 +1,15 @@
+2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* SwarmEnvironment.java (SwarmEnvironment):
+	Add Start, Member, End, scratchZone, and proxyClassLoader with
+	initializations.
+
+	* Makefile.in (top_srcdir, top_dossrcdir, KAWAJAR, KAWAPATH): New
+	variables.
+	(JAVACOMPILE): Use KAWAPATH.
+	(PRECLASSES): Add ObjCProxy.
+	(POSTCLASSES): Add ProxyClassLoader.
+
 2000-05-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Selector.java: Properly convert Objective C style method
