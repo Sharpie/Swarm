@@ -2197,6 +2197,13 @@ hdf5_store_attribute (hid_t did,
         }
       if (H5Sclose (psid) < 0)
         raiseEvent (SaveError, "Failed to close point space");
+      if (vector_type != fcall_type_void)
+        {
+          if (H5Sclose (bsid) < 0)
+            raiseEvent (SaveError, "Failed to close block space");
+          if (H5Sclose (c_sid) < 0)
+            raiseEvent (SaveError, "Failed to close vector space"); 
+        }
     }
   hdf5InstanceCount--;
   if (hdf5InstanceCount == 0)

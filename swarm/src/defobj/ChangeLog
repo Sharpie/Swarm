@@ -13,7 +13,8 @@
 	flushVector at VECTOR_BLOCK_SIZE intervals.
 	([HDF5_c -flushVector]): New method.
 	([HDF5_c -flush]): Call flushVector if vector_type is set.
-	([HDF5_c -drop]): Call flush.  Drop vector_buf.
+	([HDF5_c -drop]): Call flush.  Drop vector_buf, bsid, and c_sid
+	when vector_type is set.
 
 2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
