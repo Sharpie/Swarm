@@ -220,7 +220,7 @@ PHASE(Using)
   
   zone = [Zone create: [self getZone]];
 
-  mi = [schedule begin: zone];
+  mi = [schedule mapBegin: zone];
   if ([mi next: (id *)&key])
     {
       min = max = key;
@@ -266,7 +266,7 @@ PHASE(Using)
     id <MapIndex> mi;
     id action;
     
-    mi = [schedule begin: zone];
+    mi = [schedule mapBegin: zone];
     
     while ((action = [mi next: (id *)&key]))
       {
