@@ -32,14 +32,14 @@ PHASE(Creating)
 
 - (void)setInitialValue: initialValue
 {
-  if (!respondsTo( initialValue, M(begin:)))
+  if (!respondsTo (initialValue, M(begin:)))
     raiseEvent (InvalidArgument, nil);
   
   setBit (bits, Bit_InitialValueSet, 1);
   if (bits & Bit_MemberAlloc)
-    [self setMemberBlock: (id *)nil setCount: 0];
+    [self setMemberBlock: (id *) nil setCount: 0];
   
-  block = (id *)initialValue;
+  block = (id *) initialValue;
 }
 
 - createEnd
@@ -81,7 +81,7 @@ PHASE(Creating)
   if (memberCount < 0)
     raiseEvent (InvalidArgument, nil);
 
-  newArray = [aZone allocIVars: getNextPhase( self )];
+  newArray = [aZone allocIVars: getNextPhase (self)];
   newArray->block = members;
   setBit (newArray->bits, Bit_MemberAlloc, 1);
   newArray->count = memberCount;
@@ -97,7 +97,7 @@ initArray (Array_c  *self)
   copyCount = 0;
   if (self->bits & Bit_InitialValueSet)
     {
-      initialMembers = (id)self->block;
+      initialMembers = (id) self->block;
       copyCount = [initialMembers getCount];
       if (self->bits & Bit_CountSet)
         {
@@ -123,7 +123,7 @@ initArray (Array_c  *self)
   // if DefaultMember, save current value of default member at end of block
 
   if (self->bits & Bit_DefaultMember)
-    newBlock[self->count] = (id)self->block;
+    newBlock[self->count] = (id) self->block;
   
   self->block = newBlock;
   if (self->bits & Bit_InitialValueSet)
@@ -231,7 +231,7 @@ PHASE(Setting)
         raiseEvent (InvalidArgument, nil);
       setBit (bits, Bit_CountSet, 1);
       if (bits & Bit_MemberAlloc)
-        [self setMemberBlock: (id *)nil setCount: 0];
+        [self setMemberBlock: (id *) nil setCount: 0];
       count = memberCount;
       
     }
@@ -250,7 +250,7 @@ PHASE(Setting)
           newBlock = [zone allocBlock: (memberCount + 1) * sizeof (id)];
           newBlock[memberCount] = block[count];
           if (memberCount <= count)
-            memcpy( newBlock, block, memberCount * sizeof (id) );
+            memcpy (newBlock, block, memberCount * sizeof (id));
           else
             {
               memcpy (newBlock, block, count * sizeof (id));
@@ -266,7 +266,7 @@ PHASE(Setting)
         {
           newBlock = [zone allocBlock: memberCount * sizeof (id)];
           if (memberCount <= count)
-            memcpy( newBlock, block, memberCount * sizeof (id) );
+            memcpy (newBlock, block, memberCount * sizeof (id));
           else
             {
               memcpy (newBlock, block, count * sizeof (id));
@@ -342,7 +342,7 @@ PHASE(Using)
 
   newIndex = [aZone allocIVars: id_ArrayIndex_c];
   newIndex->collection = self;
-  newIndex->memPtr = (id *)Start;
+  newIndex->memPtr = (id *) Start;
   return newIndex;
 }
 
@@ -353,10 +353,10 @@ PHASE(Using)
 
   newArray = [aZone copyIVars: self];
 
-  copyCount = getBit( bits, Bit_DefaultMember ) ? count + 1 : count;
+  copyCount = getBit (bits, Bit_DefaultMember) ? count + 1 : count;
   newArray->block = [aZone allocBlock: copyCount * sizeof (id)];
-  memcpy( newArray->block, block, copyCount * sizeof (id) );
-  setBit( newArray->bits, Bit_MemberAlloc, 0 );
+  memcpy (newArray->block, block, copyCount * sizeof (id));
+  setBit (newArray->bits, Bit_MemberAlloc, 0);
   return newArray;
 }
 
@@ -408,13 +408,13 @@ PHASE(Using)
     raiseEvent (AlreadyAtEnd, nil);
 
   if (INDEXSTARTP (memPtr))
-    memPtr = ((Array_c *)collection)->block;
+    memPtr = ((Array_c *) collection)->block;
   else
     memPtr++;
-  if (memPtr >= (((Array_c *)collection)->block +
-                 ((Array_c *)collection)->count))
+  if (memPtr >= (((Array_c *) collection)->block +
+                 ((Array_c *) collection)->count))
     {
-      memPtr = (id *)End;
+      memPtr = (id *) End;
       return nil;
     }
   return *memPtr;
@@ -426,12 +426,12 @@ PHASE(Using)
     raiseEvent (AlreadyAtEnd, nil);
   
   if (INDEXENDP (memPtr))
-    memPtr = ((Array_c *)collection)->block + ((Array_c *)collection)->count;
+    memPtr = ((Array_c *) collection)->block + ((Array_c *)collection)->count;
   
   memPtr--;
-  if (memPtr < ((Array_c *)collection)->block)
+  if (memPtr < ((Array_c *) collection)->block)
     {
-      memPtr = (id *)Start;
+      memPtr = (id *) Start;
       return nil;
     }
   return *memPtr;
@@ -474,9 +474,9 @@ PHASE(Using)
 - (void)setLoc: (id <Symbol>)locSymbol
 {
   if (INDEXSTARTP (locSymbol))
-    memPtr = (id *)Start;
+    memPtr = (id *) Start;
   else if (INDEXENDP (locSymbol))
-    memPtr = (id *)End;
+    memPtr = (id *) End;
   else
     raiseEvent (InvalidArgument, nil);
 }
@@ -490,9 +490,9 @@ PHASE(Using)
 
 - (void)setOffset: (int)offset
 {
-  if (offset < 0 || offset >= ((Array_c *)collection)->count)
+  if (offset < 0 || offset >= ((Array_c *) collection)->count)
     raiseEvent (OffsetOutOfRange, nil);
-  memPtr = ((Array_c *)collection)->block + offset;
+  memPtr = ((Array_c *) collection)->block + offset;
 }
 
 - (int)compare: anIndex
