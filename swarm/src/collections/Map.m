@@ -205,7 +205,7 @@ PHASE(Setting)
   id aZone = [self getZone];  
 
   index = [(id) expr begin: scratchZone];
-  for (member = [index next]; [index getLoc] == Member; [index next])
+  for (member = [index next]; [index getLoc] == Member; member = [index next])
     {
       if (keywordp (member))
         [index next];
