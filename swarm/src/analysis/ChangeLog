@@ -1,3 +1,9 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* EZGraph.[hm], analysis.h ([EZGraph
+	+create:setTitle:setAxisLabelsX:Y:setWindowGeometryRecordName:]):
+	Add recordName argument.
+
 1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* EZGraph.m (sequence_graph_filename): Use alloc: instead of xmalloc.

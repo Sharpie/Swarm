@@ -33,7 +33,7 @@
 
   unsigned colorIdx;
 }
-+ create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl;
++ create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 + create: aZone setFileOutput: (BOOL)fileOutputFlag;
 + create: aZone setFileName: (const char *)aFileName;
 

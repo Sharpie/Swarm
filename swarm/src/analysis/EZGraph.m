@@ -21,7 +21,7 @@ static const char * defaultGraphColors[NUMCOLORS] = {
 
 PHASE(Creating)
 
-+ create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl
++ create: aZone setTitle: (const char *)aTitle setAxisLabelsX: (const char *)xl Y: (const char *)yl setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   EZGraph *obj = [super createBegin: aZone];
 
@@ -34,6 +34,7 @@ PHASE(Creating)
   obj->graphColors = defaultGraphColors;
   obj->colorCount = NUMCOLORS;
   obj->colorIdx = 0;
+  [obj setWindowGeometryRecordName: windowGeometryRecordName];
 
   return [obj createEnd];
 }
