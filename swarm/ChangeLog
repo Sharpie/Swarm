@@ -1,3 +1,8 @@
+1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note memory leak fix to Permutation and alignment fix
+	to CompoundAction.
+
 1999-03-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note support for Checker.

@@ -15,6 +15,15 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** Swarm can now be compiled with Checker.
     http://www.gnu.org/software/checker
 
+** Bug fixes
+*** collections
+**** Permutation
+***** Fixed memory leak
+
+*** activity
+**** CompoundAction
+***** Fixed casting bug which lead to segfaults on some platforms.
+
 * Release Notes for Swarm 1.4.1
 ** New features
 *** activity
