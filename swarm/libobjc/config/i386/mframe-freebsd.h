@@ -30,7 +30,7 @@
   (TYPE) = objc_skip_typespec(type); \
   sprintf((DEST), "%.*s%d", (TYPE)-type, type, (CUM)); \
   if (*(TYPE) == '+') (TYPE)++; \
-  while (isdigit(*(TYPE))) \
+  while (isdigit((int) *(TYPE))) \
     { \
       (TYPE)++; \
     } \

@@ -1,3 +1,10 @@
+1999-06-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/i386/mframe-{freebsd,generic,linux-gnu,openbsd,sysv4.2MP}.h,
+	config/powerpc/mframe-{generic,linux-gnu}.h,
+	config/sparc/mframe-{generic,sunos4.1.3}.h: Add casts for isdigit
+	args.
+
 1999-05-31    <mgd@HELEN>
 
 	* Makefile.am (objc.dll): Depend on dllinit.  Define constructor_func
