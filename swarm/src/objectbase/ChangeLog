@@ -1,3 +1,23 @@
+1998-03-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Arguments.m: Include unistd.h and stdlib.h.
+	Define swarm_version to be equal to VERSION.
+	Define global Arguments object.
+	([Arguments -getExecutablePath]): New method.
+	([Arguments +createArgc:Argv:]): Use find_executable to
+	get value for program_invocation_name instead of using
+	theArgv[0] directly.
+	(dropDirectory, findDirectory, findSwarm): New functions.
+	([Arguments -getSwarmHome]): Use SWARMHOME or findSwarm
+	to find source tree.
+
+	* Arguments.h: Declare a global variable for an Argument
+	object (previously in simtools).
+	(Arguments): swarmHome new variable.
+	Declare getExecutablePath and getSwarmHome methods.
+
+	* objectbase.h: Declare swarm_version.
+
 1998-03-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (version.h): New rule to create version.h.  

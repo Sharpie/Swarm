@@ -6,6 +6,8 @@
 #import <objectbase/Arguments.h>
 #include <misc.h> // strdup
 #include <misc/argp.h>
+#include <unistd.h> // access
+#include <stdlib.h> // getenv
 
 #ifndef __GLIBC__
 const char *program_invocation_name;
@@ -13,6 +15,10 @@ const char *program_invocation_short_name;
 #endif
 
 #include "version.h"
+
+const char *swarm_version = VERSION;
+
+id arguments;
 
 @implementation Arguments
 
@@ -130,6 +136,11 @@ static struct argp argp = { options, parse_opt, NULL, NULL };
   return applicationName;
 }
 
+- (const char *)getExecutablePath
+{
+  return program_invocation_name;
+}
+
 - (const char *)getAppModeString
 {
   return appModeString;
@@ -151,13 +162,81 @@ static struct argp argp = { options, parse_opt, NULL, NULL };
   
   [arguments setArgc: theArgc Argv: theArgv];
 #ifndef __GLIBC__
-  program_invocation_name = theArgv[0];
+  program_invocation_name = find_executable (theArgv[0]);
   program_invocation_short_name = getApplicationValue (theArgv[0]);
 #endif  
   [arguments setAppName: program_invocation_short_name];
   [arguments setAppModeString: "default"];
   argp_parse (&argp, theArgc, theArgv, 0, 0, arguments);
+
   return [arguments createEnd];
+}
+
+static char *
+dropDirectory (char *path)
+{
+  int start_len = strlen (path), len;
+
+  if (path[start_len - 1] == '/')
+    start_len--;
+
+  for (len = start_len; len > 0; len--)
+    {
+      char *ptr = &path[len - 1];
+
+      if (*ptr == '/' && start_len > 1)
+        {
+          ptr++;
+          *ptr = '\0';
+          return path;
+        }
+    }
+  return NULL;
+}
+
+static char *
+findDirectory (id arguments, const char *directoryName)
+{
+  char *pathBuf = strdup ([arguments getExecutablePath]);
+
+  while (dropDirectory (pathBuf))
+    {
+      char *swarmPathBuf = xmalloc (strlen (pathBuf) + strlen (directoryName) + 1);
+      
+      stpcpy (stpcpy (swarmPathBuf, pathBuf), directoryName);
+      if (access (swarmPathBuf, F_OK) != -1)
+        return swarmPathBuf;
+      xfree (swarmPathBuf);
+    }
+  return NULL;
+}
+
+static char *
+findSwarm (id arguments)
+{
+  const char *swarmPrefix = "swarm-";
+  const char *signatureFile = "VERSION";
+  int len = strlen (swarmPrefix) + strlen (swarm_version) + 1 + strlen (signatureFile) + 1;
+  char *swarmVersionPathBuf = xmalloc (len);
+  char *p, *swarmPath;
+  
+  p = stpcpy (swarmVersionPathBuf, swarmPrefix);
+  p = stpcpy (p, swarm_version);
+  p = stpcpy (p, "/");
+  p = stpcpy (p, signatureFile);
+  
+  swarmPath = findDirectory (arguments, swarmVersionPathBuf);
+  if (swarmPath == NULL)
+    swarmPath = findDirectory (arguments, "swarm/VERSION");
+  return dropDirectory (swarmPath);
+}
+
+- (const char *)getSwarmHome
+{
+  if (swarmHome == NULL)
+    if ((swarmHome = getenv ("SWARMHOME")) == NULL)
+      swarmHome = findSwarm (self);
+  return swarmHome;
 }
 
 @end

@@ -229,7 +229,6 @@ USING
 
 extern id  <ProbeLibrary> probeLibrary;
 
-
 //
 // ActivityControl --
 //
@@ -258,6 +257,8 @@ USING
 @class CompleteVarMap;
 @class ProbeLibrary;
 @class ActivityControl;
+
+extern const char *swarm_version;
 
 // 
 // These are the base classes for all Swarm objects (agents and

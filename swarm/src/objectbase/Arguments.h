@@ -5,6 +5,8 @@
 
 #import <objectbase/SwarmObject.h>
 
+extern id arguments;
+
 @interface Arguments: SwarmObject
 {
   int argc;
@@ -13,6 +15,7 @@
   const char *appModeString;
   BOOL batchModeFlag;
   BOOL varySeedFlag;
+  const char *swarmHome;
 }
 
 - setArgc: (int)theArgc Argv: (const char **)theArgv;
@@ -26,7 +29,9 @@
 - (const char *)getAppModeString;
 - (int)getArgc;
 - (const char **)getArgv;
+- (const char *)getExecutablePath;
 + createArgc: (int)argc Argv: (const char **)argv;
+- (const char *)getSwarmHome;
 
 @end
 
