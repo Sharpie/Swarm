@@ -1,0 +1,78 @@
+#if 0
+#include <defobj/directory.h> // DIRECTORY_SIZE, DirectoryEntry
+#endif
+
+extern "C" {
+
+typedef void *JOBJECT;
+typedef void *COMclass;
+typedef void *COMobject;
+
+typedef struct {
+  union {
+    JOBJECT java;
+    COMobject COM;
+  } foreignObject;
+} DirectoryEntry;
+
+#if 0
+extern fcall_type_t fcall_type_for_COM_class (COMclass clazz);
+extern void map_COM_ivars (COMobject cobj,
+                           void (*process_object) (const char *name,
+                                                   fcall_type_t type,
+                                                   void *ptr,
+                                                   unsigned rank,
+                                                   unsigned *dims));
+extern fcall_type_t COM_object_ivar_type (COMobject cobj, const char *ivarName, BOOL *isArrayPtr);
+extern unsigned COM_object_getVariableElementCount (COMobject cobj,
+                                                    const char *ivarName,
+                                                    fcall_type_t itype,
+                                                    unsigned irank,
+                                                    unsigned *idims);
+extern BOOL COM_selector_p (COMobject csel);
+#endif
+extern const char *COM_ensure_selector_type_signature (COMobject csel);
+extern const char *COM_get_class_name (COMclass clazz);
+extern void COM_object_setVariable (COMobject obj, const char *ivarName, void *inbuf);
+
+extern void swarm_directory_COM_associate_objects (COMobject swarmEnvironment);
+extern id swarm_directory_COM_find_objc (COMobject cobj);
+extern id swarm_directory_COM_ensure_objc (COMobject cobj);
+extern COMobject swarm_directory_objc_find_object_COM (id object);
+extern COMobject swarm_directory_objc_find_selector_COM (SEL sel);
+extern COMobject swarm_directory_objc_ensure_COM (id object);
+extern DirectoryEntry *swarm_directory_COM_add (id object, COMobject cobj);
+extern DirectoryEntry *swarm_directory_COM_add_selector (SEL sel, COMobject cobj);
+extern DirectoryEntry *swarm_directory_COM_switch_phase (id nextPhase, COMobject currentPhase);
+extern DirectoryEntry *swarm_directory_COM_switch_objc (id object, COMobject cobj);
+extern COMobject swarm_directory_COM_next_phase (COMobject cobj);
+extern SEL swarm_directory_COM_ensure_selector (COMobject csel);
+extern Class swarm_directory_COM_ensure_class (COMclass clazz);
+extern Class swarm_directory_COM_find_class_named (const char *className);
+extern Class swarm_directory_COM_class_for_object (COMobject cobj);
+extern COMclass swarm_directory_objc_find_COM_class (Class clazz);
+
+extern const char *COM_class_name (COMobject cobj);
+extern void COM_drop (COMobject cobj);
+}
+
+#define SD_COM_FINDOBJC(cobj)  swarm_directory_COM_find_objc (cobj)
+#define SD_COM_ENSURE_OBJECT_OBJC(cobj) swarm_directory_COM_ensure_objc (cobj)
+#define SD_COM_FIND_OBJECT_COM(objc) swarm_directory_objc_find_object_COM (objc)
+#define SD_COM_FIND_SELECTOR_COM(objc) swarm_directory_objc_find_selector_COM (objc)
+#define SD_COM_ENSURE_OBJECT_COM(objc) swarm_directory_objc_ensure_COM (objc)
+#define SD_COM_FIND_CLASS_COM(objcClass) swarm_directory_objc_find_COM_class (objcClass)
+#define SD_COM_ADD(cobj, objc) swarm_directory_COM_add (objc, cobj)
+#define SD_COM_ADD_SELECTOR(cobj, objc) swarm_directory_COM_add_selector (objc, cobj)
+#define SD_COM_ADDCOM(cobj, objc) swarm_directory_COM_add (objc, cobj)->foreignObject.COM
+#define SD_COM_SWITCHPHASE(cobj, objc) swarm_directory_COM_switch_phase (objc, cobj)->foreignObject.COM
+#define SD_COM_SWITCHOBJC(cobj, newobjc) swarm_directory_COM_switch_objc (newobjc, cobj)
+#define SD_COM_NEXTPHASE(cobj) swarm_directory_COM_next_phase (cobj)
+#define SD_COM_ENSURE_SELECTOR_OBJC(csel) swarm_directory_COM_ensure_selector (csel)
+#define SD_COM_ENSURE_CLASS_OBJC(cclazz) swarm_directory_COM_ensure_class (cclazz)
+
+#define COM_ENTRY(theObject,theCOMObject) [[[[DirectoryEntry createBegin: globalZone] setCOMObject: theCOMObject] setObject: theObject] createEnd]
+#define COM_OBJCENTRY(theObject) COM_ENTRY(theObject,0)
+#define COM_COMENTRY(theCOMObject) COM_ENTRY(0,theCOMObject)
+#define COM_FINDENTRY(theCOMObject) ({ DirectoryEntry *_findEntry  = alloca (sizeof (DirectoryEntry)); _findEntry->foreignObject.COM = theCOMObject; _findEntry; })
+

@@ -1,3 +1,9 @@
+2000-07-25  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (EXTRA_DIST): Add COM.h.
+
+	* COM.h: New file.
+
 2000-07-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* defobj.h (Arguments): Fix declaration of
