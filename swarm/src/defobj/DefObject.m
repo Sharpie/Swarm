@@ -185,7 +185,7 @@ PHASE(Using)
 //
 + (const char *)getName
 {
-  return (const char *) ((Class)self)->name;
+  return (const char *) ((Class) self)->name;
 }
 
 //
@@ -280,7 +280,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 - (void)drop
 {
-  id               zone, suballocList, index = /*-O*/nil;
+  id zone, suballocList, index = /*-O*/nil;
   suballocEntry_t  suballocEntry;
   struct mapalloc  mapalloc;
 
@@ -323,8 +323,8 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   if (getBit (zbits, BitMappedAlloc))
     {
       mapalloc.mappingFunction = _obj_dropAlloc;
-      mapalloc.zone            = zone;
-      mapalloc.descriptor      = t_ByteArray;
+      mapalloc.zone = zone;
+      mapalloc.descriptor = t_ByteArray;
       [(id) self mapAllocations: &mapalloc];
     }
   
@@ -385,7 +385,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 - (ref_t)addRef: (notify_t)notifyFunction withArgument: (void *)arg
 {
-  id               zone, suballocList, index;
+  id zone, suballocList, index;
   suballocEntry_t  suballocEntry, nextEntry;
   
   // initialize prototype for suballocList if not done already
@@ -428,13 +428,8 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   // if notify function specified then add reference to end of list
 
   if (notifyFunction)
-    {
-      [suballocList addLast: (id) suballocEntry];
-      
-      // else insert at point in sort order defined by key
-      
-    }
-  else
+    [suballocList addLast: (id) suballocEntry];
+  else // else insert at point in sort order defined by key
     {
       index = [suballocList begin: scratchZone];
       while ((nextEntry = (suballocEntry_t)[index next])
@@ -479,7 +474,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 + (BOOL)isSubclass: aClass
 {
-  Class  superclass;
+  Class superclass;
 
   superclass = (Class) self;
   while (YES)
@@ -497,14 +492,14 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 + (void)setTypeImplemented: aType
 {
-  classData_t  classData;
+  classData_t classData;
   
   if (_obj_implModule == nil)
     raiseEvent (SourceMessage,
                 "> setTypeImplemented: implementating classes for types can only be declared\n"
                 "> from a module \"_implement\" function\n");
   
-  if (! aType)
+  if (!aType)
     raiseEvent (InvalidArgument,
                 "> setTypeImplemented: argument is nil\n"
                 "> (argument may be an uninitialized type from an uninitialized module)\n"
@@ -557,7 +552,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 //
 + (IMP)getMethodFor: (SEL)aSel
 {
-  return sarray_get (((Class)self)->dtable, (size_t) aSel->sel_id);
+  return sarray_get (((Class) self)->dtable, (size_t) aSel->sel_id);
 }  
 
 //
@@ -614,7 +609,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   IMP  mptr;
 
   mptr = objc_msg_lookup (self, aSel);
-  if (! mptr)
+  if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel);
 }
@@ -624,7 +619,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   IMP  mptr;
   
   mptr = objc_msg_lookup (self, aSel);
-  if (! mptr)
+  if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel, anObject1);
 }
@@ -634,7 +629,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   IMP  mptr;
   
   mptr = objc_msg_lookup (self, aSel);
-  if (! mptr)
+  if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel, anObject1, anObject2);
 }
@@ -644,7 +639,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   IMP  mptr;
   
   mptr = objc_msg_lookup (self, aSel);
-  if (! mptr)
+  if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel, anObject1, anObject2, anObject3);
 }
@@ -766,7 +761,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 
   // allocate a display name map if not done already
 
-  if (! _obj_displayNameMap)
+  if (!_obj_displayNameMap)
     {
       _obj_displayNameMap = [Map createBegin: _obj_sessionZone];
       [_obj_displayNameMap setCompareFunction: compareIDs];
