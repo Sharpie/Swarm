@@ -126,18 +126,20 @@ get_rank (const char *type)
   return rank;
 }
 
-static const char *
-fill_dims (const char *type, unsigned *dims)
+const char *
+objc_array_subtype (const char *type, unsigned *dims)
 {
   unsigned dimnum = 0;
   char *tail;
+  long val;
   
   do {
     errno = 0;
-    dims[dimnum] = strtoul (type + 1, &tail, 10);
+    val = strtoul (type + 1, &tail, 10);
+    if (dims)
+      dims[dimnum] = val;
     if (errno != 0)
       raiseEvent (InvalidArgument, "Value out of range [%s]", type + 1);
-    
     dimnum++;
     type = tail;
   } while (*tail == _C_ARY_B);
@@ -215,11 +217,7 @@ objc_process_array (const char *type,
   unsigned rank = get_rank (type);
   unsigned dims[rank];
   fcall_type_t baseType;
-  char objcArraySubtype = *fill_dims (type, dims);
-
-  if (objcArraySubtype == _C_UNION_B || objcArraySubtype == _C_STRUCT_B)
-    raiseEvent (NotImplemented,
-                "Probing and serialization of unions and structures not supported");
+  char objcArraySubtype = *objc_array_subtype (type, dims);
 
   baseType = fcall_type_for_objc_type (objcArraySubtype);
   
@@ -272,7 +270,7 @@ map_objc_ivars (id obj,
                   unsigned dims[rank];
                   const char *baseType;
                   
-                  baseType = fill_dims (ivar_list[i].ivar_type, dims);
+                  baseType = objc_array_subtype (ivar_list[i].ivar_type, dims);
                   process_object (ivar_list[i].ivar_name,
                                   fcall_type_for_objc_type (*baseType),
                                   ivar_list[i].ivar_offset + (void *) obj,
@@ -1562,7 +1560,7 @@ object_ivar_type (id obj, const char *ivarName, BOOL *isArrayPtr)
         {
           unsigned rank = get_rank (ivar->ivar_type);
           unsigned dims[rank];
-          const char *baseType = fill_dims (ivar->ivar_type, dims);
+          const char *baseType = objc_array_subtype (ivar->ivar_type, dims);
           
           if (isArrayPtr)
             *isArrayPtr = YES;
@@ -1685,7 +1683,7 @@ object_setVariable (id obj, const char *ivarName, void *inbuf)
         {
           unsigned rank = get_rank (ivar->ivar_type);
           unsigned dims[rank];
-          const char *baseType = fill_dims (ivar->ivar_type, dims);
+          const char *baseType = objc_array_subtype (ivar->ivar_type, dims);
           unsigned i;
           
           type = fcall_type_for_objc_type (*baseType);

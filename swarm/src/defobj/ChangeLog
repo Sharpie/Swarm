@@ -2,8 +2,10 @@
 
 	* Makefile.am (CURRENT): Bump.  Version 2.1.
 
-	* internal.m (objc_process_array): Throw an exception if
-	array subtype is struct or union.
+	* internal.[hm] (objc_array_subtype): Renamed from fill_dims and
+	extern it.
+	(objc_process_array, map_objc_ivars, object_ivar_type,
+	object_setVariable): Accomodate.
 
 2000-02-14    <mgd@nest.swarm.org>
 

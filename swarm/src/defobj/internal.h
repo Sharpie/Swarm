@@ -81,6 +81,7 @@ extern fcall_type_t fcall_type_for_objc_type (char objcType);
 
 
 extern const char *objc_type_for_fcall_type (fcall_type_t type);
+extern const char *objc_array_subtype (const char *type, unsigned *dims);
 
 extern id type_create (id aZone, const char *typeName);
 
@@ -105,6 +106,7 @@ extern fcall_type_t fcall_type_for_java_class (JNIEnv *env, jclass class);
 extern const char *java_ensure_selector_type_signature (JNIEnv *env, jobject jsel);
 extern const char *java_get_class_name (JNIEnv *env, jclass class);
 extern jclass java_find_class (JNIEnv *env, const char *javaClassName, BOOL failFlag);
+
 
 #endif
 
