@@ -9,10 +9,9 @@
 
 // global random number generators (defaults)
 extern id <PMMLCG1> randomGenerator;
-extern id <UniformInteger> uniformRandom;
-
-// Source of all Probe Objects in the system...
-//extern ProbeLibrary * probeLibrary;
+extern id <UniformInteger> uniformIntRand;
+extern id <UniformUnsigned> uniformUnsRand;
+extern id <UniformDouble> uniformDblRand;
 
 // Manager that keeps track of active probes to be updated
 extern ProbeDisplayManager * probeDisplayManager;

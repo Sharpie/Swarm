@@ -17,7 +17,9 @@
 
 
 id <PMMLCG1> randomGenerator;
-id <UniformInteger> uniformRandom;
+id <UniformInteger> uniformIntRand;
+id <UniformUnsigned> uniformUnsRand;
+id <UniformDouble> uniformDblRand;
 ProbeDisplayManager * probeDisplayManager;
 int swarmGUIMode;
 
@@ -33,11 +35,17 @@ initSwarm(int argc, char ** argv) {
   [randomGenerator setStateFromSeed: 1234567890L ];
   randomGenerator = [randomGenerator createEnd];
 
-  // Explicitly leave out the interval so that getIntegerWithMin:withMax:
+  // Explicitly leave out the interval so that get{Type}WithMin:withMax:
   // can be used.
-  uniformRandom = [UniformInteger createBegin: globalZone];
-  [uniformRandom setGenerator: randomGenerator];
-  uniformRandom = [uniformRandom createEnd];
+  uniformIntRand = [UniformInteger createBegin: globalZone];
+  [uniformIntRand setGenerator: randomGenerator];
+  uniformIntRand = [uniformIntRand createEnd];
+  uniformUnsRand = [UniformUnsigned createBegin: globalZone];
+  [uniformUnsRand setGenerator: randomGenerator];
+  uniformUnsRand = [uniformUnsRand createEnd];
+  uniformDblRand = [UniformDouble createBegin: globalZone];
+  [uniformDblRand setGenerator: randomGenerator];
+  uniformDblRand = [uniformDblRand createEnd];
 
   swarmGUIMode = 1;
 
