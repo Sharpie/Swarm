@@ -21,6 +21,7 @@ Library:      collections
 - createEnd;
 - copy: aZone;
 - (int)count;
+- (unsigned)getCount;
 - (BOOL)add: anObject;
 - replace: anObject;
 - (BOOL)contains: aKey;

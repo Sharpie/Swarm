@@ -52,6 +52,11 @@ PHASE(Using)
   return [list count];
 }
 
+- (unsigned)getCount
+{
+  return [list count];
+}
+
 - (BOOL)add: anObject
 {
   [(id) list addLast: anObject];
