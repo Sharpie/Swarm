@@ -10,6 +10,7 @@ Library:      collections
 */
 
 #import <defobj.h>
+#include <externvar.h>
 
 //S: Standard collection types
 
