@@ -286,7 +286,7 @@
 			sprintf(buf, "%g", *(double *)p);
 			break;
     case _C_CHARPTR:
-			sprintf(buf, "%s", *(char **)p);
+			sprintf(buf, "%s", *(char **)p ? *(char **)p : "<NULL>");
 			break;
     default: sprintf(buf, "..."); break;
   }
