@@ -8,6 +8,8 @@
 
 @implementation ProbeCanvas
 
+PHASE(Creating)
+
 - setHorizontalScrollbarFlag: (BOOL)theHorizontalScrollbarFlag
 {
   horizontalScrollbarFlag = theHorizontalScrollbarFlag;

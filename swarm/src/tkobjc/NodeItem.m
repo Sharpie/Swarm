@@ -9,7 +9,63 @@
 #import <tkobjc/common.h>
 #include <misc.h> // stpcpy
 
+static void
+createButton3Binding (const char *canvasName,
+                      const char *item,
+                      const char *objectName)
+{
+  [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
+                  canvasName,
+                  item,
+                  objectName];
+}
+
+static void
+createButton1Binding (const char *canvasName,
+                      const char *item)
+{
+  [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
+                  canvasName,
+                  item,
+                  "%x", "%y"];
+}
+
+static void
+createButton1MotionBinding (const char *canvasName,
+                            const char *item,
+                            const char *objectName)
+{
+  [globalTkInterp eval: "%s bind %s <B1-Motion> {"
+                  "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
+                  "set curX %s; set curY %s}",
+                  canvasName,
+                  item,
+                  objectName,
+                  "%x", "%y", "%x", "%y"];
+}
+
 @implementation NodeItem
+
+PHASE(Creating)
+
+- createBindings
+{
+  const char *canvasName = [canvas getWidgetName];
+  const char *objectName = [self getObjectName];
+
+  createButton3Binding (canvasName, item, objectName);
+  createButton3Binding (canvasName, text, objectName);
+
+  createButton1Binding (canvasName, item);
+  createButton1Binding (canvasName, text);
+  
+  createButton1MotionBinding (canvasName, item, objectName);
+  createButton1MotionBinding (canvasName, text, objectName);
+
+  return self;
+}
+
+PHASE(Using)
 
 - setX: (int)the_x Y: (int)the_y
 {
@@ -55,58 +111,6 @@
 - setFont: (const char *)the_font
 {
   font = the_font;
-
-  return self;
-}
-
-static void
-createButton3Binding (const char *canvasName,
-                      const char *item,
-                      const char *objectName)
-{
-  [globalTkInterp eval: "%s bind %s <Button-3> {%s clicked}", 
-                  canvasName,
-                  item,
-                  objectName];
-}
-
-static void
-createButton1Binding (const char *canvasName,
-                      const char *item)
-{
-  [globalTkInterp eval: "%s bind %s <Button-1> {set curX %s; set curY %s}",
-                  canvasName,
-                  item,
-                  "%x", "%y"];
-}
-
-static void
-createButton1MotionBinding (const char *canvasName,
-                            const char *item,
-                            const char *objectName)
-{
-  [globalTkInterp eval: "%s bind %s <B1-Motion> {"
-                  "%s initiateMoveX: [expr %s -$curX] Y: [expr %s -$curY];"
-                  "set curX %s; set curY %s}",
-                  canvasName,
-                  item,
-                  objectName,
-                  "%x", "%y", "%x", "%y"];
-}
-
-- createBindings
-{
-  const char *canvasName = [canvas getWidgetName];
-  const char *objectName = [self getObjectName];
-
-  createButton3Binding (canvasName, item, objectName);
-  createButton3Binding (canvasName, text, objectName);
-
-  createButton1Binding (canvasName, item);
-  createButton1Binding (canvasName, text);
-  
-  createButton1MotionBinding (canvasName, item, objectName);
-  createButton1MotionBinding (canvasName, text, objectName);
 
   return self;
 }

@@ -14,6 +14,8 @@
 // use it for private colourmap installation, etc. For now, just
 // init with the widget ".", that works fine.
 
+PHASE(Creating)
+
 - createEnd
 {
   int i;
@@ -31,6 +33,8 @@
     isSet[i] = NO;
   return self;
 }
+
+PHASE(Using)
 
 // The colormap is a length MAXCOLORS array of PixelValues. We fill this array
 // in as people ask for it. You're welcome to read this array yourself.

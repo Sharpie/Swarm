@@ -75,6 +75,8 @@ tkobjc_bindFocusInToSetSelection (id widget)
 
 @implementation VarProbeEntry
 
+PHASE(Creating)
+
 - setProbeType: (char)theProbeType
 {
   probeType = theProbeType;

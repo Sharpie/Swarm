@@ -8,6 +8,8 @@
 
 @implementation ClassDisplayLabel
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];

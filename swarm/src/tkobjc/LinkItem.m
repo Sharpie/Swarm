@@ -11,36 +11,18 @@
 
 @implementation LinkItem
 
+PHASE(Creating)
+
 - setFrom: the_from
 {
   from = the_from;
+
   return self;
 }
 
 - setTo: the_to
 {
   to = the_to;
-  return self;
-}
-
-- update
-{
-  int fx,fy,tx,ty,mx,my;
-  
-  fx = [from getX];
-  fy = [from getY];
-
-  tx = [to getX];  
-  ty = [to getY];
-
-  mx = fx + (tx - fx) / 2;
-  my = fy + (ty - fy) / 2;
-
-  [globalTkInterp eval: "%s coords %s %d %d %d %d",
-    [canvas getWidgetName],line1,fx,fy,mx,my];
-
-  [globalTkInterp eval: "%s coords %s %d %d %d %d",
-    [canvas getWidgetName],line2,mx,my,tx,ty];
 
   return self;
 }
@@ -60,22 +42,47 @@
 
   line1 = strdup ([[globalTkInterp eval: 
                                      "%s create line %d %d %d %d -arrow last", 
-                                   [canvas getWidgetName],fx,fy,mx,my] 
+                                   [canvas getWidgetName], fx, fy, mx, my] 
                     result]);
   
   line2 = strdup ([[globalTkInterp eval: 
                                     "%s create line %d %d %d %d", 
-                                  [canvas getWidgetName],mx,my,tx,ty] 
+                                  [canvas getWidgetName], mx, my, tx, ty] 
                    result]);
   
   [globalTkInterp eval: "%s lower %s; %s lower %s",
-                  [canvas getWidgetName],line1,[canvas getWidgetName], line2];
+                  [canvas getWidgetName], line1,
+                  [canvas getWidgetName], line2];
   
   return self;
 }
 
 - createBindings
 {
+  return self;
+}
+
+PHASE(Using)
+
+- update
+{
+  int fx, fy, tx, ty, mx, my;
+  
+  fx = [from getX];
+  fy = [from getY];
+
+  tx = [to getX];  
+  ty = [to getY];
+
+  mx = fx + (tx - fx) / 2;
+  my = fy + (ty - fy) / 2;
+
+  [globalTkInterp eval: "%s coords %s %d %d %d %d",
+    [canvas getWidgetName], line1, fx, fy, mx, my];
+
+  [globalTkInterp eval: "%s coords %s %d %d %d %d",
+    [canvas getWidgetName], line2, mx, my, tx, ty];
+
   return self;
 }
 

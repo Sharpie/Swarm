@@ -8,6 +8,8 @@
 
 @implementation Canvas
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];

@@ -45,6 +45,8 @@ tkobjc_configureHideBitmap (id widget)
     [widget getWidgetName]];
 }
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];

@@ -12,6 +12,8 @@
 
 @implementation Pixmap
 
+PHASE(Creating)
+
 - setFile: (const char *)s
 {
   if (filename)
@@ -112,8 +114,11 @@
                             palette, num_palette, raster);
     }
   }
+
   return self;
-}                            
+}             
+
+PHASE(Using)               
                                          
 - (unsigned)getWidth
 {

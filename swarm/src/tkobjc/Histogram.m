@@ -13,6 +13,8 @@
 
 @implementation Histogram
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];
@@ -23,6 +25,8 @@
   numPoints = 0;
   return self;
 }
+
+PHASE(Using)
 
 // you can only call this once. Fix it.
 - setNumPoints: (int)n

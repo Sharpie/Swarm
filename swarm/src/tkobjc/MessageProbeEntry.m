@@ -23,6 +23,8 @@ tkobjc_bindButton3ToBeUnhelpfulAndRefocus (id widget, id self)
 
 @implementation MessageProbeEntry
 
+PHASE(Creating)
+
 - setArg: (int)theArg
 {
   arg = theArg;

@@ -9,6 +9,8 @@
 
 @implementation CanvasItem
 
+PHASE(Creating)
+
 - createBindings
 {
   const char *temp = [self getObjectName];
@@ -29,6 +31,8 @@
 
   return self;
 }
+
+PHASE(Using)
 
 - initiateMoveX: (long)delta_x Y: (long)delta_y
 {

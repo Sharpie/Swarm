@@ -1,3 +1,18 @@
+1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Button.m, ButtonPanel.m, Canvas.m, CanvasAbstractItem.m,
+	CanvasItem.m, CheckButton.m, Circle.m, ClassDisplayHideButton.m,
+	ClassDisplayLabel.m, Colormap.m, CompleteProbeDisplayLabel.m,
+	CompositeItem.m, Entry.m, Form.m, Frame.m, Graph.m, Histogram.m,
+	InputWidget.m, Label.m, Line.m, LinkItem.m, MessageProbeEntry.m,
+	NodeItem.m, OvalNodeItem.m, Pixmap.m, ProbeCanvas.m, Raster.m,
+	Rectangle.m, RectangleNodeItem.m, SimpleProbeDisplayHideButton.m,
+	SuperButton.m, TextItem.m, VarProbeEntry.m, VarProbeLabel.m,
+	Widget.m, WindowGeometryRecord.m, ZoomRaster.m:  Add phase tags.
+ 
+	* CanvasAbstractItem.m, NodeItem.m, WindowGeometryRecord.m,
+	ZoomRaster.m: Reorder methods for above.
+
 1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* OvalNodeItem.h, RectangleNodeItem.h: Declare createItem.

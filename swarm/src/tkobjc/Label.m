@@ -8,6 +8,7 @@
 
 @implementation Label
 
+PHASE(Creating)
 - createEnd
 {
   [super createEnd];
@@ -18,6 +19,7 @@
   return self;
 }
 
+PHASE(Using)
 - setText: (const char *)text
 {
   [globalTkInterp eval: "%s configure -text \"%s\"", widgetName, text];

@@ -12,6 +12,8 @@
 
 @implementation SimpleProbeDisplayHideButton
 
+PHASE(Creating)
+
 - setProbeDisplay: theProbeDisplay
 {
   probeDisplay = theProbeDisplay;

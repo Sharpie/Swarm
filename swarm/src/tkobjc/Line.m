@@ -11,6 +11,8 @@
 
 @implementation Line
 
+PHASE(Creating)
+
 - setTX: (int)the_tx TY: (int)the_ty LX: (int)the_lx LY: (int)the_ly
 {
   tx = the_tx;
@@ -25,7 +27,7 @@
 {
   [globalTkInterp eval: 
     "%s create line %d %d %d %d", 
-    [canvas getWidgetName],tx,ty,lx,ly];
+    [canvas getWidgetName], tx, ty, lx, ly];
   
   item = strdup ([globalTkInterp result]);
 

@@ -10,6 +10,8 @@
 
 @implementation Rectangle
 
+PHASE(Creating)
+
 - setTX: (int)the_tx TY: (int)the_ty LX: (int)the_lx LY: (int)the_ly
 {
   tx = the_tx;

@@ -7,11 +7,36 @@
 
 @implementation CanvasAbstractItem
 
+PHASE(Creating)
+
 - setCanvas: the_canvas
 {
   canvas = the_canvas;
   return self;
 }
+
+- createItem
+{
+  [self subclassResponsibility: @selector (createItem)];
+
+  return self;
+}
+
+- createBindings
+{
+  [self subclassResponsibility: @selector (createBindings)];
+
+  return self;
+}
+
+- createEnd 
+{
+  [self createItem];
+  [self createBindings];
+  return self;
+}
+
+PHASE(Using)
 
 - setTargetId: the_target
 {
@@ -34,27 +59,6 @@
 - setPostMoveSel: (SEL)the_sel
 {
   postMoveSel = the_sel;
-  return self;
-}
-
-- createItem
-{
-  [self subclassResponsibility: @selector (createItem)];
-
-  return self;
-}
-
-- createBindings
-{
-  [self subclassResponsibility: @selector (createBindings)];
-
-  return self;
-}
-
-- createEnd 
-{
-  [self createItem];
-  [self createBindings];
   return self;
 }
 

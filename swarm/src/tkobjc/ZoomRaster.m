@@ -11,15 +11,7 @@
 
 @implementation ZoomRaster
 
-- (unsigned)getWidth
-{
-  return logicalWidth;
-}
-
-- (unsigned)getHeight
-{
-  return logicalHeight;
-}
+PHASE(Creating)
 
 - _setConfigureInfo_: (const char *)eventName
 {
@@ -52,6 +44,18 @@
   [self _setConfigureInfo_: "Configure"];
   [self _setConfigureInfo_: "Expose"];
   return self;
+}
+
+PHASE(Using)
+
+- (unsigned)getWidth
+{
+  return logicalWidth;
+}
+
+- (unsigned)getHeight
+{
+  return logicalHeight;
 }
 
 - (unsigned)getZoomFactor
@@ -128,6 +132,7 @@
   // generates a configure event.
   if (newZoom != zoomFactor)
     [self setZoomFactor: newZoom];
+
   return self;
 }
 
@@ -135,6 +140,7 @@
 {
   if (newWidth > width || newHeight > height)
     tkobjc_raster_clear (self, width, height);
+
   return self;
 }
   
@@ -151,6 +157,7 @@
   [globalTkInterp eval: "wm grid %s %u %u %u %u; wm aspect %s 1 1 1 1",
 		  [parent getWidgetName],  zoomFactor, zoomFactor,
 		  logicalWidth, logicalHeight, [parent getWidgetName]];
+
   return self;
 }
 

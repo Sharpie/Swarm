@@ -13,6 +13,8 @@
 
 @implementation Form
 
+PHASE(Creating)
+
 // a Form is itself just a frame (are we creating an extra frame than we need?)
 - createEnd
 {
@@ -20,6 +22,8 @@
   [globalTkInterp eval: "frame %s", widgetName];
   return self;
 }
+
+PHASE(Using)
 
 - setEntryWidth: (int)ew
 {

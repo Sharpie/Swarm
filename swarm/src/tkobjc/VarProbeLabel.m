@@ -8,6 +8,8 @@
 
 @implementation VarProbeLabel
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];

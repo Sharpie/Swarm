@@ -10,6 +10,8 @@
 
 @implementation OvalNodeItem
 
+PHASE(Creating)
+
 - createItem
  {
    [self createPaddedText];
@@ -26,7 +28,7 @@
                [canvas getWidgetName]] result]);
   
   [globalTkInterp eval: "%s delete %s",
-                  [canvas getWidgetName],text];
+                  [canvas getWidgetName], text];
   
   xfree ((void *)text);
 

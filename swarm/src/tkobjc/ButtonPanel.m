@@ -12,6 +12,8 @@
 
 @implementation ButtonPanel
 
+PHASE(Using)
+
 - setButtonTarget: object
 {
   target = object;

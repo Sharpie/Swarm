@@ -10,10 +10,7 @@
 
 @implementation WindowGeometryRecord
 
-- (const char *)getWindowGeometry;
-{
-  return [windowGeometryString getC];
-}
+PHASE(Creating)
 
 - setWindowGeometry: (const char *)theWindowGeometryString;
 {
@@ -24,7 +21,20 @@
     }
   else
     windowGeometryString = nil;
+
   return self;
+}
+
++ in: aZone expr: expr
+{
+  return [[WindowGeometryRecord create: aZone] in: expr];
+}
+
+PHASE(Using)
+
+- (const char *)getWindowGeometry;
+{
+  return [windowGeometryString getC];
 }
 
 - _badType_: obj
@@ -49,11 +59,6 @@
 {
   [windowGeometryString out: outputCharStream];
   return self;
-}
-
-+ in: aZone expr: expr
-{
-  return [[WindowGeometryRecord create: aZone] in: expr];
 }
 
 - (void)describe: outputCharStream

@@ -15,6 +15,8 @@
 
 @implementation Graph
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];
@@ -30,6 +32,8 @@
   return self;
 }
 
+PHASE(Using)
+
 - setRangesXMin: (double)minx 
             Max: (double)maxx
            YMin: (double)miny
@@ -39,6 +43,7 @@
     eval:
       "%s xaxis configure -min %f -max %f; %s yaxis configure -min %f -max %f",
     widgetName, minx, maxx, widgetName, miny, maxy];
+
   return self;
 }
 
@@ -48,6 +53,7 @@
   [globalTkInterp 
     eval:
       "%s yaxis configure -min %f -max %f", widgetName, miny, maxy];
+
   return self;
 }
 
@@ -57,6 +63,7 @@
     eval:
       "%s xaxis configure -loose %d; %s yaxis configure -loose %d",
     widgetName, xs, widgetName, ys];
+
   return self;
 }
 
@@ -65,6 +72,7 @@
   GraphElement *newElement = [GraphElement createOwnerGraph: self];
 
   [elementList addLast: newElement];  
+
   return newElement;
 }
 
@@ -72,6 +80,7 @@
 {
   [elementList remove: g];
   [g drop];
+
   return self;
 }
 
@@ -79,6 +88,7 @@
 {
   [globalTkInterp eval: "%s configure -title \"%s\";", widgetName, title];
   [self setWindowTitle: title];
+
   return self;
 }
 
@@ -98,7 +108,7 @@
 }
 
 // first destroy all the elements, then ourselves.
-- (void) drop
+- (void)drop
 {
   while ([elementList getCount] > 0)
     [self destroyElement: [elementList getFirst]];
@@ -111,7 +121,9 @@
 
 @implementation GraphElement
 
-- setOwnerGraph: (Graph *)og
+PHASE(Creating)
+
+- setOwnerGraph: (id <Graph>)og
 {
   ownerGraph = og;
   return self;
@@ -164,10 +176,12 @@
   return self;
 }
 
-+ createOwnerGraph: (Graph *)og
++ createOwnerGraph: (id <Graph>)og
 {
   return [[[self createBegin: [og getZone]] setOwnerGraph: og] createEnd];
 }
+
+PHASE(Using)
 
 - (void)drop
 {
@@ -326,3 +340,4 @@
 }
 
 @end
+

@@ -10,6 +10,8 @@
 
 @implementation RectangleNodeItem
 
+PHASE(Creating)
+
 - createItem
 {
   [self createPaddedText];

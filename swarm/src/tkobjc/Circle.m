@@ -10,6 +10,8 @@
 
 @implementation Circle
 
+PHASE(Creating)
+
 - setX: (int)the_x Y: (int)the_y
 {
   x = the_x;

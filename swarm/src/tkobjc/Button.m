@@ -11,6 +11,8 @@
 
 @implementation Button
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];
@@ -19,6 +21,8 @@
   
   return self;
 }
+
+PHASE(Using)
 
 - setText: (const char *)text
 {

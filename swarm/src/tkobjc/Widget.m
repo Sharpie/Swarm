@@ -10,6 +10,8 @@
 
 @implementation Widget
 
+PHASE(Creating)
+
 - setParent: (Widget *)p
 {
   if (parent == 0)
@@ -19,7 +21,8 @@
     }
   else
     {
-      [InvalidCombination raiseEvent: "It is an error to reset a Widget's parent\n"];
+      [InvalidCombination raiseEvent:
+                            "It is an error to reset a Widget's parent\n"];
       return nil;
     }
 }  
@@ -27,7 +30,8 @@
 - createEnd
 {
   if (parent == nil)
-    {				  // no parent, make a frame
+    { 
+      // no parent, make a frame
       Frame *defaultFrame;
       defaultFrame = [Frame create: [self getZone]];
       [self setParent: defaultFrame];
@@ -41,179 +45,6 @@
 + createParent: (Widget *)p
 {
   return [[[self createBegin: [p getZone]] setParent: p] createEnd];
-}
-
-// this is the name of the Tk widget eg: .foo.bar
-- (const char *)getWidgetName
-{
-  return widgetName;
-}
-
-- (Widget *)getParent
-{
-  return parent;
-}
-
-// whee, recursion! The widget with no parent is the toplevel.
-- (Widget *)getTopLevel
-{
-  if (parent == nil)
-    return self;
-  else
-    return [parent getTopLevel];
-}
-
-
-- (const char *)getWindowGeometry
-{
-  [globalTkInterp eval: "wm geometry %s", [[self getTopLevel] getWidgetName]];
-  return [globalTkInterp result];
-}
-
-// ugh, repeated code here for sscanf. Too bad C doesn't allow multiple
-// return values.
-- (unsigned)getWidth
-{
-  unsigned w, h;
-  int x, y;
-  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
-    [WarningMessage raiseEvent: "Widget - invalid geometry"];
-  return w;
-}
-
-- (unsigned)getHeight
-{
-  unsigned w, h;
-  int x, y;
-  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
-    [WarningMessage raiseEvent: "Widget - invalid geometry"];
-  return h;
-}
-
-- (int)getPositionX
-{
-  unsigned w, h;
-  int x, y;
-  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
-    [WarningMessage raiseEvent: "Widget - invalid geometry"];
-  return x;
-}
-
-- (int)getPositionY
-{
-  unsigned w, h;
-  int x, y;
-  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
-    [WarningMessage raiseEvent: "Widget - invalid geometry"];
-  return y;
-}
-
-// This really shouldn't be used to set width/height.
-- setWindowGeometry: (const char *)s
-{
-  [globalTkInterp eval: "wm geometry %s \"%s\"",
-		  [[self getTopLevel] getWidgetName], s];
-  return self;
-}
-
-- setWidth: (unsigned)w
-{
-  [globalTkInterp eval: "%s configure -width %u", widgetName, w];
-  return self;
-}
-
-- setHeight: (unsigned)h
-{
-  [globalTkInterp eval: "%s configure -height %u", widgetName, h];
-  return self;
-}
-
-- setWidth: (unsigned)w Height: (unsigned)h
-{
-  return [[self setWidth: w] setHeight: h];
-}
-
-- setPositionX: (int)x Y: (int)y
-{
-  char s[128];
-
-  sprintf(s, "%+d%+d", x, y);
-  return [self setWindowGeometry: s];
-}
-
-
-- setWindowTitle: (const char *)s
-{
-  [globalTkInterp eval: "wm title %s \"%s\"", 
-		  [[self getTopLevel] getWidgetName], s];
-  return self;
-}
-
-- pack
-{
-  tkobjc_pack (self);
-  return self;
-}
-
-- packWith: (const char *)c
-{
-  [globalTkInterp eval: "pack %s %s;", widgetName, c];
-  return self;
-}
-
-- packToRight: widget
-{
-  [globalTkInterp eval: "pack %s %s -side right",
-                  [self getWidgetName],
-                  [widget getWidgetName]];
-  return self;
-}
-
-- packBeforeAndFillLeft: widget expand: (BOOL)expandFlag
-{
-  [globalTkInterp eval: "pack %s -before %s -side left -fill both -expand %d",
-		  [self getWidgetName],
-		  [widget getWidgetName],
-                  (int)expandFlag];
-  return self;
-}
-
-- packFillLeft: (BOOL)expandFlag
-{
-  [globalTkInterp eval: "pack %s -side left -fill both -expand %d",
-		  [self getWidgetName],
-                  (int)expandFlag];
-  return self;
-}
-
-- packFill
-{
-  [globalTkInterp eval: "pack %s -fill both -expand 0",
-		  [self getWidgetName]];
-  return self;
-}
-
-- packForgetAndExpand
-{
-  [globalTkInterp eval: "pack forget %s",
-                  [self getWidgetName]];
-  [globalTkInterp eval:  "pack %s -expand true -fill both",
-                  [self getWidgetName]];
-  return self;
-}
-
-- unpack
-{
-  [NotImplemented raiseEvent];
-  return self;
-}
-
-- setActiveFlag: (BOOL)activeFlag
-{
-  [globalTkInterp eval: "%s configure -state %s",
-                  [self getWidgetName],
-                  activeFlag ? "normal" : "disabled"];
-  return self;
 }
 
 // fill in the "parent" and "name" fields for a widget, based on algorithm.
@@ -250,12 +81,210 @@ makeWidgetName (const char *parentWidgetName, id newWidget)
 - setWidgetNameFromParent: theParent
 {
   widgetName = makeWidgetName ([theParent getWidgetName], self);
+
   return self;
 }
 
 - setWidgetNameFromParentName: (const char *)theParentName
 {
   widgetName = makeWidgetName (theParentName, self);
+
+  return self;
+}
+
+PHASE(Using)
+
+// this is the name of the Tk widget eg: .foo.bar
+- (const char *)getWidgetName
+{
+  return widgetName;
+}
+
+- (Widget *)getParent
+{
+  return parent;
+}
+
+// whee, recursion! The widget with no parent is the toplevel.
+- (Widget *)getTopLevel
+{
+  if (parent == nil)
+    return self;
+  else
+    return [parent getTopLevel];
+}
+
+- (const char *)getWindowGeometry
+{
+  [globalTkInterp eval: "wm geometry %s", [[self getTopLevel] getWidgetName]];
+  return [globalTkInterp result];
+}
+
+// ugh, repeated code here for sscanf. Too bad C doesn't allow multiple
+// return values.
+- (unsigned)getWidth
+{
+  unsigned w, h;
+  int x, y;
+
+  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
+    [WarningMessage raiseEvent: "Widget - invalid geometry"];
+
+  return w;
+}
+
+- (unsigned)getHeight
+{
+  unsigned w, h;
+  int x, y;
+
+  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
+    [WarningMessage raiseEvent: "Widget - invalid geometry"];
+
+  return h;
+}
+
+- (int)getPositionX
+{
+  unsigned w, h;
+  int x, y;
+
+  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
+    [WarningMessage raiseEvent: "Widget - invalid geometry"];
+
+  return x;
+}
+
+- (int)getPositionY
+{
+  unsigned w, h;
+  int x, y;
+
+  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
+    [WarningMessage raiseEvent: "Widget - invalid geometry"];
+
+  return y;
+}
+
+// This really shouldn't be used to set width/height.
+- setWindowGeometry: (const char *)s
+{
+  [globalTkInterp eval: "wm geometry %s \"%s\"",
+		  [[self getTopLevel] getWidgetName], s];
+
+  return self;
+}
+
+- setWidth: (unsigned)w
+{
+  [globalTkInterp eval: "%s configure -width %u", widgetName, w];
+
+  return self;
+}
+
+- setHeight: (unsigned)h
+{
+  [globalTkInterp eval: "%s configure -height %u", widgetName, h];
+
+  return self;
+}
+
+- setWidth: (unsigned)w Height: (unsigned)h
+{
+  return [[self setWidth: w] setHeight: h];
+}
+
+- setPositionX: (int)x Y: (int)y
+{
+  char s[128];
+
+  sprintf(s, "%+d%+d", x, y);
+
+  return [self setWindowGeometry: s];
+}
+
+
+- setWindowTitle: (const char *)s
+{
+  [globalTkInterp eval: "wm title %s \"%s\"", 
+		  [[self getTopLevel] getWidgetName], s];
+
+  return self;
+}
+
+- pack
+{
+  tkobjc_pack (self);
+
+  return self;
+}
+
+- packWith: (const char *)c
+{
+  [globalTkInterp eval: "pack %s %s;", widgetName, c];
+
+  return self;
+}
+
+- packToRight: widget
+{
+  [globalTkInterp eval: "pack %s %s -side right",
+                  [self getWidgetName],
+                  [widget getWidgetName]];
+
+  return self;
+}
+
+- packBeforeAndFillLeft: widget expand: (BOOL)expandFlag
+{
+  [globalTkInterp eval: "pack %s -before %s -side left -fill both -expand %d",
+		  [self getWidgetName],
+		  [widget getWidgetName],
+                  (int)expandFlag];
+
+  return self;
+}
+
+- packFillLeft: (BOOL)expandFlag
+{
+  [globalTkInterp eval: "pack %s -side left -fill both -expand %d",
+		  [self getWidgetName],
+                  (int)expandFlag];
+
+  return self;
+}
+
+- packFill
+{
+  [globalTkInterp eval: "pack %s -fill both -expand 0",
+		  [self getWidgetName]];
+
+  return self;
+}
+
+- packForgetAndExpand
+{
+  [globalTkInterp eval: "pack forget %s",
+                  [self getWidgetName]];
+  [globalTkInterp eval:  "pack %s -expand true -fill both",
+                  [self getWidgetName]];
+
+  return self;
+}
+
+- unpack
+{
+  [NotImplemented raiseEvent];
+
+  return self;
+}
+
+- setActiveFlag: (BOOL)activeFlag
+{
+  [globalTkInterp eval: "%s configure -state %s",
+                  [self getWidgetName],
+                  activeFlag ? "normal" : "disabled"];
+
   return self;
 }
 

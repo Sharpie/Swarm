@@ -40,6 +40,7 @@ tkobjc_configureWidgetToBeep (id widget)
                   [widget getWidgetName]];
 }
 
+PHASE(Creating)
 
 - createEnd
 {

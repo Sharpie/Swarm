@@ -10,6 +10,8 @@
 
 @implementation InputWidget
 
+PHASE(Creating)
+
 // you shouldn't instantiate this yourself.
 - createEnd
 {
@@ -31,6 +33,8 @@ relink (const char *variableName, void *p, int type)
   tkobjc_unlinkVar (variableName);
   tkobjc_linkVar (variableName, p, type);
 }
+
+PHASE(Using)
 
 - linkVariableInt: (int *)p
 {

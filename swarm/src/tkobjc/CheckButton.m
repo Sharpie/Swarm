@@ -14,6 +14,8 @@ stringIsFalse (const char *s)
 
 @implementation CheckButton
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];
@@ -25,6 +27,8 @@ stringIsFalse (const char *s)
 		  variableName];
   return self;
 }
+
+PHASE(Using)
 
 - setBoolValue: (BOOL)v
 {

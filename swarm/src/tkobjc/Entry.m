@@ -8,6 +8,8 @@
 
 @implementation Entry
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];
@@ -20,6 +22,7 @@
   return self;
 }
 
+PHASE(Using)
 
 - setValue: (const char *)t
 {

@@ -17,6 +17,8 @@
 
 @implementation Raster
 
+PHASE(Creating)
+
 + createBegin: aZone
 {
   Raster *obj = [super createBegin: aZone];
@@ -64,10 +66,7 @@
   return self;
 }
 
-- (id <Colormap>)getColormap
-{
-  return colormap;
-}
+PHASE(Using)
 
 // This widget won't work without this initialized.
 - setColormap: (id <Colormap>)c
@@ -82,6 +81,11 @@
   tkobjc_raster_setColormap (self);
 
   return self;
+}
+
+- (id <Colormap>)getColormap
+{
+  return colormap;
 }
 
 // Set the width for the widget. We maintain our own values of this, to
@@ -207,3 +211,5 @@
 }
 
 @end
+
+

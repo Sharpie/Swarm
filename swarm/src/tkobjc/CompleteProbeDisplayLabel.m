@@ -28,6 +28,8 @@ tkobjc_bindButton3ForCompleteProbeDisplay (id widget,
 
 @implementation CompleteProbeDisplayLabel
 
+PHASE(Creating)
+
 - setProbedObject: theProbedObject
 {
   probedObject = theProbedObject;

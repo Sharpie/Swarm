@@ -11,6 +11,8 @@
 
 @implementation Frame
 
+PHASE(Creating)
+
 - setBorderWidth: (int)theBorderWidth
 {
   borderWidth = borderWidth;
@@ -50,6 +52,8 @@
 
   return self;
 }
+
+PHASE(Using)
 
 - assertPosition
 {

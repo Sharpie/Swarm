@@ -7,6 +7,8 @@
 
 @implementation CompositeItem
 
+PHASE(Using)
+
 - moveX: (long)delta_x Y: (long)delta_y
 {
   [self subclassResponsibility: @selector (moveX:Y:)];
