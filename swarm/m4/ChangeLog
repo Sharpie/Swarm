@@ -1,6 +1,6 @@
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* acjdk.m4: Add hp-ux to JDK JAVAINCLUDES.
+	* acjdk.m4: Add hp-ux and alpha to JDK JAVAINCLUDES.
 
 1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

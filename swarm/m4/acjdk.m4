@@ -26,6 +26,8 @@ else
     JAVAINCLUDES="-I$jdkdir/include"
     if test -f $jdkdir/include/solaris/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/solaris"
+    elif test -f $jdkdir/include/alpha/jni_md.h; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/alpha"
     elif test -f $jdkdir/include/hp-ux/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkdir/include/hp-ux"
     elif test -f $jdkdir/include/winnt/jni_md.h; then  # WebObjects
