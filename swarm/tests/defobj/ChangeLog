@@ -1,3 +1,9 @@
+2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* forwarding.m: Include defalloc.h>
+	([BaseObject -forward::]): Put FArguments and FCall in component
+	zone, drop with dropAllocations:.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

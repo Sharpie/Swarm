@@ -1,6 +1,7 @@
 #import <simtools.h> // initSwarmBatch
 #import <defobj.h> // FArguments, FCall
 #import <defobj/Create.h>
+#import <defobj/defalloc.h> // getCZone, getZone
 #include <misc.h> // printf, stpcpy, strlen
 #include <objc/mframe.h>
 
@@ -238,7 +239,7 @@ strip_type_sig (const char *sig)
   types_t val;
   const char *stripped_type;
 
-  fa = [FArguments createBegin: globalZone];
+  fa = [FArguments createBegin: getCZone (getZone (self))];
 
   if (!type)
     {
@@ -268,7 +269,7 @@ strip_type_sig (const char *sig)
   }
   fa = [fa createEnd];
 
-  fc = [FCall createBegin: scratchZone];
+  fc = [FCall createBegin: getCZone (getZone (self))];
   fc = [fc setArguments: fa];
   fc = [fc setMethod: aSel inObject: delegateObject];
   fc = [fc createEnd];
@@ -281,8 +282,8 @@ strip_type_sig (const char *sig)
     retval_t retValBuf = alloca (MFRAME_RESULT_SIZE);
     retval_t ret = [fc getRetVal: retValBuf buf: &retBuf];
    
-    [fc drop];
-    [fa drop];
+    [fc dropAllocations: YES];
+    [fa dropAllocations: YES];
     
     return ret;
   }
