@@ -1,3 +1,7 @@
+1998-07-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h (_GraphElement): New method -setWidth:.
+
 1998-07-01  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* gui.h (Widget): Rename setPositionX:Y: to setX:Y:.  Add new

@@ -248,16 +248,24 @@ CREATING
 USING
 //M: Set the label for the element.
 - setLabel: (const char *)label;
+
 //M: Set the color for the element.
 - setColor: (const char *)colorName;
+
 //M: Set the dash style, 0 means solid.
 - setDashes: (int)dashesVal;
+
 //M: Set the symbol for the element.
 - setSymbol: (const char *)symbol;
+
 //M: Add a new data point.
 - addX: (double)x Y: (double)y;
+
 //M: Clear the data to be displayed.
 - resetData;
+
+//M: Set the line width of the element.
+- setWidth: (unsigned)w;
 @end
 
 @protocol GraphElement <_GraphElement, SwarmObject>
@@ -296,6 +304,7 @@ USING
 //D: plot. GraphElements can be configured for appearance, and data can be
 //D: added to the element to draw.
 @end
+
 
 @protocol _Histogram
 CREATING
