@@ -40,7 +40,8 @@ ffi_type *ffi_types[FCALL_TYPE_COUNT] = { &ffi_type_void,
                                           &ffi_type_pointer,
                                           &ffi_type_pointer, 
                                           &ffi_type_pointer, 
-                                          &ffi_type_pointer };
+                                          &ffi_type_pointer,
+                                          &ffi_type_pointer};
 #endif
 
 
@@ -50,7 +51,8 @@ const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "X",
   "Ljava/lang/String;", 
   "Lswarm/Selector;",
-  "Ljava/lang/Object;"
+  "Ljava/lang/Object;",
+  "Ljava/lang/String;"
 };
 
 char objc_types[FCALL_TYPE_COUNT] = {
@@ -68,7 +70,8 @@ char objc_types[FCALL_TYPE_COUNT] = {
   _C_ID,
   _C_CHARPTR,
   _C_SEL,
-  '\001'
+  '\001',
+  '\002'
 };
 
 size_t
@@ -135,6 +138,7 @@ PHASE(Creating)
           string = (*jniEnv)->NewStringUTF (jniEnv, str);
           size = sizeof (jstring);
           value = &string;
+          type = fcall_type_jstring;
         }
       else
         size = fcall_type_size (type);
@@ -246,8 +250,12 @@ get_fcall_type_for_objc_type (char objcType)
   javaSignatureLength += strlen (java_type_signature[type]);
 
   if (javaFlag)
-    if (type == fcall_type_object)
-      type = fcall_type_jobject;
+    {
+      if (type == fcall_type_object)
+        type = fcall_type_jobject;
+      else if (type == fcall_type_string)
+        type = fcall_type_jstring;
+    }
   
   switch (type)
     {
@@ -294,6 +302,9 @@ get_fcall_type_for_objc_type (char objcType)
       result = NULL;
       break;
     case fcall_type_jobject:
+      result = &resultVal.object;
+      break;
+    case fcall_type_jstring:
       result = &resultVal.object;
       break;
     default:

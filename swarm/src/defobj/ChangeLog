@@ -1,3 +1,23 @@
+1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m: Include directory.h.
+	(defobj_init_java_call_tables): Add static and non-statci jstring
+	entries.
+	([FCall_c -getRetVal:buf:]): Handle jobject and jstring
+	return conversions (for use with -forward::).
+
+	* FArguments.m (ffi_types): Add ffi_type_pointer for
+	fcall_type_jstring.
+	(java_type_signature): Add Ljava/lang/String; for jstring.
+	(objc_types): Add placeholder for jstring.
+	([FArguments_c -_addArgument_:ofType:]): Convert fcall_type_string
+	to fcall_type_jstring in when javaFlag is set.
+	([FArguments_c -_setReturnType_:]): Likewise.  Set result to
+	`object' slot, like jobject.
+
+	* FArguments.h (FCALL_TYPE_COUNT): Increment.
+	(fcall_type_t): Add fcall_type_jstring.
+
 1999-04-23  Alex Lancaster  <alex@santafe.edu>
 
 	* internal.h: #import collections.h for OutputStream protocol.

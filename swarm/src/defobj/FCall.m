@@ -28,6 +28,7 @@ Library:      defobj
 #ifdef HAVE_JDK
 #include <jni.h>
 JNIEnv *jniEnv;
+#include <directory.h>
 #endif
 
 static void fillHiddenArguments (FCall_c *self);
@@ -79,6 +80,8 @@ defobj_init_java_call_tables (void *jEnv)
       FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_jobject] = 
       FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
+  java_static_call_functions[fcall_type_jstring] = 
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
 
   java_call_functions[fcall_type_void] = 
       FFI_FN ((*(JNIEnv *) jEnv)->CallVoidMethod);
@@ -108,6 +111,8 @@ defobj_init_java_call_tables (void *jEnv)
   java_call_functions[fcall_type_selector] = 
       FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_jobject] = 
+      FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
+  java_call_functions[fcall_type_jstring] = 
       FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
 }
 #endif
@@ -258,7 +263,7 @@ PHASE(Setting)
   methodName = (char *) mtdName;
   (jobject) fobject = obj;
 #else
-  java_not_available();
+  java_not_available ();
 #endif
   return self;
 }    
@@ -281,8 +286,8 @@ PHASE(Using)
 - (void)performCall
 {
 #ifndef USE_AVCALL
-  ffi_call(&cif, ffunction, fargs->result, fargs->argValues + 
-	   MAX_HIDDEN - fargs->hiddenArgumentCount);  
+  ffi_call (&cif, ffunction, fargs->result, fargs->argValues + 
+            MAX_HIDDEN - fargs->hiddenArgumentCount);  
 #else
   abort ();
 #endif
@@ -306,7 +311,15 @@ PHASE(Using)
   float return_float (void) { return res->_float; }
   double return_double (void) { return res->_double; }
   id return_object (void) { return res->object; }
-  jobject return_jobject (void) { return (jobject) res->object; }
+  id return_jobject (void)
+    {
+      return JFINDOBJC (jniEnv, (jobject) res->object);
+    }
+  const char *return_jstring (void)
+    {
+      return java_copy_string (jniEnv, (jstring) res->object);
+    }
+
   void return_void (void) { return; }
 
   retval_t apply_uchar (void)
@@ -359,6 +372,11 @@ PHASE(Using)
       void *args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_jobject, args, sizeof (void *));
     }
+  retval_t apply_jstring (void)
+    {
+      void *args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_jstring, args, sizeof (void *));
+    }
   
   switch (fargs->returnType)
     {
@@ -385,6 +403,8 @@ PHASE(Using)
     case fcall_type_object:
       return apply_object ();
     case fcall_type_jobject:
+      return apply_jobject ();
+    case fcall_type_jstring:
       return apply_jobject ();
     default:
       abort ();
@@ -430,7 +450,18 @@ PHASE(Using)
       ptr = &buf->string;
       break;
     case fcall_type_jobject:
+      buf->object = JFINDOBJC (jniEnv, (jobject) buf->object);
       ptr = &buf->object;
+      break;
+    case fcall_type_jstring:
+      {
+        const char *newString =
+          java_copy_string (jniEnv, (jstring) buf->object);
+        
+        JUPDATE (jniEnv, (jstring) buf->object, (id) newString);
+        buf->string = newString;
+      }
+      ptr = &buf->string;
       break;
     default:
       abort ();

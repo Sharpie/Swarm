@@ -14,14 +14,14 @@ Library:      defobj
 #include <objc/objc.h> // retval_t
 
 
-#define FCALL_TYPE_COUNT 15 
+#define FCALL_TYPE_COUNT 16
 
 typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
               fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
               fcall_type_sint, fcall_type_ulong, fcall_type_slong,
               fcall_type_float, fcall_type_double, fcall_type_object,
               fcall_type_string, fcall_type_selector, 
-              fcall_type_jobject} fcall_type_t;
+              fcall_type_jobject, fcall_type_jstring } fcall_type_t;
 
 #define MAX_ARGS        5
 #define MAX_HIDDEN      3
