@@ -162,7 +162,7 @@ initModules (void)
 
   _obj_globalZone  = [Zone create: _obj_initZone];
   _obj_sessionZone = [Zone create: _obj_initZone];
-  _obj_scratchZone = [[Zone create: _obj_initZone] getComponentZone];
+  _obj_scratchZone = [Zone create: _obj_initZone];
 
   // initialize collections at the end (so that it can use Zones)
   _obj_initModule (_collections_); 

@@ -1123,7 +1123,9 @@ CREATING
 - addUnsignedLongLong: (unsigned long long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
-- setObjCReturnType: (char)type; 
+- addString: (const char *)value;
+- addObject: value;
+- setObjCReturnType: (char)type;
 - createEnd;
 USING
 - (void *)getResult;

@@ -1,5 +1,17 @@
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Program.m (initModules): Don't use a componentZone for scratchZone.
+
+	* FArguments.m (ADD_COMMON_TEST): Remove.
+	(ADD_PRIMITIVE): Use strlen (java_type_signature[fcall_type])
+	instead of 1.
+
+	* FArguments.[hm], defobj.h ([FArguments_c -addString:],
+	[FArguments_c -addObject:]): New methods.
+
+	* Zone.m ([Zone_c -freeIVars:]): Use componentZone of scratchZone
+	to avoid call to self when index is dropped.
+
 	* directory.m (get_base_class_name): New function.
 	(java_instantiate_using): Use it.  Tack on "Impl" after "U".
 	(java_directory_init): Accomodate Impl suffix.

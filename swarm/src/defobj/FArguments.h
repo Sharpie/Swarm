@@ -66,6 +66,8 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 - addUnsignedLongLong: (unsigned long long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
+- addString: (const char *)value;
+- addObject: value;
 - _setReturnType_: (fcall_type_t)type;
 - setObjCReturnType: (char)type;
 - createEnd;

@@ -204,9 +204,7 @@ get_fcall_type_for_objc_type (char objcType)
                ofType: get_fcall_type_for_objc_type (objcType)];
 }
 
-#define ADD_COMMON_TEST if (assignedArgumentCount == MAX_ARGS) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
-
-#define ADD_PRIMITIVE(fcall_type, type, value)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArgumentCount] = [[self getZone] allocBlock: fcall_type_size (fcall_type)]; argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount++] = value; }
+#define ADD_PRIMITIVE(fcall_type, type, value)  { javaSignatureLength += strlen (java_type_signature[fcall_type]); argValues[MAX_HIDDEN + assignedArgumentCount] = [[self getZone] allocBlock: fcall_type_size (fcall_type)]; argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount++] = value; }
 
 - addChar: (char)value
 {
@@ -277,6 +275,18 @@ get_fcall_type_for_objc_type (char objcType)
 - addDouble: (double)value
 {
   ADD_PRIMITIVE (fcall_type_double, double, value);
+  return self;
+}
+
+- addString: (const char *)value
+{
+  ADD_PRIMITIVE (fcall_type_string, const char *, value);
+  return self;
+}
+
+- addObject: value
+{
+  ADD_PRIMITIVE (fcall_type_object, id, value);
   return self;
 }
 
