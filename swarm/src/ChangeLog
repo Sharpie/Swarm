@@ -1,3 +1,8 @@
+2000-07-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* SwarmEnvironment.m ([SwarmEnvironment -dumpDirectory]): Disable
+	call if not HAVE_JDK.
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* SwarmEnvironment.[hm], swarm.h ([SwarmEnvironment

@@ -187,7 +187,9 @@ PHASE(Using)
 
 - (void)dumpDirectory
 {
+#ifdef HAVE_JDK
   swarm_directory_dump ();
+#endif
 }
 
 void
