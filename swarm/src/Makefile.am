@@ -1,6 +1,6 @@
 SUBDIRS = collections defobj activity \
 	objectbase \
-	tkobjc gui \
+	tclobjc tkobjc gui \
 	random \
 	simtools simtoolsgui \
 	analysis space \
