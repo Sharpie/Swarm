@@ -138,10 +138,10 @@ md_CHECK_POINTER_FMT
 
 AC_CHECK_LIB(dl,main)
 
-OLD_CFLAGS=$CFLAGS
+ac_save_CFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -fno-builtin"
 md_REPLACE_FUNCS(memcpy memset strcmp strlen)
-CFLAGS=$OLD_FLAGS
+CFLAGS=$ac_save_CFLAGS
 
 md_REPLACE_FUNCS(memchr realpath stpcpy strchr strdup  strncmp strndup strnlen strpbrk strsep)
 

@@ -37,6 +37,13 @@
    I think 2. is better. */
 #define OBJECTS_AS_TCL_COMMANDS 0
 
+#define USE_LIBFFI
+#ifdef USE_LIBFFI
+#include <ffi.h>
+#undef PACKAGE
+#undef VERSION
+#endif
+
 #include <swarmconfig.h>
 
 #include "tclObjc.h"
@@ -52,19 +59,19 @@
 
 #define ATDELIMCHAR '@'
 
-id getObjectReturn(void *);
-unsigned getPointerReturn(void *);
-int getIntegerReturn(void *);
-unsigned int getUIntegerReturn(void *);
-short getShortReturn(void *);
-unsigned short getUShortReturn(void *);
-long getLongReturn(void *);
-unsigned long getULongReturn(void *);
-char getCharReturn(void *);
-unsigned char getUCharReturn(void *);
-char * getStringReturn(void *);
-float getFloatReturn(void *);
-double getDoubleReturn(void *);
+static id getObjectReturn(void *);
+static void *getPointerReturn(void *);
+static int getIntegerReturn(void *);
+static unsigned int getUIntegerReturn(void *);
+static short getShortReturn(void *);
+static unsigned short getUShortReturn(void *);
+static long getLongReturn(void *);
+static unsigned long getULongReturn(void *);
+static char getCharReturn(void *);
+static unsigned char getUCharReturn(void *);
+static char *getStringReturn(void *);
+static float getFloatReturn(void *);
+static double getDoubleReturn(void *);
 
 #include <objc/objc-api.h>
 #include <objc/encoding.h>
@@ -264,7 +271,12 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     arglist_t argframe = __builtin_apply_args();
 # endif
     char *datum;
+#ifndef USE_LIBFFI
     void *retframe = NULL ;
+#else
+    long long ret;
+    void *retframe = &ret;
+#endif
 
     int argsize = method_get_sizeof_arguments(method);
     char argptr_buffer[argsize];
@@ -541,10 +553,105 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
           break ;
       }
     } else {
+#ifndef USE_LIBFFI
+      retframe = __builtin_apply ((apply_t)method->method_imp, 
+                                  (void*)argframe, 
+                                  argsize);
+#else
+      struct alist
+        {
+          ffi_type **type_pos;
+          void **value_pos;
+        };
+      
+      typedef struct alist *av_alist;
+      struct alist alist_buf;
+      av_alist alist = &alist_buf;   
+      int acnt = method_get_number_of_arguments (method);
+      ffi_type *types_buf[acnt];
+      void *values_buf[acnt];
+      ffi_cif cif;
+      ffi_type *fret; 
 
-      retframe = __builtin_apply((apply_t)method->method_imp, 
-	  		       (void*)argframe, 
-			       argsize);
+      void push_argument (char type, void *obj)
+        {
+          switch (type)
+            {
+            case _C_ID:
+              *alist->type_pos = &ffi_type_pointer;
+              break;
+              
+            case _C_SEL:
+              *alist->type_pos = &ffi_type_pointer;
+              break;
+              
+            case _C_UCHR:
+              *alist->type_pos = &ffi_type_uchar;
+              break;
+              
+            case _C_INT:
+              *alist->type_pos = &ffi_type_sint;
+              break;
+              
+            case _C_FLT:
+              *alist->type_pos = &ffi_type_float;
+              break;
+              
+            case _C_DBL:
+              *alist->type_pos = &ffi_type_double;
+              break;
+              
+            case _C_CHARPTR:
+              *alist->type_pos = &ffi_type_pointer;
+              break;
+              
+            default:
+              abort ();
+            }
+          alist->type_pos++;
+          *alist->value_pos = obj;
+          alist->value_pos++; 
+        }
+      
+      for (argnum = 0,
+	 datum = method_get_first_argument (method, argframe, &type);
+	 datum;
+	 datum = method_get_next_argument (argframe, &type),
+	 ({argnum++; while (datum && !argvIsMethodArg[argnum]) argnum++;}))
+      {
+        push_argument (*type, datum);
+      }
+
+      switch (*(method->method_types))
+        {
+        case _C_ID:
+          fret = &ffi_type_pointer;
+          break;
+        case _C_SEL:
+          fret = &ffi_type_pointer;
+          break;
+        case _C_UCHR:
+          fret = &ffi_type_uchar;
+          break;
+        case _C_INT:
+          fret = &ffi_type_sint;
+          break;
+        case _C_FLT:
+          fret = &ffi_type_float;
+          break;
+        case _C_DBL:
+          fret = &ffi_type_double;
+          break;
+        case _C_CHARPTR:
+          fret = &ffi_type_pointer;
+          break;
+        default:
+          abort ();
+        }
+      if (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, acnt, fret, types_buf) != FFI_OK)
+        abort ();  
+      ffi_call (&cif, (void *)method->method_imp, retframe, values_buf);  
+#endif
     }
 
     if (debug_printing)
@@ -582,7 +689,11 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
         if(do_special_hack)
   	  sprintf(resultString, "0x%x", returnValue);
         else
-	  sprintf(resultString, "0x%x", getPointerReturn(retframe));
+#ifdef POINTER_FMT_HEX_PREFIX
+	  sprintf(resultString, "%p", getPointerReturn(retframe));
+#else
+	  sprintf(resultString, "0x%p", getPointerReturn(retframe));
+#endif
 	break;
       case _C_INT:
         if(do_special_hack)
@@ -655,56 +766,134 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 // versions of libtclObjc
 //
 
-id getObjectReturn(void * p) {
-  __builtin_return(p);
+static id
+getObjectReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(id *)p;
+#endif
 }
 
-unsigned getPointerReturn(void * p) {
-  __builtin_return(p);
+static void *
+getPointerReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(void **)p;
+#endif
 }
 
-int getIntegerReturn(void * p) {
-  __builtin_return(p);
+static int
+getIntegerReturn (void * p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(int *)p;
+#endif
 }
 
-unsigned int getUIntegerReturn(void * p) {
-  __builtin_return(p);
+static unsigned
+getUIntegerReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(unsigned *)p;
+#endif
 }
 
-short getShortReturn(void * p) {
-  __builtin_return(p);
+static short
+getShortReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(short *)p;
+#endif
 }
 
-unsigned short getUShortReturn(void * p) {
-  __builtin_return(p);
+static unsigned short
+getUShortReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(unsigned short *)p;
+#endif
 }
 
-long getLongReturn(void * p) {
-  __builtin_return(p);
+static long
+getLongReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(long *)p;
+#endif
 }
 
-unsigned long getULongReturn(void * p) {
-  __builtin_return(p);
+static unsigned long
+getULongReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(unsigned long *)p;
+#endif
 }
 
-char getCharReturn(void * p) {
-  __builtin_return(p);
+static char
+getCharReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(char *)p;
+#endif
 }
 
-unsigned char getUCharReturn(void * p) {
-  __builtin_return(p);
+static unsigned char
+getUCharReturn (void *p)
+{
+#ifndef USE_LIBFFI
+  __builtin_return (p);
+#else
+  return *(unsigned char *)p;
+#endif
 }
 
-char * getStringReturn(void * p) {
+static char *
+getStringReturn (void *p)
+{
+#ifndef USE_LIBFFI
   __builtin_return(p);
+#else
+  return *(unsigned char **)p;
+#endif
 }
 
-float getFloatReturn(void * p) {
+static float
+getFloatReturn (void *p)
+{
+#ifndef USE_LIBFFI
   __builtin_return(p);
+#else
+  return *(float *)p;
+#endif
 }
 
-double getDoubleReturn(void * p) {
+static double
+getDoubleReturn (void *p)
+{
+#ifndef USE_LIBFFI
   __builtin_return(p);
+#else
+  return *(double *)p;
+#endif
 }
   
 void tclObjc_registerObjectWithName(Tcl_Interp *interp, 
