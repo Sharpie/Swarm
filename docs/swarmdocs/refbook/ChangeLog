@@ -1,5 +1,12 @@
 1999-01-13  Alex Lancaster  <alex@santafe.edu>
 
+	* refmeta.sgml: Remove old LEGALNOTICE text.  Refer the
+	newly-defined {doc,swarm}-legalnotice entities from global.ent.
+	Move CORPAUTHOR inside BOOKBIBLIO.
+
+	* gpl-app.sgml: Refer to the Swarm documentation as being under
+	the terms of the GPL.
+
 	* ref00a.sgml (SECT1): Add porting notes for Swarm 1.4.
 
 1999-01-07  Alex Lancaster  <alex@santafe.edu>
