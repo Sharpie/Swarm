@@ -9,7 +9,8 @@ BuildRoot: /tmp/swarm-root
 BuildPrereq: kaffe jikes hdf5
 Icon: swarm.xpm
 Packager: Paul Johnson <pauljohn@ukans.edu>
-Distribution: Swarm Development Group
+Distribution: Swarm Distribution
+Vendor: Swarm Development Group
 URL: http://www.santafe.edu/projects/swarm
 Requires: egcs-objc 
 Requires: libpng
@@ -110,7 +111,7 @@ Summary: Adds Java support to base swarm package using kaffe
 Group: Development/Libraries
 Requires: kaffe = 1.0b4-2
 Requires: jikes = 0.47
-Requires: swarm-base
+Requires: swarm-base = $RPM_PACKAGE_VERSION
 %description kaffe
 swarm-kaffe adds Java support to your base Swarm package (either swarm
 or swarm-hdf5).  Kaffe is a freely-redistributable implementation of
