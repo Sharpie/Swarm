@@ -2,16 +2,14 @@
   <title>Checking on a Swarm's progress: The Observer</title>
 
   <sect2>
-    <title>As They Say in Tommy, "See Me, Feel Me..."  <comment>Not a
-      big Who fan... ;-) Can we think of a better title?  - AKL
-      1999-05-06</comment> </title>
+    <title>Monitoring a Swarm </title>
 
     <para> When a Swarm program is running in the GUI mode, what the
       user sees is controlled by the top level Swarm that we often
       call the observer swarm.  The observer swarm adopts the
       <classname>GUISwarm</classname> protocol, which means that it
       has all of the features of a Swarm plus some "optional added
-      extras."  The file that contains the source that controlls the
+      extras."  The file that contains the source that controls the
       user interface for a specific project may be called simply
       <filename>ObserverSwarm.m</filename>.  In many examples, authors
       have customized the name of the file to include the name of
@@ -66,7 +64,7 @@
               Swarm provides a set of tools for presenting information
               in graphic format.  Two of the most common sorts are the
               histogram, which shows the relative frequency of various
-              values occuring in a stream of data, and a line graph
+              values occurring in a stream of data, and a line graph
               which displays the changes over time in one or more
               variables as a simulation progresses.  These
               capabilities are provided by the Swarm protocols
@@ -192,7 +190,7 @@ forestRaster = [forestRaster createEnd];
               <classname>ZoomRaster</classname> object is created, and
               the macro
               <function>SET_WINDOW_GEOMETRY_RECORD_NAME</function> is
-              executed.  This means that, when the use clicks
+              executed.  This means that, when the user clicks
               <guibutton>save</guibutton> on the control panel, the
               window position of the <varname>forestRaster</varname>
               object will be saved in a file in the user's account.
@@ -244,9 +242,9 @@ forestRaster = [forestRaster createEnd];
             <application>Arborgames</application> example, the
             <varname>forestRaster</varname> is used by an object
             called <varname>treeDisplay</varname> which connects the
-            agents in the <classname>Grid2d</classname> (which is
-            passed through from the
-            <varname>forestModelSwarm</varname>).
+            agents in the <classname>Grid2d</classname> to the graphical 
+display.
+
             
             <programlisting>
 treeDisplay = [Object2dDisplay createBegin: [self getZone]];
@@ -325,7 +323,7 @@ treeDisplay = [treeDisplay createEnd];
         <listitem>
           <formalpara>
             <title>Tell the <classname>ZoomRaster</classname> 
-             Where to Send Clicks</title>
+             Where to Send Mouse Clicks</title>
 
             <para>
               A <classname>ZoomRaster</classname> object is highly
@@ -369,7 +367,7 @@ treeDisplay = [treeDisplay createEnd];
           </formalpara>
 
           <para>
-            In a simple model, in which we only have one
+            In a simple model, one in which we only have one
             <classname>ZoomRaster</classname> to update, then the
             schedule could be as simple. In the
             <function>buildActions</function> part of the code, one
@@ -443,7 +441,7 @@ displayActions = [ActionGroup create: self];
 }
             </programlisting>
 
-            Trees don't move (so far as we know), so the only need to
+            Trees don't move (so far as we know), so we only need to
             update this tree's position arises when the tree dies. The
             <filename>Forest.m</filename> file creates a class of
             methods common to the different kinds of forests, and then
@@ -484,6 +482,74 @@ displayActions = [ActionGroup create: self];
       </orderedlist>
     </para>
   </sect2>
+
+  <sect2>
+    <title>Displaying Results in Graphs</title>
+
+    <para>The most commonly used graphs in Swarm are histograms, which
+    display the frequency distribution of a variable, and line plots,
+    which show changes over time in real-valued numbers.  There are
+    some little details that arise in some applications, but for the
+    most part creating graphs is easy. </para>
+
+
+
+    <para>
+ The Swarm protocol that can create line plots is called
+EZGraph.  The essential steps require the user to create a graph
+object, and optionally to assign labels for various display
+attributes.  For example, returning to the Arborgames simulation, one
+can create a graph showing the numbers of trees of various sorts.  The
+first step is to create the graph object, in this case called
+"popGraph."
+  </para>
+
+<programlisting> 
+popGraph = [EZGraph createBegin: [self getZone]];
+SET_WINDOW_GEOMETRY_RECORD_NAME (popGraph); [popGraph setTitle:
+"population"]; [popGraph setAxisLabelsX: "time" Y: "population"];
+popGraph = [popGraph createEnd];
+</programlisting>
+
+<para>
+After the EZGraph object is in existence, then it can be instructed to prepare itself to plot some lines.  A stream of numbers is thought of as a sequence, and internal to the Swarm library there is an object type called sequence that is used by the graph tools to keep track of the numbers they are to present. </para>
+
+<para>
+When the graph object is told to create the sequence, it can be told to formulate a summary statistic and plot it. In the Heatbugs simulation, the aim is to plot a summary of the unhappiness of all bugs.  The average level of unhappiness of all bugs is the chosen indicator.  Here is a code excerpt that shows how an object called unhappyGraph is told to create a sequence for plotting:
+
+<programlisting> 
+[unhappyGraph createAverageSequence: "unhappiness"
+                         withFeedFrom: [heatbugModelSwarm getHeatbugList]
+                          andSelector: M(getUnhappiness)];
+
+</programlisting>    
+This uses the createAverageSequence:withFeedFrom:andSelector method.  Note that the sequence is assigned the name "unhappiness".  The quotation marks are needed because the name of the sequence is a character string.  The unhappyGraph is told to take data from the list of bugs, which is found by asking the heatbugModelSwarm to get the list.  Each bug in the list responds to a method getUnhappiness.  The combined effect of these elements is to create the sequence which will collect the average values.
+</para>
+
+<para>
+We hasten to point out that not all sequences need be averages.  Output from individual objects can be plotted as well.  For an example, we return to the Arborgames EZGraph object called "popGraph".  The population graph is intended to show how numbers for each sort of tree. There is a Swarm list of all species called "speciesList."  The following code iterates through the list of all species and tells the popGraph to create a sequence for each one.   
+<programlisting>
+   for (i = 0;i < speciesNumber; i++)
+        {
+          id aSpecies;
+          aSpecies = [speciesList atOffset: i];
+          [popGraph createSequence: [aSpecies getSpeciesName]
+                    withFeedFrom: aSpecies
+                    andSelector: M(getCount)];
+        }
+</programlisting>
+ Each species is able to give its name (respond to getSpeciesName) and provide a count of the number of trees (respond to getCount). If some kind of mistake occurs, say a different kind of object is added into the speciesList, then the program will crash during the run (and there probably will also be a compiler warning). 
+</para>
+
+<para>
+The work to this point has created the graph object, and told it what to graph, but it does not cause the graph to be presented as the simulation runs.  In order to see the plots, the commands have to be part of the observer swarm's schedule'd activity.  As it turns out, an EZGraph has a very simple method called "step" that can do the necessary work, so somewhere in the buildActions method, a command such as this is required:
+<programlisting>
+    [displayActions createActionTo: popGraph message: M(step)];
+</programlisting>
+This is often part of an ActionGroup that is scheduled to update all graphs and ZoomRasters.
+</para>
+
+</sect2>
 
 </sect1>
 
