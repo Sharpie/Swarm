@@ -39,6 +39,14 @@ public class Glen2d extends Agent2d {
   }
 
   public void stepAgent () {
+    Agent2d neighbor = getNeighbor (4);
+    if (neighbor != null) {
+      if (!neighbor.frob ()) {
+        moveAgent (neighbor.x - x, neighbor.y - y);
+        return;
+      }
+    }
+
     moveAgent (Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3),
                Globals.env.uniformIntRand.getIntegerWithMin$withMax (-3, 3));
   }
