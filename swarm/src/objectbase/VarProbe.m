@@ -719,6 +719,10 @@ string_convert (fcall_type_t type, const types_t *p,
 {
   switch (type)
     {
+    case fcall_type_boolean:
+      strcpy (buf, p->boolean ? "true" : "false");
+      break;
+      
     case fcall_type_object:
       if (!p->object)
         sprintf (buf, "nil");
@@ -819,9 +823,12 @@ string_convert (fcall_type_t type, const types_t *p,
     case fcall_type_string:
       sprintf (buf, "%s", p->string ? p->string : "<NULL>");
       break;
-    default:
-      sprintf (buf, "..."); 
-      break;
+    case fcall_type_void:
+    case fcall_type_selector:
+    case fcall_type_jobject:
+    case fcall_type_jstring:
+    case fcall_type_iid:
+      abort ();
     }
 }
 
@@ -897,11 +904,18 @@ JS_probe_as_string (COMobject cObj, const char *variableName,
                           buf);
 #endif
   else if (language == LanguageObjc)
-    string_convert (fcall_type_for_objc_type (probedType [0]),
-                    (void *) anObject + dataOffset,
-                    fmt, precision,
-                    stringReturnType,
-                    buf);
+    {
+      fcall_type_t type = fcall_type_for_objc_type (probedType [0]);
+
+      if (type == fcall_type_boolean)
+        type = fcall_type_uchar;
+
+      string_convert (type,
+                      (void *) anObject + dataOffset,
+                      fmt, precision,
+                      stringReturnType,
+                      buf);
+    }
   else
     abort ();
   return buf;

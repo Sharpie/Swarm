@@ -2,6 +2,9 @@
 
 	* VarProbe.m (convert_from_string): Handle true/false and
 	failing that, try casting the numeric value.  (Backward compatibility.)
+	([VarProbe -probeAsString:Buffer:withFullPrecision:]): In the 
+	case of apparent boolean probes on an Objective C object, switch
+	back to uchar, since they are conflated.
 
 2001-01-29  Marcus G. Daniels  <mgd@drone.swarm.org>
 
