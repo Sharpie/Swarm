@@ -148,7 +148,7 @@ strip_quotes (const char *argv0)
 - createEnd
 {
   const char *argv0 = strip_quotes (argv[0]);
-  program_invocation_name = (char *)find_executable (argv0);
+  program_invocation_name = (char *) find_executable (argv0);
 #ifndef __GLIBC__
   program_invocation_short_name = getApplicationValue (argv0);
 #endif  
