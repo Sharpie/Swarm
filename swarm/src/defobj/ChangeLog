@@ -1,3 +1,10 @@
+2001-01-22  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Arguments.m (parse_opt): Protect Java stuff.
+
+	* java.h: Remove undef of SIZEOF_LONG for Kaffe.  It breaks VarProbe.m
+	on Alpha.  Kaffe may not do this anymore..
+
 2001-01-21  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.h (COMInterface): Add COMmethodSetReturn, COMmethodInvoke,

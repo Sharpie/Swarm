@@ -108,21 +108,25 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   id fa = [FArguments createBegin: getCZone (scratchZone)];
   id fc;
   error_t ret;
+#ifdef HAVE_JDK
   jobject jobj = 0;
 
   if (swarmDirectory)
     jobj = SD_JAVA_FIND_OBJECT_JAVA (arguments);
   if (jobj)
     [fa setLanguage: LanguageJava];
+#endif
   [fa addInt: key];
   [fa addString: arg];
   [fa setObjCReturnType: _C_INT];
   fa = [fa createEnd];
   fc = [FCall createBegin: getCZone (scratchZone)];
   [fc setArguments: fa];
+#ifdef HAVE_JDK
   if (jobj)
     [fc setJavaMethod: "parseKey$arg" inObject: jobj];
   else
+#endif
     [fc setMethod: M(parseKey:arg:) inObject: arguments];
   fc = [fc createEnd];
 

@@ -10,7 +10,6 @@
 #define _REENTRANT
 #endif
 
-#undef SIZEOF_LONG /* Kaffe can define this (it's from swarmconfig.h) */
 #include <jni.h>
 
 extern JNIEnv *jniEnv;
