@@ -20,55 +20,68 @@
 
 @implementation Widget
 
--setParent: (Widget *) p {
-  if (parent == 0) {
-    parent = p;
-    return self;
-  } else {
-    [InvalidCombination raiseEvent: "It is an error to reset a Widget's parent\n"];
-    return nil;
-  }
+- setParent: (Widget *)p
+{
+  if (parent == 0)
+    {
+      parent = p;
+      return self;
+    }
+  else
+    {
+      [InvalidCombination raiseEvent: "It is an error to reset a Widget's parent\n"];
+      return nil;
+    }
 }  
 
--createEnd {
-  char * p;
+- createEnd
+{
+  const char *p;
+  char *name;
   
-  if (parent == nil) {				  // no parent, make a frame
-    Frame * defaultFrame;
-    defaultFrame = [Frame create: [self getZone]];
-    [self setParent: defaultFrame];
-  }
+  if (parent == nil)
+    {				  // no parent, make a frame
+      Frame * defaultFrame;
+      defaultFrame = [Frame create: [self getZone]];
+      [self setParent: defaultFrame];
+    }
   [self makeNameFromParentName: [parent getWidgetName]];
-
+  
   // make our own copy of tclObjc_objectToName (it uses a static buffer.)
   p = tclObjc_objectToName(self);
-  objcName = [[self getZone] alloc: strlen(p) + 1];
-  strcpy(objcName, p);
-
+  name = [[self getZone] alloc: strlen(p) + 1];
+  strcpy (name, p);
+  objcName = name;
+  
   return self;
 }
 
 // convenience interface for ease of setting.
-+createParent: (Widget *) p {
++ createParent: (Widget *) p
+{
   return [[[self createBegin: [p getZone]] setParent: p] createEnd];
 }
 
 // this is the name of the Tk widget eg: .foo.bar
--(char *) getWidgetName {
+- (const char *)getWidgetName
+{
   return widgetName;
 }
 
 // this is the name of the objc command for ourselves eg: Widget@0x1ab0
--(char *) getObjcName {
+- (const char *)getObjcName
+{
   return objcName;
 }
 
--(Widget *) getParent {
+- (Widget *)getParent
+{
   return parent;
 }
 
 // whee, recursion! The widget with no parent is the toplevel.
--(Widget *) getTopLevel {
+- (Widget *)getTopLevel
+{
   if (parent == nil)
     return self;
   else
@@ -76,22 +89,25 @@
 }
 
 
--(const char *) getWindowGeometry {
+- (const char *)getWindowGeometry
+{
   [globalTkInterp eval: "wm geometry %s", [[self getTopLevel] getWidgetName]];
   return [globalTkInterp result];
 }
 
 // ugh, repeated code here for sscanf. Too bad C doesn't allow multiple
 // return values.
--(unsigned) getWidth {
+- (unsigned)getWidth
+{
   unsigned w, h;
   int x, y;
-  if (sscanf([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
+  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
     [WarningMessage raiseEvent: "Widget - invalid geometry"];
   return w;
 }
 
--(unsigned) getHeight {
+- (unsigned)getHeight
+{
   unsigned w, h;
   int x, y;
   if (sscanf([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
@@ -99,7 +115,8 @@
   return h;
 }
 
--(int) getPositionX {
+- (int)getPositionX
+{
   unsigned w, h;
   int x, y;
   if (sscanf([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
@@ -107,7 +124,8 @@
   return x;
 }
 
--(int) getPositionY {
+- (int)getPositionY
+{
   unsigned w, h;
   int x, y;
   if (sscanf([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
@@ -116,51 +134,60 @@
 }
 
 // this really shouldn't be used to set width/height.
--setWindowGeometry: (const char *) s
+- setWindowGeometry: (const char *)s
 {
   [globalTkInterp eval: "wm geometry %s \"%s\"",
 		  [[self getTopLevel] getWidgetName], s];
   return self;
 }
 
--setWidth: (unsigned) w {
+- setWidth: (unsigned) w
+{
   [globalTkInterp eval: "%s configure -width %u", widgetName, w];
   return self;
 }
 
--setHeight: (unsigned) h {
+- setHeight: (unsigned) h
+{
   [globalTkInterp eval: "%s configure -height %u", widgetName, h];
   return self;
 }
 
--setWidth: (unsigned) w Height: (unsigned) h {
+- setWidth: (unsigned) w Height: (unsigned) h
+{
   return [[self setWidth: w] setHeight: h];
 }
 
--setPositionX: (int) x Y: (int) y {
+- setPositionX: (int) x Y: (int) y
+{
   char s[128];
+
   sprintf(s, "%+d%+d", x, y);
   return [self setWindowGeometry: s];
 }
 
 
--setWindowTitle: (char *) s {
+- setWindowTitle: (const char *)s
+{
   [globalTkInterp eval: "wm title %s \"%s\"", 
 		  [[self getTopLevel] getWidgetName], s];
   return self;
 }
 
--pack {
+- pack
+{
   [globalTkInterp eval: "pack %s -fill both -expand true;", widgetName];
   return self;
 }
 
--packWith: (char *) c {
+- packWith: (const char *) c
+{
   [globalTkInterp eval: "pack %s %s;", widgetName, c];
   return self;
 }
 
--unpack {
+- unpack
+{
   [NotImplemented raiseEvent];
   return self;
 }
@@ -168,7 +195,9 @@
 // fill in the "parent" and "name" fields for a widget, based on algorithm.
 // "name" is parent.w<objectName>, where <objectName> is the tclObjc name
 // for self (long version) or just the pointer (short version)
--makeNameFromParentName: (char *) p {
+- makeNameFromParentName: (const char *)p
+{
+  char *buf;
 #ifdef LONGNAMES
   char *n;
   n = [self getObjcName];			  // my object name in Tclland
@@ -177,18 +206,20 @@
   sprintf(n, "%p", self);		  // my pointer (use %p?)
 #endif			
   
-  widgetName = [[self getZone] alloc: strlen(p) + strlen(n) + 3];
+  buf = [[self getZone] alloc: strlen(p) + strlen(n) + 3];
 
   if (p[0] == '.' && p[1] == 0)			  // special case parent "."
-    sprintf(widgetName, ".w%s", n);
+    sprintf (buf, ".w%s", n);
   else
-    sprintf(widgetName, "%s.w%s", p, n);	  // put in a "w" there.
+    sprintf (buf, "%s.w%s", p, n);	  // put in a "w" there.
 
+  widgetName = buf;
   return self;
 }
 
--(void) drop {
-  [[self getZone] free: objcName];
+- (void)drop
+{
+  [[self getZone] free: (void *)objcName];
   [super drop];
 }
 
