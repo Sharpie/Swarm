@@ -27,7 +27,7 @@ main(int argc, char ** argv) {
       // We've got graphics, so make a full ObserverSwarm to get GUI objects
       
       theTopLevelSwarm = [MousetrapObserverSwarm createBegin: globalZone];
-      [theTopLevelSwarm setWindowGeometryRecordName: "observerSwarm"];
+      SET_WINDOW_GEOMETRY_RECORD_NAME (theTopLevelSwarm);
       theTopLevelSwarm = [theTopLevelSwarm createEnd];
     }
   else

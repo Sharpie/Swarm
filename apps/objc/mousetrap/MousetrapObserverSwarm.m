@@ -145,7 +145,7 @@
   // set up the EZGraph object
   
   triggerGraph = [EZGraph createBegin: [self getZone]];
-  [triggerGraph setWindowGeometryRecordName: "triggerGraph"];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (triggerGraph);
   [triggerGraph setTitle: "Trigger data vs. time"];
   [triggerGraph setAxisLabelsX: "time" Y: "number triggered"];
   triggerGraph = [triggerGraph createEnd] ;
@@ -167,7 +167,7 @@
   // and  set its size, zoom factor, title.
 
   displayWindow = [ZoomRaster createBegin: globalZone];
-  [displayWindow setWindowGeometryRecordName: "mousetrapWorld"];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (displayWindow);
   displayWindow = [displayWindow createEnd];
   [displayWindow enableDestroyNotification: self
                  notificationMethod: @selector (_displayWindowDeath_:)];
