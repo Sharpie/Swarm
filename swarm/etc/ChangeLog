@@ -1,3 +1,8 @@
+2000-05-19  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* interface.el (print-implemented-interfaces-list): Put
+	:setting stuff last.
+
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* interface.el (*removed-protocols*): Remove ProbeConfig,

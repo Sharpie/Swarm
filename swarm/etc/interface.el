@@ -323,19 +323,20 @@
   (remove-if #'removed-protocol-p 
              (protocol-included-protocol-list protocol)))
 
-(defun print-implemented-interfaces-list (protocol phase name-func self-flag)
+(defun print-implemented-interfaces-list (protocol phase name-func expand-flag)
   (let ((first t)
-        (module (protocol-module protocol))
-        (iprotocols (included-protocol-list protocol)))
-    (loop for iprotocol in (if self-flag (cons protocol iprotocols) iprotocols)
+        (module (protocol-module protocol)))
+    (loop for iprotocol in (if expand-flag
+                               (generate-complete-protocol-list protocol)
+                             (included-protocol-list protocol))
           do
           (if first
               (setq first nil)
             (insert ", "))
-          (insert (funcall name-func module iprotocol :setting))
           (unless (eq phase :setting)
-            (insert ", ")
-            (insert (funcall name-func module iprotocol phase))))
+            (insert (funcall name-func module iprotocol phase))
+            (insert ", "))
+          (insert (funcall name-func module iprotocol :setting)))
     (not first)))
 
 
