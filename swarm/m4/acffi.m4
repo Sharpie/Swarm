@@ -88,7 +88,7 @@ else
   ffilibdir=
   FFIINCLUDES='-I${top_builddir}/avcall'
   FFILDFLAGS=
-  FFILIB="-L\${top_builddir}/avcall -lavcall"
+  FFILIB='${top_builddir}/avcall/libavcall.la'
   AM_CONDITIONAL(USEBUILTINAVCALL, true)
 fi
 AC_SUBST(ffidir)

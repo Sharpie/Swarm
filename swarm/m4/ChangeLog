@@ -1,3 +1,8 @@
+2003-08-01  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* acffi.m4: restore FFILIB as libtool object.  Previous version
+	  breaks static or convenience builds of libdefobj.
+
 2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
 
 	* acffi.m4: Use -L and -l instead of full path to avcall.
