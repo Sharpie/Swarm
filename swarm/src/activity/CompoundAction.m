@@ -17,11 +17,29 @@ Library:      activity
 #import <activity/CompoundAction.h>
 #import <activity/XActivity.h>
 
+void 
+setDefaultOrder(unsigned *bits, id aSymbol)
+{  
+  if (aSymbol == (id) Concurrent) 
+    setBit (*bits, BitConcurrent, 1); 
+  else if (aSymbol == (id) Sequential)
+    {
+      setBit(*bits, BitConcurrent, 0);
+      setBit(*bits, BitRandomized, 0);
+    }
+  else if (aSymbol == (id) Randomized)
+    setBit(*bits, BitRandomized, 1);
+  else
+    raiseEvent(InvalidArgument, nil);
+
+}
+
 @implementation ActionType_c
 @end
 
 @implementation CompoundAction_c
 @end
+
 
 
 #elif defined (MIXIN_CREATE)

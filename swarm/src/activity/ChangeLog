@@ -1,3 +1,19 @@
+1999-02-06  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* CompoundAction.m (setDefaultOrder): Add setDefaultOrder function.
+
+	* CompoundAction.h: Add setDefaultOrder function.
+
+	* Action.m ([ActionForEach_1 -setDefaultOrder:]): Use 
+	setDefaultOrder function. 
+	
+	* Action.m ([ActionForEach_1 -setDefaultOrder:]): Likewise.
+
+	* Action.m ([ActionForEach_2 -setDefaultOrder:]): Likewise.
+	
+	* Schedule.m (createGroup): Use create: instead of createBegin:
+	and createEnd: to avoid customization problems.
+
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* activity.h (Schedule): Declare -setKeepEmptyFlag:.

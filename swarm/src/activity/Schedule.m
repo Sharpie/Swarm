@@ -200,9 +200,7 @@ createGroup (Schedule_c *self)
 
   // create new concurrent group to receive new action
 
-  newGroup = [self->concurrentGroupType createBegin: getCZone (zone)];
-  [newGroup setDefaultOrder: [self getDefaultOrder]];
-  newGroup = [newGroup createEnd];
+  newGroup = [self->concurrentGroupType create: getCZone (zone)];
   setBit (((Collection_any *) newGroup)->bits, BitConcurrentGroup, 1);
   setBit (((Collection_any *) newGroup)->bits, BitAutoDrop,
           getBit( self->bits, BitAutoDrop));

@@ -13,6 +13,8 @@ Library:      activity
 
 extern id  _activity_activityRefsType;
 
+extern void setDefaultOrder (unsigned *bits, id aSymbol);
+
 @interface ActionType_c: Object_s
 @end
 
