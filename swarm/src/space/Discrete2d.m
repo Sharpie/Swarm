@@ -324,12 +324,12 @@ PHASE(Using)
 static void
 lispInLatticeValues (Discrete2d *self, id array)
 {
-  char type;
+  fcall_type_t type;
 
   if (sizeof (long) == sizeof (id))
-    type = _C_LNG;
+    type = fcall_type_slong;
   else if (sizeof (int) == sizeof (id))
-    type = _C_INT;
+    type = fcall_type_sint;
   else
     abort ();
    
@@ -445,27 +445,18 @@ lispOutLatticeObjects (Discrete2d *self, id stream)
 static void
 lispOutLatticeValues (Discrete2d *self, id stream)
 {
-  char buf[2 * DSIZE(unsigned) + 5 + 1];
-  
-  // generate compiler encoding for 2D array
-  sprintf (buf,
-           "%c%u%c%u%c%c%c", 
-           _C_ARY_B, self->ysize,
-           _C_ARY_B, self->xsize,
-           _C_LNG, _C_ARY_E, _C_ARY_E);
-  
+  unsigned dims[2];
+
   [stream catSeparator];
   [stream catKeyword: "lattice"];
   [stream catSeparator];
   [stream catStartParse];
   [stream catSeparator];  
-  
-  lisp_output_type (buf,
-                    (void *) self->lattice,
-                    0,
-                    NULL,
-                    stream,
-                    NO);
+
+  dims[0] = self->ysize;
+  dims[1] = self->xsize;
+  lisp_process_array (2, dims, fcall_type_slong, (void *) self->lattice,
+                      NULL, stream, NO);
   [stream catEndParse];
 }
 
@@ -499,16 +490,16 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   [group setName: "ivars"];
   [super hdf5OutShallow: group];
   {
-    char buf[2 * DSIZE(unsigned) + 5 + 1];
-    
-    // generate compiler encoding for 2D array
-    sprintf (buf,
-             "%c%u%c%u%c%c%c", 
-             _C_ARY_B, ysize, _C_ARY_B, xsize, _C_LNG, _C_ARY_E, _C_ARY_E);
-    
+    unsigned dims[2];
+
+    dims[0] = ysize;
+    dims[1] = xsize;
+
     [group storeAsDataset: "lattice"
            typeName: [self name]
-           type: buf
+           type: fcall_type_slong
+           rank: 2
+           dims: dims
            ptr: lattice];
   }
   [group drop];
