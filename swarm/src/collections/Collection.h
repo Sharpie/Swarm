@@ -13,12 +13,12 @@ Library:      collections
 #import <collections.h>
 #import <defobj.h> // Serialization
 
-@interface Collection_any: CreateDrop_s
+@interface Collection_any: CreateDrop_s <Collection>
 {
 @public
   int count;       // number of members in collection
   unsigned bits;   // bit allocations
-#define  Bit_ReadOnly              (1 << 0)
+#define  Bit_ReadOnly              (1 << 0)  // Not yet implemented
 #define  Bit_ReplaceOnly           (1 << 1)
 #define  Bit_MemberAlloc           (1 << 2)  // Array
 #define  Bit_DefaultMember         (1 << 3)  // Array
@@ -31,8 +31,8 @@ Library:      collections
 }
 /*** methods in Collection_any (inserted from .m file by m2h) ***/
 - (void)setReplaceOnly: (BOOL)replaceOnly;
+- (void)setInitialValue: initialValue;
 - (void)setIndexFromMemberLoc: (int)byteOffset;
-- (BOOL)getReadOnly;
 - (BOOL)getReplaceOnly;
 - (int)getIndexFromMemberLoc;
 - beginPermuted: aZone;
@@ -57,9 +57,11 @@ Library:      collections
 - (void)describeForEachID: outputCharStream;
 - _lispOutAttr_: stream;
 - (BOOL)_lispInAttr_: index;
+- copy: aZone;
+- begin: aZone;
 @end
 
-@interface Index_any: Object_s
+@interface Index_any: Object_s <Index>
 {
 @public
   Collection_any *collection;  // base collection on which index created
@@ -68,12 +70,20 @@ Library:      collections
 - getCollection;
 - findNext: anObject;
 - findPrev: anObject;
+
+// Stubs for protocol compliance
+- setOffset: (int)offset;
+- (int)getOffset;
+- (void)setLoc: locSymbol;
+- put: anObject;
+- remove;
+- prev;
+- next;
 @end
 
-@interface PermutedIndex_c: Customize_s
+@interface PermutedIndex_c: Index_any <PermutedIndex>
 {
 @public
-  id collection;
   id permutationIndex;
   id index;
 }

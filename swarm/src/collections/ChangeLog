@@ -1,3 +1,58 @@
+1998-12-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* collections.h (Index): Don't adopt Copy protocol.
+	(KeyedCollection): Remove -createIndex:setMember: and
+	-createIndex:at:.
+	(ListShuffler): Remove +create:withUniformRandom:.
+	Don't adopt CREATABLE or Create.
+
+	* StringObject.h (String_c): Implement String protocol.
+
+	* Set.h (Set_c): Implement Set protocol.
+	(SetIndex_c): Implement KeyedCollectionIndex.
+
+	* OutputStream.h (OutputStream_c): Implement OutputStream protocol.
+
+	* OrderedSet.m (OrderedSetIndex_c): Add Creating and Using
+	tags.
+
+	* OrderedSet.h (OrderedSet_c): Implement OrderedSet protocol.
+	(OrderedSetIndex_c): Implement KeyedCollectionIndex protocol.
+
+	* Map.[hm] ([Map_c -createIndex:fromKey:]): Remove.
+	([Map_c -getCompareFunction]): Add.
+	(MapIndex): Add Using tag.
+
+	* Map.h (Map_c): Implement Map protocol.
+	(MapIndex_c): Implement MapIndex protocol.
+
+	* List_GEN.m (TARGET, TINDEX): Add Creating and Using tags.
+
+	* List_GEN.h (TARGET): Implement List protocol.
+	(TINDEX): Implement Index protocol.
+
+	* ListShuffler.h: Include collections.h.
+	(ListShuffler_c): Implement ListShuffler protocol.
+
+	* InputStream.h (InputStream_c): Implement InputStream protocol.
+
+	* Array.m (ArrayIndex): Add Creating and Using phase tags.
+
+	* Collection.h (Collection_any): Implement Collection protocol.
+	(Index_any): Implement Index protocol. 
+	(PermutedIndex_c): Implement PermutedIndex protocol and inherit
+	from Index_any. Remove collection ivar.
+
+	* Collection.[hm] (Collection_any): Remove getReadOnly. 
+	Add copy: and begin: stubs.
+	(Index_any): Add Creating tag.
+	Add setOffset:, getOffset, setLoc:, put:, remove, prev, and next
+	stubs.
+	(PermutedIndex_c): Add Creating and Using tags.
+
+	* Array.h (Array_c): Implement Array protocol.
+	(ArrayIndex_c): Implement Index protocol.
+
 1998-12-15  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Permutation.m ([Permutation_c +createBegin:]): Use component zone 

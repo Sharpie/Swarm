@@ -63,5 +63,7 @@ PHASE(Using)
 @end
 
 
-@implementation OrderedSetIndex_c : ListIndex_mlinks
+@implementation OrderedSetIndex_c: ListIndex_mlinks
+PHASE(Creating)
+PHASE(Using)
 @end

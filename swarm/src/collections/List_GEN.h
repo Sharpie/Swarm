@@ -38,11 +38,11 @@ struct link {
 #endif
 };
 
-@interface TARGET : List_any
+@interface TARGET: List_any <List>
 /*** methods in TARGET (inserted from .m file by m2h) ***/
 - copy: aZone;
-- (void) addFirst: anObject;
-- (void) addLast: anObject;
+- (void)addFirst: anObject;
+- (void)addLast: anObject;
 - removeFirst;
 - removeLast;
 - begin: aZone;
@@ -53,7 +53,7 @@ struct link {
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface TINDEX : ListIndex_any // <Index>
+@interface TINDEX: ListIndex_any <Index>
 #if CONTIG
 {
 @public

@@ -12,7 +12,7 @@ Library:      collections
 #import <defobj/Create.h>
 #import <collections.h>
 
-@interface String_c: CreateDrop_s
+@interface String_c: CreateDrop_s <String>
 {
 @public
   char *string;

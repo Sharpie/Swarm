@@ -205,7 +205,7 @@ USING
 - begin: aZone;
 @end
 
-@protocol Index <DefinedObject, Copy, Drop>
+@protocol Index <DefinedObject, Drop>
 //S: Reference into the enumeration sequence for a collection.
 
 //D: An index is a reference into an enumeration sequence of a collection.
@@ -734,18 +734,6 @@ USING
 CREATING
 
 USING
-
-//M: Creates a new index on the collection and
-//M: also sets its current position to the first member matching the key
-//M: value given as its final argument.  It returns the index just created.
-- createIndex: aZone at: aKey;
-
-//M: Creates a new index on the collection and
-//M: also sets its current position to the member passed as its final
-//M: argument.  This message is valid only if an internal member slot was
-//M: defined for the collection with the MemberSlot option.
-- createIndex: aZone setMember: aMember;
-
 - createIndex: aZone fromMember: anObject;
 
 //M: The at: message returns the existing member of the collection which
@@ -1051,15 +1039,13 @@ USING
 //D: All these methods modify the underlying collection, so
 //D: any indexes should always be regenerated. 
 CREATING
-+ create: aZone withUniformRandom: dist;
-
 //M: the setUniformRandom: method connects the supplied uniform distribution 
 //M: to the Shuffler (run after createBegin:).
 - setUniformRandom: dist;
 
 - createEnd;
 
-//M: the create:setUniformRandom method creates the Shuffler
+//M: The create:setUniformRandom method creates the Shuffler
 //M: and connects the supplied distribution object.
 + create: aZone setUniformRandom: dist;
 
@@ -1092,7 +1078,7 @@ USING
 - generatePermutation;
 @end
 
-@protocol PermutedIndex <Index, CREATABLE, Create>
+@protocol PermutedIndex <Index>
 //S: General PermutedIndex class. 
 
 //D: PermutedIndex class may be used for randomized traversals of a 

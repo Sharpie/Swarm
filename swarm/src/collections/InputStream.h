@@ -12,7 +12,7 @@ Library:     collections
 #import <defobj/Create.h>
 #import <collections.h>
 
-@interface InputStream_c: CreateDrop_s
+@interface InputStream_c: CreateDrop_s <InputStream>
 {
 @public
   FILE  *fileStream;

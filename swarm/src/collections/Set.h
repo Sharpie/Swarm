@@ -11,7 +11,7 @@ Library:      collections
 
 #import <collections/Collection.h>
 
-@interface Set_c: Collection_any
+@interface Set_c: Collection_any <Set>
 {
 @public
   Collection_any *list; // list of member entries
@@ -32,7 +32,7 @@ Library:      collections
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface SetIndex_c: Index_any // <KeyedCollectionIndex>
+@interface SetIndex_c: Index_any <KeyedCollectionIndex>
 {
 @public
   id listIndex; // index into list of entries

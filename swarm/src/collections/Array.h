@@ -11,7 +11,7 @@ Library:      collections
 
 #import <collections/Collection.h>
 
-@interface Array_c: Collection_any
+@interface Array_c: Collection_any <Array>
 {
 @public
   id *block; // block of id values
@@ -39,7 +39,7 @@ Library:      collections
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface ArrayIndex_c: Index_any
+@interface ArrayIndex_c: Index_any <Index>
 {
 @public
   id *memPtr; // pointer to current member, or Start or End

@@ -401,7 +401,8 @@ PHASE(Using)
 // ArrayIndex_c: index for Array_c
 
 @implementation ArrayIndex_c
-
+PHASE(Creating)
+PHASE(Using)
 - next
 {
   if (INDEXENDP (memPtr))

@@ -10,8 +10,9 @@
 // (Algorithm from Knuth vol 2)
 
 #import <defobj/Create.h>
+#import <collections.h>
 
-@interface ListShuffler_c: CreateDrop_s
+@interface ListShuffler_c: CreateDrop_s <ListShuffler>
 {
   id uniformRandom; // uniform unsigned distribution object
 }

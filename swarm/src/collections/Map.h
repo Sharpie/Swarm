@@ -19,15 +19,16 @@ typedef struct mapentry {
   id  member;
 } *mapentry_t;
 
-@interface Map_c: Collection_any <Serialization>
+@interface Map_c: Collection_any <Map, Serialization>
 {
 @public
-  id  list;                     // list of key-member entries in key sequence
-  int (*compareFunc) (id, id);  // function to compare keys, if any
+  id  list;               // list of key-member entries in key sequence
+  compare_t compareFunc;  // function to compare keys, if any
 }
 /*** methods in Map_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
-- (void)setCompareFunction: (int (*) (id, id))compareFunction;
+- (void)setCompareFunction: (compare_t)compareFunc;
+- (compare_t)getCompareFunction;
 - createEnd;
 - copy: aZone;
 - at: aKey;
@@ -40,13 +41,12 @@ typedef struct mapentry {
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
 - _createPermutedIndex_: aZone forIndexSubclass: anIndexSubclass;
 - createIndex: aZone fromMember: anObject;
-- createIndex: aZone fromKey: aKey;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - lispIn: expr;
 - lispOut: stream;
 @end
 
-@interface MapIndex_c: Index_any // <MapIndex>
+@interface MapIndex_c: Index_any <MapIndex>
 {
 @public
   id listIndex;     // index into list of entries

@@ -47,9 +47,9 @@ getMemberFromLink (link_t link, long bits)
 
 
 @implementation TARGET
-
+PHASE(Creating)
+PHASE(Using)
 PHASE(UsingOnly)
-
 //
 // copy: -- standard method to copy internal state of object
 //
@@ -280,7 +280,8 @@ PHASE(UsingOnly)
 
 
 @implementation TINDEX
-
+PHASE(Creating)
+PHASE(Using)
 - next
 {
   if (position > 0)

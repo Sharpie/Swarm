@@ -11,7 +11,7 @@ Library:      collections
 
 #import <collections/List_mlinks.h>
 
-@interface OrderedSet_c: List_mlinks
+@interface OrderedSet_c: List_mlinks <OrderedSet>
 /*** methods in OrderedSet_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - createEnd;
@@ -20,6 +20,7 @@ Library:      collections
 - remove: aMember;
 @end
 
-@interface OrderedSetIndex_c : ListIndex_mlinks
+@interface OrderedSetIndex_c : ListIndex_mlinks <KeyedCollectionIndex>
 /*** methods in OrderedSetIndex_c (inserted from .m file by m2h) ***/
 @end
+

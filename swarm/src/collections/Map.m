@@ -344,9 +344,9 @@ PHASE(Using)
   return nil;
 }
 
-- createIndex: aZone fromKey: aKey
+- (compare_t)getCompareFunction
 {
-  return nil;
+  return compareFunc;
 }
 
 - (void)mapAllocations: (mapalloc_t)mapalloc
@@ -444,7 +444,7 @@ PHASE(Using)
 @end
 
 @implementation MapIndex_c
-
+PHASE(Using)
 - next
 {
   mapentry_t anEntry;

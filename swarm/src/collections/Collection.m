@@ -24,6 +24,11 @@ PHASE(Creating)
   setBit (bits, Bit_ReplaceOnly, replaceOnly);
 }
 
+- (void)setInitialValue: initialValue
+{
+  raiseEvent (SubclassMustImplement, "setInitialValue: not implemented");
+}
+
 - (void)setIndexFromMemberLoc: (int)byteOffset  // belongs elsewhere...
 {
   if (byteOffset > -2044 && byteOffset <= 2048)
@@ -46,10 +51,6 @@ PHASE(Creating)
   
   if (strcmp (name, "replace-only") == 0)
     [self setReplaceOnly: lispInBoolean (index)];
-#if 0
-  else if (strcmp (name, "read-only") == 0)
-    raiseEvent (InvalidArgument, "ReadOnly not yet settable");
-#endif
   else
     return NO;
   return YES;
@@ -57,9 +58,16 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (BOOL)getReadOnly
+- begin: aZone
 {
-  return bits & Bit_ReadOnly;
+  raiseEvent (SubclassMustImplement, "begin: not implemented");
+  return nil;
+}
+
+- copy: aZone
+{
+  raiseEvent (SubclassMustImplement, "copy: not implemented");
+  return nil;
 }
 
 - (BOOL)getReplaceOnly
@@ -73,7 +81,7 @@ PHASE(Using)
     getField (bits, IndexFromMemberLoc_Shift, IndexFromMemberLoc_Mask) - 2044;
 }
 
-- (id) beginPermuted: (id) aZone
+- (id)beginPermuted: (id) aZone
 {
   PermutedIndex_c *newIndex;
   newIndex = [PermutedIndex_c createBegin: aZone];
@@ -271,11 +279,6 @@ indexAtOffset (Collection_any *self, int offset)
 
 - _lispOutAttr_: outputCharStream
 {
-#if 0
-  if (bits & Bit_ReadOnly)
-    [outputCharStream catC: " #:read-only #t"];
-#endif
-  
   if (bits & Bit_ReplaceOnly)
     [outputCharStream catC: " #:replace-only #t"];
   
@@ -287,7 +290,9 @@ indexAtOffset (Collection_any *self, int offset)
 // Index_any: index for any Collection
 
 @implementation Index_any
+PHASE(Creating)
 
+PHASE(Using)
 - getCollection
 {
   return collection;
@@ -319,11 +324,64 @@ indexAtOffset (Collection_any *self, int offset)
   return NULL;
 }
 
+- setOffset: (int)offset
+{
+  raiseEvent (SubclassMustImplement, "setOffset: not implemented");
+  return nil;
+} 
+
+- (int)getOffset
+{
+  raiseEvent (SubclassMustImplement, "getOffset not implemented");
+  return 0;
+}
+
+- prev
+{
+  raiseEvent (SubclassMustImplement, "prev not implemented");
+  return nil;
+}
+
+- next
+{
+  raiseEvent (SubclassMustImplement, "next not implemented");
+  return nil;
+}
+
+- remove
+{
+  raiseEvent (SubclassMustImplement, "remove not implemented");
+  return nil;
+}
+
+- get
+{
+  raiseEvent (SubclassMustImplement, "get not implemented");
+  return nil;
+}
+
+- put: anObj
+{
+  raiseEvent (SubclassMustImplement, "put: not implemented");
+  return nil;
+}
+
+- (void)setLoc: locsym
+{
+  raiseEvent (SubclassMustImplement, "setLoc: not implemented");
+}
+
+- getLoc
+{
+  raiseEvent (SubclassMustImplement, "getLoc not implemented");
+  return nil;
+}
+
 @end
 
 
 @implementation PermutedIndex_c
-
+PHASE(Creating)
 + createBegin: (id) aZone
 {
   PermutedIndex_c *newIndex;
@@ -345,6 +403,8 @@ indexAtOffset (Collection_any *self, int offset)
   setMappedAlloc(self);  
   return self;
 }
+
+PHASE(Using)
 
 - generatePermutation
 {
@@ -449,12 +509,12 @@ indexAtOffset (Collection_any *self, int offset)
   return [index get];
 }
 
-- (void) setLoc: locSymbol
+- (void)setLoc: locSymbol
 {
   [permutationIndex setLoc: locSymbol];
 }
 
-- (int) getOffset
+- (int)getOffset
 {
   return (int) [permutationIndex get];
 }
