@@ -1,3 +1,8 @@
+1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Map.m ([Map_c -createIndex:fromMember:]): Use a componentZone for
+	listIndex.
+
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* List.m (setListClass): Fix off by one error in computing name
