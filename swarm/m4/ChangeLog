@@ -1,3 +1,7 @@
+1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* achdf5.m4: Don't abort if libhdf5 is not found.
+
 1998-12-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Add achdf5.m4.

@@ -1,6 +1,6 @@
 AC_DEFUN(md_FIND_HDF5,
 [test -z "$hdf5dir" && hdf5dir=$defaultdir
-md_FIND_LIB(hdf5)
+md_FIND_LIB(hdf5,,,1)
 if test -n "$hdf5libdir" ; then
   md_FIND_INCLUDE(hdf5)
   HDF5INCLUDES=$_includes
