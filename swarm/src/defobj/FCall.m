@@ -640,16 +640,42 @@ PHASE(Using)
         ptr = NULL;
         break;
       case fcall_type_uchar:
+#ifdef __sparc__
+        buf->uint = buf->uint >> 24;
+        ptr = &buf->uint;
+#else
         ptr = &buf->uchar;
+#endif
         break;
       case fcall_type_schar:
+#ifdef __sparc__
+        buf->sint = buf->sint >> 24;
+        ptr = &buf->sint;
+#else
         ptr = &buf->schar;
+#endif
         break;
       case fcall_type_ushort:
+#ifdef __sparc__
+        buf->uint = buf->uint >> 16;
+        ptr = &buf->uint;
+#else
         ptr = &buf->ushort;
+#endif
+        break;
+      case fcall_type_sshort:
+#ifdef __sparc__
+        buf->sint = buf->sint >> 16;
+        ptr = &buf->sint;
+#else
+        ptr = &buf->sshort;
+#endif
         break;
       case fcall_type_sint:
-        ptr = &buf->sshort;
+        ptr = &buf->sint;
+        break;
+      case fcall_type_uint:
+        ptr = &buf->uint;
         break;
       case fcall_type_ulong:
         ptr = &buf->ulong;
