@@ -488,6 +488,10 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
               *alist->type_pos = &ffi_type_sint;
               break;
               
+            case _C_UINT:
+              *alist->type_pos = &ffi_type_uint;
+              break;
+              
             case _C_FLT:
               *alist->type_pos = &ffi_type_float;
               break;
