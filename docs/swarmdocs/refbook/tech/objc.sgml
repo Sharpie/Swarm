@@ -23,7 +23,8 @@
     <LISTITEM><PARA>
 
         <ULINK
-          URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html"><CITETITLE>Object-Oriented
+          URL="http://developer.apple.com/techpubs/macosxserver/ObjectiveC/index.html">
+          <CITETITLE>Object-Oriented
           Programming and the Objective-C Language</CITETITLE></ULINK>
           An excellent (online!) book on Objective C. This is for
           generic NeXT Objective C: Swarm uses GNU Objective C in

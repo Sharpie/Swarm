@@ -1,3 +1,8 @@
+1999-02-02  Alex Lancaster  <alex@santafe.edu>
+
+	* objc.sgml (Objective C book): Fixed URL to latest Apple website
+	link.
+
 1998-12-22  Alex Lancaster  <alex@santafe.edu>
 
 	* swarmobjc.sgml (switcheroo): Add IDs to FIGURE.
