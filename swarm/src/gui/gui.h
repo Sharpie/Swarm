@@ -333,8 +333,12 @@ USING
 //M: Set the width of the bars.
 - setBarWidth: (double)step;
 
-//M: Set the X range and step size for the histogram.
+//M: Set the X range and step size for the histogram.  
+//M: Display three significant figures for the major-tick labels.
 - setXaxisMin: (double)min max: (double)max step: (double)step;
+
+//M: Set the X range, step size, and number of major-tick-label significant figures for the histogram.
+- setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision;
 
 //M: Set the axis labels.
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
