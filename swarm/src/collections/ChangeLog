@@ -1,3 +1,7 @@
+1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* List_GEN.m: Include misc.h instead of limits.h.
+
 1999-04-26  Alex Lancaster  <alex@santafe.edu>
 
 	* InputStream.m ([InputStream_c -getExpr]): Handle Lisp comments,

@@ -13,7 +13,7 @@ Library:      collections
 #import <collections/Set.h>
 #import <defobj/defalloc.h>
 
-#include <limits.h>
+#include <misc.h> // INT_MAX
 #define UNKNOWN_POS  (INT_MAX/2)
 
 #define COUNT(l) ((TARGET *) l)->count
