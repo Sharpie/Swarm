@@ -20,6 +20,8 @@ DISTNAME=$(NAME)-@VERSION@
 htmldir = $(prefix)/html/$(NAME)
 html_DATA = $(NAME).html
 
+$(DATA): figs
+
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
 
@@ -55,17 +57,17 @@ $(NAME).html: $(GENERAL) $(HTML)
 
 $(NAME).dvi: $(top_srcdir)/tex/macros.tex
 
-fot: $(NAME).fot figs
+fot: $(NAME).fot
 
 tex: _$(NAME).tex
 
-dvi: $(NAME).dvi figs
+dvi: $(NAME).dvi
 
-ps: $(NAME).ps
+ps: $(NAME).ps 
 
-rtf: $(NAME).rtf figs
+rtf: $(NAME).rtf
 
-html: $(NAME).html figs
+html: $(NAME).html
 
 %.fot: %.sgml
 	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 
