@@ -453,8 +453,8 @@ language_independent_class_name_for_objc_class (Class oClass)
 
       if (cClass)
         className = COM_get_class_name (cClass);
-#ifdef HAVE_JDK
       else
+#ifdef HAVE_JDK
         {
           // Likewise.
           jclass jClass = SD_JAVA_FIND_OBJECT_JAVA (oClass);
@@ -464,6 +464,8 @@ language_independent_class_name_for_objc_class (Class oClass)
           else
             abort ();
         }
+#else
+       abort () ;
 #endif
     }
   else
