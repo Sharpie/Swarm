@@ -323,7 +323,7 @@ dynamicCallOn (const char *probedType,
   else if (val.type == _C_ULNG)
     return (double) val.val.ulong;
   else if (val.type == _C_CHR)
-    return (double) val.val.sint; 
+    return (double) val.val.schar;
   else if (val.type == _C_UCHR)
     return (double) val.val.uchar; 
   else if (val.type == _C_FLT)
@@ -333,30 +333,30 @@ dynamicCallOn (const char *probedType,
   abort ();
 }
 
-- (int)intDynamicCallOn: target
+- (long)longDynamicCallOn: target
 {
   val_t val = [self dynamicCallOn: target];
 
-  if (val.type == _C_SHT)
-    return (int) val.val.sshort;
-  else if (val.type == _C_USHT)
-    return (int) val.val.ushort; 
-  else if (val.type == _C_INT)
-    return val.val.sint;
-  else if (val.type == _C_UINT)
-    return (int) val.val.uint;
-  else if (val.type == _C_LNG)
-    return (int) val.val.slong;
-  else if (val.type == _C_ULNG)
-    return (int) val.val.ulong;
-  else if (val.type == _C_CHR)
-    return (int) val.val.sint;
+  if (val.type == _C_CHR)
+    return (long) val.val.schar;
   else if (val.type == _C_UCHR)
-    return (int) val.val.uchar;
+    return (long) val.val.uchar;
+  else if (val.type == _C_SHT)
+    return (long) val.val.sshort;
+  else if (val.type == _C_USHT)
+    return (long) val.val.ushort; 
+  else if (val.type == _C_INT)
+    return (long) val.val.sint;
+  else if (val.type == _C_UINT)
+    return (long) val.val.uint;
+  else if (val.type == _C_LNG)
+    return val.val.slong;
+  else if (val.type == _C_ULNG)
+    return (long) val.val.ulong;
   else if (val.type == _C_FLT)
-    return (int) val.val._float;
+    return (long) val.val._float;
   else if (val.type == _C_DBL)
-    return (int) val.val._double;
+    return (long) val.val._double;
   abort ();
 }
 

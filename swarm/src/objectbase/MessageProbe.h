@@ -24,7 +24,7 @@
 
 - (val_t)dynamicCallOn: target;
 - (double)doubleDynamicCallOn: target;
-- (int)intDynamicCallOn: target;
+- (long)longDynamicCallOn: target;
 - objectDynamicCallOn: target;
 - (const char *)stringDynamicCallOn: target;
 

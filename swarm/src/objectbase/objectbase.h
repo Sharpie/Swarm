@@ -332,10 +332,10 @@ USING
 //M: numeric and would like a direct translation into type double.
 - (double)doubleDynamicCallOn: target;
 
-//M: The intDynamicCallOn: method generates a dynamic message call on the 
+//M: The longDynamicCallOn: method generates a dynamic message call on the 
 //M: target object. This method assumes the user knows the return 
-//M: type to be numeric and would like a direct translation into type int.
-- (int)intDynamicCallOn: target;
+//M: type to be numeric and would like a direct translation into type logn.
+- (long)longDynamicCallOn: target;
 
 //M: The stringDynamicCallOn: method generates a dynamic message call on the 
 //M: target object. This method assumes the user knows the return type to be 
