@@ -86,6 +86,9 @@ name derived from the name of the option.
 `--with-jdkdir=DIR' --- Use DIR for Java Development Kit.  
                         Kaffe and Sun JDK 1.1 and 1.2 are supported.
 
+To to compile *without* Java support, you give configure the option:
+
+`--without-jdkdir'
 
 Further details on `configure' and standard GNU options are described
 in the generic installation instructions, below.

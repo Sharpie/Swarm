@@ -1,10 +1,14 @@
+2003-07-17  Alex Lancaster  <alex@swarm.org>
+
+	* INSTALL: Note `--without-jdkdir' option for non-Java builds.
+
 2003-07-15 Paul Johnson <pauljohn@ku.edu>
 
-       * VERSION: Bump to 2.1.146
+	* VERSION: Bump to 2.1.146
 
 2003-06-23 Paul Johnson <pauljohn@ku.edu>
 
-       * VERSION: Bump.  This edition supports Java on MacOS
+	* VERSION: Bump.  This edition supports Java on MacOS
 
 2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
 
@@ -20,18 +24,18 @@
 
 2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
 
-	* complete conversion to libtool 1.4.3
-	autogen.sh test for 1.4.3 and glibtool on Darwin
-	autoconfigure SED
+	* configure.in: Complete conversion to libtool 1.4.3. autogen.sh
+	test for 1.4.3 and glibtool on Darwin autoconfigure SED
 
 2003-02-14  Bill Northcott <W.Northcott@unsw.edu.au>
 
-	* ltmain.sh and libtool/ltmain.sh: from libtool 1.4.3 needed on MacOS X.  
-	  needs SED environment var pointing to gnu sed.  
+	* ltmain.sh and libtool/ltmain.sh: from libtool 1.4.3 needed on
+	  MacOS X.  needs SED environment var pointing to gnu sed.
 
 2003-02-14  Bill Northcott <W.Northcott@unsw.edu.au>
 
-	* configure.in and libtool/configure: Update update Objective-C flags for recent compilers
+	* configure.in and libtool/configure: Update update Objective-C
+	flags for recent compilers
 
 2003-01-13  Alex Lancaster  <alexl@users.sourceforge.net>
 
