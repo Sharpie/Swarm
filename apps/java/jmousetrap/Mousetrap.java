@@ -64,11 +64,11 @@ public class Mousetrap
         ((MousetrapStatistics)modelSwarm.getStats()).removeOneBall();
 
         if (!triggered
-            && modelSwarm.getTriggerLikelihood() >= 1 
-            || ((float)uniform0to1.getDoubleSample() 
-                < modelSwarm.getTriggerLikelihood()))  {
+            && ((modelSwarm.getTriggerLikelihood() >= 1)
+                || ((float)uniform0to1.getDoubleSample() 
+                    < modelSwarm.getTriggerLikelihood())))  {
             
-            int size;
+          int size;
             triggered = true;
             modelSwarm.getStats().addOneTriggered();
             
