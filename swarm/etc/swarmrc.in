@@ -1,0 +1,85 @@
+#!/bin/sh
+
+########################################################################
+# Swarm library. Copyright © 2004 Swarm Development Group.             #
+# This program is free software; you can redistribute it and/or modify #
+# it under the terms of the GNU General Public License as published by #
+# the Free Software Foundation; either version 2 of the License, or    #
+# (at your option) any later version.                                  #
+#                                                                      #
+# This program is distributed in the hope that it will be useful, but  #
+# WITHOUT ANY WARRANTY; without even the implied warranty of           #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU    #
+# General Public License for more details.                             #
+#                                                                      #
+# You should have received a copy of the GNU General Public License    #
+# along with this program; if not, write to the Free Software          #
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  #
+# USA                                                                  #
+#                                                                      #
+# The Swarm Development Group can be reached via our website at:       #
+# http://www.swarm.org/                                                #
+#                                                                      #
+# Name:         swarmrc                                                #
+# Description:  MacOS X Environment setup script                       #
+#                                                                      #
+########################################################################
+
+# Package directories - leave blank if same as SWARMHOME
+tcldir=@tcllibdir@
+tkdir=@tklibdir@
+bltdir=@bltlibdir@
+hdfdir=@hdf5libdir@
+pngdir=@pnglibdir@
+
+
+MACOSX_DEPLOYMENT_TARGET=10.3
+export MACOSX_DEPLOYMENT_TARGET
+
+DISPLAY=:0.0
+export DISPLAY
+
+SWARMHOME=@swarm_prefix@
+export SWARMHOME
+
+# Clean previous Swarm path from PATH and set to correct value
+PATH=`echo $PATH | sed 's/:\/[^:]*[Ss]warm[^:\$]*//'`:${SWARMHOME}/bin
+export PATH
+
+# Clean previous Tcl path from DYLD_LIBRARY_PATH
+DYLD_LIBRARY_PATH=`echo $DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Tt]tcl[^:\$]*//'`
+
+# Clean previous Tk path from DYLD_LIBRARY_PATH
+DYLD_LIBRARY_PATH=`echo $DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Tt]k[^:\$]*//'`
+
+# Clean previous BLT path from DYLD_LIBRARY_PATH
+DYLD_LIBRARY_PATH=`echo $DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Bb][Ll][Tt][^:\$]*//'`
+
+# Clean previous HDF path from DYLD_LIBRARY_PATH
+DYLD_LIBRARY_PATH=`echo $DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Hh][Dd][Ff][^:\$]*//'`
+
+# Clean previous png path from DYLD_LIBRARY_PATH
+DYLD_LIBRARY_PATH=`echo $DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Pn][Nn][Gg][^:\$]*//'`
+
+# Clean previous Swarm path from DYLD_LIBRARY_PATH and set to correct value
+DYLD_LIBRARY_PATH=`echo $DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Ss]warm[^:\$]*//'`
+if test x$DYLD_LIBRARY_PATH != x ; then colon=':'; else colon=''; fi
+DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH${colon}${SWARMHOME}/lib
+
+if test x$tcldir != x ; then colon=':'; else colon=''; fi
+DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH$colon${tcldir}
+
+if test x$tkdir != x ; then colon=':'; else colon=''; fi
+DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH$colon${tkdir}
+
+if test x$bltdir != x ; then colon=':'; else colon=''; fi
+DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH$colon${bltdir}
+
+if test x$hdfdir != x ; then colon=':'; else colon=''; fi
+DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH$colon${hdfdir}
+
+if test x$pngdir != x ; then colon=':'; else colon=''; fi
+DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH$colon${pngdir}
+
+export DYLD_LIBRARY_PATH
+unset tcldir tkdir bltdir hdfdir pngdir colon

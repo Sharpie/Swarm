@@ -472,6 +472,7 @@ src/misc/Makefile src/objectbase/Makefile
 src/random/Makefile src/simtools/Makefile 
 src/space/Makefile etc/modules etc/config.swarm etc/Makefile.appl
 etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile
+etc/swarmrc etc/swarmtrc
 tests/Makefile tests/activity/Makefile tests/collections/Makefile
 tests/defobj/Makefile tests/objectbase/Makefile
 tests/simtools/Makefile tests/space/Makefile tools/Makefile

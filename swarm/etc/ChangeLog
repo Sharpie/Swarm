@@ -1,3 +1,8 @@
+2004-11-30  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* Makefile.am swarmrc.in swarmtrc.in: new files
+	  configuration scripts for bash and tcsh.
+	
 2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.appl.in (APPEXE): Change suffix from @EXESUFFIX@ to
