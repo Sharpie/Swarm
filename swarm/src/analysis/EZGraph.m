@@ -54,20 +54,17 @@ const char graphColors[NUMCOLORS][16] ={"Red", "Green", "Yellow",
   return self;
 }
 
-- setWindowGeometryRecordName : (const char *)windowGeometryRecordName
-{
-  graphWindowGeometryRecordName = windowGeometryRecordName;
-  return self;
-}
-
 - createEnd
 {
 
   if (graphics)
     {
       theGraph = [BLTGraph createBegin: [self getZone]];
-      [theGraph setWindowGeometryRecordName: graphWindowGeometryRecordName];
+      [theGraph setWindowGeometryRecordName: 
+                  [self windowGeometryRecordNameForComponent: "BLTGraph"]];
       theGraph = [theGraph createEnd];
+      [theGraph enableDestroyNotification: notificationTarget
+                notificationMethod: notificationMethod];
       [theGraph title: title];
       [theGraph axisLabelsX: xLabel Y: yLabel];
       [theGraph pack];

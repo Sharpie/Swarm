@@ -12,11 +12,10 @@
 @class EZSequence;
 @class EZAverageSequence;
 
-@interface EZGraph : SwarmObject
+@interface EZGraph: GUIComposite
 {
   int graphics;
   id theGraph;
-  const char *graphWindowGeometryRecordName;
 
   int fileOutput;
 
@@ -34,7 +33,6 @@
 - setTitle: (const char *)aTitle;
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
-- setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 - createEnd;
 
 - getGraph;

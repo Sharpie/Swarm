@@ -1,3 +1,12 @@
+1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZGraph.m ([EZGraph -createEnd]): Use GUIComposite's
+	windowGeometryRecordNameForComponent to derive archiving key.
+	([EZGraph -createEnd]): Add call to enableDestroyNotification.
+
+	* EZGraph.h (EZGraph): Inherit from GUIComposite. Remove
+	graphWindowGeometryRecordName and setter.
+
 1998-01-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZBin.m ([EZBin -setWindowGeometryRecordName]): Remove.
