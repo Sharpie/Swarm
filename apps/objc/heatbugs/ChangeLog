@@ -1,3 +1,17 @@
+1998-02-06  Alex Lancaster  <alex@santafe.edu>
+
+	* Heatbug.m ([Heatbug -step]): Added if-else conditional to ensure
+	that movement only occurs when unhappiness is non-zero.
+	
+	* HeatbugModelSwarm.m ([HeatbugModelSwarm -buildObjects]): Added
+	call to each heatbug so that the randomMoveProbability set by the
+	user in the ProbeMap is passed to each heatbug before execution of
+	the simulation.  
+
+	* HeatbugModelSwarm.m ([HeatbugModelSwarm -createBegin:]): Added
+	"randomMoveProbability" to the custom ProbeMap to allow user to
+	set before simulation execution.
+
 1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* HeatbugModelSwarm.h: Include objectbase/Swarm.h and objectbase.h
