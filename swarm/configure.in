@@ -176,6 +176,7 @@ AC_ARG_WITH(jdkdir,
   jdkdir=$withval)
 
 md_CHECK_INLINING
+md_CHECK_WARNFLAGS
 md_CHECK_OBJC_LIBS
 md_CHECK_NEXTSTEP
 md_CHECK_POINTER_FMT
@@ -198,9 +199,6 @@ AC_REPLACE_FUNCS(memchr realpath stpcpy strchr strdup strncmp strndup strnlen st
 if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_cv_func_strnlen = yes; then
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 fi
-
-
-md_CHECK_WARNFLAGS
 
 if test $prefix = /usr; then
   includesubdir=swarm
