@@ -1,8 +1,6 @@
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.rules (CPPFLAGS): Add -DINHIBIT_OBJC_DLL. 
-
-	* Makefile.am (swarm.dll): Use libobjc *.o files instead of linking
+	* Makefile.am (swarm.dll): Use libobjc *.lo files instead of linking
 	to DLL.
 	(libswarm_la_LDFLAGS): Put module -L options before support -L options.
 	(LIBS): Add -lobjc.
