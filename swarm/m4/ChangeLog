@@ -1,3 +1,8 @@
+1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* acobjclibs.m4 (CC): Set to "$OBJC -x objective-c" for duration
+	of test.
+
 1999-01-04  Alex Lancaster  <alex@santafe.edu>
 
 	* acswarm.m4 (al_INIT_SWARM)): Add extractions for OBJC and

@@ -2,7 +2,7 @@ AC_DEFUN(md_CHECK_OBJC_LIBS,
 [AC_MSG_CHECKING(for Objective C libraries)
 ORIG_LIBS=$LIBS
 ORIG_CC=$CC
-CC="$ORIG_CC -x objective-c"
+CC="$OBJC -x objective-c"
 for OBJCLIBS in -lobjc '-lobjc -lpthread' '-lobjc -lposix4' '-lobjc -lpthread -lposix4' ; do
   linked=no
   LIBS="$ORIG_LIBS $OBJCLIBS"
@@ -19,7 +19,7 @@ if test $linked = no ; then
 else
   AC_MSG_RESULT($OBJCLIBS)
 fi
-CC="$ORIG_CC"
+CC=$ORIG_CC
 AC_CHECK_FUNCS(objc_malloc, 
 OBJC_MALLOC_OBJ=''
 AC_DEFINE(HAVE_OBJC_MALLOC),
