@@ -977,7 +977,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
                 return (*env)->IsInstanceOf (env, matchClass, class);
               }
               
-            if (classp (c_selector))
+            if (classp (c_Selector))
               type = _C_SEL;
             else if (classp (c_object))
               type = _C_ID;
