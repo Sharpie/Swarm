@@ -2,6 +2,8 @@
 
 	* Makefile.am (EXTRA_DIST): Remove File.test.
 
+	* File.test: Removed.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.
