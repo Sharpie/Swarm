@@ -39,7 +39,7 @@ struct link {
 };
 
 @interface TARGET : List_any
-/*** methods implemented in .m file ***/
+/*** methods in TARGET (inserted from .m file) ***/
 - (void) addFirst: anObject;
 - (void) addLast: anObject;
 - removeFirst;
@@ -48,7 +48,7 @@ struct link {
 - _createIndex_: aZone forIndexSubclass: anIndexSubclass;
 - createIndex: aZone fromMember: anObject;
 - copy: aZone;
-- (void) drop;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface TINDEX : ListIndex_any // <Index>
@@ -58,7 +58,7 @@ struct link {
   int        baseOffset;   // base offset of block contained as current link
 }
 #endif
-/*** methods implemented in .m file ***/
+/*** methods in TINDEX (inserted from .m file) ***/
 - next;
 - prev;
 - get;

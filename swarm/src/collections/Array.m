@@ -26,7 +26,6 @@ PHASE(Creating)
   Array_c  *newArray;
 
   newArray = [aZone allocIVars: self];
-  newArray->zone = aZone;
   return newArray;
 }
 
@@ -46,8 +45,10 @@ PHASE(Creating)
   if ( bits & Bit_MemberAlloc ) {
     createByCopy();
     setNextPhase( self );
-  } else if ( ! createByMessageToCopy( self, createEnd ) ) {
+  } else {
+    if ( createByMessageToCopy( self, createEnd ) ) return self;
     initArray( self );
+    setMappedAlloc( self );
     setNextPhase( self );
   }
   return self;
@@ -60,7 +61,7 @@ PHASE(Creating)
   if ( memberCount < 0 ) raiseEvent( InvalidArgument, nil );
 
   newArray = [aZone allocIVars: getNextPhase( self )];
-  newArray->zone  = aZone;
+  setMappedAlloc( newArray );
   newArray->count = memberCount;
   initArray( newArray );
   return newArray;
@@ -73,7 +74,6 @@ PHASE(Creating)
   if ( memberCount < 0 ) raiseEvent( InvalidArgument, nil );
 
   newArray = [aZone allocIVars: getNextPhase( self )];
-  newArray->zone = aZone;
   newArray->block = members;
   setBit( newArray->bits, Bit_MemberAlloc, 1 );
   newArray->count = memberCount;
@@ -101,7 +101,7 @@ static void initArray( Array_c  *self )
     }
   }    
 
-  newBlock = [self->zone allocBlock:
+  newBlock = [getZone( self ) allocBlock:
     ( ( self->bits & Bit_DefaultMember ) ? self->count + 1 : self->count ) *
     sizeof (id)];
 
@@ -194,6 +194,7 @@ PHASE(Setting)
 - (void) setCount: (int)memberCount
 {
   id   *newBlock, defaultMember, *memptr;
+  id   zone = getZone( self );
 
   if ( getNextPhase( getClass( self ) ) ) {  // still Creating phase
 
@@ -300,8 +301,7 @@ PHASE(Using)
 {
   ArrayIndex_c  *newIndex;
 
-  newIndex = [zone allocIVars: id_ArrayIndex_c];
-  newIndex->zone       = aZone;
+  newIndex = [aZone allocIVars: id_ArrayIndex_c];
   newIndex->collection = self;
   newIndex->memPtr = (id *)Start;
   return newIndex;
@@ -312,24 +312,44 @@ PHASE(Using)
   Array_c  *newArray;
   int      copyCount;
 
-  newArray = [aZone allocIVars: getClass( self )];
-  newArray->zone = aZone;
+  newArray = [aZone copyIVars: self];
 
-  copyCount = ( bits & Bit_DefaultMember ) ? count + 1 : count;
+  copyCount = getBit( bits, Bit_DefaultMember ) ? count + 1 : count;
   newArray->block = [aZone allocBlock: copyCount * sizeof (id)];
   memcpy( newArray->block, block, copyCount * sizeof (id) );
-
-  newArray->count = count;
+  setBit( newArray->bits, Bit_MemberAlloc, 0 );
   return newArray;
 }
 
-- (void) drop
+//
+// describe: -- standard method to generate debug description of object
+//
+- (void) describe: outputCharStream
 {
-  if ( ! (bits & Bit_MemberAlloc) )
-    [zone freeBlock: block blockSize:
-      ( ( bits & Bit_DefaultMember ) ? count + 1 : count ) * sizeof (id)];
+  char  buffer[100];
 
-  [zone freeIVars: self];
+  [super describe: outputCharStream];
+  if ( getBit( bits, Bit_MemberAlloc ) ) {
+    sprintf( buffer, "> external member allocation at: %0#8x\n",
+             (unsigned)block );
+    [outputCharStream catC: buffer];
+  } else if ( getBit( bits, Bit_DefaultMember ) ) {
+    sprintf( buffer, "> default member value: %0#8x\n",
+             (unsigned)block[count] );
+    [outputCharStream catC: buffer];
+  }
+}
+
+//
+// mapAllocations: -- standard method to identify internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  if ( ! includeBlocks( mapalloc ) || ( bits & Bit_MemberAlloc ) ) return;
+
+  mapalloc->size =
+    ( ( bits & Bit_DefaultMember ) ? count + 1 : count ) * sizeof (id);
+  mapAlloc( mapalloc, block );
 }
 
 @end

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -22,7 +22,7 @@ typedef struct methodDefs  *methodDefs_t;
 //
 // Class_s -- portion of class object allocated for all created classes 
 //
-@interface Class_s : Customize_s
+@interface Class_s : Object
 {
 @public
   Class_s        *superclass;    // object for [super ...] dispatch
@@ -34,6 +34,7 @@ typedef struct methodDefs  *methodDefs_t;
   void           *methodList;    // compiler-generated list of local methods
   struct sarray  *dtable;        // dispatch table
 }
+/*** methods in Class_s (inserted from .m file) ***/
 @end
 
 //
@@ -56,11 +57,14 @@ void _obj_initMethodInterfaces( Class_s *class );
   Class_s  *definingClass;  // compiled class defining ivar structure
   id       metaobjects;     // metaobject collections
 }
-- (void) setName: (char *)name;
+/*** methods in CreatedClass_s (inserted from .m file) ***/
++ createBegin: aZone;
+- (void) setName: (char *)className;
 - (void) setClass: aClass;
 - (void) setSuperclass: aClass;
 - (void) setDefiningClass: aClass;
 - (void) at: (SEL)aSel addMethod: (IMP)aMethod;
+- createEnd;
 @end
 
 @interface BehaviorPhase_s : CreatedClass_s
@@ -69,6 +73,7 @@ void _obj_initMethodInterfaces( Class_s *class );
   Class_s  *nextPhase;   // class which implements next interface
   id       filler;       //  pad to size of standard class (for customize)
 }
+/*** methods in BehaviorPhase_s (inserted from .m file) ***/
 - (void) setNextPhase: aBehaviorPhase;
 @end
 

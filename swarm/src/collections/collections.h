@@ -97,22 +97,20 @@ extern id <Error>
 //
 @deftype Array <Collection, CREATABLE>
 CREATING
-- (void)	setDefaultMember: memberValue;
-- (void)	setMemberBlock: (id *)members setCount: (int)count;
-
 +		create: aZone setCount: (int)count;
 +		create: aZone setMemberBlock:(id *)members setCount:(int)count;
+
+- (void)	setDefaultMember: memberValue;
 SETTING
 - (void)	setCount: (int)count;
 - (void)        setDefaultMember: memberValue;
 
 - (void)        setMemberBlock: (id *)members setCount: (int)count;
+- (void)	setMemberAlloc: (id *)members setCount: (int)count;
 USING
-
-- (void)	setDefaultMember: memberValue;
 -		getDefaultMember;
 
-- (void)	setMemberAlloc: (id *)members setCount: (int)count;
+- (void *)	getMemberBlock;
 - (void *)	getMemberAlloc;
 @end
 
@@ -157,7 +155,19 @@ USING
 @end
 
 
-typedef int (*idXid_t)( id, id );
+//
+// compare_t, bucket_t --
+//   pointer to function typedefs used by keyed collections
+// 
+//
+typedef int (*compare_t)( id, id );
+typedef int (*bucket_t)( id );
+
+//
+// compareIDs, compareIntegers -- general-purpose compare functions
+//
+extern int compareIDs( id, id );
+extern int compareIntegers( id, id );
 
 //
 // KeyedCollection -- member identity definition shared by Set and Map types 
@@ -168,8 +178,8 @@ CREATING
 - (void)	setDupMembersType: aCollectionType;
 
 - (void)	setSorted: (BOOL)sorted;
-- (void)	setCompareFunction: (idXid_t)aFunction;
-- (void)        setBucketFunction: (idXid_t)aFunction setMaxBuckets: (int)max;
+- (void)	setCompareFunction: (compare_t)aFunction;
+- (void)        setBucketFunction: (bucket_t)aFunction setMaxBuckets: (int)max;
 
 - (void)	setPartiallyOrdered: (BOOL)partiallyOrdered;
 - (void)	setPartialOrderContext: aKeyedCollection;
@@ -276,7 +286,7 @@ CREATING
 -		setFileStream: (FILE *)fileStream;
 USING
 - (FILE *)	getFileStream;
-- (void)	appendC: (char *)cstring;
+- (void)	catC: (char *)cstring;
 @end
 
 //
@@ -289,10 +299,17 @@ SETTING
 - (void)	setC: (char *)cstring;
 USING
 - (char *)	getC;
-- (void)	appendC: (char *)cstring;
+- (void)	catC: (char *)cstring;
 
 - (int)		getCount;
 - (int)		compare: aString;
+@end
+
+//
+// appendC: -- previous name for catC on OutputStream and String, now obsolete
+//
+@protocol appendC
+- (void)	appendC: (char *)cstring;
 @end
 
 

@@ -11,6 +11,31 @@ Library:      collections
 
 #import <collections/Map.h>
 
+//
+// compareIDs --
+//   function to compare two id values based on the unsigned magnitudes of
+//   their id values
+//               
+//
+int compareIDs( id val1, id val2 )
+{
+  if ( (unsigned)val1 < (unsigned)val2 ) return -1;
+  return ( (unsigned)val1 > (unsigned)val2 );
+}
+
+//
+// compareIntegers --
+//   function to compare two signed integer values stored within id values
+//
+int compareIntegers( id val1, id val2 )
+{
+  if ( (int)val1 < (int)val2 ) return -1;
+  return ( (int)val1 > (int)val2 );
+}
+
+//
+// compare -- internal macro for selection of compare technique
+//
 #define compare( a, b ) \
 (compareFunc ? compareFunc(a,b) : [a compare: b])
 #define indexCompare( a, b ) \
@@ -27,7 +52,6 @@ PHASE(Creating)
   Map_c *newMap;
 
   newMap = [aZone allocIVars: self];
-  newMap->zone = aZone;
   return newMap;
 }
 
@@ -38,22 +62,45 @@ PHASE(Creating)
 
 - createEnd
 {
-  if ( ! createByMessageToCopy( self, createEnd ) ) {
-    self->list = [List create: zone];
-    setNextPhase( self );
-  }
+  if ( createByMessageToCopy( self, createEnd ) ) return self;
+  self->list = [List create: getComponentZone( self )];
+  setMappedAlloc( self );
+  setNextPhase( self );
   return self;
 }
 
 PHASE(Using)
 
+//
+// copy: -- standard method to copy internal state of object
+//
+- copy: aZone
+{
+  Map_c      *newMap;
+  id         index;
+  mapentry_t  entry, newEntry;
+
+  newMap = [aZone allocIVars: getClass( self )];
+  setMappedAlloc( newMap );
+  newMap->list = [List create: getComponentZone( self )];
+  index = [list begin: scratchZone];
+  while ( (entry = (mapentry_t)[index next]) ) {
+    newEntry = [getZone( self ) allocBlock: sizeof *entry];
+    memcpy( newEntry, entry, sizeof *entry );
+    [newMap->list addLast: (id)newEntry];
+  }
+  [index drop];
+  return newMap;
+}
+
+
 - at: aKey
 {
-  id       index, member;
-  entry_t  anEntry;
+  id          index, member;
+  mapentry_t  anEntry;
 
   index = [list begin: scratchZone];
-  for ( member = nil; (anEntry = (entry_t)[index next]); ) {
+  for ( member = nil; (anEntry = (mapentry_t)[index next]); ) {
     if ( compare( anEntry->key, aKey ) == 0 ) {
       member = anEntry->member;
       break;
@@ -65,17 +112,17 @@ PHASE(Using)
 
 - (BOOL) at: aKey insert: anObject
 {
-  id       index;
-  entry_t  newEntry, anEntry;
-  int      result;
+  id          index;
+  mapentry_t  newEntry, anEntry;
+  int         result;
 
-  newEntry = [zone allocBlock: sizeof *newEntry];
+  newEntry = [getZone( self ) allocBlock: sizeof *newEntry];
   newEntry->key    = aKey;
   newEntry->member = anObject;
 
   index = [list begin: scratchZone];
   result = 1;
-  while ( (anEntry = (entry_t)[index next]) ) {
+  while ( (anEntry = (mapentry_t)[index next]) ) {
     if ( (result = compare( anEntry->key, aKey )) > 0 ) break;
   }
   [index addBefore: (id)newEntry];
@@ -86,11 +133,11 @@ PHASE(Using)
 
 - at: aKey replace: anObject
 {
-  id       index, oldMem;
-  entry_t  anEntry;
+  id          index, oldMem;
+  mapentry_t  anEntry;
 
   index = [list begin: scratchZone];
-  while ( (anEntry = (entry_t)[index next]) ) {
+  while ( (anEntry = (mapentry_t)[index next]) ) {
     if ( compare( anEntry->key, aKey ) == 0 ) {
       oldMem = anEntry->member;
       anEntry->member = anObject;
@@ -104,12 +151,12 @@ PHASE(Using)
 
 - (BOOL) at: aKey memberSlot: (id **)memPtr
 {
-  id       index;
-  entry_t  anEntry, newEntry;
-  int      result;
+  id          index;
+  mapentry_t  anEntry, newEntry;
+  int         result;
 
   index = [list begin: scratchZone];
-  while ( (anEntry = (entry_t)[index next]) ) {
+  while ( (anEntry = (mapentry_t)[index next]) ) {
     if ( (result = compare( anEntry->key, aKey )) == 0 ) {
       [index drop];
       *memPtr = &anEntry->member;
@@ -117,7 +164,7 @@ PHASE(Using)
     }
     if ( result > 0 ) break;
   }
-  newEntry = [zone allocBlock: sizeof *newEntry];
+  newEntry = [getZone( self ) allocBlock: sizeof *newEntry];
   [index addBefore: (id)newEntry];
   [index drop];
   count++;
@@ -129,12 +176,12 @@ PHASE(Using)
 
 - (BOOL) at: aKey keySlot: (id **)keyPtr memberSlot: (id **)memPtr
 {
-  id       index;
-  entry_t  anEntry, newEntry;
-  int      result;
+  id          index;
+  mapentry_t  anEntry, newEntry;
+  int         result;
 
   index = [list begin: scratchZone];
-  while ( (anEntry = (entry_t)[index next]) ) {
+  while ( (anEntry = (mapentry_t)[index next]) ) {
     if ( (result = compare( anEntry->key, aKey )) == 0 ) {
       [index drop];
       *keyPtr = &anEntry->key;
@@ -143,7 +190,7 @@ PHASE(Using)
     }
     if ( result > 0 ) break;
   }
-  newEntry = [zone allocBlock: sizeof *newEntry];
+  newEntry = [getZone( self ) allocBlock: sizeof *newEntry];
   [index addBefore: (id)newEntry];
   [index drop];
   count++;
@@ -156,13 +203,13 @@ PHASE(Using)
 
 - removeKey: aKey
 {
-  id       index, oldMem;
-  entry_t  anEntry;
-  int      result;
+  id          index, oldMem;
+  mapentry_t  anEntry;
+  int         result;
 
   index = [list begin: scratchZone];
   oldMem = nil;
-  while ( (anEntry = (entry_t)[index next]) ) {
+  while ( (anEntry = (mapentry_t)[index next]) ) {
     if ( (result = compare( anEntry->key, aKey )) == 0 ) {
       [index remove];
       oldMem = anEntry->member;
@@ -180,7 +227,6 @@ PHASE(Using)
   MapIndex_c  *newIndex;
 
   newIndex = [aZone allocIVars: [MapIndex_c self]];
-  newIndex->zone       = aZone;
   newIndex->collection = self;
   newIndex->listIndex  = [list begin: aZone];
   return newIndex;
@@ -191,7 +237,6 @@ PHASE(Using)
   MapIndex_c  *newIndex;
 
   newIndex = [aZone allocIVars: anIndexSubclass];
-  newIndex->zone       = aZone;
   newIndex->collection = self;
   newIndex->listIndex  = [list begin: aZone];
   return newIndex;
@@ -207,24 +252,39 @@ PHASE(Using)
   return nil;
 }
 
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  id          index;
+  mapentry_t  anEntry;
+
+  if ( includeBlocks( mapalloc ) ) {
+    mapalloc->size = sizeof *anEntry;
+    index = [list begin: scratchZone];
+    while ( (anEntry = (mapentry_t)[index next]) )
+      mapAlloc( mapalloc, anEntry );
+    [index drop];
+  }
+  mapObject( mapalloc, list );
+}
+
 @end
 
 @implementation MapIndex_c
 
 - next
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
 
-  anEntry = (entry_t)[listIndex next];
+  anEntry = (mapentry_t)[listIndex next];
   if ( anEntry != NULL ) return anEntry->member;
   return NULL;
 }
 
 - next: (id *)key
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
 
-  anEntry = (entry_t)[listIndex next];
+  anEntry = (mapentry_t)[listIndex next];
   if ( anEntry != NULL ) {
     if ( key ) *key = anEntry->key;
     return anEntry->member;
@@ -234,18 +294,18 @@ PHASE(Using)
 
 - prev
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
 
-  anEntry = (entry_t)[listIndex prev];
+  anEntry = (mapentry_t)[listIndex prev];
   if ( anEntry != NULL ) return anEntry->member;
   return NULL;
 }
 
 - prev: (id *)key
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
 
-  anEntry = (entry_t)[listIndex prev];
+  anEntry = (mapentry_t)[listIndex prev];
   if ( anEntry != NULL ) {
     if ( key ) *key = anEntry->key;
     return anEntry->member;
@@ -255,18 +315,18 @@ PHASE(Using)
 
 - get
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
 
-  anEntry = (entry_t)[listIndex get];
+  anEntry = (mapentry_t)[listIndex get];
   if ( ! anEntry ) return nil;
   return anEntry->member;
 }
 
 - get: (id *)key
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
 
-  anEntry = (entry_t)[listIndex get];
+  anEntry = (mapentry_t)[listIndex get];
   if ( ! anEntry ) return nil;
   if ( key ) *key = anEntry->key;
   return anEntry->member;
@@ -274,19 +334,19 @@ PHASE(Using)
 
 - getKey
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
 
-  anEntry = (entry_t)[listIndex get];
+  anEntry = (mapentry_t)[listIndex get];
   if ( ! anEntry ) return nil;
   return anEntry->key;
 }
 
 - replace: anObject
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
   id       oldMem;
 
-  anEntry = (entry_t)[listIndex get];
+  anEntry = (mapentry_t)[listIndex get];
   if ( ! anEntry ) return nil;
   oldMem  = anEntry->member;
   anEntry->member = anObject;
@@ -295,23 +355,23 @@ PHASE(Using)
 
 - remove
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
   id       oldMem;
 
-  anEntry = (entry_t)[listIndex remove];
+  anEntry = (mapentry_t)[listIndex remove];
   if ( ! anEntry ) return nil;
   oldMem  = anEntry->member;
-  [collection->zone freeBlock: anEntry blockSize: sizeof *anEntry];
+  [getZone( collection ) freeBlock: anEntry blockSize: sizeof *anEntry];
   collection->count--;
   return oldMem;
 }
 
 - setKey: aKey
 {
-  entry_t  anEntry;
+  mapentry_t  anEntry;
 
   [listIndex setLoc: Start];
-  while ( (anEntry = (entry_t)[listIndex next]) ) {
+  while ( (anEntry = (mapentry_t)[listIndex next]) ) {
     if ( indexCompare( anEntry->key, aKey ) == 0 ) return anEntry->member;
   }
   [listIndex setLoc: Start];

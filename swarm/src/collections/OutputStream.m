@@ -24,7 +24,6 @@ PHASE(Creating)
   OutputStream_c  *newStream;
 
   newStream = [aZone allocIVars: self];
-  newStream->zone = aZone;
   return newStream;
 }
 
@@ -45,7 +44,6 @@ PHASE(Creating)
   OutputStream_c  *newStream;
 
   newStream = [aZone allocIVars: getNextPhase( self )];
-  newStream->zone       = aZone;
   newStream->fileStream = file;
   return newStream;
 }
@@ -57,9 +55,14 @@ PHASE(Using)
   return fileStream;
 }
 
-- (void) appendC: (char *)cstring
+- (void) catC: (char *)cstring
 {
   fputs( cstring, fileStream );
+}
+
+- (void) appendC: (char *)cstring
+{
+  [self catC: cstring];
 }
 
 @end

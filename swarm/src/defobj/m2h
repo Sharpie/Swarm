@@ -1,0 +1,158 @@
+#!/bin/sh
+#
+# m2h -- insert declarations for methods implemented in Objective C classes
+#        at marked locations in the @interface declarations of a .h file
+#
+# Author: Roger Burkhart, version 97/01/18
+#
+# Usage: m2h header-file
+#
+# m2h replaces an existing header file by a new version that contains
+# declarations for methods implemented in a corresponding source file.
+# It supports a style of Objective C header file usage in which the @interface
+# declarations are used only to declare the instance variables, and the methods
+# in the @interface declaration are maintained to reflect just those actually
+# implemented in the corresponding class implementation.  Declarations of
+# messages available for documented public use of a class can also be
+# declared as part of a protocol in the same or different header file.
+#
+# The header file provided as the argument of m2h must have the suffix .h,
+# and the corresponding source file must have a matching name only with a
+# suffix .m.  The locations in the header file where method declarations are
+# to be inserted must be marked with a special form of comment.  An expanded
+# form of this comment is retained in the updated header file, so that m2h
+# can be run multiple times to update its class declarations with methods
+# that actually appear in a corresponding implementation file.
+#
+# Following is the form of comment that marks a location in an @interface
+# declaration where method declarations are to be inserted:
+#
+# @interface Foo
+# {
+#   // .. instance variable declarations
+# }
+# // methods in Foo
+# @end
+#
+# Both the @interface and @end keywords, and the @implementation and
+# matching @end keywords in the corresponding .m source file, must begin
+# at the first character of a new line.
+# 
+# Final comment above ("methods in Foo") up to the terminating @end will
+# be replaced by declarations of all methods implemented for class Foo in
+# the corresponding .m file.  A generated form of the comment is perserved
+# in the inserted text, so that replacement of the method declarations can
+# be performed multiple times just by continuing to run the m2h script on
+# the replacement header file.
+#
+# Before m2h replaces the existing header file, it creates a backup copy of
+# header file under a locally created subdirectory with the name ,m2h.
+# (The comma is part of the name and forces the directory to appear first
+# in a typical ls listing.)  Any earlier backup copy of the header file
+# under the ,m2h directory is replaced by a current backup each time m2h runs.
+# A diff of the newly generated header file against its previous version may
+# performed using the backup copy under ,m2h.
+#
+# Important note: if either the header file or the .m file used to extract
+# method declarations have syntax errors, it is possible that the header file
+# will not be updated correctly.  Avoid deleting the backup file until the
+# header file has compiled successfully.
+#
+# Also created in the backup directory is a sed script with the name of the
+# header file only with a suffix of .sed.  This sed script contains the rules
+# used to create the new version of the header file from the previous version.
+# 
+# Once m2h has been used to update any number of header files in a directory
+# and the new versions have been confirmed as being correct, the entire ,m2h
+# directory may be deleted to clean up the backup files and generated sed
+# scripts.
+
+if [ $# -ne 1 ]; then
+  echo 'Usage: m2h header-file'
+  exit 1
+fi
+
+if [ ! -f $1 ]; then
+  echo "m2h: input file $1 does not exist"
+  exit 1
+fi
+
+file=`basename $1 .h`
+
+if [ $file.h != $1 ]; then
+  echo "m2h: $1 is not a .h file in the local directory"
+  exit 1
+fi
+
+if [ ! -f $file.m ]; then
+  echo "m2h: no file $file.m in the local directory"
+  echo "(used as input to update method declarations in .h file)"
+  exit 1
+fi
+
+if [ ! -d ,m2h ]; then
+  mkdir ,m2h
+fi
+cp -p $file.h ,m2h/$file.h
+if [ $? != 0 ]; then
+  echo "could not backup file $file.h to ,m2h/$file.h"
+  exit
+fi
+
+sed <$file.m >,m2h/$file.sed -n -e '
+
+# clean out tabs, trailing // comments, and trailing spaces
+s/	/ /g
+s%//.*$%%
+s/ *$//
+
+/^@implementation/,/^@end/ {
+
+/^@implementation/ {
+s/@implementation *\([a-zA-z0-9_]*\).*/\1/
+s%\(.*\)%/^ *[\\\/]*[ *]*methods in \\\<\1\\\>/,/@end/ {\
+/^ *[\\\/]*[ *]*methods in \1/ {\
+s@.*@/*** methods in \1 (inserted from .m file) ***/@\
+a\\%
+p
+n
+}
+
+/^[+-].*{.*$/ {
+s/ *{.*/;\\/
+p
+n
+}
+
+/^[+-]/,/{/ {
+
+/^[+-]/{
+h
+d
+}
+
+/{/ !H
+
+/{/ {
+s/ *{.*$/;\\/
+H
+g
+s/\n;/;/
+s/\n/\\\
+/g
+p
+}
+
+}
+
+/@end/a\
+@end\
+}\
+/^ *[\\\/]*[ *]*methods/!d\
+}\
+
+}
+'
+
+sed -f ,m2h/$file.sed <,m2h/$file.h >$file.h
+# rm $file,sed

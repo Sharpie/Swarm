@@ -1,22 +1,48 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
 /*
 Name:         Zone.m
-Description:  initial malloc pass-through implementation of Zone
+Description:  superclass support for all zone implementations
 Library:      defobj
 */
 
 #import <defobj/Zone.h>
+#import <collections.h>
 
 #include <stdlib.h>
 #include <memory.h>
 
-unsigned char _obj_fillalloc = 0xaa, _obj_fillfree = 0xff;
+//
+// temporary hack to guarantee double word alignment of allocations
+//
+static inline void *dalloc( size_t blockSize )
+{
+  static BOOL  notAligned;
+  void         *block;
 
-static void *phonyFreeList;  // phony free list for incomplete AllocSize
+  block = malloc( blockSize );
+  if ( ! block ) raiseEvent( OutOfMemory, nil );
+  if ( ( (unsigned)block & ~0x7 ) == (unsigned)block ) return block;
+  if ( ! notAligned ) {
+    notAligned = 1;
+    fprintf( stderr,
+      "Double word alignment of malloc allocations not guaranteed on local\n"
+      "machine architecture.  Please report to swarm@santafe.edu.\n"
+      "Standard fixup taken, execution continuing...\n" );
+  }
+  free( block );
+  block = malloc( blockSize + 7 );
+  return ( (void *)( (unsigned)block & ~0x7 ) );
+}
+
+//
+// _obj_fillalloc, _obj_fillfree -- 
+//   fill patterns for allocated and freed blocks, for debugging
+//
+unsigned char _obj_fillalloc = 0xaa, _obj_fillfree = 0xff;
 
 
 @implementation Zone_c
@@ -27,27 +53,16 @@ PHASE(Creating)
 {
   Zone_c  *newZone;
 
-  if ( aZone ) {
-    newZone = [aZone allocIVars: self];
-  } else {
-    newZone =
-      (Zone_c *)calloc( 1, ((Class)[Zone_c self])->instance_size );
-    setClass( newZone, self );
-  }
-  newZone->ownerZone = aZone;
-  return newZone;
-}
+  // the very first zone is created externally by explicit initialization
 
-- (void) setObjectCollection: (BOOL)objectCollection
-{
-  objects = [List createBegin: globalZone];
-  [(id)objects setIndexFromMemberLoc: - (2 * sizeof(id))];
-  objects = [(id)objects createEnd];
+  newZone = [aZone allocIVars: self];
+  return newZone;
 }
 
 - (void) setPageSize: (int)pageSize
 {
-  raiseEvent( InvalidArgument,
+  raiseEvent( NotImplemented,
+    "PageSize option not yet implemented.\n"
     "Page size must be a power of two, at least 256, and no greater than\n"
     "the page size of the zone owner.  Page size requested was: %d.\n",
     pageSize );
@@ -55,21 +70,34 @@ PHASE(Creating)
 
 - createEnd
 {
-  createByCopy( );
+  if ( createByMessageToCopy( self, createEnd ) ) return self;
+
+  setMappedAlloc( self );
   setNextPhase( self );
+
+  // create internal support objects for zone
+
+  componentZone = [self allocIVarsComponent: id_ComponentZone_c];
+  ((ComponentZone_c *)componentZone)->baseZone = self;
+
+  population = [List createBegin: componentZone];
+  [population setIndexFromMemberLoc: - (2 * sizeof(id))];
+  population = [(id)population createEnd];
+
+  // zero internal allocation statistics to remove zone overhead
+
+  if ( _obj_debug ) {
+    objectCount = 0;
+    objectTotal = 0;
+  }
   return self;
 }
 
 PHASE(Using)
 
-- (void)drop
+- getOwner
 {
-  //!! override as necessary, later...
-}
-
-- (BOOL) getObjectCollection
-{
-  return objects != nil;
+  return getZone( self );
 }
 
 - (int) getPageSize
@@ -77,194 +105,306 @@ PHASE(Using)
   return 0;
 }
 
-- getSubzones
+//
+// allocIVars: -- allocate and initialize instance variables for object
+//
+- allocIVars: aClass
 {
-  return nil;
+  Object_s  *newObject;
+
+  //!! need to guarantee that class inherits from Object_s, to define slot
+  //!! for zbits
+
+  // allocate object of required size, including links in object header
+
+  newObject = (Object_s *)dalloc(
+                ((Class)aClass)->instance_size + 2 * sizeof (id) );
+
+  // add object to the population list, skipping over links in object header
+
+  newObject = (Object_s *)((id *)newObject + 2);
+  [population addLast: newObject];
+
+  // initialize and return the newly allocated object
+
+  memset( newObject, 0, ((Class)aClass)->instance_size );
+  setClass( newObject, aClass );   
+  newObject->zbits = (unsigned)self;   
+  return (id)newObject;
 }
 
-- (void) mergeWithOwner {}
-
-- allocIVars: (Class)aClass
-{
-  id  newObject;
-
-  if ( objects ) {
-    newObject = (id)malloc( aClass->instance_size + (2 * sizeof (id)) );
-    if ( ! newObject ) raiseEvent( OutOfMemory, nil );
-    newObject = (id)((id *)newObject + 2);
-    [objects addLast: newObject];
-  } else {
-    newObject = (id)malloc( aClass->instance_size );
-    if ( ! newObject ) raiseEvent( OutOfMemory, nil );
-  }
-  memset( newObject, 0, aClass->instance_size );
-  *(id *)newObject = aClass;   
-  return newObject;
-}
-
+//
+// copyIVars: -- allocate object with contents copied from existing object
+//
 - copyIVars: anObject
 {
-  id   newObject;
-  int  instanceSize;
+  Object_s  *newObject;
+  int       instanceSize;
+
+  // allocate object of required size, including links in object header
 
   instanceSize = getClass(anObject)->instance_size;
-  if ( objects ) {
-    newObject = (id)malloc( instanceSize + 2*sizeof(id) );
-    if ( ! newObject ) raiseEvent( OutOfMemory, nil );
-    newObject = (id)((id *)newObject + 2);
-    [objects addLast: newObject];
-  } else {
-    newObject = (id)malloc( instanceSize );
-    if ( ! newObject ) raiseEvent( OutOfMemory, nil );
-  }
+  newObject = (Object_s *)dalloc( instanceSize + 2 * sizeof(id) );
+
+  // add object to the population list, skipping over links in object header
+
+  newObject = (Object_s *)((id *)newObject + 2);
+  [population addLast: newObject];
+
+  // initialize and return the newly allocated object
+
   memcpy( newObject, anObject, instanceSize );
+  newObject->zbits = (unsigned)self;
+  if ( getMappedAlloc( (Object_s *)anObject ) ) setMappedAlloc( newObject );  
   return newObject;
 }
 
+//
+// freeIVars: -- free object allocated by allocIVars: or copyIVars:
+//
 - (void) freeIVars: anObject
 {
   id   index;
 
-  if ( objects ) {
-    index = [objects createIndex: scratchZone fromMember: anObject];
-    [index remove];
-    [index drop];
-    if ( _obj_debug ) memset( (id *)anObject - 2, _obj_fillfree,
-                        getClass(anObject)->instance_size + (2 * sizeof(id)) );
-    free( (id *)anObject - 2 );
-  } else {
-    if ( _obj_debug ) memset( (id *)anObject, _obj_fillfree,
-                              getClass(anObject)->instance_size );
-    free( anObject );
+  index = [population createIndex: scratchZone fromMember: anObject];
+  [index remove];
+  [index drop];
+
+  if ( _obj_debug ) {
+     if ( getBit( ((Object_s *)anObject)->zbits, BitComponentAlloc ) )
+       raiseEvent( InvalidOperation,
+ "object being freed by freeIVars: (%0#8x: %s)\n"
+ "was allocated for restricted internal use by allocIVarsComponent: or\n"
+ "copyIVarsComponent:, and may only be freed by freeIVarsComponent:\n",
+       anObject, getClass( anObject )->name );
+
+     memset( (id *)anObject - 2, _obj_fillfree,
+             getClass(anObject)->instance_size + ( 2 * sizeof (id) ) );
   }
-}
-
-// object allocation functions with deprecated names
-
-- allocObject: (Class)aClass
-{
-  return [self allocIVars: aClass];
-}
-- (void) freeObject: anObject
-{
-  [self freeIVars: anObject];
+  free( (id *)anObject - 2 );
 }
 
 //
-// getObjects -- return collection of objects allocated within zone
+// allocIVarsComponent: -- allocate an internal component object
 //
-- getObjects
+- allocIVarsComponent: aClass
 {
-  return objects;
+  Object_s  *newObject;
+
+  // allocate object of required size, including links in object header
+
+  newObject = (Object_s *)dalloc( ((Class)aClass)->instance_size );
+
+  if ( _obj_debug ) {
+    objectCount++;
+    objectTotal += ((Class)aClass)->instance_size;
+  }
+
+  // initialize and return the new object, without adding to population list
+
+  memset( newObject, 0, ((Class)aClass)->instance_size );
+  setClass( newObject, aClass );   
+  newObject->zbits = (unsigned)self;
+  setBit( newObject->zbits, BitComponentAlloc, 1 ); 
+  return newObject;
 }
 
 //
-// alloc: -- alloc block of requested size, without guaranteed initialization
+// copyIVarsComponent: -- allocate component object with copied contents
+//
+- copyIVarsComponent: anObject
+{
+  Object_s  *newObject;
+
+  // allocate object of required size, including links in object header
+
+  newObject = (Object_s *)dalloc( getClass(anObject)->instance_size );
+
+  if ( _obj_debug ) {
+    objectCount++;
+    objectTotal += getClass(anObject)->instance_size;
+  }
+
+  // initialize and return the new object, without adding to population list
+
+  memcpy( newObject, anObject, getClass(anObject)->instance_size );
+  newObject->zbits = (unsigned)self;
+  if ( getMappedAlloc( (Object_s *)anObject ) ) setMappedAlloc( newObject );  
+  setBit( newObject->zbits, BitComponentAlloc, 1 ); 
+  return newObject;
+}
+
+//
+// freeIVarsComponent: --
+//   free object allocated by allocIVarsComponent: or copyIVarsComponent:
+//
+- (void) freeIVarsComponent: anObject
+{
+  if ( _obj_debug ) {
+    if ( ! getBit( ((Object_s *)anObject)->zbits, BitComponentAlloc ) )
+      raiseEvent( InvalidOperation,
+        "object being freed by freeIVarsComponent: (%0#8x: %s)\n"
+        "was not allocated by allocIVarsComponent: or copyIVarsComponent:\n",
+        anObject, getClass( anObject )->name );
+
+    objectCount--;
+    objectTotal -= getClass(anObject)->instance_size;
+
+    memset( (id *)anObject, _obj_fillfree, getClass(anObject)->instance_size );
+  }
+  free( anObject );
+}
+
+//
+// getInternalComponentZone --
+//   return view of zone qualified for allocation of object components
+//
+- getInternalComponentZone
+{
+  return componentZone;
+}
+
+//
+// alloc: -- alloc block of requested size, without initialization of contents
 //
 - (void *) alloc: (size_t)size
 {
   void  *newBlock;
 
   if ( _obj_debug && size == 0 ) raiseEvent( InvalidAllocSize, nil );
-  newBlock = malloc( size );
-  if ( ! newBlock ) raiseEvent( OutOfMemory, nil );
-  if ( _obj_debug ) memset( newBlock, _obj_fillalloc, size );
+  newBlock = dalloc( size );
+  if ( _obj_debug ) {
+    allocCount++;
+    memset( newBlock, _obj_fillalloc, size );
+  }
   return newBlock;
 }
 
-// interface like free(): free bytes
-
+//
+// free: -- free block allocated by alloc:
+//
 - (void) free: (void *) aBlock
 {
+  if ( _obj_debug ) allocCount--;
   free(aBlock);
 }
 
 //
-// allocBlock: -- allocate block, with size also required on free
+// allocBlock: -- allocate block, with block size required on free
 //
 - (void *) allocBlock: (size_t)size
 {
   void  *newBlock;
 
   if ( _obj_debug && size == 0 ) raiseEvent( InvalidAllocSize, nil );
-  newBlock = malloc( size );
-  if ( ! newBlock ) raiseEvent( OutOfMemory, nil );
-  if ( _obj_debug ) memset( newBlock, _obj_fillalloc, size );
+  newBlock = dalloc( size );
+  if ( _obj_debug ) {
+    blockCount++;
+    blockTotal += size;
+    memset( newBlock, _obj_fillalloc, size );
+  }
   return newBlock;
 }
 
-// copyBlock:blockSize: -- allocate new block and initialize to old
-
-- (void *) copyBlock: (void *)aBlock blockSize: (size_t)size
-{
-  void  *newAlloc;
-
-  if ( _obj_debug && size == 0 ) raiseEvent( InvalidAllocSize, nil );
-  newAlloc = malloc( size );
-  memcpy( newAlloc, aBlock, size );
-  return newAlloc;
-}
-
-// interface like free(): free bytes, only require size of block
-
+//
+// freeBlock: -- free block allocated by allocBlock: or copyBlock:
+//
 - (void) freeBlock: (void *) aBlock blockSize: (size_t)size
 {
-  if ( _obj_debug ) memset( aBlock, _obj_fillfree, size );
+  if ( _obj_debug ) {
+    blockCount--;
+    blockTotal -= size;
+    memset( aBlock, _obj_fillfree, size );
+  }
   free(aBlock);
 }
 
-- createAllocSize: (size_t)allocSize
+//
+// getPopulation --
+//   return collection of objects explicitly allocated within the zone
+//
+- getPopulation
 {
-  AllocSize *newAllocSize;
-
-  if ( _obj_debug && allocSize == 0 ) raiseEvent( InvalidAllocSize, nil );
-  newAllocSize = [self allocIVars: id_AllocSize];
-  newAllocSize->zone      = (id)self;
-  newAllocSize->allocSize = allocSize;
-  newAllocSize->freeList  = &phonyFreeList;
-  return newAllocSize;
+  return population;
 }
 
-- (BOOL) isSubzoneAlloc: (void *)pointer
+//
+// describe: -- standard debug method
+//
+- (void) describe: outputCharStream
 {
-  return 0;
-}
+  char  buffer[200];
 
-- getAllocSubzone: (void *)pointer
-{
-  return nil;
-}
+  [super describe: outputCharStream];
+  sprintf( buffer, "> number of objects in population: %d\n",
+           [population getCount] );
+  [outputCharStream catC: buffer];
 
-@end
-
-
-@implementation AllocSize
-
-- getZone
-{
-  return zone;
-}
-
-- (size_t) getAllocSize
-{
-  return allocSize;
-}
-
-@end
-
-void *allocSize( id anAllocSize )
-{
-  void *newAlloc = ((AllocSize *)anAllocSize)->freeList;
-  if ( newAlloc ) {
-    ((AllocSize *)anAllocSize)->freeList = *(void **)newAlloc;
-    return newAlloc;
+  if ( _obj_debug ) {
+    sprintf( buffer,
+      "> number of internal objects: %3d  total size: %d\n"
+      "> number of internal blocks:  %3d  total size: %d\n"
+      "> number of alloc: blocks:  %5d  (total size not available)\n",
+             objectCount, objectTotal, blockCount, blockTotal, allocCount );
+    [outputCharStream catC: buffer];
   }
-  return [((AllocSize *)anAllocSize)->zone
-            allocBlock: ((AllocSize *)anAllocSize)->allocSize];
 }
 
-void freeSize( id anAllocSize, void *aBlock )
+//
+// xfprint -- message to execute xprint on each member of the zone population
+//
+- (void) xfprint
 {
-  *(void **)aBlock = ((AllocSize *)anAllocSize)->freeList;
-  ((AllocSize *)anAllocSize)->freeList = aBlock;
+  id  index, member;
+
+  index = [population begin: scratchZone];
+  while ( (member = [index next]) ) xprint( member );
+  [index drop];
 }
+
+//
+// mapAllocations: -- standard method to identify internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  id  index, member;
+
+  // map all objects within the zone population, including internal block
+  // allocations
+
+  mapalloc->zone       = self;
+  mapalloc->descriptor = t_PopulationObject;
+
+  index = [population begin: scratchZone];
+  while ( (member = [index next]) ) {
+    [index prev];
+    mapAlloc( mapalloc, member );
+  }
+
+  // map components of the zone itself
+
+  mapObject( mapalloc, componentZone );
+  mapObject( mapalloc, population );
+}
+
+@end
+
+//
+// ComponentZone_c --
+//   qualified view of a zone to create objects as internal components that
+//   are not contained in the zone population
+//   
+
+@implementation ComponentZone_c
+
+- allocIVars: (Class)aClass
+{
+  return [baseZone allocIVarsComponent: (Class)aClass];
+}
+
+- copyIVars: anObject
+{
+  return [baseZone copyIVarsComponent: anObject];
+}
+
+@end

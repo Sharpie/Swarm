@@ -22,7 +22,6 @@ PHASE(Creating)
   List_any  *newList;
 
   newList = [aZone allocIVars: self];
-  newList->zone = aZone;
   return newList;
 }
 
@@ -46,19 +45,21 @@ PHASE(Creating)
        "cannot specify an initial value with IndexFromMemberLoc option\n" );
 
   if ( bits & Bit_InitialValueSet ) {
-    if ( ! createByMessageTo( self, createEnd ) ) {
-      setClass( self, id_List_linked );
-      index = [(id)firstLink begin: scratchZone];
-      firstLink = NULL;
-      while ( (member = [index next]) ) [(id)self addLast: member];
-      [index drop];
-    }
+    if ( createByMessageToCopy( self, createEnd ) ) return self;
+    setClass( self, id_List_linked );
+    setMappedAlloc( self );
+    index = [(id)firstLink begin: scratchZone];
+    firstLink = NULL;
+    while ( (member = [index next]) ) [(id)self addLast: member];
+    [index drop];
+
   } else {
     createByCopy( );
     if ( bits & Bit_IndexFromMemberLoc )
       setClass( self, id_List_mlinks );
     else
       setClass( self, id_List_linked );
+      setMappedAlloc( self );
   }
   return self;
 }

@@ -200,6 +200,30 @@ static id indexAtOffset( Collection_any *self, int offset )
   [index drop];
 }
 
+//
+// describe: -- standard method to generate debug description object
+//
+- (void) describe: outputCharStream
+{
+  char  buffer[100];
+
+  [super describe: outputCharStream];
+  sprintf( buffer, "> number of members: %d\n", count );
+  [outputCharStream catC: buffer];
+}
+
+//
+// xfprint -- message to execute xprint on each member of a collection
+//
+- (void) xfprint
+{
+  id  index, member;
+
+  index = [(id)self begin: scratchZone];
+  while ( (member = [index next]) ) xprint( member );
+  [index drop];
+}
+
 @end
 
 
@@ -232,11 +256,6 @@ static id indexAtOffset( Collection_any *self, int offset )
     if ( member == anObject ) return member;
   }
   return NULL;
-}
-
-- (void) drop
-{
-  [zone freeIVars: self];
 }
 
 @end

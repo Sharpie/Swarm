@@ -11,13 +11,14 @@ Library:      collections
 
 #import <collections/Collection.h>
 
-@interface Set_c : Collection_any // <Set>
+@interface Set_c : Collection_any
 {
 @public
-  Collection_any  *list;         // list of key-member entries in key sequence
+  Collection_any  *list;         // list of member entries
 }
-/*** methods implemented in .m file ***/
+/*** methods in Set_c (inserted from .m file) ***/
 + createBegin: aZone;
+- createEnd;
 - copy: aZone;
 - (int) count;
 - (id *) add: anObject;
@@ -28,6 +29,7 @@ Library:      collections
 - remove: aKey;
 - begin: aZone;
 - createIndexIn: aZone fromMember: anObject;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface SetIndex_c : Index_any // <KeyedCollectionIndex>
@@ -35,7 +37,7 @@ Library:      collections
 @public
   id     listIndex;     // index into list of entries
 }
-/*** methods implemented in .m file ***/
+/*** methods in SetIndex_c (inserted from .m file) ***/
 - next;
 - prev;
 - get;

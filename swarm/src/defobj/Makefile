@@ -8,7 +8,7 @@ OBJECTS= defobj.o defobj.o Program.o DefObject.o DefClass.o \
 all: install-headers install-lib
 
 clean:
-	- rm -f defobj.x[cmt] $(OBJECTS)
+	- rm -rf ,m2h defobj.x[cmt] $(OBJECTS)
 
 defobj.o: defobj.xm
 
@@ -21,9 +21,11 @@ $(LIBDIR)/libdefobj.a: $(OBJECTS)
 
 install-headers: \
 	$(BINDIR) \
+	$(BINDIR)/m2h \
 	$(BINDIR)/make-h2x \
 	$(INCLIB) \
 	$(INCDIR)/defobj.h \
+	$(INCLIB)/defalloc.h \
 	$(INCLIB)/types.h \
 	$(INCLIB)/classes.h \
 	$(INCLIB)/deftype.h \
@@ -37,6 +39,8 @@ install-headers: \
 
 $(BINDIR):
 	if [ ! -x $(BINDIR) ]; then mkdir $(BINDIR); fi
+$(BINDIR)/m2h: m2h
+	cp $? $@
 $(BINDIR)/make-h2x: make-h2x
 	cp $? $@
 $(INCLIB):
@@ -48,6 +52,8 @@ $(INCLIB)/types.h $(INCLIB)/classes.h: defobj.h
 	cp defobj.xt $(INCLIB)/types.h
 	cp defobj.xc $(INCLIB)/classes.h
 $(INCLIB)/deftype.h: deftype.h
+	cp $? $@
+$(INCLIB)/defalloc.h: defalloc.h
 	cp $? $@
 $(INCLIB)/Program.h: Program.h
 	cp $? $@

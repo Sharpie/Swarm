@@ -12,7 +12,7 @@ OBJECTS= collections.o Collection.o Array.o List.o $(LISTOBJECTS) \
 all: install-headers install-lib
 
 clean:
-	- rm -f collections.x[cmt] *.o *.a core
+	- rm -rf ,m2h collections.x[cmt] $(OBJECTS)
 
 collections.o: collections.xm
 

@@ -45,12 +45,28 @@ static inline id getMemberFromLink( link_t link, long bits )
 
 PHASE(UsingOnly)
 
+//
+// copy: -- standard method to copy internal state of object
+//
+- copy: aZone
+{
+  TARGET  *newList;
+  id      index, member;
+
+  newList = [aZone allocIVars: getClass( self )];
+  setMappedAlloc( newList );
+  index = [self begin: scratchZone];
+  while ( (member = [index next]) ) [newList addLast: member];
+  [index drop];
+  return newList;
+}
+
 - (void) addFirst: anObject
 {
   link_t  newLink;
 
 #if LINKED
-  newLink = [zone allocBlock: sizeof *firstLink];
+  newLink = [getZone( self ) allocBlock: sizeof *firstLink];
 #elif MLINKS
   newLink = getLinkFromMember( anObject, bits );
 #endif
@@ -75,7 +91,7 @@ PHASE(UsingOnly)
   link_t  newLink;
 
 #if LINKED
-  newLink = [zone allocBlock: sizeof *firstLink];
+  newLink = [getZone( self ) allocBlock: sizeof *firstLink];
 #elif MLINKS
   newLink = getLinkFromMember( anObject, bits );
 #endif
@@ -110,15 +126,14 @@ PHASE(UsingOnly)
     }
 #if LINKED
     member = link->refObject;
-    [zone freeBlock: link blockSize: sizeof *link];
+    [getZone( self ) freeBlock: link blockSize: sizeof *link];
 #elif MLINKS
     member = getMemberFromLink( link, bits );
 #endif
     count--;
     return member;
   } else {
-    raiseEvent( NoMembers, nil );
-    exit(1);  // suppress compiler warning
+    raiseEvent( NoMembers, nil ); exit(0);
   }
 }
 
@@ -137,15 +152,14 @@ PHASE(UsingOnly)
     }
 #if LINKED
     member = link->refObject;
-    [zone freeBlock: link blockSize: sizeof *link];
+    [getZone( self ) freeBlock: link blockSize: sizeof *link];
 #elif MLINKS
     member = getMemberFromLink( link, bits );
 #endif
     count--;
     return member;
   } else {
-    raiseEvent( NoMembers, nil );
-    exit(1);  // suppress compiler warning
+    raiseEvent( NoMembers, nil ); exit(0);
   }
 }
 
@@ -154,7 +168,6 @@ PHASE(UsingOnly)
   TINDEX *newIndex;
 
   newIndex = [aZone allocIVars: [TINDEX self]];
-  newIndex->zone       = aZone;
   newIndex->collection = self;
   newIndex->link       = (link_t)Start;
   newIndex->position   = 0;
@@ -166,11 +179,28 @@ PHASE(UsingOnly)
   TINDEX *newIndex;
 
   newIndex = [aZone allocIVars: anIndexSubclass];
-  newIndex->zone       = aZone;
   newIndex->collection = self;
   newIndex->link       = (link_t)Start;
   newIndex->position   = 0;
   return newIndex;
+}
+
+//
+// describe: -- standard method to generate debug description of object
+//
+- (void) describe: outputCharStream
+{
+#if MLINKS
+  char  buffer[100];
+#endif
+
+  [super describe: outputCharStream];
+#if MLINKS
+  sprintf( buffer, "> internal links at offset: %d\n",
+    getField( bits, IndexFromMemberLoc_Shift, IndexFromMemberLoc_Mask ) +
+              IndexFromMemberLoc_Min );
+  [outputCharStream catC: buffer];
+#endif
 }
 
 - createIndex: aZone fromMember: anObject
@@ -179,46 +209,33 @@ PHASE(UsingOnly)
   TINDEX  *newIndex;
 
   newIndex = [aZone allocIVars: [TINDEX self]];
-  newIndex->zone       = aZone;
   newIndex->collection = self;
   newIndex->link       = getLinkFromMember( anObject, bits );
   newIndex->position   = UNKNOWN_POS;
   return newIndex;
 #else
   raiseEvent( SourceMessage,
-    "createIndexIn:fromMember: requires IndexFromMemberLoc value\n" );
-  exit(1);  // suppress compiler warning
+    "createIndexIn:fromMember: requires IndexFromMemberLoc value\n" ); exit(0);
 #endif
 }
 
-- copy: aZone
-{
-  TARGET  *newList;
-  id      index, member;
-
-  newList = [aZone allocIVars: getClass( self )];
-  newList->zone = aZone;
-  index = [self begin: scratchZone];
-  while ( (member = [index next]) ) [newList addLast: member];
-  [index drop];
-  return newList;
-}
-
-- (void) drop
+- (void) mapAllocations: (mapalloc_t)mapalloc
 {
 #if LINKED
   link_t  link, nextLink;
 
+  if ( ! includeBlocks( mapalloc ) ) return;
+
+  mapalloc->size = sizeof *link;
   if ( firstLink ) {
     link = firstLink;
     do {
       nextLink = link->nextLink;
-      [zone freeBlock: link blockSize: sizeof *link];
+      mapAlloc( mapalloc, link );
       link = nextLink;
     } while ( link != firstLink );
   }
 #endif
-  [zone freeIVars: self];
 }
 
 @end
@@ -261,8 +278,7 @@ PHASE(UsingOnly)
         return NULL;
       }
     } else {
-      raiseEvent( AlreadyAtEnd, nil );
-      exit(1);  // suppress compiler warning
+      raiseEvent( AlreadyAtEnd, nil ); exit(0);
     }
   } else {  // member just removed
     if ( (id)link == Start ) {
@@ -317,8 +333,7 @@ PHASE(UsingOnly)
         return NULL;
       }
     } else {
-      raiseEvent( AlreadyAtStart, nil );
-      exit(1);  // suppress compiler warning
+      raiseEvent( AlreadyAtStart, nil ); exit(0);
     }
   } else {  // member just removed
     if ( (id)link == Start ) {
@@ -422,10 +437,9 @@ PHASE(UsingOnly)
     link = (link_t)Start;
     position = -1;
   }
-  ((TARGET *)collection)->count--;
+  collection->count--;
 #if LINKED
-  [((TARGET *)collection)->zone
-    freeBlock: oldLink blockSize: sizeof *link];
+  [getZone( collection ) freeBlock: oldLink blockSize: sizeof *link];
 #endif
   return oldMem;
 }
@@ -461,9 +475,8 @@ PHASE(UsingOnly)
 
 - setOffset: (int)offset
 {
-  if ( ( offset < 0 ) || ( offset >= ((TARGET *)collection)->count ) ) {
+  if ( ( offset < 0 ) || ( offset >= collection->count ) ) {
     raiseEvent( OffsetOutOfRange, nil );
-    exit(1);  // suppress compiler warning
   }
   link = (link_t)Start;
   position = 0;
@@ -477,10 +490,9 @@ PHASE(UsingOnly)
 
   if ( position < 0 || ( position == 0 && (id)link != Start ) ) {
     raiseEvent( InvalidIndexLoc, nil );
-    exit(1);  // suppress compiler warning
   }
 #if LINKED
-  newLink = [((TARGET *)collection)->zone allocBlock: sizeof *link];
+  newLink = [getZone( collection ) allocBlock: sizeof *link];
   newLink->refObject = anObject;
 #elif MLINKS
   newLink = getLinkFromMember( anObject, collection->bits );
@@ -502,7 +514,7 @@ PHASE(UsingOnly)
       newLink->prevLink = newLink->nextLink = newLink;
     }
   }
-  ((TARGET *)collection)->count++;
+  collection->count++;
 }
 
 - (void) addBefore: anObject
@@ -511,10 +523,9 @@ PHASE(UsingOnly)
 
   if ( position < 0 || ( position == 0 && (id)link != End ) ) {
     raiseEvent( InvalidIndexLoc, nil );
-    exit(1);  // suppress compiler warning
   }
 #if LINKED
-  newLink = [((TARGET *)collection)->zone allocBlock: sizeof *link];
+  newLink = [getZone( collection ) allocBlock: sizeof *link];
   newLink->refObject = anObject;
 #elif MLINKS
   newLink = getLinkFromMember( anObject, collection->bits );
@@ -537,7 +548,7 @@ PHASE(UsingOnly)
       newLink->prevLink = newLink->nextLink = newLink;
     }
   }
-  ((TARGET *)collection)->count++;
+  collection->count++;
 }
 
 @end

@@ -16,17 +16,17 @@ Library:      collections
 @public
   id   *block;    // block of id values
 }
-/*** methods implemented in .m file ***/
+/*** methods in Array_c (inserted from .m file) ***/
 + createBegin: aZone;
-+ create: aZone setCount: (int)memberCount;;
-+ create: aZone setMemberBlock: (id *)members setCount: (int)memberCount;
-+ create: aZone setMemberAlloc: (id *)members setCount: (int)memberCount;
 - (void) setInitialValue: initialValue;
 - createEnd;
++ create: aZone setCount: (int)memberCount;;
++ create: aZone setMemberBlock: (id *)members setCount: (int)memberCount;;
++ create: aZone setMemberAlloc: (id *)members setCount: (int)memberCount;;
 - (void) setMemberBlock: (id *)members setCount: (int)memberCount;
 - (void) setMemberAlloc: (id *)members setCount: (int)memberCount;
-- (void) setCount: (int)newCount;
 - (void) setDefaultMember: memberValue;
+- (void) setCount: (int)memberCount;
 - (void *) getMemberBlock;
 - (void *) getMemberAlloc;
 - getDefaultMember;
@@ -38,7 +38,7 @@ Library:      collections
 - getLast;
 - begin: aZone;
 - copy: aZone;
-- (void) drop;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ArrayIndex_c : Index_any
@@ -46,7 +46,7 @@ Library:      collections
 @public
   id   *memPtr;         // pointer to current member, or Start or End
 }
-/*** methods implemented in .m file ***/
+/*** methods in ArrayIndex_c (inserted from .m file) ***/
 - next;
 - prev;
 - get;

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -18,41 +18,22 @@ extern int  _obj_nclasses;
 extern void  *_obj_initAlloc( size_t size );
 extern void  _obj_setTypeImplemented( id, id );
 
-@interface InterfaceIdentifier_c : Symbol_c
-@end
-
-@interface Interface_any : Object_s
+@interface Type_c : Object_s
 {
 @public
-  id  owner;          // type which owns interface
-  id  messages;       // collection of message action types
-  id  attributes;     // collection of attribute definitions
-  id  allMessages;    // all messages including inherited ones
-  id  allAttributes;  // all messages including inherited ones
-}
-@end
-
-@interface Interface_c : Interface_any
-{
-  id  identifier;     // identifier for interface
-}
-@end
-
-@interface Type_c : Interface_any
-{
-@public
+  id    owner;            // module that contains type
   char  *name;            // name of type
   id    *typeID;          // global id variable containing type
-  id    implementation;   // class which implements create phase of type, if any
+  id    implementation;   // class that implements create phase, if any
   id    supertypes;       // other types from which type inherits
-  id    redefinitions;    // chain of excluded messages (for now)
-  id    interfaces;       // interfaces defined as part of type
 }
+/*** methods in Type_c (inserted from .m file) ***/
+- (BOOL) getCreatable;
 - getImplementation;
 - (char *) getName;
 @end
 
-@interface ProgramModule_c : Object_s
+@interface ProgramModule_c : Object
 {
 @public
   char  *name;     // name of module
@@ -62,7 +43,7 @@ extern void  _obj_setTypeImplemented( id, id );
   id    symbols;   // symbols (global id constants) defined within module
   id    classes;   // classes defined within module
 }
-/*** methods in ProgramModule_c: ***/
+/*** methods in ProgramModule_c (inserted from .m file) ***/
 - (char *) getName;
 - getOwner;
 - getModules;
@@ -72,5 +53,6 @@ extern void  _obj_setTypeImplemented( id, id );
 @end
 
 @interface Module_super_
-// Module_super_ methods:
+/*** methods in Module_super_ (inserted from .m file) ***/
++ self;
 @end

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -15,12 +15,25 @@ Library:      defobj
 // DefinedObject -- object with defined type and implementation
 //
 @deftype DefinedObject
--		getType;
--		getClass;
 - (BOOL)	respondsTo: (SEL)aSel;
+-		getClass;
+-		getZone;
 
--		describe: anOutputStream;
--		createIDString: aZone;
+- (ref_t)	addRef: (notify_t)notifyFunction withArg: (void *)arg;
+- (void)	removeRef: (ref_t)refVal;
+
+- (int)		compare: anObject;
+
+-		perform: (SEL)aSel;
+-		perform: (SEL)aSel with: anObject1;
+-		perform: (SEL)aSel with: anObject1 with: anObj2;
+-		perform: (SEL)aSel with: anObject1 with: anObj2 with: anObj3;
+
+- (void)	setDisplayName: (char *)displayName;
+- (char *)	getDisplayName;
+
+- (void)	describe: outputCharStream;
+- (void)	xprint;
 @end
 
 //
@@ -41,7 +54,6 @@ CREATING
 // Drop -- deallocate an object allocated within a zone
 //
 @deftype Drop
--		getZone;
 - (void)	drop;
 @end
 
@@ -89,101 +101,6 @@ USING
 
 
 //
-// Zone -- modular unit of storage allocation
-//
-@deftype Zone <Create, Drop, GetOwner, CREATABLE>
-CREATING
-- (void)	setObjectCollection: (BOOL)objectCollection;
-- (void)	setPageSize: (int)pageSize;
-USING
-- (BOOL)	getObjectCollection;
-- (int)		getPageSize;
-
--		allocIVars: aClass;
--		copyIVars: anObject;
-- (void)	freeIVars: anObject;
-
--               getObjects;
-
-- (void *)	alloc: (size_t)size;
-- (void)	free: (void *)aBlock;
-
-- (void *)	allocBlock: (size_t)size;
-- (void *)	copyBlock: (void *)aBlock blockSize: (size_t)size;
-- (void)	freeBlock: (void *)aBlock blockSize: (size_t)size;
-
--		createAllocSize: (size_t)size;
-
--		getSubzones;
-- (void)	mergeWithOwner;
-
-- (BOOL)	isSubzoneAlloc: (void *)pointer;
--		getAllocSubzone: (void *)pointer;
-@end
-
-// Inline functions for use of AllocSize objects:
-//   void *allocSize( AllocSize *anAllocSize );
-//   void *freeSize( AllocSize *anAllocSize, void *aBlock );
-
-
-//
-// RecordType -- definition of a linear collection of typed member values
-//
-@deftype RecordType <Create, Drop>
-CREATING
--		defineMember: aDataType;
--		defineAppendedData: (BOOL)appendedData;
--		definePrependedData: (BOOL)prependedData;
-USING
--		getMemberDefinitions;
-- (int)		getMemberDataSize;
-
-- (BOOL)	getAppendedData;
-- (BOOL)	getPrependedData;
-@end
-
-//
-// MemberDefinition -- definition of a typed member of a structure
-//
-@deftype MemberDefinition <DefinedObject, GetOwner>
--		getDataType;
-- (int)		getDefinitionOffset;
-- (int)		getByteOffset;
-@end
-
-//
-// Record -- a linear collection of typed member values
-//
-@deftype Record <Create, Drop, SetInitialValue>
-CREATING
-+		create: aZone setRecordType: aRecordType, ...;
-+		create: aZone setValues: aRecordType, ...;
-
-- (void)	setRecordType: aRecordType;
-- (void)	setValues: aRecordType, ...;
-
-- (void)	setAppendedSize: (int)appendedSize;
-- (void)	setPrependedSize: (int)prependedSize;
-
-- (void)	setMemberBlock: (void *)memberBlock;
-- (void)	setPrependedBlock: (void *)prependedBlock;
-USING
-- (int)		getAppendedSize;
-- (int)		getPrependedSize;
-
-- (void *)	getMemberBlock;
-- (void *)	getAppendedBlock;
-- (void *)	getPrependedBlock;
-
-- (void)	setValue: aMemberDefinition to: (void *)value;
--		getValue: aMemberDefinition;
-
-- (void)	setValue: aMemberDefinition buffer: (void *)valueBuffer;
-- (void)	getValue: aMemberDefinition buffer: (void *)valueBuffer;
-@end
-
-
-//
 // Symbol -- object defined as a distinct global id constant
 //
 @deftype Symbol <Create, GetName, CREATABLE>
@@ -195,7 +112,7 @@ CREATING
 //
 // EventType -- a report of some condition detected during program execution
 //
-@deftype EventType <Symbol, RecordType>
+@deftype EventType <Symbol>
 - (void)	raiseEvent;
 - (void)	raiseEvent: (void *)eventData, ...;
 @end
@@ -219,87 +136,68 @@ CREATING
 //
 #define raiseEvent( eventType, formatString, args... ) \
 [eventType raiseEvent: \
-"\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
-
-//
-// Event, WarningEvent, ErrorEvent -- occurrences of standard event types
-//
-@deftype Event <Record>
-@end
-@deftype WarningEvent <Record>
-@end
-@deftype ErrorEvent <Record>
-@end
+"\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args];
 
-// metaobjects defining all loaded elements of a running program
 
 //
-// InterfaceIdentifier -- unique label used to identify interface of a type
+// Zone -- modular unit of storage allocation
 //
-@deftype InterfaceIdentifier <Symbol>
-@end
+@deftype Zone <Create, Drop, GetOwner, CREATABLE>
+CREATING
+- (void)	setReclaimPolicy: reclaimPolicy;
+- (void)	setStackedSubzones: (BOOL)stackedSubzones;
+- (void)	setPageSize: (int)pageSize;
+USING
+-		getReclaimPolicy;
+- (BOOL)	getStackedSubzones;
+- (int)		getPageSize;
 
-// standard interfaces
+-		allocIVars: aClass;
+-		copyIVars: anObject;
+- (void)	freeIVars: anObject;
 
-extern id <InterfaceIdentifier>  Creating, Setting, Using;
+-		allocIVarsComponent: aClass;
+-		copyIVarsComponent: anObject;
+- (void)	freeIVarsComponent: anObject;
 
-//
-// Interface -- a collection of messages which implements part of a type
-//
-@deftype Interface <GetOwner>
--		getInterfaceIdentifier;
--		getImplementingClass;
+-		getInternalComponentZone;
 
--		getMessages;
--		getAttributes;
--		getAllMessages;
--		getAllAttributes;
-@end
+- (void *)	alloc: (size_t)size;
+- (void)	free: (void *)aBlock;
 
-//
-// Type -- a collection of messages comprising the life history of an object
-//
-@deftype Type <Interface>
--		getSupertypes;
--		getInterfaces;
+- (void *)	allocBlock: (size_t)size;
+- (void)	freeBlock: (void *)aBlock blockSize: (size_t)size;
 
-- (BOOL)	isSubtype: aType;
+-               getPopulation;
+-		getSubzones;
+- (void)	mergeWithOwner;
 
-- (BOOL)	getCreatable;
--		getImplementation;
-@end
+- (BOOL)	containsAlloc: (void *)alloc;
+-		getSubzone: (void *)alloc;
 
-//
-// ProgramModule -- all elements defined by a single loaded program module
-//
-@deftype ProgramModule <DefinedObject, GetName>
--		getModules;
--		getTypes;
--		getClasses;
--		getSymbols;
+- (void)	reclaimStorage;
+- (void)	releaseStorage;
+- (void)	transferStorageFrom: aZone;
+
+- (void)	xfprint;
 @end
 
 //
-// Program -- module which includes all loaded modules of a program
+// symbol values for ReclaimPolicy option
 //
-extern id <ProgramModule>  Program;
+extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
+                    ReclaimFrontierInternal, ReclaimInternal, ReclaimFrontier;
 
 
 //
 // DefinedClass -- class which implements an interface of a type
 //
-@deftype DefinedClass <DefinedObject, GetOwner, GetName>
+@deftype DefinedClass <DefinedObject, GetName>
 -		getSuperclass;
 - (BOOL)	isSubclass: aClass;
 
 - (void)	setTypeImplemented: aType;
 -		getTypeImplemented;
-
--		getMethods;
--		getIVarDefs;
-
--		getAllMethods;
--		getAllIVarDefs;
 
 - (IMP)		getMethodFor: (SEL)aSel;
 @end
@@ -307,7 +205,7 @@ extern id <ProgramModule>  Program;
 //
 // CreatedClass -- class with variables and/or methods defined at runtime 
 //
-@deftype CreatedClass <Create, DefinedClass, CREATABLE>
+@deftype CreatedClass <Create, DefinedClass>
 CREATING
 - (void)	setName: (char *)name;
 - (void)	setClass: aClass;
@@ -322,46 +220,11 @@ USING
 //
 // BehaviorPhase -- created class which implements a phase of object behavior
 //
-@deftype BehaviorPhase <CreatedClass, CREATABLE>
+@deftype BehaviorPhase <CreatedClass>
 CREATING
 - (void)	setNextPhase: aClass;
 USING
 -		getNextPhase;
-@end
-
-
-
-//
-// ActionType -- an executable process optionally yielding a result
-//
-@deftype ActionType <EventType>
-CREATING
--		defineParameter: aDataType;
--		defineResult: aDataType;
-USING
--		getParameterDefs;
--		getResultDef;
-@end
-
-//
-// ActionEvent -- an event recording an occurrence of an ActionType
-//
-@deftype ActionEvent <Event>
--		getStatus;
--		getSubevents;
-@end
-
-//
-// Message -- a procedure that may be performed on a receiver object
-//
-@deftype Message <EventType>
-- (SEL)		getSelector;
-@end
-
-//
-// MessageEvent -- an event recording the execution of a message
-//
-@deftype MessageEvent <ActionEvent>
 @end
 
 
@@ -373,6 +236,7 @@ extern id <Error>
   NotImplemented,         // requested behavior not implemented by object
   SubclassMustImplement,  // requested behavior must be implemented by subclass
   InvalidCombination,     // invalid combination of set messages for create
+  InvalidOperation,       // invalid operation for current state of receiver
   InvalidArgument,        // argument value not valid
   CreateSubclassing,      // improper use of Create subclassing framework
   CreateUsage,            // incorrect sequence of Create protocol messages
@@ -400,6 +264,18 @@ extern id <Warning>
 // func_t -- function pointer type
 //
 typedef void (*func_t)( void );
+
+//
+// predefined type descriptors for allocated blocks
+//
+extern id <Symbol>  t_ByteArray, t_LeafObject, t_PopulationObject;
+
+//
+// declaration to enable use of @class declaration for message receiver without
+// compile error (discovered by trial and error; the declaration appears in
+// <objc/objc-api.h> which is also sufficient to suppress the error)
+//
+extern Class objc_get_class( const char *name );  // for class id lookup
 
 //
 // type objects generated for module

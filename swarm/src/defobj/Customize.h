@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -26,12 +26,12 @@ extern id Creating, Setting, Using, CreatingOnly, UsingOnly;
 // Customize_s -- superclass impleemntation of create-phase customization
 //
 @interface Customize_s : Object_s // <Create>
-/*** methods implemented in .m file ***/
+/*** methods in Customize_s (inserted from .m file) ***/
 + customizeBegin: aZone;
 - customizeEnd;
 - customizeCopy: aZone;
 + customizeBeginEnd: aZone;
-- _setCreateBy_: (Class)subclass message:(SEL)aSel to:anObject;
+- _setCreateBy_: (Class)subclass message: (SEL)messageSelector to: anObject;
 - (void) _setCreateByCopy_;
 - (void) _setCreateByMessage_: (SEL)messageSelector to: anObject;
 - (void) _setCreateByMessage_: (SEL)messageSelector toCopy: anObject;
@@ -86,23 +86,23 @@ if ( _obj_customize( self ) ) [self _setRecustomize_: recustomizeReceiver]
   IMP  createMethod;    // cached method for createMessage selector
   id   recustomize;     // object to handle further create, if any
 }
-/*** methods implemented in .m file ***/
+/*** methods in CreateBy_c (inserted from .m file) ***/
 - createBegin: aZone;
 - customizeBegin: aZone;
 @end
 
 @interface Create_bycopy : CreateBy_c
-/*** methods implemented in .m file ***/
+/*** methods in Create_bycopy (inserted from .m file) ***/
 - create: aZone;
 @end
 
 @interface Create_bysend : CreateBy_c
-/*** methods implemented in .m file ***/
+/*** methods in Create_bysend (inserted from .m file) ***/
 - create: aZone;
 @end
 
 @interface Create_byboth : CreateBy_c
-/*** methods implemented in .m file ***/
+/*** methods in Create_byboth (inserted from .m file) ***/
 - create: aZone;
 @end
 

@@ -4,9 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 /*
-Name:         OutputStream.h
-Description:  character string object
-Library:      collections
+Name:        OutputStream.h
+Description: character string object
+Library:     collections
 */
 
 #import <defobj/Create.h>
@@ -17,11 +17,12 @@ Library:      collections
 @public
   FILE  *fileStream;
 }
-/*** methods implemented in .m file ***/
+/*** methods in OutputStream_c (inserted from .m file) ***/
 + createBegin: aZone;
 - (void) setFileStream: (FILE *)file;
 - createEnd;
 + create: aZone setFileStream: (FILE *)file;
 - (FILE *) getFileStream;
+- (void) catC: (char *)cstring;
 - (void) appendC: (char *)cstring;
 @end

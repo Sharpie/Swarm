@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -26,7 +26,6 @@ Library:      defobj
 extern void _obj_splitPhases( Class_s  *class );
 
 id   Creating, Setting, Using, CreatingOnly, UsingOnly;
-id   Program;
 
 id   *_obj_modules, *_obj_classes, _obj_programModule[7];
 int  _obj_nclasses, _obj_nmodules;
@@ -113,7 +112,7 @@ static void initModules( void )
   _obj_initZone = _obj_initAlloc( ((Class)id_Zone_c)->instance_size );
   *(id *)_obj_initZone = id_Zone_c;
 
-  // initialize InterfaceIdentifier constants
+  // initialize interface identifier constants
 
   Creating     = [_obj_initZone allocIVars: id_Symbol_c];
   Setting      = [_obj_initZone allocIVars: id_Symbol_c];
@@ -121,10 +120,10 @@ static void initModules( void )
   CreatingOnly = [_obj_initZone allocIVars: id_Symbol_c];
   UsingOnly    = [_obj_initZone allocIVars: id_Symbol_c];
 
-  ((Symbol_c *)Creating)->name = "Creating";
-  ((Symbol_c *)Setting )->name = "Setting";
-  ((Symbol_c *)Using   )->name = "Using";
-  ((Symbol_c *)CreatingOnly   )->name = "CreatingOnly";
+  ((Symbol_c *)Creating    )->name = "Creating";
+  ((Symbol_c *)Setting     )->name = "Setting";
+  ((Symbol_c *)Using       )->name = "Using";
+  ((Symbol_c *)CreatingOnly)->name = "CreatingOnly";
   ((Symbol_c *)UsingOnly   )->name = "Using";
 
   // initialize file variables
@@ -314,16 +313,6 @@ void _obj_initModule( void *module )
 
   (*initFunction)();
 }
-
-
-@implementation InterfaceIdentifier_c
-@end
-
-@implementation Interface_any
-@end
-
-@implementation Interface_c
-@end
 
 
 //

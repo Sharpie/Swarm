@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -51,6 +51,7 @@ static void initCustomizeWrapper( id aZone, id anObject )
   // allocate a new CreateBy instance and store id in wrapper
 
   createBy = (CreateBy_c *)[aZone allocIVars: [CreateBy_c self]];
+  setMappedAlloc( createBy );
   setWrapperCreateBy( wrapper, createBy );
 
   // save original self class in CreateBy object until customizeEnd
@@ -84,7 +85,7 @@ PHASE(Creating)
 
   // allocate object at initial location using createBegin
 
-  newObject = [self createBegin: aZone];
+  newObject = [self createBegin: [aZone getInternalComponentZone]];
 
   // wrap instance for customization and return allocated object
 
@@ -145,16 +146,16 @@ PHASE(Creating)
   // check for valid message selector and cache method for receiver
 
   if ( createBy->createMessage ) {
-    createBy->createMethod =
-      methodFor( createBy->createReceiver, createBy->createMessage );
+    createBy->createMethod = getMethodFor(
+      getClass( createBy->createReceiver ), createBy->createMessage );
     if ( ! respondsTo( createBy->createReceiver, createBy->createMessage ) ) {
       raiseEvent( CreateSubclassing,
 	"class %s, setCreateByMessage: or setCreateByMessage:to:\n"
-	"receiver object: %s\n"
+	"receiver object: %0#8x: %.64s\n"
 	"message selector name: \"%s\"\n"
 	"message selector not valid for receiver\n",
 	[[self getClass] getName],
-	[[createBy->createReceiver createIDString: scratchZone] getC],
+	createBy->createReceiver, getClass( createBy->createReceiver )->name,
 	sel_get_name( createBy->createMessage ) );
     }
   }
@@ -526,6 +527,14 @@ void _obj_splitPhases( Class_s *class )
       [[self getClass] getName] );
 
   return [recustomize customizeBegin: aZone];
+}
+
+//
+// mapAllocations: -- standard method to map internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  mapObject( mapalloc, createReceiver );
 }
 
 @end

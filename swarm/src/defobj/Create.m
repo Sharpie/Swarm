@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -36,7 +36,6 @@ PHASE(Creating)
   CreateDrop_s  *newObject;
 
   newObject = [aZone allocIVars: self];
-  newObject->zone = aZone;
   return newObject;
 }
 
@@ -48,24 +47,6 @@ PHASE(Creating)
   createByCopy();
   setNextPhase( self );
   return self;
-}
-
-PHASE(Using)
-
-//
-// getZone -- return zone saved within object
-//
-- getZone
-{
-  return zone;
-}
-
-//
-// drop -- drop object from zone in which allocated
-//
-- (void) drop
-{
-  [zone freeIVars: self];
 }
 
 @end
@@ -84,39 +65,6 @@ PHASE(Using)
 {
   createByCopy();
   return self;
-}
-
-@end
-
-
-@implementation Drop_s
-
-//
-// dropFrom: -- release an object from the zone in which it was allocated
-//
-- (void) dropFrom: aZone
-{
-  extern BOOL _warning_dropFrom;
-  if ( ! _warning_dropFrom ) {
-    _warning_dropFrom = 1;
-    raiseEvent( ObsoleteMessage,
-      "dropFrom: aZone has been replaced by drop in all uses\n" );
-  }
-
-  if ( aZone != zone )
-    raiseEvent( SourceMessage,
-      "dropFrom: -- argument zone does not match zone returned by getZone\n" );
-  [(id)self drop];
-}
-
-- getZone
-{
-  return zone;
-}
-
-- (void) drop  // override in subclass to free any additional allocations
-{
-  [zone freeIVars: self];
 }
 
 @end

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -10,7 +10,8 @@ Library:      defobj
 */
 
 #include "defobj.xm"
-#import  <defobj/Zone.h>
+#import <defobj/Zone.h>
+#import <collections.h>
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #include <stdio.h>
@@ -19,6 +20,8 @@ id  _obj_globalZone;
 id  _obj_scratchZone;
 id  _obj_initZone;
 id  _obj_probeZone;
+
+id  t_Object, t_ByteArray;
 
 BOOL  _warning_dropFrom = 1;
 
@@ -34,8 +37,6 @@ void _defobj_implement( void )
   [id_Symbol_c        setTypeImplemented: Symbol];
   [id_Warning_c       setTypeImplemented: Warning];
   [id_Error_c         setTypeImplemented: Error];
-  [id_CreatedClass_s  setTypeImplemented: CreatedClass];
-  [id_BehaviorPhase_s setTypeImplemented: BehaviorPhase];
 }
 
 //
@@ -63,87 +64,4 @@ void _defobj_initialize( void )
   [InvalidAllocSize setMessageString:
     "Requested allocation size must be at least one byte.\n"
     "(Requested allocation size was zero.)\n"];
-}
-
-//
-// xprint() -- print the debug description of an object
-//
-void
-xprint( id anObject )
-{
-  if ( anObject ) {
-    fprintf( _obj_xdebug,
-	     "object is %0#8x: %s\n",
-	     (unsigned int)anObject, [[anObject getClass] getName] );
-  } else {
-    fprintf( _obj_xdebug, "object is nil\n" );
-  }
-}
-
-//
-// xfprint() -- print the debug description for each member of a collection
-//
-void
-xfprint( id aCollection )
-{
-  id index, member;
-
-  if ( aCollection ) {
-    index = [aCollection begin: scratchZone];
-    while ( (member = [index next]) ) xprint( member );
-  } else {
-    fprintf( _obj_xdebug, "collection is nil\n" );
-  }
-}
-
-//
-// xexec() -- perform a message on an object
-//
-void
-xexec( id anObject, char *msgName )
-{
-  SEL sel;
-
-  if ( anObject ) {
-    sel = sel_get_any_uid( msgName );
-    if ( sel ) {
-      if ( [anObject respondsTo: sel] ) {
-	[anObject perform: sel];
-      } else {
-        fprintf( _obj_xdebug,
-                "Object %0#8x: %s does not respond to message %s\n",
-              (unsigned int)anObject, [[anObject getClass] getName], msgName );
-      }
-    } else {
-      fprintf( _obj_xdebug, "message \"%s\" is not defined\n", msgName );
-    }
-  } else {
-    fprintf( _obj_xdebug, "object is nil" );
-  }
-}
-
-//
-// xexec() -- perform a message on each message of a collection
-//
-void
-xfexec( id anObject, char *msgName )
-{
-  SEL sel;
-
-  if ( anObject ) {
-    sel = sel_get_any_uid( msgName );
-    if ( sel ) {
-      if ( [anObject respondsTo: @selector( forEach: )] ) {
-	[anObject forEach: sel];
-      } else {
-        fprintf( _obj_xdebug,
-                "Object %0#8x: %s does not respond to message forEach:\n",
-                 (unsigned int)anObject, [[anObject getClass] getName] );
-      }
-    } else {
-      fprintf( _obj_xdebug, "message \"%s\" is not defined\n", msgName );
-    }
-  } else {
-    fprintf( _obj_xdebug, "collection is nil" );
-  }
 }

@@ -22,16 +22,15 @@ PHASE(Creating)
   Set_c *newSet;
 
   newSet = [aZone allocIVars: self];
-  newSet->zone = aZone;
   return newSet;
 }
 
 - createEnd
 {
-  if ( ! createByMessageToCopy( self, createEnd ) ) {
-    self->list = [List create: zone];
-    setNextPhase( self );
-  }
+  if ( createByMessageToCopy( self, createEnd ) ) return self;
+  self->list = [List create: getComponentZone( self )];
+  setMappedAlloc( self );
+  setNextPhase( self );
   return self;
 }
 
@@ -42,7 +41,6 @@ PHASE(Using)
   Set_c  *newSet;
 
   newSet = [aZone copyIVars: self];
-  newSet->zone = aZone;
   newSet->list = [List create: aZone];
   return newSet;
 }
@@ -104,7 +102,6 @@ PHASE(Using)
   SetIndex_c *newIndex;
 
   newIndex = [aZone allocIVars: [SetIndex_c self]];
-  newIndex->zone       = aZone;
   newIndex->collection = self;
   newIndex->listIndex  = [(id)list begin: aZone];
   return newIndex;
@@ -113,6 +110,11 @@ PHASE(Using)
 - createIndexIn: aZone fromMember: anObject
 {
   return nil;
+}
+
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  mapObject( mapalloc, list );
 }
 
 @end

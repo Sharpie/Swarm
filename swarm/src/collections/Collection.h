@@ -28,7 +28,7 @@ Library:      collections
 #define  IndexFromMemberLoc_Mask   (0xfff << IndexFromMemberLoc_Shift)
 #define  IndexFromMemberLoc_Min    -2044
 }
-/*** methods implemented in .m file ***/
+/*** methods in Collection_any (inserted from .m file) ***/
 - (void) setReplaceOnly: (BOOL)replaceOnly;
 - (void) setIndexFromMemberLoc: (int)byteOffset;
 - (BOOL) getReadOnly;
@@ -44,20 +44,21 @@ Library:      collections
 - last;
 - (BOOL) contains: aMember;
 - remove: aMember;
+- (void) removeAll;
+- (void) deleteAll;
 - (void) forEach: (SEL)aSelector;
 - (void) forEach: (SEL)aSelector : arg1;
 - (void) forEach: (SEL)aSelector : arg1 : arg2;
 - (void) forEach: (SEL)aSelector : arg1 : arg2 : arg3;
 @end
 
-@interface Index_any : Drop_s // <Index>
+@interface Index_any : Object_s
 {
 @public
   Collection_any  *collection;  // base collection on which index created
 }
-/*** methods implemented in .m file ***/
+/*** methods in Index_any (inserted from .m file) ***/
 - getCollection;
 - findNext: anObject;
 - findPrev: anObject;
-- (void) drop;
 @end

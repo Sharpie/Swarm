@@ -18,17 +18,19 @@ Library:      collections
   char  *string;
   int   count;
 }
-/*** methods implemented in .m file ***/
+/*** methods in String_c (inserted from .m file) ***/
 + createBegin: aZone;
 - createEnd;
 + create: aZone;
 + create: aZone setC: (char *)cstring;
-- copy: aZone;
 - (void) setC: (char *)cstring;
+- copy: aZone;
 - (char *) getC;
+- (void) catC: (char *)cstring;
 - (void) appendC: (char *)cstring;
+- (int) getCount;
 - (int) count;
 - (int) length;
 - (int) compare: aString;
-- (void) drop;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end

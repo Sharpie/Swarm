@@ -21,7 +21,6 @@ PHASE(Creating)
   OrderedSet_c  *newOrderedSet;
 
   newOrderedSet = [aZone allocIVars: self];
-  newOrderedSet->zone = aZone;
   return newOrderedSet;
 }
 
@@ -62,5 +61,5 @@ PHASE(Using)
 @end
 
 
-@implementation OrderedSetIndex : ListIndex_mlinks
+@implementation OrderedSetIndex_c : ListIndex_mlinks
 @end

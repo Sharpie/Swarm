@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -11,73 +11,74 @@ Library:      defobj
 
 #define DEFINE_CLASSES
 #import <defobj.h>
+#import <defobj/defalloc.h>
 
 #ifdef INHERIT_OBJECT
 @interface Object_s : Object
+{
+@public
+  unsigned  zbits;  // word that contains zone in which object allocated, plus
+                    // additional bits about the object
+}
 #else
 @interface Object_s
 {
-  Class  isa;  // implementing class for object
+@public
+  Class     isa;    // class that implements the behavior of an object
+  unsigned  zbits;  // word that contains zone in which object allocated, plus
+                    // additional bits about the object
 }
 #endif
-/*** methods implemented in .m file ***/
+/*** methods in Object_s (inserted from .m file) ***/
 + (char *) getName;
-+ getClass;
-- getClass;
 + (BOOL) respondsTo: (SEL)aSel;
 - (BOOL) respondsTo: (SEL)aSel;
++ getClass;
+- getClass;
+- getZone;
+- (void) dropAllocations: (BOOL)componentAlloc;
+- (void) drop;
+- (ref_t) addRef: (notify_t)notifyFunction withArg: (void *)arg;;
+- (void) removeRef: (ref_t)refVal;
 + getSuperclass;
 + (BOOL) isSubclass: aClass;
 + (void) setTypeImplemented: aType;
 + getTypeImplemented;
-+ getMethods;
-+ getIVarDefs;
-+ getAllMethods;
-+ getAllIVarDefs;
++ getOwner;
 + (IMP) getMethodFor: (SEL)aSel;
++ getDefiningClass;
++ getNextPhase;
 + self;
+- getType;
+- (int) compare: anObject;
 - perform: (SEL)aSel;
 - perform: (SEL)aSel with: anObject1;
 - perform: (SEL)aSel with: anObject1 with: anObject2;
 - perform: (SEL)aSel with: anObject1 with: anObject2 with: anObject3;
-- createIDString: aZone;
-- describe: anOutputStream;
+- copy;
+- (void) setDisplayName: (char *)aName;
+- (char *) getDisplayName;
+- (void) describe: outputCharStream;
+- (void) xprint;
 @end
 
 //
-// getClass -- macro to get class of instance
+// getClass() -- macro to get class of instance
 //
-#define getClass(anObject) (*(Class *)anObject)
+#define getClass( anObject ) ( *(Class *)anObject )
 
 //
-// setClass -- macro to set behavior of instance to compatible class
+// setClass() -- macro to set behavior of instance to compatible class
 //
-#define setClass(anObject, behaviorClass) \
-  (*(Class *)anObject = (Class)behaviorClass)
+#define setClass( anObject, aClass ) \
+  ( *(Class *)anObject = (Class)aClass )
 
 //
-// callMethodInClass -- macro for lookup in an alternate superclass
-//
-#define callMethodInClass(aClass, aMessage, args...) \
-((*(get_imp([aClass self], @selector(aMessage)))) \
-  (self, @selector(aMessage), ## args))
-
-//
-// respondsTo -- return true if object responds to message  
-//
-extern BOOL respondsTo( id anObject, SEL aSel );
-
-//
-// methodFor -- lookup method for message on object
-//
-extern IMP methodFor( id anObject, SEL aSel );
-
-//
-// bit field macros for use in subclasses
+// macros for accessing bits at defined locations inside instance variables
 //
 
 #define getBit( word, bit ) \
-  ((word) & bit)
+  ( (word) & bit )
 #define setBit( word, bit, value ) \
   ( (value) ? ((word) |= bit) : ((word) &= ~bit) )
 
@@ -88,33 +89,22 @@ extern IMP methodFor( id anObject, SEL aSel );
 ((unsigned)((word) & mask) >> shift)
 
 //
-// AllocSize -- class and inline funcs for fast allocation of same-size blocks
+// callMethodInClass() -- macro for method lookup in an alternate superclass
 //
-@interface AllocSize : Object_s
-{
-@public
-  id <Zone>  zone;
-  int        allocSize;
-  void       **freeList;
-}
-/*** methods implemented in .m file ***/
-- getZone;
-- (size_t) getAllocSize;
-@end
+// This macro is identical in function to the macro CALL_METHOD_IN_CLASS
+// in GNU libobjects-0.1.19/src/behavior.h, by Andrew McCallum.
+//
+#define callMethodInClass( aClass, aMessage, args... ) \
+get_imp( aClass, @selector(aMessage) )( self, @selector(aMessage), ## args )
+extern IMP get_imp( Class class, SEL sel );
 
-extern inline void *allocSize( id anAllocSize )
-{
-  void *newAlloc = ((AllocSize *)anAllocSize)->freeList;
-  if ( newAlloc ) {
-    ((AllocSize *)anAllocSize)->freeList = *(void **)newAlloc;
-    return newAlloc;
-  }
-  return [((AllocSize *)anAllocSize)->zone
-            allocBlock: ((AllocSize *)anAllocSize)->allocSize];
-}
+//
+// respondsTo() -- function to test if object responds to message  
+//
+extern BOOL respondsTo( id anObject, SEL aSel );
 
-extern inline void freeSize( id anAllocSize, void *aBlock )
-{
-  *(void **)aBlock = ((AllocSize *)anAllocSize)->freeList;
-  ((AllocSize *)anAllocSize)->freeList = aBlock;
-}
+//
+// getMethodFor() --
+//   function to look up the method that implements a message for an object
+//
+extern IMP getMethodFor( id anObject, SEL aSel );

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -44,6 +44,15 @@ PHASE(Using)
 - (char *) getName
 {
   return name;
+}
+
+- (void) describe: outputCharStream
+{
+  char  buffer[100];
+
+  [super describe: outputCharStream];
+  sprintf( buffer, "> symbol name: %s\n", name );
+  [outputCharStream catC: buffer];
 }
 
 @end
@@ -116,9 +125,22 @@ static void printMessage( char *eventClass, char *eventName,
   va_list argptr;
 
   if ( ! eventData ) [self raiseEvent];
-  argptr = va_start( argptr, eventData );
+  va_start( argptr, eventData );
   printMessage( "warning", name, eventData, argptr, messageString );
   fprintf( _obj_xerror, "*** execution continuing...\n" );
+}
+
+- (void) describe: outputCharStream
+{
+  char  buffer[100];
+
+  [super describe: outputCharStream];
+  if ( messageString ) {
+    sprintf( buffer, "> default message:\n%s", messageString );
+    [outputCharStream catC: buffer];
+  } else {
+    [outputCharStream catC: "> (no default message)\n"];
+  }
 }
 
 @end
@@ -139,7 +161,7 @@ static void printMessage( char *eventClass, char *eventName,
   va_list  argptr;
 
   if ( ! eventData ) [self raiseEvent];
-  argptr = va_start( argptr, eventData );
+  va_start( argptr, eventData );
   printMessage( "error", name, eventData, argptr, messageString );
   fprintf( _obj_xerror, "*** execution terminating due to error\n" );
   abort();

@@ -1,45 +1,57 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
 /*
 Name:         Zone.h
-Description:  initial malloc pass-through implementation of Zone   
+Description:  superclass support for all zone implementations  
 Library:      defobj
 */
 
 #import <defobj/Create.h>
-#import <collections.h>
+#import <defobj/defalloc.h>
 
 @interface Zone_c : CreateDrop_s
 {
-@public
-  id <Zone>  ownerZone;  // zone which supplies pages for local zone
-  id         objects;    // collection of allocated objects
+  id   componentZone;        // view of zone qualified for component allocation
+  id   population;           // external objects created within the zone
+  int  objectCount;          // count of internal objects allocated in the zone
+  int  objectTotal;          // total size of internal objects
+  int  blockCount;           // count of internal blocks allocated in the zone
+  int  blockTotal;           // total size of internal blocks
+  int  allocCount;           // count of blocks allocated by alloc:
+  id   internalAllocations;  // collection of all internal allocations
 }
-/*** methods implemented in .m file ***/
+/*** methods in Zone_c (inserted from .m file) ***/
 + createBegin: aZone;
-- (void) setObjectCollection: (BOOL)objectCollection;
 - (void) setPageSize: (int)pageSize;
 - createEnd;
-- (void)drop;
-- (BOOL) getObjectCollection;
+- getOwner;
 - (int) getPageSize;
-- getSubzones;
-- (void) mergeWithOwner;
-- allocIVars: (Class)aClass;
+- allocIVars: aClass;
 - copyIVars: anObject;
 - (void) freeIVars: anObject;
-- allocObject: (Class)aClass;
-- getObjects;
-- (void) freeObject: anObject;
+- allocIVarsComponent: aClass;
+- copyIVarsComponent: anObject;
+- (void) freeIVarsComponent: anObject;
+- getInternalComponentZone;
 - (void *) alloc: (size_t)size;
 - (void) free: (void *) aBlock;
 - (void *) allocBlock: (size_t)size;
-- (void *) copyBlock: (void *)aBlock blockSize: (size_t)size;
 - (void) freeBlock: (void *) aBlock blockSize: (size_t)size;
-- createAllocSize: (size_t)allocSize;
-- (BOOL) isSubzoneAlloc: (void *)pointer;
-- getAllocSubzone: (void *)pointer;
+- getPopulation;
+- (void) describe: outputCharStream;
+- (void) xfprint;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
+@end
+
+@interface ComponentZone_c : CreateDrop_s
+{
+@public
+  id  baseZone;  // zone from which component objects to be allocated
+}
+/*** methods in ComponentZone_c (inserted from .m file) ***/
+- allocIVars: (Class)aClass;
+- copyIVars: anObject;
 @end
