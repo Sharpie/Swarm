@@ -54,8 +54,10 @@
 #ifdef HAVE_HDF5
   hid_t loc_id;
   hid_t psid;
-  hid_t vector_tid;
+  hid_t bsid;
 #endif
+  fcall_type_t vector_type;
+  void *vector_buf;
 
   id baseTypeObject;
   id compoundType;

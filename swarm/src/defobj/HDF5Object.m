@@ -9,6 +9,7 @@
 #import <defobj.h> // STRDUP, ZSTRDUP, SSTRDUP, FREEBLOCK, SFREEBLOCK
 #import <defobj/defalloc.h> // getZone
 #import <defobj/directory.h> // swarm_directory_ensure_class_named
+#import <defobj/classes.h> // id_Object_s
 
 #import "internal.h" // map_object_ivars, class_generate_name, ivar_ptr_for_name
 #ifdef HAVE_JDK
@@ -27,6 +28,8 @@
 #define LEVELSPREFIX "levels."
 
 static unsigned hdf5InstanceCount = 0;
+
+#define VECTOR_BLOCK_SIZE 1024
 
 static hid_t
 get_boolean_tid ()
@@ -521,7 +524,7 @@ create_class_from_compound_type (id aZone,
       [classObj setSuperclass: newClass];
       
       min_offset = 0;
-      min_offset = set_ivar (([Object_s class])->instance_size, 0);
+      min_offset = set_ivar (((Class) id_Object_s)->instance_size, 0);
       next_offset = min_offset;
       
       for (i = 0; i < count; i++)
@@ -924,7 +927,7 @@ PHASE(Creating)
   obj->c_rnnlen = 0;
   obj->c_rnmlen = 0;
   obj->loc_id = 0;
-  obj->vector_tid = 0;
+  obj->vector_type = fcall_type_void;
   obj->c_count = 0;
 #endif
   return obj;
@@ -959,7 +962,7 @@ PHASE(Creating)
 - setExtensibleVectorType: (fcall_type_t)extensibleVectorType
 {
 #ifdef HAVE_HDF5
-  vector_tid = tid_for_fcall_type (extensibleVectorType);
+  vector_type = extensibleVectorType;
 #else
   hdf5_not_available ();
 #endif
@@ -969,7 +972,7 @@ PHASE(Creating)
 - setExtensibleDoubleVector
 {
 #ifdef HAVE_HDF5
-  vector_tid = H5T_NATIVE_DOUBLE;
+  vector_type = fcall_type_double;
 #else
   hdf5_not_available ();
 #endif
@@ -1139,13 +1142,15 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid,
                 }
               else
                 {
-                  if (vector_tid)
+                  if (vector_type != fcall_type_void)
                     {
                       hsize_t dims[1];
                       hsize_t maxdims[1];
                       hid_t plist;
-                      hsize_t chunk_size[1] = { 1024 };
-                      
+                      hsize_t chunk_size[1] = { VECTOR_BLOCK_SIZE };
+                      hid_t vector_tid = tid_for_fcall_type (vector_type);
+
+                      vector_buf = [getZone (self) alloc: fcall_type_size (vector_type) * VECTOR_BLOCK_SIZE];
                       dims[0] = 1;
                       maxdims[0] = H5S_UNLIMITED;
                       if ((c_sid = H5Screate_simple (1, dims, maxdims)) < 0)
@@ -1172,6 +1177,14 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid,
                                                        plist)) < 0)
                         raiseEvent (SaveError,
                                     "unable to create (vector) dataset");
+
+                      {
+                        hsize_t bdims[1];
+                        
+                        bdims[0] = VECTOR_BLOCK_SIZE;
+                        if ((bsid = H5Screate_simple (1, bdims, NULL)) < 0)
+                          raiseEvent (SaveError, "unable to create block space");
+                      }
                     }
                   else
                     loc_id = parent_loc_id;
@@ -1855,32 +1868,39 @@ hdf5_store_attribute (hid_t did,
 #endif
 }
 
+- (void)flushVector
+{
+  double *buf = (double *) vector_buf;
+  hsize_t size[1];
+  hsize_t maxsize[1];
+  unsigned bufCount = (c_count % VECTOR_BLOCK_SIZE) ?: VECTOR_BLOCK_SIZE;
+  hssize_t offset[1];
+  
+  size[0] = c_count;
+  if (H5Dextend (loc_id, size) < 0)
+    abort ();
+  maxsize[0] = H5S_UNLIMITED;
+  if (H5Sset_extent_simple (c_sid, 1, size, maxsize) < 0)
+    abort ();
+  size[0] = bufCount;
+  if (H5Sset_extent_simple (bsid, 1, size, maxsize) < 0)
+    abort ();
+  offset[0] = c_count - bufCount; 
+  if (H5Soffset_simple (c_sid, offset) < 0)
+    abort ();
+  if (H5Dwrite (loc_id, H5T_NATIVE_DOUBLE, bsid, c_sid, H5P_DEFAULT, buf) < 0)
+    raiseEvent (InvalidArgument, "unable to write to vector");
+}
+
 - (void)addDoubleToVector: (double)val
 {
 #ifdef HAVE_HDF5
-  hsize_t size[1];
-  hsize_t maxsize[1];
-  hssize_t coord[1][1];
+  double *buf = (double *) vector_buf;
 
-  size[0] = c_count + 1;
-  if (H5Dextend (loc_id, size) < 0)
-    raiseEvent (SaveError, "unable to extend vector");
-
-  maxsize[0] = H5S_UNLIMITED;
-  if (H5Sset_extent_simple (c_sid, 1, size, maxsize) < 0)
-    raiseEvent (SaveError, "unable to reset extent");
-
-  coord[0][0] = c_count;
-  if (H5Sselect_elements (c_sid, H5S_SELECT_SET, 1,
-                          (const hssize_t **) coord) < 0)
-    raiseEvent (InvalidArgument,
-                "unable to select record: %u",
-                coord[0][0]);
-
+  buf[c_count % VECTOR_BLOCK_SIZE] = val;
   c_count++;
-
-  if (H5Dwrite (loc_id, H5T_NATIVE_DOUBLE, psid, c_sid, H5P_DEFAULT, &val) < 0)
-    raiseEvent (InvalidArgument, "unable to write to vector");
+  if (c_count % VECTOR_BLOCK_SIZE == 0)
+    [self flushVector];
 #else
   hdf5_not_available ();
 #endif
@@ -1958,7 +1978,7 @@ hdf5_store_attribute (hid_t did,
 #ifdef HAVE_HDF5
   char fmt[2 + c_rnnlen + 1 + 1];
   char buf[c_rnnlen + 1];
-
+  
   sprintf (fmt, "%%0%uu", (unsigned) c_rnnlen);
   sprintf (buf, fmt, recordNumber);
   
@@ -2129,6 +2149,8 @@ hdf5_store_attribute (hid_t did,
 
 - (void)flush
 {
+  if (vector_type != fcall_type_void)
+    [self flushVector];
 #ifdef HAVE_HDF5
   if (H5Fflush (loc_id, H5F_SCOPE_GLOBAL) <0)
     raiseEvent (SaveError, "Failed to flush HDF5 file");
@@ -2139,6 +2161,7 @@ hdf5_store_attribute (hid_t did,
 
 - (void)drop
 {
+  [self flush];
 #ifdef HAVE_HDF5
   if (parent == nil)
     {
@@ -2186,6 +2209,8 @@ hdf5_store_attribute (hid_t did,
         raiseEvent (LoadError, "unable to unregister string->ref converter");
     }
 
+  if (vector_buf)
+    FREEBLOCK (vector_buf);
   if (name)
     FREEBLOCK (name);
   [super drop];

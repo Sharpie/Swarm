@@ -1,3 +1,20 @@
+2001-07-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* HDF5Object.h (HDF5_c): Add bsid, vector_type & vector_buf.
+	Remove vector_tid;
+
+	* HDF5Object.m (VECTOR_BLOCK_SIZE): Define.
+	(create_class_from_compound_type): Use id_Object_s instead of
+	[Object_s class].
+	([HDF5_c -setExtensibleVectorType:]): Set vector_type, not vector_tid.
+	([HDF5_c -setExtensibleDoubleVector]): Likewise.
+	([HDF5_c -createEnd]): Setup bdims.  Setup vector_buf.
+	([HDF5_C -addDoubleToVector:]): Write into vector_buf, calling 
+	flushVector at VECTOR_BLOCK_SIZE intervals.
+	([HDF5_c -flushVector]): New method.
+	([HDF5_c -flush]): Call flushVector if vector_type is set.
+	([HDF5_c -drop]): Call flush.  Drop vector_buf.
+
 2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* FCall.m: Change java_f* to gc_f* throughout.  Change JAVAINFO_SIZE
