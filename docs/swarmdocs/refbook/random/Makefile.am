@@ -3,6 +3,4 @@ MODULE = random
 
 include $(top_srcdir)/refbook/Makefile.rules
 
-EXTRA_DIST += $(XML)
-
 
