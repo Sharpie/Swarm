@@ -1,5 +1,7 @@
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am (EXTRA_DIST): Add acxpm.m4.
+
 	* acfind.m4 (md_FIND_INCLUDES): Use symbolic expansion for _includes.
 	(md_FIND_LIB): Test for both dir/lib and libdir.
 
