@@ -202,6 +202,11 @@ fix_tcl_path (const char *path)
   objectsToNames = [[HashTable alloc] initKeyDesc:"@"
 		    valueDesc:"*"];
 
+  /* This calls Tcl_FindEncoding which ends up
+     calling TclWinSetInterfaces which sets getFileAttributesExProc 
+     which will be used by TclpObjNormalizePath. */
+  Tcl_FindExecutable (argv[0]);
+
   /* Create and init tcl interpreter */
 
   interp = Tcl_CreateInterp ();

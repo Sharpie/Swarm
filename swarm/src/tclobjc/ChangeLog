@@ -1,3 +1,10 @@
+2003-06-29  mgd  <mgd@drone>
+
+	* TclInterp.m ([TclInterp -preInitWithArgc:argv:]): Call
+	Tcl_FindExecutable.  This causes TclWinSetInterfaces to be called
+	which sets getFileAttributesExProc slot in tclWinProcs.  This call is
+	needed in Windows as Tcl internally normalizes pathnames.
+
 2001-08-24    <mgd@HELEN>
 
 	* Makefile.am (XINCLUDES): Substitute.
