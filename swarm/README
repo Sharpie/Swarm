@@ -1,15 +1,15 @@
-Welcome to the Swarm distribution. Full documentation should be found
-in "swarmdocs-xxxxxx.tar.gz", in the same place as this distribution.
-Documentation is also available on the Web at
+Welcome to the Swarm distribution.  Full documentation (both online
+and downloadable) can be found at: http://www.swarm.org/release-docs.html.
 
-  http://www.santafe.edu/projects/swarm/
+Further information on Swarm can be found at the Swarm website at:
+
+  http://www.swarm.org
 
 Contents of this README ================================================
 
    I. Installation Process
       A. Full source compilation and installation
       B. Binary installation with accompanying source
-  II. Installation Options and Settings
 
 Questions about this release should be directed to
 <swarm-support@santafe.edu> This is a mailing list for discussion of
@@ -115,14 +115,11 @@ binary packages on these systems are noted in parentheses.
 
 Please consult the Swarm release page:
 
-  http://www.santafe.edu/projects/swarm/release.html#binary
+  http://www.swarm.org/release.html
 
 for the latest information on the operating system versions that are
 supported and download information.
 
-II. Installation Options and Settings =================================
-
-The options that were formerly described here are now obsolete.
 Details of how to configure your Swarm installation just so, are now
 documented in the `INSTALL' file.
 
