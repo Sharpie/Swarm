@@ -1,3 +1,7 @@
+1999-07-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* space.h (Object2dDisplay): Add -makeProbeAtX:Y:.
+
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m (lispInLatticeValues, lispInLatticeObjects,

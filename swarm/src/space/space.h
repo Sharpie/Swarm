@@ -332,6 +332,8 @@ USING
 //M: render itself. 
 - display;
 
+//M: Make a probe for an object at a specific point.
+- makeProbeAtX: (unsigned)x Y: (unsigned)y;
 @end
 
 @protocol Int2dFiler <SwarmObject, CREATABLE>
