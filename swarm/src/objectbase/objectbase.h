@@ -75,7 +75,7 @@ USING
 - getObjectToNotify;
 @end
 
-@protocol Swarm
+@protocol Swarm <SwarmProcess, CREATABLE>
 //S: A temporal container.
 
 //D: A Swarm is a community of agents sharing a common timescale as
