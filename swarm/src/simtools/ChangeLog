@@ -1,5 +1,9 @@
 1997-12-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* simtools.h (ProbeDisplayManager): Add setDropImmediatelyFlag.
+
+1997-12-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
 	From Dwight Wilson <wilson@blaze.cs.jhu.edu> (slightly adapted)
 	
 	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): set

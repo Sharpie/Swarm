@@ -121,9 +121,10 @@ USING
 -               createCompleteProbeDisplayFor     : anObject
                        setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 
--		addProbeDisplay: pd;
+-		addProbeDisplay: probeDisplay;
 -		removeProbeDisplayFor: anObject ;
--		removeProbeDisplay: pd;
+-		removeProbeDisplay: probeDisplay;
+-               setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
 -		update;
 @end
 
