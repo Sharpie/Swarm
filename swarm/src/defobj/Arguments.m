@@ -665,9 +665,9 @@ prefix (const char *prefixstring)
       size_t homeLen = strlen (homeSrc);
       char possibleHome[possibleHomeLen + 1];
       char home[homeLen + 1];
-      unsigned i;
 
 #ifdef __CYGWIN__
+      unsigned i;
       // Inodes are computed from a pathname hash, so normalize to lowercase.
       for (i = 0; i < possibleHomeLen; i++)
 	possibleHome[i] = tolower (possibleHomeSrc[i]);
