@@ -1,3 +1,7 @@
+1999-05-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note widget snapshot fix for Windows.
+
 1999-05-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in (DLLWRAP): Check for dllwrap.

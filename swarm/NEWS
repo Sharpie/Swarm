@@ -44,6 +44,8 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 ***** Fixed a memory leak that occured when setRaster: was called
       repeatedly, e.g. as is needed for an agent's pixmap from one
       raster to another.
+***** Widget snapshots for 256-color display configurations of Windows were
+      broken.
 
 *** space
 **** Discrete2d, DblBuffer2d
