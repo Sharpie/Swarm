@@ -1,7 +1,7 @@
 (require 'cl)
 (require 'gnus)
 
-(load (concat (getenv "SWARMDOCS") "/common.el"))
+(load (concat (getenv "SWARMDOCS") "common.el"))
 
 (defstruct changelog-item
   filename

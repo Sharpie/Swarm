@@ -47,7 +47,7 @@
     (concat (get-swarmdocs) "src/" module-name "/" filename)))
 
 (defun get-swarmdocs-build-area ()
-    (concat (getenv "SWARMDOCS_BUILD_AREA") "/"))
+    (getenv "SWARMDOCS_BUILD_AREA"))
 
 (defun pathname-for-swarmdocs-pages-output (module)
   (let ((module-name (symbol-name module)))
