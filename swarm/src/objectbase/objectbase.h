@@ -26,45 +26,50 @@ Date:            1996-12-12
 // id <Error> ReferenceError;  // dangling pointer to removed object
 
 @protocol SwarmObject <Create, Drop>
-//S: A superclass of most objects in a Swarm simulation that provides support
-//S: for probing.
+//S: A superclass of most objects in a Swarm simulation that provides
+//S: support for probing.
 
-//D: A SwarmObject is an object that is intended to be a member of a Swarm. 
-//D: It's behavior will be perpetuated by messages sent from the schedule 
-//D: of events defined in the context of a Swarm object. 
-//D: The SwarmObject is where the models of all the agents of a simulation 
-//D: will reside. Hence, most of the burden on defining the messages that
-//D: can be sent to any agent lies with the user. SwarmObject inherits its 
-//D: basic functionality from the Create and Drop object types defined in the
-//D: defobj library. 
+//D: A SwarmObject is an object that is intended to be a member of a
+//D: Swarm.  It's behavior will be perpetuated by messages sent
+//D: from the schedule  of events defined in the context of 
+//D: Swarm object. 
+
+//D: The SwarmObject is where the models of all the agents of a
+//D: simulation will reside. Hence, most of the burden on defining
+//D: the messages that can be sent to any agent lies with the user.
+//D: SwarmObject inherits its basic functionality from the Create
+//D: and Drop object types defined in the defobj library. 
 
 USING
-//M: The getInstanceName method returns a meaningful word or phrase to indicate
-//M: the object being probed (and in the case of a probe display, place it in a
-//M: widget on the screen).
+//M: The getInstanceName method returns a meaningful word or phrase
+//M: to indicate the object being probed (and in the case of a
+//M: probe display, place it in a widget on the screen).
 - (const char *)getInstanceName;
 
-//M: The getProbeMap method returns a pointer to the ProbeMap for the object
-//M: if there has been one creaded for that object's class.  If it hasn't been 
-//M: created, then it creates a default ProbeMap.
+//M: The getProbeMap method returns a pointer to the ProbeMap for
+//M: the object if there has been one creaded for that object's class.
+//M: If it hasn't been created, then it creates a default ProbeMap.
 - getProbeMap;
 
-//M: The getCompleteProbeMap method returns a newly created CompleteProbeMap
-//M: for an object. 
+//M: The getCompleteProbeMap method returns a newly created
+//M: CompleteProbeMap for an object. 
 - getCompleteProbeMap;
 
 //M: The getProbeForVariable: method returns the VarProbe indexed in the
 //M: ProbeMap by the string aVariable.
 - getProbeForVariable: (const char *)aVariable;
 
-//M: The getProbeForMessage: method returns the MessageProbe indexed in the 
-//M: ProbeMap by the string aMessage.
+//M: The getProbeForMessage: method returns the MessageProbe indexed in
+//M: the ProbeMap by the string aMessage.
 - getProbeForMessage: (const char *)aMessage;
 @end
 
 @protocol ProbeConfig
-//S: Protocol for configuration of Probes, ProbeMaps, and the ProbeLibrary.
-//D: Protocol for configuration of Probes, ProbeMaps, and the ProbeLibrary.
+//S: Protocol for configuration of Probes, ProbeMaps, and the
+//S: ProbeLibrary.
+
+//D: Protocol for configuration of Probes, ProbeMaps, and the
+//D: ProbeLibrary.
 USING
 - setObjectToNotify: anObject;
 - getObjectToNotify;
@@ -73,19 +78,20 @@ USING
 @protocol Swarm
 //S: A temporal container.
 
-//D: A Swarm is a community of agents sharing a common timescale as well as
-//D: common memory pool.
+//D: A Swarm is a community of agents sharing a common timescale as
+//D: well as common memory pool.
 
 USING
-//M: Override this to let your Swarm create the objects that it contains. 
+//M: Override this to let your Swarm create the objects that it 
+//M: contains. 
 - buildObjects;
 
 //M: Override this to let your Swarm build its actions.
 - buildActions;
 
 //M: Override this to activate any actions you built in buildActions.
-//M: Note, you must activate yourself first before you can activate actions
-//M: inside you. 
+//M: Note, you must activate yourself first before you can activate
+//M: actions inside you. 
 
 //E: [super activateIn: swarmContext];
 //E: [myFancySchedule activateIn: self];
@@ -106,41 +112,44 @@ USING
 //S: An abstract superclass of both VarProbe and MessageProbe.
 
 //D: A Probe is simply an object that contains pointers to an element 
-//D: (instance variable or message description) of another object. The Probe
-//D: contains instance variables that describe the referent's class and type. 
+//D: (instance variable or message description) of another object.
+//D: The Probe contains instance variables that describe the referent's
+//D: class and type. 
 //D: It's actually an abstract class that is further subdivided into
 //D: VarProbe and MessageProbe, which represent the two basic types of 
 //D: elements of any object. The Probes are collected into a ProbeMap and
 //D: subsequently installed in the ProbeLibrary. 
 
 CREATING
-//M: The setProbedClass: method sets the class of the object the probe points
-//M: at and must be called at create time.
+//M: The setProbedClass: method sets the class of the object the probe
+//M: points at and must be called at create time.
 - setProbedClass: (Class)class;
 SETTING
-//M: The setSafety method turns on the option of checking the compatibility of 
-//M: the class of the object before any actions are performed on the object. 
+//M: The setSafety method turns on the option of checking the
+//M: compatibility of the class of the object before any actions are
+//M: performed on the object. 
 - setSafety;     // There should be a setSafety: BOOL
 
-//M: The unsetSafety method turns off the option of checking the compatibility 
-//M: of the class of the object before any actions are performed on the object.
+//M: The unsetSafety method turns off the option of checking the
+//M: compatibility of the class of the object before any actions are
+//M: performed on the object.
 - unsetSafety;   // and getSafety methods instead...
 
 USING
-//M: The clone: method returns a clone of the probe. If the initial probe was
-//M: created by Library Generation or by the default version of Object 
-//M: generation, the probe should be cloned prior to making changes to it 
-//M: to avoid having the changes affect the other potential users of the 
-//M: probe.
+//M: The clone: method returns a clone of the probe.  If the initial
+//M: probe was created by Library Generation or by the default version
+//M: of Object generation, the probe should be cloned prior to making
+//M: changes to it to avoid having the changes affect the other
+//M: potential users of the probe.
 - clone: aZone;
 
-//M: The getProbedClass method returns the class of the object the probe points
-//M: at as a Class pointer.
+//M: The getProbedClass method returns the class of the object the
+//M: probe points at as a Class pointer.
 - (Class)getProbedClass;
 
-//M: The getProbedType method returns the typing of the probed variable or 
-//M: message. The typing is represented using the string-format provided by 
-//M: the Objective-C runtime system.
+//M: The getProbedType method returns the typing of the probed
+//M: variable or message. The typing is represented using the
+//M: string-format provided by the Objective-C runtime system.
 - (const char *)getProbedType;
 
 #if 0
@@ -156,85 +165,88 @@ USING
 @end
 
 @protocol VarProbe <Probe>
-//S: A class that allows the user to inspect a given variable in any candidate
-//S: that is an instance of, or inherits from, a given class.
+//S: A class that allows the user to inspect a given variable in any
+//S: candidate that is an instance of, or inherits from, a given class.
 
-//D: This is a specialized subclass of the abstract class Probe. It completes 
-//D: the specification of a probe that refers to an instance variable
-//D: element of an object. 
+//D: This is a specialized subclass of the abstract class Probe.
+//D: It completes the specification of a probe that refers to an
+//D: instance variable element of an object. 
 
 CREATING
-//M: The setProbedVariable: sets the variable being probed. The aVariable 
-//M: identifier is simply a character string consisting of the identifier 
-//M: of the variable referent.  This method must be called during the create 
-//M: phase. 
+//M: The setProbedVariable: sets the variable being probed.
+//M: The aVariable identifier is simply a character string consisting
+//M: of the identifier of the variable referent.
+//M: This method must be called during the create phase. 
 - setProbedVariable: (const char *)aVariable;
 
 SETTING
-//M: The setStringReturnType: method sets the format that will be used to print
-//M: the variable. When the probedVariable is of type unsigned char or char,
-//M: the method probeAsString will, by default, return a string of the format:
-//M: "'%c' %d". This is meant to reflect the commonplace use of an unsigned
-//M: char as a small int.
+//M: The setStringReturnType: method sets the format that will be used
+//M: to print the variable.  When the probedVariable is of type
+//M: unsigned char or char, the method probeAsString will, by default,
+//M: return a string of the format: "'%c' %d".  This is meant to
+//M: reflect the commonplace use of an unsigned char as a small int.
 - setStringReturnType: returnType;
 
 USING
-//M: The getProbedVariable method returns a string matching the identifier of 
-//M: variable being probed.
+//M: The getProbedVariable method returns a string matching the
+//M: identifier of variable being probed.
 - (const char *)getProbedVariable;
 
-//M: The setFloatFormat: method sets the floating-point format of a GUI display
-//M: widget when given a sprintf-style formatting string.
+//M: The setFloatFormat: method sets the floating-point format of a GUI
+//M: display widget when given a sprintf-style formatting string.
 - setFloatFormat: (const char *)format;
 //   Currently, setNonInteractive must be used *after* create phase
 //   In any case these should also become setInteractive: BOOL etc.
 
-//M: The setNonInteractive method sets a VarProbe to be non-interactive. This
-//M: ensures that the user will not be able to change the value of a probe,
-//M: only observe it.  Setting the VarProbe to be non-interactive will not
-//M: interfere with the drag & drop capability of the objects into the VarProbe
-//M: field.
+//M: The setNonInteractive method sets a VarProbe to be non-interactive.
+//M: This ensures that the user will not be able to change the value of
+//M: a probe, only observe it.  Setting the VarProbe to be
+//M: non-interactive will not interfere with the drag & drop
+//M: capability of the objects into the VarProbe field.
+
 - setNonInteractive; 
 
-//M: The isInteractive method returns the interactivity state of the VarProbe.
-- (int)isInteractive;
+//M: The getInteractiveFlag method returns the
+//M: interactivity state of the VarProbe.
+- (BOOL)getInteractiveFlag;
 
 //M: The probeRaw: method returns a pointer to the probed variable.
 - (void *)probeRaw: anObject;
 
-//M: The probeAsPointer: method returns a pointer to the probed variable based
-//M: on the ProbeType.
+//M: The probeAsPointer: method returns a pointer to the probed
+//M: variable based on the ProbeType.
 - (void *)probeAsPointer: anObject;
 
-//M: The probeAsInt: method returns a pointer to the probed variable as an 
-//M: integer.
+//M: The probeAsInt: method returns a pointer to the probed variable as
+//M: an integer.
 - (int)probeAsInt: anObject;
 
-//M: The probeAsDouble: method returns a pointer to the probed variable as a
-//M: double.
+//M: The probeAsDouble: method returns a pointer to the probed variable
+//M: as a double.
 - (double)probeAsDouble: anObject;
 
-//M: The probeAsString:Buffer: method prints the value of the variable into 
-//M: the buffer. The buffer should be pre-allocated.
+//M: The probeAsString:Buffer: method prints the value of the
+//M: variable into the buffer. The buffer should be pre-allocated.
 - (const char *)probeAsString: anObject Buffer: (char *)buffer;
 
-//M: The probeAsString:Buffer:withFullPrecision: method prints the value of 
-//M: the variable into the buffer. The buffer should be pre-allocated. 
-//M: This version of probeAsString is used internally by ObjectSaver to use 
-//M: the "saved as" precision form which may differ from the "displayed" 
-//M: precision.
+//M: The probeAsString:Buffer:withFullPrecision: method prints the
+//M: value of the variable into the buffer.  The buffer should be
+//M: pre-allocated.  This version of probeAsString is used
+//M: internally by ObjectSaver to use the "saved as" precision form
+//M: which may differ from the "displayed" precision.
 - (const char *)probeAsString: anObject Buffer: (char *)buf
             withFullPrecision: (int) precision;
 
-//M: The setData:To: method sets the probedVariable using the pointer to the
-//M: new value.
+//M: The setData:To: method sets the probedVariable using the pointer
+//M: to the new value.
 - setData: anObject To: (void *) newValue;  // pass by reference.
 
-//M: The setData:ToString: sets the probedVariable using a string which the 
-//M: probe reads and converts appropriately. When setting the value of an 
-//M: unsigned char or a char using this method, the expected format of the
-//M: string is always "%i" unless CharString was chosen (in which case the 
-//M: format should be "'%c'").
+//M: The setData:ToString: sets the probedVariable using a string
+//M: which the probe reads and converts appropriately.
+//M: When setting the value of an 
+//M: unsigned char or a char using this method, the expected format of
+//M: the string is always "%i" unless CharString was chosen
+//M: (in which case the format should be "'%c'").
 - (int)setData: anObject ToString: (const char *)s; 
 
 @end
@@ -256,21 +268,22 @@ typedef struct val {
 } val_t;
 
 @protocol MessageProbe <Probe>
-//S: A class that allows the user to call a given message on any candidate
-//S: that is an instance of, or inherits from, a given class.
+//S: A class that allows the user to call a given message on any
+//S: candidate that is an instance of, or inherits from, a given class.
 
-//D: This is a specialized subclass of the abstract class Probe. It completes 
-//D: the specification of a probe that refers to a message element of
-//D: an object. 
+//D: This is a specialized subclass of the abstract class Probe.
+//D: It completes the specification of a probe that refers to a
+//D message element of an object. 
 
 CREATING
-//M: The setProbedSelector: method sets the message to be probed given the 
-//M: selector. 
+//M: The setProbedSelector: method sets the message to be probed given
+//M: the selector. 
 - setProbedSelector: (SEL)aSel;
 
-//M: The setHideResult: method is used to set the visibility of the result
-//M: field. When set to 1, the user is indicating that the result field in 
-//M: a graphical representation of the message probe should not be shown.
+//M: The setHideResult: method is used to set the visibility of the
+//M: result field.  When set to 1, the user is indicating that
+//M: the result field in a graphical representation of the message
+//M: probe should not be shown.
 - setHideResult: (BOOL)val;
 
 USING

@@ -9,7 +9,7 @@
 {
   const char *probedVariable;
   int dataOffset;
-  int interactive;
+  BOOL interactiveFlag;
   const char *floatFormat; // actual sprintf-type format
 }
 
@@ -21,8 +21,8 @@
 - (const char *)getProbedVariable;
 - (int)getDataOffset;
 
-- setNonInteractive ;
-- (int)isInteractive ;
+- setNonInteractive;
+- (BOOL)getInteractiveFlag;
 
 - setData: anObject To: (void *)newValue;	     // pass by reference.
 - (int)setData: anObject ToString: (const char *)s;  // gives us the string.

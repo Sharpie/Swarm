@@ -79,9 +79,9 @@
           || probedType[0] == _C_UINT
           || probedType[0] == _C_FLT
           || probedType[0] == _C_DBL)
-        interactive = 1;
+        interactiveFlag = YES;
       else
-        interactive = 0;
+        interactiveFlag = NO;
       
       // set up default formatting string for floating point and 
       // double types - defaults are set in the probeLibrary instance
@@ -97,13 +97,13 @@
 
 - setNonInteractive
 {
-  interactive = 0;
+  interactiveFlag = NO;
   return self;
 }
 
-- (int)isInteractive
+- (BOOL)getInteractiveFlag
 {
-  return interactive;
+  return interactiveFlag;
 }
 
 - (int)getDataOffset

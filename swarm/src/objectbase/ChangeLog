@@ -1,3 +1,13 @@
+1998-07-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VarProbe.h (VarProbe): Rename interactive to interactiveFlag.
+	Make it boolean.
+
+	* VarProbe.[hm], objectbase.h: Rename isInteractive to
+	getInteractiveFlag.
+
+	* objectbase.h: Minor reformatting of documentation.
+
 1998-07-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Arguments.m, MessageProbe.m: Include misc things last.
