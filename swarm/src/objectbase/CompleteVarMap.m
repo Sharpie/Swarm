@@ -42,21 +42,22 @@
 #ifdef HAVE_JDK
   if (isJavaProxy)
     { 
-      jclass currentClass;
+      jclass currentClass, nextClass;
 
       classObject = SD_FINDJAVA (jniEnv, probedClass);
 
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
-      currentClass = classObject;
+      [self addJavaFields: classObject];
 
       numEntries = 0;
-      for (currentClass = classObject;
+      for (currentClass = (*jniEnv)->GetSuperclass (jniEnv, classObject);
            currentClass;
-           currentClass = (*jniEnv)->GetSuperclass (jniEnv, currentClass))
+           nextClass = (*jniEnv)->GetSuperclass (jniEnv, currentClass),
+             (*jniEnv)->DeleteLocalRef (jniEnv, currentClass),
+             currentClass = nextClass)
         [self addJavaFields: currentClass];
-
       return self;
     }
 #endif

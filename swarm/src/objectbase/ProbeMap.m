@@ -6,6 +6,7 @@
 #import <objectbase/ProbeMap.h>
 #import <objc/objc-api.h>
 #import <defobj.h> // Warning, STRDUP
+#import <defobj/defalloc.h> // getZone
 #include <swarmconfig.h> // HAVE_JDK
 
 #import "local.h"
@@ -114,7 +115,7 @@
           id temp;
           
           temp = objectToNotify;
-          objectToNotify = [List create: [self getZone]];
+          objectToNotify = [List create: getZone (self)];
           [objectToNotify addLast: temp];
           if (([objectToNotify contains: anObject]) == NO) 
             [objectToNotify addLast: anObject];
@@ -165,7 +166,7 @@
       }
   numEntries = 0;
   
-  probes = [Map createBegin: [self getZone]];
+  probes = [Map createBegin: getZone (self)];
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];
   
@@ -191,18 +192,22 @@
 
   while (count > 0)
     {
-      jobject field;
       jstring name;
       const char *buf;
       jboolean isCopy;
       id aProbe;
       
       count--;
-      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, count);
-      name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+      {
+        jobject field;
+        
+        field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, count);
+        name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+        (*jniEnv)->DeleteLocalRef (jniEnv, field);
+      }
       buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
       
-      aProbe = [VarProbe createBegin: [self getZone]];
+      aProbe = [VarProbe createBegin: getZone (self)];
       [aProbe setProbedClass: probedClass];
       [aProbe setProbedVariable: buf];
       
@@ -210,11 +215,10 @@
         [aProbe setObjectToNotify: objectToNotify];
       aProbe = [aProbe createEnd];
       
-      [probes at: [String create: [self getZone] setC: buf] insert: aProbe];
+      [probes at: [String create: getZone (self) setC: buf] insert: aProbe];
       
       if (isCopy)
         (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
-      (*jniEnv)->DeleteLocalRef (jniEnv, field);
       (*jniEnv)->DeleteLocalRef (jniEnv, name);
     }
   (*jniEnv)->DeleteLocalRef (jniEnv, fields);
@@ -237,27 +241,36 @@
     {
       while (count > 0)
         {
-          jobject method;
           jstring name;
-          jobject selector;
           SEL sel;
           id aProbe;
           
           count--;
-          method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, count);
-
-          name = (*jniEnv)->CallObjectMethod (jniEnv,
-                                              method, 
-                                              m_MethodGetName);
-          selector = (*jniEnv)->NewObject (jniEnv,
-                                           c_Selector, 
-                                           m_SelectorConstructor, 
-                                           javaClass,
-                                           name,
-                                           JNI_FALSE);
-          sel = swarm_directory_ensure_selector (jniEnv, selector);
+          {
+            jobject method;
+            
+            method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, count);
+            
+            name = (*jniEnv)->CallObjectMethod (jniEnv,
+                                                method, 
+                                                m_MethodGetName);
+            (*jniEnv)->DeleteLocalRef (jniEnv, method);
+          }
+          {
+            jobject selector;
+            
+            selector = (*jniEnv)->NewObject (jniEnv,
+                                             c_Selector, 
+                                             m_SelectorConstructor, 
+                                             javaClass,
+                                             name,
+                                             JNI_FALSE);
+            (*jniEnv)->DeleteLocalRef (jniEnv, name);
+            sel = swarm_directory_ensure_selector (jniEnv, selector);
+            (*jniEnv)->DeleteLocalRef (jniEnv, selector);
+          }
           
-          aProbe = [MessageProbe createBegin: [self getZone]];
+          aProbe = [MessageProbe createBegin: getZone (self)];
           [aProbe setProbedClass: probedClass];
           [aProbe setProbedSelector: sel];
           if (objectToNotify != nil) 
@@ -268,12 +281,9 @@
           if (!aProbe)
             abort ();
           
-          [probes at: [String create: [self getZone] 
+          [probes at: [String create: getZone (self)
                               setC: [aProbe getProbedMessage]]
                   insert: aProbe];
-          (*jniEnv)->DeleteLocalRef (jniEnv, method);
-          (*jniEnv)->DeleteLocalRef (jniEnv, name);
-          (*jniEnv)->DeleteLocalRef (jniEnv, selector);
         }
     }
   (*jniEnv)->DeleteLocalRef (jniEnv, methods);
@@ -305,7 +315,7 @@
     [self setObjectToNotify: 
             [probeLibrary getObjectToNotify]];
   
-  probes = [Map createBegin: [self getZone]];
+  probes = [Map createBegin: getZone (self)];
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];  
 
@@ -320,6 +330,7 @@
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
       numEntries = 0;
+
       [self addJavaFields: classObject];
       [self addJavaMethods: classObject];
       return self;
@@ -338,14 +349,14 @@
           
           name = ivarList->ivar_list[i].ivar_name;
           
-          aProbe = [VarProbe createBegin: [self getZone]];
+          aProbe = [VarProbe createBegin: getZone (self)];
           [aProbe setProbedClass: probedClass];
           [aProbe setProbedVariable: name];
           if (objectToNotify != nil) 
             [aProbe setObjectToNotify: objectToNotify];
           aProbe = [aProbe createEnd];
           
-          [probes at: [String create: [self getZone] setC: name]
+          [probes at: [String create: getZone (self) setC: name]
                   insert: aProbe];
         }
     }
@@ -354,11 +365,11 @@
     {
       numEntries += methodList->method_count;
       
-      inversionList = [List create: [self getZone]];
+      inversionList = [List create: getZone (self)];
       
       for (i = 0; i < methodList->method_count; i++)
         {
-          aProbe = [MessageProbe createBegin: [self getZone]];
+          aProbe = [MessageProbe createBegin: getZone (self)];
           [aProbe setProbedClass: probedClass];
           [aProbe setProbedSelector: methodList->method_list[i].method_name];
           if (objectToNotify != nil) 
@@ -371,12 +382,12 @@
             numEntries--;
         }
       
-      index = [inversionList begin: [self getZone]];
+      index = [inversionList begin: getZone (self)];
       while ((aProbe = [index next]))
         {
           [probes at: 
                     [String 
-                      create: [self getZone] 
+                      create: getZone (self)
                       setC: [aProbe getProbedMessage]] 
                   insert: 
                     aProbe];
@@ -447,10 +458,10 @@
   Class class;
 	
   if([aProbe isKindOf: [VarProbe class]])
-    string = [String create: [self getZone]
+    string = [String create: getZone (self)
                            setC: [aProbe getProbedVariable]];
   else	
-    string = [String create: [self getZone]
+    string = [String create: getZone (self)
                            setC: STRDUP ([aProbe getProbedMessage])];
   
   if ([probes at: string] != nil)
@@ -493,10 +504,10 @@
   id string;
 
   if([aProbe isKindOf: [VarProbe class]])
-    string = [String create: [self getZone]
+    string = [String create: getZone (self)
                      setC: [aProbe getProbedVariable]];
   else
-    string = [String create: [self getZone]
+    string = [String create: getZone (self)
                      setC: STRDUP ([aProbe getProbedMessage])];
 
   if ([probes at: string] != nil)
@@ -543,7 +554,7 @@
 {
   id string;
   
-  string = [String create: [self getZone] setC: aVariable];
+  string = [String create: getZone (self) setC: aVariable];
   if([probes removeKey: string] != nil)
     numEntries--;
   [string drop];
@@ -556,7 +567,7 @@
   id string;
   id res;
   
-  string = [String create: [self getZone] setC: aVariable];
+  string = [String create: getZone (self) setC: aVariable];
   
   res = [probes at: string];
   [string drop];
@@ -578,7 +589,7 @@
 {
   id string;
   
-  string = [String create: [self getZone] setC: aMessage];
+  string = [String create: getZone (self) setC: aMessage];
   if([probes removeKey: string] != nil)
     numEntries--;
   [string drop];
@@ -591,7 +602,7 @@
   id string;
   id res;
   
-  string = [String create: [self getZone] setC: aMessage];
+  string = [String create: getZone (self) setC: aMessage];
 
   res = [probes at: string];
   [string drop];

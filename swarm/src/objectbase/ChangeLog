@@ -1,5 +1,15 @@
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* CompleteProbeMap.m: Convert [self getZone] to getZone (self).
+	([CompleteProbeMap -createEnd]): Drop localrefs
+	each iteration up class hierarchy.
+
+	* CompleteVarMap.m ([CompleteVarMap -createEnd]): Likewise.
+
+	* ProbeMap.m: Convert [self getZone] to getZone (self).
+	([ProbeMap -addJava{Fields,Methods}:]): Make localref usage
+	and drop as narrow as possible.
+
 	* VarProbe.m (java_probe_as_object): Handle localref cleanup
 	for GETVALUE.
 	(java_probe_as_string): Drop localref to temp Java string.
