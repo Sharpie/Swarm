@@ -36,14 +36,10 @@ PHASE(Using)
 
 - setRangesXMin: (double)minx 
             Max: (double)maxx
-           YMin: (double)miny
-            Max: (double)maxy 
 {
   [globalTkInterp 
-    eval:
-      "%s xaxis configure -min %f -max %f; %s yaxis configure -min %f -max %f",
-    widgetName, minx, maxx, widgetName, miny, maxy];
-
+    eval: "%s xaxis configure -min %f -max %f", widgetName, minx, maxx];
+  
   return self;
 }
 
@@ -51,8 +47,16 @@ PHASE(Using)
             Max: (double)maxy 
 {
   [globalTkInterp 
-    eval:
-      "%s yaxis configure -min %f -max %f", widgetName, miny, maxy];
+    eval: "%s yaxis configure -min %f -max %f", widgetName, miny, maxy];
+
+  return self;
+}
+
+- setRangesXMin: (double)minx Max: (double)maxx
+           YMin: (double)miny Max: (double)maxy
+{
+  [self setRangesXMin: minx Max: maxx];
+  [self setRangesYMin: miny Max: maxy];
 
   return self;
 }

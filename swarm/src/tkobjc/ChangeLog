@@ -1,3 +1,10 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Graph.m ([Graph -setRangesXMin:Max:YMin:Max:]): Use
+	setRanges[XY]Min:Max: for the job.
+
+	* Graph.[hm]: Add setRangesXMin:Max:.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Graph.m: Don't include stdlib.h.

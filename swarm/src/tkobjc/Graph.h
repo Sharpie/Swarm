@@ -28,6 +28,7 @@
            YMin: (double)minY
             Max: (double)maxY;
 
+- setRangesXMin: (double)minX Max: (double)maxX;
 - setRangesYMin: (double)minY Max: (double)maxY;
 - (void)drop;
 @end
