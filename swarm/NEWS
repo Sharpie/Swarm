@@ -8,6 +8,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** EZBin
 ***** New method -setPrecision: to specify number of significant digits
       shown for labels on major ticks.
+***** New accessor method -getHistogram.
 
 *** defobj
 **** Zone
@@ -24,15 +25,16 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** Support for RGB PNG files 
       (for writing PNG files with more than 256 colors)
 ***** Support for 24 bit screenshots under Windows
-***** New method -setParentFlag: for selecting inclusion of window manager
+***** New method -setDecorationsFlag: for selecting inclusion of window manager
       decorations in a widget snapshot.
 ***** Cope with applications and window managers determined to keep certain
       windows obscuring Swarm windows during widget snapshots.
-**** Add Line and Circle class objects to interface.  
+**** Add Circle, Line, ScheduleItem, and TextItem class objects to interface.  
 **** Support drop for CanvasItem.
 **** TextItem
 ***** setCenterFlag: selects between centered and left-justified text.
-**** New class ScheduleItem, a widget for inspecting schedules.
+**** New class ScheduleItem, a widget for inspecting schedules wth support for
+     animated messaging.
 
 *** objectbase
 **** Arguments
@@ -45,18 +47,23 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 ***** Support for short, unsigned short, long, and unsigned long types.
 
 ** Autoconfiguration
-*** Improved detection of link option for documenting shared libraries
-    for an executable (rpath).
+*** Improved detection of link option for setting internal 
+    pointer to shared libraries for an executable (rpath).
 *** Support for EGCS 1.1.
 
 ** Bug fixes
+*** analysis
+**** EZBin
+***** Miscomputation of bin-count.
+
 *** objectbase
 **** Arguments
 ***** --mode was not being recognized.
 
 *** gui (tkobjc)
 **** [Internal] / Pixmap
-***** Handle iconified, obscured, and partially-off-screen widget snapshots.
+***** Handle iconified, obscured, and partially off-screen widget snapshots.
+
 
 * Release Notes for Swarm 1.3
 
