@@ -1,3 +1,7 @@
+1999-01-26  Alex Lancaster  <alex@santafe.edu>
+
+	* acswarm.m4 (al_INIT_SWARM): Include AM_PROG_LIBTOOL macros.
+
 1999-01-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acexesuffix.m4, acguilibs.m4, aclinkflags.m4, acxpm.m4:

@@ -30,6 +30,8 @@ changequote([,])dnl
 
 al_SWARM_LOAD
 
+AM_PROG_LIBTOOL
+
 AC_SUBST(OBJC)
 AC_SUBST(OBJCFLAGS)
 
