@@ -176,7 +176,7 @@ PHASE(Using)
     {
       char buf[20];
       
-      sprintf (buf, "%u", getCurrentTime ());
+      sprintf (buf, "%lu", getCurrentTime ());
       [panel setWindowTitle: buf];
     }
   cacheIndex = [actionCache begin: scratchZone];
