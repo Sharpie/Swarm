@@ -32,7 +32,7 @@ libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(modul
 
 libswarm_la_SOURCES = 
 
-LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(SYSLIBS)
+LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) -lobjc $(SYSLIBS)
 
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(SUPPORTLDFLAGS) -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
 
