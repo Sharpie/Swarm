@@ -87,6 +87,7 @@ PHASE(Creating)
     case fcall_type_jobject:
     case fcall_type_jstring:
     case fcall_type_void:
+    case fcall_type_iid:
       interactiveFlag = NO;
       break;
     }
@@ -415,6 +416,7 @@ java_probe_as_int (jobject fieldType, jobject field, jobject object)
     case fcall_type_selector:                             \
     case fcall_type_jobject:                              \
     case fcall_type_jstring:                              \
+    case fcall_type_iid:                                  \
       abort ();                                           \
     case fcall_type_boolean:                              \
       ret = (type) p->boolean;                            \
@@ -1346,16 +1348,13 @@ convert_from_string (fcall_type_t type,
     case fcall_type_selector:
     case fcall_type_jobject:
     case fcall_type_jstring:
+    case fcall_type_iid:
       abort ();
     }
 
   return ret;
 }
 
-// sets data to the string passed in. Some duplicated code with
-// setData:To:, but it's not too bad. Note we don't allow setting
-// pointers here, because textual representations of pointers are
-// strange. That's probably not a good idea.
 - (BOOL)setData: anObject ToString: (const char *)s
 {
   BOOL ret;

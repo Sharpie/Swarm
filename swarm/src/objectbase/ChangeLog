@@ -1,3 +1,16 @@
+2001-01-28  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m ([VarProbe -_typeSetup_]): Handle fcall_type_iid.
+	(CONVERT): Likewise.
+
+	* ProbeMap.h: Include COM.h when BUILDING_SWARM is set.
+
+	* ProbeMap.[hm]: Change argument type of addCOM{Fields,Methods}:
+	to COMclass.  Change internal indirections as needed.
+
+	* ProbeMap.m ([ProbeMap -_addVarProbe_:getter:setter:]): Change
+	class argument type to COMclass.
+
 2001-01-27  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -addCOMMethods:]): Create Selector

@@ -13,9 +13,11 @@
 #import <objectbase/MessageProbe.h>
 #import <objectbase.h>
 
-
-#if defined(HAVE_JDK) && defined(BUILDING_SWARM)
+#ifdef BUILDING_SWARM
+#ifdef HAVE_JDK
 #import "../defobj/java.h"
+#endif
+#import "../defobj/COM.h"
 #endif
 
 @interface ProbeMap: SwarmObject <ProbeMap>
@@ -73,16 +75,17 @@
 - (void)_addVarProbe_: (Class)aClass variableName: (const char *)aName;
 - (void)_addMessageProbe_: (Class)aClass selector: (SEL)aSel;
 
-#if defined(HAVE_JDK) && defined(BUILDING_SWARM)
+#ifdef BUILDING_SWARM
+#ifdef HAVE_JDK
 - (void)addJavaFields: (jclass)javaClass;
 - (void)addJavaMethods: (jclass)javaClass;
+#endif
+- (void)addCOMFields: (COMclass)cClass;
+- (void)addCOMMethods: (COMclass)cClass;
 #endif
 
 - (void)addObjcFields: (Class)oClass;
 - (void)addObjcMethods: (Class)oClass;
-
-- (void)addCOMFields: (Class)oClass;
-- (void)addCOMMethods: (Class)oClass;
 
 - (void)describeForEach: stream;
 @end

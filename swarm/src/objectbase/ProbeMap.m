@@ -196,13 +196,15 @@ PHASE(Creating)
     count++;
 }
 
-- (void)_addVarProbe_: (Class)aClass getter: (COMmethod)getter setter: (COMmethod)setter
+- (void)_addVarProbe_: (COMclass)cClass
+               getter: (COMmethod)getter
+               setter: (COMmethod)setter
 {
   VarProbe *varProbe = [VarProbe createBegin: getZone (self)];
   id <String> key = [String create: getZone (self)
                             setC: COM_method_name (getter)];
 
-  [varProbe setProbedClass: aClass];
+  [varProbe setProbedClass: SD_COM_ENSURE_CLASS_OBJC (cClass)];
   [varProbe setProbedCOMgetter: getter setter: setter];
 	  
   if (objectToNotify != nil) 
@@ -364,13 +366,11 @@ PHASE(Creating)
     }
 }
 
-- (void)addCOMFields: (Class)aClass
+- (void)addCOMFields: (COMclass)cClass
 {
-  COMclass cClass = SD_COM_FIND_CLASS_COM (aClass);
-  
   void collect_variable (COMmethod getterMethod, COMmethod setterMethod)
     {
-      [self _addVarProbe_: aClass
+      [self _addVarProbe_: cClass
             getter: getterMethod
             setter: setterMethod];
     }
@@ -381,15 +381,14 @@ PHASE(Creating)
   COM_collect_variables (cClass, collect_variable);
 }
 
-- (void)addCOMMethods: (Class)aClass
+- (void)addCOMMethods: (COMclass)cClass
 {
-  COMclass cClass = SD_COM_FIND_CLASS_COM (aClass);
-
   void collect_method (COMmethod method)
     {
       COMselector cSel = COM_selector_create (method);
          
-      [self _addMessageProbe_: aClass selector: SD_COM_ENSURE_SELECTOR_OBJC (cSel)];
+      [self _addMessageProbe_: SD_COM_ENSURE_CLASS_OBJC (cClass)
+            selector: SD_COM_ENSURE_SELECTOR_OBJC (cSel)];
     }
 
   if (!cClass)
@@ -417,19 +416,25 @@ PHASE(Creating)
   [probes setCompareFunction: &p_compare];
   probes = [probes createEnd];  
 
-  if (COM_init_p () && SD_COM_FIND_CLASS_COM (probedClass))
+  if (COM_init_p ())
     {
-      [self addCOMFields: probedClass];
-      [self addCOMMethods: probedClass];
+      COMclass cClass = SD_COM_FIND_CLASS_COM (probedClass);
+      
+      if (cClass)
+        {
+          [self addCOMFields: cClass];
+          [self addCOMMethods: cClass];
+          return self;
+        }
     }
+  // note need for drop-thru above
 #ifdef HAVE_JDK
-  else if ([probedClass respondsTo: M(isJavaProxy)])
+  if ([probedClass respondsTo: M(isJavaProxy)])
     { 
       jclass classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
 
       [self addJavaFields: classObject];
       [self addJavaMethods: classObject];
-      return self;
     }
 #endif
   else
