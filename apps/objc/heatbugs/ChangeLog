@@ -12,7 +12,7 @@
 	Remove inline configuration of the ActionCache and ControlPanel;
 	GUISwarm's buildObjects is now more intelligent.
 	([HeatbugObserverSwarm -buildObjects]): Add call to
-	setupDestroyNotification to configure handling of widget kills
+	enableDestroyNotification to configure handling of widget kills
 	by the window manager.
 	([HeatbugObserverSwarm -_updateDisplay_]): New method (calls
 	display on heatDisplay and heatbugDisplay, and then drawSelf

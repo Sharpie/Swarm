@@ -130,7 +130,7 @@
   worldRaster = [ZoomRaster createBegin: [self getZone]];
   [worldRaster setWindowGeometryRecordName : "worldRaster"];
   worldRaster = [worldRaster createEnd];
-  [worldRaster setupDestroyNotification: self
+  [worldRaster enableDestroyNotification: self
                notificationMethod: @selector (_worldRasterDeath_)];
   [worldRaster setColormap: colormap];
   [worldRaster setZoomFactor: 4];
