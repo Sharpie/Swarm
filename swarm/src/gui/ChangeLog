@@ -2,6 +2,9 @@
 
 	* gui.h (Raster): Add ellipseX0:Y0:X1:Y1:Width:Color,
 	lineX0:Y0:X1:Y1:Width:Color:, and rectangleX0:Y0:X1:Y1:Width:Color:.
+	New protocols ButtonPanel, Form, CheckButton, OvalNodeItem,
+	RectangleNodeItem, CanvasItem, TextItem, Circle, Rectangle, and Line. 
+	Split all protocols into `New' and `Usage' parts.
 
 1998-04-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

@@ -1,6 +1,6 @@
 #import <objectbase.h>
 
-@protocol Widget <SwarmObject>
+@protocol _Widget
 + createParent: parent;
 - pack;
 - packFill;
@@ -24,14 +24,33 @@
 - (unsigned)getWidth;
 @end
 
-@protocol ArchivedGeometryWidget <Widget>
+@protocol Widget <_Widget, SwarmObject>
+@end
+
+@protocol _WindowGeometryRecord
+- (const char *)getWindowGeometry;
+- setWindowGeometry : (const char *)theWindowGeometryString;
+- (void)describe : outputCharStream;
+
+- in: expr;
++ in: aZone expr: expr;
+- out: outputCharStream; 
+@end
+
+@protocol WindowGeometryRecord <_WindowGeometryRecord, SwarmObject>
+@end
+
+@protocol _ArchivedGeometryWidget
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)destroyNotificationMethod;
 - disableDestroyNotification;
 - setWindowGeometryRecordName: (const char *)recordName;
 @end
 
-@protocol Frame <ArchivedGeometryWidget>
+@protocol ArchivedGeometryWidget <_ArchivedGeometryWidget, Widget>
+@end
+
+@protocol _Frame
 - setReliefFlag: (BOOL)reliefFlag;
 - setBorderWidth: (int)width;
 - withdraw;
@@ -40,15 +59,24 @@
 - assertPosition;
 @end
 
-@protocol Canvas <ArchivedGeometryWidget>
+@protocol Frame <_Frame, ArchivedGeometryWidget>
+@end
+
+@protocol _Canvas
 - createEnd;
 @end
 
-@protocol ProbeCanvas <Canvas>
+@protocol Canvas <_Canvas, ArchivedGeometryWidget>
+@end
+
+@protocol _ProbeCanvas
 - setHorizontalScrollbarFlag: (BOOL)horizontalScrolbarFlag;
 @end
 
-@protocol GraphElement <SwarmObject>
+@protocol ProbeCanvas <_ProbeCanvas, Canvas>
+@end
+
+@protocol _GraphElement
 - setLabel: (const char *)label;
 - setColor: (const char *)colorName;
 - setDashes: (int)dashesVal;
@@ -57,7 +85,10 @@
 - resetData;
 @end
 
-@protocol Graph <ArchivedGeometryWidget>
+@protocol GraphElement <_GraphElement, SwarmObject>
+@end
+
+@protocol _Graph
 - setTitle: (const char *)title;
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 - (id <GraphElement>)createElement;
@@ -66,7 +97,10 @@
 - setRangesXMin: (double)minx Max:(double)maxx YMin: (double)miny Max: (double)maxy;
 @end
 
-@protocol Histogram <ArchivedGeometryWidget>
+@protocol Graph <_Graph, ArchivedGeometryWidget>
+@end
+
+@protocol _Histogram
 - setNumPoints: (int)n
         Labels: (const char * const *)l
         Colors: (const char * const *)c;
@@ -87,81 +121,138 @@
 - drawHistogramWithDouble: (double *)points;
 @end
 
-@protocol Label <Widget>
+@protocol Histogram <_Histogram, ArchivedGeometryWidget>
+@end
+
+@protocol _Label
 - setText: (const char *)text;
 @end
 
-@protocol ClassDisplayLabel <Label>
+@protocol Label <_Label, Widget>
+@end
+
+@protocol _ClassDisplayLabel
 - createEnd;
 @end
 
-@protocol VarProbeLabel <Label>
+@protocol ClassDisplayLabel <_ClassDisplayLabel, Label>
+@end
+
+@protocol _VarProbeLabel
 - createEnd;
 @end
 
-@protocol CompleteProbeDisplayLabel <Label>
+@protocol VarProbeLabel <_VarProbeLabel, Label>
+@end
+
+@protocol _CompleteProbeDisplayLabel
 - setProbeDisplay: probeDisplay;
 - setProbedObject: probedObject;
 - setProbeDisplayManager: probeDisplayManager;
 - createEnd;
 @end
 
-@protocol Button <Widget>
+@protocol CompleteProbeDisplayLabel <_CompleteProbeDisplayLabel, Label>
+@end
+
+@protocol _Button
 - setText: (const char *)text;
 - setCommand: (const char *)command;
 - setButtonTarget: target method: (SEL)method;
 @end
 
-@protocol HideButton <Button>
-- setSubWidget: subWidget;
-- setUser: user;
+@protocol Button <_Button, Widget>
 @end
 
-@protocol ClassDisplayHideButton <Button>
+@protocol _ClassDisplayHideButton
 - setSubWidget: subWidget;
 - setUser: user;
 - setOwner: owner;
 @end
 
-@protocol SimpleProbeDisplayHideButton <Button>
+@protocol ClassDisplayHideButton <_ClassDisplayHideButton, Button>
+@end
+
+@protocol _SimpleProbeDisplayHideButton
 - setProbeDisplay: probeDisplay;
 - setFrame: frame;
 @end
 
-@protocol SuperButton <Button>
+@protocol SimpleProbeDisplayHideButton <_SimpleProbeDisplayHideButton, Button>
+@end
+
+@protocol _SuperButton
 - createEnd;
 - setSuperWidget: superWidget;
 - setOwner: owner;
 - setUser: user;
 @end
 
-@protocol Entry <Widget>
+@protocol SuperButton <_SuperButton, Button>
+@end
+
+@protocol _InputWidget
 - (const char *)getValue;
-- setValue: (const char *)value;
+- linkVariable: (void *)p Type: (int)type;
 - linkVariableInt: (void *)p;
 - linkVariableDouble: (void *)p;
 - linkVariableBoolean: (void *)p;
+- setValue: (const char *)v;
 @end
 
-@protocol MessageProbeEntry <Entry>
+@protocol _Entry
+- createEnd;
+- setValue: (const char *)value;
+// - setWidth: (unsigned)w Height: (unsigned)h;
+@end
+
+@protocol Entry <_Entry, _InputWidget, Widget>
+@end
+
+@protocol _MessageProbeEntry
 - setResultIdFlag: (BOOL)resultIdFlag;
 - setArg: (int)arg;
 + createBegin: aZone;
 - createEnd;
 @end
 
-@protocol VarProbeEntry <Entry>
+@protocol MessageProbeEntry <_MessageProbeEntry, Entry>
+@end
+
+@protocol _VarProbeEntry
 - setInteractiveFlag: (BOOL)interactiveFlag;
 - setOwner: owner;
 - setProbeType: (char)probeType;
 - createEnd;
 @end
 
-@protocol ButtonPanel <Frame>
+@protocol VarProbeEntry <_VarProbeEntry, Entry>
+@end
+
+@protocol _ButtonPanel
 - setButtonTarget: target;
 - addButtonName: (const char *)n Command: (const char *)c;
 - addButtonName: (const char *)n
      actionName: (const char *)action;
+@end
+
+@protocol ButtonPanel <_ButtonPanel, Frame>
+@end
+
+@protocol _Form
+- setEntryWidth: (int) ew;
+- addLineName: (const char *)n Variable: (void *)p Type: (int)type;
+@end
+
+@protocol Form <_Form, Widget>
+@end
+
+@protocol _CheckButton
+- (BOOL)getBoolValue;
+- setBoolValue: (BOOL)v;
+@end
+
+@protocol CheckButton <_CheckButton, Widget>
 @end
 
 typedef unsigned char Color; 
@@ -177,12 +268,15 @@ typedef unsigned long PixelValue;
 typedef unsigned long Pixmap;     // X.h defines it as an XID
 #endif
 
-@protocol Colormap <Create>
+@protocol _Colormap
 - (PixelValue *)map;
 - (PixelValue)black;
 - (BOOL)setColor: (Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
 - (BOOL)setColor: (Color)c ToName: (const char *)colorName;
 - (BOOL)setColor: (Color)c ToGrey: (double)g;
+@end
+
+@protocol Colormap <Create, _Colormap>
 @end
 
 @class Raster;
@@ -191,7 +285,7 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - drawX: (int)x Y: (int)y;
 @end
 
-@protocol Raster <ArchivedGeometryWidget>
+@protocol _Raster
 - drawPointX: (int)x Y: (int)y Color: (Color)c;
 - setColormap: (id <Colormap>)c;
 - drawSelf;
@@ -208,7 +302,10 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - erase;
 @end
 
-@protocol ZoomRaster <Raster>
+@protocol Raster <ArchivedGeometryWidget, _Raster>
+@end
+
+@protocol _ZoomRaster
 - increaseZoom;
 - decreaseZoom;
 - (unsigned)getZoomFactor;
@@ -216,7 +313,10 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 @end
 
-@protocol Pixmap <Drawer, Create>
+@protocol ZoomRaster <Raster, _ZoomRaster>
+@end
+
+@protocol _Pixmap
 - setFile: (const char *)filename;
 - setRaster: raster;
 - createEnd;
@@ -225,7 +325,10 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - drawX: (int)x Y: (int)y;
 @end
 
-@protocol CompositeItem <SwarmObject>
+@protocol Pixmap <_Pixmap, Drawer, Create>
+@end
+
+@protocol _CompositeItem
 - setTargetId: target;
 - setClickSel: (SEL)sel;
 - setMoveSel: (SEL)sel;
@@ -234,25 +337,97 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - moveX: (long)delta_x Y: (long)delta_y;
 @end
 
-@protocol NodeItem <CompositeItem>
-- setCanvas: canvas;
+@protocol CompositeItem <_CompositeItem, SwarmObject>
+@end
+
+@protocol _NodeItem
+- setX: (int)x Y: (int)y;
 - (int)getX;
 - (int)getY;
 - setString: (const char *)string;
-- setX: (int)x Y: (int)y;
-- setColor: (const char *)color; 
-- setBorderColor: (const char *)color;
+- setFont: (const char *)the_font;
+- setString: (const char *)the_text usingFont: (const char *)the_font;
+- setColor: (const char *)aColor;
+- setBorderColor: (const char *)aColor;
+- setBorderWidth: (int)aVal;
+- createBindings;
 @end
 
-@protocol OvalNodeItem <NodeItem>
-@end
-
-@protocol RectangeNodeItem <NodeItem>
-@end
-
-@protocol LinkItem <CompositeItem>
+@protocol _LinkItem
 - setFrom: from;
 - setTo: to;
+@end
+
+@protocol LinkItem <_LinkItem, CompositeItem>
+@end
+
+@protocol NodeItem <_NodeItem, CompositeItem>
+@end
+
+@protocol _OvalNodeItem
+@end
+
+@protocol OvalNodeItem <_OvalNodeItem, NodeItem>
+@end
+
+@protocol _RectangleNodeItem
+@end
+
+@protocol RectangleNodeItem <_RectangleNodeItem, NodeItem>
+@end
+
+@protocol _CanvasItem
+- setCanvas: canvas;
+- setTargetId: target;
+- setClickSel: (SEL)sel;
+- setMoveSel: (SEL)sel;
+- setPostMoveSel: (SEL)sel;
+- createItem;
+- createBindings;
+- createEnd;
+- clicked;
+- initiateMoveX: (long)delta_x Y: (long)delta_y; 
+@end
+
+@protocol CanvasItem <_CanvasItem, SwarmObject>
+@end
+
+@protocol _TextItem
+- setX: (int) x Y: (int) y;
+- setText: (const char *)the_text;
+- setText: (const char *)the_text usingFont: (const char *)the_font;
+- setFont: (const char *)the_font;
+- createItem; 
+@end
+
+@protocol TextItem <_TextItem, CanvasItem>
+@end
+
+@protocol _Circle
+- setX: (int)x Y: (int)y;
+- setRadius: (int)r;
+- createItem;
+- reportClick;
+- (int)reportMoveX: (int)d_x Y: (int)d_y;
+@end
+
+@protocol Circle <_Circle, CanvasItem>
+@end
+
+@protocol _Rectangle
+- setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
+- createItem;
+@end
+
+@protocol Rectangle <_Rectangle, CanvasItem>
+@end
+
+@protocol _Line
+- setTX: (int)tx TY: (int)ty LX: (int)lx LY: (int)ly;
+- createItem;
+@end
+
+@protocol Line <_Line, CanvasItem>
 @end
 
 #ifndef USE_JAVA
