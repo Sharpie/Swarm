@@ -1,3 +1,8 @@
+1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* OutputStream.m ([OutputStream_c -catLongLong:]): 
+	Raise an error if no long long specifier is available (e.g. HPUX9).
+
 1999-08-06  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* OutputStream.[hm], collections.h ([OutputStream_c

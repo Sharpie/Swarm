@@ -137,7 +137,11 @@ PHASE(Using)
   char buf[DSIZE (long long) + 1];
 
 #if SIZEOF_LONG_LONG != SIZEOF_LONG
+#ifdef LLFMT
   sprintf (buf, "%" LLFMT "d", lnglng);
+#else
+  raiseEvent (NotImplemented, "Not format specifier for long long");
+#endif
 #else
   sprintf (buf, "%ld", (long) lnglng);
 #endif
