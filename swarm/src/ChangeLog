@@ -1,3 +1,8 @@
+1999-05-27  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (swarm_dll_SOURCES): Set to dllinit.c, so automake
+	doesn't look for a bogus swarm.dll.c.
+
 1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (swarm.dll): Use genctors instead of inline commands.

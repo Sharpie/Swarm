@@ -45,6 +45,8 @@ swarm.dll: libswarm.la
 	$(CC) -c $(CTOR).c
 	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(CTOR).o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
+swarm_dll_SOURCES = dllinit.c
+
 install-data-local: 
 	if test -n "$(SWARMDLL)" ; then \
 	  $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a ; \
