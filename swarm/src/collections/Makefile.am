@@ -6,7 +6,7 @@ collectionsdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-INCLUDES = -I. -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I$(srcdir)/../activity -I$(srcdir)/../random
+INCLUDES = -I$(top_srcdir)/libobjc -I. -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj -I$(srcdir)/../misc -I$(srcdir)/../objectbase -I$(srcdir)/../random
 
 lib_LTLIBRARIES = libcollections.la
 
@@ -32,3 +32,5 @@ collections_HEADERS = Array.h Collection.h InputStream.h List.h List_GEN.h \
 install-data-local:
 	$(INSTALL_DATA) classes.h $(collectionsdir)
 	$(INSTALL_DATA) types.h $(collectionsdir)
+
+
