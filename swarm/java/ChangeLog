@@ -1,7 +1,11 @@
 1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* javaswarm.in: Use @PATHSEP@ instead for classpath.
-	Use @PATHDELIM@ instead for classpath.
+	* javaswarm.in: Use @PATHSEP@ instead for classpath.  Use
+	@PATHDELIM@ instead for classpath.
+	(swarmclassdir): New variable.  If Windows, convert swarm_datadir
+	to a Windows path using cygpath -w.  Otherwise, use literal
+	swarm_datadir. 
+	Use swarmclassdir to set classpath.
 
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

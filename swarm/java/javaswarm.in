@@ -1,8 +1,12 @@
 #!/bin/sh
 
-swarm_prefix=@swarm_prefix@
-swarm_exec_prefix=@swarm_exec_prefix@
-swarm_datadir=@swarm_datadir@
+swarm_prefix="@swarm_prefix@"
+swarm_exec_prefix="@swarm_exec_prefix@"
+if test '@PATHDELIM@' = '/' ; then
+  swarmclassdir="@swarm_datadir@"
+else
+  swarmclassdir=`cygpath -w "@swarm_datadir@"`
+fi
 jdkdir=@jdkdir@
 
 @SHLIBPATH_VAR@=`cat << EOF | sort 2>/dev/null | uniq | tr '\012' ':'
@@ -28,9 +32,9 @@ export @SHLIBPATH_VAR@ @JAVALIBPATH_VAR@
 JAVA_CLASSES_INSTALLED_AS=@JAVA_CLASSES_INSTALLED_AS@
 
 if test x$JAVA_CLASSES_INSTALLED_AS = xjar; then
-  classpath=".@PATHSEP@${swarm_datadir}@PATHDELIM@swarm@PATHDELIM@swarm.jar@PATHSEP@${JAVACLASSES}@PATHSEP@$CLASSPATH"
+  classpath=".@PATHSEP@${swarmclassdir}@PATHDELIM@swarm@PATHDELIM@swarm.jar@PATHSEP@${JAVACLASSES}@PATHSEP@$CLASSPATH"
 else
-  classpath=".@PATHSEP@${swarm_datadir}@PATHSEP@${JAVACLASSES}@PATHSEP@$CLASSPATH"
+  classpath=".@PATHSEP@${swarmclassdir}@PATHSEP@${JAVACLASSES}@PATHSEP@$CLASSPATH"
 fi
 
 if test -z "$*"; then
