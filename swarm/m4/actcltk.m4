@@ -255,7 +255,7 @@ AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
 found=no
 for name in $bltlibname BLT BLT8.0 BLT80 ; do
-  md_FIND_LIB(blt,$name,$bltdir/lib/shared,)
+  md_FIND_LIB(blt,$name,$bltdir/lib/shared,1)
   if test -n "$_ldflags" ; then
     bltlibname=$name
     found=yes

@@ -17,7 +17,7 @@ for dir in $3 $_libdir $defaultdir/lib /usr/lib /usr/local/lib; do
 done
 if test -z "$$1libdir"; then
   AC_MSG_RESULT(no)    
-  if test -n "$4"; then
+  if test -z "$4"; then
     AC_MSG_ERROR(Please use --with-$1dir to specify location of $1.)
   fi
 else

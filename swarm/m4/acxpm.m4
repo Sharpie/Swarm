@@ -2,7 +2,7 @@ AC_DEFUN(md_FIND_XPM,
 [test -z "$xpmlibdir" && xpmlibdir=$x_libraries
 found=no
 for name in $xpmlibname Xpm; do
-  md_FIND_LIB(xpm,$name,,)
+  md_FIND_LIB(xpm,$name,,1)
   if test -n "$_ldflags" ; then
     xpmlibname=$name
     found=yes
