@@ -1,3 +1,8 @@
+1999-08-17    <mgd@HELEN>
+
+	* Makefile.in (javaswarm.dll): Use -nostdlib, explicitly specifying
+	-lcygwin -lkernel32, and -lgcc.
+
 1999-08-16    <mgd@HELEN>
 
 	* Makefile.in (javaswarm.dll): Use new linker instead of dllwrap.
