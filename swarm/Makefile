@@ -61,7 +61,7 @@ bininc: FORCE
 	for d in $(BININCDIRS); do \
 	  cp $$d/*.h $(TMPDIST)/include/; \
 	done
-	(cd $(XINCDIR); tar cf - X11/xpm.h) | (cd $(TMPDIST)/include/; tar xf -)
+	test -d $(XINCDIR)/X11/xpm.h && (cd $(XINCDIR); tar cf - X11/xpm.h) | (cd $(TMPDIST)/include/; tar xf -)
 	for d in $(TKTCLDIRS); do \
 	  cp $$d/*.tcl $(TMPDIST)/lib/; \
 	done

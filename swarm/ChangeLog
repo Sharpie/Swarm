@@ -1,3 +1,8 @@
+1998-03-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf: Rename mgd-SFI-NT SFI-NT.  Use /Swarm instead
+	of /packages/swarm.
+
 1998-03-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (BLTLIBDIR): Make BLTLIBDIR refer to the 
