@@ -2,6 +2,8 @@
 
 	* simtools.h: Include externvar.h.
 
+	* Makefile.am (INCLUDES): Add -I$(top_builddir)/libobjc.
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* simtools.m: Add externvardef for swarmGUIMode.

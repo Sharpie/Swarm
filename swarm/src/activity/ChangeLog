@@ -1,5 +1,7 @@
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (INCLUDES): Add -I$(top_builddir)/libobjc.
+
 	* Action.m: Don't include objc/objc-api.h.
 
 	* ActionGroup.m ([ActionGroup_c -_activateUnderSwarm_:::]):
