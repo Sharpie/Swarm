@@ -1,3 +1,11 @@
+2000-08-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.m (swarm_directory_objc_ensure_COM): Implement.
+
+	* COM.h (COMInterface): Add createComponent.
+
+	* modulemap.el: Recognize SwarmEnvironment.
+
 2000-08-17  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.h (SD_JAVA_ADD_CLASS_JAVA): New macro. 

@@ -7,38 +7,40 @@ extern "C" {
 typedef void *COMclass;
 typedef void *COMobject;
 
-struct COMInterface_;
+struct COMInterface;
 
-typedef const struct COMInterface_ COMEnv;
+typedef const struct COMInterface COMEnv;
 
-struct COMInterface_ {
-  void *(*findInterface) (COMEnv *env, const char *interfaceName);
+struct COMInterface {
+  void *(*createComponent) (COMclass cClass);
+  void *(*findComponent) (const char *componentName);
 };
 
 extern void initCOM (COMEnv *env);
 extern BOOL COM_init_p ();
-extern COMobject swarm_directory_objc_find_object_COM (id object);
-extern COMclass swarm_directory_objc_find_COM_class (Class clazz);
+extern COMobject swarm_directory_objc_find_object_COM (id oObject);
+extern COMclass swarm_directory_objc_find_COM_class (Class oClass);
 
 extern COMobject swarm_directory_objc_ensure_COM (id object);
 
-extern id swarm_directory_COM_ensure_objc (COMobject cobj);
-extern SEL swarm_directory_COM_ensure_selector (COMobject csel);
-extern Class swarm_directory_COM_ensure_class (COMclass clazz);
-extern COMobject swarm_directory_COM_add_COM (COMobject cObj, id oObj);
+extern id swarm_directory_COM_ensure_objc (COMobject cObject);
+extern SEL swarm_directory_COM_ensure_selector (COMobject cSelector);
+extern Class swarm_directory_COM_ensure_class (COMclass cClass);
+extern COMobject swarm_directory_COM_add_COM (COMobject cObject, id oObject);
 #ifdef __cplusplus
 }
 #endif
 
-#define SD_COM_FIND_CLASS_COM(objcClass) swarm_directory_objc_find_COM_class (objcClass)
+#define SD_COM_FIND_CLASS_COM(oClass) swarm_directory_objc_find_COM_class (oClass)
 
-#define SD_COM_FIND_OBJECT_COM(objc) swarm_directory_objc_find_object_COM (objc)
-#define SD_COM_ENSURE_OBJECT_COM(objc) swarm_directory_objc_ensure_COM (objc)
+#define SD_COM_FIND_OBJECT_COM(oObject) swarm_directory_objc_find_object_COM (oObject)
+#define SD_COM_ENSURE_OBJECT_COM(oObject) swarm_directory_objc_ensure_COM (oObject)
 
-#define SD_COM_ENSURE_OBJECT_OBJC(cobj) swarm_directory_COM_ensure_objc (cobj)
-#define SD_COM_ENSURE_SELECTOR_OBJC(csel) swarm_directory_COM_ensure_selector (csel)
-#define SD_COM_ENSURE_CLASS_OBJC(cclazz) swarm_directory_COM_ensure_class (cclazz)
-#define SD_COM_ADD_OBJECT_COM(cobj, objc) swarm_directory_COM_add_COM (cobj, objc)
+#define SD_COM_ENSURE_OBJECT_OBJC(cObject) swarm_directory_COM_ensure_objc (cObject)
+#define SD_COM_ENSURE_SELECTOR_OBJC(cSelector) swarm_directory_COM_ensure_selector (cSelector)
+#define SD_COM_ENSURE_CLASS_OBJC(cClass) swarm_directory_COM_ensure_class (cClass)
+#define SD_COM_ADD_OBJECT_COM(cObject, oObject) swarm_directory_COM_add_COM (cObject, oObject)
+#define SD_COM_ADD_CLASS_COM(cClass, oClass) swarm_directory_COM_add_COM ((COMobject) cClass, (id) cClass)
 
 
 #if 0
