@@ -380,7 +380,7 @@
 
 (defun expanded-method-list (protocol phase)
   (remove-if-not #'(lambda (method) (included-method-p protocol method phase))
-                 (mapcar #'caddr 
+                 (mapcar #'methodinfo-method
                          (protocol-expanded-methodinfo-list protocol))))
 
 (defun java-print-class-methods-in-phase (protocol phase)
