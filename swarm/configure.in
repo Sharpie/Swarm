@@ -1,7 +1,10 @@
 AC_INIT(Makefile.appl.in)
 
 VERSION=`head -1 $srcdir/VERSION`
-AM_INIT_AUTOMAKE(Swarm, $VERSION)
+AM_INIT_AUTOMAKE(swarm, $VERSION)
+if test $ACLOCAL = aclocal; then
+  ACLOCAL="aclocal -I m4"
+fi
 
 AM_CONFIG_HEADER(config.h)
 
@@ -125,4 +128,4 @@ md_FIND_PNG
 
 AC_CHECK_LIB(dl,main)
 
-AC_OUTPUT([Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile Makefile.appl Makefile.lib])
+AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile Makefile.appl Makefile.lib])

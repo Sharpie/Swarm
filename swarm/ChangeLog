@@ -1,6 +1,12 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* VERSION: Bump to 1.2.
+
+	* Makefile.am:  Distribute VERSION.
+
 	* configure.in (tcllibname, tklibname): New arguments.
+	Add "-I m4" to aclocal, if it exists.
+	(SUBDIRS, AC_OUTPUT): Include m4/.
 
 	* Makefile.appl.in (LDFLAGS): Add libdir and rpath to LDFLAGS.
 
