@@ -1,3 +1,15 @@
+1999-09-03  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (htmldir, html_DATA): Installation directory and
+	target for html.
+	(install-data-local): Use tar to install the html into the
+	installation directory.
+	(dvidir, dvi_DATA): Installation directory and file to be
+	installed for dvi.
+	(psdir): Likewise for PostScript (ps).
+	(uninstall-local): Remove all html and subdirs in $(htmldir),
+	since no specific targets for each file.
+
 1999-07-08  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am ($(NAME)/index.html): Add `-noclassdetail' and

@@ -16,11 +16,26 @@ all: html latex dvi ps
 
 alldist: htmldist dvidist psdist
 
+htmldir = $(prefix)/html/$(NAME)
+html_DATA = 
+
+install-data-local: 
+	(cd $(NAME); tar -cf - . | (cd $(htmldir); tar -xf -))
+
+uninstall-local:
+	- (cd $(htmldir); rm -rf *)
+
 html: $(NAME)/index.html html/swarm-doclet.jar
 
 latex: $(NAME).tex latex/LatexDoclet.class
 
+dvidir = $(prefix)/dvi
+dvi_DATA = $(NAME).dvi
+
 dvi: $(NAME).dvi
+
+psdir = $(prefix)/ps
+ps_DATA = $(NAME).ps
 
 ps: $(NAME).ps
 
