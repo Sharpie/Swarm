@@ -404,7 +404,6 @@ getnenv (const char *strptr, size_t len)
 
   strncpy (buf, strptr, len);
   buf[len] = '\0';
-  printf ("[%s]\n", buf);
   return getenv (buf);
 }
 
@@ -452,7 +451,6 @@ prefix (const char *prefixstring)
   {
     char *ep, *expanded_prefix;
 
-    printf ("len: %d\n", len);
     ep = expanded_prefix = xmalloc (len + 1);
     while (*p)
       {
