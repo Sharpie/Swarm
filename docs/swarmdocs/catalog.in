@@ -1,4 +1,86 @@
 PUBLIC "-//SFI Hive//DOCUMENT DSSSL Common Definitions//EN" @top_srcdir@/common.dsl
 PUBLIC "-//SFI Hive//DOCUMENT DSSSL DocBook Overrides//EN" @top_srcdir@/swarmbook.dsl
 
+PUBLIC "-//SFI Hive//ENTITIES Reference//EN" @top_srcdir@/src/refcont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Reference Metadata//EN" @top_srcdir@/src/refmeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Reference Preface//EN" @top_srcdir@/src/ref00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Reference Changes//EN" @top_srcdir@/src/ref00a.sgml
+PUBLIC "-//SFI Hive//ENTITIES Reference Index//EN" @top_srcdir@/src/refindex.sgml
+PUBLIC "-//SFI Hive//ENTITIES Reference Revision History//EN" @top_srcdir@/src/srcrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Grid Turtle//EN" @top_srcdir@/src/grid-app.sgml
+PUBLIC "-//SFI Hive//ENTITIES Grid Turtle Examples//EN" @top_srcdir@/src/gridexamples.sgml
+PUBLIC "-//SFI Hive//ENTITIES Probes//EN" @top_srcdir@/src/probes-app.sgml
+PUBLIC "-//SFI Hive//ENTITIES Conventions//EN" @top_srcdir@/src/conventions-app.sgml
+PUBLIC "-//SFI Hive//ENTITIES GPL//EN" @top_srcdir@/src/gpl-app.sgml
+PUBLIC "-//SFI Hive//ENTITIES LGPL//EN" @top_srcdir@/src/lgpl-app.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Activity Content//EN" @top_srcdir@/src/activity/activitycont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Activity Introduction//EN" @top_srcdir@/src/activity/activity00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Activity Metadata//EN" @top_srcdir@/src/activity/activitymeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Activity Revision History//EN" src/activity/activityrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Activity Generated Content//EN" src/activity/activitypages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Analysis Content//EN" @top_srcdir@/src/analysis/analysiscont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Analysis Introduction//EN" @top_srcdir@/src/analysis/analysis00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Analysis Metadata//EN" @top_srcdir@/src/analysis/analysismeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Analysis Revision History//EN" src/analysis/analysisrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Analysis Generated Content//EN" src/analysis/analysispages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Collections Content//EN" @top_srcdir@/src/collections/collectionscont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Collections Introduction//EN" @top_srcdir@/src/collections/collections00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Collections Metadata//EN" @top_srcdir@/src/collections/collectionsmeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Collections Revision History//EN" src/collections/collectionsrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Collections Generated Content//EN" src/collections/collectionspages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Defobj Content//EN" @top_srcdir@/src/defobj/defobjcont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Defobj Introduction//EN" @top_srcdir@/src/defobj/defobj00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Defobj Metadata//EN" @top_srcdir@/src/defobj/defobjmeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Defobj Revision History//EN" src/defobj/defobjrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Defobj Generated Content//EN" src/defobj/defobjpages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES GUI Content//EN" @top_srcdir@/src/gui/guicont.sgml
+PUBLIC "-//SFI Hive//ENTITIES GUI Introduction//EN" @top_srcdir@/src/gui/gui00.sgml
+PUBLIC "-//SFI Hive//ENTITIES GUI Metadata//EN" @top_srcdir@/src/gui/guimeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES GUI Revision History//EN" src/gui/guirevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES GUI Generated Content//EN" src/gui/guipages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Objectbase Content//EN" @top_srcdir@/src/objectbase/objectbasecont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Objectbase Introduction//EN" @top_srcdir@/src/objectbase/objectbase00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Objectbase Metadata//EN" @top_srcdir@/src/objectbase/objectbasemeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Objectbase Revision History//EN" src/objectbase/objectbaserevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Objectbase Generated Content//EN" src/objectbase/objectbasepages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Random Content//EN" @top_srcdir@/src/random/randomcont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Introduction//EN" @top_srcdir@/src/random/random00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Metadata//EN" @top_srcdir@/src/random/randommeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Revision History//EN" src/random/randomrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Generated Content//EN" src/random/randompages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Simtools Content//EN" @top_srcdir@/src/simtools/simtoolscont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Simtools Introduction//EN" @top_srcdir@/src/simtools/simtools00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Simtools Metadata//EN" @top_srcdir@/src/simtools/simtoolsmeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Simtools Revision History//EN" src/simtools/simtoolsrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Simtools Generated Content//EN" src/simtools/simtoolspages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI Content//EN" @top_srcdir@/src/simtoolsgui/simtoolsguicont.sgml
+PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI Introduction//EN" @top_srcdir@/src/simtoolsgui/simtoolsgui00.sgml
+PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI Metadata//EN" @top_srcdir@/src/simtoolsgui/simtoolsguimeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI Revision History//EN" src/simtoolsgui/simtoolsguirevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI Generated Content//EN" src/simtoolsgui/simtoolsguipages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Space Content//EN" @top_srcdir@/src/space/spacecont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Space Introduction//EN" @top_srcdir@/src/space/space00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Space Metadata//EN" @top_srcdir@/src/space/spacemeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Space Revision History//EN" src/space/spacerevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Space Generated Content//EN" src/space/spacepages.sgml
+
+PUBLIC "-//SFI Hive//ENTITIES Tech Content//EN" @top_srcdir@/src/tech/techcont.sgml
+PUBLIC "-//SFI Hive//ENTITIES Tech Metadata//EN" @top_srcdir@/src/tech/techmeta.sgml
+PUBLIC "-//SFI Hive//ENTITIES Tech Debug//EN" @top_srcdir@/src/tech/debug.sgml
+PUBLIC "-//SFI Hive//ENTITIES Tech Emacs//EN" @top_srcdir@/src/tech/emacs.sgml
+PUBLIC "-//SFI Hive//ENTITIES Tech Objective C//EN" @top_srcdir@/src/tech/objc.sgml
+PUBLIC "-//SFI Hive//ENTITIES Tech Swarm Objective C//EN" @top_srcdir@/src/tech/swarmobjc.sgml
+PUBLIC "-//SFI Hive//ENTITIES Tech Revision History//EN" src/tech/techrevhistory.sgml
+
 SGMLDECL "@top_srcdir@/docbook.dcl"
+

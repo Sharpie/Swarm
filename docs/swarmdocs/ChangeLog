@@ -1,3 +1,10 @@
+1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* configure.in: Don't extract module.ent files.
+
+	* catalog.in: Add public identifiers for all src/module/module.ent
+	files.
+
 1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* history.el (process-changelog): Handle src and tech.
