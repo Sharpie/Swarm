@@ -1,0 +1,44 @@
+Contents of this README ================================================
+
+This is the start of build for MacOSX/Darwin.
+
+The contents of this directory are not expected to be meaningful on any
+other platform.
+
+This readme is current as at 31 Dec 2002 for MacOS X 10.2.3 with the
+December 2002 Developer Tools.  Do not waste your time with any MacOS setup
+older than this.  Apple are rapidly improving the *NIX compatability and
+functionality of the bsd subsystem.
+
+This work was being done with Xfree86 4.2.1.1.  Libraries Tcl/Tk 8.4.1,
+HDF5 1.5-42, and BLT2.4z are all installed in /usr/local.
+
+
+I. Contents of this directory
+================================================= 
+swarmx.pbproj This is a project which can be opened by MacOSX ProjectBuilder. 
+Currently it does not build the libraries, but may be useful for managing
+source code using CVS.
+
+If you have write access to the cvs do all the stuff it says on Savannah
+about keys etc. and make sure you have command line access.
+
+Make a file ~/.cvsignore containing the following lines: 
+build 
+.DS* 
+*~.*
+
+This stops MacOSX specific junk getting written into the CVS.
+
+Then ensure ProjectBuilder is shut down and enter the command: defaults
+write com.apple.ProjectBuilder PBXUseExternalAuthenticationAsSSH YES
+
+Even if you only have anoncvs access the .cvsignore would probably save you
+time.
+
+2. What you can do ================================
+
+Try to get it to build.  Any good ideas please email me on
+w.northcott@unsw.edu.au
+
+Bill Northcott 31 Dec 2002
