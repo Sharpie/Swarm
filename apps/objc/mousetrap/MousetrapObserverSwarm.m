@@ -151,9 +151,8 @@
   
   triggerGraph = [EZGraph create: [self getZone] 
                           setTitle: "Trigger data vs. time"
-                          setAxisLabelsX: "time" Y: "number triggered"];
-
-  SET_WINDOW_GEOMETRY_RECORD_NAME (triggerGraph);
+                          setAxisLabelsX: "time" Y: "number triggered"
+                          setWindowGeometryRecordName: "triggerGraph"];
   
   // Now, we create two observations to plot on mousetraps with time:
   //    1) The total number of traps triggered so far

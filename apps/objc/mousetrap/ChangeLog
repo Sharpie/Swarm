@@ -1,3 +1,9 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm
+	-buildObjects]): Add setWindowGeometryRecordName: argument
+	to EZGraph creation.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (APPVERSION, BUGADDRESS): Add.
