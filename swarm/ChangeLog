@@ -2,7 +2,8 @@
 
 	* Makefile.conf (BLTLIBDIR): Make BLTLIBDIR refer to the 
 	blt$(BLTVERS) subdirectory, and -L commands to the parent
-	directory of that.
+	directory of that, except in the case of blt8.0, where BLTLIBRARYDIR
+	is set, and there is no such subdirectory.
 
 	* Makefile (bininc): Don't copy contents of BLTLIBDIR if
 	BLTLIBRARYDIR was copied.
