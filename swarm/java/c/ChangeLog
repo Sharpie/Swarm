@@ -1,4 +1,4 @@
-2003-05-10  Marcus Daniels  <mgd@localhost>
+2003-05-10  Marcus Daniels  <mgd@mac>
 
 	* Makefile.in ($(_LIBJAVASWARM_LA)): Use -lswarmobjc instead of -lobjc.
 
