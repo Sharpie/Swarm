@@ -11,6 +11,12 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
       hdf5Archiver and lispArchiver, use the new method setSystemArchiverFlag: 
       to continue to read and write this metadata.)
 
+*** collections
+***** InputStream
+****** InputStream now parses Lisp comments, Archiver instances will 
+       correctly ignore hand or machine-generated comments starting
+       with a semi-colon `;' in input text files.
+
 ** Autoconfiguration
 *** Swarm can now be compiled with Checker.
     http://www.gnu.org/software/checker
