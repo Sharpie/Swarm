@@ -64,7 +64,7 @@ libjavaswarmstubs.la: libjavaswarmstubs_.la
 libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/src -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBS)
 
-ALLOBJECTS = $(patsubst %.lo,%.o,$(libjavaswarm__la_OBJECTS) $(libjavaswarm__la_OBJECTS))
+ALLOBJECTS = $(patsubst %.lo,%.o,$(libjavaswarm__la_OBJECTS) $(libjavaswarmstubs__la_OBJECTS))
 
 javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la
 	$(CC) -Dconstructor_func=javaswarm_constructor -c $(top_srcdir)/src/dllinit.c -o javaswarm_dllinit.o
