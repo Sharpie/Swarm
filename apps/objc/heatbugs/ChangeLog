@@ -1,5 +1,8 @@
 1999-02-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Heatbug.m ([Heatbug -_getPixmap_:]): Call setRaster: after
+	pixmap's createEnd.
+
 	* HeatbugBatchSwarm.m: Include simtools.h, analysis.h, and misc.h. 
 
 	* HeatbugBatchSwarm.h: Don't include stdio.h, simtools.h, analysis.h,

@@ -287,8 +287,8 @@ static id <Pixmap> bugPixmap = nil;
       
       [bugPixmap setDirectory: [arguments getAppDataPath]];
       [bugPixmap setFile: "ant.png"];
-      [bugPixmap setRaster: r];
       bugPixmap = [bugPixmap createEnd];
+      [bugPixmap setRaster: r];
     }
   
   return bugPixmap;
