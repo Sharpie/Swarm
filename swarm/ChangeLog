@@ -1,3 +1,10 @@
+1998-04-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VERSION: Bump to 1998-04-28. 
+
+	* Makefile.conf (OTHERINCDIRS, OTHERLIBDIRS): Order
+	{PNG,Z}{INC,LIB}DIRS consistently.
+
 1998-04-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (bininc): Copy BLT library/ TCL files into $SWARMHOME/lib,
