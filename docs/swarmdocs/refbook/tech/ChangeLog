@@ -1,3 +1,10 @@
+1998-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* techcont.sgml: Uncommented techmeta entity inclusion.  Fixed
+	Local variables.
+
+	* techmeta.sgml: Fixed incorrect reference to techrevhistory.
+
 1998-06-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: New file.
@@ -8,7 +15,7 @@
 
 1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* techmeta.sgml: Replace REVHISTORY with &techrevhistory.
+	* techmeta.sgml: Replace REVHISTORY with techrevhistory.
 
 	* tech.ent: Add techrevhistory.
 
