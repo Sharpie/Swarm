@@ -1,3 +1,7 @@
+1998-05-27  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* gui.ent.in: Fix typo in revhistory.
+
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: New file.
