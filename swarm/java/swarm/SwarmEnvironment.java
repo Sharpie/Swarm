@@ -1,5 +1,5 @@
 package swarm;
-
+import swarm.random.*;
 public class SwarmEnvironment {
   static {
     System.out.println ("Trying to load lib!\n");
@@ -11,10 +11,20 @@ public class SwarmEnvironment {
     } 
     System.out.println ("Lib loaded!\n");
   }
-  public native static void initSwarm (GlobalZone globalZone, String args[]);
+  public native static void initSwarm (GlobalZone globalZone,
+				       UniformIntegerDistU uniformIntRand,
+				       UniformDoubleDistU uniformDblRand,
+				       String args[]);
   public GlobalZone globalZone;
-  public SwarmEnvironment (String args[]) {
+  public UniformIntegerDistU uniformIntRand;
+  public UniformDoubleDistU uniformDblRand;
+  public SwarmEnvironment(String args[]) {
+    System.out.println ("Global zone!");
     globalZone = new GlobalZone ();
-    initSwarm (globalZone, args);
+    uniformIntRand = new UniformIntegerDistU();
+    uniformDblRand = new UniformDoubleDistU();
+    System.out.println ("Init Swarm!");
+    initSwarm (globalZone, uniformIntRand, uniformDblRand, args);
+
   }
 }

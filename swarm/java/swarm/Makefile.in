@@ -32,4 +32,4 @@ install: all
 	$(INSTALL) swarm.jar $(datadir)/swarm
 
 %.class: %.java
-	JAVA_HOME=$(jdkdir) $(JAVAC) -d .. -classpath $(srcdir)/..:$(jdkdir)/lib/classes.zip $<
+	JAVA_HOME=$(jdkdir) $(JAVAC) -d .. -classpath $(srcdir)/..:$(jdkdir)/lib/classes.zip:../ $<

@@ -1,3 +1,11 @@
+1999-03-24  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* SwarmEnvironment.java: Facilitate uniformDblRand field and directory
+	initialization.
+
+	* Makefile.in (%.class): Add ../ to classpath so that SwarmEnvironment
+	could import swarm.random.*
+
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmEnvironment.java: Add globalZone argument to initSwarm.
