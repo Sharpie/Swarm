@@ -1,3 +1,14 @@
+1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* defobj.h: Remove instances of <p> in the documentation.
+	Minor changes to method spacing.
+	(Create):  Move some documentation from createBegin: to 
+	be general documentation. 
+	(Error): Add a description.
+
+	* DefObject.m: Minor reformatting.
+	(Object_s): Add phase tags. 
+
 1998-05-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* defobj.h: Add CREATING and USING tags where absent.

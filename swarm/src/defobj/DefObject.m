@@ -19,7 +19,6 @@ Library:      defobj
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
-#define __USE_FIXED__PROTOTYPES__ // for gcc headers
 #include <stdio.h>
 #include <string.h>
 
@@ -53,6 +52,8 @@ static id describeStream;
 
 @implementation Object_s
 
+PHASE(Using)
+
 //
 // getName -- return name of class
 //
@@ -64,13 +65,13 @@ static id describeStream;
 //
 // respondsTo: -- return true if message valid for instance
 //
-+ (BOOL) respondsTo: (SEL)aSel
++ (BOOL)respondsTo: (SEL)aSel
 {
-  return respondsTo( self, aSel );
+  return respondsTo (self, aSel);
 }
-- (BOOL) respondsTo: (SEL)aSel
+- (BOOL)respondsTo: (SEL)aSel
 {
-  return respondsTo( self, aSel );
+  return respondsTo (self, aSel);
 }
 
 //
@@ -78,11 +79,11 @@ static id describeStream;
 //
 + getClass
 {
-  return getClass( self );
+  return getClass (self);
 }
 - getClass
 {
-  return getClass( self );
+  return getClass (self);
 }
 
 //
@@ -90,40 +91,44 @@ static id describeStream;
 //
 - getZone
 {
-  return getZone( self );
+  return getZone (self);
 }
 
 //
 // _obj_dropAlloc() --
 //   function to free each mapped allocation, including nested allocations
 //
-void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
+void
+_obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 {
   // drop object as an internal component of its zone
 
-  if ( objectAllocation ) {
+  if (objectAllocation)
     [(id)mapalloc->alloc dropAllocations: 1];
-
+  
   // drop block using zone and size provided along with its descriptor
-
-  } else if ( mapalloc->descriptor == t_ByteArray ) {
+  
+  else if (mapalloc->descriptor == t_ByteArray)
     [mapalloc->zone freeBlock: mapalloc->alloc blockSize: mapalloc->size];
 
   // if member of zone population then avoid drop as a component allocation
-
-  } else if ( mapalloc->descriptor == t_PopulationObject ) {
+  else if (mapalloc->descriptor == t_PopulationObject)
     [(id)mapalloc->alloc dropAllocations: 0];
 
   // if leaf object then unset the MappedAlloc bit to suppress further mapping
 
-  } else if ( mapalloc->descriptor == t_LeafObject ) {
-    unsetMappedAlloc( (Object_s *)mapalloc->alloc );
-    [(id)mapalloc->alloc dropAllocations: 1];
-
-  } else {
-    raiseEvent( InvalidArgument,
-      "> unrecognized descriptor of allocated block in mapAlloc() call\n" );
-  }
+  else if (mapalloc->descriptor == t_LeafObject)
+    {
+      unsetMappedAlloc( (Object_s *)mapalloc->alloc );
+      [(id)mapalloc->alloc dropAllocations: 1];
+      
+    }
+  else
+    {
+      raiseEvent (InvalidArgument,
+                  "> unrecognized descriptor of allocated block\n"
+                  "> in mapAlloc() call\n");
+    }
 }
 
 //
@@ -147,7 +152,7 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 // subclass should make sure the MappedAlloc bit is set on the object, which
 // will result in the mapAllocations: method being called for the object.
 //
-- (void) drop
+- (void)drop
 {
   id               zone, suballocList, index = /*-O*/nil;
   suballocEntry_t  suballocEntry;

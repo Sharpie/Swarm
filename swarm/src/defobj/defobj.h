@@ -128,7 +128,7 @@ USING
 //D: sequence of customizeBegin:/customizeEnd) depends on the
 //D: implementation of the original starting type.  A type should not be
 //D: relied on to support more than one cycle of customization unless it is
-//D: specifically documented to do so.<p>
+//D: specifically documented to do so.
 
 CREATING
 //E: newArrayType = [Array customizeBegin: aZone];
@@ -213,7 +213,14 @@ CREATING
 //D: interim object.  Even though not declared, the messages are available
 //D: on the interim objects nonetheless.  The drop message on an interim
 //D: object may be used if it turns out that a finalized version is no
-//D: longer required after creation or customization has already begun.<p>
+//D: longer required after creation or customization has already begun.
+
+//D: The createBegin: and createEnd messages bracket a series of messages
+//D: that specify options for an object being created.  The intermediate
+//D: messages can set values defined as parameters of the type, or provide
+//D: other forms of specification using available messages.  A particular
+//D: object type defines the specific messages that are valid for sending
+//D: during this interim creation phase.
 
 //E: newArray = [Array createBegin: aZone];
 //E: [newArray setInitialValue: aList];
@@ -239,13 +246,6 @@ CREATING
 //M: these messages, only to type names, which are automatically published
 //M: as global constants from any @deftype declaration. 
 + create: aZone;
-
-//M: The createBegin: and createEnd messages bracket a series of messages
-//M: that specify options for an object being created.  The intermediate
-//M: messages can set values defined as parameters of the type, or provide
-//M: other forms of specification using available messages.  A particular
-//M: object type defines the specific messages that are valid for sending
-//M: during this interim creation phase.
 
 //M: createBegin: returns an interim object intended only for receiving
 //M: create-time messages.  If a type was defined by a @deftype
@@ -412,8 +412,8 @@ USING
 //D: removed after an object has already been created.
 
 CREATING
-+		create: aZone setInitialValue: initialValue;
-+		create: aZone setReadOnlyValue: readOnlyValue;
++ create: aZone setInitialValue: initialValue;
++ create: aZone setReadOnlyValue: readOnlyValue;
 
 //M: The setInitialValue: message requires another object as its argument,
 //M: from which the value of a newly created object is to be taken.  Unlike
@@ -477,13 +477,13 @@ CREATING
 //M: create:setName: is a combination message defined as a caller
 //M: convenience.  See combination messages for a summary of conventions
 //M: on combination messages.
-+		create: aZone setName: (const char *)name;
++ create: aZone setName: (const char *)name;
 
 //M: The Name option may be set only at create time.  Its value is a
 //M: null-terminated character string that remains fixed for the life of
 //M: the object.  The inherited getName message returns this name from a
 //M: created instance.
-- (void)	setName: (const char *)name;
+- (void)setName: (const char *)name;
 @end
 
 @deftype EventType <Symbol>
@@ -491,6 +491,7 @@ CREATING
 
 //D: A report of some condition detected during program execution.
 
+USING
 //M: Raise an event noting the event symbol type.
 - (void)raiseEvent;
 
@@ -504,17 +505,18 @@ CREATING
 
 //D: A condition of possible concern to a program developer.
 
+USING
 //M: Associate a message string with this warning.
-- (void)	setMessageString: (const char *)messageString;
+- (void)setMessageString: (const char *)messageString;
 
 //M: Return the message associated with this warning.
 - (const char *)getMessageString;
 @end
 
-//
-// Error -- a condition which prevents further execution
-//
 @deftype Error <Warning, CREATABLE>
+//S: A condition which prevents further execution.
+
+//D: A condition which prevents further execution.
 @end
 
 //
@@ -663,7 +665,7 @@ USING
 //M: alloc: allocates a new storage block much like the malloc function of
 //M: the C library.  The storage is aligned according to the most restrictive
 //M: requirements for any data type on the local machine architecture.  The
-//M: storage is not initialized to any known contents.<p>
+//M: storage is not initialized to any known contents.
 - (void *)alloc: (size_t)size;
 
 //M: free: releases a block of storage previously allocated using alloc:.
@@ -745,7 +747,7 @@ extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
 //S: Class which implements an interface of a type.
 
 //D: Class which implements an interface of a type.
-
+USING
 + getSuperclass;
 + (BOOL)isSubclass: aClass;
 
@@ -764,12 +766,12 @@ extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
 //D: Class with variables and/or methods defined at runtime.
 
 CREATING
-
 - (void)setName: (const char *)name;
 - (void)setClass: aClass;
 - (void)setSuperclass: aClass;
 - (void)setDefiningClass: aClass;
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod;
+
 USING
 - getDefiningClass;
 @end
