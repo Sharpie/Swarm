@@ -1,6 +1,8 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* simtools.h: Use `externvar' for external variables.
+	* simtools.m: Add externvardef for swarmGUIMode.
+
+	* simtools.h: Use `externvar' for swarmGUIMode.
 
 1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

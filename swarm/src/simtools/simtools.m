@@ -13,7 +13,7 @@
 
 #import <random.h>
 
-BOOL swarmGUIMode = NO;
+externvardef BOOL swarmGUIMode = NO;
 
 static void
 init (int argc, const char **argv, 
