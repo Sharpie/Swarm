@@ -1,3 +1,9 @@
+1999-04-25  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.tests.in (libobjcdir): New variable to find the libobjc
+	build directory.
+	(SWARMBUILDLDFLAGS): Use it.
+
 1999-04-25  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* config.swarm.in (JAVA_CLASSES_INSTALLED_AS): New substitution.
