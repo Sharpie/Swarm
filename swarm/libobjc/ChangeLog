@@ -1,5 +1,9 @@
 1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* config/sparc/mframe-solaris2.h (MFRAME_ARG_ENCODING): Disable
+	check for sizes less and alignment of original.  Disable use
+	of GET_SPARC_ARG_LOCATION, trusting the `+' and offset encoding.
+
 	* config/mips/mframe-irix6.h: Add stack offset counter to mips_args.
 	(MFRAME_INIT_ARGS): Initialize it to 96 (determined empirically).
 	(MFRAME_ARG_ENCODING): Handle stack items. 

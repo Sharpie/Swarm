@@ -31,6 +31,7 @@ struct sparc_args {
   (CUM).onStack = NO; \
 })
 
+#if 0
 #define GET_SPARC_ARG_LOCATION(CUM, CSTRING_TYPE, TYPESIZE) \
 ((CUM).onStack \
   ? ON_STACK \
@@ -39,37 +40,44 @@ struct sparc_args {
       ? 0 : ((CUM).offsets[ON_STACK] += 4)),\
       IN_REGS) \
     : ((CUM).onStack = YES, ON_STACK)))
+#endif
 
 #define MFRAME_ARG_ENCODING(CUM, TYPE, STACK, DEST) \
-({  \
+({ \
   const char* type = (TYPE); \
-  int align = objc_alignof_type(type); \
-  int size = objc_sizeof_type(type); \
-  int locn = GET_SPARC_ARG_LOCATION(CUM, type, size); \
-\
-  (CUM).offsets[locn] = ROUND((CUM).offsets[locn], align); \
-  if (size < sizeof(int)) \
+  size_t align = objc_alignof_type(type); \
+  size_t size = objc_sizeof_type(type); \
+  unsigned locn; \
+  int typelen; \
+  \
+  /* \
+  locn = GET_SPARC_ARG_LOCATION(CUM, type, size); \
+ Rounding this seems arbitrary since it depends on what argFrame is aligned at.
+  (CUM).offsets[locn] = ROUND ((CUM).offsets[locn], align); \
+  if (size < sizeof (int)) \
     { \
-      (CUM).offsets[locn] += sizeof(int) - ROUND(size, align); \
+      (CUM).offsets[locn] += sizeof (int) - ROUND (size, align); \
     } \
-  (TYPE) = objc_skip_typespec(type); \
+  */ \
+  (TYPE) = objc_skip_typespec (type); \
+  locn = *(TYPE) == '+' ? IN_REGS : ON_STACK; \
+  typelen = (TYPE) - type; \
   if (locn == IN_REGS) \
     { \
-      sprintf((DEST), "%.*s+%d", (TYPE)-type, type, (CUM).offsets[locn]); \
+      (TYPE)++; \
+      (CUM).offsets[IN_REGS] = atoi (TYPE); \
+      sprintf ((DEST), "%.*s+%d", typelen, type, (CUM).offsets[IN_REGS]); \
     } \
   else \
     { \
-      sprintf((DEST), "%.*s%d", (TYPE)-type, type, (CUM).offsets[locn]); \
+      (CUM).offsets[ON_STACK] = atoi (TYPE); \
+      sprintf ((DEST), "%.*s%d", typelen, type, (CUM).offsets[ON_STACK]); \
     } \
-  if (*(TYPE) == '+') \
+  while (isdigit ((int) *(TYPE))) \
     { \
       (TYPE)++; \
     } \
-  while (isdigit((int)*(TYPE))) \
-    { \
-      (TYPE)++; \
-    } \
-  (DEST)=&(DEST)[strlen(DEST)]; \
+  (DEST) = &(DEST)[strlen(DEST)]; \
   if (locn == ON_STACK) \
     { \
       if ((*type==_C_STRUCT_B || *type==_C_UNION_B || *type==_C_ARY_B)) \
