@@ -37,7 +37,9 @@
 #define DEFAULT_PROMPT "Tk% "
 #define DEFAULT_PARTIAL_PROMPT "Tk> "
 
-#if (TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION == 2)
+#if (TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION == 3)
+#define SUBDIR "tk8.3"
+#elif (TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION == 2)
 #define SUBDIR "tk8.2"
 #elif (TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION == 1)
 #define SUBDIR "tk8.1"

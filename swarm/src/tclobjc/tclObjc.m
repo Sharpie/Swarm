@@ -50,7 +50,7 @@ tclObjc_objectToName(id obj)
   static char name[512];
   if (obj)
     {
-      sprintf(name, "%s%c0x%p", obj->class_pointer->name, ATDELIMCHAR, obj);
+      sprintf(name, "%s%c" PTRHEXFMT, obj->class_pointer->name, ATDELIMCHAR, obj);
       return name;
     }
   return "nil";
@@ -589,8 +589,8 @@ tclObjc_msgSendToArgv1 (ClientData clientData,
       switch (*type)
 	{
 	case _C_PTR:
-	  sprintf(argString, "0x%x", 
-	  	*(unsigned int*)(marg_getRef(argframe, datum, unsigned int)));
+	  sprintf(argString, PTRHEXFMT, 
+	        *(void **) (marg_getRef(argframe, datum, void *)));
 	  Tcl_DStringAppendElement(&command, argString);
 	  break;
 	case _C_ID:
@@ -680,18 +680,16 @@ static char tclObjcInitCmd[] =
    }\n\
  }\n";
 
-
 int
 TclObjc_Init (Tcl_Interp *interp)
 {
-  int code;
-
   /* Fix this ugliness!!! */
   _TclObject_interp = interp;
   tclObjc_registerClassnames(interp);
   Tcl_CreateCommand(interp, "tclObjc_msg_send", 
 		    tclObjc_msgSendToArgv1, 0, 0);
   {
+    int code;
     char buf [strlen (tclObjcInitCmd) + 1];
 
     sprintf (buf, tclObjcInitCmd, ATDELIMCHAR);
