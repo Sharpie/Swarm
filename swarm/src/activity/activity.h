@@ -75,7 +75,7 @@ USING
 //E: Given a variable aTurtle already initialized to a valid object, following
 //E: is an example of a createActionTo message:
 
-//E: [createActionTo: aTurtle message: M(print)];
+//E: [anActionGroup createActionTo: aTurtle message: M(print)];
 
 //E: M() is a macro defined in defobj.h which is just a convenient
 //E: shorthand for the Objective C expression @selector(message-name).  As
@@ -83,7 +83,7 @@ USING
 //E: message including colons and subsequent argument portions.  An example
 //E: of a message with one additional argument is the following:
 
-//E: [createActionTo: aTurtle message: M(move:) : obj];
+//E: [anActionGroup createActionTo: aTurtle message: M(move:) : obj];
 
 USING
 - createActionTo: target message: (SEL)aSel;

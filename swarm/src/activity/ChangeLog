@@ -1,3 +1,9 @@
+1999-06-03  Alex Lancaster  <alex@santafe.edu>
+
+	* activity.h (ActionCreatingTo): Fix missing message receiver in
+	the example code provided.  Thanks to Ken Cline
+	<kcline@c3i.saic.com> for the report.
+ 
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add -I$(top_builddir)/libobjc.
