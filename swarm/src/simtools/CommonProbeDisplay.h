@@ -5,7 +5,7 @@
 
 #import <objectbase.h>
 
-@interface CommonProbeDisplay : SwarmObject
+@interface CommonProbeDisplay: SwarmObject
 {
   id probedObject;  
   id topLevel, topFrame, canvas;

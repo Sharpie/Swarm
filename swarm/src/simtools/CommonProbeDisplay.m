@@ -18,7 +18,7 @@
   topLevel = [Frame createBegin: [self getZone]];
   [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
   topLevel = [topLevel createEnd];
-  [topLevel setupDestroyNotification: self
+  [topLevel enableDestroyNotification: self
             notificationMethod: @selector (markForDrop)];
   [topLevel setWindowTitle: tkobjc_getId (probedObject)];
   tkobjc_withdrawWindow (topLevel);
@@ -67,6 +67,7 @@
 
 - (void)markForDrop
 {
+  [topLevel disableDestroyNotification];
   if ([probeDisplayManager getDropImmediatelyFlag])
     [self drop];
   else

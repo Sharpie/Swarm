@@ -1,8 +1,10 @@
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* CommonProbeDisplay.m ([CommonProbeDisplay -createEnd]): Use
-	setupDestroyNotification to have markForDrop called when a probe
+	enableDestroyNotification to have markForDrop called when a probe
 	display is killed by the window manager.
+	([CommonProbeDisplay -markForDrop]): Call disableDestroyNotification
+	first thing.
 
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
