@@ -17,29 +17,32 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 @implementation ActionCache
 
 // Create Phase methods
--setControlPanel: (id) cp {
+- setControlPanel: cp
+{
   ctrlPanel = cp;
   return self;
 }
 
--setControlPanelGeometryRecordName : (const char *)theName
+- setControlPanelGeometryRecordName : (const char *)theName
 {
   controlPanelGeometryRecordName = theName;
   return self;
 }
 
--setScheduleContext: (id) context {
+- setScheduleContext: context
+{
   [destinationSchedule activateIn: context];
   return self;
 }
 
--createEnd {
+- createEnd
+{
   [super createEnd];
-
+  
   //Create the data structure
   actionCache = [List createBegin: [self getZone]];
   actionCache = [actionCache createEnd];
-
+  
   //Create the group to be activated in the swarm
   destinationSchedule = [Schedule createBegin: [self getZone]];
   //[destinationSchedule setRepeatInterval: 1];
@@ -50,11 +53,11 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   //[destinationSchedule at: 1
   //	       createActionCall: xprint
   //	       : destinationSchedule];
-
-
+  
+  
   // Create the panel widget that will send the mouse control events to me.
   panel = [self createProcCtrl];
-
+  
   //
   // Symbols
   //
@@ -71,43 +74,47 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 }
 
 // Use phase methods
--insertAction: (id) actionHolder
+- insertAction: actionHolder
 {
   id <Symbol> actionType;
-  char * actionName;
-
+  const char *actionName;
+  
   actionType = [actionHolder getType];
-  if (actionType == Control) {
-    actionName = [actionHolder getActionName];
-    [actionHolder setActionTarget: ctrlPanel];
-    if (strcmp(actionName, "Start") == 0)
-      [actionHolder setSelector: M(setStateRunning)];
-    else if (strcmp(actionName, "Step") == 0)
-      [actionHolder setSelector: M(setStateStepping)];
-    else if (strcmp(actionName, "Next") == 0)
-      [actionHolder setSelector: M(setStateStepping)];
-    else if (strcmp(actionName, "Stop") == 0)
-      [actionHolder setSelector: M(setStateStopped)];
-    else if (strcmp(actionName, "Save") == 0)
-      [actionHolder setSelector: M(setStateStoppedAndSave)];
-    else if (strcmp(actionName, "Quit") == 0) {
-      [actionHolder setSelector: M(setStateQuit)];
+  if (actionType == Control)
+    {
+      actionName = [actionHolder getActionName];
+      [actionHolder setActionTarget: ctrlPanel];
+      if (strcmp(actionName, "Start") == 0)
+        [actionHolder setSelector: M(setStateRunning)];
+      else if (strcmp(actionName, "Step") == 0)
+        [actionHolder setSelector: M(setStateStepping)];
+      else if (strcmp(actionName, "Next") == 0)
+        [actionHolder setSelector: M(setStateStepping)];
+      else if (strcmp(actionName, "Stop") == 0)
+        [actionHolder setSelector: M(setStateStopped)];
+      else if (strcmp(actionName, "Save") == 0)
+        [actionHolder setSelector: M(setStateStoppedAndSave)];
+      else if (strcmp(actionName, "Quit") == 0) {
+        [actionHolder setSelector: M(setStateQuit)];
+      }
+      else
+        [InvalidActionType
+          raiseEvent: 
+            "Control Action Name: [%s] not recognized in insertAction",
+          actionName];
+      [actionCache addLast: actionHolder];
     }
-    else
-      [InvalidActionType
-	raiseEvent: "Control Action Name: [%s] not recognized in insertAction",
-	actionName];
-    [actionCache addLast: actionHolder];
-  }
-  else if (actionType == Probing) {
-    // target should already be set to the particular probe?
-    // [actionCache addLast: actionHolder];
-    [ActionTypeNotImplemented raiseEvent];
-  }
-  else if (actionType == Spatial) {
-    // [actionCache addLast: actionHolder];
-    [ActionTypeNotImplemented raiseEvent];
-  }
+  else if (actionType == Probing)
+    {
+      // target should already be set to the particular probe?
+      // [actionCache addLast: actionHolder];
+      [ActionTypeNotImplemented raiseEvent];
+    }
+  else if (actionType == Spatial)
+    {
+      // [actionCache addLast: actionHolder];
+      [ActionTypeNotImplemented raiseEvent];
+    }
   else
     [InvalidActionType raiseEvent: "The ActionType Symbol "
 		       "embedded in action 0x%0p was not found.\n", 
@@ -115,52 +122,55 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return self;
 }
 
--deliverActions
+- deliverActions
 {
   id <Symbol> actionType;
-  char * actionName;
+  const char *actionName;
   id <Index> cacheIndex;
   id actionHolder;
   
   cacheIndex = [actionCache begin: scratchZone];
-  while ((actionHolder = [cacheIndex next]) != nil) {
-    actionType = [actionHolder getType];
-    if (actionType == Control) {
-      actionName = [actionHolder getActionName];
-      //[actionHolder setActionTarget: schedControl];
-      // if "Quit" then schedule a quit to control panel
-      // if "Stop" then schedule a "stop" to the activitycontrol
-      if ((strcmp(actionName, "Quit") == 0) ||
-	  (strcmp(actionName, "Stop") == 0) ||
-          (strcmp(actionName, "Save") == 0)) {
-	[destinationSchedule at: 
-			       getCurrentTime()+1
-			     createActionTo: [actionHolder getActionTarget] 
-			     message: [actionHolder getSelector]];
-	
+  while ((actionHolder = [cacheIndex next]) != nil)
+    {
+      actionType = [actionHolder getType];
+      if (actionType == Control) {
+        actionName = [actionHolder getActionName];
+        //[actionHolder setActionTarget: schedControl];
+        // if "Quit" then schedule a quit to control panel
+        // if "Stop" then schedule a "stop" to the activitycontrol
+        if ((strcmp(actionName, "Quit") == 0)
+            || (strcmp(actionName, "Stop") == 0)
+            || (strcmp(actionName, "Save") == 0)) 
+          {
+            [destinationSchedule 
+              at: 
+                getCurrentTime()+1
+              createActionTo: [actionHolder getActionTarget] 
+              message: [actionHolder getSelector]];
+            
+          }
+        // if "Start" send a message directly to activitycontroller
+        // if "Step" send a message directly to activitycontroller
+        else if ((strcmp(actionName, "Step") == 0) 
+                 || (strcmp(actionName, "Start") == 0)) 
+          [[actionHolder getActionTarget] perform: [actionHolder getSelector]];
+        else
+          [InvalidActionType
+            raiseEvent:
+              "Control Action Name: [%s] not recognized in deliverActions",
+            actionName];
       }
-      // if "Start" send a message directly to activitycontroller
-      // if "Step" send a message directly to activitycontroller
-      else if ((strcmp(actionName, "Step") == 0) ||
-	       (strcmp(actionName, "Start") == 0)) {
-	[[actionHolder getActionTarget] perform: [actionHolder getSelector]];
-      }
-      else
-	[InvalidActionType
-	  raiseEvent: "Control Action Name: [%s] not recognized in deliverActions",
-	  actionName];
+      [cacheIndex remove];
+      [actionHolder drop];
+      
     }
-    [cacheIndex remove];
-    [actionHolder drop];
-    
-  }
   [cacheIndex drop];
-
+  
   // reschedule myself for next cycle
-  [destinationSchedule at: getCurrentTime()+1 
+  [destinationSchedule at: getCurrentTime() + 1 
 		       createActionTo: self 
 		       message: M(deliverActions)];
-
+  
   return self;
 }
 
@@ -169,18 +179,19 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 // figure out how to pass arguments via the "simctl" Tk command.
 // Since this work is not really for Tk, but for Java, I'm not
 // going to worry about it. -- gepr
--sendActionOfType: (id <Symbol>) type toExecute: (char *) cmd {
+- sendActionOfType: (id <Symbol>) type toExecute: (const char *)cmd
+{
   id anAction;
-
+  
   // if in waitForControlEvent, then reset the control panel
   // state and insert the start action onto the cache
   // when control finally gets back to controlpanel, it will
   // fall out of the busy wait loop and continue at the point
   // from which waitForControlEvnt was called.
-  if (([ctrlPanel getState] == ControlStateStopped) && 
-      (strcmp(cmd, "Stop") != 0))
+  if (([ctrlPanel getState] == ControlStateStopped)
+      && (strcmp(cmd, "Stop") != 0))
     [ctrlPanel setState: ControlStateRunning];
-
+  
   // create a 'cmd' action
   anAction = [[ActionHolder createBegin: [self getZone]] createEnd];
   [anAction setActionName: cmd];
@@ -190,42 +201,48 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return [self insertAction: anAction];
 }
 
--sendStartAction {
+- sendStartAction
+{
   return [self sendActionOfType: Control toExecute: "Start"];
 }
 
--sendStopAction {
+- sendStopAction
+{
   return [self sendActionOfType: Control toExecute: "Stop"];
 }
 
--sendStepAction {
+- sendStepAction
+{
   return [self sendActionOfType: Control toExecute: "Step"];
 }
 
--sendNextAction {
+- sendNextAction
+{
   return [self sendActionOfType: Control toExecute: "Step"];
 }
 
--sendSaveAction
+- sendSaveAction
 {
   return [self sendActionOfType: Control toExecute: "Save"];
 }
 
--sendQuitAction {
+- sendQuitAction
+{
   return [self sendActionOfType: Control toExecute: "Quit"];
 }
 
 // perform any reasoning over the cache in this method
--verifyActions {
+- verifyActions
+{
   return self;
 }
 
 
 // Widget methods
--(ButtonPanel * ) createProcCtrl
+- (ButtonPanel * )createProcCtrl
 {
-  ButtonPanel * panelWidget;
-
+  ButtonPanel *panelWidget;
+  
   // Make a command for ourselves
   tkobjc_registerCommand (self, "simctl");
   
@@ -249,7 +266,8 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return panelWidget;
 }
 
--(ButtonPanel *) getPanel {
+- (ButtonPanel *)getPanel
+{
   return panel;
 }
 

@@ -10,19 +10,21 @@
 
 @implementation AppendFile
 
-+create: aZone withName: (char *) theName {
-  FILE *aFile ;
-  id anObj ;
-
-  aFile = fopen(theName,"a") ;	// opens in "a" - append mode				
-  if(aFile == NULL){
-    fprintf(stderr,
-      "Unable to open %s as an AppendFile object!\n",theName) ;	
-    return nil ;
-  }
-
-  anObj = [AppendFile create: aZone] ;
-  [anObj _setFile_: aFile] ;
++create: aZone withName: (const char *) theName
+{
+  FILE *aFile;
+  id anObj;
   
-  return anObj ;
+  aFile = fopen (theName,"a");	// opens in "a" - append mode				
+  if (aFile == NULL)
+    {
+      fprintf (stderr,
+               "Unable to open %s as an AppendFile object!\n",theName);	
+      return nil;
+    }
+  
+  anObj = [AppendFile create: aZone];
+  [anObj _setFile_: aFile];
+  
+  return anObj;
 }

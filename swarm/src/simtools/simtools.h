@@ -58,7 +58,7 @@ USING
 -               insertAction: (id) actionHolder;
 -               deliverActions;
 -               sendActionOfType: (id <Symbol>) type 
-		       toExecute: (char *) cmd;
+		       toExecute: (const char *)cmd;
 -               sendStartAction;
 -               sendStopAction;
 -               sendStepAction;
@@ -142,13 +142,13 @@ USING
 //
 @protocol UName <SwarmObject>
 CREATING
-+		create: aZone setBaseName: (char *) aString ;
++		create: aZone setBaseName: (const char *)aString ;
 +		create: aZone setBaseNameObject: aStringObject ;
 
--		setBaseName: (char *) aString ;
+-		setBaseName: (const char *)aString ;
 -		setBaseNameObject: aStringObject ;
 USING
-- (char *)	getNewName ;
+- (const char *)getNewName ;
 -		getNewNameObject ;
 @end
 
@@ -159,7 +159,7 @@ USING
 //
 @protocol InFile <SwarmObject>
 CREATING
-+		create: aZone withName: (char *) theName ;
++		create: aZone withName: (const char *)theName;
 USING
 - (int)		getWord: (char *) aWord ;
 - (int)		getInt: (int *) anInt ;
@@ -180,9 +180,9 @@ USING
 //
 @protocol OutFile <SwarmObject>
 CREATING
-+		create: aZone withName: (char *) theName ;
++		create: aZone withName: (const char *)theName;
 USING
--		putString: (char *) aString ;
+-		putString: (const char *)aString;
 -		putInt: (int) anInt ;
 -               putUnsigned: (unsigned) anUnsigned;
 -               putLong: (long) aLong ;
@@ -201,9 +201,9 @@ USING
 //
 @protocol AppendFile <SwarmObject>
 CREATING
-+		create: aZone withName: (char *) theName ;
++		create: aZone withName: (const char *)theName;
 USING
--		putString: (char *) aString ;
+-		putString: (const char *)aString;
 -		putInt: (int) anInt ;
 -               putUnsigned: (unsigned) anUnsigned;
 -               putLong: (long) aLong ;

@@ -1,5 +1,48 @@
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* simtools.h: Consify toExecute argument of ActionCache
+	sendActionOfType.
+	Consify setBaseName argument of UName create.
+	Consify argument to UName setBaseName.
+	Consify return of UName getNewName.
+	Consify withName argument of InFile create.
+	Consify withName argument of OutFile create.
+	Consify argument to OutFile putString.
+	Consify withName argument of AppendFile create.
+	Consify argument to AppendFile putString.
+
+	* UName.m ([UName +create:setBaseName:]): Consify setBaseName
+	argument to create.
+	([UName -setBaseName:]): Consify argument.
+	([UName -getNewName]): Consify return.
+	Reformatting throughout.
+
+	* UName.h: Consify setBaseName argument to create.
+	Consify argument to setBaseName.
+	Consify return of getNewName.
+	Reformatting throughout.
+
+	* AppendFile.m ([AppendFile +create:withName:theName]): Consify 
+	withName argument. 
+	Reformatting throughout.
+
+	* AppendFile.h: Consify withName argument to create.
+	Reformatting throughout.
+
+	* ActionHolder.m ([ActionHolder -setActionName:]): Consify argument.
+	([ActionHolder -getActionName]): Consify return.
+	Reformatting throughout.
+
+	* ActionHolder.h (ActionHolder): Consify name.
+	Consify argument to setActionName.  Consify return of getActionName.
+	Reformatting throughout.
+
+	* ActionCache.m ([ActionCache -sendActionOfType:type:]): Consify
+	toExecute argument.  Reformatting throughout.
+
+	* ActionCache.h: Constify toExecute argument of sendActionOfType.
+	Reformatting throughout.
+
 	* MessageProbeWidget.m ([MessageProbeWidget -idReceive:which]):
 	Use renamed tkobjc_gimme_drag_and_drop_object.
 	* VarProbeWidget.m ([VarProbeWidget -idReceive]): Likewise.

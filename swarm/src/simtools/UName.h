@@ -8,20 +8,21 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface UName : SwarmObject {
-  int counter ;
-  id baseString ;
+@interface UName : SwarmObject
+{
+  int counter;
+  id baseString;
 }
 
-+create: aZone setBaseName: (char *) aString ;
-+create: aZone setBaseNameObject: aStringObject ;
++ create: aZone setBaseName: (const char *)aString;
++ create: aZone setBaseNameObject: aStringObject;
 
--setBaseName: (char *) aString ;
--setBaseNameObject: aStringObject ;
+- setBaseName: (const char *)aString;
+- setBaseNameObject: aStringObject;
 
--(char *)getNewName ;
--getNewNameObject ;
+- (const char *)getNewName;
+- getNewNameObject;
 
--resetCounter ;
+- resetCounter;
 
 @end

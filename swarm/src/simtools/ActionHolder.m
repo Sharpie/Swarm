@@ -7,46 +7,55 @@
 @implementation ActionHolder
 
 // Create methods
--createEnd {
+- createEnd
+{
   [super createEnd];
   return self;
 }
 
 // Use methods
--setActionTarget: (id) tgt {
+- setActionTarget: tgt
+{
   target = tgt;
   return self;
 }
 
--getActionTarget {
+- getActionTarget
+{
   return target;
 }
 
--setSelector: (SEL)  slctr {
+- setSelector: (SEL)slctr
+{
   selector = slctr;
   return self;
 }
 
--(SEL) getSelector {
+- (SEL)getSelector
+{
   return selector;
 }
 
--setActionName: (char *) nme {
+- setActionName: (const char *)nme
+{
   name = nme;
   return self;
 }
 
--(char *) getActionName {
+- (const char *)getActionName
+{
   return name;
 }
 
--setType: (id <Symbol>) tp {
+- setType: (id <Symbol>) tp
+{
   type = tp;
   return self;
 }
 
 
--(id <Symbol>) getType {
+- (id <Symbol>) getType
+{
   return type;
 }
 

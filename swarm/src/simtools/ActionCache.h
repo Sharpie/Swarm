@@ -17,31 +17,31 @@
   const char *controlPanelGeometryRecordName;
 
   // widget IVar
-  ButtonPanel * panel;
+  ButtonPanel *panel;
 }
 
 // Create Phase methods
--setControlPanel: (id) cp;
--setControlPanelGeometryRecordName : (const char *)theName;
--setScheduleContext: (id) context;
--createEnd;
+- setControlPanel: cp;
+- setControlPanelGeometryRecordName : (const char *)theName;
+- setScheduleContext: context;
+- createEnd;
 
 // Use phase methods
--insertAction: (id) actionHolder;
--deliverActions;
+- insertAction: (id) actionHolder;
+- deliverActions;
 // generic send method underlying the specific send methods
--sendActionOfType: (id <Symbol>) type toExecute: (char *) cmd;
--sendStartAction;
--sendStopAction;
--sendStepAction;
--sendNextAction;
--sendQuitAction;
--verifyActions;
+- sendActionOfType: (id <Symbol>) type toExecute: (const char *) cmd;
+- sendStartAction;
+- sendStopAction;
+- sendStepAction;
+- sendNextAction;
+- sendQuitAction;
+- verifyActions;
 
 // widget methods
--(ButtonPanel *) createProcCtrl ;
--(ButtonPanel *) getPanel;
--doTkEvents;
+- (ButtonPanel *)createProcCtrl ;
+- (ButtonPanel *)getPanel;
+- doTkEvents;
 
 
 @end

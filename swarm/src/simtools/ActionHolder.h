@@ -5,24 +5,25 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface ActionHolder : SwarmObject {
+@interface ActionHolder : SwarmObject
+{
   id <Symbol> type;
-  char * name;
+  const char *name;
   id target;
   SEL selector;
 }
 
 // Create methods
--createEnd;
+- createEnd;
 
 // Use methods
--setActionTarget: (id) tgt;
--getActionTarget;
--setSelector: (SEL)  slctr;
--(SEL) getSelector;
--setActionName: (char *) nme;
--(char *) getActionName;
--setType: (id <Symbol>) tp;
--(id <Symbol>) getType;
+- setActionTarget: tgt;
+- getActionTarget;
+- setSelector: (SEL)slctr;
+- (SEL)getSelector;
+- setActionName: (const char *)nme;
+- (const char *)getActionName;
+- setType: (id <Symbol>) tp;
+- (id <Symbol>) getType;
 
 @end

@@ -9,9 +9,10 @@
 // rather than 'create' mode, thus not wiping out
 // an existing file.
 
-@interface AppendFile : OutFile {
+@interface AppendFile : OutFile
+{
 }
 
-+create: aZone withName: (char *) theName ;
++create: aZone withName: (const char *)theName;
 
 @end
