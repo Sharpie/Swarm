@@ -927,12 +927,21 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
         
       if (objcFlag)
         {
-          p = name = SSTRDUP (utf);
+	  size_t len = strlen (utf);
+          BOOL needTrailingColon = argCount > 0 && utf[len - 1] != '$';
+
+          p = name = [scratchZone alloc: len + (int) needTrailingColon + 1];
+          strcpy (name, utf);
           while (*p)
             {
               if (*p == '$')
                 *p = ':';
               p++;
+            }
+          if (needTrailingColon)
+	    {
+              *p++ = ':';
+              *p = '\0';
             }
         }
       else

@@ -1,3 +1,8 @@
+1999-08-10  Marcus Daniels  <mgd@caos.santafe.edu>
+
+	* directory.m (swarm_directory_ensure_selector): Add trailing
+	colon if one is needed but is absent in Java spec.
+
 1999-08-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m (ffi_types): Add entries for long double and Class.
