@@ -1,5 +1,8 @@
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* GUIComposite.m ([GUIComposite +createBegin:]): Setup 
+	componentList in createBegin, not createEnd.
+
 	* ControlPanel.m ([ControlPanel -createEnd]): Include
 	awtobjc/JavaControlPanel in USE_JAVA case.  (temporary)
 	([ControlPanel -getState], [ControlPanel -setState]): 

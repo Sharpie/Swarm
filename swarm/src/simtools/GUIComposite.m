@@ -15,13 +15,14 @@ compareFunc (id obj1, id obj2)
   return strcmp ((const char *)obj1, (const char *)obj2);
 }
 
-- createEnd
++ createBegin: aZone
 {
-  [super createEnd];
-  componentList = [Map createBegin: [self getZone]];
-  [componentList setCompareFunction: compareFunc];
-  componentList = [componentList createEnd];
-  return self;
+  GUIComposite *obj = [super createBegin: aZone];
+
+  obj->componentList = [Map createBegin: aZone];
+  [obj->componentList setCompareFunction: compareFunc];
+  obj->componentList = [obj->componentList createEnd];
+  return obj;
 }
 
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName
@@ -56,7 +57,7 @@ compareFunc (id obj1, id obj2)
 
 - disableDestroyNotification
 {
-  [componentList forEach: @selector(disableDestroyNotification)];
+  [componentList forEach: @selector (disableDestroyNotification)];
   return self;
 }
 @end
