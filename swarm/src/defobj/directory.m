@@ -453,6 +453,7 @@ language_independent_class_name_for_objc_class (Class oClass)
 
       if (cClass)
         className = COM_get_class_name (cClass);
+#ifdef HAVE_JDK
       else
         {
           // Likewise.
@@ -463,6 +464,7 @@ language_independent_class_name_for_objc_class (Class oClass)
           else
             abort ();
         }
+#endif
     }
   else
     {

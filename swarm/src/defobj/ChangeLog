@@ -2,6 +2,9 @@
 
 	* Arguments.m (parse_opt): Protect Java stuff.
 
+	* directory.m (language_independent_class_name_for_objc_class):
+	Likewise.
+
 	* java.h: Remove undef of SIZEOF_LONG for Kaffe.  It breaks VarProbe.m
 	on Alpha.  Kaffe may not do this anymore..
 
