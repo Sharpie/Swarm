@@ -54,7 +54,8 @@ AC_ARG_WITH(tclincludedir,
   tclincludedir=$withval)
 
 AC_ARG_WITH(tcllibname,
-[  --with-tcllibname=NAME           Use -lNAME for Tcl])
+[  --with-tcllibname=NAME           Use -lNAME for Tcl],
+  tcllibname=$withval)
 
 md_FIND_TCL_HEADERS
 if test -z "$tclincludedir" ; then
@@ -76,7 +77,8 @@ AC_ARG_WITH(tkincludedir,
   tkincludedir=$withval/include)
 
 AC_ARG_WITH(tklibname,
-[  --with-tklibname=NAME            Use -lNAME for Tk])
+[  --with-tklibname=NAME            Use -lNAME for Tk],
+  tklibname=$withval)
 
 md_FIND_TK_HEADERS
 if test -z "$tkincludedir" ; then
