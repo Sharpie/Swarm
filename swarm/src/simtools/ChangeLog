@@ -1,3 +1,24 @@
+1998-04-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* QSort.m: Include misc.h.
+	
+	* InFile.m: Include collections.h, not collections/String.h.
+
+	* UName.m: Don't include collections/String.h.  stdlib.h, or
+	string.h.  Include collections.h and misc.h.
+
+	* NSelect.h, ObjectLoader.m, ObjectSaver.[hm], QSort.[hm]:
+	Reformatting throughout.
+	
+	* AppendFile.[hm]: Minor reformatting.
+
+	* simtools.h:  Move tagged documentation to the respective protocols
+	definition.
+	
+	* ActiveOutFile.m, AppendFile.m, InFile.m, NSelect.m,
+	ObjectLoader.m, ObjectSaver.m, OutFile.m, UName.m: Remove tagged
+	documentation.  (Move it to simtools.h.)
+
 1998-04-15  Irene Lee  <lee@wijiji.santafe.edu>
 
 	* ActiveOutFile.m, AppendFile.m, InFile.m, NSelect.m, ObjectLoader.m,
