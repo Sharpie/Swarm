@@ -1,6 +1,12 @@
+1999-08-06  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (JAVAINCLUDES): Extract variable.
+	(INCLUDES): Add JAVAINCLUDES.
+
 1999-08-06  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
-	* avl.c (avl_destroy, avl_free, avl_delete): Use xfree instead of free.
+	* avl.c (avl_destroy, avl_free, avl_delete): Use xfree instead of
+	free.
 
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -3,10 +3,11 @@ CURRENT = 2
 REVISION = 2
 AGE = 1
 miscdir = $(includedir)/misc
+JAVAINCLUDES = @JAVAINCLUDES@
 
-include $(top_srcdir)/src/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules 
 
-INCLUDES = -I$(srcdir)/..
+INCLUDES = -I$(srcdir)/.. $(JAVAINCLUDES)
 
 noinst_LTLIBRARIES = @noinst_LIBS@
 lib_LTLIBRARIES = @inst_LIBS@
