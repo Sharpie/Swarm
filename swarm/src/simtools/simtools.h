@@ -73,6 +73,9 @@ CREATING
 //M: name of the file to open.
 + create: aZone setName: (const char *)theName;
 
+//M: for backward compatibility
++ create: aZone withName: (const char *)theName;
+
 USING
 //M: The getWord: method returns a string that does not contain spaces, tabs,
 //M: and newlines.
@@ -144,6 +147,9 @@ CREATING
 //M: Outfile object.
 + create: aZone setName: (const char *)theName;
 
+//M: for backward compatibility
++ create: aZone withName: (const char *)theName;
+
 USING
 //M: The putString: method takes an instance of type string and writes it
 //M: into the open file.
@@ -203,6 +209,9 @@ CREATING
 //M: The create:setName: method is the create method for AppendFiles, where 
 //M: theName is the name of the file to open.
 + create: aZone setName: (const char *)theName;
+
+//M: for backward compatibility
++ create: aZone withName: (const char *)theName;
 @end
 
 @protocol ObjectLoader <SwarmObject, CREATABLE>

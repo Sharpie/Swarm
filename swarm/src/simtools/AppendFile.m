@@ -7,6 +7,8 @@
 
 #include <misc.h> // fopen
 
+#import <defobj.h> // ObsoleteFeature, raiseEvent
+
 @implementation AppendFile
 PHASE(Creating)
 
@@ -19,6 +21,13 @@ PHASE(Creating)
   
   return [[self create: aZone] _setFile_: aFile];
 }
+
++ create: aZone withName: (const char *)theName
+{
+  raiseEvent (ObsoleteMessage, "please use +create:setName: instead\n");
+  return [self create: aZone setName: theName];
+}
+
 PHASE(Using)
 
 @end

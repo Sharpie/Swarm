@@ -15,5 +15,6 @@
 }
 
 + create: aZone setName: (const char *)theName;
++ create: aZone withName: (const char *)theName;
 
 @end

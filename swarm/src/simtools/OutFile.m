@@ -6,6 +6,8 @@
 #import <simtools/OutFile.h>
 #include <misc.h> // fopen, fprintf, fclose
 
+#import <defobj.h> // ObsoleteFeature, raiseEvent
+
 @implementation OutFile
 PHASE(Creating)
 + create: aZone setName: (const char *)theName
@@ -16,6 +18,12 @@ PHASE(Creating)
     return nil;
   
   return [[self create: aZone] _setFile_: aFile];
+}
+
++ create: aZone withName: (const char *)theName
+{
+  raiseEvent (ObsoleteMessage, "please use +create:setName: instead\n");
+  return [self create: aZone setName: theName];
 }
 
 - _setFile_: (FILE *)aFile

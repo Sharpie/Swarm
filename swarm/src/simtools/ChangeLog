@@ -1,3 +1,8 @@
+1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* simtools.h, {Append,Out,In}File.[hm]: Add deprecated wrappers
+	for create:withName: (with warnings).
+
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* UName.m ([UName -getNewName]): Use STRDUP instead of strdup.

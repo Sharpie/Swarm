@@ -8,6 +8,8 @@
 
 #include <misc.h> // fopen, fgetc, fscanf, fclose, ungetc
 
+#import <defobj.h> // ObsoleteFeature, raiseEvent
+
 @implementation InFile
 PHASE(Creating)
 
@@ -20,6 +22,12 @@ PHASE(Creating)
     return nil;
   
   return [[self create: aZone] _setFile_: aFile];
+}
+
++ create: aZone withName: (const char *)theName
+{
+  raiseEvent (ObsoleteMessage, "please use +create:setName: instead\n");
+  return [self create: aZone setName: theName];
 }
 
 - _setFile_: (FILE *) aFile
