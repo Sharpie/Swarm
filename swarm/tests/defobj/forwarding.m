@@ -9,6 +9,8 @@
 - (const char *)m2: (int)num double: (double)val float: (float)val2;
 - (const char *)m3: (float)val double: (double)val2 int: (int)num; 
 - (const char *)m4: (double)val float: (float)val2 int: (int)num;
+- (const char *)m5: (float)val double: (double)val2 int: (int)num int2: (int)num2; 
+- (const char *)m6: (float)fval float2: (float)fval2 double: (double)dval int: (int)num int2: (int)num2; 
 @end
 
 @implementation DelegateObject
@@ -47,6 +49,25 @@
   printf ("m4: [%s]\n", buf);
   return buf;
 }
+
+- (const char *)m5: (float)val1 double: (double)val2 int: (int)num int2: (int)num2
+{
+  static char buf[30];
+
+  sprintf (buf, "%d %d %.2f %.2f", num, num2, val1, val2);
+  printf ("m5: [%s]\n", buf);
+  return buf;
+}
+
+- (const char *)m6: (float)fval1 float2: (float)fval2 double: (double)dval int: (int)num int2: (int)num2
+{
+  static char buf[40];
+
+  sprintf (buf, "%d %d %.2f %.2f %.2f", num, num2, fval1, fval2, dval);
+  printf ("m6: [%s]\n", buf);
+  return buf;
+}
+
 @end
 
 @interface BaseObject: CreateDrop
@@ -93,7 +114,7 @@
     while ((sig = mframe_next_arg (sig, &info)))
       {
         mframe_get_arg (argFrame, &info, &val);
-	[fa addArgument: &val ofObjCType: *info.type];
+		[fa addArgument: &val ofObjCType: *info.type];
       }
     XFREE (sig);
   }
@@ -137,6 +158,10 @@ main (int argc, const char **argv)
   if (strcmp ([obj m3: 7.0 double: 8.0 int: 9], "9 7.00 8.00") != 0)
     return 1;
   if (strcmp ([obj m4: 10.0 float: 11.0 int: 12], "12 11.00 10.00") != 0)
+    return 1;
+  if (strcmp ([obj m5: 13.0 double: 14.0 int: 15 int2: 16], "15 16 13.00 14.00") != 0)
+    return 1;
+  if (strcmp ([obj m6: 17.0 float2: 18.0 double: 19.0 int: 20 int2: 21], "20 21 17.00 18.00 19.00") != 0)
     return 1;
   return 0;
 }
