@@ -3,7 +3,6 @@ SUBDIRS = activity analysis collections defobj gui objectbase random simtools si
 
 swarm_srcdir = @swarm_srcdir@
 gridturtle_srcdir = @gridturtle_srcdir@
-
 swarm_ChangeLog =
 
 include $(top_srcdir)/Makefile.rules
@@ -41,6 +40,14 @@ EXAMPLES = GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
 gridexamples.sgml: $(addprefix $(gridturtle_srcdir)/,$(EXAMPLES))
 	- (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.GRID.SGML.EXAMPLE.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $(gridturtle_srcdir)/$$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) > $@
 
+$(top_builddir)/protocol.elc: $(swarm_srcdir)/etc/protocol.el $(top_builddir)/common.elc
+	cp -f $(swarm_srcdir)/etc/protocol.el $(top_builddir)
+	$(EMACS) -batch -f batch-byte-compile $(top_builddir)/protocol.el
+
+$(top_builddir)/sgml.elc: $(top_srcdir)/sgml.el $(top_builddir)/protocol.elc $(top_builddir)/common.elc
+	-cp $(top_srcdir)/sgml.el $(top_builddir)
+	$(EMACS) -batch -f batch-byte-compile $(top_builddir)/sgml.el
+
 refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/analysis/analysis.h \
 	$(swarm_srcdir)/src/collections/collections.h \
@@ -51,9 +58,9 @@ refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/simtools/simtools.h \
 	$(swarm_srcdir)/src/simtoolsgui/simtoolsgui.h \
 	$(swarm_srcdir)/src/space/space.h \
-	$(swarm_srcdir)/etc/protocol.el $(swarm_srcdir)/etc/common.el \
-	$(top_srcdir)/sgml.el
-	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_dossrcdir)/sgml.el -f run-all $(swarm_dossrcdir)
+	$(top_builddir)/protocol.elc $(top_builddir)/common.elc \
+	$(top_builddir)/sgml.elc
+	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l $(top_builddir)/sgml.elc -f run-all $(swarm_dossrcdir)
 
 # Local variables:
 # mode: makefile

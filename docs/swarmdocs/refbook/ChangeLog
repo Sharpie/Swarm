@@ -1,3 +1,9 @@
+1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am ($(top_builddir)/protocol.elc, 
+	$(top_builddir)/sgml.elc): New rules.
+	(refindex.sgml $(PAGES)): Depend on local elc files.
+
 1999-02-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (refindex.sgml $(PAGES)): Depend on
