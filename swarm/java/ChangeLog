@@ -1,3 +1,9 @@
+1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (SWARM_EXTRA_DIST): Add
+	swarm/NonUniqueMethodSignatureException.java and
+	swarm/SignatureNotFoundException.java.
+
 1999-03-21  Marcus G. Daniels  <mgd@chimayo.santafe.edu>
 
 	* javaswarm: Add . to front of -classpath and $CLASSPATH to end.
