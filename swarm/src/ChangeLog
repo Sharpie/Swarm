@@ -2,6 +2,7 @@
 
 	* Makefile.am (swarm.dll): Use libobjc *.o files instead of linking
 	to DLL.
+	(libswarm_la_LDFLAGS): Put module -L options before support -L options.
 
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

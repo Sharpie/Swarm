@@ -34,7 +34,7 @@ libswarm_la_SOURCES =
 
 LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(SYSLIBS)
 
-libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc -rpath $(libdir)
+libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) -L../libobjc $(SUPPORTLDFLAGS) -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
 
 if USEDLL
 DLLWRAP = @DLLWRAP@
