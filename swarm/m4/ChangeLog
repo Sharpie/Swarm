@@ -2,6 +2,7 @@
 
 	* acjdk.m4: Add hp-ux and alpha to JDK JAVAINCLUDES.
 	If $jdkdir is /usr, use /usr/include/java, otherwise $prefix/include.
+	Don't single-quote JAVACLASSES.
 
 1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -42,11 +42,11 @@ else
     fi
     JAVACMD='${jdkdir}/bin/java'
     if test "$host_os" = cygwin; then
-      JAVACLASSES='${jdkdosdir}\lib\classes.zip'
+      JAVACLASSES="${jdkdosdir}\lib\classes.zip"
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
     else
-      JAVACLASSES='${jdkdir}/lib/classes.zip'
+      JAVACLASSES="${jdkdir}/lib/classes.zip"
       JAVAENV='JAVA_HOME=${jdkdir}'
       javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
     fi
