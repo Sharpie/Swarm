@@ -1,3 +1,14 @@
+2000-04-27    <mgd@nest.swarm.org>
+
+	* space.h
+	([{Discrete2d,DblBuffer2d,Ca2d,Value2dDisplay,ConwayLife2d}
+	-createEnd]): Remove.
+	([{Grid2d,DblBuffer2d} +create:setSizeX:Y:]): Remove.
+	([{DblBuffer2d,Grid2d} -putObject:atX:Y, -putValue:atX:Y:]):
+	Protect with #ifndef IDL.
+	([{ConwayLife2d,Diffuse2d} -initializeLattice, -stepRule]):
+	Likewise.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

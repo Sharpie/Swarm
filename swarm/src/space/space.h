@@ -94,9 +94,6 @@ CREATING
 //M: caches the multiplication by ysize. See the discrete2dSiteAt macro. 
 - makeOffsets;
 
-//M: Create the lattice, precompute the offsets based on Y coordinate.
-- createEnd;
-
 SETTING
 - setLattice: (id *)lattice;
 
@@ -160,13 +157,6 @@ USING
 
 CREATING
 
-//M: Convenience constructor for DblBuffer lattice
-+ create: (id <Zone>)aZone setSizeX: (unsigned)x Y: (unsigned)y;
-
-//M: Rewrites the method from Discrete2d. Allocate two lattices,
-//M: makes the offsets.
-- createEnd;
-
 USING
 //M: Return a pointer to the newLattice buffer.
 - (id *)getNewLattice;
@@ -174,11 +164,14 @@ USING
 //M: Copy newLattice to lattice, in effect updating the lattice. 
 - updateLattice;
 
+#ifndef IDL
+/* Disabled to avoid redeclaration with IDL */
 //M: Overridden so writes happen to newLattice.
 - putObject: anObject atX: (unsigned)x Y: (unsigned)y;
 
 //M: Overridden so writes happen to newLattice.
 - putValue: (long)v atX: (unsigned)x Y: (unsigned)y;
+#endif
 @end
 
 @protocol Ca2d <DblBuffer2d>
@@ -194,9 +187,6 @@ CREATING
 //M: Use this to set up your CA to a default initial state.
 //M: Unimplemented in Ca2d; subclass this to set up initial state of lattice.
 - initializeLattice;
-
-//M: Check that numStates has been set.
-- createEnd;
 
 USING
 //M: One iteration of the CA rule.
@@ -221,8 +211,6 @@ CREATING
 //M: Set which array to draw. 
 - setDiscrete2dToDisplay: (id <Discrete2d>)c;
 
-- createEnd;
-
 USING
 //M: Linear transform of states to colours for drawing. 
 //M: color = state / m + c 
@@ -244,15 +232,16 @@ USING
 //D: Classic 2d Conway's Life CA.
 CREATING
 
-//M: Set number of states to 2.
-+ createBegin: (id <Zone>)aZone;
-
+#ifndef IDL
 //M: Initialize lattice to random 1/3 in state 1. 
 - initializeLattice;
+#endif
 
 USING
+#ifndef IDL
 //M: Run Conway's Life rule (simpleminded version). 
 - stepRule;
+#endif
 @end
 
 @protocol Diffuse2d <Ca2d, CREATABLE>
@@ -265,11 +254,10 @@ CREATING
 //M: Convenience constructor for Diffuse2d
 + create: (id <Zone>)aZone setSizeX: (unsigned)x Y: (unsigned)y setDiffusionConstant: (double)d setEvaporationRate: (double)e;
 
-//M: Set diffusion constant and evaporation rate to 1.0, numStates to 0x7fff.
-+ createBegin: (id <Zone>)aZone;
-
+#ifndef IDL
 //M: Initialize world to 0.
 - initializeLattice;
+#endif
 
 SETTING
 
@@ -280,10 +268,12 @@ SETTING
 - setEvaporationRate: (double)e;
 
 USING
+#ifndef IDL
 //M: Run discrete approximation to diffusion. Roughly, it's 
 //M: newHeat = evapRate * (self + diffuseConstant*(nbdavg - self)) 
 //M: where nbdavg is the weighted average of the 8 neighbours. 
 - stepRule;
+#endif
 @end
 
 @protocol Grid2d <Discrete2d, CREATABLE>
@@ -297,16 +287,16 @@ USING
 //D: implied, etc.
 
 CREATING
-//M: Convenience constructor for Grid2d
-+ create: (id <Zone>)aZone setSizeX: (unsigned)x Y: (unsigned)y;
 
 USING
+#ifndef IDL
 //M: Replaces the Discrete2d method.
 //M: First check to see if it should do overwrite warnings, and if so
 //M: if you're going to overwrite: if both conditions are true,
 //M: print out a warning message.
 //M: Regardless of the check, it writes the new object in. 
 - putObject: anObject atX: (unsigned)x Y: (unsigned)y;
+#endif
 
 //M: If set to true, then if you try to store something at a site that
 //M: doesn't have 0x0 there, a warning will be generated. 
