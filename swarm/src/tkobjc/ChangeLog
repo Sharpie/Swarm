@@ -1,3 +1,7 @@
+1998-07-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ButtonPanel.m: Don't include collections/String.h.
+
 1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* TkExtra.m ([TkExtra -preInitWithArgc:argv:]): Do namespace

@@ -4,7 +4,6 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/global.h>
-#import <collections/String.h>
 #import <tkobjc/ButtonPanel.h>
 #import <tkobjc/Button.h>
 #import <tkobjc/global.h>
