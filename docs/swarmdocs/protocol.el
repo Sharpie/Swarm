@@ -152,25 +152,29 @@
   (buffer-substring (point) (end-of-line-position)))
 
 (defun general-example-counter (protocol)
-  (let ((val (gethash protocol *general-example-counter-hash-table*)))
-    (if val
-        (progn
-          (incf (gethash protocol *general-example-counter-hash-table*))
-          val)
-        (progn
-          (setf (gethash protocol *general-example-counter-hash-table*) 1)
-          0))))
-
+  (let ((index
+         (let ((val (gethash protocol *general-example-counter-hash-table*)))
+           (if val
+               (progn
+                 (incf (gethash protocol *general-example-counter-hash-table*))
+                 val)
+               (progn
+                 (setf (gethash protocol *general-example-counter-hash-table*) 1)
+                 0)))))
+    (1+ index)))
+        
 (defun method-example-counter (protocol method)
-  (let* ((key (cons protocol method))
-         (val (gethash key *general-example-counter-hash-table*)))
-    (if val
-        (progn
-          (incf (gethash key *general-example-counter-hash-table*))
-          val)
-        (progn
-          (setf (gethash key *general-example-counter-hash-table*) 1)
-          0))))
+  (let ((index
+         (let* ((key (cons protocol method))
+                (val (gethash key *general-example-counter-hash-table*)))
+           (if val
+               (progn
+                 (incf (gethash key *general-example-counter-hash-table*))
+                 val)
+               (progn
+                 (setf (gethash key *general-example-counter-hash-table*) 1)
+                 0)))))
+    (1+ index)))
 
 (defun load-protocol (module)
   (interactive)
