@@ -87,7 +87,7 @@ USING
 
 @end
 
-@protocol ActionCache <CompositeWindowGeometryRecordName, RETURNABLE>
+@protocol ActionCache <CompositeWindowGeometryRecordName, SwarmObject, RETURNABLE>
 //S: A class to manage threads and Swarms.
 
 //D: A class that provides a smart bag into which actions can be
@@ -101,7 +101,7 @@ USING
 - setScheduleContext: (id <Swarm>)context;
 - insertAction: actionHolder;
 - deliverActions;
-- sendActionOfType: (id <Symbol>) type toExecute: (const char *)cmd;
+- sendActionOfType: (id <Symbol>)type toExecute: (const char *)cmd;
 - sendStartAction;
 - sendStopAction;
 - sendStepAction;
@@ -121,7 +121,7 @@ externvar id <Symbol> Control, Probing, Spatial;
 externvar id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 
-@protocol CommonProbeDisplay <WindowGeometryRecordName>
+@protocol CommonProbeDisplay <SwarmObject, WindowGeometryRecordName>
 //S: A protocol underlying ProbeDisplay and CompleteProbeDisplay
 //D: This protocol provides the common interface to all kinds of ProbeDisplays.
 
@@ -330,7 +330,7 @@ USING
 - pack;
 @end
 
-@protocol MultiVarProbeWidget <CREATABLE>
+@protocol MultiVarProbeWidget <SwarmObject, CREATABLE>
 //S: A widget for displaying multiple objects across multiple fields.
 
 //D: A widget for displaying multiple objects across multiple fields.
