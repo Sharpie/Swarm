@@ -479,7 +479,6 @@ indexAtOffset (Collection_any *self, int offset)
   mapObject(mapalloc, ((Index_any *) permutationIndex)->collection);
   mapObject(mapalloc, permutationIndex);
   mapObject(mapalloc, index);
-  return self;
 }
 
 @end;
