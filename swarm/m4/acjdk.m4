@@ -31,12 +31,16 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/linux"
       if test -d ${expand_jdkdir}/bin/i386/native_threads; then
 	threads=native
+        proc=i386
+      elif test -d ${expand_jdkdir}/bin/linux/native_threads; then # IBMJDK
+	threads=native
+        proc=linux
       elif test -d ${expand_jdkdir}/bin/i386/green_threads; then
         threads=green
+        proc=i386
       else
         AC_MSG_ERROR([Can't find threads])
       fi
-      proc=i386
     elif test -f $expand_jdkincludedir/solaris/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/solaris"
       if test -d ${jdkdir}/bin/sparc/native_threads; then
