@@ -27,38 +27,6 @@ AC_PATH_XTRA
 md_CHECK_GUILIBS
 md_CHECK_EXESUFFIX
 
-md_CHECK_DLL
-if test $USEDLL = yes; then
-  LIBSWARM_LA=libswarm.la
-  SWARM_DLL=swarm.dll
-  LIBJAVASWARM_LA=
-  LIBJAVASWARMSTUBS_LA=
-  JAVASWARM_DLL=javaswarm.dll
-  noinst_LIBS='lib$(MODULE).la'
-  inst_LDFLAGS=-static
-else
-  LIBSWARM_LA=libswarm.la
-  SWARM_DLL=
-  LIBJAVASWARM_LA=libjavaswarm.la
-  LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
-  JAVASWARM_DLL=
-  inst_LIBS='lib$(MODULE).la' 
-  inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
-fi
-AC_SUBST(SWARM_DLL)
-AC_SUBST(LIBSWARM_LA)
-AC_SUBST(LIBJAVASWARM_LA)
-AC_SUBST(JAVASWARM_DLL)
-AC_SUBST(noinst_LIBS)
-AC_SUBST(inst_LIBS)
-AC_SUBST(inst_LDFLAGS)
-
-md_CHECK_LINKFLAGS
-
-AC_CHECK_LIB(dl,main,DLLIB=-ldl)
-AC_CHECK_LIB(dld,main,DLLIB=-ldld) # HPUX
-AC_SUBST(DLLIB)
-
 AC_ARG_WITH(defaultdir,
 [  --with-defaultdir=DIR            Use DIR instead of prefix as default path],
   defaultdir=$withval)
@@ -208,12 +176,6 @@ AC_ARG_WITH(jdkdir,
 [  --with-jdkdir=DIR                Use DIR for Java Development Kit],
   jdkdir=$withval)
 
-AC_ARG_WITH(javaswarm-dll-name,
-[  --with-javaswarm-dll-name=name   Use a different name for the Java DLL],
-  JAVASWARMDLLNAME=$withval)
-test -n "$JAVASWARMDLLNAME" || JAVASWARMDLLNAME=javaswarm
-AC_SUBST(JAVASWARMDLLNAME)
-
 AC_ARG_ENABLE(jar, 
 [  --disable-jar                    Don't create a swarm.jar file],
   ,enable_jar=yes)
@@ -224,6 +186,43 @@ else
   JAVA_CLASSES_INSTALLED_AS=jar
 fi
 AC_SUBST(JAVA_CLASSES_INSTALLED_AS)
+
+AC_ARG_WITH(javaswarm-dll-name,
+[  --with-javaswarm-dll-name=name   Use a different name for the Java DLL],
+  javaswarm_dll_name=$withval)
+test -n "$javaswarm_dll_name" || javaswarm_dll_name=javaswarm
+
+md_CHECK_DLL
+if test $USEDLL = yes; then
+  LIBSWARM_LA=libswarm.la
+  SWARM_DLL=swarm.dll
+  LIBJAVASWARM_LA=
+  LIBJAVASWARMSTUBS_LA=
+  JAVASWARM_DLL=${javaswarm_dll_name}.dll
+  noinst_LIBS='lib$(MODULE).la'
+  inst_LDFLAGS=-static
+else
+  LIBSWARM_LA=libswarm.la
+  SWARM_DLL=
+  LIBJAVASWARM_LA=libjavaswarm.la
+  LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
+  JAVASWARM_DLL=
+  inst_LIBS='lib$(MODULE).la' 
+  inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
+fi
+AC_SUBST(SWARM_DLL)
+AC_SUBST(LIBSWARM_LA)
+AC_SUBST(LIBJAVASWARM_LA)
+AC_SUBST(JAVASWARM_DLL)
+AC_SUBST(noinst_LIBS)
+AC_SUBST(inst_LIBS)
+AC_SUBST(inst_LDFLAGS)
+
+md_CHECK_LINKFLAGS
+
+AC_CHECK_LIB(dl,main,DLLIB=-ldl)
+AC_CHECK_LIB(dld,main,DLLIB=-ldld) # HPUX
+AC_SUBST(DLLIB)
 
 md_CHECK_INLINING
 md_CHECK_WARNFLAGS
