@@ -1,3 +1,7 @@
+1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acffi.m4 (USEBUILTINAVCALL): Add an automake conditional.
+
 1999-06-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acffi.m4 (md_FIND_FFI): If external libffi or ffcall are not

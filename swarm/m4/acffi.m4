@@ -71,6 +71,7 @@ if test -n "$FFILIB"; then
   else
     FFIINCLUDES='-I${ffidir}/include'
   fi
+  AM_CONDITIONAL(USEBUILTINAVCALL, false)
 else
   AC_DEFINE(USE_AVCALL)
   ffidir=
@@ -78,6 +79,7 @@ else
   FFIINCLUDES='-I$(top_builddir)/avcall'
   FFILDFLAGS=
   FFILIB="\$(top_builddir)/avcall/avcall.lo"
+  AM_CONDITIONAL(USEBUILTINAVCALL, true)
 fi
 AC_SUBST(ffidir)
 AC_SUBST(ffilibdir)
