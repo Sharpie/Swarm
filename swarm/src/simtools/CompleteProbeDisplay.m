@@ -129,6 +129,8 @@ max_class_var_length (Class class)
   while ((a_widget = [index next]) != nil)
     if (!markedForDropFlag)
       [a_widget update];
+    else
+      break;
   [index drop];
   return self;
 }

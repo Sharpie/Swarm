@@ -1,3 +1,21 @@
+1998-01-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -update]): Break out
+	of loop if markedForDrop.
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -update]): Likewise.
+
+1998-01-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ControlPanel.m ([ControlPanel -_actionCacheWarning_:]): Clarify
+	warning to indicate that doTkEvents should be sent to an
+	instance of ActionCache, not the class object itself.  Thanks
+	to Paul Johnson.
+
+1998-01-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MessageProbeWidget.m: Don't include <malloc.h>.
+
 1998-01-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* CompleteProbeDisplay.m ([CompleteProbeDisplay -update]): Check

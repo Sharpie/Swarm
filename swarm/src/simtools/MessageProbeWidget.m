@@ -8,8 +8,7 @@
 #import <string.h>
 #import <ctype.h>
 #import <stdio.h>
-#import <malloc.h>
-#import <stdlib.h> // for alpha
+#import <stdlib.h>
 #import <simtools/MessageProbeWidget.h>
 #import <simtools/global.h>
 #import <tkobjc/control.h>

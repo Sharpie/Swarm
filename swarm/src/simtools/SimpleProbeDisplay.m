@@ -143,6 +143,8 @@
   for (i = 0; i < numberOfProbes; i++)
     if (!markedForDropFlag)
       [widgets[i] update];
+    else
+      break;
   return self;
 }
 

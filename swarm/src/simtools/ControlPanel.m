@@ -25,7 +25,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   
   [string 
     catC: 
-      "Please change your application to call ActionCache instead.\n"];
+      "Please change your application to call an instance of ActionCache instead.\n"];
   [ObsoleteMessage raiseEvent: [string getC]];
   [string drop];
   return self;
