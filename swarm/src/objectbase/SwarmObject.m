@@ -6,13 +6,6 @@
 #import <objectbase/SwarmObject.h>
 #import <objectbase/probing.h>
 
-// This means that 'somewhere' there must be a definition of probeLibrary...
-// I don't actually import a .h with its definition because it will almost
-// certainly contain a reference to a subclass of SwarmObject thereby
-// generating a multiple inclusion error (since "SwarmObject.h" is imported
-// here and <objectbase.h> will be imported whereever probeLibrary is actually
-// defined...
-
 @implementation SwarmObject
 
 - (const char *)getIdName
