@@ -1,3 +1,15 @@
+1999-12-27    <mgd@DRONE>
+
+	* java-stub.el (*objc-to-java-type-alist*): Map long, unsigned
+	long, timeval_t, and size_t to Java int.  Map unsigned long long
+	int, unsigned long long, and long long to Java long.
+	(*removed-methods*): Activate -addLongLong:,
+	-addUnsignedLongLong:, -jumpGenerator:toSegment:,
+	-jumpAllToSegment:, -getCurrentCount, -getCurrentSegment,
+	-getCurrentCount:, and -getCurrentSegment:.
+	(java-print-nextphase-class-constructor): Use interface name
+	for argument to creating-phase constructor.
+
 1999-11-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-protocols*): Add ActivityIndex.

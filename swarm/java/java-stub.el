@@ -22,18 +22,25 @@
       ("int" . "int")
       ("short" . "short")
       ("unsigned short" . "short")
-      ("long" . "long")
-      ("unsigned long" . "long")
       ("double" . "double")
       ("float" . "float")
       ("unsigned" . "int")
       ("BOOL" . "boolean")
-      ("timeval_t" . "long")
-      ("size_t" . "long")
-      ("Color" . "byte")
+
+      ("long" . "int")
+      ("unsigned long" . "int")
+      ("timeval_t" . "int")
+      ("size_t" . "int")
+
       ("Class" . "Class")
 
+      ("unsigned long long int" . "long")
+      ("unsigned long long" . "long")
+      ("long long" . "long")
+
       ("JOBJECT" . "Object")
+
+      ("Color" . "byte")
 
       ("compare_t" . freaky)
 
@@ -43,9 +50,6 @@
       ("Protocol \\*" . freaky)
 
       ("notify_t" . freaky)
-      ("unsigned long long int" . freaky)
-      ("unsigned long long" . freaky)
-      ("long long" . freaky)
       
       ("const char \\* const \\*" . freaky)
       ("int \\*" . freaky)
@@ -230,8 +234,6 @@
 
       ;; FArguments
       "-addArgument:ofObjCType:" ; void* parameter
-      "-addLongLong:" ; long long parameter
-      "-addUnsignedLongLong:" ; unsigned long long parameter
       "-addLongDouble:" ; long double parameter
 
       ;; FCall, FArguments
@@ -296,12 +298,6 @@
       "-getMaxSeedValues" ; unsigned* return
       "-getLongDoubleSample" ; long double return
       "-getLongDoubleSample:" ; long double return
-      "-jumpGenerator:toSegment:" ; unsigned long long parameter
-      "-jumpAllToSegment:" ; unsigned long long parameter
-      "-getCurrentCount" ; unsigned long long return
-      "-getCurrentSegment" ; unsigned long long return
-      "-getCurrentCount:" ; unsigned long long return
-      "-getCurrentSegment:" ; unsigned long long return
       "-getInitialSeeds" ; unsigned* return
 
       ;; EZBin
@@ -700,7 +696,7 @@
   (insert "public ")
   (insert (java-class-name protocol :creating))
   (insert " (")
-  (insert (java-class-name protocol :using))
+  (insert (java-interface-name protocol :using))
   (insert " nextPhase) { super (); this.nextPhase = nextPhase; }\n")
   (insert "public ")
   (insert (java-class-name protocol :creating))
