@@ -1,7 +1,13 @@
 1999-02-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HDF5Object.m (compare_objc_types): New function.  Allow
+	long/int mismatch iff size of two types is the same.
+	(create_class_from_compound_type, [HDF5CompoundType_c
+	-packObj:to:], [HDF5CompoundType_c -packBuf:to:]): Use it.
+
 	* DefObject.m ([Object_s -lispIn:]): Handle assignments to 
 	types of integers other than int.
+	([Object_s hdf5OutShallow:]): Call writeLevels.
 
 	* Archiver.m ([Application -drop]): Don't delete items in shallowMap
 	and deepMap.

@@ -65,6 +65,23 @@ tid_for_objc_type (const char *type)
   return tid;
 }
 
+static BOOL
+compare_objc_types (const char *ivarType, const char *type)
+{
+  if (*ivarType != *type)
+    {
+      if (*ivarType == _C_LNG && *type == _C_INT
+          && sizeof (long) == sizeof (int))
+        return YES;
+      else if (*ivarType == _C_ULNG && *type == _C_UINT
+               && sizeof (unsigned long) == sizeof (unsigned))
+        return YES;
+      else
+        return NO;
+    }
+  return YES;
+}
+
 static hid_t
 make_string_ref_type (void)
 {
@@ -473,7 +490,7 @@ create_class_from_compound_type (id aZone,
                                                       NULL) == 0)
                   raiseEvent (LoadError, "int / char * mismatch");
               }
-            else if (strcmp (type, ivar_list[i].ivar_type) != 0)
+            else if (!compare_objc_types (ivar_list[i].ivar_type, type))
               raiseEvent (LoadError,
                           "compound type member type != ivar type `%s' != `%s'",
                           type, ivar_list[i].ivar_type);
@@ -714,7 +731,7 @@ PHASE(Using)
         }
       else
         {
-          if (*type != *ivar->ivar_type)
+          if (!compare_objc_types (ivar->ivar_type, type))
             raiseEvent (LoadError, "differing source and target types");
           memcpy ((void *) obj + ivar->ivar_offset,
                   buf + hoffset,
@@ -783,7 +800,7 @@ PHASE(Using)
         }
       else
         {
-          if (*type != *ivar->ivar_type)
+          if (!compare_objc_types (ivar->ivar_type, type))
             raiseEvent (LoadError, "differing source and target types");
           memcpy (buf + hoffset,
                   (void *) obj + ivar->ivar_offset,

@@ -1108,6 +1108,7 @@ lisp_output_type (const char *type,
       // for R
       [cDataset nameRecord: 0 name: objName];
       [cDataset writeRowNames];
+      [cDataset writeLevels];
       
       [cDataset drop];
       [cType drop];
