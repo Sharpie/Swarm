@@ -115,19 +115,25 @@ an executable found in the current directory.
 B. Binary installation with accompanying source 
 -----------------------------------------------
 
-Binary distributions of Swarm are available for the following
-platforms, the relevant package manager needed for installing the
-binary packages on these systems are noted in parentheses.
+Binary distributions of Swarm made available for different platforms
+from time-to-time as resources permit.  In the past we have included
+binaries for the following platforms (the relevant package manager
+needed for installing the binary packages on these systems are noted
+in parentheses):
 
+* Red Hat/Fedora Core GNU/Linux (rpm)
 * Debian GNU/Linux (dpkg)
-* RedHat GNU/Linux (rpm)
 * Sparc Solaris (pkgadd etc.)
+* Win32 (Cygwin package)
+* MacOS X (Mac installer)
 
-Please consult the Swarm release page:
+As of early 2005, only Fedora (RPM), Win32 (Cygwin) and MacOS X
+binaries were being actively maintained.  For a list of current
+binaries available, please consult the Swarm release page:
 
   http://www.swarm.org/wiki/Swarm_software
 
-for the latest information on the operating system versions that are
+This has latest information on the operating system versions that are
 supported and download information.
 
 Details of how to configure your Swarm installation just so, are now

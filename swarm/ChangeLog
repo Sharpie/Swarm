@@ -1,3 +1,9 @@
+2005-02-23  Alex Lancaster  <alex AT swarm.org>
+
+	* README (Binary installation): Update notes on binary
+	installations, note that only Fedora, Win32/Cygwin and MacOS X
+	packages were being actively maintained.
+
 2005-02-17  Alex Lancaster  <alex AT swarm.org>
 
 	* README: Update links to wiki, other minor updates.
