@@ -36,6 +36,7 @@ protocol.elc: $(top_srcdir)/etc/protocol.el
 java-stub.elc: protocol.elc
 
 JAVASTUBS=@JAVASTUBS@
+JAVASTUBS_FUNCTION=@JAVASTUBS_FUNCTION@
 stubs_ALL=all-stubs
 stubs_INSTALL=install-stubs
 
@@ -55,5 +56,5 @@ install-stubs: all
 stubs: Makefile.common $(SUBMAKEFILES)
 
 Makefile.common $(SUBMAKEFILES): java-stub.elc $(foreach module,$(MODULES),$(top_srcdir)/src/$(module)/$(module).h)
-	$(EMACS) -batch -l ./java-stub.elc -f java-run-all
+	$(EMACS) -batch -l ./java-stub.elc -f $(JAVASTUBS_FUNCTION)
 
