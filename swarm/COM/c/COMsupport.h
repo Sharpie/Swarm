@@ -41,8 +41,6 @@ BOOL selectorIsBooleanReturn (COMselector cSel);
 const char *selectorName (COMselector cSel);
 unsigned selectorArgCount (COMselector cSel);
 fcall_type_t selectorArgFcallType (COMselector cSel, unsigned argIndex);
-void selectorCOMInvoke (COMselector cSel, COMobject obj, void *params);
-void selectorJSInvoke (COMselector cSel, COMobject obj, void *params);
 COMselector selectorCreate (COMmethod cMethod);
 COMmethod selectorMethod (COMselector cSel);
 

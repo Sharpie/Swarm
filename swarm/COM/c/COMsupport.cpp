@@ -442,26 +442,6 @@ selectorArgFcallType (COMselector cSel, unsigned argIndex)
   return (fcall_type_t) ret;
 }
 
-void
-selectorCOMInvoke (COMselector cSel, COMobject cObj, void *params)
-{
-  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
-  
-  if (!NS_SUCCEEDED (sel->COMinvokeX (NS_STATIC_CAST (nsISupports *,cObj),
-                                      (nsXPTCVariant *) params)))
-    abort ();
-}
-
-void
-selectorJSInvoke (COMselector cSel, COMobject cObj, void *params)
-{
-  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
- 
-  if (!NS_SUCCEEDED (sel->JSinvokeX (NS_STATIC_CAST (nsISupports *,cObj),
-                                     (jsval *) params)))
-    abort ();
-}
-
 PRBool
 findMethod (nsISupports *obj, const char *methodName, const nsIID **iid, PRUint16 *index, const nsXPTMethodInfo **methodInfo)
 {
