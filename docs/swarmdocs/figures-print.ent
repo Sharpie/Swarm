@@ -1,3 +1,5 @@
 <!ENTITY switcheroo SYSTEM "figs/switcheroo.eps" ndata eps>
 <!ENTITY settitlelogo SYSTEM "figs/swarm.eps" ndata eps>
 <!ENTITY booktitlelogo SYSTEM "figs/swarm.eps" ndata eps>
+<!ENTITY complete-probe-map SYSTEM "figs/complete.eps" ndata eps>
+<!ENTITY customized-probe-map SYSTEM "figs/customized.eps" ndata eps>
