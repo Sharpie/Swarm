@@ -21,6 +21,11 @@ Library:      activity
 #endif
 #import <defobj/defalloc.h> // getZone
 
+extern id uniformUnsRand;
+@protocol _MinimalRandom
+- (unsigned)getUnsignedWithMin: (unsigned)minVal withMax: (unsigned)maxVal;
+@end
+
 @implementation CAction
 PHASE(Creating)
 PHASE(Using)
@@ -461,38 +466,35 @@ PHASE(Creating)
   
   if (allSameFlag)
     {
-      if (getDefaultOrder (bits) == Sequential)
+      id <Index> index = [target begin: getZone (self)];
+      id proto = [target getFirst];
+      
+      targetCount = [target getCount];
+      if ([proto respondsTo: M(isJavaProxy)])
         {
-          id <Index> index = [target begin: getZone (self)];
-          id proto = [target getFirst];
-          
-          targetCount = [target getCount];
-          if ([proto respondsTo: M(isJavaProxy)])
-            {
 #ifdef HAVE_JDK
-              size_t i;
-              id obj;
-              
-              javaTargets =
-                [scratchZone alloc: sizeof (jobject) * targetCount];
-              for (i = 0, obj = [index next];
-                   [index getLoc] == Member;
-                   obj = [index next], i++)
-                javaTargets[i] = SD_FINDJAVA (jniEnv, obj);
+          size_t i;
+          id obj;
+          
+          javaTargets =
+            [scratchZone alloc: sizeof (jobject) * targetCount];
+          for (i = 0, obj = [index next];
+               [index getLoc] == Member;
+               obj = [index next], i++)
+            javaTargets[i] = SD_FINDJAVA (jniEnv, obj);
 #endif
-            }
-          else
-            {
-              size_t i;
-              id obj;
-              
-              objcTargets =
-                [scratchZone alloc: sizeof (id) * targetCount];
-              for (i = 0, obj = [index next];
-                   [index getLoc] == Member;
-                   obj = [index next], i++)
-                objcTargets[i] = obj;
-            }
+        }
+      else
+        {
+          size_t i;
+          id obj;
+          
+          objcTargets =
+            [scratchZone alloc: sizeof (id) * targetCount];
+          for (i = 0, obj = [index next];
+               [index getLoc] == Member;
+               obj = [index next], i++)
+            objcTargets[i] = obj;
         }
     }
   else
@@ -514,39 +516,62 @@ PHASE(Using)
 #ifdef HAVE_JDK
   if (javaTargets)
     {
-      size_t i;
-      
-      for (i = 0; i < targetCount; i++)
+      if (getDefaultOrder (bits) == Randomized)
         {
-          updateJavaTarget (call, javaTargets[i]);
-          [call performCall];
+          size_t j = targetCount, k;
+
+          while (j > 1)
+            {
+              jobject kobj;
+
+              j--;
+              k = [uniformUnsRand getUnsignedWithMin: 0 withMax: j];
+              kobj = javaTargets[k];
+              javaTargets[k] = javaTargets[j];
+              javaTargets[j] = kobj;
+            }
         }
+      {
+        size_t i;
+        
+        for (i = 0; i < targetCount; i++)
+          {
+            updateJavaTarget (call, javaTargets[i]);
+            [call performCall];
+          }
+      }
     }
   else
 #endif
   if (objcTargets)
     {
-      size_t i;
-      
-      for (i = 0; i < targetCount; i++)
+      if (getDefaultOrder (bits) == Randomized)
         {
-          updateTarget (call, objcTargets[i]);
-          [call performCall];
+          size_t j = targetCount, k;
+
+          while (j > 1)
+            {
+              id kobj;
+
+              j--;
+              k = [uniformUnsRand getUnsignedWithMin: 0 withMax: j];
+              kobj = objcTargets[k];
+              objcTargets[k] = objcTargets[j];
+              objcTargets[j] = kobj;
+            }
         }
+      {
+        size_t i;
+        
+        for (i = 0; i < targetCount; i++)
+          {
+            updateTarget (call, objcTargets[i]);
+            [call performCall];
+          }
+      }
     }
   else
-    {
-      id memberAction;
-      
-      if (getBit (bits, BitRandomized))
-        memberAction = 
-          [id_ForEachActivity_c _createRandom_: self : anActivity];
-      else
-        memberAction = [id_ForEachActivity_c _create_: self : anActivity];
-      
-      setClass (memberAction, id_FAction_c);
-    }
-    
+    abort ();
 }
 
 - (id <Symbol>)getDefaultOrder
