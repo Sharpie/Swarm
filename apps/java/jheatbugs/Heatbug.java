@@ -43,19 +43,18 @@ behavior:
  If a Heatbug does not move in the arbitrary fashion described in
  the previous paragraph, it will move to an empty cell in
  its 9-cell neighborhood whose temperature is closest to
- its ideal temperature. If there is more than once such
- cell, it will choose at random among the cells with that closest-to-ideal
- temperature.
+ its ideal temperature. If there is more than once such cell, it will 
+ choose at random among the empty cells with that closest-to-ideal temperature.
  </dir>
 
  <dir>
  If a Heatbug does not move in the rational fashion described in
  the previous paragraph, it will make 10 attempts to move to a 
  randomly-chosen empty cell in its immediate neighborhood. 
- <dir>
-
  </dir>
- In all cases a Heatbug move only if its unhappiness is non-zero.
+
+ <dir>
+ In all cases a Heatbug will move only if its unhappiness is non-zero.
  </dir>
 
  <dir>

@@ -237,7 +237,7 @@ The only task this constructor performs is to construct and install a ProbeMap.
 <p>
 A Probe is a mechanism through which any object can access a 
 variable or method you define in a Swarm. In practice, Probes are used 
-almost exclusively by a Swarm GUI
+almost exclusively by Swarm GUIs
 to provide interactive access to variable and methods. 
 
 <p>
@@ -260,8 +260,8 @@ listed in addProbe() statements in this constructor.
 
 <p>
 Probes do not use getters and setters. After Swarm 2.1.1, the variables and 
-methods in a ProbeMap need not be public (as must the variables
-referenced by the SCM file).  
+methods in a ProbeMap must be public (as must the variables referenced by an 
+SCM file).  
 
 <p>
 Because Probes do not use getters and setters, you cannot use Probes to
@@ -289,9 +289,9 @@ probeLibrary (for swarmObject1)
 |                            |
 probeMap1 (for Class1)       probeMap2 (for Class2)
 |                            |
-+------+------+              +-------+-------+-------+----------+
-|      |      |              |       |       |       |          |
-var11  var12  method11       var21   var22   var23   method21   method22
++------+------+              +-------+-------+-------+------------+
+|      |      |              |       |       |       |            |
+var11  var12  method11()     var21   var22   var23   method21()   method22()
 </xmp>
 
 */

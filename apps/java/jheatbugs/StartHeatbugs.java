@@ -106,7 +106,7 @@ additional integer command-line option:
 
  If you do want this file to apply a default
  overriding the model's default,
- add a statement analogous to 
+ add a statement analogous to the statement
 
   <dir>
   <xmp>

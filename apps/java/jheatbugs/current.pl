@@ -2,7 +2,21 @@
 # executable files are up to date.
 #
 # The program also converts application-specific command-line options to Java 
-# properties for consumption by the application. 
+# properties for consumption by the application. Invoke this program with the 
+# option --help to see what command-line options it supports. 
+#
+# You can specify command-line options in any order; for example, you can
+# intermix general Swarm options such as "-b" with application-specific
+# options.
+#
+# You can specify application-specific option arguments contiguously or 
+# non-contiguously (e.g. -n50 or -n 50). 
+#
+# You can bundle application-specific options; only the last option in a bundle 
+# may have an option argument (e.g. -picn50, equivalent to -p -i -c -n50 or 
+# -p -i -c -n 50).
+#
+#
 #
 # The program extracts application-specific option specifications from the 
 # documentation in the program named in the first argument. The extraction 
@@ -15,17 +29,6 @@
 #   <dir>
 #   e=&lt;double&gt;:  specify the "evaporation" (really retention) rate (0..1)
 #   </dir>
-#
-# You can specify command-line options in any order; for example, you can
-# intermix general Swarm options such as "-b" with application-specific
-# options.
-#
-# You can specify application-specific option arguments contiguously or 
-# non-contiguously (e.g. -n50 or -n 50). 
-#
-# You can bundle application-specific options; only the last option in a bundle 
-# may have an option argument (e.g. -picn50, equivalent to -p -i -c -n50 or 
-# -p -i -c -n 50).
 
 use FileHandle;
 
