@@ -1,3 +1,11 @@
+1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ModelSwarm.m: Don't include simtools.h and collections.h.
+	Include random.h.  Reformatting throughout.
+
+	* Bug.m, FoodSpace.m: Include random.h instead of simtools.h.
+	Reformatting throughout.
+
 1998-02-23  Alex Lancaster  <alex@santafe.edu>
 
 	* ModelSwarm.m ([ModelSwarm -build{Objects,Actions}]): Changed

@@ -2,19 +2,19 @@
 
 #import "ModelSwarm.h"
 #import "Bug.h"
-#import <simtools.h>
-#import <collections.h>
+#import <random.h>
 
 @implementation ModelSwarm  
 
-+createBegin: (id) aZone {
-  ModelSwarm * obj;
-
++ createBegin: aZone
+{
+  ModelSwarm *obj;
+  
   // in createBegin, we set up the simulation parameters
-
+  
   // First, call our superclass createBegin - the return value is the
   // allocated BugSwarm object.
-
+  
   obj = [super createBegin: aZone];
 
   // Now fill in various simulation parameters with default values.
@@ -30,21 +30,23 @@
   return obj;
 }
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
--buildObjects {
-  Bug * aBug;
-  int x,y;
+- buildObjects
+{
+  Bug *aBug;
+  int x, y;
   
   // Here, we create the objects in the model
-
+  
   // First, we load our parameters from a file so we don't have 
   // to recompile everytime we want to change something
-
+  
   [ObjectLoader load: self fromFileNamed: "model.setup"] ;
-
+  
   // Then, create the food space and initialize it
 
   food = [FoodSpace createBegin: self];
@@ -67,30 +69,30 @@
 
   for (y = 0; y < worldYSize; y++)
     for (x = 0; x < worldXSize; x++) 
-      if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] < bugDensity) {
-
-         aBug = [Bug createBegin: self];
-         [aBug setWorld: world Food: food];
-         aBug = [aBug createEnd];
-         [aBug setX: x Y: y];
-
-         [bugList addLast: aBug];
-      }
-
+      if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] < bugDensity)
+        {
+          aBug = [Bug createBegin: self];
+          [aBug setWorld: world Food: food];
+          aBug = [aBug createEnd];
+          [aBug setX: x Y: y];
+          
+          [bugList addLast: aBug];
+        }
+  
   reportBug = [bugList removeFirst];
   [bugList addFirst: reportBug];
-
+  
   return self;
 }
 
--buildActions {
-
+- buildActions
+{
   // Create actionGroup
-
+  
   modelActions = [ActionGroup create: self];
   [modelActions createActionForEach: bugList    message: M(step)];
   [modelActions createActionTo:      reportBug 	message: M(report)];
-
+  
   // This is a simple schedule, with only one action that is just
   // repeated every time. See mousetraps for more complicated schedules.
 
@@ -103,17 +105,16 @@
 
 }
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
   // Here, we activate the swarm in the context passed in
   // Then we activate our schedule in ourselves
-
+  
   [super activateIn: swarmContext];
-
+  
   [modelSchedule activateIn: self];
-
+  
   return [self getSwarmActivity];
-
 }
 
 @end
