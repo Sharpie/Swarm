@@ -1,3 +1,7 @@
+1999-08-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javaswarm.in (SHLIBPATH_VAR): Add hdf5libdir.
+
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-methods*): Exclude -addLongDouble:.

@@ -16,6 +16,7 @@ else
 @ffilibdir@
 @pnglibdir@
 @zliblibdir@
+@hdf5libdir@
 EOF
 `$@SHLIBPATH_VAR@
 fi
