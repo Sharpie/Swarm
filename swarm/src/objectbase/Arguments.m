@@ -14,9 +14,9 @@ const char *program_invocation_name;
 const char *program_invocation_short_name;
 #endif
 
-#define SIGNATURE_FILE "Makefile.appl"
-#define SIGNATURE_SUBPATH "etc/swarm/"
-#define SIGNATURE_PATH "etc/swarm/" SIGNATURE_FILE
+#define SIGNATURE_FILE "swarmconfig.h"
+#define SIGNATURE_SUBPATH "include/"
+#define SIGNATURE_PATH "include/" SIGNATURE_FILE
 
 #include "version.h"
 

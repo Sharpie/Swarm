@@ -1,3 +1,9 @@
+1998-10-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Arguments.m: Change SIGNATURE_FILE to swarmconfig.h,
+	SIGNATURE_SUBPATH to include/ and SIGNATURE_PATH to 
+	incclude/SIGNATURE_FILE.
+
 1998-10-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT, AGE): Increment. Swarm 1.3.1 released.
