@@ -338,7 +338,7 @@ USING
 // Manager that keeps track of active probes to be updated
 extern id <ProbeDisplayManager> probeDisplayManager;
 
-void initSwarm (int argc, char ** argv);
+void initSwarm (int argc, const char **argv);
 
 const char *buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
                                            const char *componentName);

@@ -35,7 +35,7 @@ setApplicationValue (id value, const char *ptr)
 }
 
 void
-initSwarm (int argc, char **argv)
+initSwarm (int argc, const char **argv)
 {
   int i;
 

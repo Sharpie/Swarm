@@ -8,9 +8,9 @@
 #import <random.h>
 
 // Manager that keeps track of active probes to be updated
-extern ProbeDisplayManager * probeDisplayManager;
+extern ProbeDisplayManager *probeDisplayManager;
 
-void initSwarm(int argc, char ** argv);
+void initSwarm (int argc, const char **argv);
 
 // Flag for whether we're in graphics mode or not. Default is 1.
 extern int swarmGUIMode;
