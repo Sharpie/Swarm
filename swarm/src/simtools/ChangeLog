@@ -16,7 +16,6 @@
 
 1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	
 	* simtools.m: Include defobj.h.  Don't include simtools/Archiver.h
 	or objectbase/Arguments.m.  
 	(initSwarmAppArguments): Don't initialize arguments or archiver here.
