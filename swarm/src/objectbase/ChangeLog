@@ -1,3 +1,10 @@
+1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* VarProbe.m: Don't include objc/objc.h.  Include misc.h
+	instead of stdio.h.
+
+	* CustomProbeMap.m: Include misc.h instead of stdarg.h.
+
 1998-11-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* MessageProbe.m ([MessageProbe -createEnd]): Set arguments to NULL

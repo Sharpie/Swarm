@@ -3,15 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <stdio.h> // sprintf, sscanf
-
-#import <objc/objc.h>
-#import <objc/objc-api.h>
 #import <objectbase/VarProbe.h>
 #import <defobj.h> // Warning
 #import "local.h"
 
-#include <misc.h> // strdup, strcmp, xmalloc, XFREE
+#include <objc/objc-api.h>
+#include <misc.h> // strdup, strcmp, xmalloc, XFREE, sprintf, sscanf
 
 @implementation VarProbe
 

@@ -3,10 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <stdarg.h>
 #import <objectbase/CustomProbeMap.h>
 #import <defobj.h> // Warning
 #import "local.h"
+
+#include <misc.h> // va_list, va_start, va_end
 
 @implementation CustomProbeMap
 
