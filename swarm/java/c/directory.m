@@ -558,12 +558,21 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
 const char *
 java_copy_string (JNIEnv *env, jstring javaString)
 {
-  return NULL;
+  jboolean isCopy;
+  const char *str = (*env)->GetStringUTFChars (env, javaString, &isCopy);
+  const char *ret = strdup (str);
+
+  if (isCopy)
+    (*env)->ReleaseStringUTFChars (env, javaString, str);
+  return ret;
 }
 
 
 void
-java_cleanup_strings (JNIEnv *env, const char **stringArray)
+java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count)
 {
-  
+  size_t i;
+
+  for (i = 0; i < count; i++)
+    XFREE (stringArray[i]);
 }
