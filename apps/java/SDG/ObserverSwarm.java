@@ -85,7 +85,6 @@ public class ObserverSwarm extends GUISwarmImpl {
       System.exit (1);
     }
 
-
     return this;
   }
 
@@ -93,8 +92,8 @@ public class ObserverSwarm extends GUISwarmImpl {
     raster.erase ();
     display.display ();
     raster.drawSelf ();
-    getActionCache ().doTkEvents ();
     Globals.env.probeDisplayManager.update ();
+    getActionCache ().doTkEvents ();
   }
 
   public Object buildActions () {
