@@ -205,7 +205,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
     const char *seltype = sel_get_type (sel), *type;
     id <FArguments> fa;
     id <FCall> fc = nil;
-    void *ret;
+    void *ret = NULL;
     unsigned argnum;
 
     fa = [FArguments createBegin: scratchZone];
