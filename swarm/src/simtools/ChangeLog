@@ -1,3 +1,9 @@
+2003-06-21  Marcus G. Daniels  <mgd@santafe.edu>
+
+	* simtools.h (__objc_exec_class_for_all_init_modules): Declare.
+	(initSwarmArguments, initSwarmAppArguments): 
+	Call __objc_exec_class_for_all_init_modules before _initSwarm_.
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* AppendFile.h, AppendFile.m, InFile.h, InFile.m, NSelect.h,

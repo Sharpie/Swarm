@@ -669,11 +669,14 @@ __objc_exec_class (Module_t module)
 void
 __objc_exec_class_for_all_initial_modules ()
 {
-  unsigned i;
- 
-  for (i = 0; i < moduleCount; i++)
-    __objc_exec_class_real (modules[i]);
-  initialComplete = 1;
+  if (!initialComplete)
+    {
+      unsigned i;
+      
+      for (i = 0; i < moduleCount; i++)
+	__objc_exec_class_real (modules[i]);
+      initialComplete = 1;
+    }
 }
 
 static void objc_send_load (void)
