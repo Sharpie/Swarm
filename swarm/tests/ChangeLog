@@ -1,0 +1,33 @@
+1999-01-12  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* ActionGroup.m: New file.
+
+	* ActionGroupRandomized.m: Likewise.
+
+	* ConcurrentGroup.m: Likewise.
+
+	* ConcurrentGroupRandomized.m: Likewise.  
+
+	* DynamicSchedule.m: Likewise.
+
+	* DynamicScheduleRepeat.m: Likewise.
+
+	* ForEachRandomized.m: Likewise.
+
+	* ForEach.m: Likewise.
+
+	* Schedule.m: Likewise.
+
+	* ActionGroup_test.[hm]: Likewise.
+
+	* ConcurrentGroup_test.[hm]: Likewise.
+
+	* DSRSwarm.[hm]: Likewise.
+
+	* DSSwarm.[hm]: Likewise.
+
+	* Holder.[hm]:Likewise.
+
+	* Responder.[hm]: Likewise.
+	
+
