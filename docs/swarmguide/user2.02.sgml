@@ -436,15 +436,19 @@ listOfFriends = [List create: self];
 
     <para>You see little bits like this all over example code from
       Swarm projects.  Where does this <classname>List</classname>
-      class object come from and why are you able to make calls to it
-      even though there is no import statement at the top of the
+      class object come from?  Why are you able to use it
+      even though there is no import statement for List.h at the top of the
       program?  It seems as though, if you want to make a call on the
       List class, you ought to include <filename>List.h</filename> at
-      the top of your file, right?  To use many of the Swarm classes,
-      it is not necessary to use such an explicit import statement
-      since you are not subclassing.  To create List instances, one
-      need import the "general purpose" collections.h, which declares
-      not only List, but other collections classes as well.</para>
+      the top of your file, right?</para>
+
+    <para>To use many of the Swarm classes, it is not necessary to use
+      such an explicit import statement since you are not subclassing.
+      Instead, it is necessary to include one of the "general purpose"
+      header files that corresponds to the major sections of the Swarm
+      library.  To  create List instances,  for example, one  needs to
+      import the  "general purpose" collections.h,  which declares not
+      only List, but other collections classes as well.</para>
 
     <para>The general purpose header files can be found in the include
     directory of your swarm installation.  They are:
@@ -481,27 +485,32 @@ listOfFriends = [List create: self];
 	  <para>simtoolsgui.h</para>
 	</listitem>
 	<listitem>
-	  <para>space</para>
+	  <para>space.h</para>
 	</listitem>
       </itemizedlist>
 
     
+    <indexterm><primary>CREATABLE</primary></indexterm>
+
     <para> As you browse the Swarm Reference Guide, you will find many
      protocols that adopt the CREATABLE protcol, which means that you
      can use them to create objects in your code.  When you use them,
-     import one of these library headers.</para>
+     import one of these library headers.   For example, to create List
+     objects, import <filename>collections.h</filename>.  That header
+     file should be included in any file that refers to a List, Map,
+     Set, or any of the other creatable collections objects. </para>
 
-    <para>Depending on your specific usage, it may be necessary to
-     import these library headers in either your header file or your
-     implementation file.  For example, to create List objects, import
-     <filename>collections.h</filename>.  That header file should be
-     included in any file that refers to a List, Map, Set, or any of
-     the other creatable collections objects.  This is required be in
-     the header file <filename>.h</filename> if your class declares
-     any variables that make explicit references to List, for example
-     by declaring a variable with a protocol, as in</para>
+    <para>Should the general purpose header file be included in the .h
+     (header) file or the .m (implementation) file of your class?
+     Generally speaking, it is only necessary in the .m file, since
+     that is where you are doing the work of creating the object.  The
+     only exception to this rule arises if you refer to the protocol
+     protocol in your header file.  It is necessary to include the
+     collections.h in your header file if you want to declare an
+     object that will adopt a protocol, as in
+     </para>
 
-    <programlisting>
+<programlisting>
 id &lt;List&gt; aList;
 </programlisting>
 
@@ -517,9 +526,9 @@ id &lt;List&gt; aList;
 id aList;
 </programlisting>
 
-	   then there is no need to include collections.h.  Since the
-List is used in the implementation file, then the collections.h header
-should be included there.</para>
+     then there is no need to include collections.h in the header
+     file.  It should only be included in the implementation file for
+     your class.</para>
 
 
   <para>Explicit importing of a class-specific header file is only

@@ -1,5 +1,7 @@
 2000-02-29  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 
+	* user2.02.sgml: indexterms, header file inclusion explanation. 
+
 	* user3.04.sgml: Edited to add bits from userapp-rand1.
 
 	* userapp-rand1.sgml: Hacked massively to mostly obliterate or
