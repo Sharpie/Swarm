@@ -11,7 +11,6 @@ import swarm.random.*;
 
 public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 {
-    //public SwarmEnvironment se;
     public int displayFrequency;
     public ScheduleImpl displaySchedule;
     public MousetrapModelSwarmImpl mousetrapModelSwarm;
@@ -70,39 +69,30 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
     {
         MousetrapModelSwarmCImpl immswarm;
         super.buildObjects();
-        //    nag ("zone create");
 
-        mousetrapModelSwarm = new MousetrapModelSwarmImpl ();
+        mousetrapModelSwarm = new MousetrapModelSwarmImpl();
         immswarm = new MousetrapModelSwarmCImpl(mousetrapModelSwarm);
-        //immswarm.se = se;
-        //    nag ("create");
         mousetrapModelSwarm = 
             (MousetrapModelSwarmImpl) immswarm.create (this.getZone());
-        //mousetrapModelSwarm.se = se;
-        //    nag ("createArchivedProbeDisplay (mousetrapModelSwarm)");
         Globals.env.createArchivedProbeDisplay (mousetrapModelSwarm);
-        //    nag ("createArchivedProbeDisplay (this)");
         Globals.env.createArchivedProbeDisplay (this);
-        //    nag ("Action cache");
-
+        
         ((ActionCacheImpl)getActionCache()).waitForControlEvent();
-        //    nag ("control panel");
-
+        
         if (((ControlPanelImpl)this.getControlPanel()).getState() 
             == Globals.env.ControlStateQuit)
             return this;
 
-        //    nag ("mousetrapModel swarm buildObjects");
         mousetrapModelSwarm.buildObjects ();
-        //    nag ("colormap");
+        
         colormap = new ColormapImpl ((ZoneImpl)this.getZone());
     
         colormap.setColor$ToGrey ((byte) 1, 0.3);
         colormap.setColor$ToName ((byte) 2, "red");
     
         triggerGraph = 
-            new EZGraphImpl ((ZoneImpl)this.getZone(), "Trigger data vs. time",
-                             "time", "number triggered");
+          new EZGraphImpl ((ZoneImpl)this.getZone(), "Trigger data vs. time",
+                           "time", "number triggered");
 
         Globals.env.setWindowGeometryRecordName (triggerGraph);
 
@@ -126,14 +116,7 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         }
 
         displayWindow = new ZoomRasterImpl ((ZoneImpl)this.getZone());
-        //    nag ("display window");
-        //izr = new ZoomRasterCImpl (displayWindow);
-        //izr.createBegin (se.globalZone);
-        //    nag (" izr");
         Globals.env.setWindowGeometryRecordName (displayWindow);
-        //    nag (" Globals.env.setWindowGeometryRecordName (izr);");
-        // displayWindow = (ZoomRasterImpl) izr.createEnd ();
-        //    nag ("done display Window createEnd");
         try {
             Selector slct;
             slct = new Selector (this.getClass(), 
@@ -154,8 +137,6 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         displayWindow.pack();
 
         try {
-            /// strange noMehtod:
-            //      nag ("strange method");
             Selector slct = new Selector (Class.forName ("Mousetrap"), 
                                           "noMethod", false);
             mousetrapDisplay = new Object2dDisplayImpl 
@@ -192,15 +173,13 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         Selector slct;
         
         super.buildActions();
-        //    nag ("mousetrap model actions");
         mousetrapModelSwarm.buildActions();
     
         displayActions = new ActionGroupImpl ((ZoneImpl)this.getZone());
-        //    nag ("display actions done");
+
         displaySchedule = new ScheduleImpl((ZoneImpl)this.getZone(), 
                                            displayFrequency);
 
-        //    nag ("display schedule");
         try {
                 
             slct = new Selector (this.getClass(), "_update_", false);
@@ -208,10 +187,10 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
             
             slct = new Selector (triggerGraph.getClass(), "step", true);
             displayActions.createActionTo$message (triggerGraph, slct);
-            slct = new Selector (Globals.env.probeDisplayManager.getClass(), "update", 
-                                 true);
-            displayActions.createActionTo$message (Globals.env.probeDisplayManager, 
-                                                   slct);
+            slct = new Selector (Globals.env.probeDisplayManager.getClass(), 
+                                 "update", true);
+            displayActions.createActionTo$message 
+                (Globals.env.probeDisplayManager,  slct);
             
             slct = new Selector (this.getClass (), "checkToStop", true);
             displayActions.createActionTo$message (this, slct);
@@ -222,7 +201,6 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
                                                        slct);
             
             displaySchedule.at$createAction (0, displayActions);
-            //	nag ("display schedule done");
         } catch (Exception e) {
             System.out.println ("Exception doTkE: " + e.getMessage());
         }
@@ -234,11 +212,9 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
     {
         ActivityControlCImpl iac;
         super.activateIn (swarmContext);
-        //    nag ("super");
+
         mousetrapModelSwarm.activateIn (this);
-        //    nag ("mousetrapmodel");
         displaySchedule.activateIn (this);
-        //    nag ("display scheudle");
 
         observerActCont = new ActivityControlImpl ();
         iac = new ActivityControlCImpl (observerActCont);
@@ -261,8 +237,8 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 
     public Object checkToStop ()
     {
-        if (((MousetrapStatistics)mousetrapModelSwarm.getStats()).getNumBalls()
-            == 0)
+        if (((MousetrapStatistics)mousetrapModelSwarm.getStats()).
+            getNumBalls() == 0)
             {
                 System.out.println ("All balls have landed!\n");
                 ((ControlPanelImpl)this.getControlPanel()).setStateStopped();

@@ -19,7 +19,6 @@ public class Mousetrap
     public UniformDoubleDistImpl uniform0to1;
     public UniformIntegerDistImpl uniformRadius;
     public UniformUnsignedDistImpl uniformTrigTime;
-    //public SwarmEnvironment se;
 
     public void nag (String s)
     {
@@ -43,18 +42,25 @@ public class Mousetrap
         uniform0to1 = new  UniformDoubleDistImpl ();
         iudbld = new UniformDoubleDistCImpl (uniform0to1);
     
-        uniform0to1 = (UniformDoubleDistImpl) iudbld.create$setGenerator$setDoubleMin$setMax (modelSwarm.getZone(), randGenerator, 0.0, 1.0);
+        uniform0to1 = (UniformDoubleDistImpl) 
+            iudbld.create$setGenerator$setDoubleMin$setMax 
+            (modelSwarm.getZone(), randGenerator, 0.0, 1.0);
 
         uniformRadius = new  UniformIntegerDistImpl ();
         iuintd = new UniformIntegerDistCImpl (uniformRadius);
   
-        uniformRadius =  (UniformIntegerDistImpl) iuintd.create$setGenerator$setIntegerMin$setMax (modelSwarm.getZone(), randGenerator, -maxD, maxD);
+        uniformRadius =  (UniformIntegerDistImpl) 
+            iuintd.create$setGenerator$setIntegerMin$setMax 
+            (modelSwarm.getZone(), randGenerator, -maxD, maxD);
 
         uniformTrigTime =  new UniformUnsignedDistImpl (); 
         iuunsd = new UniformUnsignedDistCImpl (uniformTrigTime);
 
-        uniformTrigTime = (UniformUnsignedDistImpl) iuunsd.create$setGenerator$setUnsignedMin$setMax (modelSwarm.getZone(), randGenerator, 1, modelSwarm.getMaxTriggerTime());
+        uniformTrigTime = (UniformUnsignedDistImpl) 
+            iuunsd.create$setGenerator$setUnsignedMin$setMax 
+            (modelSwarm.getZone(), randGenerator, 1, modelSwarm.getMaxTriggerTime());
     }
+
     public Object setDisplayWidget (ZoomRasterImpl w)
     {
         displayWidget = w;
@@ -91,7 +97,6 @@ public class Mousetrap
                     (yCoord + size + uniformRadius.getIntegerSample()) % size;
                 
                 triggerTick = Globals.env.getCurrentTime() + 
-                    // triggerTick = se.getCurrentTime() + 
                     uniformTrigTime.getUnsignedSample();
                 trap = modelSwarm.getMousetrapAtX$Y (xTrigger, yTrigger);
                 
@@ -101,7 +106,6 @@ public class Mousetrap
                 }
             }
         }
-        //    return this;
     }
 }
 
@@ -114,35 +118,23 @@ class StartMousetrap
     }
     public static void main (String[] args)
     {
-      //SwarmEnvironment se = new SwarmEnvironment (args);
-        
       Globals.env.initSwarm(args);
-
-        MousetrapObserverSwarmImpl topLevelSwarm = 
-            new MousetrapObserverSwarmImpl();
-        MousetrapObserverSwarmCImpl cswarm = 
-            new MousetrapObserverSwarmCImpl (topLevelSwarm);
-   
-        //    nag ("main");
-        //cswarm.se = se;
-        //    nag ("createBegin");
-        //cswarm.createBegin (se.globalZone);
-        cswarm.createBegin (Globals.env.globalZone);
-        //    nag ("setWindowGeometryRecordName");
-        //se.setWindowGeometryRecordName (cswarm);
-        Globals.env.setWindowGeometryRecordName (cswarm);
-        //    nag ("createEnd");
-        topLevelSwarm = (MousetrapObserverSwarmImpl) cswarm.createEnd ();
-        //    nag("done createEnd");
-        //topLevelSwarm.se = se;
-        //    nag ("build Objects");
-        topLevelSwarm.buildObjects ();
-        //    nag ("build actions");
-        topLevelSwarm.buildActions ();
-        //    nag ("activate in");
-        topLevelSwarm.activateIn (null);
-        //    nag ("go");
-        ((SwarmActivityImpl)topLevelSwarm.getActivity()).run();
+      
+      MousetrapObserverSwarmImpl topLevelSwarm = 
+          new MousetrapObserverSwarmImpl();
+      
+      MousetrapObserverSwarmCImpl cswarm = 
+          new MousetrapObserverSwarmCImpl (topLevelSwarm);
+      
+      cswarm.createBegin (Globals.env.globalZone);
+      topLevelSwarm = (MousetrapObserverSwarmImpl) cswarm.createEnd ();
+      
+      Globals.env.setWindowGeometryRecordName (topLevelSwarm);
+      
+      topLevelSwarm.buildObjects ();
+      topLevelSwarm.buildActions ();
+      topLevelSwarm.activateIn (null);
+      ((SwarmActivityImpl)topLevelSwarm.getActivity()).run();
     }
 }
 
@@ -151,3 +143,4 @@ class StartMousetrap
 
 
 
+ 
