@@ -22,12 +22,15 @@ Library:      activity
 /*** methods implemented in CompoundAction.m file ***/
 - (void) setAutoDrop: (BOOL)autoDrop;
 - (BOOL)getAutoDrop;
+- (void)setDefaultOrder: aSymbol;
+- getDefaultOrder;
 - activate;
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : activityClass : indexClass;
 - (void) _performPlan_;
 - _createActivity_: ownerActivity : activityClass : indexClass;
 - (void) drop;
+- _createPermutedIndex_: aZone;
 /*** methods in ActionGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext;
@@ -76,9 +79,23 @@ Library:      activity
 - (void) dropAllocations: (BOOL)componentAlloc;
 @end
 
+@interface GroupPermutedIndex_c: PermutedIndex_c
+{
+@public
+  id <Activity> activity;
+}
++ createBegin: (id) aZone;
+- createEnd;
+- getHoldType;
+- nextAction: (id *)status;
+- (void) dropAllocations: (BOOL)componentAlloc;
+
+@end
+
 @interface ForEachActivity_c : Activity_c
 /*** methods in ForEachActivity_c (inserted from .m file by m2h) ***/
 + _create_: forEachAction : anActivity;
++ _createRandom_: forEachAction: anActivity;
 - getCurrentMember;
 @end
 

@@ -182,7 +182,9 @@ static ActionConcurrent_c *createGroup( Schedule_c *self )
 
   // create new concurrent group to receive new action
 
-  newGroup = [self->concurrentGroupType create: getCZone( zone )];
+  newGroup = [self->concurrentGroupType createBegin: getCZone( zone )];
+  [newGroup setDefaultOrder: [self getDefaultOrder]];
+  newGroup = [newGroup createEnd];
   setBit( ((Collection_any *)newGroup)->bits, BitConcurrentGroup, 1 );
   setBit( ((Collection_any *)newGroup)->bits, BitAutoDrop,
           getBit( self->bits, BitAutoDrop ) );
@@ -576,6 +578,10 @@ _activity_insertAction(Schedule_c *self, timeval_t tVal,
   newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_0];
   newAction->target   = target;
   newAction->selector = aSel;
+  if ([self getDefaultOrder] == (id) Randomized)
+    {
+      setBit(newAction->bits, BitRandomized, 1);
+    }
   _activity_insertAction( self, tVal, newAction );
   return newAction;
 }
@@ -588,6 +594,10 @@ _activity_insertAction(Schedule_c *self, timeval_t tVal,
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
+  if ([self getDefaultOrder] == (id) Randomized)
+    {
+      setBit(newAction->bits, BitRandomized, 1);
+    }
   _activity_insertAction( self, tVal, newAction );
   return newAction;
 }
@@ -601,6 +611,10 @@ _activity_insertAction(Schedule_c *self, timeval_t tVal,
   newAction->selector = aSel;
   newAction->arg1     = arg1;
   newAction->arg2     = arg2;
+  if ([self getDefaultOrder] == (id) Randomized)
+    {
+      setBit(newAction->bits, BitRandomized, 1);
+    }
   _activity_insertAction( self, tVal, newAction );
   return newAction;
 }
@@ -614,6 +628,10 @@ _activity_insertAction(Schedule_c *self, timeval_t tVal,
   newAction->selector = aSel;
   newAction->arg1     = arg1;
   newAction->arg2     = arg2;
+  if ([self getDefaultOrder] == (id) Randomized)
+    {
+      setBit(newAction->bits, BitRandomized, 1);
+    }
   _activity_insertAction( self, tVal, newAction );
   return newAction;
 }

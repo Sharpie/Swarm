@@ -10,7 +10,6 @@ Library:      activity
 */
 
 #import <collections/Collection.h>
-#import <activity.h>
 
 extern id  _activity_activityRefsType;
 

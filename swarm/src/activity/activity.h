@@ -258,6 +258,64 @@ USING
 //D: by removing from one position and reinserting at another.
 @end
 
+
+@deftype DefaultOrder
+
+//S: The DefaultOrder option indicates the ordering to be assumed among
+//S: actions of the plan when no other explicit ordering has been assigned.
+
+//D: The DefaultOrder option indicates the ordering to be assumed among
+//D: actions of the plan when no other explicit ordering has been assigned.
+//D: Beyond this initial ordering, additional ordering constraints can be
+//D: added selectively using partial order specifications on individual
+//D: actions.  (.. Partial order order constraints are not yet
+//D: implemented.)
+
+//D: The value for DefaultOrder is a symbol that may have one of the
+//D: following values: Concurrent, Sequential, Randomized;
+
+//D: The Concurrent value of the DefaultOrder option indicates that can
+//D: actions be run in any order (including at the same time, if hardware
+//D: and software to do this is available) without no impact on the net
+//D: outcome of the actions.  The claim that action results are independent
+//D: of their execution order gives the processing machinery explicit
+//D: leeway to execute them in any order it chooses.  In the current
+//D: implementation on a single, serial processor, actions are always
+//D: processed sequentially even if marked concurrent, because that is the
+//D: only way they can be.  In future versions, however, special runtime
+//D: processing modes may be defined even for a serial processor, which
+//D: would mix up execution order just to confirm the independence of model
+//D: results.
+
+//D: The Sequential value for the DefaultOrder option is the default.  It
+//D: specifies that the actions must always be executed in the same order
+//D: as they occur in the plan.  This order is ordinarily the same order in
+//D: which actions are first created in the plan, unless actions are
+//D: explicitly added elsewhere the collection that underlies a plan.  This
+//D: option is always the safest to assure predictability of results, but
+//D: it excludes the ability to run the actions in parallel.  To better
+//D: understand and document a model design, it is worth annotating action
+//D: plans with an explicit indication as to whether they do or do not
+//D: depend on a Sequential order.
+
+//D: The Randomized value for the DefaultOrder option specifies that the
+//D: model results do depend on execution order, but that the order in
+//D: which the actions were created or added has no special significance.
+//D: Instead, the method of dealing with order dependence is to generate a
+//D: random order each time a collection of same-time actions is processed.
+//D: The random order will be generated from an random number generator
+//D: internal to the processing machinery.
+
+CREATING
+- (void)setDefaultOrder: aSymbol;
+USING
+- getDefaultOrder;
+
+@end
+
+//G: values for DefaultOrder
+extern id <Symbol>  Concurrent, Sequential, Randomized;
+
 #ifndef DEFINED_timeval_t
 #define DEFINED_timeval_t
 

@@ -1,3 +1,58 @@
+1998-12-11  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Action.h (CAction): Add new field bits to allow setting 
+	BitRandomized in ActionForEach.
+
+	* Action.m ([ActionForEach_0 -_performAction_:]): Support for 
+	randomized ActionForEach.
+	([ActionForEach_1 -_performAction_:]): Likewise.
+	([ActionForEach_2 -_performAction_:]): Likewise.
+	([ActionForEach_3 -_performAction_:]): Likewise.
+		
+	* ActionGroup.m ([ActionGroup_c -createActionForEach:message:]): 
+	Mechanism for forEachAction created from within the ActionGroup to 
+	inherit the default order of schedule.
+	([ActionGroup_c -createActionForEach:message::]): Likewise.
+	([ActionGroup_c -createActionForEach:message:::]): Likewise.
+	([ActionGroup_c -createActionForEach:message::::): Likewise.
+	([ActionGroup_c -_createPermutedIndex_:aZone]): New method that
+	creates a GroupPermutedIndex.
+	(GroupPermutedIndex_c): New class used for radnomized traversal 
+	of a action group.
+	([ForEachActivity_c +_createRandom_::]): Support for randomized
+	ForEachAction - creates an randomized index for traversal of a
+	structure that is the target of ForEachAction.
+
+	* ActionGroup.h (ActionGroup_c): Methods setDefaultOrder and 
+	getDefaultOrder reinserted. New method _createPermutedIndex_ used
+	to create PermutedIndex for traversal of the ActionGroup.
+	(PermutedIndex_c): Add new class for randomized traversal of action 
+	groups.
+	([ForEachActivity_c _createRandom_::]): New method for creation of 
+	ForEachActivity that supports randomized traversal.
+
+	* CompoundAction.m ([CompoundAction_c -setDefaultOrder:]): 
+	Reinserted.
+	([CompoundAction_c -getDefaultOrder]): Likewise.
+	([CompoundAction_c -_createActivity_:::]): Support for Randomized
+	Concurrent/ActionGroups implemented.
+
+	* CompoundAction.h: activity.h need not be imported.
+
+	* Schedule.h (Schedule_c): Methods setDefaultOrder and 
+	getDefaultOrder inserted.
+
+	* activity.h (DefaultOrder): DefaultOrder reinserted.
+
+	* Schedule.m (createGroup): Mechanism for groups created from 
+	within the schedule to inherit the default order of schedule.
+	([Schedule_c -at:createActionForEach:message:]): Mechanism for 
+	forEachAction created from within the Schedule to inherit the 
+	default order of schedule.
+	([Schedule_c -at:createActionForEach:message::]): Likewise.
+	([Schedule_c -at:createActionForEach:message:::]): Likewise.
+	([Schedule_c -at:createActionForEach:message::::): Likewise.
+       
 1998-11-19  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	

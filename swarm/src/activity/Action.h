@@ -17,6 +17,7 @@ Library:      activity
 @public
   ActionType_c  *owner;        // action type that binds action in its context
   member_t      ownerActions;  // internal links in actions owned by ActionType
+  unsigned      bits;          // bit allocations
 }
 /*** methods in CAction (inserted from .m file by m2h) ***/
 - getOwner;

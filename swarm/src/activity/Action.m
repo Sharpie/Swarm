@@ -344,8 +344,15 @@ static void describeMessage(
 - (void) _performAction_: anActivity
 {
   id  memberAction;
-
-  memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+  if (getBit(bits, BitRandomized))
+    {
+       memberAction = 
+	 [id_ForEachActivity_c _createRandom_: self : anActivity ];
+    }
+  else
+    {
+      memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+    }
   setClass( memberAction, id_ActionTo_0 );
 }
 
@@ -374,8 +381,15 @@ static void describeForEachMessage(
 - (void) _performAction_: anActivity
 {
   id  memberAction;
-
-  memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+  if (getBit(bits, BitRandomized))
+    {
+       memberAction = 
+	 [id_ForEachActivity_c _createRandom_: self : anActivity ];
+    }
+  else
+    {
+      memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+    }
   setClass( memberAction, id_ActionTo_1 );
 }
 
@@ -392,8 +406,15 @@ static void describeForEachMessage(
 - (void) _performAction_: anActivity
 {
   id  memberAction;
-
-  memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+  if (getBit(bits, BitRandomized))
+    {
+       memberAction = 
+	 [id_ForEachActivity_c _createRandom_: self : anActivity ];
+    }
+  else
+    {
+      memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+    }
   setClass( memberAction, id_ActionTo_2 );
 }
 

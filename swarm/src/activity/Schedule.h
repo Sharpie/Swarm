@@ -26,6 +26,8 @@ Library:      activity
 /*** methods implemented in CompoundAction.m file ***/
 - (void)setAutoDrop: (BOOL)autoDrop;
 - (BOOL)getAutoDrop;
+- (void)setDefaultOrder: aSymbol;
+- getDefaultOrder;
 - activate;
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : activityClass : indexClass;

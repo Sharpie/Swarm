@@ -180,6 +180,10 @@ PHASE(Using)
   newAction = [getZone( self ) allocIVarsComponent: id_ActionForEach_0];
   newAction->target   = target;
   newAction->selector = aSel;
+  if ([self getDefaultOrder] == (id) Randomized)
+    {
+      setBit(newAction->bits, BitRandomized, 1);
+    }
   [self addLast: newAction];
   return newAction;
 }
@@ -192,6 +196,10 @@ PHASE(Using)
   newAction->target   = target;
   newAction->selector = aSel;
   newAction->arg1     = arg1;
+  if ([self getDefaultOrder] == (id) Randomized)
+    {
+      setBit(newAction->bits, BitRandomized, 1);
+    }
   [self addLast: newAction];
   return newAction;
 }
@@ -205,6 +213,10 @@ PHASE(Using)
   newAction->selector = aSel;
   newAction->arg1     = arg1;
   newAction->arg2     = arg2;
+  if ([self getDefaultOrder] == (id) Randomized)
+    {
+      setBit(newAction->bits, BitRandomized, 1);
+    }
   [self addLast: newAction];
   return newAction;
 }
@@ -219,9 +231,27 @@ PHASE(Using)
   newAction->arg1     = arg1;
   newAction->arg2     = arg2;
   newAction->arg3     = arg3;
+  if ([self getDefaultOrder] == (id) Randomized)
+    {
+      setBit(newAction->bits, BitRandomized, 1);
+    }
   [self addLast: newAction];
   return newAction;
 }
+
+
+
+- _createPermutedIndex_: (id) aZone
+{
+  GroupPermutedIndex_c *newIndex;
+
+  newIndex = 
+    [GroupPermutedIndex_c createBegin: aZone];
+  newIndex->collection = self;
+  newIndex = [newIndex createEnd];
+  return newIndex;
+}
+
 
 //
 // mapAllocations: -- standard method to identify internal allocations
@@ -354,15 +384,88 @@ PHASE( Using )
   id removedAction, nextAction;
 
   // if AutoDrop option and index at a valid position then drop previous action
-
-  if ( ((ActionGroup_c *)collection)->bits & BitAutoDrop && position > 0 ) {
-    removedAction = [self remove];
-    [getZone( (ActionGroup_c *)collection ) freeIVarsComponent: removedAction];
-  }
+ 
+  if ( ((ActionGroup_c *)collection)->bits & BitAutoDrop && position > 0 )
+    {
+      removedAction = [self remove];
+      [getZone((ActionGroup_c *) collection) 
+	      freeIVarsComponent: removedAction];
+    }
 
   // get next action to be executed
 
   nextAction = [self next];
+  
+  if ( ! nextAction ) *status = Completed;
+  return nextAction;
+}
+
+//
+// dropAllocations: -- drop index as component of activity
+//
+- (void) dropAllocations: (BOOL)componentAlloc
+{
+  [((ActionGroup_c *)collection)->activityRefs remove: activity];
+  [super dropAllocations: 1];
+}
+
+@end
+
+
+//
+// GroupIndex_c -- index to traverse actions of a group
+//
+
+@implementation GroupPermutedIndex_c
+
++ createBegin: (id) aZone forIndexSubclass: (id) anClass
+{
+  GroupPermutedIndex_c *newIndex;
+
+  newIndex = [PermutedIndex_c createBegin: aZone forIndexSubclass: anClass];
+  newIndex->collection = self;
+  newIndex = [newIndex createEnd];
+  return newIndex;
+}
+
++ createBegin: (id) aZone
+{
+  GroupPermutedIndex_c *newIndex;
+  newIndex = [aZone allocIVars: self];
+  newIndex->index = nil;
+  return newIndex;
+}
+
+- createEnd
+{
+  int count;
+  id permutation;
+  count = [collection getCount];
+  permutation = [Permutation createBegin: getZone(self)];
+  [permutation  setMaxElement: count];
+  permutation = [permutation createEnd];
+  permutationIndex = [permutation begin: getZone(self)];
+  index = [collection begin: getZone(self)];
+  
+  return self;
+}
+
+//
+// mix in action plan index methods by source inclusion
+//
+#define  MIXIN_INDEX
+#include "CompoundAction.m"
+
+//
+// nextAction: -- return next action, if any, or Holding status
+//
+- nextAction: (id *)status
+{
+  id nextAction=nil;
+
+
+  nextAction = [self next];
+  
   if ( ! nextAction ) *status = Completed;
   return nextAction;
 }
@@ -409,6 +512,40 @@ PHASE( Using )
 
   newIndex->memberIndex = [((ActionForEach_0 *)forEachAction)->target
                              begin: getCZone( ownerZone )];
+  newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
+  ((ActionForEach_0 *)newIndex->memberAction)->target = nil;
+
+  // set currentSubactivity in the activity that called _performAction_
+
+  owner->currentSubactivity = (id)newActivity;
+  return newIndex->memberAction;
+}
+
++ _createRandom_:  forEachAction : anActivity
+{
+  Activity_c      *owner, *newActivity;
+  id              ownerZone;
+  ForEachIndex_c  *newIndex;
+
+  // create new activity containing custom index into target collection
+
+  owner = anActivity;
+  ownerZone = getZone( owner );
+  newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];
+  newIndex    = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
+
+  setMappedAlloc( newActivity );
+  setMappedAlloc( newIndex );
+
+  newActivity->ownerActivity  = anActivity;
+  newActivity->status         = Initialized;
+  newActivity->breakFunction  = owner->breakFunction;
+  newActivity->currentIndex   = newIndex;
+  newIndex->activity          = anActivity;
+
+  newIndex->memberIndex = [((ActionForEach_0 *)forEachAction)->target
+                             beginPermuted: getCZone( ownerZone )];
+  [((PermutedIndex_c *) newIndex->memberIndex) generatePermutation];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
   ((ActionForEach_0 *)newIndex->memberAction)->target = nil;
 

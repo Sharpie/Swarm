@@ -36,6 +36,28 @@ Library:      activity
   setBit (bits, BitAutoDrop, autoDrop);
 }
 
+- (void) setDefaultOrder: aSymbol
+{
+  if (aSymbol == (id) Concurrent) 
+    {
+      setBit (bits, BitConcurrent, 1); 
+    }
+  else if (aSymbol == (id) Sequential)
+    {
+      setBit(bits, BitConcurrent, 0);
+      setBit(bits, BitRandomized, 0);
+    }
+  else if (aSymbol == (id) Randomized)
+    {
+      setBit(bits, BitRandomized, 1);
+    }
+  else
+    {
+      raiseEvent(InvalidArgument, nil);
+    }
+}
+
+
 #elif defined( MIXIN_C )
 #undef MIXIN_C
 
@@ -46,6 +68,13 @@ Library:      activity
 - (BOOL)getAutoDrop
 {
   return (bits & BitAutoDrop) == BitAutoDrop;
+}
+
+- getDefaultOrder
+{
+  if (bits & BitConcurrent) return Concurrent;
+  if (bits & BitRandomized) return Randomized;
+  return Sequential;
 }
 
 //
@@ -147,8 +176,19 @@ Library:      activity
 
   // create index on the plan actions for traversal by the activity
 
-  newIndex = [self _createIndex_: getCZone( activityZone )
-                forIndexSubclass: indexClass];
+  if (getBit(bits, BitRandomized) && 
+      (getClass(self) == id_ConcurrentGroup_c ||
+       getClass(self) == id_ActionGroup_c))
+    {
+      newIndex = 
+	[(ActionGroup_c *) self _createPermutedIndex_: getCZone( activityZone )];
+      [(GroupPermutedIndex_c *)newIndex generatePermutation];
+    } 
+  else
+    {
+      newIndex = [self _createIndex_: getCZone( activityZone )
+		       forIndexSubclass: indexClass];
+    }
   newIndex->activity = (id)newActivity;
   newActivity->currentIndex = newIndex;
 
