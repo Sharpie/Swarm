@@ -357,7 +357,7 @@ typedef struct
     __avword	words[2];
   }			tmp;
 #endif
-#if defined(__mips__) && !defined(__mipsn32__)
+#if defined(__mips__) && !defined(__mipsn32__) && !defined(__mips64__)
   /* store the floating-point arguments in an extra array */
   int			anum;
   double		floatarg[2];
