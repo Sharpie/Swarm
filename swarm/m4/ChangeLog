@@ -1,3 +1,8 @@
+1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (vj_FIND_JDK): Move AC_MSG_CHECKING after potential
+	calls to AC_PATH_PROG.
+
 1999-03-17  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* acjdk.m4 (vj_FIND_JDK): Use AC_PATH_PROG to locate javac

@@ -1,6 +1,5 @@
 AC_DEFUN(vj_FIND_JDK,
-[AC_MSG_CHECKING(for JDK)
-if test -z "$jdkdir" ; then
+[if test -z "$jdkdir" ; then
   AC_PATH_PROG(JAVAC, javac, missing)
   AC_PATH_PROG(JAR, jar, missing)
   if test $JAVAC != missing; then
@@ -9,7 +8,7 @@ if test -z "$jdkdir" ; then
     changequote([,])
   fi
 fi
-
+AC_MSG_CHECKING(for JDK)
 test -z "$jdkdir" && jdkdir=no
 if test $jdkdir = no; then
   AC_MSG_RESULT(no)
