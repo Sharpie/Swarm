@@ -1034,7 +1034,6 @@ USING
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
 - getObject;
-- (char)getValueType;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;
