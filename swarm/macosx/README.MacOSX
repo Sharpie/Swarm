@@ -4,44 +4,40 @@ This is a build for MacOSX/Darwin.
 The contents of this directory are not expected to be meaningful on any
 other platform.
 
-This readme is current as at 21 Aug 2003 for MacOS X 10.2.6 with the
-December 2002 Developer Tools and the June 2003 update.  Do not waste your 
+This readme is current as at 29 Nov 2004 for MacOS X 10.3.6 with the
+Xcode 1.5 Developer Tools.  Do not waste your 
 time with any MacOS setup older than this.  Apple are rapidly improving the 
-*NIX compatability and functionality of the bsd subsystem.  Panther (10.3.x)
-should be even better when it ships in late 2003.
+*NIX compatability and functionality of the bsd subsystem.
 
-This work was being done with Apple X11 beta 0.3  Libraries Tcl/Tk 8.4.4,
-HDF5 1.5-45p2, png 1.2.5 and BLT2.4z are all installed in /usr/local.
+This code should also build on Jaguar MacOs X 10.2.  (but get Panther really!)
+
+This work was being done with Apple X11  Libraries Tcl/Tk 8.4.7,
+HDF5 1.6.1, png 1.2.5 and BLT3.0b are all installed in /usr/local.
 
 Sources or compiled code can be obtained as
-Apple X11 (binary, sdk and source)  http://www.apple.com/macosx/x11/
+Apple X11 (binary, sdk and source)  http://www.apple.com/macosx/x11/ (included in Panther)
 Tcl/Tk  (source)   http://sourceforge.net/projects/tcl
 HDF5    (source)   http://hdf.ncsa.uiuc.edu/
 BLT     (source)   http://sourceforge.net/projects/blt
 BLT (patches)  http://savannah.nongnu.org/patch/?group=swarm
-MacOS X packages for Tcl/Tk8.4.4, HDF5 1.4.45p2, BLT2.4z and png 1.2.5 are 
+MacOS X packages for Tcl/Tk8.4.5, HDF5 1.6.1, BLT2.4z and png 1.2.5 are 
 available from
 http://savannah.nongnu.org/projects/swarm
 
-As of 21 August 03 you no longer need any fsf version of gcc3.3. (Cheer loudly)
-
-The pre-release Apple compiler will now work.  Unfortunately this has not been released yet.
-You can get a binary package from http://savannah.nongnu.org/projects/swarm
-Alternatively pull the source code from Apple's OpenSource cvs for project gcc3 with the tag panther-release-branch.  You need to apply the simple patch described at
-http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11754
+Most recent Apple gcc-3.3 or gcc-4.0 based compilers should work. A recent build of Apple gcc-4 can be obtained through the Swarm site on Savannah.  See above.
 
 A GNU version of sed from http://ftp.gnu.org/pub/gnu/sed/ (the MacOS X one is
  from 1997!).  At the moment you should install this as /usr/bin/gsed. 
  Do not overwrite Apple's sed. 
- A recent version of gperf from http://ftp.gnu.org/pub/gnu/gperf/.  (This will be included in Panther (MacOS X 10.3).
+ For Jaguar only, gperf from http://ftp.gnu.org/pub/gnu/gperf/.  This is included in Panther (MacOS X 10.3).
 
 Binaries of these required packages are available at the Swarm web site:
 http://savannah.nongnu.org/projects/swarm
 
 Documentation on MacOS X porting issues can be found at
-http://developer.apple.com/unix/
+http://developer.apple.com/unix/ and in the Xcode Documentation.
 and more specifically
-http://developer.apple.com/techpubs/macosx/Darwin/GettingStarted/PortingUNIX/index.html
+http://developer.apple.com/documentation/Darwin/Darwin.html
 
 This build supports Java on MacOS X.
 
@@ -49,7 +45,7 @@ For suggestions on installing see INSTALL.MacOSX
 
 I. Contents of this directory
 ================================================= 
-swarmx.pbproj This is a project which can be opened by MacOSX ProjectBuilder 2.1. 
+swarm.xcode This is a project which can be opened by MacOSX Xcode 1.5. 
 It should be useful for building the project or relating to the Swarm cvs.
 
 If you have write access to the cvs do all the stuff it says on Savannah
@@ -62,16 +58,13 @@ build
 
 This stops MacOSX specific junk getting written into the CVS.
 
-Then ensure ProjectBuilder is shut down and enter the command: defaults
-write com.apple.ProjectBuilder PBXUseExternalAuthenticationAsSSH YES
-
 Even if you only have anoncvs access the .cvsignore would probably save you
 time.
 
 2. What you can do ================================
 
-Try to fix the bugs.  Any good ideas please email me on
+Please report problems.  Any good ideas please email me on
 w.northcott@unsw.edu.au
 
 Bill Northcott
-21 Aug 03
+29 November 2004

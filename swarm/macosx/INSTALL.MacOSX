@@ -8,39 +8,44 @@ i.e. do this
 cd 'your BLT library directory'/lib/blt2.4
 ln -s graph.tcl bltGraph.tcl
 
-Project Builder build
-Edit $SRCROOT/macosx/swarmx/configure.sh
-to reflect appropriate paths on your system.
-Open the PB project and build the targets:
+Xcode project build
+Edit $SRCROOT/macosx/configure.sh
+to reflect appropriate paths on your system.  The defaults will 
+reflect the paths for the binary installers from SDG.
+Open the Xcode project and build the targets:
 	If you have cvs sources you will need to build autogen first then 
-	config and swarmlibmake in that  order.  
+	config and buildlib in that  order.  
 	
 	If you started from a source tarball or have built autogen in the cvs
 	sources then build Swarm, which build config and swarmlibmake. 
 
-To start over delete everything in $SRCROOT/macosx/swarmx/build.  You will save time
+To start over delete everything in $SRCROOT/macosx/build.  You will save time
 by not deleting the swarmx.build folder which contains indexes.
 
-To install do make install in the build directory.  You may need sudo according to your prefix.
+To install do 'make install' in the build directory.  You may need sudo according to your prefix.
 
 If you think IDEs are for wimps, try:
 
-cd $SRCROOT/macosx/swarmx/build
+cd $SRCROOT/macosx/build
 
-setenv MACOSX_DEPLOYMENT_TARGET 10.2
+setenv MACOSX_DEPLOYMENT_TARGET 10.3    ('10.2' if building on Jaguar)
 
 ../../../autogen.sh
 
 ../../../configure \
 CC=cc \
-CFLAGS="-O2 -Wno-long-double" \  (plus any optimisation or debug flags)
---prefix=/usr/local/Swarm2.2p \  (or some other install path)
+CFLAGS="g -O0 -Wno-long-double" \  (plus any optimisation or debug flags)
+--prefix=/usr/local/Swarm2.2 \  (or some other install path)
 --with-tcldir='your tcl path' \
 --with-tkdir='your tk path \
 --with-bltdir='your BLT path' \
 --with-jdkdir=/System/Library/Frameworks/JavaVM.framework \ (for Apple's JDK)
 --with-hdf5dir='your HDF5 path'\
---with-png='your libpng path'    
+--with-png='your libpng path' \
+--enable-onelib \
+--disable-fast-install \
+--disable-static 
+   
 
 make
 
@@ -48,9 +53,11 @@ make install    (sudo may be needed if installing outside your home directory)
 
 That's it.
 
-You will need to fix up DYLD_LIBRARY_PATH to get the run time linking to work.
+***You will need to fix up PATH, SWARMHOME and DYLD_LIBRARY_PATH to get the run 
+time linking to work.
 
-Start fixing bugs where it crashes.
+About MacOS X libraries:
+XXXX
 
 If you have any fixes please let me know, and regularly update from the cvs so 
 that you get other developers fixes.  There is no kudos reinventing the wheel.
@@ -60,4 +67,4 @@ as an option for any Apple compiler.
 
 Bill Northcott
 w.northcott@unsw.edu.au
-15 Sep 2003
+29 Nov 2004
