@@ -1342,10 +1342,14 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
         for (ai = 0; ai < argCount; ai++)
           [scratchZone free: (void *) argSigs[ai]];
 
-        (*env)->SetObjectField (env,
-                                jsel,
-                                f_typeSignatureFid,
-                                (*env)->NewStringUTF (env, sig));
+        {
+          jobject str = (*env)->NewStringUTF (env, sig);
+          (*env)->SetObjectField (env,
+                                  jsel,
+                                  f_typeSignatureFid,
+                                  str);
+          (*env)->DeleteLocalRef (env, str);
+        }
         (*env)->DeleteLocalRef (env, argTypes);
         (*env)->DeleteLocalRef (env, retType);
         return sig;
