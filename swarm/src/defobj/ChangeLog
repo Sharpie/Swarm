@@ -1,3 +1,8 @@
+1999-08-07  Alex Lancaster  <alex@santafe.edu>
+
+	* Symbol.h (Symbol_c): Make Symbol_c class conform to <Symbol>
+	protocol.  Thanks to Ken Cline.
+
 1999-08-06  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* directory.h (Directory): new ivar findEntry.

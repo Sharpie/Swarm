@@ -11,7 +11,7 @@ Library:      defobj
 
 #import <defobj/Create.h>
 
-@interface Symbol_c: CreateDrop_s
+@interface Symbol_c: CreateDrop_s <Symbol>
 {
 @public
    const char *name;
