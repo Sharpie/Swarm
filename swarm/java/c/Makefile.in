@@ -35,7 +35,7 @@ libjavaswarmstubs_la_LDFLAGS = -version-info $(STUBSCURRENT):$(STUBSREVISION):$(
 
 libjavaswarmstubs_la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
 
-libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_builddir) -L$(abs_top_builddir)/src -L$(abs_top_builddir)/libobjc $(SUPPORTLDFLAGS) -rpath $(libdir)
+libjavaswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/src -rpath $(libdir)
 
 libjavaswarm_la_OBJECTS = setup.lo SwarmEnvironment.lo
 
@@ -52,7 +52,7 @@ libjavaswarmstubs.la: $(libjavaswarmstubs_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs_la_LDFLAGS) $(libjavaswarmstubs_la_OBJECTS)
 
 libjavaswarm.la: $(libjavaswarm_la_OBJECTS) libjavaswarmstubs.la
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) -ljavaswarmstubs $(SWARMLIBS) $(SYSLIBS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarm_la_LDFLAGS) $(libjavaswarm_la_OBJECTS) -ljavaswarmstubs $(SWARMLIBS)
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<

@@ -1,3 +1,8 @@
+1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (libjavaswarm_la_LDFLAGS, libjavaswarm.la): Use
+	only libswarm.
+
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (libjavaswarm_la_LDFLAGS): Remove per-module -Ls, using
