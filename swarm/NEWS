@@ -10,6 +10,7 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
     if Stop was pressed after simulation finished. 
     Thanks to Paul Johnson for the report.
 *** Java stubs failed to get created if build was running from source tree.
+    Thanks to Greg Lewis and Steve Jackson for the reports.
 *** jstring argument localrefs were dereferenced and dropped incorrectly,
     causing crashes on Sun JDK 1.2.  Thanks to Murali Nandula for the report.
 *** Unregistered return values from Java were handled improperly. 
@@ -18,6 +19,12 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
     Thanks to Murali Nandula for the report.
 *** ListIndex and MapIndex were missing implemented type info, and were
     thus unavailable for use in Java.
+*** setSaveSizeFlag: was missing from ArchivedGeometryWidget protocol
+    definition.  Thanks to Catherine Dibble for the report.
+*** InputStream failed to handle empty Lisp archives.
+    Thanks to Doug Donalson for the report.
+*** EZBin failed to handle empty datafeed collections.
+    Thanks to Steve Railsback for the report.
 
 ** Autoconfiguration / Portability
 *** Support for LinuxPPC

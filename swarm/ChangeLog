@@ -1,3 +1,13 @@
+1999-10-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note InputStream and EZBin fixes.
+
+1999-10-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VERSION: Bump.
+
+	* NEWS: Note declaration of setSaveSizeFlag:.
+
 1999-10-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 	 
 	* VERSION: Bump.
