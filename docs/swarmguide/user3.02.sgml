@@ -19,14 +19,84 @@
     </para>
 
     <para>It is very important to note that these collections are
-      intended to manage objects, not integers or floating point
-      values. If you need an array of integers (or floats or chars or
-      whatever else), just use an ordinary C array.  As we will show,
-      it is possible to exploit some features on some kinds of
-      operating circumstances in order to circumvent this policy, but
-      often there is no reason do so.  A better strategy is to design
-      more carefully the objects you want to keep in Swarm collections
-      and use recommended procedures for retrieving them.
+      primarily intended to manage objects, not integers or floating
+      point values.
+
+<footnote>
+<para>
+Type casting for both storage of variables in collections as well as
+usage of non-object values for keys was discussed in the original
+Swarm design.  Roger Burkhart wrote:
+</para>
+          <programlisting>
+@deftype MemberType
+(Would be adopted by Collection.)
+//S: Accessors for member type.
+
+//D: The default member type of any collection is the id type defined by
+//D: Objective C.  All messages which add, remove, or access members
+//D: declare their member value with the id type.  None of the collection
+//D: types, however, requires that the member value actually point to a
+//D: valid object.  The member values of any collection may contain an
+//D: arbritrary bit pattern, provided these bits fit in the space available
+//D: within an id pointer.
+
+//D: In the few cases when default operations assume that a member points
+//D: to a valid object, there are alternate ways to avoid these defaults
+//D: and use an arbritrary bit pattern as a member value instead.  When
+//D: using an arbritrary bit pattern, the member value must be cast to or
+//D: from the id type when adding or retrieving it from the collection.  By
+//D: global portability assumptions, the number of bits in an id value
+//D: may be safely assumed to be at least as large as an int
+//D: (signed or unsigned), but not necessarily as large as a long.
+
+//D: There is also an option to override the default member type so that it
+//D: can be larger than a id pointer.  Use of this option, however, changes
+//D: the way member values must be passed to or from a collection.  More
+//D: information is given with the MemberType option below.
+
+// (.. This option is not currently implemented for any collection types.)
+
+//M: The MemberType option may be used to declare the type of member which
+//M: a collection contains.  Its value must be an objec having one of the
+//M: ValueType types defined in defobj.  (..Currently no ValueType objects
+//M: are implemented, so MemberType is not supported.)
+
+//M: The member type defaults to the Symbol value Unknown.  Specifying a
+//M: member type has no effect on the collection if the storage size of the
+//M: data type is no larger than a pointer of id type.  The member type,
+//M: however, may be helpful as documentation, and members can be checked
+//M: for conformance to the type as part of debug options.
+
+//M: If the data type has a size greater than id, the collection
+//M: automatically allocates and frees space for the member value whenever
+//M: member values are added or removed.  For such a collection, all member
+//M: values must be passed to the collection not as the value itself, but
+//M: as a pointer to the value (cast to id as necessary).  If a new member
+//M: is being added, the value will be copied to a new member location
+//M: contained within the collection.  Member values returned by the
+//M: collection will be returned as pointers to this internal value, not as
+//M: the value itself.  In the case of member values removed from the
+//M: collection, a nil pointer is returned.
+CREATING
+- (void)setMemberType: aDataType;
+USING
+- getMemberType;
+@end
+</programlisting>
+        </footnote>
+      If you need an array of integers (or floats or chars or whatever
+      else), just use an ordinary C array.  When it is necessary to
+      use strings, integers, or floating point values in a Swarm
+      collection, there are two workarounds.  One is to use
+      typecasting to put those other values inside the space allocated
+      for a pointer to an object.  For various reasons, that approach
+      is not as desirable as the alternative of creating "wrapper
+      objects" that can contain those other types of variables. In
+      short, while typecasting will often work, it is generally a
+      better strategy is to design more carefully the objects you want
+      to keep in Swarm collections and use recommended procedures for
+      retrieving them.
     </para>
 
     <para>
@@ -309,7 +379,7 @@ retrievedObject=[foods atOffset: 6];</programlisting>
       the top row and then it gives back the corresponding object in
       the bottom row.
     </para>
-
+    
     <para> The names of the objects are called "keys" in Swarm (and
       other programming languages). The usage of keys is somewhat
       confusing and difficult for newcomers because the keys should be
@@ -321,13 +391,14 @@ retrievedObject=[foods atOffset: 6];</programlisting>
 
       <para>Here is a simple example.  Suppose we are creating a
         series of objects in a for loop.  In each step, we tell the
-        class Person to create an instance <varname>aFriend</varname>
-        and we add that Person to a <varname>listOfPeople</varname>.
-        Then we tell the class Preferences to create an instance and
-        we insert the instance into a <classname>Map</classname>,
-        using the Person object as the key. Note that the
-        <classname>Map</classname> and <classname>List</classname> are
-        declared before the loop.
+        class Person, which is subclassed from
+        <classname>SwarmObject</classname> to create an instance
+        <varname>aFriend</varname> and we add that Person to a
+        <varname>listOfPeople</varname>.  Then we tell the class
+        Preferences to create an instance and we insert the instance
+        into a <classname>Map</classname>, using the Person object as
+        the key. Note that the <classname>Map</classname> and
+        <classname>List</classname> are declared before the loop.
         </para>
 
       <programlisting>
@@ -380,121 +451,56 @@ id thePreference;
 thePreference = [mapOfPreferences at: aPerson];
 // here you insert some code that does something with the retrieved preference!
 }</programlisting> 
+    </example>
 
-      </example>
-      
     <para>
-      
-      <comment>Many people think that, intuitively, it would be easier
-        if one could just use a character string or something simple
-        as the key. But, alas, it doesn't work that way. [Not quite
-        correct: one can use strings as keys, you just have to be
-        careful how you do it, AKL.  The way it's worded here, sort of
-        implies that this is some kind of inviolable "law of
-        computing", like exceeding the speed of light, or something
-        ;-)]</comment>
-
-      If you really, truly want to use strings as the keys, you can
-      get pretty close if you use the Swarm
-      <classname>String</classname> protocol to create objects that
-      act as "wrappers" for the string names. In the Swarm
-      Documentation, one can find the GridTurtle test programs for the
-      Collections library.  The file <filename>grid3.m</filename>
-      contains an example that does exactly this.  The code in
-      grid3.m<filename></filename> creates a string, equal to the
-      index variable i, and then sets that string into a
-      <classname>String</classname> object, which is in turn used as
-      the key. Of course, there is no reason that the chosen character
-      string had to be a simple number. If you want to, you can create
-      strings for all your friends and wrap them inside
-      <classname>String</classname> objects.
+      This example works because the Map object automatically compares
+      the objects acting as keys to see if they are identical. This is
+      the default compare: method of the class
+      <classname>SwarmObject</classname>. If one wishes to compare the
+      objects by another criterion, then a comparison function can be
+      declared when the Map is created.  Lacking a user-defined
+      comparison function, the Map will always use the
+      <function>compare:</function> that is defined in the key object.
+      Lacking such a function, the program should not run.
     </para>
 
-    <para>What if you want to use the integers themselves as the keys?
-      There are a variety of opinions about this question. One
-      approach, which seems to have had favor early-on in the design
-      of Swarm , is to use type casting to trick the Swarm library
-
-      <comment>[No. This was never a design "feature".  Actually, Roger's
-        original design did include provision for treating other kinds
-        of types other than ids
-        <footnote>
-          <programlisting>
-@deftype MemberType
-(Would be adopted by Collection.)
-//S: Accessors for member type.
-
-//D: The default member type of any collection is the id type defined by
-//D: Objective C.  All messages which add, remove, or access members
-//D: declare their member value with the id type.  None of the collection
-//D: types, however, requires that the member value actually point to a
-//D: valid object.  The member values of any collection may contain an
-//D: arbritrary bit pattern, provided these bits fit in the space available
-//D: within an id pointer.
-
-//D: In the few cases when default operations assume that a member points
-//D: to a valid object, there are alternate ways to avoid these defaults
-//D: and use an arbritrary bit pattern as a member value instead.  When
-//D: using an arbritrary bit pattern, the member value must be cast to or
-//D: from the id type when adding or retrieving it from the collection.  By
-//D: global portability assumptions, the number of bits in an id value
-//D: may be safely assumed to be at least as large as an int
-//D: (signed or unsigned), but not necessarily as large as a long.
-
-//D: There is also an option to override the default member type so that it
-//D: can be larger than a id pointer.  Use of this option, however, changes
-//D: the way member values must be passed to or from a collection.  More
-//D: information is given with the MemberType option below.
-
-// (.. This option is not currently implemented for any collection types.)
-
-//M: The MemberType option may be used to declare the type of member which
-//M: a collection contains.  Its value must be an objec having one of the
-//M: ValueType types defined in defobj.  (..Currently no ValueType objects
-//M: are implemented, so MemberType is not supported.)
-
-//M: The member type defaults to the Symbol value Unknown.  Specifying a
-//M: member type has no effect on the collection if the storage size of the
-//M: data type is no larger than a pointer of id type.  The member type,
-//M: however, may be helpful as documentation, and members can be checked
-//M: for conformance to the type as part of debug options.
-
-//M: If the data type has a size greater than id, the collection
-//M: automatically allocates and frees space for the member value whenever
-//M: member values are added or removed.  For such a collection, all member
-//M: values must be passed to the collection not as the value itself, but
-//M: as a pointer to the value (cast to id as necessary).  If a new member
-//M: is being added, the value will be copied to a new member location
-//M: contained within the collection.  Member values returned by the
-//M: collection will be returned as pointers to this internal value, not as
-//M: the value itself.  In the case of member values removed from the
-//M: collection, a nil pointer is returned.
-CREATING
-- (void)setMemberType: aDataType;
-USING
-- getMemberType;
-@end
-</programlisting>
-        </footnote>
-        
-        however he never implemented it, and furthermore, the value of
-        implementing such features directly in collections is dubious
-        considering the availability of more widely used third-party
-        collections data structure libraries.  So it was never an
-        intentional "trick".  AKL]</comment>
+    <para>
+      When an object that is being used as a key has a
+      <function>compare:</function> function, then the map will use
+      that function to decide if the two objects are equal.  If a
+      comparison function is declared when the map is created, then
+      that comparison function will be used instead. Swarm includes
+      some built-in comparison functions, but, as we will see, the
+      usage of customized functions is quite easy and convenient. If
+      no comparison function is declared, then the fall-back approach
+      checks for a <function>compare:</function> method in the key
+      object itself. Since all objects that are based on Swarm inherit
+      from the defined object class, all such objects have (at least)
+      access to the bare minimum <function>compare:</function> that
+      checks to see if two objects are identical.  Classes from which
+      key objects are created can, of course, create more informative
+      comparison methods.
+    </para>
       
-      , to make it treat an integer <emphasis>as if</emphasis> it were
-      an object.  Without going too deeply into the computer science
-      of the issue, it may not be possible to explain this, but we
-      will take a stab at it.  On many computer systems, a pointer
-      uses the same amount of space as an integer. Hence, it is
-      possible to cast an integer as a pointer to "fool" the compiler,
-      and then to retrieve the value of the integer from the place in
-      memory where the pointer was supposed to be. (Confusing? Many
-      users say, yes!)  Instead of inserting objects into a
-      <classname>Map</classname> with objects as keys, using this
-      casting trick, one can insert objects at integer values that are
-      cast as objects of type id.  For example:
+    <para>Lets begin with the problem of using integers as keys.
+      There are two possible approaches, typecasting and the creation
+      of "integer wrappers."  
+
+      The typecasting approach is used in many Swarm applications. The
+      essence of this approach is to use type casting to trick the
+      Swarm library to make it treat an integer <emphasis>as
+      if</emphasis> it were an object.  Without going too deeply into
+      the computer science of the issue, it may not be possible to
+      explain this, but we will take a stab at it.  On many computer
+      systems, a pointer uses the same amount of space as an
+      integer. Hence, it is possible to cast an integer as a pointer
+      to "fool" the compiler, and then to retrieve the value of the
+      integer from the place in memory where the pointer was supposed
+      to be. (Confusing? Many users say, yes!)  Instead of inserting
+      objects into a <classname>Map</classname> with objects as keys,
+      using this casting trick, one can insert objects at integer
+      values that are cast as objects of type id.  For example:
     </para>
 
       <programlisting>
@@ -504,7 +510,7 @@ USING
       In order for this to work, the <varname>mapOfPreferences</varname> has to be
       created so that it knows integers are going to be passed through
       in this way. At create time, the <classname>Map</classname> must
-      be told to use the built-in compare function that will uncast
+      be told to use the built-in comparison function that will uncast
       the pointers and compare them.
 
       <programlisting>
@@ -516,21 +522,18 @@ mapOfPreferences = [mapOfPreferences createEnd];</programlisting>
       this appoach.
     </para>
 
-    <para> This "casting" approach to creating an index has some
+    <para> This "casting" approach to creating a keys has some
       serious shortcomings.  Most importantly, it is severely
-      nonportable.  Code written in this way on a Linux system will
+      nonportable.  Code written in this way on a Linux system might
       not work on a DEC Unix system. Why?  On DEC Unix, an integer and
-      a pointer do not have the same size.  As a result, the program
-      will crash. </para>
+      a pointer do not have the same size.</para>
 
     <para>What is the alternative if one wants to enter objects into a
-      <classname>Map</classname> using integers as keys?  Readers
-      might have guessed the answer from our discussion of Swarm
-      <classname>String</classname>s as wrappers around character
-      strings.  The answer is: create an "integer wrapper" class.
-      This integer wrapper class can store and retrieve the values of
-      integers, and these objects can be used as keys in Swarm
-      <classname>Map</classname>s. 
+      <classname>Map</classname> using integers as keys? The answer
+      is: create an "integer wrapper" class.  This integer wrapper
+      can store and retrieve the values of integers, and these
+      objects can be used as keys in Swarm
+      <classname>Map</classname>s.
     </para>
 
     <para>
@@ -575,7 +578,7 @@ return value;
       what it is searching for.  In the example, the comparison
       function is called <function>compareIntegerObjects (
       )</function> and it takes two objects, and it then retrieves the
-      value from each, and returns the difference of the two. When 0
+      value from each object, and returns the difference of the two. When 0
       is returned, it is treated as a "match". The following code snip
       creates 50 <classname>Preference</classname> objects and it
       creates an <classname>Integer</classname> object for each one.
@@ -640,6 +643,45 @@ printf("The preference Object gives this output \n");
       macro definitions that can be used to make working with the
       <classname>Integer</classname> class more elegant (and less
       tedious).
+    </para>
+
+    <para>
+      The same kind of approaches can be used if one wants to use
+      strings as keys in a Map.  The easiest way to use strings as the
+      keys is to use the Swarm <classname>String</classname> protocol
+      to create objects that act as "wrappers" for the string
+      names. In the Swarm Documentation, one can find the GridTurtle
+      test programs for the Collections library.  The file
+      <filename>grid3.m</filename> contains an example that does
+      exactly this.  The code in <filename>grid3.m</filename> creates
+      a string, equal to the index variable i, and then sets that
+      string into a <classname>String</classname> object, which is in
+      turn used as the key. Of course, there is no reason that the
+      chosen character string had to be a simple number. If you want
+      to, you can create strings for all your friends and wrap them
+      inside <classname>String</classname> objects.
+    </para>
+
+    <para>
+      Unless you define a comparison function, the String objects are
+      compared according to the <function>compare:</function> method
+      that is defined for Swarm <classname>String</classname>s.  This
+      function is defined in the Swarm library in the file
+      <filename>StringObject.m</filename>.  The comparison uses the C
+      function strcmp to find out if the object's own string is the
+      same as the string retrieved from the other object
+      (which is called "aString"):
+    </para>
+<programlisting>
+- (int)compare: aString
+{
+  return strcmp (string, ((String_c *) aString)->string);
+}
+</programlisting>
+    <para>
+      As in the case of integers, the built-in compare: method can be
+      over-ridden by a customized comparison function declared by the
+      user.
     </para>
 
   </sect1>  

@@ -1,3 +1,7 @@
+1999-09-17  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user3.02.sgml (desiredPreferenceObject): Did a major rewrite on Map keys
+
 1999-09-16  Alex Lancaster  <alex@santafe.edu>
 
 	* user3.01.sgml, user3.02.sgml, user3.03.sgml: Normalize SGML, add
