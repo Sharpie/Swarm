@@ -842,14 +842,16 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         
         [globalTkInterp eval: "bind %s <Configure> {\n"
                         "uplevel #0 {\n"
+"puts \"Configure %s\"\n"
                         "set obscured yes\n"
-                        "}\n}\n", widgetName];
+                        "}\n}\n", widgetName, widgetName];
 
         [globalTkInterp eval: "bind %s <Visibility> {\n"
                         "uplevel #0 {\n"
+"puts \"%%s %s\"\n"
                         "if {\"%%s\" != \"VisibilityUnobscured\"} {\n"
                         "set obscured yes\n"
-                        "}\n}\n}\n", widgetName];
+                        "}\n}\n}\n", widgetName, widgetName];
 
         attr.override_redirect = True;
         if (!XChangeWindowAttributes (display, topWindow,
@@ -869,9 +871,14 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         
       retry:
         if (obscured)
+{
+        [globalTkInterp eval: "uplevel #0 {\n"
+                        "set obscured no\n"
+                        "}\n"];
           for (i = 0; i < overlapCount; i++)
             if (!XUnmapWindow (display, overlapWindows[i]))
               abort ();
+}
         
         Tk_RestackWindow (tkwin, Above, NULL);
         keep_inside_screen (tkwin, window);
