@@ -1,3 +1,12 @@
+1999-07-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ZoomRaster.m ([ZoomRaster -setZoomFactor:]): When intended
+	physical geometry differs from actual geometry, tell the 
+	window manager to force it.
+	([ZoomRaster -handleConfigureWidth:Height:]): Compute a new
+	zoom based on the max {X,Y} physical/logical ratio.
+	([ZoomRaster -setWidth:Height:]): Disable gridding.
+
 1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* TkExtra.m (ensureBltSupportFiles): Guess lib/blt2.4 instead

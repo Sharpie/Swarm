@@ -79,10 +79,21 @@ PHASE(Using)
 #ifdef REDRAWONZOOM
   oldImage = XGetImage (display, pm, 0, 0, width, height, AllPlanes, XYPixmap);
 #endif
-  
+
   // zoom ourselves
   zoomFactor = z;
-  [self setWidth: logicalWidth Height: logicalHeight];
+  if ([super getWidth] != logicalWidth * zoomFactor
+      || [super getHeight] != logicalHeight * zoomFactor)
+    {
+      char buf[40];
+
+      [self setWidth: logicalWidth Height: logicalHeight];
+      sprintf (buf,
+               "%ux%u+%u+%u",
+               logicalWidth * zoomFactor, logicalHeight * zoomFactor,
+               [self getX], [self getY]);
+      [self setWindowGeometry: buf];
+    }
 
 #ifdef REDRAWONZOOM
   // now build a new image from the data in the old one.
@@ -108,30 +119,14 @@ PHASE(Using)
 // note that they are passed to us in absolute values, not gridded.
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
-  unsigned newZoom;
-
-  newZoom = newHeight / logicalHeight;
-  while (newZoom != newWidth / logicalWidth)
-    {
-      // In this case, assume that Windows refused to make the window
-      // that narrow.  Retry.
-      if (newWidth > newHeight)
-        newWidth = newHeight;  
-      else if (newHeight > newWidth)
-        // Still not right?  Try the width.
-        newZoom = newWidth / logicalWidth;
-      else
-        raiseEvent (WindowUsage,
-                    "nonsquare zoom given (nz:%u nh:%lu nw:%u lh: %u lw:%u)\n",
-                    newZoom, newHeight, newWidth, logicalHeight, logicalWidth);  
-    }
+  unsigned newZoomH = newHeight / logicalHeight;
+  unsigned newZoomW = newWidth / logicalWidth;
+  unsigned newZoom = newZoomH > newZoomW ? newZoomH : newZoomW;
   
-  // This check isn't just an optimization, it prevents an infinite
-  // recursion: [self setZoomFactor] reconfigures the widget, which in turn
-  // generates a configure event.
-  if (newZoom != zoomFactor)
-    [self setZoomFactor: newZoom];
-
+  if (newZoom == 0)
+    newZoom = 1;
+  
+  [self setZoomFactor: newZoom];
   return self;
 }
 
@@ -151,6 +146,7 @@ PHASE(Using)
 
   [super setWidth: newWidth * zoomFactor Height: newHeight * zoomFactor];
 
+#if 0
   // Set up gridded geometry so this is resizeable. Only works if
   // the parent is a toplevel.
   [globalTkInterp eval: "wm grid %s %u %u %u %u; wm aspect %s %u %u %u %u",
@@ -160,7 +156,7 @@ PHASE(Using)
                   [parent getWidgetName],
                   logicalWidth, logicalHeight,
                   logicalWidth, logicalHeight];
-
+#endif
   return self;
 }
 
