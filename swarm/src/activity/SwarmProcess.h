@@ -21,27 +21,27 @@ Library:      activity
   SwarmActivity_c  *activity;     // activity running swarm subactivities
 }
 /*** Zone pass-through methods (manually inserted) ***/
-- (int) getPageSize;
+- (int)getPageSize;
 - allocIVars: aClass;
 - copyIVars: anObject;
-- (void) freeIVars: anObject;
+- (void)freeIVars: anObject;
 - allocIVarsComponent: aClass;
 - copyIVarsComponent: anObject;
-- (void) freeIVarsComponent: anObject;
+- (void)freeIVarsComponent: anObject;
 - getComponentZone;
-- (void *) alloc: (size_t)size;
+- (void *)alloc: (size_t)size;
 - (void) free: (void *) aBlock;
-- (void *) allocBlock: (size_t)size;
-- (void) freeBlock: (void *) aBlock blockSize: (size_t)size;
+- (void *)allocBlock: (size_t)size;
+- (void)freeBlock: (void *)aBlock blockSize: (size_t)size;
 - getPopulation;
 
 /*** methods in CSwarmProcess (inserted from .m file by m2h) ***/
 + createBegin: aZone;
-- (void) setSynchronizationType: aScheduleType;
-- (void) setInternalZoneType: internalZoneType;
-- (void) setInternalTimeMultiplier: (timeval_t)internalTimeMultiplier;
+- (void)setSynchronizationType: aScheduleType;
+- (void)setInternalZoneType: internalZoneType;
+- (void)setInternalTimeMultiplier: (timeval_t)internalTimeMultiplier;
 - createEnd;
-- (timeval_t) getInternalTimeMultiplier;
+- (timeval_t)getInternalTimeMultiplier;
 - getInternalZone;
 - getActivity;
 - getSwarmActivity;
@@ -50,8 +50,8 @@ Library:      activity
 - at: (timeval_t)tVal activate: anActionType;
 - at: (int)timebase : (timeval_t)tVal activate: anActionType;
 - activateIn: swarmContext;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
-- (void) _performPlan_;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
+- (void)_performPlan_;
 @end
 
 //

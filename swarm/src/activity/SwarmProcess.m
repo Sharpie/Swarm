@@ -13,8 +13,7 @@ Library:      activity
 #import <activity/Schedule.h>
 #import <defobj/defalloc.h>
 
-extern id  _activity_swarmSyncType;
-
+extern id _activity_swarmSyncType;
 
 @implementation CSwarmProcess
 
@@ -22,12 +21,12 @@ PHASE(Creating)
 
 + createBegin: aZone
 {
-  CSwarmProcess  *newSwarm;
+  CSwarmProcess *newSwarm;
 
   newSwarm = [aZone allocIVars: self];
-  setMappedAlloc( newSwarm );
+  setMappedAlloc (newSwarm);
   newSwarm->internalZone = Zone;
-  setClass( newSwarm, self );
+  setClass (newSwarm, self);
   return newSwarm;
 }
 
@@ -43,20 +42,22 @@ PHASE(Creating)
 
 - (void) setInternalTimeMultiplier: (timeval_t)internalTimeMultiplier
 {
-  raiseEvent( NotImplemented, nil );
+  raiseEvent (NotImplemented, nil);
 }
 
 - createEnd
 {
-  if ( createByMessageToCopy( self, createEnd )  ) return self;
+  if (createByMessageToCopy( self, createEnd))
+    return self;
 
-  if ( internalZone )
-    internalZone = [internalZone create: getCZone( getZone( self ) )];
+  if (internalZone)
+    internalZone = [internalZone create: getCZone (getZone (self))];
 
-  if ( ! syncType )
+  if (!syncType)
     syncType = _activity_swarmSyncType;
 
-  if ( getClass( self ) == SwarmProcess ) setNextPhase( self );
+  if (getClass (self) == SwarmProcess)
+    setNextPhase (self);
   return self;
 }
 
@@ -65,7 +66,7 @@ PHASE(Using)
 //
 // getInternalTimeMultiplier -- return time multiplier for internal time values
 //
-- (timeval_t) getInternalTimeMultiplier
+- (timeval_t)getInternalTimeMultiplier
 {
   return 1;
 }
@@ -118,7 +119,8 @@ PHASE(Using)
 //
 - at: (timeval_t)tVal activate: anActionType
 {
-  raiseEvent( NotImplemented, nil); exit(0);
+  raiseEvent (NotImplemented, nil);
+  exit (0);
 }
 
 //
@@ -127,19 +129,22 @@ PHASE(Using)
 //
 - at: (int)timebase : (timeval_t)tVal activate: anActionType
 {
-  raiseEvent( NotImplemented, nil); exit(0);
+  raiseEvent (NotImplemented, nil);
+  exit (0);
 }
 
 //
 // notifySwarm() -- function to notify swarm on completion of its activity
 //
-static void notifySwarm( id anObject, id realloc, CSwarmProcess *swarm )
+static void
+notifySwarm (id anObject, id realloc, CSwarmProcess *swarm)
 {
-  if ( ! realloc ) {
-    swarm->activity    = nil;
-  } else {
-    // (no reallocation implemented yet)
-  }
+  if (!realloc )
+    swarm->activity = nil;
+  else
+    {
+      // (no reallocation implemented yet)
+    }
 }
 
 //
@@ -148,11 +153,15 @@ static void notifySwarm( id anObject, id realloc, CSwarmProcess *swarm )
 static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
                                id unusedArg )
 {
-  if ( ! realloc ) {
-    if ( swarm->activity ) [swarm->activity drop];
-  } else {
-    // (no reallocation implemented yet)
-  }
+  if (!realloc)
+    {
+      if (swarm->activity)
+        [swarm->activity drop];
+    }
+  else
+    {
+      // (no reallocation implemented yet)
+    }
 }
 
 //
@@ -160,36 +169,37 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 - activateIn: swarmContext
 {
-  id               activityZone, mergeSchedule;
+  id activityZone, mergeSchedule;
 
   // make sure that not already activated
 
-  if ( activity )
-    raiseEvent( InvalidOperation,
-"> Swarm has already been activated.  A swarm cannot be activated more than\n"
-"> once.\n" );
-
+  if (activity)
+    raiseEvent (InvalidOperation,
+                "> Swarm has already been activated.  A swarm cannot be activated more than\n"
+                "> once.\n");
+  
   // get zone in which activities to be created
-
-  activityZone = ( _activity_current ?
-    getZone( (Activity_c *)_activity_current ) : _activity_zone );
-
+  
+  activityZone = (_activity_current
+                  ? getZone ((Activity_c *) _activity_current)
+                  : _activity_zone);
+  
   // create a special schedule to merge subschedule activities
-
+  
   mergeSchedule = [syncType create: [activityZone getComponentZone]];
-
+  
   // create a new swarm activity to process the dynamic merge schedule
-
+  
   activity = [mergeSchedule _activateIn_: swarmContext
-               : id_SwarmActivity_c : id_ScheduleIndex_c];
+                            : id_SwarmActivity_c : id_ScheduleIndex_c];
   activity->swarm = self;
-
+  
   // arrange to remove local activity reference on completion of activity
-
+  
   [activity addRef: (notify_t)notifySwarm withArgument: self];
-
+  
   // arrange to drop activity on drop of swarm object
-
+  
   [self addRef: (notify_t)dropSwarmActivity withArgument: nil];
   return activity;
 }
@@ -199,15 +209,16 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 - (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  if ( internalZone ) mapObject( mapalloc, internalZone );
+  if (internalZone)
+    mapObject (mapalloc, internalZone);
 }
 
 //
 // _performPlan_ -- create an activity to run plan under the current activity
 //
-- (void) _performPlan_
+- (void)_performPlan_
 {
-  Activity_c  *newActivity;
+  Activity_c *newActivity;
 
   newActivity = [self activateIn: nil];
   newActivity->ownerActivity = _activity_current;
@@ -226,20 +237,20 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 { if ( internalZone ) [internalZone msg]; \
   else raiseEvent( InvalidSwarmZone, 0 ); }
 
-- (int) getPageSize			ZMSG_R( getPageSize )
-- allocIVars: aClass			ZMSG_R( allocIVars: aClass )
-- copyIVars: anObject 			ZMSG_R( copyIVars: anObject )
-- (void) freeIVars: anObject		ZMSG_V( freeIVars: anObject )
-- allocIVarsComponent: aClass		ZMSG_R( allocIVarsComponent: aClass )
-- copyIVarsComponent: anObject		ZMSG_R( copyIVarsComponent: anObject )
-- (void) freeIVarsComponent: anObject	ZMSG_V( freeIVarsComponent: anObject )
-- getComponentZone			ZMSG_R( getComponentZone )
-- (void *) alloc: (size_t)size		ZMSG_R( alloc: size )
-- (void) free: (void *) aBlock		ZMSG_V( free: aBlock)
-- (void *) allocBlock: (size_t)size	ZMSG_R( allocBlock: size )
-- (void) freeBlock: (void *)aBlock blockSize: (size_t)size
-				ZMSG_V( freeBlock: aBlock blockSize: size )
-- getPopulation				ZMSG_R( getPopulation )
+- (int)getPageSize                   ZMSG_R(getPageSize)
+- allocIVars: aClass                 ZMSG_R(allocIVars: aClass)
+- copyIVars: anObject                ZMSG_R(copyIVars: anObject)
+- (void)freeIVars: anObject          ZMSG_V(freeIVars: anObject)
+- allocIVarsComponent: aClass        ZMSG_R(allocIVarsComponent: aClass)
+- copyIVarsComponent: anObject       ZMSG_R(copyIVarsComponent: anObject)
+- (void)freeIVarsComponent: anObject ZMSG_V(freeIVarsComponent: anObject)
+- getComponentZone                   ZMSG_R(getComponentZone)
+- (void *)alloc: (size_t)size        ZMSG_R(alloc: size)
+- (void) free: (void *) aBlock       ZMSG_V(free: aBlock)
+- (void *)allocBlock: (size_t)size   ZMSG_R(allocBlock: size)
+- (void)freeBlock: (void *)aBlock blockSize: (size_t)size
+                                     ZMSG_V( freeBlock: aBlock blockSize: size)
+- getPopulation                      ZMSG_R( getPopulation)
 
 @end
 
@@ -249,30 +260,34 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 // terminate -- terminate activity and all its subactivities
 //
-- (void) terminate
+- (void)terminate
 {
-  id             index, groupIndex;
-  ActionMerge_c  *nextAction, *groupAction;
+  id index, groupIndex;
+  ActionMerge_c *nextAction, *groupAction;
 
   // terminate all pending subactivities in the merge schedule
 
-  index = [(id)((Index_any *)currentIndex)->collection begin: scratchZone];
-  while ( (nextAction = [index next]) ) {
-    if ( getClass( nextAction ) == id_ActionMerge_c ) {
-      [nextAction->subactivity terminate];
-    } else {  // concurrent group
-      groupIndex = [(id)((ActionConcurrent_c *)nextAction)->concurrentGroup
-                      begin: scratchZone];
-      while ( (groupAction = [groupIndex next]) )
-	[groupAction->subactivity terminate];
-      [groupIndex drop];
+  index = [(id) ((Index_any *) currentIndex)->collection begin: scratchZone];
+  while ((nextAction = [index next]))
+    {
+      if (getClass (nextAction) == id_ActionMerge_c)
+        [nextAction->subactivity terminate];
+      else
+        {
+          // concurrent group
+          groupIndex = [(id) ((ActionConcurrent_c *) nextAction)->concurrentGroup
+                             begin: scratchZone];
+          while ((groupAction = [groupIndex next]))
+            [groupAction->subactivity terminate];
+          [groupIndex drop];
+        }
     }
-  }
   [index drop];
-
+  
   // terminate running subactivities also (not in merge schedule when active)
-
-  if ( currentSubactivity ) [currentSubactivity terminate];
+  
+  if (currentSubactivity)
+    [currentSubactivity terminate];
   status = Terminated;
 }
 
@@ -281,7 +296,7 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 - getSubactivities
 {
-  return ((Index_any *)currentIndex)->collection;
+  return ((Index_any *) currentIndex)->collection;
 }
 
 //
@@ -297,7 +312,7 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 - getSynchronizationSchedule
 {
-  return ((Index_any *)currentIndex)->collection;
+  return ((Index_any *) currentIndex)->collection;
 }
 
 //
@@ -305,11 +320,11 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 - (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  id  mergeSchedule;
+  id mergeSchedule;
 
-  mergeSchedule = ((ScheduleIndex_c *)currentIndex)->collection;
+  mergeSchedule = ((ScheduleIndex_c *) currentIndex)->collection;
   [super mapAllocations: mapalloc];
-  mapObject( mapalloc, mergeSchedule );
+  mapObject (mapalloc, mergeSchedule);
 }
 
 @end
@@ -324,13 +339,13 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 // _performAction_: -- perform single step of an activity holding for merge
 //
-- (void) _performAction_: callerActivity
+- (void)_performAction_: callerActivity
 {
   //
   // Remove merge action from whatever activity is performing it (either a
   // swarm activity or a concurrent group activity within a swarm).
   //
-  [((Activity_c *)_activity_current)->currentIndex remove];
+  [((Activity_c *) _activity_current)->currentIndex remove];
 
   //
   // Return next pending subschedule activity to be run under current owner
@@ -352,22 +367,22 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 //
 // mapAllocations: -- standard method to map internal allocations
 //
-- (void) mapAllocations: (mapalloc_t)mapalloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
   //
   // mergeAction = nil -- special hack to break circular mapping for the
   // specific case of drop until a more general approach is resolved
   //
   subactivity->mergeAction = nil;
-  mapObject( mapalloc, subactivity );
+  mapObject (mapalloc, subactivity);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
-  char  buffer[100];
+  char buffer[100];
 
   [outputCharStream catC: "["];
-  _obj_formatIDString( buffer, collectionOfActions );
+  _obj_formatIDString (buffer, collectionOfActions);
   [outputCharStream catC: buffer];
   [outputCharStream catC: " (merge into swarm)]\n"];
 }
