@@ -294,7 +294,7 @@ indexAtOffset (Collection_any *self, int offset)
       else
         {
           id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
-                                   setSourceClass: [[self getFirst] class]]
+                                   setClass: [[self getFirst] class]]
                                   createEnd];
           
           id hdf5ObjDataset =
@@ -302,7 +302,7 @@ indexAtOffset (Collection_any *self, int offset)
                   setName: [hdf5Obj getName]]
                  setParent: hdf5Obj]
                 setCreateFlag: YES]
-               setRecordType: hdf5CompoundType count: [self getCount]]
+               setCompoundType: hdf5CompoundType count: [self getCount]]
               createEnd];
           
           [hdf5ObjDataset storeTypeName: [self getTypeName]];
@@ -320,6 +320,7 @@ indexAtOffset (Collection_any *self, int offset)
               }
             [li drop];
           }
+          [hdf5ObjDataset writeRowNames];
           [hdf5ObjDataset drop];
           [hdf5CompoundType drop];
         }

@@ -195,7 +195,6 @@ PHASE(Using)
 
 - hdf5In: hdf5Obj
 {
-  abort ();
   return self;
 }
 

@@ -657,8 +657,9 @@ PHASE(Using)
       else
         {
           id aZone = [self getZone];
+          Class memberProto = [self getFirst];
           id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
-                                   setSourceClass: [[self getFirst] class]]
+                                   setClass: [memberProto class]]
                                   createEnd];
           size_t maxlen;
           id <MapIndex> mi = [self begin: scratchZone];
@@ -689,12 +690,12 @@ PHASE(Using)
                      setName: [hdf5Obj getName]]
                     setCreateFlag: YES]
                    setParent: hdf5Obj]
-                  setRecordType: hdf5CompoundType count: [self getCount]]
+                  setCompoundType: hdf5CompoundType count: [self getCount]]
                  setRowNameLength: maxlen]
                 createEnd];
             id member;
 
-            [hdf5ObjDataset storeTypeName: [self getTypeName]];
+            [hdf5ObjDataset storeTypeName: [memberProto getTypeName]];
             [mi setLoc: Start];
             while ((member = [mi next: &key]))
               {
@@ -711,6 +712,7 @@ PHASE(Using)
                 [hdf5ObjDataset selectRecord: rn];
                 [member hdf5Out: hdf5ObjDataset deep: NO];
               }
+            [hdf5ObjDataset writeRowNames];
             [hdf5ObjDataset drop];
           }
           [mi drop];
