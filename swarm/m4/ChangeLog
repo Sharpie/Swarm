@@ -1,6 +1,7 @@
 1999-03-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* acjdk.m4: Set JAVAC if it is missing, and jdkdir is not.
+	* acjdk.m4: Set JAVAC if javac is missing, and jdkdir is not.
+	Likewise for jar.
 
 	* Makefile.am (EXTRA_DIST): Add acwarnflags.m4.
 
