@@ -124,6 +124,8 @@ else
       JAVACMD='${jdkdir}/libexec/Kaffe'
     elif test -x "${jdkdir}/lib/kaffe/Kaffe"; then
       JAVACMD='${jdkdir}/lib/kaffe/Kaffe'
+    elif test -x "${jdkdir}/lib/kaffe/bin/Kaffe"; then
+      JAVACMD='${jdkdir}/lib/kaffe/bin/Kaffe'
     else
       AC_MSG_ERROR([Cannot find Kaffe executable])
     fi
