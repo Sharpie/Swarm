@@ -12,10 +12,12 @@
 #define __ptr_t void *
 #endif
 
-void * xmalloc (size_t size);
-void * xmalloc_atomic (size_t size);
-void * xcalloc (size_t nmemb, size_t size);
-void * xrealloc (void *buf, size_t size);
+/* Also expected to be declared by stdlib.h are atoi, getenv, qsort. *
+
+void *xmalloc (size_t size);
+void *xmalloc_atomic (size_t size);
+void *xcalloc (size_t nmemb, size_t size);
+void *xrealloc (void *buf, size_t size);
 void xfree (void *buf);
 
 #ifndef HAVE_STRDUP
