@@ -113,7 +113,7 @@ PHASE(Creating)
 
   javaInfo = [_obj_GCFixedRootZone allocBlock: JAVAINFO_SIZE];
   java_fieldObject = 0;
-  java_classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+  java_classObject = SD_JAVA_FIND_CLASS_JAVA (probedClass);
   if (!java_classObject)
     raiseEvent (SourceMessage,
                 "Java class to be probed cannot be found.\n");      

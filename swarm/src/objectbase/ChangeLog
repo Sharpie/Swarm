@@ -1,3 +1,8 @@
+2001-08-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m ([VarProbe -_setupJavaVarProbe_]): Use
+	SD_JAVA_FIND_CLASS_JAVA instead of SD_FIND_OBJECT_JAVA.
+
 2001-08-01  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
 	* MessageProbe.h: Don't include FCall.h (avoid its dependencies).
