@@ -129,7 +129,7 @@
   anIndex = [aProbeMap begin: [self getZone]];
   while ((aProbe = [anIndex next]))
     if ([aProbe isKindOf: [VarProbe class]])
-      if ([aProbe isInteractive])
+      if ([aProbe getInteractiveFlag])
         {
           [theFileObject putString: [aProbe getProbedVariable]];
           [theFileObject putTab];
