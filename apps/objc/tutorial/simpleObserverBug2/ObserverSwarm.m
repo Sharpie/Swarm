@@ -123,7 +123,7 @@
   [bugDisplay setDisplayMessage: M(drawSelfOn:)];   // draw method
   bugDisplay = [bugDisplay createEnd];
 
-  // Also, tell the world raster to send mouse clicks to the heatbugDisplay
+  // Also, tell the world raster to send mouse clicks to the bugDisplay
   // this allows the user to right-click on the display to probe the bugs.
 
   [worldRaster setButton: ButtonRight
