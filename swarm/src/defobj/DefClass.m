@@ -63,7 +63,7 @@ _obj_initMethodInterfaces (Class_s *class)
         {
           if (mnext < methods->method_list
               || strncmp ((mname =
-                           (const char *)sel_get_name (mnext->method_name)),
+                           (const char *) sel_get_name (mnext->method_name)),
                           "_I_", 3 ) == 0)
             {
               if (count)
@@ -72,11 +72,12 @@ _obj_initMethodInterfaces (Class_s *class)
                   mdefs->next = (methodDefs_t)classData->metaobjects;
                   classData->metaobjects = (id)mdefs;
                   mdefs->interfaceID = interfaceID;
-                  mdefs->firstEntry  = mnext + 1;
-                  mdefs->count       = count;
-                  if ( mnext < methods->method_list ) break;
+                  mdefs->firstEntry = mnext + 1;
+                  mdefs->count = count;
+                  if (mnext < methods->method_list)
+                    break;
                 }
-              interfaceID = mnext->method_imp( nil, (SEL)0 );
+              interfaceID = mnext->method_imp (nil, (SEL)0);
               count = 0;
             }
           else
@@ -119,13 +120,13 @@ PHASE(CreatingOnly)
   superclass = aClass;
 }
 
-- (void) setDefiningClass: aClass
+- (void)setDefiningClass: aClass
 {
   definingClass = aClass;
-  info          = ((Class_s *)aClass)->info;
-  instanceSize  = ((Class_s *)aClass)->instanceSize;
-  ivarList      = ((Class_s *)aClass)->ivarList;
-  methodList    = ((Class_s *)aClass)->methodList;
+  info = ((Class_s *) aClass)->info;
+  instanceSize = ((Class_s *) aClass)->instanceSize;
+  ivarList = ((Class_s *) aClass)->ivarList;
+  methodList = ((Class_s *) aClass)->methodList;
 }
 
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod
@@ -136,10 +137,10 @@ PHASE(CreatingOnly)
         raiseEvent (InvalidCombination,
                     "must specify superclass before adding methods to a created class\n");
       
-      dtable = sarray_lazy_copy( superclass->dtable );
+      dtable = sarray_lazy_copy (superclass->dtable);
     }
   
-  sarray_at_put_safe (dtable, (size_t)aSel->sel_id, aMethod);
+  sarray_at_put_safe (dtable, (size_t) aSel->sel_id, aMethod);
 }
 
 - createEnd
