@@ -1,5 +1,7 @@
 2003-02-17  Alex Lancaster  <alex@swarm.org>
 
+	* swarmdemos.spec.in: Remove, obsolete.
+
 	* hdf5.spec: Add from Paul Johnson's most recent SRPMS for hdf5.
 
 	* hdf5-1.2.1.spec: Remove file, replace with hdf5.spec.
