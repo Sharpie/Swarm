@@ -1,3 +1,8 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ScheduleItem.m ([ScheduleItem -_createItem_]): Use getDisplayName
+	instead of getIdName.
+
 1999-08-24    <mgd@HELEN>
 
 	* TkExtra.m (ensureBltSupportFiles): Use share/blt2.4 instead of

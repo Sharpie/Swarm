@@ -324,9 +324,10 @@ PHASE(Using)
           [label setParent: canvas];
           [label setTargetWidget: self];
           label = [label createEnd];
-          [label setText: [action getIdName]];
+          [label setText: [action getDisplayName]];
           [canvas addWidget: label
-                  X: xoffset + ENTRYOFFSET Y: ypos
+                  X: xoffset + ENTRYOFFSET
+                  Y: ypos
                   centerFlag: YES];
           [label addRef: canvasFrameDestroyNotify withArgument: canvas];
         }
