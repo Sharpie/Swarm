@@ -1,39 +1,89 @@
 <BOOKINFO>
-
-  <TITLE>Swarm User Guide</TITLE>
-
+ <TITLE>Swarm User Guide</TITLE>
+ 
 <!--
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
 -->
 
-  <CORPAUTHOR>&orgname;</CORPAUTHOR>
+  <LEGALNOTICE> 
+ 
+   <TITLE>Licence terms for Swarm documentation</TITLE> 
 
-<!--
+    <PARA>
+    Reproduction of this documentation requires prior copyright
+    release in writing, from the copyright holder (the &orgname;);
+    <EMPHASIS>except</EMPHASIS> for reasonable personal use or
+    educational purposes.  Reproduction for mass distribution or
+    profit, is not permitted.  The SGML source and associated utilites
+    needed to generate this documentation can be found in the package:
+    <ULINK
+    url="ftp://ftp.santafe.edu/pub/swarm/swarmguide-0.1.tar.gz">swarmguide-0.1.tar.gz</ULINK>.
+    Permission to use, copy, modify and distribute both the swarmdocs
+    package <EMPHASIS>and</EMPHASIS> the documentation it generates
+    (that is the HTML, TeX, dvi, PostScript and RTF output), must be
+    in accordance with the <ULINK
+    url="http://www.gnu.org/copyleft/gpl.html">GNU Public
+    Licence</ULINK> (GPL). </PARA> 
+
+  </LEGALNOTICE>
+
   <BOOKBIBLIO>
-    &bibliodata;
-  </BOOKBIBLIO>
--->
 
-  <ABSTRACT>
+    <COPYRIGHT><YEAR>1999</YEAR><HOLDER>&orgname;</HOLDER></COPYRIGHT>
 
-    <TITLE>A tutorial introduction to the Swarm Simulation System</TITLE>
-    
-    <PARA>This document is based on the Swarm Tutorial presented at
-          Swarmfest 1998 by Benedikt Stefansson of UCLA School of
-          Economics.
-    </PARA>
-    
-    <PARA>The tutorial is presented in three parts: an Introduction to
-          Swarm, a SimpleBug demo, and the Swarm Libraries.  The
-          Introduction to Swarm covers the underpinnings and
-          background information necessary to understand Swarm.  The
-          SimpleBug demo is a walkthrough of converting a simple C
-          code snippet into a Swarm application. Finally, the Swarm
-          Libraries is an in depth look at the libraries that comprise
-          the Swarm Simulation System.
-    </PARA>
+    <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
 
-  </ABSTRACT>
+    <AUTHORGROUP>
+      
+      <AUTHOR>
+        <FIRSTNAME>Paul</FIRSTNAME><SURNAME>Johnson</SURNAME>
+        <AFFILIATION>
+          <ORGNAME>University of Kansas</ORGNAME>
+          <ORGDIV>Department of Political Science</ORGDIV>
+          <ADDRESS><EMAIL>pauljohn@ukans.edu</EMAIL></ADDRESS>
+        </AFFILIATION>
+      </AUTHOR>
+
+      <AUTHOR>
+        <FIRSTNAME>Alex</FIRSTNAME><SURNAME>Lancaster</SURNAME>
+        <AFFILIATION>
+          <ORGNAME>&orgname;</ORGNAME>
+          <ORGDIV>&corpauthor;</ORGDIV>
+          <ADDRESS><EMAIL>alex@santafe.edu</EMAIL></ADDRESS>
+        </AFFILIATION>
+      </AUTHOR>
+      
+      <AUTHOR>
+        <FIRSTNAME>Benedikt</FIRSTNAME><SURNAME>Stefansson</SURNAME>
+        <AFFILIATION>
+          <ORGNAME>University of California</ORGNAME>
+          <ORGDIV>Department of Economics</ORGDIV>
+          <ADDRESS><EMAIL>benedikt@ucla.edu</EMAIL></ADDRESS>
+        </AFFILIATION>
+      </AUTHOR>
+
+    </AUTHORGROUP>
+
+    <ABSTRACT>
+
+      <TITLE>A tutorial introduction to the Swarm Simulation System</TITLE>
+      
+      <PARA> This document is based on the Swarm Tutorial presented at
+        Swarmfest 1998 by Benedikt Stefansson of UCLA School of
+        Economics. The tutorial is presented in three parts: an
+        Introduction to Swarm, a SimpleBug demo, and the Swarm
+        Libraries.  The Introduction to Swarm covers the
+        underpinnings and background information necessary to
+        understand Swarm.  The SimpleBug demo is a walkthrough of
+        converting a simple C code snippet into a Swarm
+        application. Finally, the Swarm Libraries is an in depth
+        look at the libraries that comprise the Swarm Simulation
+        System.
+      </PARA>
+
+    </ABSTRACT>
+
+  </BOOKBIBLIO> 
   
 </BOOKINFO>
 
