@@ -1,4 +1,5 @@
 <PARTINTRO>
+  <title>Simtoolsgui Introduction</title>
 
   <SIDEBAR>
     <TITLE>Overview</TITLE>
@@ -12,8 +13,8 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.SIMTOOLSGUI.SGML.SECT1.DEPEND">
-    <TITLE>Dependencies</TITLE> 
+  <SECT1 xreflabel="Simtoolsgui Dependencies" ID="SWARM.SIMTOOLSGUI.SGML.SECT1.DEPEND">
+        <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
     &lt;simtoolsgui.h&gt;:
@@ -27,8 +28,8 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SIMTOOLSGUI.SGML.SECT1.COMPAT">
-    <TITLE>Compatibility</TITLE>
+  <SECT1 xreflabel="Simtoolsgui Compatibility" ID="SWARM.SIMTOOLSGUI.SGML.SECT1.COMPAT">
+        <TITLE>Compatibility</TITLE>
 
     <ITEMIZEDLIST>
       <LISTITEM>
@@ -46,36 +47,36 @@
 
 <!--
 
-  <SECT1 ID="SWARM.SIMTOOLSGUI.SGML.SECT1.USAGE">
-    <TITLE>Usage Guide</TITLE>
+  <SECT1 xreflabel="Simtoolsgui Usage Guide" ID="SWARM.SIMTOOLSGUI.SGML.SECT1.USAGE">
+        <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SIMTOOLSGUI.SGML.SECT1.ADVUSAGE">
-    <TITLE>Advanced Usage Guide</TITLE>
+  <SECT1 xreflabel="Simtoolsgui Advanced Usage Guide" ID="SWARM.SIMTOOLSGUI.SGML.SECT1.ADVUSAGE">
+        <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SIMTOOLSGUI.SGML.SECT1.SUBCLASS">
-    <TITLE>Subclassing Reference</TITLE>
+  <SECT1 xreflabel="Simtoolsgui Subclassing Reference" ID="SWARM.SIMTOOLSGUI.SGML.SECT1.SUBCLASS">
+        <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SIMTOOLSGUI.SGML.SECT1.DESIGN">
-    <TITLE>Interface Design Notes</TITLE>
+  <SECT1 xreflabel="Simtoolsgui Interface Design Notes" ID="SWARM.SIMTOOLSGUI.SGML.SECT1.DESIGN">
+        <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SIMTOOLSGUI.SGML.SECT1.IMPL">
-    <TITLE>Implementation Notes</TITLE>
+  <SECT1 xreflabel="Simtoolsgui Implementation Notes" ID="SWARM.SIMTOOLSGUI.SGML.SECT1.IMPL">
+        <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>
   </SECT1>
