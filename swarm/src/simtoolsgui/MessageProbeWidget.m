@@ -10,10 +10,9 @@
 #import <objectbase.h> // val_t
 #import <objc/objc-api.h>
 
-#include <misc.h> // strlen, isspace
+#include <misc.h> // strlen
 
-// Avoid using chars as an index to ctype table.
-#define isSpace(ch) isspace((int)ch)
+#define isSpace(ch) ((ch) == ' ')
 
 static BOOL
 empty (const char *str)
