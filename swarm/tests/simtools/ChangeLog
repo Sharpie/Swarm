@@ -1,3 +1,8 @@
+1999-05-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ObjectLoaderTest.m: Include misc.h instead of stdlib.h and 
+	stdio.h.
+
 1999-01-19  Alex Lancaster  <alex@santafe.edu>
 
 	* TestObject.[hm]: Add `getVar1', `getVar2', `getChar1' accessor
