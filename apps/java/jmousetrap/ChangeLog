@@ -4,6 +4,8 @@
 	Mousetrap{Observer,Model,Batch}SwarmImpl ->
 	Mousetrap{Observer,Model,Batch}Swarm.
 
+	* Makefile: Likewise.
+	
 	* MousetrapObserverSwarm.java, MousetrapBatchSwarm.java,
 	MousetrapModelSwarm.java: New files, renamed by removing their
 	respective `Impl' suffixes.  Changed all class names accordingly,
