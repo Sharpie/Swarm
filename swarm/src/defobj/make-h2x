@@ -29,7 +29,7 @@ echo \
 
 # extract all declared symbols into temporary file
 
-$CC -E $CFLAGS $m.h | \
+$CC -E "$CFLAGS" $m.h | \
 sed -n \
   -e 's@//.*$@@' \
   -e 's/	//g' \
