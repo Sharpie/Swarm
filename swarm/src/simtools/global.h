@@ -4,16 +4,15 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/ProbeDisplayManager.h>
-#import <swarmobject.h>
-#import <random/PMMLCG.h>
-#import <random/Uniform.h>
+#import <swarmobject/SwarmObject.h>
+#import <random.h>
 
 // global random number generators (defaults)
-extern PMMLCG * randomGenerator;
-extern Uniform * uniformRandom;
+extern id <PMMLCG1> randomGenerator;
+extern id <UniformInteger> uniformRandom;
 
 // Source of all Probe Objects in the system...
-extern ProbeLibrary * probeLibrary;
+//extern ProbeLibrary * probeLibrary;
 
 // Manager that keeps track of active probes to be updated
 extern ProbeDisplayManager * probeDisplayManager;

@@ -15,8 +15,9 @@
 #import <activity.h>
 #import <tkobjc.h>
 
-id randomGenerator;
-id uniformRandom;
+
+id <PMMLCG1> randomGenerator;
+id <UniformInteger> uniformRandom;
 ProbeDisplayManager * probeDisplayManager;
 int swarmGUIMode;
 
@@ -29,7 +30,9 @@ initSwarm(int argc, char ** argv) {
   initProbing() ;
 
   randomGenerator = [[PMMLCG1 alloc] init];	  // seeds from clock
-  uniformRandom = [[[Uniform alloc] init] setGenerator: randomGenerator];
+  uniformRandom = [UniformInteger alloc];
+  [uniformRandom setGenerator: randomGenerator];
+  [uniformRandom setIntegerMin: 0L setMax: 1L];
 
   swarmGUIMode = 1;
 

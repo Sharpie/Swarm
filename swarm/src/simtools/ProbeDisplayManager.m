@@ -19,7 +19,7 @@
 @implementation ProbeDisplayManager
 
 -createEnd {
-  probeList = [List create: zone];
+  probeList = [List create: [self getZone]];
   return self;
 }
 

@@ -7,7 +7,7 @@
 //
 // The values will appear in ascending order.
 
-#import <swarmobject.h>
+#import <swarmobject/SwarmObject.h>
 
 @interface QSort : SwarmObject {
 }

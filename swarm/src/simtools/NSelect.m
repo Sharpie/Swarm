@@ -38,7 +38,7 @@ Library:      simtools
   b = [bCollection begin: scratchZone] ;
 
   while(m < n){
-    r = [uniformRandom rFloat] ;    
+    r = (float) [uniformRandom getDoubleSample] ;    
     
     if( ( ((float)(N - t)) * r) >= ((float)(n - m)) ){
       [a next] ;

@@ -3,7 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <swarmobject.h>
+#import <swarmobject/SwarmObject.h>
+#import <swarmobject/ProbeMap.h>
 #import <tkobjc.h>
 #import <simtools/VarProbeWidget.h>
 #import <simtools/MessageProbeWidget.h>

@@ -6,7 +6,7 @@
 // NSelect -> select exactly N elements from a collection 
 // without repetition! The target collection must be provided.
 
-#import <swarmobject.h>
+#import <swarmobject/SwarmObject.h>
 
 @interface NSelect : SwarmObject {
 }

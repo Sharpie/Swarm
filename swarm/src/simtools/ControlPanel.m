@@ -87,24 +87,26 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 // Stop: set state to stop, also stop activities.
 -setStateStopped {
-     if (getTopLevelActivity()){
-     [getTopLevelActivity() stop];
-     return [self setState: ControlStateStopped];
-     } else {
-     [self setState: ControlStateStopped] ;
-     [self waitForControlEvent];
-     // Check now if the user hit the quit button: if so, abort.
-     if ([self getState] == ControlStateQuit)
-       exit(0) ;
-     else
-       return self ;
-   }
+  //  if (getTopLevelActivity()){
+  if (_activity_current) {
+    [getTopLevelActivity() stop];
+    return [self setState: ControlStateStopped];
+  } else {
+    [self setState: ControlStateStopped] ;
+    [self waitForControlEvent];
+    // Check now if the user hit the quit button: if so, abort.
+    if ([self getState] == ControlStateQuit)
+      exit(0) ;
+    else
+      return self ;
+  }
 }
 
 // Step: first, stop the running activity (we're probably already stopped,
 // though). Then set our own state to Stepping.
 -setStateStepping {
-  if (getTopLevelActivity())
+  if (_activity_current)
+  //  if (getTopLevelActivity())
     [getTopLevelActivity() stop];
   return [self setState: ControlStateStepping];
 }
@@ -112,14 +114,16 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 // Next time: first, stop the running activity (we're probably already stopped,
 // though). Then set our own state to NextTime.
 -setStateNextTime {
-  if (getTopLevelActivity())
+  if (_activity_current)
+    //  if (getTopLevelActivity())
     [getTopLevelActivity() stop];
   return [self setState: ControlStateNextTime];
 }
 
 // Quit: set state to quit, also terminate activities.
 -setStateQuit {
-  if (getTopLevelActivity())
+  //  if (getTopLevelActivity())
+  if (_activity_current)
     [getTopLevelActivity() terminate];
   return [self setState: ControlStateQuit];
 }
