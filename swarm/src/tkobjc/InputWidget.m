@@ -38,6 +38,16 @@
   return [self linkVariable: p Type: TCL_LINK_INT];
 }
 
+- linkVariableDouble: (void *)p
+{
+  return [self linkVariable: p Type: TCL_LINK_DOUBLE];
+}
+
+- linkVariableBoolean: (void *)p
+{
+  return [self linkVariable: p Type: TCL_LINK_BOOLEAN];
+}
+
 - (const char *)getValue
 {
   [globalTkInterp eval: "%s get", widgetName];

@@ -1,5 +1,8 @@
 1998-02-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* InputWidget.[mh] ([InputWidget -linkVariableDouble:], 
+	[InputWidget -linkVariableBoolean:]): New methods.
+
 	* Graph.m: Don't include string.h, stdio.h, or collections.h.
 	Include misc.h for strdup.
 

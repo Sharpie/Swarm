@@ -259,7 +259,7 @@
 }
 
 // set the dash style - 0 means solid.
-- setDashes: (int) d
+- setDashes: (int)d
 {
   [globalTkInterp eval: "%s element configure %s -dashes %d",
 		  [ownerGraph getWidgetName],
