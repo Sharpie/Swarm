@@ -192,23 +192,47 @@
      (string (char-change-case (string-ref str 0) #t))
      (string-change-case (substring str 1 (string-length str)) #f)))
 
-(define (protocol-id-to-description method-signature-id)
-    (let* ((id-elements (split-string method-signature-id #\.))
-           (module-name (car (cdr id-elements)))
-           (protocol-name (car (cdr (cdr id-elements)))))
-      (string-append
-       (string-change-case module-name #f)
-       "/"
-       (capitalize protocol-name))))
+(define (module-for-id id)
+    (let* ((id-elements (split-string id #\.)))
+      (string-change-case (car (cdr id-elements)) #f)))
 
+(define (protocol-title-for-id id)
+    (let* ((id-elements (split-string id #\.))
+           (module-name (car (cdr id-elements)))
+           (protocol-name (car (cdr (cdr id-elements))))
+           (refentry (element-with-id
+                      (string-append
+                       "SWARM."
+                       module-name
+                       "."
+                       protocol-name))))
+      (data
+       (select-elements
+        (children (select-elements (children refentry) "REFMETA"))
+        "REFENTRYTITLE"))))
+          
+(define (protocol-id-to-description protocol-id)
+    (string-append
+     (module-for-id protocol-id)
+     "/"
+     (protocol-title-for-id protocol-id)))
+             
 (define (method-signature-id-to-description method-signature-id)
     (let* ((id-elements (split-string method-signature-id #\.))
            (phase-abbrev (car (cdr (cdr (cdr id-elements))))))
-      (string-append  (protocol-id-to-description method-signature-id)
-                      "/"
-                      (cond ((string=? phase-abbrev "PC") "Creating")
-                            ((string=? phase-abbrev "PS") "Setting")
-                            ((string=? phase-abbrev "PU") "Using")))))
+      (string-append 
+       (module-for-id method-signature-id)
+       "/"
+       (protocol-title-for-id method-signature-id)
+       "/"
+       (cond ((string=? phase-abbrev "PC") "Creating")
+             ((string=? phase-abbrev "PS") "Setting")
+             ((string=? phase-abbrev "PU") "Using")))))
+
+(define (id-to-indexitem id)
+    (if (has-phase-p id)
+        (method-signature-id-to-description id)
+        (protocol-id-to-description id)))
 
 </style-specification-body>
 </style-specification>

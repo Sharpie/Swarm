@@ -189,26 +189,24 @@
 (element PRIMARYIE
          (sosofo-append
           (process-children)
-          (let* ((linkends-string (attribute-string "LINKENDS")))
-            (let loop ((linkends (split-string linkends-string #\space)))
-                 (if (null? linkends)
-                     (empty-sosofo)
-                     (sosofo-append
-                      (let ((id (car linkends)))
-                        (make element gi: "A"
-                              attributes: (list
+          (make element gi: "UL"
+                (let* ((linkends-string (attribute-string "LINKENDS")))
+                  (let loop ((linkends (split-string linkends-string #\space)))
+                       (if (null? linkends)
+                           (empty-sosofo)
+                           (sosofo-append
+                            (make element gi: "LI"
+                                  (let ((id (car linkends)))
+                                    (make element gi: "A"
+                                          attributes:
+                                          (list
                                            (list "HREF"
                                                  (href-to
                                                   (element-with-id id))))
-                              (sosofo-append
-                               (literal " ")
-                               (literal
-                                (if (has-phase-p id)
-                                    (method-signature-id-to-description id)
-                                    (protocol-id-to-description id))))))
-                      (loop (cdr linkends))))))
-          (make element gi: "BR" (empty-sosofo))))
-                                             
+                                          (literal
+                                           (id-to-indexitem id)))))
+                            (loop (cdr linkends)))))))))
+
 </style-specification-body>
 </style-specification>
 
