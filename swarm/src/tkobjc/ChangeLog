@@ -1,3 +1,10 @@
+2000-01-09    <mgd@nest.swarm.org>
+
+	* internal.m (x_get_managed_toplevel_window): Check that a window
+	with WM_STATE was found and return it (not parent).
+	(x_get_wm_child): New function.
+	(x_set_private_colormap): Use it. Disable X{G/S}etWMColormapWindow.
+
 2000-01-03  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord -lispOutShallow:]): 

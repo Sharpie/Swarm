@@ -689,6 +689,29 @@ x_get_parent_window (Display *display, Window window)
 }
 
 static Window
+x_get_wm_child (Display *display, Window window)
+{
+  Window *children;
+  int child_cnt;
+  Window root;
+  Window wmWindow = 0, parent;
+  int i;
+  
+  if (!XQueryTree (display, window, &root, &parent, &children, &child_cnt))
+    abort ();
+
+  for (i = 0; i < child_cnt; i++)
+    if (x_toplevel_p (display, children[i]))
+      break;
+
+  wmWindow = children[i];
+  XFree (children);
+
+  return wmWindow;
+}
+
+
+static Window
 x_get_managed_toplevel_window (Display *display, Window window)
 {
   Window parent = 0, w;
@@ -699,45 +722,56 @@ x_get_managed_toplevel_window (Display *display, Window window)
     { 
       parent = x_get_parent_window (display, w);
       found = x_toplevel_p (display, w);
-      
       if (parent == root)
         return 0;
     }
-  w = x_get_parent_window (display, parent);
-  return (w == root) ? parent : w;
+  if (!found)
+    abort ();
+  return w;
 }
 
 static void
 x_set_private_colormap (Display *display, Window window, X11Colormap cmap)
 {
   Window topWindow;
-  
+
   topWindow = x_get_managed_toplevel_window (display, window);
 
   if (topWindow)
     {
-      int cnt;
-      Window *colormapWindows;
+      Window childWmWindow;
+
+      childWmWindow = x_get_wm_child (display, topWindow);
+      if (childWmWindow)
+        topWindow = childWmWindow;
       
       XSetWindowColormap (display, topWindow, cmap);
-      
-      if (!XGetWMColormapWindows (display, topWindow,
-                                  &colormapWindows, &cnt))
-        cnt = 0;
+#if 0
       {
-        Window newColormapWindows[cnt + 1];
-
+        int cnt;
+        Window *colormapWindows;
+        
+        if (!XGetWMColormapWindows (display, topWindow,
+                                    &colormapWindows, &cnt))
+          cnt = 0;
+        {
+          Window newColormapWindows[cnt + 1];
+          
+          if (cnt > 0)
+            memcpy (newColormapWindows,
+                    colormapWindows,
+                    sizeof (Window) * cnt);
+          newColormapWindows[cnt] = window;
+          if (!XSetWMColormapWindows (display, 
+                                      topWindow,
+                                      newColormapWindows,
+                                      cnt + 1))
+            abort ();
+        }
         if (cnt > 0)
-          memcpy (newColormapWindows, colormapWindows, sizeof (Window) * cnt);
-        newColormapWindows[cnt] = window;
-        if (!XSetWMColormapWindows (display, 
-                                    topWindow,
-                                    newColormapWindows,
-                                    cnt + 1))
-          abort ();
+          XFree (colormapWindows);
       }
-      if (cnt > 0)
-        XFree (colormapWindows);
+#endif
     }
   else
     raiseEvent (WarningMessage, "Could not get top window");
