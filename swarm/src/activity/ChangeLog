@@ -1,3 +1,8 @@
+2001-07-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* SwarmProcess.m ([ActionMerge_c -_performAction_:]): Do need
+	remove dispatch here, e.g. GroupPermutedIndex_c vs. ScheduleIndex_c.
+
 2001-07-24  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
 	* SwarmProcess.m: Remove abort on getComponentZone.

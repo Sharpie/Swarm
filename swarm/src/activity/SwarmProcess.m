@@ -369,7 +369,9 @@ PHASE(Using)
   // Remove merge action from whatever activity is performing it (either a
   // swarm activity or a concurrent group activity within a swarm).
   //
-  SCHEDULE_INDEX_REMOVE (((Activity_c *) _activity_current)->currentIndex);
+  
+  // need dispatch, e.g. ScheduleIndex_c or GroupPermutedIndex_c
+  [((Activity_c *) _activity_current)->currentIndex remove];
 
   //
   // Return next pending subschedule activity to be run under current owner
