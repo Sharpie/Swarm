@@ -1,3 +1,8 @@
+2000-09-14  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* HeatbugModelSwarm.java (buildActions): Use language symbol
+	to FArgumentsImpl constructor.
+
 2000-09-10  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Heatbug.java (Heatbug): Remove `public' from world, heat, and
