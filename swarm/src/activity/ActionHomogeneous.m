@@ -28,7 +28,7 @@ PHASE(Creating)
       
       targetCount = [target getCount];
 #ifdef UPDATEJAVATARGET
-      if ([[target getFirst] respondsTo: M(isJavaProxy)])
+      if (SD_JAVA_FIND_OBJECT_JAVA ([target getFirst]))
         {
           size_t i;
           id obj;

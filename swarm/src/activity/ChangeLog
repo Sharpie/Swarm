@@ -1,3 +1,9 @@
+2001-05-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* ActionHomogeneous.m ([-createEnd]): Use SD_JAVA_FIND_OBJECT_JAVA
+	instead of a check for a JavaProxy; don't rely on forwarding from
+	a Java-subclassed Objective C object.
+
 2001-05-01  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Schedule.m (createGroup): Copy BitRandomized and BitConcurrent
