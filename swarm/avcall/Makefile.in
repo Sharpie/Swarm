@@ -52,7 +52,7 @@ top_builddir = .
 
 OBJECTS = avcall.lo structcpy.lo
 ifeq ($(OS),cygwin)
-EXTRAOBJECTS = avcall-i386-msvc.o
+EXTRAOBJECTS = avcall-i386-msvc.lo
 endif
 
 all : $(OBJECTS) $(EXTRAOBJECTS) libavcall.la avcall.h $(srcdir)/avcall.3 $(srcdir)/avcall.html
