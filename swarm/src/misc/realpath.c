@@ -1,8 +1,8 @@
-#include "misc.h"
-
 #include <sys/param.h>
 #include <unistd.h>
 #include <errno.h>
+
+#include "misc.h"
 
 #ifdef __CYGWIN32__
 #define PATHNAME_UNIX_UNC

@@ -1,5 +1,3 @@
-#include "misc.h"
-
 #include <unistd.h>
 #include <errno.h>
 #include <sys/types.h>
@@ -8,6 +6,8 @@
 #include <sys/fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "misc.h"
 
 #define FALSE 0
 #define TRUE 1
