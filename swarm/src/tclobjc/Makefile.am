@@ -8,14 +8,10 @@ TKINCLUDES = @TKINCLUDES@
 FFIINCLUDES = @FFIINCLUDES@
 
 tcllibdir = @tcllibdir@
-TCL_VERSION = $(shell sed -n "s/^TCL_VERSION='\(.*\)'/\1/p" $(tcllibdir)/tclConfig.sh)
-TCL_PREFIX = $(shell sed -n "s/^TCL_PREFIX='\(.*\)'/\1/p" $(tcllibdir)/tclConfig.sh)
-TCL_LIBRARY = $(TCL_PREFIX)/lib/tcl$(TCL_VERSION)
+TCL_LIBRARY = @tclscriptdir@
 
 tklibdir = @tklibdir@
-TK_VERSION = $(shell sed -n "s/^TK_VERSION='\(.*\)'/\1/p" $(tklibdir)/tkConfig.sh)
-TK_PREFIX = $(shell sed -n "s/^TK_PREFIX='\(.*\)'/\1/p" $(tklibdir)/tkConfig.sh)
-TK_LIBRARY = $(TK_PREFIX)/lib/tk$(TK_VERSION)
+TK_LIBRARY = @tkscriptdir@
 
 SUFFIXES = .m
 

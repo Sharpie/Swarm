@@ -1,3 +1,8 @@
+1999-02-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (TCL_LIBRARY, TK_LIBRARY): Don't compute from
+	t{cl,k}Config.sh file.  Get value from autoconf substitution.
+
 1999-01-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* TkInterp.m: Use __CYGWIN__ instead of __CYGWIN32__.
