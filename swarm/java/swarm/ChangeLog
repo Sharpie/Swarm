@@ -1,5 +1,7 @@
 1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* PhaseCImpl.java: New file.
+
 	* SwarmEnvironment.java: Accomodate U -> C suffix change.
 
 	* Makefile.in (CLASSPHASES, module-class-files,
