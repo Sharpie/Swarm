@@ -1,3 +1,8 @@
+1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/hppa/{mframe-hpux,compiler-info-hpux}.h: Renamed from
+	*hpux10.h.
+
 1999-05-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config/sparc/mframe-solaris2.h (MFRAME_ARG_ENCODING): Return
