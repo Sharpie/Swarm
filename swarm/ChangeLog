@@ -1,3 +1,7 @@
+1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* configure.in: Check for sys/sigevent.h.
+
 1999-05-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ltconfig: For HPUX, scan for constructors and pass them as

@@ -252,6 +252,8 @@ fi
 vj_FIND_JDK
 md_CHECK_JNI_H
 
+AC_CHECK_HEADERS(sys/sigevent.h)
+
 md_CHECK_PATH_SYNTAX
 
 AC_PATH_PROG(EMACS, emacs, missing)
