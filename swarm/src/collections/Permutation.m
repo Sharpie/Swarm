@@ -27,13 +27,14 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
 - setLastDirection: (int)theLastDirection
 {
   lastDirection = theLastDirection;
   return self;
 }
-
 PHASE(Using)
+
 - getItem
 {
   return item;
