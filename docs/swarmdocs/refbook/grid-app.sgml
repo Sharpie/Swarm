@@ -115,14 +115,14 @@
         </LISTITEM>
 
         <LISTITEM><FORMALPARA> 
-            <TITLE><LINK LINKEND="SWARM.SRC.GRID.GRID6.M">grid5.m</LINK></TITLE>
+            <TITLE><LINK LINKEND="SWARM.SRC.GRID.GRID5.M">grid5.m</LINK></TITLE>
 
             <PARA>Tests of ActionGroup execution independent of any
               schedule, both by itself and within a
               swarm.</PARA></FORMALPARA></LISTITEM>
 
         <LISTITEM><FORMALPARA>
-            <TITLE><LINK LINKEND="SWARM.SRC.GRID.GRID6.M">grid5.m</LINK></TITLE>
+            <TITLE><LINK LINKEND="SWARM.SRC.GRID.GRID6.M">grid6.m</LINK></TITLE>
 
             <PARA>Test of running an entire top-level activity within
               an action of an already running

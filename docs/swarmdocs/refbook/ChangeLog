@@ -1,3 +1,8 @@
+1998-06-01  Alex Lancaster  <alex@santafe.edu>
+
+	* grid-app.sgml: Fixed incorrect LINKENDS and descriptions for
+	grid5.m and grid6.m.
+
 1998-05-29  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* probes-app.sgml: Update LINKENDs per new ID conventions.
