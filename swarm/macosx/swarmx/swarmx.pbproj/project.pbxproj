@@ -67,7 +67,6 @@
 				F6EF837303A43ABF015E7421,
 				F6EF837403A43ABF015E7421,
 				F6EF838803A43ABF015E7421,
-				F6EF838A03A43ABF015E7421,
 				F6EF838B03A43ABF015E7421,
 				F6EF838D03A43ABF015E7421,
 				F6EF838E03A43ABF015E7421,
@@ -78,20 +77,15 @@
 				F6EF83AC03A43AC0015E7421,
 				F6EF83AE03A43AC0015E7421,
 				F6EF83D403A43AC1015E7421,
-				F6EF849003A43AC4015E7421,
 				F6EF849103A43AC4015E7421,
 				F6EF849203A43AC4015E7421,
 				F6EF84B003A43AC5015E7421,
-				F6EF84C503A43AC5015E7421,
 				F6EF84C603A43AC5015E7421,
-				F6EF84C703A43AC5015E7421,
 				F6EF84C803A43AC5015E7421,
 				F6EF84C903A43AC5015E7421,
 				F6EF84CA03A43AC5015E7421,
 				F6EF84CC03A43AC5015E7421,
 				F6EF84CD03A43AC5015E7421,
-				F6EF890E03A43ADB015E7421,
-				F6EF890F03A43ADB015E7421,
 				F6EF891203A43ADB015E7421,
 				F6EF897B03A43ADE015E7421,
 				F6EF897C03A43ADE015E7421,
@@ -113,6 +107,7 @@
 //1A4
 		1AB674ADFE9D54B511CA2CBB = {
 			children = (
+				79CEDED903C172AD00000164,
 				F6EF8FFC03A44077015E7421,
 				F61EC35E03A4437D015E7421,
 			);
@@ -125,6 +120,3011 @@
 //1A2
 //1A3
 //1A4
+//790
+//791
+//792
+//793
+//794
+		79CEDEB603C15B1500000164 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			name = README.MacOSX;
+			path = /Users/billn/Public/Swarm/swarm/macosx/README.MacOSX;
+			refType = 0;
+		};
+		79CEDED903C172AD00000164 = {
+			children = (
+				F6EF84C703A43AC5015E7421,
+				79CEDEE203C1736700000164,
+				79CEDEE103C1735800000164,
+				79CEDEE003C1734000000164,
+				79CEDEDF03C1733500000164,
+				79CEDEDE03C1732600000164,
+				79CEDEDD03C1731200000164,
+				79CEDEDC03C1730100000164,
+				79CEDEDB03C172F200000164,
+				79CEDEDA03C172EB00000164,
+			);
+			isa = PBXGroup;
+			name = autogen;
+			refType = 4;
+		};
+		79CEDEDA03C172EB00000164 = {
+			children = (
+				F6EF898303A43ADE015E7421,
+			);
+			isa = PBXGroup;
+			name = tools;
+			refType = 4;
+		};
+		79CEDEDB03C172F200000164 = {
+			children = (
+				F6EF895903A43ADD015E7421,
+				79CEDEF903C176F000000164,
+				79CEDEF803C176E800000164,
+				79CEDEF703C176E100000164,
+				79CEDEF603C176CE00000164,
+				79CEDEF503C176B600000164,
+				79CEDEF403C176A900000164,
+			);
+			isa = PBXGroup;
+			name = tests;
+			refType = 4;
+		};
+		79CEDEDC03C1730100000164 = {
+			children = (
+				F6EF863A03A43ACB015E7421,
+				79CEDEF303C175ED00000164,
+				79CEDEF203C175E600000164,
+				79CEDEF103C175DF00000164,
+				79CEDEF003C175CD00000164,
+				79CEDEEF03C175C100000164,
+				79CEDEEE03C175B900000164,
+				79CEDEEC03C1756800000164,
+				79CEDEEB03C1755F00000164,
+				79CEDEEA03C174DF00000164,
+				79CEDEE703C174B200000164,
+				79CEDEE803C174BD00000164,
+				79CEDEE903C174D800000164,
+				79CEDEE603C174A800000164,
+			);
+			isa = PBXGroup;
+			name = src;
+			refType = 4;
+		};
+		79CEDEDD03C1731200000164 = {
+			children = (
+				F6EF84AF03A43AC4015E7421,
+			);
+			isa = PBXGroup;
+			name = m4;
+			refType = 4;
+		};
+		79CEDEDE03C1732600000164 = {
+			children = (
+				F6EF83EA03A43AC1015E7421,
+				79CEDEE303C1741F00000164,
+				F6EF842203A43AC2015E7421,
+				F6EF842603A43AC2015E7421,
+				79CEDEE403C1742800000164,
+				F6EF844F03A43AC3015E7421,
+				79CEDEE503C1743100000164,
+			);
+			isa = PBXGroup;
+			name = libobjc;
+			refType = 4;
+		};
+		79CEDEDF03C1733500000164 = {
+			children = (
+				F6EF83C203A43AC0015E7421,
+			);
+			isa = PBXGroup;
+			name = java;
+			refType = 4;
+		};
+		79CEDEE003C1734000000164 = {
+			children = (
+				F6EF83A003A43AC0015E7421,
+			);
+			isa = PBXGroup;
+			name = etc;
+			refType = 4;
+		};
+		79CEDEE103C1735800000164 = {
+			children = (
+				F6EF838303A43ABF015E7421,
+			);
+			isa = PBXGroup;
+			name = COM;
+			refType = 4;
+		};
+		79CEDEE203C1736700000164 = {
+			children = (
+				F6EF82C803A43ABC015E7421,
+				F6EF830203A43ABD015E7421,
+			);
+			isa = PBXGroup;
+			name = avcall;
+			refType = 4;
+		};
+		79CEDEE303C1741F00000164 = {
+			children = (
+				F6EF842D03A43AC2015E7421,
+			);
+			isa = PBXGroup;
+			name = doc;
+			refType = 4;
+		};
+		79CEDEE403C1742800000164 = {
+			children = (
+				F6EF844C03A43AC3015E7421,
+			);
+			isa = PBXGroup;
+			name = m4;
+			refType = 4;
+		};
+		79CEDEE503C1743100000164 = {
+			children = (
+				F6EF846303A43AC3015E7421,
+				79CEE08003C182A100000164,
+			);
+			isa = PBXGroup;
+			name = objc;
+			refType = 4;
+		};
+		79CEDEE603C174A800000164 = {
+			children = (
+				F6EF863703A43ACB015E7421,
+			);
+			isa = PBXGroup;
+			name = gui;
+			refType = 4;
+		};
+		79CEDEE703C174B200000164 = {
+			children = (
+				F6EF84E803A43AC6015E7421,
+			);
+			isa = PBXGroup;
+			name = activity;
+			path = "";
+			refType = 4;
+		};
+		79CEDEE803C174BD00000164 = {
+			children = (
+				F6EF850E03A43AC6015E7421,
+			);
+			isa = PBXGroup;
+			name = analysis;
+			refType = 4;
+		};
+		79CEDEE903C174D800000164 = {
+			children = (
+				F6EF85BD03A43AC9015E7421,
+			);
+			isa = PBXGroup;
+			name = collections;
+			refType = 4;
+		};
+		79CEDEEA03C174DF00000164 = {
+			children = (
+				F6EF862603A43ACB015E7421,
+			);
+			isa = PBXGroup;
+			name = defobj;
+			path = "";
+			refType = 4;
+		};
+		79CEDEEB03C1755F00000164 = {
+			children = (
+				F6EF886503A43AD6015E7421,
+				79CEDEED03C1759900000164,
+			);
+			isa = PBXGroup;
+			name = tclobjc;
+			refType = 4;
+		};
+		79CEDEEC03C1756800000164 = {
+			children = (
+				F6EF88D303A43AD9015E7421,
+			);
+			isa = PBXGroup;
+			name = tkobjc;
+			refType = 4;
+		};
+		79CEDEED03C1759900000164 = {
+			children = (
+				F6EF88F603A43ADB015E7421,
+			);
+			isa = PBXGroup;
+			name = tk;
+			refType = 4;
+		};
+		79CEDEEE03C175B900000164 = {
+			children = (
+				F6EF884A03A43AD5015E7421,
+			);
+			isa = PBXGroup;
+			name = space;
+			refType = 4;
+		};
+		79CEDEEF03C175C100000164 = {
+			children = (
+				F6EF881A03A43AD4015E7421,
+			);
+			isa = PBXGroup;
+			name = simtoolsgui;
+			refType = 4;
+		};
+		79CEDEF003C175CD00000164 = {
+			children = (
+				F6EF87E503A43AD3015E7421,
+			);
+			isa = PBXGroup;
+			name = simtools;
+			refType = 4;
+		};
+		79CEDEF103C175DF00000164 = {
+			children = (
+				F6EF873C03A43AD0015E7421,
+			);
+			isa = PBXGroup;
+			name = random;
+			refType = 4;
+		};
+		79CEDEF203C175E600000164 = {
+			children = (
+				F6EF86A303A43ACD015E7421,
+			);
+			isa = PBXGroup;
+			name = misc;
+			refType = 4;
+		};
+		79CEDEF303C175ED00000164 = {
+			children = (
+				F6EF86E403A43ACE015E7421,
+			);
+			isa = PBXGroup;
+			name = objectbase;
+			refType = 4;
+		};
+		79CEDEF403C176A900000164 = {
+			children = (
+				F6EF893E03A43ADD015E7421,
+			);
+			isa = PBXGroup;
+			name = activity;
+			refType = 4;
+		};
+		79CEDEF503C176B600000164 = {
+			children = (
+				F6EF896103A43ADD015E7421,
+			);
+			isa = PBXGroup;
+			name = objectbase;
+			refType = 4;
+		};
+		79CEDEF603C176CE00000164 = {
+			children = (
+				F6EF897A03A43ADE015E7421,
+			);
+			isa = PBXGroup;
+			name = space;
+			refType = 4;
+		};
+		79CEDEF703C176E100000164 = {
+			children = (
+				F6EF896D03A43ADE015E7421,
+			);
+			isa = PBXGroup;
+			name = simtools;
+			refType = 4;
+		};
+		79CEDEF803C176E800000164 = {
+			children = (
+				F6EF895603A43ADD015E7421,
+			);
+			isa = PBXGroup;
+			name = defobj;
+			refType = 4;
+		};
+		79CEDEF903C176F000000164 = {
+			children = (
+				F6EF894C03A43ADD015E7421,
+			);
+			isa = PBXGroup;
+			name = collections;
+			refType = 4;
+		};
+		79CEDEFB03C178EF00000164 = {
+			children = (
+				79CEDEFC03C178EF00000164,
+				79CEDEFD03C178EF00000164,
+				79CEDEFE03C178EF00000164,
+				79CEDEFF03C178EF00000164,
+				79CEDF0003C178EF00000164,
+			);
+			isa = PBXGroup;
+			name = avcall;
+			path = build/avcall;
+			refType = 4;
+		};
+		79CEDEFC03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = avcall.h;
+			refType = 4;
+		};
+		79CEDEFD03C178EF00000164 = {
+			isa = PBXFileReference;
+			path = config.log;
+			refType = 4;
+		};
+		79CEDEFE03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			path = config.status;
+			refType = 4;
+		};
+		79CEDEFF03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			path = libtool;
+			refType = 4;
+		};
+		79CEDF0003C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF0103C178EF00000164 = {
+			children = (
+				79CEDF0203C178EF00000164,
+				79CEDF0403C178EF00000164,
+			);
+			isa = PBXGroup;
+			name = COM;
+			path = build/COM;
+			refType = 4;
+		};
+		79CEDF0203C178EF00000164 = {
+			children = (
+				79CEDF0303C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = c;
+			refType = 4;
+		};
+		79CEDF0303C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF0403C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF0503C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = config.cache;
+			path = build/config.cache;
+			refType = 4;
+		};
+		79CEDF0603C178EF00000164 = {
+			isa = PBXFileReference;
+			name = config.log;
+			path = build/config.log;
+			refType = 4;
+		};
+		79CEDF0703C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			name = config.status;
+			path = build/config.status;
+			refType = 4;
+		};
+		79CEDF0803C178EF00000164 = {
+			children = (
+			);
+			isa = PBXGroup;
+			name = dst;
+			path = build/dst;
+			refType = 4;
+		};
+		79CEDF0903C178EF00000164 = {
+			children = (
+				79CEDF0A03C178EF00000164,
+				79CEDF0B03C178EF00000164,
+				79CEDF0C03C178EF00000164,
+				79CEDF0D03C178EF00000164,
+				79CEDF0E03C178EF00000164,
+				79CEDF0F03C178EF00000164,
+			);
+			isa = PBXGroup;
+			name = etc;
+			path = build/etc;
+			refType = 4;
+		};
+		79CEDF0A03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = config.swarm;
+			refType = 4;
+		};
+		79CEDF0B03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF0C03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile.appl;
+			refType = 4;
+		};
+		79CEDF0D03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile.common;
+			refType = 4;
+		};
+		79CEDF0E03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile.lib;
+			refType = 4;
+		};
+		79CEDF0F03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile.tests;
+			refType = 4;
+		};
+		79CEDF1003C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = externvar.h;
+			path = build/externvar.h;
+			refType = 4;
+		};
+		79CEDF1103C178EF00000164 = {
+			children = (
+				79CEDF1203C178EF00000164,
+				79CEDF1403C178EF00000164,
+				79CEDF1503C178EF00000164,
+				79CEDF1603C178EF00000164,
+				79CEDF1703C178EF00000164,
+			);
+			isa = PBXGroup;
+			name = java;
+			path = build/java;
+			refType = 4;
+		};
+		79CEDF1203C178EF00000164 = {
+			children = (
+				79CEDF1303C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = c;
+			refType = 4;
+		};
+		79CEDF1303C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF1403C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = javacswarm;
+			refType = 4;
+		};
+		79CEDF1503C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = javaswarm;
+			refType = 4;
+		};
+		79CEDF1603C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF1703C178EF00000164 = {
+			children = (
+				79CEDF1803C178EF00000164,
+				79CEDF1903C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = swarm;
+			refType = 4;
+		};
+		79CEDF1803C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF1903C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile.rules;
+			refType = 4;
+		};
+		79CEDF1A03C178EF00000164 = {
+			children = (
+				79CEDF1B03C178EF00000164,
+				79CEDF2E03C178EF00000164,
+				79CEDF2F03C178EF00000164,
+				79CEDF3003C178EF00000164,
+				79CEDF3103C178EF00000164,
+				79CEDF3303C178EF00000164,
+				79CEDF3403C178EF00000164,
+				79CEDF3603C178EF00000164,
+				79CEDF3703C178EF00000164,
+				79CEDF3B03C178EF00000164,
+			);
+			isa = PBXGroup;
+			name = libobjc;
+			path = build/libobjc;
+			refType = 4;
+		};
+		79CEDF1B03C178EF00000164 = {
+			children = (
+				79CEDF1C03C178EF00000164,
+				79CEDF1D03C178EF00000164,
+				79CEDF1E03C178EF00000164,
+				79CEDF1F03C178EF00000164,
+				79CEDF2003C178EF00000164,
+				79CEDF2103C178EF00000164,
+				79CEDF2203C178EF00000164,
+				79CEDF2303C178EF00000164,
+				79CEDF2403C178EF00000164,
+				79CEDF2503C178EF00000164,
+				79CEDF2603C178EF00000164,
+				79CEDF2703C178EF00000164,
+				79CEDF2803C178EF00000164,
+				79CEDF2903C178EF00000164,
+				79CEDF2A03C178EF00000164,
+				79CEDF2B03C178EF00000164,
+				79CEDF2C03C178EF00000164,
+				79CEDF2D03C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDF1C03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = archive.Plo;
+			refType = 4;
+		};
+		79CEDF1D03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = class.Plo;
+			refType = 4;
+		};
+		79CEDF1E03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = encoding.Plo;
+			refType = 4;
+		};
+		79CEDF1F03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = gc.Plo;
+			refType = 4;
+		};
+		79CEDF2003C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = hash.Plo;
+			refType = 4;
+		};
+		79CEDF2103C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = init.Plo;
+			refType = 4;
+		};
+		79CEDF2203C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = linking.Plo;
+			refType = 4;
+		};
+		79CEDF2303C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = mframe.Plo;
+			refType = 4;
+		};
+		79CEDF2403C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = misc.Plo;
+			refType = 4;
+		};
+		79CEDF2503C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = nil_method.Plo;
+			refType = 4;
+		};
+		79CEDF2603C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = NXConstStr.Plo;
+			refType = 4;
+		};
+		79CEDF2703C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Object.Plo;
+			refType = 4;
+		};
+		79CEDF2803C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = objects.Plo;
+			refType = 4;
+		};
+		79CEDF2903C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Protocol.Plo;
+			refType = 4;
+		};
+		79CEDF2A03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = sarray.Plo;
+			refType = 4;
+		};
+		79CEDF2B03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = selector.Plo;
+			refType = 4;
+		};
+		79CEDF2C03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = sendmsg.Plo;
+			refType = 4;
+		};
+		79CEDF2D03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = thr.Plo;
+			refType = 4;
+		};
+		79CEDF2E03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = config.h;
+			refType = 4;
+		};
+		79CEDF2F03C178EF00000164 = {
+			isa = PBXFileReference;
+			path = config.log;
+			refType = 4;
+		};
+		79CEDF3003C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			path = config.status;
+			refType = 4;
+		};
+		79CEDF3103C178EF00000164 = {
+			children = (
+				79CEDF3203C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = doc;
+			refType = 4;
+		};
+		79CEDF3203C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF3303C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			path = libtool;
+			refType = 4;
+		};
+		79CEDF3403C178EF00000164 = {
+			children = (
+				79CEDF3503C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = m4;
+			refType = 4;
+		};
+		79CEDF3503C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF3603C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF3703C178EF00000164 = {
+			children = (
+				79CEDF3803C178EF00000164,
+				79CEDF3903C178EF00000164,
+				79CEDF3A03C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = objc;
+			refType = 4;
+		};
+		79CEDF3803C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = externvar.h;
+			refType = 4;
+		};
+		79CEDF3903C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF3A03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "stamp-h2";
+			refType = 4;
+		};
+		79CEDF3B03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "stamp-h1";
+			refType = 4;
+		};
+		79CEDF3C03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXExecutableFileReference;
+			name = libtool;
+			path = build/libtool;
+			refType = 4;
+		};
+		79CEDF3D03C178EF00000164 = {
+			children = (
+				79CEDF3E03C178EF00000164,
+			);
+			isa = PBXGroup;
+			name = m4;
+			path = build/m4;
+			refType = 4;
+		};
+		79CEDF3E03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF3F03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Makefile;
+			path = build/Makefile;
+			refType = 4;
+		};
+		79CEDF4003C178EF00000164 = {
+			children = (
+				79CEDF4103C178EF00000164,
+				79CEDF4303C178EF00000164,
+				79CEDF4D03C178EF00000164,
+				79CEDF5803C178EF00000164,
+				79CEDF6B03C178F000000164,
+				79CEDF8903C178F000000164,
+				79CEDF8B03C178F000000164,
+				79CEDF8C03C178F000000164,
+				79CEDFA503C178F000000164,
+				79CEDFB703C178F000000164,
+				79CEDFD703C178F000000164,
+				79CEDFE203C178F100000164,
+				79CEDFF603C178F100000164,
+				79CEE00203C178F100000164,
+				79CEE00B03C178F100000164,
+			);
+			isa = PBXGroup;
+			name = src;
+			path = build/src;
+			refType = 4;
+		};
+		79CEDF4103C178EF00000164 = {
+			children = (
+				79CEDF4203C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDF4203C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SwarmEnvironment.Plo;
+			refType = 4;
+		};
+		79CEDF4303C178EF00000164 = {
+			children = (
+				79CEDF4403C178EF00000164,
+				79CEDF4C03C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = activity;
+			refType = 4;
+		};
+		79CEDF4403C178EF00000164 = {
+			children = (
+				79CEDF4503C178EF00000164,
+				79CEDF4603C178EF00000164,
+				79CEDF4703C178EF00000164,
+				79CEDF4803C178EF00000164,
+				79CEDF4903C178EF00000164,
+				79CEDF4A03C178EF00000164,
+				79CEDF4B03C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDF4503C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Action.Plo;
+			refType = 4;
+		};
+		79CEDF4603C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActionGroup.Plo;
+			refType = 4;
+		};
+		79CEDF4703C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = activity.Plo;
+			refType = 4;
+		};
+		79CEDF4803C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CompoundAction.Plo;
+			refType = 4;
+		};
+		79CEDF4903C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Schedule.Plo;
+			refType = 4;
+		};
+		79CEDF4A03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SwarmProcess.Plo;
+			refType = 4;
+		};
+		79CEDF4B03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = XActivity.Plo;
+			refType = 4;
+		};
+		79CEDF4C03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF4D03C178EF00000164 = {
+			children = (
+				79CEDF4E03C178EF00000164,
+				79CEDF5703C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = analysis;
+			refType = 4;
+		};
+		79CEDF4E03C178EF00000164 = {
+			children = (
+				79CEDF4F03C178EF00000164,
+				79CEDF5003C178EF00000164,
+				79CEDF5103C178EF00000164,
+				79CEDF5203C178EF00000164,
+				79CEDF5303C178EF00000164,
+				79CEDF5403C178EF00000164,
+				79CEDF5503C178EF00000164,
+				79CEDF5603C178EF00000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDF4F03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActiveGraph.Plo;
+			refType = 4;
+		};
+		79CEDF5003C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActiveOutFile.Plo;
+			refType = 4;
+		};
+		79CEDF5103C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Averager.Plo;
+			refType = 4;
+		};
+		79CEDF5203C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Entropy.Plo;
+			refType = 4;
+		};
+		79CEDF5303C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = EZBin.Plo;
+			refType = 4;
+		};
+		79CEDF5403C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = EZDistribution.Plo;
+			refType = 4;
+		};
+		79CEDF5503C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = EZGraph.Plo;
+			refType = 4;
+		};
+		79CEDF5603C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = FunctionGraph.Plo;
+			refType = 4;
+		};
+		79CEDF5703C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF5803C178EF00000164 = {
+			children = (
+				79CEDF5903C178EF00000164,
+				79CEDF6A03C178F000000164,
+			);
+			isa = PBXGroup;
+			path = collections;
+			refType = 4;
+		};
+		79CEDF5903C178EF00000164 = {
+			children = (
+				79CEDF5A03C178EF00000164,
+				79CEDF5B03C178EF00000164,
+				79CEDF5C03C178EF00000164,
+				79CEDF5D03C178EF00000164,
+				79CEDF5E03C178EF00000164,
+				79CEDF5F03C178EF00000164,
+				79CEDF6003C178EF00000164,
+				79CEDF6103C178EF00000164,
+				79CEDF6203C178EF00000164,
+				79CEDF6303C178EF00000164,
+				79CEDF6403C178EF00000164,
+				79CEDF6503C178EF00000164,
+				79CEDF6603C178EF00000164,
+				79CEDF6703C178EF00000164,
+				79CEDF6803C178EF00000164,
+				79CEDF6903C178F000000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDF5A03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Array.Plo;
+			refType = 4;
+		};
+		79CEDF5B03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Collection.Plo;
+			refType = 4;
+		};
+		79CEDF5C03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = collections.Plo;
+			refType = 4;
+		};
+		79CEDF5D03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = InputStream.Plo;
+			refType = 4;
+		};
+		79CEDF5E03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = List.Plo;
+			refType = 4;
+		};
+		79CEDF5F03C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = List_linked.Plo;
+			refType = 4;
+		};
+		79CEDF6003C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = List_mlinks.Plo;
+			refType = 4;
+		};
+		79CEDF6103C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ListShuffler.Plo;
+			refType = 4;
+		};
+		79CEDF6203C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Map.Plo;
+			refType = 4;
+		};
+		79CEDF6303C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = OrderedSet.Plo;
+			refType = 4;
+		};
+		79CEDF6403C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = OutputStream.Plo;
+			refType = 4;
+		};
+		79CEDF6503C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Permutation.Plo;
+			refType = 4;
+		};
+		79CEDF6603C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = predicates.Plo;
+			refType = 4;
+		};
+		79CEDF6703C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Set.Plo;
+			refType = 4;
+		};
+		79CEDF6803C178EF00000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Stream.Plo;
+			refType = 4;
+		};
+		79CEDF6903C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = StringObject.Plo;
+			refType = 4;
+		};
+		79CEDF6A03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF6B03C178F000000164 = {
+			children = (
+				79CEDF6C03C178F000000164,
+				79CEDF8803C178F000000164,
+			);
+			isa = PBXGroup;
+			path = defobj;
+			refType = 4;
+		};
+		79CEDF6C03C178F000000164 = {
+			children = (
+				79CEDF6D03C178F000000164,
+				79CEDF6E03C178F000000164,
+				79CEDF6F03C178F000000164,
+				79CEDF7003C178F000000164,
+				79CEDF7103C178F000000164,
+				79CEDF7203C178F000000164,
+				79CEDF7303C178F000000164,
+				79CEDF7403C178F000000164,
+				79CEDF7503C178F000000164,
+				79CEDF7603C178F000000164,
+				79CEDF7703C178F000000164,
+				79CEDF7803C178F000000164,
+				79CEDF7903C178F000000164,
+				79CEDF7A03C178F000000164,
+				79CEDF7B03C178F000000164,
+				79CEDF7C03C178F000000164,
+				79CEDF7D03C178F000000164,
+				79CEDF7E03C178F000000164,
+				79CEDF7F03C178F000000164,
+				79CEDF8003C178F000000164,
+				79CEDF8103C178F000000164,
+				79CEDF8203C178F000000164,
+				79CEDF8303C178F000000164,
+				79CEDF8403C178F000000164,
+				79CEDF8503C178F000000164,
+				79CEDF8603C178F000000164,
+				79CEDF8703C178F000000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDF6D03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Archiver.Plo;
+			refType = 4;
+		};
+		79CEDF6E03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Arguments.Plo;
+			refType = 4;
+		};
+		79CEDF6F03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = COM.Plo;
+			refType = 4;
+		};
+		79CEDF7003C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = COMProxy.Plo;
+			refType = 4;
+		};
+		79CEDF7103C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Create.Plo;
+			refType = 4;
+		};
+		79CEDF7203C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Customize.Plo;
+			refType = 4;
+		};
+		79CEDF7303C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DefClass.Plo;
+			refType = 4;
+		};
+		79CEDF7403C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = defobj.Plo;
+			refType = 4;
+		};
+		79CEDF7503C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DefObject.Plo;
+			refType = 4;
+		};
+		79CEDF7603C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = directory.Plo;
+			refType = 4;
+		};
+		79CEDF7703C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = FArguments.Plo;
+			refType = 4;
+		};
+		79CEDF7803C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = FCall.Plo;
+			refType = 4;
+		};
+		79CEDF7903C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = fcall_java.Plo;
+			refType = 4;
+		};
+		79CEDF7A03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = fcall_objc.Plo;
+			refType = 4;
+		};
+		79CEDF7B03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = HDF5Archiver.Plo;
+			refType = 4;
+		};
+		79CEDF7C03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = HDF5Object.Plo;
+			refType = 4;
+		};
+		79CEDF7D03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = internal.Plo;
+			refType = 4;
+		};
+		79CEDF7E03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = java.Plo;
+			refType = 4;
+		};
+		79CEDF7F03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = JavaClassProxy.Plo;
+			refType = 4;
+		};
+		79CEDF8003C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = JavaCollection.Plo;
+			refType = 4;
+		};
+		79CEDF8103C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = JavaCollectionIndex.Plo;
+			refType = 4;
+		};
+		79CEDF8203C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = JavaProxy.Plo;
+			refType = 4;
+		};
+		79CEDF8303C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LispArchiver.Plo;
+			refType = 4;
+		};
+		79CEDF8403C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = modulemap.Plo;
+			refType = 4;
+		};
+		79CEDF8503C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Program.Plo;
+			refType = 4;
+		};
+		79CEDF8603C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Symbol.Plo;
+			refType = 4;
+		};
+		79CEDF8703C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Zone.Plo;
+			refType = 4;
+		};
+		79CEDF8803C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF8903C178F000000164 = {
+			children = (
+				79CEDF8A03C178F000000164,
+			);
+			isa = PBXGroup;
+			path = gui;
+			refType = 4;
+		};
+		79CEDF8A03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF8B03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDF8C03C178F000000164 = {
+			children = (
+				79CEDF8D03C178F000000164,
+				79CEDFA403C178F000000164,
+			);
+			isa = PBXGroup;
+			path = misc;
+			refType = 4;
+		};
+		79CEDF8D03C178F000000164 = {
+			children = (
+				79CEDF8E03C178F000000164,
+				79CEDF8F03C178F000000164,
+				79CEDF9003C178F000000164,
+				79CEDF9103C178F000000164,
+				79CEDF9203C178F000000164,
+				79CEDF9303C178F000000164,
+				79CEDF9403C178F000000164,
+				79CEDF9503C178F000000164,
+				79CEDF9603C178F000000164,
+				79CEDF9703C178F000000164,
+				79CEDF9803C178F000000164,
+				79CEDF9903C178F000000164,
+				79CEDF9A03C178F000000164,
+				79CEDF9B03C178F000000164,
+				79CEDF9C03C178F000000164,
+				79CEDF9D03C178F000000164,
+				79CEDF9E03C178F000000164,
+				79CEDF9F03C178F000000164,
+				79CEDFA003C178F000000164,
+				79CEDFA103C178F000000164,
+				79CEDFA203C178F000000164,
+				79CEDFA303C178F000000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDF8E03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = avl.Plo;
+			refType = 4;
+		};
+		79CEDF8F03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = avltr.Plo;
+			refType = 4;
+		};
+		79CEDF9003C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = debugabort.Plo;
+			refType = 4;
+		};
+		79CEDF9103C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = dropdir.Plo;
+			refType = 4;
+		};
+		79CEDF9203C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = find_executable.Plo;
+			refType = 4;
+		};
+		79CEDF9303C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = memchr.Po;
+			refType = 4;
+		};
+		79CEDF9403C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = memcpy.Po;
+			refType = 4;
+		};
+		79CEDF9503C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = memset.Po;
+			refType = 4;
+		};
+		79CEDF9603C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = quicksort.Plo;
+			refType = 4;
+		};
+		79CEDF9703C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = realpath.Po;
+			refType = 4;
+		};
+		79CEDF9803C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = stpcpy.Po;
+			refType = 4;
+		};
+		79CEDF9903C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strchr.Po;
+			refType = 4;
+		};
+		79CEDF9A03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strcmp.Po;
+			refType = 4;
+		};
+		79CEDF9B03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strdup.Plo;
+			refType = 4;
+		};
+		79CEDF9C03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strlen.Po;
+			refType = 4;
+		};
+		79CEDF9D03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strncmp.Po;
+			refType = 4;
+		};
+		79CEDF9E03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strndup.Po;
+			refType = 4;
+		};
+		79CEDF9F03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strnlen.Po;
+			refType = 4;
+		};
+		79CEDFA003C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strpbrk.Po;
+			refType = 4;
+		};
+		79CEDFA103C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strsep.Po;
+			refType = 4;
+		};
+		79CEDFA203C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = strtoll.Po;
+			refType = 4;
+		};
+		79CEDFA303C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = xmalloc.Plo;
+			refType = 4;
+		};
+		79CEDFA403C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDFA503C178F000000164 = {
+			children = (
+				79CEDFA603C178F000000164,
+				79CEDFB603C178F000000164,
+			);
+			isa = PBXGroup;
+			path = objectbase;
+			refType = 4;
+		};
+		79CEDFA603C178F000000164 = {
+			children = (
+				79CEDFA703C178F000000164,
+				79CEDFA803C178F000000164,
+				79CEDFA903C178F000000164,
+				79CEDFAA03C178F000000164,
+				79CEDFAB03C178F000000164,
+				79CEDFAC03C178F000000164,
+				79CEDFAD03C178F000000164,
+				79CEDFAE03C178F000000164,
+				79CEDFAF03C178F000000164,
+				79CEDFB003C178F000000164,
+				79CEDFB103C178F000000164,
+				79CEDFB203C178F000000164,
+				79CEDFB303C178F000000164,
+				79CEDFB403C178F000000164,
+				79CEDFB503C178F000000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDFA703C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActivityControl.Plo;
+			refType = 4;
+		};
+		79CEDFA803C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CompleteProbeMap.Plo;
+			refType = 4;
+		};
+		79CEDFA903C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CompleteVarMap.Plo;
+			refType = 4;
+		};
+		79CEDFAA03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CustomProbeMap.Plo;
+			refType = 4;
+		};
+		79CEDFAB03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DefaultProbeMap.Plo;
+			refType = 4;
+		};
+		79CEDFAC03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = EmptyProbeMap.Plo;
+			refType = 4;
+		};
+		79CEDFAD03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MessageProbe.Plo;
+			refType = 4;
+		};
+		79CEDFAE03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Probe.Plo;
+			refType = 4;
+		};
+		79CEDFAF03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ProbeLibrary.Plo;
+			refType = 4;
+		};
+		79CEDFB003C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ProbeMap.Plo;
+			refType = 4;
+		};
+		79CEDFB103C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = probing.Plo;
+			refType = 4;
+		};
+		79CEDFB203C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Swarm.Plo;
+			refType = 4;
+		};
+		79CEDFB303C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = swarm_rts_routines.Plo;
+			refType = 4;
+		};
+		79CEDFB403C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SwarmObject.Plo;
+			refType = 4;
+		};
+		79CEDFB503C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = VarProbe.Plo;
+			refType = 4;
+		};
+		79CEDFB603C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDFB703C178F000000164 = {
+			children = (
+				79CEDFB803C178F000000164,
+				79CEDFD603C178F000000164,
+			);
+			isa = PBXGroup;
+			path = random;
+			refType = 4;
+		};
+		79CEDFB803C178F000000164 = {
+			children = (
+				79CEDFB903C178F000000164,
+				79CEDFBA03C178F000000164,
+				79CEDFBB03C178F000000164,
+				79CEDFBC03C178F000000164,
+				79CEDFBD03C178F000000164,
+				79CEDFBE03C178F000000164,
+				79CEDFBF03C178F000000164,
+				79CEDFC003C178F000000164,
+				79CEDFC103C178F000000164,
+				79CEDFC203C178F000000164,
+				79CEDFC303C178F000000164,
+				79CEDFC403C178F000000164,
+				79CEDFC503C178F000000164,
+				79CEDFC603C178F000000164,
+				79CEDFC703C178F000000164,
+				79CEDFC803C178F000000164,
+				79CEDFC903C178F000000164,
+				79CEDFCA03C178F000000164,
+				79CEDFCB03C178F000000164,
+				79CEDFCC03C178F000000164,
+				79CEDFCD03C178F000000164,
+				79CEDFCE03C178F000000164,
+				79CEDFCF03C178F000000164,
+				79CEDFD003C178F000000164,
+				79CEDFD103C178F000000164,
+				79CEDFD203C178F000000164,
+				79CEDFD303C178F000000164,
+				79CEDFD403C178F000000164,
+				79CEDFD503C178F000000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDFB903C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ACGgen.Plo;
+			refType = 4;
+		};
+		79CEDFBA03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = BernoulliDist.Plo;
+			refType = 4;
+		};
+		79CEDFBB03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = C2LCGXgen.Plo;
+			refType = 4;
+		};
+		79CEDFBC03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = C2MRG3gen.Plo;
+			refType = 4;
+		};
+		79CEDFBD03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = C2TAUSgen.Plo;
+			refType = 4;
+		};
+		79CEDFBE03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = C3MWCgen.Plo;
+			refType = 4;
+		};
+		79CEDFBF03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = C4LCGXgen.Plo;
+			refType = 4;
+		};
+		79CEDFC003C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ExponentialDist.Plo;
+			refType = 4;
+		};
+		79CEDFC103C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = GammaDist.Plo;
+			refType = 4;
+		};
+		79CEDFC203C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LCGgen.Plo;
+			refType = 4;
+		};
+		79CEDFC303C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LogNormalDist.Plo;
+			refType = 4;
+		};
+		79CEDFC403C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MRGgen.Plo;
+			refType = 4;
+		};
+		79CEDFC503C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MT19937gen.Plo;
+			refType = 4;
+		};
+		79CEDFC603C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MWCAgen.Plo;
+			refType = 4;
+		};
+		79CEDFC703C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MWCBgen.Plo;
+			refType = 4;
+		};
+		79CEDFC803C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = NormalDist.Plo;
+			refType = 4;
+		};
+		79CEDFC903C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PMMLCGgen.Plo;
+			refType = 4;
+		};
+		79CEDFCA03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PoissonDist.Plo;
+			refType = 4;
+		};
+		79CEDFCB03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = PSWBgen.Plo;
+			refType = 4;
+		};
+		79CEDFCC03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = random.Plo;
+			refType = 4;
+		};
+		79CEDFCD03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = RandomBitDist.Plo;
+			refType = 4;
+		};
+		79CEDFCE03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = RWC2gen.Plo;
+			refType = 4;
+		};
+		79CEDFCF03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = RWC8gen.Plo;
+			refType = 4;
+		};
+		79CEDFD003C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SCGgen.Plo;
+			refType = 4;
+		};
+		79CEDFD103C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SWBgen.Plo;
+			refType = 4;
+		};
+		79CEDFD203C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = TGFSRgen.Plo;
+			refType = 4;
+		};
+		79CEDFD303C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = UniformDoubleDist.Plo;
+			refType = 4;
+		};
+		79CEDFD403C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = UniformIntegerDist.Plo;
+			refType = 4;
+		};
+		79CEDFD503C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = UniformUnsignedDist.Plo;
+			refType = 4;
+		};
+		79CEDFD603C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDFD703C178F000000164 = {
+			children = (
+				79CEDFD803C178F000000164,
+				79CEDFE103C178F100000164,
+			);
+			isa = PBXGroup;
+			path = simtools;
+			refType = 4;
+		};
+		79CEDFD803C178F000000164 = {
+			children = (
+				79CEDFD903C178F000000164,
+				79CEDFDA03C178F000000164,
+				79CEDFDB03C178F000000164,
+				79CEDFDC03C178F000000164,
+				79CEDFDD03C178F000000164,
+				79CEDFDE03C178F100000164,
+				79CEDFDF03C178F100000164,
+				79CEDFE003C178F100000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDFD903C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AppendFile.Plo;
+			refType = 4;
+		};
+		79CEDFDA03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = InFile.Plo;
+			refType = 4;
+		};
+		79CEDFDB03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = NSelect.Plo;
+			refType = 4;
+		};
+		79CEDFDC03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ObjectLoader.Plo;
+			refType = 4;
+		};
+		79CEDFDD03C178F000000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ObjectSaver.Plo;
+			refType = 4;
+		};
+		79CEDFDE03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = OutFile.Plo;
+			refType = 4;
+		};
+		79CEDFDF03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = QSort.Plo;
+			refType = 4;
+		};
+		79CEDFE003C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = UName.Plo;
+			refType = 4;
+		};
+		79CEDFE103C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDFE203C178F100000164 = {
+			children = (
+				79CEDFE303C178F100000164,
+				79CEDFF503C178F100000164,
+			);
+			isa = PBXGroup;
+			path = simtoolsgui;
+			refType = 4;
+		};
+		79CEDFE303C178F100000164 = {
+			children = (
+				79CEDFE403C178F100000164,
+				79CEDFE503C178F100000164,
+				79CEDFE603C178F100000164,
+				79CEDFE703C178F100000164,
+				79CEDFE803C178F100000164,
+				79CEDFE903C178F100000164,
+				79CEDFEA03C178F100000164,
+				79CEDFEB03C178F100000164,
+				79CEDFEC03C178F100000164,
+				79CEDFED03C178F100000164,
+				79CEDFEE03C178F100000164,
+				79CEDFEF03C178F100000164,
+				79CEDFF003C178F100000164,
+				79CEDFF103C178F100000164,
+				79CEDFF203C178F100000164,
+				79CEDFF303C178F100000164,
+				79CEDFF403C178F100000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDFE403C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActionCache.Plo;
+			refType = 4;
+		};
+		79CEDFE503C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActionHolder.Plo;
+			refType = 4;
+		};
+		79CEDFE603C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ClassDisplayWidget.Plo;
+			refType = 4;
+		};
+		79CEDFE703C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CommonProbeDisplay.Plo;
+			refType = 4;
+		};
+		79CEDFE803C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CompleteProbeDisplay.Plo;
+			refType = 4;
+		};
+		79CEDFE903C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ControlPanel.Plo;
+			refType = 4;
+		};
+		79CEDFEA03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = GUIComposite.Plo;
+			refType = 4;
+		};
+		79CEDFEB03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = GUISwarm.Plo;
+			refType = 4;
+		};
+		79CEDFEC03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MessageProbeWidget.Plo;
+			refType = 4;
+		};
+		79CEDFED03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MultiVarProbeDisplay.Plo;
+			refType = 4;
+		};
+		79CEDFEE03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MultiVarProbeWidget.Plo;
+			refType = 4;
+		};
+		79CEDFEF03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ProbeDisplay.Plo;
+			refType = 4;
+		};
+		79CEDFF003C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ProbeDisplayManager.Plo;
+			refType = 4;
+		};
+		79CEDFF103C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SimpleProbeDisplay.Plo;
+			refType = 4;
+		};
+		79CEDFF203C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = simtoolsgui.Plo;
+			refType = 4;
+		};
+		79CEDFF303C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SingleProbeDisplay.Plo;
+			refType = 4;
+		};
+		79CEDFF403C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = VarProbeWidget.Plo;
+			refType = 4;
+		};
+		79CEDFF503C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEDFF603C178F100000164 = {
+			children = (
+				79CEDFF703C178F100000164,
+				79CEE00103C178F100000164,
+			);
+			isa = PBXGroup;
+			path = space;
+			refType = 4;
+		};
+		79CEDFF703C178F100000164 = {
+			children = (
+				79CEDFF803C178F100000164,
+				79CEDFF903C178F100000164,
+				79CEDFFA03C178F100000164,
+				79CEDFFB03C178F100000164,
+				79CEDFFC03C178F100000164,
+				79CEDFFD03C178F100000164,
+				79CEDFFE03C178F100000164,
+				79CEDFFF03C178F100000164,
+				79CEE00003C178F100000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEDFF803C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Ca2d.Plo;
+			refType = 4;
+		};
+		79CEDFF903C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ConwayLife2d.Plo;
+			refType = 4;
+		};
+		79CEDFFA03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DblBuffer2d.Plo;
+			refType = 4;
+		};
+		79CEDFFB03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Diffuse2d.Plo;
+			refType = 4;
+		};
+		79CEDFFC03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Discrete2d.Plo;
+			refType = 4;
+		};
+		79CEDFFD03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Grid2d.Plo;
+			refType = 4;
+		};
+		79CEDFFE03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Int2dFiler.Plo;
+			refType = 4;
+		};
+		79CEDFFF03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Object2dDisplay.Plo;
+			refType = 4;
+		};
+		79CEE00003C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Value2dDisplay.Plo;
+			refType = 4;
+		};
+		79CEE00103C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE00203C178F100000164 = {
+			children = (
+				79CEE00303C178F100000164,
+				79CEE00A03C178F100000164,
+			);
+			isa = PBXGroup;
+			path = tclobjc;
+			refType = 4;
+		};
+		79CEE00303C178F100000164 = {
+			children = (
+				79CEE00403C178F100000164,
+				79CEE00503C178F100000164,
+				79CEE00603C178F100000164,
+				79CEE00703C178F100000164,
+				79CEE00803C178F100000164,
+				79CEE00903C178F100000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE00403C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = HashTable.Plo;
+			refType = 4;
+		};
+		79CEE00503C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = List.Plo;
+			refType = 4;
+		};
+		79CEE00603C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "objc-malloc.Plo";
+			refType = 4;
+		};
+		79CEE00703C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = TclInterp.Plo;
+			refType = 4;
+		};
+		79CEE00803C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = tclObjc.Plo;
+			refType = 4;
+		};
+		79CEE00903C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = TkInterp.Plo;
+			refType = 4;
+		};
+		79CEE00A03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE00B03C178F100000164 = {
+			children = (
+				79CEE00C03C178F100000164,
+				79CEE03903C178F100000164,
+				79CEE03A03C178F100000164,
+			);
+			isa = PBXGroup;
+			path = tkobjc;
+			refType = 4;
+		};
+		79CEE00C03C178F100000164 = {
+			children = (
+				79CEE00D03C178F100000164,
+				79CEE00E03C178F100000164,
+				79CEE00F03C178F100000164,
+				79CEE01003C178F100000164,
+				79CEE01103C178F100000164,
+				79CEE01203C178F100000164,
+				79CEE01303C178F100000164,
+				79CEE01403C178F100000164,
+				79CEE01503C178F100000164,
+				79CEE01603C178F100000164,
+				79CEE01703C178F100000164,
+				79CEE01803C178F100000164,
+				79CEE01903C178F100000164,
+				79CEE01A03C178F100000164,
+				79CEE01B03C178F100000164,
+				79CEE01C03C178F100000164,
+				79CEE01D03C178F100000164,
+				79CEE01E03C178F100000164,
+				79CEE01F03C178F100000164,
+				79CEE02003C178F100000164,
+				79CEE02103C178F100000164,
+				79CEE02203C178F100000164,
+				79CEE02303C178F100000164,
+				79CEE02403C178F100000164,
+				79CEE02503C178F100000164,
+				79CEE02603C178F100000164,
+				79CEE02703C178F100000164,
+				79CEE02803C178F100000164,
+				79CEE02903C178F100000164,
+				79CEE02A03C178F100000164,
+				79CEE02B03C178F100000164,
+				79CEE02C03C178F100000164,
+				79CEE02D03C178F100000164,
+				79CEE02E03C178F100000164,
+				79CEE02F03C178F100000164,
+				79CEE03003C178F100000164,
+				79CEE03103C178F100000164,
+				79CEE03203C178F100000164,
+				79CEE03303C178F100000164,
+				79CEE03403C178F100000164,
+				79CEE03503C178F100000164,
+				79CEE03603C178F100000164,
+				79CEE03703C178F100000164,
+				79CEE03803C178F100000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE00D03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ArchivedGeometryWidget.Plo;
+			refType = 4;
+		};
+		79CEE00E03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Button.Plo;
+			refType = 4;
+		};
+		79CEE00F03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ButtonPanel.Plo;
+			refType = 4;
+		};
+		79CEE01003C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Canvas.Plo;
+			refType = 4;
+		};
+		79CEE01103C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CanvasAbstractItem.Plo;
+			refType = 4;
+		};
+		79CEE01203C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CanvasItem.Plo;
+			refType = 4;
+		};
+		79CEE01303C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CheckButton.Plo;
+			refType = 4;
+		};
+		79CEE01403C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Circle.Plo;
+			refType = 4;
+		};
+		79CEE01503C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ClassDisplayHideButton.Plo;
+			refType = 4;
+		};
+		79CEE01603C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ClassDisplayLabel.Plo;
+			refType = 4;
+		};
+		79CEE01703C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Colormap.Plo;
+			refType = 4;
+		};
+		79CEE01803C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = common.Plo;
+			refType = 4;
+		};
+		79CEE01903C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CompleteProbeDisplayLabel.Plo;
+			refType = 4;
+		};
+		79CEE01A03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = CompositeItem.Plo;
+			refType = 4;
+		};
+		79CEE01B03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Entry.Plo;
+			refType = 4;
+		};
+		79CEE01C03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Form.Plo;
+			refType = 4;
+		};
+		79CEE01D03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Frame.Plo;
+			refType = 4;
+		};
+		79CEE01E03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Graph.Plo;
+			refType = 4;
+		};
+		79CEE01F03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Histogram.Plo;
+			refType = 4;
+		};
+		79CEE02003C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = InputWidget.Plo;
+			refType = 4;
+		};
+		79CEE02103C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = internal.Plo;
+			refType = 4;
+		};
+		79CEE02203C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Label.Plo;
+			refType = 4;
+		};
+		79CEE02303C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Line.Plo;
+			refType = 4;
+		};
+		79CEE02403C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LinkItem.Plo;
+			refType = 4;
+		};
+		79CEE02503C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MessageProbeEntry.Plo;
+			refType = 4;
+		};
+		79CEE02603C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = NodeItem.Plo;
+			refType = 4;
+		};
+		79CEE02703C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = OvalNodeItem.Plo;
+			refType = 4;
+		};
+		79CEE02803C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Pixmap.Plo;
+			refType = 4;
+		};
+		79CEE02903C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ProbeCanvas.Plo;
+			refType = 4;
+		};
+		79CEE02A03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Raster.Plo;
+			refType = 4;
+		};
+		79CEE02B03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Rectangle.Plo;
+			refType = 4;
+		};
+		79CEE02C03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = RectangleNodeItem.Plo;
+			refType = 4;
+		};
+		79CEE02D03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ScheduleItem.Plo;
+			refType = 4;
+		};
+		79CEE02E03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SimpleProbeDisplayHideButton.Plo;
+			refType = 4;
+		};
+		79CEE02F03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = SuperButton.Plo;
+			refType = 4;
+		};
+		79CEE03003C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = TextItem.Plo;
+			refType = 4;
+		};
+		79CEE03103C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = TkExtra.Plo;
+			refType = 4;
+		};
+		79CEE03203C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = tkobjc.Plo;
+			refType = 4;
+		};
+		79CEE03303C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = VarProbeEntry.Plo;
+			refType = 4;
+		};
+		79CEE03403C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = VarProbeLabel.Plo;
+			refType = 4;
+		};
+		79CEE03503C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Widget.Plo;
+			refType = 4;
+		};
+		79CEE03603C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = win32dib.Plo;
+			refType = 4;
+		};
+		79CEE03703C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = WindowGeometryRecord.Plo;
+			refType = 4;
+		};
+		79CEE03803C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ZoomRaster.Plo;
+			refType = 4;
+		};
+		79CEE03903C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE03A03C178F100000164 = {
+			children = (
+				79CEE03B03C178F100000164,
+			);
+			isa = PBXGroup;
+			path = tk;
+			refType = 4;
+		};
+		79CEE03B03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE03C03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = "stamp-h1";
+			path = "build/stamp-h1";
+			refType = 4;
+		};
+		79CEE03D03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = "stamp-h2";
+			path = "build/stamp-h2";
+			refType = 4;
+		};
+		79CEE03E03C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = swarmconfig.h;
+			path = build/swarmconfig.h;
+			refType = 4;
+		};
+		79CEE04D03C178F100000164 = {
+			children = (
+				79CEE04E03C178F100000164,
+				79CEE06203C178F200000164,
+				79CEE06603C178F200000164,
+				79CEE06B03C178F200000164,
+				79CEE06C03C178F200000164,
+				79CEE07003C178F200000164,
+				79CEE07703C178F200000164,
+			);
+			isa = PBXGroup;
+			name = tests;
+			path = build/tests;
+			refType = 4;
+		};
+		79CEE04E03C178F100000164 = {
+			children = (
+				79CEE04F03C178F100000164,
+				79CEE06103C178F200000164,
+			);
+			isa = PBXGroup;
+			path = activity;
+			refType = 4;
+		};
+		79CEE04F03C178F100000164 = {
+			children = (
+				79CEE05003C178F100000164,
+				79CEE05103C178F200000164,
+				79CEE05203C178F200000164,
+				79CEE05303C178F200000164,
+				79CEE05403C178F200000164,
+				79CEE05503C178F200000164,
+				79CEE05603C178F200000164,
+				79CEE05703C178F200000164,
+				79CEE05803C178F200000164,
+				79CEE05903C178F200000164,
+				79CEE05A03C178F200000164,
+				79CEE05B03C178F200000164,
+				79CEE05C03C178F200000164,
+				79CEE05D03C178F200000164,
+				79CEE05E03C178F200000164,
+				79CEE05F03C178F200000164,
+				79CEE06003C178F200000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE05003C178F100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActionGroup.Po;
+			refType = 4;
+		};
+		79CEE05103C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActionGroup_test.Po;
+			refType = 4;
+		};
+		79CEE05203C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ActionGroupRandomized.Po;
+			refType = 4;
+		};
+		79CEE05303C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ConcurrentGroup.Po;
+			refType = 4;
+		};
+		79CEE05403C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ConcurrentGroup_test.Po;
+			refType = 4;
+		};
+		79CEE05503C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ConcurrentGroupRandomized.Po;
+			refType = 4;
+		};
+		79CEE05603C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DSRSwarm.Po;
+			refType = 4;
+		};
+		79CEE05703C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DSSwarm.Po;
+			refType = 4;
+		};
+		79CEE05803C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DynamicSchedule.Po;
+			refType = 4;
+		};
+		79CEE05903C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = DynamicScheduleRepeat.Po;
+			refType = 4;
+		};
+		79CEE05A03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = EmptySchedule.Po;
+			refType = 4;
+		};
+		79CEE05B03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ESSwarm.Po;
+			refType = 4;
+		};
+		79CEE05C03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ForEach.Po;
+			refType = 4;
+		};
+		79CEE05D03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ForEachRandomized.Po;
+			refType = 4;
+		};
+		79CEE05E03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Responder.Po;
+			refType = 4;
+		};
+		79CEE05F03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Schedule.Po;
+			refType = 4;
+		};
+		79CEE06003C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = tactivity.Po;
+			refType = 4;
+		};
+		79CEE06103C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE06203C178F200000164 = {
+			children = (
+				79CEE06303C178F200000164,
+				79CEE06503C178F200000164,
+			);
+			isa = PBXGroup;
+			path = collections;
+			refType = 4;
+		};
+		79CEE06303C178F200000164 = {
+			children = (
+				79CEE06403C178F200000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE06403C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = archiver.Po;
+			refType = 4;
+		};
+		79CEE06503C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE06603C178F200000164 = {
+			children = (
+				79CEE06703C178F200000164,
+				79CEE06A03C178F200000164,
+			);
+			isa = PBXGroup;
+			path = defobj;
+			refType = 4;
+		};
+		79CEE06703C178F200000164 = {
+			children = (
+				79CEE06803C178F200000164,
+				79CEE06903C178F200000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE06803C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = archiver.Po;
+			refType = 4;
+		};
+		79CEE06903C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = forwarding.Po;
+			refType = 4;
+		};
+		79CEE06A03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE06B03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE06C03C178F200000164 = {
+			children = (
+				79CEE06D03C178F200000164,
+				79CEE06F03C178F200000164,
+			);
+			isa = PBXGroup;
+			path = objectbase;
+			refType = 4;
+		};
+		79CEE06D03C178F200000164 = {
+			children = (
+				79CEE06E03C178F200000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE06E03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ProbeTest.Po;
+			refType = 4;
+		};
+		79CEE06F03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE07003C178F200000164 = {
+			children = (
+				79CEE07103C178F200000164,
+				79CEE07603C178F200000164,
+			);
+			isa = PBXGroup;
+			path = simtools;
+			refType = 4;
+		};
+		79CEE07103C178F200000164 = {
+			children = (
+				79CEE07203C178F200000164,
+				79CEE07303C178F200000164,
+				79CEE07403C178F200000164,
+				79CEE07503C178F200000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE07203C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AppendFileTest.Po;
+			refType = 4;
+		};
+		79CEE07303C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ObjectLoaderTest.Po;
+			refType = 4;
+		};
+		79CEE07403C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = QSortTest.Po;
+			refType = 4;
+		};
+		79CEE07503C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = TestObject.Po;
+			refType = 4;
+		};
+		79CEE07603C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE07703C178F200000164 = {
+			children = (
+				79CEE07803C178F200000164,
+				79CEE07A03C178F200000164,
+			);
+			isa = PBXGroup;
+			path = space;
+			refType = 4;
+		};
+		79CEE07803C178F200000164 = {
+			children = (
+				79CEE07903C178F200000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE07903C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Discrete2d.Po;
+			refType = 4;
+		};
+		79CEE07A03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE07B03C178F200000164 = {
+			children = (
+				79CEE07C03C178F200000164,
+				79CEE07E03C178F200000164,
+				79CEE07F03C178F200000164,
+			);
+			isa = PBXGroup;
+			name = tools;
+			path = build/tools;
+			refType = 4;
+		};
+		79CEE07C03C178F200000164 = {
+			children = (
+				79CEE07D03C178F200000164,
+			);
+			isa = PBXGroup;
+			path = .deps;
+			refType = 4;
+		};
+		79CEE07D03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = findImp.Po;
+			refType = 4;
+		};
+		79CEE07E03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Makefile;
+			refType = 4;
+		};
+		79CEE07F03C178F200000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = "print-hdf5";
+			refType = 4;
+		};
+		79CEE08003C182A100000164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = mframe.h;
+			refType = 4;
+		};
+//790
+//791
+//792
+//793
+//794
 //C60
 //C61
 //C62
@@ -132,6 +3132,7 @@
 //C64
 		C6A0FF2B0290797F04C91782 = {
 			children = (
+				79CEDEB603C15B1500000164,
 			);
 			isa = PBXGroup;
 			name = Documentation;
@@ -216,13 +3217,6 @@
 			path = ../../acconfig.h;
 			refType = 2;
 		};
-		F6EF82C303A43ABC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = aclocal.m4;
-			path = /Users/billn/Public/Swarm/swarmbuild/aclocal.m4;
-			refType = 0;
-		};
 		F6EF82C403A43ABC015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -239,7 +3233,6 @@
 		};
 		F6EF82C603A43ABC015E7421 = {
 			children = (
-				F6EF82C803A43ABC015E7421,
 				F6EF82C903A43ABC015E7421,
 				F6EF82CA03A43ABC015E7421,
 				F6EF82CB03A43ABC015E7421,
@@ -288,21 +3281,15 @@
 				F6EF82F603A43ABD015E7421,
 				F6EF82F703A43ABD015E7421,
 				F6EF82F803A43ABD015E7421,
-				F6EF82F903A43ABD015E7421,
 				F6EF82FA03A43ABD015E7421,
 				F6EF82FB03A43ABD015E7421,
 				F6EF82FC03A43ABD015E7421,
 				F6EF82FD03A43ABD015E7421,
 				F6EF82FE03A43ABD015E7421,
 				F6EF82FF03A43ABD015E7421,
-				F6EF830003A43ABD015E7421,
-				F6EF830103A43ABD015E7421,
-				F6EF830203A43ABD015E7421,
 				F6EF830303A43ABD015E7421,
 				F6EF830403A43ABD015E7421,
 				F6EF830503A43ABD015E7421,
-				F6EF830603A43ABD015E7421,
-				F6EF830703A43ABD015E7421,
 				F6EF830803A43ABD015E7421,
 				F6EF830903A43ABD015E7421,
 				F6EF830A03A43ABD015E7421,
@@ -325,8 +3312,9 @@
 		F6EF82C803A43ABC015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = aclocal.m4;
-			refType = 4;
+			name = aclocal.m4;
+			path = /Users/billn/Public/Swarm/swarm/avcall/aclocal.m4;
+			refType = 0;
 		};
 		F6EF82C903A43ABC015E7421 = {
 			fileEncoding = 30;
@@ -616,12 +3604,6 @@
 			path = avcall.3;
 			refType = 4;
 		};
-		F6EF82F903A43ABD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = avcall.h;
-			refType = 4;
-		};
 		F6EF82FA03A43ABD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -657,21 +3639,12 @@
 			path = ChangeLog;
 			refType = 4;
 		};
-		F6EF830003A43ABD015E7421 = {
-			isa = PBXFileReference;
-			path = config.log;
-			refType = 4;
-		};
-		F6EF830103A43ABD015E7421 = {
-			isa = PBXExecutableFileReference;
-			path = config.status;
-			refType = 4;
-		};
 		F6EF830203A43ABD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXExecutableFileReference;
-			path = configure;
-			refType = 4;
+			name = configure;
+			path = /Users/billn/Public/Swarm/swarm/avcall/configure;
+			refType = 0;
 		};
 		F6EF830303A43ABD015E7421 = {
 			fileEncoding = 30;
@@ -689,17 +3662,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = DOC;
-			refType = 4;
-		};
-		F6EF830603A43ABD015E7421 = {
-			isa = PBXExecutableFileReference;
-			path = libtool;
-			refType = 4;
-		};
-		F6EF830703A43ABD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
 			refType = 4;
 		};
 		F6EF830803A43ABD015E7421 = {
@@ -1450,9 +4412,7 @@
 			children = (
 				F6EF837503A43ABF015E7421,
 				F6EF838003A43ABF015E7421,
-				F6EF838103A43ABF015E7421,
 				F6EF838203A43ABF015E7421,
-				F6EF838303A43ABF015E7421,
 				F6EF838403A43ABF015E7421,
 				F6EF838503A43ABF015E7421,
 			);
@@ -1465,7 +4425,6 @@
 			children = (
 				F6EF837603A43ABF015E7421,
 				F6EF837703A43ABF015E7421,
-				F6EF837803A43ABF015E7421,
 				F6EF837903A43ABF015E7421,
 				F6EF837A03A43ABF015E7421,
 				F6EF837B03A43ABF015E7421,
@@ -1488,12 +4447,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = COMsupport.h;
-			refType = 4;
-		};
-		F6EF837803A43ABF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
 			refType = 4;
 		};
 		F6EF837903A43ABF015E7421 = {
@@ -1544,12 +4497,6 @@
 			path = COM.el;
 			refType = 4;
 		};
-		F6EF838103A43ABF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF838203A43ABF015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1559,8 +4506,9 @@
 		F6EF838303A43ABF015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/COM/Makefile.in;
+			refType = 0;
 		};
 		F6EF838403A43ABF015E7421 = {
 			fileEncoding = 30;
@@ -1574,31 +4522,11 @@
 			path = uuids.el;
 			refType = 4;
 		};
-		F6EF838603A43ABF015E7421 = {
-			isa = PBXFileReference;
-			name = common.elc;
-			path = /Users/billn/Public/Swarm/swarmbuild/common.elc;
-			refType = 0;
-		};
-		F6EF838703A43ABF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = config.cache;
-			path = /Users/billn/Public/Swarm/swarmbuild/config.cache;
-			refType = 0;
-		};
 		F6EF838803A43ABF015E7421 = {
 			fileEncoding = 30;
 			isa = PBXExecutableFileReference;
 			name = config.guess;
 			path = ../../config.guess;
-			refType = 2;
-		};
-		F6EF838A03A43ABF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXExecutableFileReference;
-			name = config.status;
-			path = ../../config.status;
 			refType = 2;
 		};
 		F6EF838B03A43ABF015E7421 = {
@@ -1607,13 +4535,6 @@
 			name = config.sub;
 			path = ../../config.sub;
 			refType = 2;
-		};
-		F6EF838C03A43ABF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXExecutableFileReference;
-			name = configure;
-			path = /Users/billn/Public/Swarm/swarmbuild/configure;
-			refType = 0;
 		};
 		F6EF838D03A43ABF015E7421 = {
 			fileEncoding = 30;
@@ -1640,21 +4561,14 @@
 			children = (
 				F6EF839503A43ABF015E7421,
 				F6EF839603A43ABF015E7421,
-				F6EF839703A43ABF015E7421,
 				F6EF839803A43ABF015E7421,
 				F6EF839903A43AC0015E7421,
-				F6EF839A03A43AC0015E7421,
 				F6EF839B03A43AC0015E7421,
-				F6EF839C03A43AC0015E7421,
 				F6EF839D03A43AC0015E7421,
-				F6EF839E03A43AC0015E7421,
 				F6EF839F03A43AC0015E7421,
-				F6EF83A003A43AC0015E7421,
-				F6EF83A103A43AC0015E7421,
 				F6EF83A203A43AC0015E7421,
 				F6EF83A303A43AC0015E7421,
 				F6EF83A403A43AC0015E7421,
-				F6EF83A503A43AC0015E7421,
 				F6EF83A603A43AC0015E7421,
 				F6EF83A703A43AC0015E7421,
 				F6EF83A803A43AC0015E7421,
@@ -1676,11 +4590,6 @@
 			path = common.el;
 			refType = 4;
 		};
-		F6EF839703A43ABF015E7421 = {
-			isa = PBXFileReference;
-			path = config.swarm;
-			refType = 4;
-		};
 		F6EF839803A43ABF015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1693,32 +4602,16 @@
 			path = interface.el;
 			refType = 4;
 		};
-		F6EF839A03A43AC0015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF839B03A43AC0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = Makefile.am;
 			refType = 4;
 		};
-		F6EF839C03A43AC0015E7421 = {
-			isa = PBXFileReference;
-			path = Makefile.appl;
-			refType = 4;
-		};
 		F6EF839D03A43AC0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = Makefile.appl.in;
-			refType = 4;
-		};
-		F6EF839E03A43AC0015E7421 = {
-			isa = PBXFileReference;
-			path = Makefile.common;
 			refType = 4;
 		};
 		F6EF839F03A43AC0015E7421 = {
@@ -1730,13 +4623,9 @@
 		F6EF83A003A43AC0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
-		};
-		F6EF83A103A43AC0015E7421 = {
-			isa = PBXFileReference;
-			path = Makefile.lib;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/etc/Makefile.in;
+			refType = 0;
 		};
 		F6EF83A203A43AC0015E7421 = {
 			fileEncoding = 30;
@@ -1756,11 +4645,6 @@
 			path = Makefile.rules;
 			refType = 4;
 		};
-		F6EF83A503A43AC0015E7421 = {
-			isa = PBXFileReference;
-			path = Makefile.tests;
-			refType = 4;
-		};
 		F6EF83A603A43AC0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1778,13 +4662,6 @@
 			isa = PBXFileReference;
 			path = protocol.el;
 			refType = 4;
-		};
-		F6EF83A903A43AC0015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = externvar.h;
-			path = /Users/billn/Public/Swarm/swarmbuild/externvar.h;
-			refType = 0;
 		};
 		F6EF83AA03A43AC0015E7421 = {
 			fileEncoding = 30;
@@ -1807,29 +4684,19 @@
 			path = "../../install-sh";
 			refType = 2;
 		};
-		F6EF83AD03A43AC0015E7421 = {
-			isa = PBXFileReference;
-			name = interface.elc;
-			path = /Users/billn/Public/Swarm/swarmbuild/interface.elc;
-			refType = 0;
-		};
 		F6EF83AE03A43AC0015E7421 = {
 			children = (
 				F6EF83AF03A43AC0015E7421,
 				F6EF83B503A43AC0015E7421,
 				F6EF83B603A43AC0015E7421,
 				F6EF83B703A43AC0015E7421,
-				F6EF83B803A43AC0015E7421,
 				F6EF83B903A43AC0015E7421,
 				F6EF83BA03A43AC0015E7421,
-				F6EF83BB03A43AC0015E7421,
 				F6EF83BC03A43AC0015E7421,
 				F6EF83BD03A43AC0015E7421,
 				F6EF83BE03A43AC0015E7421,
 				F6EF83BF03A43AC0015E7421,
-				F6EF83C003A43AC0015E7421,
 				F6EF83C103A43AC0015E7421,
-				F6EF83C203A43AC0015E7421,
 				F6EF83C303A43AC0015E7421,
 				F6EF83D303A43AC1015E7421,
 			);
@@ -1842,7 +4709,6 @@
 			children = (
 				F6EF83B003A43AC0015E7421,
 				F6EF83B103A43AC0015E7421,
-				F6EF83B203A43AC0015E7421,
 				F6EF83B303A43AC0015E7421,
 				F6EF83B403A43AC0015E7421,
 			);
@@ -1860,12 +4726,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = javaswarm.dll.c;
-			refType = 4;
-		};
-		F6EF83B203A43AC0015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
 			refType = 4;
 		};
 		F6EF83B303A43AC0015E7421 = {
@@ -1898,11 +4758,6 @@
 			path = "java-stub.el";
 			refType = 4;
 		};
-		F6EF83B803A43AC0015E7421 = {
-			isa = PBXFileReference;
-			path = javacswarm;
-			refType = 4;
-		};
 		F6EF83B903A43AC0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1913,11 +4768,6 @@
 			includeInIndex = 1;
 			isa = PBXZipArchiveReference;
 			path = JavaDeps.jar;
-			refType = 4;
-		};
-		F6EF83BB03A43AC0015E7421 = {
-			isa = PBXFileReference;
-			path = javaswarm;
 			refType = 4;
 		};
 		F6EF83BC03A43AC0015E7421 = {
@@ -1944,12 +4794,6 @@
 			path = "kawa-1.6.70.jar";
 			refType = 4;
 		};
-		F6EF83C003A43AC0015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF83C103A43AC0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1959,8 +4803,9 @@
 		F6EF83C203A43AC0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/java/Makefile.in;
+			refType = 0;
 		};
 		F6EF83C303A43AC0015E7421 = {
 			children = (
@@ -2082,81 +4927,46 @@
 		};
 		F6EF83D403A43AC1015E7421 = {
 			children = (
-				F6EF83D503A43AC1015E7421,
-				F6EF83E803A43AC1015E7421,
 				F6EF83E903A43AC1015E7421,
-				F6EF83EA03A43AC1015E7421,
 				F6EF83EB03A43AC1015E7421,
-				F6EF83EC03A43AC1015E7421,
-				F6EF83ED03A43AC1015E7421,
 				F6EF83EE03A43AC1015E7421,
 				F6EF83EF03A43AC1015E7421,
 				F6EF83F003A43AC1015E7421,
-				F6EF83F103A43AC1015E7421,
-				F6EF83F203A43AC1015E7421,
-				F6EF83F303A43AC1015E7421,
 				F6EF83F403A43AC1015E7421,
 				F6EF842003A43AC2015E7421,
-				F6EF842103A43AC2015E7421,
-				F6EF842203A43AC2015E7421,
-				F6EF842303A43AC2015E7421,
-				F6EF842403A43AC2015E7421,
 				F6EF842503A43AC2015E7421,
-				F6EF842603A43AC2015E7421,
 				F6EF842703A43AC2015E7421,
 				F6EF842803A43AC2015E7421,
 				F6EF842903A43AC2015E7421,
 				F6EF842A03A43AC2015E7421,
 				F6EF843403A43AC2015E7421,
-				F6EF843503A43AC2015E7421,
-				F6EF843603A43AC2015E7421,
 				F6EF843703A43AC2015E7421,
-				F6EF843803A43AC2015E7421,
-				F6EF843903A43AC2015E7421,
 				F6EF843A03A43AC2015E7421,
 				F6EF843B03A43AC2015E7421,
-				F6EF843C03A43AC3015E7421,
-				F6EF843D03A43AC3015E7421,
 				F6EF843E03A43AC3015E7421,
-				F6EF843F03A43AC3015E7421,
-				F6EF844003A43AC3015E7421,
 				F6EF844103A43AC3015E7421,
 				F6EF844203A43AC3015E7421,
-				F6EF844303A43AC3015E7421,
 				F6EF844403A43AC3015E7421,
 				F6EF844503A43AC3015E7421,
 				F6EF844603A43AC3015E7421,
-				F6EF844D03A43AC3015E7421,
 				F6EF844E03A43AC3015E7421,
-				F6EF844F03A43AC3015E7421,
 				F6EF845003A43AC3015E7421,
 				F6EF845103A43AC3015E7421,
-				F6EF845203A43AC3015E7421,
-				F6EF845303A43AC3015E7421,
 				F6EF845403A43AC3015E7421,
 				F6EF845503A43AC3015E7421,
 				F6EF845603A43AC3015E7421,
 				F6EF845703A43AC3015E7421,
-				F6EF845803A43AC3015E7421,
-				F6EF845903A43AC3015E7421,
 				F6EF845A03A43AC3015E7421,
 				F6EF845B03A43AC3015E7421,
 				F6EF847303A43AC3015E7421,
 				F6EF847403A43AC3015E7421,
 				F6EF847503A43AC3015E7421,
-				F6EF847603A43AC3015E7421,
-				F6EF847703A43AC4015E7421,
 				F6EF847803A43AC4015E7421,
 				F6EF847903A43AC4015E7421,
 				F6EF847A03A43AC4015E7421,
 				F6EF847B03A43AC4015E7421,
-				F6EF847C03A43AC4015E7421,
-				F6EF847D03A43AC4015E7421,
 				F6EF847E03A43AC4015E7421,
-				F6EF847F03A43AC4015E7421,
-				F6EF848003A43AC4015E7421,
 				F6EF848103A43AC4015E7421,
-				F6EF848203A43AC4015E7421,
 				F6EF848303A43AC4015E7421,
 				F6EF848403A43AC4015E7421,
 				F6EF848503A43AC4015E7421,
@@ -2174,146 +4984,6 @@
 			path = ../../libobjc;
 			refType = 2;
 		};
-		F6EF83D503A43AC1015E7421 = {
-			children = (
-				F6EF83D603A43AC1015E7421,
-				F6EF83D703A43AC1015E7421,
-				F6EF83D803A43AC1015E7421,
-				F6EF83D903A43AC1015E7421,
-				F6EF83DA03A43AC1015E7421,
-				F6EF83DB03A43AC1015E7421,
-				F6EF83DC03A43AC1015E7421,
-				F6EF83DD03A43AC1015E7421,
-				F6EF83DE03A43AC1015E7421,
-				F6EF83DF03A43AC1015E7421,
-				F6EF83E003A43AC1015E7421,
-				F6EF83E103A43AC1015E7421,
-				F6EF83E203A43AC1015E7421,
-				F6EF83E303A43AC1015E7421,
-				F6EF83E403A43AC1015E7421,
-				F6EF83E503A43AC1015E7421,
-				F6EF83E603A43AC1015E7421,
-				F6EF83E703A43AC1015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF83D603A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = archive.Plo;
-			refType = 4;
-		};
-		F6EF83D703A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = class.Plo;
-			refType = 4;
-		};
-		F6EF83D803A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = encoding.Plo;
-			refType = 4;
-		};
-		F6EF83D903A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = gc.Plo;
-			refType = 4;
-		};
-		F6EF83DA03A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = hash.Plo;
-			refType = 4;
-		};
-		F6EF83DB03A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = init.Plo;
-			refType = 4;
-		};
-		F6EF83DC03A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = linking.Plo;
-			refType = 4;
-		};
-		F6EF83DD03A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = mframe.Plo;
-			refType = 4;
-		};
-		F6EF83DE03A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = misc.Plo;
-			refType = 4;
-		};
-		F6EF83DF03A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = nil_method.Plo;
-			refType = 4;
-		};
-		F6EF83E003A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = NXConstStr.Plo;
-			refType = 4;
-		};
-		F6EF83E103A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Object.Plo;
-			refType = 4;
-		};
-		F6EF83E203A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = objects.Plo;
-			refType = 4;
-		};
-		F6EF83E303A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Protocol.Plo;
-			refType = 4;
-		};
-		F6EF83E403A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = sarray.Plo;
-			refType = 4;
-		};
-		F6EF83E503A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = selector.Plo;
-			refType = 4;
-		};
-		F6EF83E603A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = sendmsg.Plo;
-			refType = 4;
-		};
-		F6EF83E703A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = thr.Plo;
-			refType = 4;
-		};
-		F6EF83E803A43AC1015E7421 = {
-			children = (
-			);
-			isa = PBXGroup;
-			path = .libs;
-			refType = 4;
-		};
 		F6EF83E903A43AC1015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2323,23 +4993,14 @@
 		F6EF83EA03A43AC1015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = aclocal.m4;
-			refType = 4;
+			name = aclocal.m4;
+			path = /Users/billn/Public/Swarm/swarm/libobjc/aclocal.m4;
+			refType = 0;
 		};
 		F6EF83EB03A43AC1015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = archive.c;
-			refType = 4;
-		};
-		F6EF83EC03A43AC1015E7421 = {
-			isa = PBXFileReference;
-			path = archive.lo;
-			refType = 4;
-		};
-		F6EF83ED03A43AC1015E7421 = {
-			isa = PBXFileReference;
-			path = archive.o;
 			refType = 4;
 		};
 		F6EF83EE03A43AC1015E7421 = {
@@ -2358,22 +5019,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = class.c;
-			refType = 4;
-		};
-		F6EF83F103A43AC1015E7421 = {
-			isa = PBXFileReference;
-			path = class.lo;
-			refType = 4;
-		};
-		F6EF83F203A43AC1015E7421 = {
-			isa = PBXFileReference;
-			path = class.o;
-			refType = 4;
-		};
-		F6EF83F303A43AC1015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "compiler-info.h";
 			refType = 4;
 		};
 		F6EF83F403A43AC1015E7421 = {
@@ -2573,7 +5218,6 @@
 		};
 		F6EF840E03A43AC2015E7421 = {
 			children = (
-				F6EF840F03A43AC2015E7421,
 				F6EF841003A43AC2015E7421,
 				F6EF841103A43AC2015E7421,
 				F6EF841203A43AC2015E7421,
@@ -2582,11 +5226,6 @@
 			);
 			isa = PBXGroup;
 			path = powerpc;
-			refType = 4;
-		};
-		F6EF840F03A43AC2015E7421 = {
-			isa = PBXFileReference;
-			path = .DS_Store;
 			refType = 4;
 		};
 		F6EF841003A43AC2015E7421 = {
@@ -2702,28 +5341,12 @@
 			path = config.guess;
 			refType = 4;
 		};
-		F6EF842103A43AC2015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = config.h;
-			refType = 4;
-		};
 		F6EF842203A43AC2015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = config.h.in;
-			refType = 4;
-		};
-		F6EF842303A43AC2015E7421 = {
-			isa = PBXFileReference;
-			path = config.log;
-			refType = 4;
-		};
-		F6EF842403A43AC2015E7421 = {
-			fileEncoding = 30;
-			isa = PBXExecutableFileReference;
-			path = config.status;
-			refType = 4;
+			name = config.h.in;
+			path = /Users/billn/Public/Swarm/swarm/libobjc/config.h.in;
+			refType = 0;
 		};
 		F6EF842503A43AC2015E7421 = {
 			fileEncoding = 30;
@@ -2734,8 +5357,9 @@
 		F6EF842603A43AC2015E7421 = {
 			fileEncoding = 30;
 			isa = PBXExecutableFileReference;
-			path = configure;
-			refType = 4;
+			name = configure;
+			path = /Users/billn/Public/Swarm/swarm/libobjc/configure;
+			refType = 0;
 		};
 		F6EF842703A43AC2015E7421 = {
 			fileEncoding = 30;
@@ -2757,9 +5381,7 @@
 		};
 		F6EF842A03A43AC2015E7421 = {
 			children = (
-				F6EF842B03A43AC2015E7421,
 				F6EF842C03A43AC2015E7421,
-				F6EF842D03A43AC2015E7421,
 				F6EF842E03A43AC2015E7421,
 				F6EF842F03A43AC2015E7421,
 				F6EF843003A43AC2015E7421,
@@ -2771,12 +5393,6 @@
 			path = doc;
 			refType = 4;
 		};
-		F6EF842B03A43AC2015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF842C03A43AC2015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2786,8 +5402,9 @@
 		F6EF842D03A43AC2015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/libobjc/doc/Makefile.in;
+			refType = 0;
 		};
 		F6EF842E03A43AC2015E7421 = {
 			fileEncoding = 30;
@@ -2830,30 +5447,10 @@
 			path = encoding.c;
 			refType = 4;
 		};
-		F6EF843503A43AC2015E7421 = {
-			isa = PBXFileReference;
-			path = encoding.lo;
-			refType = 4;
-		};
-		F6EF843603A43AC2015E7421 = {
-			isa = PBXFileReference;
-			path = encoding.o;
-			refType = 4;
-		};
 		F6EF843703A43AC2015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = gc.c;
-			refType = 4;
-		};
-		F6EF843803A43AC2015E7421 = {
-			isa = PBXFileReference;
-			path = gc.lo;
-			refType = 4;
-		};
-		F6EF843903A43AC2015E7421 = {
-			isa = PBXFileReference;
-			path = gc.o;
 			refType = 4;
 		};
 		F6EF843A03A43AC2015E7421 = {
@@ -2868,30 +5465,10 @@
 			path = hash.c;
 			refType = 4;
 		};
-		F6EF843C03A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = hash.lo;
-			refType = 4;
-		};
-		F6EF843D03A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = hash.o;
-			refType = 4;
-		};
 		F6EF843E03A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = init.c;
-			refType = 4;
-		};
-		F6EF843F03A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = init.lo;
-			refType = 4;
-		};
-		F6EF844003A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = init.o;
 			refType = 4;
 		};
 		F6EF844103A43AC3015E7421 = {
@@ -2904,12 +5481,6 @@
 			fileEncoding = 30;
 			isa = PBXExecutableFileReference;
 			path = "install-sh";
-			refType = 4;
-		};
-		F6EF844303A43AC3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXExecutableFileReference;
-			path = libtool;
 			refType = 4;
 		};
 		F6EF844403A43AC3015E7421 = {
@@ -2929,9 +5500,7 @@
 				F6EF844703A43AC3015E7421,
 				F6EF844803A43AC3015E7421,
 				F6EF844903A43AC3015E7421,
-				F6EF844A03A43AC3015E7421,
 				F6EF844B03A43AC3015E7421,
-				F6EF844C03A43AC3015E7421,
 			);
 			isa = PBXGroup;
 			path = m4;
@@ -2955,12 +5524,6 @@
 			path = headers.m4;
 			refType = 4;
 		};
-		F6EF844A03A43AC3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF844B03A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2970,14 +5533,9 @@
 		F6EF844C03A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
-		};
-		F6EF844D03A43AC3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/libobjc/m4/Makefile.in;
+			refType = 0;
 		};
 		F6EF844E03A43AC3015E7421 = {
 			fileEncoding = 30;
@@ -2988,8 +5546,9 @@
 		F6EF844F03A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/libobjc/Makefile.in;
+			refType = 0;
 		};
 		F6EF845003A43AC3015E7421 = {
 			fileEncoding = 30;
@@ -3001,16 +5560,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = misc.c;
-			refType = 4;
-		};
-		F6EF845203A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = misc.lo;
-			refType = 4;
-		};
-		F6EF845303A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = misc.o;
 			refType = 4;
 		};
 		F6EF845403A43AC3015E7421 = {
@@ -3037,16 +5586,6 @@
 			path = nil_method.c;
 			refType = 4;
 		};
-		F6EF845803A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = nil_method.lo;
-			refType = 4;
-		};
-		F6EF845903A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = nil_method.o;
-			refType = 4;
-		};
 		F6EF845A03A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3057,15 +5596,11 @@
 			children = (
 				F6EF845C03A43AC3015E7421,
 				F6EF845D03A43AC3015E7421,
-				F6EF845E03A43AC3015E7421,
 				F6EF845F03A43AC3015E7421,
 				F6EF846003A43AC3015E7421,
-				F6EF846103A43AC3015E7421,
 				F6EF846203A43AC3015E7421,
-				F6EF846303A43AC3015E7421,
 				F6EF846403A43AC3015E7421,
 				F6EF846503A43AC3015E7421,
-				F6EF846603A43AC3015E7421,
 				F6EF846703A43AC3015E7421,
 				F6EF846803A43AC3015E7421,
 				F6EF846903A43AC3015E7421,
@@ -3075,7 +5610,6 @@
 				F6EF846D03A43AC3015E7421,
 				F6EF846E03A43AC3015E7421,
 				F6EF846F03A43AC3015E7421,
-				F6EF847003A43AC3015E7421,
 				F6EF847103A43AC3015E7421,
 				F6EF847203A43AC3015E7421,
 			);
@@ -3095,12 +5629,6 @@
 			path = encoding.h;
 			refType = 4;
 		};
-		F6EF845E03A43AC3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = externvar.h;
-			refType = 4;
-		};
 		F6EF845F03A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3113,12 +5641,6 @@
 			path = hash.h;
 			refType = 4;
 		};
-		F6EF846103A43AC3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF846203A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3128,8 +5650,9 @@
 		F6EF846303A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/libobjc/objc/Makefile.in;
+			refType = 0;
 		};
 		F6EF846403A43AC3015E7421 = {
 			fileEncoding = 30;
@@ -3141,12 +5664,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = mframe.foot;
-			refType = 4;
-		};
-		F6EF846603A43AC3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = mframe.h;
 			refType = 4;
 		};
 		F6EF846703A43AC3015E7421 = {
@@ -3203,12 +5720,6 @@
 			path = sarray.h;
 			refType = 4;
 		};
-		F6EF847003A43AC3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "stamp-h2";
-			refType = 4;
-		};
 		F6EF847103A43AC3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3239,16 +5750,6 @@
 			path = objects.c;
 			refType = 4;
 		};
-		F6EF847603A43AC3015E7421 = {
-			isa = PBXFileReference;
-			path = objects.lo;
-			refType = 4;
-		};
-		F6EF847703A43AC4015E7421 = {
-			isa = PBXFileReference;
-			path = objects.o;
-			refType = 4;
-		};
 		F6EF847803A43AC4015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3273,42 +5774,16 @@
 			path = sarray.c;
 			refType = 4;
 		};
-		F6EF847C03A43AC4015E7421 = {
-			isa = PBXFileReference;
-			path = sarray.lo;
-			refType = 4;
-		};
-		F6EF847D03A43AC4015E7421 = {
-			isa = PBXFileReference;
-			path = sarray.o;
-			refType = 4;
-		};
 		F6EF847E03A43AC4015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = selector.c;
 			refType = 4;
 		};
-		F6EF847F03A43AC4015E7421 = {
-			isa = PBXFileReference;
-			path = selector.lo;
-			refType = 4;
-		};
-		F6EF848003A43AC4015E7421 = {
-			isa = PBXFileReference;
-			path = selector.o;
-			refType = 4;
-		};
 		F6EF848103A43AC4015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = sendmsg.c;
-			refType = 4;
-		};
-		F6EF848203A43AC4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "stamp-h1";
 			refType = 4;
 		};
 		F6EF848303A43AC4015E7421 = {
@@ -3377,13 +5852,6 @@
 			path = thr.c;
 			refType = 4;
 		};
-		F6EF849003A43AC4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXExecutableFileReference;
-			name = libtool;
-			path = ../../libtool;
-			refType = 2;
-		};
 		F6EF849103A43AC4015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3419,9 +5887,7 @@
 				F6EF84AA03A43AC4015E7421,
 				F6EF84AB03A43AC4015E7421,
 				F6EF84AC03A43AC4015E7421,
-				F6EF84AD03A43AC4015E7421,
 				F6EF84AE03A43AC4015E7421,
-				F6EF84AF03A43AC4015E7421,
 			);
 			isa = PBXGroup;
 			name = m4;
@@ -3584,12 +6050,6 @@
 			path = ChangeLog;
 			refType = 4;
 		};
-		F6EF84AD03A43AC4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF84AE03A43AC4015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3599,8 +6059,9 @@
 		F6EF84AF03A43AC4015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/m4/Makefile.in;
+			refType = 0;
 		};
 		F6EF84B003A43AC5015E7421 = {
 			children = (
@@ -3613,108 +6074,10 @@
 		};
 		F6EF84B203A43AC5015E7421 = {
 			children = (
-				F6EF84B303A43AC5015E7421,
 				F6EF84C203A43AC5015E7421,
 			);
 			isa = PBXGroup;
 			path = swarmx;
-			refType = 4;
-		};
-		F6EF84B303A43AC5015E7421 = {
-			children = (
-				F6EF84B403A43AC5015E7421,
-			);
-			isa = PBXGroup;
-			path = build;
-			refType = 4;
-		};
-		F6EF84B403A43AC5015E7421 = {
-			children = (
-				F6EF84B503A43AC5015E7421,
-			);
-			isa = PBXGroup;
-			path = swarmx.build;
-			refType = 4;
-		};
-		F6EF84B503A43AC5015E7421 = {
-			children = (
-				F6EF84B603A43AC5015E7421,
-				F6EF84B703A43AC5015E7421,
-				F6EF84B803A43AC5015E7421,
-				F6EF84B903A43AC5015E7421,
-				F6EF84BA03A43AC5015E7421,
-				F6EF84BB03A43AC5015E7421,
-				F6EF84BC03A43AC5015E7421,
-				F6EF84BD03A43AC5015E7421,
-				F6EF84C003A43AC5015E7421,
-				F6EF84C103A43AC5015E7421,
-			);
-			isa = PBXGroup;
-			path = swarmx.pbxindex;
-			refType = 4;
-		};
-		F6EF84B603A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = categories.pbxbtree;
-			refType = 4;
-		};
-		F6EF84B703A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = decls.pbxbtree;
-			refType = 4;
-		};
-		F6EF84B803A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = files.pbxbtree;
-			refType = 4;
-		};
-		F6EF84B903A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = imports.pbxbtree;
-			refType = 4;
-		};
-		F6EF84BA03A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = pbxindex.header;
-			refType = 4;
-		};
-		F6EF84BB03A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = protocols.pbxbtree;
-			refType = 4;
-		};
-		F6EF84BC03A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = refs.pbxbtree;
-			refType = 4;
-		};
-		F6EF84BD03A43AC5015E7421 = {
-			children = (
-				F6EF84BE03A43AC5015E7421,
-				F6EF84BF03A43AC5015E7421,
-			);
-			isa = PBXGroup;
-			path = strings.pbxstrings;
-			refType = 4;
-		};
-		F6EF84BE03A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = control;
-			refType = 4;
-		};
-		F6EF84BF03A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = strings;
-			refType = 4;
-		};
-		F6EF84C003A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = subclasses.pbxbtree;
-			refType = 4;
-		};
-		F6EF84C103A43AC5015E7421 = {
-			isa = PBXFileReference;
-			path = symbols0.pbxsymbols;
 			refType = 4;
 		};
 		F6EF84C203A43AC5015E7421 = {
@@ -3736,13 +6099,6 @@
 			path = project.pbxproj;
 			refType = 4;
 		};
-		F6EF84C503A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Makefile;
-			path = ../../Makefile;
-			refType = 2;
-		};
 		F6EF84C603A43AC5015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3754,8 +6110,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			name = Makefile.in;
-			path = ../../Makefile.in;
-			refType = 2;
+			path = /Users/billn/Public/Swarm/swarm/Makefile.in;
+			refType = 0;
 		};
 		F6EF84C803A43AC5015E7421 = {
 			fileEncoding = 30;
@@ -3778,12 +6134,6 @@
 			path = ../../NEWS;
 			refType = 2;
 		};
-		F6EF84CB03A43AC5015E7421 = {
-			isa = PBXFileReference;
-			name = protocol.elc;
-			path = /Users/billn/Public/Swarm/swarmbuild/protocol.elc;
-			refType = 0;
-		};
 		F6EF84CC03A43AC5015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3793,7 +6143,6 @@
 		};
 		F6EF84CD03A43AC5015E7421 = {
 			children = (
-				F6EF84CE03A43AC5015E7421,
 				F6EF84D003A43AC5015E7421,
 				F6EF84F003A43AC6015E7421,
 				F6EF850F03A43AC6015E7421,
@@ -3802,11 +6151,8 @@
 				F6EF85CF03A43AC9015E7421,
 				F6EF862F03A43ACB015E7421,
 				F6EF863003A43ACB015E7421,
-				F6EF863103A43ACB015E7421,
 				F6EF863203A43ACB015E7421,
-				F6EF863803A43ACB015E7421,
 				F6EF863903A43ACB015E7421,
-				F6EF863A03A43ACB015E7421,
 				F6EF863B03A43ACB015E7421,
 				F6EF863C03A43ACB015E7421,
 				F6EF86C303A43ACE015E7421,
@@ -3818,8 +6164,6 @@
 				F6EF885103A43AD5015E7421,
 				F6EF885203A43AD5015E7421,
 				F6EF885303A43AD5015E7421,
-				F6EF885403A43AD5015E7421,
-				F6EF885503A43AD5015E7421,
 				F6EF885603A43AD5015E7421,
 				F6EF886F03A43AD6015E7421,
 			);
@@ -3828,23 +6172,8 @@
 			path = ../../src;
 			refType = 2;
 		};
-		F6EF84CE03A43AC5015E7421 = {
-			children = (
-				F6EF84CF03A43AC5015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF84CF03A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SwarmEnvironment.Plo;
-			refType = 4;
-		};
 		F6EF84D003A43AC5015E7421 = {
 			children = (
-				F6EF84D103A43AC5015E7421,
 				F6EF84D903A43AC5015E7421,
 				F6EF84DA03A43AC5015E7421,
 				F6EF84DB03A43AC5015E7421,
@@ -3852,81 +6181,20 @@
 				F6EF84DD03A43AC5015E7421,
 				F6EF84DE03A43AC5015E7421,
 				F6EF84DF03A43AC5015E7421,
-				F6EF84E003A43AC5015E7421,
 				F6EF84E103A43AC5015E7421,
-				F6EF84E203A43AC5015E7421,
 				F6EF84E303A43AC5015E7421,
 				F6EF84E403A43AC5015E7421,
 				F6EF84E503A43AC5015E7421,
-				F6EF84E603A43AC5015E7421,
 				F6EF84E703A43AC6015E7421,
-				F6EF84E803A43AC6015E7421,
 				F6EF84E903A43AC6015E7421,
 				F6EF84EA03A43AC6015E7421,
 				F6EF84EB03A43AC6015E7421,
 				F6EF84EC03A43AC6015E7421,
-				F6EF84ED03A43AC6015E7421,
 				F6EF84EE03A43AC6015E7421,
 				F6EF84EF03A43AC6015E7421,
 			);
 			isa = PBXGroup;
 			path = activity;
-			refType = 4;
-		};
-		F6EF84D103A43AC5015E7421 = {
-			children = (
-				F6EF84D203A43AC5015E7421,
-				F6EF84D303A43AC5015E7421,
-				F6EF84D403A43AC5015E7421,
-				F6EF84D503A43AC5015E7421,
-				F6EF84D603A43AC5015E7421,
-				F6EF84D703A43AC5015E7421,
-				F6EF84D803A43AC5015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF84D203A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Action.Plo;
-			refType = 4;
-		};
-		F6EF84D303A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ActionGroup.Plo;
-			refType = 4;
-		};
-		F6EF84D403A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = activity.Plo;
-			refType = 4;
-		};
-		F6EF84D503A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CompoundAction.Plo;
-			refType = 4;
-		};
-		F6EF84D603A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Schedule.Plo;
-			refType = 4;
-		};
-		F6EF84D703A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SwarmProcess.Plo;
-			refType = 4;
-		};
-		F6EF84D803A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = XActivity.Plo;
 			refType = 4;
 		};
 		F6EF84D903A43AC5015E7421 = {
@@ -3971,22 +6239,10 @@
 			path = activity.m;
 			refType = 4;
 		};
-		F6EF84E003A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = activity.xm;
-			refType = 4;
-		};
 		F6EF84E103A43AC5015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = ChangeLog;
-			refType = 4;
-		};
-		F6EF84E203A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = classes.h;
 			refType = 4;
 		};
 		F6EF84E303A43AC5015E7421 = {
@@ -4007,12 +6263,6 @@
 			path = macros.h;
 			refType = 4;
 		};
-		F6EF84E603A43AC5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF84E703A43AC6015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -4022,8 +6272,9 @@
 		F6EF84E803A43AC6015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/activity/Makefile.in;
+			refType = 0;
 		};
 		F6EF84E903A43AC6015E7421 = {
 			fileEncoding = 30;
@@ -4049,12 +6300,6 @@
 			path = SwarmProcess.m;
 			refType = 4;
 		};
-		F6EF84ED03A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = types.h;
-			refType = 4;
-		};
 		F6EF84EE03A43AC6015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -4069,7 +6314,6 @@
 		};
 		F6EF84F003A43AC6015E7421 = {
 			children = (
-				F6EF84F103A43AC6015E7421,
 				F6EF84FA03A43AC6015E7421,
 				F6EF84FB03A43AC6015E7421,
 				F6EF84FC03A43AC6015E7421,
@@ -4088,75 +6332,10 @@
 				F6EF850903A43AC6015E7421,
 				F6EF850A03A43AC6015E7421,
 				F6EF850B03A43AC6015E7421,
-				F6EF850C03A43AC6015E7421,
 				F6EF850D03A43AC6015E7421,
-				F6EF850E03A43AC6015E7421,
 			);
 			isa = PBXGroup;
 			path = analysis;
-			refType = 4;
-		};
-		F6EF84F103A43AC6015E7421 = {
-			children = (
-				F6EF84F203A43AC6015E7421,
-				F6EF84F303A43AC6015E7421,
-				F6EF84F403A43AC6015E7421,
-				F6EF84F503A43AC6015E7421,
-				F6EF84F603A43AC6015E7421,
-				F6EF84F703A43AC6015E7421,
-				F6EF84F803A43AC6015E7421,
-				F6EF84F903A43AC6015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF84F203A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ActiveGraph.Plo;
-			refType = 4;
-		};
-		F6EF84F303A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ActiveOutFile.Plo;
-			refType = 4;
-		};
-		F6EF84F403A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Averager.Plo;
-			refType = 4;
-		};
-		F6EF84F503A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Entropy.Plo;
-			refType = 4;
-		};
-		F6EF84F603A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = EZBin.Plo;
-			refType = 4;
-		};
-		F6EF84F703A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = EZDistribution.Plo;
-			refType = 4;
-		};
-		F6EF84F803A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = EZGraph.Plo;
-			refType = 4;
-		};
-		F6EF84F903A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = FunctionGraph.Plo;
 			refType = 4;
 		};
 		F6EF84FA03A43AC6015E7421 = {
@@ -4267,12 +6446,6 @@
 			path = FunctionGraph.m;
 			refType = 4;
 		};
-		F6EF850C03A43AC6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF850D03A43AC6015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -4282,8 +6455,9 @@
 		F6EF850E03A43AC6015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/analysis/Makefile.in;
+			refType = 0;
 		};
 		F6EF850F03A43AC6015E7421 = {
 			children = (
@@ -5191,17 +7365,13 @@
 		};
 		F6EF859003A43AC8015E7421 = {
 			children = (
-				F6EF859103A43AC8015E7421,
-				F6EF85A203A43AC9015E7421,
 				F6EF85A303A43AC9015E7421,
 				F6EF85A403A43AC9015E7421,
 				F6EF85A503A43AC9015E7421,
-				F6EF85A603A43AC9015E7421,
 				F6EF85A703A43AC9015E7421,
 				F6EF85A803A43AC9015E7421,
 				F6EF85A903A43AC9015E7421,
 				F6EF85AA03A43AC9015E7421,
-				F6EF85AB03A43AC9015E7421,
 				F6EF85AC03A43AC9015E7421,
 				F6EF85AD03A43AC9015E7421,
 				F6EF85AE03A43AC9015E7421,
@@ -5217,9 +7387,7 @@
 				F6EF85B803A43AC9015E7421,
 				F6EF85B903A43AC9015E7421,
 				F6EF85BA03A43AC9015E7421,
-				F6EF85BB03A43AC9015E7421,
 				F6EF85BC03A43AC9015E7421,
-				F6EF85BD03A43AC9015E7421,
 				F6EF85BE03A43AC9015E7421,
 				F6EF85BF03A43AC9015E7421,
 				F6EF85C003A43AC9015E7421,
@@ -5236,136 +7404,9 @@
 				F6EF85CB03A43AC9015E7421,
 				F6EF85CC03A43AC9015E7421,
 				F6EF85CD03A43AC9015E7421,
-				F6EF85CE03A43AC9015E7421,
 			);
 			isa = PBXGroup;
 			path = collections;
-			refType = 4;
-		};
-		F6EF859103A43AC8015E7421 = {
-			children = (
-				F6EF859203A43AC8015E7421,
-				F6EF859303A43AC8015E7421,
-				F6EF859403A43AC8015E7421,
-				F6EF859503A43AC8015E7421,
-				F6EF859603A43AC8015E7421,
-				F6EF859703A43AC9015E7421,
-				F6EF859803A43AC9015E7421,
-				F6EF859903A43AC9015E7421,
-				F6EF859A03A43AC9015E7421,
-				F6EF859B03A43AC9015E7421,
-				F6EF859C03A43AC9015E7421,
-				F6EF859D03A43AC9015E7421,
-				F6EF859E03A43AC9015E7421,
-				F6EF859F03A43AC9015E7421,
-				F6EF85A003A43AC9015E7421,
-				F6EF85A103A43AC9015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF859203A43AC8015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Array.Plo;
-			refType = 4;
-		};
-		F6EF859303A43AC8015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Collection.Plo;
-			refType = 4;
-		};
-		F6EF859403A43AC8015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = collections.Plo;
-			refType = 4;
-		};
-		F6EF859503A43AC8015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = InputStream.Plo;
-			refType = 4;
-		};
-		F6EF859603A43AC8015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = List.Plo;
-			refType = 4;
-		};
-		F6EF859703A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = List_linked.Plo;
-			refType = 4;
-		};
-		F6EF859803A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = List_mlinks.Plo;
-			refType = 4;
-		};
-		F6EF859903A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ListShuffler.Plo;
-			refType = 4;
-		};
-		F6EF859A03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Map.Plo;
-			refType = 4;
-		};
-		F6EF859B03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = OrderedSet.Plo;
-			refType = 4;
-		};
-		F6EF859C03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = OutputStream.Plo;
-			refType = 4;
-		};
-		F6EF859D03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Permutation.Plo;
-			refType = 4;
-		};
-		F6EF859E03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = predicates.Plo;
-			refType = 4;
-		};
-		F6EF859F03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Set.Plo;
-			refType = 4;
-		};
-		F6EF85A003A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Stream.Plo;
-			refType = 4;
-		};
-		F6EF85A103A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = StringObject.Plo;
-			refType = 4;
-		};
-		F6EF85A203A43AC9015E7421 = {
-			children = (
-			);
-			isa = PBXGroup;
-			path = .libs;
 			refType = 4;
 		};
 		F6EF85A303A43AC9015E7421 = {
@@ -5384,12 +7425,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = ChangeLog;
-			refType = 4;
-		};
-		F6EF85A603A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = classes.h;
 			refType = 4;
 		};
 		F6EF85A703A43AC9015E7421 = {
@@ -5414,12 +7449,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = collections.m;
-			refType = 4;
-		};
-		F6EF85AB03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = collections.xm;
 			refType = 4;
 		};
 		F6EF85AC03A43AC9015E7421 = {
@@ -5512,12 +7541,6 @@
 			path = macros.h;
 			refType = 4;
 		};
-		F6EF85BB03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF85BC03A43AC9015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -5527,8 +7550,9 @@
 		F6EF85BD03A43AC9015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/collections/Makefile.in;
+			refType = 0;
 		};
 		F6EF85BE03A43AC9015E7421 = {
 			fileEncoding = 30;
@@ -5626,22 +7650,14 @@
 			path = StringObject.m;
 			refType = 4;
 		};
-		F6EF85CE03A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = types.h;
-			refType = 4;
-		};
 		F6EF85CF03A43AC9015E7421 = {
 			children = (
-				F6EF85D003A43AC9015E7421,
 				F6EF85EC03A43ACA015E7421,
 				F6EF85ED03A43ACA015E7421,
 				F6EF85EE03A43ACA015E7421,
 				F6EF85EF03A43ACA015E7421,
 				F6EF85F003A43ACA015E7421,
 				F6EF85F103A43ACA015E7421,
-				F6EF85F203A43ACA015E7421,
 				F6EF85F303A43ACA015E7421,
 				F6EF85F403A43ACA015E7421,
 				F6EF85F503A43ACA015E7421,
@@ -5655,7 +7671,6 @@
 				F6EF85FD03A43ACA015E7421,
 				F6EF85FE03A43ACA015E7421,
 				F6EF85FF03A43ACA015E7421,
-				F6EF860003A43ACA015E7421,
 				F6EF860103A43ACA015E7421,
 				F6EF860203A43ACA015E7421,
 				F6EF860303A43ACA015E7421,
@@ -5691,216 +7706,17 @@
 				F6EF862103A43ACB015E7421,
 				F6EF862203A43ACB015E7421,
 				F6EF862303A43ACB015E7421,
-				F6EF862403A43ACB015E7421,
 				F6EF862503A43ACB015E7421,
-				F6EF862603A43ACB015E7421,
 				F6EF862703A43ACB015E7421,
 				F6EF862803A43ACB015E7421,
 				F6EF862903A43ACB015E7421,
 				F6EF862A03A43ACB015E7421,
 				F6EF862B03A43ACB015E7421,
-				F6EF862C03A43ACB015E7421,
 				F6EF862D03A43ACB015E7421,
 				F6EF862E03A43ACB015E7421,
 			);
 			isa = PBXGroup;
 			path = defobj;
-			refType = 4;
-		};
-		F6EF85D003A43AC9015E7421 = {
-			children = (
-				F6EF85D103A43AC9015E7421,
-				F6EF85D203A43AC9015E7421,
-				F6EF85D303A43ACA015E7421,
-				F6EF85D403A43ACA015E7421,
-				F6EF85D503A43ACA015E7421,
-				F6EF85D603A43ACA015E7421,
-				F6EF85D703A43ACA015E7421,
-				F6EF85D803A43ACA015E7421,
-				F6EF85D903A43ACA015E7421,
-				F6EF85DA03A43ACA015E7421,
-				F6EF85DB03A43ACA015E7421,
-				F6EF85DC03A43ACA015E7421,
-				F6EF85DD03A43ACA015E7421,
-				F6EF85DE03A43ACA015E7421,
-				F6EF85DF03A43ACA015E7421,
-				F6EF85E003A43ACA015E7421,
-				F6EF85E103A43ACA015E7421,
-				F6EF85E203A43ACA015E7421,
-				F6EF85E303A43ACA015E7421,
-				F6EF85E403A43ACA015E7421,
-				F6EF85E503A43ACA015E7421,
-				F6EF85E603A43ACA015E7421,
-				F6EF85E703A43ACA015E7421,
-				F6EF85E803A43ACA015E7421,
-				F6EF85E903A43ACA015E7421,
-				F6EF85EA03A43ACA015E7421,
-				F6EF85EB03A43ACA015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF85D103A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Archiver.Plo;
-			refType = 4;
-		};
-		F6EF85D203A43AC9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Arguments.Plo;
-			refType = 4;
-		};
-		F6EF85D303A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = COM.Plo;
-			refType = 4;
-		};
-		F6EF85D403A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = COMProxy.Plo;
-			refType = 4;
-		};
-		F6EF85D503A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Create.Plo;
-			refType = 4;
-		};
-		F6EF85D603A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Customize.Plo;
-			refType = 4;
-		};
-		F6EF85D703A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = DefClass.Plo;
-			refType = 4;
-		};
-		F6EF85D803A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = defobj.Plo;
-			refType = 4;
-		};
-		F6EF85D903A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = DefObject.Plo;
-			refType = 4;
-		};
-		F6EF85DA03A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = directory.Plo;
-			refType = 4;
-		};
-		F6EF85DB03A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = FArguments.Plo;
-			refType = 4;
-		};
-		F6EF85DC03A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = FCall.Plo;
-			refType = 4;
-		};
-		F6EF85DD03A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = fcall_java.Plo;
-			refType = 4;
-		};
-		F6EF85DE03A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = fcall_objc.Plo;
-			refType = 4;
-		};
-		F6EF85DF03A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = HDF5Archiver.Plo;
-			refType = 4;
-		};
-		F6EF85E003A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = HDF5Object.Plo;
-			refType = 4;
-		};
-		F6EF85E103A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = internal.Plo;
-			refType = 4;
-		};
-		F6EF85E203A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = java.Plo;
-			refType = 4;
-		};
-		F6EF85E303A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = JavaClassProxy.Plo;
-			refType = 4;
-		};
-		F6EF85E403A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = JavaCollection.Plo;
-			refType = 4;
-		};
-		F6EF85E503A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = JavaCollectionIndex.Plo;
-			refType = 4;
-		};
-		F6EF85E603A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = JavaProxy.Plo;
-			refType = 4;
-		};
-		F6EF85E703A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = LispArchiver.Plo;
-			refType = 4;
-		};
-		F6EF85E803A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = modulemap.Plo;
-			refType = 4;
-		};
-		F6EF85E903A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Program.Plo;
-			refType = 4;
-		};
-		F6EF85EA03A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Symbol.Plo;
-			refType = 4;
-		};
-		F6EF85EB03A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Zone.Plo;
 			refType = 4;
 		};
 		F6EF85EC03A43ACA015E7421 = {
@@ -5937,12 +7753,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = ChangeLog;
-			refType = 4;
-		};
-		F6EF85F203A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = classes.h;
 			refType = 4;
 		};
 		F6EF85F303A43ACA015E7421 = {
@@ -6021,12 +7831,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = defobj.m;
-			refType = 4;
-		};
-		F6EF860003A43ACA015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = defobj.xm;
 			refType = 4;
 		};
 		F6EF860103A43ACA015E7421 = {
@@ -6239,12 +8043,6 @@
 			path = "make-h2x";
 			refType = 4;
 		};
-		F6EF862403A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF862503A43ACB015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -6254,8 +8052,9 @@
 		F6EF862603A43ACB015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/defobj/Makefile.in;
+			refType = 0;
 		};
 		F6EF862703A43ACB015E7421 = {
 			fileEncoding = 30;
@@ -6287,12 +8086,6 @@
 			path = Symbol.m;
 			refType = 4;
 		};
-		F6EF862C03A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = types.h;
-			refType = 4;
-		};
 		F6EF862D03A43ACB015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -6317,18 +8110,11 @@
 			path = getters.el;
 			refType = 4;
 		};
-		F6EF863103A43ACB015E7421 = {
-			isa = PBXFileReference;
-			path = getters.elc;
-			refType = 4;
-		};
 		F6EF863203A43ACB015E7421 = {
 			children = (
 				F6EF863303A43ACB015E7421,
 				F6EF863403A43ACB015E7421,
-				F6EF863503A43ACB015E7421,
 				F6EF863603A43ACB015E7421,
-				F6EF863703A43ACB015E7421,
 			);
 			isa = PBXGroup;
 			path = gui;
@@ -6346,12 +8132,6 @@
 			path = gui.h;
 			refType = 4;
 		};
-		F6EF863503A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF863603A43ACB015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -6361,14 +8141,9 @@
 		F6EF863703A43ACB015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
-		};
-		F6EF863803A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/gui/Makefile.in;
+			refType = 0;
 		};
 		F6EF863903A43ACB015E7421 = {
 			fileEncoding = 30;
@@ -6379,8 +8154,9 @@
 		F6EF863A03A43ACB015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/Makefile.in;
+			refType = 0;
 		};
 		F6EF863B03A43ACB015E7421 = {
 			fileEncoding = 30;
@@ -6390,405 +8166,52 @@
 		};
 		F6EF863C03A43ACB015E7421 = {
 			children = (
-				F6EF863D03A43ACB015E7421,
-				F6EF866203A43ACC015E7421,
 				F6EF866903A43ACC015E7421,
-				F6EF866A03A43ACC015E7421,
-				F6EF866B03A43ACC015E7421,
 				F6EF866C03A43ACC015E7421,
-				F6EF866D03A43ACC015E7421,
-				F6EF866E03A43ACC015E7421,
 				F6EF866F03A43ACC015E7421,
 				F6EF867003A43ACC015E7421,
-				F6EF867103A43ACC015E7421,
-				F6EF867203A43ACC015E7421,
 				F6EF867303A43ACC015E7421,
-				F6EF867403A43ACC015E7421,
-				F6EF867503A43ACC015E7421,
 				F6EF867603A43ACC015E7421,
-				F6EF867703A43ACC015E7421,
-				F6EF867803A43ACC015E7421,
 				F6EF867903A43ACC015E7421,
 				F6EF867A03A43ACC015E7421,
-				F6EF867B03A43ACC015E7421,
-				F6EF867C03A43ACC015E7421,
 				F6EF867D03A43ACC015E7421,
-				F6EF867E03A43ACC015E7421,
-				F6EF867F03A43ACD015E7421,
 				F6EF868003A43ACD015E7421,
-				F6EF868103A43ACD015E7421,
-				F6EF868203A43ACD015E7421,
 				F6EF868303A43ACD015E7421,
-				F6EF868403A43ACD015E7421,
-				F6EF868503A43ACD015E7421,
 				F6EF868603A43ACD015E7421,
 				F6EF868703A43ACD015E7421,
 				F6EF868803A43ACD015E7421,
-				F6EF868903A43ACD015E7421,
-				F6EF868A03A43ACD015E7421,
 				F6EF868B03A43ACD015E7421,
 				F6EF868C03A43ACD015E7421,
-				F6EF868D03A43ACD015E7421,
-				F6EF868E03A43ACD015E7421,
 				F6EF868F03A43ACD015E7421,
 				F6EF869003A43ACD015E7421,
-				F6EF869103A43ACD015E7421,
-				F6EF869203A43ACD015E7421,
 				F6EF869303A43ACD015E7421,
-				F6EF869403A43ACD015E7421,
-				F6EF869503A43ACD015E7421,
 				F6EF869603A43ACD015E7421,
-				F6EF869703A43ACD015E7421,
-				F6EF869803A43ACD015E7421,
 				F6EF869903A43ACD015E7421,
 				F6EF869A03A43ACD015E7421,
-				F6EF869B03A43ACD015E7421,
-				F6EF869C03A43ACD015E7421,
 				F6EF869D03A43ACD015E7421,
-				F6EF869E03A43ACD015E7421,
-				F6EF869F03A43ACD015E7421,
-				F6EF86A003A43ACD015E7421,
-				F6EF86A103A43ACD015E7421,
 				F6EF86A203A43ACD015E7421,
-				F6EF86A303A43ACD015E7421,
 				F6EF86A403A43ACD015E7421,
 				F6EF86A503A43ACD015E7421,
 				F6EF86A603A43ACD015E7421,
 				F6EF86A703A43ACD015E7421,
 				F6EF86A803A43ACD015E7421,
 				F6EF86A903A43ACD015E7421,
-				F6EF86AA03A43ACD015E7421,
-				F6EF86AB03A43ACD015E7421,
 				F6EF86AC03A43ACD015E7421,
 				F6EF86AD03A43ACD015E7421,
-				F6EF86AE03A43ACD015E7421,
-				F6EF86AF03A43ACD015E7421,
 				F6EF86B003A43ACD015E7421,
 				F6EF86B103A43ACD015E7421,
 				F6EF86B203A43ACD015E7421,
-				F6EF86B303A43ACD015E7421,
-				F6EF86B403A43ACD015E7421,
 				F6EF86B503A43ACD015E7421,
 				F6EF86B603A43ACD015E7421,
 				F6EF86B703A43ACD015E7421,
-				F6EF86B803A43ACD015E7421,
-				F6EF86B903A43ACE015E7421,
 				F6EF86BA03A43ACE015E7421,
-				F6EF86BB03A43ACE015E7421,
-				F6EF86BC03A43ACE015E7421,
 				F6EF86BD03A43ACE015E7421,
 				F6EF86BE03A43ACE015E7421,
 				F6EF86BF03A43ACE015E7421,
 				F6EF86C003A43ACE015E7421,
-				F6EF86C103A43ACE015E7421,
-				F6EF86C203A43ACE015E7421,
 			);
 			isa = PBXGroup;
 			path = misc;
-			refType = 4;
-		};
-		F6EF863D03A43ACB015E7421 = {
-			children = (
-				F6EF863E03A43ACB015E7421,
-				F6EF863F03A43ACB015E7421,
-				F6EF864003A43ACB015E7421,
-				F6EF864103A43ACB015E7421,
-				F6EF864203A43ACB015E7421,
-				F6EF864303A43ACB015E7421,
-				F6EF864403A43ACB015E7421,
-				F6EF864503A43ACB015E7421,
-				F6EF864603A43ACB015E7421,
-				F6EF864703A43ACB015E7421,
-				F6EF864803A43ACC015E7421,
-				F6EF864903A43ACC015E7421,
-				F6EF864A03A43ACC015E7421,
-				F6EF864B03A43ACC015E7421,
-				F6EF864C03A43ACC015E7421,
-				F6EF864D03A43ACC015E7421,
-				F6EF864E03A43ACC015E7421,
-				F6EF864F03A43ACC015E7421,
-				F6EF865003A43ACC015E7421,
-				F6EF865103A43ACC015E7421,
-				F6EF865203A43ACC015E7421,
-				F6EF865303A43ACC015E7421,
-				F6EF865403A43ACC015E7421,
-				F6EF865503A43ACC015E7421,
-				F6EF865603A43ACC015E7421,
-				F6EF865703A43ACC015E7421,
-				F6EF865803A43ACC015E7421,
-				F6EF865903A43ACC015E7421,
-				F6EF865A03A43ACC015E7421,
-				F6EF865B03A43ACC015E7421,
-				F6EF865C03A43ACC015E7421,
-				F6EF865D03A43ACC015E7421,
-				F6EF865E03A43ACC015E7421,
-				F6EF865F03A43ACC015E7421,
-				F6EF866003A43ACC015E7421,
-				F6EF866103A43ACC015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF863E03A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-ba.Plo";
-			refType = 4;
-		};
-		F6EF863F03A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-eexst.Plo";
-			refType = 4;
-		};
-		F6EF864003A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-fmtstream.Plo";
-			refType = 4;
-		};
-		F6EF864103A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-fs-xinl.Plo";
-			refType = 4;
-		};
-		F6EF864203A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-help.Plo";
-			refType = 4;
-		};
-		F6EF864303A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-parse.Plo";
-			refType = 4;
-		};
-		F6EF864403A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-pv.Plo";
-			refType = 4;
-		};
-		F6EF864503A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-pvh.Plo";
-			refType = 4;
-		};
-		F6EF864603A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "argp-xinl.Plo";
-			refType = 4;
-		};
-		F6EF864703A43ACB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = avl.Plo;
-			refType = 4;
-		};
-		F6EF864803A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = avltr.Plo;
-			refType = 4;
-		};
-		F6EF864903A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = debugabort.Plo;
-			refType = 4;
-		};
-		F6EF864A03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = dropdir.Plo;
-			refType = 4;
-		};
-		F6EF864B03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = find_executable.Plo;
-			refType = 4;
-		};
-		F6EF864C03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = getopt.Plo;
-			refType = 4;
-		};
-		F6EF864D03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = getopt1.Plo;
-			refType = 4;
-		};
-		F6EF864E03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = memchr.Po;
-			refType = 4;
-		};
-		F6EF864F03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = memcpy.Po;
-			refType = 4;
-		};
-		F6EF865003A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = memset.Po;
-			refType = 4;
-		};
-		F6EF865103A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = quicksort.Plo;
-			refType = 4;
-		};
-		F6EF865203A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = realpath.Po;
-			refType = 4;
-		};
-		F6EF865303A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = stpcpy.Plo;
-			refType = 4;
-		};
-		F6EF865403A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = stpcpy.Po;
-			refType = 4;
-		};
-		F6EF865503A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strchr.Po;
-			refType = 4;
-		};
-		F6EF865603A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strcmp.Po;
-			refType = 4;
-		};
-		F6EF865703A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strdup.Plo;
-			refType = 4;
-		};
-		F6EF865803A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strlen.Po;
-			refType = 4;
-		};
-		F6EF865903A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strncmp.Po;
-			refType = 4;
-		};
-		F6EF865A03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strndup.Plo;
-			refType = 4;
-		};
-		F6EF865B03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strndup.Po;
-			refType = 4;
-		};
-		F6EF865C03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strnlen.Plo;
-			refType = 4;
-		};
-		F6EF865D03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strnlen.Po;
-			refType = 4;
-		};
-		F6EF865E03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strpbrk.Po;
-			refType = 4;
-		};
-		F6EF865F03A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strsep.Po;
-			refType = 4;
-		};
-		F6EF866003A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = strtoll.Po;
-			refType = 4;
-		};
-		F6EF866103A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = xmalloc.Plo;
-			refType = 4;
-		};
-		F6EF866203A43ACC015E7421 = {
-			children = (
-				F6EF866303A43ACC015E7421,
-				F6EF866403A43ACC015E7421,
-				F6EF866503A43ACC015E7421,
-				F6EF866603A43ACC015E7421,
-				F6EF866703A43ACC015E7421,
-				F6EF866803A43ACC015E7421,
-			);
-			isa = PBXGroup;
-			path = .libs;
-			refType = 4;
-		};
-		F6EF866303A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = libmisc.1.1.3.dylib;
-			refType = 4;
-		};
-		F6EF866403A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = libmisc.1.dylib;
-			refType = 4;
-		};
-		F6EF866503A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = libmisc.a;
-			refType = 4;
-		};
-		F6EF866603A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = libmisc.dylib;
-			refType = 4;
-		};
-		F6EF866703A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = libmisc.la;
-			refType = 4;
-		};
-		F6EF866803A43ACC015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = libmisc.lai;
 			refType = 4;
 		};
 		F6EF866903A43ACC015E7421 = {
@@ -6797,30 +8220,10 @@
 			path = "argp-ba.c";
 			refType = 4;
 		};
-		F6EF866A03A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-ba.lo";
-			refType = 4;
-		};
-		F6EF866B03A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-ba.o";
-			refType = 4;
-		};
 		F6EF866C03A43ACC015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = "argp-eexst.c";
-			refType = 4;
-		};
-		F6EF866D03A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-eexst.lo";
-			refType = 4;
-		};
-		F6EF866E03A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-eexst.o";
 			refType = 4;
 		};
 		F6EF866F03A43ACC015E7421 = {
@@ -6835,46 +8238,16 @@
 			path = "argp-fmtstream.h";
 			refType = 4;
 		};
-		F6EF867103A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-fmtstream.lo";
-			refType = 4;
-		};
-		F6EF867203A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-fmtstream.o";
-			refType = 4;
-		};
 		F6EF867303A43ACC015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = "argp-fs-xinl.c";
 			refType = 4;
 		};
-		F6EF867403A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-fs-xinl.lo";
-			refType = 4;
-		};
-		F6EF867503A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-fs-xinl.o";
-			refType = 4;
-		};
 		F6EF867603A43ACC015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = "argp-help.c";
-			refType = 4;
-		};
-		F6EF867703A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-help.lo";
-			refType = 4;
-		};
-		F6EF867803A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-help.o";
 			refType = 4;
 		};
 		F6EF867903A43ACC015E7421 = {
@@ -6889,30 +8262,10 @@
 			path = "argp-parse.c";
 			refType = 4;
 		};
-		F6EF867B03A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-parse.lo";
-			refType = 4;
-		};
-		F6EF867C03A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-parse.o";
-			refType = 4;
-		};
 		F6EF867D03A43ACC015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = "argp-pv.c";
-			refType = 4;
-		};
-		F6EF867E03A43ACC015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-pv.lo";
-			refType = 4;
-		};
-		F6EF867F03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-pv.o";
 			refType = 4;
 		};
 		F6EF868003A43ACD015E7421 = {
@@ -6921,30 +8274,10 @@
 			path = "argp-pvh.c";
 			refType = 4;
 		};
-		F6EF868103A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-pvh.lo";
-			refType = 4;
-		};
-		F6EF868203A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-pvh.o";
-			refType = 4;
-		};
 		F6EF868303A43ACD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = "argp-xinl.c";
-			refType = 4;
-		};
-		F6EF868403A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-xinl.lo";
-			refType = 4;
-		};
-		F6EF868503A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = "argp-xinl.o";
 			refType = 4;
 		};
 		F6EF868603A43ACD015E7421 = {
@@ -6965,16 +8298,6 @@
 			path = avl.h;
 			refType = 4;
 		};
-		F6EF868903A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = avl.lo;
-			refType = 4;
-		};
-		F6EF868A03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = avl.o;
-			refType = 4;
-		};
 		F6EF868B03A43ACD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -6985,16 +8308,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = avltr.h;
-			refType = 4;
-		};
-		F6EF868D03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = avltr.lo;
-			refType = 4;
-		};
-		F6EF868E03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = avltr.o;
 			refType = 4;
 		};
 		F6EF868F03A43ACD015E7421 = {
@@ -7009,46 +8322,16 @@
 			path = debugabort.c;
 			refType = 4;
 		};
-		F6EF869103A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = debugabort.lo;
-			refType = 4;
-		};
-		F6EF869203A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = debugabort.o;
-			refType = 4;
-		};
 		F6EF869303A43ACD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = dropdir.c;
 			refType = 4;
 		};
-		F6EF869403A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = dropdir.lo;
-			refType = 4;
-		};
-		F6EF869503A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = dropdir.o;
-			refType = 4;
-		};
 		F6EF869603A43ACD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = find_executable.c;
-			refType = 4;
-		};
-		F6EF869703A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = find_executable.lo;
-			refType = 4;
-		};
-		F6EF869803A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = find_executable.o;
 			refType = 4;
 		};
 		F6EF869903A43ACD015E7421 = {
@@ -7063,42 +8346,10 @@
 			path = getopt.h;
 			refType = 4;
 		};
-		F6EF869B03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = getopt.lo;
-			refType = 4;
-		};
-		F6EF869C03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = getopt.o;
-			refType = 4;
-		};
 		F6EF869D03A43ACD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = getopt1.c;
-			refType = 4;
-		};
-		F6EF869E03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = getopt1.lo;
-			refType = 4;
-		};
-		F6EF869F03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = getopt1.o;
-			refType = 4;
-		};
-		F6EF86A003A43ACD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = libmisc.la;
-			refType = 4;
-		};
-		F6EF86A103A43ACD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
 			refType = 4;
 		};
 		F6EF86A203A43ACD015E7421 = {
@@ -7110,8 +8361,9 @@
 		F6EF86A303A43ACD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/misc/Makefile.in;
+			refType = 0;
 		};
 		F6EF86A403A43ACD015E7421 = {
 			fileEncoding = 30;
@@ -7149,16 +8401,6 @@
 			path = quicksort.c;
 			refType = 4;
 		};
-		F6EF86AA03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = quicksort.lo;
-			refType = 4;
-		};
-		F6EF86AB03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = quicksort.o;
-			refType = 4;
-		};
 		F6EF86AC03A43ACD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -7169,16 +8411,6 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = stpcpy.c;
-			refType = 4;
-		};
-		F6EF86AE03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = stpcpy.lo;
-			refType = 4;
-		};
-		F6EF86AF03A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = stpcpy.o;
 			refType = 4;
 		};
 		F6EF86B003A43ACD015E7421 = {
@@ -7199,16 +8431,6 @@
 			path = strdup.c;
 			refType = 4;
 		};
-		F6EF86B303A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = strdup.lo;
-			refType = 4;
-		};
-		F6EF86B403A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = strdup.o;
-			refType = 4;
-		};
 		F6EF86B503A43ACD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -7227,30 +8449,10 @@
 			path = strndup.c;
 			refType = 4;
 		};
-		F6EF86B803A43ACD015E7421 = {
-			isa = PBXFileReference;
-			path = strndup.lo;
-			refType = 4;
-		};
-		F6EF86B903A43ACE015E7421 = {
-			isa = PBXFileReference;
-			path = strndup.o;
-			refType = 4;
-		};
 		F6EF86BA03A43ACE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = strnlen.c;
-			refType = 4;
-		};
-		F6EF86BB03A43ACE015E7421 = {
-			isa = PBXFileReference;
-			path = strnlen.lo;
-			refType = 4;
-		};
-		F6EF86BC03A43ACE015E7421 = {
-			isa = PBXFileReference;
-			path = strnlen.o;
 			refType = 4;
 		};
 		F6EF86BD03A43ACE015E7421 = {
@@ -7277,19 +8479,8 @@
 			path = xmalloc.c;
 			refType = 4;
 		};
-		F6EF86C103A43ACE015E7421 = {
-			isa = PBXFileReference;
-			path = xmalloc.lo;
-			refType = 4;
-		};
-		F6EF86C203A43ACE015E7421 = {
-			isa = PBXFileReference;
-			path = xmalloc.o;
-			refType = 4;
-		};
 		F6EF86C303A43ACE015E7421 = {
 			children = (
-				F6EF86C403A43ACE015E7421,
 				F6EF86D403A43ACE015E7421,
 				F6EF86D503A43ACE015E7421,
 				F6EF86D603A43ACE015E7421,
@@ -7304,9 +8495,7 @@
 				F6EF86DF03A43ACE015E7421,
 				F6EF86E003A43ACE015E7421,
 				F6EF86E103A43ACE015E7421,
-				F6EF86E203A43ACE015E7421,
 				F6EF86E303A43ACE015E7421,
-				F6EF86E403A43ACE015E7421,
 				F6EF86E503A43ACE015E7421,
 				F6EF86E603A43ACE015E7421,
 				F6EF86E703A43ACE015E7421,
@@ -7329,118 +8518,6 @@
 			);
 			isa = PBXGroup;
 			path = objectbase;
-			refType = 4;
-		};
-		F6EF86C403A43ACE015E7421 = {
-			children = (
-				F6EF86C503A43ACE015E7421,
-				F6EF86C603A43ACE015E7421,
-				F6EF86C703A43ACE015E7421,
-				F6EF86C803A43ACE015E7421,
-				F6EF86C903A43ACE015E7421,
-				F6EF86CA03A43ACE015E7421,
-				F6EF86CB03A43ACE015E7421,
-				F6EF86CC03A43ACE015E7421,
-				F6EF86CD03A43ACE015E7421,
-				F6EF86CE03A43ACE015E7421,
-				F6EF86CF03A43ACE015E7421,
-				F6EF86D003A43ACE015E7421,
-				F6EF86D103A43ACE015E7421,
-				F6EF86D203A43ACE015E7421,
-				F6EF86D303A43ACE015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF86C503A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ActivityControl.Plo;
-			refType = 4;
-		};
-		F6EF86C603A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CompleteProbeMap.Plo;
-			refType = 4;
-		};
-		F6EF86C703A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CompleteVarMap.Plo;
-			refType = 4;
-		};
-		F6EF86C803A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CustomProbeMap.Plo;
-			refType = 4;
-		};
-		F6EF86C903A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = DefaultProbeMap.Plo;
-			refType = 4;
-		};
-		F6EF86CA03A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = EmptyProbeMap.Plo;
-			refType = 4;
-		};
-		F6EF86CB03A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MessageProbe.Plo;
-			refType = 4;
-		};
-		F6EF86CC03A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Probe.Plo;
-			refType = 4;
-		};
-		F6EF86CD03A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ProbeLibrary.Plo;
-			refType = 4;
-		};
-		F6EF86CE03A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ProbeMap.Plo;
-			refType = 4;
-		};
-		F6EF86CF03A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = probing.Plo;
-			refType = 4;
-		};
-		F6EF86D003A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Swarm.Plo;
-			refType = 4;
-		};
-		F6EF86D103A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = swarm_rts_routines.Plo;
-			refType = 4;
-		};
-		F6EF86D203A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SwarmObject.Plo;
-			refType = 4;
-		};
-		F6EF86D303A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = VarProbe.Plo;
 			refType = 4;
 		};
 		F6EF86D403A43ACE015E7421 = {
@@ -7527,12 +8604,6 @@
 			path = local.h;
 			refType = 4;
 		};
-		F6EF86E203A43ACE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF86E303A43ACE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -7542,8 +8613,9 @@
 		F6EF86E403A43ACE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/objectbase/Makefile.in;
+			refType = 0;
 		};
 		F6EF86E503A43ACE015E7421 = {
 			fileEncoding = 30;
@@ -7661,7 +8733,6 @@
 		};
 		F6EF86F803A43ACF015E7421 = {
 			children = (
-				F6EF86F903A43ACF015E7421,
 				F6EF871703A43ACF015E7421,
 				F6EF871803A43ACF015E7421,
 				F6EF871903A43ACF015E7421,
@@ -7697,9 +8768,7 @@
 				F6EF873703A43AD0015E7421,
 				F6EF873803A43AD0015E7421,
 				F6EF873903A43AD0015E7421,
-				F6EF873A03A43AD0015E7421,
 				F6EF873B03A43AD0015E7421,
-				F6EF873C03A43AD0015E7421,
 				F6EF873D03A43AD0015E7421,
 				F6EF873E03A43AD0015E7421,
 				F6EF873F03A43AD0015E7421,
@@ -7749,216 +8818,6 @@
 			);
 			isa = PBXGroup;
 			path = random;
-			refType = 4;
-		};
-		F6EF86F903A43ACF015E7421 = {
-			children = (
-				F6EF86FA03A43ACF015E7421,
-				F6EF86FB03A43ACF015E7421,
-				F6EF86FC03A43ACF015E7421,
-				F6EF86FD03A43ACF015E7421,
-				F6EF86FE03A43ACF015E7421,
-				F6EF86FF03A43ACF015E7421,
-				F6EF870003A43ACF015E7421,
-				F6EF870103A43ACF015E7421,
-				F6EF870203A43ACF015E7421,
-				F6EF870303A43ACF015E7421,
-				F6EF870403A43ACF015E7421,
-				F6EF870503A43ACF015E7421,
-				F6EF870603A43ACF015E7421,
-				F6EF870703A43ACF015E7421,
-				F6EF870803A43ACF015E7421,
-				F6EF870903A43ACF015E7421,
-				F6EF870A03A43ACF015E7421,
-				F6EF870B03A43ACF015E7421,
-				F6EF870C03A43ACF015E7421,
-				F6EF870D03A43ACF015E7421,
-				F6EF870E03A43ACF015E7421,
-				F6EF870F03A43ACF015E7421,
-				F6EF871003A43ACF015E7421,
-				F6EF871103A43ACF015E7421,
-				F6EF871203A43ACF015E7421,
-				F6EF871303A43ACF015E7421,
-				F6EF871403A43ACF015E7421,
-				F6EF871503A43ACF015E7421,
-				F6EF871603A43ACF015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF86FA03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ACGgen.Plo;
-			refType = 4;
-		};
-		F6EF86FB03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = BernoulliDist.Plo;
-			refType = 4;
-		};
-		F6EF86FC03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = C2LCGXgen.Plo;
-			refType = 4;
-		};
-		F6EF86FD03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = C2MRG3gen.Plo;
-			refType = 4;
-		};
-		F6EF86FE03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = C2TAUSgen.Plo;
-			refType = 4;
-		};
-		F6EF86FF03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = C3MWCgen.Plo;
-			refType = 4;
-		};
-		F6EF870003A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = C4LCGXgen.Plo;
-			refType = 4;
-		};
-		F6EF870103A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ExponentialDist.Plo;
-			refType = 4;
-		};
-		F6EF870203A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = GammaDist.Plo;
-			refType = 4;
-		};
-		F6EF870303A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = LCGgen.Plo;
-			refType = 4;
-		};
-		F6EF870403A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = LogNormalDist.Plo;
-			refType = 4;
-		};
-		F6EF870503A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MRGgen.Plo;
-			refType = 4;
-		};
-		F6EF870603A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MT19937gen.Plo;
-			refType = 4;
-		};
-		F6EF870703A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MWCAgen.Plo;
-			refType = 4;
-		};
-		F6EF870803A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MWCBgen.Plo;
-			refType = 4;
-		};
-		F6EF870903A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = NormalDist.Plo;
-			refType = 4;
-		};
-		F6EF870A03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = PMMLCGgen.Plo;
-			refType = 4;
-		};
-		F6EF870B03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = PoissonDist.Plo;
-			refType = 4;
-		};
-		F6EF870C03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = PSWBgen.Plo;
-			refType = 4;
-		};
-		F6EF870D03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = random.Plo;
-			refType = 4;
-		};
-		F6EF870E03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = RandomBitDist.Plo;
-			refType = 4;
-		};
-		F6EF870F03A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = RWC2gen.Plo;
-			refType = 4;
-		};
-		F6EF871003A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = RWC8gen.Plo;
-			refType = 4;
-		};
-		F6EF871103A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SCGgen.Plo;
-			refType = 4;
-		};
-		F6EF871203A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SWBgen.Plo;
-			refType = 4;
-		};
-		F6EF871303A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = TGFSRgen.Plo;
-			refType = 4;
-		};
-		F6EF871403A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = UniformDoubleDist.Plo;
-			refType = 4;
-		};
-		F6EF871503A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = UniformIntegerDist.Plo;
-			refType = 4;
-		};
-		F6EF871603A43ACF015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = UniformUnsignedDist.Plo;
 			refType = 4;
 		};
 		F6EF871703A43ACF015E7421 = {
@@ -8172,12 +9031,6 @@
 			path = LogNormalDist.m;
 			refType = 4;
 		};
-		F6EF873A03A43AD0015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF873B03A43AD0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -8187,8 +9040,9 @@
 		F6EF873C03A43AD0015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/random/Makefile.in;
+			refType = 0;
 		};
 		F6EF873D03A43AD0015E7421 = {
 			fileEncoding = 30;
@@ -9203,16 +10057,13 @@
 		};
 		F6EF87D303A43AD3015E7421 = {
 			children = (
-				F6EF87D403A43AD3015E7421,
 				F6EF87DD03A43AD3015E7421,
 				F6EF87DE03A43AD3015E7421,
 				F6EF87DF03A43AD3015E7421,
 				F6EF87E003A43AD3015E7421,
 				F6EF87E103A43AD3015E7421,
 				F6EF87E203A43AD3015E7421,
-				F6EF87E303A43AD3015E7421,
 				F6EF87E403A43AD3015E7421,
-				F6EF87E503A43AD3015E7421,
 				F6EF87E603A43AD3015E7421,
 				F6EF87E703A43AD3015E7421,
 				F6EF87E803A43AD3015E7421,
@@ -9230,69 +10081,6 @@
 			);
 			isa = PBXGroup;
 			path = simtools;
-			refType = 4;
-		};
-		F6EF87D403A43AD3015E7421 = {
-			children = (
-				F6EF87D503A43AD3015E7421,
-				F6EF87D603A43AD3015E7421,
-				F6EF87D703A43AD3015E7421,
-				F6EF87D803A43AD3015E7421,
-				F6EF87D903A43AD3015E7421,
-				F6EF87DA03A43AD3015E7421,
-				F6EF87DB03A43AD3015E7421,
-				F6EF87DC03A43AD3015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF87D503A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = AppendFile.Plo;
-			refType = 4;
-		};
-		F6EF87D603A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = InFile.Plo;
-			refType = 4;
-		};
-		F6EF87D703A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = NSelect.Plo;
-			refType = 4;
-		};
-		F6EF87D803A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ObjectLoader.Plo;
-			refType = 4;
-		};
-		F6EF87D903A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ObjectSaver.Plo;
-			refType = 4;
-		};
-		F6EF87DA03A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = OutFile.Plo;
-			refType = 4;
-		};
-		F6EF87DB03A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = QSort.Plo;
-			refType = 4;
-		};
-		F6EF87DC03A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = UName.Plo;
 			refType = 4;
 		};
 		F6EF87DD03A43AD3015E7421 = {
@@ -9331,12 +10119,6 @@
 			path = initSwarm.h;
 			refType = 4;
 		};
-		F6EF87E303A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF87E403A43AD3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -9346,8 +10128,9 @@
 		F6EF87E503A43AD3015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/simtools/Makefile.in;
+			refType = 0;
 		};
 		F6EF87E603A43AD3015E7421 = {
 			fileEncoding = 30;
@@ -9436,7 +10219,6 @@
 		};
 		F6EF87F403A43AD3015E7421 = {
 			children = (
-				F6EF87F503A43AD3015E7421,
 				F6EF880703A43AD4015E7421,
 				F6EF880803A43AD4015E7421,
 				F6EF880903A43AD4015E7421,
@@ -9454,9 +10236,7 @@
 				F6EF881503A43AD4015E7421,
 				F6EF881603A43AD4015E7421,
 				F6EF881703A43AD4015E7421,
-				F6EF881803A43AD4015E7421,
 				F6EF881903A43AD4015E7421,
-				F6EF881A03A43AD4015E7421,
 				F6EF881B03A43AD4015E7421,
 				F6EF881C03A43AD4015E7421,
 				F6EF881D03A43AD4015E7421,
@@ -9478,132 +10258,6 @@
 			);
 			isa = PBXGroup;
 			path = simtoolsgui;
-			refType = 4;
-		};
-		F6EF87F503A43AD3015E7421 = {
-			children = (
-				F6EF87F603A43AD3015E7421,
-				F6EF87F703A43AD3015E7421,
-				F6EF87F803A43AD3015E7421,
-				F6EF87F903A43AD4015E7421,
-				F6EF87FA03A43AD4015E7421,
-				F6EF87FB03A43AD4015E7421,
-				F6EF87FC03A43AD4015E7421,
-				F6EF87FD03A43AD4015E7421,
-				F6EF87FE03A43AD4015E7421,
-				F6EF87FF03A43AD4015E7421,
-				F6EF880003A43AD4015E7421,
-				F6EF880103A43AD4015E7421,
-				F6EF880203A43AD4015E7421,
-				F6EF880303A43AD4015E7421,
-				F6EF880403A43AD4015E7421,
-				F6EF880503A43AD4015E7421,
-				F6EF880603A43AD4015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF87F603A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ActionCache.Plo;
-			refType = 4;
-		};
-		F6EF87F703A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ActionHolder.Plo;
-			refType = 4;
-		};
-		F6EF87F803A43AD3015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ClassDisplayWidget.Plo;
-			refType = 4;
-		};
-		F6EF87F903A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CommonProbeDisplay.Plo;
-			refType = 4;
-		};
-		F6EF87FA03A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CompleteProbeDisplay.Plo;
-			refType = 4;
-		};
-		F6EF87FB03A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ControlPanel.Plo;
-			refType = 4;
-		};
-		F6EF87FC03A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = GUIComposite.Plo;
-			refType = 4;
-		};
-		F6EF87FD03A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = GUISwarm.Plo;
-			refType = 4;
-		};
-		F6EF87FE03A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MessageProbeWidget.Plo;
-			refType = 4;
-		};
-		F6EF87FF03A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MultiVarProbeDisplay.Plo;
-			refType = 4;
-		};
-		F6EF880003A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MultiVarProbeWidget.Plo;
-			refType = 4;
-		};
-		F6EF880103A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ProbeDisplay.Plo;
-			refType = 4;
-		};
-		F6EF880203A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ProbeDisplayManager.Plo;
-			refType = 4;
-		};
-		F6EF880303A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SimpleProbeDisplay.Plo;
-			refType = 4;
-		};
-		F6EF880403A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = simtoolsgui.Plo;
-			refType = 4;
-		};
-		F6EF880503A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SingleProbeDisplay.Plo;
-			refType = 4;
-		};
-		F6EF880603A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = VarProbeWidget.Plo;
 			refType = 4;
 		};
 		F6EF880703A43AD4015E7421 = {
@@ -9708,12 +10362,6 @@
 			path = GUISwarm.m;
 			refType = 4;
 		};
-		F6EF881803A43AD4015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF881903A43AD4015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -9723,8 +10371,9 @@
 		F6EF881A03A43AD4015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/simtoolsgui/Makefile.in;
+			refType = 0;
 		};
 		F6EF881B03A43AD4015E7421 = {
 			fileEncoding = 30;
@@ -9836,7 +10485,6 @@
 		};
 		F6EF882D03A43AD5015E7421 = {
 			children = (
-				F6EF882E03A43AD5015E7421,
 				F6EF883803A43AD5015E7421,
 				F6EF883903A43AD5015E7421,
 				F6EF883A03A43AD5015E7421,
@@ -9853,9 +10501,7 @@
 				F6EF884503A43AD5015E7421,
 				F6EF884603A43AD5015E7421,
 				F6EF884703A43AD5015E7421,
-				F6EF884803A43AD5015E7421,
 				F6EF884903A43AD5015E7421,
-				F6EF884A03A43AD5015E7421,
 				F6EF884B03A43AD5015E7421,
 				F6EF884C03A43AD5015E7421,
 				F6EF884D03A43AD5015E7421,
@@ -9864,76 +10510,6 @@
 			);
 			isa = PBXGroup;
 			path = space;
-			refType = 4;
-		};
-		F6EF882E03A43AD5015E7421 = {
-			children = (
-				F6EF882F03A43AD5015E7421,
-				F6EF883003A43AD5015E7421,
-				F6EF883103A43AD5015E7421,
-				F6EF883203A43AD5015E7421,
-				F6EF883303A43AD5015E7421,
-				F6EF883403A43AD5015E7421,
-				F6EF883503A43AD5015E7421,
-				F6EF883603A43AD5015E7421,
-				F6EF883703A43AD5015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF882F03A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Ca2d.Plo;
-			refType = 4;
-		};
-		F6EF883003A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ConwayLife2d.Plo;
-			refType = 4;
-		};
-		F6EF883103A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = DblBuffer2d.Plo;
-			refType = 4;
-		};
-		F6EF883203A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Diffuse2d.Plo;
-			refType = 4;
-		};
-		F6EF883303A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Discrete2d.Plo;
-			refType = 4;
-		};
-		F6EF883403A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Grid2d.Plo;
-			refType = 4;
-		};
-		F6EF883503A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Int2dFiler.Plo;
-			refType = 4;
-		};
-		F6EF883603A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Object2dDisplay.Plo;
-			refType = 4;
-		};
-		F6EF883703A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Value2dDisplay.Plo;
 			refType = 4;
 		};
 		F6EF883803A43AD5015E7421 = {
@@ -10032,12 +10608,6 @@
 			path = Int2dFiler.m;
 			refType = 4;
 		};
-		F6EF884803A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF884903A43AD5015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -10047,8 +10617,9 @@
 		F6EF884A03A43AD5015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/space/Makefile.in;
+			refType = 0;
 		};
 		F6EF884B03A43AD5015E7421 = {
 			fileEncoding = 30;
@@ -10104,29 +10675,14 @@
 			path = SwarmEnvironment.m;
 			refType = 4;
 		};
-		F6EF885403A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SwarmEnvironment_getters.h;
-			refType = 4;
-		};
-		F6EF885503A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SwarmEnvironment_getters.m;
-			refType = 4;
-		};
 		F6EF885603A43AD5015E7421 = {
 			children = (
-				F6EF885703A43AD5015E7421,
 				F6EF885E03A43AD5015E7421,
 				F6EF885F03A43AD5015E7421,
 				F6EF886003A43AD6015E7421,
 				F6EF886103A43AD6015E7421,
 				F6EF886203A43AD6015E7421,
-				F6EF886303A43AD6015E7421,
 				F6EF886403A43AD6015E7421,
-				F6EF886503A43AD6015E7421,
 				F6EF886603A43AD6015E7421,
 				F6EF886703A43AD6015E7421,
 				F6EF886803A43AD6015E7421,
@@ -10139,55 +10695,6 @@
 			);
 			isa = PBXGroup;
 			path = tclobjc;
-			refType = 4;
-		};
-		F6EF885703A43AD5015E7421 = {
-			children = (
-				F6EF885803A43AD5015E7421,
-				F6EF885903A43AD5015E7421,
-				F6EF885A03A43AD5015E7421,
-				F6EF885B03A43AD5015E7421,
-				F6EF885C03A43AD5015E7421,
-				F6EF885D03A43AD5015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF885803A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = HashTable.Plo;
-			refType = 4;
-		};
-		F6EF885903A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = List.Plo;
-			refType = 4;
-		};
-		F6EF885A03A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = "objc-malloc.Plo";
-			refType = 4;
-		};
-		F6EF885B03A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = TclInterp.Plo;
-			refType = 4;
-		};
-		F6EF885C03A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = tclObjc.Plo;
-			refType = 4;
-		};
-		F6EF885D03A43AD5015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = TkInterp.Plo;
 			refType = 4;
 		};
 		F6EF885E03A43AD5015E7421 = {
@@ -10220,12 +10727,6 @@
 			path = List.m;
 			refType = 4;
 		};
-		F6EF886303A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF886403A43AD6015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -10235,8 +10736,9 @@
 		F6EF886503A43AD6015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/tclobjc/Makefile.in;
+			refType = 0;
 		};
 		F6EF886603A43AD6015E7421 = {
 			fileEncoding = 30;
@@ -10294,7 +10796,6 @@
 		};
 		F6EF886F03A43AD6015E7421 = {
 			children = (
-				F6EF887003A43AD6015E7421,
 				F6EF889D03A43AD7015E7421,
 				F6EF889E03A43AD7015E7421,
 				F6EF889F03A43AD7015E7421,
@@ -10347,9 +10848,7 @@
 				F6EF88CE03A43AD9015E7421,
 				F6EF88CF03A43AD9015E7421,
 				F6EF88D003A43AD9015E7421,
-				F6EF88D103A43AD9015E7421,
 				F6EF88D203A43AD9015E7421,
-				F6EF88D303A43AD9015E7421,
 				F6EF88D403A43AD9015E7421,
 				F6EF88D503A43AD9015E7421,
 				F6EF88D603A43AD9015E7421,
@@ -10402,321 +10901,6 @@
 			);
 			isa = PBXGroup;
 			path = tkobjc;
-			refType = 4;
-		};
-		F6EF887003A43AD6015E7421 = {
-			children = (
-				F6EF887103A43AD6015E7421,
-				F6EF887203A43AD6015E7421,
-				F6EF887303A43AD6015E7421,
-				F6EF887403A43AD6015E7421,
-				F6EF887503A43AD6015E7421,
-				F6EF887603A43AD6015E7421,
-				F6EF887703A43AD6015E7421,
-				F6EF887803A43AD6015E7421,
-				F6EF887903A43AD6015E7421,
-				F6EF887A03A43AD6015E7421,
-				F6EF887B03A43AD6015E7421,
-				F6EF887C03A43AD6015E7421,
-				F6EF887D03A43AD6015E7421,
-				F6EF887E03A43AD6015E7421,
-				F6EF887F03A43AD6015E7421,
-				F6EF888003A43AD6015E7421,
-				F6EF888103A43AD6015E7421,
-				F6EF888203A43AD6015E7421,
-				F6EF888303A43AD6015E7421,
-				F6EF888403A43AD6015E7421,
-				F6EF888503A43AD6015E7421,
-				F6EF888603A43AD6015E7421,
-				F6EF888703A43AD6015E7421,
-				F6EF888803A43AD6015E7421,
-				F6EF888903A43AD6015E7421,
-				F6EF888A03A43AD6015E7421,
-				F6EF888B03A43AD6015E7421,
-				F6EF888C03A43AD6015E7421,
-				F6EF888D03A43AD6015E7421,
-				F6EF888E03A43AD6015E7421,
-				F6EF888F03A43AD6015E7421,
-				F6EF889003A43AD6015E7421,
-				F6EF889103A43AD6015E7421,
-				F6EF889203A43AD6015E7421,
-				F6EF889303A43AD6015E7421,
-				F6EF889403A43AD7015E7421,
-				F6EF889503A43AD7015E7421,
-				F6EF889603A43AD7015E7421,
-				F6EF889703A43AD7015E7421,
-				F6EF889803A43AD7015E7421,
-				F6EF889903A43AD7015E7421,
-				F6EF889A03A43AD7015E7421,
-				F6EF889B03A43AD7015E7421,
-				F6EF889C03A43AD7015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF887103A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ArchivedGeometryWidget.Plo;
-			refType = 4;
-		};
-		F6EF887203A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Button.Plo;
-			refType = 4;
-		};
-		F6EF887303A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ButtonPanel.Plo;
-			refType = 4;
-		};
-		F6EF887403A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Canvas.Plo;
-			refType = 4;
-		};
-		F6EF887503A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CanvasAbstractItem.Plo;
-			refType = 4;
-		};
-		F6EF887603A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CanvasItem.Plo;
-			refType = 4;
-		};
-		F6EF887703A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CheckButton.Plo;
-			refType = 4;
-		};
-		F6EF887803A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Circle.Plo;
-			refType = 4;
-		};
-		F6EF887903A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ClassDisplayHideButton.Plo;
-			refType = 4;
-		};
-		F6EF887A03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ClassDisplayLabel.Plo;
-			refType = 4;
-		};
-		F6EF887B03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Colormap.Plo;
-			refType = 4;
-		};
-		F6EF887C03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = common.Plo;
-			refType = 4;
-		};
-		F6EF887D03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CompleteProbeDisplayLabel.Plo;
-			refType = 4;
-		};
-		F6EF887E03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = CompositeItem.Plo;
-			refType = 4;
-		};
-		F6EF887F03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Entry.Plo;
-			refType = 4;
-		};
-		F6EF888003A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Form.Plo;
-			refType = 4;
-		};
-		F6EF888103A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Frame.Plo;
-			refType = 4;
-		};
-		F6EF888203A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Graph.Plo;
-			refType = 4;
-		};
-		F6EF888303A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Histogram.Plo;
-			refType = 4;
-		};
-		F6EF888403A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = InputWidget.Plo;
-			refType = 4;
-		};
-		F6EF888503A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = internal.Plo;
-			refType = 4;
-		};
-		F6EF888603A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Label.Plo;
-			refType = 4;
-		};
-		F6EF888703A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Line.Plo;
-			refType = 4;
-		};
-		F6EF888803A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = LinkItem.Plo;
-			refType = 4;
-		};
-		F6EF888903A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = MessageProbeEntry.Plo;
-			refType = 4;
-		};
-		F6EF888A03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = NodeItem.Plo;
-			refType = 4;
-		};
-		F6EF888B03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = OvalNodeItem.Plo;
-			refType = 4;
-		};
-		F6EF888C03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Pixmap.Plo;
-			refType = 4;
-		};
-		F6EF888D03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ProbeCanvas.Plo;
-			refType = 4;
-		};
-		F6EF888E03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Raster.Plo;
-			refType = 4;
-		};
-		F6EF888F03A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Rectangle.Plo;
-			refType = 4;
-		};
-		F6EF889003A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = RectangleNodeItem.Plo;
-			refType = 4;
-		};
-		F6EF889103A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ScheduleItem.Plo;
-			refType = 4;
-		};
-		F6EF889203A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SimpleProbeDisplayHideButton.Plo;
-			refType = 4;
-		};
-		F6EF889303A43AD6015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = SuperButton.Plo;
-			refType = 4;
-		};
-		F6EF889403A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = TextItem.Plo;
-			refType = 4;
-		};
-		F6EF889503A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = TkExtra.Plo;
-			refType = 4;
-		};
-		F6EF889603A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = tkobjc.Plo;
-			refType = 4;
-		};
-		F6EF889703A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = VarProbeEntry.Plo;
-			refType = 4;
-		};
-		F6EF889803A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = VarProbeLabel.Plo;
-			refType = 4;
-		};
-		F6EF889903A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Widget.Plo;
-			refType = 4;
-		};
-		F6EF889A03A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = win32dib.Plo;
-			refType = 4;
-		};
-		F6EF889B03A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = WindowGeometryRecord.Plo;
-			refType = 4;
-		};
-		F6EF889C03A43AD7015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = ZoomRaster.Plo;
 			refType = 4;
 		};
 		F6EF889D03A43AD7015E7421 = {
@@ -11029,12 +11213,6 @@
 			path = LinkItem.m;
 			refType = 4;
 		};
-		F6EF88D103A43AD9015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF88D203A43AD9015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -11044,8 +11222,9 @@
 		F6EF88D303A43AD9015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/tkobjc/Makefile.in;
+			refType = 0;
 		};
 		F6EF88D403A43AD9015E7421 = {
 			fileEncoding = 30;
@@ -11228,9 +11407,7 @@
 		F6EF88F203A43ADB015E7421 = {
 			children = (
 				F6EF88F303A43ADB015E7421,
-				F6EF88F403A43ADB015E7421,
 				F6EF88F503A43ADB015E7421,
-				F6EF88F603A43ADB015E7421,
 				F6EF88F703A43ADB015E7421,
 				F6EF88F803A43ADB015E7421,
 				F6EF88F903A43ADB015E7421,
@@ -11247,12 +11424,6 @@
 			path = ChangeLog;
 			refType = 4;
 		};
-		F6EF88F403A43ADB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF88F503A43ADB015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -11262,8 +11433,9 @@
 		F6EF88F603A43ADB015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/src/tkobjc/tk/Makefile.in;
+			refType = 0;
 		};
 		F6EF88F703A43ADB015E7421 = {
 			fileEncoding = 30;
@@ -11401,43 +11573,13 @@
 			path = ZoomRaster.m;
 			refType = 4;
 		};
-		F6EF890E03A43ADB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = "stamp-h1";
-			path = "../../stamp-h1";
-			refType = 2;
-		};
-		F6EF890F03A43ADB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = "stamp-h2";
-			path = "../../stamp-h2";
-			refType = 2;
-		};
-		F6EF891003A43ADB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = swarmconfig.h;
-			path = /Users/billn/Public/Swarm/swarmbuild/swarmconfig.h;
-			refType = 0;
-		};
-		F6EF891103A43ADB015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = swarmconfig.h.in;
-			path = /Users/billn/Public/Swarm/swarmbuild/swarmconfig.h.in;
-			refType = 0;
-		};
 		F6EF891203A43ADB015E7421 = {
 			children = (
 				F6EF891303A43ADC015E7421,
 				F6EF894403A43ADD015E7421,
 				F6EF894503A43ADD015E7421,
 				F6EF894D03A43ADD015E7421,
-				F6EF895703A43ADD015E7421,
 				F6EF895803A43ADD015E7421,
-				F6EF895903A43ADD015E7421,
 				F6EF895A03A43ADD015E7421,
 				F6EF895B03A43ADD015E7421,
 				F6EF896303A43ADE015E7421,
@@ -11450,7 +11592,6 @@
 		};
 		F6EF891303A43ADC015E7421 = {
 			children = (
-				F6EF891403A43ADC015E7421,
 				F6EF892603A43ADC015E7421,
 				F6EF892703A43ADC015E7421,
 				F6EF892803A43ADC015E7421,
@@ -11473,9 +11614,7 @@
 				F6EF893903A43ADD015E7421,
 				F6EF893A03A43ADD015E7421,
 				F6EF893B03A43ADD015E7421,
-				F6EF893C03A43ADD015E7421,
 				F6EF893D03A43ADD015E7421,
-				F6EF893E03A43ADD015E7421,
 				F6EF893F03A43ADD015E7421,
 				F6EF894003A43ADD015E7421,
 				F6EF894103A43ADD015E7421,
@@ -11484,115 +11623,6 @@
 			);
 			isa = PBXGroup;
 			path = activity;
-			refType = 4;
-		};
-		F6EF891403A43ADC015E7421 = {
-			children = (
-				F6EF891503A43ADC015E7421,
-				F6EF891603A43ADC015E7421,
-				F6EF891703A43ADC015E7421,
-				F6EF891803A43ADC015E7421,
-				F6EF891903A43ADC015E7421,
-				F6EF891A03A43ADC015E7421,
-				F6EF891B03A43ADC015E7421,
-				F6EF891C03A43ADC015E7421,
-				F6EF891D03A43ADC015E7421,
-				F6EF891E03A43ADC015E7421,
-				F6EF891F03A43ADC015E7421,
-				F6EF892003A43ADC015E7421,
-				F6EF892103A43ADC015E7421,
-				F6EF892203A43ADC015E7421,
-				F6EF892303A43ADC015E7421,
-				F6EF892403A43ADC015E7421,
-				F6EF892503A43ADC015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF891503A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ActionGroup.Po;
-			refType = 4;
-		};
-		F6EF891603A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ActionGroup_test.Po;
-			refType = 4;
-		};
-		F6EF891703A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ActionGroupRandomized.Po;
-			refType = 4;
-		};
-		F6EF891803A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ConcurrentGroup.Po;
-			refType = 4;
-		};
-		F6EF891903A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ConcurrentGroup_test.Po;
-			refType = 4;
-		};
-		F6EF891A03A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ConcurrentGroupRandomized.Po;
-			refType = 4;
-		};
-		F6EF891B03A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = DSRSwarm.Po;
-			refType = 4;
-		};
-		F6EF891C03A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = DSSwarm.Po;
-			refType = 4;
-		};
-		F6EF891D03A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = DynamicSchedule.Po;
-			refType = 4;
-		};
-		F6EF891E03A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = DynamicScheduleRepeat.Po;
-			refType = 4;
-		};
-		F6EF891F03A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = EmptySchedule.Po;
-			refType = 4;
-		};
-		F6EF892003A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ESSwarm.Po;
-			refType = 4;
-		};
-		F6EF892103A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ForEach.Po;
-			refType = 4;
-		};
-		F6EF892203A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = ForEachRandomized.Po;
-			refType = 4;
-		};
-		F6EF892303A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = Responder.Po;
-			refType = 4;
-		};
-		F6EF892403A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = Schedule.Po;
-			refType = 4;
-		};
-		F6EF892503A43ADC015E7421 = {
-			isa = PBXFileReference;
-			path = tactivity.Po;
 			refType = 4;
 		};
 		F6EF892603A43ADC015E7421 = {
@@ -11727,12 +11757,6 @@
 			path = Holder.m;
 			refType = 4;
 		};
-		F6EF893C03A43ADD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF893D03A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -11742,8 +11766,9 @@
 		F6EF893E03A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/tests/activity/Makefile.in;
+			refType = 0;
 		};
 		F6EF893F03A43ADD015E7421 = {
 			fileEncoding = 30;
@@ -11783,28 +11808,12 @@
 		};
 		F6EF894503A43ADD015E7421 = {
 			children = (
-				F6EF894603A43ADD015E7421,
 				F6EF894803A43ADD015E7421,
 				F6EF894903A43ADD015E7421,
-				F6EF894A03A43ADD015E7421,
 				F6EF894B03A43ADD015E7421,
-				F6EF894C03A43ADD015E7421,
 			);
 			isa = PBXGroup;
 			path = collections;
-			refType = 4;
-		};
-		F6EF894603A43ADD015E7421 = {
-			children = (
-				F6EF894703A43ADD015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF894703A43ADD015E7421 = {
-			isa = PBXFileReference;
-			path = archiver.Po;
 			refType = 4;
 		};
 		F6EF894803A43ADD015E7421 = {
@@ -11819,12 +11828,6 @@
 			path = ChangeLog;
 			refType = 4;
 		};
-		F6EF894A03A43ADD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF894B03A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -11834,40 +11837,19 @@
 		F6EF894C03A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/tests/collections/Makefile.in;
+			refType = 0;
 		};
 		F6EF894D03A43ADD015E7421 = {
 			children = (
-				F6EF894E03A43ADD015E7421,
 				F6EF895103A43ADD015E7421,
 				F6EF895203A43ADD015E7421,
 				F6EF895303A43ADD015E7421,
-				F6EF895403A43ADD015E7421,
 				F6EF895503A43ADD015E7421,
-				F6EF895603A43ADD015E7421,
 			);
 			isa = PBXGroup;
 			path = defobj;
-			refType = 4;
-		};
-		F6EF894E03A43ADD015E7421 = {
-			children = (
-				F6EF894F03A43ADD015E7421,
-				F6EF895003A43ADD015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF894F03A43ADD015E7421 = {
-			isa = PBXFileReference;
-			path = archiver.Po;
-			refType = 4;
-		};
-		F6EF895003A43ADD015E7421 = {
-			isa = PBXFileReference;
-			path = forwarding.Po;
 			refType = 4;
 		};
 		F6EF895103A43ADD015E7421 = {
@@ -11888,12 +11870,6 @@
 			path = forwarding.m;
 			refType = 4;
 		};
-		F6EF895403A43ADD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF895503A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -11903,14 +11879,9 @@
 		F6EF895603A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
-		};
-		F6EF895703A43ADD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/tests/defobj/Makefile.in;
+			refType = 0;
 		};
 		F6EF895803A43ADD015E7421 = {
 			fileEncoding = 30;
@@ -11921,8 +11892,9 @@
 		F6EF895903A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/tests/Makefile.in;
+			refType = 0;
 		};
 		F6EF895A03A43ADD015E7421 = {
 			fileEncoding = 30;
@@ -11932,40 +11904,18 @@
 		};
 		F6EF895B03A43ADD015E7421 = {
 			children = (
-				F6EF895C03A43ADD015E7421,
 				F6EF895E03A43ADD015E7421,
-				F6EF895F03A43ADD015E7421,
 				F6EF896003A43ADD015E7421,
-				F6EF896103A43ADD015E7421,
 				F6EF896203A43ADE015E7421,
 			);
 			isa = PBXGroup;
 			path = objectbase;
 			refType = 4;
 		};
-		F6EF895C03A43ADD015E7421 = {
-			children = (
-				F6EF895D03A43ADD015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF895D03A43ADD015E7421 = {
-			isa = PBXFileReference;
-			path = ProbeTest.Po;
-			refType = 4;
-		};
 		F6EF895E03A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			path = ChangeLog;
-			refType = 4;
-		};
-		F6EF895F03A43ADD015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
 			refType = 4;
 		};
 		F6EF896003A43ADD015E7421 = {
@@ -11977,8 +11927,9 @@
 		F6EF896103A43ADD015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/tests/objectbase/Makefile.in;
+			refType = 0;
 		};
 		F6EF896203A43ADE015E7421 = {
 			fileEncoding = 30;
@@ -11988,12 +11939,9 @@
 		};
 		F6EF896303A43ADE015E7421 = {
 			children = (
-				F6EF896403A43ADE015E7421,
 				F6EF896903A43ADE015E7421,
 				F6EF896A03A43ADE015E7421,
-				F6EF896B03A43ADE015E7421,
 				F6EF896C03A43ADE015E7421,
-				F6EF896D03A43ADE015E7421,
 				F6EF896E03A43ADE015E7421,
 				F6EF896F03A43ADE015E7421,
 				F6EF897003A43ADE015E7421,
@@ -12002,37 +11950,6 @@
 			);
 			isa = PBXGroup;
 			path = simtools;
-			refType = 4;
-		};
-		F6EF896403A43ADE015E7421 = {
-			children = (
-				F6EF896503A43ADE015E7421,
-				F6EF896603A43ADE015E7421,
-				F6EF896703A43ADE015E7421,
-				F6EF896803A43ADE015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF896503A43ADE015E7421 = {
-			isa = PBXFileReference;
-			path = AppendFileTest.Po;
-			refType = 4;
-		};
-		F6EF896603A43ADE015E7421 = {
-			isa = PBXFileReference;
-			path = ObjectLoaderTest.Po;
-			refType = 4;
-		};
-		F6EF896703A43ADE015E7421 = {
-			isa = PBXFileReference;
-			path = QSortTest.Po;
-			refType = 4;
-		};
-		F6EF896803A43ADE015E7421 = {
-			isa = PBXFileReference;
-			path = TestObject.Po;
 			refType = 4;
 		};
 		F6EF896903A43ADE015E7421 = {
@@ -12047,12 +11964,6 @@
 			path = ChangeLog;
 			refType = 4;
 		};
-		F6EF896B03A43ADE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF896C03A43ADE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -12062,8 +11973,9 @@
 		F6EF896D03A43ADE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/tests/simtools/Makefile.in;
+			refType = 0;
 		};
 		F6EF896E03A43ADE015E7421 = {
 			fileEncoding = 30;
@@ -12097,28 +12009,12 @@
 		};
 		F6EF897303A43ADE015E7421 = {
 			children = (
-				F6EF897403A43ADE015E7421,
 				F6EF897603A43ADE015E7421,
 				F6EF897703A43ADE015E7421,
-				F6EF897803A43ADE015E7421,
 				F6EF897903A43ADE015E7421,
-				F6EF897A03A43ADE015E7421,
 			);
 			isa = PBXGroup;
 			path = space;
-			refType = 4;
-		};
-		F6EF897403A43ADE015E7421 = {
-			children = (
-				F6EF897503A43ADE015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF897503A43ADE015E7421 = {
-			isa = PBXFileReference;
-			path = Discrete2d.Po;
 			refType = 4;
 		};
 		F6EF897603A43ADE015E7421 = {
@@ -12133,12 +12029,6 @@
 			path = Discrete2d.m;
 			refType = 4;
 		};
-		F6EF897803A43ADE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF897903A43ADE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -12148,8 +12038,9 @@
 		F6EF897A03A43ADE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/tests/space/Makefile.in;
+			refType = 0;
 		};
 		F6EF897B03A43ADE015E7421 = {
 			fileEncoding = 30;
@@ -12160,13 +12051,9 @@
 		};
 		F6EF897C03A43ADE015E7421 = {
 			children = (
-				F6EF897D03A43ADE015E7421,
 				F6EF897F03A43ADE015E7421,
 				F6EF898003A43ADE015E7421,
-				F6EF898103A43ADE015E7421,
 				F6EF898203A43ADE015E7421,
-				F6EF898303A43ADE015E7421,
-				F6EF898403A43ADE015E7421,
 				F6EF898503A43ADE015E7421,
 				F6EF898603A43ADE015E7421,
 				F6EF898703A43ADE015E7421,
@@ -12175,19 +12062,6 @@
 			name = tools;
 			path = ../../tools;
 			refType = 2;
-		};
-		F6EF897D03A43ADE015E7421 = {
-			children = (
-				F6EF897E03A43ADE015E7421,
-			);
-			isa = PBXGroup;
-			path = .deps;
-			refType = 4;
-		};
-		F6EF897E03A43ADE015E7421 = {
-			isa = PBXFileReference;
-			path = findImp.Po;
-			refType = 4;
 		};
 		F6EF897F03A43ADE015E7421 = {
 			fileEncoding = 30;
@@ -12201,12 +12075,6 @@
 			path = findImp.m;
 			refType = 4;
 		};
-		F6EF898103A43ADE015E7421 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = Makefile;
-			refType = 4;
-		};
 		F6EF898203A43ADE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -12216,13 +12084,9 @@
 		F6EF898303A43ADE015E7421 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			path = Makefile.in;
-			refType = 4;
-		};
-		F6EF898403A43ADE015E7421 = {
-			isa = PBXFileReference;
-			path = "print-hdf5";
-			refType = 4;
+			name = Makefile.in;
+			path = /Users/billn/Public/Swarm/swarm/tools/Makefile.in;
+			refType = 0;
 		};
 		F6EF898503A43ADE015E7421 = {
 			fileEncoding = 30;
@@ -12251,15 +12115,25 @@
 		};
 		F6EF8FFC03A44077015E7421 = {
 			children = (
-				F6EF82C303A43ABC015E7421,
-				F6EF838603A43ABF015E7421,
-				F6EF838703A43ABF015E7421,
-				F6EF838C03A43ABF015E7421,
-				F6EF83A903A43AC0015E7421,
-				F6EF83AD03A43AC0015E7421,
-				F6EF84CB03A43AC5015E7421,
-				F6EF891003A43ADB015E7421,
-				F6EF891103A43ADB015E7421,
+				79CEDEFB03C178EF00000164,
+				79CEDF0103C178EF00000164,
+				79CEDF0503C178EF00000164,
+				79CEDF0603C178EF00000164,
+				79CEDF0703C178EF00000164,
+				79CEDF0803C178EF00000164,
+				79CEDF0903C178EF00000164,
+				79CEDF1003C178EF00000164,
+				79CEDF1103C178EF00000164,
+				79CEDF1A03C178EF00000164,
+				79CEDF3C03C178EF00000164,
+				79CEDF3D03C178EF00000164,
+				79CEDF3F03C178EF00000164,
+				79CEDF4003C178EF00000164,
+				79CEE03C03C178F100000164,
+				79CEE03D03C178F100000164,
+				79CEE03E03C178F100000164,
+				79CEE04D03C178F100000164,
+				79CEE07B03C178F200000164,
 			);
 			isa = PBXGroup;
 			name = config;
