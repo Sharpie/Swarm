@@ -16,10 +16,6 @@
 
 ;; customize the print stylesheet
 
-(define %generate-lot-list%
-  ;; Should a List of Titles be produced?
-  (list "TABLE" "FIGURE" "EXAMPLE" "EQUATION"))
-
 (define %graphic-extensions% 
   ;; List of graphic filename extensions
   '("gif" "jpg" "jpeg"  "ps" ))
@@ -33,6 +29,36 @@
     (make paragraph
           (process-node-list nl)))
 
+(define $generate-lot-list$
+  ;; Should a List of Titles be produced? 
+ ;; Which Lists of Titles should be produced for Books?
+  (list (normalize "table")
+        (normalize "figure")
+        (normalize "example")
+        (normalize "equation")))
+
+(define (toc-depth nd)
+  ;; make table of contents:
+  ;; 1-level deep for each book
+  ;; 2-levels deep for sets
+  ;; and 3-deep for all remaining
+  (cond ((string=? (gi nd) (normalize "book")) 1)
+         ((string=? (gi nd) (normalize "set")) 2)
+         (else 3))
+  )
+
+;; SET customization
+
+(define %generate-set-toc% 
+  ;; Should a Table of Contents be produced for Sets?
+  #t)
+
+;; customizing auto-labelling of SECTs
+
+(define %section-autolabel% 
+  ;; Are sections enumerated?
+  #t)
+
 </style-specification-body>
 </style-specification>
 
@@ -40,8 +66,6 @@
 <style-specification-body> 
 
 ;; customize the html stylesheet
-
-
 
 (define ($generate-book-lot-list$)
   ;; Which Lists of Titles should be produced for Books?
@@ -69,15 +93,11 @@
   ;; Use ID attributes as name for component HTML files?
   #t)
 
-
 (define (toc-depth nd)
   ;; make table of contents:
   ;; 1-level deep for each book
   ;; 2-levels deep for sets
   ;; and 3-deep for all remaining
-  ;;  (if (string=? (gi nd) (normalize "book"))
-  ;;      1
-  ;;      3))
   (cond ((string=? (gi nd) (normalize "book")) 1)
          ((string=? (gi nd) (normalize "set")) 2)
          (else 3))
