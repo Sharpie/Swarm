@@ -292,6 +292,7 @@ swarmSelectorImpl::Create (nsISupports *obj,
   return NS_OK;
 }
 
+#if 0
 NS_IMETHODIMP
 swarmSelectorImpl::COMinvokeX (nsISupports *obj, nsXPTCVariant *params)
 {
@@ -331,3 +332,4 @@ swarmSelectorImpl::JSinvokeX (nsISupports *obj, jsval *args)
                    argCount, args, &args[argCount]);
   return NS_OK;
 }
+#endif
