@@ -1,3 +1,12 @@
+1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ExperSwarm.h, ModeSwarm.h: Don't include tkobjc.h.
+
+	* Bug.m ([Bug -drawSelfOn:]): Remove.
+
+	* Bug.h: Remove declaration of drawSelfOn:. 
+	Reformatting throughout.
+
 1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ExperSwarm.m ([ExperSwarm -buildObjects]): Use

@@ -7,10 +7,8 @@
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
-#import <tkobjc.h>
 #import <swarmobject.h>
 #import <simtools.h>
-
 
 @interface ModelSwarm: Swarm
 {

@@ -6,25 +6,23 @@
 #import <space.h>
 #import <simtools.h>
 
-
-@interface Bug: SwarmObject {
-
+@interface Bug: SwarmObject
+{
   int xPos, yPos;
   int worldXSize, worldYSize;
   
-  Grid2d * world;
-  FoodSpace * foodSpace;
+  Grid2d *world;
+  FoodSpace *foodSpace;
 
   int haveEaten;
 }
 
--setWorld: (id) w Food: (id) f;
+- setWorld: w Food: f;
 
--createEnd;
+- createEnd;
 
--setX: (int) x Y: (int) y;
--step;
--drawSelfOn: (Raster *) r;
+- setX: (int)x Y: (int)y;
+- step;
 
 @end
 

@@ -7,12 +7,9 @@
 
 #import <swarmobject.h>
 #import <activity.h>
-#import <tkobjc.h>
 #import <collections.h>
 #import <simtools.h>
 #import <analysis.h>
-
-
 
 // First, the interface for the ParameterManager
 
