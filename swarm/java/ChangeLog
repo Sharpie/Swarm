@@ -1,3 +1,12 @@
+1999-03-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (java-type-to-native-type): Add boolean and void.
+	(java-argument-print-conversion): New function.
+	(java-print-native-method): Make the call. Handle argument and
+	return value conversions for String and Object.
+	(java-print-native-class): Include the module's header file and
+	directory.h.  Declare JNIEnv object.
+
 1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (jdkdir, JAVASTUBS): Substitute.
