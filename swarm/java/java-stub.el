@@ -33,6 +33,8 @@
       ("Color" . "byte")
       ("Class" . "Class")
 
+      ("JOBJECT" . "Object")
+
       ("compare_t" . freaky)
 
       ("void \\*" . freaky)
@@ -220,8 +222,8 @@
       "-getData" ; void* return
 
       ;; FCall
-      "-setJavaMethod:inObject:" ; void* parameter
       "-getRetVal:buf:"; retval_t return
+      "-getCallType"; call_t return
 
       ;; FArguments
       "-addArgument:ofObjCType:" ; void* parameter
@@ -466,14 +468,7 @@
          (first-argument (car arguments))
          (signature (get-method-signature method))
          (module (protocol-module protocol)))
-    (if nil ; sadly, no
-        (cond ((string= signature "+createBegin:")
-               (insert (java-qualified-class-name module protocol :creating)))
-              ((or (string= signature "-createEnd")
-                   (create-method-p method))
-               (insert (java-qualified-interface-name module protocol :using)))
-              (t (java-print-type module (method-return-type method))))
-        (java-print-type module (method-return-type method)))
+    (java-print-type module (method-return-type method))
     (insert " ")
     (java-print-method-name arguments nil)
     (insert " (")
@@ -527,8 +522,7 @@
 
 (defun java-print-interface-methods-in-phase (protocol phase)
   (loop for method in (protocol-method-list protocol)
-        when (and (included-method-p protocol method phase)
-                  (not (create-method-p method)))
+        when (included-method-p protocol method phase)
 	do
         (java-print-javadoc-method method protocol)
         (java-print-method protocol method)))
@@ -744,11 +738,12 @@
     (insert ", "))
   (insert (java-qualified-interface-name (protocol-module protocol)
                                          protocol :setting))
-  (when (eq phase :using)
-    (progn
-      (insert ", ")
-      (insert (java-qualified-interface-name (protocol-module protocol)
-                                             protocol :using))))
+  (loop for interface-phase in '(:creating :using)
+        when (eq phase interface-phase)
+        do
+        (insert ", ")
+        (insert (java-qualified-interface-name (protocol-module protocol)
+                                               protocol interface-phase)))
   (insert " {\n")
   (java-print-class-methods-in-phase protocol phase)
   (java-print-class-methods-in-phase protocol :setting)
@@ -900,6 +895,8 @@
                (insert "SD_ENSUREOBJCCLASS (env, ")
                (insert argname)
                (insert ")"))
+              ((string= type "JOBJECT")
+               (insert argname))
               ((string= jni-type "jobject")
                (insert "SD_ENSUREOBJC (env, ")
                (insert argname)
