@@ -17,6 +17,8 @@
 "ignore.sysid">
 %figures.entities;
 
+<!ENTITY gfdl.xml PUBLIC "-//SFI Hive//ENTITIES GNU FDL//EN" "ignore.sysid">
+
 ]>
 
 <book id="installbook">
@@ -24,5 +26,9 @@
 <title>Getting Started with Swarm</title>
 
 &installcont.xml;
+
+<!-- GNU FDL: must be present in document for license conditions to hold -->
+&gfdl.xml;
+
 
 </book>

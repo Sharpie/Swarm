@@ -1,3 +1,10 @@
+2001-11-26  Alex Lancaster  <alexl@users.sourceforge.net>
+
+	* installbook.xml, installcont.xml: Move GFDL into the root of the
+	document, out of overcont.xml, so that we only get one GFDL
+	appendix when we generate the set.  Include gfdl.xml ENTITY in
+	DOCTYPE header.
+
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
 	* installcont.xml: Add GFDL as appendix.
