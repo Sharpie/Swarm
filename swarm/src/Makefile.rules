@@ -9,8 +9,6 @@ override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 # We are building Swarm 
 override CPPFLAGS += -DBUILDING_SWARM $(EXTRACPPFLAGS)
 
-CLEANFILES = $(TYPEINFO)
-
 MAKEH2X = $(top_srcdir)/src/defobj/make-h2x
 
 TYPEINFO = $(MODULE).xm types.h classes.h

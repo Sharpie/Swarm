@@ -1,12 +1,6 @@
-SUBDIRS = misc collections defobj activity \
-	objectbase \
-	tclobjc tkobjc gui \
-	random \
-	simtools simtoolsgui \
-	analysis space
+SUBDIRS = misc collections defobj activity objectbase tclobjc tkobjc gui random simtools simtoolsgui analysis space
 
-SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
-	objectbase activity defobj collections misc
+SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc objectbase activity defobj collections misc
 
 EXTRA_DIST = Makefile.rules getters.el SwarmEnvironment_getters.m
 
@@ -14,11 +8,14 @@ EXTRA_DIST = Makefile.rules getters.el SwarmEnvironment_getters.m
 
 all-recursive: headers
 
-EXTRA_PROGRAMS = swarm.dll
-bin_PROGRAMS = @SWARM_DLL@
+#EXTRA_PROGRAMS = swarm.dll
+#bin_PROGRAMS = @SWARM_DLL@
 
 headers: SwarmEnvironment_getters.m
 	for i in $(SUBDIRS) ; do $(MAKE) -C $$i headers ; done
+
+# pacify automake
+SUPPORTLDFLAGS = 
 
  include $(top_builddir)/etc/Makefile.common
 
@@ -63,7 +60,8 @@ OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo) SwarmEnvironment.lo
 swarm.dll: swarm.dll.c $(OBJS)
 	$(CC) -g -c $(srcdir)/swarm.dll.c
 	$(DLLWRAP) --export-all-symbols --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) ../avcall/avcall.o ../avcall/avcall-i386-msvc.o -L../libobjc $(SUPPORTLDFLAGS) -lobjcdll $(filter-out $(FFILIB),$(SYSLIBS)) 
-	#$(CC) -nostdlib -Wl,-shared -Wl,--export-all-symbols -Wl,--out-implib,libswarmdll.a -Wl,--output-def,swarm.def -o swarm.dll swarm.dll.o $(patsubst %.lo,%.o,$(OBJS)) -L../libobjc $(SUPPORTLDFLAGS) -lobjcdll $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
+
+#$(CC) -nostdlib -Wl,-shared -Wl,--export-all-symbols -Wl,--out-implib,libswarmdll.a -Wl,--output-def,swarm.def -o swarm.dll swarm.dll.o $(patsubst %.lo,%.o,$(OBJS)) -L../libobjc $(SUPPORTLDFLAGS) -lobjcdll $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
 
 install-data-local: 
 	$(INSTALL) libswarmdll.a $(libdir)

@@ -1,3 +1,12 @@
+2001-11-04    <mgd@HELEN>
+
+	* Makefile.am: Don't use multi-line values as they confuse Cygwin
+	automake.
+	(swarm.dll): Disable this rule for now since automake is being
+	pedantic and unhelpful about EXEEXT.
+
+	* Makefile.rules (CLEANFILES): Remove.
+
 2001-07-23    <mgd@HELEN>
 
 	* Makefile.am (swarm.dll): Manually specify avcall.o and
