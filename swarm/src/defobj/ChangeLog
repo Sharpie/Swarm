@@ -1,3 +1,8 @@
+2001-09-14  Marcus G. Daniels  <mgd@condor>
+
+	* java.m (swarm_directory_objc_find_class_java): Return 0 if
+	swarmDirectory is not set (an Objective C model).
+
 2001-08-24    <mgd@HELEN>
 
 	* java.h (__int64): Change from INT64 to SWARM_INT64.

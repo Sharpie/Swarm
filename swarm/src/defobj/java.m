@@ -2005,24 +2005,29 @@ swarm_directory_java_ensure_selector (jobject jsel)
 jclass
 swarm_directory_objc_find_class_java (Class class)
 {
-  ObjectEntry *entry = swarm_directory_objc_find_class (class);
-
-  if (!entry)
+  if (swarmDirectory)
     {
-      if (![class respondsTo: M(isJavaProxy)])
+      ObjectEntry *entry = swarm_directory_objc_find_class (class);
+      
+      if (!entry)
         {
-          jclass lref, javaClass;
-
-          lref = find_java_wrapper_class (class);
-          javaClass = (jclass) SD_JAVA_ADD_CLASS_JAVA (lref, class);
-          (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-          return javaClass;
-        }
+          if (![class respondsTo: M(isJavaProxy)])
+            {
+              jclass lref, javaClass;
+              
+              lref = find_java_wrapper_class (class);
+              javaClass = (jclass) SD_JAVA_ADD_CLASS_JAVA (lref, class);
+              (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+              return javaClass;
+            }
+          else
+            abort ();
+        } 
       else
-        abort ();
-    } 
+        return entry->foreignObject.java;
+    }
   else
-    return entry->foreignObject.java;
+    return 0;
 }
 
 Class
