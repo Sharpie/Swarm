@@ -1,3 +1,11 @@
+1999-03-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (CLASSES, CLASSFILES): New variables.
+	(all): Use them.  
+
+	* SwarmEnvironment.java: Use package `swarm'.  Initialize
+	globalZone before doing javaswarm load.
+
 1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.java: New field globalZone.

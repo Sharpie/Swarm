@@ -9,9 +9,13 @@ VPATH=$(srcdir)
 
 include ../Makefile.common
 
-all: Selector.class
+CLASSES = Selector SwarmEnvironment GlobalZone
+
+CLASSFILES = $(addsuffix .class,$(CLASSES))
+
+all: $(CLASSFILES)
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
-	cd .. ; $(JAR) cf swarm/swarm.jar swarm/Selector.class $(foreach module,$(MODULES),$(foreach protocol,$($(module)PROTOCOLS),swarm/$(module)/$(protocol).class))
+	cd .. ; $(JAR) cf swarm/swarm.jar $(addprefix swarm/,$(CLASSFILES)) $(addsuffix .class,$(foreach module,$(MODULES),$(addprefix swarm/$(module)/,$($(module)PROTOCOLS))))
 
 install: all
 	test -d $(datadir) || mkdir $(datadir)

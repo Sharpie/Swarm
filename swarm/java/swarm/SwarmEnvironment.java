@@ -1,4 +1,4 @@
-
+package swarm;
 
 public class SwarmEnvironment 
 {
@@ -7,8 +7,8 @@ public class SwarmEnvironment
     {
 	System.out.println("Trying to load lib!\n");
 	try {
+	    globalZone = Class.forName ("swarm.GlobalZone");
 	    System.loadLibrary("javaswarm");
-	    globalZone = Class.forName ("GlobalZone");
 	} catch (Exception e) {
 	    
 	    System.err.println("Exception caught: " + e.getMessage());
