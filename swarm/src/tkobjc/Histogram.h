@@ -28,6 +28,7 @@
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;  // change labels here.
 - setBarWidth: (double)step;
 - setXaxisMin: (double)min max: (double)max step: (double)step;
+- setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision;
 - setActiveOutlierText: (int)outlierCount count: (int)count;
 
 - hideLegend;

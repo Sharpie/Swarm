@@ -38,7 +38,10 @@ initTkObjc (id arguments)
       deferror (WindowGeometryRecordError, NULL);
       
       tkobjc_initTkInterp (arguments);
-      
+
+      [globalTkInterp eval: "proc fmtx {sigfigures widget val} {\n"
+                      "format \"%%.${sigfigures}g\" $val\n"
+                      "}\n"];
       [globalTkInterp eval: simtools_tcl];
 
       if ([globalTkInterp newBLTp])

@@ -1,5 +1,12 @@
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* tkobjc.m (initTkObjc): Define fmtx Tcl procedure.
+
+	* Histogram.m ([Histogram -setXaxisMin:max:step:precision:]):
+	New method.
+	([Histogram -setXaxisMin:max:step:]): Use it with a default of 3
+	for precision.
+
 	* Widget.[hm]: Remove static typing from arguments to -setParent:,
 	+createParent: and from return values of -getParent and -getTopLevel.
 

@@ -131,14 +131,21 @@ PHASE(Using)
   return self;
 }
 
-- setXaxisMin: (double)min max: (double)max step: (double)step
+- setXaxisMin: (double)min max: (double)max step: (double)step precision: (unsigned)precision
 {
   [globalTkInterp eval: 
-                    "%s xaxis configure -min %g -max %g -stepsize %g",
+                    "%s xaxis configure -min %g -max %g -stepsize %g -command \"fmtx %d\"",
                   [self getWidgetName],
                   min,
                   max,
-                  step];
+                  step,
+                  precision];
+  return self;
+}
+
+- setXaxisMin: (double)min max: (double)max step: (double)step
+{
+  [self setXaxisMin: min max: max step: step precision: 3];
   return self;
 }
 
