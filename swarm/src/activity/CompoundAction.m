@@ -18,7 +18,7 @@ Library:      activity
 #import <activity/XActivity.h>
 
 void 
-setDefaultOrder(unsigned *bits, id aSymbol)
+setDefaultOrder (unsigned *bits, id aSymbol)
 {  
   if (aSymbol == (id) Concurrent) 
     setBit (*bits, BitConcurrent, 1); 
@@ -31,7 +31,6 @@ setDefaultOrder(unsigned *bits, id aSymbol)
     setBit(*bits, BitRandomized, 1);
   else
     raiseEvent(InvalidArgument, nil);
-
 }
 
 @implementation ActionType_c
