@@ -3,6 +3,7 @@
 	* Makefile.tests.in (SWARMBUILDLDFLAGS): Revert last change.
 
 	* Makefile.common.in (SWARMLIBS): Return to using -lswarm.
+	(OBJCLIBS): Remove in DLL case.
 
 1999-06-07  Alex Lancaster  <alex@santafe.edu>
 

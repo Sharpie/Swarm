@@ -83,7 +83,7 @@ SWARMLIBS = -lswarm
 OBJCLIBS = -lobjc
 else
 SWARMLIBS = -lswarmdll
-OBJCLIBS = -lobjcdll
+OBJCLIBS = 
 endif
 else
 SWARMLIBS = -lswarm
