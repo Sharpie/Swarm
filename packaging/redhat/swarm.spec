@@ -31,21 +31,6 @@ Requires: tcl >= 8.0.4
 Requires: tk >= 8.0.4 
 Provides: swarm-base
 Conflicts: swarm-hdf5
-
-# this prefix_hdf5 is a hack to trick rpm into doing a second
-# build/install without erasing the first build, ultimately the prefix
-# should be switched back to /usr before packaging the installed files
-# in the %files macro - have still got to figure out how to do this
-# ;-) 
-%define prefix_hdf5 /hdf5
-
-%define makebuilddir() test -d %1 || mkdir %1 && cd %1
-
-%define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-$RPM_PACKAGE_VERSION
-
-%define swarmlibraries() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.*" >> %2; done
-
-%define gen_filelist() echo "%{1}/bin/libtool-swarm" > %2; echo "%{1}/bin/m2h" >> %2; echo "%{1}/bin/make-h2x" >> %2 ; echo "%{1}/etc" >> %2 ; echo "%{1}/include" >> %2 ; echo "%{1}/info" >> %2 ;  %{swarmlibraries: %1 %2}; echo '%dir %{1}/share' >> %2 ; echo '%doc README AUTHORS COPYING ChangeLog INSTALL NEWS THANKS' >> %2
  
 %description
 Swarm is a simulation toolkit for complex adaptive systems. The Swarm
@@ -148,6 +133,21 @@ Requires: swarm-base
 swarm-kaffe adds Java support to your base Swarm package (either swarm
 or swarm-hdf5).  Kaffe is a freely-redistributable implementation of
 the Sun JDK.
+
+# this prefix_hdf5 is a hack to trick rpm into doing a second
+# build/install without erasing the first build, ultimately the prefix
+# should be switched back to /usr before packaging the installed files
+# in the %files macro - have still got to figure out how to do this
+# ;-) 
+%define prefix_hdf5 /hdf5
+
+%define makebuilddir() test -d %1 || mkdir %1 && cd %1
+
+%define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-$RPM_PACKAGE_VERSION
+
+%define swarmlibraries() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.*" >> %2; done
+
+%define gen_filelist() echo "%{1}/bin/libtool-swarm" > %2; echo "%{1}/bin/m2h" >> %2; echo "%{1}/bin/make-h2x" >> %2 ; echo "%{1}/etc/*" >> %2 ; echo "%{1}/include" >> %2 ; echo "%{1}/info/*" >> %2 ;  %{swarmlibraries: %1 %2}; echo '%dir %{1}/share' >> %2 ; echo '%doc README AUTHORS COPYING ChangeLog INSTALL NEWS THANKS' >> %2
 
 %prep 
 %setup -q
