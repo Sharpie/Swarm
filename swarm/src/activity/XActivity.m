@@ -101,15 +101,15 @@ auditRunRequest (Activity_c *self, const char *request)
     {
       id <Index> index =
         [((ActionConcurrent_c *) action)->concurrentGroup begin: scratchZone];
-      ActionMerge_c *mergeAction;
+      CAction *caction;
       
-      while ((mergeAction = [index next]))
+      while ((caction = [index next]))
         {
-          if (getClass (mergeAction) != id_ActionMerge_c)
-            abort ();
-
-          if (obsoletep ())
-            [index remove];
+          if (getClass (caction) == id_ActionMerge_c)
+            {
+              if (obsoletep ())
+                [index remove];
+            }
         }
       [index drop];
       return NO;
