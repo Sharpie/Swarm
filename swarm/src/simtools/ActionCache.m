@@ -5,7 +5,7 @@
 
 #import <simtools.h>
 #import <tkobjc/global.h>
-#import "ActionCache.h"
+#import <simtools/ActionCache.h>
 // Type Symbols
 id <Symbol> Control, Probing, Spatial;
 // Error symbols
