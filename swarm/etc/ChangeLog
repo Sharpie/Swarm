@@ -1,3 +1,7 @@
+1999-01-19  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.common.in (OBJC, OBJCFLAGS): Extract variables.
+
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Makefile.tests.in (INCLUDES): Change paths due to new location
