@@ -213,7 +213,7 @@ USING
 
 CREATING
 //M: Convenience constructor for Value2dDisplay
-+ create: (id <Zone>)aZone setDisplayWidget: r colormap: (id <Colormap>)c setDiscrete2dToDisplay: d;
++ create: (id <Zone>)aZone setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c setDiscrete2dToDisplay: (id <Discrete2d>)d;
 
 //M: Set the display widget and the colourmap to use to draw the value array. 
 - setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
@@ -325,7 +325,7 @@ USING
 
 CREATING
 //M: Convenience constructor for Object2dDisplay
-+ create: (id <Zone>)aZone setDisplayWidget: r setDiscrete2dToDisplay: c setDisplayMessage: (SEL)s;
++ create: (id <Zone>)aZone setDisplayWidget: (id <Raster>)r setDiscrete2dToDisplay: (id <Discrete2d>)c setDisplayMessage: (SEL)s;
 
 //M: Set the display widget to use for drawing.
 - setDisplayWidget: (id <Raster>)r;

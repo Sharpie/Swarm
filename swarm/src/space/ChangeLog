@@ -1,3 +1,8 @@
+1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* space.h: Add Discrete2d and Raster typing on convenience factory
+	methods (for use by Java).
+
 1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* space.h: Add Zone typing to +create* methods.  Don't touch
