@@ -225,7 +225,7 @@ createGroup (Schedule_c *self)
 // _update_mergeSchedules: routine used to adjust merge schedule if actions
 // are added dynamically and to the beginning of the schedule. If action is
 // added to the beginning of the schedule, mergeAction for the schedule has
-// to be resheduled, so that the new action gets merged too.
+// to be rescheduled, so that the new action gets merged too.
 //
 
 void
