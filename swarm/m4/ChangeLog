@@ -1,3 +1,7 @@
+1999-06-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Use ${jdkdosdir} in the case of Cygwin and Kaffe.
+
 1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4 (USEDOSCLASSPATH): New substitution.  This distinguishes
