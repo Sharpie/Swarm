@@ -97,6 +97,9 @@ USING
 //M: object.
 - getClass;
 
+//M: getTypeName returns the name of the originating type of this object.
+- (const char *)getTypeName;
+
 //M: Adds an external reference to an object that is notified whenever the
 //M: object is changed or relocated.
 - (ref_t)addRef: (notify_t)notifyFunction withArgument: (void *)arg;

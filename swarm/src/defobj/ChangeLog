@@ -1,5 +1,10 @@
 1999-01-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* DefObject.m ([Object_s -lispOut:deep:], [Object_s
+	-hdf5Out:deep:]): Use getTypeName instead of name.
+
+	* DefObject.[hm], defobj.h ([Object_s -getTypeName]): New method.
+
 	* HDF5Object.[hm], defobj.h ([HDF5_c -iterateAttributes:]): New method.
 
 	* HDF5Object.m (string_ref): New function.

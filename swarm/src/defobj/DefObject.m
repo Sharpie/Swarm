@@ -733,6 +733,12 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   return "nil"; 
 }
 
+- (const char *)getTypeName
+{
+  id type = [self getType];
+  
+  return type ? [type getName] : [self name];
+}
 
 //
 // _obj_formatIDString() --
@@ -1015,7 +1021,7 @@ lisp_output_type (const char *type,
 - lispOut: stream deep: (BOOL)deepFlag
 {
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
-  [stream catC: [self name]];
+  [stream catC: [self getTypeName]];
   [stream catC: " "];
   
   {
@@ -1067,7 +1073,7 @@ lisp_output_type (const char *type,
           else
             [hdf5Obj storeAsDataset: name typeName: NULL type: type ptr: ptr];
         }
-      [hdf5Obj storeTypeName: [self name]];
+      [hdf5Obj storeTypeName: [self getTypeName]];
       map_ivars (getClass (self)->ivars, store_object);
     }
   else
