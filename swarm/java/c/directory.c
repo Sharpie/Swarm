@@ -141,8 +141,13 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
   for (p = name; *p; p++)
     if (*p == '$')
       *p = ':';
-  
+
+#if 0  
   sel = sel_get_any_typed_uid (name);
+#else
+  sel = 0;
+#endif
+
   if (!sel)
     {
       jfieldID retTypeFid = 
@@ -151,15 +156,26 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
         (*env)->GetFieldID (env, clazz, "types", "[Ljava/lang/Class;");
       jclass retType = (*env)->GetObjectField (env, jsel, retTypeFid);
       jarray argTypes = (*env)->GetObjectField (env, jsel, argTypesFid);
-      jsize tc = GetArrayLength (env, argTypes);
+      jsize tc = (*env)->GetArrayLength (env, argTypes);
       jsize ti;
       char signatureBuf[tc * 6], *p = signatureBuf;
       size_t pos = 0;
+
+      size_t alignto (size_t pos, size_t alignment)
+        {
+          size_t mask = (alignment - 1);
+          
+          if ((pos & mask) == 0)
+            return pos;
+          else
+            return (pos + alignment) & ~mask;
+        }
 
       void add (jobject class, BOOL regFlag)
         {
           char type;
 
+#if 0
           if (class == c_object)
             {
               type = _C_ID;
@@ -202,6 +218,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
             }
           else
             abort ();
+#endif
           *p++ = type;
           if (regFlag)
             *p++ = '+';
@@ -220,7 +237,11 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
         add ((*env)->GetObjectArrayElement (env, argTypes, ti), YES);
 
       printf ("[%s][%s]\n", name, signatureBuf);
+#if 0
       sel = sel_register_typed_name (name, signatureBuf);
+#else
+      sel = 0;
+#endif
     }
   
   if (copyFlag)
