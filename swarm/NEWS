@@ -1,12 +1,25 @@
 Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
 Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 
-* Release Notes for Swarm 2.1
+* Release Notes for Swarm 2.0.1
+** Bug fixes
+*** Eliminated Java local reference leaks.
+*** Fixed ObjC->Java selector type signature bug.
+*** Fixed screen snapshot bug on Windows.  
+    Thanks to Steve Railsback for the report.
+*** Fixed bug in geometry archiving. 
+    Thanks to Pietro Terna for the report.
+*** Fixed window maximize/minimize bug on Windows. 
+    Thanks to Jayshree Sarma for the report.
+*** Fixed various memory leaks in activity library
+    Thanks to Martin Gutting for the report.
+
 ** Other changes
-*** Java arguments and return types consistently use generic interface typing.
+*** Java arguments and return types use generic interface typing.
 
 ** Autoconfiguration / Portability
-*** Support for Tcl/Tk 8.2.
+*** Support for Tcl/Tk 8.2.  Note BLT 2.4i requires an external fix
+    for drag and drop to work reliably.
 
 * Release Notes for Swarm 2.0
 ** New features
