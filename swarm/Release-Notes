@@ -2,31 +2,42 @@
 
  1. Variant method names for passthru to setWindowGeometryRecordName have been
     eliminated.  In these cases, the resulting key is computed from the
-    components involved.  Thanks to Ken Cline for the idea.
+    components involved.  Thanks to Ken Cline for the idea.  
+    For these `GUIComposite' objects, the macro 
+    SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME is used for naming the
+    subcomponents; it uses the subcomponent widget instance variable 
+    argument as the name.
 
- 2. The methods create[Complete]ProbeDisplayFor:setWindowGeometryRecordName:
+ 2. The macro SET_WINDOW_GEOMETRY_RECORD_NAME provides a convenience
+    interface to setWindowGeometryRecordName:.  This macro takes a widget
+    instance variable as an argument and derives the archiving key from that.
+
+ 3. The methods create[Complete]ProbeDisplayFor:setWindowGeometryRecordName:
     have been removed in favor of the macros
-    createArchived[Complete]ProbeDisplay, which derive the geometry 
-    record name from the variable name provided as an argument.
+    CREATE_ARCHIVED_PROBE_DISPLAY and CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY, 
+    that derive the archiving key from the instance variable provided
+    as an argument.
  
- 3. Save and Quit no longer result in a timestep.  Thanks to Rick Riolo
+ 4. Save and Quit no longer result in a timestep.  Thanks to Rick Riolo
     for reporting this.
 
- 4. Using the method enableDestroyNotification: notificationMethod:
+ 5. Using the method enableDestroyNotification: notificationMethod:
     with a target object (e.g. the parent) and handler method, it is possible
     for your application to disable top level user interface features after
     user kills from the window manager.  See heatbugs for an example of this.
 
- 5. ProbeDisplays weren't equipped with #4, so window kills from the window
+ 6. ProbeDisplays weren't equipped with #4, so window kills from the window
     manager could result Tk becoming confused (a fairly common operation 
     with popular window managers like fvwm95).  Thanks to Pietro Terna
     for his assistance in debugging this.
  
- 6. Histo and Canvas are now subclassed from ArchivedGeometryWidget; their
+ 7. Histo and Canvas are now subclassed from ArchivedGeometryWidget; their
     geometry can now be saved.
 
- 7. Active graph items in a BLTGraph were not being properly hilighted
+ 8. Active graph items in a BLTGraph were not being properly hilighted
     with BLT 2.3.  Thanks to Pietro Terna for reporting this.
+
+ 9. Fixed problem with ClassDisplayWidget misdirecting armSuperButton.
 
 		Release Notes for Swarm Version 1.0.4
 
