@@ -59,7 +59,6 @@ findIID (const char *interfaceName, nsIID &iid)
 
           Interface->GetName (&name);
 
-          printf ("%s/%s\n", interfaceName, name);
           matched = (PL_strcmp (interfaceName, name) == 0);
           iid = Interface->GetIID ();
           nsMemory::Free (name);
@@ -98,11 +97,11 @@ createComponentByName (const char *progID, const char *interfaceName)
   printf ("progID: `%s' interfaceName: `%s'\n", progID, buf);
   if (findIID (buf, iid) != PR_TRUE)
     abort ();
-  printf ("ok\n");
 
   rv = nsComponentManager::CreateInstance (progID, NULL, iid, (void **) &obj);
   if (NS_FAILED (rv))
     abort ();
+  NS_ADDREF (obj);
   return obj;
 }
 
