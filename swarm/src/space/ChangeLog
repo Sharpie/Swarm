@@ -1,6 +1,10 @@
 1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Discrete2d.m ([Discrete2d -_lispInLatticeObjects_:], 
+	* Discrete2d.m ([Discrete2d -hdf5InCreate:]): Use
+	checkDatasetName: "lattice" instead of checkName: "ivars"
+	so that ivars aren't required.
+	([Discrete2d -hdf5In:]): Don't require ivars group.
+	([Discrete2d -_lispInLatticeObjects_:], 
 	[Discrete2d -_lispOutLatticeObjects_:]): 
 	Use pair for coordinates, not list.
 	([Discrete2d -_lispOutLatticeValues_:]): Array encoding was reversed.

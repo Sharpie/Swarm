@@ -71,7 +71,7 @@ PHASE(Creating)
 
 - hdf5InCreate: hdf5Obj
 {
-  if ([hdf5Obj checkName: "ivars"])
+  if ([hdf5Obj checkDatasetName: "lattice"])
     {
       id latticeDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
                                 setParent: hdf5Obj]
@@ -129,7 +129,7 @@ PHASE(Setting)
 {
   id aZone = [self getZone];
 
-  if ([hdf5Obj checkName: "ivars"])
+  if ([hdf5Obj checkDatasetName: "lattice"])
     {
       {
         id latticeDataset = [[[[[[HDF5 createBegin: [hdf5Obj getZone]]
@@ -148,8 +148,11 @@ PHASE(Setting)
                               setDatasetFlag: YES]
                              setName: "ivars"]
                             createEnd];
-        [super hdf5In: ivarsDataset];
-        [ivarsDataset drop];
+        if (ivarsDataset)
+          {
+            [super hdf5In: ivarsDataset];
+            [ivarsDataset drop];
+          }
       }
     }
   else
