@@ -1,6 +1,22 @@
-2000-02-14    <mgd@HELEN>
+2000-02-18    <mgd@nest.swarm.org>
 
 	* Swarm 2.1 frozen.
+
+	* java-stub.el (*removed-methods*): Removed +customizeBegin:,
+	-customizeCopy, and -customizeEnd.
+	(match-signature, unwanted-random-create-method-p,
+	match-create-signature): New functions.
+	(convenience-create-method-p): Use them.  Add protocol as
+	argument.
+	(java-print-native-method): Use convenience-create-method-p
+	instead of create-method-p.  Handle +customizeBegin: like
+	+createBegin:.
+	(java-print-native-class): Skip over methods matching
+	unwanted-random-create-method-p.
+
+	* Makefile.am (EXTRA_DIST): Distribute swarm/CustomizedType.java.
+
+2000-02-14    <mgd@HELEN>
 
 	* Makefile.am (EXTRA_SCRIPTS): Add jdkcswarm and jdkswarm.
 

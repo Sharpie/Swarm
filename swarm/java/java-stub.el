@@ -203,11 +203,6 @@
 ;;      "-copy:" ; conflict with Java
 ;;      "-remove:" ; conflict with Java
 
-      ;; fooey
-      "+customizeBegin:"
-      "-customizeCopy:"
-      "-customizeEnd"
-
       ;; DefinedClass
       "+getMethodFor:" ; IMP return
 
@@ -370,7 +365,7 @@
         do
         (insert text)))
 
-(defun java-print-javadoc-default-contructor ()
+(defun java-print-javadoc-default-constructor ()
   (insert "\n/**\n * Default constructor for Impl class\n */\n"))
 
 (defun java-print-javadoc-method (method protocol)
@@ -497,12 +492,41 @@
          (min-len (min len 7)))
     (string= (substring signature 0 min-len) "+create")))
 
-(defun convenience-create-method-p (method)
-  (let* ((signature (get-method-signature method))
-         (len (length signature))
-         (min-len (min len 8)))
-    (string= (substring signature 0 min-len) "+create:")))
+(defun match-signature (signature match-signature)
+  (let* ((len (length signature))
+         (sig-len (length match-signature)))
+    (when (>= len sig-len)
+      (string= (substring signature 0 sig-len) match-signature))))
 
+(defun unwanted-random-create-method-p (protocol method)
+  (and (string= (get-method-signature method) "+create:")
+       (find (protocol-name protocol)
+             '("UniformUnsignedDist"
+               "PMMLCG1gen"
+               "C2TAUS3gen"
+               "RandomBitDist"
+               "ExponentialDist"
+               "MT19937gen"
+               "UniformDoubleDist"
+               "NormalDist"
+               "C2TAUS1gen"
+               "GammaDist"
+               "UniformIntegerDist"
+               "PSWBgen"
+               "LogNormalDist"
+               "BernoulliDist"
+               "C2TAUS2gen")
+             :test #'string=)))
+
+(defun match-create-signature (signature)
+  (or (match-signature signature "+createParent:") ; gui
+      (match-signature signature "+createWithDefaults:"); random
+      (match-signature signature "+create:")))
+
+(defun convenience-create-method-p (protocol method)
+  (unless (unwanted-random-create-method-p protocol method)
+    (match-create-signature (get-method-signature method))))
+  
 (defun included-method-p (protocol method phase)
   (and (not (removed-method-p method))
        (eq phase (method-phase method))))
@@ -624,7 +648,7 @@
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
         for method = (methodinfo-method methodinfo)
         when (and (not (removed-method-p method))
-                  (convenience-create-method-p method))
+                  (convenience-create-method-p protocol method))
         collect method))
 
 (defun collect-convenience-constructor-name.arguments (method)
@@ -655,7 +679,7 @@
     ;; documentation
     (if name.arguments
         (java-print-javadoc-method method protocol)
-      (java-print-javadoc-default-contructor))
+        (java-print-javadoc-default-constructor))
     (insert "public ")
     (insert using-class-name)
     (insert " (")
@@ -1077,7 +1101,7 @@
                 (insert ")"))
           (if (cdr rstrings) (insert "\n  ") (insert " "))
           (insert "};\n")))
-      (when (create-method-p method)
+      (when (convenience-create-method-p protocol method)
         (insert "  jobject nextPhase = SD_NEXTJAVAPHASE (env, jobj);\n"))
       (java-print-method-invocation-arguments protocol method)
       ;; (java-print-method-invocation-arguments-lref-deletion protocol method)
@@ -1095,13 +1119,14 @@
                                                            objc-type
                                                            java-type-category))
              (wrapped-flag 
-              (cond ((string= "+createBegin:" signature)
+              (cond ((or (string= "+createBegin:" signature)
+                         (string= "+customizeBegin:" signature))
                      (insert "SD_ADDJAVA (env, jobj, ")
                      t)
                     ((create-method-p method)
                      (insert "SD_ADDJAVA (env, nextPhase, ")
                      t)
-                    ((string= "-createEnd" signature)
+                    ((or (string= "-createEnd" signature))
                      (insert "SD_NEXTPHASE (env, jobj, ")
                      t)
                     ((string= java-return "Class")
@@ -1120,7 +1145,7 @@
       (insert ";\n")
       (when strings
         (insert "  SD_CLEANUPSTRINGS (env, strings);\n"))
-      (when (create-method-p method)
+      (when (convenience-create-method-p protocol method)
         (insert "  (*env)->DeleteLocalRef (env, nextPhase);\n"))
       (unless (string= ret-type "void")
         (when (or strings (create-method-p method))
@@ -1143,6 +1168,7 @@
       (loop for phase in '(:creating :using)
             do
             (loop for method in (expanded-method-list protocol phase)
+                  unless (unwanted-random-create-method-p protocol method)
                   do
                   (java-print-native-method method protocol phase)
                   (insert "\n")))
