@@ -43,6 +43,15 @@ PHASE(Creating)
   return [new createEnd];
 }
 
++ create: aZone setAutoDrop: (BOOL)autoDrop
+{
+  id  new;
+
+  new = [self createBegin: aZone];
+  [new setAutoDrop: autoDrop];
+  return [new createEnd];
+}
+
 - (void)setConcurrentGroupType: groupType
 {
   concurrentGroupType = groupType;

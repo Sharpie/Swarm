@@ -40,6 +40,7 @@ Library:      activity
 - (void)drop;
 /*** methods in Schedule_c (inserted from .m file by m2h) ***/
 + create: aZone setRepeatInterval: (timeval_t)rptInterval;
++ create: aZone setAutoDrop: (BOOL)autoDrop;
 - (void)setConcurrentGroupType: groupType;
 - (void)setSingletonGroups: (BOOL)singletonGroups;
 - setRelativeTime: (BOOL)relativeTime;

@@ -756,6 +756,14 @@ USING
 //D: subclass.  (.. Details of doing this are not yet documented, but there
 //D: are examples.)
 
+CREATING
+
+//M: Convenience method for creating a repeating Schedule
++ create: aZone setRepeatInterval: (timeval_t)rptInterval;
+
+//M: Convenience method for creating an AutoDrop Schedule
++ create: aZone setAutoDrop: (BOOL)autoDrop;
+
 USING
 - at: (timeval_t)tVal createAction: anActionType;
 

@@ -1,3 +1,15 @@
+1999-07-28  Alex Lancaster  <alex@santafe.edu>
+
+	* activity.h (Schedule): Add +create:setRepeatInterval: and
+	+create:setAutoDrop: convenience methods to CREATING phase of
+	protocol.
+
+	* Schedule.h: ([Schedule_c +create:setRepeatInterval:]): Declare
+	convenience method.
+
+	* Schedule.[hm] ([Schedule_c +create:setAutoDrop:]): New
+	convenience method.
+
 1999-07-12  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* activity.h (getCurrentSchedule): Typo.
