@@ -1,3 +1,11 @@
+2003-07-15 Paul Johnson <pauljohn@ku.edu>
+
+       * VERSION: Bump to 2.1.146
+
+2003-06-23 Paul Johnson <pauljohn@ku.edu>
+
+       * VERSION: Bump.  This edition supports Java on MacOS
+
 2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
 
 	* VERSION: Bump.
