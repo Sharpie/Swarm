@@ -92,5 +92,16 @@
   return self ;
 }
 
-@end
+-(void) drop {
+  [globalTkInterp eval: "%s delete %s",
+    [canvas getWidgetName],text] ;  
+  [globalTkInterp eval: "%s delete %s",
+    [canvas getWidgetName],item] ;  
+  [super drop] ;
+}
 
+@end
+  
+  
+  
+  
