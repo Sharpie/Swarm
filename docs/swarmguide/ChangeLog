@@ -1,3 +1,10 @@
+1999-05-27  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user2.07.sgml: Tried to clear up jargon, make presentation more
+ 	direct. Put a massive clarification on probe display/map. Tried to
+ 	make Alex's next birthday happy by inserting markup. Still have
+ 	one big section to renovate!
+
 1999-05-26  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (genindex.sgml): Make depend on collateindex.pl, so
