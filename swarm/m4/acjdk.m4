@@ -102,7 +102,6 @@ else
       JAVACLASSES=${jdkdir}/lib/classes.zip
     fi
     if test "$host_os" = cygwin; then
-      JAVACLASSES="`cygpath -w ${JAVACLASSES}`"
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
       USEDOSCLASSPATH=yes
@@ -130,14 +129,17 @@ else
     JAVALIBPATH_VAR=
   elif test -f $expand_jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
-    kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $jdkdir/bin/kaffe`
-    kaffe_datadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $jdkdir/bin/kaffe`
-    jdkdatadir=`eval echo \`echo $kaffe_datadir | sed  's/\${prefix}/$kaffe_prefix/'\`` 
+    kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $expand_jdkdir/bin/kaffe`
+    kaffe_datadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $expand_jdkdir/bin/kaffe`
+    jdkdatadir=`eval echo \`echo $kaffe_datadir | sed  's/\${prefix}/$kaffe_prefix/'\``
+
     if test "$host_os" = cygwin; then
-      jdkdatadir=`cygpath -w $jdkdatadir`
+      # we can assume SWARMROOT will be set in Windows environment --
+      # recover the symbolic path representation from datadir.
+      jdkdatadir=`echo $jdkdatadir | sed "s,$SWARMROOT,\\${SWARMROOT},g"`
       USEDOSCLASSPATH=yes
       # ${jdkdir}/lib/kaffe is included so that .la file can be found
-      JAVALIBS="`cygpath -w ${jdkdir}/bin`;`cygpath -w ${jdkdir}/lib/kaffe`"
+      JAVALIBS="${jdkdir}/bin:${jdkdir}/lib/kaffe"
       JAVASWARM_DLL_NAME=libkaffeswarm
       JAVASWARM_DLL_LOADNAME=kaffeswarm
       JAVASWARM_DLL_ENTRY='__cygwin_dll_entry@12'
@@ -145,7 +147,7 @@ else
       JAVALIBS='${jdkdir}/lib/kaffe'
     fi
     AC_DEFINE(HAVE_KAFFE)
-    JAVACLASSES="$jdkdatadir${PATHDELIM}Klasses.jar${PATHSEP}$jdkdatadir${PATHDELIM}pizza.jar"
+    JAVACLASSES="${jdkdatadir}/Klasses.jar:${jdkdatadir}/pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
     if test -x "${expand_jdkdir}/libexec/Kaffe"; then
       JAVACMD='${jdkdir}/libexec/Kaffe'

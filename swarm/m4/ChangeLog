@@ -2,6 +2,8 @@
 
 	* acjdk.m4: Evaluate jdkdir for embedded variables.  Use expanded
 	variables for tests, and unexpanded variables for substitutions.
+	Don't do cygpath expansions here, do them in the wrapper scripts.
+	(So that no physical paths get hardcoded in scripts.)
 
 1999-09-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
