@@ -286,9 +286,9 @@ extern const char *buildWindowGeometryRecordName (const char *baseName,
 //D: Base class for objects that use several GUI components.
 
 USING
-- enableDestroyNotification: notificationTarget
-         notificationMethod: (SEL)notificationMethod;
-- disableDestroyNotification;
+- (void)enableDestroyNotification: notificationTarget
+               notificationMethod: (SEL)notificationMethod;
+- (void)disableDestroyNotification;
 @end
 
 @protocol GUISwarm <Swarm, WindowGeometryRecordName, CREATABLE>

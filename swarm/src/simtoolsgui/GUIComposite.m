@@ -58,22 +58,18 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- enableDestroyNotification: theNotificationTarget
-         notificationMethod: (SEL)theNotificationMethod
+- (void)enableDestroyNotification: theNotificationTarget
+               notificationMethod: (SEL)theNotificationMethod
 {
   [componentList forEach: 
                    @selector (enableDestroyNotification:notificationMethod:)
                  : theNotificationTarget
                  : (id)theNotificationMethod];
-
-  return self;
 }
 
-- disableDestroyNotification
+- (void)disableDestroyNotification
 {
   [componentList forEach: @selector (disableDestroyNotification)];
-
-  return self;
 }
 
 - (void)drop

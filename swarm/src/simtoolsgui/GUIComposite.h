@@ -18,8 +18,8 @@
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: widget;
 - setSaveSizeFlag: (BOOL)saveSizeFlag;
-- enableDestroyNotification: notificationTarget
-         notificationMethod: (SEL)notificationMethod;
-- disableDestroyNotification;
+- (void)enableDestroyNotification: notificationTarget
+               notificationMethod: (SEL)notificationMethod;
+- (void)disableDestroyNotification;
 - (void)drop;
 @end
