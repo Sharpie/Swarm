@@ -406,16 +406,23 @@
     (:using "U")
     (:creating "")))
 
+(defun java-protocol-name (protocol phase)
+  (concat (protocol-name protocol) (java-suffix-for-phase phase)))
+
 (defun java-class-name (protocol phase)
-  (concat (protocol-name protocol) (java-suffix-for-phase phase) "Impl"))
-        
+  (concat (java-interface-name protocol phase) "Impl"))
+
 (defun java-interface-name (protocol phase)
-  (concat (java-class-name protocol phase)))
+  (java-protocol-name protocol phase))
+
+(defun java-name (protocol phase interface-flag)
+  (if interface-flag
+      (java-interface-name protocol phase)
+      (java-class-name protocol phase)))
 
 (defun java-qualified-name (current-module protocol phase interface-flag)
   (let ((module-name (module-name (protocol-module protocol)))
-        (name (concat (if interface-flag "i_" "")
-                      (java-class-name protocol phase))))
+        (name (java-name protocol phase interface-flag)))
     (if current-module
         (if (string= module-name (module-name current-module))
             name
@@ -517,9 +524,7 @@
     `(let ((,dir (module-path (module-sym (protocol-module ,protocol)))))
       (ensure-directory ,dir)
       (with-temp-file (concat ,dir
-                              (if ,interface "i_" "")
-                              (protocol-name ,protocol)
-                              (java-suffix-for-phase ,phase)
+                              (java-name ,protocol ,phase ,interface)
                               ".java")
         ,@body))))
 
