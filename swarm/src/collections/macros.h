@@ -7,7 +7,7 @@ struct Map_c;
 struct OrderedSet_c;
 
 extern id _i_Collection_any_remove_ (id, SEL, id);
-extern id _i_Collection_any_atOffset_ (id, SEL, unsigned)
+extern id _i_Collection_any_atOffset_ (id, SEL, unsigned);
 extern id _i_Collection_any_getFirst (id, SEL);
 extern id _i_Collection_any_getLast (id, SEL);
 
