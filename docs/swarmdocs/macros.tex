@@ -29,3 +29,37 @@
  \fi
  \ifGroupMode\endgroup\fi
 } 
+
+\def\resetHeadersAndFooters{%
+ \Sethead[L]{ }{}
+ \Setfoot[L]{ }{}
+ \Sethead[LE]{ }{}
+ \Setfoot[LE]{ }{}
+ \Sethead[LO]{ }{}
+ \Setfoot[LO]{ }{}
+ \Sethead[C]{ }{}
+ \Setfoot[C]{ }{}
+ \Sethead[CE]{ }{}
+ \Setfoot[CE]{ }{}
+ \Sethead[CO]{ }{}
+ \Setfoot[CO]{ }{}
+ \Sethead[R]{ }{}
+ \Setfoot[R]{ }{}
+ \Sethead[RE]{ }{}
+ \Setfoot[RE]{ }{}
+ \Setfoot[RO]{ }{}
+ \Sethead[RO]{ }{}
+}
+
+\def\endSpS{%
+ \DoFOBSetfalse
+ \ifnum\col@number>1 
+    \end{multicols}
+ \fi
+ \newpage
+ \endDisplayNIC
+ \let\FancyHook\@empty
+ \let\FancyFirstHook\@empty
+ \resetHeadersAndFooters
+}
+

@@ -1,5 +1,10 @@
 1998-09-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* macros.tex (resetHeadersAndFooters): New macro to clear all
+	the headers and footers.
+	(endSpS): New macro (overrides jadetex) and adds a call to
+	resetHeadersAndFooters.
+
 	* Makefile.am (html dvi rtf fot ps htmldist dvidist rtfdist
 	psdist): Use $(MAKE) instead of make.
 
