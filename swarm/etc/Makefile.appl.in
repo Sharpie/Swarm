@@ -13,9 +13,7 @@ pnglibdir = @pnglibdir@
 CC = @CC@
 CFLAGS = @CFLAGS@
 
-ifneq ($(includedir),/usr/include)
 INCLUDES = -I$(includedir)
-endif
 
 TCLLDFLAGS = @TCLLDFLAGS@
 TKLDFLAGS = @TKLDFLAGS@

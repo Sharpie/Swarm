@@ -15,9 +15,6 @@
 
 	* VERSION: Bump.
 
-	* Makefile.appl.in (INCLUDES): Don't define if includedir is
-	/usr/include.
-
 	* Makefile.am (install-data-local): Don't install Makefile.appl and
 	Makefile.lib.
 	(install-data-local): Install swarmconfig.h instead of config.h.
