@@ -1,3 +1,16 @@
+1998-02-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m: Include simtoolsgui.h instead of simtools.h.
+
+	* MousetrapObserverSwarm.m: Don't include collections.h or
+	objectbase.h.  Include simtoolsgui.h.
+
+	* MousetrapObserverSwarm.h: Don't include objectbase.h, space.h,
+	activity.h, collections.h, or simtools.h.  Include
+	simtoolsgui/GUISwarm.h.
+
+	* MousetrapModelSwarm.m: Include simtoolsgui.h.
+
 1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MousetrapModelSwarm.h: Include from objectbase/ instead of

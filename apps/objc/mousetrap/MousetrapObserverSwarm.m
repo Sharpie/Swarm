@@ -5,9 +5,8 @@
 
 #import "MousetrapObserverSwarm.h"
 #import "MousetrapModelSwarm.h"
-#import <collections.h>
-#import <objectbase.h>
 #import <analysis.h>
+#import <simtoolsgui.h>
 #import <gui.h>
 
 // The MousetrapObserverSwarm is the top-level swarm that

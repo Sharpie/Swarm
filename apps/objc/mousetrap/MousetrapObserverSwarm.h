@@ -8,14 +8,10 @@
 // important object is the MousetrapModelSwarm, but we also have
 // graphical windows and data analysis and stuff.
 
-#import <objectbase.h>
-#import <space.h>
-#import <activity.h>
-#import <gui.h>
-#import <collections.h>
-#import <simtools.h>
-#import <analysis.h>
 #import "MousetrapModelSwarm.h"
+#import <simtoolsgui/GUISwarm.h>
+#import <gui.h>
+#import <analysis.h>
 
 @interface MousetrapObserverSwarm: GUISwarm
 {

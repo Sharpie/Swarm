@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import "MousetrapModelSwarm.h"
-#import <simtools.h>
+#import <simtoolsgui.h>
 
 // First, the implementation of an object to keep statistics on
 // the mousetrap world. It is an object that is model specific,

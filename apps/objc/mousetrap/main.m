@@ -3,9 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtools.h>                // ... for initSwarm() and swarmGUIMode
 #import "MousetrapObserverSwarm.h"
 #import "MousetrapBatchSwarm.h"
+#import <simtoolsgui.h>
 
 // The main() function is the top-level place where everything starts.
 // For a typical Swarm simulation, in main() you create a toplevel
@@ -14,7 +14,7 @@
 int
 main (int argc, const char **argv)
 {
-  id theTopLevelSwarm ;
+  id theTopLevelSwarm;
 
   // Swarm initialization: all Swarm apps must call this first.
 
