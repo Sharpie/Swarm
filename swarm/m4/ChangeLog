@@ -1,3 +1,7 @@
+1999-07-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* actcltk.m4 (tclLibrary): Check for tclsh8.1.
+
 1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acffi.m4: Add avcall-i386-msvc.lo in the case of cygwin.

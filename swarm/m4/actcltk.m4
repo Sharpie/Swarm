@@ -11,17 +11,24 @@ AC_DEFUN(md_FIND_TCL,dnl
 if test -n "$with_tcldir" ; then               
   PATH=${with_tcldir}/bin:$PATH
 fi
-AC_CHECK_PROG(tclsh8_found, tclsh8.0, yes, no)
-if test $tclsh8_found = no ; then
-  AC_CHECK_PROG(tclsh_found, tclsh, yes, no)
+AC_CHECK_PROG(tclsh81_found, tclsh8.1, yes, no)
+if test $tclsh81_found = no ; then
+  AC_CHECK_PROG(tclsh80_found, tclsh8.0, yes, no)
+  if test $tclsh80_found = no ; then
+    AC_CHECK_PROG(tclsh_found, tclsh, yes, no)
+  fi
 fi
 changequote(<,>)dnl
 tclLibrary=''
-if test $tclsh8_found = yes; then
-  tclLibrary=`echo "puts [info library]" | tclsh8.0`
+if test $tclsh81_found = yes; then
+  tclLibrary=`echo "puts [info library]" | tclsh8.1`
 else
-  if test $tclsh_found = yes; then
-    tclLibrary=`echo "puts [info library]" | tclsh`
+  if test $tclsh80_found = yes; then
+    tclLibrary=`echo "puts [info library]" | tclsh8.0`
+  else
+    if test $tclsh_found = yes; then
+      tclLibrary=`echo "puts [info library]" | tclsh`
+    fi
   fi
 fi
 PATH=$lastPATH
