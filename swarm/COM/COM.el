@@ -4,8 +4,6 @@
 (require 'protocol)
 (require 'interface)
 
-(setq debug-on-error t)
-
 (defconst *com-interface-prefix* "swarmI")
 (defconst *com-impl-prefix* "swarm")
 
