@@ -24,9 +24,9 @@ AC_SUBST(DLLIB)
 
 md_CHECK_RPATH
 if test $enable_shared = yes ; then
-  SWARMLDFLAGS="-L\$(libdir) $RPATH\$(libdir)"
+  SWARMLDFLAGS="-L\${swarm_libdir} $RPATH\${swarm_libdir}"
 else
-  SWARMLDFLAGS="-L\$(libdir)"
+  SWARMLDFLAGS="-L\${swarm_libdir}"
 fi
 AC_SUBST(SWARMLDFLAGS)
 
