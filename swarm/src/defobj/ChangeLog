@@ -1,3 +1,11 @@
+1999-07-27  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.m (java_get_swarm_class): Rename 
+	java_get_class_from_objc_object to java_get_swarm_class.
+	(objc_class_for_classname): New function.
+	(java_ensure_class): Use objc_class_for_classname instead of
+	objc_lookup_class.
+
 1999-07-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HDF5Object.m ([HDF -packObj:to:]): Improve type mismatch

@@ -269,6 +269,34 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
   return (*env)->FindClass (env, javaClassName);
 }
 
+static Class
+objc_class_for_classname (const char * classname)
+{
+  int len = strlen (classname);
+  int end, beg;
+  char typename[len];
+  
+  if (!strcmp ("Impl", classname + len - 4))
+    {
+      int j = 0;
+      if (*(classname + len - 5) == 'C')
+	end = len - 5;
+      else
+	end = len - 4;
+      for (beg=0; (beg < end && j < 2); beg++)
+	if (classname[beg] == '.') j++;
+      if (j==2)
+	{
+	  len = end - beg;
+	  strncpy (typename, &(classname[beg]), len);
+	  typename[len] = 0;
+	  return objc_lookup_class (typename);
+	}
+    }
+    return objc_lookup_class (classname);
+}
+
+
 jobject_id *
 java_directory_java_find (JNIEnv *env, jobject java_object)
 {
@@ -794,7 +822,7 @@ java_ensure_class (JNIEnv *env, jclass javaClass)
   jboolean isCopy;
   const char *className =
       (*env)->GetStringUTFChars (env, name, &isCopy);
-  objcClass = objc_lookup_class (className);
+  objcClass = objc_class_for_classname (className);
   
   if (isCopy)
     (*env)->ReleaseStringUTFChars (env, name, className);
@@ -831,14 +859,29 @@ java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count)
     XFREE (stringArray[i]);
 }
 
-Class java_get_class_from_objc_object (id object)
+Class 
+java_get_class_from_objc_object (id object)
 {
   jobject jobj;
   jclass jcls;
+  Class result;
   id proxy;
+  jboolean isCopy;
+  const char * classname;
+
   if ((jobj = java_directory_objc_find_java (jniEnv, object, NO)))
     {
+      jstring javaclassname;
       jcls = (*jniEnv)->GetObjectClass (jniEnv,jobj);
+      javaclassname = get_class_name_from_class_object (jniEnv, jcls);
+      classname = 
+	(*jniEnv)->GetStringUTFChars (jniEnv, javaclassname, &isCopy);
+      result = objc_class_for_classname (classname);
+      if (isCopy)
+	(*jniEnv)->ReleaseStringUTFChars (jniEnv, javaclassname, classname);
+      if (result)
+	return result;
+
       if ((proxy = java_directory_java_find_objc (jniEnv, jcls)))
 	return proxy;
       else
@@ -847,6 +890,38 @@ Class java_get_class_from_objc_object (id object)
   else
     return [object getClass];
 }
+ 
+Class 
+java_get_swarm_class (id object)
+{
+  jobject jobj;
+  jclass jcls;
+  Class result;
+  id proxy;
+  jboolean isCopy;
+  const char * classname;
+  
+  if ((jobj = java_directory_objc_find_java (jniEnv, object, NO)))
+    {
+      jstring javaclassname;
+      jcls = (*jniEnv)->GetObjectClass (jniEnv,jobj);
+      javaclassname = get_class_name_from_class_object (jniEnv, jcls);
+      classname = 
+	(*jniEnv)->GetStringUTFChars (jniEnv, javaclassname, &isCopy);
+      result = objc_class_for_classname (classname);
+      if (isCopy)
+	(*jniEnv)->ReleaseStringUTFChars (jniEnv, javaclassname, classname);
+      if (result)
+	return result;      
+      if ((proxy = java_directory_java_find_objc (jniEnv, jcls)))
+	return proxy;
+       else
+	 return java_ensure_class (jniEnv, jcls);
+    }
+  else
+    return [object getClass];
+}
+
 #endif
 
 
