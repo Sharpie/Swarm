@@ -155,8 +155,8 @@
 }
 
 
--checkToStop {
-
+- checkToStop
+{
   // If the bugs have eaten all the food, the model run is over. 
 
   if ([foodSpace getFood] <= 0)
@@ -164,7 +164,7 @@
 
   // if not, increment time and continue running the model
 
-  time++ ;
+  time++;
 
   return self;
 }
