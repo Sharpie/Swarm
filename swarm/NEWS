@@ -36,6 +36,7 @@ Copyright © 1996-2000 Swarm Development Group
 *** EZSequence and EZAverageSequence now support a -setUnsignedArg:
     method for applying a single unsigned integer argument to their probe
     calls.  Thanks to Paul Johnson.
+*** Inappropriate messages sent to Java objects call doesNotRecognize.
 ** Bug fixes
 *** Fixed memory leak in CanvasItem.  Thanks to Ralf Stephan.
 *** Fixed a bug computing Java collection index status.
