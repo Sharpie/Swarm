@@ -3,6 +3,7 @@ GENERATED_EPS = $(patsubst %.png,%.eps,$(PNG))
 PNG = complete.png customized.png small-logo.png switcheroo.png
 GENERATED_JPEG = $(patsubst %.eps,%.jpeg,$(EPS)) $(patsubst %.png,%.jpeg,$(PNG))
 CJPEG = cjpeg -quality 100
+EXTRA_DIST = complete.png customized.png small-logo.png switcheroo.png figs.ent swarm.eps
 
 noinst_DATA =  $(GENERATED_EPS) $(GENERATED_JPEG)
 
