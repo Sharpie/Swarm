@@ -1,3 +1,11 @@
+1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Schedule.m ([Schedule_c -_activateUnderSwarm_:::]): Set
+	newIndex->currentTime to swarmIndex->currentTime.  This is for the
+	case of a subswarm has no preceding actions, and the startTime is
+	taken from the currentTime for the sake of a Schedule tagged with
+	RelativeTime.
+
 1999-06-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* activity.h (RelativeTime): Make setRelativeTime: return self.

@@ -181,7 +181,7 @@ PHASE(Using)
   // set the starting and current times of the new activity
 
   swarmIndex = swarmActivity->currentIndex;
-  newIndex->startTime = swarmIndex->currentTime;
+  newIndex->currentTime = newIndex->startTime = swarmIndex->currentTime;
 
   // Advance the new index to its first action. The nextAction: message
   // will automatically insert the merge action at schedule's pending time.
@@ -355,7 +355,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		      // the previous action - action that 
 		      // was just added
   
-		      // scheduleIndex lienar search is needed due
+		      // scheduleIndex linear search is needed due
 		      // to a bug in collections library
 		      // faster way to deal with this would be:
 		      // scheduleIndex->position++;
