@@ -1162,7 +1162,7 @@ check_for_overlaps (Display *display, Window parent,
 #endif
 
 static void
-set_override_redirect (Display *display, Window window, BOOL overrideRedirect)
+x_set_override_redirect (Display *display, Window window, BOOL overrideRedirect)
 {
   XSetWindowAttributes attr;
 
@@ -1183,109 +1183,117 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       const char *widgetName = [topLevel getWidgetName];
       Tk_Window tkwin = tkobjc_nameToWindow (widgetName);
       Window window = Tk_WindowId (tkwin), topWindow;
-      Display *display = Tk_Display (tkwin);
-      BOOL reparentedFlag = NO;
-
-      topWindow = x_get_managed_toplevel_window (display, window);
-
-      if (decorationsFlag)
-        window = topWindow;
 
       [topLevel deiconify];
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
 #ifndef _WIN32
-      pixmap->display = Tk_Display (tkwin);
       {
-        unsigned overlapCount, i;
-        Window *overlapWindows;
-        Display *display = pixmap->display;
-        XWindowAttributes top_attr;
-        BOOL obscured = NO;
-        Window lastParent = x_get_parent_window (display, topWindow);
-        Window root;
-        unsigned lastx, lasty, lastw, lasth;
-        unsigned lastbw, lastdepth;
-
-        if (!XGetGeometry (display, topWindow, &root,
-                           &lastx, &lasty, &lastw, &lasth,
-                           &lastbw, &lastdepth))
-          abort ();
+        Display *display = Tk_Display (tkwin);
+        BOOL reparentedFlag = NO;
         
-	keep_inside_screen (tkwin, window);
-        check_for_overlaps (display, topWindow,
-                            &overlapWindows, &overlapCount);
-
-        [globalTkInterp eval: "uplevel #0 {\n"
-                        "set obscured no\n"
-                        "}\n"];
+        topWindow = x_get_managed_toplevel_window (display, window);
         
-        [globalTkInterp eval: "bind %s <Expose> {\n"
-                        "uplevel #0 {\n"
-                        "set obscured yes\n"
-                        "}\n}\n", widgetName, widgetName];
-
-        [globalTkInterp eval: "bind %s <Visibility> {\n"
-                        "uplevel #0 {\n"
-                        "if {\"%%s\" != \"VisibilityUnobscured\"} {\n"
-                        "set obscured yes\n"
-                        "}\n}\n}\n", widgetName, widgetName];
-
-        set_override_redirect (display, topWindow, YES);
-        for (i = 0; i < overlapCount; i++)
-          set_override_redirect (display, overlapWindows[i], YES);
+        if (decorationsFlag)
+          window = topWindow;
         
-        if (!XGetWindowAttributes (display, topWindow, &top_attr))
-          abort ();
-
-        if (top_attr.map_state == IsUnmapped)
-          XMapWindow (display, topWindow);
-
+        pixmap->display = Tk_Display (tkwin);
         {
-          Window root = RootWindowOfScreen (Tk_Screen (tkwin));
-
-          if (lastParent != root)
-            {
-              reparentedFlag = YES;
-              XReparentWindow (display, topWindow, root, lastx, lasty);
-            }
-        }
-        while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
-      retry:
-        if (obscured)
+          unsigned overlapCount, i;
+          Window *overlapWindows;
+          Display *display = pixmap->display;
+          XWindowAttributes top_attr;
+          BOOL obscured = NO;
+          Window lastParent = x_get_parent_window (display, topWindow);
+          Window root;
+          unsigned lastx, lasty, lastw, lasth;
+          unsigned lastbw, lastdepth;
+          
+          if (!XGetGeometry (display, topWindow, &root,
+                             &lastx, &lasty, &lastw, &lasth,
+                             &lastbw, &lastdepth))
+            abort ();
+          
+          keep_inside_screen (tkwin, window);
+          check_for_overlaps (display, topWindow,
+                              &overlapWindows, &overlapCount);
+          
+          [globalTkInterp eval: "uplevel #0 {\n"
+                          "set obscured no\n"
+                          "}\n"];
+          
+          [globalTkInterp eval: "bind %s <Expose> {\n"
+                          "uplevel #0 {\n"
+                          "set obscured yes\n"
+                          "}\n}\n", widgetName, widgetName];
+          
+          [globalTkInterp eval: "bind %s <Visibility> {\n"
+                          "uplevel #0 {\n"
+                          "if {\"%%s\" != \"VisibilityUnobscured\"} {\n"
+                          "set obscured yes\n"
+                          "}\n}\n}\n", widgetName, widgetName];
+          
+          x_set_override_redirect (display, topWindow, YES);
           for (i = 0; i < overlapCount; i++)
-            XUnmapWindow (display, overlapWindows[i]);
-        Tk_RestackWindow (tkwin, Above, NULL);
-        while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
-        if (!obscured
-            && strcmp ([globalTkInterp
-                         globalVariableValue: "obscured"],
-                       "yes") == 0)
+            x_set_override_redirect (display, overlapWindows[i], YES);
+          
+          if (!XGetWindowAttributes (display, topWindow, &top_attr))
+            abort ();
+          
+          if (top_attr.map_state == IsUnmapped)
+            XMapWindow (display, topWindow);
+          
           {
-            obscured = YES;
-            goto retry;
+            Window root = RootWindowOfScreen (Tk_Screen (tkwin));
+            
+            if (lastParent != root)
+              {
+                reparentedFlag = YES;
+                XReparentWindow (display, topWindow, root, lastx, lasty);
+              }
           }
-        XFlush (display);
-        x_pixmap_create_from_window (pixmap, window);
-        
-        if (reparentedFlag)
-          XReparentWindow (display, topWindow, lastParent, lastx, lasty);
-                         
-        set_override_redirect (display, topWindow, NO);
-
-        if (top_attr.map_state == IsUnmapped)
-          XUnmapWindow (display, topWindow);
-        
-        for (i = 0; i < overlapCount; i++)
-          {
-            if (obscured)
-              XMapWindow (display, overlapWindows[i]);
-            set_override_redirect (display, overlapWindows[i], NO);
-          }
-        xfree (overlapWindows);
-        [globalTkInterp eval: "bind %s <Visibility> {}\n", widgetName];
-        [globalTkInterp eval: "bind %s <Expose> {}\n", widgetName];
+          while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
+        retry:
+          if (obscured)
+            for (i = 0; i < overlapCount; i++)
+              XUnmapWindow (display, overlapWindows[i]);
+          Tk_RestackWindow (tkwin, Above, NULL);
+          while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
+          if (!obscured
+              && strcmp ([globalTkInterp
+                           globalVariableValue: "obscured"],
+                         "yes") == 0)
+            {
+              obscured = YES;
+              goto retry;
+            }
+          XFlush (display);
+          x_pixmap_create_from_window (pixmap, window);
+          
+          if (reparentedFlag)
+            XReparentWindow (display, topWindow, lastParent, lastx, lasty);
+          
+          x_set_override_redirect (display, topWindow, NO);
+          
+          if (top_attr.map_state == IsUnmapped)
+            XUnmapWindow (display, topWindow);
+          
+          for (i = 0; i < overlapCount; i++)
+            {
+              if (obscured)
+                XMapWindow (display, overlapWindows[i]);
+              x_set_override_redirect (display, overlapWindows[i], NO);
+            }
+          xfree (overlapWindows);
+          [globalTkInterp eval: "bind %s <Visibility> {}\n", widgetName];
+          [globalTkInterp eval: "bind %s <Expose> {}\n", widgetName];
+        }
       }
 #else
+      [globalTkInterp eval: "wm frame %s", widgetName];
+      sscanf ([globalTkInterp result], "0x%x", (int *)&topWindow);
+      
+      window = decorationsFlag ? topWindow : Tk_WindowId (tkwin);
+      
       keep_inside_screen (tkwin, topWindow);
       SetWindowPos ((HWND) topWindow,
                     HWND_TOPMOST, 0, 0, 0, 0,

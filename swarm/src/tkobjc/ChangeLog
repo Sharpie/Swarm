@@ -2,9 +2,9 @@
 
 	* internal.m (x_toplevel_p, x_get_parent_function): New functions.
 	(x_get_managed_toplevel_window): Use them.
-	(set_override_redirect): New function.
+	(x_set_override_redirect): New function.
 	(tkobjc_pixmap_create_from_widget): Use it. Don't use Tk "wm frame"
-	command, use x_get_managed_toplevel_window.
+	command for X11, use x_get_managed_toplevel_window.
 	Record last position and parent window in order to reparent
 	to current root window and then back, when necessary.
 
