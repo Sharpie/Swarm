@@ -7,13 +7,14 @@
 #import <tkobjc/common.h>
 #import <tkobjc/global.h>
 
+extern id probeDisplayManager;
+
 static void
 tkobjc_bindButton3ForCompleteProbeDisplay (id widget,
-                                           id probedObject,
-                                           id theProbeDisplayManager)
+                                           id probedObject)
 {
   // have to make a private copy of the return for objectToName.
-  const char *pdmName = [theProbeDisplayManager getObjectName];
+  const char *pdmName = [probeDisplayManager getObjectName];
   char pdmNameCopy[strlen (pdmName) + 1];
 
   strcpy (pdmNameCopy, pdmName);
@@ -36,15 +37,9 @@ PHASE(Creating)
   return self;
 }
 
-- setProbeDisplay: theProbeDisplay
+- setTargetWidget: theTargetWidget
 {
-  probeDisplay = theProbeDisplay;
-  return self;
-}
-
-- setProbeDisplayManager: theProbeDisplayManager
-{
-  probeDisplayManager = theProbeDisplayManager;
+  targetWidget = theTargetWidget;
   return self;
 }
 
@@ -56,8 +51,7 @@ PHASE(Creating)
     {
       tkobjc_dragAndDrop (self, probeDisplay);
       tkobjc_bindButton3ForCompleteProbeDisplay (self,
-                                                 probedObject,
-                                                 probeDisplayManager);
+                                                 probedObject);
     }
   
   [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",

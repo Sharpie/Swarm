@@ -8,14 +8,12 @@
 
 @interface CompleteProbeDisplayLabel: ClassDisplayLabel <_CompleteProbeDisplayLabel>
 {
-  id probeDisplay;
+  id targetWidget;
   id probedObject;
-  id probeDisplayManager;
 }
 
-- setProbeDisplay: probeDisplay;
+- setTargetWidget: targetWidget;
 - setProbedObject: probedObject;
-- setProbeDisplayManager: probeDisplayManager;
 - createEnd;
 
 @end
