@@ -28,16 +28,16 @@ PHASE(Creating)
   return self;
 }
 
-- setFrom: the_from
+- setFrom: (id <NodeItem>)fromNode
 {
-  from = the_from;
+  from = fromNode;
 
   return self;
 }
 
-- setTo: the_to
+- setTo: (id <NodeItem>)toNode
 {
-  to = the_to;
+  to = toNode;
 
   return self;
 }

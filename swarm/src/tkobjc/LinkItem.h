@@ -14,8 +14,8 @@
 }
 
 - setDirectedFlag: (BOOL)d;
-- setFrom: from;
-- setTo: to;
+- setFrom: (id <NodeItem>)from;
+- setTo: (id <NodeItem>)to;
 - (void)createItem;
 
 - (void)setColor: (const char *)aColor;
