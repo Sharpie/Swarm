@@ -529,7 +529,7 @@ PHASE(Using)
   while ((member = [index next: &key]))
     {
       [outputCharStream catC: " (cons "];
-      if (compareFunc == compareIDs)
+      if (compareFunc == compareIDs || compareFunc == NULL)
         {
           if (deepFlag)
             [key lispOutDeep: outputCharStream];
@@ -568,22 +568,24 @@ PHASE(Using)
   [index drop];
   
   [self _lispOutAttr_: outputCharStream];
-  
-  [outputCharStream catC: " #:"];
-  [outputCharStream catC: COMPARE_FUNCTION];
 
-  [outputCharStream catC: "#:"];
-  if (compareFunc == compareIntegers)
-    [outputCharStream catC: COMPARE_INT];
-  else if (compareFunc == compareUnsignedIntegers)
-    [outputCharStream catC: COMPARE_UNSIGNED];
-  else if (compareFunc == compareCStrings)
-    [outputCharStream catC: COMPARE_CSTRING];
-  else if (compareFunc == compareIDs)
-    [outputCharStream catC: COMPARE_ID];
-  else
-    raiseEvent (InvalidArgument, "Unknown compare function");
-
+  if (compareFunc)
+    {
+      [outputCharStream catC: " #:"];
+      [outputCharStream catC: COMPARE_FUNCTION];
+      
+      [outputCharStream catC: " #:"];
+      if (compareFunc == compareIntegers)
+        [outputCharStream catC: COMPARE_INT];
+      else if (compareFunc == compareUnsignedIntegers)
+        [outputCharStream catC: COMPARE_UNSIGNED];
+      else if (compareFunc == compareCStrings)
+        [outputCharStream catC: COMPARE_CSTRING];
+      else if (compareFunc == compareIDs)
+        [outputCharStream catC: COMPARE_ID];
+      else
+        raiseEvent (InvalidArgument, "Unknown compare function");
+    }
   [outputCharStream catC: ")"];
   return self;
 }
