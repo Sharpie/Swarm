@@ -986,29 +986,15 @@ extern id defobj_lookup_type (const char *name);
 //
 #import <defobj/types.h>
 
-//F: initialize defobj
-extern void initDefobj (int argc, const char **argv);
-
-//F: initialize defobj with application info
-extern void initDefobjApp (int argc,
-                           const char **argv, 
-                           const char *version,
-                           const char *bugAddress);
-
-//F: initialize defobj with application info
-extern void initDefobjAppFunc (int argc,
-                               const char **argv, 
-                               const char *version,
-                               const char *bugAddress,
-                               struct argp_option *options,
-                               int (*parseFunc) (int key, const char *arg));
 
 //F: initialize defobj with application info and custom Arguments class.
-extern void initDefobjAppArguments (int argc,
-                                    const char **argv, 
-                                    const char *version,
-                                    const char *bugAddress,
-                                    Class argumentsClass);
+extern void initDefobj (int argc,
+                        const char **argv, 
+                        const char *version,
+                        const char *bugAddress,
+                        Class argumentsClass,
+                        struct argp_option *options,
+                        int (*optionFunc) (int key, const char *arg));
 
 //F: internal module initialization function
 extern void _obj_initModule (void *module);

@@ -80,60 +80,19 @@ _defobj_initialize (void)
 }
 
 void
-initDefobj (int argc, const char **argv)
-{
-  arguments = [Arguments createArgc: argc
-                         Argv: argv
-                         version: NULL
-                         bugAddress: NULL
-                         options: NULL
-                         parseFunc: NULL];
-  archiver = [Archiver ensure: globalZone];
-}
-
-void
-initDefobjApp (int argc, const char **argv,
-               const char *version,
-               const char *bugAddress)
-{
-  arguments = [Arguments createArgc: argc
-                         Argv: argv
-                         version: version
-                         bugAddress: bugAddress
-                         options: NULL
-                         parseFunc: NULL];
-  archiver = [Archiver ensure: globalZone];
-}
-
-
-void
-initDefobjAppFunc (int argc, const char **argv,
-                   const char *version,
-                   const char *bugAddress,
-                   struct argp_option *options,
-                   int (*parseKeyFunc) (int key, const char *arg))
-{
-  arguments = [Arguments createArgc: argc
-                         Argv: argv
-                         version: version
-                         bugAddress: bugAddress
-                         options: options
-                         parseFunc: parseKeyFunc];
-  archiver = [Archiver ensure: globalZone];
-}
-
-void
-initDefobjAppArguments (int argc, const char **argv,
-                        const char *version,
-                        const char *bugAddress,
-                        Class argumentsClass)
+initDefobj (int argc, const char **argv,
+            const char *version,
+            const char *bugAddress,
+            Class argumentsClass,
+            struct argp_option *options,
+            int (*optionFunc) (int key, const char *arg))
 {
   arguments = [argumentsClass createArgc: argc
                               Argv: argv
                               version: version
                               bugAddress: bugAddress
-                              options: NULL
-                              parseFunc: NULL];
+                              options: options
+                              optionFunc: optionFunc];
   archiver = [Archiver ensure: globalZone];
 }
 

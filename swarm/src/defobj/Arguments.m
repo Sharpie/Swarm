@@ -99,7 +99,7 @@ PHASE(Creating)
   obj->defaultAppConfigPath = "./";
   obj->defaultAppDataPath = "./";
 
-  obj->parseFunc = NULL;
+  obj->optionFunc = NULL;
 
   return obj;
 }
@@ -109,7 +109,7 @@ PHASE(Creating)
      version: (const char *)version
   bugAddress: (const char *)bugAddress
      options: (struct argp_option *)options
-   parseFunc: (int (*) (int key, const char *arg))aParseFunc
+  optionFunc: (int (*) (int key, const char *arg))anOptionFunc
 {
   Arguments_c *argobj = [self createBegin: globalZone];
   
@@ -120,7 +120,7 @@ PHASE(Creating)
 #endif  
   if (options)
     [argobj addOptions: options];
-  [argobj setParseFunc: aParseFunc];
+  [argobj setOptionFunc: anOptionFunc];
   [argobj setAppName: program_invocation_short_name];
   [argobj setAppModeString: "default"];
   if (version == NULL)
@@ -207,9 +207,9 @@ PHASE(Creating)
 
 - (int)parseKey: (int)key arg: (const char *)arg
 {
-  if (parseFunc)
+  if (optionFunc)
     {
-      if (parseFunc (key, arg) != ARGP_ERR_UNKNOWN)
+      if (optionFunc (key, arg) != ARGP_ERR_UNKNOWN)
         return 0;
     }
   switch (key)
@@ -256,9 +256,9 @@ PHASE(Setting)
   return self;
 }
 
-- setParseFunc: (int (*) (int key, const char *arg))aParseFunc
+- setOptionFunc: (int (*) (int key, const char *arg))anOptionFunc
 {
-  parseFunc = aParseFunc;
+  optionFunc = aOptionFunc;
   return self;
 }
 
