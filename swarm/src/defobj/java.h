@@ -4,7 +4,7 @@
 
 #include <swarmconfig.h>
 #ifdef JNI_H_NEEDS_INT64
-#define __int64 INT64
+#define __int64 SWARM_INT64
 #endif
 #ifdef __osf__
 #define _REENTRANT

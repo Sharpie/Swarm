@@ -1,3 +1,7 @@
+2001-08-24    <mgd@HELEN>
+
+	* java.h (__int64): Change from INT64 to SWARM_INT64.
+
 2001-08-15  Marcus G. Daniels  <mgd@condor.santafe.edu>
 	
 	* HDF5Object.m (flushVector): Don't select or write if zero length.

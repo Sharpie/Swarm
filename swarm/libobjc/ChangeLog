@@ -1,3 +1,7 @@
+2001-08-24    <mgd@HELEN>
+
+	* misc.c: Change comparision from _WIN23 to __CYGWIN__.
+
 2001-07-24    <mgd@HELEN>
 
 	* configure.in: Call AC_LIBTOOL_WIN32_DLL before AC_PROG_LIBTOOL.

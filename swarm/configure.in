@@ -25,6 +25,11 @@ SHLIBPATH_VAR=`./libtool --config | sed -n 's/^shlibpath_var=\(.*\)/\1/p'`
 AC_SUBST(SHLIBPATH_VAR)
 
 AC_PATH_XTRA
+if test -n "$x_includes"; then
+  XINCLUDES="-I$x_includes"
+fi
+AC_SUBST(XINCLUDES)
+
 md_CHECK_GUILIBS
 md_CHECK_EXESUFFIX
 

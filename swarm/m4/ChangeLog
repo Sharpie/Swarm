@@ -1,3 +1,7 @@
+2001-08-24    <mgd@HELEN>
+
+	* acjdk.m4: Change from INT64 to SWARM_INT64.
+
 2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* acffi.m4: Always use libavcall.la for FFILIB.

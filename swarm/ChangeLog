@@ -1,3 +1,10 @@
+2001-08-24    <mgd@HELEN>
+
+	* acconfig.h: Change INT64 to SWARM_INT64.
+
+	* configure.in: Add check for x_includes, setting XINCLUDES to
+	-I$x_includes when set.
+
 2001-08-10  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
 	* NEWS: Note GridData protocol.

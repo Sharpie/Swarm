@@ -21,7 +21,7 @@
 #undef PTRUINT
 #undef PTRUINTFMT
 #undef LLFMT
-#undef INT64
+#undef SWARM_INT64
 #undef JNI_H_NEEDS_INT64
 #undef EXPORT_EXTERN
 #undef EXPORT_EXTERNDEF

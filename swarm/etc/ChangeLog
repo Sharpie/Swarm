@@ -1,3 +1,8 @@
+2001-08-24    <mgd@HELEN>
+
+	* Makefile.protocol: Change OSTYPE comparision from cygwin32 to
+	cygwin.
+
 2001-07-23  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el (unwanted-create-method-p): Add PoissonDist
