@@ -8,8 +8,7 @@
 #import <stdlib.h>
 #import <string.h>
 
-#import <tclObjc.h>
-#import <tkobjc/control.h> // tkobjc_dynamicEval
+#import <tkobjc/common.h> // tkobjc_dynamicEval
 
 #import "MessageProbe.h"
 #import "swarm_rts_routines.h"

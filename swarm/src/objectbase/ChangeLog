@@ -1,5 +1,8 @@
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* MessageProbe.m: Include tkobjc/common.h instead of tkobjc/control.h.
+	Don't include tclObjc.h.
+
 	* objectbase.h: In MesageProbe protocol, declare
 	setArg:ToObjectName:.  Constify To: argument of setArg:To:.
 	Constify second arugment to dynamicCallOn:resultStorage:.
