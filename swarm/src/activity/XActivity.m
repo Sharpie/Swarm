@@ -450,7 +450,7 @@ static BOOL installStep( id activity )
 {
   Activity_c  *activity;
 
-  for ( activity = self; ! activity->topLevelAction;
+  for ( activity = self; activity && ! activity->topLevelAction;
         activity = activity->ownerActivity );
   return activity;
 }

@@ -194,9 +194,10 @@ static ActionConcurrent_c *createGroup( Schedule_c *self )
   return newAction;
 }
 
-static void _schedule_external_activity (ScheduleActivity_c *externalActivity,
-                                         timeval_t tVal,
-                                         SwarmActivity_c *swarmActivity)
+static void
+_schedule_external_activity (ScheduleActivity_c *externalActivity,
+                             timeval_t tVal,
+                             SwarmActivity_c *swarmActivity)
 {
   ActionMerge_c *mergeExternalAction = externalActivity->mergeExternalAction;
   ScheduleIndex_c *swarmIndex = swarmActivity->currentIndex;
@@ -213,22 +214,26 @@ static void _schedule_external_activity (ScheduleActivity_c *externalActivity,
                             mergeExternalAction);
 }
 
-static void _check_external_activity (ScheduleActivity_c *sActivity,
-                                      timeval_t tVal)
+static void
+_check_external_activity (ScheduleActivity_c *sActivity,
+                          timeval_t tVal)
 {
   SwarmActivity_c *sSwarmActivity = sActivity->swarmActivity;
   SwarmActivity_c *swarmActivity = [_activity_current getSwarmActivity];
   id cSwarm = (SwarmActivity_c *)swarmActivity->swarm;
   id sSwarm = (SwarmActivity_c *)sSwarmActivity->swarm;
   
-  if (sSwarm && cSwarm != sSwarm)
+  if (sSwarm
+      && cSwarm != sSwarm
+      && ([_activity_current getTopLevelActivity] ==
+          [sActivity getTopLevelActivity]))
     {
       timeval_t sTime =
         ((ScheduleIndex_c *)sActivity->currentIndex)->currentTime;
       timeval_t cTime =
         ((ScheduleIndex_c *)
          ((Activity_c *)_activity_current)->currentIndex)->currentTime;
-      
+
       _schedule_external_activity (sActivity, tVal, swarmActivity);
       
       if (tVal >= cTime && tVal < sTime)
