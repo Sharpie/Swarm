@@ -19,7 +19,25 @@ Library:      defobj
 //D: creating objects and for storage allocation, error handling, and debugging
 //D: support.
 
-@protocol DefinedObject
+@protocol Serialization
+//M: Process an archived Lisp representation of object state from a
+//M: list of instance variable name / value pairs.
+- lispin: expr;
+
+//M: Output a Lisp representation of object state to a stream.
+- lispout: stream;
+
+//F: Load an object of the form (make-objc :arg1 x :arg 2)
+extern id lispin (id aZone, id expr);
+
+//F: Get value component of quoted expression.
+extern id lispinQuotedExpr (id expr);
+
+//F: Save objects registered with archiver.
+extern void archiverSave (void);
+@end
+
+@protocol DefinedObject <Serialization>
 //S: Object with defined type and implementation.
 
 //D: DefinedObject is the top-level supertype for all objects that follow
@@ -108,16 +126,6 @@ USING
 
 //M: print id for each member of a collection on debug output stream
 - (void)xfprintid;
-
-//M: Process an archived Lisp representation of object state from a
-//M: list of instance variable name / value pairs.
-- lispin: expr;
-
-//M: Output a Lisp representation of object state to a stream.
-- lispout: stream;
-
-//F: Load an object of the form (make-objc :arg1 x :arg 2)
-extern id lispin (id aZone, id expr);
 @end
 
 @protocol Customize
@@ -1018,12 +1026,6 @@ extern void xfexec (id anObject, const char *name);
 
 //F: Get an object from textual pointer description.
 extern id nameToObject (const char *name);
-
-//F: Get value component of quoted expression.
-extern id lispinQuotedExpr (id expr);
-
-//F: Save objects registered with archiver.
-extern void archiverSave (void);
 
 //
 // macros used to create and initialize warning and error symbols

@@ -1,3 +1,8 @@
+1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* defobj.h (Serialization): New protocol.  Put lispin,
+	lispinQuotedExpr, and archvierSave here.
+
 1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* DefObject.m: Include predicates.h.
