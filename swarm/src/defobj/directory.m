@@ -584,7 +584,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
   if (!sel)
     {
       jsize ti;
-      char signatureBuf[(argCount + 2) * 2 + 1], *p = signatureBuf;
+      char signatureBuf[(argCount + 3) * 2 + 1], *p = signatureBuf;
 
       void add_type (char type)
         {

@@ -7,6 +7,8 @@
 	(java_next_phase): Use it.  nextPhase is of type Object.
 	(create_signature_from_object): Use it.
 	(create_signature): Remove.
+	(java_ensure_selector): Allocate space in signatureBuf for
+	return type, object, and selector.
 
 	* DefObject.m ([Object_s -lispIn:]): Accept _C_LNG as an array
 	value type.
