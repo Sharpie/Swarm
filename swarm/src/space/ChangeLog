@@ -1,0 +1,6 @@
+Mon Dec  8 22:40:48 1997  glen e. p. ropella  <gepr@swarm.com>
+
+	* Int2dFiler.h, Object2dDisplay.h, Discrete2d.h: replaced 
+	all instances of swarmobject.h with objectbase.h and 
+	swarmobject/ with objectbase/.
+

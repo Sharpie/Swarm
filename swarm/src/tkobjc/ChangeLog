@@ -1,3 +1,8 @@
+Mon Dec  8 22:47:34 1997  glen e. p. ropella  <gepr@swarm.com>
+
+	* tkobjc: replaced all instances of swarmobject.h with
+	objectbase.h and swarmobject/ with objectbase/
+
 1997-12-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* control.m: Include <string.h>.
