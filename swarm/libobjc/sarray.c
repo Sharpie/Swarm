@@ -37,11 +37,11 @@ int idxsize = 0;					/* !T:MUTEX */
 static void *	first_free_data = NULL;			/* !T:MUTEX */
 
 #ifdef OBJC_SPARSE2
-const char* __objc_sparse2_id = "2 level sparse indices";
+externobjcvardef const char* __objc_sparse2_id = "2 level sparse indices";
 #endif
 
 #ifdef OBJC_SPARSE3
-const char* __objc_sparse3_id = "3 level sparse indices";
+externobjcvardef const char* __objc_sparse3_id = "3 level sparse indices";
 #endif
 
 #ifdef __alpha__

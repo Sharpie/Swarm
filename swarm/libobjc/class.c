@@ -36,8 +36,7 @@ externobjcvardef Class (*_objc_lookup_class) (const char* name) = 0; /* !T:SAFE 
 
 
 /* True when class links has been resolved */     
-BOOL __objc_class_links_resolved = NO;                  /* !T:UNUSED */
-
+externobjcvardef BOOL __objc_class_links_resolved = NO; /* !T:UNUSED */
 
 /* Initial number of buckets size of class hash table. */
 #define CLASS_HASH_SIZE 32

@@ -1,5 +1,16 @@
 1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* class.c (__objc_class_links_resolved): Use externobjcvardef.
+
+	* selector.c (__objc_selector_max_index): Likewise.
+
+	* init.c (__objc_runtime_mutex, __objc_runtime_threads_alove):
+	Likewise.
+
+	* sarray.c (__objc_sparse[23]_id): Likewise.
+
+	* thr.c (__objc_thread_exit_status): Likewise.
+
 	* init.c (create_tree_of_subclasses_inherited_from): Handle
 	NULL strings in diagnostic output.
 

@@ -40,7 +40,7 @@ static cache_ptr      __objc_selector_hash  = 0; /* name -> uid !T:MUTEX */
 static void register_selectors_from_list(MethodList_t);
 
 /* Number of selectors stored in each of the above tables */
-int __objc_selector_max_index = 0;              /* !T:MUTEX */
+externobjcvardef int __objc_selector_max_index = 0;  /* !T:MUTEX */
 
 void __objc_init_selector_tables()
 {

@@ -41,10 +41,10 @@ static struct objc_list* unclaimed_proto_list = 0; 	/* !T:MUTEX */
 static struct objc_list *uninitialized_statics = 0; 	/* !T:MUTEX */
 
 /* Global runtime "write" mutex. */
-objc_mutex_t __objc_runtime_mutex = 0;
+externobjcvardef objc_mutex_t __objc_runtime_mutex = 0;
 
 /* Number of threads that are alive. */
-int __objc_runtime_threads_alive = 1;			/* !T:MUTEX */
+externobjcvardef int __objc_runtime_threads_alive = 1;	/* !T:MUTEX */
 
 /* Check compiler vs runtime version */
 static void init_check_module_version (Module_t);

@@ -2,7 +2,7 @@
 
 	* hash.h (module_hash_table, class_hash_table): Use externobjcvar.
 
-	* runtime.h (_objc_class_links_resolved, __objc_selector_max_index,
+	* runtime.h (__objc_class_links_resolved, __objc_selector_max_index,
 	__objc_runtime_mutex, __objc_runtime_threads_alive): Likewise.
 
 	* sarray.h (nbuckets, nindices, narrays, idxsize,
