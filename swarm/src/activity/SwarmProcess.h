@@ -34,6 +34,11 @@ Library:      activity
 - (void *)allocBlock: (size_t)size;
 - (void)freeBlock: (void *)aBlock blockSize: (size_t)size;
 - getPopulation;
+- (void) describeForEachID: (id) outputCharStream;
+- (void) describeForEach: (id)  outputCharStream;
+- (BOOL)containsAlloc:(void *) alloc;
+- (BOOL)getStackedSubzones;
+- getReclaimPolicy;
 
 /*** methods in CSwarmProcess (inserted from .m file by m2h) ***/
 + createBegin: aZone;
@@ -45,6 +50,7 @@ Library:      activity
 - getInternalZone;
 - getActivity;
 - getSwarmActivity;
+- getSynchronizationType;
 - activate;
 - activate: anActionType;
 - at: (timeval_t)tVal activate: anActionType;

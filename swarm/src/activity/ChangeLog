@@ -1,3 +1,15 @@
+1998-12-21  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* SwarmProcess.h: Declare setPageSize:, describeForEach:, 
+	describeForEachID:, containsAlloc:, getReclaimPolicy, 
+	getStackedSubzones, getSynchronizationType from the Zone and 
+	SynchronizationType protocol. 
+
+	* SwarmProcess.m (CSwarmProcess): Implement setPageSize:, 
+	describeForEach:, describeForEachID:, containsAlloc:,
+	getReclaimPolicy, getStackedSubzones, getSynchronizationType
+	from the Zone and SynchronizationType protocol. 
+
 1998-12-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* activity.h (Activity): Remove stepEntry and stepExit methods

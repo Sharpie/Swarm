@@ -40,6 +40,12 @@ PHASE(Creating)
   internalZone = internalZoneType;
 }
 
+- (void)setPageSize: (int)pageSize
+{
+  [internalZone setPageSize: pageSize];
+}
+
+ 
 - (void) setInternalTimeMultiplier: (timeval_t)internalTimeMultiplier
 {
   raiseEvent (NotImplemented, nil);
@@ -94,6 +100,11 @@ PHASE(Using)
 - getSwarmActivity
 {
   return activity;
+}
+
+- getSynchronizationType
+{
+  return syncType;
 }
 
 //
@@ -251,6 +262,13 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 - (void)freeBlock: (void *)aBlock blockSize: (size_t)size
                                      ZMSG_V( freeBlock: aBlock blockSize: size)
 - getPopulation                      ZMSG_R( getPopulation)
+- (void)describeForEach: outputCharStream  
+                                     ZMSG_V(describeForEach: outputCharStream)
+- (void)describeForEachID: outputCharStream 
+                                     ZMSG_V(describeForEachID: outputCharStream)
+- (BOOL)containsAlloc: (void *)alloc ZMSG_R(containsAlloc: alloc)
+- getReclaimPolicy                   ZMSG_R(getReclaimPolicy)
+- (BOOL)getStackedSubzones           ZMSG_R(getStackedSubzones)
 
 @end
 
