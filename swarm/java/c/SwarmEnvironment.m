@@ -56,14 +56,14 @@ Java_swarm_SwarmEnvironment_getCurrentActivity (JNIEnv *env, jobject obj)
 JNIEXPORT int JNICALL
 Java_swarm_SwarmEnvironment_getCurrentTime (JNIEnv *env, jobject obj)
 {
-  return getCurrentTime();
+  return getCurrentTime ();
 }
 
 JNIEXPORT jobject JNICALL 
 Java_swarm_SwarmEnvironment_createProbeDisplay (JNIEnv * env, jobject obj, 
 						jobject anObject)
 {
-  return SD_ENSUREJAVA (env, CREATE_PROBE_DISPLAY(SD_FINDOBJC (env, anObject)));
+  return SD_ENSUREJAVA (env, CREATE_PROBE_DISPLAY (SD_FINDOBJC (env, anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -71,7 +71,7 @@ Java_swarm_SwarmEnvironment_createCompleteProbeDisplay (JNIEnv * env,
 							jobject obj, 
 							jobject anObject)
 {
-  return SD_ENSUREJAVA (env, CREATE_COMPLETE_PROBE_DISPLAY(SD_FINDOBJC (env, anObject)));
+  return SD_ENSUREJAVA (env, CREATE_COMPLETE_PROBE_DISPLAY (SD_FINDOBJC (env, anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -79,7 +79,7 @@ Java_swarm_SwarmEnvironment_createArchivedProbeDisplay (JNIEnv * env,
 							jobject obj, 
 							jobject anObject)
 {
-  return SD_ENSUREJAVA (env, CREATE_ARCHIVED_PROBE_DISPLAY(SD_FINDOBJC (env, anObject)));
+  return SD_ENSUREJAVA (env, CREATE_ARCHIVED_PROBE_DISPLAY (SD_FINDOBJC (env, anObject)));
 }
 
 
@@ -89,7 +89,7 @@ Java_swarm_SwarmEnvironment_createArchivedCompleteProbeDisplay (JNIEnv * env,
 							   jobject anObject)
 {
   return 
-    SD_ENSUREJAVA (env, CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(SD_FINDOBJC (env, anObject)));
+    SD_ENSUREJAVA (env, CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY (SD_FINDOBJC (env, anObject)));
 }
 
 
@@ -99,13 +99,13 @@ Java_swarm_SwarmEnvironment_setWindowGeometryRecordName (JNIEnv * env,
 							 jobject anObject)
 {
   return 
-    SD_ENSUREJAVA (env, SET_WINDOW_GEOMETRY_RECORD_NAME(SD_FINDOBJC (env, anObject)));
+    SD_ENSUREJAVA (env, SET_WINDOW_GEOMETRY_RECORD_NAME (SD_FINDOBJC (env, anObject)));
 }
 
 JNIEXPORT jobject JNICALL 
 Java_swarm_SwarmEnvironment_setComponentWindowGeometryRecordNameFor (JNIEnv * env, jobject obj, jobject anObj, jobject widget)
 {
-  return SD_ENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(SD_FINDOBJC (env, anObj), SD_FINDOBJC (env, widget)));
+  return SD_ENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR (SD_FINDOBJC (env, anObj), SD_FINDOBJC (env, widget)));
 }
 
 JNIEXPORT jobject JNICALL 
@@ -113,7 +113,7 @@ Java_swarm_SwarmEnvironment_setComponentWindowGeometryRecordName (JNIEnv * env,
 								  jobject obj,
 								  jobject anObj)
 {
-  return SD_ENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR(SD_FINDOBJC (env, obj), SD_FINDOBJC (env, anObj)));
+  return SD_ENSUREJAVA (env, SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR (SD_FINDOBJC (env, obj), SD_FINDOBJC (env, anObj)));
 }
 
 JNIEXPORT void JNICALL
