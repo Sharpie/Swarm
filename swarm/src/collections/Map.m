@@ -308,6 +308,27 @@ PHASE(Using)
 
 - createIndex: aZone fromMember: anObject
 {
+  MapIndex_c *newIndex;
+  id anEntry, listIndex;
+  
+  newIndex = [aZone allocIVars: [MapIndex_c self]];
+  setMappedAlloc (newIndex);
+  newIndex->collection = self;
+  listIndex  = [list begin:scratchZone];
+  [listIndex setLoc: Start];
+  anEntry= [listIndex next];
+  while (anEntry)
+    {
+      if (((mapentry_t) anEntry)->member == anObject)
+	{
+	  newIndex->listIndex=listIndex;
+          return newIndex;
+	}
+      anEntry=[listIndex next];
+    }
+
+  [listIndex drop];
+  [newIndex drop];
   return nil;
 }
 

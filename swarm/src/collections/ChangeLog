@@ -1,3 +1,8 @@
+1998-11-19  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Map.m ([Map_c -createIndex:fromMember:]): implemented as
+	linear search
+
 1998-11-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Map.m ([Map_c -lispIn:]): Remove ARCHIVERLITERAL handling; all
