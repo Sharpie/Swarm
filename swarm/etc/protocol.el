@@ -1100,6 +1100,19 @@
          (module-description-list object))
         (t (error "unknown object"))))
 
+(defun deprecated-p (object)
+  (if (and (not (module-p object))
+           (not (eq (length (generic-deprecated-list object)) 0)))
+      't
+    nil))
+
+(defun generic-deprecated-list (object)
+  (cond ((protocol-p object)
+         (protocol-deprecated-list object))
+        ((method-p object)
+         (method-deprecated-list object))
+        (t (error "unknown object"))))
+
 (defun generic-protocol (object)
   (case (object-type object)
     (function (function-protocol object))
