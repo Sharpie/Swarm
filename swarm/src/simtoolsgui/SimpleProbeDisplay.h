@@ -9,8 +9,10 @@
 @interface SimpleProbeDisplay: SingleProbeDisplay
 {
   id probeMap;
+  id <Frame> top_top_Frame, raisedFrame;
   id <Frame> leftFrame, rightFrame, middleFrame, bottomFrame;
-  id <CompleteProbeDisplayLabel> myTitle;
+  id <CompleteProbeDisplayLabel> title;
+  id <SimpleProbeDisplayHideButton> hideB;
   int numberOfProbes;
   id <Widget> *widgets;
 }

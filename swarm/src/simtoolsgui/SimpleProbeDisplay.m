@@ -30,8 +30,6 @@
   int i;
   id index;
   id probe;
-  id <SimpleProbeDisplayHideButton> hideB;
-  id <Frame> top_top_Frame, raisedFrame;
 
   numberOfProbes = [probeMap getNumEntries];
 
@@ -44,13 +42,13 @@
   [raisedFrame setReliefFlag: YES];
   raisedFrame = [raisedFrame createEnd];
 
-  myTitle = [CompleteProbeDisplayLabel createBegin: [self getZone]];
-  [myTitle setParent: raisedFrame];
-  [myTitle setProbeDisplay: self];
-  [myTitle setProbeDisplayManager: probeDisplayManager];
-  [myTitle setProbedObject: probedObject];
-  myTitle = [myTitle createEnd];
-  [myTitle setText: [self getId: NULL]];
+  title = [CompleteProbeDisplayLabel createBegin: [self getZone]];
+  [title setParent: raisedFrame];
+  [title setProbeDisplay: self];
+  [title setProbeDisplayManager: probeDisplayManager];
+  [title setProbedObject: probedObject];
+  title = [title createEnd];
+  [title setText: [self getId: NULL]];
   
   hideB = [SimpleProbeDisplayHideButton createBegin: [self getZone]];
   [hideB setParent: top_top_Frame];
@@ -150,6 +148,10 @@
   // If drops all go through markForDrop, then the disable there
   // should take care of it.
   // [topLevel disableDestroyNotification];
+
+  [hideB drop];
+  [title drop];
+
   [leftFrame drop];
   [rightFrame drop];
   [middleFrame drop];
@@ -161,7 +163,8 @@
   if (numberOfProbes)
     [[self getZone] free: widgets];
 
-  [topLevel drop];
+  [raisedFrame drop];
+  [top_top_Frame drop];
 
   [probeDisplayManager removeProbeDisplay: self];
 

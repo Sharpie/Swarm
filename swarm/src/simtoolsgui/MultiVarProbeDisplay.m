@@ -52,6 +52,8 @@ PHASE(Creating)
 {
   [super createEnd];
 
+  [topLevel setWindowTitle: [self getId: NULL]];
+
   top_top_Frame =  [Frame createParent: topFrame];
   
   raisedFrame =  [Frame createBegin: [self getZone]];

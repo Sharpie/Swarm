@@ -1,5 +1,22 @@
 1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): 
+	Remove local variables that are now instance variables (below).
+	([SimpleProbeDisplay -drop]): Drop hideB and title here.
+	Don't drop topLevel. Drop raisedFrame and top_top_Frame.
+	Rename myTitle to title throughout.
+
+	* SimpleProbeDisplay.h (SimpleProbeDisplay): Add top_top_Frame,
+	raisedFrame, title, and hideB as instance variables.
+
+	* MultiVarProbeDisplay.m ([MultiVarProbeDisplay -createEnd]): 
+	Call setWindowTitle:.
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -drop]): Don't
+	drop topFrame or topLevel here.
+
+	* CommonProbeDisplay.m ([CommonProbeDisplay -drop]): New method.
+
 	* MultiVarProbeDisplay.m ([MultiVarProbeDisplay -createEnd]): 
 	Create extra frames to contain widget, hide button and title.
 	([MultiVarProbeDisplay -update]): New method.

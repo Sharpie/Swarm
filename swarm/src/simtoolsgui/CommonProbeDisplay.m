@@ -70,4 +70,12 @@ PHASE(Using)
   return self;
 }
 
+- (void)drop
+{
+  [topFrame drop];
+  [canvas drop];
+  [topLevel drop];
+  [super drop];
+}
+
 @end

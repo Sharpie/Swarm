@@ -154,9 +154,6 @@ PHASE(Using)
   [index drop];
   [widgets drop];
 
-  [topFrame drop];
-  [topLevel drop];
-
   [probeDisplayManager removeProbeDisplay: self];
   
   if (removeRef)

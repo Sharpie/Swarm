@@ -22,5 +22,6 @@
 - setWindowGeometryRecordName : (const char *)windowGeometryRecordName;
 - (void)markForDrop;
 - (BOOL)getMarkedForDropFlag;
+- (void)drop;
 
 @end
