@@ -66,4 +66,4 @@ if [[[ x$enable_objc_gc = xyes ]]]; then
 fi)
 
 md_CREATE_LIBOBJC_HEADERS
-AC_OUTPUT([Makefile objc/Makefile doc/Makefile])
+AC_OUTPUT([Makefile objc/Makefile doc/Makefile m4/Makefile])
