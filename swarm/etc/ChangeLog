@@ -1,3 +1,9 @@
+2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* interface.el (*removed-protocols*): Remove Graph, GraphElement,
+	Histogram, and Pixmap. 
+	(*removed-methods*): Add +createOwnerGraph:.
+
 2001-03-03  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* interface.el (*removed-protocols*): Remove Canvas, CanvasItem,

@@ -78,11 +78,11 @@
       "Circle"
       "Rectangle"
 
-      "Graph"
-      "GraphElement"
-      "Histogram"
-      "Pixmap"
-                                
+      ;; "Graph"
+      ;; "GraphElement"
+      ;; "Histogram"
+      ;; "Pixmap"
+
       ;; gui non-creatable
       "WindowGeometryRecord"
       "InputWidget"
@@ -93,7 +93,9 @@
 
       ;; random generators
       "LCGgen" "LCG1gen" "LCG2gen" "LCG3gen"
-
+      
+      ;; analysis
+      "FunctionGraph"
 
       ;; "PMMLCGgen" "PMMLCG1gen" 
       "PMMLCG2gen" "PMMLCG3gen" "PMMLCG4gen"
@@ -118,8 +120,6 @@
       "Split" "SplitOut" "SplitSingleSeed" "SplitMultiSeed" 
 
       "C2LCGXgen" "C4LCGXgen"
-
-      "FunctionGraph"
       ))
 
 (defconst *removed-modules* '())
@@ -278,16 +278,19 @@
       "-drawHistogramWithDouble:" ; double * parameter
       "-drawHistogramWithDouble:atLocations:" ; double * parameter
 
+      ;; GraphElement
+      "+createOwnerGraph:"
+
       ;; Colormap
       "-map" ; PixelValue * return
       "-black" ; PixelValue return
       "-white" ; PixelValue return
 
       ;; EZGraph
-      "-getGraph" ; id <Graph> return -- a disabled protocol
+      ;; "-getGraph" ; id <Graph> return -- a disabled protocol
 
       ;; EZBin
-      "-getHistogram" ; id <Histogram> return -- a disabled protocol
+      ;; "-getHistogram" ; id <Histogram> return -- a disabled protocol
 
       ;; HDF5
       "-iterate:"
