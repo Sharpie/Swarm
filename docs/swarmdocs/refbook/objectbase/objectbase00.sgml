@@ -8,9 +8,11 @@
       object model and defines the probing machinery used to take data
       from <EMPHASIS>Swarm</EMPHASIS> objects. Most of the underlying
       functionality of the classes defined here is contained in the
-      <EMPHASIS><LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj</LINK></EMPHASIS>
+      <EMPHASIS><LINK
+      LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj</LINK></EMPHASIS>
       and <EMPHASIS><LINK
-      LINKEND="SWARM.SRC.ACTIVITY.REF">activity</LINK></EMPHASIS> libraries.
+      LINKEND="SWARM.ACTIVITY.SGML.REFERENCE">activity</LINK></EMPHASIS>
+      libraries.
     </PARA>
 
   
@@ -23,13 +25,13 @@
         instance variables and methods. Most of the functionality of
         probes is implemented here; but, at present, they are
         intimately linked to the <EMPHASIS><LINK
-        LINKEND="SWARM.SRC.SIMTOOLSGUI.REF">simtools</LINK></EMPHASIS> library,
-        which contains all the widgetry needed to use probes from a
-        GUI. Despite this intimacy, probes are intended to be a
+        LINKEND="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtools</LINK></EMPHASIS>
+        library, which contains all the widgetry needed to use probes
+        from a GUI. Despite this intimacy, probes are intended to be a
         general purpose mechanism for <EMPHASIS>any</EMPHASIS> agent
         or device to interact dynamically with
         <EMPHASIS>Swarm</EMPHASIS> objects. This <EMPHASIS><LINK
-        LINKEND="SWARM.SRC.PROBING.APP">Introduction to Probes
+        LINKEND="SWARM.PROBING.SGML.APPENDIX">Introduction to Probes
         Appendix</LINK></EMPHASIS> will explain more about the
         reasoning and purpose behind probes.
       </PARA>
@@ -37,7 +39,7 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.SRC.OBJECTBASE.DEPEND">
+  <SECT1 ID="SWARM.OBJECTBASE.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
@@ -62,7 +64,7 @@
     
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.OBJECTBASE.COMPAT">
+  <SECT1 ID="SWARM.OBJECTBASE.SGML.SECT1.COMPAT">
     <TITLE>Compatibility</TITLE>
 
     <ITEMIZEDLIST>
@@ -130,12 +132,12 @@
             <EMPHASIS>swarmobject</EMPHASIS> library might cause some
             problems for apps that worked under the Beta release of
             Swarm. To get the whole scoop, read the <LINK
-            LINKEND="SWARM.SRC.LIBRARY.APP">Library Interface
+            LINKEND="SWARM.LIBRARY.SGML.APPENDIX">Library Interface
             Conventions</LINK>.
 
             <!-- To get a few hints at explicit changes you might need
             to make, check out: <LINK
-            LINKEND="SWARM.SRC.OBJECTBASE.PORTINGAPPSTONEWINTERFACE.HTML">Porting
+            LINKEND="SWARM.OBJECTBASE.SGML.PORTINGAPPSTONEWINTERFACE.HTML">Porting
             apps to use the new <EMPHASIS>swarmobject</EMPHASIS>
             interface</LINK>.  -->
 
@@ -148,7 +150,7 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.OBJECTBASE.USAGE">
+  <SECT1 ID="SWARM.OBJECTBASE.SGML.SECT1.USAGE">
     <TITLE>Usage Guide</TITLE>
 
     <SECT2>
@@ -312,9 +314,9 @@
       <PARA>The reasons for doing this are related to the object phase
         protocols used by <EMPHASIS>defobj</EMPHASIS>.  If you would
         like more info on that, see <LINK
-        LINKEND="SWARM.SRC.SWARMOBJC.SECT">Objective C - Swarm Style</LINK> in
-        the section entitled <EMPHASIS>The Create Phase In
-        Principle</EMPHASIS>.
+        LINKEND="SWARM.TECH.SGML.SECT1.SWARMOBJC">Objective C - Swarm
+        Style</LINK> in the section entitled <EMPHASIS>The Create
+        Phase In Principle</EMPHASIS>.
       </PARA>
 
       <PARA>Finally, the <LITERAL>@end</LITERAL> keyword signifies the
@@ -324,9 +326,9 @@
       <PARA>And that's it.  Of course, there're a few tricky aspects
         to using the <EMPHASIS>objectbase</EMPHASIS> library that
         weren't mentioned here.  Some of them will be mentioned in the
-        <LINK LINKEND="SWARM.SRC.OBJECTBASE.ADVUSAGE">Advanced Usage
+        <LINK LINKEND="SWARM.OBJECTBASE.SGML.SECT1.ADVUSAGE">Advanced Usage
         Notes</LINK> and the <LINK
-        LINKEND="SWARM.SRC.OBJECTBASE.IMPL">Implementation
+        LINKEND="SWARM.OBJECTBASE.SGML.SECT1.IMPL">Implementation
         Notes</LINK>; but, the best way to learn is to examine the way
         the demo applications do it and try to make some changes
         yourself.</PARA>
@@ -424,7 +426,7 @@ observerActCont = [observerActCont createEnd];
 
       <PARA>There are some tricky aspects to successfully using an
         <EMPHASIS>ActivityControl</EMPHASIS> object that the <LINK
-        LINKEND="SWARM.SRC.OBJECTBASE.ADVUSAGE"> Advanced Usage
+        LINKEND="SWARM.OBJECTBASE.SGML.SECT1.ADVUSAGE"> Advanced Usage
         Notes</LINK> will cover.
       </PARA>
 
@@ -432,7 +434,7 @@ observerActCont = [observerActCont createEnd];
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.OBJECTBASE.ADVUSAGE">
+  <SECT1 ID="SWARM.OBJECTBASE.SGML.SECT1.ADVUSAGE">
     <TITLE>Advanced Usage Guide</TITLE>
 
     <SECT2>
@@ -542,8 +544,8 @@ probeMap = [CustomProbeMap create: [self getZone]
         to be used, we will have to explore the behavior of activities
         in context.  (For a more complete explanation of the behavior
         of activities, see the <EMPHASIS><LINK
-        LINKEND="SWARM.SRC.ACTIVITY.REF">activity library</LINK></EMPHASIS>
-        documentation.)
+        LINKEND="SWARM.ACTIVITY.SGML.REFERENCE">activity
+        library</LINK></EMPHASIS> documentation.)
       </PARA>
 
       <PARA>There are two ways to get an activity started, one can
@@ -622,7 +624,7 @@ probeMap = [CustomProbeMap create: [self getZone]
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.OBJECTBASE.SUBCLASS">
+  <SECT1 ID="SWARM.OBJECTBASE.SGML.SECT1.SUBCLASS">
     <TITLE>Subclassing Reference</TITLE>
 
     <PARA>The main classes defined here that are intended to be
@@ -654,17 +656,19 @@ probeMap = [CustomProbeMap create: [self getZone]
     </FORMALPARA>
 
     <PARA>Further details on subclassing are also described in the
-      <LINK LINKEND="SWARM.SRC.OBJECTBASE.USAGE">Usage Guide</LINK></PARA>
+      <LINK LINKEND="SWARM.OBJECTBASE.SGML.SECT1.USAGE">Usage
+      Guide</LINK></PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.OBJECTBASE.DESIGN">
+  <SECT1 ID="SWARM.OBJECTBASE.SGML.SECT1.DESIGN">
     <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unfortunately, this interface has not undergone a rigorous
       design review.  As such it is subject to change in the future.
       However, there are rumours that this library will be integrated
-      into the <EMPHASIS><LINK LINKEND="SWARM.SRC.DEFOBJ.REF">defobj
+      into the <EMPHASIS><LINK
+      LINKEND="SWARM.DEFOBJ.SGML.REFERENCE">defobj
       library</LINK></EMPHASIS> anyway.  So, even though little
       thought was given to the design of this interface (and it is not
       likely to be worthwhile designing a robust interface at this
@@ -704,7 +708,7 @@ probeMap = [CustomProbeMap create: [self getZone]
 
   </SECT1>
 
-  <SECT1 ID="SWARM.SRC.OBJECTBASE.IMPL">
+  <SECT1 ID="SWARM.OBJECTBASE.SGML.SECT1.IMPL">
     <TITLE>Implementation Notes</TITLE>
 
     <ORDEREDLIST>
