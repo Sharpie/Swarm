@@ -1,13 +1,16 @@
 #include "nsISupports.h"
 #include "nsIInterfaceInfo.h"
+#include <objc/objc.h>
 #include <defobj.h>
 #include "jsapi.h"
+#include <swarmITyping.h>
 
 PRBool findMethod (nsISupports *target, const char *methodName,
                    nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo);
 
 extern "C" {
 #include "../../src/defobj/COM.h"
+}
 
 void *createComponent (COMclass cClass);
 void *findComponent (const char *className);
@@ -37,4 +40,13 @@ void JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void JSsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void JSfreeArgVector (void *args);
 
-}
+swarmITyping *COM_objc_ensure_object_COM (id oObject);
+nsresult COM_objc_ensure_object_COM_return (id oObject, const nsIID *iid, void **ret);
+swarmITyping *COM_add_object_COM (swarmITyping *cObject, id oObject);
+
+
+#define SD_COM_ENSURE_OBJECT_COM(oObject) COM_objc_ensure_object_COM (oObject)
+#define SD_COM_ENSURE_OBJECT_COM_RETURN(oObject,type) COM_objc_ensure_object_COM_return (oObject, &NS_GET_IID (type), (void **) ret)
+#define SD_COM_ENSURE_THIS_OBJECT_OBJC() SD_COM_ENSURE_OBJECT_OBJC(NS_STATIC_CAST(swarmITyping*,this))
+#define SD_COM_ADD_THIS_OBJECT_COM(oObject) COM_add_object_COM (NS_STATIC_CAST(swarmITyping*,this),oObject)
+#define SD_COM_UPDATE_PHASE_RETURN(oObject, type) *ret = NS_STATIC_CAST (type, swarm_directory_update_phase_COM (oObject))

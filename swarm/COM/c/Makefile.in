@@ -19,9 +19,9 @@ IS_COMPONENT = 1
 
 REQUIRES = xpcom
 
-CPPSRCS = swarmSelectorImpl.cpp COMsupport.cpp module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) $(NULL)
+CPPSRCS = swarmBase.cpp swarmSelectorImpl.cpp COMsupport.cpp module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) $(NULL)
 
-XPIDLSRCS = swarmISelector.idl swarmITyping.idl $(foreach module,$(MODULES) swarm,$(call moduleidlfiles,$(module)))
+XPIDLSRCS = swarmIBase.idl swarmISelector.idl swarmITyping.idl $(foreach module,$(MODULES) swarm,$(call moduleidlfiles,$(module)))
 
 include $(topsrcdir)/config/rules.mk
 

@@ -12,10 +12,9 @@
 #include "COMsupport.h"
 #include "plstr.h"
 
+#include "swarmIBase.h"
 #include "swarmITyping.h"
 #include "swarmIZone.h"
-
-extern "C" {
 
 struct method_key {
   nsISupports *target;
@@ -395,8 +394,6 @@ selectorJSInvoke (COMselector cSel, void *args)
     abort ();
 }
 
-}
-
 PRBool
 findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo)
 {
@@ -510,7 +507,7 @@ COMsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
       abort ();
     case fcall_type_object:
       arg->type = nsXPTType::T_INTERFACE;
-      arg->val.p = (void *) SD_COM_ENSURE_OBJECT_COM (value->object);
+      arg->val.p = SD_COM_ENSURE_OBJECT_COM (value->object);
       break;
     case fcall_type_string:
       arg->type = nsXPTType::T_CHAR_STR;
@@ -579,10 +576,11 @@ currentJSObject ()
   if (!callContext)
     abort ();
   
-  nsCOMPtr <nsIXPConnectWrapperNative> calleeWrapper;
+  nsCOMPtr <nsIXPConnectWrappedNative> calleeWrapper;
   callContext->GetCalleeWrapper (getter_AddRefs (calleeWrapper));
   nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (calleeWrapper));
 
+  JSObject *jsObj;
   if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
     abort ();
   return jsObj;
@@ -655,13 +653,16 @@ JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
       break;
     case fcall_type_object:
       {
-        nsCOMPtr <nsISupports> cObject = NS_STATIC_CAST (nsISupports *, SD_COM_ENSURE_OBJECT_COM (value->object));
-        nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (cObject));
-        nsCOMPtr <nsIXPConnectWrappedNative> nobj (do_QueryInterface (cObject));
+        swarmITyping *cObject = SD_COM_ENSURE_OBJECT_COM (value->object);
+        nsCOMPtr <swarmIBase> base (do_QueryInterface (cObject));
+        nsCOMPtr <nsIXPCNativeCallContext> callContext;
+        base->GetNativeCallContext (getter_AddRefs (callContext));
+        nsCOMPtr <nsIXPConnectWrappedNative> calleeWrapper;
+        callContext->GetCalleeWrapper (getter_AddRefs (calleeWrapper));
 
-        printf ("%p %p %p\n", (void *) cObject, (void *) jobj, (void *) nobj);
+        printf ("%p %p\n", (void *) cObject, (void *) calleeWrapper);
         JSObject *jsObj;
-        if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
+        if (!NS_SUCCEEDED (calleeWrapper->GetJSObject (&jsObj)))
           abort ();
         jsargs[pos] = OBJECT_TO_JSVAL (jsObj);
       }
@@ -700,4 +701,37 @@ void
 JSfreeArgVector (void *args)
 {
   JS_free (currentJSContext (), args);
+}
+
+swarmITyping *
+COM_objc_ensure_object_COM (id oObject)
+{
+  return NS_STATIC_CAST (swarmITyping *, swarm_directory_objc_ensure_object_COM (oObject));
+}
+
+nsresult
+COM_objc_ensure_object_COM_return (id oObject, const nsIID *iid, void **ret)
+{
+  return (NS_STATIC_CAST (nsISupports *, swarm_directory_objc_ensure_object_COM (oObject))->QueryInterface (*iid, ret));
+}
+
+swarmITyping *
+COM_add_object_COM (swarmITyping *cObject, id oObject)
+{
+  nsresult rv;
+  NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+  if (!NS_SUCCEEDED (rv))
+    abort ();
+  
+  nsCOMPtr <nsIXPCNativeCallContext> callContext;
+  xpc->GetCurrentNativeCallContext (getter_AddRefs (callContext));
+  if (!callContext)
+    abort ();
+
+  nsCOMPtr <swarmIBase> base (do_QueryInterface (cObject));
+  if (!base)
+    abort ();
+  if (!NS_SUCCEEDED (base->SetNativeCallContext (callContext)))
+    abort ();
+  return NS_STATIC_CAST (swarmITyping *, swarm_directory_COM_add_object_COM (cObject, oObject));
 }
