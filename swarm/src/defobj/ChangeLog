@@ -11,6 +11,8 @@
 	* Archiver.m (hdf5Archiver, lispArchiver, hdf5AppArchiver,
 	lispAppArchiver):  Add externvardef.
 
+	* make-h2x: Handle externvar and externvardef.
+
 	* defobj.h: Use `externvar' for external variable declarations.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
