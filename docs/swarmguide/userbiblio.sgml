@@ -1,0 +1,128 @@
+<bibliography>
+  <title>Swarm Bibliography</title>
+  <para>A short bibliography of books, articles, papers useful for learning 
+    to program with the Swarm libraries.</para>
+  <bibliodiv>
+    <title>Books</title>
+    <para>This section is for books.</para>
+    <biblioentry>
+      <abbrev>Kernighan & Ritchie, 1988</abbrev>
+      <bibliomisc>&dash;</bibliomisc>
+      <bookbiblio>
+        <title>The C Programming Language</title>
+        <titleabbrev>K & R</titleabbrev>
+        <subtitle></subtitle>
+        <edition>2</edition>
+        <authorgroup>
+          <author>
+            <firstname>Brian</firstname>
+            <surname>Kernighan</surname>
+          </author>
+          <author>
+            <firstname>Dennis</firstname>
+            <surname>Ritchie</surname>
+          </author>
+        </authorgroup>
+        <isbn>0-13-110370-9</isbn>
+        <releaseinfo>Revised</releaseinfo>
+        <pubdate>1988</pubdate>
+        <publisher>
+          <publishername>Prentice Hall</publishername></publisher>
+        <copyright>
+          <year>1988</year>
+          <holder>Bell Telephone Laboratories</holder>
+        </copyright>
+        <seriesinfo>
+          <title>Prentice Hall Software Series</title>
+        </seriesinfo>
+        <abstract>
+          <formalpara>
+          <title>Abstract</title> <para>The definitive reference on
+          the C programming language by its
+          inventors.</para></formalpara>
+        </abstract>
+      </bookbiblio>
+    </biblioentry>
+    <biblioentry>
+      <abbrev>NeXT, 1993</abbrev>
+      <bookbiblio>
+        <title>Object Oriented Programming and the Objective C Language</title>
+        <corpauthor>NeXT Computer</corpauthor>
+        <isbn>0-201-63251-9</isbn>
+        <pubdate>1993</pubdate>
+        <publisher>
+          <publishername>Addison-Wesley</publishername>
+        </publisher>
+        <abstract>
+          <formalpara>
+            <title>Abstract</title> <para>This book describes the
+            Objective-C language as it is implemented for NeXTSTEP.
+            While clearly targeted at NeXTSTEP, it is a good
+            first-read to get to learn Objective-C</para>
+          </formalpara>
+        </abstract>
+        <printhistory>
+          <para>This book is out of print, but availble at the : <ulink
+          url="http://developer.apple.com/techpubs/macosxserver/ObjectiveC/index.html">Apple website</ulink></para>
+        </printhistory>
+      </bookbiblio>
+    </biblioentry>
+  </bibliodiv>
+
+<!-- Comment next section out, but leave in, as a usage guide for 
+  SGML authors  -->
+
+<!--
+  <bibliodiv>
+    <title>Article</title>
+    <para>This section is for the newsletter and article.</para>
+    <biblioentry><bibliomisc>&dash;</bibliomisc>
+      <bookbiblio>
+        <title>Online Publishing Report, April 1996</title>
+        <authorgroup>
+          <author>
+            <firstname>Terry</firstname>
+            <surname>Allen</surname>
+          </author>
+        </authorgroup>
+        <issn>1087-4216</issn>
+        <volumenum>1</volumenum>
+        <issuenum>4</issuenum>
+        <pagenums>25-32</pagenums>
+      </bookbiblio>
+    </biblioentry>
+    <biblioentry><bibliomisc>&dash;</bibliomisc>
+      <artheader>
+        <title>HTML</title>
+        <authorgroup>
+          <author>
+<firstname>Terry</firstname>
+            <surname>Allen</surname>
+          </author>
+        </authorgroup>
+        <bookbiblio>
+          <title>Online Publishing Report, April 1996</title>
+          <authorgroup>
+            <author>
+              <firstname>Terry</firstname>
+              <surname>Allen</surname>
+            </author>
+          </authorgroup>
+          <issn>1087-4216</issn>
+          <volumenum>1</volumenum>
+          <issuenum>4</issuenum>
+          <pagenums>25-32</pagenums>
+        </bookbiblio>
+        <artpagenums>1, 3-4</artpagenums>
+      </artheader>
+    </biblioentry> 
+  </bibliodiv>
+-->
+
+</bibliography>
+
+<!--
+Local Variables:
+sgml-parent-document:("userbook.sgml" "BIBLIOGRAPHY")
+End:
+-->
