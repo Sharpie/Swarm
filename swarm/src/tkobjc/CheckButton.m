@@ -42,7 +42,7 @@ stringIsFalse(const char * s) {
 
 
 // just ignore this entirely - does it mean anything?
--setWidth: (int) w Height: (int) h {
+-setWidth: (unsigned) w Height: (unsigned) h {
   return self;
 }
 
