@@ -4,6 +4,9 @@
 	(dib_augmentPalette, dib_fill, dib_ellipse, dib_line, dib_rectangle): 
 	Use it.
 
+	* win32dib.[hc] (dib_fill, dib_ellipse, dib_line, dib_rectangle): 
+	Make color argument an unsigned int.
+
 1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (tkobjc_raster_copy): Don't free old pixmap (X11 case).

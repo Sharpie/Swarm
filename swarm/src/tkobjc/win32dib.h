@@ -60,10 +60,10 @@ BOOL dib_paintBlit (dib_t *dib,
 		    int sourceX, int sourceY,
 		    unsigned sourceWidth, unsigned sourceHeight);
 
-void dib_fill (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned char color);
-void dib_ellipse (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, unsigned char color);
-void dib_line (dib_t *dib, int x0, int y0, int x1, int y1, unsigned pixels, unsigned char color);
-void dib_rectangle (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, unsigned char color);
+void dib_fill (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned color);
+void dib_ellipse (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, unsigned color);
+void dib_line (dib_t *dib, int x0, int y0, int x1, int y1, unsigned pixels, unsigned color);
+void dib_rectangle (dib_t *dib, int x, int y, unsigned width, unsigned height, unsigned pixels, unsigned color);
 
 BOOL dib_copy (dib_t *source, dib_t *dest, int destx, int desty, unsigned width, unsigned height);
 

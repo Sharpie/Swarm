@@ -313,7 +313,7 @@ void
 dib_fill (dib_t *dib,
 	  int x, int y,
 	  unsigned width, unsigned height,
-	  unsigned char color)
+	  unsigned color)
 {
   unsigned frameWidth = dib->dibInfo->bmiHead.biWidth;
   unsigned frameHeight = (dib->dibInfo->bmiHead.biHeight < 0
@@ -375,7 +375,7 @@ dib_fill (dib_t *dib,
       LPBYTE base = ((LPBYTE)dib->bits + (clipy * frameWidth * 3));
       BYTE red, green, blue;
 
-      get_color (base, color, &red, &green, &blue);
+      get_color (dib, color, &red, &green, &blue);
       for (yoff = 0; yoff < height; yoff++)
 	{
 	  unsigned xoff;
@@ -401,7 +401,7 @@ dib_ellipse (dib_t *dib,
 	     int x, int y,
 	     unsigned width, unsigned height,
 	     unsigned pixels,
-	     unsigned char color)
+	     unsigned color)
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
@@ -428,7 +428,7 @@ dib_line (dib_t *dib,
           int x0, int y0,
           int x1, int y1,
           unsigned pixels,
-          unsigned char color)
+          unsigned color)
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
@@ -456,7 +456,7 @@ dib_rectangle (dib_t *dib,
                int x, int y,
                unsigned width, unsigned height,
                unsigned pixels,
-               unsigned char color)
+               unsigned color)
 {
   HPEN oldPen, pen;
   HBRUSH oldBrush;
