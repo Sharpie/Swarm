@@ -118,27 +118,34 @@
       (literal (dingbat "copyright"))
       (literal " ")
       (process-children-trim))))
- 
-)
+ )
 
 ;; REFERENCE customization
 
+(define %generate-reference-titlepage% 
+  ;; Should a reference title page be produced?
+  #t)
+
 (define (reference-titlepage-recto-elements)
   (list (normalize "title") 
-        (normalize "subtitle")        
-        (normalize "abstract")
-        ))
+        (normalize "subtitle")
+        (normalize "revhistory")))
+
+(define (reference-titlepage-verso-elements)
+  (list (normalize "abstract")))
 
 (mode reference-titlepage-recto-mode
 
-;  (element abstract
-;    (make display-group
-;      start-indent: (+ (inherited-start-indent) 0.25in)
-;      end-indent: (+ (inherited-end-indent) 0.25in)
-;      font-size: (* %bf-size% 0.9)
-;      (process-children)))
+  (element revhistory ($book-revhistory$)))
 
-)
+(mode reference-titlepage-verso-mode
+
+  (element abstract
+    (make display-group
+      start-indent: (+ (inherited-start-indent) 0.25in)
+      end-indent: (+ (inherited-end-indent) 0.25in)
+      font-size: (* %bf-size% 0.9)
+      (process-children))))
 
 ;; ARTICLE customization
 
@@ -152,14 +159,30 @@
   ;; Are sections enumerated?
   #t)
 
+;; other customizations
+
+(element ulink 
+  ;; make URL appear in parentheses in printed version
+  (sosofo-append
+   (process-children)
+   (let* ((url-string (attribute-string (normalize "url"))))
+     (sosofo-append
+      ($italic-seq$ 
+        (sosofo-append
+         (literal " (")
+         (literal url-string) 
+         (literal ") ")))))))
+
 (define (printed-link)
     (let* ((id (attribute-string "LINKEND"))
            (nl (element-with-id id)))
       (sosofo-append
        (literal (id-to-indexitem id))
-       (literal " (see page: ")
-       (element-page-number-sosofo nl)
-       (literal ")"))))
+       ($italic-seq$ 
+        (sosofo-append
+         (literal " (see page ")
+         (element-page-number-sosofo nl)
+         (literal ")"))))))
 
 (element LINK (printed-link))
 
@@ -350,6 +373,15 @@
 (define %generate-partintro-on-titlepage%
   ;; Should the PartIntro appear on the Part/Reference title page?
   #f)
+
+(define (reference-titlepage-recto-elements)
+  (list (normalize "title")
+        (normalize "revhistory")
+        ))
+
+(mode reference-titlepage-recto-mode
+
+  (element revhistory ($book-revhistory$)))
 
 ;; customizing REFENTRYs
 
