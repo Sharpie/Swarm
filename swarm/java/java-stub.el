@@ -13,6 +13,7 @@
 
 (defconst *objc-to-java-type-alist*
     '(("id .*" . "Object")
+      ("SEL" . "Object")
       ("void" . "void")
       ("const char \\*" . "String")
       
@@ -26,7 +27,6 @@
       ("unsigned" . "int")
       ("unsigned long" . "int")
       ("BOOL" . "boolean")
-      ("SEL" . "java.lang.reflect.Method")
       ("timeval_t" . "long")
       ("size_t" . "long")
       ("Color" . "byte")
@@ -99,11 +99,6 @@
       "-addRef:withArgument:" ; void* parameter, ref_t return
       "-removeRef:" ; ref_t parameter
       "+conformsTo:" ; Protocol* parameter
-      "-respondsTo:" ; SEL parameter
-      "-perform:" ; SEL parameter
-      "-perform:with:" ; SEL parameter
-      "-perform:with:with:" ; SEL parameter
-      "-perform:with:with:with:" ; SEL parameter
 
       ;; Zone
       "-alloc:" ; void* return
@@ -119,12 +114,6 @@
       "-setMemberBlock:setCount:" ; id* parameter
       "-getMemberBlock" ; void* return
 
-      ;; ForEach (SEL parameters)
-      "-forEach:"
-      "-forEach::"
-      "-forEach:::"
-      "-forEach::::"
-
       ;; Map, passthru in MultiVarProbeWidget
       "-setCompareFunction:"; compare_t parameter
       "-getCompareFunction"; compare_t return
@@ -138,28 +127,7 @@
       "-at:createActionCall::"
       "-at:createActionCall:::"
       "-at:createActionCall::::"
-      ;;  (SEL parameter)
-      "-at:createActionTo:message:"
-      "-at:createActionTo:message::"
-      "-at:createActionTo:message:::"
-      "-at:createActionTo:message::::"
-      "-at:createActionForEach:message:"
-      "-at:createActionForEach:message::"
-      "-at:createActionForEach:message:::"
-      "-at:createActionForEach:message::::"
 
-      ;; ActionCreatingTo (SEL parameters)
-      "-createActionTo:message:"
-      "-createActionTo:message::"
-      "-createActionTo:message:::"
-      "-createActionTo:message::::"
-      
-      ;; ActionCreatingForEach (SEL parameters)
-      "-createActionForEach:message:"
-      "-createActionForEach:message::"
-      "-createActionForEach:message:::"
-      "-createActionForEach:message::::"
-      
       ;; ActionCreatingCall (func_t parameters)
       "-createActionCall:"
       "-createActionCall::"
@@ -169,10 +137,6 @@
       ;; ActionCall
       "-setFunctionPointer:" ; func_t parameter
       "-getFunctionPointer" ; func_t return
-
-      ;; ActionTo_0
-      "-setMessageSelector:" ; SEL parameter
-      "-getMessageSelector" ; SEL return
 
       ;; Probe
       "-probeRaw:" ; void* return
@@ -221,53 +185,13 @@
       "-drawHistogramWithDouble:" ; double * parameter
       "-drawHistogramWithDouble:atLocations:" ; double * parameter
 
-      ;; Button
-      "-setButtonTarget:method:" ; SEL parameter
-
-      ;; ButtonPanel
-      "-addButtonName:target:method:" ; SEL parameter
-      "-addButtonName:method:" ; SEL parameter
-
-      ;; MultiVarProbeWidget, MultiVarProbeDisplay
-      "-setObjectNameSelector:" ; SEL parameter
-
-      ;; Widget
-      "-enableDestroyNotification:notificationMethod:" ; SEL parameter
-
       ;; Colormap
       "-map" ; PixelValue * return
       "-black" ; PixelValue return
       "-white" ; PixelValue return
 
-      ;; CanvasAbstractItem (SEL parameter)
-      "-setClickSel:"
-      "-setMoveSel:"
-      "-setPostMoveSel:"
-
-      ;; Raster
-      "-setButton:Client:Message:" ; SEL parameter
-      
       ;; EZBin
       "-getDistribution" ; int* return
-      "-setProbedSelector:" ; SEL parameter
-
-      ;; EZDistribution
-      "-getProbabilities"; double* return
-
-      ;; EZGraph
-      "-createSequence:withFeedFrom:andSelector:" ; SEL parameter
-      "-createAverageSequence:withFeedFrom:andSelector:" ; SEL parameter
-      "-createTotalSequence:withFeedFrom:andSelector:" ; SEL parameter
-      "-createMinSequence:withFeedFrom:andSelector:" ; SEL parameter
-      "-createMaxSequence:withFeedFrom:andSelector:" ; SEL parameter
-      "-createCountSequence:withFeedFrom:andSelector:" ; SEL parameter
-
-      ;; FunctionGraph
-      "-setElement:setDataFeed:setFunctionSelector:" ; SEL parameter
-      "-setFunctionSelector:" ; SEL parameter
-      
-      ;; Int2dFiler
-      "-setValueMessage:" ; SEL parameter
 
       ;; Discrete2d
       "-getOffsets" ; long* return
@@ -275,15 +199,14 @@
       "-setLattice:" ; id* parameter
       "-getLattice"; id* return
 
-      ;; Object2dDisplay
-      "-setDisplayMessage:" ; SEL parameter
+      ;; EZDistribution
+      "-getProbabilities"; double* return
 
       ;; DblBuffer2d
       "-getNewLattice" ; id* return
 
       ;; QSort
       "+sortNumbersIn:using:" ; function pointer parameter
-      "+sortObjectsIn:using:" ; SEL parameter
      ))
 
 (defun freaky-message- (objc-type)
@@ -558,7 +481,6 @@
         ((string= "double" type) "jdouble")
         ((string= "String" type) "jstring")
         ((string= "void" type) "void")
-        ((string= "java.lang.reflect.Method" type) "jmethodID")
         (t "jobject")))
 
 (defun java-argument-convert (argument convert)
@@ -574,32 +496,32 @@
   (null (third argument)))
 
 (defun java-argument-print-conversion (argument)
-  (let ((type (java-argument-convert argument #'java-type-to-native-type))
+  (let ((type (cadr argument))
+        (jni-type (java-argument-convert argument #'java-type-to-native-type))
         (argname (third argument)))
-
-    (if type
-        (cond ((string= type "jobject")
-               (insert "JFINDOBJC (")
-               (insert (third argument))
+    (if jni-type
+        (cond ((string= type "SEL")
+               (insert "JFINDOBJCMETHOD (env, ")
+               (insert argname)
                (insert ")"))
-              ((string= type "jmethodID")
-               (insert "JFINDOBJCMETHOD (")
-               (insert (third argument))
-               (insert ")"))
-              ((string= type "jstring")
+              ((string= jni-type "jstring")
                (insert "((*jniEnv)->GetStringUTFChars) (env, ")
                (insert argname)
                (insert ", JNI_FALSE)"))
-              ((or (string= type "jint")
-                   (string= type "jdouble")
-                   (string= type "jfloat")
-                   (string= type "jbyte")
-                   (string= type "jlong")
-                   (string= type "jchar")
-                   (string= type "jboolean")
-                   (string= type "jshort"))
+              ((string= jni-type "jobject")
+               (insert "JFINDOBJC (")
+               (insert argname)
+               (insert ")"))
+              ((or (string= jni-type "jint")
+                   (string= jni-type "jdouble")
+                   (string= jni-type "jfloat")
+                   (string= jni-type "jbyte")
+                   (string= jni-type "jlong")
+                   (string= jni-type "jchar")
+                   (string= jni-type "jboolean")
+                   (string= jni-type "jshort"))
                (insert argname))
-              (t (error "unkown type %s" type)))
+              (t (error "unkown type %s/%s" type jni-type)))
         (error "unknown type for argument `%s'" argument))))
 
 (defun java-print-native-method (method protocol phase)

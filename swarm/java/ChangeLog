@@ -2,6 +2,8 @@
 
 	* java-stub.el (java-print-method, java-print-native-method):
 	Print "$" between method keys (instead of mixing case).
+	(java-argument-print-conversion): Handle selectors. 
+	(*removed-methods*): Remove the SEL exceptions.
 
 	* Makefile.am (SWARM_EXTRA_DIST): Add swarm/Selector.java.
 
