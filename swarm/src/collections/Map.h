@@ -19,15 +19,15 @@ typedef struct mapentry {
   id  member;
 } *mapentry_t;
 
-@interface Map_c : Collection_any // <Map>
+@interface Map_c: Collection_any // <Map>
 {
 @public
   id  list;                   // list of key-member entries in key sequence
-  int (*compareFunc)(id,id);  // function to compare keys, if any
+  int (*compareFunc) (id,id);  // function to compare keys, if any
 }
 /*** methods in Map_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
-- (void)setCompareFunction: (int(*)(id,id))compareFunction;
+- (void)setCompareFunction: (int (*) (id, id))compareFunction;
 - createEnd;
 - copy: aZone;
 - at: aKey;
@@ -43,7 +43,7 @@ typedef struct mapentry {
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface MapIndex_c : Index_any // <MapIndex>
+@interface MapIndex_c: Index_any // <MapIndex>
 {
 @public
   id     listIndex;     // index into list of entries

@@ -12,11 +12,11 @@ Library:      collections
 #import <defobj/Create.h>
 #import <collections.h>
 
-@interface Collection_any : CreateDrop_s
+@interface Collection_any: CreateDrop_s
 {
 @public
-  int             count;     // number of members in collection
-  unsigned        bits;      // bit allocations
+  int count;       // number of members in collection
+  unsigned bits;   // bit allocations
 #define  Bit_ReadOnly              (1 << 0)
 #define  Bit_ReplaceOnly           (1 << 1)
 #define  Bit_MemberAlloc           (1 << 2)  // Array
@@ -29,36 +29,36 @@ Library:      collections
 #define  IndexFromMemberLoc_Min    -2044
 }
 /*** methods in Collection_any (inserted from .m file by m2h) ***/
-- (void) setReplaceOnly: (BOOL)replaceOnly;
-- (void) setIndexFromMemberLoc: (int)byteOffset;
-- (BOOL) getReadOnly;
-- (BOOL) getReplaceOnly;
-- (int) getIndexFromMemberLoc;
-- (int) getCount;
-- (int) count;
+- (void)setReplaceOnly: (BOOL)replaceOnly;
+- (void)setIndexFromMemberLoc: (int)byteOffset;
+- (BOOL)getReadOnly;
+- (BOOL)getReplaceOnly;
+- (int)getIndexFromMemberLoc;
+- (int)getCount;
+- (int)count;
 - atOffset: (int)offset;
 - atOffset: (int)offset put: anObject;
 - getFirst;
 - first;
 - getLast;
 - last;
-- (BOOL) contains: aMember;
+- (BOOL)contains: aMember;
 - remove: aMember;
-- (void) removeAll;
-- (void) deleteAll;
-- (void) forEach: (SEL)aSelector;
-- (void) forEach: (SEL)aSelector : arg1;
-- (void) forEach: (SEL)aSelector : arg1 : arg2;
-- (void) forEach: (SEL)aSelector : arg1 : arg2 : arg3;
-- (void) describe: outputCharStream;
-- (void) describeForEach: outputCharStream;
-- (void) describeForEachID: outputCharStream;
+- (void)removeAll;
+- (void)deleteAll;
+- (void)forEach: (SEL)aSelector;
+- (void)forEach: (SEL)aSelector : arg1;
+- (void)forEach: (SEL)aSelector : arg1 : arg2;
+- (void)forEach: (SEL)aSelector : arg1 : arg2 : arg3;
+- (void)describe: outputCharStream;
+- (void)describeForEach: outputCharStream;
+- (void)describeForEachID: outputCharStream;
 @end
 
-@interface Index_any : Object_s
+@interface Index_any: Object_s
 {
 @public
-  Collection_any  *collection;  // base collection on which index created
+  Collection_any *collection;  // base collection on which index created
 }
 /*** methods in Index_any (inserted from .m file by m2h) ***/
 - getCollection;

@@ -39,39 +39,40 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- (BOOL) getReadOnly
+- (BOOL)getReadOnly
 {
   return bits & Bit_ReadOnly;
 }
 
-- (BOOL) getReplaceOnly
+- (BOOL)getReplaceOnly
 {
   return bits & Bit_ReplaceOnly;
 }
 
-- (int) getIndexFromMemberLoc
+- (int)getIndexFromMemberLoc
 {
-  return getField( bits, IndexFromMemberLoc_Shift, IndexFromMemberLoc_Mask ) -
-         2044;
+  return
+    getField (bits, IndexFromMemberLoc_Shift, IndexFromMemberLoc_Mask) - 2044;
 }
 
-- (int) getCount
-{
-  return count;
-}
-
-- (int) count
+- (int)getCount
 {
   return count;
 }
 
-static id indexAtOffset( Collection_any *self, int offset )
+- (int)count
+{
+  return count;
+}
+
+static id
+indexAtOffset (Collection_any *self, int offset)
 {
   id   index;
 
-  if ( offset < 0 || offset >= self->count )
-    raiseEvent( OffsetOutOfRange, nil );
-  for ( index = [(id)self begin: scratchZone]; offset >= 0; offset-- )
+  if (offset < 0 || offset >= self->count)
+    raiseEvent (OffsetOutOfRange, nil);
+  for (index = [(id) self begin: scratchZone]; offset >= 0; offset--)
     [index next];
   return index;
 }
@@ -80,7 +81,7 @@ static id indexAtOffset( Collection_any *self, int offset )
 {
   id index, member;
 
-  index = indexAtOffset( self, offset );
+  index = indexAtOffset (self, offset);
   member = [index get];
   [index drop];
   return member;
@@ -90,7 +91,7 @@ static id indexAtOffset( Collection_any *self, int offset )
 {
   id index, member;
 
-  index = indexAtOffset( self, offset );
+  index = indexAtOffset (self, offset);
   member = [index replace: anObject];
   [index drop];
   return member;
@@ -108,20 +109,20 @@ static id indexAtOffset( Collection_any *self, int offset )
 
 - getLast
 {
-  return [self atOffset: ( count - 1 )];
+  return [self atOffset: count - 1];
 }
 
 - last
 {
-  return [self atOffset: ( count - 1 )];
+  return [self atOffset: count - 1];
 }
 
-- (BOOL) contains: aMember
+- (BOOL)contains: aMember
 {
   id  index, member;
 
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) && member != aMember );
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]) && member != aMember);
   [index drop];
   return member != nil; 
 }
@@ -130,82 +131,81 @@ static id indexAtOffset( Collection_any *self, int offset )
 {
   id  index, member;
 
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) && member != aMember );
-  if ( member ) [index remove];
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]) && member != aMember);
+  if (member)
+    [index remove];
   [index drop];
   return member; 
 }
 
-- (void) removeAll
+- (void)removeAll
 {
-  id  index;
+  id index;
 
-  index = [(id)self begin: scratchZone];
-  while ( [index next] ) [index remove];
-  [index drop];
-}
-
-- (void) deleteAll
-{
-  id  index, member;
-
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) ) {
+  index = [(id) self begin: scratchZone];
+  while ([index next])
     [index remove];
-    [member drop];
-  }
   [index drop];
 }
 
-- (void) forEach: (SEL)aSelector
+- (void)deleteAll
 {
-  id       index, member;
+  id index, member;
 
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) ) {
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
+    {
+      [index remove];
+      [member drop];
+    }
+  [index drop];
+}
+
+- (void)forEach: (SEL)aSelector
+{
+  id index, member;
+
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
     [member perform: aSelector];
-  }
   [index drop];
 }
 
-- (void) forEach: (SEL)aSelector : arg1
+- (void)forEach: (SEL)aSelector : arg1
 {
-  id       index, member;
+  id index, member;
 
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) ) {
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
     [member perform: aSelector with: arg1];
-  }
   [index drop];
 }
 
-- (void) forEach: (SEL)aSelector : arg1 : arg2
+- (void)forEach: (SEL)aSelector : arg1 : arg2
 {
-  id       index, member;
+  id index, member;
 
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) ) {
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
     [member perform: aSelector with: arg1 with: arg2];
-  }
   [index drop];
 }
 
-- (void) forEach: (SEL)aSelector : arg1 : arg2 : arg3
+- (void)forEach: (SEL)aSelector : arg1 : arg2 : arg3
 {
-  id       index, member;
+  id index, member;
 
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) ) {
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
     [member perform: aSelector with: arg1 with: arg2 with: arg3];
-  }
   [index drop];
 }
 
 //
 // describe: -- standard method to generate debug description object
 //
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   char  buffer[100];
 
@@ -218,12 +218,13 @@ static id indexAtOffset( Collection_any *self, int offset )
 // describeForEach: --
 //   generate debug description for each member of a collection
 //
-- (void) describeForEach: outputCharStream
+- (void)describeForEach: outputCharStream
 {
-  id  index, member;
+  id index, member;
 
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) ) [member describe: outputCharStream];
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
+    [member describe: outputCharStream];
   [index drop];
 }
 
@@ -231,17 +232,17 @@ static id indexAtOffset( Collection_any *self, int offset )
 // describeForEachID: --
 //   generate debug id description for each member of a collection
 //
-- (void) describeForEachID: outputCharStream
+- (void)describeForEachID: outputCharStream
 {
-  id  index, member;
+  id index, member;
 
-  index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) ) [member describeID: outputCharStream];
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next]))
+    [member describeID: outputCharStream];
   [index drop];
 }
 
 @end
-
 
 // Index_any: index for any Collection
 
@@ -256,9 +257,9 @@ static id indexAtOffset( Collection_any *self, int offset )
 {
   id member;
 
-  while (!INDEXENDP ([(id)self getLoc]))
+  while (!INDEXENDP ([(id) self getLoc]))
     {
-      member = [(id)self next];
+      member = [(id) self next];
       if (member == anObject)
         return member;
     }
@@ -269,9 +270,9 @@ static id indexAtOffset( Collection_any *self, int offset )
 {
   id member;
 
-  while (!INDEXSTARTP ([(id)self getLoc]))
+  while (!INDEXSTARTP ([(id) self getLoc]))
     {
-      member = [(id)self prev];
+      member = [(id) self prev];
       if (member == anObject)
         return member;
     }

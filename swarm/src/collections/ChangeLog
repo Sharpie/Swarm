@@ -1,3 +1,7 @@
+1998-11-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Collection.[hm], Map.[hm]: Reformatting throughout.
+
 1998-11-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* predicates.[hm] (keywordp, valuep, arrayp): New predicates.
