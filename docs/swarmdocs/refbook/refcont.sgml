@@ -12,6 +12,7 @@
 &collectionscont.sgml;
 &activitycont.sgml;
 &objectbasecont.sgml;
+&randomcont.sgml;
 &simtoolscont.sgml;
 &simtoolsguicont.sgml;
 &guicont.sgml;
