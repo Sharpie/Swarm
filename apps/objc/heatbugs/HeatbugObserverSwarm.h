@@ -8,7 +8,7 @@
 // important object is the heatbugModelSwarm, but we also have
 // graphical windows and data analysis and stuff.
 
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <space.h>
 #import <activity.h>
 #import <collections.h>

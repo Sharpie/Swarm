@@ -5,7 +5,6 @@
 
 // Heatbug, a simple Swarm agent.
 
-//#import <swarmobject/SwarmObject.h>
 #import <space.h>				  // we use Space features
 #import <gui.h>
 #import "HeatSpace.h"				  // we also have a heat object

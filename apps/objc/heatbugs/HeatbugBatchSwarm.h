@@ -8,7 +8,7 @@
 // operates without any graphics - just does file I/O to store data.
 
 #import <stdio.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <simtools.h>
 #import <analysis.h>
 #import <space.h>

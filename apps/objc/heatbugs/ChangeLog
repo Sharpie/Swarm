@@ -1,3 +1,17 @@
+1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HeatbugModelSwarm.h: Include objectbase/Swarm.h and objectbase.h
+	instead of from swarmobject.
+
+	* HeatbugModelSwarm.h.pixmap: Likewise.
+
+	* HeatbugBatchSwarm.h: Include objectbase.h instead of swarmobject.h.
+
+	* Heatbug.h.pixmap: Remove (commented-out) include of
+	swarmobject/SwarmObject.h.
+
+	* Heatbug.h: Likewise.
+
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* main.m (main): Constify argv.
