@@ -11,7 +11,3 @@ Library:      collections
 
 #import <collections/List_linked.h>
 #import "List_GEN.m"
-#define _CLASSDEFS_ \
- @implementation List_linked \
- @implementation ListIndex_linked
-#undef _CLASSDEFS_
