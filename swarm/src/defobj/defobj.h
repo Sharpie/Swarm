@@ -1122,3 +1122,7 @@ extern id nameToObject (const char *name);
 //#: Name to use for Lisp archiving object-creation function
 #define MAKE_INSTANCE_FUNCTION_NAME "make-instance"
 
+//#: Conservative approximation of the number of decimal digits for a
+//#: object of a given type, not including terminator. 
+//#: signchar + roundup (log (10)/log(2) = 3.3219).
+#define DSIZE(type) (1 + sizeof (type) * 8 / 3 + 1)

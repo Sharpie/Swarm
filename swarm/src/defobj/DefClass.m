@@ -82,7 +82,7 @@ _obj_initMethodInterfaces (Class_s *class)
             {
               if (count)
                 {
-                  mdefs = _obj_initAlloc( sizeof *mdefs );
+                  mdefs = _obj_initAlloc (sizeof *mdefs);
                   mdefs->next = (methodDefs_t)classData->metaobjects;
                   classData->metaobjects = (id)mdefs;
                   mdefs->interfaceID = interfaceID;
@@ -269,7 +269,7 @@ objc_type_for_lisp_type (const char *lispTypeString)
           id index = [val begin: aZone];
           id first = [index next];
           unsigned rank = [val getCount] - 2;
-          char typebuf[rank * (sizeof (unsigned) * 8 + 2) + 1 + 1];
+          char typebuf[rank * (DSIZE (unsigned) + 2) + 1 + 1];
           char *p = typebuf;
           const char *baseType;
           
@@ -294,7 +294,7 @@ objc_type_for_lisp_type (const char *lispTypeString)
             
             while ((dimCountValue = [index next]))
               {
-                char numbuf[sizeof (unsigned) * 8 + 1];
+                char numbuf[DSIZE (unsigned) + 1];
                 if (!valuep (dimCountValue))
                   raiseEvent (InvalidArgument,
                               "array dimension count should be a value");
@@ -414,7 +414,7 @@ process_type (const char *varType,
             {
               void outputCount (unsigned dim, unsigned count)
                 {
-                  char buf[sizeof (count) * 8 + 2];
+                  char buf[1 + DSIZE (count) + 1];
                   
                   sprintf (buf, " %u", count);
                   [stream catC: buf];

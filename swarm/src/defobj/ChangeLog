@@ -1,5 +1,10 @@
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* DefClass.m ([CreatedClass_s -lispInCreate:], [CreatedClass_s
+	-lispOut:deep:]): Use DSIZE.
+
+	* defobj.h (DSIZE): New macro for sizing decimal scratch buffers.
+
 	* HDF5Object.[hm], defobj.h (HDF5_c): Remove typeName and setter.  
 	New method -storeTypeName:, which replaces internal function
 	store_type_name.
