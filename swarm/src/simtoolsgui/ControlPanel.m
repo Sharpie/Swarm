@@ -39,24 +39,24 @@ PHASE(Creating)
 PHASE(Using)
 
 #ifndef USE_JAVA
-- getState
+- (id <Symbol>)getState
 {
   return state;
 }
 
-- setState: theState
+- setState: (id <Symbol>)theState
 {
   state = theState;
 
   return self;
 }
 #else
-- getState
+- (id <Symbol>)getState
 {
   return [ctlObj getState];
 }
 
-- setState: s
+- setState: (id <Symbol>)s
 {
   return [ctlObj setState: s];
 }
@@ -64,9 +64,9 @@ PHASE(Using)
 
 // Run: just set our own state to running, let whatever object who
 // is using us arrange for the run to go again.
-- startInActivity: activityID
+- startInActivity: (id <SwarmActivity>)activityID
 {
-  id controlState, activityState;
+  id <Symbol> controlState, activityState;
   
   while (YES)
     {

@@ -11,17 +11,17 @@
 
 @interface ControlPanel: SwarmObject <ControlPanel>
 {
-  id state;					  // uses activity.h symbols
+  id <Symbol> state;
 #ifdef USE_JAVA
   id ctlObj;
 #endif
 }
 
 - createEnd;
-- getState;
-- setState: s;
+- (id <Symbol>)getState;
+- setState: (id <Symbol>)s;
 
-- startInActivity: activityID;
+- startInActivity: (id <SwarmActivity>)activityID;
 - setStateRunning;
 - setStateStopped;
 - setStateSave;

@@ -26,7 +26,7 @@ externvardef id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 PHASE(Creating)
 
-- setControlPanel: cp
+- setControlPanel: (id <ControlPanel>)cp
 {
   ctrlPanel = cp;
   return self;
@@ -115,7 +115,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- setScheduleContext: context
+- setScheduleContext: (id <Swarm>)context
 {
   [destinationSchedule activateIn: context];
   return self;

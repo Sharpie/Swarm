@@ -56,12 +56,12 @@ PHASE(Using)
   return [self getActivity];
 }
 
-- getActionCache
+- (id <ActionCache>)getActionCache
 {
     return actionCache;
 }
 
-- getControlPanel
+- (id <ControlPanel>)getControlPanel
 {
     return controlPanel;
 }

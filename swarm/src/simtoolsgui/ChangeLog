@@ -1,3 +1,24 @@
+1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionCache.h (ActionCache): Make ctrlPanel conform to ControlPanel.
+
+	* ActionCache.[hm]: Likewise for setter.  Make argument to
+	setScheduleContext: conform to Swarm.
+
+	* ControlPanel.h (ControlPanel): Make state an object that
+	conforms to Symbol.
+
+	* simtoolsgui.h, ControlPanel.[hm]: Add Symbol
+	conformance for getState and setState:.  Make argument to
+	startInActivity: an object conforming to SwarmActivity.
+
+	* simtoolsgui.h, GUISwarm.[hm]: Make argument to setControlPanel
+	conform to ControlPanel protocol.  Make getActionCache and
+	getControlPanel returns conform to ActionCache and ControlPanel
+	protocols.
+
+	* simtoolsgui.h: Make ControlState* symbols conform to Symbol.
+
 1999-09-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ActionCache.m ([ActionCache -deliverActions]): Remove ActionHolder

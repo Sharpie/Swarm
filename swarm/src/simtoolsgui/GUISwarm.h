@@ -22,8 +22,8 @@
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: aWidget;
-- getActionCache;
-- getControlPanel;
+- (id <ActionCache>)getActionCache;
+- (id <ControlPanel>)getControlPanel;
 - buildObjects;
 - go;				   // returns Completed or ControlStateQuit
 - (void)drop;

@@ -13,19 +13,19 @@
 {
   id <List> actionCache;
   id <Schedule> destinationSchedule;
-  id ctrlPanel;
+  id <ControlPanel> ctrlPanel;
   
   // widget IVar
   id <ButtonPanel> panel;
 }
 
 // Create Phase methods
-- setControlPanel: cp;
+- setControlPanel: (id <ControlPanel>)cp;
 - createEnd;
 - (id <ButtonPanel>)createProcCtrl;
 
 // Use phase methods
-- setScheduleContext: context;
+- setScheduleContext: (id <Swarm>)context;
 - insertAction: actionHolder;
 - deliverActions;
 // generic send method underlying the specific send methods

@@ -6,7 +6,7 @@
 //S: GUI-related features for simulation.
 
 #import <objectbase.h>
-#import <activity.h> // SwarmProcess
+#import <activity.h> // Activity
 #include <externvar.h>
 
 @protocol WindowGeometryRecordName
@@ -59,11 +59,11 @@ USING
 //M: Get the current button state of the controlpanel.  Is one of
 //M: ControlStateRunning, ControlStateStopped, ControlStateStepping,
 //M: ControlStateNextTime, or ControlStateQuit.
-- getState;
+- (id <Symbol>)getState;
 
-- setState: s;
+- setState: (id <Symbol>)s;
 
-- startInActivity: activityID;
+- startInActivity: (id <SwarmActivity>)activityID;
 
 //M: Sets the state to `running'.
 - setStateRunning;
@@ -95,12 +95,12 @@ USING
 //D: thrown by other threads and Swarms intended for insertion on
 //D: it's Swarm's schedule.
 CREATING
-- setControlPanel: cp;
+- setControlPanel: (id <ControlPanel>)cp;
 - createEnd;
 - createProcCtrl;
 
 USING
-- setScheduleContext: context;
+- setScheduleContext: (id <Swarm>)context;
 - insertAction: actionHolder;
 - deliverActions;
 - sendActionOfType: (id <Symbol>) type toExecute: (const char *)cmd;
@@ -371,8 +371,8 @@ USING
 externvar id <ProbeDisplayManager> probeDisplayManager;
 
 //G: State Symbols for the ControlPanel.
-externvar id ControlStateRunning, ControlStateStopped, ControlStateStepping,
-  ControlStateNextTime, ControlStateQuit;
+externvar id <Symbol> ControlStateRunning, ControlStateStopped,
+  ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 //F: Initialize the library and create a ProbeDisplayManager.
 extern void initSimtoolsGUI (void);
