@@ -1,3 +1,8 @@
+1999-07-21  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* SwarmEnvironment.java: New methods that correspond to macros
+	in simtoolsgui.
+
 1999-07-12  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* SwarmEnvironment.java: New getCurrent... methods that correspond

@@ -26,14 +26,21 @@ public class SwarmEnvironment {
   public native ActionImpl getCurrentAction ();
   public native ActivityImpl getCurrentActivity();
 
-  public native void createProbeDisplay (Object anOjbect);
-  public native void createCompleteProbeDisplay (Object anObject);
-  public native void createArchivedProbeDisplay (Object anObject);
-  public native void createArchivedCompleteProbeDisplay (Object anObject);
+  public native Object createProbeDisplay (Object anOjbect);
+  public native Object createCompleteProbeDisplay (Object anObject);
+  public native Object createArchivedProbeDisplay (Object anObject);
+  public native Object createArchivedCompleteProbeDisplay (Object anObject);
+  public native Object setWindowGeometryRecordName (Object theWidget);
+  public native Object setComponentWindowGeometryRecordNameFor (Object obj,
+							      Object widget);
+  public native Object setComponentWindowGeometryRecordName (Object widget);
 
+  
   public SymbolImpl ControlStateRunning, ControlStateStopped,
     ControlStateStepping, ControlStateQuit, ControlStateNextTime;
   public ProbeLibraryImpl probeLibrary;
+  public ProbeDisplayManagerImpl probeDisplayManager;
+
   public ZoneImpl globalZone;
   public UniformIntegerDistImpl uniformIntRand;
   public UniformDoubleDistImpl uniformDblRand;
