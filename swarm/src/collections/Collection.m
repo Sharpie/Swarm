@@ -261,7 +261,7 @@ indexAtOffset (Collection_any *self, int offset)
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag
 {
   if (deepFlag)
-    [super hdf5Out: hdf5Obj deep: YES];
+    abort ();
   else
     {
       if (![self allSameClass])
