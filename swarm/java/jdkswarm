@@ -2,7 +2,7 @@
 JDKPATH=`regtool get 'HKLM\SOFTWARE\JavaSoft\Java Development Kit\1.2\JavaHome' 2>/dev/null`
 if test -n "$JDKPATH"; then
   JDKPATH=`cygpath -u $JDKPATH`
-  classpath=".;${SWARMDIR}"'\share\swarm\swarm.jar'
+  classpath=".;${SWARMDIR}"'\share\swarm\swarm.jar;'"${SWARMDIR}"'\share\swarm\kawa.jar'
  
   for i in "$@"; do
     argsexpr="$argsexpr '$i'"

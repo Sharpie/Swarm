@@ -54,10 +54,11 @@ export @SHLIBPATH_VAR@ @JAVALIBPATH_VAR@
 JAVA_CLASSES_INSTALLED_AS=@JAVA_CLASSES_INSTALLED_AS@
 
 if test x$JAVA_CLASSES_INSTALLED_AS = xjar; then
-  classpath=".${PS}${swarmclassdir}${PD}swarm${PD}swarm.jar${PS}${JAVACLASSES}${PS}$CLASSPATH"
+  classpath=".${PS}${swarmclassdir}${PD}swarm${PD}swarm.jar"
 else
-  classpath=".${PS}${swarmclassdir}${PS}${JAVACLASSES}${PS}$CLASSPATH"
+  classpath=".${PS}${swarmclassdir}"
 fi
+classpath="$classpath${PS}${swarmclassdir}${PD}swarm${PD}kawa.jar${PS}${JAVACLASSES}${PS}$CLASSPATH"
 
 for i in "$@"; do
   argsexpr="$argsexpr '$i'"

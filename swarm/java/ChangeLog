@@ -1,3 +1,11 @@
+2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* javaswarm.in, jdkswarm: Add kawa.jar.
+
+	* Makefile.am (KAWAJAR): New substitution.
+	(SWARM_EXTRA_DIST): Add $(KAWAJAR).
+	(install): Install $(KAWAJAR) when set.
+
 2000-05-05  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java-stub.el (*create-method-p, match-signature,
