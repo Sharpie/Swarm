@@ -836,79 +836,79 @@ static nsXPTType types[FCALL_TYPE_COUNT] = {
 };
 
 void
-COMsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
+COMsetArg (void *params, unsigned pos, val_t *val)
 {
   nsXPTCVariant *param = &((nsXPTCVariant *) params)[pos];
   
-  switch (type)
+  switch (val->type)
     {
     case fcall_type_void:
       abort ();
     case fcall_type_boolean:
       param->type = nsXPTType::T_BOOL;
-      param->val.b = value->boolean;
+      param->val.b = val->val.boolean;
       break;
     case fcall_type_uchar:
       param->type = nsXPTType::T_U8;
-      param->val.u8 = value->uchar;
+      param->val.u8 = val->val.uchar;
       break;
     case fcall_type_schar:
       param->type = nsXPTType::T_I8;
-      param->val.i8 = value->schar;
+      param->val.i8 = val->val.schar;
       break;
     case fcall_type_ushort:
       param->type = nsXPTType::T_U16;
-      param->val.u16 = value->ushort;
+      param->val.u16 = val->val.ushort;
       break;
     case fcall_type_sshort:
       param->type = nsXPTType::T_I16;
-      param->val.i16 = value->sshort;
+      param->val.i16 = val->val.sshort;
       break;
     case fcall_type_uint:
       param->type = nsXPTType::T_U32;
-      param->val.u32 = value->uint;
+      param->val.u32 = val->val.uint;
       break;
     case fcall_type_sint:
       param->type = nsXPTType::T_I32;
-      param->val.i32 = value->sint;
+      param->val.i32 = val->val.sint;
       break;
     case fcall_type_ulong:
       param->type = nsXPTType::T_U32;
-      param->val.u32 = value->ulong;
+      param->val.u32 = val->val.ulong;
       break;
     case fcall_type_slong:
       param->type = nsXPTType::T_I32;
-      param->val.i32 = value->slong;
+      param->val.i32 = val->val.slong;
       break;
     case fcall_type_ulonglong:
       param->type = nsXPTType::T_U64;
-      param->val.u64 = value->ulonglong;
+      param->val.u64 = val->val.ulonglong;
       break;
     case fcall_type_slonglong:
       param->type = nsXPTType::T_I64;
-      param->val.i64 = value->slonglong;
+      param->val.i64 = val->val.slonglong;
       break;
     case fcall_type_float:
       param->type = nsXPTType::T_FLOAT;
-      param->val.f = value->_float;
+      param->val.f = val->val._float;
       break;
     case fcall_type_double:
       param->type = nsXPTType::T_DOUBLE;
-      param->val.d = value->_double;
+      param->val.d = val->val._double;
       break;
     case fcall_type_long_double:
       abort ();
     case fcall_type_object:
       param->type = nsXPTType::T_INTERFACE;
-      param->val.p = SD_COM_ENSURE_OBJECT_COM (value->object);
+      param->val.p = SD_COM_ENSURE_OBJECT_COM (val->val.object);
       break;
     case fcall_type_string:
       param->type = nsXPTType::T_CHAR_STR;
-      param->val.p = (void *) value->string;
+      param->val.p = (void *) val->val.string;
       break;
     case fcall_type_iid:
       param->type = nsXPTType::T_IID;
-      param->val.p = value->iid;
+      param->val.p = val->val.iid;
       break;
     case fcall_type_class:
     case fcall_type_selector:
@@ -920,12 +920,12 @@ COMsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
 }
 
 void
-COMsetReturn (void *params, unsigned pos, fcall_type_t type, types_t *value)
+COMsetReturn (void *params, unsigned pos, val_t *val)
 {
   nsXPTCVariant &retParam = ((nsXPTCVariant *) params)[pos];
 
-  retParam.ptr = value;
-  retParam.type = types[type];
+  retParam.ptr = &val->val;
+  retParam.type = types[val->type];
   retParam.flags = nsXPTCVariant::PTR_IS_DATA;
 }
 
@@ -994,64 +994,64 @@ JScreateParams (unsigned size)
   return (void *) params;
 }
 
-void
-JSsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
+
+static void
+setJSval (val_t *inval, jsval *outval)
 {
-  jsval *jsparams = (jsval *) params;
   JSContext *cx = currentJSContext ();
 
-  switch (type)
+  switch (inval->type)
     {
     case fcall_type_void:
       abort ();
     case fcall_type_boolean:
-      jsparams[pos] = BOOLEAN_TO_JSVAL (value->boolean);
+      *outval = BOOLEAN_TO_JSVAL (inval->val.boolean);
       break;
     case fcall_type_uchar:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->uchar);
+      *outval = INT_TO_JSVAL ((int) inval->val.uchar);
       break;
     case fcall_type_schar:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->schar);
+      *outval = INT_TO_JSVAL ((int) inval->val.schar);
       break;
     case fcall_type_ushort:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->ushort);
+      *outval = INT_TO_JSVAL ((int) inval->val.ushort);
       break;
     case fcall_type_sshort:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->sshort);
+      *outval = INT_TO_JSVAL ((int) inval->val.sshort);
       break;
     case fcall_type_uint:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->uint);
+      *outval = INT_TO_JSVAL ((int) inval->val.uint);
       break;
     case fcall_type_sint:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->sint);
+      *outval = INT_TO_JSVAL ((int) inval->val.sint);
       break;
     case fcall_type_ulong:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->ulong);
+      *outval = INT_TO_JSVAL ((int) inval->val.ulong);
       break;
     case fcall_type_slong:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->slong);
+      *outval = INT_TO_JSVAL ((int) inval->val.slong);
       break;
     case fcall_type_ulonglong:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->ulonglong);
+      *outval = INT_TO_JSVAL ((int) inval->val.ulonglong);
       break;
     case fcall_type_slonglong:
-      jsparams[pos] = INT_TO_JSVAL ((int) value->slonglong);
+      *outval = INT_TO_JSVAL ((int) inval->val.slonglong);
       break;
     case fcall_type_float:
-      if (!JS_NewDoubleValue (cx, (jsdouble) value->_float, &jsparams[pos]))
+      if (!JS_NewDoubleValue (cx, (jsdouble) inval->val._float, outval))
         abort ();
       break;
     case fcall_type_double:
-      if (!JS_NewDoubleValue (cx, (jsdouble) value->_double, &jsparams[pos]))
+      if (!JS_NewDoubleValue (cx, (jsdouble) inval->val._double, outval))
         abort ();
       break;
     case fcall_type_long_double:
-      if (!JS_NewDoubleValue (cx, (jsdouble) value->_long_double, &jsparams[pos]))
+      if (!JS_NewDoubleValue (cx, (jsdouble) inval->val._long_double, outval))
         abort ();
       break;
     case fcall_type_object:
       {
-        swarmITyping *cObject = SD_COM_ENSURE_OBJECT_COM (value->object);
+        swarmITyping *cObject = SD_COM_ENSURE_OBJECT_COM (inval->val.object);
         nsCOMPtr <swarmIBase> base (do_QueryInterface (cObject));
         nsCOMPtr <nsIXPCNativeCallContext> callContext;
         base->GetNativeCallContext (getter_AddRefs (callContext));
@@ -1061,25 +1061,25 @@ JSsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
         JSObject *jsObj;
         if (!NS_SUCCEEDED (calleeWrapper->GetJSObject (&jsObj)))
           abort ();
-        jsparams[pos] = OBJECT_TO_JSVAL (jsObj);
+        *outval = OBJECT_TO_JSVAL (jsObj);
       }
       break;
     case fcall_type_selector:
       {
-        nsCOMPtr <swarmISelector> cSel = NS_STATIC_CAST (swarmISelector *, SD_COM_FIND_SELECTOR_COM (value->selector));
+        nsCOMPtr <swarmISelector> cSel = NS_STATIC_CAST (swarmISelector *, SD_COM_FIND_SELECTOR_COM (inval->val.selector));
         nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (cSel));
         JSObject *jsobj;
         if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
           abort ();
-        jsparams[pos] = OBJECT_TO_JSVAL (jsobj);
+        *outval = OBJECT_TO_JSVAL (jsobj);
       }
       break;
     case fcall_type_class:
       abort ();
       break;
     case fcall_type_string:
-      jsparams[pos] = STRING_TO_JSVAL (JS_NewStringCopyZ (currentJSContext (),
-                                                        value->string));
+      *outval = STRING_TO_JSVAL (JS_NewStringCopyZ (currentJSContext (),
+                                                    inval->val.string));
       break;
     case fcall_type_iid:
     case fcall_type_jobject:
@@ -1089,10 +1089,18 @@ JSsetArg (void *params, unsigned pos, fcall_type_t type, types_t *value)
 }
 
 void
-JSsetReturn (void *params, unsigned pos, fcall_type_t type, types_t *value)
+JSsetArg (void *params, unsigned pos, val_t *inval)
 {
-  if (type != fcall_type_void)
-    JSsetArg (params, pos, type, value);
+  jsval *jsparams = (jsval *) params;
+
+  setJSval (inval, &jsparams[pos]);
+}
+
+void
+JSsetReturn (void *params, unsigned pos, val_t *inval)
+{
+  if (inval->type != fcall_type_void)
+    JSsetArg (params, pos, inval);
 }
 
 void
@@ -1154,6 +1162,24 @@ JSprobeVariable (COMobject cObj, const char *variableName, val_t *ret)
     abort ();
 
   return YES;
+}
+
+void
+JSsetVariable (COMobject cObj, const char *variableName, val_t *inval)
+{
+  nsISupports *_cObj = NS_STATIC_CAST (nsISupports *, cObj);
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jsObj (do_QueryInterface (_cObj));
+  JSObject *jsobj;
+  jsval val;
+  JSContext *cx = currentJSContext ();
+
+  if (!NS_SUCCEEDED (jsObj->GetJSObject (&jsobj)))
+    abort ();
+
+  setJSval (inval, &val);
+
+  if (!JS_SetProperty (cx, jsobj, variableName, &val))
+    abort ();
 }
 
 swarmITyping *
