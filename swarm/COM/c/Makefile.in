@@ -17,9 +17,9 @@ IS_COMPONENT = 1
 
 REQUIRES = xpcom
 
-CPPSRCS = module.cpp $(foreach module,$(MODULES),$(call modulecppfiles,$(module))) $(NULL)
+CPPSRCS = module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(module))) $(NULL)
 
-XPIDLSRCS = $(foreach module,$(MODULES),$(call moduleidlfiles,$(module)))
+XPIDLSRCS = $(foreach module,$(MODULES) swarm,$(call moduleidlfiles,$(module)))
 
 include $(topsrcdir)/config/rules.mk
 
