@@ -1,3 +1,8 @@
+2002-04-23  Marcus G. Daniels  <mgd@condor>
+
+	* interface.el (*removed-methods*): Add
+	-lispStore{Integer,Double}Array:Keyword:Rank:Dims:Stream:.
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* common.el, interface.el, protocol.el: Add canonical license
