@@ -21,9 +21,9 @@ PHASE(Creating)
   Permutation_c  *newPermutation;
 
   newPermutation = [aZone allocIVars: self];
-  newPermutation->minElement=1;
-  newPermutation->maxElement=0;
-  newPermutation->shuffler=[ListShuffler_c createBegin: aZone];
+  newPermutation->minElement = 1;
+  newPermutation->maxElement = 0;
+  newPermutation->shuffler = [ListShuffler createBegin: aZone];
   
   return newPermutation;
 }
@@ -34,10 +34,10 @@ PHASE(Creating)
   maxElement = max;
 }
 
--(void)setMinElement: (int)min
+- (void)setMinElement: (int)min
 {
   if (min < 1)
-    raiseEvent(InvalidArgument, "> Minimal element of a permutation"
+    raiseEvent (InvalidArgument, "> Minimal element of a permutation"
                " must be greater than zero");
   minElement = min;
 
@@ -53,14 +53,14 @@ PHASE(Creating)
   int i;
   //id obj;
   if (maxElement <= minElement)
-    raiseEvent(InvalidArgument," > maximumElement of permutation is less or/n "
-	       " > equal to the minimumElement /n");
-
+    raiseEvent (InvalidArgument,
+                " > maximumElement of permutation is less or/n "
+                " > equal to the minimumElement /n");
+  
   [super setCount: maxElement - minElement + 1];
   [super createEnd];
 
   shuffler = [shuffler createEnd];
-  
      
   for (i = minElement; i <= (int) maxElement; i++)
     [super atOffset: i - minElement put: (id) i];
@@ -88,12 +88,12 @@ PHASE(Using)
   elem = (int) [index next];
   while (elem) 
     {
-       sprintf(buffer, " %d ", elem);
+       sprintf (buffer, " %d ", elem);
        elem = (int) [index next];
        [outputCharStream catC: buffer];
 
     }
-  sprintf(buffer,"\n");
+  sprintf (buffer,"\n");
   [index drop];
 }
 
