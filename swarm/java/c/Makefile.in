@@ -77,7 +77,7 @@ SWARMLIBSLDFLAGS = -L$(abs_top_builddir)/src
 endif
 
 libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L../libobjc -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBSLDFLAGS) $(SWARMLIBS) -lobjc
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBSLDFLAGS) $(SWARMLIBS) -lobjc
 
 javaswarm.dll: libjavaswarm_.la libjavaswarmstubs_.la javaswarm.dll.c
 	$(CC) -c $(srcdir)/javaswarm.dll.c
