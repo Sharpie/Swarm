@@ -41,6 +41,15 @@ or better, and the blt library package.  This version enables hdf5.
 @macros@
 
 %changelog
+* Fri Oct 22 1999 Alex Lancaster <alex@santafe.edu>
+
+- Replace $RPM_PACKAGE_VERSION with %{version} throughout.
+
+- Add "%gcc_path" macro so that path to gcc can be overriden (by
+  setting "%_gcc_path" in the ~/.rpmmacros file), so that packages can
+  be easily built against non-stock Red Hat 6.{1,2} compilers (such as
+  gcc-2.95.1).
+
 * Tue Oct 19 1999 Alex Lancaster <alex@santafe.edu>
 
 - Add XFree86-devel and egcs to Requires.
@@ -69,8 +78,8 @@ or better, and the blt library package.  This version enables hdf5.
 
 %makebuilddir =with-hdf
 
-%{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-hdf5dir=/usr %ffiflag %jdkflag
-make JAVAC=/usr/bin/jikes 
+%{gcc_path} %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-hdf5dir=/usr %ffiflag %jdkflag
+%{gcc_path} make JAVAC=/usr/bin/jikes 
                             
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -81,7 +90,7 @@ cd %{SWARM_SRC_DIR}
 %gen_shared_filelist %{prefix} %{SWARM_SRC_DIR}/with-hdf
 
 cd =with-hdf
-make prefix=$RPM_BUILD_ROOT%{prefix} JAVAC=/usr/bin/jikes install
+%{gcc_path} make prefix=$RPM_BUILD_ROOT%{prefix} JAVAC=/usr/bin/jikes install
 
 %post 
 %define hdf5pathfiles etc/swarm/* lib/swarm/lib*.la

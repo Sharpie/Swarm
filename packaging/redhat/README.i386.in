@@ -1,6 +1,10 @@
 Binary RPM packages of Swarm for Red Hat 6.0 Intel/ix86 users are
 available here.
 
+[NOTE: Although there is no reason why these RPMs should not work
+       under Red Hat 6.1, they are not yet tested specifically under 
+       6.1, hence your mileage may vary.]
+
 Source packages are available at:
 
  ftp://ftp.santafe.edu/pub/swarm/redhat/SRPMS
@@ -45,6 +49,7 @@ C, you should choose _one_:
 
 Java support enabling `add-on' package:
 =======================================
+(*REQUIRED IF PROGRAMMING IN JAVA*):
 
 You can add Java support to *either* of the above `swarm-base'
 packages
@@ -64,8 +69,9 @@ Objective C and not in Java]:
   but has the advantage of supporting JDK 1.2 features.  Use the older
   swarm-2.0.1-2.i386.rpm if you wish to use kaffe-1.0.4b-2.i386.rpm).
 
-Advanced Swarm packages (not required for new users):
-====================================================
+Advanced Swarm packages: 
+========================
+(*NOT REQUIRED FOR NEW USERS*)
 
 swarm-static contains the Swarm libraries statically-linked, useful
 when you wish to profile an application:

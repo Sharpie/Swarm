@@ -10,7 +10,9 @@
 %define objcflags %{?dummy-macro}
 %endif
 
-%define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-$RPM_PACKAGE_VERSION 
+%define gcc_path %{?_gcc_path:PATH=%{_gcc_path}\:$PATH}
+
+%define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-%{version} 
 
 %define makebuilddir() test -d %1 || mkdir %1 && cd %1 
 
