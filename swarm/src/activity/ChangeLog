@@ -1,3 +1,8 @@
+1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmProcess.[hm] ([CSwarmProcess -getPageSize]: Change return
+	to size_t.
+	
 1999-03-17  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* Action.h: Include defobj.h instead of FCall.h for protocol FCall.

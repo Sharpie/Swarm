@@ -21,7 +21,7 @@ Library:      activity
   SwarmActivity_c *activity; // activity running swarm subactivities
 }
 /*** Zone pass-through methods (manually inserted) ***/
-- (int)getPageSize;
+- (size_t)getPageSize;
 - allocIVars: aClass;
 - copyIVars: anObject;
 - (void)freeIVars: anObject;
@@ -45,6 +45,7 @@ Library:      activity
 - (void)setSynchronizationType: aScheduleType;
 - (void)setInternalZoneType: internalZoneType;
 - (void)setInternalTimeMultiplier: (timeval_t)internalTimeMultiplier;
+- (void)setPageSize: (size_t)pageSize;
 - createEnd;
 - (timeval_t)getInternalTimeMultiplier;
 - getInternalZone;

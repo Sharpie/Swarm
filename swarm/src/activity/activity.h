@@ -510,7 +510,7 @@ USING
 - getSynchronizationType;
 @end
 
-@protocol SwarmProcess <ActionType, Zone, CREATABLE, SynchronizationType>
+@protocol SwarmProcess <ActionType, Zone, SynchronizationType, CREATABLE>
 //S: An object that holds a collection of concurrent subprocesses.
 
 //D: SwarmProcess inherits the messages of both ActionType and Zone.
@@ -535,7 +535,6 @@ CREATING
 - setInternalZoneType: aZoneType;
 
 USING
-
 //M: getInternalZone returns a Zone object that is used by the swarm to
 //M: hold its internal objects.  Even though the swarm itself inherits from
 //M: Zone and can be used as a Zone for nearly all purposes, this message

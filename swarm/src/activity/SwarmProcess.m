@@ -30,23 +30,22 @@ PHASE(Creating)
   return newSwarm;
 }
 
-- (void) setSynchronizationType: aScheduleType
+- (void)setSynchronizationType: aScheduleType
 {
   syncType = aScheduleType;
 }
 
-- (void) setInternalZoneType: internalZoneType
+- (void)setInternalZoneType: internalZoneType
 {
   internalZone = internalZoneType;
 }
 
-- (void)setPageSize: (int)pageSize
+- (void)setPageSize: (size_t)pageSize
 {
   [internalZone setPageSize: pageSize];
 }
 
- 
-- (void) setInternalTimeMultiplier: (timeval_t)internalTimeMultiplier
+- (void)setInternalTimeMultiplier: (timeval_t)internalTimeMultiplier
 {
   raiseEvent (NotImplemented, nil);
 }
@@ -248,7 +247,7 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
 { if ( internalZone ) [internalZone msg]; \
   else raiseEvent( InvalidSwarmZone, 0 ); }
 
-- (int)getPageSize                   ZMSG_R(getPageSize)
+- (size_t)getPageSize                ZMSG_R(getPageSize)
 - allocIVars: aClass                 ZMSG_R(allocIVars: aClass)
 - copyIVars: anObject                ZMSG_R(copyIVars: anObject)
 - (void)freeIVars: anObject          ZMSG_V(freeIVars: anObject)
