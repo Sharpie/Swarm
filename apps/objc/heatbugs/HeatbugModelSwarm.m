@@ -87,6 +87,8 @@
   [probeMap addProbe: [probeLibrary getProbeForVariable: "minOutputHeat"
 				    inClass: [self class]]];
   [probeMap addProbe: [probeLibrary getProbeForVariable: "maxOutputHeat"
+				    inClass: [self class]]]; 
+  [probeMap addProbe: [probeLibrary getProbeForVariable: "evaporationRate"
 				    inClass: [self class]]];
   [probeMap addProbe: [probeLibrary getProbeForVariable: "randomMoveProbability"
 				    inClass: [self class]]];
@@ -189,6 +191,7 @@
 
     [hbug setIdealTemperature: idealTemp];
     [hbug setOutputHeat: outputHeat];
+    [hbug setRandomMoveProbability: randomMoveProbability];
 
 //    [hbug setX: [uniformRandom rMax: worldXSize]  // random position
 //	  Y: [uniformRandom rMax: worldYSize]];
