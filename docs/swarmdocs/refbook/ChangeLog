@@ -1,3 +1,9 @@
+1998-06-01  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (gridexamples.sgml): After changing directories into
+	$(gridturtle_srcdir) - change directory back to $(srcdir) to
+	restore location.
+
 1998-06-01  Marcus G. Daniels  <mgd@mogollon.santafe.edu>
 
 	* Makefile.am (swarm_srcdir, gridturtle_srcdir): New variables
