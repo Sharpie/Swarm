@@ -1,3 +1,10 @@
+1999-03-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (jdkdir, JAVASTUBS): Substitute.
+	(all, install): Depend on computed variable name based on
+	JAVASTUBS.
+	(all-stubs, install-stubs): Formerly the all and install targets.
+
 1999-03-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-native-method): Print out some return

@@ -3,6 +3,7 @@ EXTRA_DIST = java-stub.el
 abs_top_builddir := $(shell cd $(top_builddir); pwd)
 abs_builddir := $(shell pwd)
 EMACS = TOP_BUILDDIR=$(abs_top_builddir)/ BUILDDIR=$(abs_builddir) @EMACS@
+jdkdir=@jdkdir@
 
 define elcrule
 cp -f $< $(dir $@)_$(notdir $<)
@@ -31,11 +32,18 @@ protocol.elc: $(top_srcdir)/etc/protocol.el
 
 java-stub.elc: protocol.elc
 
-all: stubs
+JAVASTUBS=@JAVASTUBS@
+stubs_ALL=all-stubs
+stubs_INSTALL=install-stubs
+
+all: $($(JAVASTUBS)_ALL)
+install: $($(JAVASTUBS)_INSTALL)
+
+all-stubs: stubs
 	$(MAKE) -C c all
 	$(MAKE) -C swarm all
 
-install: all
+install-stubs: all
 	$(MAKE) -C c install
 	$(MAKE) -C swarm install
 
