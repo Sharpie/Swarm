@@ -270,12 +270,12 @@ empty (const char *str)
 
 - (const char *)getId: (int) which
 {
-  return [((Entry *) myWidgets[which*2 + 1]) getValue];
+  return [((Entry *) myWidgets [which*2 + 1]) getValue];
 }
 
 - idReceive: (int) which
 {
-  id resObj = tkobjc_gimme_ddobj ();
+  id resObj = tkobjc_gimme_drag_and_drop_object ();
 
   [myProbe setArg: which To: tclObjc_objectToName (resObj)];
   

@@ -149,7 +149,7 @@
 
 - idReceive
 {
-  id resObj = tkobjc_gimme_ddobj ();
+  id resObj = tkobjc_gimme_drag_and_drop_object ();
 
   [myProbe setData: myObject To: &resObj]; 
   tkobjc_focus (myEntry);
