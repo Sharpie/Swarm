@@ -445,8 +445,8 @@ tkobjc_raster_create (Raster *raster)
       private->privateColormapFlag = NO;
 #endif
       private->tkwin = tkwin;
-      private->oldpm = NULL;
-      private->pm = NULL;
+      private->oldpm = 0;
+      private->pm = 0;
       raster->private = private;
     }
 }
