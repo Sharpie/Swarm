@@ -1,5 +1,17 @@
 1999-03-15  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* Makefile.am (libdefobj_la_CPPFLAGS): Add 
+	CFLAGS_NOWARN_UNKNOWN_PRAGMAS.
+	Do not override CFLAGS nor OBJCFLAGS.
+	
+	* FCall.m: Hide jniEnv is JDK is not available.
+	Hide JNI function tables if JDK is not available.
+	(init_javacall_tables): Likewise.
+	([FCall -createEnd]): Call fillHiddenArguments outside of the
+	JDK dependent if block.
+
+	* FCall.h: Hide init_javacalltables if JDK is not available. 
+
 	* Makefile.am: Add CFLAGS_NOWARN_UNKNOWN_PRAGMAS to OBJCFLAGS and 
 	CFLAGS to prevent unkown pragma warning while parsing jni.h.
 

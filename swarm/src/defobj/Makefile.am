@@ -9,9 +9,6 @@ JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)
 
 include $(top_srcdir)/src/Makefile.rules
 
-override CFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
-override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
-
 EXTRA_DIST = make-h2x m2h internal.h
 
 INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES) $(FFIINCLUDES)
@@ -30,6 +27,7 @@ SRC = Archiver.m Arguments.m Create.m Customize.m \
 	FCall.m FArguments.m defobj.m internal.m
 
 libdefobj_la_SOURCES = $(SRC)
+libdefobj_la_CPPFLAGS =  @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 libdefobj_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
 bin_SCRIPTS = m2h make-h2x

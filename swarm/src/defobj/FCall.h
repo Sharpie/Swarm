@@ -12,7 +12,9 @@ Library:      defobj
 
 #import "FArguments.h"
 
+#ifdef HAVE_JDK
 void init_javacall_tables (void);
+#endif
 
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 

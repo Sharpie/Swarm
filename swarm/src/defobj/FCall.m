@@ -14,10 +14,16 @@ Library:      defobj
 #import <objc/objc-api.h>
 #include <stdlib.h>
 
+#ifdef HAVE_JDK
 JNIEnv *jniEnv;
+#endif
+
 extern void switch_to_ffi_types (FArguments * self);
+
+#ifdef HAVE_JDK
 void * java_static_call_functions[number_of_types];
 void * java_call_functions[number_of_types];
+#endif
 
 #ifndef HAVE_JDK
 static void
@@ -28,6 +34,7 @@ java_not_available (void)
 }
 #endif
 
+#ifdef HAVE_JDK
 void 
 init_javacall_tables (void)
 {
@@ -87,6 +94,7 @@ init_javacall_tables (void)
   java_call_functions[swarm_type_jobject] = 
       FFI_FN ((*jniEnv)->CallObjectMethod);
 }
+#endif
 
 @implementation FCall
 
@@ -189,6 +197,7 @@ fillHiddenArguments (FCall * self)
     raiseEvent (SourceMessage, "Function to be called not set!\n");
   if (_obj_debug && !args)
     raiseEvent (SourceMessage, "Arguments and return type not specified!\n");
+#ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
       {
         ffunction = (callType == javacall ? 
@@ -204,9 +213,9 @@ fillHiddenArguments (FCall * self)
                                                            args->signature)); 
         if (!fmethod)
           raiseEvent (SourceMessage, "Could not find Java method!\n");
-	fillHiddenArguments (self);
       }
-
+#endif
+  fillHiddenArguments (self);
   switch_to_ffi_types ((FArguments *) args);
   res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
 		      MAX_HIDDEN + args->assignedArguments, 
