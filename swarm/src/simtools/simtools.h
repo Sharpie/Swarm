@@ -119,10 +119,10 @@ void createArchivedProbeDisplayNamed (id obj, const char *name);
 void createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
 
 #define createProbeDisplay(anObject) \
-  _createProbeDisplayNamed(anObject)
+  _createProbeDisplay(anObject)
 
 #define createCompleteProbeDisplay(anObject) \
-  _createCompleteProbeDisplayNamed(anObject)
+  _createCompleteProbeDisplay(anObject)
 
 #define createArchivedProbeDisplay(anObject) \
   createArchivedProbeDisplayNamed(anObject,#anObject)

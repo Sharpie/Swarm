@@ -11,9 +11,9 @@
 #import <malloc.h>
 #import <stdlib.h> // for alpha
 #import <simtools/MessageProbeWidget.h>
-#import <simtools/ProbeDisplay.h>
 #import <simtools/global.h>
 #import <tkobjc/control.h>
+#import <simtools.h>
 
 // Avoid using chars as an index to ctype table.
 #define isSpace(ch) isspace((int)ch)
@@ -196,7 +196,7 @@ empty (const char *str)
 - Spawn
 {
   if (resultObject != nil)
-    [probeDisplayManager createProbeDisplayFor: resultObject];
+    createProbeDisplay (resultObject);
   else
     tkobjc_ringBell ();
   

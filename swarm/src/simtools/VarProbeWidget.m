@@ -4,10 +4,10 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/VarProbeWidget.h>
-#import <simtools/ProbeDisplay.h>
 #import <simtools/global.h>
 #import <objc/objc-api.h>
 #import <tkobjc/control.h>
+#import <simtools.h>
 
 @implementation VarProbeWidget
 
@@ -97,7 +97,7 @@
   id target = (*(id *)[myProbe probeRaw: myObject]);
   
   if (target)
-    [probeDisplayManager createProbeDisplayFor: target];   
+    createProbeDisplay (target);
   else
     {
       tkobjc_ringBell ();
