@@ -1,3 +1,8 @@
+2000-01-20    <mgd@nest.swarm.org>
+
+	* win32dib.c (dib_snapshot): height/width was swapped for 
+	screen snapshot.
+
 2000-01-09    <mgd@nest.swarm.org>
 
 	* internal.m (x_get_managed_toplevel_window): Check that a window

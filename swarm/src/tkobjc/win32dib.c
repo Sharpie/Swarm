@@ -156,8 +156,8 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
 
   if (dib->window == HWND_DESKTOP)
     {
-      height = GetDeviceCaps (hdc, HORZRES);
-      width = GetDeviceCaps (hdc, VERTRES);
+      height = GetDeviceCaps (hdc, VERTRES);
+      width = GetDeviceCaps (hdc, HORZRES);
     }
   else
     {
