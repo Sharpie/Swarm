@@ -231,7 +231,7 @@ probeMap = [probeMap createEnd];
 [probeMap addProbe: [probeLibrary getProbeForVariable: "someIVar"
 inClass: [agent class]]];
 [probeMap addProbe: [probeLibrary getProbeForMessage: "someMessage" 
-inClass: [agent class]] setHideResult: 1]];
+inClass: [agent class] setHideResult: 1]];
 
 [probeLibrary setProbeMap: probeMap For: [agent class]];</programlisting>
 
