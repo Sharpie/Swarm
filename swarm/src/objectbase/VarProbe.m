@@ -22,15 +22,16 @@
 static double
 derefDouble (const void *p)
 {
-#ifdef hpux9
+#if 0
   double val;
-  unsigned *ptr = &val;
+  unsigned *ptr = (unsigned *) &val;
   unsigned temp;
   
-  memcpy (val, p, sizeof (double));
+  memcpy (ptr, p, sizeof (double));
   temp = ptr[0];
   ptr[0] = ptr[1];
   ptr[1] = temp;
+  printf ("deref: %f\n", val);
   return val;
 #else
   return *(double *) p;
@@ -821,7 +822,13 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
     case _C_ULNG_LNG:
       *(unsigned long long *) p = *(unsigned long long *) newValue; break;
     case _C_FLT:  *(float *) p = *(float *) newValue; break;
-    case _C_DBL: *(double *) p = derefDouble (newValue); break;
+    case _C_DBL: 
+    {
+    double val = derefDouble (newValue); 
+    printf ("setData:To: %f\n", val);
+    *(double *) p = val;
+    break;
+    }
     case _C_LNG_DBL:  *(long double *) p = *(long double *) newValue; break;
       
     default:
@@ -1118,6 +1125,7 @@ setFieldFromString (id anObject, jobject field,
 
     case _C_DBL:
       if ((rc = sscanf (s, "%lf", &value.d)) == 1) 
+      printf ("setData:ToString: %f\n", value.d);
         *(double *) p = value.d; 
       break;
 
@@ -1128,7 +1136,7 @@ setFieldFromString (id anObject, jobject field,
         if ((rc = sscanf (s, "%lf", &val)) == 1)
           {
             value.ld = val;
-            *(double *) p = value.ld; 
+            *(long double *) p = value.ld; 
           }
         break;
       }
