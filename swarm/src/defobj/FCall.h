@@ -37,6 +37,12 @@ Library:      defobj
 
 void init_javacall_tables (void);
 
+#ifdef HAVE_JDK
+#define JOBJECT jobject
+#else
+#define JOBJECT void *
+#endif
+ 
 enum callTypes { ccall, objccall, javacall, javastaticcall};
 
 @interface FCall: CreateDrop_s
@@ -61,10 +67,7 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - setCallType: (unsigned int)callType;
 - setFunction: (void (*)())fn;
 - setMethod: (SEL)method inObject: object;
-#ifdef HAVE_JDK
-- setJavaMethod: (const char *)methodName inClass: (const char *)className
-       inObject: (jobject)obj;
-#endif
+- setJavaMethod: (const char *)methodName inObject: (JOBJECT)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
 - setNumberOfArguments: (unsigned)argNo;
 - addArgument: (void *)value ofType: (unsigned int)type;
@@ -75,16 +78,14 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - addFloat: (float)value;
 - addDouble: (double)value;
 - addString: (const char *)value;
-#ifdef HAVE_JDK
-- addJObject: (jobject)value;
-#endif
+- addJObject: (JOBJECT)value;
 - setReturnType: (unsigned int)type;
 - setStringReturnType;
 - setJObjectReturnType;
 - createEnd;
 - (void)_performAction_: anActivity;
 - (const char *)getStringResult;
-- (jobject)getJObjectResult;
+- (JOBJECT)getJObjectResult;
 - (void *)getResult;
 @end
 

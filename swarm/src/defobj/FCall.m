@@ -18,6 +18,13 @@ char * java_type_signatures[number_of_types];
 void * java_static_call_functions[number_of_types];
 void * java_call_functions[number_of_types];
 
+static void
+java_not_available (void)
+{
+  raiseEvent (NotImplemented,
+              "Java support not available on this configuration");
+}
+
 void 
 init_javacall_tables (void)
 {
@@ -116,16 +123,14 @@ init_javacall_tables (void)
 
 - setFunction: (void (*)())fn
 {
-  if (!callType == ccall)
-    raiseEvent (SourceMessage, "Call type and foreign function mismatch!\n");
+  callType = ccall;
   function = fn;
   return self;
 }
 
 - setMethod: (SEL)mtd inObject: obj
 {
-  if (!callType == objccall)
-    raiseEvent (SourceMessage, "Call type and foreign function mismatch!\n");
+  callType = objccall;
   hiddenArguments = 2;
   (id) object = obj;
   (SEL) method = mtd;
@@ -134,24 +139,28 @@ init_javacall_tables (void)
   return self;
 }
 
-- setJavaMethod: (const char *)methodName inClass: (const char *)className
-       inObject: (jobject)obj
+- setJavaMethod: (const char *)methodName inObject: (JOBJECT)obj
 {
-  if (!callType == javastaticcall && !callType == javacall)
-    raiseEvent (SourceMessage, "Call type and foreign function mismatch!\n");
-  if (!javaEnv)
-    javaEnv = [JavaEnv create: globalZone];
-  (jclass) class = (*jniEnv)->FindClass (jniEnv, className);
-  if (!class)
-    raiseEvent(SourceMessage, "Could not find Java class!\n");
+#ifdef HAVE_JDK
+  callType = javacall;
+  (jclass) class = (*jniEnv)->GetObjectClass (jniEnv, obj);
   method = (char *) methodName;
   (jobject) object = obj;
+#else
+  java_not_available();
+#endif
   return self;
 }    
    
 - setJavaMethod: (const char *)methodName inClass: (const char *)className
-{
-  [self setJavaMethod: methodName inClass: className inObject: NULL];
+{ 
+#ifdef HAVE_JDK
+  callType = javastaticcall;
+  (jclass) class = (*jniEnv)->FindClass (jniEnv, className);
+  rmethod = (char *) methodName;
+#else
+  java_not_available();
+#endif
   return self;
 }
 
@@ -197,36 +206,34 @@ init_javacall_tables (void)
 {
   if (assignedArguments == argNo)
     raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n");
-  if (callType == javacall || callType == javastaticcall) 
+
+  if (type <= swarm_type_double && type != swarm_type_float)
     {
-      if (type <= swarm_type_double && type != swarm_type_float)
-	{
-	  argTypes[hiddenArguments + assignedArguments] = (void *) type;
-	  argValues[hiddenArguments + assignedArguments] = 
-	      [[self getZone] allocBlock: swarm_types[type]->size];
-	  memcpy (argValues[hiddenArguments + assignedArguments], 
-		  value, swarm_types[(int) argTypes[hiddenArguments + 
-						   assignedArguments]]->size);
-	  assignedArguments++;
-	  signatureLength++;
-	}
-      else
-	{
-	  switch  (type)
-	    { 
-	    case swarm_type_float:
-	      [self addFloat: *(float *) value];
-	      break;
-	    case swarm_type_string:
-	      [self addString: *(char **) value];
-	      break;
-	    case swarm_type_jobject:
-	      [self addJObject: *(jobject *) value];
-	      break;
-	    default:
-	      raiseEvent (SourceMessage, "Passing pointers or structures to Java is not possible!\n");
-	      break;
-	    }
+      argTypes[hiddenArguments + assignedArguments] = (void *) type;
+      argValues[hiddenArguments + assignedArguments] = 
+	[[self getZone] allocBlock: swarm_types[type]->size];
+      memcpy (argValues[hiddenArguments + assignedArguments], 
+	      value, swarm_types[(int) argTypes[hiddenArguments + 
+					       assignedArguments]]->size);
+      assignedArguments++;
+      signatureLength++;
+    }
+  else
+    {
+      switch  (type)
+	{ 
+	case swarm_type_float:
+	  [self addFloat: *(float *) value];
+	  break;
+	case swarm_type_string:
+	  [self addString: *(char **) value];
+	  break;
+	case swarm_type_jobject:
+	  [self addJObject: *(jobject *) value];
+	  break;
+	default:
+	  raiseEvent (SourceMessage, "Passing pointers or structures to Java is not possible!\n");
+	  break;
 	}
     }
   return self;
@@ -294,6 +301,7 @@ init_javacall_tables (void)
 {
   ADD_COMMON (swarm_type_string);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_string;
+#ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall) 
     {
       jstring jstr;
@@ -305,14 +313,16 @@ init_javacall_tables (void)
       assignedArguments++;
     }
   else
+#endif
       *(char **) argValues[hiddenArguments + assignedArguments++] = value;
   return self;
 }
 
-- addJObject: (jobject)value
+- addJObject: (JOBJECT)value
 {
   ADD_COMMON (swarm_type_jobject);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_jobject;
+#ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall) 
     {
       signatureLength += 18; // strlen("Ljava/lang/Object;") 
@@ -320,6 +330,7 @@ init_javacall_tables (void)
       assignedArguments++;
     }
   else
+#endif
     *(jobject *) argValues[hiddenArguments + assignedArguments++] = value;
   return self;
 }
@@ -328,22 +339,29 @@ init_javacall_tables (void)
 {
   if (type > number_of_types)
       raiseEvent(SourceMessage, "Unkown return type for foerign function call!\n"); 
-
+#ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
     {
-       if (type >= swarm_type_void && type <=swarm_type_double)
-	  signatureLength++;
-       else
-         {
-	    if (type == swarm_type_string)
-	      [self setStringReturnType];
-	    else
-		if (type == swarm_type_jobject)
-		    [self setJObjectReturnType];
-		else
-		    raiseEvent (SourceMessage, "Java methods can not return pointers or structures - specify strings and arrays directly!\n");
-	 }
+      switch (type)
+	{
+	case swarm_type_void:
+	case swarm_type_uchar:
+	case swarm_type_schar:
+	case swarm_type_ushort:
+	case swarm_type_sshort:
+	case swarm_type_uint:
+	case swarm_type_sint:
+	case swarm_type_ulong:
+	case swarm_type_slong:
+	case swarm_type_float:
+	case swarm_type_double: signatureLength++; break;
+	case swarm_type_string: [self setStringReturnType]; break;
+	case swarm_type_jobject: [self setJObjectReturnType]; break;
+	default:
+	  raiseEvent (SourceMessage, "Java methods can not return pointers or structures - specify strings and arrays directly!\n");
+	}
     }
+#endif 
   result = (void *) [[self getZone] allocBlock: swarm_types[type]->size];  
   returnType = (void *) type;
   return self;
@@ -360,10 +378,14 @@ init_javacall_tables (void)
 
 - setJObjectReturnType
 {
+#ifdef HAVE_JDK
   returnType = (void *) swarm_type_jobject;
   result = (void *) [[self getZone] allocBlock: 
 					swarm_types[(int) returnType]->size];
   signatureLength += 18; // == strlen("Ljava.lang.Object;")
+#else
+  java_not_available();
+#endif
   return self;
 }
  
@@ -453,17 +475,23 @@ void switch_to_ffi_types(FCall * self)
 
 - (const char *)getStringResult
 {
+#ifdef HAVE_JDK
   if ((callType == javastaticcall || callType == javacall) && 
       returnType == &ffi_type_pointer)
     return (void *) 
       (*jniEnv)->GetStringUTFChars (jniEnv, *(jobject *) result, 
                                     0); 
+#endif
   return *(char **)result;
 }
 
-- (jobject)getJObjectResult
+- (JOBJECT)getJObjectResult
 {
+#ifdef HAVE_JDK
     return *(jobject *)result;
+#else
+    java_not_available();
+#endif
 }
 
 - (void *)getResult

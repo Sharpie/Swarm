@@ -1,3 +1,11 @@
+1999-03-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* FCall.h (JOBJECT): Define JOBJECT as void * if Java is not available
+	and jobject if Java is available.
+	
+
+	* FCall.m: Use HAVE_JDK to hide related code.
+
 1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.h: Include swarmconfig.h. Only declare
