@@ -1,3 +1,9 @@
+1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Remove graph.el (moved to refbook).
+
+	* docbook.dcl (ATTSPLEN, TAGLEN): Increase to 2169.
+
 1999-04-08  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in: Bump version to 2.0.  Force `aclocal' to use `-I
