@@ -175,7 +175,10 @@ PHASE(Creating)
   if (javaFlag)
     {
       if (type == fcall_type_object)
-        type = fcall_type_jobject;
+	{
+	  type = fcall_type_jobject;
+	  size = fcall_type_size (type);
+	}
       else if (type == fcall_type_string)
         {
           const char *str = *(const char **) value;

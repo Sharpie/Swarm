@@ -1,3 +1,22 @@
+1999-08-19    <mgd@HELEN>
+
+	* directory.m (get_class_name): Use env not jniEnv.
+	Add DISABLE_ZONES macro switches for not depending on Zones
+	(e.g. when you want to do debugging before initSwarm); changes
+	throughout.
+	(java_classname_for_typename, objcFindJavaClassName): New functions.
+	([-objcFindJavaClass:]): Use objcFindJavaClassName.
+	(create_class_refs): Set c_SwarmEnvironment.
+	(create_refs): New function.
+	(get_swarmEnvironment_field): New function.
+	(swarm_directory_init): Use both.  Rewrite to expect pre-instantiated
+	SwarmEnvironment variables.
+
+	* javavars.h: Add c_SwarmEnvironment.
+
+	* FArguments.m ([FArguments_c -_addArgument_:ofType:]): Missing
+	size assignment for object->jobject switcheroo.
+
 1999-08-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javavars.h: Remove m_ClassGetClass.

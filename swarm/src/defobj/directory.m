@@ -20,11 +20,23 @@
 #endif
 #undef extern
 
+#ifndef DISABLE_ZONES
+#define DUPCLASSNAME(str) SSTRDUP(str)
+#define FREECLASSNAME(str) SFREEBLOCK(str)
+#else
+#define DUPCLASSNAME(str) xstrdup (str)
+#define FREECLASSNAME(str) XFREE (str)
+#undef SFREEBLOCK
+#define SFREEBLOCK(mem)
+#undef STRDUP
+#define STRDUP(str) xstrdup (str)
+#undef SSTRDUP
+#define SSTRDUP (str) xstrdup (str)
+#endif
+
 extern void *alloca (size_t);
 
-static jclass c_SwarmEnvironment;
 static jobject swarmEnvironment;
-
 
 #define internalimplementation implementation // defeat make-h2x
 
@@ -63,14 +75,14 @@ get_class_name (JNIEnv *env, jclass class)
   if (!(string = (*env)->CallObjectMethod (env, class, m_ClassGetName)))
     abort ();
 
-  return swarm_directory_copy_java_string (jniEnv, string);  
+  return swarm_directory_copy_java_string (env, string);  
 }
 
-static const char *
+const char *
 get_class_name_from_object (JNIEnv *env, jobject obj)
 {
   jclass class;
-  
+
   if (!(class = (*env)->GetObjectClass (env, obj)))
     abort ();
 
@@ -147,7 +159,7 @@ swarm_directory_java_hash_code (jobject javaObject)
   [outputCharStream catC: " "];
   [outputCharStream catPointer: javaObject];
   [outputCharStream catC: "\n"];
-  SFREEBLOCK (className);
+  FREECLASSNAME (className);
 }
 
 @end
@@ -360,8 +372,8 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return result->object;
 }
 
-static jclass
-java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
+static const char *
+java_classname_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
 {
   extern const char *swarm_lookup_module (const char *name);
   const char *module = swarm_lookup_module (typeName);
@@ -379,24 +391,24 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
   if (!usingFlag)
     p = stpcpy (p, "C");
   p = stpcpy (p, "Impl");
-
-  return (*env)->FindClass (env, javaClassName);
+  return DUPCLASSNAME (javaClassName);
 }
 
-- (jclass)objcFindJavaClass: (Class)class
+static const char *
+objcFindJavaClassName (Class class)
 {
-  jclass javaClass;
+  const char *javaClassName;
   
   if (getBit (class->info, _CLS_DEFINEDCLASS))
     {
-      
       Type_c *typeImpl;
       Class_s *nextPhase;
-      nextPhase= ((BehaviorPhase_s *) class)->nextPhase;
+
+      nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
       typeImpl = [class getTypeImplemented];
-      javaClass = java_class_for_typename (jniEnv,
-                                           typeImpl->name,
-                                           nextPhase == NULL); 
+      javaClassName = java_classname_for_typename (jniEnv,
+						   typeImpl->name,
+						   nextPhase == NULL); 
     }
   else
     {
@@ -404,13 +416,24 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
       typeImpl = [class getTypeImplemented];
       
       if (typeImpl)
-        javaClass = java_class_for_typename (jniEnv, typeImpl->name, YES);
+        javaClassName =
+	  java_classname_for_typename (jniEnv, typeImpl->name, YES);
       else 
-        javaClass = java_class_for_typename (jniEnv, class->name, YES);
+        javaClassName =
+	  java_classname_for_typename (jniEnv, class->name, YES);
     }
-  return javaClass;
+  return javaClassName;
 }
-  
+
+- (jclass)objcFindJavaClass: (Class)class
+{
+  const char *javaClassName = objcFindJavaClassName (class);
+  jclass ret = (*jniEnv)->FindClass (jniEnv, javaClassName);
+
+  FREECLASSNAME (javaClassName);
+  return ret;
+}
+
 - (jobject)objcEnsureJava: object
 {
   DirectoryEntry *result; 
@@ -501,7 +524,6 @@ get_java_class (JNIEnv *env, const char *name)
   return ret;
 }
 
-#if 0
 static jclass
 get_type_field_for_class (JNIEnv *env, jclass clazz)
 {
@@ -518,37 +540,16 @@ get_type_field_for_class (JNIEnv *env, jclass clazz)
   ret = (*env)->NewGlobalRef (env, ret);
   return ret;
 }
-#endif   
 
 static void
 create_class_refs (JNIEnv *env)
 {
   jclass get_primitive (const char *name)
     {
-#if 1
-      char methodName[3 + 9 + strlen (name) + 1];
-      char *p;
-      jmethodID mid;
-      jclass class = (*env)->GetObjectClass (env, swarmEnvironment);
-      jobject obj;
-      
-      p = stpcpy (methodName, "getPrimitive");
-      p = stpcpy (p, name);
-      
-      if (!(mid = (*env)->GetMethodID (env,
-                                       class,
-                                       methodName,
-                                       "()Ljava/lang/Class;")))
-        abort ();
-      obj = (*env)->CallObjectMethod (env, swarmEnvironment, mid);
-      return (*env)->NewGlobalRef (env, obj);
-#else
       return get_type_field_for_class (env, get_java_class (env, name));
-#endif
     }
   if (!initFlag)
    {
-#if 0
       c_char = get_primitive ("Character");
       c_byte = get_primitive ("Byte");
       c_int = get_primitive ("Integer");
@@ -558,7 +559,6 @@ create_class_refs (JNIEnv *env)
       c_double = get_primitive ("Double");
       c_void = get_primitive ("Void");
       c_boolean = get_primitive ("Boolean");
-#endif
 
       c_Boolean = get_java_class (env, "Boolean");
       c_Char = get_java_class (env, "Character");
@@ -589,11 +589,16 @@ create_class_refs (JNIEnv *env)
         abort ();
       c_PhaseCImpl = (*env)->NewGlobalRef (env, c_PhaseCImpl);
 
+      if (!(c_SwarmEnvironment = (*env)->FindClass (env,
+						    "swarm/SwarmEnvironment")))
+	abort ();
+      c_SwarmEnvironment = (*env)->NewGlobalRef (env, c_SwarmEnvironment);
+
       initFlag = YES;
    }
 }
 
-void 
+static void 
 create_method_refs (JNIEnv *env)
 {
   jmethodID findMethodID (const char *name, jclass clazz)
@@ -761,7 +766,7 @@ create_method_refs (JNIEnv *env)
 }
 
 
-void
+static void
 create_field_refs (JNIEnv * env)
 {
 
@@ -809,6 +814,7 @@ get_base_class_name (JNIEnv *env, jobject jobj)
 }
 #endif
 
+#if 0
 static void
 fill_signature (char *buf, const char *className)
 {
@@ -841,9 +847,10 @@ create_signature_from_object (JNIEnv *env, jobject jobj)
   const char *className = get_class_name_from_object (env, jobj);
   const char *ret = create_signature_from_class_name (env, className);
   
-  SFREEBLOCK (className);
+  FREECLASSNAME (className);
   return ret;
 }
+#endif
 
 static Class
 objc_class_for_class_name (const char * classname)
@@ -877,7 +884,8 @@ swarm_directory_java_instantiate (JNIEnv *env, jclass clazz)
 {
   jmethodID mid;
 
-  mid = (*env)->GetMethodID (env, clazz, "<init>","()V");
+  if (!(mid = (*env)->GetMethodID (env, clazz, "<init>","()V")))
+    abort ();
   return (*env)->NewObject (env, clazz, mid);
 }
 
@@ -889,51 +897,66 @@ swarm_directory_next_phase (JNIEnv *env, jobject jobj)
   return (*env)->GetObjectField(env, jobj, f_nextPhase);
 }
 
-void
-swarm_directory_init (JNIEnv *env, jobject _swarmEnvironment)
+jobject
+get_swarmEnvironment_field (JNIEnv *env,
+			    jobject swarmEnvironment,
+			    const char *fieldName)
 {
-  void setFieldInSwarm (const char *className,
-                        const char *fieldName,
-                        id objcObject)
-    {
-      jclass class;
-      jfieldID fid;
-      jobject value;
-      const char *sig;
-
-      class = java_class_for_typename (env, className, YES);
-      value = swarm_directory_java_instantiate (env, class);
-      sig = create_signature_from_object (env, value);
-      fid = (*env)->GetFieldID (env, c_SwarmEnvironment, fieldName, sig);
-      (*env)->SetObjectField (env,
-			      swarmEnvironment,
-			      fid, value);	
-      SD_ADD (env, value, objcObject);
-    }
-  jniEnv = env;
-  swarmEnvironment = _swarmEnvironment;
-  swarmDirectory = [Directory create: globalZone];
+  jobject fieldObject;
   
+  if (!(fieldObject =
+	(*env)->CallObjectMethod (env,
+				  c_SwarmEnvironment, 
+				  m_ClassGetDeclaredField,
+				  (*env)->NewStringUTF (env, fieldName))))
+    abort ();
+  
+  return (*env)->CallObjectMethod (env,
+				   fieldObject,
+				   m_FieldGetObject,
+				   swarmEnvironment);
+}
+
+void
+create_refs (JNIEnv *env)
+{
   create_class_refs (env);
   create_method_refs (env);
   create_field_refs (env);
+}
 
-  if (!(c_SwarmEnvironment = (*env)->GetObjectClass (env, swarmEnvironment)))
-    abort ();
+void
+swarm_directory_init (JNIEnv *env, jobject _swarmEnvironment)
+{
+  void associate (const char *fieldName, id objcObject)
+    {
+      SD_ADD (env,
+	      get_swarmEnvironment_field (env,
+					  _swarmEnvironment,
+					  fieldName),
+	      objcObject);
+    }
+#define ASSOCIATE(fieldName) associate (#fieldName, fieldName)
 
-  setFieldInSwarm ("ProbeLibrary", "probeLibrary", probeLibrary);
-  setFieldInSwarm ("Zone", "globalZone", globalZone);
-  setFieldInSwarm ("UniformIntegerDist",  "uniformIntRand", uniformIntRand);
-  setFieldInSwarm ("UniformDoubleDist", "uniformDblRand", uniformDblRand);
-  setFieldInSwarm ("Symbol", "ControlStateRunning", ControlStateRunning);
-  setFieldInSwarm ("Symbol", "ControlStateStopped", ControlStateStopped);
-  setFieldInSwarm ("Symbol", "ControlStateStepping", ControlStateStepping);
-  setFieldInSwarm ("Symbol", "ControlStateQuit", ControlStateQuit);
-  setFieldInSwarm ("Symbol", "ControlStateNextTime", ControlStateNextTime);
-  setFieldInSwarm ("ProbeDisplayManager","probeDisplayManager", 
-		   probeDisplayManager);
-  
+  jniEnv = env;
+  swarmEnvironment = (*env)->NewGlobalRef (env, _swarmEnvironment);
+  swarmDirectory = [Directory create: globalZone];
 
+  create_refs (env);
+
+  ASSOCIATE (globalZone);
+
+  ASSOCIATE (uniformIntRand);
+  ASSOCIATE (uniformDblRand);
+
+  ASSOCIATE (probeLibrary);
+  ASSOCIATE (probeDisplayManager);
+
+  ASSOCIATE (ControlStateRunning);
+  ASSOCIATE (ControlStateStopped);
+  ASSOCIATE (ControlStateStepping);
+  ASSOCIATE (ControlStateQuit);
+  ASSOCIATE (ControlStateNextTime);
 }
 
 SEL
@@ -1007,114 +1030,6 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
               {
                 return (*env)->IsSameObject (env, class, matchClass);
               }
-            BOOL booleanp ()
-              {
-                jmethodID mid;
-      
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "booleanp",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              }
-            BOOL characterp ()
-              {
-                jmethodID mid;
-      
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "characterp",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              } 
-           BOOL bytep ()
-              {
-                jmethodID mid;
-      
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "bytep",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              }
-            BOOL integerp ()
-              {
-                jmethodID mid;
-                
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "integerp",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              }
-            BOOL shortp ()
-              {
-                jmethodID mid;
-                
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "shortp",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              }
-            BOOL longp ()
-              {
-                jmethodID mid;
-                
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "longp",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              }
-            BOOL floatp ()
-              {
-                jmethodID mid;
-                
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "floatp",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              }
-            BOOL doublep ()
-              {
-                jmethodID mid;
-                
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "doublep",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              }
-            BOOL voidp ()
-              {
-                jmethodID mid;
-                
-                if (!(mid = (*env)->GetMethodID (env,
-                                                 c_SwarmEnvironment,
-                                                 "voidp",
-                                                 "(Ljava/lang/Class;)Z")))
-                  abort ();
-                return (*env)->CallBooleanMethod (env, swarmEnvironment,
-                                                  mid, class);
-              }
             BOOL classp (jclass matchClass)
               {
                 jobject clazz;
@@ -1132,23 +1047,23 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
               type = _C_CHARPTR;
             else if (classp (c_Class))
               type = _C_CLASS;
-            else if (integerp ())
+            else if (exactclassp (c_int))
               type = _C_INT;
-            else if (shortp ())
+            else if (exactclassp (c_short))
               type = _C_SHT;
-            else if (longp ())
+            else if (exactclassp (c_long))
               type = _C_LNG;
-            else if (booleanp ())
+            else if (exactclassp (c_boolean))
               type = _C_UCHR;
-            else if (bytep ())
+            else if (exactclassp (c_byte))
               type = _C_UCHR;
-            else if (characterp ())
+            else if (exactclassp (c_char))
               type = _C_CHR;
-            else if (floatp ())
+            else if (exactclassp (c_float))
               type = _C_FLT;
-            else if (doublep ())
+            else if (exactclassp (c_double))
               type = _C_DBL;
-            else if (voidp ())
+            else if (exactclassp (c_void))
               type = _C_VOID;
             else
               type = _C_ID;
@@ -1194,7 +1109,7 @@ swarm_directory_ensure_class (JNIEnv *env, jclass javaClass)
       const char *className = get_class_name (env, javaClass);
 
       objcClass = objc_class_for_class_name (className);
-      SFREEBLOCK (className);
+      FREECLASSNAME (className);
       
       // if the corresponding class does not exist create new Java Proxy
       
@@ -1211,7 +1126,7 @@ swarm_directory_copy_java_string (JNIEnv *env, jstring javaString)
 {
   jboolean isCopy;
   const char *str = (*env)->GetStringUTFChars (env, javaString, &isCopy);
-  const char *ret = SSTRDUP (str);
+  const char *ret = DUPCLASSNAME (str);
 
   if (isCopy)
     (*env)->ReleaseStringUTFChars (env, javaString, str);
@@ -1260,9 +1175,9 @@ swarm_directory_get_swarm_class (id object)
       id proxy;
 
       jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
-      className = get_class_name (jniEnv, jcls);
+      className = get_class_name_from_object (jniEnv, jobj);
       result = objc_class_for_class_name (className);
-      SFREEBLOCK (className);
+      FREECLASSNAME (className);
       if (result)
         return result;      
       if ((proxy = SD_FINDOBJC (jniEnv, jcls)))
@@ -1282,10 +1197,7 @@ swarm_directory_get_language_independent_class_name  (id object)
   jobject jobj;
 
   if ((jobj = SD_FINDJAVA (jniEnv, object)))
-    {
-      jclass jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
-      return get_class_name (jniEnv, jcls);
-    }
+    return get_class_name_from_object (jniEnv, jobj);
   else 
     return (const char *) (getClass (object))->name;      
 #else
