@@ -27,6 +27,8 @@
 #undef PACKAGE
 #undef VERSION
 #include <config.h>
+#undef PACKAGE
+#undef VERSION
 
 #if defined(__hpux__) && defined(HAVE_SYS_SIGEVENT_H)
 #include <sys/sigevent.h>
