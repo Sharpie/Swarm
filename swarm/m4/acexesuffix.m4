@@ -5,6 +5,10 @@ AC_TRY_COMPILE([#ifdef __CYGWIN32__
 #endif],[],
 EXESUFFIX='',
 EXESUFFIX=.exe)
+if test -z "$EXESUFFIX" ; then
+AC_MSG_RESULT(none)
+else
 AC_MSG_RESULT($EXESUFFIX)
+fi
 AC_SUBST(EXESUFFIX)
 ])
