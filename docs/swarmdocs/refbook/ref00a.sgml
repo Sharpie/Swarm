@@ -1,6 +1,6 @@
 <PREFACE ID="SWARM.COMPATIBILITY.SGML.PREFACE">
   <TITLE>Swarm Changes and Compatibility</TITLE>
-
+  
   <SIDEBAR>
     <TITLE>Notes on Porting</TITLE>
     
@@ -51,19 +51,62 @@
     </PARA>
   </SIDEBAR>
 
+  <sect1>
+    <title>Porting from 1.3 or 1.3.1 to 1.4</title>
+    <itemizedlist>
+      <listitem>
+        <para>The contents of your current
+          <filename>~/.swarmArchiver</filename> (which holds the
+          window geometry and positioning for all your Swarm
+          applications will no longer work with Swarm 1.4.  It is
+          recommended that users delete this file before running their
+          re-compiled applications and then resave the application
+          after re-setting the desired window positions.  This will
+          have the effect of regenerating a new
+          <filename>~/.swarmArchiver</filename> with the correct
+          syntax.  (Note that <filename>~</filename> in the above
+          description refers to your home directory).
+        </para>
+      </listitem>
+      <listitem>
+        <para>The <classname>Arguments</classname> protocol has moved
+          from the <literal>objectbase</literal> library to the
+          <literal>defobj</literal> library.  If you were subclassing
+          from the <classname>Arguments</classname> class you will now
+          need to subclass from <classname>Arguments_c</classname> and
+          import the <filename>defobj.h</filename> header file.</para>
+      </listitem>
+      <listitem>
+        <para>The <classname>ListShuffler</classname> class has been
+          moved from <literal>simtools</literal> to
+          <literal>collections</literal>.  You must now import
+          <filename>collections.h</filename>.  Alternatively you can
+          use the new <function>[beginPermuted: aZone]</function>
+          index creation method on a collection from the <link
+          linkend="swarm.collections.collection.protocol">Collection</link>
+          protocol in place of the
+          <classname>ListShuffler</classname> protocol.
+        </para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
   <SECT1>
     <TITLE>Porting from 1.2 to 1.3</TITLE>
     <ITEMIZEDLIST>
       <LISTITEM>
-        <PARA>The location for Makefile.appl is now $(SWARMHOME)/etc/swarm
-          instead of $(SWARMHOME).  Change the `include' directive in your
-          application or library make file to the new pathname.
+        <PARA>The location for <filename>Makefile.appl</filename> is
+          now <filename>$(SWARMHOME)/etc/swarm</filename> instead of
+          <filename>$(SWARMHOME)</filename>.  Change the `include'
+          directive in your application or library make file to the
+          new pathname.
           </PARA>
         </LISTITEM>
       <LISTITEM>
-        <PARA>ActiveGraph and ActiveOutFile have been moved to the 
+        <PARA>ActiveGraph and ActiveOutFile have been moved to the
           analysis library.  The accommodate this, ensure that any
-          source file that uses these protocols includes analysis.h.
+          source file that uses these protocols includes
+          <filename>analysis.h</filename>.
         </PARA>
         </LISTITEM>
       </ITEMIZEDLIST>
@@ -95,8 +138,9 @@
             individual class header files.</PARA></LISTITEM>
 
         <LISTITEM>
-          <PARA>The XPixmap protocol has now been changed to Pixmap to
-            divorce itself from it's association with
+          <PARA>The <classname>XPixmap</classname> protocol has now
+            been changed to <classname>Pixmap</classname> to divorce
+            itself from it's association with
             X-Windows.</PARA></LISTITEM>
 
       </ITEMIZEDLIST>
@@ -107,11 +151,13 @@
       <TITLE>Porting Guide</TITLE>
 
       <ITEMIZEDLIST>
-        <LISTITEM><PARA>Any subclass of a class defined as a Swarm protocol
-          now requires the *specific* importation of that protocol's
-          header file.  Previously, only a warning was raised.  This
-          particularly affects Swarm and SwarmObject.  If you define
-          something like:
+        <LISTITEM><PARA>Any subclass of a class defined as a Swarm
+          protocol now requires the *specific* importation of that
+          protocol's header file.  Previously, only a warning was
+          raised.  This particularly affects
+          <classname>Swarm</classname> and
+          <classname>SwarmObject</classname>.  If you define something
+          like:
 
 <PROGRAMLISTING>
   @interface MyObject: SwarmObject
@@ -124,7 +170,7 @@
 </PROGRAMLISTING>
  
           Similarly, if you subclass from Swarm, you will require
-        objectbase/Swarm.h </PARA></LISTITEM>
+            <filename>objectbase/Swarm.h</filename> </PARA></LISTITEM>
 
         <LISTITEM><PARA>All references to objects conforming to Swarm
           protocols should either be defined to conform to the
@@ -153,9 +199,10 @@
     </SECT2>
 
     <SECT2>
-      <TITLE>Porting example: heatbugs</TITLE>
+      <TITLE>Porting example:
+      <application>heatbugs</application></TITLE>
 
-      <PARA><EMPHASIS>HeatSpace.h</EMPHASIS></PARA>
+      <PARA><FILENAME>HeatSpace.h</FILENAME></PARA>
 
       <ITEMIZEDLIST>
         <LISTITEM>
@@ -164,7 +211,7 @@
         </LISTITEM>
       </ITEMIZEDLIST>
 
-      <PARA><EMPHASIS>Heatbug.h:</EMPHASIS></PARA>
+      <PARA><FILENAME>Heatbug.h</FILENAME></PARA>
 
       <ITEMIZEDLIST>
         <LISTITEM>
@@ -174,7 +221,7 @@
         </LISTITEM>
       </ITEMIZEDLIST>
 
-      <PARA><EMPHASIS>Heatbug.m</EMPHASIS></PARA>
+      <PARA><FILENAME>Heatbug.m</FILENAME></PARA>
 
       <ITEMIZEDLIST>
         <LISTITEM>
@@ -183,7 +230,7 @@
         </LISTITEM>
       </ITEMIZEDLIST>
 
-      <PARA><EMPHASIS>HeatbugModelSwarm.h</EMPHASIS></PARA>
+      <PARA><FILENAME>HeatbugModelSwarm.h</FILENAME></PARA>
       
       <ITEMIZEDLIST>
         <LISTITEM>
@@ -222,9 +269,9 @@
     </SECT2>
 
     <SECT2>
-      <TITLE>Porting example: mousetrap</TITLE>
+      <TITLE>Porting example: <APPLICATION>mousetrap</APPLICATION></TITLE>
 
-      <PARA><EMPHASIS>MousetrapModelSwarm.h</EMPHASIS></PARA>
+      <PARA><FILENAME>MousetrapModelSwarm.h</FILENAME></PARA>
 
       <ITEMIZEDLIST>
         <LISTITEM>
@@ -247,7 +294,7 @@
         </LISTITEM>
       </ITEMIZEDLIST>
 
-      <PARA><EMPHASIS>MousetrapObserverSwarm.h</EMPHASIS></PARA>
+      <PARA><FILENAME>MousetrapObserverSwarm.h</FILENAME></PARA>
 
       <ITEMIZEDLIST>
         <LISTITEM>
@@ -258,7 +305,7 @@
         </LISTITEM>
       </ITEMIZEDLIST>
 
-      <PARA><EMPHASIS>Mousetrap.h</EMPHASIS></PARA>
+      <PARA><FILENAME>Mousetrap.h</FILENAME></PARA>
 
       <ITEMIZEDLIST>
         <LISTITEM>
@@ -397,7 +444,7 @@ ProbeDisplayManager</PROGRAMLISTING>
                   Colormap for the Value2dDisplay class ([Value2dDisplay
                   -Colormap]) to lowercase ([Value2dDisplay -colormap])
                   to avoid namespace conflicts with Colormap class.  For
-                  example, in heatbugs:
+                  example, in <APPLICATION>heatbugs</APPLICATION>:
                   
                   <PROGRAMLISTING>
 [heatDisplay setDisplayWidget: worldRaster Colormap: colormap];      
@@ -457,17 +504,18 @@ ProbeDisplayManager</PROGRAMLISTING>
     </SECT2>
 
     <SECT2>
-      <TITLE>Porting example: heatbugs</TITLE>
+      <TITLE>Porting example: <APPLICATION>heatbugs</APPLICATION></TITLE>
 
       <PARA>To help users port their applications to 1.1, I have
         included a checklist of changes that were required to update
-        heatbugs from 1.0.5 to 1.1.  This may help some users as a
-        kind of "template" for changes they may require for their
-        applications.  The <EMPHASIS>ChangeLog</EMPHASIS> entries in in
-        the heatbug-1.1 distribution also provide further specific
-        information.</PARA>
+        <APPLICATION>heatbugs</APPLICATION> from 1.0.5 to 1.1.  This
+        may help some users as a kind of "template" for changes they
+        may require for their applications.  The
+        <FILENAME>ChangeLog</FILENAME> entries in in the<application>
+        heatbug-1.1</application> distribution also provide further
+        specific information.</PARA>
 
-      <PARA><EMPHASIS>Heatbug.h</EMPHASIS></PARA>
+      <PARA><FILENAME>Heatbug.h</FILENAME></PARA>
 
       <ITEMIZEDLIST> 
         <LISTITEM><PARA>
@@ -479,7 +527,7 @@ ProbeDisplayManager</PROGRAMLISTING>
             &lt;Raster>) <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
         </ITEMIZEDLIST>
         
-      <PARA><EMPHASIS>Heatbug.m</EMPHASIS></PARA>
+      <PARA><FILENAME>Heatbug.m</FILENAME></PARA>
 
       <ITEMIZEDLIST> 
         
@@ -496,7 +544,7 @@ ProbeDisplayManager</PROGRAMLISTING>
         
       </ITEMIZEDLIST>
  
-      <PARA><EMPHASIS>HeatbugBatchSwarm.h</EMPHASIS></PARA>
+      <PARA><FILENAME>HeatbugBatchSwarm.h</FILENAME></PARA>
 
       <ITEMIZEDLIST> 
         <LISTITEM><PARA>
@@ -504,14 +552,14 @@ ProbeDisplayManager</PROGRAMLISTING>
           <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
       </ITEMIZEDLIST>
 
-      <PARA><EMPHASIS>HeatbugBatchSwarm.m</EMPHASIS></PARA>
+      <PARA><FILENAME>HeatbugBatchSwarm.m</FILENAME></PARA>
 
       <ITEMIZEDLIST> 
         <LISTITEM><PARA>
           Removed redundant &lt;collections.h> <EMPHASIS>(x)</EMPHASIS></PARA></LISTITEM>
       </ITEMIZEDLIST>
       
-      <PARA><EMPHASIS>HeatbugModelSwarm.h</EMPHASIS></PARA>
+      <PARA><FILENAME>HeatbugModelSwarm.h</FILENAME></PARA>
       
       <ITEMIZEDLIST>
         <LISTITEM><PARA>Removed &lt;tkobjc.h> irrelevant in this context - tkobjc should
@@ -528,7 +576,7 @@ ProbeDisplayManager</PROGRAMLISTING>
         
       </ITEMIZEDLIST>
       
-      <PARA>HeatbugModelSwarm.m</PARA>
+      <PARA><filename>HeatbugModelSwarm.m</filename></PARA>
       
       <ITEMIZEDLIST> 
         <LISTITEM><PARA>
@@ -536,7 +584,7 @@ ProbeDisplayManager</PROGRAMLISTING>
           random number generators. <EMPHASIS>(*)</EMPHASIS></PARA></LISTITEM>
       </ITEMIZEDLIST>
       
-      <PARA><EMPHASIS>HeatbugObserverSwarm.h</EMPHASIS></PARA>
+      <PARA><FILENAME>HeatbugObserverSwarm.h</FILENAME></PARA>
       
       <ITEMIZEDLIST> 
         <LISTITEM><PARA>
@@ -579,7 +627,7 @@ ProbeDisplayManager</PROGRAMLISTING>
 </PARA></LISTITEM>
     </ITEMIZEDLIST>
       
-      <PARA><EMPHASIS>HeatbugObserverSwarm.m</EMPHASIS></PARA>
+      <PARA><FILENAME>HeatbugObserverSwarm.m</FILENAME></PARA>
         
       <ITEMIZEDLIST> 
         
@@ -604,7 +652,7 @@ ProbeDisplayManager</PROGRAMLISTING>
         
       </ITEMIZEDLIST>
       
-      <PARA><EMPHASIS>main.m</EMPHASIS></PARA>
+      <PARA><FILENAME>main.m</FILENAME></PARA>
       
       <ITEMIZEDLIST> 
         
@@ -826,9 +874,9 @@ ProbeDisplayManager</PROGRAMLISTING>
           </PARA></LISTITEM>
 
         <LISTITEM><PARA> The functionality of
-            <EMPHASIS>Zone</EMPHASIS>s has been greatly improved and
+            <CLASSNAME>Zone</CLASSNAME>s has been greatly improved and
             expanded upon. Most of the aspects of the idea behind
-            <EMPHASIS>Zone</EMPHASIS>s are now in place.  However,
+            <CLASSNAME>Zone</CLASSNAME>s are now in place.  However,
             there is one incompatibility that must be noted in case
             your code is fairly old. The dropFrom: message has been
             removed. Even though it was still present in recent

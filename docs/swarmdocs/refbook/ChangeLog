@@ -1,3 +1,7 @@
+1999-01-13  Alex Lancaster  <alex@santafe.edu>
+
+	* ref00a.sgml (SECT1): Add porting notes for Swarm 1.4.
+
 1999-01-07  Alex Lancaster  <alex@santafe.edu>
 
 	* ref00a.sgml: Make SIMPLELIST an ITEMIZEDLIST.
