@@ -32,7 +32,9 @@
 
 typedef struct TkColormap TkColormap;
 typedef struct TkGrabEvent TkGrabEvent;
+#if 0
 typedef struct Tk_PostscriptInfo Tk_PostscriptInfo;
+#endif
 typedef struct TkpCursor_ *TkpCursor;
 typedef struct TkRegion_ *TkRegion;
 typedef struct TkStressedCmap TkStressedCmap;

@@ -16,7 +16,6 @@ externvardef id <TkExtra> globalTkInterp;
 #import "analysis_tcl.x"
 #ifdef _WIN32
 #import "comm_tcl.x"
-#import "tkbusy_tcl.x"
 #endif
 
 id <Error> WindowCreation, WindowUsage, MissingFiles,
@@ -64,7 +63,6 @@ initTkObjc (id arguments)
 
         [globalTkInterp eval: comm_tcl];
         [globalTkInterp eval: "set %s [comm new %s]", appName, appName];
-        [globalTkInterp eval: tkbusy_tcl];
       }
 #endif
     }

@@ -1,3 +1,9 @@
+2000-03-25    <mgd@HELEN>
+
+	* tkWinPort.h: Comment out panic.
+
+	* tkInt.h: Comment out Tk_PostScriptInfo.
+
 1999-04-29  Marcus G. Daniels  <mgd@chimayo.santafe.edu>
 
 	* tkWinPort.h: Comment out timezone struct definition.
