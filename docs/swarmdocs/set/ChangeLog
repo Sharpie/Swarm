@@ -1,4 +1,11 @@
-2000-03-28    <mgd@nest.swarm.org>
+2000-05-30  Alex Lancaster  <alex@santafe.edu>
+
+	* setmeta.sgml: GRAPHIC tag has no content, remove obsoleted
+	BOOKBIBLIO tag.
+
+	* set.sgml: Update DOCTYPE to DocBook DTD V4.0.
+
+2000-03-28  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Swarmdocs 2.1.1 frozen.
 

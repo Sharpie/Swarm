@@ -1,6 +1,6 @@
 <SETINFO>
 
-  <GRAPHIC ENTITYREF="settitlelogo" ALIGN="CENTER"></GRAPHIC>
+  <GRAPHIC ENTITYREF="settitlelogo" ALIGN="CENTER">
 
   <TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
   
