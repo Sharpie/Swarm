@@ -167,6 +167,9 @@ CREATING
 //M: Called to set a name for archiving.
 - setWindowGeometryRecordName: (const char *)recordName;
 
+//M: Determines whether or not size is saved in addition to position.
+- setSaveSizeFlag: (BOOL)saveSizeFlag;
+
 - loadWindowGeometryRecord;
 - registerAndLoad;
 USING
