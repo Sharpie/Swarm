@@ -1,3 +1,8 @@
+1998-04-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Raster.m ([Raster -drawPointX:Y:Color:]): Pass a color index,
+	not a pixel value to tkobjc_raster_drawPoint.
+
 1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* common.m: Include internal.h instead of tk.h.

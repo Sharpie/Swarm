@@ -118,7 +118,7 @@
 // draw a point on the window.
 - drawPointX: (int)x Y: (int)y Color: (Color)c
 {
-  tkobjc_raster_drawPoint (self, x, y, map[c]);
+  tkobjc_raster_drawPoint (self, x, y, c);
 
   return self;
 }
