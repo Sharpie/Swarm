@@ -3,12 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/global.h>
 #import <tkobjc/Button.h>
+#include <misc.h> // strcpy, stpcpy
 
 @implementation Button
 
@@ -36,10 +33,10 @@
 
 - setButtonTarget: target method: (SEL)sel
 {
-  char bcmd[1024];
+  char bcmd[1024], *p;
   
-  strcpy (bcmd, [target getObjectName]);
-  strcat (bcmd, " dynamic");
+  p = stpcpy (bcmd, [target getObjectName]);
+  strcpy (p, " dynamic");
   [self setCommand: bcmd];
   
   return self;

@@ -1,3 +1,54 @@
+1998-04-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* testGraph.m, testHistogram.m: Don't include stdio.h, stdlib.h,
+	or collections.h.
+	
+	* RectangleNodeItem.m: Include Widget.h and global.h.
+
+	* Circle.m, Rectangle.h, RectangleNodeItem.h, TextItem.h: Don't
+	include global.h or Widget.h.
+
+	* LinkItem.m: Include NodeItem.h.
+
+	* LinkItem.h: Don't include NodeItem.h.
+
+	* common.m: Include misc.h instead of string.h.
+
+	* CheckButton.m, Entry.m, Form.m: Don't include stdio.h, stdlib.h,
+	or string.h.
+
+	* TkExtra.m: Don't include stdarg.h, stdio.h, or string.h. Remove
+	duplicate include of unistd.h. 
+
+	* Entry.m: Don't include tclObjc.h or TkInterp.h.
+
+	* Button.m, ButtonPanel.m, Circle.m, ClassDisplayHideButton.m,
+	Histogram.m, Line.m, LinkItem.m, OvalNode.m, Rectangle.m,
+	RectangleNodeItem.m: Don't include string.h, stdio.h, or stdlib.h.
+	Include misc.h.
+
+	* Circle.m, Line.m, Rectangle.h, WindowGeometryRecord.h: Reformatting
+	throughout.
+
+	* ClassDisplayHideButton.m (tkobjc_packForgetArmSuperAndResize),
+	OvalNode.m (-createItem), RectangleNodeItem.m (-createItem): Use
+	xfree instead of free.
+
+	* ClassDisplayHideButton.m:
+	(tkobjc_packForgetArmSuperAndResize): Use -getObjectName instead
+	of tclObjc_objectToName. 
+	(tkobjc_configureWidgetToDrop): Likewise.
+
+	* InputWidget.m: Don't include stdlib.h.  Include misc.h.
+	Use xmalloc instead of malloc.
+
+	* CompositeItem.m: Don't include string.h, stdio.h, or stdlib.h.
+	Reformatting throughout.
+
+	* ArchivedGeometryWidget.h, Circle.h, Line.h, LinkItem.h,
+	NodeItem.h, OvalNodeItem.h, Rectangle.h, RectangleNodeItem.h,
+	TextItem.h: Don't include objectbase/SwarmObject.h.
+
 1998-04-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* win32dib.c (dib_copy): Copy the colormap information.

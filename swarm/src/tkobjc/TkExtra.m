@@ -3,18 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-
 #import <tkobjc/TkExtra.h>
 #import <objectbase.h>
 #import <objectbase/Arguments.h>
 
 #include <tcl.h>
 #include <unistd.h> // access
-#include <misc.h>
+#include <misc.h> // strdup
 
 @implementation TkExtra
 

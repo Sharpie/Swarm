@@ -9,7 +9,7 @@
 #import <tkobjc/common.h>
 
 #include <tk.h>
-#include <string.h>
+#include <misc.h> // strdup
 
 void
 tkobjc_dragAndDropTarget (id target, id object)

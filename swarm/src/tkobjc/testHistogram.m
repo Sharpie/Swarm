@@ -3,10 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <stdio.h>
-#import <stdlib.h>
 #import <tkobjc.h>
-#import <collections.h>
 #import <objectbase/Arguments.h>
 
 int valueOne;
@@ -24,7 +21,7 @@ main (int argc, const char **argv)
   {"black", "grey50", "red", "green", "blue", "orange", "purple", "yellow",
    "black", "grey50", "red", "green", "blue", "orange", "purple", "yellow"};
   
-  initModule(collections);
+  initModule (collections);
   initTkObjc ([Arguments createArgc: argc Argv: argv]);
   
   h = [Histogram create: globalZone];

@@ -3,15 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/OvalNodeItem.h>
+#include <misc.h> // strdup, xfree
 
 @implementation OvalNodeItem
 
@@ -37,7 +32,7 @@
   [globalTkInterp eval: "%s delete %s",
                   [canvas getWidgetName],text];
   
-  free ((void *)text);
+  xfree ((void *)text);
   
   text = strdup ([[globalTkInterp 
                     eval: 

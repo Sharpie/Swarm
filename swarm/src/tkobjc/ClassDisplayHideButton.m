@@ -4,21 +4,17 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/ClassDisplayHideButton.h>
-
-#include <stdlib.h>
-#include <string.h>
-
-#include <tclObjc.h>
 #include <tkobjc/global.h>
 #include <tkobjc/common.h>
+#include <misc.h> // xfree
 
 @implementation ClassDisplayHideButton
 
 static void
 tkobjc_packForgetArmSuperAndResize (id hideB, id user, id subWidget, id owner)
 {
-  const char *subWidgetName = strdup (tclObjc_objectToName (subWidget));
-  const char *ownerName = tclObjc_objectToName (owner);
+  const char *subWidgetName = [subWidget getObjectName];
+  const char *ownerName = [owner getObjectName];
 
   [globalTkInterp 
     eval: 
@@ -28,7 +24,7 @@ tkobjc_packForgetArmSuperAndResize (id hideB, id user, id subWidget, id owner)
     subWidgetName,
     ownerName];
 
-  free ((void *)subWidgetName);
+  xfree ((void *)subWidgetName);
 }
 
 static void
@@ -38,7 +34,7 @@ tkobjc_configureWidgetToDrop (id widget, id owner)
     eval:
       "%s configure -command {%s markForDrop}",
     [widget getWidgetName],
-    tclObjc_objectToName (owner)];
+    [owner getObjectName]];
 }
 
 static void

@@ -3,15 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/global.h>
 #import <collections/String.h>
 #import <tkobjc/ButtonPanel.h>
 #import <tkobjc/Button.h>
 #import <tkobjc/global.h>
+#include <misc.h> // strdup
 
 @implementation ButtonPanel
 

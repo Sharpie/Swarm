@@ -3,13 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/RectangleNodeItem.h>
+#import <tkobjc/Widget.h>
+#include <tkobjc/global.h>
+#include <misc.h> // strdup, xfree
 
 @implementation RectangleNodeItem
 
@@ -40,7 +37,7 @@
                   [canvas getWidgetName],
                   text];
 
-  free ((void *)text);
+  xfree ((void *)text);
 
   text =
     strdup ([[globalTkInterp

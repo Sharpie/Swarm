@@ -7,13 +7,10 @@
 // more gracefully. Bindings to mouse (seem BLT demos), autoscrolling,
 // etc should be added.
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/global.h>
 #import <TkInterp.h>
 #import <tkobjc/Histogram.h>
+#include <misc.h> // strdup
 
 @implementation Histogram
 
@@ -61,6 +58,7 @@
 - drawHistogramWithDouble: (double *) points
 {
   int i;
+
   for (i = 0; i < numPoints; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %f }",
 		    widgetName, elements[i], i, points[i]];
@@ -71,6 +69,7 @@
 - drawHistogramWithInt: (int *) points
 {
   int i;
+
   for (i = 0; i < numPoints; i++)
     [globalTkInterp eval: "%s element configure %s -data { %d %d }",
 		    widgetName, elements[i], i, points[i]];
@@ -80,6 +79,7 @@
 - drawHistogramWithInt: (int *) points atLocations: (double *) locations
 {
   int i;
+
   for (i = 0; i < numPoints; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %d }",
 		    widgetName, elements[i], locations[i], points[i]];
@@ -89,6 +89,7 @@
 - drawHistogramWithDouble: (double *) points atLocations: (double *) locations
 {
   int i;
+
   for (i = 0; i < numPoints; i++)
     [globalTkInterp eval: "%s element configure %s -data { %g %g }",
 		    widgetName, elements[i], locations[i], points[i]];
@@ -105,8 +106,10 @@
 
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
-  [globalTkInterp eval: "%s xaxis configure -title \"%s\"; %s yaxis configure -title \"%s\";",
-		  widgetName, xl, widgetName, yl];
+  [globalTkInterp
+    eval:
+      "%s xaxis configure -title \"%s\"; %s yaxis configure -title \"%s\";",
+    widgetName, xl, widgetName, yl];
   return self;
 }
 

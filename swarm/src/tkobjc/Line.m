@@ -3,33 +3,31 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/Line.h>
 
+#include <misc.h>
+
 @implementation Line
 
--setTX: (int) the_tx TY: (int) the_ty LX: (int) the_lx LY: (int) the_ly {
-  tx = the_tx ;
-  ty = the_ty ;
-  lx = the_lx ;
-  ly = the_ly ;
-  return self ;
+- setTX: (int)the_tx TY: (int)the_ty LX: (int)the_lx LY: (int)the_ly
+{
+  tx = the_tx;
+  ty = the_ty;
+  lx = the_lx;
+  ly = the_ly;
+
+  return self;
 }
  
--createItem {
-
+- createItem
+{
   [globalTkInterp eval: 
     "%s create line %d %d %d %d", 
     [canvas getWidgetName],tx,ty,lx,ly];
   
-  item = strdup([globalTkInterp result]) ;
+  item = strdup ([globalTkInterp result]);
 
   return self;
 }

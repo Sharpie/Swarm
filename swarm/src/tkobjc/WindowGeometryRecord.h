@@ -5,7 +5,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface WindowGeometryRecord : SwarmObject
+@interface WindowGeometryRecord: SwarmObject
 {
   id windowGeometryString;
 }
@@ -13,7 +13,7 @@
 - setWindowGeometry : (const char *)theWindowGeometryString;
 - (void)describe : outputCharStream;
 
-- in : expr;
-+ in : aZone expr: expr;
-- out : outputCharStream;
+- in: expr;
++ in: aZone expr: expr;
+- out: outputCharStream;
 @end

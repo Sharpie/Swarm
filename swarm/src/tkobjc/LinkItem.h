@@ -3,9 +3,6 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <objectbase/SwarmObject.h>
-
-#import <tkobjc/NodeItem.h>
 #import <tkobjc/CompositeItem.h>
 
 @interface LinkItem: CompositeItem

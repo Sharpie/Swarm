@@ -6,8 +6,7 @@
 #import "internal.h"
 #import <tkobjc/global.h>
 #import <tkobjc/InputWidget.h>
-
-#include <stdlib.h>
+#include <misc.h>
 
 @implementation InputWidget
 
@@ -17,7 +16,7 @@
   char *buf;
   [super createEnd];
   
-  buf = malloc (strlen ([self getObjcName]) + 5);
+  buf = xmalloc (strlen ([self getObjcName]) + 5);
   sprintf (buf, "%s-var", [self getObjcName]);
   variableName = buf;
   
