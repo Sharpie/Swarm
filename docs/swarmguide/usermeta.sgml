@@ -15,7 +15,7 @@
     <TITLE>A tutorial introduction to the Swarm Simulation System</TITLE>
     
     <PARA>This document is based on the Swarm Tutorial presented at
-          Swarmfest'98 by Benedikt Stefansson of UCLA School of
+          Swarmfest 1998 by Benedikt Stefansson of UCLA School of
           Economics.
     </PARA>
     
@@ -31,8 +31,6 @@
 
   </ABSTRACT>
   
-  &userrevhistory.sgml;
- 
 </BOOKINFO>
 
 <!--
