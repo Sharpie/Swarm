@@ -40,6 +40,10 @@ PUBLIC "-//SFI Hive//ENTITIES swarm-discrete-event JPEG//EN" figs/swarm-discrete
 PUBLIC "-//SFI Hive//ENTITIES swarm JPEG//EN" figs/swarm.jpeg
 PUBLIC "-//SFI Hive//ENTITIES system-diagram JPEG//EN" figs/system-diagram.jpeg
 
+PUBLIC "-//SFI Hive//ENTITIES gui-graph JPEG//EN" figs/gui-graph.jpeg
+PUBLIC "-//SFI Hive//ENTITIES gui-histogram JPEG//EN" figs/gui-histogram.jpeg
+PUBLIC "-//SFI Hive//ENTITIES gui-raster JPEG//EN" figs/gui-raster.jpeg
+
 PUBLIC "-//SFI Hive//ENTITIES discrete-event-sim EPS//EN" @top_dossrcdir@/figs/discrete-event-sim.eps
 PUBLIC "-//SFI Hive//ENTITIES interface-vs-implementation EPS//EN" @top_dossrcdir@/figs/interface-vs-implementation.eps
 PUBLIC "-//SFI Hive//ENTITIES libraries-activity EPS//EN" @top_dossrcdir@/figs/libraries-activity.eps
@@ -69,5 +73,8 @@ PUBLIC "-//SFI Hive//ENTITIES simplebug-schedules-group EPS//EN" @top_dossrcdir@
 PUBLIC "-//SFI Hive//ENTITIES swarm-discrete-event EPS//EN" @top_dossrcdir@/figs/swarm-discrete-event.eps
 PUBLIC "-//SFI Hive//ENTITIES swarm EPS//EN" @top_dossrcdir@/figs/swarm.eps
 PUBLIC "-//SFI Hive//ENTITIES system-diagram EPS//EN" @top_dossrcdir@/figs/system-diagram.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-graph EPS//EN" figs/gui-graph.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-histogram EPS//EN" figs/gui-histogram.eps
+PUBLIC "-//SFI Hive//ENTITIES gui-raster EPS//EN" figs/gui-raster.eps
 
 SGMLDECL "@top_dossrcdir@/docbook.dcl"

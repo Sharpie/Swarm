@@ -1,113 +1,150 @@
 <sect1 id="swarm.user.user1.05.sect1">
 
-<title>The Graphical User Interface</title>
+  <title>The Graphical User Interface</title>
 
+  <sect2>
 
-<sect2>
- <title>The Probes</title> 
+    <title>Elements of the Swarm GUI</title>
 
-    <para>All agents and objects in Swarm can be probed</para>
+    <para>Swarm provides a number of classes and protocols which
+      generate a graphical user interface (GUI) to the user running a
+      Swarm simulation, including:
 
-    <para>Probe attaches itself to an agent, can send a message,
-      change a variable or retrieve values by calling agent or reading
-      variable directly</para>
+      <itemizedlist>
+        <listitem>
+            <figure id="gui-graph.figure">
+              <title>Line graphs (in this case, a time series)</title> 
+              <graphic entityref="gui-graph" align="center"></graphic>
+            </figure>
+          </listitem>
+        <listitem>
+          <figure id="gui-histogram.figure">
+            <title>Histograms</title>
+            <graphic entityref="gui-histogram" align="center"></graphic>
+          </figure>
+        </listitem>
+        <listitem>
+          <figure id="gui-raster.figure">
+            <title>Raster</title>
+            <graphic entityref="gui-raster" align="center"></graphic>
+          </figure>
+        </listitem>
+        <listitem><para>Probes</para></listitem>
+      </itemizedlist>
 
-</sect2>
-
-<sect2>
- <title>Probes and the GUI</title> 
-
-    <formalpara>
-      <title>A probe can be used to communicate with objects in real time
-        through a graphical widget</title><para></para></formalpara>
-
-    <formalpara><title>A default probe map of agent shows all variables and 
-        functions - can also customize display</title>
-      <para>
-
-        <itemizedlist>
-          <listitem><para>Probe                   </para></listitem>
-          <listitem><para>Executes method         </para></listitem>
-          <listitem><para>Input value for variable</para></listitem>
-          <listitem><para>Open probe for class    </para></listitem>
-          <listitem><para>Close probe             </para></listitem>
-          <listitem><para>                        </para></listitem>
-        </itemizedlist>
-
-      </para></formalpara> 
-
-</sect2>
-
-<sect2>
- <title>Probes without a GUI</title> 
-
-    <formalpara><title>Probes are also used to gather information
-        dynamically from single agents or collection of
-        agents</title><para></para></formalpara>
-
-    <formalpara><title>Among other features is the ability to define
-        and execute method calls on the fly at runtime</title>
-
-      <para>
-        Agents
-        A collection object
-        Object that analyzes data
-        Object that 
-        acts on data
-        Probe
-      </para></formalpara> 
-
-</sect2>
-
-<sect2>
- <title>The Graphical User Interface</title> 
-
-    <formalpara><title>Objects provided to create and manage</title>
-
-<para>
-        <itemizedlist>
-          <listitem><para>Line graphs   </para></listitem>
-          <listitem><para>Histograms    </para></listitem>
-          <listitem><para>Raster images </para></listitem>
-          <listitem><para>Digraphs      </para></listitem> 
-        </itemizedlist></para></formalpara>
-
-    <formalpara><title>Data collection, calculation and updating is
-        provided through support objects to the GUI
-        widgets</title><para></para></formalpara>
-
-</sect2>
-
-<sect2>
- <title>Feeding data to the GUI widgets</title> 
-
-    <para>
-      <literallayout>      
-      Averager
-      
-      for price
-      Averager
-      
-      for cost
-      Probe
-      Probe
-      Agent
-      Collection
-      Graph 
-      
-      widget
-      </literallayout>    
+      All except the last (probes) are fairly self-explanatory and will
+      be dealt with in subsequent chapters.  This section describes how
+      probes appear to the user running a Swarm simulation, and how the
+      user can manipulate them.  The construction of the probes using
+      the Swarm libraries is also left to a subsequent chapter.
 
     </para>
 
-    <formalpara><title>Output on graphs or other widgets relies
-        heavily on the probes and dynamic access to agent's
-        data</title><para></para></formalpara>
+  </sect2>
 
-    <formalpara><title>Swarm collection objects also facilitate
-      process</title><para> </para></formalpara>
+  <sect2>
+    <title>Probes</title>
 
-</sect2>
+    <para>Graphical `probes' allow a user to view a snapshot of any
+      object in a Swarm simulation in a graphical form.  There are two
+      distinct kinds of displays the user might see:</para>
+
+    <itemizedlist>
+
+      <listitem><formalpara><title>DefaultProbeMaps</title> <para>If
+          an object to be probed is specified
+          <emphasis>without</emphasis> any particular
+          <classname>ProbeMap</classname> being specified, then the
+          ProbeDisplay generated will provide a window of class
+          DefaultProbeDisplay, which displays all the variables
+          resident in that class structure.
+          </para>
+        </formalpara>
+      </listitem>
+
+      <listitem>
+        <formalpara><title>CustomProbeMaps</title> <para>If a
+          <classname>ProbeMap</classname> <emphasis>is</emphasis>
+          specified then the <classname>ProbeDisplay</classname>
+          follows exactly the specification as represented by the
+          contents of the ProbeMap (above). When used in this manner,
+          ProbeDisplays can generate tailored interfaces to objects
+          (so for example, we have purposefully hidden certain
+          instance variables in the HeatbugModelSwarm class, and have
+          shown only one of the methods which the class understands).
+          </para>
+        </formalpara>
+      </listitem>
+
+    </itemizedlist>
+
+  </sect2>
+
+  <sect2>
+    <title>Probe Usage</title>
+
+    <para>Common to both the standard ProbeDisplay and the
+      CompleteProbeDisplay:</para>
+    
+    <itemizedlist>
+      <listitem> <para>The different fields in the ProbeDisplay can be
+          updated by typing in new values and pressing
+          <literal>Return</literal>.  However, certain fields
+          (containing pointers or ids, for example) cannot be modified
+          and will generate a beep if such a modification is
+          attempted.</para></listitem>
+
+      <listitem><para> If an instance variable/argument slot is
+          defined to hold an object, then that object can be
+          drag&amp;dropped into another variable/argument slot by
+          clicking on it with the <literal>first mouse
+            button</literal> (a small rectangle with the name of the
+          object will appear - simply drag it to another
+          object-typed variable/argument slot and release the mouse
+          button).</para></listitem>
+
+      <listitem><para> Also, if an instance variable/argument slot
+          is defined to hold an object, then that object can be
+          inspected by clicking the entry for that variable/argument
+          slot with the <literal>third mouse button </literal>(a
+          ProbeDisplay for that object will be
+          generated).</para></listitem>
+    </itemizedlist>
+
+    <para>Available only on the standard ProbeDisplay:</para>
+    
+    <itemizedlist>
+      <listitem><para> Note that the sunken label at the top of the
+          ProbeDisplay is also active.  By clicking on it with the
+          <literal>first mouse button</literal> you get a
+          drag&amp;drop'able representation of
+          <varname>self</varname>. By clicking on it with the
+          <literal>third mouse button</literal> you get a
+          CompleteProbeDisplay to
+          <varname>self</varname>.</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <para>Available only on the ProbeDisplay:</para>
+    
+    <itemizedlist>
+      <listitem><para> The green "superclass" button can be used to
+          display the succesive superclasses of the object being
+          probed.</para></listitem>
+
+      <listitem><para> The red "hide" button can be used to hide
+          classes which are irrelevant thus reducing
+          clutter.</para></listitem>
+
+      <listitem><para> The hide button on the lowest class in the
+          hierarchy has a special meaning since clicking on it
+          dismisses the entire ProbeDisplay.</para></listitem>
+
+    </itemizedlist>
+
+  </sect2>
+  
 </sect1>
 <!--
 Local Variables:

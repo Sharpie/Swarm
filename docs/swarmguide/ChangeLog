@@ -1,3 +1,12 @@
+1999-05-17  Alex Lancaster  <alex@santafe.edu>
+
+	* user1.05.sgml: Replaced text on using ProbeMap with text snarfed
+	from relevant section in Reference Manual (pending deletion in
+	that manual).  Updated some of these sections.
+
+	* catalog.in: Add catalog entries for graph-{graph, histogram,
+	raster}.
+
 1999-05-05  Alex Lancaster  <alex@santafe.edu>
 
 	* user2.06.sgml: Fix markup for ITEMIZEDLISTs, make last
