@@ -44,6 +44,8 @@ SwarmEnvironment_getters.m: swarm.h
 
 getters.elc: $(abs_top_builddir)/protocol.elc $(abs_top_builddir)/interface.elc
 
+$(abs_top_builddir)/interface.elc: $(abs_top_builddir)/protocol.elc
+
 $(srcdir)/SwarmEnvironment_getters.m: swarm.h getters.elc
 	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@getters.elc' -f generate-SwarmEnvironment-getters
 
