@@ -1,5 +1,6 @@
 NAME = refbook
-SUBDIRS = activity analysis collections defobj gui objectbase random simtools simtoolsgui space tech
+MODULES = activity analysis collections defobj gui objectbase random simtools simtoolsgui space
+SUBDIRS = $(MODULES) tech
 
 swarm_srcdir = @swarm_srcdir@
 gridturtle_srcdir = @gridturtle_srcdir@
@@ -27,7 +28,7 @@ ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 
 SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml
 
-EXTRA_DIST = Makefile.rules refbook.ent sgml.el $(SGML)
+EXTRA_DIST = Makefile.rules refbook.ent sgml.el graph.el $(SGML)
 
 SGML_FILES = $(SGML) $(ENT) $(GENERATED_SGML)
 
@@ -56,6 +57,11 @@ refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/space/space.h \
 	$(abs_top_builddir)/common.elc protocol.elc sgml.elc
 	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l sgml.elc -f run-all $(swarm_dossrcdir)
+
+graph: $(abs_top_builddir)/common.elc protocol.elc graph.elc
+	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ $(EMACS) -batch -l graph.elc -f create-graphs
+	for m in $(MODULES); do dot -Tps $$m.dot > $$m.ps ; dot -Tps $${m}-singlepage.dot > $${m}-singlepage.ps ; done
+	dot -Tps protocols.dot > protocols.ps
 
 # Local variables:
 # mode: makefile

@@ -1,3 +1,12 @@
+1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add graph.el.
+	(MODULES): New variable:
+	(SUBDIRS): Use it.
+	(graph): New target.
+
+	* graph.el: Moved here from toplevel directory.
+
 1999-04-06  Alex Lancaster  <alex@santafe.edu>
 
 	* refbook.sgml: Update PUBLIC identifier for DTD to "-//OASIS//DTD
