@@ -28,15 +28,18 @@
 
 @interface HDF5_c: CreateDrop_s
 {
-#ifdef HAVE_HDF5
-  hid_t loc_id;
   id parent;
   const char *name;
   const char *typeName;
   BOOL createGroupFlag;
+#ifdef HAVE_HDF5
+  hid_t loc_id;
+#endif
 
   id <HDF5CompoundType> c_type;
+
   unsigned c_count;
+#ifdef HAVE_HDF5
   hid_t c_sid;
   hid_t c_msid;
   hid_t c_did;
@@ -45,6 +48,7 @@
   hid_t c_rntid;
   hid_t c_rnsid;
   hid_t c_rnaid;
+#endif
   const char **c_rnbuf;
 #endif
 }
