@@ -1,5 +1,7 @@
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* strdup.c, strndup.c, strsep.c, and stpcpy.c:  New files.
+
 	* argp-pv.c: Don't initialize argp_program_version.
 
 	* argp-ba.c: Don't initialize argp_program_bug_address.
