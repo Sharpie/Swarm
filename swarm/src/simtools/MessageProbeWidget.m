@@ -3,12 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
 #import <simtools/MessageProbeWidget.h>
 #import <simtools.h>
 #import <defobj.h> // nameToObject
 #import <gui.h>
+#import <objectbase.h> // val_t
+#import <objc/objc-api.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -59,22 +59,22 @@
 
   if (![myProbe getHideResult])
     {
-      result = [MessageProbeEntry createBegin: [self getZone]];
-      [result setParent: self];
-      [result setResultIdFlag: (BOOL)[myProbe isResultId]];
-      result = [result createEnd];
+      resultMessageProbeEntry = [MessageProbeEntry createBegin: [self getZone]];
+      [resultMessageProbeEntry setParent: self];
+      [resultMessageProbeEntry setResultIdFlag: [myProbe isResultId]];
+      resultMessageProbeEntry = [resultMessageProbeEntry createEnd];
       if (maxReturnWidth)
-        [result setWidth: maxReturnWidth];
-      [result setActiveFlag: NO];
+        [resultMessageProbeEntry setWidth: maxReturnWidth];
+      [resultMessageProbeEntry setActiveFlag: NO];
     }
   
-  argNum = [myProbe getArgNum];
+  argCount = [myProbe getArgCount];
   
-  if (argNum)
+  if (argCount)
     {
-      objWindows = (int *)malloc (sizeof (int) * argNum);
-      argNum *= 2; 
-      myWidgets = (id <Widget> *)malloc (sizeof (id <Widget>) * argNum);
+      objWindows = (BOOL *)malloc (sizeof (BOOL) * argCount);
+      argCount *= 2; 
+      myWidgets = (id <Widget> *)malloc (sizeof (id <Widget>) * argCount);
     }
   else
     myWidgets = (id <Widget> *)malloc (sizeof (id <Widget>));
@@ -83,9 +83,9 @@
   [(id <Button>)myWidgets[0] setButtonTarget: self
                 method: @selector (dynamic)];
   [(id <Button>)myWidgets[0] setText: [myProbe getArgName: 0]];  
-  [myWidgets[0] packFillLeft: argNum ? NO : YES];
+  [myWidgets[0] packFillLeft: argCount ? NO : YES];
   
-  for (i = 1; i < argNum; i++)
+  for (i = 1; i < argCount; i++)
     {
       which_arg = i / 2;
       
@@ -124,12 +124,36 @@ empty (const char *str)
   return (i >= length);
 }
 
+
+static const char *
+printVal (val_t val)
+{
+  static char buf[128];
+  
+  switch (val.type)
+    {
+    case _C_ID: 
+      return [val.val.object getIdName];
+    case _C_SEL:
+      return sel_get_name (val.val.selector);
+    case _C_INT:
+      sprintf (buf, "%d", val.val._int);
+      return buf;
+    case _C_FLT:
+      sprintf (buf, "%f", val.val._float);
+      return buf;
+    case _C_DBL:
+      sprintf (buf, "%f", val.val._double);
+      return buf;
+    }
+  abort ();
+}
+
 - dynamic
 {
   int i;
-  const char *result_string;
   
-  for (i = 0; i < (argNum / 2); i++)
+  for (i = 0; i < (argCount / 2); i++)
     {
       id <MessageProbeEntry> entryWidget = myWidgets[2 * i + 1];
       const char *test = strdup ([entryWidget getValue]);
@@ -141,37 +165,21 @@ empty (const char *str)
         }
       
       if (!objWindows[i])
-        [myProbe setArg: i To: test];
+        [myProbe setArg: i ToString: test];
     }
 
-#if 0  
-    // Here I must insist on a TCLOBJC mediated call since there will often
-    // be situations where the probe might attempt a direct call thus casting
-    // the result to an int (when the probedMessage does not take arguments).
-    [myProbe _trueDynamicCallOn_: myObject resultStorage: &result_string];
-#endif
-    // probedSelector will be nil in the case of methods with arguments,
-    // and _trueDynamicCallOn_ will be called instead.  MessageProbes
-    // now support Id and Class, so the above isn't an issue. -mgd
-    [myProbe dynamicCallOn: myObject resultStorage: &result_string];
-
-  if (![myProbe getHideResult])
-    {
-      [result setActiveFlag: YES];
-      if ([myProbe isResultId])
-        {
-          if ((resultObject = nameToObject (result_string)) != nil)
-            [result setValue: [resultObject getIdName]];
-          else    
-            [result setValue: result_string];
-        }
-      else
-        [result setValue: result_string];
-      
-      [result setActiveFlag: NO];
-    }
+  {
+    val_t ret = [myProbe dynamicCallOn: myObject];
   
-  free ((void *)result_string);  
+    if (![myProbe getHideResult])
+      {
+        [resultMessageProbeEntry setActiveFlag: YES];
+        [resultMessageProbeEntry setValue: printVal (ret)];
+        if (ret.type == _C_ID)
+          resultObject = ret.val.object;
+        [resultMessageProbeEntry setActiveFlag: NO];
+      }
+  }
   [probeDisplayManager update];
   return self;
 }
@@ -186,16 +194,12 @@ empty (const char *str)
   return self;
 }
 
-- argSpawn: (int) which
+- argSpawn: (int)which
 {
-  id arg_obj;
-  const char *id_name = [myProbe getArg: which];
-  
-  if (id_name != NULL)
-    {
-      arg_obj = nameToObject (id_name);
-      CREATE_PROBE_DISPLAY (arg_obj);
-    }
+  val_t val = [myProbe getArg: which];
+ 
+  if (val.type == _C_ID)
+    CREATE_PROBE_DISPLAY (val.val.object);
   else
     GUI_BEEP ();
   
@@ -211,7 +215,7 @@ empty (const char *str)
 {
   int i;
 
-  for (i = 0; i < argNum; i++)
+  for (i = 0; i < argCount; i++)
     [myWidgets[i] drop];
   
   [super drop];
@@ -229,20 +233,20 @@ empty (const char *str)
 
 - (const char *)package: (int)which
 {
-  const char *id_name = [myProbe getArg: which];
+  val_t val = [myProbe getArg: which];
   
-  if (id_name == NULL) 
+  if (val.type != _C_ID)
     {
       GUI_BEEP ();
       return "";
     }
-  return id_name;
+  return [val.val.object getObjectName];
 }
 
 - (const char *)getId
 {
   if (![myProbe getHideResult])
-    return [result getValue];
+    return [resultMessageProbeEntry getValue];
   else
     return NULL;
 }
@@ -256,7 +260,7 @@ empty (const char *str)
 {
   id resObj = GUI_DRAG_AND_DROP_OBJECT ();
 
-  [myProbe setArg: which ToObjectName: resObj];
+  [myProbe setArg: which ToString: [resObj getObjectName]];
   
   which *= 2;
   which += 1;

@@ -15,14 +15,14 @@
 #endif
 {
   id myObject;
-  int argNum;
+  int argCount;
   MessageProbe *myProbe;
   id <Widget> *myWidgets;
-  id <MessageProbeEntry> result;
+  id <MessageProbeEntry> resultMessageProbeEntry;
   int maxReturnWidth;
   char resultType;
   id resultObject;
-  int *objWindows;
+  BOOL *objWindows;
   char **obj_args;
 #ifndef USE_FRAME
   id parent;

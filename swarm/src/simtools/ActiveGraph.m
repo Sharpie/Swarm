@@ -28,7 +28,6 @@
     [InvalidCombination raiseEvent: "ActiveGraph not initialized properly"];
   [self setProbedClass: [dataFeed class]] ;
   [super createEnd];
-  [self updateMethodCache: dataFeed];
   return self;
 }
 

@@ -10,35 +10,39 @@
 // ActiveGraph: an object that actively updates its file stream when updated
 @implementation ActiveOutFile
 
--setFileObject: aFileObj {
-  theFile = aFileObj ;
-  return self ;
+- setFileObject: aFileObj
+{
+  theFile = aFileObj;
+  return self;
 }
 
--setDataFeed: d {
+- setDataFeed: d
+{
   dataFeed = d;
   return self;
 }
 
--createEnd {
+- createEnd
+{
   if (theFile == nil || dataFeed == nil)
     [InvalidCombination raiseEvent: "ActiveOutFile not initialized properly"];
-  [self setProbedClass: [dataFeed class]] ;
+  [self setProbedClass: [dataFeed class]];
   [super createEnd];
-  [self updateMethodCache: dataFeed];
   return self;
 }
 
 // add a new entry...
--step {
-  [theFile putDouble: [self doubleDynamicCallOn: dataFeed]] ;
-  [theFile putNewLine] ;
+- step
+{
+  [theFile putDouble: [self doubleDynamicCallOn: dataFeed]];
+  [theFile putNewLine];
   return self;
 }
 
--(void) drop{
-  [theFile drop] ;
-  [super drop] ;
+- (void)drop
+{
+  [theFile drop];
+  [super drop];
 }
 
 @end
