@@ -3,20 +3,22 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <simtoolsgui.h> // MessageProbeWidget
 #import <objectbase/SwarmObject.h>
-#import <objectbase/MessageProbe.h>
+
+#import <objectbase.h> // MessageProbe
 #import <gui.h>
 
 #ifdef USE_FRAME
 #import <tkobjc/Frame.h>
-@interface MessageProbeWidget: Frame
+@interface MessageProbeWidget: Frame <MessageProbeWidget>
 #else
-@interface MessageProbeWidget: SwarmObject
+@interface MessageProbeWidget: SwarmObject <MessageProbeWidget>
 #endif
 {
   id myObject;
   int argCount;
-  MessageProbe *myProbe;
+  id <MessageProbe> myProbe;
   id <Widget> *myWidgets;
   id <MessageProbeEntry> resultMessageProbeEntry;
   int maxReturnWidth;

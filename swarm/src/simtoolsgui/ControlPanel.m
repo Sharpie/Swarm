@@ -3,11 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <activity.h>
-#import <simtools.h>
+#import <simtoolsgui.h> // ControlPanel
+#import <simtoolsgui/ControlPanel.h>
 #import <defobj.h> // hdf5Archiver, lispArchiver
 
-#import <simtoolsgui/ControlPanel.h>
 #import <simtoolsgui.h> // probeDisplayManager
 
 #import <gui.h>

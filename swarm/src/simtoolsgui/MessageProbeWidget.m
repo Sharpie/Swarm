@@ -119,7 +119,7 @@ PHASE(Creating)
 
 - setProbe: (id <Probe>)theProbe
 {
-  myProbe = (MessageProbe *)theProbe;
+  myProbe = (id <MessageProbe>) theProbe;
 
   return self;
 }

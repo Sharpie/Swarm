@@ -9,7 +9,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface ControlPanel: SwarmObject
+@interface ControlPanel: SwarmObject <ControlPanel>
 {
   id state;					  // uses activity.h symbols
 #ifdef USE_JAVA

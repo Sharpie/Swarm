@@ -6,9 +6,10 @@
 // List of display probes that are in the system, used to update
 // them in the schedule.
 
+#import <simtoolsgui.h> // ProbeDisplayManager
 #import <objectbase/SwarmObject.h>
 
-@interface ProbeDisplayManager: SwarmObject
+@interface ProbeDisplayManager: SwarmObject <ProbeDisplayManager>
 {
   id probeList;
   BOOL dropImmediatelyFlag;

@@ -1,3 +1,13 @@
+1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionCache.h, ActionHolder.h, ClassDisplayWidget.h,
+	ControlPanel.[hm], GUIComposite.h, GUISwarm.h,
+	MessageProbeWidget.h, MessageProbeWidget.m,
+	MultiVarProbeDisplay.h, MultiVarProbeWidget.h, ProbeDisplay.h,
+	ProbeDisplayManager.[hm], VarProbeWidget.h, simtoolsgui.h: Add
+	protocol compliance tags to interfaces, adjust phase info
+	as necessary.
+
 1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbeWidget.m (printVal): Accomodate renames in

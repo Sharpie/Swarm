@@ -8,7 +8,7 @@
 #import <objectbase.h>
 #import <activity.h> // SwarmProcess
 
-@protocol WindowGeometryRecordName <SwarmObject>
+@protocol WindowGeometryRecordName
 //S: Protocol for archiving window geometry.
 
 //D: Classes that allow for window geometry archiving must conform
@@ -201,9 +201,6 @@ CREATING
 //M: Sets the selector to send for labeling the object.
 - setObjectNameSelector: (SEL)objectNameSelector;
 
-//M: Determines if the variable names are printed (horizontally).
-- setLabelingFlag: (BOOL)labelingFlag;
-
 + createBegin: aZone;
 - createEnd;
 USING
@@ -238,10 +235,6 @@ USING
 
 //M: Remove a probe display from management by the ProbeDisplayManager.
 - removeProbeDisplay: probeDisplay;
-
-//M: Remove a probe display associated with an object 
-//M: from management by the ProbeDisplayManager.
-- removeProbeDisplayFor: anObject;
 
 //M: Remove and drop probe displays associated with a given object.
 - dropProbeDisplaysFor: anObject;
@@ -290,7 +283,7 @@ USING
 - disableDestroyNotification;
 @end
 
-@protocol GUISwarm <Swarm, SwarmProcess, WindowGeometryRecordName, CREATABLE>
+@protocol GUISwarm <Swarm, WindowGeometryRecordName, CREATABLE>
 //S: A version of the Swarm class which is graphics aware. 
 
 //D: GUISwarm is a subclass of Swarm that is used as a toplevel Swarm for

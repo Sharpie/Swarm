@@ -3,11 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <simtoolsgui.h> // MultiVarProbeDisplay
 #import <simtoolsgui/CommonProbeDisplay.h>
-#import <simtoolsgui.h>
 #import <collections.h>
 
-@interface MultiVarProbeDisplay: CommonProbeDisplay
+@interface MultiVarProbeDisplay: CommonProbeDisplay <MultiVarProbeDisplay>
 {
   id <List> objectList;
   id <ProbeMap> probeMap;

@@ -22,6 +22,7 @@
 #import <simtoolsgui.h> // ProbeDisplay, CompleteProbeDisplay
 
 @implementation ProbeDisplayManager
+PHASE(Creating)
 
 - createEnd
 {
@@ -30,6 +31,8 @@
 
   return self;
 }
+
+PHASE(Using)
 
 - addProbeDisplay: pd
 {

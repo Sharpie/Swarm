@@ -3,10 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <simtoolsgui.h> // GUIComposite
 #import <objectbase/SwarmObject.h>
 #import <collections.h>
 
-@interface GUIComposite: SwarmObject
+@interface GUIComposite: SwarmObject <GUIComposite>
 {
   const char *baseWindowGeometryRecordName;
   id <Map> componentList;

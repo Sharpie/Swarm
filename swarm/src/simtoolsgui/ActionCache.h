@@ -3,12 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <collections.h>
-#import <activity.h>
+#import <simtoolsgui.h>  // ActionCache
 #import <simtoolsgui/GUIComposite.h>
-#import <gui.h>
 
-@interface ActionCache: GUIComposite
+#import <collections.h> // List
+#import <gui.h> // ButtonPanel
+
+@interface ActionCache: GUIComposite <ActionCache>
 {
   id <List> actionCache;
   id <Schedule> destinationSchedule;

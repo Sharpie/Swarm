@@ -5,7 +5,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface ActionHolder : SwarmObject
+@interface ActionHolder: SwarmObject
 {
   id <Symbol> type;
   const char *name;

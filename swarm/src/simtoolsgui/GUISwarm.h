@@ -3,8 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtools.h>
-#import <objectbase/Swarm.h>
+#import <simtoolsgui.h> // GUISwarm
+#import <objectbase/Swarm.h> // Swarm
 
 // a GUISwarm is a Swarm with some support for graphical interface. In
 // particular, it creates a control panel for you and also provides a
@@ -12,10 +12,10 @@
 // "step". When using this, you still need to be sure to schedule
 // calls to the controlPanels' doTkEvents method.
 
-@interface GUISwarm : Swarm
+@interface GUISwarm: Swarm <GUISwarm>
 {
-  id controlPanel;
-  id actionCache;
+  id <ControlPanel> controlPanel;
+  id <ActionCache> actionCache;
   const char *baseWindowGeometryRecordName;
 }
 
