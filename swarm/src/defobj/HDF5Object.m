@@ -138,8 +138,10 @@ make_string_ref_type (void)
   
   if ((memtid = H5Tcopy (H5T_STD_REF_OBJ)) < 0)
     raiseEvent (LoadError, "Unable to copy H5T_STD_REF_OBJ");
+#if 0
   if (H5Tset_size (memtid, sizeof (const char *)) < 0)
     raiseEvent (LoadError, "unable to set size of reference type");
+#endif
   return memtid;
 }    
 
@@ -1073,15 +1075,35 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid,
   hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
   hid_t loc_id;
   void func () { H5Gunlink (parent_loc_id, name); }
-  
-  suppress_messages (func);
 
+  suppress_messages (func);
   if ((loc_id = H5Dcreate (parent_loc_id,
                            name,
                            tid,
                            sid,
                            plist)) < 0)
-    raiseEvent (SaveError, "unable to create (compound) dataset");
+    raiseEvent (SaveError, "unable to create dataset");
+  return loc_id;
+}
+
+static hid_t
+hdf5_reopen_point_dataset (id parent, const char *name, hid_t tid, hid_t sid)
+{
+  hid_t parent_loc_id = ((HDF5_c *) parent)->loc_id;
+  hid_t loc_id;
+  void open () { loc_id = H5Dopen (parent_loc_id, name); } 
+  
+  suppress_messages (open);
+
+  if (loc_id < 0)
+    {
+      if ((loc_id = H5Dcreate (parent_loc_id,
+                               name,
+                               tid,
+                               sid,
+                               H5P_DEFAULT)) < 0)
+        raiseEvent (SaveError, "unable to create point dataset");
+    }
   return loc_id;
 }
 
@@ -1171,14 +1193,11 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid,
                       if (H5Pset_deflate (plist, 6) < 0)
                         raiseEvent (SaveError, "unable to set deflate value");
                       
-                      if ((loc_id = hdf5_open_dataset (parent,
-                                                       name,
-                                                       vector_tid,
-                                                       c_sid,
-                                                       plist)) < 0)
-                        raiseEvent (SaveError,
-                                    "unable to create (vector) dataset");
-
+                      loc_id = hdf5_open_dataset (parent,
+                                                  name,
+                                                  vector_tid,
+                                                  c_sid,
+                                                  plist);
                       {
                         hsize_t bdims[1];
                         
@@ -1802,7 +1821,7 @@ hdf5_store_attribute (hid_t did,
     {
       hid_t did;
       
-      did = hdf5_open_dataset (self, datasetName, tid, sid, H5P_DEFAULT);
+      did = hdf5_reopen_point_dataset (self, datasetName, tid, sid);
       
       if (H5Dwrite (did, memtid, H5S_ALL, sid, H5P_DEFAULT, ptr) < 0)
         raiseEvent (SaveError, "unable to write to dataset `%s'",

@@ -1,3 +1,15 @@
+2001-12-07  Marcus G. Daniels  <mgd@condor>
+
+	* HDF5Object.m (hdf5_reopen_point_dataset): New function for
+	-storeAsDataset:typeName:type:rank:dims:ptr:, which is used
+	just for ivars.  HDF5 1.4.3-snap8, HDF5 1.5.16, and HDF5 1.4.2-patch1
+	all have a bug where unlinking a dataset and recreating it will
+	write zeros when the replace dataset is written.
+	(make_string_ref_type): Disable H5Tset_size call.  HDF5 1.5 doesn't
+	like it. 
+	([HDF5_c -createEnd]): There's no need to check return value,
+	of hdf5_open_dataset, since it is already checked.
+
 2001-12-04  Marcus G. Daniels  <mgd@condor>
 
 	* HDF5Archiver.m ([HDF5Archiver -getWritableController]): Delete
