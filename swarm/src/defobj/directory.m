@@ -455,7 +455,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
             return (pos + alignment) & ~mask;
         }
 
-      void addstr (char type, BOOL regFlag, size_t pos)
+      void addstr (char type, BOOL regFlag, unsigned pos)
         {
           *p++ = type;
           if (regFlag)

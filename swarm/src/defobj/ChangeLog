@@ -1,5 +1,8 @@
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (java_ensure_selector): Use unsigned for `pos'
+	argument to addstr to avoid potential confusion with %u.
+
 	* DefObject.m ([Object_s -forward::]): Declare alloca.
 
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
