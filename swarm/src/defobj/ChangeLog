@@ -1,9 +1,18 @@
+1999-01-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* HDF5Object.[hm], defobj.h ([HDF5_c -iterateAttributes:]): New method.
+
+	* HDF5Object.m (string_ref): New function.
+
+	* HDF5Object.m ([HDF5_c -createEnd]): Register string_ref.
+	([HDF5_c -drop]): Unregister string_ref.
+	
 1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Archiver.m ([Archiver_c -createEnd]): Check for readability
 	of swarmArchiver.hdf before attempting load.
 
-	* HDF5Object.m ([HDF +createBegin:]): Only init loc_id if HAVE_HDF5 
+	* HDF5Object.m ([HDF5_c +createBegin:]): Only init loc_id if HAVE_HDF5 
 	is defined.
 
 	* HDF5Object.[hm]: Only define setId: if HAVE_HDF5 is defined.

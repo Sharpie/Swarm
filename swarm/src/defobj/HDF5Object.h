@@ -77,6 +77,7 @@
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 
 - iterate: (void (*) (id hdf5Obj))iterateFunc;
+- iterateAttributes: (void (*) (const char *key, const char *value))iterateFunc;
 
 - (void)drop;
 @end

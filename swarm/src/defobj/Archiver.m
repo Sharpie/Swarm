@@ -445,6 +445,12 @@ PHASE(Creating)
                     
                     void objIterateFunc (id hdf5Obj)
                       {
+                        void attrIterateFunc (const char *key,
+                                              const char *value)
+                          {
+                            printf ("[%s][%s]\n", key, value);
+                          }
+                        [hdf5Obj iterateAttributes: attrIterateFunc];
                         printf ("    <%s> (%s)\n",
                                 [hdf5Obj getName],
                                 ([hdf5Obj getDatasetFlag]

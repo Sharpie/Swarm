@@ -973,6 +973,7 @@ CREATING
 - createEnd;
 USING
 - iterate: (void (*) (id hdf5Obj))iterateFunc;
+- iterateAttributes: (void (*) (const char *key, const char *value))iterateFunc;
 - (BOOL)getDatasetFlag;
 - (const char *)getName;
 

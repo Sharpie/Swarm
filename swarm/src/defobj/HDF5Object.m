@@ -17,6 +17,7 @@
 #define ATTRIB_TYPE_NAME "type"
 
 #define REF2STRING_CONV "ref->string"
+#define STRING2REF_CONV "string->ref"
 #define ROWNAMES "row.names"
 
 static unsigned hdf5InstanceCount = 0;
@@ -201,6 +202,26 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
   return 0;
 }
 
+static herr_t
+string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
+            size_t count, void *buf, void *bkg)
+{
+  if (cdata->command == H5T_CONV_CONV)
+    {
+      size_t size = H5Tget_size (sid);
+      unsigned char srcbuf[size * count], *srcptr = srcbuf;
+      size_t i;
+      
+      memcpy (srcbuf, buf, sizeof (srcbuf));
+      for (i = 0; i < count;i ++)
+        {
+          ((const char **) buf)[i] = strdup (srcptr);
+          srcptr += size;
+        }
+    }
+  return 0;
+}
+
 #endif
 
 - createEnd
@@ -290,6 +311,10 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
                             H5T_REFERENCE,
                             H5T_STRING, ref_string) == -1)
         raiseEvent (SaveError, "unable to register ref->string converter");
+      if (H5Tregister_soft (STRING2REF_CONV,
+                            H5T_STRING,
+                            H5T_REFERENCE, string_ref) == -1)
+        raiseEvent (LoadError, "unable to register string->ref converter");
     }
   hdf5InstanceCount++;
 #else
@@ -308,6 +333,96 @@ PHASE(Using)
 - (BOOL)getDatasetFlag
 {
   return datasetFlag;
+}
+
+- iterateAttributes: (void (*) (const char *key, const char *value))iterateFunc
+{
+#ifdef HAVE_HDF5
+  hid_t str_ref_tid;
+
+  hid_t make_string_ref_type (void)
+    {
+      hid_t memtid;
+      
+      if ((memtid = H5Tcopy (H5T_STD_REF_OBJ)) < 0)
+        raiseEvent (LoadError, "Unable to copy H5T_STD_REF_OBJ");
+      if (H5Tset_size (memtid, sizeof (const char *)) < 0)
+        raiseEvent (LoadError, "unable to set size of reference type");
+      return memtid;
+    }    
+
+  herr_t process_attribute (hid_t oid, const char *attrName, void *client)
+    {
+      hid_t aid, sid, tid;
+      H5T_class_t class;
+
+      if ((aid = H5Aopen_name (oid, attrName)) < 0)
+        raiseEvent (LoadError, "could not open attribute `%s'", attrName);
+      
+      if ((sid = H5Aget_space (aid)) < 0)
+        raiseEvent (LoadError,
+                    "could not open space of attribute `%s'",
+                    attrName);
+
+      if ((tid = H5Aget_type (aid)) < 0)
+        raiseEvent (LoadError,
+                    "could not get type of attribute `%s'", attrName);
+      
+      if ((class = H5Tget_class (tid)) < 0)
+        raiseEvent (LoadError,
+                    "could not get type class of attribute `%s'", attrName);
+      {
+        int rank;
+        
+        if ((rank = H5Sget_simple_extent_ndims (sid)) < 0)
+          raiseEvent  (LoadError,
+                       "could not get rank of attribute space `%s'",
+                       attrName);
+        {
+          hsize_t dims[rank];
+
+          if (H5Sget_simple_extent_dims (sid, dims, NULL) < 0)
+            raiseEvent (LoadError,
+                        "could not get extent of attribute space `%s'",
+                        attrName);
+          
+          if (rank == 1 && dims[0] == 1 && class == H5T_STRING)
+            {
+              const char *str;
+
+              if (H5Aread (aid, str_ref_tid, &str) < 0)
+                raiseEvent (LoadError,
+                            "unable to read attribute `%s'",
+                            attrName);
+              
+              iterateFunc (attrName, str);
+              
+            }
+        }
+      }
+      if (H5Aclose (aid) < 0)
+        raiseEvent (LoadError, "unable to close attribute `%s'", attrName);
+      if (H5Tclose (tid) < 0)
+        raiseEvent (LoadError, "unable to close attribute `%s' tid", attrName);
+      if (H5Sclose (sid) < 0)
+        raiseEvent (LoadError,
+                    "unable to close attribute `%s' space",
+                    attrName);
+      return 0;
+    }
+  
+  str_ref_tid = make_string_ref_type ();
+
+  if (H5Aiterate (loc_id, NULL, process_attribute, NULL) < 0)
+    raiseEvent (LoadError, "unable to iterate over attributes");
+  
+  if (H5Tclose (str_ref_tid) < 0)
+    raiseEvent (LoadError,
+                "unable to close string reference type");
+#else
+  hdf5_not_available ();
+#endif
+  return self;
 }
 
 - iterate: (void (*) (id hdf5obj))iterateFunc
@@ -633,6 +748,8 @@ hdf5_store_attribute (hid_t did,
     {
       if (H5Tunregister (ref_string) == -1)
         raiseEvent (SaveError, "unable to unregister ref->string converter");
+      if (H5Tunregister (string_ref) == -1)
+        raiseEvent (LoadError, "unable to unregister string->ref converter");
     }
   [super drop];
 #else
