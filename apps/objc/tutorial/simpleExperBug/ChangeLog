@@ -1,3 +1,8 @@
+1998-02-11  Alex Lancaster  <alex@santafe.edu>
+
+	* ExperSwarm.h: Include objectbase.h instead of swarmobject.h.
+	to fully comply with new API.
+
 1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ModelSwarm.h: Include objectbase.h instead of swarmobject.h.
