@@ -1,3 +1,8 @@
+1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefObject.m ([Object_s -lispIn:]): Accept _C_LNG as an array
+	value type.
+
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defalloc.h: Include swarmconfig.h.  

@@ -118,6 +118,7 @@ PHASE(Setting)
             case _C_FLT:
               *((float *) ptr) = [val getFloat];
               break;
+            case _C_LNG:
             case _C_INT:
               {
                 char itype = *ivar->ivar_type;
