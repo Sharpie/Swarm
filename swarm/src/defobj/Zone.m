@@ -13,7 +13,9 @@ Library:      defobj
 #import <defobj/defalloc.h>
 
 #import <collections/List_linked.h>
+#ifdef HAVE_JDK
 #import "directory.h"
+#endif
 
 #include <misc.h> // memset, xmalloc, XFREE, MAX_ALIGNMENT
 #include "internal.h"
@@ -191,7 +193,9 @@ PHASE(Using)
   id index;
   size_t size;
 
+#ifdef HAVE_JDK
   [swarmDirectory objcRemove: anObject];
+#endif
 
   size = getClass (anObject)->instance_size;
   index = [population createIndex: getCZone (scratchZone)
@@ -275,7 +279,9 @@ PHASE(Using)
 //
 - (void)freeIVarsComponent: anObject
 { 
+#ifdef HAVE_JDK
   [swarmDirectory objcRemove: anObject];
+#endif
 
   if (_obj_debug)
     {
