@@ -429,7 +429,7 @@ PHASE(Creating)
             }
         }
 #ifdef HAVE_HDF5
-      if (hdf5Path)
+      if (hdf5Path && access (hdf5Path, R_OK) != -1)
         {
           id file = [[[[[HDF5 createBegin: aZone]
                          setCreateFlag: NO]

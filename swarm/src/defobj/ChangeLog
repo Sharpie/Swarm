@@ -1,5 +1,8 @@
 1999-01-16  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Archiver.m ([Archiver_c -createEnd]): Check for readability
+	of swarmArchiver.hdf before attempting load.
+
 	* HDF5Object.m ([HDF +createBegin:]): Only init loc_id if HAVE_HDF5 
 	is defined.
 
