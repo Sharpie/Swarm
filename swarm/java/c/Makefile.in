@@ -53,9 +53,19 @@ libjavaswarmstubs.la: libjavaswarmstubs_.la
 libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/src -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBS)
 
+
 javaswarm.dll: libjavaswarm_.la
+	$(CC) -Dconstructor_func=javaswarm_constructor -c $(top_srcdir)/src/dllinit.c -o javaswarm_dllinit.o
+	$(top_srcdir)/src/genctors javaswarm_constructor $(libjavaswarmstubs__la_OBJECTS)
+	$(CC) -c javaswarm_constructor.c
+	$(DLLWRAP) --export-all --output-def javaswarm.def --implib libjavaswarm.a --driver-name $(CC) -o javaswarm.dll javaswarm_dllinit.o javaswarm_constructor.o $ -L../libobjc $(libjavaswarm__la_OBJECTS) -ljavaswarmstubs $(SUPPORTLDFLAGS) $(SYSLIBS)  
+
 
 javaswarmstubs.dll: libjavaswarmstubs_.la
+	$(CC) -Dconstructor_func=javaswarmstubs_constructor -c $(top_srcdir)/src/dllinit.c -o javaswarm_dllinit.o
+	$(top_srcdir)/src/genctors javaswarmstubs_constructor $(libjavaswarmstubs__la_OBJECTS)
+	$(CC) -c javaswarmstubs_constructor.c
+	$(DLLWRAP) --export-all --output-def javaswarmstubs.def --implib libjavaswarmstugs.a --driver-name $(CC) -o javaswarmstubs.dll javaswarmstubs_dllinit.o javaswarmstubs_constructor.o $ -L../libobjc $(libjavaswarmstubs__la_OBJECTS)
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
