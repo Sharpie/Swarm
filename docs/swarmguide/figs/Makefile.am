@@ -24,7 +24,7 @@ CLEANFILES = $(GENERATED_FIGS)
 %.jpeg: $(srcdir)/%.eps
 	GS_LIB="$(GS_LIB)" $(GS) -dNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm - < $< -c quit
 	$(PNMCROP) $*.ppm > $*-crop.ppm
-	$(CJPEG) $*.-crop.ppm > $@
+	$(CJPEG) $*-crop.ppm > $@
 	$(RM) $*.ppm $*-crop.ppm
 
 %.eps: $(srcdir)/%.png
