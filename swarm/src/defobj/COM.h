@@ -18,6 +18,7 @@ struct COMInterface;
 typedef const struct COMInterface COMEnv;
  typedef void (*COM_collect_variable_func_t) (COMmethod getterMethod, COMmethod setterMethod);
 typedef void (*COM_collect_method_func_t) (COMmethod method);
+typedef void (*JS_collect_func_t) (const char *name);
 
 struct COMInterface {
   void *(*createComponent) (COMclass cClass);
@@ -51,7 +52,13 @@ struct COMInterface {
   void (*JSsetArg) (void *params, unsigned pos, fcall_type_t type, types_t *value);
   void (*JSsetReturn) (void *params, unsigned pos, fcall_type_t type, types_t *value);
   void (*JSfreeParams) (void *params);
+  
+  BOOL (*JSprobeVariable) (COMobject cObj, const char *variableName, val_t *ret);
+
   void (*collectMethods) (COMclass cClass, COM_collect_variable_func_t variableFunc, COM_collect_method_func_t methodFunc);
+
+  void (*collectJSProperties) (COMobject cObj, JS_collect_func_t variableFunc, JS_collect_func_t methodFunc);
+
   const char *(*COMmethodName) (COMmethod cMethod);
   unsigned (*COMmethodArgCount) (COMmethod cMethod);
   fcall_type_t (*COMmethodParamFcallType) (COMmethod cMethod, unsigned index);
@@ -97,6 +104,8 @@ extern void JS_set_arg (void *params, unsigned pos, fcall_type_t type, types_t *
 extern void JS_set_return (void *params, unsigned pos, fcall_type_t type, types_t *value);
 extern void JS_free_params (void *params);
 
+extern BOOL JS_probe_variable (COMobject cObj, const char *variableName, val_t *ret);
+
 
 extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);
 extern void swarm_directory_COM_add_selector (COMselector cSel, SEL oSel);
@@ -104,6 +113,9 @@ extern COMobject swarm_directory_update_phase_COM (id oObj);
 
 extern void COM_collect_variables (COMclass cClass, COM_collect_variable_func_t variableFunc);
 extern void COM_collect_methods (COMclass cClass, COM_collect_method_func_t methodFunc);
+extern void JS_collect_variables (COMobject cObj, JS_collect_func_t variableFunc);
+extern void JS_collect_methods (COMobject cObj, JS_collect_func_t methodsFunc);
+
 extern const char *COM_method_name (COMmethod cMethod);
 extern void COM_method_set_return (COMmethod cMethod, void *params, void *value);
 extern void COM_method_invoke (COMmethod cMethod, COMobject target, void *params);

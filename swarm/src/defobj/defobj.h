@@ -53,6 +53,11 @@ typedef union {
   void *iid;
 } types_t;
 
+typedef struct {
+  fcall_type_t type;
+  types_t val;
+} val_t;
+
 #define FCALL_TYPE_COUNT 22
 
 #ifdef __cplusplus
@@ -1205,7 +1210,7 @@ externvar id <LispArchiver> lispAppArchiver;
 externvar id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 
 //G: Language tags (e.g. for use in FArguments)
-externvar id <Symbol> LanguageCOM, LanguageJava, LanguageObjc;
+externvar id <Symbol> LanguageCOM, LanguageJS, LanguageJava, LanguageObjc;
 
 //#: Abbreviation for @selector().
 #define M(messageName) @selector (messageName)

@@ -133,6 +133,24 @@ COM_collect_methods (COMclass cClass, COM_collect_method_func_t methodFunc)
   comEnv->collectMethods (cClass, NULL, methodFunc);
 }
 
+void
+JS_collect_variables (COMobject cObj, JS_collect_func_t variableFunc)
+{
+  comEnv->collectJSProperties (cObj, variableFunc, NULL);
+}
+
+void
+JS_collect_methods (COMobject cObj, JS_collect_func_t methodFunc)
+{
+  comEnv->collectJSProperties (cObj, NULL, methodFunc);
+}
+
+BOOL
+JS_probe_variable (COMobject cObj, const char *variableName, val_t *ret)
+{
+  return comEnv->JSprobeVariable (cObj, variableName, ret);
+}
+
 const char *
 COM_method_name (COMmethod cMethod)
 {
