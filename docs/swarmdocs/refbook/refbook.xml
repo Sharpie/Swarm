@@ -17,9 +17,10 @@
 "ignore.sysid">
 %figs.ent;
 
+<!ENTITY gfdl.xml PUBLIC "-//SFI Hive//ENTITIES GNU FDL//EN" "ignore.sysid">
+
 <!ENTITY lt     "&#38;#60;">
 <!ENTITY gt     "&#62;"> 
-
 ]>
 
 <book id="refbook">

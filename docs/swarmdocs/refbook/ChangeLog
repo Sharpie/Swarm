@@ -1,3 +1,15 @@
+2001-11-26  Alex Lancaster  <alexl@users.sourceforge.net>
+
+	* Makefile.am (nodist_noinst_DATA): Use "+=" syntax to piggy-back
+	onto to of same target defined in Makefile.rules.
+	(EXTRA_DIST): Likewise.
+	(SUBDIRS): Remove 'tech' subdirectory.  Moved to User Guide.
+	(swarm_ChangeLog): Remove, automake now smart enough to get this
+	target from included Makefile.
+
+	* refbook.xml: Move gfdl.xml ENTITY into DOCTYPE header, because
+	no longer defined in global.ent.
+
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
 	* refcont.xml: Add GFDL as <appendix>.
