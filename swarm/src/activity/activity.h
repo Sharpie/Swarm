@@ -798,7 +798,7 @@ _activity_context_error( "getCurrentSwarm" ) ); })
 
 #define getCurrentSchedule() \
 ({ id scheduleActivity; \
-( ( _activity_current & \
+( ( _activity_current && \
     (scheduleActivity = [_activity_current getScheduleActivity]) ) ? \
 [scheduleActivity getActionType] : \
 _activity_context_error( "getCurrentSchedule" ) ); })

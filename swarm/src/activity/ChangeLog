@@ -1,3 +1,7 @@
+1999-07-12  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* activity.h (getCurrentSchedule): Typo.
+
 1999-07-11  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* activity.m (_activity_implement): Call setTypeImplemented for
