@@ -18,7 +18,7 @@ public class Alex2d extends Agent2d {
   Schedule schedule;
 
   public Alex2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, 2, .75, .1, 40, 20);
+    super (aZone, world, x, y, 2, .2, .1, 40, 20);
 
     schedule = new ScheduleImpl (aZone, 1);
 
@@ -31,6 +31,7 @@ public class Alex2d extends Agent2d {
       e.printStackTrace (System.err);
       System.exit (1);
     }
+    color = ObserverSwarm.AlexTourColor;
   }
   
   public Activity activateIn (Swarm context) {
@@ -42,10 +43,5 @@ public class Alex2d extends Agent2d {
 
   public void stepAgent () {
     randomWalk ();
-  }
-
-  public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, ObserverSwarm.AlexTourColor);
-    return this;
   }
 }

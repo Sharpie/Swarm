@@ -23,16 +23,17 @@ public class Agent2d extends SwarmImpl {
   BernoulliDist bernoulliDist =
     new BernoulliDistImpl (getZone (), Globals.env.randomGenerator, .5);
   boolean frobbed, resisting;
+  byte color;
   int direction, energy;
   int scatter;
 
-  Agent2d (Zone aZone,
-           Grid2d world,
-           int x,
-           int y,
-           int scatter,
-           double resistProbabilityMean, double resistProbabilityDeviation,
-           int energyMean, int energyDeviation) {
+  public Agent2d () { }
+  public Agent2d (Zone aZone,
+                  Grid2d world,
+                  int x, int y,
+                  int scatter,
+                  double resistProbabilityMean, double resistProbabilityDeviation,
+                  int energyMean, int energyDeviation) {
     super (aZone);
     this.x = x;
     this.y = y;
@@ -97,12 +98,12 @@ public class Agent2d extends SwarmImpl {
     return null;
   }
     
-  public void moveAgent (int xoffset, int yoffset) {
+  public void moveAgent (int xo, int yo) {
     int newx, newy;
     newx = x;
     newy = y;
-    newx += xoffset;
-    newy += yoffset;
+    newx += xo;
+    newy += yo;
     if (newx < 0)
       newx = 0;
     else if (newx >= world.getSizeX ())
@@ -129,7 +130,7 @@ public class Agent2d extends SwarmImpl {
   }
 
   public int sampleEnergy () {
-    return (int) energyDistribution.getDoubleSample ();
+    return Math.abs ((int) energyDistribution.getDoubleSample ());
   }
 
   public void randomWalk () {
@@ -151,8 +152,13 @@ public class Agent2d extends SwarmImpl {
     return resisting;
   }
   
+  public void clearStatus () {
+    resisting = false;
+    frobbed = false;
+  }
 
   public Object drawSelfOn (Raster r) {
+    r.drawPointX$Y$Color (x, y, color);
     return this;
   }
 }

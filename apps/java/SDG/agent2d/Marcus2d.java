@@ -15,13 +15,12 @@ import swarm.Globals;
 
 import ObserverSwarm;
 
-public class Marcus2d extends Agent2d {
+public class Marcus2d extends DirectedAgent2d {
   Schedule schedule;
   Selector incubateSelector;
   Selector checkWorkSelector;
   Selector xmoveSelector, ymoveSelector;
   Action xmoveNext, ymoveNext;
-  int xoffset, yoffset;
   int xfreq, yfreq;
   int incubationTime, incubationRemaining;
   boolean working;
@@ -59,6 +58,7 @@ public class Marcus2d extends Agent2d {
   }
 
   public void startIncubation (int t) {
+    color = ObserverSwarm.MarcusIncubateColor;
     working = false;
     incubationRemaining = incubationTime;
     resistProbability = sampleResistProbability ();
@@ -67,31 +67,25 @@ public class Marcus2d extends Agent2d {
   }
 
   public void startWork (int t) {
+    color = frobbed ? ObserverSwarm.MarcusListenColor : ObserverSwarm.MarcusNativeColor;
     working = true;
     if (!frobbed)
       direction =
         Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359);
     
+    setOffsets ();
     if (direction == 90) {
       yfreq = 1;
       xfreq = 0;
-      xoffset = 0;
-      yoffset = 1;
     } else if (direction == 270) {
       xfreq = 0;
       yfreq = 1;
-      xoffset = 0;
-      yoffset = -1;
     } else if (direction == 180) {
       xfreq = 1;
       yfreq = 0;
-      xoffset = -1;
-      yoffset = 0;
     } else if (direction == 0) {
       xfreq = 1;
       yfreq = 0;
-      xoffset = 1;
-      yoffset = 0;
     } else {
       double radians = Math.toRadians ((double) direction);
       double slope = Math.tan (radians);
@@ -103,19 +97,6 @@ public class Marcus2d extends Agent2d {
       else {
         xfreq = 1;
         yfreq = (int) Math.abs (1.0 / slope);
-      }
-      if (direction < 90) {
-        xoffset = 1;
-        yoffset = 1;
-      } else if (direction < 180) {
-        xoffset = -1;
-        yoffset = 1;
-      } else if (direction < 270) {
-        xoffset = -1;
-        yoffset = -1;
-      } else {
-        xoffset = 1;
-        yoffset = -1;
       }
     }
     schedule.at$createActionTo$message (t, this, checkWorkSelector);
@@ -133,14 +114,14 @@ public class Marcus2d extends Agent2d {
         startIncubation (Globals.env.getCurrentTime () + 1);
     } 
     else {
+      color = resisting ? ObserverSwarm.MarcusResistColor : ObserverSwarm.MarcusIncubateColor;
       randomWalk ();
       incubationRemaining--;
       schedule.at$createActionTo$message (Globals.env.getCurrentTime () + 1,
                                           this,
                                           incubateSelector);
     }
-    resisting = false;
-    frobbed = false;
+    clearStatus ();
   }
 
   public void checkWork () {
@@ -181,13 +162,5 @@ public class Marcus2d extends Agent2d {
       return super.frob (direction);
     else
       return false;
-  }
-
-  public Object drawSelfOn (Raster r) {
-    if (working)
-      r.drawPointX$Y$Color (x, y, ObserverSwarm.MarcusWorkColor);
-    else
-      r.drawPointX$Y$Color (x, y, resisting ? ObserverSwarm.MarcusResistColor : ObserverSwarm.MarcusIncubateColor);
-    return this;
   }
 }

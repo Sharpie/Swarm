@@ -19,13 +19,15 @@ import java.util.LinkedList;
 public class ObserverSwarm extends GUISwarmImpl {
   public final static byte UserTourColor = 0;
   public final static byte UserResistColor = 1;
-  public final static byte GlenTourColor = 2;
-  public final static byte GlenAttackColor = 3;
-  public final static byte MarcusIncubateColor = 4;
-  public final static byte MarcusResistColor = 5;
-  public final static byte MarcusWorkColor = 6;
-  public final static byte AlexTourColor = 7;
-  public final static byte AlexTalkColor = 8;
+  public final static byte UserListenColor = 2;
+  public final static byte GlenTourColor = 3;
+  public final static byte GlenAttackColor = 4;
+  public final static byte MarcusIncubateColor = 5;
+  public final static byte MarcusResistColor = 6;
+  public final static byte MarcusListenColor = 7;
+  public final static byte MarcusNativeColor = 8;
+  public final static byte AlexTourColor = 9;
+  public final static byte AlexTalkColor = 10;
   Object2dDisplay display;
   ZoomRaster raster;
   SDG model;
@@ -45,10 +47,12 @@ public class ObserverSwarm extends GUISwarmImpl {
     colormap = new ColormapImpl (getZone ());
     colormap.setColor$ToName (UserTourColor, "white");
     colormap.setColor$ToName (UserResistColor, "gray");
+    colormap.setColor$ToName (UserListenColor, "slate gray");
 
     colormap.setColor$ToName (MarcusIncubateColor, "yellow");
     colormap.setColor$ToName (MarcusResistColor, "red");
-    colormap.setColor$ToName (MarcusWorkColor, "green");
+    colormap.setColor$ToName (MarcusListenColor, "pale green");
+    colormap.setColor$ToName (MarcusNativeColor, "dark green");
 
     colormap.setColor$ToName (GlenTourColor, "cyan");
     colormap.setColor$ToName (GlenAttackColor, "pink");

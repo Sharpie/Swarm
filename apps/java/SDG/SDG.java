@@ -14,7 +14,7 @@ import agent2d.User2d;
 public class SDG extends Organization {
   Grid2d world;
   Agent2d mgd, gepr, alex;
-  Agent2d user1, user2;
+  Agent2d user1, user2, user3;
 
   public SDG (Zone aZone) {
     super (aZone);
@@ -25,8 +25,9 @@ public class SDG extends Organization {
     mgd = new Marcus2d (getZone (), world, 0, 0);
     gepr = new Glen2d (getZone (), world, 10, 10);
     alex = new Alex2d (getZone (), world, 20, 20);
-    user1 = new User2d (getZone (), world, 30, 30);
-    user2 = new User2d (getZone (), world, 40, 40);
+    user1 = new User2d (getZone (), world, 30, 30, 1, .9, .1, 30, 5);
+    user2 = new User2d (getZone (), world, 50, 50, 5, .9, .1, 30, 5);
+    user3 = new User2d (getZone (), world, 40, 40, 3, .5, .25, 10, 2);
 
     return this;
   }
@@ -43,6 +44,7 @@ public class SDG extends Organization {
     alex.activateIn (this);
     user1.activateIn (this);
     user2.activateIn (this);
+    user3.activateIn (this);
     return getActivity ();
   }
 }

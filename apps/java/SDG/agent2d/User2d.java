@@ -14,11 +14,19 @@ import swarm.Globals;
 
 import ObserverSwarm;
 
-public class User2d extends Agent2d {
+public class User2d extends DirectedAgent2d {
   Schedule schedule;
 
-  public User2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, 1, .9, .1, 10, 5);
+  public User2d (Zone aZone, Grid2d world,
+                 int x, int y,
+                 int scatter,
+                 double resistanceProbabilityMean,
+                 double resistanceProbabilityDeviation,
+                 int energyMean, int energyDeviation) {
+
+    super (aZone, world, x, y, scatter,
+           resistanceProbabilityMean, resistanceProbabilityDeviation,
+           energyMean, energyDeviation);
 
     schedule = new ScheduleImpl (aZone, 1);
 
@@ -41,11 +49,16 @@ public class User2d extends Agent2d {
   }
 
   public void stepAgent () {
-    randomWalk ();
-  }
-
-  public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, resisting ? ObserverSwarm.UserResistColor : ObserverSwarm.UserTourColor);
-    return this;
+    if (frobbed && !resisting)
+      {
+        color = ObserverSwarm.UserListenColor;
+        moveDirection ();
+      }
+    else
+      {
+        color = resisting ? ObserverSwarm.UserResistColor : ObserverSwarm.UserTourColor;
+        randomWalk ();
+      }
+    clearStatus ();
   }
 }
