@@ -40,14 +40,12 @@ INSTALL_DATA = @INSTALL_DATA@
 
 SHELL = /bin/sh
 
-ifneq ($(OS),cygwin)
 OBJECTS = avcall.o structcpy.o
-else
-OBJECTS = avcall.o avcall-msvc.o structcpy.o
+ifeq ($(OS),cygwin)
+EXTRAOBJECTS = avcall-i386-msvc.o
 endif
 
-
-all : $(OBJECTS) libavcall.a avcall.h $(srcdir)/avcall.3 $(srcdir)/avcall.html
+all : $(OBJECTS) $(EXTRAOBJECTS) libavcall.a avcall.h $(srcdir)/avcall.3 $(srcdir)/avcall.html
 
 avcall.o : avcall-$(CPU).o
 	$(RM) avcall.o avcall.lo
@@ -61,7 +59,7 @@ avcall-i386.s : $(srcdir)/avcall-i386.S
 	$(CPP) $(ASPFLAGS) $(srcdir)/avcall-i386.S | grep -v '^ *#line' | grep -v '^#ident' | grep -v '^#' | sed -e 's,% ,%,g' > avcall-i386.s
 
 avcall-i386-msvc.o: avcall-i386-msvc.s
-	$(CC) @GCC_X_NONE@ -c avcall-i386-msvc.o
+	$(CC) @GCC_X_NONE@ -c avcall-i386-msvc.s
 
 avcall-i386-msvc.s: $(srcdir)/avcall-i386-msvc.c
 	$(CPP) $(ASPFLAGS) $(srcdir)/avcall-i386-msvc.c | grep -v '^ *#line' | grep -v '^#ident' | grep -v '^#' | sed -e 's,% ,%,g' > avcall-i386-msvc.s
