@@ -1,3 +1,12 @@
+1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* simtools.m (initSwarmFinish): New internal function.
+	(initSwarm, initSwarmApp, initSwarmAppFunc, initSwarmArguments,
+	initSwarmAppArguments): Use it.
+
+	* simtools.[hm] (initSwarmAppFunc): New function.
+	(swarmGUIMode): Make boolean.
+
 1998-12-11  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Makefile.am: Remove ListShuffler

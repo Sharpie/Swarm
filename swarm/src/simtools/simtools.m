@@ -19,44 +19,14 @@
 #import "OutFile.h" // CannotOpenOutFile
 #import "UName.h" // NoBaseNameForUName
 
-int swarmGUIMode;
+BOOL swarmGUIMode;
 
-//M: The initSwarm method initializes the Swarm libraries.  The call to 
-//M: initSwarm should be the call in any Swarm code you write.  The argc and
-//M: argv are the input parameters to main().
-void
-initSwarm (int argc, const char **argv)
+static void
+initSwarmFinish (void)
 {
-  initSwarmAppArguments (argc, argv, NULL, NULL, NULL);
-}
-
-void
-initSwarmApp (int argc, const char **argv,
-           const char *version, const char *bugAddress)
-{
-  initSwarmAppArguments (argc, argv, version, bugAddress, Nil);
-}
-
-void
-initSwarmArguments (int argc, const char **argv, Class argumentsClass)
-{
-  initSwarmAppArguments (argc, argv, NULL, NULL, argumentsClass);
-}
-
-void
-initSwarmAppArguments (int argc, const char **argv,
-                       const char *version, const char *bugAddress,
-                       Class argumentsClass)
-{
-  swarmGUIMode = 1;
-
-  initModule (activity);
-
-  initDefobj (argc, argv, version, bugAddress, argumentsClass);
   initProbing ();
 
-  if ([arguments getBatchModeFlag])
-    swarmGUIMode = 0;
+  swarmGUIMode = ![arguments getBatchModeFlag];
 
   initRandom (arguments);
 
@@ -70,3 +40,49 @@ initSwarmAppArguments (int argc, const char **argv,
   deferror (CouldNotSave, NULL);
 }
 
+void
+initSwarm (int argc, const char **argv)
+{
+  initModule (activity);
+  initDefobj (argc, argv);
+  initSwarmFinish ();
+}
+
+void
+initSwarmApp (int argc, const char **argv,
+              const char *version, const char *bugAddress)
+{
+  initModule (activity);
+  initDefobjApp (argc, argv, version, bugAddress);
+  initSwarmFinish ();
+}
+
+void
+initSwarmAppFunc (int argc, const char **argv,
+                  const char *version, const char *bugAddress,
+                  struct argp_option *options,
+                  int (*parseKeyFunc) (int key, const char *arg))
+{
+  initModule (activity);
+  initDefobjAppFunc (argc, argv, version, bugAddress, options, parseKeyFunc);
+  initSwarmFinish ();
+}
+
+
+void
+initSwarmArguments (int argc, const char **argv, Class argumentsClass)
+{
+  initModule (activity);
+  initDefobjAppArguments (argc, argv, NULL, NULL, argumentsClass);
+  initSwarmFinish ();
+}
+
+void
+initSwarmAppArguments (int argc, const char **argv,
+                       const char *version, const char *bugAddress,
+                       Class argumentsClass)
+{
+  initModule (activity);
+  initDefobjAppArguments (argc, argv, version, bugAddress, argumentsClass);
+  initSwarmFinish ();
+}

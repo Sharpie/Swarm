@@ -340,6 +340,12 @@ extern void initSwarm (int argc, const char **argv);
 extern void initSwarmApp (int argc, const char **argv,
                           const char *version, const char *bugAddress);
 
+//F: Like initSwarmApp, but specifies a parsing function .
+extern void initSwarmAppFunc (int argc, const char **argv,
+                              const char *version, const char *bugAddress,
+                              struct argp_option *options,
+                              int (*parseKeyFunc) (int key, const char *arg));
+
 //F: Like initSwarm, but specifies what class to use for argument
 //F: parsing, typically this will be a subclass of Arguments.
 extern void initSwarmArguments (int argc, const char **argv,
@@ -350,9 +356,9 @@ extern void initSwarmArguments (int argc, const char **argv,
 extern void initSwarmAppArguments (int argc, const char **argv,
                                    const char *version, const char *bugAddress,
                                    Class argumentsClass);
-                                   
+
 //G: Flag for whether we're in graphics mode or not.  Default is 1.
-extern int swarmGUIMode;
+extern BOOL swarmGUIMode;
 
 @class ControlPanel;
 @class UName;
