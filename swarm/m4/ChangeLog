@@ -1,3 +1,8 @@
+1999-04-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (jv_FIND_JDK): Use simply the japhar datadir instead of
+	datadir/classes.zip.
+
 1999-03-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4 (vj_FIND_JDK): Add check for japhar's JNI include files.
