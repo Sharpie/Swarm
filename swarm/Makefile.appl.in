@@ -8,8 +8,8 @@ tklibdir = @tklibdir@
 bltdir = @bltdir@
 tclobjcdir = @tclobjcdir@
 ffidir = @ffidir@
-zlibdir = @zlibdir@
-pngdir = @pngdir@
+zliblibdir = @zliblibdir@
+pnglibdir = @pnglibdir@
 
 CC = @CC@
 CFLAGS = @CFLAGS@
@@ -30,19 +30,18 @@ BLTLIB = @BLTLIB@
 TCLOBJCLIB = @TCLOBJCLIB@
 FFILIB = @FFILIB@
 
-XPMLIB = -lXpm
 PNGLIB = -lpng
 ZLIBLIB = -lz
 
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X11LIBS = -lX11 $(X_EXTRA_LIBS)
+GUILIBS = @GUILIBS@
 
 LDFLAGS = -L$(libdir) @RPATH@$(libdir) $(TCLOBJCLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS)
 #LINK = libtool --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 
-SYSLIBS = $(TCLOBJCLIB) $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(X11LIBS) -lobjc -lm
+SYSLIBS = $(TCLOBJCLIB) $(BLTLIB) $(TKLIB) $(TCLLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lobjc -lm
 
 SWARMLIBS = -lspace -lanalysis -lsimtoolsgui -ltkobjc -lsimtools -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
 

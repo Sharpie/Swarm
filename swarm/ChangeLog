@@ -1,3 +1,10 @@
+1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* configure.in: Check for _WIN32 to select GUILIBS between
+	X11 and GDI things.
+
+	* Makefile.appl.in: Use GUILIBS where X variables were used.
+
 1998-06-24  Alex Lancaster  <alex@santafe.edu>
 
 	* README: Removed outdated mention of Makefile.conf, tidied,

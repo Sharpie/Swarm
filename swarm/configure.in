@@ -11,6 +11,15 @@ AM_CONFIG_HEADER(config.h)
 AC_PROG_CC
 AM_PROG_LIBTOOL
 
+AC_MSG_CHECKING(for GUI libs)
+AC_TRY_COMPILE([#ifdef _WIN32
+#error
+#endif],[],
+GUILIBS='-lXpm -lX11 $(X_EXTRA_LIBS)',
+GUILIBS='-luser32 -lgdi32')
+AC_MSG_RESULT($GUILIBS)
+AC_SUBST(GUILIBS)
+
 AC_PATH_XTRA
 if test "$ac_R_space" = yes ; then
   RPATH='-R '
