@@ -1,3 +1,10 @@
+1998-01-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Set basename of observerSwarm.  Minor reformatting.
+
+	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Eliminate
+	inline configuration of GUISwarm.
+
 1998-01-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Adjust

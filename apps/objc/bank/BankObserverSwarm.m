@@ -44,15 +44,7 @@
 {
   id modelZone;	
   
-#if 1
-  controlPanel = [ControlPanel create: [self getZone]];
-  actionCache = [ActionCache createBegin: [self getZone]];
-  [actionCache setControlPanel: controlPanel];
-  [actionCache setWindowGeometryRecordName: "actionCache"];
-  actionCache = [actionCache createEnd]; 
-#else
   [super buildObjects];
-#endif
   
   modelZone = [Zone create: [self getZone]];
   bankModelSwarm = [BankModelSwarm create: modelZone];
