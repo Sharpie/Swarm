@@ -1,3 +1,8 @@
+1998-05-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.conf: Use system versions of egcs-1.0.2 and gcc-2.8
+	for mgd-SFI-Solaris and SFI.
+
 1998-05-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf: Update comment about OTHERLIBDIRS.
