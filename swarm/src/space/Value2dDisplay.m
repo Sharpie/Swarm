@@ -28,7 +28,12 @@
 {
   displayWidget = r;
   colormap = c;
+
+#ifndef USE_JAVA
   drawPointImp = getMethodFor ([r getClass], @selector (drawPointX:Y:Color:));
+#else
+  drawPointImp = [(Object *)r methodFor: @selector (drawPointX:Y:Color:)];
+#endif
   return self;
 }
 
