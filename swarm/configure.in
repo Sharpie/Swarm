@@ -199,6 +199,9 @@ if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_c
   CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 fi
 
+
+md_CHECK_WARNFLAGS
+
 if test $prefix = /usr; then
   includesubdir=swarm
   includedir=${includedir}/${includesubdir}
