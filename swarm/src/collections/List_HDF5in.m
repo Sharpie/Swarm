@@ -10,7 +10,7 @@
           id obj;
 #ifdef HAVE_JDK
 	  if ([class respondsTo: M(isJavaProxy)])
-	    obj = SD_JAVA_INSTANTIATE (SD_JAVA_FINDJAVACLASS (class))->object;
+	    obj = SD_JAVA_INSTANTIATE (SD_JAVA_FIND_CLASS_JAVA (class))->object;
 	  else
 #endif
 	    obj = [class create: getZone (self)];
