@@ -57,7 +57,7 @@ strtoll (const char *nptr, char **endptr, int base)
   do
     {
       c = *s++;
-    } while (isspace(c));
+    } while (isSpace(c));
   if (c == '-')
     {
       neg = 1;
@@ -96,10 +96,10 @@ strtoll (const char *nptr, char **endptr, int base)
   cutoff /= (unsigned long long) base;
   for (acc = 0, any = 0;; c = *s++)
     {
-      if (isdigit(c))
+      if (isDigit(c))
         c -= '0';
-      else if (isalpha(c))
-        c -= isupper(c) ? 'A' - 10 : 'a' - 10;
+      else if (isAlpha(c))
+        c -= isUpper(c) ? 'A' - 10 : 'a' - 10;
       else
         break;
       if (c >= base)

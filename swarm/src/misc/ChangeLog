@@ -1,5 +1,7 @@
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* strtoll.c (strtoll): Use misc.h ctype macros.
+
 	* argp.h, argp-help.c (fill_in_uparams, canon_doc_option, SKIPWS):
 	Update ctype-like macros not to use ctype.
 
