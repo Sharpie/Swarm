@@ -3,7 +3,7 @@
 	* Makefile.am (SRC, simtoolsgui_HEADERS): Remove mention of
 	ActiveGraph.
 
-	* simtoolsgui.h (ActiveGraph): Remove.
+	* simtoolsgui.h (ActiveGraph): Remove protocl and class object.
 
 	* ActiveGraph.[hm]: Remove.
 

@@ -307,5 +307,4 @@ extern void initSimtoolsGUI (void);
 @class CompleteProbeDisplay;
 @class ProbeDisplayManager;
 @class GUISwarm;
-@class ActiveGraph;
 @class MessageProbeWidget;
