@@ -23,7 +23,17 @@
 
   <SECT1 ID="SWARM.SPACE.SGML.SECT1.DEPEND">
     <TITLE>Dependencies</TITLE> 
-    <PARA>No other library dependences</PARA>
+
+    <PARA>Following are the other header files imported by
+    &lt;space.h&gt;:
+
+<PROGRAMLISTING>
+#import &lt;objectbase.h&gt;
+#import &lt;gui.h&gt;
+</PROGRAMLISTING>
+
+      </PARA>
+
   </SECT1>
 
   <SECT1 ID="SWARM.SPACE.SGML.SECT1.COMPAT">
@@ -34,6 +44,7 @@
 
   </SECT1>
 
+<!--
   <SECT1 ID="SWARM.SPACE.SGML.SECT1.USAGE">
     <TITLE>Usage Guide</TITLE>
 
@@ -67,6 +78,8 @@
 
     <PARA>Unavailable</PARA>
   </SECT1>
+
+-->
 
 </PARTINTRO>
 
