@@ -46,7 +46,7 @@ getters.elc: $(abs_top_builddir)/protocol.elc $(abs_top_builddir)/interface.elc
 $(abs_top_builddir)/interface.elc: $(abs_top_builddir)/protocol.elc
 
 $(srcdir)/SwarmEnvironment_getters.m: swarm.h getters.elc
-	$(ENVEMACS) -batch -l '$(dos_abs_builddir)@PATHDELIM@getters.elc' -f generate-SwarmEnvironment-getters
+	$(ENVEMACS) -batch $(GUIOPT) -l '$(dos_abs_builddir)@PATHDELIM@getters.elc' -f generate-SwarmEnvironment-getters
 
 EXPORTALL=-Wl,--export-all
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(DESTDIR)$(libdir) $(foreach module,$(SWARMMODULES),-L$(module)) $(LIBOBJCLDFLAGS) $(FFILDFLAGS) $(SUPPORTLDFLAGS) -no-undefined $(if $(filter yes,$(USEDLL)),$(EXPORTALL) -shrext .dll) # -L$(dir $(shell $(CC) -print-libgcc-file-name)) 
@@ -72,7 +72,7 @@ swarm.dll: swarm.dll.c $(OBJS)
 endif
 
 classList.m:
-	find $(foreach module,$(SWARMMODULES),$(srcdir)/$(module)) -name \*.h | grep -v random/test | xargs cat | egrep -v 'TARGET|TINDEX|List' | sed -n 's/^@interface  *\(.*\) *:.*/\1/p' > classList
+	find $(foreach module,$(SWARMMODULES),$(srcdir)/$(module)) -name \*.h | grep -v random/test | xargs cat | egrep -v 'TARGET|TINDEX|List' | sed -n 's/^@interface  *\(.*\) *:.*/\1/p' $(if $(GUIDIR),,| egrep -v 'ActiveGraph|EZSequence|EZAverageSequence|EZBin|EZDistribution|EZGraph|FunctionGraph|Object2dDisplay|Value2dDisplay') > classList
 	cat classList | sed 's/.*/@class &;/' > classList.m
 	(echo 'void swarm_force_references () {' ; cat classList | sed 's/.*/  [& self];/'; echo '}') >> classList.m
 	$(RM) classList

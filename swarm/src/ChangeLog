@@ -1,3 +1,8 @@
+2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.am ($(srcdir)/SwarmEnvironment_getters.m): Add GUIOPT.
+	(classList.m): Exclude some analysis stuff for the --disable-gui case.
+
 2004-07-21  Scott Christley  <schristley@mac.com>
 
 	* Makefile.am (SUBDIRS): Parameterize simtoolsgui and gui.
