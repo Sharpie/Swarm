@@ -35,7 +35,7 @@ uninstall-local:
 	- (cd $(htmldir); rm -rf *)	
 
 htmldist: html
-	$(LN_S) `pwd` ../$(NAME); cd ..; tar cf -  $(addprefix $(NAME)/, $(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(DISTNAME)-html.tar.gz
+	$(LN_S) -f `pwd` ../$(NAME); cd ..; tar cf -  $(addprefix $(NAME)/, $(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(DISTNAME)-html.tar.gz
 
 dvidir = $(prefix)/dvi
 nodist_dvi_DATA = $(NAME).dvi

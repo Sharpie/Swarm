@@ -532,7 +532,7 @@ option.  Note (b): the distribution objects are created
 <orderedlist>
 
 <listitem><para>In a separate <ulink
-url="ftp://ftp.santafe.edu/pub/swarm/RandomTests-0.81.tgz">tar
+url="ftp://ftp.swarm.org/pub/swarm/RandomTests-0.81.tgz">tar
 file</ulink>, available at the SFI ftp site, there are a set of
 programs which exercise aspects of the generator objects'
 functionality.  The following (very utilitarian) programs are

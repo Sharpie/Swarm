@@ -1,3 +1,15 @@
+2000-03-01    <mgd@nest.swarm.org>
+
+	* Swarm user guide 0.9 beta released.
+
+	* global.ent: Change userguide source URL to SDG.
+
+	* user3.01.sgml: Update bug-swarm and swarmapps URL to SDG.
+
+	* userapp-rand3.sgml: Update RandomTests-0.81.tgz URL to SDG.
+
+	* Makefile.rules (htmldist): Force the symlink.
+
 2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* global.ent: Use new `swarm-guide-package-name' SGML ENTITY.

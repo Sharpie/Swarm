@@ -96,7 +96,7 @@ for any corresponding short options.</screen>
       of the changes described here begin with the
       <application>Heatbugs</application> application distributed in
       the package <ulink
-      url="ftp://ftp.santafe.edu/pub/swarm/swarmapps-2.0.tar.gz">swarmapps-2.0.tar.gz</ulink>.</para>
+      url="ftp://ftp.swarm.org/pub/swarm/swarmapps-2.1.tar.gz">swarmapps-2.1.tar.gz</ulink>.</para>
       </footnote>.
     </para>
 
@@ -244,7 +244,7 @@ Usage: lt-heatbugs [OPTION...]
 Mandatory or optional arguments to long options are also mandatory or optional
 for any corresponding short options.
 
-Report bugs to bug-swarm@santafe.edu.</screen>
+Report bugs to bug-swarm@swarm.org.</screen>
 
     <para>
       It does not make any difference whether the user starts the
