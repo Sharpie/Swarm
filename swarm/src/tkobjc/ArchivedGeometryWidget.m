@@ -74,12 +74,12 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- updateArchiver
+- updateArchiver: archiver
 {
   if (windowGeometryRecordName)
     {
       id windowGeometryRecord =
-        [lispArchiver getObject: windowGeometryRecordName];
+        [archiver getObject: windowGeometryRecordName];
       
       if (windowGeometryRecord == nil)
         windowGeometryRecord = [WindowGeometryRecord create: [self getZone]];
@@ -88,7 +88,7 @@ PHASE(Using)
         [windowGeometryRecord setWidth: [self getWidth]
                               Height: [self getHeight]];
       [windowGeometryRecord setX: [self getX] Y: [self getY]];
-      [lispArchiver putShallow: windowGeometryRecordName
+      [archiver putShallow: windowGeometryRecordName
                     object: windowGeometryRecord];
     }
   return self;

@@ -1,3 +1,8 @@
+1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ArchivedGeometryWidget.[hm] ([ArchivedGeometryWidget
+	-updateArchiver:]): Add archiver argument.
+
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (raster_private): Add a privateColormapFlag

@@ -15,7 +15,7 @@
 - setWindowGeometryRecordName: (const char *)recordName;
 - setSaveSizeFlag: (BOOL)saveSizeFlag;
 - loadWindowGeometryRecord;
-- updateArchiver;
+- updateArchiver: archiver;
 - createEnd;
 - registerAndLoad;
 - (void)drop;
