@@ -11,10 +11,6 @@
 
 - initializeParameters
 {
-  // Initialize the parameterManager from the "experiment.setup" file
-
-  [ObjectLoader load: self fromAppDataFileNamed: "experiment.setup"];
-
   // Now, build a custom probemap to display parameterManager variables
 
   pmProbeMap = [EmptyProbeMap createBegin: [self getZone]];
@@ -127,9 +123,14 @@
  
   [super buildObjects];
 
-  // Build the parameter manager
+  // Build the parameter manager, using the parameterManager data stored in
+  // the `bug.scm' datafile.
 
-  parameterManager = [ParameterManager create: self];
+  if ((parameterManager = 
+       [lispAppArchiver getWithZone: self object: "parameterManager"]) == nil)
+    raiseEvent(InvalidOperation,
+               "Can't find the parameterManager parameters");
+  
   [parameterManager initializeParameters];
 
   // Build a probeDisplay on ourself

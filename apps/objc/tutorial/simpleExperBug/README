@@ -56,22 +56,17 @@ the parameters out to a log-file when we ask it to.
 
 -initializeParameters: 
 
-   Here, we load the parameters for the whole experimental run, and 
-   create a probeDisplay on the parameterManager itself, allowing us 
-   to alter the experiment parameters before we start the run. 
-
-   As before with modelSwarm, we load the experiment parameters using an 
-   ObjectLoader from a file called "experiment.setup". In addition to the 
-   model parameters, this file holds the increments by which we should step
-   through the various parameters, and the maximimum values these parameters 
-   should take.
-
+   Here we create a probeDisplay on the parameterManager itself,
+   allowing us to alter the experiment parameters before we start the
+   run.  The default parameters will have been loaded by the call to
+   `lispAppArchiver' when the object is created in [ExperSwarm
+   -buildObjects].
 
 -stepParameters:
 
-   Here, we increment the various parameters by whatever increment
-   was specified in the "experiment.setup" file, test to see if we
-   have finished sweeping any of them, and return "nil" if we have.
+   Here, we increment the various parameters by whatever increment was
+   specified in the `bug.scm' file, test to see if we have finished
+   sweeping any of them, and return "nil" if we have.
 
    There are many different parameter sweeping routines that we could have 
    used. The specific code in this method will often be model-specific. 
@@ -115,6 +110,13 @@ of ModelSwarm during the course of the experiment, so we package-up the code
 to build a modelSwarm in its own method, which we can call over and over 
 again.
 
+  As before with modelSwarm (see simpleSwarmBug2 and onwards), we
+create the `ParameterManager' instance using an the `lispAppArchiver'
+(which, in turn, uses the default `bug.scm' file) by requesting the
+Archiver to instantiate the object at the `parameterManager' key.  In
+addition to the model parameters, `parameterManager' holds the
+increments by which we should step through the various parameters, and
+the maximimum values these parameters should take.
 
 -buildActions:
 

@@ -1,3 +1,21 @@
+1999-06-23  Alex Lancaster  <alex@santafe.edu>
+
+	* README (-buildObjects): Update explanations, since
+	parameterManager is now instantiated via the lispAppArchiver.
+	(-initializeParameters): Remove references to `experiment.setup'.
+	(-stepParameters): Likewise.
+
+	* ExperSwarm.m ([ParameterManager -initializeParameters]): Remove
+	call to `ObjectLoader', initialize now done by [ExperSwarm
+	-buildObject].
+	([ExperSwarm -buildObjects]): Call the `lispAppArchiver' inside
+	`self' to instantiate the `parameterManager' object rather than
+	instantiating directly.
+
+	* bug.scm: Add file.
+
+	* experiment.setup: Remove file.
+
 1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ExperSwarm.m ([ExperSwarm -dropModel]): Don't drop activity;
