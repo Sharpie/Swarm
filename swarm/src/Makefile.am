@@ -41,7 +41,7 @@ OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.o)
 
 swarm.dll:
 	$(CC) -c $(srcdir)/dllinit.c
-	$(srcdir)/genctors $(OBJS) > $(CTOR).c
+	$(srcdir)/genctors $(CTOR) $(OBJS)
 	$(CC) -c $(CTOR).c
 	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(CTOR).o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
