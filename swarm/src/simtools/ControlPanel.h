@@ -14,20 +14,20 @@
   id state;					  // uses activity.h symbols
 }
 
--createEnd;
--(id) getState;
--setState: (id) s;
--waitForControlEvent; // deprecated, use this message on ActionCache
+- createEnd;
+- getState;
+- setState: s;
+- waitForControlEvent; // deprecated, use this message on ActionCache
 
--startInActivity: (id) activityID;
--setStateRunning;
--setStateStopped;
--setStateStoppedAndSave;
--setStateStepping;
--setStateQuit;
--setStateNextTime;
+- startInActivity: activityID;
+- setStateRunning;
+- setStateStopped;
+- setStateSave;
+- setStateStepping;
+- setStateQuit;
+- setStateNextTime;
 
 // Deprecated Methods
--doTkEvents;  // deprecated, use this message on ActionCache
--(id) getPanel;  // deprecated, use this on ActionCache
+- doTkEvents;  // deprecated, use this message on ActionCache
+- getPanel;    // deprecated, use this on ActionCache
 @end

@@ -136,19 +136,18 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
     }
   else
     {
-      [self setState: ControlStateStopped] ;
+      [self setState: ControlStateStopped];
       [self waitForControlEvent];
       // Check now if the user hit the quit button: if so, abort.
       if ([self getState] == ControlStateQuit)
-        exit(0) ;
+        exit(0);
       else
-        return self ;
+        return self;
     }
 }
 
-- setStateStoppedAndSave
+- setStateSave
 {
-  [self setStateStopped];
   archiverSave ();
   return self;
 }

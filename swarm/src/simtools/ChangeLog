@@ -1,3 +1,20 @@
+1997-12-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ControlPanel.m ([ControlPanel -setStateSave]): Renamed from
+	setStateStoppedAndSave.  This version doesn't call setStateStopped.
+	Minor reformatting.
+
+	* ControlPanel.h: Rename setStateStoppedAndSave to setStateSave.
+	Reformatting throughout.
+
+	* ActionCache.m ([ActionCache -insertAction:]): Insert renamed
+	setStateSave.
+	([ActionCache -deliverActions]): Only schedule a Stop, do
+	Save and Quit immediately.
+	([ActionCache -sendActionOfType:type:]): Don't set running
+	status if it is a Save; try to be passive.
+	Reformatting throughout.
+
 1997-12-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbeWidget.m ([MessageProbeWidget -idReceive:which]): 

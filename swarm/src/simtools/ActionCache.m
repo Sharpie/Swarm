@@ -63,12 +63,12 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   //
 
   // various types of actions
-  defsymbol(Control);
-  defsymbol(Probing);
-  defsymbol(Spatial);
+  defsymbol (Control);
+  defsymbol (Probing);
+  defsymbol (Spatial);
   // various errors for actioncache processing
-  deferror(InvalidActionType, "Action Name not recognized.\n");
-  deferror(ActionTypeNotImplemented, "Action type not yet implemented.\n");
+  deferror (InvalidActionType, "Action Name not recognized.\n");
+  deferror (ActionTypeNotImplemented, "Action type not yet implemented.\n");
 
   return self;
 }
@@ -84,19 +84,18 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
     {
       actionName = [actionHolder getActionName];
       [actionHolder setActionTarget: ctrlPanel];
-      if (strcmp(actionName, "Start") == 0)
+      if (strcmp (actionName, "Start") == 0)
         [actionHolder setSelector: M(setStateRunning)];
-      else if (strcmp(actionName, "Step") == 0)
+      else if (strcmp (actionName, "Step") == 0)
         [actionHolder setSelector: M(setStateStepping)];
-      else if (strcmp(actionName, "Next") == 0)
+      else if (strcmp (actionName, "Next") == 0)
         [actionHolder setSelector: M(setStateStepping)];
-      else if (strcmp(actionName, "Stop") == 0)
+      else if (strcmp (actionName, "Stop") == 0)
         [actionHolder setSelector: M(setStateStopped)];
-      else if (strcmp(actionName, "Save") == 0)
-        [actionHolder setSelector: M(setStateStoppedAndSave)];
-      else if (strcmp(actionName, "Quit") == 0) {
+      else if (strcmp (actionName, "Save") == 0)
+        [actionHolder setSelector: M(setStateSave)];
+      else if (strcmp (actionName, "Quit") == 0)
         [actionHolder setSelector: M(setStateQuit)];
-      }
       else
         [InvalidActionType
           raiseEvent: 
@@ -105,16 +104,12 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
       [actionCache addLast: actionHolder];
     }
   else if (actionType == Probing)
-    {
-      // target should already be set to the particular probe?
-      // [actionCache addLast: actionHolder];
-      [ActionTypeNotImplemented raiseEvent];
-    }
+    // target should already be set to the particular probe?
+    // [actionCache addLast: actionHolder];
+    [ActionTypeNotImplemented raiseEvent];
   else if (actionType == Spatial)
-    {
-      // [actionCache addLast: actionHolder];
-      [ActionTypeNotImplemented raiseEvent];
-    }
+    // [actionCache addLast: actionHolder];
+    [ActionTypeNotImplemented raiseEvent];
   else
     [InvalidActionType raiseEvent: "The ActionType Symbol "
 		       "embedded in action 0x%0p was not found.\n", 
@@ -133,32 +128,40 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   while ((actionHolder = [cacheIndex next]) != nil)
     {
       actionType = [actionHolder getType];
-      if (actionType == Control) {
-        actionName = [actionHolder getActionName];
-        //[actionHolder setActionTarget: schedControl];
-        // if "Quit" then schedule a quit to control panel
-        // if "Stop" then schedule a "stop" to the activitycontrol
-        if ((strcmp(actionName, "Quit") == 0)
-            || (strcmp(actionName, "Stop") == 0)
-            || (strcmp(actionName, "Save") == 0)) 
-          {
+      if (actionType == Control)
+        {
+          actionName = [actionHolder getActionName];
+          //[actionHolder setActionTarget: schedControl];
+          // if "Stop" then schedule a "stop" to the activitycontrol
+          if (strcmp (actionName, "Stop") == 0)
             [destinationSchedule 
-              at: 
-                getCurrentTime()+1
+              at:
+                getCurrentTime () + 1
               createActionTo: [actionHolder getActionTarget] 
               message: [actionHolder getSelector]];
-            
-          }
-        // if "Start" send a message directly to activitycontroller
-        // if "Step" send a message directly to activitycontroller
-        else if ((strcmp(actionName, "Step") == 0) 
-                 || (strcmp(actionName, "Start") == 0)) 
-          [[actionHolder getActionTarget] perform: [actionHolder getSelector]];
-        else
-          [InvalidActionType
-            raiseEvent:
-              "Control Action Name: [%s] not recognized in deliverActions",
-            actionName];
+          // if "Save", "Start", "Step", or "Quit" send a message directly
+          // to activitycontroller
+          else if ((strcmp (actionName, "Step") == 0) 
+                   || (strcmp (actionName, "Start") == 0)
+                   // Save is here because otherwise archiving won't run
+                   // until execution resumes.  I (mgd) think this is bad: if
+                   // you push on a button it should do something.  
+                   // Also, as long as Quit is immediate, Save needs
+                   // to be immediate as well or it could get ignored.
+                   || strcmp (actionName, "Save") == 0)
+                   // Quit is here because otherwise there will be
+                   // a timestep the user may observe before the application
+                   // actually exits.  This probably ought to become a
+                   // scheduled action for when there are non-GUI 
+                   // ControlPanels being frobbed by other Swarms.
+                   || (strcmp (actionName, "Quit") == 0))
+            [[actionHolder getActionTarget]
+              perform: [actionHolder getSelector]];
+          else
+            [InvalidActionType
+              raiseEvent:
+                "Control Action Name: [%s] not recognized in deliverActions",
+              actionName];
       }
       [cacheIndex remove];
       [actionHolder drop];
@@ -167,7 +170,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   [cacheIndex drop];
   
   // reschedule myself for next cycle
-  [destinationSchedule at: getCurrentTime() + 1 
+  [destinationSchedule at: getCurrentTime () + 1 
 		       createActionTo: self 
 		       message: M(deliverActions)];
   
@@ -189,7 +192,8 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   // fall out of the busy wait loop and continue at the point
   // from which waitForControlEvnt was called.
   if (([ctrlPanel getState] == ControlStateStopped)
-      && (strcmp(cmd, "Stop") != 0))
+      && !(strcmp (cmd, "Stop") == 0
+           || strcmp (cmd, "Save") == 0))
     [ctrlPanel setState: ControlStateRunning];
   
   // create a 'cmd' action
