@@ -1,5 +1,7 @@
 1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.m (_defobj_implement): Call setTypeImplemented: for FCall.
+
 	* FCall.h: Include swarmconfig.h, but first undefine PACKAGE 
 	and VERSION after inclusion of ffi.h.
 	(FCall_c): Make ffunction be of type func_t.  
