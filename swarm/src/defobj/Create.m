@@ -11,7 +11,6 @@ Library:      defobj
 
 #import <defobj/Create.h>
 
-
 //
 // CreateDrop_s -- superclass for create protocol with phase switching
 //
@@ -44,13 +43,29 @@ PHASE(Creating)
 //
 - createEnd  
 {
-  createByCopy();
-  setNextPhase( self );
+  createByCopy ();
+  setNextPhase (self);
   return self;
 }
 
-@end
+- (const char *)getIdName
+{
+  return [self name];
+}
 
+- (const char *)getObjectName
+{
+  static char name[512];
+  
+  if (self)
+    {
+      sprintf (name, "%s@0x%p", [self name], self);
+      return name;
+    }
+  return "nil"; 
+}
+
+@end
 
 //
 // CreateDrop -- superclass for create protocol without phase switching
@@ -63,7 +78,7 @@ PHASE(Creating)
 //
 - createEnd  
 {
-  createByCopy();
+  createByCopy ();
   return self;
 }
 

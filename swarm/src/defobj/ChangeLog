@@ -1,3 +1,10 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Create.m ([CreateDrop_s -getIdName], [CreateDrop_s
+	-getObjectName]): New method.
+
+	* Create.h: Declare new methods getIdName and getObjectName.
+
 1998-01-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* make-h2x:  Quote CFLAGS so that embedded quotes will work (e.g. in

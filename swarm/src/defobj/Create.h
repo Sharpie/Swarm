@@ -19,9 +19,11 @@ Library:      defobj
 + create: aZone;
 + createBegin: aZone;
 - createEnd;
+- (const char *)getIdName;
+- (const char *)getObjectName;
 @end
 
-@interface CreateDrop : CreateDrop_s
+@interface CreateDrop: CreateDrop_s
 /*** methods in CreateDrop (inserted from .m file by m2h) ***/
 - createEnd;
 @end
