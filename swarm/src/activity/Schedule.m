@@ -378,7 +378,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
       if (getClass(existingAction) == id_ActionConcurrent_c) 
 	{
 	  existingGroup =
-	    (id) ((ActionConcurrent_c *)existingAction)->concurrentGroup;
+	    (id) ((ActionConcurrent_c *) existingAction)->concurrentGroup;
 	  anAction->owner = (id) existingGroup;
 	  [existingGroup addLast: anAction];
 	  return;
@@ -386,12 +386,12 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
     }
 
   // add initial actions to new group
-  newAction = createGroup(self);
+  newAction = createGroup (self);
   newAction->ownerActions = existingAction->ownerActions;  // replace mem links
   *memptr = newAction;
   if (!newKey) 
     {
-      existingAction->owner = (ActionType_c *)newAction->concurrentGroup;
+      existingAction->owner = (ActionType_c *) newAction->concurrentGroup;
       [(id) newAction->concurrentGroup addLast: existingAction];
     }
   anAction->owner = (id) newAction->concurrentGroup;
