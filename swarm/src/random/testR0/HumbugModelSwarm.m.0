@@ -8,7 +8,7 @@
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <simtools.h>
 
 #import "HumbugModelSwarm.h"
