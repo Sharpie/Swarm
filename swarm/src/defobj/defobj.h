@@ -886,7 +886,7 @@ USING
 CREATING
 + createArgc: (int)argc Argv: (const char **)argv;
 
-+ createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options parseFunc: (int (*) (int, const char *))parseFunc;
++ createArgc: (int)argc Argv: (const char **)argv version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc;
 
 //M: Takes an option specification that includes the following information:
 

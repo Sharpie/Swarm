@@ -258,7 +258,7 @@ PHASE(Setting)
 
 - setOptionFunc: (int (*) (int key, const char *arg))anOptionFunc
 {
-  optionFunc = aOptionFunc;
+  optionFunc = anOptionFunc;
   return self;
 }
 
