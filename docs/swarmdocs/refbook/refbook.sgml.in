@@ -1,9 +1,9 @@
 <!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 
-<!entity % global.entities system "../global.ent">
+<!entity % global.entities system "@top_srcdir@/global.ent">
 %global.entities;
 
-<!entity % figures.entities system "../figures.ent">
+<!entity % figures.entities system "@top_srcdir@/figures.ent">
 %figures.entities;
 
 <!entity % src.entities system "src.ent">
@@ -11,7 +11,7 @@
 
 ]>
 
-<BOOK>
+<BOOK ID="refbook">
 
 <TITLE>Reference Guide to Swarm &swarm-release-number;</TITLE>
 

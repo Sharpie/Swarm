@@ -1,5 +1,11 @@
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* refbook.sgml.in: New file.
+
+	* refbook.tex.in: New file.
+
+	* refbook.sgml: Removed.
+
 	* Makefile.am: New file.
 
 	* src.ent.in: New file.
