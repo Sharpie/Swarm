@@ -1,3 +1,14 @@
+1998-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (GENERATED_SGML): Added for revhistory.
+	(noinst_DATA): Added.
+	(SGML, SGML_FILES): Separated out generated/non-gen files.
+
+	* install.ent: Created installrevhistory.sgml entity.
+
+	* installmeta.sgml: Replaced hardcoded revhistory with the new
+	entity installrevhistory.sgml.
+
 1998-06-09  Alex Lancaster  <alex@santafe.edu>
 
 	* installmeta.sgml: Changed corpauthor to be inserted from Global

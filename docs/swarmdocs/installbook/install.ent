@@ -1,4 +1,5 @@
 <!entity installmeta.sgml system "installmeta.sgml">
+<!entity installrevhistory.sgml system "installrevhistory.sgml">
 <!entity installcont.sgml system "installcont.sgml">
 <!entity install00.sgml system "install00.sgml">
 <!entity install01.sgml system "install01.sgml">
