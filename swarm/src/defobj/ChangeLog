@@ -1,3 +1,18 @@
+2001-09-23  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* HDF5Object.m ([HDF5_c -getClass]): Use ->name instead of getName
+	method.  Make argument type of process_object be HDF5_c instead of id.
+	([HDF5_c -assignIvar:]): Likewise.
+
+	* HDF5Object.[hm] ([HDF5_c getName]): Remove.  Use 
+
+	* DefObject.m ([Object_s -getDisplayName]): Cache results of 
+	getName, since it will allocate memory.
+
+	* directory.m
+	(swarm_directory_language_independent_class_name_for_objc_object):
+	Ensure class name returned is from scratch zone.
+
 2001-09-14  Marcus G. Daniels  <mgd@condor>
 
 	* java.m (swarm_directory_objc_find_class_java): Return 0 if

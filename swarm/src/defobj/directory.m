@@ -422,6 +422,7 @@ swarm_directory_language_independent_class_name_for_objc_object  (id oObj)
           COMobject cObj;
           
           if ((cObj = SD_COM_FIND_OBJECT_COM (oObj)))
+            // already copied
             return COM_class_name (cObj);
         }
 #ifdef HAVE_JDK
@@ -430,11 +431,14 @@ swarm_directory_language_independent_class_name_for_objc_object  (id oObj)
           jobject jObj;
           
           if ((jObj = SD_JAVA_FIND_OBJECT_JAVA (oObj)))
+            // already copied
             return java_class_name (jObj);
         }
 #endif
     }
-  return (const char *) (getClass (oObj))->name;      
+  return (oObj
+          ? (const char *) SSTRDUP ((getClass (oObj))->name)
+          : NULL);
 }
 
 static const char *
@@ -480,7 +484,7 @@ language_independent_class_name_for_objc_class (Class oClass)
       COMclass cClass = SD_COM_FIND_OBJECT_COM (oClass); 
 
       if (cClass)
-        className = COM_get_class_name (cClass);
+        className = SSTRDUP (COM_get_class_name (cClass));
       else
 #ifdef HAVE_JDK
         {
@@ -488,6 +492,7 @@ language_independent_class_name_for_objc_class (Class oClass)
           jclass jClass = SD_JAVA_FIND_OBJECT_JAVA (oClass);
           
           if (jClass)
+            // already copied
             className = java_get_class_name (jClass);
           else
             abort ();

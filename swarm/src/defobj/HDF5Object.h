@@ -97,7 +97,6 @@
 - (size_t)getDatasetDimension: (unsigned)dimNumber;
 - getCompoundType;
 - (unsigned)getCount;
-- (const char *)getName;
 - getClass;
 
 - (void)assignIvar: obj;

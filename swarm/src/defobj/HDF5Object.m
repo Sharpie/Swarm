@@ -1323,11 +1323,6 @@ PHASE(Setting)
 
 PHASE(Using)
 
-- (const char *)getName
-{
-  return name;
-}
-
 - (BOOL)getWriteFlag
 {
   return writeFlag;
@@ -1600,11 +1595,11 @@ PHASE(Using)
             {
               id typeObject = baseTypeObject;
 
-              int process_object (id hdf5Obj)
+              int process_object (HDF5_c *hdf5Obj)
                 {
-                  if (((HDF5_c *) hdf5Obj)->datasetFlag)
+                  if (hdf5Obj->datasetFlag)
                     {
-                      hid_t did = ((HDF5_c *) hdf5Obj)->loc_id;
+                      hid_t did = hdf5Obj->loc_id;
                       hid_t tid, sid;
                       unsigned rank;
                       fcall_type_t baseType;
@@ -1632,7 +1627,7 @@ PHASE(Using)
                           udims[i] = hdims[i];
 
                         class_addVariable (typeObject,
-                                           [hdf5Obj getName],
+                                           hdf5Obj->name,
                                            baseType,
                                            rank,
                                            udims);
@@ -1644,7 +1639,7 @@ PHASE(Using)
                     }
                   else
                     class_addVariable (typeObject,
-                                       [hdf5Obj getName],
+                                       hdf5Obj->name,
                                        fcall_type_object,
                                        0,
                                        NULL);
@@ -1665,7 +1660,7 @@ PHASE(Using)
 
 - (void)assignIvar: obj
 {
-  const char *ivarName = [self getName];
+  const char *ivarName = self->name;
 #ifdef HAVE_JDK
   jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (obj);
 
