@@ -618,6 +618,7 @@ lisp_type_for_objc_type (const char *varType,
           baseType = TYPE_LONG_DOUBLE;
           break;
         case _C_CHARPTR:
+        case 'r':
           baseType = TYPE_STRING;
           break;
         case _C_ID:
@@ -760,6 +761,9 @@ fcall_type_for_objc_type (char objcType)
   for (i = 0; i < FCALL_TYPE_COUNT; i++)
     if (objcType == objc_types[i])
       return (fcall_type_t) i;
+
+  if (objcType == 'r')
+    return fcall_type_string;
 
   // This is only for eventOccuredOn:via:withProbeType:on:ofType:withData:
   if (objcType == _C_PTR)

@@ -1,3 +1,8 @@
+2004-11-19  Marcus G. Daniels <mgd@santafe.edu>
+
+	* internal.m (lisp_type_for_objc_type, fcall_type_for_objc_type): 
+	Treat 'r' as _C_CHARPTR.
+
 2004-11-15  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Archiver.m (defaultPath): If HOME doesn't exist use SWARMHOME.
