@@ -8,13 +8,13 @@
 // 1999-02-05
 -->
 
-<para>Where I use <classname>NormalDistribution</classname> in
+<para>Where I use <classname>NormalDist</classname> in
 examples below, substitute any other distribution and its parameters
 as needed.</para>
 
 <para>NOTE: any name that starts with <classname>my</classname> is
-meant to designate a variable which you have defined in your own
-program.</para>
+meant to designate a variable of the appropriate type which you have 
+defined in your own program.</para>
 
 <sect3>
 <title>Creating distributions</title>
@@ -34,7 +34,7 @@ program.</para>
 </para>
 
 <para>This method will create a distribution object with no default
-parameters set, as well as a fresh generator object connected to
+statistical parameters set, as well as a fresh generator object connected to
 it. The generator object is initialized with STARTSEED (see the
 discussion above).  Different distribution classes use different
 generators for this purpose.</para>
@@ -103,9 +103,9 @@ object must be `connected' to one of these streams. You cannot
 re-assign the generator or the virtual generator after a distribution
 object has been created.</para>
 
-<para>In all these cases (a) - (c), when we want to obtain a random
+<para>In all these cases, when we want to obtain a random
 variate from this distribution object we need to specify the
-parameters:
+statistical parameters:
 
 <programlisting>
 <![ CDATA [
@@ -157,14 +157,15 @@ random number:
 ]]>
 </programlisting>
 
-However, you *are* allowed to specify parameters even if default
-parameters have been set.</para>
+However, you <emphasis>are</emphasis> allowed to specify parameters even if 
+default parameters have been set.</para>
 
 <para>(Of course, different distributions have different parameters:
 RandomBitDist has none, the Uniform objects have minimum and maximum
 limit values, NormalDist and LogNormalDist use Mean and Variance,
 ExponentialDist only Mean, and GammaDist used alpha and beta. See the
-file <filename>random/distributions.h</filename> for the specific
+individual distribution protocols or the file 
+<filename>random/distributions.h</filename> for the specific
 methods available. ) </para>
 </sect4>
 
@@ -220,8 +221,9 @@ as you like</title>
 </programlisting>
 
 This is most likely done in conjunction with resetting the connected
-generator, using [ myGenerator setStateFromSeed: mySeedValue ] or
-simply [ myGenerator reset ];</para>
+generator, using 
+<programlisting>[ myGenerator setStateFromSeed: mySeedValue ]</programlisting> 
+or simply <programlisting>[ myGenerator reset ];</programlisting></para>
 </sect4>
 
 <sect4>

@@ -14,13 +14,19 @@
 
 <title>Implementation notes for Distributions</title>
 
-<formalpara><title>Changes over v. 0.75</title>
+<formalpara><title>Version 0.8: Changes over version 0.75</title>
 
 <para>No functional changes were made. Code was rearranged to conform
 to create-phase protocol (CREATING-SETTING-USING) ordering.</para>
 </formalpara>
 
-<formalpara><title>Improvements over v. 0.6</title><para>
+<formalpara><title>Version 0.75: Changes over version 0.7</title>
+
+<para>No functional changes were made.
+</para>
+</formalpara>
+
+<formalpara><title>Version 0.7: Improvements over version 0.6</title><para>
 
 <itemizedlist>
 
@@ -56,7 +62,7 @@ exp(Mean) respectively.</para></listitem> </itemizedlist>
 </para>
 </formalpara>
 
-<formalpara><title>Changes since v. 0.6</title>
+<formalpara><title>Version 0.7: Changes since version 0.6</title>
 
 <para>
 <itemizedlist> 
@@ -96,8 +102,6 @@ has the size of the data being saved. As a result, v. 0.7
 distributions will refuse to `setStateFrom' data saved by v. 0.6
 objects.</para></listitem>
 
-<listitem><para>There should be fewer changes like this in the next
-release.</para></listitem>
 </itemizedlist>
 
 </para>
@@ -111,6 +115,7 @@ from anywhere in your program.
 
 <programlisting>
 <![ CDATA[
+
 id <SimpleRandomGenerator>   randomGenerator;
 id <UniformIntegerDist>      uniformIntRand;
 id <UniformUnsignedDist>     uniformUnsRand;

@@ -77,11 +77,11 @@ statistically:</para>
 <row><entry>PMMLCG7</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
 <row><entry>PMMLCG8</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
 <row><entry>PMMLCG9</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2<superscript>31</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
-<row><entry>C2LCGX </entry><entry> 7.029</entry><entry> 62</entry><entry>1	2<superscript>60</superscript>  (S)</entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>C2LCGX </entry><entry> 7.029</entry><entry> 62</entry><entry>1	2<superscript>60</superscript>  (Split)</entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
 <row><entry>MRG5   </entry><entry> 9.674</entry><entry>155</entry><entry>1	2<superscript>155</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
 <row><entry>MRG6   </entry><entry>10.449</entry><entry>186</entry><entry>1	2<superscript>186</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
 <row><entry>MRG7   </entry><entry>10.913</entry><entry>217</entry><entry>1	2<superscript>217</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
-<row><entry>C4LCGX </entry><entry>11.688</entry><entry>124</entry><entry>1	2<superscript>210</superscript> (S)</entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
+<row><entry>C4LCGX </entry><entry>11.688</entry><entry>124</entry><entry>1	2<superscript>210</superscript> (Split)</entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
 <row><entry>C2MRG3 </entry><entry>13.459</entry><entry>186</entry><entry>1	2<superscript>185</superscript>	 </entry><entry><literal>1..-1x111x1.........x...</literal></entry></row>
 
 </tbody>
@@ -172,17 +172,12 @@ SCG.</para></listitem>
 <listitem><para>Conditionally recommended generators: ACG, SWB1, SWB2,
 SWB3, PSWB.</para></listitem>
 
-<listitem><para>Use with caution: the PMMLCGi generators (very short
-period 2<superscript>31</superscript>).</para></listitem>
+<listitem><para>Use with caution: the PMMLCGx generators (due to their 
+very short period 2<superscript>31</superscript>).</para></listitem>
 
 <listitem><para>All other generators are recommended at this
 time.</para></listitem>
 
-<listitem><para>Check out the new 'split' generators (C2LCGX and
-C4LCGX).</para></listitem>
-
-<listitem><para>Tests are found in <filename>random/testR6/*</filename></para>
-</listitem>
 </itemizedlist>
 </para>
 </formalpara>

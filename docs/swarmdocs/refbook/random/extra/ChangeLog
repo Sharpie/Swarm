@@ -1,6 +1,10 @@
+1999-02-10 Sven Thommesen <sthomme@humsci.auburn.edu>
+
+	* [*].sgml: minor textual editing.
+
 1999-02-10  Alex Lancaster  <alex@santafe.edu>
 
-	* Usage-Guide.Resources.sgml (Miller, 1988): Removed citation tag.
+	* Usage-Guide.Resources.sgml (Russell, 1988): Removed citation tag.
 
 	* README.Generators-0.8.sgml, Table.Generators.Data.sgml,
 	Table.Generators.Quality.sgml,

@@ -12,9 +12,9 @@
 
 <title>General Implementation Notes</title>
 
-<para>This directory contains the code for version 0.80 of the random
-number library for Swarm, supplied with Swarm version 1.4, and version
-0.81 of the documentation.</para>
+<para>This is release 1.4.1 of the Swarm libraries. It contains version
+0.8 of the random-number library and version 0.81 of the random library
+documentation. </para>
 
 <para>Look at the <link linkend="SWARM.RANDOM.SGML.REFERENCE">Random
 Library Reference</link> for the objects defined in this
@@ -24,20 +24,15 @@ library.</para>
 
 <para>Note that distributions which use floating point variates from
 their generators by default draw `fat' doubles (-getDoubleSample)
-which use two calls to the basic unsigned sample method
-(-getUnsignedSample). If you don't need this much precision, or want
-to speed up the distributions, you can make the distributions use
-`thin' samples (-getThinDoubleSample) instead. See the note at the top
-of <filename>random/distributions.h</filename> for how to change this
-behavior.</para>
+which use two calls to the basic (32-bit) unsigned int sample method
+(-getUnsignedSample) in order to fill the 53-bit mantissa of a double.
+If you don't need this much precision, or want to speed up the
+distributions, you can make the distributions use `thin' samples
+(-getThinDoubleSample) instead. See the note at the top of
+<filename>random/distributions.h</filename> for how to change this
+behavior. If you do, be sure to remake Swarm
+(<userinput>make</userinput>, <userinput>make install</userinput>).
+</para>
 </formalpara>
-
-<!--
-<para>If Swarm has been installed properly, you need only say `make'
-to recompile all the objects and then `make install' to place the new
-library files in the installation directory. You can then do `make
-clean' to get rid of all the .o files, which are not needed to run
-Swarm.</para>
--->
 
 </sect2>

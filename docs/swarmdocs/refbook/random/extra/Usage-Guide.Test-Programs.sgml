@@ -56,7 +56,7 @@ available:
 through the tests in the <filename>/testR6/ENT</filename> and
 <filename>/testR6/Diehard</filename> directories. The raw data can be
 found there.  The results are summarized in the test log files found
-in the same tests distribution. The distribution objects have not been
+in the same test distribution. The distribution objects have not been
 tested statistically yet.</para></listitem>
 
 </orderedlist>

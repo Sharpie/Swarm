@@ -9,7 +9,7 @@
               <citation>Numerical Recipes</citation>.</para></formalpara></listitem>
         
         <listitem><formalpara><title>PMMLCG</title><para>see 
-            Miller, 1988 (citation forthcoming).</para></formalpara></listitem>
+            <citation>Miller, 1988</citation>.</para></formalpara></listitem>
 
         <listitem><formalpara><title>ACG</title><para> a golden oldie;
               see <citation>Knuth, 1981</citation> or 
@@ -134,7 +134,7 @@
 
         <listitem><formalpara><title>ExponentialDist</title> 
 
-            <para><citation>Russell, 1992</citation>.</para></formalpara></listitem>
+            <para>Russell, 1992 (citation forthcoming).</para></formalpara></listitem>
 
         <listitem><formalpara><title>GammaDist</title> 
 

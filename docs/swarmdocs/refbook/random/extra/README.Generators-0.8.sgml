@@ -14,7 +14,7 @@
 
 <title>Implementation notes for Generators</title>
 
-<formalpara><title>Changes since v. 0.75</title>
+<formalpara><title>Version 0.8: Changes since version 0.75</title>
 
 <para>
 <orderedlist>
@@ -32,12 +32,30 @@ properly.</para></listitem>
 <listitem><para>A new -reset method was added to all generators. This
 method resets the state of the generator to what it was at creation,
 or at the point when -setStateFromSeed(s) was last used. Counters are
-reset.</para></listitem>
+also reset.</para></listitem>
 
 </orderedlist> </para> </formalpara>
 
 
-<formalpara><title>Improvements over v. 0.6</title>
+<formalpara><title>Version 0.75: Changes since version 0.7</title>
+
+<para>
+<orderedlist>
+
+<listitem><para>The method '-getDoubleSample' was redefined to use
+only double variables in its implementation (instead of long doubles).
+</para></listitem>
+
+<listitem><para>The macros used for starting seed generation were
+changed to avoid a situation where many new generators would be created
+the same starting seed (if '--varyseed' was not specified.) See the
+Generator Usage Guide and the Reference Guide for details.
+</para></listitem>
+
+</orderedlist> </para> </formalpara>
+
+
+<formalpara><title>Version 0.7: Improvements over version 0.6</title>
 <para>
 
 <itemizedlist>
@@ -107,7 +125,7 @@ A,v,w.</para></listitem>
 </para>
 </formalpara>
 
-<formalpara><title>Changes since v. 0.6</title>
+<formalpara><title>Version 0.7: Changes since version 0.6</title>
 <para>
 <itemizedlist>
 

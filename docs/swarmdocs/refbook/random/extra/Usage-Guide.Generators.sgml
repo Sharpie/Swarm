@@ -40,7 +40,8 @@ wherever I use <classname>PSWBgen</classname> as an example you may
 substitute any other generator.</para>
 
 <para>Note: any name that starts with <classname>my</classname> is
-meant to designate a variable which you have defined in your own
+meant to designate a variable of the appropriate type which you have 
+defined in your own
 program.</para>
 
 <para>Note: on defining variables that hold (pointers to) generators:
@@ -65,17 +66,17 @@ instead of
 </para>
 
 <para>Although it is usually the case that the <literal>protocolname =
-classname</literal>, in some cases it is not. And publishing the
+the classname</literal>, in some cases it is not. And publishing the
 protocols allows the programmers to keep unpublished what should
-remain internal private methods.</para>
+remain internal private class methods.</para>
 
 <para>The generators are different from other Swarm objects, in that
 they all perform the same function; they are drop-in replacements for
 each other.  The 'split' generators (<classname>C2LCGXgen</classname>,
 <classname>C4LCGXgen</classname>) all conform to the same protocol,
-<classname>&lt;SplitRandomGeneratorgt;</classname>. The 'simple'
+<classname>&lt;SplitRandomGenerator&gt;</classname>. The 'simple'
 (non-split) generators all conform to the same protocol,
-<classname>&lt;SimpleRandomGeneratorgt;</classname>.</para>
+<classname>&lt;SimpleRandomGenerator&gt;</classname>.</para>
 
 <para>Thus, when defining generators in your own program, you should say
 
@@ -90,8 +91,8 @@ each other.  The 'split' generators (<classname>C2LCGXgen</classname>,
 
 <para>For backward compatibility, protocols
 <classname>&lt;LCG1gen&gt;</classname>,
-<classname>&lt;TT800gen&gt;</classname> etc. are still defined, but
-their use is deprecated and they may disappear later.</para>
+<classname>&lt;TT800gen&gt;</classname> etc. are still defined, <emphasis>but
+their use is deprecated and they may disappear later.</emphasis></para>
 
 <sect3>
 <title>Simple generators</title>
@@ -111,7 +112,8 @@ their use is deprecated and they may disappear later.</para>
 
 This allocates the object and initializes it with STARTSEED, which
 equals NEXTSEED if <option>--varyseed</option> was not specified, or
-RANDOMSEED if it was.
+RANDOMSEED if it was. (These macros are defined in the file 
+'randomdefs.h' in the source directory.)
 </para>
 </sect4>
 
@@ -152,8 +154,9 @@ calling
 </programlisting>
 </para>
 
-<para>(For the generators defined in v. 0.7, this value is 2^32-1 for
-all of them.  The seed may not be 0.)</para>
+<para>(In the current version of the library, the largest valid seed value
+is 2^32-1 for all the generators. The seed may not be 0.) 
+</para>
 
 <para>You may reset the generator's state at any time using this
 method:
@@ -164,7 +167,7 @@ method:
 ]]>
 </programlisting>
 
-This will also reset to 0 the currentCount variable.</para>
+This will also reset to 0 the <literal>currentCount</literal> variable.</para>
 
 <para>Alternatively, you may use the new -reset method [myGenerator
 reset], which resets the generator its state at startup, or its state
@@ -204,7 +207,9 @@ You can find out how many seed values are required by asking
 
 <para>(Obviously, you must first successfully have created the object
 to do this, for example using createWithDefaults! Or, see data in
-document /random/docs/...)</para>
+<link
+linkend="SWARM.RANDOM.SGML.APPENDIX.TABLE.GENERATOR.DATA">Generator
+Data Table</link>)</para>
 
 <para>And we allocate the seed vector dynamically this way:
 
@@ -290,13 +295,13 @@ setting:
 
 <programlisting>
 <![ CDATA [
-   [ myGenerator setAntithetic: myBooleanValue ];
+   [ myGenerator setAntithetic: YES ];
 ]]>
 </programlisting>
 
-If set, this makes -getUnsignedSample return (unsignedMax-x) instead
-of x, and the floating point methods return (1.0 - y) instead of
-y.</para>
+If thus set, this makes -getUnsignedSample return (unsignedMax-x) instead
+of x, and the floating point methods return (1.0 - y) instead of y. The 
+default for this parameter is that it is not set.</para>
 
 <para>You can ascertain if this flag is set by calling
 
@@ -319,7 +324,7 @@ y.</para>
 ]]>
 </programlisting>
 
-The largest value thus returned can be found by asking
+The largest value that may be returned can be found by asking
 
 <programlisting>
 <![ CDATA [
@@ -367,8 +372,20 @@ generated:
 <sect3>
 <title>Split generators</title>
 
-<para>A 'split' generator requires us to specify the configuration
-(A,v,w) at create time:
+<para>A split generator is a generator for which we are able to split the
+output stream into arbitrary non-overlapping segments, which we can 
+access directly and easily. Such segments are statistically independent
+streams of (pseudo)random numbers.</para>
+
+<para>We configure a split generator as consisting of a number (A) of
+"virtual generators", each of which has access to a number (2^v) of
+segments of length 2^w. The parameters A,v,w are specified when the
+generator is created. For example, for the C4LCGXgen generator, the
+default creation values are A=128, v=31, w=41. The only limitation is
+that A*(2^v)*(2^w) must not exceed the generator's cycle length, which
+is 2^60 for C2LCGXgen and 2^120 for C4LCGXgen.</para>
+
+<para>We specify the configuration (A,v,w) at create time this way:
 
 <programlisting>
 <![ CDATA [
@@ -419,7 +436,7 @@ Virtual generators are numbered from 0 to (A-1).</para>
 The latter call indicates what segment number the specified virtual
 generator is currently drawing numbers from.</para>
 
-<para>Other than these methods, the other methods discussed above
+<para>Other than these methods, the methods discussed above
 under 'simple' generators are the same for 'split' generators.</para>
 
 <para>In *addition* to this, 'split' generators have the following

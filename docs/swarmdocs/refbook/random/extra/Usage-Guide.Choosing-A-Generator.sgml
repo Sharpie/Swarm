@@ -76,9 +76,11 @@ bits.</para></listitem>
 
 <listitem><para>Other things being equal, we want our generator to
 have a single full period rather than a number of shorter
-periods. This disqualifies SWB, and possibly the new MWC and RWC
-generators (Marsaglia does not say how many periods these generators
-have, but only the period length.)</para></listitem>
+periods, since we may not know whether a particular starting seed will
+put us into a long or a short subcycle. This disqualifies SWB, and possibly 
+the new MWC and RWC generators (Marsaglia does not say how many periods these 
+generators have, but only gives the period length.)</para></listitem>
+
 
 </orderedlist>
 </para>

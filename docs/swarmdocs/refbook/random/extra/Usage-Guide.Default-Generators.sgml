@@ -63,8 +63,9 @@ id <UniformDoubleDist>    uniformDblRand;
 </programlisting>
 </para>
 
-<para>These objects may be called from anywhere in your program.
-Note: the generator was initialized with NEXTSEED or RANDOMSEED as
-above.  Note: the distribution objects have been created
-<emphasis>without</emphasis> default parameters (`unfrozen').</para>
+<para>These objects may be called from anywhere in your program.  Note
+(a): the generator is initialized with NEXTSEED or RANDOMSEED
+depending on the use of the <option>--varyseed</option> command line
+option.  Note (b): the distribution objects are created
+<emphasis>without</emphasis> default statistical parameters.</para>
 </sect3>

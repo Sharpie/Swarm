@@ -148,8 +148,7 @@ You initialize a generator with a specific seed this way:</PARA>
 </PROGRAMLISTING>
 
 <PARA>
-where the variable randomSeed has been set to the desired value. (You may do
-this any time during a simulation, not just at the start.)</PARA>
+You may do this any time during a simulation, not just at the start.</PARA>
 
 <PARA>
 If you start your simulation in the normal way (with
@@ -249,8 +248,8 @@ Guide</link>.</PARA>
 of (uniform) numbers from a random generator, and delivers as it
 output a stream of numbers that conforms to the desired statistical
 distribution. Most distribution objects tailor their output on the
-basis of parameters that you can set, for example Mean and Standard
-Deviation for the Normal distribution.</PARA>
+basis of parameters that you can set, for example Mean and Variance
+for the Normal distribution.</PARA>
 
 <PARA>
 Each Swarm simulation comes with 3 pre-defined uniform distribution objects
@@ -454,7 +453,7 @@ Usage Guide</link>.</PARA>
         <PARA>DO NOT use generators whose maximum cycle length is too
           short for the intended application; you don't want your
           generators to start repeating themselves. Be especially
-          aware of this if you use the PMMLCG class of generator;
+          aware of this if you use the PMMLCGgen class of generator;
           these have good properties but a fairly short cycle. See
           <link
           linkend="swarm.random.sgml.appendix.sect1.adv-usage">Advanced
