@@ -1,5 +1,8 @@
 1998-09-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* ZoomRaster.m ([ZoomRaster -setWidth:Height:]): Use
+	logical{Width,Height} to set aspect ratio.
+
 	* internal.m (tkobjc_pixmap_create_from_widget): After restacking,
 	do all the pending events (to ensure that window is visible).
 

@@ -109,8 +109,9 @@ PHASE(Using)
 // note that they are passed to us in absolute values, not gridded.
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
-  unsigned newZoom = newHeight / logicalHeight;
+  unsigned newZoom;
 
+  newZoom = newHeight / logicalHeight;
   while (newZoom != newWidth / logicalWidth)
     {
       // In this case, assume that Windows refused to make the window
@@ -120,7 +121,7 @@ PHASE(Using)
       else if (newHeight > newWidth)
         // Still not right?  Try the width.
         newZoom = newWidth / logicalWidth;
-      else 
+      else
         [WindowUsage
           raiseEvent:
             "nonsquare zoom given (nz:%u nh:%lu nw:%u lh: %u lw:%u).\n",
@@ -154,9 +155,13 @@ PHASE(Using)
 
   // Set up gridded geometry so this is resizeable. Only works if
   // the parent is a toplevel.
-  [globalTkInterp eval: "wm grid %s %u %u %u %u; wm aspect %s 1 1 1 1",
-		  [parent getWidgetName],  zoomFactor, zoomFactor,
-		  logicalWidth, logicalHeight, [parent getWidgetName]];
+  [globalTkInterp eval: "wm grid %s %u %u %u %u; wm aspect %s %u %u %u %u",
+		  [parent getWidgetName],  
+                  zoomFactor, zoomFactor,
+		  logicalWidth, logicalHeight,
+                  [parent getWidgetName],
+                  logicalWidth, logicalHeight,
+                  logicalWidth, logicalHeight];
 
   return self;
 }
