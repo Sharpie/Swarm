@@ -1,28 +1,58 @@
 <chapter id="swarm.user.user1.03.chapter">
-  <title>Nuts and bolts of Objective-C</title>
+  <title>Nuts and Bolts of Object-Oriented Programming</title>
 
-  <indexterm><primary>Objective-C</primary></indexterm>
+  <indexterm><primary>Objective C</primary></indexterm>
+  
+  <formalpara>
+    <title>Objective C</title> <para> Objective C was created by Brad
+    Cox. The aim was to create an elegant, object-oriented extension
+    of C in the style of the Smalltalk language. (need reference
+    here).  Objective C was used most intensively in the design of the
+    NeXT computer operating system, which is now owned by Apple and is
+    basis of Apple's runtime environment
+    WebObjects.</para></formalpara>
 
-  <para>Objective-C was created by Brad Cox. The aim was to create an
-    elegant, object-oriented extension of C in the style of the
-    Smalltalk language. (need reference here).  Objective-C was used
-    most intensively in the design of the NeXT computer operating
-    system, which is now owned by Apple and is basis of Apple's
-    runtime environment WebObjects.</para>
+  <indexterm><primary>Java</primary></indexterm>
 
-<sect1 id="swarm.user.user1.03-objc-why.sect1">
- <title>Why does Swarm use Objective-C?</title> 
-
- <para>Since C++ is more widely used than Objective-C, it is natural
-      to ask why the Swarm project chose Objective-C. There are a
+  <formalpara>
+    <title>Java</title> <para>Java was created by Sun Microsystems,
+    initially to provide a platform-independent layer or interface for
+    embedded devices (such as set-top boxes for digital television)
+    and was originally known as <firstterm>Oak</firstterm>.  With the
+    advent and growth of the world wide web from 1992 onwards, Oak was
+    renamed <emphasis>Java</emphasis>and redirected at the market
+    created by the web.  <quote>Write once, run anywhere</quote> was
+    the motto of the original Java developers, the idea being to
+    create an abstraction layer between the programmer and the
+    underlying chip architecture (ix86, Sparc, Alpha) known as a
+    <firstterm>virtual machine</firstterm> (or interpreter).  In
+    theory all programmers needed to do was to write so-called "pure
+    Java" code that targeted the virtual machine, whilst the virtual
+    machine itself only needed to ported once.  With certain caveats,
+    this has been largely realized, and Java is now a robust platform
+    that is used in both web client GUI programming (applets) as well
+    as server applications (servlets).  Use of Java does come at a
+    cost, the extra step of translating the virtual machine
+    instructions into the native machine instructions at run-time does
+    have a performance penalty at run-time, but with the advent of
+    so-called <firstterm>native compilers</firstterm> which do this
+    translation at compile-time (rather than at run-time), many
+    applications can, in principle, run much faster than they
+    currently do.</para></formalpara>
+  
+  <sect1 id="swarm.user.user1.03-objc-why.sect1">
+    <title>Why is Swarm Written in Objective C?</title>
+    
+    <para>Since C++ is more widely used than Objective C, it is natural
+      to ask why the Swarm project chose Objective C. There are a
       number of reasons:
 
       <itemizedlist>
        <listitem>
           
           <formalpara><title>Objective C is easier to learn</title>
-            <para>Objective-C takes the familiar C language and adds a
-              few simple elements. Objective-C does not allow
+            <para>Objective C takes the familiar C language and adds a
+              few simple elements. Objective C does not allow
               overloading or multiple inheritance of classes (although
               the use of protocols enables this, to an extent)</para>
           </formalpara>
@@ -36,10 +66,10 @@
             controversial.  In contrast to other languages which check
             the match between the receiver of a command and its
             ability to carry out the command when a program is
-            compiled, Objective-C leaves that matching exercise until
+            compiled, Objective C leaves that matching exercise until
             the program is running.  This means, for example, that one
             can have a program that builds a list of objects and then
-            sends a message to each one.  In Objective-C, the compiler
+            sends a message to each one.  In Objective C, the compiler
             won't worry about which type of object is in the list. The
             advantage, conceptually, is that one can put commands in
             their code without knowing the precise identity of the
@@ -58,16 +88,18 @@
       </itemizedlist>
 
     </para>
+    
+  </sect1>
 
-</sect1>
-
-
-  <sect1 id="swarm.user.user1.03-objc-id.sect1">
+  <sect1 id="swarm.user.user1.03-objc.sect1">
+    <title>Objective C basics</title>
+    
+    <sect2 id="swarm.user.user1.03-objc-id.sect2">
     <title>The <type>id</type> Variable Type</title>
 
-    <para>The variable type that is added by Objective-C is
+    <para>The variable type that is added by Objective C is
       <type>id</type>.  It is the default type for objects in
-      Objective-C. Think of this as a special variable type (which is
+      Objective C. Think of this as a special variable type (which is
       actually a pointer to a special data structure - namely the
       object)</para>
 
@@ -89,25 +121,26 @@
 
     <programlisting role="ObjC">[super updateRecords]</programlisting>
 
-  </sect1>
+    </sect2>
   
-  <sect1 id="swarm.user.user1.03-objc-interface.sect1">
-    <title>Interface File: Declaration of a Class</title> 
-    
-    <para>If you look in a directory where some Swarm code resides,
-      you will see files in pairs, such as
+    <sect2 id="swarm.user.user1.03-objc-interface.sect2">
+      <title>Interface File: Declaration of a Class</title> 
+      
+      <para>If you look in a directory where some Objective C Swarm
+      code resides, you will see files in pairs, such as
       <filename>ObserverSwarm.h</filename> and
       <filename>ObserverSwarm.m</filename>, ModelSwarm.h and
       <filename>ModelSwarm.m</filename>, and so forth.  The "h" files
-      are the interface files (commonly called "header files"), while
-      the "m" files are the implementation files</para>
-
-    <figure id="objc-basics.figure">
-      <title>Objective C Basics</title>
-      <graphic entityref="objc-basics"></graphic>
-    </figure>
-
-    <para>As illustrated in <xref linkend="objc-basics.figure">, the
+      are the interface files (commonly called <firstterm>header
+      files</firstterm>), while the "m" files are the
+      <firstterm>implementation files</firstterm></para>
+      
+      <figure id="objc-basics.figure">
+        <title>Objective C Basics</title>
+        <graphic entityref="objc-basics"></graphic>
+      </figure>
+      
+      <para>As illustrated in <xref linkend="objc-basics.figure">, the
       interface declares the name of the class and the name of its
       superclass.  Then it gives a list of variable types and names
       enclosed by braces ({}), and then the names of the methods that
@@ -116,8 +149,8 @@
       class.  (These are often called "ivars", short for instance
       variables.)
     <example id="swarm.user.user1.03.objc-class.example">
-      <title>Objective C class</title>
-
+          <title>Objective C class</title>
+          
       <programlistingco>
           <areaspec>
             <area coords="1 1" id="decl">
@@ -139,40 +172,41 @@
 
 @end</programlisting>
           
-          <calloutlist>
-            <callout arearefs="decl">
-              <para>Declarations of instance variables and methods</para>
-            </callout>
-            <callout arearefs="subclass">
-              <para>Sub class</para>
-            </callout>
-            <callout arearefs="superclass">
-              <para>Super class</para>
-            </callout>
-            <callout arearefs="instance">
-              <para>Instance Variables</para>
-            </callout>
-            <callout arearefs="method1">
-              <para>declares method called <function>set</function> 
+            <calloutlist>
+              <callout arearefs="decl">
+                <para>Declarations of instance variables and methods</para>
+              </callout>
+              <callout arearefs="subclass">
+                <para>Sub class</para>
+              </callout>
+              <callout arearefs="superclass">
+                <para>Super class</para>
+              </callout>
+              <callout arearefs="instance">
+                <para>Instance Variables</para>
+              </callout>
+              <callout arearefs="method1">
+                <para>declares method called <function>set</function> 
                 that takes two arguments</para>
-            </callout>
-            <callout arearefs="method2">
-            <para>declares a method called <function>step</function>.</para>
-            </callout>
-
-          </calloutlist>
-        </programlistingco>
-      </example>
+              </callout>
+              <callout arearefs="method2">
+                <para>declares a method called <function>step</function>.</para>
+              </callout>
+              
+            </calloutlist>
+          </programlistingco>
+        </example>
 
     </para>
+      
+    </sect2>
 
-  </sect1>
-
-<sect1 id="swarm.user.user1.03-objc-impl.sect1">
- <title>Implementation File: Defining a Class</title> 
-
-    <para>Each implementation file--the "m" that parallels the "h"--
-      must import its header file.  If the header file is called
+    <sect2 id="swarm.user.user1.03-objc-impl.sect2">
+      <title>Implementation File: Defining a Class</title> 
+      
+      <para>Each implementation file--the <filename>.m</filename> that
+      parallels the <filename>.h</filename> -- must import its header
+      file.  If the header file is called
       <filename>Puppy.h</filename>, for example, the implementation
       looks like:</para>
 
@@ -190,7 +224,7 @@
  return self;
 }</programlisting>
 
-    <para>This example shows a number of important features.  First,
+      <para>This example shows a number of important features.  First,
       note that the method <function>eatfood</function> specifies a
       return type, (<replaceable>vartype</replaceable>). In this
       example, <replaceable>vartype</replaceable> would have to be
@@ -203,21 +237,21 @@
       return type.  That means the default type, <type>id</type>, is
       returned.  The code that calls this method must be consistent
       with that return type.</para>
-
-    <para>The <literal>return self</literal> command is used for two
+      
+      <para>The <literal>return self</literal> command is used for two
       types of situations.  Suppose the method is not intended to
       create any output, but rather it changes some instance
       variables. For example, suppose there is some program that
       creates an instance of <classname>Puppy</classname> called
       <varname>spot</varname>. Then that object is sent this message:</para>
-
+      
 <programlisting role="ObjC">[spot playOutside: theYard]</programlisting>
 
-    <para>In such a case, the code that calls that method does not
+      <para>In such a case, the code that calls that method does not
       expect anything back from it (except itself).  Rather than fuss
       with <type>void</type> as the return type, as one might in C,
       one can simply return <varname>self</varname>.</para>
-
+      
     <para>In another case, one might actually intend to return the
       object to a list or another object. In such a case, return self
       will also be appropriate. If one is making a list of puppies
@@ -230,21 +264,109 @@
       library, the command to add spot to the list after playing
       outside might look like this:</para>
 
-    <programlisting role="ObjC">[dogsPlayed addLast: [spot playOutside: theYard]];
-    </programlisting>
+<programlisting role="ObjC">[dogsPlayed addLast: [spot playOutside: theYard]];</programlisting>
+    </sect2>
+  </sect1>
+
+  <sect1 id="swarm.user.user1.03-java.sect1">
+    <title>Java basics</title>
+
+    <para>One of the most obvious and immediate differences between
+    Objective C (and incidentally C++) and Java, is that Java does not
+    partion classes into "declarations" (header files) and
+    "implementations" (implementation files).  All information for any
+    Java class is contained in a single <filename>.java</filename>
+    file.</para>
+
+    <para>Perhaps the best way to illustrate this is to consider the
+    exact Java equivalent of the Objective C <xref
+    linkend="swarm.user.user1.03.objc-class.example">.</para>
+    
+    <example id="swarm.user.user1.03.java-class.example">
+          <title>Java class</title>
+      
+<programlisting>
+<co id="java-decl">public class Bug<co id="java-subclass"> extends SwarmObject<co id="java-superclass"> 
+{
+  int xPos, yPos;
+  int worldXSize, worldYSize;<co id="java-instances">
+  FoodSpace foodSpace;
+
+ public Object setX$Y (int x, int y)<co id="java-method1">
+  {
+    xPost = x;
+    return this;
+  }
+ public Object step()<co id="java-method2">
+  {
+    // body of step() code
+  }
+}</programlisting>
+          
+        <calloutlist>
+          <callout arearefs="java-decl">
+            <para>Complete class defintion</para>
+          </callout>
+          <callout arearefs="java-subclass">
+            <para>Sub class</para>
+          </callout>
+          <callout arearefs="java-superclass">
+            <para>Super class</para>
+          </callout>
+          <callout arearefs="java-instances">
+            <para>Instance Variables</para>
+          </callout>
+          <callout arearefs="java-method1">
+            <para>declares method called <function>set$Y()</function> 
+                that takes two arguments</para>
+          </callout>
+          <callout arearefs="java-method2">
+            <para>declares a method called <function>step()</function>.</para>
+          </callout>
+        </calloutlist>
+    </example>
+    
+    <para>One important distinction to notice is that Java does not
+    have a notion of an <type>id</type> or "generic" data type.  All
+    variables must be assigned a type, in the above example the
+    <varname>foodSpace</varname> instance variable is declared as
+    being of type <classname>FoodSpace</classname>.  This is because
+    Java is a <firstterm>strongly typed</firstterm> language.  The
+    compiler checks all types of all variables to ensure all receiver
+    objects respond to the messages that are sent to them by the
+    programmer.  Most of the rest of the other differences between the
+    Objective C and Java examples given, lie almost purely in
+    deviations of syntax.  Here are a few obvious ones (this list is
+    by no means exhaustive and the reader is encouraged to consult
+    their Java or Objective C reference manual for all the detailed
+    syntax):
+ 
+<itemizedlist>
+        <listitem>
+          <para>In Objective C, method names and the parameters are
+    interspersed, whilst in Java, the entire method name is given
+    before the parameters.</para>
+        </listitem>
+        <listitem>
+          <para>In Java <varname>self</varname> is referred to as
+    <varname>this</varname> (<varname>super</varname> retains its
+    meaning and syntax in both languages).  </para>
+        </listitem>
+      </itemizedlist>
+</para>
   </sect1>
   
   <sect1 id="swarm.user.user1.03-objc-c.sect1">
-    <title>C Functions vs. Objective-C Methods </title> 
+    <title>C Functions vs. Objective C Methods </title> 
     
     <para>For readers who are already familiar with C, perhaps a
-      comparison of C functions against Objective-C methods is in
-      order. Since Objective-C is a superset of C, an Objective-C
+      comparison of C functions against Objective C methods is in
+      order. Since Objective C is a superset of C, an Objective C
       method can include any valid C commands. A method can return any
       type that a C function can return, and in addition it can an id
       (which, strictly speaking, is a pointer to an object).  </para>
 
-    <para>In the abstract, an Objective-C method has this structure:</para>
+    <para>In the abstract, an Objective C method has this structure:</para>
     
 <programlisting role="ObjC">
 - (type)name: (type)arg1 argName2: (type)arg2 
@@ -262,7 +384,7 @@
  return returnval;
 }</programlisting>
 
-    <para>The code in body of an Objective-C method can be exactly the
+    <para>The code in body of an Objective C method can be exactly the
     same as in C.  The two languages are compared side-by-side in the
     following example, which describes how a function
     <function>rand_move()</function> might compare to a method
@@ -271,7 +393,7 @@
     the contrast in style should be informative.
     
       <example id="swarm.user.user1.03.c-vs-objc.example">
-        <title>C vs Objective-C</title>
+        <title>C vs Objective C</title>
 
         <programlisting role="C">
 void rand_move(int i) {    
@@ -305,24 +427,35 @@ void rand_move(int i) {
 
 </sect1>
 
-  <sect1 id="swarm.user.user1.03-objc-inst.sect1">
+  <sect1 id="swarm.user.user1.03-inst.sect1">
+
     <title>Giving Life to Classes: Instantiation</title>
-    
 
     <indexterm><primary>object creation</primary><secondary>instantiation</secondary></indexterm>
 
-    <para>After the code is written for the interface and
-      implementation, there is still work to be done. Instances of the
-      class must be created. The creation of instances of a class is
-      one of the specialized features of Swarm. Since the
-      instantiation process is different from the that described in
-      the Objective C literature, it is worth some special
+    <para>After the code is written to implement the class (with
+      <filename>.h</filename> and <filename>.m</filename> files for
+      Objective C and <filename>.java</filename> in the Java case),
+      there is still work to be done. Instances of the class must be
+      created. The creation of instances of a class is one of the
+      specialized features of Swarm. Since the instantiation process
+      can be sometimes different from the that described in the
+      Objective C and Java literature, it is worth some special
       attention.</para>
 
     <para>The creation of the substantively important objects is often
-      handeled in the model swarm.  This process uses the specialized
+      handled in the model swarm.  This process uses the specialized
       memory management and object creation code in the Swarm
       library.</para>
+    
+    <sect2>
+      <title>Instantiation: Objective C Style</title>
+
+    <indexterm>
+        <primary>object creation</primary>
+        <secondary>instantiation</secondary>
+        <tertiary>Objective C</tertiary>
+      </indexterm>
 
     <para>The objects that represent the actors in a simulation--the
       substantively important entities--are usually subclassed from
@@ -379,8 +512,8 @@ void rand_move(int i) {
 id listOfPuppies;
 listOfPuppies=[List create: self];</programlisting>
 
-     <para>In code written for older versions of the Swarm toolkit,
-      one will often see a slightly different syntax in
+     <para>In code written for older versions of Swarm, one will often
+      see a slightly different syntax in
       <filename>ModelSwarm.m</filename>:</para>
 
 <programlisting role="ObjC">
@@ -394,6 +527,19 @@ listOfPuppies=[List create: [self getZone]];
       zone in which to put the list.  Rather, the list can be put in
       the zone that is provided by the model swarm itself.
     </para>
+    </sect2>
+
+    <sect2>
+
+      <indexterm>
+        <primary>object creation</primary>
+        <secondary>instantiation</secondary>
+        <tertiary>Java</tertiary>
+      </indexterm>
+
+      <title>Instantiation: Java Style</title>
+      <para></para>
+    </sect2>
 
 </sect1>
 
@@ -403,9 +549,9 @@ listOfPuppies=[List create: [self getZone]];
     <indexterm><primary>protocols</primary><secondary>usage in Swarm</secondary></indexterm>
 
     <para>There is one additional complication that readers should be
-      aware of.  Objective-C allows the creation of entities called
+      aware of.  Objective C allows the creation of entities called
       protocols.  A protocol, as readers will recall from their study
-      of Objective-C, is a list of methods that an object is able to
+      of Objective C, is a list of methods that an object is able to
       execute.  Swarm is structured by protocols, which means that
       there are lists of methods assigned to various names and classes
       inside the library "adopt" those protocols and then implement
@@ -515,14 +661,13 @@ listOfPuppies=[List create: [self getZone]];
     are sent during the run, then the program will crash, possibly
     with a message that the object listOfPuppies does not respond to
     the message it was sent. </para>
-
+    
     <para>Since almost all of the important pieces of functionality in
       the Swarm library are now written in the protocol format and are
       CREATABLE, these details may be important. However, these
       details do not significantly change the way applications are
       designed.  Swarm entities can still be treated as classes.</para>
-
-</sect1>
+  </sect1>
 </chapter>
 
 <!--

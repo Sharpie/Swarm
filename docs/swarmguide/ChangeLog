@@ -1,6 +1,11 @@
-2000-03-01    <mgd@nest.swarm.org>
-
+2000-03-02  Alex Lancaster  <alex@santafe.edu>
+	
 	* Swarm user guide 0.9 beta released.
+
+	* user1.03.sgml: Re-organize to be non-Objective C specific.  Add
+	new Java basics section, to be fleshed out.
+
+2000-03-01  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* global.ent: Change userguide source URL to SDG.
 
