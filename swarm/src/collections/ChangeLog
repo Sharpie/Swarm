@@ -1,3 +1,8 @@
+2001-01-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* collections.h (OutputStream): Use const void * for catPointer:
+	argument.
+
 2000-11-27  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Map.[hm], collections.h ([MapIndex getKeyValue]): Add.

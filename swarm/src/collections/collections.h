@@ -1029,7 +1029,7 @@ USING
 - (void)catUnsignedLong: (unsigned long)ulng;
 - (void)catLongLong: (long long)lnglng;
 - (void)catUnsignedLongLong: (unsigned long long)ulnglng;
-- (void)catPointer: (void *)ptr;
+- (void)catPointer: (const void *)ptr;
 - (void)catLiteral: (const char *)str;
 - (void)catStartExpr;
 - (void)catEndExpr;
