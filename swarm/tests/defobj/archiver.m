@@ -193,8 +193,8 @@ main (int argc, const char **argv)
     raiseEvent (InternalError, "Shallow Lisp serialization failed");
   if (checkArchiver (globalZone, NO, YES) == NO)
     raiseEvent (InternalError, "Deep Lisp serialization failed");
-  if (checkArchiver (globalZone, YES, NO) == NO)
 #ifdef HAVE_HDF5
+  if (checkArchiver (globalZone, YES, NO) == NO)
     raiseEvent (InternalError, "Shallow HDF5 serialization failed");
   if (checkArchiver (globalZone, YES, YES) == NO)
     raiseEvent (InternalError, "Deep HDF5 serialization failed");
