@@ -2,6 +2,8 @@
 
 	* README: added reference to wiki.
 	
+	* HACKING: update MacOS X Autotools versions.
+	
 2004-11-14  Marcus G. Daniels
 	
 	* configure.in: Extract src/swarmgstep/Makefile.

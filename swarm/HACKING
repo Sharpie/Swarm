@@ -41,10 +41,10 @@ autogen.sh in ChangeLog.
 *** Red Hat Linux 8.0
 Paul (?) awaiting your text?
 
-*** MacOS X 10.2
-autoconf 2.52
-automake 1.6.1
-libtool 1.5a 28 Jul 2003 snapshot
+*** MacOS X 10.3
+autoconf 2.57
+automake 1.6.3
+libtool 1.5.8
 
 *** GNUstep
 GNUstep integration with Swarm is an extended project, so it has its
