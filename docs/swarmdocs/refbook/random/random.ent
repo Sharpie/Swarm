@@ -1,0 +1,5 @@
+<!entity randomcont.sgml PUBLIC "-//SFI Hive//ENTITIES Random Content//EN">
+<!entity randomrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Random Revision History//EN">
+<!entity randommeta.sgml PUBLIC "-//SFI Hive//ENTITIES Random Metadata//EN">
+<!entity random00.sgml PUBLIC "-//SFI Hive//ENTITIES Random Introduction//EN">
+<!entity randompages.sgml PUBLIC "-//SFI Hive//ENTITIES Random Generated Content//EN">

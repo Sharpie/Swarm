@@ -1,5 +1,0 @@
-<!entity randomcont.sgml system "@srcdir@/randomcont.sgml">
-<!entity randomrevhistory.sgml system "randomrevhistory.sgml">
-<!entity randommeta.sgml system "@srcdir@/randommeta.sgml">
-<!entity random00.sgml system "@srcdir@/random00.sgml">
-<!entity randompages.sgml system "randompages.sgml">
