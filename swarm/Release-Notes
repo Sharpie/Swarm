@@ -1,3 +1,32 @@
+                Release Notes for Swarm Versions 1.1
+
+ 1. Command line arguments are now parsed into a single object by the
+    Arguments class in objectbase, an interface to GNU argp. 
+    The help screen is also now generated using GNU argp.
+
+ 2. Message probes are now done using either the libffi or ffcall libraries
+    rather than by tclobjc.
+
+ 3. There is now a GUI protocol defined by gui.h.  This should replace
+    use of tkobjc.h in all applications. 
+
+ 4. A number of new classes in tkobjc, currently used for internal purposes. 
+    These classes eliminate use of globalTkInterp elsewhere in Swarm,
+    and facilitate the forthcoming AWT GUI.  Several existing classes
+    were renamed.
+
+ 5. Support for Tcl/Tk 8.0 and BLT8.0-unoff in tkobjc.
+ 
+ 6. Support for Win32/GDI in tkobjc.
+
+ 7. Heuristics to determine SWARMHOME, TCL_LIBRARY, TK_LIBRARY, 
+    and BLT_LIBRARY, when they aren't correct or are unspecified.
+
+ 8. simtools is now split into two libraries:  simtools, the non-GUI pieces
+    and simtoolsgui, the library that now contains classes like ControlPanel,
+    and other graphical simulation features.
+
+
 		Release Notes for Swarm Version 1.0.5
 
  1. Variant method names for passthru to setWindowGeometryRecordName have been
