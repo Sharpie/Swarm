@@ -1,5 +1,10 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* acpng.m4 (md_FIND_LIB, md_FIND_INCLUDE): New macros.  Use both
+	in md_FIND_ZLIB and md_FIND_PNG.
+
+	* actcltk.m4: Rename {TCL,TK}LIBNAME to {tcl,tk}libname.
+
 	* Makefile.am:  New file.
 
 1998-06-23  Marcus G. Daniels  <mgd@ute.santafe.edu>

@@ -6,12 +6,6 @@ dnl Extra set of brackets hides the Tcl brackets from autoconf m4.
 dnl
 dnl First, if tclsh is around execute it to make a guess as to where Tcl
 dnl is installed, and also to find out if we're using tcl > 7.3.
-dnl
-dnl (nelson 12/11/95) - removed the check for the tcl version, we just
-dnl assume they have 7.4. There was a small problem when the version of
-dnl tcl from tclsh in the PATH didn't agree with libtcl.a
-dnl we used to invoke ["puts [expr [info tclversion] < 7.4]"]
-dnl in the tclsh to guess the version number.
 AC_DEFUN(md_FIND_TCL_HEADERS,dnl
 [AC_CHECK_PROG(tclsh_found, tclsh, 1, 0)
 changequote(<,>)dnl
@@ -59,7 +53,7 @@ AC_MSG_CHECKING(directory of tcl.h)
 for dir in $tclincludedir "$TCL_INCLUDE_DIR" $INCPLACES; do
   if test -r $dir/tcl.h; then
     tclincludedir=$dir
-    break;
+    break
   fi
 done
 
@@ -93,34 +87,38 @@ fi
 LIBPLACES="$USER_TCL_LIB $USER_TK_LIB $LIBPLACES"
 LIBPLACES="`dirname $tclincludedir`/lib $LIBPLACES"
 
-TCLLIBNAME=""
 AC_MSG_CHECKING(directory and version of libtcl)
 for suffix in .so .a; do
   for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
-    for version in 80 8.0 76 7.6 7.5 7.4 ''; do
-      if test -r $dir/libtcl${version}${suffix}; then
-        tcllibdir=$dir  
-        TCLLIBNAME=tcl$version
-        break;
-      fi        
-    done        
-    test -z "$tcllibdir" || break;
+    if test -n "$tcllibname" && test -r $dir/lib${tcllibname}${suffix} ; then
+      tcllibdir=$dir
+      break
+    else
+      for version in 80 8.0 76 7.6 7.5 7.4 ''; do
+        if test -r $dir/libtcl${version}${suffix}; then
+          tcllibdir=$dir  
+          tcllibname=tcl$version
+          break
+        fi        
+      done
+    fi
+    test -z "$tcllibdir" || break
   done
-  test -z "$tcllibdir" || break;
+  test -z "$tcllibdir" || break
 done
 
 if test -n "$tcllibdir" ; then
-  AC_MSG_RESULT(<$tcllibdir, $TCLLIBNAME>)
+  AC_MSG_RESULT(<$tcllibdir, $tcllibname>)
   if test "$tcllibdir" = "/usr/lib" ; then
     TCLLDFLAGS=''
-    TCLLIB="-l$TCLLIBNAME"
+    TCLLIB="-l$tcllibname"
   else
     if test $suffix = .so ; then
       TCLLDFLAGS="-L\$(tcllibdir) $RPATH\$(tcllibdir)"
     else
       TCLLDFLAGS='-L$(tcllibdir)'
     fi
-    TCLLIB=-l$TCLLIBNAME
+    TCLLIB=-l$tcllibname
   fi
 else
   AC_MSG_RESULT(no)
@@ -145,7 +143,7 @@ AC_MSG_CHECKING(directory of tk.h)
 for dir in $tkincludedir "$TK_INCLUDE_DIR" $INCPLACES; do
   if test -r $dir/tk.h; then
     tkincludedir=$dir
-    break;
+    break
   fi
 done
 if test -n "$tkincludedir"; then
@@ -172,34 +170,38 @@ LIBPLACES="`dirname $tkincludedir`/lib $tcllibdir $POTENTIALLIBDIR/tk/lib \
 	$POTENTIALLIBDIR/tk4.1/lib \
 	$POTENTIALLIBDIR/tk4.0/lib \
 	$LIBPLACES"
-TKLIBNAME=""
 AC_MSG_CHECKING(directory and version of libtk)
 for suffix in .so .a; do
   for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
-    for version in 80 8.0 42 4.2 4.1 4.0 ''; do
-      if test -r $dir/libtk${version}${suffix}; then
-        tklibdir=$dir
-        TKLIBNAME=tk${version}
-        break;
-      fi
-    done
-    test -z "$tklibdir" || break;
-   done
-   test -z "$tklibdir" || break;
+    if test -n "$tklibname" && test -r $dir/lib${tklibname}${suffix} ; then
+      tklibdir=$dir
+      break
+    else
+      for version in 80 8.0 42 4.2 4.1 4.0 ''; do
+        if test -r $dir/libtk${version}${suffix}; then
+          tklibdir=$dir
+          tklibname=tk${version}
+          break
+        fi
+      done
+    fi
+    test -z "$tklibdir" || break
+  done
+  test -z "$tklibdir" || break
 done
 
 if test -n "$tklibdir" ; then
-  AC_MSG_RESULT(<$tklibdir, $TKLIBNAME>)
+  AC_MSG_RESULT(<$tklibdir, $tklibname>)
   if test "$tklibdir" = "/usr/lib" ; then
     TKLDFLAGS=''
-    TKLIB=-l$TKLIBNAME
+    TKLIB=-l$tklibname
   else
     if test $suffix = .so ; then
       TKLDFLAGS="-L\$(tklibdir) $RPATH\$(tklibdir)"
     else
       TKLDFLAGS='-L$(tklibdir)'
     fi
-    TKLIB=-l$TKLIBNAME
+    TKLIB=-l$tklibname
   fi
 else
   AC_MSG_RESULT(no)

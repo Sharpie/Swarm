@@ -1,52 +1,55 @@
-AC_DEFUN(md_FIND_ZLIB,
-[if test -z "$zlibdir" ; then 
-  zlibdir=$defaultdir
-fi
-AC_MSG_CHECKING(directory of zlib library)
-if test -f $zlibdir/lib/libz.a ; then
-  AC_MSG_RESULT($zlibdir/lib)
-else
+AC_DEFUN(md_FIND_LIB,
+[name=$1
+ libname=$2
+ AC_MSG_CHECKING(directory of lib${libname})
+ for suffix in .so .a; do
+  for dir in $$1dir $defaultdir /usr/lib /usr/local/lib; do
+    if test -f $dir/lib/lib${libname}${suffix} ; then
+      $1dir=$dir
+      break
+    else
+      $1dir=''
+    fi
+  done
+  test -z "$$1dir" || break
+done
+if test -z "$$1dir"; then
   AC_MSG_RESULT(no)    
-  AC_MSG_ERROR(Please use --with-zlibdir to specify location of zlib library.)
+  AC_MSG_ERROR(Please use --with-$1dir to specify location of $1 library.)
+else
+  AC_MSG_RESULT($$1dir/lib)
 fi
-AC_MSG_CHECKING(directory of zlib include file)
-if test -f $zlibdir/include/zlib.h ; then
-  AC_MSG_RESULT($zlibdir/include)
+if test "$suffix" = .so; then
+  translit($1, `a-z', `A-Z')LDFLAGS="-L\$($1dir) -R$RPATH\$($1dir)"
+else
+  translit($1, `a-z', `A-Z')LDFLAGS='-L$($1dir)'
+fi
+AC_SUBST(translit($1, `a-z', `A-Z')LDFLAGS)
+AC_SUBST($1dir)
+])
+
+AC_DEFUN(md_FIND_INCLUDE,
+[if test -z "$$1includedir" ; then
+  $1includedir=$$1dir/include
+fi
+AC_MSG_CHECKING(directory of $1.h)
+if test -r $$1includedir ; then
+  AC_MSG_RESULT($$1includedir)
 else
   AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Please use --with-zlibdir to specify location of zlib header file.) 
+  AC_MSG_ERROR(Please use --with-$1includedir to specify location of $1.h)
 fi
-ZLIBLDFLAGS='-L$(zlibdir)'
-AC_SUBST(zlibdir)
-AC_SUBST(ZLIBLDFLAGS)
-])dnl
+AC_SUBST($1includedir)
+])
+
+AC_DEFUN(md_FIND_ZLIB,
+[test -z "$zlibdir" && zlibdir=$defaultdir
+md_FIND_INCLUDE(zlib)
+md_FIND_LIB(zlib,z)
+])
 
 AC_DEFUN(md_FIND_PNG,
-[if test -z "$pngdir" ; then 
-  pngdir=$defaultdir
-fi
-AC_MSG_CHECKING(directory of libpng.so)
-if test -f $pngdir/lib/libpng.so ; then
-  PNGLDFLAGS="-L\$(pngdir)/lib $RPATH\$(pngdir)/lib"
-  AC_MSG_RESULT($pngdir/lib)
-else
-  AC_MSG_RESULT(no)
-  AC_MSG_CHECKING(directory of libpng.a)
-  if test -f $pngdir/lib/libpng.a ; then
-    PNGLDFLAGS='-L$(pngdir)/lib'
-    AC_MSG_RESULT($pngdir/lib)
-  else
-    AC_MSG_RESULT(no)    
-    AC_MSG_ERROR(Please use --with-pngdir to specify location of png library.)
-  fi
-fi
-AC_MSG_CHECKING(directory of png include file)
-if test -f $pngdir/include/png.h ; then
-  AC_MSG_RESULT($pngdir/include)
-else
-  AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Please use --with-pngdir to specify location of png header file.) 
-fi
-AC_SUBST(pngdir)
-AC_SUBST(PNGLDFLAGS)
-])dnl
+[test -z "$pngdir" && pngdir=$defaultdir
+md_FIND_INCLUDE(png)
+md_FIND_LIB(png,png)
+])
