@@ -1,3 +1,52 @@
+1998-02-25  Alex Lancaster  <alex@santafe.edu>
+
+	* graph.h (DEFAULT_RANDOM_SEED): Added to make global for entire
+	library.
+
+	* DiGraphNode.[hm] ([DiGraphNode -setCanvas:withRandPosFunc:]):
+	Added to allow placement of nodes on canvas with a specific random
+	number generator, to make placement of nodes reliable if the graph
+	is hidden or re-displayed.
+
+	* DiGraphNode.m ([DiGraphNode -setCanvas:]): is now a wrapper for this
+	new method which is called with the current random number
+	distribution. If no distribution is specified, then it defaults to
+	the simtools RNG. Use of this method is DEPRECATED.
+
+	* DiGraphNode.[hm] ([DiGraphNode -setRandPosFunc:]): added to allow
+	independent setting of position random number distribution. Sets
+	the new instance variable.
+
+	* DiGraph.[hm] ([DiGraph -setCanvas: withRandPosSeed:]) Added to
+	allow placement of nodes on canvas with a specific random number
+	seed, to make placement of nodes reliable if the graph is hidden
+	or re-displayed. The random number generator, is always the
+	"PMMLCG1" and the distribution is the UniformInteger type.
+
+	* DiGraph.[hm] ([DiGraph -setCanvas:]) Original method made a
+	 wrapper for this new method which is called with the current
+	 random number distribution. If no distribution is specified, then
+	 it defaults to a DEFAULT_RANDOM_SEED specified in graph.h.
+
+	* DiGraph.[hm] ([DiGraph -setRandPosSeed:]): added to allow
+	independent setting of position random number distribution. Sets
+	the new instance variable.
+
+	* DiGraph.m ([DiGraph -showCanvas]): creates the same random
+	number distribution as the ([DiGraph -setCanvas:]) method. Also
+	cycles through the node list and sends a message with the new
+	distribution to each node.
+
+	* DiGraph.m ([DiGraph addNode:]): If a canvas is already set, then
+	pass the random number distribution "uRandPosition" to each node.
+
+	* DiGraph.m ([DiGraph update]): changed globalTkInterp "idle
+	tasks" call to the new GUI-independent macro
+	GUI_UPDATE_IDLE_TASKS().
+
+	* DiGraph.m ([DiGraph +createBegin:]): make randPosSeed equal the
+	DEFAULT_RANDOM_SEED specified in graph.h.
+
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* DiGraphNode.m: Include gui.h instead of tkobjc.h.
