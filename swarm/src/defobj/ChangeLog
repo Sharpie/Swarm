@@ -1,5 +1,11 @@
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Archiver.[hm], defobj.h: Switch registration and get/put to
+	object-oriented interface.
+
+	* DefClass.m ([CreatedClass_s -updateArchiver]): Use lispPutShallow:
+	instead of lispArchiverPut().
+
 	* HDF5Object.m ([HDF5_c -writeRowNames]): Prefer c_rnmlen to c_rnnlen
 	(the latter has a default).
 

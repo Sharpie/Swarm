@@ -956,22 +956,21 @@ USING
 //D: High level serialization interface.
 CREATING
 + createBegin: aZone;
+- setInhibitLoadFlag: (BOOL)inhibitLoadFlag;
 - createEnd;
 SETTING
 - setLispPath: (const char *)lispPath;
 - setHDF5Path: (const char *)HDF5Path;
 USING
-- getApplication;
+- registerClient: client;
+- unregisterClient: client;
+- lispGet: (const char *)key;
+- lispPutDeep: (const char *)key object: object;
+- lispPutShallow: (const char *)key object: object;
+- hdf5Get: (const char *)key;
+- hdf5PutDeep: (const char *)key object: object;
+- hdf5PutShallow: (const char *)key object: object;
 - save;
-
-//F: Save objects registered with archiver.
-extern void archiverSave (void);
-extern void archiverRegister (id client);
-extern void archiverUnregister (id client);
-extern id lispArchiverGet (const char *key);
-extern void lispArchiverPut (const char *key, id object, BOOL deepFlag);
-extern id hdf5ArchiverGet (const char *key);
-extern void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
 @end
 
 @protocol HDF5 <Create, Drop, CREATABLE>
@@ -1015,8 +1014,6 @@ USING
 - (const char *)getAttribute: (const char *)attributeName;
 
 - (void)drop;
-
-extern void hdf5_not_available (void);
 @end
 
 @protocol HDF5CompoundType <Create, Drop, CREATABLE>
@@ -1030,8 +1027,11 @@ USING
 - getClass;
 @end
 
-//G: The singleton arguments object.
+//G: The singleton Arguments object.
 extern id arguments;
+
+//G: The singleton Archiver object.
+extern id archiver;
 
 //G: Predefined type descriptors for allocated blocks.
 extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;

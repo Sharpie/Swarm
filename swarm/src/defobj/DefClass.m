@@ -455,7 +455,7 @@ process_type (const char *varType,
 
 - updateArchiver
 {
-  lispArchiverPut ([self name], self, NO);
+  [archiver lispPutShallow: [self name] object: self];
   return self;
 }
 

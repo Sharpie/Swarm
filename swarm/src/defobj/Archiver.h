@@ -30,17 +30,15 @@ extern id archiver;
 - setHDF5Path: (const char *)HDF5Path;
 - save;
 
-- lispOut: outputCharStream;
+- registerClient: client;
+- unregisterClient: client;
 
-void archiverRegister (id client);
-void archiverUnregister (id client);
-void archiverSave (void);
+- lispGet: (const char *)key;
+- lispPutDeep: (const char *)key object: object;
+- lispPutShallow: (const char *)key object: object;
 
-void lispArchiverPut (const char *key, id object, BOOL deepFlag);
-id lispArchiverGet (const char *key);
-
-void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
-id hdf5ArchiverGet (const char *key);
-
+- hdf5Get: (const char *)key;
+- hdf5PutDeep: (const char *)key object: object;
+- hdf5PutShallow: (const char *)key object: object;
 @end
 
