@@ -22,6 +22,7 @@ const char *program_invocation_short_name;
 #ifdef __CYGWIN__
 #include <sys/cygwin.h> // cygwin32_conv_to_full_win32_path
 #include <windows.h> // FindFirstFile
+#undef BOOL
 #endif
 
 #define VARCHAR(ch) (isalnum ((int)ch) || ((ch) == '_'))

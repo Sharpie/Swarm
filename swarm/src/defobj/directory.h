@@ -8,13 +8,13 @@
 #define _REENTRANT
 #endif
 
+#include <objc/objc.h>
 Class swarm_directory_get_swarm_class (id object);
 
 #ifdef HAVE_JDK
 #undef SIZEOF_LONG /* Kaffe can define this (it's from swarmconfig.h) */
 #include <jni.h>
 #include <misc/avl.h>
-#include <objc/objc.h>
 
 #import <defobj/Create.h>
 

@@ -1,7 +1,8 @@
 1999-07-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.[hm] (swarm_directory_get_swarm_class): Always
-	define (revert to getClass when no JDK).
+	define (revert to getClass when no JDK), move objc/objc.h
+	before declarations.
 
 1999-07-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
