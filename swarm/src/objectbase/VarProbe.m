@@ -428,7 +428,7 @@ probe_as_int (const char *probedType, const void *p)
                   "VarProbe for class %s tried on class %s\n",
                   [probedClass name], [anObject name]);
   
-  p = ((const void *)anObject) + dataOffset;
+  p = ((const void *) anObject) + dataOffset;
 
   return probe_as_int (probedType, p);
 }
