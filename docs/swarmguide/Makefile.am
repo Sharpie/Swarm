@@ -1,5 +1,5 @@
-NAME = tutorialbook
-SGML_FILES = tutorial01.sgml tutorialcont.sgml tutorialbook.sgml tutorialmeta.sgml 
+NAME = userbook
+SGML_FILES = userbook.sgml usermeta.sgml 
 include $(top_srcdir)/Makefile.rules
 
 # Local variables:
