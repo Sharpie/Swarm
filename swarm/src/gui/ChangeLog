@@ -1,3 +1,9 @@
+2001-03-03  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* gui.h (NodeItem): Move setString, setFont, and setX:Y: into
+	create phase.  (In the last case, note there is a moveX:Y:
+	method.)
+	
 2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* gui.h (ArchivedGeometryWidget): Declare -updateSize.

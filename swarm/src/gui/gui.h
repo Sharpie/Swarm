@@ -756,21 +756,21 @@ CREATING
 //M: Set the mouse bindings for a NodeItem (e.g. dragging).
 - createBindings;
 
-USING
+//M: Set the label to put on the node.
+- setString: (const char *)string;
+
+//M: Set the font with which to draw the label.
+- setFont: (const char *)font;
+
 //M: Set the position of the node.
 - setX: (int)x Y: (int)y;
+USING
 
 //M: Get the x position of the node on the canvas.
 - (int)getX;
 
 //M: Get the y position of the node on the canvas.
 - (int)getY;
-
-//M: Set the label to put on the node.
-- setString: (const char *)string;
-
-//M: Set the font with which to draw the label.
-- setFont: (const char *)the_font;
 
 //M: Set the color of the node.
 - setColor: (const char *)aColor;
