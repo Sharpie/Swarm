@@ -854,7 +854,7 @@ externvar id _activity_current;
 
 //G: Internal error message issued when a current activity is
 //G: missing.
-externvar id _activity_context_error (const char *macroName);
+extern id _activity_context_error (const char *macroName);
 
 
 @protocol ConcurrentGroup <ActionGroup, CREATABLE>
