@@ -13,7 +13,7 @@ Library:      defobj
 #import <defobj.h>
 
 #ifdef INHERIT_OBJECT
-@interface Object_s: Object <DefinedClass, Serialization>
+@interface Object_s: Object <DefinedClass, Serialization, GetName>
 {
 @public
   // Word that contains zone in which object allocated, plus
@@ -21,7 +21,7 @@ Library:      defobj
   unsigned long zbits;  
 }
 #else
-@interface Object_s <DefinedClass, Serialization>
+@interface Object_s <DefinedClass, Serialization, GetName>
 {
 @public
    // Class that implements the behavior of an object
@@ -33,6 +33,7 @@ Library:      defobj
 #endif
 /*** methods in Object_s (inserted from .m file by m2h) ***/
 + (const char *)getName;
+- (const char *)getName;
 + (BOOL)respondsTo: (SEL)aSel;
 - (BOOL)respondsTo: (SEL)aSel;
 + (BOOL)conformsTo: (Protocol *)aProtocol;

@@ -1,5 +1,11 @@
 1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* DefObject.h (Object_s): Adopt GetName.
+
+	* DefObject.[hm] ([Object_s -getName]): New method.
+
+	* defobj.h (GetName): Add instance -getName.
+
 	* FCall.m ([FCall_c -performCall]): Put libffi return type in
 	a types_t and recover it per the case (libffi bug workarounds for
 	char, short, and pointers).

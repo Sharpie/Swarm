@@ -435,6 +435,8 @@ USING
 //M: lifetime.  It does not return any data that ever changes.
 USING
 + (const char *)getName;
+
+- (const char *)getName;
 @end
 
 @protocol GetOwner

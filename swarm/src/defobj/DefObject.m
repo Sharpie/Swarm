@@ -206,6 +206,11 @@ PHASE(Using)
   return (const char *) ((Class) self)->name;
 }
 
+- (const char *)getName
+{
+  return (const char *) (getClass (self))->name;
+}
+
 //
 // respondsTo: -- return true if message valid for instance
 //
