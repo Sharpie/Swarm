@@ -9,10 +9,9 @@ Description:  Selection Routine
 Library:      simtools
 */
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-
 #import <simtools.h>
 #import <simtools/NSelect.h>
+#import <random.h>
 
 @implementation NSelect
 

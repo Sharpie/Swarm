@@ -1,3 +1,65 @@
+1998-02-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* NSelect.m:  Include random.h.
+
+	* simtools.m: Don't include time.h or string.h.  Don't define
+	probeDisplayManager.  Include simtoolsgui.h.
+	(initSwarm): Don't call GUI_INIT, instead call initSimtoolsGUI if
+	swarmGUIMode.
+	(buildWindowGeometryRecordName, _createProbeDisplay,
+	_createCompleteProbeDisplay, getKeyForName,
+	createArchivedProbeDisplayNamed,
+	createArchivedCompleteProbeDisplayNamed): Remove (moved to
+	simtoolsgui.m).
+
+	* simtools.h: Remove ControlPanel, WindowGeometryRecordName,
+	CompositeWindowGeometryRecordName, ActioonCache, ProbeDisplay,
+	CompleteProbeDisplay, ProbeDisplayManager, GUIComposite, GUISwarm,
+	ActiveGraph protocols (moved to simtoolsgui).  Remove declaration
+	of probeDisplayManager.  Remove mention of @classes ActionCache,
+	ProbeDisplay, CompleteProbeDisplay, ProbeDisplayManager, GUISwarm,
+	and ActiveGraph.  Don't include GUISwarm.h.
+
+	* global.h: Remove includes of ProbeDisplayManager.h,
+	SwarmObject.h. and random.h.  Remove declaration of
+	probeDisplayManager and initSwarm.
+	
+	* NSelect.m: Include random.h. 
+
+	* Makefile: Removed classes below.
+
+	* ActionCache.[hm], ActionHolder.[hm], ActiveGraph.[hm],
+	ClassDisplayWidget.[hm], CommonProbeDisplay.[hm],
+	CompleteProbeDisplay.[hm], ControlPanel.[hm], GUIComposite.[hm],
+	GUISwarm.[hm], MessageProbeWidget.[hm], ProbeDisplay.[hm],
+	ProbeDisplayManager.[hm], SimpleProbeDisplay.[hm],
+	VarProbeWidget.[hm], simtools.[hm], global.h: Removed (moved to
+	simtoolsgui).
+
+1998-02-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MessageProbeWidget.m: Include objectbase.h (for val_t) and
+	objc-api.h.  Change for renames below.
+	(printVal): New function for converting val_t to strings.
+	([MessageProbeWidget -dynamic]): Use printVal whether it is an
+	object or not.  Use renamed setArg:ToString:.
+	([MessageProbeWidget -argSpawn:]): getArg: now returns a val_t;
+	don't use strings.
+	([MessageProbeWidget -package]): Likewise.
+	([MessageProbeWidget -package:]): Likewise.
+	([MessageProbeWidget -idReceive:]): Use setArg:ToString: [resObj
+	getObjectName] instead of (removed) setArg:ToObjectName.
+
+	* MessageProbeWidget.h (MessageProbeWidget):  Rename argNum
+	to argCount.  Rename result to resultMessageProbeEntry.
+	Make objWindows boolean.
+
+	* ActiveGraph.m ([ActiveGraph -createEnd]): Don't call
+	updateMethodCache.
+
+	* ActiveOutFile.m ([ActiveOutFile -createEnd]): Likewise.
+	Reformatting throughout.
+
 1998-02-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* GUIComposite.m ([GUIComposite +createBegin:]): Setup 

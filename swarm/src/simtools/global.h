@@ -3,13 +3,6 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <simtools/ProbeDisplayManager.h>
 #import <objectbase/SwarmObject.h>
-#import <random.h>
-
-// Manager that keeps track of active probes to be updated
-extern ProbeDisplayManager *probeDisplayManager;
-
-void initSwarm (int argc, const char **argv);
 
 extern id arguments;
