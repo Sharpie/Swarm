@@ -8,6 +8,7 @@
 #import <collections.h>
 
 #include <misc.h>
+#include <swarmconfig.h> // PTRINT
 
 int
 main(int argc, const char ** argv) 
@@ -32,25 +33,21 @@ main(int argc, const char ** argv)
   [theList addLast: (id) 99];
 
   // check list in unsorted order
-  printf("unsorted list...\n");
+  printf ("unsorted list...\n");
   index = [theList begin: globalZone];
   
-  while ( (member = [index next]) ) 
-    {
-      printf("%d, ", (int) member);
-    }
+  while ((member = [index next])) 
+    printf (PTRINTFMT ", ", (PTRINT) member);
   [index drop];
 
   // reverse the list...
   [QSort reverseOrderOf: theList];
 
   // check reversed order
-  printf("\nreversed list...\n");
+  printf ("\nreversed list...\n");
   index = [theList begin: globalZone];
-  while ( (member = [index next]) ) 
-    {
-      printf("%d, ", (int) member);
-    }
+  while ((member = [index next])) 
+    printf (PTRINTFMT ", ", (PTRINT) member);
   [index drop];
 
   // sort the list...
@@ -58,17 +55,17 @@ main(int argc, const char ** argv)
 
   // check list in sorted order
   currMax = 0;
-  printf("\nsorted (ascending) list...\n");
+  printf ("\nsorted (ascending) list...\n");
   index = [theList begin: globalZone];
-  while ( (member = [index next]) ) 
+  while ((member = [index next])) 
     {
-      if (currMax > (int)member)
+      if (currMax > (PTRINT) member)
         {
           fprintf(stderr, "list is not sorted in ascending order\n");
           return 1;
         }
-      currMax = (int) member;
-      printf("%d, ", (int) member);
+      currMax = (PTRINT) member;
+      printf (PTRINTFMT ", ", (PTRINT) member);
     }
   [index drop];
 
@@ -78,19 +75,19 @@ main(int argc, const char ** argv)
   
   printf("\nsorted and reversed list (descending)...\n");
   index = [theList begin: globalZone];
-  while ( (member = [index next]) ) 
+  while ((member = [index next])) 
     {
-      if (currMin < (int)member)
+      if (currMin < (PTRINT) member)
         {
-          fprintf(stderr, "list is not sorted in descending order\n");
+          fprintf (stderr, "list is not sorted in descending order\n");
           return 1;
         }
-      currMin = (int) member;
-      printf("%d, ", (int) member);
+      currMin = (PTRINT) member;
+      printf (PTRINTFMT ", ", (PTRINT) member);
     }
   [index drop];
 
-  printf("\n");
+  printf ("\n");
 
   return 0;
 }
