@@ -969,6 +969,20 @@ extern void hdf5ArchiverPut (const char *key, id object, BOOL deepFlag);
 #endif
 @end
 
+#ifdef HAVE_HDF5
+@protocol HDF5 <Create, Drop, CREATABLE>
+//S: HDF5 interface
+//D: HDF5 interface
+CREATING
+- setParent: parent;
+- setName: (const char *)name;
+- createEnd;
+USING
+- store: (const char *)name type: (const char *)type ptr: (void *)ptr;
+- (void)drop;
+@end
+#endif
+
 //G: The singleton arguments object.
 extern id arguments;
 

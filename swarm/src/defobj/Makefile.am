@@ -20,7 +20,8 @@ CLEANFILES += version.h
 BUILT_SOURCES = $(module_headers)
 
 SRC = Archiver.m Arguments.m Create.m Customize.m \
-	DefClass.m DefObject.m Program.m Symbol.m Zone.m defobj.m internal.m
+	DefClass.m DefObject.m HDF5Object.m Program.m Symbol.m Zone.m \
+	defobj.m internal.m
 
 libdefobj_a_SOURCES = $(SRC)
 libdefobj_la_SOURCES = $(SRC)
@@ -29,7 +30,8 @@ libdefobj_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 bin_SCRIPTS = m2h make-h2x
 
 defobj_HEADERS = Archiver.h Arguments.h Create.h Customize.h \
-	DefClass.h DefObject.h Program.h Symbol.h Zone.h defalloc.h deftype.h
+	DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h \
+	defalloc.h deftype.h
 
 $(OBJECTS): version.h
 

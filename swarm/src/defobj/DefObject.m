@@ -15,7 +15,7 @@ Library:      defobj
 #import <defobj/defalloc.h>
 #import <collections.h>
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
-#import <defobj/Archiver.h> // HDF5
+#import <defobj/HDF5Object.h>
 #import <defobj/internal.h> // process_array
 
 #import <objc/objc-api.h>

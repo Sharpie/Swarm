@@ -1,5 +1,14 @@
 1999-01-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.m (_defobj_implement): Call setTypeImplemented for HDF5.
+
+	* defobj.h (HDF5): New protocol.
+
+	* Makefile.am (SRC): Add HDF5Object.m.
+	(defobj_HEADERS): Add HDF5Object.h.
+
+	* HDF5.[hm]: New files split out from Archiver.[hm].
+
 	* internal.m (process_array): Add baseType argument to setup_array.
 	Don't permute over array if no output_type.  Don't call any
 	NULL function argument.  Remove end_array argument.
