@@ -1,6 +1,6 @@
 1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* acbuiltinapply.m4: New file.
+	* acbuiltinapply.m4, acobjcmalloc.m4: New files.
 
 	* Makefile.am (EXTRA_DIST): Add acbuiltinapply.m4, acfind.m4,
 	acnextstep.m4, and acobjcmalloc.m4.
