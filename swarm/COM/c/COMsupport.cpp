@@ -35,8 +35,8 @@ struct method_pair {
 
 struct collect_methods_t {
   nsISupports *obj;
+  COM_collect_variable_func_t collectVariableFunc;
   COM_collect_method_func_t collectMethodFunc;
-  BOOL variableFlag;
 };
   
 
@@ -112,7 +112,7 @@ matchInterfaceName (nsIInterfaceInfo *interfaceInfo, void *item)
 {
   nsIID *ret = NULL;
   char *name;
-  const char *interfaceName = (const char *)item;
+  const char *interfaceName = (const char *) item;
   
   interfaceInfo->GetName (&name);
   
@@ -441,22 +441,24 @@ findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, P
   return PR_FALSE;
 }
 
-struct EnumCollectInfo {
-  nsISupports *interface;
-  COM_collect_method_func_t collectMethodFunc;
-};
-
 static PRBool
 enumCollectFunc (nsHashKey *key, void *data, void *param)
 {
-  const nsXPTMethodInfo *methodInfo = (const nsXPTMethodInfo *) data;
-  EnumCollectInfo *collectInfo = (EnumCollectInfo *) param;
+  COM_collect_method_func_t collectFunc = (COM_collect_method_func_t) param;
 
-  collectInfo->collectMethodFunc (collectInfo->interface,
-                                  methodInfo->GetName ());
+  collectFunc ((struct method_value *) data);
+
   return PR_TRUE;
 }
 
+static PRBool
+destroyMethod (nsHashKey *key, void *data, void *param)
+{
+  struct method_value *value = data;
+
+  delete value;
+  return PR_TRUE;
+}
 
 static void *
 matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
@@ -465,12 +467,15 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, info->obj);
   nsIID *iid;
 
+  if (info->collectVariableFunc && info->collectMethodFunc)
+    abort ();
+
   if (!NS_SUCCEEDED (interfaceInfo->GetIID (&iid)))
     abort ();
 
-  nsISupports *ret;
+  nsISupports *interface;
 
-  if (NS_SUCCEEDED (obj->QueryInterface (*iid, (void **) &ret)))
+  if (NS_SUCCEEDED (obj->QueryInterface (*iid, (void **) &interface)))
     {
       PRUint16 methodCount, i;
       const nsXPTMethodInfo *methodInfo;
@@ -482,53 +487,72 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
       if (!NS_SUCCEEDED (interfaceInfo->GetName (&name)))
         abort ();
 
-      nsHashtable *ht = new nsHashtable ();
+      nsObjectHashtable *ht = new nsObjectHashtable (nsnull, nsnull,
+                                                     destroyMethod, nsnull);
       
       for (i = 0; i < methodCount; i++)
         {
           if (!NS_SUCCEEDED (interfaceInfo->GetMethodInfo (i, &methodInfo)))
             abort ();
+          
+          struct method_value *method = new method_value;
+          
+          method->interface = interface; // will actually be constant
+          method->methodIndex = i;
+          method->methodInfo = methodInfo;
 
           const char *variableName = methodInfo->GetName ();
           nsCStringKey *key = new nsCStringKey (variableName);
-          const nsXPTMethodInfo *lastInfo = (nsXPTMethodInfo *) ht->Get (key);
+          struct method_value *lastMethod =
+            (struct method_value *) ht->Get (key);
           
-          if (lastInfo)
+          if (lastMethod)
             {
-              if (info->variableFlag)
+              if (info->collectVariableFunc)
                 {
-                  if ((methodInfo->IsGetter () && lastInfo->IsSetter ())
-                      || (methodInfo->IsSetter () && lastInfo->IsGetter ()))
-                    info->collectMethodFunc (ret, variableName);
+                  if ((methodInfo->IsGetter ()
+                       && lastMethod->methodInfo->IsSetter ())
+                      || (methodInfo->IsSetter () &&
+                          lastMethod->methodInfo->IsGetter ()))
+                    info->collectVariableFunc (method, lastMethod);
                 }
               else
-                ht->Remove (key);
+                {
+                  ht->Remove (key);
+                  delete method;
+                }
             }
           else
-            ht->Put (key, (void *) methodInfo);
+            ht->Put (key, (void *) method);
         }
-      if (!info->variableFlag)
-        {
-          EnumCollectInfo enumCollectData = { ret, info->collectMethodFunc } ;
-
-          ht->Enumerate (&enumCollectFunc, (void *) &enumCollectData);
-        }
+      if (info->collectMethodFunc)
+        ht->Enumerate (&enumCollectFunc, (void *) info->collectMethodFunc);
       delete ht;
-      NS_RELEASE (ret);
+      NS_RELEASE (interface);
     }
   return NULL;
 }
 
 
 void
-COMcollectMethods (COMclass cClass, COM_collect_method_func_t func, BOOL variableFlag)
+COMcollect (COMclass cClass,
+            COM_collect_variable_func_t varFunc,
+            COM_collect_method_func_t methodFunc)
 {
   nsISupports *obj = NS_STATIC_CAST (nsISupports *, createComponent (cClass));
-  struct collect_methods_t info = { obj, func, variableFlag };
+  struct collect_methods_t info = { obj, varFunc, methodFunc };
   if (!obj)
     abort ();
   find (matchImplementedInterfaces, &info);
   NS_RELEASE (obj);
+}
+
+const char *
+COMmethodName (COMmethod method)
+{
+  struct method_value *value = (struct method_value *) method;
+
+  return value->methodInfo->GetName ();
 }
 
 void *

@@ -38,7 +38,10 @@ void COMsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void COMsetReturn (void *args, unsigned pos, fcall_type_t type, types_t *value);
 void COMfreeArgVector (void *args);
 
-void COMcollectMethods (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag);
+void COMcollect (COMclass cClass,
+                 COM_collect_variable_func_t variableFunc, 
+                 COM_collect_method_func_t methodFunc);
+const char *COMmethodName (COMmethod method);
 
 JSContext *currentJSContext ();
 void *JScreateArgVector (unsigned size);
