@@ -43,10 +43,10 @@ extern const char* __objc_sparse3_id;
 
 #include "objc/thr.h"
 
-extern int nbuckets;		/* for stats */
-extern int nindices;
-extern int narrays;
-extern int idxsize;
+externobjcvar int nbuckets;		/* for stats */
+externobjcvar int nindices;
+externobjcvar int narrays;
+externobjcvar int idxsize;
 
 #include <assert.h>
 

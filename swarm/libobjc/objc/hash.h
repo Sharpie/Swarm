@@ -102,7 +102,7 @@ typedef struct cache
 
 
 /* Two important hash tables.  */
-extern cache_ptr module_hash_table, class_hash_table;
+externobjcvar cache_ptr module_hash_table, class_hash_table;
 
 /* Allocate and initialize a hash table.  */ 
 

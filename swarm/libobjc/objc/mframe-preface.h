@@ -98,14 +98,6 @@ typedef struct  {
 #include <Foundation/NSObjCRuntime.h>
 #endif
 
-#if 0
-extern const char o_version[];
-extern const char o_gcc_version[];
-#if NeXT_cc
-extern const char o_NeXT_cc_version[];
-#endif
-#endif
-
 #define OBJC_MALLOC(VAR, TYPE, NUM) \
    ((VAR) = (TYPE *) objc_malloc ((unsigned)(NUM)*sizeof(TYPE))) 
 #define OBJC_VALLOC(VAR, TYPE, NUM) \

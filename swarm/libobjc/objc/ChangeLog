@@ -1,3 +1,17 @@
+1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* hash.h (module_hash_table, class_hash_table): Use externobjcvar.
+
+	* runtime.h (_objc_class_links_resolved, __objc_selector_max_index,
+	__objc_runtime_mutex, __objc_runtime_threads_alive): Likewise.
+
+	* sarray.h (nbuckets, nindices, narrays, idxsize): Likewise.
+
+	* thr.h (__objc_thread_exit_status): Likewise.
+
+	* mframe-preface.h (o_version, o_gcc_version, o_NeXT_cc_version):
+	Remove commented externs.
+
 1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* runtime.h: Include objc/externvar.h (to get export attribute).
