@@ -1,3 +1,10 @@
+1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* mframe.m: Include sys/sigevent.h if __hpux__ and
+	HAVE_SYS_SIGEVENT_H.
+
+	* configure.in: Check for sys/sigevent.h.
+
 1999-05-16  Marcus G. Daniels  <swamsfi@lark.cc.ukans.edu>
 
 	* archive.c, objects.c, selector.c: Include string.h.

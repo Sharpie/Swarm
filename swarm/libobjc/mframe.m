@@ -29,7 +29,7 @@
 */
 
 #include <objc/objc-api.h>
-#ifdef __hpux__
+#if defined(__hpux__) && defined(HAVE_SYS_SIGEVENT_H)
 #include <sys/sigevent.h>
 #endif
 BOOL sel_types_match (const char* t1, const char* t2);
