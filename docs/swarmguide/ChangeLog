@@ -1,3 +1,18 @@
+1999-05-26  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (genindex.sgml): Make depend on collateindex.pl, so
+	script changes force regeneration.
+
+	* html.dsl ($bold-sanserif-seq$): New function.  Define FONT
+	`face' attribute to use "Trebuchet, Arial, sans-serif", with
+	<B></B>.
+
+	* print.dsl ($bold-sanserif-seq$): New function.  Use
+	%admon-font-family%, with bold.
+
+	* common.dsl (application): Define to use new (local)
+	$bold-sanserif-seq$ function
+
 1999-05-26  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user1.04.sgml: Tidied up loose ends/editing glitches throughout 
@@ -6,13 +21,11 @@
  	binding. Clarified Function vs Method treatment.  Clarified
  	Protocol treatment.
 
-
 1999-05-26  Alex Lancaster  <alex@santafe.edu>
 
 	* user2.06.sgml: Normalize SGML, add relevant tags for VARNAME,
 	FUNCTION, CLASSNAME variables.  Reformatting of all
 	PROGRAMLISTING, don't include PROGRAMLISTINGs inside paragraphs.
-	
 
 1999-05-25  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 

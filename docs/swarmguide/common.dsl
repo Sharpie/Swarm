@@ -29,7 +29,7 @@
 (element type ($mono-seq$))
 (element function ($bold-mono-seq$))
 (element varname ($italic-mono-seq$))
-(element application ($bold-mono-seq$))
+(element application ($bold-sanserif-seq$))
 
 </style-specification-body>
 </style-specification>

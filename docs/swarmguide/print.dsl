@@ -14,6 +14,12 @@
   ;; Do formal objects float?
   #t)
 
+(define ($bold-sanserif-seq$ #!optional (sosofo (process-children)))
+  (make sequence
+    font-family-name: %admon-font-family%
+    font-weight: 'bold
+    sosofo))
+
 (define ($admon-graphic$ #!optional (nd (current-node)))
   ;; Admonition graphic file
   (cond ((equal? (gi nd) (normalize "tip"))

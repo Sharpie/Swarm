@@ -56,6 +56,13 @@
  	attributes: '(("COLOR" "GREEN"))
  	(process-children)))
 
+(define ($bold-sanserif-seq$ #!optional (sosofo (process-children)))
+  (make element gi: "FONT"
+	attributes: (list (list "FACE" "Trebuchet, Arial, sans-serif")
+                          (list "SIZE" "-1"))
+	(make element gi: "B"
+	      sosofo)))
+
 (define ($admon-graphic$ #!optional (nd (current-node)))
   ;; Admonition graphic file
   (cond ((equal? (gi nd) (normalize "tip"))

@@ -18,7 +18,7 @@ include $(top_srcdir)/Makefile.common
 JADEFLAGS = -V biblio-citation-check 
 
 ## automatically generate index, if any non-generated SGML files change
-genindex.sgml: $(SGML)
+genindex.sgml: $(SGML) $(docbookstyle_srcdir)/bin/collateindex.pl
 	perl $(docbookstyle_srcdir)/bin/collateindex.pl -i "SWARM.USER.GENERATED.INDEX" -N -o genindex.sgml
 	$(RUNJADE) -V html-index $(CATOPTS) -t sgml -ihtml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`	
 	perl $(docbookstyle_srcdir)/bin/collateindex.pl -i "SWARM.USER.GENERATED.INDEX" -g -o genindex.sgml HTML.index
