@@ -352,7 +352,9 @@ typedef struct objc_super {
 
 IMP objc_msg_lookup_super(Super_t super, SEL sel);
 
+#ifndef __cplusplus
 retval_t objc_msg_sendv(id, SEL, arglist_t);
+#endif
 
 
 
