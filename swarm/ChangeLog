@@ -1,8 +1,10 @@
+1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VERSION: Bump.
+
 1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Pass --enable-shared=$enable_shared on to libobjc.
-
-	* VERSION: Bump.
 
 	* configure.in: Use md_STRUCT_XPM_ALLOCPIXELS.
 
