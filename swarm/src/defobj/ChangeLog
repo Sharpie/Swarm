@@ -7,6 +7,7 @@
 
 	* defobj.m (_obj_debug, _obj_xerror, _obj_xdebug):
 	Add externvardef.
+	(t_Object, t_ByteArray): Remove.
 
 	* Archiver.m (hdf5Archiver, lispArchiver, hdf5AppArchiver,
 	lispAppArchiver):  Add externvardef.

@@ -21,7 +21,6 @@ Library:      defobj
 
 #include <swarmconfig.h> // HAVE_HDF5
 
-id  t_Object
 BOOL _warning_dropFrom = YES;
 
 externvardef FILE *_obj_xerror, *_obj_xdebug;
