@@ -313,6 +313,7 @@ PHASE(Setting)
     }
   app = [self ensureApp: appKey];
   [topHDF5Obj iterate: objIterateFunc];
+  return self; 
 }
 
 - hdf5LoadArchiver: hdf5File
@@ -335,8 +336,8 @@ PHASE(Setting)
     }
   else
     [self hdf5LoadObjectMap: hdf5File key: currentApplicationKey];
+  return self;
 }
-
 
 - lispLoadArchiver: expr
 {

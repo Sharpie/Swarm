@@ -1,3 +1,8 @@
+1999-02-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Archiver.m ([Archiver_c -hdf5LoadObjectMap:key:],
+	[Archiver_c -hdf5LoadArchiver:]): Return self.
+	
 1999-02-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.m (initDefobj): Call setSystemArchiverFlag: YES for
