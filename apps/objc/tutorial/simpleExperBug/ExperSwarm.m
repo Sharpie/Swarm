@@ -370,10 +370,7 @@
 - dropModel
 {
   // The model has finished and we've extracted the data we need from
-  // it. We drop the modelSwarm's activity, and then drop the modelSwarm
-  // itself which drops of the objects built by modelSwarm
-
-  [[modelSwarm getActivity] drop];
+  // it.  We drop the modelSwarm which drops of the objects built by modelSwarm
   [modelSwarm drop];
 
   return self;

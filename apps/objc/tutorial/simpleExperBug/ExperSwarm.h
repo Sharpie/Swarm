@@ -8,6 +8,7 @@
 #import <objectbase/SwarmObject.h>
 #import <objectbase.h>
 #import <analysis.h>
+#import <simtools.h> // OutFile
 
 // First, the interface for the ParameterManager
 
