@@ -1,3 +1,9 @@
+1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note support for Java Collections in createActionForEach.
+
+	* VERSION: Bump.
+
 1999-10-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note FAction interface.
