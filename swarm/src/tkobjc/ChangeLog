@@ -1,3 +1,7 @@
+2001-06-21  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Makefile.am (%_tcl.x): Don't use multi-line string literals.
+
 2001-05-13  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* Pixmap.m ([Pixmap -set{Directory,File}:]): Handle NULL arguments.
