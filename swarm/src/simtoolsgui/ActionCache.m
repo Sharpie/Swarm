@@ -44,6 +44,7 @@ PHASE(Creating)
   // make a widget for us, too. Bind buttons to messages to ourself.
   panelWidget = [ButtonPanel createBegin: [self getZone]];
   SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (panelWidget);
+  [panelWidget setSaveSizeFlag: saveSizeFlag];
   [panelWidget setButtonTarget: self];
   panelWidget = [panelWidget createEnd];
   [panelWidget addButtonName: "Start" method: @selector (sendStartAction)];
@@ -54,6 +55,7 @@ PHASE(Creating)
   [panelWidget addButtonName: "Quit"  method: @selector (sendQuitAction)];
   [panelWidget setWindowTitle: "ProcCtrl"];
   [panelWidget setWindowGeometry: "120x180"];
+  [panelWidget updateSize];
   return panelWidget;
 }
 

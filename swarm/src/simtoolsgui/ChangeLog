@@ -1,5 +1,8 @@
 2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* ActionCache.m ([ActionCache -createProcCtrl]): Pass-thru
+	saveSizeFlag and call updateSize after default geometry.
+
 	* GUIComposite.[hm], GUISwarm.[hm], CommonProbeDisplay.[hm]: Add
 	saveSizeFlag and setter.
 
