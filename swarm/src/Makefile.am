@@ -48,7 +48,7 @@ swarm.dll:
 swarm_dll_SOURCES = dllinit.c
 
 install-data-local: 
-	if test -n "$(SWARM_DLL)" ; then \
+	if test $(USEDLL) = yes; then \
 	  $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a ; \
 	fi
 
