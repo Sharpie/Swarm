@@ -1,0 +1,8 @@
+@begin
+numBugs 200
+minIdealTemp 10000
+maxIdealTemp 20000
+minOutputHeat 10000
+maxOutputHeat 20000 
+randomMoveProbability 0.0
+@end

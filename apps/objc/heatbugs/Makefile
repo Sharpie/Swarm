@@ -3,7 +3,7 @@ APPLICATION=heatbugs
 OBJECTS=Heatbug.o HeatSpace.o main.o HeatbugModelSwarm.o \
 	HeatbugObserverSwarm.o HeatbugBatchSwarm.o
 APPLIBS=-lspace
-OTHERCLEAN=heatbugs.data
+OTHERCLEAN=unhappiness.output
 
 include $(SWARMHOME)/Makefile.appl
 

@@ -3,6 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <simtools.h>                // ... for initSwarm() and swarmGUIMode
 #import "HeatbugObserverSwarm.h"
 #import "HeatbugBatchSwarm.h"
 
@@ -12,32 +13,26 @@
 
 int
 main(int argc, char ** argv) {
-  HeatbugObserverSwarm * observerSwarm;
-  HeatbugBatchSwarm * batchSwarm;
+  id theTopLevelSwarm ;
 
   // Swarm initialization: all Swarm apps must call this first.
   initSwarm(argc, argv);
 
-  // swarmGUIMode is set in initSwarm(). It's set to be 1 if your
-  // DISPLAY environment variable is set (ie, you have an X server to
-  // do graphics with). Otherwise, it's set to 0.
+  // swarmGUIMode is set in initSwarm(). It's set to be 1 if you
+  // typed heatbugs -batchmode. Otherwise, it's set to 0.
   
-  if (swarmGUIMode == 1) {
+  if (swarmGUIMode == 1)
     // We've got graphics, so make a full ObserverSwarm to get GUI objects
-    observerSwarm = [HeatbugObserverSwarm create: globalZone];
-    [observerSwarm buildObjects];
-    [observerSwarm buildActions];
-    [observerSwarm activateIn: nil];
-    [observerSwarm go];
-  } else {
+    theTopLevelSwarm = [HeatbugObserverSwarm create: globalZone];
+  else
     // No graphics - make a batchmode swarm and run it.
-    batchSwarm = [HeatbugBatchSwarm create: globalZone];
-    [batchSwarm buildObjects];
-    [batchSwarm buildActions];
-    [batchSwarm activateIn: nil];
-    [batchSwarm go];
-  }
+    theTopLevelSwarm = [HeatbugBatchSwarm create: globalZone];
 
-  // The toplevel swarm has finished processing, so it's time to quit.
+  [theTopLevelSwarm buildObjects];
+  [theTopLevelSwarm buildActions];
+  [theTopLevelSwarm activateIn: nil];
+  [theTopLevelSwarm go];
+
+  // theTopLevelSwarm has finished processing, so it's time to quit.
   return 0;
 }

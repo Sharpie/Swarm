@@ -9,14 +9,19 @@
 
 #import <stdio.h>
 #import <swarmobject.h>
+#import <simtools.h>
+#import <analysis.h>
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
-#import <simtools.h>
+
 #import "HeatbugModelSwarm.h"
 
 @interface HeatbugBatchSwarm : Swarm {
-  int displayFrequency;				  // one parameter: update freq
+
+  int loggingFrequency ;	       		  // Frequency of fileI/O
+
+  int experimentDuration ;                        // When to Stop the Sim
 
   id displayActions;				  // schedule data structs
   id displaySchedule;
@@ -24,8 +29,10 @@
 
   HeatbugModelSwarm * heatbugModelSwarm;	  // the Swarm we're observing
 
-  Averager * unhappinessAverager;		  // data collection object
-  FILE * outputFile;				  // and a file to store data
+                                                  // The EZGraph will be used 
+  id unhappyGraph ;                               // in FileI/O mode rather 
+                                                  // than the usual Graphics 
+                                                  // mode...
 }
 
 +createBegin: (id) aZone;
@@ -36,8 +43,5 @@
 
 // special message on ourselves to stop running.
 -stopRunning;
-
-// special data write method
--writeData;
 
 @end

@@ -14,6 +14,7 @@
 #import <tkobjc.h>
 #import <collections.h>
 #import <simtools.h>
+#import <analysis.h>
 #import "HeatbugModelSwarm.h"
 
 @interface HeatbugObserverSwarm : GUISwarm {
@@ -27,14 +28,11 @@
   // Lots of display objects. First, widgets
   XColormap * colormap;				  // allocate colours
   ZoomRaster * worldRaster;			  // 2d display widget
-  BLTGraph * unhappyGraph;			  // graphing widget
-  GraphElement * unhappyData;			  // data element on graph
+  EZGraph * unhappyGraph;			  // graphing widget
 
   // Now, higher order display and data objects
   Value2dDisplay * heatDisplay;			  // display the heat
   Object2dDisplay * heatbugDisplay;		  // display the heatbugs
-  Averager * unhappinessAverager;		  // average value
-  ActiveGraph * unhappinessGrapher;		  // object that does graph
 }
 
 // Methods overriden to make the Swarm.
@@ -44,4 +42,5 @@
 -buildActions;
 -activateIn: (id) swarmContext;
 
+-graphBug: aBug ;
 @end

@@ -7,6 +7,7 @@
 #import "HeatbugModelSwarm.h"
 #import <collections.h>
 #import <swarmobject.h>
+#import <analysis.h>
 
 @implementation HeatbugObserverSwarm
 
@@ -32,6 +33,10 @@
   [probeMap addProbe: [probeLibrary getProbeForVariable: "displayFrequency"
 				    inClass: [self class]]];
 
+  [probeMap addProbe: [[probeLibrary getProbeForMessage: "graphBug:"
+			     inClass: [self class]]
+			setHideResult: 1]];
+
   // Now install our custom probeMap into the probeLibrary.
   [probeLibrary setProbeMap: probeMap For: [self class]];
 
@@ -50,7 +55,6 @@
 -buildObjects {
   id modelZone;					  // zone for model.
   int i;
-  Heatbug * heatbugToProbe;
 
   [super buildObjects];
   
@@ -68,11 +72,8 @@
   // Instruct the control panel to wait for a button event: we halt here
   // until someone hits a control panel button so the user can get a
   // chance to fill in parameters before the simulation runs
-  [controlPanel waitForControlEvent];
-  // Check now if the user hit the quit button: if so, abort.
-  if ([controlPanel getState] == ControlStateQuit)
-    return self;
 
+  [controlPanel setStateStopped] ;
 
   // OK - the user has specified all the parameters for the simulation.
   // Now we're ready to start.
@@ -127,35 +128,15 @@
   [worldRaster setButton: ButtonRight Client: heatbugDisplay Message: M(makeProbeAtX:Y:)];
 
   // Create the graph widget to display unhappiness.
-  unhappyGraph = [BLTGraph create: [self getZone]];
-  [unhappyGraph title: "Average unhappiness of bugs vs. time"];
-  [unhappyGraph axisLabelsX: "time" Y: "average unhappiness"];
-  [unhappyGraph pack];
+  unhappyGraph = [EZGraph createBegin: [self getZone]];
+  [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
+  [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
+  unhappyGraph = [unhappyGraph createEnd] ;
 
-  // Create one data element inside the graph for displaying unhappiness
-  unhappyData = [unhappyGraph createElement];
-  [unhappyData setLabel: "u"];
+  [unhappyGraph createAverageSequence: "unhappiness"
+                         withFeedFrom: [heatbugModelSwarm getHeatbugList] 
+                          andSelector: M(getUnhappiness)] ;
 
-  // and build a datapipe: a combination of an averager and a grapher.
-  // The averager object collects average statistics, the grapher draws them.
-  unhappinessAverager = [Averager createBegin: [self getZone]];
-  [unhappinessAverager setList: [heatbugModelSwarm getHeatbugList]];
-  [unhappinessAverager setProbedSelector: M(getUnhappiness)];
-  unhappinessAverager = [unhappinessAverager createEnd];
-
-  unhappinessGrapher = [ActiveGraph createBegin: [self getZone]];
-  [unhappinessGrapher setElement: unhappyData];
-  [unhappinessGrapher setDataFeed: unhappinessAverager]; // chain them up
-  [unhappinessGrapher setProbedSelector: M(getAverage)];
-  unhappinessGrapher = [unhappinessGrapher createEnd];
-
-  // Finally, we create a Probe display to probe a particular heatbug.
-  // Probes can also be created on the fly, we just do this here for demo.
-  heatbugToProbe = [[heatbugModelSwarm getHeatbugList] first];
-  [heatbugToProbe setBugColor: 65];
-  [probeDisplayManager createProbeDisplayFor: heatbugToProbe];
-
-  // All done - we're ready to build a schedule and go.
   return self;
 }  
 
@@ -181,8 +162,8 @@
   [displayActions createActionTo: heatbugDisplay      message: M(display)];
   [displayActions createActionTo: worldRaster         message: M(drawSelf)];
   // Now schedule the update of the unhappiness graph
-  [displayActions createActionTo: unhappinessAverager message: M(update)];
-  [displayActions createActionTo: unhappinessGrapher  message: M(step)];
+//  [displayActions createActionTo: unhappinessAverager message: M(update)];
+  [displayActions createActionTo: unhappyGraph  message: M(step)];
   // Schedule the update of the probe displays
   [displayActions createActionTo: probeDisplayManager message: M(update)];
   // Finally, schedule an update for the whole user interface code.
@@ -225,5 +206,12 @@
 // You could override the "go" method here if you want something special
 // to happen when the model and observer actually start running. But
 // the default GUISwarm go is probably good enough.
+
+-graphBug: aBug {
+  [unhappyGraph createSequence: "Bug" 
+                  withFeedFrom: aBug 
+                   andSelector: M(getUnhappiness)] ;
+  return self ;
+}
 
 @end

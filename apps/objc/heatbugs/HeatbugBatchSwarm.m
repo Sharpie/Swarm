@@ -10,6 +10,7 @@
 @implementation HeatbugBatchSwarm
 
 // createBegin: here we set up the default observation parameters.
+
 +createBegin: (id) aZone {
   HeatbugBatchSwarm * obj;
 
@@ -17,66 +18,98 @@
   obj = [super createBegin: aZone];
 
   // Fill in the relevant parameters.
-  obj->displayFrequency = 1;
+  obj->loggingFrequency = 1;
+  obj->experimentDuration = 250;
+
   return obj;
 }
 
 -buildObjects {
-  id modelZone;					  // zone for model.
+  id modelZone;					       // zone for model.
 
   [super buildObjects];
 
   // create a zone for the model, create the model there.
+
   modelZone = [Zone create: [self getZone]];
   heatbugModelSwarm = [HeatbugModelSwarm create: modelZone];
 
   // In HeatbugObserverSwarm, we'd build some probes and wait for a
-  // user control event. But since we don't have any graphics, we just
-  // build the model and go. Eventually we intend to have an object that
-  // reads experiment parameters from a file to set things up.
+  // user control event (this allows the user to fiddle with the 
+  // parameters of the experiment). But since we don't have any graphics, 
+  // we load the batch.setup parameter file (which should contain values
+  // for such variables as experimentDuration and loggingFrequency) and 
+  // the model.setup parameter file (which contains values for the model
+  // specific variables such as numBugs etc.).
   
-  // First, let the model swarm build its objects.
+  [ObjectLoader load: self fromFileNamed: "batch.setup"] ;
+  [ObjectLoader load: heatbugModelSwarm fromFileNamed: "experiment.setup"] ;
+
+  // Now, let the model swarm build its objects.
   [heatbugModelSwarm buildObjects];
 
-  // Now build some data analysis objects. In this case we're just
-  // going to create an averager to collect some statistics   
-  unhappinessAverager = [Averager createBegin: [self getZone]];
-  [unhappinessAverager setList: [heatbugModelSwarm getHeatbugList]];
-  [unhappinessAverager setProbedSelector: M(getUnhappiness)];
-  unhappinessAverager = [unhappinessAverager createEnd];
+  // Finally, build some data analysis objects. In this case we're just
+  // going to create an EZGraph (with graphics turned off and fileI/O
+  // turned on) collect some statistics (the average) over the collection
+  // of heatbugs (which we get from the heatbugModelSwarm).
 
-  // And open a file for writing (see -writeData for comments)
-  outputFile = fopen("heatbugs.data", "w");
+  // If the user sets loggingFrequency to 0 s/he does not require the
+  // logging of results at all. Consequently, some objects will not 
+  // be created -> the schedule will also be simplified. This sort of 
+  // switch is useful when the Sim could potentially log many different
+  // aspects of the model...
 
+  if(loggingFrequency){
+    unhappyGraph = [EZGraph createBegin: [self getZone]];
+    [unhappyGraph setGraphics: 0] ;
+    [unhappyGraph setFileOutput: 1] ;
+    unhappyGraph = [unhappyGraph createEnd] ;
+
+    [unhappyGraph createAverageSequence: "unhappiness.output"
+                           withFeedFrom: [heatbugModelSwarm getHeatbugList] 
+                            andSelector: M(getUnhappiness)] ;
+  }
   // All done - we're ready to build a schedule and go.
   return self;
 }  
 
 // Create the actions necessary for the simulation. This is where
 // the schedule is built (but not run!)
+
 -buildActions {
   [super buildActions];
   
   // First, let our model swarm build its own schedule.
+
   [heatbugModelSwarm buildActions];
   
-  // Create an ActionGroup for display. This is pretty minimal in this
-  // case. Note, there's no doTkEvents message - no control panel!
-  displayActions = [ActionGroup create: [self getZone]];
-  // Now schedule the update of the unhappiness graph
-  [displayActions createActionTo: unhappinessAverager message: M(update)];
-  [displayActions createActionTo: self message: M(writeData)];
+  if(loggingFrequency){
+  
+    // Create an ActionGroup for display. This is pretty minimal in this
+    // case. Note, there's no doTkEvents message - no control panel!
 
-  // the displaySchedule controls how often we write data out.
-  displaySchedule = [Schedule createBegin: [self getZone]];
-  [displaySchedule setRepeatInterval: displayFrequency];
-  displaySchedule = [displaySchedule createEnd];
-  [displaySchedule at: 0 createAction: displayActions];
+    displayActions = [ActionGroup create: [self getZone]];
 
-  // we also add in a "stopSchedule", another schedule with an absolute
-  // time event - stop the system at time 250. 
+    // Now schedule the update of the unhappyGraph, which will in turn 
+    // cause the fileI/O to occur...
+
+    [displayActions createActionTo: unhappyGraph message: M(step)];
+
+    // the displaySchedule controls how often we write data out.
+    displaySchedule = [Schedule createBegin: [self getZone]];
+    [displaySchedule setRepeatInterval: loggingFrequency];
+    displaySchedule = [displaySchedule createEnd];
+
+    [displaySchedule at: 0 createAction: displayActions];
+  }
+
+  // We also add in a "stopSchedule", another schedule with an absolute
+  // time event - stop the system at time . 
+
   stopSchedule = [Schedule create: [self getZone]];
-  [stopSchedule at: 250 createActionTo: self message: M(stopRunning)];
+  [stopSchedule at: experimentDuration 
+    createActionTo: self 
+         message: M(stopRunning)];
   
   return self;
 }  
@@ -86,13 +119,14 @@
   // First, activate ourselves (just pass along the context).
   [super activateIn: swarmContext];
 
-  // And, we need to activate the model swarm, also in ourselves.
+  // We need to activate the model swarm.
   [heatbugModelSwarm activateIn: self];
 
   // Now activate our schedules in ourselves. Note that we just activate
   // both schedules: the activity library will merge them properly.
-  [displaySchedule activateIn: self];
   [stopSchedule activateIn: self];
+  if(loggingFrequency)
+    [displaySchedule activateIn: self];
 
   // Activate returns the swarm activity - the thing that's ready to run.
   return [self getSwarmActivity];
@@ -102,29 +136,31 @@
 // but we have to define our own here. It's pretty simple. There's also
 // a friendly message printed out here just in case someone is confused
 // when they run heatbugs and see no graphics.
+
 -go {
-  printf("No DISPLAY environment variable was set, so we're running without graphics.\n");
-  printf("Heatbugs is running for 250 time steps and writing data to heatbugs.data.\n");
+  printf(
+    "You typed 'heatbugs -batchmode', so we're running without graphics.\n");
+
+  printf("Heatbugs is running for %d timesteps.\n",experimentDuration) ;
+ 
+  if(loggingFrequency)
+    printf("It is logging data every %d timesteps to: unhappiness.output.\n",
+            loggingFrequency);
+
   [swarmActivity run];
   return [swarmActivity getStatus];
 }
 
-
-// The "writeData" method writes out data to the given file. This is a
-// very primitive way of doing data collection - just stdio calls. We
-// would like to have fancy File objects, as well as parallels to the
-// ActiveGraph object that chain data analysis objects to files.
--writeData {
-  fprintf(outputFile, "%d %g\n", getCurrentTime(),
-	  [unhappinessAverager getAverage]);
-  return self;
-}
-
 // And the termination method. When this fires we just terminate everything
-// that's running and close our output files.
+// that's running and close our output file(s) by dropping the EZGraph which
+// "owns" the sequence(s) we are logging.
+
 -stopRunning {
-  [getTopLevelActivity() terminate];
-  fclose(outputFile);
+  [getTopLevelActivity() terminate]; // Terminate the simulation.
+
+  if(loggingFrequency)
+    [unhappyGraph drop] ;              // Close the output file.
+
   return self;
 }
 
