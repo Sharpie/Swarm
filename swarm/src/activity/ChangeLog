@@ -1,5 +1,9 @@
 2000-09-30  Marcus G. Daniels  <mgd@drone.swarm.org>
 
+	* SwarmProcess.m: Include misc.h.
+	([CSwarmProcess -at:activate:],
+	([CSwarmProcess -at::activate:], ZMSG_R): Use abort instead of exit.
+
 	* ActionGroup.m: Include misc.h.
 
 2000-09-27  Marcus G. Daniels  <mgd@drone.swarm.org>

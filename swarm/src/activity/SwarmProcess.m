@@ -12,6 +12,7 @@ Library:      activity
 #import <activity/SwarmProcess.h>
 #import <activity/Schedule.h>
 #import <defobj/defalloc.h>
+#include <misc.h> // abort
 
 externvar id _activity_swarmSyncType;
 
@@ -130,7 +131,7 @@ PHASE(Using)
 - at: (timeval_t)tVal activate: anActionType
 {
   raiseEvent (NotImplemented, nil);
-  exit (0);
+  abort ();
 }
 
 //
@@ -140,7 +141,7 @@ PHASE(Using)
 - at: (int)timebase : (timeval_t)tVal activate: anActionType
 {
   raiseEvent (NotImplemented, nil);
-  exit (0);
+  abort ();
 }
 
 //
@@ -244,7 +245,7 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
 
 #define ZMSG_R(msg) \
 { if ( internalZone ) return [internalZone msg]; \
-  else { raiseEvent( InvalidSwarmZone, 0 ); exit(0); } }
+  else { raiseEvent( InvalidSwarmZone, 0 ); abort (); } }
 
 #define ZMSG_V(msg) \
 { if ( internalZone ) [internalZone msg]; \
