@@ -1501,7 +1501,7 @@ PHASE(Using)
     {
       int ret = 0;
       H5G_stat_t statbuf;
-      
+
       if (H5Gget_objinfo (oid, memberName, 1, &statbuf) < 0)
         raiseEvent (LoadError, "Cannot query object `%s'", memberName);  
       
@@ -1688,6 +1688,27 @@ PHASE(Using)
 #endif
 }
 
+- (void *)_loadDatasetIntoNewBuffer_: obj
+{
+  unsigned rank = [self getDatasetRank];
+  unsigned dims[rank], i;
+  fcall_type_t type = [self getDatasetType];
+  void *buf;
+  
+  for (i = 0; i < rank; i++)
+    dims[i] = [self getDatasetDimension: i];
+  
+  buf = [getZone (self)
+                 alloc: 
+                   (object_getVariableElementCount (obj,
+                                                    self->name,
+                                                    type,
+                                                    rank, dims)
+                    * fcall_type_size (type))];
+  [self loadDataset: buf];
+  return buf;
+}
+
 - (void)assignIvar: obj
 {
   const char *ivarName = self->name;
@@ -1698,26 +1719,15 @@ PHASE(Using)
     {
       if ([self getDatasetFlag])
         {
-          unsigned rank = [self getDatasetRank];
-          unsigned dims[rank], i;
+          void *buf = [self _loadDatasetIntoNewBuffer_: obj];
           fcall_type_t type = [self getDatasetType];
+          unsigned rank = [self getDatasetRank];
+          unsigned dims[rank];
           
-          for (i = 0; i < rank; i++)
-            dims[i] = [self getDatasetDimension: i];
-
-
-          {
-            unsigned char buf[object_getVariableElementCount (obj,
-                                                              ivarName,
-                                                              type,
-                                                              rank, dims)
-                              * fcall_type_size (type)];
-            
-            [self loadDataset: buf];
-            java_object_setVariable (jobj, ivarName,
-                                     type, rank, dims,
-                                     buf);
-          }
+          java_object_setVariable (jobj, ivarName,
+                                   type, rank, dims,
+                                   buf);
+          [getZone (self) free: buf];
         }
       else
         {
@@ -1730,14 +1740,20 @@ PHASE(Using)
   else
 #endif
     {
-      void *ptr = ivar_ptr_for_name (obj, ivarName);
+      struct objc_ivar *ivar = find_ivar (getClass (obj), ivarName);
+      void *ptr = (void *) obj + ivar->ivar_offset;
       
-      if (ptr == NULL)
+      if (!ivar)
         raiseEvent (InvalidArgument,
                     "could not find ivar `%s'", ivarName);
       
       if ([self getDatasetFlag])
-        [self loadDataset: ptr];
+        {
+          if (*ivar->ivar_type  == _C_PTR)
+            *((void **) ptr) = [self _loadDatasetIntoNewBuffer_: obj];
+          else
+            [self loadDataset: (void *) obj + ivar->ivar_offset];
+        }
       else
         *(id *) ptr = hdf5In ([obj getZone], self);
     }
@@ -1840,8 +1856,10 @@ hdf5_store_attribute (hid_t did,
       
       if ((memtid = H5Tcopy (H5T_STD_REF_OBJ)) < 0)
         raiseEvent (SaveError, "unable to copy reference type");
+#if 0
       if ((H5Tset_size (memtid, sizeof (const char *))) < 0)
         raiseEvent (SaveError, "unable to set size of reference type");
+#endif
 
       if ((tid = H5Tcopy (H5T_C_S1)) < 0)
         raiseEvent (SaveError, "unable to copy string type");

@@ -1,3 +1,12 @@
+2002-03-18  Marcus G. Daniels  <mgd@condor>
+
+	* HDF5Object.m ([HDF5_c
+	-storeAsDataset:typeName:type:rank:dims:ptr:]): Disable call to
+	H5Tset_size for string reference type.
+	([HDF5_c _loadDatasetIntoNewBuffer_:]): New method.
+	([HDF5_c assignIvar:]): Use above method to allocate space
+	for arrays loaded to pointer ivars.
+
 2002-02-06  Marcus G. Daniels  <mgd@condor>
 
 	* internal.m (object_setVariableFromExpr): Allocate memory for pointers
