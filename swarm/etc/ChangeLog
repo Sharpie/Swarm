@@ -1,3 +1,7 @@
+1999-02-24  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* java-stub.el: New java stub generator. 
+
 1999-02-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el: Load protocol.el from $SWARMSRCDIR/etc/protocol.el.
