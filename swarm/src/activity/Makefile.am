@@ -16,8 +16,6 @@ BUILT_SOURCES = $(module_headers)
 
 SRC = Action.m ActionGroup.m CompoundAction.m Schedule.m SwarmProcess.m XActivity.m activity.m
 
-Schedule.lo ActionGroup.lo: CompoundAction.m
-
 libactivity_la_SOURCES = $(SRC)
 libactivity_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 

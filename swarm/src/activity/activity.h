@@ -90,12 +90,6 @@ USING
 //M: under a swarm turns over control to the swarm to execute the
 //M: subactivity as a more-or-less autonomous activity.
 - activateIn: swarmContext;
-
-#if 0
-//M: activate an action type to run as a subprocess controlled by the swarm
-- activate: anActionType;
-#endif
-
 @end
 
 
