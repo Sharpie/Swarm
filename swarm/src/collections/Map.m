@@ -545,8 +545,8 @@ PHASE(Using)
           [index remove];
           oldMem = anEntry->member;
           [getZone (self) freeBlock: anEntry blockSize: sizeof *anEntry];
-        count--;
-        break;
+          count--;
+          break;
         }
       if (result > 0)
         break;
