@@ -802,7 +802,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 
   if (!aName)
     {
-      sprintf (buffer, PTRFMT ": %.64s",
+      sprintf (buffer, PTRHEXFMT ": %.64s",
                self, getClass (self)->name);
       aName = buffer;
     }
@@ -850,11 +850,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
   
   if (self)
     {
-#ifdef POINTER_FMT_HEX_PREFIX
-      sprintf (name, "%s%c%p", [self name], ATDELIMCHAR, self);
-#else
-      sprintf (name, "%s%c0x%p", [self name], ATDELIMCHAR, self);
-#endif
+      sprintf (name, "%s%c" PTRHEXFMT, [self name], ATDELIMCHAR, self);
       return name;
     }
   return "nil"; 
@@ -876,7 +872,7 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 void
 _obj_formatIDString (char *buffer, id anObject)
 {
-  sprintf (buffer, PTRFMT ": %.64s",
+  sprintf (buffer, PTRHEXFMT ": %.64s",
            anObject, getClass (anObject)->name);
 }
 
@@ -1137,7 +1133,7 @@ xsetname (id anObject, const char *displayName)
       else
         fprintf (_obj_xdebug,
                  "xsetname: object "
-                 PTRFMT 
+                 PTRHEXFMT 
                  "does not respond to setDisplayName:\n",
                  anObject);
     }
@@ -1213,7 +1209,7 @@ xexec (id anObject, const char *msgName)
             [anObject perform: sel];
           else
             fprintf (_obj_xdebug,
-                     "Object " PTRFMT
+                     "Object " PTRHEXFMT
                      ": %.64s does not respond to message %s\n",
                      anObject, [[anObject getClass] getName], msgName);
         }
@@ -1236,7 +1232,7 @@ xfexec (id anObject, const char *msgName)
     {
       if (!respondsTo (anObject, M(begin:)))
         fprintf (_obj_xdebug,
-                 "object " PTRFMT ": %s does not respond to begin:\n"
+                 "object " PTRHEXFMT ": %s does not respond to begin:\n"
                  "(begin: is required by xfexec to enumerate the members of a collection)\n",
                  anObject, getClass (anObject)->name);
       else

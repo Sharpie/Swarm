@@ -1,3 +1,12 @@
+2000-03-25    <mgd@HELEN>
+
+	* DefObject.m ([Object_s -setDisplayName:],
+	_obj_formatIDString, xexec, xfexec): Use PTRHEXFMT instead of PTRFMT.
+	([Object_s -getObjectName]): Use PTRFMT instead of
+	POINTER_FMT_HEX_PREFIX alternates.
+
+	* defobj.h: Remove PTRFMT.
+
 2000-03-14    <mgd@nest.swarm.org>
 
 	* FArguments.m, FCall.m ([.. -dropAllocations:]): Replaces -drop.

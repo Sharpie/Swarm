@@ -1202,23 +1202,6 @@ externvar id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 //#: Abbreviation for @selector().
 #define M(messageName) @selector (messageName)
 
-#ifndef PTRFMT
-#if 0
-//#: The size of a pointer in bytes.
-#ifndef PTRSIZE
-#define PTRSIZE 4
-#endif
-#if PTRSIZE == 4
-#define PTRFMT "%0#8lx"
-#else
-#define PTRFMT "%0#16lx"
-#endif
-#endif
-//#: The printf-style format for displaying a pointer.
-#define PTRFMT "%p"
-#endif
-
-
 //F: Function to generate object id string in standard format
 //F: (Up to 78 characters of the supplied buffer argument could be filled.)
 extern void _obj_formatIDString (char *buffer, id anObject);
