@@ -33,11 +33,6 @@ PHASE(Creating)
   return self;
 }
 
-+ lispin: aZone expr: expr
-{
-  return [[WindowGeometryRecord create: aZone] lispin: expr];
-}
-
 PHASE(Using)
 
 static int
@@ -64,20 +59,23 @@ getValueList (id index)
 {
   id index = [expr begin: scratchZone];
   id obj;
-
+      
   while ((obj = [index next]))
     {
       if (stringp (obj))
         {
           const char *str = [obj getC];
+
+          if (str[0] == '#' && str[1] == ':')
+            str++;
           if (str[0] == ':')
             {
               str++;
-
+                  
               if (strcmp (str, "position") == 0)
                 {
                   id l = getValueList (index);
-
+                      
                   positionFlag = YES;
                   x = getVal ([l getFirst]);
                   y = getVal ([l getLast]);
@@ -85,7 +83,7 @@ getValueList (id index)
               else if (strcmp (str, "size") == 0)
                 {
                   id l = getValueList (index);
-
+                      
                   sizeFlag = YES;
                   width = getVal ([l getFirst]);
                   height = getVal ([l getLast]);
@@ -98,30 +96,33 @@ getValueList (id index)
       else
         [WindowGeometryRecordError raiseEvent: "String expected (%s)\n",
                                    [obj name]];
-
     }
-
-  return self;
+  [index drop];
 }
 
-- lispout: outputCharStream
+- lispout: stream
 {
   char buf[20];
 
+  [stream catC: "(" MAKE_OBJC_FUNCTION_NAME " '"];
+  [stream catC: [self name]];
+  [stream catC: " "];
+
   if (sizeFlag)
     {
-      [outputCharStream catC: " :size '("];
+      [stream catC: " #:size '("];
       sprintf (buf, "%u %u", width, height);
-      [outputCharStream catC: buf];
-      [outputCharStream catC: ")"];
+      [stream catC: buf];
+      [stream catC: ")"];
     }
   if (positionFlag)
     {
-      [outputCharStream catC: " :position '("];
+      [stream catC: " #:position '("];
       sprintf (buf, "%d %d", x, y);
-      [outputCharStream catC: buf];
-      [outputCharStream catC: ")"];
+      [stream catC: buf];
+      [stream catC: ")"];
     }
+  [stream catC: ")"];
   return self;
 }
 

@@ -1,9 +1,16 @@
+1998-11-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* WindowGeometryRecord.m ([WindowGeometryRecord -lispin:]): Handle
+	either #: or : keyword syntax.
+	([WindowGeometryRecord -lispout:]): Use #: keyword syntax.
+	Add (make-objc) wrapper.
+
 1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* internal.m: Include defobj.h instead of objectbase/Arguments.h.
 
 	* WindowGeometryRecord.[hm] ([WindowGeometryRecord +lispin:expr:]): 
-	Renamed from +in:expr:.
+	Remove.
 	([WindowGeometryRecord -lispin:]): Renamed from -in:.
 	([WindowGeometryRecord -lispout:]): Renamed from -out:.
 
