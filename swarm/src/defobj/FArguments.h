@@ -14,7 +14,7 @@ Library:      defobj
 #include <objc/objc.h> // retval_t
 
 
-#define number_of_types 15 
+#define FCALL_TYPE_COUNT 15 
 
 typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
               fcall_type_ushort, fcall_type_sshort, fcall_type_uint,

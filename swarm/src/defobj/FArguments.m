@@ -27,20 +27,20 @@ Library:      defobj
 // swarm_types[fcall_type_float] == &ffi_type_double
 // due to ffi bug
 
-ffi_type *ffi_types[number_of_types] = { &ffi_type_void, &ffi_type_uchar, 
-                                         &ffi_type_schar, &ffi_type_ushort, 
-                                         &ffi_type_sshort, &ffi_type_uint,
-                                         &ffi_type_sint, &ffi_type_ulong, 
-                                         &ffi_type_slong, &ffi_type_double, 
-                                         &ffi_type_double,
-                                         &ffi_type_pointer,
-                                         &ffi_type_pointer, 
-                                         &ffi_type_pointer, 
-                                         &ffi_type_pointer };
+ffi_type *ffi_types[FCALL_TYPE_COUNT] = { &ffi_type_void,
+                                          &ffi_type_uchar, &ffi_type_schar, 
+                                          &ffi_type_ushort, &ffi_type_sshort, 
+                                          &ffi_type_uint, &ffi_type_sint, 
+                                          &ffi_type_ulong, &ffi_type_slong, 
+                                          &ffi_type_double, &ffi_type_double,
+                                          &ffi_type_pointer,
+                                          &ffi_type_pointer, 
+                                          &ffi_type_pointer, 
+                                          &ffi_type_pointer };
 #endif
 
 
-const char *java_type_signature[number_of_types] = {
+const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "S", "S", "I", 
   "I", "J", "J", "F", "D", "X",
   "Ljava/lang/String;", 
@@ -48,9 +48,10 @@ const char *java_type_signature[number_of_types] = {
   "Ljava/lang/Object;"
 };
 
-char objc_types[number_of_types] = {
+char objc_types[FCALL_TYPE_COUNT] = {
   _C_VOID,
   _C_UCHR,
+  _C_CHR,
   _C_USHT,
   _C_SHT,
   _C_UINT,
@@ -120,7 +121,7 @@ get_fcall_type_for_objc_type (char objcType)
 {
   unsigned i;
   
-  for (i = 0; i < number_of_types; i++)
+  for (i = 0; i < FCALL_TYPE_COUNT; i++)
     if (objcType == objc_types[i])
       return i;
   abort ();

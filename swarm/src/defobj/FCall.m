@@ -33,8 +33,8 @@ extern void add_ffi_types (FArguments *self);
 static void fillHiddenArguments (FCall_c *self);
 
 #ifdef HAVE_JDK
-void * java_static_call_functions[number_of_types];
-void * java_call_functions[number_of_types];
+void * java_static_call_functions[FCALL_TYPE_COUNT];
+void * java_call_functions[FCALL_TYPE_COUNT];
 #endif
 
 #ifndef HAVE_JDK
