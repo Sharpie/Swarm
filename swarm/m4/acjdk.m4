@@ -61,7 +61,7 @@ else
   JAR='JAVA_HOME=${jdkdir} ${jdkdir}/bin/jar'
 fi
 if test -n "$JAR_CLASSPATH" ; then
-  JAR="$JAR -classpath $JAR_CLASSPATH"
+  JAR="CLASSPATH=$JAR_CLASSPATH $JAR"
 fi
 AC_SUBST(JAR)
 AC_SUBST(jdkdir)
