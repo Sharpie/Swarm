@@ -20,13 +20,13 @@ Library:      defobj
 - createEnd;
 + create: aZone setName: (const char *)symbolName;
 - (const char *)getName;
-- (void) describe: outputCharStream;
+- (void)describe: outputCharStream;
 @end
 
 @interface EventType_c : Symbol_c
 /*** methods in EventType_c (inserted from .m file by m2h) ***/
-- (void) raiseEvent;
-- (void) raiseEvent: (const void *)msgString, ...;
+- (void)raiseEvent;
+- (void)raiseEvent: (const void *)msgString, ...;
 @end
 
 @interface Warning_c : EventType_c
