@@ -3,6 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+//S: tools for visualizing objects in various spaces
+
 //D: The Swarm Space library is the beginnings of a library to assist in
 //D: building environments for interacting agents. In general, environments
 //D: can be just as varied as the agents themselves (in one view, the
