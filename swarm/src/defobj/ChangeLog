@@ -1,5 +1,7 @@
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* modulemap.el (generate-module-map): Include string.h for strlen.
+
 	* {Lisp,HDF5}Archiver.m, defobj.m: Move global archiver objects 
 	variables to defobj.m.
 

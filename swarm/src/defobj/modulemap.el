@@ -59,6 +59,8 @@
       (terpri buf)
       (insert "#include <stddef.h>")
       (terpri buf)
+      (insert "#include <string.h>")
+      (terpri buf)
       (print-module-list module-list)
       (insert "%}")
       (terpri buf)
