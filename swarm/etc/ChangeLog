@@ -1,3 +1,7 @@
+1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (SWARMLIBS): Add JAVASWARMLIBS after as well.
+
 1999-05-15  Alex Lancaster  <alex@santafe.edu>
 
 	* protocol.el (extract-doc-string): Set the substr to start after

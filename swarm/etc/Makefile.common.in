@@ -76,7 +76,7 @@ JAVASWARMLIBS = @JAVASWARMLIBS@
 
 _SWARMLIBS = $(foreach module,$(SWARMMODULES),-l$(module))
 
-SWARMLIBS = $(JAVASWARMLIBS) $(_SWARMLIBS)
+SWARMLIBS = $(JAVASWARMLIBS) $(_SWARMLIBS) $(JAVASWARMLIBS)
 
 # Local variables:
 # mode: makefile
