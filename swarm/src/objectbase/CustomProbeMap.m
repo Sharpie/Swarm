@@ -11,31 +11,26 @@
 
 @implementation CustomProbeMap
 
-PHASE(Creating)
-
-+ create: aZone forClass: (Class)aClass withIdentifiers: (const char *)vars, ...
+static id
+addProbesWithIdentifers(id theProbeLibrary,
+                        id customProbeMap,
+                        Class aClass,
+                        const char *vars,
+                        va_list argumentPointer)
 {
-  id newCPM;
-  va_list argumentPointer;
   const char *identifier;
   
-  newCPM = [CustomProbeMap createBegin: aZone];
-  [newCPM setProbedClass: aClass];
-  newCPM = [newCPM createEnd];
-  
-  // adding all the variables and methods to be probed
-  // this uses a : delimited list of strings of the form:
-  //  "var1", "var2", ..., ":", "method1", "method2",..., NULL
-  
-  va_start (argumentPointer, vars);
+  // adding all the variables and methods to be probed this uses a :
+  // delimited list of strings of the form: "var1", "var2", ..., ":",
+  // "method1", "method2",..., NULL
   
   // start with the variables
   identifier = vars;
   do
     {
-      [newCPM 
+      [customProbeMap 
         addProbe: 
-          [probeLibrary 
+          [theProbeLibrary 
             getProbeForVariable: identifier
             inClass: aClass]];
       identifier = va_arg (argumentPointer, const char *);
@@ -43,16 +38,35 @@ PHASE(Creating)
   
   // now do the methods
   while ((identifier = va_arg (argumentPointer, const char *)) != NULL)
-    [newCPM 
+    [customProbeMap 
       addProbe: 
-        [[probeLibrary 
+        [[theProbeLibrary 
            getProbeForMessage: identifier
            inClass: aClass]
           setHideResult: 0]];
-  va_end (argumentPointer);
   
-  return newCPM;
+  return customProbeMap;
 }
+
+PHASE(Creating)
+
++ create: aZone forClass: (Class)aClass withIdentifiers: (const char *)vars, ...
+{
+  va_list args;
+  id newCPM;
+
+  va_start(args, vars);
+
+  newCPM = [CustomProbeMap createBegin: aZone];
+  [newCPM setProbedClass: aClass];
+  newCPM = [newCPM createEnd];
+
+  newCPM = addProbesWithIdentifers(probeLibrary, newCPM, aClass, vars, args);
+  va_end(args);
+
+  return newCPM;  
+}
+
 
 - createEnd
 {
@@ -76,4 +90,21 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
+
+- addProbesForClass: (Class) aClass 
+   withIdentifiers:  (const char *)vars, ...
+{
+  va_list args;
+
+  va_start(args, vars);
+  addProbesWithIdentifers(probeLibrary, self, aClass, vars, args);
+  va_end(args);
+
+  return self;
+}
+
+PHASE(Using)
+
 @end
+

@@ -9,11 +9,14 @@
 
 #import <objectbase/ProbeMap.h>
 
-@interface CustomProbeMap: ProbeMap
+@interface CustomProbeMap: ProbeMap <CustomProbeMap>
 {
 }
-
-+ create: aZone forClass: (Class)aClass withIdentifiers: (const char *)vars, ...;
++ create: aZone forClass: (Class)aClass 
+withIdentifiers: (const char *)vars, ...;
 - createEnd;
+- addProbesForClass: (Class) aClass 
+    withIdentifiers:  (const char *)vars, ...;
+
 @end
 

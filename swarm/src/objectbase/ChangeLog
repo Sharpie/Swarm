@@ -1,3 +1,19 @@
+1999-07-15  Alex Lancaster  <alex@santafe.edu>
+
+	* CustomProbeMap.h (@interface): Make class conform to
+	CustomProbeMap protocol.
+
+	* CustomProbeMap.[hm] (addProbesWithIdentifers): New static function
+	which parses the input list.
+	([CustomProbeMap +create:forClass:withIdentifiers:): Use it.
+	([CustomProbeMap -addProbesForClass:withIdentifiers:]): New
+	method, likewise use addProbesWithIdentifiers function.
+	
+	* objectbase.h (CustomProbeMap): Document existing methods.  
+	Add new SETTING method (addProbesForClass:withIdentifiers:) which
+	allows post-create time addition of variables and method names via
+	the list-delimiter form.
+
 1999-07-09  Alex Lancaster  <alex@santafe.edu>
 
 	* VarProbe.m (setFieldFromString): Protect Java-only static

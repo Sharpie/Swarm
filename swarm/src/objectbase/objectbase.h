@@ -447,7 +447,18 @@ USING
 //D: creating a probe map from scratch (e.g. to be used in conjunction with 
 //D: the setProbeMap:For: message of the ProbeLibrary). 
 CREATING
+
+//M: Convenience method for creating a CustomProbeMap in which the
+//M: user specifies the list of variables and methods to be probed
+//M: this by passing a delimited list of strings of the form: "var1",
+//M: "var2", ..., ":", "method1", "method2",..., NULL
 + create: aZone forClass: (Class)aClass withIdentifiers: (const char *)vars, ...;
+SETTING
+//M: Allows further probes specified in the delimited string list to
+//M: be added *after* the CustomProbeMap has been created
+- addProbesForClass: (Class) aClass 
+    withIdentifiers:  (const char *)vars, ...;
+USING
 @end
 
 @protocol EmptyProbeMap <CustomProbeMap, CREATABLE>
