@@ -41,7 +41,6 @@ Library:      collections
 - setUniformRandom: rnd;
 - setLastPermutation: (id <Permutation>)permutation;
 - createEnd;
-- (int)getLastDirectionFor: item;
 - (BOOL)getTouchedFlag;
 - (BOOL)getUntouchedFlag;
 - (id <Collection>)getCollection;

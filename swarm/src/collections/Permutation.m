@@ -145,7 +145,8 @@ PHASE(Using)
 static int
 comparePermutationItems (const void *a, const void *b, void *param)
 {
-  return (PTRUINT) a - (PTRUINT) b;
+  return ((PTRUINT) ((PermutationItem_c *) a)->item -
+          (PTRUINT) ((PermutationItem_c *) b)->item);
 }
 
 - (void *)createTree
