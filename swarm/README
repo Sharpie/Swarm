@@ -105,10 +105,20 @@ an executable found in the current directory.
 B. Binary installation with accompanying source 
 -----------------------------------------------
 
-As we are moving to a new improved installation procedure, binary
-installations are not available for the Swarm 1.3 release, we are
-currently working on the new binary distribution installation
-procedure and it will be out in the next release.
+Binary distributions of Swarm are available for the following
+platforms, the relevant package manager needed for installing the
+binary packages on these systems are noted in parentheses.
+
+* Debian GNU/Linux (dpkg)
+* RedHat GNU/Linux (rpm)
+* Sparc Solaris (pkgadd etc.)
+
+Please consult the Swarm release page:
+
+  http://www.santafe.edu/projects/swarm/release.html#binary
+
+for the latest information on the operating system versions that are
+supported and download information.
 
 II. Installation Options and Settings =================================
 

@@ -1,5 +1,8 @@
 1999-01-14  Alex Lancaster  <alex@santafe.edu>
 
+	* README (section B): Updated section on binary packages and noted
+	relevant URL.
+
 	* Makefile.am (SUBDIRS): Add tests.
 	
 1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
