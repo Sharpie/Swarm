@@ -1,5 +1,14 @@
 1998-06-10  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* print.dsl ($img$): New function (handle public identifiers,
+	display and always center).  Use it in graphic element in
+	{article,book,reference,set}-titlepage-{recto,verso}-mode.
+
+	* Makefile.rules: Depend on print stylesheet for .tex, .fot, and
+	.rtf output, and HTML stylesheet for .html.  New variable
+	COMMON_SGML_FILES for global.ent, figs.ent, and versions.ent.
+	Add CLEANFILES (moved from src/Makefile.am).
+
 	* catalog.in: New public identifiers for html.dsl and print.dsl.
 
 	* Makefile.rules:  Change .htm to .html throughout.

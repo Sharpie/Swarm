@@ -162,7 +162,37 @@
              (literal "Revision History")))
      (process-children)))
 
-(element abstract (make sequence (process-children)))
+(define ($img$ #!optional (nd (current-node)) (display #f))
+  (let* ((fileref (attribute-string (normalize "fileref") nd))
+         (entattr (attribute-string (normalize "entityref") nd))
+         (gensysid (entity-generated-system-id entattr))
+         (entityfilename (if entattr
+                             (string-append "../figs/"
+                                            (car (reverse (split-string gensysid #\/))))
+                             #f))
+         (format (attribute-string (normalize "format") nd))
+         (align (attribute-string (normalize "align") nd))
+         (scale (attribute-string (normalize "scale") nd)))
+    (if (or fileref entityfilename)
+        (make external-graphic
+              notation-system-id: (if format format "")
+              entity-system-id: (if fileref
+                                    (graphic-file fileref)
+                                    (if entityfilename
+                                        (graphic-file entityfilename)
+                                        ""))
+              display?: #t
+              display-alignment: 'center)
+        (empty-sosofo))))
+
+(mode article-titlepage-recto-mode (element graphic ($img$)))
+(mode article-titlepage-verso-mode (element graphic ($img$)))
+(mode book-titlepage-recto-mode (element graphic ($img$)))
+(mode book-titlepage-verso-mode (element graphic ($img$)))
+(mode reference-titlepage-recto-mode (element graphic ($img$)))
+(mode reference-titlepage-verso-mode (element graphic ($img$)))
+(mode set-titlepage-recto-mode (element graphic ($img$)))
+(mode set-titlepage-verso-mode (element graphic ($img$)))
 
 </style-specification-body>
 </style-specification>
