@@ -1,3 +1,9 @@
+1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (gridexamples.sgml): Remove unnecessary subshell for
+	`for' loop and don't cd to $(srcdir) when done (it's in a
+	subshell).
+
 1998-06-01  Alex Lancaster  <alex@santafe.edu>
 
 	* grid: Moved the grid subdir to the root of the Swarm application
