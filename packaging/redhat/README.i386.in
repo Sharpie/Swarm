@@ -12,7 +12,7 @@ The following packages that come with the standard Red Hat 6.0
 distribution are all required before commencing installing *any* of
 various Swarm packages:
 
-  egcs, egcs-objc, libpng, libpng-devel, zlib, xpm, xpm-devel, blt, tcl, tk
+ @base_requires@
 
 [Note depending on the kind of Red Hat installation option you selected, 
 some, or all of these are installed by default].
@@ -21,9 +21,9 @@ Demo package
 ============
 
 The `swarmdemos' package installs a handful of swarm applications, and
-requires only the above mentioned packages and does not require a
-Swarm installation.  It's ideal for `test-driving' a Swarm
-application.
+requires only the following packages: "blt, tcl, tk, zlib, libpng,
+xpm" and does not require a Swarm installation.  It's ideal for
+`test-driving' a Swarm application.
 
 * swarmdemos-@version@-@release@.i386.rpm
 

@@ -13,18 +13,21 @@ R5 (in most respects identical to Red Hat 6.0 for Intel machines)
 distribution are all required before commencing installing *any* of
 various Swarm packages:
 
-  egcs, egcs-objc, libpng, libpng-devel, zlib, xpm, xpm-devel, blt, tcl, tk
+ @base_requires@
 
 [Note depending on the kind of installation option you selected, some,
 or all of these are installed by default].
+
+For the PPC platform *only* you will also need to have installed the
+libffi-1.20 package, also available in this directory.
 
 Demo package
 ============
 
 The `swarmdemos' package installs a handful of swarm applications, and
-requires only the above mentioned packages and does not require a
-Swarm installation.  It's ideal for `test-driving' a Swarm
-application.
+requires only the following packages: "blt, tcl, tk, zlib, libpng,
+xpm" and does not require a Swarm installation.  It's ideal for
+`test-driving' a Swarm application.
 
 * swarmdemos-@version@-@release@.ppc.rpm
 

@@ -23,15 +23,7 @@ Packager: @packager@
 Distribution: @distribution@
 Vendor: @vendor@
 URL: @url@
-Requires: egcs-objc 
-Requires: libpng
-Requires: libpng-devel
-Requires: zlib
-Requires: xpm
-Requires: xpm-devel
-Requires: blt
-Requires: tcl >= 8.0.4 
-Requires: tk >= 8.0.4
+Requires: @base_requires@
 %ifarch ppc
 Requires: libffi >= 1.20
 %endif

@@ -8,6 +8,8 @@ hdf5_version=1.2
 kaffe_version=1.0.b4
 jikes_version=0.47
 
+base_requires='egcs, egcs-objc, XFree86-devel, libpng, libpng-devel, zlib, xpm, xpm-devel, blt, tcl >= 8.0.4, tk >= 8.0.4'
+
 copyright='LGPL'
 packager='Red Hat Contrib|Net <rhcn-bugs@redhat.com>'
 distribution='Red Hat Contrib|Net'
@@ -23,6 +25,7 @@ AC_SUBST(release)
 AC_SUBST(hdf5_version)
 AC_SUBST(jikes_version)
 AC_SUBST(kaffe_version)
+AC_SUBST(base_requires)
 
 AC_SUBST(copyright)
 AC_SUBST(packager)
