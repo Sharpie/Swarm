@@ -1,3 +1,8 @@
+1999-08-24    <mgd@HELEN>
+
+	* Makefile.in (javaswarm.dll): Use ld-new, don't even go through
+	gcc.  (To clarify that this linker not stock equipment.)
+
 1999-08-17    <mgd@HELEN>
 
 	* Makefile.in (javaswarm.dll): Use -nostdlib, explicitly specifying
