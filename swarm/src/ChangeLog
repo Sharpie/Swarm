@@ -1,3 +1,9 @@
+1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am, dllinit.c: Remove constructor stuff.
+	
+	* Makefile.rules (CPPFLAGS): Don't define for DLL export.
+
 1999-06-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (libswarm_la_DEPENDENCIES): Use

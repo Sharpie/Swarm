@@ -8,8 +8,6 @@ TYPEINFO = $(MODULE).xm types.h classes.h
 
 CLEANFILES = $(TYPEINFO)
 
-override CPPFLAGS += -Dexternvar="$(EXPORT_EXTERN)"
-
 headers: $(module_headers)
 
 $(TYPEINFO): $(MODULE).h $(MAKEH2X) # $(SOURCES)

@@ -8,7 +8,7 @@ SUBDIRS = misc collections defobj activity \
 SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
 	objectbase activity defobj collections misc
 
-EXTRA_DIST = Makefile.rules genctors
+EXTRA_DIST = Makefile.rules
 
 .PHONY: headers
 
@@ -37,14 +37,10 @@ LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(SYSLIBS)
 
 libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc -rpath $(libdir)
 
-CTOR = swarm_constructors
 OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.o)
 
 swarm.dll: dllinit.c
-	$(srcdir)/genctors $(CTOR) $(OBJS)
-	$(CC) -c $(CTOR).c
-	$(CC) -c -Dconstructor_func=$(CTOR) $(srcdir)/dllinit.c
-	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(CTOR).o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
+	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
 swarm_dll_SOURCES = dllinit.c
 
