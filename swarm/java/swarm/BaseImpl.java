@@ -1,5 +1,5 @@
 package swarm;
 
 public class BaseImpl {
-    public int objcPtr;
+    private int objcPtr;
 }

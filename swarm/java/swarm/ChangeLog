@@ -1,3 +1,8 @@
+2001-07-18  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
+
+	* BaseImpl.java: Make objcPtr private.  Archiving this is a 
+	really bad thing.
+
 2001-07-13    <mgd@maya.santafe.edu>
 	
 	* BaseImpl.java: New file.
