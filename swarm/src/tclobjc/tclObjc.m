@@ -300,7 +300,6 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 
     int argsize = method_get_sizeof_arguments(method);
     char argptr_buffer[argsize];
-    unsigned int bargframe = (unsigned int)argptr_buffer;
     int argnum = 0;
     const char *type;
     int tmpint;
@@ -316,11 +315,6 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 // in a few common cases. For example, when all the arguments 
 // and the return value is either an object or an int.
 //
-
-    int do_special_hack = 1 ;
-    int hack_arg_count = 0 ;
-    int hack_arguments[3] ;
-    int returnValue = 0;
 
 #ifdef BUILDNEWARGFRAME
     // create the pointer argframe to memory on the stack
@@ -364,37 +358,6 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 	     method_get_number_of_arguments(method));
     }
 
-    switch( *(method->method_types) ){
-      case _C_ID:
-      case _C_PTR:
-      case _C_INT:
-      case _C_UINT:
-      case _C_CHARPTR:
-      case _C_VOID:
-        if(debug_printing)
-    printf("Return type is compatible with special_hack!!!\n") ;
-        break ;
-      case _C_SHT:
-      case _C_USHT:
-      case _C_LNG:
-      case _C_ULNG:
-      case _C_CHR:
-      case _C_UCHR:
-      case _C_FLT:
-      case _C_DBL:
-      default:
-        do_special_hack = 0 ;
-        if(debug_printing)
-    printf("Abandoning special_hack option -> incompatible return type!\n") ;
-        break ;
-    }
-
-    if(method_get_number_of_arguments(method) > 5){
-      do_special_hack = 0 ;
-      if(debug_printing)
-        printf("Abandoning special_hack option -> too many arguments!\n") ;
-    }
-
     for (argnum = 2,
 	 datum = method_get_next_argument(argframe, &type);
 	 datum;
@@ -407,12 +370,6 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 	unsigned flags = objc_get_type_qualifiers(type);
 	type = objc_skip_type_qualifiers(type);
 	flags = flags;
-	if (debug_printing)
-	  {
-	    printf("datum=%x type=%s\n", 
-		   (unsigned int)datum - bargframe, type);
-	    printf("argv[%d] = %s type=%s\n", argnum, argv[argnum], type);
-	  }
 
 	switch (*type)
 	  {
@@ -426,113 +383,53 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 			argv[argnum]);
 		return TCL_ERROR;
 	      }
-            if(do_special_hack){
-              hack_arguments[hack_arg_count] = (int)     	
-                tclObjc_nameToObject(argv[argnum]) ;
-              if(debug_printing)
-                printf("Special Hack: Turned %s (ID) to %d.\n",
-                        argv[argnum],hack_arguments[hack_arg_count]) ;  
-              hack_arg_count++ ;
-            }
 	    break;
 	  case _C_PTR:
 	    sscanf(argv[argnum], "0x%x", 
 			(marg_getRef(argframe, datum, unsigned int)));
-            if(do_special_hack){
-	      sscanf(argv[argnum], "0x%x", hack_arguments + hack_arg_count) ;
-              if(debug_printing)
-                printf("Special Hack: Turned %s (PTR) to %d.\n",
-                        argv[argnum],hack_arguments[hack_arg_count]) ;  
-              hack_arg_count++ ;
-            }
 	    break;
 	  case _C_INT:
 	    sscanf(argv[argnum], "%d", 
 			(marg_getRef(argframe, datum, int)));
-            if(do_special_hack){
-  	      sscanf(argv[argnum], "%d", hack_arguments + hack_arg_count) ;
-              if(debug_printing)
-                printf("Special Hack: Turned %s (INT) to %d.\n",
-                        argv[argnum],hack_arguments[hack_arg_count]) ;  
-              hack_arg_count++ ;
-            }
 	    break;
 	  case _C_UINT:
 	    sscanf(argv[argnum], "%u",  
 			(marg_getRef(argframe, datum, unsigned int)));
-            if(do_special_hack){
-	      sscanf(argv[argnum], "%u", hack_arguments + hack_arg_count) ;
-              if(debug_printing)
-                printf("Special Hack: Turned %s (UINT) to %d.\n",
-                        argv[argnum],hack_arguments[hack_arg_count]) ;  
-              hack_arg_count++ ;
-            }
 	    break;
 	  case _C_LNG:
-            do_special_hack = 0 ;
-            if(debug_printing)
-  printf("Abandoning special_hack option -> unsigned short typed argument!\n") ;
 	    sscanf(argv[argnum], "%ld", 
 			(marg_getRef(argframe, datum, long)));
 	    break;
 	  case _C_ULNG:
-            do_special_hack = 0 ;
-            if(debug_printing)
-  printf("Abandoning special_hack option -> unsigned short typed argument!\n") ;
 	    sscanf(argv[argnum], "%lu",
 			(marg_getRef(argframe, datum, unsigned long)));
 	    break;
 	  case _C_SHT:
-            do_special_hack = 0 ;
-            if(debug_printing)
-  printf("Abandoning special_hack option -> short typed argument!\n") ;
 	    sscanf(argv[argnum], "%d", &tmpint);
 	    *(marg_getRef(argframe, datum, short)) = (short)tmpint;
 	    break;
 	  case _C_USHT:
-            do_special_hack = 0 ;
-            if(debug_printing)
-  printf("Abandoning special_hack option -> unsigned short typed argument!\n") ;
 	    sscanf(argv[argnum], "%u", &tmpuint);
 	    *(marg_getRef(argframe, datum, unsigned short)) = 
 	    	(unsigned short)tmpuint;
 	    break;
 	  case _C_CHR:
-            do_special_hack = 0 ;
-            if(debug_printing)
-  printf("Abandoning special_hack option -> char typed argument!\n") ;
 	    sscanf(argv[argnum], "%c",
 	    		(marg_getRef(argframe, datum, char)));
 	    break;
 	  case _C_UCHR:
-            do_special_hack = 0 ;
-            if(debug_printing)
-  printf("Abandoning special_hack option -> unsigned char argument!\n") ;
 	    sscanf(argv[argnum], "%d", &tmpuint);
 	    *(marg_getRef(argframe, datum, unsigned char)) = 
 	    	(unsigned char)tmpuint;
 	    break;
 	  case _C_CHARPTR:
 	    *(marg_getRef(argframe, datum, char*)) = argv[argnum];
-            if(do_special_hack){
-  	      hack_arguments[hack_arg_count] = (int) argv[argnum] ;
-              if(debug_printing)
-                printf("Special Hack: Turned %s (CHARPTR) to %d.\n",
-                        argv[argnum],hack_arguments[hack_arg_count]) ;  
-              hack_arg_count++ ;	
-            }    
 	    break;
 	  case _C_FLT:
-            do_special_hack = 0 ;
-            if(debug_printing)
-  printf("Abandoning special_hack option -> float typed argument!\n") ;
 	    sscanf(argv[argnum], "%f",
 	    		(marg_getRef(argframe, datum, float)));
 	    break;
 	  case  _C_DBL:
-            do_special_hack = 0 ;
-            if(debug_printing)
-  printf("Abandoning special_hack option -> double typed argument!\n") ;
 	    sscanf(argv[argnum], "%lf",
 	    		(marg_getRef(argframe, datum, double)));
 	    break;
@@ -546,33 +443,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 	  }
       }
 
-    if(do_special_hack){
-      typedef int (*IntImp)(id, SEL, ...) ;
-      IntImp theCall ;
-
-      theCall = (IntImp) [self methodFor: sel] ;
-
-      switch(hack_arg_count) {
-        case 0:           
-          returnValue = theCall(self,sel) ;
-          break ;
-        case 1:
-          returnValue = theCall(self,sel,hack_arguments[0]) ;
-          break ;
-        case 2:
-          returnValue = theCall(self,sel,hack_arguments[0],hack_arguments[1]) ;
-          break ;
-        case 3:
-          returnValue = theCall(self,sel,hack_arguments[0],
-                                         hack_arguments[1],
-                                         hack_arguments[2]) ;
-          break ;
-        default:
-  fprintf(stderr,"Something went awfully wrong in the tclObjc special_hack\n") ;
-          exit(-1) ;
-          break ;
-      }
-    } else {
+    {
       IMP imp = method->method_imp;
 #ifndef USE_FFI
       retframe = dynamic_call ((apply_t)imp, argframe, argsize);
@@ -758,14 +629,11 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 #endif
 #endif
     }
-
+    
     if (debug_printing)
       {
-        if(do_special_hack)
-          printf("Special_Hack: return value unsigned int 0x%x\n",returnValue) ;
-        else
-  	  printf("__Builtin_Apply: retframe unsigned int 0x%x\n", 
-	         getIntegerReturn(retframe));
+        printf("__Builtin_Apply: retframe unsigned int 0x%x\n", 
+               getIntegerReturn (retframe));
       }
     type = method->method_types;
     switch (*type)
@@ -775,10 +643,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 	  id returnedObject;
 	  char * s;
 
-          if(do_special_hack)
-	    returnedObject = (id)returnValue;
-          else 
-	    returnedObject = getObjectReturn (retframe);
+          returnedObject = getObjectReturn (retframe);
          
           s = tclObjc_objectToName(returnedObject);
 	  sprintf(resultString, s);
@@ -791,9 +656,6 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 #endif
 	break;
       case _C_PTR:
-        if(do_special_hack)
-  	  sprintf(resultString, "0x%x", returnValue);
-        else
 #ifdef POINTER_FMT_HEX_PREFIX
 	  sprintf(resultString, "%p", getPointerReturn(retframe));
 #else
@@ -801,16 +663,10 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 #endif
 	break;
       case _C_INT:
-        if(do_special_hack)
-  	  sprintf(resultString, "%d", returnValue);
-        else
-	  sprintf(resultString, "%d", getIntegerReturn(retframe));
+        sprintf(resultString, "%d", getIntegerReturn(retframe));
 	break;
       case _C_UINT:
-        if(do_special_hack)
-  	  sprintf(resultString, "%u", returnValue);
-        else
-	  sprintf(resultString, "%u", getUIntegerReturn(retframe));
+        sprintf(resultString, "%u", getUIntegerReturn(retframe));
 	break;
       case _C_SHT:
 	sprintf(resultString, "%d", (int)getShortReturn(retframe));
@@ -832,10 +688,7 @@ tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 	break;
       case _C_CHARPTR:
         /* Yuck.  Clean this up. */
-        if(do_special_hack)
-          Tcl_SetResult(interp, (char *) returnValue, TCL_VOLATILE);
-        else
-          Tcl_SetResult(interp, getStringReturn(retframe), TCL_VOLATILE);
+        Tcl_SetResult(interp, getStringReturn(retframe), TCL_VOLATILE);
         return TCL_OK;
       case _C_FLT:
 	sprintf(resultString, "%g", getFloatReturn(retframe));
