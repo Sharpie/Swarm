@@ -1,3 +1,10 @@
+1999-09-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* predicates.[hm] (quote_literal_p): New function.
+
+	* InputStream.m ([InputStream_c -getExpr]): Handle (quote x) / 'x
+	equivalence.
+
 1999-09-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Set.m ([Set_c -at:], [Set_c -remove:]): Likewise.

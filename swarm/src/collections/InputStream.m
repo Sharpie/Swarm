@@ -190,12 +190,11 @@ readString (id inStream, BOOL literalFlag)
   else if (c == '(')
     {
       id list = [ArchiverList create: aZone];
-      //id list = [List create: aZone];
-        
-        while (YES)
+      
+      while (YES)
         {
           id newObj = [self getExpr];
-
+          
           if (newObj == nil)
             [self _unexpectedEOF_];
           if (newObj == (id) ArchiverEOL)
@@ -206,7 +205,7 @@ readString (id inStream, BOOL literalFlag)
       if (ARCHIVERDOTP ([list atOffset: 1]) && [list getCount] == 3)
         {
           id pair = [ArchiverPair createBegin: aZone];
-
+          
           [pair setCar: [list getFirst]];
           [pair setCdr: [list getLast]];
           [pair setConsFormatFlag: NO];
@@ -214,10 +213,12 @@ readString (id inStream, BOOL literalFlag)
           [list drop];
           return pair;
         }
+      else if (quote_literal_p ([list getFirst]))
+        return [list atOffset: 1];
       else if (cons_literal_p ([list getFirst]))
         {
           id pair;
-
+          
           if ([list getCount] != 3)
             raiseEvent (InvalidArgument, "cons accepts only two arguments");
           

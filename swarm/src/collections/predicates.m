@@ -77,3 +77,15 @@ list_literal_p (id obj)
     }
   return NO;
 }
+
+BOOL
+quote_literal_p (id obj)
+{
+  if (stringp (obj))
+    {
+      const char *str = [obj getC];
+      
+      return strcmp (str, "quote") == 0;
+    }
+  return NO;
+}
