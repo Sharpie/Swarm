@@ -17,11 +17,11 @@ Library:      defobj
   id componentZone;          // view of zone qualified for component allocation
   id population;             // external objects created within the zone
   size_t populationTotal;    // total size of population objects
-  unsigned objectCount;      // count of internal objects allocated in the zone
+  size_t objectCount;      // count of internal objects allocated in the zone
   size_t objectTotal;        // total size of internal objects
-  unsigned blockCount;       // count of internal blocks allocated in the zone
+  size_t blockCount;       // count of internal blocks allocated in the zone
   size_t blockTotal;         // total size of internal blocks
-  unsigned allocCount;       // count of blocks allocated by alloc:
+  size_t allocCount;       // count of blocks allocated by alloc:
   size_t allocTotal;         // total size of alloc'ed blocks
   id internalAllocations;    // collection of all internal allocations
 }

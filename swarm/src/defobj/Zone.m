@@ -386,12 +386,12 @@ PHASE(Using)
   if (_obj_debug)
     {
       sprintf (buffer,
-               "> number of internal objects: %3u  total size: %u\n"
-               "> number of internal blocks:  %3u  total size: %u\n"
-               "> number of alloc blocks:  %5u  total size: %u\n",
-               objectCount, objectTotal,
-               blockCount, blockTotal,
-               allocCount, allocTotal);
+               "> number of internal objects: %3lu  total size: %lu\n"
+               "> number of internal blocks:  %3lu  total size: %lu\n"
+               "> number of alloc blocks:  %5lu  total size: %lu\n",
+               (unsigned long) objectCount, (unsigned long) objectTotal,
+               (unsigned long) blockCount, (unsigned long) blockTotal,
+               (unsigned long) allocCount, (unsigned long) allocTotal);
       [outputCharStream catC: buffer];
     }
 }
