@@ -1,3 +1,3 @@
-SUBDIRS = activity objectbase simtools
+SUBDIRS = activity defobj objectbase simtools
 
 
