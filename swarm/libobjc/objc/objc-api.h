@@ -131,12 +131,6 @@ objc_error_handler objc_set_error_handler(objc_error_handler func);
 
 #define OBJC_ERR_BAD_STATE 40          /* Bad thread state */
 
-/*
-** Set this variable nonzero to print a line describing each
-** message that is sent.  (this is currently disabled)
-*/
-externvar BOOL objc_trace;
-
 
 /* For every class which happens to have statically allocated instances in
    this module, one OBJC_STATIC_INSTANCES is allocated by the compiler.
@@ -439,8 +433,7 @@ SEL sel_register_typed_name (const char *name, const char*type);
 
 BOOL sel_is_mapped (SEL aSel);
 
-extern id class_create_insta
-nce (Class class);
+extern id class_create_instance (Class class);
 
 static inline const char *
 class_get_class_name (Class class)

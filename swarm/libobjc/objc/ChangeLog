@@ -2,6 +2,7 @@
 
 	* objc-api.h: Use `externvar' for external variables.
 	Reformatting throughout.
+	Remove objc_trace variable (not used).
 
 1999-05-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
