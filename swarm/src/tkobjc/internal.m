@@ -5,6 +5,7 @@
 
 #import "internal.h"
 #import <tkobjc/TkExtra.h>
+#define Arguments SwarmArguments
 #import <objectbase/Arguments.h>
 
 #include <tk.h>
@@ -79,7 +80,8 @@ tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
 
 void
 tkobjc_raster_fillRectangle (Raster *raster,
-                             int x, int y, int width, int height,
+                             int x, int y,
+                             unsigned width, unsigned height,
                              PixelValue color)
 {
   Tk_Window tkwin = raster->tkwin;
@@ -175,7 +177,8 @@ tkobjc_raster_flush (Raster *raster)
 }
 
 void
-tkobjc_raster_copy (Raster *raster, Pixmap oldpm, int oldWidth, int oldHeight)
+tkobjc_raster_copy (Raster *raster, Pixmap oldpm,
+                    unsigned oldWidth, unsigned oldHeight)
 {
   Display *display = Tk_Display (raster->tkwin);
   unsigned minWidth = raster->width < oldWidth ? raster->width : oldWidth;

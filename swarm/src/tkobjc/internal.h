@@ -10,9 +10,9 @@
 
 #define Colormap X11Colormap
 #include <tk.h>
-#ifndef __WIN32__
 #include <X11/Xlib.h>    // XColormap
 #include <X11/Xutil.h>  // ZoomRaster
+#ifndef __WIN32__
 #include <X11/xpm.h>
 #endif
 #undef Colormap
@@ -27,12 +27,13 @@ void tkobjc_createEventHandler (id widget, Tk_EventProc proc);
 void tkobjc_deleteEventHandler (id widget, Tk_EventProc proc);
 
 void tkobjc_raster_fillRectangle (Raster *raster,
-                                  int x, int y, int width, int height, 
+                                  int x, int y, 
+                                  unsigned width, unsigned height, 
                                   PixelValue c);
 
 void tkobjc_raster_drawPoint (Raster *raster, int x, int y, PixelValue c);
 void tkobjc_raster_createContext (Raster *raster);
 void tkobjc_raster_createPixmap (Raster *raster);
 void tkobjc_raster_setBackground (Raster *raster, PixelValue c);
-void tkobjc_raster_copy (Raster *raster, Pixmap oldpm, int w, int h);
+void tkobjc_raster_copy (Raster *raster, Pixmap opm, unsigned ow, unsigned oh);
 void tkobjc_raster_flush (Raster *raster);
