@@ -14,14 +14,17 @@ const char *program_invocation_name;
 const char *program_invocation_short_name;
 #endif
 
-#define SIGNATURE_FILE "swarmconfig.h"
-#define SIGNATURE_SUBPATH "include/"
-
 #define VARCHAR(ch) (isalnum ((int)ch) || ((ch) == '_'))
 
-/* A subpath of --includedir would be arbitrary, and since this
-   is for when prefix and SWARMHOME are absent, it's just a guess anyway. */
-#define SIGNATURE_PATH "include/" SIGNATURE_FILE
+#define SIGNATURE_FILE "swarmconfig.h"
+
+#ifdef INCLUDESUBDIR
+#define SIGNATURE_SUBPATH "include/" INCLUDESUBDIR "/"
+#else
+#define SIGNATURE_SUBPATH "include/"
+#endif
+
+#define SIGNATURE_PATH SIGNATURE_SUBPATH SIGNATURE_FILE
 
 #include "version.h"
 
@@ -486,7 +489,8 @@ prefix (const char *prefixstring)
             {
               const char *ptr = getnenv (varname, varlen);
 
-              len += strlen (ptr ? ptr : "");
+              if (ptr)
+                len += strlen (ptr);
             }
           }
           if (*p == '}')

@@ -908,12 +908,10 @@ lisp_output_type (const char *type,
       {
         id obj = ((id *) ptr)[offset];
 
-        if (obj == nil)
+        if (obj == nil || !deepFlag)
           [stream catC: "nil"];
-        else if (deepFlag)
-          [obj lispOutDeep: stream];
         else
-          [stream catC: "#:skipped"];
+          [obj lispOutDeep: stream];
         break;
       }
     case _C_CLASS:
@@ -1018,8 +1016,6 @@ lisp_output_type (const char *type,
 {
   [stream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " '"];
   [stream catC: [self getTypeName]];
-  [stream catC: " "];
-  
   {
     void store_object (struct objc_ivar *ivar)
       {

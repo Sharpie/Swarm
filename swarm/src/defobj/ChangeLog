@@ -1,8 +1,13 @@
 1999-01-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* DefObject.m (lisp_output_type): Don't print #:skipped, just
+	print nil.
+	([Object_s -_lispOut_:deep:]): Remove output space after typeName.
+
 	* Arguments.m ([Arguments_c -_getSwarmHome_:]): Don't verify
 	swarmHome if there wasn't one found.  Move findSwarm to the
 	end, for when all else fails.
+	(SIGNATURE_SUBPATH, SIGNATURE_PATH): Derive from INCLUDE_SUBPATH.
 
 1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
