@@ -1,9 +1,8 @@
 This is the Heatbug demo app.  The code is very well commented,
 so the only thing that needs to be said here is that if you want
 to see little pictures (pixmap) running around instead of squares,
-then simply replace the normal .h and .m files with their 
-corresponding .h.pixmap and .m.pixmap, respectively and 
-recompile.  Note that only Heatbug.h, Heatbug.m, HeatbugModelSwarm.h,
-and HeatbugModelSwarm.m need to be replaced.
+then run make like so:
+
+   make CFLAGS+=-DUSE_PIXMAP
 
 
