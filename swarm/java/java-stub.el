@@ -34,7 +34,7 @@
       ("Protocol \\*" . freaky)
 
       ("notify_t" . freaky)
-      ("unsigned long long int" . "long"); really?
+      ("unsigned long long int" . freaky)
       
       ("const char \\* const \\*" . freaky)
       ("int \\*" . freaky)
