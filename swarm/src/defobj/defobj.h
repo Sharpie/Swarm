@@ -95,6 +95,13 @@ USING
 
 //M: Like describeID:, but output goes to standard output.
 - (void)xprintid;
+
+//M: print description for each member of a collection on debug output stream
+- (void)xfprint;
+
+//M: print id for each member of a collection on debug output stream
+- (void) xfprintid;
+
 @end
 
 @deftype Customize

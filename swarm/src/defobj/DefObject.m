@@ -758,7 +758,7 @@ static void initDescribeStream()
 }
 
 //
-// xprintid -- print id for each member of a collection on debug output stream
+// xfprintid -- print id for each member of a collection on debug output stream
 //
 - (void) xfprintid
 {

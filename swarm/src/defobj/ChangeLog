@@ -1,3 +1,11 @@
+1998-06-01  Alex Lancaster  <alex@santafe.edu>
+
+	* DefObject.m ([Object_s -xfprintid]): Fixed typo in comment above
+	method
+
+	* defobj.h ([DefinedObject -{xfprint,xfprintid}): Added method and
+	doc tags that should exist to DefinedObject protocol.
+
 1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* defobj.h: Fix //# doc strings (following colon required).
