@@ -24,7 +24,7 @@ libdefobj_a_SOURCES = $(SRC)
 libdefobj_la_SOURCES = $(SRC)
 libdefobj_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
-noinst_SCRIPTS = m2h make-h2x
+bin_SCRIPTS = m2h make-h2x
 
 defobj_HEADERS = Create.h Customize.h DefClass.h DefObject.h Program.h \
 	Symbol.h Zone.h defalloc.h deftype.h
@@ -32,3 +32,6 @@ defobj_HEADERS = Create.h Customize.h DefClass.h DefObject.h Program.h \
 install-data-local:
 	$(INSTALL_DATA) classes.h $(defobjdir)
 	$(INSTALL_DATA) types.h $(defobjdir)
+
+
+
