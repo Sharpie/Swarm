@@ -7,7 +7,9 @@ tkobjcdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
 
-EXTRA_DIST = analysis.tcl comm.tcl simtools.tcl tkbusy.tcl
+TCLFILES = analysis.tcl comm.tcl simtools.tcl tkbusy.tcl
+
+EXTRA_DIST = $(TCLFILES)
 
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@
@@ -44,6 +46,8 @@ tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	SuperButton.h MessageProbeEntry.h TextItem.h TkExtra.h \
 	VarProbeEntry.h VarProbeLabel.h Widget.h WindowGeometryRecord.h \
 	ZoomRaster.h common.h global.h internal.h win32dib.h
+
+$(libtkobjc_la_OBJECTS): $(foreach f, $(TCLFILES), $(basename $(f))_tcl.x)
 
 %_tcl.x: %.tcl
 	(echo 'const char *$(notdir $(basename $<))_tcl = "' ; cat $< | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' ; echo '";' ) > $@ 
