@@ -5,6 +5,7 @@
 
 #import <objectbase/Swarm.h>
 #import <objectbase.h>
+#import <defobj/directory.h>
 
 @implementation Swarm
 PHASE(Creating)
@@ -42,17 +43,18 @@ PHASE(Using)
 
 - getProbeMap
 {
-  return [probeLibrary getProbeMapFor: [self class]] ;
+  return [probeLibrary getProbeMapFor: SD_GETCLASS (self)];
 }
 
 - getCompleteProbeMap
 {
-  return [probeLibrary getCompleteProbeMapFor: [self class]] ;
+  return [probeLibrary getCompleteProbeMapFor: SD_GETCLASS (self)];
 }
 
 - getProbeForVariable: (const char *)aVariable
 {
-  return [probeLibrary getProbeForVariable: aVariable inClass: [self class]];
+  return [probeLibrary getProbeForVariable: aVariable 
+                       inClass: SD_GETCLASS (self)];
 }
 
 @end

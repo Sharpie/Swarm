@@ -242,48 +242,66 @@ PHASE(Creating)
       while (count > 0)
         {
           jstring name;
-          SEL sel;
           id aProbe;
+          BOOL usable;
           
           count--;
           {
             jobject method;
+            jint modifier;
             
             method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, count);
             
             name = (*jniEnv)->CallObjectMethod (jniEnv,
                                                 method, 
                                                 m_MethodGetName);
-            (*jniEnv)->DeleteLocalRef (jniEnv, method);
-          }
-          {
-            jobject selector;
-            
-            selector = (*jniEnv)->NewObject (jniEnv,
-                                             c_Selector, 
-                                             m_SelectorConstructor, 
-                                             javaClass,
-                                             name,
-                                             JNI_FALSE);
-            (*jniEnv)->DeleteLocalRef (jniEnv, name);
-            sel = swarm_directory_ensure_selector (jniEnv, selector);
-            (*jniEnv)->DeleteLocalRef (jniEnv, selector);
-          }
-          
-          aProbe = [MessageProbe createBegin: getZone (self)];
-          [aProbe setProbedClass: probedClass];
-          [aProbe setProbedSelector: sel];
-          if (objectToNotify != nil) 
-            [aProbe setObjectToNotify: objectToNotify];
-          
-          aProbe = [aProbe createEnd];
 
-          if (!aProbe)
-            abort ();
+            modifier = (*jniEnv)->CallIntMethod (jniEnv,
+                                                 method,
+                                                 m_MethodGetModifiers);
+            usable = (((*jniEnv)->CallStaticBooleanMethod (jniEnv,
+                                                           c_Modifier,
+                                                           m_ModifierIsPublic,
+                                                           modifier)
+                       == JNI_TRUE)
+                      &&
+                      ((*jniEnv)->CallStaticBooleanMethod (jniEnv,
+                                                           c_Modifier,
+                                                           m_ModifierIsStatic,
+                                                           modifier))
+                      == JNI_FALSE);
+          }
           
-          [probes at: [String create: getZone (self)
-                              setC: [aProbe getProbedMessage]]
-                  insert: aProbe];
+          if (usable)
+            {
+              SEL sel;
+              jobject selector;
+              
+              selector = (*jniEnv)->NewObject (jniEnv,
+                                               c_Selector, 
+                                               m_SelectorConstructor, 
+                                               javaClass,
+                                               name,
+                                               JNI_FALSE);
+              (*jniEnv)->DeleteLocalRef (jniEnv, name);
+              sel = swarm_directory_ensure_selector (jniEnv, selector);
+              (*jniEnv)->DeleteLocalRef (jniEnv, selector);
+              
+              aProbe = [MessageProbe createBegin: getZone (self)];
+              [aProbe setProbedClass: probedClass];
+              [aProbe setProbedSelector: sel];
+              if (objectToNotify != nil) 
+                [aProbe setObjectToNotify: objectToNotify];
+              
+              aProbe = [aProbe createEnd];
+              
+              if (!aProbe)
+                abort ();
+              
+              [probes at: [String create: getZone (self)
+                                  setC: [aProbe getProbedMessage]]
+                      insert: aProbe];
+            }
         }
     }
   (*jniEnv)->DeleteLocalRef (jniEnv, methods);
