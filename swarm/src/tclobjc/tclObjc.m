@@ -636,7 +636,8 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
           fret = &ffi_type_pointer;
           break;
         case _C_UCHR:
-          fret = &ffi_type_uchar;
+          // char return is broken in libffi-1.18
+          fret = &ffi_type_uint;
           break;
         case _C_INT:
           fret = &ffi_type_sint;
@@ -653,9 +654,6 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
         default:
           abort ();
         }
-      if (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, acnt, fret, types_buf) != FFI_OK)
-        abort ();  
-
 #else
       av_alist alist;
 
@@ -738,7 +736,10 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
       }
 
 #ifndef USE_AVCALL
-      ffi_call (&cif, imp, retframe, values_buf);  
+      if (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, acnt, fret, types_buf) != FFI_OK)
+        abort ();  
+
+      ffi_call (&cif, (void *)imp, retframe, values_buf);  
 #else
       av_call (alist);
 #endif
@@ -799,22 +800,22 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
 	  sprintf(resultString, "%u", getUIntegerReturn(retframe));
 	break;
       case _C_SHT:
-	sprintf(resultString, "%d", getShortReturn(retframe));
+	sprintf(resultString, "%d", (int)getShortReturn(retframe));
 	break;
       case _C_USHT:
-	sprintf(resultString, "%u", getUShortReturn(retframe));
+	sprintf(resultString, "%u", (unsigned)getUShortReturn(retframe));
 	break;
       case _C_LNG:
         sprintf(resultString, "%ld", getLongReturn(retframe));
 	break;
       case _C_ULNG:
-	sprintf(resultString, "%lx", getULongReturn(retframe));
+	sprintf(resultString, "%lu", getULongReturn(retframe));
 	break;
       case _C_CHR:
-	sprintf(resultString, "%d", getCharReturn(retframe));
+	sprintf(resultString, "%d", (int)getCharReturn(retframe));
 	break;
       case _C_UCHR:
-	sprintf(resultString, "%d", getUCharReturn(retframe));
+	sprintf(resultString, "%u", (unsigned)getUCharReturn(retframe));
 	break;
       case _C_CHARPTR:
         /* Yuck.  Clean this up. */
@@ -953,7 +954,12 @@ getUCharReturn (void *p)
 #ifndef USE_FFI
   __builtin_return (p);
 #else
+#ifndef USE_AVCALL
+  // char return is broken in libffi-1.18
+  return *(unsigned int *)p;
+#else
   return *(unsigned char *)p;
+#endif
 #endif
 }
 

@@ -11,6 +11,11 @@
 	(getPointerReturn): Return void * instead of unsigned.
 	(tclObjc_msgSendToClientData): Use %p instead of %x for pointer,
 	per POINTER_FMT_HEX_PREFIX.
+	(tclObjc_msgSendToClientData): Use ffi_type_uint for _C_UCHR.
+	Move prep_cif immediately before ffi_call.
+	Add casts as appropriate to resultString sprintf arguments.
+	(getUCharReturn): Cast to unsigned int, not unsigned char
+	in libffi case.
 
 	* Makefile.am (FFIINCLUDES): New substituted variable.
 	(INCLUDES): Add FFIINCLUDES.
@@ -307,3 +312,5 @@ Tue Aug  8 00:09:15 1995  Nelson Minar  <nelson@santafe.edu>
 	* Tk.h, Tk.m: add mainWindow method
 
 	* Beginning of Nelson's libtclobjc maintainance
+
+	
