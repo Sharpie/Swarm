@@ -1,3 +1,9 @@
+2000-04-29  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.in (%_stubs.m): Remove % symbol dependency.  That doesn't
+	work and the dependencies are known to exist before it 
+	runs anyway.
+
 2000-04-28    <mgd@nest.swarm.org>
 
 	* SwarmEnvironment.m: Include <defobj/directory>, not directory.h.

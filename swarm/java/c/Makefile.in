@@ -64,7 +64,7 @@ install-la: all
 install-dll: all
 	$(INSTALL) $(JAVASWARM_DLL) $(bindir)
 
-%_stubs.m: $(addsuffix .m,$(%_creatable_PROTOCOLS))
+%_stubs.m:
 	cat $(addsuffix .m,$($*_creatable_PROTOCOLS)) > $*_stubs.m
 
 $(_LIBJAVASWARMSTUBS_LA): $(libjavaswarmstubs_la_OBJECTS)
