@@ -32,7 +32,7 @@ SRC = Archiver.m LispArchiver.m HDF5Archiver.m Arguments.m Create.m	\
 override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 libdefobj_la_SOURCES = $(SRC) modulemap.c
-libdefobj_la_LDFLAGS = @inst_LDFLAGS@ -L../../avcall -lavcall
+libdefobj_la_LDFLAGS = @inst_LDFLAGS@
 
 bin_SCRIPTS = m2h make-h2x
 
