@@ -153,7 +153,7 @@
 			refType = 4;
 		};
 		792AD49A03C3C63600000164 = {
-			buildArgumentsString = ../../autogen.sh;
+			buildArgumentsString = ../../../autogen.sh;
 			buildPhases = (
 			);
 			buildSettings = {
@@ -165,7 +165,7 @@
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = /Users/billn/Public/Swarm/swarm/macosx/swarmx;
+			buildWorkingDirectory = $BUILD_DIR;
 			dependencies = (
 			);
 			isa = PBXLegacyTarget;
@@ -4004,7 +4004,7 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				INSTALL_PATH = /Users/billn/Public/Swarm/swarm/macosx/swarmx/build/dst/usr/lib;
+				INSTALL_PATH = $BUILD_DIR/dst/usr/lib;
 				LIBRARY_STYLE = DYNAMIC;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-fno-common -no-cpp-precomp";
@@ -4021,7 +4021,7 @@
 			);
 			isa = PBXLibraryTarget;
 			name = swarmlibmake;
-			productInstallPath = /Users/billn/Public/Swarm/swarm/macosx/swarmx/build/dst/usr/lib;
+			productInstallPath = $BUILD_DIR/dst/usr/lib;
 			productName = swarmlib;
 			productReference = 79D7428903C40AA400000164;
 		};
@@ -18831,7 +18831,7 @@
 			refType = 4;
 		};
 		F6EF8FFD03A440C9015E7421 = {
-			buildArgumentsString = configure.sh;
+			buildArgumentsString = ../configure.sh;
 			buildPhases = (
 			);
 			buildSettings = {
@@ -18843,7 +18843,7 @@
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = /Users/billn/Public/Swarm/swarm/macosx/swarmx;
+			buildWorkingDirectory = $BUILD_DIR;
 			dependencies = (
 			);
 			isa = PBXLegacyTarget;
