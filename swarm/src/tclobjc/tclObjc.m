@@ -39,7 +39,7 @@
 
 #include <swarmconfig.h>
 
-#if defined(__CYGWIN__) || defined(__alpha__)
+#if defined(__CYGWIN__) || defined(__alpha__) || defined(_ABIN32)
 #define BUGGY_BUILTIN_APPLY
 #endif
 

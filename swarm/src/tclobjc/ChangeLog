@@ -11,7 +11,7 @@
 	Handle unsigned ints in libffi and avcall cases, return and arguments.
 	(tclObjc_msgSendToClientData): Use macro for `imp' (closer to usages)
 	to stop compiler warnings on alpha.
-	(BUGGY_BUILTIN_APPLY): Set for __alpha__.
+	(BUGGY_BUILTIN_APPLY): Set for __alpha__ or _ABIN32 (Irix 6.5).
 
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
