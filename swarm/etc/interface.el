@@ -78,11 +78,6 @@
       "Circle"
       "Rectangle"
 
-      ;; "Graph"
-      ;; "GraphElement"
-      ;; "Histogram"
-      ;; "Pixmap"
-
       ;; gui non-creatable
       "WindowGeometryRecord"
       "InputWidget"
@@ -126,12 +121,6 @@
 
 (defconst *removed-methods* 
     '("-getClass" ; conflict with Java
-;;      "-getDisplayName" ; conflict with Java
-;;      "-getTypeName" ; conflict with Java
-;;      "-setDisplayName:" ; conflict with Java
-;;      "-copy:" ; conflict with Java
-;;      "-remove:" ; conflict with Java
-
       ;; DefinedClass
       "+getMethodFor:" ; IMP return
 
@@ -286,12 +275,6 @@
       "-black" ; PixelValue return
       "-white" ; PixelValue return
 
-      ;; EZGraph
-      ;; "-getGraph" ; id <Graph> return -- a disabled protocol
-
-      ;; EZBin
-      ;; "-getHistogram" ; id <Histogram> return -- a disabled protocol
-
       ;; HDF5
       "-iterate:"
       "-iterate:drop:"
@@ -299,6 +282,7 @@
       "-loadDataset:"
       "-storeAsDataset:typeName:type:rank:dims:ptr:"
       "-readRowNames"
+      "-setExtensibleVectorType:" ; fcall_type_t argument
       ))
 
 (defun module-path (module)

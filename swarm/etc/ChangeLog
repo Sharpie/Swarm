@@ -1,3 +1,7 @@
+2001-03-18  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* interface.el (*removed-methods*): Add setExtensibleVectorType:.
+
 2001-03-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* interface.el (*removed-protocols*): Remove Graph, GraphElement,
