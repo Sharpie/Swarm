@@ -10,6 +10,12 @@
 	(removed-method-p): New function.
 	(method-list): New function.  Use it.
 	(java-print-methods-in-phase): Use it.
+	(*objc-to-java-type-alist*): notify_t and long doubles are freaky.
+	(java-print-method): Concatenate method keys together into single
+	Java method name.
+	(removed-method-p): Also reject getDisplayName, setDisplayName,
+	getTypeName, copy, and remove.
+	(method-list): Use expanded method list.
 
 1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

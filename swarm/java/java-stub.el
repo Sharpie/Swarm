@@ -23,7 +23,6 @@
       ("float" . "float")
       ("unsigned" . "int")
       ("unsigned long" . "int")
-      ("long double" . "double"); really?
       ("unsigned long long int" . "long"); really?
       ("BOOL" . "boolean")
       ("void \\*" . "Object")
@@ -31,7 +30,8 @@
       ("val_t" . "Object")
       ("Protocol \\*" . "Class")
       ("SEL" . "java.lang.reflect.Method")
-      ("notify_t" . "Notify_t")
+      ;("notify_t" . "Notify_t")
+      ("notify_t" . freaky)
       
       ("const char \\* const \\*" . freaky)
       ("int \\*" . freaky)
@@ -56,11 +56,12 @@
       ("int(\\*)(const void\\*,const void\\*)" . freaky)
       ("int (\\*) (id hdf5Obj)" . freaky)
       ("int (\\*) (const char \\*key, const char \\*value)" . freaky)
+      ("long double" . freaky)
       ("unsigned long \\*" . freaky)
       ("float \\*" . freaky)
       ("void (\\*) (unsigned rank, unsigned \\*vec, double val)" . freaky)
       ("void (\\*) (unsigned rank, unsigned \\*vec, int val)" . freaky)
-      ("ProbeMap \\*" . freaky)
+      ("ProbeMap \\*" . freaky) 
       ))
 
 (defun java-type-for-objc-type (objc-type)
@@ -97,13 +98,17 @@
       (insert varname))))
 
 (defun java-print-method (method)
-  (let ((first-argument (car (method-arguments method))))
+  (let* ((arguments (method-arguments method))
+         (first-argument (car arguments)))
     (java-print-type (method-return-type method))
     (insert " ")
-    (insert (car first-argument))
+    (loop for argument in arguments
+          for nameKey = (car argument)
+          when nameKey
+          do (insert nameKey))
     (insert " (")
     (java-print-argument first-argument)
-    (loop for argument in (cdr (method-arguments method))
+    (loop for argument in (cdr arguments)
 	      do
               (insert ", ")
               (java-print-argument argument))
@@ -111,15 +116,21 @@
 
 (defun removed-method-p (method)
   (let ((arguments (method-arguments method)))
-    (and (not (cdr arguments)) (string= (caar arguments) "getClass"))))
+    (and (not (cdr arguments))
+         (let ((name (caar arguments)))
+           (find name '("getClass" "getDisplayName" "setDisplayName"
+                        "getTypeName" "copy" "remove")
+                 :test #'string=)))))
 
 (defun method-list (protocol phase)
   (remove-if #'removed-method-p
-             (remove-if-not #'(lambda (method)
-                                (eq (method-phase method) method))
-                            (protocol-method-list protocol))))
-
-(defun java-print-methods-in-phase (protocol phase native)
+             (remove-if-not
+              #'(lambda (method)
+                  (eq (method-phase method) phase))
+              (mapcar #'caddr 
+                      (protocol-expanded-methodinfo-list protocol)))))
+  
+  (defun java-print-methods-in-phase (protocol phase native)
   (loop for method in (method-list protocol phase) 
 	do
         (when native
