@@ -1,0 +1,106 @@
+<orderedlist>
+
+<listitem><para>In a separate <ulink
+url="ftp://ftp.santafe.edu/pub/swarm/RandomTests-0.81.tgz">tar
+file</ulink>, available at the SFI ftp site, there are a set of
+programs which exercise aspects of the generator objects'
+functionality.  The following (very utilitarian) programs are
+available:
+
+<itemizedlist>
+
+    <listitem><formalpara><title>testR0</title><para>a program which
+        exercises every generator and distribution, verifying correct
+        operation and comparing output to that obtained on the
+        author's system.</para></formalpara></listitem>
+
+    <listitem><formalpara><title>testR1</title><para>a program which
+    		prints out diagnostic output for code in
+    		random.m.</para></formalpara></listitem>
+
+    <listitem><formalpara><title>testR2</title><para>a program which
+		asks each distribution and generator to describe
+		itself using the Swarm xprint
+		method.</para></formalpara></listitem>
+
+    <listitem><formalpara><title>testR3</title><para>a program which
+		asks each distribution and generator to describe
+		itself using the objects' 'describe'
+		method.</para></formalpara></listitem>
+
+    <listitem><formalpara><title>testR4</title><para>a program that
+		performs timing tests on each generator and
+		distribution, computing the time it takes to call each
+		object 10,000,000
+		times.</para></formalpara></listitem>
+
+    <listitem><formalpara><title>testR6</title><para>a program that
+		generates a binary file containing 2.5M variates from
+		a specified generator, for purposes of statistical
+		testing (e.g. with ENT or Diehard.)</para></formalpara></listitem>
+
+    <listitem><formalpara><title>testR7</title><para>a program which
+		records, for each generator, the value of unsignedMax,
+		the number of output bits, and the value of
+		lengthOfSeedVector.</para></formalpara></listitem>
+
+    <listitem><formalpara><title>testR9</title><para>a program which
+		records, for each generator and distribution, the
+		object's 'magic number' and the buffer size needed for
+		getState/setState.</para></formalpara></listitem>
+
+</itemizedlist>
+</para></listitem>
+
+<listitem><para>Statistical testing: the generators have been put
+through the tests in the <filename>/testR6/ENT</filename> and
+<filename>/testR6/Diehard</filename> directories. The raw data can be
+found there.  The results are summarized in the test log files found
+in the same tests distribution. The distribution objects have not been
+tested statistically yet.</para></listitem>
+
+</orderedlist>
+
+
+<PARA>The code here represents an effort to implement several
+     efficient, reasonably safe generators. The algorithms come from
+     reading the literature (<link
+     linkend="SWARM.RANDOM.SGML.BIBLIOGRAPHY">Bibliography</link>).
+     These algorithms have been implemented as accurately as possible
+     and run through some simple tests. Some generators, included here
+     for historical reasons only, are known to have bad statistical
+     properties, and their use is deprecated. See <link
+     linkend="swarm.random.sgml.appendix.adv-usage.sect1">Advanced
+     Usage Guide</link>for information on the quality of the included
+     generators.
+</PARA>
+
+<PARA>While the objects in this library are believed to function
+  correctly, the prudent and paranoid modeller would do well testing
+  them in some domain-specific way. One easy way to do this is to run
+  an experiment twice: once with one class of generator (say, PMMLCG),
+  and once with another (say, SWB). If the results differ radically,
+  then you can suspect one of the generators. If they don't, well, the
+  generators still might be faulty!</PARA>
+
+<PARA>The generators supplied with this release have been subjected to
+  statistical testing using George Marsaglia's
+  <EMPHASIS>Diehard</EMPHASIS> tests as well as John Walker's entropy
+  tests (ENT). The results of these tests are summarized in <link
+  linkend="SWARM.RANDOM.APPENDIX.GENERATOR.QUALITY.TABLE"> Generator
+  quality table</link>. Other data on the properties of the generators
+  are found there as well. These data support a discussion of how to
+  choose one or more generators for your simulation.
+</PARA>
+
+<PARA>The ENT test is included in the tarball of test programs
+  mentioned above. The Diehard tests are copyright and hence are not,
+  but they can be downloaded from the web at:
+
+  <ULINK URL="ftp://ftp.csis.hku.hk/pub/random">
+    ftp://ftp.csis.hku.hk/pub/random
+  </ULINK>.
+
+</PARA>
+
+<PARA>The distribution objects have not been statistically tested.</PARA>

@@ -1,0 +1,496 @@
+<SECT1>
+<!--
+// Random v. 0.81 (Swarm 1.4)
+// 
+// USAGE GUIDE for novice users
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1999-02-05
+-->
+
+<TITLE>Randomness for neophytes</TITLE>
+
+<PARA>Why randomness? While much interesting work can be done with
+completely deterministic models, sooner or later you will want to
+simulate some real-life stochastic phenomenon which occurs in a manner
+resembling an identifiable statistical distribution, for example (to
+take the canonical simulation example) the time intervals between
+customers arriving to join a queue in front of a bank teller. Or
+perhaps you just want to add some controlled unpredictability to the
+behavior of your agents.</PARA>
+
+<PARA>For these purposes, we need random generators.</PARA>
+
+<PARA>A "random generator" is a device or algorithm that puts out
+"random" numbers. Without going into a long philosophical discussion
+about the true meaning of randomness, this means that the device or
+program puts out numbers that are such that even knowing the whole
+past output of the device or program does not help us predict the next
+number to come out.</PARA>
+
+<PARA>A device that provides truly random numbers in this sense can be
+built; it would have to rely on such natural processes as counting
+cosmic particles hitting the Earth, or digitizing pictures of a Lava
+lamp.  Few computer applications actually make use of such truly
+random devices.  Most current cryptography applications that need
+randomness rely on collecting various `random' (i.e. unpredictable to
+an outsider) data from your computer, such as the time between your
+keystrokes etc.</PARA>
+
+<PARA>But this is not really what we want for simulation experiments,
+because we do want, on occasion, to rerun simulations exactly as they
+ran before, and that`s not possible with a truly random generator. So
+what we use instead are `pseudo-random' generators, which are
+algorithms that provide streams of numbers with certain statistical
+properties. We can make them repeat their output streams by
+initializing them with a given starting `seed' (an integer
+value).</PARA>
+
+<PARA>Such a generator provides output from a set of possible
+integers, e.g. all integers between 0 and 2^32-1. It delivers a stream
+of output which visits all possible integers before it starts
+repeating itself. The length of the cycle depends, among other things,
+on the number of bits used to hold the internal state of the generator
+(its `memory').  The larger the state, the longer the cycle
+possible. If the cycle is longer than the desired set of output
+integers, the generator may run through the set of such integers
+several different ways before exhausting its `meta-cycle'.</PARA>
+
+<PARA>(It should be obvious that the output of such a generator is not
+truly random, since you can perfectly predict the next output given
+the state and the algorithm employed. A computer executing a
+pseudorandom algorithm is, after all, a perfectly deterministic little
+finite state machine!)</PARA>
+
+<PARA>Other things being equal, we'd like a generator that has a
+single cycle that is as long as possible, that runs fast and uses
+little memory. (These wishes are of course in conflict with each
+other!) And the generator should perform `acceptably' in a statistical
+sense. Readers who wish to pursue what this might mean are referred to
+the <link
+linkend="SWARM.RANDOM.SGML.BIBLIOGRAPHY">bibliography</link>. </PARA>
+
+<PARA>
+This library implements a large number of different algoritms, some
+old ones included mostly for historical interest, and newer better
+ones drawn from recent literature. These generators have been
+subjected to various statistical tests, and the results of these tests
+are described in <link
+linkend="swarm.random.sgml.appendix.adv-usage.sect1">Advanced Usage
+Guide</link>.</PARA>
+
+<SECT2>
+
+<TITLE>Using the Swarm default random generator</TITLE>
+
+<PARA>
+Every Swarm simulation has a predefined random generator of type MT19937
+allocated (in random/random.m); its name is `randomGenerator'. This generator
+can be accessed from anywhere (any object or agent) in your simulation; its 
+name is a global variable. </PARA>
+
+<PARA>
+You can draw random numbers from this generator to your heart's content and 
+not worry about any statistical problems. The generator has a period close to 
+2^19937 (1E6001), so there is no danger of running a simulation long enough 
+for the generator to repeat itself. [At one microsecond per call, it would 
+take about 3.2E5987 years to exhaust this generator. For comparison, the age 
+of the Universe is `only' 2E10 years!]</PARA>
+ 
+<PARA> 
+You obtain `random' numbers of type unsigned integer this way:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	unsigned int myUnsigned;
+	myUnsigned = [randomGenerator getUnsignedSample];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+The values returned will be uniformly distributed in the range 
+[0,4294967295] = [0,2^32-1].</PARA>
+
+<PARA>
+Or, if you need floating-point values instead, you can say</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	double myDouble;
+	myDouble = [randomGenerator getDoubleSample];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+The returned values will be uniformly distributed in the range [0.0,1.0), 
+i.e. they may be equal to 0.0 but never 1.0.</PARA>
+</sect2>
+
+<sect2>
+<TITLE>A note on starting seeds</TITLE>
+
+<PARA>
+Whenever a random generator is created, its state has to be initialized. 
+What the state is initialized to determines where in its cycle the generator
+will start. To make life easy for the user, the Swarm generators can be
+initialized to a predictable and repeatable state using a starting `seed',
+an integer between 1 and 2^32-1 (0 is not allowed.) Every time you initialize 
+a given generator with a particular seed, you should get the same sequence of 
+numbers from it.</PARA>
+
+<PARA>
+You initialize a generator with a specific seed this way:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	unsigned int randomSeed;
+	randomSeed = 4532657;
+	[randomGenerator setStateFromSeed: randomSeed];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+where the variable randomSeed has been set to the desired value. (You may do
+this any time during a simulation, not just at the start.)</PARA>
+
+<PARA>
+If you start your simulation in the normal way (with
+<userinput>./mysim</userinput> or <userinput>./mysim -b</userinput>),
+your generator will be started with the same default starting seed
+every time.  This means it will produce the exact same sequence of
+numbers for each run, which makes replication easy. </PARA>
+
+<PARA>
+However, if you want to run the same simulation several times but with
+different starting seeds, so that each run uses a different sequence
+of random numbers, this is easily accomplished by specifying
+<option>-s</option> or <option>--varyseed</option> on the command
+line.</PARA>
+
+</sect2>
+
+<sect2>
+<TITLE>Creating your own generators</TITLE>
+
+<PARA>
+Should you want to create your own random generators, e.g. to give each agent
+its own source of randomness, you do the following:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	#import <random.h>
+	id <SimpleRandomGenerator> myGenerator;
+	unsigned int mySeed;
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+Then, to create a generator and start it with a specific seed value:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	mySeed = 123776;
+	myGenerator = [RWC8gen create: [self getZone]
+			setStateFromSeed: mySeed];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+Or, to create a generator and start it with the default system seed:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	myGenerator = [PSWBgen createWithDefaults: [self getZone]];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+The default system seed is normally a specific, static value, which is
+the same for each run, unless you run with the
+<option>--varyseed</option> command line argument, in which case it is
+a different seed value for each run.</PARA>
+
+<PARA>
+In either case, you can (re-)set the seed at any time during a run:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	mySeed = 345;
+	[myGenerator setStateFromSeed: mySeed];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+(All the generators except two conform to the `SimpleRandomGenerator'
+protocol. The two `split' generators that do not, C2LCGX and C4LCGX,
+are described in the Generator Usage Guide.)</PARA>
+
+<PARA>
+Finally, you can of course create your new generator in whatever memory
+zone you choose, not just the creating object's own zone:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	myGenerator = [SWB3gen createWithDefaults: globalZone];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+(`globalZone' is the only predefined zone; other zones you would need
+to create yourself. See the <link
+linkend="swarm.defobj.sgml.reference">Defobj Library </link>to
+read more about zones.)</PARA>
+
+<PARA>
+For a more detailed description of methods available from generator
+objects, see <link linkend=
+"swarm.random.sgml.appendix.generator-usage.sect2">Generator Usage
+Guide</link>.</PARA>
+
+</sect2>
+
+<sect2>
+<TITLE>Using the Swarm default random distributions</TITLE>
+
+<PARA>A `distribution' is an object which takes as its input a stream
+of (uniform) numbers from a random generator, and delivers as it
+output a stream of numbers that conforms to the desired statistical
+distribution. Most distribution objects tailor their output on the
+basis of parameters that you can set, for example Mean and Standard
+Deviation for the Normal distribution.</PARA>
+
+<PARA>
+Each Swarm simulation comes with 3 pre-defined uniform distribution objects
+(defined in random/random.m): </PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	id <UniformIntegerDist>  uniformIntRand;
+	id <UniformUnsignedDist> uniformUnsRand;
+	id <UniformDoubleDist>   uniformDblRand;
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+These distribution objects have all been set to draw their random numbers from 
+the predefined random generator `randomGenerator' (discussed above). These 
+objects can be accessed from anywhere in your program.</PARA>
+
+<PARA>
+You may draw (pseudo)random numbers uniformly distributed over a specified 
+range this way:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	int imin=-10, imax=10;
+	myInteger  = [uniformIntRand getIntegerWithMin:  imin withMax: imax];
+
+	unsigned int umin=600, umax=900;
+	myUnsigned = [uniformUnsRand getUnsignedWithMin: umin withMax: umax];
+
+	double dmin=0.375, dmax=0.665;
+	myDouble   = [uniformDblRand getDoubleWithMin:   dmin withMax: dmax];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+Should the `min' value that you specify be greater than the `max' value, the
+distribution will switch them for you. If they are equal, then that value will 
+be the result returned. (Note that if you only need uniform floating-point
+values between 0.0 and 1.0, you don't need a distribution -- any random 
+generator will give you that. See above.)</PARA>
+</sect2>
+
+<sect2>
+<TITLE>Creating your own distribution objects</TITLE>
+
+<PARA>
+Each distribution object must be assigned a random generator to draw from
+when it is created. You may create a new generator for each distribution.
+Or, you may connect multiple distribution objects to one generator, so 
+that they end up drawing output from the generator in an interleaved fashion. 
+(This is what has been done with the predefined distributions.)</PARA>
+
+<PARA>
+If you create distribution objects using the +createWithDefaults
+method <link
+linkend="swarm.random.sgml.appendix.distrib-usage.sect2">Distribution
+Usage Guide</link>, each distribution object is assigned its own,
+newly created, private random generator. Each distribution class uses
+a different class of default random generator, just to keep things as
+statistically independent as possible.</PARA>
+
+<PARA>
+HOWEVER: note that if you do not use the <option>--varyseed</option>
+command line switch, two different distribution objects of the same
+class, created with the +createWithDefaults method, will end up with
+generators of the same class that use the SAME starting seed, and so
+their output will be the exact same sequences. Their output will then
+be perfectly correlated, rather than statistically independent which
+is what we normally want. Beware!</PARA>
+
+<PARA>
+To create your own distribution object, for example a Normal distribution,
+you would do this:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	#import <random.h>
+	id <NormalDist> myNormalDist;
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+To create this distribution object and connect it to the predefined MT19937
+generator:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	myNormalDist = [NormalDist create: [self getZone]
+		setRandomGenerator: randomGenerator];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+Or, if you want it to have its own private generator:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	myNormalDist = [NormalDist createWithDefaults: [self getZone]];
+]]>
+</PROGRAMLISTING>
+
+<PARA>
+Note that in this case, if you want to set the generator's seed you can do
+it as follows:</PARA>
+<PROGRAMLISTING>
+<![ CDATA [
+	[[myNormalDist getGenerator] setStateFromSeed: 9874321];
+]]>
+</PROGRAMLISTING>
+
+<PARA> 
+Each distribution has its own set of key parameters. You may deal with 
+these parameters in three different ways: </PARA>
+
+<orderedlist>
+
+<listitem><para>you assign a set of default parameter values to the
+object on creation, and draw from the distribution using those
+parameters. For example:
+<PROGRAMLISTING>
+<![ CDATA [
+	#import <random.h>
+	id <NormalDist> myNormalDist;
+	double sample;
+
+	myNormalDist = [NormalDist create: [self getZone]
+		setGenerator: randomGenerator];
+	[myNormalDist setMean: 0.0 setVariance: 2.1];
+	sample = [myNormalDist getDoubleSample];
+]]>
+</PROGRAMLISTING>
+</PARA>
+</listitem>
+
+<listitem><para>you may refrain from assigning default parameters, in
+which case you must specify the (possibly different) desired
+parameters on each call.
+<PROGRAMLISTING>
+<![ CDATA [
+	#import <random.h>
+	id <NormalDist> myNormalDist;
+	double sample;
+
+	myNormalDist = [NormalDist create: [self getZone]
+		setGenerator: randomGenerator];
+	sample = [myNormalDist getSampleWithMean: 0.0 withVariance: 1.3];
+]]>
+</PROGRAMLISTING>
+</PARA>
+</listitem>
+
+<listitem><para>You can (re-)set the default parameters any time, and
+you may call for a variate with specified parameter values even if
+different default parameters have been set. But note well: doing so
+does *not* reset the default parameters.  Thus if you set the default
+parameters:
+
+<PROGRAMLISTING>
+<![ CDATA [
+	[myNormalDist setMean: 0.0 setVariance: 2.1];
+	sample = [myNormalDist getDoubleSample];	// from N[0.0,2.1]
+]]>
+</PROGRAMLISTING>
+
+then call for a sample with specific (different) parameters:
+<PROGRAMLISTING>
+<![ CDATA [
+	sample = [myNormalDist getSampleWithMean: 1.0 withVariance: 3.6];
+]]>
+</PROGRAMLISTING>
+
+and then call again for a sample without specifying parameters:
+<PROGRAMLISTING>
+<![ CDATA [
+	sample = [myNormalDist getDoubleSample];
+]]>
+</PROGRAMLISTING>
+on that last call your will again get a sample from the object's default
+settings, in this case a sample from N[0.0,2.1].
+</PARA>
+</listitem>
+
+</orderedlist>
+
+<PARA>For a more detailed description of the methods available from
+distribution objects, see the <link
+linkend="swarm.random.sgml.appendix.distrib-usage.sect2">Distribution
+Usage Guide</link>.</PARA>
+</sect2>
+
+<sect2>
+<TITLE>Some caveats</TITLE>
+
+    <orderedlist>
+      <listitem>
+        <PARA>
+          DO NOT use generators with bad statistical properties. See
+           <link
+          linkend="swarm.random.sgml.appendix.adv-usage.sect1">Advanced
+          Usage Guide</link> for a discussion of the generators
+          implemented in this library.</PARA>
+      </listitem>
+
+      <listitem>
+        <PARA>DO NOT use generators whose maximum cycle length is too
+          short for the intended application; you don't want your
+          generators to start repeating themselves. Be especially
+          aware of this if you use the PMMLCG class of generator;
+          these have good properties but a fairly short cycle. See
+          <link
+          linkend="swarm.random.sgml.appendix.adv-usage.sect1">Advanced
+          Usage Guide</link> to read more about how to select a
+          generator.</PARA>
+      </listitem>
+
+      <listitem><PARA>AVOID having generators in your simulation run
+          in `lock-step', producing output that is statistically
+          correlated. This may happen if you have several generators
+          of the same class, all started with the same default
+          seed.</PARA>
+
+      </listitem>
+      <listitem>
+        <PARA>Be aware that even the best generators can have
+          unexpected correlations with particular implementations of
+          some models. As a result, in some cases using a "better"
+          random number generator can result in worse (less correct)
+          model behavior than one could obtain when using a "bad"
+          generator. If you suspect your model may have this kind of
+          problem, you probably should re-run some experiments using a
+          different underlying generator, to make sure the results are
+          (statistically at least) the same. (For examples of this,
+          see the references <citation>Ferrenberg, 1992</citation> and
+          <citation>Nature, 1994</citation>.)</PARA>
+      </listitem>
+
+    </orderedlist>
+  </sect2>
+
+</SECT1>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-parent-document:("../random-app.sgml" "SECT1")
+End:
+-->

@@ -1,0 +1,195 @@
+<!--
+// Random v. 0.81 (Swarm 1.4)
+// 
+// Notes about the random number generators
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1999-02-05
+-->
+
+<!-- USING THE GENERATORS: See the file "Usage-Guide.Generators". -->
+
+<sect2>
+
+<title>Implementation notes for Generators</title>
+
+<formalpara><title>Changes since v. 0.75</title>
+
+<para>
+<orderedlist>
+
+<listitem><para>The code was rearranged to conform to create-phase
+protocol (CREATING-SETTING-USING) ordering.</para></listitem>
+
+<listitem><para>Some for-loop indices were changed to unsigned
+integers to eliminate compiler warnings.</para></listitem>
+
+<listitem><para>A few objects (C2LCGXgen, C4LCGXgen, SWBgen, TGFSRgen)
+were given their own -drop methods to drop internally allocated arrays
+properly.</para></listitem>
+
+<listitem><para>A new -reset method was added to all generators. This
+method resets the state of the generator to what it was at creation,
+or at the point when -setStateFromSeed(s) was last used. Counters are
+reset.</para></listitem>
+
+</orderedlist> </para> </formalpara>
+
+
+<formalpara><title>Improvements over v. 0.6</title>
+<para>
+
+<itemizedlist>
+<listitem><para>A host of new generators, located on the web or in the
+literature, have been added since the last version of Random. There is
+now a total of 36 different generators defined! Some of these have
+immense periods, some are very fast, and some have much better
+statistical properties than the old generators.</para></listitem>
+
+<listitem><para>A new *type* of generator, the `split' generator, has
+been introduced in the form of L'Ecuyer's C2LCGXgen and C4LCGXgen
+generators.</para></listitem>
+
+<listitem><para>A `split' generator is a long-period generator for
+which we are able to split the period into arbitrary sub-periods,
+which we can access quickly.  We then configure the generator as
+having a number (A) of `virtual generators', each of which can address
+a number (2^v) of sub-segments of length 2^w.  These parameters
+(A,v,w) are user selectable when the generator is created.  (As an
+example, for C4LCGXgen the default values are A=128, v=31, w=41.)  The
+advantage is that the subsegments act as statistically independent
+streams of random numbers.</para></listitem>
+
+<listitem><para>In addition to the -getUnsignedSample method,
+generators now also supply floating point output in the range
+[0.0,1.0), in the form of these methods:
+
+<programlisting>
+   -(float)       getFloatSample;		// using 1 unsigned value
+   -(double)      getThinDoubleSample;		// using 1 unsigned value
+   -(double)      getDoubleSample;		// using 2 unsigned values
+   -(long double) getLongDoubleSample;		// using 2 unsigned values
+</programlisting>
+
+Note that the last method is not portable across architectures, since
+the length of a long double varies between machines.</para></listitem>
+
+<listitem><para>Generators may now be started with a single seed, *or*
+with a vector of seeds whose length is generator dependent. (PMMLCG
+requires 1 integer for a seed, while MT19937 needs 624 of
+them.)</para></listitem>
+
+<listitem><para>Generators now remember what seed values they were
+started with. They also count how many variates they have delivered
+(i.e., how many calls to -getUnsignedSample they have
+serviced.)</para></listitem>
+
+<listitem><para>There are a few arbitrary seed values, DEFAULTSEED,
+DEFAULTSEED1, DEFAULTSEED2, DEFAULTSEED3, DEFAULTSEED4 defined. There
+is also the value FIRSTSEED, which returns the value that the default
+generator `randomGenerator' was started with.</para></listitem>
+
+<listitem><para>The macro NEXTSEED will generate a deterministic
+sequence of seed values, using and inline LCG and starting with
+FIRSTSEED. There is the macro RANDOMSEED, which will be different
+every time it is invoked because it depends on program time.  And
+there is value STARTSEED, which will by default equal NEXTSEED, but
+will instead be equal to RANDOMSEED if you start your program with the
+<option>--varyseed</option> or <option>-s</option> command line
+parameter.</para></listitem>
+
+<listitem><para>The generators have gained a new creation method,
+'+createWithDefaults: aZone', which creates the generator and
+initializes it with STARTSEED. Split generators get default values for
+A,v,w.</para></listitem>
+</itemizedlist>
+</para>
+</formalpara>
+
+<formalpara><title>Changes since v. 0.6</title>
+<para>
+<itemizedlist>
+
+<listitem><para>The generator classes have changed names to where they
+all end in '-gen'.  A simple search-and-replace in your code will get
+you up and running again.(Or perhaps you'll want to try one of the new
+generators?)</para></listitem>
+
+<listitem><para>A bug in SWBgen was corrected. Code for ACG and SCG
+was also changed.</para></listitem>
+
+<listitem><para>The <function>-verifySelf</function> method is
+gone. Instead see the test program located in
+<filename>/random/testR0</filename>. (Available in a separate tarball
+at the SFI ftp site.)</para></listitem>
+
+<listitem><para>The `getState:' method has been named `putStateInto:
+(void *) buffer', and the `setState:' method is now `setStateFrom:
+(void *) buffer'.  A quick search-and-replace fixes things in your
+code.</para></listitem>
+
+<listitem><para>Note: these methods have also changed somewhat, as has
+the size of the data being saved. As a result, v. 0.7 generators will
+refuse to `setStateFrom' data saved by v. 0.6
+objects.</para></listitem>
+
+<listitem><para>There should be fewer changes like this in the next
+release.</para></listitem>
+
+</itemizedlist>
+</para>
+</formalpara>
+
+<formalpara><title>Testing Generators</title> 
+
+<para> Since v. 0.6 we have done some rudimentary statistical testing
+of the implemented generators, using Marsaglia's Diehard tests and the
+ENT tests.  The results of these tests are summarized in <link
+linkend="SWARM.RANDOM.APPENDIX.GENERATOR.QUALITY.TABLE">Generator
+quality table</link>, where test results as well as period length,
+state size and execution times are listed. You can use these data to
+select a generator that suits your simulation. Some brief comments:
+
+<orderedlist numeration="Loweralpha">
+
+<listitem><para> the tests show that old generators SCG and LCG are of
+poor quality and should be avoided.</para></listitem>
+
+<listitem><para> the lagged-Fibonacci based generators (ACG, SWB,
+PSWB) all fail Diehard's `Birthday spacings test', for reasons having
+to do with their lattice structure.  These generators are only
+conditionally recommended.</para></listitem>
+
+<listitem><para> The rest of the 32-bit generators (i.e. generators
+that fill all 32 bits of an unsigned int) pass all tests, and are
+recommended at this time. (Note that while a test may show that a
+generator is bad, passing a number of tests does not prove that a
+generator is good!)  </para></listitem>
+
+<listitem><para> The 31-bit generators all fail the same set of
+tests. Some of these cannot be passed by a generator whose output has
+a `stuck' bit.  Until I clear up with Prof. Marsaglia how to interpret
+these results, I believe all the 31-bit generators are in the
+`recommended' category.</para></listitem>
+
+<listitem><para>However, a cautionary note: while the PMMLCG
+generators pass the tests, they have a very short period ( less than
+2^31 ) and should only be used for `toy' simulations. You don't want
+your generator(s) to `go around' and start repeating themselves
+!</para></listitem>
+
+<listitem><para>For what it's worth, Professor L'Ecuyer recommends his
+own C4LCGX and C2MRG3 generators as well as Matsumoto's TT800 (the
+monster MT19937 hadn't been released yet), and Prof. Marsaglia
+recommends his own Multiply-With-Carry generators (MWCA, MWCB, C3MWC,
+RWC2, RWC8="Mother").</para></listitem>
+
+</orderedlist>
+</para>
+</formalpara>
+
+</sect2>
+
+<!-- Test Objects:  Already in Usage-Guide.Test-Programs -->
+

@@ -1,0 +1,191 @@
+<!--
+// Random rel. 0.81 (Swarm rel. 1.4)
+// 
+// Statistical quality data for implemented 
+// generators: timings, period length, tests failed.
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1999-02-05
+-->
+
+<sect3>
+  <title>Generator Quality</title>
+
+<para>These tables shows the results of testing the generator objects
+statistically:</para>
+
+<table id="SWARM.RANDOM.APPENDIX.GENERATOR.QUALITY.TABLE">
+<title>Random Library: Generator Statistical Tests</title>
+<tgroup cols="5" colsep="1" rowsep="1">
+<colspec colname="col1">
+<colspec colname="col2">
+<colspec colname="col3">
+<colspec colname="col4">
+<colspec colname="col5" align="justify">
+<spanspec align="center" namest="col1" nameend="col5" spanname="all">
+<thead>
+<row>
+<entry>Generator</entry>
+<entry>timing uS (unsigned)</entry>
+<entry>bits state</entry>
+<entry>period (s) # length</entry>
+<entry>
+tests failed (x)
+abcdefghijklmnopqrstuvwx
+</entry>
+</row>
+</thead>
+
+<tbody>
+<row><entry spanname="all">30-bit output</entry></row>
+
+<row><entry>SCG</entry><entry>3.328</entry><entry>1650</entry><entry>1	2^55</entry><entry>x.xx2xxxxxxx..x..xx.xx..</entry></row>
+
+<row><entry spanname="all">32-bit output</entry></row>
+
+<row><entry>LCG1    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2^32   </entry><entry>x...xxxxxxx.........x...</entry></row>
+<row><entry>LCG2    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2^32   </entry><entry>x...xxxxxxx.........x...</entry></row>
+<row><entry>LCG3    </entry><entry> 2.564</entry><entry>   32</entry><entry>   1	2^32   </entry><entry>x...xxxxxxx.........x...</entry></row>
+                    
+<row><entry>ACG	    </entry><entry> 2.702</entry><entry> 1760</entry><entry>   1	2^55   </entry><entry>x.......................</entry></row>
+<row><entry>SWB1    </entry><entry> 3.285</entry><entry> 1185</entry><entry>  64	2^1178 </entry><entry>x.......................</entry></row>
+<row><entry>SWB2    </entry><entry> 3.285</entry><entry>  769</entry><entry>1536	2^757  </entry><entry>x.......................</entry></row>
+<row><entry>SWB3    </entry><entry> 3.285</entry><entry>  673</entry><entry> 192	2^664  </entry><entry>x.......................</entry></row>
+<row><entry>PSWB    </entry><entry> 3.452</entry><entry> 1377</entry><entry>   1	2^1376 </entry><entry>x.......................</entry></row>
+                    
+<row><entry>MWCA    </entry><entry> 3.399</entry><entry>   64</entry><entry>  ??	2^59   </entry><entry>........................</entry></row>
+<row><entry>MWCB    </entry><entry> 3.420</entry><entry>   64</entry><entry>  ??	2^59   </entry><entry>........................</entry></row>
+<row><entry>MT19937 </entry><entry> 3.698</entry><entry>19968</entry><entry>   1	2^19937</entry><entry>........................</entry></row>
+<row><entry>TT800   </entry><entry> 4.654</entry><entry>  800</entry><entry>   1	2^800  </entry><entry>........................</entry></row>
+<row><entry>C3MWC   </entry><entry> 6.387</entry><entry>  192</entry><entry>  ??	2^118  </entry><entry>........................</entry></row>
+<row><entry>RWC2    </entry><entry> 7.445</entry><entry>   96</entry><entry>  ??	2^92   </entry><entry>........................</entry></row>
+<row><entry>RWC8    </entry><entry>14.649</entry><entry>  288</entry><entry>  ??	2^250  </entry><entry>........................</entry></row>
+
+<row><entry spanname="all">31-bit output</entry></row>
+
+<row><entry>C2TAUS1</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2^60	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>C2TAUS2</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2^60	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>C2TAUS3</entry><entry> 4.078</entry><entry> 62</entry><entry>1	2^60	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>TT775  </entry><entry> 4.654</entry><entry>775</entry><entry>1	2^775	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>TT403  </entry><entry> 4.670</entry><entry>403</entry><entry>1	2^403	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG1</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG2</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG3</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG4</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG5</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG6</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG7</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG8</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>PMMLCG9</entry><entry> 4.715</entry><entry> 31</entry><entry>1	2^31	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>C2LCGX </entry><entry> 7.029</entry><entry> 62</entry><entry>1	2^60  (S)</entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>MRG5   </entry><entry> 9.674</entry><entry>155</entry><entry>1	2^155	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>MRG6   </entry><entry>10.449</entry><entry>186</entry><entry>1	2^186	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>MRG7   </entry><entry>10.913</entry><entry>217</entry><entry>1	2^217	 </entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>C4LCGX </entry><entry>11.688</entry><entry>124</entry><entry>1	2^210 (S)</entry><entry>1..-1x111x1.........x...</entry></row>
+<row><entry>C2MRG3 </entry><entry>13.459</entry><entry>186</entry><entry>1	2^185	 </entry><entry>1..-1x111x1.........x...</entry></row>
+
+</tbody>
+</tgroup>
+
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="col1">
+<colspec colname="col2">
+<colspec colname="col3">
+<spanspec align="center" namest="col1" nameend="col3" spanname="all">
+<thead>
+<row><entry spanname="all">(*) Explanation of test codes</entry></row>
+</thead>
+<tbody>
+<row><entry>a</entry><entry>Diehard</entry><entry>Birthday Spacings Test</entry></row>
+<row><entry>b</entry><entry>Diehard</entry><entry>Overlapping 5-permutation Test</entry></row>
+<row><entry>c</entry><entry>Diehard</entry><entry>Binary Rank Test (31x31)</entry></row>
+<row><entry>d</entry><entry>Diehard</entry><entry>Binary Rank Test (32x32)</entry></row>
+<row><entry>e</entry><entry>Diehard</entry><entry>Binary Rank Test (6x8)</entry></row>
+<row><entry>f</entry><entry>Diehard</entry><entry>Bitstream Test (overlapping 20-tuples)</entry></row>
+<row><entry>g</entry><entry>Diehard</entry><entry>OPSO (Overlapping Pairs, Sparse Occupancy)</entry></row>
+<row><entry>h</entry><entry>Diehard</entry><entry>OQSO (Overlapping Quadruples, Sparse Occupancy)</entry></row>
+<row><entry>i</entry><entry>Diehard</entry><entry>DNA Test</entry></row>
+<row><entry>j</entry><entry>Diehard</entry><entry>Count-the-1's Test (integers)</entry></row>
+<row><entry>k</entry><entry>Diehard</entry><entry>Count-the-1's Test (specific bytes)</entry></row>
+<row><entry>l</entry><entry>Diehard</entry><entry>Parking Lot Test</entry></row>
+<row><entry>m</entry><entry>Diehard</entry><entry>Minimum Distance Test</entry></row>
+<row><entry>n</entry><entry>Diehard</entry><entry>3D Spheres Test</entry></row>
+<row><entry>o</entry><entry>Diehard</entry><entry>Squeeze Test</entry></row>
+<row><entry>p</entry><entry>Diehard</entry><entry>Overlapping Sums Test</entry></row>
+<row><entry>q</entry><entry>Diehard</entry><entry>Runs Test</entry></row>
+<row><entry>r</entry><entry>Diehard</entry><entry>Craps Test</entry></row>
+<row><entry>s</entry><entry>ENT</entry><entry>Entropy Test</entry></row>
+<row><entry>t</entry><entry>ENT</entry><entry>Compression test</entry></row>
+<row><entry>u</entry><entry>ENT</entry><entry>Chi-Square Test</entry></row>
+<row><entry>v</entry><entry>ENT</entry><entry>Arithmetic Mean</entry></row>
+<row><entry>w</entry><entry>ENT</entry><entry>Monte Carlo value for Pi</entry></row>
+<row><entry>x</entry><entry>ENT</entry><entry>Serial Correlation Coefficient</entry></row>
+</tbody>
+</tgroup>
+
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="col1">
+<colspec colname="col2">
+<colspec colname="col3">
+<spanspec align="center" namest="col1" nameend="col3" spanname="all">
+<thead>
+<row><entry spanname="all">(*) Explanation of indications</entry></row>
+</thead>
+<tbody>
+<row><entry>.</entry><entry>The generator passed this test</entry></row>
+<row><entry>1</entry><entry>The generator passed this test, except for the lowest bit</entry></row>
+<row><entry>2</entry><entry>The generator passed this test, except for the 2 lowest bits</entry></row>
+<row><entry>x</entry><entry>The generator failed this test completely</entry></row>
+<row><entry>-</entry><entry>This test cannot be passed by this generator (too few bits)</entry></row>
+</tbody>
+</tgroup>
+</table>
+
+<formalpara>
+<title>Notes</title>
+
+<para>
+<itemizedlist>
+
+<listitem><para>For 31-bit generators, it is normal to fail 1 part of
+these tests:a,e,g,h,i,k. This is because we left-shift the output of
+these generators by 1 bit, so that the lowest bit is always 0.</para>
+</listitem>
+
+<listitem><para>For 31-bit generators, it is normal to fail test d
+(32x32 rank test).</para></listitem>
+
+<listitem><para>All 31-bit generators also fail tests f, j, and u (and
+most others don't.)  This is *likely* due to the constant low
+bit.</para></listitem>
+</itemizedlist>
+</para></formalpara>
+
+<formalpara>
+<title>Choosing A Generator</title>
+<para>
+
+<itemizedlist>
+
+<listitem><para>Clearly unacceptable generators: LCG1, LCG2, LCG3,
+SCG.</para></listitem>
+
+<listitem><para>Conditionally recommended generators: ACG, SWB1, SWB2,
+SWB3, PSWB.</para></listitem>
+
+<listitem><para>Use with caution: the PMMLCGi generators (very short
+period 2^31).</para></listitem>
+
+<listitem><para>All other generators are recommended at this
+time.</para></listitem>
+
+<listitem><para>Check out the new 'split' generators (C2LCGX and
+C4LCGX).</para></listitem>
+
+<listitem><para>Tests are found in <filename>random/testR6/*</filename></para>
+</listitem>
+</itemizedlist>
+</para>
+</formalpara>
+</sect3>

@@ -1,3 +1,27 @@
+1999-02-09  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (SGML): Update with new SGML, as defined below.
+	(EXTRA_DIST): Add SGML to distribution.
+
+	* README.Distributions-0.8.sgml, README.Generators-0.8.sgml,
+	README.Random-0.8.sgml, Table.Generators.Data.sgml,
+	Table.Generators.Quality.sgml, Usage-Guide.Bibliography.sgml,
+	Usage-Guide.Choosing-A-Generator.sgml,
+	Usage-Guide.Default-Generators.sgml,
+	Usage-Guide.Distributions.sgml, Usage-Guide.For-Beginners.sgml,
+	Usage-Guide.Generators.sgml, Usage-Guide.Resources.sgml,
+	Usage-Guide.Test-Programs.sgml, Whats-Left-ToDo-0.8.sgml: Add new
+	massaged SGML for `Random' APPENDIX.
+	
+	* CHOOSING.A.GENERATOR, DEFAULT.GENERATORS, WHATS.NEW.in.0.7,
+	WHATS.LEFT.TODO, data.SplitGenerators.h, README.Distributions.v07,
+	README.Generators.v075, SOURCES.for.0.7, WHATS.CHANGED.in.0.7,
+	WHATS.CHANGED.in.0.75, data.NormalDist.h, data.SimpleGenerators.h,
+	dir.txt, doc.generators.maxvalue, doc.generators.table,
+	doc.quality.generators, doc.timings, methods.NormalDist.h,
+	methods.SimpleGenerators.h, methods.SplitGenerators.h: Remove.
+	Replaced with new versions.
+
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 
 	* README.Distributions.v07 (CDATA): Wrap text in CDATA SGML

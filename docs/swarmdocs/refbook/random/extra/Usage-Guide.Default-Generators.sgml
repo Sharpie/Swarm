@@ -1,0 +1,70 @@
+<!--
+// Random v. 0.81 (Swarm 1.4)
+//
+// Description of default generators used
+//
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1999-02-05
+-->
+
+<sect3>
+<title>Random Library: Default Generators</title>
+
+<para>When distributions are created using the
+<function>createWithDefaults: aZone</function> method, they create
+their own generator and initialize it with NEXTSEED (or with
+RANDOMSEED, if you started the program with the
+<option>--varyseed</option> switch).</para>
+
+<para>The generators used are as follows:</para>
+
+<table id="SWARM.RANDOM.APPENDIX.GENERATOR.DEFAULT.TABLE">
+<title>Default Generators Used By Distributions</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry>Distribution</entry>
+<entry></entry>
+<entry>Generator</entry>
+</row>
+</thead>
+<tbody>
+<row><entry>RandomBitDist</entry><entry>uses</entry><entry>C2TAUS1gen</entry></row>
+<row><entry>BernoulliDist</entry><entry>uses</entry><entry>C2TAUS2gen</entry></row>
+<row><entry>UniformIntegerDist</entry><entry>uses</entry><entry>TT403gen</entry></row>
+<row><entry>UniformUnsignedDist</entry><entry>uses</entry><entry>TT775gen</entry></row>
+<row><entry>UniformDoubleDist</entry><entry>uses</entry><entry>TT800gen</entry></row>
+<row><entry>NormalDist</entry><entry>uses</entry><entry>MWCAgen</entry></row>
+<row><entry>LogNormalDist</entry><entry>uses</entry><entry>MWCBgen</entry></row>
+<row><entry>ExponentialDist</entry><entry>uses</entry><entry>C2TAUS3gen</entry></row>
+<row><entry>GammaDist</entry><entry>uses</entry><entry>PSWBgen</entry></row>
+</tbody>
+</tgroup>
+</table>
+
+<para>These generators were chosen on the basis of quality and
+execution speed.</para>
+</sect3>
+
+<sect3>
+<title>Utility Generator And Distributions</title>
+
+<para>There are 4 default random objects defined in
+<filename>random/random.m</filename>. These are:
+
+<programlisting>
+<![ CDATA [
+id <MT19937gen>          randomGenerator;
+id <UniformIntegerDist>   uniformIntRand;
+id <UniformUnsignedDist>  uniformUnsRand;
+id <UniformDoubleDist>    uniformDblRand;
+]]>
+</programlisting>
+</para>
+
+<para>These objects may be called from anywhere in your program.
+Note: the generator was initialized with NEXTSEED or RANDOMSEED as
+above.  Note: the distribution objects have been created
+<emphasis>without</emphasis> default parameters (`unfrozen').</para>
+</sect3>

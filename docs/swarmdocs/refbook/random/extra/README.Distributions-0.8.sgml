@@ -1,0 +1,128 @@
+<!--
+// Random v. 0.81 (Swarm 1.4)
+//
+// Notes about the distribution objects
+//
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1999-02-05
+-->
+
+<!-- USING THE DISTRIBUTIONS: see the file "Usage-Guide.Distributions". -->
+
+<sect2>
+
+<title>Implementation notes for Distributions</title>
+
+<formalpara><title>Changes over v. 0.75</title>
+
+<para>No functional changes were made. Code was rearranged to conform
+to create-phase protocol (CREATING-SETTING-USING) ordering.</para>
+</formalpara>
+
+<formalpara><title>Improvements over v. 0.6</title><para>
+
+<itemizedlist>
+
+<listitem><para>One new distribution class, BernoulliDist, has been
+added. It returns binary values (yes/true/1) with a given probability
+(while the old RandomBitDist has a fixed 50% probability, a fair coin
+toss.)</para></listitem>
+
+<listitem><para>Distributions now have a new create method,
+'+createWithDefaults: aZone'.  This method creates the distribution
+object, and also a new generator object for its exclusive use. Each
+distribution class has a different default generator class
+assigned. These generators are initialized with STARTSEED, which by
+default equals the fixed value DEFAULTSEED, but will be equal to the
+varying RANDOMSEED if you start your program with the command line
+parameter <option>--varyseed</option> or
+<option>-s</option>.</para></listitem>
+
+<listitem><para>All distributions have code to interact with the new
+`split' generators.</para></listitem>
+
+<listitem><para>UniformIntegerDist and UniformUnsignedDist now allow
+you to set parameter minValue equal to maxValue. In this case that
+value is returned every time.</para></listitem>
+
+<listitem><para>UniformDoubleDist also allows this, even if the set
+[x,x) is mathematically suspect ...</para></listitem>
+
+<listitem><para>NormalDist and LogNormalDist now allow you to specify
+zero Variance, in which case the values returned are the Mean and
+exp(Mean) respectively.</para></listitem> </itemizedlist> 
+
+</para>
+</formalpara>
+
+<formalpara><title>Changes since v. 0.6</title>
+
+<para>
+<itemizedlist> 
+
+<listitem><para>The distribution classes have changed names to where
+they all end in `Dist'. A simple search-and-replace in your code will
+get you back up and running.</para></listitem>
+
+<listitem><para>The strong distinction between `frozen' and
+`un-frozen' distribution objects in v. 0.6 has been softened
+considerably. You may now set and reset the default parameters as
+often as you wish, and you may make calls for variates with given
+parameters even if different default parameters have been
+set.</para></listitem>
+
+<listitem><para>The generation of uniform(0,1) floating point values
+has been moved from the distribution objects into the generator
+objects.  Thus, if all you need is a uniform(0,1) double, you have no
+need of a distribution but can get what you desire from a
+generator.</para></listitem>
+
+<listitem><para>Note that the generators fill the mantissa of a double
+from two 32-bit unsigned values in a different manner from v. 0.6
+distributions, so output will be a bit different in the new
+version.</para></listitem>
+
+<listitem><para>A bug in LogNormalDist has been
+fixed.</para></listitem>
+
+<listitem><para>The `getState:' method has been named `putStateInto:
+(void *) buffer', and the `setState:' method is now `setStateFrom:
+(void *) buffer. A quick search-and-replace fixes things in your
+code.</para></listitem>
+
+<listitem><para>But note: these methods have also changed somewhat, as
+has the size of the data being saved. As a result, v. 0.7
+distributions will refuse to `setStateFrom' data saved by v. 0.6
+objects.</para></listitem>
+
+<listitem><para>There should be fewer changes like this in the next
+release.</para></listitem>
+</itemizedlist>
+
+</para>
+</formalpara>
+
+<formalpara><title>Utility Objects Provided</title>
+
+<para>The following objects have been defined in
+<filename>random/random.m</filename>.  They may be accessed and used
+from anywhere in your program.
+
+<programlisting>
+<![ CDATA[
+id <SimpleRandomGenerator>   randomGenerator;
+id <UniformIntegerDist>      uniformIntRand;
+id <UniformUnsignedDist>     uniformUnsRand;
+id <UniformDoubleDist>       uniformDblRand;
+]]>
+</programlisting>
+
+The 3 distribution objects all draw their random numbers from the
+MT19937 generator, which has a period of 2^19937 (10^6001) and is
+quite fast.</para> </formalpara>
+
+</sect2>
+
+<!-- TESTING THE DISTRIBUTION OBJECTS: see the
+Usage-Guide.Test-Programs -->

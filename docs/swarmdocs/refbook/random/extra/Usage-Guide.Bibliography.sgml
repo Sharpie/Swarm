@@ -1,0 +1,195 @@
+<bibliography id="SWARM.RANDOM.SGML.BIBLIOGRAPHY">
+<title>Bibliography</title>
+  <biblioentry>
+    <abbrev>Miller, 1988</abbrev>
+        <artheader>
+<authorgroup>
+<author><surname>Park</surname><firstname>Stephen K.</firstname></author>
+<author><surname>Miller</surname><firstname>Keith W.</firstname></author>
+</authorgroup>
+<title>"Random Number Generators: Good Ones Are Hard to Find."</title>
+<issuenum>no. 10</issuenum>
+<volumenum>vol. 31</volumenum>
+<artpagenums>1192-1201</artpagenums>
+<subtitle>CACM</subtitle>
+<date>October 1988</date>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Marsaglia, 1991</abbrev>
+<artheader>
+<authorgroup>
+<author><surname>Marsaglia</surname><firstname>George</firstname></author>
+<author><surname>Zaman</surname><firstname>Arif</firstname></author>
+</authorgroup>
+<title>"A New Class of Random Number Generators."</title>
+<issuenum>no. 3</issuenum>
+<volumenum>vol. 3</volumenum>
+<artpagenums>462-480</artpagenums>
+<subtitle>Annals of Applied Probability</subtitle>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>L'Ecuyer, A</abbrev>
+<author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+<title>"A Search for Good Multiple Recursive Random Generators."</title>
+<bibliomisc>Unpublished.</bibliomisc>
+<bibliomisc><ulink url="http://www.iro.umontreal.ca/~lecuyer">
+see personal website</ulink></bibliomisc>
+</biblioentry>
+
+<biblioentry>
+<abbrev>L'Ecuyer, B</abbrev>
+<author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+<title>"Combined Multiple Recursive Random Number Generators."</title>
+<bibliomisc>Unpublished.</bibliomisc>
+<bibliomisc> <ulink url="http://www.iro.umontreal.ca/~lecuyer">see personal website
+</ulink></bibliomisc>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Tezuka & L'Ecuyer, 1991</abbrev>
+<artheader>
+<authorgroup>
+<author><surname>Tezuka</surname><firstname>Shu</firstname></author>
+<author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+</authorgroup>
+<title>"Efficient and Portable Combined Tausworthe Random Number Generators."</title>
+<issuenum>no. 2</issuenum>
+<volumenum>vol. 1</volumenum>
+<artpagenums>99-112</artpagenums>
+<subtitle>ACM TOMACS</subtitle>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Matsumoto & Kurita, 1996</abbrev>
+<artheader>
+<authorgroup>
+<author><surname>Matsumoto</surname><firstname>Makoto</firstname></author>
+<author><surname>Kurita</surname><firstname>Yoshiharu</firstname></author>
+</authorgroup>
+<title>"Twisted GFSR Generators II."</title>
+<issuenum>no. 3</issuenum>
+<volumenum>vol. 4</volumenum>
+<artpagenums>254-266</artpagenums>
+<subtitle>ACM TOMACS</subtitle>
+<bibliomisc>Amended by K. Matsumoto, 8 July 1996.</bibliomisc>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>L'Ecuyer & Cote, 1991</abbrev>
+<artheader>
+<authorgroup>
+<author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+<author><surname>Cote</surname><firstname>Serge</firstname></author>
+</authorgroup>
+<title>"Implementing a Random Number Package with Splitting Facilities"
+</title>
+<issuenum>no. 1</issuenum>
+<volumenum>vol. 17</volumenum>
+<artpagenums>98-111</artpagenums>
+<subtitle>ACM TOMACS</subtitle>
+<date>March, 1991</date>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>L'Ecuyer & Andres, 1996</abbrev>
+<authorgroup>
+<author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+<author><surname>Andres</surname><firstname>Terry H.</firstname></author>
+</authorgroup>
+<title>"A Random Number Generator Based on the Combination of Four LCGs."
+</title>
+<issuenum>no. 1</issuenum>
+<volumenum>vol. 17</volumenum>
+<subtitle>Mathematics and Computers in Simulation</subtitle>
+<bibliomisc>To appear.</bibliomisc>  
+<bibliomisc><ulink url="http://www.iro.umontreal.ca/~lecuyer">see personal website</ulink></bibliomisc>
+<date>17 December 1996</date>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Numerical Recipes</abbrev>
+<bookbiblio>
+<title>Numerical Recipes in C</title>
+<authorgroup>
+<author><surname>Press</surname><firstname>W. H.</firstname></author>
+<author><surname>Teukolsky</surname><firstname>S. A</firstname></author>
+<author><surname>Vetterling</surname><firstname>W. T.</firstname></author> 
+<author><surname>Flannery</surname><firstname>B. P.</firstname></author> 
+</authorgroup>
+<edition>2nd ed.</edition>
+<publisher><publishername>Cambridge University Press</publishername></publisher>
+<date>1992</date>
+</bookbiblio>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Knuth, 1981</abbrev>
+<bookbiblio>
+<title>The Art of Computer Programming</title>
+<author><surname>Knuth</surname><firstname>Donald</firstname></author>
+<edition>2nd ed.</edition>
+<volumenum>vol. II</volumenum>
+<subtitle>Seminumerical Algorithms</subtitle>
+<publisher>
+<publishername>Addison-Wesley</publishername>
+<address><city>Reading</city><state>Mass.</state>
+</address>
+</publisher>
+<date>1981</date>
+</bookbiblio>
+</biblioentry>
+
+<!-- Russell: <temporarily misplaced> -->
+
+<biblioentry>
+<abbrev>Watkins, 1994</abbrev>
+<bookbiblio>
+<title>Discrete Event Simulation in C</title>
+<author><surname>Watkins</surname><firstname>Kevin</firstname></author>
+<publishername>McGraw-Hill</publishername>
+<date>1994</date>
+</bookbiblio>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Ferrenberg, 1992</abbrev>
+<artheader>
+<title>Monte Carlo Simulations: Hidden Errors from "Good" Random Number 
+Generators</title>
+<subtitle>Physical Review Letter</subtitle>
+<authorgroup>
+<author><surname>Ferrenberg</surname><firstname>Alan M.</firstname></author>
+<author><surname>Landau</surname><firstname>D. P.</firstname></author>
+<author><surname>Wong</surname><firstname>Y. Joanna</firstname></author>
+</authorgroup>
+<issuenum>no. 23</issuenum>
+<volumenum>vol. 69</volumenum>
+<date>December, 1992</date>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Nature, 1994</abbrev>
+<artheader>
+<title>News and Views</title>
+<subtitle>Nature</subtitle>
+<volumenum>vol. 372</volumenum>
+<date>December, 1994</date>
+</artheader>
+</biblioentry>
+
+
+</bibliography>
+
+<!--
+Local Variables:
+sgml-parent-document:("../random-app.sgml" "bibliography")
+End:
+-->

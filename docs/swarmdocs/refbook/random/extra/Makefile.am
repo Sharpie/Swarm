@@ -1,11 +1,12 @@
-EXTRA_DIST = CHOOSING.A.GENERATOR WHATS.CHANGED.in.0.75			\
-doc.generators.table WHATS.LEFT.TODO doc.quality.generators		\
-WHATS.NEW.in.0.7 doc.timings DEFAULT.GENERATORS data.NormalDist.h	\
-methods.NormalDist.h README.Distributions.v07 data.SimpleGenerators.h	\
-methods.SimpleGenerators.h README.Generators.v075			\
-data.SplitGenerators.h methods.SplitGenerators.h SOURCES.for.0.7	\
-dir.txt WHATS.CHANGED.in.0.7 doc.generators.maxvalue
+SGML = README.Distributions-0.8.sgml README.Generators-0.8.sgml		\
+README.Random-0.8.sgml Table.Generators.Data.sgml			\
+Table.Generators.Quality.sgml Usage-Guide.Bibliography.sgml		\
+Usage-Guide.Choosing-A-Generator.sgml					\
+Usage-Guide.Default-Generators.sgml Usage-Guide.Distributions.sgml	\
+Usage-Guide.For-Beginners.sgml Usage-Guide.Generators.sgml		\
+Usage-Guide.Resources.sgml Usage-Guide.Test-Programs.sgml
 
+EXTRA_DIST = $(SGML)
 
 # Local variables:
 # mode: makefile

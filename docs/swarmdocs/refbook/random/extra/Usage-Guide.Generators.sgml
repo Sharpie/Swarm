@@ -1,0 +1,595 @@
+<!--
+// Random v. 0.81 (Swarm 1.4)
+// 
+// USAGE GUIDE to the random number generators
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1999-02-05
+-->
+
+<sidebar>
+
+<title>A note on `simple' vs. `split' generators</title>
+
+<para>Most of the generators supplied are of the 'simple'
+variety. Think of these as supplying a single, long stream of
+pseudorandom numbers. The description in the introduction of how to
+obtain generator output assumed a simple generator. </para>
+
+<para>There are also two generators, C2LCGXgen and C4LCGXgen, which
+are of the `split' variety. Think of them as consisting of a number of
+virtual generators, each supplying an independent stream of numbers
+which we can divide up into a number of segments of a given length. To
+obtain output from such a generator, we need to specify what virtual
+generator to draw from:
+
+<programlisting>
+<![ CDATA [
+  myUnsigned = [mySplitGenerator getUnsignedSample: virtualgen];
+]]>
+</programlisting>
+
+Read more about how to manage split generators below.</para>
+
+</sidebar>
+
+<para>I shall first discuss `simple' generators, and then discuss how
+`split' generators differ from `simple' ones.  In the following text,
+wherever I use <classname>PSWBgen</classname> as an example you may
+substitute any other generator.</para>
+
+<para>Note: any name that starts with <classname>my</classname> is
+meant to designate a variable which you have defined in your own
+program.</para>
+
+<para>Note: on defining variables that hold (pointers to) generators:
+it is now a convention in the rest of Swarm that if you want to
+specify what type of object a pointer should point to, you say:
+
+<programlisting>
+<![ CDATA [
+	id <protocolname> varname;
+	varname = [classname create: aZone];
+]]>
+</programlisting>
+
+instead of 
+
+<programlisting>
+<![ CDATA [
+	classname *varname;
+	varname = [classname create: aZone];
+]]>
+</programlisting>
+</para>
+
+<para>Although it is usually the case that the <literal>protocolname =
+classname</literal>, in some cases it is not. And publishing the
+protocols allows the programmers to keep unpublished what should
+remain internal private methods.</para>
+
+<para>The generators are different from other Swarm objects, in that
+they all perform the same function; they are drop-in replacements for
+each other.  The 'split' generators (<classname>C2LCGXgen</classname>,
+<classname>C4LCGXgen</classname>) all conform to the same protocol,
+<classname>&lt;SplitRandomGeneratorgt;</classname>. The 'simple'
+(non-split) generators all conform to the same protocol,
+<classname>&lt;SimpleRandomGeneratorgt;</classname>.</para>
+
+<para>Thus, when defining generators in your own program, you should say
+
+<programlisting>
+<![ CDATA [
+	id <SimpleRandomGenerator> varname;
+	varname = [classname create: aZone];
+]]>
+</programlisting>
+
+(Though see below for the different create methods available.)</para>
+
+<para>For backward compatibility, protocols
+<classname>&lt;LCG1gen&gt;</classname>,
+<classname>&lt;TT800gen&gt;</classname> etc. are still defined, but
+their use is deprecated and they may disappear later.</para>
+
+<sect3>
+<title>Simple generators</title>
+
+<para>You create a generator in one of 3 ways:</para>
+
+<sect4>
+<title>the lazy way</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   id <SimpleRandomGenerator> myGenerator;
+   myGenerator = [ PSWBgen createWithDefaults: [self getZone] ];
+]]>
+</programlisting>
+
+This allocates the object and initializes it with STARTSEED, which
+equals NEXTSEED if <option>--varyseed</option> was not specified, or
+RANDOMSEED if it was.
+</para>
+</sect4>
+
+<sect4>
+<title>using a single seed value</title>
+<para>
+<programlisting>
+<![ CDATA [
+   id <SimpleRandomGenerator> myGenerator;
+   myGenerator = [ PSWBgen create: [self getZone] 
+			setStateFromSeed: mySeed ];
+]]>
+</programlisting>
+</para>
+
+<para>This allocates the object and initializes it with your seed value. If the 
+object actually requires a vector of seed values to fill the state, this 
+method generates the rest of the values needed using an inline PMMLCG 
+generator.</para>
+
+<para>You can find out later what seed value was used to initialize
+the generator:
+
+<programlisting>
+<![ CDATA [
+   myUnsigned = [ myGenerator getInitialSeed ];
+]]>
+</programlisting>
+</para>
+
+<para>And you can find out what the largest valid seed value is by
+calling
+
+<programlisting>
+<![ CDATA [
+   myUnsigned = [ myGenerator getMaxSeedValue ];
+]]>
+</programlisting>
+</para>
+
+<para>(For the generators defined in v. 0.7, this value is 2^32-1 for
+all of them.  The seed may not be 0.)</para>
+
+<para>You may reset the generator's state at any time using this
+method:
+
+<programlisting>
+<![ CDATA [
+   [ myGenerator setStateFromSeed: mySeedValue ];
+]]>
+</programlisting>
+
+This will also reset to 0 the currentCount variable.</para>
+
+<para>Alternatively, you may use the new -reset method [myGenerator
+reset], which resets the generator its state at startup, or its state
+at the point when -setStateFromSeed(s) was last used. Counters are
+zeroed.</para> 
+</sect4>
+
+<sect4>
+<title>using a vector of seed values</title>
+
+<para>Assume we have defined a fixed array at compile time: 
+
+<programlisting>
+<![ CDATA [
+ unsigned  int mySeedVector [vectorLength];
+]]>
+</programlisting>
+
+Then we can do this:
+
+<programlisting>
+<![ CDATA [
+   id <SimpleRandomGenerator> myGenerator;
+   myGenerator = [ PSWBgen create: [self getZone]
+			setStateFromSeeds: mySeedVector ];
+]]>
+</programlisting>
+
+You can find out how many seed values are required by asking
+
+<programlisting>
+<![ CDATA [
+   myUnsigned = [ myGenerator lengthOfSeedVector ];
+]]>
+</programlisting>
+</para>
+
+<para>(Obviously, you must first successfully have created the object
+to do this, for example using createWithDefaults! Or, see data in
+document /random/docs/...)</para>
+
+<para>And we allocate the seed vector dynamically this way:
+
+<programlisting>
+<![ CDATA [
+   unsigned int *mySeedVector;
+   mySeedVector = [[self getZone] alloc: [ myGenerator lengthOfSeedVector]];
+]]>
+</programlisting>
+</para>
+
+<para>You can find out what vector of seed values was used to
+initialize the object:
+
+<programlisting>
+<![ CDATA [
+   unsigned int *myVector;
+   myVector = [ myGenerator getInitialSeeds ];
+]]>
+</programlisting>
+</para>
+
+<para>And you can find out the largest seed values that are allowed
+for the particular generator:
+
+<programlisting>
+<![ CDATA [
+   unsigned int *myVectorToo;
+   myVectorToo = [ myGenerator getMaxSeedValues ];
+]]>
+</programlisting>
+</para>
+
+<para>(These values vary from generator to generator, and they may not
+be the same for all elements of the vector for a given
+generator. Valid seeds never take the value 0.)</para>
+
+<para>NOTE: in the above two calls, the variable myVector is set to
+point to an array internal to the generator. If you want to preserve
+the array's values outside the generator, you need to allocate space
+in your program either statically or dynamically, and use a for-loop
+to copy data from myVector[i] to myAllocatedVector[i].</para>
+
+<para>You may reset the generator's state at any time by using the
+method
+
+<programlisting>
+<![ CDATA [
+   [ myGenerator setStateFromSeeds: (unsigned *) mySeedVector ];
+]]>
+</programlisting>
+
+This will also reset to 0 the currentCount variable.</para>
+
+<para>NOTE: if you set a generator's state from a vector of seeds, the
+call:
+
+<programlisting>
+<![ CDATA [
+   myUnsignedValue = [ myGenerator getInitialSeed ];
+]]>
+</programlisting>
+
+will return a value of 0 (an invalid seed). On the other hand, if you
+initialize the generator with a single seed value, the call
+
+<programlisting>
+<![ CDATA [
+   mySeedVector = [ myGenerator getInitialSeeds ];
+]]>
+</programlisting>
+
+will return the seed vector that would produce identical output to what
+you obtained using the single seed.</para>
+</sect4>
+
+<sect4>
+
+<title>antithetic values</title>
+
+<para>You can make the generator serve up antithetic values by
+setting:
+
+<programlisting>
+<![ CDATA [
+   [ myGenerator setAntithetic: myBooleanValue ];
+]]>
+</programlisting>
+
+If set, this makes -getUnsignedSample return (unsignedMax-x) instead
+of x, and the floating point methods return (1.0 - y) instead of
+y.</para>
+
+<para>You can ascertain if this flag is set by calling
+
+<programlisting>
+<![ CDATA [
+   myBooleanValue = [ myGenerator getAntithetic ];
+]]>
+</programlisting>
+</para>
+</sect4>
+
+<sect4>
+<title>generator output</title>
+
+<para>You obtain successive pseudorandom numbers from a generator by calling:
+
+<programlisting>
+<![ CDATA [
+   myUnsignedValue = [ myGenerator getUnsignedSample ];
+]]>
+</programlisting>
+
+The largest value thus returned can be found by asking
+
+<programlisting>
+<![ CDATA [
+   myUnsignedValue = [ myGenerator getUnsignedMax ];
+]]>
+</programlisting>
+
+(The smallest value returned is always 0.)</para>
+
+<para>If you would rather have floating point output in the range
+[0.0,1.0), you call one of these:
+
+<programlisting>
+<![ CDATA [
+   // Using 1 unsigned value to fill the mantissa:
+   myFloatValue  = [ myGenerator getFloatSample ];
+   myDoubleValue = [ myGenerator getThinDoubleSample ];
+]]>
+</programlisting>
+
+<programlisting>
+<![ CDATA [
+   // Using 2 unsigned values to fill the mantissa:
+   myDoubleValue     = [ myGenerator getDoubleSample ];
+   myLongDoubleValue = [ myGenerator getLongDoubleSample ];
+]]>
+</programlisting>
+
+NOTE that the last method is not portable, because the size of a long double
+varies and hence the precision varies between architectures.</para>
+
+<para>Finally, you can obtain a count of how many variates have been
+generated:
+
+<programlisting>
+<![ CDATA [
+   myLongLongInt = [ myGenerator getCurrentCount ];
+]]>
+</programlisting>
+
+(currentCount is an unsigned long long int, which counts up to 2^64.)</para>
+</sect4>
+</sect3>
+
+<sect3>
+<title>Split generators</title>
+
+<para>A 'split' generator requires us to specify the configuration
+(A,v,w) at create time:
+
+<programlisting>
+<![ CDATA [
+   id <SplitRandomGenerator> myGenerator;
+   myGenerator = [ C4LCGXgen create: [self getZone]
+			setA: 64 setv: 20 setw: 76 
+			setStateFromSeed: mySeedValue ];
+]]>
+</programlisting>
+
+<programlisting>
+<![ CDATA [
+   id <SplitRandomGenerator> myGenerator;
+   myGenerator = [ C4LCGXgen create: [self getZone]
+			setA: 32 setv: 25 setw: 60
+			setStateFromSeeds: (unsigned *) mySeedVector ];
+]]>
+</programlisting>
+
+(In both cases, the only limitation is that A * 2^v * 2^w must be less
+than the generator's period, 2^60 for C2LCGX and 2^120 for
+C4LCGX.)</para>
+
+<para>For obtaining output, we need to specify which of the A
+'virtual' generators we want to draw from:
+
+<programlisting>
+<![ CDATA [
+   myUnsignedValue   = [ myGenerator getUnsignedSample: 12 ];
+   myFloatValue      = [ myGenerator getFloatSample: myVirtualGenerator ];
+   myDoubleValue     = [ myGenerator getThinDoubleSample: someUnsignedValue ];
+   myDoubleValue     = [ myGenerator getDoubleSample: 32 ];
+   myLongDoubleValue = [ myGenerator getLongDoubleSample: 0 ];
+]]>
+</programlisting>
+
+Virtual generators are numbered from 0 to (A-1).</para>
+
+<para>Obtaining the current count of variates generated likewise:
+
+<programlisting>
+<![ CDATA [
+   myLongLongInt = [ myGenerator getCurrentCount:   myVirtualGenerator ];
+   myLongLongInt = [ myGenerator getCurrentSegment: myVirtualGenerator ];
+]]>
+</programlisting>
+
+The latter call indicates what segment number the specified virtual
+generator is currently drawing numbers from.</para>
+
+<para>Other than these methods, the other methods discussed above
+under 'simple' generators are the same for 'split' generators.</para>
+
+<para>In *addition* to this, 'split' generators have the following
+methods to manage the virtual generators:
+
+<programlisting>
+<![ CDATA [
+   // Place all virtual generators at the start of the first segment:
+   [ myGenerator initAll ];	// done automatically at creation
+]]>
+</programlisting>
+
+<programlisting>
+<![ CDATA [
+   // Place all virtual generators back to the start of the current segment:
+   [ myGenerator restartAll ];
+]]>
+</programlisting>
+
+<programlisting>
+<![ CDATA [
+   // Place all virtual generators at the start of the next segment:
+   [ myGenerator advanceAll ];
+]]>
+</programlisting>
+
+<programlisting>
+<![ CDATA [
+   // Place all virtual generators at the start of the indicated segment:
+   [ myGenerator jumpAllToSegment: myLongLongIntValue ];
+]]>
+</programlisting>
+</para>
+
+<para>You may also address individual virtual generators:
+
+<programlisting>
+<![ CDATA [
+   [ myGenerator initGenerator:    myVgen ];
+   [ myGenerator restartGenerator: myVgen ];
+   [ myGenerator advanceGenerator: myVgen ];
+   [ myGenerator jumpGenerator:    myVgen    toSegment: myLongLongIntValue ];
+]]>
+</programlisting>
+</para>
+
+<para>InternalState methods common to simple and split generators:
+
+<programlisting>
+<![ CDATA [
+   // Print (most of) the object's state data to a stream:
+   [ myNormalDist describe: myStream ];
+]]>
+</programlisting>
+</para>
+
+<para>The stream myStream may be created thus:
+<programlisting>
+<![ CDATA [
+id myStream = [ OutStream create: [self getZone] setFileStream: stdout ]; or
+id myStream = [ OutStream create: [self getZone] setFileStream: stderr ];
+
+   // Get the (class) name of the object:
+   myString = [ myNormalDist getName ];
+
+   // Get the object's 'magic number', used by putStateInto / setStateFrom:
+   myUnsigned = [ myNormalDist getMagic ];
+]]>
+</programlisting>
+</para>
+
+</sect3>
+
+<sect3>
+<title>Saving and Resetting State</title>
+
+<para>You may save, and later restore, the internal state of a
+generator using these methods:
+
+<programlisting>
+<![ CDATA [
+   // Get the size of the memory buffer needed by putStateInto / setStateFrom:
+   myUnsigned = [ myGenerator getStateSize ];
+
+   // Extract the generator's state data into your memory buffer:
+   [ myGenerator putStateInto: myBuffer ];
+
+   // Set the generator's state from data in a memory buffer:
+   [ myGenerator setStateFrom: myBuffer ];
+]]>
+</programlisting>
+</para>
+
+<para>To illustrate, assume the following data definitions:
+
+<programlisting>
+<![ CDATA [
+   FILE * myFile;
+   const char * myFileName = "MyGenFile.bin"; // or whatever
+   int stateSizeG;
+   id stateBufG;
+   int status;
+]]>
+</programlisting>
+</para>
+
+<para>The following code shows how to save an object's state to disk:
+(You should add your own code to deal with disk file errors, either
+aborting or printing out error messages.)
+
+<programlisting>
+<![ CDATA [
+   // Ask how big a buffer we need:
+   stateSizeG = [ myGenerator getStateSize ];
+
+   // Allocate memory for the buffer:
+   stateBufG  = [[self getZone] alloc: stateSizeG];
+
+   // Ask the generator to put state data into the buffer:
+   [ myGenerator putStateInto: (void *) stateBufG ];
+
+   // Open a disk file for output:
+   myFile = fopen(myFileName, "w");
+   if (myFile == NULL) { };	// error on open: disk full, or no permissions
+
+   // Write the state buffer to disk in binary form:
+   status = fwrite(stateBufG, stateSizeG, 1, myFile);
+   if (status < 1) { };		// error on write: disk full?
+
+   // Close the file
+   status = fclose(myFile);
+   if (status) { };		// error on close ?
+
+   // Free the memory allocated to the buffer:
+   [[self getZone] free: stateBufG];
+
+   // Or, for test purposes, just zero the buffer data instead:
+   // memset(stateBufG, 0, stateSizeG);
+]]>
+</programlisting>
+</para>
+
+<para>This code shows how to set an object's state from a disk file:
+
+<programlisting>
+<![ CDATA [
+   // Ask how big a buffer we need:
+   stateSizeG = [ myGenerator getStateSize ];
+
+   // Allocate memory for the buffer:
+   stateBufG  = [[self getZone] alloc: stateSizeG];
+
+   // Open a disk file for input:
+   myFile = fopen(myFileName, "r");
+   if (myFile == NULL) { };	// error on open: file not found
+
+   // Read state data into the memory buffer:
+   status = fread(stateBufG, stateSizeG, 1, myFile);
+   if (status < 1) { };		// error on read
+
+   // Close the file:
+   status = fclose(myFile);
+   if (status) { };		// error on close
+
+   // Ask the generator set its state from the buffer data:
+   [ myGenerator setStateFrom: (void *) stateBufG ];
+
+   // Free the memory allocated to the buffer:
+   [[self getZone] free: stateBufG];
+]]>
+</programlisting>
+</para>
+</sect3>

@@ -1,0 +1,280 @@
+<!--
+// Random v. 0.81 (Swarm 1.4)
+// 
+// USAGE GUIDE for the distribution objects
+// 
+// Sven Thommesen <sthomme@humsci.auburn.edu>
+//
+// 1999-02-05
+-->
+
+<para>Where I use <classname>NormalDistribution</classname> in
+examples below, substitute any other distribution and its parameters
+as needed.</para>
+
+<para>NOTE: any name that starts with <classname>my</classname> is
+meant to designate a variable which you have defined in your own
+program.</para>
+
+<sect3>
+<title>Creating distributions</title>
+
+<para>You create a distribution in one of several ways:</para>
+
+<sect4>
+<title>the lazy way:</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   id <NormalDist> myNormalDist;
+   myNormalDist = [ NormalDist createWithDefaults: [self getZone]];
+]]>
+</programlisting>
+</para>
+
+<para>This method will create a distribution object with no default
+parameters set, as well as a fresh generator object connected to
+it. The generator object is initialized with STARTSEED (see the
+discussion above).  Different distribution classes use different
+generators for this purpose.</para>
+
+</sect4>
+
+<sect4>
+<title>Without default parameters, using a simple generator</title>
+
+<programlisting>
+<![ CDATA [
+   id <NormalDist> myNormalDist;
+   myNormalDist = [ NormalDist create: [self getZone]
+			setGenerator: mySimpleGenerator ];
+]]>
+</programlisting>
+
+<para><classname>myGenerator</classname> must of course first have
+been set to point to a random generator of the `simple' type. Note
+that you cannot assign a different generator to a distribution after
+it has been created.</para>
+
+<para>You can create the generator at the same time as the
+distribution:
+
+<programlisting>
+<![ CDATA [
+   id <NormalDist> myNormalDist;
+   myNormalDist = [ NormalDist create: [self getZone]
+		setGenerator: [TT800gen create: [self getZone] 
+				setStateFromSeed: 34453]         ];
+]]>
+</programlisting>
+</para>
+</sect4>
+
+<sect4> 
+
+<title>Without default parameters, using a split generator</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   id <NormalDist> myNormalDist;
+   myNormalDist = [ NormalDist create: [self getZone]
+			setGenerator: mySplitGenerator
+			setVirtualGenerator: 7 ];
+]]>
+</programlisting>
+
+or perhaps
+
+<programlisting>
+<![ CDATA [
+   id <NormalDist> myNormalDist;
+   myNormalDist = [ NormalDist create: [self getZone]
+		setGenerator: [C4LCGXgen createWithDefaults: [self getZone]]
+			setVirtualGenerator: 99 ];
+]]>
+</programlisting>
+</para>
+
+<para>A split generator can be thought of as comprising a set of
+virtual generators (streams of random numbers), and a distribution
+object must be `connected' to one of these streams. You cannot
+re-assign the generator or the virtual generator after a distribution
+object has been created.</para>
+
+<para>In all these cases (a) - (c), when we want to obtain a random
+variate from this distribution object we need to specify the
+parameters:
+
+<programlisting>
+<![ CDATA [
+   myDouble = [ myNormalDist getSampleWithMean: 3.3 withVariance: 1.7];
+]]>
+</programlisting>
+
+You can use different parameters for every call. (And you can use this
+call even if default parameters have been set.)</para>
+</sect4>
+
+<sect4> 
+
+<title>With default parameters, using a simple generator</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   id <NormalDist> myNormalDist;
+   myNormalDist = [ NormalDist create: [self getZone]
+			setGenerator: mySimpleGenerator
+			setMean: 7.6 setVariance: 1.2 ];
+]]>
+</programlisting>
+</para>
+</sect4>
+
+<sect4>
+<title>With default parameters, using a split generator</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   id <NormalDist> myNormalDist;
+   myNormalDist = [ NormalDist create: [self getZone]
+			setGenerator: mySplitGenerator
+			setVirtualGenerator: 33
+			setMean: 3.2 setVariance: 2.1 ];
+]]>
+</programlisting>
+</para>
+
+<para>In these cases, we do not need to specify parameters to get a
+random number:
+
+<programlisting>
+<![ CDATA [
+   myDouble = [ myNormalDist getDoubleSample ];
+]]>
+</programlisting>
+
+However, you *are* allowed to specify parameters even if default
+parameters have been set.</para>
+
+<para>(Of course, different distributions have different parameters:
+RandomBitDist has none, the Uniform objects have minimum and maximum
+limit values, NormalDist and LogNormalDist use Mean and Variance,
+ExponentialDist only Mean, and GammaDist used alpha and beta. See the
+file <filename>random/distributions.h</filename> for the specific
+methods available. ) </para>
+</sect4>
+
+<sect4> <title>You may reset the default parameters this way, as often
+as you like</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   [ myNormalDist setMean: 3.3 setVariance: 2.2 ];
+]]>
+</programlisting>
+</para>
+</sect4>
+
+<sect4>
+<title>You can obtain the current values of parameters</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   // Default parameters:
+   myDouble1 = [ myNormalDist getMean ];
+   myDouble2 = [ myNormalDist getVariance ];
+   myDouble3 = [ myNormalDist getStdDev ];
+
+   // Get a pointer to the generator object:
+   myOtherGenerator = [ myNormalDist getGenerator ];
+
+   // Get the number of the virtual generator (if a split generator is used):
+   myUnsignedValue  = [ myNormalDist getVirtualGenerator];
+
+   // Find out if default parameters have been set:
+   myBoolean        = [ myNormalDist getOptionsInitialized ];
+
+   // Find out how many variates the object has delivered so far:
+   // (The counter is an unsigned long long int, which goes up to 2^64.)
+   myLongLongInt    = [ myNormalDist getCurrentCount ];
+]]>
+</programlisting>
+</para>
+</sect4>
+
+<sect4>
+
+<title>You can reset the variate counter and other state variables this way</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   [ myNormalDist reset ];
+]]>
+</programlisting>
+
+This is most likely done in conjunction with resetting the connected
+generator, using [ myGenerator setStateFromSeed: mySeedValue ] or
+simply [ myGenerator reset ];</para>
+</sect4>
+
+<sect4>
+
+<title>Finally, we have the InternalState protocol methods</title>
+
+<para>
+<programlisting>
+<![ CDATA [
+   // Print (most of) the object's state data to a stream:
+   [ myNormalDist describe: myStream ];
+]]>
+</programlisting>
+</para>
+
+<para> The stream myStream may be created thus:
+
+<programlisting>
+<![ CDATA [
+id myStream = [ OutStream create: [self getZone] setFileStream: stdout ]; or
+id myStream = [ OutStream create: [self getZone] setFileStream: stderr ];
+
+   // Get the (class) name of the object:
+   myString = [ myNormalDist getName ];
+
+   // Get the object's `magic number', used by putStateInto / setStateFrom:
+   myUnsigned = [ myNormalDist getMagic ];
+]]>
+</programlisting>
+</para>
+</sect4>
+</sect3>
+
+<sect3>
+<title>Saving And Restoring State</title>
+
+<para>You may save, and later restore, the internal state of a
+distribution object using InternalState methods.</para>
+
+<itemizedlist>
+
+<listitem><para>See the Generator Usage Guide, which describes how to
+do this. The code for saving/restoring distributions would be
+similar.</para></listitem>
+
+<listitem><para>Note that saving the state of a distribution object will NOT
+automatically save the state of the attached generator; you are
+responsible for doing so. (Since it is possible, even encouraged, to
+use a single generator to feed several distribution objects, this is
+the only sane way of doing it.)</para>
+</listitem>
+
+</itemizedlist>
+
+</sect3>
+
