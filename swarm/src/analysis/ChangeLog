@@ -1,3 +1,30 @@
+2000-04-23    <mgd@nest.swarm.org>
+
+	* EZGraph.m ([EZGraph
+	-_createAveragerSequence_:withFeedFrom:probeSelector:graphSelector:]):
+	New method.
+	([EZGraph -createAverageSequence:withFeedFrom:andSelector:],
+	[EZGraph -createTotalSequence:withFeedFrom:andSelector:], 
+	[EZGraph -createMinSequence:withFeedFrom:andSelector:],
+	[EZGraph -createMaxSequence:withFeedFrom:andSelector:], 
+	[EZGraph -createCountSequence:withFeedFrom:andSelector:aSel]): 
+	Use it.
+
+	* EZGraph.[hm], analysis.h ([EZGraph
+	-createVarianceSequence:withFeedFrom:andSelector:],
+	[EZGraph -createStdDevSequence:withFeedFrom:andSelector:]):
+	New methods.
+	
+	EZBin.[hm], analysis.h ([EZBin -getStdDev]): Renamed from -getStd.
+
+	* Averager.m: Include misc.h.
+	([Averager -update]): Initialize and accumulate
+	sum of squares.
+	([Averager -getVariance], [Averager -getStdDev]): New methods.
+
+	* Averager.h (Averager): Add totalSquared.  Make count unsigned.
+	Declare -getVariance and -getStdDev.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

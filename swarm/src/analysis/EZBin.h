@@ -79,7 +79,7 @@
 - (double)getMin;
 - (double)getMax;
 - (double)getAverage;
-- (double)getStd;
+- (double)getStdDev;
 
 - (id <Histogram>)getHistogram;
 @end

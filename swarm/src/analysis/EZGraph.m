@@ -270,15 +270,15 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
       
       [aSeq setActiveOutFile: aGrapher];    
     }
-
+  
   [sequenceList addLast: aSeq];
   
   return self;
 }
 
 - (id <EZSequence>)createSequence: (const char *)aName
-    withFeedFrom: anObj 
-     andSelector: (SEL)aSel
+                     withFeedFrom: anObj 
+                      andSelector: (SEL)aSel
 {
   id aSeq;
   
@@ -292,127 +292,99 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   return aSeq;
 }
 
+- (id <EZAverageSequence>)_createAveragerSequence_: (const char *)aName 
+                                      withFeedFrom: aCollection 
+                                     probeSelector: (SEL)probeSel
+                                     graphSelector: (SEL)graphSel
+{
+  id aSeq;
+  id anAverager;
+  
+  aSeq = [EZAverageSequence create: [self getZone]];
+  
+  anAverager = [Averager createBegin: [self getZone]];
+  [anAverager setCollection: aCollection];
+  [anAverager setProbedSelector: probeSel];
+  anAverager = [anAverager createEnd];
+
+  [aSeq setAverager: anAverager];
+
+  [self createGraphSequence: aName
+        forSequence: aSeq
+	withFeedFrom: anAverager 
+	andSelector: graphSel];
+
+  return aSeq;
+}
+
 - (id <EZAverageSequence>)createAverageSequence: (const char *)aName 
            withFeedFrom: aCollection 
             andSelector: (SEL)aSel
 {
-  id aSeq;
-  id anAverager;
-  
-  aSeq = [EZAverageSequence create: [self getZone]];
-  
-  anAverager = [Averager createBegin: [self getZone]];
-  [anAverager setCollection: aCollection];
-  [anAverager setProbedSelector: aSel];
-  anAverager = [anAverager createEnd];
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aCollection
+               probeSelector: aSel
+               graphSelector: M(getAverage)];
+}
 
-  [aSeq setAverager: anAverager];
+- (id <EZAverageSequence>)createVarianceSequence: (const char *)aName 
+                                    withFeedFrom: aCollection 
+                                     andSelector: (SEL)aSel
+{
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aCollection
+               probeSelector: aSel
+               graphSelector: M(getVariance)];
+}
 
-  [self createGraphSequence: aName
-        forSequence: aSeq
-	withFeedFrom: anAverager 
-	andSelector: M(getAverage)];
-
-  return aSeq;
+- (id <EZAverageSequence>)createStdDevSequence: (const char *)aName 
+                                  withFeedFrom: aCollection 
+                                   andSelector: (SEL)aSel
+{
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aCollection
+               probeSelector: aSel
+               graphSelector: M(getStdDev)];
 }
 
 - (id <EZAverageSequence>)createTotalSequence: (const char *)aName
-         withFeedFrom: aCollection 
-          andSelector: (SEL)aSel
+                                 withFeedFrom: aCollection 
+                                  andSelector: (SEL)aSel
 {
-  id aSeq;
-  id anAverager;
-  
-  aSeq = [EZAverageSequence create: [self getZone]];
-  
-  anAverager = [Averager createBegin: [self getZone]];
-  [anAverager setCollection: aCollection];
-  [anAverager setProbedSelector: aSel];
-  anAverager = [anAverager createEnd];
-
-  [aSeq setAverager: anAverager];
-
-  [self createGraphSequence: aName
-        forSequence: aSeq
-	withFeedFrom: anAverager 
-	andSelector: M(getTotal)];
-
-  return aSeq;
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aCollection
+               probeSelector: aSel
+               graphSelector: M(getTotal)];
 }
 
 - (id <EZAverageSequence>)createMinSequence: (const char *)aName 
-       withFeedFrom: aCollection 
-        andSelector: (SEL)aSel
+                               withFeedFrom: aCollection 
+                                andSelector: (SEL)aSel
 {
-  id aSeq;
-  id anAverager;
-
-  aSeq = [EZAverageSequence create: [self getZone]];
-
-  anAverager = [Averager createBegin: [self getZone]];
-  [anAverager setCollection: aCollection];
-  [anAverager setProbedSelector: aSel];
-  anAverager = [anAverager createEnd];
-
-  [aSeq setAverager: anAverager];
-
-  [self createGraphSequence: aName
-        forSequence:aSeq
-	withFeedFrom: anAverager 
-	andSelector: M(getMin)];
-
-  return aSeq;
-
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aCollection
+               probeSelector: aSel
+               graphSelector: M(getMin)];
 }
 
 - (id <EZAverageSequence>)createMaxSequence: (const char *)aName
-       withFeedFrom: aCollection 
-        andSelector: (SEL)aSel
+                               withFeedFrom: aCollection 
+                                andSelector: (SEL)aSel
 {
-  id aSeq;
-  id anAverager;
-
-  aSeq = [EZAverageSequence create: [self getZone]];
-
-  anAverager = [Averager createBegin: [self getZone]];
-  [anAverager setCollection: aCollection];
-  [anAverager setProbedSelector: aSel];
-  anAverager = [anAverager createEnd];
-
-  [aSeq setAverager: anAverager];
-
-  [self createGraphSequence: aName
-        forSequence: aSeq
-	withFeedFrom: anAverager 
-	andSelector: M(getMax)];
-
-  return aSeq;
-
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aCollection
+               probeSelector: aSel
+               graphSelector: M(getMax)];
 }
 
 - (id <EZAverageSequence>)createCountSequence: (const char *)aName
-         withFeedFrom: aCollection 
-          andSelector: (SEL) aSel
+                                 withFeedFrom: aCollection 
+                                  andSelector: (SEL) aSel
 {
-  id aSeq;
-  id anAverager;
-  
-  aSeq = [EZAverageSequence create: [self getZone]];
-  
-  anAverager = [Averager createBegin: [self getZone]];
-  [anAverager setCollection: aCollection];
-  [anAverager setProbedSelector: aSel];
-  anAverager = [anAverager createEnd];
-
-  [aSeq setAverager: anAverager];
-
-  [self createGraphSequence: aName
-        forSequence: aSeq
-	withFeedFrom: anAverager 
-	andSelector: M(getCount)];
-  
-  return aSeq;
-
+  return [self _createAveragerSequence_: aName
+               withFeedFrom: aCollection
+               probeSelector: aSel
+               graphSelector: M(getCount)];
 }
 
 - step
@@ -424,7 +396,6 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
 
 - update
 {
-
   [sequenceList forEach: M(update)];
 
   return self;
@@ -432,7 +403,6 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
 
 - outputGraph
 {
-
   [sequenceList forEach: M(outputGraph)];
 
   return self;
@@ -440,7 +410,6 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
 
 - outputToFile
 {
-
   [sequenceList forEach: M(outputToFile)];
 
   return self;

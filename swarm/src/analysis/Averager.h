@@ -11,9 +11,9 @@
 
 @interface Averager: MessageProbe <Averager>
 {
-  double total;	      // total
-  double max, min;    // maximum, minimum
-  int count;          // total number
+  double total, totalSquared; 
+  double max, min;
+  unsigned count;
   id collection;      // collection to average over
 }
 
@@ -22,6 +22,8 @@
 
 - update;					  // update the average.
 - (double)getAverage;
+- (double)getVariance;
+- (double)getStdDev;
 - (double)getTotal;
 - (double)getMax;
 - (double)getMin;

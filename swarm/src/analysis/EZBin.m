@@ -413,12 +413,12 @@ PHASE(Using)
   return average;
 }
 
-- (double)getStd
+- (double)getStdDev
 {
   if (clean)
     [InvalidOperation
       raiseEvent:
-        "Attempted to getStd from a reset EZBin (no data available).\n"];
+        "Attempted to getStdDev from a reset EZBin (no data available).\n"];
   
   return std;
 }

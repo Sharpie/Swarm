@@ -6,6 +6,7 @@
 #import <collections.h>
 #import <analysis/Averager.h>
 #import <defobj/defalloc.h> // getZone
+#include <misc.h> // sqrt
 
 @implementation Averager
 
@@ -34,6 +35,7 @@ PHASE(Using)
   id obj;
 
   total = 0.0;
+  totalSquared = 0.0;
   count = 0;
 
   // special case empty collection.
@@ -58,6 +60,7 @@ PHASE(Using)
 	double v = [self doubleDynamicCallOn: obj];
 	
 	total += v;
+        totalSquared += v * v;
 	if (v > max)
 	  max = v;
 	if (v < min)
@@ -73,10 +76,23 @@ PHASE(Using)
 - (double)getAverage
 {
   if (count)
-    return total / (double)count;
+    return total / (double) count;
   else 
     return 0.0;
 } 
+
+- (double)getVariance
+{
+  double mean = total / (double) count;
+
+  return (((double) count / ((double) (count - 1))) * 
+          (totalSquared / (double) count - mean * mean));
+}
+
+- (double)getStdDev
+{
+  return sqrt ([self getVariance]);
+}
 
 - (double)getTotal
 {
