@@ -1879,10 +1879,10 @@ hdf5_store_attribute (hid_t did,
   size[0] = c_count;
   if (H5Dextend (loc_id, size) < 0)
     abort ();
+  size[0] = bufCount;
   maxsize[0] = H5S_UNLIMITED;
   if (H5Sset_extent_simple (c_sid, 1, size, maxsize) < 0)
     abort ();
-  size[0] = bufCount;
   if (H5Sset_extent_simple (bsid, 1, size, maxsize) < 0)
     abort ();
   offset[0] = c_count - bufCount; 

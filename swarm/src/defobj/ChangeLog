@@ -1,3 +1,32 @@
+2001-07-13  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* javavars.h (c_Base, f_objcPtrFid): Add.
+
+	* java.m (create_class_refs): Initialize it.
+	(create_field_refs): Likewise.
+	(find_swarm_objc_safe): New static function.
+	(swarm_directory_java_find_objc): First try object slot.
+	(swarm_directory_java_switch_entry): Handle object slot.
+	(swarm_directory_java_add_object): Likewise.
+	(swarm_directory_java_switch_objc): Likewise.
+
+	* java.[hm] (swarm_directory_java_find_swarm_objc,
+	SD_JAVA_FIND_OBJECT_SWARM_OBJC): New.  Assumes java object
+	is Swarm-derived and just checks object slot integer.
+
+	* directory.m (swarm_directory_objc_remove): Don't bail if
+	object is not found in map or if there is no map for a hash code.
+
+	* defobj.m (lispIn, hdf5In): Don't do *InCreate: or createEnd because
+	the possibility of the Java constructor calling create:.
+
+	* JavaProxy.[hm] ([JavaProxy createJavaCounterpart:]): Return
+	object created as a result of the Java constructor.  We may have
+	a real Swarm object.
+
+	* HDF5Object.m ([HDF5_c -flushVector]): Size c_sid and bsid must be
+	the same.
+
 2001-07-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* HDF5Object.h (HDF5_c): Add bsid, vector_type & vector_buf.

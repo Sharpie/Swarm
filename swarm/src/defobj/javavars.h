@@ -14,7 +14,8 @@ extern jclass c_Boolean,
   c_Class, c_Object, c_String, 
   c_Field, c_Method, c_Modifier,
   c_Collection,
-  c_Selector, c_PhaseCImpl, c_Primitives, c_ObjCProxy, c_ProxyClassLoader,
+  c_Base, c_Selector, c_PhaseCImpl, c_Primitives, c_ObjCProxy,
+  c_ProxyClassLoader,
   c_SwarmEnvironmentImpl;
 
 extern jmethodID m_BooleanValueOf,
@@ -63,7 +64,8 @@ extern jmethodID m_BooleanValueOf,
   m_PrimitivesGetTypeMethod,
   m_ProxyClassLoaderLoadClass;
 
-extern jfieldID f_nameFid,
+extern jfieldID f_objcPtrFid,
+  f_nameFid,
   f_retTypeFid,
   f_argTypesFid,
   f_typeSignatureFid,

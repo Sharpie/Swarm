@@ -22,7 +22,7 @@ PHASE(Using)
   return YES;
 }
 
-- (void)createJavaCounterpart: (const char *)typeName
+- createJavaCounterpart: (const char *)typeName
 {
   [self createEnd];
 #ifdef HAVE_JDK
@@ -40,13 +40,14 @@ PHASE(Using)
     // Not handled are inner classes, since those require arguments
     // to their containing instances.
     {
+      id ret;
       jobject jobj;
       jmethodID method =
         (*jniEnv)->GetMethodID (jniEnv, class, "<init>", "(Lswarm/defobj/Zone;)V");
       
       if (method)
         jobj = (*jniEnv)->NewObject (jniEnv, class, method,
-                                     SD_JAVA_ENSURE_OBJECT_JAVA ([self getZone]));
+                                     SD_JAVA_ENSURE_OBJECT_JAVA (getZone (self)));
       else
         {
           (*jniEnv)->ExceptionClear (jniEnv);
@@ -67,13 +68,20 @@ PHASE(Using)
       if ((*jniEnv)->IsInstanceOf (jniEnv, jobj, c_Collection))
         self->isa = [JavaCollection self];
 
-      SD_JAVA_ADD_OBJECT (jobj, self);
+      ret = SD_JAVA_FIND_OBJECT_OBJC (jobj);
+      if (!ret)
+        {
+          ret = self;
+          SD_JAVA_ADD_OBJECT (jobj, ret);
+        }
       
       (*jniEnv)->DeleteLocalRef (jniEnv, jobj);
       (*jniEnv)->DeleteLocalRef (jniEnv, class);
+      return ret;
     }
   }
 #endif
+  return nil;
 }
 
 - doesNotRecognize: (SEL)sel

@@ -227,21 +227,19 @@ swarm_directory_objc_remove (id object)
           
           index = swarm_directory_java_hash_code (entry->foreignObject.java);
           m = swarmDirectory->javaTable[index];
-          if (!m)
-            abort ();
-          {
-            ObjectEntry *ret;
-            
-            ret = [m remove: entry];
-            
-            if (ret != entry)
-              raiseEvent (WarningMessage, "remove (%p) != %p\n", entry, ret);
-            
-            ret = avl_delete (swarmDirectory->object_tree, entry);
-            
-            if (ret != entry)
-              abort ();
-          }
+          if (m) // no worries if it's not there; that's a BaseImpl case
+            {
+              ObjectEntry *ret;
+              
+              ret = [m remove: entry];
+              // don't check ret above because it may be absent from a
+              // BaseImpl link
+              
+              ret = avl_delete (swarmDirectory->object_tree, entry);
+              
+              if (ret != entry)
+                abort ();
+            }
           swarm_directory_entry_drop (entry);
           return YES;
         }

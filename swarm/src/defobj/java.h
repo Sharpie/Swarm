@@ -46,6 +46,7 @@ extern void swarm_directory_java_associate_objects (jobject swarmEnvironment);
 extern unsigned swarm_directory_java_hash_code (jobject javaObject);
 extern id swarm_directory_java_ensure_objc (jobject javaObject);
 extern id swarm_directory_java_find_objc (jobject javaObject);
+extern id swarm_directory_java_find_swarm_objc (jobject javaObject);
 extern jobject swarm_directory_java_next_phase (jobject jobj);
 extern ObjectEntry *swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase);
 extern ObjectEntry *swarm_directory_java_switch_objc (id object, jobject javaObject);
@@ -71,6 +72,7 @@ extern BOOL java_method_usable_p (jobject method);
 extern BOOL java_objc_proxy_p (jclass class);
 extern void java_drop (jobject jobj);
 
+#define SD_JAVA_FIND_OBJECT_SWARM_OBJC(jobj)  swarm_directory_java_find_swarm_objc (jobj)
 
 #define SD_JAVA_FIND_OBJECT_OBJC(jobj)  swarm_directory_java_find_objc (jobj)
 #define SD_JAVA_ENSURE_OBJECT_OBJC(jobj) swarm_directory_java_ensure_objc (jobj)

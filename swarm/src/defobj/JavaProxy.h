@@ -8,7 +8,7 @@
 
 @interface JavaProxy: CreateDrop <Serialization>
 - (BOOL)isJavaProxy;
-- (void)createJavaCounterpart: (const char *)typeName;
+- createJavaCounterpart: (const char *)typeName;
 - doesNotRecognize: (SEL)aSel;
 - (int)compare: obj;
 @end

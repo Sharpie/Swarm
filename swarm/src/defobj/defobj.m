@@ -296,19 +296,21 @@ lispIn (id aZone, id expr)
                 && [typeObject respondsTo: M(isJavaProxy)])
               {
                 obj = [JavaProxy createBegin: aZone];
-                [obj createJavaCounterpart: typeName];
+                obj = [obj createJavaCounterpart: typeName];
               }
             else
 #endif
-              obj = [typeObject createBegin: aZone];
-            
-            obj = [obj lispInCreate: argexpr];
-            obj = [obj createEnd];
+              {
+                obj = [typeObject createBegin: aZone];
+                
+                obj = [obj lispInCreate: argexpr];
+                obj = [obj createEnd];
+              }
             [obj lispIn: argexpr];
           }
         [argexpr drop];
       }
-    [makeExprIndex drop];
+      [makeExprIndex drop];
       return obj;
     }
   }
@@ -366,15 +368,17 @@ hdf5In (id aZone, id hdf5Obj)
       && [typeObject respondsTo: M(isJavaProxy)])
     {
       obj = [JavaProxy createBegin: aZone];
-      [obj createJavaCounterpart: typeName];
+      obj = [obj createJavaCounterpart: typeName];
     }
   else
 #endif
-    obj = [typeObject createBegin: aZone];
-  obj = [obj hdf5InCreate: hdf5Obj];
-  obj = [obj createEnd];
+    {
+      obj = [typeObject createBegin: aZone];
+      obj = [obj hdf5InCreate: hdf5Obj];
+      obj = [obj createEnd];
+    }
   [obj hdf5In: hdf5Obj];
-
+  
   return obj;
 }
 
