@@ -1269,7 +1269,7 @@ else
   hpux9* | hpux10* | hpux11*)
     case "$host_os" in
     hpux9*) archive_cmds='$rm $objdir/$soname~$LD -b +b $install_libdir -o $objdir/$soname $libobjs $deplibs $linkopts~test $objdir/$soname = $lib || mv $objdir/$soname $lib' ;;
-    *) archive_cmds='nm $libobjs | sed -n "s/\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(_GLOBAL_\$I\$.*\)/+I \3/p" > /tmp/ldcmds$soname$$ ;$LD -b +h $soname +b $install_libdir -o $lib -c /tmp/ldcmds$soname$$ $libobjs $deplibs $linkopts~rm /tmp/ldcmds$soname$$' ;;
+    *) archive_cmds='nm $libobjs | sed -n "s/\([0-9a-f][0-9a-f]*\) \([^ ][^ ]*\) \(_GLOBAL_\$I\$.*\)/+I \3/p" > /tmp/ldcmds_$soname$$ ;$LD -b +h $soname +b $install_libdir -o $lib -c /tmp/ldcmds_$soname$$ $libobjs $deplibs $linkopts~#rm /tmp/ldcmds_$soname$$' ;;
 
 
     esac
