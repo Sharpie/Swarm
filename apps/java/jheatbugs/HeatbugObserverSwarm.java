@@ -1,7 +1,11 @@
+// jheatbugs-3.0
+
 // Java Heatbugs application. Copyright © 1999-2000 Swarm Development Group.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
+
+// Changes (from jheatbugs-2001-03-28) by Timothy Howe. 
 
 import java.util.ArrayList;
 
@@ -153,7 +157,7 @@ updateActions                       tkActions
 |             |                     |
 Action        Action                Action
 this          probeDisplayManager   getActionCache()   
-._update_()   .update()             doTkEvents()
+_update_()   .update()             doTkEvents()
 </xmp>
 
 <p>

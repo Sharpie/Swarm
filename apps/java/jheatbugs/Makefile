@@ -10,17 +10,7 @@ StartHeatbugs.class
 
 all: executable
 
-run : executable runcurrent
-
-runbatch : executable runcurrentbatch
-
-runcurrent :
-	$(SWARMHOME)/bin/javaswarm StartHeatbugs
-# ... To invoke with command-line arguments, see current.ksh. 
-
-runcurrentbatch :
-	$(SWARMHOME)/bin/javaswarm StartHeatbugs -b
-# ... To invoke with command-line arguments, see current.ksh. 
+run : executable 
 
 executable : $(JAVA_CLASSES)
 
@@ -45,21 +35,6 @@ scrub :
 	rm -f *.output
 	rm -f *.html
 	rm -f package-list
-
-# Here we edit HeatbugModelSwarm.java depending on the translation of 
-# $SWARMHOME; we have to be sure that HeatbugModelSwarm.java is first in the
-# list $JAVA_CLASSES (otherwise another rule may compile it without editing 
-# it):
-HeatbugModelSwarm.class : HeatbugModelSwarm.java
-	echo $(SWARMHOME) | grep    "swarm-[12]\.[01]" \
-	 && (grep "new FArgumentsImpl (this, sel)" $< >/dev/null && \
-		 perl -pi.bak -e's/new FArgumentsImpl \(this, sel\)/new FArgumentsImpl (this, sel, true)/' $< \
-		) || :
-	echo $(SWARMHOME) | grep -v "swarm-[12]\.[01]" \
-	 && (grep "new FArgumentsImpl (this, sel, true)" $< >/dev/null && \
-		 perl -pi.bak -e's/new FArgumentsImpl \(this, sel, true\)/new FArgumentsImpl (this, sel)/' $< \
-		) || :
-	$(SWARMHOME)/bin/javacswarm $<
 
 
 

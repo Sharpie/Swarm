@@ -294,7 +294,6 @@ sub updateCommandStrings {
   
     my @valArray = @{$_[0]};
     my $key = $_[1];
- 
 
    # defined or $_ = " " foreach @{$local_strings};
    # @local_strings = @{$local_strings};

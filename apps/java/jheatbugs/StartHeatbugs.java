@@ -1,7 +1,11 @@
+// jheatbugs-3.0
+
 // Java Heatbugs program. Copyright © 1999-2000 Swarm Development Group.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
+
+// Changes (from jheatbugs-2001-03-28) by Timothy Howe. 
 
 import swarm.Globals;
 import swarm.objectbase.Swarm;
@@ -153,6 +157,7 @@ public class StartHeatbugs
 public static void main (String[] args)
 {
     // Swarm initialization: all Swarm apps must call this first:
+	System.out.println ("This is StartHeatbugs.main().");
     Globals.env.initSwarm
      ("jheatbugs", "2.1", "bug-swarm@swarm.org", args);
     HeatbugModelSwarm model;

@@ -1,3 +1,16 @@
+2005-02-16  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
+
+	* Makefile: removed reference to current, cut fiddlilng with
+	HeatbugModelSwarm.java
+
+	* HeatbugModelSwarm.java (TV): turned off overwrite warnings.
+	* README: new
+	* swarm-steps.gen.txt: Tim's big all-in-one file
+	* repswarm.pl: New script by Tim Howe
+	* current* deleted.
+	* ALL JAVA files: new versions copied from Tim's 2004 package.
+	No detailed ChangeLog available.
+
 2001-11-13  Timothy Howe  <timothyrhowe@hotmail.com>
 
 	Heatbug.java: Abandoned divisor previously used in computation of 

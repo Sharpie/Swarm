@@ -1,7 +1,11 @@
+// jheatbugs-3.0
+
 // Java Heatbugs application. Copyright © 1999-2000 Swarm Development Group.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
+
+// Changes (from jheatbugs-2001-03-28) by Timothy Howe. 
 
 import java.awt.*;
 
@@ -18,61 +22,70 @@ A Heatbug is an agent in a 2-dimensional world. A Heatbug has the following
 behavior:
 
  <dir>
- A Heatbug has an ideal temperature (which is a property of the individual
- Heatbug), and a color that indicates the Heatbug's ideal 
- temperature (more green for cool-loving Heatbugs, more yellow for 
- warmth-loving Heatbugs).
+ Each Heatbug has its own ideal temperature, and a color that indicates the 
+ Heatbug's ideal temperature (more green for cool-loving Heatbugs, more yellow 
+ for warmth-loving Heatbugs).
  </dir>
 
  <dir>
- A Heatbug can sense the temperature of the cells in its 9-cell neighborhood.
+ A Heatbug senses the temperature of the cells in its 9-cell neighborhood.
  </dir>
 
  <dir>
- A Heatbug has an unhappiness, which is equal to the difference between the
- Heatbug's ideal temperature and the temperature of the cell where it sits.
+ A Heatbug has an unhappiness, which is the difference between the Heatbug's 
+ ideal temperature and the temperature of the cell where it sits.
+ We call a Heatbug unhappy if its unhappiness is non-zero.
  </dir>
 
  <dir>
  With an arbitrary probability (which is a property of the individual
- Heatbug), a Heatbug will move to a randomly-chosen empty cell in its 9-cell
- neighborhood.
+ Heatbug), an unhappy Heatbug will try to move to a randomly-chosen cell in 
+ its 8-cell neighborhood.
  </dir>
 
  <dir>
- If a Heatbug does not move in the arbitrary fashion described in
- the previous paragraph, it will move to an empty cell in
- its 9-cell neighborhood whose temperature is closest to
+ If an unhappy Heatbug does not try to move in the arbitrary fashion described 
+ in the previous paragraph, it will try to move to the cell in
+ its 8-cell neighborhood whose temperature is closest to
  its ideal temperature. If there is more than once such cell, it will 
- choose at random among the empty cells with that closest-to-ideal temperature.
+ choose at random among the cells with that closest-to-ideal temperature.
  </dir>
 
  <dir>
- If a Heatbug does not move in the rational fashion described in
- the previous paragraph, it will make 10 attempts to move to a 
- randomly-chosen empty cell in its immediate neighborhood. 
+ If the cell that a Heatbug tries to move to, as described in the previous two
+ paragraphs, is not empty, the Heatbug will make 10 attempts to move to a 
+ randomly-chosen empty cell in its 8-cell neighborhood. 
  </dir>
 
  <dir>
- In all cases a Heatbug will move only if its unhappiness is non-zero.
+ Two or more Heatbugs may not occupy a given cell simultaneously (but at 
+ initialization, double occupancy merely generates a warning). 
  </dir>
 
  <dir>
- Two or more Heatbugs may not occupy a given cell simultaneously. 
+ If there is no evaporation in the HeatSpace, heat will increase continually
+ until it reaches MAX_HEAT times the number of cells. With evaporation, the 
+ Heatbugs will typically become happier as they heat their neighborhoods up 
+ from the initial zero temperatures; then, after the heat in many cells hits
+ its MAX_HEAT ceiling, they will become unhappier as the capped heat diffuses
+ to distant cells; then, after the heat homogenizes, their unhappiness will
+ stabilize. Check it out: invoke javaswarm -Dr=0 -De=1 [-Di=1] [-Dc=1] [-Dd=0] 
+ StartHeatbugs. 
  </dir>
 
  <dir>
- Depending on "evaporation" in the HeatSpace, heat may increase continually
- until it reaches MAX_HEAT times the number of cells. So even if the Heatbugs 
- are immobile or move only randomly, they could still become happier till a 
- certain time (determined by ideal temperatures, "evaporation" rate, and 
- MAX_HEAT), then become unhappier, and finally plateau. 
+ If there is no evaporation in the HeatSpace, heat will increase continually
+ until it reaches MAX_HEAT times the number of cells. With evaporation, 
+ the Heatbugs will typically become happier till a certain time (determined by 
+ ideal temperatures, "evaporation" rate, and MAX_HEAT), then become unhappier, 
+ and then stabilize. Check it out: invoke javaswarm -Dr=0 -De=1 [-Di=1] [-Dc=1] 
+ [-Dd=0] StartHeatbugs. 
  </dir>
 
  <dir>
- A Heatbug produces heat (the amount is a property of the individual Heatbug),
- but it deposits the heat at the cell where it was sitting, not at the cell
- it is going to.
+ A Heatbug produces heat (the amount is a property of the individual Heatbug).
+ It deposits the heat at the cell where it was sitting, not at the cell it is 
+ going to.
  </dir>
 
 */
@@ -172,7 +185,7 @@ public synchronized void heatbugStep ()
         if (uDR < randomMoveProbability)
         {
             if (_printDiagnostics >= 100)
-                System.out.print ("Moving randomly ... ");
+                System.out.print ("Trying to move randomly ... ");
             // Pick a random cell within the 9-cell neighborhood, applying
             // geographic wrap-around:
             newX =
@@ -186,7 +199,7 @@ public synchronized void heatbugStep ()
         } else
         {
             if (_printDiagnostics >= 100)
-                System.out.print ("Moving rationally ... ");
+                System.out.print ("Trying to move rationally ... ");
             Point scratchPoint = new Point (x, y);
             // Ask the HeatSpace for a cell in the 9-cell neighborhood
             // with the closest-to-ideal temperature: 
@@ -199,7 +212,8 @@ public synchronized void heatbugStep ()
             newY = scratchPoint.y;
         }
         // ... Whether it chose randomly or rationally, a Heatbug may have
-        // chosen the cell it is already at. If it did, the choice is about
+        // chosen an already-occupied cell -- including the cell it occupies. 
+		// If it chose its own cell, the choice is about
         // to be rejected, since the code below checks to see whether the cell
         // is already occupied, without asking which Heatbug is occupying it:
         if (_world.getObjectAtX$Y (newX, newY) != null)

@@ -1,7 +1,11 @@
+// jheatbugs-3.0
+
 // Java Heatbugs application. Copyright © 1999-2000 Swarm Development Group.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
+
+// Changes (from jheatbugs-2001-03-28) by Timothy Howe. 
 
 import swarm.Globals;
 import swarm.Selector;
@@ -396,7 +400,7 @@ modelActions                                            ActionGroup
 |              |                    |                   |
 Action         Action               Action              Action
 _heatSpace     _heatbugList.get()   _heatSpace          this
-.stepRule()    .heatbugStep()       .updateLattice()    .modelStep()
+stepRule()    .heatbugStep()       .updateLattice()    .modelStep()
 </xmp>
 
 <p>
@@ -627,7 +631,7 @@ public Object buildActions ()
     Selector sel = new Selector (proto.getClass (), "heatbugStep", false);
     _actionForEach = modelActions.createFActionForEachHomogeneous$call
      (_heatbugList,
-      new FCallImpl (this, proto, sel, new FArgumentsImpl (this, sel, true))
+      new FCallImpl (this, proto, sel, new FArgumentsImpl (this, sel))
       // ... Through Swarm 2.1, FArgumentsImpl() takes 3 arguments (of which
       // the last argument should be the boolean value true). After Swarm 2.1, 
       // it takes 2 arguments.
@@ -744,7 +748,7 @@ public Object buildObjects ()
         heatbug.setOutputHeat (outputHeat);
         heatbug.setRandomMoveProbability (randomMoveProbability);
 
-        _world.setOverwriteWarnings (true);
+        _world.setOverwriteWarnings (false);
         if (_startInOneCluster)
         {
             // This would be all we'd need, if collisions were OK:
@@ -801,7 +805,6 @@ public Object modelStep ()
           + _heatSpace.getValueAtX$Y (x, y) + "."
          );
     // See if historical heat is a function of the number of steps:
-
 
     if (printDiagnostics >= 20)
     {
