@@ -31,10 +31,10 @@ Library:      collections
 #import <collections/List.h>
 
 struct link {
-  link_t     nextLink;     // next link in list
-  link_t     prevLink;     // previous link in list
+  link_t nextLink; // next link in list
+  link_t prevLink; // previous link in list
 #if ! MLINKS
-  id         refObject;    // object referenced by link
+  id refObject;    // object referenced by link
 #endif
 };
 
@@ -81,10 +81,11 @@ struct link {
 typedef struct block *block_t
 
 struct block {
-  int   blockCount;    // number of member slots in current block
-  int   fillSlot;      // if first block, offset of first full slot;
-                       // if last block (and not also first), first empty slot
-  id    slots[1];      // slots available for member storage
+  int blockCount;    // number of member slots in current block
+  int fillSlot;      // if first block, offset of first full slot;
+                     // if last block (and not also first), first empty slot
+  id slots[1];       // slots available for member storage
 };
 
 #endif
+
