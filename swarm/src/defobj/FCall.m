@@ -211,6 +211,7 @@ add_ffi_types (FCall_c *fc)
       fa->ffiArgTypes[pos] = ffi_types[type];
     }
 #else
+#ifdef HAVE_JDK
   if (fc->callType == javacall || fc->callType == javastaticcall)
     {
       java_set_return_type (fc, fa);
@@ -223,6 +224,7 @@ add_ffi_types (FCall_c *fc)
         }
     }
   else
+#endif
     {
       objc_set_return_type (fc, fa);
       fillHiddenArguments (fc);
@@ -434,9 +436,11 @@ PHASE(Using)
         abort ();
       }
 #else
+#ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
     java_call (fargs);
   else
+#endif
     objc_call (fargs);
 #endif
 }

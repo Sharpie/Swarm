@@ -7,6 +7,7 @@
 #import <defobj/directory.h> // JNI things
 #import <defobj/FArguments.h>
 
+#ifdef HAVE_JDK
 void
 java_setup_call (FArguments_c *fa,
                  JNIEnv *env,
@@ -28,6 +29,7 @@ java_setup_static_call (FArguments_c *fa,
   av_ptr (fa->java_avalist, jclass, class);
   av_ptr (fa->java_avalist, jmethodID, method);
 }
+#endif
 
 #define JAVA
 #include "_fcall.m"

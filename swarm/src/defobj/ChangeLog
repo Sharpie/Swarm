@@ -1,3 +1,13 @@
+1999-07-06  Alex Lancaster  <alex@santafe.edu>
+
+	* FCall.m (add_ffi_types): Protect Java-specific code with
+	HAVE_JDK ifdefs.
+	([FCall_c -performCall]): Likewise.
+
+	* fcall_java.m (java_setup_static_call): Likewise.
+
+	* fcall_java.h (java_call): Likewise.
+
 1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* fcall_{objc,java}.[hm]: New files.
