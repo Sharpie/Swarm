@@ -1,8 +1,17 @@
 SWARMHOME=../..
 LIBNAME=tkobjc
-OBJECTS=Graph.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o Colormap.o XPixmap.o Entry.o Label.o Form.o Histogram.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o WindowGeometryRecord.o ArchivedGeometryWidget.o ClassDisplayHideButton.o ClassDisplayLabel.o VarProbeLabel.o SimpleProbeDisplayHideButton.o SuperButton.o MessageProbeEntry.o VarProbeEntry.o CompleteProbeDisplayLabel.o ProbeCanvas.o common.o internal.o
 
-HEADERS=Graph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histogram.h Label.h Raster.h TkExtra.h Widget.h Colormap.h XDrawer.h XPixmap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h ClassDisplayHideButton.h ClassDisplayLabel.h VarProbeLabel.h SimpleProbeDisplayHideButton.h SuperButton.h MessageProbeEntry.h VarProbeEntry.h CompleteProbeDisplayLabel.h ProbeCanvas.h common.h internal.h
+ifeq $(MACHTYPE,i386-pc-cygwin32)
+XPIXMAP_H=
+XPIXMAP_O=
+else
+XPIXMAP_H=XPixmap.h
+XPIXMAP_O=XPixmap.o
+endif
+
+OBJECTS=Graph.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o Colormap.o Entry.o Label.o Form.o Histogram.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o WindowGeometryRecord.o ArchivedGeometryWidget.o ClassDisplayHideButton.o ClassDisplayLabel.o VarProbeLabel.o SimpleProbeDisplayHideButton.o SuperButton.o MessageProbeEntry.o VarProbeEntry.o CompleteProbeDisplayLabel.o ProbeCanvas.o common.o internal.o $(XPIXMAP_O)
+
+HEADERS=Graph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histogram.h Label.h Raster.h TkExtra.h Widget.h Colormap.h XDrawer.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h ClassDisplayHideButton.h ClassDisplayLabel.h VarProbeLabel.h SimpleProbeDisplayHideButton.h SuperButton.h MessageProbeEntry.h VarProbeEntry.h CompleteProbeDisplayLabel.h ProbeCanvas.h common.h internal.h $(XPIXMAP_H)
 
 OTHERCLEAN=testFrame testGraph testHistogram testRaster testFrame.o testGraph.o testHistogram.o testRaster.o
 
