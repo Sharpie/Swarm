@@ -2,7 +2,7 @@
   <TITLE>Swarm Changes and Compatibility</TITLE>
 
   <SECT1>
-    <TITLE>1.0.5 to 1.1</TITLE>
+    <TITLE>Porting from 1.0.5 to 1.1</TITLE>
 
     <ITEMIZEDLIST>
       <LISTITEM><PARA> Always use the "gui" protocol when calling
@@ -127,7 +127,7 @@ ProbeDisplayManager</PROGRAMLISTING>
   </SECT1>
 
   <SECT1>
-    <TITLE>1.0.4 to 1.0.5</TITLE>
+    <TITLE>Porting from 1.0.4 to 1.0.5</TITLE>
 
     <ITEMIZEDLIST>
 
@@ -148,7 +148,7 @@ ProbeDisplayManager</PROGRAMLISTING>
   </SECT1>
 
   <SECT1>
-    <TITLE>1.0.3 to 1.0.4</TITLE>
+    <TITLE>Porting from 1.0.3 to 1.0.4</TITLE>
 
     <ITEMIZEDLIST>
 
@@ -187,7 +187,7 @@ ProbeDisplayManager</PROGRAMLISTING>
   </SECT1>
 
   <SECT1>
-    <TITLE>1.0.2 to 1.0.3</TITLE>
+    <TITLE>Porting from 1.0.2 to 1.0.3</TITLE>
 
     <ITEMIZEDLIST>
 
@@ -227,7 +227,7 @@ ProbeDisplayManager</PROGRAMLISTING>
   </SECT1>
 
   <SECT1>
-    <TITLE>1.0.0 to 1.0.1</TITLE>
+    <TITLE>Porting from 1.0.0 to 1.0.1</TITLE>
 
     <PARA>There should not be any imcompatibilities between 1.0.1 and
       1.0.0. There are a couple of changes that affect the behavior of
