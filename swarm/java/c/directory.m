@@ -5,6 +5,9 @@
 #include <objc/objc.h>
 #include <objc/objc-api.h>
 
+#import "JavaProxy.h"
+#import <defobj.h>
+
 static avl_tree *java_tree;
 static avl_tree *objc_tree;
 
@@ -15,10 +18,11 @@ static jclass c_boolean,
   c_int, 
   c_short, c_long,
   c_float, c_double,
-  c_object;
+  c_object,
+  c_globalZone;
 
 static void
-ensure_classes (JNIEnv *env)
+create_class_refs (JNIEnv *env)
 {
   jclass find (const char *name)
     {
@@ -44,6 +48,10 @@ ensure_classes (JNIEnv *env)
       c_double = find ("Double");
       c_object = find ("Object");
 
+      c_globalZone = (*env)->FindClass (env, "swarm/defobj/globalZone");
+      if (c_globalZone == NULL)
+        abort ();
+      
       initFlag = YES;
     }
 }
@@ -75,8 +83,8 @@ java_directory_java_find (jobject java_object)
   pattern.java_object = java_object;
   result = avl_find (java_tree, &pattern);
   if (!result) 
-    abort ();
-  
+    result = java_directory_update (java_object,
+                                    [JavaProxy create: globalZone]);
   return result;
 }
 
@@ -90,12 +98,11 @@ java_directory_objc_find (id objc_object)
   result = avl_find (objc_tree, &pattern);
   if (!result) 
     abort ();
-  
   return result;
 }
 
 jobject_id * 
-java_directory_add (jobject java_object, id objc_object)
+java_directory_update (jobject java_object, id objc_object)
 {
   jobject_id *data;
   
@@ -103,16 +110,25 @@ java_directory_add (jobject java_object, id objc_object)
   data->objc_object = objc_object;
   data->java_object = java_object;
   
-  avl_insert (java_tree, data);
-  avl_insert (objc_tree, data);
+  avl_probe (java_tree, data);
+  avl_probe (objc_tree, data);
   return data;
 }
 
+jobject
+java_directory_update_java (jobject java_object, id objc_object)
+{
+  return java_directory_update (java_object, objc_object)->java_object;
+}
+
 void
-java_directory_init (void)
+java_directory_init (JNIEnv *env)
 {
   java_tree = avl_create (compare_java_objects, NULL);
   objc_tree = avl_create (compare_objc_objects, NULL);
+  
+  create_class_refs (env);
+  java_directory_update (c_globalZone, globalZone);
 }
 
 void
@@ -142,11 +158,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
     if (*p == '$')
       *p = ':';
 
-#if 0  
   sel = sel_get_any_typed_uid (name);
-#else
-  sel = 0;
-#endif
 
   if (!sel)
     {
@@ -175,7 +187,6 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
         {
           char type;
 
-#if 0
           if (class == c_object)
             {
               type = _C_ID;
@@ -218,7 +229,6 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
             }
           else
             abort ();
-#endif
           *p++ = type;
           if (regFlag)
             *p++ = '+';
@@ -230,18 +240,12 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
           }
         }
       
-      ensure_classes (env);
-
       add (retType, NO);
       for (ti = 0; ti < tc; ti++)
         add ((*env)->GetObjectArrayElement (env, argTypes, ti), YES);
 
       printf ("[%s][%s]\n", name, signatureBuf);
-#if 0
       sel = sel_register_typed_name (name, signatureBuf);
-#else
-      sel = 0;
-#endif
     }
   
   if (copyFlag)

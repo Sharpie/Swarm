@@ -1,3 +1,13 @@
+1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.h (JUPDATE): New macro.
+	(JADD): Remove.
+
+	* directory.[hm] (java_directory_init): Add jniEnv argument.
+	(java_directory_update, java_directory_update_java): New functions.
+
+	* setup.c: Remove initialize constructor.
+
 1999-03-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in: Include $(top_builddir)/etc/Makefile.common.
