@@ -1,3 +1,8 @@
+1998-05-26  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* history.el (process-changelog): Always print REVNUMBER pair,
+	even when empty.
+
 1998-05-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* history.el (process-changelog): print closing REVISION tag.

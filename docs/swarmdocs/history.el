@@ -158,11 +158,11 @@
             (loop for changelog-item in (changelog-item-list changelog)
                   do
                   (insert "<REVISION>\n")
+                  (insert "<REVNUMBER>")
                   (let ((filename (changelog-item-filename changelog-item)))
                     (when filename
-                      (insert "<REVNUMBER>")
-                      (insert filename)
-                      (insert "</REVNUMBER>\n")))
+                      (insert filename)))
+                  (insert "</REVNUMBER>\n")
                   (insert "<DATE>")
                   (insert date-string)
                   (insert "</DATE>\n")
