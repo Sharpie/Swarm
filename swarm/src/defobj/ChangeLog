@@ -1,3 +1,15 @@
+2000-07-01  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* directory.m (swarm_directory_swarm_class): Don't abort
+	if entry is not found for object.  It may be an object
+	that was created by Swarm (e.g. HDF5).
+
+	* java.m (java_class_name_for_objc_class): Handle the
+	case where a class was dynamically created.
+	(find_java_wrapper_class): Don't expect there will
+	be an associated java class; return 0 in the case there isn't.
+	(swarm_directory_objc_find_java_class): Likewise.
+
 2000-06-30  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* internal.m (object_ivar_type): Raise an error if ivar isn't found.

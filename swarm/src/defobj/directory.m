@@ -280,20 +280,20 @@ swarm_directory_swarm_class (id object)
     {
       ObjectEntry *entry = swarm_directory_objc_find_object (object);
 
-      if (!entry)
-        abort ();
-
-#ifdef HAVE_JDK
-      if (entry->type == foreign_java)
+      if (entry)
         {
-          jobject jobj;
-
-          if ((jobj = SD_JAVA_FIND_OBJECT_JAVA (object)))
-            return swarm_directory_java_class_for_object (jobj);
-        }
-      else
+#ifdef HAVE_JDK
+          if (entry->type == foreign_java)
+            {
+              jobject jobj;
+              
+              if ((jobj = SD_JAVA_FIND_OBJECT_JAVA (object)))
+                return swarm_directory_java_class_for_object (jobj);
+            }
+          else
 #endif
-        abort ();
+            abort ();
+        }
     }
   return [object getClass];
 }

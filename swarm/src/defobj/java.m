@@ -1546,12 +1546,17 @@ java_class_name_for_objc_class (Class class)
 
       nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
       typeImpl = [class getTypeImplemented];
-      javaClassName = java_class_name_for_typename (typeImpl->name,
-						   nextPhase == NULL); 
+      if (typeImpl)
+        javaClassName = java_class_name_for_typename (typeImpl->name,
+                                                      nextPhase == NULL); 
+      else
+        javaClassName = NULL; // e.g., when HDF5 created one
     }
   else
     {
       Type_c *typeImpl;
+
+
       typeImpl = [class getTypeImplemented];
 
       if (typeImpl)
@@ -1592,12 +1597,16 @@ java_find_class (const char *javaClassName, BOOL failFlag)
 static jclass
 find_java_wrapper_class (Class class)
 {
-  jclass ret;
   const char *name = java_class_name_for_objc_class (class);
 
-  ret = java_find_class (name, YES);
-  FREECLASSNAME (name);
-  return ret;
+  if (name)
+    {
+      jclass ret = java_find_class (name, YES);
+      FREECLASSNAME (name);
+      return ret;
+    }
+  else
+    return 0;
 }
 
 
@@ -1871,13 +1880,14 @@ swarm_directory_objc_find_java_class (Class class)
 
   if (!clazz)
     {
-      ObjectEntry *result;
-
       clazz = find_java_wrapper_class (class);
-      result = SD_JAVA_ADD ((jobject) clazz, class);
-      
-      (*jniEnv)->DeleteLocalRef (jniEnv, clazz);
-      clazz = (jclass) result->foreignObject.java;
+      if (clazz)
+        {
+          ObjectEntry *result = SD_JAVA_ADD ((jobject) clazz, class);
+          
+          (*jniEnv)->DeleteLocalRef (jniEnv, clazz);
+          clazz = (jclass) result->foreignObject.java;
+        }
     }
   return clazz;
 }
