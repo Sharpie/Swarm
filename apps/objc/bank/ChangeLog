@@ -1,3 +1,10 @@
+1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* BankObserverSwarm.m ([BankObserverSwarm -buildObjects]): Use
+	Graph instead of BLTGraph for investorGraph.
+
+	* main.m (main): Constify argv.
+
 1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* FLink.h: Reformatting throughout.

@@ -96,7 +96,7 @@
                       withFeedFrom: [bankModelSwarm getEntityList]
                        andSelector: M(incident)];
 
-  investorGraph = [BLTGraph createBegin: [self getZone]];
+  investorGraph = [Graph createBegin: [self getZone]];
   SET_WINDOW_GEOMETRY_RECORD_NAME (investorGraph);
   investorGraph = [investorGraph createEnd];
 
