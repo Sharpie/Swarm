@@ -14,6 +14,8 @@ id <TkExtra> globalTkInterp;
 
 #import "simtools_tcl.x"
 #import "analysis_tcl.x"
+#import "comm_tcl.x"
+#import "tkbusy_tcl.x"
 
 id <Error> WindowCreation, WindowUsage, MissingFiles;
 
@@ -24,6 +26,8 @@ initTkObjc (id arguments)
     tkobjc_initTclInterp (arguments);
   else
     {
+      const char *appName = [arguments getAppName];
+
       deferror (WindowCreation, NULL);
       deferror (WindowUsage, NULL);
       
@@ -31,6 +35,9 @@ initTkObjc (id arguments)
       
       [globalTkInterp eval: simtools_tcl];
       [globalTkInterp eval: analysis_tcl];
+      [globalTkInterp eval: comm_tcl];
+      [globalTkInterp eval: "set %s [comm new %s]", appName, appName];
+      [globalTkInterp eval: tkbusy_tcl];
     }
 }
 

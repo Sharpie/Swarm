@@ -59,7 +59,7 @@ ProbeCanvas.o: ProbeCanvas.m ProbeCanvas.h
 
 common.o: common.m common.h
 internal.o: internal.m internal.h
-tkobjc.o: analysis_tcl.x simtools_tcl.x
+tkobjc.o: analysis_tcl.x simtools_tcl.x comm_tcl.x tkbusy_tcl.x
 
 %_tcl.x: %.tcl
-	(echo 'const char *$(basename $<)_tcl = "' ; cat $< | sed 's/"/\\"/g' ; echo '";' ) > $@
+	(echo 'const char *$(basename $<)_tcl = "' ; cat $< | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' ; echo '";' ) > $@

@@ -1,3 +1,13 @@
+1998-03-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tkobjc.m (initTkObjc): Evaluate comm_tcl, create a comm channel,
+	and evaluate tkbusy_tcl.
+
+	* Makefile (%_tcl.x): Handle backslashes.
+	(tkobjc.o): Depend on comm_tcl.x, tkbusy_tcl.x as well.
+
+	* comm.tcl, tkbusy.tcl: New files.
+
 1998-03-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m: Define WindowsArguments as Arguments during load of
