@@ -3,8 +3,7 @@
 	* acjdk.m4 (USEDOSCLASSPATH): New substitution.  This distinguishes
 	between native Windows and Cygwin applications.
 	In Kaffe case, look in ${jdkdir}/bin/kaffe for KAFFE_CLASSDIR.
-	Force Unix-like settings for PATHSEP, PATHDELIM, and PATHEXPR 
-	if Cygwin and Kaffe.
+	Convert it to windows path if host_os is cygwin.
 
 1999-05-31    <mgd@HELEN>
 

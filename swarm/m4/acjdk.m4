@@ -74,7 +74,8 @@ else
   elif test -f $jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
     jdkdatadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $jdkdir/bin/kaffe`
-    JAVACLASSES="$jdkdatadir/Klasses.jar:$jdkdatadir/pizza.jar"
+    test "$host_os" = cygwin && jdkdatadir=`cygwin -w $jdkdatadir`
+    JAVACLASSES="$jdkdatadir${PATHDELIM}Klasses.jar${PATHSEP}$jdkdatadir${PATHDELIM}pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
     JAVALIBS='${jdkdir}/lib/kaffe' # count on -rpath for main executable
     JAVACMD='${jdkdir}/libexec/Kaffe'
@@ -83,11 +84,6 @@ else
     javac_default='${jdkdir}/bin/javac'
     JAVALIBPREFIX=
     JAVALIBPATH_VAR=KAFFELIBRARYPATH
-    if test "$host_os" = cygwin; then
-      PATHSEP=':'
-      PATHDELIM='/'
-      PATHEXPR='$<'
-    fi
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
