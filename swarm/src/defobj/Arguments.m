@@ -521,10 +521,7 @@ getnenv (const char *strptr, size_t len)
   strncpy (buf, strptr, len);
   buf[len] = '\0';
   if (strcmp (buf, "prefix") == 0)
-    {
-      printf ("prefix\n");
-      return getSwarmPrefix ();
-    }
+    return getSwarmPrefix ();
   else
     return getenv (buf);
 }
