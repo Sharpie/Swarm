@@ -1,3 +1,10 @@
+1998-03-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m: Include stdlib.h (for getenv).
+	(setSecondaryPath): New function sets a secondary {TCL,TK}_LIBRARY
+	path from $SWARMHOME/lib.
+	(tkobjc_initTclInterp, tkobjc_initTkInterp): Use it.
+
 1998-03-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m: Include sys/time.h, protecting against redefinition

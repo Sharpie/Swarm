@@ -31,6 +31,8 @@
 
 #include <misc.h>
 
+#include <stdlib.h> // getenv
+
 extern TkExtra *globalTkInterp;
 
 Tk_Window 
@@ -59,10 +61,27 @@ registerInterp (void)
   [globalTkInterp registerObject: globalTkInterp withName: "globalTkInterp"];
 }
 
+static void
+setSecondaryPath (void)
+{
+  const char *swarmHome = getenv ("SWARMHOME");
+
+  if (swarmHome)
+    {
+      char *libraryPath = xmalloc (strlen (swarmHome) + 5);
+      char *p;
+      
+      p = stpcpy (libraryPath, swarmHome);
+      strcpy (p, "/lib");
+      [globalTkInterp setSecondaryLibraryPath: libraryPath];
+    }
+}
+
 void
 tkobjc_initTclInterp (id arguments)
 {
   globalTkInterp = [TclInterp alloc];  // misnomer
+  setSecondaryPath ();
   [globalTkInterp initWithArgc: [arguments getArgc]
                   argv: [arguments getArgv]];
   registerInterp ();
@@ -72,6 +91,7 @@ void
 tkobjc_initTkInterp (id arguments)
 {
   globalTkInterp = [TkExtra alloc];
+  setSecondaryPath ();
   [globalTkInterp initWithArgc: [arguments getArgc]
                   argv: [arguments getArgv]];
   registerInterp ();
