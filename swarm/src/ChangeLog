@@ -3,6 +3,7 @@
 	* Makefile.am (swarm.dll): New rule.
 	(install-data-local): If SWARMDLL is set, install libswarm.a and
 	run ranlib on installed version.
+	(EXTRA_PROGRAMS): Add swarm.dll.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -14,6 +14,7 @@ EXTRA_DIST = Makefile.rules
 
 all-recursive: headers
 
+EXTRA_PROGRAMS = swarm.dll
 bin_PROGRAMS = @SWARMDLL@
 
 headers:
