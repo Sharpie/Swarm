@@ -338,7 +338,13 @@ java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag)
                                                    nextPhase == NULL);
             }
           else
-            javaClass = java_class_for_typename (env, class->name, YES);
+	    {
+	      Type_c *typeImpl;
+	      typeImpl = [class getTypeImplemented];
+	      javaClass = java_class_for_typename (env,
+						   typeImpl->name,
+						   YES);
+	    }
           
           result = java_directory_update (env, 
                                           java_instantiate (env, javaClass),
@@ -793,7 +799,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
       sel = sel_register_typed_name (name, signatureBuf);
     }
 
-  java_directory_update (env, jsel, (id) sel);
+  java_directory_update (env, (*env)->NewGlobalRef(env, jsel), (id) sel);
 
   if (copyFlag)
     (*env)->ReleaseStringUTFChars (env, string, utf);

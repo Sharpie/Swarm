@@ -336,7 +336,7 @@ _obj_initModule (void *module)
     }
   
   // audit that implementation provided for each creatable type interface
-  
+  /*
   for (typeID = (Type_c ***) moduleObject->types; *typeID; typeID++)
     if ((**typeID)->implementation == Creating)
       {
@@ -345,7 +345,7 @@ _obj_initModule (void *module)
                     [(id)**typeID getName]);
         type->implementation = nil;
       }
-  
+  */
   // call initialize function to complete initialization of module
   
   (*initFunction) ();
