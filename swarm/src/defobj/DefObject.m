@@ -201,6 +201,15 @@ PHASE(Using)
   return respondsTo (self, aSel);
 }
 
++ (BOOL)conformsTo: (Protocol *)protocol
+{
+  if (getBit (((Class) self)->info, _CLS_DEFINEDCLASS))
+    return [((CreatedClass_s *) self)->definingClass
+                                     conformsTo: protocol];
+  else
+    return [super conformsTo: protocol];
+}
+
 //
 // getClass -- get class object that implements behavior of object
 //

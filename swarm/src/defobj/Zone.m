@@ -50,7 +50,7 @@ dalloc (size_t blockSize)
   
   XFREE (block);
   block = xmalloc (blockSize + 7);
-  return ((void *)(((unsigned long)block + 7) & ~0x7));
+  return ((void *) (((unsigned long)block + 7) & ~0x7));
 }
 
 //
@@ -94,8 +94,8 @@ PHASE(Creating)
   // create internal support objects for zone
 
   componentZone = [self allocIVarsComponent: id_ComponentZone_c];
-  ((ComponentZone_c *)componentZone)->baseZone = self;
-  ((ComponentZone_c *)componentZone)->componentZone = componentZone;
+  ((ComponentZone_c *) componentZone)->baseZone = self;
+  ((ComponentZone_c *) componentZone)->componentZone = componentZone;
 
   population = [List_linked createBegin: componentZone];
   [population setIndexFromMemberLoc: - (2 * sizeof(id))];
@@ -125,7 +125,7 @@ PHASE(Using)
 - allocIVars: aClass
 {
   Object_s *newObject;
-  size_t size = ((Class)aClass)->instance_size;
+  size_t size = ((Class) aClass)->instance_size;
 
   //!! need to guarantee that class inherits from Object_s, to define slot
   //!! for zbits
@@ -136,7 +136,7 @@ PHASE(Using)
   
   // add object to the population list, skipping over links in object header
 
-  newObject = (Object_s *) ((id *)newObject + 2);
+  newObject = (Object_s *) ((id *) newObject + 2);
   if (population)
     {
       [population addLast: newObject];
@@ -166,7 +166,7 @@ PHASE(Using)
 
   // add object to the population list, skipping over links in object header
 
-  newObject = (Object_s *)((id *)newObject + 2);
+  newObject = (Object_s *) ((id *) newObject + 2);
   [population addLast: newObject];
   populationTotal += instanceSize;
 
@@ -174,7 +174,7 @@ PHASE(Using)
 
   memcpy (newObject, anObject, instanceSize);
   newObject->zbits = (unsigned long)self;
-  if (getMappedAlloc ((Object_s *)anObject))
+  if (getMappedAlloc ((Object_s *) anObject))
     setMappedAlloc (newObject);  
   return newObject;
 }
@@ -194,7 +194,7 @@ PHASE(Using)
 
   if (_obj_debug)
     {
-      if (getBit (((Object_s *)anObject)->zbits, BitComponentAlloc))
+      if (getBit (((Object_s *) anObject)->zbits, BitComponentAlloc))
         raiseEvent (InvalidOperation,
                     "> object being freed by freeIVars: (%0#8x: %s)\n"
                     "> was allocated for restricted internal use by\n"
@@ -202,9 +202,9 @@ PHASE(Using)
                     "> and may only be freed by freeIVarsComponent:\n",
                     anObject, getClass (anObject)->name);
       
-      memset ((id *)anObject - 2, _obj_fillfree, size + (2 * sizeof (id)));
+      memset ((id *) anObject - 2, _obj_fillfree, size + (2 * sizeof (id)));
     }
-  XFREE ((id *)anObject - 2);
+  XFREE ((id *) anObject - 2);
 }
 
 //
@@ -216,7 +216,7 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *)dalloc (((Class)aClass)->instance_size);
+  newObject = (Object_s *) dalloc (((Class)aClass)->instance_size);
 
   if (_obj_debug)
     {
@@ -242,19 +242,19 @@ PHASE(Using)
 
   // allocate object of required size, including links in object header
 
-  newObject = (Object_s *) dalloc (getClass(anObject)->instance_size);
+  newObject = (Object_s *) dalloc (getClass (anObject)->instance_size);
 
   if (_obj_debug)
     {
       objectCount++;
-      objectTotal += getClass(anObject)->instance_size;
+      objectTotal += getClass (anObject)->instance_size;
     }
   
   // initialize and return the new object, without adding to population list
   
-  memcpy (newObject, anObject, getClass(anObject)->instance_size);
+  memcpy (newObject, anObject, getClass (anObject)->instance_size);
   newObject->zbits = (unsigned long)self;
-  if (getMappedAlloc ((Object_s *)anObject))
+  if (getMappedAlloc ((Object_s *) anObject))
     setMappedAlloc (newObject);  
   setBit (newObject->zbits, BitComponentAlloc, 1); 
   return newObject;

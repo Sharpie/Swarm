@@ -91,6 +91,8 @@ USING
 //M: particular message.
 - (BOOL)respondsTo: (SEL)aSel;
 
++ (BOOL)conformsTo: (Protocol *)protocol;
+
 //M: getClass returns the class that implements the current behavior of an
 //M: object.
 - getClass;

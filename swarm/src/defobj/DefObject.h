@@ -37,6 +37,7 @@ Library:      defobj
 + (const char *)getName;
 + (BOOL)respondsTo: (SEL)aSel;
 - (BOOL)respondsTo: (SEL)aSel;
++ (BOOL)conformsTo: (Protocol *)aProtocol;
 + getClass;
 - getClass;
 - getZone;

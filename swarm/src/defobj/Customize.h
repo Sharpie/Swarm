@@ -9,6 +9,7 @@ Description:  superclass impleemntation of create-phase customization
 Library:      defobj
 */
 
+#import <defobj/DefClass.h> // BehaviorPhase_s
 #import <defobj/DefObject.h>
 
 //
@@ -78,7 +79,7 @@ if (_obj_customize(self)) [self _setRecustomize_: recustomizeReceiver]
 //
 // objects to save createBy actions generated customizeBegin/End
 //
-@interface CreateBy_c : Object_s
+@interface CreateBy_c: Object_s
 {
 @public
   id implementedType; // type of object created by CreateBy object
@@ -108,16 +109,13 @@ if (_obj_customize(self)) [self _setRecustomize_: recustomizeReceiver]
 - create: aZone;
 @end
 
-
-#define _obj_NEXTCLASS 11
-
 //
 // getNextPhase() -- return class which implements next phase of object
 //
 extern inline Class
 getNextPhase (id aClass)
 {
-  return ((Class *) aClass)[_obj_NEXTCLASS];
+  return (Class) ((BehaviorPhase_s *) aClass)->nextPhase;
 }
 
 //
@@ -126,5 +124,5 @@ getNextPhase (id aClass)
 extern inline void
 setNextPhase (id anObject)
 {
-  *(Class *) anObject = (*(Class **) anObject)[_obj_NEXTCLASS];
+  *(Class *) anObject = (Class) (*(BehaviorPhase_s **) anObject)->nextPhase;
 }

@@ -1,5 +1,13 @@
 1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* DefObject.[hm], defobj.h: New method +conformsTo:.
+
+	* Customize.h: Include DefClass.h.
+
+	* Customize.[hm] (getNextPhase, setNextPhase): Use deference to
+	casts to BehaviorPhase_s instead of doing constant array offset
+	into a Class.
+
 	* make-h2x: Don't accept @implementation with a name starting with "_".
 
 	* defobj.h (archiver{Register,Unregister},
@@ -9,9 +17,6 @@
 
 	* DefClass.m ([CreatedClass_s +createBegin:]): Don't use temporary
 	variable.
-	([CreatedClass_s -setDefiningClass:]): Copy protocolList, too.
-
-	* DefClass.h (Class_s): Add unused1, unused2, and protocolList.
 
 	* Customize.h (createByCopy, createByMessageTo,
 	createByMessageToCopy): Return YES/NO instead of 1/0.

@@ -124,7 +124,6 @@ PHASE(CreatingOnly)
   instanceSize = ((Class_s *) aClass)->instanceSize;
   ivarList = ((Class_s *) aClass)->ivarList;
   methodList = ((Class_s *) aClass)->methodList;
-  protocolList = ((Class_s *) aClass)->protocolList;
 }
 
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod
@@ -153,9 +152,7 @@ PHASE(CreatingOnly)
 
   return self;
 }
-
 @end
-
 
 @implementation BehaviorPhase_s
 

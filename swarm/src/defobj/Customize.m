@@ -364,7 +364,7 @@ _obj_splitPhases (Class_s *class)
   Method_t mnext;
 
   // return if classes have already been created
-  classData = _obj_getClassData( class );
+  classData = _obj_getClassData (class);
   if (classData->initialPhase)
     return;
   
@@ -640,7 +640,7 @@ _obj_customize (id anObject)
 Class
 getNextPhase (id aClass)
 {
-  return ((Class *) aClass)[_obj_NEXTCLASS];
+  return (Class) ((BehaviorPhase_s *) aClass)->nextPhase;
 }
 
 //
@@ -649,5 +649,5 @@ getNextPhase (id aClass)
 void
 setNextPhase (id anObject)
 {
-  *(Class *) anObject = (*(Class **) anObject)[_obj_NEXTCLASS];
+  *(Class *) anObject = (Class) (*(BehaviorPhase_s **) anObject)->nextPhase;
 }

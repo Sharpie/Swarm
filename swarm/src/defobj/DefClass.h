@@ -9,7 +9,6 @@ Description:  class with variables and/or methods defined at runtime
 Library:      defobj
 */
 
-#import <defobj/Create.h>
 #import <objc/Object.h>
 #import <objc/objc-api.h>
 
@@ -33,11 +32,8 @@ typedef struct methodDefs *methodDefs_t;
   void *ivarList;         // compiler-generated list of local ivars
   void *methodList;       // compiler-generated list of local methods
   struct sarray  *dtable; // dispatch table
-  void *unused1;
-  void *unused2;
-  void *protocolList;
-  
 }
+
 /*** methods in Class_s (inserted from .m file by m2h) ***/
 @end
 
@@ -71,7 +67,7 @@ void _obj_initMethodInterfaces (Class_s *class);
 - createEnd;
 @end
 
-@interface BehaviorPhase_s : CreatedClass_s
+@interface BehaviorPhase_s: CreatedClass_s
 {
 @public
   Class_s *nextPhase; // class which implements next interface
