@@ -25,7 +25,7 @@ public class HeatSpace extends Diffuse2dImpl {
   
     /** constant: maximum heat.  This could just be used from the
         Diffuse2d object's max states. */
-    public static final long maxHeat = 0x7fff;
+    public static final int maxHeat = 0x7fff;
   
     // used in findExtremeTypeX$Y
     static final int cold = 0, hot = 1;
@@ -44,9 +44,8 @@ public class HeatSpace extends Diffuse2dImpl {
     /** 
      * Add heat to the current spot. This code checks the bounds on
      maxHeat, pegs value at the top. */
-    public Object addHeat$X$Y (long moreHeat, int x, int y) 
-    {
-        long heatHere;
+    public Object addHeat$X$Y (int moreHeat, int x, int y) {
+        int heatHere;
         
         heatHere = getValueAtX$Y (x, y);	  // read the heat
         if (moreHeat <= maxHeat - heatHere)   // would add be too big?
@@ -65,77 +64,76 @@ public class HeatSpace extends Diffuse2dImpl {
      * (boundary conditions) are implicitly in the code - look at the
      * call to getValueAtX$Y. */
 
-    public long findExtremeType$X$Y (int type, HeatCell hc)
-    {
-        long bestHeat;
-        int x, y;
-        List heatList;
-        HeatCell cell, bestCell;
-        int offset;
-        int px = hc.x;
-        int py = hc.y;
-        
+    public int findExtremeType$X$Y (int type, HeatCell hc) {
+      int bestHeat;
+      int x, y;
+      List heatList;
+      HeatCell cell, bestCell;
+      int offset;
+      int px = hc.x;
+      int py = hc.y;
+      
         // prime loop: assume extreme is right where we're standing
-        bestHeat = getValueAtX$Y (px, py);
-
-        // Now scan through the world, finding the best cell in the 8
+      bestHeat = getValueAtX$Y (px, py);
+      
+      // Now scan through the world, finding the best cell in the 8
         // cell nbd.  To remove the bias from the choice of location,
-        // we keep a list of all best ones and then choose a random
-        // location if there are points of equal best heat.
-        heatList = new ArrayList ();
-        
-        for (y = py - 1; y <= py + 1; y++) {  
-            for (x = px - 1; x <= px + 1; x++) {
-                long heatHere;
-                boolean hereIsBetter, hereIsEqual;
-
-                heatHere = getValueAtX$Y ((x + sizeX) % sizeX,
-                                          (y + sizeY) % sizeY);
-        
-                hereIsBetter = (type == cold) ? (heatHere < bestHeat)
-                    : (heatHere > bestHeat);
-        
-                hereIsEqual = (heatHere == bestHeat);
-                
-                if (hereIsBetter) {	      // this spot more extreme
-                    
-                    cell = new HeatCell (x, y);
-                    
-                    // this heat must be the best so far, so delete all the
-                    // other cells we have accumulated
-                    heatList.clear ();
-                    heatList.add (cell); 
-                    
-                    // now list only has the one new cell
-
-                    bestHeat = heatHere;   // update information
-                }
+      // we keep a list of all best ones and then choose a random
+      // location if there are points of equal best heat.
+      heatList = new ArrayList ();
+      
+      for (y = py - 1; y <= py + 1; y++) {  
+	for (x = px - 1; x <= px + 1; x++) {
+	  int heatHere;
+	  boolean hereIsBetter, hereIsEqual;
+	  
+	  heatHere = getValueAtX$Y ((x + sizeX) % sizeX,
+				    (y + sizeY) % sizeY);
+	  
+	  hereIsBetter = (type == cold) ? (heatHere < bestHeat)
+	    : (heatHere > bestHeat);
+	  
+	  hereIsEqual = (heatHere == bestHeat);
+	  
+	  if (hereIsBetter) {	      // this spot more extreme
+	    
+	    cell = new HeatCell (x, y);
+	    
+	    // this heat must be the best so far, so delete all the
+	    // other cells we have accumulated
+	    heatList.clear ();
+	    heatList.add (cell); 
+	    
+	    // now list only has the one new cell
+	    
+	    bestHeat = heatHere;   // update information
+	  }
           
-                // if we have spots of equal best heat - then we add to the
-                // list from which we can choose randomly later
-                if (hereIsEqual) {
-                    cell = new HeatCell (x, y);
-                    heatList.add (cell); // add to the end of the list
-                }
-            }
-         
-        }
-        // choose a random position from the list
-        offset = Globals.env.uniformIntRand.getIntegerWithMin$withMax 
-            (0, (heatList.size () - 1));
-        
-        // choose a point at random from the heat list
-        bestCell = (HeatCell) heatList.get (offset);
-        
-        // Now we've found the requested extreme. Arrange to return the
-        // information (normalize coordinates), and return the heat we found.
-        
-        hc.setX ((bestCell.x + sizeX) % sizeX);
-        hc.setY ((bestCell.y + sizeY) % sizeY);
-        
-        // clean up the temporary list of (x,y) points
-        heatList.clear ();
-        
-        return getValueAtX$Y (hc.x, hc.y);
+	  // if we have spots of equal best heat - then we add to the
+	  // list from which we can choose randomly later
+	  if (hereIsEqual) {
+	    cell = new HeatCell (x, y);
+	    heatList.add (cell); // add to the end of the list
+	  }
+	}
+	
+      }
+      // choose a random position from the list
+      offset = Globals.env.uniformIntRand.getIntegerWithMin$withMax 
+	(0, (heatList.size () - 1));
+      
+      // choose a point at random from the heat list
+      bestCell = (HeatCell) heatList.get (offset);
+      
+      // Now we've found the requested extreme. Arrange to return the
+      // information (normalize coordinates), and return the heat we found.
+      
+      hc.setX ((bestCell.x + sizeX) % sizeX);
+      hc.setY ((bestCell.y + sizeY) % sizeY);
+      
+      // clean up the temporary list of (x,y) points
+      heatList.clear ();
+      
+      return getValueAtX$Y (hc.x, hc.y);
     }
 }

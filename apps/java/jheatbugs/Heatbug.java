@@ -20,9 +20,9 @@ public class Heatbug {
   /**  my spatial coordinates */
   public int x, y;			
   /**  my ideal temperature */
-  public long idealTemperature;	
+  public int idealTemperature;	
   /** how much heat I put out */
-  public long outputHeat;				  
+  public int outputHeat;				  
   /** chance of moving randomly */
   public double randomMoveProbability;			  
   /** the world I live in */
@@ -95,12 +95,12 @@ public class Heatbug {
      Simple set methods for Heatbug state. Some of these are
      probably not going to normally change in a heatbugs lifetime,
      but there's no reason they couldn't change.  */
-  public Object setIdealTemperature (long i) {
+  public Object setIdealTemperature (int i) {
     idealTemperature = i;
     return this;
   }
 
-  public Object setOutputHeat (long o) {
+  public Object setOutputHeat (int o) {
     outputHeat = o;
     return this;
   }
@@ -134,7 +134,7 @@ public class Heatbug {
      simplification for basic simulations.
   */
   public void heatbugStep () {
-    long heatHere;
+    int heatHere;
     int newX, newY;
     int tries;
 

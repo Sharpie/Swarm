@@ -1,3 +1,13 @@
+1999-12-27    <mgd@DRONE>
+
+	* Heatbug.java (Heatbug): Change x, y, idealTemperature,
+	outputHeat from long to int.
+	(setOutputHeat, setIdealTemperature): Use long instead of int.
+	(heatbugStep): Use long instead of int for heat.
+
+	* HeatSpace.java (maxHeat, addHeat$X$Y, findExtremeHeat$X$Y):
+	Use int instead of long.
+
 1999-12-22    <mgd@nest.swarm.org>
 
 	* HeatbugModelSwarm.java: Don't include FArguments, FCall creating
