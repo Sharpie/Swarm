@@ -2,7 +2,8 @@
 
 	* Discrete2d.m (lispInLatticeValues, lispInLatticeObjects,
 	lispOutLatticeObjects, lispOutLatticeValues): New static functions
-	replace internal methods.
+	replace internal methods.  lispInLatticeValues checks to see that
+	size of array element is the same as size of an id.
 
 1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
