@@ -1,5 +1,7 @@
 1999-09-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Swarm 2.0.1 released.
+
 	* acpath.m4: Use cygwin -w instead of slash substitution for
 	PATHEXPR.
 
