@@ -1,5 +1,7 @@
 1999-01-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.m (registerLocalClass): Fix thinko increment bug.
+
 	* DefObject.m ([Object_s -doesNotRecognize:]): New method.
 	Objective C runtime fails to format arguments, so we'll do
 	it with raiseEvent.

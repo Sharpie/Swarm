@@ -95,10 +95,7 @@ registerLocalClass (Class class)
   if (localClassCount == 0)
     localClasses = xmalloc (sizeof (Class));
   else
-    {
-      localClassCount++;
-      localClasses = xrealloc (localClasses, localClassCount + 1);
-    }
+    localClasses = xrealloc (localClasses, localClassCount + 1);
   localClasses[localClassCount++] = class;
 }
 
