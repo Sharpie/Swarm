@@ -1,3 +1,11 @@
+1999-03-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.h (JINSTANTIATEUSING): Remove FROMCLASS and FROMOBJECT
+	variants.  All are objects.
+
+	* directory.m (java_ensure_selector): Add internal classp for
+	type checking.
+
 1999-03-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (java_directory_init): Add jglobalZone argument;

@@ -32,20 +32,31 @@ create_class_refs (JNIEnv *env)
       char class_name_buf[10 + strlen (name) + 1];
       char *p;
       jclass ret, clazz;
-      jfieldID field;
       
       p = stpcpy (class_name_buf, "java/lang/");
       p = stpcpy (p, name);
       if (!(clazz = (*env)->FindClass (env, class_name_buf)))
         abort ();
-      if (!(field = (*env)->GetStaticFieldID (env,
-                                              clazz,
-                                              "TYPE",
-                                              "Ljava/lang/Class;")))
-        abort ();
-      if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
-        abort ();  
-      ret = (*env)->NewGlobalRef (env, ret);
+
+#if 0
+      ret = (*env)->NewGlobalRef (env, clazz);
+#else
+      {
+        jfieldID field;
+
+        if (!(field = (*env)->GetStaticFieldID (env,
+                                                clazz,
+                                                "TYPE",
+                                                "Ljava/lang/Class;")))
+          abort ();
+        if (!(ret = (*env)->GetStaticObjectField (env, clazz, field)))
+          abort ();
+        printf ("%s %x %x ", name, (unsigned) clazz, (unsigned) ret);
+        printf ("%x ", (unsigned) (*env)->NewGlobalRef (env, ret));
+        printf ("%x\n", (unsigned) (*env)->NewGlobalRef (env, ret));
+        ret = (*env)->NewGlobalRef (env, ret);
+      }
+#endif
       return ret;
     }
   if (!initFlag)
@@ -171,14 +182,8 @@ java_directory_switchupdate_java (JNIEnv *env,
 jobject
 java_instantiate (JNIEnv *env, jclass clazz)
 {
-  return (*env)->NewGlobalRef(env, (*env)->AllocObject (env, clazz));
+  return (*env)->NewGlobalRef (env, (*env)->AllocObject (env, clazz));
 }
-
-jobject
-java_instantiate_using_from_class (JNIEnv *env, jclass newClass)
-{
-  return java_instantiate_using_from_object (env, (*env)->AllocObject (env, newClass));
-}  
 
 jobject
 java_instantiate_using_from_object (JNIEnv *env, jobject jobj)
@@ -368,47 +373,66 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
           else
             return (pos + alignment) & ~mask;
         }
-
       void add (jobject class, BOOL regFlag)
         {
           char type;
+          jclass globalClass = (*env)->NewGlobalRef (env, class);
+              
+          jboolean classp (jclass matchClass)
+            {
+              jboolean ret;
+              
+              ret = (*env)->IsSameObject (env, globalClass, matchClass);
 
-          if (class == c_object)
+              printf ("classp(match: %x) vs %x (%x): %x\n",
+                      (unsigned) matchClass,
+                      (unsigned) globalClass, (unsigned) class,
+                      (unsigned) ret);
+              
+              return ret;
+            }
+          
+          if (classp (c_object))
             {
               type = _C_ID;
               pos = alignto (pos, __alignof__ (id));
             }
-          else if (class == c_int)
+          else if (classp (c_int))
             {
               type = _C_INT;
               pos = alignto (pos, __alignof__ (int));
             }
-          else if (class == c_short)
+          else if (classp (c_short))
             {
               type = _C_SHT;
               pos = alignto (pos, __alignof__ (short));
             }
-          else if (class == c_long)
+          else if (classp (c_long))
             {
               type = _C_LNG;
               pos = alignto (pos, __alignof__ (long));
             }
-          else if (class == c_boolean)
+          else if (classp (c_boolean))
             {
               type = _C_UCHR;
               pos = alignto (pos, __alignof__ (BOOL));
             }
-          else if (class == c_char)
+          else if (classp (c_byte))
+            {
+              type = _C_UCHR;
+              pos = alignto (pos, __alignof__ (unsigned char));
+            }
+          else if (classp (c_char))
             {
               type = _C_CHR;
               pos = alignto (pos, __alignof__ (char));
             }
-          else if (class == c_float)
+          else if (classp (c_float))
             {
               type = _C_FLT;
               pos = alignto (pos, __alignof__ (float));
             }
-          else if (class == c_double)
+          else if (classp (c_double))
             {
               type = _C_DBL;
               pos = alignto (pos, __alignof__ (double));
@@ -424,6 +448,7 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
             sprintf (posbuf, "%u", pos);
             p = stpcpy (p, posbuf);
           }
+          (*env)->DeleteGlobalRef (env, globalClass);
         }
       
       add (retType, NO);
