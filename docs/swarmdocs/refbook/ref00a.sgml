@@ -169,36 +169,37 @@
       <ITEMIZEDLIST>
         <LISTITEM>
           <PARA>HeatbugObserverSwarm.h</PARA>
-        </LISTITEM>
-        
-        <LISTITEM>
-
-          <PARA>Make instance variable <LITERAL>id &lt;Grid2d&gt;
-              world</LITERAL> NOT <LITERAL>Grid2d *world</LITERAL> (x)</PARA>
-
-        </LISTITEM>
-
-        <LISTITEM>
-          
-          <PARA>Change static cast of <LITERAL>[HeatbugObserverSwarm
--getWorld:]</LITERAL> method to protocol version (x)</PARA>
-
-        </LISTITEM>
-
-        <LISTITEM>
-          <PARA>Change all the below to conform to their respective
-          protocols (x)
-
-<PROGRAMLISTING>
- EZGraph *unhappyGraph;
- Value2dDisplay *heatDisplay;
- Object2dDisplay *heatbugDisplay;
-</PROGRAMLISTING>
-            </PARA>
-
+          <ITEMIZEDLIST>
+            
+            <LISTITEM>
+              
+              <PARA>Make instance variable <LITERAL>id &lt;Grid2d&gt;
+                  world</LITERAL> NOT <LITERAL>Grid2d *world</LITERAL> (x)</PARA>
+              
+            </LISTITEM>
+            
+            <LISTITEM>
+              
+              <PARA>Change static cast of <LITERAL>[HeatbugObserverSwarm
+                  -getWorld:]</LITERAL> method to protocol version (x)</PARA>
+              
+            </LISTITEM>
+            
+            <LISTITEM>
+              <PARA>Change all the below to conform to their respective
+                protocols (x)
+                
+                <PROGRAMLISTING>
+                  EZGraph *unhappyGraph;
+                  Value2dDisplay *heatDisplay;
+                  Object2dDisplay *heatbugDisplay;
+                </PROGRAMLISTING>
+              </PARA>
+            </LISTITEM>
+          </ITEMIZEDLIST>
         </LISTITEM>
       </ITEMIZEDLIST>
-    
+      
     </SECT2>
 
     <SECT2>
