@@ -1,30 +1,14 @@
-#JADE = @JADE@
-#SX = @SX@
-#SGML_CATALOG_FILES = @SGML_CATALOG_FILES@
-#JADETEX = @JADETEX@
-#DVIPS = @DVIPS@
 GZIP = gzip --best
 top_dossrcdir = @top_dossrcdir@
 
-
 HTML_XSL = $(top_dossrcdir)/html.xsl
 PRINT_XSL = $(top_dossrcdir)/fo.xsl
-# obsolete variables
-#HTML = $(top_dossrcdir)/html.dsl
-#PRINT = $(top_dossrcdir)/print.dsl
-#JADEFLAGS = -V biblio-citation-check
-#XML_DECL = $(top_srcdir)/xml.dcl
-
-#RUNJADE = $(JADE) $(JADEFLAGS)
-#CATOPTS = -c $(top_builddir)/catalog @catopts@
-
-RUNXSLTPROC = XML_CATALOG_FILES="$(top_builddir)/catalog.xml" $(XSLTPROC) --nonet # --catalogs
+RUNXSLTPROC = XML_CATALOG_FILES="$(top_builddir)/catalog.xml" $(XSLTPROC) --nonet
 
 FIGS = figs/swarm.eps # for the timestamp
 
 GENERAL = $(XML_FILES) $(COMMON_XML_FILES) $(FIGS)
 
-#.PHONY: fot tex dvi ps rtf html info htmldist dvidist psdist rtfdist infodist
 .PHONY: html fo info htmldist infodist
 
 COMMON_XML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent $(top_srcdir)/gfdl.xml
@@ -58,8 +42,6 @@ CLEANFILES = $(nodist_html_DATA) $(nodist_fo_DATA) $(NAME).texi $(nodist_info_DA
 
 $(FIGS):
 	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs
-
-#_$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) # $(PRINT)
 
 $(NAME).html: $(GENERAL) # $(HTML)
 
