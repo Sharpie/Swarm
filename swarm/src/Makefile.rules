@@ -1,5 +1,7 @@
 .PHONY: headers
 
+MAKEH2X = $(top_srcdir)/src/defobj/make-h2x
+
 SUFFIXES = .m
 
 TYPEINFO = $(MODULE).xm types.h classes.h
@@ -8,8 +10,8 @@ CLEANFILES = $(TYPEINFO)
 
 headers: $(module_headers)
 
-$(TYPEINFO): $(MODULE).h
-	OBJC="$(OBJC)" OBJCFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)" OBJECTS="$(lib$(MODULE)_la_OBJECTS)" sh $(top_srcdir)/src/defobj/make-h2x $(MODULE).xm $(srcdir)
+$(TYPEINFO): $(MODULE).h $(MAKEH2X)
+	OBJC="$(OBJC)" OBJCFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)" OBJECTS="$(lib$(MODULE)_la_OBJECTS)" sh $(MAKEH2X) $(MODULE).xm $(srcdir)
 	mv $(MODULE).xt types.h
 	mv $(MODULE).xc classes.h
 

@@ -1,3 +1,9 @@
+1998-12-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.rules (MAKEH2X): New variable.
+	($(TYPEINFO)): Depend on $(MAKEH2X) and invoke make-h2x with this
+	variable.
+
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.rules ($(TYPEINFO)): Pass OBJC and OBJCFLAGS instead of
