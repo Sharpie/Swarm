@@ -1,0 +1,36 @@
+<!DOCTYPE SET PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!entity % global.entities PUBLIC "-//SFI Hive//ENTITIES Globals//EN">
+%global.entities;
+
+<!entity % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
+%figures.entities;
+
+<!entity % src.entities PUBLIC "-//SFI Hive//ENTITIES Src List//EN">
+%src.entities;
+
+<!entity % overview.entities PUBLIC "-//SFI Hive//ENTITIES Overview List//EN">
+%overview.entities;
+
+<!entity % install.entities PUBLIC "-//SFI Hive//ENTITIES Install List//EN">
+%install.entities;
+
+<!entity setmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN">
+]>
+
+<SET ID="set">
+
+&setmeta.sgml;
+
+<BOOK LABEL="Book I ">
+&overcont.sgml;
+</BOOK>
+
+<BOOK LABEL="Book II ">
+&installcont.sgml;
+</BOOK>
+
+<BOOK LABEL="Book III ">
+&refcont.sgml;
+</BOOK>
+
+</SET>

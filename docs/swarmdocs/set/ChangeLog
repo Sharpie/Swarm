@@ -1,6 +1,10 @@
+1998-06-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* set.sgml: Use public identifiers (file renamed from set.sgml.in).
+
 1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* set.sgml: Make ID of set be "set".
+	* set.sgml.in: Make ID of set be "set".
 
 	* set.sgml.in, set.tex.in: New files.
 
