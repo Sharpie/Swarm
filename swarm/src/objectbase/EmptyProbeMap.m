@@ -10,6 +10,16 @@
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
 
+//Used in order to ensure that probemaps do not reorder their contents 
+//alphabetically...
+
+static int p_compare(id a, id b){
+  if(!([a compare: b]))
+    return 0 ;
+  else
+    return -1 ;
+}
+
 @implementation EmptyProbeMap
 
 -createEnd {
@@ -20,7 +30,10 @@
     }
   }
 
-  probes = [Map create: [self getZone]] ;
+  probes = [Map createBegin: [self getZone]] ;
+  [probes setCompareFunction: &p_compare] ;
+  probes = [probes createEnd] ;
+
   if (probes == nil)
     return nil;
 
@@ -28,10 +41,4 @@
  
   return self ;
 }
-
-
-
-
-
-
 
