@@ -60,7 +60,7 @@ STANDARD_JAVADOC_OPTIONS = -public -sourcepath .:$(swarm_dossrcdir)/java/swarm $
 
 $(NAME)/index.html: $(STUBS) $(srcdir)/html/swarm-doclet.jar
 	test -d $(NAME) || mkdir $(NAME)
-	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -d $(NAME) -windowtitle $(DOC_TITLE) -doctitle $(DOC_TITLE) -docletpath $(srcdir)/html/swarm-doclet.jar -doclet Standard -link http://java.sun.com/products/jdk/1.2/docs/api -splitindex -noclassdetail
+	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -d $(NAME) -windowtitle $(DOC_TITLE) -doctitle $(DOC_TITLE) -docletpath $(srcdir)/html/swarm-doclet.jar -doclet Standard -link http://java.sun.com/products/jdk/1.2/docs/api -splitindex -noclassdetail -hide
 
 $(NAME).tex: $(STUBS) $(srcdir)/latex/LatexDoclet.class
 	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -docletpath $(srcdir)/latex -doclet LatexDoclet -title $(DOC_TITLE) -nosummary -noparamtable -noclass -docauthor "Swarm Development Group" -f $(NAME).tex

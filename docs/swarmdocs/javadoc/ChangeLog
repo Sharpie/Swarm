@@ -1,3 +1,9 @@
+1999-09-08  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am ($(NAME)/index.html): Add `-hide' option to ensure
+	that non-creatable (but RETURNABLE) classes don't appear in the
+	final output.
+
 1999-09-03  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (htmldir, html_DATA): Installation directory and
