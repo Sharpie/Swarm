@@ -47,7 +47,7 @@
 
 <PROGRAMLISTING>
 #import &lt;defobj.h&gt;
-<!-- #import &lt;objectbase/SwarmObject.h&gt;; -->
+#import &lt;activity.h&gt;
 </PROGRAMLISTING>
 
       The <EMPHASIS>defobj</EMPHASIS> library interface is included to
