@@ -31,65 +31,57 @@ struct mips_args {
   unsigned reg_offset;
   unsigned float_reg_offset;
   unsigned stack_offset;
+  unsigned reg_count;
 };
      
 #define MFRAME_ARGS struct mips_args
 
 #define MFRAME_INIT_ARGS(CUM, RTYPE) \
 ({ \
- (CUM).reg_offset = 0; \
- (CUM).float_reg_offset = 0; \
- (CUM).stack_offset = 96; \
+ (CUM).reg_offset = 12; \
+ (CUM).float_reg_offset = 72; \
+ (CUM).stack_offset = 20; \
+ (CUM).reg_count = 0; \
 })
 
 #define MFRAME_ARG_ENCODING(CUM, TYPE, STACK, DEST) \
 ({  \
   const char* type = (TYPE); \
-  unsigned align = objc_alignof_type (type); \
-  unsigned size = objc_sizeof_type (type); \
   BOOL float_flag = *type == _C_FLT; \
   BOOL double_flag = *type == _C_DBL; \
   BOOL structref_flag = refstructp (type); \
   unsigned offset; \
-  BOOL register_flag = NO; \
+  BOOL register_flag; \
   \
   (TYPE) = objc_skip_typespec (type); \
   \
-  if (*(TYPE) == '+') \
+  if ((CUM).reg_count < 4 || float_flag || double_flag) \
     register_flag = YES; \
+  else \
+    register_flag = NO; \
   if (!structref_flag) \
     { \
       if (register_flag) \
         { \
-          offset = atoi (TYPE); \
           if (float_flag || double_flag) \
             { \
+              offset = (CUM).float_reg_offset; \
               if (float_flag) \
                 offset += 4; \
-              offset = ROUND (offset, align); \
-              (CUM).float_reg_offset = offset; \
             } \
           else \
-            { \
-              offset += 4; \
-              offset = ROUND (offset, align); \
-              (CUM).reg_offset = offset; \
-            } \
+            offset = (CUM).reg_offset; \
         } \
       else \
-        { \
-          offset = (CUM).stack_offset; \
-          offset = ROUND (offset, align); \
-        } \
+        offset = (CUM).stack_offset; \
     } \
   else \
     { \
       offset = (CUM).reg_offset; \
       register_flag = YES; \
-      offset = ROUND (offset, 8); \
     } \
   sprintf ((DEST), "%.*s%s%d", ((TYPE) - type), type, \
-	   register_flag ? "+" : "", offset); \
+    register_flag ? "+" : "", offset); \
   if (*(TYPE) == '+') \
     { \
       (TYPE)++; \
@@ -101,10 +93,12 @@ struct mips_args {
   (DEST)=&(DEST)[strlen (DEST)]; \
   if (register_flag) \
     { \
-      (CUM).float_reg_offset += size; \
-      (CUM).reg_offset += size; \
+      if (!(float_flag || double_flag)) \
+        (CUM).reg_offset += 8; \
+      (CUM).float_reg_offset += 8; \
+      (CUM).reg_count++; \
     } \
-  else \
-    (CUM).stack_offset += size; \
+  if ((CUM).reg_count > 4 || !register_flag) \
+    (CUM).stack_offset += 8; \
 })
 
