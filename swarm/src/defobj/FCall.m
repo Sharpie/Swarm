@@ -224,7 +224,7 @@ fillHiddenArguments (FCall * self)
   fillHiddenArguments (self);
   switch_to_ffi_types ((FArguments *) args);
   res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
-		      MAX_HIDDEN + args->assignedArguments, 
+		      args->hiddenArguments + args->assignedArguments, 
 		      (ffi_type *) args->returnType, 
 		      (ffi_type **) args->argTypes + MAX_HIDDEN - 
 		      args->hiddenArguments);
@@ -236,7 +236,8 @@ fillHiddenArguments (FCall * self)
 
 - (void)_performAction_: anActvity
 {
-  ffi_call(&cif, ffunction, args->result, args->argValues);  
+  ffi_call(&cif, ffunction, args->result, args->argValues + 
+	   MAX_HIDDEN - args->hiddenArguments);  
 }
 
 - (void *)getResult

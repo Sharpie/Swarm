@@ -1,3 +1,9 @@
+1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* FCall.m ([FCall -createEnd]): Pass correct number of arguments.
+	([FCall -_performAction_:]): Pass correct offset of argument 
+	values array.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FArguments.h (FArguments): Rename signature to javaSignature and 
