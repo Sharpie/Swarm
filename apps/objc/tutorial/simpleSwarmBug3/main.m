@@ -17,9 +17,15 @@ main (int argc, const char **argv)
 
   initSwarmBatch (argc, argv);
 
-  // Make the bug model swarm
-
-  modelSwarm =  [ModelSwarm create: globalZone];
+  // Make the bug model swarm, creating the object from the default
+  // `lispAppArchiver' instance which looks for the `bug.scm'
+  // datafile, so we don't have to recompile everytime we want to
+  // change something
+  
+  if ((modelSwarm = 
+       [lispAppArchiver getWithZone: globalZone object: "modelSwarm"]) == nil)
+    raiseEvent(InvalidOperation,
+               "Can't find the modelSwarm parameters");
 
   // Now send messages to the newly created swarm telling it
   // to build its internal objects and its schedule.

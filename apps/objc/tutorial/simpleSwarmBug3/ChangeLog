@@ -1,3 +1,21 @@
+1999-06-23  Alex Lancaster  <alex@santafe.edu>
+
+	* model.setup: Remove file.
+
+	* bug.scm: New file, move all information from `model.setup' to
+	here.  Add `F0' qualifier for floats.
+
+	* README: Rework text to refer to the new lispAppArchiver feature,
+	delete all references to Object{Loader,Saver}.
+
+	* ModelSwarm.m ([ModelSwarm -buildObjects]): Remove obsolete
+	`ObjectLoader' call to read in the instance variables, this is
+	replaced by the call in main() to instantiate via the default
+	lispAppArchiver.
+
+	* main.m (main): Call the `lispAppArchiver' to instantiate the
+	`modelSwarm' object rather than instantiating directly.
+
 1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile (SWARMHOME): Default to 1999-03-09.

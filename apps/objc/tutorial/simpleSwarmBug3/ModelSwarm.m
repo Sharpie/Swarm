@@ -44,11 +44,6 @@
   
   // Here, we create the objects in the model
   
-  // First, we load our parameters from a file so we don't have 
-  // to recompile everytime we want to change something
-  
-  [ObjectLoader load: self fromAppDataFileNamed: "model.setup"] ;
-  
   // Then, create the food space and initialize it
 
   food = [FoodSpace createBegin: self];
