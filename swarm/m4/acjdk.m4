@@ -9,19 +9,21 @@ if test -z "$jdkdir" ; then
     changequote([,])
   fi
 fi
-if test -z "$jdkdir"; then
-  AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
+
+test -z "$jdkdir" && jdkdir=no
+if test $jdkdir = no; then
+  AC_MSG_RESULT(no)
+  jdkdir=
+  JAVASTUBS=
 else
-  if test "$jdkdir" = no; then
-    AC_MSG_RESULT(no)
-    jdkdir=
-    JAVASTUBS=
-  else
+  if test -f $jdkdir/include/jni.h; then
     AC_MSG_RESULT($jdkdir)
-    JAVASTUBS=stubs
-    test $JAR = missing && JAR=$jdkdir/bin/jar
-    test $JAVAC = missing && JAVAC=$jdkdir/bin/javac
+  else
+    AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
+  JAVASTUBS=stubs
+  test $JAR = missing && JAR=$jdkdir/bin/jar
+  test $JAVAC = missing && JAVAC=$jdkdir/bin/javac
 fi
 AC_SUBST(JAVASTUBS)
 AC_SUBST(jdkdir)
