@@ -10,7 +10,8 @@
 
 // createBegin: here we set up the default observation parameters.
 
-+createBegin: (id) aZone {
++ createBegin:  aZone 
+{
   HeatbugBatchSwarm * obj;
 
   // Superclass createBegin to allocate ourselves.
@@ -78,7 +79,8 @@
 // Create the actions necessary for the simulation. This is where
 // the schedule is built (but not run!)
 
--buildActions {
+- buildActions 
+{
   [super buildActions];
   
   // First, let our model swarm build its own schedule.
@@ -117,7 +119,8 @@
 }  
 
 // activateIn: - get the Swarm ready to run.
--activateIn: (id) swarmContext {
+- activateIn:  swarmContext 
+{
   // First, activate ourselves (just pass along the context).
   [super activateIn: swarmContext];
 
@@ -139,9 +142,10 @@
 // a friendly message printed out here just in case someone is confused
 // when they run heatbugs and see no graphics.
 
--go {
+- go 
+{
   printf(
-    "You typed 'heatbugs -batchmode', so we're running without graphics.\n");
+    "You typed `heatbugs -b' or `heatbugs --batch', so we're running without graphics.\n");
 
   printf("Heatbugs is running for %d timesteps.\n",experimentDuration) ;
  
@@ -157,7 +161,8 @@
 // that's running and close our output file(s) by dropping the EZGraph which
 // "owns" the sequence(s) we are logging.
 
--stopRunning {
+- stopRunning 
+{
   [getTopLevelActivity() terminate]; // Terminate the simulation.
 
   if(loggingFrequency)

@@ -1,3 +1,9 @@
+1999-01-16  Alex Lancaster  <alex@santafe.edu>
+
+	* HeatbugBatchSwarm.m ([HeatbugBatchSwarm -go]): Changed printf to
+	refer to the correct invocation of batch mode.
+	Reformatting throughout.
+
 1999-01-14  Alex Lancaster  <alex@santafe.edu>
 
 	* README: Note regarding toggleRandomizedOrder.
