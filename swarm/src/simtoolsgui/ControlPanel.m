@@ -93,7 +93,7 @@ PHASE(Using)
         }
       else if (controlState == ControlStateNextTime)
         {
-          [activityID stepUntil: [activityID getCurrentTime]+1 ];
+          [activityID stepUntil: [activityID getCurrentTime] + 1];
           [self setStateStopped];
         }
       else [self setStateStopped];
@@ -159,7 +159,7 @@ PHASE(Using)
 
 // Step: first, stop the running activity (we're probably already stopped,
 // though). Then set our own state to Stepping.
- -setStateStepping
+- setStateStepping
 {
   [probeDisplayManager setDropImmediatelyFlag: YES];
   if (_activity_current)

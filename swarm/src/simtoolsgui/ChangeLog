@@ -1,3 +1,13 @@
+1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ActionCache.m: Include objectbase/Arguments.h.
+	([ActionCache -insertAction:]): Set selector to setStateNextTime
+	for Next.
+	([ActionCache -deliverActions]): If showCurrentTimeFlag is set,
+	print the current time in the title of the control panel widget.
+	Handle Next like Step (i.e. immediately).
+	([ActionCache -sendNextAction]): Send Next on sendNextAction, not Step.
+
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ControlPanel.[hm]: Declare.

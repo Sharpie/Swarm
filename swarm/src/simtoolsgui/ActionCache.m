@@ -15,6 +15,7 @@
 #import <awtobjc/JavaInput.h>
 #endif
 
+#import <objectbase/Arguments.h>
 #import <simtools/Archiver.h>
 
 // Type Symbols
@@ -136,7 +137,7 @@ PHASE(Using)
       else if (strcmp (actionName, "Step") == 0)
         [actionHolder setSelector: M(setStateStepping)];
       else if (strcmp (actionName, "Next") == 0)
-        [actionHolder setSelector: M(setStateStepping)];
+        [actionHolder setSelector: M(setStateNextTime)];
       else if (strcmp (actionName, "Stop") == 0)
         [actionHolder setSelector: M(setStateStopped)];
       else if (strcmp (actionName, "Save") == 0)
@@ -171,6 +172,13 @@ PHASE(Using)
   id <Index> cacheIndex;
   id actionHolder;
   
+  if ([arguments getShowCurrentTimeFlag])
+    {
+      char buf[20];
+      
+      sprintf (buf, "%u", getCurrentTime ());
+      [panel setWindowTitle: buf];
+    }
   cacheIndex = [actionCache begin: scratchZone];
   while ((actionHolder = [cacheIndex next]) != nil)
     {
@@ -196,6 +204,7 @@ PHASE(Using)
           // if "Save", "Start", "Step", or "Quit" send a message directly
           // to activitycontroller
           else if (strcmp (actionName, "Step") == 0
+                   || (strcmp (actionName, "Next") == 0)
                    || (strcmp (actionName, "Start") == 0)
                    // Save is here because otherwise archiving won't run
                    // until execution resumes.  I (mgd) think this is bad: if
@@ -278,7 +287,7 @@ PHASE(Using)
 
 - sendNextAction
 {
-  return [self sendActionOfType: Control toExecute: "Step"];
+  return [self sendActionOfType: Control toExecute: "Next"];
 }
 
 - sendSaveAction
