@@ -77,7 +77,7 @@ ENTRYCMD=-e @JAVASWARM_DLL_ENTRY@
 
 $(JAVASWARM_DLL): $(_LIBJAVASWARM_LA) $(_LIBJAVASWARMSTUBS_LA) javaswarm.dll.c
 	$(CC) -g -c $(srcdir)/javaswarm.dll.c
-	ld-new -shared --add-stdcall-alias $(ENTRYCMD) -L$(CYGFS)/H-i586-cygwin32/i586-cygwin32 --export-all-symbols -o $(JAVASWARM_DLL) javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
+	ld-new -shared --add-stdcall-alias $(ENTRYCMD) -L$(CYGFS)H-i586-cygwin32/i586-cygwin32 --export-all-symbols -o $(JAVASWARM_DLL) javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(SYSLIBS) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
