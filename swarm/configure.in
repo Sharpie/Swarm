@@ -306,11 +306,11 @@ AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/
 abs_srcdir=`cd $srcdir; pwd`
 
 test -d libobjc || mkdir libobjc
-(cd libobjc ; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/libobjc/configure --srcdir=$abs_srcdir/libobjc --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static)
+(cd libobjc ; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/libobjc/configure --srcdir=$abs_srcdir/libobjc --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static --host=$host --target=$target --build=$build)
 
 if test -n "$AVCALLDIR"; then
   test -d avcall || mkdir avcall
-  (cd avcall; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/avcall/configure --srcdir=$abs_srcdir/avcall --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static)
+  (cd avcall; ${CONFIG_SHELL-/bin/sh} $abs_srcdir/avcall/configure --srcdir=$abs_srcdir/avcall --cache-file=../config.cache --exec-prefix=$exec_prefix --prefix=$prefix --bindir=$bindir --sbindir=$sbindir --libdir=$libdir --includedir=$includedir --oldincludedir=$oldincludedir --libexecdir=$libexecdir --sharedstatedir=$sharedstatedir -localstatedir=$localstatedir --sysconfdir=$sysconfdir --datadir=$datadir  --infodir=$infodir --mandir=$mandir --enable-shared=$enable_shared --enable-static=$enable_static --host=$host --target=$target --build=$build)
 else
   test -d avcall || mkdir avcall
   # avcall.h finds its way into dependency information

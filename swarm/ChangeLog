@@ -1,3 +1,10 @@
+2001-07-22  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* configure.in: Pass --host, --target, and --build to libobjc and
+	avcall configures.
+
+	* VERSION: Bump.
+
 2001-07-20  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
 	* VERSION: Bump.
