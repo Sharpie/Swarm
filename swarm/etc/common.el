@@ -14,7 +14,8 @@
                             (random . "distributions.h")
                             simtools
                             simtoolsgui
-                            space))
+                            space
+                            swarm))
 
 (defun swarm-modules ()
   (loop for module-sym in *swarm-modules*
@@ -41,11 +42,14 @@
   (concat (symbol-name module-sym) ".h"))
 
 (defun pathname-for-module-sym (module-sym &optional filename)
-  (let ((module-name (symbol-name module-sym)))
-    (concat (get-swarmsrcdir) "src/" module-name "/" 
-            (if filename
-                filename
-                (header-filename-for-module-sym module-sym)))))
+  (let ((module-name (symbol-name module-sym))
+        (file 
+         (if filename
+             filename
+           (header-filename-for-module-sym module-sym))))
+    (if (eq module-sym 'swarm)
+        (concat (get-swarmsrcdir) "src/" file)
+      (concat (get-swarmsrcdir) "src/" module-name "/" file))))
 
 (defun pathname-for-swarmdocs (module-sym filename)
   (let ((module-name (symbol-name module-sym)))

@@ -12,7 +12,7 @@
 
 (defvar *module-hash-table* (make-hash-table))
 
-(defconst *phases* '(:creating :setting :using))
+(defconst *phases* '(:creating :setting :using :getters))
 
 (defvar *protocol-list*)
 
@@ -235,10 +235,14 @@
        until (looking-at ";"))
       (unless phase
         (error "No phase in protocol: %s" (protocol-name protocol)))
+      (setq arguments (reverse arguments))
+      (when (eq phase :getters)
+        (unless (string-match "^get" (caar arguments))
+          (error "Method not a getter: %s" (prin1-to-string arguments))))
       (make-method
        :phase phase
        :factory-flag factory-flag
-       :arguments (reverse arguments)
+       :arguments arguments
        :return-type return-type
        :description-list method-description-list
        :example-list method-example-list
@@ -610,14 +614,15 @@
          (cond ((looking-at "CREATING") :creating)
                ((looking-at "SETTING") :setting)
                ((looking-at "USING") :using)
+               ((looking-at "GETTERS") :getters)
                ((looking-at "-")  :method)
                ((looking-at "+") :factory-method)
                ((looking-at "//M:") :method-doc)
-                ((looking-at "@end") :protocol-end)
+               ((looking-at "@end") :protocol-end)
                ((looking-at "//E:") :example-doc)
                ((looking-at "///M:") :bogus-method)
                (t nil))))
-    (when (member tag '(:creating :setting :using))
+    (when (member tag *phases*)
       (setf (parse-state-phase parse-state) tag))
     tag))
 
@@ -1101,7 +1106,8 @@
                   (case phase
                     (:creating 0)
                     (:setting 1)
-                    (:using 2)))
+                    (:using 2)
+                    (:getters 3)))
                 (compare-arguments (a b)
                   (flet ((get-key-list (item) (mapcar #'first item)))
                     (compare-string-lists
@@ -1228,14 +1234,17 @@
     (protocol (protocol-global-list object))
     (module (module-global-list object))))
 
+(defun argument-empty-p (argument)
+  (null (third argument)))
+
 (defun print-method-signature (method &optional stream nocolon)
   (if (method-factory-flag method)
       (princ "+" stream)
       (princ "-" stream))
-  (loop for arguments in (method-arguments method)
-        for key = (first arguments)
+  (loop for argument in (method-arguments method)
+        for key = (first argument)
         when key do (princ key stream)
-        when (third arguments) do 
+        unless (argument-empty-p argument) do 
         (unless nocolon
             (princ ":" stream))
         ))

@@ -1,7 +1,19 @@
 2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* common.el (*swarm-modules*): Add swarm.
+	(pathname-for-module-sym): Handle it.
+
+	* protocol.el (*phases*): Add :getters.
+	(parse-method-worker): Add check that if in getters phase
+	that method starts with "get".
+	(check-protocol-tags): Recognize "GETTERS".  Use *phases*
+	instead of list.
+	(generate-expanded-methodinfo-list): Map :getters to 3.
+	(argument-empty-p): Add.
+
 	* Makefile.protocol: Replace rule for protocol.elc with generic
 	elc rule.
+	(protocol.elc): Depend on common.elc.
 
 2000-07-09  Marcus G. Daniels  <mgd@nest.swarm.org>
 
