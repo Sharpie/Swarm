@@ -135,15 +135,15 @@ Library:      activity
 //
 - _createActivity_: ownerActivity : activityClass : indexClass
 {
-  id               activityZone;
-  Activity_c       *newActivity;
-  INDEX_CLASS      *newIndex;
+  id activityZone;
+  Activity_c *newActivity;
+  INDEX_CLASS *newIndex;
 
   // allocate and initialize a new activity
 
   if (ownerActivity)
     {
-      activityZone = getZone( (Activity_c *)ownerActivity );
+      activityZone = getZone ((Activity_c *) ownerActivity);
       newActivity = [activityZone allocIVarsComponent: activityClass];
       newActivity->ownerActivity = ownerActivity;
     }
@@ -153,7 +153,7 @@ Library:      activity
       newActivity = [activityZone allocIVars: activityClass];
       newActivity->topLevelAction =
         [activityZone allocIVarsComponent: id_CAction];
-      newActivity->topLevelAction->owner = (ActionType_c *)self;
+      newActivity->topLevelAction->owner = (ActionType_c *) self;
     }
   setMappedAlloc (newActivity);
   
@@ -175,7 +175,6 @@ Library:      activity
     newActivity->breakFunction = _activity_trace;
   
   // create index on the plan actions for traversal by the activity
-
   if ([self getDefaultOrder] == (id) Randomized && 
       [self isKindOf: [ActionGroup_c class]])
     {
@@ -197,11 +196,11 @@ Library:      activity
 //
 // drop -- release resources used by action plan if no current references
 //
-- (void) drop
+- (void)drop
 {
   if (activityRefs && [activityRefs getCount] > 0)
     raiseEvent (SourceMessage,
-                "> cannot drop action plan still referenced by an uncompleted activity\n" );
+                "> cannot drop action plan still referenced by an uncompleted activity\n");
   [super drop];
 }
 

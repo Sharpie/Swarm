@@ -28,7 +28,7 @@ PHASE(Creating)
   if (createByMessageToCopy (self, createEnd))
     return self;
 
-  [(id)self setIndexFromMemberLoc: offsetof (CAction, ownerActions)];
+  [(id) self setIndexFromMemberLoc: offsetof (CAction, ownerActions)];
   setNextPhase (self);
   setMappedAlloc (self);
   return self;
@@ -53,13 +53,13 @@ PHASE(Using)
 //
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext
 {
-  id          newSchedule;
+  id newSchedule;
 
   // create a special schedule of one action and start it to run under
   // swarm instead
 
   newSchedule = [Schedule createBegin: _activity_zone];
-  [newSchedule setRelativeTime: 1];
+  [newSchedule setRelativeTime: YES];
   newSchedule = [newSchedule createEnd];
 
   [newSchedule at: 0 createAction: self];
