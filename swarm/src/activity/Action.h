@@ -25,6 +25,7 @@ Library:      activity
   ActionType_c *owner;       // action type that binds action in its context
   member_t ownerActions;     // internal links in actions owned by ActionType
   unsigned bits;             // bit allocations
+  BOOL autoDropFlag;
 }
 - getOwner;
 @end
@@ -51,17 +52,15 @@ Library:      activity
 - getArg1;
 - getArg2;
 - getArg3;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)_performAction_: (id <Activity>)activity;
-- (void)dropAllocations: (BOOL)componentAlloc;
 @end
 
 @interface FAction_c: PAction <Action>
 {
-  BOOL autoDropFlag;
 }
 - setCall: fcall;
 - setAutoDrop: (BOOL)autoDrop;
-- (void)dropAllocations: (BOOL)componentAlloc;
 - (void)_performAction_: (id <Activity>)anActivity;
 - (void)describe: outputCharStream;
 @end

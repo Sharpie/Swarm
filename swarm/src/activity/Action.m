@@ -31,6 +31,7 @@ PHASE(Creating)
 - createEnd
 {
   [super createEnd];
+  autoDropFlag = YES;
   setMappedAlloc (self);
   return self;
 }
@@ -123,20 +124,20 @@ PHASE(Using)
   return arg3;
 }
 
-- (void)dropAllocations: (BOOL)componentAlloc
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  if (call)
+  if (call && autoDropFlag)
     {
-      [[call getArguments] drop];
-      [call drop];
+      mapObject (mapalloc, [call getArguments]);
+      mapObject (mapalloc, call);
     }
-  [super dropAllocations: componentAlloc];
 }
 
 @end
 
 @implementation FAction_c
 PHASE(Creating)
+
 - setCall: fcall
 {
   call = fcall;
@@ -157,16 +158,6 @@ PHASE(Using)
     updateTarget (call, target);
   
   [call performCall];
-}
-
-- (void)dropAllocations: (BOOL)componentAlloc
-{
-  if (autoDropFlag)
-    {
-      [[call getArguments] drop];
-      [call drop];
-    }
-  [super dropAllocations: componentAlloc];
 }
 
 - (void)describe: outputCharStream
@@ -290,10 +281,10 @@ PHASE(Using)
   else
     {
       id fc = [self _createCall_: target];
-        
+
       [fc performCall];
-      [[fc getArguments] drop];
-      [fc drop];
+      [[fc getArguments] dropAllocations: YES];
+      [fc dropAllocations: YES];
     }
 }
 
