@@ -196,6 +196,7 @@ CREATING
 //M: Sets the selector to send for labeling the object.
 - setObjectNameSelector: (SEL)objectNameSelector;
 
+//M: Determines if the variable names are printed (horizontally).
 - setLabelingFlag: (BOOL)labelingFlag;
 
 + createBegin: aZone;
@@ -331,9 +332,14 @@ CREATING
 + createBegin: aZone;
 - createEnd;
 - setParent: parent;
+
+//M: Determines if the fields (probes) are labeled (horizontal).
 - setFieldLabelingFlag: (BOOL)labelingFlag;
+//M: Sets the method to use get the label for each object (vertical).
 - setObjectNameSelector: (SEL)objectNameSelector;
+//M: Sets the objects to show on the widget.
 - setObjectList: (id <List>)objectList;
+//M: Sets the fields (probes) to show on the widget.
 - setProbeMap: (id <ProbeMap>)probeMap;
 
 USING
