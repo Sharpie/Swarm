@@ -5,6 +5,7 @@
 
 #import <tkobjc/Entry.h>
 #import <tkobjc/global.h>
+#include <misc.h> // abort
 
 @implementation Entry
 

@@ -10,6 +10,7 @@
 #import <tkobjc/Entry.h>
 #import <tkobjc/CheckButton.h>
 #import <tkobjc/global.h>
+#include <misc.h> // abort
 
 @implementation Form
 
