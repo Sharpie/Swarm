@@ -126,13 +126,13 @@
               ((equal? (gi first-child) (normalize "address"))
                linespecific-style)
               (else
-               para-style))
+               default-text-style))
         space-before: (if (equal? (normalize "compact") spacing)
                           0pt
                           %para-sep%)
         first-line-start-indent: (- indent-step)
         (make sequence
-          use: para-style
+          use: default-text-style
           line-field)
         (process-node-list first-child))
       (process-node-list (node-list-rest itemcontent))))) 
@@ -208,7 +208,7 @@
 
 (define (copyright)
     (make paragraph
-          use: para-style
+          use: default-text-style
           (make sequence
                 (literal (gentext-element-name (current-node)))
                 (literal " ")
@@ -281,7 +281,7 @@
       (make sequence
             start-indent: (+ (inherited-start-indent) indent-step)
             (make paragraph
-                  use: para-style
+                  use: default-text-style
                   first-line-start-indent: (- indent-step)
                   (make line-field
                         font-size: (BULLTREAT BULLSIZE ilevel override mark)
