@@ -6,6 +6,8 @@
 
 	* ltconfig: Remove.
 
+	* autogen.sh: Update to libtool 1.4.2 and automake 1.5.
+
 2001-11-04    <mgd@HELEN>
 
 	* VERSION: Bump.

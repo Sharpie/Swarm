@@ -12,8 +12,8 @@ NOCONFIGURE=1
 
 # Update whenever version dependencies of developer tools change
 REQUIRED_AUTOCONF_VERSION="2.52"
-REQUIRED_LIBTOOL_VERSION="1.3b"
-REQUIRED_AUTOMAKE_VERSION="1.4-p4"
+REQUIRED_LIBTOOL_VERSION="1.4.2"
+REQUIRED_AUTOMAKE_VERSION="1.5"
 
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
   echo
