@@ -21,20 +21,31 @@ EOF
 `$@SHLIBPATH_VAR@
 fi
 
-JAVALIBS="@JAVALIBS@"
+JAVALIBS='@JAVALIBS@'
+_JAVACLASSES='@JAVACLASSES@'
 if test @USEDOSCLASSPATH@ = yes; then
+  DOSJAVALIBS=''
+  for path in `echo $JAVALIBS | tr ':' '\012'`; do
+    path=`eval echo $path`
+    DOSJAVALIBS="${DOSJAVALIBS}`cygpath -w "$path"`;"
+  done
+  JAVACLASSES=''
+  for path in `echo $_JAVACLASSES | tr ':' '\012'`; do
+    path=`eval echo $path`
+    JAVACLASSES="${JAVACLASSES}`cygpath -w "$path"`;"
+  done
   PS=';'
   PD='\\'
   swarmclassdir=`cygpath -w "@swarm_datadir@"`
-  @JAVALIBPATH_VAR@=`cygpath -w "@swarm_bindir@${PS}${JAVALIBS}"`
+  @JAVALIBPATH_VAR@=`cygpath -w "@swarm_bindir@${PS}${DOSJAVALIBS}"`
 else
+  JAVACLASSES=$_JAVACLASSES
   PS=:
   PD=/
   swarmclassdir="@swarm_datadir@"
   @JAVALIBPATH_VAR@="@swarm_libdir@${PS}${JAVALIBS}"
 fi
 
-JAVACLASSES='@JAVACLASSES@'
 JAVAENV=@JAVAENV@
 JAVACMD=@JAVACMD@
 

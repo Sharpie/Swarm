@@ -1,3 +1,10 @@
+1999-09-03    <mgd@HELEN>
+
+	* javaswarm.in: Loop over elements of JAVALIBS and JAVACLASSES 
+	evalulating and cygpath-converting each one.
+
+	* javacswarm.in: Likewise, but just for JAVACLASSES.
+
 1999-09-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (*removed-protocols*): Re-enable CustomProbeMap,
