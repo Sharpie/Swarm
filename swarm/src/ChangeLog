@@ -1,3 +1,23 @@
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* SwarmEnvironment.[hm], swarm.h ([SwarmEnvironment
+	-initSwarm:version:bugAddress:args:, getCurrentTime,
+	creteArchivedProbeDisplay,
+	setWindowGeometryRecordName,getCurrentSwarmActivity]): New methods
+	(_initSwarm_): Move here from simtools.m.
+
+	* SwarmEnvironment.h (SwarmEnvironment): Inherit from CreateDrop,
+	not Object
+
+	* SwarmEnvironment.m ([SwarmEnvironment createBegin]): Do a
+	switcheroo in createBegin.
+
+	* getters.el: Require 'interface for
+	get-variable-name-for-getter-method (the logic was moved out).
+
+	* Makefile.am (getters.elc): Add interface.elc as a dependency.
+	(INCLUDES): Add JAVAINCLUDES.
+
 2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* swarm.h: Include externvar.h and declare swarmGUIMode.

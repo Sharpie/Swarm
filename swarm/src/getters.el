@@ -4,6 +4,7 @@
 (eval-and-compile
  (push (getenv "TOP_BUILDDIR") load-path))
 (require 'protocol)
+(require 'interface) ; get-variable-name-for-getter-method
 
 (defun print-method-declaration (method)
   (insert (if (method-factory-flag method) "+" "-"))
@@ -40,14 +41,7 @@
           (print-method-declaration method)
           (insert "\n{\n")
           (insert "  return ")
-          (let* ((first-argument (first (method-arguments method)))
-                 (name (strip-regexp (first first-argument) "^get"))
-                 (ret-type (method-return-type method)))
-            (insert
-             (cond ((string= "id <Symbol>" ret-type) name)
-                   ((string= "GuiFlag" name) "swarmGUIMode")
-                   (t (concat (downcase (substring name 0 1))
-                              (substring name 1))))))
+          (insert (get-variable-name-for-getter-method method))
           (insert ";\n")
           (insert "}\n"))))
 

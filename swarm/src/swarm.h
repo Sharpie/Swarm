@@ -17,6 +17,13 @@ CREATING
 - setArguments: (id <Arguments>)arguments;
 - setBatchMode: (BOOL)batchMode;
 - createEnd;
+SETTING
+- (void)initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args;
+USING
+- (timeval_t)getCurrentTime;
+- (void)createArchivedProbeDisplay: obj name: (const char *)name;
+- (void)setWindowGeometryRecordName: obj name: (const char *)name;
+- (id <SwarmActivity>)getCurrentSwarmActivity;
 GETTERS
 - (id <Symbol>)getStart;
 - (id <Symbol>)getMember;
@@ -35,13 +42,14 @@ GETTERS
 
 - (id <Symbol>)getControlStateRunning;
 - (id <Symbol>)getControlStateStopped;
+- (id <Symbol>)getControlStateStepping;
 - (id <Symbol>)getControlStateQuit;
 - (id <Symbol>)getControlStateNextTime;
 
 - (id <Zone>)getScratchZone;
 - (id <Zone>)getGlobalZone;
 
-- (id <SimpleRandomGenerator>)getRandomGenerator;
+- (id <MT19937gen>)getRandomGenerator;
 - (id <UniformIntegerDist>)getUniformIntRand;
 - (id <UniformDoubleDist>)getUniformDblRand;
 
@@ -57,4 +65,14 @@ GETTERS
 
 //G: Flag for whether we're in graphics mode or not.  Default is NO.
 externvar BOOL swarmGUIMode;
+
+@class SwarmEnvironment;
+
+extern void _initSwarm_ (int argc, const char **argv, const char *appName,
+                         const char *version, const char *bugAddress,
+                         Class argumentsClass,
+                         struct argp_option *options,
+                         int (*optionFunc) (int key, const char *arg),
+                         BOOL forceBatchMode,
+                         BOOL inhibitExecutableSearchFlag);
 

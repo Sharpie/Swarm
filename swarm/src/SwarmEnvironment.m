@@ -10,6 +10,13 @@
 
 #import <objectbase/probing.h> // initProbing
 #import <defobj/Customize.h>  // PHASE
+#import <defobj/Arguments.h> // Arguments_c
+
+#include <swarmconfig.h>
+
+#ifdef HAVE_JDK
+#import <defobj/java.h>
+#endif
 
 externvardef BOOL swarmGUIMode = NO;
 
@@ -57,7 +64,7 @@ PHASE(Creating)
   run_constructors ();
 #endif
   initModule (activity);
-  return [[self alloc] init];
+  return [self createBegin: globalZone];
 }
 
 - setArguments: (id <Arguments>)_arguments
@@ -76,7 +83,7 @@ PHASE(Creating)
 {
   initDefobj (arguments);
   initProbing ();
-
+  
   if (![arguments getBatchModeFlag] && !forceBatchMode)
     swarmGUIMode = YES;
   
@@ -86,6 +93,86 @@ PHASE(Creating)
     initSimtoolsGUI ();
   return self;
 }
- 
+
+PHASE(Setting)
+
+- (void)initSwarm: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress args: (const char **)args
+{
+  int argc, i;
+
+  for (argc = 0; args[argc]; argc++)
+    {
+    }
+  {
+    const char *argv[argc + 1];
+    
+    argv[0] = appName;
+    
+    for (i = 0; i < argc; i++)
+      argv[i + 1] = args[i];
+        
+    [self setArguments: 
+            [Arguments_c createArgc: argc + 1
+                         Argv: argv
+                         appName: appName
+                         version: version
+                         bugAddress: bugAddress
+                         options: NULL
+                         optionFunc: NULL
+                         inhibitExecutableSearchFlag: YES]];
+  }
+  [self createEnd];
+}
+
+PHASE(Using)
+
+- (timeval_t)getCurrentTime
+{
+  return getCurrentTime ();
+}
+
+- (id <SwarmActivity>)getCurrentSwarmActivity
+{
+  return getCurrentSwarmActivity ();
+}
+
+- (void)createArchivedProbeDisplay: obj name: (const char *)name
+{
+  createArchivedProbeDisplayNamed (obj, name);
+}
+
+- (void)setWindowGeometryRecordName: obj name: (const char *)name
+{
+  [obj setWindowGeometryRecordName: name];
+}
+
+
+void
+_initSwarm_ (int argc, const char **argv, const char *appName,
+             const char *version, const char *bugAddress,
+             Class argumentsClass,
+             struct argp_option *options,
+             int (*optionFunc) (int key, const char *arg),
+             BOOL forceBatchMode,
+             BOOL inhibitExecutableSearchFlag)
+{
+  id env = [SwarmEnvironment createBegin];
+
+  [env setArguments:
+         [argumentsClass ?: [Arguments_c class]
+                         createArgc: argc
+                         Argv: argv
+                         appName: appName
+                         version: version
+                         bugAddress: bugAddress
+                         options: options
+                         optionFunc: optionFunc
+                         inhibitExecutableSearchFlag:
+                           inhibitExecutableSearchFlag]];
+  [env setBatchMode: forceBatchMode];
+
+  [env createEnd];
+}
+
 #include "SwarmEnvironment_getters.m"
 @end
