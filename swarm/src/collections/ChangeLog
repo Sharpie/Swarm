@@ -1,3 +1,10 @@
+1999-01-08  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* List.m ([List_any -lispOut:]): Use MAKE_INSTANCE_FUNCTION_NAME
+	instead of MAKE_OBJC_FUNCTION_NAME.
+
+	* Map.m ([Map_c -lispOut:]): Likewise.
+
 1999-01-06  Alex Lancaster  <alex@santafe.edu>
 
 	* collections.h (PermutationItem): Add phase tags and

@@ -406,7 +406,7 @@ PHASE(Using)
 {
   id index, member, key;
 
-  [outputCharStream catC: "(" MAKE_OBJC_FUNCTION_NAME " 'Map"];
+  [outputCharStream catC: "(" MAKE_INSTANCE_FUNCTION_NAME " 'Map"];
 
   index = [(id) self begin: scratchZone];
   while ((member = [index next: &key]))
@@ -418,7 +418,7 @@ PHASE(Using)
         {
           char buf[12];
 
-          sprintf (buf, "%d", (int)key);
+          sprintf (buf, "%d", (int) key);
           [outputCharStream catC: buf];
         }
       [outputCharStream catC: " "];
