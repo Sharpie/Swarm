@@ -1,3 +1,8 @@
+2003-02-16  Alex Lancaster  <alex@swarm.org>
+
+	* configure.in, swarm-hdf5.spec.in, Makefile.am: Removed, no
+	longer use automake to generate spec files.
+
 2001-02-06  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* swarm-hdf5.spec.in, swarm.spec.in (BuildPrereq): Remove libffi
