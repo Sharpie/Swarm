@@ -1,0 +1,31 @@
+<!DOCTYPE BOOK PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+
+<!entity % global.entities system "../global.ent">
+%global.entities;
+
+<!entity % tutorial.entities system "tutorial.ent">
+%tutorial.entities;
+
+<!entity % figures.entities system "../figures.ent">
+%figures.entities;
+
+]>
+
+<BOOK ID="tutorial">
+
+<TITLE>A Swarm Tutorial</TITLE>
+
+&tutorialcont.sgml;
+
+</BOOK>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,162 @@
+<PART ID="SWARM.TUTORIAL.PART1">
+  <TITLE>Introduction to Swarm</TITLE>
+
+  <PARTINTRO>
+   <ITEMIZEDLIST>
+    <LISTITEM>
+      <PARA>In this introduction the following information will be covered:</PARA>
+      <ITEMIZEDLIST>
+
+        <LISTITEM>
+          <PARA>An overview of Swarm</PARA>
+        </LISTITEM>
+
+        <LISTITEM>
+          <PARA>The history of the Swarm Program</PARA>
+        </LISTITEM>
+
+        <LISTITEM>
+          <PARA>The contributions of Swarm to modelling and simulation</PARA>
+        </LISTITEM>
+
+        <LISTITEM>
+          <PARA>The general structure of simulations in Swarm</PARA>
+
+        </LISTITEM>
+
+        <LISTITEM>
+          <PARA>A quick and dirty introduction to Objective C</PARA>
+        </LISTITEM>
+
+        <LISTITEM>
+          <PARA>Resources for learning more about Swarm</PARA>
+        </LISTITEM>
+
+      </ITEMIZEDLIST>
+    </LISTITEM>
+  </ITEMIZEDLIST>
+  </PARTINTRO>
+
+  <CHAPTER>
+    <TITLE>An Overview of Swarm</TITLE>
+
+    <PARA>Swarm is a collection of software libraries which provide support for 
+      simulation programming.  Swarm users build simulations by incorporating Swarm 
+      objects in their own programs.
+    </PARA>
+
+    <PARA>The Swarm libraries are written in the Objective-C language.  The scripting 
+      language used to generated the graphical user interface is Tcl/Tk.  This GUI may
+      be substituted by the Java AWT widget set in the future.  Swarm runs under
+      X-Windows/Unix and WindowsNT operating systems.
+    </PARA>
+  </CHAPTER>
+
+
+  <CHAPTER>
+    <TITLE>The History of Swarm</TITLE>
+
+    <PARA>The Swarm Simulation System started in 1994 by Chris Langton at the Santa Fe
+      Institute in New Mexico.  The founding developers were Chris Langton, Roger
+      Burkhart, Nelson Minar, Manor Ashkenazi and Glen Ropella.  The current members of 
+      the Swarm Team are Marcus Daniels, Alex Lancaster and Irene Lee.  Many additional
+      contributions were made by members of the Swarm Community at large.
+    </PARA>
+
+    <PARA>The objective of the Swarm Program was to create a common simulation platform
+      for Agent based Modelling. 
+      Add:
+      -unneccessary duplication of effort
+      -shared models and ideas
+      -repeatable experiments
+      -common simulation base
+    </PARA>
+
+    <PARA>Swarm was first released in 1995 (Beta version). The 1.0 release occured in 
+      January 1997 followed by version 1.1 in April of 1998.
+    </PARA>
+
+    <PARA>Future directions of Swarm development include:
+    </PARA>
+
+  </CHAPTER>
+
+  <CHAPTER>
+    <TITLE>The Contributions of Swarm to Modelling and Simulation.</TITLE>
+     
+    <PARA>Event Management
+    </PARA>
+
+    <PARA>Information Management
+    </PARA>
+
+    <PARA>Graphical Input and Output
+    </PARA>
+ 
+    <PARA>Memory Management
+    </PARA>
+
+  </CHAPTER>
+
+<CHAPTER><TITLE></TITLE>
+    <FIGURE>
+        <TITLE></TITLE>
+        <GRAPHIC></GRAPHIC>
+      </FIGURE>
+     <!-- one of (calloutlist glosslist itemizedlist orderedlist segmentedlist simplelist variablelist caution important note tip warning literallayout programlisting programlistingco screen screenco screenshot synopsis cmdsynopsis funcsynopsis formalpara para simpara address blockquote graphic graphicco informalequation informalexample informaltable equation example figure table msgset procedure sidebar anchor bridgehead comment highlights abstract authorblurb epigraph refentry sect3 simplesect) -->
+
+</CHAPTER> 
+
+
+ 
+
+  <PARA>First, let's look at what happens when we port the above
+  stages into the world of a computer. In a computer, you don't just
+  drag the pieces of your experiment in from the outside world and
+  hook them up. You have to create a world with space and time, a
+  bunch of objects in that world (stuff to study and stuff to look at
+  it with), schedules of events over those objects, all sorts of
+  computer widgetry to interact with that artificial world and to
+  manage multiple experimental runs and the data that they generate,
+  and so forth. In other words, in a computer, one usually has to
+  first *create* from scratch all of the bits and pieces of the
+  experimental setup - the virtual equivalent of beakers, bunsen
+  burners, microscopes etc. </PARA>
+
+  <PARA>Perhaps the most important difference between an experiment in
+  the "real" world and an experiment inside of a computer is the
+  nature of time. In the real world, everything in one's experimental
+  setup is moved forward in time via a very concurrency courtesy of
+  the laws of physics. In a computer experiment, however, the
+  experimenter has to explicitly move every object in his/her
+  artificial universe forward in time, making sure that everything
+  remains within some well-understood state of synchronization. Many
+  fundamental problems in computer science have arisen in the course
+  of trying to understand how to control and use concurrency.
+  Furthermore, most people who implement computer simulations aren't
+  even aware of the subtle, but quite-possibly dominating, impacts of
+  assumptions that they aren't even aware that they are making about
+  concurrency in their model when they code it up and run it.</PARA>
+
+  <PARA>Therefore, a very important aspect of setting up an experiment
+  in a computer is how one weaves the multiple threads of time that
+  must be woven together coherently in order to produce reliable,
+  repeatable results. Much of our work on Swarm has been devoted to
+  not only making the task of managing concurrency manageable, but
+  towards mechanisms to make people aware that they are always making
+  implicit assumptions about how multiple threads of time are
+  interacting with one another in their experimental setups. Swarm
+  forces experimenters to make their concurrency assumptions explicit,
+  so that others can reproduce their results by implementing the same
+  assumptions about the flow of time. </PARA>
+
+</PART>
+
+<!--
+Local Variables:
+sgml-parent-document:("tutorialbook.sgml" "PART")
+End: 
+-->
+
+
+

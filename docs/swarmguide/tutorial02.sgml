@@ -1,0 +1,73 @@
+<CHAPTER ID="SWARM.OVERVIEW.CHAP2">
+  <TITLE>Mag 2x: Basis of Swarm Computation</TITLE>
+
+  <PARA>Here is a first approximation to embedding the above outline
+   of an experimental procedure in Swarm code:Swarm is implemented in
+   the Object-Oriented Programming language Objective-C. Computation
+   in a Swarm application takes place by having objects send messages
+   to each other. The basic message syntax is:
+
+  <PROGRAMLISTING>
+  [targetObject message Arg1: var1 Arg2: var2]
+  </PROGRAMLISTING>
+
+   Where "targetObject" is the recipient of the message,
+   "messageArg1:Arg2:" is the message to send to that object, and
+   "var1", "var2", etc, are arguments to pass along with the
+   message. Objective C's messages are keyword/value oriented, which
+   is why the message name "messageArg1:Arg2:" is interspersed with
+   the arguments.
+   </PARA>
+  
+  <PARA>The whole idea of Swarm is to provide an execution context
+   within which a large number of objects can "live their lives" and
+   interact with one another in a distributed, concurrent
+   manner. Furthermore, we wish to insulate the user from having to
+   master all of the highly baroque computer-science wizardry usually
+   required to implement such massively distributed systems of
+   autonomous agents reliably and robustly.</PARA>
+
+  <PARA>In the context of the Swarm simulation system, the generic
+   outline of an experimental procedure takes the following
+   form:<PARA>
+    
+  <ORDEREDLIST>
+      <LISTITEM><PARA>Create an artificial universe replete with
+       space, time, and objects that can be located, within reason, to
+       certain "points" in the overall structure of space and time
+       within the universe., and allow these objects to determine
+       their own behavior according to their own rules and internal
+       state in concert with sampling the state of the world, usually
+       only sparsely.</PARA></LISTITEM>
+      
+      <LISTITEM><PARA>Create a number of objects which will serve to
+       observe, record, and analyze data produced by the behavior of
+       the objects in the artificial universe implemented in step
+       1).</PARA></LISTITEM>
+
+      <LISTITEM><PARA>Run the universe, moving both the simulation and
+       observation objects forward in time under some explicit model
+       of concurrency. </PARA></LISTITEM>
+
+      <LISTITEM><PARA>Interact with the experiment via the data
+       produced by the instrumentation objects to perform a series of
+       controlled experimental runs of the system.</PARA></LISTITEM>
+
+      <LISTITEM><PARA>Depending on what is observed in stage 4), alter
+       the experimental or instrumental "apparatus" and go back to
+       3).</PARA></LISTITEM>
+
+      <LISTITEM><PARA>Publish paper *including* detailed specification
+       of the experimental set-up so that others can recreate your
+       experiment and verify your results. </PARA></LISTITEM>
+
+    </ORDEREDLIST>
+
+</CHAPTER>
+<!--
+Local Variables:
+sgml-parent-document:("tutorialbook.sgml" "CHAPTER") 
+End: 
+-->
+
+
