@@ -135,7 +135,9 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
     else
       abort ();
   }
-  [self eval: "proc tkInit {} {}"];
+
+  Tcl_SetVar (interp, "tclobjc_newTk", "0", TCL_GLOBAL_ONLY);
+  [self eval: "proc tkInit {} { global tclobjc_newTk; puts \"in TkInit\" ; set tclobjc_newTk 1 }"];
   
   /*
    * Initialize the Tk application and arrange to map the main window
@@ -149,14 +151,14 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
     name = "tkObjc";
 
 #if ((TK_MAJOR_VERSION == 4 && TK_MINOR_VERSION == 0) || TK_MAJOR_VERSION < 4)
-  w = Tk_CreateMainWindow(interp, display, name, "Tk");
-  if (w == NULL) {
-    fprintf(stderr, "%s\n", interp->result);
-    exit(1);
-  }
-  if (synchronize) {
-    XSynchronize(Tk_Display(w), True);
-  }
+  w = Tk_CreateMainWindow (interp, display, name, "Tk");
+  if (w == NULL)
+    {
+      fprintf (stderr, "%s\n", interp->result);
+      exit (1);
+    }
+  if (synchronize)
+    XSynchronize (Tk_Display (w), True);
   Tk_GeometryRequest(w, 200, 200);
 #endif
   
@@ -169,13 +171,15 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
       [self error:msg];
       abort ();
     }
+  [self eval: "if {$tclobjc_newTk == 1} { source [file join $tk_library tk.tcl] }"];
 
 #if (TK_MAJOR_VERSION > 4 || (TK_MAJOR_VERSION == 4 && TK_MINOR_VERSION >= 1))
   w = Tk_MainWindow(interp);
-  if (w == NULL) {
-    fprintf(stderr, "%s\n", interp->result);
-    exit(1);
-  }
+  if (w == NULL)
+    {
+      fprintf (stderr, "%s\n", interp->result);
+      exit (1);
+    }
 #endif
 
   return fileName;
