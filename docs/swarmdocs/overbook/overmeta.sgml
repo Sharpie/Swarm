@@ -2,7 +2,7 @@
 
   <TITLE>Brief Overview of Swarm</TITLE>
 
-  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
+  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER" SCALE=75></GRAPHIC>
 
   <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
 
