@@ -407,10 +407,10 @@
     (:creating "")))
 
 (defun java-class-name (protocol phase)
-  (concat (protocol-name protocol) (java-suffix-for-phase phase)))
+  (concat (protocol-name protocol) (java-suffix-for-phase phase) "Impl"))
         
 (defun java-interface-name (protocol phase)
-  (concat "i_" (java-class-name protocol phase)))
+  (concat (java-class-name protocol phase)))
 
 (defun java-qualified-name (current-module protocol phase interface-flag)
   (let ((module-name (module-name (protocol-module protocol)))
