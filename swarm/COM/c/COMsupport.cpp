@@ -11,6 +11,7 @@
 #include "COM.h"
 #include "COMsupport.h"
 #include "plstr.h"
+#include "nsHashtable.h"
 
 #include "swarmIBase.h"
 #include "swarmITyping.h"
@@ -158,14 +159,21 @@ createComponentByName (const char *contractID, const char *interfaceName)
   nsISupports *obj;
   nsresult rv;
   nsIID *iid;
-  char buf[6 + PL_strlen (interfaceName) + 1];
+  nsIID default_iid = NS_GET_IID (nsISupports);
 
-  PL_strcpy (buf, "swarmI");
-  PL_strcat (buf, interfaceName);
+  if (interfaceName)
+    {
+      char buf[6 + PL_strlen (interfaceName) + 1];
 
-  if (!(iid = findIIDFromName (buf)))
-    abort ();
-
+      PL_strcpy (buf, "swarmI");
+      PL_strcat (buf, interfaceName);
+      
+      if (!(iid = findIIDFromName (buf)))
+        iid = &default_iid;
+    }
+  else
+    iid = &default_iid;
+  
   rv = nsComponentManager::CreateInstance (contractID, NULL, *iid, (void **) &obj);
   if (NS_FAILED (rv))
     abort ();
@@ -231,10 +239,10 @@ createComponent (COMclass cClass)
           interfaceName[len - 4 - 5] = '\0';
         }
       else
-        abort ();
+        interfaceName = NULL;
     }
   else
-    abort ();
+    interfaceName = NULL;
 
   obj = createComponentByName (contractID, interfaceName);
   
@@ -286,6 +294,15 @@ getComponentName (COMclass cClass)
     abort ();
 
   return name;
+}
+
+COMclass
+copyComponentID (COMclass cClass)
+{
+  nsCID *cid = new nsCID ();
+
+  *cid = *((nsCID *) cClass);
+  return (COMclass) cid;
 }
 
 COMobject
@@ -424,6 +441,23 @@ findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, P
   return PR_FALSE;
 }
 
+struct EnumCollectInfo {
+  nsISupports *interface;
+  COM_collect_method_func_t collectMethodFunc;
+};
+
+static PRBool
+enumCollectFunc (nsHashKey *key, void *data, void *param)
+{
+  const nsXPTMethodInfo *methodInfo = (const nsXPTMethodInfo *) data;
+  EnumCollectInfo *collectInfo = (EnumCollectInfo *) param;
+
+  collectInfo->collectMethodFunc (collectInfo->interface,
+                                  methodInfo->GetName ());
+  return PR_TRUE;
+}
+
+
 static void *
 matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
 {
@@ -448,44 +482,38 @@ matchImplementedInterfaces (nsIInterfaceInfo *interfaceInfo, void *item)
       if (!NS_SUCCEEDED (interfaceInfo->GetName (&name)))
         abort ();
 
-      printf ("interface: `%s'\n", name);
+      nsHashtable *ht = new nsHashtable ();
       
       for (i = 0; i < methodCount; i++)
         {
           if (!NS_SUCCEEDED (interfaceInfo->GetMethodInfo (i, &methodInfo)))
             abort ();
-          if (info->variableFlag)
+
+          const char *variableName = methodInfo->GetName ();
+          nsCStringKey *key = new nsCStringKey (variableName);
+          const nsXPTMethodInfo *lastInfo = (nsXPTMethodInfo *) ht->Get (key);
+          
+          if (lastInfo)
             {
-              if (methodInfo->IsGetter ())
+              if (info->variableFlag)
                 {
-                  const char *variableName = methodInfo->GetName ();
-
-                  printf ("[%s] %u\n", variableName, (unsigned) methodInfo->IsSetter ());
-#if 0
-                  nsISupports *setterInterface;
-                  PRUint16 setterMethodIndex;
-                  const nsXPTMethodInfo *setterMethodInfo;
-                  
-                  PL_strcpy (setterName, "Set");
-                  PL_strcpy (setterName + 3, variableName);
-
-                  printf ("candidate setter name: `%s'\n", setterName);
-                  
-                  if (findMethod (obj,
-                                  setterName,
-                                  &setterInterface,
-                                  &setterMethodIndex,
-                                  &setterMethodInfo))
-                    {
-                      if (setterMethodInfo->IsSetter ())
-                        info->collectMethodFunc (ret, variableName);
-                    }
-#endif
+                  if ((methodInfo->IsGetter () && lastInfo->IsSetter ())
+                      || (methodInfo->IsSetter () && lastInfo->IsGetter ()))
+                    info->collectMethodFunc (ret, variableName);
                 }
+              else
+                ht->Remove (key);
             }
           else
-            info->collectMethodFunc (ret, methodInfo->GetName ());
+            ht->Put (key, (void *) methodInfo);
         }
+      if (!info->variableFlag)
+        {
+          EnumCollectInfo enumCollectData = { ret, info->collectMethodFunc } ;
+
+          ht->Enumerate (&enumCollectFunc, (void *) &enumCollectData);
+        }
+      delete ht;
       NS_RELEASE (ret);
     }
   return NULL;

@@ -20,6 +20,7 @@ const char *copyString (const char *str);
 const char *getName (COMobject cObj);
 const char *getComponentName (COMclass cClass);
 
+COMclass copyComponentID (COMclass cClass);
 COMobject normalize (COMobject cObj);
 
 COMobject selectorQuery (COMselector cObj);
