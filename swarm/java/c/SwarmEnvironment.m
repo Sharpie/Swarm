@@ -1,4 +1,8 @@
-// include first to avoid Kaffe jmalloc/stdlib conflict
+// Swarm library. Copyright © 1999-2000 Swarm Development Group.
+// This library is distributed without any warranty; without even the
+// implied warranty of merchantability or fitness for a particular purpose.
+// See file LICENSE for details and terms of copying.
+
 #import <simtools.h> // initSwarm, swarmGUIMode
 #import <defobj.h> // defobj_java_call_init_tables, SSTRDUP
 #import "directory.h" // java_directory_init, JAVA_APPNAME
