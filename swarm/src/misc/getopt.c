@@ -34,8 +34,8 @@
 #include <config.h>
 #endif
 
-#include "misc.h"
 #include <string.h>  /* for strncmp */
+#include "misc.h"
 
 #if !defined (__STDC__) || !__STDC__
 /* This is a separate conditional since some stdc systems

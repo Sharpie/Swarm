@@ -25,13 +25,14 @@
 #include <config.h>
 #endif
 
-#include "misc.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include <stdarg.h>
 #include <ctype.h>
+
+#include "misc.h"
 
 #ifndef _
 /* This is for other GNU distributions with internationalized messages.
@@ -1401,7 +1402,7 @@ argp_doc (const struct argp *argp, const struct argp_state *state,
 
   if (doc)
     {
-      char *vt = strchr (doc, '\v');
+      const char *vt = strchr (doc, '\v');
       inp_text = post ? (vt ? vt + 1 : 0) : doc;
       inp_text_limit = (!post && vt) ? (vt - doc) : 0;
     }

@@ -1,7 +1,16 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* argp-fmtstream.c, argp-help.c, argp-parse.c, getopt.c: Include
+	misc.h after standard includes.
+
+	* argp-help.c, argp-parse.c: Constify vt and short_index (return
+	of strchr).
+
+	* misc.h: Declare strchr, strcmp, and memset.
+
 	* Makefile.am (lib_LIBRARIES, libmisc_a_SOURCES): Remove.
 	(noinst_HEADERS): Include argp-fmtstream.h and argp-namefrob.h.
+	(SRC): Add strcmp.c, strchr.c, and memset.c.
 
 1998-06-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 

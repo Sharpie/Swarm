@@ -25,12 +25,12 @@
 #include <config.h>
 #endif
 
-#include "misc.h"
-
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <limits.h>
+
+#include "misc.h"
 
 #include <misc/getopt.h>
 
@@ -724,7 +724,7 @@ parser_parse_opt (struct parser *parser, int opt, char *val)
        determine which group OPT came from.  */
     {
       struct group *group;
-      char *short_index = strchr (parser->short_opts, opt);
+      const char *short_index = strchr (parser->short_opts, opt);
 
       if (short_index)
 	for (group = parser->groups; group < parser->egroup; group++)
