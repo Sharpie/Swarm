@@ -1,9 +1,19 @@
 #!/bin/sh
 JDKPATH=`regtool get 'HKLM\SOFTWARE\JavaSoft\Java Development Kit\1.2\JavaHome' 2>/dev/null`
 if test -n "$JDKPATH"; then
-  PATH=`cygpath -u $JDKPATH`/bin:$PATH
-  export PATH
-  CLASSPATH=".;${SWARMDIR}"'\share\swarm\swarm.jar' java $*
+  JDKPATH=`cygpath -u $JDKPATH`
+  classpath=".;${SWARMDIR}"'\share\swarm\swarm.jar'
+ 
+  for i in "$@"; do
+    argsexpr="$argsexpr '$i'"
+  done
+  if test -n "$JAVASWARMGDB"; then
+    echo "set args $argsexpr" > /tmp/.swarmgdbinit.$$
+    eval "CLASSPATH='$classpath' $JAVASWARMGDB -command /tmp/.swarmgdbinit.$$ $JDKPATH/bin/java"
+    rm -f /tmp/.swarmgdbinit.$$
+  else
+    CLASSPATH="$classpath" $JDKPATH/bin/java $*
+  fi
 else
   echo "JDK 1.2 does not appear to be installed" 1>&2
 fi
