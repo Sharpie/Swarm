@@ -1,6 +1,7 @@
 1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (libobjc.dll): New rule.
+	(EXTRA_DIST): New files dllinit.c and genctors.
 
 1999-05-22  Marcus Daniels  <mgd@pajarito.libarts.wsu.edu>
 

@@ -11,7 +11,7 @@ MSRC = NXConstStr.m Object.m Protocol.m linking.m mframe.m
 
 EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c \
 	thr-posix.c thr-pthreads.c thr-single.c thr-solaris.c thr-vxworks.c \
-	thr-win32.c config
+	thr-win32.c config genctors dllinit.c
 
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
