@@ -46,7 +46,6 @@ Library:      collections
 - (BOOL)getUntouchedFlag;
 - (id <Collection>)getCollection;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
-- (void)describe: outputCharStream;
 @end
 
 

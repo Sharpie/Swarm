@@ -100,9 +100,10 @@ PHASE(Creating)
            [index getLoc] == Member;
            elem = [index next], i++)
         {
-          int direction = (lastPermutation
-                           ? [lastPermutation getLastDirectionFor: elem]
-                           : 0);
+          int direction = 0;
+
+          if (lastPermutation)
+            direction = [lastPermutation getLastDirectionFor: elem];
           if (direction == 1)
             touchedFlag = YES;
           else if (direction == 0)
@@ -166,26 +167,6 @@ PHASE(Using)
   [index drop];
   mapObject (mapalloc, shuffler);
   [super mapAllocations: mapalloc];  
-}
-
-- (void)describe: stream
-{
-  id index;
-  id elem;
-
-  [stream catC: "Permutation "];
-  [stream catPointer: self];
-  [stream catC: ":\n"];
-  index = [self begin: scratchZone];
-  [index setLoc:Start];
-  for (elem = [index next]; [index getLoc] == Member; elem = [index next])
-    {
-      if (elem)
-        [elem describe: stream];
-      else
-        [stream catC: "<null>\n"];
-    }
-  [index drop];
 }
 
 @end

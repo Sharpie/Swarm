@@ -1,3 +1,7 @@
+2000-06-26  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Permutation.[hm] ([Permutation_c describe:]): Remove.
+
 2000-06-25  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Permutation.[hm] (Permutation): Add touchedFlag and untouchedFlag
@@ -5,7 +9,6 @@
 	([Permutation_c -getLastDirectionFor:]): New method.
 	([Permutation_c -createEnd]): Don't create
 	PermutationItems if the collection is empty.
-	([Permutation_c -describe:]): Fixes.
 
 	* Collection.m ([PermutedIndex_c +createBegin:]): Clear nextFlag.
 	([PermutedIndex_c -_updatePermutation_]): Don't use count as 
