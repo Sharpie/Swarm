@@ -434,32 +434,24 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
                width: 0];
 }
 
-- step
+- (void)step
 {
   [sequenceList forEach: M(step)];
-
-  return self;
 }
 
-- update
+- (void)update
 {
   [sequenceList forEach: M(update)];
-
-  return self;
 }
 
-- outputGraph
+- (void)outputGraph
 {
   [sequenceList forEach: M(outputGraph)];
-
-  return self;
 }
 
-- outputToFile
+- (void)outputToFile
 {
   [sequenceList forEach: M(outputToFile)];
-
-  return self;
 }
 
 - (void)drop
@@ -508,39 +500,31 @@ PHASE(Using)
   return self;
 }
 
-- step
+- (void)step
 {
   if (activeGrapher)
     [activeGrapher step];
   
   if (activeOutFile)
     [activeOutFile step];
-  
-  return self;
 }
 
-- update
+- (void)update
 {
   // No update to be done 
   // when there's only a single object connected
-
-  return self;
 }
 
-- outputGraph
+- (void)outputGraph
 {
   if (activeGrapher)
     [activeGrapher step];
-
-  return self;
 }
 
-- outputToFile
+- (void)outputToFile
 {
   if (activeOutFile)
     [activeOutFile step];
-
-  return self;
 }
 
 - (void)drop
@@ -574,18 +558,16 @@ PHASE(Using)
   return self;
 }
 
-- step
+- (void)step
 {
   [averager update];
   [super step];
-  
-  return self;
 }
 
-- update
+- (void)update
 {
   [averager update];
-  return [super update];
+  [super update];
 }
 
 - (void)drop

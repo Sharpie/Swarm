@@ -27,7 +27,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- update
+- (void)update
 {
   unsigned i;
 
@@ -41,11 +41,9 @@ PHASE(Using)
     }
 
   entropy /= maximumEntropy;
-
-  return self;
 }
 
-- output
+- (void)output
 {
   unsigned i;
 
@@ -65,8 +63,6 @@ PHASE(Using)
         }
       [anOutFile putNewLine];
     }
-  
-  return self;
 }
 
 - (double *)getProbabilities

@@ -30,7 +30,7 @@ CREATING
 USING
 //M: The update method runs through the collection calling the selector on 
 //M: each object.
-- update;
+- (void)update;
 
 //M: The getAverage method averages the values the averager collects. The total
 //M: and count are read out of the object to compute the average.
@@ -82,7 +82,7 @@ USING
 //M: The update method polls the collection and updates the entropy.
 //M: This method should be scheduled prior to collecting the data using
 //M: getEntropy.
-- update;
+- (void)update;
 
 //M: The getEntropy method returns the calculated Entropy. The entropy value
 //M: is read out of the object, not computed everytime it is requested.
@@ -161,22 +161,22 @@ USING
 //M: final data set. It is possible to poll the same collection of objects 
 //M: repeatedly, thus increasing the amount of data included in the final 
 //M: dataset, before generating output.
-- update;
+- (void)update;
 
 //M: The ouputGraph method causes the graphical display to be updated with the
 //M: information extracted by the previous call to update. If setGraphics==0,
 //M: nothing is done.
-- outputGraph;
+- (void)outputGraph;
 
 //M: The outputToFile method causes the number of entries per bin to be sent to
 //M: the output file, using the data extracted by the previous call to update.
 //M: If setFileOutput==0, nothing is done.
-- outputToFile;
+- (void)outputToFile;
 
 //M: The output: method combines the actions of -outputGraph and -outputToFile.
 //M: If graph updates and file output need to happen at different frequencies,
 //M: schedule calls to -outputGraph and -outputToFile instead of -output.
-- output;
+- (void)output;
 
 //M: The getDistribution method returns an array of integers containing the 
 //M: number of entries which landed in each bin of the histogram.
@@ -245,7 +245,7 @@ USING
 //M: The update method polls the bins and updates the entropy of the 
 //M: distribution as well as the probabilities associated with the individual 
 //M: bins.
-- update;
+- (void)update;
 
 //M: The output method causes the graphical display to be updated with the 
 //M: information extracted by the previous call to update.  When file I/O is 
@@ -253,7 +253,7 @@ USING
 //M: associated with each bin is sent to the output file. When the graphical 
 //M: display is enabled (the state of setGraphics is set to 1), the histogram 
 //M: will be drawn.
-- output;
+- (void)output;
 #endif
 
 //M: The getProbabilities method returns an array of doubles representing
@@ -490,20 +490,20 @@ USING
 //M: the -update method causes the underlying sequences to get the next set
 //M: of data values. If a sequence has a single object attached rather
 //M: than an Averager, nothing is done.
-- update;
+- (void)update;
 
 //M: the outputGraph method updates the graph with the data obtained from
 //M: the last call to -update. If setGraphics==0, nothing is done.
-- outputGraph;
+- (void)outputGraph;
 
 //M: the outputToFile method sends to the disk file data obtained from the
 //M: last call to -update. If setFileOutput==0, nothing is done.
-- outputToFile;
+- (void)outputToFile;
 
 //M: The step method combines -update, -outputGraph and -outputToFile.
 //M: If you want file output to occur at a different frequency than graph
 //M: updates, schedule those methods separately instead of using -step.
-- step;
+- (void)step;
 
 @end
 
@@ -526,7 +526,7 @@ USING
 //M: Fires the probe, reads the value from the object, and draws it
 //M: on the graph element. The X value is implicitly the current
 //M: simulation time. Y is the value read. 
-- step;
+- (void)step;
 @end
 
 @protocol ActiveOutFile <MessageProbe, CREATABLE>
@@ -545,7 +545,7 @@ USING
 
 //M: The step method fires the probe, reads the value from the object, and 
 //M: sends the value to the file.
-- step;
+- (void)step;
 @end
 
 @protocol FunctionGraph <SwarmObject, CREATABLE>

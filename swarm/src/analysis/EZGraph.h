@@ -111,11 +111,11 @@
 - (const char *)getTitle;
 - (const char *)getFileName;
 
-- step;
+- (void)step;
 
-- update;
-- outputGraph;
-- outputToFile;
+- (void)update;
+- (void)outputGraph;
+- (void)outputToFile;
 
 @end
 
@@ -129,11 +129,11 @@
 - setActiveGrapher: aGrapher;
 - setUnsignedArg: (unsigned)val;
 
-- step;
+- (void)step;
 
-- update;
-- outputGraph;
-- outputToFile;
+- (void)update;
+- (void)outputGraph;
+- (void)outputToFile;
 
 @end
 
