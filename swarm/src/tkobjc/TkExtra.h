@@ -8,7 +8,7 @@
 #import <TkInterp.h>
 #import <tk.h>
 
-@interface TkExtra : Tk
+@interface TkExtra: Tk
 {
 }
 - (const char *)getBltVersion;

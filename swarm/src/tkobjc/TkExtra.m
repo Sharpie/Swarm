@@ -10,6 +10,8 @@
 
 #import <tkobjc/TkExtra.h>
 
+#include <tcl.h>
+
 static void
 ensureBltSupportFiles (id globalTkInterp)
 {
@@ -53,9 +55,6 @@ int Blt_Init(Tcl_Interp *);			  // wish this were declared..
       return NULL;				  // shouldn't get here anyway
     }
 
-  if (strcmp ([self getBltFullVersion], "8.0-unoff") == 0)
-    [self eval: "namespace import blt::*"];
-
   ensureBltSupportFiles (self);
 
   // (nelson) I think this is ok: lets us load cool graph code.
@@ -73,6 +72,9 @@ int Blt_Init(Tcl_Interp *);			  // wish this were declared..
         "bind Entry <Delete> [bind Entry <BackSpace>]; "
         "bind Text <Delete> [bind Text <BackSpace>]"];
   
+  if (strcmp ([self getBltFullVersion], "8.0-unoff") == 0)
+    [self eval: "namespace import blt::*"];
+
   return filename;
 }
 
@@ -88,13 +90,20 @@ int Blt_Init(Tcl_Interp *);			  // wish this were declared..
 
 - (const char *)getBltFullVersion
 {
-  const char *full_version = Tcl_GetVar (interp, 
-                                         "blt::blt_versions(BLT_patchlevel)",
-                                         TCL_GLOBAL_ONLY);
-  if (full_version == NULL)
-    return [self getBltVersion];
-  else
-    return full_version;
+  const char *version = [self getBltVersion];
+
+  if (strcmp (version, "8.0") == 0)
+    {
+      const char *full_version =
+        Tcl_GetVar (interp, 
+                    "blt::blt_versions(BLT_patchlevel)",
+                    TCL_GLOBAL_ONLY);
+      if (full_version == NULL)
+        return [self getBltVersion];
+      else
+        return full_version;
+    }
+  return version;
 }
 
 - (BOOL)newBLTp

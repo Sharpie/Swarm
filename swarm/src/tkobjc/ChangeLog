@@ -1,3 +1,10 @@
+1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* TkExtra.m ([TkExtra -getBltFullVersion]): Check for 8.0 before
+	getting the patchlevel; asking for
+	blt::blt_versions(BLT_patchlevel) caused Tcl7.6/Tk4.2 to core dump
+	in LookupVar.
+
 1998-01-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ClassDisplayLabel.[hm], VarProbeLabel.[hm]: New files.
