@@ -106,7 +106,6 @@ Reference for	| L'Ecuyer et al, op. cit.
 output quality:	| 
 */
 
-#import <string.h>
 #import <random.h>
 #import <objectbase/SwarmObject.h>
 

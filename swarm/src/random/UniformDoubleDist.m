@@ -20,8 +20,6 @@ Date:		 1997-09-01 (v. 0.7)
 */
 
 
-#import <string.h>
-
 #import <collections.h>
 #import <random/UniformDoubleDist.h>
 

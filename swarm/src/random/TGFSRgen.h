@@ -75,7 +75,6 @@ Relative speed:	| Speed 0.795 (time 1.259) relative to MT19937 getUnsignedSample
 --------------- . ------------------------------------------------------------- 
 */
 
-#import <string.h>
 #import <random.h>
 #import <objectbase/SwarmObject.h>
 

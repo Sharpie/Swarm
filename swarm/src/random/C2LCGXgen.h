@@ -130,7 +130,6 @@ output quality:	|
 */
 
 
-#import <string.h>
 #import <random.h>
 #import <objectbase/SwarmObject.h>
 
