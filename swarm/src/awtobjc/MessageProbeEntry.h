@@ -12,7 +12,7 @@
 }
 
 - setArg: (int)arg;
-- setResultIdFlag: (BOOL)resultIdFlag;
+- setIdFlag: (BOOL)idFlag;
 + createBegin: aZone;
 - createEnd;
 
