@@ -51,7 +51,7 @@ libjavaswarmstubs.la: libjavaswarmstubs_.la
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir) libjavaswarmstubs_.la
 
 libjavaswarm.la: libjavaswarmstubs.la libjavaswarm_.la
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/src -rpath $(libdir) libjavaswarm_.la $(SWARMLIBS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/src -rpath $(libdir) libjavaswarm_.la libjavaswarmstubs.la $(SWARMLIBS)
 
 javaswarm.dll: libjavaswarm_.la
 
