@@ -160,21 +160,21 @@ static void *GC_calloc (size_t nelem, size_t size)
 
 static void noFree (void* p) {}
 
-void *(*_objc_malloc)(size_t) = GC_malloc;
-void *(*_objc_atomic_malloc)(size_t) = GC_malloc_atomic;
-void *(*_objc_valloc)(size_t) = GC_malloc;
-void *(*_objc_realloc)(void *, size_t) = GC_realloc;
-void *(*_objc_calloc)(size_t, size_t) = GC_calloc;
-void (*_objc_free)(void *) = noFree;
+externvardef void *(*_objc_malloc) (size_t) = GC_malloc;
+externvardef void *(*_objc_atomic_malloc) (size_t) = GC_malloc_atomic;
+externvardef void *(*_objc_valloc) (size_t) = GC_malloc;
+externvardef void *(*_objc_realloc) (void *, size_t) = GC_realloc;
+externvardef void *(*_objc_calloc) (size_t, size_t) = GC_calloc;
+externvardef void (*_objc_free) (void *) = noFree;
 
 #else
 
-void *(*_objc_malloc)(size_t) = malloc;
-void *(*_objc_atomic_malloc)(size_t) = malloc;
-void *(*_objc_valloc)(size_t) = malloc;
-void *(*_objc_realloc)(void *, size_t) = realloc;
-void *(*_objc_calloc)(size_t, size_t) = calloc;
-void (*_objc_free)(void *) = free;
+externvardef void *(*_objc_malloc) (size_t) = malloc;
+externvardef void *(*_objc_atomic_malloc) (size_t) = malloc;
+externvardef void *(*_objc_valloc) (size_t) = malloc;
+externvardef void *(*_objc_realloc) (void *, size_t) = realloc;
+externvardef void *(*_objc_calloc) (size_t, size_t) = calloc;
+externvardef void (*_objc_free) (void *) = free;
 
 
 #endif

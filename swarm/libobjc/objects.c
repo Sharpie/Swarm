@@ -32,13 +32,13 @@ Boston, MA 02111-1307, USA.  */
 # include <gc.h>
 #endif
 
-id __objc_object_alloc(Class);
-id __objc_object_dispose(id);
-id __objc_object_copy(id);
+id __objc_object_alloc (Class);
+id __objc_object_dispose (id);
+id __objc_object_copy (id);
 
-id (*_objc_object_alloc)(Class)   = __objc_object_alloc;   /* !T:SINGLE */ 
-id (*_objc_object_dispose)(id)    = __objc_object_dispose; /* !T:SINGLE */
-id (*_objc_object_copy)(id)       = __objc_object_copy;    /* !T:SINGLE */
+externvardef id (*_objc_object_alloc) (Class) = __objc_object_alloc;   /* !T:SINGLE */ 
+externvardef id (*_objc_object_dispose) (id) = __objc_object_dispose; /* !T:SINGLE */
+externvardef id (*_objc_object_copy) (id) = __objc_object_copy;    /* !T:SINGLE */
 
 id
 class_create_instance(Class class)

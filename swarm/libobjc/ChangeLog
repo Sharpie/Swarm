@@ -1,8 +1,16 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* misc.c (_objc_malloc, _objc_atomic_malloc, _objc_valloc,
+	_objc_realloc, _objc_callc, _objc_free): Add externvardef.
+
+	* class.c: (_objc_lookup_class): Add externvardef.
+
+	* init.c (_objc_load_callback): Add externvardef.
+
 	* configure.in: Use md_CHECK_DLLEXTERN.
 
-	* Makefile.am (CPPFLAGS): Add -Dexternvar=@EXPORT_EXTERN@.
+	* Makefile.am (CPPFLAGS): Add -Dexternvar=@EXPORT_EXTERN@ and
+	-Dexternvardef=@EXPORT_EXTERNDEF@.
 
 1999-05-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
