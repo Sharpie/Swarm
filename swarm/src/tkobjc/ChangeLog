@@ -1,3 +1,10 @@
+1998-08-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Pixmap.m ([Pixmap +createBegin:]): Default directory to ./.
+	([Pixmap -_loadPNG_]): Prepend directory to filename.
+
+	* Pixmap.[hm]: Add setDirectory:. 
+
 1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (tkobjc_pixmap_update_raster): Don't augment

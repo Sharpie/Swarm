@@ -49,8 +49,15 @@ PHASE(Creating)
   png_structp read_ptr;
   png_infop read_info_ptr;
   unsigned row_bytes = 0;
-
-  if ((fp = fopen (filename, "rb")) == NULL)
+  int dirlen = strlen (directory);
+  char path[dirlen + 1 + strlen (filename) + 1], *p;
+  
+  p = stpcpy (path, directory);
+  if (directory[dirlen - 1] != '/')
+    p = stpcpy (p, "/");
+  p = stpcpy (p, filename);
+  
+  if ((fp = fopen (path, "rb")) == NULL)
     [MissingFiles raiseEvent: "Cannot open %s", filename];
   
   if (fread (header, sizeof (header), 1, fp) != 1)
@@ -204,6 +211,14 @@ PHASE(Creating)
   return self;
 }
 
+- setDirectory: (const char *)theDirectory
+{
+  if (theDirectory)
+    directory = theDirectory;
+  
+  return self;
+}
+
 - setFile: (const char *)theFilename
 {
   filename = theFilename;
@@ -223,6 +238,7 @@ PHASE(Creating)
   Pixmap *obj = [super createBegin: aZone];
 
   obj->widget = nil;
+  obj->directory = "./";
   obj->filename = NULL;
 
   return obj;

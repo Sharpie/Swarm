@@ -10,6 +10,7 @@
 @interface Pixmap: CreateDrop <_Pixmap, Drawer>
 {
   id <Raster> raster;
+  const char *directory;
   const char *filename;
   id <Widget> widget;
 
@@ -29,6 +30,7 @@
 }
 
 + createBegin: aZone;
+- setDirectory: (const char *)directory;
 - setFile: (const char *)filename;
 - setWidget: (id <Widget>)widget;
 - createEnd;
