@@ -11,7 +11,6 @@
 //   randomMoveProbability chance of moving to a random spot
 
 #import "Heatbug.h"
-#import <simtoolsgui.h>
 #import <random.h>
 
 // Defining the methods for a Heatbug.
