@@ -311,6 +311,8 @@ PHASE(Creating)
   const char *appName = [arguments getAppName];
   const char *appModeString = [arguments getAppModeString];
 
+  // printf ("pre:[%s]\n", [self name]);
+
   [super createEnd];
   currentApplicationKey = 
     [String create: [self getZone] setC: appName];
@@ -333,10 +335,12 @@ PHASE(Creating)
           fclose (fp);
         }
     }
+#ifdef HAVE_HDF5
   if (HDF5Path)
     {
-      printf ("[%s]\n", [self name]);
+      // printf ("post:[%s]\n", [self name]);
     }
+#endif
   return self;
 }
 
