@@ -86,7 +86,7 @@ PHASE(Using)
   return [self setWidth: newWidth Height: height];
 }
 
-- setHeight: (unsigned)newWidth
+- setHeight: (unsigned)newHeight
 {
   return [self setWidth: width Height: newHeight];
 }
