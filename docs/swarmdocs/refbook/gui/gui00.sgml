@@ -1,4 +1,5 @@
 <PARTINTRO>
+  <title>GUI Introduction</title>
 
   <SIDEBAR>
     <TITLE>Overview</TITLE>
@@ -9,8 +10,8 @@
 
   </SIDEBAR>
 
-  <SECT1 ID="SWARM.GUI.SGML.SECT1.DEPEND">
-    <TITLE>Dependencies</TITLE> 
+  <SECT1 xreflabel="GUI Dependencies" ID="SWARM.GUI.SGML.SECT1.DEPEND">
+        <TITLE>Dependencies</TITLE> 
 
     <PARA>Following are the other header files imported by
     &lt;gui.h&gt;:
@@ -23,8 +24,8 @@
 
   </SECT1>
 
-  <SECT1 ID="SWARM.GUI.SGML.SECT1.COMPAT">
-    <TITLE>Compatibility</TITLE>
+  <SECT1 xreflabel="GUI Compatibility" ID="SWARM.GUI.SGML.SECT1.COMPAT">
+        <TITLE>Compatibility</TITLE>
 
     <ITEMIZEDLIST>
 
@@ -45,36 +46,36 @@
 
 <!--
 
-  <SECT1 ID="SWARM.GUI.SGML.SECT1.USAGE">
-    <TITLE>Usage Guide</TITLE>
+  <SECT1 xreflabel="GUI Usage Guide" ID="SWARM.GUI.SGML.SECT1.USAGE">
+        <TITLE>Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.GUI.SGML.SECT1.ADVUSAGE">
-    <TITLE>Advanced Usage Guide</TITLE>
+  <SECT1 xreflabel="GUI Advanced Usage Guide" ID="SWARM.GUI.SGML.SECT1.ADVUSAGE">
+        <TITLE>Advanced Usage Guide</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.GUI.SGML.SECT1.SUBCLASS">
-    <TITLE>Subclassing Reference</TITLE>
+  <SECT1 xreflabel="GUI Subclassing Reference" ID="SWARM.GUI.SGML.SECT1.SUBCLASS">
+        <TITLE>Subclassing Reference</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.GUI.SGML.SECT1.DESIGN">
-    <TITLE>Interface Design Notes</TITLE>
+  <SECT1 xreflabel="GUI Interface Design Notes" ID="SWARM.GUI.SGML.SECT1.DESIGN">
+        <TITLE>Interface Design Notes</TITLE>
 
     <PARA>Unavailable</PARA>
 
   </SECT1>
 
-  <SECT1 ID="SWARM.GUI.SGML.SECT1.IMPL">
-    <TITLE>Implementation Notes</TITLE>
+  <SECT1 xreflabel="GUI Implementation Notes" ID="SWARM.GUI.SGML.SECT1.IMPL">
+        <TITLE>Implementation Notes</TITLE>
 
     <PARA>Unavailable</PARA>
   </SECT1>
