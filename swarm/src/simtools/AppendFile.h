@@ -5,14 +5,14 @@
 
 #import <simtools/OutFile.h>
 
-// this object opens the designated file in 'append' mode
-// rather than 'create' mode, thus not wiping out
+// This object opens the designated file in `append' mode
+// rather than `create' mode, thus not wiping out
 // an existing file.
 
-@interface AppendFile : OutFile
+@interface AppendFile: OutFile
 {
 }
 
-+create: aZone withName: (const char *)theName;
++ create: aZone withName: (const char *)theName;
 
 @end

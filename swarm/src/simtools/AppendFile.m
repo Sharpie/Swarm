@@ -3,19 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-#import <stdio.h>
 #import <simtools/AppendFile.h>
 
-//S: A class for appended file output.
-//D: This class subclasses from OutFile, the only functional difference being
-//D: that it opens a given file in Append Mode rather than in Overwrite mode.
+#include <stdio.h>
+
 @implementation AppendFile
 
-//M: The create:withName: method is the create method for AppendFiles, where 
-//M: theName is the name of the file to open.
-+ create: aZone withName: (const char *) theName
++ create: aZone withName: (const char *)theName
 {
   FILE *aFile;
   id anObj;
