@@ -1,3 +1,7 @@
+2001-11-06    <mgd@condor.santafe.edu>
+
+	* Makefile.am (INCLUDES): Add -I$(top_builddir) for externvar.h.
+
 2001-11-04    <mgd@HELEN>
 
 	* Makefile.am: Remove multi-line variable assignments.  Cygwin
