@@ -34,7 +34,7 @@
   // create an instance of the Archiver to retrieve the file
   // set the path to `batch.scm'
 
-  archiver =  [Archiver create: globalZone fromLispPath: "batch.scm"];
+  archiver =  [Archiver create: self fromLispPath: "batch.scm"];
 
   // In MousetrapObserverSwarm, we'd build some probes and wait for a
   // user control event (this allows the user to fiddle with the
@@ -54,8 +54,10 @@
     raiseEvent(InvalidOperation, 
                "Can't find archiver file or appropriate key");
   
-  // Now, let the model swarm build its objects.
+  // don't need the archiver instance anymore
+  [archiver drop];
 
+  // Now, let the model swarm build its objects.
   [mousetrapModelSwarm buildObjects];
 
   // Finally, build some data analysis objects. In this case we're just

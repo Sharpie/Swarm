@@ -46,7 +46,8 @@ main (int argc, const char **argv)
            [archiver getWithZone: globalZone object: "batchSwarm"]) == nil)
         raiseEvent(InvalidOperation, 
                    "Can't find archiver file or appropriate key");
-          
+      
+      [archiver drop];
     }
 
   // either way, build objects, actions, activate, and run

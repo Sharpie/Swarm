@@ -1,3 +1,12 @@
+1999-06-09  Alex Lancaster  <alex@santafe.edu>
+
+	* main.m (main): Drop the archiver instance after object
+	instantiation.
+
+	* MousetrapBatchSwarm.m ([MousetrapBatchSwarm -buildObjects]):
+	Likewise.  Create Archiver instance in current Zone rather than
+	globalZone.
+	
 1999-06-08  Alex Lancaster  <alex@santafe.edu>
 
 	* main.m (main): Use Archiver convenience method
