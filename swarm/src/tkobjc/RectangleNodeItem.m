@@ -6,7 +6,7 @@
 #import <tkobjc/RectangleNodeItem.h>
 #import <tkobjc/Widget.h>
 #include <tkobjc/global.h>
-#include <misc.h> // strdup, XFREE
+#include <defobj.h> // STRDUP
 
 @implementation RectangleNodeItem
 
@@ -17,7 +17,7 @@ PHASE(Creating)
   [self createPaddedText];
 
   item =
-    strdup (([[globalTkInterp
+    STRDUP (([[globalTkInterp
                 eval: 
                   "set temp [%s bbox %s]; "
                 "set h [expr ([lindex $temp 3] - [lindex $temp 1]) / 2]; "
@@ -32,7 +32,7 @@ PHASE(Creating)
                   [canvas getWidgetName],
                   text];
 
-  XFREE (text);
+  FREEBLOCK (text);
 
   [self createText];
   [self createBindings];

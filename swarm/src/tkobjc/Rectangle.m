@@ -6,7 +6,7 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/Rectangle.h>
-#include <misc.h> // strdup
+#import <defobj.h> // STRDUP
 
 @implementation Rectangle
 
@@ -30,7 +30,7 @@ PHASE(Creating)
       "%s create rectangle %d %d %d %d -fill white", 
     [canvas getWidgetName], tx, ty, lx, ly];
   
-  item = strdup ([globalTkInterp result]);
+  item = STRDUP ([globalTkInterp result]);
   
   return self;
 }

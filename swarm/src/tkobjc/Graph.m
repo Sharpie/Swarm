@@ -10,8 +10,9 @@
 #import <tkobjc/Graph.h>
 #import <tkobjc/global.h>
 #import <collections.h> // List
+#import <defobj.h> // STRDUP
 
-#include <misc.h> // strdup, atoi
+#include <misc.h> // atoi
 
 @implementation Graph
 
@@ -139,7 +140,7 @@ PHASE(Creating)
 {
   if (ownerGraph == nil)
     raiseEvent (InvalidCombination, "This element has no owner graph!\n");
-  name = strdup ([self getObjectName]);
+  name = STRDUP ([self getObjectName]);
   xData = [BLTVector create: [self getZone]];
   yData = [BLTVector create: [self getZone]];
 
@@ -296,7 +297,7 @@ PHASE(Using)
 
 - createEnd
 {
-  name = strdup ([self getObjectName]);
+  name = STRDUP ([self getObjectName]);
   [globalTkInterp eval: "vector %s", name];
   return self;
 }

@@ -4,10 +4,10 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/TkExtra.h>
-#import <defobj.h>
+#import <defobj.h> // OSTRDUP
 
 #include <tcl.h>
-#include <misc.h> // strdup, acess
+#include <misc.h> // access
 
 @implementation TkExtra
 
@@ -43,7 +43,7 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
                 p = stpcpy (libPath, swarmHome);
                 stpcpy (p, libdir);
                 
-                basePath = strdup (libPath); 
+                basePath = OSTRDUP (arguments, libPath); 
                 [globalTkInterp globalEval: "set blt_library \"%s\"",
 				libPath];
               }

@@ -4,12 +4,10 @@
 // See file LICENSE for details and terms of copying.   
 
 #import "internal.h"
-#import <defobj.h> // nameToObject
+#import <defobj.h> // nameToObject, OSTRDUP, SSTRDUP
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/common.h>
-
-#include <misc.h> // strdup
 
 void
 tkobjc_dragAndDropTarget (id target, id object)
@@ -224,7 +222,7 @@ const char *
 tkobjc_dynamicEval (const char *cmd)
 {
   [globalTkInterp eval: "%s", cmd];
-  return strdup (([globalTkInterp result]));
+  return SSTRDUP (([globalTkInterp result]));
 }
 
 id
@@ -286,12 +284,13 @@ tkobjc_createText (id widget, int x, int y,
                    const char *text, const char *font,
                    BOOL centerFlag)
 {
-  return strdup (([[globalTkInterp 
-                     eval: 
-                       "%s create text %d %d -text \"%s\" %s%s -anchor %s", 
-                     [widget getWidgetName], x, y, text, 
-                     (font ? "-font " : ""),
-                     (font ? font : ""),
-                     (centerFlag ? "c" : "w")]
-                    result]));
+  return OSTRDUP (widget,
+                  ([[globalTkInterp 
+                      eval: 
+                        "%s create text %d %d -text \"%s\" %s%s -anchor %s", 
+                      [widget getWidgetName], x, y, text, 
+                      (font ? "-font " : ""),
+                      (font ? font : ""),
+                      (centerFlag ? "c" : "w")]
+                     result]));
 }

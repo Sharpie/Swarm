@@ -4,10 +4,10 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/Pixmap.h>
+#import <defobj.h> // zones
 #import "internal.h"
 #import <tkobjc/global.h>
 #include <png.h>
-#include <misc.h> // xmalloc, XFREE
 #include <swarmconfig.h> // PTRUINT
 
 static int
@@ -133,9 +133,10 @@ PHASE(Creating)
       png_bytep row_pointers_buffer[height];
       png_bytep new_row_pointers_buffer[height];
       png_bytep *row_pointers = row_pointers_buffer;
+      id aZone = [self getZone];
 
       for (ri = 0; ri < height; ri++)
-        row_pointers[ri] = xmalloc (row_bytes);
+        row_pointers[ri] = [aZone alloc: row_bytes];
       
       png_read_image (read_ptr, row_pointers);
       
@@ -202,7 +203,7 @@ PHASE(Creating)
               }
             [cMap drop];
             for (ri = 0; ri < height; ri++)
-              XFREE (row_pointers[ri]);
+              [aZone free: row_pointers[ri]];
             row_pointers = new_row_pointers_buffer;
           }
         }

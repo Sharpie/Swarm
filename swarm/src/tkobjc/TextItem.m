@@ -6,7 +6,6 @@
 #import <tkobjc/TextItem.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/global.h>
-#include <misc.h> // strdup
 
 @implementation TextItem
 

@@ -293,7 +293,7 @@ PHASE(Using)
             char *buf;
             if ([action isKindOf: [ActionConcurrent_c class]])
               {
-                buf = xmalloc (10);
+                buf = [zone alloc: 10];
                 sprintf (buf, "%u",
                          [((ActionConcurrent_c *)
                            action)->concurrentGroup getCount]);
@@ -307,12 +307,12 @@ PHASE(Using)
                 unsigned len = 
                   2 + strlen (targetName) + 1 + strlen (selName) + 2;
 
-                buf = xmalloc (len  + 1);
+                buf = [zone alloc: len + 1];
                 sprintf (buf, "\\[%s %s\\]", targetName, selName);
                 [text setText: buf];
               }
             text = [text createEnd];
-            XFREE (buf);
+            [zone free: buf];
           }
           [text addRef: canvasItemDestroyNotify withArgument: NULL];
         }

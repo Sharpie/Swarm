@@ -6,7 +6,6 @@
 #import <tkobjc/global.h>
 #import <tkobjc/ButtonPanel.h>
 #import <tkobjc/global.h>
-#include <misc.h> // strdup
 
 @implementation ButtonPanel
 PHASE(Creating)

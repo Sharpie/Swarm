@@ -1,3 +1,46 @@
+1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Circle.m, ClassHideDisplayButton.m, Histogram.m, Line.m,
+	LinkItem.m, OvalNodeItem.m, Pixmap.m, Rectangle.m: Include
+	defobj.h instead of misc.h.
+
+	* common.m (tkobjc_dynamicEval): Use SSTRDUP instead of strdup.
+	(tkobjc_createText): Use OSTRDUP instead of strdup.
+
+	* TkExtra.m (ensureBltSupportFiles): Use OSTRDUP instead of strdup.
+
+	* TextItem.m: Don't include misc.h.
+
+	* ScheduleItem.m ([ScheduleItem -_createItem_]): Use alloc: and free:
+	instead of xmalloc and XFREE.
+
+	* Pixmap.m ([Pixmap -_loadPNG_]): Use alloc: instead of xmalloc.
+	([Pixmap -_loadPNG_]): Use free: instead of XFREE.
+
+	* ButtonPanel.m: Don't include misc.h.
+
+	* OvalNodeItem.m ([OvalNodeItem -createItem]): Use STRDUP and
+	FREEBLOCK instead of strdup and XFREE.
+
+	* RectangleNodeItem.m ([RectangleNodeItem -createItem]): Likewise.
+
+	* Circle.m ([Circle -createItem]): Use STRDUP instead of strdup.
+
+	* Histogram.m ([Histogram -createEnd]): Likewise.
+
+	* Line.m ([Line -createItem]): Likewise.
+
+	* LinkItem.m ([LinkItem -createItem]): Likewise.
+
+	* Rectangle.m ([Rectangle -createItem]): Likewise.
+
+	* Graph.m ([GraphElement -createEnd], [BLTVector -createEnd]):
+	Use STRDUP instead of strdup.
+
+	* ClassDisplayHideButton.m (tkobjc_packForgetArmSuperAndResize): 
+	Use OSTRDUP instead of strdup.
+	(tkobjc_packForgetArmSuperAndResize): Use OFREEBLOCK instead of XFREE.
+
 1999-08-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (x_get_managed_toplevel_window): Check to see

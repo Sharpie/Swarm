@@ -6,8 +6,7 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/Line.h>
-
-#include <misc.h>
+#import <defobj.h> // STRDUP
 
 @implementation Line
 
@@ -29,7 +28,7 @@ PHASE(Creating)
     "%s create line %d %d %d %d", 
     [canvas getWidgetName], tx, ty, lx, ly];
   
-  item = strdup ([globalTkInterp result]);
+  item = STRDUP ([globalTkInterp result]);
 
   return self;
 }

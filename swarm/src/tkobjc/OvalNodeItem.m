@@ -6,7 +6,7 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/OvalNodeItem.h>
-#include <misc.h> // strdup, XFREE
+#import <defobj.h> // STRDUP, OFREEBLOCK
 
 @implementation OvalNodeItem
 
@@ -17,7 +17,7 @@ PHASE(Creating)
   [self createPaddedText];
    
   item =
-    strdup (([[globalTkInterp
+    STRDUP (([[globalTkInterp
                 eval: 
                   "set temp [%s bbox %s]; "
                 "set h [expr ([lindex $temp 3] - [lindex $temp 1]) / 2];"
@@ -29,8 +29,8 @@ PHASE(Creating)
   
   [globalTkInterp eval: "%s delete %s",
                   [canvas getWidgetName], text];
-  
-  XFREE (text);
+
+  FREEBLOCK (text);
 
   [self createText];
   [self createBindings];

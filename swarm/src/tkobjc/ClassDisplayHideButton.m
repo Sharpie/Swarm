@@ -4,16 +4,16 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc/ClassDisplayHideButton.h>
+#import <defobj.h> // OSTRDUP, OFREEBLOCK
 #include <tkobjc/global.h>
 #include <tkobjc/common.h>
-#include <misc.h> // XFREE
 
 @implementation ClassDisplayHideButton
 
 static void
 tkobjc_packForgetArmSuperAndResize (id hideB, id user, id subWidget, id owner)
 {
-  const char *subWidgetName = strdup ([subWidget getObjectName]);
+  const char *subWidgetName = OSTRDUP (subWidget, [subWidget getObjectName]);
   const char *ownerName = [owner getObjectName];
 
   [globalTkInterp 
@@ -24,7 +24,7 @@ tkobjc_packForgetArmSuperAndResize (id hideB, id user, id subWidget, id owner)
     subWidgetName,
     ownerName];
 
-  XFREE (subWidgetName);
+  OFREEBLOCK (subWidget, subWidgetName);
 }
 
 static void

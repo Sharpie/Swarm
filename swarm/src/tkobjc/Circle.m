@@ -6,7 +6,7 @@
 #import <tkobjc/Circle.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/global.h>
-#include <misc.h> // strdup
+#import <defobj.h> // STRDUP
 
 @implementation Circle
 
@@ -31,9 +31,9 @@ PHASE(Creating)
 {
   [globalTkInterp eval: 
     "%s create oval %d %d %d %d -fill white", 
-    [canvas getWidgetName],x - r, y - r, x + r, y + r];
+    [canvas getWidgetName], x - r, y - r, x + r, y + r];
   
-  item = strdup ([globalTkInterp result]);
+  item = STRDUP ([globalTkInterp result]);
 
   return self;
 }

@@ -9,7 +9,7 @@
 
 #import <tkobjc/global.h>
 #import <tkobjc/Histogram.h>
-#include <misc.h> // strdup
+#import <defobj.h> // STRDUP
 
 @implementation Histogram
 
@@ -54,7 +54,7 @@ PHASE(Creating)
       char strBuffer[256];
 
       sprintf (strBuffer, "%d", i);
-      elements[i] = strdup (strBuffer);
+      elements[i] = STRDUP (strBuffer);
       [globalTkInterp
         eval: "%s element create %s; %s element configure %s -relief flat",
           widgetName, strBuffer, widgetName, elements[i]];
