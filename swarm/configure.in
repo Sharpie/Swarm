@@ -40,11 +40,9 @@ AC_ARG_WITH(tclincludedir,
 [  --with-tclincludedir=DIR         Use DIR for Tcl header files],
   tclincludedir=$withval)
 
+md_FIND_TCL_HEADERS
 if test -z "$tclincludedir" ; then
-  md_FIND_TCL_HEADERS
-  if test -z "$tclincludedir" ; then
-    AC_MSG_ERROR(Please specify Tcl header path using --with-tcldir or --with-tclincludedir)
-  fi
+  AC_MSG_ERROR(Please specify Tcl header path using --with-tcldir or --with-tclincludedir)
 fi
 
 md_FIND_TCL_LIBRARIES
@@ -55,7 +53,7 @@ fi
 AC_ARG_WITH(tkdir,
 [  --with-tkdir=TKDIR               Use DIR/include and DIR/lib for Tk],
   tkincludedir=$withval/include
-  tklibdir=$withval)
+  tklibdir=$withval/lib)
 
 AC_ARG_WITH(tkincludedir,
 [  --with-tkincludedir=DIR          Use DIR for Tk header files],
@@ -66,11 +64,9 @@ if test -z "$tkincludedir" ; then
   AC_MSG_ERROR(Please specify Tk include path using --with-tkincludedir)
 fi
 
+md_FIND_TK_LIBRARIES
 if test -z "$tklibdir" ; then
-  md_FIND_TK_LIBRARIES
-  if test -z "$tklibdir" ; then
-    AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
-  fi
+  AC_MSG_ERROR(Please specify Tk library path using --with-tkdir)
 fi
 
 AC_ARG_WITH(tclobjcdir,
