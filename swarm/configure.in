@@ -208,6 +208,12 @@ AC_ARG_WITH(jdkdir,
 [  --with-jdkdir=DIR                Use DIR for Java Development Kit],
   jdkdir=$withval)
 
+AC_ARG_WITH(javaswarm-dll-name,
+[  --with-javaswarm-dll-name=name   Use a different name for the Java DLL],
+  JAVASWARMDLLNAME=$withval)
+test -n "$JAVASWARMDLLNAME" || JAVASWARMDLLNAME=javaswarm
+AC_SUBST(JAVASWARMDLLNAME)
+
 AC_ARG_ENABLE(jar, 
 [  --disable-jar                    Don't create a swarm.jar file],
   ,enable_jar=yes)
@@ -297,7 +303,7 @@ AC_PATH_PROG(EMACS, emacs, missing)
 test -n "$ffidir" || AVCALLDIR=avcall
 AC_SUBST(AVCALLDIR)
 
-AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile tests/collections/Makefile tests/defobj/Makefile tests/objectbase/Makefile tests/simtools/Makefile tests/space/Makefile java/Makefile java/javaswarm java/javacswarm java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules])
+AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile.tests etc/Makefile tests/Makefile tests/activity/Makefile tests/collections/Makefile tests/defobj/Makefile tests/objectbase/Makefile tests/simtools/Makefile tests/space/Makefile java/Makefile java/javaswarm java/javacswarm java/c/Makefile java/swarm/Makefile java/swarm/Makefile.rules java/swarm/Globals.java])
 
 abs_srcdir=`cd $srcdir; pwd`
 
