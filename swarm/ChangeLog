@@ -3,6 +3,7 @@
 	* configure.in: Call AC_PATH_XTRA before md_CHECK_GUILIBS.
 	Check for -ldl and -ldld before setting RPATH.  Add a 
 	placeholder for the -ldld (HPUX) case.
+	(DLLIB): Put dynamic library here instead of in LIBS.  Substitute.
 
 	* Makefile.am (install-data-local): Install libtool to bindir.
 
