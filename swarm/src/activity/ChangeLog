@@ -1,3 +1,16 @@
+1998-04-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* activity.h: Include new protocols DefaultOrder, AutoDrop in
+	CompoundAction.  Include new protocols ActionCreatingTo,
+	ActionCreatingForEach in ActionCreating.  Include new protocols
+	RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups
+	in Schedule.  Include SynchronizationType and InternalTimeMultiplier
+	in SwarmProcess. 
+	Disable setTerminateAtEnd:, getTerminateAtEnd,
+	setSynchronizedMode:, getSynchronizedMode, and getCurrentTimebase
+	from ScheduleActivity protocol.
+	Add documentation tags throughout.
+
 1998-04-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Schedule.m (_activity_insertAction): Disable code that attempts
