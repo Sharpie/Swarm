@@ -47,11 +47,9 @@ if test -z "$tclincludedir" ; then
   fi
 fi
 
+md_FIND_TCL_LIBRARIES
 if test -z "$tcllibdir" ; then
-  md_FIND_TCL_LIBRARIES
-  if test -z "$tcllibdir" ; then
-    AC_MSG_ERROR(Please specify Tcl library path using --with-tcldir)
-  fi
+  AC_MSG_ERROR(Please specify Tcl library path using --with-tcldir)
 fi
 
 AC_ARG_WITH(tkdir,
@@ -63,11 +61,9 @@ AC_ARG_WITH(tkincludedir,
 [  --with-tkincludedir=DIR          Use DIR for Tk header files],
   tkincludedir=$withval/include)
 
+md_FIND_TK_HEADERS
 if test -z "$tkincludedir" ; then
-  md_FIND_TK_HEADERS
-  if test -z "$tkincludedir" ; then
-    AC_MSG_ERROR(Please specify Tk include path using --with-tkincludedir)
-  fi
+  AC_MSG_ERROR(Please specify Tk include path using --with-tkincludedir)
 fi
 
 if test -z "$tklibdir" ; then
@@ -126,4 +122,4 @@ md_FIND_PNG
 
 AC_CHECK_LIB(dl,main)
 
-AC_OUTPUT([Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile Makefile.appl])
+AC_OUTPUT([Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile Makefile.appl Makefile.lib])
