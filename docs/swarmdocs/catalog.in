@@ -5,10 +5,10 @@ PUBLIC "-//SFI Hive//ENTITIES Reference//EN" @top_srcdir@/src/refcont.sgml
 PUBLIC "-//SFI Hive//ENTITIES Reference Metadata//EN" @top_srcdir@/src/refmeta.sgml
 PUBLIC "-//SFI Hive//ENTITIES Reference Preface//EN" @top_srcdir@/src/ref00.sgml
 PUBLIC "-//SFI Hive//ENTITIES Reference Changes//EN" @top_srcdir@/src/ref00a.sgml
-PUBLIC "-//SFI Hive//ENTITIES Reference Index//EN" @top_srcdir@/src/refindex.sgml
-PUBLIC "-//SFI Hive//ENTITIES Reference Revision History//EN" @top_srcdir@/src/srcrevhistory.sgml
+PUBLIC "-//SFI Hive//ENTITIES Reference Index//EN" src/refindex.sgml
+PUBLIC "-//SFI Hive//ENTITIES Reference Revision History//EN" src/srcrevhistory.sgml
 PUBLIC "-//SFI Hive//ENTITIES Grid Turtle//EN" @top_srcdir@/src/grid-app.sgml
-PUBLIC "-//SFI Hive//ENTITIES Grid Turtle Examples//EN" @top_srcdir@/src/gridexamples.sgml
+PUBLIC "-//SFI Hive//ENTITIES Grid Turtle Examples//EN" src/gridexamples.sgml
 PUBLIC "-//SFI Hive//ENTITIES Probes//EN" @top_srcdir@/src/probes-app.sgml
 PUBLIC "-//SFI Hive//ENTITIES Conventions//EN" @top_srcdir@/src/conventions-app.sgml
 PUBLIC "-//SFI Hive//ENTITIES GPL//EN" @top_srcdir@/src/gpl-app.sgml
@@ -92,6 +92,24 @@ PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo JPEG//EN" @top_srcdir@/figs/small
 PUBLIC "-//SFI Hive//ENTITIES Small Swarm Logo EPS//EN" @top_srcdir@/figs/smalllogo.eps
 PUBLIC "-//SFI Hive//ENTITIES Switcheroo JPEG//EN" @top_srcdir@/figs/switcheroo.jpg
 PUBLIC "-//SFI Hive//ENTITIES Switcheroo EPS//EN" @top_srcdir@/figs/switcheroo.eps
+
+PUBLIC "-//SFI Hive//ENTITIES Globals//EN" @top_srcdir@/global.ent
+PUBLIC "-//SFI Hive//ENTITIES Versions//EN" versions.ent
+
+PUBLIC "-//SFI Hive//ENTITIES Activity List//EN" @top_srcdir@/src/activity/activity.ent
+PUBLIC "-//SFI Hive//ENTITIES Analysis List//EN" @top_srcdir@/src/analysis/analysis.ent
+PUBLIC "-//SFI Hive//ENTITIES Collections List//EN" @top_srcdir@/src/collections/collections.ent
+PUBLIC "-//SFI Hive//ENTITIES Defobj List//EN" @top_srcdir@/src/defobj/defobj.ent
+PUBLIC "-//SFI Hive//ENTITIES GUI List//EN" @top_srcdir@/src/gui/gui.ent
+PUBLIC "-//SFI Hive//ENTITIES Objectbase List//EN" @top_srcdir@/src/objectbase/objectbase.ent
+PUBLIC "-//SFI Hive//ENTITIES Random List//EN" @top_srcdir@/src/random/random.ent
+PUBLIC "-//SFI Hive//ENTITIES Simtools List//EN" @top_srcdir@/src/simtools/simtools.ent
+PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI List//EN" @top_srcdir@/src/simtoolsgui/simtoolsgui.ent
+PUBLIC "-//SFI Hive//ENTITIES Space List//EN" @top_srcdir@/src/space/space.ent
+PUBLIC "-//SFI Hive//ENTITIES Tech List//EN" @top_srcdir@/src/tech/tech.ent
+PUBLIC "-//SFI Hive//ENTITIES Figure List//EN" @top_srcdir@/figs/figs.ent
+
+PUBLIC "-//SFI Hive//ENTITIES Src List//EN" @top_srcdir@/src/src.ent
 
 SGMLDECL "@top_srcdir@/docbook.dcl"
 
