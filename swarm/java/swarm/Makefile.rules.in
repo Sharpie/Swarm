@@ -8,5 +8,9 @@ INTERFACES := $(subst __c,,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$(addprefi
 
 CLASSES := $(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$(modulePROTOCOLS))))
 
-all: $(addsuffix .java,$(CLASSES)) $(addsuffix .java,$(INTERFACES))
+CLASSFILES = $(addsuffix .class,$(CLASSES)) $(addsuffix .class,$(INTERFACES))
+
+$(CLASSFILES): $(addsuffix .java,$(CLASSES)) $(addsuffix .java,$(INTERFACES))
 	$(JAVAC) -classpath ../..:$(jdkdir)/lib/classes.zip $^
+
+all: $(CLASSFILES)

@@ -11,11 +11,11 @@ include ../Makefile.common
 
 all: Selector.class
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
-	cd .. ; $(JAR) cf swarm/swarm.jar Selector.class $(foreach module,$(MODULES),$(foreach protocol,$($(module)PROTOCOLS),swarm/$(module)/$(protocol).class))
+	cd .. ; $(JAR) cf swarm/swarm.jar swarm/Selector.class $(foreach module,$(MODULES),$(foreach protocol,$($(module)PROTOCOLS),swarm/$(module)/$(protocol).class))
 
 install: all
 	test -d $(datadir)/swarm || mkdir $(datadir)/swarm
 	$(INSTALL) swarm.jar $(datadir)/swarm
 
 %.class: %.java
-	$(JAVAC) -classpath $(jdkdir)/lib/classes.zip $<
+	$(JAVAC) -d .. -classpath $(jdkdir)/lib/classes.zip $<
