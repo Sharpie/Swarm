@@ -1,3 +1,12 @@
+1999-05-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* config/mips/mframe-irix6.h (refstructp): New inline.
+	(mframe_get_struct_addr_ptr, MFRAME_ARG_ENCODING): Use it.
+	(MFRAME_INIT_ARGS): Start CUM at 20.
+	(MFRAME_ARG_ENCODING): Use offset of 4 when large struct reference,
+	and CUM otherwise.  In latter case, add size to CUM.
+	Retain register tags.
+
 1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config/mips/mframe-irix6.h (MFRAME_{G,S}ET_STRUCT_ADDR): 
