@@ -1,5 +1,115 @@
 1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* objectbase.h: Constify argument to getProbedForVariable and
+	getProbeForMessage (SwarmObject). 
+	Constify return of getProbedType (Probe).
+	Constify argument to setProbedVariable (VarProbe).
+	Constify return of getProbedVariable (VarProbe).
+	Constify argument to setFloatFormat (VarProbe).
+	Constify return of probeAsString (VarProbe, both).
+	Constify ToString argument to setData (VarProbe).
+	Constify argument to setProbedMessage (MessageProbe).
+	Constify return of getArgName (MessageProbe).
+	Constify argument to getProbeForVariable
+	and getProbeForMessage (ProbeMap).
+	Constify argument to dropProbeForVariable
+	and dropProbeForMessage (ProbeMap).
+	Constify first argument to getProbeForVariable and getProbeForMessage
+	(ProbeLibrary).
+	Reformatting throughout.
+
+	* VarProbe.m ([VarProbe -setProbedVariable:]): Constify argument.
+	([VarProbe -getProbedVariable]): Constify return.
+	([VarProbe -createEnd]): Use intermediate pointer for the sake
+	of consting.
+	([VarProbe -free]): Cast to argument to free as void* to avoid warning.
+	([VarProbe -probeAsString:Buffer:buf]): Constify return.
+	([VarProbe -probeAsString:Buffer:withFullPrecision:]): Constify return.
+	([VarProbe -setData:ToString:]): Constify ToString: argument.
+	([VarProbe -setData:ToString:]): Cast withData: argument to void*
+	to avoid warning (twice).
+	([VarProbe -setFloatFormat:]): Constify argument.
+	Reformatting throughout.
+
+	* VarProbe.h (VarProbe): Constify probedVariable and floatFormat.
+	
+	* VarProbe.h: Constify argument to setProbedVariable and
+	setFloatFormat.  Constify return of getProbedVariable.  Constify
+	ToString: argument of setData.
+	Reformatting throughout.
+	
+	* SwarmObject.m ([SwarmObject -getProbeForVariable:]): 
+	Constify argument.
+	([SwarmObject -getProbeForMessage:]): Likewise.
+	([SwarmObject -eventOccurredOn:anObjectvia:aProbewithProbeType:
+	aProbeTypeon:probedElementofType:withData:]): Constify :on argument.
+	Reformatting throughout.
+
+	* SwarmObject.h: Constify argument to getProbeForVariable,
+	getProbeForMessage.  Constify on: argument to eventOccurredOn.
+	Reformatting throughout.
+
+	* Swarm.m ([Swarm -getProbeForVariable:]): Constify argument.
+	Reformatting througout.
+
+	* Swarm.h: Constify argument to getProbeForVariable.
+	Reformatting throughout.
+
+	* ProbeMap.m ([ProbeMap -dropProbeForVariable:]): Constify argument.
+	([ProbeMap -dropProbeForMessage:]): Likewise.
+	([ProbeMap -getProbeForMessage:]): Likewise.
+	([ProbeMap -getProbeForVariable:]): Likewise.
+	Reformatting throughout.
+
+	* ProbeMap.h: Constify argument to dropProbeForVariable,
+	dropProbeForMessage, getProbeForVariable, and getProbeForMessage.
+	Reformatting throughout.
+
+	* ProbeLibrary.m ([ProbeLibrary
+	-getProbeForVariable:inClass:aClass]): Constify first argument.
+	([ProbeLibrary -getProbeForMessage:inClass:aClass]): Constify
+	first argument. 
+	Reformatting throughout.
+
+	* ProbeLibrary.h: Constify first argument to getProbeForVariable
+	and getProbeForMessage.  Reformatting throughout.
+
+	* Probe.m ([Probe -getProbedType]): Constify return.
+	([Probe -probeAsString:anObject:buf]): Constify return.
+	([Probe -probeAsString:Buffer:withFullPrecision:precision]):
+	Constify return.
+	([Probe -setFloatFormat:]): Constify argument.
+	Reformatting throughout.
+
+	* Probe.h: Constify return of getProbedType.
+	Constify return of probedAsString methods.
+	Constify argument of setFloatFormat.
+
+	* Probe.h (Probe): Constify probedType.
+	
+	* MessageProbe.m: Include <tkobjc/control.h>.
+	(copy_to_nth_colon): Constify return.
+	([MessageProbe -setProbedMessage:aMessage]): Constify argument.
+	([MessageProbe -createEnd]): Constify argLabels.
+	([MessageProbe -_trueDynamicCallOn_:resultStorage:result]): Use
+	new tkobjc function dynamicEval.
+	Reformatting throughout.
+
+	* MessageProbe.h (MessageProbe): Constify probedMessage and
+	argLabels.  
+
+	* MessageProbe.h: Constify argument to setProbedMessage. 
+	Constify return of getArgName.  Reformatting throughout.  
+
+	* DefaultProbeMap.m: 
+	([DefaultProbeMap -createEnd]): Constification of probe instance
+	variable names. 
+	Reformatting throughout.
+
+	* MessageProbe.m (copy_to_nth_colon): Constify return.
+	([MessageProbe -setProbedMessage:aMessage]): Constify argument.
+	Refomratting throughout.
+
 	* Makefile (install-headers): Augment target to create symlinks
 	from objectbase{.h} to swarmobject{.h} (an alternative to nameswap).
 

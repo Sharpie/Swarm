@@ -12,13 +12,15 @@
 #import <objectbase/VarProbe.h>
 #import <objectbase/MessageProbe.h>
 
-@interface ProbeMap : SwarmObject {
+@interface ProbeMap : SwarmObject
+{
   Class probedClass;
   int numEntries;
   id probes;
   id objectToNotify;  //could be an object or a list
 }
-+createBegin: (id) aZone;
+
++ createBegin: aZone;
 
 // This sets every member of *this* ProbeMap up so that it will
 // send this message to the designated object every time it's activated.
@@ -27,12 +29,12 @@
 // individually given extra methods to perform.
 //
 // the receiver that gets set here must accept a message of the form:
-//    -eventOccurredOn: (id) probedObject 
-//                 via: (id) aProbe
-//       withProbeType: (const char *) aProbeType
-//                  on: (char *) probedElement
-//              ofType: (const char *) dataType
-//            withData: (void *) data;
+//    -eventOccurredOn: probedObject 
+//                 via: aProbe
+//       withProbeType: (const char *)aProbeType
+//                  on: (char *)probedElement
+//              ofType: (const char *)dataType
+//            withData: (void *)data;
 //
 //    VarProbe  => aProbeType = "VarProbe"
 //                 probedElement = variable name string
@@ -43,23 +45,23 @@
 //                 probedElement = selector name string
 //                 data = a pointer to a string of argument labels and
 //                        arguments separated by spaces
--setObjectToNotify: (id) anObject;  //can be called multiple times
--getObjectToNotify;
+- setObjectToNotify: anObject;  //can be called multiple times
+- getObjectToNotify;
 
--setProbedClass: (Class) class;
--_copyCreateEnd_;
--createEnd;
--clone: aZone;
--(int) getNumEntries ;
--(Class) getProbedClass;
--addProbeMap: (ProbeMap *) aProbeMap ;
--dropProbeMap: (ProbeMap *) aProbeMap ;
--addProbe: (Probe *) aProbe ;
--_fastAddProbe_: (Probe *) aProbe ;
--dropProbeForVariable: (char *) aVariable;
--dropProbeForMessage: (char *) aMessage;
--(VarProbe *) getProbeForVariable: (char *) aVariable;
--(MessageProbe *) getProbeForMessage: (char *) aMessage;
--begin: aZone ;
+- setProbedClass: (Class)class;
+- _copyCreateEnd_;
+- createEnd;
+- clone: aZone;
+- (int)getNumEntries;
+- (Class)getProbedClass;
+- addProbeMap: (ProbeMap *)aProbeMap;
+- dropProbeMap: (ProbeMap *)aProbeMap;
+- addProbe: (Probe *)aProbe;
+- _fastAddProbe_: (Probe *)aProbe;
+- dropProbeForVariable: (const char *)aVariable;
+- dropProbeForMessage: (const char *)aMessage;
+- (VarProbe *)getProbeForVariable: (const char *)aVariable;
+- (MessageProbe *)getProbeForMessage: (const char *)aMessage;
+- begin: aZone;
 @end
 

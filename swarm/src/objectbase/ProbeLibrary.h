@@ -8,20 +8,21 @@
 #define SIGFIGS_DISPLAYED 6
 #define SIGFIGS_SAVED 6
 
-@interface ProbeLibrary : CreateDrop {
+@interface ProbeLibrary : CreateDrop
+{
   id objectToNotify;
-  id myZone ;
-  id classMap ;
+  id myZone;
+  id classMap;
   int sigFigsDisplay;
   int sigFigsSaved;
 }
 
--createEnd ;
+- createEnd ;
 
--setDisplayPrecision: (int) nSigDisplay;
--(int) getDisplayPrecision;
--setSavedPrecision: (int) nSigSaved;
--(int) getSavedPrecision;
+- setDisplayPrecision: (int)nSigDisplay;
+- (int)getDisplayPrecision;
+- setSavedPrecision: (int)nSigSaved;
+- (int)getSavedPrecision;
 
 // This sets every member of every ProbeMap up so that it will
 // send this message to the designated object every time it's activated.
@@ -33,8 +34,8 @@
 //    -eventOccurredOn: (id) probedObject 
 //                 via: (id) aProbe
 //       withProbeType: (const char *) aProbeType
-//                  on: (char *) probedElement
-//              ofType: (const char) dataType
+//                  on: (const char *) probedElement
+//              ofType: (char) dataType
 //            withData: (void *) data;
 //
 //    VarProbe  => aProbeType = "VarProbe"
@@ -46,14 +47,15 @@
 //                 probedElement = selector name string
 //                 data = a pointer to a string of argument labels and
 //                        arguments separated by spaces
--setObjectToNotify: (id) anObject;
--getObjectToNotify;
+- setObjectToNotify: anObject;
+- getObjectToNotify;
 
--(BOOL) isProbeMapDefinedFor: (Class) aClass;
--getProbeMapFor: (Class) aClass ;
--getCompleteProbeMapFor: (Class) aClass ;
--getCompleteVarMapFor: (Class) aClass ;
--getProbeForVariable: (char *) aVariable inClass: (Class) aClass ;
--getProbeForMessage: (char *) aVariable inClass: (Class) aClass ;
--setProbeMap: aMap For: (Class) aClass ;
+- (BOOL)isProbeMapDefinedFor: (Class)aClass;
+- getProbeMapFor: (Class)aClass;
+- getCompleteProbeMapFor: (Class)aClass;
+- getCompleteVarMapFor: (Class)aClass;
+- getProbeForVariable: (const char *)aVariable inClass: (Class) aClass;
+- getProbeForMessage: (const char *)aVariable inClass: (Class) aClass;
+- setProbeMap: aMap For: (Class)aClass;
+
 @end

@@ -6,18 +6,19 @@
 #import <activity.h>
 #import <activity/SwarmProcess.h>
 
-@interface Swarm : CSwarmProcess {
+@interface Swarm : CSwarmProcess
+{
 }
 
 // Override these methods to make useful Swarm subclasses.
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;
 // You may also want to override createBegin and createEnd.
 
 // These methods are copied over from SwarmObject - probe support.
--getProbeMap;
--getCompleteProbeMap;
--getProbeForVariable: (char *) aVariable;
+- getProbeMap;
+- getCompleteProbeMap;
+- getProbeForVariable: (const char *)aVariable;
 
 @end

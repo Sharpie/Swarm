@@ -14,12 +14,14 @@
 @implementation Swarm
 
 // Override this to let your Swarm create the objects that it contains.
--buildObjects {
+- buildObjects
+{
   return self;
 }
 
 // Override this to let your Swarm build its actions.
--buildActions {
+- buildActions
+{
   return self;
 }
 
@@ -29,7 +31,8 @@
 //   [super activateIn: swarmContext];
 //   [myFancySchedule activateIn: self];
 //   return [self getSwarmActivity];
--activateIn: (id) swarmContext {
+- activateIn:  swarmContext
+{
   [super activateIn: swarmContext];
   return [self getSwarmActivity];
 }
@@ -39,15 +42,18 @@
 // comes from SwarmObject, but Swarm is not a subclass of SwarmObject.
 // Multiple inheritance by cut and paste :-)
 
--getProbeMap {
+- getProbeMap
+{
   return [probeLibrary getProbeMapFor: [self class]] ;
 }
 
--getCompleteProbeMap {
+- getCompleteProbeMap
+{
   return [probeLibrary getCompleteProbeMapFor: [self class]] ;
 }
 
--getProbeForVariable: (char *) aVariable {
+- getProbeForVariable: (const char *)aVariable
+{
   return [probeLibrary getProbeForVariable: aVariable inClass: [self class]];
 }
 

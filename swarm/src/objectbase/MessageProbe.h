@@ -10,48 +10,48 @@ typedef int (*IntImp)(id, SEL, ...);
 typedef float (*FloatImp)(id, SEL, ...);
 typedef double (*DoubleImp)(id, SEL, ...);
 
-@interface MessageProbe: Probe {
-  SEL probedSelector ;
-  int returnCategory ;
+@interface MessageProbe: Probe 
+{
+  SEL probedSelector;
+  int returnCategory;
 
-  IntImp intImp ; 
-  FloatImp floatImp ;
-  DoubleImp doubleImp ; 
-  int caching ;
-
-  char * probedMessage;
-  int argNum ;
-  int hr ;
-  char **argLabels ;
-  char **arguments ;
+  IntImp intImp; 
+  FloatImp floatImp;
+  DoubleImp doubleImp; 
+  int caching;
+  
+  const char *probedMessage;
+  int argNum;
+  int hr;
+  const char **argLabels;
+  char **arguments;
 }
 
--setProbedSelector: (SEL) aSel;
--setProbedMessage: (char *) aMessage;
--createEnd;
+- setProbedSelector: (SEL) aSel;
+- setProbedMessage: (const char *) aMessage;
+- createEnd;
 
--(const char *) getProbedMessage;
--(int) getArgNum;
--setArg: (int) which To: (char *) what;
--(char *) getArg: (int) which ;
--(char *) getArgName: (int) which ;
+- (const char *) getProbedMessage;
+- (int) getArgNum;
+- setArg: (int) which To: (char *) what;
+- (char *) getArg: (int) which;
+- (const char *) getArgName: (int) which;
 
--setHideResult: (int) val ;
--(int) getHideResult ;
+- setHideResult: (int)val;
+- (int) getHideResult;
 
--_setImp_: anObject ;
--updateMethodCache: anObject;
+- _setImp_: anObject;
+- updateMethodCache: anObject;
 
+- _trueDynamicCallOn_: target resultStorage: (char **)result;
+- dynamicCallOn: target resultStorage: (char **)result;
+- dynamicCallOn: target;
+- (int)intDynamicCallOn: target;
+- (float)floatDynamicCallOn: target;
+- (double)doubleDynamicCallOn: target;
 
--_trueDynamicCallOn_: target resultStorage: (char **) result ;
--dynamicCallOn: target resultStorage: (char **) result;
--dynamicCallOn: target ;
--(int)intDynamicCallOn: target ;
--(float)floatDynamicCallOn: target ;
--(double)doubleDynamicCallOn: target ;
-
--(int) isResultId ;
--(int) isArgumentId: (int) which ;
+- (int)isResultId;
+- (int)isArgumentId: (int) which;
 
 @end
 

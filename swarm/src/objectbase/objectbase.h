@@ -20,11 +20,11 @@ Date:            1996-12-12
 //
 @protocol SwarmObject <Create, Drop>
 USING
-- (const char*) getInstanceName;
-- (id)		getProbeMap ;
--		getCompleteProbeMap ;
--		getProbeForVariable: (char *) aVariable ;
--		getProbeForMessage: (char *) aMessage ;
+- (const char *)getInstanceName;
+- (id)		getProbeMap;
+-		getCompleteProbeMap;
+-		getProbeForVariable: (const char *)aVariable;
+-		getProbeForMessage: (const char *)aMessage;
 @end
 
 // 
@@ -50,7 +50,7 @@ SETTING
 USING
 -		clone: aZone ;
 - (Class)	getProbedClass ;
-- (char *)	getProbedType ;
+- (const char *)getProbedType;
 /* 
 
    These are currently implemented here but belong in VarProbe...
@@ -72,27 +72,27 @@ USING
 //
 @protocol VarProbe <Probe>
 CREATING
--		setProbedVariable: (char *) aVariable ;
+-		setProbedVariable: (const char *)aVariable;
 SETTING
--		setStringReturnType: returnType ;
+-		setStringReturnType: returnType;
 USING
-- (char *)	getProbedVariable ;
--               setFloatFormat: (char *) format;
+- (const char *)getProbedVariable;
+-               setFloatFormat: (const char *)format;
 //   Currently, setNonInteractive must be used *after* create phase
 //   In any case these should also become setInteractive: BOOL etc.
 
--		setNonInteractive ; 
-- (int)		isInteractive ;
+-		setNonInteractive; 
+- (int)		isInteractive;
 
-- (void *)	probeRaw: anObject ;
-- (void *)	probeAsPointer: anObject ;
-- (int)		probeAsInt: anObject ;
-- (double)	probeAsDouble: anObject ;
-- (char *)	probeAsString: anObject Buffer: (char *) buffer ;
-- (char *)      probeAsString: (id) anObject Buffer: (char *) buf 
-                withFullPrecision: (int) precision;
+- (void *)	probeRaw: anObject;
+- (void *)	probeAsPointer: anObject;
+- (int)		probeAsInt: anObject;
+- (double)	probeAsDouble: anObject;
+- (const char *)probeAsString: anObject Buffer: (char *)buffer;
+- (const char *)probeAsString: (id) anObject Buffer: (char *)buf
+            withFullPrecision: (int) precision;
 -		setData: anObject To: (void *) newValue;  // pass by reference.
-- (int)		setData: anObject ToString: (const char *) s ; 
+- (int)		setData: anObject ToString: (const char *)s; 
 @end
 
 //
@@ -102,28 +102,28 @@ USING
 //
 @protocol MessageProbe <Probe>
 CREATING
--		setProbedSelector: (SEL) aSel ;
--		setProbedMessage: (char *) aMessage ;
--		setHideResult: (int) val ;
+-		setProbedSelector: (SEL)aSel;
+-		setProbedMessage: (const char *)aMessage;
+-		setHideResult: (int)val;
 USING
 -(int)		isResultId ;                  // I doubt that a user will 
--(int)		isArgumentId: (int) which ;   // ever need these.
+-(int)		isArgumentId: (int)which;    // ever need these.
 
 - (const char *)getProbedMessage;
-- (int)		getArgNum ;
-- (char *)	getArg: (int) which ;
-- (char *)	getArgName: (int) which ;
-- (int)		getHideResult ;
+- (int)		getArgNum;
+- (char *)	getArg: (int)which;
+- (const char *)getArgName: (int)which;
+- (int)		getHideResult;
 
 -		setArg: (int) which To: (char *) what;
 
--		dynamicCallOn: target resultStorage: (char **) result ;
--		dynamicCallOn: target ;
+-		dynamicCallOn: target resultStorage: (char **) result;
+-		dynamicCallOn: target;
 
--		updateMethodCache: anObject ;
-- (int)		intDynamicCallOn: target ;
-- (float)	floatDynamicCallOn: target ;
-- (double)	doubleDynamicCallOn: target ;
+-		updateMethodCache: anObject;
+- (int)		intDynamicCallOn: target;
+- (float)	floatDynamicCallOn: target;
+- (double)	doubleDynamicCallOn: target;
 @end
 
 //
@@ -132,22 +132,23 @@ USING
 //
 @protocol ProbeMap <SwarmObject, ProbeConfig>
 CREATING
--		setProbedClass: (Class) class ;
+-		setProbedClass: (Class) class;
 USING
-- (int)		getNumEntries ;
-- (Class)	getProbedClass ;
--		getProbeForVariable: (char *) aVariable ;
--		getProbeForMessage: (char *) aMessage ;
+- (int)		getNumEntries;
+- (Class)	getProbedClass;
+-		getProbeForVariable: (const char *)aVariable;
+-		getProbeForMessage: (const char *)aMessage;
 
--		addProbe: (id) aProbe ;
--		addProbeMap: (id) aProbeMap ;
+-		addProbe: aProbe;
+-		addProbeMap: aProbeMap;
 
--		dropProbeForVariable: (char *) aVariable ; // These should use
--		dropProbeForMessage: (char *) aMessage ;   // the word remove
--		dropProbeMap: (id) aProbeMap ;     // not drop...
+// These should use the word remove not drop.
+-		dropProbeForVariable: (const char *)aVariable; 
+-		dropProbeForMessage: (const char *)aMessage;  
+-		dropProbeMap: aProbeMap;
 
--		begin: aZone ; // returns an index to the underlying Map.
--		clone: aZone ;
+-		begin: aZone; // returns an index to the underlying Map.
+-		clone: aZone;
 @end
 
 /*
@@ -170,7 +171,7 @@ USING
 //   of the requested target class.
 //
 @protocol CustomProbeMap <ProbeMap, CREATABLE> 
-+create: aZone forClass: (Class) aClass withIdentifiers: (char *) vars, ...;
++ create: aZone forClass: (Class) aClass withIdentifiers: (char *) vars, ...;
 @end
 @protocol EmptyProbeMap <CustomProbeMap, CREATABLE> @end
 
@@ -199,17 +200,19 @@ USING
 //
 @protocol ProbeLibrary <Create, Drop, ProbeConfig> 
 USING
--               setDisplayPrecision: (int) nSigDisplay ;
+-               setDisplayPrecision: (int) nSigDisplay;
 - (int)         getDisplayPrecision;
--               setSavedPrecision: (int) nSigSaved ;
+-               setSavedPrecision: (int) nSigSaved;
 - (int)         getSavedPrecision;
 - (BOOL)        isProbeMapDefinedFor: (Class) aClass;
--		getProbeMapFor: (Class) aClass ;
--		getCompleteProbeMapFor: (Class) aClass ;
--		getCompleteVarMapFor: (Class) aClass ;
--		getProbeForVariable: (char *) aVar inClass: (Class) aClass ;
--		getProbeForMessage: (char *) aMessage inClass: (Class) aClass ;
--		setProbeMap: aMap For: (Class) aClass ;               
+-		getProbeMapFor: (Class) aClass;
+-		getCompleteProbeMapFor: (Class) aClass;
+-		getCompleteVarMapFor: (Class) aClass;
+-		getProbeForVariable: (const char *) aVar
+                            inClass: (Class) aClass;
+-		getProbeForMessage: (const char *) aMessage
+                           inClass: (Class) aClass;
+-		setProbeMap: aMap For: (Class) aClass; 
 @end
 
 extern id  <ProbeLibrary> probeLibrary;

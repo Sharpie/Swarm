@@ -5,26 +5,27 @@
 
 #import <objectbase/Probe.h>
 
-@interface VarProbe: Probe {
-  char * probedVariable;
+@interface VarProbe: Probe
+{
+  const char *probedVariable;
   int dataOffset;
   int interactive;
-  char * floatFormat; // actual sprintf-type format
+  const char *floatFormat; // actual sprintf-type format
 }
 
--setProbedVariable: (char *) aVariable;
--createEnd;
+- setProbedVariable: (const char *)aVariable;
+- createEnd;
 
--setFloatFormat: (char *) format;
+- setFloatFormat: (const char *)format;
 
--(char *) getProbedVariable;
--(int)    getDataOffset;
+- (const char *)getProbedVariable;
+- (int)getDataOffset;
 
--setNonInteractive ;
--(int) isInteractive ;
+- setNonInteractive ;
+- (int)isInteractive ;
 
--setData: anObject To: (void *) newValue;	     // pass by reference.
--(int) setData: anObject ToString: (const char *) s; // gives us the string.
+- setData: anObject To: (void *)newValue;	     // pass by reference.
+- (int)setData: anObject ToString: (const char *)s;  // gives us the string.
 
 @end
 

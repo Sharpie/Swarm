@@ -9,42 +9,43 @@
 // Options for the format of the string returned when probing an unsigned
 // char or a char (there is a choice between "%d %c", "%c" or "%d"...)
 
-extern id <Symbol> DefaultString, CharString, IntString ;
+extern id <Symbol> DefaultString, CharString, IntString;
 
-@interface Probe: SwarmObject {
+@interface Probe: SwarmObject
+{
   Class probedClass;
-  char * probedType;
+  const char *probedType;
   int safety;
   id <Symbol> stringReturnType ;
   id objectToNotify;  // could be an object or a list
 }
 
-+createBegin: (id) aZone;
--createEnd;
++ createBegin: aZone;
+- createEnd;
 
--setObjectToNotify: (id) anObject;
--getObjectToNotify;
+- setObjectToNotify: anObject;
+- getObjectToNotify;
 
--setProbedClass: (Class) aClass;
--createEnd;
+- setProbedClass: (Class)aClass;
+- createEnd;
 
--clone: aZone ;
+- clone: aZone;
 
--(Class)  getProbedClass;
--(char *) getProbedType;
+- (Class)getProbedClass;
+- (const char *)getProbedType;
 
--setSafety ;
--unsetSafety ;
+- setSafety;
+- unsetSafety;
 
--setStringReturnType: returnType ;
--setFloatFormat: (char *) format;
+- setStringReturnType: returnType;
+- setFloatFormat: (const char *)format;
 
--(void *) probeRaw: anObject;
--(void *) probeAsPointer: anObject;
--(int)    probeAsInt: anObject;
--(double) probeAsDouble: anObject;
--(char *) probeAsString: anObject Buffer: (char *) buffer;
--(char *) probeAsString: (id) anObject Buffer: (char *) buf 
-      withFullPrecision: (int) precision;
+- (void *)probeRaw: anObject;
+- (void *)probeAsPointer: anObject;
+- (int)   probeAsInt: anObject;
+- (double)probeAsDouble: anObject;
+- (const char *)probeAsString: anObject Buffer: (char *)buffer;
+- (const char *)probeAsString: (id) anObject Buffer: (char *)buf 
+            withFullPrecision: (int) precision;
 
 @end
