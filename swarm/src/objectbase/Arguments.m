@@ -17,7 +17,7 @@ const char *program_invocation_short_name;
 #define SIGNATURE_FILE "swarmconfig.h"
 #define SIGNATURE_SUBPATH "include/"
 
-#define VARCHAR(ch) (isalnum (ch) || ((ch) == '_'))
+#define VARCHAR(ch) (isalnum ((int)ch) || ((ch) == '_'))
 
 /* A subpath of --includedir would be arbitrary, and since this
    is for when prefix and SWARMHOME are absent, it's just a guess anyway. */

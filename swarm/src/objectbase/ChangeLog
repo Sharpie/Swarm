@@ -1,4 +1,9 @@
-1998-10-28  Marcus G. Daniels  <mgd@helen.santafe.edu>
+1998-10-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Arguments.m (VARCHAR): Cast argument to int before passing
+	to isalnum.
+
+1998-10-27  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* Arguments.m (prefix): New function.
 	([Arguments -_getSwarmHome_:]): Use it to transform
