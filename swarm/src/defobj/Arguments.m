@@ -536,6 +536,7 @@ prefix (const char *prefixstring)
         else
           *ep++ = *p++;
       }
+    *ep = '\0';
     return expanded_prefix;
   }
 }

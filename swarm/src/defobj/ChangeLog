@@ -1,3 +1,7 @@
+1999-01-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Arguments.m (prefix): Make sure new string is terminated.
+
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.m (lispIn): Continue to support make-objc.
