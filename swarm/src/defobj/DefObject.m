@@ -1035,7 +1035,7 @@ lisp_output_type (const char *type,
                           stream,
                           deepFlag);
       }
-    map_ivars (getClass (self)->ivars, store_object);
+    map_ivars (getClass (self), store_object);
   }
   [stream catC: ")"];
   return self;
@@ -1079,7 +1079,7 @@ lisp_output_type (const char *type,
         [hdf5Obj storeAsDataset: name typeName: NULL type: type ptr: ptr];
     }
   [hdf5Obj storeTypeName: [self getTypeName]];
-  map_ivars (getClass (self)->ivars, store_object);
+  map_ivars (getClass (self), store_object);
   return self;
 }
 
@@ -1140,7 +1140,7 @@ lisp_output_type (const char *type,
         raiseEvent (InvalidArgument, "missing value");
       
       ivarname = [key getKeywordName];
-      ivar = find_ivar (self, ivarname);
+      ivar = find_ivar (getClass (self), ivarname);
       
       if (ivar == NULL)
         raiseEvent (InvalidArgument, "could not find ivar `%s'", ivarname);

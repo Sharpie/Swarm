@@ -1,3 +1,18 @@
+1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* DefObject.m ([Object_s -_lispOut_:deep:]): Modify per map_ivars
+	change.
+	([Object_s -hdf5OutDeep:]): Likewise.
+	
+	* HDF5Object.m ([HDF5CompoundType -packObj:to:]): Likewise.
+	
+	* DefObject.m ([Object_s -lispIn:]): Modify per find_ivar change.
+
+	* internal.[hm] (map_ivars): Take class, not objc_ivar_list, as
+	primary argument.
+	(find_ivar): Take class, not object as primary argument.
+	(ivar_ptr): Modify per find_ivar.
+
 1999-02-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (alignment_for_objc_type, size_for_objc_type): 

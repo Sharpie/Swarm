@@ -214,9 +214,17 @@ process_array (const char *type,
 }
 
 void
-map_ivars (struct objc_ivar_list *ivars,
+map_ivars (Class class,
            void (*process_object) (struct objc_ivar *ivar))
 {
+  struct objc_ivar_list *ivars = class->ivars;
+  
+  if (class->super_class)
+    {
+      if (strcmp (class->super_class->name, "Object_s") != 0)
+        map_ivars (class->super_class, process_object);
+    }
+  
   if (ivars)
     {
       unsigned i, ivar_count = ivars->ivar_count;
@@ -233,11 +241,21 @@ map_ivars (struct objc_ivar_list *ivars,
 }
 
 struct objc_ivar *
-find_ivar (id obj, const char *name)
+find_ivar (Class class, const char *name)
 {
-  Class class = [obj class];
   struct objc_ivar_list *ivars = class->ivars;
 
+  if (class->super_class)
+    {
+      if (strcmp (class->super_class->name, "Object_s") != 0)
+        {
+          struct objc_ivar *ret = find_ivar (class->super_class, name);
+          
+          if (ret)
+            return ret;
+        }
+    }
+  
   if (ivars)
     {
       unsigned i, ivar_count = ivars->ivar_count;
@@ -256,7 +274,7 @@ find_ivar (id obj, const char *name)
 void *
 ivar_ptr (id obj, const char *name)
 {
-  struct objc_ivar *ivar = find_ivar (obj, name);
+  struct objc_ivar *ivar = find_ivar ([obj class], name);
 
   if (ivar)
     return (void *) obj + ivar->ivar_offset;

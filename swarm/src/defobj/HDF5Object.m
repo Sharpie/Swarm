@@ -397,7 +397,7 @@ create_compound_type_from_class (Class class)
   check_for_empty_class (class);
   offset = 0;
   insertFlag = NO;
-  map_ivars (class->ivars, insert_var);
+  map_ivars (class, insert_var);
   size = offset;
 
   if ((tid = H5Tcreate (H5T_COMPOUND, size)) < 0)
@@ -405,7 +405,7 @@ create_compound_type_from_class (Class class)
   
   offset = 0;
   insertFlag = YES;
-  map_ivars (class->ivars, insert_var);
+  map_ivars (class, insert_var);
   
   return tid;
 }
@@ -646,7 +646,7 @@ create_class_from_compound_type (id aZone,
                   }
                 }
             }
-          map_ivars (class->ivars, process_ivar);
+          map_ivars (class, process_ivar);
         }
     }
   else
@@ -740,7 +740,7 @@ PHASE(Using)
       inum++;
     }
   
-  map_ivars (getClass (obj)->ivars, process_ivar);
+  map_ivars (getClass (obj), process_ivar);
   return self;
 }
 
@@ -809,7 +809,7 @@ PHASE(Using)
       inum++;
     }
   
-  map_ivars (getClass (obj)->ivars, process_ivar);
+  map_ivars (getClass (obj), process_ivar);
   return self;
 
 }
@@ -901,7 +901,7 @@ PHASE(Using)
       if (*ivar->ivar_type == _C_CHARPTR)
         [self writeLevel: ivar->ivar_name];
     }
-  map_ivars (class->ivars, store_level);
+  map_ivars (class, store_level);
   return self;
 }
 
