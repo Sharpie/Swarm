@@ -193,19 +193,19 @@ copy_to_nth_colon (const char *str, int n)
   int beginning,end,i;
   char *new_str;
 
+  printf ("[%s][%u]\n", str, n);
   for (i = 0; i < n; i++)
     {
       while (str[count] && str[count] != ':')
         count++;
       if (!str[count])
         break;
+      else
+        count++;
     }
 
   if (i == n)
     {
-      if (str[count] == ':')
-        count++;
-
       if (str[count])
         {
           beginning = count;
