@@ -1,3 +1,8 @@
+2000-07-04  Alex Lancaster  <alex@santafe.edu>
+
+	* overbook.sgml: Declare lt and gt entities explicitly to ensure
+	that SGML -> XML conversion works correctly.
+
 2000-05-30  Alex Lancaster  <alex@santafe.edu>
 
 	* overbook.sgml: Update DOCTYPE to DocBook DTD V4.0.

@@ -12,6 +12,9 @@
 <!entity % figures.entities PUBLIC "-//SFI Hive//ENTITIES Figure List//EN">
 %figures.entities;
 
+<!ENTITY lt     "&#38;#60;">
+<!ENTITY gt     "&#62;"> 
+
 ]>
 
 <BOOK ID="overbook">
