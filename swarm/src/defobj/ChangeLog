@@ -1,5 +1,14 @@
 1999-03-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FArguments.m: Include misc.h.
+	(java_type_signature): Bogus "X" for object.
+	(java_type_signature_length): Remove.
+	([FArguments -_addArgument_:ofType:]): Single clause.  
+	(ADD_PRIMITIVE): Was ADD_COMMON.
+	([FArguments -_setReturnType_:]): Use strlen for adding to
+	javaSignatureLength.
+	(createJavaSignature): Simplify to use stpcpy; no offsets.
+
 	* FArguments.[hm], FCall.[hm]: Rename argSwarmTypes -> argTypes
 	and argTypes -> ffiArgTypes.  Likewise for returns.
 	Add support for selectors.
