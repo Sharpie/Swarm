@@ -1,3 +1,10 @@
+2000-04-27    <mgd@nest.swarm.org>
+
+	* analysis.h ([{Averager,Entropy,EZDistribution,EZGraph}
+	-createEnd]): Remove.
+	([{EZBin,FunctionGraph] +createBegin:, -createEnd]): Remove.
+	([EZDistribution -update, -output]): Protect with #ifndef IDL.
+
 2000-04-23    <mgd@nest.swarm.org>
 
 	* EZGraph.m ([EZGraph

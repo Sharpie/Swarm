@@ -24,8 +24,6 @@ CREATING
 //M: Sets the collection of objects that will be probed.
 - setCollection: aCollection;
 
-- createEnd;
-
 USING
 //M: The update method runs through the collection calling the selector on 
 //M: each object.
@@ -66,8 +64,6 @@ CREATING
 //M: probed.
 - setCollection: aCollection;
 
-- createEnd;
-
 USING
 //M: The update method polls the collection and updates the entropy.
 //M: This method should be scheduled prior to collecting the data using
@@ -87,8 +83,6 @@ USING
 //D: standard statistics over the resulting dataset.
 
 CREATING
-+ createBegin: (id <Zone>)aZone;
-
 //M: The setGraphics method sets the state of the display. Set the state to 0 
 //M: if a graphical display of the graph is not required. 
 //M: The default state is 1 meaning that by default the data appears
@@ -142,10 +136,7 @@ CREATING
 //M: Set a custom vector of colors for the histogram bars
 - setColors: (const char * const *)colors count: (unsigned)nc;
 
-- createEnd;
-
 USING
-
 //M: Sets the number of significant figures shown for major-tick labels.
 - setPrecision: (unsigned)precision;
 
@@ -234,9 +225,9 @@ USING
 //D: distribution as well as return the probabilities associated with the
 //D: individual bins.
 CREATING
-- createEnd;
 
 USING
+#ifndef IDL
 //M: The update method polls the bins and updates the entropy of the 
 //M: distribution as well as the probabilities associated with the individual 
 //M: bins.
@@ -249,6 +240,7 @@ USING
 //M: display is enabled (the state of setGraphics is set to 1), the histogram 
 //M: will be drawn.
 - output;
+#endif
 
 //M: The getProbabilities method returns an array of doubles representing
 //M: the probability of every bin in the distribution.
@@ -337,8 +329,6 @@ CREATING
 
 //M: Set a custom vector of colors for the graph lines
 - setColors: (const char * const *)colors count: (unsigned)nc;
-
-- createEnd;
 
 USING
 //M: Fix the range of X values on the graph between some range.
@@ -512,9 +502,6 @@ USING
 //D: that y = f(x) and that value is plotted.
 
 CREATING
-+ createBegin: (id <Zone>)aZone;
-- createEnd;
-
 //M: Set the GraphElement to use for plotting.
 - setElement: (id <GraphElement>)graphElement;
 
