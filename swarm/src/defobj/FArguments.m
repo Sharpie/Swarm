@@ -386,7 +386,7 @@ PHASE(Creating)
       result = &resultVal.object;
       break;
     case fcall_type_class:
-      result = &resultVal.class;
+      result = &resultVal._class;
       break;
     case fcall_type_string:
       result = &resultVal.string;

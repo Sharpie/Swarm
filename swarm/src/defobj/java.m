@@ -858,7 +858,7 @@ java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
             SETVALUE (Object, SD_JAVA_ENSURE_OBJECT_JAVA (buf->object));
             break;
           case fcall_type_class:
-            SETVALUE (Object, SD_JAVA_FIND_CLASS_JAVA (buf->class));
+            SETVALUE (Object, SD_JAVA_FIND_CLASS_JAVA (buf->_class));
             break;
           case fcall_type_string:
             SETVALUE (Object, (*jniEnv)->NewStringUTF (jniEnv, buf->string));

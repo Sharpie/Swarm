@@ -238,10 +238,10 @@ add_ffi_types (FCall_c *fc)
           
           COM_set_arg (fc->COM_args, i, fa->argTypes[pos], fa->argValues[pos]);
         }
-      COM_set_arg (fc->COM_args,
-                   fa->assignedArgumentCount,
-                   fa->returnType,
-                   &fa->resultVal);
+      COM_set_return (fc->COM_args,
+                      fa->assignedArgumentCount,
+                      fa->returnType,
+                      &fa->resultVal);
     }
   else
     {
@@ -312,7 +312,7 @@ PHASE(Creating)
 {
   COMobject cSel;
 
-  if ((cSel = SD_COM_FIND_SELECTOR_COM (sel)))
+  if (swarmDirectory && (cSel = SD_COM_FIND_SELECTOR_COM (sel)))
     {
       callType = COMcall;
       (COMselector) fmethod = cSel;
@@ -584,7 +584,7 @@ PHASE(Using)
           fargs->resultVal.object = VAL (id, ret);
           break;
         case fcall_type_class:
-          fargs->resultVal.class = VAL (Class, ret);
+          fargs->resultVal._class = VAL (Class, ret);
           break;
         case fcall_type_selector:
           fargs->resultVal.selector = VAL (SEL, ret);
@@ -675,7 +675,7 @@ PHASE(Using)
     double return_double (void) { return buf->_double; }
     long double return_long_double (void) { return buf->_long_double; }
     id return_object (void) { return buf->object; }
-    Class return_class (void) { return buf->class; }
+    Class return_class (void) { return buf->_class; }
     void return_void (void) { return; }
     void apply (apply_t func)
       {
@@ -836,7 +836,7 @@ PHASE(Using)
         ptr = &buf->object;
         break;
       case fcall_type_class:
-        ptr = &buf->class;
+        ptr = &buf->_class;
         break;
       case fcall_type_string:
         ptr = &buf->string;

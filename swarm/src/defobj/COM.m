@@ -49,9 +49,15 @@ COM_create_arg_vector (unsigned size)
 }
 
 void
-COM_set_arg (void *args, unsigned pos, fcall_type_t type, void *value)
+COM_set_arg (void *args, unsigned pos, fcall_type_t type, types_t *value)
 {
   comEnv->setArg (args, pos, type, value);
+}
+
+void
+COM_set_return (void *args, unsigned pos, fcall_type_t type, void *value)
+{
+  comEnv->setReturn (args, pos, type, value);
 }
 
 void

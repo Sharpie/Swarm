@@ -1,3 +1,18 @@
+2000-09-25  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* FCall.m (add_ffi_types): Use COM_set_return.
+
+	* COM.h (COMInterface): Add setReturn.  Pass types_t * for
+	setArg value.
+
+	* COM.[hm] (setArg): Pass a types_t * instead of void *.
+	(COM_set_return): New function.
+
+	* FArguments.m, FCall.m, internal.m, java.m:  Change class
+	to _class for all usages of types_t.
+
+	* defobj.h (types_t): Move to be visible to C++.
+	
 2000-09-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.h: Add COMselector type.  Change typing of all selector

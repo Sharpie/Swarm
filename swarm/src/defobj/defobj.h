@@ -28,6 +28,29 @@ typedef enum {fcall_type_void = 0,
               fcall_type_jobject, fcall_type_jstring
               } fcall_type_t;
 
+#include <objc/objc.h>
+
+typedef union {
+  id object;
+  SEL selector;
+  Class _class;
+  const char *string;
+  BOOL boolean;
+  char schar;
+  unsigned char uchar;
+  short sshort;
+  unsigned short ushort;
+  int sint;
+  unsigned int uint;
+  long slong;
+  unsigned long ulong;
+  long long slonglong;
+  unsigned long long ulonglong;
+  float _float;
+  double _double;
+  long double _long_double;
+} types_t;
+
 #define FCALL_TYPE_COUNT 21
 
 #ifdef __cplusplus
@@ -1037,27 +1060,6 @@ CREATING
 USING
 - getPrototype;
 @end
-
-typedef union {
-  id object;
-  SEL selector;
-  Class class;
-  const char *string;
-  BOOL boolean;
-  char schar;
-  unsigned char uchar;
-  short sshort;
-  unsigned short ushort;
-  int sint;
-  unsigned int uint;
-  long slong;
-  unsigned long ulong;
-  long long slonglong;
-  unsigned long long ulonglong;
-  float _float;
-  double _double;
-  long double _long_double;
-} types_t;
 
 typedef void *JOBJECT;
 typedef void *COMOBJECT;

@@ -1010,7 +1010,7 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
           ENSUREVALUETYPE (expr, getObject, fcall_type_object, ivar_type, ivar_name, buf.object);
           break;
         case fcall_type_class:
-          ENSUREVALUETYPE (expr, getClass, fcall_type_class, ivar_type, ivar_name, buf.class);
+          ENSUREVALUETYPE (expr, getClass, fcall_type_class, ivar_type, ivar_name, buf._class);
           break;
         case fcall_type_long_double:
           CONVERTNUMBER (expr,long double,getLongDouble,ivar_type,buf);
@@ -1055,7 +1055,7 @@ object_setVariableFromExpr (id obj, const char *ivar_name, id expr)
           if (strcmp (funcName, MAKE_INSTANCE_FUNCTION_NAME) == 0)
             buf.object = lispIn ([obj getZone], expr);
           else if (strcmp (funcName, MAKE_CLASS_FUNCTION_NAME) == 0)
-            buf.class = lispIn ([obj getZone], expr);
+            buf._class = lispIn ([obj getZone], expr);
           else if (strcmp (funcName, PARSE_FUNCTION_NAME) != 0)
             raiseEvent (InvalidArgument, "function not %s",
                         MAKE_INSTANCE_FUNCTION_NAME
