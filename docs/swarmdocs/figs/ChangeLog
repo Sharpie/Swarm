@@ -1,3 +1,7 @@
+1998-10-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (GS_LIB): Subsitute.  Use in GS rules.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 	
 	* swarm.eps: Scale down 75%.  RTF backend doesn't do scaling.

@@ -1,4 +1,5 @@
 GS = @GS@
+GS_LIB = @GS_LIB@
 CJPEG = @CJPEG@ -quality 100
 PNGTOPNM = @PNGTOPNM@
 PNMTOPS = @PNMTOPS@
@@ -17,10 +18,10 @@ figs_DATA = $(GENERATED_FIGS) $(EPS)
 CLEANFILES = $(GENERATED_FIGS)
 
 %.png: $(srcdir)/%.eps
-	$(GS) -dNOPAUSE -sDEVICE=png256 -sOutputFile=$@ $< -c quit
+	GS_LIB=$(GS_LIB) $(GS) -dNOPAUSE -sDEVICE=png256 -sOutputFile=$@ $< -c quit
 
 %.jpeg: $(srcdir)/%.eps
-	$(GS) -sNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm $< -c quit
+	GS_LIB=$(GS_LIB) $(GS) -sNOPAUSE -sDEVICE=ppm -sOutputFile=$*.ppm $< -c quit
 	$(CJPEG) < $*.ppm > $@
 	$(RM) $*.ppm
 
