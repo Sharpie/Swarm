@@ -35,6 +35,11 @@
   return self;
 }
 
+- (FILE *)_getFile_
+{
+  return theFile;
+}
+
 - putString: (const char *)aString
 {
   fprintf (theFile, "%s", aString);

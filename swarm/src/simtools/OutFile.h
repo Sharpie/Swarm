@@ -13,6 +13,7 @@
 + create: aZone withName: (const char *)theName;
 
 - _setFile_: (FILE *) aFile;
+- (FILE *)_getFile_;
 
 - putString: (const char *)aString;
 - putInt: (int) anInt;

@@ -1,3 +1,8 @@
+1998-07-21  Alex Lancaster  <alex@santafe.edu>
+
+	* OutFile.[hm] ([OutFile -_getFile_]): Add internal method to
+	retrieve the file pointer.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* QSort.m: Don't include stdlib.h.
