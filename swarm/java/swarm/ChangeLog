@@ -1,3 +1,9 @@
+1999-03-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in: Subsitute datadir and INSTALL.
+	(all): Create swarm.jar.
+	(install): New target.  
+
 1999-02-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in, Makefile.in: Start.
