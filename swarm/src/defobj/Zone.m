@@ -427,6 +427,7 @@ PHASE(Using)
       [index prev];
       mapAlloc (mapalloc, member);
     }
+  [index drop];
 
   // map components of the zone itself
 
