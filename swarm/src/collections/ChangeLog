@@ -1,3 +1,8 @@
+2000-01-16    <mgd@nest.swarm.org>
+
+	* Map.m, List.m ([... hdf5OutShallow:]): Use setPrototType:
+	instead of setClass: for making HDF5CompoundType.
+	
 2000-01-11    <mgd@nest.swarm.org>
 
 	* StringObject.m: Inlcude defobj.h.

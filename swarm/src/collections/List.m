@@ -279,7 +279,7 @@ PHASE(Using)
       id aZone = [self getZone];
       id memberProto = [self getFirst];
       id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
-                               setClass: [memberProto class]]
+                               setPrototype: memberProto]
                               createEnd];
       
       id hdf5ObjDataset =

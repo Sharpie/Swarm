@@ -972,7 +972,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
       id aZone = getZone (self);
       Class memberProto = [self getFirst];
       id compoundType = [[[HDF5CompoundType createBegin: aZone]
-                           setClass: [memberProto class]]
+                           setPrototype: memberProto]
                           createEnd];
       id dataset =
         [[[[[[[HDF5 createBegin: aZone]
