@@ -8,7 +8,7 @@ SUBDIRS = misc collections defobj activity \
 SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
 	objectbase activity defobj collections misc
 
-EXTRA_DIST = Makefile.rules getters.el
+EXTRA_DIST = Makefile.rules getters.el SwarmEnvironment_getters.m
 
 .PHONY: headers
 
@@ -32,7 +32,7 @@ lib_LTLIBRARIES = @LIBSWARM_LA@
 EXTRA_LTLIBRARIES = libswarm.la
 libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la)
 
-libswarm_la_SOURCES = SwarmEnvironment.m SwarmEnvironment_getters.m
+libswarm_la_SOURCES = SwarmEnvironment.m
 
 include_HEADERS = swarm.h SwarmEnvironment.h SwarmEnvironment_getters.h
 
