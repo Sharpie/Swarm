@@ -1,3 +1,12 @@
+1999-01-20  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Map.m (GROUP_KEYS, GROUP_VALUES): New macros for string reuse.
+	([Map_c -allSameKeyClass]): New method.
+	([Map_c -allSameClass]): Use it.
+	([Map_c -allStringKeys]): New method.
+	([Map_c -hdf5OutDeep:]): Use it, handle String keys.
+	([Map_c -hdf5In:]): Handle String case.
+
 1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Map.m (hdf5_store_compare_function_attribute): New function.
@@ -8,7 +17,7 @@
 
 	* List.[hm], Map.[hm], StringObject.[hm]: Switch from
 	{lisp,hdf5}Out:deep: to
-	{lisp,hdf5}Out{Shallow,Deep}:.
+	{lisp,hdf5}OutShallow:.  (Deep is avoided in Archiver.)
 
 	* Map.m ([Map_c hdf5Out:deep]): Don't compute anything for call
 	to -setRowNameLength: and don't call it.

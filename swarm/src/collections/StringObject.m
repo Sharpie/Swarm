@@ -201,6 +201,7 @@ PHASE(Using)
 
 - hdf5In: hdf5Obj
 {
+  [hdf5Obj loadDataset: &string];
   return self;
 }
 
@@ -211,11 +212,6 @@ PHASE(Using)
            type: @encode (const char *)
            ptr: &string];
   return self;
-}
-
-- hdf5OutDeep: hdf5Obj
-{
-  return [self hdf5OutShallow: hdf5Obj];
 }
 
 //
