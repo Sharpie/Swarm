@@ -198,6 +198,10 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 - setButton: (int)n Client: c Message: (SEL)sel;
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)color;
+- ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+      Width: (unsigned)penWidth Color: (Color)c;
+- lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
+   Width: (unsigned)penWidth Color: (Color)c;
 - draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
 - erase;
 @end
