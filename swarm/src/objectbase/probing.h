@@ -5,5 +5,5 @@
 
 #import <swarmobject/ProbeLibrary.h>
 
-extern ProbeLibrary *probeLibrary;
+extern id probeLibrary;
 extern void initProbing();
