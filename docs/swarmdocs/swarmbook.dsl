@@ -25,9 +25,8 @@
           orientation: 'horizontal
           line-thickness: 1pt))
 
-(define (make-linebreak nl)
-    (make paragraph
-          (process-node-list nl)))
+(define (make-linebreak)
+    (make paragraph (empty-sosofo)))
 
 (define $generate-lot-list$
   ;; Should a List of Titles be produced? 
@@ -180,10 +179,8 @@
     (make empty-element gi: "HR"
           attributes: (list (list "SIZE" "1"))))
 
-(define (make-linebreak nl)
-    (sosofo-append
-     (process-node-list nl)
-     (make empty-element gi: "BR" (empty-sosofo))))
+(define (make-linebreak)
+   (make empty-element gi: "BR"))
   
 (element PRIMARYIE
          (sosofo-append

@@ -99,14 +99,18 @@
     (let loop ((last-nl text-nl)
                (nl text-nl))
          (if (node-list-empty? nl)
-             (make-linebreak last-nl)
+             (sosofo-append
+               (make-linebreak)
+               (process-node-list last-nl))
              (let ((node (node-list-first nl)))
                (if (char=? (node-property 'char node) #\U-000D)
                    (sosofo-append
                     (let ((last-line-nl (previous-nl last-nl node)))
                       (if (node-list-empty? last-line-nl)
                           (empty-sosofo)
-                          (make-linebreak last-line-nl)))
+                          (sosofo-append
+                            (make-linebreak)
+                            (process-node-list last-line-nl))))
                     (let ((next-nl (node-list-rest nl)))
                       (loop next-nl next-nl)))
                    (loop last-nl (node-list-rest nl)))))))
@@ -123,8 +127,10 @@
               (loop (node-list-rest nl))))))
 
 (element FUNCSYNOPSISINFO
-         (expand-paragraphs (skip-nonchars
-                             (children (current-node)))))
+     (sosofo-append
+	(make-linebreak)
+        (expand-paragraphs (skip-nonchars
+                            (children (current-node))))))
 
 (element PROGRAMLISTING
          (expand-paragraphs (children (current-node))))
