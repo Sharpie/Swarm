@@ -1,3 +1,10 @@
+1999-09-17  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in (linuxprefix): Add new enable check, to force a
+	`Linux-like' /usr hierarchy, making `swarm' subdirectories inside
+	the standard $libdir and $includedir locations.  Existing `/usr'
+	prefix check preserved.
+
 1999-09-16  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in (libobjc): Add `--enable-static' to list of flags
