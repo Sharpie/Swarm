@@ -1,3 +1,10 @@
+1997-12-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* defobj.h: Add APIChange to the standard error types.
+	Delete ObsoleteMessage, since it appears to be redundant 
+	with ObsoleteFeature.  Disable LibraryUsage, DefaultAssumed, 
+	and ObsoleteFeature because they aren't used.
+
 1997-11-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Program.m (initModules): Move initModule of Collections below

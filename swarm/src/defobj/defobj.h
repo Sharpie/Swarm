@@ -235,7 +235,7 @@ USING
 //
 // standard errors
 //
-extern id <Error>
+extern id <Error> 
   SourceMessage,          // message in the source defines error
   NotImplemented,         // requested behavior not implemented by object
   SubclassMustImplement,  // requested behavior must be implemented by subclass
@@ -248,18 +248,18 @@ extern id <Error>
   InvalidAllocSize,       // no more memory available for allocation
   InternalError,          // unexpected condition encountered in program
   BlockedObjectAlloc,     // method from Object with invalid allocation
-  BlockedObjectUsage;     // method inherited from Object superclass
+  BlockedObjectUsage,     // method inherited from Object superclass
+  APIChange;              // feature was removed due to an API change
 
 //
 // standard warnings
 //
 extern id <Warning>
   WarningMessage,         // message in the source defines warning
-  LibraryUsage,           // invalid usage of library interface
-  DefaultAssumed,         // non-silent use of default
-  ObsoleteMessage,        // using feature which could be removed in future
-  ObsoleteFeature,        // using feature which could be removed in future
   ResourceAvailability;   // resource from runtime environment not available
+  // LibraryUsage,           // invalid usage of library interface
+  // DefaultAssumed,         // non-silent use of default
+  // ObsoleteFeature,        // using feature which could be removed in future
 
 //
 // predefined type descriptors for allocated blocks
