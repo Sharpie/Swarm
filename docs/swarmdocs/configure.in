@@ -51,18 +51,20 @@ AC_PATH_PROG(EMACS, emacs, missing)
 AC_PATH_PROG(JADE, jade, missing)
 AC_PATH_PROG(PNGTOPNM, pngtopnm, missing)
 AC_PATH_PROG(PNMTOPS, pnmtops, missing)
+AC_PATH_PROG(PNMCROP, pnmcrop, missing)
 AC_PATH_PROG(CJPEG, cjpeg, missing)
 
 dnl Don't use path here since TeX can't deal with Cygwin UNC paths.
 AC_CHECK_PROG(JADETEX, jadetex, jadetex, missing)
 AC_CHECK_PROG(DVIPS, dvips, dvips, missing)
 
-for i in EMACS JADE PNGTOPNM PNMTOPS CJPEG; do
+for i in EMACS JADE PNGTOPNM PNMTOPS PNMCROP CJPEG; do
 if eval test '$ac_cv_path_'$i = missing ; then
 AC_MSG_ERROR(Failed to find $i)
 fi
 done
 
+dnl TeX wants to look through path to find itself.
 for i in JADETEX DVIPS; do
 if eval test '$ac_cv_prog_'$i = missing ; then
 AC_MSG_ERROR(Failed to find $i)
