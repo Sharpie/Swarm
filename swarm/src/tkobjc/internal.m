@@ -4,17 +4,21 @@
 // See file LICENSE for details and terms of copying.
 
 #import "internal.h"
-#import <tkobjc/TkExtra.h>
-#define Arguments SwarmArguments
-#import <objectbase/Arguments.h>
 
 #include <tk.h>
+
 #define BOOL BOOL_
 #include "tkInt.h"
+#undef BOOL
 
 #ifdef __WIN32__
+#define Arguments WindowsArguments
 #include "tkWinInt.h"
+#undef Arguments
 #endif
+
+#import <tkobjc/TkExtra.h>
+#import <objectbase/Arguments.h>
 
 extern TkExtra *globalTkInterp;
 

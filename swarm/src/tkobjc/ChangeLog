@@ -1,5 +1,9 @@
 1998-03-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* internal.m: Define WindowsArguments as Arguments during load of
+	tkWinInt.h.  Define BOOL as BOOL_ during load of tkInt.h.
+	Do these includes before Swarm class includes.
+
 	* internal.h: Don't include X11/xpm.h if __WIN32__.
 	gnu-win32 B19 supplies X11 header files.  
 
