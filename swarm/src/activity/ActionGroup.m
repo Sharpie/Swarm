@@ -420,13 +420,13 @@ PHASE(Using)
 //
 - nextAction: (id *)status
 {
-  id removedAction, nextAction;
+  id nextAction;
 
   // if AutoDrop option and index at a valid position then drop previous action
  
   if (((ActionGroup_c *) collection)->bits & BitAutoDrop && position > 0)
     {
-      removedAction = [self remove];
+      id removedAction = [self remove];
       [removedAction dropAllocations: YES];
     }
 
@@ -451,10 +451,6 @@ PHASE(Using)
 @end
 
 
-//
-// GroupIndex_c -- index to traverse actions of a group
-//
-
 @implementation GroupPermutedIndex_c
 PHASE(Creating)
 - setActivity: theActivity
@@ -475,7 +471,17 @@ PHASE(Using)
 //
 - nextAction: (id *)status
 {
-  id nextAction = [self next];
+  id nextAction;
+
+  if (((ActionGroup_c *)
+       ((Permutation_c *) collection)->collection)->bits & BitAutoDrop
+      && [self getLoc] == Member)
+    {
+      id removedAction = [self remove];
+      [removedAction dropAllocations: YES];
+    }
+
+  nextAction = [self next];
   
   if (! nextAction)
     *status = Completed;

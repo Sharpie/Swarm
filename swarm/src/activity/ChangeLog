@@ -1,3 +1,8 @@
+2000-07-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* ActionGroup.m ([GroupPermutedIndex_c -nextAction:]): Handle
+	auto drop.
+
 2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* XActivity.m ([Activity_c -drop]): Handle Completed.
