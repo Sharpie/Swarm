@@ -1,4 +1,4 @@
-<DOCINFO>
+<REFERENCEINFO>
 
   <TITLE>Analysis Library</TITLE>
 
@@ -11,10 +11,10 @@
 
   &analysisrevhistory.sgml;  
   
-</DOCINFO>
+</REFERENCEINFO>
 
 <!--
 Local Variables:
-sgml-parent-document:("analysiscont.sgml" "DOCINFO")
+sgml-parent-document:("analysiscont.sgml" "REFERENCEINFO")
 End:
 -->

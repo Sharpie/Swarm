@@ -1,3 +1,8 @@
+2000-05-30  Alex Lancaster  <alex@santafe.edu>
+
+	* analysismeta.sgml: Make DOCINFO -> REFERENCEINFO (DOCINFO
+	obsoleted in DocBook V4.0)
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarmdocs 2.1.1 frozen.
