@@ -55,9 +55,9 @@ tcl/tk 8.0.4 or better, and the blt library package, as well has
 hdf5 version 1.2. 
 
 %changelog
-- **Remove this message if public release made** 
-
 * Fri Sep 17 1999 Alex Lancaster <alex@santafe.edu>
+
+- **Remove this message if public release made** 
 
 - Enable relocation of package, via sed scripts in the %post section.
 
@@ -157,7 +157,7 @@ the Sun JDK.
 # first run is without hdf support
 %makebuilddir =without-hdf
 
-JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-linuxprefix --with-jdkdir=/usr --without-hdf5dir --disable-jar 
+JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --without-hdf5dir --disable-jar 
 make
 
 # second run is with hdf support
