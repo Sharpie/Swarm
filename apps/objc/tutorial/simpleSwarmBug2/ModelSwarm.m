@@ -2,13 +2,13 @@
 
 #import "ModelSwarm.h"
 #import "Bug.h"
-#import <simtools.h>
-#import <collections.h>
+#import <random.h>
 
 @implementation ModelSwarm  
 
-+createBegin: (id) aZone {
-  ModelSwarm * obj;
++ createBegin: aZone
+{
+  ModelSwarm *obj;
 
   obj = [super createBegin: aZone];
 
@@ -24,13 +24,15 @@
   return obj;
 }
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
--buildObjects {
-  Bug * aBug;
-  int x,y;
+- buildObjects
+{
+  Bug *aBug;
+  int x, y;
   
   // First, create the foodWorld and initialize it
 
@@ -60,16 +62,16 @@
 
   for (y = 0; y < worldYSize; y++)
     for (x = 0; x < worldXSize; x++) 
-      if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] < bugDensity) {
+      if ([uniformDblRand getDoubleWithMin: 0.0 withMax: 1.0] < bugDensity)
+        {
+          aBug = [Bug createBegin: self];
+          [aBug setWorld: world Food: food];
+          aBug = [aBug createEnd];
+          [aBug setX: x Y: y];
 
-         aBug = [Bug createBegin: self];
-         [aBug setWorld: world Food: food];
-         aBug = [aBug createEnd];
-         [aBug setX: x Y: y];
-
-         [bugList addLast: aBug];
-      }
-
+          [bugList addLast: aBug];
+        }
+  
   // enlist a "reporter" bug to let us know how things are going
   // We just pop the first bug we created and then return it
 
@@ -80,7 +82,8 @@
 }
 
 
--buildActions {
+- buildActions
+{
 
   // Create an ActionGroup to hold the messages over the bugs
 
@@ -99,17 +102,16 @@
 
 }
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext 
+{
   // Here, we activate the swarm in the context passed in
   // Then we activate our schedule in ourselves
-
+  
   [super activateIn: swarmContext];
-
+  
   [modelSchedule activateIn: self];
-
+  
   return [self getActivity];
-
 }
 
 @end
