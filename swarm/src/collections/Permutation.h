@@ -6,12 +6,11 @@
 /*
 Name:         Permutation.h
 Description:  permutation object - array of integers 
-Library:      simtools
+Library:      collections
 */
 
 #include <collections/Array.h>
 #import <collections/ListShuffler.h>
-
 
 @interface Permutation_c: Array_c
 {
@@ -21,12 +20,12 @@ Library:      simtools
   id shuffler;
 }
 + createBegin: (id) aZone;
-- (void) setMaxElement: (int) max;
-- (void) setMinElement: (int) min;
-- (void) setUniformRandom: (id) rnd;
+- (void)setMaxElement: (int)max;
+- (void)setMinElement: (int)min;
+- (void)setUniformRandom: rnd;
 - createEnd;
 - generatePermutation;
-- (void) describe: outputCharStream;
+- (void)describe: outputCharStream;
 
 @end
 

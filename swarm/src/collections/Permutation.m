@@ -1,4 +1,3 @@
-
 // Swarm library. Copyright (C) 1996-1998 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
@@ -7,13 +6,11 @@
 /*
 Name:         Permutation.m
 Description:  permutation object - array of integers 
-Library:      simtools
+Library:      collections
 */
-
 
 #import <collections/Permutation.h>
 #import <defobj/defalloc.h>
-
 
 @implementation Permutation_c
 
@@ -29,28 +26,26 @@ PHASE(Creating)
   newPermutation->shuffler=[ListShuffler_c createBegin: aZone];
   
   return newPermutation;
-  
 }
 
 
-- (void) setMaxElement: (int) max
+- (void)setMaxElement: (int)max
 {
   maxElement = max;
-  ; 
 }
 
--(void) setMinElement: (int) min
+-(void)setMinElement: (int)min
 {
-  if (min<1) raiseEvent(InvalidArgument, "> Minimal element of a permutation"
-			" must be greater than zero");
+  if (min < 1)
+    raiseEvent(InvalidArgument, "> Minimal element of a permutation"
+               " must be greater than zero");
   minElement = min;
 
 }
 
-- (void) setUniformRandom: rnd
+- (void)setUniformRandom: rnd
 {
   [shuffler setUniformRandom: rnd];
- 
 }
 
 - createEnd
@@ -68,9 +63,7 @@ PHASE(Creating)
   
      
   for (i = minElement; i <= (int) maxElement; i++)
-    {
-      [super atOffset: i - minElement put: (id) i];
-    }
+    [super atOffset: i - minElement put: (id) i];
   
   return self;
 }
@@ -83,7 +76,7 @@ PHASE(Using)
   return self;
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   char buffer[20];
   id index;
@@ -95,16 +88,14 @@ PHASE(Using)
   elem = (int) [index next];
   while (elem) 
     {
-       sprintf(buffer," %d ", elem);
+       sprintf(buffer, " %d ", elem);
        elem = (int) [index next];
        [outputCharStream catC: buffer];
 
     }
   sprintf(buffer,"\n");
   [index drop];
-  
 }
-
 
 @end
 
