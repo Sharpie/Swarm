@@ -3,6 +3,9 @@
 
 CLASSPHASES := __c _u
 PHASES := $(CLASSPHASES) _s
+
 INTERFACES := $(subst __c,,$(addsuffix .class,$(foreach sfx,$(PHASES),$(addsuffix $(sfx),$(addprefix i_,$(modulePROTOCOLS))))))
+
 CLASSES := $(subst __c,,$(addsuffix .class,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$(modulePROTOCOLS)))))
-stubs: $(CLASSES) $(INTERFACES)
+
+all: $(CLASSES) $(INTERFACES)

@@ -1,3 +1,4 @@
 include ../Makefile.common
-stubs:
-	for module in $(MODULES); do $(MAKE) -C $$module stubs; done
+
+all:
+	for module in $(MODULES); do $(MAKE) -C $$module all; done
