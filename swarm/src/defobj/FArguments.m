@@ -461,6 +461,9 @@ PHASE(Using)
 {
   unsigned i;
   
+  if (returnType == fcall_type_jobject
+      || returnType == fcall_type_jstring)
+    (*jniEnv)->DeleteLocalRef (jniEnv, (jobject) ((types_t *) result)->object);
   for (i = 0; i < assignedArgumentCount; i++)
     {
       unsigned offset = i + MAX_HIDDEN;
