@@ -1722,7 +1722,12 @@ mframe_decode_return (const char *type, void* buffer, void* retframe)
 	{
 	  __builtin_return (rframe);
 	}
-	*(block*)buffer = retframe_block(retframe);
+#ifndef __CHECKER__
+        /* Checker-equipped compiler barfs on this on sparc-sun-solaris2.7. */
+	*(block *) buffer = retframe_block (retframe);
+#else
+#warning Disabling code in mframe for Checker
+#endif
 	break;
       }
 

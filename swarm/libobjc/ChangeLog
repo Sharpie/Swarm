@@ -1,3 +1,7 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* mframe.m (mframe_decode_return): Disable some code for Checker.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* mframe.m (mframe_build_signature, mframe_next_arg): Use isDigit.
