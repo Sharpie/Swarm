@@ -10,9 +10,7 @@
 #import <gui.h>
 #import <simtools.h>
 
-#import "DiGraphLink.h"
-#import "DiGraphNode.h"
-#import "DiGraph.h"
+#import <graph.h>
 
 #define MAX_EDGES 	       200
 #define MAX_NODES 	       200
