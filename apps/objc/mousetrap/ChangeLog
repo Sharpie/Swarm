@@ -1,3 +1,11 @@
+1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MousetrapModelSwarm.h: Include from objectbase/ instead of
+	swarmobject/.  Include objectbase.h instead of swarmobject.h.
+
+	* Mousetrap.h, MousetrapBatchSwarm.h, MousetrapObserverSwarm.[hm]:
+	Include objectbase.h instead of swarmobject.h.
+
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* main.m (main): Constify argv.

@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <activity.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <random.h>
 
 // The definition of a mousetrap object. We inherit code from the generic
@@ -12,8 +12,8 @@
 // does not provide any sort of agent behaviour, though, that's up to us.
 
 
-@interface Mousetrap : SwarmObject {
-
+@interface Mousetrap: SwarmObject
+{
   // First, the variables for a mousetrap object
 @public
   int xCoord;				// X and Y coordinates

@@ -10,8 +10,8 @@
 // Note that the MousetrapModelSwarm uses dynamic scheduling
 // while the MousetrapObserverSwarm uses static scheduling
 
-#import <swarmobject.h>
-#import <swarmobject/SwarmObject.h>
+#import <objectbase.h>
+#import <objectbase/SwarmObject.h>
 #import <space.h>
 #import <activity.h>
 #import <collections.h>

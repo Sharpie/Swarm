@@ -6,7 +6,7 @@
 #import "MousetrapObserverSwarm.h"
 #import "MousetrapModelSwarm.h"
 #import <collections.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <analysis.h>
 #import <gui.h>
 
