@@ -4,11 +4,11 @@ CJPEG = @CJPEG@ -quality 100
 PNGTOPNM = @PNGTOPNM@
 PNMTOPS = @PNMTOPS@
 
-EPS = swarm.eps
+EPS = swarm.eps modeling.eps interface-vs-implementation.eps
 GENERATED_EPS = $(patsubst %.png,%.eps,$(PNG))
-PNG = modeling.png 
+PNG = 
 GENERATED_JPEG = $(patsubst %.eps,%.jpeg,$(EPS)) $(patsubst %.png,%.jpeg,$(PNG))
-EXTRA_DIST = modeling.png swarm.eps
+EXTRA_DIST = swarm.eps modeling.eps interface-vs-implementation.eps 
 
 GENERATED_FIGS = $(GENERATED_EPS) $(GENERATED_JPEG)
 
