@@ -1,5 +1,7 @@
 1998-08-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* acobjclibs.m4: Store libraries in OBJCLIBS; don't modify LIBS.
+
 	* acguilibs.m4 (GUILIBS): Don't prevent expansion of X_EXTRA_LIBS.
 
 1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
