@@ -161,7 +161,7 @@ PHASE(Creating)
             {
               rank = 0;
               dims = NULL;
-              baseType = fcall_type_void;
+              baseType = _C_VOID;
               raiseEvent (WarningMessage,
                           "Probing of unions and structs not supported.\n"
                           "[class: `%s', variable: `%s']\n",
