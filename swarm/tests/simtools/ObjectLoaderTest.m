@@ -9,15 +9,19 @@
 #import "TestObject.h"
 
 int
-main(int argc, char ** argv) {
+main(int argc, const char ** argv) 
+{
   TestObject * theObj;
+  char fileName[128];
 
-  initSwarm(argc, argv);
+  initSwarmBatch(argc, argv);
 
   theObj = [TestObject createBegin: globalZone];
   theObj =[theObj createEnd];
 
-  [ObjectLoader load: theObj fromFileNamed: "test.data"];
+  sprintf(fileName, "%s/test.data", getenv("srcdir"));
+  
+  [ObjectLoader load: theObj fromFileNamed: fileName];
 
   [theObj printObject];
 

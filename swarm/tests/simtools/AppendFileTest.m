@@ -5,17 +5,18 @@
 
 #import <stdio.h>
 #import <stdlib.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <simtools.h>
 #import <simtools/AppendFile.h>
 #import <simtools/OutFile.h>
 
 int
-main(int argc, char ** argv) {
+main(int argc, const char ** argv) 
+{
   id outFile;
   id appFile;
 
-  initSwarm(argc, argv);
+  initSwarmBatch(argc, argv);
 
   // first, create a file to be "appended" to
   outFile = [OutFile create: globalZone withName: "File.test"];

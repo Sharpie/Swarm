@@ -1,3 +1,23 @@
+1999-01-18  Alex Lancaster  <alex@santafe.edu>
+
+	* ObjectLoaderTest.m Get the path to the `test.data' file from the
+	`$srcdir' environment variable which is set in the TESTS
+	environment by automake.
+
+	* test.data: Fix format.
+
+	* TestObject.h: Import objectbase.h.
+
+	* ObjectLoaderTest.m (main): Constify argv. Use initSwarmBatch.
+
+	* AppendFileTest.m (main): Likewise.
+
+	* QSortTest.m (main): Likewise.
+
+	* Makefile: Remove.
+
+	* Makefile.am: Add file.
+
 1997-12-16  Alex Lancaster  <alex@wijiji.santafe.edu>
 
 	* {*.[hm], Makefile}: Added to repository. Some "unit" tests for

@@ -5,17 +5,18 @@
 
 #import <stdio.h>
 #import <stdlib.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <simtools.h>
 #import <collections.h>
 
 int
-main(int argc, char ** argv) {
+main(int argc, const char ** argv) 
+{
   id  theList;
   id index;
   id member;
 
-  initSwarm(argc, argv);
+  initSwarmBatch(argc, argv);
 
   // first, create a collection to be ordererd....
   theList = [List createBegin: globalZone];
