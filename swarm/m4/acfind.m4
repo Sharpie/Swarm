@@ -9,7 +9,7 @@ if test "$$1dir" != no ; then
 test -z "$_libdir" && _libdir=$$1dir/lib
 for dir in $3 $_libdir $defaultdir/lib /usr/lib32 /usr/lib /usr/local/lib; do
   expand_dir=`eval echo $dir`
-  for suffix in .so .sl .a; do
+  for suffix in .dylib .so .sl .a; do
     if test -r $expand_dir/lib${libname}${suffix} ; then
       $1libdir=$dir
       break
