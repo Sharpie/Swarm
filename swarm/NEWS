@@ -8,6 +8,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** EZGraph now supports setRanges[XY]Min:Max: and setScaleModeX:Y:.
 **** A new widget, FunctionGraph for displaying a function over a range of
      a variable.
+
 *** gui (tkobjc)
 **** Graph now accepts X ranges as well as Y and X+Y.
 **** Widget has additional readers getX and getY.
@@ -30,6 +31,10 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** Ensure that Tcl object handles consistently are of the form "0xaabbccdd";
     that there will be only one "0x".
 *** Replacement functions from misc are used when absent on system.
+*** tclobjc added to Swarm distribution
+**** Simplify installation
+**** libffi and ffcall support to workaround __builtlin_apply bug
+     in GCC 2.8 and EGCS 1.0.
 
 ** Bug fixes
 *** collections
@@ -54,6 +59,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 *** objectbase
 **** Workaround for libffi bug on Irix 6.4 for MessageProbe.
+**** Avoid use of a `char' return type, another libffi bug.
 
 *** space
 **** Check argument conformance against _Discrete2d, not Discrete2d.
