@@ -1,3 +1,8 @@
+2003-06-29  Marcus Daniels  <mgd@mac>
+
+	* misc.c: Don't use xmalloc, etc. so that this library can be fully
+	linked, and -no-undefined can be used unconditionally on all platforms.
+
 2003-06-29  mgd  <mgd@drone>
 
 	* Makefile.am (libswarmobjc_la_LDFLAGS): Add -no-undefined.

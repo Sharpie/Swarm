@@ -167,7 +167,7 @@ externobjcvardef void *(*_objc_calloc) (size_t, size_t) = GC_calloc;
 externobjcvardef void (*_objc_free) (void *) = noFree;
 
 #else
-#ifndef __CYGWIN__
+#if !defined(__CYGWIN__) && 0
 extern void *xmalloc (size_t size);
 extern void *xmalloc_atomic (size_t size);
 extern void *xcalloc (size_t nmemb, size_t size);
