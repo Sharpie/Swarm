@@ -87,7 +87,6 @@ _defobj_initialize (void)
 static void
 registerLocalClass (Class class)
 {
-  printf ("registering: [%s]\n", class->name);
   if (localClassCount == 0)
     localClasses = xmalloc (sizeof (Class));
   else
@@ -105,7 +104,6 @@ findLocalClass (const char *name)
 
   for (i = 0; i < localClassCount; i++)
     {
-      printf ("%s vs %s\n", name, localClasses[i]->name);
       if (strcmp (localClasses[i]->name, name) == 0)
         return localClasses[i];
     }
