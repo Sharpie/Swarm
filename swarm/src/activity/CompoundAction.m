@@ -57,17 +57,19 @@ getDefaultOrder (unsigned bits)
 // mixin inheritance for create phase (provided by source inclusion)
 //
 
-- (void)setAutoDrop: (BOOL)autoDrop
+- setAutoDrop: (BOOL)autoDrop
 {
   setBit (bits, BitAutoDrop, autoDrop);
+  return self;
 }
 
 #elif defined(MIXIN_SET)
 #undef MIXIN_SET
 
-- (void)setDefaultOrder: aSymbol
+- setDefaultOrder: aSymbol
 {
   setDefaultOrder (&bits, aSymbol);
+  return self;
 }
 
 #elif defined(MIXIN_C)

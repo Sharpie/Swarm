@@ -1348,5 +1348,9 @@ PHASE(Using)
   [outputCharStream catC: "]\n"];
 }
 
+- (void)mapAllocations: (mapalloc_t)mapalloc
+{
+}
+
 @end
 

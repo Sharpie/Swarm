@@ -372,7 +372,6 @@ PHASE(Using)
   if (activityRefs)
     mapObject (mapalloc, activityRefs);
 
-  
   // Avoid drop of members that ActionGroup would perform, since Schedule is
   // responsible for dropping all members.
 }
@@ -417,8 +416,7 @@ PHASE(Using)
   if (((ActionGroup_c *) collection)->bits & BitAutoDrop && position > 0)
     {
       removedAction = [self remove];
-      [getZone ((ActionGroup_c *) collection) 
-               freeIVarsComponent: removedAction];
+      [removedAction dropAllocations: YES];
     }
 
   // get next action to be executed

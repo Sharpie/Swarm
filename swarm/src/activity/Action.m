@@ -28,15 +28,21 @@ extern id uniformUnsRand;
 
 @implementation CAction
 PHASE(Creating)
+- createEnd
+{
+  [super createEnd];
+  setMappedAlloc (self);
+  return self;
+}
+
 PHASE(Using)
 - getOwner
 {
   return owner;
 }
 
-- (void)drop
+- (void)mapAllocations: (mapalloc_t)mapalloc
 {
-  [self dropAllocations: YES];
 }
 @end
 
@@ -126,6 +132,7 @@ PHASE(Using)
     }
   [super dropAllocations: componentAlloc];
 }
+
 @end
 
 @implementation FAction_c
@@ -136,6 +143,13 @@ PHASE(Creating)
   return self;
 }
 
+PHASE(Setting)
+- setAutoDrop: (BOOL)theAutoDropFlag
+{
+  autoDropFlag = theAutoDropFlag;
+  return self;
+}
+
 PHASE(Using)
 - (void)_performAction_: (id <Activity>)anActivity
 {
@@ -143,6 +157,16 @@ PHASE(Using)
     updateTarget (call, target);
   
   [call performCall];
+}
+
+- (void)dropAllocations: (BOOL)componentAlloc
+{
+  if (autoDropFlag)
+    {
+      [[call getArguments] drop];
+      [call drop];
+    }
+  [super dropAllocations: componentAlloc];
 }
 
 - (void)describe: outputCharStream
@@ -329,9 +353,10 @@ PHASE(Creating)
 }
 
 PHASE(Setting)
-- (void)setDefaultOrder: (id <Symbol>)aSymbol
+- setDefaultOrder: (id <Symbol>)aSymbol
 {
   setDefaultOrder (&bits, aSymbol);
+  return self;
 }
 
 PHASE(Using)
@@ -376,10 +401,10 @@ PHASE(Creating)
 }
 
 PHASE(Setting)
-
-- (void)setDefaultOrder: (id <Symbol>)aSymbol
+- setDefaultOrder: (id <Symbol>)aSymbol
 {
   setDefaultOrder (&bits, aSymbol);
+  return self;
 }
 
 PHASE(Using)
@@ -484,10 +509,10 @@ PHASE(Creating)
 }
 
 PHASE(Setting)
-
-- (void)setDefaultOrder: (id <Symbol>)aSymbol
+- setDefaultOrder: (id <Symbol>)aSymbol
 {
   setDefaultOrder (&bits, aSymbol);
+  return self;
 }
 
 PHASE(Using)

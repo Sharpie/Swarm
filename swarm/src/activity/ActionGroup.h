@@ -24,9 +24,9 @@ Library:      activity
   id activityRefs; // activities currently running this plan
 }
 /*** methods implemented in CompoundAction.m file ***/
-- (void)setAutoDrop: (BOOL)autoDrop;
+- setAutoDrop: (BOOL)autoDrop;
 - (BOOL)getAutoDrop;
-- (void)setDefaultOrder: (id <Symbol>)aSymbol;
+- setDefaultOrder: (id <Symbol>)aSymbol;
 - (id <Symbol>)getDefaultOrder;
 - activate;
 - activateIn: swarmContext;

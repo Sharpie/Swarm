@@ -1,3 +1,18 @@
+2000-01-16    <mgd@nest.swarm.org>
+
+	* Schedule.[mh] ([ActionChanged_c -mapAllocations:]): Add.
+
+	* Action.[hm] (CAction): Remove -drop.  Add -createEnd (for
+	setMappedAlloc) and mapAllocations:.
+	(FAction_c): Add autoDrop flag, setter, and dropAllocations:.
+	([... setDefaultOrder:]): Return self.
+
+	* ActionGroup.[hm], CompoundAction.[hm], Schedule.h, activity.h:
+	Change setAutoDrop and setDefaultOrder to return self
+
+	* ActionGroup.m ([GroupIndex_c -nextAction:]): Use dropAllocations:
+	instead of freeIVarsComponent:.
+
 1999-12-22    <mgd@nest.swarm.org>
 
 	* Action.m ([ActionTo_c -_createCall_:]): Use setJavaFlag:

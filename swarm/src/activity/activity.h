@@ -74,7 +74,7 @@ Library:      activity
 
 CREATING
 SETTING
-- (void)setDefaultOrder: (id <Symbol>)aSymbol;
+- setDefaultOrder: (id <Symbol>)aSymbol;
 USING
 - (id <Symbol>)getDefaultOrder;
 @end
@@ -267,6 +267,8 @@ USING
 //D: An action defined by sending a FCall.
 CREATING
 - setCall: fcall;
+SETTING
+- setAutoDrop: (BOOL)autoDrop;
 USING
 @end
 
@@ -580,7 +582,7 @@ USING
 //D: references is enforced.  An error will be raised if two activities
 //D: ever attempt to process a plan with AutoDrop enabled at the same time.
 CREATING
-- (void)setAutoDrop: (BOOL)autoDrop;
+-  setAutoDrop: (BOOL)autoDrop;
 USING
 - (BOOL)getAutoDrop;
 @end

@@ -29,9 +29,9 @@ Library:      activity
 }
 + createBegin: aZone;
 /*** methods implemented in CompoundAction.m file ***/
-- (void)setAutoDrop: (BOOL)autoDrop;
+- setAutoDrop: (BOOL)autoDrop;
 - (BOOL)getAutoDrop;
-- (void)setDefaultOrder: (id <Symbol>)aSymbol;
+- setDefaultOrder: (id <Symbol>)aSymbol;
 - (id <Symbol>)getDefaultOrder;
 - setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 - activate;
@@ -167,6 +167,7 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 /*** methods in ActionChanged_c (inserted from .m file by m2h) ***/
 - (void)_performAction_: (id <Activity>)anActivity;
 - (void)describe: outputCharStream;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 //

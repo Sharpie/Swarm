@@ -27,7 +27,6 @@ Library:      activity
   unsigned bits;             // bit allocations
 }
 - getOwner;
-- (void)drop;
 @end
 
 @interface PAction: CAction
@@ -58,8 +57,11 @@ Library:      activity
 
 @interface FAction_c: PAction <Action>
 {
+  BOOL autoDropFlag;
 }
 - setCall: fcall;
+- setAutoDrop: (BOOL)autoDrop;
+- (void)dropAllocations: (BOOL)componentAlloc;
 - (void)_performAction_: (id <Activity>)anActivity;
 - (void)describe: outputCharStream;
 @end
@@ -93,7 +95,7 @@ Library:      activity
 @interface ActionForEach_c: ActionTo_c <ActionForEach>
 {
 }
-- (void)setDefaultOrder: aSymbol;
+- setDefaultOrder: (id <Symbol>)aSymbol;
 - (void)describe: outputCharStream;
 - (void)_performAction_: (id <Activity>)activity;
 @end
@@ -102,7 +104,7 @@ Library:      activity
 {
 }
 - setTarget: target;
-- (void)setDefaultOrder: (id <Symbol>)aSymbol;
+- setDefaultOrder: (id <Symbol>)aSymbol;
 - (void)_performAction_: (id <Activity>)anActivity;
 - (id <Symbol>)getDefaultOrder;
 - (void)describe: stream;
@@ -118,7 +120,7 @@ Library:      activity
 }
 - setTarget: target;
 - createEnd;
-- (void)setDefaultOrder: (id <Symbol>)aSymbol;
+- setDefaultOrder: (id <Symbol>)aSymbol;
 - (void)_performAction_: (id <Activity>)anActivity;
 - (id <Symbol>)getDefaultOrder;
 - (void)describe: stream;
