@@ -15,6 +15,7 @@ Library:      activity
 #import <activity/classes.h>
 #include <misc.h> // abort
 
+#import <collections/List_mlinks.h> // beginMlinksList
 #import <defobj/macros.h>
 #import <collections/macros.h>
 #import <activity/macros.h>
@@ -304,8 +305,8 @@ ensureLeadingMerge (Schedule_c *self, id <Index> index, timeval_t tVal)
       id indexrefs;
       ScheduleActivity_c *activity;
 
-      indexrefs = MLINK_BEGIN (self->activityRefs, scratchZone);
-      MLINK_INDEX_SETLOC (indexrefs, Start);
+      indexrefs = MLIST_BEGIN_ZONE (self->activityRefs, scratchZone);
+      MLIST_INDEX_SETLOC (indexrefs, Start);
       activity = [indexrefs next];
       
       while (activity)
@@ -388,8 +389,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
               ScheduleActivity_c *activity;
               
               oldTime = (timeval_t) [index getKey];		   
-              indexrefs = MLINK_BEGIN (self->activityRefs, scratchZone);
-              MLINK_INDEX_SETLOC (indexrefs, Start);
+              indexrefs = MLIST_BEGIN_ZONE (self->activityRefs, scratchZone);
+              MLIST_INDEX_SETLOC (indexrefs, Start);
               activity = [indexrefs next];
               
               while (activity)

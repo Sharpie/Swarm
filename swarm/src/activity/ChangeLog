@@ -1,3 +1,8 @@
+2001-10-26  Marcus G. Daniels  <mgd@condor>
+
+	* CompoundAction.m, Schedule.m: Change from MLINK to MLIST.
+	Now using beginMLinksList.
+
 2001-07-29  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Action.m: Always include FCall.h.

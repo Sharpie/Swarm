@@ -173,7 +173,7 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
   if (!owner->activitySet)
     owner->activitySet = 
       [_activity_activitySetRefsType create: getCZone (zone)];
-  MLINK_ADD (owner->activitySet, newActivity);
+  MLIST_ADDLAST (owner->activitySet, newActivity);
   newActivity->ownerActivity  = owner;
   newActivity->registeredOwnerActivity = owner;
 }
@@ -201,7 +201,7 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
 
   if (!activityRefs)
     activityRefs = [_activity_activityRefsType create: getCZone (swarmZone)];
-  MLINK_ADD (activityRefs, newActivity);
+  MLIST_ADDLAST (activityRefs, newActivity);
   
   // initialize status and set break function from owner
 
