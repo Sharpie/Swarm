@@ -1,8 +1,8 @@
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.am: Remove manual constructor stuff. 
-	(CPPFLAGS): Don't define for DLL import/export.  (Use PIC to
-	select in externvar.h.in).
+	* Makefile.am: Remove manual constructor stuff.
+	(CPPFLAGS): Don't define for DLL import/export.  (Use
+	BUILDING_LIBOBJC to select in externvar.h.in).
 	(DLLOBJS): Use .lo files.
 
 	* ltconfig: Updated with -DDLL as PIC flag for DLL builds.

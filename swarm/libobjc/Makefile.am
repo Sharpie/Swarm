@@ -30,6 +30,8 @@ libobjc__la_LDFLAGS = -L$(dir $(shell $(CC) -print-libgcc-file-name))
 libobjc__la_LIBADD = $(objc_thread_lo) -lgcc
 libobjc__la_DEPENDENCIES = $(objc_thread_lo)
 
+override CPPFLAGS += -DBUILDING_LIBOBJC
+
 objc_thread_lo = @OBJC_THREAD_FILE@.lo
 
 encoding.lo gc.lo sendmsg.lo: compiler-info.h
