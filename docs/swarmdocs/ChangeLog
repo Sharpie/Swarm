@@ -1,3 +1,9 @@
+1998-06-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* common.el (pathname-for-swarmdocs,
+	pathname-for-swarmdocs-revision-output):  Use case instead of 
+	cond.
+
 1998-06-11  Alex Lancaster  <alex@santafe.edu>
 
 	* common.dsl (%generate-article-titlepage%): Set to false - to
