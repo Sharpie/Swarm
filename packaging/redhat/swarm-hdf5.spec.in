@@ -10,9 +10,6 @@ Prefix: %prefix
 BuildRoot: /tmp/swarm-root
 #BuildPrereq: hdf5 >= @hdf5_version@
 BuildPrereq: hdf5
-%ifarch ppc
-BuildPrereq: libffi >= 1.20
-%endif
 BuildPrereq: kaffe
 BuildPrereq: jikes
 Icon: swarm.xpm
@@ -21,9 +18,6 @@ Distribution: @distribution@
 Vendor: @vendor@
 URL: @url@
 Requires: @base_requires@
-%ifarch ppc
-Requires: libffi >= 1.20
-%endif
 Provides: swarm-base
 Requires: hdf5 >= @hdf5_version@
 Conflicts: swarm

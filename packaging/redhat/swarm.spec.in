@@ -8,9 +8,6 @@ Source: @ftproot@/swarm-@date_version@.tar.gz
 %define prefix      /usr
 Prefix: %prefix
 BuildRoot: /tmp/swarm-root
-%ifarch ppc
-BuildPrereq: libffi >= 1.20
-%endif
 BuildPrereq: kaffe
 BuildPrereq: jikes
 Icon: swarm.xpm
@@ -19,9 +16,6 @@ Distribution: @distribution@
 Vendor: @vendor@
 URL: @url@
 Requires: @base_requires@
-%ifarch ppc
-Requires: libffi >= 1.20
-%endif
 Provides: swarm-base
 Conflicts: swarm-hdf5
 %define date_version @date_version@

@@ -3,7 +3,7 @@ CONSERVATIVE_OPTIMIZATION=yes %configure
 %endif
 
 %ifarch ppc
-CFLAGS="-fdollars-in-identifiers -O2 -g" %configure --with-ffidir=/usr --disable-jar
+CFLAGS="-fdollars-in-identifiers -O2 -g" %configure --disable-jar
 %endif
 
 %ifarch i386
