@@ -1,0 +1,19 @@
+<reference id="SWARM.ANALYSIS.SGML.REFERENCE">
+  &analysismeta.xml;
+  
+  <title>Analysis Library</title>
+  <titleabbrev>Analysis</titleabbrev>
+  
+  <!-- partintro -->
+  &analysis00.xml;
+  
+  <!-- actual reference content -->
+  &analysispages.xml;
+
+</reference>
+
+<!--
+Local Variables:
+sgml-parent-document:("../refbook.xml" "reference")
+End:
+-->

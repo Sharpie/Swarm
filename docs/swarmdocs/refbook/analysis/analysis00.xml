@@ -1,40 +1,33 @@
-<PARTINTRO>
-  <title>Analysis Introduction</title>
+<partintro>  <title>Analysis Introduction</title>
 
-  <SIDEBAR>
-    <TITLE>Overview</TITLE>
+  <sidebar>    <title>Overview</title>
 
-    <PARA>This is the library where tools primarily related to
+    <para>This is the library where tools primarily related to
       analysis tasks, reside. This includes tools which simplify the
       task of graphing values or displaying distributions as well as
       more specific measurement tools (such as Average, Entropy).
-    </PARA>
+    </para>
 
-  </SIDEBAR>
+  </sidebar>
 
-  <SECT1 xreflabel="Analysis Dependencies" ID="SWARM.ANALYSIS.SGML.SECT1.DEPEND">
-        <TITLE>Dependencies</TITLE> 
+  <sect1 xreflabel="Analysis Dependencies" id="SWARM.ANALYSIS.SGML.SECT1.DEPEND">        <title>Dependencies</title> 
 
-    <PARA>Following are the other header files imported by
-    &lt;analysis.h&gt;:
+    <para>Following are the other header files imported by
+    <filename>analysis.h</filename>:
 
-<PROGRAMLISTING>
-#import &lt;objectbase.h&gt;
-#import &lt;simtoolsgui.h&gt;
-</PROGRAMLISTING>
+<programlisting>#import objectbase.h
+#import simtoolsgui.h</programlisting>
 
-      </PARA>
+      </para>
 
-  </SECT1>
+  </sect1>
 
-  <SECT1 xreflabel="Analysis Compatibility" ID="SWARM.ANALYSIS.SGML.SECT1.COMPAT">
-        <TITLE>Compatibility</TITLE>
+  <sect1 xreflabel="Analysis Compatibility" id="SWARM.ANALYSIS.SGML.SECT1.COMPAT">        <title>Compatibility</title>
 
-    <PARA>No explicit compatibility issues for particular versions of
-    Swarm</PARA>
+    <para>No explicit compatibility issues for particular versions of
+    Swarm</para>
 
-  </SECT1>
-
+  </sect1>
 <!--
   <SECT1 xreflabel="Analysis Usage Guide" ID="SWARM.ANALYSIS.SGML.SECT1.USAGE">
         <TITLE>Usage Guide</TITLE>
@@ -71,11 +64,9 @@
   </SECT1>
 
 -->
-
-</PARTINTRO>
-
+</partintro>
 <!--
 Local Variables:
-sgml-parent-document:("analysiscont.sgml" "PARTINTRO")
+sgml-parent-document:("analysiscont.xml" "partintro")
 End:
 -->

@@ -1,0 +1,20 @@
+<referenceinfo>
+
+  <title>Analysis Library</title>
+
+  <abstract>
+    <title>Documentation and Implementation Status</title>
+    
+    <para></para>
+    
+  </abstract>
+
+  &analysisrevhistory.xml;  
+  
+</referenceinfo>
+
+<!--
+Local Variables:
+sgml-parent-document:("analysiscont.xml" "referenceinfo")
+End:
+-->

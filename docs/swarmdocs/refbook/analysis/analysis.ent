@@ -1,5 +1,10 @@
-<!entity analysiscont.sgml PUBLIC "-//SFI Hive//ENTITIES Analysis Content//EN">
-<!entity analysisrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Analysis Revision History//EN">
-<!entity analysismeta.sgml PUBLIC "-//SFI Hive//ENTITIES Analysis Metadata//EN">
-<!entity analysis00.sgml PUBLIC "-//SFI Hive//ENTITIES Analysis Introduction//EN">
-<!entity analysispages.sgml PUBLIC "-//SFI Hive//ENTITIES Analysis Generated Content//EN">
+<!ENTITY analysiscont.xml PUBLIC "-//SFI Hive//ENTITIES Analysis Content//EN"
+"ignore.sysid">
+<!ENTITY analysisrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Analysis Revision History//EN"
+"ignore.sysid">
+<!ENTITY analysismeta.xml PUBLIC "-//SFI Hive//ENTITIES Analysis Metadata//EN"
+"ignore.sysid">
+<!ENTITY analysis00.xml PUBLIC "-//SFI Hive//ENTITIES Analysis Introduction//EN"
+"ignore.sysid">
+<!ENTITY analysispages.xml PUBLIC "-//SFI Hive//ENTITIES Analysis Generated Content//EN"
+"ignore.sysid">
