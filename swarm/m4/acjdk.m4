@@ -71,7 +71,7 @@ else
     if test "$host_os" = cygwin; then
       jdkdatadir=`cygpath -w $jdkdatadir`
       USEDOSCLASSPATH=yes
-      JAVALIBS=
+      JAVALIBS=`cygpath -w ${jdkdir}/bin`
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
     fi
