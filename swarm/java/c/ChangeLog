@@ -1,3 +1,13 @@
+1999-06-05    <mgd@HELEN>
+
+	* Makefile.in (javaswarm.dll): Remove constructor stuff.  Use wildcard
+	reference to objects in their respective modules.  Don't use libraries
+	for Swarm things.
+
+1999-06-04    <mgd@HELEN>
+
+	* Makefile.in (install-{la,dll}): Depend on `all'.
+
 1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (CTOR): New variable.
