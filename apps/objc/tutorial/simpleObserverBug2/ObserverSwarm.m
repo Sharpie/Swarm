@@ -51,16 +51,15 @@
 
 - buildObjects
 {
-  id modelZone;                                   // zone for model.
-
   [super buildObjects];
 
   // First, we create the model that we're actually observing. The
-  // model is a subswarm of the observer. We also create the model in
-  // its own zone, so storage is segregated.
+  // model is a subswarm of the observer. 
 
-  modelZone = [Zone create: [self getZone]];
-  modelSwarm = [ModelSwarm create: modelZone];
+  // We create in the modelSwarm in "self" which creates a modelSwarm
+  // in it's *own* Zone within the observerSwarm.
+
+  modelSwarm = [ModelSwarm create: self];
 
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
@@ -88,7 +87,7 @@
   // First, create a colormap: this is a global resource, the information
   // here is used by lots of different objects.
 
-  colorMap = [Colormap create: [self getZone]];
+  colorMap = [Colormap create: self];
 
   [colorMap setColor: 0 ToName: "black"];
   [colorMap setColor: 1 ToName: "red"];
@@ -96,7 +95,7 @@
 
   // Next, create a 2d window for display, set its size, zoom factor, title.
 
-  worldRaster = [ZoomRaster create: [self getZone]];
+  worldRaster = [ZoomRaster create: self];
   [worldRaster setColormap: colorMap];
   [worldRaster setZoomFactor: 4];
   [worldRaster setWidth: [[modelSwarm getWorld] getSizeX]
@@ -107,7 +106,7 @@
   // Now create a Value2dDisplay: this is a special object that will
   // display arbitrary 2d value arrays on a given Raster widget.
 
-  foodDisplay = [Value2dDisplay createBegin: [self getZone]];
+  foodDisplay = [Value2dDisplay createBegin: self];
   [foodDisplay setDisplayWidget: worldRaster colormap: colorMap];
   [foodDisplay setDiscrete2dToDisplay: [modelSwarm getFood]];
   foodDisplay = [foodDisplay createEnd];
@@ -115,7 +114,7 @@
   // And also create an Object2dDisplay: this object draws bugs on
   // the worldRaster widget for us.
 
-  bugDisplay = [Object2dDisplay createBegin: [self getZone]];
+  bugDisplay = [Object2dDisplay createBegin: self];
   [bugDisplay setDisplayWidget: worldRaster];
   [bugDisplay setDiscrete2dToDisplay: [modelSwarm getWorld]];
   [bugDisplay setObjectCollection: [modelSwarm getBugList]];
@@ -145,7 +144,7 @@
 
   // Create an ActionGroup for display. 
 
-  displayActions = [ActionGroup create: [self getZone]];
+  displayActions = [ActionGroup create: self];
 
   // Schedule up the methods to draw the display of the world
 
@@ -159,7 +158,7 @@
   // own Swarm data structure. Display is frequently the slowest part of a
   // simulation, so redrawing less frequently can be a help.
 
-  displaySchedule = [Schedule createBegin: [self getZone]];
+  displaySchedule = [Schedule createBegin: self];
   [displaySchedule setRepeatInterval: displayFrequency]; // note frequency!
   displaySchedule = [displaySchedule createEnd];
   [displaySchedule at: 0 createAction: displayActions];
