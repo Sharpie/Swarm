@@ -1,3 +1,8 @@
+1998-03-11  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.conf (alex-SFI-Solaris): Brought up to date with libffi
+	version of Swarm (as per current mgd-SFI-Solaris).
+
 1998-03-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (BLTLIBRARY): Add to mgd-SFI-Solaris and 
