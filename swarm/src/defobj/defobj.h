@@ -1017,6 +1017,8 @@ USING
 CREATING
 - setWriteFlag: (BOOL)writeFlag;
 - setDatasetFlag: (BOOL)datasetFlag;
+- setExtensibleVectorType: (fcall_type_t)type;
+- setExtensibleDoubleVector;
 - setParent: parent;
 - setCompoundType: compoundType;
 - setCount: (unsigned)count;
@@ -1043,6 +1045,9 @@ USING
 
 - (void)loadDataset: (void *)ptr;
 - (void)storeAsDataset: (const char *)name typeName: (const char *)typeName type: (fcall_type_t)type rank: (unsigned)rank dims: (unsigned *)dims ptr: (void *)ptr;
+
+- (void)addDoubleToVector: (double)val;
+
 - (void)storeTypeName: (const char *)typeName;
 - (void)storeComponentTypeName: (const char *)typeName;
 - (void)shallowLoadObject: obj;

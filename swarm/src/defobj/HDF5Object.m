@@ -333,7 +333,7 @@ static void
 hdf5_not_available (void)
 {
   raiseEvent (NotImplemented,
-              "HDF5 serialization not available on this configuration");
+              "HDF5 serialization not available in this configuration");
 }
 
 #endif
@@ -521,7 +521,7 @@ create_class_from_compound_type (id aZone,
 - createEnd
 {
 #ifdef HAVE_HDF5
-  id aZone = [self getZone];
+  id aZone = getZone (self);
 
   [super createEnd];
   
@@ -724,7 +724,7 @@ PHASE(Using)
           
           if (!stringMap)
             {
-              stringMap = [[[Map createBegin: [self getZone]]
+              stringMap = [[[Map createBegin: getZone (self)]
                              setCompareFunction: compareCStrings]
                             createEnd];
 
@@ -896,10 +896,14 @@ PHASE(Creating)
 
   obj->writeFlag = NO;
   obj->datasetFlag = NO;
+  obj->parent = nil;
+  obj->baseTypeObject = nil;
 #ifdef HAVE_HDF5
   obj->c_rnnlen = 0;
   obj->c_rnmlen = 0;
   obj->loc_id = 0;
+  obj->vector_tid = 0;
+  obj->c_count = 0;
 #endif
   return obj;
 }
@@ -927,6 +931,18 @@ PHASE(Creating)
 - setDatasetFlag: (BOOL)theDatasetFlag
 {
   datasetFlag = theDatasetFlag;
+  return self;
+}
+
+- setExtensibleVectorType: (fcall_type_t)extensibleVectorType
+{
+  vector_tid = tid_for_fcall_type (extensibleVectorType);
+  return self;
+}
+
+- setExtensibleDoubleVector
+{
+  vector_tid = H5T_NATIVE_DOUBLE;
   return self;
 }
 
@@ -1084,7 +1100,41 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
                                 name);
                 }
               else
-                loc_id = parent_loc_id;
+                {
+                  if (vector_tid)
+                    {
+                      hsize_t dims[1];
+                      hsize_t maxdims[1];
+                      hid_t plist;
+                      hsize_t chunk_size[1] = { 1024 };
+                      
+                      dims[0] = 1;
+                      maxdims[0] = H5S_UNLIMITED;
+                      if ((c_sid = H5Screate_simple (1, dims, maxdims)) < 0)
+                        raiseEvent (SaveError,
+                                    "unable to create (vector) space");
+                      
+                      if ((plist = H5Pcreate (H5P_DATASET_CREATE)) < 0)
+                        raiseEvent (SaveError,
+                                    "unable to create (vector) property list");
+
+                      if (H5Pset_layout (plist, H5D_CHUNKED) < 0)
+                        raiseEvent (SaveError, "unable to set chunking");
+
+                      if (H5Pset_chunk (plist, 1, chunk_size) < 0)
+                        raiseEvent (SaveError, "unable to set chunk sizes");
+                      
+                      if ((loc_id = H5Dcreate (parent_loc_id,
+                                               name,
+                                               vector_tid,
+                                               c_sid,
+                                               plist)) < 0)
+                        raiseEvent (SaveError,
+                                    "unable to create (vector) dataset");
+                    }
+                  else
+                    loc_id = parent_loc_id;
+                }
             }
         }
     }
@@ -1125,7 +1175,7 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
 
               if (class == H5T_COMPOUND)
                 {
-                  id aZone = [self getZone];
+                  id aZone = getZone (self);
                   
                   compoundType = [[[HDF5CompoundType createBegin: aZone]
                                     setTid: tid]
@@ -1207,7 +1257,7 @@ PHASE(Setting)
 
 - setName: (const char *)theName
 {
-  name = theName;
+  name = STRDUP (theName);
   return self;
 }
 
@@ -1376,7 +1426,7 @@ PHASE(Using)
           
           if ((gid = H5Gopen (oid, memberName)) < 0)
             raiseEvent (LoadError, "cannot open group `%s'", memberName);
-          group = [[[[[[HDF5 createBegin: [self getZone]]
+          group = [[[[[[HDF5 createBegin: getZone (self)]
                         setParent: self]
                        setWriteFlag: NO]
                       setName: memberName]
@@ -1393,7 +1443,7 @@ PHASE(Using)
 
           if ((did = H5Dopen (oid, memberName)) < 0)
             raiseEvent (LoadError, "cannot open dataset `%s'", memberName);
-          dataset = [[[[[[[HDF5 createBegin: [self getZone]]
+          dataset = [[[[[[[HDF5 createBegin: getZone (self)]
                            setParent: self]
                           setWriteFlag: NO]
                          setDatasetFlag: YES]
@@ -1721,7 +1771,7 @@ hdf5_store_attribute (hid_t did,
       
       for (i = 0; i < rank; i++)
         hdf5dims[i] = dims[i];
-      
+
       if ((sid = H5Screate_simple (rank, hdf5dims, NULL)) < 0)
         raiseEvent (SaveError, "unable to create array dataspace");
       
@@ -1747,6 +1797,33 @@ hdf5_store_attribute (hid_t did,
 #else
   hdf5_not_available ();
 #endif
+}
+
+- (void)addDoubleToVector: (double)val
+{
+  hsize_t size[1];
+  hsize_t maxsize[1];
+  hssize_t coord[1][1];
+
+  size[0] = c_count + 1;
+  if (H5Dextend (loc_id, size) < 0)
+    raiseEvent (SaveError, "unable to extend vector");
+
+  maxsize[0] = H5S_UNLIMITED;
+  if (H5Sset_extent_simple (c_sid, 1, size, maxsize) < 0)
+    raiseEvent (SaveError, "unable to reset extent");
+
+  coord[0][0] = c_count;
+  if (H5Sselect_elements (c_sid, H5S_SELECT_SET, 1,
+                          (const hssize_t **) coord) < 0)
+    raiseEvent (InvalidArgument,
+                "unable to select record: %u",
+                coord[0][0]);
+
+  c_count++;
+
+  if (H5Dwrite (loc_id, H5T_NATIVE_DOUBLE, psid, c_sid, H5P_DEFAULT, &val) < 0)
+    raiseEvent (InvalidArgument, "unable to write to vector");
 }
 
 - (void)loadDataset: (void *)ptr
@@ -2048,6 +2125,9 @@ hdf5_store_attribute (hid_t did,
                          string_ref) < 0)
         raiseEvent (LoadError, "unable to unregister string->ref converter");
     }
+
+  if (name)
+    FREEBLOCK (name);
   [super drop];
 #else
   hdf5_not_available ();

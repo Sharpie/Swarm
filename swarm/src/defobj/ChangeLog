@@ -1,3 +1,16 @@
+2001-03-18  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* HDF5Object.[hm], defobj.h ([HDF5_c -setExtensibleVectorType:],
+	[HDF5_c -setExtensibleDoubleVector]): New methods.
+
+	* HDF5Object.m: Replace [self getZone] with getZone (self)
+	throughout.
+	([HDF5_c +createBegin:]): Initialize parent,
+	baseTypeObject, vector_tid, and c_count.
+	([HDF5_c -createEnd]): Add setup support for growing vectors.
+
+	* HDF5Object.h (HDF5_c): Add vector_tid.
+
 2001-03-15  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* FCall.m ([FCall_c -setMethodFromName:inObject:]): Use setJavaMethod

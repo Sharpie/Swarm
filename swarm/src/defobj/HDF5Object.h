@@ -54,6 +54,7 @@
 #ifdef HAVE_HDF5
   hid_t loc_id;
   hid_t psid;
+  hid_t vector_tid;
 #endif
 
   id baseTypeObject;
@@ -72,6 +73,8 @@
 - setName: (const char *)name;
 - setWriteFlag: (BOOL)writeFlag;
 - setDatasetFlag: (BOOL)datasetFlag;
+- setExtensibleVectorType: (fcall_type_t)extensibleVectorType;
+- setExtensibleDoubleVector;
 #ifdef HAVE_HDF5
 - setId: (hid_t)locId;
 #endif
@@ -109,6 +112,8 @@
 
 - (void)loadDataset: (void *)ptr;
 - (void)storeAsDataset: (const char *)name typeName: (const char *)typeName type: (fcall_type_t)type rank: (unsigned)rank dims: (unsigned *)dims ptr: (void *)ptr;
+
+- (void)addDoubleToVector: (double)val;
 
 - (void)iterate: (int (*) (id hdf5Obj))iterateFunc drop: (BOOL)dropFlag;
 - (void)iterate: (int (*) (id hdf5Obj))iterateFunc;
