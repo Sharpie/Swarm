@@ -106,6 +106,7 @@ PHASE(Setting)
       
       ptr = (void *) self + ivar->ivar_offset;
 
+    retry:
       if (arrayp (val))
         {
           const char *atype = ivar->ivar_type;
@@ -185,6 +186,11 @@ PHASE(Setting)
             }
           else
             raiseEvent (InvalidArgument, "argument not a string");
+        }
+      else if (quotedp (val))
+        {
+          val = [val getQuotedObject];
+          goto retry;
         }
       else
         raiseEvent (InvalidArgument, "Unknown type `%s'", [val name]);

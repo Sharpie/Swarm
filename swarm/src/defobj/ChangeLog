@@ -1,5 +1,11 @@
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.m (lispIn): Call getQuotedObject to get typeNameString.
+
+	* LispArchiver.m (lispProcessPairs): Handle quotedp.
+
+	* DefObject.m ([Object_s -lispIn:]): Handle quotedp.
+
 	* Archiver.m: Include defalloc.h. 
 	Use getZone (self) throughout instead of method.
 

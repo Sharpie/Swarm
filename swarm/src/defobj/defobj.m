@@ -274,7 +274,8 @@ lispIn (id aZone, id expr)
       id typeObject;
       id obj;
       
-      typeNameString = [makeExprIndex next];
+      typeNameString = [[makeExprIndex next] getQuotedObject];
+
       if (!stringp (typeNameString))
         raiseEvent (InvalidArgument, "> argument not a string");
       

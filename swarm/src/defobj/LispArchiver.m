@@ -30,7 +30,12 @@ lispProcessPairs (id aZone,
             raiseEvent (InvalidArgument, "Expecting a pair object");
 
           {
-            id key = [[consObject getCar] copy: aZone];
+            id key = [consObject getCar];
+            
+            if (quotedp (key))
+              key = [key getQuotedObject];
+            
+            key = [key copy: aZone];
             
             if (listp (key))
               {
