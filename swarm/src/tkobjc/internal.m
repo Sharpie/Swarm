@@ -1162,7 +1162,6 @@ tkobjc_pixmap_create (Pixmap *pixmap,
                               * pixmap->xpmimage.height);
     unsigned *out_pos = data;
     unsigned ri;
-    unsigned bit_mask = (1 << bit_depth) - 1;
     unsigned drop_shift = (8 - bit_depth) & 7;
     
     for (ri = 0; ri < pixmap->xpmimage.height; ri++)
@@ -1217,7 +1216,6 @@ tkobjc_pixmap_create (Pixmap *pixmap,
     {
       LPBYTE out_pos = dib_lock (dib);
       WORD depth = dib->dibInfo->bmiHead.biBitCount;
-      unsigned bit_mask = ((1 << bit_depth) - 1);
       unsigned drop_shift = (8 - bit_depth) & 7;
       
       unsigned ri;
