@@ -259,26 +259,24 @@ indexAtOffset (Collection_any *self, unsigned offset)
 
   index = [(id) self begin: scratchZone];
   member = [index next];
-  if (member)
-    {
-      firstClass = member ? [member class] : nil;
-      for (member = [index next];
-           [index getLoc] == Member;
-           member = [index next])
-        if (!member)
-          {
-            if (firstClass)
-              {
-                ret = NO;
-                break;
-              }
-          }
-        else if ([member class] != firstClass)
+
+  firstClass = member ? [member class] : nil;
+  for (member = [index next];
+       [index getLoc] == Member;
+       member = [index next])
+    if (!member)
+      {
+        if (firstClass)
           {
             ret = NO;
             break;
           }
-    }
+      }
+    else if ([member class] != firstClass)
+      {
+        ret = NO;
+        break;
+      }
   [index drop];
   return ret;
 }  

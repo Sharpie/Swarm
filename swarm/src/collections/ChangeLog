@@ -1,3 +1,8 @@
+1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Collection.m ([Collection_any -allSameClass]): Handle leading
+	nil in the right way.
+
 1999-11-16    <mgd@VAIO>
 
 	* predicates.[hm]: Rename listp to archiver_list_p.
