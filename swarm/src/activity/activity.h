@@ -25,7 +25,7 @@ Library:      activity
 
 #import <collections.h>
 
-@deftype ProcessType
+@protocol ProcessType
 //S: ProcessType -- specification of a process
 
 //D: ProcessType will eventually define support for parameterization of all
@@ -46,7 +46,7 @@ Library:      activity
 //D: extent that this specification is defined.
 @end
 
-@deftype ActionType
+@protocol ActionType
 //S: Specification of an executable process.
 
 //D: An action type is a type of process that may be initiated as a unit of
@@ -96,7 +96,7 @@ USING
 @end
 
 
-@deftype AutoDrop
+@protocol AutoDrop
 //S: Specify that an action is dropped after being processed.
 
 //D: The AutoDrop option specifies that as soon as any action been
@@ -122,7 +122,7 @@ USING
 - (BOOL)getAutoDrop;
 @end
 
-@deftype CompoundAction <ActionType, Collection, AutoDrop>
+@protocol CompoundAction <ActionType, Collection, AutoDrop>
 //S: A collection of actions to be performed in any order consistent with a
 //S: set of ordering constraints.
 
@@ -135,7 +135,7 @@ USING
 //D: activated for execution from ActionType.
 @end
 
-@deftype ActionCreatingCall
+@protocol ActionCreatingCall
 //S: An action that calls a C function.
 
 //D: The createActionCall: messages are similar to the createActionTo
@@ -150,7 +150,7 @@ USING
 - createActionCall: (func_t)fptr : arg1 : arg2 : arg3;
 @end
 
-@deftype ActionCreatingTo
+@protocol ActionCreatingTo
 //S: An action that sends a message to an object.
 
 //D: A createActionTo: message specifies that the action to be performed is
@@ -179,7 +179,7 @@ USING
 - createActionTo: target message: (SEL)aSel : arg1 : arg2 : arg3;
 @end
 
-@deftype ActionCreatingForEach
+@protocol ActionCreatingForEach
 //S: Send a message to every item in target, which is assumed to be a
 //S: collection.
 
@@ -197,7 +197,7 @@ USING
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 @end
 
-@deftype ActionCreating <ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach>
+@protocol ActionCreating <ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach>
 //S: Protocol shared by ActionGroup and Schedule.
 
 //D: ActionCreating defines the createAction messages for ActionGroup just
@@ -237,7 +237,7 @@ USING
 
 @end
 
-@deftype ActionGroup <CompoundAction, ActionCreating, OrderedSet, CREATABLE>
+@protocol ActionGroup <CompoundAction, ActionCreating, OrderedSet, CREATABLE>
 //S: A collection of actions under total or partial order constraints.
 
 //D: An action group is an action plan whose basic representation is a
@@ -284,7 +284,7 @@ typedef unsigned long timeval_t;
 extern const timeval_t TimebaseMax;
 
 
-@deftype RelativeTime
+@protocol RelativeTime
 //S: Specifies that time is relative to when the schedule started.
 
 //D: The RelativeTime option specifies that all the times in the schedule
@@ -299,7 +299,7 @@ USING
 - (BOOL)getRelativeTime;
 @end
 
-@deftype RepeatInterval
+@protocol RepeatInterval
 //S: Reschedule actions after a period of time.
 
 //D: The RepeatInterval option specifies that as soon as all actions in the
@@ -323,7 +323,7 @@ USING
 - (timeval_t)getRepeatInterval;
 @end
 
-@deftype ConcurrentGroupType
+@protocol ConcurrentGroupType
 //S: Handle actions schedule at same time value.
 
 //D: The ConcurrentGroupType option is used to control handling of multiple
@@ -358,7 +358,7 @@ USING
 - getConcurrentGroupType;
 @end
 
-@deftype SingletonGroups
+@protocol SingletonGroups
 //S: Indicates that an action group should be created for every time
 //S: value which is present.
 
@@ -380,7 +380,7 @@ USING
 - (BOOL)getSingletonGroups;
 @end
 
-@deftype Schedule <CompoundAction, ActionCreating, Map, CREATABLE, RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups>
+@protocol Schedule <CompoundAction, ActionCreating, Map, CREATABLE, RelativeTime, RepeatInterval, ConcurrentGroupType, SingletonGroups>
 //S: A collection of actions ordered by time values.
 
 //D: A schedule is compound action whose basic representation is a sorted
@@ -434,7 +434,7 @@ USING
 - insertGroup: aKey; 
 @end
 
-@deftype SynchronizationType
+@protocol SynchronizationType
 //S: Synchronization type sets the type of schedule which is used
 //S: internally by the swarm to synchronize subschedules. 
 
@@ -456,7 +456,7 @@ USING
 - getSynchronizationType;
 @end
 
-@deftype SwarmProcess <ActionType, Zone, CREATABLE, SynchronizationType>
+@protocol SwarmProcess <ActionType, Zone, CREATABLE, SynchronizationType>
 //S: An object that holds a collection of concurrent subprocesses.
 
 //D: SwarmProcess inherits the messages of both ActionType and Zone.
@@ -497,7 +497,7 @@ USING
 @end
 
 
-@deftype Action <GetOwner>
+@protocol Action <GetOwner>
 //S: An action type that has been customized for direct execution by an
 //S: action interpreter.
 
@@ -535,7 +535,7 @@ USING
 - getActionType;
 @end
 
-@deftype ActionArgs <Action>
+@protocol ActionArgs <Action>
 //S: Supertype of ActionCall, ActionTo, and ActionForEach.
 
 //D: The ActionArgs subtypes all implement a specific, hard-coded method
@@ -554,7 +554,7 @@ USING
 - getArg3;
 @end
 
-@deftype ActionCall <ActionArgs>
+@protocol ActionCall <ActionArgs>
 //S: An action defined by calling a C function.
 //D: An action defined by calling a C function.
 
@@ -563,7 +563,7 @@ USING
 - (func_t)getFunctionPointer;
 @end
 
-@deftype ActionTo <ActionArgs>
+@protocol ActionTo <ActionArgs>
 //S: An action defined by sending an Objective C message.
 //D: An action defined by sending an Objective C message.
 
@@ -574,13 +574,13 @@ USING
 - (SEL)getMessageSelector;
 @end
 
-@deftype ActionForEach <ActionTo>
+@protocol ActionForEach <ActionTo>
 //S: An action defined by sending a message to every member of a collection.
 //D: An action defined by sending a message to every member of a collection.
 @end
 
 
-@deftype Activity <DefinedObject, Drop>
+@protocol Activity <DefinedObject, Drop>
 //S: A level of processing by the interpreter of an action type.
 
 //D: A object of type Activity implements the processing of actions within
@@ -721,7 +721,7 @@ extern id <Symbol> Initialized, Running, Holding, Released, Stopped,
 extern id <Symbol> HoldStart, HoldEnd;
 
 
-@deftype ForEachActivity <Activity>
+@protocol ForEachActivity <Activity>
 //S: State of execution within a ForEach action.
 //D: State of execution within a ForEach action.
 
@@ -729,7 +729,7 @@ USING
 - getCurrentMember;
 @end
 
-@deftype ScheduleActivity <Activity>
+@protocol ScheduleActivity <Activity>
 //S: State of execution within a Schedule.
 //D: State of execution within a Schedule.
 
@@ -750,7 +750,7 @@ USING
 - stepUntil: (timeval_t)tVal;
 @end
 
-@deftype SwarmActivity <ScheduleActivity>
+@protocol SwarmActivity <ScheduleActivity>
 //S: A collection of started subactivities.
 //D: A collection of started subactivities.
 
@@ -810,7 +810,7 @@ _activity_context_error( "getCurrentOwnerActivity" ) )
 ( _activity_current ? [_activity_current _getSubactivityAction_] : \
 _activity_context_error( "getCurrentAction" ) )
 
-@deftype GetSubactivityAction
+@protocol GetSubactivityAction
 //S: Declare an internal method for getCurrentAction().
 //D: Declare an internal method for getCurrentAction().
 
@@ -829,17 +829,17 @@ extern id _activity_current;
 extern id _activity_context_error (const char *macroName);
 
 
-@deftype ConcurrentGroup <ActionGroup, CREATABLE>
+@protocol ConcurrentGroup <ActionGroup, CREATABLE>
 //S: Default type used as concurrent group of a schedule.
 //D: Default type used as concurrent group of a schedule.
 @end
 
-@deftype ConcurrentSchedule <ActionGroup, CREATABLE>
+@protocol ConcurrentSchedule <ActionGroup, CREATABLE>
 //S: Time-based map usable for concurrent group.
 //D: Time-based map usable for concurrent group.
 @end
 
-@deftype ActivationOrder <ActionGroup, CREATABLE>
+@protocol ActivationOrder <ActionGroup, CREATABLE>
 //S: Default type used as concurrent group of a swarm.
 //D: Concurrent group to order merge by activation order within swarm.
 
