@@ -1,8 +1,10 @@
 String conversion from MessageProbes will leak memory -- it's entered
 in the directory and points to strdupped stuff on the heap.
 
+Need a Kaffe-based jar, or alternative installation strategy.
+
 Java-side (return) proxies
 
 Using constructors
 
-Class conversion
+Testing of retval_t stuff on MIPS
