@@ -15,9 +15,9 @@ Library:      collections
 #import <collections/InputStream.h>
 #import <defobj/defalloc.h> // getZone
 #include <objc/objc-api.h> // type definitions
-#include <misc.h> // errno, fputs
+#include <misc.h> // errno, fputs, isDigit, isSpace
 #include <collections/predicates.h>
-#import "../defobj/internal.h" // lisp_process_array, size_for_objc_type, ctype
+#import "../defobj/internal.h" // lisp_process_array, size_for_objc_type
 
 @implementation InputStream_c
 

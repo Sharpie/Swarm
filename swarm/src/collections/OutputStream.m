@@ -12,9 +12,8 @@ Library:      collections
 #import <collections/OutputStream.h>
 #import <collections/InputStream.h>
 #import <collections/predicates.h>
-#include <misc.h> // FILE, fputs
+#include <misc.h> // FILE, fputs, isPrint
 #include <swarmconfig.h> // PRINTF_LL_FMT, PTRUINT, PTRUINTFMT
-#import "../defobj/internal.h"
 
 @implementation OutputStream_c
 
