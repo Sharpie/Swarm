@@ -37,14 +37,17 @@
    I think 2. is better. */
 #define OBJECTS_AS_TCL_COMMANDS 0
 
+#include <swarmconfig.h>
+
+#ifdef BUGGY_BUILTIN_APPLY
 #define USE_LIBFFI
-#ifdef USE_LIBFFI
-#include <ffi.h>
-#undef PACKAGE
-#undef VERSION
 #endif
 
-#include <swarmconfig.h>
+#ifdef USE_LIBFFI
+#undef PACKAGE
+#undef VERSION
+#include <ffi.h>
+#endif
 
 #include "tclObjc.h"
 #include <tcl.h>
@@ -573,8 +576,10 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
       ffi_cif cif;
       ffi_type *fret; 
 
-      void push_argument (char type, void *obj)
+      void push_argument (const char *typestr, void *obj)
         {
+          char type = *typestr;
+
           switch (type)
             {
             case _C_ID:
@@ -600,6 +605,10 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
             case _C_DBL:
               *alist->type_pos = &ffi_type_double;
               break;
+
+            case _C_LNG:
+              *alist->type_pos = &ffi_type_slong;
+              break;
               
             case _C_CHARPTR:
               *alist->type_pos = &ffi_type_pointer;
@@ -612,14 +621,16 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
           *alist->value_pos = obj;
           alist->value_pos++; 
         }
-      
+     
+      alist->type_pos = types_buf; 
+      alist->value_pos = values_buf; 
       for (argnum = 0,
 	 datum = method_get_first_argument (method, argframe, &type);
 	 datum;
 	 datum = method_get_next_argument (argframe, &type),
 	 ({argnum++; while (datum && !argvIsMethodArg[argnum]) argnum++;}))
       {
-        push_argument (*type, datum);
+        push_argument (type, datum);
       }
 
       switch (*(method->method_types))

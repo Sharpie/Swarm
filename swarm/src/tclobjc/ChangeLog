@@ -1,3 +1,15 @@
+1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tclObjc.m (tclObjc_msgSendToClientData): Add support for 
+	(getObjectReturn, getPointerReturn, getIntegerReturn, 
+	getUIntegerReturn, getShortReturn, getUShortReturn, getLongReturn,
+	getULongReturn, getCharReturn, getUCharReturn, getStringReturn, 
+	getFloatReturn, getDoubleReturn): Add support for libffi, for
+	when __builtin_apply is buggy.
+	(getPointerReturn): Return void * instead of unsigned.
+	(tclObjc_msgSendToClientData): Use %p instead of %x for pointer,
+	per POINTER_FMT_HEX_PREFIX.
+
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* Makefile.am: Add SUFFIXES = .m since we aren't including 
