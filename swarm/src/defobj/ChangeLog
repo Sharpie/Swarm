@@ -1,5 +1,7 @@
 1999-03-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* FCall.h: If Java available then include jni.h.
+
 	* Makefile.am (SRC): Add FCall.m to SRC variable.
 	(defobj_HEADERS): Add FCall.h to defobj_HEADERS.
 

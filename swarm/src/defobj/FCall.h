@@ -11,8 +11,10 @@ Library:      defobj
 
 #import <defobj.h>
 #include <ffi.h>
+
+#ifdef HAVE_JDK
 #include <jni.h>
-#include "JavaEnv.h"
+#endif
 
 #define number_of_types 14
 
