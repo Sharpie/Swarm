@@ -1,3 +1,12 @@
+1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.h (JAVA_APPNAME): Define to javaswarm.
+
+	* Arguments.m: Include directory.h.
+	([Arguments_c -createEnd]): If applicationName is
+	JAVA_APPNAME_STRING (from directory.h), set executablePath to 0,
+	otherwise pass argv0 to find_executable.
+
 1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am ($(srcdir)/modulemap.c): Add change rule to srcdir but

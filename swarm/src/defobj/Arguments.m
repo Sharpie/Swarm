@@ -14,6 +14,8 @@
 #include <misc/argp.h>
 #endif
 
+#import <defobj/directory.h> // JAVA_APPNAME
+
 #ifndef __GLIBC__
 const char *program_invocation_name;
 const char *program_invocation_short_name;
@@ -156,6 +158,9 @@ strip_quotes (const char *argv0)
     return SSTRDUP (argv0);
 }
 
+#define STRINGIFY(sym) #sym
+#define STRINGIFYSYM(sym) STRINGIFY(sym)
+#define JAVA_APPNAME_STRING STRINGIFYSYM(JAVA_APPNAME)
 - createEnd
 {
   const char *argv0 = strip_quotes (argv[0]);
@@ -168,7 +173,9 @@ strip_quotes (const char *argv0)
   program_invocation_name = argv0;
 #endif
 
-  executablePath = find_executable (program_invocation_short_name);
+  executablePath = ((strcmp (applicationName, JAVA_APPNAME_STRING) == 0)
+                    ? NULL
+                    : find_executable (argv0));
 
   if (version == NULL)
     version = "[no application version]";
