@@ -1,49 +1,26 @@
-CURRENT = 0
-REVISION = 0
-AGE = 0
-STUBSCURRENT = 0
-STUBSREVISION = 0
-STUBSAGE = 0
-include ../Makefile.common
-libdir = @libdir@
+DEPTH = $(B)/mozilla
+topsrcdir = $(S)/mozilla
 srcdir = @srcdir@
-top_builddir = ../..
-abs_top_builddir := $(shell cd $(top_builddir); pwd)
 
-SHELL = @SHELL@
-LIBTOOL = @LIBTOOL@
-
-MOZILLA = $(B)/mozilla/dist
-
-CXX = c++
-CPPFLAGS = -I. -I$(MOZILLA)/include
-
-libCOMswarmstubs_la_OBJECTS = $(foreach module,$(MODULES),$(module)_stubs.lo)
-libCOMswarm_la_OBJECTS = 
-
-moduleidlheaders = $(subst __u,,$(foreach phase,C S __u,$(addprefix swarmI,$(addsuffix $(phase).h,$($(1)_creatable_PROTOCOLS) $($(1)_noncreatable_PROTOCOLS)))))
-
-modulecppfiles = $(subst __u,,$(foreach phase,C __u,$(addprefix swarm,$(addsuffix $(phase)Impl.cpp,$($(1)_creatable_PROTOCOLS)))))
+include ../Makefile.common
+include $(DEPTH)/config/autoconf.mk
 
 VPATH = .:$(srcdir)
 
-swarmI%.h: swarmI%.idl
-	$(MOZILLA)/bin/xpidl -I$(MOZILLA)/idl -m header $<
+moduleidlfiles = $(subst __u,,$(foreach phase,C S __u,$(addprefix swarmI,$(addsuffix $(phase).idl,$($(1)_creatable_PROTOCOLS) $($(1)_noncreatable_PROTOCOLS)))))
 
-all: libCOMswarm.la
+modulecppfiles = $(subst __u,,$(foreach phase,C __u,$(addprefix swarm,$(addsuffix $(phase)Impl.cpp,$($(1)_creatable_PROTOCOLS)))))
 
-$(libCOMswarmstubs_la_OBJECTS): $(foreach module,$(MODULES),$(call moduleidlheaders,$(module)))
+MODULE = swarm
+LIBRARY_NAME = swarm
+IS_COMPONENT = 1
 
-%_stubs.cpp:
-	cat $(call modulecppfiles,$*) > $@
+REQUIRES = xpcom
 
-%.lo: %.cpp
-	$(LIBTOOL) --mode=compile $(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $<
+CPPSRCS = $(foreach module,$(MODULES),$(call modulecppfiles,$(module))) $(NULL)
 
-libCOMswarmstubs.la: $(libCOMswarmstubs_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) -o $@ -version-info $(STUBSCURRENT):$(STUBSREVISION):$(STUBSAGE) -rpath $(libdir) $^
+XPIDLSRCS = $(foreach module,$(MODULES),$(call moduleidlfiles,$(module)))
 
-libCOMswarm.la: libCOMswarmstubs.la $(libCOMswarm_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(CXX) $(CXXFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(libdir) $(libCOMswarm_la_OBJECTS) libCOMswarmstubs.la -L$(abs_top_builddir)/src $(SWARMLIBS) -lobjc
+include $(topsrcdir)/config/rules.mk
 
-
+EXTRA_DSO_LDOPTS += $(MOZ_COMPONENT_LIBS)
