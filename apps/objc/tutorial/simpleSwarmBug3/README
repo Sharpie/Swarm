@@ -1,0 +1,37 @@
+// simpleSwarmBug3
+
+               LOADING AND SAVING PARAMETERS
+
+main.m
+
+Again, this file will not change very much from now on. All of
+the action is happening in the model objects themselves.
+
+
+ModelSwarm.h and ModelSwarm.m
+
+Only a small change here. By now, we're tired of altering the default
+parameters in the code and then recompiling each time. 
+
+In -buildObjects, we take advantage of an ObjectLoader to read in
+the state variables of the ModelSwarm from a file. 
+
+Now, we can change the parameters of the model by editing the
+file "model.setup", which has a simple format:
+
+@begin
+worldXSize 80
+worldYSize 80
+seedProb 0.9
+bugDensity 0.01
+@end
+
+ObjectLoader has a partner called ObjectSaver that will write out an
+objects instance variables.
+
+
+
+NEXT -> simpleObserverSwarm
+
+
+

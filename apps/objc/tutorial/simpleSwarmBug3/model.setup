@@ -1,0 +1,6 @@
+@begin
+worldXSize 80
+worldYSize 80
+seedProb 0.9
+bugDensity 0.01
+@end

@@ -1,0 +1,55 @@
+// Tutorial
+
+		SIMPLEBUG SWARM TUTORIAL
+
+
+This tutorial takes the user through the development of a Swarm
+model that makes use of a lot of the functionality of Swarm.
+
+The model consists of bugs taking random walks in space. There
+is nothing particular about the model to recomend itself to`
+our attention, except that it is so simple that it won't get in 
+the way of the explication of Swarm as we go along. 
+
+We start out with a very simple, essentially C program for
+a bug taking a random walk. Through a progression of models
+we introduce basic object-oriented and swarm style programming.
+
+Although this is a particulary simple exercise, it shows how 
+easy it is to compose fairly complex software from simple
+building blocks. 
+
+In this directory are 8 subdirectories, each with a complete
+Swarm application and a README file that walks you through
+the code.
+
+You should start with the "simpleCBug" application, and follow
+the pointers at the bottom of the README files. You will
+go through them in the follwing order:
+
+simpleCBug
+simpleObjCBug
+simpleObjcBug2
+simpleSwarmBug
+simpleSwarmBug2
+simpleSwarmBug3
+simpleObserverBug
+simpleObserverBug2
+
+Once you have gone all the way through this tutorial, you should be
+able to make sense of many of the applications on the Swarm
+web-site.  They can appear to be quite complex, but once you
+get a feel for the underlying patterns, they are really not
+that hard to understand, or to build.
+
+
+On building the applications.
+
+If you have swarm installed, you should just be able to edit the
+Makefile in each application to point to SWARMHOME on your 
+system. 
+
+Then just type make, and the applications should build.
+
+To run any of them, just type "bug" after they've built and linked.
+
