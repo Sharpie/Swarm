@@ -45,3 +45,7 @@ Why do JDK 1.1 and JDK 1.2 abort after about 100 steps in Mousetrap?
 
 Identify performance bottlenecks
 
+Is there a platform that does PIC + Profiling? 
+
+Alternatively, if Kaffe can be built as static and use preloading, that's
+a solution for profiling.
