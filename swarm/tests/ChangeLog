@@ -1,3 +1,7 @@
+2004-02-23  Bill Northcott  <w.northcott@unsw.edu.au>
+
+	* Makefile.rules Makefile.am: Allow for configurable SED.
+
 2002-10-30  Marcus G. Daniels  <mgd@condor>
 
 	* Makefile.rules (headers): Use type_SRCS instead of type_SOURCES.
