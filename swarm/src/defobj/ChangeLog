@@ -28,7 +28,6 @@
 
 	* Makefile.am: Install macros.h.
 
->>>>>>> 1.706
 2001-07-24    <mgd@HELEN>
 
 	* FCall.m ([FCall_c -getRetVal:buf:]): Define BUGGY_BUILTIN_APPLY
