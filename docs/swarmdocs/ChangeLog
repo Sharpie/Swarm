@@ -1,6 +1,18 @@
-2000-02-29    <mgd@nest.swarm.org>
+2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* Swarmdocs 2.1 frozen.
+
+	* Makefile.am (noinst_DATA): Remove entirely, versions.ent, not
+	distributed or installed.
+
+	* Makefile.rules (nodist_html_DATA): Append `nodist_' prefix, so
+	automake doesn't attempt to distribute the files.
+	(nodist_dvi_DATA): Likewise.
+	(nodist_ps_DATA): Likewise.
+	(nodist_rtf_DATA): Likewise.
+	(CLEANFILES): Use them.
+
+2000-02-29  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* configure.in: Bump version.
 

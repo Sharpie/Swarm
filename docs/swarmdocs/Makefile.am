@@ -4,8 +4,6 @@ EXTRA_DIST = Makefile.common Makefile.rules history.el common.dsl html.dsl print
 
 all-recursive-am: versions.ent
 
-noinst_DATA = versions.ent
-
 .PHONY: FORCE html dvi rtf fot ps htmldist dvidist rtfdist psdist alldist
 
 alldist: htmldist dvidist rtfdist psdist
