@@ -189,9 +189,8 @@ public class HeatbugObserverSwarm extends GUISwarmImpl {
         
     // Next, create a 2d window for display, set its size, zoom
     // factor, title.
-    worldRaster = new ZoomRasterImpl (getZone ());
-    Globals.env.setWindowGeometryRecordName (worldRaster, "worldRaster");
-        
+    worldRaster = new ZoomRasterImpl (getZone (),
+                                      "worldRaster");
     try {
       worldRaster.enableDestroyNotification$notificationMethod 
         (this,
@@ -250,7 +249,7 @@ public class HeatbugObserverSwarm extends GUISwarmImpl {
        "time", "unhappiness",
        "unhappyGraph");
         
-    Globals.env.setWindowGeometryRecordName (unhappyGraph, "unhappyGraph"); 
+    //Globals.env.setWindowGeometryRecordName (unhappyGraph, "unhappyGraph"); 
         
     // instruct this _unhappyGraphDeath_ method to be called when
     // the widget is destroyed
