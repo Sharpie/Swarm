@@ -128,12 +128,12 @@ PHASE(Using)
         {
           if (systemArchiverFlag)
             {
-              id parent = [hdf5Obj getParent];
-              id parentParent = [parent getParent];
+              id app = [hdf5Obj getParent];
+              id file = [app getParent];
 
-              [hdf5Obj drop];
-              [parent drop];
-              [parentParent drop];
+              [applicationMap deleteAll];
+              [app drop];
+              [file drop];
             }
           else
             [hdf5Obj drop];

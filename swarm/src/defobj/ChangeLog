@@ -1,3 +1,9 @@
+2001-12-04  Marcus G. Daniels  <mgd@condor>
+
+	* HDF5Archiver.m ([HDF5Archiver -getWritableController]): Delete
+	all the application/mode HDF5 objects when making a system
+	archiver writable.
+
 2001-12-03  Marcus G. Daniels  <mgd@condor>
 
 	* HDF5Object.m ([HDF5_c -drop]): Always drop datasets.  Drop
