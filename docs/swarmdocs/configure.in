@@ -55,6 +55,10 @@ else
   else
     AC_MSG_ERROR([Please specify a correct location for the JDK])
   fi
+  AC_CHECK_PROG(LATEX, latex, latex, missing)
+  if test $LATEX = missing; then
+    AC_MSG_ERROR([Failed to find latex])
+  fi
 fi
 AC_SUBST(JAVADOC)
 AC_SUBST(TOPSUBDIRS)

@@ -1,5 +1,8 @@
 1999-06-21  Alex Lancaster  <alex@santafe.edu>
 
+	* configure.in: Add check for latex when --with-javadoc is
+	specified.
+
 	* NEWS: Note support for generating special information for
 	deprecated protocols.
 
