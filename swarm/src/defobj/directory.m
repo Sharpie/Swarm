@@ -1139,3 +1139,21 @@ swarm_directory_get_swarm_class (id object)
 #endif
     return [object getClass];
 }
+
+const char *
+swarm_directory_get_language_independent_class_name  (id object)
+{
+#ifdef HAVE_JDK
+  jobject jobj;
+  // if this is a JavaProxy, return the Java-side classname
+  if ((jobj = SD_FINDJAVA(jniEnv, object)))
+    {
+      jclass jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
+      return (get_class_name(jniEnv, jcls));
+    }
+  else 
+    return (const char *) (getClass (object))->name;      
+#else
+  return (const char *) (getClass (object))->name;
+#endif
+}

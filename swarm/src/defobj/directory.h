@@ -89,6 +89,8 @@ Class swarm_directory_ensure_class (JNIEnv *env, jclass javaClass);
 const char *swarm_directory_copy_java_string (JNIEnv *env, jstring javaString);
 void swarm_directory_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);
 
+const char *swarm_directory_get_language_independent_class_name (id object);
+
 #define SD_COPYSTRING(env, javaString) swarm_directory_copy_java_string (env, javaString)
 #define SD_CLEANUPSTRINGS(env, stringArray) swarm_directory_cleanup_strings (env, stringArray, sizeof (stringArray) / sizeof (const char *))
 #endif

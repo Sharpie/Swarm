@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 /*
-Name:         DefObject.m
+Name':         DefObject.m
 Description:  top-level superclass to provide standard services
 Library:      defobj
 */
@@ -27,6 +27,7 @@ Library:      defobj
 
 #ifdef HAVE_JDK
 #include <objc/mframe.h>
+#include "javavars.h"
 
 #import <defobj.h> // FCall, FArguments
 #include <defobj/directory.h>
@@ -203,7 +204,7 @@ PHASE(Using)
 //
 - (const char *)getName
 {
-  return (const char *) (getClass (self))->name;
+  return swarm_directory_get_language_independent_class_name (self);
 }
 
 //
@@ -917,8 +918,8 @@ notifyDisplayName (id object, id reallocAddress, void *arg)
 {
   if (!_obj_displayNameMap)
     return NULL;
-  
-  return (const char *) [_obj_displayNameMap at: self];
+  else
+    return (const char *) [_obj_displayNameMap at: self];
 }
 
 - (const char *)getIdName

@@ -1,3 +1,13 @@
+1999-08-11  Alex Lancaster  <alex@santafe.edu>
+
+	* directory.[hm]
+	(swarm_directory_get_language_independent_class_name): New
+	function, performs a directory lookup to returns the Java class
+	name the Java proxy, if there is one, otherwise defaults to the
+	Objective C.
+
+	* DefObject.m ([Object_s -getName]): Use new function.
+
 1999-08-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m: Move all c_*, m_*, and f_* Java variables to
