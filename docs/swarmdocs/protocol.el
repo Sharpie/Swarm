@@ -384,8 +384,8 @@
   (insert "</REFNAMEDIV>\n"))
 
 (defun count-methods-for-phase (protocol phase)
-  (loop for method in (protocol-method-list protocol)
-        count (eq (method-phase method) phase)))
+  (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
+        count (eq (method-phase (third methodinfo)) phase)))
 
 (defun count-methods-for-all-phases (protocol)
   (loop for phase in *phases*
@@ -434,6 +434,15 @@
           (insert "\n"))
     (insert "</FUNCSYNOPSISINFO>\n")))
 
+(defun print-method-signature (method &optional stream)
+  (loop for arguments in (method-arguments method)
+        for key = (first arguments)
+        when key 
+        do
+        (princ key stream)
+        (when (third arguments)
+          (princ ":" stream))))
+
 (defun sgml-method-definitions (protocol)
   (insert "<ITEMIZEDLIST>\n")
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
@@ -449,15 +458,7 @@
           (when return-type
             (insert-text return-type)))
         (insert "<FUNCTION>")
-        (loop for arg in (method-arguments method)
-              do
-              (let ((key (first arg)))
-                (when key
-                  (insert key)))
-              (let ((argname (third arg)))
-                ;; In the no-argument case, argname will be nil; don't print :.
-                (when argname
-                  (insert ":"))))
+        (print-method-signature method (current-buffer))
         (insert "</FUNCTION>")
         (insert "</FUNCDEF>\n")
         (let ((arguments (method-arguments method)))
@@ -496,10 +497,28 @@
         for method = (third methodinfo)
         count (method-example-list method)))
 
+(defun compare-method-signatures (method-a method-b)
+  (let* ((method-a-signature 
+          (with-output-to-string (print-method-signature method-a)))
+         (method-b-signature
+          (with-output-to-string (print-method-signature method-b))))
+    (string< method-a-signature method-b-signature)))
+
+(defun compare-methodinfo (a b)
+  (let ((protocol-name-a (protocol-name (second a)))
+        (protocol-name-b (protocol-name (second b))))
+    (if (string= protocol-name-a protocol-name-b)
+        (compare-method-signatures (third a) (third b))
+        (string< protocol-name-a protocol-name-b))))
+
+(protocol-expanded-method-list (get-protocol "Line"))
+
 (defun sgml-method-examples (protocol)
   (when (> (count-method-examples protocol) 0)
     (insert "<ITEMIZEDLIST>\n")
-    (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
+    (loop for methodinfo in 
+          (sort (protocol-expanded-methodinfo-list protocol)
+                #'compare-methodinfo)
           for level = (first methodinfo)
           for owner-protocol = (second methodinfo)
           for method = (third methodinfo)
@@ -508,12 +527,7 @@
             (insert "<LISTITEM>")
             (insert "<PARA>")
             (insert "Example for method: ")
-            (loop for arguments in (method-arguments method)
-                  for key = (first arguments)
-                  when key 
-                  do
-                  (insert key)
-                  (insert ":"))
+            (print-method-signature method (current-buffer))
             (insert "</PARA>\n")
             (insert "<PROGRAMLISTING>\n")
             (loop for example in (method-example-list method)
@@ -552,9 +566,18 @@
 
 (defun generate-refentries-for-module (module)
   (let* ((module-name (symbol-name module))
-         (filename (concat module-name "/" module-name "pages.sgml")))
+         (filename (concat (get-swarmhome)
+                           "/../swarmdocs/src/"
+                           module-name
+                           "/"
+                           module-name
+                           "pages.sgml")))
     (with-temp-file filename
-      (loop for protocol in (gethash module *module-hash-table*)
+      (loop for protocol in (sort 
+                             (gethash module *module-hash-table*)
+                             (lambda (protocol-a protocol-b)
+                               (string< (protocol-name protocol-a)
+                                        (protocol-name protocol-b))))
             do
             (generate-refentry-for-protocol protocol)))))
 
@@ -568,12 +591,8 @@
         do
         (generate-refentries-for-module module)))
 
-;(let ((method (first (protocol-method-list (get-protocol "Create")))))
-;  (prin1 (method-arguments method))
-;  (terpri)
-;  (prin1 (method-description-list method)))
-  
 (defun run-all ()
   (load-protocols-for-all-modules)
   (expand-protocols)
   (generate-modules))
+
