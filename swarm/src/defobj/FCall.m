@@ -683,8 +683,10 @@ PHASE(Using)
 
 - (void)drop
 {
+#ifdef HAVE_JDK
   if (callType == javacall || callType == javastaticcall)
     (*jniEnv)->DeleteLocalRef (jniEnv, self->fclass);
+#endif
   [super drop];
 }
 
