@@ -7,6 +7,12 @@ noinst_DATA = versions.ent
 
 .PHONY: FORCE
 
+html dvi rtf fot ps: all
+	make -C install $@
+	make -C over $@
+	make -C src $@
+	make -C set $@
+
 versions.ent: FORCE
 	((echo '<!ENTITY swarm-release-number "' ; tail -1 $(swarm_srcdir)/VERSION ; echo '">') | tr -d '\n' ; echo) > versions.ent
 	echo '<!ENTITY swarm-doc-release-number "@VERSION@">' >> versions.ent

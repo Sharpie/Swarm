@@ -1,6 +1,13 @@
+1998-06-16  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am:  Add html, dvi, rtf, and ps targets.
+
+	* print.dsl (figure): New element.  Like $formal-object$, but
+	with keep-with-next: #t.
+
 1998-06-16  Alex Lancaster  <alex@santafe.edu>
 
-	* NEWS:  Added 'Release Notes for 1.2'.
+	* NEWS:  Added `Release Notes for 1.2'.
 
 1998-06-16  Marcus G. Daniels  <mgd@ute.santafe.edu>
 

@@ -283,6 +283,20 @@
                   title
                   contents))))
 
+(element figure 
+         (make sequence
+               (with-mode formal-object-title-mode
+                 (process-node-list (select-elements (children (current-node)) (normalize "
+title"))))
+               (make paragraph
+                     use: para-style
+                     font-weight: 'bold
+                     space-before: 0pt
+                     space-after: %block-sep%
+                     keep-with-next: #t
+                     start-indent: (+ %block-start-indent% (inherited-start-indent))
+                     (process-children))))  
+
 </style-specification-body>
 </style-specification>
 
