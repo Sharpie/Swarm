@@ -1,5 +1,8 @@
 1998-08-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am (install-data-local): Use mkinstalldirs instead of
+	test + mkdir.
+
 	* Makefile.lib.in, Makefile.appl.in: Moved here from top level.
 	
 	* Makefile.am: Install files above.  Install to sysconfdir,
