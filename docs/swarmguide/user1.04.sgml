@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user1.04.sect1">
+<chapter id="swarm.user.user1.04.chapter">
   <title>The notion of a Swarm</title>
 
    <INDEXTERM>
@@ -17,7 +17,7 @@
     accumulate and refine the ability to create simulation objects,
     manage memory for them, and schedule their activities.</para>
 
-<sect2>
+<sect1>
 <title>Primary and Auxiliary Agents</title>
 
    <INDEXTERM>
@@ -59,9 +59,9 @@
      <para>In most cases, when we talk about multi-agent systems, we
      are referring to the primary agents.</para>
 
-  </sect2>
+  </sect1>
 
-<sect2>
+<sect1>
  <title>The (Swarm) OOP way</title> 
 
     <para>Swarm models follow a common syntax that helps users to
@@ -100,9 +100,9 @@
      subclasses to build their agents. The model swarm also give those
      agents a place in memory, and schedules their activities.</para>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Managing memory in Swarms</title> 
 
     <para>The allocation and deallocation of memory is a necessary
@@ -121,9 +121,9 @@
     memory.</para>
     
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
 <title>What goes on in the <function>buildObjects</function> method?</title>
 
     <para>If the reader inspects just a few of the sample Swarm
@@ -176,9 +176,9 @@
       <classname>ForestModelSwarm</classname> to see what objects it
       creates.</para>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
 
     <title>What goes on in the <function>buildActions</function> method?</title>
 
@@ -214,9 +214,9 @@
       commands that create schedules and indicate how often those
       schedules will be repeated.</para>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Merging schedules in Swarms</title> 
 
     <para>As mentioned above, there can be
@@ -238,10 +238,10 @@
       <graphic entityref="recursive-swarm" scale="80"></graphic>
     </figure>
 
-</sect2>
+</sect1>
 
 
-<sect2>
+<sect1>
  <title>A Swarm as a virtual computer</title> 
 
     <para>At an even more abstract level, the Swarm libraries can be
@@ -256,11 +256,11 @@
       </figure>
     </para>
 
-</sect2>
-
 </sect1>
+
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

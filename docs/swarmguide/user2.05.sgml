@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user2.05.sect1">
+<chapter id="swarm.user.user2.05.chapter">
 
   <title>Working with lists</title>
 
@@ -11,7 +11,7 @@
     both widespread in Swarm and different from the usual strategy in
     other languages, it deserves some discussion.  </para>
 
-  <sect2>
+  <sect1>
     <title>The <classname>List</classname> class</title> 
     
     <para> This section is not intended as a comprehensive review of
@@ -48,9 +48,9 @@
       and so forth), but a treatment of them is left to a later
       chapter.</para>
 
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>Basic <classname>List</classname> syntax</title> 
 
     <para>A list is created by making a call to the
@@ -134,9 +134,9 @@ nameOfSomeList = [List create: self];
       lists can be used by individual agents to keep track of their
       experiences and manage their information </para>
 
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>Lists: Managing objects in the model swarm</title> 
 
     <para> In the SwarmApps package, one can find the "Hello World"
@@ -222,9 +222,9 @@ nameOfSomeList = [List create: self];
       <varname>pplList</varname>, and the Swarm library knows how to
       traverse through the list of people. </para>
 
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>Lists: Passing information among levels in a Swarm model</title> 
 
 
@@ -310,9 +310,9 @@ nameOfSomeList = [List create: self];
       creation of <classname>Index</classname> objects, which are
       introduced in the next section.
     </para>
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>Lists: Organizing repetitive chores inside SwarmObjects</title> 
 
     <para> In the Hello World example, each instance of the
@@ -506,10 +506,10 @@ while ([pplIndex next]))
       and waste resources.
     </para>
 
-  </sect2>
-</sect1>
+  </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

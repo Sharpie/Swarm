@@ -1,7 +1,7 @@
-<sect1 id="swarm.user.user3.04.sect1">
+<chapter id="swarm.user.user3.04.chapter">
   <title>Random Library</title>
 
-<sect2>
+<sect1>
  <title>Major Random classes</title> 
 
     <formalpara><title>The Random library can be divided into</title><para>
@@ -27,9 +27,9 @@ Defobj
       </para>
     </formalpara>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Principle of using Random lib</title> 
 
 <formalpara><title>To draw random numbers from a distribution you'll need</title>
@@ -48,9 +48,9 @@ random sequence of numbers
       </para>
     </formalpara>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Default distributions (usage deprecated!!)</title> 
 
     <formalpara><title>When calling initSwarm in main, three default
@@ -70,9 +70,9 @@ UniformDouble
 
       </para>
     </formalpara> 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Using the default distributions</title> 
 
     <formalpara><title>Default distributions are global </title><para>
@@ -100,9 +100,9 @@ UniformDouble
         </programlisting>
       </para>
     </formalpara>
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>The Random Number Generators</title> 
 
     <formalpara><title>Computers can't create real random numbers</title>
@@ -138,9 +138,9 @@ UniformDouble
         </itemizedlist>
       </para>
     </formalpara>
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>The distributions</title> 
 
     <formalpara><title>All need setGenerator</title><para></para></formalpara>
@@ -175,10 +175,10 @@ UniformDouble
 
       </para>
     </formalpara> 
-</sect2>
 </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

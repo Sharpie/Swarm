@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user1.01.sect1">
+<chapter id="swarm.user.user1.01.chapter">
   <title>Introduction</title>
 
   <para>The Swarm project was started in 1994 by Chris Langton at
@@ -15,7 +15,7 @@
     Askenazi, Glen Ropella, Sven Thommesen, Marcus Daniels, Alex
     Lancaster, and Irene Lee. </para>
 
-  <sect2><title>Basic facts about Swarm</title> <para>Swarm is a
+  <sect1><title>Basic facts about Swarm</title> <para>Swarm is a
     collection of software libraries which provide support for
     simulation programming. Among the most prominent features are the
     following.
@@ -70,9 +70,9 @@
       libraries and the strategy of modeling that inspires
       them.</para>
 
-</sect2>
+</sect1>
 
-<sect2><title>Swarm is a moving target</title>
+<sect1><title>Swarm is a moving target</title>
 
     <para>Swarm is an "open source" project. <comment>need some licensing frob
       here</comment> </para>
@@ -109,9 +109,9 @@
       programmers to access Swarm libraries, for example.
     </para>
 
-  </sect2>
+  </sect1>
 
-<sect2>
+<sect1>
 <title>Prerequisites for success with Swarm.</title>
 
     <para>Swarm was originally conceived as a set of standardized
@@ -155,9 +155,9 @@
       manual that all users ought to investigate.  The Objective-C
       language is best learned from the online book
       <citetitle>Object Oriented Programming and the Objective C
-        Language</citetitle> <citation>NeXT, 1993</citation>.</para></sect2>
+        Language</citetitle> <citation>NeXT, 1993</citation>.</para></sect1>
 
-<sect2>
+<sect1>
 
  <title>About This Guide</title> 
 
@@ -212,12 +212,12 @@
       to be aware of before proceeding.</para>
     </warning>
 
-  </sect2>
+  </sect1>
 
-</sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->
  

@@ -1,8 +1,8 @@
-<sect1 id="swarm.user.user1.05.sect1">
+<chapter id="swarm.user.user1.05.chapter">
 
   <title>The Graphical User Interface</title>
 
-  <sect2>
+  <sect1>
 
     <title>Elements of the Swarm GUI</title>
 
@@ -54,9 +54,9 @@
 
     </para>
 
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>GUI Probe Displays</title>
 
     <para>Graphical `probes' allow a user to view a snapshot of any
@@ -103,9 +103,9 @@
 
     </itemizedlist>
 
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>Using the GUI Probe Display</title>
 
     <para>Common to both the standard ProbeDisplay and the
@@ -168,11 +168,11 @@
 
     </itemizedlist>
 
-  </sect2>
+  </sect1>
   
-</sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

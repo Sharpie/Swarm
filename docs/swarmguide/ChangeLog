@@ -1,3 +1,14 @@
+1999-09-15  Alex Lancaster  <alex@santafe.edu>
+
+	* userbook.sgml, user1.01.sgml, user1.02.sgml, user1.03.sgml,
+	user1.04.sgml, user1.05.sgml, user2.01.sgml, user2.02.sgml,
+	user2.03.sgml, user2.04.sgml, user2.05.sgml, user2.06.sgml,
+	user2.07.sgml, user3.01.sgml, user3.02.sgml, user3.03.sgml,
+	user3.04.sgml, user3.05.sgml, user3.06.sgml, user3.07.sgml,
+	userbook.sgml: Bumped up all sections in content hierarchy by one
+	to reflect volume of material in each section, thus CHAPTER -> 
+	PART, SECT1 -> CHAPTER, SECT2 -> SECT1, SECT3 -> SECT2.
+	
 1999-09-15  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user3.02.sgml: Added tons of stuff on Maps and Arrays
@@ -8,7 +19,8 @@
 
 	* user2.05.sgml (pplIndex): Fixed mistakes noted by Ajoy Victor
 
-	* user3.01.sgml (thus): Created Chapter "Anything C can do, Swarm can do better".
+	* user3.01.sgml (thus): Created Chapter "Anything C can do, Swarm
+	can do better".
 
 1999-09-10  Paul Johnson  <pauljohn@valinux.pols.ukans.edu>
 

@@ -1,7 +1,9 @@
-<sect1 id="swarm.user.user3.02.sect1">
-  <title>The Swarm Collection Library</title>
+<!-- <sect1 id="swarm.user.user3.02.sect1"> -->
+<chapter id="swarm.user.user3.02.sect1">
 
-  <sect2>
+  <title>The Swarm Collections Library</title>
+
+  <sect1>
     <title>Overview: Lists, Maps, and Arrays</title>
 
     <para>The most frequently used kinds of collections are Lists,
@@ -64,10 +66,10 @@
 </para>
 
   
-</sect2>
+</sect1>
 
 
-  <sect2>
+  <sect1>
     <title>Choosing between Lists, Maps, and Arrays</title>
 
     <para>The different kinds of collections objects are useful for
@@ -157,9 +159,9 @@
     people being sampled, however, the Array might work best.
 </para>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
     <title>Using Swarm Arrays</title> 
 
     <para>The Swarm array is the easiest to use of the Swarm
@@ -219,9 +221,9 @@ retrievedObject=[foods atOffset: 6];
 </para>
 
 
-</sect2>
+</sect1>
 
-  <sect2>
+  <sect1>
     <title>Swarm Maps</title> 
 
     <para> Experienced programmers are familiar with the term "key" as
@@ -477,10 +479,10 @@ printf("The preference Object gives this output \n");
 </para>
 
 
-</sect2>  
+</sect1>  
 
 
-  <sect2>
+  <sect1>
     <title>Accessing Collections with Indices</title> 
 
     <para>Any collection can generate an index that can be used to
@@ -559,12 +561,12 @@ printf("The preference Object gives this output \n");
 </para>
 
 
-</sect2>
-
-
 </sect1>
+
+</chapter>
+
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

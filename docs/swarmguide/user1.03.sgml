@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user1.03.sect1">
+<chapter id="swarm.user.user1.03.chapter">
   <title>Nuts and bolts of Objective-C</title>
 
   <para>Objective-C was created by Brad Cox. The aim was to create an
@@ -8,7 +8,7 @@
     system, which is now owned by Apple and is basis of the Rhapsody
     OS.</para>
 
-<sect2>
+<sect1>
  <title>Why does Swarm use Objective-C?</title> 
 
  <para>Since C++ is more widely used than Objective-C, it is natural
@@ -57,10 +57,10 @@
 
     </para>
 
-</sect2>
+</sect1>
 
 
-<sect2>
+<sect1>
  <title>The id variable type</title> 
 
     <para>The variable type that is added by Objective-C is
@@ -86,9 +86,9 @@
 <programlisting role="ObjC">[super updateRecords]</programlisting>
 
       </para>
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Interface file: declaration of a class</title> 
 
     <para>If you look in a directory where some Swarm code resides,
@@ -180,9 +180,9 @@
 
     </para>
 
-  </sect2>
+  </sect1>
 
-<sect2>
+<sect1>
  <title>Implementation File: Defining a class</title> 
 
     <para>Each implementation file--the "m" that parallels the "h"--
@@ -244,9 +244,9 @@
  <programlisting role="ObjC">[dogsPlayed addLast: [spot playOutside: theYard]];
 </programlisting>
  </para> 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>C Functions vs. Objective-C methods </title> 
 
     <para>For readers who are already familiar with C, perhaps a
@@ -318,9 +318,9 @@ void rand_move(int i) {
       </example>
     </para>
 
-</sect2>
+</sect1>
 
-<sect2><title>Giving life to classes: instantiation</title>
+<sect1><title>Giving life to classes: instantiation</title>
 
     <para>After the code is written for the interface and
       implementation, there is still work to be done. Instances of the
@@ -400,9 +400,9 @@ listOfPuppies=[List create: [self getZone]];
      by the model swarm itself.
     </para>
 
-</sect2>
+</sect1>
 
-<sect2><title>A brief clarification: Classes and Protocols</title>
+<sect1><title>A brief clarification: Classes and Protocols</title>
 
     <para>There is one additional complication that readers should be
       aware of.  Objective-C allows the creation of entities called
@@ -470,11 +470,11 @@ listOfPuppies=[List create: [self getZone]];
       details may be important in coding details. However, these details do not
       significantly change the way applications are designed.</para>
 
-</sect2>
 </sect1>
+</chapter>
 
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user3.05.sect1">
+<chapter id="swarm.user.user3.05.chapter">
   <title>Serialization</title>
 
   <indexterm>
@@ -52,7 +52,7 @@
     </itemizedlist>
   </para>
 
-  <sect2>
+  <sect1>
     <title>Using the <classname>LispArchiver</classname> to manage
       simulation parameters</title>
     <indexterm>
@@ -66,7 +66,7 @@
         protocols is now officially deprecated and may go away in future
         releases.</para></caution>
 
-    <sect3>
+    <sect2>
       <title>Using the standard <varname>lispAppArchiver</varname></title>
       <indexterm significance="preferred">
         <primary><classname>Archiver</classname></primary>
@@ -275,9 +275,9 @@ if ((heatbugModelSwarm = [lispAppArchiver getWithZone: self
 
       </example>
 
-    </sect3>
+    </sect2>
 
-    <sect3>
+    <sect2>
       <title>Using custom <classname>LispArchiver</classname> instances</title>
       <indexterm>
         <primary><classname>LispArchiver</classname></primary>
@@ -386,14 +386,14 @@ if ((theTopLevelSwarm =
         </para>
 
     </example>
-    </sect3>
+    </sect2>
 
-  </sect2>
+  </sect1>
 
-</sect1>
+</chapter>
 
 <!-- 
 Local Variables: 
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End: 
 -->

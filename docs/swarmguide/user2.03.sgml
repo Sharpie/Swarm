@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user2.03.sect1">
+<chapter id="swarm.user.user2.03.chapter">
   <title>Doing the Chores: Set and Get</title>
 <para> Object-oriented programming organizes the way programmers think about
 information in a new way.  The objects maintain their variables (the "instance
@@ -26,7 +26,7 @@ inside an object, such as "setIdealTemperature" or "setAge."  The term
 some value, such as "getIdealTemperature" or "getAge".
 </para>
 
-<sect2>
+<sect1>
  <title>Get and Set Methods</title> 
 <para>
 Get and set methods are needed to pass information among objects.  
@@ -58,10 +58,10 @@ way.  Hence, when the observer swarm needs a list of all the agents in a
 simulation in order to create a graph, the model swarm should have a
 method, such as getAgentList, that returns a list of agents that the observer swarm can use.
 </para>
-</sect2>
+</sect1>
 
 
-<sect2>
+<sect1>
  <title>Using set methods during object creation</title> 
 <para>
 Consider the way the model swarm level of a simulation can be designed.  
@@ -132,8 +132,8 @@ have information translated into objects from the model swarm level, even
 though it is technically allowable to have that information-creation process
 completely isolated within the object.           
 </para>
-</sect2>
-<sect2>
+</sect1>
+<sect1>
 <title>Passing information around: getting the import statements right</title>
 <para>
 In order to send messages to objects from another class, it is necessary
@@ -240,11 +240,11 @@ execute when they need information about their environment. This approach
 has the added advantage that additional methods can be inherited from the
 general space objects in the Swarm library.
 </para>
-</sect2>
+</sect1>
 
 
 
-<sect2>
+<sect1>
  <title>Circumventing the object-oriented guidelines</title> 
 
     <para>If one wants to avoid treating objects as containers that
@@ -280,10 +280,10 @@ swarm file, for example.Here create a world for the bug to roam around in.
 </para>
 
 
-</sect2>
 </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

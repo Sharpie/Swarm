@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user2.07.sect1">
+<chapter id="swarm.user.user2.07.chapter">
 
   <title>Probing and displaying the contents of Swarm objects
    
@@ -18,7 +18,7 @@
       customized easily.
     </para>
 
-  <sect2>
+  <sect1>
     <title>What's a probe?</title>
     
     
@@ -102,9 +102,9 @@
      </para>
 
 
-</sect2>
+</sect1>
 
-  <sect2>
+  <sect1>
     <title>Managing Probe Displays</title>
 
 
@@ -190,9 +190,9 @@ CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY (self);</programlisting>
    <para>This will cause the probe display to include all instance variables
    and methods.</para>
 
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
    <title>How to Customize Probe Displays</title>
 
    <para>Why might one want to customize the display?  Well, frankly,
@@ -464,13 +464,13 @@ inClass: [agent class]] setHideResult: 1]];
               object itself.  </para> </formalpara></listitem>
       </itemizedlist>
 
-  </sect2>
+  </sect1>
   
-  <sect2>
+  <sect1>
     <title>Controlling Precision of floating-point numbers in
       probe displayss</title>
 
-    <sect3><title>Global setting of precision</title>
+    <sect2><title>Global setting of precision</title>
 
       <para>There are two types of global precision setting via
         <!-- <LINK LINKEND="SWARM.OBJECTBASE.PROBELIBRARY.PROTOCOL">ProbeLibrary</LINK> -->:
@@ -553,9 +553,9 @@ inClass: [agent class]] setHideResult: 1]];
         
       </example>
       
-    </sect3>
+    </sect2>
     
-    <sect3>
+    <sect2>
       
       <title>Setting precision for individual probes</title>
 
@@ -640,10 +640,10 @@ inClass: [agent class]] setHideResult: 1]];
 }</programlisting>
         
       </example>
-    </sect3>
-  </sect2>
+    </sect2>
+  </sect1>
   
-  <sect2>
+  <sect1>
     <title>SwarmObject Support for Probing</title>
     
     <para>As mentioned earlier, all instances of
@@ -707,9 +707,9 @@ inClass: [agent class]] setHideResult: 1]];
       </listitem>
     </itemizedlist>
     
-  </sect2>
+  </sect1>
   
-  <sect2>
+  <sect1>
     <title>Using probes in a non-GUI context</title> 
 
     <example>
@@ -733,13 +733,13 @@ while ((aMember = [anIndex next]))
 
     </example>
 
-  </sect2>
+  </sect1>
 
 
-</sect1>
+</chapter>
 
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

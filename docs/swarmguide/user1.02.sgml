@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user1.02.sect1">
+<chapter id="swarm.user.user1.02.chapter">
   <title>Programming and simulation</title>
 
 
@@ -36,7 +36,7 @@
     (answer questions) from other objects and also they can retain,
     categorize, and summarize information.</para>
 
-<sect2>
+<sect1>
  <title>What is an Object? </title> 
 
     <INDEXTERM><primary>programming</primary>
@@ -109,9 +109,9 @@
     <para>We will have plenty of additional examples in the rest of
       the Guide.</para>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>The Variety of Objects</title>
 
     <para>In a Swarm model, there can be many types of agents (see
@@ -126,9 +126,9 @@
       collect information about the simulation and relay it to the
       researcher. </para> <para></para>
 
-  </sect2>
+  </sect1>
 
-<sect2>
+<sect1>
  <title>The Advantages of Object Oriented Programming</title> 
 
     <para>Object oriented programming (<acronym>OOP</acronym>)is well
@@ -143,7 +143,7 @@
       Objective-C does not allow operator overloading. Do you think
       that is a good idea?</comment></para>
 
-    <sect3>
+    <sect2>
 
       <INDEXTERM><primary>programming</primary>
        <secondary>object-oriented programming</secondary>       
@@ -184,9 +184,9 @@
       only has to be familiar with the interface of an object, not
       it's implementation</para>
 
-    </sect3>
+    </sect2>
 
-    <sect3>
+    <sect2>
       
       <INDEXTERM><primary>programming</primary>
        <secondary>object-oriented programming</secondary>       
@@ -226,11 +226,11 @@
         <classname>GroceryStore</classname> subclass will override the
         super-class's definition of the method.</para>
 
-    </sect3>
+    </sect2>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Discrete event simulation</title> 
 
       <INDEXTERM><primary>simulation</primary>
@@ -295,11 +295,11 @@
       </step>
     </procedure>
    
-  </sect2>
+  </sect1>
 
-</sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

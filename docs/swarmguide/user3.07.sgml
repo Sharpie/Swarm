@@ -1,7 +1,7 @@
-<sect1 id="swarm.user.user3.07.sect1">
+<chapter id="swarm.user.user3.07.chapter">
   <title>GUI and Simtools Libraries</title>
 
-<sect2>
+<sect1>
  <title>Raster and Object2dDisplay</title> 
 
     <literallayout>Discrete2d
@@ -22,9 +22,9 @@ ObserverSwarm
 
     <literallayout>Agent
     </literallayout>
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>The classes in Space</title> 
 
     <para>Space</para>
@@ -42,9 +42,9 @@ Value2dDisplay
 Int2dFiler
 </literallayout>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>The basic 2d classes</title> 
 
     <para>Space</para>
@@ -75,9 +75,9 @@ Grid2d
       </para>
     </formalpara>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Some basic Discrete2d syntax</title> 
 
     <formalpara><title>setSizeX: i Y: j </title><para>
@@ -102,9 +102,9 @@ Grid2d
       <para>Fills lattice b with values from a
       </para>
     </formalpara> 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>More basic Discrete2d syntax</title> 
 
     <formalpara><title>getObjectAtX: Y:</title>
@@ -121,9 +121,9 @@ Grid2d
     <formalpara><title>putValue: v atX:Y:</title>
       <para>Put val v at x,y </para>
     </formalpara> 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Some classes in Simtools</title> 
 
     <formalpara><title>ObjectLoader / Saver</title><para>
@@ -150,9 +150,9 @@ Grid2d
       basic operations, getString, getInt, next etc.
       </para></formalpara>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>OutFile and InFile</title> 
 
 
@@ -183,9 +183,9 @@ Grid2d
       </para>
     </formalpara>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Major GUI classes</title> 
 
 
@@ -211,10 +211,10 @@ ZoomRaster
 Colormap
     </literallayout>
 
-</sect2>
 </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user2.04.sect1">
+<chapter id="swarm.user.user2.04.chapter">
   <title>Building schedules</title> 
 
   <para>The Swarm system offers a
@@ -23,7 +23,7 @@
     larger Swarm hierarchy of the object.
   </para>
 
-  <sect2>
+  <sect1>
     <title>Building <classname>Schedule</classname>s </title> 
 
     <para> Here is an example of some code that makes a simple
@@ -93,9 +93,9 @@
       Some additional scheduling topics are discussed, but first the
       abstract question of selectors and the M operator must be addressed.
     </para>
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>What's that <function>M()</function> thing?</title> 
     <para>
       The commands that tell a <classname>Schedule</classname> to add actions usually have
@@ -368,8 +368,8 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
 [modelSchedule at: 0 createActionForEach: listOfShrinks message: M(setParameters):aHolder];</programlisting>
     </para>
 
-  </sect2>
-  <sect2>
+  </sect1>
+  <sect1>
     <title><classname>ActionGroup</classname>s</title> 
 
     <para>
@@ -428,9 +428,9 @@ agentDisplay = [agentDisplay createEnd];</programlisting>
 
 
 
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     
     <title>Activating Swarms</title> 
 
@@ -492,9 +492,9 @@ It is important to recognize that the <function>activateIn</function> methods of
 <para>
 The <function>activateIn:</function> method returns an object of class Activity, which is a sufficiently important concept that it is treated on its own in the next section.
 </para>
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     
     <title>What is an Activity?</title>
 
@@ -543,8 +543,8 @@ messages like run, stop, next, terminate, and so forth.
     site.
   </para>
 
-  </sect2>
-  <sect2>
+  </sect1>
+  <sect1>
     
     <title>Dynamic Scheduling</title>
 <para>
@@ -598,12 +598,12 @@ The preceeding steps are the essence of creating the dynamic schedule. The empty
 }
 </programlisting>
 
-</sect2>
+</sect1>
 
  
-</sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

@@ -1,7 +1,7 @@
-<sect1 id="swarm.user.user3.03.sect1">
+<chapter id="swarm.user.user3.03.chapter">
   <title>Activity Library</title>
 
-<sect2>
+<sect1>
  <title>Major Activity classes</title> 
 
     <formalpara>
@@ -30,9 +30,9 @@ Swarm
 Defobj
 </literallayout>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>PPT Slide</title> 
 
     <programlisting> schedule = [Schedule createBegin: zone];
@@ -62,9 +62,9 @@ t+n
       </para>
     </formalpara>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Meaning of time in Schedules</title> 
 
 
@@ -93,9 +93,9 @@ t+n
         </literallayout>      
 </para></formalpara>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Implementing these 3 schedules</title> 
 
     <literallayout>
@@ -108,9 +108,9 @@ t+n
  [schedule at: 0 createActionTo: obj message: M(message)] 
 </literallayout>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Another example</title> 
 
     <programlisting> repeatSchedule=[Schedule createBegin: zone]; [repeatSchedule setRepeatInterval: 3];
@@ -133,9 +133,9 @@ t+n
       method on an object called <literal>firm</literal> every 3
       periods, starting at t=20 </para>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>ActionGroups</title> 
 
     <formalpara><title>ActionGroups group together actions for agents or
@@ -159,9 +159,9 @@ t+n
       </para>
     </formalpara> 
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Dynamic Scheduling</title> 
 
     <programlisting> 
@@ -187,9 +187,9 @@ Model Swarm
       </para>
     </formalpara>       
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Schedule activation</title> 
 
     <formalpara><title>A Schedule has to be activated in a Swarm, otherwise it 
@@ -207,9 +207,9 @@ Top Swarm
 
       </para>
     </formalpara> 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Activating Schedules & Swarms</title> 
 
     <programlisting>
@@ -240,10 +240,10 @@ Observer
 Model
 </literallayout>
 
-</sect2>
 </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

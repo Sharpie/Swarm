@@ -1,7 +1,7 @@
-<sect1 id="swarm.user.user3.06.sect1">
+<chapter id="swarm.user.user3.06.chapter">
   <title>Analysis Library</title>
 
-<sect2>
+<sect1>
  <title>Major Analysis classes</title> 
 
     <formalpara><title>EZGraph</title>
@@ -16,9 +16,9 @@
       <para>Collect statistics from collection of objects</para>
     </formalpara> 
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Using EZGraph</title> 
 
     <formalpara><title>EZGraph is a wrapper around several
@@ -46,9 +46,9 @@
         MinSequence MaxSequence</literal>
     </para>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Creating an EZGraph</title> 
 
     <para>A sequence with feed from collection is created with:
@@ -67,9 +67,9 @@
     <para>The axis labels, set with
       <literal>-setAxisLabelsX: str Y: str</literal>
     </PARA>
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Using EZBin</title> 
 
     <formalpara><title>EZBin, is also a wrapper around several
@@ -90,9 +90,9 @@
       <step><para> setUpperBound:  and setLowerBound:</para></step>
     </procedure>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Creating an EZBin</title> 
 
     <para>Data is fed into Histogram by
@@ -114,9 +114,9 @@
       <literal>-setUpperBound: -setLowerBound:</literal>
     </para>
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Other utility objects in Analysis</title> 
 
     <formalpara><title>Averager</title>
@@ -140,10 +140,10 @@ Count</literallayout>
       </para>
     </formalpara> 
 
-</sect2>
 </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

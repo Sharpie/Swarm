@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user2.02.sect1">
+<chapter id="swarm.user.user2.02.chapter">
   <title>Creating Objects In Swarm</title>
 
   <para>The way in which objects are created depends on a computer's
@@ -14,7 +14,7 @@
     important.
   </para>
 
-  <sect2>
+  <sect1>
     <title>Begin at the beginning</title> 
 
     <para>
@@ -65,9 +65,9 @@ if (swarmGUIMode == 1)
       <function>createBegin</function>/<function>createEnd</function>
       pair.
     </para>
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>Detailed look at
     <function>createBegin</function>/<function>createEnd</function></title>
 
@@ -212,9 +212,9 @@ if (swarmGUIMode == 1)
       Documentation are used), then <function>create</function> is
       enough.
     </para>
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>Swarm zones and recursive objects creation</title> 
     <para>
       One of the most troublesome exercises in computer programming is
@@ -387,9 +387,9 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
       <filename>Heatbug.m</filename>, but the memory zone has to be
       retrieved with the <literal>[self getZone]</literal> command.
     </para>
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>Variations on a theme</title>
     <para>
       Once you have seen how an object can be created, you should
@@ -489,9 +489,9 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
       <function>spawnOneBug</function> method, we make it much easier
       to add new bugs to the simulation as time goes bye.
     </para>
-  </sect2>
+  </sect1>
 
-  <sect2>
+  <sect1>
     <title>How do you kill off those poor little devils?</title> 
 
     <para>
@@ -573,10 +573,10 @@ bugPixmap = [Pixmap createBegin: [self getZone]];
 </programlisting>
 
     </para>
-  </sect2>
-</sect1>
+  </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

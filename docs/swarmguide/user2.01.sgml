@@ -1,4 +1,4 @@
-<sect1 id="swarm.user.user2.01.sect1">
+<chapter id="swarm.user.user2.01.chapter">
   <title>The Swarm Tutorial: Reprise</title>
   <para>Most Swarm users share terminology and perspective that 
 allows them to communicate with each other about modeling projects. 
@@ -7,7 +7,7 @@ Swarm Tutorial, a series of exercises prepared by Christopher
 Langton.  The Tutorial exercises are distributed on the SFI web
 site in the "Swarmapps" package.</para> 
 
-  <sect2><title>Do your homework!</title>
+  <sect1><title>Do your homework!</title>
 <para>There is no way to get anywhere with Swarm unless you are 
 willing to get your hands dirty.  The "Swarmapps" package provides
 some examples of swarm programs that deserve study.  That package 
@@ -22,9 +22,9 @@ expert programmer, a study of the tutorial is the right place
 to start. Many of key terms in  Swarm model building are introduced 
 in the tutorial and there is simply no substitute for a careful 
 analysis of the material.</para>
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
 <title>Tutorial Progression</title>
 
     <para>The tutorial gameplan is as follows. Begin with a program
@@ -74,9 +74,9 @@ be organized.</para></formalpara>
     <formalpara><title>simpleExperBug</title>		
       <para>Introduces the possibility that a simulation might be run over and over in "batch" mode while the graphical interface reports summaries of the runs to the user. </para></formalpara> 
 
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
 
 <title>What are  you supposed to learn from the tutorial?</title>
 
@@ -201,9 +201,9 @@ members of the Swarm team do when users ask questions.
 
   </itemizedlist>
 
-</sect2>
+</sect1>
 
-<sect2><title>After the tutorial: What now?</title>
+<sect1><title>After the tutorial: What now?</title>
 
 
 <para> After the tutorial exercises are finished, one can then proceed 
@@ -213,10 +213,10 @@ in the Swarmapps package gives a rich and workable example of a
 simulation that builds on the ideas in the tutorial. </para>
 
 
-</sect2>
 </sect1>
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

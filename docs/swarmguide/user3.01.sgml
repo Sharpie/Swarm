@@ -1,9 +1,9 @@
-<sect1 id="swarm.user.user3.01.sect1">
+<chapter id="swarm.user.user3.01.chapter">
   <title>Anything C can do, Swarm can do better</title>
  <para>
  Any programming statements that will work in C can also be used in a Swarm program.  Hence, if one needs access to a programming library that can be used in C, one can also access that library in Swarm.  Furthermore, functions written for C programs can be integrated into Swarm code.
 </para>
-<sect2>
+<sect1>
 <title>Managing command line parameters</title>
 <para>
 One of the obscure and difficult parts of C programming is designing a
@@ -200,9 +200,9 @@ $ ./heatbugs --numBugs=444.
 
 In either case, the probe map will indicate the initial number of bugs is 444.
 </para>
-</sect2>
+</sect1>
 
-<sect2>
+<sect1>
  <title>Using C functions in Swarm </title> 
 <para>
 The fundamental rules of C programming apply in Swarm. Perhaps most importantly,
@@ -286,9 +286,9 @@ The tsearch function checks to see if a node already exists by using a compariso
 The problem may arise that one wants to use different comparison functions when working with a single tree. Once a tree is created with a comparison function called "compare_node", then all calls on the tree must use a comparison function with the same name.  Perhaps there is some slight wrinkle to be introduced when deciding whether one node is equal to another when they are being inserted and when they are being printed out or removed.  By defining several compare functions, one inside each method that makes use of the tree, one can acheive the desired level of specialization.
 </para>
 
-</sect2>
+</sect1>
 
-<sect2><title>Examples of useful functions: getInt and getDouble</title>
+<sect1><title>Examples of useful functions: getInt and getDouble</title>
 <para> Functions can come in handy in many cases, but let's begin with
 a particularly useful example that continues with the project of
 managing parameters.  Suppose you have a Swarm file MyParameters.m
@@ -364,11 +364,11 @@ In any file that includes MyParameters.h, one can retrieve the value of a parame
 </programlisting>
 This call is made against the object called "arguments" because, as mentioned in the previous section, the instantiation of MyParameters is named "arguments" inside the Swarm kernel.
 </para>
-</sect2>
-
 </sect1>
+
+</chapter>
 <!--
 Local Variables:
-sgml-parent-document:("userbook.sgml" "SECT1")
+sgml-parent-document:("userbook.sgml" "CHAPTER")
 End:
 -->

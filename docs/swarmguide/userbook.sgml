@@ -35,67 +35,70 @@
 ]>
 
 <book id="userbook">
-
-<title>Swarm User Guide</title>
+  
+  <title>Swarm User Guide</title>
   &usermeta.sgml;
 
-<chapter id="swarm.user.user1.chapter">
+  <part label="Part I" id="swarm.user.user1.part">
+    
+    <title>Basic Concepts</title>
+    
+      &user1.01.sgml;
+      &user1.02.sgml;
+      &user1.03.sgml;
+      &user1.04.sgml;
+      &user1.05.sgml;
+    
+  </part>
+  
+  <part label="Part II" id="swarm.user.user2.part">
+    
+    <title>Swarm Applications: Examples and Illustrations</title>
+    
+      &user2.01.sgml;
+      &user2.02.sgml;
+      &user2.03.sgml;
+      &user2.04.sgml;
+      &user2.05.sgml;
+      &user2.06.sgml;
+      &user2.07.sgml;
 
-<title>Basic Concepts</title>
+  </part>
+  
+  <part label="Part III" id="swarm.user.user3.part">
 
+    <title>Advanced Topics</title>
+        
+      &user3.01.sgml; 
+      &user3.02.sgml;
+    
+    <!--
+    &user3.03.sgml;
+    &user3.04.sgml;
+    -->
 
-  &user1.01.sgml;
-  &user1.02.sgml;
-  &user1.03.sgml;
-  &user1.04.sgml;
-  &user1.05.sgml;
+      &user3.05.sgml;
+    
+    <!--
+    &user3.06.sgml;
+    &user3.07.sgml;
+    -->
 
-</chapter>
-
-<chapter id="swarm.user.user2.chapter">
-
-<title>Swarm Applications: Examples and Illustrations</title>
-
-
-  &user2.01.sgml;
-  &user2.02.sgml;
-  &user2.03.sgml;
-  &user2.04.sgml;
-  &user2.05.sgml;
-  &user2.06.sgml;
-  &user2.07.sgml;
-
-</chapter>
-
-<chapter id="swarm.user.user3.chapter">
-
-<title>Advanced Topics</title>
-
-
-  &user3.01.sgml;
-  &user3.02.sgml;
-  &user3.03.sgml;
-  &user3.04.sgml;
-  &user3.05.sgml;
-  &user3.06.sgml;
-  &user3.07.sgml;
-
-  </chapter>
-
+  </part>
   &userbiblio.sgml;
   &genindex.sgml; 
-
+  
   <colophon>
     <para>This book is generated entirely from a single SGML source
       document marked up in the <ulink
-      url="http://www.oasis-open.org/docbook/">DocBook 3.1
-      DTD</ulink>.  To generate the resultant output, we use the
+                                       url="http://www.oasis-open.org/docbook/">DocBook 3.1
+        DTD</ulink>.  To generate the resultant output, we use the
       <ulink
-      url="http://www.nwalsh.com/docbook/dsssl/index.html">Modular
-      DocBook stylesheets</ulink> provided by <ulink
+             url="http://www.nwalsh.com/docbook/dsssl/index.html">Modular
+        DocBook stylesheets</ulink> provided by <ulink
       url="http://www.nwalsh.com">Norman Walsh</ulink>.</para>
   </colophon>
-
+  
 </book>
   
 
