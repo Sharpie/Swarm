@@ -86,6 +86,7 @@ printVal (val_t val)
     default:
       abort ();
     }
+  printf ("[%s]\n", buf);
   return buf;
 }
 
@@ -159,8 +160,7 @@ PHASE(Creating)
     myWidgets = (id <Widget> *) [aZone alloc: sizeof (id <Widget>)];
   
   myWidgets[0] = [Button createParent: self];
-  [(id <Button>)myWidgets[0] setButtonTarget: self
-                method: @selector (dynamic)];
+  [(id <Button>)myWidgets[0] setButtonTarget: self method: M(dynamic)];
   [(id <Button>)myWidgets[0] setText: [myProbe getArgName: 0]];  
   [myWidgets[0] packFillLeft: argCount ? NO : YES];
   
