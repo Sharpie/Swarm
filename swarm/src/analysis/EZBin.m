@@ -153,6 +153,7 @@ PHASE(Creating)
       aHisto = [Histogram createBegin: getZone (self)];
       [aHisto setBinCount: binCount];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
+      [aHisto setSaveSizeFlag: saveSizeFlag];
       aHisto = [aHisto createEnd];
 
       [aHisto setTitle: title];

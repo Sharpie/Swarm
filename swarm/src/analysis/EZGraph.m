@@ -141,6 +141,7 @@ PHASE(Creating)
   if (graphics)
     {
       graph = [Graph createBegin: [self getZone]];
+      [graph setSaveSizeFlag: saveSizeFlag];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (graph);
       graph = [graph createEnd];
       [graph setTitle: title];

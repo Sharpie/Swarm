@@ -1,3 +1,9 @@
+2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* EZGraph.m ([EZGraph -createEnd]): Call setSaveSizeFlag:.
+
+	* EZBin.m ([EZBin -createEnd]): Likewise.
+
 2000-07-15  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.am (INCLUDES): Add -I$(srcdir)/../random for swarm.h
