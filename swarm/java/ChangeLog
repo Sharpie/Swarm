@@ -2,7 +2,8 @@
 
 	* Makefile.am (elcrule): Use $(abs_builddir) instead of $(dir $@),
 	since Emacs for Windows loses with ./ derived from the latter.
-	(Makefile.common $(SUBMAKEFILES)): Likewise.
+	(Makefile.common $(SUBMAKEFILES)): Likewise.  Add SWARMSRCDIR
+	in stub generation environment.
 
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
