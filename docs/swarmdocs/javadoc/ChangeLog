@@ -1,14 +1,12 @@
 2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
+	* Swarmdocs 2.1 frozen.
+
 	* Makefile.am (nodist_html_DATA): Append `nodist_' prefix, so that
 	the generated html doesn't get included in the source
 	distribution.
 	(nodist_dvi_DATA): Likewise for dvi.
 	(nodist_ps_DATA): Likewise for PostScript.
-
-2000-02-29    <mgd@nest.swarm.org>
-
-	* Swarmdocs 2.1 frozen.
 
 1999-09-08  Alex Lancaster  <alex@santafe.edu>
 
