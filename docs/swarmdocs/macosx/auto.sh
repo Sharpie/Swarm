@@ -1,7 +1,6 @@
 #!/bin/sh
 
-cd $SRCROOT
-
-#aclocal -I m4
-#automake
-#autoconf
+aclocal -I m4
+autoconf
+autoheader
+automake -a
