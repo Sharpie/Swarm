@@ -57,6 +57,8 @@ skip_typespec (const char *type)
     case _C_UINT:
     case _C_LNG:
     case _C_ULNG:
+    case _C_LNG_LNG:
+    case _C_ULNG_LNG:
     case _C_FLT:
     case _C_DBL:
     case _C_VOID:

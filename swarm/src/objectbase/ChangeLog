@@ -1,5 +1,7 @@
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* swarm_rts_routines.m (skip_typespec): Handle [unsigned] long longs.
+
 	* ProbeMap.m ([ProbeMap -addProbe:], [ProbeMap -_fastAddProbe_:]): 
 	([ProbeMap -dropProbeMap:aProbeMap]): Use STRDUP instead of strdup.
 
