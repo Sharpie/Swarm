@@ -7,8 +7,7 @@
 #import <simtoolsgui.h>
 #import <simtools.h> // OutFile
 
-#include <misc.h> // xmalloc, XFREE
-#include <math.h> // sqrt
+#include <misc.h> // xmalloc, XFREE, sqrt
 
 #include <objc/objc-api.h>
 
@@ -135,7 +134,7 @@ PHASE(Creating)
   for (i = 0; i < binNum; i++)
     {
       cachedLimits[i] = min + (((double) i) * step);
-      locations[i] = min + 0.5 * step + (double)i * step;
+      locations[i] = min + 0.5 * step + (double) i * step;
     }
   [self reset];
   
@@ -224,9 +223,9 @@ PHASE(Using)
       if (type0 == _C_DBL)
         v = (* ((double (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
       else if (type0 == _C_FLT)
-        v = (double)(* ((float (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
+        v = (double) (* ((float (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
       else
-        v = (double)(* ((int (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
+        v = (double) (* ((int (*) (id, SEL, ...))[obj methodFor: probedSelector])) (obj, probedSelector);
       
       if (v > max || v < min)
         {
@@ -251,10 +250,10 @@ PHASE(Using)
           if (v > maxval)
             maxval = v;
           
-          average = ((average * ((double)count)) + v)
+          average = ((average * ((double) count)) + v)
             / ((double) (count + 1));
           
-          average2 = ((average2 * ((double)count)) + v * v)
+          average2 = ((average2 * ((double) count)) + v * v)
             / ((double) (count + 1));
           
           std = sqrt(average2 - average*average);
