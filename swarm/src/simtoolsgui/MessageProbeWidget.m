@@ -190,7 +190,7 @@ PHASE(Creating)
 
 PHASE(Using)
 
-- dynamic
+- (void)dynamic
 {
   int i;
   
@@ -202,7 +202,7 @@ PHASE(Using)
       if (empty (test))
         {
           GUI_BEEP ();
-          return self;
+          return;
         }
       
       if (!objWindows[i])
@@ -222,7 +222,6 @@ PHASE(Using)
       }
   }
   [probeDisplayManager update];
-  return self;
 }
 
 - Spawn: (const char *)widgetName

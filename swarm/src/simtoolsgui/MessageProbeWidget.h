@@ -38,7 +38,7 @@
 - setMaxReturnWidth: (int)width;
 - createEnd;
 - update;
-- dynamic;
+- (void)dynamic;
 - Spawn: (const char *)widgetName;
 - argSpawn: (const char *)widgetName arg:(int)which;
 - (const char *)getId: (const char *)windowName;

@@ -3,6 +3,10 @@
 	* MessageProbeWidget.m ([MessageProbeWidget -dynamic]): Avoid handling
 	return type if there isn't one.
 
+	* MessageProbeWidget.[hm] ([MessageProbeWidget -dynamic]): Return
+	nothing (since we may be committing suicide, and tclObjc will be
+	looking at the return value).
+
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbeWidget.m (printVal): Cast to unsigned, not unsigned char.
