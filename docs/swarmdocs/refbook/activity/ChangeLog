@@ -1,6 +1,6 @@
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
-	* Makefile.am: Use refbook/ instead of src/.
+	* Makefile.am: Include from refbook/ instead of src/.
 
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
