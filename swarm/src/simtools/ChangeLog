@@ -1,3 +1,10 @@
+1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): Use
+	setReliefFlag:.
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): Likewise.
+
 1998-01-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* VarProbeWidget.m ([VarProbeWidget -createEnd]): Create
