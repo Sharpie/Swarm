@@ -1,4 +1,4 @@
-SUBDIRS = src libobjc java m4 etc tests
+SUBDIRS = libobjc src java m4 etc tests
 
 EXTRA_DIST = VERSION
 
