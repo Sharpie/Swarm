@@ -124,6 +124,9 @@ List* tclList;
   const char *originalPath =
     Tcl_GetVar (interp, "tcl_library", TCL_GLOBAL_ONLY);
 
+  if (originalPath == NULL)
+    originalPath = TCL_LIBRARY;
+
   if (![self checkPath: originalPath file: "init.tcl"])
     {
       if (secondaryPath && [self checkPath: secondaryPath file: "init.tcl"])

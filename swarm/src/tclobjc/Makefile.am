@@ -6,6 +6,12 @@ tclobjcdir = $(includedir)/tclobjc
 TCLINCLUDES = @TCLINCLUDES@
 TKINCLUDES = @TKINCLUDES@
 FFIINCLUDES = @FFIINCLUDES@
+
+tcllibdir = @tcllibdir@
+TCL_VERSION = $(shell sed -n "s/^TCL_VERSION='\(.*\)'/\1/p" $(tcllibdir)/tclConfig.sh)
+TCL_PREFIX = $(shell sed -n "s/^TCL_PREFIX='\(.*\)'/\1/p" $(tcllibdir)/tclConfig.sh)
+TCL_LIBRARY = $(TCL_PREFIX)/lib/tcl$(TCL_VERSION)
+
 tklibdir = @tklibdir@
 TK_VERSION = $(shell sed -n "s/^TK_VERSION='\(.*\)'/\1/p" $(tklibdir)/tkConfig.sh)
 TK_PREFIX = $(shell sed -n "s/^TK_PREFIX='\(.*\)'/\1/p" $(tklibdir)/tkConfig.sh)
@@ -16,7 +22,7 @@ SUFFIXES = .m
 INCLUDES = -I$(srcdir)/../misc $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES)
 
 override OBJCFLAGS += $(X_CFLAGS) -Wno-implicit-int
-override CPPFLAGS += -DList=TclObjcList -DTK_LIBRARY=\"$(TK_LIBRARY)\"
+override CPPFLAGS += -DList=TclObjcList -DTCL_LIBRARY=\"$(TCL_LIBRARY)\" -DTK_LIBRARY=\"$(TK_LIBRARY)\" 
 
 lib_LTLIBRARIES = libtclobjc.la
 

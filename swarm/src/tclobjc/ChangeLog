@@ -1,5 +1,14 @@
 1999-01-07  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Makefile.am (tcllibdir): Substitute.
+	(TCL_VERSION): Extract from tclConfig.sh.
+	(TCL_PREFIX): Extract from tclConfig.sh.
+	(TCL_LIBRARY): Set to $(TCLPREFIX)/lib/tcl$(TCL_VERSION).
+	(CPPFLAGS): Define TCL_LIBRARY.
+
+	* TclInterp.m (checkLibrary): Default to TCL_LIBRARY cpp symbol
+	if tcl_library is not set.
+
 	* TkInterp.m ([TkInterp -preInitWithArgc:argv:]): Set up tclobjc_newTk
 	global flag that is set by tkInit (if run).  Then, after Tk_Init,
 	source tk.tcl if it is set.
