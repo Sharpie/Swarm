@@ -76,6 +76,7 @@ PHASE(Creating)
 	raiseEvent (SourceMessage,
 		    "Cannot find field to be probed in the Java class.\n"); 
       fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
       lref = (*jniEnv)->CallObjectMethod (jniEnv,
@@ -522,12 +523,29 @@ probe_as_double (const char *probedType, const void *p)
 }
 
 #ifdef HAVE_JDK
+#if 0
+// This approach stopped working for some reason with JDK (2000-08-11, mgd)
+
 #define _GETSTROBJECT(type, uptype) \
   (*jniEnv)->CallStaticObjectMethod (jniEnv, \
                                      c_String, \
                                      m_StringValueOf##uptype,  \
                                      GETVALUE (uptype))
 #define GETSTROBJECT(type, uptype) _GETSTROBJECT(type, uptype)
+#endif
+
+#define GETSTR(type,uptype,sig,fmt, fmttype)                          \
+   {                                                                  \
+     type val;                                                        \
+     char buf[64];                                                    \
+                                                                      \
+     fid = (*jniEnv)->GetFieldID (jniEnv, class, fieldName, sig);     \
+     val = (*jniEnv)->Get##uptype##Field (jniEnv, object, fid);       \
+                                                                      \
+     sprintf (buf, fmt, (fmttype) val);                               \
+     str = (*jniEnv)->NewStringUTF (jniEnv, buf);                     \
+   }
+
 
 const char *
 java_probe_as_string (jclass fieldType, jobject field, jobject object,
@@ -536,30 +554,56 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   jobject str;
   jboolean isCopy;
   const char *result;
+  jfieldID fid;
+  jstring name = (*jniEnv)->CallObjectMethod (jniEnv,
+                                              field,
+                                              m_FieldGetName);
+  jclass class = (*jniEnv)->GetObjectClass (jniEnv, object);
+
+  const char *fieldName = java_copy_string (name);
   
+  (*jniEnv)->DeleteLocalRef (jniEnv, name);
+
   if (TYPEP (boolean))
-    str = GETSTROBJECT (boolean, Boolean);
+    {
+      fid = (*jniEnv)->GetFieldID (jniEnv, class, fieldName, "Z");
+      if ((*jniEnv)->GetBooleanField (jniEnv, object, fid))
+        str = (*jniEnv)->NewStringUTF (jniEnv, "true");
+      else
+        str = (*jniEnv)->NewStringUTF (jniEnv, "false");
+    }
+  else if (TYPEP (byte))
+    GETSTR (unsigned char, Byte, "B", "%u", unsigned)
   else if (TYPEP (char))
-    str = GETSTROBJECT (char, Char);
+    GETSTR (char, Char, "C", "%c", char)
   else if (TYPEP (short))
-    abort ();
+    GETSTR (short, Short, "S", "%hd", short)
   else if (TYPEP (int))
-    str = GETSTROBJECT (int, Int);
+    GETSTR (int, Int, "I", "%d", int)
   else if (TYPEP (long))
-    str = GETSTROBJECT (long, Long);
+    GETSTR (long, Long, "J", "%ld", long)
   else if (TYPEP (float))
-    str = GETSTROBJECT (float, Float);
+    GETSTR (float, Float, "F", "%f", float)
   else if (TYPEP (double))
-    str = GETSTROBJECT (double, Double);
+    GETSTR (double, Double, "D", "%f", double)
   else if (TYPEP (String))
-    str = GETVALUE (Object);
+    {
+      fid = (*jniEnv)->GetFieldID (jniEnv,
+                                   class,
+                                   fieldName,
+                                   "Ljava/lang/String;");
+
+      str = (*jniEnv)->GetObjectField (jniEnv, object, fid);
+    }
   else
     str = (*jniEnv)->CallObjectMethod (jniEnv, fieldType, m_ClassGetName);
   result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);
   strcpy (buf, result);
   if (isCopy)
     (*jniEnv)->ReleaseStringUTFChars (jniEnv, str, result);
+  (*jniEnv)->DeleteLocalRef (jniEnv, class);
   (*jniEnv)->DeleteLocalRef (jniEnv, str);
+  SFREEBLOCK (fieldName);
   return buf;
 }
 

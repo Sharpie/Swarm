@@ -1,3 +1,10 @@
+2000-08-11  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m (GETSTR): New macro.
+	({_}GETSTROBJECT): Disable.
+	(java_probe_as_string): Rework to use GETSTR, i.e. direct
+	JNI field access.
+
 2000-07-26    <mgd@DRONE>
 
 	* ProbeMap.m: Change SD_JAVA_FINDJAVACLASS to
