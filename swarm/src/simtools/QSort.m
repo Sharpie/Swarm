@@ -13,7 +13,7 @@
 @implementation QSort
 
 static id *flat;
-static int size;
+static size_t size;
 static SEL comp_selector;
 
 PHASE(Creating)
@@ -22,16 +22,16 @@ PHASE(Using)
 + (void)_flatten_: aCollection
 {
   id index;  //atOffset would cause repetitive traversal in lists etc.
-  int i;
+  size_t i;
 
   size = [aCollection getCount];
   if (size)
     {
-      flat = xmalloc(sizeof(int)*size);
+      flat = xmalloc (sizeof (id) * size);
       
       index = [aCollection begin: scratchZone];
       
-      for(i = 0; i < size; i++)
+      for (i = 0; i < size; i++)
         flat[i] = [index next];
       
       [index drop];
@@ -40,11 +40,11 @@ PHASE(Using)
 
 + (void)_unFlatten_: aCollection
 {
-  id index; //atOffset would cause repetitive traversal in lists etc.
-  int i;
+  id index; // atOffset would cause repetitive traversal in lists etc.
+  size_t i;
   
   index = [aCollection begin: scratchZone];
-  for(i = 0; i < size; i++)
+  for (i = 0; i < size; i++)
     {
       [index next];
       [index put: flat[i]]; 
@@ -61,7 +61,7 @@ defaultCmpObjs (id *a, id *b)
 }
 
 static int
-cmpInts (int *a, int *b)
+cmpInts (PTRINT *a, PTRINT *b)
 {
   if (*a > *b)
     return 1;
@@ -84,8 +84,8 @@ cmpObjs (id *a, id *b)
 
   if (size)
     {
-      qsort (flat,size,sizeof(id),
-             (int (*)(const void *, const void *)) defaultCmpObjs);
+      qsort (flat,size,sizeof (id),
+             (int (*) (const void *, const void *)) defaultCmpObjs);
       [self _unFlatten_: aCollection];
     }
 }
@@ -96,8 +96,8 @@ cmpObjs (id *a, id *b)
 
   if (size)
     {
-      qsort (flat, size, sizeof(int),
-             (int (*)(const void *, const void *)) cmpInts);
+      qsort (flat, size, sizeof (PTRINT),
+             (int (*) (const void *, const void *)) cmpInts);
       [self _unFlatten_: aCollection];
     }
 }
@@ -110,20 +110,20 @@ cmpObjs (id *a, id *b)
     {
       comp_selector = aSelector;
       qsort (flat, size, sizeof (id),
-             (int (*)(const void *, const void *)) cmpObjs);
+             (int (*) (const void *, const void *)) cmpObjs);
       [self _unFlatten_: aCollection];
     }
 }
 
 + (void)sortNumbersIn: aCollection
-                using: (int(*)(const void*,const void*)) comp_fun
+                using: (int (*) (const void *, const void *)) comp_fun
 {
   [self _flatten_: aCollection];
 
   if (size)
     {
-      qsort (flat, size, sizeof(int),
-             (int (*)(const void *, const void *)) comp_fun);
+      qsort (flat, size, sizeof (PTRINT),
+             (int (*) (const void *, const void *)) comp_fun);
       [self _unFlatten_: aCollection];
     }
 }
@@ -131,7 +131,7 @@ cmpObjs (id *a, id *b)
 + (void)reverseOrderOf: aCollection
 {
   id index;  // atOffset would cause repetitive traversal in lists etc.
-  int i;
+  size_t i;
   
   // Do `flatten':
   
@@ -139,7 +139,7 @@ cmpObjs (id *a, id *b)
   
   if (size)
     {
-      flat = xmalloc (sizeof (int) * size);
+      flat = xmalloc (sizeof (PTRINT) * size);
       
       index = [aCollection begin: scratchZone];
       
@@ -153,7 +153,7 @@ cmpObjs (id *a, id *b)
       for (i = 0; i < size; i++)
         {
           [index next];
-          [index put: flat[size-1-i]];
+          [index put: flat[size - 1 - i]];
         }
       
       [index drop];
