@@ -1,3 +1,10 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ControlPanel.[hm]: Declare.
+	ControlState{Running,Stopped,Stepping,NextTime,Quit} symbols.
+
+	* simtoolsgui.m: Include ControlPanel.h.  Define symbols above.
+
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbeWidget.m: Don't include stdlib.h.

@@ -9,6 +9,8 @@
 #import <objectbase/Arguments.h> // arguments object
 #include <misc.h> // xmalloc, stpcpy
 
+#import "ControlPanel.h" //ControlState{Running,Stopped,Stepping,Quit,NextTime}
+
 id <ProbeDisplayManager> probeDisplayManager;
 
 void
@@ -16,6 +18,13 @@ initSimtoolsGUI (void)
 {
   GUI_INIT (arguments);
   probeDisplayManager = [ProbeDisplayManager create: globalZone];
+  
+  // various states used in ControlPanel.
+  defsymbol (ControlStateRunning);
+  defsymbol (ControlStateStopped);
+  defsymbol (ControlStateStepping);
+  defsymbol (ControlStateQuit);
+  defsymbol (ControlStateNextTime);   
 }
 
 const char *

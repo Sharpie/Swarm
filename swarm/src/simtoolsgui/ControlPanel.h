@@ -34,3 +34,5 @@
 #endif
 
 @end
+
+extern id <Symbol> ControlStateRunning, ControlStateStopped, ControlStateStepping, ControlStateNextTime, ControlStateQuit;

@@ -20,8 +20,8 @@
 // falls on the shoulders of the controller that's using us, typically
 // an observer swarm.
 
-id ControlStateRunning, ControlStateStopped;
-id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
+id <Symbol> ControlStateRunning, ControlStateStopped;
+id <Symbol> ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 @implementation ControlPanel
 
