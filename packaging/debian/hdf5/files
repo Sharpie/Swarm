@@ -1,2 +1,4 @@
 hdf5-dev_1.2.1-1_i386.deb devel optional
 hdf5_1.2.1-1_i386.deb devel optional
+hdf5-dev_1.2.1-1_sparc.deb devel optional
+hdf5_1.2.1-1_sparc.deb devel optional

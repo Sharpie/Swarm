@@ -1,1 +1,1 @@
-shlibs:Depends=hdf5, libc6 (>= 2.1.2), libz1
+shlibs:Depends=libc6 (>= 2.1.2), libz1
