@@ -6,7 +6,7 @@ INCFILE = $(LIBNAME).h
 
 RANLIB = @RANLIB@
 
-INCLUDES = -I$(includedir) -I.
+SWARMINCLUDES = -I$(includedir) -I.
 
 .PHONY: install-headers install-lib
 
