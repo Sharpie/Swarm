@@ -12,7 +12,7 @@ NOCONFIGURE=1
 
 # Update whenever version dependencies of developer tools change
 REQUIRED_AUTOCONF_VERSION="2.52"
-REQUIRED_LIBTOOL_VERSION="1.4.2"
+REQUIRED_LIBTOOL_VERSION="1.4.3"
 REQUIRED_AUTOMAKE_VERSION="1.5"
 
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
@@ -38,11 +38,19 @@ if [ ! `uname`="Darwin" ]; then
 	  }
 	
 	LIBTOOL_VERSION=`(libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
-	if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
+else
+	(glibtool --version) < /dev/null > /dev/null 2>&1 || {
 		echo
-		echo "**Warning**: only tested with version" $REQUIRED_LIBTOOL_VERSION
-		echo "of libtool and may not work with version" $LIBTOOL_VERSION
-	fi
+		echo "**Error**: You must have \`libtool' installed to compile Swarm."
+		DIE=1
+	  }
+	
+	LIBTOOL_VERSION=`(glibtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
+fi
+if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
+	echo
+	echo "**Warning**: only tested with version" $REQUIRED_LIBTOOL_VERSION
+	echo "of libtool and may not work with version" $LIBTOOL_VERSION
 fi
 
 (automake --version) < /dev/null > /dev/null 2>&1 || {
