@@ -19,10 +19,10 @@
 
 #define ARCHIVER_FUNCTION_NAME "archiver"
 
-Archiver_c *hdf5Archiver;
-Archiver_c *lispArchiver;
-Archiver_c *hdf5AppArchiver;
-Archiver_c *lispAppArchiver;
+externvardef Archiver_c *hdf5Archiver;
+externvardef Archiver_c *lispArchiver;
+externvardef Archiver_c *hdf5AppArchiver;
+externvardef Archiver_c *lispAppArchiver;
 
 @interface Application: CreateDrop
 {

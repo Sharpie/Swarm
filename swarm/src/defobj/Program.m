@@ -23,10 +23,8 @@ Library:      defobj
 
 // program-wide storage zones
 
-id  _obj_initZone;
-id  _obj_globalZone;
-id  _obj_sessionZone;
-id  _obj_scratchZone;
+id _obj_initZone;
+externvardef id _obj_globalZone, _obj_sessionZone, _obj_scratchZone;
 
 extern void _obj_splitPhases (Class_s  *class);
 

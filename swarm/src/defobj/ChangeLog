@@ -1,5 +1,16 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Arguments.m (arguments): Add externvardef.
+
+	* Program.m (_obj_{globalZone,sessionZone,scratchZone}): Add
+	externvardef.
+
+	* defobj.m (_obj_debug, _obj_xerror, _obj_xdebug):
+	Add externvardef.
+
+	* Archiver.m (hdf5Archiver, lispArchiver, hdf5AppArchiver,
+	lispAppArchiver):  Add externvardef.
+
 	* defobj.h: Use `externvar' for external variable declarations.
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

@@ -21,10 +21,11 @@ Library:      defobj
 
 #include <swarmconfig.h> // HAVE_HDF5
 
-id  t_Object, t_ByteArray;
+id  t_Object
 BOOL _warning_dropFrom = YES;
-BOOL _obj_debug = YES;
-FILE *_obj_xerror, *_obj_xdebug;
+
+externvardef FILE *_obj_xerror, *_obj_xdebug;
+externvardef BOOL _obj_debug = YES;
 
 Class *localClasses;
 unsigned localClassCount = 0;

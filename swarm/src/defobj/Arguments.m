@@ -30,7 +30,7 @@ const char *program_invocation_short_name;
 
 const char *swarm_version = SWARM_VERSION;
 
-id arguments;
+externvardef id arguments;
 
 #define OPT_INHIBIT_ARCHIVER_LOAD 1
 
