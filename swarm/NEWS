@@ -5,9 +5,26 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 **  A system for customizable command line argument parsing.
 
-**  More graphical widgets (lines, circles, rectangles, etc.).
+*** simtools can now be initialized with initSwarmArguments (as well as with 
+    initSwarm).  The third argument must be a subclass of 
+    objectbase/Arguments, and you can add variables and methods as you like. 
+    If you initialize Swarm with initSwarm, you only get the default options.
+*** objectbase/Arguments now provides default implementations of two
+    new methods: `addOptions:' and `parseKey:arg:'
+    - `addOptions:' takes an option specification that includes the
+      a name, key and documentation that appears on the help screen.
+    - `parseKey:arg:' is called for each option that occurs. The user must 
+      supply the code that implements what is to be done with each option.
 
-**  Portable pixmaps using PNG format.
+**  User interface/graphics
+
+*** More graphical widgets for drawing on Raster (lines, ellipses, rectangles).
+    Add [ -ellipseX0:Y0:X1:Y1:Width:Color], [-lineX0:Y0:X1:Y1:Width:Color:],
+    and [ -rectangleX0:Y0:X1:Y1:Width:Color:] methods.
+*** New protocols ButtonPanel, Form, CheckButton, OvalNodeItem, 
+    RectangleNodeItem, CanvasItem, TextItem, Circle, Rectangle,and Line. 
+*** Portable pixmaps using PNG format.  XPixmap has been replaced by a 
+    protocol called Pixmap.
 
 **  Documentation overhaul
 
