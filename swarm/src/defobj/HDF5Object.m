@@ -1130,6 +1130,9 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid,
 
                       if (H5Pset_chunk (plist, 1, chunk_size) < 0)
                         raiseEvent (SaveError, "unable to set chunk sizes");
+
+                      if (H5Pset_deflate (plist, 6) < 0)
+                        raiseEvent (SaveError, "unable to set deflate value");
                       
                       if ((loc_id = hdf5_open_dataset (parent,
                                                        name,
