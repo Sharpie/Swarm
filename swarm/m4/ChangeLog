@@ -1,6 +1,7 @@
 1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Use libexec/Kaffe instead of bin/Kaffe.
+	Append $JAR_CLASSPATH as -classpath argument to jar if it is set.
 
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
