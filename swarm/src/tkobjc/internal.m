@@ -803,54 +803,55 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       keep_inside_screen (tkwin, window);
       Tk_RestackWindow (tkwin, Above, NULL);
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
-    }
+
 #ifndef _WIN32
-  pixmap->display = Tk_Display (tkwin);
-  Tk_RestackWindow (tkwin, Above, NULL);
-  while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
-  XFlush (pixmap->display);
-  {
-    unsigned overlapCount, i;
-    Window *overlapWindows;
-    Display *display = pixmap->display;
-    XSetWindowAttributes attr;
-    XWindowAttributes orig_attr;
-
-    if (!XGetWindowAttributes (display, window, &orig_attr))
-      abort ();
-
-    check_for_overlaps (display, window,
-                        &overlapWindows, &overlapCount);
-
-    attr.override_redirect = True;
-
-    for (i = 0; i < overlapCount; i++)
+      pixmap->display = Tk_Display (tkwin);
+      Tk_RestackWindow (tkwin, Above, NULL);
+      while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+      XFlush (pixmap->display);
       {
-        if (!XChangeWindowAttributes (display, overlapWindows[i],
-                                      CWOverrideRedirect,
-                                      &attr))
+        unsigned overlapCount, i;
+        Window *overlapWindows;
+        Display *display = pixmap->display;
+        XSetWindowAttributes attr;
+        XWindowAttributes orig_attr;
+        
+        if (!XGetWindowAttributes (display, window, &orig_attr))
           abort ();
-        XUnmapWindow (display, overlapWindows[i]);
+        
+        check_for_overlaps (display, window,
+                            &overlapWindows, &overlapCount);
+        
+        attr.override_redirect = True;
+        
+        for (i = 0; i < overlapCount; i++)
+          {
+            if (!XChangeWindowAttributes (display, overlapWindows[i],
+                                          CWOverrideRedirect,
+                                          &attr))
+              abort ();
+            XUnmapWindow (display, overlapWindows[i]);
+          }
+        
+        XFlush (display);
+        
+        x_pixmap_create_from_window (pixmap, window);
+        
+        attr.override_redirect = orig_attr.override_redirect;
+        for (i = 0; i < overlapCount; i++)
+          {
+            if (!XChangeWindowAttributes (display, overlapWindows[i],
+                                          CWOverrideRedirect,
+                                          &attr))
+              abort ();
+            XMapWindow (display, overlapWindows[i]);
+          }
+        xfree (overlapWindows);
       }
-
-    XFlush (display);
-
-    x_pixmap_create_from_window (pixmap, window);
-
-    attr.override_redirect = orig_attr.override_redirect;
-    for (i = 0; i < overlapCount; i++)
-      {
-        if (!XChangeWindowAttributes (display, overlapWindows[i],
-                                      CWOverrideRedirect,
-                                      &attr))
-          abort ();
-        XMapWindow (display, overlapWindows[i]);
-      }
-    xfree (overlapWindows);
-  }
 #else
-  win32_pixmap_create_from_window (pixmap, window, parentFlag);
+      win32_pixmap_create_from_window (pixmap, window, parentFlag);
 #endif
+    }
 }
 
 void
