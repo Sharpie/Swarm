@@ -7,7 +7,8 @@
 #import <objectbase/probing.h>
 
 @implementation SwarmObject
-
+PHASE(Creating)
+PHASE(Using)
 - getProbeMap
 {
   return [probeLibrary getProbeMapFor: [self class]];

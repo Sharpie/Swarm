@@ -14,7 +14,7 @@
 #import "local.h"
 
 @implementation CompleteProbeMap
-
+PHASE(Creating)
 - createEnd
 {
   IvarList_t ivarList;
@@ -137,6 +137,6 @@
 
   return self;
 }
-
+PHASE(Using)
 @end
 

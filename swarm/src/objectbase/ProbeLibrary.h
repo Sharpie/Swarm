@@ -4,11 +4,12 @@
 // See file LICENSE for details and terms of copying.
 
 #import <defobj/Create.h>
+#import <objectbase.h>
 
 #define SIGFIGS_DISPLAYED 6
 #define SIGFIGS_SAVED 6
 
-@interface ProbeLibrary : CreateDrop
+@interface ProbeLibrary : CreateDrop <ProbeLibrary>
 {
   id objectToNotify;
   id myZone;

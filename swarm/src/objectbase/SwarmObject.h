@@ -7,8 +7,9 @@
 // protocol, basic implementation.
 
 #import <defobj/Create.h>
+#import <objectbase.h>
 
-@interface SwarmObject: CreateDrop
+@interface SwarmObject: CreateDrop <SwarmObject>
 {
 }
 

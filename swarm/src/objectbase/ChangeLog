@@ -1,6 +1,18 @@
-2000-02-16    <mgd@nest.swarm.org>
+2000-02-17    <mgd@nest.swarm.org>
 
 	* Makefile.am (REVISION): Bump.  Version 2.1.
+
+	* ActivityControl.h, CompleteProbeMap.h, CompleteVarMap.h,
+	DefaultProbeMap.h, Probe.h, ProbeLibrary.h, ProbeMap.h,
+	SwarmObject.h: Conform to respective protocol.
+
+	* ActivityControl.m, CompleteProbeMap.m, CompleteVarMap.m,
+	DefaultProbeMap.m, Probe.m, ProbeLibrary.m, ProbeMap.m,
+	SwarmObject.m: Add phase tags.
+
+	* objectbase.h (ActivityControl): Remove terminateActivity.
+
+2000-02-16    <mgd@nest.swarm.org>
 
 	* VarProbe.m ([VarProbe -createEnd]): Print a warning if
 	probe attempted on array of structs or unions.

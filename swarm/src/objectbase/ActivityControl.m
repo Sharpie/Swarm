@@ -1,7 +1,7 @@
-// Swarm library. Copyright © 1996-2000 Swarm Development Group.  This library
-// is distributed without any warranty; without even the implied
-// warranty of merchantability or fitness for a particular purpose.
-// See file LICENSE for details and terms of copying.
+// Swarm library. Copyright © 1996-2000 Swarm Development Group.
+// This library is distributed without any warranty; without even the
+// implied warranty of merchantability or fitness for a particular
+// purpose.  See file LICENSE for details and terms of copying.
 
 // Activity Controller class, for use on any activity in any
 // Swarm. Controls the state of running activities, provides the
@@ -12,7 +12,7 @@
 #import <activity.h>
 
 @implementation ActivityControl
-
+PHASE(Creating)
 + createBegin: aZone
 {
   return [super createBegin: aZone];
@@ -23,6 +23,7 @@
   return [super createEnd];
 }
 
+PHASE(Using)
 // functional methods
 
 //

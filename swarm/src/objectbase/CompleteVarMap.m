@@ -15,6 +15,7 @@
 
 @implementation CompleteVarMap
 
+PHASE(Creating)
 - createEnd
 {
   IvarList_t ivarList;
@@ -105,5 +106,6 @@
   return self;
 }
 
+PHASE(Using)
 @end
 

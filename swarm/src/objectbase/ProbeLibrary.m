@@ -3,15 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <objectbase/ProbeMap.h>
-#import <objectbase/EmptyProbeMap.h>
-#import <objectbase/CompleteProbeMap.h>
-#import <objectbase/CompleteVarMap.h>
 #import <objectbase/ProbeLibrary.h>
+#import <objectbase.h>
 #import <collections.h>
 
 @implementation ProbeLibrary
-
+PHASE(Creating)
 + createBegin: aZone
 {
   ProbeLibrary *tempObj;
@@ -28,6 +25,8 @@
   classMap = [[Map createBegin: [self getZone]] createEnd];
   return self;
 }
+
+PHASE(Using)
 
 - setDisplayPrecision: (int)nSigDisplay
 {

@@ -9,11 +9,11 @@
 // Options for the format of the string returned when probing an unsigned
 // char or a char (there is a choice between "%d %c", "%c" or "%d"...)
 
-@interface Probe: SwarmObject
+@interface Probe: SwarmObject <Probe>
 {
   Class probedClass;
   const char *probedType;
-  int safety;
+  BOOL safety;
   unsigned isJavaProxy;
   id <Symbol> stringReturnType ;
   id objectToNotify;  // could be an object or a list

@@ -616,12 +616,6 @@ USING
 //M: executed until the activity's relative time is equal to stopTime - 1. 
 - stepUntil: (timeval_t)stopTime;
 
-//M: The terminate method sends the terminate message to the activity, which 
-//M: causes all actions and action groups to be removed from its schedule.
-//M: Note: if terminate is sent to an activity and subsequently, a run is 
-//M: attempted on that activity, the program will exit with an error. 
-- (void)terminateActivity;
-
 //M: The updateStateVar method updates the ActivityControl instance variables
 //M: and tests for the continued existence of the activity that is being 
 //M: controlled. This message is sent on each cycle of the schedule for the 

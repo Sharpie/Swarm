@@ -11,7 +11,7 @@
 #import "local.h"
 
 @implementation DefaultProbeMap
-
+PHASE(Creating)
 - createEnd
 {
   IvarList_t ivarList;
@@ -71,6 +71,6 @@
     }
   return self;
 }
-
+PHASE(Using)
 @end
 

@@ -8,8 +8,9 @@
 
 #import <objectbase/ProbeMap.h>
 
-@interface CompleteVarMap : ProbeMap {
+@interface CompleteVarMap: ProbeMap <CompleteVarMap>
+{
 }
 
--createEnd;
+- createEnd;
 @end

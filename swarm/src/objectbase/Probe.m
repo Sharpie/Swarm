@@ -9,6 +9,8 @@
 #import "local.h"
 
 @implementation Probe
+PHASE(Creating)
+
 +  createBegin: aZone 
 {
   Probe * tempObj;
@@ -29,6 +31,15 @@
   
   return self;
 }
+
+PHASE(Setting)
+- setSafety
+{
+  safety = YES;
+  return self;
+}
+
+PHASE(Using)
 
 - setObjectToNotify: anObject
 {
@@ -111,15 +122,9 @@
   return probedType;
 }
 
-- setSafety
-{
-  safety = 1;
-  return self;
-}
-
 - unsetSafety
 {
-  safety = 0;
+  safety = NO;
   return self;
 }
 

@@ -11,13 +11,14 @@
 #import <objectbase/Probe.h>
 #import <objectbase/VarProbe.h>
 #import <objectbase/MessageProbe.h>
+#import <objectbase.h>
 
 
 #if defined(HAVE_JDK) && defined(BUILDING_SWARM)
 #import <defobj/directory.h> // jclass
 #endif
 
-@interface ProbeMap : SwarmObject
+@interface ProbeMap: SwarmObject <ProbeMap>
 {
   Class probedClass;
   int numEntries;

@@ -12,7 +12,7 @@
 #import <objectbase/SwarmObject.h>
 #import <activity.h>
 
-@interface ActivityControl: SwarmObject
+@interface ActivityControl: SwarmObject <ActivityControl>
 {
 @public
   timeval_t currentTime;  // my time index

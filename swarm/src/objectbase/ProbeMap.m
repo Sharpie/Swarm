@@ -17,7 +17,7 @@
 #endif
 
 @implementation ProbeMap
-
+PHASE(Creating)
 + createBegin: aZone
 {
   ProbeMap *tempObj;
@@ -400,6 +400,8 @@
   return self;
 }
 
+PHASE(Using)
+
 - clone: aZone
 {
   ProbeMap *npm;
@@ -619,7 +621,7 @@
     return res;
 }
 
--begin: aZone
+- begin: aZone
 {
   return [probes begin: aZone];
 }
