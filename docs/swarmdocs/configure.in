@@ -1,6 +1,6 @@
 AC_INIT(protocol.el)
 
-AM_INIT_AUTOMAKE(Swarmdocs, 0.0)
+AM_INIT_AUTOMAKE(swarmdocs, 1.2)
 
 AC_ARG_WITH(swarm,dnl
 changequote(<,>)dnl
