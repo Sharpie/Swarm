@@ -245,17 +245,8 @@ PHASE(Using)
   id <FArguments> arguments =
     [FArguments createBegin: getCZone (getZone (self))];
   
-#ifdef HAVE_JDK
-  if ([theTarget respondsTo: M(isJavaProxy)])
-    {
-      jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
-      const char *sig =
-        swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
-
-      [arguments setJavaSignature: sig];
-    }
-#endif
-  [arguments setObjCReturnType: _C_ID];
+  [arguments setSelector: selector
+             setJavaFlag: [theTarget respondsTo: M(isJavaProxy)]];
   [self _addArguments_: arguments];
   arguments = [arguments createEnd];
 

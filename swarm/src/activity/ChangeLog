@@ -4,6 +4,7 @@
 	can be used without random/objectbase dependencies. 
 	([FActionForEachHomogeneous_c -_performAction_:]): 
 	Handle randomization for Java and Objective C calls.
+	([ActionTo_c -_createCall_:]): Use setSelector:setJavaFlag:.
 
 1999-12-15    <mgd@nest.swarm.org>
 
