@@ -210,17 +210,13 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - javaFind: (jobject)theJavaObject
 {
-  unsigned index = swarm_directory_java_hash_code (theJavaObject);
+  DirectoryEntry *findEntry = JAVAENTRY (theJavaObject);
+  unsigned index = swarm_directory_java_hash_code (findEntry->javaObject);
   id <Map> m = table[index];
+  id ret = m ? [m at: findEntry] : nil;
 
-  if (m)
-    {
-      id findEntry = JAVAENTRY (theJavaObject);
-      id ret = [m at: findEntry];
-      [findEntry drop];
-      return ret;
-    }
-  return nil;
+  [findEntry drop];
+  return ret;
 }
 
 - javaFindObjc: (jobject)theJavaObject
