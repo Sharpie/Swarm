@@ -12,6 +12,19 @@
 
 extern id lispArchiver;
 
+@interface LispArchiverObject: CreateDrop
+{
+  id expr;
+  id object;
+}
++ create: aZone setExpr: valexpr;
++ create: aZone setObject: theObj;
+- setExpr: valexpr;
+- getExpr;
+- setObject: theObj;
+- getObject;
+@end
+
 @interface LispArchiver_c: Archiver_c <LispArchiver>
 {
   id inStreamZone;
@@ -23,6 +36,7 @@ extern id lispArchiver;
 
 - createEnd;
 
+- (BOOL)_load_;
 - lispLoadArchiver: expr;
 
 - save;

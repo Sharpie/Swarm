@@ -15,19 +15,6 @@ const char *defaultPath (const char *swarmArchiver);
 const char *defaultAppPath (const char *appDataPath, const char *appName,
                             const char *suffix);
 
-@interface ArchiverObject: CreateDrop
-{
-  id expr;
-  id object;
-}
-+ create: aZone withExpr: valexpr;
-+ create: aZone withObject: theObj;
-- setExpr: valexpr;
-- getExpr;
-- setObject: theObj;
-- getObject;
-@end
-
 @interface Application: CreateDrop
 {
   const char *name;

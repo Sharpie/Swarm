@@ -1,5 +1,13 @@
 1999-12-26    <mgd@DRONE>
 
+	* LispArchiver.m (archiverLispGet): Handle pre-existing
+	objects.
+	([LispArchiver_c -{createEnd,_load_]): Split out load code
+	into an internal method.
+
+	* Archiver.[hm], LispArchiver.[hm] (LispArchiverObject): Move
+	to LispArchiver.
+
 	* directory.[hm] (swarm_directory_dump): New function.
 	([Directory -describe:]): New method.
 

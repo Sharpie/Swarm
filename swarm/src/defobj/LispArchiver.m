@@ -7,6 +7,46 @@
 #import <collections/predicates.h>
 #import <defobj/defalloc.h>
 
+@implementation LispArchiverObject
++ create: aZone setExpr: valexpr
+{
+  id obj = [self createBegin: aZone];
+  [obj setExpr: valexpr];
+  [obj setObject: nil];
+  return [obj createEnd];
+}
+
++ create: aZone setObject: theObj
+{
+  id obj = [self createBegin: aZone];
+  [obj setExpr: nil];
+  [obj setObject: theObj];
+  return [obj createEnd];
+}
+
+- setExpr: valexpr
+{
+  expr = valexpr;
+  return self;
+}
+
+- getExpr
+{
+  return expr;
+}
+
+- setObject: obj
+{
+  object = obj;
+  return self;
+}
+
+- getObject
+{
+  return object;
+}
+@end
+
 static void
 lispProcessPairs (id aZone, 
                   id obj,
@@ -68,24 +108,22 @@ lispProcessPairs (id aZone,
 static void
 lispProcessMakeObjcPairs (id aZone, id expr, id app)
 {
-  {
-    void mapUpdate (id key, id valexpr)
-      {
-        id objectMap;
-
-        objectMap = [app getDeepMap];
-        if ([objectMap at: key] == nil)
-          [objectMap at: key insert: 
-                       [ArchiverObject create: aZone withExpr: valexpr]];
-        else
-          {
-            raiseEvent (WarningMessage, "Duplicate object key `%s'",
-                        [key getC]);
+  void mapUpdate (id key, id valexpr)
+    {
+      id objectMap;
+      
+      objectMap = [app getDeepMap];
+      if ([objectMap at: key] == nil)
+	[objectMap at: key insert: 
+		     [LispArchiverObject create: aZone setExpr: valexpr]];
+      else
+	{
+	  raiseEvent (WarningMessage, "Duplicate object key `%s'",
+		      [key getC]);
             [key drop];
-          }
-      }
-    lispProcessPairs (aZone, expr, mapUpdate);
-  }
+	}
+    }
+  lispProcessPairs (aZone, expr, mapUpdate);
 }
 
 static void
@@ -146,20 +184,11 @@ PHASE(Creating)
 
   if (!inhibitLoadFlag)
     {
-      FILE *fp = fopen (path, "r");
-      
-      if (fp != NULL)
-        {
-          // Create zone for easy destruction of expressions,
-          // but don't drop it yet, since we will be doing
-          // lazy evaluation on the saved pairs
-          id inStream;
-
-          inStreamZone = [Zone create: getZone (self)];
-          inStream = [InputStream create: inStreamZone setFileStream: fp];  
-          [self lispLoadArchiver: [inStream getExpr]];
-          fclose (fp);
-        }
+      // Create zone for easy destruction of expressions,
+      // but don't drop it yet, since we will be doing
+      // lazy evaluation on the saved pairs
+      inStreamZone = [Zone create: getZone (self)];
+      [self _load_];
     }
   else
     inStreamZone = nil;
@@ -202,6 +231,20 @@ PHASE(Setting)
 }
 
 PHASE(Using)
+
+- (BOOL)_load_
+{
+  FILE *fp = fopen (path, "r");
+  id <InputStream> inStream;
+  
+  if (fp == NULL)
+    return NO;
+
+  inStream = [InputStream create: inStreamZone setFileStream: fp];  
+  [self lispLoadArchiver: [inStream getExpr]];
+  fclose (fp);
+  return YES;
+}
 
 static void
 lisp_print_appkey (const char *appKey, id <OutputStream> outputCharStream)
@@ -350,7 +393,7 @@ archiverLispPut (id aZone, const char *keyStr, id value, id addMap,
       }
     else
       {
-        item = [ArchiverObject create: aZone withObject: value];
+        item = [LispArchiverObject create: aZone setObject: value];
         [addMap at: key insert: item];
       }
   }
@@ -379,15 +422,22 @@ archiverLispPut (id aZone, const char *keyStr, id value, id addMap,
 static id
 archiverLispGet (id aZone, id string, id app)
 {
-  id archiverObject = [[app getDeepMap] at: string];
-  id valexpr = archiverObject ? [archiverObject getExpr] : nil;
-  
-  if (valexpr == nil)
+  id archiverObject =
+    [[app getDeepMap] at: string] ?: [[app getShallowMap] at: string];
+  id obj = nil;
+
+  if (archiverObject)
     {
-      archiverObject = [[app getShallowMap] at: string];
-      valexpr = archiverObject ? [archiverObject getExpr] : nil;
+      obj = [archiverObject getObject];
+      if (!obj)
+	{
+	  id expr = [archiverObject getExpr];
+
+	  if (expr)
+	    obj = lispIn (aZone, expr);
+	}
     }
-  return (valexpr != nil) ? lispIn (aZone, valexpr) : nil;
+  return obj;
 }
 
 - _getWithZone_: aZone _object_: (const char *)key 

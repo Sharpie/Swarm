@@ -48,45 +48,6 @@ defaultAppPath (const char *appDataPath, const char *appName,
   return buf;
 }
 
-@implementation ArchiverObject
-+ create: aZone withExpr: valexpr
-{
-  id obj = [self createBegin: aZone];
-  [obj setExpr: valexpr];
-  [obj setObject: nil];
-  return [obj createEnd];
-}
-
-+ create: aZone withObject: theObj
-{
-  id obj = [self createBegin: aZone];
-  [obj setExpr: nil];
-  [obj setObject: theObj];
-  return [obj createEnd];
-}
-
-- setExpr: valexpr
-{
-  expr = valexpr;
-  return self;
-}
-- getExpr
-{
-  return expr;
-}
-
-- setObject: obj
-{
-  object = obj;
-  return self;
-}
-
-- getObject
-{
-  return object;
-}
-@end
-
 @implementation Application
 + createBegin: aZone
 {
