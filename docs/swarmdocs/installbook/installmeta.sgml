@@ -1,9 +1,10 @@
 <BOOKINFO>
 
-<TITLE>Getting Started with Swarm</TITLE>
-    
+  <TITLE>Getting Started with Swarm</TITLE>
+
+  <GRAPHIC ENTITYREF="smalllogo" ALIGN="CENTER"></GRAPHIC>
   <AUTHOR>
-    <!-- one of (contrib authorblurb affiliation othername lineage surname firstname honorific) -->
+    
     <AFFILIATION>
       <ORGNAME>&orgname;</ORGNAME>
     </AFFILIATION>

@@ -1,17 +1,19 @@
 <SETINFO>
 
+  <GRAPHIC ENTITYREF="largelogo" ALIGN="CENTER"></GRAPHIC>
+
   <BIBLIOSET>
     <TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
 
     <AUTHOR>
-      <AFFILIATION><ORGNAME>Santa Fe Institute</ORGNAME></AFFILIATION>
+      <AFFILIATION><ORGNAME>&orgname;</ORGNAME></AFFILIATION>
     </AUTHOR>
 
     <RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
     <PUBDATE>&pubdate;</PUBDATE>
     <COPYRIGHT>
       <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
-      <HOLDER>the Santa Fe Institute</HOLDER></COPYRIGHT>
+      <HOLDER>the &orgname;</HOLDER></COPYRIGHT>
   </BIBLIOSET>
 
   <ABSTRACT>
@@ -27,8 +29,8 @@
       research.</PARA>
     
     <PARA>Please direct all questions, bug reports, or suggestions for
-      changes to Swarm developers <LITERAL><ULINK
-          URL="mailto:swarm@santafe.edu">swarm@santafe.edu</ULINK>
+      changes to the Swarm developers <LITERAL><ULINK
+      URL="mailto:swarm@santafe.edu">swarm@santafe.edu</ULINK>
       </LITERAL>.
     </PARA>
     
