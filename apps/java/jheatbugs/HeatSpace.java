@@ -3,137 +3,206 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
-// Bits to support a specialization of diffusion objects: "heat space".
-// Most of the real work is done in Diffuse, which implements a CA.
-// These functions simplify and stereotype access to the space variable,
-// making the Heatbug code higher level.
+// All added comments copyright 2001 Timothy Howe. All rights reserved. 
 
 import swarm.Globals;
 
 import swarm.defobj.Zone;
 
 import swarm.space.Diffuse2dImpl;
+import swarm.space.Grid2d;
 
-import java.util.List;
+import java.awt.*;   // We use this just for class Point.
 import java.util.ArrayList;
 
-/** The HeatSpace is a simple object to represent the heat in the
- * world: a spatial variable. HeatSpace inherits most of its
- * behaviour from the "Diffuse2dImpl" space Object. Inherit from
- * Diffuse2dImpl, don't add any new variables */
-public class HeatSpace extends Diffuse2dImpl {
-  
-    /** constant: maximum heat.  This could just be used from the
-        Diffuse2d object's max states. */
-    public static final int maxHeat = 0x7fff;
-  
-    // used in findExtremeTypeX$Y
-    static final int cold = 0, hot = 1;
+/**
+See HeatbugModelSwarm for an overview of the heatbugs application.
 
-    public int sizeX, sizeY;
+<p>
+Swarm's class Diffuse2dImpl provides a 2-dimensional array of integer values.
+Behavior of Diffuse2dImpl includes both diffusion and "evaporation" of whatever
+the values represent, at rates we can specify.
 
-    public HeatSpace (Zone aZone, int worldXSize, int worldYSize, 
-                      double diffuseConstant, double evaporationRate)
+<p>
+The class HeatSpace specializes Diffuse2dImpl; we use the integer values
+to represent heat (which Heatbugs produce as well as seek).
+
+<p>
+We use <tt>Diffuse2dImpl.getValueAtX$Y()</tt> 
+and <tt>Diffuse2dImpl.putValue$atX$Y()</tt> to
+access the integer values.
+
+<p>
+You may wonder why the name of the method is <i>putValue$atX$Y()</i> rather 
+than <i>setValue$atX$Y()</i>. The name reflects the fact that 
+the change is buffered and 
+therefore does not have the instant effect that you would expect from
+a method named <i>setValue$atX$Y()</i>. In particular, if you change a value by
+invoking <tt>putValue$atX$Y()</tt> and then immediately invoke
+<tt>getValue$atX$Y()</tt>, you will still see the old heat value.
+
+*/
+public class HeatSpace extends Diffuse2dImpl
+{
+
+public static final int COLD = 0, HOT = 1;
+public static final int MAX_HEAT = 0x7fff;
+
+private int _printDiagnostics = 0;
+    public void setPrintDiagnostics (int printDiagostics)
+    { _printDiagnostics = printDiagostics; }
+
+public HeatSpace
+ (Zone aZone,
+  int worldXSize,
+  int worldYSize,
+  double diffusionConstant,
+  double evaporationRate,
+  int printDiagnostics
+ )
+{
+    super (aZone, worldXSize, worldYSize, diffusionConstant, evaporationRate);
+    _printDiagnostics = printDiagnostics;
+} /// constructor
+
+/**
+This method adds heat to the current cell, never exceeding MAX_HEAT.
+*/
+public Object addHeat (int moreHeat, int x, int y)
+{
+    int heatHere;
+
+    heatHere = getValueAtX$Y (x, y);      // read the heat
+    int oldHeatHere = heatHere;
+
+    if (heatHere + moreHeat <= MAX_HEAT)   // would add be too big?
+        heatHere = heatHere + moreHeat;      // no, just add
+    else
     {
-        super (aZone, worldXSize, worldYSize, diffuseConstant, 
-               evaporationRate);
-	sizeX = worldXSize;
-	sizeY = worldYSize;
+        heatHere = MAX_HEAT;                  // yes, use max
+        if (_printDiagnostics >= 21)
+            System.out.println
+             ("In HeatSpace.addHeat() at (" + x + "," + y + "), I discarded heat " + heatHere + " + " + moreHeat + " - " + MAX_HEAT + " = " + (heatHere + moreHeat - MAX_HEAT) + ".");
     }
-    
-    /** 
-     * Add heat to the current spot. This code checks the bounds on
-     maxHeat, pegs value at the top. */
-    public Object addHeat$X$Y (int moreHeat, int x, int y) {
-        int heatHere;
-        
-        heatHere = getValueAtX$Y (x, y);	  // read the heat
-        if (moreHeat <= maxHeat - heatHere)   // would add be too big?
-            heatHere = heatHere + moreHeat;	  // no, just add
-        else
-            heatHere = maxHeat;		  // yes, use max
-        putValue$atX$Y (heatHere, x, y);	  // set the heat
-        return this;
-    }
-    
-    /**
-     *  Search the 9 cell neighbourhood for the requested extreme
-     * (cold or hot) The X and Y arguments are used both as input
-     * (where to search from) and as output (pointers are filled with
-     * the coordinate of the extreme).  Note that wraparound edges
-     * (boundary conditions) are implicitly in the code - look at the
-     * call to getValueAtX$Y. */
 
-    public int findExtremeType$X$Y (int type, HeatCell hc) {
-      int bestHeat;
-      int x, y;
-      List heatList;
-      HeatCell cell, bestCell;
-      int offset;
-      int px = hc.x;
-      int py = hc.y;
-      
-        // prime loop: assume extreme is right where we're standing
-      bestHeat = getValueAtX$Y (px, py);
-      
-      // Now scan through the world, finding the best cell in the 8
-        // cell nbd.  To remove the bias from the choice of location,
-      // we keep a list of all best ones and then choose a random
-      // location if there are points of equal best heat.
-      heatList = new ArrayList ();
-      
-      for (y = py - 1; y <= py + 1; y++) {  
-	for (x = px - 1; x <= px + 1; x++) {
-	  int heatHere;
-	  boolean hereIsBetter, hereIsEqual;
-	  
-	  heatHere = getValueAtX$Y ((x + sizeX) % sizeX,
-				    (y + sizeY) % sizeY);
-	  
-	  hereIsBetter = (type == cold) ? (heatHere < bestHeat)
-	    : (heatHere > bestHeat);
-	  
-	  hereIsEqual = (heatHere == bestHeat);
-	  
-	  if (hereIsBetter) {	      // this spot more extreme
-	    
-	    cell = new HeatCell (x, y);
-	    
-	    // this heat must be the best so far, so delete all the
-	    // other cells we have accumulated
-	    heatList.clear ();
-	    heatList.add (cell); 
-	    
-	    // now list only has the one new cell
-	    
-	    bestHeat = heatHere;   // update information
-	  }
-          
-	  // if we have spots of equal best heat - then we add to the
-	  // list from which we can choose randomly later
-	  if (hereIsEqual) {
-	    cell = new HeatCell (x, y);
-	    heatList.add (cell); // add to the end of the list
-	  }
-	}
-	
-      }
-      // choose a random position from the list
-      offset = Globals.env.uniformIntRand.getIntegerWithMin$withMax 
-	(0, (heatList.size () - 1));
-      
-      // choose a point at random from the heat list
-      bestCell = (HeatCell) heatList.get (offset);
-      
-      // Now we've found the requested extreme. Arrange to return the
-      // information (normalize coordinates), and return the heat we found.
-      
-      hc.setX ((bestCell.x + sizeX) % sizeX);
-      hc.setY ((bestCell.y + sizeY) % sizeY);
-      
-      // clean up the temporary list of (x,y) points
-      heatList.clear ();
-      
-      return getValueAtX$Y (hc.x, hc.y);
+    putValue$atX$Y (heatHere, x, y);      // set the heat
+    // Monitor the heat at an arbitrary cell (2, 2) (HeatbugModelSwarm monitors 
+    // the same cell):
+    if (_printDiagnostics >= 10 && x == 2 && y == 2)
+    {
+        System.out.println 
+         ("In HeatSpace.addHeat(), heat " + moreHeat + " was added at (" + x + ", " + y + ") to change from " + oldHeatHere + " to " + heatHere + ".");
     }
+    return this;
+} /// addHeat()
+
+/**
+This method searches targetCell's 9-cell neighborhood for the requested 
+extreme (COLD or HOT). 
+
+<p>Note that a HeatSpace has a wrap-around geography: 
+the south-eastern neighbor of the cell at (x, y) is the cell at ((x + 1) % 
+getSizeX (), (y - 1) % getSizeY ()). Of course, <tt>getSizeX()</tt> 
+and <tt>getSizeY()</tt> are inherited from Diffuse2dImpl.
+
+@param type (in)
+    HeatSpace.COLD or HeatSpace.HOT
+@param targetCell (inout)
+    the Point at the center of the 9-cell neighborhood; altered to a Point
+    randomly selected from among those with the most-ideal temperature
+*/
+
+public int findExtremeType$X$Y (int type, Point targetCell, Grid2d world)
+{
+    int x, y;
+    Point candidate;
+
+    // Prime the loop by assuming that the extreme heat is right at targetCell:
+    int bestHeat = getValueAtX$Y (targetCell.x, targetCell.y);
+
+    // Scan through the 9-cell neighborhood, keeping a list of all cells
+    // that tie for most extreme:
+    ArrayList heatList = new ArrayList ();
+
+    for (y = targetCell.y - 1; y <= targetCell.y + 1; y++)
+    {
+        for (x = targetCell.x - 1; x <= targetCell.x + 1; x++)
+        {
+
+            candidate = new Point (x % getSizeX (), y % getSizeY ());
+
+            int candidateHeat = getValueAtX$Y (candidate.x, candidate.y);
+
+            boolean candidateIsBetter = (type == COLD)
+             ? (candidateHeat < bestHeat)
+             : (candidateHeat > bestHeat);
+
+            boolean candidateIsEqual = (candidateHeat == bestHeat);
+
+            if (candidateIsBetter)
+            {
+            // ... This cell is more extreme than any so far.
+                // Delete all the other cells we have accumulated:
+                heatList.clear ();
+                heatList.add (new Point (x, y));
+                bestHeat = candidateHeat;
+            }
+            else if (candidateIsEqual)
+            {
+                heatList.add (new Point (x, y));
+            }
+        }
+    }
+
+    // Choose a point at random from the list of Points tied for most extreme:
+    int offset = Globals.env.uniformIntRand.getIntegerWithMin$withMax
+     (0, (heatList.size () - 1));
+    Point bestCell = (Point) heatList.get (offset);
+
+    // We've found the requested extreme. Set the (inout) variable targetCell,
+    // applying geographic wrap-around, and return the heat we found:
+    targetCell.x = ((bestCell.x + getSizeX ()) % getSizeX ());
+    targetCell.y = ((bestCell.y + getSizeY ()) % getSizeY ());
+
+    return bestHeat;
+
+} /// findExtremeType$X$Y()
+
+/**
+Did you think you could override Diffuse2d.stepRule()? You can -- as we have
+done here -- but the method will never be invoked.
+
+<p>
+We know the method is defined "correctly" because 
+if we alter the signature, for example to return void rather than Object, 
+the compiler complains that the method does not match the method
+"inherited from type 'swarm/space/Diffuse2dImpl'". 
+
+<p>
+Diffuse2d inherits from Ca2d, which inherits from DblBuffer2d, which maintains
+two lattices (old and new). As the Swarm Reference Guide states for 
+DblBuffer2d, <tt>putValue()</tt> -- which <tt>stepRule()</tt> presumably
+invokes -- is "overridden so writes happen to newLattice".
+
+*/
+public Object stepRule ()
+{
+    // super.stepRule ();
+    System.out.println ("This method never gets invoked.");
+    return this;
 }
+
+/**
+This method returns the sum of the heat in each cell of the HeatSpace.
+
+*/
+public double totalHeat ()
+{
+    double totalHeat = 0.0;
+    for (int x = 0; x < getSizeX (); x++)
+        for (int y = 0; y < getSizeY (); y++)
+            totalHeat += getValueAtX$Y (x, y);
+    return totalHeat;
+}
+
+} /// class HeatSpace

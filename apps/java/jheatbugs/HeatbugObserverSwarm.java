@@ -3,6 +3,10 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
+// All added comments copyright 2001 Timothy Howe. All rights reserved. 
+
+import java.util.ArrayList;
+
 import swarm.Globals;
 import swarm.Selector;
 import swarm.defobj.Zone;
@@ -34,356 +38,407 @@ import swarm.space.Value2dDisplayImpl;
 import swarm.space.Object2dDisplay;
 import swarm.space.Object2dDisplayImpl;
 
-import java.util.List;
-
 /**
- The HeatbugObserverSwarm is a swarm of objects set up to observe a
- Heatbugs model when the graphical interface is running. The most
- important object is the heatbugModelSwarm, but we also have graphical
- windows and data analysis */
-public class HeatbugObserverSwarm extends GUISwarmImpl {
-  /** one parameter: update freq */
-  public int displayFrequency;				
-  
-  /** ActionGroup for sequence of GUI events */
-  public ActionGroup displayActions;				
-  /** the single Schedule instance */
-  public Schedule displaySchedule;
+This class implements the GUI-mode observer of the Heatbug model 
+defined in HeatbugModelSwarm.java.
 
-  /** the Swarm we're observing */
-  public HeatbugModelSwarm heatbugModelSwarm;	  	
+<p>
+See HeatbugModelSwarm for an overview of the heatbugs application.
 
-  /* Lots of display objects. First, widgets */
+*/
+public class HeatbugObserverSwarm extends GUISwarmImpl
+{
 
-  /**  allocate colours */
-  public Colormap colormap;		
-  /**  2d display widget */
-  public ZoomRaster worldRaster; 
-  /** graphing widget */
-  public EZGraph unhappyGraph;			
-  
-  /* Now, higher order display and data objects */
+// Todo: make these variables private as much as possible:
 
-  /** display the heat */
-  public Value2dDisplay heatDisplay;
-  /** display the heatbugs */
-  public Object2dDisplay heatbugDisplay;	        
+// This defines the number of steps after which we display a snapshot of the 
+// simulation; we could speed up the simulation by displaying less frequently:
+public int displayFrequency = 1;
 
-  /** Constructor for class */
-  public HeatbugObserverSwarm (Zone aZone) {
+// This defines the timing of the Swarm's Actions:  
+public Schedule displaySchedule;
+
+// This is the model we're observing:
+public HeatbugModelSwarm heatbugModelSwarm;
+    public HeatbugModelSwarm getHeatbugModelSwarm ()
+    { return heatbugModelSwarm; }
+
+// This is the index to the palette we will use to paint heat and Heatbugs:
+public Colormap colormap;
+
+// This is the 2-dimensional display we will use to paint both heat
+// and Heatbugs:
+public ZoomRaster worldRaster;
+
+// This is the time-series graph we will use to display average
+// Heatbug unhappiness:
+public EZGraph unhappyGraph;
+
+// This is the 2-dimensional graph of the heat; we will display
+// it on the ZoomRaster:
+public Value2dDisplay heatDisplay;
+
+// This is the 2-dimensional graph of the Heatbugs; we will display
+// it on the ZoomRaster, layered over the heatDisplay:
+public Object2dDisplay heatbugDisplay;
+
+public HeatbugObserverSwarm (Zone aZone)
+{
     super(aZone);
 
-    // Fill in the relevant parameters (only one, in this case).
-    displayFrequency = 1;
+    // Create the model that this observer will observe:
+    heatbugModelSwarm = new HeatbugModelSwarm (getZone ());
 
-    // Now, build a customized probe map using a `local' subclass
-    // (a special kind of Java `inner class') of the
-    // EmptyProbeMapImpl class.  Without a probe map, the default
-    // is to show all variables and messages. Here we choose to
-    // customize the appearance of the probe, give a nicer
-    // interface.
+    // Create a data structure to hold the Probes:
+    EmptyProbeMapImpl heatbugObserverProbeMap = new EmptyProbeMapImpl 
+     (aZone, getClass ());
 
-    class HeatbugObserverProbeMap extends EmptyProbeMapImpl {
-      private VarProbe probeVariable (String name) {
-        return
-          Globals.env.probeLibrary.getProbeForVariable$inClass
-          (name, HeatbugObserverSwarm.this.getClass ());
-      }
-      private MessageProbe probeMessage (String name) {
-        return
-          Globals.env.probeLibrary.getProbeForMessage$inClass
-          (name, HeatbugObserverSwarm.this.getClass ());
-      }
-      private void addVar (String name) {
-        addProbe (probeVariable (name));
-      }
-      private void addMessage (String name) {
-        addProbe (probeMessage (name));
-      }
-      public HeatbugObserverProbeMap (Zone _aZone, Class aClass) {
-        super (_aZone, aClass);
-        addVar ("displayFrequency");
-        addMessage ("graphBug:");
-      }
-    } 
-        
-    // Install our custom probeMap class directly into the
-    // probeLibrary
+    // Create Probes for some variables and methods (see HeatbugModelSwarm.java
+    // for an explanation of Probes, ProbeMaps, and ProbeDisplays):
+    heatbugObserverProbeMap.addProbe (probeVariable ("displayFrequency"));
+    heatbugObserverProbeMap.addProbe (probeMessage ("graphBug:"));
+
     Globals.env.probeLibrary.setProbeMap$For
-      (new HeatbugObserverProbeMap (aZone, getClass ()), getClass ());
-  }
-    
-  public Object _worldRasterDeath_ (Object caller) {
-    worldRaster.drop ();
-    worldRaster = null;
+     (heatbugObserverProbeMap, getClass ());
+
+    System.out.println 
+     (
+"\n" +
+"In each field you change in the probe display, press Enter.\n" +
+"\n" +
+"For method invocations, enter an appropriate value in each argument\n" +
+"textbox after the method button, then click the button.\n"
+     );
+
+} /// constructor
+
+/**
+This method activates the schedules so they're ready to run.
+
+@param swarmContext (in)
+    the larger context within which this Swarm is activated; an observer swarm 
+    is usually the top-level Swarm, so the context is usually null; for
+    sub-Swarms such as heatbugModelSwarm, this HeatbugObserverSwarm will be 
+    the swarmContext 
+*/
+public Activity activateIn (Swarm swarmContext)
+{
+    super.activateIn (swarmContext);
+    heatbugModelSwarm.activateIn (this);
+    displaySchedule.activateIn (this);
+    return getActivity();
+}
+
+/**
+This method schedules the actions of this GUI observer Swarm. 
+
+<p>
+This Swarm contains the Schedules, ActionGroups, and Actions depicted in the 
+following diagram. 
+
+<xmp>
+Swarm
+this
+|
+|
+|
+Schedule
+displaySchedule
+|
++-----------------------------------+
+|                                   |
+ActionGroup                         ActionGroup
+updateActions                       tkActions
+|                                   |
++-------------+                     |
+|             |                     |
+Action        Action                Action
+this          probeDisplayManager   getActionCache()   
+._update_()   .update()             doTkEvents()
+</xmp>
+
+<p>
+See the documentation in HeatbugModelSwarm.buildActions() for an explanation
+of Schedules, ActionGroups, and Actions.
+
+*/
+public Object buildActions ()
+{
+    super.buildActions();
+
+    // Let the model Swarm build its own schedule:
+    heatbugModelSwarm.buildActions();
+
+    ActionGroup updateActions = new ActionGroupImpl (getZone());
+    ActionGroup tkActions = new ActionGroupImpl (getZone());
+
+    // Define the first Action of ActionGroup updateActions:
+    try
+    {
+    updateActions.createActionTo$message
+     (this, new Selector (getClass (), "_update_", false));
+
+    // Define the second Action of ActionGroup updateActions:
+    updateActions.createActionTo$message
+     (Globals.env.probeDisplayManager,
+      new Selector (Globals.env.probeDisplayManager.getClass (), "update", true)
+     );
+
+    // Define the sole Action of ActionGroup tkActions:
+    tkActions.createActionTo$message
+     (getActionCache (),
+      new Selector (getActionCache ().getClass (), "doTkEvents", true)
+     );
+    } catch (Exception e)
+    {
+        System.err.println ("Exception in setting up tkActions : "
+         + e.getMessage ());
+    }
+
+    // Define the Schedule:
+    displaySchedule = new ScheduleImpl (getZone (), displayFrequency);
+      // ... The repeat interval is displayFrequency, so the schedule will
+      // begin once every displayFrequency steps of the simulation.
+    // Insert the updateActions ActionGroup into the Schedule:
+    displaySchedule.at$createAction 
+     (0, 
+      // ... Execute the ActionGroup at step 0 relative to the beginning of 
+      // the schedule.
+      updateActions
+     );
+    // Insert the tkActions ActionGroup into the Schedule:
+    displaySchedule.at$createAction 
+     (0, 
+      // ... Execute the ActionGroup at step 0 relative to the beginning of 
+      // the schedule.
+      tkActions
+     );
+
     return this;
-  }
-    
-  public Object _unhappyGraphDeath_ (Object caller) {
+} /// buildActions()
+
+/**
+This method creates the plots and graphs that present the 
+results of the simulation. It delegates the building of the Heatbug model 
+to HeatbugModelSwarm.buildObjects().
+
+*/
+public Object buildObjects ()
+{
+    super.buildObjects ();
+
+    // Create probe objects on the model and on this observer, to provide
+    // GUI channels for reading and writing parameters:
+    Globals.env.createArchivedProbeDisplay
+     (heatbugModelSwarm, "heatbugModelSwarm");
+    Globals.env.createArchivedProbeDisplay (this, "heatbugObserverSwarm");
+
+    // Wait here until the user clicks Start or Next after optionally changing 
+    // parameters:
+    getControlPanel ().setStateStopped ();
+
+    heatbugModelSwarm.buildObjects ();
+
+    // Create a colormap for displaying Heatbugs and heat:
+    colormap = new ColormapImpl (getZone ());
+
+    // Assign colors [ 0.. 63] to shades of red, for heat display;
+    // assign colors [64..127] to shades of yellow-green, for Heatbug display:
+    for (double i = 0; i < 64; i++)
+    {
+        colormap.setColor$ToRed$Green$Blue ((byte) i,        i / 63, 0, 0);
+        colormap.setColor$ToRed$Green$Blue ((byte) (64 + i), i / 63, 1, 0);
+    }
+
+    // Set the colors of the heatbugs from yellow through green (the higher
+    // the ideal temperature, the more the yellow):
+    double tempRange 
+     = heatbugModelSwarm.maxIdealTemp - heatbugModelSwarm.minIdealTemp;
+    ArrayList heatbugList = heatbugModelSwarm.getHeatbugList ();
+    for (int i = 0; i < heatbugList.size (); i++)
+    {
+        Heatbug bug = (Heatbug) heatbugList.get (i);
+        bug.setColorIndex 
+         ((byte) 
+          (64 + 63 * 
+           (bug.getIdealTemperature () - heatbugModelSwarm.minIdealTemp) 
+           / tempRange
+          )
+         );
+    }
+
+    // Create another window for display, and set its attributes:
+    worldRaster = new ZoomRasterImpl (getZone (), "worldRaster");
+    try
+    {
+    worldRaster.enableDestroyNotification$notificationMethod
+     (this, new Selector (getClass (), "_worldRasterDeath_", false));
+    } catch (Exception e)
+    {
+        System.err.println ("Exception _worldRasterDeath_: " + e.getMessage ());
+    }
+    worldRaster.setColormap (colormap);
+    worldRaster.setZoomFactor (4);
+    worldRaster.setWidth$Height
+     ((heatbugModelSwarm.getWorld ()).getSizeX (),
+      (heatbugModelSwarm.getWorld ()).getSizeY ()
+     );
+    worldRaster.setWindowTitle ("Heat World");
+    worldRaster.pack();                  // draw the window
+
+    // Create a Value2dDisplay, to display the HeatSpace on the ZoomRaster:
+    heatDisplay = new Value2dDisplayImpl
+     (getZone (), worldRaster, colormap, heatbugModelSwarm.getHeatSpace ());
+
+    heatDisplay.setDisplayMappingM$C (512, 0); // map [0..32767] to [0,63]
+
+    // The Heatbug positional data is in the Grid2d, which we can obtain from 
+    // getWorld(). The display widget is the ZoomRaster worldRaster. An 
+    // Object2dDisplay knows how to draw such data on such a raster: 
+    try
+    {
+    heatbugDisplay = new Object2dDisplayImpl
+     (getZone (),
+      worldRaster,
+      heatbugModelSwarm.getWorld (),
+      new Selector (Class.forName ("Heatbug"), "drawSelfOn", false)
+     );
+    } catch (Exception e)
+    {
+        System.err.println ("Exception drawSelfOn: " + e.getMessage ());
+    }
+
+    // The Grid2d knows what Heatbugs are on it, and heatbugDisplay has it, so
+    // heatbugDisplay could draw it without any more help from us. But it has 
+    // getSizeX () times getSizeY () cells. If we give it the Heatbug list,
+    // which has only numBugs elements, it can draw the Heatbugs more 
+    // efficiently: 
+    heatbugDisplay.setObjectCollection
+     (heatbugModelSwarm.getHeatbugList ());
+
+    // Tell the world raster to send mouse clicks to the
+    // heatbugDisplay. This will allow the user to right-click on the
+    // display to probe the bugs:
+    try
+    {
+    worldRaster.setButton$Client$Message
+     (3,
+      heatbugDisplay,
+      new Selector (heatbugDisplay.getClass (), "makeProbeAtX$Y", true)
+     );
+    } catch (Exception e)
+    {
+        System.err.println ("Exception makeProbeAtX$Y: " + e.getMessage ());
+    }
+
+    // Create the graph widget to display unhappiness:
+    unhappyGraph = new EZGraphImpl
+     (getZone (),
+      "Unhappiness of bugs vs. time",
+      "time", 
+      "unhappiness",
+      "unhappyGraph"
+     );
+
+    // Todo: deal with this now-commented-out code:
+    // Globals.env.setWindowGeometryRecordName (unhappyGraph, "unhappyGraph");
+
+    // Assign the method to be used for destroying unhappyGraph:
+    try
+    {
+    unhappyGraph.enableDestroyNotification$notificationMethod
+     (this,
+      new Selector (getClass (), "_unhappyGraphDeath_", false)
+     );
+    } catch (Exception e)
+    {
+        System.err.println
+         ("Exception _unhappyGraphDeath_: " + e.getMessage ());
+    }
+
+    // Create the mechanism for computing the average heatbug unhappiness:
+    try
+    {
+    unhappyGraph.createAverageSequence$withFeedFrom$andSelector
+     ("unhappiness", 
+      heatbugModelSwarm.getHeatbugList (),
+      new Selector (Class.forName ("Heatbug"), "getUnhappiness", false)
+     );
+    } catch (Exception e)
+    {
+        System.err.println ("Exception getUnhappiness: " + e.getMessage ());
+    }
+    return this;
+} /// buildObjects()
+
+public void drop ()
+{
+    if (unhappyGraph != null)
+        unhappyGraph.disableDestroyNotification ();
+    if (worldRaster != null)
+        worldRaster.disableDestroyNotification ();
+    super.drop ();
+}
+
+public Object graphBug (Heatbug aBug)
+{
+    if (unhappyGraph != null)
+    try
+    {
+    unhappyGraph.createSequence$withFeedFrom$andSelector
+     ("Bug", 
+      aBug,
+      new Selector (aBug.getClass (), "getUnhappiness", false)
+     );
+    } catch (Exception e)
+    {
+        System.err.println ("Exception graphBug: " + e.getMessage());
+    }
+    return this;
+}
+
+public Object _unhappyGraphDeath_ (Object caller)
+{
     unhappyGraph.drop ();
     unhappyGraph = null;
     return this;
-  }
-    
-  /**
-     Create the objects used in the display of the model. This code
-     is fairly complicated because we build a fair number of
-     widgets. It's also a good example of how to use the display
-     code. */
-  public Object buildObjects () {
-    //int i;
-      
-    super.buildObjects ();
-        
-    // First, we create the model that we're actually observing. The
-    // model is a subswarm of the observer. 
-        
-    heatbugModelSwarm = new HeatbugModelSwarm (getZone ());
-        
-    // Now create probe objects on the model and ourselves. This gives a
-    // simple user interface to let the user change parameters.
-        
-    Globals.env.createArchivedProbeDisplay (heatbugModelSwarm,
-                                            "heatbugModelSwarm");
-    Globals.env.createArchivedProbeDisplay (this, "heatbugObserverSwarm");
-    
-    // Instruct the control panel to wait for a button event: we
-    // halt here until someone hits a control panel button so the
-    // user can get a chance to fill in parameters before the
-    // simulation runs
-    getControlPanel ().setStateStopped ();
-        
-    // OK - the user has specified all the parameters for the
-    // simulation.  Now we're ready to start.
-        
-    // First, let the model swarm build its objects.
-    heatbugModelSwarm.buildObjects ();
-        
-    // Now get down to building our own display objects.
-        
-    // First, create a colormap: this is a global resource, the information
-    // here is used by lots of different objects.
-    colormap = new ColormapImpl (getZone ());
-        
-    // Colours [0,64) are assigned to the range Red [0, 1), for
-    // heat display.
-    for (int i = 0; i < 64; i++)
-      colormap.setColor$ToRed$Green$Blue 
-        ((byte) i, (double) i / 63.0, 0, 0);
-        
-    // Colour 64 is set to green, to display heatbugs
-    colormap.setColor$ToName ((byte) 64, "green");
-        
-    // Colour 65 is set to white, used in this case below on
-    // probed heatbug.
-    colormap.setColor$ToName ((byte) 65, "white");
-        
-    // Now go in to the heatbugs in the model and set their
-    // colours to green (64)
-    List heatbugList = heatbugModelSwarm.getHeatbugList ();
-        
-    for (int i = 0; i < heatbugList.size (); i++) {
-      Heatbug bug = (Heatbug) heatbugList.get (i);
-      bug.setBugColor ((byte) 64);
-    } 
-        
-    // Next, create a 2d window for display, set its size, zoom
-    // factor, title.
-    worldRaster = new ZoomRasterImpl (getZone (), "worldRaster");
-    try {
-      worldRaster.enableDestroyNotification$notificationMethod 
-        (this,
-         new Selector (getClass (), "_worldRasterDeath_", false));
-    } catch (Exception e) {
-      System.err.println ("Exception _worldRasterDeath_: " 
-                          + e.getMessage ());
-    }
-        
-    worldRaster.setColormap (colormap);
-    worldRaster.setZoomFactor (4);
-    worldRaster.setWidth$Height 
-      ((heatbugModelSwarm.getWorld ()).getSizeX (),
-       (heatbugModelSwarm.getWorld ()).getSizeY ());
-    worldRaster.setWindowTitle ("Heat World");
-    worldRaster.pack();				  // draw the window.
-        
-    // Now create a Value2dDisplay: this is a special object that
-    // will display arbitrary 2d value arrays on a given Raster
-    // widget.
-    heatDisplay = new Value2dDisplayImpl 
-      (getZone (), worldRaster, colormap, heatbugModelSwarm.getHeat ());
-        
-    heatDisplay.setDisplayMappingM$C (512, 0); // turn [0,32768) -> [0,64)
-        
-    // And also create an Object2dDisplay: this object draws
-    // heatbugs on the worldRaster widget for us, and also
-    // receives probes.
-    try {
-      heatbugDisplay = new Object2dDisplayImpl
-        (getZone (), worldRaster, heatbugModelSwarm.getWorld (),
-         new Selector (Class.forName ("Heatbug"), "drawSelfOn", false));
-    } catch (Exception e) {
-      System.err.println ("Exception drawSelfOn: " + e.getMessage ());
-    }
-        
-    heatbugDisplay.setObjectCollection 
-      (heatbugModelSwarm.getHeatbugList ()); 
-        
-    // Also, tell the world raster to send mouse clicks to the
-    // heatbugDisplay this allows the user to right-click on the
-    // display to probe the bugs.
-    try {
-      worldRaster.setButton$Client$Message 
-        (3, heatbugDisplay, new Selector (heatbugDisplay.getClass (), 
-                                          "makeProbeAtX$Y", true));
-    } catch (Exception e) {
-      System.err.println ("Exception makeProbeAtX$Y: " 
-                          + e.getMessage ());
-    }
-        
-    // Create the graph widget to display unhappiness.
-    unhappyGraph = new EZGraphImpl 
-      (getZone (),
-       "Unhappiness of bugs vs. time",
-       "time", "unhappiness",
-       "unhappyGraph");
-        
-    //Globals.env.setWindowGeometryRecordName (unhappyGraph, "unhappyGraph"); 
-        
-    // instruct this _unhappyGraphDeath_ method to be called when
-    // the widget is destroyed
-    try {
-      unhappyGraph.enableDestroyNotification$notificationMethod 
-        (this, new Selector (getClass (),
-                             "_unhappyGraphDeath_",
-                             false));
-    } catch (Exception e) {
-      System.err.println ("Exception _unhappyGraphDeath_: " 
-                          + e.getMessage ());
-    }
-        
-    // create the data for the average heatbug unhappiness
-    try {
-      unhappyGraph.createAverageSequence$withFeedFrom$andSelector 
-        ("unhappiness", heatbugModelSwarm.getHeatbugList (),
-         new Selector (Class.forName ("Heatbug"), "getUnhappiness", 
-                       false));
-    } catch (Exception e) {
-      System.err.println ("Exception getUnhappiness: " 
-                          + e.getMessage ());
-    } 
-    return this;
-  }  
-    
-  public Object _update_ ()  {
-    if (worldRaster != null) {
-      heatDisplay.display ();
-      heatbugDisplay.display ();
-      worldRaster.drawSelf ();
-    }
-    
-    if (unhappyGraph != null)
-      unhappyGraph.step ();
-    return this;
-  }
-
-  /**
-     Create the actions necessary for the simulation. This is where
-     the schedule is built (but not run!)  Here we create a display
-     schedule - this is used to display the state of the world and
-     check for user input. This schedule should be thought of as
-     independent from the model - in particular, you will also want
-     to run the model without any display.  */
-  public Object buildActions () {
-    super.buildActions();
-        
-    // First, let our model swarm build its own schedule.
-    heatbugModelSwarm.buildActions();
-  
-    // Create an ActionGroup for display: a bunch of things that
-    // occur in a specific order, but at one step of simulation
-    // time. Some of these actions could be executed in parallel,
-    // but we don't explicitly notate that here.
-    displayActions = new ActionGroupImpl (getZone());
-
-    // Add the methods to the ActionGroup to draw the display of
-    // the world
-    try {
-      displayActions.createActionTo$message 
-        (this, new Selector (getClass (), "_update_", false));
-        
-      // Schedule the update of the probe displays
-      displayActions.createActionTo$message
-        (Globals.env.probeDisplayManager, 
-         new Selector (Globals.env.probeDisplayManager.getClass (),
-                       "update", true));
-            
-      // Finally, schedule an update for the whole user
-      // interface code.  This is crucial: without this, no
-      // graphics update and the control panel will be
-      // dead. It's best to put it at the end of the display
-      // schedule
-      displayActions.createActionTo$message
-        (getActionCache (), new Selector 
-          (getActionCache ().getClass (), "doTkEvents", true));
-    } catch (Exception e) {
-      System.err.println ("Exception in setting up displayActions : " 
-                          + e.getMessage ());
-    }
-
-    // And the display schedule. Note the repeat interval is set
-    // from our own Swarm data structure. Display is frequently
-    // the slowest part of a simulation, so redrawing less
-    // frequently can be a help.
-  
-    // note frequency!
-    displaySchedule = new ScheduleImpl (getZone (), displayFrequency);
-        
-    // insert ActionGroup instance on the repeating Schedule
-    // instance
-    displaySchedule.at$createAction (0, displayActions);
-  
-    return this;
-  }  
-
-  /**
-     activateIn: - activate the schedules so they're ready to run.
-     The swarmContext argument has to do with what we were activated
-     *in*.  Typically the ObserverSwarm is the top-level Swarm, so
-     it's activated in "null". But other Swarms and Schedules and
-     such will be activated inside of us.  */
-  public Activity activateIn (Swarm swarmContext) {
-    // First, activate ourselves (just pass along the context).
-    super.activateIn (swarmContext);
-
-    // Activate the model swarm in ourselves. The model swarm is a
-    // subswarm of the observer swarm.
-    heatbugModelSwarm.activateIn (this);
-
-    // Now activate our schedule in ourselves. This arranges for
-    // the execution of the schedule we built.
-    displaySchedule.activateIn (this);
-  
-    // Activate returns the swarm activity - the thing that's ready to run.
-    return getActivity();
-  }
-    
-  public Object graphBug (Heatbug aBug) {
-    if (unhappyGraph != null)
-      try {
-        unhappyGraph.createSequence$withFeedFrom$andSelector
-          ("Bug", aBug, new Selector (aBug.getClass (),  
-                                      "getUnhappiness", false));
-      } catch (Exception e) {
-        System.err.println ("Exception graphBug: " + e.getMessage());
-      }
-    return this;
-  }
-  public void drop () {
-    if (unhappyGraph != null)
-      unhappyGraph.disableDestroyNotification ();
-    if (worldRaster != null)
-      worldRaster.disableDestroyNotification ();
-    super.drop ();
-  }
 }
+
+/**
+This callback method defines what the observer does whenever the Schedule 
+triggers it. 
+
+*/
+public Object _update_ ()
+{
+    if (worldRaster != null)
+    {
+        heatDisplay.display ();
+        heatbugDisplay.display ();
+        worldRaster.drawSelf ();
+    }
+
+    if (unhappyGraph != null)
+        unhappyGraph.step ();
+    return this;
+}
+
+public Object _worldRasterDeath_ (Object caller)
+{
+    worldRaster.drop ();
+    worldRaster = null;
+    return this;
+}
+
+private VarProbe probeVariable (String name) 
+{
+    return Globals.env.probeLibrary.getProbeForVariable$inClass
+     (name, HeatbugObserverSwarm.this.getClass ());
+}
+
+private MessageProbe probeMessage (String name) {
+    return Globals.env.probeLibrary.getProbeForMessage$inClass
+     (name, HeatbugObserverSwarm.this.getClass ());
+}
+
+} /// class HeatbugObserverSwarm

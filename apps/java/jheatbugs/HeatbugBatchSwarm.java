@@ -3,6 +3,8 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file COPYING for details and terms of copying.
 
+// All added comments copyright 2001 Timothy Howe. All rights reserved. 
+
 import swarm.Globals;
 import swarm.Selector;
 
@@ -20,184 +22,206 @@ import swarm.objectbase.SwarmImpl;
 import swarm.analysis.EZGraph;
 import swarm.analysis.EZGraphImpl;
 
-public class HeatbugBatchSwarm extends SwarmImpl {
+/**
+This class implements the batch-mode observer of the Heatbug model defined in
+HeatbugModelSwarm.java.
 
-    /** Frequency of fileI/O */
-    public int loggingFrequency;	       	       
-    
-    /** When to Stop the Sim */
-    public int experimentDuration;               
-    
-    public ActionGroup displayActions;		
-    public Schedule displaySchedule;
-    public Schedule stopSchedule;
-    
-    /** the Swarm we're observing */
-    public HeatbugModelSwarm heatbugModelSwarm;	  
+<p>
+See HeatbugModelSwarm for an overview of the heatbugs application.
+*/
 
-    /** The EZGraph will be used in FileI/O mode rather than the usual
-        Graphics mode... */
-    public EZGraph unhappyGraph;                        
+public class HeatbugBatchSwarm extends SwarmImpl 
+{
 
-    public HeatbugBatchSwarm (Zone aZone) {
-        super (aZone);
-    }
-    
-    public Object buildObjects () {
-        super.buildObjects();
-        
-        // But since we don't have any graphics, we load the
-        // object from the global `lispAppArchiver' instance which
-        // is created automatically from the file called
-        // `heatbugs.scm'
-        
-        // `modelSwarm' is the key in `heatbugs.scm' which
-        // contains the instance variables for the
-        // HeatbugModelSwarm class, such as numBugs etc.
+// Begin variables referenced by the SCM file -- they must be public:
+// This is the number of steps to run the simulation:
+public int experimentDuration;
+// This is the number of steps to run before writing to the log:
+public int loggingFrequency;
+// ... End variables referenced by the SCM file -- they must be public.
 
-        heatbugModelSwarm =
-          (HeatbugModelSwarm)
-          Globals.env.lispAppArchiver.getWithZone$key (getZone (),
-                                                       "modelSwarm");
+private String _outputFilename = "unhappiness.output";
+private Schedule _displaySchedule;
+private Schedule _stopSchedule;
+// The Swarm we're observing:
+private HeatbugModelSwarm _heatbugModelSwarm;
+    public HeatbugModelSwarm getHeatbugModelSwarm ()
+    { return _heatbugModelSwarm; }
 
-        // Now, let the model swarm build its objects.
-        heatbugModelSwarm.buildObjects ();
-        
-        // Finally, build some data analysis objects. In this case
-        // we're just going to create an EZGraph (with graphics turned
-        // off and fileI/O turned on) collect some statistics (the
-        // average) over the collection of heatbugs (which we get from
-        // the heatbugModelSwarm).
-        
-        // If the user sets loggingFrequency to 0 s/he does not
-        // require the logging of results at all. Consequently, some
-        // objects will not be created -> the schedule will also be
-        // simplified. This sort of switch is useful when the Sim
-        // could potentially log many different aspects of the
-        // model...
-        if(loggingFrequency > 0) {
-            unhappyGraph =  new EZGraphImpl (getZone (), true);
-            
-            try {
-                unhappyGraph.createAverageSequence$withFeedFrom$andSelector
-                    ("unhappiness.output", 
-                     heatbugModelSwarm.getHeatbugList (), new Selector 
-                         (Class.forName("Heatbug"), "getUnhappiness", 
-                          false));
-            } catch (Exception e) {
-                System.err.println ("Exception batch getUnhappines: "
-                                    + e.getMessage ());
-            }
+// We will put the EZGraph in file mode rather than the usual graphics mode:
+private EZGraph unhappyGraph;
+
+public HeatbugBatchSwarm (Zone aZone) {
+    super (aZone);
+    _heatbugModelSwarm = (HeatbugModelSwarm) 
+     Globals.env.lispAppArchiver.getWithZone$key (getZone (), "modelSwarm");
+    // ... The lispAppArchiver is created automatically from the SCM file. 
+} /// constructor
+
+public Activity activateIn (Swarm swarmContext) 
+{
+    super.activateIn (swarmContext);
+    _heatbugModelSwarm.activateIn (this);
+    _stopSchedule.activateIn (this);
+    if (loggingFrequency > 0)
+        _displaySchedule.activateIn (this);
+    return getActivity ();
+}
+
+/**
+This method schedules the actions of this batch Swarm. 
+
+<p>
+This Swarm contains the Schedules, ActionGroups, and Actions depicted in the 
+following diagram. 
+
+<xmp>
+Swarm
+this
+|
++-----------------------------------+
+|                                   |
+Schedule                            Schedule
+_displaySchedule                    _stopSchedule
+|                                   |
+|                                   |
+|                                   |
+ActionGroup                         implied
+displayActions                      ActionGroup
+|                                   |
+|                                   |
+|                                   |
+Action                              Action
+unhappygraph                        this
+.step()                             .stopRunning()
+</xmp>
+
+<p>
+See the documentation in HeatbugModelSwarm.buildActions() for an explanation
+of Schedules, ActionGroups, and Actions.
+
+*/
+public Object buildActions () 
+{
+    super.buildActions();
+
+    // Let the model Swarm build its own schedule:
+    _heatbugModelSwarm.buildActions();
+
+    if (loggingFrequency > 0) 
+    {
+
+        // Define the Schedule to run once every loggingFrequency steps:
+        _displaySchedule = new ScheduleImpl (getZone (), loggingFrequency);
+
+        // Define the explicit ActionGroup:
+        ActionGroup displayActions = new ActionGroupImpl (getZone ());
+
+        // Add to the ActionGroup an Action to write the output of the
+        // graph to _outputFilename:
+        try
+        {
+        displayActions.createActionTo$message
+         (unhappyGraph,
+          new Selector (unhappyGraph.getClass (), "step", true)
+         );
+        } catch (Exception e)
+        {
+            System.err.println
+             ("Exception batch unhappyGraph step: " + e.getMessage ());
         }
-        // All done - we're ready to build a schedule and go.
-        return this;
-    }  
-    
-    /** Create the actions necessary for the simulation. This
-        is where the schedule is built (but not run!) */
-    public Object buildActions () {
-        super.buildActions();
-        
-        // First, let our model swarm build its own schedule.
-        heatbugModelSwarm.buildActions();
-        
-        if (loggingFrequency > 0) {
-            
-            // Create an ActionGroup for display. This is pretty
-            // minimal in this case. Note, there's no doTkEvents
-            // message - no control panel!
-            displayActions = new ActionGroupImpl (getZone ());
-            
-            // Now schedule the update of the unhappyGraph, which will
-            // in turn cause the file I/O to occur...
-            try {
-                displayActions.createActionTo$message 
-                    (unhappyGraph, 
-                     new Selector (unhappyGraph.getClass (), "step", true));
-            } catch (Exception e) {
-                System.err.println ("Exception batch unhappyGraph step: "
-                                    + e.getMessage ());
-            }                 
 
-            // the displaySchedule controls how often we write data out.
-            displaySchedule = 
-                new ScheduleImpl (getZone (), loggingFrequency);
-                 
-            displaySchedule.at$createAction (0, displayActions);
+        // Insert the ActionGroup displayActions into the Schedule:
+        _displaySchedule.at$createAction 
+         (0,
+          // ... The Schedule will execute ActionGroup displayActions at 
+          // time-step 0 relative to the beginning of the Schedule.
+          displayActions
+         );
+    }
+
+    _stopSchedule = new ScheduleImpl (getZone (), true);
+    // ... The "true" indicates autoDrop: unlike _displaySchedule, 
+    // _stopSchedule does not have a repeatInterval, because we will 
+    // run it just once (at time-step experimentDuration) and then 
+    // drop it from the Schedule. 
+
+    // Define the sole Action of the implied ActionGroup:
+    try
+    {
+    _stopSchedule.at$createActionTo$message
+     (experimentDuration, 
+      this, 
+      new Selector (getClass (), "stopRunning", false)
+     );
+    } catch (Exception e)
+    {
+        System.err.println ("Exception stopRunning: " + e.getMessage ());
+    }
+    return this;
+} /// buildActions()
+
+public Object buildObjects () 
+{
+    super.buildObjects();
+
+    // Let the model Swarm build its objects:
+    _heatbugModelSwarm.buildObjects ();
+
+    // A user who sets loggingFrequency to 0 is requesting no logging at all:
+    if (loggingFrequency > 0) 
+    {
+        unhappyGraph =  new EZGraphImpl (getZone (), true);
+        try
+        {
+        // Create a time-series graph of average values:
+        unhappyGraph.createAverageSequence$withFeedFrom$andSelector
+          // ... writing the output to a file:
+         (_outputFilename,
+          // ... averaging over all the Heatbugs:
+          _heatbugModelSwarm.getHeatbugList (),
+          // ... using values obtained from Heatbug.getUnhappiness ():
+          new Selector (Class.forName("Heatbug"), "getUnhappiness", false)
+         );
+        } catch (Exception e)
+        {
+            System.err.println
+             ("Exception batch getUnhappiness: " + e.getMessage ());
         }
-            
-        // We also add in a "stopSchedule", another schedule
-        // with an absolute time event - stop the system at
-        // time .
-        stopSchedule = new ScheduleImpl (getZone (), true);
-            
-        try {
-            stopSchedule.at$createActionTo$message
-                (experimentDuration, this, new Selector 
-                    (getClass (), "stopRunning", false));
-        } catch (Exception e) {
-            System.err.println ("Exception stopRunning: "
-                                + e.getMessage ());
-                                } 
-        return this;
-    }  
-        
-    /** activateIn: - get the Swarm ready to run. */
-    public Activity activateIn (Swarm swarmContext) {
-
-        // First, activate ourselves (just pass along the context).
-        super.activateIn (swarmContext);
-        
-        // We need to activate the model swarm.
-        heatbugModelSwarm.activateIn (this);
-                
-        // Now activate our schedules in ourselves. Note that we just
-        // activate both schedules: the activity library will merge
-        // them properly.
-        stopSchedule.activateIn (this);
-
-        if (loggingFrequency > 0)
-            displaySchedule.activateIn (this);
-          
-        // Activate returns the swarm activity - the thing that's
-        // ready to run.
-        return getActivity ();
     }
+    return this;
+} /// buildObjects()
 
-    /** the HeatbugObserverSwarm had a go method inherited from
-        GUISwarm, but we have to define our own here. It's pretty
-        simple. There's also a friendly message printed out here just
-        in case someone is confused when they run heatbugs and see no
-        graphics. */
-    public Object go () {
-        System.out.println ("You typed `heatbugs -b' or  `heatbugs --batch'"
-                            + " so we're running without graphics.");
-        
-        System.out.println ("Heatbugs is running for "
-                            + experimentDuration + " timesteps");
-        
-        if (loggingFrequency > 0)
-            System.out.println ("It is logging data every " 
-                                + loggingFrequency +
-                                " timesteps to: unhappiness.output");
-        
-        (getActivity ().getSwarmActivity ()).run ();
-        
-        if (loggingFrequency > 0)
-            // Close the output file.
-            unhappyGraph.drop() ;              
+public Object go () 
+{
+    System.out.println
+     ("You specified the -b or --batch option,"
+      + " so we're running without graphics."
+     );
+    System.out.println
+     ("The Heatbugs are running for " + experimentDuration + " timesteps.");
+    if (loggingFrequency > 0)
+        System.out.println
+         ("I am logging data every " + loggingFrequency
+          + " timesteps to: " + _outputFilename + "."
+         );
 
-        return getActivity ().getStatus ();
-    }
+    getActivity ().getSwarmActivity ().run ();
 
-    /** The termination method. When this fires we just terminate
-        everything that's running and close our output file(s) by
-        dropping the EZGraph which "owns" the sequence(s) we are
-        logging. */
-    public Object stopRunning () {
-        // Terminate the simulation.
-        System.out.println("quitting at " + Globals.env.getCurrentTime ());
-        Globals.env.getCurrentSwarmActivity ().terminate (); 
-        return this;
-    }
+    if (loggingFrequency > 0)
+// todo: explain this:
+        // Close the output file:
+        unhappyGraph.drop ();
+
+    return getActivity ().getStatus ();
+}
+
+public Object stopRunning () {
+    // Terminate the simulation.
+    System.out.println
+     ("Quitting after step " + Globals.env.getCurrentTime () + ".");
+    Globals.env.getCurrentSwarmActivity ().terminate ();
+    return this;
+}
+
 }
