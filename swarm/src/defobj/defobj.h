@@ -826,6 +826,7 @@ CREATING
 - setBugAddress: (const char *)bugAddress;
 - setVersion: (const char *)version;
 - addOptions: (struct argp_option *)options;
+- (void)addOption: (const char *)name key: (int)key arg: (const char *)arg flags: (int)flags doc: (const char *)doc group: (int)group;
 
 + createArgc: (int)argc Argv: (const char **)argv appName: (const char *)appName version: (const char *)version bugAddress: (const char *)bugAddress options: (struct argp_option *)options optionFunc: (int (*) (int, const char *))optionFunc inhibitExecutableSearchFlag: (BOOL)inhibitExecutableSearchFlag;
 

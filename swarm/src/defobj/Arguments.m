@@ -243,7 +243,21 @@ inhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag
   return [argobj createEnd];
 }
 
-- addOptions: (struct argp_option *)newoptions
+
+- (void)addOption: (const char *)name key: (int)key arg: (const char *)arg flags: (int)flags doc: (const char *)doc group: (int)group
+{
+  struct argp_options option[2];
+
+  option[0].name = name;
+  option[0].key = key;
+  option[0].arg = arg;
+  option[0].flags = flags;
+  option[0].doc = doc;
+  option[0].group = group;
+  option[1] = NULL;
+}
+
+- (void)addOptions: (struct argp_option *)newoptions
 {
   unsigned exist_count = 0, total_count = 0, new_count = 0;
   struct argp_option *options = (struct argp_option *)argp->options;
@@ -282,7 +296,6 @@ inhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag
     end->group = 0;
   }
   argp->options = options;
-  return self;
 }
 
 - (int)parseKey: (int)key arg: (const char *)arg

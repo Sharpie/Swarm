@@ -1,5 +1,9 @@
 2000-07-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
+	* Arguments.[hm], defobj.h ([Arguments_c
+	-addOption:key:arg:flags:doc:group:]): Add.
+	([Arguments_c -addOptions:]) Remove return.
+
 	* deftype.h (GETTERS): Add.
 
 2000-07-02  Marcus G. Daniels  <mgd@nest.swarm.org>
