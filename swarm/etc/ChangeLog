@@ -1,3 +1,9 @@
+1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (EXPORT_EXTERN): Substitute.
+
+	* Makefile.rules (.m.o): Use it.
+
 1999-05-28  Marcus G. Daniels  <mgd@chimayo.santafe.edu>
 
 	* protocol.el (check-common-tags): Use externvar for globals
