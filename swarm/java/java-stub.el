@@ -11,6 +11,8 @@
 (defun freakyp (java-type)
   (eq java-type 'freaky))
 
+(defvar *dollar-sign*)
+
 (defconst *objc-to-java-type-alist*
     '(("id .*" . "Object")
       ("SEL" . "swarm.Selector")
@@ -279,7 +281,7 @@
         when nameKey
         do
         (if native-flag
-            (insert "_00024") ; $
+            (insert *dollar-sign*)
             (insert "$"))
         (insert nameKey)))
 
@@ -608,7 +610,7 @@
         for nameKey = (car argument)
         when nameKey
         do
-        (insert "_00024") ; $
+        (insert *dollar-sign*) 
         (insert nameKey)))
 
 (defun java-print-native-method (method protocol phase)
@@ -738,6 +740,16 @@
         (java-print-class protocol)
         (java-print-native-class protocol)))
 
-(defun java-run-all ()
+(defun set-dollar-sign (unicode-flag)
+  (setq *dollar-sign* (if unicode-flag "_00024" "$")))
+
+(defun java-run-all (&key unicode)
+  (set-dollar-sign unicode)
   (load-and-process-modules :uniquify-method-lists t)
   (java-print-classes))
+
+(defun java-run-all-unicode ()
+  (java-run-all :unicode t))
+
+(defun java-run-all-literal ()
+  (java-run-all :unicode nil))

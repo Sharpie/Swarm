@@ -1,5 +1,12 @@
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* java-stub.el (set-dollar-sign, java-run-all-unicode,
+	java-run-all-literal): New functions.
+	(java-run-all): Add unicode flag key.
+	(*dollar-sign*): New variable.
+	(java-print-method-name, java-print-native-method-name): 
+	Use *dollar-sign* instead of unicode mangling.
+
 	* javaswarm: Use JAVACLASSES instead of hardcoded classes.zip.
 	(LD_LIBRARY_PATH): Add JAVALIBS.  Pre-split :-delimited values.
 	Print shell instructions, instead of just value of LD_LIBRARY_PATH
