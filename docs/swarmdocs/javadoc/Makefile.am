@@ -4,7 +4,7 @@ GZIP = gzip --best
 
 include $(top_srcdir)/Makefile.common
 
-MODULES = defobj collections activity objectbase random simtools gui simtoolsgui space analysis
+MODULES  = defobj collections activity objectbase random simtools gui simtoolsgui space analysis
 
 DOC_TITLE = "Swarm $(shell head -1 $(swarm_dossrcdir)/VERSION) Reference Guide"
 
@@ -45,7 +45,7 @@ STANDARD_JAVADOC_OPTIONS = -public -sourcepath .:$(swarm_dossrcdir)/java/swarm $
 
 $(NAME)/index.html: $(STUBS) $(srcdir)/html/swarm-doclet.jar
 	test -d $(NAME) || mkdir $(NAME)
-	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -d $(NAME) -windowtitle $(DOC_TITLE) -doctitle $(DOC_TITLE) -docletpath $(srcdir)/html/swarm-doclet.jar -doclet Standard -link http://java.sun.com/products/jdk/1.2/docs/api
+	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -d $(NAME) -windowtitle $(DOC_TITLE) -doctitle $(DOC_TITLE) -docletpath $(srcdir)/html/swarm-doclet.jar -doclet Standard -link http://java.sun.com/products/jdk/1.2/docs/api -splitindex -noclassdetail
 
 $(NAME).tex: $(STUBS) $(srcdir)/latex/LatexDoclet.class
 	@JAVADOC@ $(STANDARD_JAVADOC_OPTIONS) -docletpath $(srcdir)/latex -doclet LatexDoclet -title $(DOC_TITLE) -nosummary -noparamtable -noclass -docauthor "Swarm Development Group" -f $(NAME).tex
@@ -59,4 +59,4 @@ $(NAME).ps: $(NAME).dvi
 MOSTLYCLEANFILES = $(NAME)/index.html protocol.elc java-stub.elc $(addprefix $(NAME)., idx aux dvi log tex toc) 
 
 clean-local:
-	- rm -rf $(NAME) swarm
+	- rm -rf $(NAME) swarm 

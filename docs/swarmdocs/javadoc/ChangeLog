@@ -1,3 +1,8 @@
+1999-07-08  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am ($(NAME)/index.html): Add `-noclassdetail' and
+	`-splitindex' command-line arguments to javadoc.
+
 1999-07-06  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (STANDARD_JAVADOC_OPTIONS): Use GNU make $(wildcard)
