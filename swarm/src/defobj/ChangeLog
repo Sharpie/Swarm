@@ -1,3 +1,11 @@
+1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.h: Include swarmconfig.h. Only declare
+	addJObject:, and setJavaMethod:inClass:inObject when HAVE_JDK
+	is set.
+
+	* FCall.[hm]: Reformatting.
+
 1999-03-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* defobj.m: Remove import FCall.h

@@ -95,7 +95,7 @@ init_javacall_tables (void)
   return newCall;
 }
 
-- setCallType: (unsigned int) cType
+- setCallType: (unsigned int)cType
 {
   callType = cType;
   switch (callType)
@@ -114,7 +114,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- setFunction: (void (*)()) fn
+- setFunction: (void (*)())fn
 {
   if (!callType == ccall)
     raiseEvent (SourceMessage, "Call type and foreign function mismatch!\n");
@@ -122,7 +122,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- setMethod: (SEL) mtd inObject: obj
+- setMethod: (SEL)mtd inObject: obj
 {
   if (!callType == objccall)
     raiseEvent (SourceMessage, "Call type and foreign function mismatch!\n");
@@ -134,8 +134,8 @@ init_javacall_tables (void)
   return self;
 }
 
-- setJavaMethod: (const char *) methodName inClass: (const char *) className
-       inObject: (jobject) obj
+- setJavaMethod: (const char *)methodName inClass: (const char *)className
+       inObject: (jobject)obj
 {
   if (!callType == javastaticcall && !callType == javacall)
     raiseEvent (SourceMessage, "Call type and foreign function mismatch!\n");
@@ -149,13 +149,13 @@ init_javacall_tables (void)
   return self;
 }    
    
-- setJavaMethod: (const char *) methodName inClass: (const char *) className
+- setJavaMethod: (const char *)methodName inClass: (const char *)className
 {
   [self setJavaMethod: methodName inClass: className inObject: NULL];
   return self;
 }
 
-- setNumberOfArguments: (int) number
+- setNumberOfArguments: (unsigned)number
 {
   argNo = number;
   if (argNo + hiddenArguments)
@@ -193,7 +193,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- addArgument: (void *) value ofType: (unsigned int) type
+- addArgument: (void *)value ofType: (unsigned int)type
 {
   if (assignedArguments == argNo)
     raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n");
@@ -240,7 +240,7 @@ init_javacall_tables (void)
 
 
 
-- addChar: (char) value
+- addChar: (char)value
 {
   ADD_COMMON (swarm_type_schar);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_schar; 
@@ -248,7 +248,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- addShort: (short) value 
+- addShort: (short)value 
 {
   ADD_COMMON (swarm_type_sshort);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_sshort;
@@ -256,7 +256,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- addInt: (int) value
+- addInt: (int)value
 {
   ADD_COMMON (swarm_type_sint);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_sint;
@@ -264,7 +264,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- addLong: (long) value
+- addLong: (long)value
 {
   ADD_COMMON (swarm_type_slong);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_slong;
@@ -272,7 +272,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- addFloat: (float) value
+- addFloat: (float)value
 {
   /* in case the function to be called is compiled with compiler other
      than gcc, that does automatic casting of floats to doubles */
@@ -282,7 +282,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- addDouble: (double) value
+- addDouble: (double)value
 {
   ADD_COMMON (swarm_type_double);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_double;
@@ -290,7 +290,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- addString: (char *) value
+- addString: (const char *)value
 {
   ADD_COMMON (swarm_type_string);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_string;
@@ -309,7 +309,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- addJObject: (jobject) value
+- addJObject: (jobject)value
 {
   ADD_COMMON (swarm_type_jobject);
   argTypes[hiddenArguments + assignedArguments] = (void *) swarm_type_jobject;
@@ -324,7 +324,7 @@ init_javacall_tables (void)
   return self;
 }
 
-- setReturnType: (unsigned int) type
+- setReturnType: (unsigned)type
 {
   if (type > number_of_types)
       raiseEvent(SourceMessage, "Unkown return type for foerign function call!\n"); 
@@ -417,56 +417,56 @@ void switch_to_ffi_types(FCall * self)
     raiseEvent (SourceMessage, "Arguments not initialized!\n");
   if (callType == javacall || callType == javastaticcall)
       {
-	  char * mtdName;
-	  char * signature;
-	  mtdName = (char *) method;
-	  function = (callType == javacall ? 
-		      java_call_functions[(int) returnType] :
-		      java_static_call_functions[(int) returnType]);
-
-	  signature = createSignature ((FCall *) self);
-	  
-	  (jmethodID) method = (callType == javacall ?
-				(*jniEnv)->GetMethodID (jniEnv, class, 
-							mtdName, 
-							signature) :
-				  (*jniEnv)->GetStaticMethodID(jniEnv, class, 
-							       mtdName, 
-							       signature)); 
-	  if (!method)
-	    raiseEvent (SourceMessage, "Could not find Java method!\n");
-	  
+        const char *mtdName;
+        const char *signature;
+        mtdName = (char *) method;
+        function = (callType == javacall ? 
+                    java_call_functions[(int) returnType] :
+                    java_static_call_functions[(int) returnType]);
+        
+        signature = createSignature ((FCall *) self);
+        
+        (jmethodID) method = (callType == javacall ?
+                              (*jniEnv)->GetMethodID (jniEnv, class, 
+                                                      mtdName, 
+                                                      signature) :
+                              (*jniEnv)->GetStaticMethodID(jniEnv, class, 
+                                                           mtdName, 
+                                                           signature)); 
+        if (!method)
+          raiseEvent (SourceMessage, "Could not find Java method!\n");
       }
   else 
     switch_to_ffi_types ((FCall *) self);
   res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, hiddenArguments + argNo, 
 		      (ffi_type *) returnType, (ffi_type **) argTypes);
   if (_obj_debug && res != FFI_OK)
-    raiseEvent (SourceMessage, "Failed while preparing foreign function call closure!\n"); 
+    raiseEvent (SourceMessage,
+                "Failed while preparing foreign function call closure!\n"); 
   return self;
 }
 
-- (void) _performAction_: anActvity
+- (void)_performAction_: anActvity
 {
   ffi_call(&cif, function, result, argValues);  
 }
 
-- (char *) getStringResult
+- (const char *)getStringResult
 {
-    if ((callType == javastaticcall || callType == javacall) && 
-	returnType == &ffi_type_pointer)
-           return (void *) 
-	       (*jniEnv)->GetStringUTFChars (jniEnv, *(jobject *) result, 
-					   0); 
-    return *(char **)result;
+  if ((callType == javastaticcall || callType == javacall) && 
+      returnType == &ffi_type_pointer)
+    return (void *) 
+      (*jniEnv)->GetStringUTFChars (jniEnv, *(jobject *) result, 
+                                    0); 
+  return *(char **)result;
 }
 
-- (jobject) getJObjectResult
+- (jobject)getJObjectResult
 {
     return *(jobject *)result;
 }
 
-- (void *) getResult
+- (void *)getResult
 {
   return result;
 }

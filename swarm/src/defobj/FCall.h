@@ -12,6 +12,8 @@ Library:      defobj
 #import <defobj.h>
 #include <ffi.h>
 
+#include <swarmconfig.h>
+
 #ifdef HAVE_JDK
 #include <jni.h>
 #endif
@@ -44,42 +46,46 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
    unsigned int argNo;
    unsigned int assignedArguments;
    unsigned int hiddenArguments;
-   void ** argTypes;
-   void ** argValues;
-   void * returnType;
-   void * result;
+   void **argTypes;
+   void **argValues;
+   void *returnType;
+   void *result;
    ffi_cif cif;
    void (*function)();
-   void * object;
-   void * class;
-   void * method;
+   void *object;
+   void *class;
+   void *method;
    unsigned int signatureLength;
 }
 + createBegin: aZone;
-- setCallType: (unsigned int) callType;
-- setFunction: (void (*)()) fn;
-- setMethod: (SEL) method inObject: (id) object;
-- setJavaMethod: (const char *) methodName inClass: (const char *) className
-       inObject: (jobject) obj;
-- setJavaMethod: (const char *) methodName inClass: (const char *) className;
-- setNumberOfArguments: (int) argNo;
-- addArgument: (void *) value ofType: (unsigned int) type;
-- addShort: (short) value;
-- addChar: (char) value;
-- addInt: (int) value;
-- addLong: (long) value;
-- addFloat: (float) value;
-- addDouble: (double) value;
-- addString: (char *) value;
-- addJObject: (jobject) value;
-- setReturnType: (unsigned int) type;
+- setCallType: (unsigned int)callType;
+- setFunction: (void (*)())fn;
+- setMethod: (SEL)method inObject: object;
+#ifdef HAVE_JDK
+- setJavaMethod: (const char *)methodName inClass: (const char *)className
+       inObject: (jobject)obj;
+#endif
+- setJavaMethod: (const char *)methodName inClass: (const char *)className;
+- setNumberOfArguments: (unsigned)argNo;
+- addArgument: (void *)value ofType: (unsigned int)type;
+- addShort: (short)value;
+- addChar: (char)value;
+- addInt: (int)value;
+- addLong: (long)value;
+- addFloat: (float)value;
+- addDouble: (double)value;
+- addString: (const char *)value;
+#ifdef HAVE_JDK
+- addJObject: (jobject)value;
+#endif
+- setReturnType: (unsigned int)type;
 - setStringReturnType;
 - setJObjectReturnType;
 - createEnd;
-- (void) _performAction_: anActivity;
-- (char *) getStringResult;
-- (jobject) getJObjectResult;
-- (void *) getResult;
+- (void)_performAction_: anActivity;
+- (const char *)getStringResult;
+- (jobject)getJObjectResult;
+- (void *)getResult;
 @end
 
 
