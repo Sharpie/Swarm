@@ -119,7 +119,7 @@ readString (id inStream, BOOL literalFlag)
     }
   else if (c == ':')
     {
-      id newObj = [self getExpr];
+      id newObj = readString (self, 0);
       
       if (newObj == nil)
         [self _unexpectedEOF_];
@@ -134,7 +134,7 @@ readString (id inStream, BOOL literalFlag)
 
       if (c2 == ':')
         {
-          id newObj = [self getExpr];
+          id newObj = readString (self, 0);
           
           if (newObj == nil)
             [self _unexpectedEOF_];

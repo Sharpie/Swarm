@@ -1,3 +1,8 @@
+1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputStream.m ([InputStream_c -getExpr]): Use readString
+	instead of getExpr for keyword name.
+
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* List.m, Map.m ([... hdf5OutShallow:]): Call writeLevels
