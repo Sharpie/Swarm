@@ -20,8 +20,28 @@
 }
 
 -createEnd {
-	classMap = [[Map createBegin: [self getZone]] createEnd] ;
-	return self ;
+  sigFigsDisplay = SIGFIGS_DISPLAYED;
+  sigFigsSaved = SIGFIGS_SAVED;
+  classMap = [[Map createBegin: [self getZone]] createEnd] ;
+  return self ;
+}
+
+-setDisplayPrecision: (int) nSigDisplay {
+ sigFigsDisplay = nSigDisplay;
+ return self;
+}
+
+-(int) getDisplayPrecision {
+  return sigFigsDisplay;
+}
+
+-setSavedPrecision: (int) nSigSaved {
+ sigFigsSaved = nSigSaved;
+ return self;
+}
+
+-(int) getSavedPrecision {
+  return sigFigsSaved;
 }
 
 -setObjectToNotify: (id) anObject {
