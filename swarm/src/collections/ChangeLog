@@ -1,3 +1,13 @@
+1998-07-08  Alex Lancaster  <alex@santafe.edu>
+
+	* collections.h (KeyedCollection): Removed to design document
+	-getCountAtKey:, -containsKey: methods, all are unimplemented.
+	Removed comments for -{get,set}IndexFromMember:
+	(KeyCollectionsIndex): Removed to design document commented-out
+	-setMember method.
+	(Map): Removed to design document -setKeyType:, setKeySize:
+	methods, unimplemented.
+
 1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* List_GEN.m ([... -next]): Return NULL if there is a wrap.

@@ -774,10 +774,8 @@ USING
 //D: both Set and Map.  Standard options are provided to declare ordering
 //D: of members in the collection. 
 CREATING
-// - (void)setIndexFromMember: (int)byteOffset;
-USING
 
-// - (int)getIndexFromMember;
+USING
 
 //M: Creates a new index on the collection and
 //M: also sets its current position to the first member matching the key
@@ -799,22 +797,13 @@ USING
 //M: the key value is returned instead.
 - at: aKey;
 
-//M: The getCountAtKey message returns the number of member entries which are
-//M: all associated with its key value argument.  This number is zero if
-//M: the key value is not contained in the collection, and will never
-//M: exceed one one unless a collection accepts duplicate entries for a key.
-- (int)getCountAtKey: aKey;
-
-//M: The containsKey: message returns true if the key value passed as its
-//M: argument is contained in the collection, and false otherwise. 
-- (BOOL)containsKey: aKey;
-
 //M: The removeKey: message removes a member matching a key value from the
 //M: collection, and returns the member just removed.  It returns nil if
 //M: there is no key value in the collection which matches.  If more than
 //M: one entry was present for the key value, it removes and returns the
 //M: first member in the internal collection created for duplicate members.
 - removeKey: aKey;
+
 @end
 
 @deftype KeyedCollectionIndex <Index>
@@ -826,12 +815,6 @@ USING
 //D: an index keeps track of any specific subcollection it is currently
 //D: processing.
 
-///M: The setMember: message repositions the index to the member passed as
-///M: its argument.  This message is valid only if an internal member slot
-///M: was defined for the collection with the MemberSlot option.
-// - setMember: aMember;
-
-// - (int)getCountAtKey;
 @end
 
 
@@ -949,10 +932,6 @@ USING
 //D: document information about its key values.  Map also defines its own
 //D: messages to distinguish the key value from member value in any
 //D: operation which involves both.
-
-CREATING
-- (void)setKeyType: aDataType;
-- (void)setKeySize: (size_t)size;
 
 USING
 //M: at:insert: inserts an entry into a Map containing the key and member
