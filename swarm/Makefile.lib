@@ -37,7 +37,7 @@ clean:
 	-rm -f core $(OBJECTS) $(OTHERCLEAN)
 
 $(INCFILE): $(LIBNAME).h
-	rm -f $(INCFILE)/$(LIBNAME).h
+	rm -f $(INCFILE)
 	cp -p $(LIBNAME).h $(INCFILE)
 
 # INCINSTALLED is a rule that touches a magic file to make sure that
