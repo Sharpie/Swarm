@@ -1,3 +1,11 @@
+1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Discrete2d.m ([Discrete2d setDiscrete2d:toFile:]): Use InFile
+	+create:setName: instead of +create:withName:.
+
+	* Int2dFiler.m ([Int2Filer -fileTo:]): Likewise.  Use raiseEvent
+	macro instead of method.
+
 1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ConwayLife2d.h: Declare implemented methods.

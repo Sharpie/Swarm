@@ -57,10 +57,10 @@ PHASE(Using)
   id outFile;
 
   if (discrete2d == nil)
-    [InvalidArgument raiseEvent: 
-      "Int2dFiler: attempted to file a (null) space object!\n"];
+    raiseEvent (InvalidArgument,
+                "Int2dFiler: attempted to file a (null) space object!\n");
 
-  outFile = [OutFile create: [self getZone] withName: aFileName];
+  outFile = [OutFile create: [self getZone] setName: aFileName];
 
   if (outFile == nil)
     return nil;

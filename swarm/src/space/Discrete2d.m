@@ -546,7 +546,7 @@ PHASE(Using)
       [a name]];
 
   // open the file
-  f = [InFile create: [self getZone] withName: filename];
+  f = [InFile create: [self getZone] setName: filename];
 
   // The first two characters should be P2, the PGM ASCII header (not P5 - raw)
   [f getChar: &c1];
