@@ -194,6 +194,7 @@ static ActionConcurrent_c *createGroup( Schedule_c *self )
   return newAction;
 }
 
+#if 0
 static void
 _schedule_external_activity (ScheduleActivity_c *externalActivity,
                              timeval_t tVal,
@@ -240,6 +241,7 @@ _check_external_activity (ScheduleActivity_c *sActivity,
         [sActivity->currentIndex setCurrentTime : tVal];
     }
 }
+#endif
 
 //
 // _activity_insertAction: routine to create concurrent action group if needed
