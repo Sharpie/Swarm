@@ -47,7 +47,7 @@ id <Error> UNameError;
 
 + create: aZone setAppConfigBaseName: (const char *)aString
 {
-  const char *configPath = [arguments getSwarmAppConfigPath];
+  const char *configPath = [arguments getAppConfigPath];
   id basePath;
 
   if (!configPath)
