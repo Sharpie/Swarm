@@ -26,12 +26,13 @@ DocBook converter by AKL: 2001-11-12 -->
       </affiliation>
     </editor>
     <abstract>
-	<para>based on Objective C code and original text by Chris
+	<para>Based on Objective C code and original text by Chris
 	Langton &amp; and the <ulink url="http://www.swarm.org/">Swarm
 	Development Group</ulink>, New Mexico.</para>
     </abstract>
     <date>April 2000</date>
     <releaseinfo>DRAFT</releaseinfo>
+    <pubdate>Last modified: $Date: 2002-07-08 11:23:28 $ by $Author: alexl $</pubdate>
   </articleinfo>
 
   <abstract>
