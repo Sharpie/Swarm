@@ -1,7 +1,7 @@
 #import <defobj/directory.h>
 
-#import "DefObject.h"
-#import "defalloc.h"
+#import <defobj/DefObject.h>
+#import <defobj/defalloc.h>
 
 #include <misc.h>
 #include <misc/avl.h>
