@@ -2,7 +2,7 @@
 
 	* ActionCache.m ([ActionCache -deliverActions]): For Stop
 	call actionHolder if there isn't an activity.  Don't attempt
-	reschedule if there isn't a current activity.
+	reschedule if no _activity_current.
 
 1998-01-27  Marcus G. Daniels  <mgd@grasshopper.santafe.edu>
 

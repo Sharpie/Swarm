@@ -131,7 +131,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
           // if "Stop" then schedule a "stop" to the activitycontrol
           if (strcmp (actionName, "Stop") == 0)
             {
-              if (getCurrentActivity ())
+              if (_activity_current)
                 [destinationSchedule 
                   at:
                     getCurrentTime () + 1
@@ -174,7 +174,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
   // Reschedule myself for next cycle, otherwise do nothing, assuming
   // we are being called directly.
-  if (getCurrentActivity ())
+  if (_activity_current)
     [destinationSchedule at: getCurrentTime () + 1 
                          createActionTo: self 
                          message: M(deliverActions)];
