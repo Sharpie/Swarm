@@ -1,0 +1,12 @@
+1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (noinst_HEADERS): New file.
+
+1998-04-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tkInt.h (TkpClipMask, TkpCreateNativePixmap,
+	TkpGetNativeAppBitmap, TkSetPixmapColormap): Use X11Pixmap instead
+	of Pixmap.
+
+
+
