@@ -83,9 +83,9 @@
           <filename>collections.h</filename>.  Alternatively you can
           use the new <function>[beginPermuted: aZone]</function>
           index creation method on a collection from the <link
-          linkend="swarm.collections.collection.protocol">Collection</link>
-          protocol in place of the
-          <classname>ListShuffler</classname> protocol.
+          linkend="swarm.collections.collection.protocol">
+          <classname>Collection</classname></link> protocol in place
+          of the <classname>ListShuffler</classname> protocol.
         </para>
       </listitem>
     </itemizedlist>
