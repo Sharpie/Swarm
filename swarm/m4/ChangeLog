@@ -1,3 +1,9 @@
+1999-03-17  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* acjdk.m4 (vj_FIND_JDK): Use AC_PATH_PROG to locate javac
+	only if jdkdir is not specified to avoid problems with multiple
+	JDK versions and path ordering.
+
 1999-03-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acffi.m4 (ffilibdir): New substituted variable.  Use

@@ -1,8 +1,8 @@
 AC_DEFUN(vj_FIND_JDK,
-[AC_PATH_PROG(JAVAC, javac, missing)
-AC_PATH_PROG(JAR, jar, missing)
-AC_MSG_CHECKING(for JDK)
+[AC_MSG_CHECKING(for JDK)
 if test -z "$jdkdir" ; then
+  AC_PATH_PROG(JAVAC, javac, missing)
+  AC_PATH_PROG(JAR, jar, missing)
   if test $JAVAC != missing; then
     changequote(,)
     jdkdir=`echo $JAVAC | sed -e 's/\/javac$//' -e 's/\/[^/][^/]*$//'`
@@ -23,8 +23,10 @@ else
   fi
   AC_DEFINE(HAVE_JDK)
   JAVASTUBS=stubs
-  test $JAR = missing && JAR=$jdkdir/bin/jar
-  test $JAVAC = missing && JAVAC=$jdkdir/bin/javac
+  JAR=$jdkdir/bin/jar
+  JAVAC=$jdkdir/bin/javac
+  AC_SUBST(JAVAC)
+  AC_SUBST(JAR)
 fi 
 
 JAVAINCLUDES="-I$jdkdir/include -I$jdkdir/include/solaris -I$jdkdir/include/genunix"
