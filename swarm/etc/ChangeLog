@@ -1,3 +1,8 @@
+1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.tests.in (LDFLAGS): Add $(EXTRALDFLAGS).
+	(LIBS): Add $(EXTRALIBS).
+
 1999-06-28  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.appl.in (CPPFLAGS): Specify `override' append in macro

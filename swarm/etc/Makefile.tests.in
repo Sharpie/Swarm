@@ -9,9 +9,9 @@ CPPFLAGS += -DAPPNAME=$(basename $@) -DBUGADDRESS=bug-swarm@santafe.edu -DAPPVER
 
 SWARMBUILDLDFLAGS = -L$(builddir) -R $(builddir) -L$(libobjcdir) -R $(libobjcdir)
 
-LDFLAGS = $(SWARMBUILDLDFLAGS)
+LDFLAGS = $(SWARMBUILDLDFLAGS) $(EXTRALDFLAGS)
 
-LIBS = $(SWARMLIBS) $(OBJCLIBS)
+LIBS = $(SWARMLIBS) $(OBJCLIBS) $(EXTRALIBS)
 
 # Local Variables:
 # mode: makefile
