@@ -763,7 +763,7 @@ CREATING
 - (void)setSuperclass: aClass;
 - (void)setDefiningClass: aClass;
 - (void)at: (SEL)aSel addMethod: (IMP)aMethod;
-id addVariable (id class, const char *name, const char *type);
+extern id addVariable (id class, const char *name, const char *type);
 USING
 - getDefiningClass;
 @end
