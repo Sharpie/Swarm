@@ -1,6 +1,10 @@
 #import "fcall_objc.h"
 #import <defobj/FArguments.h>
 #include <objc/objc.h>
+
+#include <swarmconfig.h>
+
+#ifdef USE_AVCALL
 #include <avcall.h>
 
 void
@@ -12,4 +16,4 @@ objc_setup_call (FArguments_c *fa, id obj, SEL sel)
 
 #define OBJC
 #include "_fcall.m"
-
+#endif

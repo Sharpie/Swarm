@@ -1,3 +1,6 @@
+#include <swarmconfig.h>
+#ifdef USE_AVCALL
+
 #ifdef __CYGWIN__
 #define MSVC
 #endif
@@ -33,3 +36,4 @@ java_setup_static_call (FArguments_c *fa,
 
 #define JAVA
 #include "_fcall.m"
+#endif

@@ -1,3 +1,8 @@
+1999-07-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* fcall_{objc,java}.m: Include swarmconfig.h.  Don't define
+	anything unless USE_AVCALL is set.
+
 1999-07-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* directory.m: Remove static from declarations of variables
