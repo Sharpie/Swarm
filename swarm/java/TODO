@@ -6,8 +6,6 @@ Add create:set* convenience methods for all appropriate creatable protocols.
 
 Non-cygwin DLLs -> test on IDE [mgd]
 
-Colormap crash [mgd]
-
 Implement heatbugs, mousetrap
 
 Formalize Kaffe patches (Windows, HPUX)  [mgd]
