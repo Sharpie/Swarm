@@ -57,7 +57,7 @@
       its methods.  For example, suppose an object has a method called
       "updateRecords".  If a command
 
-        <programlisting>[self updateRecords];</programlisting>
+        <programlisting role="ObjC">[self updateRecords];</programlisting>
 
       is received, then the updateRecords command will be executed,
       presumably to cause the updating of instance variables. </para>
@@ -65,7 +65,7 @@
     <para>All objects can refer to superclass by the name "super". For
       example,
 
-<programlisting>[super updateRecords]</programlisting>
+<programlisting role="ObjC">[super updateRecords]</programlisting>
 
       </para>
 </sect2>
@@ -106,7 +106,7 @@
             <area coords="7 15" id="method2">
           </areaspec>
 
-<programlisting>
+<programlisting role="ObjC">
 @interface <classname>Bug</classname> : <classname>SwarmObject</classname> {
   int xPos, yPos;
   int worldXSize, worldYSize;
@@ -171,7 +171,7 @@
       must import its header file.  If the header file is called
       Puppy.h, for example, the implementation look like</para>
 
-    <programlisting>
+    <programlisting role="ObjC">
 #import "Puppy.h"
 @implementation  Puppy
 - (vartype)eatFood 
@@ -204,7 +204,7 @@
       example, suppose there is some program that creates an instance
       of Puppy called "spot". Then that object is sent this message:
 
-<programlisting>[spot playOutside: theYard]
+<programlisting role="ObjC">[spot playOutside: theYard]
 </programlisting>
 
       In such a case, the code that calls that method does not expect
@@ -223,7 +223,7 @@
       command to add spot to the list after playing outside miht look
       like this:
 
- <programlisting>[dogsPlayed addLast: [spot playOutside: theYard]];
+ <programlisting role="ObjC">[dogsPlayed addLast: [spot playOutside: theYard]];
 </programlisting>
  </para> 
 </sect2>
@@ -237,7 +237,7 @@
 
     <para>Objective-C method:</para>
     
-<programlisting>
+<programlisting role="ObjC">
 - (type)name: (type)arg1 argName2: (type)arg2 
 {
  (body)
@@ -247,7 +247,7 @@
 
     <para>C function:</para>
 
-    <programlisting>
+    <programlisting role="C">
 (type)name((type) arg1,(type) arg2)) 
 {
  (body)
@@ -261,7 +261,7 @@
       <example id="swarm.user.user1.03.c-vs-objc.example">
         <title>C vs Objective-C</title>
 
-        <programlisting>
+        <programlisting role="C">
 void rand_move(int i) {    
 
  int tmp_loc;
@@ -275,7 +275,7 @@ void rand_move(int i) {
 }
 </programlisting>
 
-    <programlisting>
+    <programlisting role="ObjC">
 - rand_move: p 
 {
   id loc;
@@ -325,7 +325,7 @@ void rand_move(int i) {
       is usually a method that houses all object creation. For
       example:
 
-<programlisting>
+<programlisting role="ObjC">
 //Excerpt from ModelSwarm.m that creates a puppy instance
      #import "Puppy.h"
      {other imports and code that defines agents, schedules, etc}
@@ -353,7 +353,7 @@ void rand_move(int i) {
       needs to create an object from that class, a command like this
       will work in ModelSwarm.m:
 
-<programlisting>
+<programlisting role="ObjC">
 id listOfPuppies;
 listOfPuppies=[List create: self];
 
@@ -363,7 +363,7 @@ listOfPuppies=[List create: self];
      <para>In code written for older versions of the Swarm toolkit,
       one will often see a slightly different syntax in ModelSwarm.m:
 
-<programlisting>
+<programlisting role="ObjC">
 id listOfPuppies;
 listOfPuppies=[List create: [self getZone]];
 </programlisting>
@@ -410,7 +410,7 @@ listOfPuppies=[List create: [self getZone]];
       ability to create lists was offered by a class, then the
       notation to create an instance of such a list would have been:
 
-<programlisting>
+<programlisting role="ObjC">
 List * listOfPuppies;
 listOfPuppies=[List create: [self getZone]];
 </programlisting>
@@ -419,7 +419,7 @@ listOfPuppies=[List create: [self getZone]];
       protocol, the notation to define the type is different.  If one
       needs to define a variable listOfPuppies that is "statically
       typed" as a list, the command changes to:
-      <programlisting>
+      <programlisting role="ObjC">
 id &lt; List &gt;  listOfPuppies;
 listOfPuppies=[List create: [self getZone]];
       </programlisting>
