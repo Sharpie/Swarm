@@ -3,9 +3,7 @@
 
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
 
-  <AUTHOR><AFFILIATION>
-      <ORGNAME>&orgname;</ORGNAME>
-    </AFFILIATION></AUTHOR>
+  <CORPAUTHOR>&orgname;</CORPAUTHOR>
 
   <BOOKBIBLIO>
     
