@@ -453,8 +453,75 @@ PHASE(Using)
 - (void)performCall
 {
 #ifndef USE_AVCALL
-  ffi_call (&cif, ffunction, fargs->result, fargs->argValues + 
+  long long ret;
+
+  ffi_call (&cif, ffunction, &ret, fargs->argValues + 
             MAX_HIDDEN - fargs->hiddenArgumentCount);  
+
+#ifdef __mips64
+#define VAL(type, var) (*((type *)(((void *)&var)+(sizeof(var)-sizeof(type)))))
+#else
+#define VAL(type, var) (*((type *)&var))
+#endif
+
+  switch (fargs->returnType)
+      {
+#ifdef HAVE_JDK
+      case fcall_type_jobject:
+        fargs->resultVal.object = VAL(jobject, ret);
+        break;
+      case fcall_type_jstring:
+        fargs->resultVal.object = VAL(jstring, ret);
+        break;
+#endif
+      case fcall_type_object:
+        fargs->resultVal.object = VAL(id, ret);
+        break;
+      case fcall_type_selector:
+        fargs->resultVal.selector = VAL(SEL, ret);
+        break;
+      case fcall_type_schar:
+        // character return is broken in libffi-1.18
+        fargs->resultVal.sint = VAL(int, ret);
+        break;
+      case fcall_type_uchar:
+        // character return is broken in libffi-1.18
+        fargs->resultVal.uint = VAL(unsigned int, ret);
+        break;
+      case fcall_type_sint:
+        fargs->resultVal.sint = VAL(int, ret);
+        break;
+      case fcall_type_uint:
+        fargs->resultVal.uint = VAL(unsigned int, ret);
+        break;
+      case fcall_type_sshort:
+        // short return is broken in libffi-1.18
+        fargs->resultVal.sshort = VAL(int, ret);
+        break;
+      case fcall_type_ushort:
+        // short return is broken in libffi-1.18
+        fargs->resultVal.ushort = VAL(unsigned int, ret);
+        break;
+      case fcall_type_slong:
+        fargs->resultVal.slong = VAL(long, ret);
+        break;
+      case fcall_type_ulong:
+        fargs->resultVal.ulong = VAL(unsigned long, ret);
+        break;
+      case fcall_type_float:
+        fargs->resultVal._float = VAL(float, ret);
+        break;
+      case fcall_type_double:
+        fargs->resultVal._double = VAL(double, ret);
+        break;
+      case fcall_type_string:
+        fargs->resultVal.string = VAL(const char *, ret);
+        break;
+      case fcall_type_void:
+        break;
+      default:
+        abort ();
+      }
 #else
   av_call (fargs->avalist);
 #endif

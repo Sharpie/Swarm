@@ -1,3 +1,8 @@
+1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* FCall.m ([FCall_c -performCall]): Put libffi return type in
+	a long long and recover it per the case (libffi bug workarounds).
+
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HDF5Object.m ([HDF5CompoundType_c -packObj:to:],
