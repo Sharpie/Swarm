@@ -6,6 +6,7 @@
 
 	* Makefile.am: Put all DLL things in a USEDLL automake conditional.
 	(swarm.dll): Rename libswarm.a to libswarmdll.a.
+	Use _SUPPORTLDFLAGS and _SYSLIBS instead of SUPPORTLDFLAGS and SYSLIBS.
 	Use swarm.dll.[co].  Add OBJCLIBS.
 	(install-data-local): Accomodate.  Remove shell condition on USEDLL.
 	(swarm_dll_SOURCES): Remove (calling dllinit.c swarm.dll.c instead).

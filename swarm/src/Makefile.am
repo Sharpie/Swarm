@@ -32,9 +32,9 @@ libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(modul
 
 libswarm_la_SOURCES = 
 
-LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(SYSLIBS)
+LIBS = $(foreach module,$(SWARMMODULES),-l$(module)) $(_SYSLIBS)
 
-libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc -rpath $(libdir)
+libswarm_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) $(_SUPPORTLDFLAGS) $(foreach module,$(SWARMMODULES),-L$(module)) -L$(dir $(shell $(CC) -print-libgcc-file-name)) -L../libobjc -rpath $(libdir)
 
 if USEDLL
 DLLWRAP = @DLLWRAP@
@@ -42,9 +42,10 @@ OBJS = $(foreach module,$(SWARMMODULES),$(module)/*.lo)
 
 swarm.dll: swarm.dll.c $(OBJS)
 	$(CC) -c $(srcdir)/swarm.dll.c
-	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS) $(OBJCLIBS)
+	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarmdll.a --driver-name $(CC) -o swarm.dll swarm.dll.o $(OBJS) -L../libobjc $(_SUPPORTLDFLAGS) $(_SYSLIBS) $(OBJCLIBS)
 
 install-data-local: 
 	$(INSTALL) libswarmdll.a $(libdir)
 	ranlib $(libdir)/libswarmdll.a
 endif
+
