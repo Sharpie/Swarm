@@ -1,3 +1,9 @@
+1999-02-17  Alex Lancaster  <alex@santafe.edu>
+
+	* over04.sgml (PROGRAMLISTING: main): Change comment that says
+	batchmode is indicated by swarmGUIMode being 1; batchmode is
+	indicated by swarmGUIMode being 0.
+
 1999-01-26  Alex Lancaster  <alex@santafe.edu>
 
 	* overmeta.sgml: Move bibliodata entity outside of BOOKBIBLIO - so
