@@ -29,7 +29,6 @@ Library:      defobj
 JNIEnv *jniEnv;
 #endif
 
-extern void add_ffi_types (FArguments *self);
 static void fillHiddenArguments (FCall_c *self);
 
 #ifdef HAVE_JDK
@@ -51,64 +50,64 @@ void
 defobj_init_java_call_tables (void *jEnv)
 {
   java_static_call_functions[fcall_type_void] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticVoidMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticVoidMethod);
   java_static_call_functions[fcall_type_uchar] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticCharMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticCharMethod);
   java_static_call_functions[fcall_type_schar] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticCharMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticCharMethod);
   java_static_call_functions[fcall_type_ushort] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticShortMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticShortMethod);
   java_static_call_functions[fcall_type_sshort] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticShortMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticShortMethod);
   java_static_call_functions[fcall_type_uint] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticIntMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticIntMethod);
   java_static_call_functions[fcall_type_sint] =
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticIntMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticIntMethod);
   java_static_call_functions[fcall_type_ulong] =
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticLongMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
   java_static_call_functions[fcall_type_slong] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticLongMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticLongMethod);
   java_static_call_functions[fcall_type_float] =
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticFloatMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticFloatMethod);
   java_static_call_functions[fcall_type_double] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticDoubleMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticDoubleMethod);
   java_static_call_functions[fcall_type_object] = NULL;
   java_static_call_functions[fcall_type_string] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_selector] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_jobject] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallStaticObjectMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
 
   java_call_functions[fcall_type_void] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallVoidMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallVoidMethod);
   java_call_functions[fcall_type_uchar] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallCharMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallCharMethod);
   java_call_functions[fcall_type_schar] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallCharMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallCharMethod);
   java_call_functions[fcall_type_ushort] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallShortMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallShortMethod);
   java_call_functions[fcall_type_sshort] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallShortMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallShortMethod);
   java_call_functions[fcall_type_uint] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallIntMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallIntMethod);
   java_call_functions[fcall_type_sint] =
-      FFI_FN ((*(JNIEnv *)jEnv)->CallIntMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallIntMethod);
   java_call_functions[fcall_type_ulong] =
-      FFI_FN ((*(JNIEnv *)jEnv)->CallLongMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallLongMethod);
   java_call_functions[fcall_type_slong] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallLongMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallLongMethod);
   java_call_functions[fcall_type_float] =
-      FFI_FN ((*(JNIEnv *)jEnv)->CallFloatMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallFloatMethod);
   java_call_functions[fcall_type_double] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallDoubleMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallDoubleMethod);
   java_call_functions[fcall_type_object] = NULL;
   java_call_functions[fcall_type_string] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_selector] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_jobject] = 
-      FFI_FN ((*(JNIEnv *)jEnv)->CallObjectMethod);
+      FFI_FN ((*(JNIEnv *) jEnv)->CallObjectMethod);
 }
 #endif
 
@@ -216,7 +215,7 @@ PHASE(Setting)
 
 - setArguments: arguments
 {
-  self->fargs = arguments;
+  fargs = arguments;
   return self;
 }
 
@@ -292,17 +291,19 @@ PHASE(Using)
   return [fargs getResult];
 }
 
-- (retval_t)getReturnVal
+- (retval_t)getRetVal: (arglist_t)argFrame buf: (types_t *)buf
 {
-  void *res = [self getResult];
-  unsigned char return_uchar (void) { return *(unsigned char *) res; }
-  unsigned short return_ushort (void) { return *(unsigned short *) res; }
-  unsigned return_unsigned (void) { return *(unsigned *) res; }
-  unsigned long return_ulong (void) { return *(unsigned long *) res; }
-  const char *return_string (void) { return *(const char **) res; }
-  float return_float (void) { return *(float *) res; }
-  double return_double (void) { return *(double *) res; }
-  id return_object (void) { return *(id *) res; }
+  types_t *res = &((FArguments *) fargs)->resultVal;
+
+#ifndef BUGGY_BUILTIN_APPLY
+  unsigned char return_uchar (void) { return res->uchar; }
+  unsigned short return_ushort (void) { return res->ushort; }
+  unsigned return_unsigned (void) { return res->uint; }
+  unsigned long return_ulong (void) { return res->ulong; }
+  const char *return_string (void) { return res->string; }
+  float return_float (void) { return res->_float; }
+  double return_double (void) { return res->_double; }
+  id return_object (void) { return res->object; }
   void return_void (void) { return; }
 
   retval_t apply_uchar (void)
@@ -378,6 +379,56 @@ PHASE(Using)
     default:
       abort ();
     }
+#else
+  void *ptr;
+
+  printf ("%f\n", res._double);
+  *buf = *res;
+
+  switch (fargs->returnType)
+    {
+    case fcall_type_void:
+      ptr = NULL;
+      break;
+    case fcall_type_uchar:
+      ptr = &buf->uchar;
+      break;
+    case fcall_type_schar:
+      ptr = &buf->schar;
+      break;
+    case fcall_type_ushort:
+      ptr = &buf->ushort;
+      break;
+    case fcall_type_sint:
+      ptr = &buf->sshort;
+      break;
+    case fcall_type_ulong:
+      ptr = &buf->ulong;
+      break;
+    case fcall_type_slong:
+      ptr = &buf->slong;
+      break;
+    case fcall_type_float:
+      ptr = &buf->_float;
+      break;
+    case fcall_type_double:
+      ptr = &buf->_double;
+      break;
+    case fcall_type_object:
+      ptr = &buf->object;
+      break;
+    case fcall_type_string:
+      ptr = &buf->string;
+      break;
+    case fcall_type_jobject:
+      abort ();
+      break;
+    default:
+      abort ();
+    }
+  argFrame[0].arg_ptr = ptr;
+  return argFrame[0].arg_ptr;
+#endif
 }
 
 @end

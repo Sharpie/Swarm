@@ -1027,6 +1027,23 @@ USING
 - getClass;
 @end
 
+
+typedef union {
+  id object;
+  SEL selector;
+  const char *string;
+  char schar;
+  unsigned char uchar;
+  short sshort;
+  unsigned short ushort;
+  int sint;
+  unsigned int uint;
+  long slong;
+  unsigned long ulong;
+  float _float;
+  double _double;
+} types_t;
+
 @protocol FCall <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic calls.
 //D: A language independent interface to dynamic calls.
@@ -1043,7 +1060,7 @@ SETTING
 USING
 - (void) performCall;
 - (void *)getResult;
-- (retval_t)getReturnVal;
+- (retval_t)getRetVal: (arglist_t)argFrame buf: (types_t *)buf;
 
 extern void defobj_init_java_call_tables (void *jniEnv);
 @end

@@ -1,3 +1,23 @@
+1999-04-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* defobj.h (types_t): New typedef.
+
+	* FCall.[hm], defobj.h ([FCall_c -getRetVal:buf:]): New method
+	(replaces getReturnVal).  Use __builtin_apply unless it's broken.
+	In that case, try to set argFrame[0].arg_ptr by hand.
+
+	* FCall.[hm] (FCall): Remove result. 
+
+	* FArguments.m ([FArguments -_setReturnType_:]): Set result to 
+	proper place in resultVal (instead of malloced `result').  This
+	is to ensure the alignment is right.
+	([FArguments -mapAllocations:]): Remove mapAlloc of result.
+
+	* FArguments.h (FArguments): Add resultVal.  
+	Declare add_ffi_types.
+
+	* FArguments.[hm]: New function fcall_type_size.  Use it throughout.
+
 1999-03-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (JAVAINCLUDES): Use substitution.

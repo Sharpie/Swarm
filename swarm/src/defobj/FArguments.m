@@ -66,6 +66,12 @@ char objc_types[FCALL_TYPE_COUNT] = {
   '\001'
 };
 
+size_t
+fcall_type_size (fcall_type_t type)
+{
+  return ffi_types[type]->size;
+}
+
 @implementation FArguments
 
 + createBegin: aZone
@@ -93,7 +99,6 @@ char objc_types[FCALL_TYPE_COUNT] = {
   return newArguments;
 }
 
-
 - _addArgument_: (void *)value ofType: (fcall_type_t)type
 {
   if (assignedArgumentCount == MAX_ARGS)
@@ -103,10 +108,10 @@ char objc_types[FCALL_TYPE_COUNT] = {
   argTypes[MAX_HIDDEN + assignedArgumentCount] = type;
 #ifndef USE_AVCALL
   argValues[MAX_HIDDEN + assignedArgumentCount] = 
-    [[self getZone] allocBlock: ffi_types[type]->size];
+    [[self getZone] allocBlock: fcall_type_size (type)];
   memcpy (argValues[MAX_HIDDEN + assignedArgumentCount], 
           value,
-          ffi_types[argTypes[MAX_HIDDEN + assignedArgumentCount]]->size);
+          fcall_type_size (argTypes[MAX_HIDDEN + assignedArgumentCount]));
 #else
   abort ();
 #endif
@@ -137,7 +142,7 @@ get_fcall_type_for_objc_type (char objcType)
 #define ADD_COMMON_TEST if (assignedArgumentCount == MAX_ARGS) raiseEvent (SourceMessage, "Types already assigned to all arguments in the call!\n"); if (!value) raiseEvent (SourceMessage, "NULL pointer passed as a pointer to argument!\n");
 
 #ifndef USE_AVCALL
-#define ADD_PRIMITIVE(fcall_type, type, value)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArgumentCount] = [[self getZone] allocBlock: ffi_types[(fcall_type)]->size]; argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount++] = value; }
+#define ADD_PRIMITIVE(fcall_type, type, value)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArgumentCount] = [[self getZone] allocBlock: fcall_type_size (fcall_type)]; argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount++] = value; }
 #else
 #define ADD_PRIMITIVE(type) abort ()
 #endif
@@ -206,11 +211,52 @@ get_fcall_type_for_objc_type (char objcType)
 {
   javaSignatureLength += strlen (java_type_signature[type]);
   
-#ifndef USE_AVCALL
-  result = (void *) [[self getZone] allocBlock: ffi_types[type]->size];
-#else
-  abort ();
-#endif
+  switch (type)
+    {
+    case fcall_type_uchar:
+      result = &resultVal.uchar;
+      break;
+    case fcall_type_schar:
+      result = &resultVal.schar;
+      break;
+    case fcall_type_ushort:
+      result = &resultVal.ushort;
+      break;
+    case fcall_type_sshort:
+      result = &resultVal.sshort;
+      break;
+    case fcall_type_uint:
+      result = &resultVal.uint;
+      break;
+    case fcall_type_sint:
+      result = &resultVal.sint;
+      break;
+    case fcall_type_ulong:
+      result = &resultVal.ulong;
+      break;
+    case fcall_type_slong:
+      result = &resultVal.slong;
+      break;
+    case fcall_type_float:
+      result = &resultVal._float;
+      break;
+    case fcall_type_double:
+      result = &resultVal._double;
+      break;
+    case fcall_type_object:
+      result = &resultVal.object;
+      break;
+    case fcall_type_string:
+      result = &resultVal.string;
+      break;
+    case fcall_type_selector:
+      result = &resultVal.selector;
+      break;
+    case fcall_type_jobject:
+      abort ();
+    default:
+      abort ();
+    }
   returnType = type;
   return self;
 }
@@ -273,10 +319,5 @@ createJavaSignature (FArguments *self)
   mapAlloc (mapalloc, ffiArgTypes);
   mapAlloc (mapalloc, argValues);
   mapAlloc (mapalloc, (char *) javaSignature);
-  if (result)
-      mapAlloc (mapalloc,  result);
 }
-
 @end
-
-

@@ -36,6 +36,7 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
    fcall_type_t returnType;
    void *ffiReturnType;
    void **argValues;
+   types_t resultVal;
    void *result;
    const char *javaSignature; 
    unsigned javaSignatureLength;
@@ -58,3 +59,6 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 - (void *)getResult;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
+
+extern void add_ffi_types (FArguments *self);
+extern size_t fcall_type_size (fcall_type_t type);
