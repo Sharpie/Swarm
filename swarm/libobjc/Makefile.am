@@ -21,7 +21,7 @@ libobjc_la_SOURCES = $(CSRC) $(MSRC)
 
 libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -L$(dir $(shell $(CC) -print-libgcc-file-name))
 
-override CPPFLAGS += -Dexternobjcvar=$(EXPORT_EXTERN) -Dexternvardef=$(EXPORT_EXTERNDEF)
+override CPPFLAGS += -Dexternobjcvar=$(EXPORT_EXTERN)
 
 objc_thread_lo = @OBJC_THREAD_FILE@.lo
 libobjc_la_LIBADD = $(objc_thread_lo) -lgcc
