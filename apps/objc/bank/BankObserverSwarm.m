@@ -86,7 +86,7 @@
   [bankModelSwarm buildObjects];
 
   activeBanks = [EZGraph createBegin: [self getZone]];
-  [activeBanks setGraphWindowGeometryRecordName: "activeBanks"];
+  [activeBanks setWindowGeometryRecordName: "activeBanks"];
   [activeBanks setTitle: "Active Banks"];
   [activeBanks setAxisLabelsX: "Time" Y: "Banks"];
   activeBanks = [activeBanks createEnd];
