@@ -415,7 +415,7 @@ USING
 //#: parsing, typically this will be a subclass of Arguments.
 #define initSwarmAppArguments(argc, argv, version, bugAddress, argumentsClass) \
  _initSwarm_ (argc, argv, \
-              STRINGIFY(APPNAME), \
+              APPNAME_STRING, \
               version, bugAddress, argumentsClass, NULL, NULL, NO)
 
 //G: Flag for whether we're in graphics mode or not.  Default is NO.

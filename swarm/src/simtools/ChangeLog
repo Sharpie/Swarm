@@ -1,3 +1,8 @@
+1999-07-05  Alex Lancaster  <alex@santafe.edu>
+
+	* simtools.h (initSwarmAppArguments): Fixed macro,
+	STRINGIFY(APPNAME) -> APPNAME_STRING.
+
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ObjectLoader.m: Remove [-+]_crash_: methods.  
