@@ -1,9 +1,9 @@
 #include "asmi386.h"
 TEXT()
 	ALIGN(2)
-GLOBL(C(__msvc_builtin_avcall))
-	DECLARE_FUNCTION(__msvc_builtin_avcall)
-FUNBEGIN(__msvc_builtin_avcall)
+GLOBL(C(__builtin_avcall))
+	DECLARE_FUNCTION(__builtin_avcall)
+FUNBEGIN(__builtin_avcall)
 	INSN1(push,l	,R(ebp))
 	INSN2(mov,l	,R(esp),R(ebp))
 	INSN1(push,l	,R(esi))
