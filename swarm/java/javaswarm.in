@@ -14,7 +14,7 @@ jdkdir=@jdkdir@
 @ffilibdir@
 @pnglibdir@
 @zliblibdir@
-EOF`
+EOF`$@SHLIBPATH_VAR@
 
 
 JAVALIBS=@JAVALIBS@
