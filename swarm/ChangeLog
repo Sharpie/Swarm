@@ -1,3 +1,8 @@
+1997-12-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf: Change umich's Tcl, Tk, and TclObjc paths
+	from $(HOME) prefixes to /usr/local.
+
 1997-12-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf: Use $(origin CC) to see if the value of CC is the
