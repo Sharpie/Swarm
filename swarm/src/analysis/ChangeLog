@@ -1,3 +1,7 @@
+1999-09-07    <mgd@HELEN>
+
+	* analysis.h: Add @class EZAverageSequence;
+
 1999-09-07  Alex Lancaster  <alex@santafe.edu>
 
 	* EZGraph.[hm] (EZSequence): Make interface conform to protocol.

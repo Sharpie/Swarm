@@ -523,6 +523,7 @@ USING
 @class EZBin;
 @class EZDistribution;
 @class EZGraph;
+@class EZAverageSequence;
 @class EZSequence;
 @class ActiveGraph;
 @class ActiveOutFile;
