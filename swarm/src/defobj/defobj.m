@@ -11,7 +11,6 @@ Library:      defobj
 
 #include "defobj.xm"
 #import <defobj/Zone.h>
-#import <collections.h>
 
 #include <stdio.h>
 
@@ -72,6 +71,9 @@ _defobj_initialize( void )
 "> including functional equivalents for most messages defined by the Object\n"
 "> superclass.  This error may be avoided by compiling the defobj library\n"
 "> without the -DINHERIT_OBJECT_WITH_ERRORS compile-time flag set.\n"];
+
+  [ProtocolViolation setMessageString:
+"> This object does not comply with an expected protocol\n"];
 }
 
 #include <stdio.h>

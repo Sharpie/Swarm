@@ -248,7 +248,8 @@ extern id <Error>
   InvalidAllocSize,       // no more memory available for allocation
   InternalError,          // unexpected condition encountered in program
   BlockedObjectAlloc,     // method from Object with invalid allocation
-  BlockedObjectUsage;     // method inherited from Object superclass
+  BlockedObjectUsage,     // method inherited from Object superclass
+  ProtocolViolation;      // object does not comply with expected protocol
 
 //
 // standard warnings

@@ -1,3 +1,7 @@
+1998-04-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* defobj.[hm]:  Add ProtocolViolation error symbol.
+
 1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Zone.m: Include string.h for memset.
