@@ -92,14 +92,15 @@
     <para>In Objective-C, the term "message" is used to refer to an
       instruction that tells an object to carry out one of its
       methods.  Here is an example of a message that tells an object
-      known as "bobDole" to execute its method
-      "runForPresident".</para>
+      known as <function>bobDole</function> to execute its method
+      <function>runForPresident</function>.</para>
    
     <programlisting> [bobDole runForPresident];</programlisting>
 
-    <para>Some methods have parameters that specify details and they are
-      added with colons after the name of the method to be executed.
-      For example, if the method "runForPresident" required additional
+    <para>Some methods have parameters that specify details and they
+      are added with colons after the name of the method to be
+      executed.  For example, if the method
+      <function>runForPresident</function> required additional
       parameters, such as the year and the name of the runningmate,
       then the message might look like so:</para>
 
@@ -113,16 +114,17 @@
 <sect2>
  <title>The Variety of Objects</title>
 
-    <para>In a Swarm model, there can be many types of agents. (see
-      figure "Bottom Up Modeling from Benedikt) Obviously, if a model
-      is going to describe honey bees, it has to have honey bee
-      agents. It will also have objects that represent other actors in
-      the model, and not all other actors are animate.  There might be
-      other insects and bears, but there will also be objects that
-      represent the environment (trees, rainstorms, etc).  The model
-      will typically also have objects that facilitate the modeling
-      process and collect information about the simulation and relay
-      it to the researcher. </para> <para></para>
+    <para>In a Swarm model, there can be many types of agents (see
+      figure <link linkend="modeling.figure">Bottom Up
+      Modeling</link>) Obviously, if a model is going to describe
+      honey bees, it has to have honey bee agents. It will also have
+      objects that represent other actors in the model, and not all
+      other actors are animate.  There might be other insects and
+      bears, but there will also be objects that represent the
+      environment (trees, rainstorms, etc).  The model will typically
+      also have objects that facilitate the modeling process and
+      collect information about the simulation and relay it to the
+      researcher. </para> <para></para>
 
   </sect2>
 
@@ -137,9 +139,9 @@
       Objective-C, is not exactly the same as OOP in C++ or Java, but
       these languages have some significant features in common.  The
       features we emphasize here are encapsulation and
-      inheritance. (Question: this downplays polymorphism because
+      inheritance. <comment>Question: this downplays polymorphism because
       Objective-C does not allow operator overloading. Do you think
-      that is a good idea?)</para>
+      that is a good idea?</comment></para>
 
     <sect3>
 
@@ -163,12 +165,12 @@
       take effort to convey information to each other about their
       internal states. The practical advantages of encapsulation,
       however, are just as important.  Computer projects can be broken
-      down into separable components (code for the classeses) and when
+      down into separable components (code for the classes) and when
       the code is finished, the details of what goes on inside each
       object may not be important to the programmer.  For example, if
-      an object "groceryStore" can respond to an message "takeMoney,"
-      and it gets the job done, we might not care how it does
-      it.</para>
+      an object <varname>groceryStore</varname> can respond to an
+      message <function>takeMoney</function>, and it gets the job
+      done, we might not care how it does it.</para>
 
       <figure id="interface-vs-implementation.figure">
         <title>Interface vs. Implementation</title>
@@ -204,21 +206,26 @@
       libraries create subclasses, and subclasses are created from
       them, and so forth until the programmer in a swarm project wants
       to create a new class of actors that is subclassed from
-      "Swarmobject."  And if the programmer needs to create several
-      varieties of that class, there is no need to totally rewrite
-      each one. Subclasses can be created that have as a base all
-      variables and methods of the class but then new methods and
-      variables can be added as well.</para>
+      <classname>SwarmObject</classname>.  And if the programmer needs
+      to create several varieties of that class, there is no need to
+      totally rewrite each one. Subclasses can be created that have as
+      a base all variables and methods of the class but then new
+      methods and variables can be added as well.</para>
 
-    <para>When a method, say "takeMoney", exists in a class "Store,"
-      and then a subclass is created, say"groceryStore," then all
-      objects instantiated from the subclass will respond to
-      "takeMoney".  If the programmer wants to rewrite the "takeMoney"
-      method for groceryStores, however, then the method can be
-      revised inside the code for the subclass and then all instances
-      of the groceryStore class will respond to "takeMoney" in that
-      specialized way.  The method inside the groceryStore subclass
-      will override the super-class's definition of the method.</para>
+    <para>When a method, say <function>takeMoney</function>, exists in
+        a class <classname>Store</classname>, and then a subclass is
+        created, say <classname>GroceryStore</classname>, then all
+        objects instantiated from the subclass will respond to
+        <function>takeMoney</function>.  If the programmer wants to
+        rewrite the <function>takeMoney</function> method for
+        <classname>GroceryStore</classname>s, however, then the method
+        can be revised inside the code for the subclass and then all
+        instances of the <classname>GroceryStore</classname> class
+        will respond to <function>takeMoney</function> in that
+        specialized way.  The method inside the
+        <classname>GroceryStore</classname> subclass will override the
+        super-class's definition of the method.</para>
+
     </sect3>
 
 </sect2>

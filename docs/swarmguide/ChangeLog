@@ -1,6 +1,10 @@
 1999-05-19  Alex Lancaster  <alex@santafe.edu>
 
+	* userbook.sgml: Change TITLE of CHAPTER 3 to `Advanced Topics'.
+
 	* user2.05.sgml: Make tags and PROGRAMLISTINGs consistent.
+
+	* user1.02.sgml: Likewise.
 
 	* common.dsl (classname): Make Mono type.
 	(function): Make Bold Mono type in print and html backend.
