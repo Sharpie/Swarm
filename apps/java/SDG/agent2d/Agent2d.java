@@ -18,7 +18,6 @@ public class Agent2d extends SwarmImpl {
   private Grid2d world;
   byte color;
 
-  public Agent2d () { }
   public Agent2d (Zone aZone, Organization org,
                   int x, int y,
                   int scatter, int size) {
