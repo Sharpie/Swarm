@@ -1,3 +1,20 @@
+2004-11-14  Marcus G. Daniels <mgd@santafe.edu>
+
+	* argp-eexst.c: Don't include sysexits.h for either Cygwin or
+	__WIN32__.
+
+	* argp.h: Avoid use of argument names __argc or __argv, which are
+	macros in MingW.
+
+	* getopt.c: Avoid DATADIR and BOOL when including windows.h.
+
+	* misc.h (gettimeofday): Declare for __WIN32__.
+
+	* realpath.c: Don't define HAVE_READLINK for __WIN32__.
+	Provide a value for ELOOP_VALUE.
+
+	* gettimeofday.c: New file.
+
 2004-01-21  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* argp.h: MacOS X 10.3.x has getopt.h but no argp.

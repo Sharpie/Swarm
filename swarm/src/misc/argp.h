@@ -379,10 +379,11 @@ struct argp_state
    returned.  This function may also call exit unless the ARGP_NO_HELP flag
    is set.  INPUT is a pointer to a value to be passed in to the parser.  */
 extern error_t argp_parse __P ((__const struct argp *__argp,
-				int __argc, const char **__argv, unsigned __flags,
-				int *__arg_index, void *__input));
+                              int __argcx, const char **__argvx, unsigned __flags,
+                              int *__arg_index, void *__input));
+
 extern error_t __argp_parse __P ((__const struct argp *__argp,
-				  int __argc, const char **__argv, unsigned __flags,
+				  int __argcx, const char **__argvx, unsigned __flags,
 				  int *__arg_index, void *__input));
 
 /* Global variables.  */

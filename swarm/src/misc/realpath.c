@@ -14,8 +14,15 @@ int readlink (const char *, char *, int);
 #define MAXSYMLINKS 10
 #endif
 
+#ifndef __WIN32__
 #define HAVE_READLINK
+#endif
+
+#ifdef ELOOP
 #define ELOOP_VALUE ELOOP
+#else
+#define ELOOP_VALUE 999
+#endif
 
 /* Library-Funktion realpath implementieren:
    [Copyright: SUN Microsystems, B. Haible]

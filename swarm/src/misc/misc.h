@@ -68,6 +68,10 @@
 /* Expected to be declared by time.h are clock, time, and gettimeofday. */
 /* Expected to be declared by sys/time.h. is timeval. */
 
+#ifdef __WIN32__
+int gettimeofday (struct timeval *tv, struct timezone *tz);
+#endif
+
 void *xmalloc (size_t size);
 void *xmalloc_atomic (size_t size);
 void *xcalloc (size_t nmemb, size_t size);
