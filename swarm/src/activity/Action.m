@@ -271,6 +271,7 @@ PHASE(Using)
       id fc = [self _createCall_: target];
         
       [fc performCall];
+      [[fc getArguments] drop];
       [fc drop];
     }
 }
@@ -488,6 +489,7 @@ PHASE(Using)
 	}
     }
   else
+#endif
     {
       id memberAction;
       
@@ -499,7 +501,6 @@ PHASE(Using)
       
       setClass (memberAction, id_FAction_c);
     }
-#endif
 }
 
 - getDefaultOrder
