@@ -1,5 +1,7 @@
 1998-12-11  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
+	* Makefile.am: Remove ListShuffler
+
 	* simtools.h: Remove ListShuffler protocol and ListShuffler class
 	definition
 
