@@ -1,14 +1,14 @@
 // Copyright (C) 1996-1998 Santa Fe Institute.
 #import "BankBatchSwarm.h"
 #import "BankModelSwarm.h"
-#import <collections.h>
+#import <activity.h>
 
 @implementation BankBatchSwarm
 
 // createBegin: here we set up the default observation parameters.
 + createBegin: aZone
 {
-  BankBatchSwarm * obj;
+  BankBatchSwarm *obj;
 
   obj = [super createBegin: aZone];
 
@@ -27,14 +27,15 @@
 
   [bankModelSwarm buildObjects];
 
-/*
+#if 0
   unhappinessAverager = [Averager createBegin: [self getZone]];
   [unhappinessAverager setList: [bankModelSwarm getBankList]];
   [unhappinessAverager setProbedSelector: M(getUnhappiness)];
   unhappinessAverager = [unhappinessAverager createEnd];
-*/
+#endif
+
   // And open a file for writing (see -writeData for comments)
-  outputFile = fopen("banks.data", "w");
+  outputFile = fopen ("banks.data", "w");
 
   return self;
 }  
@@ -45,7 +46,7 @@
   
   [bankModelSwarm buildActions];
   
-/*
+#if 0
   displayActions = [ActionGroup create: [self getZone]];
   // Now schedule the update of the unhappiness graph
   [displayActions createActionTo: unhappinessAverager message: M(update)];
@@ -56,7 +57,7 @@
   [displaySchedule setRepeatInterval: displayFrequency];
   displaySchedule = [displaySchedule createEnd];
   [displaySchedule at: 0 createAction: displayActions];
-*/
+#endif
 
   stopSchedule = [Schedule create: [self getZone]];
   [stopSchedule at: 250 createActionTo: self message: M(stopRunning)];
@@ -71,9 +72,9 @@
 
   [bankModelSwarm activateIn: self];
 
-/*
+#if 0
   [displaySchedule activateIn: self];
-*/
+#endif
   [stopSchedule activateIn: self];
 
   return [self getSwarmActivity];
@@ -92,17 +93,17 @@
 
 - writeData
 {
-/*
+#if 0
   fprintf(outputFile, "%d %g\n", getCurrentTime(),
 	  [unhappinessAverager getAverage]);
-*/
+#endif
   return self;
 }
 
 - stopRunning
 {
   [getTopLevelActivity() terminate];
-  fclose(outputFile);
+  fclose (outputFile);
   return self;
 }
 

@@ -1,10 +1,6 @@
 // Copyright (C) 1996-1998 Santa Fe Institute.
-#import <objectbase.h>
-#import <activity.h>
-#import <collections.h>
-#import <simtools.h>
-#import <stdio.h>
 #import "BankModelSwarm.h"
+#import <objectbase/Swarm.h>
 
 @interface BankBatchSwarm: Swarm
 {
@@ -14,11 +10,11 @@
   id displaySchedule;
   id stopSchedule;
 
-  BankModelSwarm * bankModelSwarm;
-  /*
-  Averager * unhappinessAverager;	
-  */
-  FILE * outputFile;			
+  BankModelSwarm *bankModelSwarm;
+#if 0
+  Averager *unhappinessAverager;	
+#endif
+  FILE *outputFile;			
 }
 
 + createBegin: aZone;

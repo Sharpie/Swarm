@@ -1,5 +1,5 @@
 // Copyright (C) 1996-1998 Santa Fe Institute.
-#import <objectbase.h>
+#import <objectbase/Swarm.h>
 #import "FEntity.h"
 #import "FNet.h"
 

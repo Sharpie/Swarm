@@ -1,3 +1,13 @@
+1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* BankBatchSwarm.m: Include activity.h instead of collections.h.
+
+	* BankBatchSwarm.h: Don't include objectbase.h, activity.h,
+	collections.h, simtools.h, or stdio.h.  Include objectbase/Swarm.h.
+
+	* BankModelSwarm.h: Include objectbase/Swarm.h instead of
+	objectbase.h.
+
 1998-03-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* BLink.[hm], BankBatchSwarm.[hm], BankModelSwarm.[hm],
