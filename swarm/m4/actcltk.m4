@@ -133,22 +133,24 @@ AC_MSG_CHECKING(directory and version of libtcl)
 for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
   tcllibdir=''
   expand_dir=`eval echo $dir`
-  for suffix in .dylib .so .sl .a; do
-    if test -n "$tcllibname"; then
-      if test -r $expand_dir/lib${tcllibname}${suffix} ; then
-        tcllibdir=$dir
-        break
-      fi
-    else
-      for version in 84 8.4 83 8.3 82 8.2 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
-        if test -r $expand_dir/libtcl${version}${suffix}; then
-          tcllibdir=$dir  
-          tcllibname=tcl$version
-          break
-        fi        
-      done
-    fi
-    test -z "$tcllibdir" || break
+  for debug in '' g; do
+	  for suffix in .dylib .so .sl .a; do
+		if test -n "$tcllibname"; then
+		  if test -r $expand_dir/lib${tcllibname}${debug}${suffix} ; then
+			tcllibdir=$dir
+			break
+		  fi
+		else
+		  for version in 84 8.4 83 8.3 82 8.2 81 8.1 80 8.0 76 7.6 7.5 7.4 ''; do
+			if test -r $expand_dir/libtcl${version}${debug}${suffix}; then
+			  tcllibdir=$dir  
+			  tcllibname=tcl$version
+			  break
+			fi        
+		  done
+		fi
+		test -z "$tcllibdir" || break
+	  done
   done
   test -z "$tcllibdir" || break
 done
@@ -230,22 +232,24 @@ AC_MSG_CHECKING(directory and version of libtk)
 for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
   tklibdir=''
   expand_dir=`eval echo $dir`
-  for suffix in .dylib .so .sl .a; do
-    if test -n "$tklibname" ; then
-      if test -r $expand_dir/lib${tklibname}${suffix} ; then
-        tklibdir=$dir
-        break
-      fi
-    else
-      for version in 84 8.4 83 8.3 82 8.2 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
-        if test -r $expand_dir/libtk${version}${suffix}; then
-          tklibdir=$dir
-          tklibname=tk${version}
-          break
-        fi
-      done
-    fi
-    test -z "$tklibdir" || break
+  for debug in '' g; do
+	  for suffix in .dylib .so .sl .a; do
+		if test -n "$tklibname" ; then
+		  if test -r $expand_dir/lib${tklibname}${debug}${suffix} ; then
+			tklibdir=$dir
+			break
+		  fi
+		else
+		  for version in 84 8.4 83 8.3 82 8.2 81 8.1 80 8.0 42 4.2 4.1 4.0 ''; do
+			if test -r $expand_dir/libtk${version}${debug}${suffix}; then
+			  tklibdir=$dir
+			  tklibname=tk${version}
+			  break
+			fi
+		  done
+		fi
+		test -z "$tklibdir" || break
+	  done
   done
   test -z "$tklibdir" || break
 done
@@ -302,12 +306,15 @@ AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
 found=no
 for name in $bltlibname BLT24 BLT8.0 BLT80 BLT; do
-  md_FIND_LIB(blt,$name,$bltdir/lib/shared,1)
-  if test -n "$_ldflags" ; then
-    bltlibname=$name
-    found=yes
-    break
-  fi
+   for libdir in "$bltdir/lib/shared" "$bltdir/lib" ; do
+	  md_FIND_LIB(blt,$name,$libdir,1)
+	  if test -n "$_ldflags" ; then
+		bltlibname=$name
+		bltlibdir=$libdir
+		found=yes
+		break
+	  fi
+   done
 done
 if test $found = no; then
   AC_MSG_ERROR(Please use --with-bltdir to specify location of BLT.)
