@@ -1,3 +1,10 @@
+2000-07-27  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java-stub.el (java-print-class-constructor-method): 
+	Don't use collect-convenience-constructor-name.arguments.
+	(java-print-native-method-name): Update to use argument-key
+	instead of raw list access.
+
 2000-07-26    <mgd@DRONE>
 
 	* java-stub.el: Change SD_JAVA_ENSUREOBJCMETHOD to

@@ -189,7 +189,7 @@
 
 (defun java-print-method (protocol method)
   (let* ((arguments (method-arguments method))
-         (first-argument (car arguments))
+         (first-argument (first arguments))
          (signature (get-method-signature method))
          (module (protocol-module protocol)))
     (java-print-type module (method-return-type method))
@@ -270,8 +270,7 @@
         (java-print-implemented-interfaces-list protocol phase))))
 
 (defun java-print-class-constructor-method (protocol method)
-  (let* ((name.arguments
-          (collect-convenience-constructor-name.arguments method))
+  (let* ((arguments (method-arguments method))
          (module (protocol-module protocol))
          (zone-protocol (lookup-protocol "Zone"))
          (zone-class-name
@@ -282,32 +281,32 @@
     ;; if constructor accepts more than one argument, then print it's
     ;; method documentation, otherwise default to boilerplate
     ;; documentation
-    (if name.arguments
+    (if arguments
         (java-print-javadoc-method method protocol)
         (java-print-javadoc-default-constructor))
     (insert "public ")
     (insert using-class-name)
     (insert " (")
-    (insert zone-class-name)
-    (insert " aZone")
-    (loop for name.argument in name.arguments
+    (java-print-argument module (first arguments))
+    (loop for argument in (cdr arguments)
           do
           (insert ", ")
-          (java-print-argument module (cdr name.argument)))
+          (java-print-argument module argument))
     (insert ") { super (); ")
     (insert "new ")
     (insert creating-class-name)
-    (insert " (this).create")
-    (loop for name.argument in name.arguments
+    (insert " (this).")
+    (insert (argument-key (first arguments)))
+    (loop for argument in (cdr arguments)
           do
           (insert "$")
-          (insert (car (cdr name.argument))))
+          (insert (argument-key argument)))
     (insert " (")
-    (insert "aZone")
-    (loop for name.argument in name.arguments
+    (insert (argument-name (first arguments)))
+    (loop for argument in (cdr arguments)
           do
           (insert ", ")
-          (insert (caddr (cdr name.argument))))
+          (insert (argument-name argument)))
     (insert "); }\n")))
 
 (defun java-print-basic-constructor (protocol)
@@ -653,9 +652,9 @@
   (insert "]"))
 
 (defun java-print-native-method-name (arguments)
-  (insert (car (car arguments)))
+  (insert (argument-key (first arguments)))
   (loop for argument in (cdr arguments)
-        for nameKey = (car argument)
+        for nameKey = (argument-key argument)
         when nameKey
         do
         (insert *dollar-sign*) 
@@ -666,7 +665,7 @@
            (insert-char ?\  30)
            (insert arg)))
     (let* ((arguments (method-arguments method))
-           (first-argument (car arguments))
+           (first-argument (first arguments))
            (strings nil)
            (string-arrays nil)
            (module (protocol-module protocol))
