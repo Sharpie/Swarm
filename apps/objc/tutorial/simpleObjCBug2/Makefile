@@ -5,7 +5,6 @@ APPLICATION=bug
 APPVERSION=2.0
 BUGADDRESS=bug-swarm@santafe.edu
 OBJECTS= main.o Bug.o FoodSpace.o
-APPLIBS=-lspace
 
 include $(SWARMHOME)/etc/swarm/Makefile.appl
 
