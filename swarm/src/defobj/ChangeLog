@@ -1,3 +1,13 @@
+2000-06-20  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* JavaCollection.m, JavaCollectionIndex.m ([JavaCollectionIndex
+	-next, -getLoc, +create:]): Use status flag instead of tracking
+	position.
+
+	* java.m, javavars.h: Add m_IteratorNext and m_IteratorHasNext.
+	(swarm_directory_java_ensure_objc): Refer
+	to entry's global object, not local object for switch.
+	
 2000-06-19  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* JavaCollection.m ([JavaCollection -allSameClass]): Don't drop

@@ -9,24 +9,23 @@
 #import <defobj/directory.h>
 #import <collections.h> // Member, End
 #import "java.h"
+#import "javavars.h"
 #endif
 
 @implementation JavaCollectionIndex
 
 #ifdef HAVE_JDK
-+ create: aZone setCount: (unsigned)theCount
-{
-  JavaCollectionIndex *obj = [self create: aZone];
 
-  obj->pos = -1;
-  obj->count = theCount;
++ create: aZone
+{
+  JavaCollectionIndex *obj = [super create: aZone];
+  obj->status = Start;
   return obj;
 }
 
-
 - (id <Symbol>)getLoc
 {
-  return pos < count ? Member : End;
+  return status;
 }
 
 - next
@@ -34,24 +33,23 @@
   jobject iterator = SD_JAVA_FIND_OBJECT_JAVA (self);
   jobject item;
   id proxy;
-  jclass class;
-  jmethodID method;
 
-  if (!(class = (*jniEnv)->GetObjectClass (jniEnv, iterator)))
-    abort ();
-  if (!(method =
-	(*jniEnv)->GetMethodID (jniEnv,
-				class,
-				"next",
-				"()Ljava/lang/Object;")))
-    abort ();
-  (*jniEnv)->DeleteLocalRef (jniEnv, class);
-  item = (*jniEnv)->CallObjectMethod (jniEnv, iterator, method);
-  proxy = SD_JAVA_ENSUREOBJC (item);
-  (*jniEnv)->DeleteLocalRef (jniEnv, item);
-  pos++;
-  return proxy;
+  if ((*jniEnv)->CallBooleanMethod (jniEnv, SD_JAVA_FIND_OBJECT_JAVA (self), m_IteratorHasNext))
+    {
+      item = (*jniEnv)->CallObjectMethod (jniEnv, iterator, m_IteratorNext);
+      proxy = SD_JAVA_ENSUREOBJC (item);
+      if (item)
+        (*jniEnv)->DeleteLocalRef (jniEnv, item);
+      status = Member;
+      return proxy;
+    }
+  else
+    {
+      status = End;
+      return nil;
+    }
 }
+
 #endif
 
 @end

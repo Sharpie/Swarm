@@ -1276,6 +1276,22 @@ create_method_refs (void)
   if (!(m_FieldGetModifiers =
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "getModifiers", "()I")))
     abort ();
+
+  {
+    jobject lref;
+
+    if (!(lref = (*jniEnv)->FindClass (jniEnv, "java/util/Iterator")))
+      abort ();
+    
+    if (!(m_IteratorNext =
+          (*jniEnv)->GetMethodID (jniEnv, lref, "next", "()Ljava/lang/Object;")))
+      abort ();
+
+    if (!(m_IteratorHasNext =
+          (*jniEnv)->GetMethodID (jniEnv, lref, "hasNext", "()Z")))
+      abort ();
+    (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+  }
   
   if (!(m_MethodGetName =
 	(*jniEnv)->GetMethodID (jniEnv, c_Method, "getName",
@@ -1285,7 +1301,7 @@ create_method_refs (void)
   if (!(m_MethodGetModifiers =
         (*jniEnv)->GetMethodID (jniEnv, c_Method, "getModifiers", "()I")))
     abort ();
-  
+
   if (!(m_ModifierIsPublic = 
         (*jniEnv)->GetStaticMethodID (jniEnv, c_Modifier, "isPublic", "(I)Z")))
     abort ();
@@ -1466,7 +1482,7 @@ swarm_directory_java_ensure_objc (jobject javaObject)
             {
               const char *last = (const char *) result->object;
 
-              result = SD_JAVA_SWITCHOBJC (javaObject, (id) str);
+              result = SD_JAVA_SWITCHOBJC (result->foreignObject.java, (id) str);
 	      ZFREEBLOCK (getZone (swarmDirectory), (void *) last);
             }
           else

@@ -8,11 +8,10 @@
 
 @interface JavaCollectionIndex: CreateDrop
 {
-  unsigned count;
-  int pos;
+  id <Symbol> status;
 }
 #ifdef HAVE_JDK
-+ create: aZone setCount: (unsigned)count;
++ create: aZone;
 - (id <Symbol>)getLoc;
 - next;
 #endif

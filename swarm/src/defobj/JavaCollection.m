@@ -49,7 +49,7 @@
   jmethodID method;
   jobject iterator;
   ObjectEntry *entry;
-
+  
   if (!(class = (*jniEnv)->GetObjectClass (jniEnv, coll)))
     abort ();
 
@@ -62,8 +62,7 @@
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
   iterator = (*jniEnv)->CallObjectMethod (jniEnv, coll, method);
   entry = SD_JAVA_ADD (iterator,
-                       [JavaCollectionIndex create: getCZone (getZone (self))
-                                            setCount: [self getCount]]);
+                       [JavaCollectionIndex create: aZone]);
   (*jniEnv)->DeleteLocalRef (jniEnv, iterator);
   return entry->object;
 }
@@ -157,11 +156,12 @@
 
 - (BOOL)allSameClass
 {
-  id index, member;
+  id index  = [(id) self begin: scratchZone];
   BOOL ret = YES;
+  
   jclass firstJavaClass;
+  id member;
 
-  index = [(id) self begin: scratchZone];
   member = [index next];
   
   if (member)
@@ -202,3 +202,5 @@
 }
 #endif
 @end
+
+
