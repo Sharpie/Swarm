@@ -7,4 +7,3 @@ add alternative interfaces that use objects.
 Write and integrate a runtime query program to determine IMP functions
 for Java stubs; eliminate method dispatch overhead.
 
-Eliminate swarmjdk.jar and swarm.jar; do it at runtime
