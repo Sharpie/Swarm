@@ -523,11 +523,17 @@
 
 (defun com-impl-print-class-init-method (protocol)
   (let ((name (com-impl-name protocol :using))
-        (cname (com-impl-name protocol :creating)))
+        (cname (com-impl-name protocol :creating))
+        (se-flag (eq (lookup-protocol "SwarmEnvironment") protocol)))
+    
     (insert "NS_IMETHODIMP\n")
     (insert name)
     (insert "::Init()\n")
     (insert "{\n")
+    
+    (when se-flag
+      (insert "  COMEnv env = { findInterface };\n"))
+
     (insert "  nsCOMPtr <")
     (insert cname)
     (insert "> ")
@@ -535,6 +541,8 @@
     
     (insert "  nsISupports *ret;\n")
     (insert "\n")
+    (when se-flag
+      (insert "  initCOM (env);\n"))
     (insert "  nsresult rv = nsComponentManager::CreateInstance (")
     (insert (com-cid protocol :creating))
     (insert ", NULL, NS_GET_IID (")
@@ -793,6 +801,7 @@
     (insert "extern SEL sel_get_uid (const char *);\n")
     (insert "}\n")
     (insert "#include <defobj/COM.h>\n")
+    (insert "#include \"COMsupport.h\"\n")
 
     (when (inclusive-phase-p phase :using)
       (insert "#include <nsCOMPtr.h>\n")
