@@ -4,6 +4,8 @@
 	(COM_collect_method_func_t): Use single COMmethod argument.
 	(collectMethods): Take a variable and method collection function.
 	Remove variableFlag.
+	(COMInterface): Add COMmethod invocation argument count & type
+	entries.
 
 	* COM.[hm], FCall.[hm]: Use "params" for vectors including both
 	arguments and a return value and "args" for only arguments.  Many
