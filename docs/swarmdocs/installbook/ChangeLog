@@ -1,3 +1,9 @@
+1998-06-16  Alex Lancaster  <alex@santafe.edu>
+
+	* install01.sgml: Updated 'Supported Systems' to make mention of
+	Windows NT.  Updated 'Prerequisite Libraries' to mention libraries
+	required as of Swarm 1.1/1.2.
+
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: Include $(top_srcdir)/Makefile.common.
