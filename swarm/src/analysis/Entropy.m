@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <analysis/Entropy.h>
-#import <math.h>
 #import <collections.h>
+#import <defobj/defalloc.h> // getZone
+#include <misc.h> // log
 
 @implementation Entropy
 
@@ -43,12 +44,8 @@ PHASE(Using)
   maximum = log (1.0 / ((double) count));
 
   obj = [collection getFirst];
-  // [self updateMethodCache: obj];
   
-  // Ok, we have cached our function to call on each object - do it.
-  // note that we don't do lookup for each step: this code only works
-  // if the collection is homogeneous.
-  iter = [collection begin: [self getZone]];
+  iter = [collection begin: getZone (self)];
   while ((obj = [iter next]) != nil)
     {
       double v = [self doubleDynamicCallOn: obj];

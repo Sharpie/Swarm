@@ -7,7 +7,8 @@
 #import <analysis.h> // ActiveGraph, ActiveOutFile
 #import <gui.h> // Graph
 #import <simtools.h> // OutFile
-#import <misc.h> // strlen, stpcpy
+#import <defobj/defalloc.h> // getZone
+#include <misc.h> // strlen, stpcpy
 
 #define NUMCOLORS 12
 
@@ -140,7 +141,7 @@ PHASE(Creating)
 
   if (graphics)
     {
-      graph = [Graph createBegin: [self getZone]];
+      graph = [Graph createBegin: getZone (self)];
       [graph setSaveSizeFlag: saveSizeFlag];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (graph);
       graph = [graph createEnd];
@@ -149,7 +150,7 @@ PHASE(Creating)
       [graph pack];
     }
   
-  sequenceList = [List create: [self getZone]];
+  sequenceList = [List create: getZone (self)];
 
   return self;
 }
@@ -235,7 +236,7 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
           andSelector: (SEL)aSel
 {
   id aGrapher;
-  id aZone = [self getZone];
+  id aZone = getZone (self);
   
   if (graphics)
     {
@@ -283,7 +284,7 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
 {
   id aSeq;
   
-  aSeq = [EZSequence create: [self getZone]];
+  aSeq = [EZSequence create: getZone (self)];
 
   [self createGraphSequence: aName
         forSequence: aSeq
@@ -302,9 +303,9 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   id aSeq;
   id anAverager;
   
-  aSeq = [EZAverageSequence create: [self getZone]];
+  aSeq = [EZAverageSequence create: getZone (self)];
   
-  anAverager = [Averager createBegin: [self getZone]];
+  anAverager = [Averager createBegin: getZone (self)];
   [anAverager setCollection: aCollection];
   [anAverager setWidth: width];
   [anAverager setProbedSelector: probeSel];
@@ -468,7 +469,7 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
   if (graphics)
     [graph drop];
 
-  index = [sequenceList begin: [self getZone]];
+  index = [sequenceList begin: getZone (self)];
   while ((aSequence = [index next]))
     {
       [index remove];

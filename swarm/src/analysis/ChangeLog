@@ -1,3 +1,12 @@
+2000-10-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Entropy.m ([Entropy -update]): Remove obsolete comments.
+
+	* Entropy.m: Include misc.h instead of math.h.
+
+	* EZGraph.m, Entropy.m: Use getZone() instead of -getZone.
+	Include defalloc.h.
+
 2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* EZGraph.m ([EZGraph -createEnd]): Call setSaveSizeFlag:.
