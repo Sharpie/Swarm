@@ -1,8 +1,8 @@
-#import "fcall_java.h"
-
 #ifdef __CYGWIN__
 #define MSVC
 #endif
+
+#import "fcall_java.h"
 #include <avcall.h>
 #import <defobj/directory.h> // JNI things
 #import <defobj/FArguments.h>
