@@ -15,6 +15,7 @@ ffidir="@ffidir@"
 zliblibdir="@zliblibdir@"
 pnglibdir="@pnglibdir@"
 
+swarm_SWARMLDFLAGS="@SWARMLDFLAGS@"
 swarm_TCLLDFLAGS="@TCLLDFLAGS@"
 swarm_TKLDFLAGS="@TKLDFLAGS@"
 swarm_BLTLDFLAGS="@BLTLDFLAGS@"
@@ -45,6 +46,6 @@ swarm_LIBS="@LIBS@"
 ## The final shell variables which are to be substituted in the application
 ## Makefiles(s)
 
-SWARM_LDFLAGS="-L${swarm_libdir} @RPATH@${swarm_libdir} ${swarm_BLTLDFLAGS} ${swarm_TCLLDFLAGS} ${swarm_TKLDFLAGS} ${swarm_FFILDFLAGS} ${swarm_PNGLDFLAGS} ${swarm_ZLIBLDFLAGS} ${swarm_X_LIBS}"
+SWARM_LDFLAGS="${swarm_SWARMLDFLAGS} ${swarm_BLTLDFLAGS} ${swarm_TCLLDFLAGS} ${swarm_TKLDFLAGS} ${swarm_FFILDFLAGS} ${swarm_PNGLDFLAGS} ${swarm_ZLIBLDFLAGS} ${swarm_X_LIBS}"
 
 SWARM_LDADD="${swarm_SWARMLIBS} ${swarm_SYSLIBS} ${swarm_LIBS}"

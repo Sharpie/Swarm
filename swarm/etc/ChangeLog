@@ -1,3 +1,13 @@
+1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* config.swarm.in (swarm_SWARMLDFLAGS): Substitute using SWARMLDFLAGS.
+	(SWARM_LDFLAGS): Use swarm_SWARMLDFLAGS instead of
+	-L${swarm_libdir} @RPATH@${swarm_libdir}.
+
+	* Makefile.appl.in (SWARMLDFLAGS): Substitute.
+	(LDFLAGS): Use SWARMLDFLAGS instead of -L$(libdir) and
+	@RPATH@$(libdir).
+
 1998-08-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* config.swarm.in: Remove X_EXTRA_LIBS.  Surround variables
