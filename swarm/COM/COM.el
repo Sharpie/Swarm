@@ -9,7 +9,9 @@
 
 (defconst *com-objc-to-idl-type-alist*
     '(("id .*" . "nsISupports")
+      ("TYPING" . "swarmITyping")
       ("SEL" . "swarmISelector")
+      
       ("void" . "void")
       ("const char \\*" . "string")
       ("char \\*" . "string")
@@ -296,8 +298,12 @@
 (defun com-idl-print-includes (protocol phase)
   (let ((ht (create-type-hash-table protocol phase)))
     (insert "\n")
+    
     ;; this won't get picked up by collecting protocols, as SEL isn't one.
     (insert "#include \"swarmISelector.idl\"\n") 
+    ;; likewise (from "TYPING")
+    (insert "#include \"swarmITyping.idl\"\n")
+    
     (loop for objc-type being each hash-key of ht
           do
           (insert "interface ")
@@ -431,7 +437,7 @@
                  (make-method
                   :phase :creating
                   :factory-flag t
-                  :arguments (list (list "create" "Class" "class")
+                  :arguments (list (list "create" "TYPING" "obj")
                                    (list nil "const char *" "methodName")
                                    (list nil "BOOL" "objcFlag"))
                   :return-type "id <Selector>"))))
