@@ -22,7 +22,9 @@ html_DATA = $(NAME).html
 
 FIGS = figs/swarm.eps # for the timestamp
 
-$(DATA): $(FIGS)
+all-recursive: # placeholder for when SUBDIRS is empty
+
+$(DATA): $(FIGS) all-recursive
 
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
