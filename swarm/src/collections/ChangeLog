@@ -1,3 +1,16 @@
+1998-12-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* collections.m (_collections_implement): Associate ListShuffler_c
+	and ListShuffler.
+
+	* collections.h (ListShuffler): Adopt Create, Drop, and CREATABLE.
+
+	* Makefile.am (INCLUDES): Add random.
+
+	* ListShuffler.m: Include random.h, not random/random.h.  Don't
+	include simtools.h. 
+	([ListShuffler_c +createBegin:]): Remove. 
+
 1998-12-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am (module_headers): Add collections.xm.

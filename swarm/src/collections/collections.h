@@ -1041,23 +1041,21 @@ USING
 - (BOOL)getLiteralFlag;
 @end
 
-@protocol ListShuffler 
+@protocol ListShuffler <Create, Drop, CREATABLE>
 //S: A class to randomize the order of a given Swarm List
 
 //D: ListShuffler randomizes the order of the elements in a List; 
 //D: either the whole list or the num lowest elements. The list must be
 //D: supplied. An uniform distribution can be supplied, or the system-
-//D: supplied uniformUnsRand is used. The algorith is from Knuth.
+//D: supplied uniformUnsRand is used. The algorithm is from Knuth.
 //D: All these methods modify the underlying collection, so
 //D: any indexes should always be regenerated. 
 CREATING
-
-+ createBegin: aZone;
 + create: aZone withUniformRandom: dist;
 
 //M: the setUniformRandom: method connects the supplied uniform distribution 
 //M: to the Shuffler (run after createBegin:).
-- (void) setUniformRandom: dist;
+- (void)setUniformRandom: dist;
 
 - createEnd;
 
@@ -1066,7 +1064,6 @@ CREATING
 + create: aZone setUniformRandom: dist;
 
 USING
-
 //M: the shuffleWholeList method randomizes the whole list.
 - shuffleWholeList: list;
 

@@ -34,6 +34,7 @@ _collections_implement (void)
   [id_ArchiverPair_c setTypeImplemented: ArchiverPair];
   [id_Permutation_c setTypeImplemented: Permutation];
   [id_PermutedIndex_c setTypeImplemented: PermutedIndex];
+  [id_ListShuffler_c setTypeImplemented: ListShuffler];
 }
 
 //
