@@ -3,7 +3,7 @@
 #import "ModelSwarm.h"
 #import <simtools.h>
 
-@implementation BugSwarm
+@implementation ModelSwarm
 
 +createBegin: (id) aZone {
   ModelSwarm * obj;
