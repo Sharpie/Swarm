@@ -20,6 +20,7 @@ import swarm.random.PMMLCG1gen;
 import swarm.random.PMMLCG1genImpl;
 import swarm.random.UniformDoubleDist;
 import swarm.random.UniformDoubleDistImpl;
+import swarm.space.Grid2d;
 import swarm.space.Grid2dImpl;
 
 /** 
@@ -39,7 +40,7 @@ public class MousetrapModelSwarm extends SwarmImpl
   public Schedule modelSchedule;
   
   public MousetrapStatistics stats;
-  public Grid2dImpl grid;
+  public Grid2d grid;
   
   public ActivityControl modelActCont;
   
@@ -112,7 +113,7 @@ public class MousetrapModelSwarm extends SwarmImpl
     return maxTriggerTime;
   }
 
-  public Grid2dImpl getWorld () {
+  public Grid2d getWorld () {
     return grid;
   }
   

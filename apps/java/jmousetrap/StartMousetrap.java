@@ -6,7 +6,7 @@
 import swarm.Globals;
 import swarm.defobj.ZoneImpl;
 /**
- * This class is the `main' function of the Mousetrap application */
+ * This class provides the `main' function of the Mousetrap application */
 public class StartMousetrap {
   public static void main (String[] args) {
     Globals.env.initSwarm(args);

@@ -1,3 +1,10 @@
+1999-09-01  Alex Lancaster  <alex@santafe.edu>
+
+	* MousetrapModelSwarm.java: Import Grid2d interface as well as
+	Grid2dImpl implementation.
+	(grid):  Type as Grid2d interface.
+	(getWorld):  Return type as Grid2d interface.
+
 1999-09-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MousetrapObserverSwarm.java: Import Zone and Swarm interfaces
