@@ -1,3 +1,8 @@
+2003-05-16  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* Parameters.m: removed the -S command line option 
+	since Swarm now has that built in.
+
 2003-05-13  Paul E Johnson  <pauljohn@ukans.edu>
 
 	* Parameters.m: removed getDouble usage because of 

@@ -13,7 +13,6 @@ getInt (id obj, const char *ivarName);
    
      int worldXSize, worldYSize;
      int run, experimentDuration;
-     int randomSeed;
      double seedProb, bugDensity;
  }
 
