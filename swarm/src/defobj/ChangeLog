@@ -1,3 +1,8 @@
+2000-04-13    <mgd@nest.swarm.org>
+
+	* javavars.h New variable m_ClassGetField. 
+	directory.m (create_method_refs): Initialize it. 
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT): Bump. Swarm 2.1.1 frozen.
