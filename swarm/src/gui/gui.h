@@ -417,14 +417,11 @@ CREATING
 
 @protocol _CompleteProbeDisplayLabel
 CREATING
-//M: Sets probe display which the widget represents.
-- setProbeDisplay: probeDisplay;
+//M: Sets target widget which to report (e.g. probeDisplay).
+- setTargetWidget: targetWidget;
 
 //M: Sets the object that the probe display represents.
 - setProbedObject: probedObject;
-
-//M: Sets the ProbeDisplayMananger that is in use.
-- setProbeDisplayManager: probeDisplayManager;
 
 //M: Performs drag and drop configruation, Button3 to get a
 //M: CompleteProbeDisplay, and highlighting.
