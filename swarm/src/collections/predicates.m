@@ -43,6 +43,15 @@ valuep (id obj)
 }
 
 BOOL
+nil_value_p (id obj)
+{
+  if (valuep (obj))
+    return [obj getObject] == nil;
+  else
+    return NO;
+}
+
+BOOL
 arrayp (id obj)
 {
   return [obj conformsTo: @protocol (ArchiverArray)];

@@ -11,6 +11,7 @@ BOOL quotedp (id obj);
 
 BOOL keywordp (id obj);
 BOOL valuep (id obj);
+BOOL nil_value_p (id obj);
 BOOL arrayp (id obj);
 BOOL pairp (id obj);
 BOOL cons_literal_p (id obj);

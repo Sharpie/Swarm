@@ -69,5 +69,6 @@ Library:     collections
 - (void)catStartMakeClass: (const char *)className;
 - (void)catEndMakeClass;
 - (void)catUnsignedPair: (unsigned)a : (unsigned)b;
+- (void)catNil;
 @end
 

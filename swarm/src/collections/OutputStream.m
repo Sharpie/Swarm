@@ -536,4 +536,14 @@ PHASE(Using)
                  createEnd]);
     }
 }
+
+- (void)catNil
+{
+  if (exprStack)
+    ADDEXPR ([[[ArchiverValue createBegin: getZone (self)]
+                setNil]
+               createEnd]);
+  else
+    [self catC: "nil"];
+}
 @end

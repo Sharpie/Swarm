@@ -378,7 +378,7 @@ readString (id inStream, char terminator)
                   abort ();
                 return [number createEnd];
               }
-            if (string)
+            else if (string)
               {
                 const char *str = [string getC];
 
@@ -393,6 +393,10 @@ readString (id inStream, char terminator)
                               setKeywordName: buf]
                              createEnd];
                   }
+                else if (strcmp (str, "nil") == 0)
+                  return [[[ArchiverValue createBegin: aZone]
+                            setNil]
+                           createEnd];
                 return string;
               }
             else

@@ -1,3 +1,14 @@
+2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Stream.m ([ArchiverValue_c -lispOutDeep:]): Handle nil.
+
+	* predicates.[hm]: Add nil_value_p.
+
+	* OutputStream.[hm], collections.h ([OutputStream_c -catNil]):
+	New method.
+
+	* InputStream.m ([InputStream_c -getExpr]): Add support for nil.
+
 2001-01-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* collections.h (OutputStream): Use const void * for catPointer:

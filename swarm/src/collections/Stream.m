@@ -415,6 +415,12 @@ PHASE(Using)
     case fcall_type_slonglong:
       [stream catLongLong: value.ll];
       break;
+    case fcall_type_object:
+      if (value.obj != nil)
+        abort ();
+      else
+        [stream catNil];
+      break;
     default:
       [stream catC: "serialization for this type not implemented yet"];
       break;
