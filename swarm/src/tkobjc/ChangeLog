@@ -1,3 +1,8 @@
+1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* WindowGeometryRecord.m (getVal): Don't check type here, -getInteger
+	will do it.
+
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Circle.m, ClassHideDisplayButton.m, Histogram.m, Line.m,

@@ -41,12 +41,7 @@ getVal (id obj)
     raiseEvent (WindowGeometryRecordError,
                 "Object is not a ArchiverValue (%s)",
                 [obj name]);
-  if ([obj getValueType] != _C_LNG)
-    raiseEvent (WindowGeometryRecordError, 
-                "Object is not a `long' (%s)",
-                [obj name]);
-    
-  return [obj getLong];
+  return [obj getInteger];
 }
 
 - lispIn: expr
