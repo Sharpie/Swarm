@@ -1,3 +1,13 @@
+1998-05-22  Alex Lancaster  <alex@santafe.edu>
+
+	* simtoolsgui.h (ActionCache, probeDisplayManager,
+	initSimtoolsGUI): Added doc tags (//G) to global variables and
+	symbols.
+	(SET_WINDOW_GEOMETRY_RECORD_NAME,CREATE_PROBE_DISPLAY,
+	CREATE_COMPLETE_PROBE_DISPLAY, CREATE_ARCHIVED_PROBE_DISPLAY,
+	CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY): Added doc tags (//#) for
+	macros.
+
 1998-05-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ProbeDisplayManager.m: Include simtoolsgui.h.
