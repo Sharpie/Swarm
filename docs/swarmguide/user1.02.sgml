@@ -1,20 +1,35 @@
 <sect1 id="swarm.user.user1.02.sect1">
   <title>Programming and simulation</title>
 
-   <para>Swarm is designed to help researchers build models in which
+
+   <INDEXTERM SCOPE="all" SIGNIFICANCE="preferred">
+    <PRIMARY>complex systems</PRIMARY>
+    </INDEXTERM>
+   
+   <para>
+    Swarm is designed to help researchers build models in which
     low-level actors interact (often called "complex systems"). The
     researcher has to give content to "agents," possibly by thinking
     of them as honey bees, investors, trees, or (the ubiquitous)
     "bugs."  One research goal is to discern overall patterns that
     emerge from these detailed behaviors at the individual
-    level. </para>
+    level. 
+  </para>
+
+   
 
   <figure id="modeling.figure">
     <title>Agent-based modeling</title> 
     <graphic entityref="modeling" align="center"></graphic>
   </figure>
 
-  <para>Object oriented programming is ideally suited to represent
+   <INDEXTERM scope="local">
+   <PRIMARY>simulation</PRIMARY>
+   <secondary>agent-based</secondary>
+   <seealso>complex systems</seealso>
+   </INDEXTERM>
+   
+   <para>Object oriented programming is ideally suited to represent
     models of this sort. As we shall see, the objects are
     self-contained.  Objects may be designed to convey information
     (answer questions) from other objects and also they can retain,
@@ -23,6 +38,12 @@
 <sect2>
  <title>What is an Object? </title> 
 
+    <INDEXTERM><primary>programming</primary>
+      <secondary>object-oriented programming</secondary>
+    </INDEXTERM>
+    <INDEXTERM><primary><acronym>OO</acronym></primary>
+       <see>object-oriented programming</see></INDEXTERM>   
+    
     <para>A careful study of the Objective-C language is required
       before any significant progress can be made in building a Swarm
       model. The material presented here is intended as a summary or
@@ -120,6 +141,12 @@
       that is a good idea?)</para>
 
     <sect3>
+
+      <INDEXTERM><primary>programming</primary>
+       <secondary>object-oriented programming</secondary>       
+       <tertiary>encapsulation</tertiary>
+      </INDEXTERM>
+      
       <title>Encapsulation</title>
       <sidebar>
         <para> The values of the variables inside an object are
@@ -157,6 +184,12 @@
     </sect3>
 
     <sect3>
+      
+      <INDEXTERM><primary>programming</primary>
+       <secondary>object-oriented programming</secondary>       
+       <tertiary>inheritance</tertiary>
+      </INDEXTERM>
+
       <title>Inheritance</title>
       <sidebar>
         <para>Each subclass inherits all variables and methods of its
@@ -191,6 +224,10 @@
 
 <sect2>
  <title>Discrete event simulation</title> 
+
+      <INDEXTERM><primary>simulation</primary>
+       <secondary>discrete event</secondary>       
+      </INDEXTERM>
 
     <para>A Swarm simulation proceeds in discrete time steps. Objects
       are created and then interact according to a scheduling
