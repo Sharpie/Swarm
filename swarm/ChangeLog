@@ -1,3 +1,8 @@
+1998-05-26  Alex Lancaster  <alex@santafe.edu>
+
+	* Release-Notes: Reformatted Release-Notes into emacs
+	outline-mode.
+
 1998-05-23  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.conf (alex-SFI-Solaris): brought $SWARMCOMPILER

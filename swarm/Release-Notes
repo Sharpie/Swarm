@@ -1,94 +1,96 @@
-                Release Notes for Swarm Versions 1.1
+Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
+Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
- 1. Command line arguments are now parsed into a single object by the
-    Arguments class in objectbase, an interface to GNU argp. 
+* Release Notes for Swarm 1.1
+
+**  Command line arguments are now parsed into a single object by the
+    Arguments class in objectbase, an interface to GNU argp.
     The help screen is also now generated using GNU argp.
 
- 2. Message probes are now done using either the libffi or ffcall libraries
+**  Message probes are now done using either the libffi or ffcall libraries
     rather than by tclobjc.
 
- 3. There is now a GUI protocol defined by gui.h.  This should replace
+**  There is now a GUI protocol defined by gui.h.  This should replace
     use of tkobjc.h in all applications. 
 
- 4. A number of new classes in tkobjc, currently used for internal purposes. 
+**  A number of new classes in tkobjc, currently used for internal purposes. 
     These classes eliminate use of globalTkInterp elsewhere in Swarm,
     and facilitate the forthcoming AWT GUI.  Several existing classes
     were renamed.
 
- 5. Support for Tcl/Tk 8.0 and BLT8.0-unoff in tkobjc.
+**  Support for Tcl/Tk 8.0 and BLT8.0-unoff in tkobjc.
  
- 6. Support for Win32/GDI in tkobjc.
+**  Support for Win32/GDI in tkobjc.
 
- 7. Heuristics to determine SWARMHOME, TCL_LIBRARY, TK_LIBRARY, 
+**  Heuristics to determine SWARMHOME, TCL_LIBRARY, TK_LIBRARY, 
     and BLT_LIBRARY, when they aren't correct or are unspecified.
 
- 8. simtools is now split into two libraries:  simtools, the non-GUI pieces
+**  simtools is now split into two libraries:  simtools, the non-GUI pieces
     and simtoolsgui, the library that now contains classes like ControlPanel,
     and other graphical simulation features.
 
+* Release Notes for Swarm 1.0.5
 
-		Release Notes for Swarm Version 1.0.5
-
- 1. Variant method names for passthru to setWindowGeometryRecordName have been
+**  Variant method names for passthru to setWindowGeometryRecordName have been
     eliminated.  In these cases, the resulting key is computed from the
     components involved.  Thanks to Ken Cline for the idea.  For these
     `GUIComposite' objects, the macro SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME
     is used for naming the subcomponents; it uses the subcomponent widget
     instance variable argument as the name.
 
- 2. The macro SET_WINDOW_GEOMETRY_RECORD_NAME provides a convenience
+**  The macro SET_WINDOW_GEOMETRY_RECORD_NAME provides a convenience
     interface to setWindowGeometryRecordName:.  This macro takes a widget
     instance variable as an argument and derives the archiving key from that.
 
- 3. The methods create[Complete]ProbeDisplayFor:setWindowGeometryRecordName:
+**  The methods create[Complete]ProbeDisplayFor:setWindowGeometryRecordName:
     have been removed in favor of the macros CREATE_ARCHIVED_PROBE_DISPLAY 
     and CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY.  These macros derive the
     archiving key from the argument variable.
  
- 4. Save and Quit no longer result in a timestep.  Thanks to Rick Riolo
+**  Save and Quit no longer result in a timestep.  Thanks to Rick Riolo
     for reporting this.
 
- 5. Using the method enableDestroyNotification: notificationMethod:
+**  Using the method enableDestroyNotification: notificationMethod:
     with a target object (e.g. the parent) and handler method, it is possible
     for your application to disable top level user interface features after
     user kills from the window manager.  See heatbugs for an example of this.
 
- 6. ProbeDisplays were not equipped with #5, so kills from the window
+**  ProbeDisplays were not equipped with #5, so kills from the window
     manager could result Tk becoming confused (a fairly common operation 
     with popular window managers like fvwm95).  Thanks to Pietro Terna
     for his assistance in debugging this.
  
- 7. Histo and Canvas are now subclassed from ArchivedGeometryWidget; their
+**  Histo and Canvas are now subclassed from ArchivedGeometryWidget; their
     geometry can now be saved.
 
- 8. Active graph items in a BLTGraph were not being properly hilighted
+**  Active graph items in a BLTGraph were not being properly hilighted
     with BLT 2.3.  Thanks to Pietro Terna for reporting this.
 
- 9. Fixed problem with ClassDisplayWidget misdirecting armSuperButton.
+**  Fixed problem with ClassDisplayWidget misdirecting armSuperButton.
 
-10. The path for BLT support files is checked before Swarm is started.
+**  The path for BLT support files is checked before Swarm is started.
 
-		Release Notes for Swarm Version 1.0.4
+* Release Notes for Swarm 1.0.4
 
- 1. Added ActionCache and ActionHolder and changed control scheme for
+**  Added ActionCache and ActionHolder and changed control scheme for
     top level Swarm in anticipation of the Java GUI residing in a separate
     thread.
 
- 2. Added protocol interface for simtools.
+**  Added protocol interface for simtools.
 
- 3. Added AppendFile class in simtools, for allowing users to open
+**  Added AppendFile class in simtools, for allowing users to open
     files in append mode (OutFile always opens files in overwrite mode)
 
- 4. Added a new method to QSort class in simtools [QSort +reverseOrderOf:]
+**  Added a new method to QSort class in simtools [QSort +reverseOrderOf:]
     Reverses the current order of a collection. This can be used in
     conjunction with the regular sort methods to obtained a reversed 
     sorted list.
 
- 5. Added local [NodeItem -drop] method to tkobjc, so that graph nodes 
+**  Added local [NodeItem -drop] method to tkobjc, so that graph nodes 
     (both items and text) are removed from a canvas properly, when the
     node is dropped in the usual way.
 
- 6. Added [ProbeLibrary {get,set}DisplayPrecision:] for globally setting
+**  Added [ProbeLibrary {get,set}DisplayPrecision:] for globally setting
     the number of significant figures displayed on a widget for all 
     probes for floats and doubles checked out of the global ProbeLibrary
     instance. Also added [ProbeLibrary {get,set}SavedPrecision:] for 
@@ -99,90 +101,87 @@
     precision of six (6) figures, in both cases, which reflects the 
     current default precision for floats and doubles.
 
- 7. Added [Probe setFormatFloat:] method to Probes, to allow the user
+**  Added [Probe setFormatFloat:] method to Probes, to allow the user
     to specify a given format string (sprintf-style) for formatting of
     floating-point (and double floating-point) numbers. As indicated
     above, this is currently only implemented for VarProbes, not 
     MessageProbes, as yet. This method will override any globally
     specified defaults, as set by the ProbeLibrary feature.
 
- 8. Added a generic hook to the probe mechanism such that an object
+**  Added a generic hook to the probe mechanism such that an object
     (designed by the application to accept the right message) will be
     sent a message whenever a probe is used.
 
- 9. Renamed the "swarmobject" library to "objectbase" to avoid
+**  Renamed the "swarmobject" library to "objectbase" to avoid
     filename conflicts in brain-dead operating systems.
 
-10. The random library has been upgraded to version 0.75.
+**  The random library has been upgraded to version 0.75.
     See src/random/docs/WHATS.CHANGED.in.0.75 for details.
 
-11. Added the class Archiver to do coordinate archiving of object state 
+**  Added the class Archiver to do coordinate archiving of object state 
     to the file ~/.swarmArchiver.
 
-12. Added the class ArchivedGeometryWidget from which many widgets now inherit.
+**  Added the class ArchivedGeometryWidget from which many widgets now inherit.
     Of particular interest is the method setWindowGeometryRecordName
     which can be used to set a name that the Archiver will use to record 
     geometry information to file.
 
-13. Added the method setControlPanelGeometryRecordName to GUISwarm.
+**  Added the method setControlPanelGeometryRecordName to GUISwarm.
     This method allows a control panel to be named, and thus have its
     geometry saved by the Archiver.
 
-14. Added the argument -appMode to give the Archiver extra information
+**  Added the argument -appMode to give the Archiver extra information
     about `mode of use'.  For example, it may be desirable to have
     a panels positioned in one way for a demo, and a another way for
     everyday research use.
 
-15. Added a Save button to the control panel.  This button tells the
+**  Added a Save button to the control panel.  This button tells the
     Archiver to record the state of suitably modified objects.  See Heatbugs
     for an example of how to do this.  With unmodifed applications,
     this button will be a NOP.
 
-16. Added the class InputStream.  InputStream is currently equipped to load
+**  Added the class InputStream.  InputStream is currently equipped to load
     simple Lisp-like expressions.
 
-17. All non-tkobjc library use of globalTkInterp has been eliminated.
+**  All non-tkobjc library use of globalTkInterp has been eliminated.
     This is part of an ongoing effort to make Swarm libraries
     as independent from GUI features as possible.  Code that
     talks to globalTkInterp is now found in tkobjc/control.[hm].
     Libraries now use functions prefixed with "tkobjc_".
 
-18. SimpleProbeDisplay and CompleteProbeDisplay now inherit from a
+**  SimpleProbeDisplay and CompleteProbeDisplay now inherit from a
     common abstract class, CommonProbeDisplay.  These classes are 
     now less convoluted.
 
-19. BLT 2.3 is now supported (Tcl/Tk 8.0 is supported by Swarm and tclobjc,
+**  BLT 2.3 is now supported (Tcl/Tk 8.0 is supported by Swarm and tclobjc,
     but BLT 2.3 doesn't yet support Tcl/Tk 8.0).
 
-20. Strings and other constant parameters in Swarm are now coded with `const'.
+**  Strings and other constant parameters in Swarm are now coded with `const'.
 
-21. Dropping a probe panel during a running simulation no longer
+**  Dropping a probe panel during a running simulation no longer
     results in a crash.
 
-22. Dynamic schedule changes outside of the current Swarm (but within
+**  Dynamic schedule changes outside of the current Swarm (but within
     the same toplevel hierarchy) now actually work.
 
-23. Subclassing of VarProbe and MessageProbe is now possible.
+**  Subclassing of VarProbe and MessageProbe is now possible.
 
-24. ObjectLoader has a setTemplateProbeMap and getLine method.
+**  ObjectLoader has a setTemplateProbeMap and getLine method.
 
+* Release Notes for Swarm 1.0.3
 
-
-	      =========================================
-		Release Notes for Swarm Version 1.0.3
-
- 1. In the activity library, a bug in the internal scheduling of a swarm
+**  In the activity library, a bug in the internal scheduling of a swarm
     has been fixed, so that internally created concurrent actions are
     correctly freed when they have completed.  (These actions are
     automaticallly created whenever multiple schedules running happen
     to be scheduled at the same time within a swarm.)
 
- 2. Logic for the "remove" method in schedules has been revised to work
+**  Logic for the "remove" method in schedules has been revised to work
     correctly for two-level schedules, in which a concurrent schedule at
     the second level is created externally to hold times at a finer
     granularity than the times in a containing schedule.
 
- 3. The AutoDrop action is automatically passed through from a containing
+**  The AutoDrop action is automatically passed through from a containing
     schedule to any concurrent group it contains.  Previously, the AutoDrop
     option had to be specified explicitly on a special concurrent group
     type initialized with the schedule.  Now the AutoDrop option for any
@@ -190,10 +189,10 @@
     which it is contained.  (Any existing setting of the option on the
     concurrent group type is ignored.)
 
- 4. A bug that returned an incorrect value from "getAutoDrop" on an
+**  A bug that returned an incorrect value from "getAutoDrop" on an
     ActionGroup or Schedule has been fixed.
 
- 5. The defobj, collections, and activity libraries have been fixed to
+**  The defobj, collections, and activity libraries have been fixed to
     avoid sending messages to a nil receiver during library initialization.
     Other swarm libraries remain free of this.  Good practice in debugging
     is to always run with a gdb breakpoint, or with a patched version of the
@@ -201,42 +200,42 @@
     message receiver.  (See swarm debugging hints in the Swarm documentation
     for more information.)
 
- 6. Debugging print messages have been restructured internally.  The
+**  Debugging print messages have been restructured internally.  The
     functions xprint, xprintid, xfprint, and xfprintid remain callable
     from the debugger.  The internal methods that these functions call have
     been changed to be consistent in the way in which they direct output.
 
- 7. Additional "describe" methods have been coded for schedule-related
+**  Additional "describe" methods have been coded for schedule-related
     objects in the activity library.  These methods (callable from gdb
     via "xprint") provide an initial, rudimentary form of schedule
     "browse" capability.  To use the capability, simply call the function
     xfprint from the gdb command line: "call xfprint(aSchedule)" where the
     argument can be any valid schedule or action group.
 
- 8. A macro named PTRFMT is defined in defobj.h to print only the number
+**  A macro named PTRFMT is defined in defobj.h to print only the number
     of significant hexadecimal digits in a pointer-sized word.  This macro is
     used by debugging print messages to avoid printing double the number of
     required digits on a machine with 32-bit words.  (The precision had been
     expanded in swarm-1.0.2 to run on 64-bit pointer architectures.)
 
- 9. Internal changes have been to some methods to use appropriate integer
+**  Internal changes have been to some methods to use appropriate integer
     argument types.
 
-10. Added Nelson Minar's Discrete2d changes that save and load a Discrete2d
+**  Added Nelson Minar's Discrete2d changes that save and load a Discrete2d
     space in PGM format.
 
-11. Incorporated Jason Jay's fix to ObjectLoader in reading single
+**  Incorporated Jason Jay's fix to ObjectLoader in reading single
     quoted strings.
 
-12. Added Manor Askenazi's bug fix and enhancements to QSort. (Ref.
+**  Added Manor Askenazi's bug fix and enhancements to QSort. (Ref.
     http://www.santafe.edu/projects/swarm/archive/list-archive.9708/0149.html)
 
-13. This release includes Random v0.7, written by Sven Thommesen.  This 
+**  This release includes Random v0.7, written by Sven Thommesen.  This 
     version adds several new bit generators and distributions and
     rearranges the library.  (Ref.
     $SWARMHOME/src/random/docs/WHATS.CHANGED.in.0.7 and WHATS.NEW.in.0.7)
 
-14. Another command line option has been added so that a user can run
+**  Another command line option has been added so that a user can run
     in one of two modes with respect to the random number generation.
     By default, two separate runs of a model will use the same seed for
     the default random number generators.  This facilitates debugging
@@ -245,38 +244,33 @@
     the seed for any given run will be different from another run for
     the default generators.
 
-15. Another command line option has been added to initSwarm to provide
+**  Another command line option has been added to initSwarm to provide
     quick&dirty help on the available command line options.  If a user
     invokes an application with the "-help" command line flag, this 
     help text will appear.
 
-	      =========================================
-		Release Notes for Swarm Version 1.0.2
+* Release Notes for Swarm 1.0.2
 
-  1. Kernel was made compatible with DEC Unix on the Alpha.
-  2. Raster, BLTGraph, and EZGraph "drop" now include Tk frame
-     destruction.
-  3. "getHeight" and "getWidth" methods were added to ZoomRaster.
-  4. Default ProbeMap creation was fixed by returning the correct
-     BOOL type within "isProbeMapDefinedFor:".
-  5. Float and double format outputs in OutFile were changed to "%15.7e"
-     "%24.16e", respectively.
+**  Kernel was made compatible with DEC Unix on the Alpha.
+**  Raster, BLTGraph, and EZGraph "drop" now include Tk frame
+    destruction.
+**  "getHeight" and "getWidth" methods were added to ZoomRaster.
+**  Default ProbeMap creation was fixed by returning the correct
+    BOOL type within "isProbeMapDefinedFor:".
+**  Float and double format outputs in OutFile were changed to "%15.7e"
+    "%24.16e", respectively.
 
+* Release Notes for Swarm 1.0.1
 
-	      =========================================
-		Release Notes for Swarm Version 1.0.1
+**  Added different colored lines in EZGraph
+**  EZBin Tcl/Tk fixed
+**  ProbeDisplay notification
+**  Tk raster refresh fix
+**  Added custom probemap create method
+**  Change in default probemap behavior
+**  Removed printfs from random
 
-  1. Added different colored lines in EZGraph
-  2. EZBin Tcl/Tk fixed
-  3. ProbeDisplay notification
-  4. Tk raster refresh fix
-  5. Added custom probemap create method
-  6. Change in default probemap behavior
-  7. Removed printfs from random
-
-
-	      =========================================
-		Release Notes for Swarm Version 1.0.0
+* Release Notes for Swarm  1.0.0
 
 This release is primarily a cleanup of the previous beta releases to
 provide a stable version as the first production release of Swarm.
@@ -292,38 +286,38 @@ to be encountered.
 
 Following is a summary of new features in the Swarm 1.0.0 release:
 
- 1. Dropping a zone (using the standard drop message) now drops all the
+**  Dropping a zone (using the standard drop message) now drops all the
     objects that have been created within the zone.  By creating all
     its objects in a single zone, an experiment now has an easy and
     reliable way to release all the storage it has allocated.  Multiple
     runs of experiments (setting parameters differently each time) have
     been demonstrated successfully in both batch or GUI mode.
 
- 2. The random library has been overhauled and now follows the same
+**  The random library has been overhauled and now follows the same
     interface style as the rest of the Swarm libraries.  New random bit
     generators and distributions are also available.
 
-    IMPORTANT NOTE!  The new random library requires changes to any code
+*** IMPORTANT NOTE!  The new random library requires changes to any code
     that used the old library.  A copy of the old library remains available
     for anyone who wants to put off making these changes.  See the
     instructions on porting to the new random library (in the random
     library documentation) for more information.
 
- 3. The swarmobject and random libraries both use a single header file to
+**  The swarmobject and random libraries both use a single header file to
     declare the public interface to the entire library (similar to the
     declarations for the defobj, collections, and activity libraries).  To
     use the public interface, you only need to include this single file,
     which contains just Objective C protocol definitions for public behavior
     rather than the @interface declarations of implementing classes.
 
-    IMPORTANT NOTE!  The new version of <swarmobject.h> requires that you
+*** IMPORTANT NOTE!  The new version of <swarmobject.h> requires that you
     must explicitly import a class header file if you want to subclass
     from it.  You are also restricted from use of class-based typing, since
     details of classes inside a library remain open to change.  See the
     instructions on porting apps to the nwe swarmobject interface (in the
     swarmobject library documentation) for more information.
 
- 4. A new version of the collections library has *not* been included in this
+**  A new version of the collections library has *not* been included in this
     release.  Major upgrade of the collections library is still imminent,
     but was excluded from this release due to the complexity of changes and
     the priority of more basic cleanup in the defobj and activity libraries.
@@ -332,21 +326,21 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     general-purpose facility for subclassing from custom-generated classes,
     which will also be retrofitted to classes in defobj and activity.
 
- 5. There is an entirely new framework for mapping internal storage
+**  There is an entirely new framework for mapping internal storage
     allocations made by an object.  User code that creates objects need
     not be aware of the new framework, but it is used heavily by the
     swarm foundation libraries to manage their internal storage.  The new
     framework will support future versions of zones that reclaim unused
     storage and that keep storage locally contained in their own pages.
 
-    IMPORTANT NOTE!  The dropFrom: message has been removed.  Even though
+*** IMPORTANT NOTE!  The dropFrom: message has been removed.  Even though
     it was still present in recent releases, its behavior was identical to
     drop.  Any existing usage should be replaced by a simple drop message
     without any zone argument.  SwarmObject subclasses are now restricted
     from accessing the zone that was once contained in an instance variable;
     the message getZone must be used instead.
 
- 6. Standard methods for printing a short description of any object have
+**  Standard methods for printing a short description of any object have
     been established for debug purposes.  A default describe method is
     provided for all objects, and more detailed methods that print useful
     information are provided for many of the fundamental classes.  For
@@ -354,44 +348,44 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     and other allocations, and collections have the ability to print all
     their members.  See defobj and debugging documentation for details.
 
- 7. Storage leaks have been eliminated from the most basic swarm libraries,
+**  Storage leaks have been eliminated from the most basic swarm libraries,
     including collections and activity.  The new allocation framework and
     debug print methods make it much easier to track down the existence of
     storage leaks (failure to reclaim unused storage) and to determine the
     code responsible.
 
- 8. Swarms now inherit from Zone in addition to defining their own behavior.
+**  Swarms now inherit from Zone in addition to defining their own behavior.
     This means that you can allocate objects directly inside a swarm, using
     the swarm as the argument of a create: or createBegin: message, instead
     of having to create or refer to a separate zone variable.
 
-    Swarms as zones means that a swarm can take total responsibility for
+*** Swarms as zones means that a swarm can take total responsibility for
     the model of a world that makes up an experiment, including both
     objects that belong to the world and the schedule of actions to occur.
     A new message, getPopulation, returns a collection of all objects that
     have been created within a swarm or a zone but not yet dropped.
 
- 9. Any object now supports an ability to register an external reference to
+**  Any object now supports an ability to register an external reference to
     the object, and to have this reference notified (via the calling of a
     function) whenever the referenced object is dropped.  Registration of
     references will allow automatic dropping of probes when the objects they
     refer to disappear; currently such probes still crash.
 
-10. An externally-supplied character string can now be associated with any
+**  An externally-supplied character string can now be associated with any
     object.  This character string is referred to as the "DisplayName" of
     the object and may be used to identify the object in a user-meaningful
     way when displaying the object for probe or debug purposes.
 
-11. The defobj and activity libraries have had much obsolete or
+**  The defobj and activity libraries have had much obsolete or
     unimplemented behavior removed from their published interfaces.
 
-    The collections library has not been through this kind of cleanup yet.
+*** The collections library has not been through this kind of cleanup yet.
     Its current capabilities remain limited to what is essential to the
     implementation of warms and schedules in the activity library.  The
     basic List and Array classes remain fairly complete and close to the
     advertised interface, but Map and Set don't even come close yet.
 
-12. In the defobj library, methods inherited from the gcc Object
+**  In the defobj library, methods inherited from the gcc Object
     superclass have been disabled if they don't work with the zone-based
     allocation required of all swarm objects.  These include the
     no-argument forms of alloc, free, and copy.  A compile-time option,
@@ -400,11 +394,11 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     equivalents for almost all of these.  The exact extent of dependence
     on the built-in Object superclass will be reviewed in future releases.
 
-13. The defobj library includes a new script, m2h, that can automatically
+**  The defobj library includes a new script, m2h, that can automatically
     maintain the method declarations in a .h file to precisely match the
     methods actually implemented in a corresponding .m file.
 
-14. In the activity library, the Schedule type now supports the convenience
+**  In the activity library, the Schedule type now supports the convenience
     messages create:setRepeatInterval: and create:setRelativeTime: for
     these common create options.  The same createAction messages defined
     for an action group (without the at: time value) are also defined for
@@ -412,13 +406,13 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     These messages are a convenience for actions in a repeating schedule
     that all occur at a zero relative time.
 
-15. The high-level structure of activity library interfaces has changed to
+**  The high-level structure of activity library interfaces has changed to
     incorporate additional action types in the future, but creatable objects
     and their messages all remain the same.  A new standard message,
     getActivity, will eventually replace the message getSwarmActivity on a
     Swarm; either message may be used for now.
 
-16. The macro getCurrentActivity() is not currently supported due to a
+**  The macro getCurrentActivity() is not currently supported due to a
     change in the level of activity that it would return.  All the macros
     that return activities at higher levels (e.g., getCurrentTime(),
     getCurrentSwarm(), and getTopLevelActivity()) remain available.
@@ -426,77 +420,73 @@ Following is a summary of new features in the Swarm 1.0.0 release:
     to terminate a current activity).  All these macros now raise an error
     if used while an activity is not actually running.
 
-    IMPORTANT NOTE!  If you used the old getCurrentActivity() in your code,
+*** IMPORTANT NOTE!  If you used the old getCurrentActivity() in your code,
     it won't work now.  Use of this macro was not very widespread, since its
     main use is to access activity library internals.  One of the other
     macros should be sufficient for any application.
 
-17. In the swarmobject library, a convenience object, ActivityControl,
+**  In the swarmobject library, a convenience object, ActivityControl,
     has been added to help understand and manipulate activities.  It
     supports just the execution control messages (run, stop, step,
     terminate, etc.) for an activity that has already been created.
 
-18. ProbeMaps no longer reorder their contents alphabetically.  The order
+**  ProbeMaps no longer reorder their contents alphabetically.  The order
     is now the same as in the defining class.
 
-19. Two new classes, QSort and NSelect have been added to the simtools
+**  Two new classes, QSort and NSelect have been added to the simtools
     library.  These package the ability to sort the members of a collection
     and to select a random member from the collection.
 
-20. The ability to read and write unsigned types has been added to the
+**  The ability to read and write unsigned types has been added to the
     InFile and OutFile classes of the simtools library.
 
+* Swarm Beta Release Notes - Version 961002:
 
-
-      ----------------------------------------------------------
-
-                          Swarm Beta Release Notes
-
-Version 961002:
-
-   1. Added Gaussian. Draws a uniform random number with a normal
+** Added Gaussian. Draws a uniform random number with a normal
       distribution around a given mean, standard deviation, and 
       seed. Soon there will be even more stuff thanks to Sven.
-   2. Added scrollbars to the probes.
-   3. Changed controlPanel functionality.  
-         One implication is that instead of
-             [controlPanel waitForControlEvent] 
-         users that want to stop the simulation (from the software, e.g.
-         to wait for the user to fill in datafields) should use 
-             [controlPanel setStateStopped]
+**  Added scrollbars to the probes.
+**  Changed controlPanel functionality.  
+       One implication is that instead of
+           [controlPanel waitForControlEvent] 
+       users that want to stop the simulation (from the software, e.g.
+       to wait for the user to fill in datafields) should use 
+           [controlPanel setStateStopped]
 
-   4. Added the method 
-             -removeProbeDisplayFor: anObject
-         to the ProbeDisplayManager class so that you may remove a probe
-         display for an object without the probe id.
-   5. Added the long-awaited -batchmode flag!
-   6. New library <analysis.h> which contains the following new classes:
-             EZBin.h EZDistribution.h EZGraph.h Entropy.h
-         It also serve as a new home for the following class:
-             Averager.h 
-   7. Upgraded Entropy and Average so that they can take any collection
-         (not necessarily a list).
-   8. Fixed getAverage on Averager when the collection is empty.
-   9. The following classes have moved from <swarmobject.h> to <simtools.h>:
+**  Added the method 
+           -removeProbeDisplayFor: anObject
+       to the ProbeDisplayManager class so that you may remove a probe
+       display for an object without the probe id.
+**  Added the long-awaited -batchmode flag!
+**  New library <analysis.h> which contains the following new classes:
+           EZBin.h EZDistribution.h EZGraph.h Entropy.h
+       It also serve as a new home for the following class:
+           Averager.h 
+**  Upgraded Entropy and Average so that they can take any collection
+       (not necessarily a list).
+**  Fixed getAverage on Averager when the collection is empty.
+**  The following classes have moved from <swarmobject.h> to <simtools.h>:
          ActiveGraph.h ActiveOutFile.h
-  10. The following _new_ classes have landed in <simtools.h>:
-         InFile.h OutFile.h ObjectLoader.h ObjectSaver.h UName.h
-  11. Added new methods to Discrete2d:
-         -fastFillWithValue: (int) aValue
-         -fastFillWithObject: anObject
-         -fillWithValue: (int) aValue
-         -fillWithObject: anObject
-  12. Added new class (Int2dFiler.h) for filing of discrete2d spaces.
-  13. Added the CompleteVarMap class to the probing capabilities.
-  14. Added a message to the ProbeLibrary:
-         -getCompleteVarMap: (Class) aClass
-  15. Added methods to the VarProbe class:
-         -setNonInteractive 
-         -(int) isInteractive 
-  16. Added methods to the Histo class (tkobjc):
-         -drawHistoWithDouble: (double *) points 
-                   atLocation: (double *) locations
-         -drawHistoWithInt: (int *) points 
-                atLocation: (double *) locations 
+**  The following _new_ classes have landed in <simtools.h>:
+        InFile.h OutFile.h ObjectLoader.h ObjectSaver.h UName.h
+**  Added new methods to Discrete2d:
+        -fastFillWithValue: (int) aValue
+        -fastFillWithObject: anObject
+        -fillWithValue: (int) aValue
+        -fillWithObject: anObject
+**  Added new class (Int2dFiler.h) for filing of discrete2d spaces.
+**  Added the CompleteVarMap class to the probing capabilities.
+**  Added a message to the ProbeLibrary:
+        -getCompleteVarMap: (Class) aClass
+**  Added methods to the VarProbe class:
+        -setNonInteractive 
+        -(int) isInteractive 
+**  Added methods to the Histo class (tkobjc):
+        -drawHistoWithDouble: (double *) points 
+                  atLocation: (double *) locations
+        -drawHistoWithInt: (int *) points 
+               atLocation: (double *) locations 
 
-
+Local variables:
+mode: outline
+end:
