@@ -23,7 +23,8 @@
   return obj;
 }
 
--buildObjects {
+- buildObjects
+{
   id modelZone;					       // zone for model.
 
   [super buildObjects];
@@ -41,8 +42,10 @@
   // the model.setup parameter file (which contains values for the model
   // specific variables such as numBugs etc.).
   
-  [ObjectLoader load: self fromFileNamed: "batch.setup"] ;
-  [ObjectLoader load: heatbugModelSwarm fromFileNamed: "experiment.setup"] ;
+  [ObjectLoader load: self 
+                fromAppConfigFileNamed: "batch.setup"];
+  [ObjectLoader load: heatbugModelSwarm
+                fromAppConfigFileNamed: "experiment.setup"];
 
   // Now, let the model swarm build its objects.
   [heatbugModelSwarm buildObjects];
