@@ -56,9 +56,9 @@ static id describeStream;
 //
 // getName -- return name of class
 //
-+ (char *) getName
++ (const char *) getName
 {
-  return (char *)((Class)self)->name;
+  return (const char *)((Class)self)->name;
 }
 
 //
@@ -593,24 +593,24 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 // notifyDisplayName() --
 //  function to maintain display name on change of object allocation
 //
-static void notifyDisplayName( id object, id reallocAddress, void *arg )
+static void
+notifyDisplayName (id object, id reallocAddress, void *arg)
 {
-  char  *displayName;
-
-  displayName = (char *)[_obj_displayNameMap removeKey: object];
-  if ( reallocAddress ) {
-    [_obj_displayNameMap at: object insert: (id)displayName];
-  } else {
+  const char *displayName;
+  
+  displayName = (const char *)[_obj_displayNameMap removeKey: object];
+  if (reallocAddress)
+    [_obj_displayNameMap at: object insert: displayName];
+  else
     [_obj_sessionZone
-      freeBlock: displayName blockSize: strlen( displayName ) + 1];
-  }
+      freeBlock: displayName blockSize: strlen (displayName) + 1];
 }
 
 //
 // setDisplayName: -- record a string that identifies an object for external
 //                    display purposes
 //
-- (void) setDisplayName: (char *)aName
+- (void)setDisplayName: (const char *)aName
 {
   char           buffer[100], *displayName;
   id             *memPtr;
@@ -655,17 +655,18 @@ static void notifyDisplayName( id object, id reallocAddress, void *arg )
 //                   display purposes, either from a previously assigned
 //                   string or an identification string default
 //
-- (char *) getDisplayName
+- (const char *)getDisplayName
 {
-  if ( ! _obj_displayNameMap ) return (char *)0;
-  return (char *)[_obj_displayNameMap at: self];
+  if ( ! _obj_displayNameMap ) return (const char *)0;
+  return (const char *)[_obj_displayNameMap at: self];
 }
 
 //
 // _obj_formatIDString() --
 //   function to generate object id string in standard format
 //
-extern void _obj_formatIDString( char *buffer, id anObject )
+void
+_obj_formatIDString (char *buffer, id anObject)
 {
   sprintf( buffer, PTRFMT ": %.64s",
            (unsigned long)anObject, ((Class)[anObject getClass])->name );
@@ -788,41 +789,42 @@ IMP getMethodFor( Class aClass, SEL aSel )
 //
 // xsetname() -- debug function to set display name for an object
 //
-void xsetname( id anObject, char *displayName )
+void
+xsetname (id anObject, const char *displayName)
 {
-  if ( anObject )
-    if ( respondsTo( anObject, M(setDisplayName:) ) )
+  if (anObject)
+    if (respondsTo (anObject, M(setDisplayName:)))
       [anObject setDisplayName: displayName];
     else
-      fprintf( _obj_xdebug,
+      fprintf ( _obj_xdebug,
         "xsetname: object " PTRFMT "does not respond to setDisplayName:\n",
-        (unsigned long)anObject );
+        (unsigned long)anObject);
   else
-    fprintf( _obj_xdebug, "xsetname: object is nil\n" );
+    fprintf ( _obj_xdebug, "xsetname: object is nil\n" );
 }
 
 //
 // xprint() -- debug function to print the debug description for an object
 //
-void xprint( id anObject )
+void 
+xprint (id anObject)
 {
-  if ( anObject ) {
+  if (anObject)
     [anObject xprint];
-  } else {
-    fprintf( _obj_xdebug, "xprint: object is nil\n" );
-  }
+  else
+    fprintf (_obj_xdebug, "xprint: object is nil\n");
 }
 
 //
 // xprintid() -- debug function to print the id string for an object
 //
-void xprintid( id anObject )
+void
+xprintid (id anObject)
 {
-  if ( anObject ) {
+  if (anObject)
     [anObject xprintid];
-  } else {
-    fprintf( _obj_xdebug, "xprintid: object is nil\n" );
-  }
+  else
+    fprintf (_obj_xdebug, "xprintid: object is nil\n");
 }
 
 //
@@ -830,35 +832,36 @@ void xprintid( id anObject )
 //   debug function to print the debug description for each member of a
 //   collection
 //
-void xfprint( id anObject )
+void
+xfprint (id anObject)
 {
-  if ( anObject ) {
+  if ( anObject )
     [anObject xfprint];
-  } else {
+  else
     fprintf( _obj_xdebug, "xfprint: object is nil\n" );
-  }
 }
 
 //
 // xfprintid() --
 //   debug function to print the id string for each member of a collection
 //
-void xfprintid( id anObject )
+void
+xfprintid (id anObject)
 {
-  if ( anObject ) {
+  if (anObject)
     [anObject xfprintid];
-  } else {
-    fprintf( _obj_xdebug, "xfprintid: object is nil\n" );
-  }
+  else
+    fprintf (_obj_xdebug, "xfprintid: object is nil\n");
 }
 
 //
 // xexec() -- debug function to perform message on an object
 //
-void xexec( id anObject, char *msgName )
+void
+xexec (id anObject, const char *msgName)
 {
   SEL  sel;
-
+  
   if ( anObject ) {
     sel = sel_get_any_uid( msgName );
     if ( sel ) {
@@ -880,10 +883,11 @@ void xexec( id anObject, char *msgName )
 //
 // xfexec() -- debug function to perform message on each member of a collection
 //
-void xfexec( id anObject, char *msgName )
+void
+xfexec (id anObject, const char *msgName)
 {
   id  index, member;
-
+  
   if ( anObject ) {
     if ( ! respondsTo( anObject, M(begin:) ) ) {
       fprintf( _obj_xdebug,

@@ -44,14 +44,15 @@ classData_t _obj_getClassData( Class_s  *class )
 //
 // _obj_initMethodInterfaces() -- function to initialize methods by interface
 //
-void _obj_initMethodInterfaces( Class_s *class )
+void
+_obj_initMethodInterfaces (Class_s *class)
 {
   classData_t   classData;
   MethodList_t  methods;
   int           count;
   id            interfaceID;
   Method_t      mnext;
-  char          *mname;
+  const char    *mname;
   methodDefs_t  mdefs;
 
   classData = _obj_getClassData( class );
@@ -62,7 +63,7 @@ void _obj_initMethodInterfaces( Class_s *class )
     for ( mnext = methods->method_list + methods->method_count - 1; ;
           mnext-- ) {
       if ( mnext < methods->method_list ||
-           strncmp( (mname = (char *)sel_get_name( mnext->method_name )),
+           strncmp( (mname = (const char *)sel_get_name( mnext->method_name )),
                     "_I_", 3 ) == 0 ) {
         if ( count ) {
 	  mdefs = _obj_initAlloc( sizeof *mdefs );
@@ -99,7 +100,7 @@ PHASE(CreatingOnly)
   return newClass;
 }
 
-- (void) setName: (char *)className
+- (void) setName: (const char *)className
 {
   name = className;
 }

@@ -30,7 +30,7 @@ Library:      defobj
 }
 #endif
 /*** methods in Object_s (inserted from .m file by m2h) ***/
-+ (char *) getName;
++ (const char *) getName;
 + (BOOL) respondsTo: (SEL)aSel;
 - (BOOL) respondsTo: (SEL)aSel;
 + getClass;
@@ -55,8 +55,8 @@ Library:      defobj
 - perform: (SEL)aSel with: anObject1;
 - perform: (SEL)aSel with: anObject1 with: anObject2;
 - perform: (SEL)aSel with: anObject1 with: anObject2 with: anObject3;
-- (void) setDisplayName: (char *)aName;
-- (char *) getDisplayName;
+- (void) setDisplayName: (const char *)aName;
+- (const char *) getDisplayName;
 - (void) describe: outputCharStream;
 - (void) describeID: outputCharStream;
 - (void) xprint;

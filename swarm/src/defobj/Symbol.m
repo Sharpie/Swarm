@@ -31,35 +31,36 @@ PHASE(Creating)
 
 - createEnd
 {
-  raiseEvent( SourceMessage,
-    "> must use create:setName: to create a new symbol constant\n" );
+  raiseEvent (SourceMessage,
+    "> must use create:setName: to create a new symbol constant\n");
   return nil;
 }
 
-+ create: aZone setName: (char *)symbolName
++ create: aZone setName: (const char *)symbolName
 {
   Symbol_c *newSymbol;
+  char *newName;
 
-  newSymbol = [aZone allocIVars: getNextPhase( self )];
-  newSymbol->name = [aZone alloc: strlen( symbolName ) + 1];
-  strcpy( newSymbol->name, symbolName );
+  newSymbol = [aZone allocIVars: getNextPhase (self)];
+  newName = [aZone alloc: strlen (symbolName) + 1];
+  strcpy (newName, symbolName);
+  newSymbol->name = newName;
   return newSymbol;
 }
 
 PHASE(Using)
 
-- (char *) getName
+- (const char *) getName
 {
   return name;
 }
 
 - (void) describe: outputCharStream
 {
-  char  buffer[100];
-
   [super describe: outputCharStream];
-  sprintf( buffer, "> symbol name: %s\n", name );
-  [outputCharStream catC: buffer];
+  [outputCharStream catC: ">symbol name: "];
+  [outputCharStream catC: name];
+  [outputCharStream catC: "\n"];
 }
 
 @end
@@ -83,71 +84,76 @@ PHASE(Using)
 //
 // printMessage() -- function shared by raiseEvent: in Warning_c and Error_c
 //
-static void printMessage( char *eventClass, char *eventName,
-                          char *eventData, va_list argptr, char *messageString)
+static void
+printMessage (const char *eventClass,
+              const char *eventName,
+              void *eventData,
+              va_list argptr,
+              const char *messageString)
 {
-  char  *function, *file;
-  int   line;
+  const char *function, *file;
+  int line;
 
-  fprintf( _obj_xerror, "*** event raised for %s: %s\n",
-           eventClass, eventName );
+  fprintf (_obj_xerror, "*** event raised for %s: %s\n",
+           eventClass, eventName);
 
-  if ( eventData[0] == '\r' ) {
-    function = eventData + 1;
-    file = va_arg( argptr, char * );
-    line = va_arg( argptr, int );
-    fprintf( _obj_xerror,
-             "*** function: %s(), file: %s, line: %d\n",
-             function, file, line );
-    eventData = va_arg( argptr, char * );
-  }
-  if ( eventData ) {
-    vfprintf( _obj_xerror, eventData, argptr );
-  } else if ( messageString ) {
-    vfprintf( _obj_xerror, messageString, argptr );
-  }
+  if (((char *)eventData)[0] == '\r')
+    {
+      function = eventData + 1;
+      file = va_arg (argptr, char *);
+      line = va_arg (argptr, int);
+      fprintf (_obj_xerror,
+               "*** function: %s(), file: %s, line: %d\n",
+               function, file, line);
+      eventData = va_arg (argptr, char *);
+    }
+  if (eventData) 
+    vfprintf (_obj_xerror, eventData, argptr);
+  else if (messageString)
+    vfprintf (_obj_xerror, messageString, argptr);
 }
 
 @implementation Warning_c
 
-- (void) setMessageString: (char *)messageStr
+- (void)setMessageString: (const char *)messageStr
 {
   messageString = messageStr;
 }
 
-- (char *) getMessageString
+- (const char *)getMessageString
 {
   return messageString;
 }
 
 - (void) raiseEvent
 {
-  fprintf( _obj_xerror, "*** event raised for warning: %s\n", name );
-  if ( messageString ) fputs( messageString, _obj_xerror );
-  fprintf( _obj_xerror, "*** execution continuing...\n" );
+  fprintf (_obj_xerror, "*** event raised for warning: %s\n", name);
+  if (messageString)
+    fputs (messageString, _obj_xerror);
+  fprintf (_obj_xerror, "*** execution continuing...\n");
 }
 
 - (void) raiseEvent: (void *)eventData, ...
 {
   va_list argptr;
 
-  if ( ! eventData ) [self raiseEvent];
-  va_start( argptr, eventData );
-  printMessage( "warning", name, eventData, argptr, messageString );
-  fprintf( _obj_xerror, "*** execution continuing...\n" );
+  if (! eventData)
+    [self raiseEvent];
+  va_start (argptr, eventData);
+  printMessage ("warning", name, eventData, argptr, messageString);
+  fprintf (_obj_xerror, "*** execution continuing...\n");
 }
 
 - (void) describe: outputCharStream
 {
-  char  buffer[100];
-
   [super describe: outputCharStream];
-  if ( messageString ) {
-    sprintf( buffer, "> default message:\n%s", messageString );
-    [outputCharStream catC: buffer];
-  } else {
+  if (messageString) 
+    {
+      [outputCharStream catC: "> default message:\n"];
+      [outputCharStream catC: messageString];
+    }
+  else
     [outputCharStream catC: "> (no default message)\n"];
-  }
 }
 
 @end
@@ -157,20 +163,22 @@ static void printMessage( char *eventClass, char *eventName,
 
 - (void) raiseEvent
 {
-  fprintf( _obj_xerror, "*** event raised for error: %s\n", name );
-  if ( messageString ) fputs( messageString, _obj_xerror );
-  fprintf( _obj_xerror, "*** execution terminating due to error\n" );
+  fprintf (_obj_xerror, "*** event raised for error: %s\n", name);
+  if (messageString)
+    fputs (messageString, _obj_xerror);
+  fprintf (_obj_xerror, "*** execution terminating due to error\n");
   abort();
 }
 
 - (void) raiseEvent: (void *)eventData, ...
 {
-  va_list  argptr;
+  va_list argptr;
 
-  if ( ! eventData ) [self raiseEvent];
-  va_start( argptr, eventData );
-  printMessage( "error", name, eventData, argptr, messageString );
-  fprintf( _obj_xerror, "*** execution terminating due to error\n" );
+  if (! eventData)
+    [self raiseEvent];
+  va_start (argptr, eventData);
+  printMessage ("error", name, eventData, argptr, messageString);
+  fprintf (_obj_xerror, "*** execution terminating due to error\n");
   abort();
 }
 

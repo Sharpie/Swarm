@@ -1,5 +1,64 @@
 1997-12-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* defobj.h: Constify argument to setDisplayName.
+	Constify return of getDisplayName.
+	Constify return of getName in GetName deftype.
+	Constify setName argument to Symbol +create.
+	Constify argument to Symbol setName.
+	Constify argument to Warning setMessageString.
+	Constify return of Warning getMessageString.
+	Constify argument to CreatedClass setName.
+	Constify argument to objc_get_class.
+	Constify name argument to xsetname, exec, and xfexec.
+	Drop APIChange warning.
+	Reformatting throughout.
+
+	* Symbol.m ([Symbol_c +create:setName:]): Constify argument and
+	use non-const intermediate variable for copy.
+	([Symbol_c -getName]): Constify.
+	([Symbol_c -describe:]): Don't use fixed-size scratch buffer.
+	(printMessage): Constify eventClass, eventName, and messageString
+	arguments.  Make eventData void*.
+	([Warning_c -setMessageString:]): Constify argument.
+	([Warning_c -getMessageString]): Constify return.
+	([Warning_c -describe:]): Don't use fixed-size scratch buffer.
+	Reformatting throughout.
+
+	* Symbol.h (Symbol_s): Constify name instance variable.
+	Constify symbolName argument to +create.
+	Constify return of getName.
+	(Warning_c): Constify messageString instance variable.
+	Constify argument to setMessageString.
+	Constify return of getMessageString.
+
+	* Program.m ([Type_c -getName]): Constify return.
+	[ProgramModule_c -getName]): Likewise.
+
+	* Program.h (Type_s): Constify name instance variable.
+	Constify return of getName.
+	(ProgramModule_c): Likewise.
+
+	* DefObject.m ([Object_s +getName]): Constify return.
+	(notifyDisplayName): Constify displayName.
+	([Object_s -setDisplayName:]): Constify argument.
+	([Object_s -getDisplayName]): Constify return.
+	(xsetname): Constify displayName argument.
+	(xexec): Constify msgName argument.
+	(xfexec): Constify msgName argument.
+
+	* DefObject.h: Constify return of getName and getDisplayName.
+	Constify argument to setDisplayName.
+
+	* DefClass.m (_obj_initMethodInterfaces): Constify mname.
+	([CreatedClass_s -setName:]): Constify argument.
+
+	* DefClass.h: Constify argument to setName.
+
+	* Customize.m ([Customize_s -_setCreateByMessage_:to:]): Constify
+	messageName.
+	([Customize_s -_setCreateByMessage_:toCopy:]): Likewise.
+	(_obj_splitPhases): Constify className.
+
 	* defobj.h: Reenable LibraryUsage, DefaultAssumed, and ObsoleteFeature.
 	Put back ObsoleteMessage (gepr argues they are important for a minor
 	release).

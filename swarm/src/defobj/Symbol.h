@@ -14,12 +14,12 @@ Library:      defobj
 @interface Symbol_c : CreateDrop_s
 {
 @public
-  char *name;
+   const char *name;
 }
 /*** methods in Symbol_c (inserted from .m file by m2h) ***/
 - createEnd;
-+ create: aZone setName: (char *)symbolName;
-- (char *) getName;
++ create: aZone setName: (const char *)symbolName;
+- (const char *) getName;
 - (void) describe: outputCharStream;
 @end
 
@@ -32,11 +32,11 @@ Library:      defobj
 @interface Warning_c : EventType_c
 {
 @public
-  char *messageString;
+   const char *messageString;
 }
 /*** methods in Warning_c (inserted from .m file by m2h) ***/
-- (void) setMessageString: (char *)messageStr;
-- (char *) getMessageString;
+- (void) setMessageString: (const char *)messageStr;
+- (const char *) getMessageString;
 - (void) raiseEvent;
 - (void) raiseEvent: (void *)eventData, ...;
 - (void) describe: outputCharStream;

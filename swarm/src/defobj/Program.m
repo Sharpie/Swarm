@@ -351,7 +351,7 @@ void _obj_initModule( void *module )
   return implementation;
 }
 
-- (char *) getName
+- (const char *) getName
 {
   return name;
 }
@@ -365,7 +365,7 @@ void _obj_initModule( void *module )
 
 @implementation ProgramModule_c
 
-- (char *) getName  // accessor method
+- (const char *)getName  // accessor method
 {
   return name;
 }

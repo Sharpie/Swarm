@@ -22,7 +22,7 @@ extern void  _obj_setTypeImplemented( id, id );
 {
 @public
   id    owner;            // module that contains type
-  char  *name;            // name of type
+  const char *name;       // name of type
   id    *typeID;          // global id variable containing type
   id    implementation;   // class that implements create phase, if any
   id    supertypes;       // other types from which type inherits
@@ -30,13 +30,13 @@ extern void  _obj_setTypeImplemented( id, id );
 /*** methods in Type_c (inserted from .m file by m2h) ***/
 - (BOOL) getCreatable;
 - getImplementation;
-- (char *) getName;
+- (const char *) getName;
 @end
 
 @interface ProgramModule_c : Object
 {
 @public
-  char  *name;     // name of module
+  const char *name;     // name of module
   id    owner;     // module in which this module defined 
   id    modules;   // modules defined within this module
   id    types;     // types defined within module
@@ -44,7 +44,7 @@ extern void  _obj_setTypeImplemented( id, id );
   id    classes;   // classes defined within module
 }
 /*** methods in ProgramModule_c (inserted from .m file by m2h) ***/
-- (char *) getName;
+- (const char *) getName;
 - getOwner;
 - getModules;
 - getTypes;

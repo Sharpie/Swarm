@@ -270,8 +270,8 @@ PHASE(Creating)
 //
 - (void) _setCreateByMessage_: (SEL)messageSelector to: anObject
 {
-  CreateBy_c  *createBy;
-  char        *messageName;
+  CreateBy_c *createBy;
+  const char *messageName;
 
   // install wrapper class
 
@@ -280,7 +280,7 @@ PHASE(Creating)
 
   // confirm valid message selector and return customization wrapper class
 
-  messageName = (char *)sel_get_name( messageSelector );
+  messageName = (const char *)sel_get_name( messageSelector );
   if ( ! messageName ||
        ! strchr(messageName, ':') ||
        strchr(messageName, ':') - messageName != strlen(messageName) - 1 ) {
@@ -296,8 +296,8 @@ PHASE(Creating)
 //
 - (void) _setCreateByMessage_: (SEL)messageSelector toCopy: anObject
 {
-  CreateBy_c  *createBy;
-  char        *messageName;
+  CreateBy_c *createBy;
+  const char *messageName;
 
   // install subclass as wrapper
 
@@ -306,7 +306,7 @@ PHASE(Creating)
 
   // confirm valid message selector and return customization wrapper class
 
-  messageName = (char *)sel_get_name( messageSelector );
+  messageName = (const char *)sel_get_name( messageSelector );
   if ( ! messageName ||
        ( strchr(messageName, ':') &&
          strchr(messageName, ':') - messageName != strlen(messageName) - 1 ) ) {
@@ -348,13 +348,14 @@ PHASE(Creating)
 //
 // _obj_splitPhases -- split defining class into class object for each phase
 //
-void _obj_splitPhases( Class_s *class )
+void
+_obj_splitPhases (Class_s *class)
 {
-  classData_t      classData, superclassData = 0;
-  BehaviorPhase_s  *classCreating, *classUsing;
-  char             *className;
-  methodDefs_t     mdefs;
-  Method_t         mnext;
+  classData_t classData, superclassData = 0;
+  BehaviorPhase_s *classCreating, *classUsing;
+  const char *className;
+  methodDefs_t mdefs;
+  Method_t mnext;
 
   // return if classes have already been created
 

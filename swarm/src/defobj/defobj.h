@@ -29,8 +29,8 @@ Library:      defobj
 -		perform: (SEL)aSel with: anObject1 with: anObj2;
 -		perform: (SEL)aSel with: anObject1 with: anObj2 with: anObj3;
 
-- (void)	setDisplayName: (char *)displayName;
-- (char *)	getDisplayName;
+- (void)	setDisplayName: (const char *)displayName;
+- (const char *)getDisplayName;
 
 - (void)	describe: outputCharStream;
 - (void)	describeID: outputCharStream;
@@ -75,7 +75,7 @@ CREATING
 // GetName - get name which identifies object in its context of use
 //
 @deftype GetName
-- (char *)	getName;
+- (const char *)	getName;
 @end
 
 //
@@ -107,8 +107,8 @@ USING
 //
 @deftype Symbol <Create, GetName, CREATABLE>
 CREATING
-+		create: aZone setName: (char *)name;
-- (void)	setName: (char *)name;
++		create: aZone setName: (const char *)name;
+- (void)	setName: (const char *)name;
 @end
 
 //
@@ -123,8 +123,8 @@ CREATING
 // Warning -- a condition of possible concern to a program developer   
 //
 @deftype Warning <EventType, CREATABLE>
-- (void)	setMessageString: (char *)messageString;
-- (char *)	getMessageString;
+- (void)	setMessageString: (const char *)messageString;
+- (const char *)getMessageString;
 @end
 
 //
@@ -211,7 +211,7 @@ extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
 //
 @deftype CreatedClass <Create, DefinedClass>
 CREATING
-- (void)	setName: (char *)name;
+- (void)	setName: (const char *)name;
 - (void)	setClass: aClass;
 - (void)	setSuperclass: aClass;
 - (void)	setDefiningClass: aClass;
@@ -248,8 +248,7 @@ extern id <Error>
   InvalidAllocSize,       // no more memory available for allocation
   InternalError,          // unexpected condition encountered in program
   BlockedObjectAlloc,     // method from Object with invalid allocation
-  BlockedObjectUsage,     // method inherited from Object superclass
-  APIChange;              // feature was removed due to an API change
+  BlockedObjectUsage;     // method inherited from Object superclass
 
 //
 // standard warnings
@@ -293,14 +292,14 @@ extern id <Symbol>  t_ByteArray, t_LeafObject, t_PopulationObject;
 //
 // (Up to 78 characters of the supplied buffer argument could be filled.)
 //
-extern void _obj_formatIDString( char *buffer, id anObject );
+extern void _obj_formatIDString (char *buffer, id anObject);
 
 //
 // declaration to enable use of @class declaration for message receiver without
 // compile error (discovered by trial and error; the declaration appears in
 // <objc/objc-api.h> which is also sufficient to suppress the error)
 //
-extern Class objc_get_class( const char *name );  // for class id lookup
+extern Class objc_get_class (const char *name);  // for class id lookup
 
 //
 // type objects generated for module
@@ -331,13 +330,13 @@ extern BOOL _obj_debug;       // if true then perform all debug error checking
 extern FILE *_obj_xerror;     // output file for error messages
 extern FILE *_obj_xdebug;     // output file for debugging messages
 
-extern void xsetname(  id anObject, char *name);  // debug set display name
-extern void xprint(    id anObject );             // debug object print
-extern void xprintid(  id anObject );             // debug object id print
-extern void xfprint(   id anObject );             // debug foreach object print
-extern void xfprintid( id anObject );             // debug foreach id print
-extern void xexec(     id anObject, char *name ); // debug method exec
-extern void xfexec(    id anObject, char *name ); // debug foreach method exec
+extern void xsetname (id anObject, const char *name); // debug set display name
+extern void xprint (id anObject);             // debug object print
+extern void xprintid (id anObject);           // debug object id print
+extern void xfprint (id anObject);            // debug foreach object print
+extern void xfprintid (id anObject)  ;              // debug foreach id print
+extern void xexec (id anObject, const char *name);  // debug method exec
+extern void xfexec (id anObject, const char *name); // debug foreach method exec
 
 //
 // old stuff for compatibility during the transition
