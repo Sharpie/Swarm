@@ -134,8 +134,10 @@
       "-createActionCall:::"
       "-createActionCall::::"
 
-      ;; ActionCall
+      ;; ActionCall / FCall
       "-setFunctionPointer:" ; func_t parameter
+
+      ;; ActionCall
       "-getFunctionPointer" ; func_t return
 
       ;; Probe
