@@ -1,3 +1,10 @@
+2000-01-27  Alex Lancaster  <alex@santafe.edu>
+
+	* global.ent: Update corp authors, addresses copyright information
+	to point to the Swarm Development Group (SDG) rather than SFI.
+
+	* usermeta.sgml: Likewise.
+
 1999-11-08  Paul Johnson  <pauljohn@ukans.edu>
 
 	* user3.04.sgml: Work on Random number write-up
