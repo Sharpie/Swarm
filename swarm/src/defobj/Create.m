@@ -11,7 +11,7 @@ Library:      defobj
 
 #import <defobj/Create.h>
 
-#include <config.h>
+#include <swarmconfig.h>
 
 #define ATDELIMCHAR '@'
 //
