@@ -2,6 +2,8 @@
 
 	* configure.in: Add tex/Makefile to AC_OUTPUT.
 
+	* macros.tex: Moved to tex/.
+
 1998-10-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in: Add m4/Makefile to AC_OUTPUT.
