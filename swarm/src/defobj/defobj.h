@@ -229,7 +229,6 @@ CREATING
 //E: newArray = [newArray createEnd];   // ! note reassignment of newArray
 
 CREATING
-
 //M: The create: message creates a new instance of a type with default
 //M: options.  The zone argument specifies the source of storage for the
 //M: new object.  The receiving object of this message is a previously
@@ -473,7 +472,6 @@ USING
 //D: symbol name.
 
 CREATING
-
 //M: create:setName: is a combination message defined as a caller
 //M: convenience.  See combination messages for a summary of conventions
 //M: on combination messages.
@@ -591,7 +589,6 @@ USING
 //D: defobj library; see predefined zones for a summary.
 
 CREATING
-
 //M: (.. Not implemented yet.  Will define the various types of zone
 //M: implementations, all the way to zones that support full automatic storage
 //M: reclamation. ..)
@@ -783,8 +780,10 @@ USING
 //S: Created class which implements a phase of object behavior.
 
 //D: Created class which implements a phase of object behavior.
+
 CREATING
 - (void)setNextPhase: aClass;
+
 USING
 - getNextPhase;
 @end
