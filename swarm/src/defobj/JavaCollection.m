@@ -7,6 +7,11 @@
 
 @implementation JavaCollection
 
+- (BOOL)isJavaCollection
+{
+  return YES;
+}
+
 - (unsigned)getCount
 {
   jobject coll = SD_FINDJAVA (jniEnv, self);

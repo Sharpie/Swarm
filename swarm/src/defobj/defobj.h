@@ -1079,6 +1079,10 @@ USING
 - (void *)getResult;
 @end
 
+
+typedef enum callTypes { ccall, objccall, javacall, javastaticcall} call_t;
+typedef void *JOBJECT;
+
 @protocol FCall <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic calls.
 //D: A language independent interface to dynamic calls.
@@ -1088,9 +1092,10 @@ CREATING
 - setArguments: args;
 - setFunctionPointer: (func_t)fn;
 - setMethod: (SEL)method inObject: object;
-- setJavaMethod: (const char *)methodName inObject: (void *)obj;
+- setJavaMethod: (const char *)methodName inObject: (JOBJECT)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
 USING
+- (call_t)getCallType;
 - getArguments;
 - (void)performCall;
 - (void *)getResult;

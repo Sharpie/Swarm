@@ -20,23 +20,21 @@ Library:      defobj
 #undef VERSION
 #endif
 
+#include <defobj.h> // JOBJECT
+
 #ifdef HAVE_JDK
 void defobj_init_java_call_tables (void *jEnv);
 #endif
-
-#define JOBJECT void *
 
 void updateTarget (id self, id target);
 #ifdef HAVE_JDK
 void updateJavaTarget (id self, JOBJECT target);
 #endif
 
-enum callTypes { ccall, objccall, javacall, javastaticcall};
-
 @interface FCall_c: CreateDrop_s
 {
 @public
-   unsigned callType;
+   call_t callType;
    FArguments_c *fargs; 
 #ifndef USE_AVCALL
    ffi_cif cif;
@@ -52,11 +50,12 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
 - getArguments;
 - setFunctionPointer: (func_t)fn;
 - setMethod: (SEL)method inObject: object;
-- setJavaMethod: (const char *)methodName inObject: (void *)obj;
+- setJavaMethod: (const char *)methodName inObject: (JOBJECT)obj;
 - setJavaMethod: (const char *)methodName inClass: (const char *)className;
 - createEnd;
 - (void)performCall;
 - (void *)getResult;
 - (retval_t)getRetVal: (retval_t)retVal buf: (types_t *)buf;
 - (func_t)getFunctionPointer;
+- (call_t)getCallType;
 @end

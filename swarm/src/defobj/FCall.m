@@ -138,6 +138,8 @@ fillHiddenArguments (FCall_c *self)
 
   switch (self->callType)
     {
+    case ccall:
+      break;
     case objccall: 
       fargs->hiddenArgumentCount = 2;	
 #ifdef USE_AVCALL
@@ -289,11 +291,11 @@ PHASE(Creating)
   callType = javacall;
   if (fclass)
     (*jniEnv)->DeleteGlobalRef (jniEnv, fclass);
-  lref = (*jniEnv)->GetObjectClass (jniEnv, obj);
+  lref = (*jniEnv)->GetObjectClass (jniEnv, (jobject) obj);
   fclass = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   methodName = (char *) mtdName;
-  (jobject) fobject = obj;
+  (jobject) fobject = (jobject) obj;
 #else
   java_not_available ();
 #endif
@@ -382,6 +384,11 @@ updateJavaTarget (FCall_c *self, JOBJECT target)
 }
 
 PHASE(Using)
+
+- (call_t)getCallType
+{
+  return callType;
+}
 
 - getArguments
 {

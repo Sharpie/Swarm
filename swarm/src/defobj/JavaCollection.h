@@ -4,6 +4,7 @@
 @interface JavaCollection: CreateDrop
 {
 }
+- (BOOL)isJavaCollection;
 - (unsigned)getCount;
 - begin: aZone;
 - getFirst;
