@@ -8,7 +8,7 @@ TYPEINFO = $(MODULE).xm types.h classes.h
 
 CLEANFILES = $(TYPEINFO)
 
-override CPPFLAGS += -Dextern=@EXPORT_EXTERN@
+override CPPFLAGS += -Dexternvar=@EXPORT_EXTERN@
 
 headers: $(module_headers)
 
