@@ -3,14 +3,18 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/InputWidget.h>
+#import <tkobjc/Entry.h>
 
-@interface Entry: InputWidget
+@interface VarProbeEntry: Entry
 {
+  id owner;
+  char probeType;
+  BOOL interactiveFlag;
 }
 
+- setInteractiveFlag: (BOOL)interactiveFlag;
+- setOwner: owner;
+- setProbeType: (char)probeType;
 - createEnd;
-- setValue: (const char *)t;
-- setWidth: (unsigned)w Height: (unsigned)h;
 
 @end

@@ -3,7 +3,14 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-void dragAndDrop (id source, id object);
-void dragAndDropArg (id source, id object, int arg);
-void dragAndDropTarget (id target, id object);
+#import <tkobjc/Button.h>
 
+@interface SimpleProbeDisplayHideButton: Button
+{
+  id frame;
+  id probeDisplay;
+}
+
+- setProbeDisplay: probeDisplay;
+- setFrame: frame;
+@end

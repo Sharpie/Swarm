@@ -8,10 +8,14 @@
 #import <objc/Object.h>
 #import <tkobjc/Widget.h>
 
-@interface Label : Widget
+@interface Label: Widget
 {
 }
 
 - setText: (const char *)t;			  // initialize the entry
+
+- anchorEast;
+- anchorWest;
+- colorBlue;
 
 @end

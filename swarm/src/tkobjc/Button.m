@@ -8,8 +8,6 @@
 #include <stdlib.h>
 
 #import <tkobjc/global.h>
-#import <tclObjc.h>
-#import <TkInterp.h>
 #import <tkobjc/Button.h>
 
 @implementation Button
@@ -30,11 +28,21 @@
   return self;
 }
 
--setCommand: (const char *)command
+- setCommand: (const char *)command
 {
   [globalTkInterp eval: "%s configure -command \"%s\"", widgetName, command];
   return self;
 }
 
-@end
+- setButtonTarget: target method: (SEL)sel
+{
+  char bcmd[1024];
+  
+  strcpy (bcmd, [target getObjectName]);
+  strcat (bcmd, " dynamic");
+  [self setCommand: bcmd];
+  
+  return self;
+}
 
+@end

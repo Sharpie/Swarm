@@ -15,7 +15,7 @@
 
 @implementation Entry
 
--createEnd
+- createEnd
 {
   [super createEnd];
   
@@ -36,7 +36,7 @@
 }
 
 // ignore the height: doesn't work for entries.
-- setWidth: (unsigned) w Height: (unsigned) h
+- setWidth: (unsigned)w Height: (unsigned)h
 {
   [globalTkInterp eval: "%s configure -width %u", widgetName, w];
   return self;

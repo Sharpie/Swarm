@@ -8,7 +8,7 @@
 #import <defobj.h>
 #import <defobj/Create.h>
 
-@interface Widget : CreateDrop
+@interface Widget: CreateDrop
 {
   Widget *parent;
   const char *widgetName;
@@ -16,14 +16,14 @@
 }
 
 // creation time messages
-- setParent: (Widget *) p;			  // set parent widget
+- setParent: (Widget *)p;			  // set parent widget
 - createEnd;					  // finalize creation
 + createParent: (Widget *)p;			  // convenience interface
 
 - (const char *)getWidgetName;			  // return the widget name
 - (const char *)getObjcName;			  // return the tclobjc name
-- (Widget *) getParent;				  // return the parent
-- (Widget *) getTopLevel;			  // return the top parent
+- (Widget *)getParent;				  // return the parent
+- (Widget *)getTopLevel;			  // return the top parent
 
 - (const char *)getWindowGeometry;		  // get geometry as a string
 - (unsigned)getWidth;				  // get geometry values
@@ -31,9 +31,9 @@
 - (int)getPositionX;
 - (int)getPositionY;
 
-- setWidth: (unsigned) w Height: (unsigned) h;	  // set size
-- setWidth: (unsigned) w;
-- setHeight: (unsigned) h;
+- setWidth: (unsigned)w Height: (unsigned)h;	  // set size
+- setWidth: (unsigned)w;
+- setHeight: (unsigned)h;
 - setWindowGeometry: (const char *)s;             // set geometry as a string
 - setPositionX: (int) x Y: (int) y;		  // set window position.
 
@@ -43,6 +43,22 @@
 - packWith: (const char *)c;			  // display, args.
 - unpack;					  // unmap the widget
 
-- makeNameFromParentName: (const char *)p;	  // make name for widget
+- packToRight: widget;
+- packBeforeAndFillLeft: widget expand: (BOOL)expandFlag;
+- packFillLeft: (BOOL)expandFlag;
+- packFill;
+- packForgetAndExpand;
+
+- setActiveFlag: (BOOL)activeFlag;
+
+- enableRelief;
+- setBorderWidth: (int)width;
+- setupWindowEntryColor;
+- setupWindowExitColor;
+- focus;
+
+- setWidgetNameFromParent: parent;
+- setWidgetNameFromParentName: (const char *)parentWidgetName;
+- (const char *)makeWidgetNameFor: widget;
 
 @end

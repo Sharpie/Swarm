@@ -3,15 +3,14 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-// quickie interface for a control panel of buttons
-
 #import <tkobjc/Widget.h>
 
-@interface Button : Widget
+@interface Button: Widget
 {
 }
 
 - setText: (const char *)text;		  // give the button a name
 - setCommand: (const char *)command;	  // give the button a cmd
+- setButtonTarget: target method: (SEL)sel;
 
 @end

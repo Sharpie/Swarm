@@ -1,3 +1,133 @@
+1998-01-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ClassDisplayHideButton.[hm], CompleteProbeDisplayLabel.[hm],
+	MessageProbeEntry.[hm], ProbeCanvas.[hm],
+	SimpleProbeDisplayHideButton.[hm],
+	SuperButton.[hm],VarProbeEntry.[hm]: New classes to encapsulate
+	tkobjc_* functionality and give some explict semantics.
+
+	* Histogram.[hm]:  Renamed from Histo.[hm].
+	
+	* tkobjc.m (registerInterp): New static function.
+	(initTkObjc): Use registerInterp instead of
+	tkobjc_registerCommand.
+
+	* tkobjc.h: Use Histogram.h instead of Histo.h.
+	Add ClassDisplayHideButton.h, SimpleProbeDisplayHideButton.h,
+	SuperButton.h, MessageProbeEntry.h, VarProbeEntry.h, ProbeCanvas.h.
+	Drop DragDrop.h.
+
+	* common.[hm]: Add (remaining tkobjc_* routines from control).
+	
+	* control.[hm], DragDrop.[hm]:  Remove.
+	
+	* ZoomRaster.h: Reformatting throughout.
+
+	* XColormap.m ([XColormap -map], [XColormap -pixelValue:],
+	[XColormap -white], [XColormap -black]): Use GUI_PixelValue for
+	return type.
+	([XColormap -setColor:ToName:], [XColormap -colorIsSet:]): Use
+	GUI_Color for first argument.
+	([XColormap -setColor:ToRed:Green:Blue:]): Likewise.
+	([XColormap -setColor:ToGrey:]): Likewise.
+
+	* XColormap.h: Include <gui.h>
+	Make XColormap conform to <Colormap>.
+	Use GUI_PixelValue for map, pixelValue, white, black methods.
+	Use GUI_Color for pixelValue for colorIsSet: and setColor methods.
+
+	* Widget.m: Don't include string.h, stdio.h, stdlib.h, stdarg.h,
+	tclObjc.h, and TkInterp.h.  Include tkobjc/common.h.
+	([Widget -createEnd]): Use new method setWidgetNameFromParent:
+	instead of makeNameFromParentName:.
+	([Widget -pack]): Use tclobjc_pack instead of calling
+	globalTkInterp directly.
+	(makeWidgetName): New static function (functionality of
+	makeNameFromParentName).
+	([Widget -makeWidgetNameFor:], [Widget -setWidgetNameFromParent:],
+	[Widget -setWidgetNameFromParentName:], [Widget -packToRight:],
+	[Widget -packBeforeAndFillLeft:expand:],
+	[Widget -packFillLeft:], [Widget -packFill], [Widget
+	-packForgetAndExpand], [Widget -setActiveFlag:], [Widget
+	-enableRelief], [Widget -setBorderWidth:], [Widget
+	-setupWindowEntryColor], [Widget -setupWindowExitColor], [Widget
+	-focus]): New methods for tkobjc_* functionality.
+
+	* Widget.h: New methods packToRight:,
+	packBeforeAndFillLeft:expand:, packFillleft:, packFill,
+	packForgetAndExpand, setActiveFlag:, enableRelief,
+	setBorderWidth:, setupWindowEntryColor, setupWindowExitColor,
+	focus, setWidgetNameFromParent:, setWidgetNameFromParentName:,
+	makeWidgetNameFor:.
+
+	* Raster.m ([Raster -getColormap]): Return id <Colormap>.
+	([Raster -setColormap:]): Take id <Colormap>.
+
+	* Raster.h: Include gui.h.
+	(Raster): Make colormap an id conforming to Colormap protocol
+	not a XColormap *.
+	getColormap now returns a id <Colormap>.
+	setColormap takes a id <Colormap>.
+	drawPointX:Y:Color:, fillRectangleX0:Y0:X1:Color:  Use GUI_Color.
+	
+	* Makefile (OBJECTS, HEADERS): Add ClassDisplayHideButton,
+	SimpleProbeDisplayHideButton, SuperButton, MessageProbeEntry,
+	VarProbeEntry, CompleteProbeDisplayLabel, ProbeCanvas, and common.
+	Drop DragDrop and control.  Change Histo to Histogram.
+	(OTHERCLEAN): Change testHisto to testHistogram.
+	(testHistogram): Change from testHisto.
+	(Histogram.o): Replaces Histo.o.
+	(DragDrop.o, control.o): Drop.
+	(ClassDisplayHideButton.o, SimpleProbeDisplayHideButton.o,
+	SuperButton.o, MessageProbeEntry.o, VarProbeEntry.o,
+	ProbeCanvas.o, common.o): Add.
+
+	* Label.m ([Label -anchorEast], [Label -anchorWest], [Label
+	-colorBlue]): New methods to replace tkobjc_* functionality.
+
+	* Label.h: Declare new methods anchorEast, anchorWest, and colorBlue.
+
+	* Frame.m: Don't include string.h, stdio.h, stdlib.h, or
+	TkInterp.h.  Include tkobjc/common.h.
+	([Frame -createEnd]): Use new method setWidgetNameFromParentName
+	instead of removed makeNameFromParentName.
+	([Frame -createEnd]): Use tkobjc_makeFrame to create a frame
+	instead of calling globalTkInterp directly.
+	([Frame -assertPosition], [Frame -assertGeometry], [Frame
+	-withdraw], [Frame -deiconify]): New methods replace tkobjc_*
+	functionality.
+
+	* Frame.h: Declare new methods assertGeometry, assertPosition,
+	withdraw, and deiconify.
+
+	* Entry.m: Reformatting throughout.
+
+	* Entry.h: Declare createEnd, setValue:, and setWidth:.
+
+	* CompositeItem.h: Reformatting throughout.
+
+	* ButtonPanel.m: Don't include tclObjc.h or TkInterp.h.
+	([ButtonPanel -setButtonTarget:]): New method, drop
+	setTargetName.
+	([ButtonPanel -addButtonName:actionName:]): Use targetName
+	instead of defaultTargetName.
+
+	* ButtonPanel.h: New method setButtonTarget:.
+	(ButtonPanel): Rename instance variable defaultTargetName to
+	targetName.  Drop setTargetName.
+
+	* Button.m ([Button -createEnd]): Don't include tclObjc.h or
+	TkInterp.h.
+	([Button -setButtonTarget:method:]): New method.
+
+	* Button.h: Declare new method setButtonTarget:.
+
+	* BLTGraph.m ([BLTGraph -setTitle:]): Rename from title:.
+	([BLTGraph -setAxisLabelsX:Y:]): Rename from axisLabelsX:Y:.
+
+	* BLTGraph.h: Rename title: to setTitle: and axisLabelsX:Y:
+	to setAxisLabelsX:Y:.
+
 1998-01-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* TkExtra.h, BLTGraph.m, Button.m, ButtonPanel.m, CheckButton.m,

@@ -6,7 +6,7 @@
 #import <objectbase/SwarmObject.h>
 #import <tkobjc/Widget.h>
 
-@interface ArchivedGeometryWidget : Widget
+@interface ArchivedGeometryWidget: Widget
 {
   const char *windowGeometryRecordName;
   id destroyNotificationTarget;

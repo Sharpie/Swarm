@@ -3,20 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-
-// should Widget have an "eval" method that it can send to itself?
-// varargs overhead.
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-
 #import <tkobjc/global.h>
-#import <tclObjc.h>
-#import <TkInterp.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/Frame.h>
+#import <tkobjc/common.h>
 
 @implementation Widget
 
@@ -41,14 +31,14 @@
   
   if (parent == nil)
     {				  // no parent, make a frame
-      Frame * defaultFrame;
+      Frame *defaultFrame;
       defaultFrame = [Frame create: [self getZone]];
       [self setParent: defaultFrame];
     }
-  [self makeNameFromParentName: [parent getWidgetName]];
+  [self setWidgetNameFromParent: parent];
   
   // make our own copy of tclObjc_objectToName (it uses a static buffer.)
-  p = tclObjc_objectToName(self);
+  p = tclObjc_objectToName (self);
   name = [[self getZone] alloc: strlen(p) + 1];
   strcpy (name, p);
   objcName = name;
@@ -176,7 +166,7 @@
 
 - pack
 {
-  [globalTkInterp eval: "pack %s -fill both -expand true;", widgetName];
+  tkobjc_pack (self);
   return self;
 }
 
@@ -186,34 +176,140 @@
   return self;
 }
 
+- packToRight: widget
+{
+  [globalTkInterp eval: "pack %s %s -side right",
+                  [self getWidgetName],
+                  [widget getWidgetName]];
+  return self;
+}
+
+- packBeforeAndFillLeft: widget expand: (BOOL)expandFlag
+{
+  [globalTkInterp eval: "pack %s -before %s -side left -fill both -expand %d",
+		  [self getWidgetName],
+		  [widget getWidgetName],
+                  (int)expandFlag];
+  return self;
+}
+
+- packFillLeft: (BOOL)expandFlag
+{
+  [globalTkInterp eval: "pack %s -side left -fill both -expand %d",
+		  [self getWidgetName],
+                  (int)expandFlag];
+  return self;
+}
+
+- packFill
+{
+  [globalTkInterp eval: "pack %s -fill both -expand 0",
+		  [self getWidgetName]];
+  return self;
+}
+
+- packForgetAndExpand
+{
+  [globalTkInterp eval: "pack forget %s",
+                  [self getWidgetName]];
+  [globalTkInterp eval:  "pack %s -expand true -fill both",
+                  [self getWidgetName]];
+  return self;
+}
+
 - unpack
 {
   [NotImplemented raiseEvent];
   return self;
 }
 
+- setActiveFlag: (BOOL)activeFlag
+{
+  [globalTkInterp eval: "%s configure -state %s",
+                  [self getWidgetName],
+                  activeFlag ? "normal" : "disabled"];
+  return self;
+}
+
+- enableRelief
+{
+  [globalTkInterp eval: "%s configure -relief ridge -borderwidth 3",
+    [self getWidgetName]] ;
+  return self;
+}
+
+- setBorderWidth: (int)width
+{
+  [globalTkInterp eval: "%s configure -bd %d", 
+                  [self getWidgetName],
+                  width];
+  return self;
+}
+
+- setupWindowEntryColor
+{
+  const char *name = [self getWidgetName];
+
+  [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",
+                  name, name];
+  return self;
+}
+
+- setupWindowExitColor
+{
+  const char *name = [self getWidgetName];
+
+  [globalTkInterp eval: "bind %s <Leave> {%s configure -fg blue}",
+                  name, name];
+  return self;
+}
+
+- focus
+{
+  tkobjc_focus (self);
+  return self;
+}
+
 // fill in the "parent" and "name" fields for a widget, based on algorithm.
 // "name" is parent.w<objectName>, where <objectName> is the tclObjc name
 // for self (long version) or just the pointer (short version)
-- makeNameFromParentName: (const char *)p
+static const char *
+makeWidgetName (const char *parentWidgetName, id newWidget)
 {
   char *buf;
 #ifdef LONGNAMES
   char *n;
-  n = [self getObjcName];			  // my object name in Tclland
+  n = [newWidget getObjcName];  // my object name in Tclland
 #else
   char n[33];
-  sprintf(n, "%p", self);		  // my pointer (use %p?)
+  sprintf (n, "%p", newWidget); // my pointer (use %p?)
 #endif			
   
-  buf = [[self getZone] alloc: strlen(p) + strlen(n) + 3];
+  buf = [[newWidget getZone] alloc: strlen (parentWidgetName) + strlen (n) + 3];
 
-  if (p[0] == '.' && p[1] == 0)			  // special case parent "."
+  if (parentWidgetName[0] == '.' 
+      && parentWidgetName[1] == 0)    // special case parent "."
     sprintf (buf, ".w%s", n);
   else
-    sprintf (buf, "%s.w%s", p, n);	  // put in a "w" there.
+    sprintf (buf, "%s.w%s", parentWidgetName, n); // put in a "w" there.
 
-  widgetName = buf;
+  return buf;
+}
+
+- (const char *)makeWidgetNameFor: newWidget
+{
+  return makeWidgetName ([self getWidgetName], newWidget);
+}
+
+- setWidgetNameFromParent: theParent
+{
+  widgetName = makeWidgetName ([theParent getWidgetName], self);
+  return self;
+}
+
+- setWidgetNameFromParentName: (const char *)theParentName
+{
+  widgetName = makeWidgetName (theParentName, self);
   return self;
 }
 

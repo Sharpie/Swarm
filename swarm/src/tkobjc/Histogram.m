@@ -13,9 +13,9 @@
 
 #import <tkobjc/global.h>
 #import <TkInterp.h>
-#import <tkobjc/Histo.h>
+#import <tkobjc/Histogram.h>
 
-@implementation Histo
+@implementation Histogram
 
 - createEnd
 {
@@ -37,7 +37,7 @@
 
   numPoints = n;
 
-  elements = [[self getZone] alloc: (sizeof(*elements) * n)];
+  elements = [[self getZone] alloc: (sizeof (*elements) * n)];
   for (i = 0; i < n; i++)
     {
       char strBuffer[256];
@@ -58,7 +58,7 @@
   return self;
 }
 
-- drawHistoWithDouble: (double *) points
+- drawHistogramWithDouble: (double *) points
 {
   int i;
   for (i = 0; i < numPoints; i++)
@@ -68,7 +68,7 @@
 }
 
 // ick. How to do two data formats right?
-- drawHistoWithInt: (int *) points
+- drawHistogramWithInt: (int *) points
 {
   int i;
   for (i = 0; i < numPoints; i++)
@@ -77,7 +77,7 @@
   return self;
 }
 
-- drawHistoWithInt: (int *) points atLocations: (double *) locations
+- drawHistogramWithInt: (int *) points atLocations: (double *) locations
 {
   int i;
   for (i = 0; i < numPoints; i++)
@@ -86,7 +86,7 @@
   return self;
 }
 
-- drawHistoWithDouble: (double *) points atLocations: (double *) locations
+- drawHistogramWithDouble: (double *) points atLocations: (double *) locations
 {
   int i;
   for (i = 0; i < numPoints; i++)
@@ -96,14 +96,14 @@
 }
 
 // this code is in common with BLTGraph
-- title: (const char *)t
+- setTitle: (const char *)t
 {
   [globalTkInterp eval: "%s configure -title \"%s\";", widgetName, t];
   [self setWindowTitle: t];
   return self;
 }
 
-- axisLabelsX: (const char *)xl Y: (const char *)yl
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
   [globalTkInterp eval: "%s xaxis configure -title \"%s\"; %s yaxis configure -title \"%s\";",
 		  widgetName, xl, widgetName, yl];
@@ -113,6 +113,71 @@
 - pack
 {
   [globalTkInterp eval: "pack %s -fill both -expand true;", widgetName];
+  return self;
+}
+
+- setBarWidth: (double)step
+{
+  [globalTkInterp eval: 
+                    "%s configure -barwidth %g",
+                  [self getWidgetName],
+                  step];
+  return self;
+}
+
+- setXaxisMin: (double)min max: (double)max step: (double)step
+{
+  [globalTkInterp eval: 
+                    "%s xaxis configure -min %g -max %g -stepsize %g",
+                  [self getWidgetName],
+                  min,
+                  max,
+                  step];
+  return self;
+}
+
+- setActiveOutlierText: (int)outliers count: (int)count
+{
+  [globalTkInterp
+    eval: 
+      "%s marker configure active_outlier_marker -text \"outliers: %d (%g)\" ",
+    [self getWidgetName], 
+    outliers, 
+    ((double)outliers / ((double)outliers + (double)count))];
+
+  return self;
+}
+
+- hideLegend
+{
+  [globalTkInterp eval: "%s legend configure -hide yes",
+                  [self getWidgetName]];
+  return self;
+}
+
+- setupActiveItemInfo
+{
+  [globalTkInterp eval: "active_item_info %s",
+                  [self getWidgetName]];
+  return self;
+}
+
+- setupActiveOutlierMarker
+{
+  [globalTkInterp
+    eval: 
+      "%s marker create text -coords { -Inf +Inf } "
+    "-name active_outlier_marker "
+    "-anchor nw -justify right "
+    "-bg {} -mapped 0",
+    [self getWidgetName]];
+  return self;
+}
+
+- setupZoomStack
+{
+  [globalTkInterp eval: "Blt_ZoomStack %s",
+                  [self getWidgetName]];
   return self;
 }
 

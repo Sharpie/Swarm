@@ -80,13 +80,13 @@
   return display;
 }
 
-- (XColormap *)getColormap
+- (id <Colormap>)getColormap
 {
   return colormap;
 }
 
-// this widget won't work without this initialized.
-- setColormap: (XColormap *)c
+// This widget won't work without this initialized.
+- setColormap: (id <Colormap>)c
 {
   XGCValues gcv;
 

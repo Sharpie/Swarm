@@ -3,14 +3,18 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/InputWidget.h>
+#import <tkobjc/Label.h>
 
-@interface Entry: InputWidget
+@interface CompleteProbeDisplayLabel: Label
 {
+  id probeDisplay;
+  id probedObject;
+  id probeDisplayManager;
 }
 
+- setProbeDisplay: probeDisplay;
+- setProbedObject: probedObject;
+- setProbeDisplayManager: probeDisplayManager;
 - createEnd;
-- setValue: (const char *)t;
-- setWidth: (unsigned)w Height: (unsigned)h;
 
 @end

@@ -73,14 +73,14 @@
   return self;
 }
 
-- title: (const char *)t
+- setTitle: (const char *)title
 {
-  [globalTkInterp eval: "%s configure -title \"%s\";", widgetName, t];
-  [self setWindowTitle: t];
+  [globalTkInterp eval: "%s configure -title \"%s\";", widgetName, title];
+  [self setWindowTitle: title];
   return self;
 }
 
-- axisLabelsX: (const char *)xl Y: (const char *)yl
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl
 {
   [globalTkInterp
     eval:

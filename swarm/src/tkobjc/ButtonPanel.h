@@ -7,13 +7,13 @@
 
 #import <tkobjc/Frame.h>
 
-@interface ButtonPanel : Frame
+@interface ButtonPanel: Frame
 {
-  const char *defaultTargetName;
+  const char *targetName;
 }
 
-- setTargetName: (const char *)target;
-- addButtonName: (const char *)n Command: (const char *) c;
+- setButtonTarget: target;
+- addButtonName: (const char *)n Command: (const char *)c;
 - addButtonName: (const char *)n
      actionName: (const char *)action;
 

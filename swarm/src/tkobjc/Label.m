@@ -29,5 +29,26 @@
   return self;
 }
 
+- anchorEast
+{
+  [globalTkInterp eval: "%s configure -anchor e",
+                  [self getWidgetName]];
+  return self;
+}
+
+- anchorWest
+{
+  [globalTkInterp eval: "%s configure -anchor w",
+                  [self getWidgetName]];
+  return self;
+}
+
+- colorBlue
+{
+  [globalTkInterp eval: "%s configure -foreground blue",
+                  [self getWidgetName]];
+  return self;
+}
+
 @end
 

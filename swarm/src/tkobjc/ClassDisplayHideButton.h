@@ -3,14 +3,16 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/InputWidget.h>
+#import <tkobjc/Button.h>
 
-@interface Entry: InputWidget
+@interface ClassDisplayHideButton: Button
 {
+  id owner;
+  id user;
+  id subWidget;
 }
 
-- createEnd;
-- setValue: (const char *)t;
-- setWidth: (unsigned)w Height: (unsigned)h;
-
+- setSubWidget: subWidget;
+- setUser: user;
+- setOwner: owner;
 @end

@@ -8,17 +8,16 @@
 #include <stdlib.h>
 
 #import <tkobjc/global.h>
-#import <tclObjc.h>
-#import <TkInterp.h>
 #import <collections/String.h>
 #import <tkobjc/ButtonPanel.h>
 #import <tkobjc/Button.h>
+#import <tkobjc/global.h>
 
 @implementation ButtonPanel
 
-- setTargetName : (const char *)theTargetName
+- setButtonTarget: object
 {
-  defaultTargetName = theTargetName;
+  targetName = strdup ([object getObjectName]);
   return self;
 }
 
@@ -41,7 +40,7 @@
 - addButtonName: (const char *)n
      actionName: (const char *)action
 {
-  id string = [String create: [self getZone] setC: defaultTargetName];
+  id string = [String create: [self getZone] setC: targetName];
   
   [string catC: " "];
   [string catC: action];

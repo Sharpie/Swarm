@@ -38,6 +38,12 @@ ensureBltSupportFiles (void)
     }
 }
 
+static void
+registerInterp (void)
+{
+  [globalTkInterp registerObject: globalTkInterp withName: "globalTkInterp"];
+}
+
 void
 initTkObjc (int argc, char ** argv)
 {
@@ -49,17 +55,17 @@ initTkObjc (int argc, char ** argv)
         {
           globalTkInterp = [Tcl alloc];		  // misnomer
           [globalTkInterp initWithArgc: 1 argv: argv];
-          tkobjc_registerCommand (globalTkInterp, "globalTkInterp");          
+          registerInterp ();
           return;
         }
     }
   
-  deferror(WindowCreation, NULL);
-  deferror(WindowUsage, NULL);
+  deferror (WindowCreation, NULL);
+  deferror (WindowUsage, NULL);
  
   globalTkInterp = [TkExtra alloc];
   [globalTkInterp initWithArgc: 1 argv: argv];
-  [globalTkInterp registerObject: globalTkInterp withName: "globalTkInterp"];
+  registerInterp ();
 
   [globalTkInterp eval: simtools_tcl];
   [globalTkInterp eval: analysis_tcl];

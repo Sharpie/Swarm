@@ -5,13 +5,18 @@
 
 #import <tkobjc/BLTGraph.h>
 #import <tkobjc/Button.h>
+#import <tkobjc/ClassDisplayHideButton.h>
+#import <tkobjc/SimpleProbeDisplayHideButton.h>
+#import <tkobjc/SuperButton.h>
 #import <tkobjc/WindowGeometryRecord.h>
 #import <tkobjc/ArchivedGeometryWidget.h>
 #import <tkobjc/ButtonPanel.h>
 #import <tkobjc/Entry.h>
+#import <tkobjc/MessageProbeEntry.h>
+#import <tkobjc/VarProbeEntry.h>
 #import <tkobjc/Form.h>
 #import <tkobjc/Frame.h>
-#import <tkobjc/Histo.h>
+#import <tkobjc/Histogram.h>
 #import <tkobjc/Label.h>
 #import <tkobjc/Raster.h>
 #import <tkobjc/TkExtra.h>
@@ -21,6 +26,7 @@
 #import <tkobjc/XPixmap.h>
 #import <tkobjc/ZoomRaster.h>
 #import <tkobjc/Canvas.h>
+#import <tkobjc/ProbeCanvas.h>
 #import <tkobjc/CanvasItem.h>
 #import <tkobjc/CompositeItem.h>
 #import <tkobjc/Circle.h>
@@ -32,5 +38,5 @@
 #import <tkobjc/OvalNodeItem.h>
 #import <tkobjc/LinkItem.h>
 #import <tkobjc/global.h>
-#import <tkobjc/DragDrop.h>
+
 

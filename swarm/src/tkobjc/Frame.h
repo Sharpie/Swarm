@@ -7,11 +7,14 @@
 
 #import <tkobjc/ArchivedGeometryWidget.h>
 
-@interface Frame: ArchivedGeometryWidget 
+@interface Frame: ArchivedGeometryWidget
 {
 }
 
-- createEnd;					  // we override this.
+- createEnd; // we override this.
 - (void)drop;
-
+- assertGeometry;
+- assertPosition;
+- withdraw;
+- deiconify;
 @end

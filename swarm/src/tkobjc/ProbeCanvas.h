@@ -3,14 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <tkobjc/InputWidget.h>
+#import <tkobjc/Canvas.h>
 
-@interface Entry: InputWidget
+@interface ProbeCanvas: Canvas
 {
+  BOOL horizontalScrollbarFlag;
 }
 
+- setHorizontalScrollbarFlag: (BOOL)horizontalScorllbarFlag;
 - createEnd;
-- setValue: (const char *)t;
-- setWidth: (unsigned)w Height: (unsigned)h;
-
 @end
