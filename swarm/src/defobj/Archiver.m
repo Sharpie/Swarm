@@ -197,13 +197,15 @@ lispProcessPairs (id aZone,
 }
 
 static void
-lispProcessMakeObjcPairs (id aZone, id expr, id objectMap)
+lispProcessMakeObjcPairs (id aZone, id expr, id app)
 {
   {
     void mapUpdate (id key, id valexpr)
       {
         id value = lispIn (aZone, valexpr);
-
+        id objectMap;
+        
+        objectMap = [app getLispDeepMap];
         if ([objectMap at: key])
           [objectMap at: key replace: value];
         else
@@ -227,7 +229,7 @@ lispProcessApplicationPairs (id aZone, id expr, id applicationMap)
                   createEnd];
           [applicationMap at: key insert: app];
         }
-      lispProcessMakeObjcPairs (aZone, value, [app getLispDeepMap]);
+      lispProcessMakeObjcPairs (aZone, value, app);
     }
   lispProcessPairs (aZone, expr, mapUpdate);
 }
@@ -283,13 +285,28 @@ void
 lispArchiverPut (const char *key, id object, BOOL deepFlag)
 {
   id app = [archiver getApplication];
-  id map = deepFlag ? [app getLispDeepMap] : [app getLispShallowMap];
+  id deepMap = [app getLispDeepMap];
+  id shallowMap = [app getLispShallowMap];
   id keyObj = [String create: [archiver getZone] setC: key];
-  
-  if ([map at: keyObj])
-    [map at: keyObj replace: object];
+
+  if (deepFlag)
+    {
+      if ([deepMap at: keyObj])
+        [deepMap at: keyObj replace: object];
+      else
+        [deepMap at: keyObj insert: object];
+      if ([shallowMap at: keyObj])
+        [shallowMap removeKey: keyObj];
+    }
   else
-    [map at: keyObj insert: object];
+    {
+      if ([shallowMap at: keyObj])
+        [shallowMap at: keyObj replace: object];
+      else
+        [shallowMap at: keyObj insert: object];
+      if ([deepMap at: keyObj])
+        [deepMap removeKey: keyObj];
+    }
 }
 
 void
@@ -526,10 +543,10 @@ static id
 hdf5_create_app_group (const char *appKey, id hdf5Obj, id *hdf5AppObjPtr)
 {
   id hdf5AppObj = hdf5Obj;
-  char *modeKey;
+  char *newAppKey, *modeKey;
 
-  appKey = strdup (appKey);
-  modeKey = (char *) appKey;
+  newAppKey = strdup (appKey);
+  modeKey = newAppKey;
   
   while (*modeKey && *modeKey != '/')
     modeKey++;
@@ -539,7 +556,7 @@ hdf5_create_app_group (const char *appKey, id hdf5Obj, id *hdf5AppObjPtr)
       modeKey++;
       hdf5AppObj = [[[[HDF5 createBegin: [hdf5Obj getZone]]
                        setParent: hdf5Obj]
-                      setName: appKey]
+                      setName: newAppKey]
                      createEnd];
       *hdf5AppObjPtr = hdf5AppObj;
     }
