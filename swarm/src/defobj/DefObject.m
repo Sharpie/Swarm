@@ -17,12 +17,12 @@ Library:      defobj
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
 #import <defobj/HDF5Object.h>
 #import <defobj/internal.h> // process_array, map_ivars
-                            // lisp_output_type, lisp_process_array, isDigit
+                            // lisp_output_type, lisp_process_array
 
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
-#include <misc.h> // strcpy, strlen, sprintf
+#include <misc.h> // strcpy, strlen, sprintf, isDigit
 #include <collections/predicates.h> // arrayp, keywordp, listp, stringp
 
 #ifdef HAVE_JDK

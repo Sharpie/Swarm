@@ -6,7 +6,7 @@
 #import <defobj/internal.h>
 #import <defobj.h> // raiseEvent, DSIZE, SSTRDUP
 
-#include <misc.h> // strtoul
+#include <misc.h> // strtoul, isDigit
 #include <objc/objc-api.h>
 
 size_t

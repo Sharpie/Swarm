@@ -5,7 +5,7 @@
 
 #import <defobj/Arguments.h>
 #import <defobj.h> // STRDUP, SSTRDUP, ZSTRDUP, arguments
-#include <misc.h> // getenv, access, stpcpy, stat, dropdir
+#include <misc.h> // getenv, access, stpcpy, stat, dropdir, isAlnum
 
 #include <swarmconfig.h> // SYSCONFDIR, HAVE_ARGP_H
 #ifdef HAVE_ARGP_H
@@ -28,8 +28,6 @@ const char *program_invocation_short_name;
 #undef __int64
 #undef interface
 #import <defobj/directory.h> // JAVA_APPNAME
-
-#import "../defobj/internal.h"
 
 #define VARCHAR(ch) (isAlnum (ch) || ((ch) == '_'))
 
