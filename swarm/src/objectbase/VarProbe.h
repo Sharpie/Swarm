@@ -5,6 +5,7 @@
 
 #import <objectbase.h> // VarProbe
 #import <objectbase/Probe.h>
+#import <defobj/COM.h> // COMmethod
 
 #include <swarmconfig.h>
 
@@ -22,12 +23,12 @@
 #ifdef HAVE_JDK
   JOBJECT *javaInfo;
 #endif
-  const void *getterMethod;
-  const void *setterMethod;
+  COMmethod getterMethod;
+  COMmethod setterMethod;
 }
 
 - setProbedVariable: (const char *)aVariable;
-- setProbedCOMgetter: (const void *)getter setter: (const void *)setter;
+- setProbedCOMgetter: (COMmethod)getter setter: (COMmethod)setter;
 - createEnd;
 
 - setNonInteractive;
