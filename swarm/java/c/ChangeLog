@@ -1,3 +1,8 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (javaswarm.dll): For consistency, use javaswarm.dll.o
+	instead of dllinit.o.
+
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (javaswarm_entities, javaswarm_OBJECTS,
