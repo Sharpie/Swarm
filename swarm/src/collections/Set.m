@@ -40,7 +40,7 @@ PHASE(Using)
 
 - copy: aZone
 {
-  Set_c  *newSet;
+  Set_c *newSet;
 
   newSet = [aZone copyIVars: self];
   newSet->list = [List create: aZone];
@@ -54,8 +54,8 @@ PHASE(Using)
 
 - (id *)add: anObject
 {
-  [(id)list addLast: anObject];
-  return (id *)nil;
+  [(id) list addLast: anObject];
+  return (id *) nil;
 }
 
 - replace: anObject
@@ -73,9 +73,10 @@ PHASE(Using)
 {
   id  index, member;
 
-  index = [(id)list begin: scratchZone];
+  index = [(id) list begin: scratchZone];
   while ((member = [index next]))
-    if (member == aKey) return member;
+    if (member == aKey)
+      return member;
   [index drop];
 
   return nil;
@@ -92,7 +93,7 @@ PHASE(Using)
 {
   id  index, member;
 
-  index = [(id)list begin: scratchZone];
+  index = [(id) list begin: scratchZone];
   while ((member = [index next]))
     if (member == aKey)
       return [index remove];
@@ -108,7 +109,7 @@ PHASE(Using)
   newIndex = [aZone allocIVars: [SetIndex_c self]];
   setMappedAlloc (newIndex);
   newIndex->collection = self;
-  newIndex->listIndex  = [(id)list begin: getCZone (aZone)];
+  newIndex->listIndex  = [(id) list begin: getCZone (aZone)];
   
   return newIndex;
 }
