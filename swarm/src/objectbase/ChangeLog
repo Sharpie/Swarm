@@ -1,3 +1,12 @@
+2003-06-17  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* VarProbe.m ([VarProbe -drop]): free baseType and floatFormat
+
+2003-06-11  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
+
+	* MessageProbe.m ([MessageProbe -dynamicCallOn:]): silence gcc
+	warnings, cast "call" fc = (FCall_c *)call;
+
 2002-09-13    <pjohnson@localhost.localdomain>
 
 	* VarProbe.m ([VarProbe -_setupObjcVarProbe_]): Change i from unsigned
