@@ -94,9 +94,9 @@ extern void java_drop (jobject jobj);
 #define SD_JAVA_INSTANTIATE(clazz) java_instantiate_pair (clazz)
 
 #define JAVA_COPY_STRING(javaString) java_copy_string (javaString)
-#define JAVA_CLEANUP_STRINGS(stringArray) java_cleanup_strings (stringArray, sizeof (stringArray) / sizeof (const char *))
+#define JAVA_CLEANUP_STRINGS(stringArray) java_cleanup_strings ((const char **) stringArray, sizeof (stringArray) / sizeof (const char *))
 #define JAVA_CONVERT_STRING_ARRAY(jary) java_convert_string_array (jary)
-#define JAVA_CLEANUP_STRING_ARRAY(stringArray, name) { java_cleanup_strings (stringArray, (*jniEnv)->GetArrayLength (jniEnv, name)); [scratchZone free: stringArray]; }
+#define JAVA_CLEANUP_STRING_ARRAY(stringArray, name) { java_cleanup_strings ((const char **) stringArray, (*jniEnv)->GetArrayLength (jniEnv, name)); [scratchZone free: (void *) stringArray]; }
 
 #define JAVA_OBJECT_ENTRY(theJavaObject,theObject) [[[[ObjectEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
 #define JAVA_SELECTOR_ENTRY(theJavaObject,theSel) [[[[SelectorEntry createBegin: globalZone] setJavaObject: theJavaObject] setSelector: theSel] createEnd]

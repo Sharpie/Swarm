@@ -1,3 +1,8 @@
+2001-04-09    <mgd@HELEN>
+
+	* java.h (JAVA_CLEANUP_STRINGS, JAVA_CONVERT_STRING_ARRAY): Add
+	normalization casts.
+
 2001-04-09  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* HDF5Object.m ([HDF5_c -createEnd]): Set deflation of 6 for chunked
