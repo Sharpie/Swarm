@@ -4,7 +4,8 @@
 	MT19937, PSWB, C2TAUS, and PMMLCG1gen (which Mousetrap happened to
 	use).
 	(java-print-class-phase): Handle inheritance for ZoomRaster,
-	DblBuffer2d, Grid2d, ConwayLife2d, and Diffuse2d.
+	DblBuffer2d, Grid2d, ConwayLife2d, Diffuse2d, ScheduleActivity, 
+	and SwarmActivity.
 	(*removed-protocols*): Remove Graph, Histogram, and Pixmap.
 	(*removed-methods*): Disable getters than reference Graph and
 	Histogram.

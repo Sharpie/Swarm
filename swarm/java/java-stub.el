@@ -730,6 +730,10 @@
           ((or (string= pname "ConwayLife2d")
                (string= pname "Diffuse2d"))
            (insert " extends swarm.space.DblBuffer2dImpl")) ;; Ca2d is abstract
+          ((string= pname "ScheduleActivity")
+           (insert " extends swarm.activity.ActivityImpl"))
+          ((string= pname "SwarmActivity")
+           (insert " extends swarm.activity.ScheduleActivityImpl"))
           ))
   (insert " ")
   (when (java-print-implemented-protocols protocol phase ", " nil)
