@@ -303,9 +303,7 @@
   // attach the AC
   [modelActCont attachToActivity: [self getSwarmActivity]];
   // create a probe display for the AC
-  [probeDisplayManager createProbeDisplayFor: modelActCont
-                       setWindowGeometryRecordName: 
-                         "probeDisplayModelActivityController"];
+  createArchivedProbeDisplay(modelActCont);
   
   // Finally, return our activity.
   return [self getSwarmActivity];

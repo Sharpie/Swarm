@@ -1,5 +1,14 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* MousetrapModelSwarm.m ([MousetrapModelSwarm -activateIn:]): Use
+	createArchivedProbeDisplay to create probe display for
+	modelActCont.
+
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm -buildObjects]): 
+	Likewise, but for mousetrapModelSwarm and MousetrapObserverSwarm.
+	* MousetrapObserverSwarm.m ([MousetrapObserverSwarm -activateIn:]): 
+	Likewise, but for observerActCont.
+
 	* Makefile (SWARMHOME): Don't define if already defined.  Default is
 	swarm-1.0.5.
 
