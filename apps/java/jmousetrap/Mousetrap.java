@@ -35,7 +35,7 @@ public class Mousetrap
 
   public void nag (String s)
   {
-    System.out.println (this.getClass().getName() + ":" + s);
+    System.out.println (getClass().getName() + ":" + s);
     System.out.flush ();
   }
 
@@ -68,58 +68,50 @@ public class Mousetrap
     displayWidget = w;
     return this;
   }
-  public void noMethod ()
-  {
+
+  public void noMethod () {
   }
 
   /**
    * The crucial step for a Mousetrap (equivalent to "step" for a Heatbug)  
    */
-  public void trigger()
+  public void trigger ()
   {
     int n, xTrigger, yTrigger;
     int triggerTick;
 
-    ((MousetrapStatistics)modelSwarm.getStats()).removeOneBall();
+    modelSwarm.getStats ().removeOneBall ();
 
     if (!triggered
-        && ((modelSwarm.getTriggerLikelihood() >= 1)
-            || ((float)uniform0to1.getDoubleSample() 
+        && ((modelSwarm.getTriggerLikelihood () >= 1)
+            || ((float) uniform0to1.getDoubleSample() 
                 < modelSwarm.getTriggerLikelihood())))  {
             
       int size;
       triggered = true;
-      modelSwarm.getStats().addOneTriggered();
+      modelSwarm.getStats ().addOneTriggered ();
             
       if (displayWidget != null)
         displayWidget.drawPointX$Y$Color (xCoord, yCoord, (byte) 2);
       size = modelSwarm.getGridSize();
-      for (n = modelSwarm.getNumberOutputTriggers(); n>0; n--) {
+      for (n = modelSwarm.getNumberOutputTriggers (); n>0; n--) {
         Mousetrap trap;
         xTrigger = 
-          (xCoord + size + uniformRadius.getIntegerSample()) % size;
+          (xCoord + size + uniformRadius.getIntegerSample ()) % size;
         yTrigger = 
-          (yCoord + size + uniformRadius.getIntegerSample()) % size;
+          (yCoord + size + uniformRadius.getIntegerSample ()) % size;
                 
-        triggerTick = Globals.env.getCurrentTime() + 
-          uniformTrigTime.getUnsignedSample();
+        triggerTick = Globals.env.getCurrentTime () + 
+          uniformTrigTime.getUnsignedSample ();
         trap = modelSwarm.getMousetrapAtX$Y (xTrigger, yTrigger);
                 
         if (trap != null) {
-          ((MousetrapModelSwarm) modelSwarm).getStats().addOneBall();
-          modelSwarm.scheduleTriggerAt$For(triggerTick, trap);
+          modelSwarm.getStats ().addOneBall ();
+          modelSwarm.scheduleTriggerAt$For (triggerTick, trap);
         }
       }
     }
   }
 }
 
-
-
-
-
-
-
-
- 
  
