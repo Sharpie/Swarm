@@ -1,6 +1,10 @@
+1998-11-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* misc.h: Include errno.h.
+
 1998-11-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
-	* misc.h:  Only define gettimeofday if Cygwin is before B20.
+	* misc.h: Only define gettimeofday if Cygwin is before B20.
 
 1998-10-21  Marcus G. Daniels  <mgd@sangre.santafe.edu>
 
