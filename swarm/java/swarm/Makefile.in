@@ -1,5 +1,6 @@
 prefix=@prefix@
 datadir=@datadir@
+jdkdir=@jdkdir@
 INSTALL=@INSTALL@
 JAR=@JAR@
 JAVAC=@JAVAC@
