@@ -2,9 +2,10 @@
 
 	* config.swarm.in (SWARM_LDFLAGS): Remove swarm_BLTLDFLAGS,
 	TCLLDFLAGS, TKLDFLAGS, FFILDFLAGS, XPMLDFLAGS, PNGLDFLAGS,
-	ZLIBLDFLAGS, X_LIBS} variables, libtool will extract appropriate
-	information from `-lswarm' and `-lobjc'.
-	(SWARM_LDADD): Remove swarm_{SYSLIBS,LIBS}, libtool handles this.
+	ZLIBLDFLAGS, X_LIBS} variables, libtool-swarm will extract
+	appropriate information.
+	(SWARM_LDADD): Remove swarm_{SYSLIBS,LIBS}, libtool-swarm handles
+	this.
 
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
