@@ -1,5 +1,8 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Arguments.m ([Arguments_c -createEnd]): For glibc, don't
+	assign to program_invocation_short_name and don't use it.
+
 	* Makefile.am (module_headers): Use $(TYPEINFO).
 
 	* FCall.m (avcall_add_primitive): Handle fcall_type_object.

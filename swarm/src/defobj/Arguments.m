@@ -156,8 +156,10 @@ strip_quotes (const char *argv0)
   program_invocation_name = (char *) find_executable (argv0);
 #ifndef __GLIBC__
   program_invocation_short_name = getApplicationValue (argv0);
-#endif  
   [self setAppName: program_invocation_short_name];
+#else
+  [self setAppName: getApplicationValue (argv0)];
+#endif
   if (version == NULL)
     version = "[no application version]";
   {
