@@ -1,3 +1,7 @@
+1998-07-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* actcltk.m4 (md_FIND_BLT): Don't set default bltlibname to BLT8.0.
+
 1998-06-30  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* acfind.m4: Use $$1libdir, not $$libdir.

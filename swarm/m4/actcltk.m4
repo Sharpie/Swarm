@@ -259,10 +259,13 @@ AC_SUBST(TCLOBJCLIB)
 AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
 if test -z "$bltlibname"; then
-  bltlibname=BLT8.0
   md_FIND_LIB(blt,BLT8.0,$bltdir/lib/shared,1)
   if test -z "$_ldflags" ; then
     md_FIND_LIB(blt,BLT)
+    bltlibname=BLT
+    test -n "$_ldflags" || AC_MSG_ERROR(Unable to find $bltlibname)
+  else
+    bltlibname=BLT8.0
   fi
 else
   md_FIND_LIB(blt,$bltlibname,$bltdir/lib/shared)
