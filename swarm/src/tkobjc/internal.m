@@ -1162,20 +1162,25 @@ tkobjc_pixmap_create (Pixmap *pixmap,
                               * pixmap->xpmimage.height);
     unsigned *out_pos = data;
     unsigned ri;
+    unsigned bit_mask = (1 << bit_depth) - 1;
+    unsigned drop_shift = (8 - bit_depth) & 7;
     
     for (ri = 0; ri < pixmap->xpmimage.height; ri++)
       {
-        unsigned ci;
+        unsigned ci, width = pixmap->xpmimage.width;
         png_bytep in_row = row_pointers[ri];
         
-        for (ci = 0; ci < pixmap->xpmimage.width; ci++)
+        for (ci = 0; ci < width; ci++)
           {
-            int bit_pos = bit_depth * ci;
-            int byte_offset = bit_pos >> 3;
-            int bit_shift = bit_pos & 0x7;
-            int bit_mask = ((1 << bit_depth) - 1);
+            unsigned bit_pos = bit_depth * ci;
+            unsigned byte_offset = bit_pos >> 3;
+            unsigned bit_shift = bit_pos & 7;
+            png_byte val = in_row[byte_offset];
+
+            val <<= bit_shift;
+            val >>= drop_shift;
             
-            *out_pos++ = (in_row[byte_offset] >> bit_shift) & bit_mask;
+            *out_pos++ = val;
           }
       }
     pixmap->xpmimage.data = data;

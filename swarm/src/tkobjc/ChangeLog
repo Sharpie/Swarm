@@ -1,3 +1,8 @@
+1998-11-09  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* internal.m (tkobjc_pixmap_create): Reverse bit order for paletted
+	bitmaps (less than 8 bits).
+
 1998-10-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* ScheduleItem.m ([ScheduleItem -update]): Set processingUpdate
