@@ -1,5 +1,12 @@
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* NonUniqueMethodSignatureException.java,
+	SignatureNotFoundException.java: New files.
+
+	* Makefile.in (CLASSES): Add NonUniqueMethodSignatureException and
+	SignatureNotFoundException.
+	(%.class): Add $(srcdir)/.. to classpath.
+
 	* Selector.java: Search through results of getMethods and match
 	by signature name.  If there is more than one found, raise
 	NonUniqueMethodSignature exception.  If none is found raise
