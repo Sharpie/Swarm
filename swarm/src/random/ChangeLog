@@ -1,4 +1,4 @@
-2004-07-26  Marcus G. Daniels <mgd@santafe.edu
+2004-07-26  Marcus G. Daniels <mgd@santafe.edu>
 
 	* distributions.h: Add BinomialDist and @class.
 
