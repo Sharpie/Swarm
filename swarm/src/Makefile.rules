@@ -9,7 +9,7 @@ CLEANFILES = $(TYPEINFO)
 headers: $(module_headers)
 
 $(TYPEINFO): $(MODULE).h
-	CC="$(CC)" CFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)" OBJECTS="$(lib$(MODULE)_la_OBJECTS)" sh $(top_srcdir)/src/defobj/make-h2x $(MODULE).xm $(srcdir)
+	OBJC="$(OBJC)" OBJCFLAGS="$(DEFS) $(INCLUDES) $(CPPFLAGS) $(OBJCFLAGS)" OBJECTS="$(lib$(MODULE)_la_OBJECTS)" sh $(top_srcdir)/src/defobj/make-h2x $(MODULE).xm $(srcdir)
 	mv $(MODULE).xt types.h
 	mv $(MODULE).xc classes.h
 
