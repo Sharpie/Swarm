@@ -7,12 +7,10 @@
 inline static void **
 mframe_get_struct_addr_ptr (arglist_t args, const char *types)
 {
-  return (*types ==_C_ARY_B) ?
-    (void **) (method_get_next_argument (args, &types))
-    : (((*types == _C_STRUCT_B || *types ==_C_UNION_B)
-        && objc_sizeof_type (types) > MFRAME_SMALL_STRUCT)
-       ? ((void **) args + 1)
-       : NULL);
+  return (((*types == _C_STRUCT_B || *types ==_C_UNION_B)
+    && objc_sizeof_type (types) > MFRAME_SMALL_STRUCT)
+   ? ((void **) args + 1)
+   : NULL);
 }
     
 #define MFRAME_GET_STRUCT_ADDR(ARGS, TYPES) \
