@@ -91,7 +91,7 @@
       if (objectToNotify != nil)
         [temp setObjectToNotify: objectToNotify];
       temp = [temp createEnd];
-      [ classMap at: aClass insert: temp];
+      [classMap at: aClass insert: temp];
     }
   else
     return ret_val;

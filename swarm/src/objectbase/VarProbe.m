@@ -55,28 +55,32 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (isJavaProxy)
     {
+      jobject lref;
+
       classObject = SD_FINDJAVA (jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed cannot be found.\n");      
-      fieldObject = 
+      lref = 
 	(*jniEnv)->CallObjectMethod(jniEnv,
                                     classObject, 
 				    m_ClassGetDeclaredField, 
 				    (*jniEnv)->NewStringUTF (jniEnv, 
                                                              probedVariable));
-      if (!fieldObject)
+      if (!lref)
 	raiseEvent (SourceMessage,
 		    "Cannot find field to be probed in the Java class.\n"); 
-      fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, fieldObject);
+      fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
-      fieldType = (*jniEnv)->CallObjectMethod (jniEnv,
-                                               fieldObject, 
-                                               m_FieldGetType);      
-      if (!fieldType)
+      lref = (*jniEnv)->CallObjectMethod (jniEnv,
+                                          fieldObject, 
+                                          m_FieldGetType);      
+      if (!lref)
 	raiseEvent (SourceMessage, "Unknown type of probed field.\n");
 
-      fieldType = (*jniEnv)->NewGlobalRef (jniEnv, fieldType);
+      fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
       {
         char *buf = [aZone alloc: 2];
         
@@ -852,7 +856,7 @@ setFieldFromString (id anObject, jobject field,
 		    jclass fieldType, const char * value)
 {
 
-  unsigned classcmp(jclass matchClass, jclass fieldType) 
+  unsigned classcmp (jclass matchClass, jclass fieldType) 
     {
       return ((*jniEnv)->IsSameObject (jniEnv, fieldType, matchClass));
     }
@@ -869,7 +873,9 @@ setFieldFromString (id anObject, jobject field,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
 				 SD_FINDJAVA (jniEnv, anObject),
-				 boolObject);      
+				 boolObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, boolObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }
   else if (classcmp (fieldType, c_char))
     {
@@ -877,7 +883,7 @@ setFieldFromString (id anObject, jobject field,
       
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSetChar, 
 				 SD_FINDJAVA (jniEnv, anObject),
-				 javaChar);      
+				 javaChar);
     }
   else if (classcmp (fieldType, c_byte))
     {
@@ -891,7 +897,10 @@ setFieldFromString (id anObject, jobject field,
 					   javaString);        
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
 				 SD_FINDJAVA (jniEnv, anObject),
-				 byteObject);      
+				 byteObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, byteObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
+      
     }
   else if (classcmp (fieldType, c_int))
     {
@@ -906,6 +915,8 @@ setFieldFromString (id anObject, jobject field,
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 intObject);      
+      (*jniEnv)->DeleteLocalRef (jniEnv, intObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }
   else if (classcmp (fieldType, c_short))
     {
@@ -920,6 +931,8 @@ setFieldFromString (id anObject, jobject field,
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 shortObject);      
+      (*jniEnv)->DeleteLocalRef (jniEnv, shortObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }
   else if (classcmp (fieldType, c_long))
     {
@@ -934,6 +947,8 @@ setFieldFromString (id anObject, jobject field,
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 longObject);      
+      (*jniEnv)->DeleteLocalRef (jniEnv, longObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }
   else if (classcmp (fieldType, c_float))
     {
@@ -948,6 +963,8 @@ setFieldFromString (id anObject, jobject field,
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 floatObject);      
+      (*jniEnv)->DeleteLocalRef (jniEnv, floatObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }
   else if (classcmp (fieldType, c_double))
     {
@@ -963,6 +980,8 @@ setFieldFromString (id anObject, jobject field,
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 doubleObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, doubleObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }
   else if (classcmp (fieldType, c_String))
     {
@@ -973,6 +992,7 @@ setFieldFromString (id anObject, jobject field,
       (*jniEnv)->CallVoidMethod (jniEnv, field, m_FieldSet,
 				 SD_FINDJAVA (jniEnv, anObject),
 				 javaString);      
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaString);
     }
 }
 #endif

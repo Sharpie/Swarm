@@ -214,7 +214,10 @@
       
       if (isCopy)
         (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
+      (*jniEnv)->DeleteLocalRef (jniEnv, field);
+      (*jniEnv)->DeleteLocalRef (jniEnv, name);
     }
+  (*jniEnv)->DeleteLocalRef (jniEnv, fields);
 }
 
 - (void)addJavaMethods: (jclass)javaClass
@@ -268,8 +271,12 @@
           [probes at: [String create: [self getZone] 
                               setC: [aProbe getProbedMessage]]
                   insert: aProbe];
+          (*jniEnv)->DeleteLocalRef (jniEnv, method);
+          (*jniEnv)->DeleteLocalRef (jniEnv, name);
+          (*jniEnv)->DeleteLocalRef (jniEnv, selector);
         }
     }
+  (*jniEnv)->DeleteLocalRef (jniEnv, methods);
 }
 #endif
   
@@ -417,7 +424,7 @@
   aClass = [aProbeMap getProbedClass];
 
   for (class = probedClass; class!=Nil; class = class_get_super_class (class))
-    if (class==aClass)
+    if (class == aClass)
       {
         index = [aProbeMap begin: globalZone];
         while ((aProbe = [index next]) != nil)

@@ -1,3 +1,10 @@
+1999-09-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ProbeMap.m ([ProbeMap -addJavaFields:]): Handle localref cleanup.
+	([ProbeMap -addJavaMethods:]): 
+
+	* VarProbe.m ([VarProbe -createEnd], setFieldFromString): Likewise.
+
 1999-09-09  Alex Lancaster  <alex@santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Adjust HAVE_JDK #ifdef to
