@@ -1047,9 +1047,11 @@ USING
 CREATING
 - setCar: car;
 - setCdr: cdr;
+- setConsFormatFlag: (BOOL)theConsFormatFlag;
 USING
 - getCar;
 - getCdr;
+- (BOOL)getConsFormatFlag;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 @end

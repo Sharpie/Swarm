@@ -1,5 +1,8 @@
 1999-06-08  Alex Lancaster  <alex@santafe.edu>
 
+	* collections.h (ArchiverPair): Add -{set,get}ConsFormatFlag
+	method to protocol.
+
 	* InputStream.m ([ArchiverList_c -lispOutDeep:]): Handle
 	cons_literal_p, list_literal_p cases.  Also handle the custom
 	PARSE_FUNCTION_NAME case in place of the usual
