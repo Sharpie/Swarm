@@ -532,6 +532,9 @@
 (define book-titlepage-verso-elements common-titlepage-verso-elements)
 (define set-titlepage-recto-elements common-titlepage-recto-elements)
 (define set-titlepage-verso-elements common-titlepage-verso-elements)
+;; This is so that each modules gets its revision history included.
+(define reference-titlepage-recto-elements common-titlepage-recto-elements)
+(define reference-titlepage-verso-elements common-titlepage-verso-elements)
 
 (define (releaseinfo)
     (sosofo-append

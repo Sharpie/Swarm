@@ -1,5 +1,8 @@
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* common.dsl: Revert 1998-09-15 change; it's needed in order
+	to get revision histories for each module.
+
 	* macros.tex: Disable insertParagraphBreak, PageColumnSep, lt, gt,
 	Entity, endDisplayNIC, and insertExternalGraphic, since they
 	appear to be fixed with jadetex 2.2.
