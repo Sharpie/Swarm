@@ -1,6 +1,6 @@
 AC_INIT(history.el)
 
-AM_INIT_AUTOMAKE(swarmdocs, 2.0.1)
+AM_INIT_AUTOMAKE(swarmdocs, 2.1)
 
 AM_MAINTAINER_MODE()
 

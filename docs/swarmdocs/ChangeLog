@@ -1,3 +1,11 @@
+2000-02-29    <mgd@nest.swarm.org>
+
+	* Swarmdocs 2.1 frozen.
+
+	* configure.in: Bump version.
+
+	* globals.ent: Update for SDG.
+
 2000-02-28  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note 2.1 changes.
