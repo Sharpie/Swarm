@@ -1,5 +1,5 @@
 <!entity analysiscont.sgml system "@srcdir@/analysiscont.sgml">
-<!entity analysisrevhistory.sgml system "@srcdir@/analysisrevhistory.sgml">
+<!entity analysisrevhistory.sgml system "analysisrevhistory.sgml">
 <!entity analysismeta.sgml system "@srcdir@/analysismeta.sgml">
 <!entity analysis00.sgml system "@srcdir@/analysis00.sgml">
 <!entity analysispages.sgml system "analysispages.sgml">

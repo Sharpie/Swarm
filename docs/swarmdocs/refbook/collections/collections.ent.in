@@ -1,5 +1,5 @@
 <!entity collectionscont.sgml system "@srcdir@/collectionscont.sgml">
-<!entity collectionsrevhistory.sgml system "@srcdir@/collectionsrevhistory.sgml">
+<!entity collectionsrevhistory.sgml system "collectionsrevhistory.sgml">
 <!entity collectionsmeta.sgml system "@srcdir@/collectionsmeta.sgml">
 <!entity collections00.sgml system "@srcdir@/collections00.sgml">
 <!entity collectionspages.sgml system "collectionspages.sgml">

@@ -1,5 +1,5 @@
 <!entity simtoolsguicont.sgml system "@srcdir@/simtoolsguicont.sgml">
-<!entity simtoolsguirevhistory.sgml system "@srcdir@/simtoolsguirevhistory.sgml">
+<!entity simtoolsguirevhistory.sgml system "simtoolsguirevhistory.sgml">
 <!entity simtoolsguimeta.sgml system "@srcdir@/simtoolsguimeta.sgml">
 <!entity simtoolsgui00.sgml system "@srcdir@/simtoolsgui00.sgml">
 <!entity simtoolsguipages.sgml system "simtoolsguipages.sgml">
