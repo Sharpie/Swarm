@@ -252,9 +252,9 @@
         (insert "<ITEMIZEDLIST>\n"))
       (loop with last-protocol = nil
             for methodinfo in methodinfo-list
-            for level = (first methodinfo)
-            for owner-protocol = (second methodinfo)
-            for method = (third methodinfo)
+            for level = (methodinfo-level methodinfo)
+            for owner-protocol = (methodinfo-protocol methodinfo)
+            for method = (methodinfo-method methodinfo)
             for new-group-flag = (not (eq owner-protocol last-protocol))
             
             when new-group-flag do
