@@ -75,7 +75,7 @@ Library:      collections
 // Stubs for protocol compliance
 - setOffset: (int)offset;
 - (int)getOffset;
-- (void)setLoc: locSymbol;
+- (void)setLoc: (id <Symbol>)locSymbol;
 - put: anObject;
 - remove;
 - prev;
@@ -100,7 +100,7 @@ Library:      collections
 - put: anObject;
 - remove;
 - (id <Symbol>)getLoc;
-- (void)setLoc: locSymbol;
+- (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
 - setOffset: (int)offset;
 @end

@@ -68,7 +68,7 @@ struct link {
 - replace: anObject;
 - remove;
 - (id <Symbol>)getLoc;
-- (void)setLoc: locSymbol;
+- (void)setLoc: (id <Symbol>)locSymbol;
 - (int)getOffset;
 - setOffset: (int)offset;
 - (void)addAfter: anObject;

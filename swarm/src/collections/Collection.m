@@ -388,7 +388,7 @@ PHASE(Using)
   return nil;
 }
 
-- (void)setLoc: locsym
+- (void)setLoc: (id <Symbol>)locsym
 {
   raiseEvent (SubclassMustImplement, "setLoc: not implemented");
 }
@@ -545,7 +545,7 @@ PHASE(Using)
   return loc;
 }
 
-- (void)setLoc: locSymbol
+- (void)setLoc: (id <Symbol>)locSymbol
 {
   return [index setLoc: locSymbol];
 }
