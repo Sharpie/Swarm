@@ -39,7 +39,6 @@ Library:      collections
 - lispOutDeep: stream;
 - hdf5In: hdf5Obj;
 - hdf5OutShallow: hdf5Obj;
-- hdf5OutDeep: hdf5Obj;
 - (void)describe: outputCharStream;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

@@ -6,6 +6,8 @@
 	([Map_c -allStringKeys]): New method.
 	([Map_c -hdf5OutDeep:]): Use it, handle String keys.
 	([Map_c -hdf5In:]): Handle String case.
+	
+	* StringObject.[hm]: Remove hdf5OutDeep:.
 
 1999-01-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
