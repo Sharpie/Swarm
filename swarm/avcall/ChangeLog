@@ -1,8 +1,5 @@
 1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* avcall.h.in:  Gcc can define __mips64__ and __mips__ together.
-	Exclude code previously included when they were both set.
-
 	* avcall.m4 (CL_CANONICAL_HOST_FOR_FCALL): Map hppa2.0w to hppa.
 
 	* configure.in (CL_CANONICAL_HOST_CPU_FOR_FFCALL): Move down

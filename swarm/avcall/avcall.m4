@@ -285,8 +285,8 @@ changequote([,])dnl
   mips )
     AC_CACHE_CHECK([for 64-bit MIPS], cl_cv_host_mips64, [
 AC_EGREP_CPP(yes,
-[#if defined(_MIPS_SZINT)
-#if (_MIPS_SZINT == 64)
+[#if defined(_MIPS_SZLONG)
+#if (_MIPS_SZLONG == 64)
 /* We should also check for (_MIPS_SZPTR == 64), but gcc keeps this at 32. */
   yes
 #endif
