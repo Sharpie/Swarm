@@ -521,7 +521,10 @@ create_class_from_compound_type (id aZone,
       create_class_from_compound_type (aZone, tid, did, name, &class);
       {
 #ifdef HAVE_JDK
-        jclass clazz = SD_JAVA_FINDJAVACLASS (class);
+        jclass clazz = 0;
+
+        if (swarmDirectory)
+          clazz = SD_JAVA_FINDJAVACLASS (class);
 
         if (clazz && !java_objc_proxy_p (clazz))
           prototype = SD_JAVA_INSTANTIATE (clazz)->object;
@@ -930,7 +933,7 @@ PHASE(Creating)
 #ifdef HAVE_HDF5
 static herr_t
 ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
-            size_t count, size_t stride, 
+            size_t count, size_t stride, size_t bkg_stride,
             void *buf, void *bkg,
             hid_t dset_xfer_plid)
 {
@@ -956,7 +959,7 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 
 static herr_t
 string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
-            size_t count, size_t stride, 
+            size_t count, size_t stride, size_t bkg_stride,
             void *buf, void *bkg, hid_t xfer_plid)
 {
   if (cdata->command == H5T_CONV_CONV)
@@ -1155,12 +1158,14 @@ hdf5_open_dataset (id parent, const char *name, hid_t tid, hid_t sid)
       if (H5Tregister (H5T_PERS_SOFT,
                        REF2STRING_CONV,
                        H5T_STD_REF_OBJ,
-                       H5T_C_S1, ref_string) < 0)
+                       H5T_C_S1,
+                       ref_string) < 0)
         raiseEvent (SaveError, "unable to register ref->string converter");
       if (H5Tregister (H5T_PERS_SOFT,
                        STRING2REF_CONV,
                        H5T_C_S1,
-                       H5T_STD_REF_OBJ, string_ref) < 0)
+                       H5T_STD_REF_OBJ,
+                       string_ref) < 0)
         raiseEvent (LoadError, "unable to register string->ref converter");
     }
   hdf5InstanceCount++;

@@ -1,3 +1,13 @@
+2000-07-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* HDF5Archiver.m ([HDFArchiver_c -sync]): Take care not
+	to cache value of -getApplication -- it changes when switching
+	to write mode.
+
+	* HDF5Object.m ([HDF5CompoundType_c -createEnd]): Don't search
+	for Java class if there isn't a swarmDirectory.
+	(ref_string, string_ref): Add bkg_stride per HDF 1.2.2.
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* java.m, javavars.h (get_swarmEnvironment_field,
