@@ -1,3 +1,7 @@
+2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* acffi.m4: Use libavcall.la in non-cygwin case.
+
 2001-07-22  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* acbuiltinapply.m4 (md_CHECK_BUILTIN_APPLY): Put all contents
