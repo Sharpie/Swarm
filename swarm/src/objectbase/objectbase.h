@@ -277,7 +277,7 @@ typedef struct val {
 
 //D: This is a specialized subclass of the abstract class Probe.
 //D: It completes the specification of a probe that refers to a
-//D message element of an object. 
+//D: message element of an object. 
 
 CREATING
 //M: The setProbedSelector: method sets the message to be probed given
