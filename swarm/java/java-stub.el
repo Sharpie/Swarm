@@ -879,6 +879,7 @@
             (insert "include ../Makefile.rules\n")))))
 
 (defun java-run-all (&key unicode)
+  (setq *java-flag* t)
   (set-dollar-sign unicode)
   (load-and-process-modules :uniquify-method-lists t)
   (java-print-makefiles)
@@ -887,6 +888,7 @@
 (defun java-run-all-javadoc ()
   (interactive)
   (set-dollar-sign t)
+  (setq *java-flag* t)
   (load-and-process-modules :uniquify-method-lists t)
   (ensure-directory (java-path))
   (java-print-javadoc-module-summary)
