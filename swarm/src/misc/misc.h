@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <sys/time.h>
 #ifdef __CYGWIN32__
 int gettimeofday (struct timeval *p, struct timezone *z);
 #endif
@@ -20,6 +21,7 @@ int gettimeofday (struct timeval *p, struct timezone *z);
 /* Expected to be declared by stdlib.h are atoi, getenv, qsort. */
 /* Expected to be declared by unistd.h are access, getpid, and sleep. */
 /* Expected to be declared by time.h are clock, time, and gettimeofday. */
+/* Expected to be declared by sys/time.h. is timeval. */
 
 void *xmalloc (size_t size);
 void *xmalloc_atomic (size_t size);
