@@ -127,7 +127,6 @@
 
  <public publicId="-//SFI Hive//ENTITIES Reference Index//EN" uri="refbook/refindex.xml"/>
  <public publicId="-//SFI Hive//ENTITIES Reference Revision History//EN" uri="refbook/refbookrevhistory.xml"/>
- <public publicId="-//SFI Hive//ENTITIES Grid Turtle Examples//EN" uri="refbook/gridexamples.xml"/>
  
  <public publicId="-//SFI Hive//ENTITIES Swarm Generated Content//EN" uri="refbook/swarmpages.xml"/>
  

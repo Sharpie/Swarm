@@ -20,11 +20,6 @@ AC_ARG_WITH(catalog,
   catalog_file=$withval,
   catalog_file='/etc/xml/catalog')
 
-AC_ARG_WITH(gridturtle,
-[AC_HELP_STRING(--with-gridturtle=DIR,[GridTurtle in DIR [$(swarm_srcdir)/../gridturtle]])],
-  gridturtle_srcdir=$withval,
-  gridturtle_srcdir=$swarm_srcdir/../gridturtle)
-
 AC_ARG_WITH(javadoc,
 [AC_HELP_STRING(--with-javadoc=DIR,[Enable generation of Java documentation using JDK installed in DIR])],
   javadoc=$withval)
@@ -75,8 +70,6 @@ AC_SUBST(swarm_dossrcdir)
 AC_CHECK_FILE($catalog_file,,
 [AC_MSG_ERROR(Failed to find XML catalog at $catalog_file)])
 AC_SUBST(catalog_file)
-
-AC_SUBST(gridturtle_srcdir)
 
 AC_PATH_PROG(EMACS, emacs, missing)
 AC_PATH_PROG(XSLTPROC, xsltproc, missing)

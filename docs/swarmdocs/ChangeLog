@@ -1,5 +1,10 @@
 2003-09-10  Alex Lancaster  <alex@swarm.org>
 
+	* configure.in: Remove --with-gridturtle check.
+
+	* catalog.xml.in: Remove PUBLIC ID "-//SFI Hive//ENTITIES Grid
+	Turtle Examples//EN", no longer used.
+
 	* configure.in: Use new-style autoconf 2.50+ macros that use the
 	AC_HELP_STRING when generating --with-* options.  Use
 	/etc/xml/catalog as default catalog file location.  Check for
