@@ -1,5 +1,7 @@
 1998-06-25  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* VERSION: 1.2, 1.2.0.
+
 	* Makefile.appl.in (SWARMLIBS): Reorder: simtoolsgui and tkobjc
 	after simtools.
 
