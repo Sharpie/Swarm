@@ -80,6 +80,10 @@
 
 ;; customize the html stylesheet
 
+(define %stylesheet%
+  ;; Name of the stylesheet to use. #f = don't make link to text/css in HTML
+  #f)
+
 (define ($generate-book-lot-list$)
   ;; Which Lists of Titles should be produced for Books?
   (list (normalize "table")
