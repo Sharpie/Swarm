@@ -190,8 +190,9 @@
   return self ;
 }
 
--showContent {
-  [probeDisplayManager createProbeDisplayFor: self] ;
+- showContent
+{
+  createProbeDisplay (self);
   return self ;
 }
 

@@ -1,5 +1,7 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* DiGraphNode.m ([DiGraphNode -showContent]): Use createProbeDisplay.
+
 	* Makefile (SWARMHOME): Bump to version 1.0.5.
 
 1998-01-12  Alex Lancaster  <alex@santafe.edu>
