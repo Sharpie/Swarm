@@ -35,12 +35,6 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
     public ActivityControlImpl observerActCont;
     public ActionGroupImpl displayActions;
 
-    public void nag (String s)
-    {
-        System.out.println (getClass ().getName () + ":" + s);
-        System.out.flush ();
-    }
-
     /**
      * MousetrapObserverSwarm constructor: since we are only interested in
      * subclassing from the `USING' phase object, this constructor does
@@ -52,15 +46,11 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
         EmptyProbeMapImpl probeMap;
         
         displayFrequency = 1;
-        nag ("Observer: probeMap");
-        probeMap = new EmptyProbeMapImpl (aZone, getClass());
+        probeMap = new EmptyProbeMapImpl (aZone, getClass ());
 
-        nag ("Observer: probeMap addProbe\n");
         probeMap.addProbe 
             (Globals.env.probeLibrary.getProbeForVariable$inClass
              ("displayFrequency", getClass ()));
-        
-        nag("Observer: probeLibrary.setProbeMap$For");
         
         Globals.env.probeLibrary.setProbeMap$For (probeMap, getClass ());
     }
@@ -75,12 +65,11 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
       for (x = 0; x < size; x++)
         for (y = 0; y < size; y++) {
           Mousetrap trap = mousetrapModelSwarm.getMousetrapAtX$Y (x, y);
-          if (trap != null)
-            {
-              if (displayWindow != null)
-                displayWindow.drawPointX$Y$Color (x, y, (byte) 1);
-                        trap.setDisplayWidget (displayWindow);
-            }
+          if (trap != null) {
+            if (displayWindow != null)
+              displayWindow.drawPointX$Y$Color (x, y, (byte) 1);
+            trap.setDisplayWidget (displayWindow);
+          }
         }
       return this;
     }
@@ -97,7 +86,6 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
     return this;
   }
   
-  
   /**
    * Create the objects used in the display of the model.  Here, we
    * create the objects used in the experiment. Primarily, the
@@ -113,7 +101,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
     
     getActionCache ().waitForControlEvent ();
     
-    if (getControlPanel ().getState() == Globals.env.ControlStateQuit)
+    if (getControlPanel ().getState () == Globals.env.ControlStateQuit)
       return this;
     
     mousetrapModelSwarm.buildObjects ();
@@ -123,26 +111,24 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
     colormap.setColor$ToGrey ((byte) 1, 0.3);
     colormap.setColor$ToName ((byte) 2, "red");
     
-    triggerGraph = 
-      new EZGraphImpl (getZone (),
-                       "Trigger data vs. time",  
-                       "number triggered",
-                       "time");
+    triggerGraph = new EZGraphImpl (getZone (),
+                                    "Trigger data vs. time",  
+                                    "number triggered",
+                                    "time");
     
     Globals.env.setWindowGeometryRecordName (triggerGraph);
     
     try {
-      Selector s1, s2;
-      s1 = new Selector (mousetrapModelSwarm.getStats ().getClass (),
-                         "getNumTriggered", false);
       triggerGraph.createSequence$withFeedFrom$andSelector 
-        ("Total triggered", mousetrapModelSwarm.getStats (),
-         s1);
-      s2 = new Selector (mousetrapModelSwarm.getStats ().getClass (),
-                         "getNumBalls", false);
+        ("Total triggered",
+         mousetrapModelSwarm.getStats (),
+         new Selector (mousetrapModelSwarm.getStats ().getClass (),
+                       "getNumTriggered", false));
       triggerGraph.createSequence$withFeedFrom$andSelector 
-        ("Pending triggers", mousetrapModelSwarm.getStats (),
-         s2);
+        ("Pending triggers",
+         mousetrapModelSwarm.getStats (),
+         new Selector (mousetrapModelSwarm.getStats ().getClass (),
+                       "getNumBalls", false));
     } catch (Exception e) { 
       System.out.println ("Exception trigger : " + e.getMessage ());
     }
@@ -152,11 +138,10 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
     Globals.env.setWindowGeometryRecordName (displayWindow);
     
     try {
-      Selector s;
-      s = new Selector (getClass (), "_displayWindowDeath_", false);
       
       displayWindow.
-        enableDestroyNotification$notificationMethod (this, s);
+        enableDestroyNotification$notificationMethod
+        (this, new Selector (getClass (), "_displayWindowDeath_", false));
     } catch (Exception e) {
       System.out.println ("Exception display window: " + e.getMessage ());
     }
@@ -170,23 +155,20 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
     displayWindow.pack();
     
     try {
-      Selector s =
-        new Selector (Class.forName ("Mousetrap"), "noMethod", false);
-      
-      mousetrapDisplay =
-        new Object2dDisplayImpl (getZone (), 
-                                 (Object) displayWindow, 
-                                 (Object) mousetrapModelSwarm.getWorld (),
-                                 s);
+      mousetrapDisplay = new Object2dDisplayImpl
+        (getZone (), 
+         (Object) displayWindow, 
+         (Object) mousetrapModelSwarm.getWorld (),
+         new Selector (Class.forName ("Mousetrap"), "noMethod", false));
     }
     catch (Exception e) {
       System.out.println ("Exception no method:" + e.getMessage());
     }
     
     try  {
-      Selector s = new Selector (mousetrapDisplay.getClass (),
-                                 "makeProbeAtX$Y", true);
-      displayWindow.setButton$Client$Message (3, mousetrapDisplay, s);
+      displayWindow.setButton$Client$Message
+        (3, mousetrapDisplay, 
+         new Selector (mousetrapDisplay.getClass (), "makeProbeAtX$Y", true));
     } catch (Exception e)  {
       System.out.println ("Exception makeProbeAtX$Y$ ZoomRasterImpl: " 
                           + e.getMessage());
@@ -208,39 +190,36 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
    * independent from the model - in particular, you will also want to
    * run the model without any display.  */
   public Object buildActions () {
-    Selector s;
-    
     super.buildActions ();
     mousetrapModelSwarm.buildActions ();
     
     displayActions = new ActionGroupImpl (getZone ());
-    
     displaySchedule = new ScheduleImpl (getZone (), displayFrequency);
     
     try {
-      s = new Selector (getClass (), "_update_", false);
-      displayActions.createActionTo$message (this, s);
+      displayActions.createActionTo$message
+        (this, new Selector (getClass (), "_update_", false));
       
-      s = new Selector (triggerGraph.getClass(), "step", true);
-      displayActions.createActionTo$message (triggerGraph, s);
+      displayActions.createActionTo$message
+        (triggerGraph, 
+         new Selector (triggerGraph.getClass(), "step", true));
       
-      s = new Selector (Globals.env.probeDisplayManager.getClass (), 
-                        "update", true);
-      displayActions.createActionTo$message 
-        (Globals.env.probeDisplayManager,  s);
+      displayActions.createActionTo$message
+        (Globals.env.probeDisplayManager,  
+         new Selector (Globals.env.probeDisplayManager.getClass (), 
+                       "update", true));
       
-      s = new Selector (getClass (), "checkToStop", true);
-      displayActions.createActionTo$message (this, s);
+      displayActions.createActionTo$message
+        (this, new Selector (getClass (), "checkToStop", true));
       
-      s = new Selector (getActionCache ().getClass (), 
-                        "doTkEvents", true);
-      displayActions.createActionTo$message (getActionCache (), s);
+      displayActions.createActionTo$message
+        (getActionCache (),
+         new Selector (getActionCache ().getClass (), "doTkEvents", true));
       
       displaySchedule.at$createAction (0, displayActions);
     } catch (Exception e) {
-      System.out.println ("Exception doTkE: " + e.getMessage ());
+      System.out.println ("Exception: " + e.getMessage ());
     }
-    
     return this;
   }
   
@@ -271,11 +250,10 @@ public class MousetrapObserverSwarm extends GUISwarmImpl
    * monitor method - if all the balls have landed, time to quit!
    **/
   public Object checkToStop () {
-    if (mousetrapModelSwarm.getStats ().getNumBalls () == 0)
-      {
-        System.out.println ("All balls have landed!\n");
-        getControlPanel ().setStateStopped ();
-      }
+    if (mousetrapModelSwarm.getStats ().getNumBalls () == 0) {
+      System.out.println ("All balls have landed!\n");
+      getControlPanel ().setStateStopped ();
+    }
     return this;
   }
 }

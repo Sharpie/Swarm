@@ -14,7 +14,6 @@ import swarm.analysis.*;
 import swarm.space.*;
 import swarm.random.*;
 
-
 /** 
  * The MousetrapModelSwarm defines the mousetrap world. All of the
  * structures specific to the model are built and scheduled here.
@@ -38,24 +37,34 @@ public class MousetrapModelSwarm extends SwarmImpl
   
   public PMMLCG1genImpl randomGenerator;
   public UniformDoubleDistImpl uniform0to1;
-    
-  public void nag (String s)
-  {
-    System.out.println (this.getClass().getName() + ":" + s);
-    System.out.flush ();
-  }
 
+  class MousetrapProbeMap extends EmptyProbeMapImpl {
+    private VarProbeImpl probeVariable (String name) {
+      return
+        Globals.env.probeLibrary.getProbeForVariable$inClass
+        (name, MousetrapModelSwarm.this.getClass ());
+    }
+    private void add (String name) {
+      addProbe (probeVariable (name));
+    }
+    public MousetrapProbeMap (ZoneImpl aZone, Class aClass) {
+      super (aZone, aClass);
+      add ("triggerLikelihood");
+      add ("numberOutputTriggers");
+      add ("maxTriggerDistance");
+      add ("maxTriggerTime");
+      add ("trapDensity");
+    }
+  }
+  
   /**
    * MousetrapModelSwarm constructor: since we are only interested
    * in subclassing from the `USING' phase object, this constructor
    * does the work of the createBegin, createEnd methods in Objective
    * C */
-  public MousetrapModelSwarm (ZoneImpl aZone)
-  {
-    super(aZone);
-    
-    // in Objective C implementation, this normally goes in a
-    // `createBegin' method
+
+  public MousetrapModelSwarm (ZoneImpl aZone) {
+    super (aZone);
     
     gridSize = 50;
     triggerLikelihood = 1.0;
@@ -63,94 +72,56 @@ public class MousetrapModelSwarm extends SwarmImpl
     maxTriggerDistance = 4;
     maxTriggerTime = 16;
     trapDensity = 1.0;
-    
-    nag ("Model: EmptyProbeMap");
-    EmptyProbeMapImpl probeMap = new EmptyProbeMapImpl(aZone, this.getClass());
 
-    nag ("add probe");
-    probeMap.addProbe 
-      (Globals.env.probeLibrary.getProbeForVariable$inClass 
-       ("gridSize", this.getClass()));
-    probeMap.addProbe 
-      (Globals.env.probeLibrary.getProbeForVariable$inClass 
-       ("triggerLikelihood", this.getClass()));
-    probeMap.addProbe 
-      (Globals.env.probeLibrary.getProbeForVariable$inClass 
-       ("numberOutputTriggers", this.getClass()));
-    probeMap.addProbe 
-      (Globals.env.probeLibrary.getProbeForVariable$inClass 
-       ("maxTriggerDistance", this.getClass()));
-    probeMap.addProbe 
-      (Globals.env.probeLibrary.getProbeForVariable$inClass 
-       ("maxTriggerTime", this.getClass()));
-    probeMap.addProbe 
-      (Globals.env.probeLibrary.getProbeForVariable$inClass 
-       ("trapDensity", this.getClass()));
+    Globals.env.probeLibrary.setProbeMap$For 
+      (new MousetrapProbeMap (aZone, getClass ()), getClass ());
 
-    Globals.env.probeLibrary.setProbeMap$For (probeMap, this.getClass());
-
-    // in Objective C implementation, the following normally goes in a
-    // `createEnd' method
-
-    randomGenerator = 
-        new PMMLCG1genImpl (aZone, 1234567890);
-
-    uniform0to1 = new UniformDoubleDistImpl (aZone, randomGenerator, 0.0, 1.0 );
-    
+    randomGenerator = new PMMLCG1genImpl (aZone, 1234567890);
+    uniform0to1 = new UniformDoubleDistImpl (aZone, randomGenerator, 0.0, 1.0);
   }
 
-  public MousetrapStatistics getStats ()
-  {
+  public MousetrapStatistics getStats () {
     return stats;
   }
 
-  public int getGridSize ()
-  {
+  public int getGridSize () {
     return gridSize;
   }
 
-  public double getTriggerLikelihood ()
-  {
+  public double getTriggerLikelihood () {
     return triggerLikelihood;
   }
 
-  public int getNumberOutputTriggers ()
-  {
+  public int getNumberOutputTriggers () {
     return numberOutputTriggers;
   }
   
-  public int getMaxTriggerDistance ()
-  {
+  public int getMaxTriggerDistance () {
     return maxTriggerDistance;
   }
 
-  public int getMaxTriggerTime ()
-  {
+  public int getMaxTriggerTime () {
     return maxTriggerTime;
   }
 
-  public Grid2dImpl getWorld ()
-  {
+  public Grid2dImpl getWorld () {
     return grid;
   }
   
-  public Object getSchedule ()
-  {
+  public Object getSchedule () {
     return modelSchedule;
   }
 
-  public Mousetrap getMousetrapAtX$Y (int x, int y)
-  {
-    return (Mousetrap) grid.getObjectAtX$Y (x,y);
+  public Mousetrap getMousetrapAtX$Y (int x, int y) {
+    return (Mousetrap) grid.getObjectAtX$Y (x, y);
   }
 
   /**
    * Building of the model objects. We use various parameters set via
    * the constructor, to choose how to create things. */
-  public Object buildObjects()
-  {
+  public Object buildObjects () {
     int x, y;
-
+    
     super.buildObjects();
     
     stats = new MousetrapStatistics ();
@@ -159,7 +130,7 @@ public class MousetrapModelSwarm extends SwarmImpl
     for (y = 0; y < gridSize; y++)
       for (x = 0; x < gridSize; x++)
         if (trapDensity >= 1.0 || 
-            (float)(uniform0to1.getDoubleSample ()) < trapDensity) {
+            (float) (uniform0to1.getDoubleSample ()) < trapDensity) {
           Mousetrap aMousetrap;
                     
           aMousetrap = new Mousetrap (this, x, y, randomGenerator);
@@ -183,7 +154,7 @@ public class MousetrapModelSwarm extends SwarmImpl
     super.buildActions();
     modelSchedule = new ScheduleImpl (getZone (), true);
     scheduleTriggerAt$For (0, (Mousetrap) grid.getObjectAtX$Y 
-                           (gridSize/2, gridSize/2));
+                           (gridSize / 2, gridSize / 2));
     
     stats.addOneBall();
     return this;
@@ -199,13 +170,13 @@ public class MousetrapModelSwarm extends SwarmImpl
   {
     try {
       modelSchedule.at$createActionTo$message 
-        (n, trap, new Selector (trap.getClass(), "trigger", false));
+        (n, trap, new Selector (trap.getClass (), "trigger", false));
     } catch (Exception e) { 
-      System.out.println ("Exception:" + e.getMessage());
+      System.out.println ("Exception:" + e.getMessage ());
     }
     return this;
   }
-
+  
   /**
    * Now set up the model's activation. swarmContext indicates where
    * we're being started in - typically, this model is run as a
@@ -216,12 +187,12 @@ public class MousetrapModelSwarm extends SwarmImpl
     modelSchedule.activateIn (this);
    
     modelActCont = new ActivityControlImpl (getZone ());
-    modelActCont.attachToActivity (this.getActivity());
+    modelActCont.attachToActivity (getActivity ());
 
     modelActCont.setDisplayName ("Model Swarm Controller");
 
     Globals.env.createArchivedProbeDisplay (modelActCont);
         
-    return this.getActivity();
+    return getActivity ();
   }
 }

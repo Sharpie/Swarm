@@ -1,3 +1,10 @@
+1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MousetrapModelSwarm.java (MousetrapProbeMap): New inner class.
+
+	* MousetrapObserverSwarm.java, MousetrapModelSwarm.java: Eliminate
+	intermediate variables, misc. cleanups.
+
 1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MousetrapModelSwarm.java, MousetrapBatchSwarm.java,
