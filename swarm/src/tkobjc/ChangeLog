@@ -1,3 +1,9 @@
+1998-09-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (tkobjc_animate_message): Add support for Win32. 
+	(tkobjc_animate_message, win32_pixmap_create_from_window,
+	keep_inside_screen):  Use HWND_DESKTOP instead of GetDesktopWindow.
+
 1998-09-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (tkobjc_animate_message): Handle stepFactors
@@ -86,7 +92,7 @@
 	keep_inside_screen before check_for_overlaps so that
 	coordinate comparisons will be what they ultimately must.
 	In Win32 version, call keep_inside_screen with topWindow.
-	Call keep_Use SetWindowPos to make topWindow topmost for snapshot.
+	Call SetWindowPos to make topWindow topmost for snapshot.
 	Do Tk sync and GdiFlush before snapshot.
 
 1998-09-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>

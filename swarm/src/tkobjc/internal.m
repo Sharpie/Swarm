@@ -156,6 +156,10 @@ tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
 XImage *triggerImage = NULL;
 XImage *scheduleImage = NULL;
 GC gc;
+#else
+HBITMAP triggerImage = NULL;
+HBITMAP scheduleImage = NULL;
+#define ANIMATEDMESSAGE "AnimatedMessage"
 #endif
 
 void
@@ -166,18 +170,18 @@ tkobjc_animate_message (id srcWidget,
                         BOOL triggerFlag,
                         unsigned sleepTime)
 {
-#ifndef _WIN32
   Tk_Window src_tkwin = tkobjc_nameToWindow ([srcWidget getWidgetName]);
   Tk_Window dest_tkwin = tkobjc_nameToWindow ([destWidget getWidgetName]);
+  int nsx, nsy, ndx, ndy;
+  unsigned width, height;
+
+#ifndef _WIN32
   Display *display = Tk_Display (src_tkwin);
   Window rootWindow = RootWindowOfScreen (Tk_Screen (src_tkwin));
   Window window;
-  int nsx, nsy, ndx, ndy;
-  unsigned width, height;
   XImage *image;
 
   XFlush (display);
-
   {
     Window child;
     XTranslateCoordinates (display, 
@@ -187,7 +191,28 @@ tkobjc_animate_message (id srcWidget,
                            Tk_WindowId (dest_tkwin), rootWindow,
                            dx, dy, &ndx, &ndy, &child);
   }
+#else
+  HWND hwnd; 
+  HBITMAP image;
+
+  GdiFlush ();
   
+  {
+    RECT rect;
+
+    if (!GetWindowRect (TkWinGetHWND (Tk_WindowId (src_tkwin)), &rect))
+      abort ();
+    nsx = rect.left + sx;
+    nsy = rect.top + sy;
+    if (!GetWindowRect (TkWinGetHWND (Tk_WindowId (dest_tkwin)), &rect))
+      abort ();
+    ndx = rect.left + dx;
+    ndy = rect.top + dy;
+  }
+    
+#endif
+  
+#ifndef _WIN32
   if (scheduleImage == NULL)
     {
       XImage *shapemask;
@@ -199,8 +224,8 @@ tkobjc_animate_message (id srcWidget,
       gc = XCreateGC (display, RootWindowOfScreen (screen), 0, NULL);
     }
   image = triggerFlag ? triggerImage : scheduleImage;
-  width = triggerImage->width;
-  height = triggerImage->height;
+  width = image->width;
+  height = image->height;
   {
     XSetWindowAttributes attr;
 
@@ -212,6 +237,50 @@ tkobjc_animate_message (id srcWidget,
     XMapWindow (display, window);
     XPutImage (display, window, gc, image, 0, 0, 0, 0, width, height);
   }
+#else
+  if (scheduleImage == NULL)
+    {
+      scheduleImage = LoadImage (NULL, (LPCTSTR)OBM_DNARROW, IMAGE_BITMAP,
+				 0, 0, LR_CREATEDIBSECTION);
+      if (scheduleImage == NULL)
+	abort ();
+      triggerImage = LoadImage (NULL, (LPCTSTR)OBM_UPARROW, IMAGE_BITMAP,
+				0, 0, LR_CREATEDIBSECTION);
+      if (triggerImage == NULL)
+	abort ();
+      {
+	WNDCLASS wndclass;
+
+	wndclass.style = CS_NOCLOSE;
+	wndclass.lpfnWndProc = DefWindowProc;
+	wndclass.cbClsExtra = 0;
+	wndclass.cbWndExtra = 0;
+	wndclass.hInstance = Tk_GetHINSTANCE ();
+	wndclass.hIcon = NULL;
+	wndclass.hCursor = NULL;
+	wndclass.hbrBackground = NULL;
+	wndclass.lpszMenuName = NULL;
+	wndclass.lpszClassName = ANIMATEDMESSAGE;
+	if (RegisterClass (&wndclass) == 0)
+	  abort();
+      }
+    }
+  image = triggerFlag ? triggerImage : scheduleImage;
+  {
+    BITMAP bitmap;
+
+    GetObject (image, sizeof (bitmap), (LPVOID)&bitmap);
+    width = bitmap.bmWidth;
+    height = bitmap.bmHeight;
+  }
+  
+  hwnd = CreateWindow (ANIMATEDMESSAGE, "Message Window", 
+		       WS_POPUP, nsx, nsy, width, height,
+		       HWND_DESKTOP, NULL, 
+		       Tk_GetHINSTANCE (), NULL);
+  if (hwnd == NULL)
+    abort ();
+#endif
   {
     double stepFactor = 2.0;
     int xstep = width * stepFactor;
@@ -232,6 +301,8 @@ tkobjc_animate_message (id srcWidget,
       int y = nsy;
       int i;
 
+      if (steps == 0)
+	steps = 1;
       xstep = xdiff / (int)steps;
       ystep = ydiff / (int)steps;
       if (xstep == 0)
@@ -241,17 +312,43 @@ tkobjc_animate_message (id srcWidget,
     
       for (i = 0; i < steps; i++)
         {
+#ifndef _WIN32
           XMoveWindow (display, window, x, y);
+#else
+	  SetWindowPos (hwnd,
+			HWND_TOPMOST, x, y, 0, 0,
+			SWP_NOSIZE | SWP_SHOWWINDOW);
+
+	  {
+	    PAINTSTRUCT ps;
+	    HDC destDC = BeginPaint (hwnd, &ps);
+	    HDC sourceDC = CreateCompatibleDC (destDC);
+	    
+	    SelectObject (sourceDC, image);
+	    if (BitBlt (destDC, 0, 0, width, height, sourceDC, 0, 0, SRCCOPY)
+		== FALSE)
+	      abort ();
+	    DeleteDC (sourceDC);
+	    EndPaint (hwnd, &ps);
+	  }
+#endif
           if (triggerFlag && sleepTime)
             Tcl_Sleep (sleepTime);
           while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+#ifndef _WIN32
           XFlush (display);
+#else
+	  GdiFlush ();
+#endif
           x += xstep;
           y += ystep;
         }
     }
   }
+#ifndef _WIN32
   XDestroyWindow (display, window);
+#else
+  DestroyWindow (hwnd);
 #endif
 }
 
@@ -701,7 +798,7 @@ win32_pixmap_create_from_window (Pixmap *pixmap,
 {
   dib_t *dib = dib_create ();
   dib->window = (!window
-		 ? GetDesktopWindow () 
+		 ? HWND_DESKTOP
 		 : (!decorationsFlag
 		    ? TkWinGetHWND (window)
 		    : (HWND)window));
@@ -774,7 +871,7 @@ keep_inside_screen (Tk_Window tkwin, Window window)
   x = rect.left;
   y = rect.top;
 
-  if (GetWindowRect (GetDesktopWindow (), &rootrect) == FALSE)
+  if (GetWindowRect (HWND_DESKTOP, &rootrect) == FALSE)
     [PixmapError raiseEvent: "Cannot get geometry for desktop"];
 
   rx = rootrect.left;
