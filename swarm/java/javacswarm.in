@@ -20,6 +20,7 @@ else
   classpath=".${PS}${swarmclassdir}${PS}${JAVACLASSES}${PS}$CLASSPATH"
 fi
 
+jdkdir=@jdkdir@
 JAVAC=@JAVAC@
 
 eval "$JAVAC -classpath $classpath $*"
