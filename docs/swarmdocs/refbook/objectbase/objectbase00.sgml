@@ -30,9 +30,8 @@
         from a GUI. Despite this intimacy, probes are intended to be a
         general purpose mechanism for <EMPHASIS>any</EMPHASIS> agent
         or device to interact dynamically with
-        <EMPHASIS>Swarm</EMPHASIS> objects. This <EMPHASIS><LINK
-        LINKEND="SWARM.PROBING.SGML.APPENDIX">Introduction to Probes
-        Appendix</LINK></EMPHASIS> will explain more about the
+        <EMPHASIS>Swarm</EMPHASIS> objects.  The Probes section in the
+        &userbook; will explain more about the
         reasoning and purpose behind probes.
       </PARA>
     </FORMALPARA>
@@ -313,10 +312,7 @@
 
       <PARA>The reasons for doing this are related to the object phase
         protocols used by <EMPHASIS>defobj</EMPHASIS>.  If you would
-        like more info on that, see <LINK
-        LINKEND="SWARM.TECH.SGML.SECT1.SWARMOBJC">Objective C - Swarm
-        Style</LINK> in the section entitled <EMPHASIS>The Create
-        Phase In Principle</EMPHASIS>.
+        like more info on that, see the &userbook;.
       </PARA>
 
       <PARA>Finally, the <LITERAL>@end</LITERAL> keyword signifies the

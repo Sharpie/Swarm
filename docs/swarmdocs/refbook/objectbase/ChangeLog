@@ -1,3 +1,8 @@
+2000-02-15  Alex Lancaster  <alex@santafe.edu>
+
+	* objectbase00.sgml: Remove LINK to probe APPENDIX, refer reader
+	to Swarm User Guide.
+
 1999-04-07  Alex Lancaster  <alex@santafe.edu>
 
 	* objectbase00.sgml: Fixed erroneous example code that referred to
