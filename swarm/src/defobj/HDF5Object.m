@@ -1737,7 +1737,10 @@ PHASE(Using)
           void *buf = [self _loadDatasetIntoNewBuffer_: obj];
           fcall_type_t type = [self getDatasetType];
           unsigned rank = [self getDatasetRank];
-          unsigned dims[rank];
+          unsigned dims[rank], i;
+
+          for (i = 0; i < rank; i++)
+            dims[i] = [self getDatasetDimension: i];
           
           java_object_setVariable (jobj, ivarName,
                                    type, rank, dims,

@@ -985,7 +985,9 @@ java_object_setVariable (jobject javaObject, const char *ivarName,
 #undef _SETVALUE
           }
         else
-          abort ();
+          raiseEvent (InvalidArgument,
+                      "ivar %s fcall_type: %u rank: %u dims[0]: %u\n",
+                      ivarName, type, rank, dims[0]);
       }
     (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
   }
