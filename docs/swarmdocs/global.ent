@@ -72,6 +72,8 @@ mailing lists page</ulink>'>
       <holder>&orgname;</holder>
     </copyright>">
 
+<!ENTITY gfdl.xml PUBLIC "-//SFI Hive//ENTITIES GNU FDL//EN">
+
 <!--
 Local variables: 
 mode: text

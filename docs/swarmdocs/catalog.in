@@ -155,5 +155,7 @@ PUBLIC "-//SFI Hive//ENTITIES Installing Revision History//EN" installbook/insta
 PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN" @top_dossrcdir@/set/setmeta.xml
 PUBLIC "-//SFI Hive//ENTITIES Set Revision History//EN" set/setrevhistory.xml
 
+PUBLIC "-//SFI Hive//ENTITIES GNU FDL//EN" @top_dossrcdir@/gfdl.xml
+
 SGMLDECL "@top_dossrcdir@/docbook.dcl"
 

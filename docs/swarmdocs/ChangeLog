@@ -1,5 +1,13 @@
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
+	* gfdl.xml: Renamed and XML-ified from fdl.sgml.
+
+	* fdl.sgml: Removed.
+
+	* global.ent: Make gfdl.xml a PUBLIC entity available globally.
+
+	* catalog.in: Extract PUBLIC id for gfdl.xml
+
 	* common.dsl: Use lowercase for all XML element and attribute
 	lookups throughout.
 	(common-titlepage-recto-elements): Change <graphic> to
