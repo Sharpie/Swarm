@@ -938,6 +938,9 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 	  }
       }
     else
+#ifndef _WIN32
+        abort ();
+#else
       {
 	unsigned yi;
 	    
@@ -959,6 +962,7 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
 	    row_pointers[yi] = (png_bytep)ybasedest;
 	  }
       }
+#endif
     
     if (ncolors == -1 || ncolors > 256)
       {

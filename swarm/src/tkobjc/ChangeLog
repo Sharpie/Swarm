@@ -1,5 +1,7 @@
 1998-09-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* internal.m (tkobjc_pixmap_save): Abort if ncolors == -1 in X11 case.
+
 	* win32dib.c: Use XFREE instead of xfree throughout.
 	Use LPBYTE instead of BYTE * throughout.
 	(dib_create): Initialize new slot colorMap to NULL.
