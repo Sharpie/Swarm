@@ -9,7 +9,7 @@
   <SECT1>
     <TITLE>Overview</TITLE>
     
-    <FIGURE>
+    <FIGURE ID="SWARM.PROBING.COMPLETE-PROBE-MAP.FIGURE">
       <TITLE>Complete probe map</TITLE>
       <GRAPHIC ENTITYREF="complete-probe-map" ALIGN="CENTER" SCALE=50></GRAPHIC>
     </FIGURE>
@@ -402,7 +402,7 @@
         serve a dual role, represented by this figure and the previous
         figure:
 
-        <FIGURE>
+        <FIGURE ID="SWARM.PROBING.CUSTOMIZED-PROBE-MAP.FIGURE">
           <TITLE>Customized probe map</TITLE>
           <GRAPHIC ENTITYREF="customized-probe-map" ALIGN="CENTER" SCALE=75></GRAPHIC>
         </FIGURE>
