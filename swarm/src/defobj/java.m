@@ -36,6 +36,9 @@ static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "X" // iid
 };
 
+externvar id id_JavaProxy;
+
+
 const char *
 java_signature_for_fcall_type (fcall_type_t type)
 {
@@ -1465,6 +1468,8 @@ swarm_directory_java_associate_objects_startup (jobject swarmEnvironment)
 void
 swarm_directory_java_associate_objects (jobject swarmEnvironment)
 {
+  extern BOOL swarmGUIMode;
+
   ASSOCIATE (arguments);
 
   ASSOCIATE (hdf5Archiver);
@@ -1497,10 +1502,9 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
   }
 
   {
-    extern id probeLibrary, probeDisplayManager;
+    extern id probeLibrary;
     
     ASSOCIATE (probeLibrary);
-    ASSOCIATE (probeDisplayManager);
   }
    
   {
@@ -1511,17 +1515,22 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
     ASSOCIATE (uniformDblRand);
   }
 
-  {
-    extern id <Symbol> ControlStateRunning, ControlStateStopped,
-      ControlStateStepping, ControlStateQuit,ControlStateNextTime;
-    
-    ASSOCIATE (ControlStateRunning);
-    ASSOCIATE (ControlStateStopped);
-    ASSOCIATE (ControlStateStepping);
-    ASSOCIATE (ControlStateQuit);
-    ASSOCIATE (ControlStateNextTime);
-  }
-
+  if (swarmGUIMode)
+    {
+      extern id probeDisplayManager;
+      
+      extern id <Symbol> ControlStateRunning, ControlStateStopped,
+        ControlStateStepping, ControlStateQuit,ControlStateNextTime;
+      
+      ASSOCIATE (probeDisplayManager);
+      
+      ASSOCIATE (ControlStateRunning);
+      ASSOCIATE (ControlStateStopped);
+      ASSOCIATE (ControlStateStepping);
+      ASSOCIATE (ControlStateQuit);
+      ASSOCIATE (ControlStateNextTime);
+    }
+  
   {
     extern id <Symbol> Initialized, Running, Stopped, Holding, Released, 
       Terminated, Completed;
@@ -1536,7 +1545,6 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
   }
   {
     jfieldID fid;
-    extern BOOL swarmGUIMode;
     
     if (!(fid = (*jniEnv)->GetFieldID (jniEnv, c_SwarmEnvironmentImpl, "guiFlag", "Z")))
       abort ();
@@ -1823,12 +1831,12 @@ swarm_directory_switch_java_entry (ObjectEntry *entry, jobject javaObject)
 }
 
 ObjectEntry *
-swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
+swarm_directory_java_switch_phase (Object_s *nextPhase,
+                                   jobject currentJavaPhase)
 {
   jobject lref = SD_JAVA_NEXTPHASE (currentJavaPhase);
-  id currentPhase = SD_JAVA_FIND_OBJECT_OBJC (currentJavaPhase);
+  Object_s *currentPhase = SD_JAVA_FIND_OBJECT_OBJC (currentJavaPhase);
   ObjectEntry *retEntry;
-  avl_tree *objc_tree = swarmDirectory->object_tree;
   jobject nextJavaPhase = (*jniEnv)->NewGlobalRef (jniEnv, lref);
 
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
@@ -1837,34 +1845,21 @@ swarm_directory_java_switch_phase (id nextPhase, jobject currentJavaPhase)
     {
       id entry = JAVA_OBJECT_ENTRY (currentJavaPhase, nextPhase);
 
-      ObjectEntry **entryptr = 
-        (ObjectEntry **) avl_probe (objc_tree, entry);
-
-      if (*entryptr != entry)
-        abort ();
+      nextPhase->foreignEntry = entry;
 
       swarm_directory_switch_java_entry (entry, nextJavaPhase);
-      {
-        id ret;
-        
-        ret = avl_delete (objc_tree, OBJC_FIND_OBJECT_ENTRY (currentPhase));
-        if (!ret)
-          abort ();
-        swarm_directory_entry_drop (ret);
-      }
-      retEntry = *entryptr;
+
+      swarm_directory_entry_drop (currentPhase->foreignEntry);
+      currentPhase->foreignEntry = NULL;
+
+      retEntry = entry;
     }
   else
     {
-      ObjectEntry *entry =
-        avl_find (objc_tree, OBJC_FIND_OBJECT_ENTRY (nextPhase));
-      
-      if (!entry)
-        abort ();
+      swarm_directory_switch_java_entry (nextPhase->foreignEntry,
+                                         nextJavaPhase);
 
-      swarm_directory_switch_java_entry (entry, nextJavaPhase);
-      
-      retEntry = entry;
+      retEntry = nextPhase->foreignEntry;
     }
   return retEntry;
 }
@@ -2004,26 +1999,9 @@ swarm_directory_java_ensure_selector (jobject jsel)
 jclass
 swarm_directory_objc_find_class_java (Class class)
 {
-  if (swarmDirectory) // for find_java_wrapper_class
-    {
-      jclass clazz;
-      
-      clazz = SD_JAVA_FIND_OBJECT_JAVA (class);
-      
-      if (!clazz)
-        {
-          clazz = find_java_wrapper_class (class);
-          if (clazz)
-            {
-              jclass gclazz = SD_JAVA_ADD_CLASS_JAVA (clazz, class);
-              
-              (*jniEnv)->DeleteLocalRef (jniEnv, clazz);
-              clazz = gclazz;
-            }
-        }
-      return clazz;
-    }
-  return NULL;
+  return (class == id_JavaProxy
+          ? (jclass) SD_JAVA_FIND_OBJECT_JAVA ((id) class)
+          : find_java_wrapper_class (class));
 }
 
 Class
@@ -2040,8 +2018,11 @@ swarm_directory_java_ensure_class (jclass javaClass)
       // if the corresponding class does not exist create new Java Proxy
       
       if (objcClass == nil)
-        objcClass = [JavaProxy create: globalZone];
-      (void) SD_JAVA_ADD_CLASS_JAVA (javaClass, objcClass);
+        {
+          objcClass = [JavaProxy create: globalZone];
+          
+          (void) SD_JAVA_ADD_OBJECT_JAVA (javaClass, objcClass);
+        }
       FREECLASSNAME (className);
     }
   return objcClass;
@@ -2051,7 +2032,7 @@ jobject
 swarm_directory_objc_find_object_java (id object)
 {
   ObjectEntry *entry = swarm_directory_objc_find_object (object);
-
+  
   if (entry)
     {
       if (entry->type == foreign_java)
@@ -2105,9 +2086,8 @@ swarm_directory_objc_ensure_selector_java (jclass jClass, SEL sel)
     }
 }
 
-
 ObjectEntry *
-swarm_directory_java_add_object (jobject lref, id object)
+swarm_directory_java_add_object (jobject lref, Object_s *object)
 {
   jclass class = (*jniEnv)->GetObjectClass (jniEnv, lref);
   jobject javaObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
@@ -2134,7 +2114,7 @@ swarm_directory_java_add_object (jobject lref, id object)
       [m at: entry insert: entry];
     }
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
-  avl_probe (swarmDirectory->object_tree, entry);
+  object->foreignEntry = entry;
   return entry;
 }
 
@@ -2162,9 +2142,8 @@ swarm_directory_java_add_selector (jobject lref, SEL sel)
 }
 
 ObjectEntry *
-swarm_directory_java_switch_objc (id object, jobject javaObject)
+swarm_directory_java_switch_objc (Object_s *object, jobject javaObject)
 {
-  avl_tree *objc_tree = swarmDirectory->object_tree;
   jclass class = (*jniEnv)->GetObjectClass (jniEnv, javaObject);
   ObjectEntry *entry;
 
@@ -2187,16 +2166,8 @@ swarm_directory_java_switch_objc (id object, jobject javaObject)
     }
   if (entry)
     {
-      if (!avl_delete (objc_tree, entry))
-        abort ();
+      entry->object->foreignEntry = NULL;
       entry->object = object;
-      {
-        void **foundEntry;
-        
-        foundEntry = avl_probe (objc_tree, entry);
-        if (*foundEntry != entry)
-          abort ();
-      }
     }
   else
     SD_JAVA_ADD_STRING (javaObject, object);

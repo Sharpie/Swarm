@@ -35,7 +35,7 @@ void swarm_directory_entry_drop (DirectoryEntry *entry);
 @interface ObjectEntry: DirectoryEntry
 {
 @public
-  id object;
+  Object_s *object;
 }
 - setObject: object;
 @end

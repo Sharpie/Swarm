@@ -14,13 +14,16 @@ Library:      defobj
 
 #include <swarmconfig.h> // PTRUINT
 
+@class ObjectEntry;
+
 #ifdef INHERIT_OBJECT
 @interface Object_s: Object <DefinedClass, Serialization, GetName>
 {
 @public
   // Word that contains zone in which object allocated, plus
   // additional bits about the memory allocations for the object.
-  PTRUINT zbits;  
+  PTRUINT zbits;
+  ObjectEntry *foreignEntry;
 }
 #else
 @interface Object_s <DefinedClass, Serialization, GetName>
@@ -31,6 +34,7 @@ Library:      defobj
    // Word that contains zone in which object allocated, plus
    // additional bits about the object.
    PTRUINT zbits; 
+   ObjectEntry *entry;
 }
 #endif
 /*** methods in Object_s (inserted from .m file by m2h) ***/

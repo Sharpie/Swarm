@@ -1,3 +1,29 @@
+2001-07-14  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* java.m (id_JavaProxy): Declare.
+	(swarm_directory_java_associate_objects): Don't associate objects
+	only relevant in GUI mode.
+	(swarm_directory_java_switch_phase,
+	swarm_directory_java_switch_objc,
+	swarm_directory_java_add_object): Use foreignEntry.
+	(swarm_directory_objc_find_class_java): Only attempt lookup if
+	class is a JavaProxy.
+	(swarm_directory_java_ensure_class): Use SD_JAVA_ADD_CLASS_JAVA.
+	(swarm_directory_java_add_object): Make object argument of type
+	Object_s.
+
+	* directory.m (compare_objc_objects): Remove.
+	(swarm_directory_objc_find_object): Use foreignEntry.
+	(swarm_directory_objc_remove): Likewise.
+
+	* directory.h (ObjectEntry): Make object of type Object_s.
+
+	* defobj.m (id_JavaProxy, initDefobj): Add and set.
+
+	* defalloc.h (getCZone): Update per change below.
+
+	* DefObject.h (Object_s): Add foreignEntry.
+
 2001-07-13  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* javavars.h (c_Base, f_objcPtrFid): Add.

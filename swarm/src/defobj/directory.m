@@ -143,18 +143,6 @@ compare_objc_selectors (const void *A, const void *B, void *PARAM)
 }
 
 static int
-compare_objc_objects (const void *A, const void *B, void *PARAM)
-{
-  ObjectEntry *a = (ObjectEntry *) A;
-  ObjectEntry *b = (ObjectEntry *) B;
-
-  if (a->object < b->object)
-    return -1;
-  
-  return a->object > b->object;
-}
-
-static int
 compare_COM_objects (const void *A, const void *B, void *PARAM)
 {
   ObjectEntry *a = (ObjectEntry *) A;
@@ -174,7 +162,6 @@ compare_COM_objects (const void *A, const void *B, void *PARAM)
 
   obj->javaTable = [aZone alloc: size];
   memset (obj->javaTable, 0, size);
-  obj->object_tree = avl_create (compare_objc_objects, NULL);
   obj->selector_tree = avl_create (compare_objc_selectors, NULL);
   obj->COM_tree = avl_create (compare_COM_objects, NULL);
 
@@ -182,20 +169,9 @@ compare_COM_objects (const void *A, const void *B, void *PARAM)
 }
 
 ObjectEntry *
-swarm_directory_objc_find_object (id object)
+swarm_directory_objc_find_object (Object_s *object)
 {
-  if (swarmDirectory)
-    {
-      if (object)
-        {
-          ObjectEntry *ret;
-          
-          ret = avl_find (swarmDirectory->object_tree,
-                          OBJC_FIND_OBJECT_ENTRY (object));
-          return ret;
-        }
-    }
-  return nil;
+  return object->foreignEntry;
 }
 
 SelectorEntry *
@@ -235,10 +211,7 @@ swarm_directory_objc_remove (id object)
               // don't check ret above because it may be absent from a
               // BaseImpl link
             }
-          ret = avl_delete (swarmDirectory->object_tree, entry);
-          
-          if (ret != entry)
-            abort ();
+          entry->object->foreignEntry = NULL;
           swarm_directory_entry_drop (entry);
           return YES;
         }
