@@ -1,5 +1,5 @@
 /* libavl - manipulates AVL trees.
-   Copyright (C) 1998 Free Software Foundation, Inc.
+   Copyright (C) 1998, 1999 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -20,13 +20,30 @@
    Internet, or as Ben Pfaff, 12167 Airport Rd, DeWitt MI 48820, USA
    through more mundane means. */
 
-/* This is file avl.c in libavl, version 1.1.0. */
+/* This is file avl.c in libavl. */
+
+/* Modified by mgd@swarm.org 2000-09-10 to disable HAVE_CONFIG_H and PSPP code.
+   Force definition of HAVE_XMALLOC. */
+
+#if 0
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+#if PSPP
+#include "common.h"
+#include "arena.h"
+#define HAVE_XMALLOC 1
+#endif
+#endif
+
+#define HAVE_XMALLOC
 
 #if SELF_TEST 
 #include <limits.h>
 #include <time.h>
 #endif
-#include <misc.h> // xmalloc, xfree
+#include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include "avl.h"
 
@@ -42,6 +59,30 @@
 #endif
 #endif
 
+#ifdef HAVE_XMALLOC
+void *xmalloc (size_t);
+#else /* !HAVE_XMALLOC */
+/* Allocates SIZE bytes of space using malloc().  Aborts if out of
+   memory. */
+static void *
+xmalloc (size_t size)
+{
+  void *vp;
+
+  if (size == 0)
+    return NULL;
+  vp = malloc (size);
+
+  assert (vp != NULL);
+  if (vp == NULL)
+    {
+      fprintf (stderr, "virtual memory exhausted\n");
+      exit (EXIT_FAILURE);
+    }
+  return vp;
+}
+#endif /* !HAVE_XMALLOC */
+
 /* Creates an AVL tree in arena OWNER (which can be NULL).  The arena
    is owned by the caller, not by the AVL tree.  CMP is a order
    function for the data to be stored in the tree.  PARAM is arbitrary
@@ -51,7 +92,7 @@ avl_create (MAYBE_ARENA avl_comparison_func cmp, void *param)
 {
   avl_tree *tree;
 
-  assert (cmp);
+  assert (cmp != NULL);
 #if PSPP
   if (owner)
     tree = arena_alloc (owner, sizeof (avl_tree));
@@ -82,7 +123,7 @@ avl_create (MAYBE_ARENA avl_comparison_func cmp, void *param)
 void
 avl_destroy (avl_tree *tree, avl_node_func free_func)
 {
-  assert (tree);
+  assert (tree != NULL);
   
 #if PSPP
   if (free_func || tree->owner == NULL)
@@ -93,7 +134,7 @@ avl_destroy (avl_tree *tree, avl_node_func free_func)
       
       /* T1. */
       avl_node *an[AVL_MAX_HEIGHT];	/* Stack A: nodes. */
-      unsigned long ab = 0;		/* Stack A: bits. */
+      char ab[AVL_MAX_HEIGHT];		/* Stack A: bits. */
       int ap = 0;			/* Stack A: height. */
       avl_node *p = tree->root.link[0];
 
@@ -103,7 +144,7 @@ avl_destroy (avl_tree *tree, avl_node_func free_func)
 	  while (p != NULL)
 	    {
 	      /* T3. */
-	      ab &= ~(1ul << ap);
+	      ab[ap] = 0;
 	      an[ap++] = p;
 	      p = p->link[0];
 	    }
@@ -115,9 +156,9 @@ avl_destroy (avl_tree *tree, avl_node_func free_func)
 		goto done;
 
 	      p = an[--ap];
-	      if ((ab & (1ul << ap)) == 0)
+	      if (ab[ap] == 0)
 		{
-		  ab |= (1ul << ap++);
+		  ab[ap++] = 1;
 		  p = p->link[1];
 		  break;
 		}
@@ -127,7 +168,7 @@ avl_destroy (avl_tree *tree, avl_node_func free_func)
 #if PSPP
 	      if (tree->owner == NULL)
 #endif
-		XFREE (p);
+		free (p);
 	    }
 	}
     }
@@ -136,21 +177,21 @@ avl_destroy (avl_tree *tree, avl_node_func free_func)
 #if PSPP
   if (tree->owner == NULL)
 #endif
-    XFREE (tree);
+    free (tree);
 }
 
 /* avl_destroy() with FREE_FUNC hardcoded as free(). */
 void
 avl_free (avl_tree *tree)
 {
-  avl_destroy (tree, (avl_node_func) xfree);
+  avl_destroy (tree, (avl_node_func) free);
 }
 
 /* Return the number of nodes in TREE. */
 int
 avl_count (const avl_tree *tree)
 {
-  assert (tree);
+  assert (tree != NULL);
   return tree->count;
 }
 
@@ -200,7 +241,7 @@ avl_copy (MAYBE_ARENA const avl_tree *tree, avl_copy_func copy)
   avl_node **qp = qa;		/* Stack QA: stack pointer. */
   avl_node *q;
   
-  assert (tree);
+  assert (tree != NULL);
 #if PSPP
   new_tree = avl_create (owner, tree->cmp, tree->param);
 #else
@@ -363,9 +404,11 @@ avl_probe (avl_tree *tree, void *item)
      random insertions.  */
 
   /* A1. */
-  avl_node *t = &tree->root;
+  avl_node *t;
   avl_node *s, *p, *q, *r;
-  assert (tree);
+  
+  assert (tree != NULL);
+  t = &tree->root;
   s = p = t->link[0];
 
   if (s == NULL)
@@ -535,12 +578,11 @@ avl_find (const avl_tree *tree, const void *item)
 {
   const avl_node *p;
 
-  assert (tree);
+  assert (tree != NULL);
   for (p = tree->root.link[0]; p; )
     {
       int diff = tree->cmp (item, p->data, tree->param);
 
-      /* A3. */
       if (diff < 0)
 	p = p->link[0];
       else if (diff > 0)
@@ -550,6 +592,37 @@ avl_find (const avl_tree *tree, const void *item)
     }
 
   return NULL;
+}
+
+/* Search TREE for an item close to the value of ITEM, and return it.
+   This function will return a null pointer only if TREE is empty. */
+void *
+avl_find_close (const avl_tree *tree, const void *item)
+{
+  const avl_node *p;
+
+  assert (tree != NULL);
+  p = tree->root.link[0];
+  if (p == NULL)
+    return NULL;
+  
+  for (;;)
+    {
+      int diff = tree->cmp (item, p->data, tree->param);
+      int t;
+
+      if (diff < 0)
+	t = 0;
+      else if (diff > 0)
+	t = 1;
+      else
+	return p->data;
+
+      if (p->link[t])
+	p = p->link[t];
+      else
+	return p->data;
+    }
 }
 
 /* Searches AVL tree TREE for an item matching ITEM.  If found, the
@@ -573,7 +646,7 @@ avl_delete (avl_tree *tree, const void *item)
   avl_node **q;
   avl_node *p;
 
-  assert (tree);
+  assert (tree != NULL);
 
   a[0] = 0;
   pa[0] = &tree->root;
@@ -581,21 +654,28 @@ avl_delete (avl_tree *tree, const void *item)
   for (;;)
     {
       /* D2. */
-      int diff = tree->cmp (item, p->data, tree->param);
+      int diff;
 
+      if (p == NULL)
+	return NULL;
+
+      diff = tree->cmp (item, p->data, tree->param);
       if (diff == 0)
 	break;
 
       /* D3, D4. */
       pa[k] = p;
       if (diff < 0)
-	p = p->link[0], a[k] = 0;
+	{
+	  p = p->link[0];
+	  a[k] = 0;
+	}
       else if (diff > 0)
-	p = p->link[1], a[k] = 1;
+	{
+	  p = p->link[1];
+	  a[k] = 1;
+	}
       k++;
-
-      if (p == NULL)
-	return NULL;
     }
   tree->count--;
   
@@ -653,7 +733,7 @@ avl_delete (avl_tree *tree, const void *item)
 #if PSPP
   if (tree->owner == NULL)
 #endif
-    XFREE (p);
+    free (p);
 
   assert (k > 0);
   /* D10. */
@@ -734,7 +814,7 @@ avl_delete (avl_tree *tree, const void *item)
 	      break;
 	    }
 
-	  assert (s->bal = -1);
+	  assert (s->bal == -1);
 	  r = s->link[0];
 
 	  if (r == NULL || r->bal == 0)
@@ -768,7 +848,7 @@ avl_delete (avl_tree *tree, const void *item)
 		s->bal = r->bal = 0;
 	      else
 		{
-		  assert (p->bal = 1);
+		  assert (p->bal == 1);
 		  s->bal = 0, r->bal = -1;
 		}
 	      p->bal = 0;
@@ -787,7 +867,7 @@ avl_insert (avl_tree *tree, void *item)
 {
   void **p;
   
-  assert (tree);
+  assert (tree != NULL);
   
   p = avl_probe (tree, item);
   return (*p == item) ? NULL : *p;
@@ -802,7 +882,7 @@ avl_replace (avl_tree *tree, void *item)
 {
   void **p;
 
-  assert (tree);
+  assert (tree != NULL);
   
   p = avl_probe (tree, item);
   if (*p == item)
@@ -821,7 +901,7 @@ void *
 (avl_force_delete) (avl_tree *tree, void *item)
 {
   void *found = avl_delete (tree, item);
-  assert (found);
+  assert (found != NULL);
   return found;
 }
 
@@ -856,14 +936,14 @@ print_structure (avl_node *node, int level)
 
 /* Compare two integers A and B and return a strcmp()-type result. */
 int
-compare_ints (const void *a, const void *b, unused void *param)
+compare_ints (const void *a, const void *b, void *param unused)
 {
   return ((int) a) - ((int) b);
 }
 
 /* Print the value of integer A. */
 void
-print_int (void *a, unused void *param)
+print_int (void *a, void *param unused)
 {
   printf (" %d", (int) a);
 }
@@ -881,7 +961,8 @@ print_contents (avl_tree *tree)
    root of the tree, PARENT should be INT_MIN, otherwise it should be
    the parent node value.  DIR is the direction that the current node
    is linked from the parent: -1 for left child, +1 for right child;
-   it is not used if PARENT is INT_MIN. */
+   it is not used if PARENT is INT_MIN.  Returns the height of the
+   tree rooted at NODE. */
 int
 recurse_tree (avl_node *node, int *count, int parent, int dir)
 {
@@ -893,17 +974,28 @@ recurse_tree (avl_node *node, int *count, int parent, int dir)
       (*count)++;
 
       if (nr - nl != node->bal)
-	printf (" Node %d is unbalanced: right height=%d, left height=%d, "
-		"difference=%d, but balance factor=%d.\n", d, nr, nl, nr - nl, node->bal), done = 1;
+	{
+	  printf (" Node %d is unbalanced: right height=%d, left height=%d, "
+		"difference=%d, but balance factor=%d.\n",
+		  d, nr, nl, nr - nl, node->bal);
+	  done = 1;
+	}
+      
       if (parent != INT_MIN)
 	{
 	  assert (dir == -1 || dir == +1);
 	  if (dir == -1 && d > parent)
-	    printf (" Node %d is smaller than its left child %d.\n",
-		    parent, d), done = 1;
+	    {
+	      printf (" Node %d is smaller than its left child %d.\n",
+		      parent, d);
+	      done = 1;
+	    }
 	  else if (dir == +1 && d < parent)
-	    printf (" Node %d is larger than its right child %d.\n",
-		    parent, d), done = 1;
+	    {
+	      printf (" Node %d is larger than its right child %d.\n",
+		      parent, d);
+	      done = 1;
+	    }
 	}
       assert (node->bal >= -1 && node->bal <= 1);
       return 1 + (nl > nr ? nl : nr);
@@ -918,7 +1010,11 @@ verify_tree (avl_tree *tree)
   int count = 0;
   recurse_tree (tree->root.link[0], &count, INT_MIN, 0);
   if (count != tree->count)
-    printf (" Tree has %d nodes, but tree count is %d.\n", count, tree->count), done = 1;
+    {
+      printf (" Tree has %d nodes, but tree count is %d.\n",
+	      count, tree->count);
+      done = 1;
+    }
   if (done)
     abort ();
 }
@@ -996,23 +1092,29 @@ compare_trees (avl_node *a, avl_node *b)
    places in order to be able to see what's really going on.  Also,
    memory debuggers like Checker or Purify are very handy. */
 #define TREE_SIZE 1024
+#define N_ITERATIONS 16
 int
 main (int argc, char **argv)
 {
   int array[TREE_SIZE];
   int seed;
+  int iteration;
   
   if (argc == 2)
     seed = atoi (argv[1]);
   else
     seed = time (0) * 257 % 32768;
 
-  for (;;)
+  fputs ("Testing avl...\n", stdout);
+  
+  for (iteration = 1; iteration <= N_ITERATIONS; iteration++)
     {
       avl_tree *tree;
       int i;
       
-      printf ("Random number seed: %d\n", seed);
+      printf ("Iteration %4d/%4d: seed=%5d", iteration, N_ITERATIONS, seed);
+      fflush (stdout);
+      
       srand (seed++);
 
       for (i = 0; i < TREE_SIZE; i++)
@@ -1039,10 +1141,11 @@ main (int argc, char **argv)
 
 	  if (i % 128 == 0)
 	    {
-	      fputc ('.', stdout);
+	      putchar ('.');
 	      fflush (stdout);
 	    }
 	}
+      fputs (" good.\n", stdout);
 
       avl_destroy (tree, NULL);
     }

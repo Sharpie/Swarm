@@ -1,3 +1,15 @@
+2000-09-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (SRC): Add avltr.c.
+	(noinst_HEADERS): Add avltr.h.
+
+	* avl.c, avl.h: Updated from avl-1.4.0.
+
+	* avltr.c, avltr.h: Add. 
+	
+	* avl{tr}.[ch]: Disable HAVE_CONFIG_H and PSPP checks,
+	define HAVE_XMALLOC.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.
