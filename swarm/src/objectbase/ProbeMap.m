@@ -12,7 +12,7 @@
 
 #include <swarmconfig.h> // HAVE_JDK
 #ifdef HAVE_JDK
-#import "../defobj/java.h" // SD_JAVA_ENSUREOBJCMETHOD, SD_JAVA_FIND_OBJECT_JAVA
+#import "../defobj/java.h" // SD_JAVA_ENSUREOBJCMETHOD, SD_JAVA_FIND_OBJECT_JAVA, java_field_usable_p
 #import "../defobj/javavars.h" // m_*, c_*
 #endif
 
@@ -178,22 +178,6 @@ PHASE(Creating)
 
 #ifdef HAVE_JDK
 
-static BOOL
-usablep (int modifier)
-{
-  return (((*jniEnv)->CallStaticBooleanMethod (jniEnv,
-					       c_Modifier,
-					       m_ModifierIsPublic,
-					       modifier)
-	   == JNI_TRUE)
-	  &&
-	  ((*jniEnv)->CallStaticBooleanMethod (jniEnv,
-					       c_Modifier,
-					       m_ModifierIsStatic,
-					       modifier))
-	  == JNI_FALSE);
-}
-
 - (void)addJavaFields: (jclass)javaClass
 {
   jarray fields;
@@ -213,9 +197,7 @@ usablep (int modifier)
       
       count--;
       field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, count);
-      if (usablep ((*jniEnv)->CallIntMethod (jniEnv,
-					     field,
-					     m_FieldGetModifiers)))
+      if (java_field_usable_p (field))
 	{
 	  jstring name =
 	    (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
@@ -266,9 +248,7 @@ usablep (int modifier)
           count--;
             
 	  method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, count);
-	  if (usablep ((*jniEnv)->CallIntMethod (jniEnv,
-						 method,
-						 m_MethodGetModifiers)))
+	  if (java_method_usable_p (method))
 	    {
               SEL sel;
               jobject selector;
