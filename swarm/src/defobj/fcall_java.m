@@ -1,11 +1,11 @@
 #import "fcall_java.h"
-#import <defobj/FArguments.h>
 
 #ifdef __CYGWIN__
 #define MSVC
 #endif
 #include <avcall.h>
-#import <defobj/directory.h> // jni things
+#import <defobj/directory.h> // JNI things
+#import <defobj/FArguments.h>
 
 void
 java_setup_call (FArguments_c *fa,
