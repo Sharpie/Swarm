@@ -1,3 +1,9 @@
+2000-02-29    <mgd@nest.swarm.org>
+
+	* Makefile.am (%.jpeg, %.png): Add a "-c showpage".
+
+	* swarm.eps: Update for SDG.
+
 2000-02-15  Alex Lancaster  <alex@santafe.edu>
 
 	* switcheroo.png: Add file.
