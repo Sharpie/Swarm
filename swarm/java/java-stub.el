@@ -575,7 +575,7 @@
       (insert (module-name (protocol-module protocol)))
       (insert "_")
       (insert (java-class-name protocol phase))
-      (insert "_")
+      (insert "__")
       (insert (car first-argument))
       (loop for argument in (cdr arguments)
             for nameKey = (car argument)
