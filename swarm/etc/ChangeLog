@@ -1,8 +1,9 @@
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.rules (.m.o): Use libtool for compilation.  It's
-	crucial that preprocessor directives (DLL) be defined for the
-	sake of import/exports; they're stored in libtool.
+	* Makefile.common.in (OBJCLIBS): Append -DDLL flag in the case
+	of DLLs sans static.
+
+	* Makefile.rules (.m.o): Add CPPFLAGS.
 
 	* Makefile.tests.in (SWARMBUILDLDFLAGS): Revert last change.
 
