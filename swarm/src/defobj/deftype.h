@@ -37,7 +37,7 @@ Library:      defobj
 #define CREATING - _I_Creating;
 #define SETTING  - _I_Setting;
 #define USING    - _I_Using;
-
+#define GETTERS
 //
 // notify_t --
 //   typedef for function to be called on deallocation or reallocation of
