@@ -1,6 +1,7 @@
 1999-03-09  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* defobj.m: Remove import FCall.h
+	(_defobj_initialize): Remove init_javacall_tables.
 
 	* Makefile.am (defobj_HEADERS): Remove FCall.h
 	(SRC): Remove FCall.m
