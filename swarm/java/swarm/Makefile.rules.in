@@ -10,10 +10,16 @@ JAVAC=@JAVAC@
 JAVACOMPILE=$(JAVAC) -classpath '..@PATHDELIM@..@PATHSEP@$(JAVACLASSESARG)'
 top_srcdir=@top_srcdir@
 top_dossrcdir=@top_dossrcdir@
-ifneq ($(top_dossrcdir),.)
+ifeq ($(shell echo $(top_srcdir) | sed 's,^/.*,,'),)
 JAVADEPS = $(top_dossrcdir)@PATHDELIM@java@PATHDELIM@JavaDeps.jar
 else
-JAVADEPS = ..@PATHDELIM@..@PATHDELIM@JavaDeps.jar
+ifeq ($(top_srcdir),$(top_dossrcdir))
+# Unix will have top_dossrcdir set to top_srcdir, which will be relative
+JAVADEPS = ..@PATHDELIM@$(top_dossrcdir)@PATHDELIM@java@PATHDELIM@JavaDeps.jar
+else
+# Cygwin will have top_dossrcdir as a absolute path
+JAVADEPS = $(top_dossrcdir)@PATHDELIM@java@PATHDELIM@JavaDeps.jar
+endif
 endif
 
 # (WebObjects sh.exe has been known to interfere with running its java.exe)
