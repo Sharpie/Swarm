@@ -1,8 +1,6 @@
 #import <simtools.h>
 #import <defobj.h>
 #import <defobj/Create.h>
-#include <misc.h>
-#include <argp.h>
 #include <swarmconfig.h>
 
 #define OBJNAME "myObj"
