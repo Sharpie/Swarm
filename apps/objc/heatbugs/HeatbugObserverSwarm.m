@@ -170,7 +170,7 @@
   // Create the graph widget to display unhappiness.
 
   unhappyGraph = [EZGraph createBegin: [self getZone]];
-  [unhappyGraph setGraphWindowGeometryRecordName : "graphWindow"];
+  [unhappyGraph setWindowGeometryRecordName : "graphWindow"];
   [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
   [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
   unhappyGraph = [unhappyGraph createEnd] ;
