@@ -16,7 +16,7 @@
 {
 @public
   timeval_t currentTime;  // my time index
-  id status;  // my state
+  id <Symbol> status;  // my state
   BOOL isTopLevelActivity;  // 1 = top-level; 0=not
 @private
   id activity;    // my pointer
