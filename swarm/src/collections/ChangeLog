@@ -1,5 +1,8 @@
 1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Map.m ([Map_c -lispIn:]): Support string keys (copying them from
+	expression).
+
 	* InputStream.m ([InputStream_c -getExpr]): Use readString
 	instead of getExpr for keyword name.
 

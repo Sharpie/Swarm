@@ -505,6 +505,13 @@ PHASE(Using)
                 raiseEvent (InvalidArgument, "ArchiverValue not integer");
               key = (id) [keyExpr getInteger];
             }
+          else if (stringp (keyExpr))
+            {
+              if (compareFunc == compareCStrings)
+                key = (id) strdup ([keyExpr getC]);
+              else
+                key = [keyExpr copy: aZone];
+            }
           else
             key = lispIn (aZone, keyExpr);
           value = lispIn (aZone, valueExpr);
