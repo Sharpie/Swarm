@@ -32,7 +32,7 @@ override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)_creatable_PROTOCOLS))
 
-javaswarm_entities = SwarmEnvironment
+javaswarm_entities = SwarmEnvironmentExtra SwarmEnvironment
 libjavaswarm_la_OBJECTS = $(addsuffix .lo, $(javaswarm_entities))
 javaswarm_OBJECTS = $(addsuffix .o, $(javaswarm_entities))
 libjavaswarmstubs_la_OBJECTS = $(foreach module,$(MODULES),$(module)_stubs.lo)
