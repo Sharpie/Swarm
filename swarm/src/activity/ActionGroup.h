@@ -28,14 +28,14 @@ Library:      activity
 - getDefaultOrder;
 - activate;
 - activateIn: swarmContext;
-- _activateIn_: swarmContext : activityClass : indexClass;
+- _activateIn_: swarmContext : (Class)activityClass : (Class)indexClass;
 - (void)_performPlan_;
-- _createActivity_: ownerActivity : activityClass : indexClass;
+- _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : aZone;
 - (void)drop;
 - _createPermutedIndex_: aZone activity: activity;
 /*** methods in ActionGroup_c (inserted from .m file by m2h) ***/
 - createEnd;
-- _activateUnderSwarm_: activityClass : indexClass : swarmContext;
+- _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext: swarmZone;
 - createFAction: call;
 - createAction: anActionType;
 - createActionCall: (func_t)fptr;

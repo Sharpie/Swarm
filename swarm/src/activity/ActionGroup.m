@@ -50,14 +50,17 @@ PHASE(Using)
 //
 // _activateUnderSwarm_::: -- start new activity to run under swarm
 //
-- (id <Activity>)_activateUnderSwarm_: activityClass : indexClass : swarmContext
+- (id <Activity>)_activateUnderSwarm_: (Class)activityClass 
+                                     : (Class)indexClass
+                                     : swarmContext
+                                     : swarmZone
 {
   id newSchedule;
 
   // create a special schedule of one action and start it to run under
   // swarm instead
 
-  newSchedule = [Schedule createBegin: _activity_zone];
+  newSchedule = [Schedule createBegin: swarmZone];
   [newSchedule setRelativeTime: YES];
   newSchedule = [newSchedule createEnd];
 
@@ -257,6 +260,7 @@ PHASE(Using)
       nextMember = [index next];
       mapObject (mapalloc, member);
     }
+  [index drop];
   // no [super mapAllocations: mapalloc] because all links are internal
 }
 
@@ -485,6 +489,7 @@ PHASE(Creating)
   newIndex->memberIndex = [((ActionForEach_0 *) forEachAction)->target
                              begin: getCZone (ownerZone)];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
+
   ((ActionForEach_0 *) newIndex->memberAction)->target = nil;
 
   // set currentSubactivity in the activity that called _performAction_

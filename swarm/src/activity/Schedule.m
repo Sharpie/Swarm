@@ -151,18 +151,21 @@ PHASE(Using)
 //
 // _activateUnderSwarm_::: -- release new activity to run under swarm
 //
-- _activateUnderSwarm_: activityClass : indexClass : swarmContext
+- _activateUnderSwarm_: activityClass : indexClass : swarmContext : swarmZone
 {
   SwarmActivity_c *swarmActivity;
   ScheduleActivity_c *newActivity;
   ScheduleIndex_c *newIndex, *swarmIndex;
-  ActionMerge_c *mergeAction, *mergeExternalAction;
+  ActionMerge_c *mergeAction;
 
   // initialize new activity to run underneath swarm
 
   swarmActivity = swarmContext;
   newActivity =
-    [self _createActivity_: swarmActivity : activityClass : indexClass];
+    [self _createActivity_: swarmActivity 
+          : activityClass
+          : indexClass
+          : swarmZone];
   [newActivity setKeepEmptyFlag: keepEmptyFlag];
   newActivity->ownerActivity = nil;
   newActivity->swarmActivity = swarmActivity;
@@ -171,21 +174,11 @@ PHASE(Using)
   // create merge action for use by swarm in merging schedule subactivities
 
   newIndex = newActivity->currentIndex;
-  mergeAction =
-    [getZone (swarmActivity) allocIVarsComponent: id_ActionMerge_c];
+  mergeAction = [swarmZone allocIVarsComponent: id_ActionMerge_c];
   setMappedAlloc (mergeAction);
   mergeAction->subactivity = newActivity;
   mergeAction->collectionOfActions = self;
-  mergeAction->immediateReturnRequestFlag = 0;
   newActivity->mergeAction = mergeAction;
-
-  mergeExternalAction =
-    [getZone (swarmActivity) allocIVarsComponent: id_ActionMerge_c];
-  setMappedAlloc (mergeExternalAction);
-  newActivity->mergeExternalAction = mergeExternalAction;
-  mergeExternalAction->subactivity = newActivity;
-  mergeExternalAction->immediateReturnRequestFlag = 0;
-  newActivity->mergeExternalAction = mergeExternalAction;
 
   // set the starting and current times of the new activity
 
@@ -251,7 +244,7 @@ _update_mergeSchedules (Schedule_c *self,
   mergeSchedule = mergeScheduleIndex->collection;
   if (mergeScheduleIndex->currentTime > tVal)
     mergeScheduleIndex->currentTime = tVal;
-  mergeAction=[mergeSchedule at: (id) oldTime];
+  mergeAction = [mergeSchedule at: (id) oldTime];
   if (mergeAction)
     {
       if (getClass (mergeAction) == id_ActionConcurrent_c) 
@@ -280,6 +273,7 @@ _update_mergeSchedules (Schedule_c *self,
 		  break;
 		}
 	    }
+          [index drop];
 	} 
       else 
 	mergeAction = [mergeSchedule removeKey: (id) oldTime];     
@@ -397,7 +391,6 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		{
 		  id indexrefs;
 		  ScheduleActivity_c *activity;
-
 		  
 		  indexrefs = [self->activityRefs begin: scratchZone];
 		  [indexrefs setLoc: Start];
@@ -405,7 +398,7 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		  
 		  while (activity)
 		    {
-		      ScheduleIndex_c *scheduleIndex,*mergeScheduleIndex;
+		      ScheduleIndex_c *scheduleIndex, *mergeScheduleIndex;
 		      Schedule_c *mergeSchedule;
 		      Activity_c *swarmActivity;
 	       
@@ -414,15 +407,16 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 		      scheduleIndex->currentAction = 0; 
 		      scheduleIndex->currentTime = tVal;
 		      if (((ScheduleIndex_c *) scheduleIndex)->startTime > 
-			 tVal)
+                          tVal)
 			((ScheduleIndex_c *) scheduleIndex)->startTime -=
-			 ((Schedule_c *)self)->repeatInterval;
+			 ((Schedule_c *) self)->repeatInterval;
 		      swarmActivity = activity->swarmActivity;
 		      if (swarmActivity)
 			{
 			  mergeScheduleIndex = swarmActivity->currentIndex;
 			  mergeSchedule = (Schedule_c *) mergeScheduleIndex->collection;
-			  _activity_insertAction (mergeSchedule, tVal, 
+			  _activity_insertAction (mergeSchedule,
+                                                  tVal, 
 						  activity->mergeAction);
 			}
 		      activity = [indexrefs next];
@@ -1045,7 +1039,7 @@ PHASE(Using)
   if (mergeAction)
     [((Index_any *) swarmActivity->currentIndex)->collection
                                                 remove: mergeAction];
-  
+ 
   // complete the rest of the drop actions by standard means
   
   [super dropAllocations: componentAlloc];

@@ -18,7 +18,8 @@ Library:      activity
 
 // define standard activity variables
 
-externvardef id _activity_current, _activity_zone;
+externvardef id <Activity> _activity_current;
+externvardef id <Zone> _activity_zone;
 externvardef BOOL  (*_activity_trace) (id);
 
 //
@@ -184,12 +185,7 @@ auditRunRequest (Activity_c *self, const char *request)
     // perform action, which could create a new subactivity to be performed
       
       [nextAction _performAction_: self];
-      
-      if (((Activity_c *) _activity_current)->immediateReturnFlag)
-        {
-          ((Activity_c *) _activity_current)->immediateReturnFlag = NO;
-          return Holding;
-        }  
+
       //
       // The performed action, if it contains a ForEach or "perform" request,
       // may set currentSubactivity to a new subactivity.  The next iteration

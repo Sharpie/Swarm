@@ -160,8 +160,8 @@ notifySwarm (id anObject, id realloc, CSwarmProcess *swarm)
 //
 // dropSwarmActivity() -- function to drop swarm activity on drop of swarm
 //
-static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
-                               id unusedArg )
+static void
+dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
 {
   if (!realloc)
     {
@@ -206,11 +206,11 @@ static void dropSwarmActivity( CSwarmProcess *swarm, id realloc,
   
   // arrange to remove local activity reference on completion of activity
   
-  [activity addRef: (notify_t)notifySwarm withArgument: self];
+  [activity addRef: (notify_t) notifySwarm withArgument: self];
   
   // arrange to drop activity on drop of swarm object
   
-  [self addRef: (notify_t)dropSwarmActivity withArgument: nil];
+  [self addRef: (notify_t) dropSwarmActivity withArgument: nil];
   return activity;
 }
 
@@ -374,8 +374,6 @@ PHASE(Using)
   subactivity->ownerActivity = _activity_current;  // owner while sub is active
   subactivity->ownerActivity->currentSubactivity = subactivity;
   subactivity->breakFunction = subactivity->ownerActivity->breakFunction;
-  subactivity->immediateReturnFlag = immediateReturnRequestFlag;
-  immediateReturnRequestFlag = 0; 
   if (HOLDINGP (subactivity->status))
     subactivity->status = Released;
   return;

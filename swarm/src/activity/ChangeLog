@@ -1,3 +1,38 @@
+1999-09-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* XActivity.m ([Activity_c -_run_]): Don't process immediateReturnFlag.
+
+	* XActivity.h (Activity_c): Remove immediateReturnFlag.
+
+	* Schedule.h (ActionMerge_c): Remove immediateReturnRequestFlag.
+
+	* SwarmProcess.m ([ActionMerge_c -_performAction_:]): Don't 
+	initialize immediateReturnRequestFlag.
+
+	* Schedule.m (_update_mergeSchedules): Drop index when finished.
+
+	* Schedule.[hm] ([Schedule_c -_activateUnderSwarm_::::]): Add
+	swarmZone argument. Pass it to _createActivity_::::.  Allocate
+	mergeAction in swarmZone.  Don't initialize mergeExternalAction.
+	Don't initialize immediateReturnRequestFlag in mergeAction.
+
+	* Schedule.h (ScheduleActivity_c): Remove mergeExternalAction.
+
+	* CompoundAction.m ([CompoundAction_c -_createActivity_::::]): Add
+	activityZone argument.  Don't get activityZone from ownerActivity.
+	Don't initialize immediateReturnFlag.
+
+	* CompoundAction.m ([CompoundAction_c -_activateIn_:::]): Use
+	swarmContext as zone unless it's nil, otherwise _activity_zone.
+	Pass zone to _activateUnderSwarm_::::.
+	([CompoundAction_c -_performPlan_]): Get zone from _activity_current
+	or _activity_zone if former is nil.
+
+	* ActionGroup.[hm] ([ActionGroup_c -_activateUnderSwarm_::::]): 
+	Add swarmZone argument.  Add Class typing to activityClass
+	and indexClass arguments.  Use zone argument for Schedule creation.
+	([ActionGroup_c -mapAllocations:]): Drop index when finished.
+
 1999-09-07  Alex Lancaster  <alex@santafe.edu>
 
 	* activity.h (Schedule): Re-enable conformance to Map.

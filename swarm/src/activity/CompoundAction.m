@@ -109,13 +109,17 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 //
 // _activateIn_::: -- create an activity to run plan under swarm or top level
 //
-- (id <Activity>)_activateIn_: swarmContext : activityClass : indexClass
+- (id <Activity>)_activateIn_: swarmContext : (Class)activityClass : (Class)indexClass
 {
+  id swarmZone = swarmContext ?: _activity_zone;
 
   // if top-level activation requested then just create new activity
 
   if (!swarmContext )
-    return [self _createActivity_ : nil : activityClass : indexClass];
+    return [self _createActivity_ : nil
+                 : activityClass 
+                 : indexClass
+                 : swarmZone];
 
   // otherwise create new activity to run under requested swarm context
 
@@ -132,7 +136,10 @@ setDefaultOrder (unsigned *bits, id aSymbol)
                 "> argument is neither nil nor a valid swarm context\n" );
   
   return
-    [self _activateUnderSwarm_: activityClass : indexClass : swarmContext];
+    [self _activateUnderSwarm_: activityClass
+          : indexClass 
+          : swarmContext
+          : swarmZone];
 }
 
 //
@@ -141,25 +148,29 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 - (void)_performPlan_
 {
   Activity_c *newActivity;
+  id aZone = (_activity_current
+              ? getZone ((Activity_c *) _activity_current)
+              : _activity_zone);
 
   newActivity = [self
-    _createActivity_: _activity_current : ACTIVITY_CLASS_ID : INDEX_CLASS_ID];
+    _createActivity_: _activity_current
+                  : ACTIVITY_CLASS_ID
+                  : INDEX_CLASS_ID
+                  : aZone];
   newActivity->ownerActivity->currentSubactivity = newActivity;
 }
 
 //
 // _createActivity_:: -- create activity to perform a plan
 //
-- _createActivity_: ownerActivity : activityClass : indexClass
+- _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : activityZone;
 {
-  id activityZone;
   Activity_c *newActivity;
 
   // allocate and initialize a new activity
 
   if (ownerActivity)
     {
-      activityZone = getZone ((Activity_c *) ownerActivity);
       newActivity = [activityZone allocIVarsComponent: activityClass];
       newActivity->ownerActivity = ownerActivity;
     }
@@ -176,15 +187,14 @@ setDefaultOrder (unsigned *bits, id aSymbol)
   // add new activity to list of activities running plan
 
   if (!activityRefs)
-    activityRefs = [_activity_activityRefsType 
-                     create: getCZone (getZone (self ))];
+    activityRefs = [_activity_activityRefsType create: 
+                                                 getCZone (getZone (self))];
   [activityRefs add: newActivity];
   
   // initialize status and set break function from owner
 
   newActivity->status = Initialized;
-  newActivity->immediateReturnFlag = 0;
-  if ( _activity_current )
+  if (_activity_current)
     newActivity->breakFunction =
      ((Activity_c *) _activity_current)->breakFunction;
   else
@@ -192,7 +202,7 @@ setDefaultOrder (unsigned *bits, id aSymbol)
   
   // create index on the plan actions for traversal by the activity
   if ([self getDefaultOrder] == (id) Randomized
-      && [self conformsTo: @protocol(ActionGroup)])
+      && [self conformsTo: @protocol (ActionGroup)])
     newActivity->currentIndex =
       [(ActionGroup_c *) self _createPermutedIndex_: 
                            getCZone (activityZone)
@@ -202,6 +212,7 @@ setDefaultOrder (unsigned *bits, id aSymbol)
       [[self _createIndex_: getCZone (activityZone)
              forIndexSubclass: indexClass]
         setActivity: newActivity];
+
   return newActivity;
 }
 

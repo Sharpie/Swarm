@@ -34,9 +34,9 @@ Library:      activity
 - setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 - activate;
 - activateIn: swarmContext;
-- _activateIn_: swarmContext : activityClass : indexClass;
+- _activateIn_: swarmContext : (Class)activityClass : (Class)indexClass;
 - (void)_performPlan_;
-- _createActivity_: ownerActivity : activityClass : indexClass;
+- _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : aZone;
 - (void)drop;
 /*** methods in Schedule_c (inserted from .m file by m2h) ***/
 + create: aZone setRepeatInterval: (timeval_t)rptInterval;
@@ -50,7 +50,7 @@ Library:      activity
 - (BOOL)getSingletonGroups;
 - (BOOL)getRelativeTime;
 - (timeval_t)getRepeatInterval;
-- _activateUnderSwarm_: activityClass : indexClass : swarmContext;
+- _activateUnderSwarm_: (Class)activityClass : (Class)indexClass : swarmContext : swarmZone;
 - insertGroup: aKey;
 - remove: anAction;
 - at: (timeval_t)tVal createFAction: call;
@@ -124,7 +124,6 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 @public
   Activity_c *swarmActivity;  // controlling swarm activity, if any
   id mergeAction;             // merge action of swarm activity, if any
-  id mergeExternalAction;     // merge action for external swarms
   long activationNumber;      // sequential id of activation within swarm
 }
 /*** methods in ScheduleActivity_c (inserted from .m file by m2h) ***/
@@ -194,8 +193,6 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
   // collection field is used only to speed up access to Schedule that is
   // to be merged, otherway to get id of this Schedule is to access
   // subactivity->currentIndex->collection with some casting
-
-  BOOL immediateReturnRequestFlag;   // tell merged activity immediately return
 }
 /*** methods in ActionMerge_c (manually inserted) ***/
 - (void)_performAction_: callerActivity;
