@@ -310,7 +310,7 @@ _obj_initModule (void *module)
 
   for (class = (Class **) moduleObject->classes; *class; class++)
     {
-      classData = _obj_getClassData( (Class_s *) **class );
+      classData = _obj_getClassData ((Class_s *) **class);
       
       type = classData->typeImplemented;
       if (type && type->implementation)
