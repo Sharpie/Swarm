@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -10,6 +10,7 @@ Library:      activity
 */
 
 #import <activity/ActionGroup.h>
+#import <defobj/defalloc.h>
 
 
 @implementation ActionGroup_c
@@ -20,7 +21,7 @@ PHASE(Creating)
 // mix in action plan create-phase methods by source inclusion
 //
 #define  MIXIN_CREATE
-#include "ActionPlan.m"
+#include "CompoundAction.m"
 
 - createEnd
 {
@@ -35,7 +36,7 @@ PHASE(Creating)
 PHASE(Using)
 
 //
-// mix in using-phase methods from ActionPlan by source inclusion
+// mix in using-phase methods from CompoundAction by source inclusion
 //
 #define  MIXIN_C
 
@@ -44,7 +45,7 @@ PHASE(Using)
 #define  ACTIVITY_CLASS_ID  id_Activity_c
 #define  INDEX_CLASS        GroupIndex_c
 #define  INDEX_CLASS_ID     id_GroupIndex_c
-#include "ActionPlan.m"
+#include "CompoundAction.m"
 
 //
 // _activateUnderSwarm_::: -- start new activity to run under swarm
@@ -242,6 +243,68 @@ PHASE(Using)
 
 @end
 
+//
+// ConcurrentGroup_c -- action group that does not own its member actions
+//
+
+@implementation ConcurrentGroup_c
+
+PHASE(Creating)
+
+//
+// createEnd --
+//   same create method as ActionGroup, only do *not* set MappedAlloc bit
+//
+// The schedule containing a concurrent group is responsible for mapping all
+// its actions including those in concurrent groups.  The concurrent group
+// itself must map only its own collection structure.  For the underlying
+// allocation of an ActionGroup, simply not setting the MappedAlloc bit is
+// sufficient to leave the actions alone.
+//
+- createEnd
+{
+  if ( createByMessageToCopy( self, createEnd ) ) return self;
+
+  [(id)self setIndexFromMemberLoc: offsetof( CAction, ownerActions )];
+  setMappedAlloc( self );
+  setNextPhase( self );
+  return self;
+}
+
+PHASE( Using )
+
+//
+// _setActionConcurrent_ --
+//   internal method to set link back to action that refers to concurrent group
+//
+- (void) _setActionConcurrent_: action
+{
+  actionConcurrent = action;
+}
+
+//
+// _getEmptyActionConcurrent_ --
+//   internal method to dispose of concurrent group if it has become empty
+//
+- _getEmptyActionConcurrent_
+{
+  if ( count ) return nil;
+  return actionConcurrent;
+}
+
+//
+// mapAllocations: -- standard method to identify internal allocations
+//
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  if ( activityRefs ) mapObject( mapalloc, activityRefs );
+
+  // Avoid drop of members that ActionGroup would perform, since Schedule is
+  // responsible for dropping all members.
+}
+
+@end
+
 
 //
 // GroupActivity_c -- activity to process a concurrent group of a schedule
@@ -260,7 +323,7 @@ PHASE(Using)
 // mix in action plan index methods by source inclusion
 //
 #define  MIXIN_INDEX
-#include "ActionPlan.m"
+#include "CompoundAction.m"
 
 
 //
@@ -272,7 +335,7 @@ PHASE(Using)
 
   // if AutoDrop option and index at a valid position then drop previous action
 
-  if ( ((ActionGroup_c *)collection)->bits & Bit_AutoDrop && position > 0 ) {
+  if ( ((ActionGroup_c *)collection)->bits & BitAutoDrop && position > 0 ) {
     removedAction = [self remove];
     [getZone( (ActionGroup_c *)collection ) freeIVarsComponent: removedAction];
   }
@@ -315,6 +378,9 @@ PHASE(Using)
   newActivity = [ownerZone allocIVarsComponent: id_ForEachActivity_c];
   newIndex    = [ownerZone allocIVarsComponent: id_ForEachIndex_c];
 
+  setMappedAlloc( newActivity );
+  setMappedAlloc( newIndex );
+
   newActivity->ownerActivity  = anActivity;
   newActivity->status         = Initialized;
   newActivity->breakFunction  = owner->breakFunction;
@@ -322,7 +388,7 @@ PHASE(Using)
   newIndex->activity          = anActivity;
 
   newIndex->memberIndex = [((ActionForEach_0 *)forEachAction)->target
-                             begin: getComponentZone( owner )];
+                             begin: getCZone( ownerZone )];
   newIndex->memberAction = [ownerZone copyIVarsComponent: forEachAction];
   ((ActionForEach_0 *)newIndex->memberAction)->target = nil;
 

@@ -19,7 +19,7 @@ Library:      defobj
 id  _obj_globalZone;
 id  _obj_scratchZone;
 id  _obj_initZone;
-id  _obj_probeZone;
+id  _obj_sessionZone;
 
 id  t_Object, t_ByteArray;
 
@@ -48,20 +48,38 @@ void _defobj_initialize( void )
 
   _obj_globalZone  = [Zone create: _obj_initZone];
   _obj_scratchZone = [Zone create: _obj_initZone];
-  _obj_probeZone   = [Zone create: _obj_initZone];
+  _obj_sessionZone = [Zone create: _obj_initZone];
 
   // initialize error messages
 
   [InvalidCombination setMessageString:
-    "Customization messages sent to a type are incompatible with each other\n"
-    "or with other requirements of the type.\n" ];
+"> Customization messages sent to a type are incompatible with each other\n"
+"> or with other requirements of the type.\n" ];
+
   [InvalidArgument setMessageString:
-    "Invalid argument value passed in call.\n"];
+"> Invalid argument value passed in call.\n"];
 
   [OutOfMemory setMessageString:
-   "No more memory available from the system.  Value of sbrk: %0#8x\n"];
+"> No more memory available from the system.  Value of sbrk: %0#8x\n"];
 
   [InvalidAllocSize setMessageString:
-    "Requested allocation size must be at least one byte.\n"
-    "(Requested allocation size was zero.)\n"];
+"> Requested allocation size must be at least one byte.\n"
+"> (Requested allocation size was zero.)\n"];
+
+  [BlockedObjectAlloc setMessageString:
+"> Requested operation is defined by the Object superclass of the GNU\n"
+"> Objective C runtime system, but is blocked from usage because its default\n"
+"> implementation is incompatible with the model of zone-based allocation\n"
+"> established by the defobj package.  To allocate, free, or copy objects\n"
+"> that use the defined model of zone-based allocation, one of the messages\n"
+"> create:, createBegin:/End, drop, or copy: must be used instead.\n"];
+
+  [BlockedObjectUsage setMessageString:
+"> Requested operation is implemented by the Object superclass of the GNU\n"
+"> Objective C runtime system, but is blocked from usage because it is not\n"
+"> part of the standard public view established by the defobj package.\n"
+"> See documentation for an explanation of the supported public view,\n"
+"> including functional equivalents for most messages defined by the Object\n"
+"> superclass.  This error may be avoided by compiling the defobj library\n"
+"> without the -DINHERIT_OBJECT_WITH_ERRORS compile-time flag set.\n"];
 }

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -11,6 +11,7 @@ Library:      activity
 
 #import <activity/Schedule.h>
 #import <activity/ActionGroup.h>
+#import <defobj/defalloc.h>
 
 
 @implementation Schedule_c
@@ -21,7 +22,7 @@ PHASE(Creating)
 // mix in action plan create-phase methods by source inclusion
 //
 #define  MIXIN_CREATE
-#include "ActionPlan.m"
+#include "CompoundAction.m"
 
 //
 // create:setRepeatInterval: -- convenience create message
@@ -38,28 +39,28 @@ PHASE(Creating)
 - (void) setConcurrentGroupType: groupType
 {
   concurrentGroupType = groupType;
-  setBit( bits, Bit_ConcrntGroupSet, 1 );
+  setBit( bits, BitConcrntGroupSet, 1 );
 }
 
 - (void) setSingletonGroups: (BOOL)singletonGroups
 {
-  setBit( bits, Bit_SingletonGroups, singletonGroups );
+  setBit( bits, BitSingletonGroups, singletonGroups );
 }
 
 - (void) setRelativeTime: (BOOL)relativeTime
 {
-  setBit( bits, Bit_RelativeTime, relativeTime );
-  setBit( bits, Bit_RelTimeSet, 1 );
+  setBit( bits, BitRelativeTime, relativeTime );
+  setBit( bits, BitRelTimeSet, 1 );
 }
 
 - createEnd
 {
   if ( repeatInterval ) {
-    if ( ( bits & Bit_RelTimeSet ) && ! ( bits & Bit_RelativeTime ) )
+    if ( ( bits & BitRelTimeSet ) && ! ( bits & BitRelativeTime ) )
       raiseEvent( InvalidCombination,
-        "cannot specify both a repeat interval and absolute time\n" );
+        "> cannot specify both a repeat interval and absolute time\n" );
 
-    setBit( bits, Bit_RelativeTime, 1 );  // force relative time for repeat
+    setBit( bits, BitRelativeTime, 1 );  // force relative time for repeat
   }
   [(id)self setCompareFunction: compareIDs];
 
@@ -76,11 +77,11 @@ PHASE(Setting)
 {
   if ( rptInterval == 0 )
     raiseEvent( InvalidArgument,
-                "repeat interval must be greater than zero\n" );
+                "> repeat interval must be greater than zero\n" );
 
-  if ( ! getNextPhase( getClass( self ) ) && ! ( bits & Bit_RelativeTime ) )
+  if ( ! getNextPhase( getClass( self ) ) && ! ( bits & BitRelativeTime ) )
     raiseEvent( InvalidCombination,
-      "cannot specify a repeat interval after schedule created without it\n" );
+    "> cannot specify a repeat interval after schedule created without it\n" );
 
   repeatInterval = rptInterval;
 }
@@ -98,8 +99,7 @@ PHASE(Using)
 #define  INDEX_CLASS        ScheduleIndex_c
 #define  INDEX_CLASS_ID     id_ScheduleIndex_c
 
-#include "ActionPlan.m"
-
+#include "CompoundAction.m"
 
 - getConcurrentGroupType
 {
@@ -108,12 +108,12 @@ PHASE(Using)
 
 - (BOOL) getSingletonGroups
 {
-  return bits & Bit_SingletonGroups;
+  return bits & BitSingletonGroups;
 }
 
 - (BOOL) getRelativeTime
 {
-  return bits & Bit_RelativeTime;
+  return bits & BitRelativeTime;
 }
 
 - (timeval_t) getRepeatInterval
@@ -167,18 +167,20 @@ PHASE(Using)
 //
 static ActionConcurrent_c *createGroup( Schedule_c *self )
 {
-  ActionGroup_c       *newGroup;
+  id                  newGroup;
   ActionConcurrent_c  *newAction;
+  id                  zone = getZone( self );
 
   // create new concurrent group to receive new action
 
-  newGroup = [self->concurrentGroupType create: getComponentZone( self )];
-  setBit( newGroup->bits, Bit_ConcurrentGroup, 1 );
+  newGroup = [self->concurrentGroupType create: getCZone( zone )];
+  setBit( ((Collection_any *)newGroup)->bits, BitConcurrentGroup, 1 );
 
-  newAction = [getZone( self ) allocIVarsComponent: id_ActionConcurrent_c];
+  newAction = [zone allocIVarsComponent: id_ActionConcurrent_c];
   setMappedAlloc( newAction );
-  newAction->owner      = (id)self;
-  newAction->actionPlan = (id)newGroup;
+  newAction->owner           = (id)self;
+  newAction->concurrentGroup = (id)newGroup;
+  [newGroup _setActionConcurrent_: newAction];
   return newAction;
 }
 
@@ -196,7 +198,7 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 
   if ( _obj_debug && self->repeatInterval && ( tVal >= self->repeatInterval ) )
     raiseEvent( InvalidArgument,
-  "cannot insert action at time greater than or equal to repeat interval\n" );
+"> cannot insert action at time greater than or equal to repeat interval\n" );
 
   // attempt to insert as first action at key
 
@@ -207,7 +209,7 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   // if no previous action at key, then return unless singleton group required 
 
   if ( newKey ) {
-    if ( ! (self->bits & Bit_SingletonGroups) ) return;
+    if ( ! (self->bits & BitSingletonGroups) ) return;
     existingAction = anAction;
 
   } else {
@@ -216,7 +218,8 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 
     existingAction = *memptr;
     if ( getClass( existingAction ) == id_ActionConcurrent_c ) {
-      existingGroup = (id)((ActionConcurrent_c *)existingAction)->actionPlan;
+      existingGroup =
+        (id)((ActionConcurrent_c *)existingAction)->concurrentGroup;
       anAction->owner = (id)existingGroup;
       [existingGroup addLast: anAction];
       return;
@@ -229,11 +232,11 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
   newAction->ownerActions = existingAction->ownerActions;  // replace mem links
   *memptr = newAction;
   if ( ! newKey ) {
-    existingAction->owner = newAction->actionPlan;
-    [(id)newAction->actionPlan addLast: existingAction];
+    existingAction->owner = (ActionType_c *)newAction->concurrentGroup;
+    [(id)newAction->concurrentGroup addLast: existingAction];
   }
-  anAction->owner = (id)newAction->actionPlan;
-  [(id)newAction->actionPlan addLast: anAction];
+  anAction->owner = (id)newAction->concurrentGroup;
+  [(id)newAction->concurrentGroup addLast: anAction];
 }
 
 //
@@ -248,23 +251,23 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 
   existingAction = [self at: aKey];
   if ( existingAction &&
-       respondsTo( existingAction->actionPlan, M(getActivities) ) )
-    return existingAction->actionPlan;
+       getClass( existingAction ) == id_ActionConcurrent_c )
+    return existingAction->concurrentGroup;
 
   // insert action for new group as first at key
 
   newAction = createGroup( self );
   memptr = &newAction;
   [self at: aKey memberSlot: &memptr];
-  if ( ! existingAction ) return newAction->actionPlan;
+  if ( ! existingAction ) return newAction->concurrentGroup;
 
   // if existing action at key then insert into new group and return group
 
-  existingAction->owner = newAction->actionPlan;
+  existingAction->owner = (ActionType_c *)newAction->concurrentGroup;
   newAction->ownerActions = existingAction->ownerActions;  // replace mem links
-  [(id)newAction->actionPlan addLast: existingAction];
+  [(id)newAction->concurrentGroup addLast: existingAction];
   *memptr = newAction;
-  return newAction->actionPlan;
+  return newAction->concurrentGroup;
 }
 
 //
@@ -272,23 +275,29 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 //
 - remove: anAction
 {
+  id  emptyAction;
+
   if ( _obj_debug && ! respondsTo( anAction, M(_performAction_:) ) )
     raiseEvent( InvalidArgument,
-      "object to be removed from schedule is not an action\n" );
+      "> object to be removed from schedule is not an action\n" );
 
-  if ( respondsTo( ((CAction *)anAction)->owner, M(getRelativeTime) ) ) {
+  if ( ! respondsTo( ((CAction *)anAction)->owner,
+                      M(_getEmptyActionConcurrent_) ) ) {
     if ( _obj_debug && ((CAction *)anAction)->owner != (id)self )
       raiseEvent( InvalidArgument,
-        "action to be removed from schedule does not belong to schedule\n" );
+        "> action to be removed from schedule does not belong to schedule\n" );
+
     [super remove: anAction];
+
   } else {  // concurrent group
+
     [(id)((CAction *)anAction)->owner remove: anAction];
-    if ( [((CAction *)anAction)->owner getCount] == 0 ) {
-      //!! ?? is this right?  how get the concurrent action to be removed?
-      [super remove: anAction];
-      raiseEvent( SourceMessage,
-        "removing concurrent group but not action\n" );
-      [anAction dropAllocations: 1];
+
+    emptyAction =
+      [(id)((CAction *)anAction)->owner _getEmptyActionConcurrent_];
+    if ( emptyAction ) {
+      [super remove: emptyAction];
+      [emptyAction dropAllocations: 1];
     }
   }
   return anAction;
@@ -537,7 +546,7 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
     // if action is for a concurrent group, then map all actions in the group
 
     if ( getClass( member ) == id_ActionConcurrent_c ) {
-      groupIndex = [(id)((ActionConcurrent_c *)member)->actionPlan
+      groupIndex = [(id)((ActionConcurrent_c *)member)->concurrentGroup
                      begin: scratchZone];
       nextMember = [groupIndex next];
       while ( (groupMember = nextMember) ) {
@@ -558,49 +567,133 @@ void _activity_insertAction( Schedule_c *self, timeval_t tVal,
 @end
 
 //
-// ConcurrentGroup_c -- action group that does not own its member actions
+// ActionConcurrent_c -- action to perform concurrent group within schedule
 //
-@implementation ConcurrentGroup_c
 
-PHASE(Creating)
-
-//
-// createEnd --
-//   same create method as ActionGroup, only do *not* set MappedAlloc bit
-//
-- createEnd
-{
-  if ( createByMessageToCopy( self, createEnd ) ) return self;
-
-  [(id)self setIndexFromMemberLoc: offsetof( CAction, ownerActions )];
-  setNextPhase( self );
-  return self;
-}
-
-@end
-
-//
-// ActionConcurrent_c -- minimal action just for concurrent group of schedule
-//
 @implementation ActionConcurrent_c
 
 - (void) _performAction_: anActivity
 {
-  [(id)actionPlan _performPlan_];
+  [(id)concurrentGroup _performPlan_];
 }
 
-//
-// mapAllocations: -- standard method to identify internal allocations
-//
 - (void) mapAllocations: (mapalloc_t)mapalloc
 {
   // identify the action group that held the concurrent actions
 
-  mapObject( mapalloc, actionPlan );
+  mapObject( mapalloc, concurrentGroup );
 }
 
 @end
 
+//
+// ConcurrentSchedule_c --
+//   concurrent group that supports ordering of actions by unsigned integer
+//   keys
+//
+
+@implementation ConcurrentSchedule_c
+
+//
+// addLast: --
+//  method to make a schedule usable in the special role as a concurrent group
+//
+- (void) addLast: anAction
+{
+  raiseEvent( SourceMessage,
+"> A concurrent schedule requires either that a subclass override the method\n"
+"> that adds a new action, or that all actions be added to the group by\n"
+"> explicit operations rather than by automatic addition at a key value.\n" );
+  exit(0);
+}
+
+//
+// remove: --
+//  method to make a schedule usable in the special role as a concurrent group
+//
+- remove: anAction
+{
+  raiseEvent( SourceMessage,
+"> A concurrent schedule requires either that a subclass override the method\n"
+"> that removes an action, or that all actions be removed from the group by\n"
+"> an explicit operation using the key of an action in the schedule.\n" );
+  exit(0);
+}
+
+//
+// _setActionConcurrent_ --
+//   internal method to set link back to action that refers to concurrent group
+//
+- (void) _setActionConcurrent_: action
+{
+  actionConcurrent = action;
+}
+
+//
+// _getEmptyActionConcurrent_ --
+//   internal method to dispose of concurrent group if it has become empty
+//
+- _getEmptyActionConcurrent_
+{
+  if ( count ) return nil;
+  return actionConcurrent;
+}
+
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  if ( activityRefs ) mapObject( mapalloc, activityRefs );
+
+  //
+  // Skip over normal inheritance from Schedule_c so as not to map any
+  // member actions.  The schedule containing a concurrent group is
+  // responsible for mapping all its actions including those in concurrent
+  // groups; but a concurrent group must only map itself.  Unlike a
+  // concurrent action group, the MappedAlloc bit must remain set, as the
+  // underlying data structure of a Schedule requires this.
+  //
+  callMethodInClass( id_Map_c, M(mapAllocations:), mapalloc );
+}
+
+@end
+
+//
+// ActivationOrder_c --
+//   concurrent group to order merge by activation order within swarm
+//
+@implementation ActivationOrder_c
+
+//
+// addLast: --
+//   method to sort concurrent merge actions in the order of swarm activation
+//
+- (void) addLast: mergeAction
+{
+  [self at: (id)((ActionMerge_c *)mergeAction)->subactivity->activationNumber
+    insert: mergeAction];
+}
+
+//
+// remove: --
+//   method to remove concurrent merge action from sorted group
+//
+- remove: mergeAction
+{
+  return [self removeKey:
+           (id)((ActionMerge_c *)mergeAction)->subactivity->activationNumber];
+}
+//
+// _getEmptyActionConcurrent_ --
+//   internal method to dispose of concurrent group if it has become empty
+//
+// For a merge schedule, never get rid of empty concurrent group because
+// there could still be an activity running on it
+//
+- _getEmptyActionConcurrent_
+{
+  return nil;
+}
+
+@end
 
 //
 // ScheduleActivity_c -- activity to process a Schedule action plan
@@ -640,6 +733,23 @@ PHASE(Creating)
   }
 }
 
+//
+// dropAllocations: --
+//   remove merge action from merge schedule if it is not a current subactivity
+//
+- (void) dropAllocations: (BOOL)componentAlloc
+{
+  // remove the merge action for the activity from the merge schedule
+
+  if ( mergeAction )
+    [((Index_any *)swarmActivity->currentIndex)->collection
+      remove: mergeAction];
+
+  // complete the rest of the drop actions by standard means
+
+  [super dropAllocations: componentAlloc];
+}
+
 @end
 
 
@@ -653,7 +763,7 @@ PHASE(Creating)
 // mix in action plan index methods by source inclusion
 //
 #define  MIXIN_INDEX
-#include "ActionPlan.m"
+#include "CompoundAction.m"
 
 //
 // nextAction: -- return next action and set currentTime to its key value
@@ -693,7 +803,7 @@ PHASE(Creating)
     //
     // If AutoDrop option, then drop previous action before continuing.
     //
-    if ( ((Schedule_c *)collection)->bits & Bit_AutoDrop ) {
+    if ( ((Schedule_c *)collection)->bits & BitAutoDrop ) {
       removedAction = [super remove];
       [removedAction dropAllocations: 1];
     }
@@ -709,7 +819,7 @@ PHASE(Creating)
 
     // if relative time then readjust current time by start time
 
-    if ( ((Schedule_c *)collection)->bits & Bit_RelativeTime )
+    if ( ((Schedule_c *)collection)->bits & BitRelativeTime )
       currentTime += startTime;
 
   } else {  // no more actions to be executed
@@ -721,7 +831,7 @@ PHASE(Creating)
       startTime += ((Schedule_c *)collection)->repeatInterval;
       if ( startTime < currentTime )
 	raiseEvent( SourceMessage,
-	  "schedule did not complete soon enough for its scheduled repeat\n" );
+        "> schedule did not complete soon enough for its scheduled repeat\n" );
 
       [self setLoc: Start];
       currentAction = [self next: (id *)&currentTime];
@@ -782,7 +892,7 @@ PHASE(Creating)
 
   if ( currentAction && currentAction != (actionAtIndex = [super get]) ) {
 
-    removedAction = [(id)actionAtIndex->actionPlan removeFirst];
+    removedAction = [(id)actionAtIndex->concurrentGroup removeFirst];
     [self prev];
 
   } else {  // just remove the action at the index
@@ -816,8 +926,9 @@ PHASE(Creating)
 //
 - (void) mapAllocations: (mapalloc_t)mapalloc
 {
-  if ( getClass( currentAction ) == id_ActionChanged_c )
+  if ( currentAction && getClass( currentAction ) == id_ActionChanged_c )
     mapObject( mapalloc, currentAction );
+  [super mapAllocations: mapalloc];
 }
 
 //

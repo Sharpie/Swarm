@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -10,7 +10,7 @@ Library:      collections
 */
 
 #import <collections/Array.h>
-#import <objc/objc-api.h>    // for sending messages to @class names
+#import <defobj/defalloc.h>
 
 #include <memory.h>
 
@@ -146,13 +146,13 @@ PHASE(Setting)
     if ( memberCount < 0 ) raiseEvent( InvalidArgument, nil );
     if ( bits & Bit_InitialValueSet )
       raiseEvent( InvalidCombination,
-	"cannot specify both an initial value and an external MemberAlloc\n" );
+      "> cannot specify both an initial value and an external MemberAlloc\n" );
     if ( bits & Bit_DefaultMember )
       raiseEvent( InvalidCombination,
-	"cannot specify both a DefaultMember and an external MemberAlloc\n" );
+      "> cannot specify both a DefaultMember and an external MemberAlloc\n" );
     if ( bits & Bit_CountSet )
       raiseEvent( SourceMessage,
-	"cannot set array count separate from an external MemberAlloc\n" );
+      "> cannot set array count separate from an external MemberAlloc\n" );
   
     setBit( bits, Bit_MemberAlloc, 1 );
     block = members;
@@ -162,7 +162,7 @@ PHASE(Setting)
 
     if ( ! (bits & Bit_MemberAlloc) )
       raiseEvent( SourceMessage,
-    "cannot reset MemberAlloc unless originally specified at create time\n" );
+"> cannot reset MemberAlloc unless originally specified at create time\n" );
 
     block = members;
     count = memberCount;
@@ -185,7 +185,7 @@ PHASE(Setting)
 
     if ( ! (bits & Bit_DefaultMember) )
       raiseEvent( SourceMessage,
-	"cannot reset DefaultMember unless also specified at create time\n" );
+      "> cannot reset DefaultMember unless also specified at create time\n" );
 
     block[count] = memberValue;
   }
@@ -207,7 +207,7 @@ PHASE(Setting)
 
     if ( bits & Bit_MemberAlloc )
       raiseEvent( SourceMessage,
-	"Cannot set a new array count when using external MemberBlock\n" );
+	"> cannot set a new array count when using external MemberBlock\n" );
     if ( memberCount < 0 ) raiseEvent( InvalidArgument, nil );
   
     if ( bits & Bit_DefaultMember ) {
@@ -412,7 +412,7 @@ PHASE(Using)
 - remove
 {
   raiseEvent( SourceMessage,
-    "remove is not supported on any Array - can only replace members\n" );
+    "> remove is not supported on any Array - can only replace members\n" );
   exit(1);
 }
 

@@ -11,14 +11,14 @@ Library:      defobj
 
 #define DEFINE_CLASSES
 #import <defobj.h>
-#import <defobj/defalloc.h>
 
 #ifdef INHERIT_OBJECT
 @interface Object_s : Object
 {
 @public
   unsigned  zbits;  // word that contains zone in which object allocated, plus
-                    // additional bits about the object
+                    // additional bits about the memory allocations for the
+                    // object
 }
 #else
 @interface Object_s
@@ -38,7 +38,7 @@ Library:      defobj
 - getZone;
 - (void) dropAllocations: (BOOL)componentAlloc;
 - (void) drop;
-- (ref_t) addRef: (notify_t)notifyFunction withArg: (void *)arg;;
+- (ref_t) addRef: (notify_t)notifyFunction withArgument: (void *)arg;;
 - (void) removeRef: (ref_t)refVal;
 + getSuperclass;
 + (BOOL) isSubclass: aClass;
@@ -55,23 +55,12 @@ Library:      defobj
 - perform: (SEL)aSel with: anObject1;
 - perform: (SEL)aSel with: anObject1 with: anObject2;
 - perform: (SEL)aSel with: anObject1 with: anObject2 with: anObject3;
-- copy;
 - (void) setDisplayName: (char *)aName;
 - (char *) getDisplayName;
 - (void) describe: outputCharStream;
 - (void) xprint;
+- (void) xprintid;
 @end
-
-//
-// getClass() -- macro to get class of instance
-//
-#define getClass( anObject ) ( *(Class *)anObject )
-
-//
-// setClass() -- macro to set behavior of instance to compatible class
-//
-#define setClass( anObject, aClass ) \
-  ( *(Class *)anObject = (Class)aClass )
 
 //
 // macros for accessing bits at defined locations inside instance variables
@@ -91,12 +80,13 @@ Library:      defobj
 //
 // callMethodInClass() -- macro for method lookup in an alternate superclass
 //
-// This macro is identical in function to the macro CALL_METHOD_IN_CLASS
-// in GNU libobjects-0.1.19/src/behavior.h, by Andrew McCallum.
+// This macro is similar to the macro CALL_METHOD_IN_CLASS in
+// GNU libobjects-0.1.19/src/behavior.h, by Andrew McCallum.
 //
 #define callMethodInClass( aClass, aMessage, args... ) \
-get_imp( aClass, @selector(aMessage) )( self, @selector(aMessage), ## args )
-extern IMP get_imp( Class class, SEL sel );
+({ SEL _sel_ = (aMessage); \
+get_imp( (aClass), _sel_ )( self, _sel_ , ## args ); })
+extern IMP get_imp( Class class, SEL sel );  // function used by macro
 
 //
 // respondsTo() -- function to test if object responds to message  
@@ -108,3 +98,34 @@ extern BOOL respondsTo( id anObject, SEL aSel );
 //   function to look up the method that implements a message for an object
 //
 extern IMP getMethodFor( id anObject, SEL aSel );
+
+//
+// getClass() -- macro to get class of instance
+//
+#define getClass( anObject ) \
+( *(Class *)(anObject) )
+
+//
+// setClass() -- macro to set behavior of instance to compatible class
+//
+#define setClass( anObject, aClass ) \
+( *(Class *)(anObject) = (Class)(aClass) )
+
+//
+// struct mapalloc, mapalloc_t --
+//   structure that maps an internal allocation within an object
+//
+// The mapalloc_t type is required in the declaration of any mapAllocations:
+// method, so the definition is included here for reference in the method
+// declarations of any subclass.  The implementation of a mapAllocations:
+// method, however, as well as all other other support for internal
+// allocations, still requires an explicit #import of <defobj/defalloc.h>.
+//
+typedef struct mapalloc *mapalloc_t;
+struct mapalloc {
+  void  (*mappingFunction)( mapalloc_t mapalloc, BOOL objectAllocation );
+  void  *alloc;         // allocated object or block
+  id    descriptor;     // descriptor for contents of allocated block, if any
+  id    zone;           // zone of allocated block, as used by descriptor
+  int   size;           // size of allocated block, as used by descriptor
+};

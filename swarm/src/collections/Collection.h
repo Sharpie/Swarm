@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -50,6 +50,9 @@ Library:      collections
 - (void) forEach: (SEL)aSelector : arg1;
 - (void) forEach: (SEL)aSelector : arg1 : arg2;
 - (void) forEach: (SEL)aSelector : arg1 : arg2 : arg3;
+- (void) describe: outputCharStream;
+- (void) xfprint;
+- (void) xfprintid;
 @end
 
 @interface Index_any : Object_s

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -10,6 +10,7 @@ Library:      collections
 */
 
 #import <collections/Map.h>
+#import <defobj/defalloc.h>
 
 //
 // compareIDs --
@@ -63,7 +64,7 @@ PHASE(Creating)
 - createEnd
 {
   if ( createByMessageToCopy( self, createEnd ) ) return self;
-  self->list = [List create: getComponentZone( self )];
+  self->list = [List create: getCZone( getZone( self ) )];
   setMappedAlloc( self );
   setNextPhase( self );
   return self;
@@ -82,7 +83,7 @@ PHASE(Using)
 
   newMap = [aZone allocIVars: getClass( self )];
   setMappedAlloc( newMap );
-  newMap->list = [List create: getComponentZone( self )];
+  newMap->list = [List create: getCZone( getZone( self ) )];
   index = [list begin: scratchZone];
   while ( (entry = (mapentry_t)[index next]) ) {
     newEntry = [getZone( self ) allocBlock: sizeof *entry];
@@ -213,6 +214,7 @@ PHASE(Using)
     if ( (result = compare( anEntry->key, aKey )) == 0 ) {
       [index remove];
       oldMem = anEntry->member;
+      [getZone( self ) freeBlock: anEntry blockSize: sizeof *anEntry];
       count--;
       break;
     }
@@ -227,8 +229,9 @@ PHASE(Using)
   MapIndex_c  *newIndex;
 
   newIndex = [aZone allocIVars: [MapIndex_c self]];
+  setMappedAlloc( newIndex );
   newIndex->collection = self;
-  newIndex->listIndex  = [list begin: aZone];
+  newIndex->listIndex  = [list begin: getCZone( aZone )];
   return newIndex;
 }
 
@@ -237,8 +240,9 @@ PHASE(Using)
   MapIndex_c  *newIndex;
 
   newIndex = [aZone allocIVars: anIndexSubclass];
+  setMappedAlloc( newIndex );
   newIndex->collection = self;
-  newIndex->listIndex  = [list begin: aZone];
+  newIndex->listIndex  = [list begin: getCZone( aZone )];
   return newIndex;
 }
 
@@ -396,6 +400,11 @@ PHASE(Using)
 - setOffset: (int)offset
 {
   return [listIndex setOffset: offset];
+}
+
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  mapObject( mapalloc, listIndex );
 }
 
 @end

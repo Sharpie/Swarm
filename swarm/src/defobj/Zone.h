@@ -27,7 +27,6 @@ Library:      defobj
 + createBegin: aZone;
 - (void) setPageSize: (int)pageSize;
 - createEnd;
-- getOwner;
 - (int) getPageSize;
 - allocIVars: aClass;
 - copyIVars: anObject;
@@ -35,23 +34,26 @@ Library:      defobj
 - allocIVarsComponent: aClass;
 - copyIVarsComponent: anObject;
 - (void) freeIVarsComponent: anObject;
-- getInternalComponentZone;
+- getComponentZone;
 - (void *) alloc: (size_t)size;
 - (void) free: (void *) aBlock;
 - (void *) allocBlock: (size_t)size;
-- (void) freeBlock: (void *) aBlock blockSize: (size_t)size;
+- (void) freeBlock: (void *)aBlock blockSize: (size_t)size;
 - getPopulation;
 - (void) describe: outputCharStream;
 - (void) xfprint;
+- (void) xfprintid;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ComponentZone_c : CreateDrop_s
 {
 @public
-  id  baseZone;  // zone from which component objects to be allocated
+  id  baseZone;       // zone from which component objects to be allocated
+  id  componentZone;  // reference to self for support of getComponentZone
 }
 /*** methods in ComponentZone_c (inserted from .m file) ***/
 - allocIVars: (Class)aClass;
 - copyIVars: anObject;
+- getComponentZone;
 @end

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -30,8 +30,8 @@ PHASE(Creating)
     bits |= Bit_IndexFromMemberLoc;
   } else {
     raiseEvent( InvalidArgument,
-       "IndexFromMemberLoc must be within range of -2044 to +2048\n"
-       "value specified: %d\n", byteOffset );
+       "> IndexFromMemberLoc must be within range of -2044 to +2048\n"
+       "> value specified: %d\n", byteOffset );
   }
 }
 
@@ -220,7 +220,19 @@ static id indexAtOffset( Collection_any *self, int offset )
   id  index, member;
 
   index = [(id)self begin: scratchZone];
-  while ( (member = [index next]) ) xprint( member );
+  while ( (member = [index next]) ) [member xfprint];
+  [index drop];
+}
+
+//
+// xfprintid -- message to execute xid on each member of a collection
+//
+- (void) xfprintid
+{
+  id  index, member;
+
+  index = [(id)self begin: scratchZone];
+  while ( (member = [index next]) ) [member xprintid];
   [index drop];
 }
 

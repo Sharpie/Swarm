@@ -1,10 +1,10 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
 /*
-Name:         ActionPlan.m
+Name:         CompoundAction.m
 Description:  a collection of actions to be performed in a defined order
 Library:      activity
 */
@@ -15,11 +15,13 @@ Library:      activity
 // this section compiled when not included for mixin inheritance
 //
 
-#import <activity/ActionPlan.h>
-#import <activity/Activity.h>
+#import <activity/CompoundAction.h>
+#import <activity/XActivity.h>
 
+@implementation ActionType_c
+@end
 
-@implementation ActionPlan_c
+@implementation CompoundAction_c
 @end
 
 
@@ -32,12 +34,12 @@ Library:      activity
 - (void) setDefaultOrder: aSymbol
 {
   if ( aSymbol == Concurrent ) {
-    setBit( bits, Bit_Concurrent, 1 );
+    setBit( bits, BitConcurrent, 1 );
   } else if ( aSymbol == Sequential ) {
-    setBit( bits, Bit_Concurrent, 0 );
-    setBit( bits, Bit_Randomized, 0 );
+    setBit( bits, BitConcurrent, 0 );
+    setBit( bits, BitRandomized, 0 );
   } else if ( aSymbol == Randomized ) {
-    setBit( bits, Bit_Randomized, 1 );
+    setBit( bits, BitRandomized, 1 );
   } else {
     raiseEvent( InvalidArgument, nil );
   }
@@ -45,7 +47,7 @@ Library:      activity
 
 - (void) setAutoDrop: (BOOL)autoDrop
 {
-  setBit( bits, Bit_AutoDrop, autoDrop );
+  setBit( bits, BitAutoDrop, autoDrop );
 }
 
 #elif   defined( MIXIN_C )
@@ -57,14 +59,22 @@ Library:      activity
 
 - getDefaultOrder
 {
-  if ( bits & Bit_Concurrent ) return Concurrent;
-  if ( bits & Bit_Randomized ) return Randomized;
+  if ( bits & BitConcurrent ) return Concurrent;
+  if ( bits & BitRandomized ) return Randomized;
   return Sequential;
 }
 
 - (BOOL) getAutoDrop
 {
-  return bits & Bit_AutoDrop;
+  return bits & BitAutoDrop;
+}
+
+//
+// activate -- activate to run as a top-level, externally controllable process
+//
+- activate
+{
+  return [self activateIn: nil];
 }
 
 //
@@ -93,11 +103,11 @@ Library:      activity
     swarmContext = [swarmContext getSwarmActivity];
     if ( ! swarmContext )
       raiseEvent( InvalidArgument,
-        "requested swarm context has not yet been activated\n" );
+        "> requested swarm context has not yet been activated\n" );
 
   } else if ( ! respondsTo( swarmContext, M(getSwarm) ) ) {
     raiseEvent( InvalidArgument,
-      "argument is neither nil nor a valid swarm context\n" );
+      "> argument is neither nil nor a valid swarm context\n" );
   }
 
   return
@@ -135,15 +145,15 @@ Library:      activity
     activityZone = _activity_zone;
     newActivity = [activityZone allocIVars: activityClass];
     newActivity->topLevelAction =
-      [getZone( newActivity ) allocIVarsComponent: id_CAction];
-    newActivity->topLevelAction->owner = (ActionPlan_c *)self;
+      [activityZone allocIVarsComponent: id_CAction];
+    newActivity->topLevelAction->owner = (ActionType_c *)self;
   }
   setMappedAlloc( newActivity );
 
   // add new activity to list of activities running plan
 
   if ( ! activityRefs ) activityRefs =
-    [_activity_activityRefsType create: getComponentZone( self )];
+    [_activity_activityRefsType create: getCZone( getZone( self ) )];
   [activityRefs add: newActivity];
 
   // initialize status and set break function from owner
@@ -157,7 +167,7 @@ Library:      activity
 
   // create index on the plan actions for traversal by the activity
 
-  newIndex = [self _createIndex_: getComponentZone( newActivity )
+  newIndex = [self _createIndex_: getCZone( activityZone )
                 forIndexSubclass: indexClass];
   newIndex->activity = (id)newActivity;
   newActivity->currentIndex = newIndex;
@@ -172,7 +182,7 @@ Library:      activity
 {
   if ( activityRefs && [activityRefs getCount] > 0 )
     raiseEvent( SourceMessage,
-     "cannot drop action plan still referenced by an uncompleted activity\n" );
+   "> cannot drop action plan still referenced by an uncompleted activity\n" );
   [super drop];
 }
 

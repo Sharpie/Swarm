@@ -12,6 +12,7 @@ Library:      defobj
 #import <defobj/DefObject.h>
 #import <defobj/DefClass.h>
 #import <defobj/Program.h>
+#import <defobj/defalloc.h>
 #import <collections.h>
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
 
@@ -25,16 +26,24 @@ Library:      defobj
 extern id _obj_implModule;  // defined in Program.m
 
 //
-// suballocPrototype --
-//   prototype of an ordered set initialized for tracking of suballocations
-//   within an object 
+// _obj_displayNameMap -- map of display names by object id
 //
-static id suballocPrototype;
+id _obj_displayNameMap;
 
 //
-// _obj_DisplayNameMap -- map of display names by object id
+// _obj_sessionZone --
+//   zone used for session-wide allocations that are not intended as part of
+//   the program itself
+// (Used in DefObject.m to hold the display name map.)
 //
-id _obj_DisplayNameMap;
+extern id _obj_sessionZone;
+
+//
+// suballocPrototype --
+//   prototype of collections used to hold a list of suballocations for an
+//   object
+//
+static id suballocPrototype;
 
 
 @implementation Object_s
@@ -76,7 +85,7 @@ id _obj_DisplayNameMap;
 //
 - getZone
 {
-  return (id)( zbits & ~0x7 );
+  return getZone( self );
 }
 
 //
@@ -108,7 +117,7 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 
   } else {
     raiseEvent( InvalidArgument,
-      "unrecognized descriptor of allocated block in mapAlloc() call\n" );
+      "> unrecognized descriptor of allocated block in mapAlloc() call\n" );
   }
 }
 
@@ -135,7 +144,7 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 //
 - (void) dropAllocations: (BOOL)componentAlloc
 {
-  id               zone, suballocList = nil, index =/*-O*/nil;
+  id               zone, suballocList, index = /*-O*/nil;
   suballocEntry_t  suballocEntry;
   struct mapalloc  mapalloc;
 
@@ -143,8 +152,8 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
   // remove and free their entries from the suballocations list
 
   zone = getZone( self );
-  if ( getBit( zbits, BitSuballocList ) ) {
-    suballocList = getSuballocList( self );
+  suballocList = getSuballocList( self );
+  if ( suballocList ) {
     index = [suballocList begin: scratchZone];
     [index setLoc: End];
     while ( (suballocEntry = (suballocEntry_t)[index prev]) &&
@@ -156,7 +165,9 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
     if ( ! suballocEntry ) {
       [index drop];
       setBit( zbits, BitSuballocList, 0 );
-      [suballocList drop];
+      [zone freeBlock: suballocList
+        blockSize: getClass( suballocList )->instance_size];
+      suballocList = nil;
     }
   }
 
@@ -166,7 +177,7 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
   //!! This code assumes that the zone requires that all internal allocations,
   //!! including internal storage blocks, must be mapped to assure release of
   //!! object resources.  Later, when deferred reclaim versions of zone have
-  //!! implemented, this code should be replaced by a no-op provided that no
+  //!! implemented, this code should be replaced by a no-op except when
   //!! debug checking of user non-referenceability assertions is to be done.
   //
 
@@ -182,13 +193,14 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
   if ( suballocList ) {
     [index setLoc: Start];
     while ( (suballocEntry = (suballocEntry_t)[index next]) ) {
-      [getZone( self ) freeBlock: suballocEntry->argument
+      [zone freeBlock: suballocEntry->argument
         blockSize: ((suballocHeader_t)suballocEntry->argument)->suballocSize];
       [index remove];
       [zone freeBlock: suballocEntry blockSize: sizeof *suballocEntry];
     }
     [index drop];
-    [getSuballocList( self ) drop];
+    [zone freeBlock: suballocList
+      blockSize: getClass( suballocList )->instance_size];
   }
 
   // free the local instance variables for the object
@@ -213,7 +225,7 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 //   notifyFunction is nil) that will be notified on any reallocation or
 //   deallocation of the object
 //
-- (ref_t) addRef: (notify_t)notifyFunction withArg: (void *)arg;
+- (ref_t) addRef: (notify_t)notifyFunction withArgument: (void *)arg;
 {
   id               zone, suballocList, index;
   suballocEntry_t  suballocEntry, nextEntry;
@@ -229,16 +241,19 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 
   // if suballoc list not yet established for object then do it now
 
-  zone = getZone( self );
   if ( ! getBit( zbits, BitSuballocList ) ) {
+    zone = getZone( self );
     suballocList =
       [zone allocBlock: getClass( suballocPrototype )->instance_size];
     memcpy( suballocList, suballocPrototype,
               getClass( suballocPrototype )->instance_size );
     ((Object_s *)suballocList)->zbits = (unsigned)zone;
-    self->zbits = (unsigned)suballocList & ( self->zbits & 0x7 );
+    self->zbits =
+      (unsigned)suballocList | ( self->zbits & 0x7 ) | BitSuballocList;
+    zone = getZone( self );
   } else {
     suballocList = getSuballocList( self );
+    zone = getZone( (Object_s *)suballocList );
   }
 
   // initialize new entry for suballocations list
@@ -278,7 +293,7 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 
   if ( _obj_debug && ! suballocList )
     raiseEvent( InvalidOperation,
-  "object from which reference to be removed does not have any references" );
+  "> object from which reference to be removed does not have any references" );
 
   index = [suballocList createIndex: scratchZone fromMember: (id)refVal];
   [index remove];
@@ -317,34 +332,34 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 
   if ( _obj_implModule == nil )
     raiseEvent( SourceMessage,
-  "setTypeImplemented: implementating classes for types can only be declared\n"
-  "from a module \"_implement\" function\n" );
+"> setTypeImplemented: implementating classes for types can only be declared\n"
+"> from a module \"_implement\" function\n" );
 
   if ( ! aType )
     raiseEvent( InvalidArgument,
-      "setTypeImplemented: argument is nil\n"
-      "(argument may be an uninitialized type from an uninitialized module)\n"
-      "Module currently being initialized is: %s\n",
+     "> setTypeImplemented: argument is nil\n"
+     "> (argument may be an uninitialized type from an uninitialized module)\n"
+     "> Module currently being initialized is: %s\n",
       [_obj_implModule getName] );
 
   if ( getClass( aType ) != id_Type_c )
     raiseEvent( InvalidArgument,
-      "setTypeImplemented: argument is not a type object\n" );
+      "> setTypeImplemented: argument is not a type object\n" );
 
   classData = _obj_getClassData( self );
 
   if ( classData->owner != _obj_implModule )
     raiseEvent( SourceMessage,
-      "setTypeImplemented: class %s in module %s does not belong to module\n"
-      "currently being initialized (%s)\n",
+      "> setTypeImplemented: class %s in module %s does not belong to module\n"
+      "> currently being initialized (%s)\n",
       ((Class)self)->name, [classData->owner getName],
       [_obj_implModule getName] );
 
   if ( classData->typeImplemented &&
        *(id *)classData->typeImplemented != self )
     raiseEvent( SourceMessage,
-      "setTypeImplemented: class %s, requested to implement the type %s,\n"
-      "has already been specified as the implementation of type %s\n",
+      "> setTypeImplemented: class %s, requested to implement the type %s,\n"
+      "> has already been specified as the implementation of type %s\n",
       ((Class)self)->name, [aType getName],
       [classData->typeImplemented getName] );
 
@@ -428,7 +443,8 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
   IMP  mptr;
 
   mptr = objc_msg_lookup( self, aSel );
-  if ( ! mptr ) raiseEvent( InvalidArgument, "message selector not valid\n" );
+  if ( ! mptr )
+    raiseEvent( InvalidArgument, "> message selector not valid\n" );
   return mptr( self, aSel );
 }
 
@@ -437,7 +453,8 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
   IMP  mptr;
 
   mptr = objc_msg_lookup( self, aSel );
-  if ( ! mptr ) raiseEvent( InvalidArgument, "message selector not valid\n" );
+  if ( ! mptr ) raiseEvent( InvalidArgument,
+    "> message selector not valid\n" );
   return mptr( self, aSel, anObject1 );
 }
 
@@ -446,7 +463,8 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
   IMP  mptr;
 
   mptr = objc_msg_lookup( self, aSel );
-  if ( ! mptr ) raiseEvent( InvalidArgument, "message selector not valid\n" );
+  if ( ! mptr )
+    raiseEvent( InvalidArgument, "> message selector not valid\n" );
   return mptr( self, aSel, anObject1, anObject2 );
 }
 
@@ -455,18 +473,116 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
   IMP  mptr;
 
   mptr = objc_msg_lookup( self, aSel );
-  if ( ! mptr ) raiseEvent( InvalidArgument, "message selector not valid\n" );
+  if ( ! mptr )
+    raiseEvent( InvalidArgument, "> message selector not valid\n" );
   return mptr(self, aSel, anObject1, anObject2, anObject3);
 }
 
 //
-// copy -- method to disable the method inherited from the Object superclass
-//         that does not use the defobj allocation conventions
+// methods inherited from Object that are blocked because they do not support
+// the defined model of zone-based allocation
 //
-- copy
+#ifdef INHERIT_OBJECT
+// (suppress automatic declaration of methods by indenting from column 1)
+ - copy         { raiseEvent( BlockedObjectAlloc, nil ); return nil; }
+ + alloc        { raiseEvent( BlockedObjectAlloc, nil ); return nil; }
+ - free         { raiseEvent( BlockedObjectAlloc, nil ); return nil; }
+ - shallowCopy  { raiseEvent( BlockedObjectAlloc, nil ); return nil; }
+ - deepen;      { raiseEvent( BlockedObjectAlloc, nil ); return nil; }
+ - deepCopy;    { raiseEvent( BlockedObjectAlloc, nil ); return nil; }
+#endif
+
+//
+// methods inherited from Object that are not officially supported in public
+// interface but still supported with warnings until some future release
+//
+#ifdef INHERIT_OBJECT_WITH_ERRORS
+// (suppress automatic declaration of methods by indenting from column 1)
+ - (Class)init
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - (Class)class
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - (Class)superClass
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - (MetaClass)metaClass
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - (const char *)name
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - self
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - (unsigned int)hash
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL)isEqual:anObject
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL)isMetaClass
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL)isClass
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL)isInstance
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL)isKindOf:(Class)aClassObject
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL)isMemberOf:(Class)aClassObject
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL)isKindOfClassNamed:(const char *)aClassName
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL)isMemberOfClassNamed:(const char *)aClassName
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ + (BOOL)instancesRespondTo:(SEL)aSel
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ + (IMP)instanceMethodFor:(SEL)aSel
+ { raiseEvent( BlockedObjectUsage, nil ); return (IMP)0; }
+ + (BOOL) conformsTo: (Protocol*)aProtocol
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (BOOL) conformsTo: (Protocol*)aProtocol
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ + (struct objc_method_description *)descriptionForInstanceMethod:(SEL)aSel
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - (struct objc_method_description *)descriptionForMethod:(SEL)aSel
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ + poseAs:(Class)aClassObject
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - (Class)transmuteClassTo:(Class)aClassObject
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - subclassResponsibility:(SEL)aSel
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - notImplemented:(SEL)aSel
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - shouldNotImplement:(SEL)aSel
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - doesNotRecognize:(SEL)aSel
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - error:(const char *)aString, ...
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ + (int)version
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ + setVersion:(int)aVersion
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ + (int)streamVersion: (TypedStream*)aStream
+ { raiseEvent( BlockedObjectUsage, nil ); return 0; }
+ - read: (TypedStream*)aStream
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - write: (TypedStream*)aStream
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+ - awake
+ { raiseEvent( BlockedObjectUsage, nil ); return nil; }
+#endif
+
+//
+// notifyDisplayName() --
+//  function to maintain display name on change of object allocation
+//
+static void notifyDisplayName( id object, id reallocAddress, void *arg )
 {
-  raiseEvent( SubclassMustImplement, nil );
-  return nil;
+  char  *displayName;
+
+  displayName = (char *)[_obj_displayNameMap removeKey: object];
+  if ( reallocAddress ) {
+    [_obj_displayNameMap at: object insert: (id)displayName];
+  } else {
+    [_obj_sessionZone
+      freeBlock: displayName blockSize: strlen( displayName ) + 1];
+  }
 }
 
 //
@@ -475,14 +591,18 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 //
 - (void) setDisplayName: (char *)aName
 {
-  char  *displayName, buffer[100];
-  id    *memPtr;
+  char           buffer[100], *displayName;
+  id             *memPtr;
 
-  if ( ! _obj_DisplayNameMap) {
-    _obj_DisplayNameMap = [Map createBegin: globalZone];
-    [_obj_DisplayNameMap setCompareFunction: compareIDs];
-    _obj_DisplayNameMap = [_obj_DisplayNameMap createEnd];
+  // allocate a display name map if not done already
+
+  if ( ! _obj_displayNameMap) {
+    _obj_displayNameMap = [Map createBegin: _obj_sessionZone];
+    [_obj_displayNameMap setCompareFunction: compareIDs];
+    _obj_displayNameMap = [_obj_displayNameMap createEnd];
   }
+
+  // set display name to the default if no name string given
 
   if ( ! aName ) {
     sprintf( buffer, "%0#8x: %.64s",
@@ -490,15 +610,23 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
     aName = buffer;
   }
 
-  displayName = [globalZone alloc: strlen( aName ) + 1];
+  // allocate a new display name and initialize its name string
+
+  displayName = [_obj_sessionZone allocBlock: strlen( aName ) + 1];
   strcpy( displayName, aName );
 
-  memPtr = (id *)&displayName;
-  if ( ! [_obj_DisplayNameMap at: self memberSlot: &memPtr] )
-    [_obj_globalZone free: displayName];
+  // insert display name into the global display name map, if not already there
 
-  //!! later: register a reference to the object so that the string entry can
-  //   be removed when it's later dropped
+  memPtr = (id *)&displayName;
+  if ( ! [_obj_displayNameMap at: self memberSlot: &memPtr] ) {
+    [_obj_sessionZone freeBlock: displayName blockSize: strlen( aName ) + 1];
+
+  // if new display name, then register a dependent reference from the display
+  // name to the object
+
+  } else {
+    [self addRef: notifyDisplayName withArgument: nil];
+  }
 }
 
 //
@@ -508,14 +636,18 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 //
 - (char *) getDisplayName
 {
-  char  *displayName;
+  if ( ! _obj_displayNameMap ) return (char *)0;
+  return (char *)[_obj_displayNameMap at: self];
+}
 
-  if ( ! _obj_DisplayNameMap ) [self setDisplayName: (char *)0];
-
-  displayName = (char *)[_obj_DisplayNameMap at: self];
-  if ( displayName ) return displayName;
-  [self setDisplayName: (char *)0];
-  return (char *)[_obj_DisplayNameMap at: self];
+//
+// _obj_formatIDString() --
+//   function to generate object id string in standard format
+//
+extern void _obj_formatIDString( char *buffer, id anObject )
+{
+  sprintf( buffer, "%0#8x: %.64s",
+           (unsigned)anObject, ((Class)[anObject getClass])->name );
 }
 
 //
@@ -525,13 +657,11 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 {
   char  buffer[100], *displayName;
 
-  sprintf( buffer, "%0#8x: %.64s",
-           (unsigned int)self, getClass( self )->name );
+  _obj_formatIDString( buffer, self );
   [outputCharStream catC: buffer];
 
   displayName = [self getDisplayName];
-
-  if ( strcmp( displayName, buffer ) != 0 ) {
+  if ( displayName ) {
     [outputCharStream catC: ", display name: "];
     [outputCharStream catC: displayName];
   }
@@ -547,6 +677,19 @@ void _obj_dropAlloc( mapalloc_t mapalloc, BOOL objectAllocation )
 
   describeString = [String create: scratchZone];
   [self describe: describeString];
+  fprintf( _obj_xdebug, [describeString getC] );
+  [describeString drop];
+}
+
+//
+// xprintid -- print only the id string for an object on debug output stream
+//
+- (void) xprintid
+{
+  id  describeString;
+
+  describeString = [String create: scratchZone];
+  callMethodInClass( id_Object_s, M(describe:), describeString );
   fprintf( _obj_xdebug, [describeString getC] );
   [describeString drop];
 }
@@ -571,7 +714,21 @@ IMP getMethodFor( Class aClass, SEL aSel )
 }
 
 //
-// xprint() -- function to print the debug description for an object
+// xsetname() -- debug function to set display name for an object
+//
+void xsetname( id anObject, char *displayName )
+{
+  if ( anObject )
+    if ( respondsTo( anObject, M(setDisplayName:) ) )
+      [anObject setDisplayName: displayName];
+    else
+      fprintf( _obj_xdebug, "object does not respond to setDisplayName:\n" );
+  else
+    fprintf( _obj_xdebug, "object is nil\n" );
+}
+
+//
+// xprint() -- debug function to print the debug description for an object
 //
 void xprint( id anObject )
 {
@@ -583,13 +740,43 @@ void xprint( id anObject )
 }
 
 //
+// xprintid() -- debug function to print the id string for an object
+//
+void xprintid( id anObject )
+{
+  if ( anObject ) {
+    [anObject xprintid];
+  } else {
+    fprintf( _obj_xdebug, "object is nil\n" );
+  }
+}
+
+//
 // xfprint() --
-//   function to print the debug description for each member of a collection
+//   debug function to print the debug description for each member of a
+//   collection
 //
 void xfprint( id anObject )
 {
   if ( anObject ) {
+    if ( ! respondsTo( anObject, M(xfprint) ) )
+      fprintf( _obj_xdebug, "object does not respond to xfprint\n" );
     [anObject xfprint];
+  } else {
+    fprintf( _obj_xdebug, "object is nil\n" );
+  }
+}
+
+//
+// xfprintid() --
+//   debug function to print the id string for each member of a collection
+//
+void xfprintid( id anObject )
+{
+  if ( anObject ) {
+    if ( ! respondsTo( anObject, M(xfprint) ) )
+      fprintf( _obj_xdebug, "object does not respond to xfprintid\n" );
+    [anObject xfprintid];
   } else {
     fprintf( _obj_xdebug, "object is nil\n" );
   }
@@ -625,5 +812,24 @@ void xexec( id anObject, char *msgName )
 //
 void xfexec( id anObject, char *msgName )
 {
-  fprintf( stderr, "function not yet implemented\n" );
+  id  index, member;
+
+  if ( anObject ) {
+    if ( ! respondsTo( anObject, M(begin:) ) ) {
+      fprintf( _obj_xdebug,
+"object %0#8x: %s does not respond to begin:\n"
+"(begin: is required by xfexec to enumerate the members of a collection)\n",
+        (unsigned)anObject, getClass( anObject )->name );
+    } else {
+      index = [anObject begin: scratchZone];
+      while ( (member = [index next]) ) {
+        xexec( member, msgName );
+        anObject = nil;
+      }
+      if ( anObject )
+        fprintf( _obj_xdebug, "collection has no members\n" );
+    }
+  } else {
+    fprintf( _obj_xdebug, "object is nil" );
+  }
 }

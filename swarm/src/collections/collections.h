@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -36,7 +36,9 @@ USING
 
 - (BOOL)	contains: aMember;
 -		remove: aMember;
+
 - (void)	removeAll;
+- (void)	deleteAll;
 
 -		begin: aZone;
 
@@ -44,6 +46,9 @@ USING
 - (void)	forEach: (SEL)aSelector : arg1;
 - (void)	forEach: (SEL)aSelector : arg1 : arg2;
 - (void)	forEach: (SEL)aSelector : arg1 : arg2 : arg3;
+
+- (void)	xfprint;
+- (void)	xfprintid;
 @end
 
 // values for index safety

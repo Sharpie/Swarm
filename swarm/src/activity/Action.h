@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -9,17 +9,18 @@ Description:  action included in an activity plan
 Library:      activity
 */
 
-#import <activity/ActionPlan.h>
+#import <activity/CompoundAction.h>
 #import <activity.h>
 
 @interface CAction : Object_s
 {
 @public
-  ActionPlan_c  *owner;        // action type that binds action in its context
+  ActionType_c  *owner;        // action type that binds action in its context
   member_t      ownerActions;  // internal links in actions owned by ActionType
 }
 /*** methods in CAction (inserted from .m file) ***/
 - getOwner;
+- (void) drop;
 @end
 
 @interface ActionCall_0 : CAction

@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -10,7 +10,7 @@ Library:      collections
 */
 
 #import <collections/List.h>
-#import <objc/objc-api.h>    // for sending messages to @class names
+#import <defobj/defalloc.h>
 
 
 @implementation List_any
@@ -42,7 +42,7 @@ PHASE(Creating)
 
   if ( ( bits & Bit_InitialValueSet ) && ( bits & Bit_IndexFromMemberLoc ) )
     raiseEvent( InvalidCombination,
-       "cannot specify an initial value with IndexFromMemberLoc option\n" );
+       "> cannot specify an initial value with IndexFromMemberLoc option\n" );
 
   if ( bits & Bit_InitialValueSet ) {
     if ( createByMessageToCopy( self, createEnd ) ) return self;

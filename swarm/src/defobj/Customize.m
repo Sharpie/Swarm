@@ -12,6 +12,7 @@ Library:      defobj
 #import <defobj/Customize.h>
 #import <defobj/DefClass.h>
 #import <defobj/Program.h>
+#import <defobj/defalloc.h>
 #import <collections.h>
 #import <objc/objc-api.h>
 
@@ -20,6 +21,7 @@ Library:      defobj
 
 extern void _obj_splitPhases( Class_s  *class );
 
+extern id _obj_initZone;  // currently receives generated classes
 
 //
 // inline functions to save field in copy of class structure used as wrapper
@@ -85,7 +87,7 @@ PHASE(Creating)
 
   // allocate object at initial location using createBegin
 
-  newObject = [self createBegin: [aZone getInternalComponentZone]];
+  newObject = [self createBegin: [aZone getComponentZone]];
 
   // wrap instance for customization and return allocated object
 
@@ -105,7 +107,7 @@ PHASE(Creating)
 
   if ( ! _obj_customize( self ) )
     raiseEvent( CreateUsage,
-       "class %s: customizeEnd may only follow customizeBegin\n",
+       "> class %s: customizeEnd may only follow customizeBegin\n",
        [[self getClass] getName] );
 
   // get information from self before any possible changes by createEnd
@@ -122,8 +124,8 @@ PHASE(Creating)
 
   if ( [getClass( createBy ) superClass] != [CreateBy_c self] ) {
     raiseEvent( CreateSubclassing,
-      "class %s: createEnd did not select a createBy action when called by\n"
-      "customizeEnd to save a customization\n",
+      "> class %s: createEnd did not select a createBy action when called by\n"
+      "> customizeEnd to save a customization\n",
       [selfClass getName] );
   }
 
@@ -150,10 +152,10 @@ PHASE(Creating)
       getClass( createBy->createReceiver ), createBy->createMessage );
     if ( ! respondsTo( createBy->createReceiver, createBy->createMessage ) ) {
       raiseEvent( CreateSubclassing,
-	"class %s, setCreateByMessage: or setCreateByMessage:to:\n"
-	"receiver object: %0#8x: %.64s\n"
-	"message selector name: \"%s\"\n"
-	"message selector not valid for receiver\n",
+	"> class %s, setCreateByMessage: or setCreateByMessage:to:\n"
+	"> receiver object: %0#8x: %.64s\n"
+	"> message selector name: \"%s\"\n"
+	"> message selector not valid for receiver\n",
 	[[self getClass] getName],
 	createBy->createReceiver, getClass( createBy->createReceiver )->name,
 	sel_get_name( createBy->createMessage ) );
@@ -183,7 +185,7 @@ PHASE(Creating)
 
   if ( _obj_customize( self ) )
     raiseEvent( CreateUsage,
-       "class %s: customizeCopy must follow customizeBegin\n",
+       "> class %s: customizeCopy must follow customizeBegin\n",
        [[self getClass] getName] );
 
   // make shallow copy of self with original class restored
@@ -226,9 +228,9 @@ PHASE(Creating)
 
   if ( ! _obj_customize( self ) )
     raiseEvent( CreateUsage,
-      "class %s: customizeEnd must follow customizeBegin\n"
-      "(If classes coded properly, error raised by a createBy... macro\n"
-      "in a createEnd method.)\n", 
+      "> class %s: customizeEnd must follow customizeBegin\n"
+      "> (If classes coded properly, error raised by a createBy... macro\n"
+      "> in a createEnd method.)\n", 
       [[self getClass] getName] );
 
   // install subclass as class of CreateBy instance
@@ -283,8 +285,8 @@ PHASE(Creating)
        ! strchr(messageName, ':') ||
        strchr(messageName, ':') - messageName != strlen(messageName) - 1 ) {
     raiseEvent( CreateSubclassing,
-      "class %s: setCreateByMessage:to: message selector name: \"%s\"\n"
-      "message selector must accept one argument (for create zone)\n",
+      "> class %s: setCreateByMessage:to: message selector name: \"%s\"\n"
+      "> message selector must accept one argument (for create zone)\n",
       [[self getClass] getName] );
   }
 }
@@ -309,8 +311,8 @@ PHASE(Creating)
        ( strchr(messageName, ':') &&
          strchr(messageName, ':') - messageName != strlen(messageName) - 1 ) ) {
     raiseEvent( CreateSubclassing,
-      "class %s: setCreateByMessage:to: message selector name: \"%s\"\n"
-      "message selector must accept at most one argument\n",
+      "> class %s: setCreateByMessage:to: message selector name: \"%s\"\n"
+      "> message selector must accept at most one argument\n",
       [[self getClass] getName] );
   }
 }
@@ -325,7 +327,7 @@ PHASE(Creating)
 
   if ( ! respondsTo( anObject, M(createBegin:) ) )
     raiseEvent( InvalidArgument,
-      "setRecustomize receiver argument does not respond to createBegin:\n" );
+    "> setRecustomize receiver argument does not respond to createBegin:\n" );
 
   // install subclass as class of CreateBy instance
 
@@ -460,8 +462,8 @@ void _obj_splitPhases( Class_s *class )
     } else if ( mdefs->interfaceID == CreatingOnly ||
                 mdefs->interfaceID == UsingOnly ) {
         raiseEvent( SourceMessage,
-          "setTypeImplemented: class %s: cannot specify any other phase\n"
-          "in combination with CreatingOnly or UsingOnly\n" );
+          "> setTypeImplemented: class %s: cannot specify any other phase\n"
+          "> in combination with CreatingOnly or UsingOnly\n" );
 
     } else if ( mdefs->interfaceID == Setting ) {
       for ( mnext = mdefs->firstEntry;
@@ -472,7 +474,8 @@ void _obj_splitPhases( Class_s *class )
 
     } else {
       raiseEvent( SourceMessage,
-        "setTypeImplemented: invalid phase marker in class %s\n", class->name );
+        "> setTypeImplemented: invalid phase marker in class %s\n",
+        class->name );
     }        
   }
 
@@ -509,8 +512,8 @@ void _obj_splitPhases( Class_s *class )
 
   if ( ! recustomize )
     raiseEvent( CreateUsage,
-      "class %s: createBegin not supported after customization already\n"
-      "completed a first time by customizeBegin/End\n",
+      "> class %s: createBegin not supported after customization already\n"
+      "> completed a first time by customizeBegin/End\n",
       [[self getClass] getName] );
 
   return [recustomize createBegin: aZone];
@@ -522,8 +525,8 @@ void _obj_splitPhases( Class_s *class )
 
   if ( ! recustomize )
     raiseEvent( CreateUsage,
-      "class %s: customizeBegin not supported after customization already\n"
-      "completed a first time by customizeBegin/End\n",
+      "> class %s: customizeBegin not supported after customization already\n"
+      "> completed a first time by customizeBegin/End\n",
       [[self getClass] getName] );
 
   return [recustomize customizeBegin: aZone];

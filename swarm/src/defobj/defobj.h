@@ -15,11 +15,11 @@ Library:      defobj
 // DefinedObject -- object with defined type and implementation
 //
 @deftype DefinedObject
+-		getZone;
 - (BOOL)	respondsTo: (SEL)aSel;
 -		getClass;
--		getZone;
 
-- (ref_t)	addRef: (notify_t)notifyFunction withArg: (void *)arg;
+- (ref_t)	addRef: (notify_t)notifyFunction withArgument: (void *)arg;
 - (void)	removeRef: (ref_t)refVal;
 
 - (int)		compare: anObject;
@@ -34,6 +34,7 @@ Library:      defobj
 
 - (void)	describe: outputCharStream;
 - (void)	xprint;
+- (void)	xprintid;
 @end
 
 //
@@ -136,13 +137,13 @@ CREATING
 //
 #define raiseEvent( eventType, formatString, args... ) \
 [eventType raiseEvent: \
-"\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args];
+"\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
 
 
 //
 // Zone -- modular unit of storage allocation
 //
-@deftype Zone <Create, Drop, GetOwner, CREATABLE>
+@deftype Zone <Create, Drop, CREATABLE>
 CREATING
 - (void)	setReclaimPolicy: reclaimPolicy;
 - (void)	setStackedSubzones: (BOOL)stackedSubzones;
@@ -160,7 +161,7 @@ USING
 -		copyIVarsComponent: anObject;
 - (void)	freeIVarsComponent: anObject;
 
--		getInternalComponentZone;
+-		getComponentZone;
 
 - (void *)	alloc: (size_t)size;
 - (void)	free: (void *)aBlock;
@@ -177,9 +178,9 @@ USING
 
 - (void)	reclaimStorage;
 - (void)	releaseStorage;
-- (void)	transferStorageFrom: aZone;
 
 - (void)	xfprint;
+- (void)	xfprintid;
 @end
 
 //
@@ -242,7 +243,9 @@ extern id <Error>
   CreateUsage,            // incorrect sequence of Create protocol messages
   OutOfMemory,            // no more memory available for allocation
   InvalidAllocSize,       // no more memory available for allocation
-  InternalError;          // unexpected condition encountered in program
+  InternalError,          // unexpected condition encountered in program
+  BlockedObjectAlloc,     // method from Object with invalid allocation
+  BlockedObjectUsage;     // method inherited from Object superclass
 
 //
 // standard warnings
@@ -256,19 +259,22 @@ extern id <Warning>
   ResourceAvailability;   // resource from runtime environment not available
 
 //
+// predefined type descriptors for allocated blocks
+//
+extern id <Symbol>  t_ByteArray, t_LeafObject, t_PopulationObject;
+
+//
 // M() -- macro to abbreviate @selector()
 //
 #define M( messageName ) @selector( messageName )
 
 //
-// func_t -- function pointer type
+// _obj_formatIDString() --
+//   function to generate object id string in standard format
 //
-typedef void (*func_t)( void );
-
+// (Up to 78 characters of the supplied buffer argument could be filled.)
 //
-// predefined type descriptors for allocated blocks
-//
-extern id <Symbol>  t_ByteArray, t_LeafObject, t_PopulationObject;
+extern void _obj_formatIDString( char *buffer, id anObject );
 
 //
 // declaration to enable use of @class declaration for message receiver without
@@ -281,6 +287,11 @@ extern Class objc_get_class( const char *name );  // for class id lookup
 // type objects generated for module
 //
 #import <defobj/types.h>
+
+
+//
+// global data and functions
+//
 
 //
 // initModule() -- module initialization macro
@@ -288,14 +299,8 @@ extern Class objc_get_class( const char *name );  // for class id lookup
 #define initModule(module) _obj_initModule(_##module##_)
 extern void _obj_initModule( void *module );
 
-//
-// global data and functions
-//
-
-extern id _obj_globalZone;        // global storage zone
-extern id _obj_scratchZone;       // scratch zone
-extern id _obj_initZone;          // zone for init function allocations
-extern id _obj_probeZone;         // zone for probe object allocations
+extern id _obj_globalZone;   // global storage zone
+extern id _obj_scratchZone;  // scratch zone
 
 #define globalZone       _obj_globalZone
 #define scratchZone      _obj_scratchZone
@@ -307,10 +312,13 @@ extern BOOL _obj_debug;       // if true then perform all debug error checking
 extern FILE *_obj_xerror;     // output file for error messages
 extern FILE *_obj_xdebug;     // output file for debugging messages
 
-extern void xprint(  id anObject );             // debugger object print
-extern void xexec(   id anObject, char *name ); // debugger method exec
-extern void xfprint( id anObject );             // debugger foreach object print
-extern void xfexec(  id anObject, char *name ); // debugger foreach method exec
+extern void xsetname(  id anObject, char *name);  // debug set display name
+extern void xprint(    id anObject );             // debug object print
+extern void xprintid(  id anObject );             // debug object id print
+extern void xfprint(   id anObject );             // debug foreach object print
+extern void xfprintid( id anObject );             // debug foreach id print
+extern void xexec(     id anObject, char *name ); // debug method exec
+extern void xfexec(    id anObject, char *name ); // debug foreach method exec
 
 //
 // old stuff for compatibility during the transition
@@ -331,10 +339,3 @@ setMessageString: message]
 #define deferror( name, message ) \
 [(name = [Error create: globalZone setName: #name]) \
 setMessageString: message]
-
-//
-// declarations of obsolete message names
-//
-@protocol _defobj_compatibility
-- (void)        dropFrom: aZone;  // now simply drop
-@end

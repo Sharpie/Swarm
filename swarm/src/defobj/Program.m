@@ -25,6 +25,8 @@ Library:      defobj
 
 extern void _obj_splitPhases( Class_s  *class );
 
+extern id _obj_initZone;  // currently receives modules and classes
+
 id   Creating, Setting, Using, CreatingOnly, UsingOnly;
 
 id   *_obj_modules, *_obj_classes, _obj_programModule[7];

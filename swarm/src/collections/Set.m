@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -11,6 +11,7 @@ Library:      collections
 
 #import <collections/Set.h>
 #import <collections/List.h>
+#import <defobj/defalloc.h>
 
 
 @implementation Set_c
@@ -28,7 +29,7 @@ PHASE(Creating)
 - createEnd
 {
   if ( createByMessageToCopy( self, createEnd ) ) return self;
-  self->list = [List create: getComponentZone( self )];
+  self->list = [List create: getCZone( getZone( self ) )];
   setMappedAlloc( self );
   setNextPhase( self );
   return self;
@@ -102,8 +103,9 @@ PHASE(Using)
   SetIndex_c *newIndex;
 
   newIndex = [aZone allocIVars: [SetIndex_c self]];
+  setMappedAlloc( newIndex );
   newIndex->collection = self;
-  newIndex->listIndex  = [(id)list begin: aZone];
+  newIndex->listIndex  = [(id)list begin: getCZone( aZone )];
   return newIndex;
 }
 
@@ -165,6 +167,11 @@ PHASE(Using)
 - setOffset: (int)offset
 {
   return [listIndex setOffset: offset];
+}
+
+- (void) mapAllocations: (mapalloc_t)mapalloc
+{
+  mapObject( mapalloc, listIndex );
 }
 
 @end

@@ -10,6 +10,7 @@ Library:      defobj
 */
 
 #import <defobj/Zone.h>
+#import <defobj/defalloc.h>
 #import <collections.h>
 
 #include <stdlib.h>
@@ -62,9 +63,9 @@ PHASE(Creating)
 - (void) setPageSize: (int)pageSize
 {
   raiseEvent( NotImplemented,
-    "PageSize option not yet implemented.\n"
-    "Page size must be a power of two, at least 256, and no greater than\n"
-    "the page size of the zone owner.  Page size requested was: %d.\n",
+    "> PageSize option not yet implemented.\n"
+    "> Page size must be a power of two, at least 256, and no greater than\n"
+    "> the page size of the zone owner.  Page size requested was: %d.\n",
     pageSize );
 }
 
@@ -79,6 +80,7 @@ PHASE(Creating)
 
   componentZone = [self allocIVarsComponent: id_ComponentZone_c];
   ((ComponentZone_c *)componentZone)->baseZone = self;
+  ((ComponentZone_c *)componentZone)->componentZone = componentZone;
 
   population = [List createBegin: componentZone];
   [population setIndexFromMemberLoc: - (2 * sizeof(id))];
@@ -94,11 +96,6 @@ PHASE(Creating)
 }
 
 PHASE(Using)
-
-- getOwner
-{
-  return getZone( self );
-}
 
 - (int) getPageSize
 {
@@ -173,9 +170,9 @@ PHASE(Using)
   if ( _obj_debug ) {
      if ( getBit( ((Object_s *)anObject)->zbits, BitComponentAlloc ) )
        raiseEvent( InvalidOperation,
- "object being freed by freeIVars: (%0#8x: %s)\n"
- "was allocated for restricted internal use by allocIVarsComponent: or\n"
- "copyIVarsComponent:, and may only be freed by freeIVarsComponent:\n",
+ "> object being freed by freeIVars: (%0#8x: %s)\n"
+ "> was allocated for restricted internal use by allocIVarsComponent: or\n"
+ "> copyIVarsComponent:, and may only be freed by freeIVarsComponent:\n",
        anObject, getClass( anObject )->name );
 
      memset( (id *)anObject - 2, _obj_fillfree,
@@ -243,8 +240,8 @@ PHASE(Using)
   if ( _obj_debug ) {
     if ( ! getBit( ((Object_s *)anObject)->zbits, BitComponentAlloc ) )
       raiseEvent( InvalidOperation,
-        "object being freed by freeIVarsComponent: (%0#8x: %s)\n"
-        "was not allocated by allocIVarsComponent: or copyIVarsComponent:\n",
+        "> object being freed by freeIVarsComponent: (%0#8x: %s)\n"
+        "> was not allocated by allocIVarsComponent: or copyIVarsComponent:\n",
         anObject, getClass( anObject )->name );
 
     objectCount--;
@@ -256,10 +253,10 @@ PHASE(Using)
 }
 
 //
-// getInternalComponentZone --
-//   return view of zone qualified for allocation of object components
+// getComponentZone --
+//   obtain version of zone qualified for allocation of object components
 //
-- getInternalComponentZone
+- getComponentZone
 {
   return componentZone;
 }
@@ -309,7 +306,7 @@ PHASE(Using)
 //
 // freeBlock: -- free block allocated by allocBlock: or copyBlock:
 //
-- (void) freeBlock: (void *) aBlock blockSize: (size_t)size
+- (void) freeBlock: (void *)aBlock blockSize: (size_t)size
 {
   if ( _obj_debug ) {
     blockCount--;
@@ -329,7 +326,7 @@ PHASE(Using)
 }
 
 //
-// describe: -- standard debug method
+// describe: -- generate object description string
 //
 - (void) describe: outputCharStream
 {
@@ -351,14 +348,26 @@ PHASE(Using)
 }
 
 //
-// xfprint -- message to execute xprint on each member of the zone population
+// xfprint -- execute xprint on each member of the zone population
 //
 - (void) xfprint
 {
   id  index, member;
 
   index = [population begin: scratchZone];
-  while ( (member = [index next]) ) xprint( member );
+  while ( (member = [index next]) ) [member xprint];
+  [index drop];
+}
+
+//
+// xfprintid -- execute xprintid on each member of the zone population
+//
+- (void) xfprintid
+{
+  id  index, member;
+
+  index = [population begin: scratchZone];
+  while ( (member = [index next]) ) [member xprintid];
   [index drop];
 }
 
@@ -405,6 +414,11 @@ PHASE(Using)
 - copyIVars: anObject
 {
   return [baseZone copyIVarsComponent: anObject];
+}
+
+- getComponentZone
+{
+  return componentZone;
 }
 
 @end

@@ -47,7 +47,7 @@ Library:      defobj
 //   typedef for function to be called on deallocation or reallocation of
 //   an object for which a dependent reference has been registered
 //
-typedef void  (*notify_t)( id object, id reallocAddr, void *arg );
+typedef void  (*notify_t)( id object, id reallocAddress, void *arg );
 
 //
 // ref_t -- typedef for external reference to object
@@ -55,3 +55,8 @@ typedef void  (*notify_t)( id object, id reallocAddr, void *arg );
 // (struct tag _obj_ref left undefined to leave ref_t as opaque type)
 //
 typedef void  *ref_t;
+
+//
+// func_t -- function pointer type
+//
+typedef void (*func_t)( void );

@@ -23,7 +23,7 @@
     id controlState, swarmStatus;
     // These variables indicate the running state: both the activity
     // library's notion of where we are, as well as the control panel.
-    swarmStatus = [swarmActivity getStatus];
+    swarmStatus = [[self getActivity] getStatus];
     controlState = [controlPanel getState];
 
     // First check if we can exit because our Swarm thinks we're done.
@@ -42,7 +42,7 @@
       // need to arrange for some other sort of action.
       if (controlState == ControlStateRunning) {
 	// Control panel says we're ready to run, so run!
-	[swarmActivity run];
+	[[self getActivity] run];
       } else if (controlState == ControlStateStopped) {
 	// Control panel says we're stopped, so let's wait for a go.
 	[controlPanel waitForControlEvent];
@@ -50,10 +50,10 @@
 	// Control panel says to quit, even though activity hasn't. Quit.
 	return ControlStateQuit;
       } else if (controlState == ControlStateStepping) {
-	[swarmActivity step];
+	[[self getActivity] step];
 	[controlPanel setStateStopped];
       } else if (controlState == ControlStateNextTime) {
-	[swarmActivity stepUntil: [[self getSwarmActivity] getCurrentTime]+1 ];
+	[[self getActivity] stepUntil: [[self getActivity] getCurrentTime]+1 ];
 	[controlPanel setStateStopped];
       } else {
 	[controlPanel setStateStopped];

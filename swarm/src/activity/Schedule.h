@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -10,23 +10,25 @@ Library:      activity
 */
 
 #import <activity/ActionGroup.h>
-#import <activity/Activity.h>
+#import <activity/XActivity.h>
 #import <collections/Map.h>
 
 @interface Schedule_c : Map_c
 {
 @public
-// variables for ActionPlan mixin inheritance (referenced by source inclusion)
+// variables for CompoundAction mixin inheritance (referenced by source inclusion)
   id  activityRefs;     // activities currently running this plan
+
 // locally defined variables
   id         concurrentGroupType;  // type for group of actions at same time
   timeval_t  repeatInterval;       // rescheduling interval, or zero
 }
-/*** methods implemented in ActionPlan.m file ***/
+/*** methods implemented in CompoundAction.m file ***/
 - (void) setDefaultOrder: aSymbol;
 - (void) setAutoDrop: (BOOL)autoDrop;
 - getDefaultOrder;
 - (BOOL) getAutoDrop;
+- activate;
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : activityClass : indexClass;
 - (void) _performPlan_;
@@ -77,19 +79,30 @@ Library:      activity
 
 extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 
-@interface ConcurrentGroup_c : ActionGroup_c
-/*** methods in ConcurrentGroup_c (inserted from .m file) ***/
-- createEnd;
-@end
-
 @interface ActionConcurrent_c : CAction
 {
 @public
-  ActionPlan_c  *actionPlan;      // plan to be executed by action
+  CompoundAction_c  *concurrentGroup;  // concurrent group to be executed
 }
 /*** methods in ActionConcurrent_c (inserted from .m file) ***/
 - (void) _performAction_: anActivity;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
+@end
+
+@interface ConcurrentSchedule_c : Schedule_c
+{
+  CAction  *actionConcurrent;  // action that includes group in schedule
+}
+/*** methods in ConcurrentSchedule_c (inserted from .m file) ***/
+- (void) addLast: mergeAction;
+- (void) _setActionConcurrent_: action;
+- _getEmptyActionConcurrent_;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
+@end
+
+@interface ActivationOrder_c : ConcurrentSchedule_c
+/*** methods in ActivationOrder_c (inserted from .m file) ***/
+- (void) addLast: mergeAction;
 @end
 
 @interface ScheduleActivity_c : Activity_c
@@ -103,6 +116,7 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 - (timeval_t) getCurrentTime;
 - stepUntil: (timeval_t)tVal;
 - (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void) dropAllocations: (BOOL)componentAlloc;
 @end
 
 @interface ScheduleIndex_c : MapIndex_c
@@ -113,7 +127,7 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
   timeval_t  currentTime;     // clock value for activity
   timeval_t  startTime;       // time when current execution started
 }
-/*** methods implemented in ActionPlan.m file ***/
+/*** methods implemented in CompoundAction.m file ***/
 - getHoldType;
 /*** methods in ScheduleIndex_c (inserted from .m file) ***/
 - nextAction: (id *)status;
@@ -133,4 +147,32 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 - (void) _performAction_: anActivity;
 @end
 
-#import <activity/GenericSwarm.h>  // include for reference in ActionPlan
+//
+// SwarmActivity_c and ActionMerge_c declared in Schedule.h so that import is
+// is minimized for user subclassing of a custom Swarm 
+//
+@class  GenericSwarm_c;
+
+@interface SwarmActivity_c : ScheduleActivity_c
+{
+@public
+  id   swarm;           // object that encapsulates the activity
+  int  nextActivation;  // next unused activation number
+}
+/*** methods in SwarmActivity_c (manually inserted) ***/
+- (void) terminate;
+- getSubactivities;
+- getSwarm;
+- getSynchronizationSchedule;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
+@end
+
+@interface ActionMerge_c : CAction
+{
+@public
+  ScheduleActivity_c  *subactivity;  // activity holding for merge 
+}
+/*** methods in ActionMerge_c (manually inserted) ***/
+- (void) _performAction_: callerActivity;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
+@end

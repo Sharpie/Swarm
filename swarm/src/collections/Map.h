@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -29,6 +29,7 @@ typedef struct mapentry {
 + createBegin: aZone;
 - (void) setCompareFunction: (int(*)(id,id))compareFunction;
 - createEnd;
+- copy: aZone;
 - at: aKey;
 - (BOOL) at: aKey insert: anObject;
 - at: aKey replace: anObject;
@@ -62,4 +63,5 @@ typedef struct mapentry {
 - (void) setLoc: locSymbol;
 - (int) getOffset;
 - setOffset: (int)offset;
+- (void) mapAllocations: (mapalloc_t)mapalloc;
 @end

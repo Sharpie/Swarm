@@ -4,9 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <activity.h>
-#import <activity/GenericSwarm.h>
+#import <activity/SwarmProcess.h>
 
-@interface Swarm : GenericSwarm_c {
+@interface Swarm : CSwarmProcess {
 }
 
 // Override these methods to make useful Swarm subclasses.

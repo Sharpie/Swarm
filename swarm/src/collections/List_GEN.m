@@ -1,4 +1,4 @@
-// Swarm library. Copyright (C) 1996 Santa Fe Institute.
+// Swarm library. Copyright (C) 1996-1997 Santa Fe Institute.
 // This library is distributed without any warranty; without even the
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
@@ -11,6 +11,7 @@ Library:      collections
 
 #import <collections/List_GEN.h>
 #import <collections/Set.h>
+#import <defobj/defalloc.h>
 
 #include <limits.h>
 #define UNKNOWN_POS  (INT_MAX/2)
@@ -215,7 +216,7 @@ PHASE(UsingOnly)
   return newIndex;
 #else
   raiseEvent( SourceMessage,
-    "createIndexIn:fromMember: requires IndexFromMemberLoc value\n" ); exit(0);
+  "> createIndexIn:fromMember: requires IndexFromMemberLoc value\n" ); exit(0);
 #endif
 }
 

@@ -1,8 +1,8 @@
 SWARMHOME=../..
 include $(SWARMHOME)/Makefile.conf
 
-OBJECTS= activity.o ActionPlan.o ActionGroup.o Schedule.o GenericSwarm.o \
-        Action.o Activity.o 
+OBJECTS= activity.o CompoundAction.o ActionGroup.o Schedule.o SwarmProcess.o \
+         Action.o XActivity.o 
 
 INCLIB = $(INCDIR)/activity
 
@@ -12,8 +12,8 @@ clean:
 	- rm -rf ,m2h activity.x[ctm] $(OBJECTS)
 
 activity.o: activity.xm
-ActionGroup.o: ActionPlan.m
-Schedule.o: ActionPlan.m
+ActionGroup.o: CompoundAction.m
+Schedule.o: CompoundAction.m
 
 install-lib: install-headers $(LIBDIR)/libactivity.a
 $(LIBDIR)/libactivity.a: $(OBJECTS)
@@ -26,12 +26,12 @@ install-headers: \
          $(INCLIB) \
          $(INCLIB)/types.h \
          $(INCLIB)/classes.h \
-         $(INCLIB)/ActionPlan.h \
+         $(INCLIB)/CompoundAction.h \
          $(INCLIB)/ActionGroup.h \
          $(INCLIB)/Schedule.h \
-         $(INCLIB)/GenericSwarm.h \
-         $(INCLIB)/Activity.h \
-         $(INCLIB)/Action.h
+         $(INCLIB)/SwarmProcess.h \
+         $(INCLIB)/Action.h \
+         $(INCLIB)/XActivity.h
 
 $(INCDIR)/activity.h: activity.h
 	cp $? $@
@@ -41,15 +41,15 @@ $(INCLIB)/types.h $(INCLIB)/classes.h: activity.h
 	@ rm -f activity.xm; $(MAKE) activity.xm
 	cp activity.xt $(INCLIB)/types.h 
 	cp activity.xc $(INCLIB)/classes.h 
-$(INCLIB)/ActionPlan.h: ActionPlan.h
+$(INCLIB)/CompoundAction.h: CompoundAction.h
 	cp $? $@
 $(INCLIB)/ActionGroup.h: ActionGroup.h
 	cp $? $@
 $(INCLIB)/Schedule.h: Schedule.h
 	cp $? $@
-$(INCLIB)/GenericSwarm.h: GenericSwarm.h
+$(INCLIB)/SwarmProcess.h: SwarmProcess.h
 	cp $? $@
 $(INCLIB)/Action.h: Action.h
 	cp $? $@
-$(INCLIB)/Activity.h: Activity.h
+$(INCLIB)/XActivity.h: XActivity.h
 	cp $? $@

@@ -10,35 +10,25 @@ Library:      defobj
 */
 
 //
-// _obj_fillalloc, _obj_fillfree -- 
-//   fill patterns for allocated and freed blocks, for debugging
-//
-extern unsigned char  _obj_fillalloc, _obj_fillfree;
-
-//
-// bits defined within the zbits instance variable of any object
-//
-#define BitMappedAlloc     0x4  // set by suballoc list or explicit macro 
-#define BitSuballocList    0x2  // set whenever object contains suballoc list
-#define BitComponentAlloc  0x1  // set if object is not in the zone population
-
-//
 // getZone() --
-//   macro to obtain zone in which object allocated, without message overhead
+//   macro to obtain zone in which object allocated
 //
 #define getZone( anObject ) \
-( (anObject)->zbits & BitSuballocList ? \
-  (id)((Object_s *)( (anObject)->zbits & ~0x7 ))->zbits : \
-  (id)( (anObject)->zbits & ~0x7 ) )
+({ unsigned _zbits_ = (anObject)->zbits; \
+  ( _zbits_ & BitSuballocList ? \
+   (id)((Object_s *)( _zbits_ & ~0x7 ))->zbits : \
+   (id)( _zbits_ & ~0x7 ) ); })
 
 //
-// getComponentZone() --
-//   macro to obtain zone in which object allocated, without message overhead
+// getCZone() --
+//   macro to obtain version of zone qualified for allocation of object
+//   components
 //
-#define getComponentZone( anObject )  (((id *)getZone( anObject ))[2])
+#define getCZone( aZone ) \
+( _obj_debug ? [(aZone) getComponentZone] : ((id *)(aZone))[2] )
 
 //
-// setMappedAlloc(), unsetBitMappedAlloc(), getMappedAlloc() --
+// setMappedAlloc(), unsetMappedAlloc(), getMappedAlloc() --
 //   macros to set/get bit that indicates that mapping of internal allocations
 //   is required within an object
 //
@@ -47,9 +37,21 @@ extern unsigned char  _obj_fillalloc, _obj_fillfree;
 #define getMappedAlloc( anObject )  ((anObject)->zbits & BitMappedAlloc)
 
 //
-// struct mapalloc, mapalloc_t --
-//   structure that maps a block of memory allocated within an object
+// bits within the zbits instance variable of any zone-allocated object
 //
+#define BitMappedAlloc     0x4  // set by suballoc list or explicit macro 
+#define BitSuballocList    0x2  // set whenever object contains suballoc list
+#define BitComponentAlloc  0x1  // set if object is not in the zone population
+
+//
+// struct mapalloc, mapalloc_t --
+//   structure that maps an internal allocation within an object
+/*
+Definition of these types appears in the DefObject.h superclass, since they
+are required to declare any mapAllocations: method.  All use of these types,
+however, is by macros that require an explicit #import of <defobj/defalloc.h>.
+Following is a commented-out copy of the definitions from DefObject.h:
+
 typedef struct mapalloc *mapalloc_t;
 struct mapalloc {
   void  (*mappingFunction)( mapalloc_t mapalloc, BOOL objectAllocation );
@@ -58,6 +60,7 @@ struct mapalloc {
   id    zone;           // zone of allocated block, as used by descriptor
   int   size;           // size of allocated block, as used by descriptor
 };
+*/
 
 //
 // MapAllocations --
@@ -79,14 +82,14 @@ struct mapalloc {
 // internal component of the object being mapped.
 //
 #define mapObject( mapalloc, anObject ) \
-( (mapalloc)->alloc = anObject, (mapalloc)->mappingFunction( mapalloc, 1 ) )
+( mapalloc->alloc = (anObject), mapalloc->mappingFunction( mapalloc, 1 ) )
 
 //
 // includeBlocks() --
 //   macro to indicate whether internal blocks to be mapped within a
 //   mapAllocations: request to map internal allocations
 //
-#define includeBlocks( mapalloc ) ( (mapalloc)->zone != nil )
+#define includeBlocks( mapalloc ) ( mapalloc->zone != nil )
 
 //
 // mapAlloc() --
@@ -103,14 +106,15 @@ struct mapalloc {
 // structure of a current mapAllocations: request.
 //
 #define mapAlloc( mapalloc, aBlock ) \
-( (mapalloc)->alloc = aBlock, (mapalloc)->mappingFunction( mapalloc, 0 ) )
+( mapalloc->alloc = aBlock, mapalloc->mappingFunction( mapalloc, 0 ) )
 
 //
 // getSuballocList() --
 //   macro to obtain the list of suballocations within an object, if any
 //
 #define getSuballocList( anObject ) \
-( (anObject)->zbits & BitSuballocList ? (id)((anObject)->zbits & ~0x7) : nil )
+({ unsigned _zbits_ = (anObject)->zbits; \
+ ( _zbits_ & BitSuballocList ? (id)( _zbits_ & ~0x7 ) : nil ); })
 
 //
 // struct suballocEntry, suballocEntry_t --
@@ -134,3 +138,9 @@ typedef struct suballocHeader {
   int     suballocKey;   // key for sorting suballocations within suballocList
     // remaining bytes of suballocation immediately follow the header ...
 } *suballocHeader_t;
+
+//
+// _obj_fillalloc, _obj_fillfree -- 
+//   fill patterns for allocated and freed blocks, for debugging
+//
+extern unsigned char  _obj_fillalloc, _obj_fillfree;

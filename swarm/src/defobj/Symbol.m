@@ -25,7 +25,7 @@ PHASE(Creating)
 - createEnd
 {
   raiseEvent( SourceMessage,
-    "must use create:setName: to create a new symbol constant\n" );
+    "> must use create:setName: to create a new symbol constant\n" );
   return nil;
 }
 
