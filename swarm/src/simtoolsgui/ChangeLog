@@ -1,3 +1,9 @@
+1999-02-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ActionCache.m ([ActionCache -createProcCtrl]): 
+	Use SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME instead of
+	SET_WINDOW_GEOMETRY_RECORD_NAME.
+
 1999-02-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (CURRENT, AGE): Bump.  Version 1.4.1.

@@ -43,7 +43,7 @@ PHASE(Creating)
 
   // make a widget for us, too. Bind buttons to messages to ourself.
   panelWidget = [ButtonPanel createBegin: [self getZone]];
-  SET_WINDOW_GEOMETRY_RECORD_NAME (panelWidget);
+  SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (panelWidget);
   [panelWidget setButtonTarget: self];
   panelWidget = [panelWidget createEnd];
   [panelWidget addButtonName: "Start" method: @selector (sendStartAction)];
