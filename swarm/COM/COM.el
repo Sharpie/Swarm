@@ -464,8 +464,8 @@
           (com-impl-print-argument (cdr name.argument)))
     (insert ")")))
 
-(defun com-static-cid (protocol)
-  (concat (com-impl-name protocol :creating) "CID"))
+(defun com-cid (protocol phase)
+  (concat (com-impl-name protocol phase) "CID"))
 
 (defun com-impl-print-class-constructor-method (protocol
                                                 method
@@ -526,7 +526,7 @@
     (insert "  nsISupports *ret;\n")
     (insert "\n")
     (insert "  nsresult rv = nsComponentManager::CreateInstance (")
-    (insert (com-static-cid protocol))
+    (insert (com-cid protocol :creating))
     (insert ", NULL, NS_GET_IID (")
     (insert (com-interface-name protocol :creating))
     (insert "), ")
@@ -600,7 +600,7 @@
     (insert "NS_INTERFACE_MAP_END\n")
     (insert "\n")))
 
-(defun com-impl-print-method-definition (protocol phase method)
+(defun com-impl-print-method-definition (ht protocol phase method)
   (let* ((arguments (method-arguments method))
          (first-argument (car arguments)))
     (insert "NS_IMETHODIMP\n")
@@ -631,15 +631,18 @@
           (print-return-argument nil))))
     (insert ")\n")
     (insert "{\n")
+    (when ht
+      (com-impl-print-objc-method-declaration ht method))
     (insert "  return NS_OK;\n")
     (insert "}\n")
     (insert "\n")))
 
 (defun com-impl-print-method-definitions (protocol actual-phase phase)
-  (loop for method in (expanded-method-list protocol phase)
-	do
-        (com-impl-print-method-definition protocol actual-phase method)
-        (insert "\n")))
+  (let ((ht (create-method-implementation-hash-table protocol phase)))
+    (loop for method in (expanded-method-list protocol phase)
+          do
+          (com-impl-print-method-definition ht protocol actual-phase method)
+          (insert "\n"))))
 
 (defun com-impl-print-impl-include (protocol phase)
   (insert "#include \"")
@@ -650,7 +653,44 @@
   (insert "\"")
   (insert (com-impl-name protocol phase))
   (insert "\""))
-        
+
+(defun com-impl-print-objc-method-declaration (ht method)
+  (flet ((print-type (type)
+                     (insert (cond (type (strip-regexp type " <[^>]*>"))
+                                   (t "id")))))
+    (insert "  extern ")
+    (insert " ")
+    (print-type (method-return-type method))
+    (insert " ")
+    (insert (gethash (get-method-signature method) ht))
+    (insert " ")
+    (insert "(id obj, SEL sel")
+    (when (has-arguments-p method)
+      (loop for argument in (method-arguments method)
+            do
+            (insert ", ")
+            (print-type (argument-type argument))
+            (insert " ")
+            (insert (argument-name argument))))
+    (insert ");\n")))
+
+(defun com-impl-print-typedefs ()
+  (loop for typedef in (collect-objects-of-type 'typedef)
+        for name = (typedef-name typedef)
+        unless (or (string= name "types_t")
+                   (string= name "fcall_type_t")
+                   (string= name "compare_t")
+                   (string= name "member_t")
+                   (string= name "dupmember_t")
+                   (string= name "val_t"))
+        do
+        (insert "typedef ")
+        (insert (typedef-type typedef))
+        (insert " ")
+        (insert (typedef-name typedef))
+        (insert ";\n"))
+  (insert "\n"))
+
 (defun com-impl-generate-c++ (protocol phase)
   (with-temp-file 
       (com-impl-pathname protocol phase ".cpp")
@@ -668,24 +708,28 @@
             (create-type-hash-table-for-convenience-create-methods protocol)
             do
             (com-impl-print-interface-include argument-protocol :using))
-      (insert "\n")
+      (insert "\n"))
+    (insert "#include <objc/objc.h>\n")
+
+    (when (inclusive-phase-p phase :using)
       (insert "#include <nsCOMPtr.h>\n")
       (insert "#include <nsIComponentManager.h>\n")
       (insert "#include \"componentIDs.h\"\n")
       (insert "\n")
       (insert "static NS_DEFINE_CID (")
-      (insert (com-static-cid protocol))
+      (insert (com-cid protocol :creating))
       (insert ", ")
-      (insert (com-protocol-sym protocol phase "CID"))
-      (insert ");\n")
-      (insert "\n"))
+      (insert (com-protocol-sym protocol :creating "CID"))
+      (insert ");\n"))
+    (insert "\n")
     (com-impl-generate-supports protocol phase)
     (if (inclusive-phase-p phase :using)
         (com-impl-print-convenience-constructors protocol)
       (com-impl-print-basic-constructor protocol phase))
     (com-impl-print-destructor protocol phase)
     (when (inclusive-phase-p phase :using)
-      (com-impl-print-class-init-method protocol ))
+      (com-impl-print-class-init-method protocol))
+    (com-impl-print-typedefs)
     (com-impl-print-method-definitions protocol phase :setting)
     (com-impl-print-method-definitions protocol phase phase)))
 
