@@ -3,6 +3,9 @@
 	* ltconfig: Don't use +I for hpux9.  Use hpux9 code for hpux10,
 	since there isn't a preprocessor symbol for hpux10.
 	(We'll call the constructors manually.)
+	For constructor name, remove everything after first "." -- this
+	avoids the version number, which is a pain if encoded into source
+	code calls. 
 
 1999-06-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
