@@ -6,8 +6,6 @@
 #import <objectbase.h>
 #import <objectbase/SwarmObject.h>
 
-#import "local.h"
-
 // Options for the format of the string returned when probing an unsigned
 // char or a char (there is a choice between "%d %c", "%c" or "%d"...)
 

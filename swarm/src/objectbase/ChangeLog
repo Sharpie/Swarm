@@ -1,3 +1,7 @@
+1999-08-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Probe.h: Don't include local.h.
+
 1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* probing.m: Use externvardef to declare symbols below.
