@@ -16,8 +16,8 @@ Library:      defobj
 #import <collections.h>
 #import <collections/Map.h>  //!! for at:memberSlot (until replaced)
 #import <defobj/HDF5Object.h>
-#import <defobj/internal.h> // process_array, map_ivars
-                            // lisp_output_type, lisp_process_array
+#import "internal.h" // process_array, map_object_ivars
+                     // lisp_output_type, lisp_process_array
 
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
@@ -861,7 +861,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 #else
 - doesNotRecognize: (SEL)sel
 {
-  raiseEvent (InvalidArgument, "%s does not recognize %s",
+  raiseEvent (InvalidArgument, "%s does not recognize %s\n",
               [self name], sel_get_name (sel));
   return self;
 }
@@ -1089,7 +1089,7 @@ initDescribeStream (void)
                           deepFlag);
         
     }
-  map_ivars (getClass (self), store_object);
+  map_object_ivars (self, store_object);
   return self;
 }
 
@@ -1145,7 +1145,7 @@ initDescribeStream (void)
                  ptr: ptr];
     }
   [hdf5Obj storeTypeName: [self getTypeName]];
-  map_ivars (getClass (self), store_object);
+  map_object_ivars (self, store_object);
   return self;
 }
 
@@ -1156,7 +1156,7 @@ initDescribeStream (void)
   else
     {
       id cType = [[[HDF5CompoundType createBegin: getZone (self)]
-                    setClass: [self class]]
+                    setPrototype: self]
                    createEnd];
       const char *objName = [hdf5Obj getName];
 

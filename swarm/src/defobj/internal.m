@@ -226,19 +226,30 @@ objc_process_array (const char *type,
 }
 
 void
-map_ivars (Class class,
-           void (*process_object) (const char *name,
-                                   fcall_type_t type,
-                                   size_t offset,
-                                   unsigned rank,
-                                   unsigned *dims))
+map_object_ivars (id object,
+                  void (*process_object) (const char *name,
+                                          fcall_type_t type,
+                                          size_t offset,
+                                          unsigned rank,
+                                          unsigned *dims))
+{
+  map_class_ivars (getClass (object), process_object);
+}
+
+void
+map_class_ivars (Class class,
+                 void (*process_object) (const char *name,
+                                         fcall_type_t type,
+                                         size_t offset,
+                                         unsigned rank,
+                                         unsigned *dims))
 {
   struct objc_ivar_list *ivars = class->ivars;
   
   if (class->super_class)
     {
       if (strcmp (class->super_class->name, "Object_s") != 0)
-        map_ivars (class->super_class, process_object);
+        map_class_ivars (class->super_class, process_object);
     }
   
   if (ivars)

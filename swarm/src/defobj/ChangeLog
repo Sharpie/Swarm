@@ -1,3 +1,33 @@
+2000-01-16    <mgd@nest.swarm.org>
+
+	* internal.m (map_object_ivars): New function.
+	(map_class_ivars): Replaces map_ivars.
+
+	* HDF5Object.m ([HDF5CompoundType_c -packObj:to:]): Use
+	map_object_ivars instead of map_ivars.
+	([HDF5CompoundType_c -writeLevels]): Likewise.
+
+	* HDF5Object.[hm], defobj.h (HDF5CompoundType): Replace class with
+	prototype, and change getter and setter.
+
+	* FArguments.m ([FArguments_c -drop]): Delete globalrefs
+	for jobjects as well as jstrings.
+
+	* FArguments.[hm], defobj.h: Add addJavaObject:.  (Make globalrefs
+	of argument, but don't put in directory).
+
+	* FArguments.m ([FArguments_c -addObject:]): Use it.
+
+	* DefObject.m ([Object_s -lispOutVars:deep:]): Use map_object_ivars
+	instead of map_ivars.
+	([Object_s -hdf5OutShallow:]): Use setPrototype instead of setClass
+	to make a HDF5CompoundType.
+	
+2000-01-15    <mgd@nest.swarm.org>
+
+	* DefObject.m ([Object_s -doesNotRecognize:]): Add carriage 
+	return after message.  Thanks to Ralf Stephan for the report.
+
 2000-01-11    <mgd@nest.swarm.org>
 
 	* HDF5Object.m ([HDF5_c

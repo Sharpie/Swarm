@@ -288,24 +288,32 @@ PHASE(Creating)
   return self;
 }
 
+- addJavaObject: (JOBJECT)jobj;
+{
+#ifdef HAVE_JDK
+  unsigned offset = MAX_HIDDEN + assignedArgumentCount;
+  size_t size;
+  void *ptr;
+  size = sizeof (jobject);
+
+  jobj = (*jniEnv)->NewGlobalRef (jniEnv, jobj);
+  ptr = &jobj;
+  argTypes[offset] = fcall_type_jobject;
+  argValues[offset] = ALLOCBLOCK (size);
+  memcpy (argValues[offset], ptr, size);
+  javaSignatureLength += strlen (java_type_signature[fcall_type_jobject]);
+  assignedArgumentCount++;
+#else
+  abort ();
+#endif
+  return self;
+}
+
 - addObject: value
 {
 #ifdef HAVE_JDK
   if (javaFlag)
-    {
-      jobject jobj;
-      unsigned offset = MAX_HIDDEN + assignedArgumentCount;
-      size_t size;
-      void *ptr;
-      size = sizeof (jobject);
-      jobj = SD_FINDJAVA (jniEnv, value);
-      ptr = &jobj;
-      argTypes[offset] = fcall_type_jobject;
-      argValues[offset] = ALLOCBLOCK (size);
-      memcpy (argValues[offset], ptr, size);
-      javaSignatureLength += strlen (java_type_signature[fcall_type_jobject]);
-      assignedArgumentCount++;
-    }
+    [self addJavaObject: SD_FINDJAVA (jniEnv, value)];
   else
 #endif
     ADD_PRIMITIVE (fcall_type_object, id, value);
@@ -463,8 +471,8 @@ PHASE(Using)
       unsigned offset = i + MAX_HIDDEN;
       fcall_type_t type = argTypes[offset];
 
-      if (type == fcall_type_jstring)
-        (*jniEnv)->DeleteGlobalRef (jniEnv, *(jstring *) argValues[offset]);
+      if (type == fcall_type_jstring || type == fcall_type_jobject)
+        (*jniEnv)->DeleteGlobalRef (jniEnv, *(jobject *) argValues[offset]);
     }
 #endif
   [super drop];

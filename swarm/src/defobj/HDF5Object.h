@@ -21,7 +21,7 @@
 
 @interface HDF5CompoundType_c: CreateDrop_s <HDF5CompoundType>
 {
-  Class class;
+  id prototype;
 @public
   const char *name;
 #ifdef HAVE_HDF5
@@ -30,7 +30,7 @@
 #endif
   id <Map> stringMaps;
 }
-- setClass: class;
+- setPrototype: prototype;
 - setName: (const char *)name;
 - createEnd;
 #ifdef HAVE_HDF5
@@ -41,7 +41,7 @@
 #endif
 - writeLevel: (const char *)varName;
 - writeLevels;
-- getClass;
+- getPrototype;
 - (void)drop;
 @end
 

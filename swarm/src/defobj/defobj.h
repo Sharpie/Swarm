@@ -1037,10 +1037,10 @@ USING
 //D: HDF5 composite type interface
 CREATING
 + createBegin: (id <Zone>)aZone;
-- setClass: class;
+- setPrototype: prototype;
 - createEnd;
 USING
-- getClass;
+- getPrototype;
 @end
 
 typedef union {
@@ -1063,6 +1063,8 @@ typedef union {
   double _double;
   double _long_double;
 } types_t;
+
+typedef void *JOBJECT;
 
 @protocol FArguments <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic call argument construction.
@@ -1089,7 +1091,8 @@ CREATING
 - addDouble: (double)value;
 - addLongDouble: (long double)value;
 - addString: (const char *)value;
-- addObject: value;
+- addObject: obj;
+- addJavaObject: (JOBJECT)obj;
 - setObjCReturnType: (char)type;
 - setBooleanReturnType;
 - createEnd;
@@ -1098,9 +1101,7 @@ USING
 - (void *)getResult;
 @end
 
-
 typedef enum callTypes { ccall, objccall, javacall, javastaticcall} call_t;
-typedef void *JOBJECT;
 
 @protocol FCall <Create, Drop, CREATABLE>
 //S: A language independent interface to dynamic calls.

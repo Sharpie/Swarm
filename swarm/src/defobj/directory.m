@@ -1529,3 +1529,29 @@ swarm_directory_dump (void)
 {
   xprint (swarmDirectory);
 }
+
+#ifdef HAVE_JDK
+id
+swarm_directory_create_by_name (JNIEnv *env, const char *name)
+{
+#if 0
+  jclass java_class;
+  
+  if ((class = objc_lookup_class (name)))
+    return [class allocIVars: class];
+  else if ((javaClass = (*jniEnv)->FindClass (jniEnv, name)))
+    {
+      jobject lref = swarm_directory_instantiate (jniEnv, javaClass);
+      id obj;
+      
+      obj = swarm_directory_java_ensure_objc 
+        (jniEnv, (*jniEnv)->NewGlobalRef (jniEnv, lref));
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+      (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
+      return obj;
+    }
+  else
+#endif
+    return nil;
+}
+#endif

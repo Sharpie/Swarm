@@ -9,7 +9,7 @@
 #import <defobj.h> // STRDUP, ZSTRDUP, SSTRDUP, FREEBLOCK, SFREEBLOCK
 #import <defobj/defalloc.h> // getZone
 
-#import "internal.h" // map_ivars, ivar_ptr
+#import "internal.h" // map_{class,object}_ivars, ivar_ptr
 
 #ifdef HAVE_HDF5
 
@@ -330,10 +330,10 @@ hdf5_not_available (void)
 
 @implementation HDF5CompoundType_c
 PHASE(Creating)
-- setClass: theClass
+- setPrototype: thePrototype
 {
-  class = (Class) theClass;
-  name = [class name];
+  prototype = thePrototype;
+  name = [prototype getName];
 
   return self;
 }
@@ -352,7 +352,7 @@ PHASE(Creating)
 }
 
 static hid_t
-create_compound_type_from_class (Class class)
+create_compound_type_from_prototype (id prototype)
 {
   hid_t tid;
   size_t size;
@@ -381,10 +381,11 @@ create_compound_type_from_class (Class class)
       offset += fcall_type_size (type);
     }
 
-  check_for_empty_class (class);
+  check_for_empty_class ([prototype class]);
+
   offset = 0;
   insertFlag = NO;
-  map_ivars (class, insert_var);
+  map_object_ivars (prototype, insert_var);
   size = offset;
 
   if ((tid = H5Tcreate (H5T_COMPOUND, size)) < 0)
@@ -392,7 +393,7 @@ create_compound_type_from_class (Class class)
   
   offset = 0;
   insertFlag = YES;
-  map_ivars (class, insert_var);
+  map_object_ivars (prototype, insert_var);
   
   return tid;
 }
@@ -583,14 +584,18 @@ create_class_from_compound_type (id aZone,
                   setCompareFunction: compareCStrings]
                  createEnd];
   
-  if (class != Nil)
-    tid = create_compound_type_from_class (class);
+  if (prototype)
+    tid = create_compound_type_from_prototype (prototype);
   else if (tid)
     {
-      create_class_from_compound_type (aZone,
-                                       tid, did,
-                                       name, &class);
-      
+#if 1
+      Class class;
+
+      create_class_from_compound_type (aZone, tid, did, name, &class);
+      prototype = [aZone allocIVars: class];
+#else
+      prototype = swarm_directory_create_by_name (name);
+#endif
       if (did)
         {
           void process_ivar (const char *ivarName, fcall_type_t type,
@@ -621,7 +626,7 @@ create_class_from_compound_type (id aZone,
                   }
                 }
             }
-          map_ivars (class, process_ivar);
+          map_object_ivars (prototype, process_ivar);
         }
     }
   else
@@ -651,9 +656,9 @@ PHASE(Using)
 
 #endif
 
-- getClass
+- getPrototype
 {
-  return class;
+  return prototype;
 }
 
 #ifdef HAVE_HDF5
@@ -719,7 +724,7 @@ PHASE(Using)
         }
       inum++;
     }
-  map_ivars (getClass (obj), process_ivar);
+  map_object_ivars (obj, process_ivar);
   return self;
 }
 
@@ -788,7 +793,7 @@ PHASE(Using)
         }
       inum++;
     }
-  map_ivars (getClass (obj), process_ivar);
+  map_object_ivars (obj, process_ivar);
   return self;
 
 }
@@ -890,7 +895,7 @@ hdf5_delete_attribute (hid_t loc_id, const char *name)
       if (type == fcall_type_string)
         [self writeLevel: ivar_name];
     }
-  map_ivars (class, store_level);
+  map_object_ivars (prototype, store_level);
   return self;
 }
 
@@ -1466,7 +1471,7 @@ PHASE(Using)
   if (datasetFlag)
     {
       if (compoundType)
-        return [compoundType getClass];
+        return [[compoundType getPrototype] class];
       else
         abort ();
     }
