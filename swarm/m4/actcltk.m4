@@ -149,7 +149,7 @@ for dir in $tcllibdir "$TCL_LIB_DIR" $LIBPLACES; do
 done
 
 if test -n "$tcllibdir" ; then
-  AC_MSG_RESULT(<$tcllibdir, $tcllibname>)
+  AC_MSG_RESULT([$tcllibdir, $tcllibname])
   if test "$tcllibdir" = "/usr/lib" ; then
     TCLLDFLAGS=''
     TCLLIB="-l$tcllibname"
@@ -243,7 +243,7 @@ for dir in $tklibdir "$TK_LIB_DIR" $LIBPLACES; do
 done
 
 if test -n "$tklibdir" ; then
-  AC_MSG_RESULT(<$tklibdir, $tklibname>)
+  AC_MSG_RESULT([$tklibdir, $tklibname])
   if test "$tklibdir" = "/usr/lib" ; then
     TKLDFLAGS=''
     TKLIB=-l$tklibname
