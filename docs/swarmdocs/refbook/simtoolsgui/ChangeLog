@@ -1,3 +1,7 @@
+1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* simtoolsgui.ent: Use public identifiers.
+
 1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (swarm_ChangeLog): Add.
