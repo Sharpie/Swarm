@@ -555,7 +555,7 @@ USING
 @end
 
 //G: The global librarian for ProbeMaps.
-extern id <ProbeLibrary> probeLibrary;
+externvar id <ProbeLibrary> probeLibrary;
 
 @protocol ActivityControl <SwarmObject, CREATABLE>
 //S: A class that provides an object interface to an activity.
@@ -648,4 +648,4 @@ USING
 @class SwarmObject;
 
 //G: The version of Swarm being used.
-extern const char *swarm_version;
+externvar const char *swarm_version;
