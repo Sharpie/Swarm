@@ -1,4 +1,5 @@
 SUBDIRS = src m4 etc
+etcdir = $(prefix)/etc
 
 EXTRA_DIST = VERSION
 

@@ -2,6 +2,7 @@
 
 	* Makefile.am (install-data-local): Install Makefile.appl and
 	Makefile.lib to etcdir, not prefix.
+	(etcdir): Define to $(prefix)/etc.
 	(install-data-local): Install swarmconfig.h instead of config.h.
 
 	* configure.in: Test for memcpy, memset, strcmp, and strlen
