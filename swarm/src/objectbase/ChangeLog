@@ -1,3 +1,8 @@
+2001-08-01  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* MessageProbe.h: Don't include FCall.h (avoid its dependencies).
+	Make call be an object implementing the FCall protocol.
+
 2001-07-29  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* VarProbe.m ([VarProbe -setData:ToString:]): Protect

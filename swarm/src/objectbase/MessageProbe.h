@@ -5,7 +5,6 @@
 
 #import <objectbase.h> // MessageProbe, val_t
 #import <objectbase/Probe.h>
-#import <defobj/FCall.h>
 
 @interface MessageProbe: Probe <MessageProbe>
 {
@@ -13,7 +12,7 @@
   const char *probedMethodName;
   BOOL hideResultFlag;
   val_t *arguments;
-  FCall_c *call;
+  id <FCall> call;
 }
 
 - setProbedSelector: (SEL)aSel;
