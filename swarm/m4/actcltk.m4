@@ -253,13 +253,13 @@ AC_SUBST(tklibdir)
 ])
 
 AC_DEFUN(md_FIND_TCLTK_SCRIPTS,
-[_configfile="$$1libdir/$1Config.sh"
+[_configfile=`eval echo "$$1libdir/$1Config.sh"`
 if test -z "$$1scriptdir" ; then
   _version=`sed -n "s/^translit($1,a-z,A-Z)_VERSION='\(.*\)'/\1/p" $_configfile 2>/dev/null`
   _prefix=`sed -n "s/^translit($1,a-z,A-Z)_PREFIX='\(.*\)'/\1/p" $_configfile 2>/dev/null`
   $1scriptdir=$_prefix/lib/$1$_version
   if test ! -d "$$1scriptdir" ; then
-    $1scriptdir=$_prefix/../share/$1$_version
+    $1scriptdir=$_prefix/share/$1$_version
   fi
 fi
 ])
