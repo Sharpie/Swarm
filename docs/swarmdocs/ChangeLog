@@ -1,5 +1,13 @@
 2001-11-26  Alex Lancaster  <alex@swarm.org>
 
+	* xml.dcl: Add file for XML declarations.
+
+	* Makefile.am (all-recursive): Rename from am-recursive-am.
+
+	* configure.in: Bump version to 2001-11-26.
+
+	* Makefile.am (EXTRA_DIST): Add COPYING.FDL, gfdl.xml, xml.dcl.
+
 	* print.dsl (appendix): Redefine to process <appendix> in a mode
 	to reduce font size.
 	(appendix-mode): New mode. Override blockquote and sect1 elements

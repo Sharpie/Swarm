@@ -1,8 +1,8 @@
 BOOKS = refbook installbook overbook set @JAVADOCDIR@
 SUBDIRS = figs $(BOOKS) m4 tex
-EXTRA_DIST = Makefile.common Makefile.rules history.el common.dsl html.dsl print.dsl global.ent docbook.dcl docbook2texi
+EXTRA_DIST = Makefile.common Makefile.rules history.el common.dsl html.dsl print.dsl global.ent docbook.dcl docbook2texi COPYING.FDL gfdl.xml xml.dcl
 
-all-recursive-am: versions.ent
+all-recursive: versions.ent
 
 .PHONY: FORCE html dvi rtf fot ps info htmldist dvidist rtfdist psdist infodist alldist
 
