@@ -95,7 +95,7 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   argp->children = NULL;
   argp->help_filter = NULL;
 
-  obj->defaultSwarmAppConfigPath = "./";
+  obj->defaultAppConfigPath = "./";
 
   return obj;
 }
@@ -226,7 +226,7 @@ PHASE(Setting)
   return self;
 }
 
-- setDefaultSwarmAppConfigPath: (const char *)path
+- setDefaultAppConfigPath: (const char *)path
 {
   unsigned len = strlen (path);
 
@@ -238,10 +238,10 @@ PHASE(Setting)
       p = stpcpy (buf, path);
       stpcpy (p, "/");
       
-      defaultSwarmAppConfigPath = buf;
+      defaultAppConfigPath = buf;
     }
   else
-    defaultSwarmAppConfigPath = path;
+    defaultAppConfigPath = path;
 
   return self;
 }
@@ -424,12 +424,12 @@ findSwarm (id arguments)
   return ret;
 }
 
-- (const char *)getSwarmAppConfigPath
+- (const char *)getAppConfigPath
 {
   char *executablePath = strdup ([self getExecutablePath]);
   const char *possibleHome = dropDirectory (dropDirectory (executablePath));
   const char *home = [self getSwarmHome];
-  char *appConfigPath = (char *)defaultSwarmAppConfigPath;
+  char *appConfigPath = (char *)defaultAppConfigPath;
 
   if (home && possibleHome)
     {
