@@ -849,6 +849,7 @@
       (loop for phase in '(:creating :using)
             for dht = (create-dispatch-hash-table protocol phase)
             do
+	    (dump-dispatch-hash-table dht protocol phase)
             (loop for method in (expanded-method-list protocol phase)
                   unless (unwanted-create-method-p protocol method)
                   do
@@ -857,6 +858,7 @@
       (loop for method in (expanded-method-list protocol :setting)
             for dht = (create-dispatch-hash-table protocol :setting)
 	    do 
+	    (dump-dispatch-hash-table dht protocol :setting)
 	    (java-print-native-method method protocol :creating dht)
 	    (insert "\n")
 	    (java-print-native-method method protocol :using dht)))))
