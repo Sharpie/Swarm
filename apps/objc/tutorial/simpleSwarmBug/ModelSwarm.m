@@ -71,7 +71,7 @@
   // Build a simple schedule to send a "step" message to 
   // the bug every time step
 
-  modelSchedule = [Schedule createBegin: [self getZone]];
+  modelSchedule = [Schedule createBegin: self];
   [modelSchedule setRepeatInterval: 1];
   modelSchedule = [modelSchedule createEnd];
   [modelSchedule at: 0 createActionTo: aBug  message: M(step)];
