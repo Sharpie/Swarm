@@ -1,5 +1,8 @@
 #import "directory.h"
+
+#import "DefObject.h"
 #import "defalloc.h"
+
 #include <misc.h>
 #include <misc/avl.h>
 #include <objc/objc.h>
