@@ -1,6 +1,8 @@
-2003-03-26  Scott Christley <schristley@mac.com>
+2003-03-26  Alex Lancaster  <alexl@users.sourceforge.net>
 
-	* HACKING: Add information about GNUstep.
+	* README: Change e-mail address of support list to new
+	www.swarm.org server, and fix ftp.santafe.edu -> ftp.swarm.org.
+	Update pointers for CVS and MacOS X users.
 
 2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
 

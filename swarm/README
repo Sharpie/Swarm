@@ -4,8 +4,12 @@ and downloadable) can be found at: http://www.swarm.org/release-docs.html.
 Further information on Swarm can be found at the Swarm website at:
 
   http://www.swarm.org
-  
-***For information on MacOS X see macosx/README.MacOSX***
+ 
+* MacOS X users: 
+  please see macosx/README.MacOSX
+
+* CVS users:
+  please consult "HACKING" in this directory
 
 Contents of this README ================================================
 
@@ -13,10 +17,12 @@ Contents of this README ================================================
       A. Full source compilation and installation
       B. Binary installation with accompanying source
 
-Questions about this release should be directed to
-<swarm-support@santafe.edu> This is a mailing list for discussion of
-Swarm and its usage.  For subscription info, send an email message to:
-<majordomo@santafe.edu> with the word "help" in the body of the message.
+Questions about this release should be directed to <support@swarm.org>
+This is a mailing list for discussion of Swarm and its usage.  You
+need to subscribed in order to post to this list.  For subscription
+info, please visit:
+
+ http://www.swarm.org/mailman/listinfo/support/
 
 Interesting files in this release:
 
@@ -47,11 +53,11 @@ applications that use Swarm.
          1. Prerequisite software:
 
 All of the prerequisite software you will need is available on the
-Swarm ftp site (ftp://ftp.santafe.edu/pub/swarm/needed-software).
+Swarm ftp site (ftp://ftp.swarm.org/pub/swarm/needed-software).
 These can be horrendously difficult to install; so your best bet is to
 use your systems administrator.
 
-         2. Compiling and installing Swarm, itself:
+         2. Compiling and installing Swarm itself:
 
 As of the Swarm 1.3 release, the compilation and installation of Swarm
 is handled by the GNU `configure'.  This removes a large burden from
