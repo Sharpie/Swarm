@@ -1,3 +1,11 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* AppendFile.h, AppendFile.m, InFile.h, InFile.m, NSelect.h,
+	NSelect.m, ObjectLoader.h, ObjectLoader.m, ObjectSaver.h,
+	ObjectSaver.m, OutFile.h, OutFile.m, QSort.h, QSort.m, UName.h,
+	UName.m, simtools.h: Change copyright statement to canonical
+	version as suggested by GNU GPL.
+
 2001-11-04    <mgd@HELEN>
 
 	* Makefile.am: Avoid multi-line values as they confuse Cygwin

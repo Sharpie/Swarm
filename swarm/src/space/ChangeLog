@@ -1,3 +1,12 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* Ca2d.h, Ca2d.m, ConwayLife2d.h, ConwayLife2d.m, DblBuffer2d.h,
+	DblBuffer2d.m, Diffuse2d.h, Diffuse2d.m, Discrete2d.h,
+	Discrete2d.m, Grid2d.h, Grid2d.m, Int2dFiler.h, Int2dFiler.m,
+	Object2dDisplay.h, Object2dDisplay.m, Value2dDisplay.h,
+	Value2dDisplay.m, space.h: Change copyright statement to canonical
+	version as suggested by GNU GPL.
+
 2002-03-14  Marcus G. Daniels  <mgd@condor>
 
 	* Grid2d.m ([Grid -putObject:atX:Y:]): Print out name of object along

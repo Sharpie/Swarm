@@ -1,3 +1,19 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* ActionCache.h, ActionCache.m, ActionHolder.h, ActionHolder.m,
+	ClassDisplayWidget.h, ClassDisplayWidget.m, CommonProbeDisplay.h,
+	CommonProbeDisplay.m, CompleteProbeDisplay.h,
+	CompleteProbeDisplay.m, ControlPanel.h, ControlPanel.m,
+	GUIComposite.h, GUIComposite.m, GUISwarm.h, GUISwarm.m,
+	MessageProbeWidget.h, MessageProbeWidget.m,
+	MultiVarProbeDisplay.h, MultiVarProbeDisplay.m,
+	MultiVarProbeWidget.h, ProbeDisplay.h, ProbeDisplay.m,
+	ProbeDisplayManager.h, ProbeDisplayManager.m,
+	SimpleProbeDisplay.h, SimpleProbeDisplay.m, SingleProbeDisplay.h,
+	SingleProbeDisplay.m, VarProbeWidget.h, VarProbeWidget.m,
+	simtoolsgui.h, simtoolsgui.m: Change copyright statement to
+	canonical version as suggested by GNU GPL.
+
 2001-11-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* CompleteProbeDisplay.m (max_class_varname_length): Use 

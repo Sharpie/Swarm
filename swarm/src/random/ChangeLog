@@ -1,3 +1,21 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* ACGgen.h, ACGgen.m, BernoulliDist.h, BernoulliDist.m,
+	C2LCGXgen.h, C2LCGXgen.m, C2MRG3gen.h, C2MRG3gen.m, C2TAUSgen.h,
+	C2TAUSgen.m, C3MWCgen.h, C3MWCgen.m, C4LCGXgen.h, C4LCGXgen.m,
+	ExponentialDist.h, ExponentialDist.m, GammaDist.h, GammaDist.m,
+	LCGgen.h, LCGgen.m, LogNormalDist.h, LogNormalDist.m, MRGgen.h,
+	MRGgen.m, MT19937gen.h, MT19937gen.m, MWCAgen.h, MWCAgen.m,
+	MWCBgen.h, MWCBgen.m, NormalDist.h, NormalDist.m, PMMLCGgen.h,
+	PMMLCGgen.m, PSWBgen.h, PSWBgen.m, PoissonDist.h, PoissonDist.m,
+	RWC2gen.h, RWC2gen.m, RWC8gen.h, RWC8gen.m, RandomBitDist.h,
+	RandomBitDist.m, SCGgen.h, SCGgen.m, SWBgen.h, SWBgen.m,
+	TGFSRgen.h, TGFSRgen.m, UniformDoubleDist.h, UniformDoubleDist.m,
+	UniformIntegerDist.h, UniformIntegerDist.m, UniformUnsignedDist.h,
+	UniformUnsignedDist.m, random.h, random.m, randomdefs.h,
+	randomvars.h: Change copyright statement to canonical version as
+	suggested by GNU GPL.
+
 2002-01-14  Marcus G. Daniels  <mgd@condor>
 
 	* include.dists.using.m, include.gens.using.m, include.xgens.using.m
