@@ -1,3 +1,21 @@
+1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Archiver.m: Include Arguments.h.  Minor reformatting.
+	([Archiver -createEnd]): Get application name and mode string
+	from arguments object.
+
+	* Archiver.h: Minor reformatting.
+
+	* simtools.m: Add arguments variable.  Remove applicationName
+	and applicationMode variables.
+	(initSwarm): Change to accept arguments object as argument,
+	Call GUI_INIT with arguments object.
+	(printHelp): Remove.
+	(setApplicationValue):  Move to Arguments.
+
+	* global.h (initSwarm): Declare arguments as a global object, 
+	and remove applicationName and applicationMode.
+
 1998-02-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* simtools.m (initSwarm): Minor reformatting.
