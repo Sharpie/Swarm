@@ -4,7 +4,8 @@
 	failing that, try casting the numeric value.  (Backward compatibility.)
 	([VarProbe -probeAsString:Buffer:withFullPrecision:]): In the 
 	case of apparent boolean probes on an Objective C object, switch
-	back to uchar, since they are conflated.
+	back to uchar, since they are conflated.  Add special handling
+	for array ivars, printing as "[...]".
 
 2001-01-29  Marcus G. Daniels  <mgd@drone.swarm.org>
 

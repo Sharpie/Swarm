@@ -905,16 +905,21 @@ JS_probe_as_string (COMobject cObj, const char *variableName,
 #endif
   else if (language == LanguageObjc)
     {
-      fcall_type_t type = fcall_type_for_objc_type (probedType [0]);
-
-      if (type == fcall_type_boolean)
-        type = fcall_type_uchar;
-
-      string_convert (type,
-                      (void *) anObject + dataOffset,
-                      fmt, precision,
-                      stringReturnType,
-                      buf);
+      if (probedType[0] == _C_ARY_B)
+        strcpy (buf, "[..]");
+      else
+        {
+          fcall_type_t type = fcall_type_for_objc_type (probedType[0]);
+          
+          if (type == fcall_type_boolean)
+            type = fcall_type_uchar;
+          
+          string_convert (type,
+                          (void *) anObject + dataOffset,
+                          fmt, precision,
+                          stringReturnType,
+                          buf);
+        }
     }
   else
     abort ();
