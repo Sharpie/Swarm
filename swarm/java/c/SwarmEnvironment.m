@@ -12,8 +12,9 @@ Java_SwarmEnvironment_initSwarm(JNIEnv *env, jobject obj, jobjectArray args)
     int i = 0;
     char ** argv;
     int argc;
+    const char * utf;
     jstring jstr;
-    jboolean isCopy = 1;
+    jboolean isCopy;
 
     argc = (*env)->GetArrayLength (env, args);    
     argv = (char **) malloc (sizeof (char *) * len);
@@ -21,7 +22,8 @@ Java_SwarmEnvironment_initSwarm(JNIEnv *env, jobject obj, jobjectArray args)
     for (i=0; i<argc; i++)
       {
 	jstr = (*env)->GetObjectArrayElement (env, args, i);
-	argv[i] = (char *)(*env)->GetStringUTFChars (env, jstr, &isCopy);
+	utf = (char *)(*env)->GetStringUTFChars (env, jstr, &isCopy);
+	argv[i] = isCopy ? (char *) utf : strdup (utf);
       }
     
     initSwarm (argc, (const char **)argv);
