@@ -1,3 +1,7 @@
+2004-12-11  Marcus G. Daniels
+
+	* Makefile.am (EXTRA_DIST, defobj_HEADERS): Move COM.h to latter.
+
 2004-11-25  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Fcall.m: update ffitypes and ffiReturnType to 

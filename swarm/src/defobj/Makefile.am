@@ -8,7 +8,7 @@ FFIINCLUDES = @FFIINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
-EXTRA_DIST = make-h2x m2h internal.h java.h modulemap.el fcall_objc.h fcall_java.h _fcall.m COM.h
+EXTRA_DIST = make-h2x m2h internal.h java.h modulemap.el fcall_objc.h fcall_java.h _fcall.m 
 
 INCLUDES = $(LIBOBJCINCLUDES) -I$(top_builddir) -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(JAVAINCLUDES) $(HDF5INCLUDES) $(FFIINCLUDES) $(GNUSTEPLIBINCLUDES)
 
@@ -30,7 +30,7 @@ libdefobj_la_LIBADD = $(FFILIB)
 
 bin_SCRIPTS = m2h make-h2x
 
-defobj_HEADERS = Archiver.h LispArchiver.h HDF5Archiver.h Arguments.h Create.h Customize.h DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h FCall.h FArguments.h defalloc.h deftype.h directory.h JavaProxy.h JavaClassProxy.h JavaCollection.h JavaCollectionIndex.h javavars.h COMProxy.h macros.h
+defobj_HEADERS = Archiver.h LispArchiver.h HDF5Archiver.h Arguments.h Create.h Customize.h DefClass.h DefObject.h HDF5Object.h Program.h Symbol.h Zone.h FCall.h FArguments.h defalloc.h deftype.h directory.h JavaProxy.h JavaClassProxy.h JavaCollection.h JavaCollectionIndex.h javavars.h COMProxy.h macros.h COM.h
 
 $(libdefobj_la_OBJECTS): version.h
 
