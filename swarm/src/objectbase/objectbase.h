@@ -598,6 +598,120 @@ USING
 
 @end
 
+@protocol Arguments <SwarmObject>
+//S: A class that provides customizable command line argument parsing support
+
+//D: A class that provides customizable command line argument parsing support
+
+//E: Let's say you want to add a new argument, say `protocol' to your standard 
+//E: list of command.  In other words you want the following to happen at the
+//E: command line when you type --help.
+//E: ------------------------
+//E: mgd@wijiji[/opt/src/mgd/src/mySwarmApp] $ ./mySwarmApp --help
+//E: Usage: mySwarmApp [OPTION...]
+//E: 
+//E:   -s, --varyseed             Run with a random seed
+//E:   -b, --batch                Run in batch mode
+//E:   -m, --mode=MODE            Specify mode of use (for archiving)
+//E:   -p, --protocol=PROTOCOL    Set protocol
+//E:   -?, --help                 Give this help list
+//E:       --usage                Give a short usage message
+//E:   -V, --version              Print program version
+//E: 
+//E: Mandatory or optional arguments to long options are also mandatory or 
+//E: optional for any corresponding short options.
+//E: 
+//E: Report bugs to bug-swarm@santafe.edu. 
+//E: -----------------------
+//E: 
+//E: To implement this you need to make your own subclass of Arguments
+//E: like the following:
+//E: 
+//E: #import <objectbase/Arguments.h>
+//E: 
+//E: @interface MySwarmAppArguments: Arguments
+//E: {
+//E:   const char *protocolArg;
+//E: }
+//E: - (const char *)getProtocolArg;
+//E: @end
+//E: 
+//E: @implementation MySwarmAppArguments
+//E: 
+//E: + createBegin: aZone
+//E: {
+//E:   static struct argp_option options[] = {
+//E:     {"protocol", 'p', "PROTOCOL", 0, "Set protocol", 3},
+//E:     { 0 }
+//E:   };
+//E:   
+//E:   MySwarmAppArguments *obj = [super createBegin: aZone];
+//E: 
+//E:   [obj addOptions: options];
+//E:   return obj;
+//E: }
+//E: 
+//E: - (int)parseKey: (int)key arg: (const char *)arg
+//E: {
+//E:   if (key == 'p')
+//E:     {
+//E:       protocolArg = arg;
+//E:       return 0;
+//E:     }
+//E:   else
+//E:     return [super parseKey: key arg: arg];
+//E: }
+//E: 
+//E: - (const char *)getProtocolArg
+//E: {
+//E:   return protocolArg;
+//E: }
+//E: 
+//E: @end
+
+CREATING
++ createArgc: (int)argc Argv: (const char **)argv;
+
+USING
+- setArgc: (int)theArgc Argv: (const char **)theArgv;
+- setAppName: (const char *)appName;
+- setAppModeString: (const char *)appModeString;
+- setBatchModeFlag: (BOOL)batchModeFlag;
+- setVarySeedFlag: (BOOL)varySeedFlag;
+- (BOOL)getBatchModeFlag;
+- (BOOL)getVarySeedFlag;
+- (const char *)getAppName;
+- (const char *)getAppModeString;
+- (int)getArgc;
+- (const char **)getArgv;
+- (const char *)getExecutablePath;
+- (const char *)getSwarmHome;
+
+//M: Takes an option specification that includes the following information:
+
+//M: - The name of the option specification
+
+//M: - The key of the option.  This an integer that, if printiable, is
+//M:   the single-character use of the option.  For example, `-p' 
+//M:   vs. `--protocol' are the different versions of the same thing.
+//M:   One is intended to be mnemonic, the other convenient.
+
+//M: - If non-NULL, an argument label that says that the option
+//M:   requires an argument (in this case, the protocol name).
+
+//M: - Flags that change the visibility and parsing of the option 
+
+//M: - Documentation for the option
+
+//M: - A sorting integer; relative placement of the option in the help
+//M:   screen.
+- (struct argp_option *)addOptions: (struct argp_option *)options;
+
+//M: This method is called for each option that occurs.
+- (int)parseKey: (int)key arg: (const char *)arg;
+
+@end
+
 @class Probe;
 @class VarProbe;
 @class MessageProbe;

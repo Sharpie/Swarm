@@ -1,3 +1,9 @@
+1998-06-24  Alex Lancaster  <alex@santafe.edu>
+
+	* objectbase.h: (Arguments): Add protocol.  Add documentation
+	description for Arguments, including long example marked-up with
+	//E:.
+
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* CompleteProbeMap.m, CompleteVarMap.m, CustomProbeMap.m,
