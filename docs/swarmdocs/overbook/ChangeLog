@@ -1,5 +1,7 @@
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
+	* overcont.xml: Add GFDL as <appendix>.
+
 	* overmeta.xml: Use <mediaobject> in place of <graphic>, which
 	will be obsoleted in V5.0 of DTD.
 	
