@@ -25,7 +25,7 @@ jdkdir=@jdkdir@
 javaincludedir=$(jdkdir)/include
 JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
 
-override CPPFLAGS += $(JAVAINCLUDES) -I$(top_srcdir)/libobjc -I$(top_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(top_srcdir)/src $(foreach module,$(MODULES),-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(srcdir)
+override CPPFLAGS += $(JAVAINCLUDES) -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(top_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(top_srcdir)/src $(foreach module,$(MODULES),-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(srcdir)
 
 # Solaris JNI headers have some pragmas
 override CFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@

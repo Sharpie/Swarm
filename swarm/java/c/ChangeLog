@@ -1,5 +1,7 @@
 1999-03-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (CPPFLAGS): Pass -I$(top_builddir)/libobjc.
+
 	* directory.m (compare_java_objects, compare_objc_objects): Moved
 	into java_directory_init.  Use IsSameObject for former.
 	(java_directory_update): Create GlobalRefs when items are added 
