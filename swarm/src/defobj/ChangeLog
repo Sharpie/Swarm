@@ -1,6 +1,8 @@
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* defobj.m (lispIn): Continue to support make-objc.
+	(initDefobj): Set inhibitLoadFlag from either
+	--no-init-file or SWARM_INHIBIT_ARCHIVER_LOAD environment variable.
 
 	* DefClass.m ([CreatedClass_s -updateArchiver]): Use lispArchiver,
 	instead of archiver.
@@ -12,6 +14,7 @@
 	variants and accessors.
 	(lisp_output_objects, hdf5_output_objects): Don't stop on nil
 	Map members, but ignore them.
+	([Archiver_c +createBegin:]): Initialize inhibitLoadFlag to NO.
 
 	* Archiver.h (Archiver_c): Remove lispPath and hdf5Path.  Add path and
 	hdf5Flag.  

@@ -278,8 +278,7 @@ PHASE(Creating)
   newArchiver->instances = [List create: aZone];
   newArchiver->path = NULL;
   newArchiver->hdf5Flag = NO;
-  newArchiver->inhibitLoadFlag =
-    (getenv ("SWARM_INHIBIT_ARCHIVER_LOAD") != NULL);
+  newArchiver->inhibitLoadFlag = NO;
   return newArchiver;
 }
 

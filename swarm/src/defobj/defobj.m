@@ -143,7 +143,9 @@ initDefobj (int argc, const char **argv,
                               optionFunc: optionFunc];
   _objc_lookup_class = findTypeOrLocalClass;
   {
-    BOOL inhibitLoadFlag = [arguments getInhibitArchiverLoadFlag];
+    BOOL inhibitLoadFlag =
+      ([arguments getInhibitArchiverLoadFlag] |
+       (getenv ("SWARM_INHIBIT_ARCHIVER_LOAD") != NULL));
 
     hdf5Archiver = [[[[Archiver createBegin: globalZone]
                        setDefaultHDF5Path]
