@@ -76,7 +76,7 @@ AC_ARG_WITH(tkdir,
 
 AC_ARG_WITH(tkincludedir,
 [  --with-tkincludedir=DIR          Use DIR for Tk header files],
-  tkincludedir=$withval/include)
+  tkincludedir=$withval)
 
 AC_ARG_WITH(tklibname,
 [  --with-tklibname=NAME            Use -lNAME for Tk],
