@@ -198,6 +198,14 @@
       [heatDisplay display];
       [heatbugDisplay display];
       [worldRaster drawSelf];
+#ifdef SCREENSHOTS
+      {
+        char filename[40];
+
+        sprintf (filename, "heatbugs%07d.png", getCurrentTime ());
+        [[[Pixmap create: [self getZone] widget: nil] save: filename] drop];
+      }
+#endif
     }
   if (unhappyGraph)
     [unhappyGraph step];

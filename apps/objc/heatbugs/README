@@ -4,3 +4,8 @@ to see little pictures (pixmap) running around instead of squares,
 then run make like so:
 
    make CPPFLAGS=-DUSE_PIXMAP
+
+Also, you can write screenshots for each update to PNG files
+if you build like this:
+
+   make CPPFLAGS=-DSCREENSHOTS

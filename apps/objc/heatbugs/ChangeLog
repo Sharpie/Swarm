@@ -1,3 +1,10 @@
+1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -_update_]): 
+	Write screenshots if SCREENSHOTS is defined.
+
+	* README: Note SCREENSHOTS compile-time option.
+
 1998-08-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (DATAFILES): Add {batch,experiment}.setup.
