@@ -18,10 +18,11 @@
 
 	* directory.m (swarm_directory_superclass): Use 
 	SD_JAVA_FIND_OBJECT_JAVA instead of SD_FINDJAVACLASS.
+	Only do Java checks when swarmDirectory is set.
 
-	* DefObject.m ([Object_s -getClass]): Check to see if there
-	is a Java counterpart, and then check for a possible proxy
-	class.
+	* DefObject.m ([Object_s -getClass]): When swarmDirectory is set
+	up,check to see if there is a Java counterpart, and then check for
+	a possible proxy class.
 
 2000-06-18    <mgd@DRONE>
 

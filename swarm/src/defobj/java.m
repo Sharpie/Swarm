@@ -391,7 +391,6 @@ map_java_class_ivars_internal (jclass class,
       (*jniEnv)->DeleteLocalRef (jniEnv, field);
     }
   (*jniEnv)->DeleteLocalRef (jniEnv, fields);
-  (*jniEnv)->DeleteLocalRef (jniEnv, class);
 }
 
 void
@@ -1846,9 +1845,21 @@ swarm_directory_java_ensure_selector (jobject jsel)
 jclass
 swarm_directory_objc_find_java_class (Class class)
 {
-  return ([class respondsTo: M(isJavaProxy)]
-          ? SD_JAVA_FIND_OBJECT_JAVA (class)
-          : find_java_wrapper_class (class));
+  jclass clazz;
+
+  clazz = SD_JAVA_FIND_OBJECT_JAVA (class);
+
+  if (!clazz)
+    {
+      ObjectEntry *result;
+
+      clazz = find_java_wrapper_class (class);
+      result = SD_JAVA_ADD ((jobject) clazz, class);
+      
+      (*jniEnv)->DeleteLocalRef (jniEnv, clazz);
+      clazz = (jclass) result->foreignObject.java;
+    }
+  return clazz;
 }
 
 Class
@@ -1861,13 +1872,13 @@ swarm_directory_java_ensure_class (jclass javaClass)
       const char *className = java_get_class_name (javaClass);
 
       objcClass = objc_class_for_class_name (className);
-      FREECLASSNAME (className);
       
       // if the corresponding class does not exist create new Java Proxy
       
       if (objcClass == nil)
         objcClass = [JavaProxy create: globalZone];
       SD_JAVA_ADD ((jobject) javaClass, (id) objcClass);
+      FREECLASSNAME (className);
     }
   return objcClass;
 }

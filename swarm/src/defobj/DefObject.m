@@ -162,10 +162,13 @@ PHASE(Using)
 - getClass
 {
 #ifdef HAVE_JDK
-  jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (self);
-
-  if (jobj)
-    return swarm_directory_java_class_for_object (jobj);
+  if (swarmDirectory)
+    {
+      jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (self);
+      
+      if (jobj)
+        return swarm_directory_java_class_for_object (jobj);
+    }
 #endif
   return getClass (self);
 }
