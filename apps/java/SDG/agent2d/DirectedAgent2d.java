@@ -91,9 +91,9 @@ abstract class DirectedAgent2d extends Agent2d {
   public void sampleResistProbability () {
     double prob;
 
-    do {
-      prob = resistProbabilityDistribution.getDoubleSample ();
-    } while (prob < 0.0 || prob > 1.0);
+    prob = Math.abs (resistProbabilityDistribution.getDoubleSample ());
+    if (prob > 1.0)
+      prob = 1.0;
     resistProbability = prob;
   }
 
