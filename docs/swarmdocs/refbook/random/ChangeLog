@@ -1,3 +1,9 @@
+1999-01-07  Alex Lancaster  <alex@santafe.edu>
+
+	* random00.sgml ({Generator,Distribution} Usage Notes): Made
+	SIDEBAR, NOTE markup to overcome the one page limitation of
+	SIDEBARs in print backend.
+
 1998-06-17  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am: Include from refbook/ instead of src/.
