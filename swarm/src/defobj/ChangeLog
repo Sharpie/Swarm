@@ -1,3 +1,7 @@
+2001-01-05  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* java.h: Protect from double-inclusion.
+
 2000-12-17  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* defobj.h: Add getLastArgIndex.

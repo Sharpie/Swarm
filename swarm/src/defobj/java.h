@@ -1,3 +1,5 @@
+#ifndef __defobj_java_h
+#define __defobj_java_h
 #import <defobj/directory.h> // DIRECTORY_SIZE, ObjectEntry, SelectorEntry
 
 #include <swarmconfig.h>
@@ -104,3 +106,4 @@ extern void java_drop (jobject jobj);
 #define JAVA_JAVAENTRY(theJavaObject) JAVA_ENTRY(0,theJavaObject)
 #define JAVA_FIND_OBJECT_ENTRY(theJavaObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.java = theJavaObject; _findEntry; })
 
+#endif
