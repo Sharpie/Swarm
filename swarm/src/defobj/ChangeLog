@@ -1,13 +1,20 @@
 1999-04-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* DefObject.m ([Object_s -forward::]): Disable [fa drop]
+	(it's crashing for some reason).
+
+	* FCall.m ([FCall_c -getRetVal:buf:]): Handle jobject in both cases.
+
 	* Makefile.am (JAVAINCLUDES): Add $(top_srcdir)/java/c and
 	$(top_builddir)/libobjc.
 
 	* FArguments.m: Include jni.h and declare jniEnv extern.
-	Use Ljava/lang/Object instead of "X".
-	([FArguments -_addArgument_:ofType:]): Use variable offset
-	instead of recomputing it all the time.
-	([FArguments -_setReturnType_:]): Handle void case.
+	([FArguments -_addArgument_:ofType:]): Use variable offset instead
+	of recomputing it several times.  Handle conversion of
+	fcall_type_object to fcall_type_jobject when javaFlag is set.
+	([FArguments -_setReturnType_:]): Handle void case.  Convert
+	fcall_type_object to fcall_type_jobject if javaFlag is set.
+	Handle fcall_type_jobject.
 
 	* FArguments.[hm] ([FArguments -setJavaFlag:]): New ivar and setter.
 

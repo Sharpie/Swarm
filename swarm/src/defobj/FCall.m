@@ -305,6 +305,7 @@ PHASE(Using)
   float return_float (void) { return res->_float; }
   double return_double (void) { return res->_double; }
   id return_object (void) { return res->object; }
+  jobject return_jobject (void) { return (jobject) res->object; }
   void return_void (void) { return; }
 
   retval_t apply_uchar (void)
@@ -352,7 +353,12 @@ PHASE(Using)
       void* args = __builtin_apply_args ();
       return __builtin_apply ((apply_t) return_void, args, sizeof (void *));
     }
-
+  retval_t apply_jobject (void)
+    {
+      void *args = __builtin_apply_args ();
+      return __builtin_apply ((apply_t) return_jobject, args, sizeof (void *));
+    }
+  
   switch (fargs->returnType)
     {
     case fcall_type_void:
@@ -377,6 +383,8 @@ PHASE(Using)
       return apply_string ();
     case fcall_type_object:
       return apply_object ();
+    case fcall_type_jobject:
+      return apply_jobject ();
     default:
       abort ();
     }
@@ -421,7 +429,7 @@ PHASE(Using)
       ptr = &buf->string;
       break;
     case fcall_type_jobject:
-      abort ();
+      ptr = &buf->object;
       break;
     default:
       abort ();

@@ -48,7 +48,7 @@ ffi_type *ffi_types[FCALL_TYPE_COUNT] = { &ffi_type_void,
 const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "S", "S", "I", 
   "I", "J", "J", "F", "D",
-  "Ljava/lang/Object;",
+  "X",
   "Ljava/lang/String;", 
   "Lswarm/Selector;",
   "Ljava/lang/Object;"
@@ -123,18 +123,25 @@ fcall_type_size (fcall_type_t type)
     raiseEvent (SourceMessage,
                 "Types already assigned to maximum number arguments in the call!\n");
 
-  argTypes[offset] = type;
 #ifdef HAVE_JDK
-  if (fcall_type_string && javaFlag)
+  if (javaFlag)
     {
-      const char *str = *(const char **) value;
-      
-      string = (*jniEnv)->NewStringUTF (jniEnv, str);
-      size = sizeof (jstring);
-      value = &string;
+      if (type == fcall_type_object)
+        type = fcall_type_jobject;
+      else if (type == fcall_type_string)
+        {
+          const char *str = *(const char **) value;
+          
+          string = (*jniEnv)->NewStringUTF (jniEnv, str);
+          size = sizeof (jstring);
+          value = &string;
+        }
+      else
+        size = fcall_type_size (type);
     }
   else
     size = fcall_type_size (type);
+  argTypes[offset] = type;
 #endif
 #ifndef USE_AVCALL
   argValues[offset] = [[self getZone] allocBlock: size];
@@ -237,6 +244,10 @@ get_fcall_type_for_objc_type (char objcType)
 - _setReturnType_: (fcall_type_t)type
 {
   javaSignatureLength += strlen (java_type_signature[type]);
+
+  if (javaFlag)
+    if (type == fcall_type_object)
+      type = fcall_type_jobject;
   
   switch (type)
     {
@@ -283,7 +294,8 @@ get_fcall_type_for_objc_type (char objcType)
       result = NULL;
       break;
     case fcall_type_jobject:
-      abort ();
+      result = &resultVal.object;
+      break;
     default:
       abort ();
     }
@@ -343,11 +355,13 @@ createJavaSignature (FArguments *self)
 {
   unsigned i;
 
-  for (i = 0; i< assignedArgumentCount; i++)
+  printf ("mapping..\n");
+  for (i = 0; i < assignedArgumentCount; i++)
     mapAlloc (mapalloc, argValues[MAX_HIDDEN + i]);
-  mapAlloc (mapalloc, argTypes);
-  mapAlloc (mapalloc, ffiArgTypes);
   mapAlloc (mapalloc, argValues);
+  mapAlloc (mapalloc, argTypes);
+
+  mapAlloc (mapalloc, ffiArgTypes);
   mapAlloc (mapalloc, (char *) javaSignature);
 }
 @end
