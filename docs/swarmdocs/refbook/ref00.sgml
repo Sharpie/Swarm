@@ -1,60 +1,62 @@
 <PREFACE ID="REFERENCE.PREFACE">
-<TITLE>Preface</TITLE>
+  <TITLE>Preface</TITLE>
 
-<SECT1><TITLE>Obtaining Swarm</TITLE>
+  <SECT1><TITLE>Obtaining Swarm</TITLE>
 
-<SIMPLESECT>
-<TITLE>The Swarm Hive</TITLE>
+    <SIMPLESECT>
+      <TITLE>The Swarm Hive</TITLE>
 
-<PARA>
-The &program-name; archive at &swarm-webpage; is the place to obtain
-both new software releases and documentation for Swarm.
-</PARA>
+      <PARA>
+        The &program-name; archive at &swarm-webpage; is the place to obtain
+        both new software releases and documentation for Swarm.
+      </PARA>
 
-<PARA>
-We welcome comments about Swarm and it's documentation.
-</PARA>
+      <PARA>
+        We welcome comments about Swarm and it's documentation.
+      </PARA>
 
-<PARA>
-You may send comments to the Swarm team: 
-</PARA>
+      <PARA>
+        You may send comments to the Swarm team: 
+      </PARA>
 
-<PARA>&swarm-program;</PARA>
+      <PARA>&swarm-program;</PARA>
 
-<PARA>
-You can also mail comments to the <LITERAL>swarm-support@santafe.edu
-</LITERAL> mailing list. See the Swarm support archive for
-instructions on how to join this list.
-</PARA>
-</SIMPLESECT>
+      <PARA>
+        You can also mail comments to the <LITERAL>swarm-support@santafe.edu
+        </LITERAL> mailing list. See the Swarm support archive for
+        instructions on how to join this list.
+      </PARA>
+    </SIMPLESECT>
 
-<SIMPLESECT>
-<TITLE>Acknowledgments</TITLE>
+    <SIMPLESECT>
+      <TITLE>Acknowledgments</TITLE>
 
-<PARA>
-The Swarm project was started by Chris Langton, formerly of the Santa Fe
-Institute now at the Swarm Corporation, New Mexico.  Swarm is being
-designed and programmed by Chris Langton (SFI), Roger Burkhart (John
-Deere), Irene Lee (SFI), Marcus Daniels (SFI) and Alex Lancaster
-(SFI).  Much of the development of Swarm was done by Nelson Minar,
-who is now at the MIT Media Lab, and Manor Askenazi and Glen Ropella,
-formerly of the SFI.  The new random library was written by Sven
-Thommesen and graciously contributed.  Eric Carr and JJ Merelo have
-been patient Swarm users and developers. Howard Gutowitz and David
-Hiebeler have participated in the design process.  (David is also the
-implementor of the original Swarm prototype.)  And, many thanks to
-Simon Fraser, Swarm graphic designer extraordinaire.  Finally, many
-thanks go out to the Swarm user community, particularly those who have
-stuck with us from the beginning.
-</PARA>
+      <PARA>
+        The Swarm project was started by Chris Langton, formerly of
+        the Santa Fe Institute now at the Swarm Corporation, New
+        Mexico.  Swarm is being designed and programmed by Chris
+        Langton (SFI), Roger Burkhart (John Deere), Irene Lee (SFI),
+        Marcus Daniels (SFI) and Alex Lancaster (SFI).  Much of the
+        development of Swarm was done by Nelson Minar, who is now at
+        the MIT Media Lab, and Manor Askenazi and Glen Ropella,
+        formerly of the SFI.  The new random library was written by
+        Sven Thommesen and graciously contributed.  Eric Carr and JJ
+        Merelo have been patient Swarm users and developers. Howard
+        Gutowitz and David Hiebeler have participated in the design
+        process.  (David is also the implementor of the original Swarm
+        prototype.)  And, many thanks to Simon Fraser, Swarm graphic
+        designer extraordinaire.  Finally, many thanks go out to the
+        Swarm user community, particularly those who have stuck with
+        us from the beginning.
+      </PARA>
 
-<PARA>
-See the &program-name archive for more information about Swarm.
-</PARA>
+      <PARA>
+        See the &program-name archive for more information about Swarm.
+      </PARA>
 
-</SIMPLESECT>
+    </SIMPLESECT>
 
-</SECT1>
+  </SECT1>
 
 </PREFACE>
 
