@@ -1396,6 +1396,9 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
     Colormap *colormap = raster->colormap;
     BOOL retryFlag = NO;
 
+    if (colormap == nil)
+      raiseEvent (InternalError, "colormap is nil");
+
     if (pixmap->display)
       {
         if (pixmap->pixmap)

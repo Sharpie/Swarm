@@ -1,3 +1,8 @@
+2000-03-14    <mgd@nest.swarm.org>
+
+	* internal.m (tkobjc_pixmap_update_raster): Add check for nil
+	colormap.  Thanks to Ralf Stephan.
+
 2000-02-21    <mgd@nest.swarm.org>
 
 	* Makefile.am (CURRENT): Bump.  Version 2.1.
