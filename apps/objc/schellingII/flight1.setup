@@ -1,20 +1,24 @@
 #Machine Generated Object-IVAR-Dump
 @begin
-neighborhood_type	m
+experimentDuration	1000
+worldXSize	100
+worldYSize	100
 radius	4
 numRaces	6
+neighborhood_type	m
+currentTime	0
+randomSeed	0
 edgeWrap	1 ''
 synchronous	0 '
-worldSize	100
+randomize	0 '
+writeGUIRaster	0 '
 fractionVacant	0.2
 fractionBlue	0.5
 fractionRed	0.3
-blueToleranceLower	0.2
 blueToleranceUpper	0.3
-redToleranceLower	0.5
+blueToleranceLower	0.2
 redToleranceUpper	0.75
-otherToleranceLower	0.5
+redToleranceLower	0.5
 otherToleranceUpper	0.75
-randomSeed	0
-randomize	0 '
+otherToleranceLower	0.5
 @end

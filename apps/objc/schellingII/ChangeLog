@@ -1,3 +1,12 @@
+2005-02-14  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
+
+	* Nhood2dCounter.h: new method 
+	- (BOOL)checkVisibilityX: (uns)x Y: (uns)y
+
+2005-02-11  Paul Johnson  <pauljohn@pols111.pols.ku.edu>
+
+	* Output.h: New class, for the GUI and batch output
+
 2003-03-17  Paul E. Johnson  <pauljohn@pjdell.pols.ukans.edu>
 
 	* SchellingWorld.m: SchellingWorld is both a grid where agents

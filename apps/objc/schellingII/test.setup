@@ -1,0 +1,46 @@
+#Machine Generated Object-IVAR-Dump
+@begin
+zbits	135750754
+argc	1
+applicationName	schellingSwarm
+executablePath	/home/pauljohn/swarm/MySwarmCode/schelling2-3.0-Swarm-2.1/schellingSwarm
+appModeString	default
+version	[no application version]
+bugAddress	<NULL>
+inhibitArchiverLoadFlag	0 '
+inhibitExecutableSearchFlag	0 '
+batchModeFlag	0 '
+varySeedFlag	0 '
+fixedSeedFlag	0 '
+fixedSeed	0
+verboseFlag	0 '
+showCurrentTimeFlag	0 '
+swarmHome	/usr/
+defaultAppConfigPath	./
+defaultAppDataPath	./
+ignoringEnvFlag	1 ''
+lastArgIndex	1
+inputFilename	<NULL>
+run	-1
+experimentDuration	1000
+worldXSize	80
+worldYSize	80
+radius	1
+numRaces	2
+neighborhood_type	vonneuman
+currentTime	0
+randomSeed	0
+edgeWrap	1 ''
+synchronous	0 '
+randomize	0 '
+writeGUIRaster	0 '
+fractionVacant	0.2
+fractionBlue	0.5
+fractionRed	0.5
+blueToleranceUpper	0.5
+blueToleranceLower	0.25
+redToleranceUpper	0.5
+redToleranceLower	0.25
+otherToleranceUpper	0.5
+otherToleranceLower	0.25
+@end

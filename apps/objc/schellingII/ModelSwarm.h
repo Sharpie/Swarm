@@ -1,8 +1,3 @@
-// Schellings Segregation Model 
-// Code by Benedikt Stefansson, <benedikt@ucla.edu>. 
-// First version July 1997
-// Second version February 1998
-
 #import "Person.h"
 #import "SchellingWorld.h"
 #import <objectbase.h>
@@ -14,13 +9,12 @@
 #import <objectbase/Swarm.h>
 
 @interface ModelSwarm : Swarm {
-  // int numAgents;
   char * neighborhood_type;
   int radius;
   int numRaces;
   BOOL edgeWrap;
   BOOL synchronous;
-  int worldSize;
+  int worldXSize, worldYSize;
   double fractionVacant;
   double fractionBlue, fractionRed;
   double blueToleranceLower, blueToleranceUpper;
@@ -38,7 +32,7 @@
   
   id <List> agentList;
   id world;
-  
+  id output;
 }
 
 + createBegin: aZone;		
@@ -48,14 +42,19 @@
 - buildActions;
 - stepThroughList;
 
-- (BOOL)randomizeList;
+
 
 - activateIn: swarmContext;
 - getAgentList;
 - getWorld;
-- (int)getWorldSize;
+- (int)getWorldXSize;
+- (int)getWorldYSize;
 - (double)getRandomDoubleMin: (double)min Max: (double)max;
 - (double)getRandomDouble;
 - (int)getRandomIntMin: (int)min Max: (int)max;
+
+
+- (void)drop;
+- (BOOL)checkToStop;
 
 @end

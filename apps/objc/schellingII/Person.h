@@ -16,8 +16,10 @@
   int nhoodType;
   int radius;
   int idnumber;
-  double myTolerance;
+  double myTolerance, fracMyColor;
+
   BOOL edgeWrap;
+  BOOL moved;
   SchellingWorld * myWorld;
 }
 	
@@ -45,7 +47,7 @@
 - setTolerance: (double)t;
 - (double)getTolerance;	
 
-- step;
+- (void)step;
 
 - moveToNewLocation;
 
@@ -56,7 +58,7 @@
 - drawSelfOn: (id)rast;
 				
 - (int)getUnhappy;
-
+- (int)getMoved;
 
 - (int)wrapXCoord: (int)inCoord;
 - (int)wrapYCoord: (int)inCoord;

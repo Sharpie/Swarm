@@ -2,14 +2,10 @@
 
 @implementation Person
 
-// A bunch of methods that set
-// one parameter or another
-
 
 - createEnd
 {
   return [super createEnd];
-
 }
 
 
@@ -32,24 +28,32 @@
   return y;
 }
 
-
+// Agent does not really need this info, but for diagnostics
+// it is useful to have it.  The neighborhood info is all contained
+// in the SchellingWorld, where "visible percentages of people" are
+// calculated for the agent.
 - (void)setNhoodType: (int)nhood
 {
   nhoodType = nhood;
 }
 
+// Again, not really necessary, except for diagnostics. The SchellingWorld
+// has the radius value, which is common for all agents.
 - (void)setNhoodRadius: (int)rad
 {
   radius = rad;
 }
 
-
+// Again, not really necessary, except for diagnostics. The SchellingWorld
+// has the info on edge wrapping.
 - (void)setEdgeWrap: (BOOL)wrap
 {
   edgeWrap = wrap;
 }
 
-
+// xsize and ysize are only needed for bug-tracking and diagnostics.
+// Agents just ask the world for new positions, so agents don't
+// really need that information.
 - setWorld: w 
 {
   myWorld = w;
@@ -93,10 +97,12 @@
 // The method that implements the agents
 // actual behavior - look around and try
 // to move if you are unhappy
-- step  
+- (void)step  
 {
-  double fracMyColor = [self getFractionOf: myColor];
+  fracMyColor = [self getFractionOf: myColor];
   unhappy = 0; //make happy to start
+  moved = NO;
+
 
   //fprintf(stderr,"ID: %d fracMyColor=%f\n", idnumber, fracMyColor);
   // Then see if you are happy in your neighborhood
@@ -106,20 +112,36 @@
       unhappy = 1; 
       [self moveToNewLocation];
     }
-  return self;
 }
+
+
+// To change method of movement, change the 0 and 1 in the if
+// statement below.
 
 - moveToNewLocation 
 {
-  BOOL newLocation;
-  int newX = 0, newY = 0;
-  
-  // Find an empty neighbor according to
-  // the definition of neighborhoood. The coordinates 
-  // are put into newX and newY. The return value
-  // is a YES/NO variable indicating a position was found.
-  newLocation = [myWorld findEmptyLocationX: &newX Y: &newY];
-  if (newLocation == YES)
+ 
+  int newX = x, newY = y;
+
+
+  if (0)
+    {
+      moved = [myWorld findEmptyPerpendicularX: &newX Y: &newY];
+    }
+
+  else if (1)
+    {
+      moved = [myWorld findNearestAcceptableColor: myColor Tolerance: myTolerance X: &newX Y: &newY];
+    }
+  else
+    {
+      // Find an empty neighbor according to
+      // the definition of neighborhoood. The coordinates 
+      // are put into newX and newY. The return value
+      // is a YES/NO variable indicating a position was found.
+      moved = [myWorld findEmptyLocationX: &newX Y: &newY];
+    }
+  if (moved == YES)
     {
 
       [myWorld removeObject: self atX: x Y: y];
@@ -139,13 +161,15 @@
   
   int numNeighbors = [myWorld getVisiblePopulationX: x Y: y ];
   
-  // uncomment this if you want to see the match/mismatch between the agent's view
-  // and the data the world reports. With ASYNCHRONOUS updating, there should be no mismatch
+  // uncomment this if you want to see the match/mismatch between the
+  // agent's view and the data the world reports. With ASYNCHRONOUS
+  // updating, there should be no mismatch
   // [self verifyNhoodData: t];
   
   return (double) (sumSimilar-1)/(numNeighbors-1);
   //suppose you want the agent to count itself. then change the
-  //above to
+  //above to.  Caution: in SchellingWorld, it is ncessary to make a corresponding change 
+  // - (BOOL)findNearestAcceptableColor: (int)col Tolerance:(double)tol X: (int*)newX Y: (int*)newY
   //  return (double) sumSimilar/numNeighbors;
 }
 
@@ -167,7 +191,6 @@
   
   if (nhoodType == 1)// This enforces a VonNeuman neighborhood 
     {
-      
       for(i = -radius; i < radius+1; i++)
 	{
 	  int xcoord = x + i;
@@ -254,7 +277,10 @@
   return unhappy;
 }
 
-
+- (int)getMoved
+{
+  return (int)moved;
+}
 
 
 

@@ -37,7 +37,11 @@
 
 - (void)setModelSwarm: m;
 
+- (BOOL)findEmptyPerpendicularX: (int*)newX Y: (int*)newY;
+
 - (BOOL)findEmptyLocationX: (int*)newX Y: (int*)newY;
+
+- (BOOL)findNearestAcceptableColor: (int)col Tolerance:(double)tol X: (int*)newX Y: (int*)newY;
 
 - (void)setNhoodRadius: (int)r NhoodType: (int)n EdgeWrap: (BOOL)wrap Sync: (BOOL)sync;
 

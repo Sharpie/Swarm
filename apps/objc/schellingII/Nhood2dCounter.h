@@ -161,7 +161,6 @@ the true state of the world.
 
 - (long *)getNhoodOffsets;
 
-
 - (void)setNhoodRadius: (int)r NhoodType: (int)n EdgeWrap: (BOOL)wrap Sync: (BOOL)sync;
 
 

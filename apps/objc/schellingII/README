@@ -1,5 +1,420 @@
-schelling2-1.6
-Paul Johnosn <pauljohn@ku.edu> 2003-04-16
+schelling2-3.0
+Paul Johnson <pauljohn@ku.edu> 2005-02-06
+
+I. Introduction
+
+This is a version of the Thomas Schelling neighborhood segregation
+model.  You can read more about it in Chapter 4 of Schelling's book,
+Micromotives and Macrobehavior (WW. Norton, 1978) or in his article in
+the Journal of Mathematical Sociology called "Dynamic Models of
+Segregation" (Vol. 1, 1971, pp. 143-86).
+
+Schelling's model describes two races of individuals that move about
+on a flat world. It showed that, even if individuals are rather
+tolerant, they end up clustered into homogenous groups.
+
+This simulation model is the Schelling model on steroids.  Its got
+just about all of the bells and whistles I can think of. It represents
+the traditional two-race segregation model, but it can also allow
+additional races. The agents can live in square (Moore) or in
+diamond-shaped (von Neumann) neighborhoods of adjustable size. The
+world can be a rectangle with "hard edges" or it can be a torus that
+has "edge wrapping."  Those features are described below in greater
+detail.  This package is intended to facilitate classroom exercises
+and research.  It can be used in graphical user interface mode, but it
+can also be used in batch mode.  It has complete data-output
+facilities.
+
+I have worked on the model on-and-off for about 5 years.  The original
+was by Benedikt Stefansson, but the current version bares little
+resemblence to the original model.  His was called schelling.  My
+first batch of revisions was distributed as schelling2.  That was the
+one that added the multi-race capability and fixed up some
+calculations.  Then schelling2-2.0 was an "optimization" version.
+Below you should find two separate sets of notes that explain the
+sequencing of my revisions.  This package, schelling2-3.0, is adding a
+lot of functionality for research purposes.
+
+I was recently re-energized after a candidate for a posiiton in the
+economics department made a presentation on variants of the Schelling
+segregation model. That speaker, Nicolaas Vriend (U. of London),
+presented a paper called "Schelling's Spatial Proximity Model of
+Segregation Revisited."  I wanted to enable replication and extension
+within the Swarm framework.  My current code does not exactly
+replicate his work, but it should take researchers within a
+stones-throw of it.  Plus I have many more variants built in.
+
+I started with the working model that was distributed as
+schelling2-2.0 and began adding the bells and whistles that I now
+consider to be necessary for a "full service" Swarm model.  
+
+I began with schelling2-2.0, which already had the multi-race
+segregation model with a GUI display, and started working on data
+output and the batch mode. The model already had many useful features,
+many of which are described in this file.  As I review it, some of the
+most interesting features are
+
+1. User choice of neighborhood type, Moore or von Neumann
+
+2. User choice of a torus ('edgeWrapping') or a rectangular world with
+hard edges
+
+3. User choice of the size of the neighborhood seen by the agents,
+measured by "radius" (described below)
+
+4. I avoid the "createActionForEach" scheduling idioms altogether.
+Look in ModelSwarm, where you see I've used a (to me) more obvious,
+simpler strategy of looping through all the agents, either 
+consecutively or in a random order.
+
+
+In the step from versions 2.0 to 3.0, the most important changes were
+in the creation of a batch processing capability, so I now describe
+that change.
+
+II. Enable batch model processing.
+
+That entails
+
+A. Installing the capability for "command line argument processing".
+   
+That is handled by the Parameters class (the new files
+Parameters.h and Parameters.m). The main.m is changed to tell
+Swarm to use Parameters to digest command line options. 
+
+Swarm has a global object called "arguments" and when the model
+starts, the arguments object is created from the Parameters class.
+So, anywhere you need a parameter value, you can ask the arguments
+object for it.  Swarm has arguments typed as a generic thing, so the
+compiler will warn you that it is not sure arguments can respond to
+the messages you want.  You can let it know where to find those
+methods--and stop warning you--by casting arguments when you use it.
+For example, instead of
+
+[arguments getValueX];
+
+do
+
+[(Parameters *) arguments getValueX];
+
+Note it is necessary to import Parameters.h in order for this to work.
+
+You will note a major departure from the usual Swarm thing when you
+study the code.  The ModelSwarm.m is no longer the place where model
+parameters live. Instead, the Parameters class is the place.  In
+GUI mode, the model initializes itself by asking the arguments object
+for values.  If there are no command line arguments, then the system
+just retrieves the defaults.  On the other hand, if there are command
+line arguments, they will override the defaults. 
+
+For GUI users, there is still the ability to save parameter values to
+files and load them.  I'll make sure the command line processing also
+allows you to put a parameter file as an option.
+
+I get tired of having to write get methods for every single parameter.
+It is boring and tiresome. So I use a shortcut that Marcus Daniels
+prepared.  The shortcut uses a Swarm probe to grab a variable by name.
+These are used as C functions getInt and getDbl.  You ask the arguments
+object for a varible named "worldYSize" like so
+
+getInt(arguments,"worldYSize").
+
+It returns what you want. That trick works for doubles and integers,
+and BOOL (since they are treated as 0-1 integers). It does not work
+for character variables.
+
+B. Install a BatchSwarm class to act in place of the GUI observer when
+run in batchmode (the new files are BatchSwarm.h and BatchSwarm.m).
+In order to enable the system to write the raster image showing the
+segregation pattern, I added in the classes that allow the creation of
+an image in ppm format. These classes were put together originally by
+Nelson Minar, then revised by Benedikt Stefansson, and then updated by
+me.  I've used these in several projects.  The BatchRaster class
+requires the BatchColormap class (see the new files BatchRaster.h,
+BatchRaster.m, BatchColormap.h, BatchColormap.m, as well as the
+colors.m file)
+
+C. Re-organize the code according to the advice I recently put into
+the Swarm tutorial modules simpleBatchBugX.  In the older style, one
+writes completely separate output code in ObserverSwarm and
+BatchSwarm, usually assuming that the GUI users (with ObserverSwarm)
+will only want screen output while the Batch users want output in
+files.  In GUI mode, I often want both kinds of output because, when
+something interesting happens, I want a record of it.  
+
+So here's the plan. Create a new class Output (Output.h, Output.m),
+and in there put all the code related to output to the screen or into
+files.  Inside that class, one can use the global variable
+swarmGUIMode to tell if we are in batch mode or not. Output can then
+be tailored to output the desired information.  The beauty here is
+that the same file output can be obtained whether one is in GUI or
+batch mode.
+
+If you don't specify a "run" number, the model will use the current time in the file name, so if you run the model a few times, you end up with files like:
+
+
+output_Tue_Feb__8_09_15_54_2005.data
+hdfGraph_Tue_Feb__8_09_15_54_2005.hdf
+
+The first is "raw text" output, which I find convenient, and the
+second is an HDF5 data file, which you can view on screen with the
+"h5dump" command or you can bring it into a statistical program.  The
+HDF5 format preserves real numbers with greater accuracy than a text
+file.
+
+The Output class now has a "kitchen sink" flavor.  It creates
+text file output.  It creates the same output in HDF5 format.  
+As currently configured, in Batch mode it writes out a raster
+for every time step.  
+
+
+D. The GUI has a button to create a screen shot. 
+
+In GUI mode, there's a toggle to turn on the writing of raster images.
+If you just want a raster at a particular time, I created a button to
+save a screenshot, which will snap the entire screen.
+
+
+III. More about running batch mode simulations and parameter files.
+
+Type
+
+./schellingSwarm --help
+
+and it will list the parameters I enabled for the command line.  
+
+
+$ ./schellingSwarm --help
+Usage: schellingSwarm [OPTION...]
+
+  -s, --varyseed             Select random number seed from current time
+  -S, --seed=INTEGER         Specify seed for random numbers
+  -b, --batch                Run in batch mode
+  -m, --mode=MODE            Specify mode of use (for archiving)
+  -t, --show-current-time    Show current time in control panel
+  -I, --inputfile=inputFilename   use parameters in file
+      --no-init-file         Inhibit loading of ~/.swarmArchiver
+  -r, --run=RunNumber        Run is...
+  -v, --verbose              Activate verbose messages
+  -x, --worldXSize=worldXSize   worldXSize
+  -y, --worldYSize=worldYSize   worldYSize
+  -e, --experimentDuration=experimentDuration
+                             experimentDuration
+  -d, --radius=radius        radius of vision
+  -f, --fractionVacant=fractionVacant
+                             fraction vacant cells
+  -B, --fractionBlue=fractionBlue
+                             fraction blue
+  -R, --fractionRed=fractionRed   fraction red
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+  -V, --version              Print program version
+
+You can run models with the short form or long form arguments, e.g., 
+
+short:
+
+./schellingSwarm -B0.1 -R0.1 
+
+long:
+
+./schellingSwarm --fractionBlue=0.1 --fractionRed=0.1
+
+Note, the short form has one dash and no equal sign, the long form
+has two dashes with an equal sign.
+
+You should be able to follow the example in Parameter.m and add
+more. Generally speaking, you either want to use an input file or
+specify parameters individually. Don't do both. The input file will
+clobber the command line options.
+
+Note in the GUI mode you have the options to load and save parameter
+files.  You can use that mode to get a "first draft" of an input file
+for use in the batch mode.  All you have to do is type a file name in,
+hit enter, and then hit the button.  Then if you re-start in GUI mode,
+you can type in the same name, hit enter, and the values are
+re-loaded.  If you do that, and look at the parameter file, you see it
+has lots of variables in it that the Parameters class inherits from
+Swarm's Arguments class.
+
+-------------------------------------
+#Machine Generated Object-IVAR-Dump
+@begin
+zbits   135750962
+argc    1
+applicationName schellingSwarm
+executablePath  /home/pauljohn/swarm/MySwarmCode/schelling2-3.0-Swarm-2.1/schellingSwarm
+appModeString   default
+version [no application version]
+bugAddress      <NULL>
+inhibitArchiverLoadFlag 0 '
+inhibitExecutableSearchFlag     0 '
+batchModeFlag   0 '
+varySeedFlag    0 '
+fixedSeedFlag   0 '
+fixedSeed       0
+verboseFlag     0 '
+showCurrentTimeFlag     0 '
+swarmHome       /usr/
+defaultAppConfigPath    ./
+defaultAppDataPath      ./
+ignoringEnvFlag 1 '^A'
+lastArgIndex    1
+inputFilename   <NULL>
+run     -1
+experimentDuration      1000
+worldXSize      80
+[and so forth]
+-----------------------------------
+
+In GUI mode, it works fine to save a file and load it back in without
+any fussing about.  In batch mode, however, those extra variables
+create a little problem.  Some of the variables obliterate instance
+variables that the system needs.  So if you create a parameter file,
+say "test.setup", and then try to load it as the input file,
+
+./schellingSwarm -b --inputfile="test.setup"
+
+a segmentation fault results.  The fix is to manually edit the
+"test.setup" file and cut out all of the variables that you don't want
+or need, so it should look like this at the top:
+
+-------------------------------------
+#Machine Generated Object-IVAR-Dump
+@begin
+experimentDuration      1000
+worldXSize      80
+[and so forth]
+-----------------------------------
+
+With this package, I've included a cleaned up input file,
+"cleaned.setup" that shows how it should work.
+ 
+
+I am not a big fan of the input file idea when running in batch mode.
+Generally, I prefer to run models over and over by using a script, and
+in the script it will specify command line options.  So, I like to
+have the default parameters set in Parameters.m itself, and then run
+variations, as in
+
+./schellingSwarm -b --worldXSize=100 --worldYSize=100 --seed=342342
+
+I specify a different seed for each run, so I get variety but also keep
+replicability.  I have a script (distributed separately) called
+replicator that can manage this. There is also a nice program called
+Drone that I've used for running in batch mode.
+
+IV. Movement algorithms
+
+I've recently been adding alternative "search algorithms" for the
+agents to use as they try to find new places to live. In the original
+version of this Schelling model, the agents moved at random to an open
+space.  That method had this declaration:
+
+- (BOOL)findEmptyLocationX: (int*)newX Y: (int*)newY
+
+It does not search randomly in all directions, however. It mainly
+looks to the right from a randomly chosen starting point.  I think
+Benedikt did that because it was easy and to give students a problem
+to work on. 
+
+I believe Schelling's original paper said they move to the closest
+spot where they find an improvement.  I wanted that search to be
+patterened according to the type of network that is used.  But more
+recently I've heard that some people think it is more interesting to
+have the agents search only in perpendicular directions (left, right,
+up, down), so I wrote that in.  I did not yet write a method where the
+agents search for global optima.
+
+The algorithms for finding open spots are in SchellingWorld, and the
+agents themselves tell the world which algorithm to use.  For example,
+to search in the vicinity of the current position in bands of
+increasingly greater radius, the method in SchllingWorld:
+
+
+- (BOOL)findNearestAcceptableColor: (int)col Tolerance:(double)tol X:
+  (int*)newX Y: (int*)newY
+
+The agent asks the world to find it the nearest space that is
+tolerable.  Note, the algorithm could no doubt be accelerated and
+optimized, but it is not too bad.  It respects the parameters for
+the neighborhood type as well as edgeWrapping in the overall model.
+
+I have written this so that the agent's search for a better position reaches
+out in progressively larger neighborhoods OF THE SAME TYPE as the one
+that the agent uses to measure racial compositionin the neighborhood.
+
+
+For example, in a model with VN neighborhoods, the agent first searches
+
+
+                  1
+                1   1
+                  1
+
+and then
+
+                  1
+                1   1
+              1       1
+                1   1
+                  1
+
+and then
+
+                  1
+                1   1
+              1       1
+            1           1
+              1       1
+                1   1
+                  1
+
+The agent will take the first improvement found, and the algorithm starts at a random position
+within this diamond shape each time.
+
+On the other hand, a Moore neighborhood is just progressively larger squares
+
+                1 1 1
+                1   1
+                1 1 1
+
+                1 1 1 1 1
+                1       1
+                1       1
+                1       1
+                1 1 1 1 1
+
+I have no idea if anybody else in the world wants it that way, but I did.
+I did it this way because I'm stubborn.
+
+I also have written a method that searches for the nearest open spot
+in perpendicular directions and it does truly randomize the direction
+of movement.  That one is called:
+
+- (BOOL)findEmptyPerpendicularX: (int*)newX Y: (int*)newY
+
+If you look in Person.m, you will see an if-then-else thing where I
+tell the agent which method to use.  So far, I've just been hard
+coding the selection and did not create a model parameter for it. But
+students ought to be able to follow the example of the way I put in
+other parameters to implement that enhancement.
+
+
+V. TODO list
+
+It seems to me that the most important next step is the development of
+really nice indicators of segregation & clustering.  I'd first create
+summary indicator of the diversity perceived by the agents.  I'd
+consider making an average and also try to calculate some kind of
+baseline perceived diversity that would occur with random placement.
+I'd also try to calculate something like the average number of cells
+an agent must move in order to find someone of the other type.  
+
+
+---------------------------------------------------------
+schelling2-2.0
+Paul Johnson <pauljohn@ku.edu> 2003-04-16
 
 I have a new class, Nhood2dCounter ("Neighborhood 2d Counter"), and I
 want to facilitate its use in other projects.  So this new edition of
@@ -95,9 +510,7 @@ So, here you go.
 I'm not responsible for any mistakes, but claim credit for
 all success.
 
-To tantalize you, I enclose in the package 2 pictures of the model.
-
-They are online for your persual, in case you find this README:
+To tantalize you, I refer you to 2 pictures of the model.
 
 The "standard" two race Schelling neighborhood model:
 
@@ -416,9 +829,11 @@ TODO list:
 
 1. Summary indicator!
 
-This model needs a segregation index. Badly. We want to use it to compare outcomes. We need both an aggregate "objective" index of segregation as
-well as an subjective agent-level indicator.  I suggest summarizing agent observations of "diversity" by calculating "entropy" from each spot in the
-grid. 
+This model needs a segregation index. Badly. We want to use it to
+compare outcomes. We need both an aggregate "objective" index of
+segregation as well as an subjective agent-level indicator.  I suggest
+summarizing agent observations of "diversity" by calculating "entropy"
+from each spot in the grid.
 
 2. Note this model uses the deprecated Swarm ObjectSaver to save
 parameter snaps.  I don't think I've ever understood why the Swarm

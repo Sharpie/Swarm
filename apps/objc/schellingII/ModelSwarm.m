@@ -1,113 +1,43 @@
 #import "ModelSwarm.h"
-#import <simtools.h>
+
+#import "Output.h"
+#import "Parameters.h"
 
 @implementation ModelSwarm
 
-// createBegin: here we set up the default simulation parameters.
+
 + createBegin: aZone 
 {
   ModelSwarm * obj;
-  id <ProbeMap> probeMap;
 
   obj = [super createBegin: aZone];
 
-  // Now fill in various simulation parameters with default values.
-  obj->worldSize = 50;
-  obj->numRaces = 2;
-  obj->neighborhood_type = strdup("vonneuman");
-  obj->radius = 1;
-  obj->edgeWrap = YES;
+  obj->worldXSize = getInt(arguments,"worldXSize");
+  obj->worldYSize = getInt(arguments,"worldYSize");
+  obj->numRaces = getInt(arguments,"numRaces");
+  obj->neighborhood_type = [(Parameters*)arguments getNeighborhoodType];
+  obj->radius = getInt(arguments,"radius");
+  obj->edgeWrap = getInt(arguments,"edgeWrap");
   obj->synchronous = NO;
-  obj->fractionVacant = 0.2;
-  obj->fractionBlue = 0.5;
-  obj->fractionRed = 0.5;
-  obj->blueToleranceUpper=0.50;
-  obj->blueToleranceLower=0.25;
-  obj->redToleranceUpper=0.50;
-  obj->redToleranceLower=0.25;
-  obj->otherToleranceUpper=0.50;
-  obj->otherToleranceLower=0.25;
-  obj->randomize = NO;
-  
-  // Then create an EmptyProbeMap to hold the individual
-  // probes for each simulation parameter
-  probeMap = [EmptyProbeMap createBegin: aZone];
-  [probeMap setProbedClass: [self class]];
-  probeMap = [probeMap createEnd];
-
-  // Add in a bunch of probes one per simulation parameter
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "worldSize"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "numRaces"
-				  inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "neighborhood_type"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "radius"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "edgeWrap"
-				     inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "synchronous"
-				   inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "fractionVacant"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "fractionBlue"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "fractionRed"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "blueToleranceUpper"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "blueToleranceLower"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "redToleranceUpper"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "redToleranceLower"
-				    inClass: [self class]]];
-
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "otherToleranceUpper"
-				    inClass: [self class]]];
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "otherToleranceLower"
-				    inClass: [self class]]];
-
-
-
-  [probeMap addProbe: [probeLibrary getProbeForVariable: "randomSeed"
-				    inClass: [self class]]];
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "saveParameters:"
-			                        inClass: [self class]]
-			                  setHideResult: 1]];
-  [probeMap addProbe: [[probeLibrary getProbeForMessage: "loadParameters:"
-			                        inClass: [self class]]
-			                  setHideResult: 1]];
-
-   [probeMap addProbe: [[probeLibrary getProbeForMessage: "randomizeList"
-			                        inClass: [self class]]
-			                  setHideResult: 0]];
-
-
-
-  // Now install our custom probeMap into the probeLibrary.
-  [probeLibrary setProbeMap: probeMap For: [self class]];
+  obj->fractionVacant = getDbl(arguments,"fractionVacant");
+  obj->fractionBlue = getDbl(arguments,"fractionBlue");
+  obj->fractionRed = getDbl(arguments,"fractionRed");
+  obj->blueToleranceUpper= getDbl(arguments,"blueToleranceUpper");
+  obj->blueToleranceLower=getDbl(arguments,"blueToleranceLower") ;
+  obj->redToleranceUpper= getDbl(arguments,"redToleranceUpper");
+  obj->redToleranceLower= getDbl(arguments,"redToleranceLower");
+  obj->otherToleranceUpper=getDbl(arguments,"otherToleranceUpper");
+  obj->otherToleranceLower=getDbl(arguments,"otherToleranceLower");
+  obj->randomize = getInt(arguments,"randomize");
   
   return obj;
 }
 
 - createEnd
 {
-  return [super createEnd];
-}
+  fprintf(stderr,"radius %d edgeWrap %d \n", radius, edgeWrap);
 
-// Methods associated with probe above, to 
-// save or load the parameters from a file
-- saveParameters: (char*) fn
-{
-  [ObjectSaver save: self toFileNamed: fn];
-  return self;
-}
-  
-- loadParameters: (char*) fn 
-{
-  [ObjectLoader load: self fromFileNamed: fn];
-  return self;
+  return [super createEnd];
 }
 
 
@@ -124,16 +54,19 @@
   agentList = [List create: self];  // list for the agents
   
   if(neighborhood_type[0] == 'v') nhoodType = 1;
+
   else nhoodType = 2;
 
-  // Now create a 2d array to hold their location info
+  
+
   world = [SchellingWorld createBegin: self ];
-  [world setSizeX: worldSize Y: worldSize];
+  [world setSizeX: worldXSize Y: worldYSize];
  
   [world setNhoodRadius: radius NhoodType: nhoodType EdgeWrap: edgeWrap Sync: synchronous];
   [world setRaces: numRaces]; 
   [world setModelSwarm: self];
   world = [world createEnd];
+
 
   // Also some random number generators
   uniformDouble = [UniformDoubleDist create: self setGenerator: randomGenerator];
@@ -141,9 +74,9 @@
   
  
   // Then proceed to create the people in the world
-  for (x = 0; x < worldSize; x++) 
+  for (x = 0; x < worldXSize; x++) 
     {
-      for(y = 0; y < worldSize; y++) 
+      for(y = 0; y < worldYSize; y++) 
 	{
 	  Person * person;
 	  // With probability 1-fractionVacant put an
@@ -206,6 +139,12 @@
 	}
     }
   
+  
+  output =  [Output create: self];
+  [output setAgentList: agentList];
+  [output setModelSwarm: self]; //could set that via create method, but tricky.
+  [output buildObjects];
+
   return self;
 }
 
@@ -220,11 +159,15 @@
   return world;
 }
 
-- (int)getWorldSize 
+- (int)getWorldXSize 
 {
-  return worldSize;
+  return worldXSize;
 }
 
+- (int)getWorldYSize
+{
+  return worldYSize;
+}
 
 - (double)getRandomDoubleMin: (double)min Max: (double)max 
 {
@@ -263,15 +206,20 @@
 - buildActions 
 {
   [super buildActions];
-      
+  id modelActions = [ActionGroup create: self];
+  [modelActions createActionTo: output message: M(step)];
+
+  [modelActions createActionTo: self message: M(stepThroughList)];
+  if (synchronous)
+    [modelActions createActionTo: world message: M(stepRule)];
+
+    
   modelSchedule = [Schedule createBegin: self];
   [modelSchedule setRepeatInterval: 1];
   modelSchedule = [modelSchedule createEnd];
   
-  [modelSchedule at: 0 createActionTo: self message: M(stepThroughList)];
-  if (synchronous)
-    [modelSchedule at: 0 createActionTo: world message: M(stepRule)];
 
+  [modelSchedule at: 0 createAction: modelActions];
   return self;
 }
 
@@ -300,13 +248,6 @@
 }
 
 
-- (BOOL)randomizeList
-{
-  if (randomize == YES) randomize = NO;
-  else randomize = YES;
-  return randomize;
-}
-
 - activateIn: swarmContext 
 {
   [super activateIn: swarmContext];
@@ -315,6 +256,19 @@
 
   return [self getSwarmActivity];
 }
+
+- (void)drop
+{
+  [output drop];
+}
+
+
+- (BOOL)checkToStop
+{
+  if ([output checkToStop] == YES) return YES;
+  return NO;
+}
+
 
 @end
 
