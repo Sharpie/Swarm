@@ -11,11 +11,13 @@
 
 @implementation CustomProbeMap
 
-+ create: aZone forClass: (Class)aClass withIdentifiers: (char *)vars, ...
+PHASE(Creating)
+
++ create: aZone forClass: (Class)aClass withIdentifiers: (const char *)vars, ...
 {
   id newCPM;
   va_list argumentPointer;
-  char * identifier;
+  const char *identifier;
   
   newCPM = [CustomProbeMap createBegin: aZone];
   [newCPM setProbedClass: aClass];
@@ -25,29 +27,29 @@
   // this uses a : delimited list of strings of the form:
   //  "var1", "var2", ..., ":", "method1", "method2",..., NULL
   
-  va_start(argumentPointer, vars);
+  va_start (argumentPointer, vars);
   
   // start with the variables
   identifier = vars;
-  do {
-    [newCPM 
-      addProbe: 
-	[probeLibrary 
-	  getProbeForVariable: identifier
-	  inClass: aClass]];
-    identifier = va_arg(argumentPointer, char *);
-  } while (identifier[0] != ':' 
-           && identifier != NULL);
+  do
+    {
+      [newCPM 
+        addProbe: 
+          [probeLibrary 
+            getProbeForVariable: identifier
+            inClass: aClass]];
+      identifier = va_arg (argumentPointer, const char *);
+    } while (identifier[0] != ':' && identifier != NULL);
   
   // now do the methods
-  while ((identifier = va_arg(argumentPointer, char *)) != NULL)
+  while ((identifier = va_arg (argumentPointer, const char *)) != NULL)
     [newCPM 
       addProbe: 
         [[probeLibrary 
            getProbeForMessage: identifier
            inClass: aClass]
           setHideResult: 0]];
-  va_end(argumentPointer);
+  va_end (argumentPointer);
   
   return newCPM;
 }
