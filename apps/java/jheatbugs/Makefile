@@ -46,9 +46,6 @@ scrub :
 	rm -f *.html
 	rm -f package-list
 
-wrapup :
-	sh wrapup.ksh
-
 # Here we edit HeatbugModelSwarm.java depending on the translation of 
 # $SWARMHOME; we have to be sure that HeatbugModelSwarm.java is first in the
 # list $JAVA_CLASSES (otherwise another rule may compile it without editing 

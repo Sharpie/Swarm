@@ -1,3 +1,22 @@
+2001-11-13  Timothy Howe  <timothyrhowe@hotmail.com>
+
+	Heatbug.java: Abandoned divisor previously used in computation of 
+	unhappiness (the original code divided by MAX_HEAT; I tried dividing 
+	by total heat; neither makes sense to me now). Documented expected 
+	trend of unhappiness (down then up then plateauing, even if Heatbugs 
+	are immobile). Check it out: invoke current.ksh -r0 -e1 [-i] and watch 
+	for about 600 steps. 
+
+	Heatbug.java: Adjusted indentation for consistency with the convention 
+	that variables, whether private or public, are defined at the left 
+	margin; getters and setters are indented, just after the corresponding 
+	variable. Clarified the convention in readme.txt. 
+
+	HeatSpace.java, HeatbugModelSwarm.java: broke computation of historical
+	heat into HeatSpace.totalHeat() plus HeatSpace.getDiscardedHeat(). 
+	Confirmed that historical heat / (step count + 1) is nearly constant. 
+	Check it out: invoke current.ksh -p21 -b | grep Historical. 
+
 2001-11-11  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* HeatbugModelSwarm.java: Remove ^Ms.

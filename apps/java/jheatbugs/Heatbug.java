@@ -59,9 +59,15 @@ behavior:
  </dir>
 
  <dir>
- Two or more Heatbugs may not occupy a given cell simultaneously. However,
- for simpler code, we do allow some collisions at initialization time -- the 
- Heatbugs quickly separate themselves.
+ Two or more Heatbugs may not occupy a given cell simultaneously. 
+ </dir>
+
+ <dir>
+ Depending on "evaporation" in the HeatSpace, heat may increase continually
+ until it reaches MAX_HEAT times the number of cells. So even if the Heatbugs 
+ are immobile or move only randomly, they could still become happier till a 
+ certain time (determined by ideal temperatures, "evaporation" rate, and 
+ MAX_HEAT), then become unhappier, and finally plateau. 
  </dir>
 
  <dir>
@@ -73,26 +79,26 @@ behavior:
 */
 public class Heatbug
 {
-    // The amount of heat I produce (units are undefined):
-    public int outputHeat;
+// The amount of heat I produce (units are undefined):
+public int outputHeat;
     public Object setOutputHeat (int outputHeat)
     { this.outputHeat = outputHeat; return this; }
-    // The temperature I prefer:
-    public int idealTemperature;
+// The temperature I prefer:
+public int idealTemperature;
     public int getIdealTemperature () { return idealTemperature; }
     public Object setIdealTemperature (int idealTemperature)
     { this.idealTemperature = idealTemperature; return this; }
-    // The difference between my temperature and my ideal temperature:
-    public double unhappiness;
+// The difference between my temperature and my ideal temperature:
+public double unhappiness;
     public double getUnhappiness () { return unhappiness; }
-    // The chance that I will move arbitrarily:
-    public double randomMoveProbability;
+   // The chance that I will move arbitrarily:
+public double randomMoveProbability;
     public void setRandomMoveProbability (double randomMoveProbability)
     { this.randomMoveProbability = randomMoveProbability; }
-    // My location in _world as well as in _heatSpace:
-    public int x, y;
-    // My index into the ColorMap defined in HeatbugModelSwarm:
-    public byte colorIndex;
+// My location in _world as well as in _heatSpace:
+public int x, y;
+// My index into the ColorMap defined in HeatbugModelSwarm:
+public byte colorIndex;
     public void setColorIndex (byte colorIndex)
     { this.colorIndex = colorIndex; }
 // The 2-dimensional world of motion:
@@ -158,17 +164,7 @@ public synchronized void heatbugStep ()
 
     // Update my current unhappiness:
     int step = _model.getActivity ().getScheduleActivity ().getCurrentTime ();
-    unhappiness
-     = Math.abs (idealTemperature - heatHere) / (step > 0 ? step : 1);
-     /* ... The divisor neutralizes the effect of the increasing heat of the 
-        HeatSpace. Without the divisor, Heatbugs would keep getting happier as 
-        the heat increases, even if they're immobile or they move only 
-        randomly. Our real interest is in the happiness of Heatbugs that is due 
-        to their motion. 
-
-        Todo: figure out why unhappiness keeps dropping even when Heatbugs are 
-        immobile.
-    */
+    unhappiness = Math.abs (idealTemperature - heatHere);
 
     if (unhappiness != 0 && ! _model.getImmobile ())
     {
@@ -266,10 +262,6 @@ public synchronized void heatbugStep ()
                     System.out.println ("no, desperately ... ");
             }
         }
-
-        // Deposit heat at my old location; move to my new location. We
-        // never subtract heat -- so even if the Heatbugs don't move, they
-        // may still become happier:
 
         _heatSpace.addHeat (outputHeat, x, y);
         _world.putObject$atX$Y (null, x, y);

@@ -800,15 +800,16 @@ public Object modelStep ()
           + ", heat at (" + x + ", " + y + ") is "
           + _heatSpace.getValueAtX$Y (x, y) + "."
          );
-    // See if total heat is a function of the number of steps:
+    // See if historical heat is a function of the number of steps:
+
+
     if (printDiagnostics >= 20)
     {
         System.out.println 
          ("Historical heat / step count is " + 
-          _heatSpace.historicalHeat () 
-           / (getActivity ().getScheduleActivity ().getCurrentTime () + 1) +
-          // ... We add 1 because heat has been produced even at step 0. 
-          "."
+          (_heatSpace.totalHeat () + _heatSpace.getDiscardedHeat ())
+           / (getActivity ().getScheduleActivity ().getCurrentTime () + 1)
+          + "."
          );
     }
     return this;

@@ -87,6 +87,13 @@ and observe the history of an arbitrary cell. Invoke
 and guess how long it will take the heat to diffuse to the arbitrary cell for
 which the history is reported.
 
+Here's another interesting simulation:
+
+	ksh current.ksh -r0 -e1 -c
+
+and explain why you see momentum first emerge (at about step 350) and then
+disappear (by step 900). 
+
 Similarly for other command-line arguments, which you can list by invoking
 
     ksh current.ksh --help
@@ -159,6 +166,6 @@ the normal flow of processing. Applying that concept to the typography, I do
 not indent try-blocks.
 
 Because most Java files contain exactly one top-level class, which all the
-methods belong to, it is generally uninformative to indent each method
-definition. Rather than squander one tab stop on a not very informative
-typographic convention, I do not indent method definitions.
+methods belong to, it is generally uninformative to indent each variable or
+method definition. Rather than squander one tab stop on a not very informative
+typographic convention, I do not indent variable and method definitions.

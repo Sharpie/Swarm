@@ -32,11 +32,10 @@ access the integer values.
 
 <p>
 You may wonder why the name of the method is <i>putValue$atX$Y()</i> rather 
-than <i>setValue$atX$Y()</i>. The name reflects the fact that 
-the change is buffered and 
-therefore does not have the instant effect that you would expect from
-a method named <i>setValue$atX$Y()</i>. In particular, if you change a value by
-invoking <tt>putValue$atX$Y()</tt> and then immediately invoke
+than <i>setValue$atX$Y()</i>. The name reflects the fact that the change is 
+buffered and therefore does not have the instant effect that you would expect 
+from a method named <i>setValue$atX$Y()</i>. In particular, if you change a 
+value by invoking <tt>putValue$atX$Y()</tt> and then immediately invoke
 <tt>getValue$atX$Y()</tt>, you will still see the old heat value.
 
 */
@@ -47,6 +46,7 @@ public static final int COLD = 0, HOT = 1;
 public static final int MAX_HEAT = 0x7fff;
 
 private double _discardedHeat = 0.0;
+    public double getDiscardedHeat () { return _discardedHeat; }
 
 private int _printDiagnostics = 0;
     public void setPrintDiagnostics (int printDiagostics)
@@ -112,8 +112,8 @@ and <tt>getSizeY()</tt> are inherited from Diffuse2dImpl.
 @param targetCell (inout)
     the Point at the center of the 9-cell neighborhood; we change it to a Point
     randomly selected from among those with the most-ideal temperature
-*/
 
+*/
 public int findExtremeType$X$Y (int type, Point targetCell, Grid2d world)
 {
     int x, y;
@@ -135,7 +135,8 @@ public int findExtremeType$X$Y (int type, Point targetCell, Grid2d world)
 
             int candidateHeat = getValueAtX$Y (candidate.x, candidate.y);
 
-            boolean candidateIsBetter = (type == COLD)
+            boolean candidateIsBetter 
+             = (type == COLD)
              ? (candidateHeat < bestHeat)
              : (candidateHeat > bestHeat);
 
@@ -192,13 +193,13 @@ public Object stepRule ()
 This method returns the sum of the heat in each cell of the HeatSpace.
 
 */
-public double historicalHeat ()
+public double totalHeat ()
 {
     double totalHeat = 0.0;
     for (int x = 0; x < getSizeX (); x++)
         for (int y = 0; y < getSizeY (); y++)
             totalHeat += getValueAtX$Y (x, y);
-    return totalHeat + _discardedHeat;
+    return totalHeat;
 }
 
 } /// class HeatSpace
