@@ -1,3 +1,13 @@
+1998-03-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m: Don't include stdlib.h.
+	(setSecondaryPath): Now takes `arguments' argument to get swarmHome
+	instead of using SWARMHOME environment variable.
+
+	* TkExtra.m: Include objectbase.h and objectbase/Arguments.h.
+	(ensureBltSupportFiles): Enhance to check for usable blt_library
+	in swarmHome/lib.  Now takes `arguments' argument.
+
 1998-03-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* tkobjc.h: Don't include XDrawer.h if Win32.

@@ -28,10 +28,7 @@
 
 #import <tkobjc/TkExtra.h>
 #import <objectbase/Arguments.h>
-
 #include <misc.h>
-
-#include <stdlib.h> // getenv
 
 extern TkExtra *globalTkInterp;
 
@@ -62,10 +59,10 @@ registerInterp (void)
 }
 
 static void
-setSecondaryPath (void)
+setSecondaryPath (id arguments)
 {
-  const char *swarmHome = getenv ("SWARMHOME");
-
+  const char *swarmHome = [arguments getSwarmHome];
+  
   if (swarmHome)
     {
       char *libraryPath = xmalloc (strlen (swarmHome) + 5);
@@ -81,7 +78,7 @@ void
 tkobjc_initTclInterp (id arguments)
 {
   globalTkInterp = [TclInterp alloc];  // misnomer
-  setSecondaryPath ();
+  setSecondaryPath (arguments);
   [globalTkInterp initWithArgc: [arguments getArgc]
                   argv: [arguments getArgv]];
   registerInterp ();
@@ -91,7 +88,8 @@ void
 tkobjc_initTkInterp (id arguments)
 {
   globalTkInterp = [TkExtra alloc];
-  setSecondaryPath ();
+  setSecondaryPath (arguments);
+
   [globalTkInterp initWithArgc: [arguments getArgc]
                   argv: [arguments getArgv]];
   registerInterp ();

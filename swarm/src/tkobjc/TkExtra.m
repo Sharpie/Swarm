@@ -9,39 +9,66 @@
 #include <string.h>
 
 #import <tkobjc/TkExtra.h>
+#import <objectbase.h>
+#import <objectbase/Arguments.h>
 
 #include <tcl.h>
-
-static void
-ensureBltSupportFiles (id globalTkInterp)
-{
-  const char *fileName = "bltGraph.tcl";
-  const char *basePath = [globalTkInterp globalVariableValue: "blt_library"];
-  char buf[strlen (basePath) + 1 + strlen (fileName) + 1];
-
-  strcpy (buf, basePath);
-  strcat (buf, "/");
-  strcat (buf, fileName);
-
-  if (access (buf, F_OK) == -1)
-    {
-      fprintf (stderr, "BLT support file `%s' not found\n", fileName);
-      fprintf (stderr, "If the directory `%s' not the intended location for "
-               "the BLT support files,\nplease adjust BLT_LIBRARY to the "
-               "right place.\n", basePath);
-      exit (1);
-    }
-}
+#include <unistd.h> // access
+#include <misc.h>
 
 @implementation TkExtra
 
 int Blt_Init(Tcl_Interp *);			  // wish this were declared..
 
-- (const char *) preInitWithArgc: (int)argc argv: (const char **)argv
+static void
+ensureBltSupportFiles (id arguments, id globalTkInterp)
 {
-  const char *filename;
+  const char *fileName = "bltGraph.tcl";
+  const char *basePath = [globalTkInterp globalVariableValue: "blt_library"];
+  int retry = 0;
   
-  filename = [super preInitWithArgc: argc argv: argv];
+  do { 
+    char buf[strlen (basePath) + 1 + strlen (fileName) + 1];
+    char *p;
+    
+    p = stpcpy (buf, basePath);
+    p = stpcpy (p, "/");
+    p = stpcpy (p, fileName);
+    
+    if (access (buf, F_OK) == -1)
+      {
+        if (!retry)
+          {
+            const char *swarmHome = [arguments getSwarmHome];
+            const char *libdir = "/lib";
+            char libPath[strlen (swarmHome) + strlen (libdir) + 1];
+            char *p;
+            
+            p = stpcpy (libPath, [arguments getSwarmHome]);
+            stpcpy (p, libdir);
+            
+            basePath = libPath;
+            [globalTkInterp globalEval: "set blt_library %s", libPath];
+            retry = 1;
+            continue;
+          }
+        else
+          {
+            fprintf (stderr, "BLT support file `%s' not found\n", fileName);
+            fprintf (stderr, "If the directory `%s' not the intended location for "
+                     "the BLT support files,\nplease adjust BLT_LIBRARY to the "
+                     "right place.\n", basePath);
+            exit (1);
+          }
+      }
+    else
+      break;
+  } while (1);
+}
+
+- (const char *)preInitWithArgc: (int)argc argv: (const char **)argv
+{
+  const char *filename = [super preInitWithArgc: argc argv: argv];
 
   // now init extras widget sets.
 
@@ -55,7 +82,7 @@ int Blt_Init(Tcl_Interp *);			  // wish this were declared..
       return NULL;				  // shouldn't get here anyway
     }
 
-  ensureBltSupportFiles (self);
+  ensureBltSupportFiles (arguments, self);
 
   // (nelson) I think this is ok: lets us load cool graph code.
   // presumably, $blt_library is always set right.
