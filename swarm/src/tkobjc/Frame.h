@@ -15,7 +15,6 @@
 }
 
 - createEnd; // we override this.
-- assertGeometry;
 - withdraw;
 - deiconify;
 - setBorderWidth: (int)borderWidth;

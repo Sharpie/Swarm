@@ -37,4 +37,21 @@ PHASE(Using)
   return self;
 }
 
+- checkGeometry: frame
+{
+  const char *canvasName = [self getWidgetName];
+  const char *frameName = [frame getWidgetName];
+  
+  [globalTkInterp eval:
+                    "tkwait visibility %s ;"
+                  "set width [winfo width %s] ;"
+                  "set height [winfo height %s] ;"
+                  "%s configure -scrollregion [list 0 0 $width $height] ;"
+                  "if {$height > 500} {set height 500} ;"
+                  "if {$width > 809} {set width 809} ;"
+                  "%s configure -width $width -height $height",
+                  frameName, frameName, frameName,
+                  canvasName, canvasName];
+  return self;
+}
 @end
