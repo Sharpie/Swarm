@@ -1,5 +1,7 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* actcltk.m4 (INCPLACES, LIBPLACES): Add cygwin paths.
+
 	* acpng.m4 (md_FIND_LIB, md_FIND_INCLUDE): New macros.  Use both
 	in md_FIND_ZLIB and md_FIND_PNG.
 

@@ -39,11 +39,13 @@ fi
 # are often installed in the same directory.
 
 INCPLACES=" \
-           $defaultdir/include $defaultdir/include/tcl $defaultdir/include/tk \
-           /usr/local/include /usr/local/include/tcl /usr/local/include/tk \
-           /usr/include /usr/include/tcl /usr/include/tk \
-           $x_includes $x_includes/tcl $x_includes/tk \
-          ../tcl8.0 ../tcl7.6 ../tcl7.5 ../tcl7.4 ../tk8.0 ../tk4.2 ../tk4.1 ../tk4.0"
+        $defaultdir/include $defaultdir/include/tcl $defaultdir/include/tk \
+        /Cygnus/B19/include \
+        /usr/local/include /usr/local/include/tcl /usr/local/include/tk \
+        /usr/include /usr/include/tcl /usr/include/tk \
+        $x_includes $x_includes/tcl $x_includes/tk \
+        ../tcl8.0 ../tcl7.6 ../tcl7.5 ../tcl7.4 \
+        ../tk8.0 ../tk4.2 ../tk4.1 ../tk4.0"
 if test -n "$tclInstalledDir"; then
   INCPLACES="$tclInstalledDir/include $INCPLACES"
 fi
@@ -75,6 +77,7 @@ AC_SUBST(TCLINCLUDES)
 AC_DEFUN(md_FIND_TCL_LIBRARIES,dnl
 [changequote(<,>)dnl
 LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
+        /Cygnus/B19/H-i386-cygwin32/lib \
 	/usr/local/lib /usr/local/lib/tcl /usr/local/lib/tk \
 	/usr/lib /usr/lib/tcl /usr/lib/tk \
 	$x_libraries $x_libraries/tcl $x_libraries/tk \
