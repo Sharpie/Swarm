@@ -1,3 +1,8 @@
+2000-02-15  Alex Lancaster  <alex@santafe.edu>
+
+	* setmeta.sgml: Remove swarm@santafe.edu e-mail address, instead
+	refer reader to SDG homepage.
+
 1999-04-06  Alex Lancaster  <alex@santafe.edu>
 
 	* set.sgml: Change PUBLIC identifier for DTD to "-//OASIS//DTD
