@@ -10,6 +10,8 @@
 #import <defobj/defalloc.h> // getZone
 #include <misc.h> // strlen, stpcpy
 
+#import <analysis/ActiveOutFile.h>
+
 #define NUMCOLORS 12
 
 static const char * defaultGraphColors[NUMCOLORS] = {
@@ -276,6 +278,8 @@ sequence_graph_filename (id aZone, const char *baseName, const char *aName)
 
   if (hdf5Container)
     {
+      id hdf5Dataset;
+
       hdf5Group = [[[[[HDF5 createBegin: aZone]
                        setParent: hdf5Container]
                       setName: baseName]
@@ -505,12 +509,6 @@ sequence_graph_filename (id aZone, const char *baseName, const char *aName)
   if (graphics)
     [graph drop];
 
-  if (hdf5Group)
-    {
-      [hdf5Dataset drop];
-      [hdf5Group drop];
-    }
-
   index = [sequenceList begin: getZone (self)];
   while ((aSequence = [index next]))
     {
@@ -518,6 +516,10 @@ sequence_graph_filename (id aZone, const char *baseName, const char *aName)
       [aSequence drop];
     }
   [index drop];
+
+  if (hdf5Group)
+    [hdf5Group drop];
+
   [super drop];
 }
 
@@ -582,7 +584,11 @@ PHASE(Using)
   if (activeGrapher)
     [activeGrapher drop];
   if (activeOutFile)
-    [activeOutFile drop];
+    {
+      if (activeOutFile->hdf5Dataset)
+        [activeOutFile->hdf5Dataset drop];
+      [activeOutFile drop];
+    }
   [super drop];
 }
 

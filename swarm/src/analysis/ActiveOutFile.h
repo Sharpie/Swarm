@@ -10,8 +10,9 @@
 @interface ActiveOutFile: MessageProbe <ActiveOutFile>
 {
   id file;
-  id <HDF5> hdf5Dataset;
   id dataFeed;
+@public
+  id <HDF5> hdf5Dataset;
 }
 
 - setFileObject: aFileObj;

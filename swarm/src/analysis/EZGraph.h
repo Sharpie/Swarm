@@ -22,7 +22,6 @@
   BOOL fileOutput;
   id <HDF5> hdf5Container;
   id <HDF5> hdf5Group;
-  id <HDF5> hdf5Dataset;
 
   id sequenceList;
 
@@ -125,7 +124,8 @@
 
 @interface EZSequence : SwarmObject <EZSequence>
 {
-  id <ActiveOutFile> activeOutFile;
+@public
+  ActiveOutFile *activeOutFile;
   id <ActiveGraph> activeGrapher;
 }
 

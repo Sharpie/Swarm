@@ -1,3 +1,15 @@
+2001-07-12  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* EZGraph.m ([EZGraph
+	-createGraphSequence:forSequence:withFeedFrom:andSelector:]):
+	Make hdf5Dataset a local.
+	([EZGraph -drop]): Drop hdf5Group after dropping sequences.
+	([EZSequence -drop]): If hdf5Dataset is set, drop it.
+	
+	* ActiveOutFile.h (ActiveOutFile): Make hdf5Dataset public.
+	(EZGraph): Remove hdf5Dataset. 
+	(EZSequence): Statically type activeOutFile.
+
 2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Averager.h: Add getLocImp, nextImp, addImp, and callImp for
