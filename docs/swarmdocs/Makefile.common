@@ -1,4 +1,6 @@
 EMACS = @EMACS@
+top_dossrcdir = @top_dossrcdir@
+swarm_dossrcdir = @swarm_dossrcdir@
 
 %revhistory.sgml: ChangeLog $(swarm_ChangeLog) $(top_srcdir)/history.el $(top_srcdir)/common.el
 	SWARMSRCDIR=$(swarm_dossrcdir) SWARMDOCS=$(top_dossrcdir)/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_dossrcdir)/history.el -f process-changelog $*

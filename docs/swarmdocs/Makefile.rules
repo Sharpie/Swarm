@@ -3,6 +3,7 @@ SGML_CATALOG_FILES = @SGML_CATALOG_FILES@
 JADETEX = @JADETEX@
 DVIPS = @DVIPS@
 GZIP = gzip --best
+top_dossrcdir = @top_dossrcdir@
 
 HTML = $(top_dossrcdir)/html.dsl
 PRINT = $(top_dossrcdir)/print.dsl
