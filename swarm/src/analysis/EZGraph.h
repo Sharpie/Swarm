@@ -72,6 +72,10 @@
 
 - step;
 
+- update;
+- outputGraph;
+- outputToFile;
+
 @end
 
 @interface EZSequence : SwarmObject
@@ -84,6 +88,10 @@
 - setActiveGrapher: aGrapher;
 
 - step;
+
+- update;
+- outputGraph;
+- outputToFile;
 
 @end
 

@@ -252,6 +252,35 @@ PHASE(Using)
   return self;
 }
 
+- outputGraph 
+{
+
+  if (graphics)
+    {
+      [aHisto setActiveOutlierText: outliers count: count];
+      [aHisto drawHistogramWithInt: distribution atLocations: locations];
+    }
+
+  return self;
+}
+
+- outputToFile 
+{
+  int i;
+  
+  if (fileOutput)
+    {
+      [anOutFile putInt: distribution[0]];
+      for(i = 1; i < binNum; i++){
+        [anOutFile putTab];
+        [anOutFile putInt: distribution[i]];
+      }
+      [anOutFile putNewLine];
+    }
+
+  return self;
+}
+
 - (int *)getDistribution
 {
   return distribution;

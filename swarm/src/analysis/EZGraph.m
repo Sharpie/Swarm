@@ -291,6 +291,30 @@ PHASE(Using)
   return self;
 }
 
+- update
+{
+
+  [sequenceList forEach: M(update)];
+
+  return self;
+}
+
+- outputGraph
+{
+
+  [sequenceList forEach: M(outputGraph)];
+
+  return self;
+}
+
+- outputToFile
+{
+
+  [sequenceList forEach: M(outputToFile)];
+
+  return self;
+}
+
 - (void)drop
 {
   id index, aSequence;
@@ -337,6 +361,30 @@ PHASE(Using)
   return self;
 }
 
+- update
+{
+  // No update to be done 
+  // when there's only a single object connected
+
+  return self;
+}
+
+- outputGraph
+{
+  if (theActiveGrapher)
+    [theActiveGrapher step];
+
+  return self;
+}
+
+- outputToFile
+{
+  if (theActiveOutFile)
+    [theActiveOutFile step];
+
+  return self;
+}
+
 - (void)drop
 {
   [theActiveGrapher drop];
@@ -362,6 +410,12 @@ PHASE(Using)
   [super step];
   
   return self;
+}
+
+- update
+{
+  [theAverager update];
+  return [super update];
 }
 
 - (void)drop

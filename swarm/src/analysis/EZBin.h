@@ -49,6 +49,8 @@
 - reset;
 - update;
 - output;
+- outputGraph;
+- outputToFile;
 
 - (int *)getDistribution;
 

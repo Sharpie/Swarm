@@ -131,11 +131,19 @@ USING
 //M: dataset, before generating output.
 - update;
 
-//M: The output method causes the graphical display to be updated with the 
-//M: information extracted by the previous call to update.  When file I/O is 
-//M: enabled (the state of setFileOutput is set to 1), the number of entries
-//M: per bin is sent to the output file. When the graphical display is enabled
-//M: (the state of setGraphics is set to 1), the histogram will be drawn.
+//M: The ouputGraph method causes the graphical display to be updated with the
+//M: information extracted by the previous call to update. If setGraphics==0,
+//M: nothing is done.
+- outputGraph;
+
+//M: The outputToFile method causes the number of entries per bin to be sent to
+//M: the output file, using the data extracted by the previous call to update.
+//M: If setFileOutput==0, nothing is done.
+- outputToFile;
+
+//M: The output: method combines the actions of -outputGraph and -outputToFile.
+//M: If graph updates and file output need to happen at different frequencies,
+//M: schedule calls to -outputGraph and -outputToFile instead of -output.
 - output;
 
 //M: The getDistribution method returns an array of integers containing the 
@@ -307,9 +315,22 @@ USING
          withFeedFrom: aCollection 
           andSelector: (SEL) aSel;
 
+//M: the -update method causes the underlying sequences to get the next set
+//M: of data values. If a sequence has a single object attached rather
+//M: than an Averager, nothing is done.
+- update;
 
-//M: The step method lets the user accest the graph generated internally by
-//M: EZGraph. (Only relevant if the state of setGraphics is set to 1.)
+//M: the outputGraph method updates the graph with the data obtained from
+//M: the last call to -update. If setGraphics==0, nothing is done.
+- outputGraph;
+
+//M: the outputToFile method sends to the disk file data obtained from the
+//M: last call to -update. If setFileOutput==0, nothing is done.
+- outputToFile;
+
+//M: The step method combines -update, -outputGraph and -outputToFile.
+//M: If you want file output to occur at a different frequency than graph
+//M: updates, schedule those methods separately instead of using -step.
 - step;
 
 @end

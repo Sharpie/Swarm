@@ -1,3 +1,15 @@
+1998-08-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* EZBin.[hm] (EZBin): New methods -outputGraph and -outputToFile.
+
+	* EZGraph.[hm] (EZGraph): Likewise.
+
+	* EZGraph.[hm] (EZSequence): Likewise.
+
+	* EZGraph.[hm] (EZSequence): New method -update.
+	
+	* EZGraph.[hm] (EZAverageSequence): Likewise.
+
 1998-08-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZDistribution.m ([EZDistribution -drop]): Use XFREE instead of
