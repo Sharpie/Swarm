@@ -67,6 +67,10 @@ DllMain (
   switch (reason)
     {
     case DLL_PROCESS_ATTACH:
+      {
+        extern void swarm_constructors ();
+        swarm_constructors ();
+      }
       break;
 
     case DLL_PROCESS_DETACH:
