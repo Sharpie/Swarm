@@ -71,25 +71,37 @@
                (printed-link)))
 
 (element PRIMARYIE
-         (sosofo-append
-          (process-children)
-          (make sequence
-                (let* ((linkends-string (attribute-string "LINKENDS")))
-                  (let loop ((linkends (split-string linkends-string #\space)))
-                       (if (null? linkends)
-                           (empty-sosofo)
-                           (sosofo-append
-                            (make paragraph
-                                  start-indent: 72pt
-                                  (let* ((id (car linkends))
-                                         (nl (element-with-id id)))
-                                    (sosofo-append
-                                     (literal (id-to-indexitem id))
-                                     (literal " -- ")
-                                     (element-page-number-sosofo nl))))
-                            (loop (cdr linkends)))))))))
+         (let* ((linkends-string (attribute-string "LINKENDS"))
+                (linkends (split-string linkends-string #\space)))
+           (if (type-id-p (car linkends) "METHOD")
+               (sosofo-append
+                (process-children)
+                (make sequence
+                      (let loop ((linkends linkends))
+                           (if (null? linkends)
+                               (empty-sosofo)
+                               (sosofo-append
+                                (make paragraph
+                                      start-indent: 72pt
+                                      (let* ((id (car linkends))
+                                             (nl (element-with-id id)))
+                                        (sosofo-append
+                                         (literal (id-to-indexitem id))
+                                         (literal " -- ")
+                                         (element-page-number-sosofo nl))))
+                                (loop (cdr linkends)))))))
+               (sosofo-append
+                (process-children)
+                (literal " --")
+                (let loop ((linkends linkends))
+                     (if (null? linkends)
+                         (empty-sosofo)
+                         (sosofo-append
+                          (literal " ")
+                          (element-page-number-sosofo 
+                           (element-with-id (car linkends)))
+                          (loop (cdr linkends)))))))))
 
-         
 ;; These are defined with skip-content so that they
 ;; can be expanded and have their ID recorded (and won't
 ;; be excluded from the index.

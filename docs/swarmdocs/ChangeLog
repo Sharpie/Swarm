@@ -1,5 +1,9 @@
 1998-06-09  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* swarmbook.dsl (PRIMARYIE): In print backend distinguish between
+	a method entry and others (don't create sublist for non-method
+	entries).
+
 	* Makefile.am (versions.ent): Force recreation.
 
 	* swarmbook.dsl (%generate-reference-toc%): True in HTML, false in
