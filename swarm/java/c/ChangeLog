@@ -1,6 +1,7 @@
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.in (CPPFLAGS): Add -Dexternvar=@IMPORT_EXTERN@.
+	* Makefile.in (CPPFLAGS): Add -Dexternvar=$(IMPORT_EXTERN) and
+	-Dexternobjcvar=$(IMPORT_EXTERN).
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
