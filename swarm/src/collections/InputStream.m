@@ -378,11 +378,26 @@ readString (id inStream, char terminator)
                   abort ();
                 return [number createEnd];
               }
+            if (string)
+              {
+                const char *str = [string getC];
+
+                if (str[len - 1] == ':')
+                  {
+                    char buf[len - 1 + 1];
+                    
+                    strncpy (buf, str, len - 1);
+                    buf[len - 1] = '\0';
+                    
+                    return [[[ArchiverKeyword createBegin: aZone]
+                              setKeywordName: buf]
+                             createEnd];
+                  }
+                return string;
+              }
+            else
+              [self _badType_ : string];
           }
-          if (string)
-            return string;
-          else
-            [self _badType_ : string];
         }
       raiseEvent (LoadError, "Unexpected character `%c'\n");
       return nil;

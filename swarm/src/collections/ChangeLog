@@ -1,3 +1,8 @@
+2000-06-30  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* InputStream.m ([InputStream_c -getExpr]): Handle DSSSL/Kawa
+	style keywords.
+
 2000-06-29  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Makefile.am (EXTRA_DIST): Add List_HDF5{in,out}.m.
