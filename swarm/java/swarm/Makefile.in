@@ -18,7 +18,6 @@ INTERFACEPHASES := $(CLASSPHASES) S
 
 PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Selector
 POSTCLASSES = SwarmEnvironment
-SWARMCLASSES = $(PRECLASSES) $(POSTCLASSES)
 
 define module-class-files
 $(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS)))))
@@ -28,19 +27,24 @@ define module-interface-files
 $(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS))))))
 endef
 
-GENCLASSFILES := $(addsuffix .class,$(addprefix swarm/,$(foreach module,$(MODULES),$(module-class-files))))
+GENCLASSFILES := $(addsuffix .class,$(foreach module,$(MODULES),$(module-class-files)))
 
-GENINTERFACEFILES := $(addsuffix .class,$(addprefix swarm/,$(foreach module,$(MODULES),$(module-interface-files))))
+GENINTERFACEFILES := $(addsuffix .class,$(addprefix $(foreach module,$(MODULES),$(module-interface-files)))
 
+GENFILES = $(addprefix swarm/,$(GENCLASSFILES) $(GENINTERFACEFILES))
+
+SWARMGENFILES = $(addprefix swarm/,$(GENFILES))
+SWARMCLASSES = $(PRECLASSES) $(POSTCLASSES)
 SWARMCLASSFILES = $(addsuffix .class,$(addprefix swarm/,$(SWARMCLASSES)))
 
-ALLCLASSFILES = $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
+ALLCLASSFILES = $(SWARMCLASSFILES) $(SWARMGENFILES)
 
-POSTCLASSFILES = $(addsuffix .class,$(POSTCLASSES))
+PRECLASSESFILES = $(addsuffix .class,$(PRECLASSES))
+POSTCLASSESFILES = $(addsuffix .class,$(POSTCLASSES))
 
-all: modules $(POSTCLASSFILES)
+all: modules $(POSTCLASSESFILES)
 
-$(POSTCLASSFILES): $(addsuffix .class,$(SWARMCLASSES))
+$(POSTCLASSESFILES): $(PRECLASSESFILES) $(GENFILES)
 
 deps: 
 	for module in $(MODULES); do $(MAKE) -C $$module .deps; done
