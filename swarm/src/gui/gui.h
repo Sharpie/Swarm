@@ -193,7 +193,7 @@
 //D: ProbeCanvas is a Canvas that implements the general appearance and
 //D: interface of a probe display.
 
-//M: Determines if the ProbeCanvas has a horizontal scroll bar.
+//M: Indicates the presence or absence of a horizontal scroll bar.
 - setHorizontalScrollbarFlag: (BOOL)horizontalScrolbarFlag;
 @end
 
@@ -407,25 +407,54 @@
 @end
 
 @protocol _InputWidget
-//M: Get the value
+//S: Abstract superclass for widgets that take input.
+
+//D: InputWidgets get their input in one of two ways: by being readable, or
+//D: by being linked to a C variable.
+
+//M: Get the string value of the widget.
 - (const char *)getValue;
+
+//M: Attach the widget value to an integer.
 - linkVariableInt: (int *)p;
+
+//M: Attach the widget value to a double.
 - linkVariableDouble: (double *)p;
+
+//M: Attach the widget value to a boolean.
 - linkVariableBoolean: (BOOL *)p;
+
+//M: Set the string value of the widget. 
+//M: This must be implemented by a subclass.
 - setValue: (const char *)v;
 @end
 
 @protocol _Entry
+//S: Handles text-field input.
+
+//D: Handles text-field input.
+
 - createEnd;
+
+//M: Set the value of the widget, replacing the visible text in the widget.
 - setValue: (const char *)value;
-// - setWidth: (unsigned)w Height: (unsigned)h;
+
+//M: This method aborts
+- setHeight: (unsigned)h; // since this isn't possible with Tk, it will abort.
 @end
 
 @protocol Entry <_Entry, _InputWidget, Widget>
 @end
 
 @protocol _MessageProbeEntry
-- setResultIdFlag: (BOOL)resultIdFlag;
+//S: A widget for arguments to a message probe.
+
+//D: An Entry widget for MessageProbe arguments.
+
+//M: Indicates whether the type of this entry is an id.
+- setIdFlag: (BOOL)idFlag;
+
+//M: Indicates the argument number.
 - setArg: (int)arg;
 + createBegin: aZone;
 - createEnd;
@@ -435,9 +464,19 @@
 @end
 
 @protocol _VarProbeEntry
+//S: A widget for variable probes.
+
+//D: An Entry widget for VarProbes.
+
+//M: Indicates whether the entry is editable or not.
 - setInteractiveFlag: (BOOL)interactiveFlag;
+
+//M: Indicate the widget that is using this widget.
 - setOwner: owner;
+
+//M: Set the type of object edited by this entry.
 - setProbeType: (char)probeType;
+
 - createEnd;
 @end
 
@@ -445,8 +484,17 @@
 @end
 
 @protocol _ButtonPanel
+//S: Several buttons bound together in one frame.
+
+//D: Several buttons bound together in one frame.
+
+//M: Set a default target for use with addButtonName:method:.
 - setButtonTarget: target;
+
+//M: Create a new button, and set both a target and method.
 - addButtonName: (const char *)name target: target method: (SEL)sel;
+
+//M: Create a new button, and set the method, using the default target.
 - addButtonName: (const char *)name method: (SEL)sel;
 @end
 
@@ -454,9 +502,20 @@
 @end
 
 @protocol _Form
-- setEntryWidth: (int) ew;
+//S: A set of Entry widgets bound together in one frame.
+
+//D: A set of Entry widgets bound together in one frame.
+
+//M: The width of all the Entry widgets.
+- setEntryWidth: (int)ew;
+
+//M: Add a boolean CheckButton widget.
 - addLineName: (const char *)n Boolean: (BOOL *)p;
+
+//M: Add an Entry to get an integer.
 - addLineName: (const char *)n Int: (int *)p;
+
+//M: Add an Entry to get a double.
 - addLineName: (const char *)n Double: (double *)p;
 @end
 
@@ -464,7 +523,14 @@
 @end
 
 @protocol _CheckButton
+//S: A check box on/off selection widget.
+
+//D: A check box on/off selection widget.
+
+//M: Get on/off status.
 - (BOOL)getBoolValue;
+
+//M: Turn the widget value and check button on or off.
 - setBoolValue: (BOOL)v;
 @end
 
@@ -474,21 +540,30 @@
 typedef unsigned char Color; 
 typedef unsigned long PixelValue;
 
-#if 0
-// - The XPixmap class returns Pixmap. 
-// - The XDrawer protocol, to
-//   which XPixmap conforms, provides the drawOn:X:Y:GC:Caller:, which
-//   requires the GC type.  
-// - The draw: method of Raster and ZoomRaster is not advertised, since
-//   it uses drawOn.
-typedef unsigned long Pixmap;     // X.h defines it as an XID
-#endif
-
 @protocol _Colormap
+//S: An class for creating a color palette for use with a Raster.
+
+//D: Mechanism used to map numbers in the range [0, 255] to colour
+//D: names. Create an XColormap, allocate colours in it, and pass it to a
+//D: Raster widget for drawing.
+
+//M: The current palette, per color-index.
 - (PixelValue *)map;
+
+//M: The pixel value for black.
 - (PixelValue)black;
+
+//M: The pixel value for white.
+- (PixelValue)white;
+
+//M: Add color index `c' to the color map, using a certain percent of 
+//M: red, green, and blue.
 - (BOOL)setColor: (Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
+
+//M: Add color index `c' looking up the color name in the color database.
 - (BOOL)setColor: (Color)c ToName: (const char *)colorName;
+
+//M: Add a color of a certain level of grey.
 - (BOOL)setColor: (Color)c ToGrey: (double)g;
 @end
 
@@ -502,19 +577,48 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 @end
 
 @protocol _Raster
+//S: A two dimension color display class.
+
+//D: 2 dimensional, colour pixel images. Raster is based on a Tk frame widget
+//D: with our own code for fast display of images. You can draw coloured dots
+//D: on a Raster, or generic Drawers. Raster widgets are
+//D: double buffered - the pixels you draw are not actually put on the screen
+//D: until drawSelf is called. In addition, Rasters handle mouse clicks.
+
+//M: Draw a point at the given coordinates with the given color.
 - drawPointX: (int)x Y: (int)y Color: (Color)c;
+
+//M: Set the palette for this raster.
 - setColormap: (id <Colormap>)c;
+
+//M: Draw the raster to the display.
 - drawSelf;
+
+//M: Set the size of the raster.
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
+
+//M: Configure at mouse button to send a message to a given client object.
 - setButton: (int)n Client: c Message: (SEL)sel;
+
+//M: Fill a rectangle of given geometry and color.
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)color;
+
+//M: Draw an ellipse of given geometry, pen width, and color.
 - ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
       Width: (unsigned)penWidth Color: (Color)c;
+
+//M: Draw a line of given geometry, pen width, and color.
 - lineX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
    Width: (unsigned)penWidth Color: (Color)c;
+
+//M: Draw a rectangle of given geometry, pen width, and color.
 - rectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
         Width: (unsigned)penWidth Color: (Color)c;
+
+//M: Draw an object at a given position.
 - draw: (id <Drawer>)drawer X: (int)x Y: (int)y;
+
+//M: Erase the raster.
 - erase;
 @end
 
@@ -522,10 +626,24 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 @end
 
 @protocol _ZoomRaster
+//S: A zoomable Raster.
+
+//D: ZoomRaster is a subclass of Raster that implements a zoomable image. It
+//D: handles translation between logical coordinates and screen coordinates.
+
+//M: Make the raster bigger.
 - increaseZoom;
+
+//M: Make the raster smaller.
 - decreaseZoom;
+
+//M: Get the current zoom factor.
 - (unsigned)getZoomFactor;
+
+//M: Set the zoom factor.
 - setZoomFactor: (unsigned)z;
+
+//M: Reconfigures the ZoomRaster when the window is resized.
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 @end
 
@@ -533,27 +651,74 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 @end
 
 @protocol _Pixmap
+//S: A class for drawing color bitmaps on a Raster.
+
+//D: A class for drawing color bitmaps on a Raster.  The bitmaps are
+//D: stored in the Portable Network Graphics format.
+
+//M: Set the bitmap file to load.
 - setFile: (const char *)filename;
-- setRaster: raster;
-- createEnd;
+
+//M: Set the raster that the pixmap will be shown on.
+//M: This is a required call.  It's used to needed to determine the
+//M: color palette in use.
+- setRaster: (id <Raster>)raster;
+
+//M: Get the width of the bitmap in pixels.
 - getWidth;
+
+//M: Get the height of the bitmap in pixels.
 - getHeight;
+
+//M: Load the bitmap file and create the backend pixmap object.
+- createEnd;
+
+//M: Draw the pixmap on the current raster at the given position.
 - drawX: (int)x Y: (int)y;
 @end
 
 @protocol Pixmap <_Pixmap, Drawer, Create>
 @end
 
-@protocol _CompositeItem
+@protocol _CanvasAbstractItem
+- setCanvas: canvas;
 - setTargetId: target;
 - setClickSel: (SEL)sel;
 - setMoveSel: (SEL)sel;
-- setPostMoveSel: (SEL)sel; 
-- initiateMoveX: (long)deltaX Y: (long)deltaY;
-- moveX: (long)delta_x Y: (long)delta_y;
+- setPostMoveSel: (SEL)sel;
+- createItem;
+- createBindings;
+- createEnd;
+- clicked;
+- initiateMoveX: (long)delta_x Y: (long)delta_y; 
 @end
 
-@protocol CompositeItem <_CompositeItem, SwarmObject>
+@protocol CanvasAbstractItem <_CanvasAbstractItem, SwarmObject>
+@end
+
+@protocol _CanvasItem
+- createItem;
+- createBindings;
+- initiateMoveX: (long)delta_x Y: (long)delta_y; 
+@end
+
+@protocol CanvasItem <_CanvasItem, CanvasAbstractItem>
+@end
+
+@protocol _CompositeItem
+//S: A CanvasItem with several pieces.
+
+//D: A CompositeItem is a CanvasItem that consists of several pieces.
+//D: CompositeItem is an abstract superclass.
+
+//M: Must be implemented by subclass.
+- moveX: (long)delta_x Y: (long)delta_y;
+
+//M: Prepares for movement of the item within the canvas.
+- initiateMoveX: (long)delta_x Y: (long)delta_y;
+@end
+
+@protocol CompositeItem <_CompositeItem, CanvasAbstractItem>
 @end
 
 @protocol _NodeItem
@@ -589,22 +754,6 @@ typedef unsigned long Pixmap;     // X.h defines it as an XID
 @end
 
 @protocol RectangleNodeItem <_RectangleNodeItem, NodeItem>
-@end
-
-@protocol _CanvasItem
-- setCanvas: canvas;
-- setTargetId: target;
-- setClickSel: (SEL)sel;
-- setMoveSel: (SEL)sel;
-- setPostMoveSel: (SEL)sel;
-- createItem;
-- createBindings;
-- createEnd;
-- clicked;
-- initiateMoveX: (long)delta_x Y: (long)delta_y; 
-@end
-
-@protocol CanvasItem <_CanvasItem, SwarmObject>
 @end
 
 @protocol _TextItem
