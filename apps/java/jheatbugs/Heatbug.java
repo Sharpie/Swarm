@@ -5,13 +5,12 @@
 
 // All added comments copyright 2001 Timothy Howe. All rights reserved. 
 
-import diagnostic.*;
-import java.awt.*;
-
 import swarm.Globals;
 import swarm.space.Grid2d;
 import swarm.space.Grid2dImpl;
 import swarm.gui.Raster;
+
+import java.awt.Point;
 
 /**
 See HeatbugModelSwarm for an overview of the heatbugs application.
