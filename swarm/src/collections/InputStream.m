@@ -13,7 +13,6 @@ Library:      collections
 #import <collections/InputStream.h>
 #include <string.h>
 #include <assert.h>
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #include <stdio.h>
 #include <ctype.h>
 

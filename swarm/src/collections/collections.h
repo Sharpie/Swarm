@@ -306,7 +306,7 @@ USING
 -               getExpr;
 @end
 
-id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
+extern id <Symbol> ArchiverLiteral, ArchiverQuote, ArchiverEOL, ArchiverDot;
 
 //
 // String -- character string object (later to support collection behavior)
