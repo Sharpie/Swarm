@@ -139,6 +139,11 @@
       "Circle"
       "Rectangle"
       "Line"
+
+      "Pixmap"
+      "Raster"
+      "Graph"
+      "Histogram"
                                 
       ;; gui non-creatable
       "Widget"
@@ -147,6 +152,8 @@
       "GraphElement"
       "InputWidget"
       "CompositeItem"
+      "CanvasAbstractItem"
+      "Drawer"
 
       ;; simtoolsgui non-creatable
       "WindowGeometryRecordName"
