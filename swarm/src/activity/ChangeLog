@@ -1,6 +1,7 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (INCLUDES): Add -I$(srcdir)/../misc.
+	(module_headers): Use $(TYPEINFO).
 
 	* Schedule.m: Include misc.h.
 

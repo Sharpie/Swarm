@@ -10,7 +10,7 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc
 
 noinst_LTLIBRARIES = libactivity.la
 
-module_headers = classes.h types.h activity.xm
+module_headers = $(TYPEINFO)
 
 BUILT_SOURCES = $(module_headers)
 

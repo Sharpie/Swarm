@@ -14,7 +14,7 @@ INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/..
 
 noinst_LTLIBRARIES = libdefobj.la
 
-module_headers = classes.h types.h defobj.xm
+module_headers = $(TYPEINFO)
 
 CLEANFILES += version.h
 

@@ -10,7 +10,7 @@ INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I. -I.. -I$(srcdir
 
 noinst_LTLIBRARIES = libcollections.la
 
-module_headers = classes.h types.h collections.xm
+module_headers = $(TYPEINFO)
 
 BUILT_SOURCES = $(module_headers)
 

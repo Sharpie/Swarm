@@ -1,5 +1,7 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (module_headers): Use $(TYPEINFO).
+
 	* FCall.m (avcall_add_primitive): Handle fcall_type_object.
 
 1999-06-05  Alex Lancaster  <alex@santafe.edu>
