@@ -71,6 +71,11 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** Histogram
 ***** Replace setNumPoints:Labels:Colors: with setNumBins:, setLabels:,
       and setColors:. 
+*** space
+**** Discrete2d, DblBuffer2d, Object2dDisplay, Grid2d
+***** Coordinates and sizes are now unsigned.
+**** Ca2d
+***** numStates is unsigned.
 
 * Release Notes for Swarm 1.3
 
