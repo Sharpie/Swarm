@@ -1,3 +1,8 @@
+1998-06-17  Alex Lancaster  <alex@santafe.edu>
+
+	* analysis00.sgml: Added missing description of dependencies -
+	objectbase.h and simtoolsgui.h. 
+
 1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (MODULE): New variable.  Include Makefile.rules 
