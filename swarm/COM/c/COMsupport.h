@@ -11,6 +11,9 @@ void *createComponent (COMclass cClass);
 void *findComponent (const char *className);
 const char *copyString (const char *str);
 const char *getName (COMobject cObj);
-void addRef (COMobject cObj);
+BOOL selectorIsVoidReturn (COMobject cSel);
 BOOL selectorIsBooleanReturn (COMobject cSel);
+const char *selectorName (COMobject cSel);
+unsigned selectorArgCount (COMobject cSel);
+char selectorArgObjcType (COMobject cSel, unsigned argIndex);
 }

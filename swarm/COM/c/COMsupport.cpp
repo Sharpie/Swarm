@@ -253,10 +253,16 @@ getName (COMobject cObj)
   return name;
 }
 
-void
-addRef (COMobject cObj)
+BOOL
+selectorIsVoidReturn (COMobject cSel)
 {
-  NS_ADDREF (NS_STATIC_CAST (nsISupports *, cObj));
+  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
+  PRBool ret;
+
+  if (!NS_SUCCEEDED (sel->IsVoidReturn (&ret)))
+    abort ();
+  
+  return ret;
 }
 
 BOOL
@@ -271,8 +277,43 @@ selectorIsBooleanReturn (COMobject cSel)
   return ret;
 }
 
+const char *
+selectorName (COMobject cSel)
+{
+  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
+  char *ret;
+
+  if (!NS_SUCCEEDED (sel->GetName (&ret)))
+    abort ();
+
+  return ret;
 }
 
+unsigned
+selectorArgCount (COMobject cSel)
+{
+  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
+  unsigned ret;
+
+  if (!NS_SUCCEEDED (sel->GetArgCount (&ret)))
+    abort ();
+  
+  return ret;
+}
+
+char
+selectorArgObjcType (COMobject cSel, unsigned argIndex)
+{
+  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
+  char ret;
+
+  if (!NS_SUCCEEDED (sel->GetArgObjcType (argIndex, &ret)))
+    abort ();
+  
+  return ret;
+}
+
+}
 
 PRBool
 findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo)
