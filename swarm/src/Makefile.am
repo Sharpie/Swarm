@@ -39,7 +39,7 @@ swarm.dll: libswarm.la
 	$(RM) -r .dll
 	mkdir .dll
 	cd .dll; for module in $(SWARMMODULES); do mkdir $$module; (cd $$module; ar x ../../$$module/.libs/lib$$module.al); done
-	dllwrap --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll $(foreach module,$(SWARMMODULES),`ls .dll/$(module)/*.lo`) $(SUPPORTLDFLAGS) $(SYSLIBS)  
+	dllwrap --export-all-symbols --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll $(foreach module,$(SWARMMODULES),`ls .dll/$(module)/*.lo`) $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
 install-data-local: 
 	test -n "$(SWARMDLL)" && $(INSTALL) libswarm.a $(libdir) && ranlib $(libdir)/libswarm.a
