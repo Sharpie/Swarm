@@ -177,7 +177,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
 
           <PARA>Swarm works with Tcl/Tk versions 7.4/4.0, 7.5/4.1, 7.6/4.2,
             and 
-            <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tcl8.0.3.tar.gz">8.0.3</ULINK>/<ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tk8.0.3.tar.gz">8.0.3</ULINK>.  It may work with later versions, but it hasn't
+            <ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tcl8.0p2.tar.gz">8.0p2</ULINK>/<ULINK URL="ftp://ftp.scriptics.com/pub/tcl/tcl8_0/tk8.0p2.tar.gz">8.0p2</ULINK>.  It may work with later versions, but it hasn't
             been tested.</PARA>
         </FORMALPARA>
       </LISTITEM>
