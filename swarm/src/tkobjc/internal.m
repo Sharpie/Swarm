@@ -413,17 +413,9 @@ tkobjc_raster_erase (Raster *raster)
   Colormap *colormap = raster->colormap;
 
   if (colormap)
-    {
-      if (raster->eraseColor == -1)
-	{
-	  raster->eraseColor = [colormap nextFreeColor];
-
-	  [colormap setColor: raster->eraseColor ToName: "black"];
-	}
-      [raster fillRectangleX0: 0 Y0: 0
-	      X1: [raster getWidth] Y1: [raster getHeight]
-	      Color: raster->eraseColor];
-    }
+    [raster fillRectangleX0: 0 Y0: 0
+            X1: [raster getWidth] Y1: [raster getHeight]
+            Color: raster->eraseColor];
 #endif
 }
 
@@ -683,26 +675,34 @@ tkobjc_raster_setColormap (Raster *raster)
     raiseEvent (Warning, "colormap is nil");
   else
     {
-      raster_private_t *private = raster->private;
+      if (raster->eraseColor == -1)
+	{
+	  raster->eraseColor = [colormap nextFreeColor];
+	  
+	  [colormap setColor: raster->eraseColor ToName: "black"];
+	}
+      {
+	raster_private_t *private = raster->private;
 #ifdef _WIN32
-      dib_t *dib = private->pm;
-      
-      dib_augmentPalette (dib,
-                          raster,
-                          [colormap nextFreeColor],
-                          colormap->map);
+	dib_t *dib = private->pm;
+	
+	dib_augmentPalette (dib,
+			    raster,
+			    [colormap nextFreeColor],
+			    colormap->map);
 #else
-      Tk_Window tkwin = private->tkwin;
-      Display *display = Tk_Display (tkwin);
-      Window window = Tk_WindowId (tkwin);
-      X11Colormap cmap = colormap->cmap;
-      
-      if (cmap != DefaultColormap (display, DefaultScreen (display)))
-        {
-          while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
-          x_set_private_colormap (display, window, colormap->cmap);
-        }
+	Tk_Window tkwin = private->tkwin;
+	Display *display = Tk_Display (tkwin);
+	Window window = Tk_WindowId (tkwin);
+	X11Colormap cmap = colormap->cmap;
+	
+	if (cmap != DefaultColormap (display, DefaultScreen (display)))
+	  {
+	    while (Tk_DoOneEvent (TK_ALL_EVENTS|TK_DONT_WAIT));
+	    x_set_private_colormap (display, window, colormap->cmap);
+	  }
 #endif
+      }
     }
 }
 
