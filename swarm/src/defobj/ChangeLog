@@ -1,3 +1,7 @@
+2000-08-01    <mgd@DRONE>
+
+	* DefObject.m ([Object_s -lispIn:]): Drop li when finished.
+
 2000-07-26    <mgd@DRONE>
 
 	* FCall.m, HDF5Object.m, JavaCollection.m, JavaCollectionIndex.m,

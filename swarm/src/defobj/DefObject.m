@@ -95,6 +95,7 @@ PHASE(Setting)
       ivarname = [key getKeywordName];
       object_setVariableFromExpr (self, ivarname, val);
     }
+  [li drop];
   return self;
 }
 
