@@ -1,3 +1,7 @@
+1999-05-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* headers.m4: Convert irix6.5 into irix6.
+
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* headers.m4: Convert hppa1.1 cpu into hppa.

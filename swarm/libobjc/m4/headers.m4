@@ -9,6 +9,7 @@ esac
 case "$target_os" in
   solaris2.5.1 | solaris2.7) target_os=solaris2 ;;
   linux) target_os=linux-gnu ;;
+  irix6.5) target_os=irix6 ;;
 esac
 
 
