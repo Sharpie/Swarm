@@ -251,7 +251,7 @@ _initSwarm_ (int argc, const char **argv, const char *appName,
   id env = [SwarmEnvironment createBegin];
 
   [env setArguments:
-         [argumentsClass ?: [Arguments_c class]
+         [(id) argumentsClass ?: (id) [Arguments_c class]
                          createArgc: argc
                          Argv: argv
                          appName: appName
