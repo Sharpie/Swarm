@@ -176,14 +176,11 @@
 - (BOOL)checkObject
 {
   {
-    int strNum;
-    size_t len = strlen (strVal);
-    char buf[len + 1];
-    char fmt[10];
-    
-    sprintf (fmt, "%%%us %%d", len);
-    sscanf (strVal, fmt, buf, &strNum);
-
+    char *buf = strdup (strVal);
+    char *pos = strchr (buf, ' ');
+    int strNum = atoi (pos + 1);
+  
+    *pos = '\0';
     if (strcmp (buf, STRVAL) != 0)
       return NO;
     if (strNum != offset)

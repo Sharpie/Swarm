@@ -2,8 +2,8 @@
 
 	* archiver.m ([MyClass -adjustToOffset]): Make newStr one
 	byte larger.
-	([MyClass -checkObject]): Create a field width for reading
-	strings out of strVal.
+	([MyClass -checkObject]): Copy strVal and split at " "; don't
+	use sscanf.
 
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
