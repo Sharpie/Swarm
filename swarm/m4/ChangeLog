@@ -1,8 +1,8 @@
 1999-09-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* acjdk.m4: Add path checks for IBM JDK 1.1.8 for Linux.
-	Add checks for LinuxPPC JDK 1.2.  Add extra_JAVAENV for
-	setting _JVM_THREADS_TYPE.
+	* acjdk.m4: Add path checks for IBM JDK 1.1.8 for Linux.  Add
+	checks for LinuxPPC JDK 1.2 green and native.  Add extra_JAVAENV
+	for setting _JVM_THREADS_TYPE.
 
 1999-09-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

@@ -35,6 +35,9 @@ else
       elif test -d ${expand_jdkdir}/bin/linux/native_threads; then # IBMJDK
 	threads=native
         proc=linux
+      elif test -d ${expand_jdkdir}/bin/ppc/native_threads; then
+        threads=native
+        proc=ppc
       elif test -d ${expand_jdkdir}/bin/ppc/green_threads; then
         threads=green
         proc=ppc
