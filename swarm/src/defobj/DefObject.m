@@ -673,7 +673,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   types_t val;
   id aZone = [self getZone];
   const char *type = sel_get_type (aSel);
-  jobject jobj = JFINDJAVA (self);
+  jobject jobj = JFINDJAVA (jniEnv, self);
   jobject jsel;
   
   if (jobj == NULL)
@@ -686,7 +686,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       if (!type)
         abort ();
     }
-  jsel = JFINDJAVA ((id) aSel);
+  jsel = JFINDJAVA (jniEnv, (id) aSel);
   fa = [FArguments createBegin: aZone];
   [fa setJavaFlag: YES];
   type = mframe_next_arg (type, &info);

@@ -1,7 +1,24 @@
 1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* directory.m (java_class_for_typename): New function.
+	(java_directory_objc_find): Use it.  Add support for creating
+	Java-side class on-the-fly.
+	(java_directory_java_find): Return NULL if java_object is 0.
+
+	* directory.[hm] (java_directory_objc_find{_java}): Add JNI environment
+	as first argument.  Add createFlag as last argument.
+	(JFINDJAVA): Accomodate.
+	(JENSUREJAVA): New macro.
+	(java_directory_java_find_objc): New function.
+	(JFINDOBJC): Use it.
+	(JENSUREOBJCMETHOD, JENSUREOBJCCLASS): Renamed from JFIND*.
+
+	* DefObject.m ([Object_s -forward::]): JFINDJAVA now takes
+	a JNI environment as first argument.
+
 	* Makefile.am (modulemap.c): New target.
-	(EXTRA_DIST): Add modulemap.c and modulemap.el
+	(EXTRA_DIST): Add modulemap.el
+	(libdefobj_la_SOURCES): Add modulemap.c.
 
 	* modulemap.el: New file.
 

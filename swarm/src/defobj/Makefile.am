@@ -8,7 +8,7 @@ FFIINCLUDES = @FFIINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
-EXTRA_DIST = make-h2x m2h internal.h modulemap.c modulemap.el
+EXTRA_DIST = make-h2x m2h internal.h modulemap.el
 
 INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES) $(JAVAINCLUDES) $(FFIINCLUDES)
 
@@ -26,7 +26,7 @@ SRC = Archiver.m Arguments.m Create.m Customize.m \
 
 override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
-libdefobj_la_SOURCES = $(SRC)
+libdefobj_la_SOURCES = $(SRC) modulemap.c
 libdefobj_la_LDFLAGS = @inst_LDFLAGS@
 
 bin_SCRIPTS = m2h make-h2x

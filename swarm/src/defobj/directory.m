@@ -7,6 +7,8 @@
 #import "JavaProxy.h"
 #import <defobj.h>
 
+#import <defobj/Program.h> // Type_c
+
 #ifdef HAVE_JDK
 static avl_tree *java_tree;
 static avl_tree *objc_tree;
@@ -78,12 +80,34 @@ create_class_refs (JNIEnv *env)
     }
 }
 
+static jclass
+java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
+{
+  extern const char *swarm_lookup_module (const char *name);
+  const char *module = swarm_lookup_module (typeName);
+  char javaClassName[5 + 1 + strlen (module) + 1 + strlen (typeName) + 5 + 1];
+  char *p;
+
+  p = stpcpy (javaClassName, "swarm.");
+  p = stpcpy (p, module);
+  p = stpcpy (p, ".");
+  p = stpcpy (p, typeName);
+  if (usingFlag)
+    p = stpcpy (p, "U");
+  p = stpcpy (p, "Impl");
+
+  return (*env)->FindClass (env, javaClassName);
+}
+
 jobject_id *
 java_directory_java_find (JNIEnv *env, jobject java_object)
 {
   jobject_id pattern;
   jobject_id *result; 
   jobject newRef;
+
+  if (!java_object)
+    return NULL;
 
   newRef = (*env)->NewGlobalRef (env, java_object);
   
@@ -112,8 +136,16 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
   return result;
 }
 
+id
+java_directory_java_find_objc (JNIEnv *env, jobject java_object)
+{
+  return (java_object
+          ? java_directory_java_find (env, java_object)->objc_object
+          : nil);
+}
+
 jobject_id *
-java_directory_objc_find (id objc_object)
+java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag)
 {
   if (objc_tree)
     {
@@ -122,19 +154,41 @@ java_directory_objc_find (id objc_object)
       
       pattern.objc_object = objc_object;
       result = avl_find (objc_tree, &pattern);
+
+      if (!result && createFlag)
+        {
+          Class class = getClass (objc_object);
+          jclass javaClass;
+
+          if (getBit (class->info, _CLS_DEFINEDCLASS))
+            {
+              Class_s *nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
+              Type_c *typeImpl = [class getTypeImplemented];
+              javaClass = java_class_for_typename (env,
+                                                   typeImpl->name,
+                                                   nextPhase == NULL);
+            }
+          else
+            javaClass = java_class_for_typename (env, class->name, YES);
+          
+          result = java_directory_update (env, 
+                                          java_instantiate (env, javaClass),
+                                          objc_object);
+        }
       return result;
     }
   else
-    return NULL;
+    abort ();
 }
 
 jobject
-java_directory_objc_find_java (id objc_object)
+java_directory_objc_find_java (JNIEnv *env, id objc_object, BOOL createFlag)
 {
   if (objc_object)
     {
-      jobject_id *obj = java_directory_objc_find (objc_object);
-
+      jobject_id *obj =
+        java_directory_objc_find (env, objc_object, createFlag);
+      
       if (obj)
         return obj->java_object;
       else

@@ -29,8 +29,10 @@ void java_directory_init (JNIEnv *jniEnv,
 void java_directory_drop (JNIEnv *jniEnv);
 
 jobject_id *java_directory_java_find (JNIEnv *env, jobject java_object);
-jobject_id *java_directory_objc_find (id objc_object);
-jobject java_directory_objc_find_java (id objc_object);
+id java_directory_java_find_objc (JNIEnv *env, jobject java_object);
+
+jobject_id *java_directory_objc_find (JNIEnv *env, id objc_object, BOOL createFlag);
+jobject java_directory_objc_find_java (JNIEnv *env, id objc_object, BOOL createFlag);
 
 jobject_id *java_directory_update (JNIEnv *env, 
                                    jobject java_object,
@@ -50,18 +52,19 @@ jobject java_directory_switchupdate_java (JNIEnv *env,
 jobject java_instantiate (JNIEnv *jniEnv, jclass clazz);
 jobject java_instantiate_using (JNIEnv *jniEnv, jobject jobj);
 
-#define JFINDOBJC(env, jobj) ((java_directory_java_find (env, jobj))->objc_object)
-#define JFINDJAVA(objc) (java_directory_objc_find_java (objc))
+#define JFINDOBJC(env, jobj) java_directory_java_find_objc (env, jobj)
+#define JFINDJAVA(env, objc) java_directory_objc_find_java (env, objc, NO)
+#define JENSUREJAVA(env, objc) java_directory_objc_find_java (env, objc, YES)
 #define JUPDATE(env, jobj, objc) java_directory_update_java (env, jobj, objc)
 #define JSWITCHUPDATE(env, oldjobj, newjobj, objc) java_directory_switchupdate_java(env, oldjobj, newjobj, objc)
 #define JINSTANTIATE(env, clazz) java_instantiate (env, clazz)
 #define JINSTANTIATEUSING(env, jobj) java_instantiate_using (env, jobj)
 
 SEL java_ensure_selector (JNIEnv *env, jobject jsel);
-#define JFINDOBJCMETHOD(env, jobj) (java_ensure_selector (env, jobj))
+#define JENSUREOBJCMETHOD(env, jobj) (java_ensure_selector (env, jobj))
 
 Class java_ensure_class (JNIEnv *env, jclass class);
-#define JFINDOBJCCLASS(env, jclass) (java_ensure_class (env, jclass))
+#define JENSUREOBJCCLASS(env, jclass) (java_ensure_class (env, jclass))
 
 const char *java_copy_string (JNIEnv *env, jstring javaString);
 void java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);
