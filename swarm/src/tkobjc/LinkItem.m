@@ -7,7 +7,7 @@
 #import <tkobjc/Widget.h>
 #import <tkobjc/LinkItem.h>
 #import <tkobjc/NodeItem.h>
-#include <misc.h>
+#import <defobj.h> // STRDUP
 
 @implementation LinkItem
 

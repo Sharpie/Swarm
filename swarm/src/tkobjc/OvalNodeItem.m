@@ -6,7 +6,7 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 #import <tkobjc/OvalNodeItem.h>
-#import <defobj.h> // STRDUP, OFREEBLOCK
+#import <defobj.h> // STRDUP, FREEBLOCK
 
 @implementation OvalNodeItem
 
