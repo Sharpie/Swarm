@@ -146,9 +146,9 @@ AC_ARG_WITH(pngincludedir,
   pngincludedir=$withval)
 
 md_FIND_PNG
-
 md_CHECK_INLINING
-AC_CHECK_LIB(pthread, pthread_create, LIBS="$LIBS -lpthread")
+md_CHECK_OBJC_LIBS
+
 AC_CHECK_LIB(dl,main)
 md_REPLACE_FUNCS(memchr memcpy memset realpath stpcpy strchr strcmp strdup strlen strncmp strndup strnlen strpbrk strsep)
 if test $ac_cv_func_stpcpy = yes || test $ac_cv_func_strndup = yes || test $ac_cv_func_strnlen = yes; then

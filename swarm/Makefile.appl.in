@@ -41,7 +41,7 @@ LDFLAGS = -L$(libdir) @RPATH@$(libdir) $(TCLOBJCLDFLAGS) $(BLTLDFLAGS) $(TCLLDFL
 #LINK = libtool --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 
-SYSLIBS = $(TCLOBJCLIB) $(BLTLIB) $(TKLIB) $(TCLLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lobjc -lm
+SYSLIBS = $(TCLOBJCLIB) $(BLTLIB) $(TKLIB) $(TCLLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm
 
 SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
 
