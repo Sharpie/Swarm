@@ -143,8 +143,9 @@ dynamic_call (apply_t imp, void *argframe, int argsize)
 }
 #endif
 
-int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
-				int argc, char *argv[])
+int
+tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
+			    int argc, char *argv[])
 {
   char resultString[1024];
   char methodName[100];
@@ -152,7 +153,7 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
   id self;
   SEL sel;
   Method_t method;
-  int i;
+  unsigned i;
 
   if (argc < 2)
     {
@@ -163,7 +164,7 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
   argvIsMethodArg[0] = NO;
   argvIsMethodArg[1] = NO;
   strcpy(methodName, argv[1]);
-  for (i = 2; i < argc; i++)
+  for (i = 2; i < (unsigned)argc; i++)
     {
       if (argv[i][strlen(argv[i])-1] == ':')
 	{
@@ -203,7 +204,7 @@ int tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
   if (!strcmp("contents", methodName) 
       && [self isKindOf:[List class]])
     {
-      int i;
+      unsigned i;
 
       Tcl_ResetResult(interp);
       for (i = 0; i < [self count]; i++)

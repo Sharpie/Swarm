@@ -297,7 +297,7 @@ compare_long_ints (const void *k1, const void *k2)
 - read: (TypedStream*)aStream
 {
   unsigned cnt, capacity;
-  int i;
+  unsigned i;
   const void *k;
   void *v;
 

@@ -74,7 +74,9 @@ static const char *name = NULL;
 
 #if ! HAVE_READLINE
 static void	Prompt _ANSI_ARGS_((Tcl_Interp *interp, int partial));
+#ifndef __CYGWIN32__
 static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
+#endif
 #endif /* ! HAVE_READLINE */
 
 #ifdef __CYGWIN32__
@@ -313,6 +315,7 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
  */
 
 
+#ifndef __CYGWIN32__
 /*
  *----------------------------------------------------------------------
  *
@@ -332,7 +335,6 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
  *
  *----------------------------------------------------------------------
  */
-
     /* ARGSUSED */
 static void
 StdinProc(clientData, mask)
@@ -404,6 +406,7 @@ StdinProc(clientData, mask)
 	Prompt(((TclInterp*)clientData)->interp, gotPartial);
 
 }
+#endif
 
 /*
  *----------------------------------------------------------------------

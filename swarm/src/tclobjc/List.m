@@ -124,12 +124,10 @@ decrementCount(List *self)
 
 - deepen
 {
-  int i;
+  unsigned i;
   
   for (i = 0; i < numElements; i++) 
-    {
-      dataPtr[i] = [dataPtr[i] deepCopy];
-    }
+    dataPtr[i] = [dataPtr[i] deepCopy];
   return self;
 }
 
@@ -137,7 +135,7 @@ decrementCount(List *self)
 
 - (BOOL)isEqual: anObject
 {
-  int i;
+  unsigned i;
   
   if ( (![anObject isKindOf:[List class]])
       || ([self count] != [anObject count]))
@@ -207,7 +205,7 @@ decrementCount(List *self)
   }
   CHECK_OBJECT(anObject);
   incrementCount(self);
-  for (i = numElements-1; i > index; i--)
+  for (i = numElements - 1; i > (int)index; i--)
     dataPtr[i] = dataPtr[i-1];
   dataPtr[i] = anObject;
   return self;
@@ -220,7 +218,7 @@ decrementCount(List *self)
   
   CHECK_INDEX(index);
   oldObject = dataPtr[index];
-  for (i = index; i < numElements-1; i++)
+  for (i = index; i < (int)numElements - 1; i++)
     dataPtr[i] = dataPtr[i+1];
   decrementCount(self);
   return oldObject;
@@ -260,9 +258,9 @@ decrementCount(List *self)
 
 /* Manipulating objects by id */
 
-- (unsigned) indexOf:anObject
+- (unsigned)indexOf:anObject
 {
-  int i;
+  unsigned i;
   
   for (i = 0; i < numElements; i++)
     if ([dataPtr[i] isEqual:anObject])
@@ -294,7 +292,7 @@ decrementCount(List *self)
 
 - empty
 {
-  int i;
+  unsigned i;
 
   for (i = 0; i < numElements; i++)
     dataPtr[i] = nil;
