@@ -1,5 +1,10 @@
 2001-08-10  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
+	* Ca2d.m, Discrete2d.h, Discrete2d.m, Object2dDisplay.m,
+	Value2dDisplay.m: Use raiseEvent macro instead of method.
+
+2001-08-10  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
 	* Discrete2d.[hm], space.h ([{Object,Value}2dDisplay
 	+create:setDisplayWidget:setDiscrete2dToDisplay:setDisplayMessage:,
 	-setDiscrete2dToDisplay:]): Anticipate a GridData conforming

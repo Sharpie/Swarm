@@ -47,6 +47,9 @@ USING
 
 //M: Return the pointer stored at (x,y).
 - getObjectAtX: (unsigned)x Y: (unsigned)y;
+
+//M: Return the integer stored at (x,y). 
+- (long)getValueAtX: (unsigned)x Y: (unsigned)y;
 @end   
 
 @protocol Discrete2d <SwarmObject, GridData, CREATABLE>
@@ -124,9 +127,6 @@ SETTING
 - setLattice: (id *)lattice;
 
 USING
-//M: Return the integer stored at (x,y). 
-- (long)getValueAtX: (unsigned)x Y: (unsigned)y;
-
 //M: Put the given pointer to (x,y) overwriting whatever was there.
 - putObject: anObject atX: (unsigned)x Y: (unsigned)y;
 

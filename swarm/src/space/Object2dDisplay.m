@@ -52,8 +52,8 @@ PHASE(Creating)
 - createEnd
 {
   [super createEnd];
-  if (displayWidget == nil || discrete2d == nil || displayMessage == (SEL)nil)
-    [InvalidCombination raiseEvent: "Object display improperly initialized\n"];
+  if (displayWidget == nil || discrete2d == nil || displayMessage == (SEL) nil)
+    raiseEvent (InvalidCombination, "Object display improperly initialized\n");
 
   return self;
 }
@@ -118,11 +118,10 @@ PHASE(Using)
       else
         GUI_BEEP ();
     }
-    else
-      [WarningMessage
-        raiseEvent: 
-          "Object2dDisplay: invalid coordinates to make probe (%d,%d)\n",
-        x, y];
+  else
+    raiseEvent (WarningMessage, 
+                "Object2dDisplay: invalid coordinates to make probe (%d,%d)\n",
+                x, y);
   return self;
 }
 

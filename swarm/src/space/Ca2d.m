@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <space/Ca2d.h>
+#import <defobj.h>
 
 @implementation Ca2d
 
@@ -17,7 +18,8 @@ PHASE(Creating)
 
 - initializeLattice
 {
-  [SubclassMustImplement raiseEvent];
+  raiseEvent (SubclassMustImplement,
+              "initializeLattice must be implemented by Ca2d subclass");
   return nil;
 }
 
@@ -25,8 +27,8 @@ PHASE(Creating)
 {
   // allocate buffers.
   if (numStates == 0)
-    [InvalidCombination raiseEvent: "CA not initialized correctly.\n"];
-  
+    raiseEvent (InvalidCombination, "CA not initialized correctly.\n");
+
   [super createEnd];
   
   // initialize ourselves.
@@ -38,7 +40,7 @@ PHASE(Using)
 
 - stepRule
 {
-  [SubclassMustImplement raiseEvent: "Ca2d: no default step.\n"];
+  raiseEvent (SubclassMustImplement, "Ca2d: no default step.\n");
   return nil;
 }
 

@@ -47,8 +47,8 @@
 - (id *)getLattice;
 - (long *)getOffsets;
 
-- copyDiscrete2d: a toDiscrete2d: b;
-- (int)setDiscrete2d: a toFile: (const char *)filename;
+- copyDiscrete2d: (id <Discrete2d>)a toDiscrete2d: (id <Discrete2d>)b;
+- (int)setDiscrete2d: (id <Discrete2d>)a toFile: (const char *)filename;
 
 - hdf5InCreate: hdf5Obj;
 - hdf5In: hdf5Obj;

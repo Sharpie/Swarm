@@ -542,7 +542,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   
 // Read in a file in PGM format and load it into a discrete 2d.
 // PGM is a simple image format. It stores grey values for a 2d array.
-- (int)setDiscrete2d: a toFile: (const char *)filename 
+- (int)setDiscrete2d: (id <Discrete2d>)a toFile: (const char *)filename 
 {
   id <InFile> f;
   char c1, c2;
@@ -550,12 +550,6 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   unsigned x, y;
   unsigned fileXSize, fileYSize;
   
-  if (![a conformsTo: @protocol (Discrete2d)])
-    [ProtocolViolation
-      raiseEvent:
-        "Object `%s' does not comply to Discrete2d protocol\n",
-      [a name]];
-
   // open the file
   f = [InFile create: getZone (self) setName: filename];
 
@@ -563,14 +557,15 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   [f getChar: &c1];
   [f getChar: &c2];
   if (c1 != 'P' && c2 != '2')
-    [WarningMessage raiseEvent: "File is not in PGM ascii format. Faking it.\n"];
+    raiseEvent (WarningMessage,
+                "File is not in PGM ascii format. Faking it.\n");
 
   // Next two entries are the size in pixels
   [f getInt: &fileXSize];
   [f getInt: &fileYSize];
-  if (fileXSize != [a getSizeX] || fileYSize != [a getSizeY]) {
-    [WarningMessage raiseEvent: "PGM File is not the right size. Faking it.\n"];
-  }
+  if (fileXSize != [a getSizeX] || fileYSize != [a getSizeY])
+    raiseEvent (WarningMessage,
+                "PGM File is not the right size. Faking it.\n");
 
   // Finally, the maximum value (typically 255, but sometimes less).
   [f getInt: &maxValue];
@@ -585,9 +580,10 @@ lispOutLatticeValues (Discrete2d *self, id stream)
           int v;
           if ([f getInt: &v] != 1)
             {
-            [WarningMessage
-              raiseEvent: "Ran out of data reading PGM file. Aborting.\n"];
-            goto finishReading;
+              
+              raiseEvent (WarningMessage,
+                          "Ran out of data reading PGM file. Aborting.\n");
+              goto finishReading;
             }
           [a putValue: v atX: x Y: y];
         }
@@ -602,24 +598,12 @@ lispOutLatticeValues (Discrete2d *self, id stream)
 
 // Copy one Discrete2d's contents to another.
 // This could probably use the fast accessor macros.
-- copyDiscrete2d: a toDiscrete2d: b
+- copyDiscrete2d: (id <Discrete2d>)a toDiscrete2d: (id <Discrete2d>)b
 {
   unsigned x, y;
 
-  if (![a conformsTo: @protocol (Discrete2d)])
-    [ProtocolViolation
-      raiseEvent:
-        "Object a `%s' does not comply to Discrete2d protocol\n",
-      [a name]];
-
-  if (![b conformsTo: @protocol (Discrete2d)])
-    [ProtocolViolation
-      raiseEvent:
-        "Object b `%s' does not comply to Discrete2d protocol\n",
-      [b name]]; 
- 
   if ([a getSizeX] != [b getSizeX] || [a getSizeY] != [b getSizeY])
-    [InvalidArgument raiseEvent: "Two Discrete2ds aren't the same size."];
+    raiseEvent (InvalidArgument, "Two Discrete2ds aren't the same size.");
   for (x = 0; x < [a getSizeX]; x++)
     for (y = 0; y < [b getSizeY]; y++)
       [b putValue: [a getValueAtX: x Y: y] atX: x Y: y];

@@ -6,7 +6,7 @@
 #import <space/Value2dDisplay.h>
 #import <space.h>
 #import <gui.h>
-#import <defobj.h> // ProtocolViolation
+#import <defobj.h> // raiseEvent
 
 // This should be subclassed to fill in the colormap for your CA.
 // for now, we expect your colormap to be allocated already.
@@ -45,7 +45,7 @@ PHASE(Creating)
   [super createEnd];
 
   if (displayWidget == nil || discrete2d == nil)
-    [InvalidCombination raiseEvent: "Value display improperly initialized\n"];
+    raiseEvent (InvalidCombination, "Value display improperly initialized\n");
   
   if (modFactor == 0)
     modFactor = 1;
@@ -83,11 +83,9 @@ PHASE(Using)
         color = (long) *(discrete2dSiteAt(lattice, offsets, x, y));
         color = color / modFactor + colorConstant;
         if (color < 0 || color > 255)
-          {
-            [WarningMessage 
-              raiseEvent: 
-                "Value2dDisplay: found colour %d not in [0,255].\n", color];
-          }
+          raiseEvent (WarningMessage,
+                      "Value2dDisplay: found colour %d not in [0,255].\n",
+                      color);
         
         if (drawPointImp)
           // cache method lookup.
