@@ -1,6 +1,8 @@
 DEPTH = $(B)/mozilla
 topsrcdir = $(S)/mozilla
 srcdir = @srcdir@
+swarm_srcdir = @top_srcdir@
+top_builddir = ../..
 
 include ../Makefile.common
 include $(DEPTH)/config/autoconf.mk
@@ -22,5 +24,8 @@ CPPSRCS = module.cpp $(foreach module,$(MODULES) swarm,$(call modulecppfiles,$(m
 XPIDLSRCS = $(foreach module,$(MODULES) swarm,$(call moduleidlfiles,$(module)))
 
 include $(topsrcdir)/config/rules.mk
+
+override INCLUDES += -I$(top_builddir)/libobjc -I$(swarm_srcdir)/libobjc -I$(swarm_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(swarm_srcdir)/src $(foreach module,defobj,-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(swarm_srcdir)
+
 
 EXTRA_DSO_LDOPTS += $(MOZ_COMPONENT_LIBS)
