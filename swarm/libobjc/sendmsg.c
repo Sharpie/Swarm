@@ -177,15 +177,39 @@ IMP
 objc_msg_lookup (id receiver, SEL op)
 {
 #ifndef DLL
-  extern SEL allocSel;
   extern void *swarm_directory_objc_find_object (id);
   extern void *swarm_directory_objc_find_selector (SEL);
   extern id swarmDirectory;
-
-  if (swarmDirectory
+  
+  if (receiver
+      && strcmp ((*((Class *) receiver))->name, "Arguments_c") == 0
+      && swarmDirectory
       && swarm_directory_objc_find_object (receiver)
-      && !__objc_responds_to (receiver, allocSel))
-    return __objc_get_forward_imp (op);
+#if 0
+      && !__objc_responds_to (receiver, allocSel)
+      && strcmp (sel_get_name (op), "doesNotRecognize:") != 0
+      && strcmp (sel_get_name (op), "error:") != 0
+      && strcmp (sel_get_name (op), "conformsTo:") != 0
+      && strcmp (sel_get_name (op), "respondsTo:") != 0
+      && strcmp (sel_get_name (op), "isKindOf:") != 0
+      && strcmp (sel_get_name (op), "getTopLevel") != 0
+      && strcmp (sel_get_name (op), "begin:") != 0
+      && strcmp (sel_get_name (op), "getCount") != 0
+      && strcmp (sel_get_name (op), "drop") != 0
+      && strcmp (sel_get_name (op), "class") != 0
+      && strcmp (sel_get_name (op), "createBegin:") != 0
+      && strcmp (sel_get_name (op), "self") != 0
+      && strcmp (sel_get_name (op), "isProbeMapDefinedFor:") != 0
+      && strcmp (sel_get_name (op), "getObject:") != 0
+      && strcmp (sel_get_name (op), "superClass") != 0
+      && strcmp (sel_get_name (op), "getProbedClass") != 0
+      && strcmp (sel_get_name (op), "getProbeMapFor:") != 0
+#endif
+      )
+    {
+      // printf ("%s[%s]\n", (*((struct objc_class **) receiver))->name, sel_get_name (op));
+      return __objc_get_forward_imp (op);
+    }
   else
 #endif
     return objc_msg_lookup_objc (receiver, op);
