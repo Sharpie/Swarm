@@ -2,7 +2,7 @@
 <title>Bibliography</title>
 
 <biblioentry>
-<abbrev>Ferrenberg, 1992</abbrev>
+<abbrev>Ferrenberg et al 1992</abbrev>
 <artheader>
 <authorgroup>
 <author><surname>Ferrenberg</surname><firstname>Alan M.</firstname></author>
@@ -19,7 +19,7 @@ Generators"</title>
 </biblioentry>
 
 <biblioentry>
-<abbrev>Knuth, 1981</abbrev>
+<abbrev>Knuth 1981</abbrev>
 <bookbiblio>
 <author><surname>Knuth</surname><firstname>Donald</firstname></author>
 <title>The Art of Computer Programming</title>
@@ -36,41 +36,96 @@ Generators"</title>
 </biblioentry>
 
 <biblioentry>
-<abbrev>L'Ecuyer, A</abbrev>
+<abbrev>L'Ecuyer et al 1993</abbrev>
+<artheader>
+<authorgroup>
 <author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+<author><surname>Blouin</surname><firstname>F.</firstname></author>
+<author><surname>Couture</surname><firstname>R.</firstname></author>
+</authorgroup>
 <title>"A Search for Good Multiple Recursive Random Generators."
-<ulink url="http://www.iro.umontreal.ca/~lecuyer"> Unpublished: see personal website
-</ulink>
 </title>
+<subtitle>ACM TOMACS</subtitle>
+<volumenum>vol. 3</volumenum>
+<artpagenums>pp. 87-98</artpagenums>
+<date>1993</date>
+</artheader>
 </biblioentry>
 
 <biblioentry>
-<abbrev>L'Ecuyer, B</abbrev>
+<abbrev>L'Ecuyer 1996(a)</abbrev>
+<artheader>
 <author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
-<title>"Combined Multiple Recursive Random Number Generators."
-<ulink url="http://www.iro.umontreal.ca/~lecuyer">Unpublished: see personal website
-</ulink>
+<title>"Combined Multiple Recursive Generators."
 </title>
+<subtitle>Operations Research</subtitle>
+<issuenum>no. 5</issuenum>
+<volumenum>vol. 44</volumenum>
+<artpagenums>pp. 816-822</artpagenums>
+<date>1997</date>
+</artheader>
 </biblioentry>
 
 <biblioentry>
-<abbrev>L'Ecuyer & Andres, 1996</abbrev>
+<abbrev>L'Ecuyer 1996(b)</abbrev>
+<artheader>
+<author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+<title>"Maximally Equidistributed Combined Tausworthe Generators"
+</title>
+<subtitle>Mathematics and Computation</subtitle>
+<issuenum>no. 65</issuenum>
+<volumenum>vol. 213</volumenum>
+<artpagenums>pp. 203-213</artpagenums>
+<date>1996</date>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>L'Ecuyer 1999(a)</abbrev>
+<artheader>
+<author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+<title>"Good Parameter Sets for Combined Multiple Recursive Random Number Generators"
+</title>
+<subtitle>Operations Research</subtitle>
+<issuenum>no. 1</issuenum>
+<volumenum>vol. 47</volumenum>
+<artpagenums>pp. 159-164</artpagenums>
+<date>1999</date>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>L'Ecuyer 1999(b)</abbrev>
+<artheader>
+<author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
+<title>"Tables of Maximally-Equidistributed Combined LFSR Generators"
+</title>
+<subtitle>Mathematics and Computation</subtitle>
+<issuenum>no. 225</issuenum>
+<volumenum>vol. 68</volumenum>
+<artpagenums>pp. 261-269</artpagenums>
+<date>1999</date>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>L'Ecuyer & Andres 1997</abbrev>
+<artheader>
 <authorgroup>
 <author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
 <author><surname>Andres</surname><firstname>Terry H.</firstname></author>
 </authorgroup>
 <title>"A Random Number Generator Based on the Combination of Four LCGs."
 </title>
-<subtitle>Mathematics and Computers in Simulation
-<ulink url="http://www.iro.umontreal.ca/~lecuyer">To appear: see personal website</ulink>
-</subtitle>
-<issuenum>no. 1</issuenum>
-<volumenum>vol. 17</volumenum>
-<date>17 December 1996</date>
+<subtitle>Mathematics and Computers in Simulation</subtitle>
+<volumenum>vol. 44</volumenum>
+<artpagenums>pp. 99-107</artpagenums>
+<date>1997</date>
+</artheader>
 </biblioentry>
 
 <biblioentry>
-<abbrev>L'Ecuyer & Cote, 1991</abbrev>
+<abbrev>L'Ecuyer & Cote 1991</abbrev>
 <artheader>
 <authorgroup>
 <author><surname>L'Ecuyer</surname><firstname>Pierre</firstname></author>
@@ -87,7 +142,23 @@ Generators"</title>
 </biblioentry>
 
 <biblioentry>
-<abbrev>Marsaglia, 1991</abbrev>
+<abbrev>Marsaglia 1994(a)</abbrev>
+<author><surname>Marsaglia</surname><firstname>George</firstname></author>
+<title>"The Mother of All Random Generators"
+</title>
+<subtitle>Posted by Bob Wheeler to <ulink url="news://sci.stat.consult">sci.stat.consult</ulink> and <ulink url="news://sci.math.num-analysis">sci.math.num-analysis</ulink> on behalf of George Marsaglia on October 28, 1994. The code is available at <ulink url="ftp://ftp.taygeta.com/pub/c/mother.c">ftp.taygeta.com</ulink> </subtitle>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Marsaglia 1994(b)</abbrev>
+<author><surname>Marsaglia</surname><firstname>George</firstname></author>
+<title>"Multiply-With-Carry Generators"
+</title>
+<subtitle>File "mwc1.ps" on Marsaglia's Diehard CD-ROM, available online at <ulink url="ftp://ftp.csis.hku.hk/pub/random">ftp.csis.hku.hk</ulink></subtitle>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Marsaglia & Zaman 1991</abbrev>
 <artheader>
 <authorgroup>
 <author><surname>Marsaglia</surname><firstname>George</firstname></author>
@@ -102,13 +173,29 @@ Generators"</title>
 </biblioentry>
 
 <biblioentry>
-<abbrev>Matsumoto & Kurita, 1996</abbrev>
+<abbrev>Matsumoto & Kurita 1992</abbrev>
+<artheader>
+<authorgroup>
+<author><surname>Matsumoto</surname><firstname>M.</firstname></author>
+<author><surname>Kurita</surname><firstname>Y.</firstname></author>
+</authorgroup>
+<title>"Twisted GFSR generators"
+</title>
+<subtitle>ACM TOMACS</subtitle>
+<volumenum>vol. 2</volumenum>
+<date>1992</date>
+<artpagenums>pp. 179-194</artpagenums>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Matsumoto & Kurita 1994</abbrev>
 <artheader>
 <authorgroup>
 <author><surname>Matsumoto</surname><firstname>Makoto</firstname></author>
 <author><surname>Kurita</surname><firstname>Yoshiharu</firstname></author>
 </authorgroup>
-<title>"Twisted GFSR Generators II."</title>
+<title>"Twisted GFSR Generators II"</title>
 <subtitle>ACM TOMACS
 (Amended by K. Matsumoto, 8 July 1996).
 </subtitle>
@@ -119,23 +206,24 @@ Generators"</title>
 </biblioentry>
 
 <biblioentry>
-<abbrev>Miller, 1988</abbrev>
+<abbrev>Matsumoto & Nishimura 1998</abbrev>
 <artheader>
 <authorgroup>
-<author><surname>Park</surname><firstname>Stephen K.</firstname></author>
-<author><surname>Miller</surname><firstname>Keith W.</firstname></author>
+<author><surname>Matsumoto</surname><firstname>M.</firstname></author>
+<author><surname>Nishimura</surname><firstname>T.</firstname></author>
 </authorgroup>
-<title>"Random Number Generators: Good Ones Are Hard to Find."</title>
-<subtitle>CACM</subtitle>
-<issuenum>no. 10</issuenum>
-<volumenum>vol. 31</volumenum>
-<artpagenums>pp. 1192-1201</artpagenums>
-<date>October 1988</date>
+<title>"Mersenne Twister: A 623-dimensionally Equidistributed Uniform Pseudorandomnumber Generator"
+</title>
+<subtitle>ACM TOMACS</subtitle>
+<issuenum>no. 1</issuenum>
+<volumenum>vol. 8</volumenum>
+<artpagenums>pp. 3-30</artpagenums>
+<date>17 December 1998</date>
 </artheader>
 </biblioentry>
 
 <biblioentry>
-<abbrev>Nature, 1994</abbrev>
+<abbrev>Nature 1994</abbrev>
 <artheader>
 <title>"News and Views"</title>
 <subtitle>Nature</subtitle>
@@ -161,7 +249,36 @@ Generators"</title>
 </biblioentry>
 
 <biblioentry>
-<abbrev>Tezuka & L'Ecuyer, 1991</abbrev>
+<abbrev>Park & Miller 1988</abbrev>
+<artheader>
+<authorgroup>
+<author><surname>Park</surname><firstname>Stephen K.</firstname></author>
+<author><surname>Miller</surname><firstname>Keith W.</firstname></author>
+</authorgroup>
+<title>"Random Number Generators: Good Ones Are Hard to Find."</title>
+<subtitle>CACM</subtitle>
+<issuenum>no. 10</issuenum>
+<volumenum>vol. 31</volumenum>
+<artpagenums>pp. 1192-1201</artpagenums>
+<date>October 1988</date>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Tausworthe 1965</abbrev>
+<artheader>
+<author><surname>Tausworthe</surname><firstname>R.C.</firstname></author>
+<title>"Random Numbers Generated by Linear Recurrence modulo 2"
+</title>
+<subtitle>Math. Comput.</subtitle>
+<volumenum>vol. 19</volumenum>
+<artpagenums>pp. 201-209</artpagenums>
+<date>1965</date>
+</artheader>
+</biblioentry>
+
+<biblioentry>
+<abbrev>Tezuka & L'Ecuyer 1991</abbrev>
 <artheader>
 <authorgroup>
 <author><surname>Tezuka</surname><firstname>Shu</firstname></author>
@@ -176,7 +293,7 @@ Generators"</title>
 </biblioentry>
 
 <biblioentry>
-<abbrev>Russell, 1992</abbrev>
+<abbrev>Russell 1992</abbrev>
 <author><firstname>Edward C.</firstname><surname>Russell</surname></author>
 <title>"Building Simulation Models With SIMSCRIPT II.5"</title>
 <publisher>
@@ -190,7 +307,7 @@ http://www.caciasl.com</ulink></subtitle>
 </biblioentry>
 
 <biblioentry>
-<abbrev>Watkins, 1994</abbrev>
+<abbrev>Watkins 1994</abbrev>
 <bookbiblio>
 <author><surname>Watkins</surname><firstname>Kevin</firstname></author>
 <title>Discrete Event Simulation in C</title>

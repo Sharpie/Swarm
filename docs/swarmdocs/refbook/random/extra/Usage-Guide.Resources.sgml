@@ -5,87 +5,79 @@
       <itemizedlist>
 
         <listitem><formalpara><title>LCG</title><para>a golden oldie; see
-              <citation>Knuth, 1981</citation> or 
+              <citation>Knuth 1981</citation> or 
               <citation>Numerical Recipes</citation>.</para></formalpara></listitem>
         
         <listitem><formalpara><title>PMMLCG</title><para>see 
-            <citation>Miller, 1988</citation>.</para></formalpara></listitem>
+            <citation>Park & Miller 1988</citation>, <citation>L'Ecuyer & Cote 1991</citation> and <citation>L'Ecuyer & Andres 1997</citation>.</para></formalpara></listitem>
 
         <listitem><formalpara><title>ACG</title><para> a golden oldie;
-              see <citation>Knuth, 1981</citation> or 
+              see <citation>Knuth 1981</citation> or 
               <citation>Numerical Recipes</citation>.</para>
           </formalpara>
         </listitem>
 
         <listitem><formalpara><title>SCG</title><para> a golden oldie;
-              see <citation>Knuth, 1981</citation> or
+              see <citation>Knuth 1981</citation> or
               <citation>Numerical Recipes</citation>.</para></formalpara>
         </listitem>
 
         <listitem><formalpara><title>SWB</title><para>see
-              <citation>Marsaglia, 1991</citation></para>
+              <citation>Marsaglia & Zaman 1991</citation></para>
           </formalpara>
         </listitem>
         <listitem>
           <formalpara><title>PSWB</title><para>see
-              <citation>Marsaglia, 1991</citation></para>
+              <citation>Marsaglia & Zaman 1991</citation></para>
           </formalpara>
         </listitem>
         
         <listitem>
           <formalpara><title>MRG</title><para>see
-              <citation>L'Ecuyer, A</citation></para>
+              <citation>L'Ecuyer et al 1993</citation></para>
           </formalpara>
         </listitem>
 
         <listitem>
           <formalpara><title>C2MRG3</title><para>see
-              <citation>L'Ecuyer, B</citation></para>
+              <citation>L'Ecuyer 1996(a)</citation> and <citation>L'Ecuyer 1999(a)</citation></para>
           </formalpara>
         </listitem>
 
         <listitem>
           <formalpara><title>C2TAUS</title><para>see
-              <citation>Tezuka & L'Ecuyer, 1991</citation></para>
+              <citation>Tezuka & L'Ecuyer 1991</citation>, <citation>L'Ecuyer 1996(b)</citation> and <citation>L'Ecuyer 1999(b)</citation>. Also <citation>Tausworthe 1965</citation>.</para>
           </formalpara>
         </listitem>
 
         <listitem>
-          <formalpara><title>TT403/TT775/TT800 (TGFSR)</title><para>see
-              <citation>Tezuka & L'Ecuyer, 1991</citation></para>
+          <formalpara><title>TGFSR (TT800, TT775, TT403)</title><para>see
+              <citation>Matsumoto & Kurita 1992</citation> and <citation>Matsumoto & Kurita 1994</citation>.</para>
           </formalpara>
         </listitem>
 
         <listitem>
-          <formalpara><title>MT19937</title><para> 
-              By Matsumoto and Nishimura. Code posted in 1997 to the
-              <ulink url="http://random.mat.sbg.ac.at/pub/data/mt19937b-int.c">pLab
-                web site</ulink>
+          <formalpara><title>MT19937</title><para>see 
+              <citation>Matsumoto & Nishimura 1998</citation>.
             </para>
           </formalpara>
         </listitem>
 
         <listitem>
           <formalpara><title>MWCA, MWCB, C3MWC, RWC2, RWC8 ("Mother")</title>
-            <para>
-              
-              Report posted to <ulink url="news://sci.stat.consult">sci.stat.consult</ulink>
-              and <ulink url="news://sci.math.num-analysis">sci.math.num-analysis</ulink>
-              by Bob Wheeler on behalf of George Marsaglia on October 28, 1994.  
-              Code found at: <ulink url="ftp://ftp.taygeta.com/pub/c/mother.c">
-                ftp://ftp.taygeta.com/pub/c/mother.c</ulink></para>
+            <para>See <citation>Marsaglia 1994(a)</citation> and <citation>Marsaglia 1994(b)</citation>.</para>
           </formalpara>
         </listitem>
 
         <listitem>
           <formalpara><title>C2LCGX</title>
-            <para>See <citation>L'Ecuyer & Cote, 1991</citation></para>
+            <para>See <citation>L'Ecuyer & Cote 1991</citation></para>
           </formalpara>
         </listitem>
 
         <listitem>
           <formalpara><title>C4LCGX</title>
-            <para>See <citation>L'Ecuyer & Andres, 1996</citation></para>
+            <para>See <citation>L'Ecuyer & Andres 1997</citation></para>
           </formalpara>
         </listitem>
 
@@ -97,48 +89,47 @@
 
       <itemizedlist>
         <listitem><formalpara><title>RandomBitDist</title> <para>Code
-              contributed by Nelson Minar
-              <email>nelson@media.mit.edu</email>.</para>
+              contributed by <ulink url="mailto://nelson@media.mit.edu">Nelson Minar.</ulink></para>
           </formalpara>
         </listitem>
 
         <listitem><formalpara><title>BernoulliDist</title> 
 
-            <para>Code contributed by Barry McMullin <email>mcmullin@santafe.edu</email>.</para></formalpara>
+            <para>Code contributed by <ulink url="mailto://mcmullin@santafe.edu">Barry McMullin</ulink>.</para></formalpara>
         </listitem>
 
         <listitem><formalpara><title>UniformIntegerDist</title> 
 
-            <para>Code contributed by Nelson Minar <email>nelson@media.mit.edu</email>.</para></formalpara>
+            <para>Code contributed by <ulink url="mailto://nelson@media.mit.edu">Nelson Minar</ulink>.</para></formalpara>
         </listitem>
 
         <listitem><formalpara><title>UniformUnsignedDist</title> 
 
-            <para>Code contributed by Nelson Minar <email>nelson@media.mit.edu</email>.</para></formalpara>
+            <para>Code contributed by <ulink url="mailto://nelson@media.mit.edu">Nelson Minar</ulink>.</para></formalpara>
         </listitem>
 
         <listitem><formalpara><title>UniformDoubleDist</title> 
 
-            <para>Code contributed by Nelson Minar <email>nelson@media.mit.edu</email>.</para></formalpara>
+            <para>Code contributed by <ulink url="mailto://nelson@media.mit.edu">Nelson Minar</ulink>.</para></formalpara>
         </listitem>
 
         <listitem><formalpara><title>NormalDist</title> 
 
-            <para><citation>Numerical Recipes</citation>.</para>
+            <para>See <citation>Numerical Recipes</citation>.</para>
           </formalpara></listitem>
 
         <listitem><formalpara><title>LogNormalDist</title> 
 
-            <para><citation>Numerical Recipes</citation>.
+            <para>See <citation>Numerical Recipes</citation>.
 </para></formalpara></listitem>
 
         <listitem><formalpara><title>ExponentialDist</title> 
 
-            <para><citation>Russell, 1992</citation>.</para></formalpara></listitem>
+            <para>See <citation>Russell 1992</citation>.</para></formalpara></listitem>
 
         <listitem><formalpara><title>GammaDist</title> 
 
-            <para><citation>Watkins, 1994</citation>.</para></formalpara></listitem>
+            <para>See <citation>Watkins 1994</citation>.</para></formalpara></listitem>
 
       </itemizedlist>
     </sect2>
@@ -168,7 +159,8 @@
         <listitem><para>The <ulink
             url="http://random.mat.sbg.ac.at">pLab</ulink>
             project in Salzburg, Austria, also has much useful
-            information.</para></listitem>
-      </itemizedlist>
-
+            information.</para>
+        </listitem>      
+       
+     </itemizedlist>
     </sect2>

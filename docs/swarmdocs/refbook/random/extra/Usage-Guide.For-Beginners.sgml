@@ -478,8 +478,8 @@ Usage Guide</link>.</PARA>
           problem, you probably should re-run some experiments using a
           different underlying generator, to make sure the results are
           (statistically at least) the same. (For examples of this,
-          see the references <citation>Ferrenberg, 1992</citation> and
-          <citation>Nature, 1994</citation>.)</PARA>
+          see the references <citation>Ferrenberg et al 1992</citation> and
+          <citation>Nature 1994</citation>.)</PARA>
       </listitem>
 
     </orderedlist>
