@@ -41,7 +41,7 @@
 
 - (int)parseKey: (int)key arg: (const char *)arg;
 
-- setArgc: (int)theArgc Argv: (const char **)theArgv;
+- setArgc: (unsigned)theArgc Argv: (const char **)theArgv;
 - setAppName: (const char *)appName;
 - setAppModeString: (const char *)appModeString;
 - setVersion: (const char *)version;

@@ -1394,24 +1394,31 @@ java_create_refs (void)
   create_object_refs ();
 }
 
+static void
+associate (jobject swarmEnvironment, const char *fieldName, id objcObject)
+{
+  jobject lref;
+  
+  lref = get_swarmEnvironment_field (swarmEnvironment, fieldName);
+  if (!lref)
+    raiseEvent (InternalError, "Could not find field name `%s'\n",
+                fieldName);
+  SD_JAVA_ADD (lref, objcObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+}
+
+#define ASSOCIATE(fieldName) associate (swarmEnvironment, #fieldName, fieldName)
+
+void
+swarm_directory_java_associate_objects_startup (jobject swarmEnvironment)
+{
+  ASSOCIATE (scratchZone);
+  ASSOCIATE (globalZone);
+}
+
 void
 swarm_directory_java_associate_objects (jobject swarmEnvironment)
 {
-  void associate (const char *fieldName, id objcObject)
-    {
-      jobject lref;
-
-      lref = get_swarmEnvironment_field (swarmEnvironment, fieldName);
-      if (!lref)
-        raiseEvent (InternalError, "Could not find field name `%s'\n",
-                    fieldName);
-      SD_JAVA_ADD (lref, objcObject);
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-    }
-#define ASSOCIATE(fieldName) associate (#fieldName, fieldName)
-  ASSOCIATE (scratchZone);
-  ASSOCIATE (globalZone);
-
   ASSOCIATE (hdf5Archiver);
   ASSOCIATE (lispArchiver);
   ASSOCIATE (hdf5AppArchiver);
@@ -1470,6 +1477,15 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
     ASSOCIATE (Released);
     ASSOCIATE (Terminated);
     ASSOCIATE (Completed);
+  }
+  {
+    jfieldID fid;
+    extern BOOL swarmGUIMode;
+    
+    if (!(fid = (*jniEnv)->GetFieldID (jniEnv, c_SwarmEnvironmentImpl, "guiFlag", "Z")))
+      abort ();
+    
+    (*jniEnv)->SetBooleanField (jniEnv, swarmEnvironment, fid, (jboolean) swarmGUIMode);
   }
 }
 

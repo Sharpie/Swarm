@@ -39,6 +39,9 @@ extern unsigned java_object_getVariableElementCount (jobject javaObject,
                                                      unsigned *idims);
 
 extern void java_create_refs ();
+extern void swarm_directory_java_associate_objects_startup (jobject swarmEnvironment);
+extern void swarm_directory_java_associate_objects (jobject swarmEnvironment);
+
 extern void swarm_directory_java_associate_objects (jobject swarmEnvironment);
 extern unsigned swarm_directory_java_hash_code (jobject javaObject);
 extern id swarm_directory_java_ensure_objc (jobject javaObject);

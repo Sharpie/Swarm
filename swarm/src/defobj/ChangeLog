@@ -1,3 +1,14 @@
+2000-08-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.[hm] (swarm_directory_java_associate_objects{_startup}):
+	Break into two functions.  Move guiFlag setup here from
+	SwarmEnvironmentExtra.m.
+
+	* Arguments.m ([Arguments_c -setBugAddress:],
+	[Arguments_c -setVersion:]): Copy argument.
+	([Arguments_c -addOption:key:arg:flags:doc:group:]): Copy string
+	arguments.
+
 2000-08-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.m (map_java_ivars): Handle bytes.

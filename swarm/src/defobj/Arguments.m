@@ -128,13 +128,13 @@ PHASE(Creating)
 
 - setBugAddress: (const char *)theBugAddress
 {
-  bugAddress = theBugAddress;
+  bugAddress = SSTRDUP (theBugAddress);
   return self;
 }
 
 - setVersion: (const char *)theVersion
 {
-  version = theVersion;
+  version = SSTRDUP (theVersion);
   return self;
 }
 
@@ -200,11 +200,11 @@ strip_quotes (const char *argv0)
 {
   struct argp_option options[2];
 
-  options[0].name = name;
+  options[0].name = SSTRDUP (name);
   options[0].key = key;
-  options[0].arg = arg;
+  options[0].arg = SSTRDUP (arg);
   options[0].flags = flags;
-  options[0].doc = doc;
+  options[0].doc = SSTRDUP (doc);
   options[0].group = group;
   options[1].name = NULL;
   [self addOptions: options];
@@ -331,7 +331,7 @@ inhibitExecutableSearchFlag: (BOOL)theInhibitExecutableSearchFlag
 
 PHASE(Setting)
 
-- setArgc: (int)theArgc Argv: (const char **)theArgv
+- setArgc: (unsigned)theArgc Argv: (const char **)theArgv
 {
   int i;
   
