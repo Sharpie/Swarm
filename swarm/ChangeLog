@@ -1,6 +1,7 @@
 1998-09-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* NEWS: Note new Pixmap method -setParentFlag:.
+	* NEWS: Note new Pixmap method -setParentFlag:.  Update Arguments
+	info (initSwarmApp instead of get{BugAddress,Version}).
 
 	* VERSION: Bump.
 

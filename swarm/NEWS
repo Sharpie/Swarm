@@ -29,8 +29,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
 *** objectbase
 **** Arguments
-***** New methods -getBugAddress and -getVersion for specifying what
-      bug reporting address and version number to display.
+***** New functions initSwarmApp and initSwarmArguments, for including
+      bug reporting address and version number to display in standard 
+      usage text.
 **** MessageProbe:
 ***** Support for unsigned int, char, long, and unsigned long types.
 **** VarProbe
