@@ -701,11 +701,87 @@ keep_inside_screen (Tk_Window tkwin, Window window)
     Tk_MoveToplevelWindow (tkwin, nx + dx, ny + dy);
 }
 
+#ifndef _WIN32
+static BOOL
+overlap_p (Display *display, Window child, int l, int r, int t, int b)
+{
+  int cl, cr, ct, cb;
+  unsigned cw, ch;
+  unsigned cbw, cdepth;
+  int bl, br, bt, bb;
+  Window root;
+  XWindowAttributes attr;
+
+  if (!XGetWindowAttributes (display, child, &attr))
+    abort ();
+  if (attr.map_state == IsViewable)
+    {
+      if (!XGetGeometry (display, child, &root,
+                         &cl, &ct, &cw, &ch, 
+                         &cbw, &cdepth))
+        abort ();
+      cr = cl + cw;
+      cb = ct + ch;
+      
+      bl = (l > cl) ? l : cl;
+      br = (r < cr) ? r : cr;
+      
+      bt = (t > ct) ? t : ct;
+      bb = (b < cb) ? b : cb;
+      
+      return (bt <= bb && bl <= br);
+    }
+  return NO;
+}
+
+static void
+check_for_overlaps (Display *display, Window window,
+                    Window **unmappedWindowsPtr, unsigned *unmappedCountPtr)
+{
+  Window root, parent, qroot;
+  Window *children;
+  unsigned nchildren, i;
+  int l, r, t, b;
+  unsigned w, h;
+  unsigned bw, depth;
+  int rl, rr, rt, rb;
+  unsigned rw, rh;
+  unsigned rbw, rdepth;
+  
+  if (!XGetGeometry (display, window, &root, &l, &t, &w, &h, &bw, &depth))
+    abort ();
+  r = l + w;
+  b = t + h;
+  if (!XGetGeometry (display, root, &root,
+                     &rl, &rt, &rw, &rh, 
+                     &rbw, &rdepth))
+    abort ();
+  
+  if (!XQueryTree (display, root, &root, &parent, &children, &nchildren))
+    abort ();
+  {  
+    Window *unmappedWindows, root;
+    unsigned unmappedCount = 0;
+    
+    for (i = 0; i < nchildren; i++)
+      unmappedCount += overlap_p (display, children[i], l, r, t, b);
+    unmappedWindows = xmalloc (sizeof (Window) * unmappedCount);
+    unmappedCount = 0;
+    for (i = 0; i < nchildren; i++)
+      if (overlap_p (display, children[i], l, r, t, b)
+          && children[i] != window)
+        unmappedWindows[unmappedCount++] = children[i];
+    *unmappedCountPtr = unmappedCount;
+    *unmappedWindowsPtr = unmappedWindows;
+  }
+  XFree (children);
+}
+#endif
+
 void
 tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                                   BOOL parentFlag)
 {
-
   if (widget == nil)
     pixmap_create_from_root_window (pixmap);
   else
@@ -727,14 +803,54 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
       keep_inside_screen (tkwin, window);
       Tk_RestackWindow (tkwin, Above, NULL);
       while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
-#ifndef _WIN32
-      pixmap->display = Tk_Display (tkwin);
-      XFlush (pixmap->display);
-      x_pixmap_create_from_window (pixmap, window);
-#else
-      win32_pixmap_create_from_window (pixmap, window, parentFlag);
-#endif
     }
+#ifndef _WIN32
+  pixmap->display = Tk_Display (tkwin);
+  Tk_RestackWindow (tkwin, Above, NULL);
+  while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
+  XFlush (pixmap->display);
+  {
+    unsigned overlapCount, i;
+    Window *overlapWindows;
+    Display *display = pixmap->display;
+    XSetWindowAttributes attr;
+    XWindowAttributes orig_attr;
+
+    if (!XGetWindowAttributes (display, window, &orig_attr))
+      abort ();
+
+    check_for_overlaps (display, window,
+                        &overlapWindows, &overlapCount);
+
+    attr.override_redirect = True;
+
+    for (i = 0; i < overlapCount; i++)
+      {
+        if (!XChangeWindowAttributes (display, overlapWindows[i],
+                                      CWOverrideRedirect,
+                                      &attr))
+          abort ();
+        XUnmapWindow (display, overlapWindows[i]);
+      }
+
+    XFlush (display);
+
+    x_pixmap_create_from_window (pixmap, window);
+
+    attr.override_redirect = orig_attr.override_redirect;
+    for (i = 0; i < overlapCount; i++)
+      {
+        if (!XChangeWindowAttributes (display, overlapWindows[i],
+                                      CWOverrideRedirect,
+                                      &attr))
+          abort ();
+        XMapWindow (display, overlapWindows[i]);
+      }
+    xfree (overlapWindows);
+  }
+#else
+  win32_pixmap_create_from_window (pixmap, window, parentFlag);
+#endif
 }
 
 void
