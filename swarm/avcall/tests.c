@@ -786,6 +786,7 @@ void
   fprintf(out,"->{'%c'}\n",Cr.x);
   fflush(out);
 
+#if 0
   Fr = F_Ffd(F1,f2,d3);
   fprintf(out,"->{%g}\n",Fr.x);
   fflush(out);
@@ -797,6 +798,7 @@ void
   av_call(a);
   fprintf(out,"->{%g}\n",Fr.x);
   fflush(out);
+#endif
 
   Dr = D_fDd(f1,D2,d3);
   fprintf(out,"->{%g}\n",Dr.x);
