@@ -25,8 +25,11 @@ Library:      defobj
 #define TYPE_UNSIGNED "unsigned"
 #define TYPE_LONG "long"
 #define TYPE_UNSIGNED_LONG "unsigned long"
+#define TYPE_LONG_LONG "long long"
+#define TYPE_UNSIGNED_LONG_LONG "unsigned long long"
 #define TYPE_FLOAT "float"
 #define TYPE_DOUBLE "double"
+#define TYPE_LONG_DOUBLE "long double"
 #define TYPE_STRING "string"
 #define TYPE_OBJECT "object"
 
@@ -248,10 +251,16 @@ objc_type_for_lisp_type (const char *lispTypeString)
     return @encode (long);
   else if (strcmp (lispTypeString, TYPE_UNSIGNED_LONG) == 0)
     return @encode (unsigned long);
+  else if (strcmp (lispTypeString, TYPE_LONG_LONG) == 0)
+    return @encode (long long);
+  else if (strcmp (lispTypeString, TYPE_UNSIGNED_LONG_LONG) == 0)
+    return @encode (unsigned long long);
   else if (strcmp (lispTypeString, TYPE_FLOAT) == 0)
     return @encode (float);
   else if (strcmp (lispTypeString, TYPE_DOUBLE) == 0)
     return @encode (double);
+  else if (strcmp (lispTypeString, TYPE_LONG_DOUBLE) == 0)
+    return @encode (long double);
   else if (strcmp (lispTypeString, TYPE_STRING) == 0)
     return @encode (const char *);
   else if (strcmp (lispTypeString, TYPE_OBJECT) == 0)
@@ -370,11 +379,20 @@ process_type (const char *varType,
         case _C_ULNG:
           baseType = TYPE_UNSIGNED_LONG;
           break;
+        case _C_LNG_LNG:
+          baseType = TYPE_LONG_LONG;
+          break;
+        case _C_ULNG_LNG:
+          baseType = TYPE_UNSIGNED_LONG_LONG;
+          break;
         case _C_FLT:
           baseType = TYPE_FLOAT;
           break;
         case _C_DBL:
           baseType = TYPE_DOUBLE;
+          break;
+        case _C_LNG_DBL:
+          baseType = TYPE_LONG_DOUBLE;
           break;
         case _C_CHARPTR:
           baseType = TYPE_STRING;

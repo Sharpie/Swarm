@@ -18,13 +18,15 @@ Library:      defobj
 #include <avcall.h>
 #endif
 
-#define FCALL_TYPE_COUNT 18
+#define FCALL_TYPE_COUNT 19
 
 typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
               fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
               fcall_type_sint, fcall_type_ulong, fcall_type_slong,
               fcall_type_slonglong, fcall_type_ulonglong,
-              fcall_type_float, fcall_type_double, fcall_type_object,
+              fcall_type_float, fcall_type_double, 
+              fcall_type_long_double,
+              fcall_type_object,
               fcall_type_string, fcall_type_selector, 
               fcall_type_jobject, fcall_type_jstring } fcall_type_t;
 
@@ -67,6 +69,7 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
 - addUnsignedLongLong: (unsigned long long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
+- addLongDouble: (long double)value;
 - addString: (const char *)value;
 - addObject: value;
 - _setReturnType_: (fcall_type_t)type;

@@ -53,17 +53,20 @@ tid_for_objc_type (const char *type)
     case _C_ULNG:
       tid = H5T_NATIVE_ULONG;
       break;
+    case _C_LNG_LNG:
+      tid = H5T_NATIVE_LLONG;
+      break;
+    case _C_ULNG_LNG:
+      tid = H5T_NATIVE_ULLONG;
+      break;
     case _C_FLT:
       tid = H5T_NATIVE_FLOAT;
       break;
     case _C_DBL:
       tid = H5T_NATIVE_DOUBLE;
       break;
-    case _C_LNG_LNG:
-      tid = H5T_NATIVE_LLONG;
-      break;
-    case _C_ULNG_LNG:
-      tid = H5T_NATIVE_ULLONG;
+    case _C_LNG_DBL:
+      tid = H5T_NATIVE_LDOUBLE;
       break;
     default:
       abort ();
@@ -271,6 +274,8 @@ objc_type_for_tid (hid_t tid)
         type = @encode (float);
       else if (tid_size == sizeof (double))
         type = @encode (double);
+      else if (tid_size == sizeof (long double))
+        type = @encode (long double);
       else
         abort ();
       break;
@@ -1947,9 +1952,11 @@ hdf5_store_attribute (hid_t did,
   hdf5InstanceCount--;
   if (hdf5InstanceCount == 0)
     {
-      if (H5Tunregister (H5T_PERS_SOFT, REF2STRING, -1, -1,  ref_string) < 0)
+      if (H5Tunregister (H5T_PERS_SOFT, REF2STRING_CONV, -1, -1,
+                         ref_string) < 0)
         raiseEvent (SaveError, "unable to unregister ref->string converter");
-      if (H5Tunregister (H5T_PERS_SOFT, STRING2REF, -1, -1, string_ref) < 0)
+      if (H5Tunregister (H5T_PERS_SOFT, STRING2REF_CONV, -1, -1,
+                         string_ref) < 0)
         raiseEvent (LoadError, "unable to unregister string->ref converter");
     }
   [super drop];

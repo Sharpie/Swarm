@@ -1,5 +1,33 @@
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* internal.m (lisp_output_type, alignment_for_objc_type,
+	size_for_objc_type): Add case for long double.
+
+	* defobj.h (types_t): Add _long_double.
+
+	* HDF5Object.m (tid_for_objc_type): Add case for long double.
+	(objc_type_for_tid): Check for long double - sized float.
+
+	* FArguments.m (java_type_signature): Placeholder for long double.
+	(objc_types): Add _C_LNG_DBL.
+	(fcall_type_size): Add case for fcall_type_long_double.
+	([FArguments_c -_setReturnType_:]): Add case for
+	fcall_type_long_double.
+
+	* FArguments.[mh], defobj.h. ([FArguments_c -addLongDouble:]): New
+	method.
+
+	* FArguments.h (FCALL_TYPE_COUNT): Increment.
+	Add fcall_type_long_double.
+
+	* DefClass.m (TYPE_LONG_LONG, TYPE_UNSIGNED_LONG_LONG,
+	TYPE_LONG_DOUBLE): New macros.
+	(objc_type_for_lisp_type, process_type): Use them.
+
+	* internal.m (size_for_objc_type, alignment_for_objc_type,
+	size_for_objc_type, lisp_output_type): Handle _C_LNG_DBL when 
+	it is defined.
+
 	* HDF5Object.m (ref_string, string_ref): Add `stride' and 
 	`dataset_xfer_plid' options per 1.2 H5T_conv_t.
 	([HDF5_c -checkName:]): Check for negative number, not just

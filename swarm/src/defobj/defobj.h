@@ -1110,6 +1110,7 @@ typedef union {
   unsigned long long ulonglong;
   float _float;
   double _double;
+  double _long_double;
 } types_t;
 
 @protocol FArguments <Create, Drop, CREATABLE>
@@ -1131,6 +1132,7 @@ CREATING
 - addUnsignedLongLong: (unsigned long long)value;
 - addFloat: (float)value;
 - addDouble: (double)value;
+- addLongDouble: (long double)value;
 - addString: (const char *)value;
 - addObject: value;
 - setObjCReturnType: (char)type;

@@ -54,6 +54,9 @@ alignment_for_objc_type (const char *varType)
     case _C_DBL:
       alignment = __alignof__ (double);
       break;
+    case _C_LNG_DBL:
+      alignment = __alignof__ (long double);
+      break;
     case _C_CHR: case _C_UCHR:
       alignment = __alignof__ (char);
       break;
@@ -101,6 +104,9 @@ size_for_objc_type (const char *varType)
       break;
     case _C_DBL:
       size = sizeof (double);
+      break;
+    case _C_LNG_DBL:
+      size = sizeof (long double);
       break;
     case _C_CHARPTR:
       size = sizeof (const char *);
@@ -424,6 +430,9 @@ lisp_output_type (const char *type,
       break;
     case _C_DBL:
       [stream catDouble: ((double *) ptr)[offset]];
+      break;
+    case _C_LNG_DBL:
+      [stream catLongDouble: ((long double *) ptr)[offset]];
       break;
     case _C_BFLD:
       raiseEvent (NotImplemented, "Bit fields not supported [%s]", type);

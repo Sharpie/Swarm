@@ -37,6 +37,7 @@ const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "J", "J",
 
   "F", "D",
+  "D",
   "X",
   "Ljava/lang/String;", 
   "Lswarm/Selector;",
@@ -58,6 +59,7 @@ char objc_types[FCALL_TYPE_COUNT] = {
   _C_LNG_LNG,
   _C_FLT,
   _C_DBL,
+  _C_LNG_DBL,
   _C_ID,
   _C_CHARPTR,
   _C_SEL,
@@ -100,6 +102,8 @@ fcall_type_size (fcall_type_t type)
       return sizeof (float);
     case fcall_type_double:
       return sizeof (double);
+    case fcall_type_long_double:
+      return sizeof (long double);
     case fcall_type_object:
       return sizeof (id);
     case fcall_type_string:
@@ -284,6 +288,12 @@ get_fcall_type_for_objc_type (char objcType)
   return self;
 }
 
+- addLongDouble: (long double)value
+{
+  ADD_PRIMITIVE (fcall_type_long_double, long double, value);
+  return self;
+}
+
 - addString: (const char *)value
 {
   ADD_PRIMITIVE (fcall_type_string, const char *, value);
@@ -344,6 +354,9 @@ get_fcall_type_for_objc_type (char objcType)
       break;
     case fcall_type_double:
       result = &resultVal._double;
+      break;
+    case fcall_type_long_double:
+      result = &resultVal._long_double;
       break;
     case fcall_type_object:
       result = &resultVal.object;
