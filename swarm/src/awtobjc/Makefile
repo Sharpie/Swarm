@@ -42,5 +42,5 @@ TextItem.o: TextItem.m TextItem.h CanvasItem.h
 
 awtobjc.o: awtobjc.m
 
-all:
+install-lib:
 	$(MAKE) -C java
