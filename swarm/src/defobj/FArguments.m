@@ -128,6 +128,12 @@ PHASE(Creating)
   return self;
 }
 
+#ifdef HAVE_JDK
+#define ADD_PRIMITIVE_SIZE(fcall_type) javaSignatureLength += strlen (java_signature_for_fcall_type (fcall_type))
+#else
+#define ADD_PRIMITIVE_SIZE(fcall_type)
+#endif
+
 - _addArgument_: (void *)value ofType: (fcall_type_t)type
 {
   size_t size = 0;
@@ -149,7 +155,7 @@ PHASE(Creating)
       argTypes[offset] = type;
       argValues[offset] = ALLOCBLOCK (size);
       memcpy (argValues[offset], value, size);
-      javaSignatureLength += strlen (java_signature_for_fcall_type (type));
+      ADD_PRIMITIVE_SIZE (type);
       assignedArgumentCount++;
     }
   return self;
@@ -161,7 +167,7 @@ PHASE(Creating)
                ofType: fcall_type_for_objc_type (objcType)];
 }
 
-#define ADD_PRIMITIVE(fcall_type, type, value)  { javaSignatureLength += strlen (java_signature_for_fcall_type (fcall_type)); argValues[MAX_HIDDEN + assignedArgumentCount] = ALLOCTYPE (fcall_type); argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount] = value; assignedArgumentCount++; }
+#define ADD_PRIMITIVE(fcall_type, type, value)  { ADD_PRIMITIVE_SIZE (fcall_type); argValues[MAX_HIDDEN + assignedArgumentCount] = ALLOCTYPE (fcall_type); argTypes[MAX_HIDDEN + assignedArgumentCount] = fcall_type; *(type *) argValues[MAX_HIDDEN + assignedArgumentCount] = value; assignedArgumentCount++; }
 
 - addBoolean: (BOOL)value
 {
@@ -267,7 +273,7 @@ PHASE(Creating)
       argTypes[offset] = fcall_type_jstring;
       argValues[offset] = ALLOCBLOCK (size);
       memcpy (argValues[offset], ptr, size);
-      javaSignatureLength += strlen (java_signature_for_fcall_type (fcall_type_jstring));
+      ADD_PRIMITIVE_SIZE (fcall_type_jstring);
       assignedArgumentCount++;
     }
   else
@@ -289,7 +295,7 @@ PHASE(Creating)
   argTypes[offset] = fcall_type_jobject;
   argValues[offset] = ALLOCBLOCK (size);
   memcpy (argValues[offset], ptr, size);
-  javaSignatureLength += strlen (java_signature_for_fcall_type (fcall_type_jobject));
+  ADD_PRIMITIVE_SIZE (fcall_type_jobject);
   assignedArgumentCount++;
 #else
   abort ();
@@ -317,8 +323,7 @@ PHASE(Creating)
       else if (type == fcall_type_string)
         type = fcall_type_jstring;
     }
-  javaSignatureLength += strlen (java_signature_for_fcall_type (type));
-
+  ADD_PRIMITIVE_SIZE (type);
   switch (type)
     {
     case fcall_type_boolean:
@@ -401,6 +406,7 @@ PHASE(Creating)
   return [self _setReturnType_: fcall_type_boolean];
 }
 
+#ifdef HAVE_JDK
 static const char *
 createJavaSignature (FArguments_c *self)
 {
@@ -416,11 +422,13 @@ createJavaSignature (FArguments_c *self)
   p = stpcpy (p, java_signature_for_fcall_type (self->returnType));
   return str;
 }
+#endif
 
 - createEnd
 {
   [super createEnd];
   setMappedAlloc (self);
+#ifdef HAVE_JDK
   if (!javaSignature)
     javaSignature = createJavaSignature ((FArguments_c *) self);
   else
@@ -428,6 +436,7 @@ createJavaSignature (FArguments_c *self)
     // signature can be forced (it will be munged by the argument
     // methods).
     javaSignatureLength = strlen (javaSignature);
+#endif
   return self;
 }
 
@@ -484,7 +493,9 @@ PHASE(Using)
       mapalloc->size = fcall_type_size (type);
       mapAlloc (mapalloc, argValues[offset]);
     }
+#ifdef HAVE_JDK
   mapalloc->size = javaSignatureLength + 1;
   mapAlloc (mapalloc, (char *) javaSignature);
+#endif
 }
 @end

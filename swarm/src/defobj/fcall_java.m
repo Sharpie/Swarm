@@ -4,6 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #include <swarmconfig.h>
+#ifdef HAVE_JDK
 #ifdef USE_AVCALL
 
 #ifdef __CYGWIN__
@@ -15,9 +16,9 @@
 #import "fcall_java.h"
 #include <avcall.h>
 #import "java.h"
+#endif
 #import <defobj/FArguments.h>
 
-#ifdef HAVE_JDK
 void
 java_setup_call (FArguments_c *fa,
                  jobject obj,
@@ -37,7 +38,6 @@ java_setup_static_call (FArguments_c *fa,
   av_ptr (fa->java_avalist, jclass, class);
   av_ptr (fa->java_avalist, jmethodID, method);
 }
-#endif
 
 #define JAVA
 #include "_fcall.m"

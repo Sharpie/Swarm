@@ -23,7 +23,9 @@ Library:      defobj
 #undef VERSION
 #else
 #include "fcall_objc.h"
+#ifdef HAVE_JDK
 #include "fcall_java.h"
+#endif
 #endif
 
 #include <misc.h>
@@ -315,9 +317,13 @@ PHASE(Creating)
 
 - setJavaMethod: (const char *)mtdName inObject: (JOBJECT)obj
 {
+#ifdef HAVE_JDK
   [self _setJavaMethod_: mtdName
         inObject: (*jniEnv)->NewGlobalRef (jniEnv, obj)];
   fobjectPendingGlobalRefFlag = YES;
+#else
+  java_not_available ();
+#endif
   return self;
 }
   
@@ -335,7 +341,7 @@ PHASE(Creating)
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   methodName = STRDUP (mtdName);
 #else
-  java_not_available();
+  java_not_available ();
 #endif
   return self;
 }

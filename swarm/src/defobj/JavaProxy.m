@@ -5,8 +5,10 @@
 
 #include "JavaProxy.h"
 #import <defobj/directory.h>
-#import "java.h"
 #import <swarmconfig.h>
+#ifdef HAVE_JDK
+#import "java.h"
+#endif
 
 @implementation JavaProxy
 

@@ -1,3 +1,5 @@
+#include <swarmconfig.h>
+#ifdef HAVE_JDK
 #import "java.h"
 #import <defobj/JavaProxy.h>
 #import <defobj/JavaCollection.h>
@@ -35,7 +37,6 @@ java_signature_for_fcall_type (fcall_type_t type)
   return java_type_signature[type];
 }
 
-#ifdef HAVE_JDK
 static BOOL
 fcall_type_for_java_signature (const char *signature, fcall_type_t *typeptr)
 {

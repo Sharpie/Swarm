@@ -1,3 +1,30 @@
+2000-05-22  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* java.m, fcall_java.m: All contents per HAVE_JDK.
+
+	* directory.m: Definition of swarmDirectory is not conditional.
+	Include all functions regardless of HAVE_JDK.
+	(swarm_directory_entry_drop, [DirectoryEntry -describe:],
+	swarm_directory_objc_remove): Include Java code per HAVE_JDK.
+
+	* Zone.m: Inclusion of defobj/directory.h is not conditional.
+
+	* JavaProxy.m: Include java.h per HAVE_JDK. 
+
+	* FCall.m Include fcall_java.h per HAVE_JDK.
+	([FCall_c -setJavaMethod:inObject:]): Call java_not_available
+	if not HAVE_JDK.
+
+	* FArguments.m (ADD_PRIMITIVE_SIZE): New macro.
+	([FArguments_c -_addArgument_:ofType:], ADD_PRIMITIVE,
+	[FArguments_c -addString:],
+	[FArguments_c -addJavaObject:],
+	[FArguments_c -_setReturnType_:]): Use it.
+	(createJavaSignature, ): Include per HAVE_JDK.
+	([FArguments_c -createEnd],
+	[FArguments_c -mapAllocations:]): Include java signature code per
+	HAVE_JDK.
+
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* defobj.h (GetName): Move before DefinedObject.

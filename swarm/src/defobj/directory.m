@@ -18,15 +18,15 @@
 #import <collections.h> // Map
 
 #include <swarmconfig.h>  // HAVE_JDK
+
 #ifdef HAVE_JDK
 #import "java.h" // swarm_directory_{java_hash_code,find_class_named,class_for_object}, SD_JAVA_FINDJAVA
 #endif
 
+Directory *swarmDirectory;
+
 #define internalimplementation implementation // defeat make-h2x
 
-#ifdef HAVE_JDK
-
-Directory *swarmDirectory;
 
 @internalimplementation DirectoryEntry
 - setCOMObject: (void *)theCOMObject
@@ -46,13 +46,16 @@ Directory *swarmDirectory;
 void
 swarm_directory_entry_drop (DirectoryEntry *entry)
 {
+#ifdef HAVE_JDK
   if (entry->type == foreign_java)
     java_drop (entry->foreignObject.java);
+#endif
   [getZone (entry) freeIVars: entry];
 }
 
 - (void)describe: outputCharStream
 {
+#ifdef HAVE_JDK
   if (type == foreign_java)
     {
       const char *className =
@@ -65,6 +68,7 @@ swarm_directory_entry_drop (DirectoryEntry *entry)
       [outputCharStream catC: "\n"];
       FREECLASSNAME (className);
     }
+#endif
 }
 
 @end
@@ -171,6 +175,7 @@ swarm_directory_objc_remove (id object)
 
   if (entry)
     {
+#ifdef HAVE_JDK
       if (entry->type == foreign_java)
         {
           unsigned index;
@@ -196,6 +201,7 @@ swarm_directory_objc_remove (id object)
           swarm_directory_entry_drop (entry);
           return YES;
         }
+#endif
     }
   
   return NO;
@@ -251,7 +257,6 @@ swarm_directory_dump (void)
 {
   xprint (swarmDirectory);
 }
-#endif
 
 Class
 swarm_directory_ensure_class_named (const char *className)
