@@ -16,6 +16,9 @@
 id ControlStateRunning, ControlStateStopped;
 id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
+@class ProbeDisplayManager;
+extern ProbeDisplayManager *probeDisplayManager;
+
 @implementation ControlPanel
 -createEnd {
   [super createEnd];
@@ -101,8 +104,10 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 }
 
 // Stop: set state to stop, also stop activities.
--setStateStopped {
+-setStateStopped
+{
   //  if (getTopLevelActivity()){
+  [probeDisplayManager setDropImmediatelyFlag: YES];
   if (_activity_current) {
     [getTopLevelActivity() stop];
     return [self setState: ControlStateStopped];
@@ -124,13 +129,17 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   return self;
 }
 
--setStateRunning {
+-setStateRunning 
+{
+  [probeDisplayManager setDropImmediatelyFlag: NO];
   return [self setState: ControlStateRunning];
 }
 
 // Step: first, stop the running activity (we're probably already stopped,
 // though). Then set our own state to Stepping.
--setStateStepping {
+-setStateStepping
+{
+  [probeDisplayManager setDropImmediatelyFlag: YES];
   if (_activity_current)
   //  if (getTopLevelActivity())
     [getTopLevelActivity() stop];

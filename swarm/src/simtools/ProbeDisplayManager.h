@@ -7,32 +7,36 @@
 // them in the schedule.
 
 #import <swarmobject/SwarmObject.h>
+
 @interface ProbeDisplayManager : SwarmObject
 {
   id probeList;
+  BOOL dropImmediatelyFlag;
 }
 
--createEnd;
+- (void)setDropImmediatelyFlag: (BOOL)dropImmediatelyFlag;
+- (BOOL)getDropImmediatelyFlag;
 
--createProbeDisplayFor             : anObject;
+- createEnd;
 
--createProbeDisplayFor             : anObject
-        setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createProbeDisplayFor             : anObject;
+
+- createProbeDisplayFor             : anObject
+         setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 
 
--createDefaultProbeDisplayFor      : anObject;
+- createDefaultProbeDisplayFor      : anObject;
 
--createDefaultProbeDisplayFor      : anObject
-        setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createDefaultProbeDisplayFor      : anObject
+         setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 
--createCompleteProbeDisplayFor     : anObject;
+- createCompleteProbeDisplayFor     : anObject;
 
--createCompleteProbeDisplayFor     : anObject
-        setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createCompleteProbeDisplayFor     : anObject
+         setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 
--addProbeDisplay: pd;
--dropProbeDisplaysFor: anObject ;
--removeProbeDisplay: pd;
--update;
-
+- addProbeDisplay: probeDisplay;
+- dropProbeDisplaysFor: anObject;
+- removeProbeDisplay: probeDisplay;
+- update;
 @end

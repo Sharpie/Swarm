@@ -20,6 +20,7 @@
   id *widgets;
   ref_t objectRef;
   BOOL removeRef;
+  BOOL markedForDropFlag;
   
   Frame *topLevel;
   const char *windowGeometryRecordName;
@@ -40,5 +41,6 @@
 - (void)setRemoveRef: (BOOL) torf;
 - (void)setObjectRef: (ref_t) or;
 - (void)drop;
+- (BOOL)getMarkedForDropFlag;
 
 @end

@@ -1,5 +1,36 @@
 1997-12-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	From Dwight Wilson <wilson@blaze.cs.jhu.edu> (slightly adapted)
+	
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): set
+	markedForDropFlag = NO;
+	([SimpleProbeDisplay -markForDrop]): Add.
+	([SimpleProbeDisplay -getMarkedForDropFlag]): Add.
+
+	* SimpleProbeDisplay.h (SimpleProbeDisplay): Add markedForDropFlag
+	instance variable and getter.
+
+	* ProbeDisplayManager.m: Reformatting throughout.  Move include of
+	DefaultProbeMap.h to top.  Include SimpleProbeDisplay.h, for
+	getMarkedForDropFlag).
+	([ProbeDisplayManager -createEnd]): set dropImmediatelyFlag = YES.
+	([ProbeDisplayManager -update]): Drop the items on the probeList
+	so marked.
+	([ProbeDisplayManager -setDropImmediatelyFlag:]): Add.
+	([ProbeDisplayManager -getDropImmediatelyFlag]): Add.
+
+	* ProbeDisplayManager.h: Add dropImmediatelyFlag and accessor methods.
+	Reformatting throughout.
+
+	* ControlPanel.m: Declare probeDisplayManager.
+	([ControlPanel -setStateStopped]): Call [probeDisplayManager
+	setDropImmediatelyFlag : YES] on the probeDisplayManager.
+	([ControlPanel -setStateStepping]): Likewise.
+	([ControlPanel -setStateRunning]): Call [probeDisplayManager
+	setDropImmediatelyFlag: NO] on the probeDisplayManager.
+
+1997-12-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+	
 	* SimpleProbeDisplay.m: Reformatting throughout.  Include
 	tkobjc/control.h instead of tkobjc.h.
 	([SimpleProbeDisplay -createEnd]): Use new tkobjc functions

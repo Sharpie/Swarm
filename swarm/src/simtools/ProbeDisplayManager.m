@@ -16,26 +16,33 @@
 #import <simtools/ProbeDisplay.h>
 #import <collections.h>
 
+#import <swarmobject/DefaultProbeMap.h>
+#import <simtools/SimpleProbeDisplay.h>  // for getMarkedForDropFlag
+
 @implementation ProbeDisplayManager
 
--createEnd {
+- createEnd
+{
   probeList = [List create: [self getZone]];
+  dropImmediatelyFlag = YES;
   return self;
 }
 
--addProbeDisplay: pd {
+- addProbeDisplay: pd
+{
   [probeList addLast: pd];
   return self;
 }
 
--dropProbeDisplaysFor: anObject {
+- dropProbeDisplaysFor: anObject
+{
   id index, aProbeDisplay ;
   id reaperQ ;
- 
+  
   // We need a reaperQ because there may be more than one ProbeDisplay
   // on a given object... Also, the object will [removeProbeDisplay: self]
   // when asked to -drop.
-
+  
   reaperQ = [List create: [self getZone]] ;
 
   index = [probeList begin: [self getZone]] ;
@@ -56,13 +63,33 @@
 }
 
 // just for removing the probe display from the probelist
--removeProbeDisplay: pd {
+- removeProbeDisplay: pd
+{
   [probeList remove: pd];
   return self;
 }
 
--update {
+- update
+{
+  id index;
+  id member;
+  
   [probeList forEach: @selector(update)];
+
+  // remove marked probeDisplay
+
+  index = [probeList begin: scratchZone];
+  member = [index next];
+
+  while (member)
+    {
+      id nextMember = [index next];
+      
+      if ([member getMarkedForDropFlag])
+        [member drop];
+      member = nextMember;
+    }
+
   return self;
 }
 
@@ -89,9 +116,8 @@
 }
 
 
-#import <swarmobject/DefaultProbeMap.h>
--createDefaultProbeDisplayFor     : anObject 
-       setWindowGeometryRecordName: (const char *)windowGeometryRecordName
+- createDefaultProbeDisplayFor     : anObject 
+        setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   id tempPD;
   id tempPM;
@@ -114,14 +140,25 @@
   //	   createEnd];
 }
 
--createDefaultProbeDisplayFor : anObject 
+- (void)setDropImmediatelyFlag: (BOOL)theDropImmediatelyFlag
+{
+  dropImmediatelyFlag = theDropImmediatelyFlag;
+}
+
+- (BOOL)getDropImmediatelyFlag
+{
+  return dropImmediatelyFlag;
+}
+
+
+- createDefaultProbeDisplayFor : anObject 
 {
   return [self createDefaultProbeDisplayFor : anObject
                setWindowGeometryRecordName : NULL];
 }
 
--createCompleteProbeDisplayFor   : anObject 
-      setWindowGeometryRecordName: (const char *)windowGeometryRecordName
+- createCompleteProbeDisplayFor   : anObject 
+       setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   return [[[[ProbeDisplay createBegin: [self getZone]]
              setProbedObject: anObject]
@@ -129,12 +166,12 @@
            createEnd];
 }
 
--createCompleteProbeDisplayFor : anObject
+- createCompleteProbeDisplayFor : anObject
 {
   return [self createCompleteProbeDisplayFor : anObject
                setWindowGeometryRecordName : NULL];
 }
- 
+
 @end
 
 

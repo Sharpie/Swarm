@@ -162,7 +162,9 @@
 
   deiconify (topLevel);
   assertGeometry (topFrame);
-  
+
+  markedForDropFlag = NO;
+
   [probeDisplayManager addProbeDisplay: self];
   
   return self;
@@ -188,6 +190,19 @@
   objectRef = theObjectRef;
 }
 
+- (void)markForDrop
+{
+  if ([probeDisplayManager getDropImmediatelyFlag])
+    [self drop];
+  else
+    markedForDropFlag = YES;
+}
+
+- (BOOL)getMarkedForDropFlag
+{
+  return markedForDropFlag;
+}
+
 - (void)drop
 {
   int i ;
@@ -206,9 +221,10 @@
   [topLevel drop] ;
 
   [probeDisplayManager removeProbeDisplay: self];
-  
-  if (removeRef) [probedObject removeRef: objectRef];
 
+  if (removeRef)
+    [probedObject removeRef: objectRef];
+  
   [super drop] ;
 }
 
