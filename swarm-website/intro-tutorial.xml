@@ -1,0 +1,92 @@
+<webpage navto="yes" id="intro-tutorial">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:13 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Tutorial</title>
+    <abstract>
+      <para>Slides and code from Benedikt Stefansson's tutorial at
+        SwarmFest '99.</para>
+    </abstract>
+  </head>
+
+  <para>This is the place to look for tutorial material - especially
+    for users new to Swarm. We always appreciate any new tutorial
+    material you have developed that may be useful for the Swarm
+    community.</para>
+
+  <simplesect>
+    <title>Slides from tutorial at the &SFI;'s 2000 Complex Systems Summer
+    School</title>
+    <itemizedlist>
+    <listitem>
+    <para>
+    <ulink url="http://www.swarm.org/csss-tutorial/frames.html">Frames version</ulink></para></listitem>
+    <listitem><para>
+    <ulink url="http://www.swarm.org/csss-tutorial/toc.html">Non-frames version</ulink>
+    </para></listitem>
+    <listitem><para>
+    <ulink url="&ftpJavaApps;SDG-0.1.tar.gz">Source archive</ulink> for sample program
+    </para></listitem> 
+    </itemizedlist>
+  </simplesect>
+    
+  <simplesect>
+    <title>Slides from tutorial at SwarmFest '99</title>
+
+    <para>Benedikt Stefansson <email>benedikt@post.com</email> now at
+    CASA Inc., formerly of UCLA, produced some excellent slides for the
+    tutorial that are now available on-line:
+
+    <itemizedlist>
+      
+      <listitem><para><ulink
+                             url="swarmfest99-tutorial/SectionOne-99/index.htm">Section
+            One</ulink></para></listitem>
+
+      <listitem><para><ulink
+                         url="swarmfest99-tutorial/SectionTwo-99/index.htm">Section Two</ulink></para></listitem>
+      
+      <listitem><para><ulink url="swarmfest99-tutorial/SectionThree-99/index.htm">Section
+            Three</ulink></para></listitem>
+    </itemizedlist>
+
+    They are also available as a tarball (which contains both HTML and
+    PowerPoint formats) on the Swarm ftp site:
+
+    <itemizedlist>
+      
+      <listitem><para><ulink
+                         url="&ftproot;/pub/swarm/docs/swarmfest99-tutorial-slides.tar.gz">swarmfest99-tutorial-slides.tar.gz</ulink></para></listitem>
+      </itemizedlist>
+    </para>
+  </simplesect>
+
+  <simplesect>
+    <title>Demos to accompany the Swarm tutorial</title>
+
+    <para>There are a number of demos that accompany Benedikt's
+      tutorial, at the ftp site: <ulink
+      url="&ftpcontribobjc;swarmfest99-demos.tar.gz">swarmfest99-demos.tar.gz</ulink></para>
+
+    <para>Please direct all technical problems, questions or comments
+      regarding these tutorial demos to Benedikt Stefansson
+      <email>benedikt@hvarf.com</email>.</para>
+  </simplesect>
+
+  <simplesect>
+    <title>Website at UCLA</title>
+
+    <para>Benedikt's web site at UCLA <ulink
+      url="http://cce.sscnet.ucla.edu/swarmcourse/">http://cce.sscnet.ucla.edu/swarmcourse/</ulink>
+      is an excellent starting resource for both questions on the
+      tutorial material, the demo applications and more general
+      modelling issues.</para>
+  </simplesect>
+  
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

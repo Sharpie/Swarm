@@ -1,0 +1,5 @@
+2000-05-20  Alex Lancaster  <alex@santafe.edu>
+
+	* catalog.jar, catalog-apps.jar: New files.  Support for parsing
+	catalogs in XT XSL processor.
+

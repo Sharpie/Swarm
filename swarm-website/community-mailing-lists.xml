@@ -1,0 +1,167 @@
+<webpage navto="yes" id="community-mailing-lists" xmlns:html="http://www.w3.org/TR/REC-html40">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+ <config class="html" param="author" value="$Author: mgd $"/>
+ <head>
+  <title>Mailing lists</title>
+  <abstract>
+   <para>Subscribe to or review the Swarm mailing lists.</para>
+  </abstract>
+ </head>
+ 
+ <note>
+  <title>Mailing lists are now hosted on swarm.org</title> 
+  
+  <para>To subscribe, unsubscribe and general list information,
+   please visit <ulink
+    url="mailman/listinfo/">http://www.swarm.org/mailman/listinfo/</ulink> 
+   and choose the list you are interested in.  <emphasis>Please, do
+    not send subscription requests to the list, itself!!</emphasis>
+  </para>
+  
+ </note>
+
+ <caution>
+  <title>You must be subscribed in order to post to lists</title>
+
+  <para>To reduce spam, we've switched to subscriber-only posting.
+   Non-members are <emphasis>not</emphasis> allowed to post messages
+   to these list.  If you wish to just be able to post without
+   approval, you can subscribe and then immediately select the
+   "Disable delivery" option. This means you will be able to post to
+   the list in future without waiting for the list administrator to
+   manually approve each post, but you won't actually receive postings
+   to the list (unless you want to).  You also <emphasis
+    role="strong">must</emphasis> ensure that you post from an address
+   that matches the address you are subscribed with.</para>
+
+ </caution>
+
+ <warning>
+  <title>No HTML mail, please!</title>
+  <para>Please send your mail in plain ASCII text, rather than HTML,
+   it reduces bandwidth, is more portable (e.g. can be read under
+   text-only mail clients like "pine") and saves space in our mailing
+   list archives.  Also please refrain from posting attachments,
+   unless absolutely necessary.  Provide a link to a web or ftp site
+   if you wish to make available a download (e.g. a tar file, PDF
+   etc.)</para>
+
+ </warning>
+ 
+ <simplesect id="mailing-list-announce">
+  <title><ulink url="http://www.swarm.org/mailman/listinfo/announce">Announcements</ulink>: <literal
+    moreinfo="none">announce@swarm.org</literal> (<ulink
+    url="pipermail/announce/">archives</ulink>)</title>
+  
+  <para>The Swarm Announce list: <literal
+    moreinfo="none">announce@swarm.org</literal>, is the list for
+   people interested in Swarm to keep in touch with progress on the
+   system. Major announcements of milestones and miscellaneous
+   information about Swarm are posted here. <emphasis>Please do not
+    mail to announce yourself.</emphasis>
+  </para>
+
+  </simplesect>
+ <simplesect id="mailing-list-support">
+  
+  <title><ulink url="http://www.swarm.org/mailman/listinfo/support">Swarm Support</ulink>:
+   <literal>support@swarm.org</literal> (<ulink url="pipermail/support">archives</ulink>) </title>
+  
+  <para> The Swarm Support list, <literal>support@swarm.org</literal>,
+   is for the discussion of the technical details of the day to day
+   usage of Swarm.  <literal>support</literal> is our major focus for
+   user community. The traffic on this list can sometimes be quite
+   technical. <literal>support</literal> is a sub-list of
+   <literal>announce</literal>, which means that any message being
+   sent to the <literal>announce</literal> list will also be sent to
+   the <literal>support</literal> list. So, if you're interested in
+   all the details and in the announcements, then simply subscribe to
+   the <literal>support</literal> list. <emphasis>You do not need to
+    subscribe to both lists.</emphasis> If you just want the
+   announcements but don't care about the details, then subscribe to
+   <literal>announce</literal>.</para>
+  
+ </simplesect>
+
+ <simplesect id="mailing-list-modelling">
+  <title><ulink url="http://www.swarm.org/mailman/listinfo/modelling">Swarm Modelling</ulink>:
+   <literal>modelling@swarm.org</literal>  (<ulink
+    url="pipermail/modelling/">archives</ulink>)</title>
+
+  <para>The Swarm Modelling
+   list,<literal>modelling@swarm.org</literal>, is for discussion of
+   general modelling and simulation issues, particularly those having
+   to do with Swarm or Agent Based Modelling (ABM).</para>
+
+ </simplesect>
+ 
+ <simplesect id="mailing-list-gis">
+  
+  <title><ulink url="http://www.swarm.org/mailman/listinfo/gis">Swarm
+   &amp; GIS:</ulink>
+   <literal>gis@swarm.org</literal> (<ulink
+    url="pipermail/gis/">archives</ulink>)</title>
+  
+  <para>The Swarm GIS list,
+   <literal>gis@swarm.org</literal>, is for discussion of
+   Geographical Information Systems (GIS) like GRASS, particularly
+   with respect to their usage in conjunction with Swarm.</para>
+
+ </simplesect>
+
+ <simplesect>
+  <title>Search Swarm mailing lists via Google</title>
+
+  <para>We currently have no dedicated search engine for the website
+   or mailing lists, but we provide this customized search form which
+   searches the Swarm website (including the mailing lists) via <ulink
+    url="http://www.google.com/">Google</ulink>.  Just enter your
+   keywords and click "Google Search":
+  </para>
+
+  <html:form action="http://www.google.com/search">
+
+   <informaltable frame="none">
+    <tgroup cols="2">
+     <tbody>
+      <row>
+       <entry>
+	 <inlinemediaobject>
+	  <imageobject>
+	   <imagedata
+	    fileref="http://www.google.com/logos/Logo_40wht.gif"
+	    width="115" depth="45" align="center"/>
+	  </imageobject>
+	  <textobject>
+	   <phrase>Google</phrase>
+	  </textobject>
+	 </inlinemediaobject>
+       </entry>
+       <entry>
+	<html:input type="text" name="q" size="25" maxlength="255" value=""/>
+	<html:input type="hidden" name="q" size="25" maxlength="255"
+	 value="site:www.swarm.org"/>
+	<html:input type="submit" name="sa" value="Google Search"/>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+  </html:form>
+
+  <para>(To search our site directly from Google, you can simply enter
+   <literal>site:www.swarm.org</literal> followed by your keywords.
+   e.g. to search for Debian, simply enter:
+   <literal>site:www.swarm.org debian</literal>)</para>
+
+ </simplesect>
+
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

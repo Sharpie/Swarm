@@ -1,0 +1,98 @@
+<webpage navto="yes" id="release-apps">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:15 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Applications</title>
+    <abstract>
+      <para>Swarm applications are distributed separately: you will
+        need to download and unpack applications independently.
+        Available here are the standard Objective C
+        <application>swarmapps</application> package, as well Java
+        translations of two well-known Swarm applications:
+        <application>jmousetrap</application> and
+        <application>jheatbugs</application>.</para>
+      
+    </abstract>
+  </head>
+
+ <simplesect id="objc-apps">
+  <title>Objective C Swarm Applications</title>
+  
+  <para>Swarm applications are distributed separately: You will need
+   to download and unpack applications independently.  You will next
+   need to change the definition of the <envar>SWARMHOME</envar>
+   environment variable to point to the location of your Swarm
+   installation (typically <filename
+    class="directory">/usr/local/</filename> or
+   <filename>/usr/</filename> if you've installed it from a binary
+   package on a GNU/Linux system).  All you need to do to compile an
+   application is type <userinput>make</userinput>, and it will
+   compile and link.</para>
+
+  <para><ulink
+    url="&ftpObjCApps;swarmapps-&VERSION;.tar.gz">swarmapps-&VERSION;.tar.gz</ulink>,
+   contains example Swarm applications (includes
+   <application>template</application>,
+   <application>heatbugs</application>,
+   <application>mousetrap</application>,
+   <application>market</application>,
+   <application>tutorial</application>, and
+   <application>hello-world</application>). (The version numbers on all
+   the applications have been brought up to &VERSION; to coincide with
+   the kernel release.  But, they may increment independently from the
+   version of the kernel release.)</para>
+  
+ </simplesect>
+ 
+ <simplesect id="java-apps">
+    <title>Java Swarm Applications</title>
+  
+  <para>Java applications can be run in the development environment
+   of your choice.  You must ensure that the javaswarm DLL is in the
+   <envar>PATH</envar> and that <filename>swarm.jar</filename> is
+   available as a library (e.g. in the <envar>CLASSPATH</envar>).</para>
+  
+  <para>As of 2.0.1, Sun JDK 1.1, Sun JDK 1.2, and Kaffe are known
+   to work.  Swarm 2.0.1 is known to work with JBuilder3 and Visual Caf&eacute;
+   and <emphasis>not</emphasis> to work with Visual Age 2.</para>
+  
+  <para>For users that prefer or require a command line interface,
+   we provide the scripts <filename>javaswarm</filename> and
+   <filename>javacswarm</filename> for running and compiling Java
+   Swarm applications, respectively.
+   
+   <itemizedlist>
+    <listitem>
+     <para><ulink
+       url="&ftpJavaApps;jheatbugs-2.1.tar.gz">jheatbugs-2.1.tar.gz</ulink></para>
+    </listitem>
+    <listitem>
+     <para><ulink
+       url="&ftpJavaApps;jmousetrap-2.1.tar.gz">jmousetrap-2.1.tar.gz</ulink></para>
+    </listitem>
+   </itemizedlist>
+   </para>
+  
+ </simplesect>
+  
+ <simplesect id="support-software">
+  <title>Support Software</title>
+  
+  <para>The statistical package <ulink
+    url="http://www.r-project.org">R</ulink>, a SPlus clone, can
+   read and write <ulink
+    url="http://hdf.ncsa.uiuc.edu/HDF5">HDF5</ulink> files in a form
+   compatible with Swarm object-serialization features, with a
+   <ulink url="&ftpSupportSrc;R/hdf5_0.3.tar.gz">source</ulink> or 
+   <ulink url="&ftpW32Binaries;R/hdf5.zip">w32</ulink> module.</para>
+  
+ </simplesect>
+ 
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+
+

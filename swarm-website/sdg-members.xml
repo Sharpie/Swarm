@@ -1,0 +1,225 @@
+<webpage navto="yes" id="sdg-members">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:19 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Members</title>
+    <abstract>
+      <para>The current SDG members.</para>
+    </abstract>
+    </head>
+
+  <para><ulink url="http://lark.cc.ukans.edu/~pauljohn/">Paul
+Johnson</ulink> is now maintaining the new interactive <ulink
+url="http://www.ku.edu/~pauljohn/sdg/member_pages/">members
+page</ulink>!
+</para>
+
+<!--
+  <warning>
+    <para>The list of SDG members is somewhat out of date.  We are in
+    the process of updating and will be adding a new section for SDG
+    members.</para>
+  </warning>
+  
+  <para>SDG Individual Members</para>
+  
+    <itemizedlist>
+      
+      <listitem>
+        <para>Michael Arendall, Individual Student Member, <ulink url="http://www.unm.edu">University of New Mexico</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Robert Bell, Individual Student Member, <ulink url="http://www.ucla.edu">University of California, Los Angeles</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://www.humsci.auburn.edu/ca/html/brannon.html">Evelyn Brannon</ulink>, Individual Academic Plus Member, <ulink url="http://www.auburn.edu">Auburn University</ulink>, <ulink url="http://www.humsci.auburn.edu/ca">Consumer Affairs</ulink></para>
+      </listitem>
+      
+      <listitem>
+        <para>Keith Bruso, Individual Corporate Member, <ulink url="http://www.nsa.gov">National Security Agency</ulink></para>
+      </listitem>
+ 
+      <listitem>
+        <para>Daniel Calhoun, Individual University Member, <ulink url="http://www.ucdavis.edu">University of California, Davis</ulink>, <ulink url="http://history.ucdavis.edu">History</ulink> (retired)</para>
+       </listitem>
+      
+      <listitem>
+        <para>Nick Collier, Individual University Member, <ulink url="http://www.uchicago.edu">University of Chicago</ulink>, <ulink url="http://www.src.uchicago.edu">Social Science Research Computing</ulink></para>
+      </listitem>
+  
+      <listitem>
+        <para><ulink url="http://www.icis.unimaas.nl/icis/Personal/P_deVries.html">Piebe de Vries</ulink>, Individual Student Member, <ulink url="http://www.unimaas.nl">Maastricht University</ulink>, <ulink url="http://www.fdaw.unimaas.nl">Faculty of General Sciences</ulink>, <ulink url="http://www.icis.unimaas.nl/camera">Camera project</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://www.geog.ucsb.edu/~cath">Catherine Dibble</ulink>, Individual Student Member, <ulink url="http://www.ucsb.edu">University of California, Santa Barbara</ulink>, <ulink url="http://www.geog.ucsb.edu">Geography</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Doug Donalson, Individual Student Member, <ulink url="http://www.ucsb.edu">University of California, Santa Barbara</ulink>, <ulink url="http://lifesci.ucsb.edu">Ecology, Evolution, and Marine Biology</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://www.tiem.utk.edu/~gross">Louis Gross</ulink>, Individual University Member, <ulink url="http://www.utk.edu">University of Tennessee</ulink>, <ulink url="http://www.tiem.utk.edu">Institute for Environmental Modeling</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Paul Held, Individual Student Member, <ulink url="http://www.bc.edu">Boston College</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Jonathan Impett, Individual Student Member, <ulink url="http://www.cam.ac.uk">University of Cambridge</ulink>, <ulink url="http://www.mus.cam.ac.uk">Faculty of Music</ulink></para>
+      </listitem>
+
+      <listitem>
+      <para>Steve Jackson, Individual Corporate Member, Jackson Scientific Computing</para>
+      </listitem>
+
+      <listitem>
+        <para>Edd M. Jentzsch, Individual Postdoc Member, <ulink url="http://www.fielding.edu">The Fielding Institute</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://libarts.wsu.edu/anthro/faculty/Kohler.htm">Tim Kohler</ulink>, Individual Academic Plus Member, <ulink url="http://www.wsu.edu">Washington State University</ulink>, <ulink url="http://libarts.wsu.edu/anthro">Department of Anthropology</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://lark.cc.ukans.edu/~pauljohn">Paul Johnson</ulink>, Individual University Member, <ulink url="http://www.ukans.edu">University of Kansas</ulink>, <ulink url="http://www.ukans.edu/~kups">Political Science</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Dwight McCan, Individual Academic Plus Member</para>
+      </listitem>
+ 
+      <listitem> 
+        <para>Jos&eacute; Federico Morales Barrag&aacute;n, Student Member, <ulink url="http://www.unam.mx">Universidad Nacional Aut&oacute;noma de M&eacute;xico</ulink>, <ulink url="http://proimmse.unam.mx">Programa de Investigaciones Multidisciplinarias sobre Mesoam&eacute;rica y el Sureste</ulink></para>
+      </listitem>
+ 
+      <listitem><para>Keith Morgan, Individual Student Member</para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://www-personal.umich.edu/~mmmurf">Matthew Murphy</ulink>, Individual Student Member, <ulink url="http://www.umich.edu">University of Michigan</ulink>, <ulink url="http://www.lsa.umich.edu/ling">Linguistics</ulink>, <ulink url="http://www.pscs.umich.edu">Center for the Study of Complex Systems</ulink></para>
+      </listitem>
+      
+      <listitem>
+        <para><ulink url="http://www.isd.atr.co.jp/~eiji">Norberto Eiji Nawa</ulink>, Individual Student Member, <ulink url="http://www.kyoto-u.ac.jp/index-e.html">Kyoto University</ulink>, <ulink url="http://www.i.kyoto-u.ac.jp/~sys/index-e.html">Systems Science</ulink></para>
+      </listitem>
+      
+      <listitem>
+        <para><ulink url="http://www.jamesodell.com/bio.html">James Odell</ulink>, Individual Corporate Member, <ulink url="http://www.jamesodell.com">James Odell Associates</ulink></para>
+      </listitem>
+      
+      <listitem>
+        <para>Steve Railsback, Individual Corporate Member, Lang, Railsback &amp; Assoc.</para>
+      </listitem>
+
+      <listitem>
+        <para>Philip Rhoades, Individual Student Member, Pricom Pty Limited</para>
+      </listitem>
+      
+      <listitem>
+        <para><ulink url="http://www.pscs.umich.edu/PEOPLE/rlr-home.html">Rick Riolo</ulink>, Individual Academic Plus Member, <ulink url="http://www.pscs.umich.edu">Center for Study of Complex Systems</ulink></para>
+      </listitem>
+
+      <listitem>
+      <para>Conor Roycroft, Individual Student Member, <ulink url="http://www.lse.ac.uk">London School of Economics</ulink>.</para>
+      </listitem>
+
+      <listitem>
+        <para>David Sallach, Individual University Member, <ulink url="http://www.uchicago.edu">University of Chicago</ulink>, <ulink url="http://www.src.uchicago.edu">Social Science Research Computing</ulink></para>
+      </listitem>
+
+      <listitem>
+      <para><ulink url="http://www.bol.ucla.edu/~dschreib">Darren Schreiber</ulink>, Individual Student Member, <ulink url="http://www.ucla.edu">University of California, Los Angeles</ulink>, Political Science.
+      </para>
+      </listitem>
+
+      <listitem id="csmall">
+        <para>Cynthia Taylor Small, Individual Student Member, <ulink url="http://www.gmu.edu">George Mason University</ulink>, <ulink url="http://ite.gmu.edu">School of Information Technology and Engineering</ulink>.</para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://gaelnet.stmarys-ca.edu/about.smc/faculty/snyder">Donald Snyder</ulink>, Individual University Member, <ulink url="http://www.stmarys-ca.edu">Saint Mary's College of California</ulink>, <ulink url="http://www.stmarys-ca.edu/academics/undergraduate/seba">School of Economics and Business Administration</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://www.smith.edu/economics/Faculty/cstaelin.html">Charles Staelin</ulink>, Individual University Member, <ulink url="http://www.smith.edu">Smith College</ulink>, <ulink url="http://www.smith.edu/economics">Economics</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Tim Stoughton, Individual Corporate Member, <ulink url="http://www.gateway.com">Gateway</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Pietro Terna, Individual Academic Plus Member, <ulink url="http://www.unito.it">University of Torino</ulink>, <ulink url="http://www.econ.unito.it">Economics and Finance</ulink></para>
+      </listitem>
+      
+      <listitem>
+        <para>Sven Thommesen, Individual University Member, <ulink url="http://www.auburn.edu">Auburn University</ulink></para>
+      </listitem>
+      
+      <listitem>
+        <para>Dawn Trembath, Individual Student Member, <ulink url="http://www.unc.edu">University of North Carolina at Chapel Hill</ulink>, <ulink url="http://www.unc.edu/depts/cogpsych">Cognitive Psychology Program</ulink></para>
+      </listitem>
+
+      <listitem>
+      <para>Peter Twigg, Individual University Member, <ulink url="http://www.tcd.ie">The University of Dublin Trinity College</ulink>, <ulink url="http://www.mme.tcd.ie">Mechanical &amp; Manufacturing Engineering</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Jurgen van der Pol, Individual University Member, <ulink url="http://www.tue.nl">Eindhoven Technical University</ulink> / <ulink url="http://www.origin-it.com">Origin Consulting</ulink></para>
+      </listitem>
+
+      <listitem> 
+        <para><ulink url="http://goulias2.pti.psu.edu/krishnan">Krishnan Viswanathan</ulink>, Individual Student Member, <ulink url="http://www.psu.edu">Pennsylvania State University</ulink>, <ulink url="http://www.pti.psu.edu">Transportation Engineering</ulink></para>
+      </listitem>
+
+      <listitem>
+      <para>Jeffery Wieman, M.D., Academic Plus Member, University Surgical Associates, <ulink url="http://www.nortonhealthcare.com">Norton Healthcare</ulink></para>
+      </listitem>
+    </itemizedlist>
+
+    <para>SDG Group Members</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink url="http://www.erim.org">Environmental Research Institute of Michigan</ulink>, University Membership</para>
+      </listitem>
+    </itemizedlist>
+    
+    <para>SDG Members by virtue of In-kind donations </para>
+    
+      <itemizedlist>
+        <listitem>
+           <para><ulink url="http://www.gis.usu.edu/~sanduku">Paul Box</ulink>, Individual Academic Plus Membership, <ulink url="http://www.usu.edu">Utah State University</ulink>, <ulink url="http://www.nr.usu.edu/Geography-Department/GER.html">Geography</ulink></para>
+        </listitem>
+
+        <listitem>
+      <para><ulink url="http://www.santafe.edu/~alex">Alex Lancaster</ulink>, Individual Academic Plus Membership, <ulink url="http://www.berkeley.edu">UC Berkeley</ulink>, <ulink url="http://ib.berkeley.edu">Dept. of Integrative Biology</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para><ulink url="http://www.santafe.edu">Santa Fe Institute</ulink></para>
+        </listitem>
+
+    </itemizedlist>
+
+    <para>SDG Member by virtue of generous gift or donation</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Nicholas Palevsky</para>
+        </listitem>
+    </itemizedlist>
+
+  -->
+
+  </webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->

@@ -1,0 +1,255 @@
+<webpage id="sdg-brochure">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:18 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <config class="html" param="banner" value="the_company-tab.png"/>
+  <head>
+    <title>What is the SDG?</title> 
+    <abstract>
+      <para>A brochure summary of the charter, membership structure and
+        organization of the <acronym>SDG</acronym></para>
+    </abstract>
+
+  </head>
+  
+  <sidebar>
+    <title>Mission Statement</title>
+    <para>The Swarm Development Group (<acronym>SDG</acronym>) was founded in September 1999 as a
+      private, not-for-profit<footnote>
+        <para>The primary purpose of this organization is exclusively
+          charitable, scientific or educational within the meaning of Section
+          501(c)(3) of the Internal Revenue Code of 1986 or such other
+          provisions of state or federal law as may from time to time be
+          applicable.</para>
+      </footnote>
+      organization to support the development of the Swarm Simulation
+      System (Swarm) and the interests of the group members.  The
+      purpose of the <acronym>SDG</acronym> is to:
+
+      <itemizedlist>
+        <listitem>
+          <para>advance the state-of-the-art in multi agent based
+          simulation through the continued advancement of the Swarm
+          Simulation System and support of the Swarm user
+          community</para>
+        </listitem>
+        
+        <listitem>
+          <para>promote the free interchange of multi agent based
+          simulations among computing specialists and the public</para>
+        </listitem>
+
+        <listitem>
+          <para>develop and maintain the integrity and competence of
+            individuals engaged in the practice of agent based
+            simulation.</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sidebar>
+  
+  <bridgehead></bridgehead>
+  
+  <webtoc/>
+
+  <para>If you are interested in becoming a member, please <link
+    linkend="contact">Contact Us</link>.</para>
+  
+ 
+  &sdg-charter;
+  &sdg-strength;
+  &sdg-membership;
+  &sdg-sigs;
+
+
+  <webpage navto="yes" id="sdg-board">
+    <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:18 $"/>
+    <config class="html" param="author" value="$Author: mgd $"/>
+    <head>
+      <title>Board</title>
+      <abstract>
+        <para>The current SDG board and their affilations.</para>
+      </abstract>
+    </head>
+
+    <para>SDG officers are designated in <emphasis>italics</emphasis></para>
+
+    <itemizedlist>
+        <listitem>
+          <para>Roger Burkhart, <ulink
+          url="http://www.vantagepoint.com/">VantagePoint
+          Network</ulink></para>
+        </listitem>
+        <listitem>
+          <para>Randy Burge, New Mexico Information Technology &amp; Software Association</para>
+        </listitem>
+        <listitem>
+          <para>Marcus G. Daniels, <ulink
+          url="http://www.swarm.org">Swarm Development Group</ulink>,
+            <emphasis>Secretary
+              <email>mgd@swarm.org</email></emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para>Paul Johnson, <ulink
+          url="http://www.ukans.edu">University of
+          Kansas</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para>Alex Lancaster, <ulink
+          url="http://www.santafe.edu">Santa Fe Institute</ulink>,
+            <emphasis>Treasurer
+              <email>alex@swarm.org</email></emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para>Chris Langton, <ulink url="http://www.swarm.com">Swarm
+              Corporation</ulink></para>
+        </listitem>
+
+        <listitem>
+        <para>Irene A. Lee, <ulink url="http://www.swarm.org">Swarm Development Group
+          </ulink>, <emphasis>President
+            <email>lee@swarm.org</email></emphasis>
+        </para>
+        </listitem>
+
+        <listitem>
+          <para>Nelson Minar, <ulink url="http://www.media.mit.edu">MIT
+              Media Lab</ulink> </para>
+        </listitem>
+
+        <listitem>
+          <para>Benedikt Stefansson, <ulink
+          url="http://www.lacasa.com">CASA Inc.</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para>Sven Thommesen, <ulink
+          url="http://www.auburn.edu">Auburn University</ulink></para>
+        </listitem>
+      <listitem>
+          <para>Glen Ropella, <emphasis>Vice-President
+          <email>gepr@swarm.org</email></emphasis></para>
+      </listitem>
+    </itemizedlist>
+
+  </webpage>
+
+
+  <webpage navto="yes" id="sdg-members">
+    <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:18 $"/>
+    <config class="html" param="author" value="$Author: mgd $"/>
+    <head>
+      <title>Members</title>
+      <abstract>
+        <para>The current SDG members.</para>
+      </abstract>
+    </head>
+
+    <para>SDG Individual Members</para>
+
+    <itemizedlist>
+      
+      <listitem>
+        <para>Evelyn Brannon, Individual Academic Plus Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Daniel Calhoun, Individual University Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Nick Collier, Individual University Member</para>
+      </listitem>
+
+      <listitem>
+        <para>Catherine Dibble, Individual Student Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Paul Johnson, Individual University Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Matthew Murphy, Individual Student Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Norberto Eiji Nawa, Individual Student Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>James Odell, Individual Corporate Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Steve Railsback, Individual Corporate Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Rick Riolo, Individual Academic Plus Member</para>
+      </listitem>
+
+      <listitem>
+        <para>David Sallach, Individual University Member</para>
+      </listitem>
+
+      <listitem>
+        <para>Charles Staelin, Individual University Member</para>
+      </listitem>
+
+      <listitem>
+        <para>Pietro Terna, Individual Academic Plus Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Sven Thommesen, Individual University Member</para>
+      </listitem>
+      
+      <listitem>
+        <para>Dawn Trembath, Individual Student Member</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>SDG Group Members</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Argonne National Laboratory, Government Membership</para>
+      </listitem>
+    </itemizedlist>
+    
+    <para>SDG Members by virtue of In-kind donations </para>
+    
+      <itemizedlist>
+        <listitem>
+          <para>Joint Warfare Analysis Center</para>
+        </listitem>
+
+        <listitem>
+          <para>Santa Fe Institute</para>
+        </listitem>
+
+      <listitem>
+          <para>Swarm Corporation</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>SDG Member by virtue of generous gift or donation</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Nicholas Palevsky</para>
+        </listitem>
+    </itemizedlist>
+
+  </webpage>
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->

@@ -1,0 +1,200 @@
+<html> <head>
+<title>The Swarm Multi-Agent Simulation System</title>
+</head>
+
+<body>
+<h1>The Swarm Multi-Agent Simulation System</h1>
+<h2>Position Paper for OOPSLA '94 Workshop on "The Object Engine"</h2>
+
+Roger Burkhart
+<tt>&lt;roger@ci.deere.com&gt;</tt>
+
+<pre>
+Deere &amp; Company      Santa Fe Institute
+John Deere Road      1399 Hyde Park Road
+Moline, IL 61265     Santa Fe, NM 87501
+</pre>
+
+September 7, 1994
+
+<hr>
+
+<h2>I. Swarm Overview</h2>
+
+Swarm is a general-purpose package for simulating concurrent,
+distributed artificial worlds.  It is being developed by the artificial
+life group at the Santa Fe Institute to provide a general architecture
+for problems that arise in a wide variety of disciplines ranging from
+physics to biology to economics.  Many of these problems possess a
+common structure that consists of large numbers of autonomous agents
+interacting in the context of some environment.  Computer simulation is
+an essential tool to study the global and adaptive behavior that can
+emerge in such complex systems.<p>
+
+The goal of Swarm is to reduce the work required by researchers to
+build and simulate an artificial world, and to provide standardized
+tools for configuring, running, and analyzing results from a
+simulation.  The core of Swarm is an object-oriented framework for
+defining the behavior of agents and other objects that interact during
+a simulation.  Objects of Swarm are organized into a hierarchy of
+subswarms that may be allocated across multiple processor and
+communications boundaries.  Each swarm is responsible for managing all
+memory and processing resources required by its objects.  Each swarm
+maintains a schedule for simulating a continuous cycle of activity
+within its objects.<p>
+
+<hr>
+
+<h2>II. Swarm as a Model of Computing</h2>
+
+By simulating the concurrent processes that occur in some real or
+artificial world, Swarm is especially well suited for studying processes 
+of computation that occur in nature.  Computation in nature is inherently
+parallel and distributed across large numbers of independently acting
+elements.  Combination of parallel behavior, even when individual
+components follow only simple rules, can result in sophisticated
+abilities of learning, adaptation, and dynamic response.<p>
+
+
+Parallel computation in nature sets a high standard of robustness and
+flexibility for deliberately engineered software to emulate.  Current
+hardware and software is still too crude to match either the degree of
+parallelism in nature or the flexibility of its control over
+distributed processes.  Nevertheless, examples from nature can suggest
+important principles for software design.  Software architecture can
+adopt a flexible composition of complex behavior out of simpler
+components operating in parallel.  Moreover, an object engine to
+simulate the parallel computation of nature would seem to include all
+other forms of computation as special cases.  (Any computation to be
+performed has itself arisen within nature.)<p>
+
+<hr>
+
+<h2>III. Swarm as a Concurrent Object Engine</h2>
+
+Swarm is a framework for simulating processes that occur across large
+numbers of concurrently interacting agents.  Agents interact directly
+with each other and with other objects representing the structure of an
+environment.  In principle, all agents act concurrently and
+autonomously: the abstract model of Swarm is a concurrent object
+system in which all objects can be continuously active.<p>
+
+The principal task of Swarm is to provide a mapping of its abstract
+model to various classes of available computing machinery.  Most
+available machines cannot provide the number of independent processors
+which would be required to represent each agent directly by its own
+processor.  Swarm simulations are expected to scale to many thousands
+of agents interacting over many thousands of cycles of agent
+lifetimes.  Target machines for Swarm range from a single sequential
+processor to multiple processors on a network to massively parallel
+machines having hundreds or thousands of processors.<p>
+
+To target such a diverse range of execution platforms, Swarm defines an
+intermediate level of virtual processing machinery.  This machinery
+consists of a hierarchical structure of swarms and subswarms.  Each
+swarm is a collection of agents and associated objects which execute
+on their own virtual processor.  Each swarm includes a schedule
+of pending actions for its agents to perform.  The entire task of the
+virtual processor is to traverse this schedule and to call these
+actions when the indicated time has arrived.  The schedule is an
+explicit and modifiable component of the swarm which agents can revise
+as they perform their actions.<p>
+
+In principle, all virtual processors run asynchronously with respect to
+each other, though this may not actually be the case on a particular
+real machine.  Within a swarm, however, all actions are defined to
+occur in strict succession along a single linear dimension of time,
+with the one exception that multiple actions can be defined to
+occur at precisely the same point in time.  (If the only real processor
+is sequential, these actions would still need to be performed in some
+particular sequence, but such a physical execution sequence is not to be
+regarded as significant within the model.)<p>
+
+Actions in more than one swarm can be linked so that they are also to
+be regarded as occurring at the same point in time.  Cross-swarm
+interactions must be mediated by a containing swarm that establishes a
+common timeline.  Ultimately, all actions may be regarded as occurring
+in a tree of branching synchronization timelines.  Each timeline
+represents a synchronization of all scheduled activity within a cluster
+of closely related agents.  Only at occasional intervals are these
+local timelines joined with each other at actions that synchronize
+across larger groupings of agents.<p>
+
+No facilities for asynchronous communication are built into the basic
+Swarm kernel.  Asynchronous communication must be supplied by explicit
+agents that implement a succession of message acceptance and delivery
+events.  In basing its concurrency entirely on a model of strict
+synchronous interaction, the Swarm model departs notably from
+concurrent object systems that follow the Actor model of distributed
+computing [1].  The Actor model is based on asynchronous message passing,
+which it motivates by the spatial distribution and independent
+execution rates of objects [2].  Swarm, however, undertakes to model
+any level of behavior of possible interest, which includes basic
+physical and spatial processes in which interaction is synchronous.
+Assuming a discrete model of space and time (required by digital
+computation in any case), asynchronous behavior must ultimately be
+definable in terms of atomic events distributed in space and time.
+Within the discrete approximation of time adopted by a model, such
+events occur at the same time to any agents participating in them.<p>
+
+As a practical concern in building a computer simulation, it can be
+difficult to arrange the amount of synchronization required for
+extensive amounts of direct interaction.  Such limits on the extent of
+direct interaction, however, directly reflect similar limits that exist
+in nature.  Coarse-grained agents distributed in space and time can
+ordinarily affect only a small set of other agents to which they are
+somehow directly connected or otherwise adjacent.  Special agents, such
+as communication networks and message delivery systems, are often
+deliberately devised to enable networks of denser connection, or to
+mediate interactions separated in time.  Swarm requires that these
+mediator agents themselves be represented explicitly in the simulation.<p>
+
+With respect to other object systems, probably the most distinctive
+feature of Swarm is its definition of an explicit linear time shared by
+all agents belonging to a swarm.  The current time and the schedule of
+actions to be performed at future times are fully accessible for
+examination and/or modification by the agents.  In its model of time,
+Swarm is much more closely related to discrete event simulation systems
+than to concurrent object systems based on asynchronous message
+passing.  Unlike most discrete event systems, however, Swarm localizes
+each time to a cluster of related agents, and requires that this local
+time be synchronized with more global time only at specific scheduled
+intervals.<p>
+
+<hr>
+
+<h2>ACKNOWLEDGEMENTS</h2>
+
+The Swarm project is led by <a
+href="http://alife.santafe.edu/0/System/bbs/BBS/NETWORK/WWW/WWW_User_homepages/cgl.html">Chris Langton</a>
+with funding in part from an ARPA grant.  The Swarm design
+is a product of the Swarm development team, which during the summer of
+1994 included Roger Burkhart, Howard Gutowitz,
+<a href="http://www.santafe.edu/~hiebeler/">David Hiebeler</a>, and
+<a href="http://www.santafe.edu/~nelson/">Nelson Minar</a>.
+David Hiebeler developed an earlier prototype of Swarm
+under a project coordinated by Chris Langton and funded by the
+O'Donnell Foundation.<p>
+
+<hr>
+
+<h2>REFERENCES</h2>
+
+<pre>
+[1] Agha, G., Actors: A Model of Concurrent Computation in Distributed
+    Systems, MIT Press, 1987
+
+[2] Agha, G., et al, "Abstraction and Modularity Mechanisms for
+    Concurrent Computing," in Research Directions in Concurrent
+    Object-Oriented Programming, ed. Agha, G. et al, MIT Press 1993
+</pre>
+
+<hr>
+
+<address>
+rmb@santafe.edu
+</address>
+<!-- hhmts start -->
+Last modified: Wed Sep 14 17:33:13 1994
+<!-- hhmts end -->
+</body> </html>

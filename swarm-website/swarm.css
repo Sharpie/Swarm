@@ -1,0 +1,20 @@
+.footer { font-family: sans-serif;
+          font-size: 95% }
+.navtoc { font-weight: bold;}
+.tocentries { font-family: sans-serif; font-weight: bold; font-variant: small-caps; }
+.subtocentries {font-family: sans-serif; font-size: 85%; }
+.header { font-family: sans-serif;
+          font-size: 200% }
+.headersubtitle { font-family: sans-serif;
+          font-size: 125% }
+H1.secttitle { font-family: sans-serif; font-size: 144% }
+.secttitle    { font-family: sans-serif; }
+.sectsubtitle { font-family: sans-serif; }
+.sidebar      { font-family: sans-serif; font-size: 85%; margin-left: 0.25in; margin-right: 0.25in;}
+.REVHISTORY   { font-size: 90%; }
+
+A:link { color: teal; }
+A:visited { color: black; }
+span.navtoc { color: white; }
+.footdate { color: white }
+.footcopy { color: white }

@@ -1,0 +1,493 @@
+<webpage navto="yes" id="community-links">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:07 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Projects</title>
+    <abstract>
+      <para>Swarm has been used successfully in a wide-range of
+        different research projects.  Here we've collected links to as
+        many projects that we know about.  If you're doing a project
+        with Swarm, please do let us know (whether you have a link or
+        not) at: <email>swarm@swarm.org</email>.</para>
+    </abstract>
+  </head>
+
+  <important>
+    <para>
+
+<!-- A more <ulink url="http://swarm.santafe.edu/survey99/survey-full-list.mhtml?DBFIELD=usage_description"><emphasis>up-to-date
+                        list</emphasis></ulink> of user projects
+                        (taken from the Swarm survey conducted earlier
+                        in the year).  -->
+
+      This list is somewhat out of date.
+
+      <footnote> <para><emphasis>Note:</emphasis> The classification
+      for projects I've used below is not to be taken too seriously,
+      and is only intended to loosely group projects in similar
+      areas.</para>
+      </footnote>
+</para>
+  </important>
+
+  <simplesect id="community-links-biology">
+    <title>Biology</title>
+
+    <itemizedlist>
+      <listitem><para><ulink url="&ftpcontribobjc;scl-0.05.11.tar.gz">
+SCL v0.05.11</ulink> [Updated to Swarm 1.3] - <ulink
+url="http://www.eeng.dcu.ie/~mcmullin">Barry McMullin</ulink> is
+studying artificial chemistries and the origins of life.  He has two
+papers available at SFI and many more accessible via his home page.
+The first one, <ulink url="&sfi-workingpapers;97-01-001/">
+            <citetitle>Computational Autopoiesis: The Original Algorithm</citetitle></ulink> (<ulink url=
+"&sfi-workingpapers;bmcm9701.ps"> postscript
+-- 548207 bytes</ulink>), is about the particular artificial chemistry
+that inspired him to develop the SCL model.  The second one, <ulink
+url="&sfi-workingpapers;97-01-002/">SCL: An Artificial
+Chemistry in Swarm</ulink> (<ulink
+url="&sfi-workingpapers;97-01-002/bmcm9702.ps">postscript
+-- 205293 bytes</ulink>), is about the SCL model.  (The file <ulink
+url="&ftpcontribobjc;scl-data00.tar.gz">scl-data00.tar.gz</ulink>
+contains the data for <ulink
+url="http://www.eeng.dcu.ie/~alife/bmcm-ecal97">bmcm-ecal97</ulink>.)
+</para>
+</listitem>
+
+      <listitem><para><ulink
+ url="http://peaplant.biology.yale.edu:8001/gecko.html">Gecko</ulink>
+ - Gecko is an individual-based simulator for modeling ecosystem
+ dynamics being developed at the Center for Computational Ecology at
+ the Yale Institute for Biospheric Studies. It is being developed
+ by<ulink url="http://peaplant.biology.yale.edu:8001/~ginger/"> Ginger
+ Booth</ulink>.
+
+        </para>
+      </listitem>
+      
+      <listitem><para><ulink
+          url="http://www.eeb.yale.edu/ginger/bacillus/">BacSim</ulink>
+          - BacSim is an individual-based simulator of bacterial
+          growth developed by <ulink
+          url="mailto:Kreft@cardiff.ac.uk">Jan Kreft</ulink> at <ulink
+          url="http://www.cf.ac.uk/uwc/pabio/">Cardiff
+          University</ulink>, Wales, UK. It is based on <ulink
+          url="http://peaplant.biology.yale.edu:8001/gecko.html">Gecko</ulink>
+          which is being developed by <ulink
+          url="http://peaplant.biology.yale.edu:8001/~ginger/">Ginger
+          Booth</ulink>. We have <ulink
+          url="Pages/BacSim/BacSimScreenShot.gif">screen shots</ulink>
+          of BacSim and movies of <emphasis>Escherichia coli</emphasis> colonies
+          growing at <ulink
+          url="Pages/BacSim/random.low.anim.gif">low</ulink> (0.1 g
+          glucose per liter), <ulink
+          url="Pages/BacSim/random.medium.anim.gif">medium</ulink> (1
+          g glucose per liter), and <ulink
+          url="Pages/BacSim/random.high.anim.gif">high</ulink> (10 g
+          glucose per liter) substrate concentrations. The embryo of a
+          <ulink url="http://www.eeb.yale.edu/ginger/bacillus/">web
+          page</ulink> is in its early stages of development.
+</para>
+</listitem>
+
+    <listitem><para><ulink url="http://kal-el.ugr.es/jj/jj.html">J.J.
+          Merelo</ulink> is interested in artificial life, genetic
+          algorithms, neural nets, and other techniques, especially
+          applied to optimization.  See the <ulink
+          url="&sfiurl;~jmerelo/neurolib/neurolib.html">neurolib</ulink> and
+          <ulink url="&sfiurl;~jmerelo/libga/libga.html">libga</ulink> libs
+          he's contributed to Swarm.
+      </para>
+    </listitem>
+
+    <listitem><para><ulink
+        url="http://www.santafe.edu/~alex/bugverse.html">Bugverse</ulink>
+        is project to look at evolution of neural complexity in neural
+        networks with a recursively modular architectures
+        (i.e. different "scales" of organisation). These networks are
+        embedded within creatures that inhabit a simple artificial
+        ecology.  The team is currently <ulink
+        url="http://www.santafe.edu/~alex">Alex Lancaster</ulink> now
+        at the <ulink url="http://www.santafe.edu">Santa Fe
+        Institute</ulink> and <ulink
+        url="http://www.mhri.edu.au/~dma/index2.html">David
+        Alexander</ulink> of the <ulink
+        url="http://www.mhri.edu.au">Mental Health Research
+        Institute</ulink> in Melbourne, Australia.
+      </para>
+    </listitem>
+
+    <listitem><para><ulink
+url="http://www.ma.umist.ac.uk/dsumpter/beesim/index.html">BeeSim</ulink>
+- <ulink url="http://www.ma.umist.ac.uk/dsumpter/">David
+Sumpter</ulink> at the <ulink url="http://www.UMIST.ac.uk/">University
+of Manchester Institute of Science &amp; Technology</ulink> is
+studying the behaviour of honey bees and is progressing on the
+simulation of such using Swarm.
+</para>
+</listitem>
+
+    <listitem><para><ulink
+          url="http://alife.tuke.sk/projekty/mag_html/mag_intro.html">Metabolizing
+          Agents (MAG)</ulink> - <ulink
+          url="http://www.ifi.ntnu.no/~zvirinsk">Peter
+          Zvirinsky</ulink> has developed a project with Swarm called
+          Metabolizing Agents (MAG).  MAG simulates a bacteria-like
+          population in an environment with different resource types.
+          MAGs search for the food, must move to the food, burn energy
+          to make movements and to survive, grow as they eat and split
+          in two as they reach reproduction size. Each agent has its
+          genetic code determining food he consume and food he produce
+          and some of its other abilities. The code is also subject of
+          mutation to enable agents adaptation by evolution. Resources
+          flux through the system is also controlled. Monitored
+          parameters are overall population, agents qualities,
+          resources amount and 2D world view itself.
+      </para>
+    </listitem>
+
+
+
+<listitem><para><ulink url="http://www.omicrongroup.org/evo">Evo</ulink> (pronounced EE-vo) is a software framework that allows researchers to study complex systems of independent agents interacting with one another and with their environment.  Evo employs biological operators such as genetic recombination and mutation to evolve the behavior of agents so that they are more adapted to their environment.</para></listitem>
+
+  </itemizedlist>
+  </simplesect>
+
+  <simplesect id="community-links-ecology">
+    <title>Ecology</title>
+    
+    <itemizedlist>
+      
+        <listitem><para><ulink
+url="http://biology001.unm.edu/~benquist/">Brian Enquist</ulink> at
+the <ulink url="/">Santa Fe Institute</ulink> and Jay Pringle of the
+<ulink url="http://www.cs.unm.edu">UNM Computer Science
+Department</ulink> are working on a Swarm model of plant ecosystems
+            incorporating allometric scaling relations.
+          </para>
+        </listitem>
+        
+        <listitem><para><ulink
+url="http://www.lps.ens.fr/~weisbuch">Gerard Weisbuch</ulink> of Ecole
+Normale Sup&#233;rieure is using Swarm to study adaptive agents in
+interaction with their physical or biological environments, exploiting
+renewable resources such as <ulink
+url="http://www.lps.ens.fr/~weisbuch/w2/w2.html"> fisheries</ulink> or
+<ulink url="http://www.lps.ens.fr/~weisbuch/car/car.html">
+polluting</ulink> their environment and in interaction with other
+agents <ulink
+url="http://www.lps.ens.fr/~weisbuch/marcomp/marcomp.html"> in
+markets</ulink>
+          </para>
+        </listitem>
+
+        <listitem><para>Vladen Babovic and Thomas Gudmunsson from
+            <ulink url="http://www.dhi.dk/">The Danish Hydraulic
+              Institute</ulink> are studying <citetitle>Individual Based
+        Modelling of Aquatic Ecosystems</citetitle> and <citetitle>Adaptive
+        Numerical Grids</citetitle>.
+        </para>
+      </listitem>
+      
+      <listitem><para><ulink
+                             url="http://margay.sscnet.ucla.edu/~savage">Melissa
+                             Savage</ulink> (UCLA), and <ulink
+                             url="/~manor">Manor Askenazi</ulink> have
+                             built a model of forest dynamics whose
+                             goal is to examine the role of fire on
+                             species diversity.  The <ulink
+                             url="&ftpcontribobjc;arborgames-1.0.0.tar.gz">source
+                             code</ulink> for <ulink
+                             url="http://margay.sscnet.ucla.edu/~reb/arborweb/arbormain.html">Arborgames</ulink>,
+          as the app is called, is provided in our
+          anarchy directory.  The next generation
+          version of the application is called
+          <emphasis>Arborscapes</emphasis>.
+        </para>
+      </listitem>
+      
+      <listitem><para><ulink
+                             url="http://bamboo.mluri.sari.ac.uk/~mattie/homepage.html">Matt
+                             Hare</ulink> at <ulink
+                             url="http://www.mluri.sari.ac.uk/mluri.htm">Macaulay
+                             Land Use Research Institute</ulink>
+          (MLURI) is building a model of the
+          socio-economic &amp; ecological domain of Red
+          Grouse population dynamics called <ulink
+                                                   url="http://bamboo.mluri.sari.ac.uk/~mattie/weaver.html">
+            Weaver</ulink> using Swarm.  Matt is also
+          interested in the larger issues of the
+          dependence of a model on implementation
+          and how to avoid such or ensure the
+          integrity of a model when translated.
+        </para>
+      </listitem>
+      
+      <listitem><para> <ulink url="http://www.eawag.ch/~pahl">Claudia
+          Pahl-Wostl</ulink>'s group at the Swiss Federal Institute of
+          Environmental Science and Technology, Duebendorf (EAWAG) is
+          studying ecological and socio-economic networks.  A current
+          Swarm model is being used to generate ecological networks,
+          which will allow the investigation of the effects of a
+          network's structural organization and of the properties of
+          the individual network elements on system performance.
+        </para>
+      </listitem>
+      
+      <listitem><para>A team team affiliated with the Department of
+          Mathematics, Humboldt State University, under the direction
+          of <ulink url="http://www.humboldt.edu/~rhl1/">Dr. Roland
+          Lamberson</ulink> is working on <ulink
+          url="http://weasel.cnrs.humboldt.edu/~simsys/">individual-based
+          fish modeling</ulink>, including development of (a)
+          individual-based modeling theory and (b) modeling
+          software. They are developing animal movement methods that
+          cause realistic complex behaviors to emerge from simple
+          rules as habitat conditions and food supply change.  Their
+          <emphasis>California Individual-based Fish Simulation
+          System</emphasis> is a Swarm-based platform for rapidly
+          building, testing, and running experiments with
+          individual-based fish population models. The prototype was
+          developed by <ulink url="mailto:gepr@swarm.com">Glen
+          Ropella</ulink>; the code is now being developed by <ulink
+          url="mailto:LRA@northcoast.com">Steve Railsback</ulink> and
+          <ulink url="mailto:Jackson3@Humboldt1.com">Steve
+          Jackson</ulink>.  Their presentations from
+          <emphasis>SwarmFest '99</emphasis> should be online from the
+          4th of April onwards.</para>
+      </listitem>
+    
+    </itemizedlist>
+  </simplesect>
+
+  <simplesect id="community-links-culture">
+    <title>Culture/anthropology</title>
+    
+    <itemizedlist>
+      
+      <listitem><para><ulink
+url="http://www.santafe.edu/projects/swarm/users/Pages/Village/village.html">Village</ulink>
+- Village is a model being developed to test varying anthropological
+theories about Anasazi village formation in the Mesa Verde
+district. It is being developed by <ulink
+url="http://www.wsu.edu/~anthro/faculty/kohler.html">Tim
+Kohler</ulink> of Washington State University and Carla Van West of
+Statistical Research, Inc. Eric Carr has done much of the
+implementation of the model in Swarm.  The <ulink
+url="&ftpcontribobjc;village4-1.0.0.tar.gz">Village4
+source code</ulink> is up and running with Swarm 1.0.0.
+</para>
+</listitem>
+
+      <listitem><para>John B. Corliss<email>corliss@ceu.hu</email> and
+          <ulink
+          url="http://heureka.inf.elte.hu/~gulya/">L&#225;szl&#243;
+            Guly&#225;s-Zana</ulink> are part of a group at the <ulink
+                                                                       url="http://www.ceu.hu">Central European University</ulink>
+          that is starting a Systems Laboratory which will study
+          agent-based complex systems models of social systems as
+          collections of individuals.
+        </para>
+      </listitem>
+      
+      <listitem><para><ulink url="http://weber.u.washington.edu/~clipo">Carl
+          Lipo</ulink> and Sarah Sterling at the University of
+          Washington and Emergent Media is working on the <ulink
+          url="http://www.emergentmedia.com/archy/">Cultural
+          Transmission Project</ulink>, which is using simulation to
+          model social interaction using an evolutionary approach to
+          social archeology/anthropology.</para>
+      </listitem>
+
+    </itemizedlist>
+    </simplesect>
+  
+  <simplesect id="community-links-cs">
+    <title>Computer science/industry</title>
+    
+    <itemizedlist>
+      <listitem><para><ulink
+          url="http://aaron.physics.lsa.umich.edu:80/Software/Drone/">Drone
+          </ulink>- The CAR Group at the <ulink
+          url="http://pscs.physics.lsa.umich.edu/">University of
+          Michigan Program for the Study of Complex Systems</ulink>
+          has developed a tool called &quot;Drone&quot; that can be
+          used with Swarm or with other simulation packages to do
+          multiple runs of a simulation while varying the inputs
+          automatically. The CAR Group consists of Michael Cohen,
+          Robert Axelrod, and Rick Riolo.
+</para>
+</listitem>
+
+       <listitem><para>General Electric's <ulink url="http://www.crd.ge.com/~bushsf/ftn">Imperishable Networking</ulink> group used Swarm to model the evolution of complexity on an active network.</para></listitem>
+
+        <listitem><para><ulink
+              url="http://www-iiuf.unifr.ch/~chantem/">Fabrice
+              Chantemargue</ulink> is a member of the <ulink
+              url="http://www-iiuf.unifr.ch/pai/axe/AMOC.html">Autonomy
+              Modelisation and Coordination (AMoC)</ulink> project at
+              the University of Fribourg that has implemented a model
+              of <citetitle> Implicit cooperation and Antagonism in
+              Multi-Agent Systems</citetitle> in Swarm.  He has an
+              <ulink
+              url="&ftpcontribobjc;EnhApp.tar.gz">enhanced
+              application</ulink> that uses the Vision library to help
+              model this antagonism.  (This archive doesn't create a
+          new directory when you untar it.)
+        </para>
+      </listitem>
+      
+      <listitem><para>MIMD Systems - Jim Clark at McGill University
+          is porting a simulation of an MIMD parallel computer via
+          &quot;processor agents&quot; moving around in a data space
+            to do load balancing on those processors. He has provided
+          a <ulink
+                   url="/projects/swarm/users/clark_tr94.ps">postscript paper
+            entitled &quot;A Model for Natural and Artificial MIMD
+            Systems&quot;</ulink> describing the model.
+        </para>
+      </listitem>
+      
+      <listitem><para><ulink
+                             url="http://farm.ecs.umass.edu/~naga">Naga
+            Krothapalli</ulink> at University of Massachusetts at
+          Amherst is interested in the simulation of multi-agent
+          manufacturing systems, ant colonies and supply chain
+          networks.</para>
+      </listitem>
+    </itemizedlist>
+  </simplesect>
+  
+  <simplesect id="community-links-economics">
+    <title>Economics</title>
+    
+    <itemizedlist>
+      
+      <listitem><para> <ulink
+            url="http://cce.sscnet.ucla.edu/swarmcourse">Benedikt
+            Stefansson</ulink> is interested in Computational
+            Economics and is specifically using Swarm to study the
+            dynamics of competition in a differentiated product market
+            and an evolutionary model of Principal-Agent
+            organizations.</para>
+        </listitem>
+
+      <listitem id="ASM"><para>Sponsored by the &SFI;, Brandon Weber
+      has written extensive documentation for the two Artificial Stock Market
+      implementations: <ulink url="&ftpASMroot;ASM-2.0.tar.gz">Swarm</ulink> 
+      and <ulink url="&ftpASMroot;ASM-objc.tar.gz">straight Objective C</ulink>.  The documentation is available either as <ulink url="&ftpASMroot;ASM-documentation.ps.gz">PostScript</ulink>, <ulink url="&ftpASMroot;ASM-documentation.html">converted HTML</ulink> or in the original <ulink url="&ftpASMroot;ASM-documentation.doc">Microsoft Word</ulink> format.</para>
+
+      <para>
+      <ulink url="http://lark.cc.ukans.edu/~pauljohn">Paul Johnson</ulink>
+      <ulink url="mailto:pauljohn@ukans.edu">&lt;pauljohn@ukans.edu&gt;</ulink>
+      is now maintaining ASM at <ulink url="http://ArtStkMkt.sourceforge.net">
+      SourceForge</ulink>.</para>
+      </listitem>
+    
+      <listitem id="SWIEE"><para>The <ulink url="http://swiee.econ.unito.it">Swarm Web Interface for Experimental Economics</ulink> (SWIEE) is a project that aims to develop software classes and examples for facilitating experiments with human subjects.
+      </para></listitem>
+    </itemizedlist>
+  </simplesect>
+    
+  <simplesect id="community-links-political">
+    <title>Political Science</title>
+    <itemizedlist>
+      
+      <listitem><para> <ulink
+              url="http://www.bol.ucla.edu/~dschreib">Darren
+              Schreiber</ulink> has implemented an agent-based model
+              of the formation of political parties.  The program
+              unifies four traditional results in political science as
+          emergent consequences of the model: 1) the tendency
+          towards two parties, 2) movement towards the median
+          voter, 3) party realignment with a change in issue
+          salience, and 4) the tendency towards a minimum winning
+          coalition.  He is also working with the Empirical
+          Research Group at UCLA Law School on an update of Thomas
+          Schelling's classic model of racial segregation.</para>
+      </listitem>
+    </itemizedlist>
+  </simplesect>
+  
+  <simplesect id="community-links-geog">
+    <title>Geography</title>
+    
+    <itemizedlist>
+      <listitem>
+        <para><ulink url="http://www.nr.usu.edu/~sanduku">Paul
+          Box</ulink> is an assistant professor of geography and earth
+          resources at Utah State University and assistant director of
+          a very well-equipped remote sensing and GIS lab that is
+          currently part of the geography department at USU.  He
+          previously wrote a simulation in Swarm to study recreational
+          boat traffic in Sarasota Bay.
+        </para>
+      </listitem>
+      
+      <listitem>
+        <para><ulink
+                       url="http://www.ncgia.ucsb.edu/~cath/">Catherine
+          Dibble</ulink> is using Swarm model spatial technologies
+        and human settlement patterns and the associated
+        economic, social, and environmental implications of
+        likely changes.  She has two relevant papers on the web:
+        <citetitle><ulink
+                          url="http://www.ncgia.ucsb.edu/~cath/geocomp96.html">Theory
+            in a Complex World: Agent-Based Simulations of
+            Geographic Systems</ulink></citetitle> and
+        <citetitle><ulink
+                          url="http://www.ncgia.ucsb.edu/~cath/geocomp97.html">Geographic
+            Modeling with Computational
+            Laboratories</ulink></citetitle>.
+      </para>
+      </listitem>
+      
+      <listitem>
+        <para><ulink url="mailto://n.gotts@mluri.sari.ac.uk">Nick
+            Gotts</ulink>, <ulink
+            url="mailto://a.law@mluri.sari.ac.uk">Alistair Law</ulink>
+            and <ulink url="mailto://g.polhill@mluri.sari.ac.uk ">Gary
+            Polhill</ulink> of the Land Use Science group at the
+            <ulink url="http://www.mluri.sari.ac.uk/">Macaulay Land
+            Use Research Institute</ulink> in Aberdeen, Scotland, are
+            working on an agent-based model of land-use change in
+            Swarm called FEARLUS (Framework for Evaluation and
+            Assessment of Regional Land Use Scenarios).</para>
+          </listitem>
+    </itemizedlist>
+  </simplesect>
+  
+  <simplesect id="community-links-defense">
+    <title>Defense-related</title>
+    
+    <itemizedlist>
+      
+      <listitem>
+        <para>
+          <ulink
+                 url="http://www.rpi.edu/~kewler/fgdo/fgdo.html">Fuzzy-Genetic
+                 Decision Optimization for Positioning of Military
+                 Combat Units</ulink> by <ulink
+                 url="http://www.rpi.edu/~kewler/thespage.html">CPT
+                 Rob Kewley,</ulink> U.S.  Army.  Fuzzy-genetic
+                 decision optimization solved a problem of positioning
+                 military combat units for optimum performance.  It
+                 used a Swarm simulation model to evaluate solutions,
+                 a fuzzy logic module to map simulation outputs to a
+                 single fitness value, and a genetic algorithm to
+                 search the terrain for a near-optimal combination of
+                 unit positions. In this study, the fuzzy-genetic
+                 system outperformed a human expert during a simulated
+                 battle.</para>
+          </listitem>
+        </itemizedlist>
+  </simplesect>
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

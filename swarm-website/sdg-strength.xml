@@ -1,0 +1,228 @@
+<webpage navto="yes" id="sdg-strength">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:21 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Strengths</title>
+    <abstract>
+      <para>A sampling of user feedback on Swarm, and ongoing Swarm
+        projects and applications</para>
+    </abstract>
+  </head>
+
+  <itemizedlist>
+    
+    <listitem><para><quote>The basic structure of the system that is
+          powerful yet tremendously flexible. I have explored other
+          simulation systems and the common problem I have faced is
+          that they force the user into making assumptions of one kind
+          or another that may or may not be appropriate. I think the
+          Swarm's biggest strong point is in its very *abstracted*
+          nature. The user can program nearly anything (within some
+          scheduling limitations).</quote> <footnote> <para>replies
+          excerpted from the 1999 Swarm Survey</para>
+          </footnote>
+        </para></listitem>
+
+      <listitem><para><quote>Reproducability of results by others. Useful
+          objects for observing and logging simulation
+          results. Run-time analysis of the model.</quote></para></listitem>
+
+      <listitem><para><quote>For whatever reason, I got about 3,000 lines/week
+          productivity out of programming on the Swarm framework,
+          easily 5x prior platforms.</quote></para></listitem>
+
+      <listitem><para><quote>Coming from a non-programming background, the
+          fact that it is gives me a skeleton frame for developing my
+          applications appeals a lot to me. It has helped me save a
+          lot of time by not developing a simulation tool from
+          scratch.</quote></para></listitem>
+
+      <listitem><para><quote>Strong user base and strong developer
+          support.</quote></para></listitem>
+
+      <listitem><para><quote>Framework for agent-based simulation. It is
+          really the only platform of its kind and the ongoing
+          development is really quite irreplaceable.</quote></para></listitem>
+
+      <listitem><para><quote>The inter-disciplinary user community is very
+          important. After the initial learning curve, it's very easy
+          to develop surprisingly complex scenarios (simulations) And,
+          it's really cool...</quote></para></listitem>
+  </itemizedlist>
+
+  <section>
+    <title>What's been done with Swarm?</title>
+
+    <formalpara>
+      <title>Natural Sciences</title>
+      <para>
+      
+      <itemizedlist>
+        <listitem><para>the emergence of food cycles using a bacteria-like populations of agents </para></listitem>
+        
+        <listitem><para>simulation of the growth of bacterial cells </para></listitem>
+        
+        <listitem><para>mechanical shape generation and optimization using cell-based shape representation</para></listitem>
+        
+        <listitem><para>genetic regulatory networks and pattern formation in drosophilia development</para></listitem>
+        
+        <listitem><para>ecosystem dynamics models</para></listitem>
+        
+        <listitem><para>local circuit dynamics involved in thalamic pain processing based on physiologically realistic models</para></listitem>
+        
+        <listitem><para>host/parasitoid and marine intertidal population ecology</para></listitem>
+        
+        <listitem><para>modeling the spatial interaction of three very different seagrass species in Western Australia.</para></listitem>
+        
+        <listitem><para>modeling the interaction of juvenile salmon and their predators in the Columbia / Snake River system</para></listitem>
+        
+        <listitem><para>artificial chemistry based on local interactions among molecules</para></listitem>
+        
+        <listitem><para>biochemical reactions</para></listitem>
+        
+        <listitem><para>predator/prey models using spatial dynamics</para></listitem></itemizedlist>
+      
+    </para>
+  </formalpara>
+  
+    <formalpara><title>Social Sciences</title>
+    <para>
+      <itemizedlist>
+        <listitem><para>the role of emotions in social
+            simulations</para></listitem>
+        
+        <listitem><para>cognitive ergonomics: analyzing cognition
+            and cooperation between health care
+            workers</para></listitem>
+        
+          <listitem><para>cultural vectors of psychological disorders
+            across time</para></listitem>
+        
+        <listitem><para>Regional growth, spatial layout and
+            transportation systems</para></listitem>
+        
+        <listitem><para>Sugarscape-type model to investigate gender
+            and class structure in society</para></listitem>
+        
+        <listitem><para>cultural transmission among spatially
+            structured groups</para></listitem>
+        
+        <listitem><para>settlement pattern modeling of southwestern
+            prehistoric land use</para></listitem>
+        
+          <listitem><para>modeling of settlement pattern systems,
+            coevolution of agent distributions and network
+              structure</para></listitem>
+        
+        <listitem><para>hunter-gathereer movement in the Great Basin
+            using optimal foraging theory</para></listitem>
+        
+        <listitem><para>modeling the effects of anxiety in human
+            relationship systems</para></listitem>
+        
+        <listitem><para>food systems in developing
+            countries</para></listitem>
+
+        <listitem><para>defection tolerance of emerging social
+            complexity</para></listitem>
+        
+        <listitem><para>the domestic politics of international
+            crisis diplomacy</para></listitem>
+        
+        <listitem><para>effects of culture on transition to
+            capitalism</para></listitem></itemizedlist>
+      
+    </para>
+  </formalpara>
+  
+    <formalpara>
+    <title>Economics</title>
+    <para>
+      <itemizedlist>
+        <listitem><para>economics of slavery</para></listitem>
+        
+        <listitem><para>modeling effects of customer satisfaction on
+            profits over various time scales</para></listitem>
+        
+        <listitem><para>studying adaptive organizations, network
+            transactions in economics</para></listitem>
+        
+        <listitem><para>agent based models in
+            economics</para></listitem> 
+        
+        <listitem><para>consumer behavior modeling</para></listitem>
+        <listitem><para>origin of central banking</para></listitem>
+        
+        <listitem><para>financial system
+            (in)stability</para></listitem> 
+        
+        <listitem><para>spread of
+            fashion influence in consumer markets</para></listitem>
+        
+          <listitem><para>origin of markets and
+            states</para></listitem> 
+        
+        <listitem><para>supply webs,
+            consumers, macroeconomic models</para></listitem>
+        
+        <listitem><para>electrical system market modeling</para></listitem>
+        
+        <listitem><para>economics, policy evaluation</para></listitem> 
+        
+          <listitem><para>microeconomics
+            modeling: oligopolistic competition models</para></listitem>
+        
+        <listitem><para>sector-driven regional modeling</para></listitem>
+        
+      </itemizedlist>
+    </para>
+  </formalpara>
+  
+  <formalpara>
+    <title>Military</title>
+    <para>
+      <itemizedlist>
+        <listitem><para>simulation of Micro Air Vehicle group behavior in searching for tanks</para></listitem>
+        <listitem><para>decision related structures, information flow</para></listitem>
+        <listitem><para>command, control, communications modeling</para></listitem>
+        <listitem><para>information warfare simulation</para></listitem>
+        <listitem><para>fuzzy-genetic decision optimization for positioning of military combat units</para></listitem></itemizedlist>
+    </para>
+  </formalpara>
+  
+    <formalpara>
+    <title>Commercial Applications</title>
+    <para>
+      <itemizedlist>
+        <listitem><para>multi agent feature based CAD system</para></listitem>
+        <listitem><para>mobile communication system databases with mobile agents</para></listitem>
+        <listitem><para>management and human resources (training programs)</para></listitem>
+        <listitem><para>engineering design and manufacturing management</para></listitem>
+          <listitem><para>automation, cooperatively developed schedules</para></listitem></itemizedlist>
+    </para>
+  </formalpara>
+  
+  <formalpara>
+    <title>Other</title>
+    <para>
+      <itemizedlist>
+        <listitem><para>interactive music composition</para></listitem>
+        <listitem><para>virtual reality, avatars</para></listitem>
+        <listitem><para>agent-based simulation for activity based scheduling</para></listitem>
+        <listitem><para>modeling language contact situations</para></listitem>
+        <listitem><para>the emergence of specific movement behavior and imitation behavior</para></listitem>
+        <listitem><para>modeling an Immune Systems for pattern recognition</para></listitem>
+        <listitem><para>basic research in complex adaptive systems</para></listitem>
+        <listitem><para>artificial life modeling</para></listitem>
+        <listitem><para>developing GIS-Cellular Automata class for dynamic landscape modeling</para></listitem></itemizedlist>
+    </para>
+    </formalpara>
+  </section>
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("sdg.xml" "webpage")
+End:
+-->

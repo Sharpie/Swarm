@@ -1,0 +1,168 @@
+<webpage navto="yes" id="release-docs">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:15 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Documentation</title>
+    <abstract>
+      <para>There are three different Swarm documentation `books',
+        each of which can be delivered in html, PostScript, dvi or rtf
+        format: <citetitle>Overview to Swarm</citetitle>,
+        <citetitle>Getting Started with Swarm</citetitle>,
+        <citetitle>Reference Guide for Swarm</citetitle> (available for the
+        Objective C or Java interface).  In addition, the SGML source
+        which generates the distributions described above, is also
+        available as a package.</para>
+    </abstract>
+  </head>
+  
+  <tip>
+    <para> See our <ulink url="swarmdocs/refbook/swarm.compatibility.sgml.preface.html">
+     <citetitle>Porting Notes</citetitle></ulink> to assist you in
+     upgrading your existing applications.</para>
+  </tip>
+  <simplesect id="online-docs">
+    <title>Online Documentation</title>
+    
+    <itemizedlist>
+      
+      <listitem><para>The <ulink
+            url="swarmdocs/set/set.html">
+            <citetitle>Documentation Set for
+            Swarm</citetitle></ulink>(&VERSION;) is available
+            online</para></listitem>
+      <listitem>
+        <para>The <citetitle>Java Reference Guide to Swarm &VERSION;
+          </citetitle> is available <ulink
+          url="swarmdocs/refbook-java/index.html">with
+          frames</ulink> or <ulink
+          url="swarmdocs/refbook-java/overview-summary.html">without
+          frames</ulink> </para>
+      </listitem>
+      <listitem><para>The new <ulink url="swarmdocs/userbook/userbook.html"><citetitle>Swarm User Guide</citetitle></ulink> (Beta version!).
+      </para>
+      </listitem>
+
+      <listitem><para>The Swarm 1.4 documentation has been translated
+          into <ulink url="http://www2.kke.co.jp/abs/swarmdoc/set.html"><filename moreinfo="none">Japanese</filename></ulink>
+          by <ulink url="http://www.kke.co.jp/">Kozo Keikaku Engineering
+            Inc</ulink>.
+          
+          <!--<listitem><para>And JJ Merelo is kind enough to provide a mirror in <ulink url="http://kal-el.ugr.es/swarmdocs/index.html">Spain</ulink>.</para></listitem>-->
+        </para></listitem>
+      
+    </itemizedlist>
+  </simplesect>
+  
+  <simplesect id="pack-docs">
+    <title>Packaged Documentation</title>
+    
+    <para>There are three different Swarm documentation `books', each
+      of which can be delivered in <emphasis>html, PostScript,
+        dvi</emphasis> or <emphasis>rtf</emphasis> format:
+      
+      <itemizedlist>
+        <listitem><para><filename moreinfo="none">overbook</filename>
+            - the <citetitle>Overview to Swarm</citetitle>
+            
+            <itemizedlist>
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;overbook-&VERSION;-html.tar.gz">overbook-&VERSION;-html.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;overbook-&VERSION;-dvi.tar.gz">overbook-&VERSION;-dvi.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;overbook-&VERSION;-rtf.tar.gz">overbook-&VERSION;-rtf.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;overbook-&VERSION;.ps.gz">overbook-&VERSION;.ps.gz</ulink></para></listitem>
+            </itemizedlist></para></listitem>
+        
+        <listitem><para><filename moreinfo="none">install</filename> -  <citetitle>Getting Started with Swarm</citetitle>
+            
+            <itemizedlist>
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;installbook-&VERSION;-html.tar.gz">installbook-&VERSION;-html.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;installbook-&VERSION;-dvi.tar.gz">installbook-&VERSION;-dvi.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;installbook-&VERSION;-rtf.tar.gz">installbook-&VERSION;-rtf.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;installbook-&VERSION;.ps.gz">installbook-&VERSION;.ps.gz</ulink></para></listitem>
+            </itemizedlist></para></listitem>
+        
+        <listitem><para><filename moreinfo="none">refbook</filename> -  <citetitle>Reference Guide for Swarm</citetitle>
+            
+            <itemizedlist>
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;refbook-&VERSION;-html.tar.gz">refbook-&VERSION;-html.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;refbook-&VERSION;-dvi.tar.gz">refbook-&VERSION;-dvi.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;refbook-&VERSION;-rtf.tar.gz">refbook-&VERSION;-rtf.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;refbook-&VERSION;.ps.gz">refbook-&VERSION;.ps.gz</ulink></para></listitem>
+            </itemizedlist></para></listitem>
+        
+        <listitem><para><filename moreinfo="none">set</filename> -
+            <citetitle>Documentation Set for Swarm</citetitle>
+            
+            <itemizedlist>
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;set-&VERSION;-html.tar.gz">set-&VERSION;-html.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;set-&VERSION;-dvi.tar.gz">set-&VERSION;-dvi.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;set-&VERSION;-rtf.tar.gz">set-&VERSION;-rtf.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;set-&VERSION;.ps.gz">set-&VERSION;.ps.gz</ulink></para></listitem>
+            </itemizedlist></para></listitem>
+        
+        <listitem><para><filename moreinfo="none">javadoc refbook</filename> - <citetitle>Java Reference Guide for Swarm</citetitle>
+
+            <itemizedlist>
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;refbook-java-&VERSION;-html.tar.gz">refbook-java-&VERSION;-html.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;refbook-java-&VERSION;-dvi.tar.gz">refbook-java-&VERSION;.dvi.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpSwarmdocsArchives;refbook-java-&VERSION;.ps.gz">refbook-java-&VERSION;.ps.gz</ulink></para></listitem>
+              
+            </itemizedlist></para></listitem>
+        <listitem><para><filename moreinfo="none">userguide</filename> - <citetitle>User Guide for Swarm</citetitle>
+
+            <itemizedlist>
+              <listitem><para><ulink url="&ftpUserbookArchives;userbook-&USERBOOKVERSION;-html.tar.gz">userbook-&USERBOOKVERSION;-html.tar.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpUserbookArchives;userbook-&USERBOOKVERSION;-dvi.tar.gz">userbook-&USERBOOKVERSION;.dvi.gz</ulink></para></listitem>
+              
+              <listitem><para><ulink url="&ftpUserbookArchives;userbook-&USERBOOKVERSION;.ps.gz">userbook-&USERBOOKVERSION;.ps.gz</ulink></para></listitem>
+              
+            </itemizedlist></para></listitem>
+      </itemizedlist>
+    </para>
+  </simplesect>
+  
+  <simplesect id="source-docs">
+    <title>Source SGML Documentation</title>
+    
+    <para>The SGML source which generates the <citetitle>Reference
+        Guide</citetitle> and the <citetitle>User Guide</citetitle>
+        distributions described above, are also available as a
+        packages.  You will require the OASIS DocBook DTD and Norman
+        Walsh's Modular DocBook Stylesheets, amongst other packages,
+        in order to build the distributions like above.  These are
+        described in the files <filename
+        moreinfo="none">README</filename> and <filename
+        moreinfo="none">NEWS</filename> contained within each of these
+        packages.</para>
+    
+    <itemizedlist>
+      <listitem><para><ulink url="&ftpDocsSrc;swarmdocs-&VERSION;.tar.gz">swarmdocs-&VERSION;.tar.gz</ulink></para></listitem>
+      <listitem>
+        <para><ulink url="&ftpDocsSrc;userbook-&USERBOOKVERSION;.tar.gz">userbook-&USERBOOKVERSION;.tar.gz</ulink></para>
+      </listitem>
+    </itemizedlist>
+    
+  </simplesect>
+  
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+
+

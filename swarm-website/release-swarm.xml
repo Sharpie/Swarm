@@ -1,0 +1,195 @@
+<webpage navto="yes" id="release-swarm">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:17 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Stable release</title>
+    <abstract>
+
+      <para><emphasis>Swarm</emphasis> is generally installed using
+        one of the <link linkend="release-packaged">packaged</link>
+        (or binary) distributions.  For platforms for which there are
+        no packaged distributions, Swarm is available in <link
+        linkend="release-source">source</link> form.  All software is
+        available from the Swarm ftp site at <ulink
+        url="&ftproot;/pub/swarm">&ftproot;/pub/swarm</ulink> under
+        GNU licensing terms.</para>
+    </abstract>
+  </head>
+
+  <caution>
+    <title>Think about installing a development snapshot!</title>
+    
+    <para>The <link linkend="release-swarm-snapshot">development
+  snapshot</link> is the only release which we are currently actively
+  maintaining, and is the only version that we make bugfixes in.
+  Swarm 2.1.1 was released on 10 April 2000, and is now over two years
+  old.  It is recommended that for serious development most people
+  should attempt to download and install the latest development
+  snapshot.  Casual users who simply want to test drive Swarm and the
+  demo applications should probably install a <link
+  linkend="release-packaged">stable binary
+  package</link>. </para>
+  </caution>
+
+  <tip>
+    <title>NEWS (user-visible changes)</title>
+    <programlisting>
+<![CDATA[
+* Release Notes for Swarm 2.1.1
+** Bug fixes
+*** Fixed a memory leak in the activity library.
+    Thanks to Doug Donalson for the report.
+*** Fixed VarProbe creation via Swarm and SwarmObject
+    getProbeForVariable.  Thanks to Charles Staelin for the report.
+*** Workaround for drag-and-drop problem with Tcl/Tk on Windows.
+    Thanks to Pietro Terna for the report.
+]]>
+</programlisting>
+  </tip>
+
+  <note>
+    <itemizedlist>
+      <listitem>
+        <para>
+       If downloading a binary from within your web browser, you
+       should do it in such a way that the browser never displays the
+       file on the screen. If you save a file after viewing it, many
+       browsers corrupt it. In Netscape, shift-clicking the url will
+       save it directly to disk.</para>
+      </listitem>
+      <listitem>
+        <para>The <filename>needed-software</filename> directory,
+        <emphasis>only applies</emphasis> to building Swarm
+        <emphasis>from source</emphasis>.  If you are installing one
+        of the binary distributions, you <emphasis>will not</emphasis>
+        be required to build any packages from source, all relevant
+        packages will either be bundled with your distribution (such
+        as Red Hat and Debian) and/or we provide the appropriate
+        packages in on the ftp site, under the subdirectory relevant
+        for that distribution (list below).</para>
+      </listitem>
+    </itemizedlist>
+  </note>
+
+  <section id="release-packaged">
+    <title>Packaged (Binary) Distributions (&VERSION;)</title>
+
+    <para>The packaged (binary) distributions provide an environment
+      against which user applications can be compiled and linked,
+      without building the Swarm kernel from source.</para>
+
+    <itemizedlist>
+      <listitem>
+        <formalpara>
+          <title>Windows 9x, Windows NT 4, or Windows 2000</title>
+           <para>
+           <itemizedlist>
+           <listitem><para>
+               <ulink url="&ftpW32Binaries;swarm-&VERSION;.exe">Development Kit</ulink></para><para>Note: very large (50 MB), you may wish to order a <link linkend="release-cdrom">CD-ROM</link></para>
+           </listitem>
+           <listitem><para>
+               <ulink url="&ftpW32Binaries;swarmdemos-&VERSION;.exe">Demos</ulink></para>
+           </listitem>
+           </itemizedlist>
+           </para>
+         </formalpara>
+      </listitem>
+
+      <listitem>
+        <formalpara>
+          <title>Debian GNU/Linux 2.2</title><para>
+        <itemizedlist>
+          <listitem><para><ulink url="&ftpDebianX86Binaries;">ix86</ulink></para></listitem>
+          <listitem><para><ulink url="&ftpDebianSparcBinaries;">sparc</ulink></para></listitem>
+        </itemizedlist>
+        </para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>Red Hat GNU/Linux</title> 
+          <para>
+      <itemizedlist>
+          <listitem><para><ulink url="&ftpRedhatX86Binaries;">Red Hat 6.1 / x86</ulink></para></listitem>
+          <listitem><para><ulink url="&ftpRedhatSparcBinaries;">Red Hat 6.1 / sparc</ulink></para></listitem>
+          <listitem><para><ulink url="&ftpRedhatPPCBinaries;">LinuxPPC R5 (1999)</ulink></para></listitem>
+          </itemizedlist>
+         </para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>SuSE 6.3 GNU/Linux</title> 
+          <para>
+          <itemizedlist>
+           <listitem>
+           <para><ulink url="&ftpSuSEBinaries;">x86</ulink></para>
+           </listitem>
+          </itemizedlist>
+          </para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>Solaris 2.7</title>
+          <para>
+          <itemizedlist>
+           <listitem>
+           <para><ulink url="&ftpSolarisBinaries;">Sparc</ulink></para>
+           </listitem>
+          </itemizedlist>
+         </para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
+
+  </section>
+  <section id="release-source">
+    <title>Swarm Source (&VERSION;)</title>
+    
+    <para>The <ulink url="&ftpSwarmSrc;swarm-&VERSION;.tar.gz">
+       <filename>swarm-&VERSION;.tar.gz</filename></ulink>
+       distribution includes a complete set of swarm kernel sources.
+       The user must first install (or verify the availability of)
+       appropriate versions of the <ulink
+       url="&ftpNeededSrc;">
+       <filename>needed-software</filename></ulink> needed software in
+       order to provide a proper compilation and execution environment
+       for <emphasis>Swarm.</emphasis></para>
+
+    <para>Once the environment has been set up, and the source
+       downloaded and de-tarred into an appropriate directory, the
+       user should consult the <filename>README</filename> and
+       <filename>INSTALL</filename> file to learn what options should
+       be specified to the <filename>configure</filename> script that
+       configures Swarm to the local system.  Compilation and linking
+       are done using the <userinput>make</userinput> as usual, after
+       this step.</para>
+
+    <para>You also need an explicit <userinput>make
+        install</userinput> step, after the initial
+        <userinput>make</userinput> build to cleanly install Swarm to
+        an appropriate location (for example
+        <filename>/usr/local</filename>).  This is explained futher in
+        the <filename>README</filename> and
+        <filename>INSTALL</filename> files contained in the
+        distribution.</para>
+
+    <para>After compilation and installation of
+      <emphasis>Swarm</emphasis> a set of program libraries and header
+      files against which <emphasis>Swarm</emphasis> applications can
+      be compiled and linked is available.</para>
+
+    <para><link linkend="community-contrib">User Contributed
+        Software</link> is also available with source code.</para>
+
+  </section>
+  
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+
+

@@ -1,0 +1,50 @@
+<webpage navto="yes" id="release-license">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:15 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>License</title>
+    <abstract>
+      <para>Swarm is distributed under the <ulink
+      url="http://www.gnu.org/copyleft/gpl.html">GPL</ulink>.
+      Applications and documentation are distributed under the <ulink
+      url="http://www.gnu.org/copyleft/gpl.html">GPL</ulink>.</para>
+    </abstract>
+  </head>
+
+
+  <formalpara>
+    <title>Swarm kernel</title>
+
+    <para>Swarm is distributed under the <ulink
+    url="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</ulink>.</para>
+
+  </formalpara>
+
+  <formalpara>
+    <title>Swarm applications and documentation</title>
+
+    <para>The Swarm applications (<application
+      moreinfo="none">swarmapps</application>) and documentation are
+      are distributed under the <ulink
+      url="http://www.gnu.org/copyleft/gpl.html">GNU General Public
+      License</ulink>.</para>
+  </formalpara>
+
+  <tip>
+    <title>Copyright &copy; 1996-2002 Swarm Development Group</title>
+    <para>All parts of the Swarm distribution (kernel, applications
+      and documentation).  </para>
+    
+    <para>Swarm is distributed without any warranty; without even the
+    implied warranty of merchantability or fitness for a particular
+    purpose.</para>
+  </tip>
+
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+
+

@@ -1,0 +1,65 @@
+<webpage navto="yes" id="examples-mousetrap">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:12 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Mousetrap</title>
+    <abstract>
+      <para><graphic fileref="graphics/mousetrap-world3.png"/>A simple discrete event simulation of fission.</para>
+    </abstract>
+  </head>
+
+  <para>An old grade school demonstration of nuclear fission. Lay a
+    bunch of mousetraps on the floor in a regular grid, and load each
+    mousetrap with two ping pong balls. Drop one ping pong ball in
+    the middle and watch the fun begin! (Unfortunately, Swarm does
+    not yet support sound.)</para>
+  
+  <para>We implemented this in Swarm as an example of a simple
+    discrete event simulation. Time stepping each mousetrap would be
+    incredibly inefficient, since most mousetraps are doing nothing
+    most of the time. Instead, we simulate each ping-pong ball as an
+    event on the schedule. This method is much more efficient: you
+    only compute when there is something to be done. One power of
+    Swarm is that it supports both discrete event and time stepped
+    models.</para>
+  
+  
+
+  <para>
+    <figure float="1">
+      <title>Time evolution of the world</title>
+      <literallayout format="linespecific" class="normal">
+        <inlinegraphic fileref="graphics/mousetrap-world1.png"/> <inlinegraphic fileref="graphics/mousetrap-world2.png"/> <inlinegraphic fileref="graphics/mousetrap-world3.png"/> <inlinegraphic fileref="graphics/mousetrap-world4.png"/> </literallayout>
+      
+    </figure>
+    
+    These are snapshots of the world over time (from early on through
+    the end of the reaction). Mousetraps change from blue to red when
+    the trap fires. Each time a mousetrap is triggered, it schedules
+    two trigger events for two random nearby mousetraps sometime in the
+    near future. The balls only fly a limited distance; that induces a
+    spreading aspect to the reaction.</para>
+  
+  <para>
+    <figure><title>Model data</title>
+      <screenshot>
+        <graphic fileref="graphics/mousetrap-graphs.png"/>
+      </screenshot>
+    </figure>
+    
+    These two graphs show detail about the reaction rate. The top
+    graph, the number of traps triggered over time, shows the
+    classic result: the reaction initially spreads rapidly, but
+    slows down and stops when it runs out of fuel (loaded
+    mousetraps). The bottom graph is simply the number of events
+    pending on the schedule, this corresponds to the number of ping
+    pong balls currently in the air.</para>
+  
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

@@ -1,0 +1,541 @@
+<webpage navto="yes" id="sdg-report-2000">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:20 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+    <head>
+      <title>2000 Annual Report</title>
+      <abstract>
+        <para>The 2000 Swarm Development Group Annual Report</para>
+      </abstract>
+    </head>
+  <literallayout format="linespecific" class="normal">
+<emphasis role="strong">From: mgd@swarm.org (Marcus G. Daniels)
+Subject: First annual report, Swarm Development Group
+To: swarm-announce@santafe.edu
+Date: 21 Oct 2000 15:57:30 -0700
+</emphasis></literallayout>
+
+    <para>It has been a year since the Swarm Development Group was
+spun-out of the Santa Fe Institute.  It has been anything but boring,
+and I think it is safe to say we have all learned a lot.</para>
+
+    <para>Since before the middle of last year, Irene Lee led the
+charge to establish the Swarm Development Group as a non-profit
+corporation.  By the time of our formal departure from SFI, this
+status was secured, the SDG directors board was formed, and we had an
+agreement with SFI to transfer copyright of the software.  By the end
+of the year, we had office space allocated, and new computer equipment
+was up and running.</para>
+
+    <para>Without taking a breath, Irene went on to organize the first
+non-SFI-supported SwarmFest.  Although things looked pretty grim for
+SwarmFest 2000 for a few days, Irene persevered and in the end the
+meeting turned out great.  Our friends from Utah State were terrific
+hosts and the content and attendance was more than we had
+hoped.</para>
+
+    <para>To do all this work, Irene burned the candle at both ends.
+The SDG had no money to pay her, and eventually she just had to stop
+for the sake of her sanity.  Irene's departure was a major loss for
+the Swarm Development Group.</para>
+
+    <para>As a stop-gap measure, Chris Langton stepped-in as president
+until we could find a replacement.  In a few weeks, we (the SDG
+directors) selected Randy Burge to replace Irene.  Randy is an expert
+in tech-transfer, working for Lockheed Martin's Technology Ventures
+Corporation and Los Alamos National Labs, among others.</para>
+
+    <para>Just about the time Randy came on-board, a major
+anthropology grant Chris was awaiting came-through, and with more
+money than expected.  Chris needed to direct all his attention to
+scientific work.  (Chris, in his irrepressible style, is taking his
+usual first principles approach to the task.  Construction,
+deconstruction, tools &amp; techniques, and even science itself all merge
+into a intermingled, yet seemingly-effortless vibe.  It is *really*
+annoying..eh, I mean, neat!)</para>
+
+    <para>Meanwhile, Alex Lancaster and Glen Ropella have continued
+(and continue) to donate their time and money to the Swarm
+cause.</para>
+
+    <para>Alex left SFI this summer to begin study in the Integrative
+Biology department at Berkeley.  Alex remains an active SDG director
+and helps to keep our web pages up-to-date.</para>
+
+    <para>Since April, Glen, the Vice President of the Swarm
+Development Group, and my predecessor at SFI, has been working remote
+for a Silicon Valley dot com.  Glen shares office space with the SDG,
+and he periodically sells his blood to raise money for rent, disk
+drives, DSL connections, and the like. </para>
+
+    <para>Roger Burkhart, the primary designer of Swarm, continues to
+provide an unending array of deep design plans.  It was a travesty his
+presentation at SwarmFest 2000 was not captured on digital media,
+seeing how many SwarmFest attendees remarked how they would watch it
+again and again in a trance of hypnotic fascination.  In particular,
+this observer remains shaken by the reality of watching over his
+shoulder as he wrote the slides during presentations earlier that
+day.</para>
+
+    <para>Paul Johnson tirelessly interprets and recodes our (eh,
+especially my), various mutterings for the benefit of the Swarm
+community at large.  Paul's contribution to Swarm and agent-based
+modeling can't be overestimated.</para>
+
+    <para>As for me, the only SDG employee, through sheer necessity I've taken
+on the role of executive director of the SDG (even though I'm really
+just the head geek).  Mail your complaints, administrativa and CD-ROM
+requests to me!  More e-mail!  More e-mail!</para>
+
+    <para><link linkend="sdg-report-2000-tech">Next: Technical status</link></para>
+  <webpage navto="yes" id="sdg-report-2000-tech">
+    <head>
+    <title>Technical status</title></head>
+
+    <para>At SwarmFest 2000 in March, Swarm 2.1 was released.  Swarm
+2.1 was the first release developed at the new SDG office in Santa Fe.
+This release addressed a number of limitations in the initial Java
+support for Swarm (2.0) that the Swarm user community had identified.
+</para>
+
+    <para>We have since made one maintenance release (2.1.1), which is
+what we distribute on CD-ROM.  Additional incremental improvements and
+fixes are available as drop-in DLL upgrades for Windows users at
+<ulink
+url="ftp://ftp.swarm.org/pub/swarm/binaries/w32/2.1.1-fixes"></ulink>.</para>
+
+    <para>Since then, I've been keeping my head down and working on
+    new cool stuff.</para>
+
+    <para><link linkend="sdg-report-2000-ahead">Next: The road ahead</link></para>
+  </webpage>
+
+  <webpage navto="yes" id="sdg-report-2000-ahead">
+    <head><title>The road ahead</title></head>
+
+    <para> I'll cut to the chase.  Here's the new cool stuff pending
+    for the next release.</para>
+
+    <orderedlist>
+      <listitem>
+	<para>
+      Swarm models will be sharable as self-contained documents.</para>
+      </listitem>
+
+      <listitem>
+	<para>
+      Describing the `big picture' for a model will not involve
+     programming.  In simple cases, the `little picture' (e.g. `step'
+     methods) will not involve programming, either.  Read on for
+     details on this.</para>
+      </listitem>
+
+      <listitem>
+	<para> Swarm models can run inside a web browser, specifically
+     Netscape 6.  Swarm is already equipped to run JavaScript Swarm
+     models off the web.</para>
+      </listitem>
+
+      <listitem>
+	<para>
+  Swarm models can reference subcomponents via the web.  For example,
+     an ObserverSwarm can sit on website A and the ModelSwarm it
+     manages could be on website B.  When run, it would all be built
+     and run inside the users browser.</para>
+      </listitem>
+
+      <listitem>
+	<para>There are all sorts of potential elaborations on this:
+     one might be using popular search engines to pick up compatible
+     subcomponents to use.  Real-time collaborative work environments
+     are another possibility.</para>
+      </listitem>
+
+      <listitem>
+	<para> Swarm models can reference subcomponents developed
+     outside of the Swarm community.  For example, there is already an
+     genetic algorithm optimizer module.</para>
+      </listitem>
+
+      <listitem>
+	<para> Swarm modelers can move in a low-investment way from
+     Swarm to different scheduling paradigms (and back!)</para>
+      </listitem>
+    </orderedlist>
+
+
+    <simplesect>
+      <title>The killer app</title> <para>These six features put in
+      place what is needed for an interactive, browser-based
+      development environment for agent-based models.</para>
+
+    <para> The details of how such an application will look are
+subject to change, of course, but imagine a vertically split-screen
+arrangement of tool palette adjacent to an iconic canvas
+workspace.</para>
+
+    <para>The palette will have items like Agent, Swarm, Schedule,
+Action, Grid2d, Canvas.  Dragging a Schedule over a Swarm would
+install the Schedule in the Swarm.  Dragging an Action over a Schedule
+would install the Action in the Schedule.  Dragging an Agent over an
+Action would make the Agent the target of the Action.  Clicking on the
+`message' slot in an Action would bring up a script editor.
+Inappropriate combinations, would be rejected, and so on...</para>
+
+    <para>Note that the first release will be usable before the
+graphical development environment is available.  This milestone will
+be usable by itself and it will be easier to learn and use than the
+current Java/Objective C development kit.</para>
+
+      <para><link linkend="sdg-report-2000-background">Next: Background</link></para>
+
+    </simplesect>
+  </webpage>
+
+  <webpage navto="yes" id="sdg-report-2000-background">
+    <head><title>Background</title></head>
+
+    <para>At a conceptual level, the vocabulary for building Swarm
+models is straightforward: agent behaviors are Actions and these
+Actions are driven by Schedules.  An Action is a recipient target
+(e.g. an agent), combined with some transformation on that target.
+Agents can combine Schedules to get multifaceted behavior patterns,
+and they have the option of modifying Schedules as a simulation runs.
+Multiple agents can be run together in a coordinated time and space, a
+Swarm.  These three features (Action, Schedule, and Swarm), make it
+possible to describe agents in a modular and precise way.  Further,
+the Swarm simulator processes these descriptions in such a way that
+emergent concurrent Actions are tracked, and thus the system is, in
+principle, highly scalable.</para>
+
+    <simplesect>
+      <title>Agent Actions</title> <para>A way to talk in precise
+      terms about primitive agent actions is needed.  Sometimes agent
+      actions will be non-linear transformations of agent state, and
+      often actions will need to be mechanistic.</para>
+
+    <para>As of the last release of Swarm, models must represent
+Action targets and messages as Java or Objective C objects and methods
+on those objects.  Although Java is popular, it still takes a fair
+amount of time to learn, and is oriented towards implementation, not
+experimentation, i.e. a single intent mapping to straightforward
+chunks of code.</para>
+
+    <para>Although an implementation language like C++, Java, or
+Objective C can certainly satisfy this need for describing the meaning
+of an Action, in a very real sense these languages are overkill and
+unwieldy for the initial stages of the modeling enterprise.</para>
+
+    <para>In contrast, scripting languages are designed to be dynamic,
+incremental, and forgiving.</para>
+
+    <para>The next release of Swarm, will support JavaScript and
+Scheme in addition to Objective C and Java.  This support is actually
+in the source tree already, and available to inquisitive users that
+want to build Swarm snapshots from source code.</para>
+
+    <para>As with anything, there are tradeoffs.  Interactive
+scripting languages are slow, in general.  Being dynamic and forgiving
+means that more stuff has to be checked more of the time.  Once a
+clear hypothesis is formed (e.g. in the scripting environment), there
+will typically be a need to scale the system up to see what dynamics
+occur for a larger population of agents.</para>
+
+    <para>In this situation performance becomes a serious
+consideration -- even to the point that the overhead of the Java
+virtual machine or the overhead of dynamic method dispatch is
+prohibitive in parts of a model.  It is beneficial if Swarm models can
+be described in a tightly controlled environment such as C++.</para>
+    </simplesect>
+
+    <simplesect>
+      <title>The fix is in</title> <para>With the next release of
+      Swarm, we've targeted a system specifically intended to solve
+      this problem: COM (<ulink
+      url="http://www.microsoft.com/COM"></ulink>).  COM is a
+      technology that facilitates interoperable components, regardless
+      of their implementation language.  COM has the attribute of
+      being very lightweight and fast for the common case of messages
+      within components on the same computer.</para>
+
+    <para> But don't get the idea we're dependent on Microsoft.  We're
+using the Mozilla COM implementation, XPCOM, which is portable across
+Windows, MacOS, and Unix, and has completely freely redistributable
+source code.</para>
+    
+    <para>"Show me the money", you scream!  Snapshots and demo code
+    are at:</para>
+
+    <para><ulink url="ftp://ftp.swarm.org/pub/swarm/src/testing/COM"></ulink>
+</para>
+
+      <para><link linkend="sdg-report-2000-arch">Next: Model Architecture</link></para>
+    </simplesect>
+  </webpage>
+
+  <webpage navto="yes" id="sdg-report-2000-arch">
+    <head><title>Model Architecture</title></head>
+
+    <para>Actions, Schedules, and Swarms look and act like other Java
+or Objective C types.  To create agents and groups of agents (and thus
+models) means creating and connecting instances of these types using
+code.</para>
+
+    <para>With a deliberate effort of abstraction, a modeler can take
+minimalistic approach to the implementation of Swarm models in Java
+and Objective C, and cut away a lot of the fat.  Empirically, a review
+of Swarm models shows a lot of variance in programming idioms for
+tasks that are in fact identical.</para>
+
+    <para>To avoid describing a model's architecture using raw code, the first
+task is to figure out what all Swarm models have in common, and then
+to specify a semantics that encompasses the important features of that
+commonality.</para>
+
+    <para>There are two parts to this: the first was stated above: a
+Swarm model is one that uses Swarm scheduling semantics, i.e. Swarm,
+Schedule, Action. </para>
+
+    <para>The other part is the fact that modelers use Swarm to do
+things besides describing complex, aggregate behavior patterns.  For
+example, Swarm provides objects, the means to load and save objects,
+data structures such as lists and maps, probes to inspect these data
+structures, grids and rasters to display them, etc.  All of this and
+more is needed by modelers to create and evaluate their models.</para>
+
+    <para>How can we factor out all the constant architectural aspects
+of a Swarm model but preserve the goal of a having a quick, expressive
+experimental environment?</para>
+
+    <simplesect>
+      <title>IMA, the Integrating Modeling Architecture</title>
+
+      <para>At SwarmFest 1999, Ferdinando Villa (<ulink
+url="http://ieee.umces.edu/~villa"></ulink>), a scientist at the
+Institute for Ecological Economics at the University of Maryland
+presented a paper which proposed a modular description architecture
+for modeling called IMA, the Integrating Modeling Architecture.</para>
+
+    <para>Paraphrased, Ferdinando made the observation that modeling
+    requires:</para>
+
+    <orderedlist>
+
+      <listitem>
+	<para>one or more paradigms for generating hypotheses</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	specific semantics for describing scenarios subject to
+       predictions of these hypotheses</para>
+      </listitem>
+
+      <listitem>
+	<para>techniques to ground the semantics with validation on
+    real data</para>
+      </listitem>
+
+      <listitem>
+	<para>modular tools to make all this feasible, with the realization
+       that some of these tools really need to be designed by domain
+       experts</para>
+      </listitem>
+    </orderedlist>
+
+    <para> With regard to the first requirement, Swarm scheduling (as
+a special case of agent-based modeling as a special case of
+discrete-event simulation) is one possible paradigm for hypothesis
+generation and testing.</para>
+
+    <para>With regard to the second requirement, in a sense we have these
+`specific semantics' (Swarm, Schedule, Action).  In practice, as
+mentioned earlier, there is a need for stronger conventions for gluing
+the components together.</para>
+
+    <para>Where things really get untenable for Swarm is with #3 and #4.  So
+far, we've addressed this with relatively low-level integration
+features like multi-language support, HDF5 object persistence,
+community programming support, and our minimalistic class libraries
+for space representation and some basic built-in analysis tools.</para>
+
+    <para>SDG members tell me time and time again how much they want
+better spatial representation capabilities, better analysis &amp;
+visualization tools, and better data representation techniques for
+agents. <footnote> <para>Why not continue development with the current
+Swarm analysis, gui, simtoolsgui, and space libraries? The underlying
+GUI interfaces that Swarm has are undesirable for general usage.  This
+is because they were put in place primarily to support the probe
+panels, analysis and space capabilities that do exist in Swarm.
+Basing further work in the space and analysis libraries on this code
+is a poor investment since this GUI library lacks any real design, and
+because it is based on Objective C.  Such work would be polluted by a
+problematic foundation and, worse, there is no substantial developer
+community around Objective C.  This latter problem also makes further
+development on the collections library a questionable enterprise.  All
+in all Swarm needs to rebuild itself around a modern foundation.  This
+means leveraging best-of-the-breed components and avoiding
+from-scratch implementation whenever possible.</para>
+      </footnote></para>
+
+    <para>IMA addresses all these problems.  In IMA, model component
+semantics (in our case, one example is agents) are described in
+Modules.  Primitive Modules are things such as datasets, probes, or
+scripts each having a specific typing and parameterization.  The
+physical representation scheme for all IMA components is a tree of
+linked nodes.  In fact, it is the Document Object Model (<ulink
+url="http://www.w3.org/DOM"></ulink>), a well-known standard for
+active management of hierarchical web content.</para>
+
+    <simplelist columns="2" type="vert">
+      <member>IMA is described in detail at:</member> 
+      <member> A SourceForge page is at:</member>
+      <member><ulink
+      url="http://ima.umces.edu/imt"></ulink></member> 
+      <member><ulink url="http://sourceforge.net/projects/imt"></ulink></member>
+    </simplelist>
+
+    <para>So, compared to Swarm model implementation as it is done
+today, the first change with IMA is that `the big picture', is painted
+using a tree of Module nodes.  Most of these Modules will have a
+specific fixed grammar.  For example, a user would not be allowed to
+create a Schedule outside of a Swarm, as they can in, say,
+Java.</para>
+
+    <para>When a Swarm modeler says "I have an ObserverSwarm, which
+contains a ModelSwarm which contains three Agents using ScheduleA that
+runs ActionA and ActionB", in IMA it means exactly one set of forms,
+and only the details of the ActionA and ActionB Modules would (or
+could) include any code at all. </para>
+
+    <para>This notion of a grammar of module types has the handy
+attribute that it is a well-behaved structure which can be manipulated
+using a graphical model development application, as described
+earlier.</para>
+
+    <para>A corollary is that there will not be obscure toolchain
+complexity or a compiler involved in model development, except in
+cases where such `native' components are desired for
+performance.</para>
+
+    <para>IMA addresses issues #3 and #4 by being designed for
+uncoordinated extensibility.  It is easy for third parties to add new
+Module types to their modeling environment.  In contrast, it is not
+easy for someone to add a feature to the Swarm libraries, since there
+are so many internal conventions to the Swarm code.  </para>
+    </simplesect>
+
+    <simplesect>
+      <title>A Swarm IMT module</title> 
+      <para>IMT is the engine of the
+      IMA architecture.</para>
+
+
+    <para> A Swarm IMT module is well underway.  Swarm now supports
+COM which makes it possible to load the Swarm simulator dynamically
+from the IMT C++ engine, and for Swarm to call the IMT engine via
+COM.</para>
+
+    <para>The SDG is enhancing the clean IMT prototype to use
+Mozilla's DOM interfaces.  This will allow IMT to load model
+descriptions off the web, and run them inside Netscape 6.
+Concurrently, Dr. Villa continues with foundational work on IMA
+semantics.</para>
+
+    <para>With a Netscape 6 plug-in for IMT working, the SDG will then
+implement a basic `Swarm' Module grammar for IMT.  This will have a
+simple design similiar to the XML prototypes described in previous
+papers (<ulink
+url="http://www.santafe.edu/~mgd/anl/hydralink.html#AEN127"></ulink>),
+except that Actions will reference IMT Script Modules, not raw
+precompiled Java code.</para>
+
+    <para>The Netscape 6 plug-ins for IMT (the basic IMA grammar
+processor and object manager), the Swarm IMT plug-in (the Swarm add-in
+grammar module for IMT), and the Swarm plug-in (the existing Swarm
+engine) will constitute the first milestone, described above.  It's no
+oversight: flat-out native code, all the way down.</para>
+
+    <para>The second milestone will layer on top of the IMT system a
+graphical editor and development environment for IMT/Swarm models.
+Again, this can be tackled in a modular way where the SDG contributes
+inspectors, editors, etc. specific to Swarm as a plug-in, and gets the
+rest for free.  (And other collaborators on the the IMA effort can do
+the same, of course!)</para>
+
+    <para>Mozilla has good infrastructure in place for this work, and by the
+time we get to this point we (the IEE and SDG) should have a clear
+picture of Mozilla's future. <footnote>
+<para>A note on Mozilla: some people believe Mozilla will fail.  Some
+people believe that Mozilla is hopelessly bloated, bug-ridden and that
+Netscape will die.  Putting aside for the moment that these people are
+mistaken, defeatist, and and deeply misguided, ;-), I should point out
+that all the technologies mentioned above are all well-documented
+standards.  Microsoft COM is deployed on millions of Windows machines,
+and DOM (level 1) is a standard Internet Explorer will support sooner
+or later.  So there are alternatives: one is to use scriptable COM
+components with Internet Explorer.  Indeed, these are not zero-energy
+alternatives, but they are low-energy alternatives.</para>
+      </footnote>
+    </para>
+
+    <para>The first milestone should be ready around the first of the
+year, and then they'll need be a period of incremental improvement and
+a stability release.  (The first release of Netscape 6 is expected
+soon, Mozilla 1.0 is expected second quarter of next year.)</para>
+      <para><link linkend="sdg-report-2000-vision">Next: This dream's in sight</link></para>
+    </simplesect>
+  </webpage>
+
+  <webpage navto="yes" id="sdg-report-2000-vision">
+    <head><title>This dream's in sight</title></head>
+
+    <para> Better ways are needed to manage and measure the complexity
+of agent models.  The SDG has started on a course that emphasizes
+collaboration and integration, both with regard to semantics and
+infrastructure.  Concretely, we are directing resources to assist
+projects that take the lead to solve the basic representational
+problems facing everyone in this domain, and especially those projects
+that have freely-redistributable infrastructure to show for it.</para>
+
+    <para>In the near term, in collaboration with the IMA project, the
+SDG aims to create a web-based model description and execution
+facility.  This task is in fact nearing completion.</para>
+
+    <para>The technique of agent-based modeling has substantial
+traction, and Swarm has proven itself in this domain.  We expect the
+distributed, multi-level Swarm scheduling interfaces will be a useful
+contribution to the IMA framework.  The design of IMA is such that we
+can extend the system as necessary as SDG member needs dictate.</para>
+
+    <para>Pragmatically, there is a clear need for a migration path
+from the Swarm development kit that is in use today to the
+next-generation IMA system, and there are clearly a number of SDG
+members with deep investments in Objective C and Java models.  For
+this reason we've taken steps to make the Swarm engine usable in
+larger modeling frameworks by introducing bridge technologies to COM
+and Java.  In this way, we can afford to investigate new approaches
+while maintaining the existing engine for SDG members with existing
+investments.</para>
+
+    <para>Building on IMA's flexible infrastructure and semantics, we
+will then begin work on an accessible but flexible model development
+application for modelers.  This work will start immediately after the
+next stabilized Swarm release.  And of course the more groups that
+<link linkend="sdg-membership"><emphasis
+role="strong">join</emphasis></link> the Swarm Development Group, the
+faster this work will move forward!</para>
+ 
+    <literallayout format="linespecific" class="normal">
+      Marcus Daniels
+      Executive Director
+      Swarm Development Group
+     </literallayout>
+ 
+  </webpage>
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("sdg.xml" "webpage")
+End:
+-->

@@ -1,0 +1,65 @@
+<webpage navto="yes" id="community-swarmfest-2001">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>SwarmFest 2001</title>
+    <abstract>
+      <para>SwarmFest 2001 in Santa Fe, NM.</para>
+    </abstract>
+  </head>
+
+  <para>
+    The Swarm Development Group is pleased to announce SwarmFest 2001,
+    the fifth annual meeting of the Swarm user group.  At SwarmFest
+    2001, researchers from diverse disciplines get the opportunity to
+    share their knowledge and experience with multi-agent modeling and
+    the Swarm simulation system.  The Swarm Development Group also
+    uses the meeting to help determine future development priorities,
+    so come and tell us what's on your mind!  The meeting is a cross
+    section of the community, historically including content suitable
+    for both inexperienced and experienced users.
+    </para>
+
+    <para>
+    During the conference, we will be holding a series of talks
+    including time for discussion following each presentation.  Please
+    send proposals for presentations, demonstrations,
+    break-out-sessions, or any other suggestions to
+    <email>swarmfest2001@swarm.org</email>.  We will be publishing the
+    SwarmFest 2001 proceedings.  Please be prepared to submit your
+    abstracts and papers in electronic form!
+    </para>
+
+    <para>
+    SwarmFest 2001 will commence with a party at 6:00pm Saturday
+    evening, April 28, 2001 at the
+    <ulink url="http://www.santafe.edu">Santa Fe Institute</ulink>,
+    in Santa Fe, New Mexico.  Funk wizards <emphasis>FreshUp</emphasis> will kick-start the the 'fest with an array of out-there groove oriented jazz.  Yeah!  
+    Bring those dancing shoes!
+    </para>
+
+    <para>
+    The meeting, proper, will be on April 29th and 30th at Hotel Santa Fe.
+    The <link linkend="community-swarmfest-program">program</link> scheduling
+    details are in development.
+    </para>
+
+<!--    
+    <para><link linkend="community-swarmfest-registration">Register</link> before March 20, and save $100!</para>
+-->
+
+  <webtoc/>
+
+  &community-swarmfest-registration;
+  &community-swarmfest-program;
+  &community-swarmfest-hotels;
+  &community-swarmfest-driving;
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

@@ -1,0 +1,1150 @@
+2003-05-16  Marcus G. Daniels <mgd@santafe.edu>
+	
+	* contact.xml, examples-heatbugs.xml, examples-mousetrap.xml,
+	intro.xml, org.xsl, resources.xml, sdg-brochure.xml, sdg.xml,
+	website.xml, dsl/website.dsl, xsl/docbook/html/admon.xsl,
+	xsl/website/tabular.xsl, xsl/website/website.xsl: Change from GIF
+	to PNG throughout.
+
+	* configure.in, config.h.in, Makefile.in,
+	install-sh missing mkinstalldirs: Add files.
+
+2003-03-18  Alex Lancaster  <alex@swarm.org>
+
+	* community-mailing-lists.xml: Add a customized search form for
+	Google.
+
+2003-03-15  Alex Lancaster  <alex@swarm.org>
+
+	* website.xml: Add 2003 to copyright. Remove webcams page.
+
+	* contact.xml: Update legal address to point to Randy's PO Box in
+	Santa Fe, NM.  Add Christine's address for the membership
+	payments.  Note PayPal payments available.
+
+2003-02-27  Alex Lancaster  <alex@swarm.org>
+
+	* website.xml: Announcement about MacOS X binaries.
+
+	* release-platforms.xml: Note on MacOS X.
+
+	* release-apps.xml: Update note on SWARMHOME variable, remove
+	outdated comment about "sibling directory".
+
+	* sdg-board.xml: Add Paul Box, remove Glen as ED.
+
+2003-02-02  Alex Lancaster  <alex@swarm.org>
+
+	* community-mailing-lists.xml, website.xml: Note mailing list
+	migration to www.swarm.org/mailman/listinfo/.
+
+2003-01-24  Alex Lancaster  <alex@swarm.org>
+
+	* release-docs.xml, intro-tutorial.xml,
+	community-past-swarmfests.xml: Make all links to swarmdocs be
+	relative, local to site (moved all swarmdocs from www.santafe.edu
+	to www.swarm.org).
+
+2003-01-14  Alex Lancaster  <alex@swarm.org>
+
+	* community-past-swarmfests.xml: Move SwarmFest 2002 to here.
+
+	* community-swarmfest.xml: Link to SwarmFest 2003.
+
+	* website.xml: Add link to SwarmFest 2003.
+
+2002-11-25  Alex Lancaster  <alex@swarm.org>
+
+	* release-swarm-snapshot.xml: Add link to Paul's Red Hat 8.0 page.
+
+	* sdg-board.xml: Remove Chris Langton, updated link to Alex
+	Lancaster.
+
+	* website.xml: Include "sdg" in path names: ftpJavaApps ->
+	&ftpSwarm;apps/java/sdg ftpObjCApps -> &ftpSwarm;apps/java/sdg.
+
+	* intro-tutorial.xml: Fix link again (don't need extra "sdg" in
+	path).
+
+2002-10-24  Alex Lancaster  <alex@swarm.org>
+
+	* intro-tutorial.xml: Fix link to SDG app (bump to version 0.1).
+
+	* release-swarm-snapshot.xml: savannah.gnu.org ->
+	savannah.nongnu.org.
+
+	* website.xml (ftpObjCApps, ftpJavaApps): 'src/apps' -> 'apps' as
+	per new ftp arrangement.  savannah.gnu.org -> savannah.nongnu.org.
+
+	* resources-objc.xml: Update link to Objective C book thanks to Ed
+	Baskerville.
+
+2002-07-18  Alex Lancaster  <alex@swarm.org>
+
+	* configure.in: Don't require nsgml to configure.
+
+	* Makefile.am (xsl): Comment out nsgml use, pending making xmllint
+	work.
+
+	* website.xml: Add note about new hosting at CBR.
+
+	* intro-people.xml: Update rather old descriptions.  Moved Marcus
+	off "current developer section".
+
+2002-06-28  Alex Lancaster  <alex@swarm.org>
+
+	* Makefile.am (RELEASE_XML_ENTITIES): Add release-swarm-snapshot.
+
+	* community-links.xml: Comment out link to old survey site,
+	offline.
+
+	* intro-tutorial.xml: Update to use new ftp* entities in place of
+	old ftpanarchy/eval.
+
+	* community-contrib.xml: Likewise switch ftp* entities use.  
+	Update "how to contribute section", remove link to "incoming", no
+	longer working.  Update description of new website layout, add
+	link to Paul's README.
+
+	* release-swarm-snapshot.xml: New file with pointers to locations
+	on ftp site and link to Paul's FAQ and RPMs.  Add large warning to
+	newbies to beware...
+
+	* release-swarm.xml: Add caveats for using stable release, add a
+	link to snapshot page.
+
+	* release.xml (release-swarm-snapshot): Add new included
+	subwebpage.  Update with description of current status, point to
+	development snapshot and recommendation for current snapshot for
+	serious development.
+
+	* sdg-members.xml: Comment-out member list, point to Paul's new
+	page.
+
+	* website.xml (ftpevalroot, ftpanarchyroot): Remove entities.
+	(ftpcontribjava, ftpcontribobj): Replace former.
+	Add NEWS items on new savannah development site and CVS repository
+	and update on snapshot releases.
+
+2002-05-28  Alex Lancaster  <alex@swarm.org>
+
+	* sdg-members.xml: Add note about out-of-date membership
+	information.  
+	Remove Argonne National Labs, JWAC as group members
+	(not providing any more funding).  
+	Remove Swarm Corporation (no longer in existence).
+
+2002-04-26  Alex Lancaster  <alex@swarm.org>
+
+	* website.xml: Remove <script> reference 'overlib.js' Javascript.
+
+	* swarm.css: Likewise remove references.
+
+	* org.xsl (webpage.nav.toc): Remove broken Javascript
+	"onMouseOver" cruft.  Use the "title" attribute on the <a>
+	HTML element (standard since at least HTML 3.2) to get the same
+	effect (tested in Mozilla/Galeon).
+
+2002-04-15  Alex Lancaster  <alex@swarm.org>
+
+	* release-mirrors.xml: Update with CD-ROM info and savannah info.
+
+2002-04-03  Alex Lancaster  <alex@swarm.org>
+
+	* contact.xml: Update with new address for the SDG from Glen
+	(gepr).
+
+	* sdg-board.xml: Update board membership and officer positions as
+	per meeting(s) on 2002-03-30.
+
+	* release-mirrors.xml: Comment out section on CD-ROM, suggest
+	users add their name to a "notification" list for if and when a
+	CD-ROM is made available.
+
+	* website.xml: Add news item for Pietro's 2002 'Fest photos.
+	Updated "sponsorship" text referring to JWAC in the past tense as
+	a "former" supporter.
+
+2002-01-17  Alex Lancaster  <alex@swarm.org>
+
+	* website.xml: Add news items: SwarmFest 2002 and publication of
+	new book.
+
+	* community-swarmfest.xml: Moved old SwarmFest 2001 content to
+	other file.  Simply point to website at CBR. 
+
+	* community-swarmfest-2001.xml: Add file (moved contents from
+	community-swarmfest.xml).
+
+	* org.xsl (admon.graphics): Set to true "1".
+
+	* release-apps.xml: Use XML entities in place of unencoded
+	entities for ISO latin characters otherwise xsltproc chokes.
+
+	* Makefile.am (COMMUNITY_XML_ENTITIES): Add
+	community-swarmfest-2001.
+
+	* Makefile.rules (XSLTPROC): Set variable.
+
+	* Makefile.am (xsl): Remove RUNXT rule, use new XSLTPROC.  Use
+	SGML catalogs.  Parses and emits HTML about 6 times faster than
+	XT!!
+	 
+	* configure.in (XSLTPROC): Add check for xsltproc
+	(part of libxml/libxslt, found at http://xmlsoft.org).  Replaces
+	invocation of obsolete "XT".  Make start on removing all XT/JADE
+	cruft in autoconf/Makefiles and go for a clean XSLT/FO toolchain.
+
+2002-01-08  Marcus G. Daniels  <mgd@condor>
+
+	* community-contrib.xml: Remove the bpct reference, as it doesn't
+	work with the current stylesheets.
+	Use the ftpcontribobjc entity and update version numbers.
+
+	* website.xml: Add ftpcontribobjc entity.
+
+2001-12-19  Marcus G. Daniels  <mgd@condor>
+
+	* community-links.html: Add GE group.
+
+2001-12-15  Marcus G. Daniels  <mgd@condor>
+
+	* community-contrib.xml: Change URL of Pietro's bp-ct page.
+
+2001-12-13  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* sdg-members.xml: Add Tim Kohler.
+
+2001-06-08  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* webcams.xml: Enable it again (now at SFI).
+
+2001-05-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* webcams.xml: Disable one webcam.
+
+2001-05-13  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* website.xml: Add Pietro's photo coverage.
+
+2001-05-06  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Add Conor Roycroft.
+
+2001-04-28  Alex Lancaster  <alex@swarm.org>
+
+	* _community-swarmfest-program.xml: Comment out Doug Donalson's
+	abstract.  Substitute Marcus Daniels in program (sorry Marcus!).
+
+2001-04-26  Alex Lancaster  <alex@swarm.org>
+
+	* Makefile.rules (PS2PDF): Use extracted variable.
+	(%.pdf): New rule for making PDF files.
+
+	* configure.in: Check for ps2pdf.
+
+	* community-swarmfest-program.xml: Link to PDF/PostScript
+	versions.
+
+	* _community-swarmfest-program.xml: Make note that schedule is
+	tentative.
+
+	* org.xsl: Make rule for homepage admonitions more general.
+
+	* website.xml: Rework front page.  Make notes on SDG be a sidebar.
+	Make `note' on addition of scheduling details, note PDF/PS files.
+
+	* swarmfest2001.dsl (article-titlepage-recto-elements): Remove
+	title (since generated by graphic) and add abstract.
+	(emphasis): Need $italic-seq$, not process-children, because there
+	are no children in node.  
+
+	* catalog.in: Extract path to swarmfest2001 logo.
+
+	* swarmfest2001.xml (swarmfest2001): Add entity reference to new
+	SwarmFest 2001 logo.  
+	Add abstract with containing graphic, a lame solution to force
+	more space without hacking DSSSL too much.
+
+2001-04-25  Alex Lancaster  <alex@swarm.org>
+
+	* community-swarmfest-program.xml: Make note about full schedule.
+
+	* catalog.in: Extract SYSTEM ids for PUBLIC ENTITIES for graphics.
+
+	* swarmfest2001.xml: Add SDG small logo for placeholder graphic.
+
+	* swarmfest2001.dsl (emphasis): Rule for "strong" emphasis.
+	(biblioentry-inline-mode): Do The Right Thing with affiliations.
+	(biblio-xref-title):  Get  title text for xref.
+	(confnum): Hack for URL.
+	(%footnote-size-factor%): Make smaller.
+	(article-titlepage-recto-elements): Add graphic.
+
+	* _community-swarmfest-program.xml: More updates.  Removed note
+	about program submission.  Note transport to party.
+
+	* org.xsl: Add template for subtitle in bibliomixed mode for
+	SwarmFest 2001.
+
+2001-04-24  Alex Lancaster  <alex@swarm.org>
+
+	* _community-swarmfest-program.xml: Grouped talks into three
+	groups.  Alpha-ordered within groups.  Make part of some titles be
+	subtitles to abbreviate the generated `xref' on the schedule.
+
+2001-04-24  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* _community-swarmfest-program.xml: Replace John Pepper with Glen
+	Ropella.  Swap Rich Colbaugh with Aaron Fritz.
+
+2001-04-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* _community-swarmfest-program.xml: Add Alessandro Perrone.
+
+2001-04-20  Alex Lancaster  <alex@swarm.org>
+
+	* swarmfest2001.xml: New file.  XML driver for printed version of
+	SwarmFest program.
+
+	* swarmfest2001.dsl: New file.  DSSSL driver for printed version
+	of SwarmFest program.
+
+	* Makefile.am (swarmfest2001.tex): New rule to generate a printed
+	version of program.
+	(tex, website.tex): Remove old obsolete rules.
+	(COMMUNITY_XML_ENTITIES): Add _community-swarmfest-program
+	
+	* community-swarmfest-program.xml: Include content file via entity.
+
+	* _community-swarmfest-program.xml: New file, split out content
+	into separate file.  
+	Add preliminary schedule as posted by Marcus to directors.
+	Comment-out until schedule is finalized
+
+2001-04-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add Fritz abstract.
+
+2001-04-02  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add Terna abstract.
+
+2001-03-29  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* community-swarmfest-program.xml: Add Donalson talk.
+	Note FreshUp.
+
+2001-03-22  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* sdg-members.xml: Add Cynthia Small.
+
+2001-03-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-registration.xml,
+	swarmfest-registration-form: Comment-out note about additional
+	fee.
+
+2001-03-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add talk by Jay Palmer.
+
+2001-03-16  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* community-swarmfest-program.xml: Add talk by Jim Anderson.
+
+2001-03-13  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add talks by Jackson and Goic.
+
+	* sdg-members.xml: Add ERIM.
+
+	* community-swarmfest-hotels.xml: Comment-out Travelodge.
+
+2001-03-05  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Add Steve Jackson.
+
+2001-03-01  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* community-swarmfest.xml: Note change of party venue.
+
+2001-02-28  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* community.xml: Add community-support.
+
+	* community-mailing-lists.xml: Split out FAQ part to
+	community-support.xml
+
+	* community-support.xml: New file.
+
+2001-02-27  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* sdg-members.xml: Add more details to Federico Morales entry.
+
+2001-02-26  Marcus G. Daniels  <mgd@sol.santafe.edu>
+
+	* community-swarmfest-program.xml: Add two talks from Xiaodong Li.
+
+2001-02-22  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Add Jóse Federico Morales Barragán.
+
+	* community-swarmfest-{hotels,driving,registration,program}.xml:
+	Remove "SwarmFest 2001" from title to make sidebar neater.
+
+2001-02-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add Gary's and Matt's talks.
+
+2001-02-16  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add Pietro's talk.
+
+2001-02-14  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add Mike's talk.
+
+2001-02-13  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add Glen's talk.
+
+2001-02-12  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Update Norberto Eiji Nawa's web page.
+
+2001-02-08  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest.xml: Say "dinner" for the first night.  
+	Some rewording.
+
+	* community-swarmfest-registration.xml: Duplicate registration costs
+	here.
+
+2001-02-05  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-program.xml: Add Ferdinando's abstract.
+	Add Railsback's panel.
+
+2001-02-02  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* website.xml: Link to Polhill's paper.
+
+2001-01-31  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-hotels.xml: Drop info about lower 
+	Travelodge rates.  Add info about Hotel Santa Fe ethernet.
+	Drop Travelodge reservation link. 
+
+	* community-swarmfest-program.xml: Add blurbs for Chris
+	and Michael Krumpus.
+
+	* org.xsl: Add dividers before each talk title.
+
+2001-01-30  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* org.xsl: Handle biliomixed affiliations in a reasonable
+	way for SwarmFest purposes..
+
+	* community-swarmfest.xml: Include SwarmFest program.
+
+	* community-swarmfest-program.xml: New file.
+
+	* community-swarmfest-registration.xml, community-swarmfest.xml,
+	swarmfest-registration-form.xml: Note post March 20 penalty.
+
+2001-01-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Add Jefferey Wieman.
+
+2001-01-17  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-links.xml: Remove John Dockery's project; he's retired.
+
+2001-01-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-swarmfest-{hotels,driving}.xml,
+	swarmfest-registration-form.html: New files.
+
+	* website.xml: Reference SwarmFest 2001.
+
+	* community-swarmfest-registration.xml: Move content to html file.
+
+	* Makefile.am: Add new files.
+
+2001-01-14  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (COMMUNITY_XML_ENTITIES): Add community-past-swarmfests
+	and community-swarmfest-registration.
+
+	* community-past-swarmfests.xml, community-swarmfest-registration.xml:
+	New files.
+
+2001-01-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* resources-other.xml: Add Evo.
+
+	* community-mailing-lists.html: Remove extra slash in archive URLs.
+
+2000-12-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Add Peter Twigg.
+
+2000-12-12  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* website.xml: Add SICE conference.
+
+2000-12-09  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-links.xml: Add Evo.
+
+2000-11-27  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* webcams.xml: New file.
+
+	* resources.xml: Fix typos.
+
+	* Makefile.am (WEBCAMS_XML_ENTITIES, XML_ENTITIES): Add webcam page.
+
+	* website.xml (sfiurl, sfi-workingpapers): New entities.
+
+	* community-links.xml: Use throughout.
+
+	* community-contrib.xml: Fix URL to online heatbugs-block.
+
+2000-11-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* org.xsl (bodybgcolor, navbgcolor): Changed to a light gray.
+
+	* swarm.css (A:visited): Changed from silver black.
+
+2000-11-07  Alex Lancaster  <alexl@socrates.berkeley.edu>
+	
+	* sdg-board.xml, sdg-members.xml: Fixed Alex's affiliation.
+
+	* website.xml: Add report as news item.
+
+	* Makefile.am (SDG_XML_ENTITIES): Add sdg-report-2000.
+
+	* sdg.xml: Add reference to sdg-report-2000.
+
+	* sdg-report-2000.xml: New file, created from e-mail on
+	swarm-announce.
+
+	* org.xsl (emphasis): Customize template for producing "strong"
+	tags with role attribute set.
+ 
+2000-11-06  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* swarm.css: Make .foot{date,copy} white.
+
+2000-11-01  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-contrib.xml: Add Steve Railsback's ClupeoidsV[12] 
+	and NewBoids.
+
+2000-10-28  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* release-platforms.xml: Remove link to MkLinux@apple.  Host is gone.
+
+2000-10-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Add Piebe de Vries.
+
+	* intro-tutorial.xml: Fix swarmfest99 tar.gz URL.  Fixed benedikt's
+	e-mail.
+
+2000-10-02  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-board.xml: Note that Randy is president.  Add some e-mails.
+
+	* intro-people.xml: Remove link for Chris.
+
+	* org.xsl: Change body and nav background color to dark gray.
+	Set navtocwidth to 175.
+
+	* swarm.css: Change link, visited, and navtoc highlight color.
+
+2000-09-30  Alex Lancaster  <alexl@socrates.berkeley.edu>
+
+	* intro-people.xml: Update location.
+
+	* website.xml: Add notes about papers, correct tense of A-Life
+	conference.
+
+2000-09-27  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* intro-papers.xml: Add Swarm/COM slides.
+
+2000-08-28  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-contrib.xml: Update bp/ct versions and add link
+	to Pietro's ERA/CT description.
+
+2000-08-15  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* community-projects-yp.xml: Add SMART info from Michael North.
+
+2000-08-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* intro-papers.xml: Add link to Alife VII slides.
+
+2000-07-23  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* release-docs.xml: userbook-0.9.dvi.tar.gz label was wrong.
+
+2000-07-21  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Make a link to Darren's website, too.
+
+2000-07-21  Alex Lancaster  <alex@santafe.edu>
+
+	* sdg-members.xml: Add Darren Schreiber.
+
+	* website.xml: Add note about A-Life VII tutorial.
+
+2000-07-18  Paul Johnson  <pauljohn@ukans.edu>
+
+	* community-mailing-lists.xml: Brief clarification for
+	subscribers.
+
+2000-07-13  Alex Lancaster  <alex@santafe.edu>
+
+	* release-docs.xml: Minor textual change. 
+
+	* release-mirrors.xml: Add note on SourceForge site.
+
+2000-07-06  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* community-links.xml: Make a link to SWIEE.
+
+2000-07-04  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* community-links.xml: Make a link to Paul's ASM project.
+
+2000-06-29  Alex Lancaster  <alex@santafe.edu>
+
+	* website.xml: Add `revision' attributes to NOTE elements, with
+	dates NEWS items were added (taken from cvs logs).
+
+	* org.xsl (homepage/sect1/note...): New template to match only
+	homepage admonitions.  Use new `*.homepage' named templates.
+	(admon.graphic.homepage): New named template to generate `arrow'
+	gif file on homepage.
+	(graphical.admonition.homepage): Format admonitions more nicely,
+	using the `revision' attribute of admonition element for date and
+	`admon.graphic.homepage' named template.
+	(admon.style.homepage): New style for homepage admonitions only.
+	
+2000-06-26  Alex Lancaster  <alex@santafe.edu>
+
+	* resources-objc.xml: Update link for HTML guide to ObjC book,
+	Apple has moved the Objective C book line, yet *again*!
+
+	* website.xml: Add tutorial and simulation tools as news items.
+
+	* intro-tutorial.xml: Use ftpevalroot ENTITY, minor textual
+	changes.
+
+2000-06-20  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* intro-tutorial.xml: Link to csss tutorial.
+
+2000-06-13  Alex Lancaster  <alex@santafe.edu>
+
+	* website.xml: Removed reference to old SFI site, should be no
+	longer required.
+
+	* swarm.css: Added CSS style for SIDEBAR elements.
+
+	* Makefile.am (RESOURCE_XML_ENTITIES): Add resources-other.
+
+	* resources.xml: Add resources-other entity.
+
+	* resources-other.xml: New file.
+
+2000-06-09  Alex Lancaster  <alex@santafe.edu>
+
+	* org.xsl (bodybgcolor): New customization variable for background
+	colour of body of webpage, customize to use same colour as
+	navbgcolor.
+
+2000-06-07  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* sdg-members.xml: Add Doug Donalson.
+
+2000-06-06  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Makefile.am (dsssl): New target.
+	(index.html): Depend on xsl.
+
+	* catalog.in: Need trailing newline to get substitution to work.
+
+	* sdg-members.xml: Add Keith Bruso.
+
+2000-05-30  Alex Lancaster  <alex@santafe.edu>
+
+	* release-docs.xml: Updated blurb on SGML source package.
+
+2000-05-26  Alex Lancaster  <alex@santafe.edu>
+
+	* swarm.css: Add CSS style entry for DIV with ID='overDiv' to
+	initialize the overlib.js JavaScript correctly.
+
+	* Makefile.am (xsl): Run `nsgmls' to pre-validate the document
+	before passing it to XT (which is non-vaildating).
+
+	* Makefile.rules (NSGMLS): Extract.
+	(RUNNSGMLS): New rule to run parser.
+	(html_DATA): Install overlib.js
+
+	* configure.in (NSGMLS): Extract the Jade XML parser `nsgmls' 
+	
+	* about.xml: Update with information on new XSL stylesheet
+	generation procedure.
+
+	* org.xsl (remark): suppress REMARKs, not comments.
+	(head/style): New template to generate a <DIV> tag if type
+	attribute is 'div'.
+	(biblioset): If relation attribute is `series', generate a
+	`Series' literal in italics on a newline.
+	(string-replace): New utility named-template to globally replace
+	strings in other strings.
+	(webpage.nav.toc): In template, add logic to insert appropriate
+	HTML attributes (onMouseOver, onMouseOut) that JavaScript can use
+	to generate the pop-ups.  Use the WEBPAGE/TITLE element as the
+	pop-up titles, and WEBPAGE/ABSTRACT/PARAs as the text for the
+	captions.  Use string-replace to escape apostrophes (') in the
+	caption strings, so JavaScript doesn't get confused.
+
+	* overlib.js: Add JavaScript file.  overLIB is distributed under
+	the Artistic License and generates a pop-up box when mouse is over
+	a link.
+
+	* sdg.xml: Reword ABSTRACT more concisely.
+
+	* community-links.xml: Likewise.
+
+	* website.xml: Bump Website doctype version to 1.6.  Include the
+	`overlib.js' JavaScript as local SCRIPT.  Insert a STYLE command
+	to generate an appropriate DIV entry in the HTML.  Change all
+	COMMENT -> REMARK (COMMENT obsoleted in 4.0 DocBook DTD).
+
+	* catalog.in: Change PUBLIC identifier for DocBook DTD to be the
+	official "-//OASIS//DTD DocBook XML V4.0//EN", specify OVERRIDE
+	YES, to use the catalog version, not the SYSTEM id in the
+	document.
+
+2000-05-20  Alex Lancaster  <alex@santafe.edu>
+
+	* website.xml: Revert to using PUBLIC identifier for website.ent,
+	but also need to specify a bogus system ID, a requirement of XML
+	1.0 for `well-formedness' of a PUBLIC identifier.
+
+	* catalog.in: For Website Entities PUBLIC identifier, specify
+	override YES to use catalog system ID, not the ID in the XML file.
+
+	* Makefile.am (xsl): Remove unnecessary copy of website.ent to the
+	local directory (catalog support for XSL is now working).
+
+	* Makefile.rules (RUNXT): Call the modified XT driver class with
+	support for catalog files.  Specify locally-extracted catalog
+	file.  Include the new catalog jar files.  Use text functions to
+	more concisely generate CLASSPATH.
+
+2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* community-contrib.xml: Bump `bell' to 0005.
+
+2000-05-15  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* sdg-members.xml: Add Robert Bell.
+
+2000-05-12  Alex Lancaster  <alex@santafe.edu>
+
+	* website.xml: Use transparent sdg-small.gif for icon on
+	navigation menu.  Make ALT tags `SDG Home'.
+
+	* org.xsl (footer.hr): Set to `1' to generate rulers between text
+	and footers.
+	(home.navhead, home.navhead.upperright): Better handle navhead
+	bar.
+
+2000-05-09  Alex Lancaster  <alex@santafe.edu>
+
+	* swarm.css (.navtoc):  New CSS rule: make menu bold.
+
+	* release-swarm.xml: Make NEWS (release notes) just for current
+	release.
+
+	* website.xml: Use SYSTEM id for website.ent, not PUBLIC
+	identifier (XT doesn't understand PUBLIC identifiers yet).
+	Homebanner is `graphics/sdg.jpeg', banner is
+	`graphics/sdg-small.jpeg'.
+	Remove the sitemap.html footer.
+	Change CITATION to link to luna to LINK.
+
+	* org.xsl: Add XSL processing file, translation of existing DSSSL
+	file into XSL.
+
+	* Makefile.am (xsl): New rule.  Copy website.ent to source
+	directory (XT is too braindead to understand PUBLIC identifiers
+	and catalogs just yet).  Also run submakes here.
+	(.PHONY): Add xsl.
+	(EXTRA_DIST): Add org.xsl.
+
+	* Makefile.rules (RUNXT): Add rule to run James Clark's XT
+	processor for XSL(T) processing.
+
+2000-05-06  Alex Lancaster  <alex@santafe.edu>
+
+	* *.xml: Replace '&' with '&amp;' throughout, to placate XT XSL
+	processor (also valid XML as per w3.org). 
+	Always terminate general entities with ';'.
+	Make '<![ CDATA [' -> '<![CDATA['.
+	
+2000-05-04  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Add Jonathan Impett.
+
+2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Update Catherine Dibble's web page.
+
+2000-04-30  Alex Lancaster  <alex@santafe.edu>
+
+	* intro-people.xml: Various updates for current affiliations.
+
+2000-04-29  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-board.xml: Change Chris to president and Marcus to director.
+
+2000-04-28  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* sdg-members.xml: Add Don Snyder and Tim Stoughton.
+
+2000-04-22    <mgd@nest.swarm.org>
+
+	* community-publications.xml: Change mail addresses to swarm@swarm.org.
+
+2000-04-19    <mgd@nest.swarm.org>
+
+	* resources-objc.xml: Remove links to to unl.edu archives
+	and link to Digifix.  Remove link to Christopher Browne.
+	Add link to Burton Radons' page.
+
+2000-04-18    <mgd@nest.swarm.org>
+
+	* resources-objc.xml: Fix link to ObjectivCBook.pdf.
+
+2000-04-15    <mgd@nest.swarm.org>
+
+	* sdg-members.xml: Add Paul Held, Edd M. Jentzsch, and Keith Morgan.
+
+2000-04-10    <mgd@nest.swarm.org>
+
+	* release-docs.xml: Change userbook location.
+
+	* release-apps.xml: Don't use VERSION in jheatbugs and jmousetrap.
+	Same as 2.1.
+
+	* release-swarm.xml: Add 2.1.1 notes.
+
+	* website.xml: Add ftpUserbookArchives.  Bump VERSION.
+	Update news to 2.1.1.
+
+2000-04-08    <mgd@nest.swarm.org>
+
+	* release-license.xml: Change to GPL.
+
+2000-04-03    <mgd@nest.swarm.org>
+
+	* community-contrib.xml: Add bell.
+
+2000-04-01    <mgd@nest.swarm.org>
+
+	* community-links.xml: Add ASM.
+
+2000-03-29    <mgd@nest.swarm.org>
+
+	* contact.xml: Change mgd@swarm.org to swarm@swarm.org and
+	remove extra website/technical address.  Drop fax #.
+
+2000-03-29  Alex Lancaster  <alex@santafe.edu>
+
+	* release-mirrors.xml: Change CD-ROM ordering address to 624 Agua
+	Fria.
+
+	* contact.xml: Likewise.
+
+2000-03-28    <mgd@nest.swarm.org>
+
+	* community-contrib.xml: Typo in NeuroLib URL.
+
+2000-03-27    <mgd@nest.swarm.org>
+
+	* community-contrib.xml: Add Paul's majority-2.1.
+
+	* website.xml: Add ftpincomingroot. Add trailing slash to 
+	ftp entities.
+
+	* community-links.xml: Use ftpanarchyroot in several more places.
+
+	* community-contrib.xml:  Remove trailing slash using ftpanarchyroot,
+	ftpevalroot. 
+	
+2000-03-23    <mgd@nest.swarm.org>
+
+	* sdg-members.xml: Add Louis Gross.
+
+	* community-programmers-yp.xml: Add Steve Jackson.
+
+2000-03-23  Alex Lancaster  <alex@santafe.edu>
+
+	* sdg-charter.xml: Change ID from "charter" to "sdg-charter" as
+	per convention.
+
+2000-03-21    <mgd@nest.swarm.org>
+
+	* sdg-members.xml: Add info on Daniel Calhoun.  Add Jurgen Van Der Pol
+	and Philip Rhoades.
+
+2000-03-20    <mgd@nest.swarm.org>
+
+	* sdg-members.xml: Add Paul Box, Alex Lancaster, Michael Arendall,
+	Dwight McCan, Kirshnan Viswanathan and lots of links.
+
+2000-03-20  Alex Lancaster  <alex@santafe.edu>
+
+	* about.xml: Make references to SGML -> XML.  Minor changes.
+
+	* sdg-membership-ind.xml: Use sdg-membership-note ENTITY.
+
+	* sdg-membership-group.xml: Likewise.
+
+	* website.xml: Add note about Benedikt's book
+	(sdg-membership-note): Create ENTITY regarding duration of
+	memberships.
+	
+	* release.xml: Changed TITLE to `Software'.
+
+	* catalog.in:  Add `website.ent' as a PUBLIC identifier.
+
+	* website.xml: Use general external ENTITY `website.ent' to import
+	the entities representing the file names -- XML files need only to
+	be maintained in `Makefile.am', and don't need to be entered again
+	in `website.xml'.  Renamed `brochure' entity to `sdg'.
+	(ftpSwarm): New ENTITY
+	(ftpSwarmSrc, ftpNeededSrc, ftpSupportSrc, ftpRedhatX86Binaries,
+	ftpRedhatPPCBinaries, ftpRedhatSparcBinaries,
+	ftpDebianX86Binaries, ftpDebianSparcBinaries, ftpSolarisBinaries,
+	ftpW32Binaries, ftpSuSEBinaries, ftpSwarmdocsArchives, ftpDocsSrc,
+	ftpObjCApps, ftpJavaApps, ftpSupportR): Use it.
+	
+	* Makefile.am (SDG_XML_ENTITIES, INTRO_XML_ENTITIES,
+	EXAMPLE_XML_ENTITIES, RELEASE_XML_ENTITIES,
+	COMMUNITY_XML_ENTITIES, RESOURCE_XML_ENTITIES,
+	OTHER_XML_ENTITIES): New targets, list of XML entity names, which
+	are used to generate the SYSTEM xml files names in a separate
+	website.ent file.
+	(XML_ENTITIES): Use all the above.
+	(XML_FILES): Generate actual XML file names from XML_ENTITIES.
+	(website.ent): Rule to generate ENTITY list.
+	(GENERAL): Append website.ent
+
+	* intro.xml: Changed TITLE to `Swarm' for brevity and to aid site
+	navigation.
+	
+	* sdg-board.xml, sdg-members.xml, sdg-membership.xml,
+	sdg-sigs.xml: New files, broken out from the old brochure.xml into
+	separate files for naming convention and consistency.
+
+	* sdg.xml: Renamed from brochure.xml.  
+	Brought all entities into alignment with new naming convention.
+	Changed TITLE to `SDG' for brevity.
+	
+	* sdg-strength.xml, sdg-charter.xml, sdg-strength.xml,
+	sdg-membership-group.xml, sdg-membership-ind.xml,
+	sdg-membership-other.xml: New files, renamed from their ancestors
+	by prepending `sdg-' for naming convention consistency.
+
+	* brochure.xml, strength.xml, charter.xml, strength.xml,
+	membership-group.xml, membership-ind.xml, membership-other.xml:
+	Removed files.
+
+2000-03-19  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* release-swarm.xml: Add size warning for w32 SDK with link
+	to CD-ROM.
+
+2000-03-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* community-swarmfest.xml: Don't say that proceedings will be
+	posted here (not decided yet).
+
+	* release-platforms.xml: Update diffs URLs to new
+	ftpNeededSrc entities.
+
+	* catalog.in: Add a carriage return on last line (otherwise last
+	line is excluded in substitutions).
+	
+2000-03-15  Marcus G. Daniels  <mgd@wupatki.santafe.edu>
+
+	* intro-papers.xml: Add SwarmFest 2000 paper.
+
+2000-03-15  Alex Lancaster  <alex@santafe.edu>
+
+	* release-docs.xml: Add link to SGML source for userbook.
+
+	* community-swarmfest.xml: Import information about SwarmFest 2000
+	formerly on homepage.  Rewrite in past tense.
+	
+	* website.xml: Make link to SwarmFest 2000 an XREF to the section
+	on the SwarmFest pages.
+
+	* community-links.xml: Use XREFs in place of LINKs when generating
+	category links.  Don't use redundant IDs on TITLE elements.  This
+	is found with XREF.
+
+	* configure.in (docbookstyle_srcdir, docbookdtd_srcdir,
+	commondtd_srcdir):  Extra these paths as well.
+	
+	* catalog.in: Extra path to DocBook localization entities:
+	dbl1en.en.
+
+	* org.dsl (en-xref-strings): Override stylesheets definition, to
+	only generate titles of XREFed section and no extraneous text in
+	cases of SECTIONs/SECT1s etc.
+	(auto-xref-indirect?): Always return false so that XREFs are never
+	indirect.
+	Import English stylesheet localization words.
+
+2000-03-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* release-swarm.xml: Add SuSE section.
+
+	* website.xml: Change from redhat-6.1 to redhat.  The PPC version
+	isn't actually redhat-6.1.
+
+	* release-docs.xml: Add userbook section.
+
+	* website.xml (ftpevalroot, ftpanarchyroot): Update for new
+	isntallation conventions.
+	(ftpSwarmSrc, ftpNeededSrc, ftpSupportSrc, ftpRedhatX86Binaries,
+	ftpRedhatPPCBinaries, ftpRedhatSparcBinaries,
+	ftpDebianX86Binaries, ftpDebianSparcBinaries, ftpSolarisBinaries,
+	ftpW32Binaries, ftpSuSEBinaries, ftpSwarmdocsArchives,
+	ftpDocsSrc, ftpObjCApps, ftpJavaApps, ftpSupportR, USERBOOKVERSION):
+	New entities.
+
+	* release-apps.xml, release-docs.xml, release-mirrors.xml, 
+	release-platforms.xml, release-swarm.xml: Update for 2.1
+	and use above.
+
+2000-03-15    <mgd@nest.swarm.org>
+
+	* community-contrib.xml: Updates for 2.1.
+
+	* release-swarm.xml: Update with 2.1 info.
+
+	* contact.xml: Add website/technical contact address.
+
+	* release-mirrors.xml: Update CD-ROM version.
+
+	* release-license.xml: Remove SFI copyright information.
+	It's been transfered and that is that.
+
+	* website.xml: Bump VERSION.  Update to SDG URLs.
+	Replace SwarmFest 2000 info with 2.1 release info.
+
+2000-03-09  Alex Lancaster  <alex@santafe.edu>
+
+	* brochure.xml: Add Staelin as individual univ. member.
+
+2000-03-08  Alex Lancaster  <alex@santafe.edu>
+
+	* brochure.xml: Add Collier, Sallach as individual members.  Add
+	ANL as government group member.
+
+2000-03-01  Alex Lancaster  <alex@santafe.edu>
+
+	* brochure.xml: Add Nawa, Thommesen, Brannon and Odell as members.
+
+2000-02-29  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* intro-people.xml: Update gepr and jjmerlo's URLs.
+
+	* release-platforms.xml: Updates for 2.1 and SDG.
+
+2000-02-29  Alex Lancaster  <alex@santafe.edu>
+
+	* release-mirrors.xml:  Fix postcode for SDG.
+
+2000-02-18  Alex Lancaster  <alex@santafe.edu>
+
+	* intro-papers.xml: Correct URL for Minar:1996 et. al. paper.
+	Thanks to Steve Railsback for report.
+
+2000-02-17  Marcus G. Daniels <mgd@nest.swarm.org>
+
+	* release-mirrors.xml: Change orders to address to
+	orders@swarm.org.
+
+2000-02-16  Marcus G. Daniels <mgd@nest.swarm.org>
+
+	* Makefile.am (index.html, website.tex): Remove UNC path conversions.
+	(all): Depend only on index.html.
+	(GENERAL): Don't depend on BIBLIO (subdirectory will run first anyway).
+	(BIBLIO): Remove.
+
+	* configure.in: Remove SGML_CATALOG_FILES substitution.
+
+	* Makefile.rules (RUNJADE): Remove SGML_CATALOG_FILES environment
+	setting.
+	(CATOPTS): Remove $(STANDARD_CATALOG_OPT).
+
+2000-02-04  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (all): Changed html -> all (new PHONY target).
+	(BIBLIO): New macro, depend on changes to postscript files.
+	(GENERAL): Depend on BIBLIO so website gets rebuilt anytime the
+	bibliographic info gets changed.
+
+2000-02-04  Irene Lee  <lee@nest.swarm.org>
+
+	* brochure.xml: Add list of members.
+
+2000-02-04  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in: Add new `--with-dtd-common' configure option since
+	common DTD declarations won't necessarily be in the same directory
+	as the DocBook DTD.  Default to the DocBook DTD directory if not
+	specified.
+
+2000-02-02  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in: Add $docbookdtddir_srcdir/catalog to list of
+	catalogs consulted (contains the DSSSL and FOSI public
+	identifiers).
+
+2000-02-01  Irene Lee  <lee@nest.swarm.org>
+
+	* community-publications.xml: Fixed missing trade pubs section.
+
+	* brochure.xml: Fixed typo in names.  Add affiliation for Randy.
+
+	* website.xml: Add SYSTEM id for website DTD.  Changed trade ->
+	media entities througout.
+
+2000-01-31  Alex Lancaster  <alex@santafe.edu>
+
+	* community-mailing-lists.xml: Typo.
+
+	* intro-people.xml: Reword Roger's entry as per e-mail.
+	Add Irene.
+
+	* brochure.xml: Fixed title of VantagePoint.
+
+	* Start ChangeLog.
+
+

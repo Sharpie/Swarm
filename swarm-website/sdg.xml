@@ -1,0 +1,72 @@
+<webpage id="sdg">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:21 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <config class="html" param="banner" value="the_company-tab.png"/>
+  <head>
+    <title>SDG</title> 
+    <abstract>
+      <para>The Swarm Development Group: the non-profit organization
+      that supports Swarm and the Swarm community.</para>
+    </abstract>
+
+  </head>
+  
+  <sidebar>
+    <title>Mission Statement</title>
+    <para>The Swarm Development Group (<acronym>SDG</acronym>) was founded in September 1999 as a
+      private, not-for-profit<footnote>
+        <para>The primary purpose of this organization is exclusively
+          charitable, scientific or educational within the meaning of Section
+          501(c)(3) of the Internal Revenue Code of 1986 or such other
+          provisions of state or federal law as may from time to time be
+          applicable.</para>
+      </footnote>
+      organization to support the development of the Swarm Simulation
+      System (Swarm) and the interests of the group members.  The
+      purpose of the <acronym>SDG</acronym> is to:
+
+      <itemizedlist>
+        <listitem>
+          <para>advance the state-of-the-art in multi agent based
+          simulation through the continued advancement of the Swarm
+          Simulation System and support of the Swarm user
+          community</para>
+        </listitem>
+        
+        <listitem>
+          <para>promote the free interchange of multi agent based
+          simulations among computing specialists and the public</para>
+        </listitem>
+
+        <listitem>
+          <para>develop and maintain the integrity and competence of
+            individuals engaged in the practice of agent based
+            simulation.</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sidebar>
+  
+  <bridgehead></bridgehead>
+  
+  <webtoc/>
+
+  <para>If you are interested in becoming a member, please <link
+    linkend="contact">Contact Us</link>.</para>
+  
+ 
+  &sdg-charter;
+  &sdg-strength;
+  &sdg-membership;
+  &sdg-sigs;
+  &sdg-board;
+  &sdg-members;
+  &sdg-report-2000;
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->

@@ -1,0 +1,43 @@
+<webpage id="community-swarmfest-hotels">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Hotels</title>
+  </head>
+
+  <simplesect id="community-swarmfest-hotels-hotelsantafe">
+  <title><ulink url="http://www.hotelsantafe.com">Hotel Santa Fe</ulink></title>
+  <address>
+  <street>1501 Paseo de Peralta</street>
+  <city>Santa Fe</city>
+  <state>NM</state>
+  <phone>(800)825-9876</phone>
+  </address>
+  <para>Before March 27, $119 / night (note that you are with SwarmFest)</para>
+  <para>Only 30 rooms available, act now!</para>
+  <para>
+  Hotel Santa Fe has ethernet as well as an extra phone line in the rooms.
+  </para>
+  <para>
+  Be sure to call to get the SwarmFest rate and a room from our reserve.
+  (The Hotel Santa Fe web registration won't know you're with the group.)
+  </para>
+  </simplesect>
+
+<!--
+  <simplesect id="community-swarmfest-hotels-travelodge">
+  <title>Santa Fe Plaza Travelodge</title>
+  <address>
+  <street>646 Cerrillos Rd.</street>
+  <city>Santa Fe</city>
+  <state>NM</state>
+  <phone>(505)982-3551</phone>
+  </address>
+  <para>Reservations can be made <ulink url="http://www.travelodge.com">here</ulink>.</para>
+  <para>Hotel Santa Fe is north of Travelodge about a tenth of a mile,
+  across the intersection of Cerrillos and Paseo de Perlata.</para>
+  
+  </simplesect>
+-->
+
+</webpage>

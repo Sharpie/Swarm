@@ -1,0 +1,28 @@
+<webpage id="community-swarmfest-driving">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Directions</title>
+  </head>
+
+  <simplesect id="community-swarmfest-driving-santafe">
+  <title>From Santa Fe Municipal Airport</title>
+  <para>United and America West fly in to Santa Fe.</para>
+  <para>
+  Leaving the airport, turn right towards the stoplight.  Continue
+  through the intersection on Airport road for several miles until you
+  reach Cerrillos road (a large intersection).  Turn left on to Cerrillos
+  and drive until you reach the St. Francis intersection.  Continue on
+  until you reach Paseo de Peralta.
+  </para>
+  </simplesect>
+
+  <simplesect id="community-swarmfest-driving-albuquerque">
+  <title>From Albuquerque International Airport</title>
+  <para>Take I25 north to the St. Francis exit.  (It's about an hour.)
+  Drive until you come to the large Cerrillos intersection and turn right.
+  Continue on Cerrillos until you reach the hotel, which is at the
+  intersection of Cerrillos and Paseo de Peralta.</para>
+  </simplesect>
+
+</webpage>

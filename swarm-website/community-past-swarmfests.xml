@@ -1,0 +1,104 @@
+<webpage navto="yes" id="community-past-swarmfest">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Past SwarmFests</title>
+    <abstract>
+      <para>Information on past meetings of the Swarm User Community.</para>
+    </abstract>
+  </head>
+
+ <simplesect id="community-swarmfest-2002">
+  <title>SwarmFest 2002</title>
+
+  <para>SwarmFest 2002 was held at the University of Washington.
+   Please see the old <ulink
+    url="http://www.cbr.washington.edu/swarmfest/">conference
+    website</ulink>.</para>
+
+ </simplesect>
+
+ <simplesect>
+  <title>SwarmFest 2001</title> <para>See <link
+    linkend="community-swarmfest-2001">SwarmFest 2001</link>.</para>
+ </simplesect>
+ 
+ <simplesect id="community-swarmfest-2000">
+  <title>SwarmFest 2000</title> 
+  
+  <para>The <ulink
+    url="http://www.nr.usu.edu/Geography-Department/GER.html">Geography
+    Department</ulink> and the <ulink
+    url="http://www.gis.usu.edu">RSGIS Lab</ulink> at <ulink
+    url="http://www.usu.edu">Utah State University</ulink> in
+   collaboration with the <ulink
+    url="http://www.swarm.org">Swarm Development
+    Group</ulink>, Santa Fe, New Mexico, held SwarmFest 2000
+   on Saturday March 11th to Monday 13th, at Utah State
+   University in Logan, Utah.</para>
+  
+  <para>The original <ulink
+    url="http://www.ext.usu.edu/confer/swarmfest2000/part.htm">call
+    for participation</ulink> can be found at the conference
+   website:</para>
+
+  <formalpara>
+   <title><ulink
+     url="http://www.ext.usu.edu/confer/swarmfest2000">http://www.ext.usu.edu/confer/swarmfest2000</ulink></title>
+   <para></para>
+  </formalpara>
+  
+  <para>Thanks to Irene Lee and Paul Box for getting the
+   conference up and running, and to all who took part.  Any
+   conference followups will be posted here.</para>
+  
+ </simplesect>
+ 
+ <simplesect>
+  <title>SwarmFest '99</title> 
+  
+  <para>The UCLA Center for Comparative Political Economy, in
+   collaboration with the Swarm Program at the Santa Fe Institute, was
+   pleased to sponsor SwarmFest '99, the third annual meeting of the
+   Swarm User Group.  SwarmFest '99 began on Saturday evening, March
+   27th and continued through Monday, March 29th, 1999 at the <ulink
+    url="http://www.anderson.ucla.edu/">Anderson School of
+    Management</ulink> at the <ulink
+    url="http://www.ucla.edu">University of California, Los
+    Angeles</ulink>.  Thanks to all who took part.</para>
+ </simplesect>
+
+  <simplesect>
+    <title>
+      <ulink url="swarmfest98/Announcement">SwarmFest '98</ulink></title>
+    
+      <para>The 2nd Meeting of the Swarm Users Group was held in Santa
+      Fe, New Mexico on March 23-24, 1998.  SwarmFest attracts
+      researchers from diverse disciplines who have a common interest
+      in multi-agent modelling using Swarm.  Past and present Swarm
+      developers participated in the conference.
+      <ulink url="swarmfest98/pictures.html">
+        <emphasis>Pictures from the conference!</emphasis></ulink></para>
+  </simplesect>
+
+  <simplesect>
+    <title>SwarmFest '97</title> 
+
+    <para>The inaugural SwarmFest was held in Feb 16-17, 1997, that
+      brought together all the people who have been part of the Swarm
+      development and beta processes for a free-ranging, face-to-face
+      interchange of approaches, ideas, gripes, tale-telling, and fun!
+      Here's the <ulink
+      url="swarmfest97/SwarmFest-report/">SwarmFest
+      '97 Summary of Events</ulink>.</para>
+  </simplesect>
+
+  &community-swarmfest-2001;
+
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("community-swarmfest.xml" "webpage")
+End:
+-->
+

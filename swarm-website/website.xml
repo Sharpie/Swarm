@@ -1,0 +1,447 @@
+<!DOCTYPE website PUBLIC "-//Norman Walsh//DTD Website V1.6//EN" "dtd/website.dtd" [
+
+<!ENTITY % website.ent PUBLIC "-//SDG Hive//ENTITIES Website Entities//EN" "bogus.ent">
+%website.ent;
+
+<!-- Biblio stuff -->
+<!ENTITY pubs SYSTEM "biblio/pubs.xml">
+<!ENTITY pubs-biblio SYSTEM "biblio/pubs-biblio.xml">
+<!ENTITY media SYSTEM "biblio/media.xml">
+<!ENTITY media-biblio SYSTEM "biblio/media-biblio.xml">
+
+<!ENTITY ftproot 'ftp://ftp.swarm.org'>
+<!ENTITY ftpSwarm "&ftproot;/pub/swarm/">
+<!ENTITY ftpSwarmSrc "&ftpSwarm;src/swarm/">
+<!ENTITY ftpNeededSrc "&ftpSwarm;src/needed/">
+<!ENTITY ftpSupportSrc "&ftpSwarm;src/support/">
+<!ENTITY ftpRedhatX86Binaries "&ftpSwarm;binaries/redhat/i386">
+<!ENTITY ftpRedhatPPCBinaries "&ftpSwarm;binaries/redhat/ppc">
+<!ENTITY ftpRedhatSparcBinaries "&ftpSwarm;binaries/redhat/sparc">
+<!ENTITY ftpDebianX86Binaries "&ftpSwarm;binaries/debian-2.2/dists/frozen/contrib/binary-i386">
+<!ENTITY ftpDebianSparcBinaries "&ftpSwarm;binaries/debian-2.2/dists/frozen/contrib/binary-sparc">
+<!ENTITY ftpSuSEBinaries "&ftpSwarm;binaries/suse-6.3/">
+<!ENTITY ftpSolarisBinaries "&ftpSwarm;binaries/solaris-2.7/">
+<!ENTITY ftpW32Binaries "&ftpSwarm;binaries/w32/">
+<!ENTITY ftpSwarmdocsArchives "&ftpSwarm;docs/swarmdocs/">
+<!ENTITY ftpUserbookArchives "&ftpSwarm;docs/userbook/">
+<!ENTITY ftpDocsSrc "&ftpSwarm;src/docs/">
+<!ENTITY ftpObjCApps "&ftpSwarm;apps/objc/sdg/">
+<!ENTITY ftpJavaApps "&ftpSwarm;apps/java/sdg/">
+<!ENTITY ftpSupportR "&ftpSwarm;src/support/R/">
+<!ENTITY ftpcontribjava "&ftpSwarm;apps/java/contrib/">
+<!ENTITY ftpcontribobjc "&ftpSwarm;apps/objc/contrib/">
+<!ENTITY ftpASMroot "&ftpSwarm;src/users-contrib/anarchy/ASM/">
+<!ENTITY ftpincomingroot "&ftpSwarm;src/users-contrib/incoming/">
+<!ENTITY sfiurl 'http://www.santafe.edu/'>
+<!ENTITY sfi-workingpapers '&sfiurl;sfi/publications/Working-Papers/'>
+<!ENTITY old-sfi-urlroot '&sfiurl;projects/swarm/'>
+<!ENTITY VERSION '2.1.1'>
+<!ENTITY USERBOOKVERSION '0.9'>
+<!ENTITY SFI 
+  '<ulink url="http://www.santafe.edu">Santa Fe Institute</ulink>'>
+
+<!ENTITY yellow-pages-disclaimer '<note> <para>The Swarm Development
+  Group provides this listing service as a public service from
+  information provided directly by the listees, and as such, makes no
+  guarantees regarding the accuracy of this information.  Inclusion or
+  exclusion from this list, does not imply an endorsement, or lack
+  thereof by the SDG.</para></note>'>
+
+<!ENTITY sdg-membership-note '<note><title>All memberships are one year
+in duration starting the date of subscription</title><para></para></note>'>
+
+]>
+
+<website xmlns:html="http://www.w3.org/TR/REC-html40">
+ 
+ <homepage id="index">
+  <config class="html" param="desc" value="www.swarm.org"/>  
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:25 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <config class="html" param="footer" value="about.html" altval="About..."/>
+  <config class="html" param="homebanner" value="graphics/sdg.jpeg" altval="SDG Home"/>
+  <config class="html" param="banner" value="graphics/sdg-small.png" altval="SDG Home"/>
+  <config class="html" param="homerule" value="yes"/>
+  <config class="html" param="dynamic-html" value="yes"/>
+  
+  <head>
+   <title>The Swarm Development Group</title>
+   <summary>SDG</summary>
+   <keywords>Swarm, SDG, agent based, agents, simulation, modelling, 
+    modeling, software</keywords>
+   <abstract>
+    
+    <para>
+     The Swarm Development Group (SDG), is a not-for-profit
+     organization dedicated to advancing the state-of-the-art in multi
+     agent based simulation through the continued advancement of the
+     Swarm Simulation System and support of the Swarm user community.
+    </para>
+   </abstract>
+   <copyright><year>1999</year>
+    <year>2000</year>
+    <year>2001</year>
+    <year>2002</year>
+    <year>2003</year>
+    <holder role="http://www.swarm.org">
+     Swarm Development Group</holder></copyright>
+   
+   <style class="global" src="swarm.css"></style>
+   
+   <author>
+    <firstname>Alex</firstname>
+    <surname>Lancaster</surname>
+   </author>
+  </head>
+  
+  
+  <sect1>
+   <title>Welcome to <literal>www.swarm.org</literal>!</title> 
+   
+   <para><emphasis>Your one-stop site for all Swarm information, software,
+     user community information and publications.</emphasis></para>
+   
+   <sidebar>
+    <para>The Swarm Development Group (SDG) located at
+     <literal>www.swarm.org</literal>, is a 501c(3)
+     not-for-profit organization dedicated to advancing the
+     state-of-the-art in multi agent based simulation through the
+     continued advancement of the Swarm Simulation System and
+     support of the Swarm user community.</para>
+   </sidebar>
+   
+   <sect2>
+    <title>Latest news</title>
+
+    <note revision="2003-02-27">
+     <title>MacOS X binaries of CVS snapshot</title>
+
+     <para>Thanks to Bill Northcott's hard work, binaries to build
+      Swarm models on MacOS X 10.2.x are now available on Swarm's
+      Savannah site: <ulink
+       url="http://savannah.nongnu.org/files/?group=swarm">http://savannah.nongnu.org/files/?group=swarm</ulink>
+     </para>
+
+      <para>Step-by-step instructions for this snapshot released on
+      2003-02-26, are available at: <ulink
+       url="http://savannah.nongnu.org/download/swarm/macosx-swarm.pkg/20030226/ReadMe">http://savannah.nongnu.org/download/swarm/macosx-swarm.pkg/20030226/ReadMe</ulink></para>
+
+     <para>Included is everything needed to use Swarm on a standard
+      MacOS X 10.2.x install with Apple December 2002 developer Tools.
+      Later snapshots will have later dates and will be found at the
+      main file list link (the first link given above).    Feedback
+      should be directed to the Swarm <literal>support</literal> <link
+       linkend="community-mailing-lists">mailing list</link>.
+     </para>
+
+    </note>
+
+    <note revision="2003-02-02">
+     <title>Mailing lists migrated to www.swarm.org</title>
+
+     <para>The Swarm mailing lists have been migrated to a <ulink
+       url="http://www.list.org/">Mailman</ulink> mailing list server
+      at: <ulink
+       url="http://www.swarm.org/mailman/listinfo/">http://www.swarm.org/mailman/listinfo/</ulink>. 
+      All existing subscriptions have been migrated to the new mail
+      server.  All subscription options can now be performed by a
+      web-based interface.</para>
+
+    </note>
+
+    <note revision="2003-01-14">
+     <title><ulink url="http://www.nd.edu/~swarm03/">SwarmFest
+       2003</ulink> at <ulink url="http://www.nd.edu/">University of Notre Dame</ulink></title>
+
+     <para>SwarmFest goes East! The Seventh Annual SwarmFest will be
+      held on April 13-15, 2003 on the campus of the University of
+      Notre Dame, Notre Dame, Indiana, USA.</para>
+     <para>The conference web site is at:
+      <ulink
+      url="http://www.nd.edu/~swarm03/">http://www.nd.edu/~swarm03</ulink></para>
+     <para>Abstracts, full papers, tutorial proposals, and posters are
+      solicited.  Many thanks to Greg Madey of the Computer Science and
+      Engineering Dept at the University of Notre Dame for hosting it
+      this year.  Hope to see you this April!
+     </para>
+    </note>
+
+    <note revision="2002-07-18">
+     <title><literal>www.swarm.org</literal> hosted by Columbia Basin
+     Research Unit</title>
+
+     <para>The Swarm website is now hosted by the friendly folks at
+       the <ulink url="http://www.cbr.washington.edu/">Columbia Basin
+       Research</ulink> unit at the <ulink
+       url="http://www.washington.edu/">University of
+       Washington</ulink>.  Our thanks to Jim Anderson, George
+       Kremlicka and Susannah Iltis for making this possible.</para>
+    </note>
+
+    <note revision="2002-06-28">
+     <title>Updated download and contributed applications
+      information</title>
+     
+     <formalpara>
+      <title><link linkend="release-swarm-snapshot">Development
+	snapshots</link></title> <para>are now the recommended
+       installation form for most developers, more information on
+       the <link linkend="release">Release page</link>.</para>
+     </formalpara>
+     
+     <formalpara>
+      <title>
+       <link linkend="community-contrib">Contributions
+	page</link></title>
+      
+      <para>The <ulink url="&ftpSwarm;apps/">section</ulink> on the
+       ftp site for contributed Swarm applications has changed
+       considerably.  We now split up package by language (<filename
+       class="directory">java</filename> or <filename
+       class="directory">objc</filename>), and within that by
+       <filename class="directory">contrib</filename> packages (which
+       now includes all the packages that used to be in the old
+       <filename class="directory">eval</filename> and <filename
+       class="directory">anarchy</filename>) and <filename
+       class="directory">sdg</filename> packages (the core
+       applications that the SDG maintains). <link
+       linkend="community-contrib-howto">Instructions for
+       contributing</link> have also been updated.</para>
+     </formalpara>
+     
+    </note>
+    
+    <note revision="2002-06-27">
+     <title>Swarm now available via anonymous CVS!</title>
+     
+     <para>The Swarm CVS repository is now available via <ulink
+       url="http://www.cvshome.org/">anonymous CVS</ulink> at via our
+       <ulink url="http://savannah.nongnu.org/projects/swarm/">project
+       page</ulink> at <ulink
+       url="http://savannah.nongnu.org/">Savannah</ulink>.  You can
+       <ulink
+       url="http://savannah.nongnu.org/cgi-bin/viewcvs/swarm/">browse</ulink>
+       the source on the web, or <ulink
+       url="http://savannah.nongnu.org/cvs/?group=swarm">check it
+       out</ulink> to your machine.</para>
+    </note>
+
+    <note revision="2002-06-27">
+     <title>New development site for Swarm at <ulink
+       url="http://savannah.nongnu.org/projects/swarm">http://savannah.nongnu.org/projects/swarm</ulink></title>
+     
+     <para>Swarm is moving much of our active development to our new
+      project site at: <ulink
+      url="http://savannah.nongnu.org/projects/swarm/">http://savannah.nongnu.org/projects/swarm/</ulink>
+      part of <ulink url="http://savannah.nongnu.org/">Savannah</ulink>
+      run by the <ulink url="http://www.gnu.org/">Free Software
+      Foundation</ulink>.  Savannah hosts free software projects,
+      exclusively.  Please get involved by <ulink
+      url="http://savannah.nongnu.org/bugs/?group=swarm">submitting
+      bugs</ulink>, <ulink
+      url="http://savannah.nongnu.org/pm/?group=swarm">viewing active
+      tasks</ulink> or especially submitting <ulink
+      url="http://savannah.nongnu.org/patch/?group=swarm">patches</ulink>!</para>
+	  
+     <para>Please become an active developer by <ulink
+       url="http://savannah.nongnu.org/account/register.php">registering</ulink>
+       for an account which will allow you to post bug reports, add
+       tasks, and help us track contributions.  You will also need to
+       register for us to be able to add you with write access to the
+       <ulink url="http://savannah.nongnu.org/cvs/?group=swarm">CVS
+       repository</ulink>.  Swarm is a collaborative free software
+       enterprise, so we need your help, both technical and financial!
+     </para>
+    </note>
+    
+    <note revision="2002-04-03">
+     <title>Pietro Terna's SwarmFest 2002 <ulink
+       url="http://digilander.iol.it/pterna/SwarmFest2002/SwarmFest2002.htm">photo
+       coverage</ulink></title>
+     
+     <para>Thanks again to Pietro for being the diligent
+      SwarmFest photo-journalist!</para>
+    </note>
+    
+    <note revision="2002-01-17">
+     <title><ulink
+       url="http://www.cbr.washington.edu/swarmfest/">SwarmFest
+       2002!</ulink> is <emphasis role="strong">go</emphasis>.</title>
+     
+     <para>This year it's at the <ulink
+       url="http://www.washington.edu/">University of
+       Washington</ulink> in Seattle, WA.</para>
+     
+     <para>Our thanks goes to Jim Anderson and his team at the <ulink
+       url="http://www.cbr.washington.edu/">Columbia Basin Research</ulink>
+      unit at the <ulink url="http://www.washington.edu/">University of
+       Washington</ulink> for kindly volunteering to host the event!!
+     </para>
+     
+    </note>
+    
+    <note revision="2002-01-17">
+     <title>New Swarm <ulink
+       url="http://www.wkap.nl/prod/b/0-7923-7419-3">book</ulink></title>
+     
+     <para><citetitle>Agent-Based Methods in Economics and
+       Finance: Simulations in Swarm</citetitle> by <link
+       linkend="luna:perrone">Luna &amp; Perrone</link> (2001).</para>
+     
+    </note>
+    
+    <note revision="2001-05-13">
+     <title>Pietro Terna's SwarmFest 2001 <ulink url="http://digilander.iol.it/pterna/fotoSwarmFest/SwarmFest.htm">photo coverage</ulink></title>
+     <para>Wow!</para>
+    </note>
+    
+    <note revision="2001-04-26">
+
+     <title>SwarmFest 2001 <link
+       linkend="community-swarmfest-program">schedule details</link></title>
+     <para>
+      (including printable versions in <ulink
+       url="swarmfest2001.ps">PostScript</ulink> and <ulink
+       url="swarmfest2001.pdf">PDF</ulink>) are now online!
+     </para></note>
+    
+    <note revision="2001-01-15">
+     <title><link linkend="community-swarmfest">SwarmFest 2001!</link></title>
+     <para>SwarmFest 2001 in Santa Fe!  April 28-30, 2001</para>
+    </note>
+    
+    <note revision="2001-02-02">
+     <title>New land-use simulation <link linkend="polhill2001">paper</link></title>
+     <para>Polhill, J. G.,  Gotts, N. M.,  Law, A. N. R. (2001)
+      <citetitle>Imitative versus nonimitative strategies in a land-use simulation</citetitle>
+     </para>
+    </note>
+    
+    <note revision="2000-12-12">
+     <title>Upcoming conference: <ulink url="http://www.hip.atr.co.jp/~keiki/other/SICE-CFP.html">Multiagent Systems Analysis of Social Organizations</ulink></title>
+     <para>Date: March 27, 2001</para>
+     <address>Location: Gakujutsu Sogo Center</address>
+     <para>
+      Questions:
+      <address>
+       SICE office
+       <pob>113-0033</pob>
+       <city>Tokyo-to Bunkyo-ku</city>
+       <state>Hongo</state>
+       <postcode>1-35-28-303</postcode>
+       <phone>(03)4212-6000</phone>
+       <fax>(03)4212-6400</fax>
+       <email>bumon@sice.or.jp</email>
+      </address>
+     </para>
+     <para>Theme:  system engineering, software science, artificial intelligence, artificial markets, evolutionary economics, economics, sociology, management, combinatorial logic, from a multiagent point of view</para>
+    </note>
+    
+    <note revision="2000-11-07">
+     <title>First SDG Annual Report</title> 
+     
+     <para>The <link linkend="sdg-report-2000">first annual
+       report</link> of the SDG is now available with all the latest
+      developments in Swarm-land.  Check out a preview of what's up
+      for Swarm 2.2 and beyond... (with your <link
+       linkend="sdg-membership">help</link> of course!)
+     </para>
+    </note>
+    
+    <note revision="2000-09-30">
+     <title>Swarm and COM</title>
+     
+     <para>
+      <citetitle>Swarm and COM</citetitle> from the the GIS/EM4
+      conference is available as <link linkend="intro-papers">slide
+       presentations</link>.</para>
+    </note>
+    
+    <note revision="2000-07-21">
+     <title>Swarm workshop at A-Life VII</title> <para>Swarm gave a
+      <ulink url="http://alife7.alife.org//workshops.shtml#Swarm
+      Tutorial">workshop</ulink> at <ulink
+      url="http://alife7.alife.org"> Artificial Life VII</ulink> at 8
+      am on August 3 (see the <ulink
+      url="http://alife7.alife.org//workshops.shtml#Schedule">schedule</ulink>
+      for more details).  The A-Life conference was held in Portland,
+      Oregon from August 1 to 6.  <citetitle>Next Generation
+      Swarm</citetitle> presented at the workshop <link
+      linkend="intro-papers">paper</link>, is available as slide
+      presentation.</para>
+      </note>
+
+    <note revision="2000-06-26">
+     <title>New Java-based Swarm tutorial</title>
+
+     <para>Slides from a full-day Swarm tutorial developed for the
+      &SFI;'s <ulink
+      url="http://www/sfi/education/csss/summerSchool00.html"> 2000
+      Complex Systems Summer School</ulink> are now available <link
+      linkend="intro-tutorial">online</link>.</para>
+    </note>
+    
+    <note revision="2000-06-26">
+     <title>Related simulation environments</title> <para>A new <link
+     linkend="resources-other">section</link> on simulation tools and
+     environment that are related to, or inter-operate with, Swarm,
+     including the Integrating Modelling Toolkit (IMT) and the Multi
+     Agent Modelling Language (MAML).</para>
+      </note>
+
+    <note revision="2000-04-11">
+     <title>Swarm 2.1.1 Released</title> 
+     
+     <para><link linkend="release-swarm">Swarm 2.1.1</link> fixes
+      several problems specific to Windows 9x. 
+     </para>
+    </note>
+    
+    <note revision="2000-03-20">
+     <title>First Swarm book published</title>
+     
+     <para>Benedikt Stefannson's and Franceso Luna's
+      <citetitle>Economic Simulations in Swarm: Agent-Based Modelling
+      and Object Oriented Programming</citetitle> has been published
+      this year by Kluwer.  Includes a tutorial on Swarm by Benedikt
+      on Swarm - see the reference [<link
+      linkend="luna">Luna:Stefansson:2000</link>] for more information
+      and the publisher's abstract.</para>
+      </note>
+      </sect2>
+    </sect1>
+
+  <sect1>
+   <title></title>
+   <sidebar>
+    <para>Swarm has been supported by Grant No. N00014-94-1-G014
+     from the Department of the Navy, Naval Research Laboratory,
+     acting in cooperation with the Advanced Research Projects
+     Agency, and by Sandia National Laboratory Grant No. AU-4978.
+     Swarm has also benefited from support from The Carol
+     O'Donnell Foundation, Mr. and Mrs. Michael Grantham and the
+     Joint Warfare Analysis Center (JWAC).
+    </para>
+   </sidebar>
+  </sect1>
+  
+  &about;
+  
+ </homepage>
+ 
+ &intro;
+ &release;
+ &sdg;
+ &community;
+ &resources;  
+ &contact;
+<!--  &webcams; -->
+ 
+</website>
+
+<!-- 
+Local variables:
+sgml-local-catalogs: ("catalog")
+End:
+-->
+

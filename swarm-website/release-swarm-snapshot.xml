@@ -1,0 +1,138 @@
+<webpage navto="yes" id="release-swarm-snapshot">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:17 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Development snapshots</title>
+    <abstract>
+      <para>The current unstable development snapshot and CVS access</para>
+    </abstract>
+  </head>
+
+  <section>
+    <title>NEWS</title> <para>The latest <ulink
+    url="http://savannah.nongnu.org/cgi-bin/viewcvs/*checkout*/swarm/swarm/NEWS">NEWS</ulink>
+    of major changes to Swarm available from the our <ulink
+    url="http://savannah.nongnu.org/cgi-bin/viewcvs/swarm/swarm/">CVS
+    repository</ulink> at our <ulink
+    url="http://savannah.nongnu.org/projects/swarm/">Savannah development
+    site</ulink>.</para>
+
+    <warning>
+      <title>Here be dragons...!</title>
+
+      <para>Snapshot releases have only been partially tested and are
+    not expected to work smoothly on all platforms and may require
+    considerable tweaking to get running...  Proceed with
+    caution!</para>
+    </warning>
+    
+  </section>
+
+  <section id="release-swarm-snapshot-source">
+    <title>Source</title>
+
+    <para>With the usual disclaimer out of the way, the source for
+  snapshot releases can be found at:</para>
+    
+  <itemizedlist>
+    <listitem>
+      <para><ulink
+      url="ftp://ftp.swarm.org/pub/swarm/src/testing/"></ulink>.  Look
+      for the most recent date.</para>
+    </listitem>
+  </itemizedlist>
+  </section>
+
+  <section id="release-swarm-snapshot-binaries">
+    <title>Binaries</title>
+
+  <formalpara>
+    <title>Windows binaries</title>
+
+    <para>For installing binary versions of the snapshots, Paul Johnson
+  has put together a FAQ:</para>
+    </formalpara>
+    
+
+  <itemizedlist>
+    <listitem>
+      <para><ulink url="http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/SwarmOnlineFaq.html#3.1">http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/SwarmOnlineFaq.html#3.1</ulink></para>
+    </listitem>
+  </itemizedlist>
+
+    <para>The latest binaries are at:</para>
+
+    <itemizedlist>
+      <listitem>
+	<para>
+      <ulink
+      url="ftp://ftp.swarm.org/pub/swarm/binaries/w32/latest/">ftp://ftp.swarm.org/pub/swarm/binaries/w32/latest/</ulink>
+</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>For the latest information you should check out Paul's
+   <ulink
+   url="http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/SwarmOnlineFaq.html">online
+   FAQ</ulink> or consult the <link
+   linkend="community-mailing-lists">mailing list</link>
+   archives.</para>
+
+    
+  <formalpara>
+    <title>GNU/Linux binaries</title>
+
+      <para>Paul Johnson is maintaining unofficial RPMs for snapshots
+  for Red Hat Linux <ulink
+  url="http://lark.cc.ukans.edu/~pauljohn/Swarm/Swarm-2.2x_RPMSforRH7.2/">7.2</ulink>,
+ <ulink
+     url="http://lark.cc.ukans.edu/~pauljohn/Swarm/Swarm-2.2x_RPMSforRH7.3/">7.3</ulink> and
+    <ulink
+     url="http://lark.cc.ukans.edu/~pauljohn/Swarm/Swarm-2.2x_RPMSforRH8.0/">8.0</ulink>.
+   </para>
+    </formalpara>
+    
+    <formalpara>
+      <title>Other platforms</title>
+
+      <para>Due to the effort required to maintain binary packages
+ only the stable release has official binary packages for most of the
+ platforms Swarm can be run on.  Anybody wishing to volunteer as a
+ maintainer for binary packages of the "snapshot" release for other
+ platforms, please contact us via the Swarm <link
+ linkend="community-mailing-lists">mailing lists</link>!</para>
+    </formalpara>
+  </section>
+
+  <section id="release-swarm-snapshot-cvs">
+    <title>CVS</title>
+
+    <para>For those wanting to be on the absolute bleeding-edge, the
+     Swarm CVS repository is now available via <ulink
+     url="http://www.cvshome.org/">anonymous CVS</ulink> at via our
+     <ulink url="http://savannah.nongnu.org/projects/swarm/">project
+     page</ulink> at <ulink
+     url="http://savannah.nongnu.org/">Savannah</ulink>.  You can <ulink
+     url="http://savannah.nongnu.org/cgi-bin/viewcvs/swarm/">browse</ulink>
+     the source on the web, or <ulink
+     url="http://savannah.nongnu.org/cvs/?group=swarm">check it
+     out</ulink> to your machine.</para>
+
+    <para>In order to build this from CVS you will need a number of
+    development tools, such as <application>autoconf</application>,
+    <application>automake</application> and
+    <application>libtool</application>.  Running the
+    <command>autogen.sh</command> script in the CVS checkout will
+    report the current version of these tools that are required, if
+    they are not installed on your system.</para>
+
+  </section>
+
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("release.xml" "webpage")
+End:
+-->
+
+

@@ -1,0 +1,1241 @@
+<?xml version='1.0' encoding='ISO8859-1'?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"
+[
+<!ENTITY colspecs
+    '<colspec colname="col1" colwidth="2cm"/>
+    <colspec colname="col2" colwidth="17.5cm"/>'>
+<!ENTITY colspecs-init
+    '<colspec colname="col1" colwidth="3cm"/>
+    <colspec colname="col2" colwidth="16.5cm"/>'>
+]
+>
+<article>
+ <title>SwarmFest 2002 program schedule</title>
+
+ <para>The program schedule <ulink role="online-only"
+  url="swarmfest2002-program.pdf">[PDF version]</ulink> <ulink
+  role="online-only" url="swarmfest2002-program.ps">[Postscript
+  version]</ulink> is subject to change <emphasis>(Last updated:
+  $Date: 2003-05-16 19:58:24 $ [UTC/GMT])</emphasis>.  A list of <link linkend="oral">oral
+  presentations</link> appears below.</para>
+ 
+ <para role="online-only">
+   Please send proposals (only a few paragraphs should be necessary) for
+  presentations, demonstrations, break-out-sessions, or any other
+  suggestions to <ulink
+   url="mailto:swarmfest2002@swarm.org">swarmfest2002@swarm.org</ulink>. If
+   possible, please submit your proposals/abstracts in plaintext. To
+  ensure that your proposal has full consideration, please submit your
+   proposals by February 15th, however, later submittals may be
+  considered only as the schedule allows. We will be publishing the
+  SwarmFest 2002 proceedings.  Please be prepared to submit your
+  abstracts and papers in electronic form!
+ </para>
+ 
+ <informaltable frame="all" rowsep="1">
+   
+  <tgroup cols="2" align="center">
+   &colspecs-init;
+   <thead>
+    <row>
+     <entry namest="col1" nameend="col2" align="center">Friday 29 March 2002</entry>
+    </row>
+   </thead>
+   
+   <tbody>
+    
+    <row>
+     <entry namest="col1" nameend="col2" align="center">
+      <emphasis role="strong">Opening Reception and Dinner
+       Location: Kane Hall, Walker-Ames Room,
+       University of Washington campus</emphasis>
+     </entry>
+    </row>
+    
+    <row>
+     <entry>
+      <emphasis role="strong">6:15 - 7:00 pm</emphasis>
+     </entry>
+     <entry>
+      <emphasis>Reception</emphasis>
+     </entry>
+    </row>
+    
+    <row>
+     <entry>
+      <emphasis role="strong">7:00 - 9:00 pm</emphasis>
+     </entry>
+     <entry>
+      <emphasis>Dinner</emphasis>
+     </entry>
+    </row>
+    <row>
+     <entry>
+      <emphasis role="strong">9:00 - 10:00 pm</emphasis>
+     </entry>
+     <entry>
+      <para><emphasis>Key Note Address</emphasis>: <citetitle pubwork="article">Agent based economic models on the Santa Fe Trail</citetitle></para>
+
+       <para><emphasis role="strong">Michael W. Brown</emphasis>:
+       Member of the Particle Economics Research Institute and
+	Governor of National Association of Securities Dealers; former
+	Chairman of Nasdaq Stock Market Board of Directors and CFO of
+	Microsoft Corporation.</para>
+     </entry>
+    </row>
+    
+   </tbody>
+  </tgroup>
+  </informaltable>
+
+ <informaltable frame="all" rowsep="1">
+  <tgroup cols="2">
+   &colspecs;
+   <thead>
+    <row>
+     <entry namest="col1" nameend="col2" align="center">Saturday 30 March 2002</entry>
+    </row>
+   </thead>
+   <tbody>
+    <row>
+      <entry namest="col1" nameend="col2" align="center">
+      <emphasis role="strong">Location: Mary Gates Hall, Room 241, University of Washington campus</emphasis>
+     </entry>
+    </row>
+    
+    <row>
+     <entry>
+      <emphasis role="strong">8:00 am</emphasis>
+     </entry>
+     <entry>
+      <emphasis role="strong">Continental Breakfast</emphasis>: <emphasis>Pastries, coffee, tea, hot chocolate</emphasis>
+     </entry>
+    </row>
+    <row>
+     <entry>
+      <emphasis role="strong">8:30 am</emphasis>
+     </entry>
+     <entry><emphasis role="strong">Introduction</emphasis></entry>
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">9:00 am</emphasis></entry>
+     <entry><xref linkend="Railsback"/></entry>
+    </row>
+    <row>
+     <entry><emphasis role="strong">9:30 am</emphasis></entry>
+     <entry><xref linkend="Johnson"/></entry>
+    </row>
+    <row>
+     <entry><emphasis role="strong">10:00 am</emphasis></entry>
+     <entry>
+      <emphasis role="strong">Break</emphasis>: <emphasis>Coffee, tea,
+      soft drinks</emphasis>
+     </entry>
+     </row>
+    <row>
+     <entry><emphasis role="strong">10:15 am</emphasis></entry>
+     <entry><xref linkend="Palmrose"/></entry>
+     </row>
+    
+    <row>
+      <entry><emphasis role="strong">11:00 am</emphasis></entry>
+     <entry><xref linkend="Boero"/></entry>
+    </row>
+    <row>
+     <entry><emphasis role="strong">11:30 am</emphasis></entry>
+     <entry><xref linkend="Morini"/></entry>
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">12:00 pm</emphasis></entry> 
+
+     <entry>
+      <emphasis role="strong">Lunch</emphasis><emphasis> [on your own]</emphasis></entry>
+
+    </row>
+    <row>
+     <entry><emphasis role="strong">1:30 pm</emphasis></entry>
+     <entry><xref linkend="Box"/></entry>
+    </row>
+    <row>
+     <entry><emphasis role="strong">2:00 pm</emphasis></entry>
+     <entry><xref linkend="Sasaki"/></entry>
+    </row>
+    <row>
+     <entry>
+      <emphasis role="strong">2:30 pm</emphasis>
+     </entry>
+     <entry>
+      <emphasis role="strong">Break</emphasis>: <emphasis>Cookies, brownies, soft drinks, coffee, tea</emphasis>
+     </entry>
+    </row>
+    <row>
+     <entry><emphasis role="strong">3:00 pm</emphasis></entry>
+     <entry><xref linkend="North"/></entry>
+    </row>
+    <row>
+     <entry><emphasis role="strong">3:30 pm</emphasis></entry>
+     <entry><xref linkend="Divakaran"/></entry>
+    </row>
+    <row>
+     <entry><emphasis role="strong">4:00 pm</emphasis></entry>
+      <entry><xref linkend="Ferraris"/></entry>
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">6:00 pm - 12:00 am</emphasis></entry>
+     <entry align="center"><emphasis>Band, Beverages &amp; Banter</emphasis></entry>
+    </row>
+    
+    
+    </tbody>
+   </tgroup>
+  </informaltable>
+
+ <informaltable frame="all" rowsep="1">
+  <tgroup cols="2">
+   &colspecs;
+   <thead>
+    <row rowsep="1">
+     <entry namest="col1" nameend="col2" align="center">Sunday 31 March 2002</entry>
+    </row>
+   </thead>
+   <tbody>
+    <row>
+     <entry namest="col1" nameend="col2" align="center">
+      <emphasis role="strong">Location: Mary Gates Hall, Room 241, University of Washington campus</emphasis>
+     </entry>
+    </row>
+    <row>
+     <entry>
+      <emphasis role="strong">8:00 am</emphasis>
+     </entry>
+     <entry>
+      <emphasis role="strong">Continental Breakfast</emphasis>: <emphasis>Pastries, coffee, tea, hot chocolate</emphasis>
+     </entry>
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">8:30 am</emphasis></entry>
+      <entry><xref linkend="Anderson"/></entry>
+    </row>
+
+     <row>
+     <entry><emphasis role="strong">9:15 am</emphasis></entry>
+     <entry><xref linkend="Terna"/></entry>
+    </row>
+    
+    <row>
+     <entry>
+      <emphasis role="strong">10:00 am</emphasis>
+     </entry>
+     <entry>
+      <emphasis role="strong">Break</emphasis>: <emphasis>Coffee, tea,
+      soft drinks</emphasis>
+     </entry>
+    </row>
+    <row>
+     <entry><emphasis role="strong">10:15 am</emphasis></entry>
+     <entry><xref linkend="Patelli"/></entry>
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">10:45 am</emphasis></entry>
+     <entry><xref linkend="Howe-Collier"/></entry>
+     </row>
+    
+    <row>
+     <entry><emphasis role="strong">11:15 am</emphasis></entry>
+     <entry><xref linkend="Daniels"/></entry>
+    </row>
+
+    <row>
+     <entry><emphasis role="strong">11:45 am</emphasis></entry>
+
+     <entry>
+      <emphasis role="strong">Lunch</emphasis><emphasis> [on your own]</emphasis></entry>
+
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">1:15 pm</emphasis></entry>
+     <entry><xref linkend="Railsback-Johnson"/></entry>
+    </row>
+    
+    <row>
+      <entry><emphasis role="strong">2:00 pm</emphasis></entry>
+     <entry><xref linkend="Perrone"/></entry>
+    </row>
+    
+    <row>
+     <entry>
+       <emphasis role="strong">2:30 pm</emphasis>
+     </entry>
+     <entry>
+      <emphasis role="strong">Break</emphasis>: <emphasis>Cookies,
+      brownies, soft drinks, coffee, tea</emphasis>
+     </entry>
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">2:45 pm</emphasis></entry>
+     <entry><xref linkend="Madey"/></entry>
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">3:15 pm</emphasis></entry>
+     <entry align="center"><emphasis>Wrap up discussion</emphasis></entry>
+    </row>
+    
+    <row>
+     <entry><emphasis role="strong">4:00 pm</emphasis></entry>
+     <entry align="center"><emphasis>End of conference</emphasis></entry>
+    </row>
+    
+   </tbody>
+  </tgroup>
+ </informaltable>
+ 
+ <bibliography id="oral">
+  <title>Oral presentations</title>
+
+  <para>(<emphasis>Note: abstracts are listed alphabetically by
+   presenter, not program schedule order.</emphasis>  <emphasis
+   role="online-only">E-mail addresses have been slightly obfuscated
+   to minimize spam.</emphasis>)</para>
+
+  <bibliomixed id="Palmrose">
+   <author>
+    <firstname>Zoe-Vonna</firstname>
+    <surname>Palmrose</surname>
+    <affiliation>
+     <orgname>University of Southern California</orgname>
+     <address><email>palmrose@marshall.usc.edu</email></address>
+    </affiliation>
+   </author>
+   <citetitle>Particle Economics Research Institute: the PartEcon Model</citetitle>
+
+   <abstract>
+    <para>Particle economics describes a model and a methodology for
+     generating emergent economic behavior driven by the creation of
+     new modes of economic activity.  An abstract agent-based model of
+     generation of <quote>products</quote> from <quote>input
+     objects</quote> provides the basic structure.  These
+     <quote>creation nodes</quote> also keep track of their activities
+     using the discipline of double-entry bookkeeping, monitoring
+     continuously what they traded to whom, when, and for how much (of
+     other products).  This knowledge is used to update their beliefs
+     about the values of products and the risk associated with
+     transactions.  There is no universally accepted
+     <quote>money</quote> to begin with.  Nodes must decide how to
+     measure their fitness as they make their way in their context of
+     other nodes.  This optimization of fitness as well as measure of
+     fitness eventually leads to the emergence of money.  In addition,
+     the influx of new modes of economic activity generates
+     Schumpeterian cascades of creation and extinction of whole
+     communities of modes of economic activity.  These cascades are
+     described both in extent and time by power laws.</para>
+
+    <para>
+The PartEcon research team consists of: 
+     <itemizedlist>
+      <listitem>
+       <para>Mike Brown, retired CFO of Microsoft, past Chairman of
+	the Nasdaq Stock Market, and past Trustee of the Financial
+	Accounting Foundation.</para></listitem>
+
+      <listitem>
+       <para>Jim Herriot, computer scientist, cognitive scientist,
+	complexity scientist, previously with Sun Microsystems
+	Laboratories, currently with BiosGroup, a complexity science
+	think tank in Santa Fe.</para></listitem>
+
+      <listitem>
+       <para>Zoe-Vonna Palmrose, Pricewaterhouse Coopers Auditing
+       Professor at the University of Southern
+       California.</para></listitem>
+
+      <listitem>
+       <para>Bruce Sawhill, theoretical physicist, complexity
+	scientist, previously with Stanford University, The Santa Fe
+	Institute, currently with BiosGroup in Santa Fe.</para>
+      </listitem>
+     </itemizedlist>
+
+    </para>
+   </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="Railsback-Johnson">
+   <authorgroup>
+    <author>
+     <firstname>Steve</firstname>
+     <surname>Railsback</surname>
+     <affiliation>
+      <orgname>Lang, Railsback &amp; Associates</orgname>
+      <address><email>LRA@northcoast.com</email></address>
+     </affiliation>
+    </author>
+    <author>
+     <firstname>Paul</firstname>
+     <surname>Johnson</surname>
+     <affiliation>
+      <orgname>University of Kansas</orgname>
+      <address><email>pauljohn@ukans.edu</email></address>
+     </affiliation>
+    </author>
+   </authorgroup>
+   <citetitle>Can Agent-based Modeling Contribute to Scientific Theory?</citetitle>
+   <abstract>
+    <para> Scientists that use agent-based models (ABMs) are often
+     asked how their simulations can contribute to <quote>theory</quote>. ABM
+     simulations are sometimes viewed as too specific and
+     parameter-dependent to lead to general theory. We will lead a
+     discussion of such questions as: (1) What is
+     <quote>theory</quote> in the context of ABM simulation and how
+     does it differ from classical theory? and (2) How can ABMs be
+     used to develop theory?  Examples from social and ecological
+     sciences will be used to illustrate the discussion. In ecology,
+     classical theory generally consists of equations assumed to
+     represent system-level behaviors. In social sciences, theory
+     often addresses how individuals interact. With ABMs, we start
+     with the fundamental assumption that system-level behaviors
+     emerge from the traits of individual agents and their
+     environment. <quote>Theory</quote> in the ABM context consists of
+     models of agent traits: how agents interact with each other and
+     their environment to produce emergent system properties. These
+     models of agent traits may be specific to certain circumstances
+     and agent types, or they may be quite general and widely
+     useful. A key advantage of theory in an ABM context is that
+     ABM-based theory is readily tested: ABMs can be used in a variety
+     of ways to test the accuracy and generality of models of agent
+     traits.</para> </abstract></bibliomixed>
+
+  <bibliomixed id="Terna">
+   <author>
+    <firstname>Pietro</firstname>
+    <surname>Terna</surname>
+    <affiliation>
+     <orgname>University of Torino</orgname> 
+     <orgdiv>Department of Economic and Financial Sciences</orgdiv>
+     <address><email>pietro.terna@unito.it</email></address>
+    </affiliation>
+   </author>
+   <citetitle>Improved Java Virtual Enterprise (jVE) in Swarm</citetitle>
+
+   <abstract>
+    <para>This is an improved version of the agent based enterprise
+     simulator that was already introduced during the 2001 SwarmFest.
+     Our simulated enterprise has both orders to accomplish -
+     described by <quote>recipes</quote> that contain what to do - and
+     units that perform the different steps of production. Units can
+     be within the firm or outside, constituting other complex
+     enterprises or standing alone as small business actors.
+    </para>
+    
+    <para>The core of the model is now the clear separation between WD
+     and DW, i.e.  between the order recipes (WD: What to Do) and the
+     operating units (DW: which is Doing What).  WD and DW are
+     completely independent, in formalism and in code. So, running the
+     model, we can check the consistency of the two sides, as in the
+     actual world, where the output of an enterprise arises from a
+     complex interaction among products and production tools.
+    </para>
+    
+    <para>Recipes now deal with internal parallel production paths and
+     include assembly steps, where the typical just in time problem of
+     a supply chain can be tested.  With the model we present five
+     agent based simulations applied to enterprises. Finally, the
+     theoretical goal of the research is illustrated: the reproduction
+     of the trial and error process that generates new enterprises.
+     </para>
+   </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="Ferraris">
+   <author>
+    <firstname>Gianluigi</firstname>
+    <surname>Ferraris</surname>
+    <affiliation>
+     <address>
+      <street>Via Sidoli 1</street>
+      <postcode>10135</postcode> <city>Torino</city>
+      <country>Italy</country>
+      <email>glf313@libero.it</email>
+     </address>
+    </affiliation>
+   </author>
+
+   <citetitle>Classifier Systems in Swarm: a general purpose software.</citetitle>
+
+   <abstract>
+    <para>Classifier systems are often used in AB models because they
+     produce rules very closed to the problem and easy
+     understandable. A matter in using CS is that the computation of
+     the reward each rule has to be given may act dramatically on the
+     learning capability of the method. Starting from the CW package I
+     wrote in 1999 to handle CS, I've produced CW2 that includes
+     optional features to handle rewards in a general way. CW2 removes
+     the problem of reward computation and allows usage of both
+     negative or positive amounts as well.
+    </para>
+
+    <para>CW2 has been used in several models, two of them will be
+     showed: the anteater and the Bertrand's oligopoly. In the first
+     model a CS is used by an anteater to guess the behaviour of
+     Langton's ants and eat them. Only observing ant's moves the CS
+     reproduces the whole ant's rule set. In Bertrand's oligopoly the
+     interplay between two enterprises is performed. Starting without
+     any initial knowledge of the market players use own CS to make
+     price-strategy, rules are evaluated by simply giving the
+     profit/loss amount as reward. After learning the Nash's
+     equilibrium is reached.
+    </para>
+   </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="North">
+   <authorgroup>
+    <author>
+     <firstname>Michael</firstname>
+     <othername>J.</othername>
+     <surname>North</surname>
+     <affiliation>
+      <orgname>Argonne National Laboratory</orgname>
+      <orgdiv>Decision and Information Sciences Division</orgdiv>
+      <orgdiv>Complex Adaptive Systems Section</orgdiv>
+      <address>
+       <email>north@anl.gov</email>
+     </address>
+     </affiliation>
+    </author>
+    <author>
+     <firstname>Charles</firstname>
+     <othername>M.</othername>
+     <surname>Macal</surname>
+     <affiliation>
+      <orgname>Argonne National Laboratory</orgname>
+     </affiliation>
+    </author>
+   </authorgroup>
+
+   <citetitle>The Beer Dock: Three and a Half Implementations of the
+    Beer Distribution Game</citetitle>
+
+   <abstract>
+    <para>The Beer Distribution Game is a classic supply chain
+    problem widely used in graduate business programs to teach the
+    concepts of supply chain management (Moseklide, Larsen, and
+    Sterman, 1991).  It is well suited for this purpose since it is
+    simple enough to be easily understandable but complex enough to be
+    interesting.  In particular, the Beer Distribution Game is notable
+    for its ability to confound typical human players (Sterman, 1987,
+    1989).  Many people who play the game find it difficult, if not
+    impossible, to avoid the chaotic operating regimes that are the
+    game's hallmark.</para>
+
+    <para>Docking or alignment is a verification process that seeks
+     to find isomorphic relations between two or more implementations of
+     an underlying model.  Docking or alignment are used to "determine
+     whether two models can produce the same results, which in turn is
+     the basis for critical experiments and for tests of whether one
+     model can subsume another" (Axtell, Axelrod, Epstein, and Cohen,
+     1996).</para>
+
+    <para>The original Beer Distribution Game was implemented as a
+     systems dynamics model.  The authors have implemented the game using
+     Mathematica functional programming, RePast agent-based modeling and
+     simulation (ABMS), and Swarm ABMS.  The authors have reproduced all
+     the published results with these new implementations.  As part of this
+     process, the authors have docked the implementations.  The docking
+     process was found to be challenging and time consuming, but ultimately
+     rewarding.  Several common themes of potential value to other
+     researchers arose during the model docking process.</para>
+   </abstract>
+
+  </bibliomixed>
+
+  <bibliomixed id="Railsback">
+   <author>
+    <firstname>Steve</firstname>
+    <surname>Railsback</surname>
+    <affiliation>
+     <orgname>Lang, Railsback &amp; Associates</orgname>
+     <address><email>LRA@Northcoast.com</email>
+     </address>
+    </affiliation>
+    <affiliation>
+     <orgname>Humboldt State University</orgname>
+    </affiliation>
+   </author>
+   
+   <citetitle><ulink url="http://math.humboldt.edu/~simsys/">More
+     Fishy Business: Using Swarm Models to Test Theories of Fish
+     Ecology</ulink></citetitle>
+
+   <abstract>
+
+    <para>Three recent studies used Swarm models to test theoretical
+     assumptions of fish ecology. The first two studies used an
+     agent-based model (ABM) that simulates how stream trout select
+     their habitat considering how mortality risks, growth potential,
+     and competition with other trout varies among locations. (1)
+     Field studies show that when densities of juvenile trout are
+     high, the average trout size is lower. These studies are used to
+     support the theory of density-dependent growth: higher densities
+     of fish produce more competition for food and therefore lower
+     growth. Our ABM reproduced the observed decrease in fish size as
+     density increased, but also found that growth rates were higher,
+     not lower, when density was high. The decrease in fish size
+     apparently was due to factors other than food competition, for
+     example increasing rates of mortality in larger fish. (2) The
+     models most commonly used to manage fish and wildlife habitat are
+     based on the assumption that the habitat where animals are most
+     commonly observed is the highest quality habitat.  In the trout
+     ABM, we know the intrinsic quality of each habitat patch and
+     compared it to the number of fish using each patch in
+     simulations.  Even though fish in the ABM select the best
+     available patch, our results contradict the assumption that the
+     most commonly used habitat is the highest quality habitat. (3)
+     Ocean herring migrate in large schools that have been observed to
+     drastically shift destinations in years when the number of
+     <quote>experienced</quote> migrants is low compared to the number
+     of juvenile herring that have never migrated before. Research
+     shows that a fish school can be considered a self-organized
+     aggregation of individuals following rules similar to those of
+     Craig Reynolds' famous <quote>Boids</quote> model. We used an ABM
+     similar to Boids to test the theory that the
+     <quote>experienced</quote> migrants can control the direction of
+     the fish school only if they are a sufficient fraction of the
+     fish in the school. We found a sharp threshold in the ability of
+     experienced fish to control school migration: as their fraction
+     increased from 4% to 7% of the total, their control went from
+     none to complete. These studies contribute to the debate over
+     which is fishier: ABMs or conventional ecological theories.
+    </para>
+   </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="Morini">
+   <author>
+    <firstname>Matteo</firstname>
+    <surname>Morini</surname>
+    <affiliation>
+     <orgname>LABORatorio R. Revelli</orgname>
+     <orgdiv><ulink url="http://www.labor-torino.it/">Centre for
+     Employment Studies</ulink></orgdiv>
+     <address><email>m.morini@labor-torino.it</email></address>
+    </affiliation>
+    <affiliation>
+     <orgname>Università di Torino</orgname>
+     <orgdiv><ulink url="http://www.coripe.unito.it/">CORIPE - Consortium for Research and Continuing Education in Economics</ulink></orgdiv>
+    </affiliation>
+   </author>
+   
+   <citetitle>SMS: A Spinning Mill Simulator</citetitle>
+
+   <abstract>
+    <para> Production planning is a problem common to many industries:
+     a timely delivery is often at odds with other technical and
+     economical constraints.</para>
+
+    <para> In many cases even short period planning may be a big deal,
+     even for medium to small-sized plants: it is not uncommon that
+     many lots with different technical specs are to be interleaved in
+     the production plan. Production units then need to be fine-tuned
+     accordingly. Finding the most appropriate sequence is an
+     astounding task, involving a huge number of combinations, which
+     is nowadays performed by experience and common sense, essentially
+     by hand.  SMS tries to automatically sort out the best sequence
+     combining a 1:1 model of a firm's supply chain (able to evaluate
+     each solution's <quote>fitness</quote>) with a genetic algorithm
+     (G. Ferraris' Genetic Manipulator v.0.2), both built in Swarm,
+     which, instead of attempting a brute force approach bound to
+     fail, searches the solutions' space in a clever way, often
+     converging to a good solution in a matter of minutes on standard
+     equipment.</para>
+   </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="Howe-Collier">
+   <authorgroup>
+    <author>
+     <firstname>Tom</firstname>
+     <surname>Howe</surname>
+     <affiliation>
+      <orgname>University of Chicago</orgname>
+      <orgdiv>Social Science Research Computing</orgdiv>
+      <address><email>thowe@flashfire.src.uchicago.edu</email></address>
+     </affiliation>
+    </author>
+    <author>
+     <firstname>Nick</firstname>
+     <surname>Collier</surname>
+     <affiliation>
+      <orgname>University of Chicago</orgname>
+      <orgdiv>Social Science Research Computing</orgdiv>
+     </affiliation>
+    </author>
+   </authorgroup>
+   <citetitle>Recent Developments in Repast</citetitle>
+
+   <abstract>
+    <para>
+     In addition to producing regular updates of our current
+     behaviors, we have spent the past months developing the Recursive
+     Porous Agent Simulation Toolkit (Repast) to include several new
+     tools.
+     
+     One of the most significant change we have made to Repast's
+     network support has been to restructure its approach to network
+     visualization. In order to provide a more accurate view of social
+     networks as they change, we have integrated network visualization
+     techniques used in full-fledged network analysis packages, such
+     as Pajak and Ucinet, into Repast.</para>
+
+     <para>We have also begun to integrate Geographical Information
+     Systems (GIS) technologies into the Repast framework. At present,
+     Repast has limited support for raster images. We intend to
+     address this limitation by including vector type maps in the next
+     release of Repast. The GIS support will include both
+     visualization as well as limited geostatistical analysis
+     capabilities.</para>
+
+     <para>Finally, we have released SimBuilder, a Rapid Application
+     Development too, in beta form. At present SimBuilder only
+     supports developing network models, but we are working to expand
+     it to include spatial models as well. We have included NQPy, a
+     Python-like development language, to simplify the development of
+     models.
+    </para>
+   </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="Divakaran">
+   <author>
+    <firstname>Raj</firstname>
+    <othername>P.</othername>
+    <surname>Divakaran</surname>
+    <affiliation>
+     <orgname>Utah State University</orgname>
+     <orgdiv>Department of Geography</orgdiv>
+     <orgdiv>College Of Natural Resources</orgdiv>
+     <address><email>rajprasanth@cc.usu.edu</email></address>
+    </affiliation>
+   </author>
+
+   <citetitle>Potential Of Ant Colony Optimization To Satellite Image
+    Classification</citetitle>
+
+   <abstract>
+
+    <para>Studies on the behavior of social insects such as ants have
+     shown that they exhibit a collective intelligence that cannot be
+     explained based on the actions of the individuals that compose
+     the colony. In an ant colony, global or emergent patterns emerge
+     due to the local interactions of the ants. This ability to
+     generate global patterns by a swarm of ants has served as the
+     basis for the development of a set of algorithms that emphasize
+     distributedness, robustness and flexibility - Ant Colony
+     Optimization (ACO) Algorithms. Ant Colony Optimization techniques
+     have been used to solve a number of network problems such as the
+     Travelling Salesman's Problem and the Job Scheduling
+     Problem. Vitorino Ramos and Filipe Almeida have shown that ACO
+     algorithms could also be developed to solve the problem of image
+     segmentation. This development is of immense use to researchers
+     in the field of image classification and pattern recognition who
+     have of late concentrated on developing robust, autonomous and
+     flexible algorithms that can delineate the classes with minimum
+     or zero inputs from the user. The ACO algorithms' potential for
+     image classification has not been fully investigated so far. The
+     purpose of this work is therefore to determine if ACO algorithms
+     can be successfully applied to the problem of image
+     classification of satellite imagery.</para>
+   </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="Anderson">
+   <author>
+    <firstname>James</firstname> 
+    <othername>J.</othername> 
+    <surname>Anderson</surname>
+    <affiliation>
+     <orgname>University of Washington</orgname>
+     <orgdiv>Columbia Basin Research</orgdiv>
+     <orgdiv>School of Fisheries</orgdiv>
+     <address><email>jim@cbr.washington.edu</email></address>
+    </affiliation>
+   </author>
+
+   <citetitle>A decision algorithm with memory and learning</citetitle>
+
+   <abstract>
+    <para>In game theory, a player selects between alternative
+     opportunities to obtain the best outcome.  This process requires
+     that the player has knowledge of the opportunities, their values
+     or rewards, the probabilities of obtaining the rewards, and the
+     cost of playing.  In early decision theories, players have this
+     knowledge a priori.  For example, in marginal foraging theory an
+     animal leaves a patch when the consumption rate declines to the
+     average over all patches.  However, in agent-based models, we
+     prefer agents not be endowed with omniscience.  Here I explore
+     the properties of a simple model in which an agent learns through
+     encounters or events, imperfectly remembers what it learns, and
+     makes decisions by considering past and recent events.  I explore
+     a three-parameter version of the model with a player that
+     continually decides between two states that present different,
+     random patterns of opportunities.  Under a wide range of
+     parameters the player first explores both states and then settles
+     into an optimum decision pattern.  However, under other ranges of
+     parameters, the player continually switches states, resulting in
+     a suboptimum behavior.  I conclude that the model, with its game
+     and learning theory foundations, and its simplicity, may have
+     wide application in agent based models.  It is currently being
+     applied to fish foraging (Anderson, 2002) and terrorist behavior
+     (Silverman 2001).</para>
+   </abstract>
+  </bibliomixed>
+
+  <!--
+  <bibliomixed id="Alexander">
+   <author>
+    <firstname>J.</firstname>
+    <othername>McKenzie</othername>
+    <surname>Alexander</surname>
+    <affiliation>
+     <orgname>London School of Economics and Political Science</orgname>
+     <orgdiv>Department of Philosophy, Logic and Scientific Method</orgdiv>
+    </affiliation>
+   </author>
+
+   <citetitle><remark>Yet to be submitted...</remark></citetitle>
+
+   <abstract>
+    <para>
+     <remark> If it's not too forward, I could give a presentation on
+     two things: (1) creating custom user interfaces for working with
+     swarm using Tcl/Tk, and (2) creating Zoomable heirarchical models
+     using Pad++ inside Swarm.  (1) might be of interest simply
+     because I get the feeling (perhaps incorrectly) that many Swarm
+     users just rely on the default Control Panel and Probe displays,
+     and it's not too hard to create a more polished &amp;
+     professional looking model with a bit of Tcl/Tk integration.  (2)
+     might be of interest because it just looks really, really cool.
+     I've posted a movie of one proof-of-concept model at
+     http://evolve.lse.ac.uk/jalex/misc/pad-swarm.gif.  (View from a
+     fast computer, though, because it's over 8 Mb in size.  Also a
+     bit jerky because my computer had a hard time capturing the video
+     in real-time.)</remark></para>
+
+    <para> <remark>The zoomable model was created by importing the
+     Pad++ interface by calling [globalTkInterp eval: "load
+     libpad.so"] in the model, which loaded all of the relevant Pad++
+     features, and then doing some more Tcl/Tk coding.  Note that all
+     rotational animations were triggered via the Swarm scheduler!
+     :)</remark></para>
+   </abstract>
+
+  </bibliomixed>
+-->
+
+  <bibliomixed id="Box">
+   <authorgroup>
+    <author>
+     <firstname>Paul</firstname>
+     <surname>Box</surname>
+     <affiliation>
+      <orgname>Utah State University</orgname>
+      <address><email>paulbox@cc.usu.edu</email></address>
+     </affiliation>
+    </author>
+    <author>
+     <firstname>Juan</firstname>
+     <surname>Villalba</surname>
+     <affiliation>
+      <orgname>Utah State University</orgname>
+     </affiliation>
+    </author>
+   </authorgroup>
+
+   <citetitle>A Computational Environment for Evaluating the
+    Interaction of Grazing Animals and Landscapes</citetitle>
+
+   <abstract>
+    <para>Ecosystem diversity is largely a result of the complex,
+     non-linear interactions of the constituent members and
+     communities that make up the ecosystem. One example of these
+     interactions is between grazing animals and the plants that they
+     graze on. Herbivores select plants based on real or perceived
+     needs for calories, proteins, vitamins, minerals, or any other
+     part of a well-balanced diet. The cues for herbivore grazing
+     behavior is largely a result of post-ingestive feedback, which in
+     turn is dependent on chemical reactions within the gut based on
+     recent diet. The grazing behavior in turn affects the composition
+     of plant communities in ways that may not be directly predictable
+     from short-term observation, through selective cropping,
+     trampling, seed transport, etc. Plants and grazers adapt over
+     time in ways that either foster or discourage interaction,
+     eliciting counter-adaptations in a cycle that can produce very
+     complex webs of dependencies. Modeling such a system is
+     complicated by the multiple feedbacks, and disparity of temporal
+     and spatial scales of processes. A computational environment that
+     addresses these issues can be constructed using principles of
+     agent-based modeling, cellular automata, and artificial life. An
+     example of such a computational environment is presented here.
+    </para>
+   </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="Patelli">
+   <author>
+    <firstname>Paolo</firstname>
+    <surname>Patelli</surname>
+    <affiliation>
+     <orgname>Santa Fe Institute</orgname>
+     <address><email>paolo@santafe.edu</email></address>
+    </affiliation>
+   </author>
+   <citetitle>Modularity and Robustness in Organizations</citetitle>
+
+   <abstract>
+    <para>Manufacturing cells (modules) represent a possible new
+     organizational form that shares analogies but also differences
+     with past organizational solutions.  Modules emerge at macro
+     level as units performing manufacturing and non manufacturing
+     activities; a micro level module combines different resources in
+     a permanent way. The implications of a <quote>modular
+     organization</quote> are several: large organizations emulate and
+     reinterpret market's mechanisms and the principles of
+     near-decomposability and self-organization.</para>
+
+    <para>The aim of the model is to test different organizational
+     structures against a given environment.  An organization has the
+     ability to process information from the environment and diffuses
+     the results within the organization. It is structured as an
+     hierarchy, every element of the organization has finite
+     computation capabilities and the ability to adapt his behavior
+     accordingly to a feedback signal.  A modular organization is
+     characterized by the level of redundancy i.e. by the number of
+     duplicated and overlapped tasks. I have been studing the effect
+     of environmental structural change on the behavior and
+     performance of the firm.
+    </para>
+   </abstract>
+
+  </bibliomixed>
+
+  <bibliomixed id="Perrone">
+   <author>
+    <firstname>Alessandro</firstname>
+    <surname>Perrone</surname>
+    <affiliation>
+     <orgname>University of Venice</orgname>
+     <orgdiv>Department of Economics</orgdiv>
+     <address><email>alex@unive.it</email></address>
+    </affiliation>
+   </author>
+
+   <citetitle>VSB 2.0: Visual Swarm Builder</citetitle>
+
+   <abstract>
+
+    <para>This is an improved version of the Visual Swarm Builder
+     that was already introduced during the 2001 SwarmFest.  This is
+     the new version and the first publicly available.</para>
+
+    <para>The need of a common language for agent-based economic
+     simulations is, by now, widely recognized and several attempts
+     are currently underway to identify the fundamental
+     characteristics that such language should have.  Between the two
+     extremes of <quote>just add water</quote> and <quote>do it
+     yourself</quote> several options have emerged in the last few
+     years. Swarm, Ascape, Repast, Starlogo, AgentSheets and few other
+     simulation platforms are, as of today, the most credible
+     contenders.</para>
+
+<!--
+    <para>From the on-going discussion, a new trade-off has
+     emerged. It is not anymore a matter of deciding whether the
+     researcher should be constrained by the rules of an
+     omni-comprehensive software environment (the "just-add-water"
+     option) or, rather s/he should painstakingly construct every
+     soft-brick of the artificial world modeled (the "do-it-yourself"
+     alternative). Rather, the trade-off is between the ease of
+     programming on the one hand, and the sophistication of the
+     obtainable end-product.  Swarm in particular has attracted
+     substantial interest from the economic profession (see for
+     example Luna and Stefansson 2000), but is now challenged by
+     simulation platforms like Ascape and Starlogo which are proposed
+     as more "user-friendly" reducing the initial investment for the
+     professional economist (but amateur programmer).
+    </para>
+
+    <para>Seldom in the economic history of the introduction of
+     innovations, the adoption of a particular new technology over a
+     contender has been dictated by the ascertained superiority. More
+     often other factors like network effects and hysteresis played a
+     more fundamental role.</para>
+
+    <para>In a decentralized fashion-typical of the GNU philosophy
+     which has inspired the design and diffusion of Swarm-several
+     researchers have worked to make Swarm meet the challenges
+     launched by other contenders to the role of esperanto of
+     agent-based simulations.</para>
+    -->
+
+    <para>VSB represents one of the most straightforward and most
+     rewarding ways to program the Simulations using Swarm
+     Libraries. With very little effort, you can be right up to speed
+     developing your next great simulation, without all that tedious
+     mucking about worrying about the standard Swarm code.
+    </para>
+    
+    <para>VSB is an integrated environment for the design and
+     realization of Swarm code based on a menu driven selection of
+     objects like schedule of events, graphics, lists and arrays etc.
+     A visual building tool is clearly a useful extension to any
+     programming environment, the more so for a large, complex and
+     powerful simulation platform like Swarm. The absolute beginner as
+     well as the expert programmer will find VSB useful. Because of
+     its ease of use the former, and thanks to the speed with which a
+     prototype can be obtained, the latter.</para>
+   </abstract>
+
+  </bibliomixed>
+
+  <bibliomixed id="Boero">
+   <author>
+    <firstname>Riccardo</firstname>
+    <surname>Boero</surname>
+    <affiliation>
+     <orgname>University of Surrey</orgname>
+     <orgdiv>Department of Sociology</orgdiv>
+     <orgdiv>School of Human Sciences</orgdiv>
+     <address>
+      <city>Guildford</city>
+      <country>United Kingdom</country>
+      <email>R.Boero@surrey.ac.uk</email>
+     </address>
+    </affiliation>
+   </author>
+
+   <citetitle>gpSwarm: Java Genetic Programming using the Swarm libraries</citetitle>
+
+    <abstract>
+
+    <para>This paper aims to present a new tool, called
+     <quote>gpSwarm</quote>. for making Genetic Programming (GP). GP
+     is a computational technique aiming to generate computer programs
+     able to solve problems without being explicitly programmed for
+     them and it belongs to a sub-field of Artificial Intelligence
+     that studies topics related to machine learning.  gpSwarm is
+     based on Java and on the Swarm libraries: it uses Swarm for
+     managing the evolution algorithm and it uses Java as the language
+     of possible solutions. gpSwarm is characterised by some
+     advantages in comparison with other tools, mainly the opportunity
+     to use different kinds of variables and the easy management of
+     solutions space. Finally some examples are presented,
+     illustrating how to use the tool and how to integrate it with
+     Agent Based Models.</para>
+    </abstract>
+  </bibliomixed>
+
+  <bibliomixed id="Sasaki">
+   <author>
+    <firstname>Yuya</firstname> 
+    <surname>Sasaki</surname>                                            
+    <affiliation>
+     <orgname>Utah State University</orgname>
+     <orgdiv>Department of Geography And Earth Resources</orgdiv>
+     <address><email>dirtyyuya@yahoo.co.jp</email></address>
+    </affiliation>
+   </author>
+
+   <citetitle><ulink
+   url="http://cc.usu.edu/~slk1r/technology/swarmfest2002.html">Experimental
+   Spatial Economics</ulink></citetitle>
+
+   <abstract>
+    <para> The consideration of geographical or spatial factors on
+     economics is not a new trend. Many of those conventional
+     approaches have tried to explain this relationship as a linear
+     process, partly because of the difficulty to deal with its
+     complexity and because of the lack of experimental tools. Under
+     the hypothesis of non-linear process, however, the degree of the
+     direct dependence of an economical entity (agent) on spatial
+     factors is less than what is explained in linear
+     process. Instead, an agent acts more in harmony with what other
+     agents are doing in a common space. In the complex system of the
+     real world, the initial influence of spatial factors on the
+     determination of the economic activities is very trivial. But as
+     time passes, this trivial influence will indirectly accumulate in
+     the way that is called positive feedbacks or increasing
+     returns. Thusly, it <quote>seems</quote> that spatial factors
+     solely have great magnetism in economics, while it is actually
+     the entire system that is playing more important roles. By
+     observing agent-based model, we can know in detail how a minor
+     change in economic niche can greatly affect the spatial patterns
+     through positive feedbacks. This paper introduces the concept of
+     geographical selection that is perceived in non-linear process,
+     with the cellular automata (cell automaton) simulation model
+     based on the Swarm development environment. The result shows that
+     the tendency of spatial distribution of industry gets
+     strengthened over time through the positive feedbacks, all other
+     things being equal.</para>
+   </abstract>
+
+  </bibliomixed>
+
+  <bibliomixed id="Madey">
+   <author>
+    <firstname>Greg</firstname> 
+    <surname>Madey</surname>                                            
+    <affiliation>
+     <orgname>University of Notre Dame</orgname>
+     <orgdiv>Computer Science and Engineering</orgdiv>
+     <orgdiv>College of Engineering</orgdiv>
+     <address><email>gmadey@nd.edu</email>
+      <city>Notre Dame</city>
+      <state>Indiana</state></address>
+    </affiliation>
+   </author>
+
+   <citetitle>Using Java and Swarm to Build a Stochastic Simulation of
+    Natural Organic Matter (NOM) and Microbe Interactions in the
+    Soil</citetitle>
+
+   <abstract>
+    <para>Natural organic matter (NOM) is a heterogeneous mixture of
+     organic molecules found in terrestrial and aquatic environments-
+     from forest soils and streams to coastal rivers and marshes to
+     the open ocean.  NOM plays a vital role in ecological and
+     biogeochemical processes, including chemical buffering, mineral
+     dissolution/precipitation, photochemistry, and microbial
+     nutrition.  The production of NOM from biological precursor
+     compounds and its remineralization into CO2 are closely linked
+     both to ecosystem function and to the global carbon cycle.  No
+     current models of NOM production and evolution, nor its
+     interaction with microbes, describe both the quantitative aspects
+     of organic carbon transfer and the qualitative aspects of NOM
+     structural and functional heterogeneity.</para>
+
+    <para>We are partially funded on this project by a NSF ITR grant
+     and are designing and implementing a stochastic simulation of NOM
+     production and evolution using Java and Swarm. A preliminary
+     design and prototype will be described. This is a joint project
+     involving Stephen Cabaniss- Kent State University, Department of
+     Chemistry, and Patricia Maurice- University of Notre Dame,
+     Department of Civil Engineering and Geosciences.</para>
+   </abstract>
+
+  </bibliomixed>
+
+  <bibliomixed id="Johnson">
+   <author>
+    <firstname>Paul</firstname>
+    <surname>Johnson</surname>
+    <affiliation>
+     <orgname>University of Kansas</orgname>
+     <orgdiv>Department of Political Science</orgdiv>
+     <address><email>pauljohn@ukans.edu</email></address>
+    </affiliation>
+   </author>
+
+   <citetitle>Top down and bottom up dynamic scheduling in Swarm: a
+   comparison of implementations.</citetitle>
+
+   <abstract>
+    <para>The objective is to demonstrate the scheduling mechanisms
+     available in Swarm and validate the implementation of models with
+     decentralized, autonomous agent behavior.  The example model in
+     which these designs are investigated concerns public opinion
+     dynamics and social networks.  The model explores variants of
+     Robert Axelrod's <quote>culture model</quote>.</para>
+
+    <para>While all Swarm models are agent-based models, some models
+     will orchestrate their actions from high level objects while
+     others will allow the agents to <quote>schedule
+     themselves</quote> in a decentralized way.  The Swarm class is
+     vital because it controls the sequence of actions in the model.
+     Swarms can be created at several levels so that the actions they
+     imply are nested.  Roughly speaking, there are two designs for
+     agent-based simulation models. First, programs can be designed
+     with <quote>top down</quote>schedules, setups in which a higher
+     level Swarm tells each agent to move (take a step).  This
+     approach is useful for traditional models of cellular automata,
+     such as the Game of Life.  These models can repeatedly iterate
+     through the list of agents, either in a fixed or random order.
+     The models are supposed to represent <quote>bottom up</quote>
+     processes, such as emergent properties, but the schedules
+     themselves are imposed from the top.  Some Swarm models that
+     feature dynamic scheduling employ a variant of this top-down
+     approach.  Second, the design might be decentralized and
+     dynamic. This is scheduling from the <quote>bottom
+     up</quote>. Each individual agent has its own scheduling
+     apparatus.  Each agent decides individually when it wants to act.
+     This is especially meaningful if time is thought of as a series
+     of days or years, each of which is composed of smaller time
+     steps.  The Swarm Activity library is designed to merge these
+     individual actions into the overall time framework in a
+     meaningful way.  If agents schedule themselves to act at the same
+     time, their actions can be executed in a first-come/first-serve
+     manner or in a randomly sorted order.</para>
+
+<!-- <para>In this example batch of code, each agent represents a
+    person who has an array of discrete-valued opinions.  The agents
+    <quote>wander</quote> about, looking for other agents that they
+    can interact with. C preprocessor flags are used to control which
+    scheduling mechanism is used in a given build. The <quote>top
+    down</quote> schedule approach creates a single schedule and it
+    periodically instructs agents to plan their interactions and add
+    them to the <quote>master schedule</quote>.  The <quote>bottom
+    up</quote> model creates each individual agent from the Swarm
+    class.  Each agent has a schedule, and it places its own actions
+    into that schedule.  At the beginning of each day, agents plan
+    their actions, and the last action they plan is a <quote>wake
+    up</quote> call which will prompt them to repeat the cycle.  It is
+    then the responsibility of the Swarm library to make sure that the
+    autonomous actions of the agents are executed in a meaningful
+    sequence.</para>
+
+    <para>A comparison of the runs under the two setups allows us to
+     validate the scheduling machinery included in the Swarm
+     libraries.  Across 500 runs of the model, the histograms showing
+     the number of iterations to convergence and the average level of
+     perceived homogeneity are extremely similar.  All other summary
+     measures for the models also support the contention that the
+     decentralized scheduling of Swarm generates the intended sequence
+     of actions.</para>
+-->
+
+   </abstract>
+
+  </bibliomixed>
+
+  <bibliomixed id="Daniels">
+   <author>
+    <firstname>Marcus</firstname>
+    <surname>Daniels</surname>
+    <affiliation>
+     <orgname>Santa Fe Institute</orgname>
+     <address><email>mgd@santafe.edu</email></address>
+    </affiliation>
+   </author>
+
+   <citetitle>IMA: The Integrating Modeling Architecture</citetitle>
+   <abstract>
+    <para><remark>TBA</remark></para>
+   </abstract>
+  </bibliomixed>
+
+ </bibliography>
+</article>
+
+<!-- 
+Local variables:
+sgml-indent-step: 1
+sgml-indent-data: 1
+End:
+-->

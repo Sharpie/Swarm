@@ -1,0 +1,109 @@
+<!-- ...................................................................... -->
+<!-- Website DTD V1.6 ..................................................... -->
+
+<!-- Copyright 1997, 1998 Norman Walsh 
+
+     $Id: website.dtd,v 1.1.1.1 2003-05-16 19:59:15 mgd Exp $
+
+     This DTD defines a document that represents a website.
+
+     A typical invocation is:
+
+     <!DOCTYPE website PUBLIC "-//Norman Walsh//DTD Website V1.6//EN"
+                              "http://nwalsh.com/website/xml/1.6/website.dtd">
+
+-->
+
+<!-- allow xlinks to occur anywhere a para can occur -->
+<!ENTITY % local.para.class "|xlink|webtoc">
+
+<!-- Forms? -->
+<!ENTITY % allowforms "INCLUDE">
+<![%allowforms;[
+<!ENTITY % local.para.char.mix "|html:input|html:button|html:label|html:select|html:textarea">
+<!ENTITY % local.divcomponent.mix "|html:form">
+]]>
+
+<!-- <!ENTITY % docbook PUBLIC "-//Norman Walsh//DTD DocBk XML V3.1.7//EN"
+                   "http://nwalsh.com/docbook/xml/3.1.7/docbookx.dtd">
+-->
+<!ENTITY % docbook PUBLIC "-//OASIS//DTD DocBook XML V4.0//EN" "bogus"> <!--
+          "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd"> -->
+%docbook;
+
+<!ELEMENT xlink (%para.char.mix;)*>
+<!ATTLIST xlink
+	xml:link	CDATA	#FIXED "simple"
+	href		CDATA	#REQUIRED
+	role		CDATA	#IMPLIED
+	title		CDATA	#IMPLIED
+	content-role	CDATA	#IMPLIED
+	show		(embed | replace | new)	"replace"
+	actuate		(user | auto)	"user"
+>
+
+<!ENTITY % webpage.mix "(config*, head, (%bookcomponent.content;),
+                        appendix*, bibliography*, glossary*)">
+
+<!ELEMENT head (title, titleabbrev?, subtitle?, summary?, keywords?,
+               (copyright | author | edition
+                | meta | script | style | abstract | revhistory)*)>
+
+<!ELEMENT meta EMPTY>
+<!ATTLIST meta
+	name	CDATA	#REQUIRED
+	content	CDATA	#REQUIRED
+>
+
+<!ELEMENT script (#PCDATA)>
+<!ATTLIST script
+	class	(local|global)	"local"
+	src	CDATA	#IMPLIED
+	language	CDATA	#IMPLIED
+>
+
+<!ELEMENT style (#PCDATA)>
+<!ATTLIST style
+	class	(local|global)	"local"
+	src	CDATA	#IMPLIED
+	type	CDATA	#IMPLIED
+>
+
+<!ELEMENT config EMPTY>
+<!ATTLIST config
+	class	(html|print)	"html"
+	param	CDATA	#REQUIRED
+	value	CDATA	#REQUIRED
+	altval	CDATA	#IMPLIED
+>
+
+<!ELEMENT summary (%word.char.mix;)*>
+<!ELEMENT keywords (#PCDATA)>
+
+<!ELEMENT website (homepage, webpage*)>
+<!ATTLIST website
+	xmlns:html	CDATA	#FIXED "http://www.w3.org/TR/REC-html40"
+>
+
+<!ELEMENT homepage ((%webpage.mix;),webpage*)>
+<!ATTLIST homepage
+	role	CDATA	#IMPLIED
+	id	ID	#IMPLIED
+>
+
+<!ELEMENT webpage ((%webpage.mix;),webpage*)>
+<!ATTLIST webpage
+	navto	(yes|no)	"yes"
+	role	CDATA	#IMPLIED
+	id	ID	#IMPLIED
+>
+
+<!ELEMENT webtoc EMPTY>
+
+<![%allowforms;[
+<!ENTITY % forms.mod SYSTEM "forms.mod">
+%forms.mod;
+]]>
+
+<!-- End of Website DTD V1.6 .............................................. -->
+<!-- ...................................................................... -->

@@ -1,0 +1,381 @@
+<webpage navto="yes" id="community-programmers-yp">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Programmer Yellow Pages</title>
+    <abstract>
+      <para>Swarm contractors and programmers</para>
+    </abstract>
+  </head>
+
+  &yellow-pages-disclaimer;
+
+  <para>
+    <variablelist role="programmers">
+      <varlistentry role="individ">
+        <term>
+          <author>
+            <firstname>Catherine</firstname>
+            <surname>Dibble</surname>
+            
+            <affiliation>
+              <orgname>University of California, Santa
+                Barbara</orgname> 
+              <orgdiv>Department of Geography</orgdiv>
+              <orgdiv>Computational Laboratories Group, Department of
+                Economics</orgdiv>
+              <address format="linespecific">
+                <email>cath@econ.ucsb.edu</email>
+              </address>
+            </affiliation>
+
+          </author>
+          <ulink url="http://www.econ.ucsb.edu/~cath"></ulink>
+        </term>
+        <listitem>
+          <itemizedlist>
+            <listitem>
+              <para>1995-1998 Various simple extensions to 
+                <application moreinfo="none">Heatbugs</application>.</para>
+            </listitem>
+            <listitem>
+              <para>(1999-date) GeoGraphic Smallworlds are a
+                <emphasis>network</emphasis> landscape for Swarm
+                agents.  Heterogeneous agents move from node to node
+                on the landscape, where nodes may represent such
+                things as geographic places or organizational teams.
+                This includes algorithms for generating and
+                characterizing parameterized families of irregular
+                graphs.</para></listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="group">
+        <term>
+          <corpauthor>AGENT-LAB Ltd.</corpauthor>
+          <author>
+            <firstname>Laszlo</firstname>
+            <surname>Gulyas</surname>
+            <affiliation>
+              <address format="linespecific">
+                <email>gulya@agent-lab.com</email>
+              </address>
+            </affiliation>
+          </author>
+          <ulink url="http://www.agent-lab.com"></ulink>
+        </term>
+        <listitem>
+          <para>Members of consulting team has been involved in the
+            development of the Multi-Agent Modeling Language (MAML)
+            from 1996-1999.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="individ">
+        <term>
+          <author>
+            <firstname>Eric</firstname>
+            <surname>Byler</surname>
+            <affiliation>
+              <orgname>Lockheed Martin Co. and Stanford</orgname>
+              <address format="linespecific">
+                <email>eric.a.byler@lmco.com</email>
+                <email>ebyler@stanford.edu</email>
+                <phone>650-424-2380</phone>
+              </address>
+            </affiliation>
+          </author>
+        </term>
+        <listitem>
+          <para>new user</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="group">
+        <term>
+          <corpauthor>The Center for Adaptive Systems Applications (CASA)
+          </corpauthor>
+          <author>
+            <firstname>Todd</firstname>
+            <surname> Allen</surname>
+            <affiliation>
+              <address format="linespecific">
+                <email>twa@lacasa.com</email>
+                <phone>505-988-8807 x106</phone>
+              </address>
+            </affiliation>
+
+          </author>
+          <ulink url="http://www.lacasa.com"></ulink>
+        </term>
+        <listitem>
+          <para>Two users on staff with years of experience 
+            developing models in Swarm.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="group">
+        <term>
+          <corpauthor>Center for Study of Complex Systems (CSCS group)
+          </corpauthor>
+          <author>
+            <firstname>Rick</firstname>
+            <surname>Riolo</surname>
+            <affiliation>
+              <address format="linespecific">
+                <email>rlriolo@umich.edu</email>
+                <otheraddr>University of Michigan</otheraddr>
+                <city>Ann Arbor</city>
+                <state>MI</state>
+              </address>
+            </affiliation>
+          </author>
+          <ulink url="http://www.pscs.umich.edu"></ulink>
+        </term>
+        <listitem>
+          <para>
+            <itemizedlist>
+              <listitem>
+                <para>Extensive experience "since the beginning" developing
+                  models in many domains, for many purposes.</para>
+              </listitem>
+              <listitem>
+                <para>We have many students, researchers and faculty
+                  with various levels of Swarm expertise.  We teach
+                  Swarm as part of a graduate course in Modeling
+                  Complex Systems, as described at SwarmFest99 and on
+                  this web page:
+                  <ulink 
+                         url="http://www.pscs.umich.edu/EDUCATION/pscs530.html"
+                         >http://www.pscs.umich.edu/EDUCATION/pscs530.html
+                  </ulink></para>
+              </listitem>
+              <listitem>
+                <para>We have taught the above course for 3 years.  We
+                  also have taught a short Swarm course as part of the
+                  UM's ICPSR summer school, as described at:
+                   <ulink url="http://www.icpsr.umich.edu">
+                    http://www.icpsr.umich.edu</ulink> under the
+                  "Summer" pointer.</para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </listitem>
+
+      </varlistentry>
+      <varlistentry role="individ">
+        <term>
+          <author>
+            <firstname>Ken</firstname>
+            <surname>Cline</surname>                             
+            <affiliation>
+              <orgname>SAIC</orgname>
+              <address format="linespecific">
+                <email>kcline@c3i.saic.com</email>
+                <phone>410-571-0413</phone>
+                <fax>301-261-8427</fax>
+              </address>
+            </affiliation>
+          </author>
+        </term>
+        <listitem>
+          <para></para>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="individ">
+        <term>
+          <author>
+            <firstname>Steve</firstname>
+            <surname>Jackson</surname>                             
+            <affiliation>
+              <orgname>Jackson Scientific Computing</orgname>
+              <address format="linespecific">
+                <email>jackson3@humbolt1.com</email>
+                <phone>707-839-3279</phone>
+              </address>
+            </affiliation>
+          </author>
+        </term>
+        <listitem>
+          <para>
+            <itemizedlist>
+              <listitem>
+                <para>Swarm usage: April 1997 - present</para>
+              </listitem>
+              <listitem>
+                <para>
+                Applications include developing the software for a stream trout model and a salmon out-migration model.  Currently I am developing the software for a full life-cycle model of chinook salmon populations.
+                </para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="group">
+        <term>
+          <corpauthor>Swarm Corporation</corpauthor>
+          <author>
+            <firstname>Glen</firstname>
+            <surname>Ropella</surname>
+            <affiliation>
+              <jobtitle>President</jobtitle>
+              <address format="linespecific">
+                <email>gepr@swarm.com</email>
+                <city>Santa Fe</city>
+                <state>NM</state>
+              </address>
+            </affiliation>
+          </author>
+          <ulink url="http://www.swarm.com"></ulink>
+        </term>
+        <listitem>
+          <para>Developers of the Swarm Simulation System and founders
+            of the Swarm Program at the Santa Fe Institute.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="individ">
+        <term>
+          <author>
+            <firstname>Deirdre</firstname>
+            <surname>Poeltler</surname>
+            <affiliation>
+              <address format="linespecific">
+                <email>dpoeltl2@san.rr.com</email>
+              </address>
+            </affiliation>
+          </author>
+        </term>
+        <listitem>
+          <para>
+            <itemizedlist>
+              <listitem>
+                <para>Swarm usage: August 1997 - present.</para>
+              </listitem>
+              <listitem>
+                <para>Full-time Swarm development, August 1997 - July
+                  1998: Information Operations, Warfare and Assurance (IOWA)
+                  Simulation.  (Presented by myself and Paul Girard at
+                  SwarmFest '98)</para>
+              </listitem>
+            </itemizedlist>
+  
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="group">
+        <term>
+          <corpauthor>Lang, Railsback &amp; Assoc.</corpauthor>
+          <author>
+            <firstname>Steve</firstname>
+            <surname>Railsback</surname>
+            <affiliation>
+              <address format="linespecific">
+                <email>lra@northcoast.com</email>
+                <street>250 California Ave.</street>
+                <city>Arcata</city>
+                <state>CA</state>
+                <postcode>95521</postcode>
+                <phone>707-822-0453</phone>
+                <fax>707-822-1868</fax>
+              </address>
+            </affiliation>
+          </author>
+        </term>
+        <listitem>
+          <itemizedlist>
+            <listitem>
+              <para>1998-present: Design and implementation of individual-based fish models</para>
+            </listitem>
+            <listitem>
+              <para>Prior experience with agent-based modeling: 1992-1997
+              </para>
+            </listitem>
+            <listitem>
+              <para>Applications to date include a stream trout model
+                to assess effects of stream flow and temperature on
+                populations; a salmon out-migration model to assess
+                effects of mainstem reservoir operations on downstream
+                travel times and survival; and a full life-cycle model
+                of chinook salmon populations. Please see: <ulink
+                url="http://weasel.cnrs.humboldt.edu/~simsys/">
+                  http://weasel.cnrs.humboldt.edu/~simsys/</ulink>
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry role="individ">
+        <term>
+          <author>
+            <firstname>Steve</firstname>
+            <surname>LaMotte</surname>
+            <affiliation>
+              <orgname>New Mexico State University</orgname>
+              <orgdiv>Physical Science Lab</orgdiv>
+              <address format="linespecific">
+                <email>slamotte@psl.nmsu.edu</email>
+                <phone>505-522-9322</phone>
+              </address>
+            </affiliation>
+          </author>
+        </term>
+        <listitem>
+          <para>April 99 - present.  I am currently using Swarm to
+            develop models for evaluating Hybrid Dynamical Systems.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry role="individ">
+        <term>
+          <author>
+            <firstname>Darren</firstname>
+            <surname>Schreiber</surname>
+            <affiliation>
+              <orgname>UCLA</orgname>
+              <orgdiv>Political Science Department</orgdiv>
+              <address format="linespecific">
+                <email>dschreib@ucla.edu</email></address>
+            </affiliation>
+          </author>
+          <ulink url="http://www.bol.ucla.edu/~dschreib/"></ulink>
+        </term>
+        <listitem>
+          <para>2 courses on Swarm programming.  Winter and Spring
+            1999.  Part-time job programming a segregation model.  July 1,
+            1999 - Present.  Developed a model of party formation.  August
+            1, 1999 - October 18, 1999.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry role="individ">
+        <term>
+          <author>
+            <firstname>Dwight</firstname>
+            <surname>Wilson</surname>
+            <affiliation>
+              <jobtitle>Part-time lecturer</jobtitle>
+              <orgname>John Hopkins University</orgname>
+              <address format="linespecific">
+                <email>wilson@blaze.cs.jhu.edu</email></address>
+            </affiliation>
+          </author>
+        </term>
+        <listitem>
+          <para>My major experience with Swarm has been work done on
+            economic simulations for McKinsey &amp; Associates.  In addition, I
+            teach an Agent Based Simulation class at JHU that uses Swarm.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+  </para>
+
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

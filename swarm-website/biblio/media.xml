@@ -1,0 +1,26 @@
+<webpage navto="yes" id="media">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:55 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Media press</title>
+    <abstract>
+      <para>Swarm in the trade and general press
+        (<ulink url="biblio/media-print.ps">Postscript version</ulink>)</para>
+    </abstract>
+  </head>
+  
+  <section>
+    <title></title> 
+    <para>Swarm in the trade and general press (<ulink
+    url="biblio/media-print.ps">Postscript version</ulink>)</para>
+    &media-biblio;
+  </section>
+  
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("../website.xml" "webpage")
+End:
+-->
+

@@ -1,0 +1,41 @@
+<webpage navto="yes" id="community-publications">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Publications</title>
+    <abstract>
+      <para>We're trying to gather all the publications related to
+          Swarm in a bibliographic database. <emphasis>Please do send
+          us your references!</emphasis> E-mail them to
+          <email>swarm@swarm.org</email>.</para>
+    </abstract>
+  </head>
+
+  <para>Here we've collected as many citations to research using Swarm
+    (either explicitly or implicitly) that we know about.  Please let
+    us know if you have a paper by e-mailing:
+    <email>swarm@swarm.org</email>.  There's also a list of references
+    to Swarm in the general media, that may also be of
+    interest. </para>
+
+  <para>The previous generation of this database used
+    <application>BibTeX</application>, but we have now moved to the
+    <application>DocBook</application> XML/SGML format. Here is the
+    <ulink url="biblio/pubs-biblio.xml">database</ulink>.  The
+    database is also available in a printed format, as detailed
+    below.</para>
+
+  <webtoc/>
+
+    &pubs;
+  &media;
+
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

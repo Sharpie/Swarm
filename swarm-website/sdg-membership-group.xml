@@ -1,0 +1,151 @@
+<webpage navto="yes" id="sdg-membership-group">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:19 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Group</title>
+    <abstract>
+      <para>Group memberships are for organizations using Swarm in-house
+        by one or more users.</para></abstract>
+  </head>
+  
+  <itemizedlist>
+    
+    <listitem><formalpara><title>Elite</title><para> Elite members are
+          organizations that wish to sponsor the Swarm Development
+          Group and offer strong direction to the development of the
+          Swarm Simulation System.</para></formalpara></listitem>
+    
+    <listitem><formalpara><title>Charter<footnote> <para> Charter
+              memberships may not be available after the inaugural
+              year. </para>
+          </footnote>
+        </title> <para> Charter members are organizations that would
+          like to be instrumental in the founding of the Swarm
+          Development Group.</para></formalpara></listitem>
+    
+    <listitem><formalpara><title>Corporate</title><para> Corporate
+          members generally represent corporations.</para></formalpara>
+    </listitem>
+    
+    <listitem><formalpara><title>Government</title><para>
+          Government members generally represent government
+          agencies.</para></formalpara></listitem>
+    
+    <listitem><formalpara><title>University</title><para>
+          University members generally represent a university.</para></formalpara></listitem>
+    
+  </itemizedlist>
+
+  <section>
+    <title>Group Membership Benefits &amp; Fees</title>
+
+    &sdg-membership-note;
+      
+    <informaltable id="group-memberships">
+      
+      <tgroup cols="6" colsep="1" rowsep="1">
+      <colspec colname="heading"></colspec>
+      <colspec colname="profplus"></colspec>
+      <colspec colname="indcorp"></colspec>
+      <colspec colname="indgov"></colspec>
+      <colspec colname="acplus"></colspec>
+      <colspec colname="induni"></colspec>
+      <colspec colname="postdoc"></colspec>
+      <colspec colname="student"></colspec>
+      <spanspec nameend="student" namest="profplus" spanname="all"></spanspec>
+       
+       <thead>
+          <row>
+            <entry>Group Memberships</entry>
+            <entry>Elite</entry>
+            <entry>Charter</entry>
+            <entry>Corporate</entry>
+            <entry>Government</entry>
+            <entry>University</entry>
+          </row>
+        </thead>
+        <tfoot>
+          <row><entry spanname="all">+  available to member</entry></row>
+          <row><entry spanname="all">++ available to member at a reduced fee</entry></row>
+        </tfoot>
+        <tbody>
+          <row>
+            <entry>Acknowledged as a Sponsor in all documentation</entry>
+            <entry>+</entry>
+            <entry>&nbsp;</entry>
+            <entry>&nbsp;</entry>
+            <entry>&nbsp;</entry>
+            <entry>&nbsp;</entry>
+          </row>
+          <row>
+            <entry>Eligibility for Board of Directors</entry>
+            <entry>+</entry>
+            <entry>&nbsp;</entry>
+            <entry>&nbsp;</entry>
+            <entry>&nbsp;</entry>
+            <entry>&nbsp;</entry>
+          </row>
+          <row>
+            <entry>Voting privilege on sub-committee</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+          </row>
+          <row>
+            <entry>Workshop attendance</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+          </row>
+          <row>
+            <entry>Swarmfest attendance</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+          </row>
+          <row>
+        <entry>Conference proceedings</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+            <entry>+</entry>
+          </row>
+          <row>
+            <entry>CD releases &amp; upgrades</entry>
+            <entry>++</entry>
+            <entry>++</entry>
+            <entry>++</entry>
+            <entry>++</entry>
+            <entry>++</entry>
+          </row>
+          <row>
+            <entry>membership fee</entry>
+            <entry>$100,000 </entry>
+            <entry>$50,000 </entry>
+            <entry>$25,000 </entry>
+            <entry>$25,000 </entry>
+            <entry>$5,000 </entry>
+          </row>
+          
+        </tbody>
+        
+      </tgroup>
+      
+    </informaltable>
+  </section>
+  
+</webpage>
+
+
+<!--
+Local Variables:
+sgml-parent-document:("sdg.xml" "webpage")
+End:
+-->

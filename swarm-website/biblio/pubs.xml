@@ -1,0 +1,26 @@
+<webpage navto="yes" id="pubs">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:58 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Publications referencing Swarm</title>
+    <abstract>
+      <para>Contains URLs, abstracts and keywords, where available.
+        (<ulink url="biblio/pubs-print.ps">Postscript version</ulink>)</para>
+    </abstract>
+  </head>
+  
+  <section>
+    <title></title>
+    <para>Contains URLs, abstracts and keywords, where available.
+        (<ulink url="biblio/pubs-print.ps">Postscript version</ulink>)</para>
+    &pubs-biblio;
+  </section>
+  
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("../website.xml" "webpage")
+End:
+-->
+

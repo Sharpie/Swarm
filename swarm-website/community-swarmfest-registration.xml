@@ -1,0 +1,16 @@
+<webpage id="community-swarmfest-registration">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Registration</title>
+  </head>
+
+  <para>SDG group members have free registration, but please do register so we know who will be attending.  SDG individual members need to register, but will receive a $50 discount.</para>
+<!--
+  <para><emphasis>Note: there is an added $100 fee for registration after March 20.</emphasis></para>
+-->
+  <para>Registration is $300 US for corporate and government attendees, $200 for academic users, and $100 for students.  (Adjusted as indicated above.)</para>
+  <para>See the <link linkend="community-swarmfest-hotels">SwarmFest hotels</link> for lodging options.  The registration fee does not include lodging.</para>
+  <para>Online registration is <ulink url="https://www.swarm.org/cgi-bin/swarmfest-registration-form">here</ulink>.</para>
+  <para>Alternatively, you may also contact the Swarm Development Group at (505)989-9001.</para>
+</webpage>

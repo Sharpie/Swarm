@@ -1,0 +1,133 @@
+#!/bin/sh
+if test -n "$WWW_type"; then
+  case $WWW_type in
+    corporate-group-member) selected_corporate_group=selected ;;
+    government-group-member) selected_government_group=selected ;;
+    university-group-member) selected_university_group=selected ;;
+    corporate-individual-member) selected_corporate_individual=selected ;;
+    government-individual-member) selected_government_individual=selected ;;
+    academic-individual-member) selected_academic_individual=selected ;;
+    student-individual-member) selected_student_individual=selected ;;
+    corporate) selected_corporate=selected ;;
+    government) selected_government=selected ;;
+    academic) selected_academic=selected ;;
+    student) selected_student=selected ;;
+  esac
+else  
+  selected_corporate=selected
+fi
+
+cat << EOF
+Content-type: text/html
+
+<html>
+<head>
+<title>SwarmFest 2001 registration</title>
+<!--
+<p><em>Note: registration after March 20 will include an additional \$100 fee.</em></p>
+-->
+$extra_content
+<form METHOD=POST ACTION="http://www.swarm.org/cgi-bin/uncgi/swarmfest-register">
+Registration type:
+<select name="type">
+<option $selected_corporate_group value="corporate-group-member">SDG corporate group member - \$0
+<option $selected_government_group value="government-group-member">SDG government group member - \$0
+<option $selected_university_group value="university-group-member">SDG university group member - \$0
+<option $selected_corporate_individual value="corporate-individual-member">SDG corporate individual member - \$250
+<option $selected_government_individual value="government-individual-member">SDG government individual member - \$250
+<option $selected_academic_individual value="academic-individual-member">SDG university, academic plus, or postdoc individual member - \$150
+<option $selected_student_individual value="student-individual-member">SDG student member - \$50
+<option $selected_corporate value="corporate">Corporate - \$300
+<option $selected_government value="government">Government - \$300
+<option $selected_academic value="academic">Academic - \$200
+<option $selected_student value="student">Student - \$100
+</select>
+
+<table>
+<tr>
+<td>First name:
+<td><input type=text size=50 name="first" value="$WWW_first"></td>
+</tr>
+
+<tr>
+<td>Last name:</td>
+<td><input type=text size=50 name="last" value="$WWW_last"></td>
+</tr>
+
+<tr>
+<td>Organization:</td>
+<td><input type=text size=50 name="organization" value="$WWW_organization"></td>
+</tr>
+
+<tr>
+<td colspan="2">Contact information:</td>
+<tr>
+<td>Address:</td>
+<td><input type=text size=50 name="contact_address1" value="$WWW_contact_address1"></td>
+</tr>
+<td>Address:</td>
+<td><input type=text size=50 name="contact_address2" value="$WWW_contact_address2"></td>
+</tr>
+<tr>
+<td>City:</td>
+<td><input type=text size=20 name="contact_city" value="$WWW_contact_city"></td>
+</tr>
+<tr>
+<td>State/Province:</td>
+<td><input type=text size=10 name="contact_state" value="$WWW_contact_state"></td>
+</tr>
+<tr>
+<td>Zip/Postal Code:</td>
+<td><input type=text size=10 name="contact_zip" value="$WWW_contact_zip"></td>
+</tr>
+<tr>
+<td>Phone:</td>
+<td><input type=text size=13 name="contact_phone" value="$WWW_contact_phone"></td>
+</tr>
+<tr>
+<td>E-mail:</td>
+<td><input type=text size=20 name="contact_email" value="$WWW_contact_email"></td>
+</tr>
+<tr>
+<td colspan="2">Credit card information:</td>
+</tr>
+<tr>
+<td>Number:</td>
+<td><input type=text size=20 name="card_number" value="$WWW_card_number"></td>
+</tr>
+<tr>
+<td>Expiration:</td>
+<td><input type=text size=5 name="card_expiration" value="$WWW_card_expiration"></td>
+</tr>
+<tr>
+<td colspan="2">Address associated with card, if different:</td>
+</tr>
+<tr>
+<td>Address:</td>
+<td><input type=text size=50 name="card_address1" value="$WWW_card_address1"></td>
+</tr>
+<tr>
+<td>Address:</td>
+<td><input type=text size=50 name="card_address2" value="$WWW_card_address2"></td>
+</tr>
+<tr>
+<td>City:</td>
+<td><input type=text size=20 name="card_city" value="$WWW_card_city"></td>
+</tr>
+<tr>
+<td>State/Province:</td>
+<td><input type=text size=10 name="card_state" value="$WWW_card_state"></td>
+</tr>
+<tr>
+<td>Zip/Postal code:</td>
+<td><input type=text size=10 name="card_zip" value="$WWW_card_zip"></td>
+</tr>
+
+</table>
+
+<input type=submit name="registration_form" value="Submit">
+<input type=reset name="registration_form">
+
+</form>
+</html>
+EOF

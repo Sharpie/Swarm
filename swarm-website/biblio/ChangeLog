@@ -1,0 +1,111 @@
+2003-05-16  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.in: Add.
+
+2002-01-17  Alex Lancaster  <alex@swarm.org>
+
+	* pubs-biblio.xml: Add book reference from Luna and Perrone
+	(2001).
+
+2001-12-13  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* pubs-biblio.xml: Add new reference from Lorcan Coyle.
+
+2001-02-02  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* pubs-biblio.xml: Add new reference from Gary Polhill.
+
+2001-01-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* pubs-biblio.xml: Add two new references from Pietro Terna.
+
+2001-01-04  Alex Lancaster  <alexl@socrates.berkeley.edu>
+
+	* media-biblio.xml (Panepento:2000): Add "Computer World" article.
+
+2000-11-06  Alex Lancaster  <alexl@socrates.berkeley.edu>
+
+	* Makefile.am (generated_DATA): Remove $(srcdir) prefix before
+	files, automake/autoconf will do the right thing. 
+	
+2000-09-30  Alex Lancaster  <alexl@socrates.berkeley.edu>
+
+	* pubs-biblio.xml (Savage:2000, Pepper:2000): Add new
+	bibliographic entries.
+ 
+2000-05-26  Alex Lancaster  <alex@santafe.edu>
+
+	* pubs-biblio.xml: Change all BOOKBIBLIO tags ->
+	BIBLIOSET[@relation='book'] and SERIESINFO ->
+	BIBLIOSET[@relation='series'] since BOOKBIBLIO and SERIESINFO are
+	now removed from the 4.0 XML DocBook DTD.
+
+2000-05-09  Alex Lancaster  <alex@santafe.edu>
+
+	* media.xml: Put ABSTRACT information also in SECTION.
+
+	* pubs.xml: Likewise.
+
+2000-05-06  Alex Lancaster  <alex@santafe.edu>
+
+	* media-biblio.xml, pubs-biblio.xml: Replace '&' with '&amp;'
+	throughout, to placate XT XSL processor (also valid XML as per
+	w3.org).
+
+2000-04-22    <mgd@nest.swarm.org>
+
+	* pubs-biblio.xml: Add link to page/source for Luna book.
+
+2000-03-20  Alex Lancaster  <alex@santafe.edu>
+
+	* pubs-biblio.xml: Add ABSTRACT to Luna & Stefansson.
+
+2000-03-15  Alex Lancaster  <alex@santafe.edu>
+
+	* pubs-biblio.xml: Add new BIBLIODIV for books, add Luna &
+	Stefannson's (2000) title.
+
+2000-02-18  Alex Lancaster  <alex@santafe.edu>
+
+	* pubs-biblio.xml (Minar:1996): Change URL of paper to SDG site.
+
+2000-02-16  Marcus G. Daniels <mgd@nest.swarm.org>
+
+	* Makefile.am (%-print.tex): Remove UNC path handling.
+
+2000-02-07  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (%-print.tex): Add `-V tex-backend' option, tells
+	print stylesheet to avoid many of the problems with country codes.
+
+2000-02-04  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (all): Change html -> all (new PHONY target).
+
+	* pubs-biblio.xml: Add Railsback's references from e-mail.
+
+2000-02-02  Alex Lancaster  <alex@santafe.edu>
+
+	* print-biblio.dsl: Add file.
+
+	* Makefile.am (%-print.tex): Use local print stylesheet, rather
+	than environment variable.
+
+2000-02-01  Irene Lee  <lee@nest.swarm.org>
+
+	* Makefile.am: Changed trade -> media, throughout.
+
+	* trade-biblio.xml, trade.xml: Removed files, namespace clash with
+	"trade" entity.
+
+	* media-biblio.xml, media.xml: New files.
+
+2000-02-01  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (XML_FILES): Add new files.
+	(CLEANFILES, generated_DATA, html): Add new references.
+
+	* trade.xml, trade-biblio.xml: Add files.
+
+	* pubs-biblio.xml: Add title to abstract.
+

@@ -1,0 +1,103 @@
+<webpage navto="yes" id="resources-objc">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:17 $"/> 
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Objective C</title>
+    <abstract>
+      <para>This page has links to as much Objective C-related
+        information we know about on the Internet. </para>
+    </abstract>
+  </head>
+
+  <para> If you know of other resources that are not on this list,
+  please contact the address at the bottom of this page.</para>
+
+  <itemizedlist> 
+    <listitem><para>An excellent Objective C reference: 
+        <citetitle>Object-Oriented Programming and the Objective-C
+            Language</citetitle>,
+        NeXT Computer, Inc., 1993
+        <itemizedlist>
+          <listitem><para>An updated <ulink
+                                     url="http://developer.apple.com/techpubs/macosx/Cocoa/ObjectiveC/index.html">HTML</ulink> version from Apple, there is a link to a PDF from this page (an older version is available here <ulink url="http://www.toodarkpark.org/computers/objc/">http://www.toodarkpark.org/computers/objc/</ulink>.)</para>
+          </listitem>
+
+          <listitem><para>An older (1995) <ulink url="http://www.gnustep.org/resources/documentation/ObjectivCBook.pdf">
+                PDF</ulink> version is also available from the
+              <ulink url="http://www.gnustep.org/">GNUstep</ulink> site in case Apple decides to pull the other PDF and/or move their links.</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </listitem>
+
+    <listitem><para>
+        <ulink url="http://www.net-community.com/Documentation/objective-c/objective-c_toc.html">GNU Objective-C Manual provided by Net Community</ulink></para>
+    </listitem>
+        
+    <listitem><para>
+        <ulink url="http://www.delorie.com/gnu/docs/libobjects/objective-c_1.html">GNU Objective-C Manual provided by Delorie Software</ulink></para>
+    </listitem>
+        
+    <listitem><para>
+        <ulink url="http://www.net-community.com/Documentation/objc-runtime/objc-runtime_toc.html">GNU Objective-C Runtime Library Manual provided by Net Community</ulink></para>
+    </listitem>
+        
+    <listitem><para>
+        A <ulink url="http://www.geom.umn.edu/software/w3kit/overview/objective-c.html">10
+          minute introduction</ulink> to Objective C.</para></listitem>
+    
+    <listitem><para>
+        <ulink url="http://www.cons.org/cracauer/objc-hint-gdb.html">Notes</ulink> on
+          using gdb with GNU Objective C.</para></listitem>
+    
+    <listitem><para>
+        <ulink url="http://www.cs.rochester.edu/u/mccallum/libobjects">libobjects
+          homepage</ulink></para></listitem>
+    
+    <listitem><para>
+        <ulink url="http://www.cs.indiana.edu/classes/c304/oop-intro.html">An overview</ulink>
+          of GNU Objective C programming as well as references on the language as
+          a whole.</para></listitem>
+    
+    <listitem><para> A web version of the <ulink
+                                                 url="http://www.faqs.org/faqs/computer-lang/Objective-C/faq/">
+          Usenet FAQ</ulink></para></listitem>
+    
+    <listitem><para>
+        <ulink url="http://www.gnustep.org/">GNUstep info</ulink>
+          (homepage has links to European and North American mirrors)</para></listitem>
+
+    <listitem><para>
+        <ulink url="http://world.std.com/~gsk/oc-rs6000-problems.html">notes</ulink> on
+          GNU objc problems with AIX.</para></listitem>
+    
+    <listitem><para>
+        <ulink url="ftp://ftp.gnu.org/pub/gnu/">GNU</ulink> ftp site, including gcc,
+          a free compiler that supports Objective C.</para></listitem>
+
+    <listitem><para>
+        <ulink url="http://www.pacificcoast.net/~loth/objc">This page</ulink> has definitions for all the methods in GCC's Objective C runtime, and some examples.</para></listitem>
+
+    <listitem><para>
+        <ulink url="ftp://ftp.gnu.org/pub/gnu/">GNU</ulink> ftp site, including gcc,
+          a free compiler that supports Objective C.</para></listitem>
+
+    <listitem><para>
+        Ftp site for <ulink url="ftp://ftp.cs.rochester.edu/pub/packages/objc">Andrew
+McCallum's software</ulink></para></listitem>
+        
+    <listitem>
+      <para>Some useful personal webpages:  <ulink url="http://web3.foxinternet.net/jik/comp/objc.html">Noah Roberts</ulink> has a collection of Objective C resources, finally <ulink
+                                                                  url="http://www.slip.net/~dekorte/Objective-C/">Steve Dekorte</ulink>
+        also has an Objective C webpage.  Thanks to <ulink
+                                                           url="http://ffii.org/~breiter">Bernhard Reiter</ulink> for the links.</para>
+    </listitem>
+    
+  </itemizedlist>
+
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->

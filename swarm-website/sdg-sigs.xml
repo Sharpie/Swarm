@@ -1,0 +1,55 @@
+<webpage navto="yes" id="sdg-sigs">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:20 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  
+    <head>
+    <title>SIGs</title>
+    <abstract>
+      <para>Some proposed committees and special interest groups (<acronym>SIG</acronym>s)</para>
+    </abstract>
+  </head>
+
+  <para>Special interest groups (SIGs)</para>
+  
+  <itemizedlist>
+    <listitem>
+      <para>Technical committees:
+        <itemizedlist>
+          
+          <listitem><para>User interface and tools committee</para></listitem>
+          <listitem><para>Architecture committee</para></listitem>
+          <listitem><para>Education committee</para></listitem>
+        </itemizedlist>
+      </para></listitem>
+    
+      <listitem><para>Other committees:
+        <itemizedlist>
+          
+          <listitem><para>Fundraising, licensing and business development
+            </para></listitem>
+          <listitem><para>Conference planning</para></listitem>
+        </itemizedlist>
+      </para></listitem>
+    
+    <listitem><para>Special interest groups: <acronym>SIG</acronym>s will be
+        self-evolving, based on enough interest in a particular
+        fields to warrant <acronym>SDG</acronym> support.  Proposed
+        <acronym>SIG</acronym>s include:
+        
+        <itemizedlist>
+          <listitem><para>Swarm-GIS</para></listitem>
+          <listitem><para>Ecological Modeling</para></listitem>
+          <listitem><para>Supply-chain simulation</para></listitem>
+          <listitem><para>Military applications</para></listitem>
+          <listitem><para>Biological modeling</para></listitem>
+        </itemizedlist>
+      </para>
+    </listitem>
+  </itemizedlist>
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("sdg.xml" "webpage")
+End:
+-->

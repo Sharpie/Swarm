@@ -1,0 +1,61 @@
+<webpage navto="yes" id="sdg-membership">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:19 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+    <head>
+      <title>Membership &amp; Benefits</title>
+      <abstract>
+        <para>Joining the <acronym>SDG</acronym>!</para>
+      </abstract>
+    </head>
+
+    <formalpara>
+      <title>An opportunity</title> 
+      
+      <para>The continued advancement and support of the Swarm
+          Simulation System is of fundamental importance to the
+          established Swarm user community as well as prospective
+          users.  The accessibility of this package has been and
+          continues to be key to the researchers in many fields whose
+          simulations are modeled using Swarm.  As a member of the
+          Swarm Development Group, you directly contribute to the
+          availability, continued enhancement and support of the Swarm
+          Simulation System.  The <acronym>SDG</acronym> is the only and most effective
+          support mechanism for the Swarm package.</para>
+      </formalpara>
+    
+    <formalpara>
+      <title>Constituency</title>
+      
+      <para>The estimated number of users of Swarm ranges from 300 to 500
+        persons, including small and large companies, both public and private
+        institutions, universities, government, laboratories, and individuals.
+      </para>
+      
+    </formalpara>
+
+    <formalpara>
+      <title>Membership duration</title>
+      <para>All memberships are one year in duration starting the date of
+        subscription.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>Membership benefits &amp; fees</title> <para>Please click on
+      one of the links below find out information on Group and
+      Individual Memberships.  You can also click on Other Support to
+      find out other ways of supporting the SDG.</para>
+    </formalpara>
+
+    <webtoc/>
+    
+    &sdg-membership-group;
+    &sdg-membership-ind;
+    &sdg-membership-other;
+
+  </webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("sdg.xml" "webpage")
+End:
+-->

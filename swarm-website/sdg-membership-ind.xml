@@ -1,0 +1,145 @@
+<webpage navto="yes" id="sdg-membership-ind">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:19 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Individual</title>
+    <abstract>
+      <para>Individual memberships are available for individuals
+        within organizations or independent of organizations.</para>
+    </abstract>
+  </head>
+  
+  <itemizedlist>
+
+    <listitem><formalpara><title>Professional Plus</title><para>
+          Professional Plus members are individuals from either the
+          corporate or government sector who would like to be instrumental
+          in the founding of the Swarm Development Group.</para>
+          </formalpara></listitem>
+
+    <listitem><formalpara><title>Individual Corporate</title><para>
+          Individual Corporate members are individuals working in the
+          corporate sector.</para></formalpara></listitem>
+
+    <listitem><formalpara><title>Individual
+          Government</title><para> Individual Government members
+          are individuals working for a government
+          agency.</para></formalpara></listitem>
+    
+    <listitem><formalpara><title>Academic Plus</title><para> Academic
+          Plus members are individuals from a university who would like to 
+          be instrumental in the founding of the Swarm Development Group.
+          </para></formalpara></listitem>
+    
+    <listitem><formalpara><title>Individual
+          University</title><para> Individual University members
+          are individuals representing
+          universities.</para></formalpara></listitem>
+    
+    <listitem><formalpara><title>Postdoc</title><para> Postdoc members
+          are individuals who have received their doctorate degree and
+          are currently working in industry or academia as a
+          postdoc.</para></formalpara></listitem>
+    
+    <listitem><formalpara><title> Student</title><para> Student
+          members are undergraduate and graduate students at a
+          university.</para></formalpara></listitem>
+    
+  </itemizedlist>
+
+  <section>
+    <title>Individual Membership Benefits &amp; Fees</title>
+
+    &sdg-membership-note;
+
+    <informaltable id="individual-memberships">
+
+    <tgroup cols="8">
+    <colspec colname="heading"></colspec>
+    <colspec colname="profplus"></colspec>
+    <colspec colname="indcorp"></colspec>
+    <colspec colname="indgov"></colspec>
+    <colspec colname="acplus"></colspec>
+    <colspec colname="induni"></colspec>
+    <colspec colname="postdoc"></colspec>
+    <colspec colname="student"></colspec>
+    <spanspec nameend="student" namest="profplus" spanname="all"></spanspec>
+    <thead>
+      <row>
+        <entry>Individual memberships</entry>
+        <entry>Professional Plus</entry>
+        <entry>Individual Corporate</entry>
+        <entry>Individual Government</entry>
+        <entry>Academic Plus</entry>
+        <entry>Individual University</entry>
+        <entry>Postdoc</entry>
+        <entry>Student</entry>
+      </row>
+    </thead>
+    <tfoot>
+      <row><entry spanname="all">+  available to member</entry></row>
+      <row><entry spanname="all">++ available to member at a reduced fee</entry></row>
+    </tfoot>
+    <tbody>
+      <row>
+        <entry>Workshop attendance</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry></entry>
+        <entry></entry>
+        <entry></entry>
+      </row>
+      <row>
+        <entry>Swarmfest attendance</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+      </row>
+      <row>
+        <entry>Conference proceedings</entry>
+        <entry>+</entry>
+        <entry>+</entry>
+            <entry>+</entry>
+        <entry>+</entry>
+        <entry>+</entry>
+        <entry>+</entry>
+        <entry>+</entry>
+      </row>
+      <row>
+        <entry>CD releases &amp; upgrades</entry>
+        <entry>+</entry>
+        <entry>++</entry>
+        <entry>++</entry>
+        <entry>+</entry>
+        <entry></entry>
+        <entry></entry>
+        <entry></entry>
+      </row>
+      <row>
+        <entry>membership fee</entry>
+        <entry>$1,200 </entry>
+        <entry>$500 </entry>
+        <entry>$500 </entry>
+        <entry>$400 </entry>
+        <entry>$100 </entry>
+        <entry>$75 </entry>
+        <entry>$50 </entry>
+      </row>
+    </tbody>
+    </tgroup>
+  </informaltable>
+
+  </section>
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("sdg.xml" "webpage")
+End:
+-->

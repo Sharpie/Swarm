@@ -1,0 +1,27 @@
+<webpage navto="yes" id="community-support">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Support</title>
+    <abstract>
+      <para>Check out Paul Johnson's active
+        <ulink url="http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/SwarmOnlineFaq.html">Frequently
+        Asked Questions</ulink> (FAQ) page.</para>
+    </abstract>
+  </head>
+
+  <bridgehead>FAQ</bridgehead>
+  
+  <para>Paul Johnson at the University of Kansas is maintaining an
+    active <ulink
+    url="http://lark.cc.ukans.edu/~pauljohn/SwarmFaq/SwarmOnlineFaq.html">Frequently
+    Asked Questions</ulink> (FAQ) page.  You can interactively answer
+    questions, or suggest new ones.  The main e-mail forum for technical support is <link linkend="mailing-list-support">swarm-support</link>.</para>
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

@@ -1,0 +1,55 @@
+<webpage id="sdg-charter">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:18 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Charter</title>
+      <abstract>
+        <para>A summary of the <acronym>SDG</acronym>'s charter</para>
+      </abstract>
+    </head>
+      
+    <para>The Swarm Development Group's charter includes:
+      
+      <itemizedlist>
+        <listitem>
+          <para>the maintenance and development of Swarm</para>
+        </listitem>
+        <listitem>
+          <para>the development of documentation of Swarm</para>
+        </listitem>
+        <listitem>
+          <para>the provision of technical support and assistance 
+            to the user community</para>
+        </listitem>
+        <listitem>
+          <para>the maintenance of user group mailing lists</para>
+        </listitem>
+        <listitem>
+          <para>the organization of user group conferences 
+            and workshops
+          </para></listitem>
+        <listitem>
+          <para>the retention of copyright for all code released 
+            as part of Swarm
+          </para></listitem>
+        <listitem><para>the responsibility for all code included 
+            in official Swarm releases
+          </para></listitem>
+        <listitem>
+          <para>the promotion of Swarm and funding-raising effort</para>
+        </listitem>
+        <listitem>
+          <para>the maintenance of a listing of active Swarm 
+            programmers and projects
+          </para>
+        </listitem>
+        
+      </itemizedlist>
+    </para>
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("sdg.xml" "webpage")
+End:
+-->

@@ -1,0 +1,98 @@
+<webpage navto="yes" id="sdg-board">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:18 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Board</title>
+    <abstract>
+      <para>The current SDG board and their affilations.</para>
+    </abstract>
+  </head>
+  
+  <para>SDG officers are designated in <emphasis>italics</emphasis></para>
+  
+  <itemizedlist>
+    <listitem>
+      <para>Jim Anderson <ulink
+      url="http://www.cbr.washington.edu/">Columbia Basin Research
+      Unit</ulink>, <ulink url="http://www.washington.edu/">University
+      of Washington, Seattle</ulink></para>
+    </listitem>
+
+  <listitem>
+   <para><ulink url="http://www.gis.usu.edu/~sanduku/">Paul
+     Box</ulink>, Department of Aquatic, Watershed, and Earth
+    Resources, <ulink url="http://www.usu.edu/">Utah State
+     University</ulink></para>
+  </listitem>
+
+    <listitem>
+      <para>Roger Burkhart, <ulink
+          url="http://www.johndeere.com/">John Deere</ulink></para>
+    </listitem>
+
+    <listitem>
+      <para>Randy Burge,
+            New Mexico Information Technology &amp; Software Association,
+            <emphasis>Director of Business Development</emphasis>
+            <email>burge@swarm.org</email></para>
+    </listitem>
+    <listitem>
+      <para>Marcus Daniels, <ulink url="http://www.santafe.edu/">Santa Fe
+      Institute</ulink>,
+
+              <email>mgd@swarm.org</email></para>
+    </listitem>
+    
+    <listitem>
+      <para>Paul Johnson, <ulink
+          url="http://www.ukans.edu">University of
+          Kansas</ulink>, <email>pauljohn@ukans.edu</email></para>
+    </listitem>
+    
+    <listitem>
+      <para><ulink url="http://socrates.berkeley.edu/~alexl/">Alex Lancaster</ulink>, <ulink
+          url="http://www.berkeley.edu">University of California, Berkeley</ulink></para>
+    </listitem>
+
+<!--
+    
+    <listitem>
+      <para>Chris Langton
+          <email>cgl@swarm.org</email></para>
+    </listitem>
+    
+    <listitem>
+      <para>Nelson Minar, <ulink
+              url="http://www.popularpower.com">Popular Power
+              </ulink></para>
+    </listitem>
+    
+    <listitem>
+      <para>Benedikt Stefansson, <ulink
+          url="http://www.lacasa.com">CASA Inc.</ulink></para>
+    </listitem>
+    -->
+    
+    <listitem>
+      <para>Steve Railsback, Lang, Railback &amp; Associates and
+      Humboldt State University</para>
+    </listitem>
+
+    <listitem>
+      <para>Glen Ropella, <email>gepr@swarm.org</email></para>
+    </listitem>
+
+    <listitem>
+      <para>Sven Thommesen, <ulink
+          url="http://www.auburn.edu">Auburn University</ulink></para>
+    </listitem>
+
+  </itemizedlist>
+
+  </webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("sdg.xml" "webpage")
+End:
+-->

@@ -1,0 +1,32 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.0//EN" "bogus.dtd" [
+<!ENTITY _community-swarmfest-program SYSTEM "_community-swarmfest-program.xml">
+<!ENTITY swarmfest2001 PUBLIC "-//SDG Hive//ENTITIES SwarmFest 2001 EPS//EN" "bogus.ent" NDATA EPS>
+]>
+<article>
+  <articleinfo>
+    <title>SwarmFest 2001</title>
+    <abstract>
+      <para>
+        <informaltable frame="none">
+       <graphic entityref="swarmfest2001" align="center"/> 
+	</informaltable>
+      </para>
+    </abstract>
+    <confgroup>
+      <conftitle>Fifth annual meeting of the Swarm user group</conftitle>
+      <address format="linespecific"><street>Hotel Santa Fe</street>
+<city>Santa Fe</city> <state>New Mexico</state></address>
+      <confdates>April 28 - 30, 2001</confdates>
+      <confsponsor>Swarm Development Group</confsponsor>
+      <confnum>http://www.swarm.org</confnum>
+    </confgroup>
+  </articleinfo>
+
+&_community-swarmfest-program;
+</article>
+
+<!-- 
+Local variables:
+sgml-local-catalogs: ("catalog")
+End:
+-->

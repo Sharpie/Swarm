@@ -1,0 +1,46 @@
+2003-05-16  Marcus G. Daniels <mgd@santafe.edu>
+	
+	* Makefile.am (*GIF): Change all of these variables to PNG.
+	(EPS, sdg-small.eps): Renamed to sdg-small-source.eps.
+	(sdg-small.gif): Remove target annd replace with sdg-small.png.
+	(graphics_DATA): Use the the PNG files.
+
+2002-01-17  Alex Lancaster  <alex@swarm.org>
+
+	* Makefile.am (JPEG): Make second JPEG macro append (`+=') to
+	first, rather than overwrite it.
+
+2001-04-26  Alex Lancaster  <alex@swarm.org>
+
+	* swarmfest2001.eps: Add file.
+
+	* Makefile.am (EPS): Add swarmfest2001.eps.
+
+2000-10-02  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (sdg-small.gif): Don't use transparency.  Crop to
+	current size of navbar.
+
+2000-05-12  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (graphics_DATA): Make sdg-small.jpeg ->
+	sdg-small.gif for transparency.
+	(%.gif): New rule to make transparent GIF.
+	(%.jpeg): Make JPEG graphic bigger.
+
+2000-05-09  Alex Lancaster  <alex@santafe.edu>
+
+	* rarrow.gif: New file.
+
+	* Makefile.am (iconsGIF): Remove unused tab_*.gif, moved
+	sdg-small.jpeg to graphics_DATA.  
+	Add rarrow.gif.
+
+2000-02-16  Marcus Daniels  <mgd@nest.swarm.org>
+
+	* sdg.eps: \r -> \n.
+
+	* Makefile.am (%.png, sdg.jpeg, sdg-small.jpeg): Use
+	redirection for output and $^ and $@ instead of literals.
+	Use ghostscript explicitly for eps -> png.
+

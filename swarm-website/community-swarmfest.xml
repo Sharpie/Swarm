@@ -1,0 +1,91 @@
+<webpage navto="yes" id="community-swarmfest">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>SwarmFest 2003</title>
+    <abstract>
+      <para>Information on past, current, and future meetings of the
+      Swarm User Community.</para>
+    </abstract>
+  </head>
+
+  <para>Please see the <ulink
+  url="http://www.nd.edu/~swarm03/">conference
+  website</ulink>.</para>
+
+  <para>Information on <link linkend="community-past-swarmfest">past
+  SwarmFests</link>.</para>
+
+<!--
+<para>
+The <ulink url="http://www.cbr.washington.edu/">Columbia Basin
+ Research</ulink> (CBR), a research unit of the School of Aquatic &amp;
+ Fishery Sciences, <ulink
+ url="http://depts.washington.edu/qerm/">Quantitative Ecology &amp;
+ Resource Management Program</ulink> (QERM) at the University of
+ Washington, and the <ulink url="http://www.swarm.org/">Swarm
+ Development Group</ulink> are pleased to announce SwarmFest 2002, the
+ sixth annual Swarm users meeting.
+</para>
+
+<para>
+At SwarmFest 2002, scientists, modellers, and programmers working in
+ a wide variety of domains get the opportunity to share their
+ knowledge and experience with multi-agent modelling including (but
+ not restricted to) the Swarm simulation system.  The Swarm
+ Development Group also uses the meeting to help determine future
+ development priorities, so come and tell us what's on your mind! The
+ meeting is a cross section of the community, historically including
+ content suitable for both inexperienced and experienced users.
+</para>
+
+<para>
+During the conference, users will present talks including time for
+ discussion following each presentation.  Please send proposals (only
+ a few paragraphs should be necessary) for presentations,
+ demonstrations, break-out-sessions, or any other suggestions to
+ <email>swarmfest2002@swarm.org</email>.  To ensure that your proposal
+ has full consideration, please submit your proposals by February
+ 15th, however, later submittals may be considered only as the
+ schedule allows. We will be publishing the SwarmFest 2002
+ proceedings.  Please be prepared to submit your abstracts and papers
+ in electronic form!
+</para>
+
+<para>
+SwarmFest 2002 will commence with a reception on Friday March 29th,
+ 2002 from 6:15 to 7:00 pm in the Walker Ames Room of Kane Hall,
+ University of Washington. Dinner will follow immediately after the
+ reception.
+</para>
+
+<para>
+The meeting, proper, will be on Saturday March 30th and Sunday March
+ 31st 2002, in the <ulink url="http://www.washington.edu/home/maps/northcentral.html?105,86,750,586">Mary Gates Hall</ulink> (Room 241) at the University of
+ Washington.  The program scheduling, registration and accomodation
+ details are in development and can be found at:</para>
+
+<itemizedlist>
+<listitem>
+	<para><ulink url="http://www.cbr.washington.edu/swarmfest/program.html">Program Schedule</ulink></para>
+      </listitem>
+<listitem>
+	<para><ulink url="http://www.cbr.washington.edu/swarmfest/regis.html">Registration Information</ulink></para>
+      </listitem>
+<listitem>
+	<para><ulink
+	url="http://www.cbr.washington.edu/swarmfest/accom.html">Accomodations</ulink></para>
+      </listitem>
+    </itemizedlist>
+-->
+
+  &community-past-swarmfests;
+  
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

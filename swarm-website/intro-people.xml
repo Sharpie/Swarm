@@ -1,0 +1,142 @@
+<webpage navto="yes" id="intro-people">
+ <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:13 $"/>
+ <config class="html" param="author" value="$Author: mgd $"/>
+ <head>
+  <title>People</title>
+  <abstract>
+   <para>Meet the Swarm developers: past and present.</para>
+  </abstract>
+ </head>
+ 
+ <section>
+  <title>Current developers</title>
+
+  <para><emphasis role="strong">Your name here?</emphasis></para>
+  
+  <para>Currently, the SDG has no paid staff to perform development,
+   and we are a purely volunteer effort, thanks to dedicated helpers
+   in the <link linkend="community">user community</link>.  However,
+   we are currently looking for funds to help continue paid
+   development.  To help us find staff, help the <link
+   linkend="sdg">SDG</link> by <emphasis>joining</emphasis>!  Contact
+   Paul Johnson <email>pauljohn@ukans.edu</email> for more
+   information.</para>
+
+ </section>
+ 
+ <section>
+  <title>Emeritus developers</title>
+  
+  <para><emphasis>(in rough chronological order...)</emphasis></para>
+  
+  <formalpara>
+   <title>Chris Langton</title> 
+   
+   <para>Founder of the Swarm project and original project lead, Chris
+    Langton founded the Swarm Corporation, New Mexico. </para>
+  </formalpara>
+  
+  <formalpara>
+   <title><ulink url="http://www.santafe.edu/~rmb">Roger
+     Burkhart</ulink></title> 
+   
+   <para>Roger and Nelson formed the original design team for Swarm.
+    Roger developed some of the core Swarm libraries while working for
+    <ulink url="http://www.deere.com">John Deere</ulink> where he
+    currently works.</para>
+  </formalpara>
+  
+  <formalpara>
+   <title><ulink url="http://www.santafe.edu/~nelson">Nelson
+     Minar</ulink></title> 
+   
+   <para>Much of the development of the original version Swarm was
+    done by Nelson Minar, recently of the <ulink
+     url="http://www.media.mit.edu/">MIT Media Lab</ulink>, now with
+    <ulink url="http://www.google.com/">Google</ulink>.
+   </para>
+  </formalpara>
+  
+  <formalpara>
+   <title>Manor Askenazi</title>
+   
+   <para>Manor is now working at Coopers &amp; Lybrand.</para>
+  </formalpara>
+  
+  <formalpara>
+   <title><ulink url="http://www.ropella.net/~gepr">Glen
+     Ropella</ulink></title> 
+   
+   <para>Glen Ropella was the SFI-based Swarm programmer from
+    1996-1997, and co-founded the Swarm Corporation with Chris
+    Langton.</para>
+  </formalpara>
+  
+  <formalpara>
+   <title>Marcus Daniels</title> 
+
+   <para> Marcus was part of the team based at the Santa Fe Institute
+    from November 1997 to November 1999.  Marcus was then the lead
+    developer and executive director of the Swarm Development Group,
+    from November of 1999 to April 2001.</para>
+  </formalpara>
+  
+  <formalpara>
+   <title><ulink url="http://www.santafe.edu/~alex">Alex
+     Lancaster</ulink></title>
+   
+   <para>Alex was half of the <ulink
+     url="http://www.santafe.edu">Santa Fe Institute</ulink>-based
+     Swarm team from 1997 to 1999.  He is currently in the <ulink
+     url="http://ib.berkeley.edu">Dept. of Integrative Biology</ulink>
+     at the <ulink url="http://www.berkeley.edu"> University of
+     California, Berkeley</ulink>, after recently moving from the SFI
+     where he was resident for almost three years.</para>
+  </formalpara>
+  
+  <formalpara>
+   <title>Irene Lee</title> <para>Irene was the Organizational Manager
+    of the Swarm Project at SFI from 1997-98 and was also President of
+    the Swarm Development Group from 1999 to April 2000.</para>
+  </formalpara>
+  
+  <formalpara>
+   <title>Vladimir Jojic</title>
+   
+   <para>Vladimir was a resident Swarm programmer at SFI from late
+    1998 to September 1999 and is currently a graduate student at the
+    University of Illinois</para>
+  </formalpara>
+ </section>
+
+  <section>
+  <title>User Community</title> 
+  
+  <para>Many people from the user community have contributed to the
+   development of Swarm, especially, Sven Thommesen
+   <email>sthomme@humsci.auburn.edu</email> who has contributed the
+   <emphasis>Random</emphasis> library under the auspices of the
+   School of Human Sciences at Auburn and the National Textile
+   Center. <ulink
+    url="http://hamming.mathcs.carleton.edu/students/carre/homepage.html">Eric
+    Carr</ulink> and <ulink url="http://kal-el.ugr.es/jj/jj.html">JJ
+    Merelo</ulink> have been patient Swarm users and
+   developers. <ulink url="http://www.santafe.edu/~hag/">Howard
+    Gutowitz</ulink> and <ulink
+    url="http://cam.cornell.edu/~hiebeler/home.html">David
+    Hiebeler</ulink> have participated in the design process. David is
+   also the implementor of the original Swarm prototype. Finally,
+   many thanks to <ulink url="http://www.santafe.edu/~smfr/">Simon
+    Fraser</ulink>, Swarm graphic designer extraordinaire.</para>
+  
+ </section>
+  
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+
+
+

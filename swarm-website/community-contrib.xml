@@ -1,0 +1,423 @@
+<webpage navto="yes" id="community-contrib">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:06 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Contributions</title>
+    <abstract>
+      <para>Here we've collected libraries, applications and documents
+        contributed by Swarm users all over the world.  Want to
+        contribute code or documentation to the Swarm user community?
+        Here's <link
+        linkend="community-contrib-howto">how</link>.</para>
+    </abstract>
+  </head>
+
+  <caution>
+    <title>ftp site changed!</title>
+
+    <para>We have abolished the old "<filename>eval</filename>" and
+    "<filename>anarchy</filename>" distinction with contributed
+    packages.  We now split up package by language
+    (<filename>java</filename> or <filename>objc</filename>), and
+    within that by "<filename>contrib</filename>" packages (which now
+    includes all the old packages that used to be in
+    "<filename>eval</filename>" and "<filename>anarchy</filename>")
+    and "<filename>sdg</filename>" packages (the core applications
+    that the SDG maintains).
+    </para>
+
+    <para><emphasis role="strong">Some of the information on this page
+    may be out of date (there may be newer versions of packages), so
+    please always also consult the ftp site directly: <ulink
+    url="&ftpSwarm;apps">&ftpSwarm;apps</ulink></emphasis></para>
+
+  </caution>
+
+  <section id="community-contrib-howto">
+    <title>How to contribute</title>
+
+    <para>How to contribute to the Swarm user community!</para>
+
+    <para><emphasis>Note that the former <filename>incoming</filename>
+    directory on the ftp site is now longer functional for security
+    reasons.</emphasis></para>
+
+    <para>Contributing is simple:
+      
+      <orderedlist>
+
+	<listitem>
+	  <para>make sure that your application follows the naming
+  conventions for packages as described on the <ulink
+  url="ftp://ftp.swarm.org/pub/swarm/apps/README.html">Swarm App
+  Archive</ulink> as maintained by Paul Johnson.</para>
+
+	</listitem>
+        <listitem>
+          <para>create a tarred and gzipped file with extension
+<filename>tar.gz</filename></para>
+        </listitem>
+          
+        <listitem>
+          <para>e-mail us at <email>swarm@swarm.org</email> to arrange
+            a way of transferring it to the site.</para>
+        </listitem>
+      </orderedlist>
+
+      One of us will take a look at whatever you send us and move it
+      to the contrib directory so others can download it.</para>
+
+    <important>
+      <title>License for contributions</title>
+
+      <para>Since Swarm is released under the GNU <ulink
+      url="http://www.gnu.org/licenses/gpl.html">GPL</ulink>,
+      contributions must also be released under a <ulink
+      url="http://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses">GPL-compatible</ulink>
+      <ulink url="http://www.gnu.org/licenses/license-list.html">Free
+      Software License</ulink> (many so-called <ulink
+      url="http://www.opensource.org/">"open source" licenses</ulink>
+      also qualify as GPL-compatible, but you should check the list at
+      the Free Software Foundation given above).
+      </para>
+    </important>
+
+<!--
+    <para>At present there exist two categories of contributions:
+      <orderedlist>
+        <listitem>
+          <para>Evaluated contributions or those that the Swarm Hive
+          has decided it would be useful to maintain even if the
+          originator loses interest and;</para>
+        </listitem>
+        <listitem>
+          <para>Unevaluated contributions or those that the Swarm Hive
+            has not examined and, in general, won't know anything about.</para>
+        </listitem>
+      </orderedlist>
+
+      The former will be restricted to those contributions for which
+      we've been given permission to distribute or modify in any
+      way. It is predicted that these will only consist of
+      contributions that we can fold into the SDG copyright and the
+      GPL.  The latter should be distributed under at least an "open
+      source" license.</para>
+
+-->
+
+  </section>
+
+  <section>
+    <title>Contrib ftp for Java applications</title>
+
+    <para><emphasis role="strong"><ulink
+    url="&ftpcontribjava;">&ftpcontribjava;</ulink></emphasis></para>
+
+  </section>
+
+  <section>
+    <title>Contrib ftp for Objective-C applications</title>
+
+    <para><emphasis role="strong"> <ulink
+    url="&ftpcontribobjc;">&ftpcontribobjc;</ulink></emphasis></para>
+
+  <segmentedlist>
+    <segtitle>Download</segtitle>
+      <segtitle>Description</segtitle>
+      <segtitle>Author</segtitle>
+      <segtitle>Notes</segtitle>
+      <seglistitem>
+        <seg><ulink url="&ftpcontribobjc;Breeder-2.1.tar.gz">Breeder-2.1.tar.gz</ulink>
+        </seg>
+        <seg>genetic algorithm library</seg>
+        <seg>contributed by <ulink url="http://kal-el.ugr.es/jj/jj.html">JJMerelo.</ulink></seg>
+        <seg>Please read the <ulink url="&sfiurl;~jmerelo/Breeder-manual/">
+            documentation</ulink> for this package</seg>
+      </seglistitem>
+
+      <seglistitem>
+        <seg><ulink url="&ftpcontribobjc;NeuroLib-2.1.tar.gz">NeuroLib-2.1.tar.gz</ulink></seg>
+
+        <seg>neural network library</seg>
+        <seg>contributed by <ulink url="http://kal-el.ugr.es/jj/jj.html">JJMerelo</ulink></seg>
+        <seg>Please read the <ulink url="&sfiurl;~jmerelo/neurolib/neurolib.html">
+            documentation </ulink>for this package.</seg>
+      </seglistitem>
+
+      <seglistitem>
+        <seg>
+            <ulink url="&ftpcontribobjc;graph-2.1.tar.gz">graph-2.1.tar.gz</ulink>, 
+            <ulink url="&ftpcontribobjc;Bank-2.1.tar.gz">
+            Bank-2.1.tar.gz</ulink>,
+            <ulink url="&ftpcontribobjc;DynamicGraph-2.1.tar.gz">DynamicGraph-2.1.tar.gz</ulink></seg>
+	
+        <seg>limited graph library and two demos</seg>
+	
+        <seg>This was contributed by <ulink
+                                        url="http://www.santafe.edu/~manor">Manor Askenazi</ulink> and recently
+            modified and extended for Swarm 1.0.5/1.2 by <ulink
+            url="http://www.santafe.edu/~alex">Alex Lancaster</ulink>.  </seg>
+            
+	<seg>Docs are provided in <ulink
+                                       url="http://www.santafe.edu/~manor/banknet.html">HTML</ulink>
+        and <ulink
+                   url="ftp://ftp.santafe.edu/pub/manor">postscript and
+          Microsoft Word</ulink>.  Comments &amp; suggestions are more
+        than welcome. This package is currently unmaintained, and
+        should probably be replaced by a Java graph library.
+        
+        <footnote>
+          <para><ulink url="mailto:paul_girard@cpqm.saic.com">Paul
+              Girard</ulink> from SAIC has brought to our attention a
+              problem with the algorithm used to position the nodes on
+              the Canvas graph in GraphLib (of the two demos - this
+              feature is <emphasis>only</emphasis> used in
+              DynamicGraph, and only affects the position on the
+              Canvas and not the underlying data structure).  We are
+              currently working on merging this change into GraphLib
+              itself.  Paul Girard has also kindly provided us with a
+              corrected version that fixes the incorrectly formulated
+              algorithm available at: <ulink
+                                             url="&ftpcontribobjc;boingGraph.tar.gz">
+              boingGraph.tar.gz</ulink>.</para> <para>Note that this
+              library was previously "bundled" with the demo apps.
+            Earlier versions are still available on the ftp site.
+          </para>
+        </footnote>
+      </seg>
+      
+    </seglistitem>
+    </segmentedlist>
+    
+  <segmentedlist>
+    <segtitle>Download</segtitle>
+    <segtitle>Description &amp; Author</segtitle>
+    
+    <seglistitem>
+      <seg><ulink url="&ftpcontribobjc;shuffler.tar.gz">shuffler.tar.gz</ulink></seg>
+      <seg>Shuffler object donated by <ulink url="http://www-personal.engin.umich.edu/~streak/">Ted
+          Belding</ulink>. The Shuffler object takes a list pointer and a number of
+        elements as an input and rearranges the elements of the list.</seg>
+    </seglistitem>
+    <seglistitem>
+      <seg><ulink
+        url="&ftpcontribobjc;Grid1d.tar.gz">Grid1d.tar.gz</ulink></seg>
+      <seg>
+        Grid1d object donated by <ulink url="http://www-personal.engin.umich.edu/~streak/">Ted
+        Belding</ulink>.</seg>
+    </seglistitem>
+    <seglistitem>
+    <seg><ulink url="&ftpcontribobjc;Strattice.tar.gz">Strattice.tar.gz</ulink>
+      </seg>
+      <seg> A 2d discrete stratified lattice. Donated by 
+        Jim Clark<email>clark@cim.mcgill.ca</email>.</seg>
+    </seglistitem>
+
+    <seglistitem>
+      <seg><ulink url="&ftpcontribobjc;Vision.tar.gz">Vision.tar.gz</ulink>, 
+            <ulink url="&ftpcontribobjc;VisionDemo.tar.gz">VisionDemo.tar.gz</ulink>
+      </seg>
+
+      <seg>An implementation of rudimentary agent &quot;vision&quot;
+        where each seeing agent carries a camera. Donated by <ulink
+        url="http://www-iiuf.unifr.ch/~chantem/">Fabrice
+        Chantemargue</ulink>.</seg>
+    </seglistitem>
+
+    <seglistitem>
+      <seg><ulink
+      url="&ftpcontribobjc;3dLib-0.1.tar.gz">3dLib-0.1.tar.gz</ulink></seg>
+      <seg>A simple class that implements discrete 3 dimensional
+      space.  Donated by <ulink
+      url="http://www.trail.com/~gepr">Glen Ropella</ulink>.
+      </seg>
+    </seglistitem>
+
+    <seglistitem>
+      <seg><ulink url="&ftpcontribobjc;tipsybugs-0.05.tar.gz">Tipsy
+          Bugs 0.05</ulink></seg> 
+      
+      <seg> This is Barry's "whipping boy" application upon which he
+        inflicts all his new ideas.  It displays a number of
+        variations on the "heatbugs" theme, like on-the-fly lattice
+        tiling and neighborhood switching, coordinate objects, and
+        the distinction of model-specific vs. display-specific
+        behavior of agents.</seg>
+    </seglistitem>
+
+    <seglistitem>
+      <seg><ulink
+      url="&ftpcontribobjc;dispersion.tar.gz">dispersion.tar.gz</ulink></seg>
+      <seg> This is <ulink
+      url="http://www-lil.univ-littoral.fr/~cuvelier">Bruno
+          Cuvelier's</ulink> "proof-of-principle" demo application that
+        was inspired by dispersion in fish shoals.  Among the intersting
+        parts of this demo is a way to model different types of agents
+        that move at different frequencies.</seg>
+    </seglistitem>
+
+    <seglistitem>
+      <seg><ulink
+      url="&ftpcontribobjc;DataFile.1.0.tar.gz">DataFile.1.0.tar.gz</ulink></seg>
+      <seg> This is a set of classes that are designed as simple
+      measurement devices that take data from objects and send that
+      data to a file.  Contributed by: <ulink
+      url="http://cce.sscnet.ucla.edu/swarmcourse">Benedikt
+          Stefansson</ulink>.
+      </seg></seglistitem>
+
+    <seglistitem>
+    <seg><ulink url="&ftpcontribobjc;heatbug-block.tar.gz">Heatbugs Block Diagrams</ulink></seg>
+
+<seg> generously donated by
+<ulink url="http://nelson.www.media.mit.edu/people/nelson/">Nelson Minar</ulink> who
+was one of the original developers of Swarm.  These are also available 
+<ulink url="heatbug-block/">online</ulink>.</seg>
+    </seglistitem>
+
+    <seglistitem>
+      <seg><ulink url="&ftpcontribobjc;BoolLib-2.1.tar.gz">BoolLib-2.1.tar.gz</ulink>, 
+          <ulink url="&ftpcontribobjc;boolNet-2.1.tar.gz">boolNet-2.1.tar.gz</ulink></seg>
+      
+      <seg> <ulink url="http://www.santafe.edu/~alex">Alex
+          Lancaster</ulink> has donated a Kauffman boolean network library and a demo
+        to show how it works (a number of new features that involve a more
+        sophisticated use of random numbers has been added).  The latest
+        version, 2.0 has been updated to work with Swarm 2.0 and higher and
+        may work with earlier versions, but this is not guaranteed. Note that
+        this also requires <ulink
+    url="&ftpcontribobjc;graph-2.1.tar.gz">graph-2.1.tar.gz</ulink>
+    to run (may run with earlier versions, but this is not
+        guaranteed).</seg> 
+    </seglistitem>
+
+    <seglistitem>
+      <seg><ulink
+      url="&ftpcontribobjc;zoomraster-movies.tar.gz">zoomraster-movies.tar.gz</ulink>
+      </seg><seg> <ulink
+      url="http://nelson.www.media.mit.edu/people/nelson/">Nelson
+      Minar</ulink> worked up new <emphasis>ZoomRaster</emphasis> and
+      <emphasis>XColormap</emphasis> objects to take snapshots of the
+      Raster.</seg></seglistitem>
+
+    <seglistitem>
+      <seg><ulink
+                  url="&ftpcontribobjc;batchraster-movies.tar.gz">batchraster-movies.tar.gz</ulink>
+                  </seg><seg> <ulink
+                  url="http://cce.sscnet.ucla.edu/swarmcourse">Benedikt
+                  Stefansson</ulink> massaged Nelson's
+                  <emphasis>ZoomRaster</emphasis> so that one can take Raster
+                  snapshots while running in
+                  batchmode.</seg>
+    </seglistitem>
+    <seglistitem>
+
+      <seg><ulink
+url="&ftpcontribobjc;Player-1.6.tar.gz">Player-1.6.tar.gz</ulink></seg><seg> <ulink url="http://www.tjhsst.edu/~pmcneill">Patrick McNeill</ulink> has created a Simulation Playback program that will play prerecorded
+3D images from a simulation.  It uses either OpenGL on an SGI or Mesa on 
+Solaris and Linux.</seg></seglistitem>
+
+    <seglistitem>
+      <seg><ulink
+url="&ftpcontribobjc;potential.tar.gz">
+potential.tar.gz</ulink></seg>
+
+      <seg> This is <ulink url="mailto:artan.syslab.ceu.hu">Artan
+          Simeqi</ulink>'s implementation of the potential field
+          around fixed point charges.  It might serve as a good
+          background on which to place charge-sensitive interacting
+          objects.</seg></seglistitem>
+
+    <seglistitem>
+      <seg><ulink url="&ftpcontribobjc;sss-2.1.tar.gz">
+                  sss-2.1.tar.gz</ulink></seg>
+
+      <seg> This is <ulink
+                  url="http://nelson.www.media.mit.edu/people/nelson/">Nelson
+                  Minar</ulink>'s implementation of <ulink
+                  url="http://www.brook.edu/sugarscape">SugarScape</ulink>
+                  in Swarm.</seg>
+    </seglistitem>
+
+    <seglistitem>
+      <seg><ulink
+url="&ftpcontribobjc;SvenSpaces-970805.tar.gz">SvenSpaces-970805.tar.gz</ulink>
+</seg><seg> Here are some classes contributed by <ulink
+url="mailto:sthomme@humsci.auburn.edu">Sven Thommesen</ulink> that allow
+multiple occupancy in a Grid2d space.</seg></seglistitem>
+
+    <seglistitem>
+      <seg><ulink
+url="&ftpcontribobjc;Multi2d.tar.gz">Multi2d.tar.gz</ulink>
+</seg><seg> And here's some code developed by Erik Nelson in parallel
+to Sven's that does the same thing in a different
+way.</seg></seglistitem>
+
+    <seglistitem>
+<seg><ulink
+url="&ftpcontribobjc;Script.tar.gz">Script.tar.gz</ulink>
+</seg><seg> <ulink url="http://cce.sscnet.ucla.edu/swarmcourse">Benedikt
+Stefansson</ulink> has contributed a "Script" utility. This is a number of
+classes that reads and executes messages to objects in a Swarm
+simulation at runtime. It allows the user to alter a Swarm model's
+behavior in a deterministic fashion without recompiling the
+application.</seg></seglistitem>
+
+    <seglistitem>
+<seg><ulink url="&ftpcontribobjc;bp-ct-1.2.tar.gz">bp-ct-1.2.tar.gz</ulink></seg>
+<seg><ulink url="mailto:pietro.terna@torino.ALPcom.it">Pietro Terna</ulink> has implemented this library that handles simple artificial neural networks, trained using the error backpropagation (BP) technique.  The code applies the Environment-Rules-Agents (ERA) scheme and can generate neural network inputs to target the Cross Target (CT) technique.  More information about these terms is avaialble <ulink url="http://web.econ.unito.it/terna/ct-era/ct-era.html">here</ulink></seg></seglistitem>
+
+    <seglistitem>
+<seg><ulink
+url="&ftpcontribobjc;ct-hayek-1.2.tar.gz">ct-hayek-1.2.tar.gz</ulink></seg>
+<seg>A companion package to bpct.</seg></seglistitem>
+    <seglistitem>
+<seg><ulink url="&ftpcontribobjc;CW-0.1.tar.gz">CW-0.1.tar.gz</ulink></seg>
+<seg><ulink url="mailto:gianluigi.ferraris@STUDENTI.TORINO.IT">Gianluigi Ferraris</ulink> has implemented this learning classifier system which includes a workbench for running experiments.</seg></seglistitem>
+
+    <seglistitem>
+<seg><ulink
+url="&ftpcontribobjc;GM-0.1.tar.gz">GM-0.1.tar.gz</ulink></seg>
+<seg>Gianluigi
+Ferraris<email>gianluigi.ferraris@STUDENTI.TORINO.IT</email> has implemented this library that manages the genetic
+evolution of a set of <emphasis>chromosomes</emphasis>, with their agent
+associations.</seg></seglistitem>
+
+   <seglistitem>
+   <seg><ulink url="&ftpcontribobjc;majority-2.1.tar.gz">majority-2.1.tar.gz</ulink></seg>
+   <seg><ulink url="http://lark.cc.ukans.edu/~pauljohn">Paul Johnson</ulink>
+   has implemented this simulation model of the spatial theory of voting from political science.  The "agenda setter" offers alternatives to voters and if the majority support a change from one point to another, then the policy is changed.  This is presented as a simple model useful for pedagogical purposes and it has plenty of comments throughout.</seg></seglistitem>
+
+   <seglistitem id="bell">
+   <seg><ulink url="&ftpcontribobjc;bell-0005.tar.gz">bell-0005.tar.gz</ulink></seg>
+   <seg><ulink url="http://ME.IN-Berlin.de/~rws">Ralf Stephan</ulink> developed this self-documenting literate program describing the development of a toy Swarm model.  Also available as <ulink url="&ftpcontribobjc;bell/HTML/bell.html">HTML</ulink>, <ulink url="&ftpcontribobjc;bell/DVI/bell.dvi">DVI</ulink>, and <ulink url="&ftpcontribobjc;bell/bell.ps.gz">PostScript</ulink>.</seg></seglistitem>
+ 
+  <seglistitem id="NewBoids">
+  <seg><ulink url="&ftpcontribobjc;NewBoids.tar.gz">NewBoids.tar.gz</ulink></seg>
+  <seg>A cleaned-up version of Eric Werk's Swarm implementation of Craig Reynolds' Boids model.  Contributed by <ulink url="mailto:lra@northcoast.com">Steve Railsback</ulink>, coding by
+<ulink url="mailto:jackson3@humbolt1.com">Steve Jackson</ulink>.  Includes a powerful vector arithmetic class.</seg>
+  </seglistitem>
+
+  <seglistitem id="ClupeoidsV1">
+  <seg><ulink url="&ftpcontribobjc;ClupeoidsV1.tar.gz">ClupeoidsV1.tar.gz</ulink></seg>
+  <seg>A modification of Eric Werk's Swarm implementation of Craig Reynolds' Boids model, for simulating fish schooling.  Contributed by <ulink url="mailto:lra@northcoast.com">Steve Railsback</ulink>, coding by <ulink url="mailto:jackson3@humbolt1.com">Steve Jackson</ulink>.  The parameters that control movement (relative importance of matching school velocity vs. school centering; maximum velocity and acceleration; the field of view over which other fish are detected) can be modified during a run, often causing interesting chages in behavior.  A selected number of fish can be forced to move to a specific spot, to see how many of the other fish follow them.</seg>
+  </seglistitem>
+ 
+  <seglistitem>
+  <seg><ulink url="&ftpcontribobjc;ClupeoidsV2.tar.gz">ClupeoidsV2.tar.gz</ulink></seg>
+  <seg>Like ClupeoidsV1, but a more significant modification of Eric Werk's Boids code.   
+  Contributed by <ulink url="mailto:lra@northcoast.com">Steve Railsback</ulink>, coding by <ulink url="mailto:jackson3@humbolt1.com">Steve Jackson</ulink>.  The movement algorithm is much more conventional and understandable.  Fish move only to match the velocity of, and direct themselves toward, other detected fish.</seg>
+  </seglistitem>
+ 
+  </segmentedlist>
+
+  </section>
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

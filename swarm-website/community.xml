@@ -1,0 +1,48 @@
+<webpage navto="yes" id="community">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Community</title>
+    <abstract>
+      <para>The Swarm community</para>
+    </abstract>
+  </head>
+
+  <para>
+    Welcome to the Swarm Community!  This is the place where you can
+    find information on:
+    <itemizedlist>
+      <listitem>
+        <para>other Swarm-related software efforts outside the core
+          SDG</para> 
+      </listitem>
+      <listitem>
+        <para>current research projects people are undertaking using
+          Swarm</para> </listitem>
+      <listitem>
+        <para>a new yellow pages service: a listing of Swarm
+          programmers seeking employment, and a listing of projects that
+          require the skills of Swarm programmers</para>
+      </listitem>
+    </itemizedlist>
+     
+  </para>
+
+  <webtoc/>
+
+  &community-swarmfest;
+  &community-mailing-lists;
+  &community-support;
+  &community-contrib;
+  &community-links;
+  &community-yp;
+  &community-publications;
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

@@ -1,0 +1,208 @@
+<html> <head>
+<title>Create-phase Protocols for Object Customization</title>
+</head>
+
+<body>
+<h1>Create-phase Protocols for Object Customization</h1>
+
+<h2>Position Paper for OOPSLA '95 Adaptable and Adaptive Software Workshop</h2>
+
+<pre>
+Roger Burkhart
+roger@ci.deere.com
+
+Deere &amp; Company      Santa Fe Institute
+John Deere Road      1399 Hyde Park Road
+Moline, IL 61265     Santa Fe, NM 87501
+
+October 8, 1995
+</pre>
+
+<hr>
+<h2>Abstract</h2>
+For greater adaptability, a generic software abstraction can define a variety
+of optional elements selectable by a client.  The elements required for a
+particular case may be specified using ordinary object messages during a
+restricted create phase of an object.  Following the create phase, a suitable
+implementation of requested behavior can be selected or generated, using
+mixtures of general-purpose and special-case code.  Generic abstractions with
+selectable options are typically much simpler than direct support for every
+possible combination of separate needs, both for clients requesting a
+combination and for designs that implement them.<p>
+
+<hr>
+
+<h2>I. Introduction</h2>
+
+To the extent that current languages and frameworks support variability
+in a software design, they typically assume that any selectable options are
+locally and independently substitutable in the final design.  Type
+parameterization is a typical example, in which the option substituted is a
+type used to define another type.  More complex interpretation of options and
+their combinations can typically be accomplished only by ad hoc techniques
+such as macro processing or code generation.<p>
+
+As an alternative to rigid mapping from client interface to implementation,
+Lortz and Shin [1] have described a framework that permits explicit selection
+of features needed by a client combined with automatic selection of partially
+initialized classes to best implement a client request.  This paper briefly
+describes an approach which is similar in overall outline, but which
+adopts a more direct form of specification as ordinary object messages
+followed by efficient procedural selection of a final implementation that
+satisfies a request.<p>
+
+Like the Lortz and Shin framework, this approach specifies a contract between
+client and server code by variable settings of explicit contract terms.  The
+approach differs in that customization of a generic service is incorporated
+directly in the lifecycle of an object, using native message-passing both for
+customization and for client access to the customized service.  The interface
+to an object is divided into two distinct lifetime phases: an initial
+create-time phase to constrain an open-ended set of available options, and a
+finalized, remaining phase to provide requested behavior using a selected
+implementation.  Transition between the phases is a versatile time at which
+to adapt a realized implementation to client needs.<p>
+
+
+<h2>II. Create-phase protocols in the Swarm System</h2>
+
+The Swarm Simulation System is a general-purpose framework for simulating
+concurrent, distributed artificial worlds [2].  It is being developed by the
+artificial life group at the Santa Fe Institute to provide a general
+architecture for problems in a wide variety of disciplines ranging from
+physics to biology to economics.  The generality of Swarm requires that its
+software components meet an unusually wide range of specific problem
+requirements.  This generality applies both to the structure of objects or
+agents belonging to a simulated world and to actions which occur on these
+objects.<p>
+
+Swarm software components are object abstractions coded in the Objective C
+language, as implemented by the GNU C Compiler.  The GNU compiler implements
+extended features of the Objective C language defined as part of NextStep [3].
+These include the ability to declare message protocols available on objects
+independent of any implementing classes.  Unlike the single inheritance
+Objective C supports for classes, unrestricted multiple inheritance is
+supported for protocols.  Ordinarily, protocols carry no implementation
+information; they are used solely for documentation or for typing of remote
+interfaces.<p>
+
+Swarm has adapted the protocols of Objective C to define client interfaces
+entirely independent of any implementing classes.  A phase division of the
+client interface permits customizing the specific options which a particular
+instance requires.  Given a customization, the library may select a suitable
+implementation for requested options using a wide variety of techniques.  All
+these implementations are entirely hidden from the client; the client sees
+only an object that supports the message behavior defined by a protocol.<p>
+
+Both the customization and the selection of implementation are accomplished
+using standard message dispatching to abstraction-specific methods that
+directly record and implement the permitted customization.  Each abstraction
+can define specific messages available for customization, along with methods
+that interpret this form of procedural specification language in an unusually
+direct way.  The overhead of interpreting a string-based representation of
+client requirements, along with generic forms of mapping from client requests
+to available implementation (both part of the framework described by Lortz
+and Shin) can be avoided in favor of a directly procedural approach.
+Overheads of customization can be eliminated almost entirely by saving
+results of customizations which are repeatedly instantiated.<p>
+
+Because implementations may be selected for any combination of available
+customization options, all the customization requests must be received before
+any final implementation decision is made.  Pooling of customization
+requirements is accomplished by supplying them during an initial phase of
+instance creation during which required behavioral characteristics of the
+client interface are established.  None of the final client behavior is
+available until the initialization phase is complete.  The use of a distinct
+phase for constraining an initial, generic object to final lock-in of
+remaining behavior gives some of the concrete feel of a prototype-based
+language.<p>
+
+Special messages, createBegin and createEnd, are used to bracket messages
+which set customization options.  Following is an example of such messages on
+a simplified form of CellSpace object which implements the update rules of a
+cellular automaton.<p>
+<pre>
+  aCA = [CellSpace createBegin];    // begin customization of a new instance
+  [aCA setNumberOfDimensions: 2];   // set options...
+  [aCA setGeometry: Rectangular];
+  [aCA setXSize: 256 setYSize: 256];
+  [aCA setNeighborhood: VonNeumann];
+  [aCA setRuleTable: aTable];
+  aCA = [aCA createEnd];            // reset object id to finalized instance
+
+  [aCA displayOn: aDisplay];        // set up and use finalized instance
+  while (1)
+  {
+    [aCA updateStep];
+    [aCA redisplay];
+  }
+</pre>
+
+An alternative to createBegin and createEnd messages is the use of
+customizeBegin and customizeEnd messages around the same kinds of option-
+setting messages.  Instead of returning a finalized instance, customizeEnd
+returns a special object which needs only subsequent create messages to create
+instances having the fully customized behavior.  The results of interpreting
+client requests and selecting an implementation can all be cached in this
+object, saving any further overhead.  Support of this alternate mode requires
+no additional coding save for a single reflective operation in createEnd that
+notes a final selected implementation prior to returning an sample instance.<p>
+
+The object returned by createBegin need not have any resemblance in class or
+implementation to the object returned by createEnd.  The initial customization
+object need only have the ability to save the various customization requests
+(out of an open-ended list of optional settings) in local instance variables
+or elsewhere for later access by createEnd.  createEnd checks all the requests
+for consistency and completeness (typically implementing its own rules for
+defaults), selects an implementation, and finally allocates and initializes a
+finalized instance of some implementation class which it returns.<p>
+
+createEnd may use many different techniques to implement requested options,
+varying across a wide range of interpretation and selection costs vs.
+finalized efficiency.  In some cases, createBegin may have already allocated a
+usable form of final instance, so that createEnd need only perform finalized
+settings of instance variables and dispatchable methods before returning.  In
+other cases, createEnd may simply clone an already initialized example
+instance, or else allocate a new instance of some predefined implementation
+class.  Depending on the options, it may allocate either a highly customized
+class tuned for a specific combination of options, or a generic class which
+varies its behavior according to local variable settings.  In extreme cases,
+it could even custom-generate a version of code optimized for the specific
+needs at hand.<p>
+
+Option settings may include not only compile-time constants, but specific
+related instances which the new instance depends on or cooperates within some
+way.  (In the example above, the rule table object supplies static or dynamic
+update rules.)  The unit of optimization can expand beyond individual
+instances to organizations and assemblies of cooperating instances.  Binding
+of instances into specific organizations reflects the way adaptation occurs in
+many systems other than software.  Software adaptation needs to take advantage
+of every proven technique of evolution and adaptation that can be adapted to
+its own domain.<p>
+
+<hr>
+
+<h3>Question for workshop (requested of attendees):</h3>
+
+To what extent does the wider coverage of adaptive software require that
+implementations be dynamically generated or customized to meet specific
+requirements of a case-at-hand?<p>
+
+<hr>
+
+<h3>REFERENCES</h3>
+
+<pre>
+[1] Lortz, V., Shin, K., "Combining Contracts and Examplar-Based Programming
+    for Class Hding and Customization," OOPSLA 94 Proceedings,
+    ACM, 1994
+
+[2] Langton, C., Minar, N. Burkhart, R., The Swarm Simulation System: A
+    tool for studying complex systems, (draft overview paper available at
+    <a
+ href="http://www.santafe.edu/projects/swarm/swarmdoc/swarmdoc.html"
+   >http://www.santafe.edu/projects/swarm/swarmdoc/swarmdoc.html</a>),
+    Santa Fe Institute, 1995
+
+[3] NextStep Object-Oriented Programming and the Objective C Language,
+    NextStep Developer's Library, Addison-Wesley, 1993
+</pre>

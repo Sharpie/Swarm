@@ -1,0 +1,1952 @@
+<bibliography>
+  <abstract>
+    <formalpara>
+      <title>Swarm in the literature</title>
+      <para>The most recent version of this document can be found at the <ulink url="http://www.swarm.org/pubs.html">SDG site</ulink>.  Last modified on: $Date: 2003-05-16 19:58:58 $</para>
+    </formalpara></abstract>
+
+  <bibliodiv>
+    <title>Books</title>
+    <biblioentry id="luna:perrone">
+      <abbrev>Luna:Perrone:2001</abbrev>
+      <citetitle pubwork="book">Agent-Based Methods in Economics and
+      Finance: Simulations in Swarm</citetitle>
+      <authorgroup>
+        <editor>
+          <firstname>Francesco</firstname>
+          <surname>Luna</surname>
+        </editor>
+        <editor>
+          <firstname>Alessandro</firstname>
+          <surname>Perrone</surname>
+        </editor>
+      </authorgroup>
+      <isbn>0-7923-7419-3</isbn>
+      <publisher><publishername>Kluwer Academic
+          Publishers</publishername></publisher> 
+      <pubdate>October 2001</pubdate>
+      <biblioset relation="series">
+        <title>Advances in Computational Economics</title>
+        <seriesvolnums>volume 17</seriesvolnums>
+        <authorgroup>
+          <editor>
+            <firstname>Hans</firstname>
+            <surname>Amman</surname>
+          </editor>
+          <editor>
+            <firstname>Anna</firstname>
+            <surname>Nagurney</surname>
+          </editor>
+        </authorgroup>
+      </biblioset>
+
+      <abstract>
+        <para><emphasis>Extract of <ulink
+            url="http://www.wkap.nl/prod/b/0-7923-7419-3">book</ulink>
+            description from the publishers:</emphasis></para>
+
+	<para> This volume on financial and economic simulations in
+	Swarm marks the continued progress by a group of researchers
+	to incorporate agent-based computer models as an important
+	tool within their discipline.</para>
+
+	<para>Swarm promotes agent-based computer models as a tool
+	for the study of complex systems. A common language is leading
+	to the growth of user communities in specific areas of
+	application. Furthermore, by providing an organizing framework
+	to guide the development of more problem-specific structures,
+	and by dealing with a whole range of issues that affect their
+	fundamental correctness and their ability to be developed and
+	reused, Swarm has sought to make the use of agent-based models
+	a legitimate tool of scientific investigation that also meets
+	the practical needs of investigators within a community....</para>
+
+<!--
+	<para>Swarm's principal foundation is an object-oriented
+	representation of active agents interacting among themselves
+	and with their environment. To this base layer it adds its own
+	structures to drive, record and portrait the events that occur
+	across this world. The specific contents of any world,
+	however, are up to the experimenter to provide, either by
+	building them from scratch or by tapping previous
+	contributions.</para>
+
+	<para>This book is notable in assembling a rich array of such
+	contributions, which are significant in their own right, but
+	which can also be mined to extract the reusable elements in
+	their respective areas of finance and economics. It also
+	presents three interesting software additions with tutorials
+	in the form of simple financial and economic applications. A
+	Swarm meta-language closer to a `natural language', the use of
+	internet-augmented Swarm for experimental economics, and a
+	Swarm visual builder will meet the challenges launched by
+	other agent-based modelling competitors.</para>
+
+	<para>The Swarm community at large can benefit greatly from
+	the lead that the growing field of computational economics is
+	taking to address its own needs, as represented by this book.</para>
+-->
+      </abstract>
+    </biblioentry>
+
+    <biblioentry id="luna">
+    <abbrev>Luna:Stefansson:2000</abbrev>
+      <citetitle pubwork="book">Economic Simulations in Swarm: Agent-Based Modelling and Object Oriented Programming</citetitle>
+      <authorgroup>
+        <editor>
+          <firstname>Francesco</firstname>
+          <surname>Luna</surname>
+        </editor>
+        <editor>
+          <firstname>Benedikt</firstname>
+          <surname>Stefannson</surname>
+        </editor>
+      </authorgroup>
+      <isbn>0-7923-8665-5</isbn>
+      <publisher><publishername>Kluwer Academic
+          Publishers</publishername></publisher> 
+      <pubdate>2000</pubdate>
+      <biblioset relation="series">
+        <title>Advances in Computational Economics</title>
+        <seriesvolnums>volume 14</seriesvolnums>
+        <authorgroup>
+          <editor>
+            <firstname>Hans</firstname>
+            <surname>Amman</surname>
+          </editor>
+          <editor>
+            <firstname>Anna</firstname>
+            <surname>Nagurney</surname>
+          </editor>
+        </authorgroup>
+      </biblioset>
+
+      <abstract>
+        <para><emphasis>Book description from the
+            publishers:</emphasis></para>
+        
+        <para>Computer simulations of economic systems are slowly
+          gaining ground within the economic profession. However, such
+          a process is hindered by a lack of communication among
+          researchers who do not share a common language. For its
+          object-oriented structure and its versatility, Swarm has the
+          necessary characteristics to become a credible universal
+          language of agent-based simulations. Economic Simulations in
+          Swarm collects a series of original articles in such domains
+          as macro and micro economics, industrial organization,
+          monetary theory, and finance, all linked by a common
+          denominator: the use of the Swarm simulation
+          platform. </para>
+
+        <para>Swarm, a standard set of program libraries, allows
+          users to construct simulations where a collection of
+          heterogeneous independent agents or elements interact through
+          discrete events. This volume offers the first extensive
+          tutorial to the use of these software libraries developed at
+          the Santa Fe Institute as part of the ongoing research into
+          complexity.</para>
+        
+        <para>The editors conceived the idea of this book while
+          visiting the Santa Fe Institute as members of the `Working
+          Group on Adaptive and Computable Economics'. Francesco Luna is
+          a specialist in Computable Economics, and Benedikt Stefansson
+          is an active contributor to the Swarm community.</para>
+
+        <para>An outline of the book and source code for models
+          discussed in the book are available <ulink url="ftp://ftp.swarm.org/pub/swarm/src/users-contrib/anarchy/lunabook/index.html">here</ulink>.</para>
+      </abstract>
+    </biblioentry>
+  </bibliodiv>
+
+  <bibliodiv>
+    <title>Papers</title>
+    <biblioentry>
+    <abbrev>Satterfield:1999</abbrev>
+    <authorgroup>
+      <author>
+        <firstname> T.  </firstname>
+        <surname> Satterfield  </surname>
+      </author>
+      <author>
+        <firstname> M.  </firstname>
+          <surname> Murphy  </surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="article"> A computational model of creole genesis </citetitle>
+    <confgroup>
+      <conftitle>Linguistic Society of America Meeting</conftitle>
+      <confdates>January 1999</confdates> 
+      <address
+               format="linespecific"><city>Los Angeles</city></address>
+    </confgroup>
+  </biblioentry>
+  
+<biblioentry>
+<abbrev>Dagaeff:1997</abbrev>
+ <authorgroup>
+  <author>
+   <firstname> T.  </firstname>
+   <surname> Dagaeff  </surname>
+  </author>
+  <author>
+   <firstname> F.  </firstname>
+   <surname> Chantemargue  </surname>
+  </author>
+  <author>
+   <firstname> B.  </firstname>
+   <surname> Hirsbrunner  </surname>
+  </author>
+      </authorgroup>
+      <confgroup>
+        <conftitle>Proceedings of the Second European Conference on Cognitive
+          Science (ECCS'97)</conftitle>
+        <address format="linespecific">
+          <city>Manchester</city>
+          <country>U.K.</country>
+        </address>
+        <confdates>April 9-11</confdates>
+      </confgroup>
+      <pagenums> 91-96 </pagenums>
+      <citetitle pubwork="article"><ulink url="http://www.santafe.edu/projects/swarm/users/ebcmas.ps">Emergence-based Cooperation in a Multi-Agent System</ulink> </citetitle>
+      <pubdate> 1997 </pubdate>
+
+    </biblioentry>
+    <biblioentry>
+      <abbrev>Terna:1998b</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> P.  </firstname>
+          <surname> Terna  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article">ABCDE: Agent Based Chaotic Dynamic Emergence</citetitle> 
+
+      <biblioset relation="series">
+        <title>Lecture Notes in Artificial Intelligence</title>
+        <seriesvolnums>1534</seriesvolnums>
+        <confgroup>
+        <conftitle>Multi-Agent Systems and Agent-Based Simulation, First
+International Workshop, MABS'98</conftitle>
+        </confgroup>
+        <publisher>
+          <publishername> Springer </publishername>
+          <address format="linespecific"><city>Berlin</city></address>
+        </publisher>
+        <pubdate>1998</pubdate>
+      </biblioset>
+      
+      <abstract><para> This paper concerns agent based experiments in
+      the field of negotiation and exchange simulation. A computer
+      simulation environment is built, showing the emergence of
+      chaotic price sequences in a simple model of interacting
+      consumers and vendors, both equipped with minimal rules. em
+      Swarm the framework of the model
+      (www.santafe.edu/projects/swarm), a simulation tool with a
+      strong object oriented structure, also very useful to separate
+      in a clear way the model level from the level of the
+      observer. Swarm is fully programmable in Objective C, with many
+      powerful libraries, aimed at modeling the objects and the
+      schedules of our experiments, with lists and arrays where
+      necessary. Finally we introduce a tool (Cross Target method:
+      CT), useful in building artificial laboratories, for experiments
+      with learning, self-developed consistency and interaction of
+      agents in artificial worlds, in order to observe the emergence
+      of complexity without a priori behavioral rules: The perspective
+      of our work is that of developing CT within the Swarm framework
+      to replicate the ABCDE experiment in this light-rules or
+      no-rules context. </para></abstract>
+      
+</biblioentry>
+
+<biblioentry>
+<abbrev>Burkhart:1995</abbrev>
+      
+      <authorgroup>
+        <author>
+          <firstname> Roger  </firstname>
+          <surname> Burkhart  </surname>
+  </author>
+      </authorgroup>
+      <confgroup>
+        <conftitle>Object-Oriented Programming Systems, Languages, and
+          Applications (OOPSLA) '95 Adaptable and Adaptive Software Workshop</conftitle>
+        <confdates>8 October 1995</confdates>
+      </confgroup>
+      <citetitle pubwork="article"><ulink
+                                          url="http://www.santafe.edu/~rmb/oopsla95.html"> Create-phase
+          Protocols for Object Customization</ulink> </citetitle>
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Parunak:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> H. V. D.  </firstname>
+          <surname> Parunak  </surname>
+        </author>
+        <author>
+          <firstname> R.  </firstname>
+          <surname> Savit  </surname>
+        </author>
+        <author>
+          <firstname> R. L.  </firstname>
+          <surname> Riolo  </surname>
+        </author>
+      </authorgroup>
+      <biblioset relation="series">
+        <title>LNAI series</title>
+        <seriesvolnums>1534</seriesvolnums>
+        <authorgroup>
+          <editor>
+            <surname>Sichman</surname>
+          </editor>
+          <editor>
+            <surname>Conte</surname>
+          </editor>
+          <editor>
+            <surname>Gilbert</surname>
+          </editor>
+        </authorgroup>
+        <confgroup>
+          <conftitle>Multi-agent systems and Agent-based Simulation (MABS'98)</conftitle>
+          <confdates>1998</confdates>
+        </confgroup>
+        <publisher><publishername>Springer-Verlag</publishername>
+        </publisher>
+      </biblioset>
+      <citetitle pubwork="article"> Agent-Based Modeling vs. Equation-Based Modeling: A Case Study and Users' Guide </citetitle>
+      <pubdate> 1998 </pubdate>
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Booth:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Ginger  </firstname>
+          <surname> Booth  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"> <ulink
+        url="http://peaplant.biology.yale.edu:8001/papers/swarmgecko/rewrite.html">Gecko:
+        A Continuous 2D World for Ecological Modeling</ulink>
+        </citetitle> <citetitle pubwork="journal">Artificial
+        Life</citetitle> 
+
+      <volumenum>3</volumenum> <issuenum>3</issuenum>
+      <pagenums>147--163</pagenums> <pubdate>Summer 1997</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Terna:1998a</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> P.  </firstname>
+          <surname> Terna  </surname>
+        </author>
+      </authorgroup>
+      <abstract><para> Social scientists are not computer scientists,
+          but their skills in the field have to become better and
+          better to cope with the growing field of social simulation
+          and agent based modelling techniques. A way to reduce the
+          weight of software development is to employ generalised
+          agent development tools, accepting both the boundaries
+          necessarily existing in the various packages and the subtle
+          and dangerous differences existing in the concept of agent
+          in computer science, artificial intelligence and social
+          sciences. The choice of tools based on the object oriented
+          paradigm that offer libraries of functions and graphic
+          widgets is a good compromise. A product with this kind of
+          capability is Swarm, developed at the Santa Fe Institute and
+          freely available, under the terms of the GNU license. A
+          small example of a model developed in Swarm is introduced,
+          in order to show directly the possibilities arising from the
+          use of these techniques, both as software libraries and
+          methodological guidelines. With simple agents - interacting
+          in a Swarm context to solve both memory and time simulation
+          problems - we observe the emergence of chaotic sequences of
+          transaction prices. </para></abstract> 
+
+      <citetitle pubwork="article"><ulink
+        url="http://www.soc.surrey.ac.uk/JASSS/1/2/4.html">Simulation
+        Tools for Social Scientists: Building Agent Based Models with
+        Swarm</ulink> </citetitle>
+      <citetitle>Journal of Artificial Societies and
+        Social Simulation</citetitle> 
+      <volumenum>1</volumenum><issuenum>2</issuenum><pubdate>March 1998</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>McMullin:1997a</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Barry  </firstname>
+          <surname> McMullin  </surname>
+        </author>
+      </authorgroup>
+
+      <abstract><para> This report presents a detailed review and
+      re-presentation of the algorithm for (computational) realisation
+      of autopoiesis, originally presented by Varela et
+      al. (1974). The review is from the perspective of one seeking to
+      re-implement this algorithm. It arises from an on-going project
+      to develop such a re-implementation using the Swarm simulation
+      system.[1] The motivation for such re-implementation is firstly
+      to critically re-examine the phenomenology generated by this
+      model chemistry, and secondly to use it as a basis for exploring
+      more complex systems. The algorithm is first reviewed and
+      annotated for internal consistency and clarity; it is then
+      separately reviewed for consistency with the experimental
+      results which originally accompanied it. A number of significant
+      discrepancies are discussed. By kind permission of Francisco
+      Varela, this report also includes, as an Appendix, some
+      previously unpublished documentation and source code (in FORTRAN
+      IV) associated with the original model. By critical
+      consideration of the experimental results in conjunction with
+      this code, an important--perhaps crucial--interaction, not
+      included in any previous description of the model, has been
+      re-discovered. This interaction is presented and discussed
+      briefly.  </para></abstract>
+      <pubsnumber>Santa Fe Institute Working Paper 97-01-001</pubsnumber>
+      <citetitle pubwork="article"> <ulink
+                                           url='http://www.santafe.edu/sfi/publications/Working-Papers/97-01-001/'>Computational
+        Autopoiesis: The Original Algorithm</ulink> </citetitle>
+
+      <pubdate>January 1997</pubdate>
+      
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Chantemargue:1998b</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> F.  </firstname>
+          <surname> Chantemargue  </surname>
+        </author>
+        <author>
+          <firstname> O.  </firstname>
+          <surname> Krone  </surname>
+        </author>
+        <author>
+          <firstname> M.  </firstname>
+          <surname> Schumacher  </surname>
+        </author>
+        <author>
+          <firstname> T.  </firstname>
+          <surname> Dagaeff  </surname>
+        </author>
+        <author>
+          <firstname> B.  </firstname>
+          <surname> Hirsbrunner  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"> Autonomous Agents: from Concepts to Implementation </citetitle>
+      <confgroup>
+        <conftitle>Proceedings of the Fourteenth European Meeting on
+          Cybernetics and Systems Research (EMCSR'98)</conftitle>
+        <confdates>April 14-17 1998</confdates> <address
+                                                         format="linespecific"><city>Vienna</city><country>Austria</country></address>
+      </confgroup>
+      
+      <pagenums> 731--736 </pagenums>
+      <volumenum> 2 </volumenum>      
+      <pubdate> 1998 </pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Savage:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Melissa  </firstname>
+          <surname> Savage  </surname>
+        </author>
+        <author>
+          <firstname> Manor  </firstname>
+   <surname> Askenazi  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"> <ulink
+        url="http://www.santafe.edu/sfi/publications/Abstracts/98-06-056abs.html">Arborscapes:
+          A Swarm-Based Multi-agent Ecological Disturbance Model</ulink>
+      </citetitle>
+      
+      <pubsnumber>Submitted, available as SFI Working Paper 98-06-056</pubsnumber>
+      
+      <citetitle pubwork="journal">Geographical and Environmental Modelling</citetitle>
+      <pubdate> 1998 </pubdate> 
+      
+      <abstract><para> This paper presents an agent-based,
+          object-oriented ecological model of forest dynamics designed
+          to examine the role of disturbance on diversity. Arborscapes
+          is based on Swarm, an agent-based software platform that
+          offers advantages for ecological modeling, including a suite
+          of standardized libraries of objects, schedules, and probes,
+          and architectural features such as inheritance, message
+          passing, encapsulation, and hierarchical
+          structure. Object-oriented models are more transparent,
+          portable and more easily modified than process oriented
+          models, and therefore promise to facilitate collaboration on
+          computational experiments. The initial application of
+          Arborscapes was the analysis of disturbance dynamics, but
+          the model was designed to be modified for a variety of
+          applications in the simulation of vegetation community
+          dynamics. </para></abstract>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Johnson:1998a</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Paul  </firstname>
+          <surname> Johnson  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"> Adaptive Agents versus Rational Actors: Social Science Implications </citetitle>
+      <confgroup>
+        <conftitle>Annual Meeting of the American Political Science
+        Association</conftitle>
+        <confdates>3-6 September 1998</confdates>
+        <address format="linespecific">
+          <otheraddr>Marriott Copley Place and Sheraton Boston Hotel
+            and Tower</otheraddr><city>Boston</city>
+        </address>
+      </confgroup>
+    </biblioentry>
+
+
+    <biblioentry>
+<abbrev>Kohler:1999</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> T. A.  </firstname>
+          <surname> Kohler  </surname>
+        </author>
+        <author>
+          <firstname> J.  </firstname>
+          <surname> Kresl  </surname>
+        </author>
+        <author>
+          <firstname> C. Van  </firstname>
+          <surname> West  </surname>
+        </author>
+        <author>
+          <firstname> Eric  </firstname>
+          <surname> Carr  </surname>
+        </author>
+        <author>
+          <firstname> Richard  </firstname>
+          <surname> Wilshusen  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="chapter">Be There Then: A Modeling Approach
+        to Settlement Determinants and Spatial Efficiency among late
+        Ancestral Pueblo Populations of the Mesa Verde Region,
+        U.S. Southwest</citetitle>
+      
+      <biblioset relation="book">
+        <citetitle pubwork="book">Dynamics in Human and Primate Societies: Agent-Based Modeling of Social and Spatial Processes</citetitle>
+        <authorgroup>
+          <editor>
+            <firstname>Timothy</firstname>
+            <surname>Kohler</surname>
+          </editor>
+          <editor>
+            <firstname>George</firstname>
+            <surname>Gumerman</surname>
+          </editor>
+        </authorgroup>
+        <publisher><publishername> Santa Fe Institute and Oxford University Press </publishername></publisher>
+        <pubdate> 1999 </pubdate>
+      </biblioset>
+
+    </biblioentry>
+
+    
+    <biblioentry>
+<abbrev>Bruhn:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Peter  </firstname>
+          <surname> Bruhn  </surname>
+          <affiliation>
+            <orgname>University of Illinois, Urbana-Champaign and Beckman Institute of Advanced Science and Technology</orgname>
+          </affiliation>
+        </author>
+      </authorgroup>
+
+      <pubsnumber>Master's Thesis</pubsnumber>
+
+      <citetitle pubwork="manuscript"> Enterprise Simulation using Multi-Agent System Modeling and the Swarm Toolkit </citetitle>
+
+      <pubdate>October 1997</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Strader:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Troy J.  </firstname>
+          <surname> Strader  </surname>
+        </author>
+        <author>
+          <firstname> Fu-Ren  </firstname>
+          <surname> Lin  </surname>
+        </author>
+        <author>
+          <firstname> Michael J.  </firstname>
+          <surname> Shaw  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"><ulink
+      url="http://www.soc.surrey.ac.uk/JASSS/1/2/5.html">Simulation of
+      Order Fulfillment in Divergent Assembly Supply Chains</ulink>
+      </citetitle>
+      
+      <citetitle pubwork="journal">Journal of Artificial Societies and Social Simulation</citetitle>
+      <volumenum> 1 </volumenum>
+      <issuenum>2</issuenum>
+      <pubdate>March 1998</pubdate>
+
+      <abstract><para> Management of supply chains is a difficult task
+          involving coordination and decision-making across
+          organizational boundaries. Computational modeling using
+          multi-agent simulation is a tool that can provide decision
+          support for supply chain managers. We identify the
+          components of a supply chain model and implement it in the
+          Swarm multi-agent simulation platform. The model is used to
+          study the impact of information sharing on order fulfillment
+          in divergent assembly supply chains (commonly associated
+          with the computer and electronics industries). We find that
+          efficient information sharing enables inventory costs to be
+          reduced while maintaining acceptable order fulfillment cycle
+          times. This is true because information, which provides the
+          basis for enhanced coordination and reduced uncertainty, can
+          substitute for inventory.  </para></abstract>
+      
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Chantemargue:1998a</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> F.  </firstname>
+          <surname> Chantemargue  </surname>
+        </author>
+        <author>
+          <firstname> T.  </firstname>
+          <surname> Dagaeff  </surname>
+        </author>
+        <author>
+          <firstname> M.  </firstname>
+          <surname> Schumacher  </surname>
+        </author>
+        <author>
+          <firstname> B.  </firstname>
+          <surname> Hirsbrunner  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"> Autonomous Agents and Cooperation:
+      Application to Collective Robotics </citetitle>
+      
+      <affiliation>
+        <orgname>University of Fribourg</orgname>
+        <orgdiv>Computer Science Department</orgdiv>
+        <address format="linespecific"><city>Fribourg</city>
+          <country>Switzerland</country></address>
+      </affiliation>
+      <pubsnumber>Internal Note 98-03</pubsnumber>
+      <pubdate>February 1998</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Armstrong:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Aaron A.  </firstname>
+          <surname> Armstrong  </surname>
+        </author>
+        <author>
+          <firstname> Edmund H.  </firstname>
+          <surname> Durfee  </surname>
+        </author>
+      </authorgroup>
+      
+      <citetitle pubwork="article"> Mixing and Memory: Emergent Cooperation in an Information Marketplace </citetitle>
+
+      <confgroup>
+        <conftitle>Proceedings of the Third International Conference
+          on Multiagent Systems</conftitle>
+        <confdates>July 1998</confdates>
+      </confgroup>
+      <publisher><publishername> IEEE Computer Society Press </publishername></publisher>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Strader:1999</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Troy J.  </firstname>
+          <surname> Strader  </surname>
+        </author>
+        <author>
+          <firstname> Fu-Ren  </firstname>
+          <surname> Lin  </surname>
+        </author>
+        <author>
+          <firstname> Michael J.  </firstname>
+          <surname> Shaw  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"> The Impact of Information Sharing on Order Fulfillment in Divergent Differentiation Supply Chain </citetitle>
+
+      <citetitle pubwork="journal">Journal of Global Information Management</citetitle>
+      <volumenum> 7 </volumenum>
+      <issuenum>1</issuenum>
+      <pubdate>January - March 1999</pubdate>
+    </biblioentry>
+
+
+    <biblioentry>
+<abbrev>Burkhart:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Roger  </firstname>
+          <surname> Burkhart  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"><ulink url="http://www.santafe.edu/~rmb/oopsla97.ps">Schedules of Activity in the Swarm Simulation System</ulink></citetitle>
+      <confgroup>
+        <conftitle>OOSPLA '97 Workshop on OO Behavioral Semantics</conftitle>
+        <confdates>1997</confdates>
+      </confgroup>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Cohen:1999</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Michael D.  </firstname>
+          <surname> Cohen  </surname>
+        </author>
+        <author>
+          <firstname> Rick L.  </firstname>
+          <surname> Riolo  </surname>
+        </author>
+        <author>
+          <firstname> Robert  </firstname>
+          <surname> Axelrod  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"><ulink url="http://www.pscs.umich.edu/RESEARCH/pscs-tr.html">The Emergence of Social Organization in the Prisoners' Dilemma: How Context-Preservation and other Factors Promote Cooperation</ulink></citetitle>
+
+      <pubsnumber>PSCS Working Paper 99-01-002</pubsnumber>
+
+      <pubdate>January 1999</pubdate>
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Kohler:1996b</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> T. A.  </firstname>
+          <surname> Kohler  </surname>
+        </author>
+        <author>
+          <firstname> Carla R. Van  </firstname>
+          <surname> West  </surname>
+        </author>
+        <author>
+          <firstname> Eric P.  </firstname>
+          <surname> Carr  </surname>
+        </author>
+        <author>
+          <firstname> Christopher G.  </firstname>
+          <surname> Langton  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"><ulink url="http://www.ncgia.ucsb.edu/conf/SANTA_FE_CD-ROM/sf_papers/kohler_tim/kohler.html">Agent-Based Modeling of Prehistoric Settlement Systems in the Northern American Southwest</ulink></citetitle>
+      
+      <confgroup>
+        <conftitle>Proceedings of Third International Conference Integrating GIS and Environmental Modeling, Santa Fe, New Mexico</conftitle>
+        <confdates>1996</confdates>
+      </confgroup>
+      <publisher>
+        <publishername>National Center for Geographic Information and Analysis</publishername>
+        <address format="linespecific"><city>Santa Barbara</city></address>
+      </publisher>
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Krothapalli:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> N.K.C.  </firstname>
+          <surname> Krothapalli  </surname>
+        </author>
+        <author>
+          <firstname> A. V.  </firstname>
+          <surname> Deshmukh  </surname>
+        </author>
+      </authorgroup>
+      
+      <citetitle pubwork="article"> Effects of negotiation mechanisms on performance of agent based manufacturing Systems </citetitle>
+
+      <confgroup>
+        <conftitle>Proceedings of the Seventh International Conference
+          on Flexible Automation and Intelligent
+          Manufacturing</conftitle>
+        <confdates>1997</confdates>
+      </confgroup>
+
+      <pagenums> 704-717 </pagenums> <abstract><para> This paper
+      proposes new inter-agent negotiation mechanisms for improving
+      the performance of agent based or decentralized manufacturing
+      systems. The focus of this paper is on demonstrating efficiency
+      of different negotiation and collaboration schemes between
+      agents of the same class (parts, machines, etc) and inter-class
+      negotiations using currency metrics. The cooperation and
+      negotiation protocols are modeled using the em Swarm multi-agent
+      simulation platform. We demonstrate the robustness of the
+      proposed schemes, and compare them with hierarchical scheduling
+      systems. </para></abstract>
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Jares:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Tim  </firstname>
+          <surname> Jares  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="manuscript"> The Survival and Consequences of Noise Traders in Financial Markets: A Numerical Modeling Approach </citetitle>
+      <pubsnumber>PhD Thesis</pubsnumber>
+      <affiliation>
+        <orgname>University of Nebraska</orgname>
+      </affiliation>
+      <pubdate>August 1998</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Fulkerson:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> B.  </firstname>
+          <surname> Fulkerson  </surname>
+        </author>
+        <author>
+          <firstname> G.  </firstname>
+          <surname> Staffend  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"> Decentralized Control in the Customer Focused Enterprise </citetitle>
+
+      <citetitle pubwork="journal">Annals of Operations Research</citetitle>
+
+      <pagenums> 325--333 </pagenums>
+      <volumenum> 77 </volumenum>
+      <pubdate> 1997 </pubdate>
+
+      <abstract><para> This paper discusses analytical methods to
+      enable the order fulfillment process (OFF) of a customer-focused
+      enterprise. We present three examples of agent-based systems
+      that illustrate the benefits of decentralized control in
+      discrete part manufacturing. The Swarm simulation platform is
+      introduced as a novel means to investigate supply chain
+      management strategies.  </para></abstract>
+
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Savit:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Robert  </firstname>
+          <surname> Savit  </surname>
+        </author>
+        <author>
+          <firstname> Radu  </firstname>
+          <surname> Manuca  </surname>
+        </author>
+        <author>
+          <firstname> Rick  </firstname>
+          <surname> Riolo  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article">
+        <ulink
+               url="http://www.pscs.umich.edu/RESEARCH/pscs-tr.html">The
+          Dynamics of Minority competition</ulink> </citetitle> 
+      
+      <citetitle
+                 pubwork="journal">Physical Review Letters</citetitle> 
+      <pubdate>1998</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Krothapalli:1998b</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> N.K.C.  </firstname>
+          <surname> Krothapalli  </surname>
+        </author>
+        <author>
+          <firstname> A.V.  </firstname>
+          <surname> Deshmukh  </surname>
+        </author>
+      </authorgroup>
+      
+      <citetitle pubwork="article"> Design of negotiation protocols for multi--agent
+      manufacturing systems </citetitle>
+
+      <citetitle pubwork="journal">International Journal of Production
+        Research</citetitle>
+      <pubdate>1998 (in press)</pubdate>
+
+      <abstract><para> This paper proposes new inter-agent and
+          intra-agent negotiation mechanisms for improving the
+          performance of multi-agent or decentralized manufacturing
+          systems. The overall performance of this system depends on
+          the effective interactions between agents. This research
+          presents methods which would permit cooperation and
+          multi--stage interactions among agents. Agents may
+          collaborate or preempt other agents based on the available
+          currency and task criticality. The objective of this
+          research is to demonstrate the efficiency of different
+          negotiation and collaboration schemes between agents of the
+          same class (parts, machines, etc), and inter-class
+          negotiations using currency metrics and preemption. The
+          proposed negotiation schemes are implemented using the Swarm
+          simulation platform. </para></abstract>
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Marshall:1999</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> J.A.R.  </firstname>
+          <surname> Marshall  </surname>
+        </author>
+        <author>
+          <firstname> J.E.  </firstname>
+          <surname> Rowe  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article">The Evolution of Cooperation Through Kin Selection </citetitle>
+      <citetitle pubwork="journal">International Journal of Systems Science</citetitle>
+      <pubdate>1999 (submitted)</pubdate>
+    </biblioentry>
+
+
+    <biblioentry>
+<abbrev>Minar:1996</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Nelson  </firstname>
+          <surname> Minar  </surname>
+        </author>
+        <author>
+          <firstname> Rogert  </firstname>
+          <surname> Burkhart  </surname>
+        </author>
+        <author>
+          <firstname> Chris  </firstname>
+          <surname> Langton  </surname>
+        </author>
+        <author>
+          <firstname> Manor  </firstname>
+          <surname> Askenazi  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"><ulink url="http://www.swarm.org/archive/overview.ps">The Swarm Simulation System: A Toolkit for Building Multi-Agent Simulations</ulink> </citetitle>
+
+      <pubsnumber>SFI Working Paper 96-06-042</pubsnumber>
+      <pubdate> 1996 </pubdate>
+
+      <abstract><para> Swarm is a multi-agent software platform for
+          the simulation of complex adaptive systems. In the Swarm
+          system the basic unit of simulation is the swarm, a
+          collection of agents executing a schedule of actions. Swarm
+          supports hierarchical modeling approaches whereby agents can
+          be composed of swarms of other agents in nested
+          structures. Swarm provides object oriented libraries of
+          reusable components for building models and analyzing,
+          displaying, and controlling experiments on those
+          models. Swarm is currently available as a beta version in
+          full, free source code form. It requires the GNU C Compiler,
+          Unix, and X Windows. More information about Swarm can be
+          obtained from our web pages <ulink
+          url="http://www.swarm.org"></ulink> </para></abstract>
+      
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Carnahan:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> John  </firstname>
+          <surname> Carnahan  </surname>
+        </author>
+        <author>
+          <firstname> Song-gang  </firstname>
+          <surname> Li  </surname>
+        </author>
+        <author>
+          <firstname> Carlo  </firstname>
+          <surname> Costantini  </surname>
+        </author>
+        <author>
+          <firstname> Yeya T.  </firstname>
+          <surname> Toure  </surname>
+        </author>
+        <author>
+          <firstname> Charles E.  </firstname>
+          <surname> Taylor  </surname>
+        </author>
+      </authorgroup>
+      <publisher><publishername> MIT Press </publishername></publisher>
+
+      <citetitle pubwork="article"> Computer Simulation of Dispersal by em Anopheles Gambiae s.l. in West Africa </citetitle>
+      <confgroup>
+        <conftitle>Artificial Life V: Proceedings of the Fifth
+          International Workshop on the Synthesis and Simulation of
+          Living Systems</conftitle>
+        <confdates>1997</confdates>
+      </confgroup>
+      <pagenums> 387--394 </pagenums>      
+
+      <biblioset relation="series">
+        <title>Complex Adaptive Systems</title>
+        <publisher>
+          <publishername>MIT Press</publishername>
+          <address format="linespecific"><city>Boston</city></address>
+        </publisher>
+      </biblioset>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Burkhart:1994</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Roger  </firstname>
+          <surname> Burkhart  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"><ulink
+      url="http://www.santafe.edu/~rmb/oopsla94.html">The Swarm
+      Multi-Agent Simulation System</ulink></citetitle>
+      <confgroup>
+        <conftitle>(OOPSLA) '94 Workshop on "The Object Engine"</conftitle>
+        <confdates>7 September 1994</confdates>
+      </confgroup>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Manuca:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Radu  </firstname>
+          <surname> Manuca  </surname>
+        </author>
+        <author>
+          <firstname> Yi  </firstname>
+          <surname> Li  </surname>
+        </author>
+        <author>
+          <firstname> Rick  </firstname>
+          <surname> Riolo  </surname>
+        </author>
+        <author>
+          <firstname> Robert  </firstname>
+          <surname> Savit  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"><ulink
+                                          url="http://www.pscs.umich.edu/RESEARCH/pscs-tr.html">The
+          Structure of Adaptive Competition in Minority Games</ulink>
+      </citetitle> 
+      <pubsnumber>PSCS Working Paper98-11-001</pubsnumber> 
+      <pubdate>1998</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Pepper:1999</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> J.W.  </firstname>
+          <surname> Pepper  </surname>
+        </author>
+        <author>
+          <firstname> B.  </firstname>
+          <surname> Smuts  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="chapter"><ulink
+        url="http://www.pscs.umich.edu/RESEARCH/pscs-tr.html">The
+        evolution of cooperation in an ecological context: an
+        agent-based model</ulink></citetitle>
+
+      <biblioset relation="book">
+        <citetitle pubwork="book">Dynamics in Human and Primate Societies: Agent-Based Modeling of Social and Spatial Processes</citetitle>
+        <authorgroup>
+          <editor>
+            <firstname>Timothy</firstname>
+            <surname>Kohler</surname>
+          </editor>
+          <editor>
+            <firstname>George</firstname>
+            <surname>Gumerman</surname>
+          </editor>
+        </authorgroup>
+        <publisher>
+          <publishername>Santa Fe Institute and Oxford University Press </publishername></publisher>
+        <pubdate> 1999 </pubdate>
+      </biblioset>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Hinsch:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> M.  </firstname>
+          <surname> Hinsch  </surname>
+        </author>
+        <author>
+          <firstname> J. J.  </firstname>
+          <surname> Merelo  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"><ulink url="ftp://kal-el.ugr.es/pub/evIPD/IPD.ps.gz">Coevolving Iterated Prisonner's dilemma strategies in different environments</ulink> </citetitle>
+      <affiliation>
+        <orgname>Univ. Granada, Spain</orgname>
+        <orgdiv>GeNeura Team, Dept. ATC,</orgdiv>
+      </affiliation>
+      <pubsnumber>g-98-1</pubsnumber>
+      <pubdate> 1998 </pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Downing:1999</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Keith  </firstname>
+          <surname> Downing  </surname>
+        </author>
+        <author>
+          <firstname> Peter  </firstname>
+          <surname> Zvirinsky  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"><ulink
+      url="http://alife.tuke.sk/projekty/mag_html/guild/guild-intro.html">The
+      Simulated Evolution of Biochemical Guilds: Reconciling Gaia
+      Theory and Natural Selection</ulink> </citetitle>
+
+      <citetitle pubwork="journal">Artificial Life</citetitle>
+      <volumenum>5</volumenum>
+      <issuenum>4</issuenum>
+      <pubdate>2000</pubdate>
+
+      <abstract><para> Gaia theory, which states that organisms both
+          affect and regulate their environment, poses an interesting
+          problem to Neo-Darwinian evolutionary biologists and
+          provides an exciting set of phenomena for artificial-life
+          investigation. The key challenge is to explain the emergence
+          of biotic communities that are capable, via their implicit
+          coordination, of regulating large-scale biogeochemical
+          factors such as the temperature and chemical composition of
+          the biosphere, but to assume no evolutionary mechanisms
+          beyond contemporary natural selection. Along with providing
+          an introduction to Gaia theory, this paper presents
+          simulations of Gaian emergence based on an artificial-life
+          model involving genetic algorithms and guilds of simple
+          metabolizing agents. In these simulations, resource
+          competition leads to guild diversity; the ensemble of guilds
+          then manifests life-sustaining nutrient recycling and exerts
+          distributed control over environmental nutrient
+          ratios. These results illustrate that standard
+          individual-based natural selection is sufficient to explain
+          Gaian self-organization, and they help clarify the
+          relationships between two key metrics of Gaian activity:
+          recycling and regulation. </para></abstract>
+      
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Kohler:1996a</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> T.A.  </firstname>
+          <surname> Kohler  </surname>
+        </author>
+        <author>
+          <firstname> Eric  </firstname>
+          <surname> Carr  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"><ulink
+        url="http://www.archaeology.usyd.edu.au/resources/documents/kohler/index.htm">
+        Swarm-based Modeling of Prehistoric Settlement Systems in
+          Southwestern North America</ulink>
+      </citetitle>
+      
+      <confgroup>
+        <conftitle>Proceedings of Colloquium II, UISPP, XIIIth Congress</conftitle>
+        <confdates>September 1996</confdates>
+      </confgroup>
+      <biblioset relation="series">
+        <title>Sydney University Archaeological Methods</title>
+        <seriesvolnums>5</seriesvolnums>
+        <authorgroup>
+          <editor>
+            <firstname>I.</firstname>
+            <surname>Johnson</surname>
+          </editor>
+          <editor>
+            <firstname>M.</firstname>
+            <surname>North</surname>
+          </editor>
+        </authorgroup>
+        <publisher>
+          <publishername> School of Archaeology, University of Sydney, Australia </publishername>
+        </publisher>
+      </biblioset>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Stefansson:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> B.  </firstname>
+          <surname> Stefansson  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"> Swarm: An Object Oriented Simulation Platform Applied to Markets and Organizations </citetitle>
+
+      <confgroup>
+        <conftitle>Evolutionary Programming VI</conftitle>
+        <confdates>1997</confdates>
+      </confgroup>
+
+      <biblioset relation="series">
+        <title>Lecture Notes in Computer Science</title>
+        <seriesvolnums>1213</seriesvolnums>
+        <authorgroup>
+          <editor>
+            <firstname>P.</firstname>
+            <surname>Angeline</surname>
+          </editor>
+          <editor>
+            <firstname>R.</firstname>
+            <surname>Reynolds</surname>
+          </editor>
+          <editor>
+            <firstname>J.</firstname>
+            <surname>McDonnel</surname>
+          </editor>
+          <editor>
+            <firstname>R.</firstname>
+            <surname>Eberhart</surname>
+          </editor>
+        </authorgroup>
+        <publisher><publishername> Springer-Verlag </publishername>
+          <address format="linespecific"><city>New York</city></address>
+        </publisher>
+      </biblioset>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Johnson:1998b</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Paul  </firstname>
+          <surname> Johnson  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"> An Agent Based Model of the
+      Exchange Theory of Interest Groups </citetitle>
+
+      <confgroup>
+        <conftitle>Annual Meeting of the American Political Science
+        Association</conftitle>
+        <confdates>3-6 September 1998</confdates>
+        <address format="linespecific"><otheraddr>Marriott Copley Place and Sheraton Boston Hotel and Tower</otheraddr><city>Boston</city></address>
+      </confgroup>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>McMullin:Varela:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Barry  </firstname>
+          <surname> McMullin  </surname>
+        </author>
+        <author>
+          <firstname> Francisco J.  </firstname>
+          <surname> Varela  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"><ulink url="http://www.eeng.dcu.ie/~alife/bmcm-ecal97">Rediscovering Computational Autopoiesis</ulink> </citetitle>
+
+      <confgroup>
+        <conftitle>Proceedings of the Fourth European Conference on
+        Artificial Life</conftitle> 
+        <confdates>July 1997</confdates>
+        <confsponsor>School of Cognitive and Computing Sciences,
+        University of Sussex</confsponsor>
+      </confgroup>
+
+      <biblioset relation="series">
+        <title>Complex Adaptive Systems</title>
+        <authorgroup>
+          <editor>
+            <firstname>Phil</firstname>
+            <surname>Husbands</surname>
+          </editor>
+          <editor>
+            <firstname>Inman</firstname>
+            <surname>Harvey</surname>
+          </editor>
+        </authorgroup>
+        <publisher><publishername> MIT Press </publishername></publisher>
+      </biblioset>
+
+      <abstract><para> This paper summarises some initial empirical
+          results from a new computer model (artificial chemistry)
+          which exhibits spontaneous emergence and persistence of
+          autopoietic organisation. The model is based on a system
+          originally presented by Varela, Maturana and Uribe. In
+          carrying out this re-implementation it was found that an
+          additional interaction (chain-based bond inhibition), not
+          documented in the original description by Varela et al., is
+          critical to the realisation of the autopoietic
+          phenomena. This required interaction was re-discovered only
+          following careful examination of (unpublished) source code
+          for an early version of the original model. The purpose of
+          the paper is thus twofold: firstly to identify and discuss
+          this previously undocumented, but essential, interaction;
+          and secondly to argue, on the basis of this particular case,
+          for the importance of exploiting the emerging technologies
+          which support publication of completely detailed software
+          models (in addition, of course, to conventional publication
+          of summary experimental results).  </para></abstract>
+      
+    </biblioentry>
+  
+  <biblioentry>
+    <abbrev>Railsback:1999a</abbrev>
+      <authorgroup>
+      <author>
+        <firstname> S. F.  </firstname>
+        <surname> Railsback  </surname>
+      </author>
+      <author>
+        <firstname> R. H.  </firstname>
+        <surname> Lamberson  </surname>
+      </author>
+        <author>
+        <firstname> B. C.  </firstname>
+        <surname> Harvey  </surname>
+      </author>
+      <author>
+        <firstname> W. E.  </firstname>
+        <surname> Duffy  </surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="article">Movement rules for individual-based
+      models of stream fish</citetitle>
+    <citetitle pubwork="journal">Ecological Modelling</citetitle>
+    <issuenum>2-3</issuenum>
+    <volumenum>123</volumenum>
+    <pagenums>73-89</pagenums>
+    <pubdate>1999</pubdate> 
+    
+    <abstract><para> Spatially explicit individual-based models use
+        movement rules to determine when an animal departs its current
+        location and to determine its movement destination; these
+        rules are therefore critical to accurate simulations. Movement
+        rules typically define some measure of how an individual's
+        expected fitness varies among locations, under the assumption
+        that animals make movement decisions at least in part to
+        increase their fitness. Recent research shows that many fish
+        move quickly in response to changes in physical and biological
+        conditions, so movement rules should allow fish to rapidly
+        select the best location that is available and accessible and
+        not impose randomness or time lags on movement. The theory
+        that a fish's fitness is maximized by minimizing the ratio of
+        mortality risk to food intake is not applicable to typical
+        individual-based model movement decisions and can cause
+        serious errors in common situations. Instead, we developed
+        fitness measures from unified foraging theory that are
+        theoretically and computationally compatible with
+        individual-based fish models. One such fitness measure causes
+        a fish to select habitat that maximizes its expected survival
+        over a specified time horizon, considering both starvation and
+        non-starvation risks. This fitness measure is dependent on the
+        fish's current state, making fish with low energy reserves
+        more willing to accept risks in exchange for higher intake. A
+        second measure represents expected reproductive maturity by
+        multiplying expected survival by a factor representing how
+        close to the size of first reproduction the fish grows within
+        the time horizon.  </para></abstract>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Railback:1999b</abbrev>
+    <authorgroup>
+      <author>
+        <firstname>S. F.</firstname>
+        <surname>Railsback</surname>
+      </author>
+      <author>
+        <firstname>R. H.</firstname>
+        <surname>Lamberson</surname>
+      </author>
+      <author>
+        <firstname>S.</firstname>
+        <surname>Jackson</surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="article">Individual-based Models: Progress
+      Toward Viability for Fisheries Management</citetitle>
+    <confgroup>
+      <conftitle>Spatial Processes and Management of Fish Populations,
+        Proceedings of the 17th Lowell Wakefield Symposium</conftitle>
+      <address><city>Anchorage</city><state>Alaska</state></address>
+    </confgroup>
+    <pubdate>1999 (submitted)</pubdate>
+    <abstract>
+      <para>Individual-based models have many features desirable for
+        fisheries management: they are the only class of models that
+        can easily represent many natural complexities, spatial
+        processes, and cumulative effects; and their individual
+        orientation makes them easy to understand and parameterize
+        with laboratory and field observations. However, these models
+        are currently viewed as impractical because of complexity and
+        cost, and they lack scientific and regulatory credibility. We
+        have a program to overcome these obstacles by developing new
+        theoretical approaches and software. Theoretical development
+        has focused on improving and testing the rules that govern
+        fish movement, because movement is the primary way fish
+        respond to spatial processes. We let each fish select habitat
+        that maximizes a simple definition of fitness that is based on
+        the expected probability of surviving starvation and other
+        risks over a future time horizon. We also developed software
+        with graphical interfaces allowing the behavior of individual
+        fish to be observed and tested, a prerequisite for
+        establishing the credibility of individual-based models.
+      </para>
+    </abstract>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Railsback:1999c</abbrev> 
+    <corpauthor> Lang, Railsback &amp; Assoc.</corpauthor> 
+
+    <citetitle pubwork="article">Tools for Individual-based Stream
+      Fish Models: Improving the Cost-Effectiveness and Credibility of
+      Individual-based Approaches for Instream Flow
+      Assessment</citetitle> 
+    <contractsponsor>EPRI, Electric Power
+      Research Institute, Palo Alto, CA</contractsponsor>
+    <pubsnumber>EPRI TR-114006</pubsnumber>
+    <pubdate>1999</pubdate>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Railsback:2000a</abbrev>
+    <authorgroup>
+      <author>
+        <firstname>S. F.</firstname>
+        <surname>Railsback</surname>
+      </author>
+      <author>
+        <firstname>B. C.</firstname>
+        <surname>Harvey</surname>
+      </author>
+    </authorgroup>
+    <citetitle>Individual-based Model Formulation for Cutthroat Trout,
+      Little Jones Creek, California</citetitle> 
+    
+    <contractsponsor>U.S. Forest Service, Redwood Sciences
+      Laboratory, Arcata, CA.</contractsponsor>
+    <pubdate>(in preparation)</pubdate>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Railsback:2000b</abbrev>
+    <authorgroup>
+      <author>
+        <firstname>S. F.</firstname>
+        <surname>Railsback</surname>
+      </author>
+      <author>
+        <firstname>B. C.</firstname>
+        <surname>Harvey</surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="article">Comparison of salmonid habitat
+      selection objectives in an individual-based model</citetitle>
+
+    <citetitle pubwork="journal">Ecology</citetitle>
+    <pubdate>January 2000 (in preparation)</pubdate>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Krone:1998b</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> O.  </firstname>
+          <surname> Krone  </surname>
+        </author>
+        <author>
+          <firstname> F.  </firstname>
+          <surname> Chantemargue  </surname>
+        </author>
+        <author>
+          <firstname> T.  </firstname>
+          <surname> Dagaeff  </surname>
+        </author>
+        <author>
+          <firstname> M.  </firstname>
+          <surname> Schumacher  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"> Coordinating Autonomous Entities with STL </citetitle>
+
+      <citetitle pubwork="journal">The Applied Computing Review</citetitle>
+      <bibliomisc>Special issue on Coordination Models Languages and Applications</bibliomisc>
+      
+      <pubdate>1998 (to appear)</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Kreft:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Jan-Ulrich  </firstname>
+          <surname> Kreft  </surname>
+        </author>
+        <author>
+          <firstname> Ginger  </firstname>
+          <surname> Booth  </surname>
+        </author>
+        <author>
+          <firstname> Julian W. T.  </firstname>
+          <surname> Wimpenny  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"><ulink
+      url="http://www.eeb.yale.edu/ginger/bacillus/paper.html">BacSim,
+      a simulator for individual-based modelling of bacterial colony
+      growth</ulink></citetitle>
+
+      <citetitle pubwork="journal">Microbiology</citetitle>
+      <pagenums>3275 - 3287</pagenums>
+      <volumenum> 144 </volumenum>
+      <pubdate> 1998 </pubdate>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Schretzenmayr:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Martina  </firstname>
+          <surname> Schretzenmayr  </surname>
+          <affiliation>
+            <orgname>Eidgenoessische Technische Hochschule (Swiss
+              Federal Institute of Technology)</orgname> <address
+                                                                format="linespecific"><city>Zurich</city><country>Switzerland</country>
+              <email>schretzenmayr@orl.arch.ethz.ch</email>
+            </address>
+          </affiliation>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="manuscript"> Strategien zur Umnutzung von
+        grossflaechigen innerstaedtischen Industrie- und
+        Gewerbebrachen (Strategies for the redevelopment of
+        large-scale inner city industrial sites) </citetitle>
+
+      <pubsnumber>PhD Thesis, ETH No. 12473, in German</pubsnumber>
+      <pubdate> 1998 </pubdate>
+
+      <abstract><para> This work examines the redevelopment of
+          large-scale inner city brownfield sites using case studies
+          of five German and two Swiss sites. Special emphasis is
+          placed on the suitability of different planning strategies
+          for redeveloping brownfield sites. It could be shown, that
+          the control mechanism of stage-wise planning, which is
+          normally used for the development of greenfield sites,
+          becomes ineffective for brownfield sites because every
+          parcel of an industrial or commercial site is available for
+          immediate redevelopment Despite the inadequacies of
+          stage-wise planning, this approach was the most commonly
+          observed in the case studies. The examination of the case
+          study sites has revealed that the redevelopment of
+          industrial sites tends to be concentrated around the edges
+          of the sites and also around parcels which are made
+          especially attractive by their accessibility to
+          transportation (e.g. near subway stations). Furthermore,
+          parcels near so-called &quot;facilities with surplus
+          importance&quot; are preferred. &quot;Facilities with
+          surplus importance&quot; refer to those facilities which can
+          serve as seeds for the attachment of facilities with similar
+          or associated uses (multiplier effect). Examples include
+          technology transfer facilities or recreational and cultural
+          facilities which might encourage the development of nearby
+          hotels and restaurants. A hypothesis formulated at the
+          beginning of this work proved to be appropriate for the
+          redevelopment of brownfield sites. This strategy aims to
+          establish &quot;facilities of surplus importance&quot; at
+          suitable locations in the interior of the site. These points
+          will then serve as &quot;condensation nuclei&quot;. The
+          &quot;condensation nuclei&quot; should be placed at
+          intersections of public and private transportation links in
+          order to exploit available access routes. Public
+          transportation, especially rail transport, should have high
+          priority as an investment for the future of the site. The
+          redevelopment process will be initiated at the
+          &quot;condensation nuclei&quot; and will grow from these to
+          cover the whole site. Placing such &quot;condensation
+          nuclei&quot; adjacent to traffic intersections guarantees
+          access to new buildings and facilities and ensures that new
+          modes of public transportation will be fully utilized - even
+          in the very beginning of the redevelopment process. The
+          proposed strategy has been tested using a multi-agent
+          simulation of complex systems (Swarm) and could be
+          verified. Finally, after analyzingq the planning process of
+          the surveyed case studies, this work formulates
+          recommendations for the execution of redevelopment projects.
+        </para></abstract> 
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Villa:1998</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> F.  </firstname>
+          <surname> Villa  </surname>
+        </author>
+        <author>
+          <firstname> R.  </firstname>
+          <surname> Costanza  </surname>
+        </author>
+      </authorgroup>
+
+      <citetitle pubwork="article"><ulink
+      url="http://kabir.cbl.umces.edu/~villa/sni/paper">Design of
+      multi-paradigm integrating modeling tools for ecological
+      research </ulink></citetitle>
+
+      <citetitle pubwork="journal">Journal of Environmental Modelling and Software</citetitle>
+      <bibliomisc>multi-paradigm ecological modelling, remote simulation control, simulation interface design, model coordination, Swarm</bibliomisc>
+      <pubdate>1998 (submitted)</pubdate>
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>McMullin:1997b</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Barry  </firstname>
+          <surname> McMullin  </surname>
+        </author>
+      </authorgroup>
+    <citetitle pubwork="article"><ulink
+      url="http://www.santafe.edu/sfi/publications/Working-Papers/97-01-002">SCL:
+      An Artificial Chemistry in Swarm</ulink></citetitle>
+      <pubsnumber>SFI Working Paper 97-01-002</pubsnumber>
+      <pubdate>January 1997</pubdate>
+      
+      <abstract><para> This report describes the SCL (v0.04)
+          system. This is an implementation of an artificial
+          chemistry, using the Swarm simulation system. This chemistry
+          is qualitatively based on the system first described in
+          Varela et al. (1974). This involves three distinct chemical
+          species: Substrate, Catalyst and Link, hence SCL. It was
+          designed with a view to generating simple phenomena of
+          autopoietic organisation. Varela et al. included a detailed
+          algorithmic account of their original model; however, as
+          documented in (McMullin 1997), there are a number of
+          problems with interpreting and/or re-implementing that
+          algorithm. Arising from this, that original algorithm was
+          essentially set aside in designing SCL; instead, SCL seeks
+          to capture only the general, qualitative, reaction schemes
+          described by Varela et al. SCL was developed for two
+          separate purposes. Firstly, it provides a platform to
+          critically re-evaluate the phenomena--particularly
+          autopoietic phenomena--that can be realised with this
+          general kind of reaction scheme. That phenomenological
+          investigation will be described in a separate report. The
+          second objective was to gain experience of the Swarm
+          simulation system and evaluate its suitability for this kind
+          of project. This report is concerned solely with this second
+          objective: i.e. with documenting the implementation, and
+          with evaluating the use of Swarm.  </para></abstract>
+    </biblioentry>
+    
+    <biblioentry>
+<abbrev>Krone:1998a</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> O.  </firstname>
+          <surname> Krone  </surname>
+        </author>
+        <author>
+          <firstname> F.  </firstname>
+          <surname> Chantemargue  </surname>
+        </author>
+        <author>
+          <firstname> T.  </firstname>
+          <surname> Dagaeff  </surname>
+        </author>
+        <author>
+          <firstname> M.  </firstname>
+          <surname> Schumacher  </surname>
+        </author>
+        <author>
+          <firstname> B.  </firstname>
+          <surname> Hirsbrunner  </surname>
+        </author>
+      </authorgroup>
+      <pagenums> 149-158 </pagenums>
+
+      <citetitle pubwork="article"> Coordinating Autonomous Entities </citetitle>
+      <confgroup>
+        <conftitle>Proceedings of the ACM Symposium on Applied
+          Computing (SAC'98). Special Track on Coordination, Languages
+          and Applications</conftitle>
+        <confdates>February 27 - March 1 1998</confdates>
+
+        <address
+                 format="linespecific"><city>Atlanta</city><state>Georgia</state><country>USA</country></address>
+        
+      </confgroup>
+    </biblioentry>
+
+    <biblioentry>
+<abbrev>Savit:1997</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> Robert  </firstname>
+          <surname> Savit  </surname>
+        </author>
+        <author>
+          <firstname> Radu  </firstname>
+          <surname> Manuca  </surname>
+        </author>
+        <author>
+          <firstname> Rick  </firstname>
+          <surname> Riolo  </surname>
+        </author>
+      </authorgroup>
+      <citetitle pubwork="article"><ulink
+                                          url="http://xxx.lanl.gov/abs/adap-org/9712006">Adaptive
+      Competition, Market Efficiency, Phase Transitions and
+          Spin-Glasses</ulink> </citetitle>
+      
+      <pubsnumber>LANL Eprint archives paper adap-org/9712006</pubsnumber>
+      <pubdate> 1998 </pubdate>
+    </biblioentry>
+
+    <biblioentry>
+    <abbrev>Krothapalli:1998a</abbrev>
+      <authorgroup>
+        <author>
+          <firstname> N.K.C.  </firstname>
+          <surname> Krothapalli  </surname>
+        </author>
+        <author>
+          <firstname> A. V.  </firstname>
+          <surname> Deshmukh  </surname>
+        </author>
+    </authorgroup>
+    
+      <citetitle pubwork="article"> Self-regulating negotiating
+        schemes for robust agent--based manufacturing systems
+        </citetitle>
+      <confgroup>
+        <conftitle>Proceedings of the Seventh Industrial Engineering
+        Research Conference</conftitle>
+        <confdates>1998</confdates>
+      </confgroup>
+      
+      <abstract><para> Agent-based manufacturing systems offer several
+          advantages over hierarchically organized systems. However,
+          performance of agent-based systems has been a major concern
+          which has hampered widespread acceptance of these
+          systems. Several researchers have noted that the performance
+          of agent-based systems is highly sensitive to the bidding or
+          negotiation protocols used. In this paper, we study the
+          robustness of system performance measures with respect to
+          the negotiation protocols used by the individual agents. We
+          propose self-regulating negotiation schemes which prevent
+          the agents from ``price'' or ``utility'' cascades. The core
+          of the self-regulatory mechanism lies in a dynamic utility
+          curve, which is based on the current state and the past
+          history of the agent.  </para></abstract>
+    </biblioentry>
+    <biblioentry>
+      <abbrev>Pepper:2000</abbrev>
+      <author>
+	<firstname>John</firstname>
+	<surname>Pepper</surname>
+      </author>
+      <citetitle pubwork="article"><ulink url="http://homepages.feis.herts.ac.uk/~nehaniv/al7ev/pepper.ps">The evolution of modularity in genome architecture</ulink></citetitle>
+      <confgroup>
+	<conftitle><ulink url="http://www.cs.herts.ac.uk/~nehaniv/al7ev/cnts.html">Evolvability workshop</ulink> at <ulink url="http://alife7.alife.org">Artificial Life VII</ulink></conftitle>
+	<confdates>1-2 August 2000</confdates>
+	<address format="linespecific">
+          <otheraddr>Reed College</otheraddr>
+          <city>Portland</city> <state>Oregeon</state>
+       </address>
+      </confgroup>
+    </biblioentry>
+    <biblioentry>
+      <abbrev>Savage:2000</abbrev>
+      <authorgroup>
+	<author>
+	  <firstname>Melissa</firstname>
+	  <surname>Savage</surname>
+	</author>
+	<author>
+	  <firstname>Bruce</firstname>
+	  <surname>Sawhill</surname>
+	</author>
+	<author>
+	  <firstname>Manor</firstname>
+	  <surname>Askenazi</surname>
+	</author>
+      </authorgroup>
+      <citetitle pubwork="article">Community Dynamics: What Happens
+      When We Rerun the Tape?</citetitle>
+      <citetitle pubwork="journal">Journal of Theoretical Biology</citetitle>
+      <pagenums>515-526</pagenums>
+      <volumenum>205</volumenum>
+      <issuenum>4</issuenum>
+      <pubdate>2000</pubdate>
+    </biblioentry>
+
+    <biblioentry>
+      <abbrev>Terna:2000c</abbrev>
+      <authorgroup>
+	<author>
+	  <firstname>P.</firstname>
+	  <surname>Terna</surname>
+	</author>
+      </authorgroup>
+      <citetitle pubwork="article">Economic Experiments with Swarm: a Neural Network Approach to the Self-Development of Consistency in Agents' Behavior</citetitle>
+      <biblioset relation="book">
+        <citetitle pubwork="book">Economic Simulations in Swarm: Agent-Based Modelling and Object Oriented Programming</citetitle>
+        <authorgroup>
+          <editor>
+            <firstname>F.</firstname>
+            <surname>Luna</surname>
+          </editor>
+          <editor>
+            <firstname>B.</firstname>
+            <surname>Stefansson</surname>
+          </editor>
+        </authorgroup>
+        <publisher>
+          <publishername>Dordrecht and London, Kluwer Academic</publishername></publisher>
+        <pubdate>2000</pubdate>
+      </biblioset>
+      <abstract><para>We underline the usefulness of agent based models in the social science perspective, also focusing on the main computational problems due to the structure of our models: to simplify the task we introduce a generalized Environment-Rules-Agents scheme. Finally, within Swarm, we introduce a neural network tool (Cross Target method), useful in building artificial laboratories, for experiments with learning, self-developed consistency and interaction of agents in artificial worlds, in order to observe the emergence of complexity without a priori behavioral rules.</para></abstract>
+    </biblioentry>
+    <biblioentry>
+      <abbrev>Terna:2000d</abbrev>
+      <authorgroup>
+	<author>
+	  <firstname>P.</firstname>
+	  <surname>Terna</surname>
+	</author>
+      </authorgroup>
+      <citetitle pubwork="article">The "mind or no mind" dilemma in agents behaving in a market</citetitle>
+      <biblioset relation="book">
+        <citetitle pubwork="book">Applications of Simulation to Social Sciences</citetitle>
+        <authorgroup>
+          <editor>
+            <firstname>G.</firstname>
+            <surname>Ballot</surname>
+          </editor>
+          <editor>
+            <firstname>G.</firstname>
+            <surname>Weisbuch</surname>
+          </editor>
+        </authorgroup>
+        <publisher>
+          <publishername>Paris, Hermes Science Publications</publishername></publisher>
+        <pubdate>2000</pubdate>
+      </biblioset>
+      <abstract><para>In computer simulation models based upon agents, what is the degree of sophistication that we have to put into the agents? Should we provide them or not with a "mind"? The answer ranges from Axelrod's simplicity principle to the use of full BDI (Beliefs, Intentions, Desires) cognitive agents. To discuss the subject we introduce here three models: one with "no-mind" agents that operate in an unstructured market, the second with "minded" agents assuring some stability to an emerging unstructured market and, finally, the third with no mind agents, that show a sophisticated outcome in a structured market. No generalised results come from this presentation, but many useful doubts.</para></abstract>
+     </biblioentry>
+     <biblioentry id="polhill2001">
+     <abbrev>Polhill:2001</abbrev>
+     <citetitle>Imitative versus nonimitative strategies in a land-use simulation</citetitle>
+     <authorgroup>
+     <author>
+     <firstname>J. G.</firstname>
+     <surname>Polhill</surname>
+     </author>
+     <author>
+     <firstname>N. M.</firstname>
+     <surname>Gotts</surname>
+     </author>
+     <author>
+     <firstname>A. N. R.</firstname>
+     <surname>Law</surname>
+     </author>
+     </authorgroup>
+     <pubdate>2001</pubdate>
+     <citetitle pubwork="journal">Cybernetics and Systems</citetitle>
+     <volumenum>32</volumenum>
+     <issuenum>1-2</issuenum>
+     <pagenums>285-307</pagenums>
+     <abstract>
+<para>
+This article describes results from a simulation model of rural land use,
+focusing on how the relative advantages of imitative and nonimitative
+approaches to land use selection change under different circumstances. It
+is shown that the success of "imitation" depends in quite complex ways
+on the type of imitation used, the strategies of other agents with which
+the imitator is interacting, and aspects of the heterogeneity of the
+environment.
+</para>
+</abstract>
+     </biblioentry>
+
+  <biblioentry id="Coyle:2001">
+  <abbrev>Coyle:2001</abbrev>
+  <citetitle><ulink url="http://www.cs.tcd.ie/Lorcan.Coyle/FYP/DESwarm.pdf">Demonstrating Darwinian Evolution Using Swarm</ulink></citetitle>
+  <authorgroup>
+  <author>
+    <firstname>Lorcan</firstname>
+    <surname>Coyle</surname>
+  </author>
+  </authorgroup>
+  <pubdate>May 2001</pubdate>
+  <abstract>
+  <para>This report details the design and implementation of an artificial world that demonstrates Darwinian evolution.  This is done using an agent based modellingtool called Swarm.  This world is populated with hundreds of agents that compete with one another to survive.  Their behavioural attributes are coded into their genes.  The initial population consists of individuals with randomly coded genes.  It is hoped that by exerting Darwinian evolution on this, a population of agents, optimally suited for survival in the world will emerge.</para>
+  </abstract>
+  </biblioentry>
+
+  </bibliodiv>
+</bibliography>
+
+<!--
+Local Variables:
+sgml-parent-document:("pubs.xml" "bibliography")
+End:
+-->
+

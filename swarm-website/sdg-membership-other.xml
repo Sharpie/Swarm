@@ -1,0 +1,118 @@
+<webpage navto="yes" id="sdg-membership-other">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:19 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Other support</title>
+    <abstract>
+      <para>Other ways of supporting the SDG</para>
+    </abstract>
+  </head>
+  
+  <formalpara><title>Sponsorships</title><para> Sponsoring
+      opportunities are open to any company, organization, or
+      individual seeking to be recognized for supporting the
+      <acronym>SDG</acronym>.  Sponsors will receive recognition on
+      the <acronym>SDG</acronym> web-site and through other
+      <acronym>SDG</acronym> communications and events depending of
+      the level of sponsorship.</para></formalpara>
+  
+  <formalpara><title>In-kind donations</title><para> Groups and
+      individuals contributing code to the core Swarm package,
+      contributing text to the Swarm documentation, supplying
+      equipment, and/or contributing to the running of the Swarm
+      Development Group are eligible for discounted membership
+      prices.</para></formalpara>
+
+  <formalpara>
+    <title>Gifts, grants and contributions</title> <para>Gifts, grants
+    and other contributions will be greatly appreciated.</para>
+  </formalpara>
+  
+<!--  <table id="other-support">
+    <title></title>
+    <tgroup cols="1">
+      <thead>
+        <row>
+          <entry>Public access (free of charge)
+            <footnote>
+              <para> Swarm and Swarm documentation is available under
+                the GPL/LGPL licenses</para>
+            </footnote>
+          </entry>
+        </row>
+      </thead>      
+      <tbody>
+        <row>
+          <entry>downloading of Swarm and Swarm source</entry>
+        </row>
+        <row>
+          <entry>downloading of Swarm applications</entry>
+        </row>
+        <row>
+          <entry>downloading of Swarm documentation</entry>
+        </row>
+        <row>
+          <entry>access and sending to existing support mailing lists</entry>
+        </row>
+      </tbody>
+    </tgroup>
+    <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>Merchandise prices</entry>
+          <entry>&nbsp;</entry>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <entry>  CD rom releases</entry>
+          <entry>$20 </entry>
+        </row>
+        <row>
+          <entry>  CD rom upgrades</entry>
+          <entry>$20 </entry>
+        </row>
+        <row>
+          <entry>  User Manual (hardcopy)</entry>
+          <entry>$20 </entry>
+        </row>
+        <row>
+          <entry>  User Guide (hardcopy)</entry>
+          <entry>$20 </entry>
+        </row>
+        <row>
+          <entry>  User Tutorials (hardcopy)</entry>
+          <entry>$20 </entry>
+        </row>
+        <row>
+          <entry>  Tshirts</entry>
+          <entry>$15 </entry>
+        </row>
+        <row>
+          <entry>  Caps</entry>
+          <entry>$10 </entry>
+        </row>
+        <row>
+          <entry>  Mugs</entry>
+          <entry>$8 </entry>
+        </row>
+        <row>
+          <entry>  Swarm support (per hour)</entry>
+          <entry>$50 </entry>
+        </row>
+        <row>
+          <entry> Subscription to proceedings etc.</entry>
+          <entry>$50 </entry>
+        </row>
+      </tbody>
+    </tgroup>
+  </table>
+-->
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("brochure.xml" "webpage")
+End:
+-->

@@ -1,0 +1,75 @@
+<webpage navto="yes" id="release">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:17 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Software</title>
+    <abstract>
+      <para>The current Swarm software release (&VERSION;)</para>
+    </abstract>
+  </head>
+  
+  <para>Welcome to the Swarm release, currently we have:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para><link linkend="release-swarm">Stable release: &VERSION;</link></para>
+    </listitem>
+    
+    <listitem>
+      <para>An unstable, development <link
+	linkend="release-swarm-snapshot">"snapshot"</link>.</para>
+    </listitem>
+  </itemizedlist>
+
+  <section>
+    <title>Which version should I get?</title>
+
+    <para>The development snapshot is the only release which we are
+  currently actively maintaining, and is the only version that we make
+  bugfixes in.  Swarm 2.1.1 was released on 10 April 2000, and is now
+  over two years old.  It is recommended that for serious development
+  most people should attempt to download and install the latest <link
+  linkend="release-swarm-snapshot">development snapshot</link>.</para>
+
+    <para>Casual users who simply want to test drive Swarm and the
+  demo applications should probably install a <link
+  linkend="release-packaged">stable binary
+  package</link>.</para>
+
+  <tip> <para>Swarm is divided into three main pieces: source,
+   documentation, and applications.  They are each bestowed version
+   numbers that are independently increased except for major releases
+   of the source.  The version map right now is:
+
+      <programlisting format="linespecific">source: &VERSION;
+docs: &VERSION;
+apps: &VERSION;
+        heatbugs: &VERSION;
+        template: &VERSION;
+          market: &VERSION;
+       mousetrap: &VERSION;
+        tutorial: &VERSION;
+     hello-world: &VERSION;</programlisting>
+</para>
+
+  </tip>
+
+  </section>
+
+  &release-swarm;
+  &release-swarm-snapshot;
+  &release-apps;
+  &release-docs;
+  &release-platforms;
+  &release-mirrors;
+  &release-license;
+
+  <!--&examples; -->
+  
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

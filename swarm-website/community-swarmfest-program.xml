@@ -1,0 +1,22 @@
+<webpage id="community-swarmfest-program">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+    <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Program</title>
+  </head>
+
+  <para>The schedule is now full, for any question/comments related to
+  SwarmFest 2001, please e-mail:
+  <email>swarmfest2001@swarm.org</email>.  </para>
+
+  <para>Printed versions of the program and abstracts are available in <ulink url="swarmfest2001.ps">PostScript</ulink> and <ulink url="swarmfest2001.pdf">PDF</ulink>.</para>
+
+ &_community-swarmfest-program;
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("community-swarmfest.xml" "webpage")
+End:
+-->

@@ -1,0 +1,124 @@
+<webpage navto="yes" id="release-platforms">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:16 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Platforms</title>
+    <abstract>
+      <para>The primary platforms for which Swarm is supported are
+        Solaris running on a Sun Sparc, GNU/Linux running on an Intel
+        386 and up and Windows NT.  However, we currently have users
+        running Swarm on platforms such as GNU/Linux on a PowerPC,
+        HP/UX, DEC Alpha and SGI.  This page is the clearing house for
+        information on the various platforms.</para>
+    </abstract>
+  </head>
+
+  <sect1>
+    <title>GNU/Linux</title>
+
+    <para>GNU/Linux is a freely available Unix-like operating system
+      that provides the default operating system for Unix applications
+      running on small personal computers, including Macintosh (See
+      the MkLinux note below).  It is the easiest operating system
+      with which to run Swarm because the distributions usually
+      provide the latest versions of the Swarm support software
+      pre-installed (which means that one need not install GCC, X, or
+      Tcl/Tk by hand).  It is also turning out to be one of the best
+      Unix-like operating systems to use because there are many
+      avenues for help and many users out there who have dealt with
+      esoteric situations and configurations, thereby making it very
+      well supported.  <ulink
+      url="http://www.debian.org">Debian</ulink> and <ulink
+      url="http://www.redhat.com">Redhat</ulink> are two excellent
+      GNU/Linux distributions.</para>
+      
+    <sect2>
+      <title>LinuxPPC: this information is currently outdated</title> 
+
+      <para><ulink url="http://www-scf.usc.edu/~dhiga/">Darold
+          Higa</ulink> of the University of Southern California has
+          provided a step-by-step guide for installing <ulink
+          url="http://www-scf.usc.edu/~dhiga/swarm.html">Swarm on the
+          Mac</ulink> using the <ulink
+          url="http://www.linuxppc.org">LinuxPPC</ulink> distribution.
+          The notes refer to Swarm 1.4.1.  Thanks Darold!</para>
+      
+    </sect2>
+    
+    <sect2>
+      <title>Other useful GNU/Linux related-sites</title>
+      <itemizedlist>
+        <listitem><para><ulink
+            url="http://lark.cc.ukans.edu/~pauljohn/linux/Linux.html">
+            Linux &amp; Swarm</ulink></para></listitem>
+
+        <listitem><para><ulink url="http://www.linuxnow.com/">Linux Now</ulink></para></listitem>
+        <listitem><para><ulink url="http://SAL.KachinaTech.COM/">Scientific Apps for Linux</ulink></para></listitem>
+        <listitem><para><ulink url="http://www.xnet.com/~blatura/linapps.shtml">Linux Apps</ulink></para></listitem>
+        <listitem><para><ulink url="http://www.kaffe.org">Kaffe (a free JDK for Linux)</ulink></para></listitem>
+        <listitem><para><ulink url="http://www.blackdown.org">Blackdown Sun JDK Linux port</ulink></para></listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+
+ <sect1>
+  <title>MacOS X</title>
+  
+  <para>Bill Northcott has ported the CVS development snapshot of
+   Swarm to MacOS X, binaries (and README files) are available at: <ulink
+    url="http://savannah.nongnu.org/files/?group=swarm">http://savannah.nongnu.org/files/?group=swarm</ulink>.
+
+  </para>
+ </sect1>
+  
+  <sect1>
+    <title>HP/UX</title>
+           
+    <para>Swarm 2.0 is known to run on HPUX 9, 10, and 11.  Java users
+      of Kaffe will need this <ulink
+      url="&ftpNeededSrc;diffs/kaffe/hpux.diff">libltdl
+      patch</ulink>.  Also, to avoid a linker bug, build gcc-2.95 with
+      this <ulink
+      url="&ftpNeededSrc;diffs/gcc-objc.diff">compiler
+      patch</ulink> to <filename>gcc/objc/objc-act.c</filename>
+    </para>
+  </sect1>
+
+  <sect1>
+    <title>IRIX</title>
+          
+    <para>We have reports from some successful users of Swarm on SGIs
+      in the following configurations:
+      <itemizedlist>
+        <listitem><para>SGI Origin 200, IRIX 6.4, GCC 2.7.2.2 w/old_ld
+            configured for IRIX 5.3</para>
+        </listitem>
+        <listitem><para> IRIX 5.3, GCC 2.7.2.1</para>
+        </listitem>
+        <listitem><para> IRIX 6.4 GCC 2.8</para>
+        </listitem>
+        <listitem><para> IRIX 6.5 GCC 2.95.1</para>
+        </listitem>
+      </itemizedlist>
+
+      Note that IRIX users need to install libffi, and configure Swarm
+      with the <option>--with-ffidir</option> option.
+    </para>
+  </sect1>
+
+  <sect1>
+    <title>Windows 95/98, NT 4.0, and Windows 2000</title>
+
+    <para>Kaffe requires a <ulink
+    url="&ftpNeededSrc;diffs/kaffe/w32.diff">libltldl
+    patch</ulink> to load Swarm libraries.</para>
+  </sect1>
+  
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+
+

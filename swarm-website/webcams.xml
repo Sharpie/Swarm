@@ -1,0 +1,33 @@
+<webpage navto="yes" id="webcams">
+  <config class="html" param="banner" value="graphics/sdg.jpeg"/>
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:24 $"/> 
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Webcams</title>
+    <abstract>
+      <para>Active webcams of the Swarm Development Group</para>
+    </abstract>
+  </head>
+
+  <para>Pictures around and about the SDG facilities</para>
+
+  <webtoc/>
+  
+  <para>
+  View from Marcus' office at the Santa Fe Institute (north campus)
+  </para>
+  <para>
+  <inlinegraphic fileref="webcams/webcam2.jpeg"/>
+  </para>
+  <para>
+  Machine room at the Swarm Development Group
+  </para>
+  <para>
+  <inlinegraphic fileref="webcams/webcam1.jpeg"/>
+  </para>
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->

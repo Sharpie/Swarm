@@ -1,0 +1,99 @@
+<webpage navto="yes" id="intro-papers">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:13 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Papers</title>
+    <abstract>
+      <para>Technical papers dealing with Swarm internals and design,
+        and white papers describing Swarm's motivation, philosophy and
+        future directions.</para>
+    </abstract>
+  </head>
+
+  <simplesect>
+    <title>Recent papers</title>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink
+        url="http://www.santafe.edu/~mgd/anl/anlchicago.html"><citetitle>Integrating
+        Simulation Technologies with Swarm</citetitle></ulink> a paper
+        delivered to the "Agent Simulation: Applications, Models and
+        Tools" conference held at University of Chicago in October of
+        1999.</para>
+      </listitem>
+
+     <listitem>
+      <para><ulink url="http://www.santafe.edu/~mgd/swarmfest2000/performance.html"><citetitle>Writing fast models in Swarm</citetitle></ulink> a paper delivered at SwarmFest 2000.</para></listitem>
+
+     <listitem>
+      <para><ulink url="http://www.santafe.edu/~mgd/lanl/framework.html"><citetitle>An open framework for agent-based modeling</citetitle></ulink> slides for a talk delivered at "Applications of Multi-Agent Systems in Defense Analysis", a workshop held at Los Alamos National Labs in April 2000.</para></listitem>
+
+     <listitem>
+       <para><ulink url="http://www.swarm.org/alife7/img0.htm"><citetitle>Next Generation Swarm</citetitle></ulink> slides for a talk delivered at the Artificial Life VII conference on August 3rd, 2000</para></listitem>
+
+     <listitem>
+       <para><ulink url="http://www.santafe.edu/~mgd/banff/banff.htm"><citetitle>Swarm and COM</citetitle></ulink> slides for the integration workshop at the GIS/EM4 conference on September 2nd, 2000</para></listitem>
+
+    </itemizedlist>
+  </simplesect>
+
+  <simplesect>
+    <title>Older papers</title>
+
+    <para>(reverse chronological order)</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>An <ulink url="archive/oopsla97.ps">OOPSLA '97 position
+          paper</ulink> on summarizing the schedules of activity in
+          the Swarm simulation
+          system. <emphasis>(Postscript)</emphasis> </para>
+      </listitem>
+      
+      <listitem>
+        <para>Most recent <citation>Minar:1996</citation> overview
+        <ulink url="archive/overview.ps">paper</ulink>
+        <emphasis>(Postscript)</emphasis>.</para>
+      </listitem>
+      
+      <listitem>
+        <para>An<ulink url="archive/oopsla95.html"> OOPSLA '95 position
+            paper</ulink> on create-phase customization as used by Swarm
+          libraries. </para>
+      </listitem>
+
+      <listitem>
+        <para>A 1995 <ulink url="archive/swarmdoc.ps">overview
+            paper</ulink> <emphasis>(Postscript)</emphasis> (draft
+            version of 1996 paper).</para>
+      </listitem>
+      
+      <listitem>
+        <para>An <ulink url="archive/oopsla94.html">OOPSLA '94 position
+            paper</ulink> on the concurrent object model
+          implemented by Swarm. </para>
+      </listitem>
+      
+      <listitem>
+        <para>A <emphasis>very early</emphasis> 1994 <ulink url="archive/swarm-blurb.ps">overview</ulink> <emphasis>(Postscript)</emphasis>
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>David Hiebeler's 1994 <ulink
+          url="http://cam.cornell.edu/~hiebeler/swarm-paper.html">paper</ulink>
+          describing the original (pre-Objective C) prototype of Swarm
+          and the use of individual-based modeling in ecology and
+          other fields.</para>
+      </listitem>
+    </itemizedlist>
+  </simplesect>
+ 
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

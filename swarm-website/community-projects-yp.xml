@@ -1,0 +1,134 @@
+<webpage navto="yes" id="community-projects-yp">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Projects Yellow Pages</title>
+    <abstract>
+      <para>Projects either existing, or starting up, requiring Swarm
+      programmers</para>
+    </abstract>
+  </head>
+
+  &yellow-pages-disclaimer;
+
+  <formalpara>
+    <title>Legend</title>
+    <para>
+      <firstterm role="active-jobs">Means project is seeking programmers.
+      </firstterm></para>
+  </formalpara>
+
+  <para>
+    <segmentedlist>
+      <segtitle>Topic</segtitle>
+      <segtitle>Sector</segtitle>
+      <segtitle>Location</segtitle>
+      <segtitle>Dates</segtitle>
+      <segtitle>Coordinators/Principal Investigator (PI)</segtitle>
+      <segtitle>Number of programmers needed</segtitle>
+      <segtitle>Swarm experience required</segtitle>
+      <segtitle>Additional software experience required</segtitle>
+      <segtitle>Contact email</segtitle>
+      <segtitle>Contact address</segtitle>
+
+      <seglistitem role="no-active-jobs">
+        <seg>Engineered Systems</seg>
+        <seg>Academia</seg>
+        <seg>Palo Alto, CA</seg>
+        <seg>current</seg>
+        <seg>Eric Byler</seg>
+        <seg>0 </seg>
+        <seg>0</seg>
+        <seg>0</seg>
+        <seg><email>eric.a.byler@lmco.com</email></seg>
+      </seglistitem>
+
+      <seglistitem role="no-active-jobs">
+        <seg>Evolutionary theory</seg>
+        <seg>Academia </seg>
+        <seg>Santa Fe Institute</seg>
+        <seg>currently active (10/99)</seg>
+        <seg>John Pepper</seg>
+        <seg>(I need some, but I can't pay them!)</seg>
+        <seg>N/A</seg>
+        <seg>N/A</seg>
+        <seg><email>jpepper@santafe.edu</email></seg>
+      </seglistitem>
+
+      <seglistitem role="active-jobs">
+        <seg>An Agent-Based Model of Political Party
+          Formation/Political Science</seg>
+        <seg>Academia</seg>
+        <seg>UCLA Political Science Department</seg>
+        <seg>August 1, 1999-October 18, 1999 [version 1.0 completed]</seg>
+        <seg>Darren Schreiber</seg>
+        <seg>1</seg>
+        <seg>2 classes at UCLA, plus 1 summer of intensive work in Swarm</seg>
+        <seg>none</seg>
+        <seg><email>dschreib@ucla.edu</email></seg>
+      </seglistitem>
+
+     <seglistitem role="active-jobs">
+        <seg>An Update on Schelling</seg>
+        <seg>Academia</seg>
+        <seg>Empirical Research Group - UCLA</seg>
+        <seg>July 1, 1999 - Present</seg>
+        <seg>Richard Sander, Darren Schreiber</seg>
+        <seg>1</seg>
+        <seg>2 classes at UCLA, plus 1 summer of intensive work in Swarm</seg>
+        <seg>none</seg>
+        <seg><email>dschreib@ucla.edu</email></seg>
+      </seglistitem> 
+
+      <seglistitem role="no-active-jobs">
+        <seg>Interband and Intraband dynamics in a Great-Plains 
+          environment</seg>
+        <seg>Academia</seg>
+        <seg>UC Davis, Santa Rosa, CA</seg>
+        <seg>July 1999 - present</seg>
+        <seg>Daniel H. Calhoun, professor emeritus of history, UCDavis</seg>
+        <seg>0</seg>
+        <seg>N/A</seg>
+        <seg>N/A</seg>
+        <seg><email>buscador@sonic.net</email></seg>
+        <seg>P.O. Box 6846, Santa Rosa CA 95406.</seg>
+      </seglistitem>
+
+      <seglistitem role="no-active-jobs">
+        <seg>Individual-based modeling of fish and wildlife
+          communities</seg>
+        <seg>Commercial (with clients and collaborators in  academia
+          and government)</seg>
+        <seg>Arcata, CA</seg>
+        <seg>1997-present</seg>
+        <seg>Steve Railsback</seg>
+        <seg>0</seg>
+        <seg>N/A</seg>
+        <seg>N/A</seg>
+        <seg><email>lra@northcoast.com</email></seg>
+        <seg>250 California Ave. Arcata, CA 95521.</seg>
+      </seglistitem>
+
+      <seglistitem role="no-active-jobs">
+        <seg>Electric Power and Natural Gas Infrastructure Interdependency Analysis</seg>
+        <seg>Government</seg>
+        <seg>Argonne National Laboratory, Chicago, IL</seg>
+        <seg>January 1998 - present</seg>
+        <seg>Charles Macal, Ph.D., and Michael North</seg>
+        <seg>0</seg> 
+        <seg>N/A</seg>
+        <seg>N/A</seg>
+        <seg><email>north@anl.gov</email></seg>
+        <seg>9700 S. Cass Ave., Argonne, IL 60439</seg>
+       </seglistitem>
+    </segmentedlist>
+  </para>
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

@@ -1,0 +1,59 @@
+<webpage navto="yes" id="contact">
+  <config class="html" param="banner" value="contact_us-tab.png"/>
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:12 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Contact Us!</title>
+    <abstract>
+      <para>E-mail and contact information</para>
+    </abstract>
+  </head>
+
+ <sidebar>
+  <title>For SDG membership information, including membership payment, please contact:</title>
+
+  <address>
+   <affiliation>
+    <orgname>Swarm Development Group, Finance Office</orgname>
+   </affiliation>
+   c/o <firstname>Christine</firstname> <surname>Muongchanh</surname>
+   <affiliation>
+    <orgname>University of Washington</orgname>    
+    <orgdiv> Columbia Basin Research</orgdiv>
+   </affiliation>
+   <street>1325 4th Avenue, Suite 1820</street>
+   <city>Seattle</city> <state>WA</state> <postcode>98101</postcode>
+   <country>USA</country>
+  </address>
+
+  <para>Note: we now accept payments through <ulink url="http://paypal.com">paypal.com</ulink> with <literal>swarm at swarm.org</literal> as the contact address.</para>
+ </sidebar>
+ 
+ <sidebar>
+  <title>For further information on the SDG, SDG board, please contact our non-profit registered address:</title>
+  <address format="linespecific">
+   
+   <affiliation>
+    <orgname>Swarm Development Group</orgname>
+   </affiliation>
+   <pob>P. O. Box 31278</pob>
+   <city>Santa Fe</city>, <state>New Mexico</state> <postcode>87594-1278</postcode>
+   <phone>(505) 984-0622</phone>
+   <country>USA</country>
+
+<!--
+      <street>10550 E. Zayante Rd.</street>
+      <city>Felton, </city><state>CA </state><postcode>95018</postcode>
+      <email>swarm@swarm.org</email>
+      <phone>ph: (505) 989-9001</phone> 
+
+-->
+    </address>
+  </sidebar>
+
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->

@@ -1,0 +1,26 @@
+<webpage navto="yes" id="resources">
+  <config class="html" param="banner" value="the_community-tab.png"/>
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:18 $"/> 
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Resources</title>
+    <abstract>
+      <para>Technical resources and references and links for further
+        explorations.</para>
+    </abstract>
+  </head>
+
+  <para> Here we've collected, technical resources to languages and
+    references and links for further explorations:</para>
+
+  <webtoc/>
+
+  &resources-other;
+  &resources-objc;
+
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->

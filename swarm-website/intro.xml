@@ -1,0 +1,38 @@
+<webpage navto="yes" id="intro">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:13 $"/>
+  <config class="html" param="banner" value="the_products-tab.png"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Swarm</title>
+    <abstract>
+      <para>A brief introduction to the Swarm Simulation System</para>
+    </abstract>
+  </head>
+
+  <para>Swarm is a software package for multi-agent simulation of
+    complex systems, originally developed at the &SFI;. Swarm is
+    intended to be a useful tool for researchers in a variety of
+    disciplines. The basic architecture of Swarm is the simulation of
+    collections of concurrently interacting agents: with this
+    architecture, we can implement a large variety of agent based
+    models.</para>
+
+  <para>The Swarm software is available to the general public under
+    <link linkend="release-license">GNU licensing terms</link>. Swarm
+    is experimental software, which means that it's complete enough to
+    be useful but will always be under development.</para>
+ 
+ <webtoc/>
+  
+  &examples;
+  &intro-papers;
+  &intro-tutorial;
+  &intro-people;
+  
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

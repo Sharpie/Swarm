@@ -1,0 +1,31 @@
+JADE = @JADE@
+XSLTPROC = @XSLTPROC@
+NSGMLS = @NSGMLS@
+JADETEX = @JADETEX@
+DVIPS = @DVIPS@
+PS2PDF = @PS2PDF@
+GZIP = gzip --best
+top_dossrcdir = @top_dossrcdir@
+
+JADEFLAGS = -V biblio-citation-check
+
+RUNJADE = $(JADE) $(JADEFLAGS)
+RUNNSGMLS = $(NSGMLS)
+CATOPTS = -c $(top_builddir)/catalog @catopts@
+
+RUNXT = CLASSPATH=$(subst jar ,jar:,$(addprefix $(top_srcdir)/java/, catalog.jar catalog-apps.jar xp.jar xt.jar)):$(CLASSPATH) java -Dxml.catalog.files=catalog  com.arbortext.xsl.sax.Driver
+
+## old driver: com.jclark.xsl.sax.Driver
+
+%.dvi: %.tex 
+	- $(JADETEX) $< ; $(JADETEX) $< ; $(JADETEX) $<
+
+%.ps: %.dvi
+	$(DVIPS) -o $@ $<
+
+%.pdf: %.ps
+	$(PS2PDF) $< $@
+
+# Local variables:
+# mode: Makefile
+# End:

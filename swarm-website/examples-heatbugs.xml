@@ -1,0 +1,85 @@
+<webpage navto="yes" id="examples-heatbugs">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:12 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Heatbugs</title>
+    <abstract>
+      <para><graphic fileref="graphics/heatbugs-worldthumb.png"/>A
+      synchronous, time-stepped model of local agents interacting
+      through the environment to create a complex global
+      behaviour.</para>
+    </abstract>
+  </head>
+  
+  <para>Heatbugs is one of our canonical Swarm demonstrations, an
+    example of how simple agents acting only on local information
+    can produce complex global behaviour. It's simply a toy, but a
+    nice demonstration of the concepts Swarm is about.</para>
+  
+    <para>
+    <figure float="0">
+      <title>The Heatbug world</title>
+        <screenshot>
+          <graphic fileref="graphics/heatbugs-worldhalf.png"/>
+        </screenshot>
+      </figure>
+      Each agent in this model is a heatbug.  The world has a spatial
+      property, heat, which diffuses and evaporates over time. In this
+      picture, green dots represent heatbugs, brighter red represents warmer
+      spots of the world.
+    </para>
+
+    <para>Each heatbug puts out a small amount of heat, and also has a
+      certain ideal temperature it wants to be. The system itself is a
+      simple time stepped model: each time step, the heatbug looks
+      moves to a nearby spot that will make it happier and then puts
+      out a bit of heat. One heatbug by itself can't be warm enough,
+      so over time they tend to cluster together for warmth.</para>
+
+    <para>
+      <figure>
+      <title>Data from the system</title>
+        <screenshot>
+          <graphic fileref="graphics/heatbugs-unhappy.png"/>
+        </screenshot>
+      </figure>
+      You can think of the heatbugs system as an optimization problem:
+      each heatbug is trying to minimize its unhappiness. The graph
+      above demonstrates how well, over time, the average unhappiness of
+      all bugs is being optimized. In this system, even though each bug
+      is acting purely selfishly the average unhappiness over time is
+      improving.</para>
+
+    <para>This graph represents only one small part of Swarm data
+      collection, a simple (hardcoded) time-series graph. The Swarm
+      system supports a variety of generic methods for tapping data
+      from components of the system, combining those data through
+      statistical filters, and displaying then with generic
+      visualization objects or saving them to files. Much of this
+      support is still under development, and so is not shown
+      here.</para>
+
+    <para>
+      <figure>
+      <title>Controlling the system</title>
+        <screenshot>
+          <graphic fileref="graphics/heatbugs-controls.png"/>
+        </screenshot>
+      </figure>
+
+      Part of the reason we build simulations is we can go in, tweak a
+      few parameters, and see how the change affects things. The two
+      windows shown above are a snapshot of some of the control
+      features of Swarm: a form for user input of parameters, and a
+      control panel to start and stop the simulation. Swarm models can
+      also be configured and driven via the Lisp scripting
+      language.</para>
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

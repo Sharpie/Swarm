@@ -1,0 +1,19 @@
+PUBLIC "-//Norman Walsh//DTD Website V1.6//EN" @website_dtd_srcdir@/website.dtd
+PUBLIC "-//Norman Walsh//DOCUMENT DocBook Website Stylesheet//EN" @website_style_srcdir@/website.dsl
+PUBLIC "-//Norman Walsh//DOCUMENT DocBook XPointer Stylesheet//EN" @website_style_srcdir@/xpointer.dsl
+PUBLIC "-//Norman Walsh//ENTITIES DocBook Stylesheet Localization//EN" @docbookstyle_srcdir@/common/dbl1en.ent
+
+OVERRIDE YES
+PUBLIC "-//SDG Hive//ENTITIES Website Entities//EN" website.ent
+
+OVERRIDE YES
+PUBLIC "-//SDG Hive//ENTITIES SwarmFest 2001 EPS//EN" @srcdir@/graphics/swarmfest2001.eps
+
+OVERRIDE YES
+PUBLIC "-//SDG Hive//ENTITIES SDG Logo EPS//EN" @srcdir@/graphics/sdg.eps
+
+OVERRIDE YES
+PUBLIC "-//SDG Hive//ENTITIES SDG Small Logo EPS//EN" @srcdir@/graphics/sdg-small.eps
+
+OVERRIDE YES
+PUBLIC "-//OASIS//DTD DocBook XML V4.0//EN" @xml_dtd_srcdir@/docbookx.dtd

@@ -1,0 +1,115 @@
+AC_INIT(website.xml)
+
+AM_INIT_AUTOMAKE(website, 2.0)
+
+AC_ARG_WITH(catalog,dnl
+changequote(<,>)dnl
+  --with-catalog=FILE     Use catalog at FILE,dnl
+changequote([,])dnl
+  catalog_file=$withval,dnl
+  catalog_file="")
+
+AC_ARG_WITH(dtd-common,dnl
+changequote(<,>)dnl
+  --with-dtd-common=DIR   Common Declarations DTD in DIR,dnl
+changequote([,])dnl
+  commondtd_srcdir=$withval,dnl
+  commondtd_srcdir="")
+
+AC_ARG_WITH(dtd,dnl
+changequote(<,>)dnl
+  --with-dtd=DIR         DocBook DTD in DIR [${DOCBOOKDTDDIR:-/DocBookDTD}],dnl
+changequote([,])dnl
+  docbookdtd_srcdir=$withval,dnl
+  docbookdtd_srcdir=${DOCBOOKDTDDIR:-/DocBookDTD})
+
+AC_ARG_WITH(stylesheet,dnl
+changequote(<,>)dnl
+  --with-stylesheet=DIR  DocBook DSSSL in DIR [${DOCBOOKSTYLEDIR:-/DocBookStyleSheets}],dnl
+changequote([,])dnl
+  docbookstyle_srcdir=$withval,dnl
+  docbookstyle_srcdir=${DOCBOOKSTYLEDIR:-/DocBookStyleSheets})
+
+AC_ARG_WITH(xml-dtd,dnl
+changequote(<,>)dnl
+  --with-xml-dtd=DIR     XML DocBook DTD in DIR [${XMLDTDDIR:-/XMLDTD}],dnl
+changequote([,])dnl
+  xml_dtd_srcdir=$withval,dnl
+  xml_dtd_srcdir=${XMLDTDDIR})
+
+AC_ARG_WITH(website-dtd,dnl
+changequote(<,>)dnl
+  --with-website-dtd=DIR   Website DTD in DIR [${WEBSITEDTDDIR:-/WebsiteDTD}],dnl
+changequote([,])dnl
+  website_dtd_srcdir=$withval,dnl
+  website_dtd_srcdir=${WEBSITEDTDDIR})
+
+AC_ARG_WITH(website-stylesheet,dnl
+changequote(<,>)dnl
+  --with-website-stylesheet=DIR   Website DSSSL in DIR [${WEBSITESTYLEDIR:-/WebsiteStyleSheets}],dnl
+changequote([,])dnl
+  website_style_srcdir=$withval,dnl
+  website_style_srcdir=${WEBSITESTYLEDIR})
+
+AM_CONFIG_HEADER(config.h)
+
+# if --dtd-common not specified, default to docbook-dtd directory
+if test -z "$commondtd_srcdir"; then
+  commondtd_srcdir=$docbookdtd_srcdir
+fi
+
+if test -z "$catalog_file" ; then
+  catopts="-c $commondtd_srcdir/catalog -c $docbookdtd_srcdir/docbook.cat -c $docbookstyle_srcdir/catalog"
+else
+  catopts="-c $catalog_file"
+fi
+
+AC_SUBST(catopts)
+AC_SUBST(docbookstyle_srcdir)
+AC_SUBST(docbookdtd_srcdir)
+AC_SUBST(commondtd_srcdir)
+
+test -n "$xml_dtd_srcdir" || xml_dtd_srcdir="$srcdir/dtd"
+test -n "$website_dtd_srcdir" || website_dtd_srcdir="$srcdir/dtd"
+test -n "$website_style_srcdir" || website_style_srcdir="$srcdir/dsl"
+
+AC_SUBST(xml_dtd_srcdir)
+AC_SUBST(website_dtd_srcdir)
+AC_SUBST(website_style_srcdir)
+
+AC_PATH_PROG(XSLTPROC, xsltproc, missing)
+AC_PATH_PROG(EMACS, emacs, missing)
+AC_PATH_PROG(JADE, jade, missing)
+#AC_PATH_PROG(NSGMLS, nsgmls, missing)
+# AC_PATH_PROG(PNGTOPNM, pngtopnm, missing)
+AC_PATH_PROG(PNMTOPS, pnmtops, missing)
+AC_PATH_PROG(PNMCROP, pnmcrop, missing)
+AC_PATH_PROG(CJPEG, cjpeg, missing)
+
+dnl Don't use path here since TeX can't deal with Cygwin UNC paths.
+AC_CHECK_PROG(JADETEX, jadetex, jadetex, missing)
+AC_CHECK_PROG(DVIPS, dvips, dvips, missing)
+AC_CHECK_PROG(PS2PDF, ps2pdf, ps2pdf, missing)
+
+#for i in EMACS JADE PNGTOPNM PNMTOPS PNMCROP CJPEG; do
+for i in EMACS JADE PNMTOPS PNMCROP CJPEG; do
+if eval test '$ac_cv_path_'$i = missing ; then
+AC_MSG_ERROR(Failed to find $i)
+fi
+done
+
+dnl TeX wants to look through path to find itself.
+for i in JADETEX DVIPS; do
+if eval test '$ac_cv_prog_'$i = missing ; then
+AC_MSG_ERROR(Failed to find $i)
+fi
+done
+
+
+##md_PROG_GS
+
+AC_OUTPUT([catalog Makefile graphics/Makefile biblio/Makefile archive/Makefile])
+
+
+
+

@@ -1,0 +1,162 @@
+<webpage navto="yes" id="release-mirrors">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:16 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Savannah &amp; ftp</title>
+    <abstract>
+      <para>Slow connection or ftp site down?  We have a collection of
+      alternative ftp mirrors as well as a CD-ROM.</para>
+    </abstract>
+  </head>
+
+  <simplesect id="release-ftp">
+    <title>Mirrors</title>
+
+    <para>ftp mirrors for
+      <filename>&ftproot;</filename> (source, apps, and
+      docs, packages):
+    </para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink
+                       url="ftp://ftp.ccp14.dl.ac.uk/ccp14/ftp-mirror/alife/swarm/pub/swarm/">European
+                       Mirror</ulink></para>
+      </listitem>
+        <listitem>
+        <para><ulink
+          url="ftp://mirror.aarnet.edu.au/pub/swarm">Australian
+          Mirror</ulink> Australian Academic and Research Network
+          (AARNET) <emphasis>accessible within Australian
+          <literal>.au</literal> and New Zealand
+          <literal>.nz</literal>domains only</emphasis></para>
+      </listitem>
+          
+      <listitem>
+        <para><ulink url="ftp://ftp.nr.usu.edu/pub/swarm">Utah State
+          University</ulink> <emphasis> (thanks to <ulink
+          url="mailto:sanduku@nr.usu.edu">Paul Box</ulink>)</emphasis>
+        </para>
+      </listitem>
+    </itemizedlist>
+  </simplesect>
+
+  <simplesect id="release-savannah">
+    <title>Savannah site</title> 
+    
+    <para>Swarm is in the process of migrating it's <ulink
+      url="http://sourceforge.net/projects/swarm/">SourceForge
+      presence</ulink> to the <ulink
+      url="http://savannah.gnu.org/">Savannah</ulink> development site
+      run by the <ulink url="http://www.gnu.org/">Free Software
+      Foundation</ulink> for hosting free software projects.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink
+        url="http://savannah.gnu.org/projects/swarm">http://savannah.gnu.org/projects/swarm/</ulink></para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The latest source tarballs for Swarm and swarmapps will be
+      made available there, so it acts as a partial mirror if you
+      can't access <literal>ftp.swarm.org</literal> or one of the
+      other mirrors.  In the future, we plan to use some of Savannah's
+      features for co-ordinating projects and/or allow users to
+      co-ordinate their own Swarm-related projects.</para>
+
+    <para>Several users are already using SourceForge for
+      co-ordinating their projects, these are independent from the
+      SDG:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Artificial Stock Market:  <ulink url="http://sourceforge.net/projects/artstkmkt">http://sourceforge.net/projects/artstkmkt/</ulink></para>
+      </listitem>
+      <listitem>
+        <para>Evo: <ulink url="http://sourceforge.net/projects/evo">http://sourceforge.net/projects/evo/</ulink></para>
+      </listitem>
+    </itemizedlist>
+
+  </simplesect>
+
+  <simplesect id="release-cdrom">
+    <title>Swarm CD-ROM currently unavailable</title>
+
+    <para>The Swarm 2.1.1 CD-ROM is currently unavailable.  However,
+    should a future Swarm CD-ROM become available (no release date has
+    be set, nor can we promise that there will be such a release) it
+    will be announced on <literal>swarm-announce</literal> mailing
+    list, to which you can <link
+    linkend="community-mailing-lists">subscribe</link>. </para>
+
+<!--
+    <para> The CD-ROM is the same for all platforms, you should have
+      no problems reading the CD-ROM under Windows and almost all
+      versions of Unix-like systems.  If you're running Windows
+      9x/NT 4/2000, the CD-ROM will autostart with a list of menu options
+      for installation to your local hard disk.  For all other
+      platforms the Swarm packages (at the moment, RedHat 6.1, Debian
+      2.2, Suse 6.3, Solaris 2.7) are contained in the <filename>arc</filename>
+      subdirectory under the CD-ROM, consult the documentation for the
+      appropriate package manager for your system, for how to go about
+      installing these binary packages.  Further details on CD-ROM
+      contents are available in the <filename>README</filename> and
+      <filename>README.html</filename> at the top level of the
+      CD-ROM.</para>
+
+    <para>Cost:
+      <itemizedlist>
+        <listitem>
+          <para>US$20 - mailed to you.</para>
+        </listitem>
+        <listitem>
+          <para>US$10 - if you pick it up in person at the SDG.</para>
+        </listitem>
+      </itemizedlist>
+
+      Payment method:
+  
+      <itemizedlist>
+        <listitem>
+          <formalpara>
+            <title>Check</title> <para>Please send a check with your
+            full return address and mail it to:
+
+              <address format="linespecific">
+                <affiliation>
+                  <orgname>Swarm Development Group</orgname>
+                </affiliation>
+                <street>624 Agua Fria</street>
+                <city>Santa Fe, </city><state>NM </state><postcode>87501, </postcode><country>USA</country>
+              </address>
+              
+              Please make checks out to: <quote>Swarm Development
+                Group</quote> and include the phrase <quote>Swarm
+                2.1 CD-ROM</quote> in the memo portion of the
+                check.</para>
+          </formalpara>
+        </listitem>
+
+        <listitem>
+          <formalpara>
+            <title>Credit card</title> <para>We can accept credit card
+            (Visa and Mastercard).  Please mail your card number and
+              expiry date together with your return address to:
+              <email>orders@swarm.org</email>.
+            </para>
+          </formalpara>
+        </listitem>
+      </itemizedlist>
+    </para>
+-->
+  </simplesect>
+
+</webpage>
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+
+

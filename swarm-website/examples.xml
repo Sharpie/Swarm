@@ -1,0 +1,31 @@
+<webpage navto="yes" id="examples">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:12 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Examples</title>
+    <abstract>
+      <para>Some simple Swarm example applications</para>
+    </abstract>
+  </head>
+  
+  <para> As we implement and debug Swarm we write sample applications
+    to test our ideas and our software. These applications also make
+    good demos of Swarm, as they tend to show off the best features of
+    our tool. We've written up a few of our demos as Web pages. The
+    images you see here are actual snapshots from running Swarm
+    demonstrations, they were being produced on the fly while the
+    system ran.</para>
+
+  <webtoc/>
+
+  &examples-heatbugs;
+  &examples-mousetrap;
+  
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+

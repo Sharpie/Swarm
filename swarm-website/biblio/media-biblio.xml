@@ -1,0 +1,190 @@
+<bibliography>
+  <abstract>
+    <formalpara>
+    <title>Swarm in the general &amp; trade media</title>
+    <para>The most recent version of this document can be found at the <ulink url="http://www.swarm.org/media.html">SDG site</ulink>.  Last modified on: $Date: 2003-05-16 19:58:54 $</para>
+    </formalpara></abstract>
+
+  <biblioentry>
+    <abbrev>Corey:1997</abbrev>
+    <authorgroup>
+      <author>
+        <firstname>John</firstname>
+        <surname>Corey</surname>
+      </author>
+    </authorgroup>
+
+    <citetitle pubwork="article"><ulink url="http://www.businessweek.com/1997/25/b35328.htm">Inside the Santa Fe Institute</ulink> </citetitle>
+
+    <citetitle pubwork="journal">Business Week</citetitle>
+    <pubdate>23 June 1997</pubdate>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>McBride:1998</abbrev>
+    <authorgroup>
+      <author>
+        <firstname> Dennis K.  </firstname>
+        <surname> McBride  </surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="article"><ulink url="http://journals.wiley.com/1076-2787/abs/v4n2p32.html">In the Land of the Blind, the
+      One-Eyed Man is King</ulink> </citetitle>
+    <citetitle pubwork="journal">Complexity</citetitle>
+    <volumenum> 4 </volumenum>
+    <issuenum>2</issuenum>
+    <pubdate> 1998 </pubdate>
+    <pagenums> 32--35 </pagenums>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Wright:1997</abbrev>
+    <authorgroup>
+      <author>
+        <firstname> Giles  </firstname>
+        <surname> Wright  </surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="article"> <ulink
+    url="http://www.newscientist.com/ns/971004/features.html">Rise and
+    Fall</ulink></citetitle>
+    <citetitle pubwork="journal">New Scientist</citetitle>
+    <volumenum>155</volumenum>
+    <issuenum>2102</issuenum>
+    <pubdate>4 October 1997</pubdate> 
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Petzinger:1998</abbrev>
+    <authorgroup>
+      <author>
+        <firstname>Thomas</firstname>
+        <surname>Petzinger Jr.</surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="article">Looking to Give Executives A Living Computer</citetitle>
+    <citetitle pubwork="journal"><ulink url="http://www.wsj.com">Wall Street Journal</ulink></citetitle>
+    <pubdate>24 July 1998</pubdate>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Parrish:Edelstein-Keshet:1999</abbrev>
+    <authorgroup>
+      <author>
+        <firstname> Julia K.  </firstname>
+        <surname> Parrish  </surname>
+      </author>
+      <author>
+        <firstname> Leah  </firstname>
+        <surname> Edelstein-Keshet  </surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="article"><ulink
+    url="http://www.sciencemag.org/content/vol284/issue5411/">Complexity,
+    Pattern and Evolutionary Trade-Offs in Animal Aggregation</ulink>
+    </citetitle> 
+    <citetitle pubwork="journal">Science</citetitle>
+    <pagenums> 99-101 </pagenums>
+    <volumenum>284</volumenum>
+    <issuenum>5411</issuenum>
+    <pubdate>2 April 1999</pubdate>
+    <bibliomisc>special issue of <citetitle>Science</citetitle> on
+      `Complex Systems'; mention of Swarm in context of modeling
+      aggregation in biological systems</bibliomisc>
+    <abstract><para> One of the most striking patterns in biology is the
+      formation of animal aggregations. Classically, aggregation has
+      been viewed as an evolutionarily advantageous state, in which
+      members derive the benefits of protection, mate choice, and
+      centralized information, balanced by the costs of limiting
+      resources. Consisting of individual members, aggregations
+      nevertheless function as an integrated whole, displaying a
+      complex set of behaviors not possible at the level of the
+      individual organism. Complexity theory indicates that large
+      populations of units can self-organize into aggregations that
+      generate pattern, store information, and engage in collective
+      decision-making. This begs the question, are all emergent
+      properties of animal aggregations functional or are some simply
+      pattern? Solutions to this dilemma will necessitate a closer
+      marriage of theoretical and modeling studies linked to empirical
+      work addressing the choices, and trajectories, of individuals
+      constrained by membership in the group.  </para></abstract>
+
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>BusinessWeek</abbrev>
+    <corpauthor>Business Week</corpauthor>
+
+    <citetitle pubwork="article"><ulink
+    url="http://www.businessweek.com/1996/09/960226.htm">Artificial
+        Life Simulation Software</ulink></citetitle>
+
+    <citetitle pubwork="journal">Business Week</citetitle>
+    <pagenums> 75 </pagenums>
+
+    <pubdate>26 February 1996</pubdate>
+
+    <abstract><para> Software developed at New Mexico's Santa Fe
+        Institute uses 3-D satellite maps of a geographical region and
+        software &quot;agents&quot; that model such variables as
+        weather and crop yields to study why an ancient Native
+        American culture collapsed suddenly in the 12th century. The
+        artificial-life simulation software, called Swarm, produces a
+        generic modeling tool for studying ecological systems,
+        economic theories and other complex
+        systems. 
+      </para></abstract>
+
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Morris:1999</abbrev>
+    <authorgroup>
+      <author>
+        <firstname> Richard  </firstname>
+        <surname> Morris  </surname>
+      </author>
+    </authorgroup>
+    <citetitle pubwork="chapter">Chapter 8: Swarm</citetitle>
+    <citetitle pubwork="book">Artificial Worlds: Computers, Complexity
+      and the Riddle of Life </citetitle> 
+    <publisher>
+      <publishername> Plenum Trade </publishername>
+      <address format="linespecific"><city>New York</city>, <city>London</city></address>
+    </publisher>
+    <pubdate>1999</pubdate>
+  </biblioentry>
+
+  <biblioentry>
+    <abbrev>Sorensoen:1998</abbrev>
+    <authorgroup>
+      <author>
+        <firstname>Eric</firstname>
+        <surname>Sorensen</surname>
+      </author>
+    </authorgroup>
+
+    <citetitle pubwork="article"><ulink url="http://www.seattletimes.com/news/health-science/html98/altcomp_050598.html">Making sense of
+        complexity</ulink></citetitle>
+
+    <citetitle pubwork="journal">Seattle Times</citetitle>
+    <pubdate>5 May 1998</pubdate>
+  </biblioentry>
+  <biblioentry>
+    <abbrev>Panepento:2000</abbrev>
+    <author>
+      <firstname>Peter</firstname>
+      <surname>Panepento</surname>
+    </author>
+    <citetitle pubwork="article"><ulink url="http://www.computerworld.com/cwi/story/0,1199,NAV47_STO48402,00.html">The Perfect Swarm</ulink></citetitle>
+    <citetitle pubwork="journal">Computerworld</citetitle>
+    <pubdate>August 14, 2000</pubdate>
+  </biblioentry>
+</bibliography>
+
+<!--
+Local Variables:
+sgml-parent-document:("media.xml" "bibliography")
+End:
+-->
+

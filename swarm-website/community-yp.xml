@@ -1,0 +1,26 @@
+<webpage navto="yes" id="community-yp">
+  <config class="html" param="rcsdate" value="$Date: 2003-05-16 19:58:08 $"/>
+  <config class="html" param="author" value="$Author: mgd $"/>
+  <head>
+    <title>Yellow Pages</title>
+    <abstract>
+      <para>Swarm contractors, programmers and projects seeking such
+      (only a subset of all active projects)</para>
+    </abstract>
+  </head>
+
+  &yellow-pages-disclaimer;
+
+  <webtoc/>
+  
+  &community-projects-yp;
+  &community-programmers-yp;
+
+</webpage>
+
+<!--
+Local Variables:
+sgml-parent-document:("website.xml" "webpage")
+End:
+-->
+
