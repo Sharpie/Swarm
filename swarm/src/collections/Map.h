@@ -69,3 +69,8 @@ typedef struct mapentry {
 - setOffset: (int)offset;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
+
+extern int compareIDs (id val1, id val2);
+extern int compareIntegers (id val1, id val2);
+extern int compareUnsignedIntegers (id val1, id val2);
+extern int compareCStrings (id val1, id val2);

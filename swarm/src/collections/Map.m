@@ -57,6 +57,17 @@ compareUnsignedIntegers (id val1, id val2)
 }
 
 //
+// compareCStrings --
+//   function to compare two asciz C strings.
+// (Needed to identify Map keys as C strings for serialization.)
+//
+int
+compareCStrings (id val1, id val2)
+{
+  return strcmp ((const char *)val1, (const char *)val2);
+}
+
+//
 // compare -- internal macro for selection of compare technique
 //
 #define compare(a, b) \
@@ -512,40 +523,48 @@ PHASE(Using)
       id <MapIndex> mi = [self begin: scratchZone];
       id aZone = [hdf5Obj getZone];
       id key, member;
-      id keyGroup = [[[[HDF5 createBegin: aZone]
-                        setParent: hdf5Obj]
-                       setName: "keys"]
-                      createEnd];
-      id valueGroup = [[[[HDF5 createBegin: aZone]
-                          setParent: hdf5Obj]
-                         setName: "values"]
-                        createEnd];
-      
-      [hdf5Obj storeTypeName: [self name]];
-      while ((member = [mi next: &key]))
+
+      if (compareFunc == NULL || compareFunc == compareIDs)
         {
-          id valueInstanceGroup, keyInstanceGroup;
-          char buf[DSIZE (unsigned) + 1];
-          unsigned offset = [mi getOffset];
+          id keyGroup = [[[[HDF5 createBegin: aZone]
+                            setParent: hdf5Obj]
+                           setName: "keys"]
+                          createEnd];
+          id valueGroup = [[[[HDF5 createBegin: aZone]
+                              setParent: hdf5Obj]
+                             setName: "values"]
+                            createEnd];
           
-          sprintf (buf, "%u", offset);
-          keyInstanceGroup = [[[[HDF5 createBegin: aZone]
-                                 setParent: keyGroup]
-                                setName: buf]
-                               createEnd];
-          [key hdf5Out: keyInstanceGroup deep: YES];
-          [keyInstanceGroup drop];
+          [hdf5Obj storeTypeName: [self name]];
+          while ((member = [mi next: &key]))
+            {
+              id valueInstanceGroup, keyInstanceGroup;
+              char buf[DSIZE (unsigned) + 1];
+              unsigned offset = [mi getOffset];
+              
+              sprintf (buf, "%u", offset);
+              keyInstanceGroup = [[[[HDF5 createBegin: aZone]
+                                     setParent: keyGroup]
+                                    setName: buf]
+                                   createEnd];
+              [key hdf5Out: keyInstanceGroup deep: YES];
+              [keyInstanceGroup drop];
+              
+              valueInstanceGroup = [[[[HDF5 createBegin: aZone]
+                                       setParent: valueGroup]
+                                      setName: buf]
+                                     createEnd];
+              [member hdf5Out: valueInstanceGroup deep: YES];
+              [valueInstanceGroup drop];
+            }
+          [keyGroup drop];
+          [valueGroup drop];
+        }
+      else
+        {
           
-          valueInstanceGroup = [[[[HDF5 createBegin: aZone]
-                                   setParent: valueGroup]
-                                  setName: buf]
-                                 createEnd];
-          [member hdf5Out: valueInstanceGroup deep: YES];
-          [valueInstanceGroup drop];
         }
       [mi drop];
-      [keyGroup drop];
-      [valueGroup drop];
     }
   else
     {

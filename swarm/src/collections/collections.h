@@ -691,6 +691,9 @@ extern int compareIntegers (id, id);
 //F: A routine for comparing unsigned integers.
 extern int compareUnsignedIntegers (id, id);
 
+//F: A routine for comparing C strings.
+extern int compareCStrings (id, id);
+
 @protocol CompareFunction
 //S: Interface for defining the compare function to use when comparing
 //S: to members in a collection.

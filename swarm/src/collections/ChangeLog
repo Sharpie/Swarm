@@ -1,6 +1,13 @@
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Map.m, collection.h (compareCStrings): New function.
+
+	* Map.h (compareIDs, compareIntegers, compareUnsignedIntegers,
+	compareCStrings): Declare.
+	
 	* Map.m ([Map_c -lispOut:deep:], [Map_c -hdf5Out:deep:]): Use DSIZE.
+	([Map_c -hdf5Out:deep:]): Handle compareFunc of integers differently
+	from IDs.
 
 	* Collections.m ([Collection_any -hdf5Out:deep:]): Use DSIZE.
 
@@ -59,7 +66,7 @@
 	as an ArchiverValue.
 	([ArchiverArray_c -setArray:]): Handle arrays of type id.
 
-	* InputStream.[hm], defobj.h ([ArchiverValue_c -setNil],
+	* InputStream.[hm], collections.h ([ArchiverValue_c -setNil],
 	([ArchiverValue_c -getObject]): New methods.
 
 	* InputStream.[hm] (ArchiverValue_c): Rename number to value.
