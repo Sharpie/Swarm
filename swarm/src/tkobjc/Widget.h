@@ -16,13 +16,13 @@
 }
 
 // creation time messages
-- setParent: (Widget *)p;			  // set parent widget
+- setParent: p;                                   // set parent widget
 - createEnd;					  // finalize creation
-+ createParent: (Widget *)p;			  // convenience interface
++ createParent: p;                                // convenience interface
 
 - (const char *)getWidgetName;			  // return the widget name
-- (Widget *)getParent;				  // return the parent
-- (Widget *)getTopLevel;			  // return the top parent
+- getParent;                                      // return the parent
+- getTopLevel;	                                  // return the top parent
 
 - (const char *)getWindowGeometry;		  // get geometry as a string
 - (unsigned)getWidth;				  // get geometry values

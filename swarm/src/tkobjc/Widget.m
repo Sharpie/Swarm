@@ -12,7 +12,7 @@
 
 PHASE(Creating)
 
-- setParent: (Widget *)p
+- setParent: p
 {
   if (parent == 0)
     {
@@ -42,7 +42,7 @@ PHASE(Creating)
 }
 
 // convenience interface for ease of setting.
-+ createParent: (Widget *)p
++ createParent: p
 {
   return [[[self createBegin: [p getZone]] setParent: p] createEnd];
 }
@@ -100,12 +100,12 @@ PHASE(Using)
   return widgetName;
 }
 
-- (Widget *)getParent
+- getParent
 {
   return parent;
 }
 
-- (Widget *)getTopLevel
+- getTopLevel
 {
   if (parent == nil)
     return self;
