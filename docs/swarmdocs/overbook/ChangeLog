@@ -1,5 +1,7 @@
 2001-11-25  Alex Lancaster  <alex@swarm.org>
 
+	* overbook.xml: Update DOCTYPE to DocBook XML DTD V4.1.2.
+
 	* Makefile.am: SGML,sgml changed to  -> XML, xml throughout.
 
 	* overbook.ent: Make entities conform with strict XML.
