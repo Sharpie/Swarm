@@ -2,16 +2,18 @@
 
 public class SwarmEnvironment 
 {
+   static Class globalZone;
    static
     {
 	System.out.println("Trying to load lib!\n");
 	try {
 	    System.loadLibrary("javaswarm");
-	} catch (Exception e) { 
+	    globalZone = Class.forName ("GlobalZone");
+	} catch (Exception e) {
+	    
 	    System.err.println("Exception caught: " + e.getMessage());
-	}
-	System.out.println("Loaded!\n");
-	
+	} 
+	System.out.println("Lib loaded!\n");
     }
 
     public static void main(String args[])

@@ -1,3 +1,8 @@
+1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* SwarmEnvironment.java: New field globalZone.
+	In the static block assign Class GlobalZone to field globalZone
+
 1999-03-15  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.in (install): Make $datadir, if it doesn't already
