@@ -1,3 +1,8 @@
+1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* WindowGeometryRecord.m ([WindowGeometryRecord -lispIn:]): Move 
+	to setting phase.
+
 1999-04-19  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* LinkItem.m ([LinkItem -createItem]): Add extra parens around
