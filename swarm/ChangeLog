@@ -1,3 +1,7 @@
+2003-03-26  Scott Christley <schristley@mac.com>
+
+	* HACKING: Add information about GNUstep.
+
 2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* complete conversion to libtool 1.4.3

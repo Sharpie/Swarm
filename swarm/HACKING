@@ -46,6 +46,15 @@ autoconf 2.52
 automake 1.5
 libtool 1.4.3
 
+*** GNUstep
+GNUstep integration with Swarm is an extended project, so it has its
+own CVS branch at the moment.  This allows for checkins without
+intefering with the stable Swarm for other platforms.
+
+cvs -z3 checkout -r gnustep_port-branch -d swarm-gnustep swarm
+
+Then go into the swarm/GNUstep directory and read the README.
+
 * Test suite
 
 ** make check
