@@ -379,6 +379,7 @@ USING
 //M: Override this to let your Swarm build its actions.
 - buildActions;
 
+#ifndef IDL
 //M: Override this to activate any actions you built in buildActions.
 //M: Note, you must activate yourself first before you can activate
 //M: actions inside you. 
@@ -387,6 +388,7 @@ USING
 //E: [fancySchedule activateIn: self];
 //E: return [self getSwarmActivity];    
 - (id <Activity>)activateIn: swarmContext;
+#endif
 
 //M: Needed to support probing of Swarms.
 - (id <ProbeMap>)getProbeMap;

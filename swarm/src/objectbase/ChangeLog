@@ -1,3 +1,7 @@
+2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* objectbase.h ([Swarm -activateIn:]): Hide in a #ifndef IDL.
+
 2000-05-10  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* Probe.m ([Probe -setObjectToNotify:]): Disable test to
