@@ -240,11 +240,14 @@
       (com-interface-name protocol phase)
     (com-idl-type (method-return-type method))))
 
+(defun com-impl-defining-interface (protocol phase method)
+  (let* ((methodinfo-list (protocol-expanded-methodinfo-list protocol))
+         (methodinfo (find method methodinfo-list :key #'methodinfo-method)))
+      (com-interface-name (methodinfo-protocol methodinfo) phase)))
+
 (defun com-impl-return-type (protocol phase method)
   (if (convenience-create-method-p protocol method)
-    (let* ((methodinfo-list (protocol-expanded-methodinfo-list protocol))
-           (methodinfo (find method methodinfo-list :key #'methodinfo-method)))
-      (concat (com-interface-name (methodinfo-protocol methodinfo) phase) "*"))
+      (concat (com-impl-defining-interface protocol phase method) "*")
     (com-remove-const (com-impl-type (method-return-type method)))))
 
 (defun com-impl-argument-name (name)
@@ -577,7 +580,17 @@
   (let ((ret-type (com-simplify-return-type (method-return-type method))))
     (insert "  ")
     (if (method-factory-flag method)
-        (insert "rv = QueryInterface (NS_GET_IID (nsISupports), (void **) ret);")
+        (progn
+          (insert "COMswarm_newobj = ")
+          (com-impl-print-call-imp-pointer-body method)
+          (insert ";\n")
+          (insert "  rv = QueryInterface (NS_GET_IID (" )
+          (insert (com-impl-defining-interface protocol phase method))
+          (insert "), (void **) ret);\n")
+          (insert "  if (rv != NS_OK)\n") 
+          (insert "    return rv;\n")
+          (insert "  NS_ADDREF (*ret);\n")
+          (insert "  (void) SD_COM_ADD_OBJECT_COM (*ret, COMswarm_newobj);\n"))
       (progn
         (unless (string= ret-type "void")
           (insert "*ret = "))
@@ -630,6 +643,7 @@
     (insert "  nsresult rv = NS_OK;\n")
     (if (method-factory-flag method)
         (progn
+          (insert "  id COMswarm_newobj;\n")
           (insert "  Class COMswarm_target = objc_lookup_class (\"")
           (insert (protocol-name protocol))
           (insert "\");\n"))

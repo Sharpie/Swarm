@@ -4,10 +4,12 @@
 
   document.write ("Hello world<BR>");
   
-  env = Components.classes["component://swarm/SwarmEnvironmentImpl"].createInstance (Components.interfaces.swarmISwarmEnvironment);
-  env = env.initSwarm_version_bugAddress_argCount_args ("test", "0.0", "bug-swarm@swarm.org", 0, []);
-  env.xprint ();
+  var env = Components.classes["component://swarm/SwarmEnvironmentImpl"].createInstance (Components.interfaces.swarmISwarmEnvironment);
+  var env2 = env.initSwarm_version_bugAddress_argCount_args ("test", "0.0", "bug-swarm@swarm.org", 0, []);
+  document.write (typeof (env2.guiFlag));
+  document.write (env.guiFlag);
   document.write ("Done<BR>");
 </script>
 
 </html>
+
