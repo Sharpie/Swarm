@@ -1,5 +1,8 @@
 2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* Widget.m ([Widget -setWidth:Height:]): Use to setWindowGeometry:
+	when widget has no parent.
+
 	* ArchivedGeometryWidget.[hm] ([ArchivedGeometryWidget -updateSize]): 
 	New method.
 

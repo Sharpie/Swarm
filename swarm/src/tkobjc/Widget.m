@@ -183,9 +183,17 @@ get_geometry_element (id widget, unsigned offset)
 
 - setWidth: (unsigned)w Height: (unsigned)h
 {
-  [globalTkInterp eval: "%s configure -width %u -height %u",
-		  [self getWidgetName],
-		  w, h];
+  if (parent)
+    [globalTkInterp eval: "%s configure -width %u -height %u",
+                    [self getWidgetName],
+                    w, h];
+  else
+    {
+      char buf[5 + 1 + 5 + 1];
+
+      sprintf (buf, "%ux%u", w, h);
+      [self setWindowGeometry: buf];
+    }
 
   return self;
 }
