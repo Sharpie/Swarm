@@ -2,6 +2,8 @@
 
 	* configure.in: add shell configure scripts
 	    to AC_OUTPUT
+		
+	* Makefile.am: add macosx files to distribution.
 
 2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
 	

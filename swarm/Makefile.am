@@ -4,7 +4,7 @@ else
 SUBDIRS = $(LIBOBJCDIR) etc src tools java COM m4 tests
 endif
 
-EXTRA_DIST = VERSION
+EXTRA_DIST = VERSION macosx/buildlibs.sh macosx/ChangeLog macosx/configure.sh macosx/INSTALL.MacOSX macosx/README.MacOSX macosx/swarm.xcode/project.pbxproj
 
 SWARM_INSTALL = @SWARM_INSTALL@
 
