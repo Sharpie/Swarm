@@ -1,6 +1,10 @@
-1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-10-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT,REVISION,AGE): No changes. Swarm 1.3.1 released.
+
+	* find_executable.c (find_executable): Cast program name to char *
+	to avoid warning on systems that have realpath program argument
+	non-const.
 
 1998-10-01  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
