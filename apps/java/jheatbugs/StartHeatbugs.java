@@ -12,7 +12,7 @@ public class StartHeatbugs {
         running.  */
     public static void main (String[] args) {
         // Swarm initialization: all Swarm apps must call this first.
-        Globals.env.initSwarm ("jheatbugs", "2.0.1", "bug-swarm@santafe.edu", args);
+        Globals.env.initSwarm ("jheatbugs", "2.1", "bug-swarm@swarm.org", args);
         
         // swarmGUIMode is set in initSwarm(). It's set to be `false'
         // if you typed `heatbugs --batchmode' or `heatbugs

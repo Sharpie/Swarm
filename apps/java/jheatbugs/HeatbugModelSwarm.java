@@ -288,12 +288,13 @@ public class HeatbugModelSwarm extends SwarmImpl
     }
 
     try {
+      Heatbug proto = (Heatbug) heatbugList.get (0);
       Selector sel = 
-        new Selector (heatbugList.get (0).getClass (), "heatbugStep", false);
+        new Selector (proto.getClass (), "heatbugStep", false);
       actionForEach =
         modelActions.createFActionForEachHomogeneous$call
         (heatbugList,
-         new FCallImpl (this, heatbugList.get (0), sel, 
+         new FCallImpl (this, proto, sel,
                         new FArgumentsImpl (this, sel, true)));
     } catch (Exception e) {
       e.printStackTrace (System.err);

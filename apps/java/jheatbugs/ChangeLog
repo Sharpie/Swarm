@@ -1,3 +1,10 @@
+2000-02-27    <mgd@nest.swarm.org>
+
+	* StartHeatbugs.java (main): Update for 2.1 and SDG.
+
+	* HeatbugModelSwarm.java (buildActions): Store prototype in 
+	a variable.
+
 2000-01-24    <mgd@nest.swarm.org>
 
 	* jheatbugs.scm: New file.
