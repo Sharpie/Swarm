@@ -2,7 +2,8 @@
 
 	* Makefile.conf (CC): Use explicit path for SFI configuration.
 	Add gcc28 subconfig for mgd-PSU-Irix5 with two different tclobjcs.
-	Likewise for mgd-PSU-GNU/Linux-glibc2.
+	Likewise for mgd-PSU-GNU/Linux-glibc2.  Quote CC argument for .h.xm
+	rule.
 
 	* Makefile (dist): Don't match SETUP to the $(SWARMSETUP) case.
 
