@@ -12,6 +12,8 @@
 
 @implementation EZDistribution
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];
@@ -21,6 +23,8 @@
    
   return self;
 }
+
+PHASE(Using)
 
 - update
 {

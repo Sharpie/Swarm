@@ -19,11 +19,13 @@
 //D: Averager objects read a value (via a MessageProbe) from a
 //D: collection (typically a list) of objects and collect statistics over them.
 
+CREATING
 //M: Sets the collection of objects that will be probed.
 - setCollection: aCollection;
 
 - createEnd;
 
+USING
 //M: The update method runs through the collection calling the selector on 
 //M: each object.
 - update;
@@ -51,10 +53,14 @@
 //D: collection of objects and calculate the entropy of the
 //D: underlying distribution.
 
+CREATING
 //M: The setCollection method sets the collection of objects that will be 
 //M: probed.
 - setCollection: aCollection;
 
+- createEnd;
+
+USING
 //M: The update method polls the collection and updates the entropy.
 //M: This method should be scheduled prior to collecting the data using
 //M: getEntropy.
@@ -72,22 +78,35 @@
 //D: collection of objects. In addition the class will generate some
 //D: standard statistics over the resulting dataset.
 
+CREATING
++ createBegin: aZone;
+
 //M: The setGraphics method sets the state of the display. Set the state to 0 
 //M: if a graphical display of the graph is not required. 
 //M: The default state is 1 meaning that by default the data appears
 //M: graphically in a window. 
-- setGraphics: (int)state;
+- setGraphics: (BOOL)state;
+
+//M: The setCollection method sets the collection of target objects which will 
+//M: be requested to generate the dataset for the histogram.
+- setCollection: aCollection;
+
+//M: The setProbedSelector method sets the selector that will be applied to
+//M: the objects in the specified collection in order to generate the dataset 
+//M: (inherited from MessageProbe.)
+- setProbedSelector: (SEL)aSel;
 
 //M: The setFileOutput method sets the state of file I/O.  Set the state to 1 
 //M: if data for the sequences is to be sent to a file.  The default state is 0
 //M: meaning that by default no file I/O is carried out by the EZBin class.
-- setFileOutput: (int)state;
+- setFileOutput: (BOOL)state;
 
 //M: The setTitle method uses a title string to label a graph window in the 
 //M: graphical version of EZBin.  The label appears at the top of the graph 
 //M: window. (Only relevant if the state of setGraphics is set to 1.)
 - setTitle: (const char *)aTitle;
 
+USING
 //M: The setAxisLabels:X:Y method sets the horizontal and vertical labels on 
 //M: the histogram in the graphical version of EZBin. (Only relevant if the 
 //M: state of setGraphics is set to 1.)
@@ -101,15 +120,6 @@
 
 //M: The setUpperBound method sets the upper bound on the histogram range.
 - setUpperBound: (double)theMax;
-
-//M: The setCollection method sets the collection of target objects which will 
-//M: be requested to generate the dataset for the histogram.
-- setCollection: aCollection;
-
-//M: The setProbedSelector method sets the selector that will be applied to
-//M: the objects in the specified collection in order to generate the dataset 
-//M: (inherited from MessageProbe.)
-- setProbedSelector: (SEL)aSel;
 
 //M: The reset method resets the histogram.
 - reset;
@@ -174,7 +184,10 @@
 //D: of being a subclass of EZBin, it can also calculate the entropy of the
 //D: distribution as well as return the probabilities associated with the
 //D: individual bins.
+CREATING
+- createEnd;
 
+USING
 //M: The update method polls the bins and updates the entropy of the 
 //M: distribution as well as the probabilities associated with the individual 
 //M: bins.
@@ -211,26 +224,30 @@
 //D: generate average, total, min, max and count sequences without the
 //D: user having to mess with Averagers amd other low-level classes.
 
+CREATING
 //M: The setGraphics method sets the state of the display. Set the state to 0 
 //M: if a graphical display of the graph is not required.
 //M: The default state is 1 meaning that by default the data appears
 //M: graphically in a window. 
-- setGraphics: (int)state;
+- setGraphics: (BOOL)state;
 
 //M: The setFileOutput method sets the state of file I/O.  Set the state to 1 
 //M: if data for the sequences is to be sent to a file.  The default state is 0
 //M: meaning that by default no file I/O is carried out by the EZGraph class.
-- setFileOutput: (int)state;
-
-//M: The setAxisLabels:X:Y method sets the horizontal and vertical labels on 
-//M: the histogram in the graphical version of EZGraph. (Only relevant if the 
-//M: state of setGraphics is set to 1.)
-- setAxisLabelsX: (const char *)xl Y:(const char *)yl;
+- setFileOutput: (BOOL)state;
 
 //M: The setTitle method uses a title string to label a graph window in the 
 //M: graphical version of EZGraph.  The label appears at the top of the graph 
 //M: window. (Only relevant if the state of setGraphics is set to 1.)
 - setTitle: (const char *)aTitle;
+
+- createEnd;
+
+USING
+//M: The setAxisLabels:X:Y method sets the horizontal and vertical labels on 
+//M: the histogram in the graphical version of EZGraph. (Only relevant if the 
+//M: state of setGraphics is set to 1.)
+- setAxisLabelsX: (const char *)xl Y:(const char *)yl;
 
 //M: The getGraph method lets the user access the graph generated internally
 //M: by the EZGraph. (Only relevant if the state of setGraphics is set to 1.)

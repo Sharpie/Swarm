@@ -15,6 +15,8 @@
 
 @implementation EZBin
 
+PHASE(Creating)
+
 + createBegin: aZone
 {
   EZBin *anObj;
@@ -28,13 +30,13 @@
   return anObj;
 }
 
-- setGraphics: (int)state
+- setGraphics: (BOOL)state
 {
   graphics = state;
   return self;
 }
 
-- setFileOutput: (int)state
+- setFileOutput: (BOOL)state
 {
   fileOutput = state;
   return self;
@@ -43,31 +45,6 @@
 - setTitle: (const char *)aTitle
 {
   theTitle = aTitle;
-  return self;
-}
-
-- setAxisLabelsX: (const char *)xl Y: (const char *)yl
-{
-  xLabel = xl;
-  yLabel = yl;
-  return self;
-}
-
-- setBinNum: (int)theBinNum
-{
-  binNum = theBinNum;
-  return self;
-}
-
-- setLowerBound: (double)theMin
-{
-  min = theMin;
-  return self;
-}
-
-- setUpperBound: (double) theMax
-{
-  max = theMax;
   return self;
 }
 
@@ -142,6 +119,33 @@
   if (fileOutput)
     anOutFile = [OutFile create: [self getZone] withName: theTitle];
   
+  return self;
+}
+
+PHASE(Using)
+
+- setAxisLabelsX: (const char *)xl Y: (const char *)yl
+{
+  xLabel = xl;
+  yLabel = yl;
+  return self;
+}
+
+- setBinNum: (int)theBinNum
+{
+  binNum = theBinNum;
+  return self;
+}
+
+- setLowerBound: (double)theMin
+{
+  min = theMin;
+  return self;
+}
+
+- setUpperBound: (double) theMax
+{
+  max = theMax;
   return self;
 }
 

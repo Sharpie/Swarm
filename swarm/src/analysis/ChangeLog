@@ -1,3 +1,16 @@
+1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* analysis.h (Averager, Entropy, EZBin, EZDistribution, EZGraph):
+	(EZBin): Declare +createBegin:.
+	(Entropy, EZDistribution): Declare -createEnd.
+	(EZBin, EZGraph): -setGraphs and -setFileOutput take a BOOL, not int as
+	an argument.  Reorder for phase tags.
+	
+	* EZBin.[hm], EZGraph.[hm]: Make graphics and fileOutput BOOL
+	instead of int.  Likewise for accessors.  Reorder for phase tags.
+
+	* Averager.m, EZBin.m, EZDistribution.m, Entropy.m: Add phase tags. 
+
 1998-04-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* EZDistribution.m ([EZDistribution -drop]): Use xfree instead of free.

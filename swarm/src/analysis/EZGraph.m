@@ -17,6 +17,8 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
 
 @implementation EZGraph
 
+PHASE(Creating)
+
 + createBegin: aZone
 {
   EZGraph *obj;
@@ -30,22 +32,15 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
   return obj;
 }
 
-- setGraphics: (int)state
+- setGraphics: (BOOL)state
 {
   graphics = state;
   return self;
 }
 
-- setFileOutput: (int)state
+- setFileOutput: (BOOL)state
 {
   fileOutput = state;
-  return self;
-}
-
-- setAxisLabelsX: (const char *)xl Y:(const char *)yl
-{ 
-  xLabel = xl;
-  yLabel = yl;
   return self;
 }
 
@@ -70,6 +65,15 @@ const char graphColors[NUMCOLORS][16] = { "Red", "Green", "Yellow",
   
   sequenceList = [List create: [self getZone]];
   
+  return self;
+}
+
+PHASE(Using)
+
+- setAxisLabelsX: (const char *)xl Y:(const char *)yl
+{ 
+  xLabel = xl;
+  yLabel = yl;
   return self;
 }
 

@@ -10,10 +10,10 @@
 
 @interface EZBin: GUIComposite
 {
-  int graphics;
+  BOOL graphics;
   id <Histogram> aHisto;
 
-  int fileOutput;
+  BOOL fileOutput;
   id anOutFile;
 
   const char *theTitle;
@@ -37,8 +37,8 @@
 - setTitle: (const char *)aTitle; 
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
-- setGraphics: (int)state;
-- setFileOutput: (int)state;
+- setGraphics: (BOOL)state;
+- setFileOutput: (BOOL)state;
 
 - setBinNum: (int)theBinNum;
 - setLowerBound: (double)theMin;

@@ -8,6 +8,8 @@
 
 @implementation Averager
 
+PHASE(Creating)
+
 - setCollection: l
 {
   collection = l;
@@ -21,6 +23,8 @@
 
   return [super createEnd];
 }
+
+PHASE(Using)
 
 - update
 {

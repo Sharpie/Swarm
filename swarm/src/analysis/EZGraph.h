@@ -27,8 +27,8 @@
   unsigned colorIdx;
 }
 
-- setGraphics: (int)state;
-- setFileOutput: (int)state;
+- setGraphics: (BOOL)state;
+- setFileOutput: (BOOL)state;
 
 - setTitle: (const char *)aTitle;
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;

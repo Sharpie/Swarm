@@ -9,6 +9,7 @@
 
 @implementation Entropy
 
+PHASE(Creating)
 - setCollection: aCollection
 {
   collection = aCollection;
@@ -22,6 +23,8 @@
 
   return [super createEnd];
 }
+
+PHASE(Using)
 
 - update
 {
