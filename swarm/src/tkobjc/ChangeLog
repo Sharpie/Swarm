@@ -1,3 +1,8 @@
+1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* TkExtra.m (ensureBltSupportFiles): Guess lib/blt2.4 instead
+	of share/blt8.0.
+
 1999-07-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* InputWidget.[hm]: Change argument type of linkVariableBoolean:

@@ -36,7 +36,7 @@ ensureBltSupportFiles (id arguments, id globalTkInterp)
 
             if (swarmHome)
               {
-                const char *libdir = "share/blt8.0";
+                const char *libdir = "lib/blt2.4";
                 char libPath[strlen (swarmHome) + strlen (libdir) + 1];
                 char *p;
                 
