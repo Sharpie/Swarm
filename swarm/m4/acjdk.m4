@@ -51,7 +51,7 @@ else
     if test "$JAVALIBS" = no; then
       JAVALIBS=
     else
-      test -n "$JAVALIBS" || JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads/lib"
+      test -n "$JAVALIBS" || JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads"
     fi
     test -n "$JAVACMD" || JAVACMD="\${jdkdir}/bin/${proc}/${threads}_threads/java"
     if test "$host_os" = cygwin; then
