@@ -108,7 +108,7 @@ and <tt>getSizeY()</tt> are inherited from Diffuse2dImpl.
 @param type (in)
     HeatSpace.COLD or HeatSpace.HOT
 @param targetCell (inout)
-    the Point at the center of the 9-cell neighborhood; altered to a Point
+    the Point at the center of the 9-cell neighborhood; we change it to a Point
     randomly selected from among those with the most-ideal temperature
 */
 
@@ -173,16 +173,10 @@ Did you think you could override Diffuse2d.stepRule()? You can -- as we have
 done here -- but the method will never be invoked.
 
 <p>
-We know the method is defined "correctly" because 
-if we alter the signature, for example to return void rather than Object, 
-the compiler complains that the method does not match the method
-"inherited from type 'swarm/space/Diffuse2dImpl'". 
-
-<p>
 Diffuse2d inherits from Ca2d, which inherits from DblBuffer2d, which maintains
 two lattices (old and new). As the Swarm Reference Guide states for 
-DblBuffer2d, <tt>putValue()</tt> -- which <tt>stepRule()</tt> presumably
-invokes -- is "overridden so writes happen to newLattice".
+DblBuffer2d, <tt>putValue()</tt>, which <tt>stepRule()</tt> presumably
+invokes, is "overridden so writes happen to newLattice".
 
 */
 public Object stepRule ()

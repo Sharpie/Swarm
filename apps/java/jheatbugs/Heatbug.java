@@ -5,12 +5,13 @@
 
 // All added comments copyright 2001 Timothy Howe. All rights reserved. 
 
+import diagnostic.*;
+import java.awt.*;
+
 import swarm.Globals;
 import swarm.space.Grid2d;
 import swarm.space.Grid2dImpl;
 import swarm.gui.Raster;
-
-import java.awt.Point;
 
 /**
 See HeatbugModelSwarm for an overview of the heatbugs application.
@@ -75,33 +76,38 @@ behavior:
 */
 public class Heatbug
 {
-    public int x, y;
-    public double unhappiness;
-    public double getUnhappiness () { return unhappiness; }
-    public int idealTemperature;
-    public int getIdealTemperature () { return idealTemperature; }
-    public Object setIdealTemperature (int idealTemperature)
-      { this.idealTemperature = idealTemperature; return this; }
-    // The amount of heat I produce:
-    public int outputHeat;
+// The amount of heat I produce (units are undefined):
+private int _outputHeat;
     public Object setOutputHeat (int outputHeat)
-      { outputHeat = outputHeat; return this; }
-    // The chance that I will move arbitrarily:
-    public double randomMoveProbability;
+    { _outputHeat = outputHeat; return this; }
+// The temperature I prefer:
+private int _idealTemperature;
+    public int getIdealTemperature () { return _idealTemperature; }
+    public Object setIdealTemperature (int idealTemperature)
+    { _idealTemperature = idealTemperature; return this; }
+// The difference between my temperature and my ideal temperature:
+private double _unhappiness;
+    public double getUnhappiness () { return _unhappiness; }
+// The chance that I will move arbitrarily:
+private double _randomMoveProbability;
     public Object setRandomMoveProbability (double randomMoveProbability)
-    { this.randomMoveProbability = randomMoveProbability; return this; }
-    // The 2-dimensional world I move in:
-    private Grid2d _world;
-    // The heat of each cell of the 2-dimensional world:
-    private HeatSpace _heatSpace;
-   // My personal index to the ColorMap defined in HeatbugObserverSwarm:
-    public byte colorIndex;
-    // The model I belong to:
-    private HeatbugModelSwarm _model;
-    // My index in the Heatbug list:
-    private int _heatbugIndex;
-
-    private int _printDiagnostics = 0;
+    { _randomMoveProbability = randomMoveProbability; return this; }
+// The 2-dimensional world of motion:
+private Grid2d _world;
+// The 2-dimensional world of heat:
+private HeatSpace _heatSpace;
+// My location in _world as well as in _heatSpace:
+private int _x, _y;
+// My index into the ColorMap defined in HeatbugModelSwarm:
+private byte _colorIndex;
+    public void setColorIndex (byte colorIndex)
+    { _colorIndex = colorIndex; }
+// The model I belong to:
+private HeatbugModelSwarm _model;
+// My index in the Heatbug list (needed only for diagnostics):
+private int _heatbugIndex;
+// The level of diagnostics to write to standard output:
+private int _printDiagnostics = 0;
     public void setPrintDiagnostics (int printDiagostics)
     { _printDiagnostics = printDiagostics; }
 
@@ -127,14 +133,9 @@ public Heatbug
 
 } /// constructor
 
-/**
-This method does not check to see whether the target cell is already occupied.
-*/
-public Object setX$Y (int inX, int inY)
+public Object drawSelfOn (Raster raster)
 {
-    x = inX;
-    y = inY;
-    _world.putObject$atX$Y (this, x, y);
+    raster.drawPointX$Y$Color (_x, _y, _colorIndex);
     return this;
 }
 
@@ -153,58 +154,67 @@ There may be other methods in this simulation that should be synchronized.
 */
 public synchronized void heatbugStep ()
 {
-    int heatHere;
     int newX, newY;
 
     // Get the heat where I am sitting:
-    heatHere = _heatSpace.getValueAtX$Y (x, y);
+    int heatHere = _heatSpace.getValueAtX$Y (_x, _y);
 
     // Update my current unhappiness:
-    unhappiness
-     = (double) Math.abs (idealTemperature - heatHere) 
+    _unhappiness
+     = (double) Math.abs (_idealTemperature - heatHere) 
      / (_model.getActivity ().getScheduleActivity ().getCurrentTime () + 1);
      /* ... The divisor is an attempt to neutralize the effect of the 
-        increasing heat of the HeatSpace. Without the divisor, Heatbugs would 
+        increasing heat of the HeatSpace. (We add 1 just to avoid a 
+        divide-by-zero error at step 0.) Without the divisor, Heatbugs would 
         keep getting happier as the heat increases, even if they're immobile
         or they move only randomly. Our real interest is in the happiness of 
         Heatbugs that is due to their motion. 
 
-        Todo: We should bring the evaporation rate into the computation. 
-        Diffusion should be irrelevant. Discarding of heat greater than 
-        MAx_HEAT in _heatSpace.addHeat() might be a problem. 
+        According to the documentation for Diffuse2d, newHeat = "evapRate * 
+        (self + diffusionConstant*(nbdavg - self)) where nbdavg is the weighted 
+        average of the 8 neighbours". Ignoring the word "weighted", we think
+        the formula implies that total heat will always be some constant times
+        the number of steps, less heat discarded by _heatSpace.addHeat(). The 
+        evaporation rate would affect the constant. Diffusion should cancel 
+        itself out. 
 
-        We're missing something here, because with "evaporation" rate == 1,
-        and the Heatbugs immobilized with the -i option, they still get
-        happier as time goes by. 
+        We're missing something here, because when we invoke current -i -d0 -e1
+        -p20, total heat divided by step count drops continually, even when
+        heat is not being discarded. And yet the Heatbugs keep getting happier, 
+        even with step count in the divisor of the calculation of unhappiness. 
+
+        Todo: figure out why total heat / step count keeps sinking. Figure out
+        why unhappiness keeps sinking. Try an ideal heat well below MAX_HEAT
+        and see if unhappiness eventually increases. 
     */
 
-    if (unhappiness != 0 && ! _model.getImmobile ())
+    if (_unhappiness != 0 && ! _model.getImmobile ())
     {
 
         double uDR = Globals.env.uniformDblRand.getDoubleWithMin$withMax (0.0, 1.0);
-        if (uDR < randomMoveProbability)
+        if (uDR < _randomMoveProbability)
         {
             if (_printDiagnostics >= 100)
                 System.out.print ("Moving randomly ... ");
             // Pick a random cell within the 9-cell neighborhood, applying
             // geographic wrap-around:
             newX =
-             (x + Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1)
+             (_x + Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1)
               + _world.getSizeX ()
              ) % _world.getSizeX ();
             newY =
-             (y + Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1)
+             (_y + Globals.env.uniformIntRand.getIntegerWithMin$withMax (-1, 1)
               + _world.getSizeY ()
              ) % _world.getSizeY ();
         } else
         {
             if (_printDiagnostics >= 100)
                 System.out.print ("Moving rationally ... ");
-            Point scratchPoint = new Point (x, y);
+            Point scratchPoint = new Point (_x, _y);
             // Ask the HeatSpace for a cell in the 9-cell neighborhood
             // with the closest-to-ideal temperature: 
             _heatSpace.findExtremeType$X$Y
-             ((heatHere < idealTemperature ? HeatSpace.HOT : HeatSpace.COLD),
+             ((heatHere < _idealTemperature ? HeatSpace.HOT : HeatSpace.COLD),
               scratchPoint,   // scratchPoint is an inout parameter
               _world
              );
@@ -227,32 +237,32 @@ public synchronized void heatbugStep ()
             {
                 // Choose randomly among the 8 cells in the neighborhood
                 location = Globals.env.uniformIntRand.getIntegerWithMin$withMax (1,8);
-                xm1 = (x + _world.getSizeX () - 1) % _world.getSizeX ();
-                xp1 = (x + 1) % _world.getSizeX ();
-                ym1 = (y + _world.getSizeY () - 1) % _world.getSizeY ();
-                yp1 = (y + 1) % _world.getSizeY ();
+                xm1 = (_x + _world.getSizeX () - 1) % _world.getSizeX ();
+                xp1 = (_x + 1) % _world.getSizeX ();
+                ym1 = (_y + _world.getSizeY () - 1) % _world.getSizeY ();
+                yp1 = (_y + 1) % _world.getSizeY ();
                 switch (location)
                 {
                 case 1:  
                     newX = xm1; newY = ym1;   // NW
                 break;  
                 case 2:
-                    newX = x ; newY = ym1;    // N
+                    newX = _x ; newY = ym1;    // N
                 break;  
                 case 3:
                     newX = xp1 ; newY = ym1;  // NE
                 break;  
                 case 4:
-                    newX = xm1 ; newY = y;    // W
+                    newX = xm1 ; newY = _y;    // W
                 break;  
                 case 5:
-                    newX = xp1 ; newY = y;    // E
+                    newX = xp1 ; newY = _y;    // E
                 break;  
                 case 6:
                     newX = xm1 ; newY = yp1;  // SW
                 break;  
                 case 7:
-                    newX = x ; newY = yp1;    // S
+                    newX = _x ; newY = yp1;    // S
                 break;  
                 case 8:
                     newX = xp1 ; newY = yp1;  // SE
@@ -265,8 +275,8 @@ public synchronized void heatbugStep ()
             {
                 if (_printDiagnostics >= 100)
                     System.out.println ("no, staying put ... ");
-                newX = x;
-                newY = y;
+                newX = _x;
+                newY = _y;
             }
             else
             {
@@ -278,20 +288,20 @@ public synchronized void heatbugStep ()
         // Deposit heat at my old location; move to my new location. We
         // never subtract heat -- so even if the Heatbugs don't move, they
         // may still become happier:
-        _heatSpace.addHeat (outputHeat, x, y);
-        _world.putObject$atX$Y (null, x, y);
-        x = newX;
-        y = newY;
-        _world.putObject$atX$Y (this, x, y);
+        _heatSpace.addHeat (_outputHeat, _x, _y);
+        _world.putObject$atX$Y (null, _x, _y);
+        _x = newX;
+        _y = newY;
+        _world.putObject$atX$Y (this, _x, _y);
 
-    } /// if unhappiness != 0
+    } /// if _unhappiness != 0
     else
     {
         if (_printDiagnostics >= 100)
         {
             System.out.println ("Too happy to move ... ");
         }
-        _heatSpace.addHeat (outputHeat, x, y);
+        _heatSpace.addHeat (_outputHeat, _x, _y);
     }
 
     if (_printDiagnostics >= 100)
@@ -299,9 +309,14 @@ public synchronized void heatbugStep ()
 
 } /// heatbugStep()
 
-public Object drawSelfOn (Raster raster)
+/**
+This method does not check to see whether the target cell is already occupied.
+*/
+public Object putAtX$Y (int inX, int inY)
 {
-    raster.drawPointX$Y$Color (x, y, colorIndex);
+    _x = inX;
+    _y = inY;
+    _world.putObject$atX$Y (this, _x, _y);
     return this;
 }
 
@@ -312,7 +327,7 @@ for example, System.out.println ("I initialized Heatbug " + heatbug + ".");.
 */
 public String toString ()
 {
-    return _heatbugIndex + " at (" + x + "," + y + "), heat " + _heatSpace.getValueAtX$Y (x, y);
+    return _heatbugIndex + " at (" + _x + "," + _y + "), heat " + _heatSpace.getValueAtX$Y (_x, _y);
 }
 
 } /// class Heatbug

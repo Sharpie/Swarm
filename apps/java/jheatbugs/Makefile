@@ -6,7 +6,7 @@ HeatbugObserverSwarm.class \
 HeatSpace.class \
 StartHeatbugs.class
 
-all: executable
+
 
 # The default target is to run the program. Running the program from the
 # makefile ensures that we never run obsolete code unwittingly:
@@ -46,10 +46,7 @@ scrub :
 	rm -f *.html
 	rm -f package-list
 
-gen :
-	txt2 htm readme.txt readme.gen.htm
-
-tar :
+wrapup :
 	sh wrapup.ksh
 
 

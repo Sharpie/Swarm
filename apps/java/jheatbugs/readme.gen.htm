@@ -1,0 +1,207 @@
+<BODY ALINK="#00922F" BGCOLOR="#FBF6A4" LINK="#C70000" TEXT="#000000" VLINK="#A63700">
+<h1>
+<center>
+<br><p>
+<br><p>
+<UL><UL>        The jheatbugs sample Swarm application
+
+
+</center>
+</h1>
+
+
+</UL></UL>
+This version of jheatbugs incorporates changes I made starting in the autumn of
+2001.
+<br><p>
+I would appreciate any comment, question, suggestion, correction, or objection
+that you would take the time to send me, at timothyrhowe@hotmail.com.
+<br><p>
+- Tim Howe
+<br><p>
+<br><p>
+<h2>1. Installing jheatbugs
+
+</h2>
+
+<br><p>
+You can find the jheatbugs sample Swarm application at swarm.org, under
+Software - Applications. Or you can use wget to download it, as illustrated
+below. 
+<br><p>
+You'll need to install Swarm itself, set the environment variable SWARMHOME
+to the directory where you install Swarm, include $SWARMHOME/bin in your
+PATH, and confirm the installation by invoking javaswarm --help. 
+<br><p>
+Here is one way to download and install jheatbugs:
+<br><p>
+<font size=3><xmp>
+    mkdir swarm
+    cd swarm
+    mkdir arc
+    mkdir src
+    cd arc
+    wget ftp://ftp.swarm.org/pub/swarm/src/apps/java/jheatbugs-2.1.tar.gz
+    cd ../src
+    gzip -dc ../arc/*.tar.gz | tar xf -
+    cd jheatbugs
+    make executable
+
+</xmp></font>
+
+<br><p>
+<h2>1. Invoking jheatbugs
+
+</h2>
+
+<br><p>
+To run the current code of the application from Unix, or from a Unix-like
+shell, or from DOS, invoke
+<br><p>
+<font size=3><xmp>
+    ksh current.ksh
+
+</xmp></font>
+
+for interactive mode, or
+<br><p>
+<font size=3><xmp>
+    ksh current.ksh -b
+
+</xmp></font>
+
+for batch mode, or
+<br><p>
+<font size=3><xmp>
+    ksh current.ksh --help
+
+</xmp></font>
+
+for help.
+<br><p>
+(On Cygwin you will probably need to type <tt>sh current.ksh</tt> rather than
+<tt>ksh current.ksh</tt>).
+<br><p>
+<br><p>
+<h2>2. Goals of jheatbugs
+
+</h2>
+
+<br><p>
+This Java Swarm application is copiously documented, with the goal of providing
+a useful tool for learning Swarm, for those who like to learn by studying
+complete applications.
+<br><p>
+The application provides command-line arguments and some diagnostic output with
+the goal of making experimentation easy. For example, invoke
+<br><p>
+<font size=3><xmp>
+    ksh current.ksh -c
+
+</xmp></font>
+
+and watch what happens when all the Heatbugs start their lives in a contiguous
+cluster. Invoke
+<br><p>
+<font size=3><xmp>
+    ksh current.ksh -i
+
+</xmp></font>
+
+and watch what happens when the Heatbugs are immobile. Invoke
+<br><p>
+<ul>    ksh current.ksh -p 10
+
+
+</ul>
+and observe the history of an arbitrary cell. Invoke
+<br><p>
+<ul>    ksh current.ksh -cip10
+
+
+</ul>
+and guess how long it will take the heat to diffuse to the arbitrary cell for
+which the history is reported.
+<br><p>
+Similarly for other command-line arguments, which you can list by invoking
+<br><p>
+<font size=3><xmp>
+    ksh current.ksh --help
+
+</xmp></font>
+
+Another goal is that this program should be not only an educational tool but
+also a model for good programming: to that end, I have avoided sacrificing
+quality of engineering for pedagogical purposes. Exceptions are generally
+obvious or announced: for example, the quantity of comments, the presence of
+methods that contain only diagnostic code, and ActionGroup and Action
+structures that illustrate more possibilities than non-educational goals would
+justify.
+<br><p>
+<br><p>
+<h2>3. Suggested learning path
+
+</h2>
+
+<br><p>
+1. Invoke the application, in batch and interactive mode, with various
+combinations of options, to understand its black-box behavior.
+<br><p>
+2. Study just the class-level documentation in HeatbugModelSwarm.java.
+<br><p>
+3. Study Heatbug.java.
+<br><p>
+4. Study HeatSpace.java.
+<br><p>
+5. Study StartHeatbugs.java.
+<br><p>
+6. Study HeatbugModelSwarm.java.
+<br><p>
+7. Study HeatbugBatchSwarm.java.
+<br><p>
+8. Study HeatbugObserverSwarm.java.
+<br><p>
+<br><p>
+<h2>4. Naming and typographic conventions
+
+</h2>
+
+<br><p>
+On all private variable names, I use an underscore as a prefix.
+<br><p>
+To make programming structures obvious, I put almost every matching symbol --
+that is, every symbol among ( ) { } [ ] < > /* */ -- either on the same line or
+in the same column as its mate.
+<br><p>
+In documentation, I use the form "m()", with no space before the parentheses,
+to mean "the method m, however many arguments it takes"; I use "m ()" to mean
+"the method m, which takes one argument; "m (a)" to mean "the method m, which
+takes one argument"; etc.
+<br><p>
+At the close of some of the longer methods, I put a comment so you can know
+what method you're reading when the screen shows only the tail; for example, "}
+/// buildObjects()". For constructors, the comment is "} /// constructor". For
+the same reason, I sometimes put a comment at the end of a long loop; for
+example, "} /// if _unhappiness != 0".
+<br><p>
+I generally begin a comment with "..." if it explains the preceding code; I end
+it with ":" if it explains the subsequent code.
+<br><p>
+In the Javadoc comments, I indicate the role of every parameter with the string
+"(in)" or "(out)" or "(inout)" (for example: "@param numBugs (in)") to
+indicate, respectively, whether the parameter is only read or is only written
+or is read and written by the method. Thus, if I pass an array to a method, and
+the method or a delegate of the method might ever write an element of the array
+and might ever also read an element of the array, I indicate "(inout)".
+<br><p>
+I define nearly every accessor (getter or setter) immediately after, and
+indented from, its variable.
+<br><p>
+The fundamental idea of exception handling is to remove unusual conditions from
+the normal flow of processing. Applying that concept to the typography, I do
+not indent try-blocks.
+<br><p>
+Because most Java files contain exactly one top-level class, which all the
+methods belong to, it is generally uninformative to indent each method
+definition. Rather than squander one tab stop on a not very informative
+typographic convention, I do not indent method definitions.

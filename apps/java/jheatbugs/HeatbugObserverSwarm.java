@@ -49,45 +49,43 @@ See HeatbugModelSwarm for an overview of the heatbugs application.
 public class HeatbugObserverSwarm extends GUISwarmImpl
 {
 
-// Todo: make these variables private as much as possible:
-
 // This defines the number of steps after which we display a snapshot of the 
 // simulation; we could speed up the simulation by displaying less frequently:
-public int displayFrequency = 1;
+private int _displayFrequency = 1;
 
 // This defines the timing of the Swarm's Actions:  
-public Schedule displaySchedule;
+private Schedule _displaySchedule;
 
 // This is the model we're observing:
-public HeatbugModelSwarm heatbugModelSwarm;
+private HeatbugModelSwarm _heatbugModelSwarm;
     public HeatbugModelSwarm getHeatbugModelSwarm ()
-    { return heatbugModelSwarm; }
+    { return _heatbugModelSwarm; }
 
 // This is the index to the palette we will use to paint heat and Heatbugs:
-public Colormap colormap;
+private Colormap _colormap;
 
 // This is the 2-dimensional display we will use to paint both heat
 // and Heatbugs:
-public ZoomRaster worldRaster;
+private ZoomRaster _worldRaster;
 
 // This is the time-series graph we will use to display average
-// Heatbug unhappiness:
-public EZGraph unhappyGraph;
+// Heatbug unhappiness_:
+private EZGraph _unhappyGraph;
 
 // This is the 2-dimensional graph of the heat; we will display
 // it on the ZoomRaster:
-public Value2dDisplay heatDisplay;
+private Value2dDisplay _heatDisplay;
 
 // This is the 2-dimensional graph of the Heatbugs; we will display
-// it on the ZoomRaster, layered over the heatDisplay:
-public Object2dDisplay heatbugDisplay;
+// it on the ZoomRaster, layered over the _heatDisplay:
+private Object2dDisplay _heatbugDisplay;
 
 public HeatbugObserverSwarm (Zone aZone)
 {
     super(aZone);
 
     // Create the model that this observer will observe:
-    heatbugModelSwarm = new HeatbugModelSwarm (getZone ());
+    _heatbugModelSwarm = new HeatbugModelSwarm (getZone ());
 
     // Create a data structure to hold the Probes:
     EmptyProbeMapImpl heatbugObserverProbeMap = new EmptyProbeMapImpl 
@@ -95,7 +93,7 @@ public HeatbugObserverSwarm (Zone aZone)
 
     // Create Probes for some variables and methods (see HeatbugModelSwarm.java
     // for an explanation of Probes, ProbeMaps, and ProbeDisplays):
-    heatbugObserverProbeMap.addProbe (probeVariable ("displayFrequency"));
+    heatbugObserverProbeMap.addProbe (probeVariable ("_displayFrequency"));
     heatbugObserverProbeMap.addProbe (probeMessage ("graphBug:"));
 
     Globals.env.probeLibrary.setProbeMap$For
@@ -118,14 +116,14 @@ This method activates the schedules so they're ready to run.
 @param swarmContext (in)
     the larger context within which this Swarm is activated; an observer swarm 
     is usually the top-level Swarm, so the context is usually null; for
-    sub-Swarms such as heatbugModelSwarm, this HeatbugObserverSwarm will be 
+    sub-Swarms such as _heatbugModelSwarm, this HeatbugObserverSwarm will be 
     the swarmContext 
 */
 public Activity activateIn (Swarm swarmContext)
 {
     super.activateIn (swarmContext);
-    heatbugModelSwarm.activateIn (this);
-    displaySchedule.activateIn (this);
+    _heatbugModelSwarm.activateIn (this);
+    _displaySchedule.activateIn (this);
     return getActivity();
 }
 
@@ -143,7 +141,7 @@ this
 |
 |
 Schedule
-displaySchedule
+_displaySchedule
 |
 +-----------------------------------+
 |                                   |
@@ -167,7 +165,7 @@ public Object buildActions ()
     super.buildActions();
 
     // Let the model Swarm build its own schedule:
-    heatbugModelSwarm.buildActions();
+    _heatbugModelSwarm.buildActions();
 
     ActionGroup updateActions = new ActionGroupImpl (getZone());
     ActionGroup tkActions = new ActionGroupImpl (getZone());
@@ -196,18 +194,18 @@ public Object buildActions ()
     }
 
     // Define the Schedule:
-    displaySchedule = new ScheduleImpl (getZone (), displayFrequency);
-      // ... The repeat interval is displayFrequency, so the schedule will
-      // begin once every displayFrequency steps of the simulation.
+    _displaySchedule = new ScheduleImpl (getZone (), _displayFrequency);
+      // ... The repeat interval is _displayFrequency, so the schedule will
+      // begin once every _displayFrequency steps of the simulation.
     // Insert the updateActions ActionGroup into the Schedule:
-    displaySchedule.at$createAction 
+    _displaySchedule.at$createAction 
      (0, 
       // ... Execute the ActionGroup at step 0 relative to the beginning of 
       // the schedule.
       updateActions
      );
     // Insert the tkActions ActionGroup into the Schedule:
-    displaySchedule.at$createAction 
+    _displaySchedule.at$createAction 
      (0, 
       // ... Execute the ActionGroup at step 0 relative to the beginning of 
       // the schedule.
@@ -230,77 +228,77 @@ public Object buildObjects ()
     // Create probe objects on the model and on this observer, to provide
     // GUI channels for reading and writing parameters:
     Globals.env.createArchivedProbeDisplay
-     (heatbugModelSwarm, "heatbugModelSwarm");
+     (_heatbugModelSwarm, "_heatbugModelSwarm");
     Globals.env.createArchivedProbeDisplay (this, "heatbugObserverSwarm");
 
     // Wait here until the user clicks Start or Next after optionally changing 
     // parameters:
     getControlPanel ().setStateStopped ();
 
-    heatbugModelSwarm.buildObjects ();
+    _heatbugModelSwarm.buildObjects ();
 
-    // Create a colormap for displaying Heatbugs and heat:
-    colormap = new ColormapImpl (getZone ());
+    // Create a Colormap for displaying Heatbugs and heat:
+    _colormap = new ColormapImpl (getZone ());
 
     // Assign colors [ 0.. 63] to shades of red, for heat display;
     // assign colors [64..127] to shades of yellow-green, for Heatbug display:
     for (double i = 0; i < 64; i++)
     {
-        colormap.setColor$ToRed$Green$Blue ((byte) i,        i / 63, 0, 0);
-        colormap.setColor$ToRed$Green$Blue ((byte) (64 + i), i / 63, 1, 0);
+        _colormap.setColor$ToRed$Green$Blue ((byte) i,        i / 63, 0, 0);
+        _colormap.setColor$ToRed$Green$Blue ((byte) (64 + i), i / 63, 1, 0);
     }
 
     // Set the colors of the heatbugs from yellow through green (the higher
     // the ideal temperature, the more the yellow):
     double tempRange 
-     = heatbugModelSwarm.maxIdealTemp - heatbugModelSwarm.minIdealTemp;
-    ArrayList heatbugList = heatbugModelSwarm.getHeatbugList ();
+     = _heatbugModelSwarm.maxIdealTemp - _heatbugModelSwarm.minIdealTemp;
+    ArrayList heatbugList = _heatbugModelSwarm.getHeatbugList ();
     for (int i = 0; i < heatbugList.size (); i++)
     {
         Heatbug bug = (Heatbug) heatbugList.get (i);
-        bug.colorIndex =
+        bug.setColorIndex 
          ((byte) 
           (64 + 63 * 
-           (bug.getIdealTemperature () - heatbugModelSwarm.minIdealTemp) 
+           (bug.getIdealTemperature () - _heatbugModelSwarm.minIdealTemp) 
            / tempRange
           )
          );
     }
 
     // Create another window for display, and set its attributes:
-    worldRaster = new ZoomRasterImpl (getZone (), "worldRaster");
+    _worldRaster = new ZoomRasterImpl (getZone (), "_worldRaster");
     try
     {
-    worldRaster.enableDestroyNotification$notificationMethod
+    _worldRaster.enableDestroyNotification$notificationMethod
      (this, new Selector (getClass (), "_worldRasterDeath_", false));
     } catch (Exception e)
     {
         System.err.println ("Exception _worldRasterDeath_: " + e.getMessage ());
     }
-    worldRaster.setColormap (colormap);
-    worldRaster.setZoomFactor (4);
-    worldRaster.setWidth$Height
-     ((heatbugModelSwarm.getWorld ()).getSizeX (),
-      (heatbugModelSwarm.getWorld ()).getSizeY ()
+    _worldRaster.setColormap (_colormap);
+    _worldRaster.setZoomFactor (4);
+    _worldRaster.setWidth$Height
+     ((_heatbugModelSwarm.getWorld ()).getSizeX (),
+      (_heatbugModelSwarm.getWorld ()).getSizeY ()
      );
-    worldRaster.setWindowTitle ("Heat World");
-    worldRaster.pack();                  // draw the window
+    _worldRaster.setWindowTitle ("Heat World");
+    _worldRaster.pack();                  // draw the window
 
     // Create a Value2dDisplay, to display the HeatSpace on the ZoomRaster:
-    heatDisplay = new Value2dDisplayImpl
-     (getZone (), worldRaster, colormap, heatbugModelSwarm.getHeatSpace ());
+    _heatDisplay = new Value2dDisplayImpl
+     (getZone (), _worldRaster, _colormap, _heatbugModelSwarm.getHeatSpace ());
 
-    heatDisplay.setDisplayMappingM$C (512, 0); // map [0..32767] to [0,63]
+    _heatDisplay.setDisplayMappingM$C (512, 0); // map [0..32767] to [0,63]
 
     // The Heatbug positional data is in the Grid2d, which we can obtain from 
-    // getWorld(). The display widget is the ZoomRaster worldRaster. An 
+    // getWorld(). The display widget is the ZoomRaster _worldRaster. An 
     // Object2dDisplay knows how to draw such data on such a raster: 
     try
     {
-    heatbugDisplay = new Object2dDisplayImpl
+    _heatbugDisplay = new Object2dDisplayImpl
      (getZone (),
-      worldRaster,
-      heatbugModelSwarm.getWorld (),
+      _worldRaster,
+      _heatbugModelSwarm.getWorld (),
       new Selector (Class.forName ("Heatbug"), "drawSelfOn", false)
      );
     } catch (Exception e)
@@ -308,23 +306,23 @@ public Object buildObjects ()
         System.err.println ("Exception drawSelfOn: " + e.getMessage ());
     }
 
-    // The Grid2d knows what Heatbugs are on it, and heatbugDisplay has it, so
-    // heatbugDisplay could draw it without any more help from us. But it has 
+    // The Grid2d knows what Heatbugs are on it, and _heatbugDisplay has it, so
+    // _heatbugDisplay could draw it without any more help from us. But it has 
     // getSizeX () times getSizeY () cells. If we give it the Heatbug list,
     // which has only numBugs elements, it can draw the Heatbugs more 
     // efficiently: 
-    heatbugDisplay.setObjectCollection
-     (heatbugModelSwarm.getHeatbugList ());
+    _heatbugDisplay.setObjectCollection
+     (_heatbugModelSwarm.getHeatbugList ());
 
     // Tell the world raster to send mouse clicks to the
-    // heatbugDisplay. This will allow the user to right-click on the
+    // _heatbugDisplay. This will allow the user to right-click on the
     // display to probe the bugs:
     try
     {
-    worldRaster.setButton$Client$Message
+    _worldRaster.setButton$Client$Message
      (3,
-      heatbugDisplay,
-      new Selector (heatbugDisplay.getClass (), "makeProbeAtX$Y", true)
+      _heatbugDisplay,
+      new Selector (_heatbugDisplay.getClass (), "makeProbeAtX$Y", true)
      );
     } catch (Exception e)
     {
@@ -332,21 +330,21 @@ public Object buildObjects ()
     }
 
     // Create the graph widget to display unhappiness:
-    unhappyGraph = new EZGraphImpl
+    _unhappyGraph = new EZGraphImpl
      (getZone (),
       "Unhappiness of bugs vs. time",
       "time", 
       "unhappiness",
-      "unhappyGraph"
+      "_unhappyGraph"
      );
 
     // Todo: deal with this now-commented-out code:
-    // Globals.env.setWindowGeometryRecordName (unhappyGraph, "unhappyGraph");
+    // Globals.env.setWindowGeometryRecordName (_unhappyGraph, "_unhappyGraph");
 
-    // Assign the method to be used for destroying unhappyGraph:
+    // Assign the method to be used for destroying _unhappyGraph:
     try
     {
-    unhappyGraph.enableDestroyNotification$notificationMethod
+    _unhappyGraph.enableDestroyNotification$notificationMethod
      (this,
       new Selector (getClass (), "_unhappyGraphDeath_", false)
      );
@@ -359,9 +357,9 @@ public Object buildObjects ()
     // Create the mechanism for computing the average heatbug unhappiness:
     try
     {
-    unhappyGraph.createAverageSequence$withFeedFrom$andSelector
+    _unhappyGraph.createAverageSequence$withFeedFrom$andSelector
      ("unhappiness", 
-      heatbugModelSwarm.getHeatbugList (),
+      _heatbugModelSwarm.getHeatbugList (),
       new Selector (Class.forName ("Heatbug"), "getUnhappiness", false)
      );
     } catch (Exception e)
@@ -373,19 +371,19 @@ public Object buildObjects ()
 
 public void drop ()
 {
-    if (unhappyGraph != null)
-        unhappyGraph.disableDestroyNotification ();
-    if (worldRaster != null)
-        worldRaster.disableDestroyNotification ();
+    if (_unhappyGraph != null)
+        _unhappyGraph.disableDestroyNotification ();
+    if (_worldRaster != null)
+        _worldRaster.disableDestroyNotification ();
     super.drop ();
 }
 
 public Object graphBug (Heatbug aBug)
 {
-    if (unhappyGraph != null)
+    if (_unhappyGraph != null)
     try
     {
-    unhappyGraph.createSequence$withFeedFrom$andSelector
+    _unhappyGraph.createSequence$withFeedFrom$andSelector
      ("Bug", 
       aBug,
       new Selector (aBug.getClass (), "getUnhappiness", false)
@@ -399,8 +397,8 @@ public Object graphBug (Heatbug aBug)
 
 public Object _unhappyGraphDeath_ (Object caller)
 {
-    unhappyGraph.drop ();
-    unhappyGraph = null;
+    _unhappyGraph.drop ();
+    _unhappyGraph = null;
     return this;
 }
 
@@ -411,22 +409,22 @@ triggers it.
 */
 public Object _update_ ()
 {
-    if (worldRaster != null)
+    if (_worldRaster != null)
     {
-        heatDisplay.display ();
-        heatbugDisplay.display ();
-        worldRaster.drawSelf ();
+        _heatDisplay.display ();
+        _heatbugDisplay.display ();
+        _worldRaster.drawSelf ();
     }
 
-    if (unhappyGraph != null)
-        unhappyGraph.step ();
+    if (_unhappyGraph != null)
+        _unhappyGraph.step ();
     return this;
 }
 
 public Object _worldRasterDeath_ (Object caller)
 {
-    worldRaster.drop ();
-    worldRaster = null;
+    _worldRaster.drop ();
+    _worldRaster = null;
     return this;
 }
 
