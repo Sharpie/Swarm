@@ -1,3 +1,16 @@
+1998-03-18  Alex Lancaster  <alex@santafe.edu>
+
+	* *.[hm]: Reformatting throughout.
+	
+	* ModelSwarm.m: Removed irrelevant import of <simtools.h> - not
+	used.
+
+	* FoodSpace.h: Removed irrelevant import of <simtools.h>.
+
+	* Bug.h: Removed irrelevant import of <space.h>.
+
+	* Bug.m: Import "FoodSpace.h" as implementation refers to it.
+
 1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Bug.m, FoodSpace.m: Include random.h instead of simtools.h. 
