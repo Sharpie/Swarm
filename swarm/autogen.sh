@@ -30,7 +30,15 @@ if [ "$AUTOCONF_VERSION" != "$REQUIRED_AUTOCONF_VERSION" ]; then
     echo "of autoconf and may not work with version" $AUTOCONF_VERSION
 fi
 
-if [ ! `uname`="Darwin" ]; then
+if [ `uname` = "Darwin" ]; then
+	(glibtool --version) < /dev/null > /dev/null 2>&1 || {
+		echo
+		echo "**Error**: You must have \`glibtool' installed to compile Swarm."
+		DIE=1
+	  }
+	
+	LIBTOOL_VERSION=`(glibtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
+else
 	(libtool --version) < /dev/null > /dev/null 2>&1 || {
 		echo
 		echo "**Error**: You must have \`libtool' installed to compile Swarm."
@@ -38,14 +46,6 @@ if [ ! `uname`="Darwin" ]; then
 	  }
 	
 	LIBTOOL_VERSION=`(libtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
-else
-	(glibtool --version) < /dev/null > /dev/null 2>&1 || {
-		echo
-		echo "**Error**: You must have \`libtool' installed to compile Swarm."
-		DIE=1
-	  }
-	
-	LIBTOOL_VERSION=`(glibtool --version) | head -1|cut -d')' -f2| cut -d'(' -f1|sed  's/ //g'`
 fi
 if [ "$LIBTOOL_VERSION" != "$REQUIRED_LIBTOOL_VERSION" ]; then
 	echo
