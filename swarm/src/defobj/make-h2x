@@ -62,8 +62,8 @@ echo '0};
 
 sed <$m.h >$m.xm+ \
   -e 's/	//g' \
-  -e '/@deftype/!d' \
-  -e 's/[ ]*@deftype[ *]\([A-Za-z0-9_][A-Za-z0-9_]*\).*/\1/'
+  -e '/^@deftype/!d' \
+  -e 's/@deftype[ *]\([A-Za-z0-9_][A-Za-z0-9_]*\).*/\1/'
 
 # generate module.xt file (exported by make file as <module/types.h>)
 

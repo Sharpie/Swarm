@@ -2,6 +2,8 @@
 
 	* defobj.h: Add documentation tags.
 
+	* make-h2x: Insist that @deftype start at the beginning of a line.
+
 1998-04-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* defobj.[hm]:  Add ProtocolViolation error symbol.
