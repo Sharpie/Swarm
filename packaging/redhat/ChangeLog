@@ -1,5 +1,9 @@
 2003-02-17  Alex Lancaster  <alex@swarm.org>
 
+	* hdf5.spec: Add from Paul Johnson's most recent SRPMS for hdf5.
+
+	* hdf5-1.2.1.spec: Remove file, replace with hdf5.spec.
+
 	* hdf5-1.2.1.sparc.patch: Remove file.
 
 	* libffi-1.20.spec: Remove, libffi only required for PPC port
