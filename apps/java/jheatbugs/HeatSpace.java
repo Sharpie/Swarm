@@ -46,6 +46,8 @@ public class HeatSpace extends Diffuse2dImpl
 public static final int COLD = 0, HOT = 1;
 public static final int MAX_HEAT = 0x7fff;
 
+private double _discardedHeat = 0.0;
+
 private int _printDiagnostics = 0;
     public void setPrintDiagnostics (int printDiagostics)
     { _printDiagnostics = printDiagostics; }
@@ -78,9 +80,11 @@ public Object addHeat (int moreHeat, int x, int y)
     else
     {
         heatHere = MAX_HEAT;                  // yes, use max
+        double discardedHeat = heatHere + moreHeat - MAX_HEAT;
+        _discardedHeat += discardedHeat;
         if (_printDiagnostics >= 21)
             System.out.println
-             ("In HeatSpace.addHeat() at (" + x + "," + y + "), I discarded heat " + heatHere + " + " + moreHeat + " - " + MAX_HEAT + " = " + (heatHere + moreHeat - MAX_HEAT) + ".");
+             ("In HeatSpace.addHeat() at (" + x + "," + y + "), I discarded heat " + heatHere + " + " + moreHeat + " - " + MAX_HEAT + " = " + discardedHeat + ".");
     }
 
     putValue$atX$Y (heatHere, x, y);      // set the heat
@@ -188,13 +192,13 @@ public Object stepRule ()
 This method returns the sum of the heat in each cell of the HeatSpace.
 
 */
-public double totalHeat ()
+public double historicalHeat ()
 {
     double totalHeat = 0.0;
     for (int x = 0; x < getSizeX (); x++)
         for (int y = 0; y < getSizeY (); y++)
             totalHeat += getValueAtX$Y (x, y);
-    return totalHeat;
+    return totalHeat + _discardedHeat;
 }
 
 } /// class HeatSpace

@@ -160,29 +160,14 @@ public synchronized void heatbugStep ()
     int step = _model.getActivity ().getScheduleActivity ().getCurrentTime ();
     unhappiness
      = Math.abs (idealTemperature - heatHere) / (step > 0 ? step : 1);
-     /* ... The divisor is an attempt to neutralize the effect of the 
-        increasing heat of the HeatSpace. Without the divisor, Heatbugs would 
-        keep getting happier as the heat increases, even if they're immobile
-        or they move only randomly. Our real interest is in the happiness of 
-        Heatbugs that is due to their motion. 
+     /* ... The divisor neutralizes the effect of the increasing heat of the 
+        HeatSpace. Without the divisor, Heatbugs would keep getting happier as 
+        the heat increases, even if they're immobile or they move only 
+        randomly. Our real interest is in the happiness of Heatbugs that is due 
+        to their motion. 
 
-        According to the documentation for Diffuse2d, newHeat = "evapRate * 
-        (self + diffusionConstant*(nbdavg - self)) where nbdavg is the weighted 
-        average of the 8 neighbours". Ignoring the word "weighted", we think
-        the formula implies that total heat will always be some constant times
-        the number of steps, less heat discarded by _heatSpace.addHeat(). The 
-        evaporation rate would affect the constant. Diffusion should cancel 
-        itself out. 
-
-        We're missing something here, because when we invoke current -d0 -e1
-        -p20, in which case the formula reduces to newHeat = self, total heat 
-        divided by step count drops continually, even when
-        heat is not being discarded. And yet the Heatbugs keep getting happier, 
-        even with step count in the divisor of the calculation of unhappiness. 
-
-        Todo: figure out why total heat / step count keeps sinking. Figure out
-        why unhappiness keeps sinking. Try an ideal heat well below MAX_HEAT
-        and see if unhappiness eventually increases. 
+        Todo: figure out why unhappiness keeps dropping even when Heatbugs are 
+        immobile.
     */
 
     if (unhappiness != 0 && ! _model.getImmobile ())
