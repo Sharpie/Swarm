@@ -2,7 +2,7 @@
 
 	* Makefile.in (libjavaswarm.la): Missing object list.
 	(OBJC, OBJCFLAGS): Substitute; switch to Objective C stubs. 
-	(CPPFLAGS): Disable warnings about unknown pragmas.
+	Disable warnings about unknown pragmas.
 
 1999-02-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
