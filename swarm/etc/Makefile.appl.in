@@ -27,7 +27,7 @@ install-data:
         fi
 
 $(APPEXE): $(OBJECTS)
-	$(bindir)/libtool-swarm --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
+	$(SHELL) $(bindir)/libtool-swarm --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(SYSLIBS) $(LIBS)
 
 
 # Local variables:

@@ -1,3 +1,8 @@
+1999-01-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Makefile.appl.in ($(APPEXE)): Invoke libtool via SHELL (for CD-ROM
+	builds).
+
 1999-01-11  Alex Lancaster  <alex@santafe.edu>
 
 	* config.swarm.in (swarm_HDF5LIB): Extract library name to pass to
