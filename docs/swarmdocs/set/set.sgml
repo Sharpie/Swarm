@@ -24,15 +24,15 @@
 
 &setmeta.sgml;
 
-<BOOK>
+<BOOK LABEL="Book I ">
 &overcont.sgml;
 </BOOK>
 
-<BOOK>
+<BOOK LABEL="Book II ">
 &installcont.sgml;
 </BOOK>
 
-<BOOK>
+<BOOK LABEL="Book III ">
 &refcont.sgml;
 </BOOK>
 
