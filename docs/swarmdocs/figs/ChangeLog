@@ -1,3 +1,15 @@
+1998-06-11  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* figs.ent: Use jpeg, not jpg.
+
+	* swarm.eps: Updated with export from AI 7.0.
+
+	* Makefile.am, complete.png, customized.png: New files.
+
+	* complete.eps, complete.jpg, customized.eps, customized.jpg,
+	largelogo.gif, smalllogo.eps, smalllogo.gif, smalllogo.jpg, 
+	switcheroo.eps, switcheroo.jpg:  Removed.
+
 1998-06-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* figs.ent, smalllogo.eps, smalllogo.jpg: New files.
