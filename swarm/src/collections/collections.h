@@ -663,34 +663,6 @@ USING
 //M: Add a member before the index.
 - (void)addBefore: anObject;
 @end
-
-@deftype Stack <List>
-//S: Form of list with add/remove both at start of list.
-
-//D: A Stack is a subtype of List which restricts the addition and removal
-//D: of members to the start of a list.  
-
-USING
-//M: Push an item on the stack.
-- (void)push: anObject;
-
-//M: Pop an item off the stack, and return it.
-- pop;
-@end
-
-@deftype Queue <List>
-//S: Form of list with add at start of list and remove at last.
-
-//D: Queue is a subtype of List which restricts addition of members to the
-//D: start of the list and removal to the end.
-
-USING
-//M: Queue-up an item.
-- (void)enqueue: anObject;
-
-//M: Pull an item off the queue, and return it.
-- dequeue;
-@end
 
 
 //F: A routine for comparing objects.

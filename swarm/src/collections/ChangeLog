@@ -1,3 +1,7 @@
+1998-07-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* collections.h: Remove Stack and Queue (now in design document).
+
 1998-07-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Map.m ([Map_c -at:insert:]): Actually reject an insert for
