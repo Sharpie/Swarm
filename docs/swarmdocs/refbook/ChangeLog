@@ -1,3 +1,8 @@
+1999-01-26  Alex Lancaster  <alex@santafe.edu>
+
+	* refmeta.sgml: Move bibliodata entity outside of BOOKBIBLIO - so
+	legalnotice links work.
+
 1999-01-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* ref00a.sgml: Remove porting note about .swarmArchiver.  Swarm 1.4
