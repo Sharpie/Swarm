@@ -113,7 +113,7 @@ else
       JAVALIBS="`cygpath -w ${jdkdir}/bin`;`cygpath -w ${jdkdir}/lib/kaffe`"
       JAVASWARM_DLL_NAME=libkaffeswarm
       JAVASWARM_DLL_LOADNAME=kaffeswarm
-      JAVASWARM_DLL_ENTRY=''
+      JAVASWARM_DLL_ENTRY='__cygwin_dll_entry@12'
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
     fi
