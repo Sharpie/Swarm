@@ -1,3 +1,7 @@
+1999-04-19  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* mframe.m: Include string.h for strncpy.
+
 1999-03-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (SUBDIRS): Add m4.
