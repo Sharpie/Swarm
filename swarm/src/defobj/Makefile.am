@@ -26,7 +26,7 @@ override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 libdefobj_la_SOURCES = $(SRC) modulemap.c
 libdefobj_la_LDFLAGS = @inst_LDFLAGS@
-libdefobj_la_LIBADD = $(FFILIB)
+libdefobj_la_LIBADD =
 
 bin_SCRIPTS = m2h make-h2x
 
