@@ -1,6 +1,7 @@
 1998-12-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* NEWS: Note addition of setFilename: to EZBin and EZGraph.
+	VERSION: Bump.
 
 1998-11-21  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
