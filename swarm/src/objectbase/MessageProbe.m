@@ -3,11 +3,14 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <stdio.h>
-#import <stdlib.h>
-#import <string.h>
+#import <stdlib.h> // atoi, strtod
+#import <misc.h>  // xmalloc, strdup
 
+#ifdef USE_AVCALL
 #import <avcall.h>
+#else
+#import <ffi.h>
+#endif
 
 #import "MessageProbe.h"
 #import "swarm_rts_routines.h"
@@ -63,7 +66,7 @@
     int i;
 
     empty_val.type = '\0';
-    arguments = (val_t *)malloc (argCount * sizeof (val_t));
+    arguments = (val_t *)xmalloc (argCount * sizeof (val_t));
 
     for (i = 0; i < argCount; i++)
       arguments[i] = empty_val;
@@ -182,45 +185,47 @@ copy_to_nth_colon (const char *str, int n)
   return (nth_type (probedType, which) == _C_ID);
 }
 
+#ifdef USE_AVCALL
 
 - (val_t)dynamicCallOn: target
 {
-  av_alist alist;
   const char *type = probedType;
   IMP imp;
-  val_t val;
-  val_t ret;
+  val_t objectVal, selectorVal, retVal;
   int i;
 
-  void push_argument (val_t arg)
+  av_alist alist;
+
+  void push_argument (val_t *arg)
     {
-      switch (arg.type)
+      switch (arg->type)
         {
         case _C_ID:
-          av_ptr (alist, id, arg.val.object);
+          av_ptr (alist, id, arg->val.object);
           break;
           
         case _C_SEL:
-          av_ptr (alist, SEL, arg.val.selector);
+          av_ptr (alist, SEL, arg->val.selector);
           break;
           
         case _C_INT:
-          av_int (alist, arg.val._int);
+          av_int (alist, arg->val._int);
           break;
           
         case _C_FLT:
-          av_float (alist, arg.val._float);
+          av_float (alist, arg->val._float);
           break;
           
         case _C_DBL:
-          av_double (alist, arg.val._double);
+          av_double (alist, arg->val._double);
           break;
           
         default:
           abort ();
         }
     }
-  
+
+
   imp = [target methodFor: probedSelector];
   if (!imp)
     abort ();
@@ -228,49 +233,176 @@ copy_to_nth_colon (const char *str, int n)
   switch (*type)
     {
     case _C_ID: 
-      av_start_ptr (alist, imp, id, &ret.val.object);
+      av_start_ptr (alist, imp, id, &retVal.val.object);
       break;
     case _C_SEL:
-      av_start_ptr (alist, imp, SEL, &ret.val.selector);
+      av_start_ptr (alist, imp, SEL, &retVal.val.selector);
       break;
     case _C_INT:
-      av_start_int (alist, imp, &ret.val._int);
+      av_start_int (alist, imp, &retVal.val._int);
       break;
     case _C_FLT:
-      av_start_float (alist, imp, &ret.val._float);
+      av_start_float (alist, imp, &retVal.val._float);
       break;
     case _C_DBL:
-      av_start_double (alist, imp, &ret.val._double);
+      av_start_double (alist, imp, &retVal.val._double);
       break;
     default:
       abort ();
     }
-  ret.type = *type;
+  retVal.type = *type;
+
   type = skip_argspec (type);
   
   if (*type != _C_ID)
     abort ();
-  val.type = _C_ID;
-  val.val.object = target;
-  push_argument (val);
+  objectVal.type = _C_ID;
+  objectVal.val.object = target;
+  push_argument (&objectVal);
   
   type = skip_argspec (type);
   if (*type != _C_SEL)
     abort ();
   
-  val.type = _C_SEL;
-  val.val.selector = probedSelector;
-  push_argument (val);
+  selectorVal.type = _C_SEL;
+  selectorVal.val.selector = probedSelector;
+  push_argument (&selectorVal);
   
   for (i = 0, type = skip_argspec (type);
        type;
        type = skip_argspec (type), i++)
-    push_argument (arguments[i]);
+    push_argument (&arguments[i]);
   
   av_call (alist);
   
-  return ret;
+  return retVal;
 }
+
+#else
+
+- (val_t)dynamicCallOn: target
+{
+  const char *type = probedType;
+  IMP imp;
+  val_t objectVal, selectorVal, retVal;
+  int i;
+  int acnt = get_number_of_arguments (probedType);
+  ffi_cif cif;
+  ffi_type *fret;
+  
+  struct alist
+    {
+      ffi_type **type_pos;
+      void **value_pos;
+    };
+  
+  typedef struct alist *av_alist;
+  
+  struct alist alist_buf;
+  av_alist alist = &alist_buf;
+  ffi_type *types_buf[acnt];
+  void *values_buf[acnt];
+  void *ret_addr;
+
+  void push_argument (val_t *arg)
+    {
+      switch (arg->type)
+        {
+        case _C_ID:
+          *alist->type_pos = &ffi_type_pointer;
+          *alist->value_pos = &arg->val.object;
+          break;
+          
+        case _C_SEL:
+          *alist->type_pos = &ffi_type_pointer;
+          *alist->value_pos = &arg->val.selector;
+          break;
+          
+        case _C_INT:
+          *alist->type_pos = &ffi_type_sint;
+          *alist->value_pos = &arg->val._int;
+          break;
+      
+        case _C_FLT:
+          *alist->type_pos = &ffi_type_float;
+          *alist->value_pos = &arg->val._float;
+          break;
+          
+        case _C_DBL:
+          *alist->type_pos = &ffi_type_double;
+          *alist->value_pos = &arg->val._double;
+          break;
+          
+        default:
+          abort ();
+        }
+      alist->type_pos++;
+      alist->value_pos++;
+    }
+  
+  alist->type_pos = types_buf;
+  alist->value_pos = values_buf;
+
+  retVal.type = *type;
+
+  type = skip_argspec (type);
+  objectVal.type = *type;
+  if (objectVal.type != _C_ID)
+    abort ();
+  objectVal.val.object = target;
+  push_argument (&objectVal);
+
+  type = skip_argspec (type);
+  selectorVal.type = *type;
+  if (selectorVal.type != _C_SEL)
+    abort ();
+  selectorVal.val.selector = probedSelector;
+  push_argument (&selectorVal);
+  
+  for (i = 0, type = skip_argspec (type);
+       type;
+       type = skip_argspec (type), i++)
+    push_argument (&arguments[i]);
+  
+  switch (retVal.type)
+    {
+    case _C_ID: 
+      fret = &ffi_type_pointer;
+      ret_addr = &retVal.val.object;
+      break;
+    case _C_SEL:
+      fret = &ffi_type_pointer;
+      ret_addr = &retVal.val.selector;
+      break;
+    case _C_INT:
+      fret = &ffi_type_sint;
+      ret_addr = &retVal.val._int;
+      break;
+    case _C_FLT:
+      fret = &ffi_type_float;
+      ret_addr = &retVal.val._float;
+      break;
+    case _C_DBL:
+      fret = &ffi_type_double;
+      ret_addr = &retVal.val._double;
+      break;
+    default:
+      abort ();
+    }
+
+  if (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, acnt, fret, types_buf) != FFI_OK)
+    abort ();
+
+  imp = [target methodFor: probedSelector];
+  if (!imp)
+    abort ();
+
+  ffi_call (&cif, (void *)imp, ret_addr, values_buf);
+  
+  return retVal;
+}
+
+#endif
 
 - (double)doubleDynamicCallOn: target
 {
