@@ -20,9 +20,7 @@
   const char *baseType;
 
 #ifdef HAVE_JDK
-  JOBJECT fieldObject;
-  JOBJECT fieldType;
-  JOBJECT classObject;
+  JOBJECT *javaInfo;
 #endif
   const void *getterMethod;
   const void *setterMethod;

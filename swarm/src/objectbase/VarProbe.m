@@ -101,13 +101,20 @@ PHASE(Creating)
 }
 
 #ifdef HAVE_JDK
+
+#define JAVAINFO_SIZE (3 * sizeof (JOBJECT))
+#define java_fieldType javaInfo[0]
+#define java_fieldObject javaInfo[1]
+#define java_classObject javaInfo[2]
+
 - _setupJavaVarProbe_
 {
   jobject lref;
 
-  fieldObject = 0;
-  classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
-  if (!classObject)
+  javaInfo = [_obj_GCFixedRootZone allocBlock: JAVAINFO_SIZE];
+  java_fieldObject = 0;
+  java_classObject = SD_JAVA_FIND_OBJECT_JAVA (probedClass);
+  if (!java_classObject)
     raiseEvent (SourceMessage,
                 "Java class to be probed cannot be found.\n");      
   {
@@ -115,29 +122,29 @@ PHASE(Creating)
                                                          probedVariable);
     lref = 
       (*jniEnv)->CallObjectMethod (jniEnv,
-                                   classObject, 
+                                   java_classObject, 
                                    m_ClassGetField,
                                    probedVariableStr);
     (*jniEnv)->DeleteLocalRef (jniEnv, probedVariableStr);
   }
   if (lref)
-    fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-  
+    java_fieldObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
   
   lref = (*jniEnv)->CallObjectMethod (jniEnv,
-                                      fieldObject, 
+                                      java_fieldObject, 
                                       m_FieldGetType);      
   if (!lref)
     raiseEvent (SourceMessage, "Unknown type of probed field `%s'\n",
                 probedVariable);
   
-  fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  java_fieldType = (*jniEnv)->NewGlobalRef (jniEnv, lref);
   (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
-  probedType = objc_type_for_fcall_type (fcall_type_for_java_class (fieldType));
+  probedType = objc_type_for_fcall_type (fcall_type_for_java_class (java_fieldType));
   [self _typeSetup_];
-  return fieldObject ? self : nil;
+  return java_fieldObject ? self : nil;
 }
 #endif
 
@@ -483,8 +490,8 @@ objc_probe_as_int (const char *probedType, const types_t *p)
                              probedVariable);
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
-    return java_probe_as_int (fieldType,
-                              fieldObject,
+    return java_probe_as_int (java_fieldType,
+                              java_fieldObject,
                               SD_JAVA_FIND_OBJECT_JAVA (anObject));
 #endif
   else if (language == LanguageObjc)
@@ -578,8 +585,8 @@ objc_probe_as_double (const char *probedType, const types_t *p)
                                probedVariable);
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
-    return java_probe_as_double (fieldType,
-                                 fieldObject,
+    return java_probe_as_double (java_fieldType,
+                                 java_fieldObject,
                                  SD_JAVA_FIND_OBJECT_JAVA (anObject));
 #endif  
   else if (language == LanguageObjc)
@@ -782,8 +789,8 @@ JS_probe_as_string (COMobject cObj, const char *variableName,
                         buf);
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
-    java_probe_as_string (fieldType,
-                          fieldObject, 
+    java_probe_as_string (java_fieldType,
+                          java_fieldObject, 
                           SD_JAVA_FIND_OBJECT_JAVA (anObject), 
                           fmt, precision,
                           buf);
@@ -879,8 +886,8 @@ JS_probe_as_object (COMobject cObj, const char *variableName)
                                probedVariable);
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
-    return java_probe_as_object (fieldType,
-                                 fieldObject,
+    return java_probe_as_object (java_fieldType,
+                                 java_fieldObject,
                                  SD_JAVA_FIND_OBJECT_JAVA (anObject));
 #endif
   else if (language == LanguageObjc)
@@ -1336,7 +1343,7 @@ convert_from_string (fcall_type_t type,
 #ifdef HAVE_JDK
   else if (language == LanguageJava)
     {
-      java_setFieldFromString (anObject, fieldObject, fieldType, s);
+      java_setFieldFromString (anObject, java_fieldObject, java_fieldType, s);
       ret = YES;
     }
 #endif
@@ -1394,11 +1401,11 @@ convert_from_string (fcall_type_t type,
     }
   else if (language == LanguageJava)
     {
-      if (classcmp (fieldType, c_float))
-        (*jniEnv)->CallVoidMethod (jniEnv, fieldObject, m_FieldSetFloat,
+      if (classcmp (java_fieldType, c_float))
+        (*jniEnv)->CallVoidMethod (jniEnv, java_fieldObject, m_FieldSetFloat,
                                    jObj, (float) val);
-      else if (classcmp (fieldType, c_double))
-        (*jniEnv)->CallVoidMethod (jniEnv, fieldObject, m_FieldSetDouble,
+      else if (classcmp (java_fieldType, c_double))
+        (*jniEnv)->CallVoidMethod (jniEnv, java_fieldObject, m_FieldSetDouble,
                                    jObj, val);
       else
         abort ();
@@ -1413,10 +1420,12 @@ convert_from_string (fcall_type_t type,
 #ifdef HAVE_JDK
   if (language == LanguageJava)
     {
-      (*jniEnv)->DeleteGlobalRef (jniEnv, fieldObject);
-      (*jniEnv)->DeleteGlobalRef (jniEnv, fieldType);
-      (*jniEnv)->DeleteGlobalRef (jniEnv, classObject);
+      (*jniEnv)->DeleteGlobalRef (jniEnv, java_fieldObject);
+      (*jniEnv)->DeleteGlobalRef (jniEnv, java_fieldType);
+      (*jniEnv)->DeleteGlobalRef (jniEnv, java_classObject);
     }
+  if (javaInfo)
+    [_obj_GCFixedRootZone freeBlock: javaInfo blockSize: JAVAINFO_SIZE];
 #endif
 
   if (probedVariable)
