@@ -34,6 +34,9 @@ public class Heatbug {
   /** my colour (display) */
   public byte bugColor;		
 
+  /* Scratch cell for extracting return values */
+  public HeatCell scratchHeatCell;
+
   /** 
    * these methods are used to initialize the object's state. First,
    * methods that have to be sent to create an object. */
@@ -70,6 +73,8 @@ public class Heatbug {
     // Someday, it'd be good if the space library to be powerful
     // enough that the heatbugs never need to be aware how big
     // their world is.
+
+    scratchHeatCell = new HeatCell (0, 0);
   }
   
   /** 
@@ -148,18 +153,15 @@ public class Heatbug {
     // coldest spot is The method call returns values back into
     // newX and newY.
         
-    newX = x;
-    newY = y;
-    {
-      HeatCell heatCell = new HeatCell (newX, newY);
-          
-      heat.findExtremeType$X$Y (((heatHere < idealTemperature)
-                                 ? HeatSpace.hot
-                                 : HeatSpace.cold),
-                                heatCell);
-      newX = heatCell.x;
-      newY = heatCell.y;
-    }
+    scratchHeatCell.x = x;
+    scratchHeatCell.y = y;
+      
+    heat.findExtremeType$X$Y (((heatHere < idealTemperature)
+                               ? HeatSpace.hot
+                               : HeatSpace.cold),
+                              scratchHeatCell);
+    newX = scratchHeatCell.x;
+    newY = scratchHeatCell.y;
         
     // After choice of ideal spot is made, there's a chance of
     // random move.  (Note the normalization of coordinates to [0,

@@ -7,7 +7,7 @@
  * Wrapper object for an (x,y) co-ordinate */
 public class HeatCell
 {
-    int x, y;
+    public int x, y;
     
     public HeatCell (int theX, int theY)
     {

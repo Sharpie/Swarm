@@ -1,3 +1,14 @@
+1999-11-20    <mgd@VAIO>
+
+	* Heatbug.java: New variable scratchHeatCell (only used for
+	return value from HeatSpace's findExtremeType$X$Y. 	
+
+	* HeatSpace.java: New variables sizeX and sizeY to cache
+	worldSize.  Use HeatCell field references for x and y instead
+	of getters.
+
+	* HeatCell.java: Make x and y public.
+
 1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* HeatbugModelSwarm.java: Import {FArguments,FCall}[C]{Impl}.

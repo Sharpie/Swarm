@@ -30,11 +30,15 @@ public class HeatSpace extends Diffuse2dImpl {
     // used in findExtremeTypeX$Y
     static final int cold = 0, hot = 1;
 
+    public int sizeX, sizeY;
+
     public HeatSpace (Zone aZone, int worldXSize, int worldYSize, 
                       double diffuseConstant, double evaporationRate)
     {
         super (aZone, worldXSize, worldYSize, diffuseConstant, 
                evaporationRate);
+	sizeX = worldXSize;
+	sizeY = worldYSize;
     }
     
     /** 
@@ -68,8 +72,8 @@ public class HeatSpace extends Diffuse2dImpl {
         List heatList;
         HeatCell cell, bestCell;
         int offset;
-        int px = hc.getX ();
-        int py = hc.getY ();
+        int px = hc.x;
+        int py = hc.y;
         
         // prime loop: assume extreme is right where we're standing
         bestHeat = getValueAtX$Y (px, py);
@@ -85,8 +89,8 @@ public class HeatSpace extends Diffuse2dImpl {
                 long heatHere;
                 boolean hereIsBetter, hereIsEqual;
 
-                heatHere = getValueAtX$Y ((x + getSizeX ()) % getSizeX (),
-                                          (y + getSizeY ()) % getSizeY ());
+                heatHere = getValueAtX$Y ((x + sizeX) % sizeX,
+                                          (y + sizeY) % sizeY);
         
                 hereIsBetter = (type == cold) ? (heatHere < bestHeat)
                     : (heatHere > bestHeat);
@@ -126,12 +130,12 @@ public class HeatSpace extends Diffuse2dImpl {
         // Now we've found the requested extreme. Arrange to return the
         // information (normalize coordinates), and return the heat we found.
         
-        hc.setX ((bestCell.getX() + getSizeX()) % getSizeX());
-        hc.setY ((bestCell.getY() + getSizeY()) % getSizeY());
+        hc.setX ((bestCell.x + sizeX) % sizeX);
+        hc.setY ((bestCell.y + sizeY) % sizeY);
         
         // clean up the temporary list of (x,y) points
         heatList.clear ();
         
-        return getValueAtX$Y (hc.getX(), hc.getY());
+        return getValueAtX$Y (hc.x, hc.y);
     }
 }
