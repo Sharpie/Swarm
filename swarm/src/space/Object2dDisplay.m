@@ -10,6 +10,8 @@
 #import <space/Object2dDisplay.h>
 #import <simtools.h>
 
+#import <tkobjc/control.h>
+
 @implementation Object2dDisplay
 
 -createEnd {
@@ -72,7 +74,8 @@
 
 // code to make a probe for an object at a specific point. This is
 // good to make as a button client for Raster widgets
--makeProbeAtX: (int) x Y: (int) y {
+- makeProbeAtX: (int)x Y: (int)y
+{
   id obj;
   
   if (x >= 0 && x < [discrete2d getSizeX] &&
@@ -81,7 +84,7 @@
     if (obj)
       [probeDisplayManager createProbeDisplayFor: obj];
     else
-      [globalTkInterp eval: "bell"];
+      tkobjc_ringBell();
   } else {
     [WarningMessage raiseEvent: "Object2dDisplay: invalid coordinates to make probe (%d,%d)\n", x, y];
   }

@@ -1,3 +1,8 @@
+1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Object2dDisplay.m: Include tkobjc/control.h.
+	([Object -makeProbeAtX:Y:]):  Use new wrapper function tkobjc_ringBell.
+
 Mon Dec  8 22:40:48 1997  glen e. p. ropella  <gepr@swarm.com>
 
 	* Int2dFiler.h, Object2dDisplay.h, Discrete2d.h: replaced 
