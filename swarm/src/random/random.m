@@ -16,6 +16,7 @@ Date:		 1997-12-08 (v. 0.75)
 #import <sys/time.h>
 #import <defobj.h>
 #import <random.h>
+#import <objectbase/Arguments.h>
 
 // Utility random objects:
 
@@ -38,7 +39,7 @@ unsigned int		_timeNow;
 // This function is called from simtools/simtools.m at startup:
 
 void
-initRandom (int argc, const char **argv)
+initRandom (id arguments)
 {
   int i;
   struct timeval then;
@@ -54,13 +55,11 @@ initRandom (int argc, const char **argv)
   _useFixedSeed = YES;
   _firstSeed = DEFAULTSEED;
 
-// But if the user says '-varySeed', starting seeds are randomized:
-  for(i = 1 ; i < argc ; i++) {
-    if ( !strcmp(argv[i],"-varySeed") ) {
+  if ([arguments getVarySeedFlag])
+    {
       _useFixedSeed = NO;
       _firstSeed = PIDTIMESEED;
     }
-  }
 
 // Initialize the inline RNG:
 
@@ -68,7 +67,7 @@ initRandom (int argc, const char **argv)
 
 // Save the time-of-day in microseconds for use later in computing RANDOMSEED:
 
-   gettimeofday(&then, NULL);
+   gettimeofday (&then, NULL);
    _timeThen = then.tv_usec + 1000000 * ( then.tv_sec % 2048 );
 
 
