@@ -14,10 +14,7 @@ Library:      defobj
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <misc.h> // strncmp
-
 
 //
 // Class_s -- portion of class object allocated for all classes 
