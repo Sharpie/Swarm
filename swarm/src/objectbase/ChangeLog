@@ -1,3 +1,8 @@
+1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (lib_LIBRARIES, libobjectbase_a_SOURCES): Remove.
+	(noinst_HEADERS): Include local.h.
+
 1998-06-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (lib_LTLIBRARIES, libobjectbase_la_SOURCES,

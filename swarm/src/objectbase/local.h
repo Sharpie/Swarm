@@ -7,7 +7,6 @@
 // local.h -- defines and functions for use inside the objectbase lib
 //
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
 
@@ -16,4 +15,4 @@
 extern int p_compare(id, id);
 
 // Symbols for this library
-id <Symbol> DefaultString, CharString, IntString ;
+id <Symbol> DefaultString, CharString, IntString;
