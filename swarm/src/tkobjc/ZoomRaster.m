@@ -152,7 +152,7 @@ PHASE(Using)
 }
   
 // override setWidth to set it for them according to zoom factor.
-- (void)setWidth: (unsigned)newWidth Height: (unsigned)newHeight
+- setWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
   logicalWidth = newWidth;
   logicalHeight = newHeight;
@@ -170,6 +170,7 @@ PHASE(Using)
                   logicalWidth, logicalHeight,
                   logicalWidth, logicalHeight];
 #endif
+  return self;
 }
 
 // drawing is just like before, only magnified.

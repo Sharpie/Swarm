@@ -24,7 +24,7 @@
 - setZoomFactor: (unsigned)z;
 - (void)handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 - (void)handleExposeWidth: (unsigned)newWidth Height: (unsigned)newHeight;
-- (void)setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
+- setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 - (void)drawPointX: (int)x Y: (int)y Color: (Color)c;
 - (void)fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c;
 - (void)ellipseX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1
