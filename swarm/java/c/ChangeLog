@@ -1,6 +1,8 @@
-1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-08-15    <mgd@HELEN>
 
-	* Makefile.in (javaswarm.dll): Switch to using new DLL-capable linker.
+	* Makefile.in (libjavaswarmstubs_la_OBJECTS, javaswarmstubs_OBJECTS): 
+	Use $(module)_stubs aggregations instead of individual stub files.
+	(%_stubs.m): New rule.
 
 1999-08-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
