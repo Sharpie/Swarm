@@ -565,10 +565,8 @@ PHASE(Using)
 {
   if (activeGrapher)
     [activeGrapher setArg: 0 ToUnsigned: val];
-  else if (activeOutFile)
+  if (activeOutFile)
     [activeOutFile setArg: 0 ToUnsigned: val];
-  else
-    abort ();
 }
 
 - (void)step
