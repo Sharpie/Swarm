@@ -17,6 +17,7 @@ Library:      collections
 #import <defobj.h> // hdf5In
 
 #include <swarmconfig.h> // HAVE_HDF5
+#include <misc.h> // abort
 
 @implementation Collection_any
 

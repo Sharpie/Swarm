@@ -37,7 +37,7 @@ PHASE(Creating)
       // (a) Use the default system object:
       uniformRandom = uniformUnsRand;	// defined in <random/random.m> 
       
-      // (b) Complain and abort:
+      // (b) Complain and quit:
       // raiseEvent (InvalidArgument,
       // "ListShuffler was created without a random number generator.\n");
     }
