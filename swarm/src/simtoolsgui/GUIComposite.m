@@ -7,13 +7,15 @@
 #import <simtoolsgui.h>
 #import <collections.h>
 
-@implementation GUIComposite
-
 static int
 compareFunc (id obj1, id obj2)
 {
   return strcmp ((const char *)obj1, (const char *)obj2);
 }
+
+@implementation GUIComposite
+
+PHASE(Creating)
 
 + createBegin: aZone
 {
@@ -22,12 +24,14 @@ compareFunc (id obj1, id obj2)
   obj->componentList = [Map createBegin: aZone];
   [obj->componentList setCompareFunction: compareFunc];
   obj->componentList = [obj->componentList createEnd];
+
   return obj;
 }
 
 - setWindowGeometryRecordName: (const char *)windowGeometryRecordName
 {
   baseWindowGeometryRecordName = windowGeometryRecordName;
+
   return self;
 }
 
@@ -42,8 +46,11 @@ compareFunc (id obj1, id obj2)
   [widget setWindowGeometryRecordName: 
             buildWindowGeometryRecordName (baseWindowGeometryRecordName, 
                                            componentName)];
+
   return self;
 }
+
+PHASE(Using)
 
 - enableDestroyNotification: theNotificationTarget
          notificationMethod: (SEL)theNotificationMethod
@@ -52,12 +59,14 @@ compareFunc (id obj1, id obj2)
                    @selector (enableDestroyNotification:notificationMethod:)
                  : theNotificationTarget
                  : (id)theNotificationMethod];
+
   return self;
 }
 
 - disableDestroyNotification
 {
   [componentList forEach: @selector (disableDestroyNotification)];
+
   return self;
 }
 @end

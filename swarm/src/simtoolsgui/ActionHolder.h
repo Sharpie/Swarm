@@ -13,17 +13,16 @@
   SEL selector;
 }
 
-// Create methods
-- createEnd;
+// Creating methods
+- setActionTarget: tgt;
+- setSelector: (SEL)slctr;
+- setActionName: (const char *)nme;
+- setType: (id <Symbol>) tp;
 
 // Use methods
-- setActionTarget: tgt;
 - getActionTarget;
-- setSelector: (SEL)slctr;
 - (SEL)getSelector;
-- setActionName: (const char *)nme;
 - (const char *)getActionName;
-- setType: (id <Symbol>) tp;
-- (id <Symbol>) getType;
+- (id <Symbol>)getType;
 
 @end

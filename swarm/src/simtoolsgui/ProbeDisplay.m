@@ -11,58 +11,12 @@
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1
 
-@implementation ProbeDisplay
-
-- setWindowGeometryRecordName : (const char *)theName
-{
-  windowGeometryRecordName = theName;
-  return self;
-}
-
 static void
 resetObjectError (void)
 {
   [InvalidCombination 
     raiseEvent:
       "It is an error to reset the object when building a ProbeDisplay\n"];
-}
-
-- setProbedObject: (id) anObject
-{
-  if (SAFEPROBES)
-    {
-      if (probedObject != 0)
-        {
-          resetObjectError ();
-          return nil;
-        }
-    }
-  probedObject = anObject;
-  return self;
-}
-
-- getProbedObject
-{
-  return probedObject;
-}
-
-- setProbeMap: theProbeMap
-{
-  if (SAFEPROBES)
-    {
-      if (probeMap != 0)
-        {
-          resetObjectError ();
-          return nil;
-        }
-    }
-  probeMap = theProbeMap;
-  return self;
-}
-
-- getProbeMap
-{
-  return probeMap;
 }
 
 //
@@ -78,6 +32,47 @@ notifyObjectDropped (id anObject, id realloc, id pd)
   [pd markForDrop];
   // There might be an issue of recursivity if a user decided
   // to probe a probe display.  I ignored that. --gepr
+}
+
+@implementation ProbeDisplay
+
+PHASE(Creating)
+
+- setWindowGeometryRecordName: (const char *)theName
+{
+  windowGeometryRecordName = theName;
+
+  return self;
+}
+
+- setProbedObject: (id) anObject
+{
+  if (SAFEPROBES)
+    {
+      if (probedObject != 0)
+        {
+          resetObjectError ();
+          return nil;
+        }
+    }
+  probedObject = anObject;
+
+  return self;
+}
+
+- setProbeMap: theProbeMap
+{
+  if (SAFEPROBES)
+    {
+      if (probeMap != 0)
+        {
+          resetObjectError ();
+          return nil;
+        }
+    }
+  probeMap = theProbeMap;
+
+  return self;
 }
 
 - createEnd
@@ -120,6 +115,18 @@ notifyObjectDropped (id anObject, id realloc, id pd)
   [self drop];
   
   return probeDisplay;
+}
+
+PHASE(Using)
+
+- getProbeMap
+{
+  return probeMap;
+}
+
+- getProbedObject
+{
+  return probedObject;
 }
 
 @end

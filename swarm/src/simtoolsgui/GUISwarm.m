@@ -8,6 +8,8 @@
 
 @implementation GUISwarm
 
+PHASE(Creating)
+
 - setWindowGeometryRecordName: (const char *)theWindowGeometryRecordName
 {
   baseWindowGeometryRecordName = theWindowGeometryRecordName;
@@ -22,6 +24,8 @@
              buildWindowGeometryRecordName (baseWindowGeometryRecordName,
                                             componentName)];
 }
+
+PHASE(Using)
 
 - buildObjects
 {

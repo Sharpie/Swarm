@@ -1,3 +1,27 @@
+1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* simtoolsgui.h (WindowGeometryRecordName,
+	CompositeWindowGeometryRecordName, GUIComposite): Add phase tags.
+	(WindowGeometryRecordName, CompositeWindowGeometryRecordName,
+	ControlPanel, ActionCache, CommonProbeDisplay, ProbeDisplay,
+	CompleteProbeDisplay, ProbeDisplayManager, GUIComposite, GUISwarm,
+	ActiveGraph): Move //S and //D tags inside protocol.
+
+	* ClassDisplayWidget.m ([ClassDisplayWidget +createBegin:]): Modify
+	instance variable directly instead of using methods.
+
+	* ActionHolder.m: Remove -createEnd. 
+
+	* ActiveGraph.m, ActionCache.m, ActionHolder.m,
+	ClassDisplayWidget.m, CommonProbeDisplay.m,
+	CompleteProbeDisplay.m, ControlPanel.m, GUIComposite.m,
+	GUISwarm.m, MessageProbeWidget.m, ProbeDisplay.m: Add phase tags
+	and reorder method defintions in sync.
+
+	* ActionCache.h, ActionHolder.h: Reorder per phase info.
+
+	* ProbeDisplay.h: Minor reformatting.
+
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbeWidget.m: Use renamed setIdFlag and isIdFlag.

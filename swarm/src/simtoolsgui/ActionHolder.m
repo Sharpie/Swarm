@@ -7,14 +7,8 @@
 
 @implementation ActionHolder
 
-// Create methods
-- createEnd
-{
-  [super createEnd];
-  return self;
-}
+PHASE(Creating)
 
-// Use methods
 - setActionTarget: tgt
 {
   target = tgt;
@@ -32,20 +26,10 @@
   return self;
 }
 
-- (SEL)getSelector
-{
-  return selector;
-}
-
 - setActionName: (const char *)nme
 {
   name = nme;
   return self;
-}
-
-- (const char *)getActionName
-{
-  return name;
 }
 
 - setType: (id <Symbol>) tp
@@ -54,11 +38,21 @@
   return self;
 }
 
+PHASE(Using)
+
+- (SEL)getSelector
+{
+  return selector;
+}
+
+- (const char *)getActionName
+{
+  return name;
+}
 
 - (id <Symbol>) getType
 {
   return type;
 }
-
 
 @end

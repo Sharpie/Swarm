@@ -25,6 +25,8 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 @implementation ControlPanel
 
+PHASE(Creating)
+
 - createEnd
 {
   [super createEnd];
@@ -35,6 +37,8 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   return self;
 }
 
+PHASE(Using)
+
 #ifndef USE_JAVA
 - getState
 {
@@ -44,6 +48,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 - setState: theState
 {
   state = theState;
+
   return self;
 }
 #else
@@ -55,7 +60,6 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 - setState: s
 {
   return [ctlObj setState: s];
-  state = s;
 }
 #endif
 
@@ -94,6 +98,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
         }
       else [self setStateStopped];
     }
+
   return [activityID getStatus];
 }
 
@@ -101,6 +106,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 - setCtlObj: ctl
 {
   ctlObj = ctl;
+
   return self;
 }
 #endif
@@ -140,12 +146,14 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 - setStateSave
 {
   archiverSave ();
+
   return self;
 }
 
 - setStateRunning 
 {
   [probeDisplayManager setDropImmediatelyFlag: NO];
+
   return [self setState: ControlStateRunning];
 }
 
@@ -157,6 +165,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   if (_activity_current)
   //  if (getTopLevelActivity())
     [getTopLevelActivity() stop];
+
   return [self setState: ControlStateStepping];
 }
 
@@ -167,6 +176,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   if (_activity_current)
     //  if (getTopLevelActivity())
     [getTopLevelActivity() stop];
+
   return [self setState: ControlStateNextTime];
 }
 
@@ -176,6 +186,7 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
   //  if (getTopLevelActivity())
   if (_activity_current)
     [getTopLevelActivity() terminate];
+
   return [self setState: ControlStateQuit];
 }
 

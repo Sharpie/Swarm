@@ -11,28 +11,35 @@
 
 @implementation ClassDisplayWidget
 
+PHASE(Creating)
+
 + createBegin: aZone
 {
-  id obj = [super createBegin: aZone];
-  [obj setMaxLabelWidth: 0];
+  ClassDisplayWidget *obj = [super createBegin: aZone];
+
+  obj->maxLabelWidth = 0;
+
   return obj;
 }
 
 - setOwner: anOwner
 {
   owner = anOwner;
+
   return self;
 }
 
 - setMySuperclass: aWidget
 {
   mySuperclass = aWidget;
+
   return self;
 }
 
 - setMySubclass: aWidget
 {
   mySubclass = aWidget;
+
   return self;
 }
 
@@ -49,29 +56,22 @@
         }
     }
   probedObject = anObject;
+
   return self;
 }
 
 - setMaxLabelWidth: (int)width
 {
   maxLabelWidth = width;
-  return self;
-}
 
-- getProbedObject
-{
-  return probedObject;
+  return self;
 }
 
 - setClassToDisplay: (Class)aClass
 {
   theClass = aClass;
-  return self;
-}
 
-- getProbeMap
-{
-  return probeMap;
+  return self;
 }
 
 // finalize creation: create widgets, set them up.
@@ -198,6 +198,18 @@
   [bottomFrame pack];
   
   return self;
+}
+
+PHASE(Using)
+
+- getProbedObject
+{
+  return probedObject;
+}
+
+- getProbeMap
+{
+  return probeMap;
 }
 
 - armSuperButton

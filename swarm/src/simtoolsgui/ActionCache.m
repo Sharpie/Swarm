@@ -17,7 +17,6 @@
 
 #import <simtools/Archiver.h>
 
-
 // Type Symbols
 id <Symbol> Control, Probing, Spatial;
 // Error symbols
@@ -25,12 +24,37 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 @implementation ActionCache
 
-// Create Phase methods
+PHASE(Creating)
 
 - setControlPanel: cp
 {
   ctrlPanel = cp;
   return self;
+}
+
+// Widget methods
+- (id <ButtonPanel>)createProcCtrl
+{
+  id <ButtonPanel> panelWidget;
+  
+  // These methods are bound to the Tk buttons. They get invoked directly
+  // by the Tk interpreter (via tclobjc). ObserverSwarm uses these states
+  // to control simulation execution.
+
+  // make a widget for us, too. Bind buttons to messages to ourself.
+  panelWidget = [ButtonPanel createBegin: [self getZone]];
+  SET_WINDOW_GEOMETRY_RECORD_NAME (panelWidget);
+  [panelWidget setButtonTarget: self];
+  panelWidget = [panelWidget createEnd];
+  [panelWidget addButtonName: "Start" method: @selector (sendStartAction)];
+  [panelWidget addButtonName: "Stop"  method: @selector (sendStopAction)];
+  [panelWidget addButtonName: "Step"  method: @selector (sendStepAction)];
+  [panelWidget addButtonName: "Next"  method: @selector (sendNextAction)];
+  [panelWidget addButtonName: "Save"  method: @selector (sendSaveAction)];
+  [panelWidget addButtonName: "Quit"  method: @selector (sendQuitAction)];
+  [panelWidget setWindowTitle: "ProcCtrl"];
+
+  return panelWidget;
 }
 
 - createEnd
@@ -89,7 +113,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   return self;
 }
 
-// Use phase methods
+PHASE(Using)
 
 - setScheduleContext: context
 {
@@ -228,9 +252,10 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
     [ctrlPanel setState: ControlStateRunning];
   
   // create a 'cmd' action
-  anAction = [[ActionHolder createBegin: [self getZone]] createEnd];
+  anAction = [ActionHolder createBegin: [self getZone]];
   [anAction setActionName: cmd];
   [anAction setType: type];
+  anAction = [anAction createEnd];
   
   // insert the action
   return [self insertAction: anAction];
@@ -270,31 +295,6 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 - verifyActions
 {
   return self;
-}
-
-// Widget methods
-- (id <ButtonPanel>)createProcCtrl
-{
-  id <ButtonPanel> panelWidget;
-  
-  // These methods are bound to the Tk buttons. They get invoked directly
-  // by the Tk interpreter (via tclobjc). ObserverSwarm uses these states
-  // to control simulation execution.
-
-  // make a widget for us, too. Bind buttons to messages to ourself.
-  panelWidget = [ButtonPanel createBegin: [self getZone]];
-  SET_WINDOW_GEOMETRY_RECORD_NAME (panelWidget);
-  [panelWidget setButtonTarget: self];
-  panelWidget = [panelWidget createEnd];
-  [panelWidget addButtonName: "Start" method: @selector (sendStartAction)];
-  [panelWidget addButtonName: "Stop"  method: @selector (sendStopAction)];
-  [panelWidget addButtonName: "Step"  method: @selector (sendStepAction)];
-  [panelWidget addButtonName: "Next"  method: @selector (sendNextAction)];
-  [panelWidget addButtonName: "Save"  method: @selector (sendSaveAction)];
-  [panelWidget addButtonName: "Quit"  method: @selector (sendQuitAction)];
-  [panelWidget setWindowTitle: "ProcCtrl"];
-
-  return panelWidget;
 }
 
 - (id <ButtonPanel>)getPanel

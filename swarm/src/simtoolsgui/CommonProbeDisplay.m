@@ -9,6 +9,14 @@
 
 @implementation CommonProbeDisplay
 
+PHASE(Creating)
+
+- setWindowGeometryRecordName: (const char *)theName
+{
+  windowGeometryRecordName = theName;
+  return self;
+}
+
 - createEnd
 {
   id <Frame> c_Frame;
@@ -37,24 +45,21 @@
   return self;
 }
 
-- setWindowGeometryRecordName: (const char *)theName
-{
-  windowGeometryRecordName = theName;
-  return self;
-}
-
 - setProbedObject: (id)anObject
 {
   probedObject = anObject;
+
   return self;
 }
+
+PHASE(Using)
 
 - getProbedObject
 {
   return probedObject;
 }
 
-- (void)setRemoveRef: (BOOL) theRemoveRef
+- (void)setRemoveRef: (BOOL)theRemoveRef
 {
   removeRef = theRemoveRef;
 }
@@ -84,6 +89,7 @@
   [topFrame assertGeometry];
 
   [probeDisplayManager addProbeDisplay: self];
+
   return self;
 }
 

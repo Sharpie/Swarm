@@ -7,11 +7,13 @@
 
 #import <objectbase.h>
 
+@protocol WindowGeometryRecordName <SwarmObject>
 //S: Protocol for archiving window geometry.
 
 //D: Classes that allow for window geometry archiving must conform
 //D: this protocol.
-@protocol WindowGeometryRecordName <SwarmObject>
+
+CREATING
 //M: This method is used to give an
 //M: instance ProbeDisplay a name, which will used by the Archiver
 //M: when recording its geometry information.
@@ -21,11 +23,12 @@
 #define SET_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
   [theWidget setWindowGeometryRecordName: #theWidget]
 
+@protocol CompositeWindowGeometryRecordName <WindowGeometryRecordName>
 //S: Protocol for archiving objects with several GUI components.
 
 //D: Protocol for assigning archiving names to components of an object
 //D: with several GUI components.
-@protocol CompositeWindowGeometryRecordName <WindowGeometryRecordName>
+CREATING
 //M: Update the list of components, and compute the derived archiving name.
 - setWindowGeometryRecordNameForComponent: (const char *)componentName
                                    widget: widget;
@@ -37,14 +40,15 @@
 #define SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME(theWidget) \
   SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME_FOR (self,theWidget)
 
+@protocol ControlPanel <SwarmObject>
 //S: Class to control the top level SwarmProcess
 
 //D: ControlPanel keeps track of the users requests to run, stop, quit, or
 //D: time step the simulation. It cooperates with the GUISwarm to control
 //D: the execution of activities in Swarm.
-@protocol ControlPanel <SwarmObject>
 CREATING
 - createEnd;
+
 USING
 //M: Get the current button state of the controlpanel.  Is one of
 //M: ControlStateRunning, ControlStateStopped, ControlStateStepping,
@@ -78,15 +82,16 @@ USING
 
 @end
 
+@protocol ActionCache <CompositeWindowGeometryRecordName>
 //S: A class to manage threads and Swarms.
 
 //D: A class that provides a smart bag into which actions can be
 //D: thrown by other threads and Swarms intended for insertion on
 //D: it's Swarm's schedule.
-@protocol ActionCache <CompositeWindowGeometryRecordName>
 CREATING
 - setControlPanel: cp;
 - createEnd;
+- createProcCtrl;
 USING
 - setScheduleContext: context;
 - insertAction: actionHolder;
@@ -99,7 +104,6 @@ USING
 - sendQuitAction;
 - verifyActions;
 
-- createProcCtrl;
 - getPanel;
 - doTkEvents;  // should change to pollGUI or something
 - waitForControlEvent;
@@ -110,9 +114,9 @@ extern id <Symbol> Control, Probing, Spatial;
 extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
 
+@protocol CommonProbeDisplay <WindowGeometryRecordName>
 //S: A protocol underlying ProbeDisplay and CompleteProbeDisplay
 //D: This protocol provides the common interface to all kinds of ProbeDisplays.
-@protocol CommonProbeDisplay <WindowGeometryRecordName>
 CREATING
 //M: This method must be called.
 - setProbedObject: anObject;
@@ -134,31 +138,33 @@ USING
 @end
 
 
+@protocol ProbeDisplay <CommonProbeDisplay>
 //S: A class to display ProbeMaps
 
 //D: A class which generates a GUI to a ProbeMap of probes applied to a 
 //D: given target object.
-@protocol ProbeDisplay <CommonProbeDisplay>
 CREATING
 //M: This is an optional create phase method - if no probeMap is specified
 //M: the ProbeDisplay will ask the probedObject for a ProbeMap using the
 //M: getProbeMap method described below... The default behaviour of this
 //M: method will be to return the probeLibrary's copy of the probeMap for
 //M: the class of the target object.
-- setProbeMap: (ProbeMap *)probeMap;
+- setProbeMap: (id <ProbeMap>)probeMap;
+
+- createEnd;
 
 USING
 //M: Gets the probedMap.
-- getProbeMap;
+- (id <ProbeMap>)getProbeMap;
 
 @end
 
+@protocol CompleteProbeDisplay <CommonProbeDisplay>
 //S: A class that generates a complete ProbeMap for an object.
 
 //D: A class which generates a GUI to a complete ProbeMap of probes applied 
 //D: to a given target object (by complete we mean that all the probes for
 //D: the target object's class and its superclasses are included)...
-@protocol CompleteProbeDisplay <CommonProbeDisplay>
 @end
 
 void _createProbeDisplay (id obj);
@@ -179,12 +185,12 @@ void createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
 #define CREATE_ARCHIVED_COMPLETE_PROBE_DISPLAY(anObject) \
   createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
 
+@protocol ProbeDisplayManager <SwarmObject>
 //S: The ProbeDisplay manager.
 
 //D: A (singleton) class whose instance is used to manage all the 
 //D: ProbeDisplays created by the user during a GUI run of the 
 //D: simulation.
-@protocol ProbeDisplayManager <SwarmObject>
 USING
 - createProbeDisplayFor: anObject;
 
@@ -214,15 +220,17 @@ USING
 - setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
 @end
 
+@protocol GUIComposite <CompositeWindowGeometryRecordName>
 //S: Base class for objects that use several GUI components.
 
 //D: Base class for objects that use several GUI components.
-@protocol GUIComposite <CompositeWindowGeometryRecordName>
+USING
 - enableDestroyNotification: notificationTarget
          notificationMethod: (SEL)notificationMethod;
 - disableDestroyNotification;
 @end
 
+@protocol GUISwarm <SwarmProcess, WindowGeometryRecordName>
 //S: A version of the Swarm class which is graphics aware. 
 
 //D: GUISwarm is a subclass of Swarm that is used as a toplevel Swarm for
@@ -241,7 +249,8 @@ USING
 //D: checked). Also, it is often useful to use [controlPanel
 //D: setStateStopped] to wait for the user to indicate they're ready for
 //D: execution to proceed.
-@protocol GUISwarm <SwarmProcess, WindowGeometryRecordName>
+
+USING
 //M: Start the activity running, and also handle user requests via the
 //M: control panel. Returns either Completed (the model ran until
 //M: requested to terminate) or ControlStateQuit (the user pressed
@@ -249,6 +258,7 @@ USING
 - go;
 @end
 
+@protocol ActiveGraph <MessageProbe>
 //S: Provides a continuous data feed between Swarm and the GUI.
 
 //D: An active graph object is the glue between a MessageProbe (for reading
@@ -257,7 +267,6 @@ USING
 //D: actually do graphic functions. This class is used by EZGraph, and we
 //D: expect to see less direct usage of it by end-users as more analysis
 //D: tools (such as EZGraph) internalize its functionality.
-@protocol ActiveGraph <MessageProbe>
 USING
 //M: Sets the graph element used to draw on.
 - setElement: ge;

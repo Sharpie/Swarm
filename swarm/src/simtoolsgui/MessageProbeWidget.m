@@ -17,7 +17,49 @@
 // Avoid using chars as an index to ctype table.
 #define isSpace(ch) isspace((int)ch)
 
+static BOOL
+empty (const char *str)
+{
+  int i, length;
+  
+  if (str == NULL)
+    return YES;
+  
+  length = strlen (str);
+  for (i = 0; i < length; i++)
+    if (!isSpace (str[i]))
+      break;
+  
+  return (i >= length);
+}
+
+static const char *
+printVal (val_t val)
+{
+  static char buf[128];
+  
+  switch (val.type)
+    {
+    case _C_ID: 
+      return [val.val.object getIdName];
+    case _C_SEL:
+      return sel_get_name (val.val.selector);
+    case _C_INT:
+      sprintf (buf, "%d", val.val._int);
+      return buf;
+    case _C_FLT:
+      sprintf (buf, "%f", val.val._float);
+      return buf;
+    case _C_DBL:
+      sprintf (buf, "%f", val.val._double);
+      return buf;
+    }
+  abort ();
+}
+
 @implementation MessageProbeWidget
+
+PHASE(Creating)
 
 + createBegin: aZone
 {
@@ -32,18 +74,21 @@
 - setObject: obj
 {
   myObject = obj;
+
   return self;
 }
 
 - setProbe: (Probe *)theProbe
 {
   myProbe = (MessageProbe *)theProbe;
+
   return self;
 }
 
 - setMaxReturnWidth: (int)width
 {
   maxReturnWidth = width;
+
   return self;
 }
 
@@ -108,46 +153,7 @@
   return self;
 }
 
-static BOOL
-empty (const char *str)
-{
-  int i, length;
-  
-  if (str == NULL)
-    return YES;
-  
-  length = strlen (str);
-  for (i = 0; i < length; i++)
-    if (!isSpace (str[i]))
-      break;
-  
-  return (i >= length);
-}
-
-
-static const char *
-printVal (val_t val)
-{
-  static char buf[128];
-  
-  switch (val.type)
-    {
-    case _C_ID: 
-      return [val.val.object getIdName];
-    case _C_SEL:
-      return sel_get_name (val.val.selector);
-    case _C_INT:
-      sprintf (buf, "%d", val.val._int);
-      return buf;
-    case _C_FLT:
-      sprintf (buf, "%f", val.val._float);
-      return buf;
-    case _C_DBL:
-      sprintf (buf, "%f", val.val._double);
-      return buf;
-    }
-  abort ();
-}
+PHASE(Using)
 
 - dynamic
 {

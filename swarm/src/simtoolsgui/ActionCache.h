@@ -21,13 +21,14 @@
 // Create Phase methods
 - setControlPanel: cp;
 - createEnd;
+- (id <ButtonPanel>)createProcCtrl;
 
 // Use phase methods
 - setScheduleContext: context;
 - insertAction: actionHolder;
 - deliverActions;
 // generic send method underlying the specific send methods
-- sendActionOfType: (id <Symbol>) type toExecute: (const char *)cmd;
+- sendActionOfType: (id <Symbol>)type toExecute: (const char *)cmd;
 - sendStartAction;
 - sendStopAction;
 - sendStepAction;
@@ -38,7 +39,6 @@
 - waitForControlEvent;
 
 // widget methods
-- (id <ButtonPanel>)createProcCtrl;
 - (id <ButtonPanel>)getPanel;
 - doTkEvents;
 

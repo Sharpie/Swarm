@@ -10,8 +10,6 @@
 #import <objc/objc-api.h> // IvarList_t
 #import <collections.h> // List
 
-@implementation CompleteProbeDisplay
-
 static int
 max (int a, int b)
 {
@@ -39,6 +37,10 @@ max_class_var_length (Class class)
   
   return local_max ;
 }
+
+@implementation CompleteProbeDisplay
+
+PHASE(Creating)
 
 // finalize creation: create widgets, set them up.
 - createEnd
@@ -99,6 +101,8 @@ max_class_var_length (Class class)
   [self install];
   return self;
 }
+
+PHASE(Using)
 
 - do_resize
 {
