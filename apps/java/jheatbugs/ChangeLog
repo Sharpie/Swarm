@@ -1,8 +1,12 @@
+2001-11-11  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* HeatbugModelSwarm.java: Remove ^Ms.
+	
 2001-11-11  Timothy Howe  <timothyrhowe@hotmail.com>
 
-	* Heatbug.java: changed totalHeat() to historicalHeat() and had it return
-	total heat plus discarded heat. Observed that (historical heat) / (step 
-	count + 1) is close to constant. 
+ 	* Heatbug.java: changed totalHeat() to historicalHeat() and had it
+	return total heat plus discarded heat. Observed that (historical
+	heat) / (step count + 1) is close to constant.
 
 	* HeatbugModelSwarm.java: made naming change required by change in 
 	Heatbug.java. 
