@@ -814,12 +814,17 @@ PHASE(Using)
 
 - (BOOL)checkName: (const char *)groupName
 {
+#ifdef HAVE_HDF5
   struct H5G_stat_t statbuf;
 
   if (H5Gget_objinfo (loc_id, groupName, 1, &statbuf) < 0)
     return NO;
   else
     return YES;
+#else
+  hdf5_not_available ();
+  return NO;
+#endif
 }
 
 - iterate: (int (*) (id hdf5obj))iterateFunc
