@@ -507,7 +507,8 @@ map_java_ivars (jobject javaObject,
             jobject obj = GETVALUE (Object);
             
             val.object = SD_JAVA_ENSURE_OBJECT_OBJC (obj);
-            (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+            if (obj)
+              (*jniEnv)->DeleteLocalRef (jniEnv, obj);
           }
           break;
         case fcall_type_string:

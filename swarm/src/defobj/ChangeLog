@@ -2,6 +2,8 @@
 
 	* FCall.m: Set BUGGY_BUILTIN_APPLY if GCC 3.
 
+	* java.m (map_java_vars): Don't call DeleteLocalRef if object is null.
+
 2001-06-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Arguments.[hm], defobj.h: Change getFixedSeed return to unsigned.
