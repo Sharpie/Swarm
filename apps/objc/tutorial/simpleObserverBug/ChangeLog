@@ -1,3 +1,17 @@
+1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m: Include simtoolsgui/GUISwarm.h.
+
+	* ObserverSwarm.m: Don't include collections.h, objectbase.h,
+	analysis.h, or gui.h.  Include simtoolsgui.h
+
+	* ObserverSwarm.h: Don't include objectbase.h, space.h,
+	activity.h, gui.h, collections.h, simtools.h, and analysis.h.
+	Include simtoolsgui/GUISwarm.h.
+
+	* Bug.m, FoodSpace.m, ModelSwarm.m: Include random.h instead of
+	simtools.h.  Reformatting throughout.
+
 1998-02-26  Alex Lancaster  <alex@santafe.edu>
 
 	* README: Removed reference to modelZone, added further

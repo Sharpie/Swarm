@@ -1,7 +1,9 @@
 // simpleBug - tutorial application
 
 
-#import <simtools.h>                // ... for initSwarm() 
+#import <simtools.h> // initSwarm() 
+#import <simtoolsgui/GUISwarm.h>
+
 #import "ObserverSwarm.h"
 
 // The main() function is the top-level place where everything starts.

@@ -1,7 +1,7 @@
 // Bug.m					SimpleBug
 
 #import "Bug.h"
-#import <simtools.h>
+#import <random.h>
 
 @implementation Bug
 
