@@ -786,6 +786,10 @@ CREATING
 //M: Create a pixmap from a widget, or from the root window if widget is nil.
 - setWidget: (id <Widget>)widget;
 
+//M: Specify whether or not window manager decorations for a widget
+//M: should be included.
+- setParentFlag: (BOOL)parentFlag;
+
 - createEnd;
 
 USING
