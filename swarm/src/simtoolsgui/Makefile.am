@@ -8,7 +8,6 @@ include $(top_srcdir)/src/Makefile.rules
 
 INCLUDES = -I$(srcdir)/../collections -I$(srcdir)/../defobj -I$(srcdir)/../activity -I$(srcdir)/../objectbase -I$(srcdir)/../gui -I$(srcdir)/../simtools -I$(srcdir)/../misc -I.. -I$(srcdir)/..
 
-lib_LIBRARIES = libsimtoolsgui.a
 lib_LTLIBRARIES = libsimtoolsgui.la
 
 SRC = ActionCache.m ActionHolder.m ActiveGraph.m \
@@ -17,7 +16,6 @@ SRC = ActionCache.m ActionHolder.m ActiveGraph.m \
 	ProbeDisplay.m ProbeDisplayManager.m SimpleProbeDisplay.m \
 	VarProbeWidget.m simtoolsgui.m
 
-libsimtoolsgui_a_SOURCES = $(SRC)
 libsimtoolsgui_la_SOURCES = $(SRC)
 libsimtoolsgui_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
