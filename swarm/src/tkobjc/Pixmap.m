@@ -57,7 +57,7 @@ PHASE(Creating)
   char header[8];
   png_structp read_ptr;
   png_infop read_info_ptr;
-  unsigned row_bytes;
+  unsigned row_bytes = 0;
 
   if ((fp = fopen (filename, "rb")) == NULL)
     [MissingFiles raiseEvent: "Cannot open %s", filename];
