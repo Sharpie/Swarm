@@ -1,3 +1,9 @@
+2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java-stub.el (java-print-method-invocation): Re-implement for
+	(*imp) calls.
+	(java-print-native-method): Likewise.
+
 2000-11-28  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java-stub.el (java-print-native-method): Handle Selector return.

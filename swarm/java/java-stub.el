@@ -567,14 +567,19 @@
 
 (defun argname-number (num)
   (if (= num -1)
-      "javaswarm_target"
-      (concat "javaswarm_arg" (prin1-to-string num))))
+      "swarm_target"
+      (concat "swarm_arg" (prin1-to-string num))))
 
 (defun java-print-method-invocation-arguments (protocol method)
-  (unless (method-factory-flag method)
-    (insert "  id ")
-    (insert (argname-number -1))
-    (insert " = SD_JAVA_ENSURE_OBJECT_OBJC (jobj);\n"))
+  (if (method-factory-flag method)
+      (let ((name (protocol-name protocol)))
+        (insert "  Class swarm_target = objc_lookup_class (\"")
+        (if (string= name "Arguments") "Arguments_c" name)
+        (insert "\");\n"))
+    (progn
+      (insert "  id ")
+      (insert (argname-number -1))
+      (insert " = SD_JAVA_ENSURE_OBJECT_OBJC (jobj);\n")))
   (let ((arguments (method-arguments method))
         (string-pos 0)
         (module (protocol-module protocol)))
@@ -623,36 +628,23 @@
         ((local-ref-p argument) (argname-number arg-pos))
         (t (argument-name argument))))
 
+(defun java-objc-type (type)
+  (if type type "id"))
+
 (defun java-print-method-invocation (protocol method)
-  (insert "[")
-  (if (method-factory-flag method)
-      (let ((name (protocol-name protocol)))
-        (insert
-         (if (string= name "Arguments") "Arguments_c" name)))
-    (insert (argname-number -1)))
-  (insert " ")
+  (insert "(*swarm_imp) (swarm_target, swarm_sel")
   (let ((arguments (method-arguments method))
         (string-pos 0)
         (module (protocol-module protocol)))
-    (insert (argument-key (car arguments)))
     (when (has-arguments-p method)
-      (insert ": ")
-      (insert (java-argument-ref (car arguments) 0 string-pos))
-      (when (java-argument-string-p (car arguments))
-        (incf string-pos))
-      (loop for argument in (cdr arguments)
-            for key = (argument-key argument)
-            for arg-pos from 1
-            when key do 
-            (insert " ")
-            (insert key)
-            end
+      (loop for argument in arguments
+            for arg-pos from 0
             do
-            (insert ": ")
+            (insert ", ")
             (insert (java-argument-ref argument arg-pos string-pos))
             (when (java-argument-string-p argument)
               (incf string-pos)))))
-  (insert "]"))
+  (insert ")"))
 
 (defun java-print-native-method-name (arguments)
   (insert (argument-key (first arguments)))
@@ -738,7 +730,6 @@
       (java-print-method-invocation-arguments protocol method)
       ;; (java-print-method-invocation-arguments-lref-deletion protocol method)
 
-      (insert "  ")
       (let ((signature (get-method-signature method)))
         (if (string= signature "+createBegin")
           (progn
@@ -758,6 +749,14 @@
             (insert "  (*jniEnv)->DeleteLocalRef (jniEnv, nextPhase);\n")
             (insert "  return ret;\n"))
           (progn
+            (impl-print-get-sel method)
+            (impl-print-get-imp-pointer
+             method
+             #'(lambda (method)
+                 (insert (java-objc-type (method-return-type method))))
+             #'(lambda (argument)
+                 (print-argument argument #'java-objc-type #'identity)))
+
             (unless (or (string= ret-type "void")
                         (if (or strings (create-method-p method))
                             (insert "ret = ")
