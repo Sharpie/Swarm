@@ -1,3 +1,13 @@
+1999-06-21  Alex Lancaster  <alex@santafe.edu>
+
+	* java-stub.el (java-print-deprecated-doc): New function, common
+	for methods and protocols.  Use generic-deprecated-list from
+	protocol.el to extract the deprecated-list.
+	(java-print-javadoc-method): Use it.  Also use `deprecated-p'
+	predicate from protocol.el to determine whether the tag is
+	generated at all
+	(java-print-javadoc-protocol): Likewise.
+
 1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am: Include $(top_srcdir)/etc/Makefile.protocol.

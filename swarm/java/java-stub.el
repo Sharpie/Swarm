@@ -238,6 +238,12 @@
         if (eq method sig) return 't
         finally return nil))
 
+(defun java-print-deprecated-doc (object)
+  (insert "\n * @deprecated ")
+  (loop for text in (generic-deprecated-list object)
+        do
+        (insert text)))
+
 (defun java-print-javadoc-method (method protocol)
   (insert "\n/**\n * ")
   (loop for text in (method-description-list method)
@@ -248,13 +254,8 @@
     (message "Supress javadoc `@hide' for `%s' in `%s'"
              (get-method-signature method)
              (protocol-name protocol)))
-  (if (not (eq (length (method-deprecated-list method)) 0))
-      (progn (insert "\n * @deprecated ")
-             (loop for text in (method-deprecated-list method)
-                   do
-                   (insert text))
-             (message "`%s' in `%s' is `@deprecated'"
-                      (get-method-signature method) (protocol-name protocol))))
+  (if (deprecated-p method)
+      (java-print-deprecated-doc method))
   (insert "\n */\n"))  
 
 (defun java-print-javadoc-protocol (protocol)
@@ -265,13 +266,8 @@
   (loop for text in (protocol-description-list protocol)
         do
         (insert text))
-  (if (not (eq (length (protocol-deprecated-list protocol)) 0))
-      (progn (insert "\n * @deprecated ")
-             (loop for text in (protocol-deprecated-list protocol)
-                   do
-                   (insert text))
-             (message "`%s' protocol is `@deprecated'"
-                      (protocol-name protocol))))
+  (if (deprecated-p protocol)
+      (java-print-deprecated-doc protocol))
   (insert "\n */\n"))  
 
 (defun freaky-message (objc-type)
