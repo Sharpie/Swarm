@@ -29,7 +29,9 @@
   <!ENTITY user3.06.sgml system "user3.06.sgml">
   <!ENTITY user3.07.sgml system "user3.07.sgml">
 
- <!entity usermeta.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN">
+<!entity usermeta.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN">
+<!entity userbiblio.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Bibliography//EN">
+
 <!entity % local.notation.class "| JPEG">
 <!notation JPEG system>
 
@@ -85,6 +87,11 @@
   &user3.06.sgml;
   &user3.07.sgml;
 
-</CHAPTER>
+  </CHAPTER>
+
+  &userbiblio.sgml;
 
 </BOOK>
+
+
+
