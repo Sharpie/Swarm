@@ -820,22 +820,7 @@ typedef struct memberData { void *memberData[2]; } member_t;
 typedef struct { void *memberData[2]; id owner; } dupmember_t;
 @end
 
-@protocol Set <KeyedCollection, CREATABLE>
-//S: Collection of members each having a defined identity.
-
-//D: Set is a subtype of KeyedCollection in which the key value associated
-//D: with each member is determined by the member value itself.  The key
-//D: value may be identical to the member itself, or may be defined as a a
-//D: function of the member using a create-time option.
-
-//D: The Set type inherits most of its interface from the KeyedCollection
-//D: supertype.  Set defines no create-time options beyond those already
-//D: defined by KeyedCollection.  If a custom compare or bucket function is
-//D: specified, the member value is passed as the key value arguments of
-//D: these functions.  These functions determine what part of the member
-//D: value is part of the key value, by determining which key values will
-//D: compare equal to any member.
-
+@protocol _Set
 USING
 //M: The add: message adds a new member to a set.  It returns true if
 //M: member added matched the key of any member already contained in the
@@ -858,7 +843,24 @@ USING
 - replace: anObject;
 @end
 
-@protocol OrderedSet <List, CREATABLE>
+@protocol Set <_Set, KeyedCollection, CREATABLE>
+//S: Collection of members each having a defined identity.
+
+//D: Set is a subtype of KeyedCollection in which the key value associated
+//D: with each member is determined by the member value itself.  The key
+//D: value may be identical to the member itself, or may be defined as a a
+//D: function of the member using a create-time option.
+
+//D: The Set type inherits most of its interface from the KeyedCollection
+//D: supertype.  Set defines no create-time options beyond those already
+//D: defined by KeyedCollection.  If a custom compare or bucket function is
+//D: specified, the member value is passed as the key value arguments of
+//D: these functions.  These functions determine what part of the member
+//D: value is part of the key value, by determining which key values will
+//D: compare equal to any member.
+@end
+
+@protocol OrderedSet <_Set, List, CREATABLE>
 //S: A set of members in an externally assigned linear sequence.
 
 //D: An OrderedSet is a totally ordered collection of members in which every
