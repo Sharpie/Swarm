@@ -586,7 +586,7 @@ USING
 
 CREATING
 - setName: (const char *)name;
-- setClass: aClass;
+- setClass: (Class)aClass;
 - setSuperclass: aClass;
 - setDefiningClass: aClass;
 - at: (SEL)aSel addMethod: (IMP)aMethod;

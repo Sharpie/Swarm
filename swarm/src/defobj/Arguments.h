@@ -49,7 +49,7 @@
   BOOL ignoringEnvFlag;
   int (*optionFunc) (int key, const char *arg);
   int lastArgIndex;
-  struct argp *argp;
+  void *argp;
 }
 + createBegin: aZone;
 - createEnd;

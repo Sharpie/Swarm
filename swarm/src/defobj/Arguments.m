@@ -162,13 +162,15 @@ PHASE(Creating)
   Arguments_c *obj = [super createBegin: aZone];
   
   obj->argp = xmalloc (sizeof (struct argp));
-  obj->argp->options = NULL;
+#define ARGP_(obj) ((struct argp *)(obj->argp))
+#define ARGP ((struct argp *)argp)
+  ARGP_(obj)->options = NULL;
   [obj addOptions: base_options];
-  obj->argp->parser = parse_opt;
-  obj->argp->args_doc = NULL;
-  obj->argp->doc = NULL;
-  obj->argp->children = NULL;
-  obj->argp->help_filter = NULL;
+  ARGP_(obj)->parser = parse_opt;
+  ARGP_(obj)->args_doc = NULL;
+  ARGP_(obj)->doc = NULL;
+  ARGP_(obj)->children = NULL;
+  ARGP_(obj)->help_filter = NULL;
   obj->appModeString = "default";
 
   obj->defaultAppConfigPath = "./";
@@ -273,9 +275,9 @@ strip_quotes (const char *argv0)
 - (void)addOptions: (struct argp_option *)newoptions
 {
   unsigned exist_count = 0, total_count = 0, new_count = 0;
-  struct argp_option *options = (struct argp_option *)argp->options;
+  struct argp_option *options = (struct argp_option *)ARGP->options;
   
-  if (argp->options)
+  if (ARGP->options)
     {
       while (options->name)
         {
@@ -291,8 +293,8 @@ strip_quotes (const char *argv0)
       new_count++;
       options++;
     }
-  if (argp->options)
-    options = xrealloc ((void *)argp->options,
+  if (ARGP->options)
+    options = xrealloc ((void *)ARGP->options,
                               (total_count + 1) * sizeof (struct argp_option));
   else
     options = xmalloc ((total_count + 1) * sizeof (struct argp_option));
@@ -308,7 +310,7 @@ strip_quotes (const char *argv0)
     end->doc = NULL;
     end->group = 0;
   }
-  argp->options = options;
+  ARGP->options = options;
 }
 
 #define STRINGIFY(sym) #sym

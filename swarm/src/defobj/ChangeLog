@@ -1,3 +1,10 @@
+2004-11-07  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Arguments.[hm]: Make argp ivar opaque.  Adapt references with
+	extra casting.
+
+	* DefClass.h, defobj.h (-setClass): Type argument as Class.
+
 2004-07-30  Marcus G. Daniels <mgd@santafe.edu>
 
 	* HDF5Object.m: Fix unpacking of compound types (across differing
