@@ -521,7 +521,8 @@ create_method_refs (JNIEnv *env)
   
   if (!(m_PhaseCImpl_copy_creating_phase_to_using_phase = 
         (*env)->GetMethodID (env,
-                             c_PhaseCImpl_copy_creating_phase_to_using_phase",
+                             c_PhaseCImpl,
+                             "_copy_creating_phase_to_using_phase",
                              "()V")))
     abort();
 }
