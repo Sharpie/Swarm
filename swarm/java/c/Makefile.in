@@ -35,12 +35,22 @@ modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)PROTOCOLS))
 libjavaswarmstubs__la_OBJECTS = $(addsuffix .lo,$(modulePROTOCOLS))
 libjavaswarm__la_OBJECTS = setup.lo SwarmEnvironment.lo
 
-all: @JAVASWARM_DLL@ @LIBJAVASWARM_LA@ @LIBJAVASWARMSTUBS_LA@
+JAVASWARM_DLL = @JAVASWARM_DLL@
+LIBJAVASWARM_LA = @LIBJAVASWARM_LA@
+LIBJAVASWARMSTUBS_LA = @LIBJAVASWARMSTUBS_LA@
+
+all: $(JAVASWARM_DLL) $(LIBJAVASWARM_LA) $(LIBJAVASWARMSTUBS_LA)
 
 install: all
-	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir)
-	$(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir)
-	$(LIBTOOL) --mode=finish $(libdir) 
+	if test -z "$(JAVASWARM_DLL)"; then \
+	  $(LIBTOOL) --mode=install $(INSTALL) libjavaswarm.la $(libdir) \
+	  $(LIBTOOL) --mode=install $(INSTALL) libjavaswarmstubs.la $(libdir) \
+	  $(LIBTOOL) --mode=finish $(libdir) \
+	else \
+	  $(INSTALL) javaswarm.dll $(bindir) \
+	  $(INSTALL) libjavaswarm.a $(libdir) \
+	  $(RANLIB) $(libdir)/libjavaswarm.a \
+	fi
 
 libjavaswarmstubs_.la: $(libjavaswarmstubs__la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ $(libjavaswarmstubs__la_LDFLAGS) $(libjavaswarmstubs__la_OBJECTS)
