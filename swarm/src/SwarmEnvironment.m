@@ -299,7 +299,11 @@ _initSwarm_ (int argc, const char **argv, const char *appName,
              BOOL forceBatchMode,
              BOOL inhibitExecutableSearchFlag)
 {
-  id env = [SwarmEnvironment createBegin];
+  id env;
+  void __objc_exec_class_for_all_initial_modules ();
+
+  __objc_exec_class_for_all_initial_modules ();
+  env = [SwarmEnvironment createBegin];
 
   [env setArguments:
          [(id) argumentsClass ?: (id) [Arguments_c class]

@@ -30,7 +30,8 @@ lib_LTLIBRARIES = @LIBSWARM_LA@
 EXTRA_LTLIBRARIES = libswarm.la
 libswarm_la_DEPENDENCIES = $(foreach module,$(SWARMMODULES),$(module)/lib$(module).la)
 
-libswarm_la_SOURCES = SwarmEnvironment.m
+libswarm_la_SOURCES = SwarmEnvironment.m classList.m
+BUILT_SOURCES = classList.m
 
 include_HEADERS = swarm.h SwarmEnvironment.h SwarmEnvironment_getters.h
 
@@ -68,3 +69,8 @@ install-data-local:
 	ranlib $(DESTDIR)$(libdir)/libswarmdll.a
 endif
 
+classList.m:
+	find $(foreach module,$(SWARMMODULES),$(srcdir)/$(module)) -name \*.h | grep -v random/test | xargs cat | egrep -v 'TARGET|TINDEX|List' | sed -n 's/^@interface  *\(.*\) *:.*/\1/p' > classList
+	cat classList | sed 's/.*/@class &;/' > classList.m
+	(echo 'void swarm_force_references () {' ; cat classList | sed 's/.*/  [& self];/'; echo '}') >> classList.m
+	$(RM) classList

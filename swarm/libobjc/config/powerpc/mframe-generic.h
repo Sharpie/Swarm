@@ -75,7 +75,7 @@ typedef struct rs6000_args
       else \
         { \
           sprintf((DEST), "%.*s+%d", (TYPE)-type, type, \
-                40 + sizeof (double) * ((CUM).float_args - 1)); \
+                (int) (40 + sizeof (double) * ((CUM).float_args - 1))); \
         } \
     } \
   else \

@@ -1,3 +1,9 @@
+2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
+
+	* VERSION: Bump.
+
+	* config.guess, config.sub, ltmain.sh: Update to latest.
+
 2003-03-26  Alex Lancaster  <alex@swarm.org>
 
 	* README: Change e-mail address of support list to new

@@ -1,3 +1,9 @@
+2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
+
+	* acffi.m4: Use -L and -l instead of full path to avcall.
+
+	* acjdk.m4: Add support for finding Apple MacOS X JVM.
+
 2003-01-04  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* actcltk.m4: Added more recent versions of tcl to include dir

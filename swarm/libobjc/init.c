@@ -445,7 +445,7 @@ objc_init_statics (void)
    initialization routines as soon as possible */
 
 void
-__objc_exec_class (Module_t module)
+__objc_exec_class_real (Module_t module)
 {
   /* Have we processed any constructors previously?  This flag is used to
      indicate that some global data structures need to be built.  */
@@ -642,6 +642,38 @@ __objc_exec_class (Module_t module)
   objc_send_load ();
 
   objc_mutex_unlock(__objc_runtime_mutex);
+}
+
+
+static unsigned initialComplete = 0;
+static unsigned moduleCount = 0;
+#define MAX_CACHE 900
+static Module_t modules[MAX_CACHE];
+
+void
+__objc_exec_class (Module_t module)
+{
+  if (initialComplete)
+    __objc_exec_class_real (module);
+  else
+    {
+      if (moduleCount == MAX_CACHE)
+	abort ();
+      
+      modules[moduleCount] = module;
+      
+      moduleCount++;
+    }
+}
+
+void
+__objc_exec_class_for_all_initial_modules ()
+{
+  unsigned i;
+ 
+  for (i = 0; i < moduleCount; i++)
+    __objc_exec_class_real (modules[i]);
+  initialComplete = 1;
 }
 
 static void objc_send_load (void)

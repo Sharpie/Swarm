@@ -18,7 +18,10 @@ if test $jdkdir = no; then
 else
   expand_jdkdir=`eval echo $jdkdir`
   USEDOSCLASSPATH=no
-  if test $expand_jdkdir = /usr && test -d /usr/include/java; then
+  if test $expand_jdkdir = /System/Library/Frameworks/JavaVM.framework; then
+    jdkincludedir=$jdkdir/Headers
+    expand_jdkincludedir=$expand_jdkdir/Headers
+  elif test $expand_jdkdir = /usr && test -d /usr/include/java; then
     jdkincludedir=$jdkdir/include/java
     expand_jdkincludedir=$expand_jdkdir/include/java
   else
@@ -98,6 +101,12 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/win32"
       JAVALIBS=no
       JAVACMD='${jdkdir}/bin/java'
+    elif test -f $expand_jdkincludedir/NSJavaConfiguration.h; then
+      JAVALIBS='${jdkdir}/Libraries'
+      JAVACMD='${jdkdir}/Commands/java'
+    elif test -d $expand_jdkincludedir/kaffe; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/kaffe"
+      JAVACMD='${jdkdir}/jre/bin/kaffe-bin'
     else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/genunix"
       JAVACMD='${jdkdir}/bin/java'
@@ -130,6 +139,10 @@ else
       JAVACLASSES=${jdkdir}/jre/lib/rt.jar
     elif test -f ${expand_jdkdir}/lib/rt.jar; then
       JAVACLASSES=${jdkdir}/lib/rt.jar
+    elif test -f ${expand_jdkdir}/Classes/classes.jar; then
+      JAVACLASSES=${jdkdir}/Classes/classes.jar
+      javac_default='${jdkdir}/Commands/javac'
+      test -n "$JAR" || JAR='${jdkdir}/Commands/jar'
     else
       JAVACLASSES=${jdkdir}/lib/classes.zip
     fi
@@ -141,7 +154,9 @@ else
       JAVASWARM_DLL_ENTRY='__cygwin_noncygwin_dll_entry@12'
     else
       JAVAENV="APPHOME=${jdkdir} $SHLIBPATH_VAR=$JAVALIBS:\${$SHLIBPATH_VAR}"
-      javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
+      if test -z "$javac_default"; then
+        javac_default='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
+      fi
     fi
     JAVAENV="$extra_JAVAENV $JAVAENV"
     JAVA='${JAVAENV} ${JAVACMD}'

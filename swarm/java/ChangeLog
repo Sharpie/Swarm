@@ -1,3 +1,10 @@
+2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
+
+	* java-stub.el (java-print-native-method): Add in declarations and
+	calls to swarm_java_constructors,
+	__objc_exec_class_for_all_initial_modules, swarm_force_references,
+	and swarm_java_predispatch.
+
 2003-04-30    <mgd@arrow.santafe.edu>
 
 	* java-stub.el (java-print-native-class): Dump the dispatch table

@@ -1,3 +1,8 @@
+2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
+
+	* Makefile.in (predispatch.c): Remove the constructor and rename
+	to swarm_java_predispatch.
+
 2003-05-10  Marcus Daniels  <mgd@mac>
 
 	* Makefile.in ($(_LIBJAVASWARM_LA)): Use -lswarmobjc instead of -lobjc.

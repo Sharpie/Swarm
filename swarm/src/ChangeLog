@@ -1,8 +1,17 @@
+2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
+
+	* SwarmEnvironment.m (_initSwarm_):
+	Add call to __objc_exec_class_for_all_initial_modules.
+
+	* Makefile.am (classList.m): New rule.
+	(libswarm_la_SOURCES, BUILT_SOURCES): Add classList.m.
+
 2003-05-02    <mgd@mac.swarm.org>
 	
-	* SwarmEnvironment.m (predispatch, createBegin):  Remove the constructor
-	attribute and call from createBegin instead.  (The constructor gets
-	called on Mac, but apparently things aren't set up at that point.
+	* SwarmEnvironment.m (predispatch, createBegin): Remove the
+	constructor attribute and call from createBegin instead.  (The
+	constructor gets called on Mac, but apparently things aren't set
+	up at that point.
 
 2003-05-01    <mgd@arrow.santafe.edu>
 
