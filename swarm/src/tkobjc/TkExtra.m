@@ -42,7 +42,7 @@ setBltLibrary (id interp, const char *path)
 static void
 ensureBltSupportFiles (id arguments, id interp)
 {
-  const char *fileName = "bltGraph.tcl";
+  const char *fileName = "graph.tcl";
   const char *basePath = [interp globalVariableValue: "blt_library"];
   BOOL retry = NO;
   
@@ -114,7 +114,7 @@ ensureBltSupportFiles (id arguments, id interp)
 
   // This avoids the need for consultation of tclIndex, which is useful
   // when distributing just the minimum set of Tcl support files.
-  [self eval: "source $blt_library/bltGraph.tcl"];
+  [self eval: "source $blt_library/graph.tcl"];
 
   [self eval: "wm withdraw ."];			  // don't map "."
   

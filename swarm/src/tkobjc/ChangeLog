@@ -1,3 +1,10 @@
+2004-07-13  Marcus G. Daniels <mgd@santafe.edu>
+
+	* TkExtra.m (ensureBltSupportFiles): Check for graph.tcl instead of 
+	bltGraph.tcl.
+	([TkExtra -preInitWithArgc:argv:]): Load graph.tcl instead of
+	bltGraph.tcl.
+
 2004-07-12  Marcus G. Daniels <mgd@santafe.edu>
 
 	* TkExtra.m ([TkExtra -preInitWithArgc:argv:], newBLTp): Handle BLT 3.0.
