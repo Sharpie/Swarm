@@ -3,6 +3,7 @@
 	* Makefile.am (EXTRA_DIST): Include tcl files.
 	(lib_LIBRARIES, libtkobjc_a_SOURCES): Remove.
 	(%_tcl.x): New rule.
+	(SUBDIRS): Add tk.
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord
 	-setWindowGeometry:]): Use create:setC: instead of two calls.

@@ -1,3 +1,4 @@
+SUBDIRS = tk
 MODULE = tkobjc
 CURRENT = 0
 REVISION = 0
