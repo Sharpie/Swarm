@@ -87,8 +87,8 @@ public class Heatbug
     public double getUnhappiness () { return unhappiness; }
     // The chance that I will move arbitrarily:
     public double randomMoveProbability;
-    public Object setRandomMoveProbability (double randomMoveProbability)
-    { this.randomMoveProbability = randomMoveProbability; return this; }
+    public void setRandomMoveProbability (double randomMoveProbability)
+    { this.randomMoveProbability = randomMoveProbability; }
     // My location in _world as well as in _heatSpace:
     public int x, y;
     // My index into the ColorMap defined in HeatbugModelSwarm:
