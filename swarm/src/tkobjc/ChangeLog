@@ -1,3 +1,19 @@
+1998-08-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* WindowGeometryRecord.h, tkobjc.m (WindowGeometryRecordError):
+	Declare new error type.
+
+	* tkobjc.m (initTkObjc): Initialize it.
+	
+	* WindowGeometryRecord.m (getVal, getValueList,
+	[WindowGeometryRecord -in:]): Use it.
+	
+	* Widget.m (get_geometry_element): New local function.
+	([Widget -getWidth], [Widget -getHeight], [Widget -getX],
+	[Widget -getY]): Use it.
+
+	* internal.[hm] (tkobjc_move): New function.
+
 1998-08-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (x_pixmap_create_from_window): Store

@@ -43,7 +43,8 @@ getVal (id obj)
   if (stringp (obj))
     return atoi ([obj getC]);
   else
-    abort ();
+    [WindowGeometryRecordError raiseEvent: "Object is not a string (%s)",
+                               [obj name]];
 }
 
 static id
@@ -52,7 +53,7 @@ getValueList (id index)
   id l = [index next];
   
   if ([l getFirst] != ArchiverLiteral)
-    abort ();
+    [WindowGeometryRecordError raiseEvent: "ArchiverLiteral expected"];
 
   return [l getLast];
 }
@@ -88,11 +89,14 @@ getValueList (id index)
                   height = getVal ([l getLast]);
                 }
               else
-                abort ();
+                [WindowGeometryRecordError
+                  raiseEvent: "Unknown keyword: `%s'\n", str];
             }
         }
       else
-        abort ();
+        [WindowGeometryRecordError raiseEvent: "String expected (%s)\n",
+                                   [obj name]];
+
     }
 
   return self;

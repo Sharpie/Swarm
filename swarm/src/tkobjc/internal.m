@@ -148,6 +148,14 @@ tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
 }
 
 
+void
+tkobjc_move (id widget, int x, int y)
+{
+  Tk_MoveToplevelWindow (tkobjc_nameToWindow ([[widget getTopLevel]
+                                                getWidgetName]),
+                         x, y);
+}
+
 static void
 Xfill (Display *display, GC gc, X11Pixmap pm,
        int x, int y,

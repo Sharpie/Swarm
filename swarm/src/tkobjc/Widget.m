@@ -105,7 +105,6 @@ PHASE(Using)
   return parent;
 }
 
-// whee, recursion! The widget with no parent is the toplevel.
 - (Widget *)getTopLevel
 {
   if (parent == nil)
@@ -120,53 +119,41 @@ PHASE(Using)
   return [globalTkInterp result];
 }
 
-// ugh, repeated code here for sscanf. Too bad C doesn't allow multiple
-// return values.
+static int
+get_geometry_element (id widget, unsigned offset)
+{
+  const char *p = [widget getWindowGeometry];
+  int i;
+
+  for (i = 0; i < offset; i++)
+    {
+      while (!(*p == '+' || *p == '-' || *p == 'x'))
+        p++;
+      p++;
+    }
+  return atoi (p);
+}
+        
 - (unsigned)getWidth
 {
-  unsigned w, h;
-  int x, y;
-
-  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
-    [WarningMessage raiseEvent: "Widget - invalid geometry"];
-
-  return w;
+  return get_geometry_element (self, 0);
 }
 
 - (unsigned)getHeight
 {
-  unsigned w, h;
-  int x, y;
-
-  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
-    [WarningMessage raiseEvent: "Widget - invalid geometry"];
-
-  return h;
+  return get_geometry_element (self, 1);
 }
 
 - (int)getX
 {
-  unsigned w, h;
-  int x, y;
-
-  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
-    [WarningMessage raiseEvent: "Widget - invalid geometry"];
-
-  return x;
+  return get_geometry_element (self, 2);
 }
 
 - (int)getY
 {
-  unsigned w, h;
-  int x, y;
-
-  if (sscanf ([self getWindowGeometry], "%dx%d+%d+%d", &w, &h, &x, &y) != 4)
-    [WarningMessage raiseEvent: "Widget - invalid geometry"];
-
-  return y;
+  return get_geometry_element (self, 3);
 }
 
-// This really shouldn't be used to set width/height.
 - setWindowGeometry: (const char *)s
 {
   [globalTkInterp eval: "wm geometry %s \"%s\"",
@@ -196,11 +183,9 @@ PHASE(Using)
 
 - setX: (int)x Y: (int)y
 {
-  char s[128];
+  tkobjc_move (self, x, y);
 
-  sprintf(s, "%+d%+d", x, y);
-
-  return [self setWindowGeometry: s];
+  return self;
 }
 
 

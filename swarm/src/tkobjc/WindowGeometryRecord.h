@@ -6,6 +6,8 @@
 #import <objectbase/SwarmObject.h>
 #import <gui.h>
 
+extern id <Error> WindowGeometryRecordError;
+
 @interface WindowGeometryRecord: SwarmObject <_WindowGeometryRecord>
 {
   BOOL positionFlag, sizeFlag;

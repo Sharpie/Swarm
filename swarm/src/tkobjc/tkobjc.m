@@ -19,7 +19,12 @@ id <TkExtra> globalTkInterp;
 #import "tkbusy_tcl.x"
 #endif
 
-id <Error> WindowCreation, WindowUsage, MissingFiles, PaletteError, PixmapError;
+#import "Pixmap.h"
+#import "WindowGeometryRecord.h"
+
+id <Error> WindowCreation, WindowUsage, MissingFiles,
+  PaletteError, PixmapError,
+  WindowGeometryRecordError;
 
 void
 initTkObjc (id arguments)
@@ -33,6 +38,7 @@ initTkObjc (id arguments)
       deferror (MissingFiles, NULL);
       deferror (PaletteError, NULL);
       deferror (PixmapError, NULL);
+      deferror (WindowGeometryRecordError, NULL);
       
       tkobjc_initTkInterp (arguments);
       
