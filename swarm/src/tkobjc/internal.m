@@ -848,14 +848,12 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         
         [globalTkInterp eval: "bind %s <Configure> {\n"
                         "uplevel #0 {\n"
-"puts \"Configure %s\"\n"
                         "set configured yes\n"
                         "}\n}\n", widgetName, widgetName];
 
         [globalTkInterp eval: "bind %s <Visibility> {\n"
                         "uplevel #0 {\n"
                         "set visibility yes\n"
-"puts \"%%s %s\"\n"
                         "if {\"%%s\" != \"VisibilityUnobscured\"} {\n"
                         "set obscured yes\n"
                         "}\n}\n}\n", widgetName, widgetName];
@@ -881,39 +879,32 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
           for (i = 0; i < overlapCount; i++)
             if (!XUnmapWindow (display, overlapWindows[i]))
               abort ();
-
+        
         Tk_RestackWindow (tkwin, Above, NULL);
 	if (keep_inside_screen (tkwin, window)) 
-          {
-            if (!obscured) 
-              {
-                obscured = YES;
-                goto retry;
-              }
-           }
+          if (!obscured) 
+            {
+              obscured = YES;
+              goto retry;
+            }
         while (Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT));
         XFlush (display);
-if (!obscured)
-{
-        if (strcmp ([globalTkInterp
-                      globalVariableValue: "obscured"],
-                    "yes") == 0)
+        if (!obscured
+            && strcmp ([globalTkInterp
+                         globalVariableValue: "obscured"],
+                       "yes") == 0)
           {
             obscured = YES;
             goto retry;
           }
-}
-else if (!configured)
-{
-        if (strcmp ([globalTkInterp
-                           globalVariableValue: "configured"],
-                         "yes") == 0)
-
+        else if (!configured
+                 && strcmp ([globalTkInterp
+                              globalVariableValue: "configured"],
+                            "yes") == 0)
           {
             configured = YES;
             goto retry;
           }
-}
         x_pixmap_create_from_window (pixmap, window);
         
         if (top_attr.map_state == IsUnmapped)
