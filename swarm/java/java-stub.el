@@ -349,7 +349,7 @@
 (defun java-argument-empty-p (argument)
   (null (third argument)))
 
-(defun java-print-native-method (method protocol)
+(defun java-print-native-method (method protocol phase)
   (flet ((insert-arg (arg)
            (insert-char ?\  30)
            (insert arg)))
@@ -360,6 +360,8 @@
       (insert "\n")
       (insert "Java_swarm_")
       (insert (module-name (protocol-module protocol)))
+      (insert "_")
+      (insert (java-class-name protocol phase))
       (insert "_")
       (insert (car first-argument))
       (loop for argument in (cdr arguments)
@@ -393,11 +395,14 @@
 (defun java-print-native-class (protocol)
   (with-protocol-c-file protocol
     (insert "#include <jni.h>\n")
-    (loop for method in (protocol-method-list protocol)
-          unless (removed-method-p method)
+    (loop for phase in '(:creating :using)
           do
-          (java-print-native-method method protocol)
-          (insert "\n"))))
+          (loop for method in (protocol-method-list protocol)
+                unless (and (removed-method-p method)
+                            (eq phase (method-phase method)))
+                do
+                (java-print-native-method method protocol phase)
+                (insert "\n")))))
 
 (defun java-print-makefiles ()
   (ensure-directory *c-path*)
