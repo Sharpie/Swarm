@@ -69,7 +69,8 @@ Library:      defobj
 - addLongDouble: (long double)value;
 - addString: (const char *)value;
 - addObject: value;
-- addJavaObject: (JOBJECT)javaObject;
+- addSelector: (SEL)aSel;
+- addJavaObject: (JOBJECT)javaObject type: (fcall_type_t)type;
 - setObjCReturnType: (char)type;
 - setReturnType: (fcall_type_t)retType;
 - setBooleanReturnType;

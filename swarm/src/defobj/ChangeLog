@@ -1,3 +1,33 @@
+2001-02-23  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.m (java_type_signature): Add entry for fcall_type_jselector.
+	(map_java_ivars): Likewise.
+
+	* internal.m (fcall_type_alignment, lisp_output_type,
+	fcall_type_size): Add fcall_type_jselector.
+
+	* defobj.h (fcall_type_t): Add fcall_type_jselector.
+	(FCALL_TYPE_COUNT): Increment.
+
+	* _fcall.m (ADD_PRIMITIVE): Handle all cases, don't use default.
+	(SET_RETURN_TYPE): Likewise.
+
+	* JavaProxy.[hm] ([JavaProxy -doesNotRecognize:]): New method.
+
+	* FCall.m (defobj_init_java_call_tables): Add fcall_type_jselector.
+	(fff_types): Likewise.
+	([FCall_c -createEnd]): Clear Java exception on failure, drop self,
+	and return nil.
+
+	* FArguments.m ([FArguments_c -dropAllocations:]): Handle
+	fcall_type_jselector.
+
+	* defobj.h, FArguments.[hm]: Add -addSelector: and replace
+	-addJavaObject: with -addJavaObject:type:.
+
+	* DefObject.m ([Object_s -forward::]): Allow for failed FCall, e.g.
+	missing methods.
+
 2001-02-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* internal.m (object_setVariableFromExpr): Handle conflation

@@ -9,4 +9,5 @@
 @interface JavaProxy: CreateDrop <Serialization>
 - (BOOL)isJavaProxy;
 - (void)createJavaCounterpart: (const char *)typeName;
+- doesNotRecognize: (SEL)aSel;
 @end

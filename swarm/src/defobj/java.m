@@ -32,6 +32,7 @@ static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "Lswarm/Selector;",
   "Ljava/lang/Object;",
   "Ljava/lang/String;",
+  "Lswarm/Selector;",
   "X" // iid
 };
 
@@ -532,6 +533,7 @@ map_java_ivars (jobject javaObject,
         case fcall_type_class:
         case fcall_type_jobject:
         case fcall_type_jstring:
+        case fcall_type_jselector:
         case fcall_type_iid:
           abort ();
         }
@@ -919,6 +921,7 @@ java_object_setVariable (jobject javaObject, const char *ivarName, void *inbuf)
           case fcall_type_selector:
           case fcall_type_jobject:
           case fcall_type_jstring:
+          case fcall_type_jselector:
           case fcall_type_iid:
             abort ();
           }

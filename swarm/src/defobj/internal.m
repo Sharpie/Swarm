@@ -107,6 +107,7 @@ fcall_type_alignment (fcall_type_t varType)
       break;
     case fcall_type_jobject:
     case fcall_type_jstring:
+    case fcall_type_jselector:
     case fcall_type_void:
       abort ();
     }
@@ -515,6 +516,7 @@ lisp_output_type (fcall_type_t type,
       break;
     case fcall_type_jobject:
     case fcall_type_jstring:
+    case fcall_type_jselector:
       abort ();
     }
 }
@@ -716,12 +718,14 @@ fcall_type_size (fcall_type_t type)
       return sizeof (SEL);
 #ifdef HAVE_JDK
     case fcall_type_jobject:
+    case fcall_type_jselector:
       return sizeof (jobject);
     case fcall_type_jstring:
       return sizeof (jstring);
 #else
     case fcall_type_jobject:
     case fcall_type_jstring:
+    case fcall_type_jselector:
       abort ();
 #endif
     case fcall_type_iid:

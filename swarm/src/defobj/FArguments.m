@@ -156,6 +156,8 @@ PHASE(Creating)
     [self addObject: *(id *) value];
   else if (type == fcall_type_string)
     [self addString: *(const char **) value];
+  else if (type == fcall_type_selector)
+    [self addSelector: (SEL) value];
   else
     {
       size = fcall_type_size (type);
@@ -292,7 +294,7 @@ PHASE(Creating)
   return self;
 }
 
-- addJavaObject: (JOBJECT)jobj;
+- addJavaObject: (JOBJECT)jobj type: (fcall_type_t)type;
 {
 #ifdef HAVE_JDK
   unsigned offset = MAX_HIDDEN + assignedArgumentCount;
@@ -302,10 +304,10 @@ PHASE(Creating)
 
   jobj = (*jniEnv)->NewGlobalRef (jniEnv, jobj);
   ptr = &jobj;
-  argTypes[offset] = fcall_type_jobject;
+  argTypes[offset] = type;
   argValues[offset] = ALLOCBLOCK (size);
   memcpy (argValues[offset], ptr, size);
-  ADD_PRIMITIVE_SIZE (fcall_type_jobject);
+  ADD_PRIMITIVE_SIZE (type);
   assignedArgumentCount++;
 #else
   abort ();
@@ -317,10 +319,23 @@ PHASE(Creating)
 {
 #ifdef HAVE_JDK
   if (language == LanguageJava)
-    [self addJavaObject: SD_JAVA_FIND_OBJECT_JAVA (value)];
+    [self addJavaObject: SD_JAVA_FIND_OBJECT_JAVA (value)
+          type: fcall_type_jobject];
 #endif
   else
     ADD_PRIMITIVE (fcall_type_object, id, value);
+  return self;
+}
+
+- addSelector: (SEL)aSel
+{
+#ifdef HAVE_JDK
+  if (language == LanguageJava)
+    [self addJavaObject: SD_JAVA_FIND_SELECTOR_JAVA (aSel)
+          type: fcall_type_jselector];
+#endif
+  else
+    ADD_PRIMITIVE (fcall_type_selector, SEL, aSel);
   return self;
 }
 
@@ -477,7 +492,9 @@ PHASE(Using)
         unsigned offset = i + MAX_HIDDEN;
         fcall_type_t type = argTypes[offset];
         
-        if (type == fcall_type_jstring || type == fcall_type_jobject)
+        if (type == fcall_type_jstring
+            || type == fcall_type_jobject
+            || type == fcall_type_jselector)
           (*jniEnv)->DeleteGlobalRef (jniEnv, *(jobject *) argValues[offset]);
       }
   }

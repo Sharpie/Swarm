@@ -11,6 +11,7 @@
 #import "java.h"
 #import "javavars.h"
 #endif
+#import <defobj/defalloc.h>
 
 @implementation JavaProxy
 PHASE(Creating)
@@ -67,5 +68,44 @@ PHASE(Using)
   }
 #endif
 }
+
+- doesNotRecognize: (SEL)sel
+{
+  id fa = [FArguments createBegin: getCZone (getZone (self))];
+  id fc;
+
+  [fa setLanguage: LanguageJava];
+  [fa addSelector: sel];
+  [fa setReturnType: fcall_type_void];
+  fa = [fa createEnd];
+
+  {
+    jobject jobj = SD_JAVA_FIND_OBJECT_JAVA (self);
+    jobject jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
+    
+    SD_JAVA_ENSURE_SELECTOR_JAVA (jcls, M(doesNotRecognize:));
+    (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
+  }
+
+  fc = [FCall create: getCZone (getZone (self))
+              target: self
+              selector: M(doesNotRecognize:)
+              arguments: fa];
+
+  if (fc)
+    {
+      [fc performCall];
+      [fc drop];
+      [fa drop];
+    }
+  else
+    {
+      [fa drop];
+      [super doesNotRecognize: sel];
+    }
+  
+  return self;
+}
+
 
 @end

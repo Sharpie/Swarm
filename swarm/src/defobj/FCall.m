@@ -104,6 +104,8 @@ defobj_init_java_call_tables (void *jEnv)
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
   java_static_call_functions[fcall_type_jstring] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
+  java_static_call_functions[fcall_type_jselector] = 
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallStaticObjectMethod);
 
   java_call_functions[fcall_type_void] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallVoidMethod);
@@ -139,6 +141,8 @@ defobj_init_java_call_tables (void *jEnv)
   java_call_functions[fcall_type_jobject] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallObjectMethod);
   java_call_functions[fcall_type_jstring] = 
+      FUNCPTR ((*(JNIEnv *) jEnv)->CallObjectMethod);
+  java_call_functions[fcall_type_jselector] = 
       FUNCPTR ((*(JNIEnv *) jEnv)->CallObjectMethod);
 }
 #endif
@@ -220,7 +224,9 @@ static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
   &ffi_type_pointer, 
   &ffi_type_pointer,
   &ffi_type_pointer,
-  &ffi_type_pointer};
+  &ffi_type_pointer
+  &ffi_type_pointer
+};
 #endif
 
 static void
@@ -375,7 +381,7 @@ PHASE(Creating)
   else if ([fargs getLanguage] == LanguageJava)
     {
       jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (sel);
-      
+
       if (jsel)
         {
           jstring string;
@@ -467,9 +473,11 @@ PHASE(Creating)
           ffunction = java_static_call_functions[fargs->retVal.type];
         }
       if (!fmethod)
-        raiseEvent (SourceMessage,
-                    "Could not find Java method: `%s' `%s'\n",
-                    methodName, fargs->javaSignature);
+        {
+          (*jniEnv)->ExceptionClear (jniEnv);
+          [self drop];
+          return nil;
+        }
     }
 #endif
   add_ffi_types (self);

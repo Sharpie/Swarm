@@ -672,8 +672,8 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
 #endif
   else
     {
-      [self doesNotRecognize: aSel];
       [fa drop];
+      [self doesNotRecognize: aSel];
       return NULL;
     }
   
@@ -689,24 +689,33 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       [fa addArgument: &val ofObjCType: *info.type];
     }
   fa = [fa createEnd];
-  
+
   fc = [FCall create: aZone
               target: self
               selector: aSel
               arguments: fa];
-
-  [fc performCall];
-  {
-    types_t typebuf;
-    extern void *alloca (size_t);
-    retval_t retValBuf = alloca (MFRAME_RESULT_SIZE);
-    retval_t retVal;
-                      
-    retVal = [fc getRetVal: retValBuf buf: &typebuf];
-    [fc drop];
-    [fa drop];
-    return retVal;
-  }
+  
+  if (fc)
+    {
+      [fc performCall];
+      {
+        types_t typebuf;
+        extern void *alloca (size_t);
+        retval_t retValBuf = alloca (MFRAME_RESULT_SIZE);
+        retval_t retVal;
+        
+        retVal = [fc getRetVal: retValBuf buf: &typebuf];
+        [fc drop];
+        [fa drop];
+        return retVal;
+      }
+    }
+  else
+    {
+      [fa drop];
+      [self doesNotRecognize: aSel];
+      return NULL;
+    }
 }
 
 //
