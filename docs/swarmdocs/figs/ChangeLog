@@ -1,3 +1,8 @@
+1999-02-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (%.jpeg, %.eps, %.jpeg): Don't do redirection for
+	bitmap without CYGWIN=binmode set.
+
 1998-10-30  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Makefile.am: (PNMCROP): Substitute.
