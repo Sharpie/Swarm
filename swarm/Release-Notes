@@ -1,9 +1,41 @@
-		Release Notes for Swarm Version 1.0.3
+		Release Notes for Swarm Version 1.0.4
 
- 1. Added ActionCache and ActionHolder and changed control scheme
-for top level Swarm in anticipation of the JAVAGUI residing in a 
-separate thread.
+ 1. Added ActionCache and ActionHolder and changed control scheme for
+    top level Swarm in anticipation of the JAVAGUI residing in a separate
+    thread.
+
  2. Added protocol interface for simtools.
+
+ 3. Added AppendFile class in simtools, for allowing users to open
+    files in append mode (OutFile always opens files in overwrite mode)
+
+ 4. Added a new method to QSort class in simtools [QSort +reverseOrderOf:]
+    Reverses the current order of a collection. This can be used in
+    conjunction with the regular sort methods to obtained a reversed 
+    sorted list.
+
+ 5. Added local [NodeItem -drop] method to tkobjc, so that graph nodes 
+    (both items and text) are removed from a canvas properly, when the
+    node is dropped in the usual way.
+
+ 6. Added [ProbeLibrary {get,set}DisplayPrecision:] for globally setting
+    the number of significant figures displayed on a widget for all 
+    probes for floats and doubles checked out of the global ProbeLibrary
+    instance. Also added [ProbeLibrary {get,set}SavedPrecision:] for 
+    globally setting the number of significant figures for floats and
+    doubles, saved through ObjectSaver. Currently, this is only 
+    implemented for VarProbes, not for MessageProbes, as yet. If neither
+    of these are set in an application, it will default to the a
+    precision of six (6) figures, in both cases, which reflects the 
+    current default precision for floats and doubles.
+
+ 7. Added [Probe setFormatFloat:] method to Probes, to allow the user
+    to specify a given format string (sprintf-style) for formatting of
+    floating-point (and double floating-point) numbers. As indicated
+    above, this is currently only implemented for VarProbes, not 
+    MessageProbes, as yet. This method will override any globally
+    specified defaults, as set by the ProbeLibrary feature.
+
 
 	      =========================================
 		Release Notes for Swarm Version 1.0.3
