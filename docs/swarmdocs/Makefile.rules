@@ -28,7 +28,7 @@ html_DATA = $(NAME).html
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
 install-data-hook:
-	(cd $(htmldir) && $(LN_S) $(prefix)/figs figs)
+	(cd $(htmldir) && $(LN_S) -f $(prefix)/figs figs)
 
 uninstall-local:
 	- (cd $(htmldir); rm -rf *)	

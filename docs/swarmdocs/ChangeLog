@@ -1,3 +1,7 @@
+1999-09-04  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.rules (install-data-hook): Add force flag to symlink.
+
 1999-09-03  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in: Don't extract TOPSUBDIRS, extract JAVADOCDIR only,
