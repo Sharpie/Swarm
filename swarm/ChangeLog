@@ -1,3 +1,9 @@
+1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* acconfig.h: Add BUGGY_BUILTIN_APPLY.
+
+	* configure.in: Call md_CHECK_BUILTIN_APPLY.
+
 1998-08-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in (swarm_prefix): New subsituted variable, a copy of
