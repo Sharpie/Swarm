@@ -1,6 +1,8 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Don't substitute Globals.java.
+	(LIBJAVASWARMSTUBS_LA): Remove.
+	(LIBJAVASWARM_LA, JAVASWARM_DLL): Derive from JAVASWARM_LIB_NAME.
 
 	* NEWS: Note 2.0.1 bug fixes.
 

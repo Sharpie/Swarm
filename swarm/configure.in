@@ -270,15 +270,13 @@ if test $USEDLL = yes; then
   LIBSWARM_LA=libswarm.la
   SWARM_DLL=swarm.dll
   LIBJAVASWARM_LA=
-  LIBJAVASWARMSTUBS_LA=
-  JAVASWARM_DLL=${JAVASWARM_DLL_NAME}.dll
+  JAVASWARM_DLL=${JAVASWARM_LIB_NAME}.dll
   noinst_LIBS='lib$(MODULE).la'
   inst_LDFLAGS=-static
 else
   LIBSWARM_LA=libswarm.la
   SWARM_DLL=
-  LIBJAVASWARM_LA=libjavaswarm.la
-  LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
+  LIBJAVASWARM_LA=lib${JAVASWARM_LIB_NAME}.la
   JAVASWARM_DLL=
   inst_LIBS='lib$(MODULE).la' 
   inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
