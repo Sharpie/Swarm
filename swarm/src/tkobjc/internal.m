@@ -648,6 +648,8 @@ keep_inside_screen (Tk_Window tkwin, Window window)
                      &rx, &ry, &rw, &rh,
                      &rbw, &rdepth))
     [PixmapError raiseEvent: "Cannot get geometry for root window"];
+  w += bw * 2;
+  h += bw * 2;
 #else
   RECT rect, rootrect;
   // wm frame returns a hwnd
@@ -700,6 +702,7 @@ keep_inside_screen (Tk_Window tkwin, Window window)
   if (nx != x || ny != y)
     {
       Tk_MoveToplevelWindow (tkwin, nx + dx, ny + dy);
+
       return YES;
     }
   return NO;
@@ -870,8 +873,7 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
         if (top_attr.map_state == IsUnmapped)
           if (!XMapWindow (display, topWindow))
             abort ();
-	obscured = keep_inside_screen (tkwin, window);
-        
+	keep_inside_screen (tkwin, window);
       retry:
         if (obscured)
           for (i = 0; i < overlapCount; i++)
