@@ -13,7 +13,7 @@
 
 #import <random.h>
 
-BOOL swarmGUIMode;
+BOOL swarmGUIMode = NO;
 
 static void
 init (int argc, const char **argv, 
@@ -32,10 +32,11 @@ init (int argc, const char **argv,
 
   initProbing ();
 
-  swarmGUIMode = ![arguments getBatchModeFlag] && !forceBatchMode;
-
+  if (![arguments getBatchModeFlag] && !forceBatchMode)
+    swarmGUIMode = YES;
+  
   initRandom (arguments);
-
+  
   if (swarmGUIMode)
     initSimtoolsGUI ();
 }
