@@ -149,7 +149,7 @@ PHASE(Creating)
   
   if (graphics)
     {
-      aHisto = [Histogram createBegin: [self getZone]];
+      aHisto = [Histogram createBegin: getZone (self)];
       [aHisto setBinCount: binCount];
       aHisto = [aHisto createEnd];
       SET_COMPONENT_WINDOW_GEOMETRY_RECORD_NAME (aHisto);
@@ -183,7 +183,7 @@ PHASE(Creating)
     }
   
   if (fileOutput)
-    anOutFile = [OutFile create: [self getZone] setName: fileName];
+    anOutFile = [OutFile create: getZone (self) setName: fileName];
   
   return self;
 }
@@ -219,65 +219,69 @@ PHASE(Using)
 
 - update
 {
-  id iter, obj;
-  id <MessageProbe> mp = [[[[MessageProbe createBegin: scratchZone]
-                             setProbedClass: [[collection getFirst] getClass]]
-                            setProbedSelector: probedSelector]
-                           createEnd];
-  
-  iter = [collection begin: [self getZone]];
-  while ((obj = [iter next]))
+  if ([collection getCount] > 0)
     {
-      int i;
-      double v = [mp doubleDynamicCallOn: obj];
+      id iter, obj;
+      id <MessageProbe> mp = [[[[MessageProbe createBegin: scratchZone]
+                                 setProbedClass: [[collection getFirst]
+                                                   getClass]]
+                                setProbedSelector: probedSelector]
+                               createEnd];
       
-      if (v > max || v < min)
+      iter = [collection begin: getZone (self)];
+      while ((obj = [iter next]))
         {
-          outliers++;
-          continue;
-        }
-      
-      if (clean) 
-        {
-          maxval = v;
-          minval = v;
-          average = v;
-          average2 = v * v;
-          std = 0.0;
-          clean = NO;
-        }
-      else
-        {
-          if (v < minval)
-            minval = v;
+          int i;
+          double v = [mp doubleDynamicCallOn: obj];
           
-          if (v > maxval)
-            maxval = v;
+          if (v > max || v < min)
+            {
+              outliers++;
+              continue;
+            }
           
-          average = ((average * ((double) count)) + v)
-            / ((double) (count + 1));
+          if (clean) 
+            {
+              maxval = v;
+              minval = v;
+              average = v;
+              average2 = v * v;
+              std = 0.0;
+              clean = NO;
+            }
+          else
+            {
+              if (v < minval)
+                minval = v;
+              
+              if (v > maxval)
+                maxval = v;
+              
+              average = ((average * ((double) count)) + v)
+                / ((double) (count + 1));
+              
+              average2 = ((average2 * ((double) count)) + v * v)
+                / ((double) (count + 1));
+              
+              std = sqrt(average2 - average*average);
+            }
           
-          average2 = ((average2 * ((double) count)) + v * v)
-            / ((double) (count + 1));
+          for (i = 0; i < binCount - 1; i++)
+            if ((v >= cachedLimits[i]) && (v < cachedLimits[i + 1]))
+              {
+                distribution[i]++;
+                break;
+              }
           
-          std = sqrt(average2 - average*average);
-        }
-      
-      for (i = 0; i < binCount - 1; i++)
-        if ((v >= cachedLimits[i]) && (v < cachedLimits[i + 1]))
-          {
+          if (i == binCount - 1)
             distribution[i]++;
-            break;
-          }
+          
+          count++;
+        }
       
-      if (i == binCount - 1)
-        distribution[i]++;
-      
-      count++;
+      [iter drop];
+      [mp drop];
     }
-  
-  [iter drop];
-  [mp drop];
   return self;
 }
 
