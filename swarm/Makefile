@@ -54,18 +54,18 @@ endif
 ### copy selected tcl/tk/blt/tclobjc include files and
 ### the tcl runtime files, so binary-only
 ### clients will have a complete software environment
-BININCDIRS=$(TCLOBJCINC) $(TCLINC) $(TKINC) $(BLTINC) 
-TKTCLDIRS=$(TKLIB) $(TCLLIB)
+BININCDIRS=$(TCLOBJCINCDIR) $(TCLINCDIR) $(TKINCDIR) $(BLTINCDIR) 
+TKTCLDIRS=$(TKLIBDIR) $(TCLLIBDIR)
 bininc: FORCE
 	for d in $(BININCDIRS); do \
 	  cp $$d/*.h $(TMPDIST)/include/; \
 	done
-	(cd $(XINC); tar cf - X11/xpm.h) | (cd $(TMPDIST)/include/; tar xf -)
+	(cd $(XINCDIR); tar cf - X11/xpm.h) | (cd $(TMPDIST)/include/; tar xf -)
 	for d in $(TKTCLDIRS); do \
 	  cp $$d/*.tcl $(TMPDIST)/lib/; \
 	done
-	cp -r $(BLTLIB)/* $(TMPDIST)/lib
-	test -d $(BLTLIBRARY) && cp -r $(BLTLIBRARY) $(TMPDIST)
+	cp -r $(BLTLIBDIR)/* $(TMPDIST)/lib
+	test -d $(BLTLIBRARYDIR) && cp -r $(BLTLIBRARYDIR) $(TMPDIST)
 
 ### make a binary, some libs, get rid of the .o's, copy
 ### system header files, then make a tar file with the

@@ -1,3 +1,11 @@
+1998-03-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf, Makefile:  Replace all instances of (..LIB) and
+	(..DIR) with (..LIBDIR) and (..INCDIR). 
+	
+	* Makefile.conf: Replace AVCALL if FFILIB.  Add NT config and SYS.
+	Add X11LIB and XPMLIB variables (empty in Win32 case).
+
 1998-03-11  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.conf (alex-SFI-Solaris): Brought up to date with libffi
