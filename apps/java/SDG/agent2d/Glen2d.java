@@ -15,26 +15,20 @@ import swarm.Selector;
 import swarm.Globals;
 
 public class Glen2d extends SocialAgent2d {
-  boolean attacking;
-
   public Glen2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, 4, .5, .25, 100, 50, 6);
+    super (aZone, world, x, y, 4, 4, .5, .25, 100, 50, 6);
   }
   
   public void stepSocialAgent (Agent2d neighbor) {
     if (neighbor != null) {
       if (!neighbor.frob (Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359))) {
         moveAdjacentToNeighbor (neighbor);
-        attacking = true;
+        color = ObserverSwarm.GlenAttackColor;
         return;
       }
     }
-    attacking = false;
+    color = ObserverSwarm.GlenTourColor;
     randomWalk ();
   }
   
-  public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, attacking ? ObserverSwarm.GlenAttackColor : ObserverSwarm.GlenTourColor);
-    return this;
-  }
 }

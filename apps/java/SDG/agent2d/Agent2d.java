@@ -13,7 +13,8 @@ import swarm.random.BernoulliDistImpl;
 import swarm.Globals;
 
 public class Agent2d extends SwarmImpl {
-  public int x, y;
+  public int x, y; 
+  int size;
   Grid2d world;
 
   double resistProbabilityMean, resistProbabilityDeviation;
@@ -31,7 +32,7 @@ public class Agent2d extends SwarmImpl {
   public Agent2d (Zone aZone,
                   Grid2d world,
                   int x, int y,
-                  int scatter,
+                  int scatter, int size,
                   double resistProbabilityMean, double resistProbabilityDeviation,
                   int energyMean, int energyDeviation) {
     super (aZone);
@@ -39,6 +40,7 @@ public class Agent2d extends SwarmImpl {
     this.y = y;
     this.world = world;
     this.scatter = scatter;
+    this.size = size;
     this.resistProbabilityDistribution =
       new NormalDistImpl (aZone,
                           Globals.env.randomGenerator,
@@ -169,7 +171,8 @@ public class Agent2d extends SwarmImpl {
   }
 
   public Object drawSelfOn (Raster r) {
-    r.drawPointX$Y$Color (x, y, color);
+    r.rectangleX0$Y0$X1$Y1$Width$Color
+      (x - size, y - size, x + size, y + size, 1, color);
     return this;
   }
 }

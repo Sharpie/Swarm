@@ -17,6 +17,11 @@ import ObserverSwarm;
 public class User2d extends DirectedAgent2d {
   Schedule schedule;
 
+  void newEffort () {
+    direction = Globals.env.uniformIntRand.getIntegerWithMin$withMax (0, 359);
+    energy = sampleEnergy ();
+  }
+
   public User2d (Zone aZone, Grid2d world,
                  int x, int y,
                  int scatter,
@@ -24,11 +29,12 @@ public class User2d extends DirectedAgent2d {
                  double resistanceProbabilityDeviation,
                  int energyMean, int energyDeviation) {
 
-    super (aZone, world, x, y, scatter,
+    super (aZone, world, x, y, scatter, 2,
            resistanceProbabilityMean, resistanceProbabilityDeviation,
            energyMean, energyDeviation);
 
     resistProbability = sampleResistProbability ();
+    newEffort ();
     schedule = new ScheduleImpl (aZone, 1);
 
     try {
@@ -41,7 +47,7 @@ public class User2d extends DirectedAgent2d {
       System.exit (1);
     }
   }
-  
+
   public Activity activateIn (Swarm context) {
     super.activateIn (context);
 
@@ -51,16 +57,14 @@ public class User2d extends DirectedAgent2d {
 
   public void stepAgent () {
     if (frobbed && !resisting)
-      {
-        color = ObserverSwarm.UserListenColor;
-        moveDirection ();
-      }
-    else {
+      color = ObserverSwarm.UserListenColor;
+    else
       color = resisting ? ObserverSwarm.UserResistColor : ObserverSwarm.UserTourColor;
-      randomWalk ();
-    }
-    if (!resisting)
-      energy = sampleEnergy ();
+    moveDirection ();
+    if (energy == 0)
+      newEffort ();
+    else
+      energy--;
     clearStatus ();
   }
 }

@@ -7,6 +7,7 @@ import swarm.activity.Schedule;
 import swarm.activity.ScheduleImpl;
 import swarm.defobj.Zone;
 import swarm.space.Grid2d;
+import swarm.gui.Raster;
 
 import swarm.Selector;
 
@@ -16,11 +17,11 @@ public abstract class SocialAgent2d extends Agent2d {
   
   public SocialAgent2d (Zone aZone, Grid2d world,
                         int x, int y,
-                        int scatter,
+                        int scatter, int size,
                         double resistProbabilityMean, double resistProbabilityDeviation,
                         int energyMean, int energyDeviation,
                         int vision) {
-    super (aZone, world, x, y, scatter,
+    super (aZone, world, x, y, scatter, size,
            resistProbabilityMean, resistProbabilityDeviation,
            energyMean, energyDeviation);
 

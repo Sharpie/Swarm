@@ -28,6 +28,7 @@ public class ObserverSwarm extends GUISwarmImpl {
   public final static byte MarcusNativeColor = 8;
   public final static byte AlexTourColor = 9;
   public final static byte AlexTalkColor = 10;
+  public final static byte AlexTargetColor = 11;
   Object2dDisplay display;
   ZoomRaster raster;
   SDG model;
@@ -59,6 +60,7 @@ public class ObserverSwarm extends GUISwarmImpl {
 
     colormap.setColor$ToName (AlexTourColor, "brown");
     colormap.setColor$ToName (AlexTalkColor, "orange");
+    colormap.setColor$ToName (AlexTargetColor, "brown");
 
     raster = new ZoomRasterImpl (getZone (), "raster");
     raster.setColormap (colormap);

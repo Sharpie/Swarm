@@ -31,7 +31,7 @@ public class Marcus2d extends DirectedAgent2d {
   boolean working;
 
   public Marcus2d (Zone aZone, Grid2d world, int x, int y) {
-    super (aZone, world, x, y, 5, .25, .5, 60, 10);
+    super (aZone, world, x, y, 5, 4, .25, .5, 60, 10);
     
     this.incubationTime = 40;
     schedule = new ScheduleImpl (aZone, true);
