@@ -1,4 +1,4 @@
-<DOCINFO>
+<referenceinfo>
 
   <TITLE>Objectbase Library</TITLE>
 
@@ -11,10 +11,10 @@
   
   &objectbaserevhistory.sgml;
 
-</DOCINFO>
+</referenceinfo>
 
 <!--
 Local Variables:
-sgml-parent-document:("objectbasecont.sgml" "DOCINFO")
+sgml-parent-document:("objectbasecont.sgml" "REFERENCEINFO")
 End:
 -->
