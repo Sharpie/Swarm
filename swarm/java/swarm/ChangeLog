@@ -1,3 +1,8 @@
+1999-03-15  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* SwarmEnvironment.java: Use System.loadLibrary instead of 
+	System.load 
+
 1999-03-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules.in (all): Compile all the Java files at once.

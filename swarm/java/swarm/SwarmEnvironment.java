@@ -5,9 +5,8 @@ public class SwarmEnvironment
    static
     {
 	System.out.println("Trying to load lib!\n");
-	
 	try {
-	    System.load("/opt/src/vjojic/Swarm/swarm/java/swarm/libjavaswarm.so");
+	    System.loadLibrary("javaswarm");
 	} catch (Exception e) { 
 	    System.err.println("Exception caught: " + e.getMessage());
 	}
@@ -17,7 +16,6 @@ public class SwarmEnvironment
 
     public static void main(String args[])
     {
-	SwarmEnvironment se = new SwarmEnvironment();
 	initSwarm(args);
     }
     native static void initSwarm(String args[]);
