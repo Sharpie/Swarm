@@ -6,6 +6,7 @@
 #import <objectbase/ProbeMap.h>
 #import <objc/objc-api.h>
 #import <defobj.h> // Warning, STRDUP
+#include <swarmconfig.h> // HAVE_JDK
 
 #import "local.h"
 
@@ -174,6 +175,7 @@
   return self;
 }
 
+#ifdef HAVE_JDK
 - (void)addJavaFields: (jclass)javaClass
 {
   jarray fields;
@@ -269,6 +271,7 @@
         }
     }
 }
+#endif
   
 - createEnd
 {

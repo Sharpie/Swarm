@@ -1,3 +1,8 @@
+1999-08-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ProbeMap.m ([ProbeMap -addJavaFields:], [ProbeMap
+	-addJavaMethods:]): Don't define without HAVE_JDK.
+
 1999-08-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* swarm_rts_routines.m (skip_typespec, skip_offset): Avoid using
