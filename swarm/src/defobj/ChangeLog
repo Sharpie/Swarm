@@ -1,3 +1,7 @@
+2000-08-11  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.m (associate): Drop lref.
+
 2000-08-10  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* directory.[hm], java.[hm]:

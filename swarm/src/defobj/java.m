@@ -1397,6 +1397,7 @@ swarm_directory_java_associate_objects (jobject swarmEnvironment)
         raiseEvent (InternalError, "Could not find field name `%s'\n",
                     fieldName);
       SD_JAVA_ADD (lref, objcObject);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
     }
 #define ASSOCIATE(fieldName) associate (#fieldName, fieldName)
   ASSOCIATE (scratchZone);
