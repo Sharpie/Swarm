@@ -69,7 +69,7 @@ md_CREATE_LIBOBJC_HEADERS
 
 md_CHECK_DLL
 if test $USEDLL = yes; then
-  LIBOBJC_LA=
+  LIBOBJC_LA=libobjc.la
   OBJC_DLL=objc.dll
 else
   LIBOBJC_LA=libobjc.la

@@ -48,7 +48,7 @@ empty.c:
 
 objc.dll: libobjc_.la dllinit.c
 	$(CC) -c $(srcdir)/dllinit.c -o dllinit.lo
-	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o objc.dll dllinit.lo $(DLLOBJS) $(basename $(objc_thread_lo)).o
+	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjcdll.a --driver-name $(CC) -o objc.dll dllinit.lo $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
 install-data-local: 
 	if test $(USEDLL) = yes; then \

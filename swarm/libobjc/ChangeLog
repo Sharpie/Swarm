@@ -1,3 +1,7 @@
+1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (objc.dll): Rename libobjc.a to libobjcdll.a.
+
 1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am: Remove manual constructor stuff.
