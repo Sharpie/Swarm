@@ -1,3 +1,12 @@
+1999-07-27  Vladimir Jojic  <vjojic@ute.santafe.edu>
+
+	* directory.m: New global variables c_PhaseCImpl, 
+	m_PhaseCImpl_copy_creating_phase_to_using_phase and
+	f_nextPhase used in java_next_phase.
+	(java_next_phase): Use global variables to invoke 
+	copy_creating_phase_to_using_phase and get value of field
+	nextPhase.
+
 1999-07-27  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
 	* directory.m (java_get_swarm_class): Rename 

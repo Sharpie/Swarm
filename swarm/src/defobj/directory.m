@@ -27,7 +27,7 @@ jclass c_Boolean,
   c_Char, c_Byte, 
   c_Integer, c_Short,
   c_Long, c_Float,
-  c_Double;
+  c_Double, c_PhaseCImpl;
   
 jclass c_field, c_class, c_method, c_Selector;
 
@@ -47,10 +47,12 @@ jmethodID m_BooleanValueOf,
   m_FieldGet,
   m_FieldGetName,
   m_MethodGetName,
-  m_SelectorConstructor;  
+  m_SelectorConstructor,
+  m_PhaseCImpl_copy_creating_phase_to_using_phase;  
 
 jfieldID f_nameFid, f_retTypeFid, 
-  f_argTypesFid, f_objcFlagFid;
+  f_argTypesFid, f_objcFlagFid,
+  f_nextPhase;
 
 extern id ControlStateRunning, ControlStateStopped,
   ControlStateStepping, ControlStateQuit,ControlStateNextTime, 
@@ -126,6 +128,10 @@ create_class_refs (JNIEnv *env)
       if (!(c_Selector = (*env)->FindClass (env, "swarm/Selector")))
         abort ();
       c_Selector = (*env)->NewGlobalRef (env, c_Selector);
+
+      if (!(c_PhaseCImpl = (*env)->FindClass (env, "swarm/PhaseCImpl")))
+	abort ();
+      c_PhaseCImpl = (*env)->NewGlobalRef (env, c_PhaseCImpl);
 
       initFlag = YES;
     }
@@ -226,6 +232,12 @@ create_method_refs (JNIEnv *env)
 	(*env)->GetMethodID (env, c_Selector, "<init>", 
 			     "(Ljava/lang/Class;Ljava/lang/String;Z)V")))
     abort();
+  
+  if (!(m_PhaseCImpl_copy_creating_phase_to_using_phase = 
+	(*env)->GetMethodID (env, c_PhaseCImpl, 
+			     "_copy_creating_phase_to_using_phase",
+			     "()V")))
+    abort();
 }
 
 
@@ -233,15 +245,20 @@ void
 create_field_refs (JNIEnv * env)
 {
 
-  if (!(f_nameFid = (*env)->GetFieldID (env, c_Selector, "signature", "Ljava/lang/String;")))
+  if (!(f_nameFid = (*env)->GetFieldID (env, c_Selector, "signature", 
+					"Ljava/lang/String;")))
     abort ();
-  if (!(f_retTypeFid = (*env)->GetFieldID (env, c_Selector, "retType", "Ljava/lang/Class;")))
+  if (!(f_retTypeFid = (*env)->GetFieldID (env, c_Selector, "retType", 
+					   "Ljava/lang/Class;")))
     abort ();
-  if (!(f_argTypesFid = (*env)->GetFieldID (env, c_Selector, "argTypes", "[Ljava/lang/Class;")))
+  if (!(f_argTypesFid = (*env)->GetFieldID (env, c_Selector, "argTypes", 
+					    "[Ljava/lang/Class;")))
     abort ();
   if (!(f_objcFlagFid = (*env)->GetFieldID (env, c_Selector, "objcFlag", "Z")))
     abort ();
-
+  if (!(f_nextPhase = (*env)->GetFieldID (env, c_PhaseCImpl, "nextPhase", 
+					  "Ljava/lang/Object;")))
+    abort();
 
 }
 
@@ -606,15 +623,9 @@ create_signature_from_object (JNIEnv *env, jobject jobj)
 jobject
 java_next_phase (JNIEnv *env, jobject jobj)
 {
-  jclass class = java_class_for_typename (env, "Phase", NO);
-  jfieldID fid;
-  const char *sig =
-    create_signature_from_class_name (env, "java.lang.Object");
-
-  if (!(fid = (*env)->GetFieldID (env, class, "nextPhase", sig)))
-    abort ();
-  XFREE (sig);
-  return (*env)->GetObjectField(env, jobj, fid);
+  (*env)->CallVoidMethod (env, jobj, 
+			  m_PhaseCImpl_copy_creating_phase_to_using_phase);
+  return (*env)->GetObjectField(env, jobj, f_nextPhase);
 }
 
 int
