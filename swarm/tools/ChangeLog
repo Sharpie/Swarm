@@ -1,3 +1,10 @@
+2000-12-15  Marcus G. Daniels  <mgd@nest.swarm.org>
+	
+	* Makefile (noinst_PROGRAMS, findImp_SOURCES, swarm_srcdir, INCLUDES):
+	Build findImp.
+
+	* findImp.m: New file.
+
 2000-07-13  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* print-table.scm (print-record-using-probemap): Renamed
