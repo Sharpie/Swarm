@@ -3,8 +3,6 @@
 	* HDF5Object.m ([HDF5CompoundType_c -packObj:to:],
 	[HDF5CompoundType_c -writeLevel:]): Use PTRINT for offset (cast to id).
 
-	* FArguments.[hm], FCall.m: Undef __mips__ before including avcall.h.
-
 	* FCall.m: Include avcall.h.
 	
 	* Zone.m ([Zone_c -describe:]): Cast all counts to unsigned long
