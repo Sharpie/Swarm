@@ -300,7 +300,7 @@ CREATING
 + createBegin: aZone;
 
 //M: Set the number of bins to use (bars to draw).
-- setNumBins: (unsigned)n;
+- setBinCount: (unsigned)n;
 
 //M: Initialize the histogram.
 - createEnd;
@@ -331,7 +331,7 @@ USING
 - setAxisLabelsX: (const char *)xl Y: (const char *)yl;
 
 //M: Set the text that describes a specified number of outliers.
-- setActiveOutlierText: (int)outliers count: (int)count;
+- setActiveOutlierText: (int)outliers count: (unsigned)count;
 
 //M: Hide the legend on the histogram.
 - hideLegend;
