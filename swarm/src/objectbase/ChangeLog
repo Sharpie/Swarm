@@ -1,3 +1,13 @@
+1998-07-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* objectbase.h: Split VarProbe into new features vs. user
+	presentation.
+
+	* VarProbe.m: Add phase tags.
+
+	* VarProbe.h: Include objectbase.h.
+	(VarProbe): Adopt to _VarProbe.
+
 1998-07-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* VarProbe.h (VarProbe): Rename interactive to interactiveFlag.

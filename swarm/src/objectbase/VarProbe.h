@@ -4,8 +4,9 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/Probe.h>
+#import <objectbase.h>
 
-@interface VarProbe: Probe
+@interface VarProbe: Probe <_VarProbe>
 {
   const char *probedVariable;
   int dataOffset;
@@ -16,16 +17,16 @@
 - setProbedVariable: (const char *)aVariable;
 - createEnd;
 
+- setNonInteractive;
+- setStringReturnType: returnType;
 - setFloatFormat: (const char *)format;
 
 - (const char *)getProbedVariable;
 - (int)getDataOffset;
-
-- setNonInteractive;
 - (BOOL)getInteractiveFlag;
 
-- setData: anObject To: (void *)newValue;	     // pass by reference.
-- (int)setData: anObject ToString: (const char *)s;  // gives us the string.
+- setData: anObject To: (void *)newValue;	      // pass by reference.
+- (BOOL)setData: anObject ToString: (const char *)s;  // gives us the string.
 
 @end
 

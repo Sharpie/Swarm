@@ -16,6 +16,8 @@
 
 @implementation VarProbe
 
+PHASE(Creating)
+
 - setProbedVariable: (const char *)aVariable
 {
   if (probedVariable)
@@ -30,11 +32,6 @@
     }
   probedVariable = strdup (aVariable);	   // make a local copy
   return self;
-}
-
-- (const char *)getProbedVariable
-{
-  return probedVariable;
 }
 
 - createEnd
@@ -95,10 +92,36 @@
     }
 }
 
+PHASE(Setting)
+
 - setNonInteractive
 {
   interactiveFlag = NO;
+
   return self;
+}
+
+- setStringReturnType: returnType
+{
+  stringReturnType = returnType;
+  return self;
+}
+
+- setFloatFormat: (const char *)format
+{
+  if (probedType[0] == _C_FLT || probedType[0] == _C_DBL) 
+    floatFormat = strdup (format);
+  else
+    [Warning raiseEvent: "%s is not a float or double\n", probedVariable];
+
+  return self;
+}
+
+PHASE(Using)
+
+- (const char *)getProbedVariable
+{
+  return probedVariable;
 }
 
 - (BOOL)getInteractiveFlag
@@ -130,7 +153,6 @@
   new_probe = [new_probe createEnd];
   
   [new_probe setStringReturnType: stringReturnType];
-  
   [new_probe setFloatFormat: floatFormat];
   
   return new_probe;
@@ -143,7 +165,7 @@
     if (![anObject isKindOf: probedClass])
       [Warning raiseEvent: "VarProbe for class %s tried on class %s\n",
                [probedClass name], [anObject name]];
-  return (char *)anObject+dataOffset;
+  return (char *)anObject + dataOffset;
 }
 
 - (void *)probeAsPointer: anObject
@@ -243,23 +265,7 @@
   return d;
 }
 
-- setStringReturnType: returnType
-{
-  stringReturnType = returnType;
-  return self;
-}
-
-- setFloatFormat: (const char *)format
-{
-  if (probedType[0] == _C_FLT || probedType[0] == _C_DBL) 
-    floatFormat = strdup (format);
-  else
-    [Warning raiseEvent: "%s is not a float or double\n", probedVariable];
-
-  return self;
-}
-
-- (const char *)probeAsString: anObject Buffer: (char *) buf
+- (const char *)probeAsString: anObject Buffer: (char *)buf
 {
   // by default - use precision set by -setFormatFloat 
   // as number of digits to use in formatting the string
@@ -267,7 +273,8 @@
   return buf;
 }
 
-- (const char *) probeAsString: anObject Buffer: (char *)buf 
+- (const char *) probeAsString: anObject
+                        Buffer: (char *)buf 
              withFullPrecision: (int)precision
 {
   const void *p;
@@ -421,7 +428,7 @@
 // setData:To:, but it's not too bad. Note we don't allow setting
 // pointers here, because textual representations of pointers are
 // strange. That's probably not a good idea.
-- (int)setData: anObject ToString: (const char *)s
+- (BOOL)setData: anObject ToString: (const char *)s
 {
   union {
     char c;
@@ -501,7 +508,7 @@
   if (rc != 1 && SAFEPROBES)
     {
       [Warning raiseEvent: "Error scanning for value in string %s\n", s];
-      return 0;
+      return NO;
     }
   
   if (objectToNotify != nil)
@@ -530,7 +537,7 @@
                         ofType: probedType[0]
                         withData: (void *)s];
     }
-  return 1;
+  return YES;
 }
 
 @end

@@ -155,16 +155,16 @@ USING
 #if 0
    These are currently implemented here but belong in VarProbe...
 
-- setStringReturnType: returnType ;      
-- (void *)probeRaw: anObject ;
-- (void *)probeAsPointer: anObject ;
-- (int)   probeAsInt: anObject ;
-- (double)probeAsDouble: anObject ;
-- (char *)probeAsString: anObject Buffer: (char *) buffer ;
+- setStringReturnType: returnType;      
+- (void *)probeRaw: anObject;
+- (void *)probeAsPointer: anObject;
+- (int)   probeAsInt: anObject;
+- (double)probeAsDouble: anObject;
+- (char *)probeAsString: anObject Buffer: (char *) buffer;
 #endif
 @end
 
-@protocol VarProbe <Probe>
+@protocol _VarProbe
 //S: A class that allows the user to inspect a given variable in any
 //S: candidate that is an instance of, or inherits from, a given class.
 
@@ -179,7 +179,18 @@ CREATING
 //M: This method must be called during the create phase. 
 - setProbedVariable: (const char *)aVariable;
 
+- createEnd;
+
 SETTING
+//M: The setNonInteractive method sets a VarProbe to be non-interactive.
+//M: This ensures that the user will not be able to change the value of
+//M: a probe, only observe it.  Setting the VarProbe to be
+//M: non-interactive will not interfere with the drag & drop
+//M: capability of the objects into the VarProbe field.
+//   Currently, setNonInteractive must be used *after* create phase
+//   In any case these should also become setInteractive: BOOL etc.
+- setNonInteractive; 
+
 //M: The setStringReturnType: method sets the format that will be used
 //M: to print the variable.  When the probedVariable is of type
 //M: unsigned char or char, the method probeAsString will, by default,
@@ -187,24 +198,14 @@ SETTING
 //M: reflect the commonplace use of an unsigned char as a small int.
 - setStringReturnType: returnType;
 
+//M: The setFloatFormat: method sets the floating-point format of a GUI
+//M: display widget when given a sprintf-style formatting string.
+- setFloatFormat: (const char *)format;
+
 USING
 //M: The getProbedVariable method returns a string matching the
 //M: identifier of variable being probed.
 - (const char *)getProbedVariable;
-
-//M: The setFloatFormat: method sets the floating-point format of a GUI
-//M: display widget when given a sprintf-style formatting string.
-- setFloatFormat: (const char *)format;
-//   Currently, setNonInteractive must be used *after* create phase
-//   In any case these should also become setInteractive: BOOL etc.
-
-//M: The setNonInteractive method sets a VarProbe to be non-interactive.
-//M: This ensures that the user will not be able to change the value of
-//M: a probe, only observe it.  Setting the VarProbe to be
-//M: non-interactive will not interfere with the drag & drop
-//M: capability of the objects into the VarProbe field.
-
-- setNonInteractive; 
 
 //M: The getInteractiveFlag method returns the
 //M: interactivity state of the VarProbe.
@@ -234,12 +235,13 @@ USING
 //M: pre-allocated.  This version of probeAsString is used
 //M: internally by ObjectSaver to use the "saved as" precision form
 //M: which may differ from the "displayed" precision.
-- (const char *)probeAsString: anObject Buffer: (char *)buf
-            withFullPrecision: (int) precision;
+- (const char *)probeAsString: anObject
+                       Buffer: (char *)buf
+            withFullPrecision: (int)precision;
 
 //M: The setData:To: method sets the probedVariable using the pointer
 //M: to the new value.
-- setData: anObject To: (void *) newValue;  // pass by reference.
+- setData: anObject To: (void *)newValue;  // pass by reference.
 
 //M: The setData:ToString: sets the probedVariable using a string
 //M: which the probe reads and converts appropriately.
@@ -247,8 +249,10 @@ USING
 //M: unsigned char or a char using this method, the expected format of
 //M: the string is always "%i" unless CharString was chosen
 //M: (in which case the format should be "'%c'").
-- (int)setData: anObject ToString: (const char *)s; 
+- (BOOL)setData: anObject ToString: (const char *)s; 
+@end
 
+@protocol VarProbe <_VarProbe, Probe>
 @end
 
 //T: This type is used in MessageProbes to return an object of arbitrary
