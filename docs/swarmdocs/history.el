@@ -149,7 +149,9 @@
                                    swarmhome-changelog-list)))
     (with-temp-file (pathname-for-swarmdocs-revision-output module-sym)
       (sgml-mode)
-      (insert "<REVHISTORY>\n")
+      (insert "<REVHISTORY ID=\"SWARM.")
+      (insert (upcase (symbol-name module-sym)))
+      (insert ".GENERIC.REVHISTORY\">\n")
       (loop for changelog in combined-changelog-list
             for date-string = (format-time-string 
                                "%Y-%m-%d"

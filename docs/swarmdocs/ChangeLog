@@ -1,5 +1,7 @@
 1998-06-09  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* history.el (process-changelog): Add an ID to REVHISTORY.
+
 	* common.dsl (%gentext-usen-by%): Remove "by" in copyright message.
 
 1998-06-08  Marcus G. Daniels  <mgd@ute.santafe.edu>
