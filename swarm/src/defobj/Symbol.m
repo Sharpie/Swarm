@@ -43,7 +43,7 @@ PHASE(Using)
 
 - (const char *)getName
 {
-  return name;
+  return SSTRDUP (name);
 }
 
 - (void) describe: outputCharStream

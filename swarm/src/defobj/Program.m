@@ -406,7 +406,7 @@ PHASE(Using)
 
 - (const char *)getName
 {
-  return name;
+  return SSTRDUP (name);
 }
 
 @end
@@ -420,7 +420,7 @@ PHASE(Using)
 
 - (const char *)getName  // accessor method
 {
-  return name;
+  return SSTRDUP (name);
 }
 
 - getOwner  // accessor method

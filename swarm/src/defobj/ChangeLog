@@ -1,3 +1,8 @@
+2002-01-14  Marcus G. Daniels  <mgd@condor>
+
+	* Symbol.m, Program.m: Ensure that all getName methods return data
+	in the scratchZone.
+
 2002-01-02  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* defobj.h (raiseEvent): Avoid concatenation to __FUNCTION__.
