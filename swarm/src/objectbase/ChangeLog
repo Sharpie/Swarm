@@ -1,3 +1,8 @@
+2001-07-29  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* VarProbe.m ([VarProbe -setData:ToString:]): Protect
+	Java things with HAVE_JDK.
+
 2001-07-11  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* ProbeMap.m: Include VarProbe.h.

@@ -1369,7 +1369,9 @@ convert_from_string (fcall_type_t type,
 
 - (void)setData: anObject ToDouble: (double)val
 {
+#ifdef HAVE_JDK
   jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (anObject);
+#endif
 
   if (language == LanguageCOM)
     {
@@ -1399,6 +1401,7 @@ convert_from_string (fcall_type_t type,
                        probedVariable,
                        &arg);
     }
+#ifdef HAVE_JDK
   else if (language == LanguageJava)
     {
       if (classcmp (java_fieldType, c_float))
@@ -1410,6 +1413,7 @@ convert_from_string (fcall_type_t type,
       else
         abort ();
     }
+#endif
   else
     abort ();
   [self notifyFor: anObject with: (void *) &val];
