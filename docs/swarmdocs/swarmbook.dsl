@@ -52,6 +52,39 @@
   ;; Should a Table of Contents be produced for Sets?
   #t)
 
+(define (set-titlepage-verso-elements)
+  ;; by default style sheet doesn't include the "verso" elements on the 
+  ;; title page.
+  (list (normalize "abstract")
+        (normalize "revhistory")        
+        ))
+
+;; BOOK customization
+
+(define (book-titlepage-verso-elements)
+  ;; by default style sheet doesn't include the "verso" elements on the 
+  ;; title page.
+  (list (normalize "abstract")        
+        (normalize "revhistory")        
+        (normalize "copyright")
+        ))
+
+;; REFERENCE customization
+
+(define (reference-titlepage-recto-elements)
+  (list (normalize "title") 
+        (normalize "subtitle")        
+        ))
+
+(define (reference-titlepage-verso-elements)
+  (list (normalize "abstract")))
+
+;; ARTICLE customization
+
+(define %generate-article-titlepage% 
+  ;; Should an article title page be produced?
+  #f)
+
 ;; customizing auto-labelling of SECTs
 
 (define %section-autolabel% 
