@@ -162,6 +162,7 @@ PHASE(Using)
   raiseEvent (NotImplemented, nil);
   
   abort ();
+  return 0;
 }
 
 - _lispOut_: outputCharStream deep: (BOOL)deepFlag
