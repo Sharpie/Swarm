@@ -1,5 +1,10 @@
 2000-10-01  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* FArguments.m: Include directory.h.
+
+	* DefObject.m: Always include mframe.h.
+	([Object_s -forward::]): Remove unnecessary jObj/cObj check.
+	
 	* directory.m (language_independent_class_name_for_typename):
 	Distinguish between unknown type names and top-level names.
 

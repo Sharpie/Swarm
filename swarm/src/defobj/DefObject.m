@@ -25,8 +25,9 @@ Library:      defobj
 #include <misc.h> // strcpy, strlen, sprintf, isDigit
 #include <collections/predicates.h> // arrayp, keywordp, archiver_list_p, stringp
 
-#ifdef HAVE_JDK
 #include <objc/mframe.h>
+
+#ifdef HAVE_JDK
 #include "java.h"
 #endif
 
@@ -664,7 +665,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
       }
     }
 #endif
-  else if (!cObj && !jObj)
+  else
     {
       [self doesNotRecognize: aSel];
       [fa drop];

@@ -26,6 +26,7 @@ Library:      defobj
 #include <avcall.h>
 #endif
 
+#import <defobj/directory.h>
 #import "COM.h"
 
 #ifdef HAVE_JDK
