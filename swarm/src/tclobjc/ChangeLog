@@ -1,3 +1,9 @@
+1999-01-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* TkInterp.m: Use __CYGWIN__ instead of __CYGWIN32__.
+
+	* tclObjc.m (BUGGY_BUILTIN_APPLY): Set if __CYGWIN__. 
+
 1999-01-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* TclInterp.m ([TclInterp -checkPath:subdirectory:file:]): Add

@@ -39,6 +39,10 @@
 
 #include <swarmconfig.h>
 
+#ifdef __CYGWIN__
+#define BUGGY_BUILTIN_APPLY
+#endif
+
 #ifdef BUGGY_BUILTIN_APPLY
 #define USE_FFI
 #endif

@@ -75,12 +75,12 @@ static const char *name = NULL;
 
 #if ! HAVE_READLINE
 static void	Prompt _ANSI_ARGS_((Tcl_Interp *interp, int partial));
-#ifndef __CYGWIN32__
+#ifndef __CYGWIN__
 static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
 #endif
 #endif /* ! HAVE_READLINE */
 
-#ifdef __CYGWIN32__
+#ifdef __CYGWIN__
 #undef Tk_CreateFileHandler
 #undef Tk_DeleteFileHandler
 #define Tk_CreateFileHandler(a, b, c, d)
@@ -320,7 +320,7 @@ static void	StdinProc _ANSI_ARGS_((ClientData clientData, int mask));
  */
 
 
-#ifndef __CYGWIN32__
+#ifndef __CYGWIN__
 /*
  *----------------------------------------------------------------------
  *
