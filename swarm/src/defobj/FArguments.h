@@ -12,17 +12,9 @@ Library:      defobj
 #import <defobj.h>
 #import <defobj/Create.h>
 #include <ffi.h>
-#ifdef PACKAGE
 #undef PACKAGE
-#endif
-#ifdef VERSION
 #undef VERSION
-#endif
 #import <swarmconfig.h>
-
-#ifdef HAVE_JDK
-#include <jni.h>
-#endif
 
 #define number_of_types 14
 
@@ -41,12 +33,7 @@ Library:      defobj
 #define swarm_type_string  12
 #define swarm_type_jobject 13
 
-
-#ifdef HAVE_JDK
-#define JOBJECT jobject
-#else
 #define JOBJECT void *
-#endif
 
 #define MAX_ARGS        5
 #define MAX_HIDDEN      3
@@ -74,7 +61,7 @@ Library:      defobj
 - setReturnType: (unsigned int)type;
 - createEnd;
 - (void *)getResult;
-- (void) mapAllocations: (mapalloc_t) mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 

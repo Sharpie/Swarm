@@ -15,6 +15,7 @@ Library:      defobj
 #include <stdlib.h>
 
 #ifdef HAVE_JDK
+#include <jni.h>
 JNIEnv *jniEnv;
 #endif
 
