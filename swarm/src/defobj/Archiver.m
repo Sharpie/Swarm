@@ -340,6 +340,7 @@ hdf5ArchiverGet (const char *key)
   return result;
 #else
   hdf5_not_available ();
+  return nil;
 #endif
 }
 
@@ -589,6 +590,7 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
   return count;
 #else
   hdf5_not_available ();
+  return 0;
 #endif
 }
 
@@ -610,6 +612,7 @@ hdf5_output_objects (id <Map> objectMap, id hdf5Obj, BOOL deepFlag)
   return self;
 #else
   hdf5_not_available ();
+  return nil;
 #endif
 }
 
