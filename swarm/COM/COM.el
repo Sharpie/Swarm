@@ -583,7 +583,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, normalize, selectorQuery, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, selectorInvoke, createArgVector, setArg, freeArgVector };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, normalize, selectorQuery, selectorIsVoidReturn, selectorIsBooleanReturn, selectorName, selectorArgCount, selectorArgFcallType, selectorInvoke, createArgVector, setArg, setReturn, freeArgVector };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
