@@ -1,3 +1,7 @@
+1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* externvar.h.in (externvar): Select per PIC.
+
 1999-06-05  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note new Archiver, Archiver{Keyword,Value,Array,Pair} and

@@ -1,7 +1,9 @@
 #ifndef _EXTERNVAR_H
 #define _EXTERNVAR_H
 
-#ifndef externvar
+#ifdef PIC
+#define externvar @EXPORT_EXTERN@
+#else
 #define externvar @IMPORT_EXTERN@
 #endif
 
