@@ -1,5 +1,29 @@
 1997-12-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* XPixmap.m ([XPixmap -setFile:]): Constify argument.
+	Reformatting throughout.
+
+	* XPixmap.h (XPixmap): Constify filename.
+	Constify argument to setFile.
+	Reformatting throughout.
+
+	* XColormap.m ([XColormap -setColor:ToName:]): Constify ToName
+	argument.  Reformatting throughout.
+
+	* XColormap.h: Constify ToName argument to setColor.
+	Reformatting throughout.
+
+	* Form.m ([Form -addLineName:Variable:Type:]): Constify first
+	argument.  Reformatting throughout.
+
+	* Form.h: Constify first argument to addLineName.
+	Reformatting throughout.
+
+	* CanvasItem.m: Reformatting throughout.
+
+	* CanvasItem.h (CanvasItem): Constify item.
+	Reformatting throughout.
+
 	* RectangleNodeItem.m ([RectangleNodeItem -createItem]): Cast
 	argument to free to void* to avoid warning.
 	Reformatting throughout.

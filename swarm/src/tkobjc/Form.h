@@ -7,12 +7,13 @@
 
 #import <tkobjc/Frame.h>
 
-@interface Form : Widget {
+@interface Form : Widget
+{
   int numEntries;
   int entryWidth;
 }
 
--setEntryWidth: (int) ew;
--addLineName: (char *) n Variable: (void *) p Type: (int) type;
+- setEntryWidth: (int) ew;
+- addLineName: (const char *)n Variable: (void *)p Type: (int)type;
 
 @end

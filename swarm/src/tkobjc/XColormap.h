@@ -23,26 +23,27 @@
 typedef unsigned long PixelValue;
 typedef unsigned char Color;
 
-@interface XColormap : CreateDrop {
+@interface XColormap : CreateDrop
+{
   // state for the Object
   PixelValue white, black;
   PixelValue map[MAXCOLORS];
   BOOL isSet[MAXCOLORS];
-
+  
   // data necessary for Xlib.
   Tk_Window tkwin;
-  Display * display;
+  Display *display;
   Window xwin;
   Colormap cmap;
 }
 
--(PixelValue *) map;
--(PixelValue) pixelValue: (Color) c;
--(BOOL) setColor: (Color) c ToName: (char *) colorName;
--(BOOL) setColor: (Color) c ToGrey: (double) g;
--(BOOL) setColor: (Color) c ToRed: (double) r Green: (double) g Blue: (double) b;
--(PixelValue) white;
--(PixelValue) black;
--(BOOL) colorIsSet: (Color) c;
+- (PixelValue *) map;
+- (PixelValue)pixelValue: (Color)c;
+- (BOOL)setColor: (Color)c ToName: (const char *)colorName;
+- (BOOL)setColor: (Color)c ToGrey: (double)g;
+- (BOOL)setColor: (Color)c ToRed: (double)r Green: (double)g Blue: (double)b;
+- (PixelValue)white;
+- (PixelValue)black;
+- (BOOL) colorIsSet: (Color)c;
 
 @end

@@ -5,23 +5,24 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface CanvasItem: SwarmObject {
-  id  canvas ;
-  char *item ;
-  id target  ;
-  SEL clickSel, moveSel, postMoveSel ;
+@interface CanvasItem: SwarmObject 
+{
+  id  canvas;
+  const char *item;
+  id target;
+  SEL clickSel, moveSel, postMoveSel;
 }
 
--setCanvas: canvas ;
--setTargetId: target ;
--setClickSel: (SEL) sel ;
--setMoveSel: (SEL) sel ;
--setPostMoveSel: (SEL) sel ;
--createItem ;
--createBindings ;
--createEnd ;
--clicked ;
--initiateMoveX: (long) delta_x Y: (long) delta_y ;
+- setCanvas: canvas;
+- setTargetId: target;
+- setClickSel: (SEL)sel;
+- setMoveSel: (SEL)sel;
+- setPostMoveSel: (SEL)sel;
+- createItem;
+- createBindings;
+- createEnd;
+- clicked;
+- initiateMoveX: (long)delta_x Y: (long)delta_y;
 @end
 
 

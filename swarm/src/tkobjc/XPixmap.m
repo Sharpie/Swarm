@@ -10,32 +10,42 @@
 
 @implementation XPixmap
 
--setFile: (char *) s {
-  if (filename) {
-    [InvalidCombination raiseEvent: "It is an error to reset the filename\n"];
-    return nil;
-  } else {
+-setFile: (const char *)s
+{
+  if (filename)
+    {
+      [InvalidCombination
+        raiseEvent:
+          "It is an error to reset the filename\n"];
+      return nil;
+    }
+  else
     filename = s;
-  }
   return self;
 }
 
 // all this work to get the display.. tclobjc should support this
 // directly.
--createEnd {
+- createEnd
+{
   Tk_Window tkwin;
   XpmAttributes xpmattrs;
   int rc;
-
+  
   [super createEnd];
   
-  tkwin = Tk_NameToWindow([globalTkInterp interp], ".",
-			  [globalTkInterp mainWindow]);
-  display = Tk_Display(tkwin);
+  tkwin = Tk_NameToWindow ([globalTkInterp interp],
+                           ".",
+                           [globalTkInterp mainWindow]);
+  display = Tk_Display (tkwin);
   
   xpmattrs.valuemask = 0;			  // no input
-  rc = XpmReadFileToPixmap(display, XDefaultRootWindow(display), filename,
-			   &pixmap, &mask, &xpmattrs);
+  rc = XpmReadFileToPixmap (display,
+                            XDefaultRootWindow(display),
+                            (char *)filename,
+                            &pixmap,
+                            &mask,
+                            &xpmattrs);
   if (rc != 0)
     [WindowCreation raiseEvent: "Error loading pixmap %s\n", filename];
   width = xpmattrs.width;
@@ -43,35 +53,42 @@
   return self;
 }
 
--(Pixmap) getPixmap {
+- (Pixmap)getPixmap
+{
   return pixmap;
 }
 
--(Pixmap) getMask {
+- (Pixmap)getMask
+{
   return mask;
 }
 
 // do we have a mask set?
--(BOOL) getMasked {
+- (BOOL)getMasked
+{
   return mask ? 1 : 0;
 }
 
--(unsigned) getWidth {
+- (unsigned)getWidth
+{
   return width;
 }
 
--(unsigned) getHeight {
+- (unsigned)getHeight
+{
   return height;
 }
 
--drawOn: (Drawable) w X: (int) x Y: (int) y GC: (GC) gc Caller: caller {
+- drawOn: (Drawable)w X: (int)x Y: (int)y GC: (GC)gc Caller: caller
+{
   if (mask == 0)				  // handle mask?
     XCopyArea(display, pixmap, w, gc, 0, 0, width, height, x, y);
-  else {					  // doesn't work :-(
-    XSetClipMask(display, gc, mask);
-    XCopyArea(display, pixmap, w, gc, 0, 0, width, height, x, y);
-    XSetClipMask(display, gc, None);		  // should reset.
-  }
+  else
+    {					  // doesn't work :-(
+      XSetClipMask(display, gc, mask);
+      XCopyArea(display, pixmap, w, gc, 0, 0, width, height, x, y);
+      XSetClipMask(display, gc, None);		  // should reset.
+    }
   return self;
 }
 

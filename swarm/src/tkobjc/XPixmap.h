@@ -7,21 +7,22 @@
 #import <tk.h>
 #import <tkobjc/XDrawer.h>
 
-@interface XPixmap : CreateDrop <XDrawer> {
-  char * filename;
-  Display * display;				  // should be global variable
+@interface XPixmap : CreateDrop <XDrawer>
+{
+  const char *filename;
+  Display *display;				  // should be global variable
   Pixmap pixmap;				  // the map
   Pixmap mask;					  // clipping mask
   unsigned width, height;
 }
 
--setFile: (char *) filename;
--createEnd;
+- setFile: (const char *)filename;
+- createEnd;
 
--(Pixmap) getPixmap;
--(BOOL) getMasked;
--(Pixmap) getMask;
--(unsigned) getWidth;
--(unsigned) getHeight;
+- (Pixmap)getPixmap;
+- (BOOL)getMasked;
+- (Pixmap)getMask;
+- (unsigned)getWidth;
+- (unsigned)getHeight;
 
 @end
