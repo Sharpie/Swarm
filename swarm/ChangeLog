@@ -1,3 +1,9 @@
+1998-02-06  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.conf: Updated alex-SFI-Solaris configuration. Added
+	more flags for gcc28 compiler. Added override += for
+	$(OTHER{INC,LIB}DIRS) variables.
+
 1998-01-26  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf: Change default for mgd-SFI-Solaris to use
