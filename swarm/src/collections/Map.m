@@ -1111,6 +1111,11 @@ PHASE(Using)
   return anEntry->key;
 }
 
+- (unsigned long)getKeyValue
+{
+  return (unsigned long) (PTRUINT) [self getKey];
+}
+
 - replace: anObject
 {
   mapentry_t anEntry;

@@ -75,6 +75,7 @@ typedef struct mapentry {
 - get;
 - get: (id *)key;
 - getKey;
+- (unsigned long)getKeyValue;
 - replace: anObject;
 - remove;
 - setKey: aKey;

@@ -932,6 +932,13 @@ USING
 //M: positioned at a member. 
 - getKey;
 
+//M: The getKeyValue message returns the integer value associated with
+//M: the current location of the index.  It is exactly like getKey,
+//M: except the value is returned as an integer.  (A common application
+//M: of this method is to get a Schedule time value associated with an Action
+//M: in Java.)
+- (unsigned long)getKeyValue;
+
 //M: Return the next item and it's key.
 - next: (id *)key;
 
