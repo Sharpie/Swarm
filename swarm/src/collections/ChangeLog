@@ -1,3 +1,7 @@
+1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Permutation.[hm]: New files.
+
 1998-12-11  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
 	* Array.h (ArrayIndex_c): setOffset returns id. 
