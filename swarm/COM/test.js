@@ -7,12 +7,16 @@ function test () {
                                                   "0.0",
                                                   "bug-swarm@swarm.org",
                                                   0, []);
-
-  env.xprint (env.globalZone);
   
   var sel =
     Components.classes["component://swarm/SelectorImpl"].
      createInstance (Components.interfaces.swarmISelector);
 
-  sel.create (this, "myMethod", false);
+  var obj =
+    Components.classes["component://swarm/objectbase/SwarmObjectImpl"].
+     createInstance (Components.interfaces.swarmISwarmObject);
+
+  env.xprint (obj);
+
+  sel.create (obj, "myMethod", false);
 }
