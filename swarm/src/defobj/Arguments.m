@@ -775,7 +775,9 @@ convertToLongPath (const char *path)
 
 - (BOOL)_runningFromInstall_
 {
-  if (!executablePath)
+  if (inhibitExecutableSearchFlag)
+    return NO;
+  else if (!executablePath)
     return YES;
   else
     {

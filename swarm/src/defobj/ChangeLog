@@ -8,6 +8,8 @@
 
 	* Arguments.m: Add above as +create argument.
 	([Arguments_c -createEnd]): Use it.
+	([Arguments_c -_runningFromInstall_]): Return NO when
+	inhibitExecutableSearchFlag is set.
 
 	* defobj.m (initDefobj): Add above as argument.
 
