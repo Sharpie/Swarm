@@ -1,5 +1,9 @@
 1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* VERSION: Bump to 1998-04-17.
+
+1998-04-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
 	* Makefile.conf: Remove all instances of PNGLIB and ZLIB; hardcode
 	in SYSLIBS.  Add {Z,PNG}{PREFIX,LIBDIR,INCDIR} for mgd-SFI-GNU/Linux.
 
