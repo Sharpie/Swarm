@@ -1,5 +1,10 @@
 2003-08-11  Bill Northcott <W.Northcott@unsw.edu.au>
 
+	* m4/aclibtool.m4: provide appropriate libtool macros for
+	libtool-1.4.3+.
+
+2003-08-11  Bill Northcott <W.Northcott@unsw.edu.au>
+
 	* Makefile.in: PowerPC ONLY, rename system type source before compile.
 	Renaming object leaves incorrect names in libavcall.la.
 

@@ -1,3 +1,8 @@
+2003-08-11  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* m4/aclibtool.m4: provide appropriate libtool macros for
+	libtool-1.4.3+.
+
 2003-08-01  Bill Northcott  <w.northcott@unsw.edu.au>
 
 	* INSTALL: added '--enable-onelib' option to docs

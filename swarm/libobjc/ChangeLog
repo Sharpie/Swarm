@@ -1,3 +1,8 @@
+2003-08-11  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* m4/aclibtool.m4: provide appropriate libtool macros for
+	libtool-1.4.3+.
+
 2003-06-29  Marcus Daniels  <mgd@mac>
 
 	* misc.c: Don't use xmalloc, etc. so that this library can be fully
