@@ -297,7 +297,8 @@ dynamicCallOn (const char *probedType,
     [fc setMethod: probedSelector inObject: target];
   fc = [fc createEnd];
   [fc performCall];
-  retVal->val = *(types_t *) [fc getResult];
+  if (retVal->type != _C_VOID)
+    retVal->val = *(types_t *) [fc getResult];
 #ifdef HAVE_JDK
   if (javaFlag)
     {
