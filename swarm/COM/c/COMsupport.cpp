@@ -166,13 +166,31 @@ createComponentByName (const char *contractID, const char *interfaceName)
 void *
 findComponent (const char *className)
 {
+  const char *prefix = "urn:";
+  const char *modulePrefix = "swarm/";
+  size_t prefixLen = PL_strlen (prefix);
+  size_t modulePrefixLen = PL_strlen (modulePrefix);
   nsCID *cClass = new nsCID ();
-  const char *prefix = "component://";
-  char buf[12 + PL_strlen (className) + 1];
+  size_t classNameLen = PL_strlen (className);
+  char buf[prefixLen + classNameLen + 1];
   nsresult rv;
 
   PL_strcpy (buf, prefix);
   PL_strcat (buf, className);
+  if (PL_strncmp (className, modulePrefix, modulePrefixLen) == 0)
+    {
+      unsigned i;
+
+      buf[prefixLen + 5] = ':';
+      for (i = modulePrefixLen; i < classNameLen; i++)
+        {
+          unsigned pos = prefixLen + i;
+          
+          if (buf[pos] == '/')
+            buf[pos] = '.';
+        }
+    }
+
   rv = nsComponentManager::ContractIDToClassID (buf, cClass);
 
   if (NS_FAILED (rv))
