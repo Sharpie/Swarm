@@ -145,7 +145,7 @@ Relative speed:	| Speed 0.252 (time 3.961) relative to MT19937 getUnsignedSample
 
    unsigned short m1[STATESIZE];		// state vector
    unsigned short m2[STATESIZE];
-
+   unsigned (*getUnsignedSample) (id, SEL);
 }
 
 

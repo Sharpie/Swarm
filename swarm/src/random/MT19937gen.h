@@ -181,6 +181,8 @@ output quality:	|
 // State variables:
 
    unsigned int state[SEEDS];	// state vector "ptgfsr[]"
+
+   unsigned (*getUnsignedSample) (id, SEL);
 }
 
 

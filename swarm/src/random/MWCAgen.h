@@ -137,8 +137,7 @@ Relative speed:	| Speed 1.088 (time 0.919) relative to MT19937 getUnsignedSample
 // State variables:
 
    unsigned int K, J;			// state vector [=x]
-
-
+   unsigned (*getUnsignedSample) (id, SEL);
 }
 
 

@@ -172,7 +172,7 @@ output quality:	|
 // State variables:
 
    int x10, x11, x12, x20, x21, x22;	// state vector
-
+   unsigned (*getUnsignedSample) (id, SEL);
 }
 
 

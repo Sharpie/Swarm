@@ -161,7 +161,7 @@ Relative speed:	| Speed 0.907 (time 1.103) relative to MT19937 getUnsignedSample
 
    // unsigned int IS [COMPONENTS];	// initialSeeds
    // unsigned int I  [COMPONENTS];	// state vector
-
+   unsigned (*getUnsignedSample) (id, SEL);
 }
 
 

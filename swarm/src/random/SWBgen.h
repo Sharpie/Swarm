@@ -175,7 +175,7 @@ Relative speed:	| Speed 1.126 (time 0.888) relative to MT19937 getUnsignedSample
 
    unsigned int *state;			// pointer to state vector
    int carry;
-
+   unsigned (*getUnsignedSample) (id, SEL);
 }
 
 

@@ -175,7 +175,7 @@ output quality:	|
 
    unsigned int carry;			// carry bit (part of state)
    unsigned int state[SEEDS-1];		// state vector
-
+   unsigned (*getUnsignedSample) (id, SEL);
 }
 
 

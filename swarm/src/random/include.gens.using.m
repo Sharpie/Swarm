@@ -78,12 +78,18 @@
 }
 
 -(double) getDoubleSample {
-   double dd;
+  double dd;
    // Two 32-bit unsigned random numbers are used
    // to fill the 53-bit mantissa of a double.
 
-   dd = invModMult  * [self getUnsignedSample]
-      + invModMult2 * [self getUnsignedSample];
+   // dd = invModMult  * [self getUnsignedSample]
+   //   + invModMult2 * [self getUnsignedSample];
+  //use a cached selector to avoid lookup costs:
+  
+  dd = invModMult  * getUnsignedSample (self, M(getUnsignedSample))
+      + invModMult2 * getUnsignedSample (self, M(getUnsignedSample));
+
+
    return dd;
 }
 

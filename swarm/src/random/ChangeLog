@@ -1,3 +1,16 @@
+2000-07-16  Paul Johnson  <pauljohn@ukans.edu>
+
+	* ACGgen.h, C2MRG3gen.h, C2TAUSgen.h, C3MWCgen.h,  LCGgen.h, MRGgen.h
+	MWCAgen.h, MWCBgen.h, PMMLCGen.h, PSWBgen.h, RWC2gen.h, RWC8gen.h,
+	SCGgen.h, SWBgen.h, TGFSRgen.h: Inserted the IVAR unsigned
+	(*getUnsignedSample) (id, SEL); for use with IMP caching
+
+	* include.gens.creating.m: createEnd now caches method lookup of
+	getUnsignedSample()
+
+	* include.gens.using.m (getDoubleSample): use getUnsignedSample()
+	cached method to speedup all generators
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* randomvars.h (randomGenerator): Conform to MT19937gen not

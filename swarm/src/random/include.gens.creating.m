@@ -30,6 +30,11 @@
   [InvalidCombination raiseEvent:
   "%s not Initialized with a Seed!\n", genName];
  
+  getUnsignedSample =
+    (unsigned (*) (id, SEL))[self methodFor: M(getUnsignedSample)];
+
+
+
   return [super createEnd];
 }
 

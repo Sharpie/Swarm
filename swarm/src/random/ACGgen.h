@@ -180,7 +180,7 @@ output quality:	|
 // State variables:
 
    unsigned int state[SEEDS];		// state vector
-
+   unsigned (*getUnsignedSample) (id, SEL);
 }
 
 
