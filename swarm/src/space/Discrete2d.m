@@ -436,10 +436,10 @@ lispOutLatticeObjects (Discrete2d *self, id stream)
             [stream catUnsignedPair: x : y];
             [stream catSeparator];
             [obj lispOutDeep: stream];
-            [stream catEndExpr];
+            [stream catEndCons];
           }
       }
-  [stream catEndExpr];
+  [stream catEndParse];
 }
 
 static void
@@ -466,7 +466,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
                     NULL,
                     stream,
                     NO);
-  [stream catEndExpr];
+  [stream catEndParse];
 }
 
 - lispOutShallow: stream
@@ -474,7 +474,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   [stream catStartMakeInstance: [self getTypeName]];
   [self lispOutVars: stream deep: NO];
   lispOutLatticeValues (self, stream);
-  [stream catEndExpr];
+  [stream catEndMakeInstance];
   return self;
 }
 
@@ -483,7 +483,7 @@ lispOutLatticeValues (Discrete2d *self, id stream)
   [stream catStartMakeInstance: [self getTypeName]];
   [self lispOutVars: stream deep: NO]; // The others ivars are scalar
   lispOutLatticeObjects (self, stream);
-  [stream catEndExpr];
+  [stream catEndMakeInstance];
   return self;
 }
 

@@ -1,3 +1,10 @@
+2000-01-03  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* Discrete2d.m (lispOutLatticeObjects): Use catEndCons 
+	and catEndParse instead of catEndExpr.
+	([Discrete -lispOutShallow:]): Use catEndMakeInstance
+	instead of catEndExpr.
+
 1999-12-31  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* Discrete2d.m (lispOutLatticeObjects, lispOutLatticeValues,
