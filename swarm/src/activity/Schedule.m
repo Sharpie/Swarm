@@ -61,7 +61,7 @@ PHASE(Creating)
       
     setBit (bits, BitRelativeTime, 1);  // force relative time for repeat
   }
-  [(id) self setCompareFunction: compareUnsigned];
+  [(id) self setCompareFunction: compareUnsignedIntegers];
 
   if (createByMessageToCopy (self, createEnd))
     return self;
