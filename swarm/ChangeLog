@@ -6,6 +6,7 @@
 	(OTHERLIBDIRS): Reorder in mgd-SFI-Solaris so tclobjc is before
 	png/zlib.
 	Use system gcc-2.7.2.3 for SFI and use renamed libtclobjc.gcc2.7.a.
+	Specify version 2.7.2.3 for mgd-SFI-Solaris SWARMCOMPILER=gcc.
 
 1998-05-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
