@@ -28,6 +28,7 @@ public class User2d extends DirectedAgent2d {
            resistanceProbabilityMean, resistanceProbabilityDeviation,
            energyMean, energyDeviation);
 
+    resistProbability = sampleResistProbability ();
     schedule = new ScheduleImpl (aZone, 1);
 
     try {
@@ -54,11 +55,12 @@ public class User2d extends DirectedAgent2d {
         color = ObserverSwarm.UserListenColor;
         moveDirection ();
       }
-    else
-      {
-        color = resisting ? ObserverSwarm.UserResistColor : ObserverSwarm.UserTourColor;
-        randomWalk ();
-      }
+    else {
+      color = resisting ? ObserverSwarm.UserResistColor : ObserverSwarm.UserTourColor;
+      randomWalk ();
+    }
+    if (!resisting)
+      energy = sampleEnergy ();
     clearStatus ();
   }
 }
