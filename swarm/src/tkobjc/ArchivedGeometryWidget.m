@@ -79,9 +79,9 @@ id archiverGet (const char *key);
   [super drop];
 }
 
-- _notifyOwnerAndDrop_
+- _notifyTargetAndDrop_
 {
-  [owner perform: destroyNotificationMethod];
+  [notificationTarget perform: destroyNotificationMethod];
   [self drop];
   return self;
 }
@@ -90,10 +90,10 @@ static void
 structure_proc (ClientData clientdata, XEvent *eventptr)
 {
   if (eventptr->type == DestroyNotify)
-    [(id)clientdata _notifyOwnerAndDrop_];
+    [(id)clientdata _notifyTargetAndDrop_];
 }
 
-- setupDestroyNotification: theOwner
+- setupDestroyNotification: theNotificationTarget
         notificationMethod: (SEL)theDestroyNotificationMethod
 {
   Tk_Window tkwin = Tk_NameToWindow ([globalTkInterp interp],
@@ -101,7 +101,7 @@ structure_proc (ClientData clientdata, XEvent *eventptr)
                                      [globalTkInterp mainWindow]);
   Tk_CreateEventHandler (tkwin, StructureNotifyMask, structure_proc, self);
 
-  owner = theOwner;
+  notificationTarget = theNotificationTarget;
   destroyNotificationMethod = theDestroyNotificationMethod;
   return self;
 }

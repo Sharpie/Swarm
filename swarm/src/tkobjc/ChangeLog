@@ -2,7 +2,7 @@
 
 	* ArchivedGeometryWidget.m (structure_proc): New function.  A
 	handler for Structure changes to the widget (e.g. destruction).
-	([ArchivedGeometryWidget -_notifyOwnerAndDrop_]): New internal
+	([ArchivedGeometryWidget -_notifyTargetAndDrop_]): New internal
 	method called by above handler.
 	([ArchivedGeometryWidget
 	-setupDestroyNotification:notificationMethod:]):  Configures
@@ -27,9 +27,9 @@
 	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget -drop]): 
 	Destroy the parent widget on drop.
 
-	* ArchivedGeometryWidget.h (ArchivedGeometryWidget): Add owner and
-	destroyNotificationMethod variables, and declare
-	setupDestroyNotification.
+	* ArchivedGeometryWidget.h (ArchivedGeometryWidget): Add
+	notificationTarget and destroyNotificationMethod variables, and
+	declare setupDestroyNotification.
 
 	* CanvasItem.m ([CanvasItem -createBindings]): Constify temp.
 
