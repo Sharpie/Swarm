@@ -2,6 +2,8 @@
 
 	* acexesuffix.m4: Removed.
 
+	* Makefile.am (EXTRA_DIST): Remove acexesuffix.m4.
+
 2004-11-25  Marcus G. Daniels <mgd@santafe.edu>
 
 	* acfind.m4: Avoid test negation that doesn't work in Solaris /bin/sh.
