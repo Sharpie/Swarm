@@ -1,5 +1,9 @@
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Map.m: Replace pointer-conversion int and unsigned usages
+	to PTRINT and PTRUINT as well as printf format %d and %u
+	to PTRINTFMT and PTRUINTFMT.
+
 	* List_GEN.m: Include misc.h instead of limits.h.
 
 1999-04-26  Alex Lancaster  <alex@santafe.edu>

@@ -30,7 +30,9 @@ Library:      collections
 #define GROUP_VALUES "values"
 
 #define PTRINT long
+#define PTRINTFMT "%ld"
 #define PTRUINT unsigned long
+#define PTRUINTFMT "%lu"
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
@@ -40,9 +42,9 @@ Library:      collections
 int
 compareIDs (id val1, id val2)
 {
-  if ((unsigned) val1 < (unsigned) val2)
+  if ((PTRUINT) val1 < (PTRUINT) val2)
     return -1;
-  return ((unsigned) val1 > (unsigned) val2);
+  return ((PTRUINT) val1 > (PTRUINT) val2);
 }
 
 //
@@ -52,9 +54,9 @@ compareIDs (id val1, id val2)
 int
 compareIntegers (id val1, id val2)
 {
-  if ((int) val1 < (int) val2)
+  if ((PTRINT) val1 < (PTRINT) val2)
     return -1;
-  return ((int) val1 > (int) val2);
+  return ((PTRINT) val1 > (PTRINT) val2);
 }
 
 //
@@ -226,9 +228,9 @@ PHASE(Setting)
       const char *fmt = NULL;
       
       if (compareFunc == compareIntegers)
-        fmt = "%d";
+        fmt = PTRINTFMT;
       else if (compareFunc == compareUnsignedIntegers)
-        fmt = "%u";
+        fmt = PTRUINTFMT;
       else
         fmt = NULL;
 
@@ -303,7 +305,7 @@ PHASE(Setting)
               return 0;
             }
 
-          fmt = (compareFunc == compareIntegers) ? "%d" : "%u";
+          fmt = (compareFunc == compareIntegers) ? PTRINTFMT : PTRUINTFMT;
           [hdf5Obj iterate: process_object];
         }
       else if (compareFunc == compareCStrings)
@@ -672,14 +674,14 @@ PHASE(Using)
         {
           char buf[DSIZE (unsigned)];
           
-          sprintf (buf, "%u", (PTRINT) key);
+          sprintf (buf, PTRINTFMT, (PTRINT) key);
           [outputCharStream catC: buf];
         }
       else if (compareFunc == compareIntegers)
         {
           char buf[DSIZE (unsigned)];
           
-          sprintf (buf, "%d", (PTRINT) key);
+          sprintf (buf, PTRINTFMT, (PTRINT) key);
           [outputCharStream catC: buf];
         }
       else if (compareFunc == compareCStrings)
@@ -842,7 +844,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           
           const char *getKeyStr (id key)
             {
-              sprintf (buf, "%u", (unsigned) key);
+              sprintf (buf, PTRUINTFMT, (PTRUINT) key);
               return buf;
             }
           store_map_deep (getKeyStr);
@@ -853,7 +855,7 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           
           const char *getKeyStr (id key)
             {
-              sprintf (buf, "%d", (int) key);
+              sprintf (buf, PTRINTFMT, (PTRINT) key);
               return buf;
             }
           store_map_deep (getKeyStr);
@@ -908,12 +910,12 @@ hdf5_store_compare_function_attribute (id hdf5Obj, compare_t compareFunc)
           else if (compareFunc == compareCStrings)
             [dataset nameRecord: rn name: (const char *) key];
           else if (compareFunc == compareUnsignedIntegers)
-            [dataset numberRecord: (unsigned) key];
+            [dataset numberRecord: (PTRUINT) key];
           else if (compareFunc == compareIntegers)
             {
               char buf[DSIZE (int) + 1];
               
-              sprintf (buf, "%d", (int) key);
+              sprintf (buf, PTRINTFMT, (PTRINT) key);
               [dataset nameRecord: rn name: buf];
             }
           else
