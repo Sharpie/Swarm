@@ -1,3 +1,7 @@
+1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am: Include $(top_srcdir)/Makefile.common.
+
 1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* setmeta.sgml: Scale graphic to 75%.
