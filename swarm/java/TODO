@@ -5,3 +5,5 @@ Call cleanup (e.g. String conversions)
 Java-side (return) proxies
 
 Using constructors
+
+Class conversion
