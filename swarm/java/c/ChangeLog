@@ -1,3 +1,8 @@
+2003-06-29  mgd  <mgd@drone>
+
+	* Makefile.in ($(JAVASWARM_DLL)): Add classList.o to link.
+	Don't filter out nil_method.
+
 2003-05-22  Marcus G. Daniels  <mgd@xserve.santafe.edu>
 
 	* Makefile.in (predispatch.c): Remove the constructor and rename

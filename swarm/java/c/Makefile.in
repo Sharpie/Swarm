@@ -76,7 +76,7 @@ ENTRYCMD=-e @JAVASWARM_DLL_ENTRY@
 
 $(JAVASWARM_DLL): $(_LIBJAVASWARM_LA) $(_LIBJAVASWARMSTUBS_LA) javaswarm.dll.c
 	$(CC) -g -c $(srcdir)/javaswarm.dll.c
-	ld -shared --add-stdcall-alias $(ENTRYCMD) --export-all-symbols -o $(JAVASWARM_DLL) javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(top_builddir)/src/SwarmEnvironment.o $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) ../../avcall/avcall.o ../../avcall/avcall-i386-msvc.o $(filter-out $(top_builddir)/libobjc/nil_method.o,$(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o))) $(SUPPORTLDFLAGS) $(filter-out $(FFILIB),$(SYSLIBS)) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
+	ld -shared --add-stdcall-alias $(ENTRYCMD) --export-all-symbols -o $(JAVASWARM_DLL) javaswarm.dll.o $(javaswarmstubs_OBJECTS) $(javaswarm_OBJECTS) $(top_builddir)/src/SwarmEnvironment.o $(top_builddir)/src/classList.o $(foreach module,$(SWARMMODULES),$(top_builddir)/src/$(module)/*.o) ../../avcall/avcall.o ../../avcall/avcall-i386-msvc.o $(filter-out $(top_builddir)/libobjc/objc.dll.o,$(wildcard $(top_builddir)/libobjc/*.o)) $(SUPPORTLDFLAGS) $(filter-out $(FFILIB),$(SYSLIBS)) -lcygwin -lkernel32 `$(CC) -print-libgcc-file-name`
 
 %.lo: %.m
 	$(LIBTOOL) --mode=compile $(OBJC) $(CPPFLAGS) $(OBJCFLAGS) -c $<
