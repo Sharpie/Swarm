@@ -1,3 +1,8 @@
+2000-01-20    <mgd@HELEN>
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -_update_]): 
+	Add example code for full screen snapshot.
+
 2000-01-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* main.m (main): Use getWithZone:key:, not getWithZone:object:.

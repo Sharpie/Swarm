@@ -199,7 +199,8 @@
 #ifdef SCREENSHOTS
       {
         char filename[40];
-
+#ifndef FULL
+	
         sprintf (filename, "graph%07ld.png", getCurrentTime ());
         [actionCache doTkEvents];
         [[[[[[Pixmap createBegin: self]
@@ -211,6 +212,14 @@
               setWidget: worldRaster]
              setDecorationsFlag: YES]
             createEnd] save: filename] drop];
+#else
+        sprintf (filename, "screen%07ld.png", getCurrentTime ());
+	[actionCache doTkEvents];
+        [[[[[[Pixmap createBegin: self]
+              setWidget: nil]
+	     setDecorationsFlag: NO]
+            createEnd] save: filename] drop];
+#endif
       }
 #endif
     }
