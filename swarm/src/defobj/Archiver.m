@@ -6,11 +6,9 @@
 #import <defobj/Archiver.h>
 
 #import <collections.h>
-#import <collections/predicates.h> // list_literal_p, listp, pairp, stringp
-#import <defobj.h> // arguments, STRDUP
+#import <defobj.h> // STRDUP
 #import <defobj/defalloc.h> // getZone
-#include <misc.h> // access, getenv, stpcpy
-
+#include <misc.h> // getenv, stpcpy
 
 const char *
 defaultPath (const char *swarmArchiver)

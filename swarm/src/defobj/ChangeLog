@@ -1,5 +1,7 @@
 1999-11-16    <mgd@VAIO>
 
+	* Archiver.m: Don't include predicates.h.
+
 	* internal.m (alignment_for_objc_type, size_for_objc_type,
 	lisp_output_type): Handle classes.
 
