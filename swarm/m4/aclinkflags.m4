@@ -4,12 +4,12 @@ AC_TRY_COMPILE([#ifdef __CYGWIN32__
 #error
 #endif
 ],[],
-extraldflags="",
-extraldflags=["-mwindows -Wl,--defsym,_WinMainCRTStartup=_mainCRTStartup"])
-LDFLAGS="$LDFLAGS $extraldflags"
-if test -z "$extraldflags" ; then
+EXTRALDFLAGS="",
+EXTRALDFLAGS=["-mwindows -Wl,--defsym,_WinMainCRTStartup=_mainCRTStartup"])
+if test -z "$EXTRALDFLAGS" ; then
   AC_MSG_RESULT(none)
 else
-  AC_MSG_RESULT($extraldflags)
+  AC_MSG_RESULT($EXTRALDFLAGS)
 fi
+AC_SUBST(EXTRALDFLAGS)
 ])
