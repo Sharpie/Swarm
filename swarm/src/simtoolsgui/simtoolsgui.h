@@ -383,7 +383,7 @@ extern void initSimtoolsGUI (void);
 @class SingleProbeDisplay;
 @class SimpleProbeDisplay;
 @class CompleteProbeDisplay;
-@class GUIComposite
+@class GUIComposite;
 @class MultiVarProbeDisplay;
 @class ProbeDisplayManager;
 @class GUISwarm;
