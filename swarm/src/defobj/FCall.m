@@ -288,6 +288,14 @@ PHASE(Using)
 #ifndef USE_AVCALL
   ffi_call (&cif, ffunction, fargs->result, fargs->argValues + 
             MAX_HIDDEN - fargs->hiddenArgumentCount);  
+
+#ifdef __sparc__
+  if (fargs->returnType == fcall_type_float)
+    asm ("st %%f0,%0" : "=m" (fargs->resultVal._float));
+  else if (fargs->returnType == fcall_type_double)
+    asm ("std %%f0,%0" : "=m" (fargs->resultVal._double));
+#endif
+
 #else
   abort ();
 #endif
