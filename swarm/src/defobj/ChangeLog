@@ -1,3 +1,26 @@
+1999-12-16    <mgd@nest.swarm.org>
+
+	* directory.[hm] ([DirectoryEntry
+	-{compare:,getObjcName,getHashCode,drop,describe:}]) Remove.
+	Replace with swarm_directory_entry_{drop,describe}.  (Comparisons
+	previously done with compare: are done with new function
+	compareDirectoryEntries.
+	([Directory {-add:javaObject:, -javaFind:, -javaFindObjc:,
+	-objcFind:, -objcFindJava:, -objcFindJavaClass:,
+	-switchJava:javaObject:, -nextPhase:currentJavaPhase:,
+	-swithcObjc:javaObject:, -javaEnsureObjc:, -objcEnsureJava:,
+	-objcRemove:}]): Remove.  Replace with
+	swarm_directory_{java_find_objc, objc_find_java, add,
+	switch_phase, switch_objc, java_ensure_objc, objc_ensure_java,
+	objc_remove, objc_find_java_class}.  Update respective macros.
+
+	* directory.m (swarmDirectory): Statically type.
+	(getObjcName): Pass JNIEnv.
+	(swarm_directory_switch_java): Disable.
+
+	* Zone.m ([Zone_c -freeIVars:], [Zone_c -freeIVarsComponent:]): 
+	Use swarm_directory_objc_remove instead of -drop.
+
 1999-12-15    <mgd@nest.swarm.org>
 
 	* FCall.[hm], defobj.h ([FCall_c

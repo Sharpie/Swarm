@@ -46,7 +46,7 @@ BOOL initFlag = NO;
 
 extern JNIEnv *jniEnv;
 
-id swarmDirectory;
+Directory *swarmDirectory;
 
 #if 1
 #define DIRECTORY_SIZE 21599
@@ -55,9 +55,9 @@ id swarmDirectory;
 #endif
 
 static const char *
-getObjcName (jobject javaObject, id object)
+getObjcName (JNIEnv *env, jobject javaObject, id object)
 {
-  if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Selector))
+  if ((*env)->IsInstanceOf (env, javaObject, c_Selector))
     return object ? sel_get_name ((SEL) object) : "M(<nil>)";
   else
     return object ? [object name] : "nil";
@@ -113,54 +113,30 @@ swarm_directory_java_hash_code (JNIEnv *env, jobject javaObject)
   return self;
 }
 
-- (const char *)getObjcName
+void
+swarm_directory_entry_drop (JNIEnv *env, DirectoryEntry *entry)
 {
-  return getObjcName (javaObject, object);
+  (*env)->DeleteGlobalRef (env, entry->javaObject);
+  [getZone (entry) freeIVars: entry];
 }
 
-- (unsigned)getHashCode
-{
-  return swarm_directory_java_hash_code (jniEnv, javaObject);
-}
-
-- (int)compare: obj
-{
-  int ret;
-  jobject objJavaObject = ((DirectoryEntry *) obj)->javaObject;
-
-#if 0
-  printf ("`%s'%p/%p vs %p\n",
-          [self getObjcName], object, javaObject,
-          ((DirectoryEntry *) obj)->javaObject);
-#endif
-  ret = (int) !(*jniEnv)->CallBooleanMethod (jniEnv,
-                                             javaObject,
-                                             m_Equals,
-                                             objJavaObject);
-                                             
-  return ret;
-}
-
-- (void)drop
-{
-  (*jniEnv)->DeleteGlobalRef (jniEnv, javaObject);
-  [getZone (self) freeIVars: self];
-}
-
-- (void)describe: outputCharStream
+void
+swarm_directory_entry_describe (JNIEnv *env,
+                                DirectoryEntry *entry,
+                                id outputCharStream)
 {
   const char *className =
-    swarm_directory_java_class_name (jniEnv, javaObject);
+    swarm_directory_java_class_name (env, entry->javaObject);
   
-  [outputCharStream catPointer: self];
+  [outputCharStream catPointer: entry];
   [outputCharStream catC: " objc: "];
-  [outputCharStream catC: [self getObjcName]];
+  [outputCharStream catC: getObjcName (env, entry->javaObject, entry->object)];
   [outputCharStream catC: " "];
-  [outputCharStream catPointer: object];
+  [outputCharStream catPointer: entry->object];
   [outputCharStream catC: "  java: "];
   [outputCharStream catC: className];
   [outputCharStream catC: " "];
-  [outputCharStream catPointer: javaObject];
+  [outputCharStream catPointer: entry->javaObject];
   [outputCharStream catC: "\n"];
   FREECLASSNAME (className);
 }
@@ -197,101 +173,144 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return obj;
 }
 
-- javaFind: (jobject)theJavaObject
+static DirectoryEntry *
+swarm_directory_java_find (JNIEnv *env, jobject javaObject)
 {
-  if (theJavaObject)
+  if (javaObject)
     {
       id ret;
-      unsigned index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
-      id <Map> m = table[index];
+      unsigned index = swarm_directory_java_hash_code (env, javaObject);
+      id <Map> m = swarmDirectory->table[index];
+      DirectoryEntry *findEntry = swarmDirectory->findEntry;
       
-      findEntry->javaObject = theJavaObject;
+      findEntry->javaObject = javaObject;
       ret = m ? [m at: findEntry] : nil;
       return ret;
     }
   return nil;
 }
 
-- javaFindObjc: (jobject)theJavaObject
+id
+swarm_directory_java_find_objc (JNIEnv *env, jobject javaObject)
 {
-  DirectoryEntry *entry = [self javaFind: theJavaObject];
+  DirectoryEntry *entry = swarm_directory_java_find (env, javaObject);
 
   return entry ? entry->object : nil;
 }
 
-- objcFind: theObject
+static DirectoryEntry *
+swarm_directory_objc_find (JNIEnv *env, id object)
 {
-  if (theObject)
+  if (object)
     {
       DirectoryEntry *ret;
       
-      ret = avl_find (objc_tree, OBJCFINDENTRY (theObject));
+      ret = avl_find (swarmDirectory->objc_tree, OBJCFINDENTRY (object));
       return ret;
     }
   return nil;
 }
 
-- (jobject)objcFindJava: theObject
+jobject
+swarm_directory_objc_find_java (JNIEnv *env, id object)
 {
-  DirectoryEntry *entry = [self objcFind: theObject];
+  DirectoryEntry *entry = swarm_directory_objc_find (env, object);
 
   return entry ? entry->javaObject : NULL;
 }
 
-- add: theObject javaObject: (jobject)lref
+static int
+compareDirectoryEntries (DirectoryEntry *obj1, DirectoryEntry* obj2)
+{
+#if 0
+  printf ("`%s'%p/%p vs %p\n",
+          getObjcName (env, obj1->javaObject, obj2->object),
+          object, javaObject,
+          ((DirectoryEntry *) obj2)->javaObject);
+#endif
+  return (int) !(*jniEnv)->CallBooleanMethod (jniEnv,
+                                              obj1->javaObject,
+                                              m_Equals,
+                                              obj2->javaObject);
+}
+
+static id <Map>
+createDirectoryEntryMap (JNIEnv *env)
+{
+  return [[[Map createBegin: getZone (swarmDirectory)]
+            setCompareFunction: compareDirectoryEntries]
+           createEnd];
+}
+
+DirectoryEntry *
+swarm_directory_add (JNIEnv *env, id object, jobject lref)
 {
   unsigned index;
   id <Map> m;
   DirectoryEntry *entry;
-  jobject javaObject = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+  jobject javaObject = (*env)->NewGlobalRef (env, lref);
+  id *table = swarmDirectory->table;
   
-  entry = ENTRY (theObject, javaObject);
-  index = swarm_directory_java_hash_code (jniEnv, javaObject);
+  entry = ENTRY (object, javaObject);
+  index = swarm_directory_java_hash_code (env, javaObject);
   m = table[index];
 
   if (m == nil)
     {
-      m = [Map create: getZone (self)];
+      m = createDirectoryEntryMap (env);
       table[index] = m;
     }
   [m at: entry insert: entry];
-  avl_probe (objc_tree, entry);
+  avl_probe (swarmDirectory->objc_tree, entry);
   return entry;
 }
 
-- (void)switchJavaEntry: (DirectoryEntry *)entry javaObject: (jobject)theJavaObject
+static void
+swarm_directory_switch_java_entry (JNIEnv *env, 
+                                   DirectoryEntry *entry, jobject javaObject)
 {
   unsigned index;
   id <Map> m;
+  id <Map> *table = swarmDirectory->table;
   
-  theJavaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
-  index = swarm_directory_java_hash_code (jniEnv, entry->javaObject);
+  javaObject = (*env)->NewGlobalRef (env, javaObject);
+  index = swarm_directory_java_hash_code (env, entry->javaObject);
   m = table[index];
   [m remove: entry];
-  (*jniEnv)->DeleteGlobalRef (jniEnv, entry->javaObject);
+  (*env)->DeleteGlobalRef (env, entry->javaObject);
   
-  index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
-  entry->javaObject = theJavaObject;
+  index = swarm_directory_java_hash_code (env, javaObject);
+  entry->javaObject = javaObject;
   if (!table[index])
-    table[index] = [Map create: getZone (self)];
+    table[index] = createDirectoryEntryMap (env);
+
   [table[index] at: entry insert: entry];
 }
 
-- switchJava: theObject javaObject: (jobject)theJavaObject
+#if 0
+DirectoryEntry *
+swarm_directory_switch_java (JNIEnv *env,
+                             id object,
+                             jobject javaObject)
 {
   DirectoryEntry *entry;
   
-  if (!(entry = avl_find (objc_tree, OBJCFINDENTRY (theObject))))
+  if (!(entry = avl_find (swarmDirectory->objc_tree, OBJCFINDENTRY (object))))
     abort ();
-  [self switchJavaEntry: entry javaObject: theJavaObject];
-  return (id) entry;
+  swarm_directory_switch_java_entry (env, entry, javaObject);
+  return entry;
 }
+#endif
 
-- nextPhase: nextPhase currentJavaPhase: (jobject)currentJavaPhase
+DirectoryEntry *
+swarm_directory_switch_phase (JNIEnv *env,
+                              id nextPhase,
+                              jobject currentJavaPhase)
 {
-  jobject nextJavaPhase = SD_NEXTJAVAPHASE (jniEnv, currentJavaPhase);
-  id currentPhase = SD_FINDOBJC (jniEnv, currentJavaPhase);
+  jobject nextJavaPhase = SD_NEXTJAVAPHASE (env, currentJavaPhase);
+  id currentPhase = SD_FINDOBJC (env, currentJavaPhase);
   DirectoryEntry *retEntry;
+  avl_tree *objc_tree = swarmDirectory->objc_tree;
   
   if (currentPhase != nextPhase)
     {
@@ -302,14 +321,14 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
       if (*entryptr != entry)
         abort ();
 
-      [self switchJavaEntry: entry javaObject: nextJavaPhase];
+      swarm_directory_switch_java_entry (env, entry, nextJavaPhase);
       {
         id ret;
         
         ret = avl_delete (objc_tree, OBJCFINDENTRY (currentPhase));
         if (!ret)
           abort ();
-        [ret drop];
+        swarm_directory_entry_drop (env, ret);
       }
       retEntry = *entryptr;
     }
@@ -320,29 +339,34 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
       if (!entry)
         abort ();
 
-      [self switchJavaEntry: entry javaObject: nextJavaPhase];
+      swarm_directory_switch_java_entry (env, entry, nextJavaPhase);
       
       retEntry = entry;
     }
-  (*jniEnv)->DeleteLocalRef (jniEnv, nextJavaPhase);
+  (*env)->DeleteLocalRef (env, nextJavaPhase);
   return retEntry;
 }
 
-- switchObjc: theObject javaObject: (jobject)theJavaObject
+DirectoryEntry *
+swarm_directory_switch_objc (JNIEnv *env,
+                             id object,
+                             jobject javaObject)
 {
   DirectoryEntry *entry;
   unsigned index;
   id <Map> m;
+  id *table = swarmDirectory->table;
+  avl_tree *objc_tree = swarmDirectory->objc_tree;
   
-  index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
+  index = swarm_directory_java_hash_code (env, javaObject);
   m = table[index];
-  entry = [table[index] at: JAVAFINDENTRY (theJavaObject)];
+  entry = [table[index] at: JAVAFINDENTRY (javaObject)];
   if (!entry)
     abort ();
   
   if (!avl_delete (objc_tree, entry))
     abort ();
-  entry->object = theObject;
+  entry->object = object;
 
   {
     void **foundEntry;
@@ -354,7 +378,8 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   return entry;
 }
 
-- javaEnsureObjc: (jobject)javaObject
+id
+swarm_directory_java_ensure_objc (JNIEnv *env, jobject javaObject)
 {
   if (!javaObject)
     return nil;
@@ -365,38 +390,39 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
       if (!javaObject)
         return nil;
   
-      result = [swarmDirectory javaFind: javaObject];
+      result = swarm_directory_java_find (env, javaObject);
       
-      if ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_String))
+      if ((*env)->IsInstanceOf (env, javaObject, c_String))
         {
           jboolean isCopy;
           const char *utf, *str;
           
-          utf = (*jniEnv)->GetStringUTFChars (jniEnv, javaObject, &isCopy);
-          str = STRDUP (utf);
+          utf = (*env)->GetStringUTFChars (env, javaObject, &isCopy);
+          str = ZSTRDUP (getZone (swarmDirectory), utf);
           if (isCopy)
-            (*jniEnv)->ReleaseStringUTFChars (jniEnv, javaObject, utf);
+            (*env)->ReleaseStringUTFChars (env, javaObject, utf);
           
           if (result)
             {
               const char *last = (const char *) result->object;
 
-              result = SD_SWITCHOBJC (jniEnv, javaObject, (id) str);
-	      FREEBLOCK ((void *) last);
+              result = SD_SWITCHOBJC (env, javaObject, (id) str);
+	      ZFREEBLOCK (getZone (swarmDirectory), (void *) last);
             }
           else
-            result = SD_ADD (jniEnv, javaObject, (id) str);
+            result = SD_ADD (env, javaObject, (id) str);
         }
       else if (!result)
         result =
-          SD_ADD (jniEnv, javaObject, 
-                  ((*jniEnv)->IsInstanceOf (jniEnv, javaObject, c_Collection)
+          SD_ADD (env, javaObject, 
+                  ((*env)->IsInstanceOf (env, javaObject, c_Collection)
                    ? [JavaCollection create: globalZone]
                    : [JavaProxy create: globalZone]));
 
       return result->object;
     }
 }
+
 
 static const char *
 java_classname_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
@@ -421,7 +447,7 @@ java_classname_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
 }
 
 static const char *
-objcFindJavaClassName (Class class)
+objcFindJavaClassName (JNIEnv *env, Class class)
 {
   const char *javaClassName;
   
@@ -432,7 +458,7 @@ objcFindJavaClassName (Class class)
 
       nextPhase = ((BehaviorPhase_s *) class)->nextPhase;
       typeImpl = [class getTypeImplemented];
-      javaClassName = java_classname_for_typename (jniEnv,
+      javaClassName = java_classname_for_typename (env,
 						   typeImpl->name,
 						   nextPhase == NULL); 
     }
@@ -443,62 +469,66 @@ objcFindJavaClassName (Class class)
 
       if (typeImpl)
         javaClassName =
-	  java_classname_for_typename (jniEnv, typeImpl->name, YES);
+	  java_classname_for_typename (env, typeImpl->name, YES);
       else 
         javaClassName =
-	  java_classname_for_typename (jniEnv, class->name, YES);
+	  java_classname_for_typename (env, class->name, YES);
     }
   return javaClassName;
 }
 
-- (jclass)objcFindJavaClass: (Class)class
-{
-  const char *javaClassName = objcFindJavaClassName (class);
-  jclass ret;
-  jobject throwable;
-
-  (*jniEnv)->ExceptionClear (jniEnv);
-  ret = (*jniEnv)->FindClass (jniEnv, javaClassName);
-  if ((throwable = (*jniEnv)->ExceptionOccurred (jniEnv)) != NULL)
-    (*jniEnv)->ExceptionDescribe (jniEnv);
-
-  FREECLASSNAME (javaClassName);
-  return ret;
-}
-
-- (jobject)objcEnsureJava: object
+jobject
+swarm_directory_objc_ensure_java (JNIEnv *env, id object)
 {
   DirectoryEntry *result; 
 
   if (!object)
     return 0;
 
-  result = [swarmDirectory objcFind: object];
+  result = swarm_directory_objc_find (env, object);
   
   if (!result)
     {
       Class class = getClass (object);
-      jclass javaClass = [self objcFindJavaClass: class];
-      jobject lref = swarm_directory_java_instantiate (jniEnv, javaClass);
+      jclass javaClass = swarm_directory_objc_find_java_class (env, class);
+      jobject lref = swarm_directory_java_instantiate (env, javaClass);
       
-      result = SD_ADD (jniEnv, lref, object);
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-      (*jniEnv)->DeleteLocalRef (jniEnv, javaClass);
+      result = SD_ADD (env, lref, object);
+      (*env)->DeleteLocalRef (env, lref);
+      (*env)->DeleteLocalRef (env, javaClass);
     }
   return result->javaObject;
 }
 
-- (BOOL)objcRemove: object
+jclass
+swarm_directory_objc_find_java_class (JNIEnv *env, Class class)
 {
-  DirectoryEntry *entry = [swarmDirectory objcFind: object];
+  const char *javaClassName = objcFindJavaClassName (env, class);
+  jclass ret;
+  jobject throwable;
+
+  (*env)->ExceptionClear (env);
+  ret = (*env)->FindClass (env, javaClassName);
+  if ((throwable = (*env)->ExceptionOccurred (env)) != NULL)
+    (*env)->ExceptionDescribe (env);
+
+  FREECLASSNAME (javaClassName);
+  return ret;
+}
+
+
+BOOL
+swarm_directory_objc_remove (JNIEnv *env, id object)
+{
+  DirectoryEntry *entry = swarm_directory_objc_find (env, object);
 
   if (entry)
     {
       unsigned index;
       id <Map> m;
 
-      index = swarm_directory_java_hash_code (jniEnv, entry->javaObject);
-      m = table[index];
+      index = swarm_directory_java_hash_code (env, entry->javaObject);
+      m = swarmDirectory->table[index];
       if (!m)
         abort ();
       {
@@ -509,12 +539,12 @@ objcFindJavaClassName (Class class)
         if (ret != entry)
           raiseEvent (WarningMessage, "remove (%p) != %p\n", entry, ret);
 
-        ret = avl_delete (objc_tree, entry);
+        ret = avl_delete (swarmDirectory->objc_tree, entry);
         
         if (ret != entry)
           abort ();
       }
-      [entry drop];
+      swarm_directory_entry_drop (env, entry);
       return YES;
     }
   
@@ -1303,6 +1333,7 @@ swarm_directory_swarm_class (id object)
   if (swarmDirectory)
     {
       jobject jobj;
+      JNIEnv *env = jniEnv;
       
       if ((jobj = SD_FINDJAVA (env, object)))
         {
@@ -1310,14 +1341,14 @@ swarm_directory_swarm_class (id object)
           const char *className;
           Class result;
           
-          jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
-          className = swarm_directory_java_class_name (jniEnv, jobj);
+          jcls = (*env)->GetObjectClass (env, jobj);
+          className = swarm_directory_java_class_name (env, jobj);
           result = objc_class_for_class_name (className);
           FREECLASSNAME (className);
           if (!result)
-            if (!(result = SD_FINDOBJC (jniEnv, jcls)))
-              result = swarm_directory_ensure_class (jniEnv, jcls);
-          (*jniEnv)->DeleteLocalRef (jniEnv, jcls);
+            if (!(result = SD_FINDOBJC (env, jcls)))
+              result = swarm_directory_ensure_class (env, jcls);
+          (*env)->DeleteLocalRef (env, jcls);
           return result;
         }
     }
@@ -1329,12 +1360,14 @@ const char *
 swarm_directory_language_independent_class_name  (id object)
 {
 #ifdef HAVE_JDK
+
   if (swarmDirectory)
     {
+      JNIEnv *env = jniEnv;
       jobject jobj;
       
-      if ((jobj = SD_FINDJAVA (jniEnv, object)))
-        return swarm_directory_java_class_name (jniEnv, jobj);
+      if ((jobj = SD_FINDJAVA (env, object)))
+        return swarm_directory_java_class_name (env, jobj);
     }
   return (const char *) (getClass (object))->name;      
 #else

@@ -42,11 +42,10 @@ const char *swarm_directory_signature_for_class (JNIEnv *env, jclass class);
 }
 - setJavaObject: (jobject)javaObject;
 - setObject: object;
-- (int)compare: obj;
-- (const char *)getObjcName;
-- (unsigned)getHashCode;
-- (void)drop;
-- (void)describe: outputCharStream;
+void swarm_directory_entry_drop (JNIEnv *env, DirectoryEntry *entry);
+void swarm_directory_entry_describe (JNIEnv *env,
+                                     DirectoryEntry *entry,
+                                     id outputCharStream);
 @end
 
 @interface Directory: CreateDrop
@@ -56,33 +55,29 @@ const char *swarm_directory_signature_for_class (JNIEnv *env, jclass class);
   DirectoryEntry *findEntry;
 }
 + createBegin: aZone;
-- add: object javaObject: (jobject)javaObject;
-- javaFind: (jobject)javaObject;
-- javaFindObjc: (jobject)javaObject;
-- objcFind: object;
-- (jobject)objcFindJava: object;
-- (jclass)objcFindJavaClass: (Class)class;
-- switchJava: object javaObject: (jobject)javaObject;
-- nextPhase: object currentJavaPhase: (jobject)javaObject;
-- switchObjc: object javaObject: (jobject)javaObject;
-- javaEnsureObjc: (jobject)javaObject;
-- (jobject)objcEnsureJava: object;
-- (BOOL)objcRemove: obj;
+id swarm_directory_java_find_objc (JNIEnv *env, jobject javaObject);
+jobject swarm_directory_objc_find_java (JNIEnv *env, id object);
+DirectoryEntry *swarm_directory_add (JNIEnv *env, id object, jobject lref);
+DirectoryEntry *swarm_directory_switch_phase (JNIEnv *env, id nextPhase, jobject currentJavaPhase);
+DirectoryEntry *swarm_directory_switch_objc (JNIEnv *env, id object, jobject javaObject);
+id swarm_directory_java_ensure_objc (JNIEnv *env, jobject javaObject);
+jobject swarm_directory_objc_ensure_java (JNIEnv *env, id object);
+BOOL swarm_directory_objc_remove (JNIEnv *env, id obj);
+jclass swarm_directory_objc_find_java_class (JNIEnv *env, Class class);
 - (void)describe: outputCharStream;
 @end
 
 extern id swarmDirectory;
 
-#define SD_FINDOBJC(env, jobj) [swarmDirectory javaFindObjc: jobj]
-#define SD_ENSUREOBJC(env, jobj) [swarmDirectory javaEnsureObjc: jobj]
-#define SD_FINDJAVA(env, objc) [swarmDirectory objcFindJava: objc]
-#define SD_ENSUREJAVA(env, objc) [swarmDirectory objcEnsureJava: objc]
-#define SD_FINDJAVACLASS(env, objcClass) [swarmDirectory objcFindJavaClass: objcClass]
-#define SD_ADD(env, jobj, objc) [swarmDirectory add: objc javaObject: jobj]
-#define SD_ADDJAVA(env, jobj, objc) (((DirectoryEntry *) SD_ADD (env, jobj, objc))->javaObject)
-#define SD_SWITCHJAVA(env, newjobj, objc) (((DirectoryEntry *) [swarmDirectory switchJava: objc javaObject: newjobj])->javaObject)
-#define SD_NEXTPHASE(env, jobj, objc) (((DirectoryEntry *) [swarmDirectory nextPhase: objc currentJavaPhase: jobj])->javaObject)
-#define SD_SWITCHOBJC(env, jobj, newobjc) [swarmDirectory switchObjc: newobjc javaObject: jobj]
+#define SD_FINDOBJC(env, jobj)  swarm_directory_java_find_objc (env, jobj)
+#define SD_ENSUREOBJC(env, jobj) swarm_directory_java_ensure_objc (env, jobj)
+#define SD_FINDJAVA(env, objc) swarm_directory_objc_find_java (env, objc)
+#define SD_ENSUREJAVA(env, objc) swarm_directory_objc_ensure_java (env, objc)
+#define SD_FINDJAVACLASS(env, objcClass) swarm_directory_objc_find_java_class (env, objcClass)
+#define SD_ADD(env, jobj, objc) swarm_directory_add (env, objc, jobj)
+#define SD_ADDJAVA(env, jobj, objc) swarm_directory_add (env, objc, jobj)->javaObject
+#define SD_NEXTPHASE(env, jobj, objc) swarm_directory_switch_phase (env, objc, jobj)->javaObject
+#define SD_SWITCHOBJC(env, jobj, newobjc) swarm_directory_switch_objc (env, newobjc, jobj)
 #define SD_INSTANTIATE(env, clazz) swarm_directory_java_instantiate (env, clazz)
 #define SD_NEXTJAVAPHASE(env, jobj) swarm_directory_next_phase (env, jobj)
 

@@ -196,7 +196,7 @@ PHASE(Using)
 
 #ifdef HAVE_JDK
   if (swarmDirectory)
-    [swarmDirectory objcRemove: anObject];
+    swarm_directory_objc_remove (jniEnv, anObject);
 #endif
 
   size = getClass (anObject)->instance_size;
@@ -283,7 +283,7 @@ PHASE(Using)
 { 
 #ifdef HAVE_JDK
   if (swarmDirectory)
-    [swarmDirectory objcRemove: anObject];
+    swarm_directory_objc_remove (jniEnv, anObject);
 #endif
 
   if (_obj_debug)
