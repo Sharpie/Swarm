@@ -7,7 +7,7 @@ Test suite:   activity
 
 #import <simtools.h>
 #import "Responder.h"
-#import "tactivity.h"
+#import <tactivity.h>
 
 int 
 main (int argc, const char ** argv)

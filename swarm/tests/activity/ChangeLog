@@ -1,3 +1,9 @@
+2000-01-18    <mgd@DRONE>
+
+	* ActionGroup.m, ActionGroupRandomized.m, ConcurrentGroup.m,
+	ConcurrentGroupRandomized.m, ForEach.m, ForEachRandomized.m,
+	tactivity.m: Include <tactivity.h>, not "tactivity.h".
+
 1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Schedule.m (main): Pass YES to setAutoDrop: instead of 1.

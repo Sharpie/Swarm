@@ -1,5 +1,5 @@
 #import <defobj.h>
-#import "tactivity.h"
+#import <tactivity.h>
 #import "tactivity.xm"
 
 void

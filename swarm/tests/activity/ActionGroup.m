@@ -6,7 +6,7 @@ Test suite:   activity
 
 
 #import <simtools.h>
-#import "tactivity.h"
+#import <tactivity.h>
 #import "Responder.h"
 
 int 
