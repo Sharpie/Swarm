@@ -61,7 +61,7 @@
 (element PRIMARYIE
          (make paragraph
                (let* ((linkends-string (attribute-string "LINKENDS")))
-                 (let loop ((linkends (split linkends-string)))
+                 (let loop ((linkends (split-string linkends-string #\space)))
                       (if (null? linkends)
                           (empty-sosofo)
                           (sosofo-append
@@ -181,22 +181,27 @@
 
 (define (make-linebreak)
    (make empty-element gi: "BR"))
-  
+
 (element PRIMARYIE
          (sosofo-append
+          (process-children)
           (let* ((linkends-string (attribute-string "LINKENDS")))
-            (let loop ((linkends (split linkends-string)))
+            (let loop ((linkends (split-string linkends-string #\space)))
                  (if (null? linkends)
                      (empty-sosofo)
                      (sosofo-append
-                      (make element gi: "A"
-                            attributes: (list
-                                         (list "HREF"
-                                               (href-to
-                                                (element-with-id
-                                                 (car linkends)))))
-                            (process-children))
-                      (literal " ")
+                      (let ((id (car linkends)))
+                        (make element gi: "A"
+                              attributes: (list
+                                           (list "HREF"
+                                                 (href-to
+                                                  (element-with-id id))))
+                              (sosofo-append
+                               (literal " ")
+                               (literal
+                                (if (has-phase-p id)
+                                    (method-signature-id-to-description id)
+                                    (protocol-id-to-description id))))))
                       (loop (cdr linkends))))))
           (make element gi: "BR" (empty-sosofo))))
                                              

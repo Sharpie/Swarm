@@ -132,18 +132,18 @@
         (expand-paragraphs (skip-nonchars
                             (children (current-node))))))
 
-(define (embed-split string)
+(define (embed-split string delimiter)
     (let loop ((last-ch #\U-0000) (l (string->list string)))
          (if (null? l)
              '()
              (let* ((ch (car l))
                     (next (loop ch (cdr l))))
-               (if (and (char=? ch #\space) (not (char=? ch last-ch)))
+               (if (and (char=? ch delimiter) (not (char=? ch last-ch)))
                    (list next)
                    (cons ch next))))))
 
-(define (split str)
-    (let flatten-arg ((l (embed-split str)) (out-l '()))
+(define (split-string str delimiter)
+    (let flatten-arg ((l (embed-split str delimiter)) (out-l '()))
          (let ((last-string
                 (lambda ()
                   (if (null? out-l)
@@ -158,7 +158,58 @@
                       (flatten-arg item '())
                       (flatten-arg (cdr l) '()))
                      (flatten-arg (cdr l) (cons item out-l))))))))
-  
+
+(define (has-phase-p id)
+    (not (null? (cdr (cdr (cdr (split-string id #\.)))))))
+
+(define (char-change-case ch upcase)
+    (let loop ((lc-pos
+                '(#\a #\b #\c #\d #\e #\f #\g #\h #\i #\j #\k #\l #\m
+                  #\n #\o #\p #\q #\r #\s #\t #\u #\v #\w #\x #\y #\z))
+               (uc-pos 
+                '(#\A #\B #\C #\D #\E #\F #\G #\H #\I #\J #\K #\L #\M
+                  #\N #\O #\P #\Q #\R #\S #\T #\U #\V #\W #\X #\Y #\Z)))
+         (if (null? lc-pos)
+             ch
+             (if upcase
+                 (if (char=? (car lc-pos) ch)
+                     (car uc-pos)
+                     (loop (cdr lc-pos) (cdr uc-pos)))
+                 (if (char=? (car uc-pos) ch)
+                     (car lc-pos)
+                     (loop (cdr lc-pos) (cdr uc-pos)))))))
+
+(define (string-change-case str upcase)
+    (let loop ((l (string->list str)))
+         (if (null? l)
+             ""
+             (string-append 
+              (string (char-change-case (car l) upcase))
+              (loop (cdr l))))))
+         
+(define (capitalize str)
+    (string-append
+     (string (char-change-case (string-ref str 0) #t))
+     (string-change-case (substring str 1 (string-length str)) #f)))
+
+(define (protocol-id-to-description method-signature-id)
+    (let* ((id-elements (split-string method-signature-id #\.))
+           (module-name (car (cdr id-elements)))
+           (protocol-name (car (cdr (cdr id-elements)))))
+      (string-append
+       (string-change-case module-name #f)
+       "/"
+       (capitalize protocol-name))))
+
+(define (method-signature-id-to-description method-signature-id)
+    (let* ((id-elements (split-string method-signature-id #\.))
+           (phase-abbrev (car (cdr (cdr (cdr id-elements))))))
+      (string-append  (protocol-id-to-description method-signature-id)
+                      "/"
+                      (cond ((string=? phase-abbrev "PC") "Creating")
+                            ((string=? phase-abbrev "PS") "Setting")
+                            ((string=? phase-abbrev "PU") "Using")))))
+
 </style-specification-body>
 </style-specification>
 </style-sheet>
