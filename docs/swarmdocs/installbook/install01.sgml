@@ -147,7 +147,7 @@ these are `dpkg', `rpm', and `pkgadd'.</PARA>
           programmable text processing system and editor.  Emacs is
           needed if you want to build Swarm for Java from source code.
           Emacs is also a good program for editing Objective C and Java
-          code.  Emacs is available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu/emacs/">.</PARA>
+          code.  Emacs is available from <ULINK URL="ftp://ftp.gnu.org/pub/gnu/emacs/">GNU</ULINK>.</PARA>
           </FORMALPARA>
           </LISTITEM>
           
