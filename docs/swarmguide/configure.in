@@ -48,8 +48,8 @@ else
 fi
 AC_SUBST(catopts)
 
-if test -x "$docbookdtd_srcdir/bin/collateindex.pl" ; then
-  COLLATEINDEX="$docbookdtd_srcdir/bin/collateindex.pl"
+if test -f "$docbookstyle_srcdir/bin/collateindex.pl" ; then
+  COLLATEINDEX="$docbookstyle_srcdir/bin/collateindex.pl"
   AC_SUBST(COLLATEINDEX)
 else
   AC_PATH_PROG(COLLATEINDEX, collateindex.pl, missing)
