@@ -1,3 +1,16 @@
+1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el: Use insert throughout instead of java-print wrapper.
+	(ensure-directory): New function.
+	(with-protocol-file, java-print-interface-phase-to-file): Use it.
+	(java-print-class-phase-to-file): Use it.
+	(java-print-classes): Create swarm directory.
+	(the-CREATABLE-protocol-p): New function.
+	(CREATABLE-p): Use it.
+	(removed-method-p): New function.
+	(method-list): New function.  Use it.
+	(java-print-methods-in-phase): Use it.
+
 1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el: Rewrite.  Stubs mostly compile now.  Two

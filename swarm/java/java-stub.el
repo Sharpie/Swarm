@@ -83,9 +83,9 @@
     (unless java-type
       (error "No Java type for `%s'" objc-type))
     (if (freakyp java-type)
-        ;(java-print "FreakyType")
-        (java-print "Object")
-        (java-print java-type))))
+        ;(insert "FreakyType")
+        (insert "Object")
+        (insert java-type))))
 
 (defun java-print-argument (argument)
   (let* ((type-and-varname (cdr argument))
@@ -93,30 +93,38 @@
     ;; the case of method with no arguments
     (when varname
       (java-print-type (car type-and-varname))
-      (java-print " ")
-      (java-print varname))))
+      (insert " ")
+      (insert varname))))
 
 (defun java-print-method (method)
-  (let ((arguments (car (method-arguments method))))
+  (let ((first-argument (car (method-arguments method))))
     (java-print-type (method-return-type method))
-    (java-print " ")
-    (java-print (car arguments))
-    (java-print " (")
-    (java-print-argument arguments)
+    (insert " ")
+    (insert (car first-argument))
+    (insert " (")
+    (java-print-argument first-argument)
     (loop for argument in (cdr (method-arguments method))
 	      do
-              (java-print ", ")
+              (insert ", ")
               (java-print-argument argument))
-    (java-print ");\n")))
+    (insert ");\n")))
+
+(defun removed-method-p (method)
+  (let ((arguments (method-arguments method)))
+    (and (not (cdr arguments)) (string= (caar arguments) "getClass"))))
+
+(defun method-list (protocol phase)
+  (remove-if #'removed-method-p
+             (remove-if-not #'(lambda (method)
+                                (eq (method-phase method) method))
+                            (protocol-method-list protocol))))
 
 (defun java-print-methods-in-phase (protocol phase native)
-  (loop for method in (protocol-method-list protocol) 
+  (loop for method in (method-list protocol phase) 
 	do
-        (when (eq (method-phase method) phase)
-          (when native
-            (java-print "native"))
-          (java-print " ")
-          (java-print-method method))))
+        (when native
+          (insert "public native "))
+        (java-print-method method)))
 
 (defun java-print-class-methods-in-phase (protocol phase)
   (java-print-methods-in-phase protocol phase t))
@@ -131,9 +139,9 @@
     (:creating "")))
 
 (defun java-print-interface-name (protocol phase)
-  (java-print "i_")
-  (java-print (protocol-name protocol))
-  (java-print (java-suffix-for-phase phase)))
+  (insert "i_")
+  (insert (protocol-name protocol))
+  (insert (java-suffix-for-phase phase)))
 
 (defun java-print-implemented-interfaces-list (protocol phase separator)
   (let ((first t))
@@ -141,23 +149,30 @@
           do
           (if first
               (setq first nil)
-              (java-print separator))
+              (insert separator))
           (java-print-interface-name iprotocol :setting)
           (unless (eq phase :setting)
-            (java-print separator)
+            (insert separator)
             (java-print-interface-name iprotocol phase)))
     (not first)))
 
-(defun CREATABLE-p (protocol)
+(defun the-CREATABLE-protocol-p (protocol)
   (string= (protocol-name protocol) "CREATABLE"))
 
 (defun included-protocol-list (protocol)
-  (remove-if #'CREATABLE-p (protocol-included-protocol-list protocol)))
+  (remove-if #'the-CREATABLE-protocol-p 
+             (protocol-included-protocol-list protocol)))
+
+(defun CREATABLE-p (protocol)
+  (member-if #'the-CREATABLE-protocol-p
+             (protocol-included-protocol-list protocol)))
 
 (defun java-print-import (protocol phase)
-  (java-print "import ")
+  (insert "import swarm.")
+  (insert (module-name (protocol-module protocol)))
+  (insert ".")
   (java-print-interface-name protocol phase)
-  (java-print ";\n"))
+  (insert ";\n"))
 
 (defun java-print-imports (protocol phase)
   (loop for iprotocol in (included-protocol-list protocol)
@@ -166,61 +181,80 @@
 (defun java-print-implemented-protocols (protocol phase separator interface)
   (if interface
       (when (included-protocol-list protocol)
-        (java-print "extends")
-        (java-print " ")
+        (insert "extends")
+        (insert " ")
         (java-print-implemented-interfaces-list protocol phase separator))
       (progn
-        (java-print "implements")
-        (java-print " ")
+        (insert "implements")
+        (insert " ")
         (java-print-implemented-interfaces-list protocol phase separator))))
 
 (defun java-print-class-phase (protocol phase)
   (unless (CREATABLE-p protocol)
-    (java-print "abstract "))
-  (java-print "class ")
-  (java-print (protocol-name protocol))
-  (java-print (java-suffix-for-phase phase))
-  (java-print " ")
+    (insert "abstract "))
+  (insert "class ")
+  (insert (protocol-name protocol))
+  (insert (java-suffix-for-phase phase))
+  (insert " ")
   (when (java-print-implemented-protocols protocol phase ", " nil)
-    (java-print ", "))
+    (insert ", "))
   (java-print-interface-name protocol :setting)
-  (java-print " {\n")
+  (insert " {\n")
   (java-print-class-methods-in-phase protocol phase)
   (java-print-class-methods-in-phase protocol :setting)
-  (java-print "}\n"))
+  (insert "}\n"))
 
 (defun java-print-interface-phase (protocol phase)
-  (java-print "interface ")
+  (insert "public interface ")
   (java-print-interface-name protocol phase)
-  (java-print " ")
+  (insert " ")
   (java-print-implemented-protocols protocol phase ", " t)
-  (java-print " {\n")
+  (insert " {\n")
   (java-print-interface-methods-in-phase protocol phase)
-  (java-print "}\n"))
+  (insert "}\n"))
 
-(defun stub-protocol-path (protocol phase interface)
-  (concat *stub-directory* 
-          (if interface "i_" "")
-          (protocol-name protocol)
-          (java-suffix-for-phase phase)
-          ".java"))
+(defun ensure-directory (dir)
+  (unless (file-directory-p dir)
+    (make-directory dir)))
 
+(defmacro with-protocol-file (protocol phase interface &rest body)
+  (let ((dir (make-symbol "dir")))
+    `(let ((,dir
+            (concat *stub-directory*
+                    "swarm/"
+                    (module-name (protocol-module ,protocol))
+                    "/")))
+      (ensure-directory ,dir)
+      (with-temp-file (concat ,dir
+                              (if ,interface "i_" "")
+                              (protocol-name ,protocol)
+                              (java-suffix-for-phase ,phase)
+                              ".java")
+        ,@body))))
+
+(defun java-print-package (protocol)
+  (insert "package swarm.")
+  (insert (symbol-name (module-sym (protocol-module protocol))))
+  (insert ";\n"))
+      
 (defun java-print-class-phase-to-file (protocol phase)
-  (with-temp-file (stub-protocol-path protocol phase nil)
-    (java-print-imports protocol phase)
-    (java-print-imports protocol :setting)
-    (java-print-class-phase protocol phase)))
+  (with-protocol-file protocol phase nil
+                      (java-print-package protocol)
+                      (java-print-imports protocol phase)
+                      (java-print-imports protocol :setting)
+                      (java-print-class-phase protocol phase)))
 
 (defun java-print-class (protocol)
   (loop for phase in '(:creating :using)
         do (java-print-class-phase-to-file protocol phase)))
 
 (defun java-print-interface-phase-to-file (protocol phase)
-  (with-temp-file (stub-protocol-path protocol phase t)
-    (java-print-imports protocol phase)
-    (unless (eq phase :setting)
-      (java-print-imports protocol :setting))
-    (java-print-interface-phase protocol phase)))
+  (with-protocol-file protocol phase t
+                      (java-print-package protocol)
+                      (java-print-imports protocol phase)
+                      (unless (eq phase :setting)
+                        (java-print-imports protocol :setting))
+                      (java-print-interface-phase protocol phase)))
 
 (defun java-print-interface (protocol)
   (loop for phase in '(:creating :setting :using)
@@ -228,6 +262,7 @@
   
 (defun java-print-classes ()
   (interactive)
+  (ensure-directory "swarm")
   (loop for protocol being each hash-value of *protocol-hash-table* 
         do
         (setq *last-protocol* protocol)
