@@ -105,20 +105,21 @@ parse_opt (int key, const char *arg, struct argp_state *state)
   // foreign targets.  It is one of the few cases where Swarm
   // sends a message outside of the Action framework.
 
-  id fa = [[[[[[FArguments createBegin: getCZone (scratchZone)]
-                 setLanguage: LanguageJava]
-               addInt: key]
-              addString: arg]
-             setObjCReturnType: _C_INT]
-            createEnd];
+  id fa = [FArguments createBegin: getCZone (scratchZone)];
   id fc;
   error_t ret;
   jobject jobj = 0;
 
-  fc = [FCall createBegin: getCZone (scratchZone)];
-  [fc setArguments: fa];
   if (swarmDirectory)
     jobj = SD_JAVA_FIND_OBJECT_JAVA (arguments);
+  if (jobj)
+    [fa setLanguage: LanguageJava];
+  [fa addInt: key];
+  [fa addString: arg];
+  [fa setObjCReturnType: _C_INT];
+  fa = [fa createEnd];
+  fc = [FCall createBegin: getCZone (scratchZone)];
+  [fc setArguments: fa];
   if (jobj)
     [fc setJavaMethod: "parseKey$arg" inObject: jobj];
   else
