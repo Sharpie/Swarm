@@ -160,8 +160,6 @@ CREATING
 //M: 
 - setProbeMap: probeMap;
 USING
-//M: 
-- getProbeMap;
 @end
 
 @protocol ProbeDisplay <SingleProbeDisplay, CREATABLE>
@@ -179,9 +177,6 @@ CREATING
 - setProbeMap: (id <ProbeMap>)probeMap;
 
 USING
-//M: Gets the probedMap.
-- (id <ProbeMap>)getProbeMap;
-
 @end
 
 @protocol CompleteProbeDisplay <SingleProbeDisplay, RETURNABLE>
