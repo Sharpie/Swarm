@@ -85,15 +85,19 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
 {
   extern const char *swarm_lookup_module (const char *name);
   const char *module = swarm_lookup_module (typeName);
-  char javaClassName[5 + 1 + strlen (module) + 1 + strlen (typeName) + 5 + 1];
+  size_t modulelen = module ? strlen (module) + 1 : 0;
+  char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
   char *p;
 
   p = stpcpy (javaClassName, "swarm.");
-  p = stpcpy (p, module);
-  p = stpcpy (p, ".");
+  if (module)
+    {
+      p = stpcpy (p, module);
+      p = stpcpy (p, ".");
+    }
   p = stpcpy (p, typeName);
-  if (usingFlag)
-    p = stpcpy (p, "U");
+  if (!usingFlag)
+    p = stpcpy (p, "C");
   p = stpcpy (p, "Impl");
 
   return (*env)->FindClass (env, javaClassName);
@@ -110,7 +114,7 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
     return NULL;
 
   newRef = (*env)->NewGlobalRef (env, java_object);
-  
+
   pattern.java_object = newRef;
   result = avl_find (java_tree, &pattern);
   (*env)->DeleteGlobalRef(env, newRef);
@@ -230,7 +234,7 @@ java_directory_switchupdate (JNIEnv *env,
   jobject_id old;
   jobject_id *data;
   jobject_id *found;
-  
+
   old.java_object = (*env)->NewGlobalRef(env, old_java_object);
   old.objc_object = objc_object;
   if (!avl_delete (objc_tree, &old))
@@ -239,7 +243,6 @@ java_directory_switchupdate (JNIEnv *env,
   if (!(found = avl_delete (java_tree, &old)))
     abort ();
 
-  (*env)->DeleteGlobalRef (env, found->java_object);
   (*env)->DeleteGlobalRef (env, found->java_object);
 
   data = xmalloc (sizeof (jobject_id));
@@ -273,44 +276,62 @@ java_instantiate (JNIEnv *env, jclass clazz)
   return (*env)->AllocObject (env, clazz);
 }
 
-jstring
-get_class_name (JNIEnv *env, jobject jobj)
+static jstring
+get_class_name_from_class_object (JNIEnv *env, jobject classObj)
 {
-  jclass clazz, classClass;
-  jobject classObj, nameObj;
   jmethodID methodID;
-
-  if (!(clazz = (*env)->GetObjectClass (env, jobj)))
+  jobject nameObj;
+  jclass class;
+  
+  if (!(class = (*env)->GetObjectClass (env, classObj)))
     abort ();
 
   if (!(methodID = (*env)->GetMethodID (env,
-                                        clazz,
-                                        "getClass",
-                                        "()Ljava/lang/Class;")))
-    abort ();
-  
-  if (!(classObj = (*env)->CallObjectMethod (env, jobj, methodID)))
-    abort ();
-  
-  if (!(classClass = (*env)->GetObjectClass (env, classObj)))
-    abort ();
-  
-  if (!(methodID = (*env)->GetMethodID (env,
-                                        classClass,
+                                        class,
                                         "getName",
                                         "()Ljava/lang/String;")))
     abort ();
   
   if (!(nameObj = (*env)->CallObjectMethod (env, classObj, methodID)))
     abort ();
-
+  
   return nameObj;
 }
 
 static jstring
+get_class_name_from_object (JNIEnv *env, jobject jobj)
+{
+  jclass class;
+  jmethodID methodID;
+  jobject classObj;
+
+  if (!(class = (*env)->GetObjectClass (env, jobj)))
+    abort ();
+
+  if (!(methodID = (*env)->GetMethodID (env,
+                                        class,
+                                        "getClass",
+                                        "()Ljava/lang/Class;")))
+    abort ();
+  
+  if (!(classObj = (*env)->CallObjectMethod (env, jobj, methodID)))
+    abort ();
+
+  return get_class_name_from_class_object (env, classObj);
+}
+
+static jstring
+get_class_name (JNIEnv *env, jclass class)
+{
+  return get_class_name_from_object (env,
+                                     (*env)->AllocObject (env, class));
+}
+
+#if 0
+static jstring
 get_base_class_name (JNIEnv *env, jobject jobj)
 {
-  jstring classNameObj = get_class_name (env, jobj);
+  jstring classNameObj = get_class_name_from_object (env, jobj);
   jsize len = (*env)->GetStringLength (env, classNameObj);
   jclass clazz;
   jmethodID methodID;
@@ -329,79 +350,12 @@ get_base_class_name (JNIEnv *env, jobject jobj)
                                                      classNameObj,
                                                      methodID,
                                                      0,
-                                                     len - 4)))
+                                                     len - 5)))
     abort ();
 
   return baseClassNameObj;
 }
-
-jobject
-java_instantiate_using (JNIEnv *env, jobject jobj)
-{
-  jclass clazz;
-  jstring classNameObj;
-  jmethodID methodID;
-  jboolean copyFlag;
-  const char *utf;
-
-  if (!jobj)
-    abort ();
-
-  classNameObj = get_base_class_name (env, jobj);
-
-  if (!(clazz = (*env)->GetObjectClass (env, classNameObj)))
-    abort ();
-  
-  if (!(methodID = (*env)->GetMethodID (env,
-                                        clazz,
-                                        "concat",
-                                        "(Ljava/lang/String;)Ljava/lang/String;")))
-    abort ();
-  if (!(classNameObj = (*env)->CallObjectMethod (env,
-                                                 classNameObj,
-                                                 methodID,
-                                                 (*env)->NewStringUTF (env, "UImpl"))))
-    abort ();
-  
-  utf = (*env)->GetStringUTFChars (env, classNameObj, &copyFlag);
-
-  {
-    char *className = copyFlag ? (char *) utf : strdup (utf), *p;
-
-    for (p = className; *p; p++)
-      if (*p == '.')
-        *p = '/';
-    if (!(clazz = (*env)->FindClass (env, className)))
-      raiseEvent (InvalidArgument, "Cannot find class `%s'", className);
-  }
-      
-  if (copyFlag)
-    (*env)->ReleaseStringUTFChars (env, classNameObj, utf);
-  
-  return java_instantiate (env, clazz);
-}
-
-int
-compare_java_objects (const void *A, const void *B, void *PARAM)
-{
-   if (((jobject_id *) A)->java_object <
-      ((jobject_id *) B)->java_object)
-    return -1;
-
-  return (((jobject_id *) A)->java_object >
-	  ((jobject_id *) B)->java_object);
-}
-
-int
-compare_objc_objects (const void *A, const void *B, void *PARAM)
-{
-  if (((jobject_id *) A)->objc_object <
-      ((jobject_id *) B)->objc_object)
-    return -1;
-
-  return (((jobject_id *) A)->objc_object >
-	  ((jobject_id *) B)->objc_object);
-}
+#endif
 
 static void
 fill_signature (char *buf, const char *className)
@@ -421,14 +375,61 @@ fill_signature (char *buf, const char *className)
 }
 
 static const char *
-create_signature (JNIEnv *env, jobject jobj)
+create_signature_from_object (JNIEnv *env, jobject jobj)
 {
-  const char *className = java_copy_string (env, get_class_name (env, jobj));
+  const char *className =
+    java_copy_string (env, get_class_name_from_object (env, jobj));
   char buf[1 + strlen (className) + 1 + 1];
 
   fill_signature (buf, className);
   XFREE (className);
   return strdup (buf);
+}
+
+static const char *
+create_signature (JNIEnv *env, jclass class)
+{
+  const char *className = java_copy_string (env, get_class_name (env, class));
+  char buf[1 + strlen (className) + 1 + 1];
+
+  fill_signature (buf, className);
+  XFREE (className);
+  return strdup (buf);
+}
+
+jobject
+java_next_phase (JNIEnv *env, jobject jobj)
+{
+  jclass class = java_class_for_typename (env, "Phase", NO);
+  jfieldID fid;
+  const char *sig = create_signature (env, class);
+  
+  if (!(fid = (*env)->GetFieldID (env, class, "nextPhase", sig)))
+    abort ();
+  XFREE (sig);
+  return (*env)->GetObjectField (env, jobj, fid);
+}
+
+int
+compare_java_objects (const void *A, const void *B, void *PARAM)
+{
+  if (((jobject_id *) A)->java_object <
+      ((jobject_id *) B)->java_object)
+    return -1;
+  
+  return (((jobject_id *) A)->java_object >
+	  ((jobject_id *) B)->java_object);
+}
+
+int
+compare_objc_objects (const void *A, const void *B, void *PARAM)
+{
+  if (((jobject_id *) A)->objc_object <
+      ((jobject_id *) B)->objc_object)
+    return -1;
+
+  return (((jobject_id *) A)->objc_object >
+	  ((jobject_id *) B)->objc_object);
 }
 
 void
@@ -454,9 +455,12 @@ java_directory_init (JNIEnv *env,
   o_uniformIntRand = (*env)->AllocObject (env, uniformIntegerDistClass);
   o_uniformDblRand = (*env)->AllocObject (env, uniformDoubleDistClass);
 
-  zoneClassSig = create_signature (env, o_globalZone);
-  uniformIntegerDistClassSig = create_signature (env, o_uniformIntRand);
-  uniformDoubleDistClassSig = create_signature (env, o_uniformDblRand);
+  zoneClassSig =
+    create_signature_from_object (env, o_globalZone);
+  uniformIntegerDistClassSig =
+    create_signature_from_object (env, o_uniformIntRand);
+  uniformDoubleDistClassSig =
+    create_signature_from_object (env, o_uniformDblRand);
 
   jniEnv = env;
   java_tree = avl_create (compare_java_objects, NULL);
@@ -582,35 +586,17 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
   if (!sel)
     {
       jsize ti;
-      char signatureBuf[(argCount + 2) * 6], *p = signatureBuf;
-      size_t pos = 0;
+      char signatureBuf[(argCount + 2) * 2 + 1], *p = signatureBuf;
 
-      size_t alignto (size_t pos, size_t alignment)
-        {
-          size_t mask = (alignment - 1);
-          
-          if ((pos & mask) == 0)
-            return pos;
-          else
-            return (pos + alignment) & ~mask;
-        }
-
-      void addstr (char type, BOOL regFlag, unsigned pos)
+      void add_type (char type)
         {
           *p++ = type;
-          if (regFlag)
-            *p++ = '+';
-          {
-            char posbuf[4];
-            
-            sprintf (posbuf, "%u", pos);
-            p = stpcpy (p, posbuf);
-          }
+          *p++ = '0';
+          *p = '\0';
         }
-      void add (jobject class, BOOL regFlag)
+      void add (jobject class)
         {
           char type;
-          size_t size;
 
           jboolean classp (jclass matchClass)
             {
@@ -618,92 +604,39 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
             }
           
           if (classp (c_object))
-            {
-              type = _C_ID;
-              pos = alignto (pos, __alignof__ (id));
-              size = sizeof (id);
-            }
+            type = _C_ID;
           else if (classp (c_string))
-            {
-              type = _C_CHARPTR;
-              pos = alignto (pos, __alignof__ (const char *));
-              size = sizeof (const char *);
-            }
+            type = _C_CHARPTR;
           else if (classp (c_int))
-            {
-              type = _C_INT;
-              pos = alignto (pos, __alignof__ (int));
-              size = sizeof (int);
-            }
+            type = _C_INT;
           else if (classp (c_short))
-            {
-              type = _C_SHT;
-              pos = alignto (pos, __alignof__ (short));
-              size = sizeof (short);
-            }
+            type = _C_SHT;
           else if (classp (c_long))
-            {
-              type = _C_LNG;
-              pos = alignto (pos, __alignof__ (long));
-              size = sizeof (long);
-            }
+            type = _C_LNG;
           else if (classp (c_boolean))
-            {
-              type = _C_UCHR;
-              pos = alignto (pos, __alignof__ (BOOL));
-              size = sizeof (BOOL);
-            }
+            type = _C_UCHR;
           else if (classp (c_byte))
-            {
-              type = _C_UCHR;
-              pos = alignto (pos, __alignof__ (unsigned char));
-              size = sizeof (unsigned char);
-            }
+            type = _C_UCHR;
           else if (classp (c_char))
-            {
-              type = _C_CHR;
-              pos = alignto (pos, __alignof__ (char));
-              size = sizeof (char);
-            }
+            type = _C_CHR;
           else if (classp (c_float))
-            {
-              type = _C_FLT;
-              pos = alignto (pos, __alignof__ (float));
-              size = sizeof (float);
-            }
+            type = _C_FLT;
           else if (classp (c_double))
-            {
-              type = _C_DBL;
-              pos = alignto (pos, __alignof__ (double));
-              size = sizeof (double);
-            }
+            type = _C_DBL;
           else if (classp (c_void))
-            {
-              type = _C_VOID;
-              size = 0;
-            }
+            type = _C_VOID;
           else
             abort ();
-          addstr (type, regFlag, pos);
-          pos += size;
+          add_type (type);
         }
       
-      add (retType, NO);
-#if 0
-      pos = alignto (pos, __alignof__ (id));
-#else
-      pos = 8;
-#endif
-      addstr (_C_ID, YES, pos);
-      pos += sizeof (id);
-      pos = alignto (pos, __alignof__ (SEL));
-      addstr (_C_SEL, YES, pos);
-      pos += sizeof (SEL);
+      add (retType);
+      add_type (_C_ID);
+      add_type (_C_SEL);
 
       for (ti = 0; ti < argCount; ti++)
-        add ((*env)->GetObjectArrayElement (env, argTypes, ti), YES);
+        add ((*env)->GetObjectArrayElement (env, argTypes, ti));
 
-      printf ("[%s][%s]\n", name, signatureBuf);
       sel = sel_register_typed_name (name, signatureBuf);
     }
   java_directory_update (env, jsel, (id) sel);

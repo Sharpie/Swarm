@@ -1,3 +1,27 @@
+1999-06-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* modulemap.el (generate-module-map): Add "Phase" as a non-module
+	protocol.  Include <stddef.h> in output for NULL.
+
+	* directory.m (java_class_for_typename): Handle empty module name.
+	(get_class_name_from_class_object): New function.
+	(get_class_name): Use it.
+	(get_class_name_from_object): New function.
+	(get_base_class_name): Disable.
+	(create_signature): Now takes jclass as an argument.
+	(create_signature_from_object): Replaces functionality of
+	create_signature.
+	(java_directory_init): Use it.
+	(java_ensure_selector): Insert zeros for frame info.  They
+	are needed for the Objective runtime type-parsing functions
+	to work, but the values are unimportant since mframe will figure
+	it out. 
+
+	* directory.h (JNEXTPHASE): New macro.
+
+	* directory.[hm] (java_next_phase): New function.
+	(java_instantiate_using): Remove (replaced by java_next_phase).
+
 1999-06-28  Alex Lancaster  <alex@santafe.edu>
 
 	* defobj.m (initDefobj): Instantiate LispArchiver and HDF5Archiver
