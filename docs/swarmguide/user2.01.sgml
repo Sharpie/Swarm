@@ -1,35 +1,45 @@
 <sect1 id="swarm.user.user2.01.sect1">
-  <title>Simplebug</title>
+  <title>The Swarm Tutorial: Reprise</title>
+  <para>Most Swarm users share terminology and perspective that 
+allows them to communicate with each other about modeling projects. 
+These shared elements are first introduced to most users in the
+Swarm Tutorial, a series of exercises prepared by Christopher
+Langton.  The Tutorial exercises are distributed on the SFI web
+site in the "Swarmapps" package.</para> 
 
-<sect2>
- <title>Second session</title> 
+  <sect2><title>Do your homework!</title>
+<para>There is no way to get anywhere with Swarm unless you are 
+willing to get your hands dirty.  The "Swarmapps" package provides
+some examples of swarm programs that deserve study.  That package 
+also provides the bug tutorial, a series of exercises that all 
+Swarm users must read, edit, compile, study, test, explore, and
+investigate (does that cover all the bases?).</para>
 
-    <formalpara><title>Tutorial: Simplebug</title>
-      <para>
-        <itemizedlist>
-          <listitem><para>Start: From C to Objective-C to Swarm       </para></listitem>
-          <listitem><para>Adding GUI: Probes, raster image, graphs    </para></listitem>
-          <listitem><para>Creating and controlling full experiment run</para></listitem>
-        </itemizedlist>
-      </para>
-    </formalpara>
-
-    <formalpara><title>Topics covered:</title>
-      <para>
-        <itemizedlist>
-          <listitem><para>Managing objects                     </para></listitem>
-          <listitem><para>Swarms, activity library, probes, GUI</para></listitem>
-        </itemizedlist>
-      </para></formalpara> 
-
+<para>If you are new to Swarm, and don't know much about programming 
+in general, and possibly less about Objective-C in particular, the 
+tutorial series is a perfect place to start. Even if you are an
+expert programmer, a study of the tutorial is the right place 
+to start. Many of key terms in  Swarm model building are introduced 
+in the tutorial and there is simply no substitute for a careful 
+analysis of the material.</para>
 </sect2>
 
 <sect2>
- <title>Chapters in Simplebug tutorial</title> 
+<title>Tutorial Progression</title>
 
+    <para>The tutorial gameplan is as follows. Begin with a program
+written in C that is 
+little more than a basic "hello world" program about a "bug" creature 
+that wanders.  Through a series of steps which first introduce 
+Objective-C and then the Swarm hierarchical modeling approach, one 
+can gain a good grounding in Swarm modeling.
+</para>
+
+<para>
+The tutorial outline is as follows:</para>
 
     <formalpara><title>simpleCBug</title>		
-      <para>Simple C code</para>
+      <para>Simple C code about a bug</para>
     </formalpara>
 
     <formalpara><title>simpleObjCBug</title>		
@@ -40,22 +50,155 @@
       <para>Adds FoodSpace object</para></formalpara>
 
     <formalpara><title>simpleSwarmBug</title>		
-      <para>Adds a ModelSwarm</para></formalpara>
+      <para>Introduces the "ModelSwarm" as the central organizing 
+element.  From the class "Swarm" in the Swarm library, this code 
+creates subclass ModelSwarm, and the instance of ModelSwarm is created 
+and called modelSwarm (in main.m). In the class ModelSwarm, one finds 
+an implementation of the Schedule class, the workhorse that keeps the 
+Swarm train moving on time.</para></formalpara>
 
     <formalpara><title>simpleSwarmBug2</title>		
-      <para>Many bugs...</para></formalpara>
+      <para>Introduces the bugList, an instance of the List class, 
+and illustrates some ways in which simulations with many agents can 
+be organized.</para></formalpara>
 
     <formalpara><title>simpleSwarmBug3</title>		
-      <para>Reads parameters from file</para></formalpara>
+      <para>Introduces the Swarm class ObjectLoader that the can grab data from a file and read it into an object (in this case, the modelSwarm).</para></formalpara>
 
     <formalpara><title>simpleObserverBug</title>	
-      <para>Adds ObserverSwarm & GUI</para></formalpara>
+      <para>Subclasses from the Swarm class SwarmGUI to create a new class ObserverSwarm, an instance of which is created and called observerSwarm.  This is the first example with a complete Swarm hierarchy which begins with main.m and translates actions from ObserverSwarm to ModelSwarm to individual agents.</para></formalpara>
 
     <formalpara><title>simpleObserverBug2</title>	
-      <para>Adds more sophisticated GUI</para></formalpara>
+      <para>This example adds probes that allow users to click on graphics to reveal information inside them.</para></formalpara>
 
     <formalpara><title>simpleExperBug</title>		
-      <para>Runs multiple experiments</para></formalpara> 
+      <para>Introduces the possibility that a simulation might be run over and over in "batch" mode while the graphical interface reports summaries of the runs to the user. </para></formalpara> 
+
+</sect2>
+
+<sect2><title>What are  you supposed to learn from the tutorial?</title>
+<para>
+So, after you worked on the tutorial for 20 hours or so, what then?  You
+should know all kinds of details about how the Swarm Toolkit can be used, 
+of course, but there are some bigger themes.
+<para>
+
+It is not vital to know how to model bugs
+(although, for an entimologist, well...).  Rather, it is vital to 
+understand that Swarm is a toolkit that provides a housing for a 
+modeling exercise. Swarm imposes no inherent limitations on the
+nature of agents that can be represented within its framework.</para>
+
+<para>Don't read much further in this user guide until you work 
+on the tutorial.  You will know if you have worked on it long enough
+when you understand clearly each of the following points.</para> 
+
+<itemizedlist>
+
+<listitem>
+<formalpara><title>Swarm has many classes to make the modeling job easier.</title>
+<para>There are workhorse classes like Swarm, SwarmGUI, and SwarmObject, but 
+also there are many "little helpers" like List. Getting to know the 
+ins-and-outs of these little helpers is extremely important.
+</para></formalpara></listitem>
+
+
+
+
+
+
+
+<listitem><formalpara><title>Swarm handles dirty memory details.</title>
+<para> Did 
+you note that there are no "malloc" and "free" and other such 
+memory-managing commands in Swarm code? Those commands exist, but 
+they exist inside the Swarm library, and they are accessed on behalf 
+of users who use "create" or "createBegin" and "drop" to access memory 
+for objects and get rid of them.  To create objects (instances of 
+classes) in Swarm, there must either be a "create" message sent to 
+a class or there must be a "createBegin/createEnd" pair that serves 
+as bookends for commands that create an instance, set its internal 
+state, and complete the instantiation.</para>
+</formalpara>
+</listitem>
+
+<listitem><formalpara><title>The usage of capital and lower-case letters is important.</title>
+<para>  Including the right header files may give you access to 
+"factory objects" like List or Schedule.  You can use any name 
+you like for the objects that are created as instances. By custom, 
+an instance of a class--an object--is named in small letters, such 
+as "bugList" as an instance of "List" or "modelSchedule" as an instance 
+of "Schedule."  In the tutorial, when there is a single instance of a 
+class to be created, it is typically named the lower-case version of 
+the class name, such as the foodSpace object which is an instantiation 
+of FoodSpace.</para>
+</formalpara>
+</listitem>
+
+<listitem>
+<formalpara><title>Neatness counts</title>
+<para>Classes in Swarm are created with methods that group together 
+their jobs by functions.  One will often find, in ObserverSwarm for 
+example, commands that create a modelSwarm instance and then issue 
+it these commands:
+<programlisting>
+   [modelSwarm buildObjects];
+   [modelSwarm buildActions];
+</programlisting>
+The buildObjects method creates objects and buildActions creates 
+schedules. If one wanted to, one could build a gigantic method in 
+the ModelSwarm class called "doStuff" and then call that method with
+<programlisting>
+   [modelSwarm doStuff];
+</programlisting> 
+Programs written with this approach are hard to proofread and manage.
+It is much better to write small methods, each of which accomplishes a
+relatively specific task.
+</para></formalpara></listitem>
+
+
+
+<listitem><formalpara><title>There is often a need for "record keeping" classes.</title><para>
+In order for data to be displayed meaningfully in a graph, for example, 
+it must be provided to the graph object in a format that the graph object 
+can handle. The class "world" in simpleObserverBug is subclassed from 
+Swarm's Grid2d class.  
+ </para>
+ </formalpara>
+ </listitem>
+
+
+
+
+<listitem><formalpara><title>Graphics are optional, but nice.</title>
+<para> Commands in the Observer Swarm control the graphical 
+display. There are many kinds 
+of graphs and ways to alter their appearance. It is not necessary to design 
+a Swarm program to make pretty pictures, however.  One might just as well 
+run in a "batch" mode that prints numbers into files for later inspection. 
+There is a useful example of the batch mode in the Heatbugs code.
+</para></formalpara></listitem>
+<listitem>
+<formalpara><title>Open Source means open the source</title><para>
+In most cases, if you really need to know what 
+messages an instance of a class will respond to, you should look 
+in the Swarm Documentation and then go look in 
+the Swarm source code itself. That's what the members of the Swarm team
+do when users ask questions.   
+</para></formalpara></listitem>
+  </itemizedlist>
+
+</sect2>
+
+<sect2><title>After the tutorial: What now?</title>
+
+
+<para> After the tutorial exercises are finished, one can then proceed 
+to study the example applications in Swarmapps and others that are 
+available (for free!) on the web. The application called "Heatbugs"
+in the Swarmapps package gives a rich and workable example of a 
+simulation that builds on the ideas in the tutorial. </para>
+
 
 </sect2>
 </sect1>
