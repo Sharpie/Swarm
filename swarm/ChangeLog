@@ -1,4 +1,10 @@
-2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VERSION: Bump.
+
+	* NEWS: Note that setSaveSizeFlag: works in more cases.
+
+o2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* VERSION: Bump.
 
