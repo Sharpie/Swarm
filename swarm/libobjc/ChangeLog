@@ -1,3 +1,7 @@
+1999-06-11  Alex Lancaster  <alex@santafe.edu>
+
+	* configure.in: Add "-I m4" to aclocal, if it exists.
+
 1999-06-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config/sparc/mframe-solaris2.h (MFRAME_ARG_ENCODING): Ensure
