@@ -1,10 +1,12 @@
+1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VERSION: Bump.
+	
 1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acconfig.h: Add INT64 and JNI_H_NEEDS_INT64.
 
 	* configure.in: Call md_CHECK_JNI_H.
-
-	* VERSION: Bump.
 
 1999-04-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
