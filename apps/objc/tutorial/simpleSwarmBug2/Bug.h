@@ -1,4 +1,4 @@
-// Bug.h					SimpleBug
+// Bug.h					SimpleBug2
 
 #import <objectbase/SwarmObject.h>
 #import <space.h>
