@@ -145,6 +145,11 @@ const char *find_executable (const char *program_name);
 
 void debugabort (const char *filename, unsigned lineno, const char *function) __attribute__ ((noreturn));
 
+typedef int (*quicksort_compar_fn_t) (const void *, const void *);
+
+extern void quicksort (void *const pbase, size_t total_elems,
+                       size_t size, quicksort_compar_fn_t cmp);
+
 #define abort() debugabort(__FILE__,__LINE__, __PRETTY_FUNCTION__)
 
 #undef isDigit
