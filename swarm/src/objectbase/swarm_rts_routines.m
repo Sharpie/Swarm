@@ -63,6 +63,11 @@ skip_typespec (const char *type)
     case _C_UNDEF:
       return ++type;
       break;
+    case _C_BFLD:
+      while (isDigit (*++type));
+      type = skip_typespec (type);
+      while (isDigit (*type)) type++;
+      return type;
       
     case _C_ARY_B:
       /* skip digits, typespec and closing ']' */

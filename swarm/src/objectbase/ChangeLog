@@ -1,3 +1,7 @@
+1999-09-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* swarm_rts_routines.m (skip_typespec): Handle bitfields.
+
 1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0.1 released.
