@@ -37,7 +37,7 @@ ensureBltSupportFiles (id globalTkInterp)
 
 int Blt_Init(Tcl_Interp *);			  // wish this were declared..
 
-- (const char *) preInitWithArgc: (int)argc argv: (char**)argv
+- (const char *) preInitWithArgc: (int)argc argv: (const char **)argv
 {
   const char *filename;
   

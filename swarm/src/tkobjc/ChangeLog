@@ -1,5 +1,7 @@
 1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* TkExtra.m ([TkExtra -preInitWithArgc:argv:]): Constify argv.
+
 	* tkobjc.m: Include objectbase/Arguments.h.  Change initTkObjc
 	to take an Arguments object.
 
