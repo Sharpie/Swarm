@@ -1,3 +1,23 @@
+1998-09-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* objectbase.h (val_t): Add _short and _ushort.
+
+	* VarProbe.m ([VarProbe -createEnd]): Add short and unsigned short.
+	Use variable to hold type tag.
+	([VarProbe -probeAsPointer:]): Add char, unsigned char, short and
+	unsigned short.
+	([VarProbe -probeAsInt:]): Add short and unsigned short.
+	([VarProbe -probeAsString:Buffer:withFullPrecision:]): Likewise.
+	([VarProbe -setData:To:]): Likewise.
+	([VarProbe -setData:ToString:]): Likewise.
+
+	* MessageProbe.m ([MessageProbe -setArg:ToString:]): Add short
+	and unsigned short.  Unsigned int was improperly tagged a int.
+	(dynamicCallOn): Add char, short, and unsigned short types (all
+	cases).
+	([MessageProbe -doubleDynamicCallOn:]): Add char, short, and unsigned
+	short types.
+
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Arguments.m ([Arguments +createArgc:Argv:]): Construct version

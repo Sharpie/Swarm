@@ -264,6 +264,8 @@ typedef struct val {
     const char *string;
     char _char;
     unsigned char _uchar;
+    short _short;
+    unsigned short _ushort;
     int _int;
     unsigned int _uint;
     long _long;

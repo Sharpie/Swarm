@@ -126,12 +126,20 @@ nth_type (const char *type, int which)
       arguments[which].type = _C_ID;
       arguments[which].val.object = nameToObject (what);
       break;
+    case _C_SHT:
+      arguments[which].type = _C_SHT;
+      arguments[which].val._short = atoi (what);
+      break;
+    case _C_USHT:
+      arguments[which].type = _C_USHT;
+      arguments[which].val._ushort = (unsigned short)strtoul (what, NULL, 10);
+      break;
     case _C_INT:
       arguments[which].type = _C_INT;
       arguments[which].val._int = atoi (what);
       break;
     case _C_UINT:
-      arguments[which].type = _C_INT;
+      arguments[which].type = _C_UINT;
       arguments[which].val._uint = (unsigned int)strtoul (what, NULL, 10);
       break;
     case _C_LNG:
@@ -227,43 +235,42 @@ dynamicCallOn (const char *probedType,
         case _C_ID:
           av_ptr (alist, id, arg->val.object);
           break;
-          
         case _C_SEL:
           av_ptr (alist, SEL, arg->val.selector);
           break;
-
+        case _C_CHR:
+          av_char (alist, arg->val._char);
+          break;
         case _C_UCHR:
           av_uchar (alist, arg->val._uchar);
           break;
-          
+        case _C_SHT:
+          av_short (alist, arg->val._short);
+          break;
+        case _C_USHT:
+          av_ushort (alist, arg->val._ushort);
+          break;
         case _C_INT:
           av_int (alist, arg->val._int);
           break;
-
         case _C_UINT:
           av_uint (alist, arg->val._uint);
           break;
-
         case _C_LNG:
           av_long (alist, arg->val._long);
           break;
-
         case _C_ULNG:
           av_ulong (alist, arg->val._ulong);
           break;
-          
         case _C_FLT:
           av_float (alist, arg->val._float);
           break;
-          
         case _C_DBL:
           av_double (alist, arg->val._double);
           break;
-
         case _C_CHARPTR:
           av_ptr (alist, const char *, arg->val.string);
           break;
-
         default:
           abort ();
         }
@@ -281,13 +288,22 @@ dynamicCallOn (const char *probedType,
     case _C_SEL:
       av_start_ptr (alist, imp, SEL, &retVal->val.selector);
       break;
+    case _C_CHR:
+      av_start_char (alist, imp, &retVal->val._char);
+      break;
     case _C_UCHR:
       av_start_uchar (alist, imp, &retVal->val._uchar);
+      break;
+    case _C_SHT:
+      av_start_short (alist, imp, &retVal->val._short);
+      break;
+    case _C_USHT:
+      av_start_ushort (alist, imp, &retVal->val._ushort);
       break;
     case _C_INT:
       av_start_int (alist, imp, &retVal->val._int);
       break;
-    case _C_INT:
+    case _C_UINT:
       av_start_uint (alist, imp, &retVal->val._uint);
       break;
     case _C_LNG:
@@ -371,47 +387,50 @@ dynamicCallOn (const char *probedType,
           *alist->type_pos = &ffi_type_pointer;
           *alist->value_pos = &arg->val.object;
           break;
-          
         case _C_SEL:
           *alist->type_pos = &ffi_type_pointer;
           *alist->value_pos = &arg->val.selector;
           break;
-
+        case _C_CHR:
+          *alist->type_pos = &ffi_type_schar;
+          *alist->value_pos = &arg->val._char;
+          break;
         case _C_UCHR:
           *alist->type_pos = &ffi_type_uchar;
           *alist->value_pos = &arg->val._uchar;
           break;
-          
+        case _C_SHT:
+          *alist->type_pos = &ffi_type_sshort;
+          *alist->value_pos = &arg->val._short;
+          break;
+        case _C_USHT:
+          *alist->type_pos = &ffi_type_ushort;
+          *alist->value_pos = &arg->val._ushort;
+          break;
         case _C_INT:
           *alist->type_pos = &ffi_type_sint;
           *alist->value_pos = &arg->val._int;
           break;
-
         case _C_UINT:
           *alist->type_pos = &ffi_type_uint;
           *alist->value_pos = &arg->val._uint;
           break;
-      
         case _C_LNG:
           *alist->type_pos = &ffi_type_slong;
           *alist->value_pos = &arg->val._long;
           break;
-
         case _C_ULNG:
           *alist->type_pos = &ffi_type_ulong;
           *alist->value_pos = &arg->val._ulong;
           break;
-      
         case _C_FLT:
           *alist->type_pos = &ffi_type_float;
           *alist->value_pos = &arg->val._float;
           break;
-          
         case _C_DBL:
           *alist->type_pos = &ffi_type_double;
           *alist->value_pos = &arg->val._double;
           break;
-          
         case _C_CHARPTR:
           *alist->type_pos = &ffi_type_pointer;
           *alist->value_pos = &arg->val.string;
@@ -456,10 +475,20 @@ dynamicCallOn (const char *probedType,
     case _C_SEL:
       fret = &ffi_type_pointer;
       break;
+    case _C_CHR:
+      // character return is broken in libffi-1.18
+      fret = &ffi_type_sint;
+      break;
     case _C_UCHR:
       // character return is broken in libffi-1.18
       fret = &ffi_type_uint;
       break;
+    case _C_SHT:
+      fret = &ffi_type_sshort;
+      break;
+    case _C_USHT:
+      fret = &ffi_type_ushort;
+      break; 
     case _C_INT:
       fret = &ffi_type_sint;
       break;
@@ -522,6 +551,12 @@ dynamicCallOn (const char *probedType,
       case _C_UINT:
         retVal->val._uint = VAL(unsigned int, ret);
         break;
+      case _C_SHT:
+        retVal->val._short = VAL(short, ret);
+        break;
+      case _C_USHT:
+        retVal->val._ushort = VAL(unsigned short, ret);
+        break;
       case _C_LNG:
         retVal->val._long = VAL(long, ret);
         break;
@@ -559,7 +594,11 @@ dynamicCallOn (const char *probedType,
 {
   val_t val = [self dynamicCallOn: target];
   
-  if (val.type == _C_INT)
+  if (val.type == _C_SHT)
+    return (double)val.val._short;
+  else if (val.type == _C_USHT)
+    return (double)val.val._ushort;
+  else if (val.type == _C_INT)
     return (double)val.val._int;
   else if (val.type == _C_UINT)
     return (double)val.val._uint;
@@ -567,8 +606,10 @@ dynamicCallOn (const char *probedType,
     return (double)val.val._long;
   else if (val.type == _C_ULNG)
     return (double)val.val._ulong;
-  else if (val.type == _C_UCHR)
+  else if (val.type == _C_CHR)
     return (double)val.val._int; // character return is broken in libffi-1.18
+  else if (val.type == _C_UCHR)
+    return (double)val.val._uint; // character return is broken in libffi-1.18
   else if (val.type == _C_FLT)
     return (double)val.val._float;
   else if (val.type == _C_DBL)

@@ -65,25 +65,30 @@ PHASE(Creating)
     }
   else
     {
+      char type;
+
       probedType = ivarList->ivar_list[i].ivar_type;
+      type = probedType[0];
       dataOffset = ivarList->ivar_list[i].ivar_offset;
       
-      if (probedType[0] == _C_CHARPTR
-          || probedType[0] == _C_CHR
-          || probedType[0] == _C_UCHR
-          || probedType[0] == _C_INT
-          || probedType[0] == _C_UINT
-          || probedType[0] == _C_LNG
-          || probedType[0] == _C_ULNG
-          || probedType[0] == _C_FLT
-          || probedType[0] == _C_DBL)
+      if (type == _C_CHARPTR
+          || type == _C_CHR
+          || type == _C_UCHR
+          || type == _C_SHT
+          || type == _C_USHT
+          || type == _C_INT
+          || type == _C_UINT
+          || type == _C_LNG
+          || type == _C_ULNG
+          || type == _C_FLT
+          || type == _C_DBL)
         interactiveFlag = YES;
       else
         interactiveFlag = NO;
       
       // set up default formatting string for floating point and 
       // double types - defaults are set in the probeLibrary instance
-      if  (probedType[0] == _C_FLT || probedType[0] == _C_DBL)
+      if  (type == _C_FLT || type == _C_DBL)
         {
           char *buf = xmalloc (7);
           sprintf (buf, "%%.%dg", [probeLibrary getDisplayPrecision]); 
@@ -181,19 +186,23 @@ PHASE(Using)
                [anObject name]];
   
   p = ((char *)anObject) + dataOffset;
-  
+
+#define PTRINT unsigned long
   switch (probedType[0])
     {
     case _C_ID:      q = (void *) *(id *)p; break;
     case _C_CLASS:   q = (void *) *(Class *)p; break;
     case _C_CHARPTR:
-    case _C_PTR:     q = (void *) *(void **)p; break;
-    case _C_INT: 
-    case _C_UINT:
-    case _C_LNG:
-    case _C_ULNG:
-      q = (void *) *(long *)p; break;
-    default:
+    case _C_PTR:     q = (void *)*(void **)p; break;
+    case _C_CHR:     q = (void *)(PTRINT)*(char *)p; break;
+    case _C_UCHR:    q = (void *)(PTRINT)*(unsigned char *)p; break;
+    case _C_SHT:     q = (void *)(PTRINT)*(short *)p; break;
+    case _C_USHT:    q = (void *)(PTRINT)*(unsigned short *)p; break;
+    case _C_INT:     q = (void *)(PTRINT)*(int *)p; break;
+    case _C_UINT:    q = (void *)(PTRINT)*(unsigned int *)p; break;
+    case _C_LNG:     q = (void *)(PTRINT)*(long *)p; break;
+    case _C_ULNG:    q = (void *)(PTRINT)*(unsigned long *)p; break;
+   default:
       if (SAFEPROBES)
         [Warning raiseEvent: "Invalid type %s to retrieve as a pointer...\n",
                  probedType];
@@ -222,6 +231,9 @@ PHASE(Using)
 
     case _C_UCHR: i = (int)*(unsigned char *)p; break;
     case _C_CHR:  i = (int)*(char *)p; break;
+
+    case _C_SHT:  i = (int)*(short *)p; break;
+    case _C_USHT: i = (unsigned)*(unsigned short *)p; break;
       
     case _C_INT:  i = (int)*(int *)p; break;
     case _C_UINT: i = (unsigned)*(unsigned int *)p; break;
@@ -256,6 +268,9 @@ PHASE(Using)
     case _C_UCHR: d = (double)*(unsigned char *)p; break;
     case _C_CHR:  d = (double)*(char *)p; break;
       
+    case _C_SHT:  d = (double)*(short *)p; break;
+    case _C_USHT: d = (double)*(unsigned short *)p; break;
+
     case _C_INT:  d = (double)*(int *)p; break;
     case _C_UINT: d = (double)*(unsigned int *)p; break;
 
@@ -342,6 +357,12 @@ PHASE(Using)
           exit (-1);
         }
       break;
+    case _C_SHT:
+      sprintf (buf, "%hd", *(short *)p);
+      break;
+    case _C_USHT:
+      sprintf (buf, "%hu", *(unsigned short *)p);
+      break;
     case _C_INT:
       sprintf (buf, "%d", *(int *)p);
       break;
@@ -399,7 +420,8 @@ PHASE(Using)
       
     case _C_UCHR: *(unsigned char *)p = *(unsigned char *)newValue; break;
     case _C_CHR:  *(char *)p = *(char *)newValue; break;
-      
+    case _C_SHT:  *(short *)p = *(short *)newValue; break;
+    case _C_USHT: *(unsigned short *)p = *(unsigned short *)newValue; break;
     case _C_INT:  *(int *)p = *(int *)newValue; break;
     case _C_UINT: *(unsigned int *)p = *(unsigned int *)newValue; break;
     case _C_LNG:  *(long *)p = *(long *)newValue; break;
@@ -449,6 +471,8 @@ PHASE(Using)
 {
   union {
     char c;
+    short s;
+    unsigned short us;
     int i;
     unsigned int ui;
     float f;
@@ -497,6 +521,16 @@ PHASE(Using)
   case _C_CHARPTR:
       *(char **)p = strdup (s) ;
       rc = (*(char **)p != NULL);
+      break;
+
+    case _C_SHT:
+      if ((rc = sscanf (s, "%hd", &value.s)) == 1) 
+        *(short *)p = value.s; 
+      break;
+      
+    case _C_USHT:
+      if ((rc = sscanf (s, "%hu", &value.us)) == 1) 
+        *(unsigned short *)p = value.us; 
       break;
       
     case _C_INT:
