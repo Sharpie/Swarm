@@ -14,8 +14,6 @@
 #include <misc/argp.h>
 #endif
 
-#import <defobj/directory.h> // JAVA_APPNAME
-
 #ifndef __GLIBC__
 const char *program_invocation_name;
 const char *program_invocation_short_name;
@@ -27,7 +25,11 @@ const char *program_invocation_short_name;
 #undef BOOL
 #endif
 
-#define VARCHAR(ch) (isalnum ((int)ch) || ((ch) == '_'))
+#undef __int64
+#undef interface
+#import <defobj/directory.h> // JAVA_APPNAME
+
+#define VARCHAR(ch) (isalnum ((int) (ch)) || ((ch) == '_'))
 
 #define SIGNATURE_FILE "swarmconfig.h"
 
