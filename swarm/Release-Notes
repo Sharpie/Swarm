@@ -1,0 +1,50 @@
+                          Swarm Beta Release Notes
+
+Version 961002:
+
+   1. Added Gaussian. Draws a uniform random number with a normal
+      distribution around a given mean, standard deviation, and 
+      seed. Soon there will be even more stuff thanks to Sven.
+   2. Added scrollbars to the probes.
+   3. Changed controlPanel functionality.  
+         One implication is that instead of
+             [controlPanel waitForControlEvent] 
+         users that want to stop the simulation (from the software, e.g.
+         to wait for the user to fill in datafields) should use 
+             [controlPanel setStateStopped]
+
+   4. Added the method 
+             -removeProbeDisplayFor: anObject
+         to the ProbeDisplayManager class so that you may remove a probe
+         display for an object without the probe id.
+   5. Added the long-awaited -batchmode flag!
+   6. New library <analysis.h> which contains the following new classes:
+             EZBin.h EZDistribution.h EZGraph.h Entropy.h
+         It also serve as a new home for the following class:
+             Averager.h 
+   7. Upgraded Entropy and Average so that they can take any collection
+         (not necessarily a list).
+   8. Fixed getAverage on Averager when the collection is empty.
+   9. The following classes have moved from <swarmobject.h> to <simtools.h>:
+         ActiveGraph.h ActiveOutFile.h
+  10. The following _new_ classes have landed in <simtools.h>:
+         InFile.h OutFile.h ObjectLoader.h ObjectSaver.h UName.h
+  11. Added new methods to Discrete2d:
+         -fastFillWithValue: (int) aValue
+         -fastFillWithObject: anObject
+         -fillWithValue: (int) aValue
+         -fillWithObject: anObject
+  12. Added new class (Int2dFiler.h) for filing of discrete2d spaces.
+  13. Added the CompleteVarMap class to the probing capabilities.
+  14. Added a message to the ProbeLibrary:
+         -getCompleteVarMap: (Class) aClass
+  15. Added methods to the VarProbe class:
+         -setNonInteractive 
+         -(int) isInteractive 
+  16. Added methods to the Histo class (tkobjc):
+         -drawHistoWithDouble: (double *) points 
+                   atLocation: (double *) locations
+         -drawHistoWithInt: (int *) points 
+                atLocation: (double *) locations 
+
+
