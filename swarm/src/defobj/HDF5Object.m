@@ -955,7 +955,7 @@ PHASE(Creating)
 #ifdef HAVE_HDF5
 static herr_t
 ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
-            size_t count, size_t stride, size_t bkg_stride,
+            hsize_t count, size_t stride, size_t bkg_stride,
             void *buf, void *bkg,
             hid_t dset_xfer_plid)
 {
@@ -981,7 +981,7 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 
 static herr_t
 string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
-            size_t count, size_t stride, size_t bkg_stride,
+            hsize_t count, size_t stride, size_t bkg_stride,
             void *buf, void *bkg, hid_t xfer_plid)
 {
   if (cdata->command == H5T_CONV_CONV)
