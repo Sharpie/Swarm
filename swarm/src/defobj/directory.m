@@ -253,6 +253,33 @@ get_class_name (JNIEnv *env, jobject jobj)
   return nameObj;
 }
 
+static jstring
+get_base_class_name (JNIEnv *env, jobject jobj)
+{
+  jstring classNameObj = get_class_name (env, jobj);
+  jsize len = (*env)->GetStringLength (env, classNameObj);
+  jclass clazz;
+  jmethodID methodID;
+  jobject baseClassNameObj;
+
+  if (!(clazz = (*env)->GetObjectClass (env, classNameObj)))
+    abort ();
+
+  if (!(methodID = (*env)->GetMethodID (env,
+                                        clazz,
+                                        "substring",
+                                        "(Ljava/lang/String;)I")))
+    abort ();
+
+  if (!(baseClassNameObj = (*env)->CallObjectMethod (env,
+                                                     classNameObj,
+                                                     methodID,
+                                                     len - 4)))
+    abort ();
+
+  return baseClassNameObj;
+}
+
 jobject
 java_instantiate_using (JNIEnv *env, jobject jobj)
 {
@@ -265,7 +292,7 @@ java_instantiate_using (JNIEnv *env, jobject jobj)
   if (!jobj)
     abort ();
 
-  classNameObj = get_class_name (env, jobj);
+  classNameObj = get_base_class_name (env, jobj);
 
   if (!(clazz = (*env)->GetObjectClass (env, classNameObj)))
     abort ();
@@ -278,7 +305,7 @@ java_instantiate_using (JNIEnv *env, jobject jobj)
   if (!(classNameObj = (*env)->CallObjectMethod (env,
                                                  classNameObj,
                                                  methodID,
-                                                 (*env)->NewStringUTF (env, "U"))))
+                                                 (*env)->NewStringUTF (env, "UImpl"))))
     abort ();
   
   utf = (*env)->GetStringUTFChars (env, classNameObj, &copyFlag);
