@@ -31,7 +31,7 @@ install-data:
         fi
 
 $(APPEXE): $(OBJECTS)
-	$(SHELL) $(bindir)/libtool-swarm --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(OBJCLIBS)
+	$(SHELL) $(bindir)/libtool-swarm --mode link $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(APPLIBS) $(SWARMLIBS) $(OBJCLIBS) $(SUPPORTLDFLAGS) $(SYSLIBS)
 
 # Local variables:
 # mode: makefile
