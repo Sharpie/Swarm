@@ -1,0 +1,15 @@
+1997-11-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* main.m (main): Add create-time call to
+	setControlPanelGeometryRecordName for HeatBugOversverSwarm.
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]):
+	Use setWindowGeometryRecordName argument of createProbeDisplayFor
+	(set archive key name for heatbugModelSwarm and observerSwarm).
+	([HeatbugObserverSwarm -buildObjects]): Add create-time call to
+	setWindowGeometryRecordName for worldRaster.
+	([HeatbugObserverSwarm -buildObjects]): Add create-time call to
+	setGraphWindowGeometryRecordName to EZGraph.
+
+
+	
