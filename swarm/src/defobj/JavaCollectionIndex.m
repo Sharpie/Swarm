@@ -8,7 +8,7 @@
 @implementation JavaCollectionIndex
 
 #ifdef HAVE_JDK
-+ create: aZone setCount: (size_t)theCount
++ create: aZone setCount: (unsigned)theCount
 {
   JavaCollectionIndex *obj = [self create: aZone];
 

@@ -3,11 +3,11 @@
 
 @interface JavaCollectionIndex: CreateDrop
 {
-  size_t count;
+  unsigned count;
   int pos;
 }
 #ifdef HAVE_JDK
-+ create: aZone setCount: (size_t)count;
++ create: aZone setCount: (unsigned)count;
 - (id <Symbol>)getLoc;
 - next;
 #endif
