@@ -208,7 +208,7 @@ swarmSelectorImpl::SetObjectArg (unsigned argIndex)
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::SetIntArg (unsigned argIndex)
+swarmSelectorImpl::SetIntegerArg (unsigned argIndex)
 {
   jsArgTypes[argIndex] = JSVAL_INT;
   return NS_OK;
@@ -243,7 +243,7 @@ swarmSelectorImpl::SetObjectReturn ()
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::SetIntReturn ()
+swarmSelectorImpl::SetIntegerReturn ()
 {
   jsReturnType = JSVAL_INT;
   return NS_OK;

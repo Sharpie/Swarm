@@ -476,7 +476,7 @@
                   :return-type "void")
                  (make-method
                   :phase :using
-                  :arguments (list (list "setIntArg" "unsigned" "index"))
+                  :arguments (list (list "setIntegerArg" "unsigned" "index"))
                   :return-type "void")
                  (make-method
                   :phase :using
@@ -497,7 +497,7 @@
                   :return-type "void")
                  (make-method
                   :phase :using
-                  :arguments (list (list "setIntReturn" nil nil))
+                  :arguments (list (list "setIntegerReturn" nil nil))
                   :return-type "void")
                  (make-method
                   :phase :using

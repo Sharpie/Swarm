@@ -565,6 +565,30 @@ currentJSContext ()
   return cx;
 }
 
+JSObject *
+currentJSObject ()
+{
+  nsresult rv;
+  
+  NS_WITH_SERVICE (nsIXPConnect, xpc, nsIXPConnect::GetCID (), &rv);
+  if (!NS_SUCCEEDED (rv))
+    abort ();
+  
+  nsCOMPtr <nsIXPCNativeCallContext> callContext;
+  xpc->GetCurrentNativeCallContext (getter_AddRefs (callContext));
+  if (!callContext)
+    abort ();
+  
+  nsCOMPtr <nsIXPConnectWrapperNative> calleeWrapper;
+  callContext->GetCalleeWrapper (getter_AddRefs (calleeWrapper));
+  nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (calleeWrapper));
+
+  if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
+    abort ();
+  return jsObj;
+}
+
+
 void *
 JScreateArgVector (unsigned size)
 {
@@ -578,6 +602,7 @@ void
 JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
 {
   jsval *jsargs = (jsval *) args;
+  JSContext *cx = currentJSContext ();
 
   switch (type)
     {
@@ -617,18 +642,24 @@ JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
       jsargs[pos] = INT_TO_JSVAL ((int) value->slonglong);
       break;
     case fcall_type_float:
-      jsargs[pos] = DOUBLE_TO_JSVAL ((double) value->_float);
+      if (!JS_NewDoubleValue (cx, (jsdouble) value->_float, &jsargs[pos]))
+        abort ();
       break;
     case fcall_type_double:
-      jsargs[pos] = DOUBLE_TO_JSVAL (value->_double);
+      if (!JS_NewDoubleValue (cx, (jsdouble) value->_double, &jsargs[pos]))
+        abort ();
       break;
     case fcall_type_long_double:
-      jsargs[pos] = DOUBLE_TO_JSVAL ((double) value->_long_double);
+      if (!JS_NewDoubleValue (cx, (jsdouble) value->_long_double, &jsargs[pos]))
+        abort ();
       break;
     case fcall_type_object:
       {
-        nsCOMPtr <swarmITyping> cObject = NS_STATIC_CAST (swarmITyping *, SD_COM_ENSURE_OBJECT_COM (value->object));
+        nsCOMPtr <nsISupports> cObject = NS_STATIC_CAST (nsISupports *, SD_COM_ENSURE_OBJECT_COM (value->object));
         nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (cObject));
+        nsCOMPtr <nsIXPConnectWrappedNative> nobj (do_QueryInterface (cObject));
+
+        printf ("%p %p %p\n", (void *) cObject, (void *) jobj, (void *) nobj);
         JSObject *jsObj;
         if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
           abort ();
@@ -637,7 +668,7 @@ JSsetArg (void *args, unsigned pos, fcall_type_t type, types_t *value)
       break;
     case fcall_type_selector:
       {
-        nsCOMPtr <swarmITyping> cSel = NS_STATIC_CAST (swarmITyping *, SD_COM_FIND_SELECTOR_COM (value->selector));
+        nsCOMPtr <swarmISelector> cSel = NS_STATIC_CAST (swarmISelector *, SD_COM_FIND_SELECTOR_COM (value->selector));
         nsCOMPtr <nsIXPConnectJSObjectHolder> jobj (do_QueryInterface (cSel));
         JSObject *jsObj;
         if (!NS_SUCCEEDED (jobj->GetJSObject (&jsObj)))
