@@ -7,13 +7,11 @@
 
 (defvar *last-protocol*)
 
-(defun freakyp (java-type)
-  (eq java-type 'freaky))
-
 (defvar *dollar-sign*)
 
 (defconst *objc-to-java-type-alist*
-    '(("id .*" . "Object")
+    '(("id +<\\(.*\\)>" . protocol)
+      ("id .*" . "Object")
       ("SEL" . "swarm.Selector")
       ("void" . "void")
       ("const char \\*" . "java.lang.String")
@@ -85,9 +83,10 @@
                                 "ArchiverArray"
                                 "ArchiverValue"
                                 "ArchiverPair"
+                                "ArchiverList"
                                 "InputStream"
                                 "OutputStream"
-                                "HDF5"
+
                                 "HDF5CompoundType"
 
                                 ;; deprecated
@@ -314,6 +313,13 @@
       "-map" ; PixelValue * return
       "-black" ; PixelValue return
       "-white" ; PixelValue return
+
+      ;; HDF5
+      "-iterate:"
+      "-iterateAttributes:"
+      "-loadDataset:"
+      "-storeAsDataset:typeName:type:ptr:"
+      "-readRowNames"
       ))
 
 (defun method-in-protocol-p (protocol method)
@@ -352,34 +358,42 @@
         (insert text))
   (if (deprecated-p protocol)
       (java-print-deprecated-doc protocol))
-  (insert "\n */\n"))  
+  (insert "\n */\n"))
 
 (defun freaky-message (objc-type)
   (error "Objective C type `%s' in protocol `%s' is freaky!"
          objc-type
          (protocol-name *last-protocol*)))
 
-(defun freaky-message- (objc-type)
-  )
-
 (defun java-objc-to-java-type (objc-type)
   (if objc-type
       (let ((ret
-             (find objc-type *objc-to-java-type-alist*
-                   :key #'car
-                   :test #'(lambda (a b)
-                             (let ((expr (concat (concat "^" b) "$")))
-                               (string-match expr a))))))
-        (when (freakyp (cdr ret))
-          (freaky-message objc-type))
-        (cdr ret))
+             (cdr (find objc-type *objc-to-java-type-alist*
+                        :key #'car
+                        :test #'(lambda (a b)
+                                  (let ((expr (concat (concat "^" b) "$")))
+                                    (string-match expr a)))))))
+        (cond ((eq ret 'freaky)
+               (freaky-message objc-type)
+               ret)
+              ((eq ret 'protocol)
+               (let* ((protocol-name (match-string 1 objc-type))
+                      (protocol (lookup-protocol protocol-name)))
+                 (if (real-class-p protocol)
+                     (concat "swarm."
+                             (module-name (protocol-module protocol))
+                             "."
+                             protocol-name
+                             "Impl")
+                     "Object")))
+              (t ret)))
       "Object"))
 
 (defun java-print-type (objc-type)
   (let ((java-type (java-objc-to-java-type objc-type)))
     (unless java-type
       (error "No Java type for `%s'" objc-type))
-    (if (freakyp java-type)
+    (if (eq java-type 'freaky)
         (progn
           (freaky-message objc-type)
           "Object")
@@ -619,7 +633,7 @@
     (insert ") { super (); ")
     (insert "new ")
     (insert creating-class-name)
-    (insert " ((Object) this).create")
+    (insert " (this).create")
     (flet ((fix (key) (concat (upcase (substring key 0 1))
                               (substring key 1))))
       (loop for name.argument in name.arguments
@@ -646,7 +660,9 @@
 (defun java-print-nextphase-class-constructor (protocol)
   (insert "public ")
   (insert (java-class-name protocol :creating))
-  (insert " (Object nextPhase) { super (); this.nextPhase = nextPhase; }\n")
+  (insert " (")
+  (insert (java-class-name protocol :using))
+  (insert " nextPhase) { super (); this.nextPhase = nextPhase; }\n")
   (insert "public ")
   (insert (java-class-name protocol :creating))
   (insert " () {super ();}\n"))
@@ -952,7 +968,9 @@
                     ((string= java-return "Class")
                      (insert "(jclass) SD_FINDJAVACLASS (env, ")
                      t)
-                    ((string= java-return "Object")
+                    ((or (string= java-return "Object")
+                         (and (> (length java-return) 6)
+                              (string= (substring java-return 0 6) "swarm.")))
                      (insert "SD_ENSUREJAVA (env, ")
                      t)
                     ((string= java-return "java.lang.String")

@@ -13,9 +13,20 @@
 	(java-print-convenience-constructors): Renamed from
 	java-print-class-constructors.  Remove call to
 	java-print-basic-class-constructor.
-	(java-print-class-phase): Always print basic constructor, and print
-	convenience and nextphase constructors when creatable (using and
-	creating phase respective).  
+	(java-print-class-phase): Always print basic constructor, and
+	print convenience and nextphase constructors when creatable (using
+	and creating phase respective).
+	(*objc-to-java-type-alist*): Add pattern for objects conforming to
+	a protocol.
+	(*removed-protocols*): Remove HDF5.  Add ArchiverList.
+	(*removed-methods*): Add HDF5 methods with non-convertable types.
+	(freakyp, freaky-message-): Remove.
+	(java-objc-to-java-type): Add support for protocol type
+	conversion.
+	(java-print-class-constructor-method,
+	java-print-nextphase-class-constructor): Don't do casting to
+	Object for call to nextphase constructor.
+	(java-print-native-method): Handle swarm.* types just like Object.
 
 1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
@@ -771,3 +782,5 @@
 
 	* java-stub.el: New file.
 
+
+	
