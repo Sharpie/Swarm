@@ -1,3 +1,8 @@
+1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* archiver.m: Disable long double checks with HAVE_LONGDOUBLE_ENCODING
+	ifdefs.
+
 1999-09-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* forwarding.m (AnotherObject): New class.

@@ -16,7 +16,9 @@
 #define ULONGVAL 10000
 #define FLOATVAL 500.0
 #define DOUBLEVAL 500000.0
+#ifdef HAVE_LONGDOUBLE_ENCODING
 #define LONGDOUBLEVAL 5000000.0
+#endif
 
 #define COMPONENT_STRVAL "Foo Bar"
 
@@ -56,7 +58,9 @@
   unsigned long long unsignedLongLongVal;
   float floatVal;
   double doubleVal;
+#ifdef HAVE_LONGDOUBLE_ENCODING
   long double longDoubleVal;
+#endif
   BOOL deepFlag;
   BOOL updateFlag;
 }
@@ -82,7 +86,9 @@
   obj->unsignedLongLongVal = ULONGLONGVAL;
   obj->floatVal = FLOATVAL;
   obj->doubleVal = DOUBLEVAL;
+#ifdef HAVE_LONGDOUBLE_ENCODING
   obj->longDoubleVal = LONGDOUBLEVAL;
+#endif
   
   obj->updateFlag = YES;
   return obj;
@@ -132,6 +138,10 @@
     return NO;
   if (doubleVal != DOUBLEVAL)
     return NO;
+#ifdef HAVE_LONGDOUBLE_ENCODING
+  if (longDoubleVal != LONGDOUBLEVAL)
+    return NO;
+#endif
   return YES;
 }
 @end
