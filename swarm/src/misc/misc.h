@@ -15,10 +15,6 @@
 #include <sys/stat.h>
 #include <math.h>
 
-#if defined(__CYGWIN32__) && !defined(__CYGWIN__)
-int gettimeofday (struct timeval *p, struct timezone *z);
-#endif
-
 #include <swarmconfig.h>
 
 #ifndef __ptr_t

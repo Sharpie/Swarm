@@ -4,13 +4,13 @@
 
 #include "misc.h"
 
-#ifdef __CYGWIN32__
+#ifdef __CYGWIN__
 #define PATHNAME_UNIX_UNC
 int readlink (const char *, char *, int);
 #endif
 
 #ifndef MAXSYMLINKS
-/* Cygwin32 and libc1 GNU/Linux machines lack this in sys/param.h. */
+/* Cygwin and libc1 GNU/Linux machines lack this in sys/param.h. */
 #define MAXSYMLINKS 10
 #endif
 
@@ -129,7 +129,7 @@ realpath (const char *path, char *resolved_path)
                 /* symbolischen Link lesen: */
                 to_ptr[-1]=0; /* '/' durch 0 ersetzen */
                   {
-#if defined( __CYGWIN32__) && 0
+#if defined( __CYGWIN__) && 0
                     /* needed for Win95 only
                        readlink() doesn't work right on NFS mounted directories
                        (it returns -1,ENOENT or -1,EIO).
@@ -194,7 +194,7 @@ realpath (const char *path, char *resolved_path)
                           if ((errno == EINVAL) || (errno == ENXIO))
 #elif defined(__MINT__)
                             if ((errno == EINVAL) || (errno == EACCESS))
-#elif defined(__CYGWIN32__)
+#elif defined(__CYGWIN__)
                               if ((errno == EINVAL) || (errno == EACCES))
 #else
                                 if (errno == EINVAL)

@@ -22,7 +22,7 @@
    Marcus G. Daniels <marcus@sysc.pdx.edu>
  */
    
-#ifndef __CYGWIN32__
+#ifndef __CYGWIN__
 #include <sysexits.h>
 #else
 #define EX_USAGE 64
