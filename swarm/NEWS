@@ -37,7 +37,7 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
       is exhausted.
 
 *** simtools
-**** New function initSwarmAppFunc, for initialization of 
+**** New function initSwarmAppOptions, for initialization of 
      version, bug address as well as options and option processing function.
 
 ** Autoconfiguration
