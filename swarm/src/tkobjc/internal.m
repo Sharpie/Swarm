@@ -851,6 +851,21 @@ tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
                         "set configured yes\n"
                         "}\n}\n", widgetName, widgetName];
 
+        [globalTkInterp eval: "bind %s <Expose> {\n"
+                        "uplevel #0 {\n"
+                        "puts \"Expose\"\n"
+                        "}\n}\n", widgetName, widgetName];
+
+        [globalTkInterp eval: "bind %s <Map> {\n"
+                        "uplevel #0 {\n"
+                        "puts \"Map\"\n"
+                        "}\n}\n", widgetName, widgetName];
+
+        [globalTkInterp eval: "bind %s <Circulate> {\n"
+                        "uplevel #0 {\n"
+                        "puts \"Circulate\"\n"
+                        "}\n}\n", widgetName, widgetName];
+
         [globalTkInterp eval: "bind %s <Visibility> {\n"
                         "uplevel #0 {\n"
                         "set visibility yes\n"
