@@ -1,3 +1,8 @@
+2004-11-25  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* configure.in: amend AC_OUTPUT to reflect changes in
+	     src/tkobjc/tk/Makefile.am
+
 2004-11-24  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* README: added reference to wiki.
