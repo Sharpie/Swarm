@@ -16,7 +16,9 @@
 <style-specification id="print" use="common docbook">
 <style-specification-body>
 
-;; customize the print stylesheet
+;;
+;; CUSTOMIZE THE PRINT STYLESHEET
+;;
 
 (define %graphic-extensions% 
   ;; List of graphic filename extensions
@@ -54,32 +56,89 @@
   ;; Should a Table of Contents be produced for Sets?
   #t)
 
-(define (set-titlepage-verso-elements)
-  ;; by default style sheet doesn't include the "verso" elements on the 
-  ;; title page.
-  (list (normalize "abstract")
-        (normalize "revhistory")        
+(define (set-titlepage-verso-elements) 
+ ;; by default style sheet doesn't include some "verso" elements on the 
+ ;; title page.
+  (list (normalize "title") 
+	(normalize "subtitle") 
+	(normalize "corpauthor") 
+;	(normalize "authorgroup") 
+;	(normalize "author") 
+;	(normalize "editor")
+;	(normalize "edition") 
+	(normalize "pubdate") 
+        (normalize "copyright")
+	(normalize "legalnotice")         
+        (normalize "abstract")
+	(normalize "revhistory")
         ))
+
+(mode set-titlepage-verso-mode
+
+ (element copyright
+  (make paragraph
+    use: para-style
+    (make sequence
+      (literal (gentext-element-name (current-node)))
+      (literal " ")
+      (literal (dingbat "copyright"))
+      (literal " ")
+      (process-children-trim))))
+
+  (element abstract 
+    (make display-group
+      (process-children)))
+
+  (element revhistory ($book-revhistory$))
+  
+  )
 
 ;; BOOK customization
 
 (define (book-titlepage-verso-elements)
   ;; by default style sheet doesn't include the "verso" elements on the 
   ;; title page.
-  (list (normalize "abstract")        
-        (normalize "revhistory")        
-        (normalize "copyright")
-        ))
+ (list (normalize "title")
+       (normalize "corpauthor")
+       (normalize "pubdate")         
+       (normalize "copyright")
+       (normalize "legalnotice")
+       (normalize "abstract")        
+       (normalize "revhistory")        
+       ))
+
+(mode book-titlepage-verso-mode
+
+ (element copyright
+  (make paragraph
+    use: para-style
+    (make sequence
+      (literal (gentext-element-name (current-node)))
+      (literal " ")
+      (literal (dingbat "copyright"))
+      (literal " ")
+      (process-children-trim))))
+ 
+)
 
 ;; REFERENCE customization
 
 (define (reference-titlepage-recto-elements)
   (list (normalize "title") 
         (normalize "subtitle")        
+        (normalize "abstract")
         ))
 
-(define (reference-titlepage-verso-elements)
-  (list (normalize "abstract")))
+(mode reference-titlepage-recto-mode
+
+;  (element abstract
+;    (make display-group
+;      start-indent: (+ (inherited-start-indent) 0.25in)
+;      end-indent: (+ (inherited-end-indent) 0.25in)
+;      font-size: (* %bf-size% 0.9)
+;      (process-children)))
+
+)
 
 ;; ARTICLE customization
 
@@ -184,7 +243,9 @@
 <style-specification id="html" use="common docbook">
 <style-specification-body> 
 
-;; customize the html stylesheet
+;;
+;; CUSTOMIZE THE HTML STYLESHEET
+;;
 
 (define %stylesheet%
   ;; Name of the stylesheet to use. #f = don't make link to text/css in HTML
@@ -236,6 +297,11 @@
   ;; Should a Table of Contents be produced for Sets?
   #t)
 
+(mode set-titlepage-recto-mode
+      (element graphic
+               (make element gi: "P"
+                     ($img$)))
+)
 
 (define (set-titlepage-verso-elements)
   ;; by default style sheet doesn't include the "verso" elements on the 
@@ -250,6 +316,12 @@
 (define %generate-book-titlepage%
   ;; Should a book title page be produced?
   #t)
+
+(mode book-titlepage-recto-mode
+      (element graphic
+               (make element gi: "P"
+                     ($img$)))
+)
 
 (define (book-titlepage-verso-elements)
   ;; by default style sheet doesn't include the "verso" elements on the 
@@ -312,16 +384,6 @@
                                           (literal
                                            (id-to-indexitem id)))))
                             (loop (cdr linkends)))))))))
-
-(mode book-titlepage-recto-mode
-      (element graphic
-               (make element gi: "P"
-                     ($img$))))
-
-(mode set-titlepage-recto-mode
-      (element graphic
-               (make element gi: "P"
-                     ($img$))))
 
 
 </style-specification-body>
