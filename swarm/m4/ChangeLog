@@ -1,3 +1,8 @@
+1998-10-09  Alex Lancaster  <alex@santafe.edu>
+
+	* acswarm.m4: Substitute swarm_{prefix, execprefix, includedir}
+	rather than swarmdir.
+
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Add acxpm.m4.

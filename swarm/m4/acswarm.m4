@@ -30,7 +30,9 @@ changequote([,])dnl
 
 al_SWARM_LOAD
 
-AC_SUBST(swarmdir)
+AC_SUBST(swarm_prefix)
+AC_SUBST(swarm_execprefix)
+AC_SUBST(swarm_includedir)
 AC_SUBST(SWARM_LDADD)
 AC_SUBST(SWARM_LDFLAGS)
 ])
