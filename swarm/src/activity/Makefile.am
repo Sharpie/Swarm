@@ -24,4 +24,5 @@ activity_HEADERS = Action.h ActionGroup.h CompoundAction.h Schedule.h \
 	SwarmProcess.h XActivity.h
 
 install-data-local:
-	$(INSTALL_DATA) $(module_headers) $(activitydir)
+	$(INSTALL_DATA) classes.h $(activitydir)
+	$(INSTALL_DATA) types.h $(activitydir)

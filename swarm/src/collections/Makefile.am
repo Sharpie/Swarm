@@ -28,4 +28,5 @@ collections_HEADERS = Array.h Collection.h InputStream.h List.h List_GEN.h \
 	StringObject.h collections.h predicates.h
 
 install-data-local:
-	$(INSTALL_DATA) $(module_headers) $(collectionsdir)
+	$(INSTALL_DATA) classes.h $(collectionsdir)
+	$(INSTALL_DATA) types.h $(collectionsdir)

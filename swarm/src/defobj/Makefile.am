@@ -30,4 +30,5 @@ defobj_HEADERS = Create.h Customize.h DefClass.h DefObject.h Program.h \
 	Symbol.h Zone.h defalloc.h deftype.h
 
 install-data-local:
-	$(INSTALL_DATA) $(module_headers) $(defobjdir)
+	$(INSTALL_DATA) classes.h $(defobjdir)
+	$(INSTALL_DATA) types.h $(defobjdir)
