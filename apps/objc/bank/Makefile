@@ -1,5 +1,5 @@
 ifeq ($(SWARMHOME),)
-SWARMHOME=../swarm-1.0.5
+SWARMHOME=../swarm-1998-08-17
 endif
 APPLICATION=bank
 OBJECTS=FEntity.o FLink.o ILink.o BLink.o FNet.o main.o BankModelSwarm.o \
@@ -7,7 +7,7 @@ OBJECTS=FEntity.o FLink.o ILink.o BLink.o FNet.o main.o BankModelSwarm.o \
 APPLIBS=-lgraph
 OTHERCLEAN=bank.data
 
-include $(SWARMHOME)/Makefile.appl
+include $(SWARMHOME)/etc/swarm/Makefile.appl
 
 
 main.o: main.m BankObserverSwarm.h BankBatchSwarm.h
