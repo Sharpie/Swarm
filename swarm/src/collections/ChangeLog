@@ -1,9 +1,15 @@
+1999-01-15  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Map.m ([Map_c -hdf5Out:deep:]): Use storeAttributes:value: to
+	save a compare function attribute.  Add support for non-object
+	keys.
+	
 1999-01-14  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Map.m, collection.h (compareCStrings): New function.
 	([Map_c -lispOut:deep:], [Map_c -lispInCreate:]): Add support
 	for c-strings.
-	(LISP_COMPARE_{FUNCTION,INT,UNSIGNED,CSTRING,ID}: New macros.
+	(COMPARE_{FUNCTION,INT,UNSIGNED,CSTRING,ID}: New macros.
 	([Map_c -lispInCreate:], [Map_c -lispOut:deep:]): Use them.
 	([Map_c -lispOut:deep:]): Abort if unknown compareFunc.
 

@@ -17,11 +17,11 @@ Library:      collections
 
 #include <swarmconfig.h> // HAVE_HDF5
 
-#define LISP_COMPARE_FUNCTION "compare-function"
-#define LISP_COMPARE_INT "compare-integers"
-#define LISP_COMPARE_UNSIGNED "compare-unsigned-integers"
-#define LISP_COMPARE_CSTRING "compare-c-strings"
-#define LISP_COMPARE_ID "compare-ids"
+#define COMPARE_FUNCTION "compare-function"
+#define COMPARE_INT "compare-integers"
+#define COMPARE_UNSIGNED "compare-unsigned-integers"
+#define COMPARE_CSTRING "compare-c-strings"
+#define COMPARE_ID "compare-ids"
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
@@ -122,17 +122,17 @@ PHASE(Creating)
         {
           const char *name = [member getKeywordName];
 
-          if (strcmp (name, LISP_COMPARE_FUNCTION) == 0)
+          if (strcmp (name, COMPARE_FUNCTION) == 0)
             {
               const char *funcName = [lispInKeyword (index) getKeywordName];
 
-              if (strcmp (funcName, LISP_COMPARE_INT) == 0)
+              if (strcmp (funcName, COMPARE_INT) == 0)
                 [self setCompareFunction: compareIntegers];
-              else if (strcmp (funcName, LISP_COMPARE_UNSIGNED) == 0)
+              else if (strcmp (funcName, COMPARE_UNSIGNED) == 0)
                 [self setCompareFunction: compareUnsignedIntegers];
-              else if (strcmp (funcName, LISP_COMPARE_CSTRING) == 0)
+              else if (strcmp (funcName, COMPARE_CSTRING) == 0)
                 [self setCompareFunction: compareCStrings];
-              else if (strcmp (funcName, LISP_COMPARE_ID) == 0)
+              else if (strcmp (funcName, COMPARE_ID) == 0)
                 [self setCompareFunction: compareIDs];
               else
                 raiseEvent (InvalidArgument, "Unknown compare function: %s",
@@ -517,17 +517,17 @@ PHASE(Using)
   [self _lispOutAttr_: outputCharStream];
   
   [outputCharStream catC: " #:"];
-  [outputCharStream catC: LISP_COMPARE_FUNCTION];
+  [outputCharStream catC: COMPARE_FUNCTION];
 
   [outputCharStream catC: "#:"];
   if (compareFunc == compareIntegers)
-    [outputCharStream catC: LISP_COMPARE_INT];
+    [outputCharStream catC: COMPARE_INT];
   else if (compareFunc == compareUnsignedIntegers)
-    [outputCharStream catC: LISP_COMPARE_UNSIGNED];
+    [outputCharStream catC: COMPARE_UNSIGNED];
   else if (compareFunc == compareCStrings)
-    [outputCharStream catC: LISP_COMPARE_CSTRING];
+    [outputCharStream catC: COMPARE_CSTRING];
   else if (compareFunc == compareIDs)
-    [outputCharStream catC: LISP_COMPARE_ID];
+    [outputCharStream catC: COMPARE_ID];
   else
     raiseEvent (InvalidArgument, "Unknown compare function");
 
@@ -540,10 +540,10 @@ PHASE(Using)
 #ifdef HAVE_HDF5
   if (deepFlag)
     {
-      id <MapIndex> mi = [self begin: scratchZone];
       id aZone = [hdf5Obj getZone];
-      id key, member;
+      id key, value;
 
+      [hdf5Obj storeTypeName: [self name]];
       if (compareFunc == NULL || compareFunc == compareIDs)
         {
           id keyGroup = [[[[HDF5 createBegin: aZone]
@@ -555,8 +555,9 @@ PHASE(Using)
                              setName: "values"]
                             createEnd];
           
-          [hdf5Obj storeTypeName: [self name]];
-          while ((member = [mi next: &key]))
+          id <MapIndex> mi = [self begin: scratchZone];
+
+          while ((value = [mi next: &key]))
             {
               id valueInstanceGroup, keyInstanceGroup;
               char buf[DSIZE (unsigned) + 1];
@@ -574,17 +575,73 @@ PHASE(Using)
                                        setParent: valueGroup]
                                       setName: buf]
                                      createEnd];
-              [member hdf5Out: valueInstanceGroup deep: YES];
+              [value hdf5Out: valueInstanceGroup deep: YES];
               [valueInstanceGroup drop];
             }
           [keyGroup drop];
           [valueGroup drop];
+          [mi drop];
+          if (compareFunc)
+            [hdf5Obj storeAttribute: COMPARE_FUNCTION value: COMPARE_ID];
         }
       else
         {
+          void store_map_deep (const char * (*getKeyStr) (id key))
+            {
+              id key, value;
+              id <MapIndex> mi = [self begin: scratchZone];
+              
+              while ((value = [mi next: &key]))
+                {
+                  id valueInstanceGroup = [[[[HDF5 createBegin: aZone]
+                                              setParent: hdf5Obj]
+                                             setName: getKeyStr (key)]
+                                            createEnd];
+                  [value hdf5Out: valueInstanceGroup deep: YES];
+                  [valueInstanceGroup drop];
+                }
+              [mi drop];
+            }
           
+          if (compareFunc == compareCStrings)
+            {
+              const char *getKeyStr (id key)
+                {
+                  return (const char *) key;
+                }
+              [hdf5Obj storeAttribute: COMPARE_FUNCTION
+                       value: COMPARE_CSTRING];
+              store_map_deep (getKeyStr);
+            }
+          else if (compareFunc == compareUnsignedIntegers)
+            {
+              char buf[DSIZE (unsigned) + 1];
+          
+              const char *getKeyStr (id key)
+                {
+                  sprintf (buf, "%u", (unsigned) key);
+                  return buf;
+                }
+              [hdf5Obj storeAttribute: COMPARE_FUNCTION
+                       value: COMPARE_UNSIGNED];
+              store_map_deep (getKeyStr);
+            }
+          else if (compareFunc == compareIntegers)
+            {
+              char buf[DSIZE (int) + 1];
+              
+              const char *getKeyStr (id key)
+                {
+                  sprintf (buf, "%d", (int) key);
+                  return buf;
+                }
+              [hdf5Obj storeAttribute: COMPARE_FUNCTION
+                       value: COMPARE_INT];
+              store_map_deep (getKeyStr);
+            }
+          else 
+            abort ();
         }
-      [mi drop];
     }
   else
     {
