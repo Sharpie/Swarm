@@ -12,7 +12,13 @@ Library:      activity
 #import <activity/Action.h>
 #import <activity/ActionGroup.h>
 #import <activity/Schedule.h>
+
+#include <swarmconfig.h>
+#ifdef HAVE_JDK
 #import <defobj/directory.h>
+#import <defobj/FCall.h>
+#import <defobj/javavars.h>
+#endif
 
 @implementation CAction
 PHASE(Creating)
@@ -60,7 +66,7 @@ PHASE(Creating)
 }
 
 PHASE(Using)
-- (void)_addArguments_
+- (void)_addArguments_: (id <FArguments>)arguments
 {
   if (argCount >= 1)
     [arguments addObject: arg1];
@@ -140,12 +146,14 @@ PHASE(Creating)
 
 - createEnd
 {
+  id <FArguments> arguments;
+
   [super createEnd];
 
   arguments = [FArguments createBegin: getZone (self)];
 
   [arguments setObjCReturnType: _C_VOID];
-  [self _addArguments_];
+  [self _addArguments_: arguments];
   arguments = [arguments createEnd];
 
   call = [FCall createBegin: getZone (self)];
@@ -198,7 +206,7 @@ describeFunctionCall (id stream, func_t fptr, int nargs, id arg1, id arg2, id ar
 PHASE(Creating)
 - (void)setTarget: aTarget
 {
-  target = aTarget;
+  protoTarget = target = aTarget;
 }
 
 - (void)setMessageSelector: (SEL)aSel
@@ -208,54 +216,53 @@ PHASE(Creating)
 
 - createEnd
 {
-  id protoTarget = target;
-
   [super createEnd];
 
-  if ([self conformsTo: @protocol (ActionForEach)])
-    protoTarget = [target allSameClass] ? [target getFirst] : nil;
-  
   if (protoTarget)
-    {
-      arguments = [FArguments createBegin: getZone (self)];
-
-      if ([protoTarget respondsTo: M(isJavaProxy)])
-        {
-          jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
-          const char *sig =
-            swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
-          
-          [arguments setJavaSignature: sig];
-        }
-      [arguments setObjCReturnType: _C_ID];
-      [self _addArguments_];
-      arguments = [arguments createEnd];
-      call = [self _createCall_: protoTarget];
-    }
+    call = [self _createCall_: protoTarget];
   else
     call = nil;
   return self;
 }
 
 PHASE(Using)
-- _createCall_: protoTarget
+- _createCall_: theTarget
 {
-  id fc = [FCall createBegin: getZone (self)];
+  id <FArguments> arguments = [FArguments createBegin: getZone (self)];
+  id <FCall> fc = [FCall createBegin: getZone (self)];
+  
+#ifdef HAVE_JDK
+  if ([theTarget respondsTo: M(isJavaProxy)])
+    {
+      jobject jsel = SD_FINDJAVA (jniEnv, (id) selector);
+      const char *sig =
+        swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
+      
+      [arguments setJavaSignature: sig];
+    }
+#endif
+  [arguments setObjCReturnType: _C_ID];
+  [self _addArguments_: arguments];
+  arguments = [arguments createEnd];
 
   [fc setArguments: arguments];
-  if ([protoTarget respondsTo: M(isJavaProxy)])
+#ifdef HAVE_JDK
+  if ([theTarget respondsTo: M(isJavaProxy)])
     [fc setJavaMethod: sel_get_name (selector)
-        inObject: SD_FINDJAVA (jniEnv, protoTarget)];
+        inObject: SD_FINDJAVA (jniEnv, theTarget)];
   else
-    [fc setMethod: selector inObject: protoTarget];
+#endif
+    [fc setMethod: selector inObject: theTarget];
   return [fc createEnd];
 }
 
 - (void)_performAction_: anActivity
 {
-  updateTarget (call, target);
   if (call)
-    [call performCall];
+    {
+      updateTarget (call, target);
+      [call performCall];
+    }
   else
     {
       id fc = [self _createCall_: target];
@@ -314,6 +321,81 @@ describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3)
 
 @implementation ActionForEach_c
 PHASE(Creating)
++ createBegin: aZone
+{
+  ActionForEach_c *obj = [super createBegin: aZone];
+
+  obj->finalizationFlag = YES;
+#ifdef HAVE_JDK
+  obj->aryLen = 0;
+#endif
+  return obj;
+}
+
+- (void)setFinalizationFlag: (BOOL)theFinalizationFlag
+{
+  finalizationFlag = theFinalizationFlag;
+}
+
+- createEnd
+{
+#if 0
+  if ([target allSameClass] && finalizationFlag)
+#ifdef HAVE_JDK
+    if ([target respondsTo: M(isJavaProxy)]
+        && getDefaultOrder (bits) == (id) Sequential)
+      {
+        jobject coll = SD_FINDJAVA (jniEnv, (id) target);
+        jarray lref;
+        jclass class = (*jniEnv)->GetObjectClass (jniEnv, coll);
+        jmethodID method;
+        jsize i;
+        
+        if (!(method =
+              (*jniEnv)->GetMethodID (jniEnv,
+                                      class,
+                                      "size",
+                                      "()I")))
+          abort ();
+        aryLen = (*jniEnv)->CallIntMethod (jniEnv, coll, method);
+        printf ("handling sequential\n");
+        if (!(method =
+              (*jniEnv)->GetMethodID (jniEnv,
+                                      class,
+                                      "get",
+                                      "(I)Ljava/lang/Object;")))
+          abort ();
+        (*jniEnv)->DeleteLocalRef (jniEnv, class);
+        if (!(lref =
+              (*jniEnv)->NewObjectArray (jniEnv, aryLen, c_Object, NULL)))
+          abort ();
+        ary = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+        (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+        {
+          jobject javaProtoTarget =
+            (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
+          
+          protoTarget = SD_ENSUREOBJC (jniEnv, javaProtoTarget);
+          (*jniEnv)->SetObjectArrayElement (jniEnv, ary, 0, javaProtoTarget);
+          (*jniEnv)->DeleteLocalRef (jniEnv, javaProtoTarget);
+        }
+        for (i = 1; i < aryLen; i++)
+          {
+            jobject obj =
+              (*jniEnv)->CallObjectMethod (jniEnv, coll, method, i);
+            (*jniEnv)->SetObjectArrayElement (jniEnv, ary, i, obj);
+            (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+          }
+      }
+    else
+#endif
+      protoTarget = [target getFirst];
+  else
+#endif
+    protoTarget = nil;
+  return [super createEnd];
+}
+
 PHASE(Setting)
 - (void)setDefaultOrder: aSymbol
 {
@@ -323,15 +405,33 @@ PHASE(Setting)
 PHASE(Using)
 - (void)_performAction_: anActivity
 {
-  id memberAction;
+#ifdef HAVE_JDK
+  if (aryLen)
+    {
+      jsize i;
 
-  if (getBit (bits, BitRandomized))
-    memberAction = 
-      [id_ForEachActivity_c _createRandom_: self : anActivity ];
+      for (i = 0; i < aryLen; i++)
+	{
+	  jobject obj = (*jniEnv)->GetObjectArrayElement (jniEnv, ary, i);
+	  
+	  updateJavaTarget (call, obj);
+	  [call performCall];
+	  (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+	}
+    }
+#endif
   else
-    memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
-
-  setClass (memberAction, id_ActionTo_c);
+    {
+      id memberAction;
+      
+      if (getBit (bits, BitRandomized))
+	memberAction = 
+	  [id_ForEachActivity_c _createRandom_: self : anActivity ];
+      else
+	memberAction = [id_ForEachActivity_c _create_: self : anActivity ];
+      
+      setClass (memberAction, id_ActionTo_c);
+    }
 }
 
 - getDefaultOrder
@@ -349,6 +449,14 @@ PHASE(Using)
   [stream catC: "]"];
   describeMessageArgs (stream, selector, argCount, arg1, arg2, arg3);
 
+}
+
+- (void)drop
+{
+#ifdef HAVE_JDK
+  if ([target respondsTo: M(isJavaProxy)])
+    (*jniEnv)->DeleteGlobalRef (jniEnv, ary);
+#endif
 }
 @end
 

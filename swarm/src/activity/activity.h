@@ -176,6 +176,8 @@ USING
 @protocol ActionForEach <ActionTo, DefaultOrder, RETURNABLE>
 //S: An action defined by sending a message to every member of a collection.
 //D: An action defined by sending a message to every member of a collection.
+CREATING
+- setFinalizationFlag: (BOOL)finalizationFlag;
 @end
 
 @protocol ActionCall <ActionArgs, RETURNABLE>

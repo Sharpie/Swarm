@@ -14,6 +14,11 @@ Library:      activity
 #import <activity/CompoundAction.h>
 #import <activity.h>
 
+#include <swarmconfig.h>
+#ifdef HAVE_JDK
+#import <defobj/directory.h>
+#endif
+
 @interface CAction: CreateDrop_s <Action>
 {
 @public
@@ -29,11 +34,10 @@ Library:      activity
 {
   unsigned argCount;
   id arg1, arg2, arg3;
-  id <FArguments> arguments;
   id <FCall> call;
 }
 + createBegin: aZone;
-- (void)_addArguments_;
+- (void)_addArguments_: (id <FArguments>)arguments;
 - (unsigned)getNArgs;
 - (void)setArg1: arg1;
 - (void)setArg2: arg2;
@@ -68,6 +72,7 @@ Library:      activity
 @public
   id target;
   SEL selector;
+  id protoTarget;
 }
 - createEnd;
 - _createCall_: protoTarget;
@@ -80,7 +85,15 @@ Library:      activity
 @end
 
 @interface ActionForEach_c: ActionTo_c <ActionForEach>
+{
+#ifdef HAVE_JDK
+  jarray ary;
+  jsize aryLen;
+#endif
+  BOOL finalizationFlag;
+}
 - (void)setDefaultOrder: aSymbol;
+- (void)setFinalizationFlag: (BOOL)finalizationFlag;
 - (void)describe: outputCharStream;
 - (void)_performAction_: activity;
 @end

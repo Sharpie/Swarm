@@ -1,3 +1,27 @@
+1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (INCLUDES): Add FFINCLUDES.
+
+	* Action.m: Include directory.h, FCall.h, and javavars.h.
+
+	([ActionCall_c -createEnd]): Add arguments as local variable.
+	([ActionTo_c -_createCall_:]): Create arguments here.
+	([ActionTo_c -setTarget:]): Set protoTarget here.
+	([ActionForEach_c -createEnd]): Add code to handle finalizedFlag
+	with homogenous lists with and without Sequential Java lists.  All
+	are disabled pending FAction ForEach interface.  Performance
+	improvements are marginal, unfortunately.
+	([ActionForEach_c -_performAction_:], [ActionForEach_c -drop]): 
+	Handle case of sequential Java lists.
+
+	* Action.[hm], activity.h ([ActionForEach_c
+	-setFinalizationFlag:]): New method.
+
+	* Action.[hm] ([CFAction -_addArguments_:]): Add argument.  Remove
+	ivar for arguments.
+
+	* Action.h: Include directory.h for jarray and jsize (ary and aryLen).
+
 1999-11-14    <mgd@VAIO>
 
 	* CompoundAction.m ([CompoundAction_c -_createActivity_::::]): Add
