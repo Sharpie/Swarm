@@ -23,5 +23,5 @@
 - (unsigned)getHeight;
 
 - lispIn: expr;
-- lispOut: outputCharStream;
+- lispOut: outputCharStream deep: (BOOL)deepFlag;
 @end

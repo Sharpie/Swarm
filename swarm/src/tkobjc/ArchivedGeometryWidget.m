@@ -87,7 +87,7 @@ PHASE(Using)
         [windowGeometryRecord setWidth: [self getWidth]
                               Height: [self getHeight]];
       [windowGeometryRecord setX: [self getX] Y: [self getY]];
-      lispArchiverPut (windowGeometryRecordName, windowGeometryRecord);
+      lispArchiverPut (windowGeometryRecordName, windowGeometryRecord, YES);
     }
   return self;
 }

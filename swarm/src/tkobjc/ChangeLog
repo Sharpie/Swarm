@@ -1,3 +1,12 @@
+1999-01-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* WindowGeometryRecord.[hm] ([WindowGeometryRecord -lispOut:deep:]):
+	Add deep: option.
+
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget
+	-updateArchiver]): Pass (new) deep-serialize option to
+	lispArchiverPut.
+
 1999-01-08  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord -lispOut:]): Use
