@@ -1,5 +1,8 @@
 1998-06-01  Alex Lancaster  <alex@santafe.edu>
 
+	* grid: Moved the grid subdir to the root of the Swarm application
+	source tree and renamed to gridturtle.
+
 	* Makefile.am (gridexamples.sgml): After changing directories into
 	$(gridturtle_srcdir) - change directory back to $(srcdir) to
 	restore location.
