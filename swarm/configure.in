@@ -13,18 +13,25 @@ AM_CONFIG_HEADER(swarmconfig.h)
 AC_PROG_CC
 AM_PROG_LIBTOOL
 
+AC_PATH_XTRA
 md_CHECK_GUILIBS
 md_CHECK_EXESUFFIX
 md_CHECK_LINKFLAGS
 
-AC_PATH_XTRA
+AC_CHECK_LIB(dl,main)
+AC_CHECK_LIB(dld,main) # HPUX
+
 if test "$ac_R_space" = yes ; then
   RPATH='-R '
 else 
   if test "$ac_R_nospace" = yes ; then
     RPATH='-R'
   else
-    RPATH='-Wl,-rpath '
+    if test "$ac_cv_lib_dld_main" = no ; then
+      RPATH='-Wl,-rpath '
+    else
+      RPATH='-L'
+    fi
   fi
 fi
 AC_SUBST(RPATH)
@@ -134,7 +141,6 @@ md_CHECK_NEXTSTEP
 md_CHECK_POINTER_FMT
 md_CHECK_BUILTIN_APPLY
 
-AC_CHECK_LIB(dl,main)
 
 ac_save_CFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -fno-builtin"
@@ -169,4 +175,5 @@ AC_DEFINE_UNQUOTED(SYSCONFDIR,"`eval echo $sysconfdir/swarm/`")
 
 AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile
 ])
+
 
