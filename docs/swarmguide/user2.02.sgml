@@ -213,36 +213,54 @@ is to be named "probeMap."
 </para>
 
 <para>
-It often seems as if objects appear by "magic." It is more reasonable to say they
-are provided by the Swarm library in a way that is not entirely obvious.  
-For example, suppose you want to create a list of
-objects. One can declare an object "listOfFriends" and then create it, like so:
+It often seems as if objects appear by "magic." It is more reasonable
+to say they are provided by the Swarm library in a way that is not
+entirely obvious.  For example, suppose you want to create a list of
+objects. One can declare an object "listOfFriends" and then create it,
+like so:
 
 <programlisting>
 id listOfFriends;
 listOfFriends = [List create: self]; 
 </programlisting>
 
-You see little bits like this all over example code from Swarm projects.  Where does
-this <classname>List</classname> class object come from and why are you able to make calls to it even though there
-is no include or import statement at the top of the program?  It seems as though, if 
-you want to make a call on the List class, you ought to include <filename>List.h</filename> at the top of
-your file, right? To use many of the Swarm 
-classes, it is not necessary to use such
-an explicit import or include statement because the library 
-you want to use has already been included 
-in one of the classes that you have already included in your code. For example, the
-header file <filename>collections.h</filename> imports <filename>List.h</filename>. And the header file <filename>activity.h</filename> imports
-<filename>collections.h</filename>, and in turn the <filename>activity.h</filename> header is imported in numerous swarm header
-files, such as <filename>Swarm.h</filename> and <filename>objectbase.h</filename>. So, because <filename>List.h</filename> is imported in code that
-is then imported into your code, you are able to tell the List class to do things,
-even though you did not explictly include it.  Some of the less frequently used
-protocols or classes in the Swarm library are not included in other libraries, and
-you may have to include them explicitly if you use their tools. 
-(??
-Alex: is this right
-??).  
+You see little bits like this all over example code from Swarm
+projects.  Where does this <classname>List</classname> class object
+come from and why are you able to make calls to it even though there
+is no import statement at the top of the program?  It seems as though,
+if you want to make a call on the List class, you ought to include
+<filename>List.h</filename> at the top of your file, right?  To use
+many of the Swarm classes, it is not necessary to use such an explicit
+import statement since you are not subclassing.  Explicit importing of
+a class header file is only required when you need to subclass from
+that file. The rules of thumb you should use are:
+
+<itemizedlist>
+
+<listitem><para>if you use a class that conforms to a protocol (such
+as <classname>List</classname>), where are actually instantiating an
+object directly, you need to include the header for that only for that
+library (in the above case it will be
+<filename>collections.h</filename>) wherever you reference that class
+that conforms to the protocol.  This might required be in the header
+file <filename>.h</filename> or only in the implementation file
+<filename>.m</filename> (if you don't actually use the name of the
+protocol in the header file).</para></listitem>
+
+<listitem><para>if, however, you are <emphasis>subclasssing</emphasis>
+from a class that adheres to a protocol (say
+<classname>SwarmObject</classname>) you <emphasis>also</emphasis> need
+to include the actual header for that class.  In this example, it will
+be <filename>objectbase/SwarmObject.h</filename>.</para></listitem>
+
+</itemizedlist>
+
+As good coding practice, you should only ever have imports for header
+files for protocol definitions that you reference in that particular
+interface/implementation file pair.
+
 </para>
+
 <para>
 The objects at the top level of the swarm hierarchy have the power to "create
 space" for objects that live inside them.  
