@@ -52,7 +52,8 @@
   </para>
 
   <sect2>
-    <title>Parameter files using the Lisp archiver</title>
+    <title>Using the Lisp <classname>Archiver</classname> to manage
+      simulation parameters</title>
     <indexterm>
       <primary>parameter files</primary>
     </indexterm>
@@ -64,14 +65,58 @@
         protocols is now officially deprecated and may go away in future
         releases.</para></caution>
 
-    <example>
-      <title>Creating a list parameter file</title>
-
-      <para>Here is a sample Lisp input parameter for the
-        <application>Mousetrap</application> simulation,
-        <filename>batch.scm</filename>
+    <sect3>
+      <title>Using the standard <varname>lispAppArchiver</varname></title>
+      <indexterm significance="preferred">
+        <primary><classname>Archiver</classname></primary>
+        <secondary>application</secondary>
+        <tertiary>global</tertiary>
+      </indexterm>
+      <para>Every Swarm application comes with a singleton
+        <footnote>
+          <para>A singleton class is a class that is designed to have
+            only one global instance per application</para>
+        </footnote>
+        instance variable for reading object data formatted in Lisp.
+        This instance is called <varname>lispAppArchiver</varname>.
+        Like the <varname>probeLibrary</varname> and
+        <varname>arguments</varname> instances, it is global to your
+        entire application.  This instance expects to find a file
+        called
+        <filename><application>appName</application>.scm</filename>
         <footnote><para><filename>.scm</filename> is the standard
         suffix for Scheme (a dialect of Lisp) files</para></footnote>:
+        , in either the current datapath for the application
+        (<filename>
+          <envar>
+            SWARMHOME</envar>/share/swarm/<application>appName</application>
+        </filename>) or in the local directory.  Using this variable
+        obviates the need for hand creation of
+        <classname>Archiver</classname> instances.  It permits one
+        datafile (which can contain as many keys to objects as is
+        required), and imposes a naming convention for that datafile.
+     </para>
+
+    </sect3>
+
+    <sect3>
+      <title>Using a custom <classname>Archiver</classname> instances</title>
+      <indexterm>
+        <primary><classname>Archiver</classname></primary>
+        <secondary>application</secondary>
+        <tertiary>custom</tertiary>
+      </indexterm>
+      <para>This sections addreses those situations that require
+      custom creation of multiple data files, and alternate data
+      filenames.</para>
+
+    <example>
+      <title>Creating a Lisp parameter file</title>
+
+        <para>Here is a sample Lisp input parameter for the
+          <application>Mousetrap</application> simulation,
+          <filename>batch.scm</filename>
+        </para>
 
         <programlisting>
 (list
@@ -87,17 +132,18 @@
                       #:maxTriggerTime 16
                       #:trapDensity 1.0)))</programlisting>
 
-        The Lisp file consists of two `keys' or `serial' numbers
-        <literal>batchSwarm</literal> and
-        <literal>modelSwarm</literal> for the parameters for two
-        different objects.  These keys are completely at the discretion of the
-        user to choose.  (Note also that the file syntax allows Lisp-style
-        comments: a `;' colon followed by any text).
-      </para>
+        <para>The Lisp file consists of two `keys' or `serial' numbers
+          <literal>batchSwarm</literal> and
+          <literal>modelSwarm</literal> for the parameters for two
+          different objects.  These keys are completely at the
+          discretion of the user to choose.  (Note also that the file
+          syntax allows Lisp-style comments: a `;' colon followed by
+          any text).</para>
 
-      <para>This input file would correspond with the following
-        interface files, for the
-        <classname>MousetrapBatchSwarm</classname> class we have:
+        <para>This input file would correspond with the following
+          interface files, for the
+          <classname>MousetrapBatchSwarm</classname> class we
+          have:</para>
 
         <programlisting>
 <![ CDATA [
@@ -120,8 +166,8 @@
 }
 // methods not shown
 @end]]></programlisting>
-
-        For the <classname>MousetrapModelSwarm</classname> class:
+        
+      <para>For the <classname>MousetrapModelSwarm</classname> class:</para>
 
         <programlisting>
 <![ CDATA [
@@ -153,7 +199,6 @@
 
 // Methods not shown
 @end]]></programlisting>
-      </para>
 
       <para>Note that for each instance variable name of the form
         <literal>#:ivarname somevalue</literal> in the Lisp parameter
@@ -166,7 +211,87 @@
         are instance variables that pertain to the running model
         itself (such as <varname>modelSchedule</varname>, which is a
         <classname>Schedule</classname> instance).</para>
+
+      <para>To generate the objects with these corresponding
+        parameters set in each object, you need to create an instance
+        of the <classname>Archiver</classname> ask the archiver to
+        `generate' an instance of the object using the appropriate
+        `key'.  So here's an excerpt from <filename>main.m</filename>:</para>
+
+<programlisting>
+  if (swarmGUIMode == 1)
+    {
+      // Do GUI mode creation (ommited)
+    }
+  else
+    // No graphics - make a batchmode swarm and run it.
+    {
+      // create an instance of the Archiver to retrieve the file
+      // set the path to `batch.scm'
+      id archiver =  [[[[Archiver createBegin: globalZone]
+                         setHDF5Flag: NO]
+                        setPath: "batch.scm"]
+                       createEnd];  
+
+      // retrieve the object from the archiver, if it can't be found
+      // just raise an event; note that the call to the
+      // archiver will actually *instantiate* the object if the
+      // parameters are found in the Lisp file
+      if ((theTopLevelSwarm = 
+           [archiver getObject: "batchSwarm"]) == nil)    
+        raiseEvent(InvalidOperation, 
+               "Can't find archiver file or appropriate key");
+    }</programlisting>
+
+      <para>The key thing to realize here is that the
+      <function>getObject</function> call actually
+      <emphasis>instantiates</emphasis> the object (i.e. automatically
+      runs the
+      <function>createBegin</function>/<function>createEnd</function>
+      apparatus internally<footnote> <para>Note that this is in
+      contrast to the obsolete <classname>ObjectLoader</classname>
+      method, which required the user to create the object and then
+      make a call to an <classname>ObjectLoader</classname> instance
+      with the appropriate filename.</para></footnote>). This has
+      implications for the design of parameter files, since it means,
+      for one thing, that all the appropriate instance variables
+      necessary for a complete creation of an object
+      <emphasis>must</emphasis> be present in the input Lisp file.  It
+      is possible to have a subset of ivars, but that subset should be
+      sufficient to completely specify the object, i.e. no CREATE time
+      messages can be sent to the object once it has been created.
+      (Of course you can still send SETTING or USING messages to
+      instance once it has been created).
+      </para>
+
+      <para>The <classname>MousetrapModelSwarm</classname> is created
+        in a similar way, from the <function>buildObjects</function>
+        method in <filename>MousetrapBatchSwarm.m</filename>:</para>
+
+<programlisting>
+  // * `modelSwarm' is the key for the instance of the MousetrapModelSwarm
+  //   with parameter values for the model instance variables: gridSize
+  //   triggerLikelihood, numberOutputTriggers, maxTriggerDistance, 
+  //   maxTriggerTime, trapDensity  
+
+  // if we can't find the right key from the Archiver, raise an event
+  if ((mousetrapModelSwarm = 
+       [archiver getObject: "modelSwarm"]) == nil)
+    raiseEvent(InvalidOperation, 
+               "Can't find archiver file or appropriate key");
+  
+  // Now, let the model swarm build its objects.
+
+  [mousetrapModelSwarm buildObjects];</programlisting>
+
+        <para>Note that <emphasis>after</emphasis> the creation of the
+        <varname>mousetrapModelSwarm</varname> instance, it responds
+        in the normal way to valid methods, such as
+        <function>buildObjects</function>.
+      </para>
+
     </example>
+    </sect3>
 
   </sect2>
 

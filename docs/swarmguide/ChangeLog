@@ -1,3 +1,10 @@
+1999-05-21  Alex Lancaster  <alex@santafe.edu>
+
+	* user3.05.sgml: Add section on global lispAppArchiver and extra
+	material for the EXAMPLE.  Add more INDEXTERMs.
+
+	* html.dsl (toc-depth): Set depth for BOOK and CHAPTER to 2.
+
 1999-05-20  Alex Lancaster  <alex@santafe.edu>
 
 	* user3.05.sgml: Use `mousetrap' as EXAMPLE, rather than
