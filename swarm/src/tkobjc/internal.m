@@ -115,7 +115,7 @@ tkobjc_initTclInterp (id arguments)
 {
   globalTkInterp = [TclInterp alloc];  // misnomer
   setSecondaryPath (arguments);
-  [globalTkInterp initWithArgc: [arguments getArgc]
+  [globalTkInterp initWithArgc: 1 /* [arguments getArgc] */
                   argv: [arguments getArgv]];
   registerInterp ();
 }
@@ -126,7 +126,7 @@ tkobjc_initTkInterp (id arguments)
   globalTkInterp = [TkExtra alloc];
   setSecondaryPath (arguments);
 
-  [globalTkInterp initWithArgc: [arguments getArgc]
+  [globalTkInterp initWithArgc: 1 /* [arguments getArgc] */
                   argv: [arguments getArgv]];
   registerInterp ();
 }
