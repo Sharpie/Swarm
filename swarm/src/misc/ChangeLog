@@ -1,5 +1,9 @@
 1998-03-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* realpath.c (MAXSYMLINKS): Provide value for cygwin.
+	Provide prototype for readlink.
+	Use readlink directly instead of using old cygwin workaround.
+	
 	* Makefile (other_routines): Add realpath and find_executable.
 	realpath.c, find_executable.c: New files.
 

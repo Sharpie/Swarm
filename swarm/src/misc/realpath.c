@@ -6,6 +6,8 @@
 
 #ifdef __CYGWIN32__
 #define PATHNAME_UNIX_UNC
+#define MAXSYMLINKS 10
+int readlink (const char *, char *, int);
 #endif
 
 #define HAVE_READLINK
@@ -123,7 +125,7 @@ myrealpath (const char *path, char *resolved_path)
                 /* symbolischen Link lesen: */
                 to_ptr[-1]=0; /* '/' durch 0 ersetzen */
                   {
-#ifdef __CYGWIN32__
+#if defined( __CYGWIN32__) && 0
                     /* needed for Win95 only
                        readlink() doesn't work right on NFS mounted directories
                        (it returns -1,ENOENT or -1,EIO).
