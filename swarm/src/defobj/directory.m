@@ -1417,7 +1417,7 @@ swarm_directory_signature_for_class (JNIEnv *env, jclass class)
   else if (exactclassp (env, class, c_short))
     type = "S";
   else if (exactclassp (env, class, c_long))
-    type = "L";
+    type = "J";
   else if (exactclassp (env, class, c_boolean))
     type = "Z";
   else if (exactclassp (env, class, c_byte))
