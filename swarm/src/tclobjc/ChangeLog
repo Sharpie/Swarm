@@ -1,7 +1,7 @@
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* Makefile.am: Add SUFFIXES = .m since we aren't including 
-	Makefile.rules.
+	Makefile.rules.  (tclobjc_HEADERS): Add tclObjc.h.
 
 	* tclObjc.m: Include swarmconfig.h instead of config.h.
 

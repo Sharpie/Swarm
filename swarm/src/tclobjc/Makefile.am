@@ -24,6 +24,6 @@ libtclobjc_la_DEPENDENCIES = $(libtclobjc_la_LIBADD)
 
 noinst_HEADERS = HashTable.h List.h objc-gnu2next.h objc-malloc.h
 
-tclobjc_HEADERS = TclInterp.h TkInterp.h
+tclobjc_HEADERS = TclInterp.h TkInterp.h tclObjc.h
 
 headers:
