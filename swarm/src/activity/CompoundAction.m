@@ -9,8 +9,7 @@ Description:  a collection of actions to be performed in a defined order
 Library:      activity
 */
 
-#if ! defined( MIXIN_CREATE ) && ! defined( MIXIN_C ) && \
-    ! defined( MIXIN_INDEX)
+#if !defined(MIXIN_CREATE) && !defined(MIXIN_C) && !defined(MIXIN_INDEX)
 //
 // this section compiled when not included for mixin inheritance
 //
@@ -25,7 +24,7 @@ Library:      activity
 @end
 
 
-#elif  defined( MIXIN_CREATE )
+#elif defined (MIXIN_CREATE)
 #undef MIXIN_CREATE
 //
 // mixin inheritance for create phase (provided by source inclusion)
@@ -39,26 +38,20 @@ Library:      activity
 - (void) setDefaultOrder: aSymbol
 {
   if (aSymbol == (id) Concurrent) 
-    {
-      setBit (bits, BitConcurrent, 1); 
-    }
+    setBit (bits, BitConcurrent, 1); 
   else if (aSymbol == (id) Sequential)
     {
       setBit(bits, BitConcurrent, 0);
       setBit(bits, BitRandomized, 0);
     }
   else if (aSymbol == (id) Randomized)
-    {
-      setBit(bits, BitRandomized, 1);
-    }
+    setBit(bits, BitRandomized, 1);
   else
-    {
-      raiseEvent(InvalidArgument, nil);
-    }
+    raiseEvent(InvalidArgument, nil);
 }
 
 
-#elif defined( MIXIN_C )
+#elif defined(MIXIN_C)
 #undef MIXIN_C
 
 //
@@ -72,8 +65,10 @@ Library:      activity
 
 - getDefaultOrder
 {
-  if (bits & BitConcurrent) return Concurrent;
-  if (bits & BitRandomized) return Randomized;
+  if (bits & BitConcurrent)
+    return Concurrent;
+  if (bits & BitRandomized)
+    return Randomized;
   return Sequential;
 }
 
@@ -102,22 +97,23 @@ Library:      activity
 
   // if top-level activation requested then just create new activity
 
-  if ( ! swarmContext )
+  if (!swarmContext )
     return [self _createActivity_ : nil : activityClass : indexClass];
 
   // otherwise create new activity to run under requested swarm context
 
-  if ( respondsTo( swarmContext, M(getSwarmActivity) ) ) {
-    swarmContext = [swarmContext getSwarmActivity];
-    if ( ! swarmContext )
-      raiseEvent( InvalidArgument,
-        "> requested swarm context has not yet been activated\n" );
-
-  } else if ( ! respondsTo( swarmContext, M(getSwarm) ) ) {
-    raiseEvent( InvalidArgument,
-      "> argument is neither nil nor a valid swarm context\n" );
-  }
-
+  if (respondsTo (swarmContext, M(getSwarmActivity)))
+    {
+      swarmContext = [swarmContext getSwarmActivity];
+      if (!swarmContext)
+        raiseEvent (InvalidArgument,
+                    "> requested swarm context has not yet been activated\n" );
+      
+    } 
+  else if (!respondsTo (swarmContext, M(getSwarm)))
+    raiseEvent (InvalidArgument,
+                "> argument is neither nil nor a valid swarm context\n" );
+  
   return
     [self _activateUnderSwarm_: activityClass : indexClass : swarmContext];
 }
@@ -125,9 +121,9 @@ Library:      activity
 //
 // _performPlan_ -- create an activity to run plan under the current activity
 //
-- (void) _performPlan_
+- (void)_performPlan_
 {
-  Activity_c  *newActivity;
+  Activity_c *newActivity;
 
   newActivity = [self
     _createActivity_: _activity_current : ACTIVITY_CLASS_ID : INDEX_CLASS_ID];
@@ -145,35 +141,39 @@ Library:      activity
 
   // allocate and initialize a new activity
 
-  if ( ownerActivity ) {
-    activityZone = getZone( (Activity_c *)ownerActivity );
-    newActivity = [activityZone allocIVarsComponent: activityClass];
-    newActivity->ownerActivity = ownerActivity;
-  } else {
-    activityZone = _activity_zone;
-    newActivity = [activityZone allocIVars: activityClass];
-    newActivity->topLevelAction =
-      [activityZone allocIVarsComponent: id_CAction];
-    newActivity->topLevelAction->owner = (ActionType_c *)self;
-  }
-  setMappedAlloc( newActivity );
-
+  if (ownerActivity)
+    {
+      activityZone = getZone( (Activity_c *)ownerActivity );
+      newActivity = [activityZone allocIVarsComponent: activityClass];
+      newActivity->ownerActivity = ownerActivity;
+    }
+  else
+    {
+      activityZone = _activity_zone;
+      newActivity = [activityZone allocIVars: activityClass];
+      newActivity->topLevelAction =
+        [activityZone allocIVarsComponent: id_CAction];
+      newActivity->topLevelAction->owner = (ActionType_c *)self;
+    }
+  setMappedAlloc (newActivity);
+  
   // add new activity to list of activities running plan
 
-  if ( ! activityRefs ) activityRefs =
-    [_activity_activityRefsType create: getCZone( getZone( self ) )];
+  if (!activityRefs)
+    activityRefs = [_activity_activityRefsType 
+                     create: getCZone (getZone (self ))];
   [activityRefs add: newActivity];
-
+  
   // initialize status and set break function from owner
 
   newActivity->status = Initialized;
   newActivity->immediateReturnFlag = 0;
   if ( _activity_current )
     newActivity->breakFunction =
-     ((Activity_c *)_activity_current)->breakFunction;
+     ((Activity_c *) _activity_current)->breakFunction;
   else
     newActivity->breakFunction = _activity_trace;
-
+  
   // create index on the plan actions for traversal by the activity
 
   if (getBit(bits, BitRandomized) && 
@@ -181,17 +181,15 @@ Library:      activity
        getClass(self) == id_ActionGroup_c))
     {
       newIndex = 
-	[(ActionGroup_c *) self _createPermutedIndex_: getCZone( activityZone )];
-      [(GroupPermutedIndex_c *)newIndex generatePermutation];
+	[(ActionGroup_c *) self _createPermutedIndex_: getCZone (activityZone)];
+      [(GroupPermutedIndex_c *) newIndex generatePermutation];
     } 
   else
-    {
-      newIndex = [self _createIndex_: getCZone( activityZone )
-		       forIndexSubclass: indexClass];
-    }
-  newIndex->activity = (id)newActivity;
+    newIndex = [self _createIndex_: getCZone( activityZone )
+                     forIndexSubclass: indexClass];
+  newIndex->activity = (id) newActivity;
   newActivity->currentIndex = newIndex;
-
+  
   return newActivity;
 }
 
@@ -200,13 +198,13 @@ Library:      activity
 //
 - (void) drop
 {
-  if ( activityRefs && [activityRefs getCount] > 0 )
-    raiseEvent( SourceMessage,
-   "> cannot drop action plan still referenced by an uncompleted activity\n" );
+  if (activityRefs && [activityRefs getCount] > 0)
+    raiseEvent (SourceMessage,
+                "> cannot drop action plan still referenced by an uncompleted activity\n" );
   [super drop];
 }
 
-#elif  defined( MIXIN_INDEX )
+#elif  defined (MIXIN_INDEX)
 #undef MIXIN_INDEX
 //
 // mixin inheritance for index on action plan (provided by source inclusion)
