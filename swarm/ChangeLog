@@ -1,3 +1,11 @@
+2001-11-05    <mgd@forager.swarm.org>
+
+	* VERSION: Bump.
+
+	* ltmain.sh, config.guess, config.sub: Re-libtoolize (1.4.2).
+
+	* ltconfig: Remove.
+
 2001-11-04    <mgd@HELEN>
 
 	* VERSION: Bump.
