@@ -17,7 +17,7 @@ main (int argc, const char **argv)
 
   initSwarm (argc, argv);
 
-  // Make the bug model swarm
+  // Make the bug observer swarm
 
   observerSwarm =  [ObserverSwarm create: globalZone];
 
