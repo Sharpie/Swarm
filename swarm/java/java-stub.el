@@ -293,13 +293,13 @@
   (and (not (removed-method-p method))
        (eq phase (method-phase method))))
 
-(defun method-list (protocol phase)
+(defun expanded-method-list (protocol phase)
   (remove-if-not #'(lambda (method) (included-method-p method phase))
                  (mapcar #'caddr 
                          (protocol-expanded-methodinfo-list protocol))))
 
 (defun java-print-class-methods-in-phase (protocol phase)
-  (loop for method in (method-list protocol phase) 
+  (loop for method in (expanded-method-list protocol phase) 
 	do
         (insert "public native ")
         (java-print-method method)))
@@ -619,7 +619,7 @@
     (insert "\n")
     (loop for phase in '(:creating :using)
           do
-          (loop for method in (method-list protocol phase)
+          (loop for method in (expanded-method-list protocol phase)
                 when (included-method-p method phase)
                 do
                 (java-print-native-method method protocol phase)

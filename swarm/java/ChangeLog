@@ -1,5 +1,9 @@
 1999-03-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* java-stub.el (expanded-method-list): Renamed from method-list.
+	(java-print-class-methods-in-phase, java-print-native-class): 
+	Accommodate.
+
 	* javaswarm: Print out LD_LIBRARY_PATH additions if there are no
 	arguments (otherwise export and run java).
 
