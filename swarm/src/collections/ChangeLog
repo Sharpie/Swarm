@@ -1,3 +1,7 @@
+1999-05-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ListShuffler.m (uniformUnsRand): Externify.
+
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Map.m: Replace pointer-conversion int and unsigned usages

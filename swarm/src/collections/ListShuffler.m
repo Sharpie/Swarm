@@ -9,7 +9,7 @@
 - (unsigned)getUnsignedWithMin: (unsigned)minVal withMax: (unsigned)maxVal;
 @end
 
-id uniformUnsRand;
+extern id uniformUnsRand;
 
 @implementation ListShuffler_c
 
