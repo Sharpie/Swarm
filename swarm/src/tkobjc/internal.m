@@ -1159,7 +1159,6 @@ check_for_overlaps (Display *display, Window parent,
   }
   XFree (children);
 }
-#endif
 
 static void
 x_set_override_redirect (Display *display, Window window, BOOL overrideRedirect)
@@ -1170,6 +1169,7 @@ x_set_override_redirect (Display *display, Window window, BOOL overrideRedirect)
   XChangeWindowAttributes (display, window,
                            CWOverrideRedirect, &attr);
 }
+#endif
 
 void
 tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id <Widget> widget,
