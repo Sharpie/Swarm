@@ -204,9 +204,6 @@ USING
 
 //M: Deiconify the frame.
 - deiconify;
-
-//M: Make sure the that the geometry is `reasonable'.
-- assertGeometry;
 @end
 
 @protocol Frame <_Frame, ArchivedGeometryWidget>
@@ -230,6 +227,9 @@ USING
 
 //M: Remove a widget from the canvas.
 - removeWidget: widget;
+
+//M: Make sure the that the geometry is `reasonable'.
+- checkGeometry: frame;
 @end
 
 @protocol Canvas <_Canvas, ArchivedGeometryWidget>
