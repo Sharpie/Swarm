@@ -311,6 +311,7 @@
      :method-list nil)))
 
 (defun add-protocol (module protocol)
+  (message (format "%s %s" module (protocol-name protocol)))
   (setf (gethash (protocol-name protocol) *protocol-hash-table*) protocol)
   (push protocol (gethash module *module-hash-table*)))
 
@@ -407,13 +408,16 @@
                        (< phase-diff 0)))
                  (< level-diff 0))))))))
 
+(defun expand-and-update-protocol (protocol)
+  (setf (protocol-expanded-methodinfo-list protocol)
+        (expand-protocol protocol)))
+
 (defun expand-protocols ()
   (interactive)
   (loop for protocol being each hash-value of *protocol-hash-table*
         do
         ; (message (concat "Processing: " (protocol-name protocol)))
-        (setf (protocol-expanded-methodinfo-list protocol)
-              (expand-protocol protocol))))
+        (expand-and-update-protocol protocol)))
 
 (defun external-protocol-name (protocol)
   (let ((raw-protocol-name (protocol-name protocol)))
@@ -723,7 +727,16 @@
 (defun get-swarmdocs ()
   (concat (get-swarmhome) "/../swarmdocs/"))
 
-(defun generate-refentries-for-module (module)
+(defun sgml-generate-refentries-for-module (module)
+  (loop for protocol in (sort 
+                         (gethash module *module-hash-table*)
+                         (lambda (protocol-a protocol-b)
+                           (string< (protocol-name protocol-a)
+                                    (protocol-name protocol-b))))
+        do
+        (generate-refentry-for-protocol protocol)))
+
+(defun sgml-create-refentries-for-module (module)
   (let* ((module-name (symbol-name module))
          (filename (concat (get-swarmdocs)
                            "src/"
@@ -732,20 +745,13 @@
                            module-name
                            "pages.sgml")))
     (with-temp-file filename
-      (loop for protocol in (sort 
-                             (gethash module *module-hash-table*)
-                             (lambda (protocol-a protocol-b)
-                               (string< (protocol-name protocol-a)
-                                        (protocol-name protocol-b))))
-            do
-            (generate-refentry-for-protocol protocol)))))
+      (sgml-generate-refentries-for-module module))))
 
-(defun sgml-generate-modules ()
+(defun sgml-create-refentries-for-all-modules ()
   (interactive)
-  (loop for module-spec in *swarm-modules*
-        for module = (get-module module-spec)
+  (loop for module being each hash-key of *module-hash-table*
         do
-        (generate-refentries-for-module module)))
+        (sgml-create-refentries-for-module module)))
 
 (defun build-method-signature-hash-table ()
   (loop for protocol being each hash-value of *protocol-hash-table*
@@ -783,12 +789,12 @@
   (insert "</INDEXENTRY>\n"))
 
 (defun sgml-generate-protocol-index ()
-  (insert "<INDEXDIV>\n")
+  (insert "<INDEX ID=\"PROTOCOL.INDEX\">\n")
   (insert "<TITLE>Protocol Index</TITLE>\n")
   (loop for protocol in *protocol-list*
         unless (internal-protocol-p protocol)
         do (sgml-protocol-indexentry protocol))
-  (insert "</INDEXDIV>\n"))
+  (insert "</INDEX>\n"))
 
 (defun sgml-method-signature-indexentry (method-signature)
   (insert "<INDEXENTRY>\n")
@@ -810,27 +816,28 @@
   (insert "</INDEXENTRY>\n"))
 
 (defun sgml-generate-method-signature-index ()
-  (insert "<INDEXDIV>\n")
+  (insert "<INDEX ID=\"METHOD.INDEX\">\n")
   (insert "<TITLE>Method Index</TITLE>\n")
   (loop for method-signature in *method-signature-list*
         do (sgml-method-signature-indexentry method-signature))
-  (insert "</INDEXDIV>\n"))
+  (insert "</INDEX>\n"))
 
-(defun sgml-generate-index ()
+(defun sgml-generate-indices ()
   (with-temp-file (concat (get-swarmdocs) "src/refindex.sgml")
-    (insert "<INDEX ID=\"CLASS.INDEX\">\n")
-    (insert "<TITLE>Index</TITLE>\n")
     (sgml-generate-protocol-index)
-    (sgml-generate-method-signature-index)
-    (insert "</INDEX>\n")))
+    (sgml-generate-method-signature-index)))
 
-(defun run-all ()
+(defun load-and-process-protocols ()
   (interactive)
   (load-protocols-for-all-modules)
   (expand-protocols)
   (build-method-signature-hash-table)
   (build-protocol-vector)
-  (build-method-signature-vector)
-  (sgml-generate-modules)
-  (sgml-generate-index))
+  (build-method-signature-vector))
+
+(defun run-all ()
+  (interactive)
+  (load-and-process-protocols)
+  (sgml-create-refentries-for-all-modules)
+  (sgml-generate-indices))
 
