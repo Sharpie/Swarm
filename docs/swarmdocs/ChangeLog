@@ -5,6 +5,8 @@
 	(install-data-local): New target.
 	(CLEANFILES): Update per new variables.
 
+	* html.dsl: Support naming of HTML file by ID for sets.
+
 1998-06-16  Marcus G. Daniels  <mgd@lucero.santafe.edu>
 
 	* print.dsl (toc-depth): 1 for book.

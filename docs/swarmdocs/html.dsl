@@ -122,6 +122,45 @@
     (list (normalize "book")
           (normalize "revhistory")))
 
+(define (set-html-base nd)
+  (let ((number (number->string (all-element-number nd)))
+        ;(number (pad-string (number->string 3) 2 "0"))
+        (pibase (inherited-pi-value nd "html-basename"))
+        (idbase (if (and %use-id-as-filename%
+                         (attribute-string (normalize "id") nd))
+                    (case-fold-down (attribute-string (normalize "id") nd))
+                    #f)))
+    (if idbase
+        idbase
+        (string-append (if pibase pibase "set") number))))
+
+(define (html-file #!optional (input_nd (current-node)))
+  (let* ((nd (chunk-parent input_nd))
+         (base (cond ((member (gi nd) (book-element-list))
+                      (book-html-base nd))
+                     ((member (gi nd) (division-element-list))
+                      (division-html-base nd))
+                     ((member (gi nd) (component-element-list))
+                      (component-html-base nd))
+                     ((member (gi nd) (section-element-list))
+                      (section-html-base nd))
+                     ((equal? (gi nd) (normalize "set"))
+                      (set-html-base nd))
+                     (else "xxx1")))
+         ;; If this chunk-level element isn't a chunk, get the pifile from
+         ;; the parent element.
+         (pifile (if (chunk? nd)
+                     (pi-value nd "html-filename")
+                     (pi-value (parent nd) "html-filename")))
+         (pidir (inherited-pi-value nd "html-dir")))
+    (if pifile
+        (if pidir
+            (string-append pidir "/" pifile)
+            pifile)
+        (if pidir
+            (string-append pidir "/" base %html-ext%)
+            (string-append base %html-ext%))))) 
+
 ;; want context-sensitive subtitles for 'refentry'(s) as well as
 ;; 'sect1'(s)
 (define (nav-context? elemnode)
