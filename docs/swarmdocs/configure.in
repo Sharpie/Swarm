@@ -88,8 +88,8 @@ if test "$host_os" = cygwin; then
   swarm_dossrcdir=`eval cygpath -w $swarm_srcdir`
   DOSIFYEXPR='`cygpath -w $<`'
 else
-  top_dossrcdir=$srcdir
-  swarm_dossrcdir=$swarm_srcdir
+  top_dossrcdir=`cd $srcdir; pwd`
+  swarm_dossrcdir=`cd $swarm_srcdir; pwd`
   DOSIFYEXPR='$<'
 fi
 AC_SUBST(DOSIFYEXPR)

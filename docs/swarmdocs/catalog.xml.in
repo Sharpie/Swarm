@@ -6,7 +6,7 @@
 
  <nextCatalog catalog="file:///etc/xml/catalog"/>
 
- <group xml:base="file://@top_dossrcdir@">
+ <group xml:base="file://@top_srcdir@">
   <rewriteURI uriStartString="http://docbook.sourceforge.net/release/website/1.6/xsl/" rewritePrefix="xsl/website/"/> 
  </group>
 
