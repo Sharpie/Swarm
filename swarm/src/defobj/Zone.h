@@ -29,7 +29,7 @@ Library:      defobj
 + createBegin: aZone;
 - (void)setPageSize: (size_t)pageSize;
 - createEnd;
-- (unsigned)getPageSize;
+- (size_t)getPageSize;
 - allocIVars: aClass;
 - copyIVars: anObject;
 - (void)freeIVars: anObject;

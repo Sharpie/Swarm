@@ -1,5 +1,7 @@
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Zone.h: Use size_t instead of unsigned for return of getPageSize.
+
 	* FCall.m (ffi_types, avcall_add_primitive): Protect per
 	USE_AVCALL.
 	(avcall_add_primitive): Protect per HAVE_JDK.
