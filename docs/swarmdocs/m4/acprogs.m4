@@ -8,7 +8,7 @@ if test "$GS" = missing ; then
     AC_MSG_ERROR(Could not find GhostScript)
   fi
 fi
-for device in png256 ppm ; do
+for device in ppm ; do
   AC_MSG_CHECKING(that GhostScript can convert eps to $device)
   outfile=out$$.png
   errs=`$GS -q -dNOPAUSE -sDEVICE=$device -sOutputFile=$outfile - < $srcdir/figs/swarm.eps -c quit 2>&1`
