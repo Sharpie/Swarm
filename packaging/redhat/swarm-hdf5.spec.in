@@ -9,6 +9,8 @@ Source: @ftproot@/swarm-@version@.tar.gz
 Prefix: %prefix
 BuildRoot: /tmp/swarm-root
 BuildPrereq: hdf5 > @hdf5_version@
+BuildPrereq: kaffe = @kaffe_version@
+BuildPrereq: jikes = @jikes_version@
 Icon: swarm.xpm
 Packager: @packager@
 Distribution: @distribution@
@@ -36,6 +38,12 @@ or better, and the blt library package.  This version enables hdf5.
 @macros@
 
 %changelog
+* Tue Sep 28 1999 Alex Lancaster <alex@santafe.edu>
+
+- Rework spec file macros more consistently.
+
+- Add jikes and kaffe as BuildPrereq, previously missing.
+
 * Sun Sep 19 1999 Alex Lancaster <alex@santafe.edu>
 
 - Split swarm and swarm-hdf5 files into separate spec files.  No
@@ -49,8 +57,8 @@ or better, and the blt library package.  This version enables hdf5.
 
 %makebuilddir =with-hdf
 
-JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --with-hdf5dir=/usr --disable-jar
-make
+%{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --with-hdf5dir=/usr --disable-jar
+make JAVAC=/usr/bin/jikes 
                             
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -58,13 +66,13 @@ mkdir $RPM_BUILD_ROOT
 
 #install with-hdf5 version of build
 cd %{SWARM_SRC_DIR}
-%gen_filelist %{prefix} %{SWARM_SRC_DIR}/with-hdf
+%gen_shared_filelist %{prefix} %{SWARM_SRC_DIR}/with-hdf
 
 cd =with-hdf
-make prefix=$RPM_BUILD_ROOT%{prefix} install
+make prefix=$RPM_BUILD_ROOT%{prefix} JAVAC=/usr/bin/jikes install
 
 %post 
-%define hdf5pathfiles etc/swarm/Makefile* etc/swarm/config.swarm lib/swarm/lib*.la
+%define hdf5pathfiles etc/swarm/* lib/swarm/lib*.la
 %fix_path %hdf5pathfiles
 
 %files -f with-hdf 

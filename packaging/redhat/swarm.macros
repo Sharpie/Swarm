@@ -2,8 +2,12 @@
 
 %define makebuilddir() test -d %1 || mkdir %1 && cd %1 
 
-%define swarmlibraries() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.*" >> %2; done 
+%define swarm_shared_libs() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%verify (not size md5 mtime) %{1}/lib/swarm/lib$i.la" >> %2 ; echo "%{1}/lib/swarm/lib$i.so*" >> %2 ; done 
 
-%define gen_filelist() echo "%{1}/bin/libtool-swarm" > %2; echo "%{1}/bin/m2h" >> %2; echo "%{1}/bin/make-h2x" >> %2 ; echo "%{1}/etc/*" >> %2 ; echo "%{1}/include" >> %2 ; echo "%{1}/info/*" >> %2 ;  %{swarmlibraries: %1 %2}; echo '%dir %{1}/share' >> %2 ; echo '%doc README AUTHORS COPYING ChangeLog INSTALL NEWS THANKS' >> %2 
+%define swarm_static_libs() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.a" >> %2 ; done 
 
-%define fix_path() cd $RPM_INSTALL_PREFIX0; for i in %1; do eval "sed 's%/REPLACE-AT-INSTALLATION%$RPM_INSTALL_PREFIX0%g' $i > /tmp/swarmfile"; mv /tmp/swarmfile $i; done
+%define gen_shared_filelist() echo "%{1}/bin/libtool-swarm" > %2; echo "%{1}/bin/m2h" >> %2; echo "%{1}/bin/make-h2x" >> %2 ; echo "%verify (not size md5 mtime) %{1}/etc/*" >> %2 ; echo "%{1}/include" >> %2 ; echo "%{1}/info/*" >> %2 ;  %{swarm_shared_libs: %1 %2}; echo '%dir %{1}/share' >> %2 ; echo '%doc README AUTHORS COPYING ChangeLog INSTALL NEWS THANKS' >> %2 
+
+%define gen_static_filelist() echo > %2; %{swarm_static_libs: %1 %2}
+
+%define fix_path() cd $RPM_INSTALL_PREFIX0; for i in %1; do eval "sed 's%/REPLACE-AT-INSTALLATION%$RPM_INSTALL_PREFIX0%g' $i > /tmp/swarmfile"; chmod --reference=$i /tmp/swarmfile; mv /tmp/swarmfile $i; done

@@ -36,6 +36,18 @@ or better, and the blt library package.
 @macros@
 
 %changelog
+* Tue Sep 28 1999 Alex Lancaster <alex@santafe.edu>
+
+- Disable size, md5 and mtime checking using %verify for files which
+  are modified by the %post-install script to avoid -V option 
+  reporting a problem.
+
+- New swarm-static add-on subpackage, installs the static libraries:
+  used to build the stand-alone swarmdemos and for users wishing to
+  enable profiling.
+
+- Removed jikes Requires for installer of package (but not for builder)
+
 * Sun Sep 19 1999 Alex Lancaster <alex@santafe.edu>
 
 - Use macros wherever possible for common shell script code.
@@ -108,11 +120,19 @@ or better, and the blt library package.
 
 - Used imlib.spec as template for swarm.
 
+%package static
+Summary: Static libraries for Swarm
+Group: Development/Libraries
+Requires: swarm-base
+
+%description static
+Contains static libraries for Swarm which are otherwise excluded from
+the normal binary distribuion
+
 %package kaffe
 Summary: Adds Java support to swarm-base package.
 Group: Development/Libraries
 Requires: kaffe = @kaffe_version@
-Requires: jikes = @jikes_version@
 Requires: swarm-base
 
 %description kaffe
@@ -127,21 +147,24 @@ the Sun JDK.
 
 %makebuilddir =without-hdf
 
-JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --without-hdf5dir --disable-jar 
-make
+%{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --with-jdkdir=/usr --without-hdf5dir --disable-jar 
+make JAVAC=/usr/bin/jikes 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir $RPM_BUILD_ROOT
 
 cd %SWARM_SRC_DIR
-%gen_filelist %prefix %{SWARM_SRC_DIR}/without-hdf
+
+%gen_shared_filelist %prefix %{SWARM_SRC_DIR}/without-hdf
+
+%gen_static_filelist %prefix %{SWARM_SRC_DIR}/static
 
 cd =without-hdf
-make prefix=$RPM_BUILD_ROOT%{prefix} install
+make prefix=$RPM_BUILD_ROOT%{prefix} install JAVAC=/usr/bin/jikes
 
 %post 
-%define pathfiles etc/swarm/Makefile* etc/swarm/config.swarm lib/swarm/lib*.la
+%define pathfiles etc/swarm/* lib/swarm/lib*.la
 %fix_path %pathfiles 
 
 /sbin/ldconfig
@@ -150,18 +173,22 @@ make prefix=$RPM_BUILD_ROOT%{prefix} install
 %define kaffepathfiles bin/java*swarm lib/swarm/libkaffeswarm*.la
 %fix_path %kaffepathfiles
 
-chmod +x bin/java*swarm  # make sure they're executable
 /sbin/ldconfig
 
 %files -f without-hdf
 %defattr(-,root,root)
 
+%files static -f static
+%defattr(-,root,root)
+
 %files kaffe
 %defattr(-,root,root)
-%{prefix}/bin/javacswarm
-%{prefix}/bin/javaswarm
-%{prefix}/lib/swarm/libkaffe*
+%verify(not size md5 mtime) %{prefix}/bin/javaswarm
+%verify(not size md5 mtime) %{prefix}/bin/javacswarm
+%verify(not size md5 mtime) %{prefix}/lib/swarm/libkaffeswarm*.la
+%{prefix}/lib/swarm/libkaffeswarm*.so*
 %{prefix}/share/swarm
+
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
