@@ -4,7 +4,7 @@
   <PARA>At the highest level of abstraction ( = the lowest level of
   magnification), most experiments look like this:</PARA>
 
-  <ORDEREDLIST>
+  <ORDEREDLIST SPACING="COMPACT">
     <LISTITEM>
       <PARA>Set up the physical system to be studied.</PARA>
     </LISTITEM>
