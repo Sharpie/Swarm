@@ -1,6 +1,6 @@
-AC_INIT(tutorialbook.sgml)
+AC_INIT(userbook.sgml)
 
-AM_INIT_AUTOMAKE(Swarmguide, 0.0)
+AM_INIT_AUTOMAKE(swarm-userguide, 0.0)
 
 AC_ARG_WITH(dtd,dnl
 changequote(<,>)dnl
@@ -58,4 +58,4 @@ done
 AC_SUBST(SGML_CATALOG_FILES)
 dnl md_PROG_GS
 
-AC_OUTPUT([Makefile catalog])
+AC_OUTPUT([Makefile catalog userbook.tex])
