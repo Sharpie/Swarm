@@ -137,6 +137,19 @@
   (prog1 (parse-changelog-buffer filename-restriction)
     (kill-buffer (current-buffer))))
 
+(defun sgml-pathname-for-swarmdocs-revision-output (module-sym)
+  (let ((module-name (symbol-name module-sym)))
+    (case module-sym
+      ((refbook set installbook overbook) 
+       (concat (get-top-builddir)
+               module-name "/" module-name "revhistory.sgml"))
+      (otherwise (concat (get-top-builddir)
+                         "refbook/"
+                         module-name
+                         "/"
+                         module-name
+                         "revhistory.sgml")))))
+
 (defun process-changelog (&optional module-arg)
   (let* ((module-sym (if module-arg
                          module-arg
@@ -162,7 +175,7 @@
                                 (not (>= (changelog-pos a) (changelog-pos b)))
                               (>= diff 0)))
                         (>= high 0)))))))
-    (with-temp-file (pathname-for-swarmdocs-revision-output module-sym)
+    (with-temp-file (sgml-pathname-for-swarmdocs-revision-output module-sym)
       (sgml-mode)
       (insert "<REVHISTORY ID=\"SWARM.")
       (insert (upcase (symbol-name module-sym)))
