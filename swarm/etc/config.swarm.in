@@ -48,8 +48,8 @@ swarm_FFILIB="@FFILIB@"
 
 swarm_HDF5LIB="@HDF5LIB@"
 
-swarm_PNGLIB="-lpng"
-swarm_ZLIBLIB="-lz"
+swarm_PNGLIB="@PNGLIB@"
+swarm_ZLIBLIB="@ZLIBLIB@"
 
 swarm_X_LIBS="@X_LIBS@"
 swarm_GUILIBS="@GUILIBS@"

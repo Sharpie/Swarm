@@ -1,3 +1,9 @@
+1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (ZLIBLIB, PNGLIB): Substitute.
+
+	* config.swarm.in (swarm_ZLIBLIB, swarm_PNGLIB): Likewise.
+
 1999-10-15  Alex Lancaster  <alex@santafe.edu>
 
 	* config.swarm.in (CPPFLAGS): Extract CPPFLAGS.
