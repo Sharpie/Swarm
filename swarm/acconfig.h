@@ -7,3 +7,5 @@
 #undef DATADIR
 #undef SYSCONFDIR
 #undef PREFIX
+#undef HAVE_HDF5
+

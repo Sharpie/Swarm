@@ -151,6 +151,14 @@ AC_ARG_WITH(pngincludedir,
   pngincludedir=$withval)
 
 md_FIND_PNG
+
+AC_ARG_WITH(hdf5dir,
+[  --with-hdf5dir=DIR               Use DIR for HDF5],
+  hdf5dir=$withval
+  hdf5includedir=$withval/include)
+
+md_FIND_HDF5
+
 md_CHECK_INLINING
 md_CHECK_OBJC_LIBS
 md_CHECK_NEXTSTEP
