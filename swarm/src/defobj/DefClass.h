@@ -81,6 +81,7 @@ id createType (id aZone, const char *typeName);
 @public
   Class_s *nextPhase; // class which implements next interface
   id filler;          //  pad to size of standard class (for customize)
+  id morefiller;
 }
 /*** methods in BehaviorPhase_s (inserted from .m file by m2h) ***/
 - (void)setNextPhase: aBehaviorPhase;

@@ -14,8 +14,8 @@
 #define SWARMARCHIVER_HDF5 "swarmArchiver.hdf"
 #define SWARMARCHIVER_LISP ".swarmArchiver"
 
-#define SWARMARCHIVER_HDF5_SUFFIX "hdf"
-#define SWARMARCHIVER_LISP_SUFFIX "scm"
+#define SWARMARCHIVER_HDF5_SUFFIX ".hdf"
+#define SWARMARCHIVER_LISP_SUFFIX ".scm"
 
 #define ARCHIVER_FUNCTION_NAME "archiver"
 
@@ -150,14 +150,12 @@ static const char *
 defaultAppPath (const char *appDataPath, const char *appName,
                 const char *suffix)
 {
-  // return filename of the form: "appDataPath/appName.suffix"
-  const char *delim = ".";
   char *buf = 
-    xmalloc(strlen (appDataPath) + strlen (appName) + strlen(suffix) + 1), *p;
+    xmalloc (strlen (appDataPath) + strlen (appName) + strlen (suffix) + 1);
+  char *p;
   
   p = stpcpy (buf, appDataPath);
   p = stpcpy (p, appName);
-  p = stpcpy (p, delim);
   p = stpcpy (p, suffix);
   return buf;
 }
