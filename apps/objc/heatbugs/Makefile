@@ -1,4 +1,4 @@
-#SWARMHOME=../swarm
+SWARMHOME=../swarm
 APPLICATION=heatbugs
 OBJECTS=Heatbug.o HeatSpace.o main.o HeatbugModelSwarm.o \
 	HeatbugObserverSwarm.o HeatbugBatchSwarm.o
