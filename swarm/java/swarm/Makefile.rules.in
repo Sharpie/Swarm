@@ -3,7 +3,8 @@ jdkbindir=$(jdkdir)/bin
 JAVAC=$(jdkbindir)/javac
 JAVA=@JAVA@
 JAVACLASSES=@JAVACLASSES@
-JAVACOMPILE=$(JAVAC) -classpath ../..:$(JAVACLASSES)
+JAVA_HOME=@JAVA_HOME@
+JAVACOMPILE=JAVA_HOME=$(JAVA_HOME) $(JAVAC) -classpath ../..:$(JAVACLASSES)
 top_srcdir=@top_srcdir@
 
 CLASSPHASES := __c U

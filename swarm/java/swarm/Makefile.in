@@ -35,7 +35,7 @@ modules: deps $(PRECLASSFILES)
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
 
 jar: modules $(POSTCLASSFILES)
-	cd .. ; JAVA_HOME=$(JAR_HOME) $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
+	cd .. ; unset CLASSPATH ; JAVA_HOME=$(JAR_HOME) $(JAR) cf swarm/swarm.jar $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
 install: all
 	test -d $(datadir) || mkdir $(datadir)
