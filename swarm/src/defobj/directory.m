@@ -195,7 +195,6 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 #define OBJCENTRY(theObject) ENTRY(theObject,0)
 #define JAVAENTRY(theJavaObject) ENTRY(0,theJavaObject)
 #define OBJCFINDENTRY(theObject) ({ DirectoryEntry *findEntry  = alloca (sizeof (DirectoryEntry)); findEntry->object = theObject; findEntry; })
-#define JAVAFINDENTRY(theJavaObject) ({ DirectoryEntry *findEntry = alloca (sizeof (DirectoryEntry)); findEntry->javaObject = theJavaObject; findEntry; })
 
 @internalimplementation Directory
 + createBegin: aZone
@@ -215,8 +214,12 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   id <Map> m = table[index];
 
   if (m)
-    return [m at: JAVAFINDENTRY (theJavaObject)];
-
+    {
+      id findEntry = JAVAENTRY (theJavaObject);
+      id ret = [m at: findEntry];
+      [findEntry drop];
+      return ret;
+    }
   return nil;
 }
 
