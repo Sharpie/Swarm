@@ -147,6 +147,9 @@ md_FIND_PNG
 
 md_CHECK_INLINING
 AC_CHECK_LIB(dl,main)
+AC_CHECK_FUNCS(memchr memcpy memset realpath stpcpy strchr strcmp strdup strlen strncmp strndup strnlen strpbrk strsep, ,MISCOBJS="$MISCOBJS ${ac_func}.lo")
+AC_SUBST(MISCOBJS)
+
 
 AC_OUTPUT([Makefile etc/config.swarm etc/Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile Makefile.appl Makefile.lib
 ])
