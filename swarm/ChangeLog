@@ -2,7 +2,6 @@
 
 	* configure.in: Default prefix to /usr/local if NONE.
 	(defaultdir): Always default to '${prefix}'.
-	(swarm_prefix): Set to '${prefix}', not $prefix.
 
 1999-01-07  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

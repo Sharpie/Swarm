@@ -188,7 +188,7 @@ if test $prefix = /usr; then
   libdir=${libdir}/swarm
 fi
 
-swarm_prefix='${prefix}'
+swarm_prefix=$prefix
 if test $exec_prefix = NONE; then
   swarm_exec_prefix='${swarm_prefix}'
 else
@@ -206,7 +206,7 @@ AC_DEFINE_UNQUOTED(PREFIX,"$prefix")
 AC_DEFINE_UNQUOTED(DATADIR,"$datadir")
 AC_DEFINE_UNQUOTED(SYSCONFDIR,"$sysconfdir")
 
-AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile
+AC_OUTPUT([Makefile m4/Makefile src/Makefile src/activity/Makefile src/activity/tests/Makefile src/analysis/Makefile src/collections/Makefile src/defobj/Makefile src/gui/Makefile src/misc/Makefile src/objectbase/Makefile src/random/Makefile src/simtools/Makefile src/simtoolsgui/Makefile src/space/Makefile src/tclobjc/Makefile src/tkobjc/Makefile src/tkobjc/tk/Makefile etc/config.swarm etc/Makefile.appl etc/Makefile.lib etc/Makefile.common etc/Makefile
 ])
 
 
