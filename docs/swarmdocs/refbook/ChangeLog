@@ -2,7 +2,7 @@
 
 	* src.ent.in: Add srcrevhistory.sgml.
 
-	* refmeta.sgml: Replace REVHISTORY with &srcrevhistory.sgml.
+	* refmeta.sgml: Replace REVHISTORY with srcrevhistory.sgml.
 
 	* Makefile.am (SUBDIRS): Add tech.
 	(swarm_ChangeLog): Add (empty).
