@@ -1,3 +1,9 @@
+1999-03-05  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* directory.h: Add new file.
+
+	* directory.m: Add new file.
+
 1999-03-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (includedir): Substitute.
