@@ -296,11 +296,10 @@ public class HeatbugModelSwarm extends SwarmImpl
       callCreating.setJavaMethod$inObject ("step", heatbugList.get (0));
       callCreating.setArguments (arguments);
       FCall call = (FCall) callCreating.createEnd ();
-
+      
       actionForEach =
-        modelActions.createFActionForEach$call$setFinalizationFlag
-        (heatbugList, call, true);
-
+        modelActions.createFActionForEachHomogeneous$call (heatbugList, call);
+      
       if (randomizeHeatbugUpdateOrder == true)
         actionForEach.setDefaultOrder (Globals.env.Randomized);
     }

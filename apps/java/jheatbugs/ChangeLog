@@ -1,3 +1,8 @@
+1999-12-10    <mgd@nest.swarm.org>
+
+	* HeatbugModelSwarm.java: Use createActionForEachHomogeneous$call
+	instead of createActionForEach$call$setFinalizationFlag.
+
 1999-11-20    <mgd@VAIO>
 
 	* Heatbug.java: New variable scratchHeatCell (only used for
