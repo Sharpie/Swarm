@@ -1,4 +1,4 @@
-AC_DEFUN(md_FIND_HDF5,
+AC_DEFUN([md_FIND_HDF5],
 [test -z "$hdf5dir" && hdf5dir=$defaultdir
 md_FIND_LIB(hdf5,,,1)
 if test -n "$hdf5libdir" ; then
@@ -6,7 +6,7 @@ if test -n "$hdf5libdir" ; then
   HDF5INCLUDES=$_includes
   HDF5LDFLAGS=$_ldflags
   HDF5LIB=-lhdf5
-  AC_DEFINE(HAVE_HDF5)
+  AC_DEFINE(HAVE_HDF5,1,[defined if HDF5 support is to be available])
 else
   HDF5INCLUDES=''
   HDF5LDFLAGS=''

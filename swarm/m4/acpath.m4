@@ -1,4 +1,4 @@
-AC_DEFUN(md_CHECK_PATH_SYNTAX,
+AC_DEFUN([md_CHECK_PATH_SYNTAX],
 [if test "$host_os" = cygwin; then
   PATHSEP=";"
   PATHDELIM='\'

@@ -1,4 +1,4 @@
-AC_DEFUN(md_CHECK_BUILTIN_APPLY,
+AC_DEFUN([md_CHECK_BUILTIN_APPLY],
 [AC_MSG_CHECKING(for working __builtin_apply)
 AC_TRY_RUN([
 void *buf;
@@ -20,6 +20,6 @@ main ()
 }
 ],
 [AC_MSG_RESULT(yes)],
-[AC_DEFINE(BUGGY_BUILTIN_APPLY) AC_MSG_RESULT(no)],
+[AC_DEFINE(BUGGY_BUILTIN_APPLY,1,[define if __builtin_apply is buggy]) AC_MSG_RESULT(no)],
 [AC_MSG_RESULT(guessing yes)]
 )])

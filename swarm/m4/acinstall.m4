@@ -1,4 +1,4 @@
-AC_DEFUN(md_SWARM_INSTALLER,
+AC_DEFUN([md_SWARM_INSTALLER],
 [changequote(,)
 install_prog=`echo $INSTALL | sed 's,.*/\([^/ ][^/ ]*\).*,\1,'`
 install_prog_args=`echo $INSTALL | sed 's,.* \(.*\),\1,'`

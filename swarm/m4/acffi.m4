@@ -1,4 +1,4 @@
-AC_DEFUN(md_FIND_FFI,
+AC_DEFUN([md_FIND_FFI],
 [USE_FFCALL=0
 dnl Tests if with_ffidir or with_ffcalldir specified and sets ffidir
 if test -n "$with_ffidir" && test "$with_ffidir" != no; then
@@ -71,7 +71,7 @@ if test -n "$ffidir" ; then
   else 
   dnl This section for libavcall
     if test "$with_ffcalldir" != no; then
-      AC_DEFINE(USE_AVCALL)
+      use_avcall=1  
       FFILIB=-lavcall
       test -n "$ffidir" || ffidir=$defaultdir
       ffidir_expand=`eval echo $ffidir`
@@ -114,13 +114,16 @@ if test -n "$ffidir"; then
   AM_CONDITIONAL(USEBUILTINAVCALL, false)
 dnl If no ffidir specified use builtin avcall and setup FFILIB
 else
-  AC_DEFINE(USE_AVCALL)
+  use_avcall=1
   ffidir=
   ffilibdir=
   FFIINCLUDES='-I${top_builddir}/avcall'
   FFILDFLAGS=
   FFILIB='${top_builddir}/avcall/libavcall.la'
   AM_CONDITIONAL(USEBUILTINAVCALL, true)
+fi
+if test -n "$use_avcall"; then
+  AC_DEFINE(USE_AVCALL,1,[define if avcall will be used])
 fi
 AC_SUBST(ffidir)
 AC_SUBST(ffilibdir)

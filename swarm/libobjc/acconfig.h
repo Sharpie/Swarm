@@ -1,6 +1,0 @@
-#undef PACKAGE
-#undef VERSION
-#undef EXPORT_EXTERN
-#undef EXPORT_EXTERNDEF
-#undef IMPORT_EXTERN
-

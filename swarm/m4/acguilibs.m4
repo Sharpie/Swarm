@@ -1,4 +1,4 @@
-AC_DEFUN(md_CHECK_GUILIBS,
+AC_DEFUN([md_CHECK_GUILIBS],
 [AC_MSG_CHECKING(for GUI libs)
 AC_TRY_COMPILE([#if defined(__CYGWIN__) || defined(__MINGW32__)
 #error

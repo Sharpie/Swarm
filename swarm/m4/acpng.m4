@@ -1,4 +1,4 @@
-AC_DEFUN(md_FIND_ZLIB,
+AC_DEFUN([md_FIND_ZLIB],
 [test -z "$zlibdir" && zlibdir=$defaultdir
 md_FIND_LIB(zlib,z,,1)
 if test -n "$zliblibdir"; then
@@ -14,7 +14,7 @@ AC_SUBST(ZLIBLDFLAGS)
 AC_SUBST(ZLIBLIB)
 ])
 
-AC_DEFUN(md_FIND_PNG,
+AC_DEFUN([md_FIND_PNG],
 [test -z "$pngdir" && pngdir=$defaultdir
 md_FIND_LIB(png,,,1)
 if test -n "$pnglibdir"; then
@@ -23,7 +23,7 @@ if test -n "$pnglibdir"; then
     PNGINCLUDES=$_includes
     PNGLDFLAGS=$_ldflags
     PNGLIB=-lpng
-    AC_DEFINE(HAVE_PNG)
+    AC_DEFINE(HAVE_PNG,1,[define if PNG support is to be provided])
   fi
 fi
 AC_SUBST(pngincludedir)

@@ -6,7 +6,7 @@ dnl Extra set of brackets hides the Tcl brackets from autoconf m4.
 dnl
 dnl First, if tclsh is around execute it to make a guess as to where Tcl
 dnl is installed, and also to find out if we're using tcl > 7.3.
-AC_DEFUN(md_FIND_TCL,dnl
+AC_DEFUN([md_FIND_TCL],dnl
 [lastPATH=$PATH
 if test -n "$with_tcldir" ; then               
   PATH=${with_tcldir}/bin:$PATH
@@ -70,7 +70,7 @@ else
 fi
 ])
 
-AC_DEFUN(md_FIND_TCL_HEADERS,dnl
+AC_DEFUN([md_FIND_TCL_HEADERS],dnl
 [
 # define INCPLACES to be those directories where tcl.h and tk.h could be.
 # We look in lots of "standard" places as well as where [info version]
@@ -113,7 +113,7 @@ AC_SUBST(tclincludedir)
 AC_SUBST(TCLINCLUDES)
 ])dnl
 
-AC_DEFUN(md_FIND_TCL_LIBRARIES,dnl
+AC_DEFUN([md_FIND_TCL_LIBRARIES],dnl
 [LIBPLACES="$defaultdir/lib $defaultdir/lib/tcl $defaultdir/lib/tk \
         /usr/lib64 \
         \${CYGFS}H-i586-cygwin32/lib \
@@ -177,7 +177,7 @@ AC_SUBST(TCLLDFLAGS)
 AC_SUBST(tcllibdir)
 ])dnl
 
-AC_DEFUN(md_FIND_TK_HEADERS,
+AC_DEFUN([md_FIND_TK_HEADERS],
 [POTENTIALINCDIR=`dirname $tclincludedir`
 POTENTIALINCDIR=`dirname $POTENTIALINCDIR`
 INCPLACES="$INCPLACES \
@@ -216,7 +216,7 @@ AC_SUBST(tkincludedir)
 AC_SUBST(TKINCLUDES)
 ])
 
-AC_DEFUN(md_FIND_TK_LIBRARIES,
+AC_DEFUN([md_FIND_TK_LIBRARIES],
 [POTENTIALLIBDIR=`dirname $tcllibdir`
 POTENTIALLIBDIR=`dirname $POTENTIALLIBDIR`
 LIBPLACES="`dirname $tkincludedir`/lib $tcllibdir $POTENTIALLIBDIR/tk/lib \
@@ -276,7 +276,7 @@ AC_SUBST(TKLIB)
 AC_SUBST(tklibdir)
 ])
 
-AC_DEFUN(md_FIND_TCLTK_SCRIPTS,
+AC_DEFUN([md_FIND_TCLTK_SCRIPTS],
 [_configfile=`eval echo "$$1libdir/$1Config.sh"`
 if test -z "$$1scriptdir" ; then
   _version=`sed -n "s/^translit($1,a-z,A-Z)_VERSION='\(.*\)'/\1/p" $_configfile 2>/dev/null`
@@ -288,14 +288,14 @@ if test -z "$$1scriptdir" ; then
 fi
 ])
 
-AC_DEFUN(md_FIND_TCL_SCRIPTS,
+AC_DEFUN([md_FIND_TCL_SCRIPTS],
 [md_FIND_TCLTK_SCRIPTS(tcl)
 if test ! -r $tclscriptdir/init.tcl ; then
   AC_MSG_ERROR(Please use --with-tclscriptdir to specify location of init.tcl)
 fi
 ])
 
-AC_DEFUN(md_FIND_TK_SCRIPTS,
+AC_DEFUN([md_FIND_TK_SCRIPTS],
 [md_FIND_TCLTK_SCRIPTS(tk)
 if test ! -r $tkscriptdir/tk.tcl ; then
   AC_MSG_ERROR(Please use --with-tkscriptdir to specify location of tk.tcl)
@@ -303,7 +303,7 @@ fi
 ])
 
 
-AC_DEFUN(md_FIND_BLT,
+AC_DEFUN([md_FIND_BLT],
 [test -z "$bltdir" && bltdir=$defaultdir
 found=no
 for name in $bltlibname BLT30 BLT24 BLT8.0 BLT80 BLT; do
@@ -332,7 +332,7 @@ AC_SUBST(BLTLDFLAGS)
 AC_SUBST(BLTLIB)
 ])
 
-AC_DEFUN(md_CHECK_TCLTK_LIBINC_VERSION_MATCH,
+AC_DEFUN([md_CHECK_TCLTK_LIBINC_VERSION_MATCH],
 [_configfile=`eval echo "$$1libdir/$1Config.sh"`
 _upper=translit($1,a-z,A-Z)
 _version=`sed -n "s/^${_upper}_VERSION='\(.*\)'/\1/p" $_configfile 2>/dev/null`

@@ -1,3 +1,7 @@
+2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
+
+	* acconfig.h: Removed.
+
 2004-11-30  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* configure.in: autoconfiscate assembler wrapper on
@@ -7,7 +11,7 @@
 
 	* config.sub, config.guess, ltmainsh: update to
 	libtool 1.5.8.
-	
+
 2004-01-22  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* configure.in

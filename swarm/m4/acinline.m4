@@ -1,4 +1,4 @@
-AC_DEFUN(md_CHECK_INLINING,
+AC_DEFUN([md_CHECK_INLINING],
 [AC_MSG_CHECKING(for GCC inlining bug)
 AC_TRY_RUN([inline void
 fuzz (double __y)

@@ -1,4 +1,4 @@
-AC_DEFUN(md_CHECK_ARGP,
+AC_DEFUN([md_CHECK_ARGP],
 [AC_CHECK_HEADERS(argp.h)
 if test $ac_cv_header_argp_h = no; then
   ARGP_H=argp.h

@@ -1,4 +1,4 @@
-AC_DEFUN(md_CHECK_WARNFLAGS,
+AC_DEFUN([md_CHECK_WARNFLAGS],
 [lastCFLAGS=$CFLAGS
 
 AC_MSG_CHECKING(how to avoid implicit int return warning)

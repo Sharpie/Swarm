@@ -1,4 +1,4 @@
-AC_DEFUN(al_SWARM_LOAD,
+AC_DEFUN([al_SWARM_LOAD],
 [# Prefer explicitly selected file to automatically selected ones.
 AC_MSG_CHECKING(Swarm configuration)
 if test -z "$CONFIG_SWARM"; then
@@ -18,7 +18,7 @@ for swarm_config_file in $CONFIG_SWARM; do
 done
 ]) 
 
-AC_DEFUN(al_INIT_SWARM,
+AC_DEFUN([al_INIT_SWARM],
 [ # hide the automake substitution
 
 AC_ARG_WITH(swarm,dnl

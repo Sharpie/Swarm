@@ -1,4 +1,4 @@
-AC_DEFUN(md_FIND_LIB,
+AC_DEFUN([md_FIND_LIB],
 [libname=$2
 if test -z "$libname" ; then
   libname=$1
@@ -43,7 +43,7 @@ else
 fi
 ])
 
-AC_DEFUN(md_FIND_INCLUDE,
+AC_DEFUN([md_FIND_INCLUDE],
 [test -n "$$1includedir" || $1includedir=$$1dir/include
 AC_MSG_CHECKING(directory of $1.h)
 for dir in $$1includedir /usr/include /usr/local/include; do

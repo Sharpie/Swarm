@@ -1,4 +1,4 @@
-AC_DEFUN(vj_FIND_JDK,
+AC_DEFUN([vj_FIND_JDK],
 [if test -z "$jdkdir" ; then
   test -n "$JAVAC" || AC_PATH_PROG(JAVAC, javac, missing)
   if test $JAVAC != missing; then
@@ -209,7 +209,7 @@ else
       JAVALIBS='${jdkdir}/lib/kaffe'
       JAVALIBSARG=$JAVALIBS
     fi
-    AC_DEFINE(HAVE_KAFFE)
+    AC_DEFINE(HAVE_KAFFE,1,[defined if Java support using Kaffe is to be provided])
     JAVASTUBS_FUNCTION=java-run-all-literal
     if test -x "${expand_jdkdir}/libexec/Kaffe"; then
       JAVACMD='${jdkdir}/libexec/Kaffe'
@@ -228,7 +228,7 @@ else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
   AC_MSG_RESULT($jdkdir)
-  AC_DEFINE(HAVE_JDK)
+  AC_DEFINE(HAVE_JDK,1,[defined if Java support is to be provided])
   JAVASTUBS=stubs
   JAVASWARMSCRIPTS="javaswarm javacswarm"
   if test "$host_os" = cygwin; then
@@ -271,7 +271,7 @@ AC_SUBST(jdkdir)
 AC_SUBST(KAWAJAR)
 ])
 
-AC_DEFUN(md_CHECK_JNI_H,
+AC_DEFUN([md_CHECK_JNI_H],
 [last_cppflags=$CPPFLAGS
 CPPFLAGS="$JAVAINCLUDES $CPPFLAGS"
 AC_TRY_COMPILE([#include <jni.h>],[],jni_h_works=yes,jni_h_works=no)
@@ -281,17 +281,18 @@ if test $jni_h_works = no; then
   AC_CHECK_SIZEOF(long, 4)
   AC_CHECK_SIZEOF(long long, 8)
   if test $ac_cv_sizeof_int = 8; then
-    AC_DEFINE(SWARM_INT64, int)
+    swarm_int64=int
   elif test $ac_cv_sizeof_long = 8; then
-    AC_DEFINE(SWARM_INT64, long)
+    swarm_int64=long
   elif test $ac_cv_sizeof_long_long = 8; then
-    AC_DEFINE(SWARM_INT64, long long)
+    swarm_int64='long long'
   else
     AC_MSG_ERROR(Cannot find 8 byte integer for jni.h)
   fi
   CPPFLAGS="$JAVAINCLUDES $CPPFLAGS"
+  AC_DEFINE_UNQUOTED(SWARM_INT64, $swarm_int64, [type of integer that is 64 bits])
   AC_TRY_COMPILE([#define __int64 SWARM_INT64
-#include <jni.h>],[],AC_DEFINE(JNI_H_NEEDS_INT64))
+#include <jni.h>],[],AC_DEFINE(JNI_H_NEEDS_INT64,1,[define if __int64 needs to be defined for jni.h]))
   CPPFLAGS=$last_cppflags
 fi
 ])

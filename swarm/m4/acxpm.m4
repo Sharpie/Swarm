@@ -1,4 +1,4 @@
-AC_DEFUN(md_FIND_XPM,
+AC_DEFUN([md_FIND_XPM],
 [test -z "$xpmlibdir" && xpmlibdir=$x_libraries
 found=no
 for name in $xpmlibname Xpm; do
@@ -45,14 +45,14 @@ test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir -I$x_includes $CPPFLAGS"
 AC_MSG_CHECKING(for X11/xpm.h)
 AC_TRY_COMPILE([#include <X11/xpm.h>],[],have_x11_xpm_h=yes,have_x11_xpm_h=no)
 if test $have_x11_xpm_h = yes; then
-  AC_DEFINE(HAVE_X11_XPM_H)
+  AC_DEFINE(HAVE_X11_XPM_H,1,[define if xpm.h is available])
   AC_MSG_RESULT(yes)
 else 
   AC_MSG_RESULT(no)
   AC_MSG_CHECKING(for xpm.h)
   AC_TRY_COMPILE([#include <xpm.h>],[],have_xpm_h=yes,have_xpm_h=no)
   if test $have_xpm_h = yes; then
-    AC_DEFINE(HAVE_XPM_H)
+    AC_DEFINE(HAVE_XPM_H,1,[define if xpm.h is available])
     AC_MSG_RESULT(yes)
   else
     AC_MSG_ERROR(Cannot find xpm.h)
@@ -63,7 +63,7 @@ CPPFLAGS=$last_cppflags
 fi
 ])
 
-AC_DEFUN(md_STRUCT_XPM_ALLOCPIXELS,
+AC_DEFUN([md_STRUCT_XPM_ALLOCPIXELS],
 [last_cppflags=$CPPFLAGS
 test -n "$xpmincludedir" && CPPFLAGS="-I$xpmincludedir -I$x_includes $CPPFLAGS"
 AC_MSG_CHECKING(for nalloc_pixels in XpmAttributes)
@@ -76,7 +76,7 @@ AC_TRY_COMPILE([#ifdef HAVE_X11_XPM_H
 #endif], 
 [XpmAttributes attr; attr.nalloc_pixels = 0;],
 AC_MSG_RESULT(yes)
-AC_DEFINE(HAVE_XPM_ALLOCPIXELS),
+AC_DEFINE(HAVE_XPM_ALLOCPIXELS,1,[define if nalloc_pixels is available]),
 AC_MSG_RESULT(no))
 CPPFLAGS=$last_cppflags
 ])

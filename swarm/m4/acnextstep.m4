@@ -1,4 +1,4 @@
-AC_DEFUN(md_CHECK_NEXTSTEP,
+AC_DEFUN([md_CHECK_NEXTSTEP],
 [AC_TRY_CPP([#ifdef NeXT
 #error
 #endif
