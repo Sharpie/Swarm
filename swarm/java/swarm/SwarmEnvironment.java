@@ -14,6 +14,8 @@ import swarm.objectbase.*;
 public class SwarmEnvironment {
   public Symbol ControlStateRunning, ControlStateStopped,
     ControlStateStepping, ControlStateQuit, ControlStateNextTime;
+  public Symbol Initialized, Running, Stopped, Holding, Released, 
+      Terminated, Completed;
   public Symbol Randomized, Sequential;
   public Zone globalZone;
   public SimpleRandomGenerator randomGenerator;
@@ -36,11 +38,21 @@ public class SwarmEnvironment {
     uniformDblRand = new UniformDoubleDistImpl ();
     probeLibrary = new ProbeLibraryImpl ();
     probeDisplayManager = new ProbeDisplayManagerImpl ();
+
     ControlStateRunning = new SymbolImpl ();
     ControlStateStopped = new SymbolImpl ();
     ControlStateStepping = new SymbolImpl ();
     ControlStateQuit = new SymbolImpl ();
     ControlStateNextTime = new SymbolImpl ();
+
+    Initialized = new SymbolImpl ();
+    Running = new SymbolImpl ();
+    Stopped = new SymbolImpl ();
+    Holding = new SymbolImpl ();
+    Released = new SymbolImpl ();
+    Terminated = new SymbolImpl ();
+    Completed = new SymbolImpl ();
+
     Randomized = new SymbolImpl ();
     Sequential = new SymbolImpl ();
     hdf5Archiver = new HDF5ArchiverImpl ();
