@@ -1,3 +1,8 @@
+1999-07-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.m: Include jni.h.
+	(Java_swarm_SwarmEnvironment_initSwarm): Add JNI{EXPORT,CALL}.  
+
 1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (javaswarm.dll): Add "--add-stdcall-alias --entry

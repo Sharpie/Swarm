@@ -3,8 +3,9 @@
 #import <simtools.h> // initSwarm
 #import <defobj.h> // defobj_java_call_init_tables
 #import "directory.h" // java_directory_init
+#include <jni.h>
 
-void 
+JNIEXPORT void JNICALL
 Java_swarm_SwarmEnvironment_initSwarm (JNIEnv *env,
                                        jobject obj,
                                        jobjectArray args)
