@@ -10,8 +10,10 @@
 
 #import <objectbase.h>   
 #import <objectbase/SwarmObject.h>
+#import <activity.h>
 
-@interface ActivityControl : SwarmObject {
+@interface ActivityControl: SwarmObject
+{
 @public
   timeval_t currentTime;  // my time index
   id status;  // my state

@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
-#include <stdio.h>
-
 #import <objectbase/Probe.h>
+#import <collections.h>
+
+#include <stdio.h>
 
 // SAFEPROBES enables lots of error checking here.
 #define SAFEPROBES 1

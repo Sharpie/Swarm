@@ -1,3 +1,11 @@
+1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* objectbase.h: Include defobj.h.
+
+	* Probe.m: Include collections.h.
+
+	* ActivityControl.[hm]: Include activity.h.
+
 1998-05-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbe.m: #include avcall.h and ffi.h, not #import.
@@ -36,7 +44,7 @@
 	* ActivityControl.m, CustomProbeMap.m: Reformatting throughout.
 
 	* ActivityControl.m, CompleteProbeMap.m, CustomProbeMap.m,
-	MessageProbe.m, Probe.m, ProbeMap.m, Swarm.m, VarProbe.m move
+	MessageProbe.m, Probe.m, ProbeMap.m, Swarm.m, VarProbe.m: Move
 	documentation tags to objectbase.h.
 
 	* objectbase.h: Remove includes of SwarmObject.h and Swarm.h.

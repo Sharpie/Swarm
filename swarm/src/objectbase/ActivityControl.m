@@ -9,6 +9,7 @@
 // swarm.
 
 #import <objectbase/ActivityControl.h>
+#import <activity.h>
 
 @implementation ActivityControl
 

@@ -15,12 +15,13 @@ Date:            1996-12-12
 //D: repository for the probe machinery, which is provided for every
 //D: SwarmObject.
 
-#import <activity.h>
+#import <defobj.h>
+#import <activity.h> // timeval_t
 
 //
 //  Objectbase errors
 //
-//id <Error> ReferenceError;  // dangling pointer to removed object
+// id <Error> ReferenceError;  // dangling pointer to removed object
 
 @protocol SwarmObject <Create, Drop>
 //S: A superclass of most objects in a Swarm simulation that provides support
