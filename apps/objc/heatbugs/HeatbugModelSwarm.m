@@ -233,7 +233,9 @@
              target: [heatbugList getFirst]
              selector: M(step)
              arguments:
-               [FArguments create: self setSelector: M(step) setJavaFlag: NO]];
+               [[[FArguments createBegin: self]
+                  setSelector: M(step)]
+                 createEnd]];
     
     actionForEach = 
       [modelActions createFActionForEachHomogeneous: heatbugList call: call];
