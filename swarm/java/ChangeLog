@@ -1,3 +1,8 @@
+1999-03-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javaswarm: Print out LD_LIBRARY_PATH additions if there are no
+	arguments (otherwise export and run java).
+
 1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javaswarm: Use \012 instead of \n to avoid problems with ucb tr.

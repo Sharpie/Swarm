@@ -1,7 +1,7 @@
 #!/bin/sh
 . $SWARMHOME/etc/swarm/config.swarm
 
-LD_LIBRARY_PATH=`sort 2>/dev/null | uniq | tr '\012' ':' <<EOF
+LD_LIBRARY_PATH=`sort <<EOF 2>/dev/null | uniq | tr '\012' ':'
 $swarm_libdir
 $xpmlibdir
 $tcllibdir
@@ -12,7 +12,10 @@ $pnglibdir
 $zliblibdir
 EOF`$LD_LIBRARY_PATH
 
-export LD_LIBRARY_PATH
-
-java $*
+if test -z "$1" ; then
+  echo $LD_LIBRARY_PATH
+else
+  export LD_LIBRARY_PATH
+ java $*
+fi
 
