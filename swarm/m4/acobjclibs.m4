@@ -2,18 +2,20 @@ AC_DEFUN(md_CHECK_OBJC_LIBS,
 [AC_MSG_CHECKING(for Objective C libraries)
 linked=no
 ORIG_LIBS=$LIBS
+ORIG_CC=$CC
 LIBS="$ORIG_LIBS -lobjc"
+CC="$ORIG_CC -x objective-c"
 AC_TRY_LINK([#include <objc/Object.h>], 
 changequote(<,>)
 [[Object alloc] init]
-changequote([,]),,linked=yes)
+changequote([,]),linked=yes)
 
 if test $linked = no ; then
 LIBS="$ORIG_LIBS -lobjc -lpthread"
 AC_TRY_LINK([#include <objc/Object.h>],
 changequote(<,>)
 [[Object alloc] init]
-changequote([,]),,linked=yes)
+changequote([,]),linked=yes)
 
 if test $linked = no ; then
 AC_MSG_RESULT(no)
@@ -24,4 +26,5 @@ fi
 else
 AC_MSG_RESULT(-lobjc)
 fi
+CC="$ORIG_CC"
 ])
