@@ -297,8 +297,8 @@
     (1+ index)))
 
 (defun extract-doc-string (str)
-  (if (> (length str) 5)
-      (substring str 5)
+  (if (> (length str) 4)
+      (substring str 4)
       ""))
 
 (defun parse-global-using-parse-state (module protocol parse-state)
@@ -335,7 +335,7 @@
                 (if (eq tag :example-doc)
                     (concat buf "\n" (extract-doc-string line))
                     (concat
-                     (if (string-match " $" buf) buf (concat buf " "))
+                     (if (string-match " $" buf) buf (concat buf ""))
                      (extract-doc-string line)))))))))
 
 (defun extract-funcptr-name ()

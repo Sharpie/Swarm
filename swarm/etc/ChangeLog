@@ -1,3 +1,11 @@
+1999-05-15  Alex Lancaster  <alex@santafe.edu>
+
+	* protocol.el (extract-doc-string): Set the substr to start after
+	position 4, rather than 5, to ensure that the whitespace after the
+	colon in the doc-string is considered significant.
+	(append-buf): Ignore whitespace at the end of a line, so that
+	contiguous text can be generated.
+
 1999-05-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config.swarm.in (JAVAC): Substitute.
