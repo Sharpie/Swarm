@@ -85,7 +85,6 @@ else
             JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}/classic"
           fi
           JAVALIBS="${JAVALIBS}:\${jdkdir}/jre/lib/${proc}"
-        fi
         elif test -d "${jdkdir}/lib/${proc}/${threads}_threads"; then
           JAVALIBS="\${jdkdir}/lib/${proc}/${threads}_threads"
         else
