@@ -33,9 +33,7 @@ CompleteVarMap.o: CompleteVarMap.m CompleteVarMap.h \
                   ProbeMap.m ProbeMap.h Probe.h SwarmObject.h
 swarm_rts_routines.o: swarm_rts_routines.m swarm_rts_routines.h
 ActivityControl.o: ActivityControl.m ActivityControl.h
-Arguments.o: Arguments.m Arguments.h mkversion
+Arguments.o: Arguments.m Arguments.h version.h
 
-.PHONY: mkversion
-
-mkversion:
+version.h: $(SWARMHOME)/VERSION
 	echo '#define VERSION "$(VERSION)"' > version.h
