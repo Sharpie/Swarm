@@ -6,9 +6,12 @@
 (define *Member* :: <swarm.defobj.Symbol> #!null)
 (define *probeLibrary* :: <swarm.objectbase.ProbeLibrary> #!null)
 
-(define (initSwarmBatch app-name version bug-address)
-    (let ((ary ((primitive-array-new <String>) 1)))
+(define (initSwarmBatch app-name version bug-address no-init-flag)
+    (let ((ary ((primitive-array-new <String>) 2)))
       ((primitive-array-set <String>) ary 0 "-b")
+      ((primitive-array-set <String>) ary 1 (if no-init-flag 
+                                                "--no-init"
+                                                ""))
       ((primitive-virtual-method
         <swarm.SwarmEnvironment>
         "initSwarm"

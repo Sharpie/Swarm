@@ -1,6 +1,6 @@
 2000-07-05  Marcus G. Daniels  <mgd@nest.swarm.org>
 
-	* configure.in (AC_OUTPUT): Extract tools/Makefile.
+	* configure.in (AC_OUTPUT): Extract tools/{Makefile,print-{hdf5,lisp}}.
 
 	* Makefile.am (SUBDIRS): Add tools.
 

@@ -1,5 +1,5 @@
-(define (init app-name)
-  (initSwarmBatch app-name "0.0" "bug-swarm@swarm.org"))
+(define (init)
+  (initSwarmBatch "print-table" "0.0" "bug-swarm@swarm.org" #t))
 
 (define (print-record obj)
   (let* ((class (invoke obj 'getClass))
@@ -21,10 +21,8 @@
                     (invoke drop-string 'drop))))
             (loop (invoke index 'next)))))))
 
-(define (print-record-for-key key archiver-sym)
-  (let ((archiver :: <swarm.defobj.Archiver> 
-                  (field *swarm-environment* archiver-sym))
-        (string :: <java.lang.String> key))
+(define (print-record-for-key archiver :: <swarm.defobj.Archiver> key)
+  (let ((string :: <java.lang.String> key))
     (let* ((list :: <swarm.collections.Collection>
                  (invoke archiver 'getObject string))
            (index :: <swarm.collections.Index>
@@ -36,9 +34,16 @@
               (newline)
               (loop (invoke index 'next))))))))
 
-(define (print archiver-sym)
+(define (print archiver-procedure)
   (let ((args (vector->list command-line-arguments)))
-    (init (car args))
-    (print-record-for-key (cadr args) archiver-sym)))
+    (init)
+    (print-record-for-key (archiver-procedure (car args))
+                          (cadr args))))
 
+(define (make-open-hdf5-archive-procedure)
+  (lambda (path)
+    (make <swarm.defobj.HDF5ArchiverImpl> *globalZone* path)))
 
+(define (make-open-lisp-archive-procedure)
+  (lambda (path)
+    (make <swarm.defobj.LispArchiverImpl> *globalZone* path)))
