@@ -1,7 +1,7 @@
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Colormap.m ([Colormap -setColor:ToRed:Green:Blue:]): Revert
-	back to #RRGGBB format.
+	back to #RRGGBB format (for Cygwin Tk).
 
 	* internal.[hm] (tkobjc_setColor): New function. 
 
