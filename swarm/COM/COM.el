@@ -96,9 +96,11 @@
 
 (defvar *com-uuid-hash-table* (make-hash-table :test #'equal))
 
+(defun com-phase-name (protocol phase)
+  (concat (protocol-name protocol) (suffix-for-phase phase)))
+
 (defun com-interface-name (protocol phase)
-  (concat *com-interface-prefix*
-          (protocol-name protocol) (suffix-for-phase phase)))
+  (concat *com-interface-prefix* (com-phase-name protocol phase)))
 
 (defun com-uuid-table-pathname ()
   (concat (get-swarmsrcdir) "COM/uuids.el"))
@@ -114,33 +116,31 @@
 (defun com-save-uuid-table ()
   (with-temp-file (com-new-uuid-table-pathname)
     (insert "(com-load-uuid-table '(\n");
-    (loop for interface-name in
+    (loop for name in
           (sort 
-           (loop for interface-name being each hash-key of
+           (loop for name being each hash-key of
                  *com-uuid-hash-table*
-                 collect interface-name)
+                 collect name)
            #'string<)
-          for uuid = (gethash interface-name *com-uuid-hash-table*)
+          for uuid = (gethash name *com-uuid-hash-table*)
           do
           (insert "  ")
-          (insert (prin1-to-string (cons interface-name uuid)))
+          (insert (prin1-to-string (cons name uuid)))
           (insert "\n"))
     (insert "))")))
                         
   
-(defun com-ensure-uuid (interface-name)
-  (let ((uuid (gethash interface-name *com-uuid-hash-table*)))
+(defun com-ensure-uuid (name)
+  (let ((uuid (gethash name *com-uuid-hash-table*)))
     (unless uuid
-      (message (concat "Generating uuid for `"
-                       interface-name
-                       "'"))
+      (message (concat "Generating uuid for `" name "'"))
       (setq uuid
             (with-temp-buffer
               (call-process "uuidgen" nil t nil)
               (goto-char (point-min))
               (end-of-line)
               (buffer-substring (point-min) (point))))
-      (setf (gethash interface-name *com-uuid-hash-table*) uuid))
+      (setf (gethash name *com-uuid-hash-table*) uuid))
     uuid))
 
 (defun com-type-category-to-com-type (objc-type com-type-category)
@@ -307,12 +307,12 @@
                 (com-start-idl protocol phase)
                 (com-idl-print-methods-in-phase protocol phase)
                 (com-end-idl interface-name)
-                )))
-  (com-save-uuid-table))
+                ))))
 
 (defun com-impl-name (protocol phase)
   (concat *com-impl-prefix*
-          (protocol-name protocol) (suffix-for-phase phase) "Impl"))
+          (com-phase-name protocol phase)
+          "Impl"))
 
 (defun com-impl-pathname (protocol phase suffix)
   (c-path (concat (com-impl-name protocol phase) suffix)))
@@ -334,57 +334,65 @@
         c++-type
       (concat idl-type " *"))))
 
-(defun com-impl-print-include (iprotocol phase)
+(defun com-impl-print-interface-include (iprotocol phase)
   (insert "#include <")
   (insert (com-interface-name iprotocol phase))
   (insert ".h>\n"))
 
-(defun com-impl-generate-headers ()
-  (loop for protocol being each hash-value of *protocol-hash-table*
-        when (and (not (removed-protocol-p protocol))
-                  (real-class-p protocol))
+(defun com-impl-map-protocols (protocol-func)
+  (loop for protocol in
+        (sort
+         (loop for protocol being each hash-value of *protocol-hash-table*
+               when (and (real-class-p protocol)
+                         (not (removed-protocol-p protocol)))
+               collect protocol)
+         #'(lambda (a b)
+             (string< (protocol-name a)
+                      (protocol-name b))))
         do
         (loop for phase in '(:creating :using)
-              for iprotocols = (cons protocol
-                                     (included-protocol-list protocol))
-              do
-              (with-temp-file
-                  (com-impl-pathname protocol phase ".h")
-                (loop for iprotocol in iprotocols
-                      do
-                      (com-impl-print-include iprotocol phase)
-                      (com-impl-print-include iprotocol :setting))
-                (insert "\n")
-                (insert "class ")
-                (insert (com-impl-name protocol phase))
-                (insert ": public ")
-                (print-implemented-interfaces-list
-                 protocol phase
-                 #'(lambda (imodule iprotocol iphase)
-                     (com-interface-name iprotocol iphase))
-                 t)
-                (insert "\n")
-                (insert "{\n")
-                (insert "public:\n")
-                (insert "  ")
-                (insert (com-impl-name protocol phase))
-                (insert " ();\n")
-                (insert "  virtual ~")
-                (insert (com-impl-name protocol phase))
-                (insert " ();\n")
-                (insert "\n")
-                (insert "  NS_DECL_ISUPPORTS\n\n")
-                (loop for iprotocol in iprotocols
-                      do
-                      (insert "  ")
-                      (insert (com-impl-ns-decl iprotocol :setting))
-                      (insert "\n")
-                      (insert "  ")
-                      (insert (com-impl-ns-decl iprotocol phase))
-                      (insert "\n"))
-                (insert "\n")
-                (insert "};\n")))))
-        
+              do (funcall protocol-func protocol phase))))
+
+(defun com-impl-generate-headers (protocol phase)
+  (let ((iprotocols (cons protocol
+                          (included-protocol-list protocol))))
+    (with-temp-file
+        (com-impl-pathname protocol phase ".h")
+      (loop for iprotocol in iprotocols
+            do
+            (com-impl-print-interface-include iprotocol phase)
+            (com-impl-print-interface-include iprotocol :setting))
+      (insert "\n")
+      (insert "class ")
+      (insert (com-impl-name protocol phase))
+      (insert ": public ")
+      (print-implemented-interfaces-list
+       protocol phase
+       #'(lambda (imodule iprotocol iphase)
+           (com-interface-name iprotocol iphase))
+       t)
+      (insert "\n")
+      (insert "{\n")
+      (insert "public:\n")
+      (insert "  ")
+      (insert (com-impl-name protocol phase))
+      (insert " ();\n")
+      (insert "  virtual ~")
+      (insert (com-impl-name protocol phase))
+      (insert " ();\n")
+      (insert "\n")
+      (insert "  NS_DECL_ISUPPORTS\n\n")
+      (loop for iprotocol in iprotocols
+            do
+            (insert "  ")
+            (insert (com-impl-ns-decl iprotocol :setting))
+            (insert "\n")
+            (insert "  ")
+            (insert (com-impl-ns-decl iprotocol phase))
+            (insert "\n"))
+      (insert "\n")
+      (insert "};\n"))))
+
 (defun com-impl-print-constructor (protocol phase)
   (let ((name (com-impl-name protocol phase)))
     (insert name)
@@ -462,28 +470,121 @@
 	do
         (com-impl-print-method-definition protocol phase method)
         (insert "\n")))
+
+(defun com-impl-print-impl-include (protocol phase)
+  (insert "#include \"")
+  (insert (com-impl-name protocol phase))
+  (insert ".h\"\n"))
+
+(defun com-impl-print-namestring (protocol phase)
+  (insert "\"")
+  (insert (com-impl-name protocol phase))
+  (insert "\""))
+
         
-(defun com-impl-generate-c++ ()
-  (loop for protocol being each hash-value of *protocol-hash-table*
-        unless (removed-protocol-p protocol)
-        do
-        (loop for phase in '(:creating :using)
+(defun com-impl-generate-c++ (protocol phase)
+  (with-temp-file 
+      (com-impl-pathname protocol phase ".cpp")
+    (com-impl-print-impl-include protocol phase)
+    (insert "\n")
+    (com-impl-print-constructor protocol phase)
+    (com-impl-print-destructor protocol phase)
+    (com-impl-print-method-definitions protocol phase)))
+
+(defun com-protocol-sym (protocol phase suffix)
+  (concat
+   "SWARM_"
+   (upcase (symbol-name (module-sym (protocol-module protocol))))
+   "_"
+   (upcase (com-phase-name protocol phase))
+   "_"
+   suffix))
+
+(defun com-print-cid-define (protocol phase)
+  (flet ((print-hex (str)
+                    (insert "0x")
+                    (insert str)))
+    (insert "#define ")
+    (insert (com-protocol-sym protocol phase "CID \\\n"))
+    (insert "{")
+    (let ((l (split-string
+              (com-ensure-uuid (com-impl-name protocol phase))
+              "-")))
+      (print-hex (first l))
+      (insert ", ")
+      (print-hex (second l))
+      (insert ", ")
+      (print-hex (third l))
+      (insert ", {")
+      (let ((l4 (fourth l)))
+        (print-hex (substring l4 0 2))
+        (insert ", ")
+        (print-hex (substring l4 2 4)))
+      (let ((l5 (fifth l)))
+        (loop for i from 0 below 6
+              for start = (* i 2)
               do
-              (with-temp-file 
-                  (com-impl-pathname protocol phase ".cpp")
-                (insert "#include \"")
-                (insert (com-impl-name protocol phase))
-                (insert ".h\"\n")
-                (insert "\n")
-                (com-impl-print-constructor protocol phase)
-                (com-impl-print-destructor protocol phase)
-                (com-impl-print-method-definitions protocol phase)))))
+              (insert ", ")
+              (print-hex (substring l5 start (+ start 2)))))))
+  (insert "}}\n"))
+
+(defun com-print-progid-define (protocol phase)
+  (insert "#define ")
+  (insert (com-protocol-sym protocol phase "PROGID"))
+  (insert " ")
+  (insert "\"component://swarm/")
+  (insert (symbol-name (module-sym (protocol-module protocol))))
+  (insert "/")
+  (insert (downcase (com-phase-name protocol phase)))
+  (insert "\"\n"))
+
+
+(defun com-impl-generate-module ()
+  (with-temp-file (c-path "module.cpp")
+    (insert "#include \"nsIModule.h\"\n")
+    (insert "#include \"nsIGenericFactory.h\"\n")
+    (com-impl-map-protocols #'com-impl-print-impl-include)
+    (insert "\n")
+    (com-impl-map-protocols
+     #'(lambda (protocol phase)
+         (insert "NS_GENERIC_FACTORY_CONSTRUCTOR (")
+         (insert (com-impl-name protocol phase))
+         (insert ");\n")))
+    (insert "\n")
+    (com-impl-map-protocols #'com-print-cid-define)
+    (insert "\n")
+    (com-impl-map-protocols #'com-print-progid-define)
+    (insert "\n")
+    (insert "static nsModuleComponentInfo components[] = {\n")
+    (let ((first t))
+      (com-impl-map-protocols
+       #'(lambda (protocol phase)
+           (if first
+               (progn
+                 (insert "  ")
+                 (setq first nil))
+             (insert ",\n  "))
+           (insert "{")
+           (com-impl-print-namestring protocol phase)
+           (insert ", ")
+           (insert (com-protocol-sym protocol phase "CID"))
+           (insert ", ")
+           (insert (com-protocol-sym protocol phase "PROGID"))
+           (insert ", ")
+           (insert (com-impl-name protocol phase))
+           (insert "Constructor")
+           (insert ", NULL, NULL }"))))
+    (insert "};\n")
+    (insert "\n")
+    (insert "NS_IMPL_NSGETMODULE(\"swarmModule\", components)\n")))
 
 (defun run ()
   (let ((*idl-flag* t))
     (load-and-process-modules :uniquify-method-lists t))
   (print-makefile.common)
   (com-idl-generate)
-  (com-impl-generate-headers)
-  (com-impl-generate-c++))
-  
+  (com-impl-map-protocols #'com-impl-generate-headers)
+  (com-impl-map-protocols #'com-impl-generate-c++)
+  (com-impl-generate-module)
+  (com-save-uuid-table))
+
