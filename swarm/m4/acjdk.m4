@@ -41,7 +41,7 @@ else
     JAVA='${JAVAENV} ${JAVACMD}'
     JAVASTUBS_FUNCTION=java-run-all-unicode
     JAVALIBS='${jdkdir}/lib/sparc/green_threads/lib'
-    JAVAC='JAVA_HOME=${jdkdir} ${jdkdir}/bin/javac'
+    JAVAC='JAVA_HOME=${jdkdosdir} ${jdkdir}/bin/javac'
   elif test -f $jdkdir/include/japhar/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include/japhar"
     JAVACLASSES="`$jdkdir/bin/japhar-config info datadir`"
