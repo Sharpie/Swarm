@@ -1,3 +1,9 @@
+2002-04-14  Alex Lancaster  <alex@swarm.org>
+
+	* common.el, interface.el, protocol.el: Add canonical license
+	statement as suggested by GNU GPL, and copyright statements where
+	missing.
+
 2001-12-02  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el: Assume the user has modified GCC; do dispatch lookup.
