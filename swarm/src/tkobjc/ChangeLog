@@ -1,3 +1,8 @@
+2000-12-03  Marcus G. Daniels  <mgd@drone.swarm.org>
+
+	* ScheduleItem.m ([ScheduleItem -_createItem_]): Use conformsTo
+	instead of isKindOf for matching ActionConcurrent.
+
 2000-10-01  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* internal.m (tkobjc_setName): Simplfy string build expression.

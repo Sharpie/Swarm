@@ -295,7 +295,7 @@ PHASE(Using)
           [text setX: xoffset + DESCOFFSET Y: ypos];
           {
             char *buf;
-            if ([action isKindOf: [ActionConcurrent_c class]])
+            if ([action conformsTo: @protocol (ActionConcurrent)])
               {
                 buf = [zone alloc: 10];
                 sprintf (buf, "%u",
