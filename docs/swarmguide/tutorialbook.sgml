@@ -13,8 +13,6 @@
 
 <BOOK ID="tutorial">
 
-<TITLE>The Swarm User Guide</TITLE>
-
 &tutorialcont.sgml;
 
 </BOOK>
