@@ -1,3 +1,10 @@
+2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* gui.h
+	([{Widget,ArchivedGeometryWidget,Pixmap,LinkItem,ScheduleItem}
+	-drop]): Remove.
+	([Raster -setWidth:Height:]): Remove.
+
 2000-04-20    <mgd@nest.swarm.org>
 
 	* gui.h: Note that window geometry record names must not have

@@ -116,8 +116,6 @@ USING
 - disableDestroyNotification;
 
 - (BOOL)getDestroyedFlag;
-
-- (void)drop;
 @end
 
 
@@ -171,7 +169,6 @@ CREATING
 - registerAndLoad;
 USING
 - updateArchiver: archiver;
-- (void)drop;
 @end
 
 @protocol Frame <ArchivedGeometryWidget, CREATABLE>
@@ -602,9 +599,6 @@ USING
 //M: Draw the raster to the display.
 - drawSelf;
 
-//M: Set the size of the raster.
-- setWidth: (unsigned)newWidth Height: (unsigned)newHeight;
-
 //M: Configure at mouse button to send a message to a given client object.
 - setButton: (int)n Client: c Message: (SEL)sel;
 
@@ -687,8 +681,6 @@ USING
 
 //M: Save the pixmap to a file.
 - save: (const char *)filename;
-
-- (void)drop;
 @end
 
 @protocol CanvasAbstractItem <Create, Drop>
@@ -818,9 +810,6 @@ USING
 
 //M: Redraw the link (especially due to the motion of nodes).
 - update;
-
-//M: Delete the lines that make up a LinkItem.
-- (void)drop;
 @end
 
 @protocol ScheduleItem <CompositeItem, CREATABLE>
@@ -847,9 +836,6 @@ USING
 
 //M: Send visual message indicator from browser to some target.
 - trigger: widget X: (int)x Y: (int)y;
-
-//M: Remove the schedule inspector from the canvas.
-- (void)drop;
 @end
 
 @protocol OvalNodeItem <NodeItem, CREATABLE>
