@@ -92,9 +92,6 @@
   (element abstract 
     (make display-group
       (process-children)))
-
-  (element revhistory ($book-revhistory$))
-  
   )
 
 ;; BOOK customization
@@ -143,8 +140,6 @@
 
 (mode reference-titlepage-verso-mode
 
-  (element revhistory ($book-revhistory$))
-  
   (element abstract
     (make display-group
       start-indent: (+ (inherited-start-indent) 0.25in)
@@ -482,45 +477,7 @@
 (element type
          (make element gi: "PRE"
                (process-children)))
-
-(mode reference-titlepage-verso-mode
-      (element (revhistory revision)
-               (let ((revnumber (select-elements (descendants (current-node)) (normalize "revnumber")))
-                     (revdate   (select-elements (descendants (current-node)) (normalize "date")))
-                     (revauthor (select-elements (descendants (current-node)) (normalize "authorinitials")))
-                     (revremark (select-elements (descendants (current-node)) (normalize "revremark"))))
-                 (make sequence
-                       (make element gi: "TR"
-                             (make element gi: "TD"
-                                   attributes: (list
-                                                (list "ALIGN" "LEFT"))
-                                   (if (not (node-list-empty? revnumber))
-                                       (make sequence
-                                             (literal "File: ") ; (gentext-element-name-space (gi (current-node))))
-                                             (process-node-list revnumber))
-                                       (empty-sosofo)))
-                             (make element gi: "TD"
-                                   attributes: (list
-                                                (list "ALIGN" "LEFT"))
-                                   (if (not (node-list-empty? revdate))
-                                       (process-node-list revdate)
-                                       (empty-sosofo)))
-                             (make element gi: "TD"
-                                   attributes: (list
-                                                (list "ALIGN" "LEFT"))
-                                   (if (not (node-list-empty? revauthor))
-                                       (make sequence
-                                             (literal "Revised by: ")
-                                             (process-node-list revauthor))
-                                       (empty-sosofo))))
-                       (make element gi: "TR"
-                             (make element gi: "TD"
-                                   attributes: (list
-                                                (list "ALIGN" "LEFT")
-                                                (list "COLSPAN" "3"))
-                                   (if (not (node-list-empty? revremark))
-                                       (process-node-list revremark)
-                                       (empty-sosofo))))))))
+      
 </style-specification-body>
 </style-specification>
 

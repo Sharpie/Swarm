@@ -438,15 +438,43 @@
   (list (normalize "revhistory")))
 
 (mode reference-titlepage-verso-mode
-  (element revhistory ($book-revhistory$))
+  (element revhistory
+           (make sequence
+                 ($lowtitlewithsosofo$ 1 (literal "Revision History"))
+                 (process-children)))
+
+  (element (revhistory revision)
+           (let ((revnumber (select-elements (descendants (current-node)) (normalize "revnumber")))
+                 (revdate   (select-elements (descendants (current-node)) (normalize "date")))
+                 (revauthor (select-elements (descendants (current-node)) (normalize "authorinitials")))
+                 (revremark (select-elements (descendants (current-node)) (normalize "revremark"))))
+             (make sequence
+                   (sosofo-append
+                    (make-linebreak)
+                    (process-node-list revdate)
+                    (literal " ")
+                    (if (string=? (data revnumber) "")
+                        (empty-sosofo)
+                        (sosofo-append
+                         (literal " ")
+                         (process-node-list revnumber)
+                         (literal " ")))
+                    (process-node-list revauthor)
+                    (make paragraph
+                          (process-node-list revremark))
+                    (make-linebreak)))))
   (element (revision revnumber) 
-    ($bold-seq$ (process-children))) 
+           ($bold-seq$ (process-children))) 
   (element (revision date) 
-    ($bold-seq$ (process-children)))
+           ($bold-seq$ (process-children)))
   (element (revision authorinitials)  
-    ($italic-seq$ (process-children)))
+           ($italic-seq$ (process-children)))
   (element (revision revremark)
-           (expand-paragraphs (children (current-node)))))
+           (make sequence
+                 font-posture: 'upright
+                 (process-children)))
+  ) 
+
 
 </style-specification-body>
 </style-specification>

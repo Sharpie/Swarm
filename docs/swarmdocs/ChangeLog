@@ -1,5 +1,15 @@
 1998-06-04  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* swarmbook.dsl (revhistory, revision): Remove for both backends.
+
+	* common.dsl (revhistory): Replace definition with simple title
+	and children.
+	(revision): A common definition.
+	(revremark): Don't expand paragraphs, put in sequence with upright
+	font posture.
+
+	* Makefile.rules: Don't include dvi, ps, or tex.  Add explicit _$(NAME).tex target. 
+	Make $(NAME).dvi dependent on macros.tex.
 	* configure.in: Use `stylesheet' as argument to AC_ARG_WITH.
 	
 1998-06-03  Marcus G. Daniels  <mgd@ute.santafe.edu>

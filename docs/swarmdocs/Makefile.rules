@@ -8,7 +8,9 @@ CATOPTS = -c $(top_builddir)/catalog -c @docbookdtd_srcdir@/docbook.cat -c @docb
 
 .PHONY: fot tex dvi ps rtf html
 
-$(addprefix $(NAME),.fot .htm .tex .dvi .ps .rtf): $(SGML_FILES) $(top_srcdir)/common.dsl $(SWARMBOOK)
+_$(NAME).tex $(addprefix $(NAME),.fot .htm .rtf): $(SGML_FILES) $(top_srcdir)/common.dsl $(SWARMBOOK)
+
+$(NAME).dvi: $(top_srcdir)/macros.tex
 
 fot: all $(NAME).fot
 
