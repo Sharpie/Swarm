@@ -619,11 +619,19 @@ dynamicCallOn (const char *probedType,
 - (double)doubleDynamicCallOn: target
 {
   val_t val = [self dynamicCallOn: target];
-  
+
   if (val.type == _C_SHT)
+#ifdef USE_AVCALL
+    return (double)val.val._short;
+#else
     return (double)val.val._int; // short return is broken in libffi-1.18
+#endif
   else if (val.type == _C_USHT)
+#ifdef USE_AVCALL
+    return (double)val.val._ushort; // short return is broken in libffi-1.18
+#else
     return (double)val.val._uint; // short return is broken in libffi-1.18
+#endif
   else if (val.type == _C_INT)
     return (double)val.val._int;
   else if (val.type == _C_UINT)
@@ -633,9 +641,17 @@ dynamicCallOn (const char *probedType,
   else if (val.type == _C_ULNG)
     return (double)val.val._ulong;
   else if (val.type == _C_CHR)
+#ifdef USE_AVCALL
     return (double)val.val._int; // character return is broken in libffi-1.18
+#else
+    return (double)val.val._char;
+#endif
   else if (val.type == _C_UCHR)
+#ifdef USE_AVCALL
+    return (double)val.val._uchar; // character return is broken in libffi-1.18
+#else
     return (double)val.val._uint; // character return is broken in libffi-1.18
+#endif
   else if (val.type == _C_FLT)
     return (double)val.val._float;
   else if (val.type == _C_DBL)
