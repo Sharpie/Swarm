@@ -944,8 +944,10 @@ void archiverRegister (id client);
 void archiverUnregister (id client);
 id lispArchiverGet (const char *key);
 void lispArchiverPut (const char *key, id object);
+#ifdef HAVE_HDF5
 id HDF5ArchiverGet (const char *key);
 void HDF5ArchiverPut (const char *key, id object);
+#endif
 @end
 
 //G: The singleton arguments object.
