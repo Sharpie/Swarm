@@ -1,6 +1,7 @@
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* config.swarm.in (jdkdosdir): Substitute.
+	(JAVACLASSES): Single quote.
 
 	* Makefile.common.in (SWARMLIBS): Add JAVASWARMLIBS after as well.
 
