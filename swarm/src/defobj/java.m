@@ -1419,6 +1419,8 @@ swarm_directory_java_associate_objects_startup (jobject swarmEnvironment)
 void
 swarm_directory_java_associate_objects (jobject swarmEnvironment)
 {
+  ASSOCIATE (arguments);
+
   ASSOCIATE (hdf5Archiver);
   ASSOCIATE (lispArchiver);
   ASSOCIATE (hdf5AppArchiver);
