@@ -64,6 +64,14 @@
       ("ProbeMap \\*" . freaky) 
       ))
 
+(defun freaky-message- (objc-type)
+  (message "Objective C type `%s' in protocol `%s' is freaky!"
+           objc-type
+           (protocol-name *last-protocol*)))
+
+(defun freaky-message (objc-type)
+  )
+
 (defun java-type-for-objc-type (objc-type)
   (if objc-type
       (let ((ret
@@ -73,9 +81,7 @@
                              (let ((expr (concat (concat "^" b) "$")))
                                (string-match expr a))))))
         (when (freakyp (cdr ret))
-          (message "Objective C type `%s' in protocol `%s' is freaky!"
-                 objc-type
-                 (protocol-name *last-protocol*)))
+          (freaky-message objc-type))
         (cdr ret))
       "Object"))
 
@@ -95,17 +101,23 @@
     (when varname
       (java-print-type (car type-and-varname))
       (insert " ")
-      (insert varname))))
+      (insert
+       (if (string= varname "class")
+           "aClass"
+           varname)))))
 
 (defun java-print-method (method)
   (let* ((arguments (method-arguments method))
          (first-argument (car arguments)))
     (java-print-type (method-return-type method))
     (insert " ")
-    (loop for argument in arguments
+    (insert (car first-argument))
+    (loop for argument in (cdr arguments)
           for nameKey = (car argument)
           when nameKey
-          do (insert (capitalize nameKey)))
+          do
+          (insert (upcase (substring nameKey 0 1)))
+          (insert (substring nameKey 1)))
     (insert " (")
     (java-print-argument first-argument)
     (loop for argument in (cdr arguments)
@@ -116,11 +128,14 @@
 
 (defun removed-method-p (method)
   (let ((arguments (method-arguments method)))
-    (and (not (cdr arguments))
-         (let ((name (caar arguments)))
-           (find name '("getClass" "getDisplayName" "setDisplayName"
-                        "getTypeName" "copy" "remove")
-                 :test #'string=)))))
+    (or (and (not (cdr arguments))
+             (let ((name (caar arguments)))
+               (find name '("getClass" "getDisplayName" "setDisplayName"
+                            "getTypeName" "copy" "remove")
+                     :test #'string=)))
+        (and (cdr arguments)
+             (null (caadr arguments)) ; raiseEvent: msg : ...
+             (string= (caar arguments) "raiseEvent")))))
 
 (defun method-list (protocol phase)
   (remove-if #'removed-method-p
@@ -275,6 +290,7 @@
   (interactive)
   (ensure-directory "swarm")
   (loop for protocol being each hash-value of *protocol-hash-table* 
+        unless (the-CREATABLE-protocol-p protocol)
         do
         (setq *last-protocol* protocol)
         (java-print-interface protocol)

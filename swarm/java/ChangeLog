@@ -12,10 +12,15 @@
 	(java-print-methods-in-phase): Use it.
 	(*objc-to-java-type-alist*): notify_t and long doubles are freaky.
 	(java-print-method): Concatenate method keys together into single
-	Java method name.
+	Java method name. Upcase second and after keys.
 	(removed-method-p): Also reject getDisplayName, setDisplayName,
 	getTypeName, copy, and remove.
 	(method-list): Use expanded method list.
+	(java-print-argument): Avoid use of "class" as a variable name.
+	(freaky-message): New function.
+	(java-type-for-objc-type): Use it.
+	(removed-method-p): Avoid raiseEvent: msg :...
+	(java-print-classes): Don't print stubs for CREATABLE protocol.
 
 1999-02-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
