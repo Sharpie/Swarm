@@ -1,3 +1,9 @@
+1998-08-24  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* history.el (process-changelog): Sort combined list by timestamp.
+
+	* docbook.dcl (TAGLEN, ATTSPLEN): Increase to 1849.
+
 1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in (VERSION): Bump to 1.3.

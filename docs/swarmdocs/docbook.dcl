@@ -80,8 +80,8 @@ SYNTAX
 		LITLEN   8092
 		TAGLVL    100
 		NAMELEN    97
-                 TAGLEN  1805
-               ATTSPLEN  1805
+                 TAGLEN  1849
+               ATTSPLEN  1849
 
 FEATURES
 

@@ -144,9 +144,17 @@
                                (header-filename-for-module-sym module-sym))))
          (swarmdocs-changelog-list
           (parse-changelog (pathname-for-swarmdocs module-sym "ChangeLog")))
-         (combined-changelog-list (append
-                                   swarmdocs-changelog-list
-                                   swarmsrcdir-changelog-list)))
+         (combined-changelog-list 
+          (sort (append
+                 swarmdocs-changelog-list
+                 swarmsrcdir-changelog-list)
+                #'(lambda (a b)
+                    (let* ((time-a (changelog-timestamp a))
+                           (time-b (changelog-timestamp b))
+                           (high (- (car time-a) (car time-b))))
+                      (if (zerop high)
+                          (>= (cadr time-a) (cadr time-b))
+                          (>= high 0)))))))
     (with-temp-file (pathname-for-swarmdocs-revision-output module-sym)
       (sgml-mode)
       (insert "<REVHISTORY ID=\"SWARM.")
