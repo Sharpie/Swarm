@@ -42,6 +42,21 @@ if test -z "$defaultdir" ; then
   fi
 fi
 
+AC_ARG_WITH(xpmdir,
+[  --with-xpmdir=DIR                Use DIR/include and DIR/lib for XPM],
+  xpmincludedir=$withval/include
+  xpmlibdir=$withval/lib)
+
+AC_ARG_WITH(xpmincludedir,
+[  --with-xpmincludedir=DIR         Use DIR for XPM header files],
+  xpmincludedir=$withval)
+
+AC_ARG_WITH(xpmlibname,
+[  --with-xpmlibname=NAME           Use -lNAME for XPM],
+  xpmlibname=$withval)
+
+md_FIND_XPM
+
 AC_ARG_WITH(tcldir,
 [  --with-tcldir=DIR                Use DIR/include and DIR/lib for Tcl],
   tclincludedir=$withval/include

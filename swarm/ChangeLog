@@ -1,6 +1,11 @@
-1998-10-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* VERSION: Bump.
+	* VERSION: Bump to 1.3.1.
+	
+	* configure.in: Check for xpmdir, xpmincludedir, and xpmlibname,
+	and then call md_FIND_XPM.
+
+1998-10-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* NEWS: Note addition of multicolored bars to EZBin, and
 	related changes to Histogram.  Note unsigned coordinate arguments
