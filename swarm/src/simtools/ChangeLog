@@ -1,3 +1,7 @@
+1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* UName.m ([UName -getNewName]): Use STRDUP instead of strdup.
+
 1999-07-05  Alex Lancaster  <alex@santafe.edu>
 
 	* simtools.h (initSwarmAppArguments): Fixed macro,

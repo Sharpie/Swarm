@@ -5,7 +5,8 @@
 
 #import <simtools/UName.h>
 #import <collections.h>
-#include <misc.h>
+#import <defobj.h> // STRDUP
+#include <misc.h> // sprintf
 
 @implementation UName
 
@@ -86,7 +87,7 @@ PHASE(Using)
   
   [aCopy catC: suffix];
 
-  result = strdup ([aCopy getC]);
+  result = STRDUP ([aCopy getC]);
 
   [aCopy drop];
 
