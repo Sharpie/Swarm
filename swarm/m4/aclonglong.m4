@@ -18,7 +18,9 @@ main ()
 break,,break)
 done)
 AC_MSG_RESULT(%${swarm_cv_printf_ll_fmt}d and %${swarm_cv_printf_ll_fmt}u)
+if test "$swarm_cv_printf_ll_fmt" != unknown; then
 AC_DEFINE_UNQUOTED(LLFMT,"$swarm_cv_printf_ll_fmt")
+fi
 AC_CHECK_SIZEOF(long, 4)
 AC_CHECK_SIZEOF(long long, 8)
 ])

@@ -1,5 +1,7 @@
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* aclonglong.m4: Don't define LLFMT if unknown.
+
 	* acpointerfmt.m4: Set PTRHEXFMT to 0x-prefixed %p equivalent.
 
 1999-07-30    <mgd@HELEN>
