@@ -14,31 +14,31 @@
   id probedObject;  
   ProbeMap * probeMap;
   Frame *topFrame, *leftFrame, *rightFrame,
-        *middleFrame, *bottomFrame;
+    *middleFrame, *bottomFrame;
   Label *myTitle ;
   int numberOfProbes;
   id *widgets;
   ref_t objectRef;
   BOOL removeRef;
-
+  
   Frame *topLevel;
   const char *windowGeometryRecordName;
 }
 
--setWindowGeometryRecordName : (const char *)theName;
--setProbedObject: anObject;
--setProbeMap: (ProbeMap *) probeMap;
--createEnd;
+- setWindowGeometryRecordName: (const char *)theName;
+- setProbedObject: anObject;
+- setProbeMap: (ProbeMap *) probeMap;
+- createEnd;
 
--getProbedObject;
--getProbeMap;
--update;
+- getProbedObject;
+- getProbeMap;
+- update;
 
--(char *) package ;
--(const char *) getId ;
+- (const char *)package;
+- (const char *)getId;
 
--(void) setRemoveRef: (BOOL) torf;
--(void) setObjectRef: (ref_t) or;
--(void) drop;
+- (void)setRemoveRef: (BOOL) torf;
+- (void)setObjectRef: (ref_t) or;
+- (void)drop;
 
 @end

@@ -7,6 +7,7 @@
 #import <simtools.h>
 #import <simtools/ControlPanel.h>
 #import <simtools/Archiver.h>
+#import <tkobjc/control.h>
 
 // Rudimentary control panel. A lot of the work for making this useful
 // falls on the shoulders of the controller that's using us, typically
@@ -55,13 +56,12 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 // So, for the Tk version we still need a Tk poller; but in the Java
 // version we don't as long as we have some mechanism other than the
 // schedule for changing ObjC object state in response to Java
-// events.
-#import <tkobjc/global.h>
--waitForControlEvent {
+// events. 
+-waitForControlEvent
+{
   [self setState: ControlStateStopped];
   while (state == ControlStateStopped)
-    Tk_DoOneEvent(TK_ALL_EVENTS);  // take this OUT for Java gui
-    ;
+    doOneEventSync ();
   return nil;
 }
 

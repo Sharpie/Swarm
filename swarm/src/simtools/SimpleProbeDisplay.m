@@ -4,36 +4,39 @@
 // See file LICENSE for details and terms of copying.
 
 #import <string.h>
-#import <tkobjc.h>
+#import <tkobjc/control.h>
 #import <simtools/SimpleProbeDisplay.h>
 #import <simtools/global.h>
 #import <simtools/Archiver.h>
 
 @implementation SimpleProbeDisplay
 
--setWindowGeometryRecordName : (const char *)theName
+- setWindowGeometryRecordName: (const char *)theName
 {
   windowGeometryRecordName = theName;
   return self;
 }
 
--setProbedObject: (id) anObject {
+- setProbedObject: (id)anObject
+{
 
   probedObject = anObject;
   return self;
 }
 
--getProbedObject {
+- getProbedObject
+{
   return probedObject;
 }
 
--setProbeMap: (ProbeMap *) p {
-
+- setProbeMap: (ProbeMap *)p
+{
   probeMap = p;
   return self;
 }
 
--getProbeMap {  
+- getProbeMap
+{  
   return probeMap;
 }
 
@@ -52,96 +55,47 @@
   [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
   topLevel= [topLevel createEnd]; 
   [topLevel setWindowTitle: (char *) [probedObject name]] ;
-  [globalTkInterp eval: "wm withdraw %s",
-     [topLevel getWidgetName]] ;
+  withdrawWindow (topLevel);
 
-  c_Frame =  [Frame  createParent: topLevel] ;  
-  the_canvas = [Canvas createParent: c_Frame] ;
+  c_Frame =  [Frame createParent: topLevel]; 
 
-  [globalTkInterp eval: 
-   "%s configure -width 10 -height 10 -yscrollcommand {%s.yscroll set} ; \
-    scrollbar %s.yscroll -orient vertical -command {%s yview} ; \
-    pack %s.yscroll -side right -fill y ; \
-    pack %s -side left -fill both  -expand true",
-    [the_canvas getWidgetName],
-    [c_Frame getWidgetName],
-    [c_Frame getWidgetName],
-    [the_canvas getWidgetName],
-    [c_Frame getWidgetName],
-    [the_canvas getWidgetName]] ;
+  the_canvas = [Canvas createParent: c_Frame];
+  configureProbeCanvas (the_canvas);
 
-  [c_Frame pack] ;
+  [c_Frame pack];
 
-  topFrame =  [Frame createParent: the_canvas] ;
+  topFrame =  [Frame createParent: the_canvas];
+  setBorderWidth (topFrame, 0);
+
+  createWindow (topFrame);
   
-  [globalTkInterp eval: "%s configure -bd 0", [topFrame getWidgetName]] ;
+  top_top_Frame =  [Frame createParent: topFrame];  
 
-  [globalTkInterp eval: "%s create window 0 0 -anchor nw -window %s",
-     [the_canvas getWidgetName],
-     [topFrame getWidgetName]] ;
+  raisedFrame =  [Frame createParent: top_top_Frame];  
+  setRelief (raisedFrame);
+
+  myTitle = [Label createParent: raisedFrame];
+  [myTitle setText: getId (probedObject)];
   
-  top_top_Frame =  [Frame  createParent: topFrame] ;  
-
-  raisedFrame =  [Frame  createParent: top_top_Frame] ;  
-
-  [globalTkInterp eval: "%s configure -relief ridge -borderwidth 3",
-    [raisedFrame getWidgetName]] ;
-
-  myTitle  = [Label createParent: raisedFrame] ;
-
-  if([probedObject respondsTo: @selector(getInstanceName)])
-    [myTitle setText: (char *) [probedObject getInstanceName]];
-  else
-    [myTitle setText: (char *) [probedObject name]];
-
-  [globalTkInterp
-    eval: "%s configure -anchor w -foreground blue", [myTitle getWidgetName]] ;
+  setAnchorWest (myTitle);
+  setColorBlue (myTitle);
 
   dragAndDrop (myTitle, self);
-  {
-    // have to make a private copy of the return for objectToName.
-    char pdmName[512];
-    strcpy(pdmName, tclObjc_objectToName(probeDisplayManager));
-        
-  [globalTkInterp eval: 
-     "bind %s <ButtonPress-3> {%s createCompleteProbeDisplayFor: %s}",
-		  [myTitle getWidgetName],
-		  pdmName, tclObjc_objectToName(probedObject)];
-  }
+
+  configureButton3ForCompleteProbeDisplay (myTitle, probedObject);
+  configureWindowEntry (myTitle);
+  configureWindowExit (myTitle);
   
-  [globalTkInterp eval: "bind %s <Enter> {%s configure -fg CornFlowerBlue}",
-                        [myTitle getWidgetName],
-                        [myTitle getWidgetName]] ;
+  [myTitle pack];
+  
+  hideB = [Button createParent: top_top_Frame];
 
-
-  [globalTkInterp eval: "bind %s <Leave> {%s configure -fg blue}",
-                        [myTitle getWidgetName],
-                        [myTitle getWidgetName]] ;
-
-  [myTitle pack] ;
-
-  hideB = [Button createParent: top_top_Frame] ;
-
-  [globalTkInterp 
-    eval: "%s configure -command {%s drop}",
-    [hideB getWidgetName],tclObjc_objectToName(self)] ;
-  [globalTkInterp
-    eval: "%s configure -bitmap special -activeforeground red -foreground red", 
-    [hideB getWidgetName]] ;
-
-  [globalTkInterp eval: "pack %s -side right -fill both -expand 0",
-		  [hideB getWidgetName]] ;
-
-  [globalTkInterp eval: "pack %s -before %s -side left -fill both -expand 0",
-		  [raisedFrame getWidgetName],
-		  [hideB getWidgetName]] ;
+  configureHideButton (self, hideB, raisedFrame);
 
   middleFrame =  [Frame  createParent: topFrame] ;  
-
-  leftFrame =  [Frame  createParent: middleFrame] ;  
-  rightFrame = [Frame  createParent: middleFrame] ;
-
-  bottomFrame = [Frame  createParent: topFrame] ;
+  leftFrame =  [Frame createParent: middleFrame];
+  rightFrame = [Frame createParent: middleFrame];
+  bottomFrame = [Frame createParent: topFrame];
 
   if (numberOfProbes > 0)
     widgets = (id *)
@@ -152,84 +106,70 @@
   index = [probeMap begin: globalZone] ;
 
   i = 0 ;
-  while( (probe = [index next]) != nil ){
-
-    if([probe isKindOf: [VarProbe class]]){
-      widgets[i] =	
-        [[VarProbeWidget createBegin: [self getZone]] setParent: topFrame] ;
-      [widgets[i]  setProbe: probe] ;
-      [widgets[i] setObject: probedObject] ;
-      [widgets[i]  setMyLeft:  leftFrame] ;
-      [widgets[i]  setMyRight: rightFrame] ;
-      widgets[i] = [widgets[i] createEnd] ;
-      [widgets[i] pack] ;
-      i++ ;
+  while ((probe = [index next]) != nil)
+    {      
+      if([probe isKindOf: [VarProbe class]])
+        {
+          widgets[i] =	
+            [[VarProbeWidget createBegin: [self getZone]]
+              setParent: topFrame];
+          [widgets[i]  setProbe: probe] ;
+          [widgets[i] setObject: probedObject] ;
+          [widgets[i]  setMyLeft:  leftFrame] ;
+          [widgets[i]  setMyRight: rightFrame] ;
+          widgets[i] = [widgets[i] createEnd] ;
+          [widgets[i] pack];
+          i++ ;
+      }
     }
-  }
-
+  
   [index drop];
 
   index = [probeMap begin: globalZone] ;
 
   //When I figure out how to 'rewind' I'll do just that...
-  while( (probe = [index next]) != nil ){
-
-    if([probe isKindOf: [MessageProbe class]]){
-      widgets[i] =	
-        [[MessageProbeWidget createBegin: [self getZone]] 
-                            setParent: bottomFrame] ;
-      [widgets[i]  setProbe: probe] ;
-      [widgets[i] setObject: probedObject] ;
-      widgets[i] = [widgets[i] createEnd] ;
-      [widgets[i] pack] ;
-      i++ ;
+  while ((probe = [index next]) != nil)
+    {
+      if([probe isKindOf: [MessageProbe class]])
+        {
+          widgets[i] =	
+            [[MessageProbeWidget createBegin: [self getZone]] 
+              setParent: bottomFrame] ;
+          [widgets[i]  setProbe: probe] ;
+          [widgets[i] setObject: probedObject] ;
+          widgets[i] = [widgets[i] createEnd] ;
+          [widgets[i] pack] ;
+          i++ ;
+        }
     }
-  }
-
+  
   [index drop];
 
   // This label is not being garbage collected!!!!!
-  if(!i){
-    index = [Label createParent: topFrame] ;
-    [index setText: "No Instance Variables or Messages."] ;
-    [index pack] ;
-  }
+  if (!i)
+    {
+      index = [Label createParent: topFrame] ;
+      [index setText: "No Instance Variables or Messages."] ;
+      [index pack] ;
+    }
 
-  [globalTkInterp eval: "pack %s -fill both -expand 0",
-		  [top_top_Frame getWidgetName]] ;
+  packFill (top_top_Frame);
+  packFillLeft (leftFrame, 0);
+  packFillLeft (rightFrame, 1);
+
+  [middleFrame pack];
+  [bottomFrame pack];
+
+  deiconify (topLevel);
+  assertGeometry (topFrame);
   
-  [globalTkInterp eval: "pack %s -side left -fill both -expand 0",
-		  [leftFrame getWidgetName]] ;
-    
-  [globalTkInterp eval: "pack %s -side left -fill both -expand 1",
-		  [rightFrame getWidgetName]] ;
-
-  [middleFrame pack] ;
-  [bottomFrame pack] ;
-
-//  [globalTkInterp eval: "update idletasks"] ;
-  [globalTkInterp eval: "wm deiconify %s",[topLevel getWidgetName]] ;
-
-  [globalTkInterp eval:
-     "tkwait visibility %s ; \
-      set width [winfo width %s] ; \
-      set height [winfo height %s] ; \
-      %s configure -scrollregion [list 0 0 $width $height] ; \
-      if {$height > 500} {set height 500} ; \
-      %s configure -width $width -height $height",
-      [topFrame getWidgetName],
-//      [topFrame getWidgetName],
-      [topFrame getWidgetName],
-      [topFrame getWidgetName],
-      [the_canvas getWidgetName],
-      [the_canvas getWidgetName]] ;
-
   [probeDisplayManager addProbeDisplay: self];
-
+  
   return self;
 }
 
--update {
+- update
+{
   int i ;
 
   for (i = 0; i < numberOfProbes; i++)
@@ -238,15 +178,17 @@
   return self;
 }
 
--(void) setRemoveRef: (BOOL) torf {
-  removeRef = torf;
+- (void)setRemoveRef: (BOOL) theRemoveRef
+{
+  removeRef = theRemoveRef;
 }
 
--(void) setObjectRef: (ref_t) or {
-  objectRef = or;
+- (void)setObjectRef: (ref_t)theObjectRef
+{
+  objectRef = theObjectRef;
 }
 
--(void)drop
+- (void)drop
 {
   int i ;
 
@@ -261,12 +203,7 @@
   if(numberOfProbes)
     [[self getZone] free: widgets] ;
 
-#if 0
-  // I'm disabling this in favor of a drop method to Frame -mgd
-  [globalTkInterp eval: "destroy %s",[topLevel getWidgetName]] ;
-#endif
   [topLevel drop] ;
-
 
   [probeDisplayManager removeProbeDisplay: self];
   
@@ -275,20 +212,14 @@
   [super drop] ;
 }
 
--(char *) package{
-  return tclObjc_objectToName(probedObject) ;  ;
+- (const char *)package
+{
+  return packageName (probedObject);
 }
 
--(const char *) getId{
-  if([probedObject respondsTo: @selector(getInstanceName)])
-    return [probedObject getInstanceName] ;
-  else
-    return [probedObject name];
+- (const char *)getId
+{
+  return getId (probedObject);
 }
 
 @end
-
-
-
-
-

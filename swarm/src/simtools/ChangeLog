@@ -1,3 +1,45 @@
+1997-12-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* SimpleProbeDisplay.m: Reformatting throughout.  Include
+	tkobjc/control.h instead of tkobjc.h.
+	([SimpleProbeDisplay -createEnd]): Use new tkobjc functions
+	withdrawWindow, configureProbeCanvas, setBorderWidth,
+	createWindow, setRelief, getId, setAnchorWest, setColorBlue,
+	configureButton3ForCompleteProbeDisplay, configureWindowEntry,
+	configureWindowExt, configureHideButton, packFill, packFillLeft,
+	deiconify, assertGeometry to consolidate code with
+	CompleteProbeDisplay.
+	([SimpleProbeDisplay -package]): Now returns const char *.
+	([SimpleProbeDisplay -getId]): Use tkobjc function getId.
+
+	* SimpleProbeDisplay.h: Reformatting throughout.
+	Add `const' to return string of -package.
+
+	* ControlPanel.m: Include tkobjc/control.h, omit tkobjc/global.h
+	later in the code.
+	([ControlPanel -waitForControlEvent]): Use new tkobjc wrapper
+	doOneEventSync instead of calling Tk_DoOneEvent directly.
+
+	* CompleteProbeDisplay.m: Reformatting throughout.
+	 ([CompleteProbeDisplay -setWindowGeometryRecordName:]): Include
+	tkobjc.h instead of tkobjc.h.
+	([CompleteProbeDisplay -createEnd]): Use new tkobjc functions
+	withdrawWindow, configureProbeCanvas, setBorderWidth,
+	createWindow, deiconify, assertGeometry (to consolidate common code
+	with SimpleProbleDisplay).
+	([CompleteProbeDisplay -do_resize]): Use new tkobjc packForget and
+	assertGeometry.
+
+	* ActionCache.m: Include tkobjc/control.h instead of
+	tkobjc/global.h; avoid using TclTk features directly.
+	([ActionCache -createProcCtrl]): Use new tkobjc function
+	registerCommand instead of calling registerObject: directly.
+	([ActionCache -createProcCtrl]): Use new ButtonPanel methods
+	setTargetName and addButtonName: actionName: instead of sending
+	combined command+action string.
+	([ActionCache -doTkEvents]): Use new tkobjc wrapper function
+	doOneEventAsync instead of Tk_DoOneEvent.
+
 1997-12-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* simtools.m: Included string.h (for strncmp).

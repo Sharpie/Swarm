@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools.h>
-#import <tkobjc/global.h>
+#import <tkobjc/control.h>
 #import <simtools/ActionCache.h>
 #import <simtools/ActionHolder.h>
 #import <simtools/Archiver.h>
@@ -227,7 +227,7 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
   ButtonPanel * panelWidget;
 
   // Make a command for ourselves
-  [globalTkInterp registerObject: self withName: "simctl"];
+  registerCommand (self, "simctl");
   
   // These methods are bound to the Tk buttons. They get invoked directly
   // by the Tk interpreter (via tclobjc). ObserverSwarm uses these states
@@ -235,14 +235,15 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 
   // make a widget for us, too. Bind buttons to messages to ourself.
   panelWidget = [ButtonPanel createBegin: [self getZone]];
-  [panelWidget setWindowGeometryRecordName : controlPanelGeometryRecordName];
+  [panelWidget setWindowGeometryRecordName: controlPanelGeometryRecordName];
+  [panelWidget setTargetName: "simctl"];
   panelWidget = [panelWidget createEnd];
-  [panelWidget addButtonName: "Start" Command: "simctl sendStartAction"];
-  [panelWidget addButtonName: "Stop" Command: "simctl sendStopAction"];
-  [panelWidget addButtonName: "Step" Command: "simctl sendStepAction"];
-  [panelWidget addButtonName: "Next" Command: "simctl sendNextAction"];
-  [panelWidget addButtonName: "Save" Command: "simctl sendSaveAction"];
-  [panelWidget addButtonName: "Quit" Command: "simctl sendQuitAction"];
+  [panelWidget addButtonName: "Start" actionName: "sendStartAction"];
+  [panelWidget addButtonName: "Stop" actionName: "sendStopAction"];
+  [panelWidget addButtonName: "Step" actionName: "sendStepAction"];
+  [panelWidget addButtonName: "Next" actionName: "sendNextAction"];
+  [panelWidget addButtonName: "Save" actionName: "sendSaveAction"];
+  [panelWidget addButtonName: "Quit" actionName: "sendQuitAction"];
   [panelWidget setWindowTitle: "ProcCtrl"];
 
   return panelWidget;
@@ -258,10 +259,10 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 //   until one of those conditions changes. (This lets the user press the
 //   Go or Quit buttons to quit.)
 // Finally, return a status that tells whether we need to quit.
--doTkEvents {
+-doTkEvents
+{
   // do all events pending, but don't block.
-  while(Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT))
-    ;
+  while (doOneEventAsync ()) {}
   return self;
 }
 

@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <string.h>
-#import <tkobjc.h>
+#import <tkobjc/control.h>
 #import <objc/objc.h>
 #import <objc/objc-api.h>
 #import <simtools/CompleteProbeDisplay.h>
@@ -13,238 +13,194 @@
 
 @implementation CompleteProbeDisplay
 
--setWindowGeometryRecordName : (const char *)theName
+- setWindowGeometryRecordName : (const char *)theName
 {
   windowGeometryRecordName = theName;
   return self;
 }
 
--setProbedObject: (id) anObject {
+- setProbedObject: (id) anObject
+{
   probedObject = anObject;
   return self;
 }
 
--getProbedObject {
+- getProbedObject
+{
   return probedObject;
 }
 
-int max(int a, int b){
+static int
+max (int a, int b)
+{
   if(a > b)
-    return a ;
+    return a;
   else
-    return b ;
+    return b;
 }
 
-int max_class_var_length(Class class){
+static int
+max_class_var_length (Class class)
+{
   IvarList_t ivarList;	
   int i, local_max, num;
-
+  
   local_max = 0 ;
 
-  if(!(ivarList = class->ivars))
+  if (!(ivarList = class->ivars))
     return 0 ;
-
+  
   num = ivarList->ivar_count;
 
   for (i = 0; i < num ; i++)
-    local_max = max(strlen(ivarList->ivar_list[i].ivar_name),local_max) ;
-
+    local_max = max (strlen (ivarList->ivar_list[i].ivar_name), local_max);
+  
   return local_max ;
 }
 
 // finalize creation: create widgets, set them up.
--createEnd
+- createEnd
 {
-  Class class ;
-  id classWidget ;
-  int maxwidth ;
-  id classList ;
-  id index ;
-  id previous ;
-  id c_Frame ;
+  Class class;
+  id classWidget;
+  int maxwidth;
+  id classList;
+  id index;
+  id previous;
+  id c_Frame;
 
-  topLevel = [Frame createBegin: [self getZone]] ;
+  topLevel = [Frame createBegin: [self getZone]];
   [topLevel setWindowGeometryRecordName : windowGeometryRecordName];
   topLevel = [topLevel createEnd];
-  [globalTkInterp eval: "wm withdraw %s",
-     [topLevel getWidgetName]] ;
+  withdrawWindow (topLevel);
+  [topLevel setWindowTitle: getId (probedObject)];
 
-  if([probedObject respondsTo: @selector(getInstanceName)])
-    [topLevel setWindowTitle: (char *) [probedObject getInstanceName]];
-  else
-    [topLevel setWindowTitle: (char *) [probedObject name]];
+  c_Frame = [Frame  createParent: topLevel];  
 
-  c_Frame = [Frame  createParent: topLevel] ;  
-  the_canvas = [Canvas createParent: c_Frame] ;
-
-  [globalTkInterp eval: 
-   "%s configure -width 10 -height 10 -yscrollcommand {%s.yscroll set} ; \
-    scrollbar %s.yscroll -orient vertical -command {%s yview} ; \
-    pack %s.yscroll -side right -fill y ; \
-    pack %s -side left -fill both  -expand true",
-    [the_canvas getWidgetName],
-    [c_Frame getWidgetName],
-    [c_Frame getWidgetName],
-    [the_canvas getWidgetName],
-    [c_Frame getWidgetName],
-    [the_canvas getWidgetName]] ;
-
-  [c_Frame pack] ;
-
-  topFrame = [Frame createParent: the_canvas] ;
-
-  [globalTkInterp eval: "%s configure -bd 0", [topFrame getWidgetName]] ;
-
-  [globalTkInterp eval: "%s create window 0 0 -anchor nw -window %s",
-     [the_canvas getWidgetName],
-     [topFrame getWidgetName]] ;
+  the_canvas = [Canvas createParent: c_Frame];
+  configureProbeCanvas (the_canvas);
   
+  [c_Frame pack];
 
-  maxwidth = 0 ;
+  topFrame = [Frame createParent: the_canvas];
+  setBorderWidth (topFrame, 0);
 
-  classList = [List create: [self getZone]] ;
+  createWindow (topFrame);
+
+  maxwidth = 0;
+
+  classList = [List create: [self getZone]];
   for (class = [probedObject class]; 
        class != nil; 
-       class = class_get_super_class(class)){
-    
-    [classList addFirst: (id) class] ;	
-    maxwidth = max(max_class_var_length(class),maxwidth) ;
-  }
-
-  widgets = [List create: [self getZone]] ;
-  previous = nil ;
-  index = [classList begin: [self getZone]] ;
-  while( (class = (Class) [index next]) ){
-    classWidget = 
-      [[[[[[[ClassDisplayWidget createBegin: [self getZone]] 
-             setParent: topFrame]
-            setMaxLabelWidth: maxwidth]
-           setProbedObject: probedObject]
-          setClassToDisplay: class]
-         setOwner: self]
-        setMySuperClass: previous];
-
-    if(previous != nil){
-      [previous setMySubClass: classWidget] ;
-      previous = [previous createEnd] ;
-      [widgets addLast: previous] ;
+       class = class_get_super_class(class))
+    {
+      [classList addFirst: (id) class];	
+      maxwidth = max(max_class_var_length(class),maxwidth);
     }
+  
+  widgets = [List create: [self getZone]];
+  previous = nil;
+  index = [classList begin: [self getZone]];
+  while ((class = (Class) [index next]))
+    {
+      classWidget = 
+        [[[[[[[ClassDisplayWidget createBegin: [self getZone]] 
+               setParent: topFrame]
+              setMaxLabelWidth: maxwidth]
+             setProbedObject: probedObject]
+            setClassToDisplay: class]
+           setOwner: self]
+          setMySuperClass: previous];
+      
+      if (previous != nil)
+        {
+          [previous setMySubClass: classWidget];
+          previous = [previous createEnd];
+          [widgets addLast: previous];
+        }
+      previous = classWidget;
+    }
+  [previous setMySubClass: nil];
+  [previous setOwner: self];
+  previous = [previous createEnd];
+  [widgets addLast: previous];
 
-    previous = classWidget ;
-  }
-
-  [previous setMySubClass: nil] ;
-  [previous setOwner: self] ;
-  previous =[previous createEnd] ;
-  [widgets addLast: previous] ;
-
-  [previous pack] ;
-
+  [previous pack];
   [index drop];
 
-  [classList drop] ;
+  [classList drop];
 
-  [globalTkInterp eval: "wm deiconify %s",[topLevel getWidgetName]] ;
-
-  [globalTkInterp eval:
-     "tkwait visibility %s ; \
-      set width [winfo width %s] ; \
-      set height [winfo height %s] ; \
-      %s configure -scrollregion [list 0 0 $width $height] ; \
-      if {$height > 500} {set height 500} ; \
-      %s configure -width $width -height $height",
-      [topFrame getWidgetName],
-      [topFrame getWidgetName],
-      [topFrame getWidgetName],
-      [the_canvas getWidgetName],
-      [the_canvas getWidgetName]] ;
+  deiconify (topLevel);
+  assertGeometry (topFrame);
 
   [probeDisplayManager addProbeDisplay: self];
-
   return self;
 }
 
--do_resize {
-  [globalTkInterp eval:
-     "pack forget %s ; \
-      pack %s -expand true -fill both ; \
-      tkwait visibility %s ;
-      set width [winfo width %s] ; \
-      set height [winfo height %s] ; \
-      %s configure -scrollregion [list 0 0 $width $height] ; \
-      if {$height > 500} {set height 500} ; \
-      %s configure -width $width -height $height",
-      [the_canvas getWidgetName],      
-      [the_canvas getWidgetName],      
-      [the_canvas getWidgetName],      
-      [topFrame getWidgetName],
-      [topFrame getWidgetName],
-      [the_canvas getWidgetName],
-      [the_canvas getWidgetName]] ;
-  return self ;
+- do_resize
+{
+  packForget (the_canvas);
+  assertGeometry (topFrame);
+  return self;
 }
 
--(int) getStepHeight{
-  id index, aWidget ;
-  int s_height ;
-
-  index = [widgets begin: [self getZone]] ;
-  while( (aWidget = [index next]) )
-    if( (s_height = [aWidget getStepHeight] ) )
-      return s_height ;
-
-  return 20 ; // If all else fails, here is a default value...    
+- (int)getStepHeight
+{
+  id index, aWidget;
+  int s_height;
+  
+  index = [widgets begin: [self getZone]];
+  while ((aWidget = [index next]))
+    if ((s_height = [aWidget getStepHeight]))
+      return s_height;
+  
+  return 20; // If all else fails, here is a default value...    
 }
 
--update {
-  id index ;
-  id a_widget ;
+- update 
+{
+  id index;
+  id a_widget;
 
-  index = [widgets begin: [self getZone]] ;
-  while( (a_widget = [index next]) != nil )
-    [a_widget update] ;
+  index = [widgets begin: [self getZone]];
+  while ((a_widget = [index next]) != nil)
+    [a_widget update];
   [index drop];
-
+  
   return self;
 }
 
--(void) setRemoveRef: (BOOL) torf {
-  removeRef = torf;
+- (void)setRemoveRef: (BOOL) theRemoveRef
+{
+  removeRef = theRemoveRef;
 }
 
--(void) setObjectRef: (ref_t) or {
-  objectRef = or;
+- (void)setObjectRef: (ref_t)theObjectRef
+{
+  objectRef = theObjectRef;
 }
 
--(void)drop
+- (void)drop
 {
  
-  id index ;
-  id a_widget ;
+  id index;
+  id a_widget;
 
-  index = [widgets begin: [self getZone]] ;
-  while( (a_widget = [index next]) != nil )
-    [a_widget drop] ;
+  index = [widgets begin: [self getZone]];
+  while ((a_widget = [index next]) != nil)
+    [a_widget drop];
   [index drop];
-  [widgets drop] ;
+  [widgets drop];
 
-#if 0
-  // Disabled in favor of the same thing in Frame's drop. -mgd
-  [globalTkInterp eval: "destroy %s",[topFrame getWidgetName]] ;
-#endif
-  [topFrame drop] ;
-
-#if 0 
-  //drop for toplevels should automatically do a self-destroy!!!
-  // Indeed! -mgd
-  [globalTkInterp eval: "destroy %s",[topLevel getWidgetName]] ;
-#endif
-  [topLevel drop] ;
+  [topFrame drop];
+  [topLevel drop];
 
   [probeDisplayManager removeProbeDisplay: self];
   
-  if (removeRef) [probedObject removeRef: objectRef];
-
-  [super drop] ; 
+  if (removeRef)
+    [probedObject removeRef: objectRef];
+  
+  [super drop]; 
 }
 @end
+
