@@ -1,6 +1,6 @@
 #include <objc/objc.h>
 
-#ifdef _cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
