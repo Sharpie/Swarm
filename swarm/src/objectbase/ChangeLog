@@ -1,3 +1,10 @@
+1998-08-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* MessageProbe.m (dynamicCallOn): New functions (one for libffi
+	and one for avcall).  
+	([MessageProbe -dynamicCallOn:]): Use dynamicCallOn.
+	Use _int for UCHR cases in libffi.
+
 1998-08-12  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* Makefile.am (INCLUDES): Use new subsituted variable 

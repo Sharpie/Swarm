@@ -10,6 +10,8 @@
 #ifdef USE_AVCALL
 #include <avcall.h>
 #else
+#undef PACKAGE
+#undef VERSION
 #include <ffi.h>
 #undef PACKAGE
 #undef VERSION
@@ -193,12 +195,15 @@ copy_to_nth_colon (const char *str, int n)
 }
 
 #ifdef USE_AVCALL
-
-- (val_t)dynamicCallOn: target
+static void
+dynamicCallOn (const char *probedType,
+               id target, SEL probedSelector, 
+               val_t *arguments,
+               val_t *retVal)
 {
   const char *type = probedType;
   IMP imp;
-  val_t objectVal, selectorVal, retVal;
+  val_t objectVal, selectorVal;
   int i;
 
   av_alist alist;
@@ -247,30 +252,30 @@ copy_to_nth_colon (const char *str, int n)
   switch (*type)
     {
     case _C_ID: 
-      av_start_ptr (alist, imp, id, &retVal.val.object);
+      av_start_ptr (alist, imp, id, &retVal->val.object);
       break;
     case _C_SEL:
-      av_start_ptr (alist, imp, SEL, &retVal.val.selector);
+      av_start_ptr (alist, imp, SEL, &retVal->val.selector);
       break;
     case _C_UCHR:
-      av_start_uchar (alist, imp, &retVal.val._uchar);
+      av_start_uchar (alist, imp, &retVal->val._uchar);
       break;
     case _C_INT:
-      av_start_int (alist, imp, &retVal.val._int);
+      av_start_int (alist, imp, &retVal->val._int);
       break;
     case _C_FLT:
-      av_start_float (alist, imp, &retVal.val._float);
+      av_start_float (alist, imp, &retVal->val._float);
       break;
     case _C_DBL:
-      av_start_double (alist, imp, &retVal.val._double);
+      av_start_double (alist, imp, &retVal->val._double);
       break;
     case _C_CHARPTR:
-      av_start_ptr (alist, imp, const char *, &retVal.val.string);
+      av_start_ptr (alist, imp, const char *, &retVal->val.string);
       break;
     default:
       abort ();
     }
-  retVal.type = *type;
+  retVal->type = *type;
 
   type = skip_argspec (type);
   
@@ -294,17 +299,19 @@ copy_to_nth_colon (const char *str, int n)
     push_argument (&arguments[i]);
   
   av_call (alist);
-  
-  return retVal;
 }
 
 #else
 
-- (val_t)dynamicCallOn: target
+static void
+dynamicCallOn (const char *probedType,
+               id target, SEL probedSelector, 
+               val_t *arguments,
+               val_t *retVal)
 {
   const char *type = probedType;
   IMP imp;
-  val_t objectVal, selectorVal, retVal;
+  val_t objectVal, selectorVal;
   int i;
   int acnt = get_number_of_arguments (probedType);
   ffi_cif cif;
@@ -372,7 +379,7 @@ copy_to_nth_colon (const char *str, int n)
   alist->type_pos = types_buf;
   alist->value_pos = values_buf;
 
-  retVal.type = *type;
+  retVal->type = *type;
 
   type = skip_argspec (type);
   objectVal.type = *type;
@@ -393,7 +400,7 @@ copy_to_nth_colon (const char *str, int n)
        type = skip_argspec (type), i++)
     push_argument (&arguments[i]);
   
-  switch (retVal.type)
+  switch (retVal->type)
     {
     case _C_ID: 
       fret = &ffi_type_pointer;
@@ -402,7 +409,8 @@ copy_to_nth_colon (const char *str, int n)
       fret = &ffi_type_pointer;
       break;
     case _C_UCHR:
-      fret = &ffi_type_uchar;
+      // character return is broken in libffi-1.18
+      fret = &ffi_type_uint;
       break;
     case _C_INT:
       fret = &ffi_type_sint;
@@ -429,7 +437,7 @@ copy_to_nth_colon (const char *str, int n)
     abort ();
 
   {
-    long long ret;
+    long long ret = 0;
     
     ffi_call (&cif, (void *)imp, &ret, values_buf);
     
@@ -438,40 +446,48 @@ copy_to_nth_colon (const char *str, int n)
 #else
 #define VAL(type, var) (*((type *)&var))
 #endif
-
-    switch (retVal.type)
+    
+    switch (retVal->type)
       {
       case _C_ID: 
-        retVal.val.object = VAL(id, ret);
+        retVal->val.object = VAL(id, ret);
         break;
       case _C_SEL:
-        retVal.val.selector = VAL(SEL, ret);
-        break;
+          retVal->val.selector = VAL(SEL, ret);
+          break;
       case _C_UCHR:
-        retVal.val._uchar = VAL(unsigned char, ret);
+        // character return is broken in libffi-1.18
+        retVal->val._int = VAL(unsigned int, ret);  
         break;
       case _C_INT:
-        retVal.val._int = VAL(int, ret);
+        retVal->val._int = VAL(int, ret);
         break;
       case _C_FLT:
-        retVal.val._float = VAL(float, ret);
+        retVal->val._float = VAL(float, ret);
         break;
       case _C_DBL:
-        retVal.val._double = VAL(double, ret);
+        retVal->val._double = VAL(double, ret);
         break;
       case _C_CHARPTR:
-        retVal.val.string = VAL(const char *, ret);
+        retVal->val.string = VAL(const char *, ret);
         break;
         
       default:
         abort ();
       }
   }
-  
-  return retVal;
 }
 
 #endif
+
+- (val_t)dynamicCallOn: target
+{
+  val_t retVal;
+
+  dynamicCallOn (probedType, target, probedSelector, arguments, &retVal);
+
+  return retVal;
+}
 
 - (double)doubleDynamicCallOn: target
 {
@@ -480,11 +496,7 @@ copy_to_nth_colon (const char *str, int n)
   if (val.type == _C_INT)
     return (double)val.val._int;
   else if (val.type == _C_UCHR)
-#ifdef USE_AVCALL
-    return (double)val.val._uchar;
-#else
-    return (double)val.val._int;
-#endif
+    return (double)val.val._int; // character return is broken in libffi-1.18
   else if (val.type == _C_FLT)
     return (double)val.val._float;
   else if (val.type == _C_DBL)
