@@ -1,3 +1,7 @@
+2000-09-18  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (INCLUDES): Add -I$(srcdir)/../gui.
+
 2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* initSwarm.h: Don't declare _initSwarm_.
