@@ -65,28 +65,6 @@
 (defun get-top-builddir ()
   (ensure-ending-slash (getenv "TOP_BUILDDIR")))
 
-(defun pathname-for-swarmdocs-pages-output (module-sym)
-  (let ((module-name (symbol-name module-sym)))
-    (concat (get-top-builddir)
-            "refbook/"
-            module-name
-            "/"
-            module-name
-            "pages.sgml")))
-
-(defun pathname-for-swarmdocs-revision-output (module-sym)
-  (let ((module-name (symbol-name module-sym)))
-    (case module-sym
-      ((refbook set installbook overbook) 
-       (concat (get-top-builddir)
-               module-name "/" module-name "revhistory.sgml"))
-      (otherwise (concat (get-top-builddir)
-                         "refbook/"
-                         module-name
-                         "/"
-                         module-name
-                         "revhistory.sgml")))))
-
 (defun insert-text (text)
   (let ((beg (point)))
     (insert text)

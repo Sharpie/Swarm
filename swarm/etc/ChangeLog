@@ -1,3 +1,10 @@
+2000-07-09  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* common.el (pathname-for-swarmdocs-pages-output):
+	Moved to Swarmdocs refbook/sgml.el.
+	(pathname-for-swarmdocs-revision-output): Moved to Swarmdocs
+	history.el.
+
 2000-07-06  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* interface.el (*removed-methods*): Add _setActionConcurrent_:
