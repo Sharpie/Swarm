@@ -1,3 +1,9 @@
+1999-05-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in (SUPPORTLDFLAGS): Move PNGLDFLAGS and ZLIBLDFLAGS
+	before the common BLT, Tcl/Tk paths (things likely to be in /usr/local
+	after things more likely to have custom installs).
+
 1999-05-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.tests.in (INCLUDES): Add top_builddir/libobjc and
