@@ -1,7 +1,6 @@
 If you are reading this, you got the code already.    
 
-If you have a source tarball
-see the README.MacOSX for how to get cvs code.
+Source tarballs from the Sarm 2.2 release should build on the Mac.
 
 In your BLT install, ensure you have a symlink bltGraph.tcl linked to graph.tcl.
 i.e. do this
@@ -12,10 +11,15 @@ Xcode project build
 Edit $SRCROOT/macosx/configure.sh
 to reflect appropriate paths on your system.  The defaults will 
 reflect the paths for the binary installers from SDG.
-If you do not need Java remove the '--with-jdk' line.  It will save a lot of time in the build.
+If you do not need Java remove the '--with-jdk' line and replace with 
+--without-jdk.  It will save a lot of time in the build.
+
 Open the Xcode project and build the targets:
+	
 	If you have cvs sources you will need to build autogen first then 
-	config and buildlib in that  order.  
+	config and buildlib in that  order.  This will require very recent 
+	versions of automake, autoconf and libtool which are not standard on
+	MacOS X.  Building from source tarballs does not need these.
 	
 	If you started from a source tarball or have built autogen in the cvs
 	sources then build Swarm, which build config and buildlib. 
@@ -35,12 +39,12 @@ setenv MACOSX_DEPLOYMENT_TARGET 10.3    ('10.2' if building on Jaguar)
 
 ../../../configure \
 JAVAC=jikes CC="gcc -B ../../tools"\
-CFLAGS="g -O2 -Wno-long-double" \  (plus any optimisation or debug flags)
---prefix=/usr/local/Swarm2.2 \  (or some other install path)
+CFLAGS="g -O2 -Wno-long-double" \  #(plus any optimisation or debug flags)
+--prefix=/usr/local/Swarm2.2 \  #(or some other install path)
 --with-tcldir='your tcl path' \
 --with-tkdir='your tk path \
 --with-bltdir='your BLT path' \
---with-jdkdir=/System/Library/Frameworks/JavaVM.framework \ (for Apple's JDK)
+--with-jdkdir=/System/Library/Frameworks/JavaVM.framework \ #(for Apple's JDK)
 --with-hdf5dir='your HDF5 path'\
 --with-png='your libpng path' \
 --enable-onelib \
@@ -56,24 +60,29 @@ Note: The -B option to gcc is only needed if building java.
 
 That's it.
 
-You will need to fix up PATH, SWARMHOME and DYLD_LIBRARY_PATH to get the run 
+You will need to fix up PATH and SWARMHOMEto get the run 
 time linking to work.
-If you have admin right make a directory /Library/Swarm and copy the files 
-swarmrc and swarmtrc from $SWARMHOME/etc/swarm into the new directory.
+
 If you use bash (default on Panther) add the following line to ~/.profile:
-source /Library/Swarm/swarmrc
+source /PathToSwarm/etc/swarmrc
 If you use tcsh (default on Jaguar and earlier) add the following line to 
 ~/.tcshrc:
-source /Library/Swarm/swarmtrc
-Creat a new Terminal window and your environment should be set up correctly.
+source /PathToSwarm/etc/swarmtrc
+Creat a new Terminal window and your environment should be set up correctly
+to compile and run Swarm models.
 
 
 About MacOS X libraries:
-MacOS X 10.3 Panther includes a system version of libtcl8.4.4 in /usr/lib.  If one of your other package libraries is in /usr/lib this directory will be added to the linker search and you may link to the system libtcl.  If this happens, you will see -L/usr/lib on the link line and any apps will crash as tk tries to startup.
+MacOS X 10.3 Panther includes a system version of libtcl8.4.4 in /usr/lib.  
+If one of your other package libraries is in /usr/lib this directory will 
+be added to the linker search and you may link to the system libtcl.  If 
+this happens, you will see -L/usr/lib on the link line and any apps will 
+crash as tk tries to startup.
 
 If you are using my Apple gcc-4.0 build, libffi should be specified at:
 /usr/lib/gcc/powerpc-apple-darwin/4.0.0
-At runtime it will actually laod /usr/lib/libff1.4.0.1.dylib.  If this confuses you try reading the Apple documentation on ld and dyld.
+At runtime it will actually laod /usr/lib/libff1.4.0.1.dylib.  If this 
+confuses you try reading the Apple documentation on ld and dyld.
 
 If you have any fixes please let me know, and regularly update from the cvs so 
 that you get other developers fixes.  There is no kudos reinventing the wheel.
@@ -83,4 +92,4 @@ as an option for any Apple compiler.
 
 Bill Northcott
 w.northcott@unsw.edu.au
-29 Nov 2004
+4 Feb 2005
