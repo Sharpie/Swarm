@@ -1,3 +1,7 @@
+1998-08-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* NEWS: Review changes so far for 1.3.
+
 1998-07-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* acconfig.h: Rename USE_FFCALL to USE_AVCALL.

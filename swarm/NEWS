@@ -1,12 +1,113 @@
 Swarm NEWS --- history of major changes to Swarm.  -*- text -*-
 Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 
+* Release Notes for Swarm 1.3
+
+** New features
+*** analysis
+**** EZGraph now supports setRanges[XY]Min:Max: and setScaleModeX:Y:.
+**** A new widget, FunctionGraph for displaying a function over a range of
+     a variable.
+*** gui (tkobjc)
+**** Graph now accepts X ranges as well as Y and X+Y.
+**** Widget has additional readers getX and getY.
+**** Pixmap supports RGB PNG files.
+**** Support for BLT 2.4.
+**** Independent archiving of size and position window geometry.
+
+*** simtoolsgui
+**** A new widget, MultiVarProbeWidget displays a matrix of 
+     objects for a given ProbeMap.  MultiVarProbeDisplay is a ProbeDisplay
+     to encapsulate it in an appropriate frame.
+**** MessageProbeWidget added to interface.
+
+** Autoconfiguration
+*** Detection of pthread dependencies for multithreaded Objective runtime.
+*** Detection of GCC inlining bug.
+*** Ensure that Tcl object handles consistently are of the form "0xaabbccdd";
+    that there will be only one "0x".
+*** Replacement functions from misc are used when absent on system.
+
+** Bug fixes
+*** collections
+**** An array can now be of size zero.
+     Thanks to Thorsten Schelhorn for reporting this.
+**** Reject an insert of a pre-existing key in a Map.
+**** -insertGroup: is declared in the Schedule protocol.
+     Thanks to Doug Donalson for reporting this.
+**** Don't wrap when iterating through an offset List.
+     Thanks to Ken Cline for reporting this.
+
+*** defobj
+**** In make-h2x, don't rely on basename to determine source filename
+     from object filename; use sed.
+
+*** gui
+**** Take care to pass writable variable name strings to Tcl_GetVar
+     (in TkExtra).
+**** Reset position of Entry after setting value to avoid garbage being
+     shown in widget.
+
+*** objectbase
+**** Workaround for libffi bug on Irix 6.4 for MessageProbe.
+
+*** space
+**** Check argument conformance against _Discrete2d, not Discrete2d.
+**** Remove redundant error checking in Int2dFiler's fileTo: method.
+
+** Interface bug fixes
+*** collections
+**** Removed unimplemented Queue and Stack from collections interface.
+**** Removed mention of unimplemention DupOption feature from collections
+     interface.
+**** Removed KeyedCollection's getCountAtKey:, constainsKey:, and
+     {get,set}IndexFromMember:.
+**** Removed KeyCollectionIndex's setMember:.
+
+*** gui
+**** Declare -setWidth:.
+
+** Namespace hygiene
+*** collections
+**** String.[hm] is now StringObject.[hm] to avoid conflicts with <string.h>
+     on case insensitive filesystems.
+*** Use misc.h for stdlib.h, stdio.h, string.h, and unistd.h features
+    (or replacements) throughout.
+
+** Other changes
+*** analysis
+**** ActiveGraph (simtoolsgui) and ActiveOutFile (simtools) are now in the
+     analysis library.  These have been moved to facilitate the elimination
+     of simtoolsgui, which will be replaced by a standalone Swarm Monitor
+     application.
+
+*** defobj
+**** @deftype has been replaced with @protocol throughout.  @deftype had
+no special semantics and tended to confuse readers of the Swarm source code.
+
+*** gui
+**** Graph
+***** The arguments to setScaleModeX:Y: are now boolean, not integers.
+**** VarProbeEntry
+***** setVarProbe: replaces setProbeType:.  This change was needed to
+facilitate drag and drop in the new MultiVarProbeWidget.
+**** Widget
+***** setPositionX:Y: has been renamed to setX:Y:.
+**** WindowGeometryRecord -- changes to facilitate independent archiving
+of size and position.
+***** getX, getY, getSizeFlag, and getPositionFlag replace
+      getWindowGeometryRecord.
+***** setX:Y:, and setWidth:Height: replace setWindowGeometryRecord:.
+
+*** objectbase
+**** isInteractive has been renamed to getInteractiveFlag.
+
 * Release Notes for Swarm 1.2
 
 **  A system for customizable command line argument parsing.
 
 *** simtools can now be initialized with initSwarmArguments (as well as with 
-    initSwarm).  The third argument must be a subclass of 
+    initSwarm).  The third argument must be a subclass of
     objectbase/Arguments, and you can add variables and methods as you like. 
     If you initialize Swarm with initSwarm, you only get the default options.
 *** objectbase/Arguments now provides default implementations of two
