@@ -1,6 +1,10 @@
-2000-02-18    <mgd@nest.swarm.org>
+2000-02-21    <mgd@nest.swarm.org>
 
-	* Makefile.am (AGE): Bump.  Version 2.1.
+	* Makefile.am (CURRENT): Bump.  Version 2.1.
+	Disable optimization for internal.lo when
+	CONSERVATIVE_OPTIMIZATION automake conditional is set.
+
+2000-02-18    <mgd@nest.swarm.org>
 
 	* ArchivedGeometryWidget.[hm]: Add
 	+create:setWindowGeometryRecordName:.

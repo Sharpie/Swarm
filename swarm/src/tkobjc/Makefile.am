@@ -1,8 +1,8 @@
 SUBDIRS = tk
 MODULE = tkobjc
-CURRENT = 4
+CURRENT = 5
 REVISION = 0
-AGE = 1
+AGE = 0
 tkobjcdir = $(includedir)/$(MODULE)
 
 include $(top_srcdir)/src/Makefile.rules
@@ -55,6 +55,11 @@ tkobjc_HEADERS = ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h \
 	ZoomRaster.h common.h global.h internal.h win32dib.h
 
 tkobjc.lo: $(foreach f, $(TCLFILES), $(basename $(f))_tcl.x)
+
+if CONSERVATIVE_OPTIMIZATION
+internal.lo: internal.m
+	$(OBJCCOMPILE) -O0 -c -o $@ $<
+endif
 
 %_tcl.x: %.tcl
 	(echo 'const char *$(notdir $(basename $<))_tcl = "' ; cat $< | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' ; echo '";' ) > $@ 
