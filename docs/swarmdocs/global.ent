@@ -6,7 +6,9 @@
 distribute Swarm must be in accordance with the GNU Library Public
 Licence.">
 
+<!ENTITY corpauthor 'Swarm Development Group'> 
 <!ENTITY orgname 'Santa Fe Institute'>
+<!ENTITY program-name "Swarm Project">
 
 <!ENTITY address "<literallayout>&orgname;
 1399 Hyde Park Road
@@ -15,8 +17,6 @@ Santa Fe NM 87501</literallayout>">
 <!ENTITY mgd '<literallayout>Marcus Daniels <literal><ulink url="mailto:mgd@santafe.edu">mgd@santafe.edu</ulink></literal></literallayout>'>
 
 <!ENTITY alex '<literallayout>Alex Lancaster <literal><ulink url="mailto:alex@santafe.edu">alex@santafe.edu</ulink></literal></literallayout>'>
-
-<!ENTITY program-name "Swarm Project">
 
 <!ENTITY swarm-program '&program-name;
 &address;<literal><ulink url="mailto:swarm@santafe.edu">swarm@santafe.edu</ulink></literal>'>
