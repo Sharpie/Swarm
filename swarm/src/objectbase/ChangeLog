@@ -1,3 +1,10 @@
+2001-02-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m ([VarProbe -_typeSetup_]): Structs are
+	non-interactive.
+	([VarProbe -probeAsString:Buffer:withFullPrecision:]): Print
+	structs as "{..}".
+
 2001-02-09  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -addProbe:]): Warn about attempts

@@ -55,7 +55,7 @@ PHASE(Creating)
 
 - (void)_typeSetup_
 {
-  if (probedType[0] == _C_ARY_B)
+  if (probedType[0] == _C_ARY_B || probedType[0] == _C_STRUCT_B)
     interactiveFlag = NO;
   else
     {
@@ -786,6 +786,8 @@ JS_probe_as_string (COMobject cObj, const char *variableName,
     {
       if (probedType[0] == _C_ARY_B)
         strcpy (buf, "[..]");
+      else if (probedType[0] == _C_STRUCT_B)
+        strcpy (buf, "{..}");
       else if (probedType[0] == _C_PTR)
         sprintf (buf, PTRHEXFMT, (void *) anObject + dataOffset);
       else
