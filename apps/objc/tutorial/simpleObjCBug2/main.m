@@ -5,8 +5,8 @@
 #import "FoodSpace.h"
 
 int
-main(int argc, char ** argv) {
-
+main (int argc, const char **argv)
+{
   int worldXSize = 80;
   int worldYSize = 80;
 
@@ -20,7 +20,7 @@ main(int argc, char ** argv) {
   id aBug;
   id foodSpace;
 
-  initSwarm(argc, argv);
+  initSwarm (argc, argv);
 
   // Create and initialize a "food" space
 
