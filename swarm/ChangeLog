@@ -1,3 +1,13 @@
+1999-10-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VERSION: Bump.
+
+	* NEWS: Note jstring argument fix and List/Map index fix.
+
+1999-09-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VERSION: Bump.
+
 1999-09-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note fixes so far.
