@@ -62,12 +62,6 @@
 		 (caddr date) (cadr date) (car date)
 		 (* 60 (timezone-zone-to-minute (nth 4 date))))))
 
-(defun decode-time-as-gmt (time)
-  (set-time-zone-rule "GMT")
-  (prog1
-      (decode-time time)
-    (set-time-zone-rule (getenv "TZ"))))
-
 (defun parse-changelog-item ()
   (interactive)
   (let ((beg (point)))
@@ -174,9 +168,13 @@
       (insert (upcase (symbol-name module-sym)))
       (insert ".GENERIC.REVHISTORY\">\n")
       (loop for changelog in combined-changelog-list
-            for date-string = (format-time-string 
-                               "%Y-%m-%d"
-                               (changelog-timestamp changelog))
+            for date-string = (progn
+                                (set-time-zone-rule "GMT")
+                                (prog1 
+                                    (format-time-string 
+                                     "%Y-%m-%d"
+                                     (changelog-timestamp changelog))
+                                  (set-time-zone-rule (getenv "TZ"))))
             for author = (first (split-string
                                  (changelog-email changelog)
                                  "@"))

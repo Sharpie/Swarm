@@ -15,8 +15,10 @@
 	* history.el (changelog): Add position.
 	(parse-changelog-buffer): Count ChangeLog positions,
 	passing to parse-changel-entry.
-	(parse-changelog-entry): Store position.
+	(parse-changelog-entry): Store position.  Do format-time-string
+	while TZ is set to GMT.
 	(process-changelog): Use position to do sorting when dates are equal.
+	(decode-time-as-gmt): Remove.
 
 2000-03-01  Alex Lancaster  <alex@santafe.edu>
 
