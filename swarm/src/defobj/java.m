@@ -251,12 +251,14 @@ java_expandArray (jobject fullary, void *inbuf)
               (*jniEnv)->ReleaseCharArrayElements (jniEnv, obj, ptr,
                                                    JNI_ABORT);
               break;
+            case fcall_type_ushort:
             case fcall_type_sshort:
               ptr = (*jniEnv)->GetShortArrayElements (jniEnv, obj, &isCopy);
               memcpy (&buf[offset], ptr, size);
               (*jniEnv)->ReleaseShortArrayElements (jniEnv, obj, ptr,
                                                     JNI_ABORT);
               break;
+            case fcall_type_uint:
             case fcall_type_sint:
               ptr = (*jniEnv)->GetIntArrayElements (jniEnv, obj, &isCopy);
               memcpy (&buf[offset], ptr, size);
