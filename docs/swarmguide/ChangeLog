@@ -1,3 +1,10 @@
+1999-03-15  Paul E. Johnson  <pauljohn@valinux.pols.ukans.edu>
+
+	* user2.04.sgml: Wrote an OK chapter about scheduling, with a
+	totally kickass treatment of M() and selectors, and ran out of 
+	gas while trying to write about ActionGroups. I'll have to come
+	back to that.
+
 1999-03-05  Paul E. Johnson  <pauljohn@valinux.pols.ukans.edu>
 
 	* user2.05.sgml (elementFromList): This is a chapter about Lists.
