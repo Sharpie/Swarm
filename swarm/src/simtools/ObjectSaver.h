@@ -6,20 +6,21 @@
 #import <objectbase/SwarmObject.h>
 #import <objectbase/VarProbe.h>
 
-@interface ObjectSaver : SwarmObject {
-  id templateProbeMap ;  
-  id theFileObject ;    
+@interface ObjectSaver : SwarmObject
+{
+  id templateProbeMap;  
+  id theFileObject;    
 }
 
-+save: anObject to: aFileObject ;
-+save: anObject to: aFileObject withTemplate: aProbeMap ;
-+save: anObject toFileNamed: (char *) aFileName ;
-+save: anObject toFileNamed: (char *) aFileName withTemplate: aProbeMap ;
++ save: anObject to: aFileObject;
++ save: anObject to: aFileObject withTemplate: aProbeMap;
++ save: anObject toFileNamed: (const char *)aFileName;
++ save: anObject toFileNamed: (const char *)aFileName withTemplate: aProbeMap;
 
--setFileObject: aFileObject ;
--setTemplateProbeMap: aProbeMap ;
--saveObject: anObject ;
+- setFileObject: aFileObject;
+- setTemplateProbeMap: aProbeMap;
+- saveObject: anObject;
 
--(void) _crash_: anObject ;
+- (void)_crash_: anObject;
 
 @end

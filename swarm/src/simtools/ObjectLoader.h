@@ -12,7 +12,7 @@
 }
 
 + load: anObject from: aFileObject;
-+ load: anObject fromFileNamed: (char *) aFileName;
++ load: anObject fromFileNamed: (const char *)aFileName;
 
 - setFileObject: aFileObject;
 - loadObject: anObject;
