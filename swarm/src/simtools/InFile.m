@@ -32,7 +32,22 @@ PHASE(Using)
 
 - (int)getWord: (char *)aWord
 {
-  return fscanf (theFile,"%s",aWord) != EOF;
+  int c, pos = 0;
+
+  while ((c = fgetc (theFile)) != EOF && (c == ' ' || c == '\t' || c == '\n'));
+  while (c != EOF && !(c == ' ' || c == '\t' || c == '\n'))
+    {
+      aWord[pos++] = c;
+      c = fgetc (theFile);
+    }
+  aWord[pos] = '\0';
+  if (c == EOF)
+    return pos > 0;
+  else
+    {
+      ungetc (c, theFile);
+      return 1;
+    }
 }
 
 - (int)getLine: (char *)aLine 

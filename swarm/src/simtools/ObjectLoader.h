@@ -22,7 +22,4 @@
 
 - setTemplateProbeMap: (id <ProbeMap>)probeMap;
 - updateCache: exampleTarget;
-
-- (void)_crash_: anObject;
-
 @end

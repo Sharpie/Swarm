@@ -10,14 +10,24 @@
 
 #include <misc.h> // stpcpy
 
+static void
+loadAborted (id anObject, const char *filename, unsigned lineno)
+{
+  raiseEvent (LoadError,
+              "Could not initialize class loader for %s (instance) [%s,%d]\n",
+              [anObject name], filename, lineno);
+}
+
+
+#define ABORT(obj) loadAborted (obj, __FILE__, __LINE__)
+
 @implementation ObjectLoader
 PHASE(Creating)
 
 + createBegin: aZone
 {
-  ObjectLoader *anObj;
+  ObjectLoader *anObj = [super createBegin: aZone];
 
-  anObj = [super createBegin: aZone];
   anObj->probeMapCache = nil;
 
   return anObj;
@@ -40,8 +50,8 @@ PHASE(Creating)
 
   aFileObject = [InFile create: [anObject getZone] setName: aFileName];
 
-  if(!aFileObject)
-    [self _crash_: anObject];
+  if (!aFileObject)
+    ABORT (anObject);
       
   anObj = [self create: [aFileObject getZone]];
   [anObj setFileObject: aFileObject];
@@ -86,20 +96,6 @@ PHASE(Setting)
 
 PHASE(Using)
 
-+ (void)_crash_: anObject
-{
-  raiseEvent (LoadError, 
-              "Could not initialize class loader for %s (factory)\n",
-              [anObject name]);
-}
-
-- (void)_crash_: anObject
-{
-  raiseEvent (LoadError,
-              "Could not initialize class loader for %s (instance)\n",
-              [anObject name]);
-}
-
 - loadObject: anObject
 {
   id <ProbeMap> aProbeMap;
@@ -118,23 +114,23 @@ PHASE(Using)
       while(1)
         {
           if (!([theFileObject getChar: &aChar]))
-            [self _crash_: anObject];
+            ABORT (anObject);
           
           if (aChar == '#')
             {
               if (![theFileObject skipLine])
-                [self _crash_: anObject];
+                ABORT (anObject);
             }
           else
             {
               if (![theFileObject unGetChar: aChar])
-                [self _crash_: anObject];
+                ABORT (anObject);
               break;
             }
         }
       
       if (![theFileObject getWord: aString])
-        [self _crash_: anObject];
+        ABORT (anObject);
       
       if ((aString[0] == '@') && 
           (aString[1] == 'b') &&
@@ -144,33 +140,33 @@ PHASE(Using)
           (aString[5] == 'n'))
         {
           if (![theFileObject skipLine])
-            [self _crash_: anObject];   
+            ABORT (anObject);
           break;
         }
     }
   
-  while(1)
+  while (1)
     {
-      while(1)
+      while (1)
         { 
           if (!([theFileObject getChar: &aChar]))
-            [self _crash_: anObject];
+            ABORT (anObject);
           
           if (aChar == '#')
             {
               if (![theFileObject skipLine])
-                [self _crash_: anObject];
+                ABORT (anObject);
             }
           else
             {
               if (![theFileObject unGetChar: aChar])
-                [self _crash_: anObject];
+                ABORT (anObject);
               break;
             }
         }
       
       if (![theFileObject getWord: aString])
-        [self _crash_: anObject];
+        ABORT (anObject);
       
       // Check for single quotes that surround the alphanumeric representation
       // of unsigned char variables.
@@ -178,9 +174,8 @@ PHASE(Using)
         {
           [theFileObject skipLine];
           if (![theFileObject getWord: aString])
-            [self _crash_: anObject];
+            ABORT (anObject);
         }
-
       
       if ((aString[0] == '@') && 
           (aString[1] == 'e') &&
@@ -197,16 +192,16 @@ PHASE(Using)
       
       aProbe = [aProbeMap getProbeForVariable: aString]; 
       if (!aProbe)
-        [self _crash_: anObject];
+        ABORT (anObject);
       
       if (![theFileObject getLine: aString])
-        [self _crash_: anObject];
+        ABORT (anObject);
       
       if (![aProbe setData: anObject ToString: aString])
-        [self _crash_: anObject];
+        ABORT (anObject);
       
       if (![theFileObject skipLine])
-        [self _crash_: anObject];
+        ABORT (anObject);
     }
   
   return self;  
