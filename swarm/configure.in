@@ -15,7 +15,7 @@ AC_PROG_CC
 test -n "$OBJC" || OBJC="$CC"
 AC_SUBST(OBJC)
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
-OBJCFLAGS="$OBJCFLAGS -Wall -Wno-import -Wno-protocol -Werror"
+OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long -Werror"
 AC_SUBST(OBJCFLAGS)
 
 AC_LIBTOOL_WIN32_DLL

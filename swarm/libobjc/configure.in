@@ -23,7 +23,7 @@ AC_PROG_LIBTOOL
 test -n "$OBJC" || OBJC="$CC"
 AC_SUBST(OBJC)
 test -n "$OBJCFLAGS" || OBJCFLAGS="$CFLAGS"
-OBJCFLAGS="-Wall -Werror $OBJCFLAGS"
+OBJCFLAGS="$OBJCFLAGS -fgnu-runtime -fno-strict-aliasing -Wall -Wno-import -Wno-protocol -Wno-long-long -Werror"
 AC_SUBST(OBJCFLAGS)   
 
 # Pass with no value to take the default
