@@ -1,3 +1,7 @@
+2005-02-17  Alex Lancaster  <alex AT swarm.org>
+
+	* README: Update links to wiki, other minor updates.
+
 2004-12-17  Marcus G. Daniels <mgd@santafe.edu>
 	
 	* VERSION: Bump.
@@ -21,9 +25,9 @@
 
 2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
 	
-	* configure.in (PREFIX, DATADIR, SYSCONFDIR, INCLUDEDIR, INCLUDESUBDIR):
-	Add documenting third argument to these AC_DEFINEs.
-	Modify previous Darwin change to use $(top_srcdir).
+	* configure.in (PREFIX, DATADIR, SYSCONFDIR, INCLUDEDIR,
+	INCLUDESUBDIR): Add documenting third argument to these
+	AC_DEFINEs.  Modify previous Darwin change to use $(top_srcdir).
 	Otherwise separate build directories don't work.
 
 	* acconfig.h: Removed.
