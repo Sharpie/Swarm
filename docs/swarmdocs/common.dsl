@@ -17,30 +17,30 @@
                    (literal (substring signature 0 signature-length))
                    (empty-sosofo))))))
 
-(define (chars-p nl)
+(define (some-chars-p nl)
     (let loop ((kl nl))
          (if (node-list-empty? kl)
-             #t
+             #f
              (let ((c (node-list-first kl)))
                (if (char? (node-property 'char c default: #f))
-                   (loop (node-list-rest kl))
-                   #f)))))
+                   #t
+                   (loop (node-list-rest kl)))))))
 
 (define (type-expand nl)
-         (if (chars-p nl)
-             (sosofo-append
-              (literal "(")
-              (let loop ((kl nl))
-                   (if (node-list-empty? kl)
-                       (empty-sosofo)
-                       (let ((c (node-list-first kl)))
-                         (sosofo-append
-                          (if (char? (node-property 'char c default: #f))
-                              (process-node-list c)
-                              (empty-sosofo))
-                          (loop (node-list-rest kl))))))
-              (literal ")"))
-             (empty-sosofo)))
+    (if (some-chars-p nl)
+        (sosofo-append
+         (literal "(")
+         (let loop ((kl nl))
+              (if (node-list-empty? kl)
+                  (empty-sosofo)
+                  (let ((c (node-list-first kl)))
+                    (sosofo-append
+                     (if (char? (node-property 'char c default: #f))
+                         (process-node-list c)
+                         (empty-sosofo))
+                     (loop (node-list-rest kl))))))
+         (literal ")"))
+        (empty-sosofo)))
 
 (element FUNCDEF (type-expand (children (current-node))))
          
@@ -125,6 +125,38 @@
 (element FUNCSYNOPSISINFO
          (expand-paragraphs (skip-nonchars
                              (children (current-node)))))
+
+(define (embed-split string)
+    (let loop ((last-ch #\U-0000) (l (string->list string)))
+         (if (null? l)
+             '()
+             (let* ((ch (car l))
+                    (next (loop ch (cdr l))))
+               (if (and (char=? ch #\space) (not (char=? ch last-ch)))
+                   (list next)
+                   (cons ch next))))))
+
+(define (mapcar func l)
+    (if (null? l)
+        '()
+        (cons (func (car l)) (mapcar func (cdr l)))))
+
+(define (split string)
+    (mapcar (lambda (item)
+              (if (list? item)
+                  (split item)
+                  item))
+            (embed-split string)))
+
+(element PRIMARYIE
+         (let* ((linkends (attribute-string "LINKENDS"))
+                (target (element-with-id linkends))
+                (msg (debug (split "hi there silly boy"))))
+           (make element gi: "A"
+                 attributes: (list
+                              (list "HREF" (href-to target)))
+                 (process-children))))
+                                             
 </style-specification-body>
 </style-specification>
 </style-sheet>

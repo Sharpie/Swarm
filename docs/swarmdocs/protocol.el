@@ -411,16 +411,15 @@
 
 (defun sgml-protocol-id (protocol)
   (let* ((cooked-protocol-name (external-protocol-name protocol)))
-    (insert "\"SWARM.")
-    (insert (upcase (symbol-name (protocol-module protocol))))
-    (insert ".")
-    (insert (upcase cooked-protocol-name))
-    (insert "\"")))
+    (concat "SWARM."
+            (upcase (symbol-name (protocol-module protocol)))
+            "."
+            (upcase cooked-protocol-name))))
 
 (defun sgml-refentry-start (protocol)
-  (insert "<REFENTRY ID=")
-  (sgml-protocol-id protocol)
-  (insert ">\n"))
+  (insert "<REFENTRY ID=\"")
+  (insert (sgml-protocol-id protocol))
+  (insert "\">\n"))
 
 (defun sgml-refmeta (protocol)
   (insert "<REFMETA>\n")
@@ -538,9 +537,9 @@
   (insert "</FUNCSYNOPSIS>\n"))
 
 (defun sgml-link-to-protocol (protocol)
-  (insert "<LINK LINKEND=")
-  (sgml-protocol-id protocol)
-  (insert ">")
+  (insert "<LINK LINKEND=\"")
+  (insert (sgml-protocol-id protocol))
+  (insert "\">")
   (insert (external-protocol-name protocol))
   (insert "</LINK>"))
 
@@ -548,6 +547,14 @@
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
         when (eq (method-phase (third methodinfo)) phase)
         collect methodinfo))
+
+(defun include-p (level protocol owner-protocol)
+  (or (zerop level)
+      (let ((owner-protocol-name (protocol-name owner-protocol)))
+        (when (string= (substring owner-protocol-name 0 1) "_")
+          (string=
+           (substring (protocol-name owner-protocol) 1)
+           (protocol-name protocol))))))
 
 (defun sgml-method-definitions (protocol phase)
   (let ((methodinfo-list (methodinfo-list-for-phase protocol phase))
@@ -571,16 +578,16 @@
             (insert "<LISTITEM>\n")
             (setq have-item t)
             (insert "<PARA>")
-            (if (= level 0)
+            (if (include-p level protocol owner-protocol)
                 (insert (external-protocol-name owner-protocol))
                 (sgml-link-to-protocol owner-protocol))
             (insert "</PARA>\n")
-            (when (= level 0)
+            (when (include-p level protocol owner-protocol)
               (setq have-list t)
               (insert "<ITEMIZEDLIST>\n"))
             
             do
-            (when (= level 0)
+            (when (include-p level protocol owner-protocol)
               (insert "<LISTITEM>\n")
               (sgml-method-funcsynopsis owner-protocol method)
               (sgml-method-examples owner-protocol method)
@@ -685,10 +692,13 @@
     (sgml-refsect1 protocol)
     (insert "</REFENTRY>\n")))
 
+(defun get-swarmdocs ()
+  (concat (get-swarmhome) "/../swarmdocs/"))
+
 (defun generate-refentries-for-module (module)
   (let* ((module-name (symbol-name module))
-         (filename (concat (get-swarmhome)
-                           "/../swarmdocs/src/"
+         (filename (concat (get-swarmdocs)
+                           "src/"
                            module-name
                            "/"
                            module-name
@@ -702,11 +712,7 @@
             do
             (generate-refentry-for-protocol protocol)))))
 
-(defun generate-defobj ()
-  (interactive)
-  (generate-refentries-for-module 'defobj))
-
-(defun generate-modules ()
+(defun sgml-generate-modules ()
   (interactive)
   (loop for module in *swarm-modules*
         do
@@ -738,11 +744,37 @@
                collect method-signature)
          #'string<)))
 
+(defun sgml-protocol-indexentry (protocol)
+  (insert "<INDEXENTRY>\n")
+  (insert "<PRIMARYIE LINKENDS=\"")
+  (insert (sgml-protocol-id protocol))
+  (insert "\">")
+  (insert (external-protocol-name protocol))
+  (insert "</PRIMARYIE>\n")
+  (insert "</INDEXENTRY>\n"))
+
+(defun sgml-generate-protocol-index ()
+  (insert "<INDEXDIV>\n")
+  (insert "<TITLE>Protocol Index</TITLE>\n")
+  (loop for protocol in *protocol-list*
+        do (sgml-protocol-indexentry protocol))
+  (insert "</INDEXDIV>\n"))
+
+(defun sgml-generate-index ()
+  (with-temp-file (concat (get-swarmdocs) "src/refindex.sgml")
+    (insert "<INDEX ID=\"CLASS.INDEX\">\n")
+    (insert "<TITLE>Index</TITLE>\n")
+    (sgml-generate-protocol-index)
+    ;; (generate-method-signature-index)
+    (insert "</INDEX>\n")))
+
 (defun run-all ()
+  (interactive)
   (load-protocols-for-all-modules)
   (expand-protocols)
   (build-method-signature-hash-table)
   (build-protocol-vector)
   (build-method-vector)
-  (generate-modules))
+  (sgml-generate-modules)
+  (sgml-generate-index))
 
