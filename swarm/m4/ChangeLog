@@ -1,3 +1,8 @@
+1998-10-28  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* acobjclibs.m4 (md_CHECK_OBJC_LIBS): Try -lobjc -lpthread -lposix4
+	as a last resort.
+
 1998-10-09  Alex Lancaster  <alex@santafe.edu>
 
 	* acswarm.m4: Substitute swarm_{prefix, execprefix, includedir}

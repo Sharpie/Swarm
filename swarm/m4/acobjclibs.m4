@@ -3,7 +3,7 @@ AC_DEFUN(md_CHECK_OBJC_LIBS,
 ORIG_LIBS=$LIBS
 ORIG_CC=$CC
 CC="$ORIG_CC -x objective-c"
-for OBJCLIBS in -lobjc '-lobjc -lpthread' '-lobjc -lposix4' ; do
+for OBJCLIBS in -lobjc '-lobjc -lpthread' '-lobjc -lposix4' '-lobjc -lpthread -lposix4' ; do
   linked=no
   LIBS="$ORIG_LIBS $OBJCLIBS"
   AC_TRY_LINK([#include <objc/Object.h>], 
