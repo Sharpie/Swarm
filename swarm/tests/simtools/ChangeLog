@@ -1,3 +1,7 @@
+2001-02-01  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Makefile.am (EXTRA_DIST): Remove File.test.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.
