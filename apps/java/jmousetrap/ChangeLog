@@ -1,7 +1,13 @@
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* StartMousetrap.java: Pass appName, version, and bug
+	report address.
+
 	* MousetrapObserverSwarm.java: Pass windowGeometry record name
 	in EZGraph creation.
+
+	* MousetrapModelSwarm.java, MousetrapObserverSwarm.java: Likewise
+	for ProbeDisplay (throughout) and for setters.
 
 1999-09-02  Alex Lancaster  <alex@santafe.edu>
 

@@ -121,8 +121,10 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
 
     mousetrapModelSwarm = new MousetrapModelSwarm (getZone ());
     
-    Globals.env.createArchivedProbeDisplay (mousetrapModelSwarm);
-    Globals.env.createArchivedProbeDisplay (this);
+    Globals.env.createArchivedProbeDisplay (mousetrapModelSwarm,
+                                            "MousetrapModelSwarm");
+    Globals.env.createArchivedProbeDisplay (this,
+                                            "MousetrapObserverSwarm");
     
     getActionCache ().waitForControlEvent ();
     
@@ -142,8 +144,6 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
                                     "time",
                                     "triggerGraph");
     
-    Globals.env.setWindowGeometryRecordName (triggerGraph);
-    
     try {
       triggerGraph.createSequence$withFeedFrom$andSelector 
         ("Total triggered",
@@ -161,7 +161,7 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
     
     displayWindow = new ZoomRasterImpl (getZone ());
     
-    Globals.env.setWindowGeometryRecordName (displayWindow);
+    Globals.env.setWindowGeometryRecordName (displayWindow, "displayWindow");
 
     try {
       displayWindow.
@@ -264,7 +264,8 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
     
     observerActCont.setDisplayName ("Observer Swarm Controller");
     
-    Globals.env.createArchivedProbeDisplay (observerActCont);
+    Globals.env.createArchivedProbeDisplay (observerActCont,
+                                            "observerActCont");
     
     return getActivity ();
   }
