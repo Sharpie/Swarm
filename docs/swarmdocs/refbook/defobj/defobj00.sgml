@@ -1,226 +1,235 @@
 <PARTINTRO>
 
-<SIDEBAR>
-<TITLE>Overview</TITLE>
-<PARA>The defobj library supports the style of object-oriented
-programming that is used throughout Swarm. It defines a specific style
-for using the Objective C language that includes its own standard
-conventions for creating objects and for storage allocation, error
-handling, and debugging support.</PARA>
-</SIDEBAR>
+  <SIDEBAR>
+    <TITLE>Overview</TITLE>
+    <PARA>The defobj library supports the style of object-oriented
+      programming that is used throughout Swarm. It defines a specific style
+      for using the Objective C language that includes its own standard
+      conventions for creating objects and for storage allocation, error
+      handling, and debugging support.</PARA>
+  </SIDEBAR>
 
-<SECT1>
-<TITLE>Dependencies</TITLE> 
+  <SECT1 ID="DEFOBJ.DEPEND">
+    <TITLE>Dependencies</TITLE> 
 
-<PARA>The defobj library is defined and documented using the <LINK LINKEND="LIBRARY.APP">library interface conventions</LINK> established
-by the defobj library. It imports the Object superclass and other
-standard type definitions of the GNU Objective C runtime
-system.</PARA>
+    <PARA>The defobj library is defined and documented using the <LINK
+      LINKEND="LIBRARY.APP">library interface conventions</LINK>
+      established by the defobj library. It imports the Object
+      superclass and other standard type definitions of the GNU
+      Objective C runtime system.</PARA>
 
-<PARA>The collections library must always be linked along with the defobj
-library. Even though the interface definitions of defobj do not depend
-directly on collections, the implementations of these libraries both
-require the presence of the other. Only the collections library should
-be initialized directly; initialization of the collections library
-automatically initializes the defobj library as well.</PARA>
-</SECT1>
+    <PARA>The collections library must always be linked along with the defobj
+      library. Even though the interface definitions of defobj do not depend
+      directly on collections, the implementations of these libraries both
+      require the presence of the other. Only the collections library should
+      be initialized directly; initialization of the collections library
+      automatically initializes the defobj library as well.</PARA>
+  </SECT1>
 
-<SECT1 ID="DEFOBJ.USAGE">
-<TITLE>Usage Guide</TITLE>
+  <SECT1 ID="DEFOBJ.COMPAT">
+    <TITLE>Compatibility</TITLE>
 
-<SECT2>
-<TITLE>Why Swarm uses Objective C</TITLE>
+    <PARA>No explicit compatibility issues for particular versions
+      of Swarm</PARA>
 
-<PARA>Swarm uses object-oriented programming not only because this is a good
-way to build general-purpose software libraries, but because the very
-concept of an object is at the base of how you build a model in
-Swarm. To build a simulation in Swarm, the first step to define the
-various kinds of objects that can inhabit some real or artificial
-world, and the second step is to define the kinds of events that can
-occur to these objects, including all the different ways that the
-objects can interact with each other.</PARA>
+  </SECT1>
 
-<PARA>The basic concept of an object is that it responds to external events,
-and that the only thing that really matters about an object are the
-ways it can be observed responding to these events. In an
-object-oriented programming system, an object is represented by some
-uniquely identified chunk of data, and the events are the dynamic
-operations that can be made to occur on these objects.</PARA>
+  <SECT1 ID="DEFOBJ.USAGE">
+    <TITLE>Usage Guide</TITLE>
 
-<PARA>Different object-oriented programming systems define the operations
-that occur on objects in different ways. For example, in C++ the
-operations are called "member functions" and look much like an
-ordinary function call in the C language. In Objective C, an operation
-on an object is called a "message" and has a special syntax by which
-you call it, but a message also has arguments and behaves in many
-respects like a call to a function.</PARA>
+    <SECT2>
+      <TITLE>Why Swarm uses Objective C</TITLE>
 
-<PARA>The key requirement for Swarm is to be able to make all these
-operations happen to any object at any time, whenever they're supposed
-to occur within some simulated world. It stores these operations
-inside its own data structures, and when you run a simulation in
-Swarm, the Swarm system itself traverses these data structures to make
-the necessary operations happen at the proper time.</PARA>
+      <PARA>Swarm uses object-oriented programming not only because this is a good
+        way to build general-purpose software libraries, but because the very
+        concept of an object is at the base of how you build a model in
+        Swarm. To build a simulation in Swarm, the first step to define the
+        various kinds of objects that can inhabit some real or artificial
+        world, and the second step is to define the kinds of events that can
+        occur to these objects, including all the different ways that the
+        objects can interact with each other.</PARA>
 
-<PARA>Swarm needs to be able to make any kind of action happen to any kind
-of object at any time, and to do this it needs very general-purpose
-structures that hold some kind of representation of the actions
-themselves. That's a special requirement that not every object
-language provides. You already have enough work to define the kinds of
-objects that can exist inside your model, and Swarm doesn't want you
-to have to define an even larger number of objects for every kind of
-event that might occur to your objects. Instead, it wants the object
-language to provide it with a representation of the operations on
-objects that you've already defined. Swarm can then store these
-representations in its own data structures, and make the operations
-happen whenever it needs to.</PARA>
+      <PARA>The basic concept of an object is that it responds to external events,
+        and that the only thing that really matters about an object are the
+        ways it can be observed responding to these events. In an
+        object-oriented programming system, an object is represented by some
+        uniquely identified chunk of data, and the events are the dynamic
+        operations that can be made to occur on these objects.</PARA>
 
-<PARA>In Swarm, the representation of events that happen on objects
-are just as fundamental to the model as the objects themselves. That's
-why Swarm is a "discrete-event" simulation system. But if the object
-system doesn't provide a general-purpose enough representation of
-events as well as objects, there would be a lot more work to do. The
-Objective C system, through its special data type called a "message
-selector," provides a representation of operations that is flexible
-enough to do this, but the C++ language does not. (In C++, the
-compiler requires more information about an operation than the event
-structures in Swarm would be able to provide.)</PARA>
+      <PARA>Different object-oriented programming systems define the operations
+        that occur on objects in different ways. For example, in C++ the
+        operations are called "member functions" and look much like an
+        ordinary function call in the C language. In Objective C, an operation
+        on an object is called a "message" and has a special syntax by which
+        you call it, but a message also has arguments and behaves in many
+        respects like a call to a function.</PARA>
 
-<PARA>There's a host of additional reasons why Objective C has also
-been a good match for the requirements of the Swarm system. Like C++,
-the operations on objects can be compiled to a very efficient form
-(though Objective C does require a little more overhead than C++ to
-get the operation started). This efficiency can be very important for
-a simulation, since simulations can run for very long periods of time
-to explore all the behavior that might occur within their simulated
-worlds. Other languages, such as Lisp, Smalltalk, and Java, also have
-the "dynamic message dispatch" feature that would make general-purpose
-event structures possible, but they still carry significant added
-overhead compared to C.</PARA>
+      <PARA>The key requirement for Swarm is to be able to make all these
+        operations happen to any object at any time, whenever they're supposed
+        to occur within some simulated world. It stores these operations
+        inside its own data structures, and when you run a simulation in
+        Swarm, the Swarm system itself traverses these data structures to make
+        the necessary operations happen at the proper time.</PARA>
 
-<PARA>Objective C is also a very simple extension to the C
-language. Basic knowledge of C is already widespread, and a few days
-are typically all that is needed to learn the few additions of
-Objective C. (Really learning the concepts of objects, however, can
-take much longer, no matter what object language you try to use.)</PARA>
+      <PARA>Swarm needs to be able to make any kind of action happen to any kind
+        of object at any time, and to do this it needs very general-purpose
+        structures that hold some kind of representation of the actions
+        themselves. That's a special requirement that not every object
+        language provides. You already have enough work to define the kinds of
+        objects that can exist inside your model, and Swarm doesn't want you
+        to have to define an even larger number of objects for every kind of
+        event that might occur to your objects. Instead, it wants the object
+        language to provide it with a representation of the operations on
+        objects that you've already defined. Swarm can then store these
+        representations in its own data structures, and make the operations
+        happen whenever it needs to.</PARA>
 
-<PARA>Objective C was also a good choice for Swarm because it has a
-high quality, freely distributable implementation in the GNU C
-compiler. One of the main concerns about Objective C is that it isn't
-nearly as widely known or used as other languages like C++, but at
-least the GNU C compiler assures it will be available on machines
-where Swarm needs to run. The OpenStep system now part of the Apple
-Rhapsody project (formerly NeXTStep of the NeXT corporation), and the
-parallel GNUStep project, also help assure that Objective C is a
-living language.</PARA>
+      <PARA>In Swarm, the representation of events that happen on objects
+        are just as fundamental to the model as the objects themselves. That's
+        why Swarm is a "discrete-event" simulation system. But if the object
+        system doesn't provide a general-purpose enough representation of
+        events as well as objects, there would be a lot more work to do. The
+        Objective C system, through its special data type called a "message
+        selector," provides a representation of operations that is flexible
+        enough to do this, but the C++ language does not. (In C++, the
+        compiler requires more information about an operation than the event
+        structures in Swarm would be able to provide.)</PARA>
 
-<PARA>There are even more powerful aspects of Objective C that Swarm
-takes advantage of. Some of these are described in the <LINK LINKEND="DEFOBJ.ADVUSAGE">Advanced Usage Guide</LINK> of the defobj
-library. But many others are at the heart of how Swarm uses Objective
-C, and so are dealt with in the rest of this Usage Guide. The entire
-purpose of the defobj library is to define a standard style for the
-use of Objective C in Swarm. This style is backed up by a library of
-foundation classes that Swarm provides to support this style.</PARA><PARA></PARA>
+      <PARA>There's a host of additional reasons why Objective C has also
+        been a good match for the requirements of the Swarm system. Like C++,
+        the operations on objects can be compiled to a very efficient form
+        (though Objective C does require a little more overhead than C++ to
+        get the operation started). This efficiency can be very important for
+        a simulation, since simulations can run for very long periods of time
+        to explore all the behavior that might occur within their simulated
+        worlds. Other languages, such as Lisp, Smalltalk, and Java, also have
+        the "dynamic message dispatch" feature that would make general-purpose
+        event structures possible, but they still carry significant added
+        overhead compared to C.</PARA>
 
-<PARA>Swarm provides its own foundation classes even for such basic
-operations as creating an object, and other support that user classes
-ordinarily receive from a builtin Object superclass. A good
-understanding of the defobj library is essential for Objective C
-programming in Swarm. Like any programming language, Objective C
-requires learning not only the rules of the language itself, but also
-a standard library of initial capabilities that you build
-from. Objective C doesn't really have a single official standard
-library (or language definition either, for that matter), but the
-OpenStep foundation libraries (and the OpenStep language definition)
-come very close to this status.</PARA>
+      <PARA>Objective C is also a very simple extension to the C
+        language. Basic knowledge of C is already widespread, and a few days
+        are typically all that is needed to learn the few additions of
+        Objective C. (Really learning the concepts of objects, however, can
+        take much longer, no matter what object language you try to use.)</PARA>
 
-<PARA>For a variety of reasons explained here and in the <LINK LINKEND="DEFOBJ.ADVUSAGE">Advanced Usage Guide</LINK>, Swarm doesn't
-use a standard library based on the NextStep foundation interface. You
-can still learn the Objective C language from other available sources,
-but you have to be careful to sort out the language level from the
-standard object and library support they also discuss.</PARA>
+      <PARA>Objective C was also a good choice for Swarm because it has a
+        high quality, freely distributable implementation in the GNU C
+        compiler. One of the main concerns about Objective C is that it isn't
+        nearly as widely known or used as other languages like C++, but at
+        least the GNU C compiler assures it will be available on machines
+        where Swarm needs to run. The OpenStep system now part of the Apple
+        Rhapsody project (formerly NeXTStep of the NeXT corporation), and the
+        parallel GNUStep project, also help assure that Objective C is a
+        living language.</PARA>
 
-<PARA>The index page of the Swarm documentation provides a variety of
-links to other Objective C resources.  In particular, it provides a
-link to a complete on-line reference for the Objective C language as
-defined by OpenStep (formerly NextStep) and implemented by the GNU C
-compiler. None of the Swarm documentation attempts to duplicate this
-coverage of the basic language; Swarm assumes that you learn Objective
-C from other available sources. The Objective C reference (<ULINK URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html">Object-Oriented
-Programming and the Objective C Language</ULINK>) is the single best
-available source, and it can also be ordered as a hardcopy book from
-the <ULINK URL="http://devworld.apple.com/techpubs/rhapsody/rhapsody.html">Rhapsody
-Developer Documentation site</ULINK> . Don't try to program in
-Objective C without it.</PARA><PARA></PARA>
+      <PARA>There are even more powerful aspects of Objective C that Swarm
+        takes advantage of. Some of these are described in the <LINK LINKEND="DEFOBJ.ADVUSAGE">Advanced Usage Guide</LINK> of the defobj
+        library. But many others are at the heart of how Swarm uses Objective
+        C, and so are dealt with in the rest of this Usage Guide. The entire
+        purpose of the defobj library is to define a standard style for the
+        use of Objective C in Swarm. This style is backed up by a library of
+        foundation classes that Swarm provides to support this style.</PARA><PARA></PARA>
 
-</SECT2>
+      <PARA>Swarm provides its own foundation classes even for such basic
+        operations as creating an object, and other support that user classes
+        ordinarily receive from a builtin Object superclass. A good
+        understanding of the defobj library is essential for Objective C
+        programming in Swarm. Like any programming language, Objective C
+        requires learning not only the rules of the language itself, but also
+        a standard library of initial capabilities that you build
+        from. Objective C doesn't really have a single official standard
+        library (or language definition either, for that matter), but the
+        OpenStep foundation libraries (and the OpenStep language definition)
+        come very close to this status.</PARA>
 
-<SECT2>
-<TITLE>Swarm style of Objective C Programming</TITLE> 
+      <PARA>For a variety of reasons explained here and in the <LINK LINKEND="DEFOBJ.ADVUSAGE">Advanced Usage Guide</LINK>, Swarm doesn't
+        use a standard library based on the NextStep foundation interface. You
+        can still learn the Objective C language from other available sources,
+        but you have to be careful to sort out the language level from the
+        standard object and library support they also discuss.</PARA>
 
-<PARA>No matter where you've learned to program in Objective C, don't
-try to use Objective C in Swarm without understanding the special ways
-in which Swarm adapts its use of the language and the language runtime
-system. Your place to find this information is right here in the
-defobj library. Defobj not only provides the most basic layer of
-foundation class libraries for Swarm, but also serves as the place
-where all the rules and guidelines for the use of Objective C in Swarm
-are gathered together.</PARA>
+      <PARA>The index page of the Swarm documentation provides a variety of
+        links to other Objective C resources.  In particular, it provides a
+        link to a complete on-line reference for the Objective C language as
+        defined by OpenStep (formerly NextStep) and implemented by the GNU C
+        compiler. None of the Swarm documentation attempts to duplicate this
+        coverage of the basic language; Swarm assumes that you learn Objective
+        C from other available sources. The Objective C reference (<ULINK URL="http://devworld.apple.com/techpubs/rhapsody/ObjectiveC/index.html">Object-Oriented
+          Programming and the Objective C Language</ULINK>) is the single best
+        available source, and it can also be ordered as a hardcopy book from
+        the <ULINK URL="http://devworld.apple.com/techpubs/rhapsody/rhapsody.html">Rhapsody
+          Developer Documentation site</ULINK> . Don't try to program in
+        Objective C without it.</PARA><PARA></PARA>
 
-<PARA>Some of these rules and guidelines don't even require any
-specific software to implement them, but are just conventions and
-recommended style that anyone programming in Objective C can follow
-when their goals are similar to those of Swarm, and to a large extent
-often do. These kinds of conventions are the focus of this section;
-following sections discuss aspects of Swarm Objective C style that
-depend on specific software support.</PARA>
+    </SECT2>
 
-<PARA>More to come... For now, see <LINK LINKEND="LIBRARY.APP">Library
-Interface Conventions</LINK> for some of this information, and Swarm
-tutorials for much of the rest.</PARA>
+    <SECT2>
+      <TITLE>Swarm style of Objective C Programming</TITLE> 
 
-</SECT2>
+      <PARA>No matter where you've learned to program in Objective C, don't
+        try to use Objective C in Swarm without understanding the special ways
+        in which Swarm adapts its use of the language and the language runtime
+        system. Your place to find this information is right here in the
+        defobj library. Defobj not only provides the most basic layer of
+        foundation class libraries for Swarm, but also serves as the place
+        where all the rules and guidelines for the use of Objective C in Swarm
+        are gathered together.</PARA>
 
-</SECT1>
+      <PARA>Some of these rules and guidelines don't even require any
+        specific software to implement them, but are just conventions and
+        recommended style that anyone programming in Objective C can follow
+        when their goals are similar to those of Swarm, and to a large extent
+        often do. These kinds of conventions are the focus of this section;
+        following sections discuss aspects of Swarm Objective C style that
+        depend on specific software support.</PARA>
 
-<SECT1 ID="DEFOBJ.ADVUSAGE">
-<TITLE>Advanced Usage Guide</TITLE>
-<PARA>Empty</PARA>
-</SECT1>
+      <PARA>More to come... For now, see <LINK LINKEND="LIBRARY.APP">Library
+          Interface Conventions</LINK> for some of this information, and Swarm
+        tutorials for much of the rest.</PARA>
 
-<SECT1 ID="DEFOBJ.SUBCLASS">
-<TITLE>Subclassing Reference</TITLE>
+    </SECT2>
 
-<PARA>The defobj library currently includes the CreateDrop and
-Object_s superclasses used by other libraries. For user objects in
-Swarm simulations the SwarmObject superclass in the objectbase library
-packages all required behavior of these superclasses into a single,
-simpler superclass.</PARA>
+  </SECT1>
 
-<PARA>The defobj library also provides support for custom-generated classes,
-such as those which implement separate phases of the standard create
-protocol. (See generated phase classes in the Advanced Usage Guide.)
-Subclassing from custom-generated classes is still not officially
-supported, because the framework for custom class generation is still
-being finalized. Custom-generated classes are currently used only in
-the defobj, collections, and activity libraries; these libraries
-document the specific classes that provide subclassing support.</PARA>
+  <SECT1 ID="DEFOBJ.ADVUSAGE">
+    <TITLE>Advanced Usage Guide</TITLE>
+    <PARA>Empty</PARA>
+  </SECT1>
 
-<PARA>In general, classes that implement a library are not
-automatically available for use as superclasses. Any library must
-document those specific superclasses that are valid for user classes
-to subclass from, along all the rules that a user subclass must follow
-when implementing new behavior.</PARA></SECT1>
+  <SECT1 ID="DEFOBJ.SUBCLASS">
+    <TITLE>Subclassing Reference</TITLE>
 
-<SECT1 ID="DEFOBJ.DESIGN">
-<TITLE>Interface Design Notes</TITLE>
-<PARA>Nothing</PARA>
-</SECT1>
+    <PARA>The defobj library currently includes the CreateDrop and
+      Object_s superclasses used by other libraries. For user objects in
+      Swarm simulations the SwarmObject superclass in the objectbase library
+      packages all required behavior of these superclasses into a single,
+      simpler superclass.</PARA>
 
-<SECT1 ID="DEFOBJ.IMPL">
-<TITLE>Implementation Notes</TITLE>
-<PARA>Nothing</PARA>
-</SECT1>
+    <PARA>The defobj library also provides support for custom-generated classes,
+      such as those which implement separate phases of the standard create
+      protocol. (See generated phase classes in the Advanced Usage Guide.)
+      Subclassing from custom-generated classes is still not officially
+      supported, because the framework for custom class generation is still
+      being finalized. Custom-generated classes are currently used only in
+      the defobj, collections, and activity libraries; these libraries
+      document the specific classes that provide subclassing support.</PARA>
+
+    <PARA>In general, classes that implement a library are not
+      automatically available for use as superclasses. Any library must
+      document those specific superclasses that are valid for user classes
+      to subclass from, along all the rules that a user subclass must follow
+      when implementing new behavior.</PARA></SECT1>
+
+  <SECT1 ID="DEFOBJ.DESIGN">
+    <TITLE>Interface Design Notes</TITLE>
+    <PARA>Nothing</PARA>
+  </SECT1>
+
+  <SECT1 ID="DEFOBJ.IMPL">
+    <TITLE>Implementation Notes</TITLE>
+    <PARA>Nothing</PARA>
+  </SECT1>
 
 </PARTINTRO>
 
