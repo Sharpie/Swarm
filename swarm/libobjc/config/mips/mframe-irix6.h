@@ -11,6 +11,12 @@ refstructp (const char *types)
           && objc_sizeof_type (types) > MFRAME_SMALL_STRUCT);
 }
 
+inline static BOOL
+floatp (const char *types)
+{
+  return *types == _C_FLT || *types == _DBL;
+}
+
 inline static void **
 mframe_get_struct_addr_ptr (arglist_t args, const char *types)
 {
@@ -26,18 +32,29 @@ mframe_get_struct_addr_ptr (arglist_t args, const char *types)
 #define MFRAME_SET_STRUCT_ADDR(ARGS, TYPES, ADDR) \
 ( { void **ptr = mframe_get_struct_addr_ptr (ARGS, TYPES); \
     if (ptr) *ptr = (ADDR); } )
-     
-#define MFRAME_ARGS int
 
-#define MFRAME_INIT_ARGS(CUM, RTYPE)  (CUM) = 20
+struct mips_args {
+  int reg_offset;
+  int float_reg_offset;
+};
+     
+#define MFRAME_ARGS struct mips_args
+
+#define MFRAME_INIT_ARGS(CUM, RTYPE) \
+({ \
+ (CUM).reg_offset = 20; \
+ (CUM).float_reg_offset = 88; \
+})
 
 #define MFRAME_ARG_ENCODING(CUM, TYPE, STACK, DEST) \
 ({  \
   const char* type = (TYPE); \
   unsigned align = objc_alignof_type (type); \
   unsigned size = objc_sizeof_type (type); \
-  BOOL structref = refstructp (type); \
-  unsigned offset = structref ? 4 : (CUM); \
+  BOOL structref_flag = refstructp (type); \
+  BOOL float_flag = floatp (type); \
+  unsigned offset = structref ? 4 \
+                    : float_flag ? (CUM).float_reg_offset : (CUM).reg_offset; \
   \
   offset = ROUND (offset, align); \
   (TYPE) = objc_skip_typespec (type); \
@@ -53,7 +70,11 @@ mframe_get_struct_addr_ptr (arglist_t args, const char *types)
     } \
   (DEST)=&(DEST)[strlen (DEST)]; \
   if (!structref) \
-    offset += size; \
- (CUM) = offset; \
+    { \
+      if (float_flag) \
+        (CUM).float_reg_offset = offset + size; \
+      else \
+        (CUM).reg_offset = offset + size; \
+    } \
 })
 
