@@ -1,5 +1,8 @@
 1998-03-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.conf: Change JAVALIB and JAVAINC definitions to
+	JAVALIBDIR and JAVAINCDIR.
+
 	* Makefile (realclean): Exclude {bin,include,lib}/CVS from realclean.
 
 	* Makefile.conf (VERSION): New variable.
