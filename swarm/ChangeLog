@@ -2,6 +2,8 @@
 
 	* VERSION: Swarm 1.3 released.
 
+	* README: Update for 1.3.
+
 	* NEWS: Note addition of dropSequence: in EZGraph.
 
 1998-08-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
