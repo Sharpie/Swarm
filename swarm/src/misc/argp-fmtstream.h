@@ -27,7 +27,7 @@
 #define __ARGP_FMTSTREAM_H__
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <swarmconfig.h>
 #endif
 
 #include <stdio.h>
