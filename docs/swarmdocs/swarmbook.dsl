@@ -102,17 +102,65 @@
                      (empty-sosofo)
                      (sosofo-append
                       (make paragraph
-                            (let ((id (car linkends)))
+                            (let* ((id (car linkends))
+                                   (nl (element-with-id id)))
                               (sosofo-append
                                (make link
-                                     destination: (idref-address id)
-                                     (literal
-                                      (id-to-indexitem id)))
+                                     destination:
+                                     (node-list-address nl)
+                                     (literal (id-to-indexitem id)))
                                (literal " -- ")
-                               (element-page-number-sosofo
-                                (element-with-id id))))
-                            (loop (cdr linkends)))))))))
+                               (element-page-number-sosofo nl))))
+                      (loop (cdr linkends))))))))
 
+(mode book-titlepage-recto-mode
+      (element graphic (empty-sosofo)))
+
+(mode set-titlepage-recto-mode
+      (element graphic (empty-sosofo)))
+
+(define (skip-content)
+    (process-node-list (children (current-node))))
+(element (listitem programlisting) (skip-content))
+(element (listitem screen) (skip-content))
+(element (listitem synopsis) (skip-content))
+(element (listitem funcsynopsis) (skip-content))
+(element (listitem literallayout) (skip-content))
+(element (listitem address) (skip-content))
+(element (listitem para) (skip-content))
+(element (listitem formalpara) (skip-content))
+
+(define (generic-list-item indent-step line-field)
+  (let* ((itemcontent (children (current-node)))
+         (first-child (node-list-first itemcontent))
+         (spacing (inherited-attribute-string (normalize "spacing"))))
+    (make sequence
+      start-indent: (+ (inherited-start-indent) indent-step)
+      (make paragraph
+        use: (cond
+              ((equal? (gi first-child) (normalize "programlisting"))
+               verbatim-style)
+              ((equal? (gi first-child) (normalize "screen"))
+               verbatim-style)
+              ((equal? (gi first-child) (normalize "synopsis"))
+               verbatim-style)
+              ((equal? (gi first-child) (normalize "funcsynopsis"))
+               verbatim-style)
+              ((equal? (gi first-child) (normalize "literallayout"))
+               linespecific-style)
+              ((equal? (gi first-child) (normalize "address"))
+               linespecific-style)
+              (else
+               para-style))
+        space-before: (if (equal? (normalize "compact") spacing)
+                          0pt
+                          %para-sep%)
+        first-line-start-indent: (- indent-step)
+        (make sequence
+          use: para-style
+          line-field)
+        (process-node-list first-child))
+      (process-node-list (node-list-rest itemcontent))))) 
 
 </style-specification-body>
 </style-specification>
@@ -250,16 +298,14 @@
                             (loop (cdr linkends)))))))))
 
 (mode book-titlepage-recto-mode
-
-  (element graphic
-  (make element gi: "P"
-	($img$))))
+      (element graphic
+               (make element gi: "P"
+                     ($img$))))
 
 (mode set-titlepage-recto-mode
-
-  (element graphic
-  (make element gi: "P"
-	($img$))))
+      (element graphic
+               (make element gi: "P"
+                     ($img$))))
 
 
 </style-specification-body>
