@@ -49,7 +49,7 @@ or better, and the blt library package.  This version enables hdf5.
 
 %makebuilddir =with-hdf
 
-JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix=%prefix --enable-linuxprefix --without-jdkdir --with-hdf5dir=/usr --disable-jar
+JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix='/REPLACE-AT-INSTALLATION' --enable-subdirs --without-jdkdir --with-hdf5dir=/usr
 make
                             
 %install
