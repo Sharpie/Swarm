@@ -1,3 +1,12 @@
+1997-12-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]): 
+	Do ControlPanel and ActionCache initialization inline (pending
+	probable API changes).
+
+	* main.m (main): Don't use now-absent feature of GUISwarm
+	to passthru a name for geometry archiving.
+
 1997-12-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile (SWARMHOME): Don't define if already defined.

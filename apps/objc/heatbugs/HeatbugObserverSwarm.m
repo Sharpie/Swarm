@@ -65,7 +65,16 @@
   id modelZone;					  // zone for model.
   int i;
 
+#if 1
+  // Perhaps a need for startBuildObjects endBuildObjects (at least)? -mgd
+  controlPanel = [ControlPanel create: [self getZone]];
+  actionCache = [ActionCache createBegin: [self getZone]];
+  [actionCache setControlPanel: controlPanel];
+  [actionCache setControlPanelGeometryRecordName: "controlPanel"];
+  actionCache = [actionCache createEnd];
+#else
   [super buildObjects];
+#endif
   
   // First, we create the model that we're actually observing. The
   // model is a subswarm of the observer. We also create the model in
@@ -84,7 +93,7 @@
                        setWindowGeometryRecordName : "heatbugModelSwarm"];
   [probeDisplayManager createProbeDisplayFor: self
                        setWindowGeometryRecordName: "observerSwarm"];
-  
+ 
   // Instruct the control panel to wait for a button event: we halt here
   // until someone hits a control panel button so the user can get a
   // chance to fill in parameters before the simulation runs
