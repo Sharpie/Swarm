@@ -13,6 +13,8 @@
 
 -setCanvas: aCanvas ;
 -createEnd ;
+-showCanvas: aCanvas ;
+-hideCanvas ;
 -getCanvas ;
 -getNodeList ;
 -addNode: aNode ;

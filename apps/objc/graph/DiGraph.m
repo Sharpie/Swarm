@@ -30,8 +30,8 @@
   return obj ;
 }
 
--setCanvas: the_canvas {
-  canvas = the_canvas ;
+-setCanvas: aCanvas {
+  canvas = aCanvas ;
   return self ;
 }
 
@@ -43,6 +43,87 @@
 -createEnd {  
   nodeList = [List create: [self getZone]] ;
   return self;
+}
+
+-showCanvas: aCanvas {
+   id index, node;
+
+   if (canvas) {
+      fprintf(_obj_xdebug, "DiGraph already has canvas\n");
+      return self;
+   }
+   else {
+      
+      canvas = aCanvas; // set the DiGraph's canvas
+       
+      // step through all nodes in list
+      // creating graphical nodes
+      index = [nodeList begin: globalZone];
+   
+      while ( (node = [index next]) ) {
+         [node setCanvas: aCanvas];
+      }
+      [index drop];
+   
+      // step through all nodes in list
+      // creating  graphical links for each node 
+      index = [nodeList begin: globalZone];
+   
+      while ( (node = [index next]) ) {
+      
+         [[node getToLinks] forEach: M(setCanvas:) : aCanvas];
+
+         //  [[node getFromLinks] forEach: M(setCanvas:) : aCanvas];
+         
+         // while ( (link = [toLinkIndex next]) ) {
+         //   [link setCanvas: aCanvas];
+            
+         // } //loop creating links...
+         // [toLinkIndex drop];
+      }
+      [index drop];
+   }
+
+   [self update]; // display node status
+   
+   return self;
+}
+
+-hideCanvas {
+   id index, node;
+
+   if (canvas) {
+      index = [nodeList begin: globalZone];
+   
+      while ( (node = [index next]) ) {
+         [node hideNode];
+      }
+      [index drop];
+   
+      // step through all nodes in list
+      // creating  graphical links for each node 
+      index = [nodeList begin: globalZone];
+   
+      while ( (node = [index next]) ) {
+      
+         [[node getToLinks] forEach: M(hideLink)];
+      
+         //  [[node getFromLinks] forEach: M(setCanvas:) : aCanvas];
+      
+         // while ( (link = [toLinkIndex next]) ) {
+         //   [link setCanvas: aCanvas];
+      
+         // } //loop creating links...
+         // [toLinkIndex drop];
+      }
+      [index drop];
+      
+      canvas = nil;  // make sure canvas is no longer referenced.
+   } 
+   else {  
+      fprintf(_obj_xdebug, "Canvas doesn't exist for this DiGraph!\n"); 
+   }
+   return self;
 }
 
 -getCanvas {
@@ -73,7 +154,6 @@
                           setCanvas: canvas]
                           setFrom: this To: that] 
                           createEnd] ;
-
   return self ;
 }
 
