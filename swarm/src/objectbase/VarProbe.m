@@ -853,7 +853,7 @@ COM_probe_as_string (COMmethod getterMethod,
                        Buffer: (char *)buf 
             withFullPrecision: (BOOL)fullPrecisionFlag
 {
-  const char *fmt = fullPrecisionFlag ? floatFormat : NULL;
+  const char *fmt = fullPrecisionFlag ? NULL : floatFormat;
   unsigned precision = [probeLibrary getSavedPrecision];
   
   if (safety)
