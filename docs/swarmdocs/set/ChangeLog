@@ -1,3 +1,9 @@
+1998-05-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* set.sgml.in, set.tex.in: New files.
+
+	* Makefile.am: New file.
+
 1998-05-22  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Begin revision log.
