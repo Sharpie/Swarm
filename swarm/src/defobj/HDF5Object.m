@@ -1208,6 +1208,57 @@ PHASE(Using)
   return datasetFlag;
 }
 
+- (size_t)getDatasetRank
+{
+  if (datasetFlag)
+    {
+      hid_t sid;
+      hsize_t rank;
+
+      if ((sid = H5Dget_space (loc_id)) < 0)
+        raiseEvent (LoadError, "could not get dataset space");
+      
+      if ((rank = H5Sget_simple_extent_ndims (sid)) < 0)
+        raiseEvent  (LoadError,
+                     "could not get rank of data space");
+      
+      if (H5Sclose (sid) < 0)
+        raiseEvent (LoadError, "could not close dataset sid");
+      return rank;
+    }
+  else
+    abort ();
+}
+
+- (size_t)getDatasetDimension: (unsigned)dimNumber
+{
+  if (datasetFlag)
+    {
+      size_t rank = [self getDatasetRank];
+      hsize_t dims[rank];
+      hid_t sid;
+
+      if ((sid = H5Dget_space (loc_id)) < 0)
+        raiseEvent (LoadError, "could not get dataset space");
+      
+      if (H5Sget_simple_extent_dims (sid, dims, NULL) < 0)
+        raiseEvent (LoadError, "could not get dimensions for row names space");
+    
+      if (H5Sclose (sid) < 0)
+        raiseEvent (LoadError, "could not close dataset sid");
+      
+      if (dimNumber >= rank)
+        raiseEvent (InvalidArgument, 
+                    "requested dimension number not less than rank");
+      
+      return dims[dimNumber];
+    }
+  else
+    abort ();
+}
+
+
+
 - getCompoundType
 {
   return compoundType;

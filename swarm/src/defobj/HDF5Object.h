@@ -84,6 +84,8 @@
 - (BOOL)checkName: (const char *)name;
 
 - (BOOL)getDatasetFlag;
+- (size_t)getDatasetRank;
+- (size_t)getDatasetDimension: (unsigned)dimNumber;
 - getCompoundType;
 - (unsigned)getCount;
 - (const char *)getName;

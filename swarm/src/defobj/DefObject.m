@@ -69,7 +69,7 @@ PHASE(Creating)
   return self;
 }
 
-- hdf5InCreate: expr
+- hdf5InCreate: hdf5Obj
 {
   return self;
 }

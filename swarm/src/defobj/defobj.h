@@ -994,6 +994,8 @@ SETTING
 USING
 - iterate: (int (*) (id hdf5Obj))iterateFunc;
 - (BOOL)getDatasetFlag;
+- (size_t)getDatasetRank;
+- (size_t)getDatasetDimension: (unsigned)dimNumber;
 - (const char *)getName;
 - (unsigned)getCount;
 - getCompoundType;

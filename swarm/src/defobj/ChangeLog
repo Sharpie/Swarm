@@ -1,5 +1,8 @@
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HDF5Object.[mh], defobj.h ([HDF5_c -getDatasetRank], [HDF5_c
+	-getDatasetDimension:]): New methods.
+
 	* DefObject.[hm], defobj.h ([Object_s -lispOutVars:deep:]):
 	New method.
 
