@@ -1,9 +1,5 @@
 1999-08-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* directory.m ([-setJavaObject:]): Revert last change.  `find'
-	usages of are not real DirectoryEntry instances, and won't be
-	dropped.
-
 	* directory.[hm] ([-objcRemove:]): New method.
 
 	* DefObject.m ([Object_s -drop]): Use it.

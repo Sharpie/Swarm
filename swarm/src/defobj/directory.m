@@ -136,7 +136,7 @@ swarm_directory_java_hash_code (jobject javaObject)
 @internalimplementation DirectoryEntry
 - setJavaObject: (jobject)theJavaObject
 {
-  javaObject = theJavaObject;
+  javaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
   return self;
 }
 
@@ -251,7 +251,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   id <Map> m = table[index];
   id entry;
   
-  entry = ENTRY (theObject, (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject));
+  entry = ENTRY (theObject, theJavaObject);
 
   if (m == nil)
     {
