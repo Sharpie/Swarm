@@ -1,8 +1,5 @@
 <ARTICLE ID="SWARM.INSTALLBOOK.INSTALL.ARTICLE">
-  <ARTHEADER>
-    <TITLE>Installing Swarm</TITLE>
-    
-  </ARTHEADER>
+  <title>Installing Swarm</title>
   
   <SIDEBAR><PARA>Unless you are using a Windows or a Unix system with
 pre-built package manager support (Debian GNU/Linux 2.2, Redhat 6.1,
