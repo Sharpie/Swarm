@@ -1,3 +1,7 @@
+2000-07-07    <mgd@DRONE>
+
+	* jdk{c}swarm: Look for JDK 1.3.  Append any preexisting CLASSPATH.
+
 2000-07-06    <mgd@DRONE>
 
 	* java-stub.el (java-print-makefiles): Use java-module-path
