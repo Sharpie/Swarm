@@ -15,6 +15,17 @@ id archiverGet (const char *key);
 
 @implementation ArchivedGeometryWidget
 
+PHASE(Creating)
+
++ createBegin: aZone
+{
+  ArchivedGeometryWidget *obj = [super createBegin: aZone];
+
+  obj->windowGeometryRecordName = NULL;
+  obj->destroyedFlag = NO;
+  return obj;
+}
+
 - setWindowGeometryRecordName : (const char *)name
 {
   windowGeometryRecordName = name;
@@ -28,15 +39,6 @@ id archiverGet (const char *key);
   if (windowGeometryRecordName)
     windowGeometryRecord = archiverGet (windowGeometryRecordName);
   return windowGeometryRecord;
-}
-
-+ createBegin: aZone
-{
-  ArchivedGeometryWidget *obj = [super createBegin: aZone];
-
-  obj->windowGeometryRecordName = NULL;
-  obj->destroyedFlag = NO;
-  return obj;
 }
 
 - registerAndLoad
@@ -56,6 +58,8 @@ id archiverGet (const char *key);
   [self registerAndLoad];
   return self;
 }
+
+PHASE(Using)
 
 - updateArchiver
 {
