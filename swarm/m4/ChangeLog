@@ -4,8 +4,8 @@
 
 	* acjdk.m4 (vj_FIND_JDK): Add jdkswarm and jdkcswarm 
 	to JAVASWARMSCRIPTS in Cygwin case.
-
-	* acjdk.m4: Break out computation of (potentially symbolic) jdkdatadir.
+	Break out computation of (potentially symbolic) jdkdatadir.
+	Don't assume SWARMROOT is set in Cygwin case.
 
 1999-11-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

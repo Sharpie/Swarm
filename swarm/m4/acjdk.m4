@@ -159,9 +159,9 @@ else
 
     if test "$host_os" = cygwin; then
       JAVACLASSESARG="`cygpath -w ${jdkdatadir}/Klasses.jar`"
-      # we can assume SWARMROOT will be set in Windows environment --
-      # recover the symbolic path representation from datadir.
-      jdkdatadir=`echo $jdkdatadir | sed "s,$SWARMROOT,\\${SWARMROOT},g"`
+      if test -n "$SWARMROOT"; then
+        jdkdatadir=`echo $jdkdatadir | sed "s,$SWARMROOT,\\${SWARMROOT},g"`
+      fi
       USEDOSCLASSPATH=yes
       # ${jdkdir}/lib/kaffe is included so that .la file can be found
       JAVALIBS="${jdkdir}/bin:${jdkdir}/lib/kaffe"
