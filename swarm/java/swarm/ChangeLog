@@ -1,5 +1,9 @@
 1999-03-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Selector.java: Add objcFlag.  This flag determines whether
+	or not the method signature is treated by s/:/$/ or if additional
+	arguments are added with concatenation of :.
+
 	* NonUniqueMethodSignatureException.java,
 	SignatureNotFoundException.java: New files.
 
