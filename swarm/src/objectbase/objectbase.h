@@ -19,6 +19,7 @@ Date:            1996-12-12
 
 #import <defobj.h>
 #import <activity.h> // timeval_t
+#include <externvar.h>
 
 //
 //  Objectbase errors
