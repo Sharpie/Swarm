@@ -25,8 +25,11 @@ else
   JAVASTUBS=stubs
   test $JAR = missing && JAR=$jdkdir/bin/jar
   test $JAVAC = missing && JAVAC=$jdkdir/bin/javac
-fi
+fi 
+
+JAVAINCLUDES="-I$jdkdir/include -I$jdkdir/include/solaris -I$jdkdir/include/genunix"
 AC_SUBST(JAVASTUBS)
+AC_SUBST(JAVAINCLUDES)
 AC_SUBST(jdkdir)
 ])
 

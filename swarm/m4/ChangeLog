@@ -1,3 +1,8 @@
+1999-03-16  Vladimir Jojic  <vjojic@chama.santafe.edu>
+
+	* acjdk.m4 (vj_FIND_JDK): Assign java include directories
+	to JAVAINCLUDES.
+
 1999-03-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Define HAVE_JDK if jdkdir is found to be valid.
