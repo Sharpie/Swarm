@@ -33,7 +33,7 @@ psdir = $(prefix)/ps
 ps_DATA = $(NAME).ps
 
 psdist: ps
-	cd ..; $(GZIP) < $(NAME)/$(NAME).ps > $(DISTNAME).ps.gz
+	$(GZIP) < $(NAME).ps > ../$(DISTNAME).ps.gz
 
 rtfdir = $(prefix)/rtf
 rtf_DATA = $(NAME).rtf

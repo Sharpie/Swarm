@@ -2,8 +2,8 @@
 
 	* Makefile.rules (DISTNAME): Append @VERSION@ to $(NAME) for the
 	distributed {tar}.gz files.
-	(psdist): Appended cd command to ensure .gz file is created in
-	parent directory, like {html,rtf,dvi}dist targets.
+	(psdist): Put gzipped file in in parent directory, like
+	{html,rtf,dvi}dist targets.
 
 1998-06-18  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
