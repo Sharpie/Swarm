@@ -22,6 +22,18 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 *** objectbase / simtoolsgui
 **** The option --show-current-time will cause current absolute time to
      be shown in control panel widget.
+**** New methods in Arguments
+***** -getSwarmConfigPath returns the path to the expected location of Swarm
+      configuration files.
+***** -getSwarmAppConfigPath returns the path to the expected location of 
+      application-specific configuration files.
+
+*** simtools
+**** New methods in UName
+***** +create:setConfigBaseName: requests a base name derived from the
+      expected path for Swarm configuraiton files.
+***** +create:setConfigAppBaseName: requests a base name derived from the 
+      expected path for configuration files of the current Swarm application.
 
 *** simtoolsgui
 **** A new widget, MultiVarProbeWidget displays a matrix of 
