@@ -5,7 +5,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface ObjectLoader : SwarmObject
+@interface ObjectLoader: SwarmObject
 {
   id probeMapCache;
   id theFileObject; 
@@ -23,7 +23,4 @@
 - (void)_crash_: anObject;
 
 @end
-
-
-
 
