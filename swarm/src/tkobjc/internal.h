@@ -19,7 +19,7 @@ Tk_Window tkobjc_nameToWindow (const char *widgetName);
 
 void tkobjc_unlinkVar (const char *variableName);
 void tkobjc_linkVar (const char *variableName, void *p, int type);
-void tkobjc_initTclInterp (int argc, const char **argv);
-void tkobjc_initTkInterp (int argc, const char **argv);
+void tkobjc_initTclInterp (id arguments);
+void tkobjc_initTkInterp (id arguments);
 void tkobjc_createEventHandler (id widget, Tk_EventProc proc);
 void tkobjc_deleteEventHandler (id widget, Tk_EventProc proc);

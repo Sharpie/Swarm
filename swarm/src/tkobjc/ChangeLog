@@ -1,3 +1,36 @@
+1998-02-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tkobjc.m: Include objectbase/Arguments.h.  Change initTkObjc
+	to take an Arguments object.
+
+	* testHistogram.m: Include objectbase/Arguments.h.  Create an
+	Arguments object and pass it to initTkObjc.
+
+	* testGraph.m (main): Include objectbase/Arguments.h. Create Graph
+	not BLTGraph, and use setTitle: and setAxisLabelsX:Y:.  Create an
+	Arguments object and pass it to initTkObjc.
+
+	* testFrame.m (main): Include objectbase/Arguments.h. Use
+	initModule(collections) instead of initCollections().  Create an
+	Arguments object as pass it to initTkObjc.
+
+	* testRaster.m (main): Likewise.  Use Colormap instead of XColormap.
+
+	* internal.h (tkobjc_initT{cl,k}Interp): Now take id as argument
+	instead of argc, argv.
+
+	* internal.m (tkobjc_initT{cl,k}Interp): Likewise.
+
+	* global.h: Add promptAndEval to TkExtra protocol.
+	(initTkObjc): Now takes id as argument instead of argc, argv.
+
+	* Makefile (testFrame, testHistogram, testRaster, testGraph): 
+	Use -ltkobjc -lsimtools $(LIBS) instead of naming everything
+	(simtools is for archiving routines).
+
+	* ArchivedGeometryWidget.m ([ArchivedGeometryWidget -drop]): 
+	Disable destroy notification before dropping.
+
 1998-02-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* tkobjc.m: Include global.h.

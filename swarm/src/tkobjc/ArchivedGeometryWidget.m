@@ -74,6 +74,7 @@ id archiverGet (const char *key);
 
 - (void)drop
 { 
+  [self disableDestroyNotification];
   archiverUnregister (self);
 
   if (!destroyedFlag)

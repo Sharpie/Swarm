@@ -3,20 +3,22 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import "tkobjc.h"
+#import <tkobjc.h>
+#import <objectbase/Arguments.h>
 
 id globalTkInterp;
 
 int
-main(int argc, char ** argv) {
-  XColormap * comap;
-  ZoomRaster * displayWindow;
+main (int argc, const char **argv)
+{
+  Colormap *comap;
+  ZoomRaster *displayWindow;
   unsigned i, j;
 
-  initCollections();
-  initTkObjc(argc, argv);
+  initModule (collections);
+  initTkObjc ([Arguments createArgc: argc Argv: argv]);
   
-  comap = [XColormap create: globalZone];
+  comap = [Colormap create: globalZone];
   [comap setColor: 1 ToName: "red"];
   [comap setColor: 2 ToName: "blue"];
 
@@ -32,4 +34,5 @@ main(int argc, char ** argv) {
   [displayWindow drawSelf];
 
   [globalTkInterp promptAndEval];
+  exit (0);
 }

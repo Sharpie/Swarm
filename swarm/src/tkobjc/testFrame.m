@@ -4,15 +4,17 @@
 // See file LICENSE for details and terms of copying.
 
 #import <tkobjc.h>
+#import <objectbase/Arguments.h>
 
 id globalTkInterp;
 
 int
-main(int argc, char ** argv) {
-  Frame * top, * child;
+main (int argc, const char **argv)
+{
+  Frame *top, *child;
 
-  initCollections();
-  initTkObjc(argc, argv);
+  initModule (collections);
+  initTkObjc ([Arguments createArgc: argc Argv: argv]);
   
   top = [Frame create: globalZone];
   child = [Frame createParent: top];

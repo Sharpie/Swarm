@@ -8,6 +8,7 @@
 #import "internal.h"
 #import <gui.h>
 #import <tkobjc/global.h>
+#import <objectbase/Arguments.h>
 
 id <TkExtra> globalTkInterp;
 
@@ -17,25 +18,19 @@ id <TkExtra> globalTkInterp;
 id <Error> WindowCreation, WindowUsage, MissingFiles;
 
 void
-initTkObjc (int argc, const char **argv)
+initTkObjc (id arguments)
 {
-  int i;
-
-  for (i = 1; i < argc; i++)
+  if ([arguments getBatchModeFlag])
+    tkobjc_initTclInterp (arguments);
+  else
     {
-      if (!strcmp(argv[i], "-batchmode"))
-        {
-          tkobjc_initTclInterp (1, argv);
-          return;
-        }
+      deferror (WindowCreation, NULL);
+      deferror (WindowUsage, NULL);
+      
+      tkobjc_initTkInterp (arguments);
+      
+      [globalTkInterp eval: simtools_tcl];
+      [globalTkInterp eval: analysis_tcl];
     }
-
-  deferror (WindowCreation, NULL);
-  deferror (WindowUsage, NULL);
- 
-  tkobjc_initTkInterp (1, argv);
-
-  [globalTkInterp eval: simtools_tcl];
-  [globalTkInterp eval: analysis_tcl];
 }
 

@@ -12,6 +12,7 @@
 - eval: (const char *)fmt, ...;
 - (const char *)result;
 - linkVariableInt: (const char *)variableName;
+- promptAndEval;
 @end
 
 id <TkExtra> globalTkInterp;
@@ -20,5 +21,5 @@ extern id <Error>
   WindowCreation,		// error while creating a window
   WindowUsage;                  // error while a window was being used
 
-void initTkObjc (int argc, const char **argv);
+void initTkObjc (id arguments);
 

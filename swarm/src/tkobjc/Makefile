@@ -8,13 +8,13 @@ OTHERCLEAN=testFrame testGraph testHistogram testRaster testFrame.o testGraph.o 
 include $(SWARMHOME)/Makefile.lib
 
 testFrame: testFrame.o $(LIBRARY)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o testFrame testFrame.o -lcollections -ldefobj -ltclobjc -lBLT -ltk -ltcl -lXpm -lX11 -lm -lobjc
+	$(CC) $(CFLAGS) $(LDFLAGS) -o testFrame testFrame.o -ltkobjc -lsimtools $(LIBS)
 testHistogram: testHistogram.o $(LIBRARY)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o testHistogram testHistogram.o $(LIBS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o testHistogram testHistogram.o -ltkobjc -lsimtools $(LIBS)
 testRaster: testRaster.o $(LIBRARY)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o testRaster testRaster.o $(LIBS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o testRaster testRaster.o -ltkobjc -lsimtools $(LIBS)
 testGraph: testGraph.o $(LIBRARY)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o testGraph testGraph.o -ltkobjc -lcollections -ldefobj -ltclobjc -lBLT -ltk -ltcl -lXpm -lX11 -lm -lobjc
+	$(CC) $(CFLAGS) $(LDFLAGS) -o testGraph testGraph.o -ltkobjc -lsimtools $(LIBS)
 
 TkExtra.o: TkExtra.m TkExtra.h
 Widget.o: Widget.m Widget.h

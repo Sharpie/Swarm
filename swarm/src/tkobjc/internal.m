@@ -7,6 +7,7 @@
 
 #import <tkobjc/TkExtra.h>
 #import <tkobjc/Widget.h>
+#import <objectbase/Arguments.h>
 
 extern TkExtra *globalTkInterp;
 
@@ -37,18 +38,20 @@ registerInterp (void)
 }
 
 void
-tkobjc_initTclInterp (int argc, const char *argv)
+tkobjc_initTclInterp (id arguments)
 {
   globalTkInterp = [TclInterp alloc];  // misnomer
-  [globalTkInterp initWithArgc: 1 argv: (char **)argv];
+  [globalTkInterp initWithArgc: [arguments getArgc]
+                  argv: [arguments getArgv]];
   registerInterp ();
 }
 
 void
-tkobjc_initTkInterp (int argc, const char *argv)
+tkobjc_initTkInterp (id arguments)
 {
   globalTkInterp = [TkExtra alloc];
-  [globalTkInterp initWithArgc: 1 argv: (char **)argv];
+  [globalTkInterp initWithArgc: [arguments getArgc]
+                  argv: [arguments getArgv]];
   registerInterp ();
 }
 

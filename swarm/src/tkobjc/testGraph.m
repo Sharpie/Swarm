@@ -5,22 +5,24 @@
 
 #import <stdio.h>
 #import <stdlib.h>
-#import "tkobjc.h"
+#import <tkobjc.h>
 #import <collections.h>
+#import <objectbase/Arguments.h>
 
 int
-main(int argc, char ** argv) {
-  BLTGraph * g;
-  GraphElement * e;
+main (int argc, const char **argv)
+{
+  Graph *g;
+  GraphElement *e;
   unsigned i;
   double data[] = { 1.0, 3.0, 2.0, 5.0, 0.0, 6.0, 2.0, 9.0, 1.0, 4.0};
 
-  initModule(collections);
-  initTkObjc(argc, argv);
+  initModule (collections);
+  initTkObjc ([Arguments createArgc: argc Argv: argv]);
   
-  g = [BLTGraph create: globalZone];
-  [g title: "Test of BLTGraph"];
-  [g axisLabelsX: "x" Y: "data"];
+  g = [Graph create: globalZone];
+  [g setTitle: "Test of Graph"];
+  [g setAxisLabelsX: "x" Y: "data"];
   e = [g createElement];
   [[[e setLabel: "testdata"] setColor: "black"] setWidth: 2];
   [e setDashes: 2];
@@ -29,7 +31,7 @@ main(int argc, char ** argv) {
   
   [g pack];
 
-#ifdef SIMPLELOOP
+#if defined(SIMPLELOOP) || 1
   [globalTkInterp promptAndEval];
 #else
   while (tk_NumMainWindows > 0) {
