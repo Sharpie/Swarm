@@ -1,3 +1,20 @@
+1999-08-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m ([-setJavaObject:]): Revert last change.  `find'
+	usages of are not real DirectoryEntry instances, and won't be
+	dropped.
+
+	* directory.[hm] ([-objcRemove:]): New method.
+
+	* DefObject.m ([Object_s -drop]): Use it.
+
+	* directory.m (OBJCFINDENTRY): New macro.
+	([-objcFind:], [-switchJava:javaObject:],
+	[-nextPhase:currentJavaPhase:], [-nextPhase:currentJavaPhase:],
+	[-switchObjc:javaObject:]): Use it.
+	(JAVAFINDENTRY): New macro.
+	([-javaFind:]): Use it
+
 1999-08-06  Alex Lancaster  <alex@santafe.edu>
 
 	* Arguments.m ([Arguments_c -getConfigPath]): Prepend a forward

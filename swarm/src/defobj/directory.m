@@ -136,8 +136,7 @@ swarm_directory_java_hash_code (jobject javaObject)
 @internalimplementation DirectoryEntry
 - setJavaObject: (jobject)theJavaObject
 {
-  if (theJavaObject)
-    javaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
+  javaObject = theJavaObject;
   return self;
 }
 
@@ -195,6 +194,8 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 #define ENTRY(theObject,theJavaObject) [[[[DirectoryEntry createBegin: globalZone] setJavaObject: theJavaObject] setObject: theObject] createEnd]
 #define OBJCENTRY(theObject) ENTRY(theObject,0)
 #define JAVAENTRY(theJavaObject) ENTRY(0,theJavaObject)
+#define OBJCFINDENTRY(theObject) ({ DirectoryEntry *findEntry  = alloca (sizeof (DirectoryEntry)); findEntry->object = theObject; findEntry; })
+#define JAVAFINDENTRY(theJavaObject) ({ DirectoryEntry *findEntry = alloca (sizeof (DirectoryEntry)); findEntry->javaObject = theJavaObject; findEntry; })
 
 @internalimplementation Directory
 + createBegin: aZone
@@ -211,16 +212,10 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 - javaFind: (jobject)theJavaObject
 {
   unsigned index = swarm_directory_java_hash_code (theJavaObject);
-  id m = table[index];
+  id <Map> m = table[index];
 
   if (m)
-    {
-      id findEntry = JAVAENTRY (theJavaObject);
-      id entry = [m at: findEntry];
-
-      [findEntry drop];
-      return entry;
-    }
+    return [m at: JAVAFINDENTRY (theJavaObject)];
 
   return nil;
 }
@@ -234,11 +229,9 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - objcFind: theObject
 {
-  id findEntry = OBJCENTRY (theObject);
   DirectoryEntry *ret;
 
-  ret = avl_find (objc_tree, findEntry);
-  [findEntry drop];
+  ret = avl_find (objc_tree, OBJCFINDENTRY (theObject));
   return ret;
 }
 
@@ -255,7 +248,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   id <Map> m = table[index];
   id entry;
   
-  entry = ENTRY (theObject, theJavaObject);
+  entry = ENTRY (theObject, (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject));
 
   if (m == nil)
     {
@@ -288,12 +281,10 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 - switchJava: theObject javaObject: (jobject)theJavaObject
 {
   DirectoryEntry *entry;
-  id findEntry = OBJCENTRY (theObject);
-
-  if (!(entry = avl_find (objc_tree, findEntry)))
+  
+  if (!(entry = avl_find (objc_tree, OBJCFINDENTRY (theObject))))
     abort ();
   [self switchJavaEntry: entry javaObject: theJavaObject];
-  [findEntry drop];
   return (id) entry;
 }
 
@@ -314,44 +305,38 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
       [self switchJavaEntry: entry javaObject: nextJavaPhase];
       {
         id ret;
-        id currentEntry = OBJCENTRY (currentPhase);
         
-        ret = avl_delete (objc_tree, currentEntry);
+        ret = avl_delete (objc_tree, OBJCFINDENTRY (currentPhase));
         if (!ret)
           abort ();
         [ret drop];
-        [currentEntry drop];
       }
       return *entryptr;
     }
   else
     {
-      id findEntry = OBJCENTRY (nextPhase);
-      DirectoryEntry *entry = avl_find (objc_tree, findEntry);
+      DirectoryEntry *entry = avl_find (objc_tree, OBJCFINDENTRY (nextPhase));
       
       if (!entry)
         abort ();
 
       [self switchJavaEntry: entry javaObject: nextJavaPhase];
 
-      [findEntry drop];
       return entry;
     }
 }
 
 - switchObjc: theObject javaObject: (jobject)theJavaObject
 {
-  id findEntry = OBJCENTRY (theObject);
   DirectoryEntry *entry;
   unsigned index;
   id <Map> m;
   
   index = swarm_directory_java_hash_code (theJavaObject);
   m = table[index];
-  entry = [table[index] at: findEntry];
+  entry = [table[index] at: OBJCFINDENTRY (theObject)];
   if (!entry)
     abort ();
-  [findEntry drop];
   
   if (!avl_delete (objc_tree, entry))
     abort ();
@@ -470,6 +455,27 @@ java_class_for_typename (JNIEnv *env, const char *typeName, BOOL usingFlag)
                        object);
     }
   return result->javaObject;
+}
+
+- (BOOL)objcRemove: object
+{
+  DirectoryEntry *entry = [swarmDirectory objcFind: object];
+
+  if (entry)
+    {
+      unsigned index =
+        swarm_directory_java_hash_code (entry->javaObject);
+      id <Map> m = table[index];
+      
+      if (!m)
+        abort ();
+      
+      [m removeKey: entry];
+      avl_delete (objc_tree, entry);
+      [entry drop];
+      return YES;
+    }
+  return NO;
 }
 
 @end

@@ -311,6 +311,10 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   suballocEntry_t  suballocEntry;
   struct mapalloc  mapalloc;
 
+#ifdef HAVE_JDK
+  [swarmDirectory objcRemove: self];
+#endif
+
   // notify any dependent references of the impending deallocation, and
   // remove and free their entries from the suballocations list
 
