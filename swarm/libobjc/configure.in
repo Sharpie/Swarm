@@ -1,11 +1,11 @@
 AC_INIT(objc/objc.h)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(libobjc, 1.2)
-wn_PROG_OBJC
 
 test "x$ACLOCAL" = xaclocal && ACLOCAL="aclocal -I m4"
 
 AC_PROG_CC
+wn_PROG_OBJC
 AM_CONFIG_HEADER(config.h objc/externvar.h)
 AC_PROG_INSTALL
 LT_AC_PROG_SED
