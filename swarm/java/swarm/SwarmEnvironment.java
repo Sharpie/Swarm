@@ -24,6 +24,33 @@ public class SwarmEnvironment {
     PrimitiveDouble = Double.TYPE;
     PrimitiveVoid = Void.TYPE;
   }
+  public Class getPrimitiveBoolean () {
+    return PrimitiveBoolean;
+  }
+  public Class getPrimitiveCharacter () {
+    return PrimitiveCharacter;
+  }
+  public Class getPrimitiveByte () {
+    return PrimitiveByte;
+  }
+  public Class getPrimitiveInteger () {
+    return PrimitiveInteger;
+  }
+  public Class getPrimitiveShort () {
+    return PrimitiveShort;
+  }
+  public Class getPrimitiveLong () {
+    return PrimitiveLong;
+  }
+  public Class getPrimitiveFloat () {
+    return PrimitiveFloat;
+  }
+  public Class getPrimitiveDouble () {
+    return PrimitiveDouble;
+  }
+  public Class getPrimitiveVoid () {
+    return PrimitiveVoid;
+  }
   public native void initSwarm (String args[]);
   public native int getCurrentTime ();
   public native SwarmImpl getCurrentSwarm ();
