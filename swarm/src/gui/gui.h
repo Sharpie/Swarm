@@ -1005,7 +1005,7 @@ USING
 @protocol ScheduleItem <_ScheduleItem, CompositeItem>
 //S: A canvas item for displaying the time structure of a schedule.
 
-//S: A CompositeCanvasItem for displaying the time structure of a schedule.
+//D: A CompositeCanvasItem for displaying the time structure of a schedule.
 @end
 
 @protocol _OvalNodeItem
