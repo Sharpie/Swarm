@@ -28,7 +28,7 @@ externvardef id _obj_globalZone, _obj_sessionZone, _obj_scratchZone;
 
 extern void _obj_splitPhases (Class_s  *class);
 
-id Creating, Setting, Using, CreatingOnly, UsingOnly;
+externvardef id Creating, Setting, Using, CreatingOnly, UsingOnly;
 
 id *_obj_modules, *_obj_classes, _obj_programModule[7];
 unsigned  _obj_nclasses, _obj_nmodules;

@@ -21,7 +21,7 @@ Library:      defobj
 //
 // specific defined interfaces
 //
-extern id Creating, Setting, Using, CreatingOnly, UsingOnly;
+externvar id Creating, Setting, Using, CreatingOnly, UsingOnly;
 
 //
 // Customize_s -- superclass impleemntation of create-phase customization
