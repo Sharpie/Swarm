@@ -109,7 +109,11 @@ PHASE(Creating)
   topRow = [Frame createParent: self];
 
   myTitle = [ClassDisplayLabel createParent: topRow];
-  [myTitle setText: theClass->name];
+    
+  if (([probedObject getClass] == theClass))
+    [myTitle setText: [probedObject getName]];
+  else 
+    [myTitle setText: theClass->name];
 
   GUI_DRAG_AND_DROP (myTitle, self);
   

@@ -1,3 +1,15 @@
+1999-08-11  Alex Lancaster  <alex@santafe.edu>
+
+	* ClassDisplayWidget.m ([ClassDisplayWidget -createEnd]): When
+	setting the title of the ClassDisplayLabel instance, if the class
+	of the probed object is the highest in the hierarchy, get the
+	class name of the probed instance, otherwise use the current class
+	name in hierarchy.
+
+	* SingleProbeDisplay.m ([SingleProbeDisplay -getId:]): Call
+	getName, rather than getIdName on the object instance to retrieve
+	the class name.
+
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbeWidget.m ([MessageProbeWidget -dynamic]): Use STRDUP
