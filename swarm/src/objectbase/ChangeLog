@@ -1,3 +1,8 @@
+1999-04-24  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* MessageProbe.m (dynamicCallOn): Don't truncate method
+	name if there are no colons.
+
 1999-04-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Add respondsTo: as a sufficient

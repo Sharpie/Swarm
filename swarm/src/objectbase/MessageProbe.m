@@ -423,7 +423,8 @@ dynamicCallOn (const char *probedType,
       char *p;
 
       p = strchr (selname, ':');
-      *p = '\0';
+      if (p)
+        *p = '\0';
 
       [fc setJavaMethod: selname inObject: JFINDJAVA (target)];
     }
