@@ -25,6 +25,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** Java layer can be built on x86 using stock egcs-1.1.2 compiler
     on Redhat 6.
 *** The swarm.jar/swarmjdk.jar distinction has been eliminated.
+*** New --enable-linuxprefix check, forces a Linux-like `/usr' filesystem
+    format with `swarm' subdirectories for include and lib
+    directories.
 
 * Release Notes for Swarm 2.0
 ** New features

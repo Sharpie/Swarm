@@ -5,6 +5,8 @@
 	the standard $libdir and $includedir locations.  Existing `/usr'
 	prefix check preserved.
 
+	* NEWS: Note change.
+
 1999-09-16  Alex Lancaster  <alex@santafe.edu>
 
 	* configure.in (libobjc): Add `--enable-static' to list of flags
