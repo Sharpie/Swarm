@@ -1,7 +1,8 @@
-#import <defobj/COM.h>
+#import "COM.h"
 #import <defobj/directory.h>
 #import <defobj/COMProxy.h>
 #import <objc/mframe.h> // mframe_build_signature
+#import "internal.h" // objc_type_for_fcall_type
 
 static COMEnv *comEnv = 0;
 
@@ -33,6 +34,12 @@ BOOL
 COM_selector_is_boolean_return (COMobject cSel)
 {
   return comEnv->selectorIsBooleanReturn (cSel);
+}
+
+void *
+COM_create_arg_vector (unsigned size)
+{
+  return comEnv->createArgVector (size);
 }
 
 COMobject 
@@ -159,22 +166,26 @@ swarm_directory_COM_ensure_selector (COMobject cSel)
         unsigned ti;
         char signatureBuf[(argCount + 3) * 2 + 1], *p = signatureBuf;
         
-        void add_type (char type)
+        void add_type (fcall_type_t type)
           {
-            *p++ = type;
+            const char *objcType =
+              objc_type_for_fcall_type (type);
+
+            *p++ = *objcType;
             *p++ = '0';
             *p = '\0';
+            [globalZone free: (void *) objcType];
           }
         if (comEnv->selectorIsVoidReturn (cSel))
-          add_type (_C_VOID);
+          add_type (fcall_type_void);
         else
-          add_type (comEnv->selectorArgObjcType (cSel, argCount - 1));
-        add_type (_C_ID);
-        add_type (_C_SEL);
+          add_type (comEnv->selectorArgFcallType (cSel, argCount - 1));
+        add_type (fcall_type_object);
+        add_type (fcall_type_selector);
 
         for (ti = 0; ti < argCount - 1; ti++)
-          add_type (comEnv->selectorArgObjcType (cSel, ti));
-      
+          add_type (comEnv->selectorArgFcallType (cSel, ti));
+
         sel = sel_get_any_typed_uid (name);
         {
           BOOL needSelector = NO;
@@ -207,7 +218,8 @@ swarm_directory_COM_ensure_selector (COMobject cSel)
       }
       SD_COM_ADD_SELECTOR (cSel, sel);
 
-      SFREEBLOCK (name);
+      // Does GetName return a malloced pointer?
+      // SFREEBLOCK (name); 
     }
   return sel;
 }

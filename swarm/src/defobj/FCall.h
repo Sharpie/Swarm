@@ -20,7 +20,7 @@ Library:      defobj
 #undef VERSION
 #endif
 
-#include <defobj.h> // JOBJECT
+#import <defobj.h> // JOBJECT
 
 #ifdef HAVE_JDK
 void defobj_init_java_call_tables (void *jEnv);

@@ -1,6 +1,7 @@
 #ifndef __defobj_COM_h
 #define __defobj_COM_h
 
+#include <defobj.h>
 #include <objc/objc.h>
 
 #ifdef __cplusplus
@@ -23,7 +24,8 @@ struct COMInterface {
   BOOL (*selectorIsBooleanReturn) (COMobject cSel);
   const char *(*selectorName) (COMobject cSel);
   unsigned (*selectorArgCount) (COMobject cSel);
-  char (*selectorArgObjcType) (COMobject cSel, unsigned index);
+  fcall_type_t (*selectorArgFcallType) (COMobject cSel, unsigned index);
+  void *(*createArgVector) (unsigned size);
 };
 
 extern void initCOM (COMEnv *env);
@@ -43,6 +45,7 @@ extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
 extern const char *COM_copy_string (const char *str);
 extern const char *COM_class_name (COMobject cObj);
 extern BOOL COM_selector_is_boolean_return (COMobject cSel);
+extern void *COM_create_arg_vector (unsigned size);
 extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);
 extern void swarm_directory_COM_add_selector (COMobject cSel, SEL oSel);
 
@@ -80,7 +83,7 @@ extern void swarm_directory_COM_add_selector (COMobject cSel, SEL oSel);
 
 #define COM_FIND_OBJECT_ENTRY(theCOMObject) ({ ObjectEntry *_findEntry  = alloca (sizeof (ObjectEntry)); _findEntry->foreignObject.COM = (COMOBJECT) theCOMObject; _findEntry; })
 #define COM_OBJECT_ENTRY(theCOMObject, theObject) [[[[ObjectEntry createBegin: globalZone] setCOMObject: (COMOBJECT) theCOMObject] setObject: theObject] createEnd]
-#define COM_SELECTOR_ENTRY(theCOMObject, theSelector) [[[[ObjectEntry createBegin: globalZone] setCOMObject: (COMOBJECT) theCOMObject] setSelector: theSelector] createEnd]
+#define COM_SELECTOR_ENTRY(theCOMObject, theSelector) [[[[SelectorEntry createBegin: globalZone] setCOMObject: (COMOBJECT) theCOMObject] setSelector: theSelector] createEnd]
 
 
 

@@ -32,12 +32,15 @@ Library:      defobj
 #include <misc.h>
 #include <objc/mframe.h>
 
-#ifdef HAVE_JDK
 #include <defobj/directory.h>
+
+#ifdef HAVE_JDK
 #include "java.h" // swarm_directory_java_ensure_objc
 JNIEnv *jniEnv;
 #include <javavars.h>
 #endif
+
+#import "COM.h"
 
 #ifdef HAVE_JDK
 void * java_static_call_functions[FCALL_TYPE_COUNT];
@@ -225,42 +228,49 @@ add_ffi_types (FCall_c *fc)
   unsigned i;
   FArguments_c *fa = fc->fargs;
 
-#ifndef USE_AVCALL
-  fa->ffiReturnType = ffi_types[fa->returnType];
-  fillHiddenArguments (fc);
-  for (i = 0; i < fa->assignedArgumentCount; i++)
+  if (fc->callType == COMcall)
     {
-      unsigned pos = i + MAX_HIDDEN;
-      fcall_type_t type = fa->argTypes[pos];
-      
-      fa->ffiArgTypes[pos] = ffi_types[type];
-    }
-#else
-#ifdef HAVE_JDK
-  if (fc->callType == javacall || fc->callType == javastaticcall)
-    {
-      java_set_return_type (fc, fa);
-      fillHiddenArguments (fc);
-      for (i = 0; i < fa->assignedArgumentCount; i++)
-        {
-          unsigned pos = i + MAX_HIDDEN;
-          
-          java_add_primitive (fa, fa->argTypes[pos], fa->argValues[pos]);
-        }
+      fa->COM_args = COM_create_arg_vector (MAX_ARGS);
     }
   else
-#endif
     {
-      objc_set_return_type (fc, fa);
+#ifndef USE_AVCALL
+      fa->ffiReturnType = ffi_types[fa->returnType];
       fillHiddenArguments (fc);
       for (i = 0; i < fa->assignedArgumentCount; i++)
         {
           unsigned pos = i + MAX_HIDDEN;
+          fcall_type_t type = fa->argTypes[pos];
           
-          objc_add_primitive (fa, fa->argTypes[pos], fa->argValues[pos]);
+          fa->ffiArgTypes[pos] = ffi_types[type];
         }
-    }
+#else
+#ifdef HAVE_JDK
+      if (fc->callType == javacall || fc->callType == javastaticcall)
+        {
+          java_set_return_type (fc, fa);
+          fillHiddenArguments (fc);
+          for (i = 0; i < fa->assignedArgumentCount; i++)
+            {
+              unsigned pos = i + MAX_HIDDEN;
+              
+              java_add_primitive (fa, fa->argTypes[pos], fa->argValues[pos]);
+            }
+        }
+      else
 #endif
+        {
+          objc_set_return_type (fc, fa);
+          fillHiddenArguments (fc);
+          for (i = 0; i < fa->assignedArgumentCount; i++)
+            {
+              unsigned pos = i + MAX_HIDDEN;
+              
+              objc_add_primitive (fa, fa->argTypes[pos], fa->argValues[pos]);
+            }
+        }
+#endif
+    }
 }
 
 

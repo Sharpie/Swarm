@@ -5,7 +5,7 @@
 #import <defobj/JavaCollection.h>
 #import <defobj/defalloc.h>
 #include <objc/mframe.h> // mframe_build_signature
-#import "internal.h" // FCALL_TYPE_COUNT
+#import "internal.h" // FCALL_TYPE_COUNT, objc_type_for_fcall_type
 
 #define extern
 #import "javavars.h"

@@ -9,6 +9,27 @@ Description:  standard objects for GNU Objective C extensions
 Library:      defobj
 */
 
+#ifndef __swarm_defobj_h
+#define __swarm_defobj_h
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+typedef enum {fcall_type_void = 0,
+              fcall_type_boolean,
+              fcall_type_uchar, fcall_type_schar,
+              fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
+              fcall_type_sint, fcall_type_ulong, fcall_type_slong,
+              fcall_type_slonglong, fcall_type_ulonglong,
+              fcall_type_float, fcall_type_double, 
+              fcall_type_long_double,
+              fcall_type_object, fcall_type_class,
+              fcall_type_string, fcall_type_selector, 
+              fcall_type_jobject, fcall_type_jstring
+              } fcall_type_t;
+#ifdef __cplusplus
+}
+#else
 #import <defobj/deftype.h>
 #include <externvar.h>
 
@@ -955,19 +976,6 @@ SETTING
 USING
 @end
 
-typedef enum {fcall_type_void = 0,
-              fcall_type_boolean,
-              fcall_type_uchar, fcall_type_schar,
-              fcall_type_ushort, fcall_type_sshort, fcall_type_uint,
-              fcall_type_sint, fcall_type_ulong, fcall_type_slong,
-              fcall_type_slonglong, fcall_type_ulonglong,
-              fcall_type_float, fcall_type_double, 
-              fcall_type_long_double,
-              fcall_type_object, fcall_type_class,
-              fcall_type_string, fcall_type_selector, 
-              fcall_type_jobject, fcall_type_jstring,
-              } fcall_type_t;
-
 @protocol HDF5 <Create, Drop, CREATABLE>
 //S: HDF5 interface
 //D: HDF5 interface
@@ -1297,3 +1305,5 @@ extern char *zstrdup (id <Zone> aZone, const char *str);
 #define OFREEBLOCK(obj, block) ZFREEBLOCK ([obj getZone], block)
 
 #define FREEBLOCK(block) OFREEBLOCK(self, block)
+#endif
+#endif
