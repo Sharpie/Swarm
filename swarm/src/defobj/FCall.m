@@ -107,17 +107,19 @@ init_javacall_tables (void)
 - setFunction: (void (*)())fn
 {
   callType = ccall;
-  function = fn;
+  ffunction = fn;
   return self;
 }
 
 - setMethod: (SEL)mtd inObject: obj
 {
+  Class cl;
   callType = objccall;
-  (id) object = obj;
-  (SEL) method = mtd;
-  (Class) class = getClass(object);
-  function = FFI_FN (get_imp (*(Class *) class, *(SEL *) method));
+  (id) fobject = obj;
+  (SEL) fmethod = mtd;
+  cl = getClass (obj);
+  (Class) fclass = cl;
+  ffunction = FFI_FN (get_imp ((Class) fclass, (SEL) fmethod));
   return self;
 }
 
@@ -125,9 +127,9 @@ init_javacall_tables (void)
 {
 #ifdef HAVE_JDK
   callType = javacall;
-  (jclass) class = (*jniEnv)->GetObjectClass (jniEnv, obj);
+  (jclass) fclass = (*jniEnv)->GetObjectClass (jniEnv, obj);
   methodName = (char *) mtdName;
-  (jobject) object = obj;
+  (jobject) fobject = obj;
 #else
   java_not_available();
 #endif
@@ -138,7 +140,7 @@ init_javacall_tables (void)
 { 
 #ifdef HAVE_JDK
   callType = javastaticcall;
-  (jclass) class = (*jniEnv)->FindClass (jniEnv, className);
+  (jclass) fclass = (*jniEnv)->FindClass (jniEnv, className);
   methodName = (char *) mtdName;
 #else
   java_not_available();
@@ -154,27 +156,27 @@ fillHiddenArguments (FCall * self)
     case objccall: 
       ((FArguments *)self->args)->hiddenArguments = 2;	
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->object;
+      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->fobject;
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->method;
+      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
     case javacall:
       ((FArguments *)self->args)->hiddenArguments = 3;
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       ((FArguments *)self->args)->argValues[MAX_HIDDEN - 3] = &jniEnv;
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->object;
+      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->fobject;
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->method;
+      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
     case javastaticcall:
       ((FArguments *)self->args)->hiddenArguments = 3;
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 3] = &ffi_type_pointer;
       ((FArguments *)self->args)->argValues[MAX_HIDDEN - 3] = &jniEnv;
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 2] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->class;
+      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 2] = &self->fclass;
       ((FArguments *)self->args)->argTypes[MAX_HIDDEN - 1] = &ffi_type_pointer;
-      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->method;
+      ((FArguments *)self->args)->argValues[MAX_HIDDEN - 1] = &self->fmethod;
       break;
     }
 }
@@ -183,24 +185,24 @@ fillHiddenArguments (FCall * self)
 - createEnd
 {
   unsigned int res;
-  if (_obj_debug && (callType == ccall || callType == objccall) && !function)
+  if (_obj_debug && (callType == ccall || callType == objccall) && !ffunction)
     raiseEvent (SourceMessage, "Function to be called not set!\n");
   if (_obj_debug && !args)
     raiseEvent (SourceMessage, "Arguments and return type not specified!\n");
   if (callType == javacall || callType == javastaticcall)
       {
-        function = (callType == javacall ? 
+        ffunction = (callType == javacall ? 
                     java_call_functions[(int) args->returnType] :
                     java_static_call_functions[(int) args->returnType]);
         
-        (jmethodID) method = (callType == javacall ?
-                              (*jniEnv)->GetMethodID (jniEnv, class, 
+        (jmethodID) fmethod = (callType == javacall ?
+                              (*jniEnv)->GetMethodID (jniEnv, fclass, 
                                                       methodName, 
                                                       args->signature) :
-                              (*jniEnv)->GetStaticMethodID(jniEnv, class, 
+                              (*jniEnv)->GetStaticMethodID(jniEnv, fclass, 
                                                            methodName, 
                                                            args->signature)); 
-        if (!method)
+        if (!fmethod)
           raiseEvent (SourceMessage, "Could not find Java method!\n");
 	fillHiddenArguments (self);
       }
@@ -219,7 +221,7 @@ fillHiddenArguments (FCall * self)
 
 - (void)_performAction_: anActvity
 {
-  ffi_call(&cif, function, args->result, args->argValues);  
+  ffi_call(&cif, ffunction, args->result, args->argValues);  
 }
 
 - (void *)getResult

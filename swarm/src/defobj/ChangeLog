@@ -1,5 +1,11 @@
 1999-03-15  Vladimir Jojic  <vjojic@chama.santafe.edu>
 
+	* FCall.h: Rename FCall fields with f prefix to avoid name clashes.
+
+	* FCall.m: Likewise
+	
+	* Makefile.am (INCLUDES): Add FFIINCLUDES.
+
 	* FCall.m: Remove extern from declaration of jniEnv.
 
 	* FArguments.m: New file. FArguments is used for describing

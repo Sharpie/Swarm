@@ -23,10 +23,10 @@ enum callTypes { ccall, objccall, javacall, javastaticcall};
    FArguments * args; 
    void *result;
    ffi_cif cif;
-   void (*function)();
-   void *object;
-   void *class;
-   void *method;
+   void (*ffunction)();
+   void *fobject;
+   void *fclass;
+   void *fmethod;
    char *methodName;
 }
 + createBegin: aZone;
