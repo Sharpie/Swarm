@@ -342,10 +342,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
                 "object was allocated as a free-standing object but dropAllocations: "
                 "requested drop as a component allocation\n");
   
-  // execute internal drop method directly, to avoid any version of drop
-  // method in subclasses (temporary hack until this whole method eliminated)
-  
-  _i_Object_s__drop (self, M(drop));
+  DROP(self);
 }
 
 //
