@@ -20,21 +20,21 @@ PRECLASSES = NonUniqueMethodSignatureException SignatureNotFoundException Select
 POSTCLASSES = SwarmEnvironment
 PRECLASSFILES = $(addsuffix .class,$(PRECLASSES))
 POSTCLASSFILES = $(addsuffix .class,$(POSTCLASSES))
-SWARMCLASSFILES = $(addprefix swarm/,$(PRECLASSFILES) $(POSTCLASSFILES))
+SWARMCLASSFILES = $(PRECLASSFILES) $(POSTCLASSFILES)
 
 define module-class-files
-$(addsuffix .class,$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS))))))
+$(addsuffix .class,$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(CLASSPHASES),$(addsuffix $(sfx),$($(module)PROTOCOLS))))))
 endef
 
 define module-interface-files
-$(addsuffix .class,$(addprefix swarm/$(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS)))))))
+$(addsuffix .class,$(addprefix $(module)/,$(subst __c,,$(foreach sfx,$(INTERFACEPHASES),$(addsuffix $(sfx),$(addprefix i_,$($(module)PROTOCOLS)))))))
 endef
 
-GENCLASSFILES := $(foreach module,$(MODULES),$(module-class-files))
+GENCLASSFILES := $(addprefix swarm/,$(foreach module,$(MODULES),$(module-class-files)))
 
-GENINTERFACEFILES := $(foreach module,$(MODULES),$(module-interface-files))
+GENINTERFACEFILES := $(addprefix swarm/,$(foreach module,$(MODULES),$(module-interface-files)))
 
-ALLCLASSFILES = $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
+ALLCLASSFILES = $(addprefix swarm/$(SWARMCLASSFILES)) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
 all: modules $(POSTCLASSFILES)
 
@@ -58,8 +58,9 @@ install-java-classes-as-files: all
 	for f in $(SWARMCLASSFILES); do echo $$f >> ../filelist ; done
 	$(foreach module,$(MODULES),for f in $(module-class-files); do echo $$f >> ../filelist; done;)
 	$(foreach module,$(MODULES),for f in $(module-interface-files); do echo $$f >> ../filelist; done;)
-	(cd ..; tar -c -f - -T filelist) | (cd $(datadir); tar xf -)
-	$(RM) ../filelist
+	sed 's,^,swarm/' < ../filelist > ../filelist.new
+	(cd ..; tar -c -f - -T filelist.new) | (cd $(datadir); tar xf -)
+	$(RM) ../filelist ../filelist.new
 
 install: install-java-classes-as-@JAVA_CLASSES_INSTALLED_AS@
 
