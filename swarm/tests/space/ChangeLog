@@ -1,3 +1,8 @@
+1999-05-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Discrete2d.m: Remove emptyMap.
+	(main): Add deep HDF5 check. 
+
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Discrete2d.m (Discrete2d): Add objectFlag.

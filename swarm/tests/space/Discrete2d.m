@@ -59,7 +59,6 @@
 @interface MyDiscrete2d: Discrete2d
 {
   BOOL objectFlag;
-  id <Map>emptyMap;
 }
 - setObjectFlag: (BOOL)objectFlag;
 - updateArchiver: archiver;
@@ -76,13 +75,6 @@
 - setObjectFlag: (BOOL)theObjectFlag;
 {
   objectFlag = theObjectFlag;
-  return self;
-}
-
-- createEnd
-{
-  [super createEnd];
-  emptyMap = [Map create: [self getZone]];
   return self;
 }
 
@@ -201,6 +193,10 @@ main (int argc, const char **argv)
                 "Shallow Lisp serialization of Discrete2d with values failed");
 
 #ifdef HAVE_HDF5
+  if (checkArchiverDiscrete2d (globalZone, YES, YES) == NO)
+    raiseEvent (InternalError, 
+                "Deep HDF5 serialization of Discrete2d with objects failed");
+
   if (checkArchiverDiscrete2d (globalZone, YES, NO) == NO)
     raiseEvent (InternalError, 
                 "Shallow HDF5 serialization of Discrete2d with values failed");
@@ -208,6 +204,3 @@ main (int argc, const char **argv)
 
   return 0;
 }
-
-
-
