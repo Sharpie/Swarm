@@ -4,6 +4,8 @@
 	SimpleProbeDisplay, CompleteProbeDisplay): Switch from CREATABLE
 	to RETURNABLE.
 	(SingleProbeDisplay, GUIComposite): Remove CREATABLE.
+	(GUISwarm): Add ActionCache and ControlPanel return typing
+	to getters.
 
 1999-08-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
