@@ -114,8 +114,8 @@ PHASE(Creating)
   
   // get information from self before any possible changes by createEnd
   
-  wrapper   = getClass (self);
-  createBy  = getWrapperCreateBy (wrapper);
+  wrapper = getClass (self);
+  createBy = getWrapperCreateBy (wrapper);
   selfClass = createBy->createReceiver;
   
   // execute createEnd to set subclass to handle future create
@@ -142,15 +142,12 @@ PHASE(Creating)
       memset (self, 0, wrapper->instance_size);    // wipe out all content
       [createBy->recustomize freeIVars: self];  // free from saved zone
       // !! should use [self dropFrom: createBy->recustomize] ??
-      
-      // else keep self but reset class pointer if still pointing to wrapper
-      
     }
+  // else keep self but reset class pointer if still pointing to wrapper
   else if (getClass (self) == wrapper)
     setClass (self, selfClass);
   
-  // check for valid message selector and cache method for receiver
-  
+  // check for valid message selector and cache method for receiver  
   if (createBy->createMessage)
     {
       createBy->createMethod =
@@ -196,7 +193,7 @@ PHASE(Creating)
   
   // make shallow copy of self with original class restored
   
-  createBy  = getWrapperCreateBy (getClass (self));
+  createBy = getWrapperCreateBy (getClass (self));
   newObject = [aZone copyIVars: self];
   setClass (newObject, createBy->createReceiver);
   
@@ -367,13 +364,11 @@ _obj_splitPhases (Class_s *class)
   Method_t mnext;
 
   // return if classes have already been created
-
   classData = _obj_getClassData( class );
   if (classData->initialPhase)
     return;
   
   // split classes for superclass if not done already
-  
   if ((id) class != id_Customize_s)
     {
       superclassData = _obj_getClassData (class->superclass);
@@ -382,12 +377,10 @@ _obj_splitPhases (Class_s *class)
     }
   
   // generate chain of contiguous methods by interface
-  
   _obj_initMethodInterfaces (class);  // (creates temporary chain of
                                       // defs in classData->metaobjects)
 
   // create class for methods in Creating phase
-  
   classCreating = nil;
   if (!(classData->metaobjects
         && ((methodDefs_t) classData->metaobjects)->interfaceID == UsingOnly))
@@ -403,7 +396,6 @@ _obj_splitPhases (Class_s *class)
     }
   
   // create class for methods in Using phase
-
   classUsing = nil;
   if (!(classData->metaobjects
         && ((methodDefs_t)classData->metaobjects)->interfaceID == CreatingOnly))
@@ -420,7 +412,7 @@ _obj_splitPhases (Class_s *class)
       if (classCreating)
         [(id) classCreating setSuperclass: id_Object_s];
       if (classUsing)
-        [(id) classUsing    setSuperclass: id_Object_s];
+        [(id) classUsing setSuperclass: id_Object_s];
       
     }
   else
@@ -615,7 +607,7 @@ _obj_splitPhases (Class_s *class)
 
 - create: aZone
 {
-  id           newObject;
+  id newObject;
 
   // Create new instance by sending message to shallow copy.
 

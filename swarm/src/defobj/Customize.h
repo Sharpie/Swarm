@@ -32,11 +32,11 @@ extern id Creating, Setting, Using, CreatingOnly, UsingOnly;
 - customizeCopy: aZone;
 + customizeBeginEnd: aZone;
 - _setCreateBy_: (Class)subclass message: (SEL)messageSelector to: anObject;
-- (void) _setCreateByCopy_;
-- (void) _setCreateByMessage_: (SEL)messageSelector to: anObject;
-- (void) _setCreateByMessage_: (SEL)messageSelector toCopy: anObject;
-- (void) _setRecustomize_: anObject;
-+ (void) setTypeImplemented: aType;
+- (void)_setCreateByCopy_;
+- (void)_setCreateByMessage_: (SEL)messageSelector to: anObject;
+- (void)_setCreateByMessage_: (SEL)messageSelector toCopy: anObject;
+- (void)_setRecustomize_: anObject;
++ (void)setTypeImplemented: aType;
 @end
 
 //
@@ -81,29 +81,29 @@ if (_obj_customize(self)) [self _setRecustomize_: recustomizeReceiver]
 @interface CreateBy_c : Object_s
 {
 @public
-  id   implementedType; // type of object created by CreateBy object
-  id   createReceiver;  // receiver for message
-  SEL  createMessage;   // selector from setCreateMessage:, or nil
-  IMP  createMethod;    // cached method for createMessage selector
-  id   recustomize;     // object to handle further create, if any
+  id implementedType; // type of object created by CreateBy object
+  id createReceiver;  // receiver for message
+  SEL createMessage;  // selector from setCreateMessage:, or nil
+  IMP createMethod;   // cached method for createMessage selector
+  id recustomize;     // object to handle further create, if any
 }
 /*** methods in CreateBy_c (inserted from .m file by m2h) ***/
 - createBegin: aZone;
 - customizeBegin: aZone;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface Create_bycopy : CreateBy_c
+@interface Create_bycopy: CreateBy_c
 /*** methods in Create_bycopy (inserted from .m file by m2h) ***/
 - create: aZone;
 @end
 
-@interface Create_bysend : CreateBy_c
+@interface Create_bysend: CreateBy_c
 /*** methods in Create_bysend (inserted from .m file by m2h) ***/
 - create: aZone;
 @end
 
-@interface Create_byboth : CreateBy_c
+@interface Create_byboth: CreateBy_c
 /*** methods in Create_byboth (inserted from .m file by m2h) ***/
 - create: aZone;
 @end
