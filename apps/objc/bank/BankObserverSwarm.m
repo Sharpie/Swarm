@@ -60,8 +60,8 @@
   
   // Now create probe objects on the model and ourselves. This gives a
   // simple user interface to let the user change parameters.
-  createArchivedProbeDisplay (bankModelSwarm);
-  createArchivedProbeDisplay (self);
+  CREATE_ARCHIVED_PROBE_DISPLAY (bankModelSwarm);
+  CREATE_ARCHIVED_PROBE_DISPLAY (self);
   
   [controlPanel waitForControlEvent];
   if ([controlPanel getState] == ControlStateQuit)
