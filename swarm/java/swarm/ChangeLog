@@ -1,6 +1,7 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* SwarmEnvironment.java (Randomized): New symbol.
+	* SwarmEnvironment.java (Randomized, {lisp,hdf5}{App}Archiver):
+	New symbols.
 
 	* Globals.java: Renamed from Globals.java.in.  Use java.vm.name
 	property to determine what library to load.  Catch UnsatisfiedLinkError

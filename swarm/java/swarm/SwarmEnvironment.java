@@ -13,6 +13,10 @@ public class SwarmEnvironment {
   public UniformDoubleDist uniformDblRand;
   public ProbeLibrary probeLibrary;
   public ProbeDisplayManager probeDisplayManager;
+  public HDF5Archiver hdf5Archiver;
+  public LispArchiver lispArchiver;
+  public HDF5Archiver hdf5AppArchiver;
+  public LispArchiver lispAppArchiver;
   public boolean guiFlag;
 
   public SwarmEnvironment () {
@@ -29,6 +33,10 @@ public class SwarmEnvironment {
     ControlStateQuit = new SymbolImpl ();
     ControlStateNextTime = new SymbolImpl ();
     Randomized = new SymbolImpl ();
+    hdf5Archiver = new HDF5ArchiverImpl ();
+    lispArchiver = new LispArchiverImpl ();
+    hdf5AppArchiver = new HDF5ArchiverImpl ();
+    lispAppArchiver = new LispArchiverImpl ();
   }
   public native void initSwarm (String appName, String version, String bugAddress, String args[]);
   public native int getCurrentTime ();
