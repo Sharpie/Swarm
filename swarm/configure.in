@@ -42,13 +42,8 @@ else
   LIBJAVASWARM_LA=libjavaswarm.la
   LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
   JAVASWARM_DLL=
-  case "$target_os" in
-    irix6*) noinst_LIBS='lib$(MODULE).la' ;;
-    *)
-    inst_LIBS='lib$(MODULE).la' 
-    inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
-    ;;
-  esac
+  inst_LIBS='lib$(MODULE).la' 
+  inst_LDFLAGS='-rpath $(libdir) -version-info $(CURRENT):$(REVISION):$(AGE)'
 fi
 AC_SUBST(SWARM_DLL)
 AC_SUBST(LIBSWARM_LA)
