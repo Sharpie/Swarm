@@ -77,10 +77,15 @@ public class ObserverSwarm extends GUISwarmImpl {
          raster,
          model.getWorld (),
          new Selector (Class.forName ("agent2d.Agent2d"), "drawSelfOn", false));
+      raster.setButton$Client$Message (3, display,
+                                       new Selector (display.getClass (),
+                                                     "makeProbeAtX$Y", true));
     } catch (Exception e) {
       e.printStackTrace (System.err);
       System.exit (1);
     }
+
+
     return this;
   }
 
@@ -89,6 +94,7 @@ public class ObserverSwarm extends GUISwarmImpl {
     display.display ();
     raster.drawSelf ();
     getActionCache ().doTkEvents ();
+    Globals.env.probeDisplayManager.update ();
   }
 
   public Object buildActions () {

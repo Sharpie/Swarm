@@ -49,4 +49,11 @@ public abstract class SocialAgent2d extends Agent2d {
 
   public void stepSocialAgent (Agent2d neighbor) {
   }
+
+  public Object drawSelfOn (Raster r) {
+    super.drawSelfOn (r);
+    r.rectangleX0$Y0$X1$Y1$Width$Color
+      (x - size, y - size, x + size, y + size, 1, color);
+    return this;
+  }
 }

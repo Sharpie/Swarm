@@ -171,8 +171,7 @@ public class Agent2d extends SwarmImpl {
   }
 
   public Object drawSelfOn (Raster r) {
-    r.rectangleX0$Y0$X1$Y1$Width$Color
-      (x - size, y - size, x + size, y + size, 1, color);
+    r.drawPointX$Y$Color (x, y, color);
     return this;
   }
 }
