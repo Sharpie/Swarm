@@ -1,5 +1,7 @@
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.am (install-data-local): Install config.h in includedir.
+
 	* configure.in: Check for memchr, memcpy, memset, realpath,
 	stpcpy, strchr, strcmp, strdup, strlen, strncmp, strndup, strnlen,
 	strpbrk, and strsep.
