@@ -1,9 +1,6 @@
 String conversion from MessageProbes will leak memory -- it's entered
 in the directory and points to strdupped stuff on the heap. [mgd]
 
-Add create:set* convenience methods for all appropriate creatable protocols.
-  [alex]
-
 Non-cygwin DLLs -> test on IDE [mgd]
 
 Implement heatbugs
@@ -30,8 +27,6 @@ add alternative interfaces that use objects.
 
 Function pointers
 
-Ensure that javaswarm and javacswarm get installed with execute permissions
-
 Handle long PATHs in InstallShield (PathSet error)
 
 For windows distribution, check that X11 headers dependent on tk.h are
@@ -40,11 +35,7 @@ available.
 Identify performance bottlenecks
 
 Alternatively, if Kaffe can be built as static and use preloading, that's
-a solution for profiling.
-
-How about making all ArchiverValues long long?  Need long long support.
-
-Check funny VarProbe behavior on HPUX9
+a solution for profiling.  Try gcov instead.
 
 Too much casting!
   How about having stubbing logic to convert id <Zone> into ZoneImpl?
