@@ -1,0 +1,75 @@
+% hacked to call \cleardoublepage instead of \newpage
+\def\Break@page{\cleardoublepage}
+
+% new routine
+\def\resetHeadersAndFooters{%
+ \Sethead[L]{ }{}
+ \Setfoot[L]{ }{}
+ \Sethead[LE]{ }{}
+ \Setfoot[LE]{ }{}
+ \Sethead[LO]{ }{}
+ \Setfoot[LO]{ }{}
+ \Sethead[C]{ }{}
+ \Setfoot[C]{ }{}
+ \Sethead[CE]{ }{}
+ \Setfoot[CE]{ }{}
+ \Sethead[CO]{ }{}
+ \Setfoot[CO]{ }{}
+ \Sethead[R]{ }{}
+ \Setfoot[R]{ }{}
+ \Sethead[RE]{ }{}
+ \Setfoot[RE]{ }{}
+ \Setfoot[RO]{ }{}
+ \Sethead[RO]{ }{}
+}
+
+% hacked to call \resetHeadersAndFooters
+\def\endSpS{%
+ \DoFOBSetfalse
+ \ifnum\col@number>1 
+    \end{multicols}
+ \fi
+ \newpage
+ \endDisplayNIC
+ \let\FancyHook\@empty
+ \let\FancyFirstHook\@empty
+ \resetHeadersAndFooters
+}
+
+\def\comment#1\endcomment{}
+\comment
+
+\def\insertParagraphBreak#1{#1\@@par\vskip\sbNom}
+\def\PageColumnSep{18pt}
+\def\lt{{\tt <}}
+\def\gt{{\tt >}}
+\def\Entity#1{\csname #1\endcsname}
+\def\endDisplayNIC{%
+ \ifnum\KeepWithNext=1\nobreak\fi
+ \ifx\Keep\@empty\else\goodbreak\fi
+ \endgroup
+ \global\LastSpaceNom=\@sAfterNom
+ \global\LastSpaceMax=\@sAfterMax
+ \global\LastSpaceMin=\@sAfterMin
+ \global\edef\LastSpacePriority{\@sAfterPriority}%
+ \@tempdima\@sAfterNom
+ \advance\@tempdima by -\@sAfterMin
+ \@tempdimb\@sAfterNom
+ \advance\@tempdimb by -\@sAfterMax
+ \vskip \@sAfterNom plus \@tempdimb minus \@tempdima
+ \global\LastDisplayStack=\DisplayStack
+ \advance\DisplayStack by -1
+}
+\def\insertExternalGraphic#1{%
+ \ifGroupMode\begingroup\fi
+ \SetupICs{#1}%
+ \ifnum\KeepWithPrevious=1\nobreak\fi
+ \expandafter\ifx\csname insertExternalGraphicNotation\NotationSystemId\endcsname\relax%
+   \insertExternalGraphicNotation%
+ \else
+   \csname insertExternalGraphicNotation\NotationSystemId\endcsname
+ \fi
+ \ifGroupMode\endgroup\fi
+} 
+
+\endcomment

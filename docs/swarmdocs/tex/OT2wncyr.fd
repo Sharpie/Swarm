@@ -1,0 +1,16 @@
+\ProvidesFile{OT2wncyr.fd}[1995/12/14 Washington Cyrillic. S Rahtz.]
+\DeclareFontFamily{OT2}{wncyr}{}
+\DeclareFontShape{OT2}{wncyr}{m}{n}
+   {  <5> <6> <7> <8> <9> <10> gen * wncyr
+      <12> <10.95>  <14.4> <17.28><20.74><24.88>wncyr10}{}
+\DeclareFontShape{OT2}{wncyr}{b}{n}
+   {  <5> <6> <7> <8> <9> <10> gen * wncyb
+       <12> <10.95> <14.4> <17.28><20.74><24.88>wncyb10}{}
+\DeclareFontShape{OT2}{wncyr}{m}{it}
+   {  <5> <6> <7> <8> <9> <10> gen * wncyi
+       <12> <10.95>  <14.4> <17.28><20.74><24.88>wncyi10}{}
+\DeclareFontShape{OT2}{wncyr}{m}{sc}
+   {  <5> <6> <7> <8> <9> <10> 
+       <12> <10.95>  <14.4> <17.28><20.74><24.88>wncysc10}{}
+\DeclareFontShape{OT2}{wncyr}{bx}{n} {<->ssub * wncyr/b/n}{}
+\endinput
