@@ -1,3 +1,8 @@
+1999-08-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (internalimplementation): New macro.
+	Use @internalimplementation instead of @implementation.
+
 1999-07-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m ([Directory -switchJavaEntry:javaObject:]): 

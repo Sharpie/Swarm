@@ -10,6 +10,8 @@
 #import <defobj/Program.h> // Type_c
 #import <collections.h> // Map
 
+#define internalimplementation implementation // defeat make-h2x
+
 #ifdef HAVE_JDK
 
 BOOL initFlag = NO;
@@ -130,7 +132,7 @@ swarm_directory_java_hash_code (jobject javaObject)
     (*jniEnv)->CallIntMethod (jniEnv, javaObject, m_HashCode) % DIRECTORY_SIZE;
 }
 
-@implementation DirectoryEntry
+@internalimplementation DirectoryEntry
 - setJavaObject: (jobject)theJavaObject
 {
   javaObject = theJavaObject;
@@ -191,7 +193,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 #define OBJCENTRY(theObject) ENTRY(theObject,0)
 #define JAVAENTRY(theJavaObject) ENTRY(0,theJavaObject)
 
-@implementation Directory
+@internalimplementation Directory
 + createBegin: aZone
 {
   Directory *obj = [super createBegin: aZone];
@@ -276,7 +278,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   index = swarm_directory_java_hash_code (theJavaObject);
   entry->javaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
   if (!table[index])
-    table[index] = [Map create: [self getZone]];
+    table[index] =  [Map create: [self getZone]];
   [table[index] at: entry insert: entry];
 }
 
