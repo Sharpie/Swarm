@@ -42,29 +42,15 @@ PHASE(Creating)
 static void
 setListClass (id obj, id aClass)
 {
-  const char *className = [[obj getClass] name];
+  Class_s *nextPhase = id_List_any;
 
-  // if using any of the standard List implementations, just set as
-  // per using the standard object types
-  if ((strcmp (className, "List_any.Creating") == 0) ||
-      (strcmp (className, "List_linked") == 0) ||
-      (strcmp (className, "List_mlinks") == 0))
-    setClass (obj, aClass);
-  else   // using a custom subclass must have the `.Creating' extension
-    {
-      const char *end;
-      if ((end = strstr (className, ".Creating")) != NULL)
-        {
-          size_t len = end - className;
-          char buf[len + 1];
-          
-          sprintf (buf, "%.*s", (int) len, className);
-          setClass (obj, objc_lookup_class (buf));
-        }
-      else
-        raiseEvent (InvalidOperation, 
-                    "Must have a custom classname with a .Creating suffix");
-    }
+  if (getBit (getClass (obj)->info, _CLS_DEFINEDCLASS))
+    nextPhase = ((BehaviorPhase_s *) getClass (obj))->nextPhase;
+  
+  if (nextPhase == id_List_any)
+    nextPhase = aClass;
+  
+  setClass (obj, nextPhase);
 }
 
 - createEnd

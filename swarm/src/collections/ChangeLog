@@ -1,5 +1,8 @@
 1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* List.m (setListClass): Don't use string manipulation to
+	get next phase; use nextPhase.
+
 	* Map.m ([Map_c -createIndex:fromMember:]): Use a componentZone for
 	listIndex.
 
