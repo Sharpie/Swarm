@@ -1,3 +1,13 @@
+2001-01-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.h (COMmethod, COM_collect_variable_func_t): New types.
+	(COM_collect_method_func_t): Use single COMmethod argument.
+	(collectMethods): Take a variable and method collection function.
+	Remove variableFlag.
+
+	* COM.[hm] (COM_collect_methods): Remove gettersFlag argument.
+	(COM_collect_variables, COM_method_name): New functions.
+
 2001-01-19  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.m (swarm_directory_objc_find_class_COM): Return cClass

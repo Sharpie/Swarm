@@ -11,11 +11,13 @@ extern "C" {
 typedef const void *COMclass;
 typedef const void *COMobject;
 typedef const void *COMselector;
+typedef const void *COMmethod;
 
 struct COMInterface;
 
 typedef const struct COMInterface COMEnv;
-typedef void (*COM_collect_method_func_t) (COMobject obj, const char *name);
+ typedef void (*COM_collect_variable_func_t) (COMmethod getterMethod, COMmethod setterMethod);
+typedef void (*COM_collect_method_func_t) (COMmethod method);
 
 struct COMInterface {
   void *(*createComponent) (COMclass cClass);
@@ -47,7 +49,8 @@ struct COMInterface {
   void (*JSsetArg) (void *args, unsigned pos, fcall_type_t type, types_t *value);
   void (*JSsetReturn) (void *args, unsigned pos, fcall_type_t type, types_t *value);
   void (*JSfreeArgVector) (void *args);
-  void (*collectMethods) (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag);
+  void (*collectMethods) (COMclass cClass, COM_collect_variable_func_t variableFunc, COM_collect_method_func_t methodFunc);
+  const char *(*COMmethodName) (COMmethod method);
 };
 
 extern void initCOM (COMEnv *env);
@@ -90,7 +93,9 @@ extern COMobject swarm_directory_objc_find_selector_COM (SEL oSel);
 extern void swarm_directory_COM_add_selector (COMselector cSel, SEL oSel);
 extern COMobject swarm_directory_update_phase_COM (id oObj);
 
-extern void COM_collect_methods (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag);
+extern void COM_collect_variables (COMclass cClass, COM_collect_variable_func_t variableFunc);
+extern void COM_collect_methods (COMclass cClass, COM_collect_method_func_t methodFunc);
+extern const char *COM_method_name (COMmethod method);
 
 #ifdef __cplusplus
 }

@@ -109,9 +109,21 @@ JS_free_arg_vector (void *args)
 }
 
 void
-COM_collect_methods (COMclass cClass, COM_collect_method_func_t func, BOOL gettersFlag)
+COM_collect_variables (COMclass cClass, COM_collect_variable_func_t variableFunc)
 {
-  comEnv->collectMethods (cClass, func, gettersFlag);
+  comEnv->collectMethods (cClass, variableFunc, NULL);
+}
+
+void
+COM_collect_methods (COMclass cClass, COM_collect_method_func_t methodFunc)
+{
+  comEnv->collectMethods (cClass, NULL, methodFunc);
+}
+
+const char *
+COM_method_name (COMmethod method)
+{
+  return comEnv->COMmethodName (method);
 }
 
 COMobject 
