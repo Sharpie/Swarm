@@ -1,3 +1,10 @@
+1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am (lib_LIBRARIES, libcollections_a_SOURCES): Remove.
+	(collections_HEADERS): Remove $(module_headers).
+	(EXTRA_DIST): Add List_GEN.m.
+	(install-data-local): New target.
+
 1998-06-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* Makefile.am (lib_LTLIBRARIES, libcollections_la_SOURCES,
