@@ -54,14 +54,14 @@ init (int argc, const char **argv,
 void
 initSwarm (int argc, const char **argv)
 {
-  init (argc, argv, NULL, NULL, [Arguments class], NULL, NULL);
+  init (argc, argv, NULL, NULL, Nil, NULL, NULL);
 }
 
 void
 initSwarmApp (int argc, const char **argv,
               const char *version, const char *bugAddress)
 {
-  init (argc, argv, version, bugAddress, [Arguments class], NULL, NULL);
+  init (argc, argv, version, bugAddress, Nil, NULL, NULL);
 }
 
 void
@@ -72,7 +72,7 @@ initSwarmAppOptions (int argc, const char **argv,
 {
   init (argc, argv,
         version, bugAddress,
-        [Arguments class],
+        Nil,
         options, optionFunc);
 }
 
