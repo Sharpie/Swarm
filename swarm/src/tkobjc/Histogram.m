@@ -26,12 +26,13 @@ PHASE(Creating)
 }
 
 // This method can only be called once!
--setNumBins: (unsigned)n 
+- setNumBins: (unsigned)n 
 {
   int i;
 
   numBins = n;
   elements = [[self getZone] alloc: (sizeof (*elements) * n)];
+
 
   return self;
 }
@@ -71,7 +72,8 @@ PHASE(Using)
 {
   int i;
 
-  if (l == NULL) return self;	// nothing to be done
+  if (l == NULL)
+    return self;	// nothing to be done
 
   if (numBins < 1)
     [InvalidCombination raiseEvent:
@@ -106,7 +108,7 @@ PHASE(Using)
   return self;
 }
 
-- drawHistogramWithDouble: (double *) points
+- drawHistogramWithDouble: (double *)points
 {
   int i;
 
@@ -117,7 +119,7 @@ PHASE(Using)
 }
 
 // ick. How to do two data formats right?
-- drawHistogramWithInt: (int *) points
+- drawHistogramWithInt: (int *)points
 {
   int i;
 
