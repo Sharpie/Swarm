@@ -15,7 +15,7 @@ Library:      activity
 
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
-#import "java.h"
+#import "java.h" // SD_JAVA_FIND_OBJECT_JAVA
 #import <defobj/FCall.h>
 #endif
 #import <defobj/defalloc.h> // getZone
@@ -484,7 +484,7 @@ PHASE(Creating)
           for (i = 0, obj = [index next];
                [index getLoc] == Member;
                obj = [index next], i++)
-            javaTargets[i] = SD_JAVA_FINDJAVA (obj);
+            javaTargets[i] = SD_JAVA_FIND_OBJECT_JAVA (obj);
 #endif
         }
       else

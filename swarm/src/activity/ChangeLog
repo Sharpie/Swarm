@@ -1,3 +1,7 @@
+2000-05-10  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* Action.m: Update macro usage per directory changes in defobj.
+
 2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* Action.m ([CAction -createEnd]): Include java.h instead of
