@@ -68,6 +68,7 @@ getMemberFromLink (link_t link, long bits)
 
 @implementation TARGET
 PHASE(Creating)
+PHASE(Setting)
 PHASE(Using)
 PHASE(UsingOnly)
 //

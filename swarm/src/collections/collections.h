@@ -558,7 +558,7 @@ USING
 - (void *)getMemberBlock;
 @end
 
-@protocol Array <Collection, DefaultMember, MemberBlock, CREATABLE>
+@protocol Array <Collection, DefaultMember, MemberBlock, Serialization, CREATABLE>
 //S: Collection supporting access only by relative position.
 
 //D: An array is a collection of members that are all created as members of
@@ -660,7 +660,7 @@ USING
 @end
 
 
-@protocol List <Collection, CREATABLE>
+@protocol List <Collection, Serialization, CREATABLE>
 //S:  Collection of members in an externally assigned linear sequence.
 
 //D: A list is a collection of members that are all maintained at some
@@ -934,7 +934,7 @@ USING
 @end
 
 
-@protocol Map <KeyedCollection, CompareFunction, CREATABLE>
+@protocol Map <KeyedCollection, CompareFunction, Serialization, CREATABLE>
 //S: Collection of associations from key objects to member objects.
 
 //D: Map is a subtype of KeyedCollection in which the key value associated

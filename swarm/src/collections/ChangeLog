@@ -1,3 +1,10 @@
+2002-05-14  Marcus G. Daniels  <mgd@condor>
+
+	* collections.h (Array, List, Map): Adopt Serialization.
+
+	* List_GEN.m (TARGET), OrderedSet.m (OrderedSet_c), Stream.m
+	(ArchiverList): Add Setting phase marker for above.
+
 2002-04-23  Marcus G. Daniels  <mgd@condor>
 
 	* Array.m ([Array_c -lispInCreate:,-lispIn:]): Implement.

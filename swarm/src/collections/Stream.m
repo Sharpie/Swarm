@@ -483,6 +483,7 @@ PHASE(Using)
 
 @implementation ArchiverList_c
 PHASE(Creating)
+PHASE(Setting)
 PHASE(Using)
 - (void)lispOutShallow: (id <OutputStream>)stream
 {
