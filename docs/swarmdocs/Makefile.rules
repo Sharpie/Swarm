@@ -50,7 +50,7 @@ rtfdist: rtf
 CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(dvi_DATA) $(ps_DATA) $(rtf_DATA)
 
 $(FIGS):
-	make -C $(top_builddir)/figs install figsdir=`pwd`/figs
+	$(MAKE) -C $(top_builddir)/figs install figsdir=`pwd`/figs
 
 _$(NAME).tex $(addprefix $(NAME),.fot .rtf): $(GENERAL) $(PRINT)
 
