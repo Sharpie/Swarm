@@ -1,5 +1,11 @@
 1999-02-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* protocol.el: Augment load-path from BUILD_AREA instead of
+	SWARMDOCS_BUILD_AREA.
+
+	* common.el (get-build-area): Renamed from get-swarmdocs-build-area.
+	Expect BUILD_AREA instead of SWARMDOCS_BUILD_AREA environment variable.
+
 	* protocol.el, java-stub.el: Add SWARMDOCS_BUILD_AREA to load path
 	(both compile time and load time). 
 

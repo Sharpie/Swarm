@@ -1,6 +1,6 @@
 (require 'cl)
 (eval-and-compile
- (push (getenv "SWARMDOCS_BUILD_AREA") load-path))
+ (push (getenv "BUILD_AREA") load-path))
 (require 'common)
 (require 'cc-mode)
 
