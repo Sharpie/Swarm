@@ -1,5 +1,18 @@
 1999-02-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HDF5Object.m (objc_type_for_tid,
+	create_class_from_compound_type, [HDF5_c -shallowLoadObject:]):
+	Fail if H5Tget_size returns 0.
+
+	* DefObject.[hm], defobj.h: Add archiver argument to
+	updateArchiver.
+
+	* DefClass.m ([CreatedClass_s -updateArchiver:]): Use (new) argument
+	instead of lispArchiver.
+
+	* Archiver.m ([Archiver_c -updateArchiver]): Pass self to
+	updateArchiver:.
+
 	* DefObject.m ([Object_s -_lispOut_:deep:]): Modify per map_ivars
 	change.
 	([Object_s -hdf5OutDeep:]): Likewise.

@@ -58,7 +58,7 @@ USING
 //M: Output a deep HDF5 representation of object state to a stream.
 - hdf5OutDeep: hdf5obj;
 
-- updateArchiver;
+- updateArchiver: archiver;
 
 //F: Expect and convert a boolean from next index item.
 extern BOOL lispInBoolean (id index);
@@ -778,7 +778,7 @@ CREATING
 - hdf5InCreate: hdf5Obj;
 - lispOutShallow: stream;
 - hdf5OutShallow: hdf5Obj;
-- updateArchiver;
+- updateArchiver: archiver;
 extern id createType (id aZone, const char *name);
 extern Class copyClass (Class class);
 extern void addVariable (Class class, const char *name, const char *type);

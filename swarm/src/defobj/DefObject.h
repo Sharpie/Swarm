@@ -77,7 +77,7 @@ Library:      defobj
 - hdf5In: expr;
 - hdf5OutDeep: hdf5obj;
 - hdf5OutShallow: hdf5obj;
-- updateArchiver;
+- updateArchiver: archiver;
 @end
 
 extern id lispIn (id aZone, id expr);

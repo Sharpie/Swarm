@@ -453,9 +453,9 @@ process_type (const char *varType,
   return nil;
 }
 
-- updateArchiver
+- updateArchiver: archiver
 {
-  [lispArchiver putShallow: [self name] object: self];
+  [archiver putShallow: [self name] object: self];
   return self;
 }
 

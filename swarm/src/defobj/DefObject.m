@@ -1116,9 +1116,9 @@ lisp_output_type (const char *type,
   return self;
 }
 
-- updateArchiver
+- updateArchiver: archiver
 {
-  raiseEvent (SubclassMustImplement, "updateArchiver");
+  raiseEvent (SubclassMustImplement, "updateArchiver:");
   return self;
 }
 

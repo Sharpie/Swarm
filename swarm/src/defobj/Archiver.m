@@ -629,13 +629,13 @@ archiverPut (const char *keyStr, id value, id addMap, id removeMap)
 {
   id <Index> index;
   id item;
-  IMP func = get_imp (id_CreatedClass_s, M(updateArchiver));
+  IMP func = get_imp (id_CreatedClass_s, M(updateArchiver:));
   
   index = [classes begin: [self getZone]];
   while ((item = [index next]))
-    func (item, M(updateArchiver));
+    func (item, M(updateArchiver:), self);
   [index drop];
-  [instances forEach: @selector (updateArchiver)];
+  [instances forEach: @selector (updateArchiver:) : self];
   return self;
 }
 

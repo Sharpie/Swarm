@@ -216,7 +216,7 @@ objc_type_for_tid (hid_t tid)
   if ((tid_class = H5Tget_class (tid)) < 0)
     raiseEvent (LoadError, "cannot get class of tid");
 
-  if ((tid_size = H5Tget_size (tid)) < 0)
+  if ((tid_size = H5Tget_size (tid)) == 0)
     raiseEvent (LoadError, "cannot get size of tid");
 
   switch (tid_class)
@@ -431,7 +431,7 @@ create_class_from_compound_type (id aZone,
   if (count == 0)
     raiseEvent (LoadError, "compound type should have at least one member");
 
-  if ((tid_size = H5Tget_size (tid)) < 0)
+  if ((tid_size = H5Tget_size (tid)) == 0)
     raiseEvent (LoadError,
                 "unable to get compound type size");
   
@@ -1637,29 +1637,6 @@ hdf5_store_attribute (hid_t did,
   return self;
 }
 
-#if defined(HAVE_HDF5) && 0
-static void *
-check_alignment (id obj, id compoundType)
-{
-  Class class = [obj class];
-  size_t offset, tid_size;
-  hid_t ctid = [compoundType getTid];
-
-  check_for_empty_class (class);
-  
-  offset = class->ivars->ivar_list[0].ivar_offset;
-  if ((tid_size = H5Tget_size (ctid)) < 0)
-    raiseEvent (SaveError, "cannot get size of compound type");
-
-  if (tid_size + offset != class->instance_size)
-    raiseEvent (InternalError,
-                "%s/%s tid_size + offset != instance_size (%x + %x != %x)",
-                [obj getTypeName], ((HDF5CompoundType_c *)compoundType)->name,
-                tid_size, offset, class->instance_size);
-  return (void *) obj + offset;
-}
-#endif
-
 - shallowLoadObject: obj
 {
 #ifdef HAVE_HDF5
@@ -1671,10 +1648,9 @@ check_alignment (id obj, id compoundType)
     hid_t tid = [compoundType getTid];
     size_t tid_size;
     
-    if ((tid_size = H5Tget_size (tid)) < 0)
-    raiseEvent (LoadError,
-                "unable to get compound type size");
-
+    if ((tid_size = H5Tget_size (tid)) == 0)
+      raiseEvent (LoadError, "unable to get compound type size");
+    
     {
       unsigned char buf[tid_size];
       
@@ -1703,7 +1679,7 @@ check_alignment (id obj, id compoundType)
     hid_t tid = [compoundType getTid];
     size_t tid_size;
     
-    if ((tid_size = H5Tget_size (tid)) < 0)
+    if ((tid_size = H5Tget_size (tid)) == 0)
       raiseEvent (LoadError,
                   "unable to get compound type size");
     
