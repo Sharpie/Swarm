@@ -1,5 +1,8 @@
 1999-03-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (libtclobjc_la_LIBADD), tclObjc.m: 
+	Always ignore objc-malloc.
+
 	* Makefile.am (INCLUDES): Include -I for libobjc.
 
 1999-03-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>

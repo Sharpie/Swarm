@@ -60,7 +60,7 @@
 #include "tclObjc.h"
 #include <tcl.h>
 
-#ifdef HAVE_OBJC_MALLOC
+#if defined(HAVE_OBJC_MALLOC) || 1
 #include <objc/objc-api.h>
 #else
 #include "objc-malloc.h"
