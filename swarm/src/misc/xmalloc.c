@@ -1,10 +1,33 @@
 #include <misc.h>
 
-void *GC_malloc_uncollectable (size_t) __attribute__ ((weak, alias ("malloc")));
-void *GC_malloc_atomic_uncollectable (size_t) __attribute__ ((weak, alias ("malloc")));
-void *GC_realloc (void *buf, size_t size) __attribute__ ((weak, alias ("realloc")));
-void GC_free (void *buf) __attribute__ ((weak, alias ("free")));
+void *GC_malloc_atomic_uncollectable (size_t) __attribute__ ((weak));
+void *GC_malloc_uncollectable (size_t) __attribute__ ((weak));
+void *GC_realloc (void *buf, size_t size) __attribute__ ((weak));
+void GC_free (void *buf) __attribute__ ((weak));
 
+void *
+GC_malloc_uncollectable (size_t size)
+{
+  return malloc (size);
+}
+
+void *
+GC_malloc_atomic_uncollectable (size_t size)
+{
+  return malloc (size);
+}
+
+void *
+GC_realloc (void *ptr, size_t size)
+{
+  return realloc (ptr, size);
+}
+
+void
+GC_free (void *ptr)
+{
+  free (ptr);
+}
 
 void *
 xmalloc (size_t size)
