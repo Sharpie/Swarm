@@ -15,6 +15,7 @@ Library:      defobj
 
 #include <swarmconfig.h>
 #ifdef USE_AVCALL
+#undef __mips__
 #include <avcall.h>
 #endif
 

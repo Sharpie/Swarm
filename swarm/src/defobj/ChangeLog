@@ -1,6 +1,6 @@
 1999-04-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* FArguments.m, FCall.m: Undef __mips__ before including avcall.h.
+	* FArguments.[hm], FCall.m: Undef __mips__ before including avcall.h.
 
 	* FCall.m: Include avcall.h.
 	
