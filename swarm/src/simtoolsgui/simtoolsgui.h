@@ -300,6 +300,19 @@ USING
 //M: simulation time. Y is the value read. 
 - step;
 @end
+
+@protocol MessageProbeWidget
+//S: A widget for editing the arguments of a MessageProbe.
+
+//D: A widget for editing the arguments of a MessageProbe.
++ createBegin: aZone;
+- setParent: parent;
+- setObject: object;
+- createEnd;
+- setProbe: (id <Probe>)probe;
+- pack;
+@end
+
 
 //G: Manager that keeps track of active probes to be updated
 extern id <ProbeDisplayManager> probeDisplayManager;
@@ -318,3 +331,4 @@ extern void initSimtoolsGUI (void);
 @class ProbeDisplayManager;
 @class GUISwarm;
 @class ActiveGraph;
+@class MessageProbeWidget;

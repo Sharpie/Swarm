@@ -32,7 +32,7 @@
 
 + createBegin: aZone;
 - setObject: obj;
-- setProbe: (Probe *)the_probe;
+- setProbe: (id <Probe>)theProbe;
 - setMaxReturnWidth: (int)width;
 - createEnd;
 - update;
