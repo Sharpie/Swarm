@@ -19,6 +19,18 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 @implementation ControlPanel
 
+- _actionCacheWarning_: (const char *)msg
+{
+  id string = [String create: [self getZone] setC: msg];
+  
+  [string 
+    catC: 
+      "Please change your application to call ActionCache instead.\n"];
+  [ObsoleteMessage raiseEvent: [string getC]];
+  [string drop];
+  return self;
+}
+
 - createEnd
 {
   [super createEnd];
@@ -31,7 +43,8 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 - getPanel
 {
-  [ObsoleteMessage raiseEvent: "getPanel moved to ActionCache.\n"];
+  [self _actionCacheWarning_: 
+          "getPanel in ControlPanel is now DOES NOTHING!\n"];
   return self;
 }
 
@@ -72,7 +85,9 @@ id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 
 - doTkEvents
 {
-  [ObsoleteMessage raiseEvent: "doTkEvents moved to ActionCache.\n"];
+  [self _actionCacheWarning_:
+          "doTkEvents in ControlPanel now does NOTHING!\n"
+        "You risk application lockups if you call ControlPanel doTkEvents.\n"];
   return self;
 }
 
