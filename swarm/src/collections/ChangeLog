@@ -1,3 +1,8 @@
+1999-08-06  Marcus G. Daniels  <mgd@helen.santafe.edu>
+
+	* OutputStream.[hm], collections.h ([OutputStream_c
+	-catPointer:]): New method.
+
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* InputStream.m ([InputStream_c -getExpr]): Change strtol failure

@@ -35,4 +35,5 @@ Library:     collections
 - (void)catUnsignedLong: (unsigned long)ulng;
 - (void)catLongLong: (long long)lnglng;
 - (void)catUnsignedLongLong: (unsigned long long)ulnglng;
+- (void)catPointer: (void *)ptr;
 @end
