@@ -58,12 +58,12 @@ PHASE(Using)
   return self;
 }
 
-- setScaleModeX: (int)xs Y: (int)ys
+- setScaleModeX: (BOOL)xs Y: (BOOL)ys
 {
   [globalTkInterp
     eval:
       "%s xaxis configure -loose %d; %s yaxis configure -loose %d",
-    widgetName, xs, widgetName, ys];
+    widgetName, (int)xs, widgetName, (int)ys];
 
   return self;
 }
