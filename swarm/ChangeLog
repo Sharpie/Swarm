@@ -1,3 +1,10 @@
+1998-01-15  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf:  Remove the mgd-PSU-GNU/Linux-libc5 and rename
+	the mgd-PSU-GNU/Linux-glibc2 to mgd-PSU-GNU/Linux.  Add a gcc28-libc1
+	configuration, add a gcc-libc1 configuration, and keep the default
+	for gcc272 with glibc2.
+
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf (OPTFLAGS): Make the default optimize.
