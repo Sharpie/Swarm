@@ -61,20 +61,19 @@
   summary-doc
   description-doc-list
 
+  scratch-doc-list ; used for global, macro, and typedef
+
   extern-type
   extern-name
-  global-doc-list
   global-list
 
   macro-sig
-  macro-doc-list
   macro-list
 
   method-doc-list
   method-list
 
   typedef-sig
-  typedef-doc-list
   typedef-list
 
   scratch-example-list
@@ -225,7 +224,7 @@
           (parse-state-extern-name parse-state))
    :description-list
    (if (eq (parse-state-tag parse-state) :global)
-       (parse-state-global-doc-list parse-state)
+       (parse-state-scratch-doc-list parse-state)
        (list (extract-doc-string line)))))
    
 (defun immediate-tag-processed (parse-state line)
@@ -233,7 +232,7 @@
                 '(:global-begin :global-end :global-break))
     (prog1
         (make-global parse-state)
-      (setf (parse-state-global-doc-list parse-state) nil))))
+      (setf (parse-state-scratch-doc-list parse-state) nil))))
     
 (defun is-doc-type (parse-state)
   (member (parse-state-tag parse-state) *doc-types*))
@@ -405,9 +404,9 @@
   (let ((buf (parse-state-buf parse-state)))
     (case (parse-state-last-tag parse-state)
       (:macro-doc
-       (push buf (parse-state-macro-doc-list parse-state)))
+       (push buf (parse-state-scratch-doc-list parse-state)))
       ((:global-doc :global)
-       (push buf (parse-state-global-doc-list parse-state)))
+       (push buf (parse-state-scratch-doc-list parse-state)))
       (:summary-doc
        (if (parse-state-summary-doc parse-state)
            (error "summary already set")
@@ -433,22 +432,22 @@
     (cond ((eq tag :global)
            (push (make-global parse-state)
                  (parse-state-global-list parse-state))
-           (setf (parse-state-global-doc-list parse-state) nil))
+           (setf (parse-state-scratch-doc-list parse-state) nil))
           ((eq tag :macro)
            (while (looking-at ".*\\\\\\s-*$")
              (forward-line))
            (push (make-named-object
                   :name (parse-state-macro-sig parse-state)
-                  :description-list (parse-state-macro-doc-list parse-state))
+                  :description-list (parse-state-scratch-doc-list parse-state))
                  (parse-state-macro-list parse-state))
-           (setf (parse-state-macro-doc-list parse-state) nil))
+           (setf (parse-state-scratch-doc-list parse-state) nil))
           ((eq tag :typedef)
            (push (make-named-object
                   :name (parse-state-typedef-sig parse-state)
                   :description-list
-                  (parse-state-typedef-doc-list parse-state))
+                  (parse-state-scratch-doc-list parse-state))
                  (parse-state-typedef-list parse-state))
-           (setf (parse-state-typedef-doc-list parse-state) nil)))))
+           (setf (parse-state-scratch-doc-list parse-state) nil)))))
 
 (defun same-tag-p (parse-state)
   (eq (parse-state-tag parse-state)

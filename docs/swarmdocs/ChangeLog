@@ -1,3 +1,10 @@
+1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* protocol.el (parse-state): Remove global-doc-list, macro-doc-list,
+	and typedef-doc-list.  Add scratch-doc-list.
+	(make-global, immediate-tag-processed, handle-common-tag-change,
+	handle-common-tag): Use scratch-doc-list.
+
 1998-05-27  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* protocol.el (parse-state, module): New structures.
