@@ -12,8 +12,8 @@
 
 @implementation DiGraphNode
 
--setCanvas: the_canvas {
-  canvas = the_canvas ;
+-setCanvas: aCanvas {
+  canvas = aCanvas ;
 
   if(nodeType == OvalNode)
     nodeItem = [OvalNodeItem createBegin: [self getZone]] ; 
@@ -69,25 +69,41 @@
   return nodeItem ;
 }
 
+-getToLinks {
+   return fromList;
+}
+
+-getFromLinks {
+   return toList;
+}
+
 -makeLinkTo: aNode {
   id aLink ;
 
-  aLink = [[[[DiGraphLink createBegin: [self getZone]] 
-                          setCanvas: canvas]
-                          setFrom: self To: aNode] 
-                          createEnd] ;
-
+  if (canvas)
+     aLink = [[[[DiGraphLink createBegin: [self getZone]] 
+                  setFrom: self To: aNode] 
+                 setCanvas: canvas]                        
+                createEnd] ;  
+  else
+      aLink = [[[DiGraphLink createBegin: [self getZone]] 
+                  setFrom: self To: aNode]   
+                 createEnd] ;  
   return aLink ;
 }
 
 -makeLinkFrom: aNode {
   id aLink ;
 
-  aLink = [[[[DiGraphLink createBegin: [self getZone]] 
-                          setCanvas: canvas]
-                          setFrom: aNode To: self] 
-                          createEnd] ;
-
+  if (canvas)    
+     aLink = [[[[DiGraphLink createBegin: [self getZone]] 
+               setFrom: aNode To: self]              
+              setCanvas: canvas]
+             createEnd] ;
+  else  
+     aLink = [[[DiGraphLink createBegin: [self getZone]]   
+                    setFrom: aNode To: self]   
+                   createEnd] ; 
   return aLink ;
 }
 
@@ -137,6 +153,13 @@
   return self ;
 }
 
+-hideNode {
+   
+   canvas = nil;
+   [nodeItem drop] ;      
+   return self;
+}
+
 -(void) drop {
 
   while([fromList getCount]){
@@ -150,12 +173,12 @@
   [toList drop] ;
 
   if(canvas)
-    [nodeItem drop] ;
-
+     [self hideNode];
+  
   [super drop] ;
 }
 
-//Callbacks...
+// Callbacks...
 
 -(int) agreeX: (int) x Y: (int) y {
   return 1 ;

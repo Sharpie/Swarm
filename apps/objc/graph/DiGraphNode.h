@@ -16,6 +16,8 @@
 -setCanvas: aCanvas ;
 -createEnd ;
 -getNodeItem ;
+-getToLinks ;
+-getFromLinks ;
 -makeLinkTo: aNode ;
 -makeLinkFrom: aNode ;
 -addFrom: aLink ;
@@ -26,6 +28,7 @@
 -(int)linkedFrom: anObj ;
 -(int) agreeX: (int) x Y: (int) y ;
 -updateLinks ;
+-hideNode;
 -(void) drop ;
 -setNodeLabel: (const char *) aLabel ;
 
