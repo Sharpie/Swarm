@@ -220,22 +220,22 @@ extern jmethodID  m_ClassGetDeclaredFields,
 
       unsigned i;
       numEntries = 0;
-      classObject = JFINDJAVA(jniEnv, probedClass);
+      classObject = JFINDJAVA (jniEnv, probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      
       
       if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
-      					  m_ClassGetDeclaredFields)))
+                                                  m_ClassGetDeclaredFields)))
 	abort(); 
-
+      
       fieldslength = (*jniEnv)->GetArrayLength (jniEnv, fields);
       if (!(methods = (*jniEnv)->CallObjectMethod (jniEnv, classObject, 
-						  m_ClassGetDeclaredMethods)))
+                                                   m_ClassGetDeclaredMethods)))
 	abort();
       methodslength = (*jniEnv)->GetArrayLength (jniEnv, methods);
       numEntries = fieldslength;
-      for (i=0; i<numEntries; i++)
+      for (i = 0; i < numEntries; i++)
 	{
 	  jobject field;
 	  jstring name;
@@ -243,7 +243,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	  jboolean isCopy;
 
 	  field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, i);
-	  
+	
 	  name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
 	  
 	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
@@ -259,8 +259,6 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	  
 	  if (isCopy)
 	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
-
-	  
 	}
 
       if (methodslength)
@@ -268,7 +266,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	  numEntries += methodslength;
 	  
 	  inversionList = [List create: [self getZone]];
-	  for (i=0; i<methodslength; i++)
+	  for (i = 0; i < methodslength; i++)
 	    {
 	      jobject method;
 	      jstring name;
@@ -278,10 +276,12 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	      method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, i);
 	      name = (*jniEnv)->CallObjectMethod (jniEnv, method, 
 						  m_MethodGetName);
-	      selector = (*jniEnv)->NewObject (jniEnv, c_Selector, 
+	      selector = (*jniEnv)->NewObject (jniEnv,
+                                               c_Selector, 
 					       m_SelectorConstructor, 
 					       classObject,
-					       name, 0);
+					       name,
+                                               JNI_FALSE);
 	      sel = java_ensure_selector (jniEnv, selector);
 	      	      
 	      a_probe = [MessageProbe createBegin: [self getZone]];
@@ -292,7 +292,7 @@ extern jmethodID  m_ClassGetDeclaredFields,
 	      
 	      a_probe = [a_probe createEnd];
 	      
-	      if(a_probe)
+	      if (a_probe)
 		[inversionList addFirst: a_probe];
 	      else
 		numEntries--;
