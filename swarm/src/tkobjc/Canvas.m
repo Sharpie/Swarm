@@ -20,5 +20,11 @@
   return self;
 }
 
+- (void) drop 
+{
+   [globalTkInterp eval: "destroy %s", [parent getWidgetName]]; 
+   [super drop];
+}
+
 @end
 
