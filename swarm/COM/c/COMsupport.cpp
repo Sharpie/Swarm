@@ -9,17 +9,19 @@
 #include "COMsupport.h"
 #include "plstr.h"
 
+#include "swarmIZone.h"
+
 extern "C" {
 
-static PRBool
-findIID (const char *interfaceName, nsIID &iid)
+nsIID *
+findIID (const char *interfaceName)
 {
   nsIInterfaceInfoManager *iim = nsnull;
   nsIEnumerator *Interfaces = nsnull;
   nsISupports *is_Interface;
   nsIInterfaceInfo *Interface;
   nsresult rv;
-  PRBool matched = PR_FALSE;
+  nsIID *ret = NULL;
 
   if (!(iim = XPTI_GetInterfaceInfoManager ()))
     {
@@ -59,15 +61,15 @@ findIID (const char *interfaceName, nsIID &iid)
 
           Interface->GetName (&name);
 
-          matched = (PL_strcmp (interfaceName, name) == 0);
-          iid = Interface->GetIID ();
+          if (PL_strcmp (interfaceName, name) == 0)
+            Interface->GetIID (&ret);
           nsMemory::Free (name);
           NS_RELEASE (Interface);
         }
       else
         abort ();
 
-      if (matched)
+      if (ret)
         break;
 
       NS_RELEASE (is_Interface);
@@ -80,7 +82,7 @@ findIID (const char *interfaceName, nsIID &iid)
   NS_IF_RELEASE (iim);
   NS_IF_RELEASE (is_Interface);
 
-  return matched;
+  return ret;
 }
 
 static nsISupports *
@@ -88,17 +90,16 @@ createComponentByName (const char *progID, const char *interfaceName)
 {
   nsISupports *obj;
   nsresult rv;
-  nsIID iid;
+  nsIID *iid;
   char buf[6 + PL_strlen (interfaceName) + 1];
 
   PL_strcpy (buf, "swarmI");
   PL_strcat (buf, interfaceName);
 
-  printf ("progID: `%s' interfaceName: `%s'\n", progID, buf);
-  if (findIID (buf, iid) != PR_TRUE)
+  if (!(iid = findIID (buf)))
     abort ();
 
-  rv = nsComponentManager::CreateInstance (progID, NULL, iid, (void **) &obj);
+  rv = nsComponentManager::CreateInstance (progID, NULL, *iid, (void **) &obj);
   if (NS_FAILED (rv))
     abort ();
   NS_ADDREF (obj);
