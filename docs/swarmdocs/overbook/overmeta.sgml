@@ -1,7 +1,13 @@
 <BOOKINFO>
 
   <TITLE>Brief Overview of Swarm</TITLE>
-  
+
+  <AUTHOR>
+    <AFFILIATION>
+      <ORGNAME>&orgname;</ORGNAME>
+    </AFFILIATION>
+  </AUTHOR>
+
   <ABSTRACT>
     <TITLE>A Top-Down Introduction To Implementing an Experiment Using
       Swarm</TITLE>

@@ -1,7 +1,13 @@
 <BOOKINFO>
 
 <TITLE>Getting Started with Swarm</TITLE>
-
+    
+  <AUTHOR>
+    <!-- one of (contrib authorblurb affiliation othername lineage surname firstname honorific) -->
+    <AFFILIATION>
+      <ORGNAME>&orgname;</ORGNAME>
+    </AFFILIATION>
+  </AUTHOR>
   <ABSTRACT><TITLE>Overview</TITLE> 
 
     <PARA> A full-fledged "User Guide" is forthcoming, but incomplete

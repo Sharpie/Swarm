@@ -4,11 +4,11 @@
     <TITLE>Documentation Set for Swarm &swarm-release-number;</TITLE>
 
     <AUTHOR>
-      <AFFILIATION>Santa Fe Institute</AFFILIATION>
+      <AFFILIATION><ORGNAME>Santa Fe Institute</ORGNAME></AFFILIATION>
     </AUTHOR>
 
-    <RELEASEINFO>&swarm-release-number;</RELEASEINFO>
-    <PUBDATE>May 1998</PUBDATE>
+    <RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
+    <PUBDATE>&pubdate;</PUBDATE>
     <COPYRIGHT>
       <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
       <HOLDER>the Santa Fe Institute</HOLDER></COPYRIGHT>
@@ -33,8 +33,9 @@
     
     </ABSTRACT>
 
-  <LEGALNOTICE>&permission;</LEGALNOTICE>
   <LEGALNOTICE>
+    <PARA>&permission;</PARA>
+    
     <PARA>The copyright holders make no representation about the
       suitability of Swarm for any purpose. It is provided <QUOTE>as
       is</QUOTE> without expressed or implied warranty. Please refer

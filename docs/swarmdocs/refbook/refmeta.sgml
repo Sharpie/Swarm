@@ -1,14 +1,16 @@
 <BOOKINFO>
   <TITLE>Reference Guide for Swarm &swarm-release-number;</TITLE> 
 
-  <AUTHOR><AFFILIATION>Santa Fe Institute</AFFILIATION></AUTHOR>
+  <AUTHOR><AFFILIATION>
+      <ORGNAME>&orgname;</ORGNAME>
+    </AFFILIATION></AUTHOR>
 
-  <GRAPHIC ALIGN="CENTER" ENTITYREF="largelogo"></GRAPHIC>
+  <GRAPHIC ENTITYREF="largelogo" ALIGN="CENTER"></GRAPHIC>
 
   <BOOKBIBLIO>
     
-    <RELEASEINFO>&swarm-release-number;</RELEASEINFO>
-    <PUBDATE>May 1998</PUBDATE>
+    <RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
+    <PUBDATE>&pubdate;</PUBDATE>
     <COPYRIGHT>
       <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
       <HOLDER>the Santa Fe Institute</HOLDER></COPYRIGHT>
