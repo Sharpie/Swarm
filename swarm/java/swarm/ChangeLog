@@ -1,7 +1,8 @@
 1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Globals.java: Renamed from Globals.java.in.  Use java.vm.name
-	property to determine what library to load.
+	property to determine what library to load.  Catch UnsatisfiedLinkError
+	instead of Exception.
 
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

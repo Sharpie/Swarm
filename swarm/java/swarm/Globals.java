@@ -9,8 +9,7 @@ final public class Globals {
       System.loadLibrary ((System.getProperty ("java.vm.name") == "Kaffe")
                           ? "kaffeswarm"
                           : "javaswarm");
-    }
-    catch (Exception e) {
+    } catch (UnsatisfiedLinkError e) {
       System.err.println ("Exception caught: " + e.getMessage ());
     } 
     env = new SwarmEnvironment ();
