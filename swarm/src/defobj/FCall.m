@@ -224,6 +224,20 @@ avcall_add_primitive (FArguments_c *fa, fcall_type_t type, void *val)
 }
 #endif
 
+
+static ffi_type *ffi_types[FCALL_TYPE_COUNT] = {
+  &ffi_type_void,
+  &ffi_type_uchar, &ffi_type_schar, 
+  &ffi_type_ushort, &ffi_type_sshort, 
+  &ffi_type_uint, &ffi_type_sint, 
+  &ffi_type_ulong, &ffi_type_slong, 
+  &ffi_type_double, &ffi_type_double,
+  &ffi_type_pointer,
+  &ffi_type_pointer, 
+  &ffi_type_pointer, 
+  &ffi_type_pointer,
+  &ffi_type_pointer};
+
 static void
 add_ffi_types (FCall_c *fc)
 {

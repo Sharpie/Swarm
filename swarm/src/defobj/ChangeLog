@@ -1,5 +1,7 @@
 1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* FArguments.m, FCall.m: Moved ffi_types to FCall.
+
 	* FCall.m: Don't declare fillHiddenArguments.
 	(FUNCPTR): Use local macro instead of FFI_FN.
 	(fillHiddenArguments): Add support for avcall.

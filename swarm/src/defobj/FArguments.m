@@ -30,20 +30,6 @@ Library:      defobj
 extern JNIEnv *jniEnv;
 #endif
 
-#ifndef USE_AVCALL
-ffi_type *ffi_types[FCALL_TYPE_COUNT] = { &ffi_type_void,
-                                          &ffi_type_uchar, &ffi_type_schar, 
-                                          &ffi_type_ushort, &ffi_type_sshort, 
-                                          &ffi_type_uint, &ffi_type_sint, 
-                                          &ffi_type_ulong, &ffi_type_slong, 
-                                          &ffi_type_double, &ffi_type_double,
-                                          &ffi_type_pointer,
-                                          &ffi_type_pointer, 
-                                          &ffi_type_pointer, 
-                                          &ffi_type_pointer,
-                                          &ffi_type_pointer};
-#endif
-
 const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "S", "S", "I", 
   "I", "J", "J", "F", "D",
