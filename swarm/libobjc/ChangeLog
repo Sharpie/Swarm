@@ -1,3 +1,8 @@
+1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* misc.c: Provide #defines for Win32, where we want to avoid
+	undefined symbols for the sake of building DLLs.
+
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* misc.c: Use x[crm]alloc instead of [crm]alloc. Declare them.

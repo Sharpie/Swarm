@@ -167,11 +167,19 @@ externobjcvardef void *(*_objc_calloc) (size_t, size_t) = GC_calloc;
 externobjcvardef void (*_objc_free) (void *) = noFree;
 
 #else
+#ifndef _WIN32
 extern void *xmalloc (size_t size);
 extern void *xmalloc_atomic (size_t size);
 extern void *xcalloc (size_t nmemb, size_t size);
 extern void *xrealloc (void *buf, size_t size);
 extern void xfree (void *buf);
+#else
+#define xmalloc malloc
+#define xmalloc_atomic malloc
+#define xrealloc realloc
+#define xcalloc calloc
+#define xfree free
+#endif
 
 externobjcvardef void *(*_objc_malloc) (size_t) = xmalloc;
 externobjcvardef void *(*_objc_atomic_malloc) (size_t) = xmalloc_atomic;
