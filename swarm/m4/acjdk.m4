@@ -15,14 +15,13 @@ if test $jdkdir = no; then
   JAVASTUBS=
 else
   if test -f $jdkdir/include/jni.h; then
-    AC_MSG_RESULT($jdkdir)
     JAVAINCLUDES="-I$jdkdir/include -I$jdkdir/include/solaris -I$jdkdir/include/genunix"
   elif test -f $jdkdir/include/japhar/jni.h; then
     JAVAINCLUDES="-I$jdkdir/include/japhar"
-    AC_MSG_RESULT($jdkdir)
   else
     AC_MSG_ERROR([Please use --with-jdkdir to specify location of JDK.])
   fi
+  AC_MSG_RESULT($jdkdir)
   AC_DEFINE(HAVE_JDK)
   JAVASTUBS=stubs
 fi 
