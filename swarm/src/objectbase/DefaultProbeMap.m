@@ -9,7 +9,7 @@
 #import <defobj.h> // Warning
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // SD_JAVA_FINDJAVA
+#import "../defobj/java.h" // SD_JAVA_FINDJAVA
 #endif
 
 #import "local.h"
@@ -40,7 +40,7 @@ PHASE(Creating)
   if (isJavaProxy)
     { 
       numEntries = 0;
-      classObject = SD_JAVA_FINDJAVA (jniEnv, probedClass);
+      classObject = SD_JAVA_FINDJAVA (probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      

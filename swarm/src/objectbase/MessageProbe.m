@@ -14,8 +14,7 @@
 
 #include <swarmconfig.h>
 #ifdef HAVE_JDK
-#import <defobj/directory.h>
-#import <defobj/javavars.h>
+#import "../defobj/java.h" // JAVA_COPY_STRING, SD_JAVA_FINDOBJC
 #endif
 
 @implementation MessageProbe
@@ -305,10 +304,9 @@ dynamicCallOn (const char *probedType,
     {
       if (retVal->type == _C_CHARPTR)
         retVal->val.string =
-          SD_JAVA_COPYSTRING (jniEnv, (jstring) retVal->val.object);
+          JAVA_COPY_STRING ((jstring) retVal->val.object);
       else if (retVal->type == _C_ID)
-        retVal->val.object = SD_JAVA_FINDOBJC (jniEnv,
-                                               (jobject) retVal->val.object);
+        retVal->val.object = SD_JAVA_FINDOBJC ((jobject) retVal->val.object);
     }
 #endif
   [fc drop];

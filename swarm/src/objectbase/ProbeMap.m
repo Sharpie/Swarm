@@ -12,8 +12,8 @@
 
 #include <swarmconfig.h> // HAVE_JDK
 #ifdef HAVE_JDK
-#import <defobj/directory.h> // SD_JAVA_FINDJAVA, SD_JAVA_ENSUREOBJCMETHOD, JNI
-#import <defobj/javavars.h>
+#import "../defobj/java.h" // SD_JAVA_ENSUREOBJCMETHOD, SD_JAVA_FINDJAVA
+#import "../defobj/javavars.h" // m_*, c_*
 #endif
 
 @implementation ProbeMap
@@ -284,7 +284,7 @@ PHASE(Creating)
                                                name,
                                                JNI_FALSE);
               (*jniEnv)->DeleteLocalRef (jniEnv, name);
-              sel = SD_JAVA_ENSUREOBJCMETHOD (jniEnv, selector);
+              sel = SD_JAVA_ENSUREOBJCMETHOD (selector);
               (*jniEnv)->DeleteLocalRef (jniEnv, selector);
               
               aProbe = [MessageProbe createBegin: getZone (self)];
@@ -343,7 +343,7 @@ PHASE(Creating)
 #ifdef HAVE_JDK
   if (isJavaProxy)
     { 
-      classObject = SD_JAVA_FINDJAVA (jniEnv, probedClass);
+      classObject = SD_JAVA_FINDJAVA (probedClass);
       if (!classObject)
 	raiseEvent (SourceMessage,
 		    "Java class to be probed can not be found!\n");      

@@ -15,7 +15,7 @@
 
 
 #if defined(HAVE_JDK) && defined(BUILDING_SWARM)
-#import <defobj/directory.h> // jclass
+#import "../defobj/java.h"
 #endif
 
 @interface ProbeMap: SwarmObject <ProbeMap>

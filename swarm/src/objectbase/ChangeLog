@@ -1,3 +1,32 @@
+2000-05-03  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* VarProbe.m: Include java.h instead of directory.h.
+	([VarProbe -createEnd]): Drop jniEnv argument to SD_JAVA_FINDJAVA
+	and to fcall_type_for_java_class.
+	([VarProbe -probeAsInt:]): Drop jniEnv argument to
+	SD_JAVA_FINDJAVA.
+	([VarProbe -probeAsString:Buffer:withFullPrecision:]): Likewise.
+	([VarProbe -probeObject:]): Likewise.
+	(setFieldFromString): Likewise.
+	(java_probe_as_object): Drop jniEnv argument to
+	fcall_type_for_java_class and SD_JAVA_FINDOBJC.
+
+	* ProbeMap.m ([ProbeMap -addJavaMethods:]): Drop jniEnv
+	arguments to SD_JAVA_ENSUREOBJCMETHOD.
+	([ProbeMap -createEnd]): Drop jniEnv arguments to SD_JAVA_FINDJAVA.
+
+	* ProbeMap.[hm]: Include java.h instead of directory.h.
+
+	* MessageProbe.m: Include jva.h instead of directory.h and javavars.h
+	(dynamicCallOn): Use JAVA_COPY_STRING instead of
+	SD_JAVA_COPYSTRING.  Drop jniEnv arguments to SD_JAVA_FINDOBJC.
+
+	* CompleteProbeMap.m: Include java.h instead of directory.h.
+	([CompleteProbeMap -createEnd]): Drop jniEnv argument to
+	SD_JAVA_FINDJAVA.
+
+	* CompleteVarMap.m: Likewise.
+
 2000-05-01  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* ProbeMap.m ([ProbeMap -addJavaMethods:]): Use 
