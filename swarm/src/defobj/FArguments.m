@@ -75,7 +75,7 @@ PHASE(Creating)
       if (jsel)
         {
           const char *sig =
-            swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
+            java_ensure_selector_type_signature (jniEnv, jsel);
           
           [self setJavaSignature: sig];
           [scratchZone free: (void *) sig];

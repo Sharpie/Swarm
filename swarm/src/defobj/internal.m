@@ -287,7 +287,7 @@ map_objc_ivars (id obj,
   map_class_ivars (getClass (obj));
 }
 
-
+#ifdef HAVE_JDK
 static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "C", "S", "S",
   "I", "I", "J", "J", 
@@ -325,6 +325,96 @@ java_signature_for_fcall_type (fcall_type_t type)
   return java_type_signature[type];
 }
 
+static void
+fill_signature (char *buf, const char *className)
+{
+  char *bp = buf;
+  const char *cp = className;
+
+  *bp++ = 'L';
+  while (*cp)
+    {
+      *bp = (*cp == '.') ? '/' : *cp;
+      bp++;
+      cp++;
+    }
+  *bp++ = ';';
+  *bp = '\0';
+}
+
+static BOOL
+exactclassp (JNIEnv *env, jclass class, jclass matchClass)
+{
+  return (*env)->IsSameObject (env, class, matchClass);
+}
+
+static BOOL
+classp (JNIEnv *env, jclass class, jclass matchClass)
+{
+  jobject clazz;
+  
+  if ((*env)->IsSameObject (env, class, matchClass))
+    return YES;
+  else
+    {
+      jclass nextClass;
+      
+      for (clazz = (*env)->GetSuperclass (env, class);
+           clazz;
+           nextClass = (*env)->GetSuperclass (env, clazz), 
+             (*env)->DeleteLocalRef (env, clazz),
+             clazz = nextClass)
+        if ((*env)->IsSameObject (env, clazz, matchClass))
+          {
+            (*env)->DeleteLocalRef (env, clazz);
+            return YES;
+          }
+      return NO;
+    }
+}
+
+static const char *
+java_signature_for_class (JNIEnv *env, jclass class)
+{
+  const char *type;
+
+  if (classp (env, class, c_Selector))
+    type = "Lswarm/Selector;";
+  else if (classp (env, class, c_String))
+    type = "Ljava/lang/String;";
+  else if (classp (env, class, c_Class))
+    type = "Ljava/lang/Class;";
+  else if (exactclassp (env, class, c_int))
+    type = "I";
+  else if (exactclassp (env, class, c_short))
+    type = "S";
+  else if (exactclassp (env, class, c_long))
+    type = "J";
+  else if (exactclassp (env, class, c_boolean))
+    type = "Z";
+  else if (exactclassp (env, class, c_byte))
+    type = "B";
+  else if (exactclassp (env, class, c_char))
+    type = "C";
+  else if (exactclassp (env, class, c_float))
+    type = "F";
+  else if (exactclassp (env, class, c_double))
+    type = "D";
+  else if (exactclassp (env, class, c_void))
+    type = "V";
+  else if ((*jniEnv)->CallBooleanMethod (jniEnv, class, m_ClassIsArray))
+    type = java_get_class_name (env, class);
+  else
+    {
+      const char *name = java_get_class_name (env, class);
+      char *buf = [scratchZone alloc: 1 + strlen (name) + 1 + 1];
+
+      fill_signature (buf, name);
+      return buf;
+    }
+  return SSTRDUP (type);
+}
+
 static fcall_type_t
 java_getTypeInfo (jobject javaObj, unsigned *rankptr, unsigned *dims)
 {
@@ -342,7 +432,7 @@ java_getTypeInfo (jobject javaObj, unsigned *rankptr, unsigned *dims)
           if ((len = (*jniEnv)->GetArrayLength (jniEnv, obj)) > 0)
             {
               const char *sig =
-                swarm_directory_signature_for_class (jniEnv, class);
+                java_signature_for_class (jniEnv, class);
 
               if (dims)
                 dims[rank] = len;
@@ -363,7 +453,7 @@ java_getTypeInfo (jobject javaObj, unsigned *rankptr, unsigned *dims)
         }
       else
         elementType =
-          swarm_directory_fcall_type_for_java_class (jniEnv, class);
+          fcall_type_for_java_class (jniEnv, class);
           
       (*jniEnv)->DeleteLocalRef (jniEnv, class);
     }
@@ -383,7 +473,7 @@ java_expandArray (jobject fullary, void *inbuf)
     {
       jclass lref = (*jniEnv)->GetObjectClass (jniEnv, obj);
       const char *sig =
-        swarm_directory_signature_for_class (jniEnv, lref);
+        java_signature_for_class (jniEnv, lref);
       jsize len = (*jniEnv)->GetArrayLength (jniEnv, obj);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
       
@@ -478,6 +568,7 @@ java_expandArray (jobject fullary, void *inbuf)
   permute (fullary);
 }
 
+#ifdef HAVE_JDK
 #define _GETVALUE(uptype) \
     (*jniEnv)->Get##uptype##Field (jniEnv, \
                                    javaObject, \
@@ -521,9 +612,9 @@ map_java_ivars (jobject javaObject,
                                        field,
                                        m_FieldGetType);
         fcall_type_t type = 
-          swarm_directory_fcall_type_for_java_class (jniEnv, lref);
+          fcall_type_for_java_class (jniEnv, lref);
         const char *sig =
-          swarm_directory_signature_for_class (jniEnv, lref);
+          java_signature_for_class (jniEnv, lref);
         jboolean isArray = 
           (*jniEnv)->CallBooleanMethod (jniEnv, lref, m_ClassIsArray);
         jfieldID fid =
@@ -628,6 +719,7 @@ map_java_ivars (jobject javaObject,
   (*jniEnv)->DeleteLocalRef (jniEnv, fields);
   (*jniEnv)->DeleteLocalRef (jniEnv, class);
 }
+#endif
 
 void
 map_object_ivars (id object,
@@ -1177,9 +1269,9 @@ class_java_find_field (jclass javaClass, const char *fieldName,
       jobject lref = (*jniEnv)->CallObjectMethod (jniEnv,
                                                   field,
                                                   m_FieldGetType);
-      const char *sig = swarm_directory_signature_for_class (jniEnv, lref);
+      const char *sig = java_signature_for_class (jniEnv, lref);
       fcall_type_t type =
-        swarm_directory_fcall_type_for_java_class (jniEnv, lref);
+        fcall_type_for_java_class (jniEnv, lref);
       jfieldID fid;
       jboolean isArray =
         (*jniEnv)->CallBooleanMethod (jniEnv, lref, m_ClassIsArray);
@@ -1638,3 +1730,154 @@ object_setVariableFromExpr (id obj, const char *ivarName, id expr)
   else
     raiseEvent (InvalidArgument, "Unknown type `%s'", [expr name]);
 }
+
+const char *
+java_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
+{
+  unsigned argCount, typeSigLen = 0;
+
+  jobject typeSignature =
+    (*env)->GetObjectField (env, jsel, f_typeSignatureFid);
+
+  if (!typeSignature)
+    {
+      jobject argTypes = 
+        (*env)->GetObjectField (env, jsel, f_argTypesFid);
+
+      argCount = (*env)->GetArrayLength (env, argTypes);
+      {
+        const char *argSigs[argCount];
+        const char *retSig;
+        char *sig, *p;
+        unsigned ai;
+        
+        typeSigLen = 1;
+        for (ai = 0; ai < argCount; ai++)
+          {
+            jclass member =
+              (*env)->GetObjectArrayElement (env, argTypes, ai);
+            
+            argSigs[ai] = java_signature_for_class (env, member);
+            typeSigLen += strlen (argSigs[ai]);
+            (*env)->DeleteLocalRef (env, member);
+          }
+        typeSigLen++;
+
+        {
+          jobject retType =
+            (*env)->GetObjectField (env, jsel, f_retTypeFid);
+          
+          retSig = java_signature_for_class (env, retType);
+          (*env)->DeleteLocalRef (env, retType);
+        }
+        typeSigLen += strlen (retSig);
+        
+        sig = [scratchZone alloc: typeSigLen + 1];
+        
+        p = sig;
+        *p++ = '(';
+        for (ai = 0; ai < argCount; ai++)
+          p = stpcpy (p, argSigs[ai]);
+        *p++ = ')';
+        p = stpcpy (p, retSig);
+
+        for (ai = 0; ai < argCount; ai++)
+          [scratchZone free: (void *) argSigs[ai]];
+	[scratchZone free: (void *) retSig];
+
+        {
+          jobject str = (*env)->NewStringUTF (env, sig);
+          (*env)->SetObjectField (env,
+                                  jsel,
+                                  f_typeSignatureFid,
+                                  str);
+          (*env)->DeleteLocalRef (env, str);
+        }
+        (*env)->DeleteLocalRef (env, argTypes);
+        return sig;
+      }
+    }
+  else
+    {
+      jboolean copyFlag;
+      const char *sig;
+
+      const char *utf =
+        (*env)->GetStringUTFChars (env, typeSignature, &copyFlag);
+
+      sig = SSTRDUP (utf);
+      if (copyFlag)
+        (*env)->ReleaseStringUTFChars (env, typeSignature, utf);
+      (*env)->DeleteLocalRef (env, typeSignature);
+      return sig;
+    }
+}
+
+fcall_type_t
+fcall_type_for_java_class (JNIEnv *env, jclass class)
+{
+  fcall_type_t type;
+
+  if (classp (env, class, c_Selector))
+    type = fcall_type_selector;
+  else if (classp (env, class, c_String))
+    type = fcall_type_string;
+  else if (classp (env, class, c_Class))
+    type = fcall_type_class;
+  else if (exactclassp (env, class, c_int))
+    type = fcall_type_sint;
+  else if (exactclassp (env, class, c_short))
+    type = fcall_type_sshort;
+  else if (exactclassp (env, class, c_long))
+    type = fcall_type_slong;
+  else if (exactclassp (env, class, c_boolean))
+    type = fcall_type_boolean;
+  else if (exactclassp (env, class, c_byte))
+    type = fcall_type_uchar;
+  else if (exactclassp (env, class, c_char))
+    type = fcall_type_schar;
+  else if (exactclassp (env, class, c_float))
+    type = fcall_type_float;
+  else if (exactclassp (env, class, c_double))
+    type = fcall_type_double;
+  else if (exactclassp (env, class, c_void))
+    type = fcall_type_void;
+  else
+    type = fcall_type_object;
+  return type;
+}
+
+jclass
+java_find_class (JNIEnv *env, const char *javaClassName, BOOL failFlag)
+{
+  jobject ret;
+  jobject throwable;
+  
+  (*env)->ExceptionClear (env);
+  ret = (*env)->FindClass (env, javaClassName);
+  
+  if (failFlag)
+    {
+      if ((throwable = (*env)->ExceptionOccurred (env)) != NULL)
+        (*env)->ExceptionDescribe (env);
+    }
+  else
+    (*env)->ExceptionClear (env);
+  return ret;
+}
+
+const char *
+java_get_class_name (JNIEnv *env, jclass class)
+{
+  jobject string;
+  const char *ret;
+
+  if (!(string = (*env)->CallObjectMethod (env, class, m_ClassGetName)))
+    abort ();
+
+  ret = swarm_directory_copy_java_string (env, string);
+  (*env)->DeleteLocalRef (env, string);
+  return ret;
+}
+#endif
+

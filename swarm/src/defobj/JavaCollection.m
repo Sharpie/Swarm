@@ -97,7 +97,7 @@
   jobject jsel = SD_FINDJAVA (jniEnv, (id) sel);
   jobject coll = SD_FINDJAVA (jniEnv, self);
   const char *sig =
-    swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
+    java_ensure_selector_type_signature (jniEnv, jsel);
   jobject javaTarget;
   jsize i, size;
   jclass class;

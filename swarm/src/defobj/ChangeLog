@@ -1,5 +1,16 @@
 2000-01-23    <mgd@nest.swarm.org>
 
+	* directory.[hm], internal.[hm]: Move/rename
+	swarm_directory_signature_for_class to java_signature_for_class,
+	swarm_directory_ensure_selector_type_signature to
+	java_ensure_selector_type_signature, get_class to
+	java_get_class_name, swarm_directory_find_java_class to
+	java_find_class, swarm_directory_fcall_type_for_java_class to
+	fcall_type_for_java_class (with fill_signature, exactclassp,
+	classp static support functions).  Change callers in internal.m,
+	directory.m, DefObject.m, FArguments.m and JavaCollection.m
+	as appropriate.
+
 	* internal.[hm] (ivar_elementCount): New function.
 	(class_java_find_field): Add isArray reference return.
 	(object_ivar_type): Likewise.

@@ -6,6 +6,11 @@
 #import <collections.h> // OutputStream
 #include <misc.h> // size_t
 #include <objc/objc-api.h>
+#include <swarmconfig.h>
+
+#ifdef HAVE_JDK
+#import <defobj/directory.h>
+#endif
 
 #define FCALL_TYPE_COUNT 21
 
@@ -66,12 +71,14 @@ lisp_process_array (unsigned rank, unsigned *dims, fcall_type_t type,
 
 extern const char *lisp_type_for_objc_type (const char *varType, void (*func) (unsigned dim, unsigned count));
 
-extern fcall_type_t fcall_type_for_lisp_type (const char *lispTypeString);
-
 extern char *zstrdup (id aZone, const char *str);
 
 extern size_t fcall_type_size (fcall_type_t type);
+
+extern fcall_type_t fcall_type_for_lisp_type (const char *lispTypeString);
+
 extern fcall_type_t fcall_type_for_objc_type (char objcType);
+
 
 extern const char *objc_type_for_fcall_type (fcall_type_t type);
 extern const char *java_signature_for_fcall_type (fcall_type_t type);
@@ -92,3 +99,11 @@ extern unsigned ivar_elementCount (id obj,
                                    fcall_type_t itype,
                                    unsigned irank,
                                    unsigned *idims);
+
+#ifdef HAVE_JDK
+extern fcall_type_t fcall_type_for_java_class (JNIEnv *env, jclass class);
+extern const char *java_ensure_selector_type_signature (JNIEnv *env, jobject jsel);
+extern const char *java_get_class_name (JNIEnv *env, jclass class);
+
+#endif
+

@@ -627,8 +627,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   
   fa = [FArguments createBegin: getZone (self)];
   {
-    const char *sig =
-      swarm_directory_ensure_selector_type_signature (jniEnv, jsel);
+    const char *sig = java_ensure_selector_type_signature (jniEnv, jsel);
 
     [fa setJavaSignature: sig];
     [scratchZone free: (void *) sig];
