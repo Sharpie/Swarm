@@ -12,6 +12,8 @@ Library:      defobj
 #import "FArguments.h"
 #import <objc/objc-api.h>
 #import <defalloc.h>
+
+#include <swarmconfig.h>
 #ifndef USE_AVCALL
 #include <ffi.h>
 
@@ -46,8 +48,12 @@ unsigned java_type_signature_length[number_of_types] = { 1, 1, 1, 1, 1, 1,
   newArguments = [aZone allocIVars: self];
   newArguments->assignedArguments = 0;
   newArguments->hiddenArguments = 0;
+#ifndef USE_AVCALL
   newArguments->argTypes = [aZone allocBlock: (sizeof (ffi_type *) * 
 				       (MAX_ARGS + MAX_HIDDEN))];
+#else
+  abort ();
+#endif
   newArguments->argValues = [aZone allocBlock: (sizeof (void *) * 
 					(MAX_ARGS + MAX_HIDDEN))];
   newArguments->returnType = swarm_type_void;
@@ -66,11 +72,15 @@ arguments in the call!\n");
   if (type <= swarm_type_double && type != swarm_type_float)
     {
       argTypes[MAX_HIDDEN + assignedArguments] = (void *) type;
+#ifndef USE_AVCALL
       argValues[MAX_HIDDEN + assignedArguments] = 
 	[[self getZone] allocBlock: swarm_types[type]->size];
       memcpy (argValues[MAX_HIDDEN + assignedArguments], 
 	      value, swarm_types[(unsigned) argTypes[MAX_HIDDEN + 
 					       assignedArguments]]->size);
+#else
+      abort ();
+#endif
       assignedArguments++;
       javaSignatureLength++;
     }
@@ -93,9 +103,11 @@ arguments in the call!\n");
 
 
 
+#ifndef USE_AVCALL
 #define ADD_COMMON(type)  { ADD_COMMON_TEST; javaSignatureLength++; argValues[MAX_HIDDEN + assignedArguments] = [[self getZone] allocBlock: swarm_types[(type)]->size]; }
-
-
+#else
+#define ADD_COMMON(type) abort ()
+#endif
 
 - addChar: (char)value
 {
@@ -168,7 +180,11 @@ arguments in the call!\n");
 	  raiseEvent (SourceMessage,
                       "Java methods can not return pointers or structures - specify strings and arrays directly!\n");
     }
+#ifndef USE_AVCALL
   result = (void *) [[self getZone] allocBlock: swarm_types[type]->size];
+#else
+  abort ();
+#endif
   returnType = (void *) type;
   return self;
 }
@@ -181,9 +197,13 @@ switch_to_ffi_types (FArguments * self)
   for (i = MAX_HIDDEN; 
        i < MAX_HIDDEN + self->assignedArguments; 
        i++)
+#ifndef USE_AVCALL
       *(self->argTypes + i) = 
 	  ((void *) swarm_types [*(int *) (self->argTypes + i)]);
   self->returnType = (void *) (swarm_types [(unsigned) (self->returnType)]);
+#else
+  abort ();
+#endif
 }
 
 static const char *
