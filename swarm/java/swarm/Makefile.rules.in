@@ -11,6 +11,9 @@ JAVACOMPILE=$(JAVAC) -classpath '../..@PATHSEP@$(JAVACLASSES)'
 top_dossrcdir=@top_dossrcdir@
 JAVADEPS = $(top_dossrcdir)@PATHDELIM@java@PATHDELIM@jdeps.jar
 
+# (WebObjects sh.exe has been known to interfere with running its java.exe)
+SHELL = /bin/sh
+
 CLASSPHASES := __c U
 PHASES := $(CLASSPHASES) S
 

@@ -3,6 +3,8 @@
 	* Makefile.rules.in (top_dossrcdir): Substitute.
 	(JAVADEPS): New variable.
 	(.deps): Use JAVADEPS for accessing jdeps.jar.
+	(SHELL): Force /bin/sh (WebObjects sh.exe has
+	been known to interfere with running its java.exe).
 
 1999-05-03    <mgd@HELEN>
 
