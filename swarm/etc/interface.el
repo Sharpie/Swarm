@@ -291,12 +291,10 @@
       ))
 
 (defun module-path (module)
-  (concat
-   (let ((sym (module-sym module)))
-     (if (eq sym 'swarm)
-         "."
-       (symbol-name sym)))
-   "/"))
+  (let ((sym (module-sym module)))
+    (if (eq sym 'swarm)
+        ""
+      (concat (symbol-name sym) "/"))))
        
 (defun c-path (&optional subpath)
   (concat (get-builddir) "c/" subpath))
@@ -496,6 +494,11 @@
          (min-len (min len 7)))
     (string= (substring signature 0 min-len) "+create")))
 
+(defun method-list-for-phase (protocol phase)
+  (remove-if-not #'(lambda (method)
+                     (included-method-p protocol method phase))
+                 (protocol-method-list protocol)))
+
 (defun expanded-method-list (protocol phase)
   (remove-if-not #'(lambda (method) (included-method-p protocol method phase))
                  (mapcar #'methodinfo-method
@@ -526,8 +529,7 @@
 
 (defun create-type-hash-table (protocol phase)
   (let ((ht (make-hash-table :test #'equal)))
-    (loop for method in (protocol-method-list protocol)
-          when (included-method-p protocol method phase)
+    (loop for method in (method-list-for-phase protocol phase)
           do
           (augment-type-hash-table ht method))
     ht))
@@ -544,10 +546,12 @@
     (loop for method in (collect-convenience-create-methods protocol)
           do
           (loop for argument in (method-arguments method)
+                for pos from 0
                 for argument-name = (argument-name argument)
                 when argument-name
                 do
-                (setf (gethash argument-name ht) (argument-type argument))))
+                (setf (gethash argument-name ht)
+                      (cons pos (argument-type argument)))))
     ht))
 
 (defun print-argument (argument
@@ -567,6 +571,6 @@
          (name (strip-regexp (first first-argument) "^get"))
          (ret-type (method-return-type method)))
     (cond ((string= "id <Symbol>" ret-type) name)
-          ((string= "GuiFlag" name) "swarmGUIMode")
           (t (concat (downcase (substring name 0 1))
                      (substring name 1))))))
+

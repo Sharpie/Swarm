@@ -1,3 +1,12 @@
+2000-07-21  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* interface.el (get-variable-name-for-getter-method): Don't handle
+	guiFlag here (just in getters.el).
+	(method-list-for-phase): New method.
+	(create-type-hash-table): Use it.
+	(create-hash-table-for-initialization-parameters): Collect
+	information on position.
+
 2000-07-17  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* interface.el (print-makefile.common): Don't exclude swarm module.
