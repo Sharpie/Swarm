@@ -177,6 +177,23 @@ PHASE(Creating)
 }
 
 #ifdef HAVE_JDK
+
+static BOOL
+usablep (int modifier)
+{
+  return (((*jniEnv)->CallStaticBooleanMethod (jniEnv,
+					       c_Modifier,
+					       m_ModifierIsPublic,
+					       modifier)
+	   == JNI_TRUE)
+	  &&
+	  ((*jniEnv)->CallStaticBooleanMethod (jniEnv,
+					       c_Modifier,
+					       m_ModifierIsStatic,
+					       modifier))
+	  == JNI_FALSE);
+}
+
 - (void)addJavaFields: (jclass)javaClass
 {
   jarray fields;
@@ -184,7 +201,7 @@ PHASE(Creating)
 
   if (!(fields = (*jniEnv)->CallObjectMethod (jniEnv,
                                               javaClass,
-                                              m_ClassGetFields)))
+                                              m_ClassGetDeclaredFields)))
     abort();
 
   count = (*jniEnv)->GetArrayLength (jniEnv, fields);
@@ -192,34 +209,37 @@ PHASE(Creating)
 
   while (count > 0)
     {
-      jstring name;
-      const char *buf;
-      jboolean isCopy;
-      id aProbe;
+      jobject field;
       
       count--;
-      {
-        jobject field;
-        
-        field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, count);
-        name = (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
-        (*jniEnv)->DeleteLocalRef (jniEnv, field);
-      }
-      buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
-      
-      aProbe = [VarProbe createBegin: getZone (self)];
-      [aProbe setProbedClass: probedClass];
-      [aProbe setProbedVariable: buf];
-      
-      if (objectToNotify != nil) 
-        [aProbe setObjectToNotify: objectToNotify];
-      aProbe = [aProbe createEnd];
-      
-      [probes at: [String create: getZone (self) setC: buf] insert: aProbe];
-      
-      if (isCopy)
-        (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
-      (*jniEnv)->DeleteLocalRef (jniEnv, name);
+      field = (*jniEnv)->GetObjectArrayElement (jniEnv, fields, count);
+      if (usablep ((*jniEnv)->CallIntMethod (jniEnv,
+					     field,
+					     m_FieldGetModifiers)))
+	{
+	  jstring name =
+	    (*jniEnv)->CallObjectMethod (jniEnv, field, m_FieldGetName);
+	  const char *buf;
+	  jboolean isCopy;
+	  id aProbe;
+
+	  buf = (*jniEnv)->GetStringUTFChars (jniEnv, name, &isCopy);
+	  aProbe = [VarProbe createBegin: getZone (self)];
+	  [aProbe setProbedClass: probedClass];
+	  [aProbe setProbedVariable: buf];
+	  
+	  if (objectToNotify != nil) 
+	    [aProbe setObjectToNotify: objectToNotify];
+	  aProbe = [aProbe createEnd];
+	  
+	  [probes at: [String create: getZone (self) setC: buf]
+		  insert: aProbe];
+	  
+	  if (isCopy)
+	    (*jniEnv)->ReleaseStringUTFChars (jniEnv, name, buf);
+	  (*jniEnv)->DeleteLocalRef (jniEnv, name);
+	}
+      (*jniEnv)->DeleteLocalRef (jniEnv, field);
     }
   (*jniEnv)->DeleteLocalRef (jniEnv, fields);
 }
@@ -241,42 +261,22 @@ PHASE(Creating)
     {
       while (count > 0)
         {
-          jstring name;
-          id aProbe;
-          BOOL usable;
+	  jobject method;
           
           count--;
-          {
-            jobject method;
-            jint modifier;
             
-            method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, count);
-            
-            name = (*jniEnv)->CallObjectMethod (jniEnv,
-                                                method, 
-                                                m_MethodGetName);
-
-            modifier = (*jniEnv)->CallIntMethod (jniEnv,
-                                                 method,
-                                                 m_MethodGetModifiers);
-            usable = (((*jniEnv)->CallStaticBooleanMethod (jniEnv,
-                                                           c_Modifier,
-                                                           m_ModifierIsPublic,
-                                                           modifier)
-                       == JNI_TRUE)
-                      &&
-                      ((*jniEnv)->CallStaticBooleanMethod (jniEnv,
-                                                           c_Modifier,
-                                                           m_ModifierIsStatic,
-                                                           modifier))
-                      == JNI_FALSE);
-          }
-          
-          if (usable)
-            {
+	  method = (*jniEnv)->GetObjectArrayElement (jniEnv, methods, count);
+	  if (usablep ((*jniEnv)->CallIntMethod (jniEnv,
+						 method,
+						 m_MethodGetModifiers)))
+	    {
               SEL sel;
               jobject selector;
-              
+	      jstring name = (*jniEnv)->CallObjectMethod (jniEnv,
+							  method, 
+							  m_MethodGetName);
+	      id aProbe;
+
               selector = (*jniEnv)->NewObject (jniEnv,
                                                c_Selector, 
                                                m_SelectorConstructor, 
@@ -302,6 +302,7 @@ PHASE(Creating)
                                   setC: [aProbe getProbedMessage]]
                       insert: aProbe];
             }
+	  (*jniEnv)->DeleteLocalRef (jniEnv, method);
         }
     }
   (*jniEnv)->DeleteLocalRef (jniEnv, methods);
@@ -320,7 +321,7 @@ PHASE(Creating)
   
   int i;
   id aProbe;
-  
+ 
   if (SAFEPROBES)
     if (probedClass == 0)
       {

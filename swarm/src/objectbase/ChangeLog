@@ -1,3 +1,11 @@
+2000-06-17    <mgd@DRONE>
+
+	* ProbeMap.m (usablep): New function.
+	([ProbeMap -addJavaFields:]): Use m_ClassGetDeclaredFields with
+	usablep to get the public fields, but not the inherited -- still
+	need to add proper super class support.
+	([ProbeMap -addJavaMethods:]): Use usablep.
+
 2000-05-18  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* objectbase.h ([Swarm -activateIn:]): Hide in a #ifndef IDL.
