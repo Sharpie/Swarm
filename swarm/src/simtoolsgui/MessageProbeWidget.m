@@ -212,7 +212,7 @@ PHASE(Using)
   {
     val_t ret = [myProbe dynamicCallOn: myObject];
   
-    if (![myProbe getHideResult])
+    if (ret.type != _C_VOID && ![myProbe getHideResult])
       {
         [resultMessageProbeEntry setActiveFlag: YES];
         [resultMessageProbeEntry setValue: printVal (ret)];

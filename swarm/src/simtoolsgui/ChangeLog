@@ -1,3 +1,8 @@
+1999-06-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbeWidget.m ([MessageProbeWidget -dynamic]): Avoid handling
+	return type if there isn't one.
+
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* MessageProbeWidget.m (printVal): Cast to unsigned, not unsigned char.
