@@ -633,7 +633,7 @@ PHASE(Using)
   return [index setOffset: offset];
 }
 
-- (void) mapAllocations: (mapalloc_t) mapalloc
+- (void) mapAllocations: (mapalloc_t)mapalloc
 {
   mapObject(mapalloc, collection);
   mapObject(mapalloc, index);
