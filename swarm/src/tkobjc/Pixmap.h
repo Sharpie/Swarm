@@ -7,24 +7,28 @@
 #import <defobj/Create.h>
 #import <gui.h>
 
+extern id <Error> PixmapError;
+
 @interface Pixmap: CreateDrop <_Pixmap, Drawer>
 {
-  const char *filename;
   id <Raster> raster;
   @public
 #ifndef _WIN32
+  Display *display;
   X11Pixmap pixmap;				  // the map
   X11Pixmap mask;				  // clipping mask
+  XpmImage xpmimage;
 #else
   void *pixmap;
 #endif
   unsigned width, height;
 }
 
-- setFile: (const char *)filename;
-- createEnd;
++ create: aZone file: (const char *)pathname;
++ create: aZone widget: widget;
 - (unsigned)getWidth;
 - (unsigned)getHeight;
 - setRaster: raster;
 - drawX: (int)x Y: (int)y;
+- save: (const char *)filename;
 @end

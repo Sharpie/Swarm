@@ -9,31 +9,6 @@
 #include <png.h>
 #include <misc.h> // xmalloc
 
-@implementation Pixmap
-
-PHASE(Creating)
-
-- setFile: (const char *)s
-{
-  if (filename)
-    {
-      [InvalidCombination
-        raiseEvent:
-          "It is an error to reset the filename\n"];
-      return nil;
-    }
-  else
-    filename = s;
-  return self;
-}
-
-- setRaster: theRaster
-{
-  raster = theRaster;
-
-  return self;
-}
-
 static int
 compareRGB (id aobj, id bobj)
 {
@@ -63,15 +38,29 @@ compareRGB (id aobj, id bobj)
     return red_diff;
 }
 
-- createEnd
+@implementation Pixmap
+
+PHASE(Creating)
+
++ create: aZone widget: widget
+{
+  Pixmap *obj = [self createBegin: aZone];
+
+  if (widget == nil)
+    tkobjc_pixmap_create_from_root_window (obj);
+  else
+    tkobjc_pixmap_create_from_widget (obj, widget);
+
+  return obj;
+}
+
+- _loadPNG_: (const char *)filename
 {
   FILE *fp;
   char header[8];
   png_structp read_ptr;
   png_infop read_info_ptr;
   unsigned row_bytes;
-
-  [super createEnd];
 
   if ((fp = fopen (filename, "rb")) == NULL)
     [MissingFiles raiseEvent: "Cannot open %s", filename];
@@ -93,19 +82,19 @@ compareRGB (id aobj, id bobj)
                                           (png_error_ptr)NULL)) == NULL)
     {
       fclose (fp);
-      [InternalError raiseEvent: "Could not create PNG read_struct"];
+      [PixmapError raiseEvent: "Could not create PNG read_struct"];
     }
   if ((read_info_ptr = png_create_info_struct (read_ptr)) == NULL)
     {
       fclose (fp);
       png_destroy_read_struct (&read_ptr, NULL, NULL);
-      [InternalError raiseEvent: "Could not create PNG info struct"];
+      [PixmapError raiseEvent: "Could not create PNG info struct"];
     }
   if (setjmp (read_ptr->jmpbuf))
     {
       png_destroy_read_struct (&read_ptr, &read_info_ptr, (png_infopp)NULL);
       fclose (fp);
-      [InternalError raiseEvent: "Problem reading PNG file `%s'", filename];
+      [PixmapError raiseEvent: "Problem reading PNG file `%s'", filename];
     }
 
   png_init_io (read_ptr, fp);
@@ -140,7 +129,7 @@ compareRGB (id aobj, id bobj)
         row_bytes = png_get_rowbytes (read_ptr, read_info_ptr);
         if (!png_get_PLTE (read_ptr, read_info_ptr, &palette, &num_palette))
           [PaletteError raiseEvent: "Cannot get palette from PNG file: %s\n",
-                        filename];
+                       filename];
       }
     else
       [PaletteError raiseEvent: "Wrong color type: %d\n", color_type];
@@ -227,11 +216,26 @@ compareRGB (id aobj, id bobj)
                             palette, num_palette, raster);
     }
   }
-  return self;
+}
+
++ create: aZone file: (const char *)filename
+{
+  Pixmap *obj = [self createBegin: aZone];
+  
+  [obj _loadPNG_: filename];
+
+  return obj;
 }             
 
 PHASE(Using)               
-                                         
+
+- setRaster: theRaster
+{
+  raster = theRaster;
+
+  return self;
+}
+
 - (unsigned)getWidth
 {
   return width;
@@ -247,6 +251,19 @@ PHASE(Using)
   tkobjc_pixmap_draw (self, x, y, raster);
   
   return self;
+}
+
+- save: (const char *)path
+{
+  tkobjc_pixmap_save (self, path);
+
+  return self;
+}
+
+- (void)drop
+{
+  tkobjc_pixmap_drop (self);
+  [super drop];
 }
 
 @end

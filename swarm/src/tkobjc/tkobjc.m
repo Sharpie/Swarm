@@ -17,7 +17,7 @@ id <TkExtra> globalTkInterp;
 #import "comm_tcl.x"
 #import "tkbusy_tcl.x"
 
-id <Error> WindowCreation, WindowUsage, MissingFiles, PaletteError;
+id <Error> WindowCreation, WindowUsage, MissingFiles, PaletteError, PixmapError;
 
 void
 initTkObjc (id arguments)
@@ -30,6 +30,7 @@ initTkObjc (id arguments)
       deferror (WindowUsage, NULL);
       deferror (MissingFiles, NULL);
       deferror (PaletteError, NULL);
+      deferror (PixmapError, NULL);
       
       tkobjc_initTkInterp (arguments);
       

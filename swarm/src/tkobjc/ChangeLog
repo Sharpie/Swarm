@@ -1,3 +1,27 @@
+1998-08-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* tkobjc.m: Add PixmapError error variable.
+
+	* internal.m (xpmerrcheck, tkobjc_pixmap_create_from_window): 
+	New functions.
+	(tkobjc_pixmap_create): image is now an instance variable of
+	Pixmap, deference through pixmap. 
+
+	* internal.[hm] (tkobjc_pixmap_create_from_root_window,
+	tkobjc_pixmap_save, tkobjc_pixmap_drop): New functions.
+
+	* Pixmap.m ([Pixmap -setFile:]): Remove.  
+	([Pixmap -setRaster:]): Move to using phase.
+	([Pixmap -createEnd]): Remove. 
+	([Pixmap +create:file:]): New method, call _loadPNG_.
+	([Pixmap +create:widget:]): New method.
+	([Pixmap -save:], [Pixmap -_loadPNG_:], [Pixmap -drop]): New methods.
+
+	* Pixmap.h: Declare PixmapError.
+	(Pixmap): Remove filename.  Add display and xpmimage.
+	Remove createEnd and setFile:.  Add +create:file: and +create:widget:
+	and save:.
+
 1998-08-05  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* comm.tcl: Trap errors from lookup of application port, and

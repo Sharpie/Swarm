@@ -29,7 +29,10 @@
 
 #import <tkobjc/TkExtra.h>
 #import <objectbase/Arguments.h>
+#import <tkobjc/Pixmap.h> // PixmapError
+
 #include <misc.h>
+
 
 typedef struct raster_private {
   GC gc;
@@ -495,6 +498,98 @@ offset_for_object (dib_t *raster_dib, void *object)
 }
 #endif
 
+#ifndef _WIN32
+static void
+xpmerrcheck (int xpmerr, const char *what)
+{
+  const char *error = NULL;
+  const char *warning = NULL;
+  
+  switch (xpmerr)
+    {
+    case XpmSuccess:
+      break;
+    case XpmColorError:
+      warning = "Could not parse or alloc requested color";
+      break;
+    case XpmOpenFailed:
+      error = "Cannot open file";
+      break;
+    case XpmFileInvalid:
+      error = "Invalid XPM file";
+      break;
+    case XpmNoMemory:
+      error = "Not enough memory";
+      break;
+    case XpmColorFailed:
+      error = "Failed to parse or alloc some color";
+      break;
+    }
+  if (warning)
+    [Warning raiseEvent: "Creating pixmap: %s (%s)\n", warning, what];
+  if (error)
+    [PixmapError raiseEvent: "Creating pixmap: %s (%s)\n", error, what];
+}
+#endif
+
+static void
+tkobjc_pixmap_create_from_window (Pixmap *pixmap, Window window)
+{
+#ifndef _WIN32
+  int x, y;
+  unsigned w, h, bw, depth;
+  XImage *ximage;
+  Window root;
+  
+  if (!XGetGeometry (pixmap->display, window, &root,
+                     &x, &y, &w, &h,
+                     &bw, &depth))
+    [PixmapError raiseEvent: "Cannot get geometry for root window"];
+  ximage = XGetImage (pixmap->display, window, x, y, w, h, AllPlanes, ZPixmap);
+  if (ximage == NULL)
+    [PixmapError raiseEvent: "Cannot get XImage of window"];
+  
+  xpmerrcheck (XpmCreateXpmImageFromImage (pixmap->display, ximage, NULL,
+                                           &pixmap->xpmimage, 
+                                           NULL),
+               "tkobjc_pixmap_create_from_window / XpmImage");
+  
+  xpmerrcheck (XpmCreatePixmapFromXpmImage (pixmap->display,
+                                            window,
+                                            &pixmap->xpmimage,
+                                            &pixmap->pixmap,
+                                            &pixmap->mask,
+                                            NULL),
+               "tkobjc_pixmap_create_from_window / Pixmap");
+  XDestroyImage (ximage);
+#endif
+}
+
+void
+tkobjc_pixmap_create_from_widget (Pixmap *pixmap, id widget)
+{
+#ifndef _WIN32
+  Tk_Window tkwin = tkobjc_nameToWindow ([widget getWidgetName]);
+  Window window = Tk_WindowId (tkwin);
+
+  pixmap->display = Tk_Display (tkwin);
+  tkobjc_pixmap_create_from_window (pixmap, window);
+#endif  
+}
+
+void
+tkobjc_pixmap_create_from_root_window (Pixmap *pixmap)
+{
+#ifndef _WIN32
+  Tk_Window tkwin = tkobjc_nameToWindow (".");
+  Window root;
+  
+  pixmap->display = Tk_Display (tkwin);
+  root = RootWindow (pixmap->display, DefaultScreen (pixmap->display));
+  tkobjc_pixmap_create_from_window (pixmap, root);
+#endif
+}
+
 void
 tkobjc_pixmap_create (Pixmap *pixmap,
                       png_bytep *row_pointers,
@@ -506,11 +601,10 @@ tkobjc_pixmap_create (Pixmap *pixmap,
 
 #ifndef _WIN32
   XpmColor *colors = xmalloc (sizeof (XpmColor) * palette_size);
-  XpmImage image;
   
-  image.width = pixmap->width;
-  image.height = pixmap->height;
-  image.cpp = 7;
+  pixmap->xpmimage.width = pixmap->width;
+  pixmap->xpmimage.height = pixmap->height;
+  pixmap->xpmimage.cpp = 7;
   {
     int i;
     
@@ -528,21 +622,23 @@ tkobjc_pixmap_create (Pixmap *pixmap,
         color->g_color = NULL;
         color->c_color = str;
       }
-    image.ncolors = palette_size;
-    image.colorTable = colors;
+    pixmap->xpmimage.ncolors = palette_size;
+    pixmap->xpmimage.colorTable = colors;
   }
   {
-    unsigned *data = xmalloc (sizeof (int) * image.width * image.height);
+    unsigned *data = xmalloc (sizeof (int)
+                              * pixmap->xpmimage.width
+                              * pixmap->xpmimage.height);
     unsigned *out_pos = data;
     unsigned ri;
     
     
-    for (ri = 0; ri < image.height; ri++)
+    for (ri = 0; ri < pixmap->xpmimage.height; ri++)
       {
         unsigned ci;
         png_bytep in_row = row_pointers[ri];
         
-        for (ci = 0; ci < image.width; ci++)
+        for (ci = 0; ci < pixmap->xpmimage.width; ci++)
           {
             int bit_pos = bit_depth * ci;
             int byte_offset = bit_pos >> 3;
@@ -552,7 +648,7 @@ tkobjc_pixmap_create (Pixmap *pixmap,
             *out_pos++ = (in_row[byte_offset] >> bit_shift) & bit_mask;
           }
       }
-    image.data = data;
+    pixmap->xpmimage.data = data;
   }
   {
     XpmAttributes xpmattrs;
@@ -562,42 +658,13 @@ tkobjc_pixmap_create (Pixmap *pixmap,
     
     xpmattrs.valuemask = 0;
     
-    rc = XpmCreatePixmapFromXpmImage (display,
-                                      XDefaultRootWindow (display),
-                                      &image,
-                                      &pixmap->pixmap,
-                                      &pixmap->mask,
-                                      &xpmattrs);
-    if (rc != 0)
-      {
-        const char *error = NULL;
-        const char *warning = NULL;
-        
-        switch (rc)
-          {
-          case XpmSuccess:
-            break;
-          case XpmColorError:
-            warning = "Could not parse or alloc requested color";
-            break;
-          case XpmOpenFailed:
-            error = "Cannot open file";
-            break;
-          case XpmFileInvalid:
-            error = "Invalid XPM file";
-            break;
-          case XpmNoMemory:
-            error = "Not enough memory";
-            break;
-          case XpmColorFailed:
-            error = "Failed to parse or alloc some color";
-            break;
-          }
-        if (warning)
-          [Warning raiseEvent: "Creating pixmap: %s\n", warning];
-        if (error)
-          [PaletteError raiseEvent: "Creating pixmap: %s\n", error];
-      }
+    xpmerrcheck (XpmCreatePixmapFromXpmImage (display,
+                                              XDefaultRootWindow (display),
+                                              &pixmap->xpmimage,
+                                              &pixmap->pixmap,
+                                              &pixmap->mask,
+                                              &xpmattrs),
+                 "tkobjc_pixmap_create");
   }
 #else
   {
@@ -680,3 +747,22 @@ tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster)
 #endif
 }
 
+void
+tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
+{
+#ifndef _WIN32
+  XpmWriteFileFromXpmImage ((char *)filename, &pixmap->xpmimage, NULL);
+#endif
+}
+
+
+void
+tkobjc_pixmap_drop (Pixmap *pixmap)
+{
+#ifndef _WIN32
+  XFreePixmap (pixmap->display, pixmap->pixmap);
+  if (pixmap->mask)
+    XFreePixmap (pixmap->display, pixmap->mask);
+  XpmFreeXpmImage (&pixmap->xpmimage);
+#endif
+}
