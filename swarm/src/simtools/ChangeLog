@@ -1,3 +1,9 @@
+1998-04-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Archiver.m (defaultFileName): Use catC: instead of appendC:
+
+	* UName.m ([UName -getNewNameObject]), ([UName -getNewName]): Likewise.
+
 1998-04-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* QSort.m: Include misc.h.

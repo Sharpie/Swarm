@@ -86,7 +86,7 @@
   
   counter++;
   
-  [aCopy appendC: suffix];
+  [aCopy catC: suffix];
 
   result = strdup ([aCopy getC]);
 
@@ -106,7 +106,7 @@
 
   counter++;
   
-  [aCopy appendC: suffix];
+  [aCopy catC: suffix];
 
   return aCopy;
 }
