@@ -22,8 +22,10 @@
 	[List_any -lispOut:]): New methods.  InitialValueSet not yet
 	handled because a copy of that list is not saved from create-time.
 
-	* Map.m ([Map_c -lispin:], [Map_c -lispout:]): Likewise 
-	(All are unimplemented.)
+	* Map.m ([Map_c -lispIn:], [Map_c -lispOut:], [Map_c
+	-lispInCreate): New methods.  Support compareIntegers
+	and compareIDs.  lispIn: pending for InputStream support of
+	pair syntax (and conversion to expr Map).
 
 	* List.h (List_any): Conform to Serialization protocol.
 	Declare -lispIn: and -lispOut:.

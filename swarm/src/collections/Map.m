@@ -12,6 +12,9 @@ Library:      collections
 #import <collections/Map.h>
 #import <defobj/defalloc.h>
 
+#include <objc/objc-api.h> // object_get_class
+#include <collections/predicates.h> // keywordp
+
 //
 // compareIDs --
 //   function to compare two id values based on the unsigned magnitudes of
@@ -74,6 +77,38 @@ PHASE(Creating)
   setNextPhase (self);
   return self;
 }
+
+- lispInCreate: expr
+{
+  id index, member;
+
+  index = [(id) expr begin: scratchZone];
+  while ((member = [index next]))
+    {
+      if (keywordp (member))
+        {
+          const char *name = [member getKeywordName];
+
+          if (strcmp (name, "compare-function") == 0)
+            {
+              const char *funcName = [lispInKeyword (index) getKeywordName];
+
+              if (strcmp (funcName, "compare-integers") == 0)
+                [self setCompareFunction: compareIntegers];
+              else if (strcmp (funcName, "compare-IDs") == 0)
+                [self setCompareFunction: compareIDs];
+              else
+                raiseEvent (InvalidArgument, "Unknown compare function: %s",
+                            funcName);
+            }
+          else if (![self _lispInAttr_: index])
+            raiseEvent (InvalidArgument, "unknown keyword `%s'", name);
+        }
+    }
+  [index drop];
+  return self;
+}
+
 
 PHASE(Using)
 
@@ -297,18 +332,59 @@ PHASE(Using)
   mapObject (mapalloc, list);
 }
 
-- lispInCreate: expr
-{
-  return self;
-}
-
 - lispIn: expr
 {
+#if 0
+  id index, member, key;
+
+  index = [(id) expr begin: scratchZone];
+  while ((member = [index next: &key]))
+    if (keywordp (member))
+      [index next];
+    else
+      [(id) self at: (id)key insert: lispIn ([self getZone], member)];
+  [index drop];
+#endif
   return self;
 }
 
-- lispOut: stream
+- lispOut: outputCharStream
 {
+  id index, member, key;
+
+  [outputCharStream catC: "(" MAKE_OBJC_FUNCTION_NAME " 'Map"];
+
+  index = [(id) self begin: scratchZone];
+  while ((member = [index next: &key]))
+    {
+      [outputCharStream catC: "("];
+      if (compareFunc == compareIDs)
+        [key lispOut: outputCharStream];
+      else
+        {
+          char buf[12];
+
+          sprintf (buf, "%d", (int)key);
+          [outputCharStream catC: buf];
+        }
+      [outputCharStream catC: " . "];
+      [member lispOut: outputCharStream];
+      [outputCharStream catC: ")"];
+    }
+  [index drop];
+  
+  [self _lispOutAttr_: outputCharStream];
+  
+  [outputCharStream catC: " #:compare-function "];
+
+  if (compareFunc == compareIntegers)
+    [outputCharStream catC: "#:compare-integers"];
+  else if (compareFunc == compareIDs)
+    [outputCharStream catC: "#:compare-IDs"];
+  else
+    raiseEvent (InvalidArgument, "Unknown compare function");
+
+  [outputCharStream catC: ")"];
   return self;
 }
 

@@ -22,8 +22,8 @@ typedef struct mapentry {
 @interface Map_c: Collection_any <Serialization>
 {
 @public
-  id  list;                   // list of key-member entries in key sequence
-  int (*compareFunc) (id,id);  // function to compare keys, if any
+  id  list;                     // list of key-member entries in key sequence
+  int (*compareFunc) (id, id);  // function to compare keys, if any
 }
 /*** methods in Map_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
@@ -48,7 +48,7 @@ typedef struct mapentry {
 @interface MapIndex_c: Index_any // <MapIndex>
 {
 @public
-  id     listIndex;     // index into list of entries
+  id listIndex;     // index into list of entries
 }
 /*** methods in MapIndex_c (inserted from .m file by m2h) ***/
 - next;
