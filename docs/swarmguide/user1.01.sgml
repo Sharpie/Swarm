@@ -143,14 +143,18 @@
       many elementary guides to computing with C, such as XXX or
       XXX. A manual with examples and exercises is vital.  These will
       teach the basics about writing code and compiling it into
-      programs.  The book <citetitle pubwork="book">The C Programming
-      Language</citetitle>, by the authors of C, <author>
+      programs.  
+
+      The book <citetitle pubwork="book">The C Programming
+      Language</citetitle>, <citation>Kernighan & Ritchie, 1988</citation> 
+      by the authors of C, <author>
       <firstname>Brian</firstname> <surname>Kernighan</surname>
       </author> and <author> <firstname>Dennis</firstname> <surname>
       Ritchie</surname> </author>, is a truly readable and informative
-      manual that all users ought to investigate. The Objective-C
+      manual that all users ought to investigate.  The Objective-C
       language is best learned from the online book
-u      XXX.</para></sect2>
+      <citetitle>Object Oriented Programming and the Objective C
+        Language</citetitle> <citation>NeXT, 1993</citation>.</para></sect2>
 
 <sect2>
 
