@@ -24,13 +24,13 @@ setDefaultOrder (unsigned *bits, id aSymbol)
     setBit (*bits, BitConcurrent, 1); 
   else if (aSymbol == (id) Sequential)
     {
-      setBit(*bits, BitConcurrent, 0);
-      setBit(*bits, BitRandomized, 0);
+      setBit (*bits, BitConcurrent, 0);
+      setBit (*bits, BitRandomized, 0);
     }
   else if (aSymbol == (id) Randomized)
-    setBit(*bits, BitRandomized, 1);
+    setBit (*bits, BitRandomized, 1);
   else
-    raiseEvent(InvalidArgument, nil);
+    raiseEvent (InvalidArgument, nil);
 }
 
 @implementation ActionType_c
