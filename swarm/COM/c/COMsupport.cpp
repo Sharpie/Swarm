@@ -1285,16 +1285,17 @@ COM_add_object_COM (swarmITyping *cObject, id oObject)
     abort ();
   
   nsCOMPtr <nsIXPCNativeCallContext> callContext;
-  xpc->GetCurrentNativeCallContext (getter_AddRefs (callContext));
-  if (!callContext)
+  if (!NS_SUCCEEDED (xpc->GetCurrentNativeCallContext (getter_AddRefs (callContext))))
     abort ();
-
-  nsCOMPtr <swarmIBase> base (do_QueryInterface (cObject));
-  if (!base)
-    abort ();
-  nsCOMPtr <nsIXPConnectWrappedNative> wrapper;
-  callContext->GetCalleeWrapper (getter_AddRefs (wrapper));
-  if (!NS_SUCCEEDED (base->SetWrapper (wrapper)))
-    abort ();
+  if (callContext)
+    {
+      nsCOMPtr <swarmIBase> base (do_QueryInterface (cObject));
+      if (!base)
+        abort ();
+      nsCOMPtr <nsIXPConnectWrappedNative> wrapper;
+      callContext->GetCalleeWrapper (getter_AddRefs (wrapper));
+      if (!NS_SUCCEEDED (base->SetWrapper (wrapper)))
+        abort ();
+    }
   return NS_STATIC_CAST (swarmITyping *, swarm_directory_COM_add_object_COM (cObject, oObject));
 }
