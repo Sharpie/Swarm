@@ -1,5 +1,37 @@
 1998-06-09  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* swarmbook.dsl (%generate-reference-toc%): True in HTML, false in
+	printed backend.
+	(toc-depth): Book has depth of 1 in HTML, 2 in DVI.  Don't define
+	$generate-lot-list$, set-titlepage-verso-elements, copyright
+	element, abstract element, book-titlepage-verso-elements,
+	generate-reference-titlepage, reference-titlepage-recto-elements,
+	reference-titlepage-verso-elements, section-autolabel,
+	generate-book-lot-list, shade-ver
+	(revhistory): Define to make display group in print backend.
+	Create a new page and link to it in HTML backend.
+	(%html-ext%): Define as .html.
+	(chunk-element-list, book-element-list): Add revhistory in
+	order to get html-file to work.
+	(pubdate): Prefix with "Publication date " in HTML backend.
+	Remove Emacs local variable for DSSSL mode.
+
+	* common.dsl (%generate-set-toc%, %funcsynopsis-decoration%,
+	%section-autolabel%): Move from swarmbook.dsl.
+	((example title)): Override definition in
+	formal-object-title-mode to create a simplified label.
+	(common-titlepage-recto-elements, common-titlepage-verso-elements):
+	New functions.
+	({article,book,reference,set}-titlepage-{recto,verso}-elements):
+	Set to common-titlepage-{recto,verso}-elements.
+	({article,book,reference,set}-titlepage-recto-mode): Set revhistory
+	to be empty.
+	({article,book,reference,set}-titlepage-recto-mode): Set revhistory
+	to expand to revhistory function.
+	(revhistory): Expand to be empty.
+
+	* catalog.in: Add local variable to set SGML mode.
+
 	* swarmbook.dsl (bookinfo): Only define revhistory element in
 	bookinfo context.
 	(chunk-element-list, book-element-list): New functions: add

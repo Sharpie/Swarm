@@ -5,6 +5,18 @@
 
 (define %gentext-usen-by% "")
 
+(define %generate-set-toc% 
+  ;; Should a Table of Contents be produced for Sets?
+  #t)
+
+(define %funcsynopsis-decoration%
+  ;; Decorate elements of a FuncSynopsis?
+  #t)
+
+(define %section-autolabel% 
+  ;; Are sections enumerated?
+  #t)
+
 (element indexentry 
          (make display-group 
                keep: 'page
@@ -398,6 +410,17 @@
                    text-sosofo))))
           ($lot-entry$ example-node))))
 
+(mode formal-object-title-mode
+      (element (example title)
+               (let ((example-node (parent (current-node))))
+                 (make paragraph
+                       font-weight: 'bold
+                       keep-with-next?: #t
+                       (sosofo-append
+                        (literal "Example")
+                        (literal " ")
+                        (literal (example-label example-node)))))))
+
 (define (second l)
   (car (cdr l)))
 
@@ -446,9 +469,6 @@
           (process-children)
           (literal " ")))
 
-(define (reference-titlepage-verso-elements)
-  (list (normalize "revhistory")))
-
 (define ($revision$)
              (let ((revnumber (select-elements (descendants (current-node)) (normalize "revnumber")))
                    (revdate   (select-elements (descendants (current-node)) (normalize "date")))
@@ -470,26 +490,6 @@
                     (process-node-list revremark)
                     (make-linebreak)))))
 
-(define ($revhistory$)
-    (make sequence
-          ($lowtitlewithsosofo$ 2 (literal "Revision History"))
-          (process-children)))
-
-(mode reference-titlepage-verso-mode
-      (element (revhistory revision) ($revision$))
-      (element revhistory ($revhistory$))
-      (element (revision revnumber) 
-               ($bold-seq$ (process-children))) 
-      (element (revision date) 
-               ($bold-seq$ (process-children)))
-      (element (revision authorinitials)  
-               ($italic-seq$ (process-children)))
-      (element (revision revremark)
-               (make sequence
-                     font-posture: 'upright
-                     (process-children)))
-      ) 
-
 (element (revhistory revision) ($revision$))
 (element (revision revnumber) 
          ($bold-seq$ (process-children))) 
@@ -501,6 +501,42 @@
          (make sequence
                font-posture: 'upright
                (process-children)))
+
+(define (common-titlepage-recto-elements)
+    (list (normalize "title") 
+          (normalize "subtitle")
+          (normalize "graphic")
+          (normalize "corpauthor")))
+          
+(define (common-titlepage-verso-elements)
+ (list (normalize "copyright")
+       (normalize "legalnotice")
+       (normalize "pubdate")         
+       (normalize "releaseinfo")
+       (normalize "biblioset")
+       (normalize "abstract")
+       (normalize "revhistory")))
+
+(define article-titlepage-recto-elements common-titlepage-recto-elements)
+(define article-titlepage-verso-elements common-titlepage-verso-elements)
+(define book-titlepage-recto-elements common-titlepage-recto-elements)
+(define book-titlepage-verso-elements common-titlepage-verso-elements)
+(define reference-titlepage-recto-elements common-titlepage-recto-elements)
+(define reference-titlepage-verso-elements common-titlepage-verso-elements)
+(define set-titlepage-recto-elements common-titlepage-recto-elements)
+(define set-titlepage-verso-elements common-titlepage-verso-elements)
+
+(mode article-titlepage-recto-mode (element revhistory (empty-sosofo)))
+(mode reference-titlepage-recto-mode (element revhistory (empty-sosofo)))
+(mode set-titlepage-recto-mode (element revhistory (empty-sosofo)))
+(mode book-titlepage-recto-mode (element revhistory (empty-sosofo)))
+
+(mode article-titlepage-verso-mode (element revhistory (revhistory)))
+(mode book-titlepage-verso-mode (element revhistory (revhistory)))
+(mode reference-titlepage-verso-mode (element revhistory (revhistory)))
+(mode set-titlepage-verso-mode (element revhistory (revhistory)))
+
+(element revhistory (empty-sosofo))
 
 </style-specification-body>
 </style-specification>

@@ -19,9 +19,18 @@
 <style-specification id="print" use="common docbook">
 <style-specification-body>
 
-;;
-;; CUSTOMIZE THE PRINT STYLESHEET
-;;
+(define %generate-reference-toc% 
+  ;; Should a Table of Contents be produced for References?
+  #f)
+
+(define (toc-depth nd)
+  ;; make table of contents:
+  ;; 1-level deep for each book
+  ;; 2-levels deep for sets
+  ;; and 3-deep for all remaining
+  (cond ((string=? (gi nd) (normalize "book")) 2)
+        ((string=? (gi nd) (normalize "set")) 2)
+        (else 3)))
 
 (define (make-divider)
     (make rule 
@@ -31,143 +40,6 @@
 (define (make-linebreak)
     (make paragraph-break
           space-before: 6pt))
-
-(define $generate-lot-list$
-  ;; Should a List of Titles be produced? 
- ;; Which Lists of Titles should be produced for Books?
-  (list (normalize "table")
-        (normalize "figure")
-        (normalize "example")
-        (normalize "equation")))
-
-(define (toc-depth nd)
-  ;; make table of contents:
-  ;; 1-level deep for each book
-  ;; 2-levels deep for sets
-  ;; and 3-deep for all remaining
-  (cond ((string=? (gi nd) (normalize "book")) 1)
-         ((string=? (gi nd) (normalize "set")) 2)
-         (else 3))
-  )
-
-;; SET customization
-
-(define %generate-set-toc% 
-  ;; Should a Table of Contents be produced for Sets?
-  #t)
-
-(define (set-titlepage-verso-elements) 
- ;; by default style sheet doesn't include some "verso" elements on the 
- ;; title page.
-  (list (normalize "title") 
-	(normalize "subtitle") 
-	(normalize "corpauthor") 
-;	(normalize "authorgroup") 
-;	(normalize "author") 
-;	(normalize "editor")
-;	(normalize "edition") 
-	(normalize "pubdate") 
-        (normalize "copyright")
-	(normalize "legalnotice")         
-        (normalize "abstract")
-	(normalize "revhistory")
-        ))
-
-(mode set-titlepage-verso-mode
-
- (element copyright
-  (make paragraph
-    use: para-style
-    (make sequence
-      (literal (gentext-element-name (current-node)))
-      (literal " ")
-      (literal (dingbat "copyright"))
-      (literal " ")
-      (process-children-trim))))
-
-  (element abstract 
-    (make display-group
-      (process-children)))
-  )
-
-;; BOOK customization
-
-(define (book-titlepage-verso-elements)
-  ;; by default style sheet doesn't include the "verso" elements on the 
-  ;; title page.
- (list (normalize "title")
-       (normalize "corpauthor")
-       (normalize "pubdate")         
-       (normalize "copyright")
-       (normalize "legalnotice")
-       (normalize "abstract")        
-       (normalize "revhistory")        
-       ))
-
-(mode book-titlepage-verso-mode
-
- (element copyright
-  (make paragraph
-    use: para-style
-    (make sequence
-      (literal (gentext-element-name (current-node)))
-      (literal " ")
-      (literal (dingbat "copyright"))
-      (literal " ")
-      (process-children-trim))))
- )
-
-;; REFERENCE customization
-
-(define %generate-reference-titlepage% 
-  ;; Should a reference title page be produced?
-  #t)
-
-(define (reference-titlepage-recto-elements)
-  (list (normalize "title") 
-        (normalize "subtitle")
-        ))
-
-(define (reference-titlepage-verso-elements)
-  (list (normalize "abstract")
-        (normalize "revhistory")))
-
-(mode reference-titlepage-recto-mode)
-
-(mode reference-titlepage-verso-mode
-
-  (element abstract
-    (make display-group
-      start-indent: (+ (inherited-start-indent) 0.25in)
-      end-indent: (+ (inherited-end-indent) 0.25in)
-      font-size: (* %bf-size% 0.9)
-      (process-children))))
-
-;; ARTICLE customization
-
-(define %generate-article-titlepage% 
-  ;; Should an article title page be produced?
-  #f)
-
-;; customizing auto-labelling of SECTs
-
-(define %section-autolabel% 
-  ;; Are sections enumerated?
-  #t)
-
-;; other customizations
-
-(element ulink 
-  ;; make URL appear in parentheses in printed version
-  (sosofo-append
-   (process-children)
-   (let* ((url-string (attribute-string (normalize "url"))))
-     (sosofo-append
-      ($italic-seq$ 
-        (sosofo-append
-         (literal " (")
-         (literal url-string) 
-         (literal ") ")))))))
 
 (define (printed-link)
     (let* ((id (attribute-string "LINKEND"))
@@ -181,6 +53,18 @@
          (literal ")"))))))
 
 (element LINK (printed-link))
+
+(element ulink 
+  ;; make URL appear in parentheses in printed version
+  (sosofo-append
+   (process-children)
+   (let* ((url-string (attribute-string (normalize "url"))))
+     (sosofo-append
+      ($italic-seq$ 
+        (sosofo-append
+         (literal " (")
+         (literal url-string) 
+         (literal ") ")))))))
 
 (element (REFSECT1 PARA LINK)
          (make paragraph 
@@ -206,21 +90,9 @@
                             (loop (cdr linkends)))))))))
 
          
-(mode formal-object-title-mode
-      (element (example title)
-               (let ((example-node (parent (current-node))))
-                 (make paragraph
-                       use: para-style
-                       font-weight: 'bold
-                       space-before: %block-sep%
-                       space-after: %para-sep%
-                       start-indent: (+ %block-start-indent% (inherited-start-indent))
-                       keep-with-next?: #t
-                       (sosofo-append
-                        (literal "Example")
-                        (literal " ")
-                        (literal (example-label example-node)))))))
-      
+;; These are defined with skip-content so that they
+;; can be expanded and have their ID recorded (and won't
+;; be excluded from the index.
 (define (skip-content)
     (make sequence
           (process-node-list (children (current-node)))))
@@ -268,15 +140,18 @@
 (define (funcprototype)
     (let ((paramdefs (select-elements (children (current-node)) (normalize "paramdef"))))
       (make sequence
-            (make paragraph
-                  font-family-name: %mono-font-family%
-                  (process-children))
+            (process-children)
             (if (equal? %funcsynopsis-style% 'kr)
                 (with-mode kr-funcsynopsis-mode
                   (process-node-list paramdefs))
                 (empty-sosofo)))))
 
-(element (bookinfo revhistory) ($revhistory$))
+(define (revhistory)
+    (sosofo-append
+     ($lowtitlewithsosofo$ 3 (literal "Revision History"))
+     (make display-group
+           start-indent: 1.0in
+           (process-children))))
 
 </style-specification-body>
 </style-specification>
@@ -284,23 +159,15 @@
 <style-specification id="html" use="common docbook">
 <style-specification-body> 
 
-;;
-;; CUSTOMIZE THE HTML STYLESHEET
-;;
+(define %html-ext% ".html")
+(define %use-id-as-filename% #t)
 
 (define %stylesheet%
   ;; Name of the stylesheet to use. #f = don't make link to text/css in HTML
   #f)
 
-(define ($generate-book-lot-list$)
-  ;; Which Lists of Titles should be produced for Books?
-  (list (normalize "table")
-        (normalize "figure")
-        (normalize "example")
-        (normalize "equation")))
-
-(define %shade-verbatim%  
-  ;; Should verbatim environments be shaded?
+(define %generate-reference-toc% 
+  ;; Should a Table of Contents be produced for References?
   #t)
 
 (define %shade-verbatim-attr% 
@@ -310,9 +177,9 @@
    (list "BGCOLOR" "#EOEOEO")
    (list "WIDTH" "70%")))
 
-(define %use-id-as-filename%
-  ;; Use ID attributes as name for component HTML files?
-  #t)
+(define %shade-verbatim%
+    ;; Should verbatim environments be shaded?
+    #t) 
 
 (define (toc-depth nd)
   ;; make table of contents:
@@ -320,103 +187,8 @@
   ;; 2-levels deep for sets
   ;; and 3-deep for all remaining
   (cond ((string=? (gi nd) (normalize "book")) 1)
-         ((string=? (gi nd) (normalize "set")) 2)
-         (else 3))
-  )
-
-;; customizing SET stuff...
-
-(define %generate-set-titlepage%
-  ;; Should a set title page be produced?
-  #t)
-
-(define %generate-set-toc% 
-  ;; Should a Table of Contents be produced for Sets?
-  #t)
-
-(mode set-titlepage-recto-mode
-        (element graphic
-                 (make element gi: "P"
-                       ($img$))))
-
-(define ($img$ #!optional (nd (current-node)) (alt #f))
-  (let* ((fileref (attribute-string (normalize "fileref") nd))
-         (entattr (attribute-string (normalize "entityref") nd))
-         (gensysid (entity-generated-system-id entattr))
-         (entityref (if entattr
-                        (string-append "../figs/"
-                                       (car (reverse (split-string gensysid #\/))))
-                        #f))
-         (format  (attribute-string (normalize "format")))
-         (align   (attribute-string (normalize "align")))
-         (attr    (append
-                   (if align
-                       (list (list "ALIGN" align))
-                       '())
-                   (if entityref
-                       (list (list "SRC" (graphic-file entityref)))
-                       (list (list "SRC" (graphic-file fileref))))
-                   (if alt
-                       (list (list "ALT" alt))
-                       '()))))
-    (if (or fileref entityref)
-        (make empty-element gi: "IMG"
-              attributes: attr)
-        (empty-sosofo))))
-
-(define (set-titlepage-verso-elements)
-  ;; by default style sheet doesn't include the "verso" elements on the 
-  ;; title page.
-  (list (normalize "abstract")
-        (normalize "biblioset")
-        (normalize "releaseinfo")
-        (normalize "revhistory")))
-
-;; customizing BOOKs
-
-(define %generate-book-titlepage%
-  ;; Should a book title page be produced?
-  #t)
-
-(mode book-titlepage-recto-mode
-      (element graphic
-               (make element gi: "P"
-                     ($img$)))
-)
-
-(define (book-titlepage-verso-elements)
-  ;; by default style sheet doesn't include the "verso" elements on the 
-  ;; title page.
-  (list (normalize "abstract")
-        (normalize "releaseinfo")
-        (normalize "bookbiblio")
-        (normalize "revhistory")))
-
-;; customizing SECTs
-
-(define %section-autolabel%
-  ;; Are sections enumerated?
-  #t)
-
-;; customizing REFERENCE sections
-
-(define %generate-reference-toc% 
-  ;; Should a Table of Contents be produced for References?
-  #t)
-
-(define %generate-reference-titlepage% 
-  ;; Should a reference title page be produced?
-  #t)
-
-(define %generate-partintro-on-titlepage%
-  ;; Should the PartIntro appear on the Part/Reference title page?
-  #t)
-
-;; customizing REFENTRYs
-
-(define %funcsynopsis-decoration%
-  ;; Decorate elements of a FuncSynopsis?
-  #t)
+        ((string=? (gi nd) (normalize "set")) 2)
+        (else 3)))
 
 (define (make-divider)
     (make empty-element gi: "HR"
@@ -464,15 +236,6 @@
                             (make-linebreak)))
                          (loop (cdr linkends))))))))
 
-(element (example title)
-         (let ((example-node (parent (current-node))))
-           (make paragraph
-                 keep-with-next?: #t
-                 (sosofo-append
-                  (literal "Example")
-                  (literal " ")
-                  (literal (example-label example-node))))))
-
 (define (funcprototype)
   (let ((paramdefs (select-elements (children (current-node)) (normalize "paramdef"))))
     (make sequence
@@ -488,6 +251,9 @@
          (make element gi: "PRE"
                (process-children)))
 
+;; chunk-element-list and book-element-list are needed
+;; in order to make html-document put revhistory in 
+;; it's own file.
 (define (chunk-element-list)
   (list (normalize "preface")
         (normalize "chapter")
@@ -502,23 +268,58 @@
         (normalize "sect1")
         (normalize "book") ;; just in case nothing else matches...
         (normalize "set")  ;; sets are definitely chunks...
-        (normalize "revhistory")
-        ))  
+        (normalize "revhistory")))
 
 (define (book-element-list)
     (list (normalize "book")
           (normalize "revhistory")))
 
-(element revhistory
-         (let ((title (id-to-indexitem (id (current-node)))))
-           (sosofo-append
-            (html-document 
-             (literal title)
-             ($revhistory$))
-            (make element gi: "A"
-                  attributes: (list
-                               (list "HREF" (href-to (current-node))))
-                  (literal title)))))
+(define (revhistory)
+    (let ((title (id-to-indexitem (id (current-node)))))
+      (sosofo-append
+       (html-document 
+        (literal title)
+        (process-children))
+       (make element gi: "A"
+             attributes: (list
+                          (list "HREF" (href-to (current-node))))
+             (literal title)))))
+
+(element pubdate
+         (make element gi: "DIV"
+               (literal "Publication Date ")
+               (process-children)))
+
+(define ($img$ #!optional (nd (current-node)) (alt #f))
+    ;; overridden to handle public identifiers
+    (let* ((fileref (attribute-string (normalize "fileref") nd))
+           (entattr (attribute-string (normalize "entityref") nd))
+           (gensysid (entity-generated-system-id entattr))
+           (entityref (if entattr
+                          (string-append "../figs/"
+                                         (car (reverse (split-string gensysid #\/))))
+                          #f))
+           (format  (attribute-string (normalize "format")))
+           (align   (attribute-string (normalize "align")))
+           (attr    (append
+                     (if align
+                         (list (list "ALIGN" align))
+                         '())
+                     (if entityref
+                         (list (list "SRC" (graphic-file entityref)))
+                         (list (list "SRC" (graphic-file fileref))))
+                     (if alt
+                         (list (list "ALT" alt))
+                         '()))))
+      (if (or fileref entityref)
+          (make empty-element gi: "IMG"
+                attributes: attr)
+          (empty-sosofo))))
+
+;; defined in dbttlpg.dsl to not use $img$.
+(define (graphic) (make element gi: "P" ($img$)))
+(mode book-titlepage-recto-mode (element graphic (graphic)))
+(mode set-titlepage-recto-mode (element graphic (graphic)))
 
 </style-specification-body>
 </style-specification>
@@ -528,8 +329,3 @@
 
 </style-sheet>
 
-<!--
-Local variables:
-mode: DSSSL
-end:
--->

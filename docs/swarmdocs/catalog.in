@@ -118,3 +118,8 @@ PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN" @top_srcdir@/set/setmeta.sgml
 
 SGMLDECL "@top_srcdir@/docbook.dcl"
 
+<!--
+Local Variables:
+mode: SGML
+end:
+-->
