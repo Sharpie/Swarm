@@ -7,6 +7,10 @@
 #define _TKOBJC_INTERNAL_H
 #import <gui.h>
 
+#ifdef __CYGWIN__
+#define _WIN32
+#endif
+
 #define Colormap X11Colormap
 #define Pixmap X11Pixmap
 #define String X11String

@@ -889,7 +889,7 @@ tkobjc_raster_clear (Raster *raster, unsigned oldWidth, unsigned oldHeight)
   unsigned newWidth;
   unsigned newHeight;
 
-  palette = TkWinGetPalette (display->screens[0].cmap);
+  palette = TkWinGetPalette (DefaultColormap (display, 0)); 
   oldPalette = SelectPalette (dc, palette, FALSE);
 
   winPtr = TkWinGetWinPtr (w);

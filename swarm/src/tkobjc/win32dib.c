@@ -3,12 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#include "win32dib.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #define BOOL w32BOOL
 #include <misc.h>
 #undef BOOL
-#include "win32dib.h"
 
 dib_t *
 dib_create (void)

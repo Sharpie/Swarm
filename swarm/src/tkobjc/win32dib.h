@@ -1,10 +1,16 @@
 #ifndef _DIB_H
 #define _DIB_H
+
+#ifdef __CYGWIN__
+#define _WIN32
+#endif
+
 #ifdef _WIN32
 #include <windows.h>
 #include <windowsx.h>
-#undef BOOL
+#define BOOL OBJC_BOOL
 #include <misc.h>
+#undef BOOL
 
 /* 1 = Top-Down   0 = Bottom-Up */
 #define TOP_DOWN_DIB 1
