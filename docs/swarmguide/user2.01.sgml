@@ -76,18 +76,20 @@ be organized.</para></formalpara>
 
 </sect2>
 
-<sect2><title>What are  you supposed to learn from the tutorial?</title>
-<para>
-So, after you worked on the tutorial for 20 hours or so, what then?  You
-should know all kinds of details about how the Swarm Toolkit can be used, 
-of course, but there are some bigger themes.
-<para>
+<sect2>
 
-It is not vital to know how to model bugs
-(although, for an entimologist, well...).  Rather, it is vital to 
-understand that Swarm is a toolkit that provides a housing for a 
-modeling exercise. Swarm imposes no inherent limitations on the
-nature of agents that can be represented within its framework.</para>
+<title>What are  you supposed to learn from the tutorial?</title>
+
+<para>So, after you worked on the tutorial for 20 hours or so, what
+then?  You should know all kinds of details about how the Swarm
+Toolkit can be used, of course, but there are some bigger
+themes.</para>
+
+<para>It is not vital to know how to model bugs (although, for an
+entimologist, well...).  Rather, it is vital to understand that Swarm
+is a toolkit that provides a housing for a modeling exercise. Swarm
+imposes no inherent limitations on the nature of agents that can be
+represented within its framework.</para>
 
 <para>Don't read much further in this user guide until you work 
 on the tutorial.  You will know if you have worked on it long enough
@@ -158,34 +160,45 @@ relatively specific task.
 
 
 
-<listitem><formalpara><title>There is often a need for "record keeping" classes.</title><para>
-In order for data to be displayed meaningfully in a graph, for example, 
-it must be provided to the graph object in a format that the graph object 
-can handle. The class "world" in simpleObserverBug is subclassed from 
-Swarm's Grid2d class.  
+<listitem>
+
+<formalpara><title>There is often a need for "record keeping" classes.</title>
+
+<para>
+In order for data to be displayed meaningfully in a graph, for
+example, it must be provided to the graph object in a format that the
+graph object can handle. The class "world" in simpleObserverBug is
+subclassed from Swarm's Grid2d class.
  </para>
+
  </formalpara>
  </listitem>
 
-
-
-
-<listitem><formalpara><title>Graphics are optional, but nice.</title>
-<para> Commands in the Observer Swarm control the graphical 
-display. There are many kinds 
-of graphs and ways to alter their appearance. It is not necessary to design 
-a Swarm program to make pretty pictures, however.  One might just as well 
-run in a "batch" mode that prints numbers into files for later inspection. 
-There is a useful example of the batch mode in the Heatbugs code.
-</para></formalpara></listitem>
 <listitem>
-<formalpara><title>Open Source means open the source</title><para>
-In most cases, if you really need to know what 
-messages an instance of a class will respond to, you should look 
-in the Swarm Documentation and then go look in 
-the Swarm source code itself. That's what the members of the Swarm team
-do when users ask questions.   
-</para></formalpara></listitem>
+<formalpara><title>Graphics are optional, but nice.</title>
+
+<para> Commands in the Observer Swarm control the graphical
+display. There are many kinds of graphs and ways to alter their
+appearance. It is not necessary to design a Swarm program to make
+pretty pictures, however.  One might just as well run in a "batch"
+mode that prints numbers into files for later inspection.  There is a
+useful example of the batch mode in the Heatbugs code.
+</para>
+
+</formalpara></listitem>
+
+<listitem>
+<formalpara><title>Open Source means open the source</title>
+
+<para>
+In most cases, if you really need to know what messages an instance of
+a class will respond to, you should look in the Swarm Documentation
+and then go look in the Swarm source code itself. That's what the
+members of the Swarm team do when users ask questions.
+</para>
+</formalpara>
+</listitem>
+
   </itemizedlist>
 
 </sect2>
