@@ -1,7 +1,6 @@
-2000-12-07  Marcus G. Daniels  <mgd@forager.swarm.org>
+2000-12-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
-	* NEWS: Note that Objective C messages can be sent to Java/Swarm
-	subclasses.
+	* Makefile.am: Build tools before java or COM.
 
 	* VERSION: Bump.
 
