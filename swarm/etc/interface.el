@@ -251,10 +251,6 @@
       ;; QSort
       "+sortNumbersIn:using:" ; function pointer parameter
 
-      ;; ActionTo
-      "-getMessageSelector"
-
-
       ;; InputWidget
       "-linkVariableBoolean:" ; BOOL* parameter
       "-linkVariableInt:" ; int* parameter
