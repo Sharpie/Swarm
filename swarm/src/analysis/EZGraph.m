@@ -63,7 +63,7 @@ PHASE(Creating)
     obj->graphics = 0;
     obj->fileOutput = 1;
     obj->title = NULL;
-    obj->fileName = aFileName;
+    obj->fileName = ZSTRDUP (aZone, aFileName);
     obj->xLabel = NULL;
     obj->yLabel = NULL;
     obj->graphColors = defaultGraphColors;
@@ -458,6 +458,9 @@ sequence_graph_filename (id aZone, const char *fileName, const char *aName)
 {
   id index, aSequence;
   
+  if (fileName)
+    FREEBLOCK (fileName);
+
   if (graphics)
     [graph drop];
 

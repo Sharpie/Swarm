@@ -1,3 +1,8 @@
+2001-03-19  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* EZGraph.m ([EZGraph -drop], [EZGraph +create:setFileName:]): 
+	The filename must be copied.
+
 2001-03-12  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* EZDistribution.m, EZGraph.[hm], analysis.h: Remove silly object
