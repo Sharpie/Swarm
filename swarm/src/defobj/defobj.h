@@ -1028,6 +1028,8 @@ USING
 @end
 
 @protocol FCall <Create, Drop, CREATABLE>
+//S: A language independent interface to dynamic calls.
+//D: A language independent interface to dynamic calls.
 CREATING
 + createBegin: aZone;
 - setArguments: args;
@@ -1039,6 +1041,8 @@ CREATING
 - createEnd;
 - performCall;
 - (void *)getResult;
+
+extern void defobj_init_java_call_tables (void *jniEnv);
 @end
 
 //G: The singleton Arguments object.

@@ -17,7 +17,7 @@ Library:      defobj
 #include <swarmconfig.h>
 
 #ifdef HAVE_JDK
-void init_javacall_tables (void * jEnv);
+void defobj_init_java_call_tables (void *jEnv);
 #endif
 
 enum callTypes { ccall, objccall, javacall, javastaticcall};

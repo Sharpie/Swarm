@@ -1,5 +1,8 @@
 1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* defobj.h, FCall.[hm]: Rename init_javacall_tables to
+	defobj_init_java_call_tables and declare in defobj.h.
+
 	* defobj.m (_defobj_implement): Call setTypeImplemented: for FCall.
 
 	* FCall.h: Include swarmconfig.h, but first undefine PACKAGE 

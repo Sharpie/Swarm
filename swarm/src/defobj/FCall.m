@@ -40,7 +40,7 @@ java_not_available (void)
 
 #ifdef HAVE_JDK
 void 
-init_javacall_tables (void * jEnv)
+defobj_init_java_call_tables (void *jEnv)
 {
   java_static_call_functions[swarm_type_void] = 
       FFI_FN ((*(JNIEnv *)jEnv)->CallStaticVoidMethod);
