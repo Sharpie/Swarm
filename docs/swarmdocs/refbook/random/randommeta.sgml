@@ -5,15 +5,127 @@
   <ABSTRACT>
     <TITLE>Documentation and Implementation Status</TITLE>
 
-    <PARA>Created from Sven's original text.</PARA>
+    <PARA>This is version 0.75 of Random. It was donated by Sven
+      Thommesen.  Version 0.6 was a reimplementation of most of Nelson
+      Minar's original random with many changes and a new
+      interface. This version adds many more generators and
+      distributions and changes the interface somewhat.</PARA>
+
+    <PARA>The implementation may be a little unstable. It hasn't been
+      fully tested.  Sven has also contributed a test suite which we
+      will make available on the web site. But, as with any
+      pseudo-random number generation library, results obtained from
+      it should be examined very closely. But we are reasonably sure
+      the generators and distributions have been correctly
+      implemented.</PARA>
     
   </ABSTRACT>
-  
+
+<!-- I suspect that most of this is out-of-date but I am including it
+here to ensure no information is lost - AKL 1998-05-20
+
+ <H2>Documentation</H2>
+
+<P>More documentation is available within the Swarm source distribution,
+itself [Ref: <TT>$(SWARMHOME)/src/random/docs/</TT>. These docs consist
+of:
+
+<TABLE BORDER=1 CELLPADDING=10 >
+<TR>
+<TD>WHATS.NEW.in.0.7</TD>
+
+<TD>Additions to Random since v. 0.6</TD>
+</TR>
+
+<TR>
+<TD>WHATS.CHANGED.in.0.7</TD>
+
+<TD>Changes to Random since v. 0.6</TD>
+</TR>
+
+<TR>
+<TD>WHATS.LEFT.TODO</TD>
+
+<TD>Improvements that may make it into v. 0.8</TD>
+</TR>
+
+<TR>
+<TD>README.Generators.v07</TD>
+
+<TD>Usage Guide for generator objects</TD>
+</TR>
+
+<TR>
+<TD>README.Distributions.v07</TD>
+
+<TD>Usage Guide for distribution objects</TD>
+</TR>
+
+<TR>
+<TD>CHOOSING.A.GENERATOR</TD>
+
+<TD>Notes on choosing a generator for your sim</TD>
+</TR>
+
+<TR>
+<TD>DEFAULT.GENERATORS</TD>
+
+<TD>Default generators invoked by distributions</TD>
+</TR>
+
+<TR>
+<TD>SOURCES.for.0.7</TD>
+
+<TD>Literature references for implemented objects</TD>
+</TR>
+
+<TR>
+<TD>doc.generators.table</TD>
+
+<TD>Summary descriptive data for generators</TD>
+</TR>
+
+<TR>
+<TD>doc.generators.maxvalue</TD>
+
+<TD>Values returned by [myGen getUnsignedSample]</TD>
+</TR>
+
+<TR>
+<TD>doc.quality.generators</TD>
+
+<TD>Results of statistical and timing tests</TD>
+</TR>
+
+<TR>
+<TD>doc.timings</TD>
+
+<TD>Timing results for generators and distributions</TD>
+</TR>
+
+<TR>
+<TD>methods.SimpleGenerators.h</TD>
+
+<TD>Methods implemented by a typical Simple generator</TD>
+</TR>
+
+<TR>
+<TD>methods.SplitGenerators.h</TD>
+
+<TD>Methods implemented by a typical Split generator</TD>
+</TR>
+</TABLE>
+
+<P><I>Anyone who attempts to generate random numbers by deterministic means
+is, of course, living in a state of sin. - </I>Jon von Neuman
+
+-->
+
   <REVHISTORY>
 
     <REVISION>
       <REVNUMBER>0.7</REVNUMBER>
-      <DATE>1998-14-06</DATE>
+      <DATE>1998-05-20</DATE>
       <AUTHORINITIALS>sthomme, alex, lee</AUTHORINITIALS>
 
       <REVREMARK>Created the updated SGML documentation version of the 
