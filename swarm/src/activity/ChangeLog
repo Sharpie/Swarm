@@ -1,3 +1,7 @@
+2000-03-28    <mgd@nest.swarm.org>
+
+	* Makefile.am (CURRENT): Bump.  Swarm 2.1.1 frozen.
+	
 2000-03-25    <mgd@nest.swarm.org>
 
 	* Action.h: Don't include defobj/directory.h.

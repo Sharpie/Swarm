@@ -1,3 +1,7 @@
+2000-03-28    <mgd@nest.swarm.org>
+
+	* Makefile.am (REVISION): Bump.  Swarm 2.1.1 frozen.
+	
 2000-03-25    <mgd@HELEN>
 
 	* Array.m ([Array_c -describe:]): Use PTRHEXFMT instead of PTRFMT.

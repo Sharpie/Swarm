@@ -1,6 +1,6 @@
 MODULE = objectbase
-CURRENT = 3
-REVISION = 1
+CURRENT = 4
+REVISION = 0
 AGE = 0
 objectbasedir = $(includedir)/$(MODULE)
 

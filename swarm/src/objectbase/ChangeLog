@@ -1,5 +1,7 @@
 2000-03-28    <mgd@nest.swarm.org>
 
+	* Makefile.am (CURRENT): Bump:  Swarm 2.1.1 frozen.
+
 	* ActivityControl.[hm]: Remove +createBegin:/-createEnd.
 	Add (id <Symbol>) return to run, stop, next, step, stepUntil.
 	Make void return for attachToActivity, updateStateVar, and

@@ -1,3 +1,7 @@
+2000-03-28    <mgd@nest.swarm.org>
+
+	* Makefile.am (CURRENT): Bump. Swarm 2.1.1 frozen.
+
 2000-03-27    <mgd@nest.swarm.org>
 
 	* javavars.h, directory.m (create_class_refs): Add c_Modifier.
