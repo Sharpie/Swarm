@@ -795,13 +795,14 @@ externvar id <Error>
 //D: A class that provides customizable command line argument parsing support
 
 //E: Let's say you want to add a new argument, say `protocol' to your standard 
-//E: list of command.  In other words you want the following to happen at the
+//E: list of commands.  In other words you want the following to happen at the
 //E: command line when you type --help.
 //E: ------------------------
 //E: mgd@wijiji[/opt/src/mgd/src/mySwarmApp] $ ./mySwarmApp --help
 //E: Usage: mySwarmApp [OPTION...]
 //E: 
-//E:   -s, --varyseed             Run with a random seed
+//E:   -s, --varyseed             Select random number seed from current time
+//E:   -S, --seed=INTEGER         Specify seed for random numbers
 //E:   -b, --batch                Run in batch mode
 //E:   -m, --mode=MODE            Specify mode of use (for archiving)
 //E:   -p, --protocol=PROTOCOL    Set protocol
@@ -918,10 +919,14 @@ SETTING
 //M: Specify a default path to use for data files when installed location
 //M: of Swarm cannot be determined.  Defaults to current directory.
 - setDefaultAppDataPath: (const char *)path;
+- setFixedSeed: (int)x;
+
 
 USING
 - (BOOL)getBatchModeFlag;
 - (BOOL)getVarySeedFlag;
+- (BOOL)getFixedSeedFlag;
+- (int)getFixedSeed;
 - (BOOL)getVerboseFlag;
 - (const char *)getAppName;
 - (const char *)getAppModeString;
@@ -939,6 +944,7 @@ USING
 - (const char *)getAppConfigPath;
 - (BOOL)getShowCurrentTimeFlag;
 - (BOOL)getInhibitArchiverLoadFlag;
+//M: The user assigned seed value for random number generation
 @end
 
 @protocol Archiver <Create, Drop, RETURNABLE>

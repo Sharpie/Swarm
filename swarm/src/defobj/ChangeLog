@@ -1,3 +1,8 @@
+2001-06-18    <mgd@DRONE>
+
+	* Arguments.[hm], defobj.h: Add fixedSeed{Flag} ivars,
+	getFixedSeed{Flag} and setFixedSeed.
+
 2001-06-13    <mgd@drone.swarm.org>
 
 	* JavaProxy.m ([JavaProxy -compare:]): Handle classes.

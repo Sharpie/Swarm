@@ -54,12 +54,14 @@ externvardef id arguments;
 #define OPT_INHIBIT_ARCHIVER_LOAD 1
 
 static struct argp_option base_options[] = {
-  {"varyseed", 's', 0, 0, "Run with a random seed", 0},
-  {"batch", 'b', 0, 0, "Run in batch mode", 1},
-  {"mode", 'm', "MODE", 0, "Specify mode of use (for archiving)", 2},
-  {"show-current-time", 't', 0, 0, "Show current time in control panel", 3},
-  {"no-init-file", OPT_INHIBIT_ARCHIVER_LOAD, 0, 0, "Inhibit loading of ~/.swarmArchiver", 4},
-  {"verbose", 'v', 0, 0, "Activate verbose messages", 5},
+  {"varyseed", 's', 0, 0, "Select random number seed from current time", 0},
+  {"seed", 'S', "INTEGER",0, "Specify seed for random numbers", 1},
+  {"batch", 'b', 0, 0, "Run in batch mode", 2},
+  {"mode", 'm', "MODE", 0, "Specify mode of use (for archiving)", 3},
+  {"show-current-time", 't', 0, 0, "Show current time in control panel", 4},
+  {"no-init-file", OPT_INHIBIT_ARCHIVER_LOAD, 0, 0, "Inhibit loading of ~/.swarmArchiver", 5},
+  {"verbose", 'v', 0, 0, "Activate verbose messages", 6},
+ 
   { 0 }
 };
 
@@ -230,6 +232,9 @@ strip_quotes (const char *argv0)
       break;
     case OPT_INHIBIT_ARCHIVER_LOAD:
       [self setInhibitArchiverLoadFlag: YES];
+      break;
+    case 'S':
+      [self setFixedSeed: atoi (arg)];
       break;
     default:
       return ARGP_ERR_UNKNOWN;
@@ -462,6 +467,14 @@ ensureEndingSlash (const char *path)
   return self;
 }
 
+- setFixedSeed: (int)theFixedSeed
+{
+  fixedSeed = theFixedSeed;
+  fixedSeedFlag = YES;
+
+  return self;
+}
+
 PHASE(Using)
 
 - (BOOL)getBatchModeFlag
@@ -472,6 +485,11 @@ PHASE(Using)
 - (BOOL)getVarySeedFlag
 {
   return varySeedFlag;
+}
+
+- (BOOL)getFixedSeedFlag
+{
+  return fixedSeedFlag;
 }
 
 - (BOOL)getVerboseFlag
@@ -487,6 +505,11 @@ PHASE(Using)
 - (BOOL)getInhibitArchiverLoadFlag
 {
   return inhibitArchiverLoadFlag;
+}
+
+- (int)getFixedSeed
+{
+  return fixedSeed;
 }
 
 - (const char *)getAppName
@@ -935,4 +958,6 @@ convertToLongPath (const char *path)
 }
 
 @end
+
+
 
