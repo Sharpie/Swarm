@@ -1,4 +1,4 @@
-1998-01-12  Alex Lancaster  <alex@.santafe.edu>
+1998-01-12  Alex Lancaster  <alex@santafe.edu>
 
 	* DiGraphLink.[hm]: Added ([DiGraphLink -hideLink]) for interactive 
 	dropping of links. Modified ([DiGraph -createEnd]) and ([DiGraph -setCanvas])
