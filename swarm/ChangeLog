@@ -1,5 +1,8 @@
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* NEWS: Note improvements to Arguments, rpath autoconfiguation,
+	probe types, and specification of histogram precision.
+
 	* VERSION: Bump.
 
 	* configure.in: Call md_CHECK_RPATH.  Define SWARMLDFLAGS
