@@ -36,7 +36,7 @@ tkobjc_configureWidgetToDrop (id widget, id owner)
 {
   [globalTkInterp 
     eval:
-      "%s configure -command {%s drop}",
+      "%s configure -command {%s markForDrop}",
     [widget getWidgetName],
     tclObjc_objectToName (owner)];
 }
