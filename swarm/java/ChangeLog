@@ -1,3 +1,7 @@
+1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javaswarm: Use JAVACLASSES instead of hardcoded classes.zip.
+
 1999-04-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-native-class): Print #include jni.h

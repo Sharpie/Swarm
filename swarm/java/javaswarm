@@ -10,12 +10,13 @@ $bltlibdir
 $ffilibdir
 $pnglibdir
 $zliblibdir
+$jdkdir/lib
 EOF`$LD_LIBRARY_PATH
 
 if test -z "$1" ; then
   echo $LD_LIBRARY_PATH
 else
   export LD_LIBRARY_PATH
-  JAVA_HOME=$jdkdir $jdkdir/bin/java -classpath .:${swarm_datadir}/swarm/swarm.jar:$jdkdir/lib/classes.zip:$CLASSPATH $*
+  JAVA_HOME=$jdkdir $jdkdir/bin/java -classpath .:${swarm_datadir}/swarm/swarm.jar:${JAVACLASSES}:$CLASSPATH $*
 fi
 
