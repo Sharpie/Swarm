@@ -401,7 +401,18 @@
 
 (mode reference-titlepage-verso-mode
 
-  (element revhistory ($book-revhistory$)))
+  (element revhistory ($book-revhistory$))
+  (element (revision revnumber) 
+    ($bold-seq$ (process-children))) 
+  (element (revision date) 
+    ($bold-seq$ (process-children)))
+  (element (revision authorinitials)  
+    ($italic-seq$ (process-children)))
+  (element (revision revremark)
+    (sosofo-append ($italic-seq$ (process-children)) 
+                   (make-linebreak) (make-linebreak)))
+)
+
 
 ;; customizing REFENTRYs
 
