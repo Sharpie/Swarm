@@ -1,3 +1,8 @@
+2000-02-27    <mgd@nest.swarm.org>
+
+	* Makefile (SWARMHOME, APPVERSION): Update for 2.1.
+	(BUGADDRESS): Update to SDG.
+
 2000-01-24    <mgd@nest.swarm.org>
 
 	* HeatbugObserverSwarm.m ([HeatbugObserverSwarm -buildObjects]): Cast
