@@ -265,6 +265,13 @@ objc_type_for_tid (hid_t tid)
             else
               type = @encode (unsigned long);
           }
+        else if (tid_size == sizeof (long long))
+          {
+            if (tid_sign == H5T_SGN_2)
+              type = @encode (long long);
+            else
+              type = @encode (unsigned long long);
+          }
         else
           abort ();
       }
