@@ -43,6 +43,10 @@ Copyright © 1996-2000 Swarm Development Group
 *** Globals.env.verboseMessage now prints when "-v" option is specified
     on the command line.
 
+** Performance enhancements
+*** The speed of generation of random doubles is significantly enhanced.
+    Thanks to Paul Johnson.
+
 ** Bug fixes
 *** Fixed memory leak in CanvasItem.  Thanks to Ralf Stephan.
 *** Fixed a bug computing Java collection index status.
