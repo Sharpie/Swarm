@@ -1,5 +1,25 @@
 1999-11-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* SwarmProcess.[hm]: Add protocol-conformance information for
+	getActivity, getSwarmActivity.
+
+	* XActivity.[hm]: Likewise for setOwnerActivity:, getOwnerActivity,
+	getControllingActivity, getTopLevelActivity, getSwarmActivity,
+	getScheduleActivity, getCurrentSubactivity, and getAction.
+
+	* SwarmProcess.h: Likewise for activateIn:.
+
+	* Schedule.m ([ScheduleActivity_c -dropAllocations:]): Cast
+	to ScheduleIndex_c * instead of Index_any * for dereferencing to
+	Schedule collection.
+
+	* SwarmProcess.m ([SwarmActivity_c -terminate], [SwarmActivity_c
+	-getSubactivities]): Likewise.
+
+	* Schedule.h, SwarmProcess.m ([SwarmActivity_c
+	-getSynchronizationSchedule]): Return object conforming to
+	Schedule.
+
 	* Schedule.m (_update_mergeSchedules): Make second argument a
 	ScheduleActivity_c *, not a SwarmActivity_c *.  Make mergeSchedule
 	a Schedule_c *, not generic object.
@@ -9,23 +29,47 @@
 	currentAction, currentTime, and swarmActivity without a cast.
 	Reference startTime without a cast.
 	([ScheduleIndex_c -nextAction:]): Reference swarmActivity,
-	currentIndex, and mergeAction without a cast.  Cast collection
-	to Schedule_c to pass to _activity_insertAction.  Cast Removed
-	to an object conforming to Action for assignment to currentAction.
-	([ActionChanged_c -_performAction_:]): Add phase tags.
+	currentIndex, and mergeAction without a cast.  Cast collection to
+	Schedule_c to pass to _activity_insertAction.  Cast Removed to an
+	object conforming to Action for assignment to currentAction.
+	([ActionChanged_c -_performAction_:],
+	[ActionConcurrent_c -_performAction_:]) Add phase tags.
+	([ScheduleActivity_c -stepUntil:]): Make nextStatus conform to
+	Symbol.
+	([ScheduleIndex_c -nextAction:]): Make actionAtIndex and
+	removedAction conform to Action.  Cast removedAction to id
+	for calling dropAllocations:.
+	([ScheduleIndex_c -get]): New temporary variable status to
+	defeat protocol check.
 
 	* Action.[hm] (PAction): New class to hold call and target.
 
 	* Action.h (PFAction, FAction_c): Inherit from it.
+	(CAction, PAction): Don't implement Action.
 
 	* Action.[hm], Schedule.[hm]: Add (id <Activity>) qualification to
 	_performAction_ throughout.
 
+	* Action.[mh] ([ActionForEach_c -setDefaultOrder:],
+	[ActionForEach_c -getDefaultOrder],
+	[FActionForEach_c -setDefaultOrder:],
+	[FActionForEach_c -getDefaultOrder]): Add Symbol protocol
+	conformance.
+	
 	* Schedule.h (ScheduleIndex_c): Make activity a ScheduleActivity_c *.
 	Make currentAction an object conforming to Action.
 	(ActionChanged_c): Inherit from CAction, conform to Action.
+	(ActionConcurrent_c): Implement Action.
+	(ActionMerge_c): Implement Action.
+	(SwarmActivity_c): Make nextActivation a long. 
 
 	* activity.h (ActivityIndex): New protocol.
+	(Activity): Move before Action.  Add _performAction_:.
+	(ActionTo, ActionCall): Adopt Action.
+	(ActionArgs): Don't adopt Action.
+	(COMPLETEDP, HOLDINGP, INITIALIZEDP, RELEASEDP, RUNNINGP,
+	STOPPEDP, TERMINATEDP): Remove (now) unnecessary casting.
+	(ProcessType): Moved to design document.
 
 	* ActionGroup.h (GroupIndex_c, GroupPermutedIndex_c, ForEachIndex_c):
 	Conform to ActivityIndex.
@@ -38,7 +82,15 @@
 	* ActionGroup.[hm] ([ForEachIndex_c -setOffset:, -getOffset,
 	-setLoc:, -remove, -put:, -findPrev:, -findNext:, -prev, -next,
 	-getCollection]): New methods (aborts).
-	([-getLoc]): Return object conforming to symbol.
+	([ForEachIndex_c -getLoc]): Use object conforming to symbol.
+	([ActionGroup_c getDefaultOrder], [ActionGroup_c setDefaultOrder:]):
+	Likewise.
+
+	* Schedule.h ([Schedule_c getDefaultOrder]): Likewise.
+	
+	* CompoundAction.[hm] (setDefaultOrder, getDefaultOrder): Likewise.
+	([CompoundAction_c -getDefaultOrder]): Likewise.
+	([CompoundAction_c -_createActivity_::::]): Remove related cast.
 
 1999-11-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
@@ -102,7 +154,10 @@
 
 	* XActivity.h (Activity_c): Include activity.h instead of 
 	Action.h.  Make topLevelAction an object conforming to Action
-	instead of CAction *.
+	instead of CAction *.  Make status conform to Symbol.
+
+	* XActivity.m ([Activity_c -_run_]): Make initStatus conform
+	to Symbol.  Make nextAction conform to Action.
 
 	* Schedule.h: Include Action.h.
 

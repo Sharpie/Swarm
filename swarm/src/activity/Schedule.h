@@ -31,8 +31,8 @@ Library:      activity
 /*** methods implemented in CompoundAction.m file ***/
 - (void)setAutoDrop: (BOOL)autoDrop;
 - (BOOL)getAutoDrop;
-- (void)setDefaultOrder: aSymbol;
-- getDefaultOrder;
+- (void)setDefaultOrder: (id <Symbol>)aSymbol;
+- (id <Symbol>)getDefaultOrder;
 - setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 - activate;
 - activateIn: swarmContext;
@@ -92,7 +92,7 @@ Library:      activity
 
 extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 
-@interface ActionConcurrent_c: CAction
+@interface ActionConcurrent_c: CAction <Action>
 {
 @public
   CompoundAction_c *concurrentGroup;  // concurrent group to be executed
@@ -126,9 +126,9 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 @interface ScheduleActivity_c: Activity_c <ScheduleActivity>
 {
 @public
-  Activity_c *swarmActivity;  // controlling swarm activity, if any
-  id mergeAction;             // merge action of swarm activity, if any
-  long activationNumber;      // sequential id of activation within swarm
+  ScheduleActivity_c *swarmActivity; // controlling swarm activity, if any
+  id <Action> mergeAction;           // merge action of swarm activity, if any
+  long activationNumber;             // sequential # of activation within swarm
 }
 /*** methods in ScheduleActivity_c (inserted from .m file by m2h) ***/
 - (timeval_t)getCurrentTime;
@@ -177,18 +177,18 @@ extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 @interface SwarmActivity_c: ScheduleActivity_c <SwarmActivity>
 {
 @public
-  id swarm;           // object that encapsulates the activity
-  int nextActivation;  // next unused activation number
+  id swarm;             // object that encapsulates the activity
+  long nextActivation;  // next unused activation number
 }
 /*** methods in SwarmActivity_c (manually inserted) ***/
 - (void)terminate;
 - getSubactivities;
 - getSwarm;
-- getSynchronizationSchedule;
+- (id <Schedule>)getSynchronizationSchedule;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
-@interface ActionMerge_c: CAction
+@interface ActionMerge_c: CAction <Action>
 {
 @public
   ScheduleActivity_c *subactivity;  // activity holding for merge 

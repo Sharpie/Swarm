@@ -20,7 +20,7 @@ Library:      activity
 @public
   Activity_c *ownerActivity;          // activity running this activity
   id <Action> topLevelAction;         // action binding at top of stack
-  id status;                          // symbol for current status
+  id <Symbol> status;                 // symbol for current status
   member_t activityRefs;              // internal links in references to plan
 
   Activity_c *registeredOwnerActivity; // activity used te this activity
@@ -43,19 +43,19 @@ Library:      activity
 - (id <Symbol>)getStatus;
 - (id <Symbol>)getHoldType;
 - getActionType;
-- getAction;
+- (id <Action>)getAction;
 - _getSubactivityAction_;
-- (void)setOwnerActivity: aSwarmActivity;
-- getOwnerActivity;
-- getControllingActivity;
-- getTopLevelActivity;
-- getSwarmActivity;
-- getScheduleActivity;
+- (void)setOwnerActivity: (id <SwarmActivity>)aSwarmActivity;
+- (id <Activity>)getOwnerActivity;
+- (id <Activity>)getControllingActivity;
+- (id <Activity>)getTopLevelActivity;
+- (id <SwarmActivity>)getSwarmActivity;
+- (id <ScheduleActivity>)getScheduleActivity;
 - getSubactivities;
 - (void)setSerialMode: (BOOL)serialMode;
 - (BOOL)getSerialMode;
 - setKeepEmptyFlag: (BOOL)keepEmptyFlag;
-- getCurrentSubactivity;
+- (id <Activity>)getCurrentSubactivity;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)drop;
 - (void)describe: outputCharStream;

@@ -338,7 +338,7 @@ PHASE(Creating)
 }
 
 PHASE(Setting)
-- (void)setDefaultOrder: aSymbol
+- (void)setDefaultOrder: (id <Symbol>)aSymbol
 {
   setDefaultOrder (&bits, aSymbol);
 }
@@ -357,7 +357,7 @@ PHASE(Using)
   setClass (memberAction, id_ActionTo_c);
 }
 
-- getDefaultOrder
+- (id <Symbol>)getDefaultOrder
 {
   return getDefaultOrder (bits);
 }
@@ -411,7 +411,7 @@ PHASE(Creating)
       {
 #ifdef HAVE_JDK
         if ([target respondsTo: M(isJavaCollection)]
-            && getDefaultOrder (bits) == (id) Sequential)
+            && getDefaultOrder (bits) == Sequential)
           {
             jobject coll = SD_FINDJAVA (jniEnv, (id) target);
             jarray lref;
@@ -471,7 +471,7 @@ PHASE(Creating)
 
 PHASE(Setting)
 
-- (void)setDefaultOrder: aSymbol
+- (void)setDefaultOrder: (id <Symbol>)aSymbol
 {
   setDefaultOrder (&bits, aSymbol);
 }
@@ -509,7 +509,7 @@ PHASE(Using)
     }
 }
 
-- getDefaultOrder
+- (id <Symbol>)getDefaultOrder
 {
   return getDefaultOrder (bits);
 }

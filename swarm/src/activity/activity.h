@@ -26,28 +26,6 @@ Library:      activity
 #import <collections.h>
 #include <externvar.h>
 
-@protocol ProcessType
-//S: ProcessType -- specification of a process
-
-//D: ProcessType will eventually define support for parameterization of all
-//D: processes.  A process is a uniquely identified course of events that
-//D: conforms to a specification of external and internal behavior.
-
-//D: Processes include both objects and executable actions.  Objects change
-//D: their state and behavior based on a sequence of externally initiated
-//D: actions.  An action, in contrast, typically has no external behavior
-//D: other than to be executed in its entirety as a unit (yielding either an
-//D: observable result or some change of state in a surrounding environment).
-
-//D: Parameterization will be based a uniform framework that defines all input
-//D: parameters, internal state variables, and/or final results, and that
-//D: provides for binding of these data in a context of execution.  This
-//D: parameterization framework is still being established, but ProcessType
-//D: objects will eventually record the specification of any process, to the
-//D: extent that this specification is defined.
-@end
-
-
 @protocol DefaultOrder
 //S: The DefaultOrder option indicates the ordering to be assumed among
 //S: actions of the plan when no other explicit ordering has been assigned.
@@ -96,10 +74,138 @@ Library:      activity
 
 CREATING
 SETTING
-- (void)setDefaultOrder: aSymbol;
+- (void)setDefaultOrder: (id <Symbol>)aSymbol;
 USING
-- getDefaultOrder;
+- (id <Symbol>)getDefaultOrder;
 @end
+
+
+@protocol Activity <DefinedObject, Drop, RETURNABLE>
+//S: A level of processing by the interpreter of an action type.
+
+//D: A object of type Activity implements the processing of actions within
+//D: an action plan.  Each subtype of action plan has a corresponding
+//D: subtype of Activity that implements processing of its respective type
+//D: of plan.
+
+//D: The Activity types are part of the virtual processing machinery of an
+//D: action plan interpreter.  All the important elements of this
+//D: machinery, including their current state of processing, are exposed to
+//D: aid in development of general-purpose tools such as debuggers.  Except
+//D: for applications that need to create and run their own reflective
+//D: activities, direct use of activity types by a modeling application
+//D: should be rare.
+
+//D: A new activity object is created by each activateIn: message sent to
+//D: an action type.  activateIn: initializes a new activity object and
+//D: prepares it for processing, but does not itself execute any actions.
+//D: Subsequent messages, such as run, must be used to initiate processing
+//D: within an activity.  If an activity is activated to run under a swarm
+//D: context, the owning swarm itself controls all processing within the
+//D: subactivity.
+
+//D: An Activity type holds a tree of currently running, or a potentially
+//D: runnable, subactivities.  Each activity object represents a state of
+//D: processing within a single action plan.  The structure is a tree
+//D: because multiple activities could be running or eligible to run at the
+//D: same time.  This occurs whenever two activities are specified as
+//D: concurrent, either because are being performed by concurrent actions
+//D: in some other plan, or because they were started for autonomous
+//D: execution under the same swarm.  When parallel processing machinery is
+//D: present, each activity could also be advancing its own state
+//D: independent of those of any other activity.
+
+//D: The current implementation supports only a single serial processor.
+//D: Under serial execution, only one activity may be active at one time.
+//D: This means that the current state of processing may be represented by
+//D: a single stack of current activities that traces a path to a single
+//D: leaf of the runnable activity tree.  When running in serial mode,
+//D: messages are available to obtain the currently running leaf activity
+//D: or useful context information such as the current time available from it.
+
+USING
+//M: The run message continue processing of an activity from any state in
+//M: which its execution has been suspended.  An error is raised if the
+//M: activity is already running.  run returns either a Stopped or
+//M: Completed status that the activity has when it is no longer eligible
+//M: to be run further.
+- (id <Symbol>)run;
+
+//M: The stop message causes the a currently running tree of activities to
+//M: stop further processing and return a Stopped status.  
+- stop;
+
+//M: Terminate also
+//M: stops a running tree of activities, but sets all activities within the
+//M: tree to a status of Completed whenever the tree is next run.
+//M: terminate may be used on either a running or stopped tree of
+//M: activities.  It is the standard way to terminate schedule that is
+//M: endlessly repeating under the RepeatInterval option.
+- (void)terminate;
+
+//M: The next executes actions within a single compound action while
+//M: skipping over all processing of any complete action plans executed by
+//M: those actions.
+- (id <Symbol>)next;
+
+//M: The step message executes a single action within a tree of activities. 
+- (id <Symbol>)step;
+
+//M: The getStatus message returns one of the following codes for the current
+//M: run status of a particular activity:
+//M: Initialized, Running, Stopped, Holding, Released, Terminated, Completed.
+- (id <Symbol>)getStatus;
+
+//M: The getHoldType returns a code for the particular hold constraint
+//M: under which an activity is currently holding (HoldStart or HoldEnd).
+//M: It returns nil if the
+//M: basic status of the activity is not Holding. 
+
+//M: (.. Currently no hold
+//M: constraints other than merging within a swarm are supported, and this
+//M: message always returns nil.)
+- (id <Symbol>)getHoldType;
+
+//M: Get action containing parameter bindings for the local activity.
+- getAction;
+
+//M: Get action type of action being performed by activity.
+- getActionType;
+
+//M: Change owner from one swarm activity to another.
+- (void)setOwnerActivity: ownerActivity;
+
+//M: Return activity under which this activity is running.
+- getOwnerActivity;
+
+//M: Return set of subactivities pending to be run.
+- getSubactivities;
+
+//M: Return activity that issued current run request on top-level activity.
+- getControllingActivity;
+
+//M: Return top of activity tree running the local activity.
+- getTopLevelActivity;
+
+//M: Return most immediately containing Swarm activity.
+- getSwarmActivity;
+
+//M: Return most immediately containing Schedule activity.
+- getScheduleActivity;
+
+//M: Set serial execution mode.
+- setSerialMode: (BOOL)serialMode;
+
+//M: Return indicator for serial execution mode.
+- (BOOL)getSerialMode;
+
+//M: Get running subactivity or next subactivity to run.
+- (id <Activity>)getCurrentSubactivity;  // serial mode only
+@end
+
+//G: Values returned by getStatus.
+externvar id <Symbol> Initialized, Running, Holding, Released, Stopped,
+  Terminated, Completed;
 
 @protocol Action <Create, Drop, GetOwner, RETURNABLE>
 //S: An action type that has been customized for direct execution by an
@@ -133,9 +239,11 @@ USING
 //D: These capabilities will remain, but different messages will
 //D: eventually be supported.  This documentation will be completed once
 //D: the messages supported on Action types are finalized.
+USING
+- (void)_performAction_: (id <Activity>)activity;
 @end
 
-@protocol ActionArgs <Action>
+@protocol ActionArgs
 //S: Supertype of ActionCall, ActionTo, and ActionForEach.
 
 //D: The ActionArgs subtypes all implement a specific, hard-coded method
@@ -162,7 +270,7 @@ CREATING
 USING
 @end
 
-@protocol ActionTo <ActionArgs, RETURNABLE>
+@protocol ActionTo <Action, ActionArgs, RETURNABLE>
 //S: An action defined by sending an Objective C message.
 //D: An action defined by sending an Objective C message.
 CREATING
@@ -186,7 +294,7 @@ CREATING
 - setFinalizationFlag: (BOOL)finalizationFlag;
 @end
 
-@protocol ActionCall <ActionArgs, RETURNABLE>
+@protocol ActionCall <Action, ActionArgs, RETURNABLE>
 //S: An action defined by calling a C function.
 //D: An action defined by calling a C function.
 CREATING
@@ -342,171 +450,12 @@ typedef unsigned long timeval_t;
 //S: Additional methods used by indexes over activities.
 //D: Additional methods used by indexes over activities.
 USING
-- getHoldType;
+- (id <Symbol>)getHoldType;
 - (id <Action>)nextAction: (id *)status;
 @end
 
-@protocol Activity <DefinedObject, Drop, RETURNABLE>
-//S: A level of processing by the interpreter of an action type.
-
-//D: A object of type Activity implements the processing of actions within
-//D: an action plan.  Each subtype of action plan has a corresponding
-//D: subtype of Activity that implements processing of its respective type
-//D: of plan.
-
-//D: The Activity types are part of the virtual processing machinery of an
-//D: action plan interpreter.  All the important elements of this
-//D: machinery, including their current state of processing, are exposed to
-//D: aid in development of general-purpose tools such as debuggers.  Except
-//D: for applications that need to create and run their own reflective
-//D: activities, direct use of activity types by a modeling application
-//D: should be rare.
-
-//D: A new activity object is created by each activateIn: message sent to
-//D: an action type.  activateIn: initializes a new activity object and
-//D: prepares it for processing, but does not itself execute any actions.
-//D: Subsequent messages, such as run, must be used to initiate processing
-//D: within an activity.  If an activity is activated to run under a swarm
-//D: context, the owning swarm itself controls all processing within the
-//D: subactivity.
-
-//D: An Activity type holds a tree of currently running, or a potentially
-//D: runnable, subactivities.  Each activity object represents a state of
-//D: processing within a single action plan.  The structure is a tree
-//D: because multiple activities could be running or eligible to run at the
-//D: same time.  This occurs whenever two activities are specified as
-//D: concurrent, either because are being performed by concurrent actions
-//D: in some other plan, or because they were started for autonomous
-//D: execution under the same swarm.  When parallel processing machinery is
-//D: present, each activity could also be advancing its own state
-//D: independent of those of any other activity.
-
-//D: The current implementation supports only a single serial processor.
-//D: Under serial execution, only one activity may be active at one time.
-//D: This means that the current state of processing may be represented by
-//D: a single stack of current activities that traces a path to a single
-//D: leaf of the runnable activity tree.  When running in serial mode,
-//D: messages are available to obtain the currently running leaf activity
-//D: or useful context information such as the current time available from it.
-
-USING
-//M: The run message continue processing of an activity from any state in
-//M: which its execution has been suspended.  An error is raised if the
-//M: activity is already running.  run returns either a Stopped or
-//M: Completed status that the activity has when it is no longer eligible
-//M: to be run further.
-- (id <Symbol>)run;
-
-//M: The stop message causes the a currently running tree of activities to
-//M: stop further processing and return a Stopped status.  
-- stop;
-
-//M: Terminate also
-//M: stops a running tree of activities, but sets all activities within the
-//M: tree to a status of Completed whenever the tree is next run.
-//M: terminate may be used on either a running or stopped tree of
-//M: activities.  It is the standard way to terminate schedule that is
-//M: endlessly repeating under the RepeatInterval option.
-- (void)terminate;
-
-//M: The next executes actions within a single compound action while
-//M: skipping over all processing of any complete action plans executed by
-//M: those actions.
-- (id <Symbol>)next;
-
-//M: The step message executes a single action within a tree of activities. 
-- (id <Symbol>)step;
-
-//M: The getStatus message returns one of the following codes for the current
-//M: run status of a particular activity:
-//M: Initialized, Running, Stopped, Holding, Released, Terminated, Completed.
-- (id <Symbol>)getStatus;
-
-//M: The getHoldType returns a code for the particular hold constraint
-//M: under which an activity is currently holding (HoldStart or HoldEnd).
-//M: It returns nil if the
-//M: basic status of the activity is not Holding. 
-
-//M: (.. Currently no hold
-//M: constraints other than merging within a swarm are supported, and this
-//M: message always returns nil.)
-- (id <Symbol>)getHoldType;
-
-//M: Get action containing parameter bindings for the local activity.
-- getAction;
-
-//M: Get action type of action being performed by activity.
-- getActionType;
-
-//M: Change owner from one swarm activity to another.
-- (void)setOwnerActivity: ownerActivity;
-
-//M: Return activity under which this activity is running.
-- getOwnerActivity;
-
-//M: Return set of subactivities pending to be run.
-- getSubactivities;
-
-//M: Return activity that issued current run request on top-level activity.
-- getControllingActivity;
-
-//M: Return top of activity tree running the local activity.
-- getTopLevelActivity;
-
-//M: Return most immediately containing Swarm activity.
-- getSwarmActivity;
-
-//M: Return most immediately containing Schedule activity.
-- getScheduleActivity;
-
-//M: Set serial execution mode.
-- setSerialMode: (BOOL)serialMode;
-
-//M: Return indicator for serial execution mode.
-- (BOOL)getSerialMode;
-
-//M: Get running subactivity or next subactivity to run.
-- getCurrentSubactivity;  // serial mode only
-@end
-
-//G: Values returned by getStatus.
-externvar id <Symbol> Initialized, Running, Holding, Released, Stopped,
-  Terminated, Completed;
-
 //G: Values returned by getHoldType.
 externvar id <Symbol> HoldStart, HoldEnd;
-
-
-@protocol ScheduleActivity <Activity, RETURNABLE>
-//S: State of execution within a Schedule.
-//D: State of execution within a Schedule.
-CREATING
-USING
-//M: Get current time of activity (pending time if holding).
-- (timeval_t)getCurrentTime;
-
-//M: Advance activity until requested time has been reached.
-- stepUntil: (timeval_t)tVal;
-@end
-
-@protocol SwarmActivity <ScheduleActivity, RETURNABLE>
-//S: A collection of started subactivities.
-//D: A collection of started subactivities.
-
-USING
-//M: Return swarm object containing this swarm activity, if any.
-- getSwarm;
-
-- getSynchronizationSchedule;
-@end
-
-@protocol ForEachActivity <Activity, RETURNABLE>
-//S: State of execution within a ForEach action.
-//D: State of execution within a ForEach action.
-
-USING
-- getCurrentMember;
-@end
 
 @protocol ActionType
 //S: Specification of an executable process.
@@ -574,45 +523,6 @@ CREATING
 
 USING
 - getSynchronizationType;
-@end
-
-@protocol SwarmProcess <ActionType, Zone, SynchronizationType>
-//S: An object that holds a collection of concurrent subprocesses.
-
-//D: SwarmProcess inherits the messages of both ActionType and Zone.
-//D: Inheritance of zone behavior means that a swarm can be used as the
-//D: argument of a create: or createBegin: message, for creation of an
-//D: object within the internal zone of a swarm.
-
-//D: Unlike other action types, swarms and swarm activities always exist in
-//D: a one-to-one relationship, provided that the swarm has been activated.
-//D: This restriction to a single activity enables the swarm to do
-//D: double-duty as a custom object that provides its own interface to the
-//D: activities running within the swarm.
-
-CREATING
-//M: The InternalZoneType option sets the type of zone which is created by
-//M: the swarm to hold objects created within the swarm.  If set to nil, no
-//M: internal zone is created within the swarm, and all use of the swarm as
-//M: if it were a zone raises an error.  The default of this option is
-//M: standard Zone type.  (.. Since there is no other Zone type yet,
-//M: there's no reason to set this option yet except to turn off the
-//M: internal zone. ..)
-- setInternalZoneType: aZoneType;
-
-USING
-//M: getInternalZone returns a Zone object that is used by the swarm to
-//M: hold its internal objects.  Even though the swarm itself inherits from
-//M: Zone and can be used as a Zone for nearly all purposes, this message
-//M: is also provided so that the zone itself can be obtained independent
-//M: of all zone behavior.
-- getInternalZone;
-
-//M: getActivity returns the activity which is currently running of
-//M: subactivities within the swarm.  This activity is the same as the
-//M: value returned by activateIn: when the swarm was first activated.  It
-//M: returns nil if the swarm has not yet been activated.
-- (id <Activity>)getActivity;
 @end
 
 @protocol AutoDrop
@@ -833,6 +743,76 @@ USING
 - setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 @end
 
+@protocol ScheduleActivity <Activity, RETURNABLE>
+//S: State of execution within a Schedule.
+//D: State of execution within a Schedule.
+CREATING
+USING
+//M: Get current time of activity (pending time if holding).
+- (timeval_t)getCurrentTime;
+
+//M: Advance activity until requested time has been reached.
+- stepUntil: (timeval_t)tVal;
+@end
+
+@protocol SwarmActivity <ScheduleActivity, RETURNABLE>
+//S: A collection of started subactivities.
+//D: A collection of started subactivities.
+
+USING
+//M: Return swarm object containing this swarm activity, if any.
+- getSwarm;
+
+- (id <Schedule>)getSynchronizationSchedule;
+@end
+
+@protocol ForEachActivity <Activity, RETURNABLE>
+//S: State of execution within a ForEach action.
+//D: State of execution within a ForEach action.
+
+USING
+- getCurrentMember;
+@end
+
+@protocol SwarmProcess <ActionType, Zone, SynchronizationType>
+//S: An object that holds a collection of concurrent subprocesses.
+
+//D: SwarmProcess inherits the messages of both ActionType and Zone.
+//D: Inheritance of zone behavior means that a swarm can be used as the
+//D: argument of a create: or createBegin: message, for creation of an
+//D: object within the internal zone of a swarm.
+
+//D: Unlike other action types, swarms and swarm activities always exist in
+//D: a one-to-one relationship, provided that the swarm has been activated.
+//D: This restriction to a single activity enables the swarm to do
+//D: double-duty as a custom object that provides its own interface to the
+//D: activities running within the swarm.
+
+CREATING
+//M: The InternalZoneType option sets the type of zone which is created by
+//M: the swarm to hold objects created within the swarm.  If set to nil, no
+//M: internal zone is created within the swarm, and all use of the swarm as
+//M: if it were a zone raises an error.  The default of this option is
+//M: standard Zone type.  (.. Since there is no other Zone type yet,
+//M: there's no reason to set this option yet except to turn off the
+//M: internal zone. ..)
+- setInternalZoneType: aZoneType;
+
+USING
+//M: getInternalZone returns a Zone object that is used by the swarm to
+//M: hold its internal objects.  Even though the swarm itself inherits from
+//M: Zone and can be used as a Zone for nearly all purposes, this message
+//M: is also provided so that the zone itself can be obtained independent
+//M: of all zone behavior.
+- getInternalZone;
+
+//M: getActivity returns the activity which is currently running of
+//M: subactivities within the swarm.  This activity is the same as the
+//M: value returned by activateIn: when the swarm was first activated.  It
+//M: returns nil if the swarm has not yet been activated.
+- (id <SwarmActivity>)getActivity;
+@end
+
 //
 // Macros to access to the current context in which an action is executing
 //
@@ -940,13 +920,13 @@ externvar id _activity_zone;
 //G: has been implemented as an integral part of the Activity type.
 externvar BOOL (*_activity_trace) (id);  
 
-#define COMPLETEDP(status) ((id)(status) == (id)Completed)
-#define HOLDINGP(status) ((id)(status) == (id)Holding)
-#define INITIALIZEDP(status) ((id)(status) == (id)Initialized)
-#define RELEASEDP(status) ((id)(status) == (id)Released)
-#define RUNNINGP(status) ((id)(status) == (id)Running)
-#define STOPPEDP(status) ((id)(status) == (id)Stopped)
-#define TERMINATEDP(status) ((id)(status) == (id)Terminated)
+#define COMPLETEDP(status) ((status) == Completed)
+#define HOLDINGP(status) ((status) == Holding)
+#define INITIALIZEDP(status) ((status) == Initialized)
+#define RELEASEDP(status) ((status) == Released)
+#define RUNNINGP(status) ((status) == Running)
+#define STOPPEDP(status) ((status) == Stopped)
+#define TERMINATEDP(status) ((status) == Terminated)
 
 //
 // include automatically generated definitions for activity package

@@ -857,7 +857,8 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 //
 
 @implementation ActionConcurrent_c
-
+PHASE(Creating)
+PHASE(Using)
 - (void)_performAction_: (id <Activity>)anActivity
 {
   [(id) concurrentGroup _performPlan_];
@@ -1011,7 +1012,7 @@ PHASE(Using)
 //
 - stepUntil: (timeval_t)tVal
 {
-  id  nextStatus = nil;
+  id <Symbol> nextStatus = nil;
 
   while ([self getCurrentTime] < tVal
          && !COMPLETEDP (nextStatus = [self next]));
@@ -1040,9 +1041,9 @@ PHASE(Using)
   // remove the merge action for the activity from the merge schedule
 
   if (mergeAction)
-    [((Index_any *) swarmActivity->currentIndex)->collection
-                                                remove: mergeAction];
-
+    [((ScheduleIndex_c *) swarmActivity->currentIndex)->collection
+                                                      remove: mergeAction];
+  
   // complete the rest of the drop actions by standard means
   
   [super dropAllocations: componentAlloc];
@@ -1068,7 +1069,7 @@ PHASE(Using)
 //
 - nextAction: (id *)status
 {
-  id actionAtIndex, removedAction;
+  id <Action> actionAtIndex, removedAction;
   ActionChanged_c *newAction;
   ScheduleIndex_c *swarmIndex;
 
@@ -1107,7 +1108,7 @@ PHASE(Using)
       if (((Schedule_c *) collection)->bits & BitAutoDrop)
         {
           removedAction = [super remove];
-          [removedAction dropAllocations: YES];
+          [(id) removedAction dropAllocations: YES];
         }
     }
   
@@ -1240,7 +1241,9 @@ PHASE(Using)
 //
 - get
 {
-  if (REMOVEDP (currentAction) || COMPLETEDP (currentAction))
+  id <Symbol> status = currentAction;
+
+  if (REMOVEDP (status) || COMPLETEDP (status))
     return nil;
   return currentAction;
 }

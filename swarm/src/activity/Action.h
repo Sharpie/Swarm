@@ -19,7 +19,7 @@ Library:      activity
 #import <defobj/directory.h>
 #endif
 
-@interface CAction: CreateDrop_s <Action>
+@interface CAction: CreateDrop_s
 {
 @public
   ActionType_c *owner;       // action type that binds action in its context
@@ -30,7 +30,7 @@ Library:      activity
 - (void)drop;
 @end
 
-@interface PAction: CAction <Action>
+@interface PAction: CAction
 {
 @public
   id <FCall> call;
@@ -39,7 +39,7 @@ Library:      activity
 }
 @end
 
-@interface PFAction: PAction <ActionArgs, Action>
+@interface PFAction: PAction <Action, ActionArgs>
 {
   unsigned argCount;
   id arg1, arg2, arg3;

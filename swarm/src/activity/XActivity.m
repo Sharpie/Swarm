@@ -102,8 +102,9 @@ auditRunRequest (Activity_c *self, const char *request)
 //
 - (id <Symbol>)_run_
 {
-  id  initStatus, subStatus, nextAction;
-
+  id <Symbol> initStatus, subStatus;
+  id <Action> nextAction;
+  
   // status is Running whenever actions being processed by run loop
 
   initStatus = status;
@@ -423,7 +424,7 @@ installStep (Activity_c *activity)
 //
 // getAction -- get action containing parameter bindings for the local activity
 //
-- getAction
+- (id <Action>)getAction
 {
   if (!topLevelAction)
     return [ownerActivity->currentIndex get];
@@ -442,7 +443,7 @@ installStep (Activity_c *activity)
 //
 // setOwnerActivity: -- change owner from one swarm activity to another
 //
-- (void)setOwnerActivity: aSwarmActivity
+- (void)setOwnerActivity: (id <SwarmActivity>)aSwarmActivity
 {
   if (getClass (aSwarmActivity) != id_SwarmActivity_c)
     raiseEvent (SourceMessage,
@@ -472,7 +473,7 @@ installStep (Activity_c *activity)
 //
 // getOwnerActivity -- return activity under which this activity is running
 //
-- getOwnerActivity
+- (id <Activity>)getOwnerActivity
 {
   return topLevelAction ? nil : ownerActivity;
 }
@@ -481,7 +482,7 @@ installStep (Activity_c *activity)
 // getControllingActivity --
 //   return activity that issued current run request on top-level activity
 //
-- getControllingActivity
+- (id <Activity>)getControllingActivity
 {
   return topLevelAction ? ownerActivity : nil;
 
@@ -491,7 +492,7 @@ installStep (Activity_c *activity)
 // getTopLevelActivity --
 //   return top of activity tree running the local activity
 //
-- getTopLevelActivity
+- (id <Activity>)getTopLevelActivity
 {
   Activity_c *activity;
 
@@ -505,7 +506,7 @@ installStep (Activity_c *activity)
 //
 // getSwarmActivity -- return most immediately containing Swarm activity
 //
-- getSwarmActivity
+- (id <SwarmActivity>)getSwarmActivity
 {
   Activity_c *activity;
 
@@ -515,13 +516,13 @@ installStep (Activity_c *activity)
     if (activity->topLevelAction)
       return nil;
   
-  return activity;
+  return (SwarmActivity_c *) activity;
 }
 
 //
 // getScheduleActivity -- return most immediately containing Schedule activity
 //
-- getScheduleActivity
+- (id <ScheduleActivity>)getScheduleActivity
 {
   Activity_c  *activity;
 
@@ -532,7 +533,7 @@ installStep (Activity_c *activity)
     if (activity->topLevelAction)
       return nil;
   
-  return activity;
+  return (ScheduleActivity_c *) activity;
 }
 
 //
@@ -580,7 +581,7 @@ installStep (Activity_c *activity)
 //
 // getCurrentSubactivity -- get running subactivity or next subactivity to run
 //
-- getCurrentSubactivity
+- (id <Activity>)getCurrentSubactivity
 {
   if (!currentSubactivity)
     {

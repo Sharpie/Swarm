@@ -18,22 +18,22 @@ Library:      activity
 #import <activity/XActivity.h>
 
 void 
-setDefaultOrder (unsigned *bits, id aSymbol)
+setDefaultOrder (unsigned *bits, id <Symbol> aSymbol)
 {  
-  if (aSymbol == (id) Concurrent) 
+  if (aSymbol == Concurrent) 
     setBit (*bits, BitConcurrent, 1); 
-  else if (aSymbol == (id) Sequential)
+  else if (aSymbol == Sequential)
     {
       setBit (*bits, BitConcurrent, 0);
       setBit (*bits, BitRandomized, 0);
     }
-  else if (aSymbol == (id) Randomized)
+  else if (aSymbol == Randomized)
     setBit (*bits, BitRandomized, 1);
   else
     raiseEvent (InvalidArgument, nil);
 }
 
-id
+id <Symbol>
 getDefaultOrder (unsigned bits)
 {
   if (bits & BitConcurrent)
@@ -82,7 +82,7 @@ getDefaultOrder (unsigned bits)
   return (bits & BitAutoDrop) == BitAutoDrop;
 }
 
-- getDefaultOrder
+- (id <Symbol>)getDefaultOrder
 {
   return getDefaultOrder (bits);
 }
@@ -212,7 +212,7 @@ registerSubactivity (Zone_c *zone, Activity_c *owner, Activity_c *newActivity)
     newActivity->breakFunction = _activity_trace;
   
   // create index on the plan actions for traversal by the activity
-  if ([self getDefaultOrder] == (id) Randomized
+  if ([self getDefaultOrder] == Randomized
       && [self conformsTo: @protocol (ActionGroup)])
     newActivity->currentIndex =
       [(ActionGroup_c *) self _createPermutedIndex_: 

@@ -88,7 +88,7 @@ PHASE(Using)
 // getActivity --
 //   return activity object that is running the subprocesses of the swarm
 //
-- getActivity
+- (id <SwarmActivity>)getActivity
 {
   return activity;
 }
@@ -96,7 +96,7 @@ PHASE(Using)
 //
 // getSwarmActivity -- old name still supported as synonym for getActivity
 //
-- getSwarmActivity
+- (id <SwarmActivity>)getSwarmActivity
 {
   return activity;
 }
@@ -286,7 +286,7 @@ PHASE(Using)
 
   // terminate all pending subactivities in the merge schedule
 
-  index = [(id) ((Index_any *) currentIndex)->collection begin: scratchZone];
+  index = [(id) ((ScheduleIndex_c *) currentIndex)->collection begin: scratchZone];
   while ((nextAction = [index next]))
     {
       if (getClass (nextAction) == id_ActionMerge_c)
@@ -315,7 +315,7 @@ PHASE(Using)
 //
 - getSubactivities
 {
-  return ((Index_any *) currentIndex)->collection;
+  return ((ScheduleIndex_c *) currentIndex)->collection;
 }
 
 //
@@ -329,9 +329,9 @@ PHASE(Using)
 //
 // getSynchronizationSchedule
 //
-- getSynchronizationSchedule
+- (id <Schedule>)getSynchronizationSchedule
 {
-  return ((Index_any *) currentIndex)->collection;
+  return (Schedule_c *) ((ScheduleIndex_c *) currentIndex)->collection;
 }
 
 //
@@ -353,7 +353,8 @@ PHASE(Using)
 //
 
 @implementation ActionMerge_c
-
+PHASE(Creating)
+PHASE(Using)
 //
 // _performAction_: -- perform single step of an activity holding for merge
 //

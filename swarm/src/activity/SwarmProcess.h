@@ -49,14 +49,14 @@ Library:      activity
 - createEnd;
 - (timeval_t)getInternalTimeMultiplier;
 - getInternalZone;
-- getActivity;
-- getSwarmActivity;
+- (id <SwarmActivity>)getActivity;
+- (id <SwarmActivity>)getSwarmActivity;
 - getSynchronizationType;
 - activate;
 - activate: anActionType;
 - at: (timeval_t)tVal activate: anActionType;
 - at: (int)timebase : (timeval_t)tVal activate: anActionType;
-- activateIn: swarmContext;
+- (id <Activity>)activateIn: swarmContext;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)_performPlan_;
 @end
