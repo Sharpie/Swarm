@@ -114,7 +114,7 @@ PHASE(Creating)
         }
       xsize = xmax + 1;
       ysize = ymax + 1;
-      XFREE (rowNames); // but not the contents
+      [[hdf5Obj getZone] free: rowNames]; // but not the contents
     }
   else
     {
@@ -201,7 +201,7 @@ PHASE(Setting)
           obj = [obj createEnd];
           [self putObject: obj atX: x Y: y];
         }
-      XFREE (rowNames); // but not the contents
+      [[hdf5Obj getZone] free: rowNames]; // but not the contents
     }
   else
     {
