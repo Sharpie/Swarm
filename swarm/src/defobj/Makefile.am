@@ -8,9 +8,8 @@ include $(top_srcdir)/src/Makefile.rules
 
 EXTRA_DIST = make-h2x m2h internal.h
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES)
+INCLUDES = -I$(top_srcdir)/libobjc -I.. -I$(srcdir)/.. -I$(srcdir)/../collections -I$(srcdir)/../misc $(HDF5INCLUDES)
 
-lib_LIBRARIES = libdefobj.a
 lib_LTLIBRARIES = libdefobj.la
 
 module_headers = classes.h types.h defobj.xm
@@ -23,7 +22,6 @@ SRC = Archiver.m Arguments.m Create.m Customize.m \
 	DefClass.m DefObject.m HDF5Object.m Program.m Symbol.m Zone.m \
 	defobj.m internal.m
 
-libdefobj_a_SOURCES = $(SRC)
 libdefobj_la_SOURCES = $(SRC)
 libdefobj_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
