@@ -1,3 +1,9 @@
+1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (swarm.dll): Use -lobjcdll, not *.lo files.  
+	(either need to disable imports in objc headers or use this DLL,
+	since the stubs are only in the generated library).
+
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (swarm.dll): Use libobjc *.lo files instead of
