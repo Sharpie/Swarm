@@ -10,7 +10,7 @@ JAVAC=@JAVAC@
 JAVACLASSES=@JAVACLASSES@
 srcdir=@srcdir@
 VPATH=$(srcdir)
-JAVACOMPILE = $(JAVAC) -d .. -classpath '..@PATHSEP@$(JAVACLASSES)'
+JAVACOMPILE = $(JAVAC) -classpath '..@PATHSEP@$(JAVACLASSES)'
 
 include ../Makefile.common
 
@@ -67,4 +67,4 @@ install: install-java-classes-as-@JAVA_CLASSES_INSTALLED_AS@
 
 # for the non-generated Java (the other rules from JavaDep use JAVACOMPILE)
 %.class: %.java
-	$(JAVACOMPILE) @PATHEXPR@
+	$(JAVACOMPILE) -d .. @PATHEXPR@
