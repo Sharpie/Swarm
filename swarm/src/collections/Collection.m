@@ -337,11 +337,11 @@ indexAtOffset (Collection_any *self, int offset)
   int count;
   id permutation;
   count = [collection getCount];
-  permutation = [Permutation createBegin: getZone(self)];
+  permutation = [Permutation createBegin: [getZone(self) getComponentZone]];
   [permutation  setMaxElement: count];
   permutation = [permutation createEnd];
-  permutationIndex = [permutation begin: getZone(self)];
-  index = [collection begin: getZone(self)];
+  permutationIndex = [permutation begin: [getZone(self) getComponentZone]];
+  index = [collection begin: [getZone(self) getComponentZone]];
   setMappedAlloc(self);  
   return self;
 }

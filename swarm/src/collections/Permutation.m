@@ -23,7 +23,8 @@ PHASE(Creating)
   newPermutation = [aZone allocIVars: self];
   newPermutation->minElement = 1;
   newPermutation->maxElement = 0;
-  newPermutation->shuffler = [ListShuffler createBegin: aZone];
+  newPermutation->shuffler = 
+    [ListShuffler createBegin: [aZone getComponentZone]];
   
   return newPermutation;
 }

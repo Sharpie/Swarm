@@ -1,7 +1,12 @@
 1998-12-15  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
 
+	* Permutation.m ([Permutation_c +createBegin:]): Use component zone 
+	for internal objects of Permutation.
+
 	* Collection.m ([PermutedIndex_c -mapAllocations:mapalloc]): 
 	Remove return self.
+	([PermutedIndex_c -createEnd]): Use component zone for internal
+	objects of PermutedIndex.
 
 	* Permutation.m ([Permutation_c -mapAllocations:mapalloc]): 
 	Likewise
