@@ -217,8 +217,6 @@ fillHiddenArguments (FCall_c * self)
 
 - createEnd
 {
-  unsigned int res;
-
   if (_obj_debug && (callType == ccall || callType == objccall) && !ffunction)
     raiseEvent (SourceMessage, "Function to be called not set!\n");
   if (_obj_debug && !args)
@@ -241,17 +239,21 @@ fillHiddenArguments (FCall_c * self)
           raiseEvent (SourceMessage, "Could not find Java method!\n");
       }
 #endif
-#ifndef USE_AVCALL
   fillHiddenArguments (self);
+#ifndef USE_AVCALL
   switch_to_ffi_types ((FArguments *) args);
-  res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
-		      args->hiddenArguments + args->assignedArguments, 
-		      (ffi_type *) args->returnType, 
-		      (ffi_type **) args->argTypes + MAX_HIDDEN - 
-		      args->hiddenArguments);
-  if (_obj_debug && res != FFI_OK)
-    raiseEvent (SourceMessage,
-                "Failed while preparing foreign function call closure!\n"); 
+  {
+    unsigned res;
+    
+    res = ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 
+                        args->hiddenArguments + args->assignedArguments, 
+                        (ffi_type *) args->returnType, 
+                        (ffi_type **) args->argTypes + MAX_HIDDEN - 
+                        args->hiddenArguments);
+    if (_obj_debug && res != FFI_OK)
+      raiseEvent (SourceMessage,
+                  "Failed while preparing foreign function call closure!\n"); 
+  }
 #else
   abort ();
 #endif
