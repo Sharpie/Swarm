@@ -40,7 +40,6 @@ void tkobjc_deleteEventHandler (id widget, Tk_EventProc proc);
 
 void tkobjc_animate_message (id srcWidget, id destWidget, int sx, int sy, int dx, int dy, BOOL triggerFlag, unsigned sleepTime);
 void tkobjc_move (id toplevel, int x, int y);
-void tkobjc_resize (id toplevel, unsigned w, unsigned h);
 
 void tkobjc_raster_create (Raster *raster);
 void tkobjc_raster_erase (Raster *raster);
