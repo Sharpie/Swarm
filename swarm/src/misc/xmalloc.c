@@ -4,6 +4,16 @@
 #include <gc.h>
 #endif
 
+#if 0
+#include <jni.h>
+#define USE_GC
+#define GC_MALLOC(size) jmalloc(size)
+#define GC_MALLOC_ATOMIC(size) jmalloc(size)
+#define GC_CALLOC(cnt,size) jmalloc ((cnt) * (size))
+#define GC_REALLOC(ptr,size) jrealloc (ptr, size)
+#define GC_FREE(ptr) jfree(ptr)
+#endif
+
 void *
 xmalloc (size_t size)
 {

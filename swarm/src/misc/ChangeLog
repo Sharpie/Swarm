@@ -1,5 +1,7 @@
 1999-08-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* xmalloc.c: Add GC_* defs for Kaffe. (disabled)
+
 	* find_executable.c (find_executable): Avoid use of strdup.
 
 1999-07-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
