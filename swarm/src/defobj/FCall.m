@@ -556,61 +556,52 @@ PHASE(Using)
 #endif
   void return_void (void) { return; }
 
+#define APPLY(func) __builtin_apply ((apply_t) func,__builtin_apply_args (), 16)
+
   retval_t apply_uchar (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_uchar, args, sizeof (void *));
+      return APPLY (return_uchar);
     }
   retval_t apply_ushort (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_ushort, args, sizeof (void *));
+      return APPLY (return_ushort);
     }
   retval_t apply_unsigned (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_unsigned, args, sizeof (void *));
+      return APPLY (return_unsigned);
     }
   retval_t apply_ulong (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_ulong, args, sizeof (void *));
+      return APPLY (return_ulong);
     }
   retval_t apply_float (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_float, args, sizeof (void *));
+      return APPLY (return_float);
     }
   retval_t apply_double (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_double, args, sizeof (void *));
+      return APPLY (return_double);
     }
   retval_t apply_object (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_object, args, sizeof (void *));
+      return APPLY (return_object);
     }
   retval_t apply_string (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_string, args, sizeof (void *));
+      return APPLY (return_string);
     }
   retval_t apply_void (void)
     {
-      void* args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_void, args, sizeof (void *));
+      return APPLY (return_void);
     }
 #ifdef HAVE_JDK
   retval_t apply_jobject (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_jobject, args, sizeof (void *));
+      return APPLY (return_jobject);
     }
   retval_t apply_jstring (void)
     {
-      void *args = __builtin_apply_args ();
-      return __builtin_apply ((apply_t) return_jstring, args, sizeof (void *));
+      return APPLY (return_jstring);
     }
 #endif
   switch (fargs->returnType)

@@ -1,3 +1,9 @@
+1999-05-08  Marcus Daniels  <marcusd@asl.krasnow.gmu.edu>
+
+	* FCall.m (APPLY): New macro. Use it in all apply_* functions.
+	This macro uses a fixed size of 16 for the __builtin_apply stack
+	size argument -- necessary for unknown reasons on Irix6.5.
+
 1999-05-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m ([FCall_c -performCall]): Add casts for jobject and jstring
