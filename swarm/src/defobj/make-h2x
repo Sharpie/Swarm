@@ -35,7 +35,7 @@ echo \
 
 # extract all declared symbols into temporary file
 
-sh -c "$CC $CFLAGS -E $srcdir/$m.h" | \
+sh -c "$OBJC $OBJCFLAGS -E $srcdir/$m.h" | \
 sed -n \
   -e 's@//.*$@@' \
   -e 's/	//g' \

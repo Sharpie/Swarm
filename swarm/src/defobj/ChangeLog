@@ -1,5 +1,7 @@
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* make-h2x: Use OBJC and OBJCFLAGS instead of CC and CFLAGS.
+
 	* Program.[hm] (_obj_nclasses, _obj_nmodules): Make unsigned.
 
 1998-11-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
