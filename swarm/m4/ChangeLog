@@ -1,6 +1,7 @@
 1999-09-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* acjdk.m4: Add case for i386-FreeBSD / green threads.
+	* acjdk.m4: Add case for i386-freebsd / green threads
+	and for mips-sgi-irix / native threads.
 
 1999-09-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

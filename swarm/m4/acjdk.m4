@@ -62,6 +62,10 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/freebsd"
       threads=green
       proc=i386
+    elif test -f $expand_jdkincludedir/irix/jni_md.h; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/irix"
+      threads=native
+      proc=mips
     elif test -f $expand_jdkincludedir/alpha/jni_md.h; then
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/alpha"
       JAVALIBS='${jdkdir}/shlib'
