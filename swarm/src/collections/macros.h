@@ -117,3 +117,5 @@ extern id _i_OrderedSet_c__remove_ (struct OrderedSet_c *, struct objc_selector 
 #endif
 
 #define COLLECTION_COUNT(coll) (((Collection_any *) coll)->count)
+#define LIST_GETFIRST(l) ((((List_linked *) l)->firstLink)->refObject)
+

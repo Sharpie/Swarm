@@ -1,3 +1,7 @@
+2001-08-17  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* macros.h (LIST_GETFIRST): New macro.
+
 2001-07-29  Marcus G. Daniels  <mgd@dhcp70.santafe.edu>
 
 	* macros.h (COLLECTION_{REMOVE,ATOFFSET,GETLAST,GETFIRST,COUNT},
