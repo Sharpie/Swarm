@@ -1,3 +1,8 @@
+2003-03-25    <pauljohn@234.81.cm.sunflower.com>
+
+	* argp.h: Cygwin defines errno_t and sets __ERRNO_H__, so check
+	for that before declaring again.
+
 2002-04-14  Alex Lancaster  <alex@swarm.org>
 
 	* misc.h: Change copyright statement to canonical version as

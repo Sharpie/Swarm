@@ -39,9 +39,12 @@ extern const char *program_invocation_name, *program_invocation_short_name;
 #undef __const
 #define __const const
 
+/*__ERRNO_H__ is set in Cygwin's C library when error_t is declared */
+#ifndef __ERRNO_H__
 #ifndef __error_t_defined
 typedef int error_t;
 #define __error_t_defined
+#endif
 #endif
 
 #ifndef __P
