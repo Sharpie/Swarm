@@ -5,6 +5,8 @@
 
 	* configure.in: Put in objcdepmode substitution.
 
+	* depcomp: New file.
+
 	* missing: Update.	
 
 2001-08-24    <mgd@HELEN>
