@@ -117,15 +117,13 @@
   return self;
 }
 
-#ifndef _WIN32
 // draw an arbitrary object: we just call the "drawOn" method in
 // the object we're given.
-- draw: (id <XDrawer>)xd X: (int)x Y: (int)y
+- draw: (id <Drawer>)xd X: (int)x Y: (int)y
 {
-  [xd drawOn: pm X: x Y: y GC: gc Caller: self];
+  [xd drawX: x Y: y raster: self];
   return self;
 }
-#endif
 
 // draw a rectangle.
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c

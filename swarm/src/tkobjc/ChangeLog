@@ -1,3 +1,24 @@
+1998-04-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ZoomRaster.m: Include Drawer.h.
+	([ZoomRaster -draw:X:Y:]): Define in both X and Win32 cases.
+
+	* XPixmap.m ([XPixmap -createEnd]): Add better error checking
+	after XpmReadFileToPixmap.
+	([XPixmap -drawX:Y:raster:]): drawOn:X:Y:GC:Caller renamed to this.
+	GC and the pixmap come from looking in the statically typed Raster
+	argument.
+
+	* Raster.m ([Raster -draw:X:Y:]): Now calls drawX:Y:raster:,
+	not drawOn:X:Y:GC:Caller.  Define in both X and Win32 cases.
+
+	* Raster.h: Include Drawer.h, not XDrawer.h.  Do it in both
+	X and Win32 cases.
+	(-draw:X:Y:): Make first argument conform to Drawer, not XDrawer
+	protocol.  Do it in both X and Win32 cases.
+
+	* Makefile (XDRAWER_H): Remove.  Change to Drawer.h throughout.
+
 1998-04-02  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* win32dib.[ch] (dib_fill): Make width and height arguments unsigned.

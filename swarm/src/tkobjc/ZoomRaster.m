@@ -7,6 +7,7 @@
 
 #import <tkobjc/global.h>
 #import <tkobjc/ZoomRaster.h>
+#import <tkobjc/Drawer.h>
 
 @implementation ZoomRaster
 
@@ -174,12 +175,10 @@
   return self;
 }
 
-#ifndef _WIN32
-- draw: (id <XDrawer>)xd X: (int)x Y: (int)y
+- draw: (id <Drawer>)xd X: (int)x Y: (int)y
 {
   return [super draw: xd X: x * zoomFactor Y: y * zoomFactor];
 }
-#endif
 
 - increaseZoom
 {

@@ -38,13 +38,45 @@
   
   xpmattrs.valuemask = 0;			  // no input
   rc = XpmReadFileToPixmap (display,
-                            XDefaultRootWindow(display),
+                            XDefaultRootWindow (display),
                             (char *)filename,
                             &pixmap,
                             &mask,
                             &xpmattrs);
   if (rc != 0)
-    [WindowCreation raiseEvent: "Error loading pixmap %s\n", filename];
+    {
+      char *error = NULL;
+      char *warning = NULL;
+      
+      switch (rc)
+        {
+        case XpmSuccess:
+          break;
+        case XpmColorError:
+          warning = "Could not parse or alloc requested color";
+          break;
+        case XpmOpenFailed:
+          error = "Cannot open file";
+          break;
+        case XpmFileInvalid:
+          error = "Invalid XPM file";
+          break;
+        case XpmNoMemory:
+          error = "Not enough memory";
+          break;
+        case XpmColorFailed:
+          error = "Failed to parse or alloc some color";
+          break;
+        }
+      if (warning)
+        [Warning raiseEvent: "Warning loading pixmap %s: %s\n",
+                 filename, warning];
+      if (error)
+        {
+          [WindowCreation raiseEvent: "Error loading pixmap %s: %s\n",
+                          filename, error];
+        }
+    }
   width = xpmattrs.width;
   height = xpmattrs.height;
   return self;
@@ -76,15 +108,18 @@
   return height;
 }
 
-- drawOn: (Drawable)w X: (int)x Y: (int)y GC: (GC)gc Caller: caller
+- drawX: (int)x Y: (int)y raster: (Raster *)raster;
 {
+  GC gc = raster->gc;
+  Drawable w = raster->pm;
+
   if (mask == 0)				  // handle mask?
-    XCopyArea(display, pixmap, w, gc, 0, 0, width, height, x, y);
+    XCopyArea (display, pixmap, w, gc, 0, 0, width, height, x, y);
   else
     {					  // doesn't work :-(
-      XSetClipMask(display, gc, mask);
-      XCopyArea(display, pixmap, w, gc, 0, 0, width, height, x, y);
-      XSetClipMask(display, gc, None);		  // should reset.
+      XSetClipMask (display, gc, mask);
+      XCopyArea (display, pixmap, w, gc, 0, 0, width, height, x, y);
+      XSetClipMask (display, gc, None);		  // should reset.
     }
   return self;
 }
