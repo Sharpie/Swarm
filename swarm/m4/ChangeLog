@@ -1,6 +1,10 @@
 1999-04-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* acjdk.m4: Add JAR and JAR_HOME substitutions.
+	* acjdk.m4: Add JAR substitution (include set of JAVA_HOME).
+	(JAVAINCLUDES): Use solaris or genunix alternatively (not both),
+	depending on existance of $jdkdir/include/solaris/jni_md.h.
+	(JAVASTUBS_FUNCTION):  Substitute. Avoid Unicode mangling for Kaffe.
+	(JAVALIBS, JAVAC): Substitute.
 
 1999-04-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
