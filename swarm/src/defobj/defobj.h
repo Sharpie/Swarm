@@ -36,9 +36,6 @@ USING
 //M: Output a Lisp representation of object state to a stream.
 - lispOut: stream;
 
-//F: Get value component of quoted expression.
-extern id lispInQuotedExpr (id expr);
-
 //F: Expect and convert a boolean from next index item.
 extern BOOL lispInBoolean (id index);
 

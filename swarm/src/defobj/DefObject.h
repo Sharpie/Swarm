@@ -74,7 +74,6 @@ Library:      defobj
 
 extern id lispIn (id aZone, id expr);
 
-extern id lispInQuotedExpr (id expr);
 extern BOOL lispInBoolean (id index);
 extern int lispInInteger (id index);
 extern const char *lispInString (id index);

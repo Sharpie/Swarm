@@ -52,28 +52,19 @@ processPairs (id aZone, id obj, id (*func)(id, id), id map)
     id listExprIndex = [obj begin: scratchZone];
     id listExpr = [listExprIndex next];
     
-    if (!stringp (listExpr))
-      raiseEvent (InvalidArgument,
-                  "first item in processPairs list not a string");
-    if (strcmp ([listExpr getC], "list") != 0)
+    if (!list_literal_p (listExpr))
       raiseEvent (InvalidArgument,
                   "first string in processPairs not \"list\"");
     {
-      id keyValue;
+      id consObject;
 
-      while ((keyValue = [listExprIndex next]))
+      while ((consObject = [listExprIndex next]) != nil)
         {
-          id consIndex = [keyValue begin: scratchZone];
-          id consFuncString = [consIndex next];
-          
-          if (!stringp (consFuncString))
-            raiseEvent (InvalidArgument,
-                        "first item in cons expression not a string");
-          if (strcmp ([consFuncString getC], "cons") != 0)
-            raiseEvent (InvalidArgument,
-                        "first string in cons expression not \"cons\"");
+          if (!pairp (consObject))
+            raiseEvent (InvalidArgument, "Expecting a pair object");
+
           {
-            id key = [lispInQuotedExpr ([consIndex next]) copy: aZone];
+            id key = [[consObject getCar] copy: aZone];
             
             if (listp (key))
               {
@@ -82,10 +73,12 @@ processPairs (id aZone, id obj, id (*func)(id, id), id map)
                 
                 if (!stringp (first))
                   raiseEvent (InvalidArgument,
-                              "first pair item not a string");
+                              "first pair item not a string (%s)",
+                              [first name]);
                 if (!stringp (last))
                   raiseEvent (InvalidArgument,
-                              "second pair item not a string");
+                              "second pair item not a string (%s)",
+                              [last name]);
                 [first catC: "/"];
                 [first catC: [last getC]];
                 key = [first copy: aZone];
@@ -94,7 +87,7 @@ processPairs (id aZone, id obj, id (*func)(id, id), id map)
             if (!stringp (key))
               raiseEvent (InvalidArgument, "key not a string");
             {
-              id value = func (aZone, [consIndex next]);
+              id value = func (aZone, [consObject getCdr]);
               
               if ([map at: key])
                 [map at: key replace: value];

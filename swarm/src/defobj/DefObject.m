@@ -67,20 +67,6 @@ collectRemaining (id makeExprIndex)
   return newList;
 }
 
-id
-lispInQuotedExpr (id expr)
-{
-  id value;
-
-  if (!listp (expr))
-    raiseEvent (InvalidArgument, "expr not a list");
-  value = [expr getFirst];
-  if (!ARCHIVERLITERALP (value))
-    raiseEvent (InvalidArgument, "value not archiver literal");
-  value = [expr getLast];
-  return value;
-}
-
 BOOL
 lispInBoolean (id index)
 {
@@ -154,7 +140,7 @@ lispIn (id aZone, id expr)
       id typeObject;
       id obj;
       
-      typeNameString = lispInQuotedExpr ([makeExprIndex next]);
+      typeNameString = [makeExprIndex next];
       if (!stringp (typeNameString))
         raiseEvent (InvalidArgument, "> classNameString not a string");
       {
