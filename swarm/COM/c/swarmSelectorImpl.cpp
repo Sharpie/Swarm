@@ -2,6 +2,9 @@
 
 #include "componentIDs.h"
 #include "COMsupport.h"
+#include "xptinfo.h"
+#include "xptcall.h"
+#include "xpt_struct.h"
 
 NS_IMPL_ISUPPORTS1(swarmSelectorImpl, swarmISelector)
 
@@ -32,8 +35,44 @@ swarmSelectorImpl::GetCid (nsCID **acid)
 NS_IMETHODIMP
 swarmSelectorImpl::Create (nsISupports *obj, const char *methodName, PRBool objcFlag, swarmISelector **ret)
 {
-  printf ("methodName: `%s' objcFlag: %u\n", methodName, (unsigned) objcFlag);
-  findMethod (obj, methodName);
+  if (!findMethod (obj, methodName,
+                   &methodInterface, &methodIndex, &methodInfo))
+    return NS_ERROR_NOT_IMPLEMENTED;
+  
+  {
+    nsXPTCVariant params[1];
+    nsISupports *retInterface = NULL;
+    
+    params[0].ptr = &retInterface;
+    params[0].type = nsXPTType::T_INTERFACE;
+    params[0].flags = nsXPTCVariant::PTR_IS_DATA;
+
+    printf ("interface: %p methodIndex: %u methodInfo: %p paramCount: %u\n",
+            methodInterface,
+            (unsigned) methodIndex,
+            methodInfo, 
+            (unsigned) methodInfo->GetParamCount ());
+
+    if (!NS_SUCCEEDED (XPTC_InvokeByIndex (methodInterface,
+                                           methodIndex,
+                                           methodInfo->GetParamCount (),
+                                           params)))
+      abort ();
+    
+    printf ("called interface: %p\n", methodInterface);
+    {
+      swarmITyping *typing;
+
+      if (!NS_SUCCEEDED (methodInterface->QueryInterface (NS_GET_IID (swarmITyping), (void **) &typing)))
+        abort ();
+      
+      id oObj = SD_COM_ENSURE_OBJECT_OBJC (typing);
+      
+      printf ("typing interface: %p objc object: %p\n", typing, oObj);
+      printf ("[%s]\n", (*((struct objc_class **) oObj))->name);
+    }
+  }
+    
   *ret = NS_STATIC_CAST (swarmISelector*, this);
   return NS_OK;
 }

@@ -19,6 +19,17 @@ struct method_key {
   const char *methodName;
 };
 
+struct method_value {
+  nsISupports *interface;
+  PRUint16 methodIndex;
+  const nsXPTMethodInfo *methodInfo;
+};
+
+struct method_pair {
+  struct method_key key;
+  struct method_value value;
+};
+
 static void *
 find (void *(*match) (nsIInterfaceInfo *, void *), void *item)
 {
@@ -110,34 +121,26 @@ findIIDFromName (const char *interfaceName)
 static void *
 matchMethodName (nsIInterfaceInfo *interfaceInfo, void *item)
 {
-  struct method_key *key = (struct method_key *) item;
-  const nsXPTMethodInfo *methodInfo;
+  struct method_pair *pair = (struct method_pair *) item;
   nsISupports *interface;
-  PRUint16 index;
   nsIID *iid;
 
   if (interfaceInfo->GetIID (&iid) != NS_OK)
     abort ();
-  if (key->target->QueryInterface (*iid, (void **) &interface) == NS_OK)
+
+  if (pair->key.target->QueryInterface (*iid, (void **) &interface) == NS_OK)
     {
-      
-      NS_RELEASE (interface);
-      if (interfaceInfo->GetMethodInfoForName (key->methodName,
-                                               &index,
-                                               &methodInfo) == NS_OK)
-        return (void *) methodInfo;
+      if (NS_SUCCEEDED (interfaceInfo->GetMethodInfoForName
+                        (pair->key.methodName,
+                         &pair->value.methodIndex,
+                         &pair->value.methodInfo)))
+        {
+          pair->value.interface = interface;
+          return (void *) pair;
+        }
     }
-  return NULL;
+return NULL;
 }
-
-void *
-findMethod (nsISupports *obj, const char *methodName)
-{
-  struct method_key key = { obj, methodName };
-
-  return find (matchMethodName, &key);
-}
-
 
 static nsISupports *
 createComponentByName (const char *progID, const char *interfaceName)
@@ -257,3 +260,20 @@ addRef (COMobject cObj)
 }
 
 }
+
+
+PRBool
+findMethod (nsISupports *obj, const char *methodName, nsISupports **interface, PRUint16 *index, const nsXPTMethodInfo **methodInfo)
+{
+  struct method_pair pair = {{ obj, methodName }};
+
+  if (find (matchMethodName, &pair))
+    {
+      *index = pair.value.methodIndex;
+      *interface = pair.value.interface;
+      *methodInfo = pair.value.methodInfo;
+      return PR_TRUE;
+    }
+  return PR_FALSE;
+}
+
