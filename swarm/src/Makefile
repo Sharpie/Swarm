@@ -1,5 +1,5 @@
 DIRS=defobj collections activity random tkobjc objectbase simtools analysis \
-     space 
+     space gui
 
 all:    headers libs
 clean:
