@@ -1,3 +1,7 @@
+1999-05-29  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (lib_LTLIBRARIES): Set to @LIBSWARM_LA@.
+
 1999-05-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.rules (CPPFLAGS): Append -Dexternvar=$(EXPORT_EXTERN)
@@ -35,7 +39,7 @@
 1999-05-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (swarm.dll): New rule.
-	(install-data-local): If SWARMDLL is set, install libswarm.a and
+	(install-data-local): If SWARM_DLL is set, install libswarm.a and
 	run ranlib on installed version.
 	(EXTRA_PROGRAMS): Add swarm.dll.
 
