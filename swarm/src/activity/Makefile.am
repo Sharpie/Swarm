@@ -1,4 +1,3 @@
-SUBDIRS = tests
 MODULE = activity
 CURRENT = 1
 REVISION = 1

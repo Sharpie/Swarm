@@ -1,3 +1,7 @@
+1999-01-13  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* Makefile.am (SUBDIRS): Remove. Directory tests moved to the top. 
+
 1999-01-13  Alex Lancaster  <alex@santafe.edu>
 
 	* Makefile.am (SUBDIRS): Add variable and assign to `tests'.
