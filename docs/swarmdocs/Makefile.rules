@@ -83,7 +83,7 @@ html: all-recursive $(NAME).html
 	$(RUNJADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\1:,'`
 
 _%.tex: %.sgml
-	$(RUNJADE) $(CATOPTS) -t tex -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
+	$(RUNJADE) $(CATOPTS) -V tex-backend -t tex -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
 
 %.rtf: %.sgml
 	$(RUNJADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ `echo $< | sed 's,//\\([A-Za-z]\\),\\1:,'`
