@@ -41,10 +41,9 @@ Java_swarm_SwarmEnvironmentImpl_initSwarm (JNIEnv *env,
                                            jobjectArray args)
 {
   JNIEXPORT void JNICALL Java_swarm_SwarmEnvironmentImpl__initSwarm___Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2_3Ljava_lang_String_2 (JNIEnv *env, jobject obj, jstring appName, jstring version, jstring bugAddress, jobjectArray args);
-
+  jobject createPhase;
   jniEnv = env;
-  obj = SD_JAVA_SWITCHPHASE (SD_JAVA_FIND_OBJECT_JAVA (java_swarmEnvironmentCreating), java_swarmEnvironmentCreating);
-  Java_swarm_SwarmEnvironmentImpl__initSwarm___Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2_3Ljava_lang_String_2 (env, obj, appName, version, bugAddress, args);
-
-  swarm_directory_java_associate_objects (obj);
+  createPhase = SD_JAVA_FIND_OBJECT_JAVA (java_swarmEnvironmentCreating);
+  Java_swarm_SwarmEnvironmentImpl__initSwarm___Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2_3Ljava_lang_String_2 (env, createPhase, appName, version, bugAddress, args);
+  (void) SD_JAVA_SWITCHPHASE (createPhase, java_swarmEnvironmentCreating);
 }

@@ -4,7 +4,8 @@
 	(java_swarmEnvironmentCreating): New variable.
 	(Java_swarm_SwarmEnvironmentImpl_initSwarm): Remove contents of
 	above.  Remove guiFlag initialization.  Do explicit phase switch
-	from java_swarmEnvironmentCreating.
+	from java_swarmEnvironmentCreating.  Don't call
+	swarm_directory_java_associate_objects here.
 
 2000-07-16    <mgd@DRONE>
 
