@@ -293,7 +293,7 @@ title"))))
                      font-weight: 'bold
                      space-before: 0pt
                      space-after: %block-sep%
-                     keep-with-next: #t
+                     keep-with-next?: #t
                      start-indent: (+ %block-start-indent% (inherited-start-indent))
                      (process-children))))  
 
