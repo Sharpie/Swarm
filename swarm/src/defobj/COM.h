@@ -23,7 +23,8 @@ struct COMInterface {
   const char *(*copyString) (const char *str);
   const char *(*getName) (COMobject cObj);
   const char *(*getComponentName) (COMclass cClass);
-  
+
+  COMclass (*copyComponentID) (COMclass);
   COMobject (*normalize) (COMobject);
 
   COMselector (*selectorQuery) (COMobject cObj);

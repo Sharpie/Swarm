@@ -159,7 +159,7 @@ swarm_directory_objc_find_class_COM (Class oClass)
     {
       cClass = find_wrapper_class_COM (oClass);
       if (cClass)
-        SD_COM_ADD_CLASS_COM (cClass, oClass);
+        cClass = SD_COM_ADD_CLASS_COM (cClass, oClass);
     }
   return cClass;
 }
@@ -378,7 +378,7 @@ add (COMobject cObject, id oObject)
 COMclass
 swarm_directory_COM_add_class_COM (COMclass cClass, Class oClass)
 {
-  return add (cClass, oClass)->foreignObject.COM;
+  return add (comEnv->copyComponentID (cClass), oClass)->foreignObject.COM;
 }
 
 COMobject

@@ -1,3 +1,13 @@
+2001-01-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.m (swarm_directory_objc_find_class_COM): Return cClass
+	returned by SD_COM_ADD_CLASS_COM, since it will be a copy of the
+	component ID.
+	(swarm_directory_COM_add_class_COM): Copy the component ID before
+	adding it.
+
+	* COM.h (COMInterface): Add copyComponentID.
+
 2001-01-18  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* directory.m ([DirectoryEntry -describe:], [Directory -describe:]):
