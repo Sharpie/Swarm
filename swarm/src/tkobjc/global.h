@@ -13,6 +13,7 @@
 - (const char *)result;
 - linkVariableInt: (const char *)variableName;
 - promptAndEval;
+- (const char *)variableValue: (const char *)variableName;
 @end
 
 extern id <TkExtra> globalTkInterp;

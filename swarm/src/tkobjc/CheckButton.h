@@ -12,6 +12,8 @@
 {
 }
 
+- (const char *)getValue;
 - (BOOL)getBoolValue;
+- setValue: (const char *)v;
 - setBoolValue: (BOOL)v;
 @end

@@ -32,6 +32,13 @@ PHASE(Using)
   return self;
 }
 
+- (const char *)getValue
+{
+  [globalTkInterp eval: "%s get", widgetName];
+
+  return [globalTkInterp result];
+}
+
 - setHeight: (unsigned)h
 {
   abort ();

@@ -12,6 +12,7 @@
 
 - createEnd;
 - setValue: (const char *)t;
+- (const char *)getValue;
 - setHeight: (unsigned)h;
 
 @end

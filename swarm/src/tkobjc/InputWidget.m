@@ -59,14 +59,13 @@ PHASE(Using)
 
 - (const char *)getValue
 {
-  [globalTkInterp eval: "%s get", widgetName];
-
-  return [globalTkInterp result];
+  raiseEvent (SubclassMustImplement, "getValue");
+  return NULL;
 }
 
 - setValue: (const char *)v
 {
-  [SubclassMustImplement raiseEvent];
+  raiseEvent (SubclassMustImplement, "setValue:");
 
   return nil;
 }

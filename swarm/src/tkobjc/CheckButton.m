@@ -39,6 +39,11 @@ PHASE(Using)
   return self;
 }
 
+- (const char *)getValue
+{
+  return [globalTkInterp variableValue: variableName];
+}
+
 - setValue: (const char *)v
 {
   return [self setBoolValue: stringIsFalse (v)];

@@ -1,3 +1,19 @@
+1999-07-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputWidget.m ([InputWidget -getValue]): Raise a
+	SubclassMustImplement event.
+
+	* Entry.m ([Entry -getValue]): Move from InputWidget.
+
+	* CheckButton.h (CheckButton): Declare getValue and setValue:.
+
+	* Entry.h (Entry): Declare getValue.
+
+	* global.h (TkExtra): Declare variableValue: method. 
+
+	* CheckButton.m ([CheckButton -getValue]): New method.  Use 
+	variableValue:.
+	
 1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* internal.m (tkobjc_animate_message): Be pessimistic that there
