@@ -1,8 +1,10 @@
 2000-08-21  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* SwarmEnvironmentExtra.m (swarm_java_constructors): New function.
+	(java_swarmEnvironmentCreating): New variable.
 	(Java_swarm_SwarmEnvironmentImpl_initSwarm): Remove contents of
-	above.  Remove guiFlag initialization.
+	above.  Remove guiFlag initialization.  Do explicit phase switch
+	from java_swarmEnvironmentCreating.
 
 2000-07-16    <mgd@DRONE>
 

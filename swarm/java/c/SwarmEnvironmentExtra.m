@@ -7,6 +7,8 @@
 #include <swarmconfig.h> // HAVE_KAFFE
 #import "../../src/defobj/java.h" 
 
+id java_swarmEnvironmentCreating;
+
 void
 swarm_java_constructors ()
 {
@@ -40,6 +42,8 @@ Java_swarm_SwarmEnvironmentImpl_initSwarm (JNIEnv *env,
 {
   JNIEXPORT void JNICALL Java_swarm_SwarmEnvironmentImpl__initSwarm___Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2_3Ljava_lang_String_2 (JNIEnv *env, jobject obj, jstring appName, jstring version, jstring bugAddress, jobjectArray args);
 
+  jniEnv = env;
+  obj = SD_JAVA_SWITCHPHASE (SD_JAVA_FIND_OBJECT_JAVA (java_swarmEnvironmentCreating), java_swarmEnvironmentCreating);
   Java_swarm_SwarmEnvironmentImpl__initSwarm___Ljava_lang_String_2Ljava_lang_String_2Ljava_lang_String_2_3Ljava_lang_String_2 (env, obj, appName, version, bugAddress, args);
 
   swarm_directory_java_associate_objects (obj);
