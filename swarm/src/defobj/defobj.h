@@ -19,7 +19,7 @@ Library:      defobj
 //D: creating objects and for storage allocation, error handling, and debugging
 //D: support.
 
-@deftype DefinedObject
+@protocol DefinedObject
 //S: Object with defined type and implementation.
 
 //D: DefinedObject is the top-level supertype for all objects that follow
@@ -112,7 +112,7 @@ USING
 
 @end
 
-@deftype Customize
+@protocol Customize
 //S: Create-phase customization.
 
 //D: Some types accept create-time messages not only when creating a new
@@ -136,7 +136,7 @@ USING
 //D: Whether a customized version of a type can be created depends on the
 //D: implementation of the type itself.  If a type does not support
 //D: customization, a customizeBegin: message on the type raises an error.
-//D: All types defined by an @deftype declaration may be relied on to
+//D: All types defined by an @protocol declaration may be relied on to
 //D: support at least one cycle of customization to create a new type
 //D: object.  Whether an already customized type object (returned by
 //D: customizeEnd) supports a further cycle of customization (by another
@@ -191,7 +191,7 @@ CREATING
 @end
 
 
-@deftype Create <DefinedObject, Customize>
+@protocol Create <DefinedObject, Customize>
 //S: Create an instance of a type with optional customization.
 
 //D: The Create supertype defines standard messages that provide a
@@ -258,11 +258,11 @@ CREATING
 //M: getClass message, but is not otherwise visible to the calling program.
 //M: A caller never refers to any class name when creating objects using
 //M: these messages, only to type names, which are automatically published
-//M: as global constants from any @deftype declaration. 
+//M: as global constants from any @protocol declaration. 
 + create: aZone;
 
 //M: createBegin: returns an interim object intended only for receiving
-//M: create-time messages.  If a type was defined by a @deftype
+//M: create-time messages.  If a type was defined by a @protocol
 //M: declaration, these messages are those appearing in either the CREATING
 //M: or SETTING sections.  Otherwise, the messages valid as create-time
 //M: messages are defined by the type without any specific syntactic
@@ -287,7 +287,7 @@ CREATING
 //M: Different requests may result in entirely different implementations
 //M: being returned.  The only guarantee is that a returned object supports
 //M: the messages defined for further use of the finalized object.  If a
-//M: type was defined by a @deftype declaration, these messages are those
+//M: type was defined by a @protocol declaration, these messages are those
 //M: appearing in either the SETTING or USING sections.
 
 //M: On return from createEnd, the id of the interim object returned by
@@ -299,7 +299,7 @@ CREATING
 
 @end
 
-@deftype Drop
+@protocol Drop
 //S: Deallocate an object allocated within a zone.
 
 //D: The Drop supertype defines the drop message, which is a standard
@@ -335,7 +335,7 @@ USING
 // Miscellaneous operations for mixing into other types.
 //
 
-@deftype Copy
+@protocol Copy
 //S: Copy all state defined as part of object.
 
 //D: An object type that supplies the copy operation defines what it
@@ -359,7 +359,7 @@ USING
 - copy: aZone;
 @end
 
-@deftype GetName
+@protocol GetName
 //S: Get name which identifies object in its context of use.
 
 //D: Get name which identifies object in its context of use.
@@ -375,7 +375,7 @@ USING
 + (const char *)getName;
 @end
 
-@deftype GetOwner
+@protocol GetOwner
 //S: Get object on which existence of object depends.
 
 //D: Ownership hierarchies arrange themselves in a strict, single-rooted
@@ -398,7 +398,7 @@ USING
 - getOwner;
 @end
 
-@deftype SetInitialValue
+@protocol SetInitialValue
 //S: Create using initial value from an existing object.
 
 //D: The SetInitialValue type defines a variety of messages relating to an
@@ -454,7 +454,7 @@ USING
 @end
 
 
-@deftype Symbol <Create, GetName, CREATABLE>
+@protocol Symbol <Create, GetName, CREATABLE>
 //S: Object defined as a distinct global id constant.
 
 //D: A Symbol is an object created with a fixed name.  It has no behavior
@@ -490,7 +490,7 @@ CREATING
 - (void)setName: (const char *)name;
 @end
 
-@deftype EventType <Symbol>
+@protocol EventType <Symbol>
 //S: A report of some condition detected during program execution.
 
 //D: A report of some condition detected during program execution.
@@ -504,7 +504,7 @@ USING
 - (void)raiseEvent: (const void *)eventData, ...;
 @end
 
-@deftype Warning <EventType, CREATABLE>
+@protocol Warning <EventType, CREATABLE>
 //S: A condition of possible concern to a program developer.
 
 //D: A condition of possible concern to a program developer.
@@ -526,7 +526,7 @@ extern id <Warning>
 
 @end
 
-@deftype Error <Warning, CREATABLE>
+@protocol Error <Warning, CREATABLE>
 //S: A condition which prevents further execution.
 
 //D: A condition which prevents further execution.
@@ -555,7 +555,7 @@ extern id <Error>
 [eventType raiseEvent: \
 "\r" __FUNCTION__, __FILE__, __LINE__, formatString , ## args]
 
-@deftype Zone <Create, Drop, CREATABLE>
+@protocol Zone <Create, Drop, CREATABLE>
 //S: Modular unit of storage allocation.
 
 //D: A zone is a source of storage for objects or other allocated data.
@@ -718,7 +718,7 @@ extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
 
 @end
 
-@deftype DefinedClass <DefinedObject, GetName>
+@protocol DefinedClass <DefinedObject, GetName>
 //S: Class which implements an interface of a type.
 
 //D: Class which implements an interface of a type.
@@ -732,7 +732,7 @@ USING
 + (IMP)getMethodFor: (SEL)aSel;
 @end
 
-@deftype CreatedClass <Create, DefinedClass>
+@protocol CreatedClass <Create, DefinedClass>
 //S: Class with variables and/or methods defined at runtime.
 
 //D: Class with variables and/or methods defined at runtime.
@@ -748,7 +748,7 @@ USING
 - getDefiningClass;
 @end
 
-@deftype BehaviorPhase <CreatedClass>
+@protocol BehaviorPhase <CreatedClass>
 //S: Created class which implements a phase of object behavior.
 
 //D: Created class which implements a phase of object behavior.
