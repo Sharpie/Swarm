@@ -24,3 +24,4 @@
 
 @end
 
+id <Error> CouldNotInitializeObjectLoader;

@@ -23,9 +23,8 @@
 
 + load: anObject from: aFileObject
 {
-  id anObj;
+  id anObj = [self create: [aFileObject getZone]];
 
-  anObj = [self create: [aFileObject getZone]];
   [anObj setFileObject: aFileObject];
   [anObj loadObject: anObject];
   [anObj drop];
@@ -54,24 +53,16 @@
 
 + (void)_crash_: anObject
 {
-  if ([anObject respondsTo: M(getInstanceName)])
-    fprintf (stderr, "Could not initialize %s properly...\n",
-             [anObject getInstanceName]);
-  else
-    fprintf (stderr, "Could not initialize %s properly...\n",
-             [anObject name]);
-  exit (-1);
+  [CouldNotInitializeObjectLoader
+    raiseEvent: "Could not initialize class loader for %s (factory)\n",
+    [anObject name]];
 }
 
 - (void)_crash_: anObject
 {
-  if ([anObject respondsTo: M(getInstanceName)])
-    fprintf(stderr,"Could not initialize %s properly...\n",
-            [anObject getInstanceName]);
-  else
-    fprintf(stderr,"Could not initialize %s properly...\n",
-            [anObject name]);
-  exit(-1);
+  [CouldNotInitializeObjectLoader
+    raiseEvent: "Could not initialize class loader for %s (instance)\n",
+    [anObject name]];
 }
 
 - setFileObject: aFileObject

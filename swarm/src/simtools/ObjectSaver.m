@@ -8,13 +8,13 @@
 
 #include <stdio.h>
 
+id <Error> CouldNotSave;
+
 @implementation ObjectSaver
 
 + createBegin: aZone
 {
-  ObjectSaver *anObj;
-
-  anObj = [super createBegin: aZone];
+  ObjectSaver *anObj = [super createBegin: aZone];
   anObj->templateProbeMap = nil;
 
   return anObj;
@@ -84,24 +84,16 @@
 
 + (void)_crash_: anObject
 {
-  if ([anObject respondsTo: M(getInstanceName)])
-    fprintf (stderr,"Could not save %s properly...\n",
-             [anObject getInstanceName]);
-  else
-    fprintf (stderr,"Could not save %s properly...\n",
-             [anObject name]);
-  exit(-1);
+  [CouldNotSave raiseEvent:
+                  "Could not save %s properly (factory)\n",
+                [anObject name]];
 }
 
 - (void)_crash_: anObject
 {
-  if ([anObject respondsTo: M(getInstanceName)])
-    fprintf (stderr,"Could not save %s properly...\n",
-             [anObject getInstanceName]);
-  else
-    fprintf (stderr,"Could not save %s properly...\n",
-             [anObject name]);
-  exit (-1);
+  [CouldNotSave raiseEvent:
+                  "Could not save %s properly (instance)\n",
+                [anObject name]];
 }
 
 - setFileObject: aFileObject

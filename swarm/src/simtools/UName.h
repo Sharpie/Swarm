@@ -26,3 +26,5 @@
 - resetCounter;
 
 @end
+
+extern id <Error> NoBaseNameForUName;

@@ -5,7 +5,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface InFile : SwarmObject
+@interface InFile: SwarmObject
 {
   FILE *theFile;
 }
@@ -27,3 +27,5 @@
 - (int)skipLine;
 
 @end
+
+extern id <Warning> CannotOpenInFile;

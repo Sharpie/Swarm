@@ -1,3 +1,40 @@
+1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtools.m: Include InFile.h, ObjectLoader.h, ObjectSaver.h,
+	OutFile.h, and UName.h to get warning and error symbols.
+	(initSwarmArguments): Remove simtoolsgui symbols (ControlState*).
+	Define error and warning symbols.
+
+	* UName.[hm]: Declare NoBaseNameForUName.
+
+	* UName.m ([UName -createEnd]): Use it with raiseEvent (instead of
+	stderr).
+
+	* OutFile.h: Declare CannotOpenOutFile.
+
+	* OutFile.m ([OutFile +create:withName:]): Use it with raiseEvent
+	(instead of stderr).
+
+	* ObjectSaver.[hm]: Declare CouldNotSave error symbol.
+
+	* ObjectSaver.m ([ObjectSaver +_crash_:], [ObjectSaver -_crash_:]): 
+	Use it with raiseEvent (instead of stderr).
+
+	* ObjectLoader.[hm]: Declare CouldNotInitializeObjectLoader error
+	symbol.
+
+	* ObjectLoader.m ([ObjectLoader +_crash_:],
+	[ObjectLoader -_crash_:]): Use it with raiseEvent (instead of stderr).
+
+	* InFile.[hm]: Declare CannotOpenInFile warning symbol.
+
+	* InFile.m ([InFile +create:withName:]): Use it.  Create from self,
+	not InFile.  Don't use object variable.
+
+	* AppendFile.m ([AppendFile +create:withName:]): Create from self,
+	not from AppendFile.
+	([AppendFile +create:withName:]): Use raiseEvent instead of stderr.
+
 1998-07-21  Alex Lancaster  <alex@santafe.edu>
 
 	* OutFile.[hm] ([OutFile -_getFile_]): Add internal method to

@@ -5,14 +5,14 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface OutFile : SwarmObject
+@interface OutFile: SwarmObject
 {
   FILE *theFile;
 }
 
 + create: aZone withName: (const char *)theName;
 
-- _setFile_: (FILE *) aFile;
+- _setFile_: (FILE *)aFile;
 - (FILE *)_getFile_;
 
 - putString: (const char *)aString;
@@ -27,3 +27,5 @@
 - putNewLine;
 
 @end
+
+extern id <Warning> CannotOpenOutFile; 

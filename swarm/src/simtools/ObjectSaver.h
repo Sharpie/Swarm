@@ -24,3 +24,5 @@
 - (void)_crash_: anObject;
 
 @end
+
+extern id <Error> CouldNotSave;

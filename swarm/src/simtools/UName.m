@@ -7,15 +7,17 @@
 #import <collections.h>
 #include <misc.h>
 
+id <Error> NoBaseNameForUName;
+
 @implementation UName
 
 + create: aZone setBaseName: (const char *)aString
 {
-  id obj;
-  
-  obj = [super createBegin: aZone];
+  id obj = [self createBegin: aZone];
+
   [obj setBaseName: aString];
   [obj createEnd];
+
   return obj;
 }
 
@@ -23,7 +25,7 @@
 {
   id obj;
   
-  obj = [super create: aZone];
+  obj = [self create: aZone];
   [obj setBaseNameObject: aStringObject];
   [obj createEnd];
   
@@ -33,6 +35,7 @@
 - resetCounter
 {
   counter = 0;
+
   return self;
 }
 
@@ -63,14 +66,13 @@
 - createEnd
 {
   if (!baseString)
-    {
-      fprintf (stderr,
-               "No Base Name was given when creating a UName object...\n");
-      exit(-1);
-    }
+    [NoBaseNameForUName
+      raiseEvent:
+        "No Base Name was given when creating a UName object...\n"];
   
   [super createEnd];
   [self resetCounter];
+
   return self;
 }
 

@@ -14,6 +14,12 @@
 
 #import <random.h>
 
+#import "InFile.h" // CannotOpenInFile
+#import "ObjectLoader.h" // CouldNotInitializeObjectLoader
+#import "ObjectSaver.h" // CouldNotSave
+#import "OutFile.h" // CannotOpenOutFile
+#import "UName.h" // NoBaseNameForUName
+
 int swarmGUIMode;
 
 //M: The initSwarm method initializes the Swarm libraries.  The call to 
@@ -48,11 +54,10 @@ initSwarmArguments (int argc, const char **argv, Class argumentsClass)
   if (swarmGUIMode)
     initSimtoolsGUI ();
   
-  // various states used in ControlPanel.
-  defsymbol (ControlStateRunning);
-  defsymbol (ControlStateStopped);
-  defsymbol (ControlStateStepping);
-  defsymbol (ControlStateQuit);
-  defsymbol (ControlStateNextTime);
+  defwarning (CannotOpenOutFile, NULL);
+  defwarning (CannotOpenInFile, NULL);
+  deferror (NoBaseNameForUName, NULL);
+  deferror (CouldNotInitializeObjectLoader, NULL);
+  deferror (CouldNotSave, NULL);
 }
 

@@ -4,32 +4,28 @@
 // See file LICENSE for details and terms of copying.
 
 #import <simtools/OutFile.h>
-
 #include <stdio.h>
+
+id <Warning> CannotOpenOutFile;
 
 @implementation OutFile
 
 + create: aZone withName: (const char *)theName
 {
-  FILE *aFile;
-  id anObj;
-  
-  aFile = fopen (theName, "w");
+  FILE *aFile = fopen (theName, "w");
+
   if (aFile == NULL)
     {
-      fprintf (stderr,
-               "Unable to open %s as an OutFile object!\n",
-               theName);
+      [CannotOpenOutFile
+        raiseEvent: "Unable to open %s as an OutFile object!\n",
+        theName];
       return nil;
     }
   
-  anObj = [OutFile create: aZone];
-  [anObj _setFile_: aFile];
-  
-  return anObj;
+  return [[self create: aZone] _setFile_: aFile];
 }
 
--_setFile_: (FILE *)aFile
+- _setFile_: (FILE *)aFile
 {
   theFile = aFile;
   return self;

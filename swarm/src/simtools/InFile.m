@@ -8,26 +8,24 @@
 
 #include <stdio.h>
 
+id <Warning> CannotOpenInFile;
+
 @implementation InFile
 
 + create: aZone withName: (const char *)theName
 {
   FILE *aFile;
-  id anObj;
 
   aFile = fopen (theName,"r");
   if (aFile == NULL)
     {
-      fprintf (stderr,
-               "Unable to open %s as an InFile object!\n",
-               theName);
+      [CannotOpenInFile raiseEvent: 
+                          "Unable to open %s as an InFile object!\n",
+                        theName];
       return nil;
     }
   
-  anObj = [InFile create: aZone];
-  [anObj _setFile_: aFile];
-  
-  return anObj;
+  return [[self create: aZone] _setFile_: aFile];
 }
 
 - _setFile_: (FILE *) aFile
