@@ -3,12 +3,12 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#include <string.h>
 #import <objectbase/ProbeMap.h>
 #import <objc/objc-api.h>
 #import <defobj.h> // Warning
 
 #import "local.h"
+#include <misc.h> // strdup
 
 @implementation ProbeMap
 
