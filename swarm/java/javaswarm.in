@@ -25,8 +25,8 @@ if test @USEDOSCLASSPATH@ = yes; then
   PD='@PATHDELIM@'
   swarmclassdir=`cygpath -w "@swarm_datadir@"`
 else
-  PS=/
-  PD=:
+  PS=:
+  PD=/
   swarmclassdir="@swarm_datadir@"
 fi
 
