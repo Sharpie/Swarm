@@ -8,6 +8,12 @@
 #import <simtools.h>
 #import <analysis.h>
 
+#define NUMCOLORS 10
+char graphColors[NUMCOLORS][10] ={"Red", "Green", "Blue", 
+				  "Pink", "SeaGreen", "LightBlue", 
+				  "Purple", "OliveGreen", "DarkBlue", 
+				  "Black"};
+
 @implementation EZGraph
 
 +createBegin: aZone {
@@ -61,21 +67,19 @@
   return theGraph ;
 }
 
--createSequence: (char *) aName 
-   withFeedFrom: anObj 
-    andSelector: (SEL) aSel {
+-createGraphSequence: (char *) aName 
+	 forSequence: aSeq
+	withFeedFrom: anObj 
+	 andSelector: (SEL) aSel {
 
-  id aSeq ;
   id aGrapher ;
-
-  aSeq = [EZSequence create: [self getZone]] ;
 
   if(graphics){
     id anElement ;
 
     anElement = [theGraph createElement] ;
     [anElement setLabel: aName] ;
-
+    [anElement setColor: graphColors[ colorIdx++ % NUMCOLORS ] ];
     aGrapher = [ActiveGraph createBegin: [self getZone]];
     [aGrapher setElement: anElement];
     [aGrapher setDataFeed: anObj]; 
@@ -104,12 +108,25 @@
   return self ;
 }
 
+-createSequence: (char *) aName 
+   withFeedFrom: anObj 
+    andSelector: (SEL) aSel {
+
+  id aSeq ;
+
+  aSeq = [EZSequence create: [self getZone]] ;
+
+  [self createGraphSequence: aName forSequence: aSeq
+	withFeedFrom: anObj andSelector: aSel];
+  
+  return self ;
+}
+
 -createAverageSequence: (char *) aName 
           withFeedFrom: aCollection 
            andSelector: (SEL) aSel {
   id aSeq ;
   id anAverager ;
-  id aGrapher ;
 
   aSeq = [EZAverageSequence create: [self getZone]] ;
 
@@ -120,36 +137,9 @@
 
   [aSeq setAverager: anAverager] ;
 
-  if(graphics){
-    id anElement ;
-
-    anElement = [theGraph createElement] ;
-    [anElement setLabel: aName] ;
-
-    aGrapher = [ActiveGraph createBegin: [self getZone]];
-    [aGrapher setElement: anElement];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getAverage)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveGrapher: aGrapher] ;    
-  }
- 
-  if(fileOutput){
-    id aFileObj ;
-
-    aFileObj = [OutFile create: [self getZone] withName: aName] ;
-
-    aGrapher = [ActiveOutFile createBegin: [self getZone]];
-    [aGrapher setFileObject: aFileObj];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getAverage)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveOutFile: aGrapher] ;    
-  }
-
-  [sequenceList addLast: aSeq] ;
+  [self createGraphSequence: aName forSequence: aSeq
+	withFeedFrom: anAverager 
+	andSelector: M(getAverage)];
 
   return self ;
 }
@@ -160,7 +150,6 @@
 
   id aSeq ;
   id anAverager ;
-  id aGrapher ;
 
   aSeq = [EZAverageSequence create: [self getZone]] ;
 
@@ -171,36 +160,9 @@
 
   [aSeq setAverager: anAverager] ;
 
-  if(graphics){
-    id anElement ;
-
-    anElement = [theGraph createElement] ;
-    [anElement setLabel: aName] ;
-
-    aGrapher = [ActiveGraph createBegin: [self getZone]];
-    [aGrapher setElement: anElement];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getTotal)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveGrapher: aGrapher] ;    
-  }
- 
-  if(fileOutput){
-    id aFileObj ;
-
-    aFileObj = [OutFile create: [self getZone] withName: aName] ;
-
-    aGrapher = [ActiveOutFile createBegin: [self getZone]];
-    [aGrapher setFileObject: aFileObj];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getTotal)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveOutFile: aGrapher] ;    
-  }
-
-  [sequenceList addLast: aSeq] ;
+  [self createGraphSequence: aName forSequence: aSeq
+	withFeedFrom: anAverager 
+	andSelector: M(getTotal)];
 
   return self ;
 
@@ -212,7 +174,6 @@
 
   id aSeq ;
   id anAverager ;
-  id aGrapher ;
 
   aSeq = [EZAverageSequence create: [self getZone]] ;
 
@@ -223,36 +184,9 @@
 
   [aSeq setAverager: anAverager] ;
 
-  if(graphics){
-    id anElement ;
-
-    anElement = [theGraph createElement] ;
-    [anElement setLabel: aName] ;
-
-    aGrapher = [ActiveGraph createBegin: [self getZone]];
-    [aGrapher setElement: anElement];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getMin)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveGrapher: aGrapher] ;    
-  }
- 
-  if(fileOutput){
-    id aFileObj ;
-
-    aFileObj = [OutFile create: [self getZone] withName: aName] ;
-
-    aGrapher = [ActiveOutFile createBegin: [self getZone]];
-    [aGrapher setFileObject: aFileObj];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getMin)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveOutFile: aGrapher] ;    
-  }
-
-  [sequenceList addLast: aSeq] ;
+  [self createGraphSequence: aName forSequence:aSeq
+	withFeedFrom: anAverager 
+	andSelector: M(getMin)];
 
   return self ;
 
@@ -264,7 +198,6 @@
 
   id aSeq ;
   id anAverager ;
-  id aGrapher ;
 
   aSeq = [EZAverageSequence create: [self getZone]] ;
 
@@ -275,36 +208,9 @@
 
   [aSeq setAverager: anAverager] ;
 
-  if(graphics){
-    id anElement ;
-
-    anElement = [theGraph createElement] ;
-    [anElement setLabel: aName] ;
-
-    aGrapher = [ActiveGraph createBegin: [self getZone]];
-    [aGrapher setElement: anElement];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getMax)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveGrapher: aGrapher] ;    
-  }
- 
-  if(fileOutput){
-    id aFileObj ;
-
-    aFileObj = [OutFile create: [self getZone] withName: aName] ;
-
-    aGrapher = [ActiveOutFile createBegin: [self getZone]];
-    [aGrapher setFileObject: aFileObj];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getMax)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveOutFile: aGrapher] ;    
-  }
-
-  [sequenceList addLast: aSeq] ;
+  [self createGraphSequence: aName forSequence: aSeq
+	withFeedFrom: anAverager 
+	andSelector: M(getMax)];
 
   return self ;
 
@@ -316,7 +222,6 @@
 
   id aSeq ;
   id anAverager ;
-  id aGrapher ;
 
   aSeq = [EZAverageSequence create: [self getZone]] ;
 
@@ -327,36 +232,9 @@
 
   [aSeq setAverager: anAverager] ;
 
-  if(graphics){
-    id anElement ;
-
-    anElement = [theGraph createElement] ;
-    [anElement setLabel: aName] ;
-
-    aGrapher = [ActiveGraph createBegin: [self getZone]];
-    [aGrapher setElement: anElement];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getCount)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveGrapher: aGrapher] ;    
-  }
- 
-  if(fileOutput){
-    id aFileObj ;
-
-    aFileObj = [OutFile create: [self getZone] withName: aName] ;
-
-    aGrapher = [ActiveOutFile createBegin: [self getZone]];
-    [aGrapher setFileObject: aFileObj];
-    [aGrapher setDataFeed: anAverager]; 
-    [aGrapher setProbedSelector: M(getCount)];
-    aGrapher = [aGrapher createEnd];
-
-    [aSeq setActiveOutFile: aGrapher] ;    
-  }
-
-  [sequenceList addLast: aSeq] ;
+  [self createGraphSequence: aName forSequence: aSeq
+	withFeedFrom: anAverager 
+	andSelector: M(getCount)];
 
   return self ;
 

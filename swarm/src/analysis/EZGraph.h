@@ -23,6 +23,7 @@
   char * xLabel ;
   char * yLabel ;
   char *  title ;
+  unsigned colorIdx;
 }
 
 -setGraphics: (int) state ;
@@ -34,6 +35,11 @@
 -createEnd ;
 
 -getGraph ;
+
+-createGraphSequence: (char *) aName 
+       forSequence: aSeq
+      withFeedFrom: anObj 
+       andSelector: (SEL) aSel ;
 
 -createSequence: (char *) aName  
    withFeedFrom:          anObj 
