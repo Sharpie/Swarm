@@ -1,3 +1,8 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MousetrapObserverSwarm.java: Pass windowGeometry record name
+	in EZGraph creation.
+
 1999-09-02  Alex Lancaster  <alex@santafe.edu>
 
 	* MousetrapModelSwarm.java (MousetrapModelSwarm): Make

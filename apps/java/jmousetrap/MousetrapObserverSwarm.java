@@ -139,7 +139,8 @@ public class MousetrapObserverSwarm extends GUISwarmImpl {
     triggerGraph = new EZGraphImpl (getZone (),
                                     "Trigger data vs. time",  
                                     "number triggered",
-                                    "time");
+                                    "time",
+                                    "triggerGraph");
     
     Globals.env.setWindowGeometryRecordName (triggerGraph);
     
