@@ -91,7 +91,7 @@ compareStrings (id val1, id val2)
 @end
 
 #ifdef HAVE_HDF5
-@interface HDF5: CreateDrop
+@interface _HDF5: CreateDrop
 {
   id parent;
 }
@@ -99,7 +99,7 @@ compareStrings (id val1, id val2)
 - createEnd;
 @end
 
-@implementation HDF5
+@implementation _HDF5
 PHASE(Creating)
 - setParent: theParent
 {
