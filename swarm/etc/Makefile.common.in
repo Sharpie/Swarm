@@ -83,13 +83,10 @@ ONELIB=@ONELIB@
 
 ifeq ($(USEDLL),yes) 
 	ifneq ($(USESTATIC),)
-			SWARMLIBS = -lswarm
-			OBJCLIBS = -lswarmobjc
-		else
-			SWARMLIBS = -lswarmdll -lobjcdll
-			OBJCLIBS = 
-			DLLCPPFLAGS = -DDLL
+		DLLCPPFLAGS = -DDLL
 	endif
+	SWARMLIBS = -lswarm
+	OBJCLIBS = -lswarmobjc
 else
 	ifeq ($(ONELIB),yes)
 		SWARMLIBS = -lswarm

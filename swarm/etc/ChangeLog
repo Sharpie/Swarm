@@ -1,3 +1,7 @@
+2004-07-20  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.common.in: Stop using -lswarmdll and -lobjcdll.
+
 2004-07-19  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* Makefile.common.in: etc/modules
