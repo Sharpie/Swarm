@@ -32,6 +32,12 @@ OASIS), aimed at computer documentation.  The current version can be
 found at:
 
   http://www.oasis-open.org/docbook/docbook/index.html
+
+[Note: the Official Docbook documentation, in both HTML and Docbook
+form, is still located on the Davenport Project web server
+(http://www.ora.com/davenport/).  Copies of the Overview, User's
+Guide, Reference, and Maintainer's Guide are available here as
+well. Note that only the Reference has been updated for DocBook 3.0.]
   
 * The modular DocBook stylesheets 
 
