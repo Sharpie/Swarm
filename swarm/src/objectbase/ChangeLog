@@ -1,5 +1,18 @@
 1999-04-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.am (JAVAINCLUDES): New variable for java/c + @JAVAINCLUDES@.
+	(INCLUDES): Use it.
+
+	* MessageProbe.m (dynamicCallOn): Convert ffi version to 
+	use FCall/FArguments and support Java.
+
+	* Messageprobe.[hm], objectbase.h (MessageProbe): Add
+	intDynamicCallOn:.
+
+	* MessageProbe.m ([MessageProbe -setArg:ToString:]): In
+	the case of _C_CHARPTR, copy the string since Java stubs
+	will only provide the string conversion temporarily.
+
 	* Swarm.h: Include objectbase.h.  Don't include activity.h.
 	(Swarm): Add protocol compliance tag. 
 

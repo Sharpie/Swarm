@@ -19,9 +19,14 @@
 
 #import "swarm_rts_routines.h"
 #import <objectbase.h> // val_t
-#import <misc.h>  // xmalloc, strdup, atoi, strtod
+#include <misc.h>  // xmalloc, strdup, atoi, strtod
+
+#import <defobj.h> // FCall, FArguments
+
+#include <directory.h>
 
 @implementation MessageProbe
+PHASE(Creating)
 
 + createBegin: aZone
 {
@@ -36,11 +41,6 @@
 {
   probedSelector = aSel;
   return self;
-}
-
-- (const char *)getProbedMessage
-{
-  return sel_get_name (probedSelector);
 }
 
 - createEnd
@@ -85,6 +85,15 @@
   return self;
 }
 
+PHASE(Setting)
+- setHideResult: (BOOL)theHideResultFlag
+{
+  hideResultFlag = theHideResultFlag;
+  return self;
+}
+
+PHASE(Using)
+
 - clone: aZone
 {
   MessageProbe *new_probe;
@@ -112,6 +121,11 @@ nth_type (const char *type, int which)
     type = skip_argspec (type);
   
   return *type;
+}
+
+- (const char *)getProbedMessage
+{
+  return sel_get_name (probedSelector);
 }
 
 - (int)getArgCount
@@ -174,7 +188,7 @@ nth_type (const char *type, int which)
       break;
     case _C_CHARPTR:
       arguments[which].type = _C_CHARPTR;
-      arguments[which].val.string = what;
+      arguments[which].val.string = strdup (what);
       break;
     default:
       abort ();
@@ -231,14 +245,15 @@ copy_to_nth_colon (const char *str, int n)
 #ifdef USE_AVCALL
 static void
 dynamicCallOn (const char *probedType,
-               id target, SEL probedSelector, 
+               id target,
+               SEL probedSelector, 
                val_t *arguments,
                val_t *retVal)
 {
   const char *type = probedType;
   IMP imp;
   val_t objectVal, selectorVal;
-  int i;
+  unsigned i;
 
   av_alist alist;
 
@@ -371,238 +386,40 @@ dynamicCallOn (const char *probedType,
 
 static void
 dynamicCallOn (const char *probedType,
-               id target, SEL probedSelector, 
+               id target,
+               SEL probedSelector, 
                val_t *arguments,
                val_t *retVal)
 {
+  unsigned i;
   const char *type = probedType;
-  IMP imp;
-  val_t objectVal, selectorVal;
-  int i;
-  int acnt = get_number_of_arguments (probedType);
-  ffi_cif cif;
-  ffi_type *fret;
-  
-  struct alist
-    {
-      ffi_type **type_pos;
-      void **value_pos;
-    };
-  
-  typedef struct alist *av_alist;
-  
-  struct alist alist_buf;
-  av_alist alist = &alist_buf;
-  ffi_type *types_buf[acnt];
-  void *values_buf[acnt];
+  id aZone = [target getZone];
+  BOOL javaFlag = [target isKindOfClassNamed: "JavaProxy"];
+  id fa = [FArguments createBegin: aZone];
+  id <FCall> fc;
 
-  void push_argument (val_t *arg)
-    {
-      switch (arg->type)
-        {
-        case _C_ID:
-          *alist->type_pos = &ffi_type_pointer;
-          *alist->value_pos = &arg->val.object;
-          break;
-        case _C_SEL:
-          *alist->type_pos = &ffi_type_pointer;
-          *alist->value_pos = &arg->val.selector;
-          break;
-        case _C_CHR:
-          *alist->type_pos = &ffi_type_schar;
-          *alist->value_pos = &arg->val.schar;
-          break;
-        case _C_UCHR:
-          *alist->type_pos = &ffi_type_uchar;
-          *alist->value_pos = &arg->val.uchar;
-          break;
-        case _C_SHT:
-          *alist->type_pos = &ffi_type_sshort;
-          *alist->value_pos = &arg->val.sshort;
-          break;
-        case _C_USHT:
-          *alist->type_pos = &ffi_type_ushort;
-          *alist->value_pos = &arg->val.ushort;
-          break;
-        case _C_INT:
-          *alist->type_pos = &ffi_type_sint;
-          *alist->value_pos = &arg->val.sint;
-          break;
-        case _C_UINT:
-          *alist->type_pos = &ffi_type_uint;
-          *alist->value_pos = &arg->val.uint;
-          break;
-        case _C_LNG:
-          *alist->type_pos = &ffi_type_slong;
-          *alist->value_pos = &arg->val.slong;
-          break;
-        case _C_ULNG:
-          *alist->type_pos = &ffi_type_ulong;
-          *alist->value_pos = &arg->val.ulong;
-          break;
-        case _C_FLT:
-          *alist->type_pos = &ffi_type_float;
-          *alist->value_pos = &arg->val._float;
-          break;
-        case _C_DBL:
-          *alist->type_pos = &ffi_type_double;
-          *alist->value_pos = &arg->val._double;
-          break;
-        case _C_CHARPTR:
-          *alist->type_pos = &ffi_type_pointer;
-          *alist->value_pos = &arg->val.string;
-          break;
-
-        default:
-          abort ();
-        }
-      alist->type_pos++;
-      alist->value_pos++;
-    }
-  
-  alist->type_pos = types_buf;
-  alist->value_pos = values_buf;
+  [fa setJavaFlag: javaFlag];
 
   retVal->type = *type;
-
   type = skip_argspec (type);
-  objectVal.type = *type;
-  if (objectVal.type != _C_ID)
-    abort ();
-  objectVal.val.object = target;
-  push_argument (&objectVal);
-
   type = skip_argspec (type);
-  selectorVal.type = *type;
-  if (selectorVal.type != _C_SEL)
-    abort ();
-  selectorVal.val.selector = probedSelector;
-  push_argument (&selectorVal);
-  
   for (i = 0, type = skip_argspec (type);
-       type;
+       type; 
        type = skip_argspec (type), i++)
-    push_argument (&arguments[i]);
+    [fa addArgument: &arguments[i].val ofObjCType: *type];
+  fa = [fa createEnd];
   
-  switch (retVal->type)
-    {
-    case _C_ID: 
-      fret = &ffi_type_pointer;
-      break;
-    case _C_SEL:
-      fret = &ffi_type_pointer;
-      break;
-    case _C_CHR:
-      // character return is broken in libffi-1.18
-      fret = &ffi_type_sint;
-      break;
-    case _C_UCHR:
-      // character return is broken in libffi-1.18
-      fret = &ffi_type_uint;
-      break;
-    case _C_SHT:
-      fret = &ffi_type_sshort;
-      break;
-    case _C_USHT:
-      fret = &ffi_type_ushort;
-      break; 
-    case _C_INT:
-      fret = &ffi_type_sint;
-      break;
-    case _C_UINT:
-      fret = &ffi_type_uint;
-      break; 
-    case _C_LNG:
-      fret = &ffi_type_slong;
-      break;
-    case _C_ULNG:
-      fret = &ffi_type_ulong;
-      break; 
-   case _C_FLT:
-      fret = &ffi_type_float;
-      break;
-    case _C_DBL:
-      fret = &ffi_type_double;
-      break;
-    case _C_CHARPTR:
-      fret = &ffi_type_pointer;
-      break;
-    case _C_VOID:
-      fret = &ffi_type_void;
-      break;
-    default:
-      abort ();
-    }
-
-  if (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, acnt, fret, types_buf) != FFI_OK)
-    abort ();
-
-  imp = [target methodFor: probedSelector];
-  if (!imp)
-    abort ();
-
-  {
-    long long ret = 0;
-    
-    ffi_call (&cif, (void *)imp, &ret, values_buf);
-    
-#ifdef __mips64
-#define VAL(type, var) (*((type *)(((void *)&var)+(sizeof(var)-sizeof(type)))))
-#else
-#define VAL(type, var) (*((type *)&var))
-#endif
-    
-    switch (retVal->type)
-      {
-      case _C_ID: 
-        retVal->val.object = VAL(id, ret);
-        break;
-      case _C_SEL:
-          retVal->val.selector = VAL(SEL, ret);
-          break;
-      case _C_CHR:
-        // character return is broken in libffi-1.18
-        retVal->val.sint = VAL(int, ret);  
-        break;
-      case _C_UCHR:
-        // character return is broken in libffi-1.18
-        retVal->val.uint = VAL(unsigned int, ret);  
-        break;
-      case _C_INT:
-        retVal->val.sint = VAL(int, ret);
-        break;
-      case _C_UINT:
-        retVal->val.uint = VAL(unsigned int, ret);
-        break;
-      case _C_SHT:
-        // short return is broken in libffi-1.18
-        retVal->val.sint = VAL(int, ret);
-        break;
-      case _C_USHT:
-        // short return is broken in libffi-1.18
-        retVal->val.uint = VAL(unsigned int, ret);
-        break;
-      case _C_LNG:
-        retVal->val.slong = VAL(long, ret);
-        break;
-      case _C_ULNG:
-        retVal->val.ulong = VAL(unsigned long, ret);
-        break;
-      case _C_FLT:
-        retVal->val._float = VAL(float, ret);
-        break;
-      case _C_DBL:
-        retVal->val._double = VAL(double, ret);
-        break;
-      case _C_CHARPTR:
-        retVal->val.string = VAL(const char *, ret);
-        break;
-      case _C_VOID:
-        break;
-      default:
-        abort ();
-      }
-  }
+  fc = [[FCall createBegin: aZone] setArguments: fa];
+  if (javaFlag)
+    [fc setJavaMethod: sel_get_name (probedSelector) 
+        inObject: JFINDJAVA (target)];
+  else
+    [fc setMethod: probedSelector inObject: target];
+  fc = [fc createEnd];
+  [fc performCall];
+  retVal->val = *(types_t *) [fc getResult]
+  [fc drop];
+  [fa drop];
 }
 
 #endif
@@ -622,47 +439,84 @@ dynamicCallOn (const char *probedType,
 
   if (val.type == _C_SHT)
 #ifdef USE_AVCALL
-    return (double)val.val.sshort;
+    return (double) val.val.sshort;
 #else
-    return (double)val.val.sint; // short return is broken in libffi-1.18
+    return (double) val.val.sint; // short return is broken in libffi-1.18
 #endif
   else if (val.type == _C_USHT)
 #ifdef USE_AVCALL
-    return (double)val.val.ushort; // short return is broken in libffi-1.18
+    return (double) val.val.ushort; // short return is broken in libffi-1.18
 #else
-    return (double)val.val.uint; // short return is broken in libffi-1.18
+    return (double) val.val.uint; // short return is broken in libffi-1.18
 #endif
   else if (val.type == _C_INT)
-    return (double)val.val.sint;
+    return (double) val.val.sint;
   else if (val.type == _C_UINT)
-    return (double)val.val.uint;
+    return (double) val.val.uint;
   else if (val.type == _C_LNG)
-    return (double)val.val.slong;
+    return (double) val.val.slong;
   else if (val.type == _C_ULNG)
-    return (double)val.val.ulong;
+    return (double) val.val.ulong;
   else if (val.type == _C_CHR)
 #ifdef USE_AVCALL
-    return (double)val.val.sint; // character return is broken in libffi-1.18
+    return (double) val.val.sint; // character return is broken in libffi-1.18
 #else
-    return (double)val.val.schar;
+    return (double) val.val.schar;
 #endif
   else if (val.type == _C_UCHR)
 #ifdef USE_AVCALL
-    return (double)val.val.uchar; // character return is broken in libffi-1.18
+    return (double) val.val.uchar; // character return is broken in libffi-1.18
 #else
-    return (double)val.val.uint; // character return is broken in libffi-1.18
+    return (double) val.val.uint; // character return is broken in libffi-1.18
 #endif
   else if (val.type == _C_FLT)
-    return (double)val.val._float;
+    return (double) val.val._float;
   else if (val.type == _C_DBL)
     return val.val._double;
   abort ();
 }
 
-- setHideResult: (BOOL)theHideResultFlag
+- (int)intDynamicCallOn: target
 {
-  hideResultFlag = theHideResultFlag;
-  return self;
+  val_t val = [self dynamicCallOn: target];
+
+  if (val.type == _C_SHT)
+#ifdef USE_AVCALL
+    return (int) val.val.sshort;
+#else
+    return (int) val.val.sint; // short return is broken in libffi-1.18
+#endif
+  else if (val.type == _C_USHT)
+#ifdef USE_AVCALL
+    return (int) val.val.ushort; // short return is broken in libffi-1.18
+#else
+    return (int) val.val.uint; // short return is broken in libffi-1.18
+#endif
+  else if (val.type == _C_INT)
+    return val.val.sint;
+  else if (val.type == _C_UINT)
+    return (int) val.val.uint;
+  else if (val.type == _C_LNG)
+    return (int) val.val.slong;
+  else if (val.type == _C_ULNG)
+    return (int) val.val.ulong;
+  else if (val.type == _C_CHR)
+#ifdef USE_AVCALL
+    return (int) val.val.sint; // character return is broken in libffi-1.18
+#else
+    return (int) val.val.schar;
+#endif
+  else if (val.type == _C_UCHR)
+#ifdef USE_AVCALL
+    return (int) val.val.uchar; // character return is broken in libffi-1.18
+#else
+    return (int) val.val.uint; // character return is broken in libffi-1.18
+#endif
+  else if (val.type == _C_FLT)
+    return (int) val.val._float;
+  else if (val.type == _C_DBL)
+    return (int) val.val._double;
+  abort ();
 }
 
 - (BOOL)getHideResult

@@ -24,6 +24,7 @@
 
 - (val_t)dynamicCallOn: target;
 - (double)doubleDynamicCallOn: target;
+- (int)intDynamicCallOn: target;
 
 - (BOOL)isResultId;
 - (BOOL)isArgumentId: (int)which;
