@@ -1,3 +1,19 @@
+1998-03-18  Alex Lancaster  <alex@santafe.edu>
+
+	* ModelSwarm.m: Import activity.h and collections.h as they are
+	referenced in the implementation.
+
+	* ModelSwarm.h: Removed imports of <activity.h> <collections.h>
+	<objectbase.h> and <simtools.h>. None are used in interface.
+
+	* FoodSpace.h: Removed import of <simtools.h> - not used in
+	interface. Reformatting throughout.
+
+	* ExperSwarm.h: Explicitly import <objectbase/SwarmObject.h> since
+	we are subclassing from it.
+	
+	* Bug.h: Removed import of <simtools.h> - not used by interface.
+
 1998-02-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* main.m: Include simtoolsgui.h.
