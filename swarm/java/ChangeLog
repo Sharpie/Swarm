@@ -3,7 +3,10 @@
 	* java-stub.el (java-print-method, java-print-native-method):
 	Print "$" between method keys (instead of mixing case).
 	(java-argument-print-conversion): Handle selectors. 
-	(*removed-methods*): Remove the SEL exceptions.
+	(*removed-methods*): Remove the parameter SEL exceptions.
+	(java-print-native-class): Don't declare jniEnv extern.
+	(java-print-native-method, java-argument-print-conversion): Refer
+	to env stub parameter, not jniEnv extern.
 
 	* Makefile.am (SWARM_EXTRA_DIST): Add swarm/Selector.java.
 

@@ -207,7 +207,10 @@
 
       ;; QSort
       "+sortNumbersIn:using:" ; function pointer parameter
-     ))
+
+      ;; ActionTo
+      "-getMessageSelector"
+      ))
 
 (defun freaky-message- (objc-type)
   (message "Objective C type `%s' in protocol `%s' is freaky!"
@@ -505,7 +508,7 @@
                (insert argname)
                (insert ")"))
               ((string= jni-type "jstring")
-               (insert "((*jniEnv)->GetStringUTFChars) (env, ")
+               (insert "((*env)->GetStringUTFChars) (env, ")
                (insert argname)
                (insert ", JNI_FALSE)"))
               ((string= jni-type "jobject")
@@ -570,7 +573,7 @@
         (cond ((string= java-return "Object")
                (insert "JFINDJAVA ("))
               ((string= java-return "String")
-               (insert "(*jniEnv)->NewStringUTF (jniEnv, ")))
+               (insert "(*env)->NewStringUTF (env, ")))
 
         (insert "[JFINDOBJC (jobj) ")
         
@@ -601,7 +604,6 @@
     (insert "#import <")
     (insert (module-name (protocol-module protocol)))
     (insert ".h>\n")
-    (insert "extern JNIEnv *jniEnv;\n")
     (insert "\n")
     (loop for phase in '(:creating :using)
           do
