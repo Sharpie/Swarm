@@ -1,3 +1,9 @@
+1999-03-14  Alex Lancaster  <alex@santafe.edu>
+
+	* Discrete2d.m ([Discrete2d -drop]): Add method.  Call [Zone
+	-free:] using the current Zone, on the lattice instance, before
+	calling drop on `super', to deallocate memory used by the lattice.
+
 1999-03-10  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Diffuse2d.m: Remove const unsigned maxStates and replace with

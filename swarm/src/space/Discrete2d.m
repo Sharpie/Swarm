@@ -245,5 +245,10 @@ PHASE(Using)
       [b putValue: [a getValueAtX: x Y: y] atX: x Y: y];
   return self;
 }
-
+ 
+- (void)drop
+{
+  [[self getZone] free: lattice];
+  [super drop];
+}
 @end
