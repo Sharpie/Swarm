@@ -210,19 +210,19 @@ describeFunctionCall (id stream, func_t fptr, int nargs, id arg1, id arg2, id ar
 {
   char buffer[100];
 
-  sprintf (buffer, "(function at " PTRFMT ")(", fptr);
+  sprintf (buffer, "(function at " PTRHEXFMT ")(", fptr);
   [stream catC: buffer];
   if (nargs > 0)
     {
-      sprintf( buffer, PTRFMT, arg1 );
+      sprintf( buffer, PTRHEXFMT, arg1 );
       [stream catC: buffer];
       if (nargs > 1)
         {
-          sprintf (buffer, ", " PTRFMT, arg2);
+          sprintf (buffer, ", " PTRHEXFMT, arg2);
           [stream catC: buffer];
           if (nargs > 2)
             {
-              sprintf (buffer, ", " PTRFMT, arg3);
+              sprintf (buffer, ", " PTRHEXFMT, arg3);
               [stream catC: buffer];
             }
         }
@@ -314,15 +314,15 @@ describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3)
   [stream catC: buffer];
   if (nargs > 0)
     {
-      sprintf (buffer, " " PTRFMT, arg1);
+      sprintf (buffer, " " PTRHEXFMT, arg1);
       [stream catC: buffer];
       if (nargs > 1)
         {
-          sprintf (buffer, " " PTRFMT, arg2);
+          sprintf (buffer, " " PTRHEXFMT, arg2);
           [stream catC: buffer];
           if (nargs > 2)
             {
-              sprintf (buffer, " " PTRFMT, arg3);
+              sprintf (buffer, " " PTRHEXFMT, arg3);
               [stream catC: buffer];
             }
         }
