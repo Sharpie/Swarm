@@ -32,7 +32,7 @@
 
 - (void)createTimeString
 {
-	int i;
+	unsigned i;
 	time_t runTime; /*"Return from the system's time() function"*/
 	int runNumber = getInt((Parameters*)arguments,"run"); 
 	
@@ -64,7 +64,7 @@
 		}
     } else { //Run number was specified by the user.
       
-      	asprintf( &timeString, "%4d", runNumber ); //Should we free these somewhere? a dealloc?
+      	asprintf( &timeString, "%d", runNumber ); //Should we free these somewhere? a dealloc?
       	
     } //if( runNumber == -1 ) - else
   
@@ -77,7 +77,7 @@
 {
   char hdfEZGraphName[100];
   id <HDF5> hdf5container; /*"HDF5 data container object used by bugGraph"*/
-  strcpy (hdfEZGraphName,"hdfGraph");
+  strcpy (hdfEZGraphName,"hdfGraph_");
   strcat (hdfEZGraphName, timeString);
   strcat (hdfEZGraphName, ".hdf");
 
@@ -113,19 +113,26 @@
 
 - prepareCOutputFile
 {
-  char outputFile[256];
+  char *outputFile;
 
-  if (dataFileExists == YES) return self;
-
-  else{
-    snprintf (outputFile,256, "output%s.data",timeString);
-
-    
-    if(!(dataOutputFile = fopen(outputFile,"w")))
+  if (dataFileExists == YES) 
+  {
+  	return self;	//There already is a data file, so we really shouldn't
+  					//do anything.
+  } else {
+  
+    asprintf( &outputFile, "output_%s.data",timeString );
+  
+    if( !( dataOutputFile = fopen( outputFile,"w" ) ) )	//Open/Create file.
+    {
       abort();
-    fprintf (dataOutputFile, "currentTime\t avgEaten\n");
-    dataFileExists = YES;
+    }
+    
+    fprintf (dataOutputFile, "currentTime\t avgEaten\n");	//Create headings for the file.
+    dataFileExists = YES;	//Let everyone know that the datafile does exist, so we don't
+    						//do this again.
   }
+  
   return self;
 }
 
@@ -138,11 +145,11 @@
   // This is the old standby!
 
   // The \t is for tab separated data
-  fprintf (dataOutputFile, "%10ld \t %2.6f \n", 
-	   t, 
-	   [eatenSequence getCurrentValue]
-           );
-  fflush ( dataOutputFile );
+  fprintf(  dataOutputFile, "%10ld \t %2.6f \n", \
+	   		t, 									 \
+	   		[eatenSequence getCurrentValue] );
+	   		
+  fflush( dataOutputFile ); //Forces all buffered data to be written to the file.
  
   return self;
 }

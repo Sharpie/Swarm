@@ -1,4 +1,22 @@
 2003-08-17	David H. Clements <david.clements.03@alum.mines.edu>
+	
+	* In Output.m:
+
+		* Added an underscore to the output file names (output_ and hdfGraph_) in
+		createGraphWriter and prepareCOutputFile.
+	
+		* Brackets, whitespace, and documentation changes to prepareCOutputFile.
+	
+		* Changed the type of outputFile in prepareCOutput file to char* from
+		char[256], made the appropriate changes in the code.
+	
+		* Removed the spaces when a run number was specified in timeString from
+		createTimeString.
+	
+		* Whitespace formatting in writeCData.
+
+
+2003-08-17	David H. Clements <david.clements.03@alum.mines.edu>
 
 	* Added a "cleandata" flag to the Makefile.
 	
@@ -10,7 +28,6 @@
 		*changed timeString to a pointer,
 		*made the appropriate changes surrounding that change
 		*rewrote the else side of the runNumber if branch
-
 	
 	* Added/changed documentation here and there in Output.h and Output.m.
 		
