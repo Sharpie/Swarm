@@ -1,7 +1,7 @@
 1999-06-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.in ($(POSTCLASSES)): Depend on modules to avoid problems
-	with parallel makes.
+	* Makefile.in ($(POSTCLASSESFILES)): Depend on stubs classes
+	to avoid problems with parallel makes.
 
 1999-06-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

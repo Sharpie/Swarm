@@ -36,9 +36,11 @@ SWARMCLASSFILES = $(addsuffix .class,$(addprefix swarm/,$(SWARMCLASSES)))
 
 ALLCLASSFILES = $(SWARMCLASSFILES) $(GENCLASSFILES) $(GENINTERFACEFILES)
 
-all: modules $(addsuffix .class,$(POSTCLASSES))
+POSTCLASSFILES = $(addsuffix .class,$(POSTCLASSES))
 
-$(POSTCLASSES): modules
+all: modules $(POSTCLASSFILES)
+
+$(POSTCLASSFILES): $(addsuffix .class,$(SWARMCLASSES))
 
 deps: 
 	for module in $(MODULES); do $(MAKE) -C $$module .deps; done
