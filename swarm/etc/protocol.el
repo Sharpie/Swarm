@@ -58,6 +58,11 @@
   example-list
   deprecated-list)
 
+(defstruct methodinfo
+  level
+  protocol
+  method)
+
 (defstruct global
   name
   module
@@ -1005,11 +1010,14 @@
                    (if uniquify-flag
                        (get-method-signature method)
                        method)
-                   for last-method-list = (gethash method-sig method-hash-table)
-                   when (or (null last-method-list)
-                            (> level (first last-method-list)))
+                   for last-methodinfo = (gethash method-sig method-hash-table)
+                   when (or (null last-methodinfo)
+                            (> level (methodinfo-level last-methodinfo)))
                    do (setf (gethash method-sig method-hash-table)
-                            (list level protocol method)))
+                            (make-methodinfo
+                             :level level
+                             :protocol protocol
+                             :method method)))
              (loop for included-protocol in
                    (protocol-included-protocol-list protocol)
                    do
@@ -1030,10 +1038,10 @@
                     (compare-string-lists
                      (get-key-list a)
                      (get-key-list b)))))
-           (let ((level-diff (- (first a) (first b))))
+           (let ((level-diff (- (methodinfo-level a) (methodinfo-level b))))
              (if (zerop level-diff)
-                 (let* ((method-a (third a))
-                        (method-b (third b))
+                 (let* ((method-a (methodinfo-method a))
+                        (method-b (methodinfo-method b))
                         (phase-diff (- (phase-pos (method-phase method-a))
                                        (phase-pos (method-phase method-b)))))
                    (if (zerop phase-diff)
@@ -1165,7 +1173,7 @@
 
 (defun methodinfo-list-for-phase (protocol phase)
   (loop for methodinfo in (protocol-expanded-methodinfo-list protocol)
-        when (eq (method-phase (third methodinfo)) phase)
+        when (eq (method-phase (methodinfo-method methodinfo)) phase)
         collect methodinfo))
 
 (defun include-p (level protocol owner-protocol)
@@ -1178,9 +1186,9 @@
 
 (defun count-included-methodinfo-entries (protocol phase)
   (loop for methodinfo in (methodinfo-list-for-phase protocol phase)
-        count (include-p (first methodinfo)
+        count (include-p (methodinfo-level methodinfo)
                          protocol
-                         (second methodinfo))))
+                         (methodinfo-protocol methodinfo))))
 
 (defun count-included-methodinfo-entries-for-all-phases (protocol)
   (loop for phase in *phases*
@@ -1192,7 +1200,7 @@
 
 (defun count-method-examples (protocol phase)
   (loop for methodinfo in (methodinfo-list-for-phase protocol phase)
-        for method = (third methodinfo)
+        for method = (methodinfo-method methodinfo)
         count (method-example-list method)))
 
 (defun count-noninternal-protocols (protocol)
@@ -1205,10 +1213,10 @@
     (string< method-a-signature method-b-signature)))
 
 (defun compare-methodinfo (a b)
-  (let ((protocol-name-a (protocol-name (second a)))
-        (protocol-name-b (protocol-name (second b))))
+  (let ((protocol-name-a (protocol-name (methodinfo-protocol a)))
+        (protocol-name-b (protocol-name (methodinfo-protocol b))))
     (if (string= protocol-name-a protocol-name-b)
-        (compare-method-signatures (third a) (third b))
+        (compare-method-signatures (methodinfo-method a) (methodinfo-method b))
         (string< protocol-name-a protocol-name-b))))
 
 
