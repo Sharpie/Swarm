@@ -45,6 +45,10 @@
 	([ArchivedGeometryWidget -disableDestroyNotification]): Use
 	tkobjc_deleteEventHandler.
 
+ 	* Graph.[hm]:  Renamed from BLTGraph.[hm].
+
+	* Colormap.[hm]: Renamed from XColormap.[hm].
+	
 	* tkobjc.m: Include internal.h and gui.h.  Don't include
 	tkobjc/TkExtra.h Define globalTkInterp to conform to the TkExtra
 	protocol.
