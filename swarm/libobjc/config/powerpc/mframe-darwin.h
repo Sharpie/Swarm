@@ -75,8 +75,13 @@ typedef struct rs6000_args
       else \
         { \
           sprintf((DEST), "%.*s+%d", (TYPE)-type, type, \
-                (int) (40 + sizeof (double) * ((CUM).float_args - 1))); \ 
-          ++(CUM)int_args; \
+                (int) (40 + sizeof (double) * ((CUM).float_args - 1))); \
+          if (*type == _C_DBL) { \
+            ++(CUM).int_args; \
+            (CUM).regs_position += 4; \
+          } \
+          ++(CUM).int_args; \
+          (CUM).regs_position += 4; \
         } \
     } \
   else \
