@@ -24,7 +24,7 @@ void packFill (id frame);
 void packFillLeft (id frame, int expandFlag);
 void packForget (id widget);
 void assertGeometry (id topFrame);
-void deiconify (id frame)
+void deiconify (id frame);
 void withdrawWindow (id topLevel);
 void releaseAndUpdate (void);
 void updateIdleTasksAndHold (void);
