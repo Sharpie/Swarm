@@ -1,3 +1,7 @@
+2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* internal.m move nil_method to libobjc/nil_method.c
+
 2003-02-14  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* DefObject.m:Incorporate Marcus Daniel's patch for changed method

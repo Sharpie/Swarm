@@ -1,3 +1,9 @@
+2003-02-26  Bill Northcott <W.Northcott@unsw.edu.au>
+
+	* complete conversion to libtool 1.4.3
+	autoconfigure SED in configure.in
+	nil_method.c incorporate code from defobj/internal.m
+
 2003-01-08  Bill Northcott <W.Northcott@unsw.edu.au>
 
 	* depcomp: Update depcomp from automake 1.6.1

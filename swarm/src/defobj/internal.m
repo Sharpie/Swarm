@@ -644,15 +644,16 @@ lisp_type_for_objc_type (const char *varType,
   return baseType;
 }
 
-#if ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 2)
+/* nil_method moved to libojc/nil_method.c */
+/* #if ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 2)
 id
 nil_method (id receiver, SEL op, ...)
 {
   raiseEvent (InvalidArgument,  "The message `%s' was sent to nil.\n",
               sel_get_name (op));
   return nil;
-}
-#endif
+} */
+// #endif 
 
 char *
 zstrdup (id aZone, const char *str)
