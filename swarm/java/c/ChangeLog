@@ -1,3 +1,8 @@
+2003-04-30    <mgd@arrow.santafe.edu>
+
+	* Makefile.in (javaswarm_entities): Add predispatch.
+	(predispatch.{c,lo}): New rules.
+
 2002-10-19    <pauljohn@dv253s74.lawrence.ks.us>
 
 	* Makefile.in (install-la): $(DESTDIR) added

@@ -32,7 +32,7 @@ override OBJCFLAGS += @CFLAGS_NOWARN_UNKNOWN_PRAGMAS@
 
 modulePROTOCOLS = $(foreach module,$(MODULES),$($(module)_creatable_PROTOCOLS))
 
-javaswarm_entities = SwarmEnvironmentExtra SwarmEnvironment
+javaswarm_entities = SwarmEnvironmentExtra SwarmEnvironment predispatch
 libjavaswarm_la_OBJECTS = $(addsuffix .lo, $(javaswarm_entities))
 javaswarm_OBJECTS = $(addsuffix .o, $(javaswarm_entities))
 libjavaswarmstubs_la_OBJECTS = $(foreach module,$(MODULES),$(module)_stubs.lo)
@@ -83,4 +83,10 @@ $(JAVASWARM_DLL): $(_LIBJAVASWARM_LA) $(_LIBJAVASWARMSTUBS_LA) javaswarm.dll.c
 
 %.lo: %.c
 	$(LIBTOOL) --mode=compile $(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+predispatch.c: $(javaswarmstubs_OBJECTS)
+	(echo "#include <objc/objc.h>"; echo "#include <objc/objc-api.h>"; sort *-head.c | uniq; echo "void predispatch () __attribute__ ((constructor));"; echo "void predispatch () {"; sort *-body.c | uniq ; echo "}") > predispatch.c
+
+predispatch.lo: predispatch.c
+       $(LIBTOOL) --mode=compile $(CC) -c -g predispatch.c
 
