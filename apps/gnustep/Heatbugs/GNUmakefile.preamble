@@ -1,0 +1,2 @@
+# Swarm library definitions
+include $(SWARMHOME)/etc/swarm/swarm.make
