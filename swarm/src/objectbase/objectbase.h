@@ -21,11 +21,6 @@ Date:            1996-12-12
 #import <activity.h> // timeval_t
 #include <externvar.h>
 
-//
-//  Objectbase errors
-//
-// id <Error> ReferenceError;  // dangling pointer to removed object
-
 @protocol SwarmObject <Create, Drop, CREATABLE>
 //S: A superclass of most objects in a Swarm simulation that provides
 //S: support for probing.
@@ -69,39 +64,6 @@ USING
 USING
 - setObjectToNotify: anObject;
 - getObjectToNotify;
-@end
-
-@protocol Swarm <SwarmProcess, CREATABLE>
-//S: A temporal container.
-
-//D: A Swarm is a community of agents sharing a common timescale as
-//D: well as common memory pool.
-
-USING
-//M: Override this to let your Swarm create the objects that it 
-//M: contains. 
-- buildObjects;
-
-//M: Override this to let your Swarm build its actions.
-- buildActions;
-
-//M: Override this to activate any actions you built in buildActions.
-//M: Note, you must activate yourself first before you can activate
-//M: actions inside you. 
-
-//E: [super activateIn: swarmContext];
-//E: [fancySchedule activateIn: self];
-//E: return [self getSwarmActivity];    
-- (id <Activity>)activateIn: swarmContext;
-
-//M: Needed to support probing of Swarms.
-- getProbeMap;
-
-//M: Needed to support probing of Swarms.
-- getCompleteProbeMap;
-
-//M: Needed to support probing of Swarms.
-- getProbeForVariable: (const char *)aVariable;    
 @end
 
 @protocol Probe <SwarmObject, ProbeConfig>
@@ -365,11 +327,11 @@ USING
 
 //M: The getProbeForVariable: method returns the Probe corresponding to the 
 //M: given variable name.
-- getProbeForVariable: (const char *)aVariable;
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable;
 
 //M: The getProbeForMessage: method returns the Probe corresponding to the
 //M: specified message name.
-- getProbeForMessage: (const char *)aMessage;
+- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage;
 
 //M: The addProbe: method adds a probe to the contents of the ProbeMap.
 //M: The ProbeMap will always make sure that the probedClass of the Probe being
@@ -409,6 +371,39 @@ USING
 //M: probe map.
 - clone: (id <Zone>)aZone;
 
+@end
+
+@protocol Swarm <SwarmProcess, CREATABLE>
+//S: A temporal container.
+
+//D: A Swarm is a community of agents sharing a common timescale as
+//D: well as common memory pool.
+
+USING
+//M: Override this to let your Swarm create the objects that it 
+//M: contains. 
+- buildObjects;
+
+//M: Override this to let your Swarm build its actions.
+- buildActions;
+
+//M: Override this to activate any actions you built in buildActions.
+//M: Note, you must activate yourself first before you can activate
+//M: actions inside you. 
+
+//E: [super activateIn: swarmContext];
+//E: [fancySchedule activateIn: self];
+//E: return [self getSwarmActivity];    
+- (id <Activity>)activateIn: swarmContext;
+
+//M: Needed to support probing of Swarms.
+- (id <ProbeMap>)getProbeMap;
+
+//M: Needed to support probing of Swarms.
+- (id <ProbeMap>)getCompleteProbeMap;
+
+//M: Needed to support probing of Swarms.
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable;    
 @end
 
 @protocol DefaultProbeMap <ProbeMap, CREATABLE>
@@ -525,34 +520,32 @@ USING
 //M: that class, then that specific ProbeMap is returned. If a custom ProbeMap 
 //M: was not designed and installed, then a CompleteProbeMap is created and 
 //M: returned.
-- getProbeMapFor: (Class)aClass;
+- (id <ProbeMap>)getProbeMapFor: (Class)aClass;
 
 //M: The getCompleteProbeMapFor: method returns a ProbeMap containing Probes 
 //M: for all the instance variables and messages of the given Class (including 
 //M: inherited variables and messages). The current implementation of 
 //M: ProbeLibrary does not cache CompleteProbeMaps. 
-- getCompleteProbeMapFor: (Class)aClass;
+- (id <ProbeMap>)getCompleteProbeMapFor: (Class)aClass;
 
 //M: The getCompleteVarMapFor: method returns a ProbeMap containing Probes for 
 //M: all the instance variables of the given Class (including inherited 
 //M: variables) but does not include any MessageProbes. 
-- getCompleteVarMapFor: (Class)aClass;
+- (id <ProbeMap>)getCompleteVarMapFor: (Class)aClass;
 
 //M: The getProbeForVariable:inClass: method returns a probe that has been 
 //M: "checked out" from the appropriate Probes in the probe library. 
 //M: Note: The returned probe will be cached so to avoid affecting the results 
 //M:       of future requests for the same probes, clone the probe prior to 
 //M:       making modifications to the probe.
-- getProbeForVariable: (const char *)aVar
-              inClass: (Class)aClass;
+- (id <VarProbe>)getProbeForVariable: (const char *)aVar inClass: (Class)aClass;
 
 //M: The getProbeForMessage:inClass: method returns a probe that has been 
 //M: "checked out" from the appropriate Probes in the probe library. 
 //M: Note: The returned probe will be cached so to avoid affecting the results 
 //M:       of future requests for the same probes, clone the probe prior to 
 //M:       making modifications to the probe.
-- getProbeForMessage: (const char *)aMessage
-             inClass: (Class)aClass;
+- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage inClass: (Class)aClass;
 
 //M: The setProbeMap:For: method sets the standard probe map as the probe map.
 //M: The returned Probe will be cached as though it was produced by the
