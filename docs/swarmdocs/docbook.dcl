@@ -81,7 +81,7 @@ SYNTAX
 		TAGLVL    100
 		NAMELEN    97
                  TAGLEN  2100
-               ATTSPLEN  2100
+               ATTSPLEN  2129
 
 FEATURES
 

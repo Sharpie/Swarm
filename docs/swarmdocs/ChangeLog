@@ -1,3 +1,7 @@
+1999-03-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* docbook.dcl (ATTSPLEN): Increase to 2129 from 2100.
+
 1999-03-01  Alex Lancaster  <alex@santafe.edu>
 
 	* html.dsl (reference-titlepage-verso-mode): Remove override
