@@ -1,3 +1,7 @@
+1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* gui.h (Colormap): New method unsetColor:.  Thanks to Ken Cline.
+
 1999-05-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* gui.h (Histogram): Change setNumBins: to setBinCount:.

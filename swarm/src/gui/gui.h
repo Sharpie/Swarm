@@ -611,6 +611,9 @@ USING
 
 //M: Add a color of a certain level of grey.
 - (BOOL)setColor: (Color)c ToGrey: (double)g;
+
+//M: Remove color at index `c' from the color map.
+- unsetColor: (Color)c;
 @end
 
 @class Raster;
