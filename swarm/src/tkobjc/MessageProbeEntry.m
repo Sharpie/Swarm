@@ -29,9 +29,9 @@ tkobjc_bindButton3ToBeUnhelpfulAndRefocus (id widget, id self)
   return self;
 }
 
-- setResultIdFlag: (BOOL)theResultIdFlag
+- setIdFlag: (BOOL)theIdFlag
 {
-  resultIdFlag = theResultIdFlag;
+  idFlag = theIdFlag;
   return self;
 }
 
@@ -40,7 +40,7 @@ tkobjc_bindButton3ToBeUnhelpfulAndRefocus (id widget, id self)
   MessageProbeEntry *obj = [super createBegin: aZone];
   
   obj->arg = -1;
-  obj->resultIdFlag = NO;
+  obj->idFlag = NO;
   return obj;
 }
   
@@ -49,7 +49,7 @@ tkobjc_bindButton3ToBeUnhelpfulAndRefocus (id widget, id self)
   BOOL argFlag = arg != -1;
 
   [super createEnd];
-  if (resultIdFlag)
+  if (idFlag)
     {
       [self setActiveFlag: NO];
       if (argFlag)

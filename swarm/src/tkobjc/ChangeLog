@@ -1,7 +1,26 @@
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* CanvasAbstractItem.[hm]: New files.
+
+	* MessageProbeEntry.[hm]: Rename resultIdFlag to idFlag (and setter).
+
+	* Makefile (OBJECTS, HEADERS): Add CanvasAbstractItem.[oh].
+	(CanvasAbstractItem.o): Add.
+
+	* CanvasItem.[hm], CompositeItem.[hm]: Superclass is now
+	CanvasAbstractItem.  Remove canvas, target, clickSel, moveSel, and
+	postMoveSel instance variables and accessors.  Don't
+	declare/define createEnd or clicked.
+
 	* InputWidget.[hm]: linkVariable{Int,Double,Boolean}: now take
 	a pointer to the accompanying type as an argument, not void *.
+
+	* Entry.[hm]: Declare/define setHeight: not setWidth:Height:.
+	setHeight: now aborts, since Tk doesn't deal with the height of
+	an Entry.
+
+	* Form.m ([Form -_addLineName_:Variable:Type:]): Use setWidth:
+	not setWidth:Height: since height doesn't work for Tk Entry widgets.
 
 	* Form.[hm]: Rename -addLineName:Variable:Type: to be internal.
 	New methods: -addLineName:{Boolean,Int,Double}:.

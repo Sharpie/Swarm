@@ -3,25 +3,15 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <objectbase/SwarmObject.h>
+#import <tkobjc/CanvasAbstractItem.h>
 #import <gui.h>
 
-@interface CompositeItem: SwarmObject <_CompositeItem>
+@interface CompositeItem: CanvasAbstractItem <_CompositeItem>
 {
-  id canvas;
-  id target;
-  SEL clickSel, moveSel, postMoveSel;
 }
 
-- setCanvas: canvas;
-- setTargetId: target;
-- setClickSel: (SEL)sel;
-- setMoveSel: (SEL)sel;
-- setPostMoveSel: (SEL)sel;
-- createItem;
-- createBindings;
-- createEnd;
-- clicked;
-- initiateMoveX: (long)delta_x Y: (long)delta_y;
 - moveX: (long)delta_x Y: (long)delta_y;
+- initiateMoveX: (long)delta_x Y: (long)delta_y;
 @end
+
+

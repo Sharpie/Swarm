@@ -12,6 +12,6 @@
 
 - createEnd;
 - setValue: (const char *)t;
-- setWidth: (unsigned)w Height: (unsigned)h;
+- setHeight: (unsigned)h;
 
 @end

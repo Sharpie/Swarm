@@ -9,11 +9,11 @@
 @interface MessageProbeEntry: Entry <_MessageProbeEntry>
 {
   int arg;
-  BOOL resultIdFlag;
+  BOOL idFlag;
 }
 
 - setArg: (int)arg;
-- setResultIdFlag: (BOOL)resultIdFlag;
+- setIdFlag: (BOOL)idFlag;
 + createBegin: aZone;
 - createEnd;
 

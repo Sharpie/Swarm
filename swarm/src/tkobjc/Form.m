@@ -49,7 +49,7 @@
   else 
     {
       w = [Entry createParent: parent];
-      [w setWidth: entryWidth Height: 1];
+      [w setWidth: entryWidth];
 
       if (type == TCL_LINK_INT)
         [w linkVariableInt: p];

@@ -6,9 +6,9 @@ BACKEND_H=win32dib.h
 BACKEND_O=win32dib.o
 endif
 
-OBJECTS=Graph.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o Colormap.o Entry.o Label.o Form.o Histogram.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o WindowGeometryRecord.o ArchivedGeometryWidget.o ClassDisplayHideButton.o ClassDisplayLabel.o VarProbeLabel.o SimpleProbeDisplayHideButton.o SuperButton.o MessageProbeEntry.o VarProbeEntry.o CompleteProbeDisplayLabel.o ProbeCanvas.o common.o internal.o Pixmap.o $(BACKEND_O)
+OBJECTS=Graph.o Frame.o Widget.o Button.o TkExtra.o ButtonPanel.o Raster.o ZoomRaster.o Colormap.o Entry.o Label.o Form.o Histogram.o CheckButton.o InputWidget.o tkobjc.o Canvas.o CanvasAbstractItem.o CanvasItem.o CompositeItem.o Circle.o Line.o Rectangle.o LinkItem.o NodeItem.o OvalNodeItem.o RectangleNodeItem.o TextItem.o WindowGeometryRecord.o ArchivedGeometryWidget.o ClassDisplayHideButton.o ClassDisplayLabel.o VarProbeLabel.o SimpleProbeDisplayHideButton.o SuperButton.o MessageProbeEntry.o VarProbeEntry.o CompleteProbeDisplayLabel.o ProbeCanvas.o common.o internal.o Pixmap.o $(BACKEND_O)
 
-HEADERS=Graph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histogram.h Label.h Raster.h TkExtra.h Widget.h Colormap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h ClassDisplayHideButton.h ClassDisplayLabel.h VarProbeLabel.h SimpleProbeDisplayHideButton.h SuperButton.h MessageProbeEntry.h VarProbeEntry.h CompleteProbeDisplayLabel.h ProbeCanvas.h common.h internal.h Pixmap.h $(BACKEND_H)
+HEADERS=Graph.h Button.h ButtonPanel.h Entry.h Form.h Frame.h Histogram.h Label.h Raster.h TkExtra.h Widget.h Colormap.h ZoomRaster.h global.h CheckButton.h InputWidget.h Canvas.h CanvasAbstractItem.h CanvasItem.h CompositeItem.h Circle.h Line.h Rectangle.h LinkItem.h NodeItem.h OvalNodeItem.h RectangleNodeItem.h TextItem.h WindowGeometryRecord.h ArchivedGeometryWidget.h ClassDisplayHideButton.h ClassDisplayLabel.h VarProbeLabel.h SimpleProbeDisplayHideButton.h SuperButton.h MessageProbeEntry.h VarProbeEntry.h CompleteProbeDisplayLabel.h ProbeCanvas.h common.h internal.h Pixmap.h $(BACKEND_H)
 
 OTHERCLEAN=testFrame testGraph testHistogram testRaster testFrame.o testGraph.o testHistogram.o testRaster.o
 
@@ -40,6 +40,7 @@ Entry.o: Widget.h global.h Entry.m Entry.h InputWidget.h
 CheckButton.o: CheckButton.m CheckButton.h InputWidget.h global.h
 InputWidget.o: InputWidget.m InputWidget.h global.h Widget.h
 Canvas.o: Canvas.m Canvas.h Widget.h
+CanvasAbstractItem.o: CanvasAbstractItem.m CanvasAbstractItem.h
 CanvasItem.o: CanvasItem.m CanvasItem.h 
 CompositeItem.o: CompositeItem.m CompositeItem.h 
 Circle.o: Circle.m Circle.h CanvasItem.h 
