@@ -1,3 +1,13 @@
+1999-07-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* internal.m (tkobjc_animate_message): Be pessimistic that there
+	won't be enough colors.
+	(xpmerrcheck): Modify usage to take file and line number instead
+	of descriptive string.
+	(XPMERRCHECK): Call xpmerrcheck, passing __FILE__ and __LINE__.
+	(tkobjc_animate_message, x_pixmap_create_from_window,
+	tkobjc_pixmap_update_raster): Use XPMERRCHECK instead of xpmerrcheck.
+
 1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* WindowGeometryRecord.m (getVal): Expect a _C_LNG from ArchiverValue.

@@ -158,6 +158,41 @@ tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
 }
 
 #ifndef _WIN32
+#define XPMERRCHECK(errnum) xpmerrcheck(errnum,__FILE__,__LINE__)
+static void
+xpmerrcheck (int xpmerr, const char *filename, unsigned lineno)
+{
+  const char *error = NULL;
+  const char *warning = NULL;
+  
+  switch (xpmerr)
+    {
+    case XpmSuccess:
+      break;
+    case XpmColorError:
+      warning = "Could not parse or alloc requested color";
+      break;
+    case XpmOpenFailed:
+      error = "Cannot open file";
+      break;
+    case XpmFileInvalid:
+      error = "Invalid XPM file";
+      break;
+    case XpmNoMemory:
+      error = "Not enough memory";
+      break;
+    case XpmColorFailed:
+      error = "Failed to parse or alloc some color";
+      break;
+    }
+  if (warning)
+    raiseEvent  (WarningMessage, "Creating pixmap: %s (%s,%u)\n", warning, filename, lineno);
+  if (error)
+    raiseEvent (PixmapError, "Creating pixmap: %s (%s,%u)\n", error, filename, lineno);
+}
+#endif
+
+#ifndef _WIN32
 XImage *triggerImage = NULL;
 XImage *scheduleImage = NULL;
 GC gc;
@@ -222,10 +257,18 @@ tkobjc_animate_message (id srcWidget,
     {
       XImage *shapemask;
       Screen *screen = Tk_Screen (src_tkwin);
-      XpmCreateImageFromData (display, trigger_xpm,
-                              &triggerImage, &shapemask, NULL);
-      XpmCreateImageFromData (display, schedule_xpm, 
-                              &scheduleImage, &shapemask, NULL);
+      XpmAttributes attr;
+      
+      // be pessimistic that there won't be enough colors
+      attr.valuemask = XpmColormap;
+      attr.colormap =
+        XCopyColormapAndFree (display, 
+                              DefaultColormap (display,
+                                               DefaultScreen (display)));
+      XPMERRCHECK (XpmCreateImageFromData (display, trigger_xpm,
+                                           &triggerImage, &shapemask, &attr));
+      XPMERRCHECK (XpmCreateImageFromData (display, schedule_xpm, 
+                                           &scheduleImage, &shapemask, &attr));
       gc = XCreateGC (display, RootWindowOfScreen (screen), 0, NULL);
     }
   image = triggerFlag ? triggerImage : scheduleImage;
@@ -434,7 +477,7 @@ tkobjc_raster_fillRectangle (Raster *raster,
   raster_private_t *private = raster->private;
 
 #ifndef _WIN32
-  PixelValue *map = ((Colormap *)raster->colormap)->map;
+  PixelValue *map = ((Colormap *) raster->colormap)->map;
   
   Xfill (Tk_Display (private->tkwin), private->gc, private->pm,
          x, y, width, height,
@@ -453,7 +496,7 @@ tkobjc_raster_ellipse (Raster *raster,
 {
   raster_private_t *private = raster->private;
 #ifndef _WIN32
-  PixelValue *map = ((Colormap *)raster->colormap)->map;
+  PixelValue *map = ((Colormap *) raster->colormap)->map;
   Display *display = Tk_Display (private->tkwin);
   GC gc = private->gc;
 
@@ -859,40 +902,6 @@ tkobjc_raster_dropOldPixmap (Raster *raster)
 
 #ifndef _WIN32
 static void
-xpmerrcheck (int xpmerr, const char *what)
-{
-  const char *error = NULL;
-  const char *warning = NULL;
-  
-  switch (xpmerr)
-    {
-    case XpmSuccess:
-      break;
-    case XpmColorError:
-      warning = "Could not parse or alloc requested color";
-      break;
-    case XpmOpenFailed:
-      error = "Cannot open file";
-      break;
-    case XpmFileInvalid:
-      error = "Invalid XPM file";
-      break;
-    case XpmNoMemory:
-      error = "Not enough memory";
-      break;
-    case XpmColorFailed:
-      error = "Failed to parse or alloc some color";
-      break;
-    }
-  if (warning)
-    raiseEvent  (WarningMessage, "Creating pixmap: %s (%s)\n", warning, what);
-  if (error)
-    raiseEvent (PixmapError, "Creating pixmap: %s (%s)\n", error, what);
-}
-#endif
-
-#ifndef _WIN32
-static void
 x_pixmap_create_from_window (Pixmap *pixmap, Window window)
 {
   int x, y;
@@ -910,18 +919,16 @@ x_pixmap_create_from_window (Pixmap *pixmap, Window window)
   if (ximage == NULL)
     raiseEvent (PixmapError, "Cannot get XImage of window");
   
-  xpmerrcheck (XpmCreateXpmImageFromImage (pixmap->display, ximage, NULL,
+  XPMERRCHECK (XpmCreateXpmImageFromImage (pixmap->display, ximage, NULL,
                                            &pixmap->xpmimage, 
-                                           NULL),
-               "x_pixmap_create_from_window / XpmImage");
+                                           NULL));
   
-  xpmerrcheck (XpmCreatePixmapFromXpmImage (pixmap->display,
+  XPMERRCHECK (XpmCreatePixmapFromXpmImage (pixmap->display,
                                             window,
                                             &pixmap->xpmimage,
                                             &pixmap->pixmap,
                                             &pixmap->mask,
-                                            NULL),
-               "x_pixmap_create_from_window / Pixmap");
+                                            NULL));
   XDestroyImage (ximage);
 }
 #else
@@ -1316,7 +1323,7 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
           {
             if (retryFlag == YES)
               {
-                xpmerrcheck (err, __FUNCTION__);
+                XPMERRCHECK (err);
                 break;
               }
             raiseEvent (ResourceAvailability, 
