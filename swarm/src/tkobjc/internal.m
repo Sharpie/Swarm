@@ -193,3 +193,81 @@ tkobjc_raster_copy (Raster *raster, Pixmap oldpm,
   XFreePixmap (display, oldpm);
 }
 
+#ifdef __WIN32__
+
+void Tcl_CreateFileHandler (int fd, int mask, Tcl_FileProc proc, ClientData cd)
+{ }
+void Tcl_DeleteFileHandler (int fd) { }
+
+void
+XDrawPoint (display, d, gc, x, y)
+    Display* display;
+    Drawable d;
+    GC gc;
+    int x;
+    int y;
+{
+  TkWinDrawable *twdPtr = (TkWinDrawable *)d;
+  
+  display->request++;
+  
+  if (twdPtr->type != TWD_BITMAP)
+    abort ();
+  
+  SetPixel (twdPtr->bitmap.handle, x, y, gc->foreground);
+}
+
+Pixmap
+XCreatePixmap(display, d, width, height, depth)
+    Display* display;
+    Drawable d;
+    unsigned int width;
+    unsigned int height;
+    unsigned int depth;
+{
+    TkWinDrawable *newTwdPtr, *twdPtr;
+    
+    display->request++;
+
+    newTwdPtr = (TkWinDrawable*) ckalloc(sizeof(TkWinDrawable));
+    if (newTwdPtr == NULL) {
+	return None;
+    }
+    newTwdPtr->type = TWD_BITMAP;
+    newTwdPtr->bitmap.depth = depth;
+    twdPtr = (TkWinDrawable *)d;
+    if (twdPtr->type != TWD_BITMAP) {
+	if (twdPtr->window.winPtr == NULL) {
+	    newTwdPtr->bitmap.colormap = DefaultColormap(display,
+		    DefaultScreen(display));
+	} else {
+	    newTwdPtr->bitmap.colormap = twdPtr->window.winPtr->atts.colormap;
+	}
+    } else {
+	newTwdPtr->bitmap.colormap = twdPtr->bitmap.colormap;
+    }
+    newTwdPtr->bitmap.handle = CreateBitmap(width, height, 1, depth, NULL);
+
+    if (newTwdPtr->bitmap.handle == NULL) {
+	ckfree((char *) newTwdPtr);
+	return (Pixmap)NULL;
+    }
+    
+    return (Pixmap)newTwdPtr;
+}
+
+void
+XFreePixmap(display, pixmap)
+    Display* display;
+    Pixmap pixmap;
+{
+    TkWinDrawable *twdPtr = (TkWinDrawable *) pixmap;
+
+    display->request++;
+    if (twdPtr != NULL) {
+	DeleteObject(twdPtr->bitmap.handle);
+	ckfree((char *)twdPtr);
+    }
+}
+
+#endif
