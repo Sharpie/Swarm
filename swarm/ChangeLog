@@ -7,9 +7,7 @@
 	DLLs don't need PIC, it's useful to distinguish code with
 	import/exports from those without.
 
-1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
-
-	* externvar.h.in (externvar): Select per PIC.
+	* externvar.h.in (externvar): Select per BUILDING_SWARM and DLL.
 
 1999-06-05  Alex Lancaster  <alex@santafe.edu>
 

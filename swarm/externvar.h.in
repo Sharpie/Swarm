@@ -1,16 +1,22 @@
 #ifndef _EXTERNVAR_H
 #define _EXTERNVAR_H
 
-#ifdef PIC
+#ifdef DLL
+
+#ifdef BUILDING_SWARM
 #define externvar @EXPORT_EXTERN@
 #else
 #define externvar @IMPORT_EXTERN@
 #endif
-
 #define externvardef @EXPORT_EXTERNDEF@
+
+#else
+
+#define externvar extern
+#define externvardef
+
+#endif
 
 #ifdef disable_externvar
 #undef externvar
-#endif
-
 #endif
