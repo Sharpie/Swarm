@@ -1,9 +1,8 @@
-1998-07-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* configure.in: Check for memchr, memcpy, memset, realpath,
 	stpcpy, strchr, strcmp, strdup, strlen, strncmp, strndup, strnlen,
-	strpbrk, and strsep, adding the missing functions to MISCOBJS.
-	Substitute.
+	strpbrk, and strsep.
 
 1998-07-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
