@@ -212,7 +212,7 @@ USING
 
 //M: The setData:To: method sets the probedVariable using the pointer
 //M: to the new value.
-- setData: anObject To: (void *)newValue;  // pass by reference.
+- (void)setData: anObject To: (void *)newValue;  // pass by reference.
 
 //M: The setData:ToString: sets the probedVariable using a string
 //M: which the probe reads and converts appropriately.
@@ -221,6 +221,10 @@ USING
 //M: the string is always "%i" unless CharString was chosen
 //M: (in which case the format should be "'%c'").
 - (BOOL)setData: anObject ToString: (const char *)s; 
+
+//M: Sets the probeVariable value using a double.  This requires
+//M: that the value is numeric.
+- (void)setData: anObject ToDouble: (double)val;
 
 externvar id <Symbol> DefaultString, CharString, IntString;
 @end

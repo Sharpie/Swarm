@@ -958,17 +958,41 @@ JS_probe_as_object (COMobject cObj, const char *variableName)
   return self;
 }
 
+- (void)notifyFor: anObject with: (void *)val
+{
+  if (objectToNotify != nil)
+    {
+      if ([objectToNotify respondsTo: M(forEach:)])
+        {
+          id index, tempObj;
+
+          index = [objectToNotify begin: scratchZone];
+          while ((tempObj = [index next]) != nil)
+            {
+              [tempObj eventOccurredOn: anObject
+                       via: self
+                       withProbeType: "VarProbe"
+                       on: probedVariable
+                       ofType: probedType[0]
+                       withData: (void *) val];
+            }
+          [index drop];
+        }
+      else
+        [objectToNotify eventOccurredOn: anObject
+                        via: self
+                        withProbeType: "VarProbe"
+                        on: probedVariable
+                        ofType: probedType[0]
+                        withData: (void *) val];
+    }
+}
+
 // sets the probed to whatever is pointed to by newValue. Use the
 // type information to try to do this intelligently.
-- setData: anObject To: (void *)newValue
+- (void)setData: anObject To: (void *)newValue
 {
   const void *p;
-
-#ifdef HAVE_JDK
-  if (language == LanguageJava)
-    raiseEvent (SourceMessage,
-                "Setting probed fields in Java object from a void pointer to new value is not implemented.\n");
-#endif
 
   if (safety)
     if (![anObject isKindOf: probedClass])
@@ -1005,45 +1029,19 @@ JS_probe_as_object (COMobject cObj, const char *variableName)
       break;
     }
   
-  if (objectToNotify != nil)
-    {
-      if ([objectToNotify respondsTo: M(forEach:)])
-        {
-          id index, tempObj;
-          index = [objectToNotify begin: scratchZone];
-          while ((tempObj = [index next]) != nil)
-            {
-              [tempObj eventOccurredOn: anObject
-                       via: self
-                       withProbeType: "VarProbe"
-                       on: probedVariable
-                       ofType: probedType[0]
-                       withData: newValue];
-            }
-          [index drop];
-        }
-      else 
-        [objectToNotify eventOccurredOn: anObject
-                        via: self
-                        withProbeType: "VarProbe"
-                        on: probedVariable
-                        ofType: probedType[0]
-                        withData: newValue];
-    }
-  return self;
+  [self notifyFor: anObject with: newValue];
 }
 
 #ifdef HAVE_JDK
+static unsigned classcmp (jclass matchClass, jclass fieldType) 
+{
+  return ((*jniEnv)->IsSameObject (jniEnv, fieldType, matchClass));
+}
+
 static void
 java_setFieldFromString (id anObject, jobject field, 
                          jclass fieldType, const char * value)
 {
-
-  unsigned classcmp (jclass matchClass, jclass fieldType) 
-    {
-      return ((*jniEnv)->IsSameObject (jniEnv, fieldType, matchClass));
-    }
-
   if (classcmp (fieldType, c_boolean))
     {
       jobject boolObject;
@@ -1358,33 +1356,56 @@ convert_from_string (fcall_type_t type,
       return NO;
     }
 
-  if (objectToNotify != nil)
-    {
-      if ([objectToNotify respondsTo: M(forEach:)])
-        {
-          id index, tempObj;
-
-          index = [objectToNotify begin: scratchZone];
-          while ((tempObj = [index next]) != nil)
-            {
-              [tempObj eventOccurredOn: anObject
-                       via: self
-                       withProbeType: "VarProbe"
-                       on: probedVariable
-                       ofType: probedType[0]
-                       withData: (void *) s];
-            }
-          [index drop];
-        }
-      else
-        [objectToNotify eventOccurredOn: anObject
-                        via: self
-                        withProbeType: "VarProbe"
-                        on: probedVariable
-                        ofType: probedType[0]
-                        withData: (void *) s];
-    }
+  [self notifyFor: anObject with: (void *) s];
   return YES;
+}
+
+- (void)setData: anObject ToDouble: (double)val
+{
+  jobject jObj = SD_JAVA_FIND_OBJECT_JAVA (anObject);
+
+  if (language == LanguageCOM)
+    {
+      void *params = COM_create_params (1);
+      val_t arg;
+      fcall_type_t type = COM_method_param_fcall_type (setterMethod, 0);
+      
+      if (type != fcall_type_double)
+        abort ();
+
+      arg.type = fcall_type_double;
+      arg.val._double = val;
+      COM_set_arg (params, 0, &arg);
+      COM_method_invoke (setterMethod,
+                         SD_COM_FIND_OBJECT_COM (anObject),
+                         params);
+      COM_free_params (params);
+    }
+  else if (language == LanguageJS)
+    {
+      val_t arg;
+
+      arg.type = fcall_type_double;
+      arg.val._double = val;
+
+      JS_set_variable (SD_COM_FIND_OBJECT_COM (anObject),
+                       probedVariable,
+                       &arg);
+    }
+  else if (language == LanguageJava)
+    {
+      if (classcmp (fieldType, c_float))
+        (*jniEnv)->CallVoidMethod (jniEnv, fieldObject, m_FieldSetFloat,
+                                   jObj, (float) val);
+      else if (classcmp (fieldType, c_double))
+        (*jniEnv)->CallVoidMethod (jniEnv, fieldObject, m_FieldSetDouble,
+                                   jObj, val);
+      else
+        abort ();
+    }
+  else
+    abort ();
+  [self notifyFor: anObject with: (void *) &val];
 }
 
 - (void)drop

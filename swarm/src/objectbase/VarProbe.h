@@ -61,8 +61,10 @@
 - iterateAsDouble: anObject using: (void (*) (unsigned rank, unsigned *vec, double val))func;
 - iterateAsInteger: anObject using: (void (*) (unsigned rank, unsigned *vec, int val))func;
 
-- setData: anObject To: (void *)newValue;	      // pass by reference.
+- (void)setData: anObject To: (void *)newValue;	      // pass by reference.
 - (BOOL)setData: anObject ToString: (const char *)s;  // gives us the string.
+- (void)setData: anObject ToDouble: (double)newValue;
+
 - (void)drop;
 - (void)describe: stream;
 @end
