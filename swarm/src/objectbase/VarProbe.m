@@ -74,6 +74,13 @@
     else
       interactive = 0 ;
 
+    // set up default formatting string for floating point and 
+    // double types - defaults are set in the probeLibrary instance
+    if ( (probedType[0] == _C_FLT) || (probedType[0] == _C_DBL) ) {
+      floatFormat = malloc(7); // allocate memory for string
+      sprintf(floatFormat, "%%.%dg", [probeLibrary getDisplayPrecision]); 
+    } 
+    
     return self;
   }
 }
@@ -108,7 +115,10 @@
   new_probe = [new_probe createEnd] ;
 
   [new_probe setStringReturnType: stringReturnType] ;
-	
+  
+  printf("cloning a VarProbe!\n");
+  [new_probe setFloatFormat: floatFormat] ;
+
   return new_probe ;
 }
 
@@ -214,11 +224,29 @@
 }
 
 -setStringReturnType: returnType{
-	stringReturnType = returnType ;
-	return self ;
+  stringReturnType = returnType ;
+  return self ;
 }
 
--(char *) probeAsString: (id) anObject Buffer: (char *) buf {
+-setFloatFormat: (char *) format {
+  if ( (probedType[0] == _C_FLT) || (probedType[0] == _C_DBL) ) 
+    floatFormat = strdup(format);
+  else
+    fprintf(stderr, "%s is not a float or double\n", probedVariable);
+  return self;
+}
+
+-(char *) probeAsString: (id) anObject Buffer: (char *) buf  {
+  
+  // by default - use precision set by -setFormatFloat 
+  // as number of digits to use in formatting the string
+  [self probeAsString: anObject Buffer: buf withFullPrecision: 0];
+  return buf;
+}
+
+-(char *) probeAsString: (id) anObject Buffer: (char *) buf 
+      withFullPrecision: (int) precision
+{
   void * p;
 
   if (safety)
@@ -259,12 +287,12 @@
   			  printf("stringReturnType set incorrectly!!!\n") ;
    			  exit(-1) ;
 			}
-
+                        
 			break;
-    case _C_CHR:
-			if(stringReturnType == DefaultString)
-                          sprintf(buf, "%d '%c'",(int)*(char *)p,
-                                                 *(char *)p);
+           case _C_CHR:
+                        if(stringReturnType == DefaultString)
+                           sprintf(buf, "%d '%c'",(int)*(char *)p,
+                                   *(char *)p);
 			else if(stringReturnType == CharString)
                           sprintf(buf, "'%c'",*(char *)p);
 			else if(stringReturnType == IntString)
@@ -275,20 +303,28 @@
 			}
 
 			break;
-    case _C_INT:
+           case _C_INT:
 			sprintf(buf, "%d", *(int *)p);
 			break;
-    case _C_UINT:
+           case _C_UINT:
 			sprintf(buf, "%u", *(unsigned *)p);
 			break;
-    case _C_FLT:
-			sprintf(buf, "%g", (double)(*(float *)p));
+           case _C_FLT:
+                        if (precision)
+                          sprintf(buf, "%.*g", [probeLibrary getSavedPrecision],
+                                  (double)(*(float *)p));
+                        else
+                          sprintf(buf, floatFormat, (double)(*(float *)p));
+                        break;
+           case _C_DBL:
+                        if (precision)
+                          sprintf(buf, "%.*g", [probeLibrary getSavedPrecision],
+                                  *(double *)p);
+                        else
+                          sprintf(buf, floatFormat, *(double *)p);
 			break;
-    case _C_DBL:
-			sprintf(buf, "%g", *(double *)p);
-			break;
-    case _C_CHARPTR:
-			sprintf(buf, "%s", *(char **)p ? *(char **)p : "<NULL>");
+           case _C_CHARPTR:
+                        sprintf(buf, "%s", *(char **)p ? *(char **)p : "<NULL>");
 			break;
     default: sprintf(buf, "..."); break;
   }

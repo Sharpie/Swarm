@@ -9,10 +9,13 @@
   char * probedVariable;
   int dataOffset;
   int interactive;
+  char * floatFormat; // actual sprintf-type format
 }
 
 -setProbedVariable: (char *) aVariable;
 -createEnd;
+
+-setFloatFormat: (char *) format;
 
 -(char *) getProbedVariable;
 -(int)    getDataOffset;
