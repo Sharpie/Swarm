@@ -9,7 +9,7 @@
 BOOL
 stringp (id obj)
 {
-  return [obj conformsTo: @protocol(String)];
+  return [obj conformsTo: @protocol (String)];
 }
 
 BOOL
@@ -21,37 +21,37 @@ literal_string_p (id obj)
 BOOL
 symbolp (id obj)
 {
-  return [obj conformsTo: @protocol(Symbol)];
+  return [obj conformsTo: @protocol (Symbol)];
 }
 
 BOOL
-listp (id obj)
+archiver_list_p (id obj)
 {
-  return [obj conformsTo: @protocol(ArchiverList)];
+  return [obj conformsTo: @protocol (ArchiverList)];
 }
 
 BOOL
 keywordp (id obj)
 {
-  return [obj conformsTo: @protocol(ArchiverKeyword)];
+  return [obj conformsTo: @protocol (ArchiverKeyword)];
 }
 
 BOOL
 valuep (id obj)
 {
-  return [obj conformsTo: @protocol(ArchiverValue)];
+  return [obj conformsTo: @protocol (ArchiverValue)];
 }
 
 BOOL
 arrayp (id obj)
 {
-  return [obj conformsTo: @protocol(ArchiverArray)];
+  return [obj conformsTo: @protocol (ArchiverArray)];
 }
 
 BOOL
 pairp (id obj)
 {
-  return [obj conformsTo: @protocol(ArchiverPair)];
+  return [obj conformsTo: @protocol (ArchiverPair)];
 }
 
 BOOL

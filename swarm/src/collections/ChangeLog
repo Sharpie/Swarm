@@ -1,3 +1,15 @@
+1999-11-16    <mgd@VAIO>
+
+	* predicates.[hm]: Rename listp to archiver_list_p.
+
+	* InputStream.[hm], collections.h ([ArchiverValue_c -setClass:],
+	[ArchiverValue_c -getClass]): New methods.
+
+	* InputStream.m: Change listp to archiver_list_p throughout.
+	(readString): Second argument is now terminator
+	character, not boolean. 
+	([InputStream_c	-getExpr]): Handle <classname> syntax.
+
 1999-10-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* InputStream.m ([InputStream_c -getExpr]): Check length before

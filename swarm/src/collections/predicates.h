@@ -5,7 +5,7 @@
 
 BOOL stringp (id obj);
 BOOL literal_string_p (id obj);
-BOOL listp (id obj);
+BOOL archiver_list_p (id obj);
 BOOL symbolp (id obj);
 BOOL quotedp (id obj);
 

@@ -1085,6 +1085,7 @@ CREATING
 - setLongLong: (long long)val;
 - setChar: (unsigned char)val;
 - setBoolean: (BOOL)val;
+- setClass: (Class)class;
 - setNil;
 USING
 - (char)getValueType;
@@ -1097,6 +1098,7 @@ USING
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
 - getObject;
+- (Class)getClass;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;
 - (void)drop;

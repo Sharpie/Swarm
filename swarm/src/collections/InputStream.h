@@ -68,6 +68,7 @@ Library:     collections
     long long ll;
     unsigned char ch;
     id obj;
+    Class class;
   } value;
 }
 - setFloat: (float)val;
@@ -77,6 +78,7 @@ Library:     collections
 - setChar: (unsigned char)val;
 - setBoolean: (BOOL)val;
 - setNil;
+- setClass: (Class)class;
 - (long double)getLongDouble;
 - (double)getDouble;
 - (float)getFloat;
@@ -86,6 +88,7 @@ Library:     collections
 - (unsigned char)getChar;
 - (BOOL)getBoolean;
 - getObject;
+- (Class)getClass;
 - (char)getValueType;
 - lispOutShallow: (id <OutputStream>)stream;
 - lispOutDeep: (id <OutputStream>)stream;

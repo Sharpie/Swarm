@@ -58,7 +58,7 @@ PHASE(Using)
 }
 
 static id
-readString (id inStream, BOOL literalFlag)
+readString (id inStream, char terminator)
 {
   int c;
   id string;
@@ -67,13 +67,13 @@ readString (id inStream, BOOL literalFlag)
 
   string = [String createBegin: [inStream getZone]];
   [string setC: ""];
-  [string setLiteralFlag: literalFlag];
+  [string setLiteralFlag: terminator ? YES: NO];
   string = [string createEnd];
   
   buf[1] = '\0';
   while ((c = fgetc (fp)) != EOF
-         && !(literalFlag 
-              ? c == '"'
+         && !(terminator
+              ? c == terminator
               : (isSpace (c) || c == '(' || c == ')')))
     {
       buf[0] = c;
@@ -84,7 +84,7 @@ readString (id inStream, BOOL literalFlag)
       [string drop];
       return nil;
     }
-  else if (!literalFlag)
+  else if (!terminator)
     ungetc (c, fp);
   return string;
 }
@@ -113,7 +113,7 @@ readString (id inStream, BOOL literalFlag)
              createEnd];
   else if (c == ':')
     {
-      id newObj = readString (self, 0);
+      id newObj = readString (self, '\0');
       
       if (newObj == nil)
         [self _unexpectedEOF_];
@@ -122,13 +122,27 @@ readString (id inStream, BOOL literalFlag)
                 setKeywordName: [newObj getC]]
                createEnd];
     }
+  else if (c == '<')
+    {
+      id newObj = readString (self, '>');
+      id value;
+      
+      if (newObj == nil)
+	[self _unexpectedEOF_];
+      
+      value = [[[ArchiverValue createBegin: aZone]
+		 setClass: objc_lookup_class ([newObj getName])]
+		createEnd];
+      [newObj drop];
+      return value;
+    }
   else if (c == '#')
     {
       int c2 = fgetc (fileStream);
 
       if (c2 == ':')
         {
-          id newObj = readString (self, 0);
+          id newObj = readString (self, '\0');
           
           if (newObj == nil)
             [self _unexpectedEOF_];
@@ -247,7 +261,7 @@ readString (id inStream, BOOL literalFlag)
     return ArchiverDot;
   else if (c == '"')
     {
-      id string = readString (self, 1);
+      id string = readString (self, '"');
 
       if (string)
         return string;
@@ -272,7 +286,7 @@ readString (id inStream, BOOL literalFlag)
       char type = _C_LNG_LNG;
 
       ungetc (c, fileStream);
-      string = readString (self, 0);
+      string = readString (self, '\0');
 
       {
         const char *str = [string getC];
@@ -396,7 +410,7 @@ PHASE(Creating)
   id <List> l;
   id proto;
   
-  for (l = array, rank = 0; listp (l); rank++)
+  for (l = array, rank = 0; archiver_list_p (l); rank++)
     l = [l getFirst];
 
   proto = l;
@@ -410,7 +424,7 @@ PHASE(Creating)
     unsigned dimnum;
     
     elementCount = 1;
-    for (l = array, dimnum = 0; listp (l); l = [l getFirst], dimnum++)
+    for (l = array, dimnum = 0; archiver_list_p (l); l = [l getFirst], dimnum++)
       {
         dims[dimnum] = [l getCount];
         elementCount *= dims[dimnum];
@@ -437,7 +451,7 @@ PHASE(Creating)
     
     void expand (id val, unsigned dimnum)
       {
-        if (listp (val))
+        if (archiver_list_p (val))
           {
             id <Index> li = [val begin: scratchZone];
             id item;
@@ -470,19 +484,22 @@ PHASE(Creating)
             switch (*type)
               {
               case _C_ID:
-                ((id *) data) [offset] = [val getObject];
+                ((id *) data)[offset] = [val getObject];
                 break;
+	      case _C_CLASS:
+		((Class *) data)[offset] = [val getClass];
+		break;
               case _C_LNG_LNG:
-                ((long long *) data) [offset] = [val getLongLong];
+                ((long long *) data)[offset] = [val getLongLong];
                 break;
               case _C_FLT:
-                ((float *) data) [offset] = [val getFloat];
+                ((float *) data)[offset] = [val getFloat];
                 break;
               case _C_DBL:
-                ((double *) data) [offset] = [val getDouble];
+                ((double *) data)[offset] = [val getDouble];
                 break;
               case _C_LNG_DBL:
-                ((long double *) data) [offset] = [val getLongDouble];
+                ((long double *) data)[offset] = [val getLongDouble];
                 break;
               case _C_UCHR:
                 ((unsigned char *) data)[offset] = [val getChar];
@@ -663,6 +680,13 @@ PHASE(Creating)
   return self;
 }
 
+- setClass: (Class)aClass
+{
+  type = _C_CLASS;
+  value.class = aClass;
+  return self;
+}
+
 PHASE(Using)
 
 - (char)getValueType
@@ -717,6 +741,11 @@ PHASE(Using)
 - getObject
 {
   return value.obj;
+}
+
+- (Class)getClass
+{
+  return value.class;
 }
 
 - lispOutShallow: (id <OutputStream>)stream
@@ -865,7 +894,7 @@ PHASE(Using)
                || pairp (member)
                || quotedp (member)
                || stringp (member)
-               || listp (member))
+               || archiver_list_p (member))
         [member lispOutDeep: stream];
       else
         raiseEvent (InvalidArgument, "expression type not supported");
