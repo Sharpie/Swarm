@@ -1,3 +1,17 @@
+1998-12-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* Colormap.m ([Colormap -createEnd]): Add (disabled) code to set
+	up a new colormap.
+	([Colormap -setColor:ToRed:Green:Blue:]): Scale to 256 but trim at
+	255.  Use rgb:r/g/b syntax instead of #RRGGBB syntax.
+	([Colormap -setColor:ToName:]): Use XLookupColor, using
+	screen-matching instead of exact pixel values.
+
+	* internal.m (x_get_managed_toplevel_window,
+	x_set_private_colormap): New internal functions.
+	(tkobjc_raster_setColormap): Sync up Tk things and call
+	x_set_private_colormap if it is different from the default.
+
 1998-11-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord -lispIn:]): Get

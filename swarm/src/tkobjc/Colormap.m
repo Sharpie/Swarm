@@ -19,18 +19,38 @@ PHASE(Creating)
 - createEnd
 {
   int i;
+  int screen;
   
   [super createEnd];
   
   tkwin = tkobjc_nameToWindow (".");
   display = Tk_Display (tkwin);
   xwin = Tk_WindowId (tkwin);
-  white = WhitePixel (display, DefaultScreen (display));
-  black = BlackPixel (display, DefaultScreen (display));
-  cmap = DefaultColormap (display, DefaultScreen (display));
+  screen = DefaultScreen (display);
+  white = WhitePixel (display, screen);
+  black = BlackPixel (display, screen);
+#if 0
+  {
+    X11Colormap defaultColormap = DefaultColormap (display, screen);
+    XVisualInfo vinfo;
+
+    if (!XMatchVisualInfo (display, screen, 
+                           DefaultDepth (display, screen),
+                           PseudoColor, 
+                           &vinfo))
+      abort ();
+
+    cmap = XCreateColormap (display, xwin, vinfo.visual, AllocNone);
+    if (cmap == defaultColormap)
+      abort ();
+  }
+#else
+  cmap = DefaultColormap (display, screen);
+#endif
   
   for (i = 0; i < MAXCOLORS; i++)
     isSet[i] = NO;
+
   return self;
 }
 
@@ -69,10 +89,10 @@ PHASE(Using)
   else
     {
       int rc;
-      XColor xc;
+      XColor exc, sxc;
 
       isSet[c] = YES;
-      rc = XParseColor (display, cmap, colorName, &xc);
+      rc = XLookupColor (display, cmap, colorName, &exc, &sxc);
       if (!rc)
         {
           [ResourceAvailability
@@ -82,7 +102,7 @@ PHASE(Using)
           map[c] = white;
           return NO;
         }
-      rc = XAllocColor (display, cmap, &xc);
+      rc = XAllocColor (display, cmap, &sxc);
       if (!rc)
         {
           [ResourceAvailability
@@ -92,7 +112,7 @@ PHASE(Using)
           map[c] = white;
           return NO;
         }
-      map[c] = xc.pixel;
+      map[c] = sxc.pixel;
       return YES;
     }
 }
@@ -105,13 +125,22 @@ PHASE(Using)
             Blue: (double)b
 {
   unsigned ru, gu, bu;
-  char colorName[1+2+2+2+1];			  // "#rrggbb\0"
+  char colorName[4+3+3+3+1];
 
-  ru = r * 0xffU;
-  gu = g * 0xffU;
-  bu = b * 0xffU;
+  ru = r * 256;
+  gu = g * 256;
+  bu = b * 256;
 
-  sprintf (colorName, "#%02x%02x%02x", ru, gu, bu);
+  if (ru > 255)
+    ru = 255;
+
+  if (gu > 255)
+    gu = 255;
+
+  if (bu > 255)
+    bu = 255;
+
+  sprintf (colorName, "rgb:%02x/%02x/%02x", ru, gu, bu);
   return [self setColor: c ToName: colorName];
 }
 

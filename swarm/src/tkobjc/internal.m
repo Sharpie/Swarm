@@ -568,12 +568,74 @@ tkobjc_raster_createContext (Raster *raster)
   private->gc = gc;
 }
 
+#ifndef _WIN32
+static Window
+x_get_managed_toplevel_window (Display *display, Window window)
+{
+  Window parent, w;
+  int cnt = 0;
+  
+  for (w = window; cnt == 0; w = parent)
+    {
+      Window root;
+      Window *children;
+      int child_cnt;
+      Atom *protocols;
+      
+      if (!XQueryTree (display, w, &root, &parent,
+                       &children, &child_cnt))
+        abort ();
+      XFree (children);
+      if (parent == root)
+        return 0;
+      
+      if (XGetWMProtocols (display, parent, &protocols, &cnt))
+        XFree (protocols);
+    }
+  return parent;
+}
+
+static void
+x_set_private_colormap (Display *display, Window window, X11Colormap cmap)
+{
+  Window topWindow;
+  
+  topWindow = x_get_managed_toplevel_window (display, window);
+  if (topWindow)
+    {
+      int cnt;
+      Window *colormapWindows;
+      
+      XSetWindowColormap (display, topWindow, cmap);
+      
+      if (!XGetWMColormapWindows (display, topWindow,
+                                  &colormapWindows, &cnt))
+        cnt = 0;
+      {
+        Window newColormapWindows[cnt + 1];
+
+        if (cnt > 0)
+          memcpy (newColormapWindows, colormapWindows, sizeof (Window) * cnt);
+        newColormapWindows[cnt] = window;
+        if (!XSetWMColormapWindows (display, 
+                                    topWindow,
+                                    newColormapWindows,
+                                    cnt + 1))
+          abort ();
+      }
+      if (cnt > 0)
+        XFree (colormapWindows);
+    }
+}
+
+#endif
+
 void
 tkobjc_raster_setColormap (Raster *raster)
 {
-#ifdef _WIN32
-  raster_private_t *private = raster->private;
   Colormap *colormap = raster->colormap;
+  raster_private_t *private = raster->private;
+#ifdef _WIN32
   dib_t *dib = private->pm;
   
   if (colormap)
@@ -581,6 +643,17 @@ tkobjc_raster_setColormap (Raster *raster)
 			raster,
 			[colormap nextFreeColor],
 			colormap->map);
+#else
+  Tk_Window tkwin = private->tkwin;
+  Display *display = Tk_Display (tkwin);
+  Window window = Tk_WindowId (tkwin);
+  X11Colormap cmap = colormap->cmap;
+
+  if (cmap != DefaultColormap (display, DefaultScreen (display)))
+    {
+      Tk_DoOneEvent(TK_ALL_EVENTS|TK_DONT_WAIT);
+      x_set_private_colormap (display, window, colormap->cmap);
+    }
 #endif
 }
 
