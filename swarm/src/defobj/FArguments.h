@@ -40,8 +40,10 @@ typedef enum {fcall_type_void = 0, fcall_type_uchar, fcall_type_schar,
    void *result;
    const char *javaSignature; 
    unsigned javaSignatureLength;
+   BOOL javaFlag;
 }
 + createBegin: aZone;
+- setJavaFlag: (BOOL)javaFlag;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addUnsignedChar: (unsigned char)value;

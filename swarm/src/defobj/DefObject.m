@@ -24,6 +24,16 @@ Library:      defobj
 #include <misc.h> // strcpy, strlen, isprint, sprintf
 #include <collections/predicates.h> // arrayp, keywordp, listp, stringp
 
+#ifdef HAVE_JDK
+#include <objc/mframe.h>
+
+#import <defobj/FArguments.h>
+#import <defobj.h> // FCall
+#import "directory.h"
+
+#include <jni.h>
+#endif
+
 extern id _obj_implModule;  // defined in Program.m
 
 //
@@ -539,6 +549,78 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
   if (!mptr)
     raiseEvent (InvalidArgument, "> message selector not valid\n");
   return mptr (self, aSel, anObject1, anObject2, anObject3);
+}
+
+- (retval_t)forward: (SEL)aSel : (arglist_t)argFrame
+{
+#ifdef HAVE_JDK
+  NSArgumentInfo info;
+  FArguments *fa;
+  id <FCall> fc;
+  types_t val;
+  id aZone = [self getZone];
+  const char *type = sel_get_type (aSel);
+  jobject jobj = JFINDJAVA (self);
+  jobject jsel;
+  
+  if (jobj == NULL)
+    [self doesNotRecognize: aSel];
+  
+  if (!type)
+    {
+      aSel = sel_get_any_typed_uid (sel_get_name (aSel));
+      type = sel_get_type (aSel);
+      if (!type)
+        abort ();
+    }
+  jsel = JFINDJAVA ((id) aSel);
+  fa = [FArguments createBegin: aZone];
+  [fa setJavaFlag: YES];
+  type = mframe_next_arg (type, &info);
+  mframe_get_arg (argFrame, &info, &val);
+  [fa setObjCReturnType: *info.type];
+  /* skip object and selector */
+  type = mframe_next_arg (type, &info);
+  type = mframe_next_arg (type, &info);
+  while ((type = mframe_next_arg (type, &info)))
+    {
+      mframe_get_arg (argFrame, &info, &val);
+      [fa addArgument: &val ofObjCType: *info.type];
+    }
+  fa = [fa createEnd];
+
+  {
+    jclass clazz = (*jniEnv)->GetObjectClass (jniEnv, jsel);
+    jfieldID nameFid;
+    jstring string;
+    const char *methodName;
+    jboolean copyFlag;
+    
+    if (!(nameFid = (*jniEnv)->GetFieldID (jniEnv, clazz,
+                                         "signature",
+                                         "Ljava/lang/String;")))
+      abort ();
+    string = (*jniEnv)->GetObjectField (jniEnv, jsel, nameFid);
+    methodName = (*jniEnv)->GetStringUTFChars (jniEnv, string, &copyFlag);
+   
+    fc = [[[[FCall createBegin: aZone] setArguments: fa]
+            setJavaMethod: methodName inObject: jobj] createEnd];
+    if (copyFlag)
+      (*jniEnv)->ReleaseStringUTFChars (jniEnv, string, methodName);
+  }
+  [fc performCall];
+  {
+    types_t typebuf;
+    retval_t retval = [fc getRetVal: argFrame buf: &typebuf];
+
+    [fc drop];
+    [fa drop];
+    return retval;
+  }
+#else
+  [self doesNotRecognize: aSel];
+  return NULL;
+#endif
 }
 
 //

@@ -23,6 +23,11 @@ Library:      defobj
 #undef PACKAGE
 #undef VERSION
 
+#ifdef HAVE_JDK
+#include <jni.h>
+extern JNIEnv *jniEnv;
+#endif
+
 // swarm_types table is modified in such way that 
 // swarm_types[fcall_type_float] == &ffi_type_double
 // due to ffi bug
@@ -42,7 +47,8 @@ ffi_type *ffi_types[FCALL_TYPE_COUNT] = { &ffi_type_void,
 
 const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "S", "S", "I", 
-  "I", "J", "J", "F", "D", "X",
+  "I", "J", "J", "F", "D",
+  "Ljava/lang/Object;",
   "Ljava/lang/String;", 
   "Lswarm/Selector;",
   "Ljava/lang/Object;"
@@ -99,19 +105,40 @@ fcall_type_size (fcall_type_t type)
   return newArguments;
 }
 
+- setJavaFlag: (BOOL)theJavaFlag
+{
+  javaFlag = theJavaFlag;
+  return self;
+}
+
 - _addArgument_: (void *)value ofType: (fcall_type_t)type
 {
+  size_t size;
+  unsigned offset = MAX_HIDDEN + assignedArgumentCount;
+#ifdef HAVE_JDK
+  jstring string;
+#endif
+
   if (assignedArgumentCount == MAX_ARGS)
     raiseEvent (SourceMessage,
                 "Types already assigned to maximum number arguments in the call!\n");
 
-  argTypes[MAX_HIDDEN + assignedArgumentCount] = type;
+  argTypes[offset] = type;
+#ifdef HAVE_JDK
+  if (fcall_type_string && javaFlag)
+    {
+      const char *str = *(const char **) value;
+      
+      string = (*jniEnv)->NewStringUTF (jniEnv, str);
+      size = sizeof (jstring);
+      value = &string;
+    }
+  else
+    size = fcall_type_size (type);
+#endif
 #ifndef USE_AVCALL
-  argValues[MAX_HIDDEN + assignedArgumentCount] = 
-    [[self getZone] allocBlock: fcall_type_size (type)];
-  memcpy (argValues[MAX_HIDDEN + assignedArgumentCount], 
-          value,
-          fcall_type_size (argTypes[MAX_HIDDEN + assignedArgumentCount]));
+  argValues[offset] = [[self getZone] allocBlock: size];
+  memcpy (argValues[offset], value, size);
 #else
   abort ();
 #endif
@@ -251,6 +278,9 @@ get_fcall_type_for_objc_type (char objcType)
       break;
     case fcall_type_selector:
       result = &resultVal.selector;
+      break;
+    case fcall_type_void:
+      result = NULL;
       break;
     case fcall_type_jobject:
       abort ();

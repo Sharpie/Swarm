@@ -185,7 +185,8 @@ PHASE(Creating)
                                          methodName, 
                                          fargs->javaSignature)); 
         if (!fmethod)
-          raiseEvent (SourceMessage, "Could not find Java method!\n");
+          raiseEvent (SourceMessage, "Could not find Java method: `%s' (%s)\n",
+                      methodName, fargs->javaSignature);
       }
 #endif
   fillHiddenArguments (self);

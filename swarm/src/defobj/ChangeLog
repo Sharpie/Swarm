@@ -1,3 +1,22 @@
+1999-04-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (JAVAINCLUDES): Add $(top_srcdir)/java/c and
+	$(top_builddir)/libobjc.
+
+	* FArguments.m: Include jni.h and declare jniEnv extern.
+	Use Ljava/lang/Object instead of "X".
+	([FArguments -_addArgument_:ofType:]): Use variable offset
+	instead of recomputing it all the time.
+	([FArguments -_setReturnType_:]): Handle void case.
+
+	* FArguments.[hm] ([FArguments -setJavaFlag:]): New ivar and setter.
+
+	* FCall.m ([FCall_c -createEnd]): Add method name and signature
+	to error message.
+
+	* DefObject.m ([Object_s -forward::]): Moved from JavaProxy (also
+	relevant header file includes).
+
 1999-04-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* FCall.m (jniEnv): Make extern.
