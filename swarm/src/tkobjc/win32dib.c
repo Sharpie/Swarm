@@ -127,7 +127,6 @@ dib_createBitmap (dib_t *dib, HWND window, unsigned width, unsigned height)
 void
 dib_snapshot (dib_t *dib, BOOL windowDCFlag)
 {
-  int i;
   HDC hdc = windowDCFlag ? GetWindowDC (dib->window) : GetDC (dib->window);
   HDC hmemdc = CreateCompatibleDC (hdc);
   HDC hbmmem;
@@ -135,7 +134,7 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   unsigned width, height;
   int caps;
   HGDIOBJ hb1;
-  HPALETTE holdPal;
+  HPALETTE holdPal = NULL;
   unsigned pixelCount, bufsize;
   LPBYTE bits;
   WORD depth = 24;
@@ -184,11 +183,11 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   if (depth == 8)
     {
       if (GetDIBits (hmemdc, hbmmem, 0, height,
-		     bits, (LPBITMAPINFO)pbmp, DIB_PAL_COLORS) != height)
+		     bits, (LPBITMAPINFO)pbmp, DIB_PAL_COLORS) != (int)height)
 	abort ();
       
       {
-	int i;
+	unsigned i;
 	BYTE max = 0;
 	RGBQUAD *colors = (PVOID)pbmp + sizeof (BITMAPINFOHEADER);
 	LPBYTE pixels = bits;
@@ -212,14 +211,15 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
   else if (depth == 24)
     {
       if (GetDIBits (hmemdc, hbmmem, 0, height,
-		     bits, (LPBITMAPINFO)pbmp, DIB_RGB_COLORS) != height)
+		     bits, (LPBITMAPINFO)pbmp, DIB_RGB_COLORS) != (int)height)
 	abort ();
     }
   else
     abort ();
   DeleteObject (hbmmem);
   dib->bits = bits;
-  SelectObject (hdc, holdPal);
+  if (holdPal)
+    SelectObject (hdc, holdPal);
   ReleaseDC (dib->window, hdc);
   DeleteDC (hmemdc);
 }
@@ -227,7 +227,7 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
 int
 dib_paletteIndexForObject (dib_t *dib, void *object)
 {
-  int i;
+  unsigned i;
 
   for (i = 0; i < dib->colorMapBlocks; i++)
     if (object == dib->colorMapObjects[i])
@@ -305,23 +305,23 @@ dib_fill (dib_t *dib,
 
   if (x < 0)
     {
-      if (-x > width)
+      if (-x > (int)width)
         return;
       width -= (-x);
       clipx = 0;
     }
-  else if (x > frameWidth)
+  else if (x > (int)frameWidth)
     return;
   else clipx = x;
 
   if (y < 0)
     {
-      if (-y > height)
+      if (-y > (int)height)
         return;
       height -= (-y);
       clipy = 0;
     }
-  else if (y > frameHeight)
+  else if (y > (int)frameHeight)
     return;
   else clipy = y;
 

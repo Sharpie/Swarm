@@ -190,9 +190,9 @@ PHASE(Using)
 
 - _createItem_
 {
-  int key;
   id <MapIndex> mi;
   int xbarpos, ymaxpos;
+  timeval_t key;
   timeval_t max = 0;
 
   if (schedule == nil)

@@ -299,7 +299,7 @@ tkobjc_animate_message (id srcWidget,
       unsigned steps = ((xsteps > ysteps) ? xsteps : ysteps);
       int x = nsx;
       int y = nsy;
-      int i;
+      unsigned i;
 
       if (steps == 0)
 	steps = 1;
@@ -320,7 +320,6 @@ tkobjc_animate_message (id srcWidget,
 			SWP_NOSIZE | SWP_SHOWWINDOW);
 
 	  {
-	    PAINTSTRUCT ps;
 	    HDC destDC = GetDC (hwnd);
 	    HDC sourceDC = CreateCompatibleDC (destDC);
 	    
@@ -359,6 +358,7 @@ tkobjc_move (id widget, int x, int y)
                          x, y);
 }
 
+#ifndef _WIN32
 static void
 Xfill (Display *display, GC gc, X11Pixmap pm,
        int x, int y,
@@ -377,6 +377,7 @@ Xfill (Display *display, GC gc, X11Pixmap pm,
   XChangeGC (display, gc, GCForeground, &oldgcv);
 #endif
 }
+#endif
 
 void
 tkobjc_raster_create (Raster *raster)
@@ -399,8 +400,8 @@ tkobjc_raster_create (Raster *raster)
 void
 tkobjc_raster_erase (Raster *raster)
 {
-  raster_private_t *private = raster->private;
 #ifndef _WIN32
+  raster_private_t *private = raster->private;
   Display *display = Tk_Display (private->tkwin);
   
   Xfill (display, private->gc, private->pm,
@@ -708,19 +709,6 @@ tkobjc_raster_copy (Raster *raster, unsigned oldWidth, unsigned oldHeight)
     abort ();
 #endif
 }
-
-#ifdef _WIN32
-static unsigned
-offset_for_object (dib_t *raster_dib, void *object)
-{
-  unsigned i;
-  
-  for (i = 0; i < raster_dib->colorMapBlocks; i++)
-    if (raster_dib->colorMapObjects[i] == object)
-      return raster_dib->colorMapOffsets[i];
-  abort ();
-}
-#endif
 
 #ifndef _WIN32
 static void
@@ -1125,7 +1113,7 @@ tkobjc_pixmap_update_raster (Pixmap *pixmap, Raster *raster)
       unsigned palette_size = pixmap->palette_size;
       png_colorp palette = pixmap->palette;
       unsigned long map[palette_size];
-      int i;
+      unsigned i;
       
       for (i = 0; i < palette_size; i++)
         map[i] = palette[i].red
@@ -1143,7 +1131,7 @@ tkobjc_pixmap_create (Pixmap *pixmap,
                       png_bytep *row_pointers,
                       unsigned bit_depth)
 {
-  int palette_size = pixmap->palette_size;
+  unsigned palette_size = pixmap->palette_size;
   png_colorp palette = pixmap->palette;
 
 #ifndef _WIN32
@@ -1153,7 +1141,7 @@ tkobjc_pixmap_create (Pixmap *pixmap,
   pixmap->xpmimage.height = pixmap->height;
   pixmap->xpmimage.cpp = 7;
   {
-    int i;
+    unsigned i;
     
     for (i = 0; i < palette_size; i++)
       {
@@ -1297,14 +1285,8 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
   png_infop info_ptr;
   unsigned width = pixmap->width;
   unsigned height = pixmap->height;
-#ifndef _WIN32
-  unsigned ncolors = pixmap->xpmimage.ncolors;
-#else
+#ifdef _WIN32
   dib_t *dib = pixmap->pixmap;
-  int ncolors = ((dib->dibInfo->bmiHead.biBitCount == 24
-		  && dib->colorMap == NULL)
-		 ? -1
-		 : dib->colorMapSize);
 #endif
   
   if (fp == NULL)
@@ -1347,6 +1329,14 @@ tkobjc_pixmap_save (Pixmap *pixmap, const char *filename)
     png_byte palbuf[height][width]; 
 
     png_bytep row_pointers[height];
+#ifndef _WIN32
+    int ncolors = pixmap->xpmimage.ncolors;
+#else
+    int ncolors = ((dib->dibInfo->bmiHead.biBitCount == 24
+		    && dib->colorMap == NULL)
+		   ? -1
+		   : dib->colorMapSize);
+#endif
     
     if (ncolors != -1)
       {

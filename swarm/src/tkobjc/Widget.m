@@ -126,7 +126,7 @@ static int
 get_geometry_element (id widget, unsigned offset)
 {
   const char *p = [widget getWindowGeometry];
-  int i;
+  unsigned i;
 
   for (i = 0; i < offset; i++)
     {

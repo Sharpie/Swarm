@@ -1,8 +1,32 @@
-1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-10-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.am (CURRENT): Increment.  Swarm 1.3.1 released.
 	(XPMFILES): New variable.
 	(EXTRA_DIST): Include it.
+	
+	* Widget.m (get_geometry_element): Make i unsigned.
+
+	* win32dib.h (dib_paletteIndexForObject): Change "for" to "For".
+	
+	* win32dib.c (dib_snapshot): Remove i.  Initialize holdPal to
+	NULL.  Cast height to int for comparison with return of GetDIBits.
+	Don't call SelectObject for holdPal unless it is non-NULL.
+	(dib_paletteIndexForObject): Make i unsigned.
+	(dib_fill): Cast width, frameWidth, height, and frameHeight to int
+	before comparison with x and y.
+
+	* internal.m (tkobjc_animate_message): Likewise.  Remove ps.
+	(tkobjc_pixmap_update_raster): Likewise.
+	(tkobjc_pixmap_create): Likewise.  Make palette_size unsigned.
+	(Xfill): Don't define if _WIN32.
+	(tkobjc_raster_erase): Only define private if _WIN32.
+	(offset_for_object): Remove.
+	(tkobjc_pixmap_save): Move ncolors to a scope closer to where
+	it is used and make it unsigned.
+	
+	* ScheduleItem.m ([ScheduleItem -_createItem_]): Make key a timeval_t.
+
+1998-10-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (tkobjc_raster_setColormap, tkobjc_raster_clear):
 	Move private into _WIN32, since it is only used there; avoid
