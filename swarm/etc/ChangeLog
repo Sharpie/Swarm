@@ -3,6 +3,7 @@
 	* Makefile.common.in (OBJCFLAGS): Append EXTRAOBJCFLAGS.
 
 	* Makefile.rules (.m.o): Use OBJCFLAGS instead of CFLAGS.
+	Remove -Wno-import and -Wno-protocol.
 
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

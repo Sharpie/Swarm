@@ -1,7 +1,7 @@
 .SUFFIXES: .m .xm
 
 .m.o:
-	$(CC) -c -Wno-import -Wno-protocol $(OBJCFLAGS) $(CPPFLAGS) $(EXTRACPPFLAGS) $(SWARMINCLUDES) $< 
+	$(CC) -c $(OBJCFLAGS) $(CPPFLAGS) $(EXTRACPPFLAGS) $(SWARMINCLUDES) $< 
 
 # Local Variables:
 # mode: makefile
