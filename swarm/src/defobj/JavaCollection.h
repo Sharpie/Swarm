@@ -17,10 +17,10 @@
 - getFirst;
 - (void)addLast: obj;
 - (void)forEach: (SEL)sel :arg1;
-- (void)lispIn: expr;
+- lispIn: expr;
 - (void)lispOutDeep: stream;
 - (void)lispOutShallow: stream;
-- (void)hdf5In: hdf5Obj;
+- hdf5In: hdf5Obj;
 - (void)hdf5OutDeep: hdf5Obj;
 - (void)hdf5OutShallow: hdf5Obj;
 #endif
