@@ -1,3 +1,12 @@
+1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (java_directory_objc_find): Return NULL if
+	tree is not yet initialized (e.g. message forwarding checks the
+	tree for associated Java objects, but tree may not be setup
+	in plain Objective-C usage).
+
+	* Makefile.in (libjavaswarm.la): Use _SWARMLIBS instead of SWARMLIBS.
+
 1999-04-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (get_class_name): New function.

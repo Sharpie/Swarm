@@ -116,12 +116,17 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
 jobject_id *
 java_directory_objc_find (id objc_object)
 {
-  jobject_id pattern;
-  jobject_id *result; 
-  
-  pattern.objc_object = objc_object;
-  result = avl_find (objc_tree, &pattern);
-  return result;
+  if (objc_tree)
+    {
+      jobject_id pattern;
+      jobject_id *result; 
+      
+      pattern.objc_object = objc_object;
+      result = avl_find (objc_tree, &pattern);
+      return result;
+    }
+  else
+    return NULL;
 }
 
 jobject
