@@ -12,7 +12,7 @@ lib_LTLIBRARIES = libmisc.la
 
 SRC = getopt.c getopt1.c \
 	strdup.c strndup.c strsep.c stpcpy.c strnlen.c strcmp.c strchr.c \
-	memset.c \
+	memset.c memcpy.c \
 	xmalloc.c realpath.c find_executable.c \
 	argp-ba.c argp-eexst.c argp-fmtstream.c argp-fs-xinl.c  \
 	argp-help.c argp-parse.c argp-pv.c argp-pvh.c argp-xinl.c

@@ -16,15 +16,12 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
-/* Change included declaration file to misc.h.
-   Added define of op_t, OPSIZ, and byte.
-   mgd@santafe.edu 1998-06-24. */
+/* Change included declaration file to misc.h.  Include "mem.h" for 
+   define of op_t, OPSIZ, and byte.
+   mgd@santafe.edu 1998-07-08. */
 
 #include <misc.h>
-
-#define op_t unsigned long int
-#define OPSIZ (sizeof(op_t))
-typedef unsigned char byte;
+#include "mem.h"
 
 void *
 memset (dstpp, c, len)

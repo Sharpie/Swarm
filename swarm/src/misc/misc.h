@@ -23,6 +23,7 @@ size_t strnlen (const char *string, size_t maxlen);
 const char *strchr (const char *string, int c);
 int strcmp (const char *p1, const char *p2);
 void *memset (void *dstpp, int c, size_t len);
+void *memcpy (void *, const void *, size_t);
 
 const char *myrealpath (const char *path, char *resolved_path);
 const char *find_executable (const char *program_name);

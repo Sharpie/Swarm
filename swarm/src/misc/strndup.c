@@ -21,9 +21,6 @@
 
 #include "misc.h"
 
-#include <stdio.h>
-#include <sys/types.h>
-
 char *
 strndup (const char *s, size_t n)
 {

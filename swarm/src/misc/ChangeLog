@@ -1,3 +1,15 @@
+1998-07-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* strndup.c: Don't include stdio.h or sys/types.h.
+
+	* misc.h: Add declaration of memcpy.
+
+	* memset.c: Include mem.h instead of having local defines.
+
+	* memcpy.c: New file.
+
+	* mem.h: New file (defines common to memset.c and memcpy.c).
+
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* argp-fmtstream.c, argp-help.c, argp-parse.c, getopt.c: Include
