@@ -1,3 +1,7 @@
+2004-07-29  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.in (LIBOBJCINCLUDES): Add extraction.
+
 2004-07-16  Scott Christley  <schristley@mac.com>
 
 	* Makefile.in (clean): New target.

@@ -23,6 +23,7 @@ MACOSJAVA=@MACOSJAVA@
 
 VPATH=$(srcdir)
 
+LIBOBJCINCLUDES=@LIBOBJCINCLUDES@
 JAVAINCLUDES=@JAVAINCLUDES@
 
 override CPPFLAGS += $(JAVAINCLUDES) $(LIBOBJCINCLUDES) -I$(top_srcdir)/src/misc -I$(top_builddir) -I$(top_builddir)/src -I$(top_srcdir)/src $(foreach module,$(MODULES),-I$(top_builddir)/src/$(module) -I$(top_srcdir)/src/$(module)) -I$(srcdir) $(GNUSTEPLIBINCLUDES)
