@@ -12,7 +12,9 @@ Library:      activity
 #import <activity/Schedule.h>
 #import <activity/ActionGroup.h>
 #import <defobj/defalloc.h>
+#import <activity/classes.h>
 #include <misc.h> // abort
+#define FAST
 
 @implementation Schedule_c
 
@@ -490,19 +492,22 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 {
   id  removedAction, emptyAction;
 
+#ifndef FAST
   if (_obj_debug && ![anAction conformsTo: @protocol (Action)])
     raiseEvent (InvalidArgument,
                 "> object to be removed from schedule is not an action\n");
+#endif
 
-  if (_obj_debug && ((CAction *) anAction)->owner == (id) self)
+  if (((CAction *) anAction)->owner == (id) self)
     removedAction = [super remove: anAction];
   else
     {
       // concurrent group
-
+#ifndef FAST
       if (_obj_debug && ![((CAction *) anAction)->owner conformsTo: @protocol (ConcurrentGroup)])
         raiseEvent (InvalidArgument,
                     "> action to be removed from schedule does not belong to schedule\n");
+#endif
       
       removedAction = [(id) ((CAction *) anAction)->owner remove: anAction];
       
@@ -1261,14 +1266,26 @@ PHASE(Using)
     }
   else
     {
+#ifdef FAST
+      Class class = getClass (collection);
+#endif
       // just remove the action at the index
       removedAction = [super remove];
-      
+
       // Avoid leaving behind invalid owners in mergeAction
       // `owner' is used in [Schedule remove:], for example
+      // first do some common cases before expensive conformsTo
+#ifdef FAST
+      if (class != id_Schedule_c)
+        if (class == id_ActivationOrder_c || class == id_ConcurrentSchedule_c
+            || [collection conformsTo: @protocol (ConcurrentSchedule)])
+#else
       if ([collection conformsTo: @protocol (ConcurrentSchedule)])
-        removedAction->owner =
-          ((ConcurrentSchedule_c *) collection)->actionConcurrent->owner;
+#endif
+{
+          removedAction->owner =
+            ((ConcurrentSchedule_c *) collection)->actionConcurrent->owner;
+}
     }
   currentAction = (id <Action>) Removed;
   return removedAction;
