@@ -3,9 +3,7 @@ CURRENT = 2
 REVISION = 0
 AGE = 0
 defobjdir = $(includedir)/$(MODULE)
-jdkdir=@jdkdir@
-javaincludedir=$(jdkdir)/include
-JAVAINCLUDES=-I$(javaincludedir) -I$(javaincludedir)/solaris -I$(javaincludedir)/genunix
+JAVAINCLUDES = @JAVAINCLUDES@
 
 include $(top_srcdir)/src/Makefile.rules
 
