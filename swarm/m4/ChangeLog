@@ -1,3 +1,13 @@
+2001-07-22  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* acbuiltinapply.m4 (md_CHECK_BUILTIN_APPLY): Put all contents
+	in [].
+
+	* actcltk.m4 (md_FIND_{TCL,TK}_LIBRARIES): Likewise.
+
+	* acpointerfmt.m4 (md_CHECK_POINTER_FMT): Likewise.  Don't
+	use changequote.  Use *buf instead of buf[].
+
 2001-03-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* acjdk.m4: Don't take include/jni.h as an indicator of Sun JDK if
