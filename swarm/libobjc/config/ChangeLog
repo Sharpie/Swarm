@@ -1,3 +1,8 @@
+2002-01-16    <mgd@marcus.santafe.edu>
+
+	* powerpc/mframe-linux-gnu.h (MFRAME_ARG_ENCODING): Add a cast to
+	ensure that we get an int with the %d in the latter float case.
+
 2000-02-12    <mgd@nest.swarm.org>
 
 	* sparc/Makefile.am (EXTRA_DIST): Add it.
