@@ -3,19 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import "MessageProbe.h"
-
-#include <swarmconfig.h>
-
-#ifdef USE_AVCALL
-#include <avcall.h>
-#else
-#undef PACKAGE
-#undef VERSION
-#include <ffi.h>
-#undef PACKAGE
-#undef VERSION
-#endif
+#import <objectbase/MessageProbe.h>
 
 #import "swarm_rts_routines.h"
 #import <objectbase.h> // val_t
@@ -244,148 +232,6 @@ copy_to_nth_colon (const char *str, int n)
   return (nth_type (probedType, which) == _C_ID);
 }
 
-#ifdef USE_AVCALL
-static void
-dynamicCallOn (const char *probedType,
-               id target,
-               SEL probedSelector, 
-               val_t *arguments,
-               val_t *retVal)
-{
-  const char *type = probedType;
-  IMP imp;
-  val_t objectVal, selectorVal;
-  unsigned i;
-
-  av_alist alist;
-
-  void push_argument (val_t *arg)
-    {
-      switch (arg->type)
-        {
-        case _C_ID:
-          av_ptr (alist, id, arg->val.object);
-          break;
-        case _C_SEL:
-          av_ptr (alist, SEL, arg->val.selector);
-          break;
-        case _C_CHR:
-          av_char (alist, arg->val.schar);
-          break;
-        case _C_UCHR:
-          av_uchar (alist, arg->val.uchar);
-          break;
-        case _C_SHT:
-          av_short (alist, arg->val.sshort);
-          break;
-        case _C_USHT:
-          av_ushort (alist, arg->val.ushort);
-          break;
-        case _C_INT:
-          av_int (alist, arg->val.sint);
-          break;
-        case _C_UINT:
-          av_uint (alist, arg->val.uint);
-          break;
-        case _C_LNG:
-          av_long (alist, arg->val.slong);
-          break;
-        case _C_ULNG:
-          av_ulong (alist, arg->val.ulong);
-          break;
-        case _C_FLT:
-          av_float (alist, arg->val._float);
-          break;
-        case _C_DBL:
-          av_double (alist, arg->val._double);
-          break;
-        case _C_CHARPTR:
-          av_ptr (alist, const char *, arg->val.string);
-          break;
-        default:
-          abort ();
-        }
-    }
-
-  imp = [target methodFor: probedSelector];
-  if (!imp)
-    abort ();
-  
-  switch (*type)
-    {
-    case _C_ID: 
-      av_start_ptr (alist, imp, id, &retVal->val.object);
-      break;
-    case _C_SEL:
-      av_start_ptr (alist, imp, SEL, &retVal->val.selector);
-      break;
-    case _C_CHR:
-      av_start_char (alist, imp, &retVal->val.schar);
-      break;
-    case _C_UCHR:
-      av_start_uchar (alist, imp, &retVal->val.uchar);
-      break;
-    case _C_SHT:
-      av_start_short (alist, imp, &retVal->val.sshort);
-      break;
-    case _C_USHT:
-      av_start_ushort (alist, imp, &retVal->val.ushort);
-      break;
-    case _C_INT:
-      av_start_int (alist, imp, &retVal->val.sint);
-      break;
-    case _C_UINT:
-      av_start_uint (alist, imp, &retVal->val.uint);
-      break;
-    case _C_LNG:
-      av_start_long (alist, imp, &retVal->val.slong);
-      break;
-    case _C_ULNG:
-      av_start_ulong (alist, imp, &retVal->val.ulong);
-      break;
-    case _C_FLT:
-      av_start_float (alist, imp, &retVal->val._float);
-      break;
-    case _C_DBL:
-      av_start_double (alist, imp, &retVal->val._double);
-      break;
-    case _C_CHARPTR:
-      av_start_ptr (alist, imp, const char *, &retVal->val.string);
-      break;
-    case _C_VOID:
-      av_start_void (alist, imp);
-      break;
-    default:
-      abort ();
-    }
-  retVal->type = *type;
-
-  type = skip_argspec (type);
-  
-  if (*type != _C_ID)
-    abort ();
-  objectVal.type = _C_ID;
-  objectVal.val.object = target;
-  push_argument (&objectVal);
-  
-  type = skip_argspec (type);
-  if (*type != _C_SEL)
-    abort ();
-  
-  selectorVal.type = _C_SEL;
-  selectorVal.val.selector = probedSelector;
-  push_argument (&selectorVal);
-  
-  for (i = 0, type = skip_argspec (type);
-       type;
-       type = skip_argspec (type), i++)
-    push_argument (&arguments[i]);
-  
-  av_call (alist);
-}
-
-#else
-
 static void
 dynamicCallOn (const char *probedType,
                id target,
@@ -447,8 +293,6 @@ dynamicCallOn (const char *probedType,
   [fa drop];
 }
 
-#endif
-
 - (val_t)dynamicCallOn: target
 {
   val_t retVal;
@@ -463,17 +307,9 @@ dynamicCallOn (const char *probedType,
   val_t val = [self dynamicCallOn: target];
 
   if (val.type == _C_SHT)
-#ifdef USE_AVCALL
     return (double) val.val.sshort;
-#else
-    return (double) val.val.sint; // short return is broken in libffi-1.18
-#endif
   else if (val.type == _C_USHT)
-#ifdef USE_AVCALL
-    return (double) val.val.ushort; // short return is broken in libffi-1.18
-#else
-    return (double) val.val.uint; // short return is broken in libffi-1.18
-#endif
+    return (double) val.val.ushort;
   else if (val.type == _C_INT)
     return (double) val.val.sint;
   else if (val.type == _C_UINT)
@@ -483,17 +319,9 @@ dynamicCallOn (const char *probedType,
   else if (val.type == _C_ULNG)
     return (double) val.val.ulong;
   else if (val.type == _C_CHR)
-#ifdef USE_AVCALL
-    return (double) val.val.sint; // character return is broken in libffi-1.18
-#else
-    return (double) val.val.schar;
-#endif
+    return (double) val.val.sint; 
   else if (val.type == _C_UCHR)
-#ifdef USE_AVCALL
-    return (double) val.val.uchar; // character return is broken in libffi-1.18
-#else
-    return (double) val.val.uint; // character return is broken in libffi-1.18
-#endif
+    return (double) val.val.uchar; 
   else if (val.type == _C_FLT)
     return (double) val.val._float;
   else if (val.type == _C_DBL)
@@ -506,17 +334,9 @@ dynamicCallOn (const char *probedType,
   val_t val = [self dynamicCallOn: target];
 
   if (val.type == _C_SHT)
-#ifdef USE_AVCALL
     return (int) val.val.sshort;
-#else
-    return (int) val.val.sint; // short return is broken in libffi-1.18
-#endif
   else if (val.type == _C_USHT)
-#ifdef USE_AVCALL
-    return (int) val.val.ushort; // short return is broken in libffi-1.18
-#else
-    return (int) val.val.uint; // short return is broken in libffi-1.18
-#endif
+    return (int) val.val.ushort; 
   else if (val.type == _C_INT)
     return val.val.sint;
   else if (val.type == _C_UINT)
@@ -526,17 +346,9 @@ dynamicCallOn (const char *probedType,
   else if (val.type == _C_ULNG)
     return (int) val.val.ulong;
   else if (val.type == _C_CHR)
-#ifdef USE_AVCALL
-    return (int) val.val.sint; // character return is broken in libffi-1.18
-#else
-    return (int) val.val.schar;
-#endif
+    return (int) val.val.sint;
   else if (val.type == _C_UCHR)
-#ifdef USE_AVCALL
-    return (int) val.val.uchar; // character return is broken in libffi-1.18
-#else
-    return (int) val.val.uint; // character return is broken in libffi-1.18
-#endif
+    return (int) val.val.uchar;
   else if (val.type == _C_FLT)
     return (int) val.val._float;
   else if (val.type == _C_DBL)

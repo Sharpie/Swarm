@@ -1,3 +1,8 @@
+1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* MessageProbe.m: Remove support for avcall; use FArguments/FCall
+	support.
+
 1999-04-24  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* MessageProbe.m (dynamicCallOn): Don't truncate method
