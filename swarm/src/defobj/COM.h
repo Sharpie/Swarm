@@ -9,8 +9,8 @@ extern "C" {
 #endif
 
 typedef const void *COMclass;
-typedef const void *COMobject;
-typedef const void *COMselector;
+typedef void *COMobject;
+typedef void *COMselector;
 typedef const void *COMmethod;
 
 struct COMInterface;

@@ -1,3 +1,10 @@
+2001-12-17  Marcus G. Daniels  <mgd@condor>
+
+	* defobj.h: Remove const from COMOBJECT.
+
+	* COM.h	(SD_COM_ENSURE_CLASS_OBJC): Add cast of argument to COMclass.
+	(COMclass, COMobject, COMselector, COMmethod): Remove const.
+
 2001-12-07  Marcus G. Daniels  <mgd@condor>
 
 	* HDF5Object.m (hdf5_reopen_point_dataset): New function for
