@@ -1,3 +1,25 @@
+1998-03-29  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* internal.m (tkobjc_raster_clear): New function.
+
+	* internal.h: Declare tkobjc_raster_clear.
+
+	* ZoomRaster.m ([ZoomRaster -_setConfigureInfo_:]): New method.
+	([ZoomRaster -createEnd]): Call _setConfigureInfo_ for Configure
+	and Expose instead of just a (inline) Configure.
+	([ZoomRaster -handleConfigureWidth:Height:]): Let newWidth exceed
+	newHeight (Win32 seems to like to think better of small window
+	widths).
+	([ZoomRaster -handleExposeWidth:Height:]): New method.  Calls
+	tkobjc_raster_clear for new extent.
+
+	* ZoomRaster.h: Declare handleExposeWidth:Height:.
+
+	* Raster.m ([Raster +createBegin:]): Define default 
+	width and height in a createBegin, not createEnd.
+
+	* Raster.h: Declare createBegin and createEnd.
+
 1998-03-20  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* TkExtra.m (ensureBltSupportFiles): Don't call getSwarmHome

@@ -20,11 +20,24 @@
   return logicalHeight;
 }
 
+- _setConfigureInfo_ : (const char *)eventName
+{
+  [globalTkInterp 
+    eval: 
+      "bind %s <%s> { %s handle%sWidth: %s Height: %s }",
+    [parent getWidgetName], 
+    eventName,
+    [self getObjcName],
+    eventName,
+    "%w", "%h"];
+  return self;
+}
+
 - createEnd
 {
   [super createEnd];
-  // we do things to the parent widget that are really only allowed
-  // on toplevels. This check is at least friendly.
+  // We do things to the parent widget that are really only allowed
+  // on toplevels.  This check is at least friendly.
   if (!([parent isKindOfClassNamed: "Frame"]) && ([parent getParent] == 0))
     [WindowCreation 
       raiseEvent: 
@@ -35,15 +48,10 @@
   logicalHeight = height;
   zoomFactor = 1U;
 
-  [globalTkInterp 
-    eval: 
-      "bind %s <Configure> { %s handleConfigureWidth: %s Height: %s }",
-    [parent getWidgetName],
-    [self getObjcName],
-    "%w", "%h"];
+  [self _setConfigureInfo_: "Configure"];
+  [self _setConfigureInfo_: "Expose"];
   return self;
 }
-
 
 - (unsigned)getZoomFactor
 {
@@ -96,9 +104,12 @@
 // note that they are passed to us in absolute values, not gridded.
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
-  unsigned newZoom = newWidth / logicalWidth;
+  unsigned newZoom = newHeight / logicalHeight;
 
-  if (newZoom != newHeight / logicalHeight)
+  if (newWidth >  newHeight)
+    newWidth = newHeight;
+
+  if (newZoom != newWidth / logicalWidth)
     [WindowUsage raiseEvent: "nonsquare zoom given.\n"];
 
 #ifdef DEBUG
@@ -106,11 +117,18 @@
 	 [self getObjcName], zoomFactor, newZoom, newWidth, newHeight);
 #endif
   
-  // this check isn't just an optimization, it prevents an infinite
+  // This check isn't just an optimization, it prevents an infinite
   // recursion: [self setZoomFactor] reconfigures the widget, which in turn
   // generates a configure event.
   if (newZoom != zoomFactor)
     [self setZoomFactor: newZoom];
+  return self;
+}
+
+- handleExposeWidth: (unsigned)newWidth Height: (unsigned)newHeight
+{
+  if (newWidth > width || newHeight > height)
+    tkobjc_raster_clear (self, width, height);
   return self;
 }
   
@@ -122,12 +140,11 @@
 
   [super setWidth: newWidth * zoomFactor Height: newHeight * zoomFactor];
 
-  // set up gridded geometry so this is resizeable. Only works if
+  // Set up gridded geometry so this is resizeable. Only works if
   // the parent is a toplevel.
   [globalTkInterp eval: "wm grid %s %u %u %u %u; wm aspect %s 1 1 1 1",
 		  [parent getWidgetName],  zoomFactor, zoomFactor,
 		  logicalWidth, logicalHeight, [parent getWidgetName]];
-
   return self;
 }
 
@@ -135,7 +152,7 @@
 - drawPointX: (int)x Y: (int)y Color: (Color)c
 {
   [super fillRectangleX0: x * zoomFactor Y0: y * zoomFactor
-         X1: (x+1) * zoomFactor Y1: (y+1) * zoomFactor
+         X1: (x + 1) * zoomFactor Y1: (y + 1) * zoomFactor
 	 Color: c];
 
   return self;
@@ -144,7 +161,7 @@
 - fillRectangleX0: (int)x0 Y0: (int)y0 X1: (int)x1 Y1: (int)y1 Color: (Color)c
 {
   [super fillRectangleX0: x0 * zoomFactor Y0: y0 * zoomFactor
-         X1: (x1) * zoomFactor Y1: (y1) * zoomFactor
+         X1: x1 * zoomFactor Y1: y1 * zoomFactor
 	 Color: c];
 
   return self;

@@ -111,6 +111,7 @@ tkobjc_deleteEventHandler (id widget, Tk_EventProc proc)
   Tk_DeleteEventHandler (tkwin, StructureNotifyMask, proc, widget);
 }
 
+
 static void
 Xfill (Display *display, GC gc, Pixmap pm,
        int x, int y,
@@ -244,6 +245,7 @@ tkobjc_raster_createPixmap (Raster *raster)
   dib_t *dib = dib_create ();
   
   raster->pm = (Pixmap)dib;
+
   dib_createBitmap (dib, TkWinGetHWND (Tk_WindowId (tkwin)),
 		    raster->width, raster->height);
   tkobjc_raster_setColormap (raster);
@@ -279,6 +281,53 @@ tkobjc_raster_flush (Raster *raster)
 }
 
 void
+tkobjc_raster_clear (Raster *raster, unsigned oldWidth, unsigned oldHeight)
+{
+  Tk_Window tkwin = raster->tkwin;
+  Display *display = Tk_Display (tkwin);
+  Window w = Tk_WindowId (tkwin);
+#ifdef _WIN32
+  HPALETTE oldPalette, palette;
+  HBRUSH brush;
+  HWND hwnd = TkWinGetHWND (w);
+  RECT rc;
+  HDC dc = GetDC (hwnd);
+  TkWindow *winPtr;
+  unsigned newWidth;
+  unsigned newHeight;
+
+  palette = TkWinGetPalette (display->screens[0].cmap);
+  oldPalette = SelectPalette (dc, palette, FALSE);
+
+  winPtr = TkWinGetWinPtr (w);
+  brush = CreateSolidBrush (winPtr->atts.background_pixel);
+  GetWindowRect (hwnd, &rc);
+  newWidth = rc.right - rc.left;
+  newHeight = rc.bottom - rc.top;
+
+  if (newWidth > oldWidth)
+    {
+      rc.right = newWidth;
+      rc.left = oldWidth;
+      rc.bottom = rc.bottom - rc.top;
+      rc.top = 0;
+      FillRect (dc, &rc, brush);
+    }
+  if (newHeight > oldHeight)
+    {
+      rc.right = oldWidth;
+      rc.left = 0;
+      rc.bottom = newHeight;
+      rc.top = oldHeight;
+      FillRect (dc, &rc, brush);
+    }
+  DeleteObject (brush);
+  SelectPalette (dc, oldPalette, TRUE);
+  ReleaseDC (hwnd, dc);
+#endif
+}
+
+void
 tkobjc_raster_copy (Raster *raster, Pixmap oldpm,
                     unsigned oldWidth, unsigned oldHeight)
 {
@@ -295,4 +344,3 @@ tkobjc_raster_copy (Raster *raster, Pixmap oldpm,
     abort ();
 #endif
 }
-

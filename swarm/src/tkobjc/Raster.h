@@ -26,6 +26,8 @@
   unsigned width, height;
 }
 
++ createBegin: aZone;
+- createEnd;
 - (id <Colormap>)getColormap;
 - setColormap: (id <Colormap>)colormap;
 - drawPointX: (int)x Y: (int)y Color: (Color)c;

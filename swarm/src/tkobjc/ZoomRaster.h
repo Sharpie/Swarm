@@ -19,5 +19,6 @@
 - (unsigned)getZoomFactor;
 - setZoomFactor: (unsigned)z;
 - handleConfigureWidth: (unsigned)newWidth Height: (unsigned)newHeight;
+- handleExposeWidth: (unsigned)newWidth Height: (unsigned)newHeight;
 
 @end

@@ -17,13 +17,21 @@
 
 @implementation Raster
 
++ createBegin: aZone
+{
+  Raster *obj = [super createBegin: aZone];
+  
+  obj->width = 100U;
+  obj->height = 100U;
+
+  return obj;
+}
+
 - createEnd
 {
   // initialize the superclass.
   [super createEnd];
 
-  // create a frame widget, set its height
-  width = 100U; height = 100U;
   // BMcM - 12-FEB-97: force widget to have *no* background;
   //   fixes problem with newer tcl/tk (7.5/4.1 up?) whereby raster
   //   was being erased, *after* our -drawself, on all <Expose>
@@ -71,13 +79,14 @@
   return self;
 }
 
-// set the width for the widget. We maintain our own values of this, to
+// Set the width for the widget. We maintain our own values of this, to
 // avoid problems with Tk's caching.
 // For pixmap handling, we create a new pixmap, erase it, copy the old
 // one to it and redraw ourselves.
 - setWidth: (unsigned)newWidth Height: (unsigned)newHeight
 {
   Pixmap oldpm = pm;
+
   int oldWidth = width;
   int oldHeight = height;
 
