@@ -5,7 +5,7 @@
 
 #import <simtools/CommonProbeDisplay.h>
 
-@interface SimpleProbeDisplay : CommonProbeDisplay
+@interface SimpleProbeDisplay: CommonProbeDisplay
 {
   id probeMap;
   id leftFrame, rightFrame, middleFrame, bottomFrame;

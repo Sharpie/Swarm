@@ -1,5 +1,17 @@
 1998-01-14  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* GUIComposite.m ([GUIComposite
+	-enableDestroyNotification:notificationMethod:]): New method.
+
+	* GUIComposite.h (GUIComposite): Add notificationTarget and
+	notificationMethod.  Declare
+	enableDestroyNotification:notificationMethod.
+
+	* CompleteProbeDisplay.m ([CompleteProbeDisplay -update]): Don't update
+	if marked for drop.
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -update]): Likewise.
+
 	* CommonProbeDisplay.m ([CommonProbeDisplay -createEnd]): Use
 	enableDestroyNotification to have markForDrop called when a probe
 	display is killed by the window manager.

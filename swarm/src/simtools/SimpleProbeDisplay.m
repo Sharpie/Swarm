@@ -140,8 +140,11 @@
 {
   int i;
 
-  for (i = 0; i < numberOfProbes; i++)
-    [widgets[i] update];
+  if (!markedForDropFlag)
+    {
+      for (i = 0; i < numberOfProbes; i++)
+        [widgets[i] update];
+    }
   
   return self;
 }

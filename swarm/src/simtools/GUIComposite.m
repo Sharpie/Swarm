@@ -26,4 +26,11 @@
                                         componentName);
 }
 
+- enableDestroyNotification: theNotificationTarget
+         notificationMethod: (SEL)theNotificationMethod
+{
+  notificationTarget = theNotificationTarget;
+  notificationMethod = theNotificationMethod;
+  return self;
+}
 @end
