@@ -35,7 +35,7 @@ Library:      activity
 - setKeepEmptyFlag: (BOOL)keepEmptyFlag;
 - activate;
 - activateIn: swarmContext;
-- _activateIn_: swarmContext : (Class)activityClass : (Class)indexClass;
+- _activateIn_: swarmContext : (Class)activityClass : (Class)indexClass : (Zone_c *)aZone;
 - (void)_performPlan_;
 - _createActivity_: (Activity_c *)ownerActivity : (Class)activityClass : (Class)indexClass : (Zone_c *)aZone;
 - (void)drop;

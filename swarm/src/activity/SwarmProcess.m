@@ -199,7 +199,9 @@ dropSwarmActivity (CSwarmProcess *swarm, id realloc, id unusedArg)
   // create a new swarm activity to process the dynamic merge schedule
   
   activity = [mergeSchedule _activateIn_: swarmContext
-                            : id_SwarmActivity_c : id_ScheduleIndex_c];
+                            : id_SwarmActivity_c 
+                            : id_ScheduleIndex_c
+                            : activityZone];
   activity->swarm = self;
   
   // arrange to remove local activity reference on completion of activity

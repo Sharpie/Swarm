@@ -103,16 +103,20 @@ setDefaultOrder (unsigned *bits, id aSymbol)
 - (id <Activity>)activateIn: swarmContext
 {
   return
-    [self _activateIn_: swarmContext : ACTIVITY_CLASS_ID : INDEX_CLASS_ID];
+    [self _activateIn_: swarmContext
+          : ACTIVITY_CLASS_ID
+          : INDEX_CLASS_ID
+          : swarmContext ? [swarmContext getZone] : _activity_zone];
 }
 
 //
 // _activateIn_::: -- create an activity to run plan under swarm or top level
 //
-- (id <Activity>)_activateIn_: swarmContext : (Class)activityClass : (Class)indexClass
+- (id <Activity>)_activateIn_: swarmContext
+                             : (Class)activityClass 
+                             : (Class)indexClass
+                             : (Zone_c *)swarmZone
 {
-  Zone_c *swarmZone = swarmContext ?: _activity_zone;
-
   // if top-level activation requested then just create new activity
 
   if (!swarmContext)

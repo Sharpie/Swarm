@@ -1,3 +1,11 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmProcess.m ([CSwarmProcess -activateIn:]): Pass activityZone
+	to _activateIn_::::.
+
+	* CompoundAction.m, ActionGroup.h, Schedule.h ([CompoundAction_c
+	-_activateIn_::::]): Add zone argument.
+
 1999-09-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* CompoundAction.m (registerSubactivity): New function.
