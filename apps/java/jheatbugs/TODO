@@ -1,0 +1,16 @@
+Heatbugs don't display themselves properly (although the HeatSpace
+does): Need to fix Heatbug.drawSelfOn(Raster) method which is called
+via the Object2dDisplayImpl instance [currently the
+heatbugDisplay.display() method is commented-out in the
+HeatbugObserverSwarm._update_ method].  Ideally method should accept
+an argument of `Raster' type, rather than `Object'.
+
+Drag-n-drop of probed heatbug into `graphBug' in HeatbugObserverSwarm
+probe display not working.
+
+Fix enableDestroyNotification on the unhappyGraph [currently commented
+out], currently not working, possibly a problem with how EZGraph is
+exposed to Java.
+
+No data appearing on EZGraph: fix createAverageSequence on the
+unhappyGraph [currently commented out].
