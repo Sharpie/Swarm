@@ -543,8 +543,7 @@ java_probe_as_string (jclass fieldType, jobject field, jobject object,
   else if (TYPEP (double))
     str = GETSTROBJECT (double, Double);
   else
-    str = GETSTROBJECT (object, Object);
-  
+    str = (*jniEnv)->CallObjectMethod (jniEnv, fieldType, m_ClassGetName);
   result = (*jniEnv)->GetStringUTFChars (jniEnv, str, &isCopy);
   strcpy (buf, result);
   if (isCopy)
