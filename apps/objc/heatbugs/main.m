@@ -18,7 +18,7 @@ main (int argc, const char **argv)
   id theTopLevelSwarm;
 
   // Swarm initialization: all Swarm apps must call this first.
-  initSwarm (argc, argv);
+  initSwarmApp (argc, argv, "1.3", "bug-swarm@santafe.edu");
 
   // swarmGUIMode is set in initSwarm(). It's set to be 0 if you
   // typed heatbugs -batchmode. Otherwise, it's set to 1.
