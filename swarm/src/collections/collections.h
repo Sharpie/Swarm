@@ -1068,6 +1068,12 @@ USING
 - shufflePartialList: list Num: (unsigned)num;
 @end
 
+@protocol PermutationItem <CREATABLE, Create>
+- setItem: item;
+- setPosition: (int)position;
+- getItem;
+- (int)getPosition;
+@end
 
 @protocol Permutation <Collection, CREATABLE, Create, Array>
 //S: A class that reprents a permutation of elements of a collection

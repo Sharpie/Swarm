@@ -11,6 +11,18 @@ Library:      collections
 
 #import <collections/Array.h>
 
+@interface PermutationItem_c: CreateDrop_s
+{
+@public
+  id item;
+  int position; // negative is to indicate removed
+}
+- setItem: item;
+- setPosition: (int)position;
+- getItem;
+- (int)getPosition;
+@end
+
 @interface Permutation_c: Array_c
 {
   @public
@@ -22,9 +34,9 @@ Library:      collections
 - setCollection: collection;
 - setUniformRandom: rnd;
 - createEnd;
-- generatePermutation;
+- getCollection;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)describe: outputCharStream;
-
 @end
 
 

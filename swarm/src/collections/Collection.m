@@ -11,8 +11,8 @@ Library:      collections
 
 #import <collections/Collection.h>
 #import <collections/Set.h>
-#import <collections/Permutation.h>
-#import <collections.h> // INDEX{START,END}P.
+#import <collections/Permutation.h> // PermutationItem_c
+#import <collections.h> // INDEX{START,END}P, Permutation
 #import <defobj/defalloc.h>
 
 @implementation Collection_any
@@ -410,47 +410,105 @@ PHASE(Using)
 
 - next
 {
-  return [index next];
+  while (1)
+    {
+      PermutationItem_c *pi = [index next];
+      
+      if (pi)
+	{
+	  if (pi->position >= 0)
+	    return pi->item;
+	}
+      else
+	break;
+    }
+  return nil;
 }
 
 - prev
 {
-  return [index prev];
+  while (1)
+    {
+      PermutationItem_c *pi = [index prev];
+      
+      if (pi)
+	{
+	  if (pi->position >= 0)
+	    return pi->item;
+	}
+      else
+	break;
+    }
+  return nil;
 }
 
 - findNext: anObject;
 {
-  return [index findNext: anObject];
+  PermutationItem_c *pi = [index findNext: anObject];
+  return pi ? pi->item : nil;
 }
 
 - findPrev: anObject;
 {
-  return [index findPrev: anObject];
+  PermutationItem_c *pi = [index findPrev: anObject];
+  return pi ? pi->item : nil;
 }
 
 - get
 {
-  return [index get];
+  PermutationItem_c *pi = [index get];
+  return pi ? pi->item : nil;
 }
 
 - put: anObject;
 {
-  raiseEvent(SourceMessage,
-	     "> Elements can not be added via the PermutedIndex");
-  return nil;
+  PermutationItem_c *pi = [index get];
 
+  if (pi != nil)
+    {
+      if (pi->position >= 0)
+	{
+	  pi->item = anObject;
+	  return [[((Permutation_c *) collection) getCollection]
+		   atOffset: pi->position
+		   put: anObject];
+	}
+    }
+  abort ();
 }
 
-- remove;
+- remove
 {
-  raiseEvent(SourceMessage,
-	     "> Elements can not be removed via the PermutedIndex");
-  return nil;
+  PermutationItem_c *pi = [index get];
+
+  if (pi != nil)
+    {
+      id ret;
+      id removeIndex = 
+	indexAtOffset ([(Permutation_c *) collection getCollection], 
+		       pi->position);
+      pi->item = nil;
+      pi->position = -1;
+
+      ret = [removeIndex remove];
+      [removeIndex drop];
+      return ret;
+    }
+  else
+    abort ();
 }
 
 - getLoc
 {
-  return [index getLoc];
+  PermutationItem_c *pi = [index get];
+  id loc = [index getLoc];
+
+  if (pi)
+    {
+      if (pi->position < 0)
+	return Removed;
+    }
+  return loc;
 }
 
 - (void)setLoc: locSymbol

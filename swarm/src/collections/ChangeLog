@@ -1,3 +1,33 @@
+1999-01-06  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* collections.m (_collections_implement): Setup PermutationItem.
+
+	* collections.h (PermutationItem): New protocol.
+
+	* Collection.m: Include Permutation.h and collections.h.
+	([PermutedIndex_c -next], [PermutedIndex_c -prev]): Use
+	PermutationItem to get item.  Skip over removed items.
+	([PermutedIndex_c -findNext:], [PermutedIndex_c -findPrev:],
+	[PermutedIndex_c -get]): Get item via PermutedItem.
+	([PermutedIndex_c -put:]): Use atOffset:put: with
+	PermutedItem's offset. 
+	([PermutedIndex_c -remove]): Use indexAtOffset with PermutedItem's
+	offset to remove item.
+	([PermutedIndex_c -getLoc]): Use PermutedItem to get position and
+	return Removed if position is < 0, otherwise use result of 
+	getLoc on internal index.
+
+	* Permutation.m: Include collections.h.
+	([Permutation_c -mapAllocations:mapalloc]): Map over internal
+	PermuteItems.
+
+	* Permutation.h ([Permutation_c -mapAllocations:mapalloc]): Declare.
+
+	* Permutation.[hm] ([Permutation_c -getCollection]): Add.
+	([Permutation_c -generatePermutation]): Remove.
+
+	* Permutation.[hm] (PermutationItem_c): New class.
+
 1998-12-29  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Array.m (initArray): Make copyCount unsigned.

@@ -10,7 +10,33 @@ Library:      collections
 */
 
 #import <collections/Permutation.h>
+#import <collections.h> // PermutationItem
 #import <defobj/defalloc.h>
+
+@implementation PermutationItem_c
+PHASE(Creating)
+- setItem: theItem
+{
+  item = theItem;
+  return self;
+}
+
+- setPosition: (int)thePosition
+{
+  position = thePosition;
+  return self;
+}
+PHASE(Using)
+- getItem
+{
+  return item;
+}
+
+- (int)getPosition
+{
+  return position;
+}
+@end
 
 @implementation Permutation_c
 
@@ -50,27 +76,34 @@ PHASE(Creating)
 
   shuffler = [shuffler createEnd];
   index = [collection begin: scratchZone];
-  elem = [index next];   
-  for (i = 0; i < count; i++)
-    {
-      [self atOffset: i put: elem];
-      elem = [index next];
-    }
+  for (elem = [index next], i = 0; i < count; elem = [index next], i++)
+    [self atOffset: i put: 
+	    [[[[PermutationItem createBegin: [[self getZone] getComponentZone]]
+		setPosition: i]
+	       setItem: elem]
+	      createEnd]];
   [index drop];
-  [self generatePermutation];
+  [shuffler shuffleWholeList: self];
   return self;
 }
 
 PHASE(Using)
 
-- generatePermutation
+- getCollection
 {
-  [shuffler shuffleWholeList: self];
-  return self;
+  return collection;
 }
 
 -(void)mapAllocations: (mapalloc_t) mapalloc
 {
+  id elem;
+  id index = [self begin: scratchZone];
+  unsigned i;
+  
+  for (elem = [index next], i = 0; i < count; elem = [index next], i++)
+    mapObject (mapalloc, elem);
+
+  [index drop];
   mapObject (mapalloc, shuffler);
 }
 
