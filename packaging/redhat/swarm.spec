@@ -1,15 +1,22 @@
 Summary: Toolkit for agent-based modelling.
 Name: swarm
-Version: 2.0.1
+%define version 2.0.1
+Version: %{version}
 Release: 1.rh6
 Copyright: LGPL
 Group: Development/Libraries
-Source: ftp://ftp.santafe.edu/pub/swarm/swarm-%{PACKAGE_VERSION}.tar.gz 
+Source: ftp://ftp.santafe.edu/pub/swarm/swarm-%{version}.tar.gz 
 BuildRoot: /tmp/swarm-root
-BuildPrereq: kaffe jikes hdf5
+%define kaffe_version 1.0.b4
+BuildPrereq: kaffe = %kaffe_version
+%define jikes_version 0.47
+BuildPrereq: jikes = %jikes_version
+%define hdf5_version 1.2.0
+BuildPrereq: hdf5 = %hdf5_version
+BuildPrereq: gperf > 2.7
 Icon: swarm.xpm
 Packager: Paul Johnson <pauljohn@ukans.edu>
-Distribution: Swarm Distribution
+Distribution: Swarm Internal Distribution
 Vendor: Swarm Development Group
 URL: http://www.santafe.edu/projects/swarm
 Requires: egcs-objc 
@@ -35,11 +42,11 @@ Conflicts: swarm-hdf5
 
 %define makebuilddir() test -d %1 || mkdir %1 && cd %1
 
-%define swarmlibraries() %(for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo %1/lib$i.*; done)
+%define SWARM_SRC_DIR $RPM_BUILD_DIR/swarm-$RPM_PACKAGE_VERSION
 
-%define swarm_source_dir $RPM_BUILD_DIR/swarm-$RPM_PACKAGE_VERSION
+%define swarmlibraries() for i in activity analysis collections defobj misc objc objectbase random simtools simtoolsgui space swarm tclobjc tkobjc; do echo "%{1}/lib/swarm/lib$i.*" >> %2; done
 
-#%define basefilelist() %(for i in "%{1}/bin/libtool-swarm" "%{1}/bin/m2h" "%{1}/bin/make-h2x" "%{1}/etc" "%{1}/include" "%{1}/info" "%swarmlibraries %{1}/lib/swarm" "%dir %{1}/share" "%doc README" "%doc AUTHORS" "%doc COPYING" "%doc ChangeLog" "%doc INSTALL" "%doc NEWS"  "%doc THANKS"; do echo $i;done)
+%define gen_filelist() echo "%{1}/bin/libtool-swarm" > %2; echo "%{1}/bin/m2h" >> %2; echo "%{1}/bin/make-h2x" >> %2 ; echo "%{1}/etc" >> %2 ; echo "%{1}/include" >> %2 ; echo "%{1}/info" >> %2 ;  %{swarmlibraries: %1 %2}; echo '%dir %{1}/share' >> %2 ; echo '%doc README AUTHORS COPYING ChangeLog INSTALL NEWS THANKS' >> %2
  
 %description
 Swarm is a simulation toolkit for Complex Adaptive Systems. The Swarm
@@ -49,6 +56,11 @@ tcl/tk 8.0.4 or better, and the blt library package, as well has
 hdf5 version 1.2. 
 
 %changelog
+* Fri Sep 10 1999 Alex Lancaster <alex@santafe.edu>
+
+- **Remove this message if public release made**. Major structural
+  changes to spec file. Not for public release.
+
 * Sun Aug 29 1999 Paul Johnson <pauljohn@ukans.edu>
 
 - jikes is the required java compiler.  Users have to install that or edit
@@ -102,7 +114,7 @@ hdf5 version 1.2.
 %package hdf5
 Summary: Toolkit for agent-based modelling with hdf5 enabled.
 Group: Development/Libraries
-Requires: hdf5 > 1.2
+Requires: hdf5 = %hdf5_version
 Provides: swarm-base
 Conflicts: swarm
 %description hdf5
@@ -113,94 +125,67 @@ tcl/tk 8.0.4 or better, and the blt library package.  This version enables
 hdf5. 
 
 %package kaffe
-Summary: Adds Java support to base swarm package using kaffe
+Summary: Adds Java support to swarm-base package.
 Group: Development/Libraries
-Requires: kaffe = 1.0b4-2
-Requires: jikes = 0.47
-Requires: swarm-base = $RPM_PACKAGE_VERSION
+Requires: kaffe = %kaffe_version
+Requires: jikes = %jikes_version
+Requires: swarm-base = %version
 %description kaffe
 swarm-kaffe adds Java support to your base Swarm package (either swarm
 or swarm-hdf5).  Kaffe is a freely-redistributable implementation of
 the Sun JDK.
 
 %prep 
-
-%setup -n swarm-$RPM_PACKAGE_VERSION
+%setup -q
 
 %build
 
 # first run is without hdf support
 %makebuilddir =without-hdf
 
-JAVAC=/usr/bin/jikes ../configure --srcdir=.. --with-defaultdir=/usr --disable-static --prefix=%prefix --with-jdkdir=/usr --without-hdf5dir --disable-jar 
+JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix=%prefix --with-jdkdir=/usr --without-hdf5dir --disable-jar 
 make
 
 # second run is with hdf support
-cd %swarm_source_dir
+cd %SWARM_SRC_DIR
 %makebuilddir =with-hdf
 
-JAVAC=/usr/bin/jikes ../configure --srcdir=.. --with-defaultdir=/usr --disable-static --prefix=%prefix_hdf5 --with-jdkdir=/usr --with-hdf5dir=/usr --disable-jar
+JAVAC=/usr/bin/jikes %{SWARM_SRC_DIR}/configure --srcdir=%{SWARM_SRC_DIR} --with-defaultdir=/usr --disable-static --prefix=%prefix_hdf5 --with-jdkdir=/usr --with-hdf5dir=/usr --disable-jar
 make
                             
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir $RPM_BUILD_ROOT
-cd %swarm_source_dir
+
+# install without-hdf5 version of build
+cd %SWARM_SRC_DIR
+%gen_filelist %prefix %{SWARM_SRC_DIR}/without-hdf
+
 cd =without-hdf
 make prefix=$RPM_BUILD_ROOT%{prefix} install
-cd %swarm_source_dir
+
+# install with-hdf5 version of build
+cd %SWARM_SRC_DIR
+%gen_filelist %prefix_hdf5 %{SWARM_SRC_DIR}/with-hdf
+
 cd =with-hdf
 make prefix=$RPM_BUILD_ROOT%{prefix_hdf5} install
+
+# since the second build doesn't use `/usr' as a prefix, we need to
+# manually create the swarm subdirectory under %prefix_hdf5/lib,
+# manually and then move the libraries in there.  kludgy, for the
+# moment
 cd $RPM_BUILD_ROOT%{prefix_hdf5}/lib
 mkdir swarm
 mv lib* swarm
 
-%clean 
-rm -rf $RPM_BUILD_ROOT
-
 %post -p /sbin/ldconfig
 
-%files 
+%files -f without-hdf
 %defattr(-,root,root)
-%{prefix}/bin/libtool-swarm 
-%{prefix}/bin/m2h
-%{prefix}/bin/make-h2x
-%{prefix}/etc
-%{prefix}/include
-%{prefix}/info
 
-%swarmlibraries %{prefix}/lib/swarm
-
-%dir %{prefix}/share
-
-%doc README
-%doc AUTHORS
-%doc COPYING
-%doc ChangeLog
-%doc INSTALL
-%doc NEWS
-%doc THANKS
-
-%files hdf5
+%files hdf5 -f with-hdf
 %defattr(-,root,root)
-%{prefix_hdf5}/bin/libtool-swarm 
-%{prefix_hdf5}/bin/m2h
-%{prefix_hdf5}/bin/make-h2x
-%{prefix_hdf5}/etc
-%{prefix_hdf5}/include
-%{prefix_hdf5}/info
-
-%swarmlibraries %{prefix_hdf5}/lib/swarm
-
-%dir %{prefix_hdf5}/share
-
-%doc README
-%doc AUTHORS
-%doc COPYING
-%doc ChangeLog
-%doc INSTALL
-%doc NEWS
-%doc THANKS
 
 %files kaffe
 %defattr(-,root,root)
@@ -209,3 +194,5 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/lib/swarm/libjava*
 %{prefix}/share/swarm
 
+%clean 
+rm -rf $RPM_BUILD_ROOT
