@@ -1,5 +1,8 @@
 1998-06-09  Alex Lancaster  <alex@santafe.edu>
 
+	* catalog.in: Removed Emacs local variable 'mode' - was being
+	confused as an entity name by jade.
+	
 	* global.ent (corpauthor):  Created new entity.  Set to SDP.
 
 1998-06-09  Marcus G. Daniels  <mgd@ute.santafe.edu>
