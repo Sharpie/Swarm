@@ -305,7 +305,7 @@ fi
 AC_DEFUN(md_FIND_BLT,
 [test -z "$bltdir" && bltdir=$defaultdir
 found=no
-for name in $bltlibname BLT24 BLT8.0 BLT80 BLT; do
+for name in $bltlibname BLT30 BLT24 BLT8.0 BLT80 BLT; do
    for _libdir in "$bltdir/lib/shared" "$bltdir/lib" ; do
 	  md_FIND_LIB(blt,$name,$libdir,1)
 	  if test -n "$_ldflags" ; then
@@ -315,6 +315,9 @@ for name in $bltlibname BLT24 BLT8.0 BLT80 BLT; do
 		break
 	  fi
    done
+   if test $found = yes; then
+     break
+   fi
 done
 if test $found = no; then
   AC_MSG_ERROR(Please use --with-bltdir to specify location of BLT.)
