@@ -324,11 +324,11 @@ USING
 
 - (int)getArgCount;
 
-//M: The getArg: method returns a string representation of the nth argument.
-- (const char *)getArg: (int)which;
+//M: The getArg: method returns the argument type for a given index.
+- (val_t)getArg: (int)which;
 
 //M: The getArgName: method returns a string representation of the argument
-//M: with the given name.
+//M: key with the given index.
 - (const char *)getArgName: (int)which;
 
 //M: The getHideResult method returns 1 if the result field is "hidden".
@@ -339,7 +339,7 @@ USING
 - setArg: (int)which ToString: (const char *)what;
 
 //M: The dynamicCallOn: method generates a dynamic message call on the target
-//M: object. This method does not return a result.
+//M: object. 
 - (val_t)dynamicCallOn: target;
 
 //M: The doubleDynamicCallOn: method generates a dynamic message call on the 
