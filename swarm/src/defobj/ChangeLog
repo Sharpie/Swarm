@@ -1,3 +1,10 @@
+2000-08-13  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* java.m (proxyClassLoader): Initialize to 0.
+	(create_class_refs, create_method_refs, create_object_refs,
+	find_java_wrapper_class): Don't require that ProxyClassLoader be
+	available, i.e. kawa.jar can be absent.
+
 2000-08-11  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* java.m (associate): Drop lref.

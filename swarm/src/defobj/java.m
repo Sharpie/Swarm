@@ -13,7 +13,7 @@
 
 static BOOL initFlag = NO;
 
-static jobject proxyClassLoader;
+static jobject proxyClassLoader = 0;
 
 static const char *java_type_signature[FCALL_TYPE_COUNT] = {
   "V", "C", "C", "C", "S", "S",
@@ -1117,18 +1117,20 @@ create_class_refs (void)
       c_SwarmEnvironmentImpl = (*jniEnv)->NewGlobalRef (jniEnv, lref);
       (*jniEnv)->DeleteLocalRef (jniEnv, lref);
 
-      if (!(lref = (*jniEnv)->FindClass (jniEnv,
-                                         "swarm/ProxyClassLoader")))
-	abort ();
-      c_ProxyClassLoader = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-
-      if (!(lref = (*jniEnv)->FindClass (jniEnv,
-                                         "swarm/ObjCProxy")))
-	abort ();
-      c_ObjCProxy = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-
+      if ((lref = (*jniEnv)->FindClass (jniEnv,
+                                        "swarm/ProxyClassLoader")))
+        {
+          c_ProxyClassLoader = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+          (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+          
+          if (!(lref = (*jniEnv)->FindClass (jniEnv,
+                                             "swarm/ObjCProxy")))
+            abort ();
+          c_ObjCProxy = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+          (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+        }
+      else
+        (*jniEnv)->ExceptionClear (jniEnv);
       initFlag = YES;
    }
 }
@@ -1334,10 +1336,11 @@ create_method_refs (void)
                                 "()V")))
     abort();
 
-  if (!(m_ProxyClassLoaderLoadClass =
-	(*jniEnv)->GetMethodID (jniEnv, c_ProxyClassLoader, "loadClass",
-                                "(Ljava/lang/String;)Ljava/lang/Class;")))
-    abort();
+  if (c_ProxyClassLoader)
+    if (!(m_ProxyClassLoaderLoadClass =
+          (*jniEnv)->GetMethodID (jniEnv, c_ProxyClassLoader, "loadClass",
+                                  "(Ljava/lang/String;)Ljava/lang/Class;")))
+      abort();
 }
 
 
@@ -1367,12 +1370,15 @@ create_object_refs ()
   jmethodID mid;
   jobject lref;
   
-  if (!(mid = (*jniEnv)->GetMethodID (jniEnv, c_ProxyClassLoader,
-                                      "<init>", "()V")))
-    abort ();
-  lref = (*jniEnv)->NewObject (jniEnv, c_ProxyClassLoader, mid);
-  proxyClassLoader = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-  (*jniEnv)->DeleteLocalRef (jniEnv, proxyClassLoader);
+  if (c_ProxyClassLoader)
+    {
+      if (!(mid = (*jniEnv)->GetMethodID (jniEnv, c_ProxyClassLoader,
+                                          "<init>", "()V")))
+        abort ();
+      lref = (*jniEnv)->NewObject (jniEnv, c_ProxyClassLoader, mid);
+      proxyClassLoader = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+      (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+    }
 }
 
 void
@@ -1586,14 +1592,14 @@ static jclass
 find_java_wrapper_class (Class class)
 {
   const char *name = language_independent_class_name_for_objc_class (class);
-  jclass ret;
+  jclass ret = 0;
 
   if (name)
     {
       ret = java_find_class (name, YES);
       FREECLASSNAME (name);
     }
-  else
+  else if (proxyClassLoader)
     {
       jstring str = (*jniEnv)->NewStringUTF (jniEnv, class->name);
 
