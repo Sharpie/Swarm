@@ -1,3 +1,7 @@
+1999-10-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* NEWS: Note FAction interface.
+
 1999-10-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* NEWS: Note QSort fix.  Note that PNG is optional.
