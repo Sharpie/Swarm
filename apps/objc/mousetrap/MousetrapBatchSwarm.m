@@ -72,10 +72,7 @@
 
   if (loggingFrequency)
     {
-      triggerGraph = [EZGraph createBegin: [self getZone]];
-      [triggerGraph setGraphics:   0];
-      [triggerGraph setFileOutput: 1];
-      triggerGraph = [triggerGraph createEnd];
+      triggerGraph = [EZGraph create: self setFileOutput: YES];
       
       // We create two sequences for the EZGraph to monitor:
       // 	1 - the total number of traps triggered so far
