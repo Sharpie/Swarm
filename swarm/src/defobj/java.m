@@ -1239,103 +1239,103 @@ create_method_refs (void)
   if (!(m_FieldSet = 
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "set", 
                                 "(Ljava/lang/Object;Ljava/lang/Object;)V")))
-    abort();
+    abort ();
   
   if (!(m_FieldSetChar = 
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "setChar", 
                                 "(Ljava/lang/Object;C)V")))
-    abort();
+    abort ();
 
   if (!(m_FieldSetFloat = 
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "setFloat", 
                                 "(Ljava/lang/Object;F)V")))
-    abort();
+    abort ();
   
   if (!(m_FieldSetDouble = 
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "setDouble", 
                                 "(Ljava/lang/Object;D)V")))
-    abort();
+    abort ();
 
   if (!(m_ClassGetField =
       (*jniEnv)->GetMethodID (jniEnv, c_Class, "getField",
                               "(Ljava/lang/String;)Ljava/lang/reflect/Field;")))
-    abort();
+    abort ();
 
   if (!(m_ClassGetDeclaredField =
       (*jniEnv)->GetMethodID (jniEnv, c_Class, "getDeclaredField",
                               "(Ljava/lang/String;)Ljava/lang/reflect/Field;")))
-    abort();
+    abort ();
   
   if (!(m_ClassGetDeclaredFields =
   	(*jniEnv)->GetMethodID (jniEnv, c_Class, "getDeclaredFields",
                                 "()[Ljava/lang/reflect/Field;")))
-    abort();
+    abort ();
   
   if (!(m_ClassGetDeclaredMethods =
   	(*jniEnv)->GetMethodID (jniEnv, c_Class, "getDeclaredMethods",
                                 "()[Ljava/lang/reflect/Method;")))
-    abort();
+    abort ();
 
   if (!(m_ClassGetFields =
   	(*jniEnv)->GetMethodID (jniEnv, c_Class, "getFields",
                                 "()[Ljava/lang/reflect/Field;")))
-    abort();
+    abort ();
   
   if (!(m_ClassGetName = 
 	(*jniEnv)->GetMethodID (jniEnv, c_Class, "getName", "()Ljava/lang/String;")))
-    abort();
+    abort ();
   
   if (!(m_ClassIsArray =
 	(*jniEnv)->GetMethodID (jniEnv, c_Class, "isArray", "()Z")))
-    abort();
+    abort ();
 
   if (!(m_FieldGetName = 
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "getName", "()Ljava/lang/String;")))
-    abort();
+    abort ();
 
   if (!(m_FieldGetType =
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "getType", "()Ljava/lang/Class;")))
-    abort();
+    abort ();
   
   if (!(m_FieldGetBoolean =
       (*jniEnv)->GetMethodID (jniEnv, c_Field, "getBoolean", 
                               "(Ljava/lang/Object;)Z")))
-    abort();
+    abort ();
   
   if (!(m_FieldGetChar =
       (*jniEnv)->GetMethodID (jniEnv, c_Field, "getChar", 
                               "(Ljava/lang/Object;)C")))
-    abort();
+    abort ();
 
   if (!(m_FieldGetShort =
       (*jniEnv)->GetMethodID (jniEnv, c_Field, "getShort", 
                               "(Ljava/lang/Object;)S")))
-    abort();
+    abort ();
 
   if (!(m_FieldGetInt =
       (*jniEnv)->GetMethodID (jniEnv, c_Field, "getInt", 
                               "(Ljava/lang/Object;)I")))
-    abort();
+    abort ();
 
   if (!(m_FieldGetLong =
       (*jniEnv)->GetMethodID (jniEnv, c_Field, "getLong", 
                               "(Ljava/lang/Object;)J")))
-    abort();
+    abort ();
   
   if (!(m_FieldGetFloat =
       (*jniEnv)->GetMethodID (jniEnv, c_Field, "getFloat", 
                               "(Ljava/lang/Object;)F")))
-    abort();
+    abort ();
 
   if (!(m_FieldGetDouble =
       (*jniEnv)->GetMethodID (jniEnv, c_Field, "getDouble", 
                               "(Ljava/lang/Object;)D")))
-    abort();
+    abort ();
 
   if (!(m_FieldGetObject =
         (*jniEnv)->GetMethodID (jniEnv, c_Field, "get",
                                 "(Ljava/lang/Object;)Ljava/lang/Object;")))
-    abort();
+    abort ();
 
   if (!(m_FieldGetModifiers =
 	(*jniEnv)->GetMethodID (jniEnv, c_Field, "getModifiers", "()I")))
@@ -1344,7 +1344,7 @@ create_method_refs (void)
   if (!(m_MethodGetName =
 	(*jniEnv)->GetMethodID (jniEnv, c_Method, "getName",
                                 "()Ljava/lang/String;")))
-    abort();
+    abort ();
 
   if (!(m_MethodGetModifiers =
         (*jniEnv)->GetMethodID (jniEnv, c_Method, "getModifiers", "()I")))
@@ -1361,7 +1361,7 @@ create_method_refs (void)
   if (!(m_SelectorConstructor =
 	(*jniEnv)->GetMethodID (jniEnv, c_Selector, "<init>", 
                                 "(Ljava/lang/Class;Ljava/lang/String;Z)V")))
-    abort();
+    abort ();
 
   if (!(m_HashCode =
         (*jniEnv)->GetMethodID (jniEnv, c_Object, "hashCode", "()I")))
@@ -1377,15 +1377,14 @@ create_method_refs (void)
                                 c_PhaseCImpl,
                                 "_copy_creating_phase_to_using_phase",
                                 "()V")))
-    abort();
+    abort ();
 
   if (c_ProxyClassLoader)
     if (!(m_ProxyClassLoaderLoadClass =
           (*jniEnv)->GetMethodID (jniEnv, c_ProxyClassLoader, "loadClass",
                                   "(Ljava/lang/String;)Ljava/lang/Class;")))
-      abort();
+      abort ();
 }
-
 
 static void
 create_field_refs (void)
