@@ -86,11 +86,12 @@ modules: deps $(addsuffix .class,$(PRECLASSES))
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
 
 
-ifeq ($(OSTYPE),cygwin32)
-jar: all
-	cd .. ; unset CLASSPATH ; $(JAR) cf swarm/swarm.jar swarm/\*.class $(foreach module,$(MODULES),swarm/$(module)/\*.class)
+ifneq ($(OSTYPE),cygwin32)
 jar: all
 	cd .. ; unset CLASSPATH ; $(JAR) cf swarm/swarm.jar $(ALLCLASSFILES)
+else
+jar: all
+	cd .. ; unset CLASSPATH ; $(JAR) cf swarm/swarm.jar swarm/\*.class $(foreach module,$(MODULES),swarm/$(module)/\*.class)
 endif
 
 install-java-classes-as-jar: jar
