@@ -1,3 +1,8 @@
+1999-08-13  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* archiver.m (MyClass): Add long long and long double entries w/
+	test code.
+
 1999-07-02  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* archiver.m (MyClassDeepDeeper): Use long for array.  Rename

@@ -11,9 +11,12 @@
 #define SHORTVAL -10
 #define USHORTVAL 10
 #define LONGVAL -10000
+#define LONGLONGVAL 1000000000000000LL
+#define ULONGLONGVAL 1000000000000ULL
 #define ULONGVAL 10000
 #define FLOATVAL 500.0
 #define DOUBLEVAL 500000.0
+#define LONGDOUBLEVAL 5000000.0
 
 #define COMPONENT_STRVAL "Foo Bar"
 
@@ -49,8 +52,11 @@
   unsigned short ushortVal;
   long longVal;
   unsigned long ulongVal;
+  long long longLongVal;
+  unsigned long long unsignedLongLongVal;
   float floatVal;
   double doubleVal;
+  long double longDoubleVal;
   BOOL deepFlag;
   BOOL updateFlag;
 }
@@ -72,8 +78,11 @@
   obj->ushortVal = USHORTVAL;
   obj->longVal = LONGVAL;
   obj->ulongVal = ULONGVAL;
+  obj->longLongVal = LONGLONGVAL;
+  obj->unsignedLongLongVal = ULONGLONGVAL;
   obj->floatVal = FLOATVAL;
   obj->doubleVal = DOUBLEVAL;
+  obj->longDoubleVal = LONGDOUBLEVAL;
   
   obj->updateFlag = YES;
   return obj;
