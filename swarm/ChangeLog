@@ -1,3 +1,10 @@
+2000-07-16  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* NEWS: Note that HDF5 List serialization doesn't store
+	a row.names attribute for R.
+
+	* VERSION: Bump.
+
 2000-07-13  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* externvar.h.in (externvardef): Add non-BUILDING_SWARM empty
