@@ -78,9 +78,8 @@
 
       [[graphCanvas setHeight: 500] setWidth: 500];
       [graphCanvas setWindowTitle: "The Emergence Of Banking"];
-      [globalTkInterp eval: 
-                        "pack %s -expand 1 -fill both; update idletasks", 
-                      [graphCanvas getWidgetName]];
+      [graphCanvas packFillLeft: 1];
+      GUI_UPDATE_IDLE_TASKS();
     }
   
   [bankModelSwarm setGraphCanvas: graphCanvas];
