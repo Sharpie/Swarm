@@ -1,6 +1,10 @@
 1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* DefObject.h (setBit, getField): Use unsigned long instead of
+	* defalloc.h: Include swarmconfig.h.  
+	(getZone, getSuballocList): Use PTRUINT instead of unsigned long.
+
+	* DefObject.h: Include swarmconfig.h.
+	(setBit, getField): Use PTRUINT instead of
 	unsigned. (int is smaller than void * on alphaev56-dec-osf4.0.)
 
 	* LispArchiver.m ([LispArchiver_c -createEnd]): Set inStreamZone to

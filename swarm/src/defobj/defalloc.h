@@ -9,22 +9,23 @@ Description:  additional interfaces for block-level memory allocation
 Library:      defobj
 */
 
+#include <swarmconfig.h> // PTRUINT
 //
 // getZone() --
 //   macro to obtain zone in which object allocated
 //
-#define getZone( anObject ) \
-({ unsigned long _zbits_ = (anObject)->zbits; \
+#define getZone(anObject) \
+({ PTRUINT _zbits_ = (anObject)->zbits; \
   ( _zbits_ & BitSuballocList ? \
-   (id)((Object_s *)( _zbits_ & ~0x7 ))->zbits : \
-   (id)( _zbits_ & ~0x7 ) ); })
+   (id) ((Object_s *)( _zbits_ & ~0x7 ))->zbits : \
+   (id) (_zbits_ & ~0x7)); })
 
 //
 // getCZone() --
 //   macro to obtain version of zone qualified for allocation of object
 //   components
 //
-#define getCZone( aZone ) \
+#define getCZone(aZone) \
 ( _obj_debug ? [(aZone) getComponentZone] : ((id *)(aZone))[2] )
 
 //
@@ -32,7 +33,7 @@ Library:      defobj
 //   macros to set/get bit that indicates that mapping of internal allocations
 //   is required within an object
 //
-#define setMappedAlloc( anObject )  ((anObject)->zbits |= BitMappedAlloc)
+#define setMappedAlloc(anObject)  ((anObject)->zbits |= BitMappedAlloc)
 #define unsetMappedAlloc(anObject)  ((anObject)->zbits &= ~BitMappedAlloc)
 #define getMappedAlloc( anObject )  ((anObject)->zbits & BitMappedAlloc)
 
@@ -113,8 +114,8 @@ struct mapalloc {
 //   macro to obtain the list of suballocations within an object, if any
 //
 #define getSuballocList( anObject ) \
-({ unsigned long _zbits_ = (anObject)->zbits; \
- ( _zbits_ & BitSuballocList ? (id)( _zbits_ & ~0x7 ) : nil ); })
+({ PTRUINT _zbits_ = (anObject)->zbits; \
+ ( _zbits_ & BitSuballocList ? (id) (_zbits_ & ~0x7) : nil); })
 
 //
 // struct suballocEntry, suballocEntry_t --

@@ -12,13 +12,15 @@ Library:      defobj
 #define DEFINE_CLASSES
 #import <defobj.h>
 
+#include <swarmconfig.h> // PTRUINT
+
 #ifdef INHERIT_OBJECT
 @interface Object_s: Object <DefinedClass, Serialization, GetName>
 {
 @public
   // Word that contains zone in which object allocated, plus
   // additional bits about the memory allocations for the object.
-  unsigned long zbits;  
+  PTRUINT zbits;  
 }
 #else
 @interface Object_s <DefinedClass, Serialization, GetName>
@@ -28,7 +30,7 @@ Library:      defobj
    Class isa;           
    // Word that contains zone in which object allocated, plus
    // additional bits about the object.
-   unsigned long zbits; 
+   PTRUINT zbits; 
 }
 #endif
 /*** methods in Object_s (inserted from .m file by m2h) ***/
@@ -93,15 +95,15 @@ extern id lispInKeyword (id index);
 //
 
 #define getBit(word, bit) ((word) & bit)
-#define setBit(word, bit, value)((value) ? ((word) |= (unsigned long)bit) : \
-                                           ((word) &= ~((unsigned long)bit)))
+#define setBit(word, bit, value)((value) ? ((word) |= (PTRUINT) bit) : \
+                                           ((word) &= ~((PTRUINT) bit)))
 
 // ((value) ? ((word) |= bit) : 
 //				  ((word) &= ~ bit))
 
 #define setField(word, shift, value) (word) |= ((value) << shift)
 
-#define getField(word, shift, mask) ((unsigned long)((word) & mask) >> shift)
+#define getField(word, shift, mask) ((PTRUINT) ((word) & mask) >> shift)
 
 //
 // callMethodInClass() -- macro for method lookup in an alternate superclass
@@ -153,6 +155,6 @@ struct mapalloc {
   void *alloc;            // allocated object or block
   id <Symbol> descriptor; // descriptor for contents of allocated block, if any
   id zone;                // zone of allocated block, as used by descriptor
-  int size;               // size of allocated block, as used by descriptor
+  size_t size;            // size of allocated block, as used by descriptor
 };
 
