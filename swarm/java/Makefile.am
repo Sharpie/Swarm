@@ -51,9 +51,9 @@ gcjswarm.so:
 JAVA_OBJS = $(patsubst %.java,%.lo,$(notdir $(JAVA_SRC)))
 
 $(JAVA_OBJS): $(JAVA_SRC)
-	for i in $(JAVA_SRC); do libtool --mode=compile gcj -O2 -g -fjni -c $$i; done
+	for i in $(JAVA_SRC); do libtool-new --mode=compile gcj -O2 -g -fjni -c $$i; done
 
 # don't link against javaswarm -- this will screw up constructors
 # when the library load happens from Java
 libgcjswarm.la: $(JAVA_OBJS)
-	libtool --mode=link gcc $(JAVA_OBJS) -o libgcjswarm.la -rpath $(libdir)
+	libtool-new --mode=link gcc $(JAVA_OBJS) -o libgcjswarm.la -rpath $(libdir)

@@ -1,3 +1,7 @@
+2001-07-23  Marcus G. Daniels  <mgd@maya.santafe.edu>
+	
+	* Makefile.am: Change libgcjswarm.la libtool usages to libtool-new.
+
 2001-07-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* Makefile.am (libgcjswarm.la): Don't link against javaswarm.
