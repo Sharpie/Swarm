@@ -751,6 +751,7 @@ USING
 @class ProbeLibrary;
 @class ActivityControl;
 @class Swarm;
+@class SwarmObject;
 
 //G: The version of Swarm being used.
 extern const char *swarm_version;
