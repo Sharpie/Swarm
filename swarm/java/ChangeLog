@@ -17,6 +17,7 @@
 	java-argument-empty-p, java-print-native-method,
 	java-print-native-class): New functions.
 	(java-print-classes): Call java-print-native-class.
+	(java-run-all): Pass :uniquify-method-lists t.
 
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

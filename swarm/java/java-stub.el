@@ -413,7 +413,7 @@
         (java-print-native-class protocol)))
 
 (defun java-run-all ()
-  (load-and-process-modules)
+  (load-and-process-modules :uniquify-method-lists t)
   (java-print-classes))
 
 
