@@ -12,10 +12,9 @@ Library:      defobj
 #import <defobj/Symbol.h>
 #import <collections.h>
 
-#define __USE_FIXED_PROTOTYPES__ // for gcc headers
 #include <stdio.h>
-#include <string.h>
 #include <stdarg.h>
+#include <misc.h> // strcpy
 
 // standard program-wide allocation zones
 

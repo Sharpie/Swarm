@@ -14,10 +14,9 @@ Library:      defobj
 #import <objc/objc-api.h>
 #import <objc/sarray.h>
 
-#define __USE_FIXED_PROTOTYPES__  // for gcc headers
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <misc.h> // strncmp
 
 
 //
@@ -29,15 +28,17 @@ Library:      defobj
 //
 // _obj_getClassData() -- function to get class data extension structure
 //
-classData_t _obj_getClassData( Class_s  *class )
+classData_t
+_obj_getClassData (Class_s *class)
 {
-  classData_t  classData;
+  classData_t classData;
 
-  classData = (classData_t)_obj_classes[CLS_GETNUMBER( class ) - 1];
-  if ( ! classData ) {
-    classData = _obj_initAlloc( sizeof *classData );
-    _obj_classes[CLS_GETNUMBER( class ) - 1] = (id)classData;
-  }
+  classData = (classData_t)_obj_classes[CLS_GETNUMBER (class) - 1];
+  if (!classData)
+    {
+      classData = _obj_initAlloc (sizeof *classData);
+      _obj_classes[CLS_GETNUMBER (class) - 1] = (id)classData;
+    }
   return classData;
 }
 
@@ -55,32 +56,36 @@ _obj_initMethodInterfaces (Class_s *class)
   const char    *mname;
   methodDefs_t  mdefs;
 
-  classData = _obj_getClassData( class );
-
-  for ( methods = class->methodList; methods; methods = methods->method_next ) {
-    count = 0;
-    interfaceID = Using;
-    for ( mnext = methods->method_list + methods->method_count - 1; ;
-          mnext-- ) {
-      if ( mnext < methods->method_list ||
-           strncmp( (mname = (const char *)sel_get_name( mnext->method_name )),
-                    "_I_", 3 ) == 0 ) {
-        if ( count ) {
-	  mdefs = _obj_initAlloc( sizeof *mdefs );
-	  mdefs->next = (methodDefs_t)classData->metaobjects;
-	  classData->metaobjects = (id)mdefs;
-          mdefs->interfaceID = interfaceID;
-	  mdefs->firstEntry  = mnext + 1;
-	  mdefs->count       = count;
-          if ( mnext < methods->method_list ) break;
+  classData = _obj_getClassData (class);
+  
+  for (methods = class->methodList; methods; methods = methods->method_next)
+    {
+      count = 0;
+      interfaceID = Using;
+      for (mnext = methods->method_list + methods->method_count - 1; ; mnext--)
+        {
+          if (mnext < methods->method_list
+              || strncmp ((mname =
+                           (const char *)sel_get_name (mnext->method_name)),
+                          "_I_", 3 ) == 0)
+            {
+              if (count)
+                {
+                  mdefs = _obj_initAlloc( sizeof *mdefs );
+                  mdefs->next = (methodDefs_t)classData->metaobjects;
+                  classData->metaobjects = (id)mdefs;
+                  mdefs->interfaceID = interfaceID;
+                  mdefs->firstEntry  = mnext + 1;
+                  mdefs->count       = count;
+                  if ( mnext < methods->method_list ) break;
+                }
+              interfaceID = mnext->method_imp( nil, (SEL)0 );
+              count = 0;
+            }
+          else
+            count++;
         }
-        interfaceID = mnext->method_imp( nil, (SEL)0 );
-        count = 0;
-      } else {
-        count++;
-      }
     }
-  }
 }
 
 
@@ -100,18 +105,18 @@ PHASE(CreatingOnly)
   return newClass;
 }
 
-- (void) setName: (const char *)className
+- (void)setName: (const char *)className
 {
   name = className;
 }
 
-- (void) setClass: aClass
+- (void)setClass: aClass
 {
   metaobjects = aClass;
   // later -- reallocate self if class defines additional class vars
 }
 
-- (void) setSuperclass: aClass
+- (void)setSuperclass: aClass
 {
   superclass = aClass;
 }
@@ -125,28 +130,30 @@ PHASE(CreatingOnly)
   methodList    = ((Class_s *)aClass)->methodList;
 }
 
-- (void) at: (SEL)aSel addMethod: (IMP)aMethod
+- (void)at: (SEL)aSel addMethod: (IMP)aMethod
 {
-  if ( ! dtable ) {
-    if ( ! superclass )
-      raiseEvent( InvalidCombination,
-	"must specify superclass before adding methods to a created class\n" );
-
-    dtable = sarray_lazy_copy( superclass->dtable );
-  }
-
-  sarray_at_put_safe( dtable, (size_t)aSel->sel_id, aMethod );
+  if (!dtable)
+    {
+      if (! superclass)
+        raiseEvent (InvalidCombination,
+                    "must specify superclass before adding methods to a created class\n");
+      
+      dtable = sarray_lazy_copy( superclass->dtable );
+    }
+  
+  sarray_at_put_safe (dtable, (size_t)aSel->sel_id, aMethod);
 }
 
 - createEnd
 {
-  if ( !dtable )
-    dtable = sarray_lazy_copy( superclass->dtable );
-
-  setClass( self, metaobjects );
+  if (!dtable)
+    dtable = sarray_lazy_copy (superclass->dtable);
+  
+  setClass (self, metaobjects);
   metaobjects = nil;
+  
+  setBit (info, _CLS_DEFINEDCLASS, 1);
 
-  setBit( info, _CLS_DEFINEDCLASS, 1 );
   return self;
 }
 
@@ -157,7 +164,7 @@ PHASE(CreatingOnly)
 
 PHASE(CreatingOnly)
 
-- (void) setNextPhase: aBehaviorPhase
+- (void)setNextPhase: aBehaviorPhase
 {
   nextPhase = aBehaviorPhase;
 }
