@@ -167,6 +167,7 @@ CREATING
 
 - loadWindowGeometryRecord;
 - registerAndLoad;
+- updateSize;
 USING
 - (void)updateArchiver: archiver;
 @end

@@ -1,3 +1,7 @@
+2000-09-20  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* gui.h (ArchivedGeometryWidget): Declare -updateSize.
+
 2000-06-29    <mgd@DRONE>
 
 	* gui.h (ArchivedGeometryWidget): Remove return type on
