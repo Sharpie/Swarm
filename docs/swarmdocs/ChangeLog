@@ -1,3 +1,32 @@
+1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* print.dsl ($img$): Strip off <OSFILE>, but leave path.  Insert
+	1/2 inch of space after title and scale slightly different X/Y to
+	avoid problems with jadetex.
+	(copyright, corpauthor, infotitle): New functions.  infotitle
+	ensures page breaks before title pages (for TeX).
+	(book-titlepage-recto-mode, set-titlepage-recto-mode,
+	article-titlepage-recto-mode):  Expand corpauthor and title
+	using new functions (these minimize additional vertical space).
+
+	* html.dsl (pubdate): "Published ", not "Publication Date ".
+	(copyright): New function.
+
+	* common.dsl (reference-id-p): Remove.
+	(type-id-p): Don't check reference-id-p first.
+	(id-to-indexitem): Enhance to check for SECT1, REFERENCE, EXAMPLE,
+	and APPENDIX.  Emit warning when no match.
+	(reference-titlepage-recto-mode): Empty expansion for abstract.
+	(releaseinfo): New function.
+	(article-titlepage-verso-mode, book-titlepage-verso-mode,
+	reference-titlepage-verso-mode, set-titlepage-verso-mode): Expand
+	releaseinfo, abstract, and copyright.
+	(set-titlepage-separator): Act
+	(abstract): Empty general expansion.
+
+	* Makefile.rules (GENERAL): New variable for common SGML and DSSSL
+	dependencies.  Use it in tex/fot/rtf and html rules.
+
 1998-06-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* common.el (pathname-for-swarmdocs,
