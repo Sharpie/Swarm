@@ -1,4 +1,15 @@
-2000-02-16    <mgd@nest.swarm.org>
+2000-02-20  Alex Lancaster  <alex@santafe.edu>
+
+	* html.dsl (%always-format-variablelist-as-table%): Set to true.
+
+	* userapp-tech.sgml: Add SECT1 ID.
+
+	* user1.01.sgml: Reword in terms of generic "object-oriented"
+	programming, rather than purely ObjC-specific.
+
+	* user1.02.sgml: Start adding alternate Java information.
+
+2000-02-16  Marcus G. Daniels  <mgd@nest.swarm.org>
 
 	* configure.in: new --with-dtd-common option.  When set, prepend
 	to catopts.

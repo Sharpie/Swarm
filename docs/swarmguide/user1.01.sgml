@@ -5,7 +5,7 @@
     at <ulink url="http://www.santafe.edu">Santa Fe Institute</ulink>
      (<acronym>SFI</acronym>)in New Mexico.  It is currently based at
     the non-for-profit organization, <ulink
-    url="http://www.swarm.org">Swarm Development Group</ulink> also
+                                            url="http://www.swarm.org">Swarm Development Group</ulink> also
     based in Santa Fe, New Mexico.  The aim was to develop both a
     vocabulary and a set of standard computer tools for the
     development of multi-agent simulation models (so-called
@@ -67,7 +67,7 @@
             other chores.</para>
           </formalpara>
         </listitem>
-   </itemizedlist>
+      </itemizedlist>
     </para> 
 
     <para> Users build simulations by incorporating Swarm objects in
@@ -76,7 +76,7 @@
       libraries and the strategy of modeling that inspires
       them.</para>
 
-</sect1>
+  </sect1>
 
   <sect1 id="swarm.user.user1.01-target.sect1">
 
@@ -86,19 +86,19 @@
         <firstterm>free software</firstterm></ulink> 
       <footnote> <para>sometimes referred to as
         "open source" source software, see the <ulink
-        url="http://www.opensource.org/osd.html">Open Source
+                                                      url="http://www.opensource.org/osd.html">Open Source
         Definition</ulink>
         </para>
       </footnote>.  The current Swarm distribution is effectively
         <footnote> <para>The core Swarm libraries are currently
         released under the <ulink
-        url="http://www.gnu.org/copyleft/lgpl.html">LGPL</ulink>, but
+                                  url="http://www.gnu.org/copyleft/lgpl.html">LGPL</ulink>, but
         the standard binary distributions generally include many GPLed
         support components, which effectively mean that Swarm is
         GPLed.</para>
       </footnote>
       released under the GNU General Public License (<ulink
-      url="http://www.gnu.org/copyleft/gpl.html">GPL</ulink>).  The
+                                                            url="http://www.gnu.org/copyleft/gpl.html">GPL</ulink>).  The
       free software model of software development is particularly
       effective for a tool like Swarm, for both theoretical and
       practical reasons:
@@ -115,12 +115,12 @@
         </listitem>
         <listitem>
           <formalpara>
-            <title>Hacker Mind-Share</title> <para>More practically,
-            Swarm is open source so that we can harness hacker
-            mind-share: more technically minded users can identify
-            bugs, write patches, implement new features generally
-            contribute to the evolution of Swarm.  These are all
-            identical to the reasons that the GNU/Linux operating
+            <title>Developer Mind-Share</title> <para>More
+            practically, Swarm is open source so that we can harness
+            developer mind-share: more technically minded users can
+            identify bugs, write patches, implement new features
+            generally contribute to the evolution of Swarm.  These are
+            all identical to the reasons that the GNU/Linux operating
             system has grown so fast (and is so robust)
             <citation>DiBona et. al. 1999</citation>.  As Swarm grows,
             more programmers, and technically curious modellers are
@@ -131,19 +131,19 @@
 
     </para>
 
-    <para>Most of the development work is being done by the <ulink
-      url="http://www.swarm.org">Swarm Development Group</ulink>,
+    <para>The development work is being done by the <ulink
+                                                           url="http://www.swarm.org">Swarm Development Group</ulink>,
       located in Santa Fe, New Mexico.  (The Swarm project relocated
       from the SFI at the end of October 1999).  Their results are
-      periodically released on the Internet and users can edit the
-      source code.  The creators fully intended for users to take the
-      code, experiment with it, and propose changes and enhancements.
-      This open source strategy is designed to capture the
-      contributions of a lively research community. When users make
-      improvements in the libraries, they are encouraged to announce
-      them to the community and make them available.  As a result of
-      the interaction of the community and the Swarm team, the Swarm
-      libraries are constantly being revised.</para>
+      periodically released on the Internet and users have access to
+      the source code.  The creators fully intended for users to take
+      the code, experiment with it, and propose changes and
+      enhancements.  This open source strategy is designed to capture
+      the contributions of a lively research community. When users
+      make improvements in the libraries, they are encouraged to
+      announce them to the community and make them available.  As a
+      result of the interaction of the community and the Swarm team,
+      the Swarm libraries are constantly being revised.</para>
     
     <para>To get an idea of how much things change, consider the brief
       history of the project. Swarm was originally intended for Unix
@@ -166,14 +166,14 @@
       path for development is not predictable.  Current priorities for
       the Swarm team at the SDG include the further generalization of
       Swarm to be useful on a broader array of platforms and in
-      conjunction with additional computer languages.  A prototype XML
+      conjunction with additional computer languages.  Prototype XML
       and Scheme layers for Swarm have been tested, for example.
     </para>
 
   </sect1>
 
-<sect1 id="swarm.user.user1.01-prereq.sect1">
-<title>Prerequisites for Success with Swarm.</title>
+  <sect1 id="swarm.user.user1.01-prereq.sect1">
+    <title>Prerequisites for Success with Swarm.</title>
 
     <para>Swarm was originally conceived as a set of standardized
       methods for the design of multi-agent simulation models. One
@@ -191,18 +191,40 @@
       have a rudimentary understanding of vital computing
       concepts. The required knowledge will vary with the sort of
       model that one is intending to create, of course, but,<emphasis>
-      at the bare minumum</emphasis>, users must have a basic
-      understanding of computer programming, the C computer language,
-      and Objective C. </para>
+      at the bare minumum</emphasis>, users must have:
+
+    <itemizedlist>
+        <listitem>
+          <para> a basic understanding of computer programming</para>
+        </listitem>
+        <listitem>
+          <para> and, at the time of writing, either of the two
+      object-oriented programming languages, Java or Objective C
+      <footnote> <para>in the Objective C case, an understanding of
+      the C computer language, is also helpful, since Objective C is a
+      superset of the C language</para>
+            </footnote>
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
     
-    <para>Fortunately, C is a highly useful language and it is
-      relatively easy to learn.  Objective-C is, well, truly elegant
-      and fun to use and people who know C say it is fairly easy to
-      learn. </para> <para> People who have not done computer
+    <para>Java is a straightforward language to learn, and has the
+      advantage of being a mainstream, well-supported language in
+      terms of both tools and documentation.  Objective-C is, well,
+      truly elegant and fun to use and people who know C say it is
+      fairly easy to learn (C is also a highly useful language and it
+      is relatively easy to learn).</para>
+        
+    <para> People who have not done computer
       programming will thus need to do some background preparation
       before they try to make a serious effort at building a Swarm
-      model.  We suggest that the first step is to find one of the
-      many elementary guides to computing with C, such as <citetitle
+      model.</para>  
+
+
+    <para>If you choose to implement your models in Objective C, we
+      suggest that the first step is to find one of the many
+      elementary guides to computing with C, such as <citetitle
       pubwork="book">The C Programming Language</citetitle>,
       <citation>Kernighan & Ritchie, 1988</citation>.  Written by the
       authors of C, <author> <firstname>Brian</firstname>
@@ -211,6 +233,12 @@
       </author>, it is a truly readable and informative manual that
       all users ought to investigate.</para>
 
+    <para>If you choose to implement your models in Java, there are
+    literally thousands of introductory programming-in-Java resources
+    on the market, both in paper and electronic form (see <xref
+    linkend="swarm.user.tech-resources.sect1"> for some starting
+    points).</para>
+
     <para>A manual with examples and exercises is vital.  These will
       teach the basics about writing code and compiling it into
       programs.</para>
@@ -218,7 +246,6 @@
     <para>The Objective-C language is best learned from the online
       book <citetitle>Object Oriented Programming and the Objective C
       Language</citetitle> <citation>NeXT, 1993</citation>.</para></sect1>
-
 
 </chapter>
 <!--

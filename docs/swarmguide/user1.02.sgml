@@ -45,10 +45,11 @@
     <INDEXTERM><primary><acronym>OO</acronym></primary>
        <see>object-oriented programming</see></INDEXTERM>   
     
-    <para>A careful study of the Objective-C language is required
-      before any significant progress can be made in building a Swarm
-      model. The material presented here is intended as a summary or
-      reminder of such a study, rather than a substitute.</para>
+    <para>A careful study of either of the object-oriented programming
+      languages (Java or Objective-C) is required before any
+      significant progress can be made in building a Swarm model. The
+      material presented here is intended as a summary or reminder of
+      such a study, rather than a substitute.</para>
 
     <para>An object consists of two kinds of information</para>
 
@@ -90,10 +91,12 @@
       the object, then "method variables" can be created to hold that
       information.</para>
  
-    <para>In Objective-C, the term "message" is used to refer to an
-      instruction that tells an object to carry out one of its
-      methods.  Here is an example of a message that tells an object
-      known as <varname>bobDole</varname> to execute its method
+    <para>In Objective-C, the term <firstterm>message</firstterm> is
+      used to refer to an instruction that tells an object to carry
+      out one of its methods. In Java, the term <firstterm>member
+      function</firstterm> refers to the same thing.  Here is an
+      example of a message that tells an object known as
+      <varname>bobDole</varname> to execute its method
       <function>runForPresident</function>.</para>
    
     <programlisting> [bobDole runForPresident];</programlisting>
@@ -105,7 +108,24 @@
       parameters, such as the year and the name of the runningmate,
       then the message might look like so:</para>
 
-    <programlisting> [bobDole runForPresident:2000 with: RossPerot];</programlisting>
+
+    <informaltable>
+      <tgroup cols="2">
+        <tbody>
+          <row>
+            <entry><programlisting>[bobDole runForPresident:2000 with: RossPerot];</programlisting></entry>
+            <entry><programlisting>bobDole.runForPresident$with (2000, RossPerot);</programlisting></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+<!--
+    <simplelist columns="2" type="vert">
+      <member>[bobDole runForPresident:2000 with: RossPerot];</member>
+      <member>bobDole.runForPresident$with (2000, RossPerot);</member>
+    </simplelist>
+-->
 
     <para>We will have plenty of additional examples in the rest of
       the Guide.</para>

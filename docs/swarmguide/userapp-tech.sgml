@@ -1,7 +1,7 @@
 <APPENDIX ID="SWARM.USER.TECH.APPENDIX">  
   <TITLE>Swarm Tools</TITLE>
   
-  <SECT1>
+  <sect1 id="swarm.user.tech-resources.sect1">
     <TITLE>Web Resources for Object-Oriented Languages</TITLE>
      
     <PARA>The main technical skill currently <footnote> <para>As we

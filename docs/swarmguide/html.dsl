@@ -22,6 +22,8 @@
   ;; Should legal notices be a link to a separate file?
   #t)
 
+(define %always-format-variablelist-as-table% #t)
+
 (define %stylesheet%
   ;; Name of the stylesheet to use. #f = don't make link to text/css in HTML
   #f)
