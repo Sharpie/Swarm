@@ -7,6 +7,7 @@
 	print the current time in the title of the control panel widget.
 	Handle Next like Step (i.e. immediately).
 	([ActionCache -sendNextAction]): Send Next on sendNextAction, not Step.
+	([ActionCache -createProcCtrl]): Don't create a button for Step.
 
 1998-07-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
