@@ -553,7 +553,7 @@ USING
 //M: Return the message associated with this warning.
 - (const char *)getMessageString;
 
-extern id <Warning>
+externvar id <Warning>
   WarningMessage,         //G: message in the source defines warning
   ResourceAvailability,   //G: resource from runtime environment not available
   LibraryUsage,           //G: invalid usage of library interface
@@ -568,7 +568,7 @@ extern id <Warning>
 
 //D: A condition which prevents further execution.
 
-extern id <Error> 
+externvar id <Error> 
   SourceMessage,        //G: message in the source defines error
   NotImplemented,       //G: requested behavior not implemented by object
   SubclassMustImplement,//G: requested behavior must be implemented by subclass
@@ -752,7 +752,7 @@ USING
 - (void)describeForEachID: outputCharStream;
 
 //G: symbol values for ReclaimPolicy option
-extern id <Symbol>  ReclaimImmediate, ReclaimDeferred,
+externvar id <Symbol>  ReclaimImmediate, ReclaimDeferred,
                     ReclaimFrontierInternal, ReclaimInternal, ReclaimFrontier;
 
 @end
@@ -1104,22 +1104,22 @@ extern void defobj_init_java_call_tables (void *jniEnv);
 @end
 
 //G: The singleton Arguments object.
-extern id arguments;
+externvar id arguments;
 
 //G: The singleton HDF5 system Archiver object.
-extern id hdf5Archiver;
+externvar id hdf5Archiver;
 
 //G: The singleton Lisp system Archiver object.
-extern id lispArchiver;
+externvar id lispArchiver;
 
 //G: The singleton HDF5 application Archiver object.
-extern id hdf5AppArchiver;
+externvar id hdf5AppArchiver;
 
 //G: The singleton Lisp application Archiver object.
-extern id lispAppArchiver;
+externvar id lispAppArchiver;
 
 //G: Predefined type descriptors for allocated blocks.
-extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
+externvar id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 
 //#: Abbreviation for @selector().
 #define M(messageName) @selector (messageName)
@@ -1175,10 +1175,10 @@ extern void _obj_initModule (void *module);
 #define initModule(module) _obj_initModule(_##module##_)
 
 //G: internal variable for globalZone macro
-extern id _obj_globalZone;   
+externvar id _obj_globalZone;   
 
 //G: internal variable for scratchZone macro
-extern id _obj_scratchZone; 
+externvar id _obj_scratchZone; 
 
 //#: A zone for allocating global objects.
 #define globalZone _obj_globalZone
@@ -1188,13 +1188,13 @@ extern id _obj_scratchZone;
 
 #ifndef _obj_debug
 //G: if true then perform all debug error checking
-extern BOOL _obj_debug;   
+externvar BOOL _obj_debug;   
 #endif
 
 //G: output file for error messages
-extern FILE *_obj_xerror;  
+externvar FILE *_obj_xerror;  
 //G: output file for debugging messages   
-extern FILE *_obj_xdebug;  
+externvar FILE *_obj_xdebug;  
 
 //F: Set the display name.
 extern void xsetname (id anObject, const char *name); 
