@@ -1,3 +1,7 @@
+1999-06-21  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (protocol.elc): Remove rule.
+
 1999-06-02  Alex Lancaster  <alex@santafe.edu>
 
 	* ref00a.sgml: Add porting notes for 1.4/1.4.1 -> 2.0 changes.

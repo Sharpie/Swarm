@@ -41,8 +41,6 @@ EXAMPLES = GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
 gridexamples.sgml: $(addprefix $(gridturtle_srcdir)/,$(EXAMPLES))
 	- (for i in $(EXAMPLES); do echo "<EXAMPLE ID=\"SWARM.GRID.SGML.EXAMPLE.$$i\">"; echo "<TITLE>$$i</TITLE>"; echo "<PROGRAMLISTING>"; echo '<![ CDATA [' ; cat $(gridturtle_srcdir)/$$i ; echo ']]>'; echo "</PROGRAMLISTING>"; echo "</EXAMPLE>";  done) > $@
 
-protocol.elc: $(swarm_srcdir)/etc/protocol.el
-
 sgml.elc: $(abs_top_builddir)/common.elc protocol.elc
 
 refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
