@@ -883,7 +883,7 @@
   (null (third argument)))
 
 (defun java-argument-print-conversion (current-module argument string-pos)
-  (let ((type (cadr argument))
+  (let ((type (second argument))
         (jni-type (java-argument-convert argument
                                          #'java-type-to-native-type))
         (argname (third argument)))
@@ -920,11 +920,68 @@
   (string= (java-argument-convert argument #'java-type-to-native-type)
            "jstring"))
 
+(defun argname-number (num)
+  (if (= num -1)
+      "javaswarm_target"
+      (concat "javaswarm_arg" (prin1-to-string num))))
+
+(defun java-print-method-invocation-arguments (protocol method)
+  (unless (method-factory-flag method)
+    (insert "  id ")
+    (insert (argname-number -1))
+    (insert " = SD_ENSUREOBJC (env, jobj);\n"))
+  (let ((arguments (method-arguments method))
+        (string-pos 0)
+        (module (protocol-module protocol)))
+    (loop for argument in arguments
+          for arg-pos from 0
+          for arg-name = (third argument)
+          for type = (second argument)
+          when (and (not (java-argument-empty-p argument))
+                    (local-ref-p argument))
+          do
+          (insert "  ")
+          (insert (if type type "id"))
+          (insert " ")
+          (insert (argname-number arg-pos))
+          (insert " = ")
+          (java-argument-print-conversion module argument string-pos)
+          (insert ";\n")
+          (when (java-argument-string-p argument)
+            (incf string-pos)))))
+
+(defun local-ref-p (argument)
+  (let ((type (second argument))
+        (jni-type (java-argument-convert argument #'java-type-to-native-type)))
+    (or (string= type "SEL")
+        (string= jni-type "jclass")
+        (string= jni-type "jobject"))))
+
+(defun java-print-method-invocation-arguments-lref-deletion (protocol method)
+  (insert "  (*env)->DeleteLocalRef (env, jobj);\n")
+  (let ((arguments (method-arguments method)))
+    (loop for argument in arguments
+          for argname = (third argument)
+          when (and (not (java-argument-empty-p argument))
+                    (local-ref-p argument))
+          do
+          (insert "  (*env)->DeleteLocalRef (env, ")
+          (insert argname)
+          (insert ");\n"))))
+
+(defun java-argument-ref (argument arg-pos string-pos)
+  (cond ((java-argument-string-p argument)
+         (concat "strings["
+                 (prin1-to-string string-pos)
+                 "]"))
+        ((local-ref-p argument) (argname-number arg-pos))
+        (t (third argument))))
+
 (defun java-print-method-invocation (protocol method)
   (insert "[")
   (if (method-factory-flag method)
       (insert (protocol-name protocol))
-      (insert "SD_ENSUREOBJC (env, jobj)"))
+      (insert (argname-number -1)))
   (insert " ")
   (let ((arguments (method-arguments method))
         (string-pos 0)
@@ -932,20 +989,19 @@
     (insert (first (car arguments)))
     (unless (java-argument-empty-p (car arguments))
       (insert ": ")
-      (java-argument-print-conversion (protocol-module protocol)
-                                      (car arguments)
-                                      string-pos)
+      (insert (java-argument-ref (car arguments) 0 string-pos))
       (when (java-argument-string-p (car arguments))
         (incf string-pos))
       (loop for argument in (cdr arguments)
             for key = (first argument)
+            for arg-pos from 1
             when key do 
             (insert " ")
             (insert key)
             end
             do
             (insert ": ")
-            (java-argument-print-conversion module argument string-pos)
+            (insert (java-argument-ref argument arg-pos string-pos))
             (when (java-argument-string-p argument)
               (incf string-pos)))))
   (insert "]"))
@@ -1005,6 +1061,11 @@
               (insert (third argument))))
       (insert ")\n")
       (insert "{\n")
+      (unless (string= ret-type "void")
+        (when (or strings (create-method-p method))
+          (insert "  ")
+          (insert ret-type)
+          (insert " ret;\n")))
       (when strings
         (let ((rstrings (reverse strings)))
           (insert "  const char *strings[] = { SD_COPYSTRING (env, ")
@@ -1020,13 +1081,15 @@
           (insert "};\n")))
       (when (create-method-p method)
         (insert "  jobject nextPhase = SD_NEXTJAVAPHASE (env, jobj);\n"))
-      (if (or strings (create-method-p method))
-          (progn
-            (insert "  ")
-            (unless (string= ret-type "void")
-              (insert ret-type)
-              (insert " ret = ")))
-          (insert "  return "))
+      (java-print-method-invocation-arguments protocol method)
+      (java-print-method-invocation-arguments-lref-deletion protocol method)
+
+      (insert "  ")
+      (unless (string= ret-type "void")
+        (if (or strings (create-method-p method))
+            (insert "ret = ")
+            (insert "return ")))
+      
       (let* ((signature (get-method-signature method))
              (objc-type (method-return-type method))
              (java-type-category (java-objc-to-java-type-category objc-type))
@@ -1061,8 +1124,8 @@
         (insert "  SD_CLEANUPSTRINGS (env, strings);\n"))
       (when (create-method-p method)
         (insert "  (*env)->DeleteLocalRef (env, nextPhase);\n"))
-      (when (or strings (create-method-p method))
-        (unless (string= ret-type "void")
+      (unless (string= ret-type "void")
+        (when (or strings (create-method-p method))
           (insert "  return ret;\n")))
       (insert "}\n"))))
 
@@ -1070,9 +1133,11 @@
   (with-protocol-c-file protocol
     (insert "#import <defobj/directory.h>\n")
     (insert "#import <defobj.h>\n")
+    (insert "#import <objectbase.h>\n")
     (let* ((module (protocol-module protocol))
            (module-name (module-name module)))
-      (unless (string= module-name "defobj")
+      (unless (or (string= module-name "defobj")
+                  (string= module-name "objectbase"))
         (insert "#import <")
         (insert module-name)
         (insert ".h>\n")

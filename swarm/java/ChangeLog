@@ -1,3 +1,14 @@
+1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* java-stub.el (argname-number, java-argument-ref, 
+	java-print-method-invocation-arguments): New function.
+	(java-print-method-invocation): Use argname-number instead of 
+	SD_ENSURE_OBJC and java-argument-ref instead of direct conversions.
+	(java-print-native-method): Use return variable as appropriate
+	when localref/string cleanups are needed.
+	(java-print-native-class): Import objectbase.h and avoid double
+	inclusion of it.
+
 1999-09-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (java-print-native-method): Remove SD_NEXTJAVAPHASE
