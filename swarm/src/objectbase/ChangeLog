@@ -1,5 +1,7 @@
 1998-07-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Arguments.m: Note use of access from misc.h.
+
 	* VarProbe.m ([VarProbe -setProbedVariable:]): Use xfree instead
 	of free.
 	([VarProbe -createEnd]): Use xmalloc instead of malloc.
