@@ -1,3 +1,7 @@
+2004-11-29  Marcus G. Daniels <mgd@santafe.edu>
+
+	* acexesuffix.m4: Removed.
+
 2004-11-25  Marcus G. Daniels <mgd@santafe.edu>
 
 	* acfind.m4: Avoid test negation that doesn't work in Solaris /bin/sh.
