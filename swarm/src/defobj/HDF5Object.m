@@ -210,14 +210,14 @@ objc_type_for_tid (hid_t tid)
   return type;
 }
 
-#endif
-
 static void
 check_for_empty_class (Class class)
 {
   if (class->ivars == NULL || class->ivars->ivar_count == 0)
     raiseEvent (InvalidArgument, "attempt to create empty compound type");
 }
+
+#endif
 
 
 @implementation HDF5CompoundType_c
