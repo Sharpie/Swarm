@@ -233,6 +233,12 @@ PHASE(Using)
   return swarm_lookup_module (typeName);
 }
 
+- (void)verboseMessage: (const char *)str
+{
+  if ([arguments getVerboseFlag])
+    puts (str);
+}
+
 void
 _initSwarm_ (int argc, const char **argv, const char *appName,
              const char *version, const char *bugAddress,

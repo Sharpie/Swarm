@@ -35,6 +35,7 @@
 - (void)xfprint: obj;
 - (void)dumpDirectory;
 - (const char *)typeModule: (const char *)typeName;
+- (void)verboseMessage: (const char *)message;
 
 #import "SwarmEnvironment_getters.h"
 @end

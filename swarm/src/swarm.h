@@ -33,6 +33,7 @@ USING
 - (void)xfprint: obj;
 - (void)dumpDirectory;
 - (const char *)typeModule: (const char *)typeName;
+- (void)verboseMessage: (const char *)message;
 GETTERS
 - (id <Arguments>)getArguments;
 - (id <Symbol>)getStart;

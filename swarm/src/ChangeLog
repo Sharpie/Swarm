@@ -1,3 +1,7 @@
+2001-03-20  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* swarm.h, SwarmEnvironment.[hm]: Add -verboseMessage:.
+
 2001-02-27  Marcus G. Daniels  <mgd@maya.santafe.edu>
 
 	* SwarmEnvironment.m ([SwarmEnvironment
