@@ -136,26 +136,38 @@
                    (list next)
                    (cons ch next))))))
 
-(define (mapcar func l)
-    (if (null? l)
-        '()
-        (cons (func (car l)) (mapcar func (cdr l)))))
-
-(define (split string)
-    (mapcar (lambda (item)
-              (if (list? item)
-                  (split item)
-                  item))
-            (embed-split string)))
-
+(define (split str)
+    (let flatten-arg ((l (embed-split str)) (out-l '()))
+         (let ((last-string
+                (lambda ()
+                  (if (null? out-l)
+                      '()
+                      (list (list->string (reverse out-l)))))))
+           (if (null? l)
+               (last-string)
+               (let ((item (car l)))
+                 (if (list? item)
+                     (append
+                      (last-string)
+                      (flatten-arg item '())
+                      (flatten-arg (cdr l) '()))
+                     (flatten-arg (cdr l) (cons item out-l))))))))
+  
 (element PRIMARYIE
-         (let* ((linkends (attribute-string "LINKENDS"))
-                (target (element-with-id linkends))
-                (msg (debug (split "hi there silly boy"))))
-           (make element gi: "A"
-                 attributes: (list
-                              (list "HREF" (href-to target)))
-                 (process-children))))
+         (let* ((linkends-string (attribute-string "LINKENDS")))
+           (let loop ((linkends (split linkends-string)))
+                (if (null? linkends)
+                    (empty-sosofo)
+                    (sosofo-append
+                     (make element gi: "A"
+                           attributes: (list
+                                        (list "HREF"
+                                              (href-to
+                                               (element-with-id
+                                                (car linkends)))))
+                           (process-children))
+                     (make element gi: "BR" (empty-sosofo))
+                     (loop (cdr linkends)))))))
                                              
 </style-specification-body>
 </style-specification>

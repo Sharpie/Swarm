@@ -404,10 +404,18 @@
 
 (defun external-protocol-name (protocol)
   (let ((raw-protocol-name (protocol-name protocol)))
-    (if (string= (substring raw-protocol-name 0 1)
-                 "_")
+    (if (internal-protocol-p protocol)
         (substring raw-protocol-name 1)
         raw-protocol-name)))
+
+(defun get-method-signature (method)
+  (with-output-to-string (print-method-signature method)))
+
+(defun protocol-index (protocol)
+  (position protocol *protocol-list*))
+
+(defun method-signature-index (method-signature)
+  (position method-signature *method-signature-list* :test #'string=))
 
 (defun sgml-protocol-id (protocol)
   (let* ((cooked-protocol-name (external-protocol-name protocol)))
@@ -415,6 +423,10 @@
             (upcase (symbol-name (protocol-module protocol)))
             "."
             (upcase cooked-protocol-name))))
+
+(defun sgml-method-signature-id (protocol method-signature)
+  (concat (sgml-protocol-id protocol)
+          (format ".M%d" (method-signature-index method-signature))))
 
 (defun sgml-refentry-start (protocol)
   (insert "<REFENTRY ID=\"")
@@ -507,7 +519,10 @@
           (princ ":" stream))))
 
 (defun sgml-method-funcsynopsis (owner-protocol method)
-  (insert "<FUNCSYNOPSIS>\n")
+  (insert "<FUNCSYNOPSIS ID=\"")
+  (insert (sgml-method-signature-id owner-protocol
+                                    (get-method-signature method)))
+  (insert "\">\n")
   (insert "<FUNCPROTOTYPE>\n")
   (insert "<FUNCDEF>")
   (let ((return-type (method-return-type method)))
@@ -551,7 +566,7 @@
 (defun include-p (level protocol owner-protocol)
   (or (zerop level)
       (let ((owner-protocol-name (protocol-name owner-protocol)))
-        (when (string= (substring owner-protocol-name 0 1) "_")
+        (when (internal-protocol-p owner-protocol)
           (string=
            (substring (protocol-name owner-protocol) 1)
            (protocol-name protocol))))))
@@ -600,9 +615,6 @@
         (insert "</LISTITEM>\n"))
       (insert "</ITEMIZEDLIST>\n"))))
 
-(defun protocol-index (protocol)
-  (position protocol *protocol-list*))
-
 (defun sgml-examples (protocol)
   (let ((example-list (protocol-example-list protocol)))
     (when example-list
@@ -627,10 +639,8 @@
         count (method-example-list method)))
 
 (defun compare-method-signatures (method-a method-b)
-  (let* ((method-a-signature 
-          (with-output-to-string (print-method-signature method-a)))
-         (method-b-signature
-          (with-output-to-string (print-method-signature method-b))))
+  (let* ((method-a-signature (get-method-signature method-a))
+         (method-b-signature (get-method-signature method-b)))
     (string< method-a-signature method-b-signature)))
 
 (defun compare-methodinfo (a b)
@@ -639,11 +649,6 @@
     (if (string= protocol-name-a protocol-name-b)
         (compare-method-signatures (third a) (third b))
         (string< protocol-name-a protocol-name-b))))
-
-(defun method-signature-index (method-signature)
-  (let ((method-signature 
-         (with-output-to-string (print-method-signature method))))
-    (position method-signature *method-signature-list* :test #'string=)))
 
 (defun sgml-method-examples (protocol method)
   (when (method-example-list method)
@@ -684,8 +689,11 @@
           (sgml-methods-for-phase protocol phase)))
   (insert "</REFSECT2>\n"))
 
+(defun internal-protocol-p (protocol)
+  (string= (substring (protocol-name protocol) 0 1) "_"))
+
 (defun generate-refentry-for-protocol (protocol)
-  (unless (string= (substring (protocol-name protocol) 0 1) "_")
+  (unless (internal-protocol-p protocol)
     (sgml-refentry-start protocol)
     (sgml-refmeta protocol)
     (sgml-namediv protocol)
@@ -723,9 +731,9 @@
         do
         (loop for method in (protocol-method-list protocol)
               do
-              (setf (gethash 
-                     (with-output-to-string (print-method-signature method))
-                     *method-signature-hash-table*) method))))
+              (push (cons protocol method)
+                    (gethash (get-method-signature method)
+                             *method-signature-hash-table*)))))
 
 (defun build-protocol-vector ()
   (setq *protocol-list*
@@ -736,7 +744,7 @@
              (string< (protocol-name protocol-a)
                       (protocol-name protocol-b))))))
 
-(defun build-method-vector ()
+(defun build-method-signature-vector ()
   (setq *method-signature-list*
         (sort
          (loop for method-signature being each hash-key of
@@ -757,7 +765,32 @@
   (insert "<INDEXDIV>\n")
   (insert "<TITLE>Protocol Index</TITLE>\n")
   (loop for protocol in *protocol-list*
+        unless (internal-protocol-p protocol)
         do (sgml-protocol-indexentry protocol))
+  (insert "</INDEXDIV>\n"))
+
+(defun sgml-method-signature-indexentry (method-signature)
+  (insert "<INDEXENTRY>\n")
+  (insert "<PRIMARYIE LINKENDS=\"")
+  (let ((protocol.method-list (gethash method-signature
+                                       *method-signature-hash-table*))
+        (space ""))
+    (loop for protocol.method in protocol.method-list
+          do
+          (insert space)
+          (insert (sgml-method-signature-id (car protocol.method)
+                                            method-signature))
+          (setq space " ")))
+  (insert "\">")
+  (insert method-signature)
+  (insert "</PRIMARYIE>\n")
+  (insert "</INDEXENTRY>\n"))
+
+(defun sgml-generate-method-signature-index ()
+  (insert "<INDEXDIV>\n")
+  (insert "<TITLE>Method Index</TITLE>\n")
+  (loop for method-signature in *method-signature-list*
+        do (sgml-method-signature-indexentry method-signature))
   (insert "</INDEXDIV>\n"))
 
 (defun sgml-generate-index ()
@@ -765,7 +798,7 @@
     (insert "<INDEX ID=\"CLASS.INDEX\">\n")
     (insert "<TITLE>Index</TITLE>\n")
     (sgml-generate-protocol-index)
-    ;; (generate-method-signature-index)
+    (sgml-generate-method-signature-index)
     (insert "</INDEX>\n")))
 
 (defun run-all ()
@@ -774,7 +807,7 @@
   (expand-protocols)
   (build-method-signature-hash-table)
   (build-protocol-vector)
-  (build-method-vector)
+  (build-method-signature-vector)
   (sgml-generate-modules)
   (sgml-generate-index))
 
