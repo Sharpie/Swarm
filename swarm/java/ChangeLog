@@ -1,3 +1,7 @@
+2001-11-04    <mgd@HELEN>
+
+	* Makefile.am (install): Add install-binSCRIPTS as a dependency.
+
 2001-08-10  Marcus G. Daniels  <mgd@condor.santafe.edu>
 
 	* java-stub.el (java-type-category-to-java-type): Always use

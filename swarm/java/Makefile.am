@@ -25,14 +25,14 @@ stubs_INSTALL=install-stubs
 
 
 all: $($(JAVASTUBS)_ALL)
-install: $($(JAVASTUBS)_INSTALL)
+install: $($(JAVASTUBS)_INSTALL) install-binSCRIPTS
 	test -z "$(KAWAJAR)" || $(INSTALL) $(srcdir)/$(KAWAJAR) $(datadir)/swarm/kawa.jar
 
 all-stubs: stubs
 	$(MAKE) -C c all
 	$(MAKE) -C swarm all
 
-install-stubs: all
+install-stubs: all 
 	$(MAKE) -C c install
 	$(MAKE) -C swarm install
 
