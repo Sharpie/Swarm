@@ -1,0 +1,5 @@
+<!entity collectionscont.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Content//EN">
+<!entity collectionsrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Revision History//EN">
+<!entity collectionsmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Metadata//EN">
+<!entity collections00.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Introduction//EN">
+<!entity collectionspages.sgml PUBLIC "-//SFI Hive//ENTITIES Collections Generated Content//EN">
