@@ -6,6 +6,12 @@
 (require 'protocol)
 (require 'interface) ; get-variable-name-for-getter-method
 
+(defun print-arg (argument)
+  (let ((type (argument-type argument)))
+    (insert ":")
+    (when type (insert type))
+    (insert (argument-name argument))))
+
 (defun print-method-declaration (method)
   (insert (if (method-factory-flag method) "+" "-"))
   (insert " ")
@@ -14,15 +20,16 @@
       (insert "(")
       (insert ret)
       (insert ")")))
-  (loop for argument in (method-arguments method)
-        do
-        (insert (first argument))
-        (unless (argument-empty-p argument)
-          (insert ": ")
-          (when (second argument)
-            (insert (second argument)))
-          (insert (third argument)))))
-  
+  (let* ((arguments (method-arguments method))
+         (first-argument (first arguments)))
+    (insert (argument-key first-argument))
+    (when (has-arguments-p method)
+      (print-arg first-argument)
+      (loop for argument in (cdr arguments)
+            do
+            (insert (argument-key argument))
+            (print-arg argument)))))
+
 (defun generate-getters-header (protocol)
   (with-temp-file (concat (get-swarmsrcdir) "src/"
                           (protocol-name protocol) "_getters.h")

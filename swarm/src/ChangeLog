@@ -1,3 +1,9 @@
+2000-07-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* getters.el (print-arg): New function.
+	(print-method-declaration): Use it.  Rewrite to avoid calls
+	to argument-empty-p in the argument loop.
+
 2000-07-22  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* swarm.h, SwarmEnvironment.m ([SwarmEnvironment
