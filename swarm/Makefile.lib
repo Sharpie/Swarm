@@ -37,14 +37,16 @@ clean:
 	-rm -f core $(OBJECTS) $(OTHERCLEAN)
 
 $(INCFILE): $(LIBNAME).h
-	$(INSTALLHEADERS) $(LIBNAME).h $(INCFILE)
+	rm -f $(INCFILE)/$(LIBNAME).h
+	cp -p $(LIBNAME).h $(INCFILE)
 
 # INCINSTALLED is a rule that touches a magic file to make sure that
 # installed headers are up to date. Unsubtle (if one .h file is changed,
 # it installs them all) but it seems to work.
 $(INCINSTALLED): $(HEADERS)
 	if [ ! -d $(INCLIB) ]; then mkdir $(INCLIB); fi
-	$(INSTALLHEADERS) $(HEADERS) $(INCLIB)
+	cd $(INCLIB); rm -f $(HEADERS)
+	cp -p $(HEADERS) $(INCLIB)
 	touch $(INCINSTALLED)
 
 $(LIBRARY): $(OBJECTS)
