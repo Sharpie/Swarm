@@ -63,9 +63,10 @@ PHASE(Creating)
   return newMap;
 }
 
-- (void) setCompareFunction: (int(*)(id,id))compareFunction
+- setCompareFunction: (compare_t)compareFunction
 {
   compareFunc = compareFunction;
+  return self;
 }
 
 - createEnd

@@ -27,7 +27,7 @@ typedef struct mapentry {
 }
 /*** methods in Map_c (inserted from .m file by m2h) ***/
 + createBegin: aZone;
-- (void)setCompareFunction: (compare_t)compareFunc;
+- setCompareFunction: (compare_t)compareFunc;
 - (compare_t)getCompareFunction;
 - createEnd;
 - copy: aZone;
