@@ -95,12 +95,6 @@
 
 (defvar *com-uuid-hash-table* (make-hash-table :test #'equal))
 
-(defvar *extra-removed-methods* '("-addJavaObject:"
-                                  "-setJavaMethod:inObject:"))
-
-(defvar *extra-unwanted-create-method-signatures*
-  '("+create:setAutoDrop:"))
-
 (defun com-phase-name (protocol phase)
   (concat (protocol-name protocol) (suffix-for-phase phase)))
 
@@ -640,7 +634,15 @@
     (insert "\n")
     (insert "NS_IMPL_NSGETMODULE(\"swarmModule\", components)\n")))
 
+(defun com-init ()
+  (setq *extra-removed-methods* '("-addJavaObject:"
+                                  "-setJavaMethod:inObject:"))
+  
+  (setq *extra-unwanted-create-method-signatures*
+        '("+create:setAutoDrop:")))
+
 (defun run ()
+  (com-init)
   (let ((*idl-flag* t))
     (load-and-process-modules :uniquify-method-lists t))
   (print-makefile.common)
