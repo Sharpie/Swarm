@@ -12,6 +12,7 @@
 
 @interface TestObject: SwarmObject
 {
+@public
   int firstInt;
   long long longLong;
   char firstChar;

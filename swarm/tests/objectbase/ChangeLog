@@ -1,3 +1,7 @@
+2004-02-25  Marcus G. Daniels <mgd@santafe.edu>
+
+        * ProbeTest.m (TestObject): Make ivars public.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarm 2.1.1 frozen.

@@ -1,3 +1,8 @@
+2004-02-25  Marcus G. Daniels <mgd@santafe.edu>
+
+	* HDF5Object.m (get_attribute_string_list, [HDF5_c loadDataset:]):
+	Like 02-19.
+
 2004-02-23  Marcus G. Daniels <mgd@santafe.edu>
 
 	* HDF5Object.m (store_string): Disable call to 
