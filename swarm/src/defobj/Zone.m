@@ -14,7 +14,7 @@ Library:      defobj
 
 #import <collections/List_linked.h>
 
-#include <misc.h> // memset, xmalloc
+#include <misc.h> // memset, xmalloc, XFREE
 
 //
 // temporary hack to guarantee double word alignment of allocations
@@ -48,7 +48,7 @@ void *dalloc (size_t blockSize)
                "Standard fixup taken, execution continuing...\n" );
     }
   
-  xfree (block);
+  XFREE (block);
   block = xmalloc (blockSize + 7);
   return ((void *)(((unsigned long)block + 7) & ~0x7));
 }
@@ -198,7 +198,7 @@ PHASE(Using)
       memset ((id *)anObject - 2, _obj_fillfree,
               getClass (anObject)->instance_size + (2 * sizeof (id)));
     }
-  xfree ((id *)anObject - 2);
+  XFREE ((id *)anObject - 2);
 }
 
 //
@@ -275,7 +275,7 @@ PHASE(Using)
       memset ((id *)anObject, _obj_fillfree,
               getClass (anObject)->instance_size);
     }
-  xfree (anObject);
+  XFREE (anObject);
 }
 
 //
@@ -312,7 +312,7 @@ PHASE(Using)
 {
   if (_obj_debug)
     allocCount--;
-  xfree (aBlock);
+  XFREE (aBlock);
 }
 
 //
@@ -337,7 +337,7 @@ PHASE(Using)
 //
 // freeBlock: -- free block allocated by allocBlock: or copyBlock:
 //
-- (void) freeBlock: (void *)aBlock blockSize: (size_t)size
+- (void)freeBlock: (void *)aBlock blockSize: (size_t)size
 {
   if (_obj_debug)
     {
@@ -345,7 +345,7 @@ PHASE(Using)
       blockTotal -= size;
       memset (aBlock, _obj_fillfree, size);
     }
-  xfree (aBlock);
+  XFREE (aBlock);
 }
 
 //
