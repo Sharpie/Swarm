@@ -1,18 +1,22 @@
-<BOOKINFO>
-  <TITLE>Reference Guide for Swarm &swarm-release-number;</TITLE> 
+<bookinfo>
+  <title>Reference Guide for Swarm &swarm-release-number;</title> 
 
-  <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER">
+  <mediaobject>
+    <imageobject>
+      <imagedata entityref="booktitlelogo" align="center" scale="98"/>
+    </imageobject>
+  </mediaobject>
 
-  <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
+  <corpauthor>&corpauthor;</corpauthor>
  
   &bibliodata;
   &doc-legalnotice;
   &swarm-legalnotice;
   
-  <ABSTRACT>
-      <TITLE>Overview</TITLE>
+  <abstract>
+      <title>Overview</title>
 
-      <PARA>Swarm is a collection of libraries against which you link
+      <para>Swarm is a collection of libraries against which you link
         your simulation code. This document describes the interface
         for those core libraries.
 
@@ -23,21 +27,21 @@
           in the &userbook;.  In the interests of conserving paper,
           the grid turtle example programs are available in
           <filename>tar.gz</filename> format from the Swarm ftp site
-          (see <xref linkend="swarm.grid.sgml.appendix">) and pointers
+          (see <xref linkend="SWARM.GRID.SGML.APPENDIX"/>) and pointers
           to the full text of the LGPL and GPL licenses (see <xref
-          linkend="swarm.license.sgml.appendix">) are provided rather
+          linkend="SWARM.LICENSE.SGML.APPENDIX"/>) are provided rather
           than the full text itself.
         </para>
       </important>
 
-    </PARA>
+    </para>
 
-  </ABSTRACT>
-  &refbookrevhistory.sgml;
-</BOOKINFO>
+  </abstract>
+  &refbookrevhistory.xml;
+</bookinfo>
 
 <!--
 Local Variables:
-sgml-parent-document:("refbook.sgml" "BOOKINFO")
+sgml-parent-document:("refbook.xml" "bookinfo")
 End:
 -->

@@ -1,0 +1,12 @@
+<reference id="SWARM.SGML.REFERENCE">
+<title>Startup protocol</title>
+<titleabbrev>SwarmEnvironment</titleabbrev>
+
+&swarmpages.xml;
+
+</reference>
+<!--
+Local Variables:
+sgml-parent-document:("refbook.xml" "reference")
+End:
+-->

@@ -1,0 +1,31 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd" [
+
+<!ENTITY % global.ent PUBLIC "-//SFI Hive//ENTITIES Globals//EN"
+"ignore.sysid">
+%global.ent;
+
+<!ENTITY % versions.ent PUBLIC "-//SFI Hive//ENTITIES Versions//EN"
+"ignore.sysid">
+%versions.ent;
+
+<!ENTITY % refbook.ent PUBLIC "-//SFI Hive//ENTITIES Reference List//EN"
+"ignore.sysid">
+%refbook.ent;
+
+<!ENTITY % figs.ent PUBLIC "-//SFI Hive//ENTITIES Figure List//EN"
+"ignore.sysid">
+%figs.ent;
+
+<!ENTITY lt     "&#38;#60;">
+<!ENTITY gt     "&#62;"> 
+
+]>
+
+<book id="refbook">
+
+<title>Reference Guide to Swarm &swarm-release-number;</title>
+
+&refcont.xml;
+
+</book>

@@ -1,47 +1,67 @@
-<!entity % activity.entities PUBLIC "-//SFI Hive//ENTITIES Activity List//EN">
+<!ENTITY % activity.entities PUBLIC "-//SFI Hive//ENTITIES Activity List//EN"
+"ignore.sysid">
 %activity.entities;
 
-<!entity % analysis.entities PUBLIC "-//SFI Hive//ENTITIES Analysis List//EN">
+<!ENTITY % analysis.entities PUBLIC "-//SFI Hive//ENTITIES Analysis List//EN"
+"ignore.sysid">
 %analysis.entities;
 
-<!entity % collections.entities PUBLIC "-//SFI Hive//ENTITIES Collections List//EN">
+<!ENTITY % collections.entities PUBLIC "-//SFI Hive//ENTITIES Collections List//EN"
+"ignore.sysid">
 %collections.entities;
 
-<!entity % defobj.entities PUBLIC "-//SFI Hive//ENTITIES Defobj List//EN">
+<!ENTITY % defobj.entities PUBLIC "-//SFI Hive//ENTITIES Defobj List//EN"
+"ignore.sysid">
 %defobj.entities;
 
-<!entity % gui.entities PUBLIC "-//SFI Hive//ENTITIES GUI List//EN">
+<!ENTITY % gui.entities PUBLIC "-//SFI Hive//ENTITIES GUI List//EN"
+"ignore.sysid">
 %gui.entities;
 
-<!entity % objectbase.entities PUBLIC "-//SFI Hive//ENTITIES Objectbase List//EN">
+<!ENTITY % objectbase.entities PUBLIC "-//SFI Hive//ENTITIES Objectbase List//EN"
+"ignore.sysid">
 %objectbase.entities;
 
-<!entity % random.entities PUBLIC "-//SFI Hive//ENTITIES Random List//EN">
+<!ENTITY % random.entities PUBLIC "-//SFI Hive//ENTITIES Random List//EN"
+"ignore.sysid">
 %random.entities;
 
-<!entity % simtools.entities PUBLIC "-//SFI Hive//ENTITIES Simtools List//EN">
+<!ENTITY % simtools.entities PUBLIC "-//SFI Hive//ENTITIES Simtools List//EN"
+"ignore.sysid">
 %simtools.entities;
 
-<!entity % simtoolsgui.entities PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI List//EN">
+<!ENTITY % simtoolsgui.entities PUBLIC "-//SFI Hive//ENTITIES SimtoolsGUI List//EN"
+"ignore.sysid">
 %simtoolsgui.entities;
 
-<!entity % space.entities PUBLIC "-//SFI Hive//ENTITIES Space List//EN">
+<!ENTITY % space.entities PUBLIC "-//SFI Hive//ENTITIES Space List//EN"
+"ignore.sysid">
 %space.entities;
 
-<!entity % tech.entities PUBLIC "-//SFI Hive//ENTITIES Tech List//EN">
-%tech.entities;
+<!ENTITY refmeta.xml PUBLIC "-//SFI Hive//ENTITIES Reference Metadata//EN"
+"ignore.sysid">
+<!ENTITY refcont.xml PUBLIC "-//SFI Hive//ENTITIES Reference//EN"
+"ignore.sysid">
+<!ENTITY ref00.xml PUBLIC "-//SFI Hive//ENTITIES Reference Preface//EN"
+"ignore.sysid">
+<!ENTITY ref00a.xml PUBLIC "-//SFI Hive//ENTITIES Reference Changes//EN"
+"ignore.sysid">
+<!ENTITY refindex.xml PUBLIC "-//SFI Hive//ENTITIES Reference Index//EN"
+"ignore.sysid">
+<!ENTITY grid-app.xml PUBLIC "-//SFI Hive//ENTITIES Grid Turtle//EN"
+"ignore.sysid">
+<!ENTITY gridexamples.xml PUBLIC "-//SFI Hive//ENTITIES Grid Turtle Examples//EN"
+"ignore.sysid">
+<!ENTITY probes-app.xml PUBLIC "-//SFI Hive//ENTITIES Probes//EN"
+"ignore.sysid">
+<!ENTITY conventions-app.xml PUBLIC "-//SFI Hive//ENTITIES Conventions//EN"
+"ignore.sysid">
+<!ENTITY license-app.xml PUBLIC "-//SFI Hive//ENTITIES License//EN"
+"ignore.sysid">
+<!ENTITY refbookrevhistory.xml PUBLIC "-//SFI Hive//ENTITIES Reference Revision History//EN"
+"ignore.sysid">
 
-<!entity refmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Metadata//EN">
-<!entity refcont.sgml PUBLIC "-//SFI Hive//ENTITIES Reference//EN">
-<!entity ref00.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Preface//EN">
-<!entity ref00a.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Changes//EN">
-<!entity refindex.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Index//EN">
-<!entity grid-app.sgml PUBLIC "-//SFI Hive//ENTITIES Grid Turtle//EN">
-<!entity gridexamples.sgml PUBLIC "-//SFI Hive//ENTITIES Grid Turtle Examples//EN">
-<!entity probes-app.sgml PUBLIC "-//SFI Hive//ENTITIES Probes//EN">
-<!entity conventions-app.sgml PUBLIC "-//SFI Hive//ENTITIES Conventions//EN">
-<!entity license-app.sgml PUBLIC "-//SFI Hive//ENTITIES License//EN">
-<!entity refbookrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Reference Revision History//EN">
-
-<!entity swarmcont.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Content//EN">
-<!entity swarmpages.sgml PUBLIC "-//SFI Hive//ENTITIES Swarm Generated Content//EN">
+<!ENTITY swarmcont.xml PUBLIC "-//SFI Hive//ENTITIES Swarm Content//EN"
+"ignore.sysid">
+<!ENTITY swarmpages.xml PUBLIC "-//SFI Hive//ENTITIES Swarm Generated Content//EN"
+"ignore.sysid">

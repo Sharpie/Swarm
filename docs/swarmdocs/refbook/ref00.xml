@@ -1,29 +1,26 @@
-<PREFACE ID="SWARM.REFERENCE.SGML.PREFACE">
-  <TITLE>Preface</TITLE>
+<preface id="SWARM.REFERENCE.SGML.PREFACE">  <title>Preface</title>
 
-    <SIMPLESECT>
-      <TITLE>The Swarm Hive</TITLE>
+    <simplesect>      <title>The Swarm Hive</title>
 
-      <PARA>
+      <para>
         The &swarm-webpage; is the place to obtain both new software
         releases and documentation for Swarm.  We welcome comments
         about Swarm and it's documentation.
-       </PARA>
+       </para>
 
-      <PARA>
-        You can also mail comments to the <LITERAL>Swarm
-        Support</LITERAL> mailing list.  See the &swarm-mailing-lists;
+      <para>
+        You can also mail comments to the <literal>Swarm
+        Support</literal> mailing list.  See the &swarm-mailing-lists;
         for instructions on how to join this list.
-      </PARA>
-    </SIMPLESECT>
+      </para>
+    </simplesect>
 
-    <SIMPLESECT>
-      <TITLE>Acknowledgments</TITLE>
+    <simplesect>      <title>Acknowledgments</title>
 
-      <PARA>The Swarm project was initiated by Chris Langton (now at
+      <para>The Swarm project was initiated by Chris Langton (now at
       the Swarm Corporation).  Roger Burkhart (John Deere, now at
       VantagePoint Network), Nelson Minar (now at the MIT Media Lab), Glen
-      Ropella (now at Swarm Corporation), Manor Askenazi (now at Coopers &
+      Ropella (now at Swarm Corporation), Manor Askenazi (now at Coopers &amp;
       Lybrand), Irene Lee (SDG), Vladimir Jojic (UIUC), and Alex Lancaster
       (Santa Fe Institute) have all been active in the design and
       programming of Swarm.  Marcus Daniels is the current maintainer and
@@ -41,15 +38,12 @@
       extraordinaire.  Finally, many thanks go out to the Swarm user
       community, particularly those who have stuck with us from the
       beginning.
-    </PARA>
+    </para>
 
-  </SIMPLESECT>
-
-</PREFACE>
-
-
+  </simplesect>
+</preface>
 <!--
 Local Variables:
-sgml-parent-document:("refbook.sgml" "PREFACE")
+sgml-parent-document:("refbook.xml" "preface")
 End:
 -->

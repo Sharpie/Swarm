@@ -1,0 +1,29 @@
+<appendix id="SWARM.LICENSE.SGML.APPENDIX">  
+  <title>Licenses for Distribution of Swarm and Applications</title>
+
+  <important>    <title>Distribution Terms</title>
+    <itemizedlist>      <listitem>        <formalpara>          <title>Swarm libraries</title>
+          <para> Swarm is distributed under
+            the GNU <ulink url="http://www.gnu.org/copyleft/lgpl.html">Library General
+            Public License</ulink> (<acronym>LGPL</acronym>).
+          </para>
+        </formalpara>
+      </listitem>
+      <listitem>        <formalpara>          <title>Swarm example applications and documentation</title>
+          <para>The Swarm example applications and the Swarm
+            documentation are distributed under the GNU <ulink url="http://www.gnu.org/copyleft/gpl.html">General
+            Public License</ulink> (<acronym>GPL</acronym>).</para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
+
+    <para>More information on these GNU LGPL and GPL, and free
+      software in general, please consult the <ulink url="http://www.gnu.org">Free Software
+      Foundation</ulink>.</para>
+  </important>
+  </appendix>
+<!--
+Local Variables:
+sgml-parent-document:("refbook.xml" "appendix")
+End:
+-->

@@ -1,0 +1,51 @@
+<!-- book metainformation -->
+&refmeta.xml; 
+
+<!-- preface -->
+&ref00.xml;
+
+<!-- compatibility/changes -->
+&ref00a.xml;
+
+<!-- list of REFERENCES -->
+&swarmcont.xml;
+&defobjcont.xml;
+&collectionscont.xml;
+&activitycont.xml;
+&objectbasecont.xml;
+&randomcont.xml;
+&simtoolscont.xml;
+&simtoolsguicont.xml;
+&guicont.xml;
+&analysiscont.xml;
+&spacecont.xml;
+
+<!-- appendices -->
+
+<!-- grid turtle examples -->
+&grid-app.xml;
+
+<!-- random library appendix -->
+<!-- &random-app.xml; -->
+
+<!-- probes -->
+<!-- &probes-app.xml; -->
+
+<!-- technical tips appendix -->
+<!-- &techcont.xml; -->
+
+<!-- library interface conventions -->
+&conventions-app.xml;
+
+<!-- licenses -->
+&license-app.xml;
+
+<!-- GNU LGPL -->
+<!-- &lgpl-app.xml; -->
+
+<!-- GNU GPL -->
+<!-- &gpl-app.xml; -->
+
+<!-- index -->
+&refindex.xml;
+

@@ -9,32 +9,32 @@ swarm_ChangeLog =
 include $(top_srcdir)/Makefile.rules
 include $(top_srcdir)/refbook/Makefile.rules
 
-PAGES = activity/activitypages.sgml \
-	analysis/analysispages.sgml \
-	collections/collectionspages.sgml \
-	defobj/defobjpages.sgml \
-	gui/guipages.sgml \
-	objectbase/objectbasepages.sgml \
-	random/randompages.sgml \
-	simtools/simtoolspages.sgml \
-	simtoolsgui/simtoolsguipages.sgml \
-	space/spacepages.sgml \
-	swarmpages.sgml
+PAGES = activity/activitypages.xml \
+	analysis/analysispages.xml \
+	collections/collectionspages.xml \
+	defobj/defobjpages.xml \
+	gui/guipages.xml \
+	objectbase/objectbasepages.xml \
+	random/randompages.xml \
+	simtools/simtoolspages.xml \
+	simtoolsgui/simtoolsguipages.xml \
+	space/spacepages.xml \
+	swarmpages.xml
 
-GENERATED_SGML = $(PAGES) refindex.sgml refbookrevhistory.sgml
-nodist_noinst_DATA = $(GENERATED_SGML)
+GENERATED_XML = $(PAGES) refindex.xml refbookrevhistory.xml
+nodist_noinst_DATA = $(GENERATED_XML)
 
 ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 
-SGML = conventions-app.sgml license-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml swarmcont.sgml refmeta.sgml grid-app.sgml
+XML = conventions-app.xml license-app.xml probes-app.xml ref00.xml ref00a.xml refbook.xml refcont.xml swarmcont.xml refmeta.xml grid-app.xml
 
-EXTRA_DIST = Makefile.rules refbook.ent sgml.el graph.el $(SGML)
+EXTRA_DIST = Makefile.rules refbook.ent sgml.el graph.el $(XML)
 
-SGML_FILES = $(SGML) $(ENT) $(GENERATED_SGML)
+XML_FILES = $(XML) $(ENT) $(GENERATED_XML)
 
 sgml.elc: $(abs_top_builddir)/common.elc $(abs_top_builddir)/protocol.elc
 
-refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
+refindex.xml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/analysis/analysis.h \
 	$(swarm_srcdir)/src/collections/collections.h \
 	$(swarm_srcdir)/src/defobj/defobj.h \

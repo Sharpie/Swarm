@@ -1,5 +1,5 @@
-EXTRA_DIST = $(MODULE).ent $(MODULE)00.sgml $(MODULE)cont.sgml $(MODULE)meta.sgml
-nodist_noinst_DATA = $(MODULE)revhistory.sgml
+EXTRA_DIST = $(MODULE).ent $(MODULE)00.xml $(MODULE)cont.xml $(MODULE)meta.xml
+nodist_noinst_DATA = $(MODULE)revhistory.xml
 
 swarm_ChangeLog = $(swarm_srcdir)/src/$(MODULE)/ChangeLog
 

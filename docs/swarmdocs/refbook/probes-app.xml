@@ -1,0 +1,480 @@
+<appendix id="SWARM.PROBING.SGML.APPENDIX">  
+<docinfo> <title>Probes, ProbeMaps and ProbeDisplays</title></docinfo>
+
+  <title>Probing and Displaying the Contents of a SwarmObject</title>
+  
+  <sect1>    <title>Overview</title>
+    
+    <figure id="SWARM.PROBING.COMPLETE-PROBE-MAP.FIGURE">      <title>Complete probe map</title>
+      <graphic entityref="complete-probe-map" align="CENTER" scale="50"></graphic>
+    </figure>
+    
+  </sect1>
+  
+  <sect1>    <title>The Framework</title>
+  
+    <para> Probes, ProbeMaps and ProbeDisplays allow the user to
+      dynamically interact with the objects in their simulation. By
+      <emphasis>interaction</emphasis> we mean reading/setting
+      instance variables as well as dynamically generating method
+      calls. The main point being that these interactions are not
+      hardwired into the program code, but occur due to user-generated
+      requests, mainly through the provided GUI.
+    </para>
+    
+    <para> The key to this capability is the Probe: in general a
+        probe takes an object and either extracts the value of a
+        specific variable, or calls a specific method. For this
+        purpose we provide two subclasses: <literal>VarProbe</literal>
+        and <literal>MessageProbe</literal>.
+    </para>
+
+    <para>There are two main uses for probes: they can be fed into
+      data-collection objects and serve as interfaces to the objects
+      about which data is being collected (thus keeping the
+      data-collection objects as general as possible) - the Averager
+      class, for example, directly subclasses MessageProbe. Or, they
+      can be used in order to generate a GUI to the individual objects
+      in the simulation (the more common usage).
+    </para>
+    
+    <para>In order to generate a graphical version of a given probe,
+      the programmer must place it inside a
+      <literal>ProbeDisplay</literal>, which will automagically
+      generate a window with the appropriate interface. Since, more
+      often than not, the programmer will want to generate windows
+      with more than one variable, we have designed the ProbeDisplay
+      to deal with <literal>ProbeMap</literal>s rather than individual
+      probes. Thus, by generating a ProbeMap containing exactly the
+      right probes, a user is able to customise the window generated
+      by the ProbeDisplay.
+    </para>
+
+    <para>In order to facilitate the creation of all these different
+      objects, the Swarm kernel provides some alternative methods for
+      Probe/Map/Display generation:
+
+      <itemizedlist>        <listitem><formalpara> 
+            <title>Direct Generation</title>
+            <para> which leaves the user in charge of all the
+            details.</para>
+
+          </formalpara>
+        </listitem>
+
+        <listitem><formalpara> 
+            <title>Object Generation</title>
+            <para>              (<literal>Probes/ProbeMaps</literal>) - where we use
+              method calls (defined in SwarmObject) on a given target
+              object to generate the Probe/ProbeMap for that
+              object. This allows the object to be aware that it is
+              being probed and to control directly the contents of the
+              Probe/ProbeMap being requested...</para>
+          </formalpara></listitem>
+
+        <listitem><formalpara> <title>Library Generation</title>
+            
+            <para>(<literal>Probes/ProbeMaps</literal>) - where the
+            programmer "checks out" a unique, shared copy of a
+            Probe/ProbeMap from the <literal>probeLibrary</literal>
+            object (of class <literal>ProbeLibrary</literal>) provided
+            by the kernel. By shared we mean that a similar request
+            made at a different point in the code, will return a
+            reference to the very same probe instance.  <emphasis>Note
+            that, by default, Object Generation is equivalent to
+            Library Generation since the default behaviour of
+            SwarmObjects, when requested to create a ProbeMap, is to
+            return a reference to the probeLibrary's unique
+            copy!!!</emphasis>
+            </para>
+          </formalpara></listitem>
+        
+        <listitem><formalpara> <title>ProbeDisplayManager
+            Generation</title>
+            <para>(<literal>ProbeDisplays</literal>) - where the
+            programmer generates a ProbeDisplay directly, by
+            requesting it from the
+            <literal>probeDisplayManager</literal> object (of class
+            <literal>ProbeDisplay</literal>) provided by the kernel
+            (in graphics mode). The probeDisplayManager will create
+            the ProbeDisplay based on a ProbeMap given to it by the
+            probed object. Note: since the probeDisplayManager is only
+            created in graphics mode, it is documented in the simtools
+            area of the documentation. Here we emphasise simply that
+            in order to generate a ProbeDisplay onto an object the
+            programmer need only write the following line of code:
+
+<programlisting>[probeDisplayManager createProbeDisplayFor: anObject] ;</programlisting>
+
+              And that the contents of the returned ProbeDisplay will
+              be based on a ProbeMap obtained from the probed object
+              itself.  </para>
+          </formalpara></listitem>
+      </itemizedlist></para>
+
+  </sect1>
+  
+  <sect1>    <title>Probe support in objectbase</title>  
+    <sect2>      <title>Overview</title>
+      
+      <para>
+        Probe support resident in the <emphasis><link linkend="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</link></emphasis> library
+        is documented with that library. Extra description, above and
+        beyond the bare interface description for precision probing
+        and SwarmObject is below:</para>
+
+    </sect2>
+        
+    <sect2>      <title>Precision setting for floating-point numbers with
+      probes</title>
+
+      <simplesect><title>Global setting of precision</title>
+
+        <para>There are two types of global precision setting via
+          <link linkend="SWARM.OBJECTBASE.PROBELIBRARY.PROTOCOL">ProbeLibrary</link>:
+        </para>
+
+        <itemizedlist>          <listitem>            <formalpara><title>-setDisplayPrecision: (int)
+                nSigFigsSaved</title> 
+
+              <para>Sets the number of significant figures for
+                floating point (and double-floating) numbers diplayed
+                on a GUI widget. Currently this is only implemented
+                for VarProbes. The display uses the %*g sprintf-style
+                formatting, which can vary slightly from
+                implementation to implementation. If you set the
+                number of significant figures to 3, then a float of
+                value of 0.6344346 is displayed as 0.634 on the GUI
+                widget.Note that this in no way affects the underlying
+                stored value of the floating point number.</para>
+            </formalpara></listitem>
+          
+          <listitem><formalpara> 
+              <title>-setSavedPrecision: (int) nSigFigsSaved</title>
+
+              <para>Sets the global default for the saving of floats
+                through ObjectSaver. All objects with floats and
+                doubles as instance variables are saved with the
+                precision specified by this method. This is
+                <emphasis>independent</emphasis> of the displayed
+                precision of the same instance variable on a GUI
+                widget.</para>
+
+            </formalpara></listitem>
+        </itemizedlist>
+
+        <para>To actually initialise these defaults: in the top level
+          swarm, you should add the calls to the global ProbeLibrary
+          instance (which is actually created by the initSwarm call in
+          main) during the - createBegin method (this sets the
+          precision in the global instance,
+          <emphasis>before</emphasis> any probes are checked out of
+          the instance. If neither method is called on probeLibrary,
+          then the precision defaults to six significant figures in
+          both cases.
+        </para>
+
+        <example>          <title>Global setting precision in
+          <literal>HeatbugObserverSwarm.m</literal></title> 
+
+<programlisting><![CDATA[+ createBegin: aZone
+{
+  HeatbugObserverSwarm * obj;
+  id <ProbeMap> probeMap;
+
+  [...]
+  
+  probeMap = [EmptyProbeMap createBegin: aZone];
+  [probeMap setProbedClass: [self class]];
+  probeMap = [probeMap createEnd];
+  <emphasis>  // set the display defaults</emphasis>
+  [probeLibrary setDisplayPrecision: 3];
+  <emphasis>  // typically saved precision would be higher than displayed precision
+  // for statistical and data analysis purposes</emphasis>
+  [probeLibrary setSavedPrecision: 10]; 
+
+  // Add in a bunch of variables, one per simulation parameters
+  [probeMap addProbe: [probeLibrary getProbeForVariable: "displayFrequency"
+				    inClass: [self class]]];
+  [...]
+
+  // Now install our custom probeMap into the probeLibrary.
+  [probeLibrary setProbeMap: probeMap For: [self class]];
+  return obj;
+}]]></programlisting>
+          
+        </example>
+        
+      </simplesect>
+      
+      <simplesect>        
+        <title>Setting precision for individual probes</title>
+
+        <para> The formatting for an individual probe can be set
+          directly, using a sprintf-style formatting
+          string. Typically, <literal>customProbeMaps</literal> are
+          created in the <literal>+ createBegin</literal> factory
+          method for a Swarm or a SwarmObject. To set the formatting
+          for a floating point probe, the method from <literal><link linkend="SWARM.OBJECTBASE.VARPROBE.PROTOCOL">VarProbe</link></literal>
+          is used:
+        </para>
+
+        <itemizedlist>          <listitem>            <formalpara>              <title>-setFormatFloat: (const char *)floatFormat</title> 
+              
+              <para>is applied to the instance
+                of the VarProbe "checked-out" of the global probe
+                library instance. The sprintf-formatting string can
+                "over-ride" the "%g" format set by the global precision
+                (as above) (Typically "%g" chooses between the "%f" and
+                "%e", depending on the size of the exponent - which is
+                implementation-dependent - this method allows you to
+                explicitly set the type of display).</para>
+            </formalpara>
+            
+          </listitem>
+        </itemizedlist>
+
+        <para>In the following example, it is desired that the number
+          of significant figures for the floating point variable
+          <literal>randomMoveProbability</literal> is three (3).
+          Currently (Swarm 1.0.5) this is only works for
+          <literal>VarProbes</literal> and not
+          <literal>MessageProbes</literal>, as yet.
+        </para>
+
+        <example>          <title>Setting precision for individual probes in
+          <literal>HeatbugModelSwarm.m</literal>:</title>
+
+<programlisting>+ createBegin: aZone
+{
+  HeatbugModelSwarm * obj;
+  id ProbeMap probeMap;
+  id floatProbe;
+
+  [...]
+  <emphasis>  // the -setFloatFormat is applied to the probe which is 
+  // "returned" from the call to probeLibrary</emphasis>
+  floatProbe = [[probeLibrary getProbeForVariable: "randomMoveProbability"
+				    inClass: [self class]]
+                                    setFloatFormat: ".3f"];
+  
+  // now we have the probe - put it back into the customMap
+  [probeMap addProbe: floatProbe];
+
+  [...]
+  return obj;
+}
+</programlisting>
+
+          <para>Or, more compactly:</para>
+
+<programlisting>+ createBegin: aZone
+{
+  HeatbugModelSwarm *obj;
+  id ProbeMap probeMap;
+
+  [...]
+ 
+  [probeMap addProbe: [[probeLibrary getProbeForVariable: "randomMoveProbability"
+				    inClass: [self class]]
+                             setFloatFormat: "%.3f"]];
+  [...]
+  return obj;
+}
+</programlisting>
+          
+        </example>
+      </simplesect>
+    </sect2>
+  </sect1>
+  
+  <sect1>    <title>SwarmObject Support for Probing</title>
+    
+    <para>As mentioned earlier, all SwarmObjects can generate
+      Probes/ProbeMaps. By default, they achieve this by "checking
+      out" the appropriate references from the probeLibrary.
+    
+    <link linkend="SWARM.OBJECTBASE.SWARMOBJECT.PROTOCOL">Interface
+        definition</link> from <link linkend="SWARM.OBJECTBASE.SGML.REFERENCE">objectbase</link> library.
+    </para>
+
+    <itemizedlist spacing="compact">      <listitem>        <formalpara>
+          <title><literal>- (const char*)getInstanceName</literal></title>
+
+          <para>If you want to put a specific title on the
+            ProbeDisplay window associated with your object, simply
+            override this method. By default it returns the class name
+            of the object. This is why the default ProbeDisplay window
+            title is always the class name of the probed
+            object. <literal>Note:</literal> SwarmObjects do not
+            actually have an instance variable called "instanceName" -
+            so if you want to store a name for your object, you will
+            need to provide your own storage at the subclass level and
+            rewrite <literal>getInstanceName</literal> to refer to
+            this variable.
+          </para>
+
+        </formalpara>
+       </listitem>
+
+      <listitem>
+        <formalpara>
+          <title><literal>- getProbeForVariable: (const char
+          *)aVariable</literal></title>
+
+          <para></para>
+
+        </formalpara>
+      </listitem>
+
+      <listitem>        <formalpara>
+          <title><literal>- getProbeForMessage: (const char *)aMessage</literal></title>
+          <para></para>
+        </formalpara>
+      </listitem>
+
+      <listitem>
+        <formalpara>          <title><literal>- getProbeMap</literal></title>
+          <para></para>
+        </formalpara>
+
+      </listitem>
+      <listitem>        <formalpara>          <title><literal>- getCompleteProbeMap</literal></title>
+          <para></para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
+    
+  </sect1>
+
+  <sect1>
+    <title>Probe support resident in the <emphasis><link linkend="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</link></emphasis>
+    library:</title>
+
+    <sect2>      <title>ProbeDisplay</title>
+
+      <para>The <literal>ProbeDisplay</literal> class is meant to
+        serve a dual role, represented by this figure and the previous
+        figure:
+
+        <figure id="SWARM.PROBING.CUSTOMIZED-PROBE-MAP.FIGURE">          <title>Customized probe map</title>
+          <graphic entityref="customized-probe-map" align="CENTER" scale="75"></graphic>
+        </figure>
+
+      </para>
+
+      <para>On the one hand if an object to be probed is specified
+        <emphasis>without</emphasis> any particular
+        <literal>ProbeMap</literal> being specified, then the
+        ProbeDisplay generated will provide a window of class
+        DefaultProbeDisplay, which displays all the variables resident
+        in that class structure.
+      </para>
+
+      <para>On the other hand, if a <literal>ProbeMap</literal>
+        <emphasis>is</emphasis> specified then the
+        <literal>ProbeDisplay</literal> follows exactly the
+        specification as represented by the contents of the ProbeMap
+        (above). When used in this manner, ProbeDisplays can generate
+        tailored interfaces to objects (so for example, we have
+        purposefully hidden certain instance variables in the
+        HeatbugModelSwarm class, and have shown only one of the
+        methods which the class understands).
+      </para>
+
+    </sect2>
+    <sect2>      <title>Graphical Interface Usage</title>
+
+      <para>Common to both the standard ProbeDisplay and the
+        CompleteProbeDisplay:</para>
+      
+      <itemizedlist>        <listitem> <para>The different fields in the ProbeDisplay can
+            be updated by typing in new values and pressing
+            <literal>Return</literal>. However, certain fields
+            (containing pointers or ids, for example) cannot be
+            modified and will generate a beep if such a modification
+            is attempted.</para></listitem>
+
+        <listitem><para> If an instance variable/argument slot is
+            defined to hold an object, then that object can be
+            dragdropped into another variable/argument slot by
+            clicking on it with the <literal>first mouse
+            button</literal> (a small rectangle with the name of the
+            object will appear - simply drag it to another
+            object-typed variable/argument slot and release the mouse
+            button).</para></listitem>
+
+        <listitem><para> Also, if an instance variable/argument slot
+            is defined to hold an object, then that object can be
+            inspected by clicking the entry for that variable/argument
+            slot with the <literal>third mouse button </literal>(a
+            ProbeDisplay for that object will be
+            generated).</para></listitem>
+      </itemizedlist>
+
+      <para>Available only on the standard ProbeDisplay:</para>
+
+      
+      <itemizedlist>        <listitem><para> Note that the sunken label at the top of the
+            ProbeDisplay is also active.  By clicking on it with the
+            <literal>first mouse button</literal> you get a
+            drag &amp; drop'able representation of
+            <emphasis>self</emphasis>. By clicking on it with the
+            <literal>third mouse button</literal> you get a
+            CompleteProbeDisplay to
+            <emphasis>self</emphasis>.</para>
+        </listitem>
+
+      </itemizedlist>
+
+      <para>Available only on the ProbeDisplay:</para>
+      
+      <itemizedlist>        <listitem><para> The green "superclass" button can be used to
+            display the succesive superclasses of the object being
+            probed.</para></listitem>
+
+        <listitem><para> The red "hide" button can be used to hide
+            classes which are irrelevant thus reducing
+            clutter.</para></listitem>
+
+        <listitem><para> The hide button on the lowest class in the
+            hierarchy has a special meaning since clicking on it
+            dismisses the entire ProbeDisplay.</para></listitem>
+
+      </itemizedlist>
+
+      <para>        <link linkend="SWARM.SIMTOOLSGUI.PROBEDISPLAY.PROTOCOL">Interface
+          definition</link> from <link linkend="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</link>
+          library.
+      </para>
+      
+    </sect2>
+  </sect1>
+
+  <sect1>    <title>ProbeDisplayManager</title>
+
+    <para>The normal Swarm simulation will probably only ever contain
+      one instance of this class, namely the probeDisplayManager. This
+      object is used for automatic generation of ProbeDisplays: given
+      an object it will attempt to get a ProbeMap from the object. If
+      the object does not respond to the method - getProbeMap (i.e. it
+      does not inherit from SwarmObject), the probeDisplayManager will
+      query the probeLibrary for a ProbeMap. If there is not a
+      <emphasis>ProbeMap</emphasis> installed in the
+      <literal>probeLibrary</literal> for the class of that object, it
+      will creat a <emphasis>DefaultProbeMap</emphasis>. It will then
+      create a ProbeDisplay to the target object, and from then on,
+      until the Probe Display is removed it will update the
+      ProbeDisplay when receiving an update message.
+    </para>
+    
+    <para>      <link linkend="SWARM.SIMTOOLSGUI.PROBEDISPLAYMANAGER.PROTOCOL">Interface
+        definition</link> from <link linkend="SWARM.SIMTOOLSGUI.SGML.REFERENCE">simtoolsgui</link>
+        library.</para>
+
+  </sect1>
+</appendix><!--
+Local Variables:
+sgml-parent-document:("refbook.xml" "appendix")
+End:
+-->
