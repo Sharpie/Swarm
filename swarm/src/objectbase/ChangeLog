@@ -1,3 +1,10 @@
+2000-04-27    <mgd@nest.swarm.org>
+
+	* objectbase.h ([SwarmObject -getProbeForVariable:,
+	-getProbeForMesssage:]): Add return typing.
+	([VarProbe -createEnd]): Remove.
+	([ProbeMap -getProbeForVariable:, -getProbeForMessage:]): Remove.
+
 2000-04-20    <mgd@nest.swarm.org>
 
 	* VarProbe.m (java_probe_as_string): Handle strings.

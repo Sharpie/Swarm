@@ -48,11 +48,11 @@ USING
 
 //M: The getProbeForVariable: method returns the VarProbe indexed in the
 //M: ProbeMap by the string aVariable.
-- getProbeForVariable: (const char *)aVariable;
+- (id <VarProbe>)getProbeForVariable: (const char *)aVariable;
 
 //M: The getProbeForMessage: method returns the MessageProbe indexed in
 //M: the ProbeMap by the string aMessage.
-- getProbeForMessage: (const char *)aMessage;
+- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage;
 @end
 
 @protocol ProbeConfig
@@ -124,8 +124,6 @@ CREATING
 //M: of the identifier of the variable referent.
 //M: This method must be called during the create phase. 
 - setProbedVariable: (const char *)aVariable;
-
-- createEnd;
 
 SETTING
 //M: The setNonInteractive method sets a VarProbe to be non-interactive.
@@ -326,14 +324,6 @@ USING
 //M: The getProbedClass method returns the class of the object that the set of 
 //M: probes that constitute the probe map points at.
 - (Class)getProbedClass;
-
-//M: The getProbeForVariable: method returns the Probe corresponding to the 
-//M: given variable name.
-- (id <VarProbe>)getProbeForVariable: (const char *)aVariable;
-
-//M: The getProbeForMessage: method returns the Probe corresponding to the
-//M: specified message name.
-- (id <MessageProbe>)getProbeForMessage: (const char *)aMessage;
 
 //M: The addProbe: method adds a probe to the contents of the ProbeMap.
 //M: The ProbeMap will always make sure that the probedClass of the Probe being
