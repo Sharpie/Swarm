@@ -1,4 +1,6 @@
-SWARMHOME=../swarm
+ifeq ($(SWARMHOME),)
+SWARMHOME=../swarm-1.0.5
+endif
 APPLICATION=mousetrap
 OBJECTS=main.o Mousetrap.o MousetrapModelSwarm.o MousetrapObserverSwarm.o MousetrapBatchSwarm.o
 APPLIBS=-lspace

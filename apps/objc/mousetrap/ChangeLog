@@ -1,5 +1,8 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile (SWARMHOME): Don't define if already defined.  Default is
+	swarm-1.0.5.
+
 	* MousetrapModelSwarm.m: Use setWindowGeometryRecordName version
 	of createProbeDisplayFor for the model activity controller.
 
