@@ -425,22 +425,12 @@ USING
 //D: of some event over an interval of time or space. 
 
 CREATING
-//M: Use this create message if the generator to be attached is a Simple one:
-+ create     : (id <Zone>)aZone
- setGenerator: (id <SimpleRandomGenerator>)generator;
-
 //M: Use this create message if the generator to be attached is a Simple one
 //M: and both the occurrence rate and the interval are set at create time:
 + create     : (id <Zone>)aZone
  setGenerator: (id <SimpleRandomGenerator>)generator
  setOccurRate: (double) anOccurRate
   setInterval: (double) anInterval;
-
-
-//M: Use this create message if the generator to be attached is a Split one:
-+ create             : (id <Zone>)aZone
-         setGenerator: (id <SplitRandomGenerator>)generator
-  setVirtualGenerator: (unsigned)vGen;
 
 //M: Use this create message if the generator to be attached is a Split one and
 //M: both the occurrence rate and the interval are to be set at create time:

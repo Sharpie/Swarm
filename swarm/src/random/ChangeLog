@@ -1,3 +1,8 @@
+2001-12-18  Marcus G. Daniels  <mgd@condor>
+
+	* distributions.h (PoissonDist): Remove +create:setGenerator:
+	and +create:setGenerator:setVirtualGenerator:.
+
 2001-12-17  Marcus G. Daniels  <mgd@condor>
 
 	* distributions.h (PoissonDist): Remove getUnsignedSample, which
