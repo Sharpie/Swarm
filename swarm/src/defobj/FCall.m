@@ -217,6 +217,9 @@ avcall_add_primitive (FArguments_c *fa, fcall_type_t type, void *val)
     case fcall_type_selector:
       av_ptr (fa->avalist, SEL, *(SEL *) val);
       break;
+    case fcall_type_object:
+      av_ptr (fa->avalist, id, *(id *) val);
+      break;
 #ifdef HAVE_JDK
     case fcall_type_jobject:
       av_ptr (fa->avalist, jobject, *(jobject *) val);
