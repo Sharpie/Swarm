@@ -1,6 +1,8 @@
-1999-08-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VERSION: Version 2.0 released.
+
+1999-08-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* INSTALL: Note --with-jdkdir.
 
