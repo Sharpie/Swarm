@@ -239,7 +239,7 @@ CFLAGS="$CFLAGS -fno-builtin"
 AC_REPLACE_FUNCS(memcpy memset strcmp strlen)
 CFLAGS=$ac_save_CFLAGS
 
-AC_REPLACE_FUNCS(memchr realpath stpcpy strchr strncmp strndup strnlen strpbrk strsep)
+AC_REPLACE_FUNCS(memchr realpath stpcpy strchr strncmp strndup strnlen strpbrk strsep strtoll)
 
 md_CHECK_ARGP
 

@@ -1,3 +1,7 @@
+1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* configure.in (AC_REPLACE_FUNCS): Check for strtoll.
+
 1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VERSION: Bump.
