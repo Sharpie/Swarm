@@ -74,7 +74,7 @@ else
   elif test -f $jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
     jdkdatadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $jdkdir/bin/kaffe`
-    test "$host_os" = cygwin && jdkdatadir=`cygwin -w $jdkdatadir`
+    test "$host_os" = cygwin && jdkdatadir=`cygpath -w $jdkdatadir`
     JAVACLASSES="$jdkdatadir${PATHDELIM}Klasses.jar${PATHSEP}$jdkdatadir${PATHDELIM}pizza.jar"
     JAVASTUBS_FUNCTION=java-run-all-literal
     JAVALIBS='${jdkdir}/lib/kaffe' # count on -rpath for main executable
