@@ -19,7 +19,10 @@ void configureWindowExit (id widget);
 void setBorderWidth (id frame, int width);
 void setRelief (id frame);
 void setAnchorWest (id widget);
+void setAnchorEast (id widget);
 void setColorBlue (id widget);
+void setWidth (id widget, int width);
+void setText (id widget, const char *str);
 void packFill (id frame);
 void packFillLeft (id frame, int expandFlag);
 void packForget (id widget);
@@ -28,6 +31,12 @@ void deiconify (id frame);
 void withdrawWindow (id topLevel);
 void releaseAndUpdate (void);
 void updateIdleTasksAndHold (void);
+void ringBell (void);
+void normalState (id widget);
+void disabledState (id widget);
+void update (void);
+void focus (id widget);
+
 const char *packageName (id probedObject);
 const char *getId (id probedObject);
 

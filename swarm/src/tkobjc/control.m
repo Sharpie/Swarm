@@ -7,6 +7,8 @@
 #import <tkobjc/global.h>
 #import <tkobjc/Widget.h>
 
+#import <string.h>
+
 int
 doOneEventSync (void)
 {
@@ -124,15 +126,38 @@ setRelief (id raisedFrame)
 void
 setAnchorWest (id widget)
 {
-  [globalTkInterp
-    eval: "%s configure -anchor w", [widget getWidgetName]];
+  [globalTkInterp eval: "%s configure -anchor w",
+                  [widget getWidgetName]];
+}
+
+void
+setAnchorEast (id widget)
+{
+  [globalTkInterp eval: "%s configure -anchor e",
+                  [widget getWidgetName]];
 }
 
 void
 setColorBlue (id widget)
 {
-  [globalTkInterp
-    eval: "%s configure -foreground blue", [widget getWidgetName]];
+  [globalTkInterp eval: "%s configure -foreground blue",
+                  [widget getWidgetName]];
+}
+
+void
+setWidth (id widget, int width)
+{
+  [globalTkInterp eval: "%s configure -width %d",
+                  [widget getWidgetName],
+                  width];
+}
+
+void
+setText (id widget, const char *str)
+{
+  [globalTkInterp eval: "%s configure -text %s",
+                  [widget getWidgetName],
+                  str];
 }
 
 void
@@ -153,10 +178,9 @@ packFillLeft (id frame, int expandFlag)
 void
 packForget (id widget)
 {
-  [globalTkInterp
-    eval:  "pack forget %s ; pack %s -expand true -fill both",
-    [widget getWidgetName],      
-    [widget getWidgetName]];
+  [globalTkInterp eval:  "pack forget %s ; pack %s -expand true -fill both",
+                  [widget getWidgetName],      
+                  [widget getWidgetName]];
 }
 
 void
@@ -165,12 +189,12 @@ assertGeometry (id topFrame)
   id canvas = [topFrame getParent];
 
   [globalTkInterp eval:
-     "tkwait visibility %s ; \
-      set width [winfo width %s] ; \
-      set height [winfo height %s] ; \
-      %s configure -scrollregion [list 0 0 $width $height] ; \
-      if {$height > 500} {set height 500} ; \
-      %s configure -width $width -height $height",
+                    "tkwait visibility %s ;"
+                  "set width [winfo width %s] ;"
+                  "set height [winfo height %s] ;"
+                  "%s configure -scrollregion [list 0 0 $width $height] ;"
+                  "if {$height > 500} {set height 500} ;"
+                  "%s configure -width $width -height $height",
                   [topFrame getWidgetName],
                   [topFrame getWidgetName],
                   [topFrame getWidgetName],
@@ -181,31 +205,64 @@ assertGeometry (id topFrame)
 void
 deiconify (id frame)
 {
-  [globalTkInterp eval: "wm deiconify %s", [frame getWidgetName]];
+  [globalTkInterp eval: "wm deiconify %s",
+                  [frame getWidgetName]];
 }
 
 void
 withdrawWindow (id topLevel)
 {
-  [globalTkInterp eval: "wm withdraw %s", [topLevel getWidgetName]];
+  [globalTkInterp eval: "wm withdraw %s",
+                  [topLevel getWidgetName]];
 }
 
 void
 releaseAndUpdate (void)
 {
-  [globalTkInterp
-    eval: 
-      "foreach w [busy isbusy] {busy release $w} ; update"];
+  [globalTkInterp eval: "foreach w [busy isbusy] {busy release $w} ; update"];
 }
 
 void
 updateIdleTasksAndHold (void)
 {
-  [globalTkInterp
-    eval: 
-      "update idletasks ; foreach w [winfo children .] {busy hold $w} ; update"] ;
+  [globalTkInterp eval: 
+                    "update idletasks ;"
+                  "foreach w [winfo children .] {busy hold $w} ;"
+                  "update"] ;
 }
 
+void
+ringBell (void)
+{
+  [globalTkInterp eval: "bell"] ;
+}
+
+void
+normalState (id widget)
+{
+  [globalTkInterp eval: "%s configure -state normal",
+                  [widget getWidgetName]];
+}
+
+void
+disabledState (id widget)
+{
+  [globalTkInterp eval: "%s configure -state disabled",
+                  [widget getWidgetName]];
+}
+
+void
+update ()
+{
+  [globalTkInterp eval: "update"];
+}
+
+void
+focus (id widget)
+{
+  [globalTkInterp eval: "focus %s",
+                  [widget getWidgetName]];
+}
 
 const char *
 packageName (id probedObject)
@@ -217,7 +274,8 @@ const char *
 getId (id probedObject)
 {
   if ([probedObject respondsTo: @selector(getInstanceName)])
-    return [probedObject getInstanceName] ;
+    return [probedObject getInstanceName];
   else
     return [probedObject name];
 }
+
