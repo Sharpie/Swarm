@@ -3,6 +3,8 @@
 	* win32dib.c (dib_snapshot): height/width was swapped for 
 	screen snapshot.
 
+	* internal.m (win32_pixmap_create_from_window): Likewise.
+
 2000-01-09    <mgd@nest.swarm.org>
 
 	* internal.m (x_get_managed_toplevel_window): Check that a window

@@ -1003,8 +1003,8 @@ win32_pixmap_create_from_window (Pixmap *pixmap,
     {
       HDC dc = GetDC (HWND_DESKTOP);
 
-      pixmap->height = GetDeviceCaps (dc, HORZRES);
-      pixmap->width = GetDeviceCaps (dc, VERTRES);
+      pixmap->height = GetDeviceCaps (dc, VERTRES);
+      pixmap->width = GetDeviceCaps (dc, HORZRES);
       dib->window = HWND_DESKTOP;
     }
   else

@@ -163,7 +163,6 @@ dib_snapshot (dib_t *dib, BOOL windowDCFlag)
     {
       height = rect.bottom - rect.top;
       width = rect.right - rect.left;
-
     }
   if (width & 3)
     newWidth = width + 4 - (width & 3);
