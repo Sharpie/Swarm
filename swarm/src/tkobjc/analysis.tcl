@@ -1,7 +1,7 @@
 # (manor) this is used by EZBin in order to show info about contents 
 # of bins.
 proc active_item_info {graph} {
-    $graph marker create text -coords { +Inf +Inf } -name active_info_marker -anchor ne -bg {} -mapped 0
+    $graph marker create text -coords { +Inf +Inf } -name active_info_marker -anchor ne -bg {} -hide yes
     uplevel #0 {set foundclosest 0}
     bind $graph <Shift-ButtonPress-1> {
         if {[%%W element closest %%x %y closestretval -interpolate 1]} {

@@ -174,13 +174,23 @@ PHASE(Using)
 
 - setupActiveOutlierMarker
 {
-  [globalTkInterp
-    eval: 
-      "%s marker create text -coords { -Inf +Inf } "
-    "-name active_outlier_marker "
-    "-anchor nw -justify right "
-    "-bg {} -mapped 0",
-    [self getWidgetName]];
+  if ([globalTkInterp newBLTp])
+    [globalTkInterp
+      eval: 
+        "%s marker create text -coords { -Inf +Inf } "
+      "-name active_outlier_marker "
+      "-anchor nw -justify right "
+      "-bg {} -hide yes",
+      [self getWidgetName]];
+  else
+    [globalTkInterp
+      eval: 
+        "%s marker create text -coords { -Inf +Inf } "
+      "-name active_outlier_marker "
+      "-anchor nw -justify right "
+      "-bg {} -mapped 0",
+      [self getWidgetName]];
+
   return self;
 }
 
