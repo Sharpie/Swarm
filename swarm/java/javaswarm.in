@@ -22,8 +22,8 @@ JAVACLASSES=@JAVACLASSES@
 JAVAENV=@JAVAENV@
 JAVACMD=@JAVACMD@
 
-export @SHLIBPATH_VAR@
 @JAVALIBPATH_VAR@=@swarm_libdir@:@JAVALIBS@
+export @SHLIBPATH_VAR@ @JAVALIBPATH_VAR@
 
 JAVA_CLASSES_INSTALLED_AS=@JAVA_CLASSES_INSTALLED_AS@
 
@@ -39,13 +39,11 @@ if test -z "$*"; then
   echo "CLASSPATH=\"$classpath\""
   echo "export @JAVALIBPATH_VAR@ @SHLIBPATH_VAR@ CLASSPATH"   
 elif test -n "$JAVASWARMGDB"; then
-  export @JAVALIBPATH_VAR@ @SHLIBPATH_VAR@
   (echo "shell rm -f /tmp/.gdbinit.$$";
    echo "cd `pwd`"; echo "set args $*" ) > /tmp/.swarmgdbinit.$$
   eval "$JAVAENV CLASSPATH=$classpath $JAVASWARMGDB -command /tmp/.swarmgdbinit.$$ $JAVACMD"
   rm -f /tmp/.swarmgdbinit.$$
 else
-  export @JAVALIBPATH_VAR@ @SHLIBPATH_VAR@
   eval "$JAVAENV CLASSPATH=$classpath $JAVACMD $*"
 fi
 
