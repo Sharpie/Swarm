@@ -1,3 +1,7 @@
+1999-04-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* VERSION: Bump.
+
 1999-04-26  Alex Lancaster  <alex@santafe.edu>
 
 	* NEWS: Note handling of Lisp comments by InputStream.
