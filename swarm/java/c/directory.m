@@ -22,7 +22,7 @@ static jclass c_boolean,
   c_object, c_string, 
   c_void;
 
-JNIEnv *jniEnv;
+extern JNIEnv *jniEnv;
 
 static void
 create_class_refs (JNIEnv *env)
@@ -553,6 +553,24 @@ java_ensure_selector (JNIEnv *env, jobject jsel)
   else
     XFREE (name);
   return sel;
+}
+
+Class
+java_ensure_class (JNIEnv *env, jclass class)
+{
+  jmethodID methodID = (*env)->GetStaticMethodID (env,
+                                                  class,
+                                                  "getName", 
+                                                  "()Ljava/lang/String;");
+  jstring ret = (*env)->CallStaticObjectMethod (env, class, methodID);
+  jboolean isCopy;
+  const char *utf = (*env)->GetStringUTFChars (env, ret, &isCopy);
+  const char *className = strdup (utf);
+  
+  (*env)->ReleaseStringUTFChars (env, ret, utf);
+  printf ("ensure_class:[%s]\n", className);
+  
+  return objc_lookup_class (className);
 }
 
 const char *

@@ -41,7 +41,7 @@ jobject java_instantiate (JNIEnv *jniEnv, jclass clazz);
 jobject java_instantiate_using (JNIEnv *jniEnv, jobject jobj);
 
 #define JFINDOBJC(env, jobj) ((java_directory_java_find (env, jobj))->objc_object)
-#define JFINDJAVA(obj) (java_directory_objc_find_java (obj))
+#define JFINDJAVA(objc) (java_directory_objc_find_java (objc))
 #define JUPDATE(env, jobj, objc) java_directory_update_java (env, jobj, objc)
 #define JSWITCHUPDATE(env, oldjobj, newjobj, objc) java_directory_switchupdate_java(env, oldjobj, newjobj, objc)
 #define JINSTANTIATE(env, clazz) java_instantiate (env, clazz)
@@ -49,6 +49,9 @@ jobject java_instantiate_using (JNIEnv *jniEnv, jobject jobj);
 
 SEL java_ensure_selector (JNIEnv *env, jobject jsel);
 #define JFINDOBJCMETHOD(env, jobj) (java_ensure_selector (env, jobj))
+
+Class java_ensure_class (JNIEnv *env, jclass class);
+#define JFINDOBJCCLASS(env, jclass) (java_ensure_class (env, jclass))
 
 const char *java_copy_string (JNIEnv *env, jstring javaString);
 void java_cleanup_strings (JNIEnv *env, const char **stringArray, size_t count);

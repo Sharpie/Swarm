@@ -2,6 +2,11 @@
 
 	* directory.m (java_cleanup_strings, java_copy_string): Implement.
 	Strings are copied to the heap (only) for the duration of the call.
+	(jniEnv): Make extern (was global def).
+
+	* directory.[hm] (java_ensure_class): New function.
+
+	* directory.h (JFINDOBJCCLASS): New macro. 
 
 1999-04-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
