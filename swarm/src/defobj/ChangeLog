@@ -1,3 +1,7 @@
+1998-04-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Zone.m: Include string.h for memset.
+
 1998-04-22  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* defobj.m: Reformatting throughout.

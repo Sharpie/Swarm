@@ -15,6 +15,7 @@ Library:      defobj
 #import <collections/List_linked.h>
 
 #include <misc.h>
+#include <string.h> // memset
 
 //
 // temporary hack to guarantee double word alignment of allocations
