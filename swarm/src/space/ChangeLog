@@ -1,3 +1,7 @@
+2000-01-23    <mgd@nest.swarm.org>
+
+	* Makefile.am (INCLUDES): Add JAVAINCLUDES.
+
 2000-01-11    <mgd@nest.swarm.org>
 
 	* Discrete2d.m (lispInLatticeValues): Use fcall_type_t for type
