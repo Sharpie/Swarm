@@ -42,7 +42,6 @@ mframe_get_struct_addr_ptr (arglist_t args, const char *types)
   offset = ROUND (offset, align); \
   (TYPE) = objc_skip_typespec (type); \
   \
-  printf ("{%s}\n", type); \
   if (*(TYPE) == '+') \
     { \
       (TYPE)++; \
