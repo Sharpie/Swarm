@@ -1,9 +1,9 @@
-1998-09-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+1998-09-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* internal.m (keep_inside_screen): New function.
 	(x_pixmap_create_from_window): Use 0/0 for x/y.
-	(tkobjc_pixmap_create_from_widget): Call keep_inside_screen.
-	Then call XRaiseWindow for X11 or Tk_RestackWindow for Win32.
+	(tkobjc_pixmap_create_from_widget): Call keep_inside_screen and then
+	Tk_RestackWindow.
 
 1998-09-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
