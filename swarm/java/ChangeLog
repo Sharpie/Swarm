@@ -1,3 +1,8 @@
+1999-05-27  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (C_EXTRA_DIST): Remove c/directory.[hm],
+	c/JavaProxy.[hm], have been moved to src/defobj.
+
 1999-05-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* javacswarm, javaswarm: Prefix $JAVA_CLASSES_INSTALLED_AS and
