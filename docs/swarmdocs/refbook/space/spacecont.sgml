@@ -1,19 +1,19 @@
 <REFERENCE ID="SPACE.REF">
 
-&spacemeta.sgml;
-
-<TITLE>Space Library</TITLE>
-
-<!-- partintro --> 
-&space00.sgml;
-
-<!-- actual reference content -->
-&spacepages.sgml;
-
+    &spacemeta.sgml;
+  
+  <TITLE>Space Library</TITLE>
+  
+  <!-- partintro --> 
+    &space00.sgml;
+  
+  <!-- actual reference content -->
+  &spacepages.sgml;
+  
 </REFERENCE>
 
 <!--
 Local Variables:
-sgml-parent-document:("../refbook.sgm" "REFERENCE")
+sgml-parent-document:("../refbook.sgml" "REFERENCE")
 End:
 -->
