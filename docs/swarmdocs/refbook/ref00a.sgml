@@ -52,6 +52,14 @@
   </SIDEBAR>
 
   <sect1>
+    <title>Porting from 2.1 to 2.2</title>
+    <itemizedlist>
+      <listitem>
+        <para>EZBin's -getStd method was renamed -getStdDev, for consistency
+          with the random library and with Averager.</para>
+      </listitem>
+    </itemizedlist>
+    
     <title>Porting from 2.0 or 2.0.1 to 2.1</title>
     <itemizedlist>
       <listitem>

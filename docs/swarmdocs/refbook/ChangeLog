@@ -1,3 +1,7 @@
+2000-04-23    <mgd@nest.swarm.org>
+
+	* ref00a.sgml: Note rename of EZBin's -getStd to -getStdDev.
+
 2000-03-28    <mgd@nest.swarm.org>
 
 	* Swarmdocs 2.1.1 frozen.
