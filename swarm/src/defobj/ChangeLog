@@ -1,3 +1,10 @@
+1999-08-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (get_type_field_for_class): Disable.
+	(get_primitive): Use alternate code that looks in SwarmEnvironment
+	for copies of the primtive types copied from static variables in
+	java/lang Classes.
+
 1999-08-14  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Symbol.m: Remove common globals _obj_globalZone, _obj_scratchZone,

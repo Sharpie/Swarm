@@ -497,6 +497,7 @@ get_java_class (JNIEnv *env, const char *name)
   return ret;
 }
 
+#if 0
 static jclass
 get_type_field_for_class (JNIEnv *env, jclass clazz)
 {
@@ -512,19 +513,37 @@ get_type_field_for_class (JNIEnv *env, jclass clazz)
     abort ();
   ret = (*env)->NewGlobalRef (env, ret);
   return ret;
-}   
+}
+#endif   
 
 static void
-create_class_refs (JNIEnv *env)
+create_class_refs (JNIEnv *env, jobject swarmEnvironment)
 {
   jclass get_primitive (const char *name)
     {
+#if 1
+      char fieldName[9 + strlen (name) + 1];
+      char *p;
+      jfieldID fid;
+
+      p = stpcpy (fieldName, "Primitive");
+      p = stpcpy (p, name);
+      
+      if (!(fid =
+            (*env)->GetFieldID (env,
+                                (*env)->GetObjectClass (env, swarmEnvironment),
+                                fieldName,
+                                "Ljava/lang/Class;")))
+          abort ();
+      return (*env)->GetObjectField (env, swarmEnvironment, fid);
+#else
       return get_type_field_for_class (env, get_java_class (env, name));
+#endif
     }
   if (!initFlag)
    {
       c_char = get_primitive ("Character");
-      c_byte= get_primitive ("Byte");
+      c_byte = get_primitive ("Byte");
       c_int = get_primitive ("Integer");
       c_short = get_primitive ("Short");
       c_long = get_primitive ("Long");
@@ -893,7 +912,7 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
   jniEnv = env;
   swarmDirectory = [Directory create: globalZone];
   
-  create_class_refs (env);
+  create_class_refs (env, swarmEnvironment);
   create_method_refs (env);
   create_field_refs (env);
 
@@ -982,6 +1001,10 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
           {
             char type;
               
+            BOOL exactclassp (jclass matchClass)
+              {
+                return (*env)->IsSameObject (env, class, matchClass);
+              }
             BOOL classp (jclass matchClass)
               {
                 jobject clazz;
@@ -999,23 +1022,23 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
               type = _C_CHARPTR;
             else if (classp (c_Class))
               type = _C_CLASS;
-            else if (classp (c_int))
+            else if (exactclassp (c_int))
               type = _C_INT;
-            else if (classp (c_short))
+            else if (exactclassp (c_short))
               type = _C_SHT;
-            else if (classp (c_long))
+            else if (exactclassp (c_long))
               type = _C_LNG;
-            else if (classp (c_boolean))
+            else if (exactclassp (c_boolean))
               type = _C_UCHR;
-            else if (classp (c_byte))
+            else if (exactclassp (c_byte))
               type = _C_UCHR;
-            else if (classp (c_char))
+            else if (exactclassp (c_char))
               type = _C_CHR;
-            else if (classp (c_float))
+            else if (exactclassp (c_float))
               type = _C_FLT;
-            else if (classp (c_double))
+            else if (exactclassp (c_double))
               type = _C_DBL;
-            else if (classp (c_void))
+            else if (exactclassp (c_void))
               type = _C_VOID;
             else
               type = _C_ID;
