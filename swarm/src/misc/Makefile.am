@@ -22,7 +22,7 @@ SRC = getopt.c getopt1.c xmalloc.c find_executable.c \
 noinst_HEADERS = argp-fmtstream.h argp-namefrob.h mem.h
 
 libmisc_la_SOURCES = $(SRC)
-libmisc_la_LIBADD = @MISCOBJS@
+libmisc_la_LIBADD = @LIBOBJS@
 libmisc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE)
 
 misc_HEADERS = argp.h getopt.h
