@@ -38,7 +38,7 @@ if test $USEDLL = yes; then
   inst_LIBS=
   inst_LDFLAGS=
 else
-  LIBSWARM_LA=
+  LIBSWARM_LA=libswarm.la
   SWARM_DLL=
   LIBJAVASWARM_LA=libjavaswarm.la
   LIBJAVASWARMSTUBS_LA=libjavaswarmstubs.la
