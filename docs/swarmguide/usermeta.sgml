@@ -5,6 +5,8 @@
   <GRAPHIC ENTITYREF="booktitlelogo" ALIGN="CENTER"></GRAPHIC>
 -->
 
+  <COPYRIGHT><YEAR>1999</YEAR><HOLDER>&orgname;</HOLDER></COPYRIGHT>
+
   <LEGALNOTICE> 
  
    <TITLE>Licence terms for Swarm documentation</TITLE> 
@@ -28,8 +30,6 @@
   </LEGALNOTICE>
 
   <BOOKBIBLIO>
-
-    <COPYRIGHT><YEAR>1999</YEAR><HOLDER>&orgname;</HOLDER></COPYRIGHT>
 
     <CORPAUTHOR>&corpauthor;</CORPAUTHOR>
 

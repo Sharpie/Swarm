@@ -1,0 +1,18 @@
+<!DOCTYPE style-sheet PUBLIC "-//James Clark//DTD DSSSL Style Sheet//EN">
+<style-sheet>
+<style-specification id="common">
+<style-specification-body>
+
+(define %gentext-usen-by% "")
+
+(define %funcsynopsis-decoration%
+  ;; Decorate elements of a FuncSynopsis?
+  #t)
+
+(define %section-autolabel% 
+  ;; Are sections enumerated?
+  #t)
+
+</style-specification-body>
+</style-specification>
+</style-sheet>

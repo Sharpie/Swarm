@@ -1,5 +1,14 @@
 1999-03-01  Alex Lancaster  <alex@santafe.edu>
 
+	* html.dsl: Customize similarly to swarmdocs.  Add references to
+	new common.dsl stylesheet.
+
+	* common.dsl: Add file.  Remove symlink to swarmdocs.
+
+	* print.dsl: Add references to common.dsl.
+
+	* usermeta.sgml: Move COPYRIGHT out of BOOKBIBLIO into BOOKINFO.
+
 	* user2.02.sgml: Update with Paul Johnson's text.  Add some extra
 	markup for some text elements - FILENAME, APPLICATION, FUNCTION.
 
