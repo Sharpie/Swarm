@@ -26,8 +26,7 @@ proc gimme {asdf} {
 proc sitecmd {state token} {
     if {$state} {
         $token.l configure -fg OliveDrab
-    }
-    else {
+    } else {
         $token.l configure -fg black
     }  
 }
