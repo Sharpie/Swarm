@@ -20,7 +20,7 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
   
   public ScheduleImpl modelSchedule;
   
-  public  MousetrapStatistics stats;
+  public MousetrapStatistics stats;
   public Grid2dImpl grid;
   
   public ActivityControlImpl modelActCont;
@@ -37,7 +37,6 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
   {
     return stats;
   }
-
 
   public int getGridSize ()
   {
@@ -82,19 +81,21 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
   public Object buildObjects()
   {
     int x,y;
-    Grid2dCImpl ig2d;
+    // Grid2dCImpl ig2d;
 
     super.buildObjects();
     
     stats = new MousetrapStatistics();
     stats.se = se;
-    grid = new Grid2dImpl();
+    grid = new Grid2dImpl((ZoneImpl)this.getZone(), gridSize, gridSize);
+
     //    nag ((new Integer(gridSize).toString()));
-    ig2d = new Grid2dCImpl (grid);
-    ig2d.createBegin (this.getZone());
-    ig2d.setSizeX$Y (gridSize, gridSize);
+    //ig2d = new Grid2dCImpl (grid);
+    //ig2d.createBegin (this.getZone());
+    //ig2d.setSizeX$Y (gridSize, gridSize);
     //    nag ("pre grid");
-    grid = (Grid2dImpl) ig2d.createEnd();
+    //grid = (Grid2dImpl) ig2d.createEnd();
+
     for (y = 0; y< gridSize; y++)
       for (x = 0; x< gridSize; x++)
 	if (trapDensity >= 1.0 || 
@@ -139,7 +140,9 @@ public class MousetrapModelSwarmImpl extends SwarmImpl
       //      nag ("Selector is NOT ok");
       modelSchedule.at$createActionTo$message (n, trap, slct);
       //    nag ("Schedule stuff for mousetrap");
-    } catch (Exception e) {System.out.println ("Exception:" + e.getMessage());}
+    } catch (Exception e) { 
+        System.out.println ("Exception:" + e.getMessage());
+    }
     return this;
   }
 

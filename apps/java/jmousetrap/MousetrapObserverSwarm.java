@@ -8,21 +8,23 @@ import swarm.gui.*;
 import swarm.analysis.*;
 import swarm.space.*;
 import swarm.random.*;
+
 public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 {
-    public  SwarmEnvironment se;
+    public SwarmEnvironment se;
     public int displayFrequency;
     public ScheduleImpl displaySchedule;
     public MousetrapModelSwarmImpl mousetrapModelSwarm;
   
     public ColormapImpl colormap;
-    public  ZoomRasterImpl displayWindow;
+    public ZoomRasterImpl displayWindow;
     public EZGraphImpl triggerGraph;
 
     public Object2dDisplayImpl mousetrapDisplay;
 
     public ActivityControlImpl observerActCont;
-    public  ActionGroupImpl displayActions;
+    public ActionGroupImpl displayActions;
+
     public void nag (String s)
     {
         System.out.println (this.getClass().getName() + ":" + s);
@@ -64,21 +66,12 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         return this;
     }
 
-
-
     public Object buildObjects ()
     {
-        ZoneImpl modelZone = new ZoneImpl ();
-        ZoneCImpl imodelZone = new ZoneCImpl (modelZone);
-        ZoomRasterCImpl izr;
-        Object2dDisplayCImpl io2d;
         MousetrapModelSwarmCImpl immswarm;
-        ColormapCImpl icmp;
-        EZGraphCImpl iezg;
         super.buildObjects();
         //    nag ("zone create");
-        modelZone = (ZoneImpl) imodelZone.create(this.getZone());
-        //    nag ("mousetrapmodelswarm");
+
         mousetrapModelSwarm = new MousetrapModelSwarmImpl ();
         immswarm = new MousetrapModelSwarmCImpl(mousetrapModelSwarm);
         immswarm.se = se;
@@ -91,72 +84,67 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         //    nag ("createArchivedProbeDisplay (this)");
         se.createArchivedProbeDisplay (this);
         //    nag ("Action cache");
+
         ((ActionCacheImpl)getActionCache()).waitForControlEvent();
         //    nag ("control panel");
-        if (((ControlPanelImpl)this.getControlPanel()).getState() == se.ControlStateQuit)
+
+        if (((ControlPanelImpl)this.getControlPanel()).getState() 
+            == se.ControlStateQuit)
             return this;
+
         //    nag ("mousetrapModel swarm buildObjects");
         mousetrapModelSwarm.buildObjects ();
-        //    nag ("colormpa");
-        colormap = new ColormapImpl ();
-        icmp = new ColormapCImpl (colormap);
-    
-        colormap = (ColormapImpl) icmp.create (se.globalZone);
+        //    nag ("colormap");
+        colormap = new ColormapImpl ((ZoneImpl)this.getZone());
     
         colormap.setColor$ToGrey ((byte) 1, 0.3);
         colormap.setColor$ToName ((byte) 2, "red");
     
-        triggerGraph = new EZGraphImpl ();
-        iezg = new EZGraphCImpl (triggerGraph);
+        triggerGraph = 
+            new EZGraphImpl ((ZoneImpl)this.getZone(), "Trigger data vs. time",
+                             "time", "number triggered");
 
-        iezg.createBegin(this.getZone());
-        se.setWindowGeometryRecordName (iezg);
-        iezg.setTitle ("Tirgger data vs. time");
-        iezg.setAxisLabelsX$Y ("time", "number triggered");
-        triggerGraph = (EZGraphImpl) iezg.createEnd();
+        se.setWindowGeometryRecordName (triggerGraph);
 
         try {
-      
             Selector slct1, slct2;
             slct1 = new Selector (mousetrapModelSwarm.getStats().getClass(),
                                   "getNumTriggered", false);
-            triggerGraph.createSequence$withFeedFrom$andSelector ("Total triggered",
-                                                                  mousetrapModelSwarm.getStats(), slct1);
+            triggerGraph.createSequence$withFeedFrom$andSelector 
+                ("Total triggered", mousetrapModelSwarm.getStats(), slct1);
             //      nag ("first part");
             slct2 = new Selector (mousetrapModelSwarm.getStats().getClass(),
                                   "getNumBalls", false);
             //      nag ("done selector");
-            triggerGraph.createSequence$withFeedFrom$andSelector ("Pending triggers",
-                                                                  mousetrapModelSwarm.getStats(),
-                                                                  slct2);
+            triggerGraph.createSequence$withFeedFrom$andSelector 
+                ("Pending triggers", mousetrapModelSwarm.getStats(),
+                 slct2);
             //      nag ("done sequence");
-				   
-        } 
-        catch (Exception e) 
-            { 
+            
+        } catch (Exception e) { 
                 System.out.println ("Exception trigger : " + e.getMessage());
-      
-            }
-        displayWindow = new ZoomRasterImpl ();
+        }
+
+        displayWindow = new ZoomRasterImpl ((ZoneImpl)this.getZone());
         //    nag ("display window");
-        izr = new ZoomRasterCImpl (displayWindow);
-        izr.createBegin (se.globalZone);
+        //izr = new ZoomRasterCImpl (displayWindow);
+        //izr.createBegin (se.globalZone);
         //    nag (" izr");
-        se.setWindowGeometryRecordName (izr);
+        se.setWindowGeometryRecordName (displayWindow);
         //    nag (" se.setWindowGeometryRecordName (izr);");
-        displayWindow = (ZoomRasterImpl) izr.createEnd ();
+        // displayWindow = (ZoomRasterImpl) izr.createEnd ();
         //    nag ("done display Window createEnd");
-        try 
-            {
-                Selector slct;
-                slct = new Selector (this.getClass(), "_displayWindowDeath_", false);
-	
-                displayWindow.enableDestroyNotification$notificationMethod (this, 
-                                                                            slct);
-            } catch (Exception e)
-                {
-                    System.out.println ("Exception display window: " + e.getMessage());
-                }
+        try {
+            Selector slct;
+            slct = new Selector (this.getClass(), 
+                                 "_displayWindowDeath_", false);
+            
+            displayWindow.enableDestroyNotification$notificationMethod (this, 
+                                                                        slct);
+        } catch (Exception e) {
+            System.out.println ("Exception display window: " + e.getMessage());
+        }
+        
         displayWindow.setColormap (colormap);
         displayWindow.setZoomFactor (6);
         displayWindow.setWidth$Height (mousetrapModelSwarm.getGridSize (),
@@ -165,24 +153,19 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         this._setupMousetraps_();
         displayWindow.pack();
 
-        mousetrapDisplay = new Object2dDisplayImpl ();
-        io2d = new Object2dDisplayCImpl (mousetrapDisplay);
-    
-        io2d.createBegin (this.getZone());
-        io2d.setDisplayWidget (displayWindow);
-        io2d.setDiscrete2dToDisplay (mousetrapModelSwarm.getWorld());
         try {
             /// strange noMehtod:
             //      nag ("strange method");
-            Selector slct = new Selector (Class.forName ("Mousetrap"), "noMethod", false);
-            io2d.setDisplayMessage (slct);
-    
+            Selector slct = new Selector (Class.forName ("Mousetrap"), 
+                                          "noMethod", false);
+            mousetrapDisplay = new Object2dDisplayImpl 
+                ((ZoneImpl)this.getZone(), displayWindow, 
+                 mousetrapModelSwarm.getWorld(), slct);
         }
-        catch (Exception e) { 
-            System.out.println ("Exception no mehtod:" + e.getMessage());
+        catch (Exception e) {
+            System.out.println ("Exception no method:" + e.getMessage());
         }
-        //    nag ("$$");
-        mousetrapDisplay = (Object2dDisplayImpl) io2d.createEnd();
+
         /*
           try
           {
@@ -206,51 +189,44 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
    
     public Object buildActions ()
     {
-        ActionGroupCImpl iag;
-        ScheduleCImpl isch;
         Selector slct;
+        
         super.buildActions();
         //    nag ("mousetrap model actions");
         mousetrapModelSwarm.buildActions();
     
-        displayActions = new ActionGroupImpl();
-    
-        iag = new ActionGroupCImpl (displayActions);
-        displayActions = (ActionGroupImpl) iag.create (this.getZone());
+        displayActions = new ActionGroupImpl ((ZoneImpl)this.getZone());
         //    nag ("display actions done");
-        displaySchedule = new ScheduleImpl();
-        isch = new ScheduleCImpl (displaySchedule);
-    
-        isch.createBegin (this.getZone());
-        isch.setRepeatInterval (displayFrequency);
-        displaySchedule = (ScheduleImpl) isch.createEnd();
-        //    nag ("display schedule");
-        try
-            {
-	
-                slct = new Selector (this.getClass(), "_update_", false);
-                displayActions.createActionTo$message (this, slct);
-	
-                slct = new Selector (triggerGraph.getClass(), "step", true);
-                displayActions.createActionTo$message (triggerGraph, slct);
-                slct = new Selector (se.probeDisplayManager.getClass(), "update", 
-                                     true);
-                displayActions.createActionTo$message (se.probeDisplayManager, slct);
-	
-                slct = new Selector (this.getClass (), "checkToStop", true);
-                displayActions.createActionTo$message (this, slct);
+        displaySchedule = new ScheduleImpl((ZoneImpl)this.getZone(), 
+                                           displayFrequency);
 
-                slct = new Selector (this.getActionCache().getClass (), 
-                                     "doTkEvents", true);
-                displayActions.createActionTo$message (this.getActionCache(), 
+        //    nag ("display schedule");
+        try {
+                
+            slct = new Selector (this.getClass(), "_update_", false);
+            displayActions.createActionTo$message (this, slct);
+            
+            slct = new Selector (triggerGraph.getClass(), "step", true);
+            displayActions.createActionTo$message (triggerGraph, slct);
+            slct = new Selector (se.probeDisplayManager.getClass(), "update", 
+                                 true);
+            displayActions.createActionTo$message (se.probeDisplayManager, 
+                                                   slct);
+            
+            slct = new Selector (this.getClass (), "checkToStop", true);
+            displayActions.createActionTo$message (this, slct);
+            
+            slct = new Selector (this.getActionCache().getClass (), 
+                                 "doTkEvents", true);
+            displayActions.createActionTo$message (this.getActionCache(), 
                                                        slct);
-	
-                displaySchedule.at$createAction (0, displayActions);
-                //	nag ("display schedule done");
-            } catch (Exception e) 
-                {
-                    System.out.println ("Exception doTkE: " + e.getMessage());
-                }
+            
+            displaySchedule.at$createAction (0, displayActions);
+            //	nag ("display schedule done");
+        } catch (Exception e) {
+            System.out.println ("Exception doTkE: " + e.getMessage());
+        }
+        
         return this;
     }
 
@@ -263,6 +239,7 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
         //    nag ("mousetrapmodel");
         displaySchedule.activateIn (this);
         //    nag ("display scheudle");
+
         observerActCont = new ActivityControlImpl ();
         iac = new ActivityControlCImpl (observerActCont);
         iac.createBegin (this.getZone());
@@ -284,12 +261,12 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 
     public Object checkToStop ()
     {
-        if (((MousetrapStatistics)mousetrapModelSwarm.getStats()).getNumBalls() == 0)
+        if (((MousetrapStatistics)mousetrapModelSwarm.getStats()).getNumBalls()
+            == 0)
             {
                 System.out.println ("All balls have landed!\n");
                 ((ControlPanelImpl)this.getControlPanel()).setStateStopped();
             }
         return this;
     }
-			
 }
