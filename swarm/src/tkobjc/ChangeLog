@@ -1,5 +1,8 @@
 1998-11-18  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* WindowGeometryRecord.[hm]: Remove lispInCreate: stub (will 
+	inherit).
+
 	* ArchivedGeometryWidget.h Button.h ButtonPanel.h Canvas.h
 	CanvasAbstractItem.h CanvasItem.h CheckButton.h Circle.h
 	ClassDisplayHideButton.h ClassDisplayLabel.h Colormap.h

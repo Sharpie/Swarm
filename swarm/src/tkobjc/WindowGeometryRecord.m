@@ -6,7 +6,7 @@
 #import <tkobjc/WindowGeometryRecord.h>
 #import <collections.h>
 
-#import <collections/predicates.h> // for stringp
+#import <collections/predicates.h> // stringp
 #import "global.h"
 
 #include <objc/objc-api.h> // _C_INT
@@ -30,11 +30,6 @@ PHASE(Creating)
   width = theWidth;
   height = theHeight;
 
-  return self;
-}
-
-- lispInCreate: expr
-{
   return self;
 }
 

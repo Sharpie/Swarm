@@ -22,7 +22,6 @@
 - (unsigned)getWidth;
 - (unsigned)getHeight;
 
-- lispInCreate: expr;
 - lispIn: expr;
 - lispOut: outputCharStream;
 @end
