@@ -78,7 +78,7 @@ get_class_name (JNIEnv *env, jclass class)
 }
 
 const char *
-swarm_directory_get_java_class_name (JNIEnv *env, jobject obj)
+swarm_directory_java_class_name (JNIEnv *env, jobject obj)
 {
   jclass class;
 
@@ -89,14 +89,14 @@ swarm_directory_get_java_class_name (JNIEnv *env, jobject obj)
 }
 
 unsigned
-swarm_directory_java_hash_code (jobject javaObject)
+swarm_directory_java_hash_code (JNIEnv *env, jobject javaObject)
 {
   int hashCode;
 
-  javaObject = (*jniEnv)->NewGlobalRef (jniEnv, javaObject);
-  hashCode = (*jniEnv)->CallIntMethod (jniEnv, javaObject, m_HashCode);
+  javaObject = (*env)->NewGlobalRef (env, javaObject);
+  hashCode = (*env)->CallIntMethod (env, javaObject, m_HashCode);
   hashCode = (hashCode < 0 ? - hashCode : hashCode) % DIRECTORY_SIZE;
-  (*jniEnv)->DeleteGlobalRef (jniEnv, javaObject);
+  (*env)->DeleteGlobalRef (env, javaObject);
   return hashCode;
 }
 
@@ -120,7 +120,7 @@ swarm_directory_java_hash_code (jobject javaObject)
 
 - (unsigned)getHashCode
 {
-  return swarm_directory_java_hash_code (javaObject);
+  return swarm_directory_java_hash_code (jniEnv, javaObject);
 }
 
 - (int)compare: obj
@@ -152,7 +152,7 @@ swarm_directory_java_hash_code (jobject javaObject)
 - (void)describe: outputCharStream
 {
   const char *className =
-    swarm_directory_get_java_class_name (jniEnv, javaObject);
+    swarm_directory_java_class_name (jniEnv, javaObject);
   
   [outputCharStream catPointer: self];
   [outputCharStream catC: " objc: "];
@@ -200,7 +200,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
 
 - javaFind: (jobject)theJavaObject
 {
-  unsigned index = swarm_directory_java_hash_code (theJavaObject);
+  unsigned index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
   id <Map> m = table[index];
   id ret;
 
@@ -239,7 +239,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   id entry;
   
   entry = ENTRY (theObject, (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject));
-  index = swarm_directory_java_hash_code (theJavaObject);
+  index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
   m = table[index];
 
   if (m == nil)
@@ -258,12 +258,12 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   id <Map> m;
   
   theJavaObject = (*jniEnv)->NewGlobalRef (jniEnv, theJavaObject);
-  index = swarm_directory_java_hash_code (entry->javaObject);
+  index = swarm_directory_java_hash_code (jniEnv, entry->javaObject);
   m = table[index];
   [m remove: entry];
   (*jniEnv)->DeleteGlobalRef (jniEnv, entry->javaObject);
   
-  index = swarm_directory_java_hash_code (theJavaObject);
+  index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
   entry->javaObject = theJavaObject;
   if (!table[index])
     table[index] = [Map create: getZone (self)];
@@ -324,7 +324,7 @@ compare_objc_objects (const void *A, const void *B, void *PARAM)
   unsigned index;
   id <Map> m;
   
-  index = swarm_directory_java_hash_code (theJavaObject);
+  index = swarm_directory_java_hash_code (jniEnv, theJavaObject);
   m = table[index];
   entry = [table[index] at: OBJCFINDENTRY (theObject)];
   if (!entry)
@@ -471,7 +471,7 @@ objcFindJavaClassName (Class class)
       
       entry->javaObject = (*jniEnv)->NewGlobalRef (jniEnv, entry->javaObject);
 
-      index = swarm_directory_java_hash_code (entry->javaObject);
+      index = swarm_directory_java_hash_code (jniEnv, entry->javaObject);
       m = table[index];
       if (!m)
         abort ();
@@ -796,7 +796,7 @@ static jstring
 get_base_class_name (JNIEnv *env, jobject jobj)
 {
   jstring classNameObj =
-    swarm_directory_get_java_class_name (env, jobj);
+    swarm_directory_java_class_name (env, jobj);
   jsize len = (*env)->GetStringLength (env, classNameObj);
   jclass clazz;
   jmethodID methodID;
@@ -1131,7 +1131,7 @@ swarm_directory_cleanup_strings (JNIEnv *env,
 }
 
 Class
-swarm_directory_get_class_from_objc_object (id object)
+swarm_directory_class_from_objc_object (id object)
 {
   jobject jobj;
 
@@ -1148,7 +1148,7 @@ swarm_directory_get_class_from_objc_object (id object)
 #endif
 
 Class 
-swarm_directory_get_swarm_class (id object)
+swarm_directory_swarm_class (id object)
 {
 #ifdef HAVE_JDK
   jobject jobj;
@@ -1161,7 +1161,7 @@ swarm_directory_get_swarm_class (id object)
       id proxy;
 
       jcls = (*jniEnv)->GetObjectClass (jniEnv, jobj);
-      className = swarm_directory_get_java_class_name (jniEnv, jobj);
+      className = swarm_directory_java_class_name (jniEnv, jobj);
       result = objc_class_for_class_name (className);
       FREECLASSNAME (className);
       if (result)
@@ -1177,13 +1177,13 @@ swarm_directory_get_swarm_class (id object)
 }
 
 const char *
-swarm_directory_get_language_independent_class_name  (id object)
+swarm_directory_language_independent_class_name  (id object)
 {
 #ifdef HAVE_JDK
   jobject jobj;
 
   if ((jobj = SD_FINDJAVA (jniEnv, object)))
-    return swarm_directory_get_java_class_name (jniEnv, jobj);
+    return swarm_directory_java_class_name (jniEnv, jobj);
   else 
     return (const char *) (getClass (object))->name;      
 #else

@@ -226,7 +226,7 @@ PHASE(Using)
 //
 - (const char *)getName
 {
-  return swarm_directory_get_language_independent_class_name (self);
+  return swarm_directory_language_independent_class_name (self);
 }
 
 //
@@ -724,7 +724,7 @@ _obj_dropAlloc (mapalloc_t mapalloc, BOOL objectAllocation)
                 [self name],
                 self,
                 jobj,
-                swarm_directory_java_hash_code (jobj));
+                swarm_directory_java_hash_code (jniEnv, jobj));
   
   fa = [FArguments createBegin: aZone];
   {

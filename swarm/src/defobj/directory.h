@@ -9,8 +9,8 @@
 #endif
 
 #include <objc/objc.h>
-Class swarm_directory_get_swarm_class (id object);
-const char *swarm_directory_get_language_independent_class_name (id object);
+Class swarm_directory_swarm_class (id object);
+const char *swarm_directory_language_independent_class_name (id object);
 
 #ifdef HAVE_JDK
 #undef SIZEOF_LONG /* Kaffe can define this (it's from swarmconfig.h) */
@@ -21,7 +21,7 @@ const char *swarm_directory_get_language_independent_class_name (id object);
 
 extern JNIEnv *jniEnv;
 
-const char *swarm_directory_get_java_class_name (JNIEnv *env, jobject obj);
+const char *swarm_directory_java_class_name (JNIEnv *env, jobject obj);
 
 void swarm_directory_init (JNIEnv *jniEnv,
                           jobject swarmEnvironment);
@@ -29,7 +29,7 @@ void swarm_directory_init (JNIEnv *jniEnv,
 
 jobject swarm_directory_java_instantiate (JNIEnv *jniEnv, jclass clazz);
 jobject swarm_directory_next_phase (JNIEnv *jniEnv, jobject jobj);
-unsigned swarm_directory_java_hash_code (jobject javaObject);
+unsigned swarm_directory_java_hash_code (JNIEnv *env, jobject javaObject);
 
 char swarm_directory_objc_type_for_java_class (JNIEnv *env, jclass class);
 const char *swarm_directory_signature_for_class (JNIEnv *env, jclass class);

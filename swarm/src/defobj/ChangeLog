@@ -6,6 +6,12 @@
 	* directory.h: Declare swarm_directory_get_java_class_name.
 	(JAVA_APPNAME): Remove.
 
+	* directory.[hm]: Remove "get" from names of swarm_directory_*
+	routines.
+	(swarm_directory_java_hash_code): Add JNIEnv * arg.
+
+	* DefObject.m ([Object_s -getName]): Accomodate.
+
 	* DefObject.m: Use getZone (self) throughout instead of [self getZone].
 
 1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
