@@ -1,7 +1,24 @@
 <sect1 id="swarm.user.user1.02.sect1">
   <title>Programming and simulation</title>
-   <para>Swarm is designed to help researchers build models in which low-level actors interact (often called "complex systems"). The researcher has to give content to "agents," possibly by thinking of them as honey bees, investors, trees, or (the ubiquitous) "bugs."  One research goal is to discern overall patterns that emerge from these detailed behaviors at the individual level. </para>
-    <para>Object oriented programming is ideally suited to represent models of this sort. As we shall see, the objects are self-contained.  Objects may be designed to convey information (answer questions) from other objects and also they can retain, categorize, and summarize information.</para>
+
+   <para>Swarm is designed to help researchers build models in which
+    low-level actors interact (often called "complex systems"). The
+    researcher has to give content to "agents," possibly by thinking
+    of them as honey bees, investors, trees, or (the ubiquitous)
+    "bugs."  One research goal is to discern overall patterns that
+    emerge from these detailed behaviors at the individual
+    level. </para>
+
+  <figure>
+    <title>Agent-based modeling</title>
+    <graphic entityref="modeling" scale="50"></graphic>
+  </figure>
+
+  <para>Object oriented programming is ideally suited to represent
+    models of this sort. As we shall see, the objects are
+    self-contained.  Objects may be designed to convey information
+    (answer questions) from other objects and also they can retain,
+    categorize, and summarize information.</para>
 
 <sect2>
  <title>What is an Object? </title> 

@@ -56,6 +56,6 @@ fi
 done
 
 AC_SUBST(SGML_CATALOG_FILES)
-dnl md_PROG_GS
+md_PROG_GS
 
-AC_OUTPUT([Makefile catalog userbook.tex])
+AC_OUTPUT([Makefile catalog userbook.tex figs/Makefile])

@@ -5,6 +5,9 @@ PUBLIC "-//SFI Hive//DOCUMENT DSSSL Common Definitions//EN" @top_dossrcdir@/comm
 
 PUBLIC "-//SFI Hive//ENTITIES Swarm Guide Metadata//EN" @top_dossrcdir@/usermeta.sgml
 
-PUBLIC "-//SFI Hive//ENTITIES Modeling GIF//EN" @top_dossrcdir@/figs/modeling.gif
+PUBLIC "-//SFI Hive//ENTITIES Guide Figure List//EN" @top_dossrcdir@/figs/figs.ent
+
+PUBLIC "-//SFI Hive//ENTITIES Modeling JPEG//EN" figs/modeling.jpeg
+PUBLIC "-//SFI Hive//ENTITIES Modeling EPS//EN" figs/modeling.eps
 
 SGMLDECL "@top_dossrcdir@/docbook.dcl"
