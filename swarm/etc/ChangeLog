@@ -1,3 +1,8 @@
+1999-06-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.common.in: Don't be particular about the value
+	of USESTATIC, just so it is non-empty.
+
 1999-06-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.common (SWARMLIBS): Use -lobjcdll with -lswarmdll.

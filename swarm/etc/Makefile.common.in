@@ -78,7 +78,7 @@ SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
 USEDLL=@USEDLL@
 
 ifeq ($(USEDLL),yes)
-ifeq ($(USESTATIC),yes)
+ifneq ($(USESTATIC),)
 SWARMLIBS = -lswarm
 OBJCLIBS = -lobjc
 else
