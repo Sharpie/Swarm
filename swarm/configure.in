@@ -233,7 +233,6 @@ if test $JAVAC != missing; then
   changequote(,)
   javaprefix=`echo $JAVAC | sed -e 's/\/javac$//' -e 's/\/[^/][^/]*$//'`
   changequote([,])
-echo $javaprefix 1>&6
 else
   javaprefix=none
 fi
