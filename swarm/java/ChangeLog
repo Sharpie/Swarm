@@ -1,3 +1,8 @@
+1999-06-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* javaswarm.in (JAVALIBPATH_VAR): If @USEDOSCLASSPATH@ is true,
+	adapt @swarm_libdir@ using cygpath -w. 
+
 1999-05-31  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.am (stubs): Use just one intermediate file, Makefile.common.

@@ -24,10 +24,12 @@ if test @USEDOSCLASSPATH@ = yes; then
   PS='@PATHSEP@'
   PD='@PATHDELIM@'
   swarmclassdir=`cygpath -w "@swarm_datadir@"`
+  @JAVALIBPATH_VAR@="`cygpath -w @swarm_libdir@`@PATHSEP@@JAVALIBS@"
 else
   PS=:
   PD=/
   swarmclassdir="@swarm_datadir@"
+  @JAVALIBPATH_VAR@="@swarm_libdir@${PS}@JAVALIBS@"
 fi
 
 JAVALIBS=@JAVALIBS@
@@ -35,7 +37,6 @@ JAVACLASSES='@JAVACLASSES@'
 JAVAENV=@JAVAENV@
 JAVACMD=@JAVACMD@
 
-@JAVALIBPATH_VAR@="@swarm_libdir@:@JAVALIBS@"
 export @SHLIBPATH_VAR@ @JAVALIBPATH_VAR@
 
 JAVA_CLASSES_INSTALLED_AS=@JAVA_CLASSES_INSTALLED_AS@
