@@ -16,12 +16,12 @@ PHASE(Creating)
 {
   int i;
   int screen;
+  Display *display;
   
   [super createEnd];
   
   tkwin = tkobjc_nameToWindow (".");
   display = Tk_Display (tkwin);
-  xwin = Tk_WindowId (tkwin);
   screen = DefaultScreen (display);
   white = WhitePixel (display, screen);
   black = BlackPixel (display, screen);
@@ -67,33 +67,8 @@ PHASE(Using)
     }
   else
     {
-      int rc;
-      XColor exc, sxc;
-
       isSet[c] = YES;
-      rc = XLookupColor (display, cmap, colorName, &exc, &sxc);
-      if (!rc)
-        {
-          [ResourceAvailability
-            raiseEvent:
-              "Problem locating color %s. Substituting white.\n",
-            colorName];
-          map[c] = white;
-          return NO;
-        }
-      for (;;)
-        {
-          rc = XAllocColor (display, cmap, &sxc);
-          if (rc)
-            break;
-          [ResourceAvailability
-            raiseEvent:
-              "Problem allocating color %s.  Switching to virtual colormap.\n",
-            colorName];
-          cmap = XCopyColormapAndFree (display, cmap);
-        }
-      map[c] = sxc.pixel;
-      return YES;
+      return tkobjc_setColor (self, colorName, &map[c]);
     }
 }
 

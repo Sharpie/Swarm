@@ -568,8 +568,50 @@ tkobjc_raster_createContext (Raster *raster)
   private->gc = gc;
 }
 
+BOOL
+tkobjc_setColor (Colormap *colormap, const char *colorName, PixelValue *pvptr)
+{
+  int rc;
+  XColor exc, sxc;
+  Display *display = Tk_Display (colormap->tkwin);
+  int screen = DefaultScreen (display);
+
+  rc = XLookupColor (display, colormap->cmap, colorName, &exc, &sxc);
+  if (!rc)
+    {
+      [ResourceAvailability
+        raiseEvent:
+          "Problem locating color %s. Substituting white.\n",
+        colorName];
+      *pvptr = WhitePixel (display, screen);
+      return NO;
+    }
+  for (;;)
+    {
+      rc = XAllocColor (display, colormap->cmap, &sxc);
+      if (rc)
+        break;
 #ifndef _WIN32
-static Window
+      [ResourceAvailability
+            raiseEvent:
+          "Problem allocating color %s.  Switching to virtual colormap.\n",
+        colorName];
+      colormap->cmap = XCopyColormapAndFree (display, colormap->cmap);
+#else
+      [ResourceAvailability
+            raiseEvent:
+          "Problem allocating color %s.  Substituting white.\n",
+        colorName];
+      *pvptr = WhitePixel (display, screen);
+      return NO;
+#endif
+    }
+  *pvptr = sxc.pixel;
+  return YES;
+}
+  
+#ifndef _WIN32
+  static Window
 x_get_managed_toplevel_window (Display *display, Window window)
 {
   Window parent, w;

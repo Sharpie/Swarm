@@ -1,10 +1,18 @@
 1998-12-11  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* internal.[hm] (tkobjc_setColor): New function. 
+
+	* Colormap.m ([Colormap -createEnd]): Remove reference to xwin.
+	Display and screen are local.
+	([Colormap -setColor:ToName:]): Use tkobjc_setColor instead of
+	using X things directly.  Switch to virtual
+	colormap and retry if XAllocColor fails -- don't revert to white.
+
+	* Colormap.h (Colormap): Remove display and xwin.  Make tkwin
+	public.
+
 	* Makefile.am: Use OBJCFLAGS instead of CFLAGS, and add
 	-Wno-implicit-int to OBJCFLAGS instead of CPPFLAGS.
-
-	* Colormap.m ([Colormap -setColor:ToName:]): Switch to virtual
-	colormap and retry if XAllocColor fails -- don't revert to white.
 
 1998-12-10  Marcus G. Daniels  <mgd@chama.santafe.edu>
 

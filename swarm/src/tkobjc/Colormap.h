@@ -22,17 +22,12 @@
 
 @interface Colormap: CreateDrop <Colormap>
 {
-  // state for the Object
   PixelValue white, black;
-  
-  // data necessary for Xlib.
-  Tk_Window tkwin;
-  Display *display;
-  Window xwin;
 @public
   PixelValue map[MAXCOLORS];
   BOOL isSet[MAXCOLORS];
   X11Colormap cmap;
+  Tk_Window tkwin;
 }
 
 - (PixelValue *)map;
