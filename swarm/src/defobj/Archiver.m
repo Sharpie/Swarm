@@ -281,32 +281,40 @@ archiverUnregister (id client)
     [archiver->instances remove: client];
 }
 
+static void
+archiverPut (const char *keyStr, id value,
+             BOOL deepFlag,
+             id deepMap, id shallowMap)
+{
+  id key = [String create: [archiver getZone] setC: keyStr];
+
+  if (deepFlag)
+    {
+      if ([deepMap at: key])
+        [deepMap at: key replace: value];
+      else
+        [deepMap at: key insert: value];
+      if ([shallowMap at: key])
+        [shallowMap removeKey: key];
+    }
+  else
+    {
+      if ([shallowMap at: key])
+        [shallowMap at: key replace: value];
+      else
+        [shallowMap at: key insert: value];
+      if ([deepMap at: key])
+        [deepMap removeKey: key];
+    }
+}
+
 void
 lispArchiverPut (const char *key, id object, BOOL deepFlag)
 {
   id app = [archiver getApplication];
-  id deepMap = [app getLispDeepMap];
-  id shallowMap = [app getLispShallowMap];
-  id keyObj = [String create: [archiver getZone] setC: key];
 
-  if (deepFlag)
-    {
-      if ([deepMap at: keyObj])
-        [deepMap at: keyObj replace: object];
-      else
-        [deepMap at: keyObj insert: object];
-      if ([shallowMap at: keyObj])
-        [shallowMap removeKey: keyObj];
-    }
-  else
-    {
-      if ([shallowMap at: keyObj])
-        [shallowMap at: keyObj replace: object];
-      else
-        [shallowMap at: keyObj insert: object];
-      if ([deepMap at: keyObj])
-        [deepMap removeKey: keyObj];
-    }
+  archiverPut (key, object, deepFlag,
+               [app getLispDeepMap], [app getLispShallowMap]);
 }
 
 void
@@ -314,13 +322,9 @@ hdf5ArchiverPut (const char *key, id object, BOOL deepFlag)
 {
 #ifdef HAVE_HDF5
   id app = [archiver getApplication];
-  id map = deepFlag ? [app getHDF5DeepMap] : [app getHDF5ShallowMap];
-  id keyObj = [String create: [archiver getZone] setC: key];
-  
-  if ([map at: keyObj])
-    [map at: keyObj replace: object];
-  else
-    [map at: keyObj insert: object];
+
+  archiverPut (key, object, deepFlag,
+               [app getHDF5DeepMap], [app getHDF5ShallowMap]);
 #else
   hdf5_not_available ();
 #endif

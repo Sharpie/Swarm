@@ -3,7 +3,8 @@
 	* Archiver.m ([Archiver_c -lispOut:]): Put cons
 	(cons appKey objects) within loop over applications.
 	(lispProcessMakeObjcPairs): Pass app instead of deepMap.
-	(lispArchiverPut): Keep key in just one Map.
+	(archiverPut): New function.  Keep key in just one Map.
+	(lispArchiverPut, hdf5ArchiverPut): Use it.
 
 	* HDF5Object.m, defobj.h ([HDF5_c -storeAttributeName:value:]):
 	New method (a parameterized storeTypeName:).
