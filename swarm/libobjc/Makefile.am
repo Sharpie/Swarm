@@ -18,7 +18,7 @@ EXTRA_LTLIBRARIES = libobjc.la
 #EXTRA_PROGRAMS = objc.dll
 
 libobjc_la_SOURCES = $(CSRC) $(MSRC)
-libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) -L$(dir $(shell $(CC) -print-libgcc-file-name))
+libobjc_la_LDFLAGS = -version-info $(CURRENT):$(REVISION):$(AGE) -rpath $(libdir) # -L$(dir $(shell $(CC) -print-libgcc-file-name))
 libobjc_la_LIBADD = $(objc_thread_lo) -lgcc
 libobjc_la_DEPENDENCIES = $(objc_thread_lo)
 
