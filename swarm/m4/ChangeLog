@@ -1,3 +1,7 @@
+1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Check for win32 as well as winnt subdirectory.
+
 1999-07-25  Alex Lancaster  <alex@santafe.edu>
 
 	* acjdk.m4: Add explicit check for green and native threads in

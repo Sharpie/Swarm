@@ -52,6 +52,10 @@ else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/winnt"
       JAVALIBS=no
       JAVACMD='${jdkdir}/bin/java'
+    elif test -f $jdkincludedir/win32/jni_md.h; then
+      JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/win32"
+      JAVALIBS=no
+      JAVACMD='${jdkdir}/bin/java'
     else
       JAVAINCLUDES="$JAVAINCLUDES -I$jdkincludedir/genunix"
       JAVACMD='${jdkdir}/bin/java'
