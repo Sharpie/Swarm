@@ -42,12 +42,12 @@ compiler-info.h: $(COMPILERINFOHEADER)
 	cp $(COMPILERINFOHEADER) $@
 
 CTOR = libobjc_constructors
-DLLOBJS = $(addsuffix .o,$(basename $(objc_SOURCES)))
+DLLOBJS = $(addsuffix .o,$(basename $(libobjc__la_SOURCES)))
 
 empty.c:
 	echo > empty.c
 
-libobjc.a objc.dll: 
+objc.dll: 
 	$(CC) -c $(srcdir)/dllinit.c
 	$(srcdir)/genctors $(DLLOBJS) > $(CTOR).c
 	$(CC) -c $(CTOR).c
