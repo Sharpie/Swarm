@@ -1,3 +1,7 @@
+1999-08-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4: Don't override JAVAC when --with-jdkdir is absent.
+
 1999-08-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* aclonglong.m4: Don't define LLFMT if unknown.
