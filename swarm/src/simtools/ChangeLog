@@ -1,3 +1,31 @@
+1997-12-19  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtools.h (ActionCache): Make setScheduleContext a Using phase
+	method.  Add setControlPanelGeometryRecordName. 
+        (InFile): Add getline to InFile protocol.
+	Reformatting throughout (remove gratuitous space).
+
+	* ProbeDisplay.h: Reformatting throughout.
+
+	* GUISwarm.m ([GUISwarm -buildObjects]): Remove
+	controlPanelGeometryRecordName setter.  Don't use it in buildObjects.
+
+	* GUISwarm.h (GUISwarm): Remove controlPanelGeometryRecordName
+	and setter.
+
+	* ActionCache.h: Make setScheduleContext a Use phase method.
+	Minor reformatting.	
+
+	* ActionCache.m ([ActionCache -setScheduleContext:]): Likewise
+	(just moved).
+
+1997-12-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* simtools.h: Add setWindowGeometryRecordName to ProbeDisplay
+	protocol.
+
+	* ProbeDisplay.h: Reformatting method declarations.
+
 1997-12-17  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* MessageProbeWidget.m ([MessageProbeWidget -dynamic]): Constify

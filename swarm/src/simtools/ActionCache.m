@@ -17,21 +17,16 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 @implementation ActionCache
 
 // Create Phase methods
+
 - setControlPanel: cp
 {
   ctrlPanel = cp;
   return self;
 }
 
-- setControlPanelGeometryRecordName : (const char *)theName
+- setControlPanelGeometryRecordName: (const char *)name;
 {
-  controlPanelGeometryRecordName = theName;
-  return self;
-}
-
-- setScheduleContext: context
-{
-  [destinationSchedule activateIn: context];
+  controlPanelGeometryRecordName = name;
   return self;
 }
 
@@ -74,6 +69,13 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 }
 
 // Use phase methods
+
+- setScheduleContext: context
+{
+  [destinationSchedule activateIn: context];
+  return self;
+}
+
 - insertAction: actionHolder
 {
   id <Symbol> actionType;
@@ -240,7 +242,6 @@ id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 {
   return self;
 }
-
 
 // Widget methods
 - (ButtonPanel * )createProcCtrl

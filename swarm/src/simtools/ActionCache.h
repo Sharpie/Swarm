@@ -13,7 +13,7 @@
   id <List> actionCache;
   id <Schedule> destinationSchedule;
   id ctrlPanel;
-
+  
   const char *controlPanelGeometryRecordName;
 
   // widget IVar
@@ -22,15 +22,15 @@
 
 // Create Phase methods
 - setControlPanel: cp;
-- setControlPanelGeometryRecordName : (const char *)theName;
-- setScheduleContext: context;
+- setControlPanelGeometryRecordName : (const char *)name;
 - createEnd;
 
 // Use phase methods
-- insertAction: (id) actionHolder;
+- setScheduleContext: context;
+- insertAction: actionHolder;
 - deliverActions;
 // generic send method underlying the specific send methods
-- sendActionOfType: (id <Symbol>) type toExecute: (const char *) cmd;
+- sendActionOfType: (id <Symbol>) type toExecute: (const char *)cmd;
 - sendStartAction;
 - sendStopAction;
 - sendStepAction;
@@ -39,7 +39,7 @@
 - verifyActions;
 
 // widget methods
-- (ButtonPanel *)createProcCtrl ;
+- (ButtonPanel *)createProcCtrl;
 - (ButtonPanel *)getPanel;
 - doTkEvents;
 

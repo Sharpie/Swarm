@@ -2,12 +2,6 @@
 Name:            simtools.h
 Description:     miscellaneous widgetry
 Library:         simtools
-Authors:         Manor Askenazi
-Date:            1996-19-12
-
-Changes:
-* 1997/11/13     Glen E. Ropella
-                 Installed in Swarm distrib.  Added ActionCache.
 */
 
 #import <objectbase.h>
@@ -21,22 +15,23 @@ Changes:
 //
 @protocol ControlPanel <SwarmObject>
 CREATING
--		createEnd;
+- setControlPanelGeometryName: (const char *)name;
+- createEnd;
 USING
--		getState;
--		setState: (id) s;
--		waitForControlEvent;
+- getState;
+- setState: s;
+- waitForControlEvent;
 
--               startInActivity: (id) activityID;
--		setStateRunning;
--		setStateStopped;
--		setStateStepping;
--		setStateQuit;
--		setStateNextTime;
+- startInActivity: activityID;
+- setStateRunning;
+- setStateStopped;
+- setStateStepping;
+- setStateQuit;
+- setStateNextTime;
 
 // Deprecated methods
--		doTkEvents;
--               getPanel;
+- doTkEvents;
+- getPanel;
 @end
 // State Symbols for the ControlPanel.
 extern id ControlStateRunning, ControlStateStopped;
@@ -50,25 +45,24 @@ extern id ControlStateStepping, ControlStateNextTime, ControlStateQuit;
 //
 @protocol ActionCache <SwarmObject>
 CREATING
--               setControlPanel: (id) cp;
--               setScheduleContext: (id) context;
--               createEnd;
-
+- setControlPanel: cp;
+- createEnd;
+- setControlPanelGeometryRecordName: (const char *)name;
 USING
--               insertAction: (id) actionHolder;
--               deliverActions;
--               sendActionOfType: (id <Symbol>) type 
-		       toExecute: (const char *)cmd;
--               sendStartAction;
--               sendStopAction;
--               sendStepAction;
--               sendNextAction;
--               sendQuitAction;
--               verifyActions;
+- setScheduleContext: context;
+- insertAction: actionHolder;
+- deliverActions;
+- sendActionOfType: (id <Symbol>) type toExecute: (const char *)cmd;
+- sendStartAction;
+- sendStopAction;
+- sendStepAction;
+- sendNextAction;
+- sendQuitAction;
+- verifyActions;
 
--               createProcCtrl ;
--               getPanel;
--               doTkEvents;  //should change to pollGUI or something
+- createProcCtrl;
+- getPanel;
+- doTkEvents;  // should change to pollGUI or something
 @end
 // Type Symbols for ActionCache
 extern id <Symbol> Control, Probing, Spatial;
@@ -83,12 +77,13 @@ extern id <Symbol> InvalidActionType, ActionTypeNotImplemented;
 //
 @protocol ProbeDisplay <SwarmObject>
 CREATING
--		setProbedObject: anObject;
--		setProbeMap: (ProbeMap *) probeMap;
+- setProbedObject: anObject;
+- setProbeMap: (ProbeMap *)probeMap;
+- setWindowGeometryRecordName: (const char *)name;
 USING
--		getProbedObject ;
--		getProbeMap ;
--		update ;  // implemented in SimpleProbeDisplay...
+- getProbedObject;
+- getProbeMap;
+- update;  // implemented in SimpleProbeDisplay...
 @end
 
 //
@@ -99,11 +94,12 @@ USING
 //
 @protocol CompleteProbeDisplay <SwarmObject>
 CREATING
--		setProbedObject: anObject;
+- setProbedObject: anObject;
+- setWindowGeometryRecordName: (const char *)theName;
 USING
--		getProbedObject;
--	        update;
--               getMarkedForDropFlag;
+- getProbedObject;
+- update;
+- getMarkedForDropFlag;
 @end
 
 //
@@ -114,19 +110,19 @@ USING
 //
 @protocol ProbeDisplayManager <SwarmObject>
 USING
--		createProbeDisplayFor: anObject;
--               createProbeDisplayFor             : anObject
-                       setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createProbeDisplayFor: anObject;
+- createProbeDisplayFor      : anObject
+  setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 
--		createCompleteProbeDisplayFor: anObject;
--               createCompleteProbeDisplayFor     : anObject
-                       setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createCompleteProbeDisplayFor: anObject;
+- createCompleteProbeDisplayFor     : anObject
+         setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
 
--		addProbeDisplay: probeDisplay;
--		removeProbeDisplayFor: anObject ;
--		removeProbeDisplay: probeDisplay;
--               setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
--		update;
+- addProbeDisplay: probeDisplay;
+- removeProbeDisplayFor: anObject;
+- removeProbeDisplay: probeDisplay;
+- setDropImmediatelyFlag: (BOOL)dropImmediateFlag;
+- update;
 @end
 
 //
@@ -142,14 +138,14 @@ USING
 //
 @protocol UName <SwarmObject>
 CREATING
-+		create: aZone setBaseName: (const char *)aString ;
-+		create: aZone setBaseNameObject: aStringObject ;
++ create: aZone setBaseName: (const char *)aString;
++ create: aZone setBaseNameObject: aStringObject;
 
--		setBaseName: (const char *)aString ;
--		setBaseNameObject: aStringObject ;
+- setBaseName: (const char *)aString;
+- setBaseNameObject: aStringObject;
 USING
-- (const char *)getNewName ;
--		getNewNameObject ;
+- (const char *)getNewName;
+- getNewNameObject;
 @end
 
 //
@@ -159,18 +155,19 @@ USING
 //
 @protocol InFile <SwarmObject>
 CREATING
-+		create: aZone withName: (const char *)theName;
++ create: aZone withName: (const char *)theName;
 USING
-- (int)		getWord: (char *) aWord ;
-- (int)		getInt: (int *) anInt ;
-- (int)         getUnsigned: (unsigned *) anUnsigned;
-- (int)         getLong: (long *) aLong ;
-- (int)         getUnsignedLong: (unsigned long *) anUnsLong ;
-- (int)		getDouble: (double *) aDouble ;
-- (int)		getFloat: (float *) aFloat ;
-- (int)		getChar: (char *) aChar ;
-- (int)		unGetChar: (char) aChar ;
-- (int)		skipLine ;
+- (int)getWord: (char *)aWord;
+- (int)getLine: (char *)aLine;
+- (int)getInt: (int *)anInt;
+- (int)getUnsigned: (unsigned *)anUnsigned;
+- (int)getLong: (long *)aLong;
+- (int)getUnsignedLong: (unsigned long *)anUnsLong;
+- (int)getDouble: (double *)aDouble;
+- (int)getFloat: (float *)aFloat;
+- (int)getChar: (char *)aChar;
+- (int)unGetChar: (char)aChar;
+- (int)skipLine;
 @end
 
 //
@@ -180,18 +177,18 @@ USING
 //
 @protocol OutFile <SwarmObject>
 CREATING
-+		create: aZone withName: (const char *)theName;
++ create: aZone withName: (const char *)theName;
 USING
--		putString: (const char *)aString;
--		putInt: (int) anInt ;
--               putUnsigned: (unsigned) anUnsigned;
--               putLong: (long) aLong ;
--               putUnsignedLong: (unsigned long) anUnsLong ;
--		putDouble: (double) aDouble ;
--		putFloat: (float) aFloat ;
--		putChar: (char) aChar ;
--		putTab ;
--		putNewLine ;
+- putString: (const char *)aString;
+- putInt: (int) anInt;
+- putUnsigned: (unsigned)anUnsigned;
+- putLong: (long)aLong;
+- putUnsignedLong: (unsigned long)anUnsLong;
+- putDouble: (double)aDouble;
+- putFloat: (float)aFloat;
+- putChar: (char)aChar;
+- putTab;
+- putNewLine;
 @end
 
 //
@@ -201,18 +198,18 @@ USING
 //
 @protocol AppendFile <SwarmObject>
 CREATING
-+		create: aZone withName: (const char *)theName;
++ create: aZone withName: (const char *)theName;
 USING
--		putString: (const char *)aString;
--		putInt: (int) anInt ;
--               putUnsigned: (unsigned) anUnsigned;
--               putLong: (long) aLong ;
--               putUnsignedLong: (unsigned long) anUnsLong ;
--		putDouble: (double) aDouble ;
--		putFloat: (float) aFloat ;
--		putChar: (char) aChar ;
--		putTab ;
--		putNewLine ;
+- putString: (const char *)aString;
+- putInt: (int)anInt;
+- putUnsigned: (unsigned)anUnsigned;
+- putLong: (long)aLong;
+- putUnsignedLong: (unsigned long)anUnsLong;
+- putDouble: (double)aDouble;
+- putFloat: (float)aFloat;
+- putChar: (char)aChar;
+- putTab;
+- putNewLine;
 @end
 
 //
@@ -222,13 +219,13 @@ USING
 //
 @protocol ObjectLoader <SwarmObject>
 USING
-+		load: anObject from: aFileObject ;
-+		load: anObject fromFileNamed: (const char *) aFileName ;
++ load: anObject from: aFileObject;
++ load: anObject fromFileNamed: (const char *) aFileName;
 
--		setFileObject: aFileObject ;
--		loadObject: anObject ;
+- setFileObject: aFileObject;
+- loadObject: anObject;
 // In case the same class is being loaded multiple times...
--		updateCache: exampleTarget ; 
+- updateCache: exampleTarget; 
 @end
 
 //
@@ -239,15 +236,15 @@ USING
 //
 @protocol ObjectSaver <SwarmObject>
 USING
-+		save: anObject to: aFileObject ;
-+		save: anObject to: aFileObject withTemplate: aProbeMap ;
-+		save: anObject toFileNamed: (const char *) aFileName ;
-+		save: anObject toFileNamed: (const char *) aFileName 
-			      withTemplate: (ProbeMap *) aProbeMap ;
++ save: anObject to: aFileObject;
++ save: anObject to: aFileObject withTemplate: aProbeMap;
++ save: anObject toFileNamed: (const char *)aFileName;
++ save: anObject toFileNamed: (const char *)aFileName 
+                withTemplate: (ProbeMap *)aProbeMap;
 
--		setFileObject: aFileObject ;
--		setTemplateProbeMap: aProbeMap ;
--		saveObject: anObject ;
+- setFileObject: aFileObject;
+- setTemplateProbeMap: aProbeMap;
+- saveObject: anObject;
 @end
 
 //
@@ -256,12 +253,12 @@ USING
 //
 @protocol QSort <SwarmObject>
 USING
-+ (void)	sortObjectsIn: aCollection ;
-+ (void)        sortObjectsIn: aCollection using: (SEL) aSelector ;
-+ (void)	sortNumbersIn: aCollection ;
-+ (void)        sortNumbersIn: aCollection
-			using: (int(*)(const void*,const void*)) comp_fun ;
-+ (void)        reverseOrderOf: aCollection;
++ (void)sortObjectsIn: aCollection;
++ (void)sortObjectsIn: aCollection using: (SEL) aSelector;
++ (void)sortNumbersIn: aCollection;
++ (void)sortNumbersIn: aCollection
+                using: (int(*)(const void*,const void*)) comp_fun;
++ (void)reverseOrderOf: aCollection;
 @end
 
 //
@@ -272,7 +269,7 @@ USING
 //
 @protocol NSelect <SwarmObject>
 USING
-+ (void)	select: (int) n from: aCollection into: bCollection ;
++ (void)select: (int)n from: aCollection into: bCollection;
 @end
 
 //
@@ -281,9 +278,9 @@ USING
 //
 @protocol ActiveGraph <MessageProbe>
 USING
--               setElement: (id) ge;
--               setDataFeed: (id) d;
--               step;
+- setElement: ge;
+- setDataFeed: d;
+- step;
 @end
 
 //
@@ -292,19 +289,18 @@ USING
 //
 @protocol ActiveOutFile <MessageProbe>
 USING
--               setFileObject: (id) aFileObj ;
--               setDataFeed: (id) d;
--               step;
+- setFileObject: aFileObj;
+- setDataFeed: d;
+- step;
 @end
 
 // Manager that keeps track of active probes to be updated
 extern id <ProbeDisplayManager> probeDisplayManager;
 
-void initSwarm(int argc, char ** argv);
+void initSwarm (int argc, char ** argv);
 
 // Flag for whether we're in graphics mode or not. Default is 1.
 extern int swarmGUIMode;
-
 
 @class ControlPanel;
 @class ActionCache;

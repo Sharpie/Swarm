@@ -14,10 +14,10 @@
   const char *windowGeometryRecordName;
 }
 
--setWindowGeometryRecordName : (const char *)theName;
--setProbedObject: anObject;
--getProbedObject ;
--setProbeMap: (ProbeMap *) probeMap;
--getProbeMap ;
--createEnd;
+- setWindowGeometryRecordName: (const char *)theName;
+- setProbedObject: anObject;
+- getProbedObject;
+- setProbeMap: (ProbeMap *)probeMap;
+- getProbeMap;
+- createEnd;
 @end
