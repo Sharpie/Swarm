@@ -77,6 +77,9 @@ printVal (val_t val)
     case _C_DBL:
       sprintf (buf, "%f", val.val._double);
       break;
+    case _C_VOID:
+      strcpy (buf, "none");
+      break;
     default:
       abort ();
     }
