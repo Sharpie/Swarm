@@ -165,13 +165,6 @@ USING
 @end
 
 @protocol _VarProbe
-//S: A class that allows the user to inspect a given variable in any
-//S: candidate that is an instance of, or inherits from, a given class.
-
-//D: This is a specialized subclass of the abstract class Probe.
-//D: It completes the specification of a probe that refers to an
-//D: instance variable element of an object. 
-
 CREATING
 //M: The setProbedVariable: sets the variable being probed.
 //M: The aVariable identifier is simply a character string consisting
@@ -253,6 +246,12 @@ USING
 @end
 
 @protocol VarProbe <_VarProbe, Probe>
+//S: A class that allows the user to inspect a given variable in any
+//S: candidate that is an instance of, or inherits from, a given class.
+
+//D: This is a specialized subclass of the abstract class Probe.
+//D: It completes the specification of a probe that refers to an
+//D: instance variable element of an object. 
 @end
 
 //T: This type is used in MessageProbes to return an object of arbitrary
