@@ -17,7 +17,7 @@ if test $jdkdir = no; then
   JAVASWARMSCRIPTS=
 else
   USEDOSCLASSPATH=no
-  if test $jdkdir = /usr; then
+  if test $jdkdir = /usr && test -d /usr/include/java; then
     jdkincludedir=$jdkdir/include/java
   else
     jdkincludedir=$jdkdir/include

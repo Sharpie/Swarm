@@ -1,3 +1,8 @@
+1999-07-27  Alex Lancaster  <alex@santafe.edu>
+
+	* acjdk.m4: Only set $jdkincludedir to $jdkincludedir/include/java
+	if it exists.
+
 1999-07-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* actcltk.m4 (md_CHECK_TCLTK_LIBINC_VERSION_MATCH): New macro.
