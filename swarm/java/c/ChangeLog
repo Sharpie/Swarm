@@ -1,6 +1,6 @@
-1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+1999-06-05    <mgd@HELEN>
 
-	* Makefile.in (ALLOBJECTS): Don't convert to .o filenames.
+	* Makefile.in (javaswarm.dll): Use .o instead of .lo stubs files.
 
 1999-06-05    <mgd@HELEN>
 
@@ -20,7 +20,6 @@
 1999-05-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (libjavaswarm.la): Use only libswarm and libobjc.
-	(ALLOBJECTS): New variable.
 	(javaswarm.dll): New target.  Use it.
 	(all): Use substitution targets.
 	(libjavaswarm_.la, libjavaswarmstubs_.la): New intermediate
