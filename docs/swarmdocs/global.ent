@@ -21,9 +21,17 @@ Santa Fe NM 87501</literallayout>">
 <!ENTITY swarm-program '&program-name;
 &address;<literal><ulink url="mailto:swarm@santafe.edu">swarm@santafe.edu</ulink></literal>'>
 
-
 <!ENTITY swarm-release-number "1.1">
 
 <!ENTITY swarm-doc-release-number "1.1">
 
-<!ENTITY pubdate "1998-05-13">
+<!ENTITY pubdate "20 May 1998">
+
+<!ENTITY bibliodata "
+    <RELEASEINFO>&swarm-doc-release-number;</RELEASEINFO>
+    <PUBDATE>&pubdate;</PUBDATE>
+    <COPYRIGHT>
+      <YEAR>1996</YEAR><YEAR>1997</YEAR><YEAR>1998</YEAR>
+      <HOLDER>the &orgname;</HOLDER></COPYRIGHT>"
+>
+
