@@ -1,6 +1,5 @@
 #include <misc.h>
 
-#if 0
 void *GC_malloc_atomic_uncollectable (size_t) __attribute__ ((weak));
 void *GC_malloc_uncollectable (size_t) __attribute__ ((weak));
 void *GC_realloc (void *buf, size_t size) __attribute__ ((weak));
@@ -30,6 +29,7 @@ GC_free (void *ptr)
   free (ptr);
 }
 
+#if 0
 void *
 xmalloc (size_t size)
 {
