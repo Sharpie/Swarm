@@ -1,3 +1,23 @@
+1998-06-13  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* print.dsl (example-title, example-entry-text, make-list, 
+	make-listitem): Ne wfunctions.
+
+	* html.dsl (book): Redefine to run the lot generation
+	code (that is disabled in DocBook itself).
+	(example-title, example-entry-text, $lot-entry$, lot-title,
+	make-list, make-listitem): New functions.
+
+	* common.dsl (example-text, title): Remove.
+	(example-entry): Pass match-protocol instead of last-node. 
+	When match-protocol is set, an example-node must be
+	labeled with match-protocol.
+	(collect-example-protocols, uniqify, extract-module-list, 
+	filter-protocols, lots-for-protocol): New functions.
+	(build-lot): Most of previous contents moved into lots-for-protocol.
+	Example table now built by iterating over the modules and 
+	protocols (instead of tracking changes in the label).
+
 1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* print.dsl ($img$): Strip off <OSFILE>, but leave path.  Insert

@@ -241,6 +241,48 @@
       (element corpauthor (corpauthor))
       (element title (infotitle)))
 
+(define (example-title text)
+    (make sequence
+          font-weight: 'bold
+          (literal text)))
+
+(define (example-entry-text example-node)
+    (make-listitem 2
+                   (literal (example-label example-node #f))
+                   (sosofo-append
+                    (make leader (literal "."))
+                    (make link
+                          destination: (node-list-address example-node)
+                          (with-mode toc-page-number-mode
+                            (process-node-list example-node))))))
+
+(define (make-list sosofo)
+    (make display-group
+          start-indent: (if (INBLOCK?)
+                            (inherited-start-indent)
+                            (+ %block-start-indent% (inherited-start-indent)))
+          space-before: (if (INLIST?) %para-sep% %block-sep%)
+          space-after:  (if (INLIST?) %para-sep% %block-sep%)
+          sosofo))
+
+(define (make-listitem level title contents)
+    (let ((indent-step (ILSTEP))
+          (override #f)
+          (mark #f)
+          (ilevel level))
+      (make sequence
+            start-indent: (+ (inherited-start-indent) indent-step)
+            (make paragraph
+                  use: para-style
+                  first-line-start-indent: (- indent-step)
+                  (make line-field
+                        font-size: (BULLTREAT BULLSIZE ilevel override mark)
+                        position-point-shift: (BULLTREAT BULLSHIFT ilevel override mark)
+                        field-width: (ILSTEP)
+                        (literal (BULLTREAT BULLSTR ilevel override mark)))
+                  title
+                  contents))))
+
 </style-specification-body>
 </style-specification>
 

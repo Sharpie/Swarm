@@ -326,65 +326,19 @@
                                    ""))))
           (element-label example-node))))
 
-(define (example-text text level)
-    (make paragraph
-          use: para-style
-          start-indent: (+ %body-start-indent%
-                           (* %toc-indent% level))
-          first-line-start-indent: (* -1 %toc-indent%)
-          font-weight: 'medium
-          space-before: 0pt
-          space-after: 0pt
-          quadding: 'start
-          (literal text)))
-
-(define (example-title protocol #!optional module)
-    (sosofo-append
-     (if module
-         (example-text module 1)
-         (empty-sosofo))
-     (example-text protocol 2)))
-
-(define (example-entry example-node last-node)
+(define (example-entry example-node match-protocol)
     (let ((label (attribute-string "LABEL" example-node)))
       (if label
           (let* ((parts (split-string label #\/))
                  (afterprotocol (cdr (cdr parts)))
                  (module (car parts))
-                 (protocol (car (cdr parts)))
-                 (text-sosofo (make paragraph
-                                    use: para-style
-                                    start-indent: (+ %body-start-indent% (* %toc-indent% 3))
-                                    first-line-start-indent: (* -1 %toc-indent%)
-                                    font-weight: 'medium
-                                    space-before: 0pt
-                                    space-after: 0pt
-                                    quadding: 'start
-                                    (literal (example-label example-node #f))
-                                    (make leader (literal "."))
-                                    (make link
-                                          destination: (node-list-address example-node)
-                                          (with-mode toc-page-number-mode
-                                            (process-node-list example-node))))))
-            (let ((last-label (if last-node (attribute-string "LABEL" last-node) #f)))
-              (if last-label
-                  (let* ((last-parts (split-string last-label #\/))
-                         (last-afterprotocol (cdr (cdr last-parts)))
-                         (last-module (car last-parts))
-                         (last-protocol (car (cdr last-parts))))
-                    (if (string=? module last-module)
-                        (if (string=? protocol last-protocol)
-                            text-sosofo
-                            (sosofo-append
-                             (example-title protocol)
-                             text-sosofo))
-                        (sosofo-append
-                         (example-title protocol module)
-                         text-sosofo)))
-                  (sosofo-append
-                   (example-title protocol module)
-                   text-sosofo))))
-          ($lot-entry$ example-node))))
+                 (protocol (car (cdr parts))))
+            (if (and match-protocol (string=? match-protocol protocol))
+                (example-entry-text example-node)
+                (empty-sosofo)))
+          (if match-protocol
+              (empty-sosofo)
+              ($lot-entry$ example-node)))))
 
 (mode formal-object-title-mode
       (element (example title)
@@ -397,49 +351,124 @@
                         (literal " ")
                         (literal (example-label example-node)))))))
 
-(define (second l)
-  (car (cdr l)))
+(define (collect-example-protocols nl)
+    (let loop ((nl nl))
+         (if (node-list-empty? nl)
+             '()
+             (let* ((node (node-list-first nl))
+                    (node-gi (gi node))
+                    (child-protocols (collect-example-protocols (children node))))
+               (append
+                child-protocols
+                (if (and node-gi (string=? (gi node) "EXAMPLE"))
+                    (let ((label (attribute-string "LABEL" node)))
+                      (if label
+                          (let* ((parts (split-string label #\/))
+                                 (module (car parts))
+                                 (protocol (car (cdr parts))))
+                            (cons (cons module protocol) (loop (node-list-rest nl))))
+                          (loop (node-list-rest nl))))
+                    (loop (node-list-rest nl))))))))
+
+(define (uniqify duplicate-list)
+    (let loop ((l duplicate-list))
+         (if (null? l)
+             '()
+             (let ((item (car l)))
+               (if (equal? (member item duplicate-list) l)
+                   (cons item (loop (cdr l)))
+                   (loop (cdr l)))))))
+
+(define (extract-module-list protocol-list)
+    (let loop ((l protocol-list) (last-module #f))
+         (if (null? l)
+             '()
+             (let ((module (car (car l))))
+               (if last-module
+                   (if (string=? last-module module)
+                       (loop (cdr l) module)
+                       (cons module (loop (cdr l) module)))
+                   (cons module (loop (cdr l) module)))))))
+
+(define (filter-protocols protocol-list match-module)
+    (reverse
+     (let loop ((l protocol-list))
+          (if (null? l)
+              '()
+              (let* ((pair (car l))
+                     (module (car pair))
+                     (protocol (cdr pair)))
+               (if (string=? module match-module)
+                   (cons protocol (loop (cdr l)))
+                   (loop (cdr l))))))))
+
+(define (lots-for-protocol nd lotgi match-protocol)
+    (car (cdr
+          (let accum-lot ((nd nd) (last-node #f) (sosofos (empty-sosofo)))
+               (let* ((lotlist (node-list-filter-by-gi (children nd)
+                                                       (append (division-element-list)
+                                                               (component-element-list)
+                                                               (section-element-list)
+                                                               (block-element-list)
+                                                               (list (normalize "para")
+                                                                     (normalize "itemizedlist")
+                                                                     (normalize "listitem"))))))
+                 (if (node-list-empty? lotlist)
+                     (list last-node sosofos)
+                     (let loop ((nl lotlist) (last-node last-node) (sosofos sosofos))
+                          (if (node-list-empty? nl)
+                              (list last-node sosofos)
+                              (let ((node (node-list-first nl))
+                                    (rest (node-list-rest nl)))
+                                (if (string=? (gi node) lotgi)
+                                    (if (string=? lotgi "EXAMPLE")
+                                        (let* ((labeled-node
+                                                (if (attribute-string "LABEL" node)
+                                                    node
+                                                    last-node)))
+                                          (apply loop
+                                                 rest
+                                                 (accum-lot
+                                                  node
+                                                  labeled-node 
+                                                  (sosofo-append sosofos (example-entry node match-protocol)))))
+                                        (apply loop
+                                               rest
+                                               (accum-lot
+                                                node
+                                                last-node
+                                                (sosofo-append sosofos 
+                                                               (if match-protocol
+                                                                   (empty-sosofo)
+                                                                   ($lot-entry$ node))))))
+                                    (apply loop rest (accum-lot node last-node sosofos))))))))))))
 
 (define (build-lot nd lotgi)
-    (make sequence
-          (lot-title #t lotgi)
-          (second
-           (let accum-lot ((nd nd) (last-node #f) (sosofos (empty-sosofo)))
-                (let* ((lotlist (node-list-filter-by-gi (children nd)
-                                                        (append (division-element-list)
-                                                                (component-element-list)
-                                                                (section-element-list)
-                                                                (block-element-list)
-                                                                (list (normalize "para")
-                                                                      (normalize "itemizedlist")
-                                                                      (normalize "listitem"))))))
-                  (if (node-list-empty? lotlist)
-                      (list last-node sosofos)
-                      (let loop ((nl lotlist) (last-node last-node) (sosofos sosofos))
-                           (if (node-list-empty? nl)
-                               (list last-node sosofos)
-                               (let ((node (node-list-first nl))
-                                     (rest (node-list-rest nl)))
-                                 (if (string=? (gi node) lotgi)
-                                     (if (string=? lotgi "EXAMPLE")
-                                         (let* ((labeled-node
-                                                 (if (attribute-string "LABEL" node)
-                                                     node
-                                                     last-node)))
-                                           (apply loop
-                                                  rest
-                                                  (accum-lot
-                                                   node
-                                                   labeled-node 
-                                                   (sosofo-append sosofos (example-entry node last-node)))))
-                                         (apply loop
-                                                rest
-                                                (accum-lot
-                                                 node
-                                                 last-node
-                                                 (sosofo-append sosofos ($lot-entry$ node)))))
-                                     (apply loop rest (accum-lot node last-node sosofos))))))))))))
-
+    (let* ((protocol-list (reverse (uniqify (collect-example-protocols nd))))
+           (module-list (extract-module-list protocol-list)))
+      (make sequence
+            (lot-title #t lotgi)
+            (if (string=? lotgi "EXAMPLE")
+                (make-list 
+                 (let module-loop ((ml module-list))
+                      (if (null? ml)
+                          (empty-sosofo)
+                          (sosofo-append
+                           (make-listitem 0
+                                          (example-title (car ml))
+                                          (make-list
+                                           (let protocol-loop ((pl (filter-protocols protocol-list (car ml))))
+                                                (if (null? pl)
+                                                    (empty-sosofo)
+                                                    (sosofo-append
+                                                     (make-listitem 1
+                                                                    (example-title (car pl))
+                                                                    (make-list (lots-for-protocol nd lotgi (car pl))))
+                                                     (protocol-loop (cdr pl)))))))
+                           (module-loop (cdr ml))))))
+                (empty-sosofo))
+            (lots-for-protocol nd lotgi #f))))
+  
 (element (varlistentry term) 
          (sosofo-append
           (process-children)

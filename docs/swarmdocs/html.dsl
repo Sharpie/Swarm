@@ -252,6 +252,95 @@
       (make empty-element gi: "HR")
       (empty-sosofo)))
 
+(element book
+  (let* ((bookinfo  (select-elements (children (current-node)) (normalize "bookinfo")))
+         (ititle   (select-elements (children bookinfo) (normalize "title")))
+         (title    (if (node-list-empty? ititle)
+                       (select-elements (children (current-node)) (normalize "title"))
+                       (node-list-first ititle)))
+         (nl       (titlepage-info-elements (current-node) bookinfo))
+         (tsosofo  (with-mode head-title-mode
+                     (process-node-list title)))
+         (dedication (select-elements (children (current-node)) (normalize "dedication"))))
+    (html-document
+     tsosofo
+     (make element gi: "DIV"
+           attributes: '(("CLASS" "BOOK"))
+           (if %generate-book-titlepage%
+               (make sequence
+                 (book-titlepage nl 'recto)
+                 (book-titlepage nl 'verso))
+               (empty-sosofo))
+
+           (if (node-list-empty? dedication)
+               (empty-sosofo)
+               (with-mode dedication-page-mode
+                 (process-node-list dedication)))
+
+           (if (not (generate-toc-in-front))
+               (process-children)
+               (empty-sosofo))
+
+           (if %generate-book-toc%
+               (make sequence
+                 (build-toc (current-node) (toc-depth (current-node))))
+               (empty-sosofo))
+
+           (let loop ((gilist ($generate-book-lot-list$)))
+                (if (null? gilist)
+                    (empty-sosofo)
+                    (if (not (node-list-empty?
+                              (select-elements (descendants (current-node))
+                                               (car gilist))))
+                        (make sequence
+                              (build-lot (current-node) (car gilist))
+                              (loop (cdr gilist)))
+                        (loop (cdr gilist)))))
+           
+           (if (generate-toc-in-front)
+               (process-children)
+               (empty-sosofo)))))) 
+
+(define (example-title text)
+    (make element gi: "B"
+          (literal text)))
+
+(define (example-entry-text example-node)
+    (make element gi: "LI"
+          (make element gi: "A"
+                attributes:
+                (list 
+                 (list "HREF"
+                       (href-to example-node)))
+                (literal (example-label example-node #f)))))
+
+(define ($lot-entry$ tocentry)
+    (sosofo-append
+     (make element gi: "A"
+           attributes:
+           (list
+            (list "HREF"
+                  (href-to tocentry)))
+           (element-title-sosofo tocentry))
+     (make-linebreak)))
+
+(define (lot-title first? lotgi)
+  (if first?
+      (sosofo-append
+       (make-linebreak)
+       (make element gi: "B"
+             (literal ($lot-title$ lotgi)))
+       (make-linebreak))
+      (empty-sosofo)))
+
+(define (make-list sosofo)
+    (make element gi: "UL" sosofo))
+
+(define (make-listitem level title contents)
+    (make element gi: "LI" 
+          title
+          contents))
+
 </style-specification-body>
 </style-specification>
 
