@@ -1,5 +1,10 @@
 1998-06-02  Alex Lancaster  <alex@santafe.edu>
-
+	
+	* swarmbook.dsl.in: Added file.  Added @stylesheets_srcdir@
+	directive in place of hard-coded path.
+	
+	* swarmbook.dsl:  Renamed to swarmbook.dsl.in.
+	
 	* configure.in: Add AC_ARG_WITH "stylesheet" variable for
 	generating a --with-stylesheet configure flag - defaults to SFI
 	location.

@@ -3,12 +3,12 @@
 <!ENTITY % html "IGNORE">
 <![%html;[
 <!ENTITY % print "IGNORE">
-<!ENTITY docbook.dsl SYSTEM "/net/wijiji/disk2/src/docbook/html/docbook.dsl" CDATA DSSSL>
+<!ENTITY docbook.dsl SYSTEM "@stylesheets_srcdir@/html/docbook.dsl" CDATA DSSSL>
 <!ENTITY % figures.entities SYSTEM "../figures-html.ent">
 ]]>
 <!ENTITY % print "INCLUDE">
 <![%print;[
-<!ENTITY docbook.dsl SYSTEM "/net/wijiji/disk2/src/docbook/print/docbook.dsl" CDATA DSSSL>
+<!ENTITY docbook.dsl SYSTEM "@stylesheets_srcdir@/print/docbook.dsl" CDATA DSSSL>
 
 ]]>
 ]>
