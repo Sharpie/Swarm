@@ -919,7 +919,7 @@ SETTING
 //M: Specify a default path to use for data files when installed location
 //M: of Swarm cannot be determined.  Defaults to current directory.
 - setDefaultAppDataPath: (const char *)path;
-- setFixedSeed: (int)x;
+- setFixedSeed: (unsigned)seed;
 
 
 USING

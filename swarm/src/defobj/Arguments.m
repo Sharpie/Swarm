@@ -234,7 +234,7 @@ strip_quotes (const char *argv0)
       [self setInhibitArchiverLoadFlag: YES];
       break;
     case 'S':
-      [self setFixedSeed: atoi (arg)];
+      [self setFixedSeed: strtoul (arg, NULL, 10)];
       break;
     default:
       return ARGP_ERR_UNKNOWN;
@@ -467,7 +467,7 @@ ensureEndingSlash (const char *path)
   return self;
 }
 
-- setFixedSeed: (int)theFixedSeed
+- setFixedSeed: (unsigned)theFixedSeed
 {
   fixedSeed = theFixedSeed;
   fixedSeedFlag = YES;

@@ -1,7 +1,15 @@
+2001-06-19  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Arguments.m ([Arguments_c -parseKey:arg:]): Use strtoul instead
+	of atoi.
+
+	* Arguments.[hm], defobj.h: Change setFixedSeed to used an
+	unsigned argument.
+
 2001-06-18    <mgd@DRONE>
 
 	* Arguments.[hm], defobj.h: Add fixedSeed{Flag} ivars,
-	getFixedSeed{Flag} and setFixedSeed.
+	getFixedSeed{Flag} and setFixedSeed.  Thanks to Paul Johnson.
 
 2001-06-13    <mgd@drone.swarm.org>
 
