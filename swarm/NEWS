@@ -26,7 +26,7 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 **** Object_s, internal
 ***** Support `long long' and `long double' Lisp and HDF5 serialization.
 **** HDF5Object
-***** Support for HDF5 1.2
+***** Support for HDF5 1.2.  (1.1 is no longer compatible.)
       
 *** collections
 **** Archiver{Keyword,Value,Array,Pair,List}
@@ -163,7 +163,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 **** AppendFile, InFile, OutFile
 ***** +create:withName: renamed to +create:setName:.
 **** initSwarm
-***** initSwarm and variants are now macros.
+***** initSwarm and variants are now macros.  If Makefile variables
+      APPVERSION and BUGADDRESS are set, they will be set as if initSwarmApp
+      were used.
 
 * Release Notes for Swarm 1.4.1
 ** New features
