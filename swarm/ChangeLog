@@ -1,5 +1,8 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* Makefile.conf (OPTFLAGS): Make the default optimize.
+	(OPTFLAGS): Make the SFI config optimize for Sparc.
+
 	* Release-Notes: Update release notes for 1.0.5.
 
 	* Makefile.conf:  Update alex-SFI-Solaris config to use the
