@@ -1,8 +1,8 @@
-blt82 (2.4i) unstable; urgency=low
+blt82 (2.4o) unstable; urgency=low
 
   * Initial Release.
 
- -- Marcus G. Daniels <mgd@swarm.org>  Sat, 18 Sep 1999 11:15:22 -0600
+ -- Marcus G. Daniels <mgd@swarm.org>  Wed, 23 Feb 2000 18:35:22 -0700
 
 Local variables:
 mode: debian-changelog
