@@ -1,3 +1,7 @@
+1997-11-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf: Add mgd-FSF-NetBSD (Alpha) configuration.
+
 1997-11-29  Marcus G. Daniels  <mgd@grasshopper.santafe.edu>
 
 	* Makefile.conf: Rename mgdSFI to mgd-SFI-Solaris and add
