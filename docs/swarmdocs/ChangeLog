@@ -1,7 +1,8 @@
 1998-10-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Makefile.rules ($(DATA)): Depend on all-recursive. 
-	(all-recursive): Add a placeholder for when SUBDIRS is empty.
+	* Makefile.rules ($(NAME).fot _$(NAME).tex $(dvi_DATA) $(ps_DATA)
+	$(html_DATA) $(rtf_DATA)): Use these instead of $(DATA), depend on
+	$(FIGS) and $(GENERATED_SGML).
 
 1998-10-11  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 

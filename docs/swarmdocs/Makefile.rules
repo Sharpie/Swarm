@@ -22,9 +22,7 @@ html_DATA = $(NAME).html
 
 FIGS = figs/swarm.eps # for the timestamp
 
-all-recursive: # placeholder for when SUBDIRS is empty
-
-$(DATA): $(FIGS) all-recursive
+$(NAME).fot _$(NAME).tex $(dvi_DATA) $(ps_DATA) $(html_DATA) $(rtf_DATA): $(FIGS) $(GENERATED_SGML)
 
 install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
@@ -50,7 +48,7 @@ rtf_DATA = $(NAME).rtf
 rtfdist: rtf
 	cd .. ; tar cf - $(NAME)/$(NAME).rtf $(NAME)/figs | $(GZIP) > $(DISTNAME)-rtf.tar.gz 
 
-CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(ps_DATA) $(rtf_DATA) $(NAME).dvi
+CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(dvi_DATA) $(ps_DATA) $(rtf_DATA)
 
 $(FIGS):
 	make -C $(top_builddir)/figs install figsdir=`pwd`/figs
