@@ -1331,6 +1331,7 @@ PHASE(Using)
 
 - (fcall_type_t)getDatasetType
 {
+#ifdef HAVE_HDF5
   fcall_type_t type;
   hid_t tid;
 
@@ -1342,6 +1343,10 @@ PHASE(Using)
   if (H5Tclose (tid) < 0)
     raiseEvent (LoadError, "cannot close dataset type");
   return type;
+#else
+  hdf5_not_available ();
+  return -1;
+#endif
 }
 
 - getCompoundType
