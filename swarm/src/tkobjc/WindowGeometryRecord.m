@@ -57,7 +57,7 @@ getVal (id obj)
 
           if (strcmp (str, "position") == 0)
             {
-              id l = [index next];
+              id l = [[index next] getQuotedObject];
               
               positionFlag = YES;
               x = getVal ([l getFirst]);
@@ -65,7 +65,7 @@ getVal (id obj)
             }
           else if (strcmp (str, "size") == 0)
             {
-              id l = [index next];
+              id l = [[index next] getQuotedObject];
               
               sizeFlag = YES;
               width = getVal ([l getFirst]);

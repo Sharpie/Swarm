@@ -1,3 +1,8 @@
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* WindowGeometryRecord.m ([WindowGeometryRecord -lispIn:]): Use
+	getQuotedObject for position/size arguments.
+
 1999-09-07  Alex Lancaster  <alex@santafe.edu>
 
 	* ScheduleItem.m ([ScheduleItem -_createItem_]): Use mapBegin:
