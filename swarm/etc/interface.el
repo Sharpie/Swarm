@@ -439,7 +439,9 @@
                   "PSWBgen"
                   "LogNormalDist"
                   "BernoulliDist"
-                  "C2TAUS2gen")
+                  "C2TAUS2gen"
+                  "PoissonDist"
+                  )
                 :test #'string=))
      (find signature 
            '("+create:setGenerator:setMean:setVariance:"

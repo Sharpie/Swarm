@@ -1,3 +1,8 @@
+2001-07-23  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (unwanted-create-method-p): Add PoissonDist
+	to the list of protocols to drop +create:.
+
 2001-04-18  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* interface.el (*removed-protocols*): Remove LinkItem.
