@@ -1,3 +1,9 @@
+1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.am (EXTRA_DIST): Add acrpath.m4.
+
+	* acrpath.m4: New file.
+
 1998-08-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* acobjclibs.m4: Store libraries in OBJCLIBS; don't modify LIBS.
