@@ -1,3 +1,9 @@
+1999-06-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* ltconfig: Don't use +I for hpux9.  Use hpux9 code for hpux10,
+	since there isn't a preprocessor symbol for hpux10.
+	(We'll call the constructors manually.)
+
 1999-06-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* VERSION: Bump.
