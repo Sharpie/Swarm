@@ -20,6 +20,7 @@ struct COMInterface {
   const char *(*copyString) (const char *str);
   const char *(*getName) (COMobject cObj);
   void (*addRef) (COMobject cObj);
+  BOOL (*selectorIsBooleanReturn) (COMobject cSel);
 };
 
 extern void initCOM (COMEnv *env);
@@ -35,8 +36,9 @@ extern Class swarm_directory_COM_ensure_class (COMclass cClass);
 extern COMobject swarm_directory_COM_add_object_COM (COMobject cObject, id oObject);
 extern id swarm_directory_COM_add_object_objc (COMobject cObject, id oObject);
 extern const char *COM_copy_string (const char *str);
-extern const char *COM_class_name (COMobject cobj);
-extern COMobject swarm_directory_objc_find_selector_COM (SEL sel);
+extern const char *COM_class_name (COMobject cObj);
+extern BOOL COM_selector_is_boolean_return (COMobject cSel);
+extern COMobject swarm_directory_objc_find_selector_COM (SEL cSel);
 
 #ifdef __cplusplus
 }

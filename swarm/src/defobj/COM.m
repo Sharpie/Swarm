@@ -28,6 +28,12 @@ COM_class_name (COMobject cObj)
   return comEnv->getName (cObj);
 }
 
+BOOL
+COM_selector_is_boolean_return (COMobject cSel)
+{
+  return comEnv->selectorIsBooleanReturn (cSel);
+}
+
 COMobject 
 swarm_directory_objc_find_object_COM (id oObject)
 {

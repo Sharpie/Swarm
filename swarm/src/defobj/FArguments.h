@@ -42,15 +42,16 @@ Library:      defobj
    av_alist java_avalist;
    av_alist objc_avalist;
 #endif
+   void *XPTCparams;
    void *result;
    const char *javaSignature; 
    unsigned javaSignatureLength;
    id <Symbol> language;
 }
 + createBegin: aZone;
-- setLanguage: (id <Symbol>)languageType;
+- setLanguage: (id <Symbol>)language;
 - setSelector: (SEL)aSel;
-+ create: aZone setSelector: (SEL)aSel setLanguage: (id <Symbol>)language;
++ create: aZone setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addBoolean: (BOOL)value;
@@ -74,9 +75,9 @@ Library:      defobj
 - setObjCReturnType: (char)type;
 - setBooleanReturnType;
 - createEnd;
-- (id <Symbol>)getLanguage;
 - (void *)getResult;
 - (void)dropAllocations: (BOOL)componentAlloc;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
+- (id <Symbol>)getLanguage;
 - (void)drop;
 @end

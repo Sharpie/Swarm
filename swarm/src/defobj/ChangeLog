@@ -1,3 +1,15 @@
+2000-09-19  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* COM.[hm]: New function COM_selector_is_boolean_return with
+	COMInterface selectorIsBooleanReturn slot.
+
+	* FArguments.[hm], defobj.h ([FArguments_c create:setSelector:]): Remove
+	setLanguage:. 
+
+	* FArguments.m: Include COM.h.
+	([FArguments_c setSelector:]): Add COM support.  Use language tag
+	in directory as evidence of language.
+
 2000-09-14  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* FCall.[hm], defobj.h ([FCall_c -setCOMMethod:inObject:]): New method.

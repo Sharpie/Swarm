@@ -1057,7 +1057,7 @@ CREATING
 - setLanguage: (id <Symbol>)languageType;
 - setSelector: (SEL)aSel;
 - setJavaSignature: (const char *)javaSignature;
-+ create: (id <Zone>)aZone setSelector: (SEL)aSel setLanguage: (id <Symbol>)language;
++ create: (id <Zone>)aZone setSelector: (SEL)aSel;
 - addArgument: (void *)value ofObjCType: (char)type;
 - addChar: (char)value;
 - addBoolean: (BOOL)value;

@@ -26,6 +26,8 @@ Library:      defobj
 #include <avcall.h>
 #endif
 
+#import "COM.h"
+
 #ifdef HAVE_JDK
 #import "java.h" // jniEnv, java_ensure_selector_type_signature, java_signature_for_fcall_type
 #import "javavars.h" // f_retTypeFid, c_boolean
@@ -57,6 +59,12 @@ PHASE(Creating)
   return newArguments;
 }
 
+- setLanguage: (id <Symbol>)theLanguage
+{
+  language = theLanguage;
+  return self;
+}
+
 - setSelector: (SEL)selector
 {
   const char *type = sel_get_type (selector);
@@ -68,21 +76,33 @@ PHASE(Creating)
       selector = sel_get_any_typed_uid (name);
       type = sel_get_type (selector);
     }
-#ifdef HAVE_JDK
-  if (swarmDirectory && language == LanguageJava)
+  
+  if (swarmDirectory)
     {
-      jobject jsel = SD_JAVA_FIND_SELECTOR_JAVA (selector);
-      
-      if (jsel)
+      COMobject cSel;
+#ifdef HAVE_JDK
+      jobject jSel;
+#endif
+
+      if ((cSel = SD_COM_FIND_SELECTOR_COM (selector)))
+        {
+          language = LanguageCOM;
+          if (COM_selector_is_boolean_return (cSel))
+            [self setBooleanReturnType];
+          else
+            [self setObjCReturnType: *type];
+        }
+#ifdef HAVE_JDK
+      else if ((jSel = SD_JAVA_FIND_SELECTOR_JAVA (selector)))
         {
           const char *sig =
-            java_ensure_selector_type_signature (jsel);
+            java_ensure_selector_type_signature (jSel);
           
           [self setJavaSignature: sig];
           [scratchZone free: (void *) sig];
           {
             jobject retType =
-              (*jniEnv)->GetObjectField (jniEnv, jsel, f_retTypeFid);
+              (*jniEnv)->GetObjectField (jniEnv, jSel, f_retTypeFid);
             
             if ((*jniEnv)->IsSameObject (jniEnv, retType, c_boolean))
               [self setBooleanReturnType];
@@ -91,6 +111,7 @@ PHASE(Creating)
             (*jniEnv)->DeleteLocalRef (jniEnv, retType);
           }
         }
+#endif
       else
         {
           language = LanguageObjc;
@@ -98,17 +119,16 @@ PHASE(Creating)
         }
     }
   else
-#endif
-    [self setObjCReturnType: *type];
+    {
+      language = LanguageObjc;
+      [self setObjCReturnType: *type];
+    }
   return self;
 }
 
-+ create: aZone setSelector: (SEL)aSel setLanguage: (id <Symbol>)theLanguage
++ create: aZone setSelector: (SEL)aSel
 {
-  return [[[[self createBegin: aZone]
-             setLanguage: theLanguage]
-            setSelector: aSel]
-           createEnd];
+  return [[[self createBegin: aZone] setSelector: aSel] createEnd];
 }
 
 
@@ -119,12 +139,6 @@ PHASE(Creating)
   strcpy (buf, theJavaSignature);
   javaSignature = buf;
   language = LanguageJava;
-  return self;
-}
-
-- setLanguage: (id <Symbol>)theLanguage
-{
-  language = theLanguage;
   return self;
 }
 
@@ -429,13 +443,16 @@ createJavaSignature (FArguments_c *self)
   [super createEnd];
   setMappedAlloc (self);
 #ifdef HAVE_JDK
-  if (!javaSignature)
-    javaSignature = createJavaSignature ((FArguments_c *) self);
-  else
-    // Set this here rather than in setJavaSignature so that the 
-    // signature can be forced (it will be munged by the argument
-    // methods).
-    javaSignatureLength = strlen (javaSignature);
+  if (language == LanguageJava)
+    {
+      if (!javaSignature)
+        javaSignature = createJavaSignature ((FArguments_c *) self);
+      else
+        // Set this here rather than in setJavaSignature so that the 
+        // signature can be forced (it will be munged by the argument
+        // methods).
+        javaSignatureLength = strlen (javaSignature);
+    }
 #endif
   return self;
 }
@@ -445,11 +462,6 @@ PHASE(Using)
 - (void *)getResult
 {
   return result;
-}
-
-- (id <Symbol>)getLanguage
-{
-  return language;
 }
 
 - (void)dropAllocations: (BOOL)componentAlloc
@@ -496,6 +508,11 @@ PHASE(Using)
   mapalloc->size = javaSignatureLength + 1;
   mapAlloc (mapalloc, (char *) javaSignature);
 #endif
+}
+
+- (id <Symbol>)getLanguage
+{
+  return language;
 }
 
 - (void)drop
