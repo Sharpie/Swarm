@@ -1,5 +1,7 @@
 (require 'cl)
-(load (concat (getenv "SWARMSRCDIR") "/etc/protocol.el"))
+(eval-and-compile
+ (push (getenv "SWARMDOCS_BUILD_AREA") load-path))
+(require 'protocol)
 
 (defvar *java-class-hash-table* (make-hash-table :test #'equal))
 (defvar *java-interface-hash-table* (make-hash-table :test #'equal))
