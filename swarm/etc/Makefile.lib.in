@@ -1,18 +1,11 @@
 prefix = @prefix@
-includedir = @includedir@
-exec_prefix = @exec_prefix@
-libdir = @libdir@
-bindir = @bindir@
-INSTALL = @INSTALL@
-INSTALL_DATA = @SWARM_INSTALL_DATA_@
+include @sysconfdir@/swarm/Makefile.common
 
 LIBRARY = lib$(LIBNAME).a
 INCFILE = $(LIBNAME).h
 
 RANLIB = @RANLIB@
-CC = @CC@
-CFLAGS = @CFLAGS@
-CPPFLAGS = @CPPFLAGS@
+
 INCLUDES = -I$(includedir) -I.
 
 .PHONY: install-headers install-lib
@@ -39,11 +32,6 @@ $(LIBRARY): $(OBJECTS)
 	-rm -f $@
 	ar q $@ $(OBJECTS)
 	$(RANLIB) $(LIBRARY)  
-
-.SUFFIXES: .m .xm
-
-.m.o:
-	$(CC) -c -Wno-import $(CPPFLAGS) $(CFLAGS) $(INCLUDES) $<   
 
 # Local variables:
 # mode: makefile

@@ -1,0 +1,78 @@
+prefix = @prefix@
+includedir = @includedir@
+exec_prefix = @exec_prefix@
+libdir = @libdir@
+bindir = @bindir@
+datadir = @datadir@
+swarmdatadir = $(datadir)/swarm
+sysconfdir = @sysconfdir@
+swarmsysconfdir = $(sysconfdir)/swarm
+
+swarm_prefix=@swarm_prefix@
+swarm_exec_prefix=@swarm_exec_prefix@
+swarm_libdir=@swarm_libdir@
+
+xpmlibdir = @xpmlibdir@
+tcllibdir = @tcllibdir@
+tklibdir = @tklibdir@
+bltlibdir = @bltlibdir@
+ffidir = @ffidir@
+zliblibdir = @zliblibdir@
+pnglibdir = @pnglibdir@
+
+CC = @CC@
+CFLAGS = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
+
+INCLUDES = -I$(includedir)
+
+SWARMLDFLAGS = @SWARMLDFLAGS@
+XPMLDFLAGS = @XPMLDFLAGS@
+TCLLDFLAGS = @TCLLDFLAGS@
+TKLDFLAGS = @TKLDFLAGS@
+BLTLDFLAGS = @BLTLDFLAGS@
+FFILDFLAGS = @FFILDFLAGS@
+PNGLDFLAGS = @PNGLDFLAGS@
+ZLIBLDFLAGS = @ZLIBLDFLAGS@
+
+ifeq ($(USE_EXTRALDFLAGS),)
+EXTRALDFLAGS =
+else
+EXTRALDFLAGS = @EXTRALDFLAGS@
+endif
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @SWARM_INSTALL_PROGRAM@
+INSTALL_DATA = @SWARM_INSTALL_DATA_@
+
+XPMLIB = @XPMLIB@
+TCLLIB = @TCLLIB@
+TKLIB = @TKLIB@
+BLTLIB = @BLTLIB@
+FFILIB = @FFILIB@
+
+PNGLIB = -lpng
+ZLIBLIB = -lz
+
+X_LIBS = @X_LIBS@
+GUILIBS = @GUILIBS@
+
+DLLIB = @DLLIB@
+OBJCLIBS = @OBJCLIBS@
+
+LDFLAGS = $(SWARMLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
+
+SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
+
+SWARMLIBS = -lspace -lanalysis -lsimtools -lsimtoolsgui -ltkobjc -ltclobjc -lactivity -lrandom -lobjectbase -lcollections -ldefobj -lmisc
+
+LIBS = @LIBS@
+
+.SUFFIXES: .m .xm
+
+.m.o:
+	$(CC) -c -Wno-import $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $<   
+
+# Local variables:
+# mode: makefile
+# end:

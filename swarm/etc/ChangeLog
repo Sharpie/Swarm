@@ -1,3 +1,18 @@
+1998-10-09  Alex Lancaster  <alex@santafe.edu>
+
+	* config.swarm.in (swarm_includedir): Add to list of extracted
+	variables.
+
+	* Makefile.am (install-data-local): Install Makefile.common in
+	$(sysconfdir)/swarm.
+
+	* Makefile.lib.in, Makefile.appl.in: Removed all common variables
+	to Makefile.common which is now included by both files.
+
+	* Makefile.common.in: Added file.  Contains all variables needed
+	for Makefile.appl and Makefile.lib without any of the default
+	targets.
+
 1998-10-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* config.swarm.in (xpmlibdir, swarm_XPMLDFLAGS, swarm_XPMLIB):

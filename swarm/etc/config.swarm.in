@@ -7,6 +7,7 @@ CC="@CC@"
 swarm_prefix="@swarm_prefix@"
 swarm_exec_prefix="@swarm_exec_prefix@"
 swarm_libdir="@swarm_libdir@"
+swarm_includedir="@swarm_includedir@"
 
 xpmlibdir="@xpmlibdir@"
 tcllibdir="@tcllibdir@"
