@@ -24,7 +24,7 @@
     (insert "swarm_lookup_module (const char *protocol_name)\n")
     (insert "{\n")
     (insert "  int index = in_word_set (protocol_name, strlen (protocol_name))->module_index;\n")
-    (insert "  return index < 0 ? NULL : module_list[index];\n")
+    (insert "  return index < -2 ? NULL : index < 0 ? "" : module_list[index];\n")
     (insert "}\n")))
 
 (defun print-keywords (module-list)
@@ -56,6 +56,7 @@
       (insert "%%\n")
       (insert "SwarmEnvironment,-1\n")
       (insert "Phase,-2\n")
+      (insert "ActionConcurrent_c,-3\n")
       (print-keywords module-list)
       (insert "%%\n")
       (print-module-lookup-function)

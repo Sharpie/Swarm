@@ -1,3 +1,12 @@
+2000-10-01  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* directory.m (language_independent_class_name_for_typename):
+	Distinguish between unknown type names and top-level names.
+
+	* modulemap.el (print-module-lookup-function): Likewise.
+	(generate-module-map): Add ActionConcurrent_c as an `unknown'
+	type.
+
 2000-09-26  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* COM.m (swarm_directory_COM_ensure_selector): Fix for void return.

@@ -387,17 +387,22 @@ language_independent_class_name_for_typename (const char *typeName, BOOL usingFl
       char javaClassName[5 + 1 + modulelen + strlen (typeName) + 5 + 1];
       char *p;
       
-      p = stpcpy (javaClassName, "swarm/");
       if (module)
         {
-          p = stpcpy (p, module);
-          p = stpcpy (p, "/");
+          p = stpcpy (javaClassName, "swarm/");
+          if (modulelen > 0)
+            {
+              p = stpcpy (p, module);
+              p = stpcpy (p, "/");
+            }
+          p = stpcpy (p, typeName);
+          if (!usingFlag)
+            p = stpcpy (p, "C");
+          p = stpcpy (p, "Impl");
+          return DUPCLASSNAME (javaClassName);
         }
-      p = stpcpy (p, typeName);
-      if (!usingFlag)
-        p = stpcpy (p, "C");
-      p = stpcpy (p, "Impl");
-      return DUPCLASSNAME (javaClassName);
+      else
+        return NULL;
     }
 }
 
