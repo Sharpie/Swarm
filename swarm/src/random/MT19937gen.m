@@ -115,7 +115,7 @@ PHASE(Creating)
    return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   MT19937gen *aGenerator;
   
@@ -134,7 +134,7 @@ PHASE(Creating)
   return aGenerator;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   MT19937gen *aGenerator;
   
@@ -150,7 +150,7 @@ PHASE(Creating)
   
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   MT19937gen *aGenerator;
   
@@ -166,7 +166,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   MT19937gen *aGenerator;
   

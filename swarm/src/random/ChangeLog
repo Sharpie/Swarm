@@ -2,6 +2,24 @@
 
 	* Swarm 2.1 frozen.
 
+2000-02-21  Sven N. Thommesen <sthomme@humsci.auburn.edu>
+
+	* Deleted old compatibility definitions from randomdefs.h.
+
+	* Re-arranged protocol definitions in generators.h.
+
+	* Added (id <GeneratorType>) to method definitions in distributions.h
+	and in distribution objects.
+
+	* Added (id <Zone>) to create messages in generators and distributions.
+
+2000-02-19  Sven N. Thommesen <sthomme@humsci.auburn.edu>
+
+	* Added methods to NormalDist and LogNormalDist 
+	to allow the setting of standard deviation rather than variation.
+
+2000-02-18    <mgd@nest.swarm.org>
+
 	* distributions.h: Add generator protocol conformance to arguments
 	in +create:set* methods.
 

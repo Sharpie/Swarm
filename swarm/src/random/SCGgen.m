@@ -110,7 +110,7 @@ PHASE(Creating)
   return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   SCGgen *aGenerator;
   
@@ -129,7 +129,7 @@ PHASE(Creating)
   return aGenerator;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   SCGgen *aGenerator;
   
@@ -144,7 +144,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   SCGgen *aGenerator;
   
@@ -159,7 +159,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   SCGgen *aGenerator;
   

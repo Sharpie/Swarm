@@ -13,6 +13,8 @@ Modified by:	 Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
 Modified by:	 Sven Thommesen
 Date:		 1998-10-08 (v. 0.8)
+Modified by:	 Sven Thommesen
+Date:		 2000-02-21 (v. 0.81)
 */
 
 /*
@@ -73,7 +75,7 @@ PHASE(Creating)
   return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   ExponentialDist *aDistribution;
   
@@ -93,7 +95,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setGenerator: generator
++ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>) generator
 {
   ExponentialDist *aDistribution;
   
@@ -109,7 +111,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   ExponentialDist *aDistribution;
   
@@ -125,7 +127,8 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setGenerator: generator  setVirtualGenerator: (unsigned)vGen
++ create: (id <Zone>)aZone setGenerator: (id <SplitRandomGenerator>) generator  
+	setVirtualGenerator: (unsigned)vGen
 {
   ExponentialDist *aDistribution;
   
@@ -141,7 +144,8 @@ PHASE(Creating)
   return [aDistribution createEnd];
 }
 
-+ create: aZone setGenerator: generator setMean: (double)mean
++ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>) generator 
+	setMean: (double)mean
 {
   ExponentialDist *aDistribution;
   
@@ -153,8 +157,8 @@ PHASE(Creating)
   return aDistribution;
 }
 
-+ create             : aZone
-         setGenerator: generator 
++ create             : (id <Zone>)aZone
+         setGenerator: (id <SplitRandomGenerator>)generator 
   setVirtualGenerator: (unsigned)vGen
               setMean: (double)mean
 {

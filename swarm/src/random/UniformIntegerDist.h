@@ -24,6 +24,10 @@ Modified by:	Sven Thommesen
 Date:		1998-10-08 (v. 0.8)
 Changes:	Rearranged code for create-phase compatibility.
 
+Modified by:	Sven Thommesen
+Date:		2000-02-21 (v. 0.81)
+Changes:	Added (id <GeneratorType>) to method definitions.
+
 */
 
 /*
@@ -115,13 +119,13 @@ CREATING
 
 - initState;		// unpublished
 
-+ create      : aZone
-  setGenerator: generator
++ create      : (id <Zone>)aZone
+  setGenerator: (id <SimpleRandomGenerator>) generator
  setIntegerMin: (int)minValue
         setMax: (int)maxValue;
 
-+ create           : aZone
-       setGenerator: generator
++ create           : (id <Zone>)aZone
+       setGenerator: (id <SplitRandomGenerator>) generator
 setVirtualGenerator: (unsigned) vGen
       setIntegerMin: (int)minValue
              setMax: (int)maxValue;
@@ -130,15 +134,15 @@ setVirtualGenerator: (unsigned) vGen
 
 // @protocol ProbabilityDistribution <SwarmObject, InternalState> 
 
-+ createWithDefaults: aZone;
++ createWithDefaults: (id <Zone>)aZone;
 
-+ create: aZone setGenerator: generator;
++ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>) generator;
 
-+ create             : aZone 
-         setGenerator: generator
++ create             : (id <Zone>)aZone 
+         setGenerator: (id <SplitRandomGenerator>) generator
   setVirtualGenerator: (unsigned) vGen;
 
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - createEnd;
 
 // @protocol InternalState
@@ -152,8 +156,8 @@ SETTING
 // @protocol BooleanDistribution <ProbabilityDistribution> 
 
 // @protocol ProbabilityDistribution <SwarmObject, InternalState> 
-- setGenerator: generator;
-- setGenerator       : generator 
+- setGenerator: (id <SimpleRandomGenerator>) generator;
+- setGenerator       : (id <SplitRandomGenerator>) generator 
   setVirtualGenerator: (unsigned)vGen;
 - reset;
 

@@ -5,7 +5,7 @@
 // 
 
 // Use if the generator is a Simple one:
-- setGenerator: generator
+- setGenerator: (id <SimpleRandomGenerator>) generator
 {
    if (randomGenerator) 
      raiseEvent (InvalidCombination, 
@@ -61,7 +61,8 @@
 }
 
 // Use this if the generator is a Split one:
-- setGenerator: generator setVirtualGenerator: (unsigned)vGen
+- setGenerator: (id <SplitRandomGenerator>) generator 
+	setVirtualGenerator: (unsigned)vGen
 {
   unsigned k;
   

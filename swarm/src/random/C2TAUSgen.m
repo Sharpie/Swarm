@@ -60,25 +60,25 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeed: (unsigned) seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned) seed
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *) seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *) seeds
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   C2TAUSgen *aGenerator;
   
@@ -388,7 +388,7 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   C2TAUS1gen *aGenerator;
   
@@ -404,7 +404,7 @@ PHASE(Creating)
   
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   C2TAUS1gen *aGenerator;
   
@@ -419,7 +419,7 @@ PHASE(Creating)
   return [aGenerator createEnd]; 
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   C2TAUS1gen *aGenerator;
   
@@ -499,7 +499,7 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   C2TAUS2gen *aGenerator;
   
@@ -515,7 +515,7 @@ PHASE(Creating)
   
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   C2TAUS2gen *aGenerator;
   
@@ -531,7 +531,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   C2TAUS2gen *aGenerator;
   
@@ -612,7 +612,7 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   C2TAUS3gen *aGenerator;
   
@@ -627,7 +627,7 @@ PHASE(Creating)
   return [aGenerator createEnd];  
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   C2TAUS3gen *aGenerator;
   
@@ -643,7 +643,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   C2TAUS3gen *aGenerator;
   

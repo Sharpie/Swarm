@@ -15,6 +15,8 @@ Modified by:	 Sven Thommesen
 Date:		 1997-12-08 (v. 0.75)
 Modified by:	 Sven Thommesen
 Date:		 1998-10-08 (v. 0.8)
+Modified by:	 Sven Thommesen
+Date:		 2000-02-21 (v. 0.81)
 */
 
 /*
@@ -227,36 +229,4 @@ Date:		 1998-10-08 (v. 0.8)
 #define LOGNORMALDISTREVISION      2U
 #define EXPONENTIALDISTREVISION    2U
 #define GAMMADISTREVISION          2U
-
-//------------------------------------------------------------------
-
-// Compatibility definitions
-//   Use of these identifiers is deprecated 
-//   and will be disabled in the 1.1 or 2.0 release. --gepr
-//
-
-// Generators:
-// #define v0.6name v0.7name
-#define LCG1     LCG1gen
-#define LCG2     LCG2gen
-#define LCG3     LCG3gen
-#define PMMLCG1  PMMLCG1gen
-#define PMMLCG2  PMMLCG2gen
-#define PMMLCG3  PMMLCG3gen
-#define ACG      ACGgen
-#define SCG      SCGgen
-#define SWB1     SWB1gen
-#define SWB2     SWB2gen
-#define SWB3     SWB3gen
-
-// Distributions:
-// #define v0.6name v0.7name
-#define RandomBitDistribution    RandomBitDist
-#define UniformInteger           UniformIntegerDist
-#define UniformUnsigned          UniformUnsignedDist
-#define UniformDouble            UniformDoubleDist
-#define NormalDistribution       NormalDist
-#define LogNormalDistribution    LogNormalDist
-#define ExponentialDistribution  ExponentialDist
-#define GammaDistribution        GammaDist
 

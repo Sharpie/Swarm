@@ -224,22 +224,22 @@ CREATING
 // Unpublished (private) methods:
 - initState;
 - allocVectors;
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - createEnd;
 - setA: (unsigned)A setV: (unsigned)v setW: (unsigned)w;
 
 // @protocol Split
-+ createWithDefaults: aZone;
++ createWithDefaults: (id <Zone>)aZone;
 
 // @protocol SplitSingleSeed
-+ create          : aZone
++ create          : (id <Zone>)aZone
               setA: (unsigned)A 	// # of virtual generators
               setV: (unsigned)v 	// log2(#segments/generator)
               setW: (unsigned)w		// log2(segment length)
   setStateFromSeed: (unsigned)seed;
 
 // @protocol SplitMultiSeed
-+ create          : aZone
++ create          : (id <Zone>)aZone
               setA: (unsigned)A         // # of virtual generators
               setV: (unsigned)v         // log2(#segments/generator)
               setW: (unsigned)w	        // log2(segment length)

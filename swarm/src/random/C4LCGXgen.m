@@ -209,7 +209,7 @@ PHASE(Creating)
   return self;
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   C4LCGXgen *aGenerator;
   
@@ -231,7 +231,7 @@ PHASE(Creating)
 }
 
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   C4LCGXgen *aGenerator;
   
@@ -246,7 +246,7 @@ PHASE(Creating)
   return aGenerator;
 }
 
-+ create: aZone 
++ create: (id <Zone>)aZone 
     setA: (unsigned)A
     setV: (unsigned)v
     setW: (unsigned)w setStateFromSeed: (unsigned)seed
@@ -270,7 +270,7 @@ PHASE(Creating)
   
 }
 
-+ create: aZone
++ create: (id <Zone>)aZone
     setA: (unsigned)A
     setV: (unsigned)v
     setW: (unsigned)w setStateFromSeeds: (unsigned *)seeds

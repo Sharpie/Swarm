@@ -62,25 +62,25 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned) seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned) seed
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *) seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *) seeds
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   LCGgen * aGenerator;
   
@@ -336,7 +336,7 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   LCG1gen *aGenerator;
   
@@ -352,7 +352,7 @@ PHASE(Creating)
   
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   LCG1gen *aGenerator;
   
@@ -368,7 +368,7 @@ PHASE(Creating)
 
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   LCG1gen *aGenerator;
   
@@ -432,7 +432,7 @@ PHASE(Creating)
    return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   LCG2gen *aGenerator;
   
@@ -447,7 +447,7 @@ PHASE(Creating)
   return [aGenerator createEnd];  
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   LCG2gen *aGenerator;
   
@@ -463,7 +463,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   LCG2gen *aGenerator;
   
@@ -527,7 +527,7 @@ PHASE(Creating)
    return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   LCG3gen *aGenerator;
   
@@ -543,7 +543,7 @@ PHASE(Creating)
   
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   LCG3gen *aGenerator;
   
@@ -559,7 +559,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   LCG3gen *aGenerator;
   

@@ -62,25 +62,25 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   PMMLCGgen *aGenerator;
   
@@ -397,7 +397,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG1gen *aGenerator;
   
@@ -413,7 +413,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG1gen *aGenerator;
   
@@ -429,7 +429,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG1gen *aGenerator;
   
@@ -500,7 +500,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG2gen *aGenerator;
   
@@ -516,7 +516,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG2gen *aGenerator;
   
@@ -531,7 +531,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG2gen *aGenerator;
   
@@ -602,7 +602,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG3gen *aGenerator;
   
@@ -618,7 +618,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG3gen *aGenerator;
   
@@ -633,7 +633,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG3gen *aGenerator;
   
@@ -704,7 +704,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG4gen *aGenerator;
   
@@ -720,7 +720,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG4gen *aGenerator;
   
@@ -735,7 +735,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG4gen *aGenerator;
   
@@ -806,7 +806,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG5gen *aGenerator;
   
@@ -822,7 +822,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG5gen *aGenerator;
   
@@ -838,7 +838,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG5gen *aGenerator;
   
@@ -909,7 +909,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG6gen *aGenerator;
   
@@ -925,7 +925,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG6gen *aGenerator;
   
@@ -940,7 +940,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG6gen *aGenerator;
   
@@ -1011,7 +1011,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG7gen *aGenerator;
   
@@ -1027,7 +1027,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG7gen *aGenerator;
   
@@ -1043,7 +1043,7 @@ PHASE(Creating)
   
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG7gen *aGenerator;
   
@@ -1114,7 +1114,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG8gen *aGenerator;
   
@@ -1130,7 +1130,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG8gen *aGenerator;
   
@@ -1145,7 +1145,7 @@ PHASE(Creating)
   return [aGenerator createEnd];  
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG8gen *aGenerator;
   
@@ -1216,7 +1216,7 @@ PHASE(Creating)
 
 // ----- Published creation methods: -----
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   PMMLCG9gen *aGenerator;
   
@@ -1232,7 +1232,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   PMMLCG9gen *aGenerator;
   
@@ -1247,7 +1247,7 @@ PHASE(Creating)
   return [aGenerator createEnd];  
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   PMMLCG9gen *aGenerator;
   

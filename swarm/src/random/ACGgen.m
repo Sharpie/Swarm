@@ -102,7 +102,7 @@ PHASE(Creating)
    return self;
 }
 
-+createBegin: aZone {
++createBegin: (id <Zone>)aZone {
   ACGgen * aGenerator;
 
 // Allocate space for the object:
@@ -120,7 +120,7 @@ PHASE(Creating)
   return aGenerator;
 }
 
-+create: (id) aZone setStateFromSeed: (unsigned) seed {
++create: (id <Zone>)aZone setStateFromSeed: (unsigned) seed {
   ACGgen * aGenerator;
 
 // Allocate space for the object:
@@ -135,7 +135,7 @@ PHASE(Creating)
 
 }
 
-+create: (id) aZone setStateFromSeeds: (unsigned *) seeds {
++create: (id <Zone>) aZone setStateFromSeeds: (unsigned *) seeds {
   ACGgen * aGenerator;
 
 // Allocate space for the object:
@@ -150,7 +150,7 @@ PHASE(Creating)
 
 }
 
-+createWithDefaults: (id) aZone {
++createWithDefaults: (id <Zone>) aZone {
   ACGgen * aGenerator;
 
 // Allocate space for the object:

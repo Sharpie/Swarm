@@ -5,7 +5,7 @@
 // 
 
 
--(id) getGenerator {
+-(id <BasicRandomGenerator>) getGenerator {
    return randomGenerator;
 }
 

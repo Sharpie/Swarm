@@ -63,25 +63,25 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   // this is an empty method, to be overridden by the subclasses
   return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   SWBgen *aGenerator;
   
@@ -465,7 +465,7 @@ PHASE(Creating)
    return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   SWB1gen *aGenerator;
   
@@ -480,7 +480,7 @@ PHASE(Creating)
   return [aGenerator createEnd];  
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   SWB1gen *aGenerator;
   
@@ -495,7 +495,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   SWB1gen *aGenerator;
   
@@ -606,7 +606,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   SWB2gen *aGenerator;
   
@@ -621,7 +621,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   SWB2gen *aGenerator;
   
@@ -636,7 +636,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   SWB2gen *aGenerator;
   
@@ -748,7 +748,7 @@ PHASE(Creating)
   return self;
 }
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   SWB3gen *aGenerator;
   
@@ -764,7 +764,7 @@ PHASE(Creating)
   
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   SWB3gen *aGenerator;
   
@@ -779,7 +779,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   SWB3gen *aGenerator;
   

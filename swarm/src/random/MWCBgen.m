@@ -93,7 +93,7 @@ PHASE(Creating)
 }
 
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   MWCBgen *aGenerator;
   
@@ -113,7 +113,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setStateFromSeed: (unsigned)seed
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed
 {
   MWCBgen *aGenerator;
   
@@ -129,7 +129,7 @@ PHASE(Creating)
   
 }
 
-+ create: aZone setStateFromSeeds: (unsigned *)seeds
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds
 {
   MWCBgen *aGenerator;
   
@@ -144,7 +144,7 @@ PHASE(Creating)
   return [aGenerator createEnd];
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   MWCBgen *aGenerator;
   

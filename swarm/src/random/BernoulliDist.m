@@ -11,6 +11,8 @@ Original Author: Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
 Modified by:	 Sven Thommesen
 Date:		 1998-10-08 (v. 0.8)
+Modified by:	 Sven Thommesen
+Date:		 2000-02-21 (v. 0.81)
 */
 
 /*
@@ -67,7 +69,7 @@ PHASE(Creating)
 }
 
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   BernoulliDist *aDistribution;
   
@@ -87,7 +89,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setGenerator: generator
++ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>) generator
 {
   BernoulliDist *aDistribution;
   
@@ -103,7 +105,7 @@ PHASE(Creating)
 }
 
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   BernoulliDist *aDistribution;
   
@@ -119,7 +121,8 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setGenerator: generator setVirtualGenerator: (unsigned)vGen
++ create: (id <Zone>)aZone setGenerator: (id <SplitRandomGenerator>) generator 
+	setVirtualGenerator: (unsigned)vGen
 {
   BernoulliDist *aDistribution;
   
@@ -135,7 +138,7 @@ PHASE(Creating)
   return [aDistribution createEnd];
 }
 
-+ create: aZone setGenerator: generator
++ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>) generator
 	setProbability: (double)p
 {
   BernoulliDist *aDistribution;
@@ -148,7 +151,7 @@ PHASE(Creating)
   return aDistribution;
 }
 
-+ create: aZone setGenerator: generator
++ create: (id <Zone>)aZone setGenerator: (id <SplitRandomGenerator>) generator
 	setVirtualGenerator: (unsigned)vGen
 	setProbability: (double)p
 {

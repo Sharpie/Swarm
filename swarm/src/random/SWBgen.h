@@ -184,17 +184,17 @@ CREATING
 // Unpublished (private) methods:
 - runup: (unsigned)streak;
 - initState;
-+ createBegin: aZone;
++ createBegin: (id <Zone>)aZone;
 - createEnd;
 
 // @protocol Simple
-+ createWithDefaults: aZone;
++ createWithDefaults: (id <Zone>)aZone;
 
 // @protocol SingleSeed
-+ create: aZone setStateFromSeed: (unsigned)seed;
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed;
 
 // @protocol MultiSeed
-+ create: aZone setStateFromSeeds: (unsigned *)seeds;
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds;
 
 SETTING
 
@@ -278,9 +278,9 @@ output quality:	|
 CREATING
 
 - initState;
-+ create: aZone setStateFromSeed:  (unsigned)   seed;
-+ create: aZone setStateFromSeeds: (unsigned *) seeds;
-+ createWithDefaults: aZone;
++ create: (id <Zone>)aZone setStateFromSeed:  (unsigned)   seed;
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *) seeds;
++ createWithDefaults: (id <Zone>)aZone;
 
 SETTING
 
@@ -314,9 +314,9 @@ output quality:	|
 CREATING
 
 - initState;
-+ create: aZone setStateFromSeed:  (unsigned)   seed;
-+ create: aZone setStateFromSeeds: (unsigned *) seeds;
-+ createWithDefaults: aZone;
++ create: (id <Zone>)aZone setStateFromSeed:  (unsigned)   seed;
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *) seeds;
++ createWithDefaults: (id <Zone>)aZone;
 
 SETTING
 
@@ -350,9 +350,9 @@ output quality:	|
 CREATING
 
 - initState;
-+ create: aZone setStateFromSeed:  (unsigned)   seed;
-+ create: aZone setStateFromSeeds: (unsigned *) seeds;
-+ createWithDefaults: aZone;
++ create: (id <Zone>)aZone setStateFromSeed:  (unsigned)   seed;
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *) seeds;
++ createWithDefaults: (id <Zone>)aZone;
 
 SETTING
 

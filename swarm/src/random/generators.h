@@ -3,6 +3,7 @@
 //
 //     1997-09-01 (v. 0.7)
 //     1998-10-08 (v. 0.8)
+//     2000-02-21 (v. 0.81)
 //
 
 // 
@@ -24,54 +25,20 @@
 // Protocol components:
 //
 
-@protocol SingleSeed
-//S: Internal
-CREATING
-+ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed;
-
-SETTING
-//M: The setStateFromSeeds method initializes the seed dependent part of the 
-//M: state.
-- setStateFromSeed: (unsigned)seed;
-
-USING
-//M: The getMaxSeedValue method returns the upper limit on the seed value.
-- (unsigned)getMaxSeedValue;	// minvalue is 1
-
-//M: The getInitialSeed method returns the generator's starting values.
-- (unsigned)getInitialSeed;
-@end
-
-
-@protocol MultiSeed
-//S: Internal
-CREATING
-+ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds;
-
-SETTING
-//M: The setStateFromSeeds method initializes the seed dependent part of the 
-//M: state.
-- setStateFromSeeds: (unsigned *)seeds;
-
-USING
-//M: The lengthOfSeedVector method returns the number of seeds required
-//M: (the size of the array).
-- (unsigned)lengthOfSeedVector;
-
-//M: The getMaxSeedValue method returns the upper limit on the seed value
-//M: that can be supplied.
-- (unsigned *)getMaxSeedValues;		// minvalue is 1
-
-//M: The getInitialSeed method returns the generator's starting values.
-- (unsigned *)getInitialSeeds;
-@end
-
-@protocol Simple
+@protocol CommonGenerator
 //S: Internal
 CREATING
 + createWithDefaults: (id <Zone>)aZone;
 
 SETTING
+//M: The setStateFromSeed method initializes the seed dependent part of the 
+//M: state from a single seed value.
+- setStateFromSeed: (unsigned)seed;
+
+//M: The setStateFromSeeds method initializes the seed dependent part of the 
+//M: state from a vector of seed values.
+- setStateFromSeeds: (unsigned *)seeds;
+
 //M: The setAntithetic method turns on or off antithetic output (default=off).
 //M: Antithetic output is (unsignedMax - u) or (1.0 - d).
 - setAntithetic: (BOOL) antiT;
@@ -80,23 +47,43 @@ USING
 //M: The getAntithetic method returns the current values of the parameter.
 - (BOOL)getAntithetic;
 
-//M: The getCurrentCount method returns the count of variates generated.
-- (unsigned long long int)getCurrentCount;
+//M: The getMaxSeedValue method returns the upper limit on the seed value
+//M: that can be supplied.
+- (unsigned)getMaxSeedValue;	// minvalue is 1
+
+//M: The getMaxSeedValues method returns a vector of upper limits on the 
+//M: seed values that can be supplied.
+- (unsigned *)getMaxSeedValues;		// minvalue is 1
+
+//M: The getInitialSeed method returns the value of the generator's 
+//M: starting seed.
+- (unsigned)getInitialSeed;
+
+//M: The getInitialSeeds method returns a vector of the generator's 
+//M: starting seed values.
+- (unsigned *)getInitialSeeds;
+
+//M: The lengthOfSeedVector method returns the number of seeds required
+//M: if you wish to set the state directly.
+- (unsigned)lengthOfSeedVector;
 
 //M: The -reset method sets the generator back to the state it had at start
 //M: or at the last use of -setStateFromSeed(s). CurrentCount is zeroed.
 - reset;
-@end
 
-
-@protocol SimpleOut
-//S: Internal
-
-USING
 //M: The getUnsignedMax method returns the highest value that will ever 
 //M: be returned by -getUnsignedSample (the lowest is 0).
 - (unsigned)getUnsignedMax;
+@end
 
+@protocol SimpleGenerator
+//S: Internal
+CREATING
++ create: (id <Zone>)aZone setStateFromSeed: (unsigned)seed;
+
++ create: (id <Zone>)aZone setStateFromSeeds: (unsigned *)seeds;
+
+USING
 //M: The getUnsignedSample method returns a random unsigned integer 
 //M: uniformly distributed over [0,unsignedMax].
 - (unsigned)getUnsignedSample;
@@ -122,9 +109,11 @@ USING
 //M: Note: use of this method is not portable between architectures.
 - (long double)getLongDoubleSample;
 
+//M: The getCurrentCount method returns the count of variates generated.
+- (unsigned long long int)getCurrentCount;
 @end
 
-@protocol SplitSingleSeed
+@protocol SplitGenerator
 //S: Internal
 CREATING
 + create          : (id <Zone>)aZone
@@ -133,23 +122,6 @@ CREATING
               setW: (unsigned)w		// log2(segment length)
   setStateFromSeed: (unsigned)seed;
 
-SETTING
-//M: The setStateFromSeed method initializes the generator from
-//M: a single seed value. If more are needed, they are generated internally.
-- setStateFromSeed: (unsigned)seed;
-
-USING
-//M: The getMaxSeedValue method returns the highest allowable seed value.
-//M: The lowest value is 1 (0 is not a legal seed value).
-- (unsigned)getMaxSeedValue;
-
-//M: The getInitialSeed method returns the generator's starting seed.
-- (unsigned)getInitialSeed;
-@end
-
-@protocol SplitMultiSeed
-//S: Internal
-CREATING
 + create          : (id <Zone>)aZone
               setA: (unsigned)A         // # of virtual generators
               setV: (unsigned)v         // log2(#segments/generator)
@@ -157,33 +129,6 @@ CREATING
  setStateFromSeeds: (unsigned *)seeds;
 
 SETTING
-//M: The setStateFromSeeds method initializes the generator from
-//M: a vector of seed values.
-- setStateFromSeeds: (unsigned *)seeds;
-
-USING
-//M: The lengthOfSeedVector method returns the number of seeds required.
-- (unsigned)lengthOfSeedVector;
-
-//M: The getMaxSeedValue method returns a vector of highest allowable 
-//M: seed values. The lowest value is always 1 (0 is not a valid seed).
-- (unsigned *)getMaxSeedValues;		// min is 1
-
-//M: The getInitialSeed method returns the generator's starting seeds.
-- (unsigned *)getInitialSeeds;     	// = getInitialSeeds: 0
-@end
-
-
-@protocol Split
-//S: Internal
-CREATING
-+ createWithDefaults: (id <Zone>)aZone;
-
-SETTING
-//M: The setAntithetic method turns on or off antithetic output (default=off).
-//M: Antithetic output is (unsignedMax - u) or (1.0 - d).
-- setAntithetic: (BOOL)antiT;
-
 //M: The initGenerator method resets the state of a virtual generator to 
 //M: the start of segment #0.
 - initGenerator: (unsigned)vGen;
@@ -206,9 +151,6 @@ USING
 //M: The getSegmentLength method returns log2(the current segment 
 //M: length) = w.
 - (unsigned)getSegmentLength;
-
-//M: The getAntithetic method returns the current value of the parameter.
-- (BOOL)getAntithetic;
 
 //M: The restartGenerator method resets the state of a virtual generator to
 //M: the start of the current segment.
@@ -233,28 +175,6 @@ USING
 //M: The jumpAlltoSegment: method resets the state of all the virtual 
 //M: generators to the start of the specified segment.
 - jumpAllToSegment: (unsigned long long int)seg;
-
-//M: The getCurrentCount method returns the current count of the specified
-//M: virtual generator (i.e. the number of variates delivered).
-- (unsigned long long int)getCurrentCount: (unsigned)vGen;
-
-//M: The getCurrentSegment method returns the number of the current segment 
-//M: of the specified virtual generator.
-- (unsigned long long int)getCurrentSegment: (unsigned)vGen;
-
-//M: The -reset method sets the generator back to the state it had at start
-//M: or at the last use of -setStateFromSeed(s). CurrentCount is zeroed.
-- reset;
-@end
-
-@protocol SplitOut
-//S: Internal
-USING
-// Note: Valid values for vGen are [0,getNumGenerators-1]
-
-//M: The getUnsignedMax method returns the highest value that will ever
-//M: be returned by -getUnsignedSample (the lowest is 0).
-- (unsigned)getUnsignedMax;
 
 //M: The getUnsignedSample method returns a random unsigned integer 
 //M: uniformly distributed over the interval [0,unsignedMax] 
@@ -286,8 +206,14 @@ USING
 //M: Warning: use of this method is not portable between architectures.
 - (long double)getLongDoubleSample: (unsigned)vGen; // using 2 unsigneds
 
-@end
+//M: The getCurrentSegment method returns the number of the current segment 
+//M: of the specified virtual generator.
+- (unsigned long long int)getCurrentSegment: (unsigned)vGen;
 
+//M: The getCurrentCount method returns the current count of the specified
+//M: virtual generator (i.e. the number of variates delivered).
+- (unsigned long long int)getCurrentCount: (unsigned)vGen;
+@end
 
 // 
 // ------------------------------------------------------------------------
@@ -299,14 +225,23 @@ USING
 //   and likewise for the non-split (simple) generators.
 //
 
-@protocol SimpleRandomGenerator <SwarmObject, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
+@protocol BasicRandomGenerator <SwarmObject, InternalState, CommonGenerator>
+//S: The common functionality of simple and split generators.
+
+//D: This protocol covers methods common to simple and split generators.
+@end
+
+@protocol SimpleRandomGenerator <BasicRandomGenerator, SimpleGenerator>
+// <SwarmObject, InternalState, SimpleOut, Simple, SingleSeed, MultiSeed>
 //S: A Simple (non-split) generator.
 
 //D: This protocol covers all implemented non-split generators.
 @end
 
-@protocol SplitRandomGenerator <SwarmObject, InternalState, SplitOut, Split, SplitSingleSeed, SplitMultiSeed>
-//S: A Split generator.
+@protocol SplitRandomGenerator <BasicRandomGenerator, SplitGenerator>
+// <SwarmObject, InternalState, SplitOut, Split, 
+// SplitSingleSeed, SplitMultiSeed>
+//S: A split generator.
 
 //D: This protocol covers the implemented split generators
 //D: (C2LCGX and C4LCGX.)
@@ -318,7 +253,7 @@ USING
 //
 
 // NOTE: these protocols are included for backward compatibility only.
-// Use protocols <SimpleRandomGenerator> and <SplitRandomGenerators>.
+// Use protocols <SimpleRandomGenerator> and <SplitRandomGenerator>.
 
 // LCG[1-3] -- single short random number generators, 
 @protocol LCGgen <SimpleRandomGenerator>

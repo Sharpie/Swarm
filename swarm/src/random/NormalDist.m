@@ -15,6 +15,8 @@ Modified by:	 Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
 Modified by:	 Sven Thommesen
 Date:		 1998-10-08 (v. 0.8)
+Modified by:	 Sven Thommesen
+Date:		 2000-02-21 (v. 0.81)
 */
 
 /*
@@ -79,7 +81,7 @@ PHASE(Creating)
    return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   NormalDist *aDistribution;
   
@@ -99,7 +101,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setGenerator: generator
++ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>)generator
 {
   NormalDist *aDistribution;
   
@@ -115,7 +117,7 @@ PHASE(Creating)
 }
 
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   NormalDist *aDistribution;
   
@@ -131,8 +133,8 @@ PHASE(Creating)
 }
 
 
-+ create            : aZone 
-        setGenerator: generator 
++ create            : (id <Zone>)aZone 
+        setGenerator: (id <SplitRandomGenerator>)generator 
  setVirtualGenerator: (unsigned)vGen
 {
   NormalDist *aDistribution;
@@ -149,8 +151,8 @@ PHASE(Creating)
   return [aDistribution createEnd];
 }
 
-+ create        : aZone
-    setGenerator: generator
++ create        : (id <Zone>)aZone
+    setGenerator: (id <SimpleRandomGenerator>)generator
          setMean: (double)mean
      setVariance: (double)variance
 {
@@ -163,8 +165,22 @@ PHASE(Creating)
   return aDistribution;
 }
 
-+ create              : aZone
-          setGenerator: generator
++ create        : (id <Zone>)aZone
+    setGenerator: (id <SimpleRandomGenerator>)generator
+         setMean: (double)mean
+       setStdDev: (double)sdev
+{
+  NormalDist *aDistribution;
+  
+  aDistribution = [NormalDist create: aZone setGenerator: generator];
+  
+  [aDistribution setMean: mean setStdDev: sdev];
+  
+  return aDistribution;
+}
+
++ create              : (id <Zone>)aZone
+          setGenerator: (id <SplitRandomGenerator>)generator
    setVirtualGenerator: (unsigned) vGen
                setMean: (double) mean
            setVariance: (double) variance
@@ -176,6 +192,23 @@ PHASE(Creating)
                               setVirtualGenerator: vGen];
   
   [aDistribution setMean: mean setVariance: variance];
+  
+  return aDistribution;
+}
+
++ create              : (id <Zone>)aZone
+          setGenerator: (id <SplitRandomGenerator>)generator
+   setVirtualGenerator: (unsigned) vGen
+               setMean: (double) mean
+             setStdDev: (double) sdev
+{
+  NormalDist * aDistribution;
+  
+  aDistribution = [NormalDist create: aZone
+                              setGenerator: generator 
+                              setVirtualGenerator: vGen];
+  
+  [aDistribution setMean: mean setStdDev: sdev];
   
   return aDistribution;
 }
@@ -214,6 +247,34 @@ PHASE(Setting)
   theVariance = variance;
   theStdDev   = sqrt (variance);
   
+  // This object is now fixed:
+  
+  optionsInitialized = YES;
+  
+  [self resetState];
+  
+  return self;
+}
+
+
+- setMean: (double)mean setStdDev: (double)sdev
+{
+  /*
+    // Relax this restriction, too.
+    
+    if (optionsInitialized)
+    [InvalidCombination raiseEvent:
+    "%s: re-setting parameters not allowed\n",distName];
+  */
+  
+  if (sdev < 0.0)
+    [InvalidCombination raiseEvent:
+                          "%s: StdDev cannot be negative !\n", distName];
+  
+  theMean     = mean;
+  theStdDev   = sdev;
+  theVariance = sdev*sdev; // pow(sdev,2)
+ 
   // This object is now fixed:
   
   optionsInitialized = YES;
@@ -273,6 +334,78 @@ PHASE(Using)
   
   stdDev = sqrt (variance);
   
+  if (stored) 
+    {
+      stored = NO;
+      // Return stored value:
+      return stored_double*stdDev + mean;  // use parameters of current call
+    }
+  else 
+    {
+      stored = YES;
+      // Generate 2 new values & store 1:
+      do {
+#ifdef USETHINDOUBLES
+        if (useSplitGenerator) 
+          {
+            rd1Value = [randomGenerator getThinDoubleSample: virtualGenerator]; 
+            rd2Value = [randomGenerator getThinDoubleSample: virtualGenerator];
+          } 
+        else
+          {
+            rd1Value = [randomGenerator getThinDoubleSample]; 
+            rd2Value = [randomGenerator getThinDoubleSample];
+          } 
+#else
+        if (useSplitGenerator) 
+          {
+            rd1Value = [randomGenerator getDoubleSample: virtualGenerator]; 
+            rd2Value = [randomGenerator getDoubleSample: virtualGenerator];
+          } 
+        else
+          {
+            rd1Value = [randomGenerator getDoubleSample]; 
+            rd2Value = [randomGenerator getDoubleSample];
+          } 
+#endif
+        v1 = (2.0 * rd1Value) - 1.0;
+        v2 = (2.0 * rd2Value) - 1.0;
+        radius = v1*v1 + v2*v2; 
+      } while (radius >= 1.0);
+      fac = sqrt (-2.0 * log (radius) / radius);
+      stored_double = v1 * fac;
+      return v2 * fac * stdDev + mean;	// use parameters of current call
+    }
+}
+
+
+- (double)getSampleWithMean: (double)mean withStdDev: (double)sdev
+{
+  double fac,radius,v1,v2;
+  double rd1Value, rd2Value;
+  double stdDev;
+  
+  /* 
+     // Allow this call even if parameters are set!
+     
+     if (optionsInitialized)
+     [InvalidCombination raiseEvent:
+     "%s: getSampleWithMean:withStdDev: parameters are frozen\n",distName];
+  */
+  
+  if (sdev < 0.0)
+    [InvalidCombination 
+      raiseEvent:
+        "%s: getSampleWithMean:withStdDev: StdDev cannot be negative !\n",
+      distName];
+  
+  currentCount++;
+  
+  if (sdev == 0.0)
+    return mean;		// no need to exercise the machinery ...
+  
+  stdDev = sdev;
+ 
   if (stored) 
     {
       stored = NO;

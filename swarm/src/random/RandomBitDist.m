@@ -13,6 +13,8 @@ Modified by:	 Sven Thommesen
 Date:		 1997-09-01 (v. 0.7)
 Modified by:	 Sven Thommesen
 Date:		 1998-10-08 (v. 0.8)
+Modified by:	 Sven Thommesen
+Date:		 2000-02-21 (v. 0.81)
 */
 
 /*
@@ -67,7 +69,7 @@ PHASE(Creating)
   return self;
 }
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   RandomBitDist *aDistribution;
   
@@ -87,7 +89,7 @@ PHASE(Creating)
 }
 
 
-+ createWithDefaults: (id)aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   RandomBitDist *aDistribution;
   
@@ -103,7 +105,7 @@ PHASE(Creating)
 }
 
 
-+ create: aZone setGenerator: generator
++ create: (id <Zone>)aZone setGenerator: (id <SimpleRandomGenerator>)generator
 {
   RandomBitDist *aDistribution;
   
@@ -119,8 +121,8 @@ PHASE(Creating)
 }
 
 
-+ create              : aZone
-          setGenerator: generator 
++ create              : (id <Zone>)aZone
+          setGenerator: (id <SplitRandomGenerator>)generator 
    setVirtualGenerator: (unsigned)vGen
 {
   RandomBitDist *aDistribution;

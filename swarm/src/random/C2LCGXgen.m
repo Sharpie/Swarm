@@ -202,7 +202,7 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
   return self;
 }
 
-+ createWithDefaults: aZone
++ createWithDefaults: (id <Zone>)aZone
 {
   C2LCGXgen *aGenerator;
   
@@ -224,7 +224,7 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
 }
 
 
-+ createBegin: aZone
++ createBegin: (id <Zone>)aZone
 {
   C2LCGXgen * aGenerator;
   
@@ -239,7 +239,7 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
   return aGenerator;
 }
 
-+ create: aZone 
++ create: (id <Zone>)aZone 
     setA: (unsigned)A
     setV: (unsigned)v
     setW: (unsigned)w setStateFromSeed: (unsigned)seed
@@ -262,7 +262,7 @@ maxA = %lu  maxv = 60  maxw = 60\n\n",
   return [aGenerator createEnd];
 }
 
-+ create: aZone
++ create: (id <Zone>)aZone
     setA: (unsigned)A
     setV: (unsigned)v
     setW: (unsigned)w setStateFromSeeds: (unsigned *)seeds
