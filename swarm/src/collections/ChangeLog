@@ -1,7 +1,10 @@
 1998-04-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
-	* Set.m ([Set_c -createIndex:fromMember:]): Rename from
+	* Set.[hm] ([Set_c -createIndex:fromMember:]): Rename from
 	createIndexIn:fromMember:.  Raise a NotImplemented event.
+
+	* ListGen.m: Adjust error message to be createIndex:fromMember
+	not createIndexIn:fromMember.
 
 	* collections.h: Augment the Index documentation.  Move the
 	existing Index info to the Collections protocol, as it is
