@@ -2,6 +2,7 @@
 #import <random.h>
 #import <objectbase.h>
 #import <simtoolsgui.h>
+#import <externvar.h>
 
 //S: Top-level Swarm module
 
@@ -53,3 +54,7 @@ GETTERS
 - (id <Archiver>)getLispAppArchiver;
 - (BOOL)getGuiFlag;
 @end
+
+//G: Flag for whether we're in graphics mode or not.  Default is NO.
+externvar BOOL swarmGUIMode;
+

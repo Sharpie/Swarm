@@ -1,5 +1,7 @@
 2000-07-11    <mgd@HELEN>
 
+	* swarm.h: Include externvar.h and declare swarmGUIMode.
+
 	* Makefile.am (headers): Depend on SwarmEnvironment_getters.m.
 
 2000-07-11  Marcus G. Daniels  <mgd@nest.swarm.org>
