@@ -1,6 +1,6 @@
 2004-11-22  Marcus G. Daniels <mgd@santafe.edu>
 
-	* Don't define BUGGY_BUILTIN_APPLY.
+	* Don't use BUGGY_BUILTIN_APPLY except for i386.
 
 2004-11-19  Marcus G. Daniels <mgd@santafe.edu>
 

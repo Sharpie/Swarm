@@ -395,7 +395,7 @@ PHASE(Creating)
     {
       if (COM_is_javascript (cObj))
         {
-          (COMobject) gc_fobject = SD_COM_FIND_OBJECT_COM (obj);
+          gc_fobject = SD_COM_FIND_OBJECT_COM (obj);
           callType = JScall;
 	  UPDATEMETHODNAME (theMethodName);
           return self;
@@ -429,8 +429,8 @@ PHASE(Creating)
   if (cSel)
     {
       callType = COM_selector_is_javascript (cSel) ? JScall : COMcall;
-      (COMmethod) fmethod = COM_selector_method (cSel);
-      (COMobject) gc_fobject = SD_COM_FIND_OBJECT_COM (obj);
+       fmethod = COM_selector_method (cSel);
+       gc_fobject = SD_COM_FIND_OBJECT_COM (obj);
       
       if (callType == JScall)
         UPDATEMETHODNAME (sel_get_name (sel));
@@ -466,7 +466,7 @@ PHASE(Creating)
     
     callType = objccall;
     gc_fobject = obj;
-    (SEL) fmethod = sel;
+     fmethod = sel;
     class = getClass (obj);
     gc_fclass = class;
     ffunction = FUNCPTR (get_imp ((Class) gc_fclass, (SEL) fmethod));
@@ -606,7 +606,7 @@ updateTarget (FCall_c *self, id target)
     {
       COMobject cObj = SD_COM_FIND_OBJECT_COM (target);
 
-      (COMobject) self->gc_fobject = cObj;
+       self->gc_fobject = cObj;
       add_ffi_types (self);
     }
 }
@@ -805,9 +805,9 @@ PHASE(Using)
     }
 #endif
 
-#if (defined(__i386__) && ((__GNUC__ == 2) && ((__GNUC_MINOR__ < 95)  || (__GNUC_MINOR__ == 96))) || __GNUC__ == 3 || defined (__CYGWIN__))
+#if (defined(__i386__) && ((__GNUC__ == 2) && ((__GNUC_MINOR__ < 95)  || (__GNUC_MINOR__ == 96))) || (__GNUC__ == 3 && defined(__i386__)) || defined (__CYGWIN__))
 // Let's see how things go now with >=  3.4 - mgd
-// #define BUGGY_BUILTIN_APPLY
+#define BUGGY_BUILTIN_APPLY
 #endif
 
   *buf = ((FArguments_c *) fargs)->retVal.val;
