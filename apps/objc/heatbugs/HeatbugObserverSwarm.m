@@ -58,9 +58,17 @@
   return [super createEnd];
 }
 
-- _worldRasterDeath_
+- _worldRasterDeath_ : caller
 {
+  [worldRaster drop];
   worldRaster = nil;
+  return self;
+}
+
+- _unhappyGraphDeath_ : caller
+{
+  [unhappyGraph drop];
+  unhappyGraph = nil;
   return self;
 }
 
@@ -131,7 +139,7 @@
   [worldRaster setWindowGeometryRecordName : "worldRaster"];
   worldRaster = [worldRaster createEnd];
   [worldRaster enableDestroyNotification: self
-               notificationMethod: @selector (_worldRasterDeath_)];
+               notificationMethod: @selector (_worldRasterDeath_:)];
   [worldRaster setColormap: colormap];
   [worldRaster setZoomFactor: 4];
   [worldRaster setWidth: [[heatbugModelSwarm getWorld] getSizeX]
@@ -166,6 +174,8 @@
   // Create the graph widget to display unhappiness.
 
   unhappyGraph = [EZGraph createBegin: [self getZone]];
+  [unhappyGraph enableDestroyNotification: self
+                notificationMethod: @selector (_unhappyGraphDeath_:)];
   [unhappyGraph setWindowGeometryRecordName : "graphWindow"];
   [unhappyGraph setTitle: "Unhappiness of bugs vs. time"];
   [unhappyGraph setAxisLabelsX: "time" Y: "unhappiness"];
@@ -178,7 +188,7 @@
   return self;
 }  
 
-- _updateDisplay_
+- _update_
 {
   if (worldRaster)
     {
@@ -186,6 +196,8 @@
       [heatbugDisplay display];
       [worldRaster drawSelf];
     }
+  if (unhappyGraph)
+    [unhappyGraph step];
   return self;
 }
 
@@ -212,13 +224,10 @@
   displayActions = [ActionGroup create: [self getZone]];
 
   // Schedule up the methods to draw the display of the world
+  // Also schedule the update of the unhappiness graph
+  //  [displayActions createActionTo: unhappinessAverager message: M(update)];
 
-  [displayActions createActionTo: self message: M(_updateDisplay_)];
-
-  // Now schedule the update of the unhappiness graph
-//  [displayActions createActionTo: unhappinessAverager message: M(update)];
-
-  [displayActions createActionTo: unhappyGraph  message: M(step)];
+  [displayActions createActionTo: self message: M(_update_)];
 
   // Schedule the update of the probe displays
 
@@ -275,10 +284,10 @@
 
 - graphBug: aBug
 {
-  [unhappyGraph createSequence: "Bug" 
+  if (unhappyGraph)
+    [unhappyGraph createSequence: "Bug" 
                   withFeedFrom: aBug 
-                   andSelector: M(getUnhappiness)];
-
+                  andSelector: M(getUnhappiness)];
   return self;
 }
 
