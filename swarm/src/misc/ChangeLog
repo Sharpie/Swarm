@@ -1,7 +1,7 @@
 1998-08-11  Marcus G. Daniels  <mgd@helen.santafe.edu>
 
 	* misc.h, getopt.c, getopt1.c, argp-fmtstream.c, argp-help.c,
-	argp-parse.c, argp-pvh.c, argp-xinl.c:
+	argp-parse.c, argp-pvh.c, argp-xinl.c, argp-fs-xinl.c:
 	Include swarmconfig.h instead of config.h.
 
 1998-07-23  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
