@@ -1,8 +1,8 @@
-<!entity techcont.sgml system "techcont.sgml">
-<!entity techmeta.sgml system "techmeta.sgml">
-<!entity objc.sgml system "objc.sgml">
-<!entity swarmobjc.sgml system "swarmobjc.sgml">
-<!entity emacs.sgml system "emacs.sgml">
-<!entity debug.sgml system "debug.sgml">
+<!entity techcont.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Content//EN">
+<!entity techmeta.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Metadata//EN">
+<!entity objc.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Objective C//EN">
+<!entity swarmobjc.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Swarm Objective C//EN">
+<!entity emacs.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Emacs//EN">
+<!entity debug.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Debug//EN">
 
-<!entity techrevhistory.sgml system "techrevhistory.sgml">
+<!entity techrevhistory.sgml PUBLIC "-//SFI Hive//ENTITIES Tech Revision History//EN">

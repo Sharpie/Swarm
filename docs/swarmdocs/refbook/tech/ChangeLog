@@ -1,3 +1,7 @@
+1998-06-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* tech.ent: Use public identifiers.
+
 1998-06-05  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* techmeta.sgml: Replace REVHISTORY with &techrevhistory.
