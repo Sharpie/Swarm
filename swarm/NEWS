@@ -25,6 +25,9 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
     Thanks to Doug Donalson for the report.
 *** EZBin failed to handle empty datafeed collections.
     Thanks to Steve Railsback for the report.
+*** Subclasses of Discrete2d didn't get their +createBegin:
+    used in use of convenience constructor.  
+    Thanks to Arend Ligtenberg for the report.
 
 ** Autoconfiguration / Portability
 *** Support for LinuxPPC
