@@ -253,6 +253,10 @@
        :example-list method-example-list
        :deprecated-list method-deprecated-list))))
 
+(defun set-first-argument (method value)
+  (let ((first-argument (first (method-arguments method))))
+    (setf (nth 1 first-argument) value)))
+
 (defun fixup-method (method)
   (let ((sig (get-method-signature method)))
     ;; these fixups are because of problems with protocol self-reference
@@ -261,8 +265,7 @@
 	  ((string= sig "-getPopulation")
 	   (setf (method-return-type method) "id <List>"))
           ((or (string= sig "+create:") (string= sig "+createBegin:"))
-           (let ((first-argument (first (method-arguments method))))
-             (setf (nth 1 first-argument) "id <Zone>")))
+           (set-first-argument method "id <Zone>"))
           ((or (string= sig "-getProbeMap")
                (string= sig "-getCompleteProbeMap"))
            (setf (method-return-type method) "id <ProbeMap>"))
@@ -281,12 +284,14 @@
           ((string= sig "-getAction")
            (setf (method-return-type method) "id <Action>"))
           ((string= sig "-activateIn:")
-           (let ((first-argument (first (method-arguments method))))
-             (setf (nth 1 first-argument) "id <Swarm>")))
+           (set-first-argument method "id <Swarm>"))
+          ((string= sig "-hdf5OutShallow:")
+           (set-first-argument method "id <HDF5>"))
+          ((string= sig "-updateArchiver:")
+           (set-first-argument method "id <Archiver>"))
           ((or (string= sig "-addProbeMap:")
                (string= sig "-dropProbeMap:"))
-           (let ((first-argument (first (method-arguments method))))
-             (setf (nth 1 first-argument) "id <ProbeMap>"))))
+           (set-first-argument method "id <ProbeMap>")))
     method))
 
 (defun parse-method (protocol
