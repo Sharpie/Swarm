@@ -21,6 +21,8 @@ zliblibdir = @zliblibdir@
 pnglibdir = @pnglibdir@
 hdf5libdir = @hdf5libdir@
 
+LIBOBJCDIR = @LIBOBJCDIR@
+
 CC = @CC@
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
@@ -86,14 +88,18 @@ ifeq ($(USEDLL),yes)
 		DLLCPPFLAGS = -DDLL
 	endif
 	SWARMLIBS = -lswarm
-	OBJCLIBS = -lswarmobjc
+        ifeq ($(LIBOBJCDIR),libobjc)
+	  OBJCLIBS = -lswarmobjc
+        endif
 else
 	ifeq ($(ONELIB),yes)
 		SWARMLIBS = -lswarm
 		OBJCLIBS =
 	else
 		SWARMLIBS = -lswarm
-		OBJCLIBS = -lswarmobjc
+                ifeq ($(LIBOBJCDIR),libobjc)
+		  OBJCLIBS = -lswarmobjc
+                endif
 	endif
 endif
 
