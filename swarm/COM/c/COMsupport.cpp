@@ -338,3 +338,8 @@ createArgVector (unsigned size)
 
   return (void *) argVec;
 }
+
+void
+addArg (fcall_type_t type, void *value)
+{
+}

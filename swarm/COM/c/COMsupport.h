@@ -18,4 +18,5 @@ const char *selectorName (COMobject cSel);
 unsigned selectorArgCount (COMobject cSel);
 fcall_type_t selectorArgFcallType (COMobject cSel, unsigned argIndex);
 void *createArgVector (unsigned size);
+void addArg (fcall_type_t type, void *value);
 }
