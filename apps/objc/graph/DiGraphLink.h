@@ -1,4 +1,4 @@
-// Copyright (C) 1995-1998 The Santa Fe Institute.
+// Copyright (C) 1995-1999 The Santa Fe Institute.
 // No warranty implied, see LICENSE for terms.
 
 #import <objectbase.h>
