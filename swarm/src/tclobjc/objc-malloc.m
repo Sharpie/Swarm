@@ -22,50 +22,28 @@
 */ 
 #include <misc.h>
 
-volatile void
-objc_fatal(const char *msg)
-{
-  write (2, msg, (size_t) strlen ((char*)msg));
-  abort();
-}
-
-#ifdef __STDC__
-#include <stddef.h>
-#else
-#define size_t unsigned long
-#endif
-
 void*
 __objc_malloc(size_t size)
 {
-  void* res = (void*) malloc(size);
-  if(!res)
-    objc_fatal("Virtual memory exhausted\n");
-  return res;
+  return xmalloc (size);
 }
  
 void*
 __objc_realloc(void* mem, size_t size)
 {
-  void* res = (void*) realloc(mem, size);
-  if(!res)
-    objc_fatal("Virtual memory exhausted\n");
-  return res;
+  return xrealloc (size);
 }
  
 void*
 __objc_calloc(size_t nelem, size_t size)
 {
-  void* res = (void*)calloc(nelem, size);
-  if(!res)
-    objc_fatal("Virtual memory exhausted\n");
-  return res;
+  return xcalloc (nelem, size);
 }
 
 void
 __objc_free (void* obj)
 {
-  free (obj);
+  XFREE (obj);
 }
 
 /* I do this to make substituting Boehm's Garbage Collector easy. */

@@ -3,8 +3,9 @@
 	* Makefile.am (REVISION): Increment.  Swarm 1.3.1 released.
 	(INCLUDES): Include misc.
 
-	* objc-malloc.m: Include misc.h.  Always define objc_fatal,
-	pass `2' instead of stderr.  Don't include stdio.h.
+	* objc-malloc.m: Include misc.h.  Use xmalloc, xrealloc, xcalloc,
+	and XFREE instead of checking return and calling objc_fatal
+	(a routine that is no longer public in libobjc.a).
 
 1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
