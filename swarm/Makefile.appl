@@ -14,6 +14,10 @@
 include $(SWARMHOME)/Makefile.conf
 vpath lib%.a $(LIBDIR)
 
+ifeq ($(LDCONFIG),bin)
+APPLIBS=
+endif
+
 all: $(APPLICATION)
 
 clean:
