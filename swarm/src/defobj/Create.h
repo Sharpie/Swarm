@@ -23,7 +23,7 @@ Library:      defobj
 - (const char *)getObjectName;
 @end
 
-@interface CreateDrop: CreateDrop_s <Create>
+@interface CreateDrop: CreateDrop_s
 /*** methods in CreateDrop (inserted from .m file by m2h) ***/
 - createEnd;
 @end
