@@ -1,3 +1,16 @@
+1999-12-15    <mgd@nest.swarm.org>
+
+	* VERSION: Bump.
+
+	* NEWS: Note support for Debian 2.2 and Redhat 6.1 on
+	Sparc Linux kernel.
+
+1999-12-14    <mgd@nest.swarm.org>
+
+	* NEWS: Note fix for ProbeMaps on Java objects.
+
+	* VERSION: Bump.
+
 1999-12-12    <mgd@nest.swarm.org>
 
 	* NEWS: Note new FActionForEach{Creating}{Homogenenous,Heterogeneous}

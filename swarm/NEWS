@@ -46,10 +46,12 @@ Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 *** When invoked dynamically, activateIn: won't fail to run subactivities
     that start on the same timestep that activation occurs.
     Thanks to Michael Krumpus for the report.
+*** Custom ProbeMaps didn't work with pure Java objects.
 
 ** Autoconfiguration / Portability
 *** Support for Hurd-based GNU systems
 *** Support for LinuxPPC
+*** Support for Sparc GNU/Linux systems (Debian 2.2 and Redhat 6.1 tested).
 *** Support for IBM JDK on Linux
 *** PNG support can be disabled with --without-pngdir
     (thus zlib and png are not required packages)
