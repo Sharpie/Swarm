@@ -33,12 +33,25 @@ swarmSelectorImpl::GetCid (nsCID **acid)
 }
 
 NS_IMETHODIMP
-swarmSelectorImpl::Create (nsISupports *obj, const char *methodName, PRBool objcFlag, swarmISelector **ret)
+swarmSelectorImpl::IsBooleanReturn (PRBool *ret)
+{
+  unsigned i = methodInfo->GetParamCount () - 1;
+  const nsXPTParamInfo param = methodInfo->GetParam (i);
+
+  if (!param.IsRetval ())
+    abort ();
+
+  *ret = param.GetType () == nsXPTType::T_BOOL;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+swarmSelectorImpl::Create (nsISupports *obj, const char *methodName, swarmISelector **ret)
 {
   if (!findMethod (obj, methodName,
                    &methodInterface, &methodIndex, &methodInfo))
     return NS_ERROR_NOT_IMPLEMENTED;
-  
+#if 0  
   {
     nsXPTCVariant params[1];
     nsISupports *retInterface = NULL;
@@ -72,7 +85,8 @@ swarmSelectorImpl::Create (nsISupports *obj, const char *methodName, PRBool objc
       printf ("[%s]\n", (*((struct objc_class **) oObj))->name);
     }
   }
+#endif
     
-  *ret = NS_STATIC_CAST (swarmISelector*, this);
+  NS_ADDREF (*ret = NS_STATIC_CAST (swarmISelector*, this));
   return NS_OK;
 }

@@ -441,9 +441,12 @@
                   :phase :creating
                   :factory-flag t
                   :arguments (list (list "create" "id" "obj")
-                                   (list nil "const char *" "methodName")
-                                   (list nil "BOOL" "objcFlag"))
-                  :return-type "id <Selector>"))))
+                                   (list nil "const char *" "methodName"))
+                  :return-type "id <Selector>")
+                 (make-method
+                  :phase :using
+                  :arguments (list (list "isBooleanReturn" nil nil))
+                  :return-type "BOOL"))))
                  
 (defun com-complete-protocols ()
   (cons (selector-protocol) (com-wrapped-protocols)))
@@ -541,7 +544,7 @@
   (insert "swarmSwarmEnvironmentImpl::Init ()\n")
   (insert "{\n")
   
-  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, addRef };\n")
+  (insert "  static COMEnv env = { createComponent, findComponent, copyString, getName, addRef, selectorIsBooleanReturn };\n")
   (insert "  initCOM (&env);\n")
   (insert "  return NS_OK;\n")
   (insert "}\n\n"))
@@ -882,8 +885,11 @@
   (insert "#define ")
   (insert (com-protocol-sym protocol phase "CONTRACTID"))
   (insert " ")
-  (insert "\"component://swarm/")
-  (insert (module-path (protocol-module protocol)))
+  (insert "\"urn:swarm:")
+  (let ((sym (module-sym (protocol-module protocol))))
+    (unless (eq sym 'swarm)
+      (insert (symbol-name sym))
+      (insert ".")))
   (insert (com-phase-name protocol phase))
   (insert "Impl\"\n"))
 

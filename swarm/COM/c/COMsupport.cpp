@@ -259,6 +259,18 @@ addRef (COMobject cObj)
   NS_ADDREF (NS_STATIC_CAST (nsISupports *, cObj));
 }
 
+BOOL
+selectorIsBooleanReturn (COMobject cSel)
+{
+  swarmISelector *sel = NS_STATIC_CAST (swarmISelector *, cSel);
+  PRBool ret;
+
+  if (!NS_SUCCEEDED (sel->IsBooleanReturn (&ret)))
+    abort ();
+  
+  return ret;
+}
+
 }
 
 
