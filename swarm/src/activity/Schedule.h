@@ -16,12 +16,13 @@ Library:      activity
 @interface Schedule_c : Map_c
 {
 @public
-// variables for CompoundAction mixin inheritance (referenced by source inclusion)
-  id  activityRefs;     // activities currently running this plan
+  // variables for CompoundAction mixin inheritance
+  // (referenced by source inclusion)
+  id activityRefs;            // activities currently running this plan
 
-// locally defined variables
-  id         concurrentGroupType;  // type for group of actions at same time
-  timeval_t  repeatInterval;       // rescheduling interval, or zero
+  // locally defined variables
+  id concurrentGroupType;     // type for group of actions at same time
+  timeval_t  repeatInterval;  // rescheduling interval, or zero
 }
 /*** methods implemented in CompoundAction.m file ***/
 - (void)setAutoDrop: (BOOL)autoDrop;
@@ -31,20 +32,20 @@ Library:      activity
 - activate;
 - activateIn: swarmContext;
 - _activateIn_: swarmContext : activityClass : indexClass;
-- (void) _performPlan_;
+- (void)_performPlan_;
 - _createActivity_: ownerActivity : activityClass : indexClass;
-- (void) drop;
+- (void)drop;
 /*** methods in Schedule_c (inserted from .m file by m2h) ***/
 + create: aZone setRepeatInterval: (timeval_t)rptInterval;
-- (void) setConcurrentGroupType: groupType;
-- (void) setSingletonGroups: (BOOL)singletonGroups;
-- (void) setRelativeTime: (BOOL)relativeTime;
+- (void)setConcurrentGroupType: groupType;
+- (void)setSingletonGroups: (BOOL)singletonGroups;
+- (void)setRelativeTime: (BOOL)relativeTime;
 - createEnd;
-- (void) setRepeatInterval: (timeval_t)rptInterval;
+- (void)setRepeatInterval: (timeval_t)rptInterval;
 - getConcurrentGroupType;
-- (BOOL) getSingletonGroups;
-- (BOOL) getRelativeTime;
-- (timeval_t) getRepeatInterval;
+- (BOOL)getSingletonGroups;
+- (BOOL)getRelativeTime;
+- (timeval_t)getRepeatInterval;
 - _activateUnderSwarm_: activityClass : indexClass : swarmContext;
 - insertGroup: aKey;
 - remove: anAction;
@@ -74,39 +75,39 @@ Library:      activity
 - createActionForEach: target message: (SEL)aSel : arg1;
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2;
 - createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
-- (void) describe: outputCharStream;
-- (void) describeForEach: outputCharStream;
-- (void) describeForEachID: outputCharStream;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
+- (void)describe: outputCharStream;
+- (void)describeForEach: outputCharStream;
+- (void)describeForEachID: outputCharStream;
 @end
 
-extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
+extern void _activity_insertAction (Schedule_c *, timeval_t, CAction *);
 
 @interface ActionConcurrent_c : CAction
 {
 @public
-  CompoundAction_c  *concurrentGroup;  // concurrent group to be executed
+  CompoundAction_c *concurrentGroup;  // concurrent group to be executed
 }
 /*** methods in ActionConcurrent_c (inserted from .m file by m2h) ***/
-- (void) _performAction_: anActivity;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
-- (void) describe: outputCharStream;
+- (void)_performAction_: anActivity;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
+- (void)describe: outputCharStream;
 @end
 
 @interface ConcurrentSchedule_c : Schedule_c
 {
-  CAction  *actionConcurrent;  // action that includes group in schedule
+  CAction *actionConcurrent;  // action that includes group in schedule
 }
 /*** methods in ConcurrentSchedule_c (inserted from .m file by m2h) ***/
-- (void) addLast: anAction;
-- (void) _setActionConcurrent_: action;
+- (void)addLast: anAction;
+- (void)_setActionConcurrent_: action;
 - _getEmptyActionConcurrent_;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ActivationOrder_c : ConcurrentSchedule_c
 /*** methods in ActivationOrder_c (inserted from .m file by m2h) ***/
-- (void) addLast: mergeAction;
+- (void)addLast: mergeAction;
 - remove: mergeAction;
 - _getEmptyActionConcurrent_;
 @end
@@ -114,16 +115,16 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 @interface ScheduleActivity_c : Activity_c
 {
 @public
-  Activity_c  *swarmActivity;      // controlling swarm activity, if any
-  id          mergeAction;         // merge action of swarm activity, if any
-  id          mergeExternalAction; // merge action for external swarms
-  long         activationNumber;   // sequential id of activation within swarm
+  Activity_c *swarmActivity;  // controlling swarm activity, if any
+  id mergeAction;             // merge action of swarm activity, if any
+  id mergeExternalAction;     // merge action for external swarms
+  long activationNumber;      // sequential id of activation within swarm
 }
 /*** methods in ScheduleActivity_c (inserted from .m file by m2h) ***/
-- (timeval_t) getCurrentTime;
+- (timeval_t)getCurrentTime;
 - stepUntil: (timeval_t)tVal;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
-- (void) dropAllocations: (BOOL)componentAlloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
+- (void)dropAllocations: (BOOL)componentAlloc;
 @end
 
 @interface ScheduleIndex_c: MapIndex_c
@@ -140,47 +141,47 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
 - nextAction: (id *)status;
 - remove;
 - get;
-- (timeval_t) getCurrentTime;
+- (timeval_t)getCurrentTime;
 - setCurrentTime : (timeval_t)timeval;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
-- (void) dropAllocations: (BOOL)componentAlloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
+- (void)dropAllocations: (BOOL)componentAlloc;
 @end
 
 @interface ActionChanged_c : CreateDrop
 {
 @public
-  ActionConcurrent_c  *actionAtIndex;   // action for new concurrent group
+  ActionConcurrent_c *actionAtIndex;   // action for new concurrent group
 }
 /*** methods in ActionChanged_c (inserted from .m file by m2h) ***/
-- (void) _performAction_: anActivity;
-- (void) describe: outputCharStream;
+- (void)_performAction_: anActivity;
+- (void)describe: outputCharStream;
 @end
 
 //
 // SwarmActivity_c and ActionMerge_c declared in Schedule.h so that import is
 // is minimized for user subclassing of a custom Swarm 
 //
-@class  GenericSwarm_c;
+@class GenericSwarm_c;
 
 @interface SwarmActivity_c : ScheduleActivity_c
 {
 @public
-  id   swarm;           // object that encapsulates the activity
-  int  nextActivation;  // next unused activation number
+  id swarm;           // object that encapsulates the activity
+  int nextActivation;  // next unused activation number
 }
 /*** methods in SwarmActivity_c (manually inserted) ***/
-- (void) terminate;
+- (void)terminate;
 - getSubactivities;
 - getSwarm;
 - getSynchronizationSchedule;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end
 
 @interface ActionMerge_c : CAction
 {
 @public
-  ScheduleActivity_c  *subactivity;  // activity holding for merge 
-  id collectionOfActions;            // collection ofActions to be merged
+  ScheduleActivity_c *subactivity;  // activity holding for merge 
+  id collectionOfActions;           // collection ofActions to be merged
  
   // collection field is used only to speed up access to Schedule that is
   // to be merged, otherway to get id of this Schedule is to access
@@ -189,6 +190,6 @@ extern void _activity_insertAction( Schedule_c *, timeval_t, CAction * );
   BOOL immediateReturnRequestFlag;   // tell merged activity immediately return
 }
 /*** methods in ActionMerge_c (manually inserted) ***/
-- (void) _performAction_: callerActivity;
-- (void) mapAllocations: (mapalloc_t)mapalloc;
+- (void)_performAction_: callerActivity;
+- (void)mapAllocations: (mapalloc_t)mapalloc;
 @end

@@ -15,7 +15,7 @@ Library:      activity
 @interface CAction: Object_s
 {
 @public
-  ActionType_c  *owner;        // action type that binds action in its context
+  ActionType_c *owner;        // action type that binds action in its context
   member_t ownerActions;       // internal links in actions owned by ActionType
   unsigned bits;               // bit allocations
 }
@@ -40,7 +40,7 @@ Library:      activity
 @interface ActionCall_1: ActionCall_0
 {
 @public
-  id arg1;                   // first argument
+  id arg1;
 }
 /*** methods in ActionCall_1 (inserted from .m file by m2h) ***/
 - (int)getNArgs;
@@ -53,7 +53,7 @@ Library:      activity
 @interface ActionCall_2: ActionCall_1
 {
 @public
-  id arg2;                   // second argument
+  id arg2;
 }
 /*** methods in ActionCall_2 (inserted from .m file by m2h) ***/
 - (int)getNArgs;
@@ -66,7 +66,7 @@ Library:      activity
 @interface ActionCall_3: ActionCall_2
 {
 @public
-  id arg3;                   // third argument
+  id arg3;
 }
 /*** methods in ActionCall_3 (inserted from .m file by m2h) ***/
 - (int)getNArgs;
@@ -79,8 +79,8 @@ Library:      activity
 @interface ActionTo_0: CAction
 {
 @public
-  id target;               // receiver of action message
-  SEL selector;            // selector of message to send
+  id target;     // receiver of action message
+  SEL selector;  // selector of message to send
 }
 /*** methods in ActionTo_0 (inserted from .m file by m2h) ***/
 - (void)setTarget: aTarget;
@@ -95,7 +95,7 @@ Library:      activity
 @interface ActionTo_1: ActionTo_0
 {
 @public
-  id arg1;                // first argument
+  id arg1;
 }
 /*** methods in ActionTo_1 (inserted from .m file by m2h) ***/
 - (int)getNArgs;
@@ -108,7 +108,7 @@ Library:      activity
 @interface ActionTo_2: ActionTo_1
 {
 @public
-  id arg2;               // second argument
+  id arg2;
 }
 /*** methods in ActionTo_2 (inserted from .m file by m2h) ***/
 - (int)getNArgs;
@@ -121,7 +121,7 @@ Library:      activity
 @interface ActionTo_3: ActionTo_2
 {
 @public
-  id arg3;              // third argument
+  id arg3;
 }
 /*** methods in ActionTo_3 (inserted from .m file by m2h) ***/
 - (int)getNArgs;

@@ -26,7 +26,7 @@ Library:      activity
 //
 // temporary support for dropping actions (must be removed from owner first!)
 //
-- (void) drop
+- (void)drop
 {
   [self dropAllocations: YES];
 }
@@ -36,28 +36,28 @@ Library:      activity
 
 @implementation ActionCall_0
 
-- (void) setFunctionPointer: (func_t)fptr
+- (void)setFunctionPointer: (func_t)fptr
 {
   funcPtr = fptr;
 }
 
-- (func_t) getFunctionPointer
+- (func_t)getFunctionPointer
 {
   return funcPtr;
 }
 
-- (int) getNArgs
+- (int)getNArgs
 {
   return 0;
 }
 
-- (void) _performAction_: anActivity
+- (void)_performAction_: anActivity
 {
-  funcPtr();
+  funcPtr ();
 }
 
 static void
-describeFunctionCall(id stream, func_t fptr, int nargs, id arg1, id arg2, id arg3) 
+describeFunctionCall (id stream, func_t fptr, int nargs, id arg1, id arg2, id arg3)
 {
   char buffer[100];
 
@@ -111,7 +111,7 @@ describeFunctionCall(id stream, func_t fptr, int nargs, id arg1, id arg2, id arg
   ((void (*) (id)) funcPtr) (arg1);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   describeFunctionCall (outputCharStream, funcPtr, 1, arg1, 0, 0);
 }
@@ -121,12 +121,12 @@ describeFunctionCall(id stream, func_t fptr, int nargs, id arg1, id arg2, id arg
 
 @implementation ActionCall_2
 
-- (int) getNArgs
+- (int)getNArgs
 {
   return 2;
 }
 
-- (void) setArg2: anArg
+- (void)setArg2: anArg
 {
   arg2 = anArg;
 }
@@ -171,7 +171,7 @@ describeFunctionCall(id stream, func_t fptr, int nargs, id arg1, id arg2, id arg
   ((void (*) (id, id, id)) funcPtr) (arg1, arg2, arg3);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   describeFunctionCall (outputCharStream, funcPtr, 3, arg1, arg2, arg3);
 }
@@ -181,7 +181,7 @@ describeFunctionCall(id stream, func_t fptr, int nargs, id arg1, id arg2, id arg
 
 @implementation ActionTo_0
 
-- (void) setTarget: aTarget
+- (void)setTarget: aTarget
 {
   target = aTarget;
 }
@@ -212,7 +212,7 @@ describeFunctionCall(id stream, func_t fptr, int nargs, id arg1, id arg2, id arg
 }
 
 static void
-describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3) 
+describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3)
 {
   char buffer[100];
 
@@ -237,7 +237,7 @@ describeMessageArgs(id stream, SEL msg, int nargs, id arg1, id arg2, id arg3)
 }
 
 static void
-describeMessage(id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3) 
+describeMessage(id stream, id target, SEL msg, int nargs, id arg1, id arg2, id arg3)
 {
   char buffer[100];
 
@@ -372,7 +372,7 @@ describeForEachMessage (id stream, id target, SEL msg, int nargs, id arg1, id ar
   describeMessageArgs (stream, msg, nargs, arg1, arg2, arg3);
 }
 
-- (void) describe: outputCharStream
+- (void)describe: outputCharStream
 {
   describeForEachMessage (outputCharStream, target, selector, 0, 0, 0, 0);
 }
