@@ -12,6 +12,9 @@
 	Rename all java_directory_* routines to swarm_directory_*. 
 	Change all macros to use new Directoy methods. Accomodate J* to
 	SD_* renames.
+	Use find/add instead of ensure whenever possible.  Remove
+	distinction between `update' and `switch' -- stick with switch
+	predicated on valid reverse lookup.
 
 1999-07-27  Vladimir Jojic  <vjojic@ute.santafe.edu>
 
