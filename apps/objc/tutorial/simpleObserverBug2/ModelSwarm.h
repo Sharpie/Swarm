@@ -6,33 +6,32 @@
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
-#import <tkobjc.h>
 #import <objectbase.h>
 
-
-@interface ModelSwarm: Swarm {
+@interface ModelSwarm: Swarm
+{
 
   int worldXSize, worldYSize;
   float seedProb;
   float bugDensity;
 
-  FoodSpace * food;
-  Grid2d * world;
+  FoodSpace *food;
+  Grid2d *world;
 
   id bugList;
   id modelActions;
   id modelSchedule;
 }
 
--getWorld;
--getFood;
--getBugList;
+- getWorld;
+- getFood;
+- getBugList;
 
-+createBegin: (id) aZone;
--createEnd;
--buildObjects;
--buildActions;
--activateIn: (id) swarmContext;
++ createBegin: (id)aZone;
+- createEnd;
+- buildObjects;
+- buildActions;
+- activateIn: swarmContext;
 
 @end
 

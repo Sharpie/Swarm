@@ -5,12 +5,13 @@
 #import <collections.h>
 #import <objectbase.h>
 #import <analysis.h>
+#import <gui.h>
 
 @implementation ObserverSwarm
 
 + createBegin: aZone
 {
-  ObserverSwarm * obj;
+  ObserverSwarm *obj;
   id <ProbeMap> probeMap;
 
   // createBegin: here we set up the default simulation parameters.
@@ -43,7 +44,8 @@
   return obj;
 }
 
--createEnd {
+- createEnd
+{
   return [super createEnd];
 }
 
@@ -123,14 +125,16 @@
   // Also, tell the world raster to send mouse clicks to the heatbugDisplay
   // this allows the user to right-click on the display to probe the bugs.
 
-  [worldRaster setButton: ButtonRight Client: bugDisplay Message: M(makeProbeAtX:Y:)];
+  [worldRaster setButton: GUI_ButtonRight
+               Client: bugDisplay
+               Message: M(makeProbeAtX:Y:)];
 
 
 
   return self;
 }
 
--buildActions
+- buildActions
 {
 
 // Create the actions necessary for the simulation. 
@@ -165,8 +169,8 @@
   return self;
 }
 
--activateIn: (id) swarmContext {
-
+- activateIn: swarmContext
+{
 // activateIn: - activate the schedules so they're ready to run.
 
   [super activateIn: swarmContext];

@@ -2,26 +2,26 @@
 
 #import <swarmobject/SwarmObject.h>
 #import <space.h>
+#import <gui.h>
 #import "FoodSpace.h"
 
-@interface Bug: SwarmObject {
-
+@interface Bug: SwarmObject
+{
   int xPos, yPos;
   int worldXSize, worldYSize;
   
-  Grid2d * world;
+  Grid2d *world;
   id food;
 
   int haveEaten;
-
 }
 
--setWorld: (id) w Food: (id) f;
--createEnd;
+- setWorld: w Food: f;
+- createEnd;
 
--setX: (int) x Y: (int) y;
--step;
--drawSelfOn: (Raster *) r;
+- setX: (int)x Y: (int)y;
+- step;
+- drawSelfOn: (id <Raster>)r;
 
 @end
 
