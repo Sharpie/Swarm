@@ -132,10 +132,10 @@ else
     kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $expand_jdkdir/bin/kaffe`
     kaffe_datadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $expand_jdkdir/bin/kaffe`
     jdkdatadir=`eval echo \`echo $kaffe_datadir | sed  's/\${prefix}/$kaffe_prefix/'\``
-    JAVACLASSES="${jdkdatadir}/Klasses.jar:${jdkdatadir}/pizza.jar"
+    JAVACLASSES="${jdkdatadir}/Klasses.jar"
 
     if test "$host_os" = cygwin; then
-      JAVACLASSESARG="`cygpath -w ${jdkdatadir}/Klasses.jar`;`cygpath -w ${jdkdatadir}/pizza.jar`"
+      JAVACLASSESARG="`cygpath -w ${jdkdatadir}/Klasses.jar`"
       # we can assume SWARMROOT will be set in Windows environment --
       # recover the symbolic path representation from datadir.
       jdkdatadir=`echo $jdkdatadir | sed "s,$SWARMROOT,\\${SWARMROOT},g"`
