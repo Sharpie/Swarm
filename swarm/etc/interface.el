@@ -74,6 +74,7 @@
       "Line"
 
       "Graph"
+      "GraphElement"
       "Histogram"
       "Pixmap"
                                 
@@ -114,6 +115,8 @@
       "Split" "SplitOut" "SplitSingleSeed" "SplitMultiSeed" 
 
       "C2LCGXgen" "C4LCGXgen"
+
+      "FunctionGraph"
       ))
 
 (defconst *removed-modules* '())
@@ -236,14 +239,14 @@
       ;; EZBin
       "-getDistribution" ; int* return
 
+      ;; EZDistribution
+      "-getProbabilities"; double* return
+
       ;; Discrete2d
       "-getOffsets" ; long* return
       "-allocLattice" ; id* return
       "-setLattice:" ; id* parameter
       "-getLattice"; id* return
-
-      ;; EZDistribution
-      "-getProbabilities"; double* return
 
       ;; DblBuffer2d
       "-getNewLattice" ; id* return

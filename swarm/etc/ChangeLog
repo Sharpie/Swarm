@@ -1,3 +1,7 @@
+2001-01-24  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* interface.el (*removed-protocols*): Add FunctionGraph.
+
 2000-12-15  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* common.el (*old-push-mark*, set-verbosity): Add.
