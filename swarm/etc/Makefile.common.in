@@ -79,7 +79,7 @@ USEDLL=@USEDLL@
 ifeq ($(USEDLL),yes)
 ifneq ($(USESTATIC),)
 SWARMLIBS = -lswarm
-OBJCLIBS = -lobjc
+OBJCLIBS = -lswarmobjc
 else
 SWARMLIBS = -lswarmdll -lobjcdll
 OBJCLIBS = 
@@ -87,7 +87,7 @@ DLLCPPFLAGS = -DDLL
 endif
 else
 SWARMLIBS = -lswarm
-OBJCLIBS = -lobjc
+OBJCLIBS = -lswarmobjc
 endif
 
 # Local variables:

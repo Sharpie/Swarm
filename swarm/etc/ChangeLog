@@ -1,3 +1,7 @@
+2003-05-10  Marcus Daniels  <mgd@mac>
+
+	* Makefile.common.in (OBJCLIBS): Use -lswarmobjc instead of -lobjc.
+
 2003-04-30    <mgd@arrow.santafe.edu>
 
 	* interface.el (load-dispatch-hash-table): Prefix the results
