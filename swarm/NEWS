@@ -31,6 +31,8 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
 **** Arguments
 ***** Support for variable expansion in environment variables 
       (e.g. SWARMROOT in SWARMHOME).
+***** New option --no-init-file for preventing ~/.swarmArchiver from
+      being loaded.
 **** Object_s
 ***** New function lispIn for instantiating and loading an object.
 ***** New methods lispInCreate:, lispIn:, lispOut:, implementing
@@ -42,8 +44,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
       is exhausted.
 
 *** simtools
-**** New function initSwarmAppOptions, for adding options without subclassing
+**** New function initSwarmAppOptions for adding options without subclassing
      from Arguments.
+**** New function initSwarmBatch for initializing Swarm without GUI features.
 
 *** simtoolsgui
 **** ActionCache and GUISwarm now have drop methods.
@@ -78,6 +81,9 @@ Copyright (C) 1996, 1997, 1998 Santa Fe Institute.
      low-level serialization.
 *** collections / simtools
 **** ListShuffler moved to collections
+*** simtools
+**** initSwarmApp now takes additional batchMode argument for initializing
+     Swarm without GUI support
 
 
 * Release Notes for Swarm 1.3.1
