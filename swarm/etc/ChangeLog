@@ -1,8 +1,6 @@
 1999-06-03  Alex Lancaster  <alex@santafe.edu>
 
-	* Makefile.tests.in (SWARMMODULES): New variable to generate list
-	of module names (since it is now removed from Makefile.common.in).
-	(INCLUDES): Use it.
+	* Makefile.tests.in (INCLUDES): Use SWARMMODULES.
 	(SWARMBUILDLDFLAGS): New flag to point to new libswarm.la
 	convenience library, located in $(top_builddir)/src.  Remove flags
 	to point to individual module libraries.
@@ -35,8 +33,7 @@
 
 1999-05-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* Makefile.common.in (SWARMMODULES): Remove.
-	(SWARMLIBS): Use simply -lswarm.
+	* Makefile.common.in (SWARMLIBS): Use simply -lswarm.
 
 1999-05-20  Alex Lancaster  <alex@santafe.edu>
 

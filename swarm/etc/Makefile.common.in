@@ -72,6 +72,9 @@ SUPPORTLDFLAGS = $(FFILDFLAGS) $(PNGLDFLAGS) $(ZLIBLDFLAGS) $(HDF5LDFLAGS) $(BLT
 
 SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
 
+SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
+	objectbase activity defobj collections misc
+
 SWARMLIBS = -lswarm
 
 # Local variables:

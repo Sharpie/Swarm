@@ -1,8 +1,5 @@
 include $(top_builddir)/etc/Makefile.common
 
-SWARMMODULES = space analysis simtoolsgui simtools random tkobjc tclobjc \
-	objectbase activity defobj collections misc
-
 INCLUDES = $(foreach module,. $(SWARMMODULES),-I$(top_srcdir)/src/$(module) -I$(top_builddir)/src/$(module)) -I$(top_srcdir)/src/gui/ -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc
 
 builddir = $(shell cd ../../src; pwd)
