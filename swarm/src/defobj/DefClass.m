@@ -222,20 +222,10 @@ addVariable (id class, const char *varName, const char *varType)
 
   return self;
 }
-@end
-
-@implementation BehaviorPhase_s
-
-PHASE(CreatingOnly)
-
-- (void)setNextPhase: aBehaviorPhase
-{
-  nextPhase = aBehaviorPhase;
-}
 
 - updateArchiver
 {
-  lispArchiverPut ([((BehaviorPhase_s *) self)->definingClass name], self);
+  lispArchiverPut ([self name], self);
   return self;
 }
 
@@ -266,10 +256,20 @@ PHASE(CreatingOnly)
 	  [stream catC: "double"];
 	  break;
 	}
-      [stream catC: "\n"];
     }
-  [stream catC: ")\n"];
+  [stream catC: ")"];
   return self;
+}
+
+@end
+
+@implementation BehaviorPhase_s
+
+PHASE(CreatingOnly)
+
+- (void)setNextPhase: aBehaviorPhase
+{
+  nextPhase = aBehaviorPhase;
 }
 
 @end

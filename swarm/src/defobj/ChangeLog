@@ -1,5 +1,17 @@
 1999-01-07  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* Archiver.m (archiverRegister): Don't copy and adapt class --
+	we'll do a fake method invocation in save: and lispOut:.
+
+	* Archiver.[hm] (Archiver_c, archiverRegister, archiverUnregister,
+	save:, lispOut:, drop): Split classes and instances into two
+	different lists: classes and instances.
+
+	* DefClass.m: Move updateArchvier and lispOut to CreatedClass_s.
+	([CreatedClass_s -updateArchiver]): Use [self name] 
+	instead of looking for definingClass (which won't work if we
+	aren't using defobj classes).
+
 	* Arguments.h (Arguments_c): Inherit from CreateDrop, not
 	CreateDrop_s, since we can't do dynamic phase splitting.
 

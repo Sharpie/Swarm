@@ -250,25 +250,23 @@ lispLoadArchiverExpr (id applicationMap, id expr)
 void
 archiverRegister (id client)
 {
-  id clients = archiver->clients;
-  struct objc_class *behaviorPhaseClass = xmalloc (sizeof (struct objc_class));
 
   if ([client isClass])
     {
-      memcpy (behaviorPhaseClass, client, sizeof (struct objc_class));
-      setClass (behaviorPhaseClass, id_BehaviorPhase_s);
-      client = behaviorPhaseClass;
+      if (![archiver->classes contains: client])
+        [archiver->classes addLast: client];
     }
-  if (![clients contains: client])
-    [clients addLast: client];
+  else if (![archiver->instances contains: client])
+    [archiver->instances addLast: client];
 }
 
 void
 archiverUnregister (id client)
 {
-  id clients = archiver->clients;
-  
-  [clients remove: client];
+  if ([client isClass])
+    [archiver->classes remove: client];
+  else
+    [archiver->instances remove: client];
 }
 
 void
@@ -308,7 +306,8 @@ PHASE(Creating)
 
   newArchiver->applicationMap = 
     [[[Map createBegin: aZone] setCompareFunction: &compareStrings] createEnd];
-  newArchiver->clients = [List create: aZone];
+  newArchiver->classes = [List create: aZone];
+  newArchiver->instances = [List create: aZone];
   newArchiver->lispPath = lispDefaultPath ();
   return newArchiver;
 }
@@ -424,7 +423,14 @@ PHASE(Using)
           [outputCharStream catC: "\n        (cons '"];
           [outputCharStream catC: [key getC]];
           [outputCharStream catC: "\n          "];
-          [member lispOut: outputCharStream];
+          if (![member isClass])
+            [member lispOut: outputCharStream];
+          else
+            {
+              IMP func = get_imp (id_CreatedClass_s, M(lispOut:));
+              
+              func (member, M(lispOut:), outputCharStream);
+            }
           [outputCharStream catC: ")"];
         }
       [outputCharStream catC: "))"];
@@ -444,7 +450,17 @@ PHASE(Using)
       if (fp == NULL)
         raiseEvent (InvalidArgument, "Cannot open lisp archive %s", lispPath);
       outStream = [OutputStream create: scratchZone setFileStream: fp];
-      [clients forEach: @selector (updateArchiver)];
+      {
+        id <Index> index;
+        id item;
+        IMP func = get_imp (id_CreatedClass_s, M(updateArchiver));
+
+        index = [classes begin: [self getZone]];
+        while ((item = [index next]))
+          func (item, M(updateArchiver));
+        [index drop];
+      }
+      [instances forEach: @selector (updateArchiver)];
       [self lispOut: outStream];
       fclose (fp);
       [outStream drop];
@@ -458,7 +474,8 @@ PHASE(Using)
   [applicationMap drop];
   if (lispPath)
     XFREE (lispPath);
-  [clients drop];
+  [classes drop];
+  [instances drop];
   [super drop];
 }
 

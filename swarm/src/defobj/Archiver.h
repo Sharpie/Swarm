@@ -18,7 +18,7 @@ extern id archiver;
   const char *HDF5Path;
 #endif
 @public
-  id clients;
+  id <List> instances, classes;
 }
 
 + createBegin: aZone;
