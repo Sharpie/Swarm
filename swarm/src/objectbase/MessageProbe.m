@@ -66,15 +66,21 @@
   probedType = strdup (sel_get_type (probedSelector));
 
   {
-    val_t empty_val;
     int argCount = [self getArgCount];
-    int i;
 
-    empty_val.type = '\0';
-    arguments = (val_t *)xmalloc (argCount * sizeof (val_t));
-
-    for (i = 0; i < argCount; i++)
-      arguments[i] = empty_val;
+    if (argCount > 0)
+      {
+        val_t empty_val;
+        int i;
+        
+        empty_val.type = '\0';
+        arguments = (val_t *)xmalloc (argCount * sizeof (val_t));
+        
+        for (i = 0; i < argCount; i++)
+          arguments[i] = empty_val;
+      }
+    else
+      arguments = NULL;
   }
   return self;
 }

@@ -1,3 +1,8 @@
+1998-11-19  Marcus G. Daniels  <mgd@chama.santafe.edu>
+
+	* MessageProbe.m ([MessageProbe -createEnd]): Set arguments to NULL
+	if no arguments; don't attempt malloc of size zero.
+
 1998-11-12  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* objectbase.h (Arguments): Remove (moved to defobj.h).
