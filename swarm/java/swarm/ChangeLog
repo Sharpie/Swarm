@@ -1,3 +1,9 @@
+1999-08-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* SwarmEnvironment.java (Primitive{Boolean, Character, Byte,
+	Integer, Short, Long, Float, Double, Void}): New variables.
+	(SwarmEnvironment): Initialize them.
+
 1999-08-09  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* SwarmEnvironment.java (SwarmEnvironment): New variable guiFlag.

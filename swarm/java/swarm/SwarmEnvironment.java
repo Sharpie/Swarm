@@ -6,6 +6,24 @@ import swarm.activity.*;
 import swarm.objectbase.*;
 
 public class SwarmEnvironment {
+  public Class PrimitiveBoolean,
+    PrimitiveCharacter, PrimitiveByte,
+    PrimitiveInteger, PrimitiveShort, PrimitiveLong,
+    PrimitiveFloat, PrimitiveDouble,
+    PrimitiveVoid;
+  
+  public SwarmEnvironment () {
+    super ();
+    PrimitiveBoolean = Boolean.TYPE;
+    PrimitiveCharacter = Character.TYPE;
+    PrimitiveByte = Byte.TYPE;
+    PrimitiveInteger = Integer.TYPE;
+    PrimitiveShort = Short.TYPE;
+    PrimitiveLong = Long.TYPE;
+    PrimitiveFloat = Float.TYPE;
+    PrimitiveDouble = Double.TYPE;
+    PrimitiveVoid = Void.TYPE;
+  }
   public native void initSwarm (String args[]);
   public native int getCurrentTime ();
   public native SwarmImpl getCurrentSwarm ();
