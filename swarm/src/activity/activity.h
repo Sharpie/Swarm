@@ -303,6 +303,11 @@ USING
 - (func_t)getFunctionPointer;
 @end
 
+@protocol ActionChanged <Action, RETURNABLE>
+//S: An action generated when actions changes from single to concurrent.
+//D: An action generated when actions changes from single to concurrent.
+@end
+
 @protocol FActionCreating
 //S: An action that calls a FCall.
 //D: The createFAction: message creates an action that runs a FCall closure.

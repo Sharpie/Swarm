@@ -1092,8 +1092,8 @@ PHASE(Using)
         {
           //!! (later -- when Map implementation has stabilized --
           //!! get actionAtIndex directly from the underlying implementation)
-          newAction =
-            [id_ActionChanged_c create: getZone ((Activity_c *) activity)];
+          newAction = [ActionChanged 
+                        create: getCZone (getZone ((Activity_c *) activity))];
           newAction->actionAtIndex = actionAtIndex;
           currentAction = newAction;
           setMappedAlloc (self);

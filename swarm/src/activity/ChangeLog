@@ -1,3 +1,13 @@
+1999-12-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* activity.h (ActionChanged): New type.
+
+	* activity.m (_activity_implement): Add implementation assocation.
+
+	* Schedule.m ([ScheduleIndex_c -nextAction:]): Create
+	a ActionChanged type rather than id_ActionChanged_c and put it in
+	the component zone.
+
 1999-11-25  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Schedule.m (_activity_insertAction): Test for non-predecessor

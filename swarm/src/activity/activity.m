@@ -27,6 +27,7 @@ _activity_implement (void)
   [id_ActionTo_c setTypeImplemented: ActionTo];
   [id_ActionForEach_c setTypeImplemented: ActionForEach];
   [id_FActionForEach_c setTypeImplemented: FActionForEach];
+  [id_ActionChanged_c setTypeImplemented: ActionChanged];
   
   [id_Activity_c setTypeImplemented: Activity];
   [id_ScheduleActivity_c setTypeImplemented: ScheduleActivity];
