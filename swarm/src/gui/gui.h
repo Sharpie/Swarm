@@ -769,13 +769,12 @@ CREATING
 
 //M: Create a pixmap from a PNG file.
 + create: aZone file: (const char *)filename;
-
-USING
+SETTING
 //M: Set the raster that the pixmap will be shown on.
-//M: This is a required call.  It's used to determine the
-//M: color palette in use.
+//M: It's used to augment raster the color palette as necessary.
 - setRaster: (id <Raster>)raster;
 
+USING
 //M: Get the width of the bitmap in pixels.
 - (unsigned)getWidth;
 

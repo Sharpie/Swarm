@@ -1,3 +1,7 @@
+1998-08-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* gui.h: Move setRaster: from Creating to Setting phase.
+
 1998-08-06  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* gui.h (_Pixmap): Add create:widget: and create:file:.
