@@ -11,6 +11,7 @@
 #import "local.h"
 
 #include <swarmconfig.h> // HAVE_JDK
+#import <defobj/directory.h> // SD_SUPERCLASS
 #ifdef HAVE_JDK
 #import "../defobj/java.h" // SD_JAVA_ENSUREOBJCMETHOD, SD_JAVA_FIND_OBJECT_JAVA, java_field_usable_p
 #import "../defobj/javavars.h" // m_*, c_*
