@@ -64,7 +64,42 @@
 		}
     } else { //Run number was specified by the user.
       
-      	asprintf( &timeString, "%d", runNumber ); //Should we free these somewhere? a dealloc?
+				
+		//So we need to create a string containing the run number that was specified.
+		
+		size_t actual_size;
+		char buffer[ 3 ];	//This is a small buffer for the first few characters.
+		
+		//First we determine the size of the string to print.
+		//This is actually something of a hack--it depends on the error message generated
+		//by snprintf to give us the number of characters it actually needs, then we add
+		//one to that so that there is room for the terminating character.  
+		actual_size = snprintf( buffer, 3, "%d", runNumber ) + 1;
+		
+		//Now we allocate memory.   The sizeof( char ) is just a formality--it should be
+		//"1" for any system.
+		timeString = malloc( sizeof( char ) * actual_size );
+		
+		//snprintf copies (at most) actual_size - 1 characters into timeString and then,
+		//if it can, trunicates the string with the string terminator '\0'.
+		snprintf( timeString, actual_size, "%d", runNumber );
+		
+		/**
+		 ** For Linux, MacOS X, and just about everything else Swarm runs on except
+		 ** Solaris, there is a less convoluted way of doing this using a command
+		 ** called "asprintf."
+		 **
+		 ** asprintf mallocs memory to timeString and then prints runNumber into it
+		 ** using "%d" as a template.  Note the C function call--this is allowed in
+		 ** objective-c so long as its a C function that we're calling.
+		 **
+		 ** 	asprintf( &timeString, "%d", runNumber );
+		 **
+		 ** This does the same thing as the above five lines of code.
+		 **
+		*/
+	    	
+
       	
     } //if( runNumber == -1 ) - else
   
@@ -78,7 +113,13 @@
   char *hdfEZGraphName;
   id <HDF5> hdf5container; /*"HDF5 data container object used by bugGraph"*/
 
-  asprintf( &hdfEZGraphName, "hdfGraph_%s.hdf", timeString );
+  //We'll use the snprintf trick above to store what we want the name of the graph to be.]
+  size_t actual_size;
+  char buffer[ 3 ];
+
+  actual_size = snprintf( buffer, 3, "hdfGraph_%s.hdf", timeString) + 1;
+  hdfEZGraphName = malloc( sizeof( char ) * actual_size );
+  snprintf( hdfEZGraphName, actual_size, "hdfGraph_%s.hdf", timeString);
 
   hdf5container = [HDF5 createBegin: [self getZone]];
   [hdf5container setWriteFlag: YES];
@@ -120,7 +161,13 @@
   					//do anything.
   } else {
   
-    asprintf( &outputFile, "output_%s.data",timeString );
+	size_t actual_size;
+	char buffer[ 3 ];
+	
+	actual_size = snprintf( buffer, 3, "output_%s.data", timeString ) + 1;
+	outputFile = malloc( sizeof( char ) * actual_size );
+  	snprintf( outputFile, actual_size, "output_%s.data", timeString );
+
   
     if( !( dataOutputFile = fopen( outputFile,"w" ) ) )	//Open/Create file.
     {

@@ -1,4 +1,9 @@
 2003-08-18	David H. Clements <david.clements.03@alum.mines.edu>
+
+	* In Output.m removed the asprintf and replaced them with a snprintf hack
+	  for comptability with Solaris.
+
+2003-08-18	David H. Clements <david.clements.03@alum.mines.edu>
 	
 	* In Output.m updated createGraphWriter to have a dynamic string instead
 	of a static one for hdfEZGraphName.
