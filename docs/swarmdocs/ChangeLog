@@ -1,3 +1,12 @@
+1999-02-10  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.am (JADEFLAGS): Remove.
+
+	* Makefile.rules (JADEFLAGS): Move from Makefile.am.
+
+	* common.dsl (id-to-indexitem): Enhance to check for BIBLIOGRAPHY,
+	and TABLE.
+
 1999-02-09  Alex Lancaster  <alex@santafe.edu>
 
 	* catalog.in: Add new *.sgml ENTITIES for `Random Library'
