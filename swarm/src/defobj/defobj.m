@@ -338,12 +338,3 @@ nameToObject (const char *name)
     return object;
   abort ();
 }
-
-#ifndef HAVE_HDF5
-void
-hdf5_not_available (void)
-{
-  raiseEvent (NotImplemented,
-              "HDF5 serialization not available on this configuration");
-}
-#endif

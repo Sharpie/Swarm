@@ -21,6 +21,16 @@
 
 static unsigned hdf5InstanceCount = 0;
 
+
+#ifndef HAVE_HDF5
+static void
+hdf5_not_available (void)
+{
+  raiseEvent (NotImplemented,
+              "HDF5 serialization not available on this configuration");
+}
+#endif
+
 static hid_t
 tid_for_objc_type (const char *type)
 {
