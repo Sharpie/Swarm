@@ -53,11 +53,27 @@ PUBLIC "-//SFI Hive//ENTITIES Objectbase Generated Content//EN" refbook/objectba
 
 PUBLIC "-//SFI Hive//ENTITIES Random Content//EN" @top_dossrcdir@/refbook/random/randomcont.sgml
 PUBLIC "-//SFI Hive//ENTITIES Random Introduction//EN" @top_dossrcdir@/refbook/random/random00.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Appendix//EN" @top_dossrcdir@/refbook/random/random-app.sgml
 PUBLIC "-//SFI Hive//ENTITIES Random Metadata//EN" @top_dossrcdir@/refbook/random/randommeta.sgml
 PUBLIC "-//SFI Hive//ENTITIES Random Revision History//EN" refbook/random/randomrevhistory.sgml
 PUBLIC "-//SFI Hive//ENTITIES Random Generated Content//EN" refbook/random/randompages.sgml
-PUBLIC "-//SFI Hive//ENTITIES Random README For Generators//EN" @top_dossrcdir@/refbook/random/extra/README.Generators.v075
-PUBLIC "-//SFI Hive//ENTITIES Random README For Distributions//EN" @top_dossrcdir@/refbook/random/extra/README.Distributions.v07
+PUBLIC "-//SFI Hive//ENTITIES Random README For Distributions//EN" @top_dossrcdir@/refbook/random/extra/README.Distributions-0.8.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random README For Generators//EN" @top_dossrcdir@/refbook/random/extra/README.Generators-0.8.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random README For This Release//EN" @top_dossrcdir@/refbook/random/extra/README.Random-0.8.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Table of Generator Characteristics//EN" @top_dossrcdir@/refbook/random/extra/Table.Generators.Data.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Table of Generator Test Results//EN" @top_dossrcdir@/refbook/random/extra/Table.Generators.Quality.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Guide to Choosing a Generator//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.Choosing-A-Generator.sgml 
+PUBLIC "-//SFI Hive//ENTITIES Random Description of Default Generators//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.Default-Generators.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random User Guide to Distributions//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.Distributions.sgml 
+PUBLIC "-//SFI Hive//ENTITIES Random User Guide For Beginners//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.For-Beginners.sgml 
+PUBLIC "-//SFI Hive//ENTITIES Random User Guide to Generators//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.Generators.sgml 
+PUBLIC "-//SFI Hive//ENTITIES Random Source Resources//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.Resources.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Source Bibliography//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.Bibliography.sgml
+PUBLIC "-//SFI Hive//ENTITIES Random Description of Test Programs//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.Test-Programs.sgml 
+PUBLIC "-//SFI Hive//ENTITIES Random Index to documentation files//EN" @top_dossrcdir@/refbook/random/extra/Usage-Guide.file-list 
+PUBLIC "-//SFI Hive//ENTITIES Random Description of Current Additions//EN" @top_dossrcdir@/refbook/random/extra/Whats-New-0.8
+PUBLIC "-//SFI Hive//ENTITIES Random Description of Current Changes//EN" @top_dossrcdir@/refbook/random/extra/Whats-Changed-0.8 
+PUBLIC "-//SFI Hive//ENTITIES Random Description of Work To Be Done//EN" @top_dossrcdir@/refbook/random/extra/Whats-Left-ToDo-0.8.sgml
 
 PUBLIC "-//SFI Hive//ENTITIES Simtools Content//EN" @top_dossrcdir@/refbook/simtools/simtoolscont.sgml
 PUBLIC "-//SFI Hive//ENTITIES Simtools Introduction//EN" @top_dossrcdir@/refbook/simtools/simtools00.sgml
@@ -136,3 +152,4 @@ PUBLIC "-//SFI Hive//ENTITIES Set Metadata//EN" @top_dossrcdir@/set/setmeta.sgml
 PUBLIC "-//SFI Hive//ENTITIES Set Revision History//EN" set/setrevhistory.sgml
 
 SGMLDECL "@top_dossrcdir@/docbook.dcl"
+

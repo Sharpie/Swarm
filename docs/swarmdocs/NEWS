@@ -1,6 +1,12 @@
 swarmdocs NEWS --- history of major changes to swarmdocs.  -*- text -*-
 Copyright (C) 1996, 1997, 1998, 1999 Santa Fe Institute.
 
+* Release Notes for swarmdocs 1.4.1
+
+** Completely new documentation `Appendix' for the Random Library added, 
+thanks to Sven Thommesen <sthomme@humsci.auburn.edu>.  Complete
+re-organisation of the introductory reference section for `Random'.
+
 * Release Notes for swarmdocs 1.4
 
 ** Updates for DocBook stylesheets 1.33.

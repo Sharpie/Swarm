@@ -1,3 +1,13 @@
+1999-02-09  Alex Lancaster  <alex@santafe.edu>
+
+	* catalog.in: Add new *.sgml ENTITIES for `Random Library'
+	Appendix.
+
+	* NEWS: Note addition of Appendix for `Random Library'.
+
+	* Makefile.am (JADEFLAGS): Add, set to `-V biblio-citation-check'
+	so citations appear as links to bibliography in HTML.
+
 1999-02-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* configure.in: Bump version to 1.4.1.
