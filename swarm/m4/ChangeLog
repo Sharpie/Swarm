@@ -1,3 +1,9 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* acjdk.m4 (JAVASWARMLIBS, JAVASWARM_DLL_LOAD_NAME,
+	JAVASWARM_DLL_NAME): Remove.
+	(JAAVASWARM_LIB_NAME): Add (replaces JAVASWARM_DLL_LOAD_NAME).
+
 1999-09-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acjdk.m4: Evaluate jdkdir for embedded variables.  Use expanded

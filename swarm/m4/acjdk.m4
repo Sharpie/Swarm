@@ -13,12 +13,10 @@ if test $jdkdir = no; then
   AC_MSG_RESULT(no)
   jdkdir=
   JAVASTUBS=
-  JAVASWARMLIBS=
   JAVASWARMSCRIPTS=
 else
   expand_jdkdir=`eval echo $jdkdir`
   USEDOSCLASSPATH=no
-  JAVASWARM_DLL_LOADNAME=javaswarm # a default is needed for Globals.java
   if test $expand_jdkdir = /usr && test -d /usr/include/java; then
     jdkincludedir=$jdkdir/include/java
     expand_jdkincludedir=$expand_jdkdir/include/java
@@ -26,6 +24,7 @@ else
     jdkincludedir=$jdkdir/include
     expand_jdkincludedir=$expand_jdkdir/include
   fi
+  JAVASWARM_LIB_NAME=javaswarm
   if test -f $expand_jdkincludedir/jni.h; then
     JAVAINCLUDES="-I$jdkincludedir"
     if test -f $expand_jdkincludedir/linux/jni_md.h; then
@@ -106,7 +105,6 @@ else
       JAVAENV=
       javac_default=${jdkdir}/bin/javac
       USEDOSCLASSPATH=yes
-      JAVASWARM_DLL_NAME=javaswarm
       JAVASWARM_DLL_ENTRY='__cygwin_noncygwin_dll_entry@12'
     else
       test -n "$LD_LIBRARY_PATH_VARNAME" || LD_LIBRARY_PATH_VARNAME=LD_LIBRARY_PATH
@@ -130,6 +128,7 @@ else
     JAVALIBPATH_VAR=
   elif test -f $expand_jdkincludedir/kaffe/jni.h ; then
     JAVAINCLUDES="-I$jdkincludedir/kaffe"
+    JAVASWARM_LIB_NAME=kaffeswarm
     kaffe_prefix=`sed -n 's/^prefix="\(.*\)"/\1/p' < $expand_jdkdir/bin/kaffe`
     kaffe_datadir=`sed -n 's/: ${KAFFE_CLASSDIR="\(.*\)"}/\1/p' < $expand_jdkdir/bin/kaffe`
     jdkdatadir=`eval echo \`echo $kaffe_datadir | sed  's/\${prefix}/$kaffe_prefix/'\``
@@ -144,8 +143,7 @@ else
       # ${jdkdir}/lib/kaffe is included so that .la file can be found
       JAVALIBS="${jdkdir}/bin:${jdkdir}/lib/kaffe"
       JAVALIBSARG="`cygpath -w ${expand_jdkdir}/bin`;`cygpath -w ${expand_jdkdir}/lib/kaffe`"
-      JAVASWARM_DLL_NAME=libkaffeswarm
-      JAVASWARM_DLL_LOADNAME=kaffeswarm
+      JAVASWARM_LIB_NAME=libkaffeswarm
       JAVASWARM_DLL_ENTRY='__cygwin_dll_entry@12'
     else
       JAVALIBS='${jdkdir}/lib/kaffe'
@@ -173,16 +171,13 @@ else
   AC_MSG_RESULT($jdkdir)
   AC_DEFINE(HAVE_JDK)
   JAVASTUBS=stubs
-  JAVASWARMLIBS=-ljavaswarm
   JAVASWARMSCRIPTS="javaswarm javacswarm"
   AC_SUBST(JAVASWARM_DLL_ENTRY)
-  AC_SUBST(JAVASWARM_DLL_NAME)
-  AC_SUBST(JAVASWARM_DLL_LOADNAME)
+  AC_SUBST(JAVASWARM_LIB_NAME)
   JAVAC=${JAVAC-$javac_default}
 fi 
 
 AC_SUBST(JAVASTUBS)
-AC_SUBST(JAVASWARMLIBS)
 AC_SUBST(JAVASTUBS_FUNCTION)
 AC_SUBST(JAVAINCLUDES)
 AC_SUBST(JAVALIBS)
