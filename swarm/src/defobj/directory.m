@@ -1043,8 +1043,9 @@ swarm_directory_init (JNIEnv *env, jobject swarmEnvironment)
   }
    
   {
-    extern id uniformIntRand, uniformDblRand;
+    extern id randomGenerator, uniformIntRand, uniformDblRand;
     
+    ASSOCIATE (randomGenerator);
     ASSOCIATE (uniformIntRand);
     ASSOCIATE (uniformDblRand);
   }
