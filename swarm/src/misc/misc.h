@@ -111,6 +111,10 @@ void *memchr (const void *s, int c, size_t n);
 const char *realpath (const char *path, char *resolved_path);
 #endif
 
+#ifndef HAVE_STRTOLL
+long long strtoll (const char *nptr, char **endptr, int base);
+#endif
+
 const char *find_executable (const char *program_name);
 
 void debugabort (const char *filename, unsigned lineno, const char *function) __attribute__ ((noreturn));

@@ -1,5 +1,7 @@
 1999-08-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* misc.h: Declare strtoll if HAVE_STRTOLL is not defined.
+
 	* strtoll.c: New file.
 
 	* Makefile.am (EXTRA_DIST): Add strtoll.c.
