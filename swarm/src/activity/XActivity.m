@@ -135,7 +135,7 @@ auditRunRequest (Activity_c *self, const char *request)
   
   // perform each successive action while also completing any subactivities
   
-  while (1) 
+  while (1)
     {
       // else complete any current subactivity before continuing
       
@@ -150,7 +150,7 @@ auditRunRequest (Activity_c *self, const char *request)
               // if sub is holding just continue
               if (COMPLETEDP (subStatus))
                 {
-		  if (!currentSubactivity->keepEmptyFlag)
+                  if (!currentSubactivity->keepEmptyFlag)
                     [currentSubactivity dropAllocations: YES];
 
                   // drop completed subactivity and continue
@@ -597,22 +597,19 @@ installStep (id activity)
     {
       Activity_c *activity;
 
-      for (;;)
+      if ([activitySet getCount] > 0)
         {
           id index = [activitySet begin: scratchZone];
-
-          activity = [index next];
-          if ([index getLoc] == Member)
+          
+          for (activity = [index next];
+               [index getLoc] == Member;
+               activity = [index next])
             {
               [index remove];
+              [index prev];
               [activity dropAllocations: YES];
-              [index drop];
             }
-          else
-            {
-              [index drop];
-              break;
-            }
+          [index drop];
         }
       [activitySet dropAllocations: YES];
     }
