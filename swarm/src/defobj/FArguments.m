@@ -9,7 +9,7 @@ Description:  used for packing arguments to a foreign call
 Library:      defobj
 */
 
-#import "FArguments.h"
+#import <defobj/FArguments.h>
 #import <objc/objc-api.h>
 #import <defalloc.h>
 #include <misc.h> // stpcpy
