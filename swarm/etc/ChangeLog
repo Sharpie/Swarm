@@ -1,7 +1,7 @@
 2000-02-12    <mgd@HELEN>
 
 	* Makefile.protocol (dos_abs_builddir, dos_abs_top_builddir,
-	dos_swarm_srcdir): New variables.  Set per
+	dos_swarm_srcdir): New variables.  Set thse and elcrule per
 	$(host_triplet)/i686-pc-cygwin.
 	(ENVEMACS): Pass them here.
 
