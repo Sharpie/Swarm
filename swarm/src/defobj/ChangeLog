@@ -1,3 +1,8 @@
+1999-07-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m (java_directory_init): Make o_globalZone,
+	o_uniformIntRand, and o_uniformDblRand global refs.
+
 1999-07-06  Alex Lancaster  <alex@santafe.edu>
 
 	* FCall.m (add_ffi_types): Protect Java-specific code with

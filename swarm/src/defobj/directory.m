@@ -450,8 +450,13 @@ java_directory_init (JNIEnv *env,
     *uniformIntegerDistClassSig, *uniformDoubleDistClassSig;
 
   o_globalZone = (*env)->AllocObject (env, zoneClass);
+  o_globalZone = (*env)->NewGlobalRef (env, o_globalZone);
+
   o_uniformIntRand = (*env)->AllocObject (env, uniformIntegerDistClass);
+  o_uniformIntRand = (*env)->NewGlobalRef (env, o_uniformIntRand);
+
   o_uniformDblRand = (*env)->AllocObject (env, uniformDoubleDistClass);
+  o_uniformDblRand = (*env)->NewGlobalRef (env, o_uniformDblRand);
 
   zoneClassSig =
     create_signature_from_object (env, o_globalZone);
