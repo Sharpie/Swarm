@@ -11,7 +11,7 @@ MSRC = NXConstStr.m Object.m Protocol.m linking.m mframe.m
 
 EXTRA_DIST = thr-dce.c thr-decosf1.c thr-irix.c thr-mach.c thr-os2.c \
 	thr-posix.c thr-pthreads.c thr-single.c thr-solaris.c thr-vxworks.c \
-	thr-win32.c config genctors dllinit.c
+	thr-win32.c config dllinit.c
 
 INCLUDES = -I$(top_srcdir)/objc -I$(top_srcdir)
 
@@ -30,8 +30,6 @@ libobjc__la_LDFLAGS = -L$(dir $(shell $(CC) -print-libgcc-file-name))
 libobjc__la_LIBADD = $(objc_thread_lo) -lgcc
 libobjc__la_DEPENDENCIES = $(objc_thread_lo)
 
-override CPPFLAGS += -Dexternobjcvar="$(EXPORT_EXTERN)"
-
 objc_thread_lo = @OBJC_THREAD_FILE@.lo
 
 encoding.lo gc.lo sendmsg.lo: compiler-info.h
@@ -41,17 +39,13 @@ COMPILERINFOHEADER = @COMPILERINFOHEADER@
 compiler-info.h: $(COMPILERINFOHEADER)
 	cp $(COMPILERINFOHEADER) $@
 
-CTOR = libobjc_constructors
 DLLOBJS = $(addsuffix .o,$(basename $(libobjc__la_SOURCES)))
 
 empty.c:
 	echo > empty.c
 
 objc.dll: libobjc_.la dllinit.c
-	$(srcdir)/genctors $(CTOR) $(DLLOBJS)
-	$(CC) -c $(CTOR).c
-	$(CC) -c -Dconstructor_func=$(CTOR) $(srcdir)/dllinit.c
-	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o objc.dll dllinit.o $(CTOR).o $(DLLOBJS) $(basename $(objc_thread_lo)).o
+	$(DLLWRAP) --export-all --output-def libobjc.def --implib libobjc.a --driver-name $(CC) -o objc.dll dllinit.o $(DLLOBJS) $(basename $(objc_thread_lo)).o
 
 install-data-local: 
 	if test $(USEDLL) = yes; then \

@@ -1,3 +1,9 @@
+1999-06-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am: Remove manual constructor stuff. 
+	(CPPFLAGS): Don't define for DLL import/export.  (Use PIC to
+	select in externvar.h.in).
+
 1999-06-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* class.c (__objc_class_links_resolved): Use externobjcvardef.
