@@ -96,7 +96,6 @@ java_directory_java_find (JNIEnv *env, jobject java_object)
   pattern.java_object = newRef;
   result = avl_find (java_tree, &pattern);
   if (!result) 
-    {
     result = java_directory_update (env,
                                     newRef,
                                     [JavaProxy create: globalZone]);
