@@ -1,7 +1,7 @@
-2003-08-12  Bill Northcott <W.Northcott@unsw.edu.au>
+2003-09-15  Bill Northcott <W.Northcott@unsw.edu.au>
 
-	* Makefile.in: allow libjavaswarm to build against combined
-	libswarm. and add MACOSJAVA for .jnilib ext in libjavaswarm.
+	* Makefile.in: fix undefined symbol issue when linking against
+	single swarm library on MacOS X - this may be needed elsewhere?
 
 2003-06-29  mgd  <mgd@drone>
 

@@ -72,7 +72,7 @@ $(_LIBJAVASWARMSTUBS_LA): $(libjavaswarmstubs_la_OBJECTS)
 
 ifeq ($(MACOSJAVA),yes)
 $(_LIBJAVASWARM_LA): $(_LIBJAVASWARMSTUBS_LA) $(libjavaswarm_la_OBJECTS)
-	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -shrext .jnilib -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(DESTDIR)$(libdir) $(libjavaswarm_la_OBJECTS) $(_LIBJAVASWARMSTUBS_LA) -L$(abs_top_builddir)/src $(SWARMLIBS) $(OBJCLIBS)
+	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -shrext .jnilib -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(DESTDIR)$(libdir) $(libjavaswarm_la_OBJECTS) $(_LIBJAVASWARMSTUBS_LA) -L$(abs_top_builddir)/src $(SWARMLIBS) $(OBJCLIBS) $(BLTLIB)
 else
 $(_LIBJAVASWARM_LA): $(_LIBJAVASWARMSTUBS_LA) $(libjavaswarm_la_OBJECTS)
 	$(LIBTOOL) --mode=link $(OBJC) $(CFLAGS) -o $@ -version-info $(CURRENT):$(REVISION):$(AGE) -L$(abs_top_builddir)/libobjc -rpath $(DESTDIR)$(libdir) $(libjavaswarm_la_OBJECTS) $(_LIBJAVASWARMSTUBS_LA) -L$(abs_top_builddir)/src $(SWARMLIBS) $(OBJCLIBS)
