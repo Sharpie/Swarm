@@ -16,7 +16,7 @@ TK_LIBRARY = @tkscriptdir@
 
 SUFFIXES = .m
 
-INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../misc $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES)
+INCLUDES = -I$(top_builddir)/libobjc -I$(top_srcdir)/libobjc -I$(srcdir)/../misc -I.. -I$(srcdir)/.. -I$(srcdir)/../defobj $(TKINCLUDES) $(TCLINCLUDES) $(FFIINCLUDES)
 
 override OBJCFLAGS += $(X_CFLAGS) @CFLAGS_NOWARN_IMPLICIT_INT@
 override CPPFLAGS += -DList=TclObjcList -DTCL_LIBRARY=\"$(TCL_LIBRARY)\" -DTK_LIBRARY=\"$(TK_LIBRARY)\"

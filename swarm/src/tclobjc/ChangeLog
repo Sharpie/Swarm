@@ -1,3 +1,11 @@
+1999-06-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* tclObjc.m (tclObjc_msgSendToClientData): Rewritten to use
+	FCall/FArguments.
+
+	* Makefile.am (INCLUDES): Add .., $(srcdir)/.., and
+	$(srcdir)/../defobj.
+
 1999-06-17  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* tclObjc.m (tclObjc_msgSendToClientData): Handle void return

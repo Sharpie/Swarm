@@ -4,6 +4,8 @@
    Written by:  R. Andrew McCallum <mccallum@cs.rochester.edu>
    Dept. of Computer Science, U. of Rochester, Rochester, NY  14627
 
+   Rewritten for Swarm FCall by Marcus G. Daniels <mgd@santafe.edu>. (C)1999
+
    With NeXT runtime compatibility incorporated by:
    Robert Stabl <stabl@informatik.uni-muenchen.de>
    Comp. Sci. Inst., U. of Munich, Leopoldstr. 11B D-80802 Muenchen
@@ -24,74 +26,25 @@
    License along with this library; if not, write to the Free
    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */ 
-
-/*****************************************************************
-  in Tcl type:
-    set tclObjcDebug 1
-  to see debugging information at each message send.
-*******************************************************************/
-
-/* Choose between:
-   1. Each time an object is returned, it is defined as a tcl command.
-   2. Messages to Objective-C objects are caught in 'unknown'.
-   I think 2. is better. */
-#define OBJECTS_AS_TCL_COMMANDS 0
-
 #include <swarmconfig.h>
-
-#ifdef USE_AVCALL
-#include <avcall.h>
-#else
-#undef PACKAGE
-#undef VERSION
-#include <ffi.h>
-#undef PACKAGE
-#undef VERSION
-#endif
 
 #include "tclObjc.h"
 #include <tcl.h>
-
-#if defined(HAVE_OBJC_MALLOC) || 1
-#include <objc/objc-api.h>
-#else
-#include "objc-malloc.h"
-#endif
 #include <misc.h>
 
 #define ATDELIMCHAR '@'
-
-static id getObjectReturn(void *);
-static void *getPointerReturn(void *);
-static int getIntegerReturn(void *);
-static unsigned int getUIntegerReturn(void *);
-static short getShortReturn(void *);
-static unsigned short getUShortReturn(void *);
-static long getLongReturn(void *);
-static unsigned long getULongReturn(void *);
-static char getCharReturn(void *);
-static unsigned char getUCharReturn(void *);
-static char *getStringReturn(void *);
-static float getFloatReturn(void *);
-static double getDoubleReturn(void *);
-
+  
 #include <objc/objc-api.h>
 #include <objc/encoding.h>
-#include "List.h"		/* for special case hack */
-extern int method_get_sizeof_arguments (struct objc_method* mth);
-#if (HAVE_LIBCOLL)
-#include <coll/Array.h>		/* for special case hack */
-#endif /* HAVE_LIBCOLL */
 
-#define XSTR(s) STR(s)
-#define STR(s) #s
-const char coll_version[] = XSTR(TCLOBJC_VERSION);
+#import <defobj.h> // FArguments, FCall
 
-int (*tclObjc_eventHook)();
+int (*tclObjc_eventHook) ();
 
 Tcl_Interp *_TclObject_interp;
 
-char *tclObjc_objectToName(id obj)
+char *
+tclObjc_objectToName(id obj)
 {
   /* Fix this messiness */
   static char name[512];
@@ -104,7 +57,8 @@ char *tclObjc_objectToName(id obj)
 }
 
 /* Return TCLOBJC_NO_OBJ if name is no good */
-id tclObjc_nameToObject(const char *name)
+id
+tclObjc_nameToObject (const char *name)
 {
   id object;
   unsigned long ul;
@@ -126,599 +80,6 @@ id tclObjc_nameToObject(const char *name)
     }
   return TCLOBJC_NO_OBJ;
 }
-
-int
-tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
-			    int argc, char *argv[])
-{
-  char resultString[1024];
-  char methodName[100];
-  BOOL argvIsMethodArg[256];
-  id self;
-  SEL sel;
-  Method_t method;
-  unsigned i;
-
-  if (argc < 2)
-    {
-      interp->result = "no method specified.";
-      return TCL_ERROR;
-    }
-
-  argvIsMethodArg[0] = NO;
-  argvIsMethodArg[1] = NO;
-  strcpy(methodName, argv[1]);
-  for (i = 2; i < (unsigned)argc; i++)
-    {
-      if (argv[i][strlen(argv[i])-1] == ':')
-	{
-	  strcat(methodName, argv[i]);
-	  argvIsMethodArg[i] = NO;
-	}
-      else
-	{
-	  argvIsMethodArg[i] = YES;
-	}
-    }
-
-  self = (id)clientData;
-
-#if (HAVE_LIBCOLL)
-  /* special case hack for getting Arrays of id's to tcl.
-     Send the message "contents" to an Array object.
-   */
-  if (!strcmp("contents", methodName) 
-      && [self isKindOf:[Array class]]
-      && !strcmp("@",[self contentEncoding]))
-    {
-      int i;
-
-      Tcl_ResetResult(interp);
-      for (i = 0; i < [self count]; i++)
-	{
-	  Tcl_AppendElement(interp, tclObjc_objectToName([self elementAtIndex:i].id_u));
-	}
-      return TCL_OK;
-    }
-#endif /* HAVE_LIBCOLL */
-
-  /* special case hack for getting List contents to tcl.
-     Send the message "contents" to a List object.
-   */
-  if (!strcmp("contents", methodName) 
-      && [self isKindOf:[List class]])
-    {
-      unsigned i;
-
-      Tcl_ResetResult(interp);
-      for (i = 0; i < [self count]; i++)
-	{
-	  Tcl_AppendElement(interp, tclObjc_objectToName([self objectAt:i]));
-	}
-      return TCL_OK;
-    }
-
-  /* special case hack for sending message to a TclObject */
-  if (self->class_pointer == [TclObject class])
-    {
-      static Tcl_DString command;
-      static char *cmd;
-      int i;
-      int code;
-
-      Tcl_DStringInit(&command);
-      Tcl_DStringAppend(&command, ((TclObject*)self)->_tclName, -1);
-      Tcl_DStringAppend(&command, " ", -1);
-      Tcl_DStringAppend(&command, methodName, -1);
-      for (i = 2; i < argc; i++)
-	{
-	  if (argvIsMethodArg[i]) continue;
-	  Tcl_DStringAppendElement(&command, argv[i]);
-	  Tcl_DStringAppend(&command, " ", -1);
-	}
-      cmd = Tcl_DStringAppend(&command, "\n", -1);
-      if (!(((TclObject*)self)->_interp))
-	{
-	  fprintf(stderr, "TclObject interp not yet set\n");
-	  return TCL_ERROR;
-	}
-      code = Tcl_Eval(((TclObject*)self)->_interp, cmd);
-      if (code != TCL_OK)
-	{
-	  char *msg;
-	  msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
-	  if (msg == NULL) {
-	    msg = interp->result;
-	  }
-	  fprintf(stderr, "(tclObjc: messaging a TclObject:) %s\n", msg);
-	  fprintf(stderr, "while evaluating: %s\n", cmd);
-	}
-      Tcl_DStringFree(&command);
-      return code;
-    }
-
-  sel = sel_get_uid(methodName);
-
-  if (![self respondsTo:sel])
-    {
-      printf("%s does not respond to method %s\n", 
-	     [self name], methodName);
-      Tcl_SetResult(interp, "object does not respond to method", 
-		    TCL_STATIC);    
-      return TCL_ERROR;
-    }
-
-  if (object_is_instance(self))
-    method = class_get_instance_method(self->class_pointer, sel);
-  else
-    method = class_get_class_method(self->class_pointer, sel);
-
-  if (!method)
-    {
-      printf("class %s doesn't have method %s\n", 
-	     self->class_pointer->name, methodName);
-      Tcl_SetResult(interp, "method is NULL", TCL_STATIC); 
-      return TCL_ERROR;
-    }
-
-  {
-
-# define BUILDNEWARGFRAME
-# ifdef BUILDNEWARGFRAME
-    arglist_t argframe;
-    int regArgSize;
-    const char * typeForReg;
-# else
-    arglist_t argframe = __builtin_apply_args();
-# endif
-    char *datum;
-    long long ret;
-    void *retframe = &ret;
-
-    int argsize = method_get_sizeof_arguments(method);
-    char argptr_buffer[argsize];
-    int argnum = 0;
-    const char *type;
-    int tmpint;
-    int tmpuint;
-    char *objcdebug;
-    BOOL debug_printing;
-#if OBJECTS_AS_TCL_COMMANDS
-    Tcl_CmdInfo cmdInfo;
-#endif
-
-    extern void *alloca (size_t);
-
-//
-// We attempt to avoid the __builtin dynamic call entirely
-// in a few common cases. For example, when all the arguments 
-// and the return value is either an object or an int.
-//
-
-#ifdef BUILDNEWARGFRAME
-    // create the pointer argframe to memory on the stack
-    typeForReg = (const char *)
-      strrchr(objc_skip_typespec(method->method_types), '+');
-    if (typeForReg)
-      regArgSize = atoi(++typeForReg) + sizeof(void *);
-    else
-      regArgSize = 0;
-    argframe = (arglist_t) alloca(sizeof(char *) + regArgSize);
-#endif
-    
-    argframe->arg_ptr = argptr_buffer;
-
-    objcdebug = Tcl_GetVar(interp, "tclObjcDebug", TCL_GLOBAL_ONLY);
-    if (objcdebug) 
-      debug_printing = YES;
-    else 
-      debug_printing = NO;
-    /* Perhaps later we could add different levels of debugging 
-       depending on the contents of objcdebug */
-
-    if(debug_printing)
-      printf("The method: %s \n",methodName) ;
-
-    if (debug_printing)
-      printf("method %s, argc %d argsize %d (on stack), method types: '%s'\n", 
-	     methodName, argc, argsize, method->method_types);
-#ifdef BUILDNEWARGFRAME
-    if (debug_printing)
-      printf("Found %d bytes of register args.\n", regArgSize);
-#endif
-    
-    datum = method_get_first_argument(method, argframe, &type);
-    *(id*)datum = self;
-    datum = method_get_next_argument(argframe, &type);
-    *(SEL*)datum = sel;
-
-    if (debug_printing) {
-      printf("Filling in method arguments now. There should be %d.\n",
-	     method_get_number_of_arguments(method));
-    }
-
-    for (argnum = 2,
-	 datum = method_get_next_argument(argframe, &type);
-	 datum;
-	 datum = method_get_next_argument(argframe, &type),
-	 ({argnum++; while (datum && !argvIsMethodArg[argnum]) argnum++;}))
-      {
-
-#define marg_getRef(margs, offset, type) ( (type *)offset )
-
-	unsigned flags = objc_get_type_qualifiers(type);
-	type = objc_skip_type_qualifiers(type);
-	flags = flags;
-
-	switch (*type)
-	  {
-	  case _C_ID:
-	    *(marg_getRef(argframe, datum, id)) = 
-	    	tclObjc_nameToObject(argv[argnum]);
-	    if (*(marg_getRef(argframe, datum, id)) == TCLOBJC_NO_OBJ)
-	      {
-		sprintf(interp->result, 
-			"Expected objc object, got %s instead.\n", 
-			argv[argnum]);
-		return TCL_ERROR;
-	      }
-	    break;
-	  case _C_PTR:
-	    sscanf(argv[argnum], "0x%x", 
-			(marg_getRef(argframe, datum, unsigned int)));
-	    break;
-	  case _C_INT:
-	    sscanf(argv[argnum], "%d", 
-			(marg_getRef(argframe, datum, int)));
-	    break;
-	  case _C_UINT:
-	    sscanf(argv[argnum], "%u",  
-			(marg_getRef(argframe, datum, unsigned int)));
-	    break;
-	  case _C_LNG:
-	    sscanf(argv[argnum], "%ld", 
-			(marg_getRef(argframe, datum, long)));
-	    break;
-	  case _C_ULNG:
-	    sscanf(argv[argnum], "%lu",
-			(marg_getRef(argframe, datum, unsigned long)));
-	    break;
-	  case _C_SHT:
-	    sscanf(argv[argnum], "%d", &tmpint);
-	    *(marg_getRef(argframe, datum, short)) = (short)tmpint;
-	    break;
-	  case _C_USHT:
-	    sscanf(argv[argnum], "%u", &tmpuint);
-	    *(marg_getRef(argframe, datum, unsigned short)) = 
-	    	(unsigned short)tmpuint;
-	    break;
-	  case _C_CHR:
-	    sscanf(argv[argnum], "%c",
-	    		(marg_getRef(argframe, datum, char)));
-	    break;
-	  case _C_UCHR:
-	    sscanf(argv[argnum], "%d", &tmpuint);
-	    *(marg_getRef(argframe, datum, unsigned char)) = 
-	    	(unsigned char)tmpuint;
-	    break;
-	  case _C_CHARPTR:
-	    *(marg_getRef(argframe, datum, char*)) = argv[argnum];
-	    break;
-	  case _C_FLT:
-	    sscanf(argv[argnum], "%f",
-	    		(marg_getRef(argframe, datum, float)));
-	    break;
-	  case  _C_DBL:
-	    sscanf(argv[argnum], "%lf",
-	    		(marg_getRef(argframe, datum, double)));
-	    break;
-	  default:
-	    {
-	      fprintf(stderr, "Tcl can't handle arg type %s", type);
-	      sprintf(resultString, "Tcl can't handle arg type %s", type);
-	      Tcl_SetResult(interp, resultString, TCL_VOLATILE);
-	      return TCL_ERROR;
-	    }
-	  }
-      }
-
-    {
-#ifndef USE_AVCALL
-      typedef struct alist *av_alist;
-      struct alist
-        {
-          ffi_type **type_pos;
-          void **value_pos;
-        };
-      struct alist alist_buf;
-      av_alist alist = &alist_buf;   
-      int acnt = method_get_number_of_arguments (method);
-      ffi_type *types_buf[acnt];
-      void *values_buf[acnt];
-      ffi_cif cif;
-      ffi_type *fret; 
-
-      void push_argument (const char *typespec, void *obj)
-        {
-          char type = *typespec;
-
-          switch (type)
-            {
-            case _C_ID:
-              *alist->type_pos = &ffi_type_pointer;
-              break;
-              
-            case _C_SEL:
-              *alist->type_pos = &ffi_type_pointer;
-              break;
-              
-            case _C_UCHR:
-              *alist->type_pos = &ffi_type_uchar;
-              break;
-              
-            case _C_INT:
-              *alist->type_pos = &ffi_type_sint;
-              break;
-              
-            case _C_UINT:
-              *alist->type_pos = &ffi_type_uint;
-              break;
-              
-            case _C_FLT:
-              *alist->type_pos = &ffi_type_float;
-              break;
-              
-            case _C_DBL:
-              *alist->type_pos = &ffi_type_double;
-              break;
-
-            case _C_LNG:
-              *alist->type_pos = &ffi_type_slong;
-              break;
-              
-            case _C_CHARPTR:
-              *alist->type_pos = &ffi_type_pointer;
-              break;
-              
-            default:
-              abort ();
-            }
-          alist->type_pos++;
-          *alist->value_pos = obj;
-          alist->value_pos++; 
-        }
-      alist->type_pos = types_buf; 
-      alist->value_pos = values_buf; 
-
-      switch (*(method->method_types))
-        {
-        case _C_ID:
-          fret = &ffi_type_pointer;
-          break;
-        case _C_SEL:
-          fret = &ffi_type_pointer;
-          break;
-        case _C_UCHR:
-          // char return is broken in libffi-1.18
-          fret = &ffi_type_uint;
-          break;
-        case _C_INT:
-          fret = &ffi_type_sint;
-          break;
-        case _C_UINT:
-          fret = &ffi_type_uint;
-          break;
-        case _C_FLT:
-          fret = &ffi_type_float;
-          break;
-        case _C_DBL:
-          fret = &ffi_type_double;
-          break;
-        case _C_CHARPTR:
-          fret = &ffi_type_pointer;
-          break;
-        case _C_VOID:
-          fret = &ffi_type_void;
-          break;
-        default:
-          abort ();
-        }
-#else
-      av_alist alist;
-
-      void push_argument (const char *typespec, void *obj)
-        {
-          char type = *typespec;
-
-          switch (type)
-            {
-            case _C_ID:
-              av_ptr (alist, id, *(id *) obj);
-              break;
-
-            case _C_SEL:
-              av_ptr (alist, SEL, (SEL *) obj);
-              break;
-
-            case _C_UCHR:
-              av_uchar (alist, *(unsigned char *) obj);
-              break;
-              
-            case _C_INT:
-              av_int (alist, *(int *) obj);
-              break;
-
-            case _C_UINT:
-              av_uint (alist, *(unsigned *) obj);
-              break;
-              
-            case _C_FLT:
-              av_float (alist, *(float *) obj);
-              break;
-
-            case _C_DBL:
-              av_double (alist, *(double *) obj);
-              break;
-              
-            case _C_LNG:
-              av_long (alist, *(long *) obj);
-              break;
-
-            case _C_CHARPTR:
-              av_ptr (alist, const char *, *(const char **)obj);
-              break;
-              
-            default:
-              abort ();
-            }
-        }
-#define imp method->method_imp        
-      switch (*(method->method_types))
-        {
-        case _C_ID:
-          av_start_ptr (alist, imp, id, retframe);
-          break;
-        case _C_SEL:
-          av_start_ptr (alist, imp, SEL, retframe);
-          break;
-        case _C_UCHR:
-          av_start_uchar (alist, imp, retframe);
-          break;
-        case _C_UINT:
-          av_start_uint (alist, imp, retframe);
-          break;
-        case _C_INT:
-          av_start_int (alist, imp, retframe);
-          break;
-        case _C_FLT:
-          av_start_float (alist, imp, retframe);
-            break;
-        case _C_DBL:
-          av_start_double (alist, imp, retframe);
-          break;
-        case _C_CHARPTR:
-          av_start_ptr (alist, imp, const char *, retframe);
-          break;
-        case _C_VOID:
-          av_start_void (alist, imp);
-          break;
-        default:
-          abort ();
-#undef imp
-      }
-#endif
-      for (argnum = 0,
-             datum = method_get_first_argument (method, argframe, &type);
-           datum;
-           datum = method_get_next_argument (argframe, &type),
-             ({argnum++; while (datum && !argvIsMethodArg[argnum]) argnum++;}))
-        {
-          push_argument (type, datum);
-        }
-      
-#ifndef USE_AVCALL
-      if (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, acnt, fret, types_buf) != FFI_OK)
-        abort ();  
-      
-      ffi_call (&cif, (void *) method->method_imp, retframe, values_buf);  
-#else
-      av_call (alist);
-#endif
-    }
-    
-    if (debug_printing)
-      {
-        printf("__Builtin_Apply: retframe unsigned int 0x%x\n", 
-               getIntegerReturn (retframe));
-      }
-    type = method->method_types;
-    switch (*type)
-      {
-      case _C_ID:
-	{
-	  id returnedObject;
-	  char * s;
-
-          returnedObject = getObjectReturn (retframe);
-         
-          s = tclObjc_objectToName(returnedObject);
-	  sprintf(resultString, s);
-	}
-#if OBJECTS_AS_TCL_COMMANDS
-	if (!Tcl_GetCommandInfo(interp, resultString, &cmdInfo))
-	  Tcl_CreateCommand(interp, resultString, tclObjc_msgSendToClientData,
-			    *(id*)retframe, 0);
-#else /* messages caught and forwarded by tcl proc "unknown" */
-#endif
-	break;
-      case _C_PTR:
-#ifdef POINTER_FMT_HEX_PREFIX
-	  sprintf(resultString, "%p", getPointerReturn(retframe));
-#else
-	  sprintf(resultString, "0x%p", getPointerReturn(retframe));
-#endif
-	break;
-      case _C_INT:
-        sprintf(resultString, "%d", getIntegerReturn(retframe));
-	break;
-      case _C_UINT:
-        sprintf(resultString, "%u", getUIntegerReturn(retframe));
-	break;
-      case _C_SHT:
-	sprintf(resultString, "%d", (int)getShortReturn(retframe));
-	break;
-      case _C_USHT:
-	sprintf(resultString, "%u", (unsigned)getUShortReturn(retframe));
-	break;
-      case _C_LNG:
-        sprintf(resultString, "%ld", getLongReturn(retframe));
-	break;
-      case _C_ULNG:
-	sprintf(resultString, "%lu", getULongReturn(retframe));
-	break;
-      case _C_CHR:
-	sprintf(resultString, "%d", (int)getCharReturn(retframe));
-	break;
-      case _C_UCHR:
-	sprintf(resultString, "%u", (unsigned)getUCharReturn(retframe));
-	break;
-      case _C_CHARPTR:
-        /* Yuck.  Clean this up. */
-        Tcl_SetResult(interp, getStringReturn(retframe), TCL_VOLATILE);
-        return TCL_OK;
-      case _C_FLT:
-	sprintf(resultString, "%g", getFloatReturn(retframe));
-	break;
-      case _C_DBL:
-	sprintf(resultString, "%g", getDoubleReturn(retframe));
-	break;
-      case _C_VOID:
-        resultString[0] = '\0';
-        break;
-      default:
-	{
-	  fprintf(stderr, "Tcl can't handle ret type %s", type);
-	  sprintf(resultString, "Tcl can't handle ret type %s", type);
-	  Tcl_SetResult(interp, resultString, TCL_VOLATILE);
-	  return TCL_ERROR;
-	}
-      }
-
-    Tcl_SetResult(interp, resultString, TCL_VOLATILE);
-
-    if (*tclObjc_eventHook)
-      (*tclObjc_eventHook)();
-    return TCL_OK;
-    
-  }
-
-}
-
-//
-// __builtin_return does not seem to work within nested procedures so 
-// we must give up using the macro GET_RETVAL as defined in previous
-// versions of libtclObjc
-//
 
 static id
 getObjectReturn (void *p)
@@ -777,12 +138,7 @@ getCharReturn (void *p)
 static unsigned char
 getUCharReturn (void *p)
 {
-#ifndef USE_AVCALL
-  // char return is broken in libffi-1.18
-  return *(unsigned int *) p;
-#else
   return *(unsigned char *) p;
-#endif
 }
 
 static char *
@@ -802,21 +158,288 @@ getDoubleReturn (void *p)
 {
   return *(double *) p;
 }
+
+int
+tclObjc_msgSendToClientData(ClientData clientData, Tcl_Interp *interp,
+			    int argc, char *argv[])
+{
+  char resultString[1024];
+  char methodName[100];
+  BOOL argvIsMethodArg[256];
+  id target;
+  SEL sel;
+  unsigned i;
+
+  if (argc < 2)
+    {
+      interp->result = "no method specified.";
+      return TCL_ERROR;
+    }
+
+  argvIsMethodArg[0] = NO;
+  argvIsMethodArg[1] = NO;
+  strcpy (methodName, argv[1]);
+  for (i = 2; i < (unsigned)argc; i++)
+    {
+      if (argv[i][strlen (argv[i]) - 1] == ':')
+	{
+	  strcat (methodName, argv[i]);
+	  argvIsMethodArg[i] = NO;
+	}
+      else
+        argvIsMethodArg[i] = YES;
+    }
+
+  target = (id) clientData;
+  sel = sel_get_any_typed_uid (methodName);
+
+  if (![target respondsTo: sel])
+    {
+      fprintf (stderr, "%s does not respond to method %s\n",
+               [target name], methodName);
+      Tcl_SetResult (interp, "object does not respond to method", TCL_STATIC); 
+      return TCL_ERROR;
+    }
   
-void tclObjc_registerObjectWithName(Tcl_Interp *interp, 
+  {
+    const char *seltype = sel_get_type (sel), *type;
+    id <FArguments> fa;
+    id <FCall> fc = nil;
+    void *ret;
+    unsigned argnum;
+
+    fa = [FArguments createBegin: scratchZone];
+    [fa setObjCReturnType: *(objc_skip_type_qualifiers (seltype))];
+    type = objc_skip_argspec (seltype);
+    type = objc_skip_argspec (type);
+    type = objc_skip_argspec (type);
+
+    for (argnum = 2; *type; type = objc_skip_argspec (type), argnum++)
+      {
+        while (!argvIsMethodArg[argnum]) argnum++;
+	{ 
+          const char *unqualifiedtype = objc_skip_type_qualifiers (type);
+          
+          switch (*unqualifiedtype)
+            {
+            case _C_ID:
+              {
+                id obj = tclObjc_nameToObject (argv[argnum]);
+                
+                if (obj != TCLOBJC_NO_OBJ)
+                  [fa addObject: obj];
+                else
+                  {
+                    sprintf (interp->result, 
+                             "Expected objc object, got %s instead.\n", 
+                             argv[argnum]);
+                    goto fail;
+                  }
+              }
+              break;
+            case _C_PTR:
+              abort ();
+              break;
+            case _C_INT:
+              {
+                int value;
+                
+                sscanf (argv[argnum], "%d", &value);
+                [fa addInt: value];
+              }
+              break;
+            case _C_UINT:
+              {
+                unsigned value;
+                
+                sscanf (argv[argnum], "%u", &value);
+                [fa addUnsigned: value];
+              }
+              break;
+            case _C_LNG:
+              {
+                long value;
+                
+                sscanf (argv[argnum], "%ld", &value);
+                [fa addLong: value];
+              }
+              break;
+            case _C_ULNG:
+              {
+                unsigned long value;
+                
+                sscanf (argv[argnum], "%lu", &value);
+                [fa addUnsigned: value];
+              }
+              break;
+            case _C_SHT:
+              {
+                short value;
+                
+                sscanf (argv[argnum], "%hd", &value);
+                [fa addShort: value];
+              }
+              break;
+            case _C_USHT:
+              {
+                unsigned short value;
+                
+                sscanf (argv[argnum], "%hu", &value);
+                [fa addUnsignedShort: value];
+              }
+              break;
+            case _C_CHR:
+              {
+                char value;
+                
+                sscanf (argv[argnum], "%c", &value);
+                [fa addChar: value];
+              }
+              break;
+            case _C_UCHR:
+              {
+                unsigned value;
+                
+                sscanf (argv[argnum], "%u", &value);
+                [fa addUnsignedChar: (unsigned char) value];
+              }
+              break;
+            case _C_CHARPTR:
+              [fa addString: argv[argnum]];
+              break;
+            case _C_FLT:
+              {
+                float value;
+                
+                sscanf (argv[argnum], "%f", &value);
+                [fa addFloat: value];
+              }
+              break;
+            case  _C_DBL:
+              {
+                double value;
+                
+                sscanf (argv[argnum], "%lf", &value);
+                [fa addDouble: value];
+              }
+              break;
+            default:
+              {
+                fprintf (stderr, "Tcl can't handle arg type `%s' in `%s'",
+                         type, seltype);
+                sprintf (resultString, "Tcl can't handle arg type %s", type);
+                Tcl_SetResult (interp, resultString, TCL_VOLATILE);
+                goto fail;
+              }
+            }
+        }
+      }
+    fc = [[[[FCall createBegin: scratchZone]
+             setArguments: [fa createEnd]]
+            setMethod: sel inObject: target]
+           createEnd];
+    
+    [fc performCall];
+    
+    ret = [fc getResult];
+    type = objc_skip_type_qualifiers (seltype);
+    switch (*type)
+      {
+      case _C_ID:
+        {
+          id returnedObject;
+          char *s;
+
+          returnedObject = getObjectReturn (ret);
+          
+          s = tclObjc_objectToName (returnedObject);
+          strcpy (resultString, s);
+        }
+        break;
+      case _C_PTR:
+#ifdef POINTER_FMT_HEX_PREFIX
+        sprintf (resultString, "%p", getPointerReturn (ret));
+#else
+        sprintf (resultString, "0x%p", getPointerReturn (ret));
+#endif
+        break;
+      case _C_INT:
+        sprintf (resultString, "%d", getIntegerReturn (ret));
+        break;
+      case _C_UINT:
+        sprintf (resultString, "%u", getUIntegerReturn (ret));
+        break;
+      case _C_SHT:
+        sprintf (resultString, "%d", (int) getShortReturn (ret));
+        break;
+      case _C_USHT:
+        sprintf (resultString, "%u", (unsigned) getUShortReturn (ret));
+        break;
+      case _C_LNG:
+        sprintf (resultString, "%ld", getLongReturn (ret));
+        break;
+      case _C_ULNG:
+        sprintf (resultString, "%lu", getULongReturn (ret));
+        break;
+      case _C_CHR:
+        sprintf (resultString, "%d", (int) getCharReturn (ret));
+        break;
+      case _C_UCHR:
+        sprintf (resultString, "%u", (unsigned) getUCharReturn (ret));
+        break;
+      case _C_CHARPTR:
+        strcpy (resultString, getStringReturn (ret));
+        break;
+      case _C_FLT:
+        sprintf (resultString, "%g", getFloatReturn (ret));
+        break;
+      case _C_DBL:
+        sprintf (resultString, "%g", getDoubleReturn (ret));
+        break;
+      case _C_VOID:
+        resultString[0] = '\0';
+        break;
+      default:
+        {
+          fprintf (stderr, "Tcl can't handle ret type `%s' in `%s'",
+                   type, seltype);
+          sprintf (resultString, "Tcl can't handle ret type %s", type);
+          Tcl_SetResult (interp, resultString, TCL_VOLATILE);
+          goto fail;
+        }
+      }
+
+    Tcl_SetResult (interp, resultString, TCL_VOLATILE);
+    if (*tclObjc_eventHook)
+      (*tclObjc_eventHook) ();
+    [fc drop];
+    [fa drop];
+    return TCL_OK;
+  fail:
+    if (fc)
+      [fc drop];
+    [fa drop];
+    return TCL_ERROR;
+  }
+}
+
+void
+tclObjc_registerObjectWithName (Tcl_Interp *interp, 
 				    id object, const char *name)
 {
-  Tcl_CreateCommand(interp, (char *)name, tclObjc_msgSendToClientData,
+  Tcl_CreateCommand(interp, (char *) name, tclObjc_msgSendToClientData,
 		    object, 0);
 }
 
-void tclObjc_unregisterObjectNamed(Tcl_Interp *interp,
-				   const char *name)
+void
+tclObjc_unregisterObjectNamed (Tcl_Interp *interp,
+                               const char *name)
 {
   Tcl_DeleteCommand(interp, (char *)name);
 }
 
-void tclObjc_registerClassnames(Tcl_Interp *interp)
+void
+tclObjc_registerClassnames (Tcl_Interp *interp)
 {
   id class; 
   void *es = NULL;
@@ -834,17 +457,19 @@ void tclObjc_registerClassnames(Tcl_Interp *interp)
 #endif
 }
 
-
-int tclObjc_msgSendToArgv1(ClientData clientData, Tcl_Interp *interp,
-			   int argc, char *argv[])
+int
+tclObjc_msgSendToArgv1 (ClientData clientData,
+                        Tcl_Interp *interp,
+                        int argc,
+                        char *argv[])
 {
   id obj;
 
   if ((obj = tclObjc_nameToObject(argv[1])) != TCLOBJC_NO_OBJ)
-    {
-      return tclObjc_msgSendToClientData((ClientData)obj, interp, 
-					argc-1, &(argv[1]));
-    }
+    return tclObjc_msgSendToClientData ((ClientData) obj,
+                                        interp, 
+                                        argc-1,
+                                        &(argv[1]));
   else
     {
       sprintf(interp->result, 
@@ -856,11 +481,23 @@ int tclObjc_msgSendToArgv1(ClientData clientData, Tcl_Interp *interp,
 
 @implementation TclObject
 
+- (BOOL)respondsTo: (SEL)aSel
+{
+  Tcl_CmdInfo cmdInfo;
+  char selString[128];
+
+  sprintf(selString, "%s%s", _tclName, sel_get_name(aSel));
+  return (((object_is_instance (self)
+            ? class_get_instance_method(self->ISA, aSel)
+	    : class_get_class_method(self->ISA, aSel)) != METHOD_NULL)
+	  || Tcl_GetCommandInfo(_interp, selString, &cmdInfo));
+}
+
 + newName: (char *)objectName
 {
-  TclObject *newTclObject = class_create_instance(self);
-  newTclObject->_tclName = (char*) objc_malloc((unsigned)(strlen(objectName)+1)
-                                             * sizeof(char));
+  TclObject *newTclObject = class_create_instance (self);
+  newTclObject->_tclName =
+    (char*) objc_malloc ((unsigned) (strlen(objectName) + 1) * sizeof(char));
   strcpy(newTclObject->_tclName, objectName);
   /* Fix this ugliness!!! */
   newTclObject->_interp = _TclObject_interp;
@@ -869,26 +506,18 @@ int tclObjc_msgSendToArgv1(ClientData clientData, Tcl_Interp *interp,
 
 - free
 {
-  objc_free(_tclName);
-  return object_dispose(self);
+  objc_free (_tclName);
+  return object_dispose (self);
 }  
 
-- (BOOL) respondsTo: (SEL)aSel
-{
-  Tcl_CmdInfo cmdInfo;
-  char selString[128];
-  sprintf(selString, "%s%s", _tclName, sel_get_name(aSel));
-  return (((object_is_instance(self)
-           ?class_get_instance_method(self->ISA, aSel)
-	    :class_get_class_method(self->ISA, aSel))!=METHOD_NULL)
-	  || Tcl_GetCommandInfo(_interp, selString, &cmdInfo));
-}
 
 - forward: (SEL)aSel : (arglist_t)argframe
 {
   return [self performv: aSel :argframe];
 }
 
+
+#define marg_getRef(margs, offset, type) ( (type *)offset )
 
 - performv:(SEL)aSel :(arglist_t)argframe
 {
@@ -1056,18 +685,16 @@ static char tclObjcInitCmd[] =
  }\n";
 
 
-int TclObjc_Init(Tcl_Interp *interp)
+int
+TclObjc_Init (Tcl_Interp *interp)
 {
-#if ! OBJECTS_AS_TCL_COMMANDS
   int code;
-#endif
 
   /* Fix this ugliness!!! */
   _TclObject_interp = interp;
   tclObjc_registerClassnames(interp);
   Tcl_CreateCommand(interp, "tclObjc_msg_send", 
 		    tclObjc_msgSendToArgv1, 0, 0);
-#if ! OBJECTS_AS_TCL_COMMANDS
   {
     char buf [strlen (tclObjcInitCmd) + 1];
 
@@ -1079,7 +706,6 @@ int TclObjc_Init(Tcl_Interp *interp)
         fprintf(stderr, interp->result);
       }
   }
-#endif
   return TCL_OK;
 }
 
