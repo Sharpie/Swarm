@@ -19,8 +19,9 @@
   int colorConstant;
 }
 
-- setDisplayWidget: (id <Raster>)r Colormap: (id <Colormap>)c;
+- setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c;
 - setDiscrete2dToDisplay: (Discrete2d *)c;
 - setDisplayMappingM: (int)m C: (int)c;	  // linear mapping
 - display;
 @end
+

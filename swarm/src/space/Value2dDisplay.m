@@ -4,6 +4,8 @@
 // See file LICENSE for details and terms of copying.
 
 #import <space/Value2dDisplay.h>
+#import <gui.h>
+
 // this should be subclassed to fill in the colormap for your CA.
 // for now, we expect your colormap to be allocated already.
 
@@ -22,7 +24,7 @@
   return self;
 }
 
-- setDisplayWidget: (id <Raster>)r Colormap: (id <Colormap>)c
+- setDisplayWidget: (id <Raster>)r colormap: (id <Colormap>)c
 {
   displayWidget = r;
   colormap = c;
