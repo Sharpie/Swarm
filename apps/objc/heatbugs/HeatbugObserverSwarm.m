@@ -199,26 +199,33 @@
 #ifdef SCREENSHOTS
       {
         char filename[40];
+	id <Pixmap> pixmap;
 #ifndef FULL
-	
+
         sprintf (filename, "graph%07ld.png", getCurrentTime ());
         [actionCache doTkEvents];
-        [[[[[[Pixmap createBegin: self]
-              setWidget: [unhappyGraph getGraph]]
-             setDecorationsFlag: NO]
-            createEnd] save: filename] drop];
+        pixmap = [[[[Pixmap createBegin: self]
+            setWidget: [unhappyGraph getGraph]]
+           setDecorationsFlag: NO]
+          createEnd];
+        [pixmap save: filename];
+        [pixmap drop];
         sprintf (filename, "raster%07ld.png", getCurrentTime ());
-        [[[[[[Pixmap createBegin: self]
-              setWidget: worldRaster]
-             setDecorationsFlag: YES]
-            createEnd] save: filename] drop];
+        pixmap = [[[[Pixmap createBegin: self]
+                     setWidget: worldRaster]
+                    setDecorationsFlag: YES]
+                   createEnd];
+        [pixmap save: filename];
+        [pixmap drop];
 #else
         sprintf (filename, "screen%07ld.png", getCurrentTime ());
 	[actionCache doTkEvents];
-        [[[[[[Pixmap createBegin: self]
-              setWidget: nil]
-	     setDecorationsFlag: NO]
-            createEnd] save: filename] drop];
+        pixmap = [[[[Pixmap createBegin: self]
+                     setWidget: nil]
+                    setDecorationsFlag: NO]
+                   createEnd];
+        [pixmap save: filename];
+        [pixmap drop];
 #endif
       }
 #endif
