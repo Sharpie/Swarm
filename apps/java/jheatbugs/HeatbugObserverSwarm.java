@@ -123,7 +123,7 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         return this;
     }
     
-    public Object _unhappyGraphDeath (Object caller)
+    public Object _unhappyGraphDeath_ (Object caller)
     {
         unhappyGraph.drop();
         unhappyGraph = null;
@@ -188,8 +188,8 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         List heatbugList = (List)heatbugModelSwarm.getHeatbugList();
         
         for (int i = 0; i < heatbugList.getCount(); i++) {
-            Heatbug bug = (Heatbug)heatbugList.atOffset (i);
-            bug.setBugColor ((byte)64);
+          Heatbug bug = (Heatbug)heatbugList.atOffset (i);
+          bug.setBugColor ((byte)64);
         } 
         
         // Next, create a 2d window for display, set its size, zoom
@@ -226,57 +226,56 @@ public class HeatbugObserverSwarm extends GUISwarmImpl
         // heatbugs on the worldRaster widget for us, and also
         // receives probes.
         try {
-            heatbugDisplay = new Object2dDisplayImpl
-                (getZone(), worldRaster, heatbugModelSwarm.getWorld(),
-                 new Selector (Class.forName ("Heatbug"), "drawSelfOn", false));
+          heatbugDisplay = new Object2dDisplayImpl
+            (getZone(), worldRaster, heatbugModelSwarm.getWorld(),
+             new Selector (Class.forName ("Heatbug"), "drawSelfOn", false));
         } catch (Exception e) {
             System.err.println ("Exception drawSelfOn: " + e.getMessage ());
         }
         
         heatbugDisplay.setObjectCollection 
-            (heatbugModelSwarm.getHeatbugList()); 
+          (heatbugModelSwarm.getHeatbugList()); 
         
         // Also, tell the world raster to send mouse clicks to the
         // heatbugDisplay this allows the user to right-click on the
         // display to probe the bugs.
         try {
-            worldRaster.setButton$Client$Message 
-                (3, heatbugDisplay, 
-                 new Selector (heatbugDisplay.getClass(), 
-                               "makeProbeAtX$Y", true));
+          worldRaster.setButton$Client$Message 
+            (3, heatbugDisplay, new Selector (heatbugDisplay.getClass(), 
+                                              "makeProbeAtX$Y", true));
         } catch (Exception e) {
-            System.err.println ("Exception makeProbeAtX$Y: " 
-                                + e.getMessage ());
+          System.err.println ("Exception makeProbeAtX$Y: " 
+                              + e.getMessage ());
         }
         
         // Create the graph widget to display unhappiness.
-        
         unhappyGraph = new EZGraphImpl 
-            (getZone(), "Unhappiness of bugs vs. time",
-             "time", "unhappiness");
+          (getZone(), "Unhappiness of bugs vs. time",
+           "time", "unhappiness");
         
         Globals.env.setWindowGeometryRecordName (unhappyGraph); 
         
-        /*
-          try {
-          unhappyGraph.enableDestroyNotification$notificationMethod 
-          (this, new Selector 
-          (getClass (), "_unhappyGraphDeath_", false));
-          } catch (Exception e) {
-          System.err.println ("Exception _unhappyGraphDeath: " 
-          + e.getMessage ());
-          }
-        */
+        // instruct this _unhappyGraphDeath_ method to be called when
+        // the widget is destroyed
+        try {
+            unhappyGraph.enableDestroyNotification$notificationMethod 
+                (this, new Selector 
+                    (getClass (), "_unhappyGraphDeath_", false));
+        } catch (Exception e) {
+            System.err.println ("Exception _unhappyGraphDeath_: " 
+                                + e.getMessage ());
+        }
         
-        /* try {
-           unhappyGraph.createAverageSequence$withFeedFrom$andSelector 
-           ("unhappiness", heatbugModelSwarm.getHeatbugList(),
-           new Selector (Class.forName ("Heatbug"), "getUnhappiness", 
-           false));
-           } catch (Exception e) {
-           System.err.println ("Exception getUnhappiness: " 
-           + e.getMessage());
-           } */
+        // create the data for the average heatbug unhappiness
+        try {
+          unhappyGraph.createAverageSequence$withFeedFrom$andSelector 
+            ("unhappiness", heatbugModelSwarm.getHeatbugList(),
+             new Selector (Class.forName ("Heatbug"), "getUnhappiness", 
+                           false));
+        } catch (Exception e) {
+          System.err.println ("Exception getUnhappiness: " 
+                              + e.getMessage());
+        } 
         return this;
     }  
     
