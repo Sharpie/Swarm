@@ -25,6 +25,14 @@ EOF
 `$@SHLIBPATH_VAR@
 fi
 
+if test @USEDOSCLASSPATH@ = yes; then
+  PS='@PATHSEP@'
+  PD='@PATHDELIM@'
+else
+  PS=/
+  PD=:
+fi
+
 JAVALIBS=@JAVALIBS@
 JAVACLASSES='@JAVACLASSES@'
 JAVAENV=@JAVAENV@
@@ -36,9 +44,9 @@ export @SHLIBPATH_VAR@ @JAVALIBPATH_VAR@
 JAVA_CLASSES_INSTALLED_AS=@JAVA_CLASSES_INSTALLED_AS@
 
 if test x$JAVA_CLASSES_INSTALLED_AS = xjar; then
-  classpath=".@PATHSEP@${swarmclassdir}@PATHDELIM@swarm@PATHDELIM@swarm.jar@PATHSEP@${JAVACLASSES}@PATHSEP@$CLASSPATH"
+  classpath=".${PS}${swarmclassdir}${PD}swarm${PD}swarm.jar${PS}${JAVACLASSES}${PS}$CLASSPATH"
 else
-  classpath=".@PATHSEP@${swarmclassdir}@PATHSEP@${JAVACLASSES}@PATHSEP@$CLASSPATH"
+  classpath=".${PS}${swarmclassdir}${PS}${JAVACLASSES}${PS}$CLASSPATH"
 fi
 
 if test -z "$*"; then
