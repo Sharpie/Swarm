@@ -1,7 +1,10 @@
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
-	* directory.m (swarm_directory_ensure_selector_type_signature): Drop
-	temporary localref to jstring for typeSignature assignment.
+	* directory.m (swarm_directory_ensure_selector_type_signature):
+	Drop temporary localref to jstring for typeSignature assignment.
+	(swarm_directory_ensure_selector,
+	swarm_directory_ensure_selector_type_signature): Narrow localref
+	creation and deletion as much as possible.
 
 	* FArguments.m ([FArguments_c -drop]): Drop jstring and jobject return
 	value localrefs, if any.

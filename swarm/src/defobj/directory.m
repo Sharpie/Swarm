@@ -1025,50 +1025,56 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
     sel = NULL;
   else if (!(sel = (SEL) SD_FINDOBJC (env, jsel)))
     {
-      jstring string;
-      const char *utf;
       char *name, *p;
       unsigned i;
       jboolean copyFlag;
-      jclass retType;
       jboolean objcFlag;
       jarray argTypes;
       jsize argCount;
         
-      retType = (*env)->GetObjectField (env, jsel, f_retTypeFid);
       objcFlag = (*env)->GetBooleanField (env, jsel, f_objcFlagFid);
       argTypes = (*env)->GetObjectField (env, jsel, f_argTypesFid);
       argCount = (*env)->GetArrayLength (env, argTypes);
-      string = (*env)->GetObjectField (env, jsel, f_nameFid);
-      utf = (*env)->GetStringUTFChars (env, string, &copyFlag);
-        
-      if (objcFlag)
-        {
-	  size_t len = strlen (utf);
-          BOOL needTrailingColon = argCount > 0 && utf[len - 1] != '$';
 
-          p = name = [scratchZone alloc: len + (int) needTrailingColon + 1];
-          strcpy (name, utf);
-          while (*p)
-            {
-              if (*p == '$')
-                *p = ':';
-              p++;
-            }
-          if (needTrailingColon)
+      {
+        jstring string;
+        const char *utf;
+        
+        string = (*env)->GetObjectField (env, jsel, f_nameFid);
+        utf = (*env)->GetStringUTFChars (env, string, &copyFlag);
+        
+        if (objcFlag)
+          {
+            size_t len = strlen (utf);
+            BOOL needTrailingColon = argCount > 0 && utf[len - 1] != '$';
+            
+            p = name = [scratchZone alloc: len + (int) needTrailingColon + 1];
+            strcpy (name, utf);
+            while (*p)
+              {
+                if (*p == '$')
+                  *p = ':';
+                p++;
+              }
+            if (needTrailingColon)
 	    {
               *p++ = ':';
               *p = '\0';
             }
-        }
-      else
-        {
-          name = [scratchZone alloc: strlen (utf) + argCount + 1];
-          p = stpcpy (name, utf);
-          for (i = 0; i < argCount; i++)
-            *p++ = ':';
-          *p = '\0';
-        }
+          }
+        else
+          {
+            name = [scratchZone alloc: strlen (utf) + argCount + 1];
+            p = stpcpy (name, utf);
+            for (i = 0; i < argCount; i++)
+              *p++ = ':';
+            *p = '\0';
+          }
+        if (copyFlag)
+          (*env)->ReleaseStringUTFChars (env, string, utf);
+        (*env)->DeleteLocalRef (env, string);
+      }
+
       {
         jsize ti;
         char signatureBuf[(argCount + 3) * 2 + 1], *p = signatureBuf;
@@ -1083,8 +1089,13 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
           {
             add_type (swarm_directory_objc_type_for_java_class (env, class));
           }
+
+        {
+          jobject retType = (*env)->GetObjectField (env, jsel, f_retTypeFid);
           
-        add (retType);
+          add (retType);
+          (*env)->DeleteLocalRef (env, retType);
+        }
         add_type (_C_ID);
         add_type (_C_SEL);
 
@@ -1116,11 +1127,7 @@ swarm_directory_ensure_selector (JNIEnv *env, jobject jsel)
       
       SD_ADD (env, jsel, (id) sel);
 
-      if (copyFlag)
-        (*env)->ReleaseStringUTFChars (env, string, utf);
-      (*env)->DeleteLocalRef (env, retType);
       (*env)->DeleteLocalRef (env, argTypes);
-      (*env)->DeleteLocalRef (env, string);
       SFREEBLOCK (name);
     }
   return sel;
@@ -1306,9 +1313,6 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
       jobject argTypes = 
         (*env)->GetObjectField (env, jsel, f_argTypesFid);
 
-      jobject retType =
-        (*env)->GetObjectField (env, jsel, f_retTypeFid);
-
       argCount = (*env)->GetArrayLength (env, argTypes);
       {
         const char *argSigs[argCount];
@@ -1327,7 +1331,14 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
             (*env)->DeleteLocalRef (env, member);
           }
         typeSigLen++;
-        retSig = swarm_directory_signature_for_class (env, retType);
+
+        {
+          jobject retType =
+            (*env)->GetObjectField (env, jsel, f_retTypeFid);
+          
+          retSig = swarm_directory_signature_for_class (env, retType);
+          (*env)->DeleteLocalRef (env, retType);
+        }
         typeSigLen += strlen (retSig);
         
         sig = [scratchZone alloc: typeSigLen + 1];
@@ -1351,7 +1362,6 @@ swarm_directory_ensure_selector_type_signature (JNIEnv *env, jobject jsel)
           (*env)->DeleteLocalRef (env, str);
         }
         (*env)->DeleteLocalRef (env, argTypes);
-        (*env)->DeleteLocalRef (env, retType);
         return sig;
       }
     }
