@@ -17,12 +17,12 @@
 #undef Status
 #include "win32dib.h"
 #define BOOL BOOL_
-#include "tkInt.h"
+#include "tk/tkInt.h"
 #undef BOOL
 
 #define Arguments Win32Arguments
 #define Colormap X11Colormap
-#include "tkWinInt.h"
+#include "tk/tkWinInt.h"
 #undef Colormap
 #undef Arguments
 #endif
@@ -38,8 +38,8 @@ typedef struct raster_private {
   X11Pixmap pm;
   X11Pixmap oldpm;
 #else
-  dib_t oldpm;
-  dib_t pm;
+  dib_t *oldpm;
+  dib_t *pm;
 #endif
 } raster_private_t;
 
@@ -236,8 +236,8 @@ tkobjc_raster_line (Raster *raster,
                     unsigned pixels,
                     Color color)
 {
-#ifndef _WIN32
   raster_private_t *private = raster->private;
+#ifndef _WIN32
   PixelValue *map = ((Colormap *)raster->colormap)->map;
   Display *display = Tk_Display (private->tkwin);
   GC gc = private->gc;
@@ -346,7 +346,7 @@ tkobjc_raster_createPixmap (Raster *raster)
 #else
   dib_t *dib = dib_create ();
   
-  raster->pm = dib;
+  private->pm = dib;
 
   dib_createBitmap (dib, TkWinGetHWND (Tk_WindowId (tkwin)),
 		    raster->width, raster->height);
@@ -387,8 +387,9 @@ tkobjc_raster_flush (Raster *raster)
 void
 tkobjc_raster_clear (Raster *raster, unsigned oldWidth, unsigned oldHeight)
 {
+  raster_private_t *private = raster->private;
 #ifdef _WIN32
-  Tk_Window tkwin = raster->tkwin;
+  Tk_Window tkwin = private->tkwin;
   Display *display = Tk_Display (tkwin);
   Window w = Tk_WindowId (tkwin);
   HPALETTE oldPalette, palette;
@@ -633,10 +634,10 @@ tkobjc_pixmap_create (Pixmap *pixmap,
 void
 tkobjc_pixmap_draw (Pixmap *pixmap, int x, int y, Raster *raster)
 {
+  raster_private_t *private = raster->private;
 #ifndef _WIN32
   Tk_Window tkwin = tkobjc_nameToWindow (".");
   Display *display = Tk_Display (tkwin);
-  raster_private_t *private = raster->private;
   GC gc = private->gc;
   Drawable w = private->pm;
   X11Pixmap mask = pixmap->mask;

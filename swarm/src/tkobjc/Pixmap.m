@@ -3,10 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
+#import <tkobjc/Pixmap.h>
 #import "internal.h"
 #import <tkobjc/global.h>
-#import <tkobjc/Pixmap.h>
-
 #include <png.h>
 #include <misc.h> // xmalloc
 

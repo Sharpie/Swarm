@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import "internal.h"
-#import <tkobjc/global.h>
 #import <tkobjc/InputWidget.h>
-#include <misc.h>
+#import "internal.h"
+#import <tkobjc/global.h> // globalTkInterp
+#include <misc.h> // strlen
 
 @implementation InputWidget
 

@@ -1,5 +1,8 @@
 1998-06-24  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
+	* internal.m: Make private_raster_t access visible for
+	all code that needs it (both X11 and Win32 backends).
+
 	* Makefile.am (EXTRA_DIST): Include tcl files.
 	(lib_LIBRARIES, libtkobjc_a_SOURCES): Remove.
 	(%_tcl.x): New rule.
@@ -8,6 +11,10 @@
 
 	* WindowGeometryRecord.m ([WindowGeometryRecord
 	-setWindowGeometry:]): Use create:setC: instead of two calls.
+
+	* Pixmap.m: Include Pixmap.h first.
+
+	* InputWidget.m: Include InputWidget.h first.
 
 1998-06-23  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
