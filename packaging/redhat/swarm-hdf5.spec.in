@@ -64,7 +64,8 @@ cd =with-hdf
 make prefix=$RPM_BUILD_ROOT%{prefix} install
 
 %post 
-%fix_path etc/swarm/Makefile* etc/swarm/config.swarm lib/swarm/lib*.la
+%define hdf5pathfiles etc/swarm/Makefile* etc/swarm/config.swarm lib/swarm/lib*.la
+%fix_path %hdf5pathfiles
 
 %files -f with-hdf 
 %defattr(-,root,root)
