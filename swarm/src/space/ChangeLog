@@ -1,3 +1,7 @@
+1998-05-28  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Discrete2d.m: Include string.h.
+
 1998-05-06  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* space.h (Discrete2d, Ca2d): Add phase tags, reorder in sync.
