@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#import <javaobjc/global.h>
-#import <javaobjc/Graph.h>
+#import <awtobjc/global.h>
+#import <awtobjc/Graph.h>
 #import <collections.h>
 
 @implementation Graph

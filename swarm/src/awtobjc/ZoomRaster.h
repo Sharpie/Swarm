@@ -5,7 +5,7 @@
 
 // Objective C interface for a Raster with a zoom factor.
 
-#import <javaobjc/Raster.h>
+#import <awtobjc/Raster.h>
 
 @interface ZoomRaster: Raster
 {

@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#import <javaobjc/CheckButton.h>
+#import <awtobjc/CheckButton.h>
 
 inline int
 stringIsFalse(const char * s) {

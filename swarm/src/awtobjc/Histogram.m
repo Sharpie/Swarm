@@ -3,8 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/global.h>
-#import <javaobjc/Histogram.h>
+#import <awtobjc/global.h>
+#import <awtobjc/Histogram.h>
 
 #include <string.h>
 

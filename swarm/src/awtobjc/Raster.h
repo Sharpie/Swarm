@@ -5,7 +5,7 @@
 
 // Objective C interface to Raster, for use with tclobjc
 
-#import <javaobjc/ArchivedGeometryWidget.h>
+#import <awtobjc/ArchivedGeometryWidget.h>
 #import <gui.h>
 
 // this could include a list of environments (graphics contexts)

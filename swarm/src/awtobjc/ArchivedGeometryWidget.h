@@ -4,7 +4,7 @@
 // See file LICENSE for details and terms of copying.
 
 #import <objectbase/SwarmObject.h>
-#import <javaobjc/Widget.h>
+#import <awtobjc/Widget.h>
 
 @interface ArchivedGeometryWidget: Widget
 {

@@ -1,4 +1,4 @@
-#import <javaobjc/JavaObject.h>
+#import <awtobjc/JavaObject.h>
 
 //  simple mutex implemented using an underlying Java mutex
 //  object

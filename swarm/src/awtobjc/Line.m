@@ -9,9 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#import <javaobjc/global.h>
-#import <javaobjc/Widget.h>
-#import <javaobjc/Line.h>
+#import <awtobjc/global.h>
+#import <awtobjc/Widget.h>
+#import <awtobjc/Line.h>
 
 @implementation Line
 

@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/Button.h>
+#import <awtobjc/Button.h>
 
 #include <objc/objc-api.h> // setButtonTarget
 

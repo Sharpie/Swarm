@@ -3,8 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/NodeItem.h>
-#import <javaobjc/CompositeItem.h>
+#import <awtobjc/NodeItem.h>
+#import <awtobjc/CompositeItem.h>
 
 @interface LinkItem: CompositeItem
 {

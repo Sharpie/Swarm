@@ -3,8 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/ZoomRaster.h>
-#import <javaobjc/global.h>
+#import <awtobjc/ZoomRaster.h>
+#import <awtobjc/global.h>
 
 @implementation ZoomRaster
 

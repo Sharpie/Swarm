@@ -1,10 +1,10 @@
 SWARMHOME=../..
 
-LIBNAME=javaobjc
+LIBNAME=awtobjc
 
 GUIOBJECTS=JavaObject.o JavaControlPanel.o JavaEnv.o JavaInput.o JavaMutex.o
 
-OBJECTS=Colormap.o Graph.o Button.o ButtonPanel.o Canvas.o CanvasItem.o CheckButton.o Circle.o CompositeItem.o Entry.o Frame.o Histogram.o InputWidget.o Label.o Line.o LinkItem.o NodeItem.o OvalNodeItem.o Raster.o Rectangle.o RectangleNodeItem.o TextItem.o Widget.o ZoomRaster.o ClassDisplayLabel.o VarProbeEntry.o CompleteProbeDisplayLabel.o ClassDisplayHideButton.o SimpleProbeDisplayHideButton.o MessageProbeEntry.o ProbeCanvas.o SuperButton.o VarProbeLabel.o ArchivedGeometryWidget.o WindowGeometryRecord.o javaobjc.o common.o $(GUIOBJECTS)
+OBJECTS=Colormap.o Graph.o Button.o ButtonPanel.o Canvas.o CanvasItem.o CheckButton.o Circle.o CompositeItem.o Entry.o Frame.o Histogram.o InputWidget.o Label.o Line.o LinkItem.o NodeItem.o OvalNodeItem.o Raster.o Rectangle.o RectangleNodeItem.o TextItem.o Widget.o ZoomRaster.o ClassDisplayLabel.o VarProbeEntry.o CompleteProbeDisplayLabel.o ClassDisplayHideButton.o SimpleProbeDisplayHideButton.o MessageProbeEntry.o ProbeCanvas.o SuperButton.o VarProbeLabel.o ArchivedGeometryWidget.o WindowGeometryRecord.o awtobjc.o common.o $(GUIOBJECTS)
 
 HEADERS=Colormap.h Graph.h Canvas.h CanvasItem.h Entry.h Frame.h Histogram.h InputWidget.h JavaObject.h JavaEnv.h JavaInput.h JavaObject.h Label.h LinkItem.h NodeItem.h OvalNodeItem.h Raster.h RectangleNodeItem.h Widget.h ZoomRaster.h global.h CompositeItem.h Drawer.h Button.h ButtonPanel.h Circle.h JavaControlPanel.h CheckButton.h JavaMutex.h Line.h Rectangle.h TextItem.h ClassDisplayLabel.h VarProbeEntry.h CompleteProbeDisplayLabel.h ClassDisplayHideButton.h SimpleProbeDisplayHideButton.h MessageProbeEntry.h ProbeCanvas.h SuperButton.h VarProbeLabel.h ArchivedGeometryWidget.h WindowGeometryRecord.h Java.h common.h
 
@@ -40,7 +40,7 @@ RectangleNodeItem.o: RectangleNodeItem.m RectangleNodeItem.h NodeItem.h
 LinkItem.o: LinkItem.m LinkItem.h CanvasItem.h NodeItem.h
 TextItem.o: TextItem.m TextItem.h CanvasItem.h
 
-javaobjc.o: javaobjc.m
+awtobjc.o: awtobjc.m
 
 all:
 	$(MAKE) -C java

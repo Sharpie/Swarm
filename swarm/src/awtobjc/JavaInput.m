@@ -3,11 +3,11 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/global.h>
-#import <javaobjc/JavaEnv.h>
-#import <javaobjc/JavaInput.h>
+#import <awtobjc/global.h>
+#import <awtobjc/JavaEnv.h>
+#import <awtobjc/JavaInput.h>
 
-#import <javaobjc/common.h>
+#import <awtobjc/common.h>
 
 #include <stdlib.h>
 

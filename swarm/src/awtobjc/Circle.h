@@ -5,7 +5,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-#import <javaobjc/CanvasItem.h>
+#import <awtobjc/CanvasItem.h>
 
 @interface Circle: CanvasItem
 {

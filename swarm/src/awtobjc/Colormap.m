@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/Colormap.h>
+#import <awtobjc/Colormap.h>
 
 @implementation Colormap
 // create a new colourmap. Right now we use the Tk widget name

@@ -5,9 +5,9 @@
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 
-#import <javaobjc/global.h>
-#import <javaobjc/Widget.h>
-#import <javaobjc/CanvasItem.h>
+#import <awtobjc/global.h>
+#import <awtobjc/Widget.h>
+#import <awtobjc/CanvasItem.h>
 
 @implementation CanvasItem
 

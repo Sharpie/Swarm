@@ -3,13 +3,13 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/JavaControlPanel.h>
+#import <awtobjc/JavaControlPanel.h>
 #if 0
 #import <simtools/ActionCache.h>
 #import <simtools/ControlPanel.h>
 #endif
 #import <simtools.h> // ControlStateRunning..
-#import <javaobjc/JavaEnv.h> // javaEnv, findClass:
+#import <awtobjc/JavaEnv.h> // javaEnv, findClass:
 
 @implementation JavaControlPanel;
 

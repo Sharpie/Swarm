@@ -4,8 +4,8 @@
 // See file LICENSE for details and terms of copying.
 
 #import <collections/String.h>
-#import <javaobjc/ButtonPanel.h>
-#import <javaobjc/Button.h>
+#import <awtobjc/ButtonPanel.h>
+#import <awtobjc/Button.h>
 
 #include <string.h>
 

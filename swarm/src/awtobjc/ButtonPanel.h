@@ -5,7 +5,7 @@
 
 // new widget: collects a bunch of buttons into a frame, displays it.
 
-#import <javaobjc/Frame.h>
+#import <awtobjc/Frame.h>
 
 @interface ButtonPanel: Frame
 {

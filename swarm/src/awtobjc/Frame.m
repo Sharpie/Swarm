@@ -5,9 +5,9 @@
 
 // TopLevels and Frames are about the same, so we put these in one class.
 
-#import <javaobjc/Frame.h>
+#import <awtobjc/Frame.h>
 
-#import <javaobjc/common.h>
+#import <awtobjc/common.h>
 
 @implementation Frame
 

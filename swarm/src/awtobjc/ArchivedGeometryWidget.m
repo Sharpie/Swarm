@@ -3,8 +3,8 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/ArchivedGeometryWidget.h>
-#import <javaobjc/WindowGeometryRecord.h>
+#import <awtobjc/ArchivedGeometryWidget.h>
+#import <awtobjc/WindowGeometryRecord.h>
 
 void archiverUnregister (id client);
 void archiverRegister (id client);

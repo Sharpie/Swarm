@@ -5,7 +5,7 @@
 
 #include <jni.h>
 
-#import <javaobjc/ArchivedGeometryWidget.h>
+#import <awtobjc/ArchivedGeometryWidget.h>
 
 @class GraphElement;
 @class GraphVector;

@@ -1,4 +1,4 @@
-#import <javaobjc/JavaEnv.h>
+#import <awtobjc/JavaEnv.h>
 
 jfieldID
 getFieldID (JNIEnv *jniEnv, jclass classId, const char *field, const char *sig)

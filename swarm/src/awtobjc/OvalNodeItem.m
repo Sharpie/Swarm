@@ -3,10 +3,10 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/global.h>
-#import <javaobjc/OvalNodeItem.h>
-#import <javaobjc/Canvas.h>
-#import <javaobjc/JavaItem.h>
+#import <awtobjc/global.h>
+#import <awtobjc/OvalNodeItem.h>
+#import <awtobjc/Canvas.h>
+#import <awtobjc/JavaItem.h>
 
 @implementation OvalNodeItem
 

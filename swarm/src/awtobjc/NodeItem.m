@@ -9,11 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#import <javaobjc/global.h>
-#import <javaobjc/Widget.h>
-#import <javaobjc/NodeItem.h>
+#import <awtobjc/global.h>
+#import <awtobjc/Widget.h>
+#import <awtobjc/NodeItem.h>
 
-#import <javaobjc/JavaInput.h>
+#import <awtobjc/JavaInput.h>
 
 @implementation NodeItem
 

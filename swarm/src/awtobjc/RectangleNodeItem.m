@@ -9,10 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#import <javaobjc/RectangleNodeItem.h>
+#import <awtobjc/RectangleNodeItem.h>
 #ifdef USE_JAVA
-#import <javaobjc/JavaItem.h>
-#import <javaobjc/Canvas.h>
+#import <awtobjc/JavaItem.h>
+#import <awtobjc/Canvas.h>
 #endif
 
 @implementation RectangleNodeItem

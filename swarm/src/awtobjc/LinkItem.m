@@ -9,10 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#import <javaobjc/global.h>
-#import <javaobjc/Widget.h>
-#import <javaobjc/Canvas.h>
-#import <javaobjc/LinkItem.h>
+#import <awtobjc/global.h>
+#import <awtobjc/Widget.h>
+#import <awtobjc/Canvas.h>
+#import <awtobjc/LinkItem.h>
 
 @implementation LinkItem
 

@@ -5,7 +5,7 @@
 
 #define __USE_FIXED_PROTOTYPES__  // for gcc headers
 
-#import <javaobjc/TextItem.h>
+#import <awtobjc/TextItem.h>
 
 @implementation TextItem
 

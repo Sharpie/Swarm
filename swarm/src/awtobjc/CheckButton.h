@@ -5,7 +5,7 @@
 
 // Many thanks to JJ Merelo for helping with this widget.
 
-#import <javaobjc/InputWidget.h>
+#import <awtobjc/InputWidget.h>
 
 @interface CheckButton : InputWidget {
 }

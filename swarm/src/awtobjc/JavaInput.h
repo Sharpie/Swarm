@@ -1,4 +1,4 @@
-#import <javaobjc/JavaObject.h>
+#import <awtobjc/JavaObject.h>
 
 typedef enum {
   EVTMOUSE,

@@ -5,9 +5,9 @@
 
 #import <objectbase/SwarmObject.h>
 
-#import <javaobjc/global.h>
-#import <javaobjc/Widget.h>
-#import <javaobjc/CanvasItem.h>
+#import <awtobjc/global.h>
+#import <awtobjc/Widget.h>
+#import <awtobjc/CanvasItem.h>
 
 @interface Rectangle: CanvasItem
 {

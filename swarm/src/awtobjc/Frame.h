@@ -5,7 +5,7 @@
 
 // Objective C encapsulation of toplevels and frames, for use with libtclobjc
 
-#import <javaobjc/ArchivedGeometryWidget.h>
+#import <awtobjc/ArchivedGeometryWidget.h>
 
 @interface Frame: ArchivedGeometryWidget
 {

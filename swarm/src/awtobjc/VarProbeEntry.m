@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/VarProbeEntry.h>
+#import <awtobjc/VarProbeEntry.h>
 #import <objc/objc-api.h>
 
 @implementation VarProbeEntry

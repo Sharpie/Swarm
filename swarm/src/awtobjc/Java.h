@@ -1,3 +1,3 @@
-#import <javaobjc/JavaObject.h>
-#import <javaobjc/JavaEnv.h>
+#import <awtobjc/JavaObject.h>
+#import <awtobjc/JavaEnv.h>
 

@@ -9,7 +9,7 @@
 // Four types are allowed by TCL:
 //   TCL_LINK_INT, TCL_LINK_DOUBLE, TCL_LINK_BOOLEAN, TCL_LINK_STRING
 
-#import <javaobjc/Widget.h>
+#import <awtobjc/Widget.h>
 
 @interface InputWidget: Widget 
 {

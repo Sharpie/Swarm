@@ -3,7 +3,7 @@
 // implied warranty of merchantability or fitness for a particular
 // purpose.  See file LICENSE for details and terms of copying.
 
-#import <javaobjc/WindowGeometryRecord.h>
+#import <awtobjc/WindowGeometryRecord.h>
 #import <collections.h>
 
 #import <collections/predicates.h> // for literal_string_p

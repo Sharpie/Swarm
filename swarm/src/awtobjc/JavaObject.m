@@ -3,9 +3,9 @@
 // implied warranty of merchantability or fitness for a particular purpose.
 // See file LICENSE for details and terms of copying.
 
-#import <javaobjc/JavaEnv.h>
-#import <javaobjc/JavaObject.h>
-#import <javaobjc/common.h>
+#import <awtobjc/JavaEnv.h>
+#import <awtobjc/JavaObject.h>
+#import <awtobjc/common.h>
 #import <objectbase/SwarmObject.h>
 
 #include <misc.h>
