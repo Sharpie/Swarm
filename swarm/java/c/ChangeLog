@@ -1,3 +1,8 @@
+1999-08-24  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in ($(libjavaswarmstubs_la_OBJECTS)): Add protocol
+	files as a dependency.
+
 1999-08-24    <mgd@HELEN>
 
 	* Makefile.in (javaswarm.dll): Use ld-new, don't even go through
