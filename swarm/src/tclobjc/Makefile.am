@@ -1,4 +1,3 @@
-SUBDIRS = 
 CURRENT = 0
 REVISION = 0
 AGE = 0
