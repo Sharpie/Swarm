@@ -991,6 +991,9 @@ USING
 //M: Record the screen coordinates associated with a scheduling event.
 - at: (timeval_t)tval owner: owner widget: widget x: (int)sourceX y: (int)sourceY;
 
+//M: Send visual message indicator from browser to some target.
+- trigger: widget X: (int)x Y: (int)y;
+
 //M: Remove the schedule inspector from the canvas.
 - (void)drop;
 @end
