@@ -1,3 +1,8 @@
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.am (SWARM_EXTRA_DIST): Switch from Globals.java.in
+	to Globals.java.
+
 1999-09-15  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* java-stub.el (argname-number, java-argument-ref, 
