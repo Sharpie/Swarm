@@ -102,19 +102,8 @@
       tclObjc_objectToName(self),
       [myEntry getWidgetName]] ;
 
-
-    [globalTkInterp eval: 
-  "drag&drop target %s handler id {%s idReceive}", 
-      [myEntry getWidgetName],
-      tclObjc_objectToName(self)] ;
-
-    [globalTkInterp eval: "drag&drop source %s config -packagecmd {do_package %s} -sitecmd sitecmd -button 1", 
-        [myEntry getWidgetName],
-        tclObjc_objectToName(self)] ;
-
-    [globalTkInterp eval: "drag&drop source %s handler id send_id", 
-      [myEntry getWidgetName],
-      tclObjc_objectToName(self)] ;
+    dragAndDropTarget (myEntry, self);
+    dragAndDrop (myEntry, self);
 
   } else
 
