@@ -1,3 +1,9 @@
+1998-04-30  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* collections.h: Augment the Index documentation.  Move the
+	existing Index info to the Collections protocol, as it is
+	a bit more general.
+
 1998-04-28  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* collections.h: Add documentation tags.

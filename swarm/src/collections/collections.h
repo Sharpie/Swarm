@@ -218,6 +218,49 @@ USING
 //D: regarding the types of data values which may be added as members.  The
 //D: next two subsections summarize these basic features of all collections.
 
+//D: An index is a special type of object that references a current
+//D: position in an enumeration sequence over a collection.  An enumeration
+//D: sequence contains every member of a collection exactly once.  Every
+//D: collection defines an associated type of object for its index.  The
+//D: index type of a collection defines additional ways in which the
+//D: members of a collection may be processed beyond any messages available
+//D: directly on the collection.  Often the operations of an index provide
+//D: the most basic and flexible means for manipulating individual members
+//D: of a collection.
+
+//D: An index object into a collection may be created at any time.  An
+//D: index is the basic means to traverse through all members of a
+//D: collection.  Multiple indexes on the same collection may all exist at
+//D: the same time and may reference the same or different positions.
+//D: Depending on the collection type, it may be possible to modify a
+//D: collection through its indexes.
+
+//D: Once an index is created, the sequence of members in its enumeration
+//D: sequence is guaranteed to remain the same, provided that no new
+//D: members are added to the underlying collection, or existing members
+//D: removed.  If a member is located once at a particular position, it is
+//D: guaranteed to remain at that position as long as the index itself
+//D: remains.
+
+//D: Many collection types define an explicit ordering over their members.
+//D: For such collections, the sequence of members referred to by an index
+//D: will always be consistent with this ordering.  An explicit, total
+//D: ordering also guarantees that all indexes of the same collection have
+//D: the same member sequence.
+
+//D: If no such ordering is defined, however, some particular sequence of
+//D: all the collection still becomes associated with each created index.
+//D: All collection members are guaranteed to be contained somewhere in the
+//D: enumeration sequence for any particular index, but two indexes on the
+//D: same collection are not guaranteed to have the same sequence.
+
+//D: The Index type corresponds to the iterator types defined as part of
+//D: many other object-oriented libraries.  The name Index is shorter and
+//D: emphasizes the more abstract and multi-function role of these basic
+//D: support objects for any collection.  For more background on design of
+//D: indexes and iterators, see the Interface Design Notes for the
+//D: collections library.
+
 CREATING
 
 //M: This boolean-valued option restricts valid usage of a collection by
@@ -277,70 +320,209 @@ USING
 id <Symbol>  Unsafe, UnsafeAtMember, SafeAlways;
 
 
-//
-// Index -- reference into the enumeration sequence for a collection
-//
+@deftype Index <DefinedObject, Copy, Drop, NextPrev>
+//S: Reference into the enumeration sequence for a collection.
 
-@deftype Index <DefinedObject, Copy, Drop>
-//D: An index is a special type of object that references a current
-//D: position in an enumeration sequence over a collection.  An enumeration
-//D: sequence contains every member of a collection exactly once.  Every
-//D: collection defines an associated type of object for its index.  The
-//D: index type of a collection defines additional ways in which the
-//D: members of a collection may be processed beyond any messages available
-//D: directly on the collection.  Often the operations of an index provide
-//D: the most basic and flexible means for manipulating individual members
-//D: of a collection.
+//D: An index is a reference into an enumeration sequence of a collection.
+//D: Such an enumeration sequence contains all members of the collection in
+//D: some order.  This order will always be consistent with ordering of
+//D: members in the collection, assuming there is such an ordering.
+//D: Otherwise, the sequence will still contain all members in some order
+//D: that remains fixed provided that new members are not added or removed
+//D: from the collection.
 
-//D: An index object into a collection may be created at any time.  An
-//D: index is the basic means to traverse through all members of a
-//D: collection.  Multiple indexes on the same collection may all exist at
-//D: the same time and may reference the same or different positions.
-//D: Depending on the collection type, it may be possible to modify a
-//D: collection through its indexes.
+//D: An index is created by a begin: or createIndex: message against a
+//D: collection.  Each major collection type has its own corresponding
+//D: index type, which supports specialized types of processing against
+//D: the valid contents of that kind of collection.  Once created, an
+//D: index is a separate object from the collection itself, but it remains
+//D: valid only so long as the collection itself still exists.  Multiple
+//D: indexes may exist at the same time against the same collection, and
+//D: each index maintains its own position within an enumeration sequence
+//D: for the collection.
 
-//D: Once an index is created, the sequence of members in its enumeration
-//D: sequence is guaranteed to remain the same, provided that no new
-//D: members are added to the underlying collection, or existing members
-//D: removed.  If a member is located once at a particular position, it is
-//D: guaranteed to remain at that position as long as the index itself
-//D: remains.
+//D: Many indexes provde the ability modify the collection they refer
+//D: to, in addition to simply traversing members.  An index often provides
+//D: the complete means for maintaining the contents of a collection, more than
+//D: could otherwise be performed on the collection itself.  The position or
+//D: other status of the index is automatically updated to reflect any changes
+//D: made through the index itself.
 
-//D: Many collection types define an explicit ordering over their members.
-//D: For such collections, the sequence of members referred to by an index
-//D: will always be consistent with this ordering.  An explicit, total
-//D: ordering also guarantees that all indexes of the same collection have
-//D: the same member sequence.
+//D: If changes to a collection are made while other indexes exist, those
+//D: other indexes could be affected in potentially catastrophic ways.
+//D: Each collection type documents which kinds of changes can be made
+//D: without affecting or invalidating existing indexes.  The IndexSafety
+//D: option of Collection provides additional ways to protect indexes
+//D: against possible effects of independent updates.
 
-//D: If no such ordering is defined, however, some particular sequence of
-//D: all the collection still becomes associated with each created index.
-//D: All collection members are guaranteed to be contained somewhere in the
-//D: enumeration sequence for any particular index, but two indexes on the
-//D: same collection are not guaranteed to have the same sequence.
+//D: Each index is a stand-alone object allocated within a zone passed as
+//D: an argument in the message that created it.  This zone need not match
+//D: the zone of a collection.  It is common for index lifetimes to be
+//D: shorter than their collection.  For example, indexes can be created in
+//D: a temporary scratch zone for use only within a local loop.
 
-//D: The Index type corresponds to the iterator types defined as part of
-//D: many other object-oriented libraries.  The name Index is shorter and
-//D: emphasizes the more abstract and multi-function role of these basic
-//D: support objects for any collection.  For more background on design of
-//D: indexes and iterators, see the Interface Design Notes for the
-//D: collections library.
+//D: Because messages to a collection are the only valid way to create an
+//D: index, create messages and create-time options are not used with index
+//D: types.  All valid processing on an index is determined by
+//D: characteristics of the collection from which it is created.  Index
+//D: types are typically named after the type of collection they are
+//D: created from, and serve principally to define the specific messages
+//D: valid for an index on that type of collection.
 
+//D: Index objects support the universal messages of the top-level
+//D: DefinedObject supertype, along with the standard drop: and getZone
+//D: messages.  Even though they cannot be created except from a
+//D: collection, new index objects can be created from an existing index
+//D: using the standard copy: message.  Each copy refers to the same
+//D: collection as the initial index, and starts at the same position in
+//D: its enumeration sequence.  In all other respects, however, the new
+//D: copy is an independent index that maintains its own position under any
+//D: further processing.
+
+//M: getCollection returns the collection referred to by an index.  This
+//M: collection never changes during the lifetime of the index.
 - getCollection;
 
+//M: The next message positions the index to the next valid member
+//M: after its current position, or to a special position after the
+//M: end of all valid members.  In addition to
+//M: repositioning the index, both messages return the new member value to
+//M: which they are positioned, or nil if there is no such member.
 - next;
+
+//M: The prev message works similarly,
+//M: but positions to a valid member preceding the current position, or to
+//M: a special position preceding all valid members. 
 - prev;
+
+//M: findNext: repeatedly performs next until the member value of the
+//M: index matches the argument.  nil is returned if the index reaches
+//M: the end of valid members without matching the argument.  
 - findNext: anObject;
+
+//M: findPrev: repeatedly performs prev until the member value of the
+//M: index matches the argument.  nil is returned if the index reaches
+//M: the end of valid members without matching the argument. 
 - findPrev: anObject;
 
+//M: get returns the member value at which the index is currently
+//M: positioned, or nil if the index is not positioned at a member.
+
+//M: The get message provides an alternate way to obtain the current member
+//M: value in a loop that traverses a collection; its return value is the
+//M: same as next or prev would return when first positioning to a new
+//M: member.
 - get;
+
+//M: The put: message replaces the member value at the current index
+//M: position with its argument.  An InvalidIndexLoc error is raised if
+//M: the index is not positioned at a current member.
 - put: anObject;
+
+//M: The remove message removes the member at the current location of an
+//M: index, and returns the member value removed.  The index position is
+//M: set to a special position between the members which previously
+//M: preceded and followed the removed member.  If there is no preceding or
+//M: following member, the index is set to the special location before the
+//M: start or after the end of all members.  After a current member is
+//M: removed, there is no member at the current index location, but a
+//M: subsequent next or prev message will continue with the same member
+//M: that would have been accessed had the current member not been removed.
+//M: An InvalidIndexLoc error is raised if the index is not positioned
+//M: at a current member.
 - remove;
 
+//M: The getLoc message returns a symbol constant which indicates the type
+//M: of location at which an index is currently positioned.  This index
+//M: location symbol has one of the following values: Start, End, 
+#if 0
+//M: Between,
+#endif
+//M: and Member.
+
+//M: The Start symbol indicates the special position preceding all members
+//M: in the enumeration sequence for the collection.  This is the location
+//M: at which an index is positioned when it is first created.  The End
+//M: symbol indicates the special position following all members in the
+//M: collection.  This is the location at which an index is positioned just
+//M: after a next message has returned nil, as a result of moving beyond
+//M: the last member.   The Member symbol indicates that the index
+//M: is positioned at some current member in the enumeration sequence
+//M: of a collection.
+#if 0
+//M: The Between symbol indicates the special position
+//M: between two other members, at which an index is positioned after a
+//M: current member, between two other members, is removed. 
+#endif
+
+//M: The getLoc message is needed to traverse a collection which could
+//M: contain nil values for its members.  Without getLoc, there would be no
+//M: way to distinguish a nil value returned by next as either a valid
+//M: member value or the special value returned at the end of members.
+//M: With getLoc, a loop that traverses a collection can test specifically
+//M: for the end (or start) of members.
+
+//E: Following is a simple loop which illustrates such usage:
+
+//E: index = [aCollection begin: aZone];
+//E:  do {
+//E:    member = [index next];
+//E:    // do something with member ...
+//E:  } while ( [index getLoc] == Member );
 - getLoc;
+
+//M: The setLoc: message may be used to reset the current location of an
+//M: index to either Start or End.  It may be used to reprocess a
+//M: collection using an existing index after some other location has
+//M: already been reached.  It may also be used to position an index at the
+//M: end of all members prior to traversing members in reverse order using
+//M: prev.
+
+//M: Besides Start and End, setLoc: accepts the special argument values of
+//M: BetweenAfter and BetweenBefore, which are also defined symbols.  These
+//M: argument values are only valid if the index is positioned at a current
+//M: member.  They reposition the index to the special location between the
+//M: current member and its immediately following or preceding member.
 - (void)setLoc: locSymbol;
+
+//M: Provided there is no major computational cost, an index also maintains
+//M: the integer offset of its current member within the enumeration
+//M: sequence of the collection.  These integer offset values have the same
+//M: definition as in the atOffset: messages of Collection.  The getOffset
+//M: message returns this current offset value.  If the index is current
+//M: positioned at the Start or End location, getOffset returns -1.  If the
+//M: index is positioned at a Between location, getOffset returns the
+//M: offset of the immediately preceding member.  If the offset is not
+//M: currently available from the index, getOffset returns the special
+//M: value UnknownOffset.  This value is defined by a macro as the
+//M: maximally negative value of a 32-bit, 2's-complement integer.
+
+//M: An offset is always available from an index if its current position
+//M: has been reached by repeated operations from an initial Start or End
+//M: position, and there has been no other modification to the underlying
+//M: collection.  Some forms of direct member access operations supported
+//M: by some index types, however, may result in an integer offset not
+//M: being available.  These restrictions are noted with the individual
+//M: index type.
 - (int)getOffset;
+
+//M: Using the setOffset: message, an index may be positioned directly to a
+//M: member using the offset of the member within its enumeration sequence.
+//M: The speed of this operation depends on the specific type of the
+//M: collection, just as noted for the atOffset: message on Collection.  In
+//M: the worst case, this operation is linear in the magnitude of the
+//M: offset.
 - setOffset: (int)offset;
 
+//M: The compare: message compares the current location of one index with
+//M: the current location of another index passed as its argument.  If the
+//M: two indexes have the same location, compare: returns zero.  Otherwise,
+//M: compare: returns +1 or -1 according to whether the argument index
+//M: precedes or follows the receiver index in the enumeration sequence of
+//M: the collection.  If either of the two indexes has an unknown offset,
+//M: and the location of the other index is anything other than Start or
+//M: End or an immediately adjacent member, compare: returns the
+//M: UnknownOffset integer value.
 - (int)compare: anIndex;
 @end
 
