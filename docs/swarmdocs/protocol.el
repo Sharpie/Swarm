@@ -1102,12 +1102,11 @@
         (t (error "unknown object"))))
 
 (defun generic-description-list (object)
-  (reverse
-   (cond ((protocol-p object)
-          (protocol-description-list object))
-         ((module-p object)
-          (module-description-list object))
-         (t (error "unknown object")))))
+  (cond ((protocol-p object)
+         (protocol-description-list object))
+        ((module-p object)
+         (module-description-list object))
+        (t (error "unknown object"))))
 
 (defun generic-protocol (object)
   (case (object-type object)
