@@ -20,6 +20,7 @@
 #define LEVELSPREFIX "levels."
 
 static unsigned hdf5InstanceCount = 0;
+static unsigned generatedClassNameCount = 0;
 
 static hid_t
 tid_for_objc_type (const char *type)
@@ -1021,6 +1022,17 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
 
 #endif
 
+static const char *
+generate_class_name (void)
+{
+  char buf[5 + DSIZE (unsigned) + 1];
+
+  sprintf (buf, "Class%u", generatedClassNameCount);
+  generatedClassNameCount++;
+
+  return strdup (buf);
+}
+
 - createEnd
 {
 #ifdef HAVE_HDF5
@@ -1101,43 +1113,50 @@ string_ref (hid_t sid, hid_t did, H5T_cdata_t *cdata,
               if (class == H5T_COMPOUND)
                 {
                   id aZone = [self getZone];
-                  const char *componentTypeName =
-                    get_attribute (loc_id, ATTRIB_COMPONENT_TYPE_NAME);
                   
                   compoundType = [[[HDF5CompoundType createBegin: aZone]
                                     setTid: tid]
                                    setDataset: loc_id];
-
-                  if (componentTypeName)
-                    {
-                      int rank;
-                      hsize_t dims[1];
-
+                  
+                  {
+                    int rank;
+                    hsize_t dims[1];
+                    
+                    if ((c_sid = H5Dget_space (loc_id)) < 0)
+                      raiseEvent (LoadError,
+                                  "failed to get space of dataset");
+                    
+                    if ((rank = H5Sget_simple_extent_ndims (c_sid)) < 0)
+                      raiseEvent  (LoadError,
+                                   "could not get rank of space");
+                    if (rank != 1)
+                      raiseEvent (LoadError, "expected rank of 1");
+                  
+                    if (H5Sget_simple_extent_dims (c_sid, dims, NULL) < 0)
+                    raiseEvent (LoadError,
+                                "could not get extent of space");
+                    c_count = dims[0];
+                  }
+                  {
+                    const char *componentTypeName =
+                      get_attribute (loc_id, ATTRIB_COMPONENT_TYPE_NAME);
+                    
+                    if (componentTypeName)
                       [compoundType setName: componentTypeName];
-                      if ((c_sid = H5Dget_space (loc_id)) < 0)
-                        raiseEvent (LoadError,
-                                    "failed to get space of dataset");
-                      
-                      if ((rank = H5Sget_simple_extent_ndims (c_sid)) < 0)
-                        raiseEvent  (LoadError,
-                                     "could not get rank of space");
-                      if (rank != 1)
-                        raiseEvent (LoadError, "expected rank of 1");
-
-                      if (H5Sget_simple_extent_dims (c_sid, dims, NULL) < 0)
-                        raiseEvent (LoadError,
-                                    "could not get extent of space");
-                      c_count = dims[0];
-                    }
-                  else
-                    {
-                      const char *typeName =
-                        get_attribute (loc_id, ATTRIB_TYPE_NAME);
-                      
-                      [compoundType setName: typeName];
-                      c_sid = psid;
-                    }
-                  compoundType = [compoundType createEnd];
+                    else if (c_count > 1)
+                      [compoundType setName: generate_class_name ()];
+                    else
+                      {
+                        [compoundType
+                          setName:
+                            (get_attribute (loc_id, ATTRIB_TYPE_NAME)
+                             ?: generate_class_name ())];
+                        
+                        if (c_count != 1)
+                          raiseEvent (LoadError, "expecting a point space");
+                      }
+                    compoundType = [compoundType createEnd];
+                  }
                 }
             }
         }

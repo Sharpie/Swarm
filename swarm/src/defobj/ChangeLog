@@ -1,5 +1,14 @@
 1999-02-05  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* HDF5Object.m (generatedClassNameCount): New variable.
+	(generate_class_name): Use it.
+	([HDF5_c -createEnd]): Use generate_class_name, always set c_count.
+
+	* defobj.m (attrIterateFunc): Return 1 whether typeObject is
+	found or created.
+	(hdf5In): Set typeObject to List if dataset and
+	count > 1.
+
 	* HDF5Object.m: Include limits.h.
 	(create_compound_type_from_class): Handle const char * -> int.
 	Add insertFlag to allow presizing.

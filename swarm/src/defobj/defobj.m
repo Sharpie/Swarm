@@ -304,15 +304,21 @@ hdf5In (id aZone, id hdf5Obj)
               newTypeObj = [newTypeObj createEnd];
               registerLocalClass (newTypeObj);
               typeObject = newTypeObj;
-              return 1;
             }
+          return 1;
         }
       return 0;
     }
   
   typeObject = nil;
   [hdf5Obj iterateAttributes: attrIterateFunc];
-  
+
+  if (!typeObject)
+    {
+      if ([hdf5Obj getDatasetFlag] && [hdf5Obj getCount] > 1)
+        typeObject = objc_lookup_class ("List");
+    }
+
   if (typeObject == nil)
     raiseEvent (LoadError,
                 "Failed to find or create class for HDF5 object `%s'",
