@@ -376,13 +376,76 @@ PHASE(Using)
 
 @end
 
-@implementation FActionForEach_c
+@implementation FActionForEachHeterogeneous_c
+PHASE(Creating)
+- setTarget: theTarget
+{
+  target = theTarget;
+  return self;
+}
+
+- createEnd
+{
+  BOOL allSameFlag = [target allSameClass];
+
+  [super createEnd];
+
+  if (!allSameFlag && [call getCallType] != objccall)
+    raiseEvent (InvalidArgument,
+                "Heterogeneous collections must be Objective C calls");
+  return self;
+}
+
+PHASE(Setting)
+
+- (void)setDefaultOrder: (id <Symbol>)aSymbol
+{
+  setDefaultOrder (&bits, aSymbol);
+}
+
+PHASE(Using)
+
+- (void)_performAction_: (id <Activity>)anActivity
+{
+  id memberAction;
+  
+  if (getBit (bits, BitRandomized))
+    memberAction = 
+          [id_ForEachActivity_c _createRandom_: self : anActivity];
+  else
+    memberAction = [id_ForEachActivity_c _create_: self : anActivity];
+  
+  setClass (memberAction, id_FAction_c);
+}
+
+- getTarget
+{
+  return target;
+}
+
+- (id <Symbol>)getDefaultOrder
+{
+  return getDefaultOrder (bits);
+}
+
+- (void)describe: stream
+{
+  char buffer[100];
+
+  [stream catC: "[[faction foreach: "];
+  _obj_formatIDString (buffer, target);
+  [stream catC: buffer];
+  [stream catC: "]"];
+}
+
+@end
+
+@implementation FActionForEachHomogeneous_c
 PHASE(Creating)
 + createBegin: aZone
 {
-  FActionForEach_c *obj = [super createBegin: aZone];
+  FActionForEachHomogeneous_c *obj = [super createBegin: aZone];
 
-  obj->finalizationFlag = YES;
 #ifdef HAVE_JDK
   obj->javaAryLen = 0;
 #endif
@@ -395,77 +458,65 @@ PHASE(Creating)
   return self;
 }
 
-- setFinalizationFlag: (BOOL)theFinalizationFlag
-{
-  finalizationFlag = theFinalizationFlag;
-  return self;
-}
-
 - createEnd
 {
   BOOL allSameFlag = [target allSameClass];
 
   [super createEnd];
-  if (finalizationFlag)
-    if (allSameFlag)
-      {
-#ifdef HAVE_JDK
-        if ([target respondsTo: M(isJavaCollection)]
-            && getDefaultOrder (bits) == Sequential)
-          {
-            jobject coll = SD_FINDJAVA (jniEnv, (id) target);
-            jarray lref;
-            jclass class = (*jniEnv)->GetObjectClass (jniEnv, coll);
-            jmethodID method;
-            jsize i;
-            
-            if (!(method =
-                  (*jniEnv)->GetMethodID (jniEnv,
-                                          class,
-                                          "size",
-                                          "()I")))
-              abort ();
-            javaAryLen = (*jniEnv)->CallIntMethod (jniEnv, coll, method);
-            if (!(method =
-                  (*jniEnv)->GetMethodID (jniEnv,
-                                          class,
-                                          "get",
-                                          "(I)Ljava/lang/Object;")))
-              abort ();
-            (*jniEnv)->DeleteLocalRef (jniEnv, class);
-            if (!(lref =
-                  (*jniEnv)->NewObjectArray (jniEnv, javaAryLen, c_Object,
-                                             NULL)))
-              abort ();
-            javaAry = (*jniEnv)->NewGlobalRef (jniEnv, lref);
-            (*jniEnv)->DeleteLocalRef (jniEnv, lref);
-            {
-              jobject javaProtoTarget =
-                (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
-              
-              (*jniEnv)->SetObjectArrayElement (jniEnv, javaAry, 0,
-                                                javaProtoTarget);
-              (*jniEnv)->DeleteLocalRef (jniEnv, javaProtoTarget);
-            }
-            for (i = 1; i < javaAryLen; i++)
-              {
-                jobject obj =
-                  (*jniEnv)->CallObjectMethod (jniEnv, coll, method, i);
-                (*jniEnv)->SetObjectArrayElement (jniEnv, javaAry, i, obj);
-                (*jniEnv)->DeleteLocalRef (jniEnv, obj);
-              }
-          }
-#endif
-      }
-    else
-      raiseEvent (InvalidArgument,
-                  "Collection not homogeneous, finalization cannot be used");
-  else
+
+  if (allSameFlag)
     {
-      if (!allSameFlag && [call getCallType] != objccall)
-        raiseEvent (InvalidArgument,
-                    "Heterogeneous collections must be Objective C calls");
+#ifdef HAVE_JDK
+      if ([target respondsTo: M(isJavaCollection)]
+          && getDefaultOrder (bits) == Sequential)
+        {
+          jobject coll = SD_FINDJAVA (jniEnv, (id) target);
+          jarray lref;
+          jclass class = (*jniEnv)->GetObjectClass (jniEnv, coll);
+          jmethodID method;
+          jsize i;
+          
+          if (!(method =
+                (*jniEnv)->GetMethodID (jniEnv,
+                                        class,
+                                        "size",
+                                        "()I")))
+            abort ();
+          javaAryLen = (*jniEnv)->CallIntMethod (jniEnv, coll, method);
+          if (!(method =
+                (*jniEnv)->GetMethodID (jniEnv,
+                                        class,
+                                        "get",
+                                        "(I)Ljava/lang/Object;")))
+            abort ();
+          (*jniEnv)->DeleteLocalRef (jniEnv, class);
+          if (!(lref =
+                (*jniEnv)->NewObjectArray (jniEnv, javaAryLen, c_Object,
+                                           NULL)))
+            abort ();
+          javaAry = (*jniEnv)->NewGlobalRef (jniEnv, lref);
+          (*jniEnv)->DeleteLocalRef (jniEnv, lref);
+          {
+            jobject javaProtoTarget =
+              (*jniEnv)->CallObjectMethod (jniEnv, coll, method, 0);
+            
+            (*jniEnv)->SetObjectArrayElement (jniEnv, javaAry, 0,
+                                              javaProtoTarget);
+            (*jniEnv)->DeleteLocalRef (jniEnv, javaProtoTarget);
+          }
+          for (i = 1; i < javaAryLen; i++)
+            {
+              jobject obj =
+                (*jniEnv)->CallObjectMethod (jniEnv, coll, method, i);
+              (*jniEnv)->SetObjectArrayElement (jniEnv, javaAry, i, obj);
+              (*jniEnv)->DeleteLocalRef (jniEnv, obj);
+            }
+        }
+#endif
     }
+  else
+    raiseEvent (InvalidArgument,
+                "Collection not homogeneous, finalization cannot be used");
   return self;
 }
 
@@ -514,11 +565,16 @@ PHASE(Using)
   return getDefaultOrder (bits);
 }
 
+- getTarget
+{
+  return target;
+}
+
 - (void)describe: stream
 {
   char buffer[100];
 
-  [stream catC: "[[faction foreach: "];
+  [stream catC: "[[faction foreach fixed: "];
   _obj_formatIDString (buffer, target);
   [stream catC: buffer];
   [stream catC: "]"];

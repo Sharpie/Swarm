@@ -239,13 +239,23 @@ PHASE(Using)
   return newAction;
 }
 
-- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag
+- (id <FActionForEach>)createFActionForEachHomogeneous: target call: (id <FCall>)call
 {
   id <FActionForEach> newAction =
-    [FActionForEach createBegin: getCZone (getZone (self))];
+    [FActionForEachHomogeneous createBegin: getCZone (getZone (self))];
   [newAction setTarget: target];
   [newAction setCall: call];
-  [newAction setFinalizationFlag: finalizationFlag];
+  newAction = [newAction createEnd];
+  [self addLast: newAction];
+  return newAction;
+}
+
+- (id <FActionForEach>)createFActionForEachHeterogeneous: target call: (id <FCall>)call
+{
+  id <FActionForEach> newAction =
+    [FActionForEachHeterogeneous createBegin: getCZone (getZone (self))];
+  [newAction setTarget: target];
+  [newAction setCall: call];
   newAction = [newAction createEnd];
   [self addLast: newAction];
   return newAction;

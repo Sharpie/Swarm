@@ -54,7 +54,8 @@ Library:      activity
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 
-- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag;
+- (id <FActionForEach>)createFActionForEachHomogeneous: target call: (id <FCall>)call;
+- (id <FActionForEach>)createFActionForEachHeterogeneous: target call: (id <FCall>)call;
 
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)describe: outputCharStream;

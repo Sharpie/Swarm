@@ -1,3 +1,11 @@
+1999-12-10    <mgd@nest.swarm.org>
+
+	* Action.[hm] (ActionTarget): New protocol.
+	
+	* activity.h, Action.[hm], ActionGroup.[hm], Schedule.[hm],
+	activity.m: Split FActionForEach into
+	FActionForEach{Homogeneous,Heterogeneous}.
+	
 1999-12-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* activity.h (ActionChanged): New type.

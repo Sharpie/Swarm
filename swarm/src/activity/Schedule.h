@@ -83,7 +83,8 @@ Library:      activity
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2;
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
-- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag;
+- (id <FActionForEachHeterogeneous>)createFActionForEachHeterogeneous: target call: (id <FCall>)call;
+- (id <FActionForEachHomogeneous>)createFActionForEachHomogeneous: target call: (id <FCall>)call;
 - (void)mapAllocations: (mapalloc_t)mapalloc;
 - (void)describe: outputCharStream;
 - (void)describeForEach: outputCharStream;

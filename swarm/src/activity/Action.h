@@ -99,7 +99,7 @@ Library:      activity
 - (void)_performAction_: (id <Activity>)activity;
 @end
 
-@interface FActionForEach_c: FAction_c <FActionForEach>
+@interface FActionForEachHeterogeneous_c: FAction_c <FActionForEach>
 {
 #ifdef HAVE_JDK
   jarray javaAry;
@@ -108,5 +108,26 @@ Library:      activity
   BOOL finalizationFlag;
 }
 - setTarget: target;
-- setFinalizationFlag: (BOOL)finalizationFlag;
+- createEnd;
+- (void)setDefaultOrder: (id <Symbol>)aSymbol;
+- (void)_performAction_: (id <Activity>)anActivity;
+- (id <Symbol>)getDefaultOrder;
+- (void)describe: stream;
 @end
+
+@interface FActionForEachHomogeneous_c: FAction_c <FActionForEach>
+{
+#ifdef HAVE_JDK
+  jarray javaAry;
+  jsize javaAryLen;
+#endif
+  BOOL finalizationFlag;
+}
+- setTarget: target;
+- createEnd;
+- (void)setDefaultOrder: (id <Symbol>)aSymbol;
+- (void)_performAction_: (id <Activity>)anActivity;
+- (id <Symbol>)getDefaultOrder;
+- (void)describe: stream;
+@end
+

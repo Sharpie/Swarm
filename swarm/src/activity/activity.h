@@ -270,14 +270,21 @@ CREATING
 USING
 @end
 
-@protocol ActionTo <Action, ActionArgs, RETURNABLE>
+@protocol ActionTarget
+//S: Messages common to actions that are sent to an object.
+//D: Messages common to actions that are sent to an object.
+CREATING
+- (void)setTarget: target;
+USING
+- getTarget;
+@end
+
+@protocol ActionTo <Action, ActionTarget, ActionArgs, RETURNABLE>
 //S: An action defined by sending an Objective C message.
 //D: An action defined by sending an Objective C message.
 CREATING
-- (void)setTarget: target;
 - (void)setMessageSelector: (SEL)aSel;
 USING
-- getTarget;
 - (SEL)getMessageSelector;
 @end
 
@@ -286,12 +293,22 @@ USING
 //D: An action defined by sending a message to every member of a collection.
 @end
 
-@protocol FActionForEach <FAction, DefaultOrder, RETURNABLE>
+@protocol FActionForEach <FAction, ActionTarget, DefaultOrder, RETURNABLE>
 //S: An action defined by applying a FAction to every member of a collection.
 //D: An action defined by applying a FAction to every member of a collection.
-CREATING
-- (void)setTarget: target;
-- setFinalizationFlag: (BOOL)finalizationFlag;
+@end
+
+@protocol FActionForEachHeterogeneous <FActionForEach, RETURNABLE>
+//S: An action defined by applying a FAction to every member of a collection.
+//D: An action defined by applying a FAction to every member of a collection.
+@end
+
+@protocol FActionForEachHomogeneous <FActionForEach, RETURNABLE>
+//S: An action defined by applying a FAction to every member of a collection
+//S: All members of the collection must be of the same type.
+
+//D: An action defined by applying a FAction to every member of a collection.
+//D: All members of the collection must be of the same type.
 @end
 
 @protocol ActionCall <Action, ActionArgs, RETURNABLE>
@@ -377,15 +394,27 @@ USING
 - (id <ActionForEach>)createActionForEach: target message: (SEL)aSel : arg1 : arg2 : arg3;
 @end
 
-@protocol FActionCreatingForEach
-//S: Invoke a FCall for every item in the target.
-//D: Invoke a FCall for every item in the target.
+@protocol FActionCreatingForEachHeterogeneous
+//S: Invoke a FCall for every item in the target collection, which can
+//S: include objects of various types.
+
+//D: Invoke a FCall for every item in the target collection, which can
+//D: include objects of various types.
 USING
-- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag;
+- (id <FActionForEachHeterogeneous>)createFActionForEachHeterogeneous: target call: (id <FCall>)call;
 @end
 
+@protocol FActionCreatingForEachHomogeneous
+//S: Invoke a FCall for every item in the target collection.  All members
+//S: must be of the same type.
 
-@protocol ActionCreating <FActionCreating, ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach, FActionCreatingForEach>
+//D: Invoke a FCall for every item in the target collection.  All members
+//D: must be of the same type.
+USING
+- (id <FActionForEachHomogeneous>)createFActionForEachHomogeneous: target call: (id <FCall>)call;
+@end
+
+@protocol ActionCreating <FActionCreating, ActionCreatingCall, ActionCreatingTo, ActionCreatingForEach, FActionCreatingForEachHeterogeneous, FActionCreatingForEachHomogeneous>
 //S: Protocol shared by ActionGroup and Schedule.
 
 //D: ActionCreating defines the createAction messages for ActionGroup just
@@ -736,7 +765,8 @@ USING
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2;
 - (id <ActionForEach>)at: (timeval_t)tVal createActionForEach: target message: (SEL)aSel:arg1:arg2:arg3;
 
-- (id <FActionForEach>)at: (timeval_t)tVal createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag;
+- (id <FActionForEachHeterogeneous>)at: (timeval_t)tVal createFActionForEachHeterogeneous: target call: (id <FCall>)call;
+- (id <FActionForEachHomogeneous>)at: (timeval_t)tVal createFActionForEachHomogeneous: target call: (id <FCall>)call;
 
 //M: Remove action from either schedule or concurrent group.
 - remove: anAction;

@@ -682,13 +682,23 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return newAction;
 }
 
-- (id <FActionForEach>)at: (timeval_t)tVal createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)finalizationFlag
+- (id <FActionForEachHeterogeneous>)at: (timeval_t)tVal createFActionForEachHeterogeneous: target call: (id <FCall>)call
 {
-  id <FActionForEach> newAction =
-    [FActionForEach createBegin: getCZone (getZone (self))];
+  id <FActionForEachHeterogeneous> newAction =
+    [FActionForEachHeterogeneous createBegin: getCZone (getZone (self))];
   [newAction setCall: call];
   [newAction setTarget: target];
-  [newAction setFinalizationFlag: finalizationFlag];
+  newAction = [newAction createEnd];
+  _activity_insertAction (self, tVal, newAction);
+  return newAction;
+}
+
+- (id <FActionForEachHomogeneous>)at: (timeval_t)tVal createFActionForEachHomogeneous: target call: (id <FCall>)call
+{
+  id <FActionForEachHomogeneous> newAction =
+    [FActionForEachHomogeneous createBegin: getCZone (getZone (self))];
+  [newAction setCall: call];
+  [newAction setTarget: target];
   newAction = [newAction createEnd];
   _activity_insertAction (self, tVal, newAction);
   return newAction;
@@ -768,10 +778,16 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
   return [self at: 0 createActionForEach: target message: aSel:arg1:arg2:arg3];
 }
 
-- (id <FActionForEach>)createFActionForEach: target call: (id <FCall>)call setFinalizationFlag: (BOOL)theFinalizationFlag
+- (id <FActionForEachHeterogeneous>)createFActionForEachHeterogeneous: target call: (id <FCall>)call
 {
-  return [self at: 0 createFActionForEach: target call: call setFinalizationFlag: theFinalizationFlag];
+  return [self at: 0 createFActionForEachHeterogeneous: target call: call];
 }
+
+- (id <FActionForEachHomogeneous>)createFActionForEachHomogeneous: target call: (id <FCall>)call
+{
+  return [self at: 0 createFActionForEachHomogeneous: target call: call];
+}
+
 
 //
 // mapAllocations: -- standard method to identify internal allocations
