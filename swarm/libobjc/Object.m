@@ -24,11 +24,11 @@ Boston, MA 02111-1307, USA.  */
    exception does not however invalidate any other reasons why the
    executable file might be covered by the GNU General Public License. */
 
-#include <stdarg.h>
-#include <string.h>
 #include "objc/Object.h"
 #include "objc/Protocol.h"
 #include "objc/objc-api.h"
+#include <stdarg.h>
+#include <string.h>
 
 extern int errno;
 
@@ -53,12 +53,12 @@ extern int errno;
 
 + alloc
 {
-  return class_create_instance(self);
+  return class_create_instance (self);
 }
 
 - free
 {
-  return object_dispose(self);
+  return object_dispose (self);
 }
 
 - copy
@@ -83,22 +83,22 @@ extern int errno;
 
 - (Class)class
 {
-  return object_get_class(self);
+  return object_get_class (self);
 }
 
 - (Class)superClass
 {
-  return object_get_super_class(self);
+  return object_get_super_class (self);
 }
 
 - (MetaClass)metaClass
 {
-  return object_get_meta_class(self);
+  return object_get_meta_class (self);
 }
 
 - (const char *)name
 {
-  return object_get_class_name(self);
+  return object_get_class_name (self);
 }
 
 - self
@@ -108,17 +108,17 @@ extern int errno;
 
 - (unsigned int)hash
 {
-  return (size_t)self;
+  return (size_t) self;
 }
 
 - (BOOL)isEqual:anObject
 {
-  return self==anObject;
+  return self == anObject;
 }
 
 - (int)compare:anotherObject;
 {
-  if ([self isEqual:anotherObject])
+  if ([self isEqual: anotherObject])
     return 0;
   // Ordering objects by their address is pretty useless, 
   // so subclasses should override this is some useful way.
@@ -135,20 +135,20 @@ extern int errno;
 
 - (BOOL)isClass
 {
-  return object_is_class(self);
+  return object_is_class (self);
 }
 
 - (BOOL)isInstance
 {
-  return object_is_instance(self);
+  return object_is_instance (self);
 }
 
-- (BOOL)isKindOf:(Class)aClassObject
+- (BOOL)isKindOf: (Class)aClassObject
 {
   Class class;
 
-  for (class = self->isa; class!=Nil; class = class_get_super_class(class))
-    if (class==aClassObject)
+  for (class = self->isa; class != Nil; class = class_get_super_class (class))
+    if (class == aClassObject)
       return YES;
   return NO;
 }
@@ -162,34 +162,36 @@ extern int errno;
 {
   Class class;
 
-  if (aClassName!=NULL)
-    for (class = self->isa; class!=Nil; class = class_get_super_class(class))
-      if (!strcmp(class_get_class_name(class), aClassName))
+  if (aClassName != NULL)
+    for (class = self->isa;
+         class != Nil;
+         class = class_get_super_class (class))
+      if (!strcmp (class_get_class_name (class), aClassName))
         return YES;
   return NO;
 }
 
 - (BOOL)isMemberOfClassNamed:(const char *)aClassName
 {
-  return ((aClassName!=NULL)
-          &&!strcmp(class_get_class_name(self->isa), aClassName));
+  return ((aClassName != NULL)
+          && !strcmp (class_get_class_name (self->isa), aClassName));
 }
 
 + (BOOL)instancesRespondTo:(SEL)aSel
 {
-  return class_get_instance_method(self, aSel)!=METHOD_NULL;
+  return class_get_instance_method (self, aSel) != METHOD_NULL;
 }
 
 - (BOOL)respondsTo:(SEL)aSel
 {
-  return ((object_is_instance(self)
-           ?class_get_instance_method(self->isa, aSel)
-           :class_get_class_method(self->isa, aSel))!=METHOD_NULL);
+  return ((object_is_instance (self)
+           ? class_get_instance_method (self->isa, aSel)
+           : class_get_class_method (self->isa, aSel)) != METHOD_NULL);
 }
 
 + (IMP)instanceMethodFor:(SEL)aSel
 {
-  return method_get_imp(class_get_instance_method(self, aSel));
+  return method_get_imp (class_get_instance_method (self, aSel));
 }
 
 // Indicates if the receiving class or instance conforms to the given protocol
@@ -204,7 +206,7 @@ extern int errno;
   struct objc_protocol_list* proto_list;
   id parent;
 
-  for (proto_list = ((Class)self)->protocols;
+  for (proto_list = ((Class) self)->protocols;
        proto_list; proto_list = proto_list->next)
     {
       for (i=0; i < proto_list->count; i++)
@@ -227,69 +229,72 @@ extern int errno;
 
 - (IMP)methodFor:(SEL)aSel
 {
-  return (method_get_imp(object_is_instance(self)
-                         ?class_get_instance_method(self->isa, aSel)
-                         :class_get_class_method(self->isa, aSel)));
+  return (method_get_imp (object_is_instance(self)
+                         ? class_get_instance_method (self->isa, aSel)
+                         : class_get_class_method (self->isa, aSel)));
 }
 
 + (struct objc_method_description *)descriptionForInstanceMethod:(SEL)aSel
 {
   return ((struct objc_method_description *)
-           class_get_instance_method(self, aSel));
+           class_get_instance_method (self, aSel));
 }
 
 - (struct objc_method_description *)descriptionForMethod:(SEL)aSel
 {
   return ((struct objc_method_description *)
-           (object_is_instance(self)
-            ?class_get_instance_method(self->isa, aSel)
-            :class_get_class_method(self->isa, aSel)));
+           (object_is_instance (self)
+            ? class_get_instance_method (self->isa, aSel)
+            : class_get_class_method (self->isa, aSel)));
 }
 
 - perform:(SEL)aSel
 {
   IMP msg = objc_msg_lookup(self, aSel);
+
   if (!msg)
-    return [self error:"invalid selector passed to %s", sel_get_name(_cmd)];
-  return (*msg)(self, aSel);
+    return [self error:"invalid selector passed to %s", sel_get_name (_cmd)];
+  return (*msg) (self, aSel);
 }
 
 - perform:(SEL)aSel with:anObject
 {
-  IMP msg = objc_msg_lookup(self, aSel);
+  IMP msg = objc_msg_lookup (self, aSel);
+
   if (!msg)
-    return [self error:"invalid selector passed to %s", sel_get_name(_cmd)];
-  return (*msg)(self, aSel, anObject);
+    return [self error:"invalid selector passed to %s", sel_get_name (_cmd)];
+  return (*msg) (self, aSel, anObject);
 }
 
 - perform:(SEL)aSel with:anObject1 with:anObject2
 {
   IMP msg = objc_msg_lookup(self, aSel);
+
   if (!msg)
-    return [self error:"invalid selector passed to %s", sel_get_name(_cmd)];
-  return (*msg)(self, aSel, anObject1, anObject2);
+    return [self error:"invalid selector passed to %s", sel_get_name (_cmd)];
+  return (*msg) (self, aSel, anObject1, anObject2);
 }
 
 - (retval_t)forward:(SEL)aSel :(arglist_t)argFrame
 {
-  return (retval_t)[self doesNotRecognize: aSel];
+  return (retval_t) [self doesNotRecognize: aSel];
 }
 
 - (retval_t)performv:(SEL)aSel :(arglist_t)argFrame
 {
-  return objc_msg_sendv(self, aSel, argFrame);
+  return objc_msg_sendv (self, aSel, argFrame);
 }
 
 + poseAs:(Class)aClassObject
 {
-  return class_pose_as(self, aClassObject);
+  return class_pose_as (self, aClassObject);
 }
 
 - (Class)transmuteClassTo:(Class)aClassObject
 {
-  if (object_is_instance(self))
-    if (class_is_class(aClassObject))
-      if (class_get_instance_size(aClassObject)==class_get_instance_size(isa))
+  if (object_is_instance (self))
+    if (class_is_class (aClassObject))
+      if (class_get_instance_size (aClassObject) == class_get_instance_size(isa))
         if ([self isKindOf:aClassObject])
           {
             Class old_isa = isa;
@@ -328,28 +333,29 @@ extern size_t strlen(const char*);
 - error:(const char *)aString, ...
 {
 #define FMT "error: %s (%s)\n%s\n"
-  char fmt[(strlen((char*)FMT)+strlen((char*)object_get_class_name(self))
-            +((aString!=NULL)?strlen((char*)aString):0)+8)];
+  char fmt[(strlen ((char*) FMT)
+            + strlen ((char*) object_get_class_name (self))
+            + ((aString != NULL) ? strlen ((char*) aString) : 0) + 8)];
   va_list ap;
 
   sprintf(fmt, FMT, object_get_class_name(self),
-                    object_is_instance(self)?"instance":"class",
-                    (aString!=NULL)?aString:"");
-  va_start(ap, aString);
-  objc_verror(self, OBJC_ERR_UNKNOWN, fmt, ap);
-  va_end(ap);
+                    object_is_instance (self) ? "instance" : "class",
+                    (aString != NULL) ? aString : "");
+  va_start (ap, aString);
+  objc_verror (self, OBJC_ERR_UNKNOWN, fmt, ap);
+  va_end (ap);
   return nil;
 #undef FMT
 }
 
 + (int)version
 {
-  return class_get_version(self);
+  return class_get_version (self);
 }
 
 + setVersion:(int)aVersion
 {
-  class_set_version(self, aVersion);
+  class_set_version (self, aVersion);
   return self;
 }
 

@@ -1,3 +1,8 @@
+1999-07-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Object.m: Move inclusion of stdarg.h and string.h after
+	other includes to avoid warning on HPUX11.  Reformatting throughout.
+
 1999-07-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* acdll.m4 (md_CHECK_DLL): Add --add-stdcall-alias and --entry
