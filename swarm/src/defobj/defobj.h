@@ -980,6 +980,8 @@ CREATING
 - createEnd;
 USING
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
+- storeObject: obj;
+- selectRecord: (unsigned)recordNumber;
 - (void)drop;
 @end
 

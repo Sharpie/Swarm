@@ -1039,32 +1039,36 @@ lisp_output_type (const char *type,
 #ifdef HAVE_HDF5
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag
 {
-  void store_object (struct objc_ivar *ivar)
+  if (deepFlag)
     {
-      const char *name = ivar->ivar_name;
-      const char *type = ivar->ivar_type;
-      void *ptr = (void *)self + ivar->ivar_offset;
-
-      if (*type == _C_ID)
+      void store_object (struct objc_ivar *ivar)
         {
-          id obj = *((id *) ptr);
+          const char *name = ivar->ivar_name;
+          const char *type = ivar->ivar_type;
+          void *ptr = (void *)self + ivar->ivar_offset;
           
-          if (obj != nil && deepFlag)
+          if (*type == _C_ID)
             {
-              id hdf5ObjGroup = [[[[HDF5 createBegin: [hdf5Obj getZone]]
-                                    setParent: hdf5Obj]
-                                   setName: name]
-                                  createEnd];
+              id obj = *((id *) ptr);
               
-              [obj hdf5Out: hdf5ObjGroup deep: YES];
-              [hdf5ObjGroup drop];
+              if (obj != nil && deepFlag)
+                {
+                  id hdf5ObjGroup = [[[[HDF5 createBegin: [hdf5Obj getZone]]
+                                        setParent: hdf5Obj]
+                                       setName: name]
+                                      createEnd];
+                  
+                  [obj hdf5Out: hdf5ObjGroup deep: YES];
+                  [hdf5ObjGroup drop];
+                }
             }
+          else
+            [hdf5Obj storeAsDataset: name type: type ptr: ptr];
         }
-      else
-        [hdf5Obj storeAsDataset: name type: type ptr: ptr];
+      map_ivars (getClass (self)->ivars, store_object);
     }
-
-  map_ivars (getClass (self)->ivars, store_object);
+  else
+    [hdf5Obj storeObject: self];
   return self;
 }
 #endif

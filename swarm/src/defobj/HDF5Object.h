@@ -34,12 +34,15 @@
   id <HDF5CompoundType> c_type;
   unsigned c_count;
   hid_t c_sid;
+  hid_t c_msid;
   hid_t c_did;
 }
 - setParent: parent;
 - setName: (const char *)name;
 - setType: compoundType count: (unsigned)count;
 - createEnd;
+- selectRecord: (unsigned)recordNumber;
+- storeObject: obj;
 - storeAsDataset: (const char *)name type: (const char *)type ptr: (void *)ptr;
 - (void)drop;
 @end

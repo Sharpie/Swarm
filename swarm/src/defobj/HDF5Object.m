@@ -153,10 +153,16 @@ ref_string (hid_t sid, hid_t did, H5T_cdata_t *cdata,
   else if (c_type)
     {
       hsize_t dims[1];
+      hsize_t mdims[1];
 
       dims[0] = c_count;
       if ((c_sid = H5Screate_simple (1, dims, NULL)) < 0)
         raiseEvent (SaveError, "unable to create (compound) space");
+
+      mdims[0] = 1;
+      if ((c_msid = H5Screate_simple (1, mdims, NULL)) < 0)
+        raiseEvent (SaveError, "unable to create (compound) point space");
+      
       
       loc_id = 0;
       if ((c_did = H5Dcreate (((HDF5_c *) parent)->loc_id,
@@ -282,6 +288,26 @@ PHASE(Using)
   return self;
 }
 
+- selectRecord: (unsigned)recordNumber
+{
+  hssize_t coord[1][1];
+  
+  coord[0][0] = recordNumber;
+  if (H5Sselect_elements (c_sid, H5S_SELECT_SET, 1,
+                          (const hssize_t **) coord) < 0)
+    raiseEvent (SaveError, "unable to select record: %u", recordNumber);
+  
+  return self;
+}
+
+- storeObject: obj
+{
+  if (H5Dwrite (c_did, ((HDF5CompoundType_c *) c_type)->tid,
+                c_msid, c_sid, H5P_DEFAULT, obj) < 0)
+    raiseEvent (SaveError, "unable to store object");
+  return self;
+}
+
 - (void)drop
 {
   if (parent == nil)
@@ -293,6 +319,8 @@ PHASE(Using)
     {
       if (H5Sclose (c_sid) < 0)
         raiseEvent (SaveError, "Failed to close (compound) space");
+      if (H5Sclose (c_msid) < 0)
+        raiseEvent (SaveError, "Failed to close (compound) point space");
       if (H5Dclose (c_did) < 0)
         raiseEvent (SaveError, "Failed to close (compound) dataset");
     }
