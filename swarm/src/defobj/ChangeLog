@@ -1,3 +1,9 @@
+1997-12-08  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* defobj.h: Reenable LibraryUsage, DefaultAssumed, and ObsoleteFeature.
+	Put back ObsoleteMessage (gepr argues they are important for a minor
+	release).
+
 1997-12-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* defobj.h: Add APIChange to the standard error types.

@@ -257,9 +257,10 @@ extern id <Error>
 extern id <Warning>
   WarningMessage,         // message in the source defines warning
   ResourceAvailability;   // resource from runtime environment not available
-  // LibraryUsage,           // invalid usage of library interface
-  // DefaultAssumed,         // non-silent use of default
-  // ObsoleteFeature,        // using feature which could be removed in future
+  LibraryUsage,           // invalid usage of library interface
+  DefaultAssumed,         // non-silent use of default
+  ObsoleteFeature,        // using feature which could be removed in future
+  ObsoleteMessage;
 
 //
 // predefined type descriptors for allocated blocks
