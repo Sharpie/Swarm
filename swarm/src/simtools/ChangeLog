@@ -1,3 +1,18 @@
+Mon Dec  8 15:08:41 1997  glen e. p. ropella  <gepr@seamus.trail.com>
+
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): 
+	Added third argument to configureButton3ForCompleteProbeDisplay()
+	call.
+
+	* ProbeDisplayManager.m ([ProbeDisplayManager 
+	-createDefaultProbeDisplayFor:setWindowGeometryRecordName:]): 
+	Added probemap creation call.
+	
+	* ControlPanel.m ([ControlPanel -doTkEvents]): Changed the
+	fatal error back to a warning.
+	([ControlPanel -getPanel]): Changed the fatal error back to
+	a warning.
+
 1997-12-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* ControlPanel.m ([ControlPanel -getPanel]): Switch from the
