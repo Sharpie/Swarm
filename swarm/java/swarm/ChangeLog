@@ -1,3 +1,9 @@
+1999-03-11  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Makefile.in (JAVAC): Substitute
+	(all): Depend on Selector.class and add to jar file.
+	(%.class): New rule.
+
 1999-03-06  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Makefile.in (JAR): Substitute.

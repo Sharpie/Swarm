@@ -2,13 +2,17 @@ prefix=@prefix@
 datadir=@datadir@
 INSTALL=@INSTALL@
 JAR=@JAR@
+JAVAC=@JAVAC@
 
 include ../Makefile.common
 
-all:
+all: Selector.class
 	for module in $(MODULES); do $(MAKE) -C $$module all; done
-	cd .. ; $(JAR) cf swarm/swarm.jar $(foreach module,$(MODULES),$(foreach protocol,$($(module)PROTOCOLS),swarm/$(module)/$(protocol).class))
+	cd .. ; $(JAR) cf swarm/swarm.jar Selector.class $(foreach module,$(MODULES),$(foreach protocol,$($(module)PROTOCOLS),swarm/$(module)/$(protocol).class))
 
 install: all
 	test -d $(datadir)/swarm || mkdir $(datadir)/swarm
 	$(INSTALL) swarm.jar $(datadir)/swarm
+
+%.class: %.java
+	$(JAVAC) -classpath $(jdkdir)/lib/classes.zip $<
