@@ -271,7 +271,7 @@ PACKAGE_STRING=
 PACKAGE_BUGREPORT=
 
 ac_unique_file="website.xml"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE catopts docbookstyle_srcdir docbookdtd_srcdir commondtd_srcdir xml_dtd_srcdir website_dtd_srcdir website_style_srcdir XSLTPROC EMACS JADE PNMTOPS PNMCROP CJPEG JADETEX DVIPS PS2PDF LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE catalog_file catopts docbookstyle_srcdir docbookdtd_srcdir commondtd_srcdir xml_dtd_srcdir website_dtd_srcdir website_style_srcdir XSLTPROC EMACS JADE PNMTOPS PNMCROP CJPEG JADETEX DVIPS PS2PDF LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1666,6 +1666,7 @@ fi
 
 
 
+
 test -n "$xml_dtd_srcdir" || xml_dtd_srcdir="$srcdir/dtd"
 test -n "$website_dtd_srcdir" || website_dtd_srcdir="$srcdir/dtd"
 test -n "$website_style_srcdir" || website_style_srcdir="$srcdir/dsl"
@@ -2678,6 +2679,7 @@ s,@ac_ct_STRIP@,$ac_ct_STRIP,;t t
 s,@INSTALL_STRIP_PROGRAM@,$INSTALL_STRIP_PROGRAM,;t t
 s,@AWK@,$AWK,;t t
 s,@SET_MAKE@,$SET_MAKE,;t t
+s,@catalog_file@,$catalog_file,;t t
 s,@catopts@,$catopts,;t t
 s,@docbookstyle_srcdir@,$docbookstyle_srcdir,;t t
 s,@docbookdtd_srcdir@,$docbookdtd_srcdir,;t t

@@ -81,6 +81,7 @@ VERSION = @VERSION@
 XSLTPROC = @XSLTPROC@
 am__include = @am__include@
 am__quote = @am__quote@
+catalog_file = @catalog_file@
 catopts = @catopts@
 commondtd_srcdir = @commondtd_srcdir@
 docbookdtd_srcdir = @docbookdtd_srcdir@
