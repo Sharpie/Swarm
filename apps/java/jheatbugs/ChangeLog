@@ -1,3 +1,8 @@
+2000-09-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Heatbug.java (Heatbug): Remove `public' from world, heat, and
+	scratchHeatCell.
+	
 2000-02-27    <mgd@nest.swarm.org>
 
 	* StartHeatbugs.java (main): Update for 2.1 and SDG.

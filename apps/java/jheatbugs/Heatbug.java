@@ -26,16 +26,16 @@ public class Heatbug {
   /** chance of moving randomly */
   public double randomMoveProbability;			  
   /** the world I live in */
-  public Grid2d world;				  
+  Grid2d world;				  
   /** how big that world is */
   public int worldXSize, worldYSize;			  
   /** the heat for the world */
-  public HeatSpace heat;	
+  HeatSpace heat;	
   /** my colour (display) */
   public byte bugColor;		
 
   /* Scratch cell for extracting return values */
-  public HeatCell scratchHeatCell;
+  HeatCell scratchHeatCell;
 
   /** 
    * these methods are used to initialize the object's state. First,
