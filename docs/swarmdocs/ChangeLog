@@ -1,3 +1,10 @@
+1998-06-23  Alex Lancaster  <alex@santafe.edu>
+
+	* Makefile.rules (DISTNAME): Append @VERSION@ to $(NAME) for the
+	distributed {tar}.gz files.
+	(psdist): Appended cd command to ensure .gz file is created in
+	parent directory, like {html,rtf,dvi}dist targets.
+
 1998-06-18  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* common.dsl (extract-module-list): Reverse list.

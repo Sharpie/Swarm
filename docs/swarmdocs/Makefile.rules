@@ -12,6 +12,8 @@ GENERAL = $(SGML_FILES) $(COMMON_SGML_FILES) $(top_srcdir)/common.dsl
 
 COMMON_SGML_FILES = $(top_srcdir)/figs/figs.ent $(top_srcdir)/global.ent $(top_builddir)/versions.ent
 
+DISTNAME=$(NAME)-@VERSION@
+
 htmldir = $(prefix)/html/$(NAME)
 html_DATA = $(NAME).html
 
@@ -19,25 +21,25 @@ install-data-local:
 	$(INSTALL_DATA) $(filter-out $(NAME).html,$(wildcard *.html)) $(htmldir)
 
 htmldist: html
-	cd .. ; tar cf - $(addprefix $(NAME)/,$(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(NAME)-html.tar.gz
+	cd .. ; tar cf - $(addprefix $(NAME)/,$(wildcard *.html)) $(NAME)/figs | $(GZIP) > $(DISTNAME)-html.tar.gz
 
 dvidir = $(prefix)/dvi
 dvi_DATA = $(NAME).dvi
 
 dvidist: dvi
-	cd .. ; tar cf - $(NAME)/$(NAME).dvi $(NAME)/figs | $(GZIP) > $(NAME)-dvi.tar.gz
+	cd .. ; tar cf - $(NAME)/$(NAME).dvi $(NAME)/figs | $(GZIP) > $(DISTNAME)-dvi.tar.gz
 
 psdir = $(prefix)/ps
 ps_DATA = $(NAME).ps
 
 psdist: ps
-	$(GZIP) < $(NAME).ps > $(NAME).ps.gz
+	cd ..; $(GZIP) < $(NAME)/$(NAME).ps > $(DISTNAME).ps.gz
 
 rtfdir = $(prefix)/rtf
 rtf_DATA = $(NAME).rtf
 
 rtfdist: rtf
-	cd .. ; tar cf - $(NAME)/$(NAME).rtf $(NAME)/figs | $(GZIP) > $(NAME)-rtf.tar.gz 
+	cd .. ; tar cf - $(NAME)/$(NAME).rtf $(NAME)/figs | $(GZIP) > $(DISTNAME)-rtf.tar.gz 
 
 CLEANFILES = $(NAME).tex _$(NAME).tex $(html_DATA) $(ps_DATA) $(rtf_DATA) $(NAME).dvi
 
