@@ -267,6 +267,7 @@ PHASE(Using)
 
 - storeTypeName: (const char *)typeName
 {
+#ifdef HAVE_HDF5
   hid_t type_tid, type_sid, type_aid;
   hsize_t dims[1];
   hid_t did = c_type ? c_did : loc_id;
@@ -296,6 +297,9 @@ PHASE(Using)
   
   if (H5Sclose (type_sid) < 0)
     raiseEvent (SaveError, "unable to close type name space");
+#else
+  hdf5_not_available ();
+#endif
   return self;
 }
 
