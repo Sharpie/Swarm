@@ -24,7 +24,7 @@
       ("unsigned" . "int")
       ("unsigned long" . "int")
       ("BOOL" . "boolean")
-      ("SEL" . "java_lang_reflect_Method")
+      ("SEL" . "java.lang.reflect.Method")
 
       ("void \\*" . freaky)
       ("ref_t" . freaky)
