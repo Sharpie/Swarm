@@ -1,3 +1,10 @@
+1998-02-04  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ModelSwarm.h: Include objectbase.h instead of swarmobject.h.
+
+	* ModelSwarm.h, Bug.h: Include from objectbase/ instead of
+	swarmobject/.
+
 1998-01-27  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* main.m (main): Constify argv.

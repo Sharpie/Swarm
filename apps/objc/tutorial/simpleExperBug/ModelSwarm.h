@@ -3,11 +3,11 @@
 #import "Bug.h"
 #import "FoodSpace.h"
 
-#import <swarmobject/Swarm.h>
+#import <objectbase/Swarm.h>
 #import <space.h>
 #import <activity.h>
 #import <collections.h>
-#import <swarmobject.h>
+#import <objectbase.h>
 #import <simtools.h>
 
 @interface ModelSwarm: Swarm

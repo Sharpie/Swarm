@@ -2,7 +2,7 @@
 
 #import "FoodSpace.h"
 
-#import <swarmobject/SwarmObject.h>
+#import <objectbase/SwarmObject.h>
 #import <space.h>
 #import <simtools.h>
 
