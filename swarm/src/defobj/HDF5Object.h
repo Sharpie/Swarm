@@ -18,14 +18,20 @@
 
 @interface HDF5CompoundType_c: CreateDrop_s
 {
+  const char *name;
   Class class;
 @public
 #ifdef HAVE_HDF5
   hid_t tid;
 #endif
 }
-- setSourceClass: (Class)class;
+- setClass: class;
+- setName: (const char *)name;
 - createEnd;
+#ifdef HAVE_HDF5
+- (hid_t)getTid;
+#endif
+- getClass;
 - (void)drop;
 @end
 
@@ -39,17 +45,13 @@
   hid_t loc_id;
 #endif
 
-  id <HDF5CompoundType> c_type;
+  id c_type;
 
   unsigned c_count;
 #ifdef HAVE_HDF5
   hid_t c_sid;
   hid_t c_msid;
-  
   hsize_t c_rnlen;
-  hid_t c_rntid;
-  hid_t c_rnsid;
-  hid_t c_rnaid;
 #endif
   const char **c_rnbuf;
 }
@@ -62,11 +64,12 @@
 - setId: (hid_t)locId;
 #endif
 
-- setRecordType: compoundType count: (unsigned)count;
+- setCompoundType: compoundType count: (unsigned)count;
 - setRowNameLength: (size_t)len;
 - createEnd;
 
 - (BOOL)getDatasetFlag;
+- getCompoundType;
 - (const char *)getName;
 
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
@@ -79,6 +82,8 @@
 
 - iterate: (void (*) (id hdf5Obj))iterateFunc;
 - iterateAttributes: (void (*) (const char *key, const char *value))iterateFunc;
+
+- writeRowNames;
 
 - (void)drop;
 @end

@@ -762,10 +762,10 @@ USING
 
 CREATING
 - setName: (const char *)name;
-- (void)setClass: aClass;
-- (void)setSuperclass: aClass;
-- (void)setDefiningClass: aClass;
-- (void)at: (SEL)aSel addMethod: (IMP)aMethod;
+- setClass: aClass;
+- setSuperclass: aClass;
+- setDefiningClass: aClass;
+- at: (SEL)aSel addMethod: (IMP)aMethod;
 - lispInCreate: expr;
 - lispIn: expr;
 - lispOut: stream deep: (BOOL)deepFlag;
@@ -975,7 +975,7 @@ CREATING
 - setDatasetFlag: (BOOL)datasetFlag;
 - setParent: parent;
 - setName: (const char *)name;
-- setRecordType: compoundType count: (unsigned)count;
+- setCompoundType: compoundType count: (unsigned)count;
 - setRowNameLength: (size_t)len;
 - createEnd;
 USING
@@ -983,6 +983,7 @@ USING
 - iterateAttributes: (void (*) (const char *key, const char *value))iterateFunc;
 - (BOOL)getDatasetFlag;
 - (const char *)getName;
+- getCompoundType;
 
 - storeAsDataset: (const char *)name typeName: (const char *)typeName type: (const char *)type ptr: (void *)ptr;
 - storeTypeName: (const char *)typeName;
@@ -991,6 +992,7 @@ USING
 - nameRecord: (unsigned)recordNumber name: (const char *)recordName;
 - numberRecord: (unsigned)recordNumber;
 - selectRecord: (unsigned)recordNumber;
+- writeRowNames;
 - (void)drop;
 
 extern void hdf5_not_available (void);
@@ -1001,9 +1003,10 @@ extern void hdf5_not_available (void);
 //D: HDF5 composite type interface
 CREATING
 + createBegin: aZone;
-- setSourceClass: (Class)class;
+- setClass: class;
 - createEnd;
 USING
+- getClass;
 @end
 
 //G: The singleton arguments object.
@@ -1035,10 +1038,6 @@ extern id <Symbol> t_ByteArray, t_LeafObject, t_PopulationObject;
 //F: Function to generate object id string in standard format
 //F: (Up to 78 characters of the supplied buffer argument could be filled.)
 extern void _obj_formatIDString (char *buffer, id anObject);
-
-//F: Declaration to enable use of @class declaration for message
-//F: receiver without compile error.  For class id lookup.
-extern Class objc_get_class (const char *name);
 
 //F: Lookup a defobj type object by name.
 extern id defobj_lookup_type (const char *name);

@@ -120,27 +120,30 @@ PHASE(CreatingOnly)
   return self;
 }
 
-- (void)setClass: aClass
+- setClass: aClass
 {
   metaobjects = aClass;
   // later -- reallocate self if class defines additional class vars
+  return self;
 }
 
-- (void)setSuperclass: aClass
+-setSuperclass: aClass
 {
   superclass = aClass;
+  return self;
 }
 
-- (void)setDefiningClass: aClass
+- setDefiningClass: aClass
 {
   definingClass = aClass;
   info = ((Class_s *) aClass)->info;
   instanceSize = ((Class_s *) aClass)->instanceSize;
   ivarList = ((Class_s *) aClass)->ivarList;
   methodList = ((Class_s *) aClass)->methodList;
+  return self;
 }
 
-struct objc_ivar_list *
+static struct objc_ivar_list *
 extend_ivar_list (struct objc_ivar_list *ivars, unsigned additional)
 {
   unsigned existing = ivars ? ivars->ivar_count : 0;
@@ -177,7 +180,7 @@ addVariable (Class class, const char *varName, const char *varType)
   class->ivars->ivar_count++; 
 }
 
-- (void)at: (SEL)aSel addMethod: (IMP)aMethod
+- at: (SEL)aSel addMethod: (IMP)aMethod
 {
   if (!dtable)
     {
@@ -189,6 +192,7 @@ addVariable (Class class, const char *varName, const char *varType)
     }
   
   sarray_at_put_safe (dtable, (size_t) aSel->sel_id, aMethod);
+  return self;
 }
 
 - createEnd
@@ -317,10 +321,14 @@ objc_type_for_lisp_type (const char *lispTypeString)
 }
 
 
-- hdf5InCreate: expr
+- hdf5InCreate: hdf5Obj
 {
-  raiseEvent (NotImplemented, "DefClass / hdf5InCreate:");
-  return nil;
+  if ([hdf5Obj getDatasetFlag])
+    return [[hdf5Obj getCompoundType] getClass];
+  else
+    {
+    }
+  return self;
 }
 
 - lispIn: expr
@@ -436,8 +444,7 @@ process_type (const char *varType,
 
 - hdf5In: expr
 {
-  raiseEvent (NotImplemented, "DefClass / hdf5In:");
-  return nil;
+  return self;
 }
 
 - hdf5Out: stream deep: (BOOL)deepFlag

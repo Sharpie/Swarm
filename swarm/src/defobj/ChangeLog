@@ -1,5 +1,36 @@
 1999-01-17  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
+	* defobj.m (findTypeOrLocalClass): New static function.
+	(initDefobj): Use it for _objc_lookup_class hook.
+	(lispIn): Use only objc_lookup_class.
+	(hdf5In): If necessary, call hdf5InCreate:, hdf5In: for class object.
+
+	* HDF5Object.[hm], defobj.h
+	([HDF5CompoundType_c -getClass]): New method.
+	([HDF5CompoundType_c -setClass:]): Was -setSourceClass:.
+	([HDF5CompoundType_c -setName:]): New method (and ivar).
+
+	* HDF5Object.m (create_compound_type_from_class,
+	create_class_from_compound_type): New static functions.
+	([HDF5CompoundType_c -createEnd]): Use them.
+	(get_attribute, make_string_ref_type, objc_type_for_id): New
+	static functions.
+	([HDF5_c -createEnd]): When loading, set c_type from dataset tid
+	and type name acquired from get_attribute.  Remove code now in
+	-writeRowNames.
+	([HDF5_c -drop]): Remove code now in writeRowNames.
+	([HDF5_c -setCompoundType:count:]): Was -setRecordType:count:.
+	([HDF5_c -getCompoundType], [HDF5_c -writeRowNames]): New methods.
+	([HDF5_c -iterateAttributes:]): Use get_attribute.
+
+	* HDF5Object.[hm] ([HDF5CompoundType_c -setTid:],
+	[HDF5CompoundType_c -getTid]): New methods.
+
+	* DefClass.[hm], defobj.h ([CreatedClass_s -setClass:],
+	[CreatedClass_s -setSuperclass:], [CreatedClass_s
+	-setDefiningClass:],
+	[CreatedClass_s -at:addMethod:]): Return self.
+
 	* defobj.[hm] (hdf5In): New function.
 
 	* HDF5Object.[hm] (HDF5_c): Remove c_did; use loc_id (and thus

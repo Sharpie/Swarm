@@ -115,6 +115,17 @@ findLocalClass (const char *name)
   return Nil;
 }
 
+static Class
+findTypeOrLocalClass (const char *name)
+{
+  Class class = defobj_lookup_type (name);
+
+  if (class == Nil)
+    class = findLocalClass (name);
+
+  return class;
+}
+
 void
 initDefobj (int argc, const char **argv,
             const char *version,
@@ -130,7 +141,7 @@ initDefobj (int argc, const char **argv,
                               bugAddress: bugAddress
                               options: options
                               optionFunc: optionFunc];
-  _objc_lookup_class = findLocalClass;
+  _objc_lookup_class = findTypeOrLocalClass;
   archiver = [[[Archiver createBegin: globalZone]
                 setInhibitLoadFlag:
                   [arguments getInhibitArchiverLoadFlag]]
@@ -243,11 +254,11 @@ lispIn (id aZone, id expr)
         if (classFlag)
           {
             Class newClass = [CreateDrop class];
-            obj = [id_BehaviorPhase_s createBegin: aZone];
 
+            obj = [id_BehaviorPhase_s createBegin: aZone];
             [obj setName: strdup (typeName)];
             [obj setClass: getClass (newClass)];
-            [obj setDefiningClass: newClass];
+            [obj setDefiningClass: newClass]; 
             [obj setSuperclass: newClass];
             obj = [obj lispInCreate: argexpr];
             [obj lispIn: argexpr];
@@ -256,10 +267,9 @@ lispIn (id aZone, id expr)
           }
         else
           {
-            if ((typeObject = defobj_lookup_type (typeName)) == Nil)
-              if ((typeObject = objc_lookup_class (typeName)) == Nil)
-                raiseEvent (InvalidArgument, "> type `%s' not found",
-                            typeName);
+            if ((typeObject = objc_lookup_class (typeName)) == nil)
+              raiseEvent (InvalidArgument, "> type `%s' not found",
+                          typeName);
 
             obj = [typeObject createBegin: aZone];
             obj = [obj lispInCreate: argexpr];
@@ -285,12 +295,16 @@ hdf5In (id aZone, id hdf5Obj)
     {
       if (strcmp (key, ATTRIB_TYPE_NAME) == 0)
         {
-          if ((typeObject = defobj_lookup_type (value)) == nil)
+          if ((typeObject = objc_lookup_class (value)) == nil)
             {
-              printf ("unknown type: [%s]\n", value);
+              typeObject = [typeObject hdf5InCreate: hdf5Obj];
+              [typeObject hdf5In: hdf5Obj];
+              typeObject = [typeObject createEnd];
+              
+              printf ("HDF5: new Class `%s'\n", [typeObject name]);
+              registerLocalClass (typeObject);
             }
         }
-
       printf ("[%s][%s]\n", key, value);
     }
 

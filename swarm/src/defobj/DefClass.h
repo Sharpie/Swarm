@@ -62,10 +62,10 @@ void _obj_initMethodInterfaces (Class_s *class);
 /*** methods in CreatedClass_s (inserted from .m file by m2h) ***/
 + createBegin: aZone;
 - setName: (const char *)className;
-- (void)setClass: aClass;
-- (void)setSuperclass: aClass;
-- (void)setDefiningClass: aClass;
-- (void)at: (SEL)aSel addMethod: (IMP)aMethod;
+- setClass: aClass;
+- setSuperclass: aClass;
+- setDefiningClass: aClass;
+- at: (SEL)aSel addMethod: (IMP)aMethod;
 - lispInCreate: expr;
 - lispIn: expr;
 - lispOut: stream deep: (BOOL)deepFlag;
