@@ -1,1 +1,2 @@
-<!ENTITY switcheroo SYSTEM "figs/switcheroo.tiff" ndata tiff>
+<!ENTITY switcheroo SYSTEM "../figs/switcheroo.jpg" ndata jpg>
+<!ENTITY largelogo SYSTEM "../figs/largelogo.gif" ndata gif>
