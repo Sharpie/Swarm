@@ -1,6 +1,8 @@
 AC_DEFUN(md_PROG_GS,
 [AC_CHECK_PROG(GS, gs, gs, missing)
 if test "$GS" = missing ; then
+  unset ac_cv_prog_GS
+  unset GS
   AC_CHECK_PROG(GS, gswin32, gswin32, missing)
   if test "$GS" = missing ; then
     AC_MSG_ERROR(Could not find GhostScript)
