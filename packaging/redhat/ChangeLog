@@ -1,5 +1,10 @@
 2003-02-16  Alex Lancaster  <alex@swarm.org>
 
+	* swarm.spec: Added from Paul Johnson's most recent SRPMS.
+
+	* swarm.spec.in, swarm.rules, swarm.macros: Removed files.
+	Changes are now merged into swarm.spec.
+
 	* configure.in, swarm-hdf5.spec.in, Makefile.am: Removed, no
 	longer use automake to generate spec files.
 
