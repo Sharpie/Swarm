@@ -1,5 +1,6 @@
 #include <misc.h>
 
+#if 0
 void *GC_malloc_atomic_uncollectable (size_t) __attribute__ ((weak));
 void *GC_malloc_uncollectable (size_t) __attribute__ ((weak));
 void *GC_realloc (void *buf, size_t size) __attribute__ ((weak));
@@ -82,3 +83,46 @@ xfree (void *buf)
 #endif
 }
 
+#else
+
+void *
+xmalloc_atomic (size_t size)
+{
+  void *ptr;
+
+  ptr = malloc (size);
+  if (ptr == NULL) 
+    abort ();
+  return ptr;
+}
+
+void *
+xcalloc (size_t nmemb, size_t size)
+{
+  void *ptr;
+
+  ptr = calloc (nmemb, size);
+  if (ptr == NULL)
+    abort ();
+  return ptr;
+}
+
+void *
+xrealloc (void *buf, size_t size)
+{
+  void *ptr;
+
+  ptr = realloc (buf, size);
+  if (ptr == NULL)
+    abort ();
+  return ptr;
+}
+
+void
+xfree (void *buf)
+{
+#ifndef DISABLE_FREE
+    free (buf);
+#endif
+}
+#endif

@@ -5,7 +5,7 @@
 
 	* Zone.m: Declare GC_malloc_uncollectable and GC_realloc.
 	([Zone_c -alloc:]): Use if GCRootFlag is set.
-	(dalloc): Likewise.
+	(dalloc): Likewise.  Add GCRootFlag argument and adjust callers.
 
 	* Zone.[hm] (Zone_c): Add GCRootFlag and setter.
 

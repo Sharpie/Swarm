@@ -1,3 +1,7 @@
+2001-06-26  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* xmalloc.c: Disable GC code.
+
 2001-06-20  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* xmalloc.c (GC_malloc_{atomic_}uncollectable, GC_realloc, GC_free):
