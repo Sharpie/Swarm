@@ -24,7 +24,7 @@ GENERATED_SGML = $(PAGES) gridexamples.sgml refindex.sgml refbookrevhistory.sgml
 
 ENT = refbook.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 
-SGML = conventions-app.sgml gpl-app.sgml license-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml
+SGML = conventions-app.sgml license-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml
 
 EXTRA_DIST = Makefile.rules refbook.ent sgml.el graph.el $(SGML)
 
