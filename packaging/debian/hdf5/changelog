@@ -1,8 +1,8 @@
-hdf5 (1.2.0-1) unstable; urgency=low
+hdf5 (1.2.1-1) unstable; urgency=low
 
   * Initial release.
 
- -- Marcus G. Daniels <mgd@swarm.org>  Sat, 18 Sep 1999 05:04:32 -0700
+ -- Marcus G. Daniels <mgd@swarm.org>  Wed, 23 Feb 2000 19:37:21 -0700
 
 Local variables:
 mode: debian-changelog
