@@ -1,7 +1,6 @@
 #include "directory.h"
 #include <misc.h>
 #include <misc/avl.h>
-#include <jni.h>
 #include <objc/objc.h>
 #include <objc/objc-api.h>
 

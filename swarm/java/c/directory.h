@@ -1,5 +1,9 @@
 // Include before jni.h to avoid jmalloc screwing up stdlib malloc decls.
 #include <misc.h> 
+#include <swarmconfig.h>
+#ifdef JNI_H_NEEDS_INT64
+#define __int64 INT64
+#endif
 #include <jni.h>
 #include <misc/avl.h>
 #include <objc/objc.h>

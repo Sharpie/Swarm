@@ -1,3 +1,14 @@
+1999-04-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* directory.m: Don't include jni.h.
+
+	* directory.h: If JNI_H_NEEDS_INT64 is set, set __int64 from INT64.
+
+	* SwarmEnvironment.m: Don't include SwarmEnvironment.h or
+	swarmconfig.h.
+
+	* SwarmEnvironment.h: Removed.
+
 1999-04-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* directory.m (java_directory_objc_find): Return NULL if
