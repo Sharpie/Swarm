@@ -10,8 +10,8 @@
     level. </para>
 
   <figure>
-    <title>Agent-based modeling</title>
-    <graphic entityref="modeling"></graphic>
+    <title>Agent-based modeling</title> 
+    <graphic entityref="modeling" align="center"></graphic>
   </figure>
 
   <para>Object oriented programming is ideally suited to represent
