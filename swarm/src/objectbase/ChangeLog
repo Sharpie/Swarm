@@ -1,0 +1,116 @@
+1997-12-09  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile (install-headers): Augment target to create symlinks
+	from objectbase{.h} to swarmobject{.h} (an alternative to nameswap).
+
+Mon Dec  8 22:30:43 1997  glen e. p. ropella  <gepr@swarm.com>
+
+	* nameswap.sh: Added a simple sed script to replace swarmobject.h
+	with objectbase.h and swarmobject/ with objectbase/ in users
+	apps.  Invoked via "make nameswap".
+
+	* objectbase.h: Moved all swarmobject files from swarmobject
+	directory to objectbase directory.  Renamed swarmobject.h to
+	objectbase.h.  Changed all instances of swarmobject.h to 
+	objectbase.h and all instances of swarmobject/ to objectbase/.
+
+1997-12-08  Alex Lancaster  <alex@wijiji.santafe.edu>
+
+	* Makefile: Removed references to obsolete test program (main.m) and
+	also removed main.m from the repository. Modified test program
+	now called (ProbeTest.m) is located in subdirectory (tests/)
+
+	* swarmobject.h: Changed protocols for Probe, VarProbe and 
+	ProbeLibrary to support the changes to the interface introduced
+	below.
+
+	* ProbeLibrary.[hm] Added a number of user-level methods:
+	([ProbeLibrary get/setDisplayPrecision:): sets and gets
+	integers for the number of significant figures for floats and doubles
+	displayed on a widget for any probes checked out of the ProbeLibrary.
+	Can be overrwritten by an individual probe.
+	([ProbeLibrary get/setSavedPrecision:): sets and gets the number 
+	of significant figures for floats and doubles when saving any objects 
+	through ObjectSaver. This is global for all probes checked and cannot
+	be overriden by an individual probe.
+
+	* Probe.[hm]: Added ([Probe -setFloatFormat]) and ([Probe 
+	probeAsString: .. withFullPrecision:]) to give superclass Probe 
+	these method. Currently only VarProbe implements them.
+
+	* VarProbe.[hm]: Added ([VarProbe -setFloatFormat]) to support
+	custom formatting of floats and doubles.
+	Added ([VarProbe probeAsString: .. withFullPrecision:]) to support
+	probing for different precision for floats and doubles in object 
+	saving rather than the displayed precision. 
+	
+
+Mon Dec  8 14:32:50 1997  glen e. p. ropella  <gepr@seamus.trail.com>
+
+	* swarmobject.h: Added the ProbeConfig protocol to handle
+	muliple inheritence of these methods across ProbeLibrary, 
+	ProbeMap, and Probe.
+
+	* VarProbe.m: Added probe creation call to method -clone:.
+	Added objectToNotify handling to -setData:To: and -setData:ToString:.
+	
+
+	* SwarmObject.m: Added subclass redirection for probe hook method.
+
+	* SwarmObject.h: Added default method 
+	(-eventOccurredOn:via:withProbeType:on:ofType:withData:
+	for SwarmObjects as receiver for probe hook.
+
+	* ProbeMap.m: Added overriding method +createBegin: in order
+	to initialize objectToNotify.
+	Added method -setObjectToNotify:.
+	Added method -getObjectToNotify.
+	Added inheritance of objectToNotify from ProbeLibrary to 
+	method -createEnd.
+	Added probe creation call to methods -createEnd, -addProbe:,
+	and -_fastAddProbe_:.
+
+	* ProbeMap.h: Added IVar objectToNotify.  Added overriding 
+	+createBegin: method in order to initialize objectToNotify.
+	Added methods -setObjectToNotify: and -getObjectToNotify.
+
+	* ProbeLibrary.m: Added overriding method +createBegin: in 
+	order to initialize IVar objectToNotify.
+	Added method -setObjectToNotify:.
+	Added method -getObjectToNotify.
+	Added probemap creation call for objectToNotify to methods
+	-getProbeMapFor:, -getCompleteProbeMapFor:, and -getCompleteVarMapFor:.
+	
+	
+	* ProbeLibrary.h: Added IVar objectToNotify.
+	Added methods -setObjectToNotify: and -getObjectToNotify.
+	
+	* Probe.m: Added override method +createBegin in order to 
+	initialize IVar objectToNotify.
+	Added a call to the superclass' createEnd.
+	Added method -setObjectToNotify:.
+	Added method -getObjectToNotify.
+
+	* Probe.h: Added IVar objectToNotify.
+	Added overriding method +createBegin and -createEnd.
+	Added methods -setObjectToNotify: and -getObjectToNotify.
+
+	* MessageProbe.m: Added temporary variable to catch the return
+	of [super createEnd] call in order to initialize objectToNotify.
+	Added probe creation setup call.
+	Added objectToNotify handling to _trueDynamicCallOn_.
+	
+	* CompleteProbeMap.m: added probe creation setup call
+	* DefaultProbeMap.m: added probe creation setup call
+
+1997-11-18  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VarProbe.m: Return "<NULL>" if CHARPTR points to NULL.
+
+1997-11-16  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* ProbeMap.m ([ProbeMap -addProbe:], [ProbeMap
+	-dropProbeMap:aProbeMap],[ProbeMap -_fastAddProbe_:]): Use
+	isKindOf instead of isMemberOf so that it is possible to use
+	subclasses of VarProbe.
+
