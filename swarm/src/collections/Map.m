@@ -483,7 +483,45 @@ PHASE(Using)
 {
 #ifdef HAVE_HDF5
   if (deepFlag)
-    abort ();
+    {
+      id <MapIndex> mi = [self begin: scratchZone];
+      id aZone = [hdf5Obj getZone];
+      id key, member;
+      id keyGroup = [[[[HDF5 createBegin: aZone]
+                        setParent: hdf5Obj]
+                       setName: "keys"]
+                      createEnd];
+      id valueGroup = [[[[HDF5 createBegin: aZone]
+                          setParent: hdf5Obj]
+                         setName: "values"]
+                        createEnd];
+      
+      [hdf5Obj storeTypeName: [self name]];
+      while ((member = [mi next: &key]))
+        {
+          id valueInstanceGroup, keyInstanceGroup;
+          char buf[sizeof (unsigned) * 8 + 1];
+          unsigned offset = [mi getOffset];
+          
+          sprintf (buf, "%u", offset);
+          keyInstanceGroup = [[[[HDF5 createBegin: aZone]
+                                 setParent: keyGroup]
+                                setName: buf]
+                               createEnd];
+          [key hdf5Out: keyInstanceGroup deep: YES];
+          [keyInstanceGroup drop];
+          
+          valueInstanceGroup = [[[[HDF5 createBegin: aZone]
+                                   setParent: valueGroup]
+                                  setName: buf]
+                                 createEnd];
+          [member hdf5Out: valueInstanceGroup deep: YES];
+          [valueInstanceGroup drop];
+        }
+      [mi drop];
+      [keyGroup drop];
+      [valueGroup drop];
+    }
   else
     {
       if (![self allSameClass])
@@ -527,16 +565,15 @@ PHASE(Using)
             }
           {
             id hdf5ObjDataset =
-              [[[[[[[HDF5 createBegin: aZone]
-                     setName: [hdf5Obj getName]]
-                    setTypeName: [self name]]
+              [[[[[[HDF5 createBegin: aZone]
+                    setName: [hdf5Obj getName]]
                    setParent: hdf5Obj]
                   setRecordType: hdf5CompoundType count: [self getCount]]
                  setRowNameLength: maxlen]
                 createEnd];
-
             id member;
-            
+
+            [hdf5ObjDataset storeTypeName: [self name]];
             [mi setLoc: Start];
             while ((member = [mi next: &key]))
               {

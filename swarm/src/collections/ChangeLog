@@ -4,6 +4,9 @@
 	include swarmconfig.h.  Call hdf5_not_available when HAVE_HDF5 not
 	defined.
 
+	* Collection.m, Map.m: Implement deep serialization for 
+	hdf5Out:deep:.
+
 1999-01-13  Marcus G. Daniels  <mgd@chama.santafe.edu>
 
 	* Map.[hm]: Include swarmconfig.h.

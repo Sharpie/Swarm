@@ -259,9 +259,32 @@ indexAtOffset (Collection_any *self, int offset)
 
 - hdf5Out: hdf5Obj deep: (BOOL)deepFlag
 {
+  id aZone = [self getZone];
+
 #ifdef HAVE_HDF5
   if (deepFlag)
-    abort ();
+    {
+      id <Index> li = [self begin: scratchZone];
+      id member;
+
+      [hdf5Obj storeTypeName: [self name]];
+      while ((member = [li next]))
+        {
+          id itemGroup;
+          char buf[sizeof (unsigned) * 8 + 1];
+
+          sprintf (buf, "%u", [li getOffset]);
+          
+          itemGroup = [[[[HDF5 createBegin: [hdf5Obj getZone]]
+                          setParent: hdf5Obj]
+                         setName: buf]
+                        createEnd];
+          
+          [member hdf5Out: itemGroup deep: YES];
+          [itemGroup drop];
+        }
+      [li drop];
+    }
   else
     {
       if (![self allSameClass])
@@ -269,19 +292,18 @@ indexAtOffset (Collection_any *self, int offset)
                     "shallow HDF5 serialization on Collections must be of same type");
       else
         {
-          id aZone = [self getZone];
           id hdf5CompoundType = [[[HDF5CompoundType createBegin: aZone]
                                    setSourceClass: [[self getFirst] class]]
                                   createEnd];
           
           id hdf5ObjDataset =
-            [[[[[[HDF5 createBegin: aZone]
-                  setName: [hdf5Obj getName]]
-                 setTypeName: [self name]]
+            [[[[[HDF5 createBegin: aZone]
+                 setName: [hdf5Obj getName]]
                 setParent: hdf5Obj]
                setRecordType: hdf5CompoundType count: [self getCount]]
               createEnd];
-
+          
+          [hdf5ObjDataset storeTypeName: [self name]];
           {
             id <Index> li = [self begin: scratchZone];
             id member;
