@@ -1,3 +1,8 @@
+2001-06-25  Marcus G. Daniels  <mgd@maya.santafe.edu>
+
+	* Makefile.am (JAVA_SRC, JAVA_OBJS, libgcjswarm.la): New stuff.
+	(gcjswarm.so): Use JAVA_SRC.
+
 2001-06-20  Marcus G. Daniels  <mgd@drone.swarm.org>
 
 	* Makefile.am (gcjswarm.so): New rule.
