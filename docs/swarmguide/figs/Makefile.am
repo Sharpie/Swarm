@@ -5,10 +5,10 @@ PNGTOPNM = @PNGTOPNM@
 PNMTOPS = @PNMTOPS@
 PNMCROP= @PNMCROP@
 
-EPS = discrete-event-sim.eps interface-vs-implementation.eps libraries-activity.eps libraries-itemized.eps libraries-overview.eps libraries-random-overview.eps libraries-random-process.eps libraries-rankedlist-map.eps libraries-space-hierarchy.eps merging-schedules.eps modeling.eps objc-basics.eps oo-principles.eps oo-programming.eps recursive-swarm.eps simplebug-activation.eps simplebug-class-hierarchy.eps simplebug-foodspace.eps simplebug-model-swarm.eps simplebug-modelswarm2.eps simplebug-objc.eps simplebug-observer-swarm.eps simplebug-probes1.eps simplebug-probes2.eps simplebug-schedules-1.eps simplebug-schedules-group.eps swarm-discrete-event.eps swarm.eps system-diagram.eps
+EPS = discrete-event-sim.eps interface-vs-implementation.eps libraries-activity.eps libraries-itemized.eps libraries-overview.eps libraries-random-overview.eps libraries-random-process.eps libraries-rankedlist-map.eps libraries-space-hierarchy.eps merging-schedules.eps modeling.eps objc-basics.eps oo-principles.eps oo-programming.eps recursive-swarm.eps simplebug-activation.eps simplebug-class-hierarchy.eps simplebug-foodspace.eps simplebug-model-swarm.eps simplebug-modelswarm2.eps simplebug-objc.eps simplebug-observer-swarm.eps simplebug-probes1.eps simplebug-probes2.eps simplebug-schedules-1.eps simplebug-schedules-group.eps swarm-discrete-event.eps swarm.eps system-diagram.eps gui-graph.eps gui-histogram.eps gui-raster.eps gui-probemap-example.eps gui-probemap-customized.eps gui-probemap-complete.eps
 
 GENERATED_EPS = $(patsubst %.png,%.eps,$(PNG))
-PNG = gui-graph.png gui-histogram.png gui-raster.png gui-probemap-example.png gui-probemap-customized.png gui-probemap-complete.png
+PNG =  
 GENERATED_JPEG = $(patsubst %.eps,%.jpeg,$(EPS)) $(patsubst %.png,%.jpeg,$(PNG))
 EXTRA_DIST = $(EPS)
 

@@ -1,3 +1,12 @@
+1999-05-18  Alex Lancaster  <alex@santafe.edu>
+
+	* gui-probemap-{complete, customized, example}.eps, gui-{graph,
+	histogram, raster}.eps: Convert files from png to eps format.
+	Remove all corresponding png files from repository.
+
+	* Makefile.am (PNG): Remove all png files.
+	(EPS):  Add the corresponding eps files.
+	
 1999-05-17  Alex Lancaster  <alex@santafe.edu>
 
 	* gui-probemap-{complete, customized, example}.png: Add files.
