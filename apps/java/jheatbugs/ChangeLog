@@ -1,0 +1,255 @@
+2001-11-04  Marcus G. Daniels  <mgd@condor.santafe.edu>
+
+	* HeatbugModelSwarm.java: Change variables _printDiagnostics,
+	_evaporationRate, _worldXSize, _worldYSize, _diffusionConstant to
+	be public, removing leading "_".  Probed variables must be public.
+	(buildActions): Remove now-obsolete boolean argument from FArguments.
+
+	* Heatbug.java: Change variables _x, _y, _unhappiness, 
+	_idealTemperature, _outputHeat, _randomMoveProbability, and _colorIndex
+	to be public, removing leading "_".  Remove setter for _colorIndex.
+	Fix comment about owner of Colormap.
+
+	* HeatbugObserverSwarm.java (buildObjects): Set the color directly.
+
+	* Makefile (all): Don't run executable by default.
+
+	* Remove ^M from all files.
+
+2001-10-29    <timothyrhowe@hotmail.com>
+
+	* I added an overview documentation file (readme.txt) and an HTML
+	version
+	(readme.gen.htm, generated from readme.txt).
+
+	* I rearranged the logic of the Heatbug so that it doesn't
+	calculate its ideal cell unless it is actually going to try to
+	move to that cell.
+
+	* I rearranged the logic of a Heatbug so that it doesn't calculate
+	its arbitrary random move if it is perfectly happy where it is.
+
+	* I color-coded the Heatbugs according to their temperature
+	preferences (from green to yellow). You can now see the more
+	heat-loving bugs tending toward the center of each cluster, with
+	the less heat-loving ones around the periphery.
+
+	* I altered the logic for calculating xm1 and ym1 in
+	Heatbug.java. The logic had been based on an assumption about how
+	modulo works, which is a correct assumption for some programming
+	languages but not for Java.  Here's proof of the need for the
+	change:
+
+    	int x = 0;
+    	int size = 10;
+    	System.out.println ("Here is what Heatbug.java was doing:");
+    	System.out.println ("(" + x + " - 1) % size is " + (x - 1) % size);
+        	// that prints -1 (wrong answer)
+    	System.out.println ("Here is what Heatbug.java does as I altered it:");
+    	System.out.println ("(" + x + " - 1 + size) % size is " + (x - 1 + size) % size);
+        	// that prints 9 (correct answer)
+
+	* By the way, Perl, for example, gives different answers from Java
+	for modulo of a negative number. In Perl, the graph of modulo is
+	continuous across zero; in Java, the graph is bilaterally
+	symmetric about zero.
+
+	* I replaced HeatCell with java.awt.Point, which has the same
+	functionality, is more familiar to Java developers, and will decrement
+	the number of custom classes that a student of jheatbugs needs to 
+	understand.
+
+	* I simplified the use of List, LinkedList, and ArrayList (by changing
+	them all to ArrayList).
+
+	* I revamped the documentation almost entirely. I formatted the
+	documentation to produce nice javadoc output.
+
+	* I removed all inner classes by flattening them into plain Java
+	code.  I did that because I felt that the code was easier to
+	understand without the complexity of inner classes -- even for
+	readers familiar with inner classes in general. The inner classes
+	I removed were not adapters; they added no methods except a few
+	initialization-time convenience methods whose logic, in my
+	opinion, was simpler to implement in plain private methods
+	(probeMessage () and (probeVariable ()).
+
+	* I arranged the makefile for more straightforward and automatic
+	dependencies. I added a "run" target as the default target, to let
+	the developer invoke the application by typing "make" or "make
+	runbatch", with the guarantee that the latest code will run, not
+	some possibly obsolete code.
+
+	* I added an application-invoking wrapper, current.pl, and a shell
+	wrapper for that, current.ksh. And a DOS wrapper, current.bat,
+	which does not yet work, but shouldn't be too hard to fix since
+	it's only one line.
+
+	* I added command-line options; see StartHeatbugs.java and
+	current.pl for details, or invoke "current --help".
+
+	* I defined heatbugStep() as synchronized, because, given the
+	existing algorithm, the decision of which cell to move to cannot
+	be multi-threaded.
+
+	* I changed addHeatbug (Heatbug bug) to addHeatbugs (int numNewBugs),
+	because so far as I can tell, a user can't enter a Heatbut in the probe
+	display. 
+
+	* In HeatbugModelSwarm.java, I simplified the logic controlling
+	the update order (random or sequential), mostly by eliminating
+	local copies of FActionForEach.defaultOrder. I did that for
+	simplicity and to remove the need to synchronize; performance will
+	improve slightly, since getters and setters in Java are just as
+	fast as public access to variables.
+
+	* In StartHeatbugs.java, I factored common code from both branches
+	of the "if (Globals.env.guiFlag) ... else ..." logic into the
+	methods build() and unbuild().
+
+	* I added a few methods for diagnostic purposes, such as
+	Heatbug.toString() and HeatbugModelSwarm.modelStep().
+
+	* I started to alter the calculation of Heatbug unhappiness. You
+	probably don't get happier just by existing through time -- why
+	should a Heatbug?  So I'm trying to neutralize the effect of
+	increasing heat. Without undergoing a significant performance
+	penalty.
+
+	* I made a number of other, small changes, which would be easier to 
+	understand by comparing the code than by reading descriptions of them. 
+
+2000-09-19  Alex Lancaster  <alex@allele2.biol.berkeley.edu>
+
+	* HeatbugModelSwarm.java: Removed language argument to
+	FArgumentsImpl.
+
+2000-09-14  Marcus G. Daniels  <mgd@nest.swarm.org>
+
+	* HeatbugModelSwarm.java (buildActions): Use language symbol
+	to FArgumentsImpl constructor.
+
+2000-09-10  Marcus G. Daniels  <mgd@forager.swarm.org>
+
+	* Heatbug.java (Heatbug): Remove `public' from world, heat, and
+	scratchHeatCell.
+	
+2000-02-27    <mgd@nest.swarm.org>
+
+	* StartHeatbugs.java (main): Update for 2.1 and SDG.
+
+	* HeatbugModelSwarm.java (buildActions): Store prototype in 
+	a variable.
+
+2000-01-24    <mgd@nest.swarm.org>
+
+	* jheatbugs.scm: New file.
+
+	* HeatbugBatchSwarm.java: Remove parameter settings in constructor.
+	(buildObjects): Use lispAppArchiver to create HeatbugModelSwarm.
+
+	* StartHeatbugs.java: Use lispAppArchiver to create HeatbugBatchSwarm.
+
+1999-12-27    <mgd@DRONE>
+
+	* Heatbug.java (Heatbug): Change x, y, idealTemperature,
+	outputHeat from long to int.
+	(setOutputHeat, setIdealTemperature): Use long instead of int.
+	(heatbugStep): Use long instead of int for heat.
+
+	* HeatSpace.java (maxHeat, addHeat$X$Y, findExtremeHeat$X$Y):
+	Use int instead of long.
+
+1999-12-22    <mgd@nest.swarm.org>
+
+	* HeatbugModelSwarm.java: Don't include FArguments, FCall creating
+	implementation and interface.
+	(buildActions): Use FCall and FArguments constructors to condense
+	things somewhat.
+
+1999-12-21    <mgd@nest.swarm.org>
+
+	* HeatbugModelSwarm.java (actionForEach): New ivar.
+	(syncUpdateOrder): New method.
+	(toggleRandomizedOrder, buildActions): Call it.
+	(buildActions): Rework to use setSelector$setJavaFlag.
+
+	* Heatbug.java: Rename step to heatbugStep.
+
+1999-12-10    <mgd@nest.swarm.org>
+
+	* HeatbugModelSwarm.java: Use createActionForEachHomogeneous$call
+	instead of createActionForEach$call$setFinalizationFlag.
+
+1999-11-20    <mgd@VAIO>
+
+	* Heatbug.java: New variable scratchHeatCell (only used for
+	return value from HeatSpace's findExtremeType$X$Y. 	
+
+	* HeatSpace.java: New variables sizeX and sizeY to cache
+	worldSize.  Use HeatCell field references for x and y instead
+	of getters.
+
+	* HeatCell.java: Make x and y public.
+
+1999-11-19  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugModelSwarm.java: Import {FArguments,FCall}[C]{Impl}.
+	Import FActionForEach instead of ActionForEach.
+	(buildActions): Use FActionForEach with FCall (instead of
+	ActionForEach with a Selector).
+
+	* Heatbug.java (step): Make method a void return.
+
+1999-11-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugObserverSwarm.java: Import java.util.List instead of
+	swarm.collections.List.
+	(buildObjects): Use size instead of getCount.
+
+	* HeatbugModelSwarm.java: Import java.util.LinkedList and
+	java.util.List instead of swarm.collections.ListImpl and
+	swarm.collections.List.
+	(addHeatbug, buildObjects): Use add instead of addLast.
+	(buildObjects): Use LinkedList constructor instead of ListImpl.
+
+1999-09-18  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* Initial release.
+
+1999-09-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugBatchSwarm.java: Add disabled code for loading from
+	lispAppArchiver.
+
+	* HeatbugModelSwarm.java (buildActions): Add Randomized ForEach
+	ordering.
+
+1999-09-16    <mgd@HELEN>
+
+	* HeatbugObserverSwarm.java: Add drop method to disable
+	destroy notification for unhappyGraph and worldRaster.
+
+1999-09-14  Alex Lancaster  <alex@santafe.edu>
+
+	* HeatbugObserverSwarm.java (buildObjects): Pass windowGeometry
+	name to ZoomRaster creation
+
+1999-09-12  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugObserverSwarm.java: Add geometry record names
+	to all archived ProbeDisplay calls, worldRaster, and unhappyGraph.
+
+	* StartHeatbugs.java: Add app name, version, and bug address
+	arguments to initSwarm.
+	(StartHeatbugs): Add name argument to setWindowGeometryRecordName.
+
+	* HeatbugObserverSwarm.java (buildObjects): Pass windowGeometry
+	name to EZGraph creation.
+
+1999-09-08  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* HeatbugBatchSwarm.java: Activate stopSchedule.
+
+	* HeatSpace.java: Use ArrayList instead of Swarm List.
+
