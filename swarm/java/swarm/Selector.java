@@ -8,6 +8,7 @@ public class Selector {
   Class retType;
   Class [] argTypes;
   boolean objcFlag;
+  String typeSignature;
   
   public Selector (Class theClass, String theMethodName, boolean theObjcFlag) throws NonUniqueMethodSignatureException, SignatureNotFoundException {
     
