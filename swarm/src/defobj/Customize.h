@@ -25,7 +25,7 @@ extern id Creating, Setting, Using, CreatingOnly, UsingOnly;
 //
 // Customize_s -- superclass impleemntation of create-phase customization
 //
-@interface Customize_s : Object_s // <Create>
+@interface Customize_s: Object_s
 /*** methods in Customize_s (inserted from .m file by m2h) ***/
 + customizeBegin: aZone;
 - customizeEnd;
@@ -46,8 +46,8 @@ extern id Creating, Setting, Using, CreatingOnly, UsingOnly;
 
 // extended class info bits (bit masks for class->info) used by cust. wrapper
 
-#define _CLS_CUSTOMIZEWRAPPER  0x200  // class created by customizeBegin
-#define _CLS_RETAINSELF 0x300         // retain self even if unref by createBy
+#define _CLS_CUSTOMIZEWRAPPER 0x200  // class created by customizeBegin
+#define _CLS_RETAINSELF 0x300        // retain self even if unref by createBy
 
 //
 // _obj_customize() -- return true if customization in progress
@@ -59,15 +59,15 @@ _obj_customize (id anObject)
 }
 
 #define createByCopy() \
-(_obj_customize (self) ? ([(id) self _setCreateByCopy_], 1) : 0)
+(_obj_customize (self) ? ([(id) self _setCreateByCopy_], YES) : NO)
 
 #define createByMessageTo(anObject, messageName) \
 (_obj_customize (self) ? \
- ([(id) self _setCreateByMessage_: @selector(messageName) to: (anObject)],1):0)
+ ([(id) self _setCreateByMessage_ : @selector(messageName) to: (anObject)], YES) : NO)
 
 #define createByMessageToCopy(anObject, messageName) \
 (_obj_customize (self) ? \
-([(id)self _setCreateByMessage_:@selector(messageName) toCopy:(anObject)],1):0)
+([(id) self _setCreateByMessage_: @selector(messageName) toCopy: (anObject)], YES) : NO)
 
 #define setRetainSelf() \
 if (_obj_customize (self)) self->class_pointer->info |= _CLS_RETAINSELF

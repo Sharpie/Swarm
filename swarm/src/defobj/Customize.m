@@ -44,8 +44,8 @@ getWrapperCreateBy (Class wrapper)
 static void
 initCustomizeWrapper (id aZone, id anObject)
 {
-  Class       wrapper;
-  CreateBy_c  *createBy;
+  Class wrapper;
+  CreateBy_c *createBy;
 
   // allocate wrapper class (copy of self class) for instance being customized
 
@@ -85,7 +85,7 @@ PHASE(Creating)
 //
 + customizeBegin: aZone
 {
-  id           newObject;
+  id newObject;
 
   // allocate object at initial location using createBegin
 
@@ -102,8 +102,8 @@ PHASE(Creating)
 //
 - customizeEnd
 {
-  CreateBy_c  *createBy;
-  Class       wrapper, selfClass;
+  CreateBy_c *createBy;
+  Class wrapper, selfClass;
 
   // check that customization in progress
 
@@ -398,12 +398,13 @@ _obj_splitPhases (Class_s *class)
   // create class for methods in Using phase
   classUsing = nil;
   if (!(classData->metaobjects
-        && ((methodDefs_t)classData->metaobjects)->interfaceID == CreatingOnly))
+        && (((methodDefs_t) classData->metaobjects)->interfaceID ==
+            CreatingOnly)))
     {
       classUsing = [id_BehaviorPhase_s createBegin: _obj_initZone];
       
       [(id) classUsing setName: class->name];
-      [(id) classUsing setClass: getClass( id_Object_s )];
+      [(id) classUsing setClass: getClass (id_Object_s)];
       [(id) classUsing setDefiningClass: class];
     }
   
@@ -624,7 +625,7 @@ _obj_splitPhases (Class_s *class)
 // _obj_customize() -- return true if customization in progress
 //
 BOOL
-_obj_customize( id anObject )
+_obj_customize (id anObject)
 {
   return (getClass (anObject)->info & _CLS_CUSTOMIZEWRAPPER) != 0;
 }
@@ -637,7 +638,7 @@ _obj_customize( id anObject )
 // getNextPhase() -- return class which implements next phase of object
 //
 Class
-getNextPhase(id aClass)
+getNextPhase (id aClass)
 {
   return ((Class *) aClass)[_obj_NEXTCLASS];
 }
@@ -646,7 +647,7 @@ getNextPhase(id aClass)
 // setNextPhase() -- change behavior of object to next succeeding phase
 //
 void
-setNextPhase( id anObject )
+setNextPhase (id anObject)
 {
   *(Class *) anObject = (*(Class **) anObject)[_obj_NEXTCLASS];
 }
