@@ -22,20 +22,13 @@ AC_CHECK_LIB(dl,main,DLLIB=-ldl)
 AC_CHECK_LIB(dld,main,DLLIB=-ldld) # HPUX
 AC_SUBST(DLLIB)
 
-if test "$ac_R_space" = yes ; then
-  RPATH='-R '
-else 
-  if test "$ac_R_nospace" = yes ; then
-    RPATH='-R'
-  else
-    if test "$ac_cv_lib_dld_main" = no ; then
-      RPATH='-Wl,-rpath '
-    else
-      RPATH='-L'
-    fi
-  fi
+md_CHECK_RPATH
+if test $enable_shared = yes ; then
+  SWARMLDFLAGS="-L$(libdir) $RPATH$(libdir)"
+else
+  SWARMLDFLAGS="-L$(libdir)"
 fi
-AC_SUBST(RPATH)
+AC_SUBST(SWARMLDFLAGS)
 
 AC_ARG_WITH(defaultdir,
 [  --with-defaultdir=DIR            Use DIR instead of prefix as default path],

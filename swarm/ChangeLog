@@ -1,3 +1,10 @@
+1998-09-03  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* VERSION: Bump.
+
+	* configure.in: Call md_CHECK_RPATH.  Define SWARMLDFLAGS
+	to be substituted with -L or -L and rpath per enable_shared.
+
 1998-08-25  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* VERSION: Swarm 1.3 released.
