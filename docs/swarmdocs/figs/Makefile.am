@@ -9,7 +9,12 @@ PNG = complete.png customized.png small-logo.png switcheroo.png
 GENERATED_JPEG = $(patsubst %.eps,%.jpeg,$(EPS)) $(patsubst %.png,%.jpeg,$(PNG))
 EXTRA_DIST = complete.png customized.png small-logo.png switcheroo.png figs.ent swarm.eps
 
-noinst_DATA =  $(GENERATED_EPS) $(GENERATED_JPEG)
+GENERATED_FIGS = $(GENERATED_EPS) $(GENERATED_JPEG)
+
+figsdir = $(prefix)/figs
+figs_DATA = $(GENERATED_FIGS) $(EPS)
+
+CLEANFILES = $(GENERATED_FIGS)
 
 %.png: $(srcdir)/%.eps
 	$(GS) -dNOPAUSE -sDEVICE=png256 -sOutputFile=$@ $< -c quit
