@@ -249,7 +249,14 @@
            (setf (method-return-type method) "id <Zone>"))
           ((or (string= sig "+create:") (string= sig "+createBegin:"))
            (let ((first-argument (first (method-arguments method))))
-             (setf (nth 1 first-argument) "id <Zone>"))))
+             (setf (nth 1 first-argument) "id <Zone>")))
+          ((or (string= sig "-getProbeMap")
+               (string= sig "-getCompleteProbeMap"))
+           (setf (method-return-type method) "id <ProbeMap>"))
+          ((string= sig "-getProbeForVariable:")
+           (setf (method-return-type method) "id <VarProbe>"))
+          ((string= sig "-getProbeForMessage:") 
+           (setf (method-return-type method) "id <MessageProbe>")))
     method))
 
 (defun parse-method (protocol

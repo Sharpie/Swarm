@@ -1,3 +1,8 @@
+1999-08-23  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* protocol.el (fixup-method): Add VarProbe, MessageProbe, and
+	ProbeMap cases.
+
 1999-08-22  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* protocol.el (RETURNABLE-protocol): New function.
