@@ -20,15 +20,6 @@
 
 PHASE(Creating)
 
-+ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)theWindowGeometryRecordName
-{
-  Raster *obj = [self createBegin: aZone];
-  
-  [obj setWindowGeometryRecordName: theWindowGeometryRecordName];
-  
-  return [obj createEnd];
-}
-
 + createBegin: aZone
 {
   Raster *obj = [super createBegin: aZone];

@@ -22,6 +22,13 @@ PHASE(Creating)
   return obj;
 }
 
++ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)name
+{
+  return [[[self createBegin: aZone]
+            setWindowGeometryRecordName: name]
+           createEnd];
+}
+
 - setWindowGeometryRecordName: (const char *)name
 {
   windowGeometryRecordName = name ? STRDUP (name) : NULL;

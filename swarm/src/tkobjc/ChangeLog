@@ -1,6 +1,11 @@
-2000-02-12    <mgd@nest.swarm.org>
+2000-02-18    <mgd@nest.swarm.org>
 
 	* Makefile.am (AGE): Bump.  Version 2.1.
+
+	* ArchivedGeometryWidget.[hm]: Add
+	+create:setWindowGeometryRecordName:.
+
+	* Raster.[hm], ZoomRaster.[hm]: Remove above.
 
 2000-01-24    <mgd@nest.swarm.org>
 

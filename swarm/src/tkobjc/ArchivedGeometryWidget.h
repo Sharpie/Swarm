@@ -12,7 +12,9 @@
   BOOL saveSizeFlag;
 }
 
-- setWindowGeometryRecordName: (const char *)recordName;
++ createBegin: (id <Zone>)aZone;
++ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)name;
+- setWindowGeometryRecordName: (const char *)name;
 - setSaveSizeFlag: (BOOL)saveSizeFlag;
 - loadWindowGeometryRecord;
 - updateArchiver: archiver;

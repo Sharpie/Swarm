@@ -20,7 +20,6 @@
   Color eraseColor;
   unsigned width, height;
 }
-+ create: (id <Zone>)aZone setWindowGeometryRecordName: (const char *)theWindowGeometryRecordName;
 + createBegin: aZone;
 - createEnd;
 - setWidth: (unsigned)width;
