@@ -121,11 +121,11 @@
   </SECT2>
 
 <sect2>
- <title>Creating graphic probe to object</title> 
-   
-   <comment>Again, section isplaceholder from old user2.10.sgml, needs to be 
+ <title>Creating graphic probe to object   
+  <comment>Section is placeholder from old user2.10.sgml, needs to be 
    fleshed-out -- AKL</comment>
-
+</title> 
+   
     <orderedlist>
 
     <listitem><para>Check out instance of EmtpyProbeMap
