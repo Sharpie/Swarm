@@ -7,6 +7,7 @@ gridturtle_srcdir = @gridturtle_srcdir@
 swarm_ChangeLog =
 
 include $(top_srcdir)/Makefile.rules
+include $(top_srcdir)/src/Makefile.rules
 
 PAGES = activity/activitypages.sgml \
 	analysis/analysispages.sgml \
@@ -25,9 +26,11 @@ noinst_DATA = $(GENERATED_SGML)
 
 ENT = src.ent $(foreach module,$(SUBDIRS),$(module)/$(module).ent)
 
-SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml $(ENT)
+SGML = conventions-app.sgml gpl-app.sgml grid-app.sgml lgpl-app.sgml probes-app.sgml ref00.sgml ref00a.sgml refbook.sgml refcont.sgml refmeta.sgml
 
-SGML_FILES = $(SGML) $(GENERATED_SGML)
+EXTRA_DIST = Makefile.rules src.ent $(SGML)
+
+SGML_FILES = $(SGML) $(ENT) $(GENERATED_SGML)
 
 EXAMPLES=GridTurtle.h GridTurtle.m Makefile Mousetrap.h Mousetrap.m \
         Mousetrap2.m grid.h grid.m grid0.m grid1a.m grid1b.m grid1c.m\
@@ -49,7 +52,6 @@ refindex.sgml $(PAGES): $(swarm_srcdir)/src/activity/activity.h \
 	$(swarm_srcdir)/src/simtoolsgui/simtoolsgui.h \
 	$(swarm_srcdir)/src/space/space.h $(top_srcdir)/protocol.el $(top_srcdir)/common.el
 	SWARMDOCS=`cd $(top_srcdir); pwd`/ SWARMDOCS_BUILD_AREA=$(top_builddir)/ $(EMACS) -batch -l $(top_srcdir)/protocol.el -f run-all $(swarm_srcdir)
-
 
 # Local variables:
 # mode: makefile

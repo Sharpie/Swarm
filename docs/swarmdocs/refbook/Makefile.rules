@@ -1,0 +1,8 @@
+EXTRA_DIST = $(MODULE).ent $(MODULE)00.sgml $(MODULE)cont.sgml $(MODULE)meta.sgml
+
+noinst_DATA = $(MODULE)revhistory.sgml
+
+swarm_ChangeLog = $(swarm_srcdir)/src/$(MODULE)/ChangeLog
+
+include $(top_srcdir)/Makefile.common
+

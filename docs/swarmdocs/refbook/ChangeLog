@@ -1,3 +1,11 @@
+1998-06-15  Marcus G. Daniels  <mgd@ute.santafe.edu>
+
+	* Makefile.am: Include $(top_srcdir)/src/Makefile.rules.
+	(SGML): Move ENT to SGML_FILES.
+	(EXTRA_DIST): New variable.
+	
+	* Makefile.rules: New file.
+
 1998-06-12  Marcus G. Daniels  <mgd@ute.santafe.edu>
 
 	* refmeta.sgml: Scale graphic to 75%.
