@@ -1,12 +1,16 @@
+#import <defobj/JavaCollection.h>
+
+#ifdef HAVE_JDK
 #import <defobj/directory.h>
 #import <defobj/defalloc.h> // getZone
 #import <defobj/FCall.h>
 #import <collections.h> // Member
-#import <defobj/JavaCollection.h>
 #import <defobj/JavaCollectionIndex.h>
+#endif
 
 @implementation JavaCollection
 
+#ifdef HAVE_JDK
 - (BOOL)isJavaCollection
 {
   return YES;
@@ -183,5 +187,5 @@
   [index drop];
   return ret;
 }
-
+#endif
 @end

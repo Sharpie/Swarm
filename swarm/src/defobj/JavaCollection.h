@@ -4,9 +4,11 @@
 @interface JavaCollection: CreateDrop
 {
 }
+#ifdef HAVE_JDK
 - (BOOL)isJavaCollection;
 - (unsigned)getCount;
 - begin: aZone;
 - getFirst;
 - (void)forEach: (SEL)sel :arg1;
+#endif
 @end

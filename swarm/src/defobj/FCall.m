@@ -178,6 +178,10 @@ fillHiddenArguments (FCall_c *self)
       fargs->argValues[MAX_HIDDEN - 1] = &self->fmethod;
 #endif
       break;
+#else
+    case javacall: case javastaticcall:
+      abort ();
+      break;
 #endif
     }
 
@@ -369,9 +373,11 @@ PHASE(Creating)
 void
 updateTarget (FCall_c *self, id target)
 {
+#ifdef HAVE_JDK
   if ([target respondsTo: M(isJavaProxy)])
     self->fobject = SD_FINDJAVA (jniEnv, target);
   else
+#endif
     self->fobject = target;
   add_ffi_types (self);
 }
@@ -397,13 +403,13 @@ PHASE(Using)
 
 - (void)performCall
 {
+#ifdef HAVE_JDK
   if (fargs->pendingGlobalRefFlag)
     {
-#ifdef HAVE_JDK
       (*jniEnv)->DeleteGlobalRef (jniEnv, (jobject) fargs->resultVal.object);
       fargs->pendingGlobalRefFlag = NO;
-#endif
     }
+#endif
 #ifndef USE_AVCALL
   types_t ret;
 

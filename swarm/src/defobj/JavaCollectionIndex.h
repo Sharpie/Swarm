@@ -4,6 +4,8 @@
 @interface JavaCollectionIndex: CreateDrop
 {
 }
+#ifdef HAVE_JDK
 - (id <Symbol>)getLoc;
 - next;
+#endif
 @end

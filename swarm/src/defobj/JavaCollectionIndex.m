@@ -1,9 +1,13 @@
+#import <defobj/JavaCollectionIndex.h>
+
+#ifdef HAVE_JDK
 #import <defobj/directory.h>
 #import <collections.h> // Member, End
-#import <defobj/JavaCollectionIndex.h>
+#endif
 
 @implementation JavaCollectionIndex
 
+#ifdef HAVE_JDK
 - (id <Symbol>)getLoc
 {
   jobject iterator = SD_FINDJAVA (jniEnv, self);
@@ -46,5 +50,6 @@
   (*jniEnv)->DeleteLocalRef (jniEnv, item);
   return proxy;
 }
+#endif
 
 @end

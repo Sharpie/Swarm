@@ -141,7 +141,9 @@ PHASE(Creating)
   newArguments->returnType = 0;
   newArguments->result = NULL;
   newArguments->javaSignatureLength = 2; // "()"
+#ifdef HAVE_JDK
   newArguments->pendingGlobalRefFlag = NO;
+#endif
   return newArguments;
 }
 
