@@ -88,9 +88,7 @@ ifeq ($(USEDLL),yes)
 		DLLCPPFLAGS = -DDLL
 	endif
 	SWARMLIBS = -lswarm
-        ifeq ($(LIBOBJCDIR),libobjc)
-	  OBJCLIBS = -lswarmobjc
-        endif
+	OBJCLIBS = 
 else
 	ifeq ($(ONELIB),yes)
 		SWARMLIBS = -lswarm

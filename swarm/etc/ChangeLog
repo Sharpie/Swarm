@@ -1,3 +1,7 @@
+2004-12-12  Marcus G. Daniels <mgd@santafe.edu>
+
+	* Makefile.common.in (OBJCLIBS): Don't set for Cygwin.
+
 2004-12-11  Marcus G. Daniels <mgd@santafe.edu>
 
 	* Makefile.am (EXTRA_DIST): Add swarm.make.
