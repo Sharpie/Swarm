@@ -41,9 +41,9 @@ dist:
 ifeq ($(OUT),"")
 	@ echo "make dist" should only be called from "make distrib"
 else
-	sed -e 's/^SYS=$$/SYS=$(SYS)/' \
-	    -e 's/^SETUP=[^$$].*/SETUP=$(SETUP)/' \
-	    -e 's/^LDCONFIG=.*/LDCONFIG=$(LDCONFIG)/' Makefile.oconf > Makefile.conf
+	sed -e 's,^SYS=$$,SYS=$(SYS),' \
+	    -e 's,^SETUP=[^$$].*,SETUP=$(SETUP),' \
+	    -e 's,^LDCONFIG=.*,LDCONFIG=$(LDCONFIG),' Makefile.oconf > Makefile.conf
 	(cd ..; tar cvf $(OUT) $(SWARMDIST))
 endif
 
