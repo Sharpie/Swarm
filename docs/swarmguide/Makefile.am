@@ -8,14 +8,8 @@ SGML_FILES = $(SGML) $(GENERATED_SGML)
 include $(top_srcdir)/Makefile.rules
 include $(top_srcdir)/Makefile.common
 
-HTML = $(docbookstyle_srcdir)/html/docbook.dsl
-PRINT = $(docbookstyle_srcdir)/print/docbook.dsl
-
 ## ensure citations are links
 JADEFLAGS = -V biblio-citation-check 
-
-%.html: %.sgml
-	$(RUNJADE) $(CATOPTS) -t sgml -d $(HTML) `echo $< | sed 's,//\([A-Za-z]\),\1:,'`
 
 ## automatically generate index, if any non-generated SGML files change
 genindex.sgml: $(SGML)
