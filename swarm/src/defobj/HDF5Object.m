@@ -1340,7 +1340,7 @@ PHASE(Using)
     }
   else
     {
-      const char *typeName
+      const char *typeName;
 
       if (baseTypeObject)
         typeName = strdup ((const char *) ((void **) baseTypeObject)[2]);
