@@ -91,8 +91,11 @@ extern id lispInKeyword (id index);
 //
 
 #define getBit(word, bit) ((word) & bit)
-#define setBit(word, bit, value) ((value) ? ((word) |= (unsigned)bit) : 
-				  ((word) &= ~ (unsigned)bit))
+#define setBit(word, bit, value)((value) ? ((word) |= (unsigned)bit) : \
+                                           ((word) &= ~((unsigned)bit)))
+
+// ((value) ? ((word) |= bit) : 
+//				  ((word) &= ~ bit))
 
 #define setField(word, shift, value) (word) |= ((value) << shift)
 

@@ -1,3 +1,7 @@
+1998-12-18  Vladimir Jojic  <vjojic@wijiji.santafe.edu>
+
+	* DefObject.h (setBit): Typo.
+
 1998-12-17  Vladimir Jojic  <vjojic@aztec.santafe.edu>
 
 	* DefObject.h: Modify setBit by casting the bit as unsigned.
