@@ -287,7 +287,7 @@ USING
 //M: Builds a new GraphElement to plot data with.
 - (id <GraphElement>)createElement;
 //M: Whether to autoscale every timestep or instead to jump scale.
-- setScaleModeX: (int)xs Y: (int)ys;
+- setScaleModeX: (BOOL)xs Y: (BOOL)ys;
 //M: Sets the Y ranges for the graph.  Turns off autoscaling.
 - setRangesYMin: (double)miny Max:(double)maxy;
 //M: Sets the ranges for the graph.  Turns off autoscaling.
