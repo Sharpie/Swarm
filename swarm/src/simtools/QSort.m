@@ -6,7 +6,7 @@
 #import <simtools/QSort.h>
 #import <collections.h>
 
-#include <misc.h> // xmalloc, XFREE, qsort
+#include <misc.h> // qsort
 
 #include <swarmconfig.h> // PTRINT
 
@@ -27,7 +27,7 @@ PHASE(Using)
   size = [aCollection getCount];
   if (size)
     {
-      flat = xmalloc (sizeof (id) * size);
+      flat = [scratchZone alloc: sizeof (id) * size];
       
       index = [aCollection begin: scratchZone];
       
@@ -51,7 +51,7 @@ PHASE(Using)
     }
   
   [index drop];
-  XFREE (flat);
+  [scratchZone free: flat];
 }
 
 static int
@@ -139,7 +139,7 @@ cmpObjs (id *a, id *b)
   
   if (size)
     {
-      flat = xmalloc (sizeof (id) * size);
+      flat = [scratchZone alloc: sizeof (id) * size];
       
       index = [aCollection begin: scratchZone];
       
@@ -157,7 +157,7 @@ cmpObjs (id *a, id *b)
         }
       
       [index drop];
-      XFREE (flat);
+      [scratchZone free: flat];
     }
 }
 

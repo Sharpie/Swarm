@@ -1,3 +1,10 @@
+1999-09-07  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* QSort.m ([QSort +_flatten_:], [QSort +reverseOrderOf:]): Do a
+	alloc: in scratchZone instead of xmalloc.
+	([QSort +_unFlatten_:], [QSort +reverseOrderOf:]): Do a free: in
+	scratchZone instead of XFREE.
+
 1999-08-28  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* Swarm 2.0 released.
