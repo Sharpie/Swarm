@@ -1,5 +1,7 @@
 1999-09-20  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* javaswarm.in: Only convert @swarm_bindir@ with cygpath -w.
+
 	* Makefile.am (Makefile.common): Use quoted top_dossrcdir instead of
 	top_srcdir for SWARMSRCDIR.
 	(C_EXTRA_DIST): Add c/javaswarm.dll.c.
