@@ -5,6 +5,8 @@
 	case of a subswarm has no preceding actions, and the startTime is
 	taken from the currentTime for the sake of a Schedule tagged with
 	RelativeTime.
+	([Schedule_c at:createActionTo:message:arg1:arg2:arg3:]): Make
+	newAction of type ActionTo_3.  Set arg3.  Thanks to Noberto Eiji Nawa.
 
 1999-06-16  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 

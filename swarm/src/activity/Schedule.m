@@ -683,13 +683,14 @@ _activity_insertAction (Schedule_c *self, timeval_t tVal, CAction *anAction)
 
 - at: (timeval_t)tVal createActionForEach: t message: (SEL)aSel:arg1:arg2:arg3;
 {
-  ActionForEach_2 *newAction;
+  ActionForEach_3 *newAction;
 
   newAction = [getZone (self) allocIVarsComponent: id_ActionForEach_3];
   newAction->target = t;
   newAction->selector = aSel;
   newAction->arg1 = arg1;
   newAction->arg2 = arg2;
+  newAction->arg3 = arg3;
   _activity_insertAction (self, tVal, newAction);
   return newAction;
 }
