@@ -3,6 +3,10 @@
 <style-specification id="common">
 <style-specification-body>
 
+(define %show-comments%
+  ;; Display Comment elements?
+  #t)
+
 (define %gentext-usen-by% "")
 
 (define %funcsynopsis-decoration%

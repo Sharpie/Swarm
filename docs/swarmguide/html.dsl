@@ -46,10 +46,6 @@
         ((string=? (gi nd) (normalize "chapter")) 2)
         (else 3)))
 
-(define %show-comments%
-  ;; Display Comment elements?
-  #t)
-
 ;; Make text that comes from unimplemented tags easy to spot
 (element comment
   (make element gi: "FONT"
