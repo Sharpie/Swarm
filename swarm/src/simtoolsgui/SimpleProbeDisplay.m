@@ -30,8 +30,8 @@
   int i;
   id index;
   id probe;
-  id hideB;
-  id top_top_Frame, raisedFrame;
+  id <SimpleProbeDisplayHideButton> hideB;
+  id <Frame> top_top_Frame, raisedFrame;
 
   numberOfProbes = [probeMap getNumEntries];
 
@@ -55,8 +55,9 @@
   hideB = [SimpleProbeDisplayHideButton createBegin: [self getZone]];
   [hideB setParent: top_top_Frame];
   [hideB setProbeDisplay: self];
-  [hideB setFrame: raisedFrame];
   hideB = [hideB createEnd];
+  
+  [raisedFrame packBeforeAndFillLeft: hideB expand: NO];
 
   middleFrame =  [Frame createParent: topFrame];  
   leftFrame =  [Frame createParent: middleFrame];

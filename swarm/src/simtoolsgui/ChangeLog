@@ -1,5 +1,11 @@
 1998-04-21  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* SimpleProbeDisplay.m ([SimpleProbeDisplay -createEnd]): Make
+	hideB conform to SimpleProbeDisplayHideButton protocol and
+	top_top_Frame and raiseFrame to the Frame protocol.  Don't call
+	setFrame for hideB, instead send packBeforeAndFillLeft to
+	raisedFrame with hideB as an argument.
+
 	* ActionCache.m ([ActionCache -createProcCtrl]): Use
 	addButtonName:method: instead of addButtonName:actionName:.
 
