@@ -16,4 +16,3 @@ $(TYPEINFO): $(MODULE).h $(MAKEH2X) # $(SOURCES)
 	mv $(MODULE).xt $(MODULE)/types.h
 	mv $(MODULE).xc $(MODULE)/classes.h
 
-include_HEADERS = $(MODULE).h
