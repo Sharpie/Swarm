@@ -1,3 +1,8 @@
+1999-07-01  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* InputStream.m ([ArchiverArray_c -lispOutDeep:]): Don't use
+	sprintf just to make string from char.
+
 1999-06-30  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* collections.h (OutputStream), OutputStream.[hm]: Add long long

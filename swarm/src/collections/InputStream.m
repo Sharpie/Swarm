@@ -480,16 +480,16 @@ PHASE(Creating)
             switch ([val getValueType])
               {
               case _C_ID:
-                ((id *) data)[offset] = [val getObject];
+                ((id *) data) [offset] = [val getObject];
                 break;
               case _C_INT:
-                ((int *) data)[offset] = [val getInteger];
+                ((int *) data) [offset] = [val getInteger];
                 break;
               case _C_FLT:
-                ((float *) data)[offset] = [val getFloat];
+                ((float *) data) [offset] = [val getFloat];
                 break;
               case _C_DBL:
-                ((double *) data)[offset] = [val getDouble];
+                ((double *) data) [offset] = [val getDouble];
                 break;
               case _C_UCHR:
                 ((unsigned char *) data)[offset] = [val getChar];
@@ -540,7 +540,8 @@ PHASE(Using)
 {
   char buf[1 + 1];
   
-  sprintf(buf, "%c", type);
+  buf[0] = type;
+  buf[1] = '\0';
   lisp_process_array (objc_type_for_array (buf, rank, dims), 
                       data, data, stream, YES);
   return self;
@@ -548,8 +549,8 @@ PHASE(Using)
 
 - (void)drop
 {
-  xfree (dims);
-  xfree (data);
+  XFREE (dims);
+  XFREE (data);
 }
 
 @end
