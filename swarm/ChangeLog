@@ -1,3 +1,8 @@
+1998-04-12  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
+
+	* Makefile.conf: Add mgd-LANL-Irix64 configuration.
+	Use RANLIB=/bin/true for SYS=irix64.
+
 1998-04-10  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
 	* Makefile.conf: Add libpng and zlib variable pointers to 
