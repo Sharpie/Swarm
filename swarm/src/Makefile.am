@@ -43,7 +43,7 @@ swarm.dll: libswarm.la
 	$(CC) -c $(srcdir)/dllinit.c
 	$(srcdir)/genctors $(OBJS) > $(CTOR).c
 	$(CC) -c $(CTOR).c
-	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(CTOR).o $(OBJS) $(SUPPORTLDFLAGS) $(SYSLIBS)  
+	$(DLLWRAP) --export-all --output-def swarm.def --implib libswarm.a --driver-name $(CC) -o swarm.dll dllinit.o $(CTOR).o $(OBJS) -L../libobjc $(SUPPORTLDFLAGS) $(SYSLIBS)  
 
 install-data-local: 
 	if test -n "$(SWARMDLL)" ; then \
