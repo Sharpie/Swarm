@@ -67,13 +67,17 @@ public class MousetrapObserverSwarmImpl extends GUISwarmImpl
 
     public Object buildObjects ()
     {
-        MousetrapModelSwarmCImpl immswarm;
+        //MousetrapModelSwarmCImpl immswarm;
         super.buildObjects();
 
-        mousetrapModelSwarm = new MousetrapModelSwarmImpl();
-        immswarm = new MousetrapModelSwarmCImpl(mousetrapModelSwarm);
-        mousetrapModelSwarm = 
-            (MousetrapModelSwarmImpl) immswarm.create (this.getZone());
+        mousetrapModelSwarm 
+            = new MousetrapModelSwarmImpl((ZoneImpl)this.getZone());
+        
+//          mousetrapModelSwarm = new MousetrapModelSwarmImpl();
+//          immswarm = new MousetrapModelSwarmCImpl(mousetrapModelSwarm);
+//          mousetrapModelSwarm = 
+//              (MousetrapModelSwarmImpl) immswarm.create (this.getZone());
+
         Globals.env.createArchivedProbeDisplay (mousetrapModelSwarm);
         Globals.env.createArchivedProbeDisplay (this);
         
