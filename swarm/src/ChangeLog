@@ -1,3 +1,9 @@
+2003-05-02    <mgd@mac.swarm.org>
+	
+	* SwarmEnvironment.m (predispatch, createBegin):  Remove the constructor
+	attribute and call from createBegin instead.  (The constructor gets
+	called on Mac, but apparently things aren't set up at that point.
+
 2003-05-01    <mgd@arrow.santafe.edu>
 
 	* SwarmEnvironment.m (_swarm_i_Zone_c__allocIVarsComponent_,

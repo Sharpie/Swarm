@@ -91,7 +91,7 @@ void (*_swarm_i_Zone_c__freeBlock_blockSize_) (struct Zone_c *, struct objc_sele
 id (*_swarm_i_ComponentZone_c__allocIVars_) (struct ComponentZone_c *, struct objc_selector *, Class);
 id (*_swarm_i_Object_s__drop) (struct Object_s *, struct objc_selector *);   
 
-static void predispatch () __attribute__ ((constructor));
+// static void predispatch () __attribute__ ((constructor));
 
 static void predispatch ()
 {
@@ -111,6 +111,7 @@ PHASE(Creating)
 #ifdef hpux
   run_constructors ();
 #endif
+  predispatch ();
   initModule (activity);
   return [self createBegin: globalZone];
 }
