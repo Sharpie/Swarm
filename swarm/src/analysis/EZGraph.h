@@ -126,6 +126,7 @@
 @interface EZSequence : SwarmObject <EZSequence>
 {
 @public
+ 
   ActiveOutFile *activeOutFile;
   id <ActiveGraph> activeGrapher;
 }
@@ -139,7 +140,7 @@
 - (void)update;
 - (void)outputGraph;
 - (void)outputToFile;
-
+- (double)getCurrentValue;
 @end
 
 @interface EZAverageSequence : EZSequence <EZAverageSequence>
@@ -148,6 +149,8 @@
 }
 
 - (void)setAverager: (id <Averager>)anAverager;
+- (id <Averager>)getAverager;
 - (void)setUnsignedArg: (unsigned)val;
+
 @end
 

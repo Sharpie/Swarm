@@ -293,6 +293,9 @@ USING
 //E: }   
 - (void)setUnsignedArg: (unsigned)val;
 
+//M: Returns the current value of the sequence.
+- (double)getCurrentValue;
+
 @end
 
 @protocol EZAverageSequence <EZSequence, RETURNABLE>
@@ -303,6 +306,14 @@ USING
 CREATING
 SETTING
 USING
+
+//M: Returns a pointer to the Averager object that provides data to this
+//M: sequence.  This might be useful if one wants to find additional information
+//M: about the data, because the Averager can calculate not only averages, but
+//M: also indicators of dispersion, in the ordinary or moving average format.
+- (id <Averager>)getAverager;
+
+
 @end
 
 
@@ -532,6 +543,9 @@ CREATING
 
 //M: Sets the object that will be probed for data.
 - setDataFeed: d;
+
+//M: Returns the value of the graph element..
+- (double)getCurrentValue;
 USING
 
 //M: Fires the probe, reads the value from the object, and draws it

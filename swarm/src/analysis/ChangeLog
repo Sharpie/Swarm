@@ -1,3 +1,12 @@
+2002-01-13  Marcus G. Daniels  <mgd@condor>
+
+	* EZGraph.[hm], analysis.h ([EZSequence -getCurrentValue]): New method.
+	([EZAverageSequence -getAverager]): New method.
+
+	* ActiveGraph.[hm] (ActiveGraph): Add currentValue and getter.
+
+	* ActiveGraph.m (-step): Use getCurrentValue.
+
 2002-01-07  Marcus G. Daniels  <mgd@forager.swarm.org>
 
 	* EZDistribution.m ([EZDistribution -output]): Use putDouble 

@@ -48,6 +48,7 @@ Copyright © 1996-2000 Swarm Development Group
     and Object2dDisplay expect instead of Discrete2d.  This
     facilitates other representations for grid display.  Thanks to
     Paul Johnson.
+*** EZSequence has a new method getCurrentValue. Thanks to Paul Johnson.
 
 ** Performance enhancements
 *** MessageProbes, HDF5 time series, archiving, internal scheduling & Maps,

@@ -41,8 +41,14 @@ PHASE(Using)
 // add a new point, (currentTime, averageValue).
 - (void)step
 {
+  currentValue = [self doubleDynamicCallOn: dataFeed];
   [element addX: (double)getCurrentTime ()
-           Y: [self doubleDynamicCallOn: dataFeed]];
+           Y: currentValue];
+}
+
+- (double)getCurrentValue
+{
+  return currentValue;
 }
 
 @end

@@ -10,11 +10,13 @@
 // A graph that fetches its data, draws it on a GraphElement
 @interface ActiveGraph: MessageProbe <ActiveGraph>
 {
+  double currentValue;
   id <GraphElement> element;			  // element to draw on
   id dataFeed;					  // object to read from
 }
 
 - setElement: (id <GraphElement>)ge;
 - setDataFeed: d;
+- (double)getCurrentValue;
 - (void)step;
 @end

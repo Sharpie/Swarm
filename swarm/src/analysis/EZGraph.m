@@ -580,6 +580,11 @@ PHASE(Using)
     [activeOutFile step];
 }
 
+- (double)getCurrentValue
+{
+  return [activeGrapher getCurrentValue];
+}
+
 - (void)update
 {
   // No update to be done 
@@ -625,6 +630,11 @@ PHASE(Using)
   averager = anAverager;
 }
 
+- (id <Averager>)getAverager
+{
+  return averager;
+}
+
 - (void)setUnsignedArg: (unsigned)val
 {
   [averager setArg: 0 ToUnsigned: val];
@@ -641,6 +651,7 @@ PHASE(Using)
   [averager update];
   [super update];
 }
+
 
 - (void)drop
 {
