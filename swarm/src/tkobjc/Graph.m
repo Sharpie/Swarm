@@ -79,7 +79,7 @@ PHASE(Using)
   [g drop];
 }
 
-- (void)setTitle: (const char *)title
+- setTitle: (const char *)title
 {
   [globalTkInterp eval: "%s configure -title {%s};", widgetName, title];
   [self setWindowTitle: title];
