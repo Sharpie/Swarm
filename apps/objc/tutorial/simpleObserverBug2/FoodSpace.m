@@ -1,11 +1,12 @@
 // FoodSpace.m
 
 #import "FoodSpace.h"
-#import <simtools.h>
+#import <random.h>
 
 @implementation FoodSpace
 
--seedFoodWithProb: (float) seedProb {
+- seedFoodWithProb: (float)seedProb 
+{
   int x,y;
 
   for (y = 0; y < ysize; y++) 
