@@ -246,8 +246,11 @@ dynamicCallOn (const char *probedType,
   id fa = [FArguments createBegin: aZone];
   id <FCall> fc;
 
-  javaFlag = ([target isKindOfClassNamed: "JavaProxy"] || 
-              ![target respondsTo: probedSelector]);
+#ifdef HAVE_JDK
+  javaFlag = (JFINDJAVA (target) != NULL);
+#else
+  javaFlag = NO;
+#endif
 
   [fa setJavaFlag: javaFlag];
   retVal->type = *type;
