@@ -7,7 +7,7 @@ JAVAENV=@JAVAENV@
 JAVA=@JAVA@
 JAVACLASSES=@JAVACLASSES@
 JAVAC=@JAVAC@
-JAVACOMPILE=$(JAVAC) -classpath '../..@PATHSEP@$(JAVACLASSES)'
+JAVACOMPILE=$(JAVAC) -classpath '..@PATHDELIM@..@PATHSEP@$(JAVACLASSES)'
 top_dossrcdir=@top_dossrcdir@
 JAVADEPS = $(top_dossrcdir)@PATHDELIM@java@PATHDELIM@jdeps.jar
 

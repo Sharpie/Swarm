@@ -1,10 +1,13 @@
 1999-05-03  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
+	* Makefile.in (%.class): Don't include `$(srcdir)/..'.
+
 	* Makefile.rules.in (top_dossrcdir): Substitute.
 	(JAVADEPS): New variable.
 	(.deps): Use JAVADEPS for accessing jdeps.jar.
 	(SHELL): Force /bin/sh (WebObjects sh.exe has
 	been known to interfere with running its java.exe).
+	(JAVACOMPILE): Use PATHDELIM instead of /.
 
 1999-05-03    <mgd@HELEN>
 
