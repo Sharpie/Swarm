@@ -1,6 +1,6 @@
 #import <objectbase.h>
 
-//S: GUI interface for Swarm.
+//S: GUI interface for Swarm
 
 //D: Tcl/Tk is a scripting language and graphical widget set. TkObjc is a
 //D: library of wrapper classes around Tk and BLT widgets. It's purpose is
@@ -1000,9 +1000,9 @@ CREATING
 //D: A CanvasItem that displays a line.
 @end
 
-#ifndef USE_JAVA
+#if 0 /* ndef USE_JAVA -- disabled for the sake of protocol.el */
 #import <tkobjc/common.h>
-void initTkObjc (id arguments);
+extern void initTkObjc (id arguments);
 
 #define GUI_BEEP() tkobjc_ringBell ()
 #define GUI_UPDATE() tkobjc_update ()
