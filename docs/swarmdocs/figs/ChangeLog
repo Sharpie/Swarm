@@ -3,6 +3,8 @@
 	* Makefile.am (%.jpeg, %.png): Use redirection of input PostScript
 	file instead of path.  This prevents problems with Cygwin32 UNC
 	paths being handed to non-Cygwin32 Ghostscript.
+	(%.eps, %.jpeg): Do png->eps and png->jpeg using intermediate
+	file to avoid CR/NL translation problems under GNU Win32.
 
 1998-10-07  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
