@@ -1,12 +1,12 @@
 2000-08-24  Marcus G. Daniels  <mgd@forager.swarm.org>
 
+	* SwarmEnvironment.m ([SwarmEnvironment -createEnd]): 
+
 	* Makefile.am (EXTRA_DIST, include_HEADERS): Add
 	SwarmEnvironment_getters.[hm].
 
-2000-08-24    <mgd@DRONE>
-
 	* SwarmEnvironment.m ([SwarmEnvironment -createEnd]): Check for
-	swarmDirectory before doing Java association.
+	swarmDirectory, and a Java-side object before doing Java association.
 
 2000-08-21  Marcus G. Daniels  <mgd@forager.swarm.org>
 
