@@ -24,12 +24,6 @@
 ########################################################################
 
 # Package directories - leave blank if same as SWARMHOME or another package directory
-set tcldir=@tcllibdir@
-set tkdir=@tklibdir@
-set bltdir=@bltlibdir@
-set hdfdir=@hdf5libdir@
-set pngdir=@pnglibdir@
-
 setenv MACOSX_DEPLOYMENT_TARGET 10.3
 
 setenv DISPLAY :0.0
@@ -38,50 +32,3 @@ setenv SWARMHOME @swarm_prefix@
 
 # Clean previous Swarm path from PATH and set to correct value
 setenv PATH `echo $PATH | sed 's/:\/[^:]*[Ss]warm[^:\$]*//'`:${SWARMHOME}/bin
-
-# Clean previous Tcl path from DYLD_LIBRARY_PATH
-setenv DYLD_LIBRARY_PATH `printenv DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Tt]cl[^:\$]*//'`
-
-# Clean previous Tk path from DYLD_LIBRARY_PATH
-setenv DYLD_LIBRARY_PATH `printenv DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Tt]k[^:\$]*//'`
-
-# Clean previous BLT path from DYLD_LIBRARY_PATH
-setenv DYLD_LIBRARY_PATH `printenv DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Bb][Ll][Tt][^:\$]*//'`
-
-# Clean previous HDF path from DYLD_LIBRARY_PATH
-setenv DYLD_LIBRARY_PATH `printenv DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Hh][Dd][Ff][^:\$]*//'`
-
-# Clean previous png path from DYLD_LIBRARY_PATH
-setenv DYLD_LIBRARY_PATH `printenv DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Pp][Nn][Gg][^:\$]*//'`
-
-# Clean previous Swarm path from DYLD_LIBRARY_PATH and set to correct value
-setenv DYLD_LIBRARY_PATH `printenv DYLD_LIBRARY_PATH | sed 's/:\/[^:]*[Ss]warm[^:\$]*//'`
-if ( $DYLD_LIBRARY_PATH != '' ) then 
-set colon=':' 
-else 
-set colon=''
-endif
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${SWARMHOME}/lib
-set colon=':' 
-
-if ( $tcldir != '' ) then 
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${tcldir}
-endif
-
-if ( $tkdir != '' ) then 
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${tkdir}
-endif
-
-if ( $bltdir != '' ) then
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${bltdir}
-endif
-
-if ( $hdfdir != '' ) then 
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${hdfdir}
-endif
-
-if ( $pngdir != '' ) then 
-setenv DYLD_LIBRARY_PATH $DYLD_LIBRARY_PATH${colon}${pngdir}
-endif
-
-unset tcldir tkdir bltdir hdfdir pngdir colon
