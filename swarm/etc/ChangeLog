@@ -1,3 +1,9 @@
+1999-02-27  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
+
+	* protocol.el (generate-expanded-methodinfo-list[s]): Add uniquify 
+	flag.
+	(load-and-process-modules): Add uniquify method-lists key.
+
 1999-02-26  Marcus G. Daniels  <mgd@pojoaque.santafe.edu>
 
 	* protocol.el (generate-expanded-methodinfo-list): Use method

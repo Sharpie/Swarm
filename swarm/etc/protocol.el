@@ -973,13 +973,19 @@
         (< (length a) (length b))
         diff)))
 
-(defun generate-expanded-methodinfo-list (protocol)
+(defun generate-expanded-methodinfo-list (protocol uniquify-flag)
   (let ((expanded-protocols-hash-table (make-hash-table))
-        (method-hash-table (make-hash-table :test #'equal)))
+        (method-hash-table
+         (if uniquify-flag
+             (make-hash-table :test #'equal)
+             (make-hash-table))))
     (flet ((expand-protocol-level (protocol level)
              (setf (gethash protocol expanded-protocols-hash-table) t)
              (loop for method in (protocol-method-list protocol)
-                   for method-sig = (get-method-signature method)
+                   for method-sig = 
+                   (if uniquify-flag
+                       (get-method-signature method)
+                       method)
                    for last-method-list = (gethash method-sig method-hash-table)
                    when (or (null last-method-list)
                             (> level (first last-method-list)))
@@ -1017,12 +1023,13 @@
                        (< phase-diff 0)))
                  (< level-diff 0))))))))
 
-(defun generate-expanded-methodinfo-lists ()
+(defun generate-expanded-methodinfo-lists (uniquify-method-list-flag)
   (interactive)
   (loop for protocol being each hash-value of *protocol-hash-table*
         do
         (setf (protocol-expanded-methodinfo-list protocol)
-              (generate-expanded-methodinfo-list protocol))))
+              (generate-expanded-methodinfo-list protocol
+                                                 uniquify-method-list-flag))))
 
 (defun external-protocol-name (protocol)
   (let ((raw-protocol-name (protocol-name protocol)))
@@ -1213,10 +1220,10 @@
           (loop for object in (gethash module-sym *module-hash-table*)
                 append (funcall object-accessor object)))))
 
-(defun load-and-process-modules ()
+(defun load-and-process-modules (&key uniquify-method-lists)
   (interactive)
   (load-all-modules)
-  (generate-expanded-methodinfo-lists)
+  (generate-expanded-methodinfo-lists uniquify-method-lists)
   (build-method-signature-hash-table)
   (build-protocol-vector)
   (build-method-signature-vector))
