@@ -112,15 +112,24 @@ USING
 //   ProbeDisplays created by the user during a GUI run of the 
 //   simulation.
 //
+void createProbeDisplay (id obj);
+void createCompleteProbeDisplay (id obj);
+
+void createArchivedProbeDisplayNamed (id obj, const char *name);
+void createArchivedCompleteProbeDisplayNamed (id obj, const char *name);
+
+#define createArchivedProbeDisplay(anObject) \
+  createArchivedProbeDisplayNamed(anObject,#anObject)
+
+#define createArchivedCompleteProbeDisplay(anObject) \
+  createArchivedCompleteProbeDisplayNamed(anObject,#anObject)
+
 @protocol ProbeDisplayManager <SwarmObject>
 USING
 - createProbeDisplayFor: anObject;
-- createProbeDisplayFor      : anObject
-  setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-
+- createArchivedProbeDisplayFor: anObject variableName: (const char *)variableName;
 - createCompleteProbeDisplayFor: anObject;
-- createCompleteProbeDisplayFor     : anObject
-         setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createArchivedCompleteProbeDisplayFor: anObject variableName: (const char *)variableName;
 
 - addProbeDisplay: probeDisplay;
 - removeProbeDisplayFor: anObject;

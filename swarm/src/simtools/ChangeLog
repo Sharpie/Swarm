@@ -1,5 +1,48 @@
 1998-01-13  Marcus G. Daniels  <mgd@wijiji.santafe.edu>
 
+	* simtools.m: Declare probeDisplay as an object complying to the
+	ProbeDisplayManager protocol instead of being statically typed.
+	Import simtools.h.
+	(createProbeDisplay, createCompleteProbeDisplayNamed,
+	getKeyForName, createArchivedProbeDisplayNamed,
+	createArchivedCompleteProbeDisplayNamed): New functions.
+
+	* simtools.h (createProbeDisplay, createCompleteProbeDisplay,
+	createArchivedProbeDisplayNamed,
+	createArchivedCompleteProbeDisplayNamed): Declare new functions.
+	(createArchivedProbeDisplay): New macro to pass variable variable
+	name through to archiving functions above.
+	(createArchivedCompleteProbeDisplay): Likewise.
+	(ProbeDisplayManager): Replace setWindowGeometryRecordName
+	versions of createProbeDisplayFor with
+	createArchivedProbeDisplayFor:variableName: and
+	createArchivedCompleteProbeDisplayFor:variableName.
+
+	* ProbeDisplayManager.m ([ProbeDisplayManager
+	-_computeProbeDisplayKeyFor_:]): New method.  Returns
+	ProbeDisplay- prepended to argument.
+	([ProbeDisplayManager
+	-_createDefaultProbeDisplayFor_:setWindowGeometryRecordName:]):
+	Make this an internal method.
+	([ProbeDisplayManager
+	-_createProbeDisplayFor_:setWindowGeometryRecordName:]): Make this
+	an internal method.
+	([ProbeDisplayManager
+	-createArchivedProbeDisplayFor:variableName:]): New method.
+	([ProbeDisplayManager -createProbeDisplayFor:]): Use internal
+	method for same functionality.
+	([ProbeDisplayManager -createDefaultProbeDisplayFor:]): Likewise.
+	([ProbeDisplayManager
+	-createArchivedDefaultProbeDisplayFor:variableName:]): New method.
+	([ProbeDisplayManager
+	-createArchivedCompleteProbeDisplayFor:variableName:]): Use new
+	internal method _computeProbeDisplayKeyFor_.
+	([ProbeDisplayManager -createCompleteProbeDisplayFor:]): Preserve
+	functionality, but it here.
+
+	* ProbeDisplayManager.h: Replace setWindowGeometryRecordName:
+	methods with variableName: methods.
+
 	* simtools.h: Add dropProbeDisplaysFor: to the ProbeDisplayManager
 	protocol.
 

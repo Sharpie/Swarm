@@ -8,7 +8,7 @@
 
 #import <objectbase/SwarmObject.h>
 
-@interface ProbeDisplayManager : SwarmObject
+@interface ProbeDisplayManager: SwarmObject
 {
   id probeList;
   BOOL dropImmediatelyFlag;
@@ -19,21 +19,15 @@
 
 - createEnd;
 
-- createProbeDisplayFor             : anObject;
-
-- createProbeDisplayFor             : anObject
-         setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-
-
-- createDefaultProbeDisplayFor      : anObject;
-
-- createDefaultProbeDisplayFor      : anObject
-         setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
-
-- createCompleteProbeDisplayFor     : anObject;
-
-- createCompleteProbeDisplayFor     : anObject
-         setWindowGeometryRecordName: (const char *)windowGeometryRecordName;
+- createProbeDisplayFor                 : anObject;
+- createArchivedProbeDisplayFor         : anObject
+                            variableName: (const char *)variableName;
+- createDefaultProbeDisplayFor          : anObject;
+- createArchivedDefaultProbeDisplayFor  : anObject
+                            variableName: (const char *)variableName;
+- createCompleteProbeDisplayFor         : anObject;
+- createArchivedCompleteProbeDisplayFor : anObject
+                            variableName: (const char *)variableName;
 
 - addProbeDisplay: probeDisplay;
 - dropProbeDisplaysFor: anObject;

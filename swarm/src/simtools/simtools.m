@@ -12,9 +12,10 @@
 #import <activity.h>
 #import <tkobjc.h>
 
+#import <simtools.h>
 #import <simtools/Archiver.h>
 
-ProbeDisplayManager * probeDisplayManager;
+id <ProbeDisplayManager> probeDisplayManager;
 int swarmGUIMode;
 id applicationName, applicationMode;
 void printHelp();
@@ -106,3 +107,30 @@ buildWindowGeometryRecordName (const char *baseWindowGeometryRecordName,
     return NULL;
 }
 
+void createProbeDisplay (id obj)
+{
+  [probeDisplayManager createProbeDisplayFor: obj];
+}
+
+void createCompleteProbeDisplayNamed (id obj)
+{
+  [probeDisplayManager createCompleteProbeDisplayFor: obj];
+}
+
+static const char *
+getKeyForName (id obj, const char *name)
+{
+  return strcmp (name, "self") == 0 ? [obj name] : name;
+}
+
+void createArchivedProbeDisplayNamed (id obj, const char *name)
+{
+  [probeDisplayManager createArchivedProbeDisplayFor: obj
+                       variableName: getKeyForName (obj, name)];
+}
+
+void createArchivedCompleteProbeDisplayNamed (id obj, const char *name)
+{
+  [probeDisplayManager createArchivedCompleteProbeDisplayFor: obj
+                       variableName: getKeyForName (obj, name)];
+}
