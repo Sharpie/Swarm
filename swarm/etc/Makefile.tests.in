@@ -19,11 +19,10 @@ CC = @CC@
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
 
-INCLUDES = -I../.. -I$(srcdir)/../../collections -I$(srcdir)/../../defobj -I$(srcdir) -I$(srcdir)/.. -I$(srcdir)/../../simtools -I$(srcdir)/../../objectbase -I$(srcdir)/.. -I$(srcdir)/../../ 
+INCLUDES = -I../../src -I$(srcdir)/../../src/collections -I$(srcdir)/../../src/defobj -I$(srcdir) -I$(srcdir)/.. -I$(srcdir)/../../src/simtools -I$(srcdir)/../../src/objectbase  -I$(srcdir)/../../src/activity -I$(srcdir)/../../src/ 
 
-builddir = $(shell cd ../..; pwd)
+builddir = $(shell cd ../../src; pwd)
 
-SWARMLDFLAGS = @SWARMLDFLAGS@
 XPMLDFLAGS = @XPMLDFLAGS@
 TCLLDFLAGS = @TCLLDFLAGS@
 TKLDFLAGS = @TKLDFLAGS@
@@ -34,8 +33,7 @@ ZLIBLDFLAGS = @ZLIBLDFLAGS@
 EXTRALDFLAGS = @EXTRALDFLAGS@
 
 
-SWARMBUILDLDFLAGS = -L$(builddir)/src/activity  -L$(builddir)/src/analysis -L$(builddir)/src/collections -L$(builddir)/src/defobj -L$(builddir)/gui -L$(builddir)/misc -L$(builddir)/objectbase -L$(builddir)/random -L$(builddir)/simtools -L$(builddir)/simtoolsgui -L$(builddir)/space -L$(builddir)/tclobjc -L$(builddir)/tkobjc
-
+SWARMBUILDLDFLAGS = -L$(builddir)/activity/.libs  -L$(builddir)/analysis/.libs  -L$(builddir)/collections/.libs  -L$(builddir)/defobj/.libs  -L$(builddir)/gui/.libs -L$(builddir)/misc/.libs  -L$(builddir)/objectbase/.libs  -L$(builddir)/random/.libs  -L$(builddir)/simtools/.libs  -L$(builddir)/simtoolsgui/.libs  -L$(builddir)/space/.libs  -L$(builddir)/tclobjc/.libs  -L$(builddir)/tkobjc/.libs 
 
 XPMLIB = @XPMLIB@
 TCLLIB = @TCLLIB@
@@ -53,7 +51,7 @@ GUILIBS = @GUILIBS@
 DLLIB = @DLLIB@
 OBJCLIBS = @OBJCLIBS@
 
-LDFLAGS = $(SWARMBUILDLDFLAGS) $(SWARMLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(HDF5LDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
+LDFLAGS = $(SWARMBUILDLDFLAGS) $(BLTLDFLAGS) $(TCLLDFLAGS) $(XPMLDFLAGS) $(TKLDFLAGS) $(FFILDFLAGS) $(PNGLDFLAGS) $(HDF5LDFLAGS) $(ZLIBLDFLAGS) $(X_LIBS) $(EXTRALDFLAGS) 
 
 SYSLIBS = $(BLTLIB) $(TKLIB) $(TCLLIB) $(XPMLIB) $(PNGLIB) $(HDF5LIB) $(ZLIBLIB) $(FFILIB) $(GUILIBS) -lm $(OBJCLIBS) $(DLLIB)
 
@@ -64,3 +62,6 @@ LIBS = @LIBS@ $(SWARMLIBS) $(SYSLIBS)
 # Local variables:
 # mode: makefile
 # end:
+
+
+
