@@ -9,7 +9,8 @@
 
 	* Makefile.am:  Add html, dvi, rtf, and ps targets.
 
-	* Makefile.rules: Allow an error code from jadetex.
+	* Makefile.rules: Allow an error code from jadetex.  Don't
+	allow error code for any run of jade.
 
 1998-06-16  Alex Lancaster  <alex@santafe.edu>
 

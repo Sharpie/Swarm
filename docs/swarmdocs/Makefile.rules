@@ -32,16 +32,16 @@ rtf: all $(NAME).rtf
 html: all $(NAME).html
 
 %.fot: %.sgml
-	 $(JADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 
+	$(JADE) $(CATOPTS) -t fot -iprint -d $(PRINT) -o $@ $< 
 
 _%.tex: %.sgml
-	- $(JADE) $(CATOPTS) -t tex -iprint -d $(PRINT) -o $@ $<
+	$(JADE) $(CATOPTS) -t tex -iprint -d $(PRINT) -o $@ $<
 
 %.rtf: %.sgml
-	- $(JADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ $<
+	$(JADE) $(CATOPTS) -t rtf -iprint -d $(PRINT) -o $@ $<
 
 %.html: %.sgml
-	- $(JADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) $<
+	$(JADE) $(CATOPTS) -t sgml -ihtml -d $(HTML) $<
 
 %.dvi: %.tex _%.tex
 	- $(JADETEX) $< ; $(JADETEX) $< 
@@ -49,3 +49,6 @@ _%.tex: %.sgml
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
 
+# Local variables:
+# mode: makefile
+# end:
